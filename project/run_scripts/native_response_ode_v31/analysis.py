@@ -149,7 +149,7 @@ def build_package(root, output, *, allow_boundary=False):
         if p.is_symlink() or not stat.S_ISREG(p.lstat().st_mode):raise ValueError('RAW_MEMBER_TYPE')
         inputs.append(dict(path=str(p),sha256=sha(p),bytes=p.stat().st_size,mode=oct(stat.S_IMODE(p.stat().st_mode))))
     output.mkdir(parents=True,mode=0o700)
-    main=[];requests=[];oldrows=[];nodes=[];shadows=[];normalization=[];compute=[];status=[];integrity=[];setup=[]
+    main=[];requests=[];oldrows=[];nodes=[];shadows=[];normalization=[];compute=[];status=[];integrity=[];setup=[];conflicts=[]
     for cell in range(4):
         directory=root/f'cell-{cell}';complete=directory/'terminal.json'
         failure=directory/'failure-boundary.json'
@@ -162,6 +162,11 @@ def build_package(root, output, *, allow_boundary=False):
         entry_path=directory/'D10B-entry.json'
         if not entry_path.exists():continue
         entry=json.loads(entry_path.read_text())
+        same_prompt=[(a,b) for a in entry['old_evaluation']['rewrite_target_new']
+            for b in entry['evaluation']['rewrite_target_new'] if a['prompt']==b['prompt']]
+        conflicts.append(dict(cell=cell,D10A_requests=10,D10B_requests=10,
+            exact_prompt_overlap=len(same_prompt),exact_prompt_different_target=sum(a['target_token_ids']!=b['target_token_ids'] for a,b in same_prompt),
+            semantic_conflict='NOT_EVALUATED',selection_or_controller_influence_count=0))
         runtime=json.loads((directory/'runtime.lock.json').read_text())
         setup.append(dict(cell=cell,load_seconds=runtime['load_seconds'],target_seconds=entry['target_seconds'],
             model_load_count=runtime['model_load_count'],allocated_seconds=state.get('gpu_allocated_seconds',state.get('allocated_seconds')),
@@ -200,7 +205,15 @@ def build_package(root, output, *, allow_boundary=False):
             for node in raw.get('nodes',[]):
                 clean={k:v for k,v in node.items() if k not in ('normalization_diagnostics','normalization_shadows')}
                 nodes.append(dict(cell=cell,**clean))
-                normalization.extend(dict(cell=cell,arm=arm,node=node['node'],**v) for v in node.get('normalization_diagnostics',[]))
+                for v in node.get('normalization_diagnostics',[]):
+                    j=v['column'];q=node['q_layers'][j]
+                    if q<=0:raise ValueError('NORMALIZATION_RECORDED_Q_BOUNDARY')
+                    # This is an exact coordinate conversion of recorded raw response moments,
+                    # not a new response/JVP or an imputation of unrecorded values.
+                    normalization.append(dict(cell=cell,arm=arm,node=node['node'],layer=node['active_layers'][j],**v,
+                        g_i_native_whitened=[x/math.sqrt(q) for x in v['gain_by_request']],
+                        r_i_native_whitened=[x/q for x in v['response_energy_by_request']],
+                        conversion='g_raw/sqrt(q_l), r_raw/q_l from same recorded node'))
                 normalization.extend(dict(cell=cell,arm=arm,node=node['node'],**v) for v in node.get('normalization_shadows',[]))
             shadows.extend(dict(cell=cell,**r) for r in raw.get('same_state_fields',[]))
             save(output/f'endpoint-{cell}-{arm}.json',pub)
@@ -208,6 +221,7 @@ def build_package(root, output, *, allow_boundary=False):
     files={'pilot_main_table.csv':main,'endpoint_metrics.csv':requests,'old_edit_metrics.csv':oldrows,
            'trajectory_nodes.csv':nodes,'same_state_fields.csv':shadows,'normalization_diagnostics.csv':normalization,
            'paired_endpoint_deltas.csv':paired,'matched_progress.csv':matched,'integrity.csv':integrity,'setup_accounting.csv':setup,
+           'conflict_observations.csv':conflicts,
            'compute_accounting.csv':compute,'run_registry.csv':[dict(cell=s['cell'],status=s.get('status',s.get('type')),completed=s.get('completed_primary')) for s in status]}
     for name,rows in files.items():csv_once(output/name,rows)
     save(output/'external-inputs.json',inputs)

@@ -1,4 +1,7 @@
 import unittest
+import hashlib
+from pathlib import Path
+import tempfile
 from .analysis import distribution,old_loss,paired_deltas,matched_progress
 
 
@@ -37,6 +40,16 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(row['endpoint_evaluation'],'NOT_EVALUATED_INTERMEDIATE_NODE')
         other=next(r for r in result if r['cell']==0 and r['arm']=='JV_NATIVE' and r['requested_V_ratio']==.75)
         self.assertEqual(other['status'],'NOT_REACHED')
+
+    def test_followup_warm_seal_rejects_wrong_bytes_and_link(self):
+        from .followup import verify_warm_member
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'warm';p.write_bytes(b'CPU fixture only')
+            digest=hashlib.sha256(p.read_bytes()).hexdigest()
+            verify_warm_member(p,digest)
+            with self.assertRaises(RuntimeError):verify_warm_member(p,'0'*64)
+            link=Path(d)/'link';link.symlink_to(p)
+            with self.assertRaises(RuntimeError):verify_warm_member(link,digest)
 
 
 if __name__=='__main__':unittest.main()
