@@ -58,6 +58,7 @@ def collect(root,output,label,with_plots=False):
         'history_cost_shadows','l8_single_layer_shadows','compute_accounting','failure_registry','final_metrics')}
     inputs=set();completed=[];completed_batch_paths=[]
     def load(p):inputs.add(Path(p));return read(p)
+    tables['scheduler_terminal']=[load(p) for p in sorted((root/'terminal-observations').glob('*.json'))]
     for alias in ('llama3-8b-inst','qwen2.5-7b-inst'):
         p=Path(gate['root'])/f'smoke-{alias}'/'W0-full.json';pre[alias]=load(p)['evaluation']
         tables['final_metrics'].append(metrics(pre[alias],dict(alias=alias,arm='PRE_EDIT_ORIGINAL_W0',scope='same1000_W0')))
