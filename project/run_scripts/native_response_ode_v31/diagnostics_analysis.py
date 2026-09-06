@@ -98,9 +98,16 @@ def build(primary,followup,output,audit_sources=None):
                 native_net_normalized=raw['actual_physical_action']['native_net_normalized'],
                 total_seconds=raw['total_seconds'],evaluation_seconds=raw['evaluation_seconds'],forward_count=raw['forward_count']))
             request.extend(dict(cell=cell,arm=arm,**r) for r in rows)
+    completeness=dict(refinement_units=len(refine),expected_refinement_units=12,
+        audit_valid_arms=sum(r['status']=='TERMINAL_VALID' for r in audit),expected_audit_arms=16,
+        audit_RS_denominator=sum(r.get('RS_d',0) for r in audit),expected_audit_RS_denominator=160,
+        audit_PS_denominator=sum(r.get('PS_d',0) for r in audit),expected_audit_PS_denominator=320,
+        audit_NS_denominator=sum(r.get('NS_d',0) for r in audit),expected_audit_NS_denominator=1600,
+        imputation_count=0,primary_result_change_count=0)
     for name,rows in [('refinement.csv',refine),('refinement_distances.csv',distances),('refinement_nodes.csv',node_rows),
                       ('audit_main_table.csv',audit),('audit_endpoint_metrics.csv',request),('run_registry.csv',registry)]:csv_once(output/name,rows)
     save(output/'external-inputs.json',inputs)
+    save(output/'completeness.json',completeness)
     save(output/'followup.lock.json',json.loads((followup/'followup.lock.json').read_text()))
     save(output/'audit-source-mapping.json',{str(i):str(p.absolute()) for i,p in audit_roots.items()})
     for cell,source in audit_roots.items():
@@ -124,7 +131,8 @@ H10은 D10A 이후 봉인한 동일 warm W/cache에서 독립 시작한다. D10B
     members=[dict(path=str(p.relative_to(output)),sha256=sha(p),bytes=p.stat().st_size) for p in sorted(output.iterdir()) if p.is_file()]
     save(output/'manifest.json',dict(members=members,members_root=canonical_hash(members),input_root=canonical_hash(inputs)))
     receipt=dict(status='FACTUAL_DIAGNOSTIC_PACKAGE',members_root=canonical_hash(members),report_sha256=sha(path),
-        manifest_sha256=sha(output/'manifest.json'),scientific_promotion=False,imputation_count=0,input_mutation_count=0)
+        manifest_sha256=sha(output/'manifest.json'),completeness=completeness,
+        scientific_promotion=False,imputation_count=0,input_mutation_count=0)
     receipt['identity']=canonical_hash(receipt);save(output/'rooted-receipt.json',receipt)
     for member in inputs:
         if sha(member['path'])!=member['sha256']:raise ValueError('FOLLOWUP_RAW_CHANGED')

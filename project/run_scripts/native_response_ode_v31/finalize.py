@@ -1,10 +1,37 @@
 """Compose immutable primary/diagnostic packages into a GH REVIEW_READY handoff."""
 import csv
 import json
+import io
 from pathlib import Path
 from .analysis import sha,md_table,CELL_NAMES
 from .provenance import save,git
 from project.run_scripts.ordered_response_barrier_ode.preflight import canonical_hash
+
+
+def allocation_ledger(sacct_text,expected):
+    """Charge max allocation/step lifetime once, never sum overlapping steps."""
+    rows=list(csv.DictReader(io.StringIO(sacct_text),delimiter='|'))
+    ledger=[];totals=[0]*4
+    terminal=('COMPLETED','FAILED','CANCELLED','TIMEOUT','OUT_OF_MEMORY','NODE_FAIL','PREEMPTED')
+    for job,cells in expected.items():
+        for cell in cells:
+            name=f'{job}_{cell}'
+            members=[r for r in rows if r['JobID']==name or r['JobID'].startswith(name+'.')]
+            parents=[r for r in members if r['JobID']==name]
+            if len(parents)!=1:raise ValueError('ALLOCATION_ACCOUNTING_COMPLETENESS')
+            if any(not r['State'].startswith(terminal) for r in members):raise ValueError('ALLOCATION_NOT_TERMINAL')
+            if 'gres/gpu=1' not in parents[0]['AllocTRES']:raise ValueError('ALLOCATION_GPU_COUNT')
+            charged=max(int(r['ElapsedRaw']) for r in members)
+            totals[cell]+=charged
+            ledger.append(dict(job=name,child_job_id=parents[0]['JobIDRaw'],cell=cell,
+                state=parents[0]['State'],allocation_elapsed_seconds=int(parents[0]['ElapsedRaw']),
+                charged_seconds=charged,step_rows=members))
+    if max(totals)>7200 or sum(totals)>28800:raise ValueError('GPU_BUDGET_BOUNDARY')
+    return dict(attempts=ledger,cumulative_seconds_by_cell=totals,total_gpu_hours=sum(totals)/3600,
+        rule='max parent/batch/extern elapsed per allocation, never sum concurrent step lifetimes',
+        cap=4,max_total_seconds=28800,max_cell_seconds=7200,
+        cancelled_unallocated_array_cells='zero GPU seconds; not scientific endpoints',
+        source_sacct_sha256=__import__('hashlib').sha256(sacct_text.encode()).hexdigest())
 
 
 def verify_package(root):

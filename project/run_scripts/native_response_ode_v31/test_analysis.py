@@ -73,5 +73,13 @@ class AnalysisTests(unittest.TestCase):
         with self.assertRaises(ValueError):audit_root_mapping('/original',{0:'/a'})
         self.assertEqual(audit_root_mapping('/original',None)[3],Path('/original'))
 
+    def test_gpu_ledger_counts_allocations_not_overlapping_steps(self):
+        from .finalize import allocation_ledger
+        text='JobID|JobIDRaw|State|ElapsedRaw|AllocTRES\n7_0|8|COMPLETED|120|gres/gpu=1\n7_0.batch|8.batch|COMPLETED|121|gres/gpu=1\n7_0.extern|8.extern|COMPLETED|122|gres/gpu=1\n'
+        result=allocation_ledger(text,{7:[0]})
+        self.assertEqual(result['cumulative_seconds_by_cell'],[122,0,0,0])
+        with self.assertRaises(ValueError):allocation_ledger(text,{7:[0,1]})
+        with self.assertRaises(ValueError):allocation_ledger(text.replace('COMPLETED','RUNNING'),{7:[0]})
+
 
 if __name__=='__main__':unittest.main()
