@@ -76,11 +76,11 @@ def make(out, completed):
         text.append(f"| {x['alias']} | {x['arm']} | {x['batch']} | {fmt(x['endpoint_energy'])} | {fmt(x['L8_endpoint_energy_share'])} | {fmt(x['L4_7_endpoint_energy'])} | {fmt(x['L4_7_signed_predicted_progress'])} | {fmt(x['L8_native_work_share'])} | {fmt(x['history_over_raw_work'])} |")
     text+=['\nShare 감소는 절대 L4–7 write/기여 증가와 같지 않다. 위 energy는 해당 batch의 actual endpoint ΔW 제곱합이며, native work는 h를 한 번 곱한 velocity-action 적분이다. Official one-pass의 Euler velocity work는 NOT_RECORDED이며 0으로 대입하지 않았다. Batch별 metric/qN_ref 및 target이 달라지므로 coefficient만으로 physical migration을 주장하지 않는다.',
         '\n### 4. 같은 state에서 history 비용이 선택에 미친 직접 영향',
-        '\n| Model | Batch/node | native cosine(actual vs initial cost) | Frobenius cosine | L8 c actual | L8 c initial-cost shadow | progress actual | progress shadow |',
-        '|---|---|---:|---:|---:|---:|---:|---:|']
+        '\n| Model | Arm | Batch/node | native cosine(actual vs initial cost) | Frobenius cosine | L8 c actual | L8 c initial-cost shadow | progress actual | progress shadow |',
+        '|---|---|---|---:|---:|---:|---:|---:|---:|']
     for x in rows(out,'history_cost_shadows'):
         a=json.loads(x['c_actual']);b=json.loads(x['c_initial']);angle=json.loads(x['frobenius_angle'])
-        text.append(f"| {x['alias']} | {x['batch']}/{x['node']} | {fmt(number(x,'native_cosine'))} | {fmt(angle.get('native_cosine'))} | {fmt(a[-1])} | {fmt(b[-1])} | {fmt(number(x,'actual_predicted_progress'))} | {fmt(number(x,'shadow_predicted_progress'))} |")
+        text.append(f"| {x['alias']} | {x['arm']} | {x['batch']}/{x['node']} | {fmt(number(x,'native_cosine'))} | {fmt(angle.get('native_cosine'))} | {fmt(a[-1])} | {fmt(b[-1])} | {fmt(number(x,'actual_predicted_progress'))} | {fmt(number(x,'shadow_predicted_progress'))} |")
     text+=['\n실제 G_initial, c와 physical coefficients는 history_cost_shadows.csv에 보존했다. 이는 actual basis/response/N0/qN_ref를 고정한 비용-only observer이며, history-free method나 retention에 대한 전체 인과 효과가 아니다. Zero-field는 receipt status를 유지하며 cosine을 생성하지 않는다.',
         '\n### 5. 신규 editability와 누적 retention은 별개의 비교',
         '\n첫 B100 current 비교는 초기 operating point 차이다. Final W10 전체 1,000 요청은 누적 결과다. 두 값을 섞어 초기 차이를 forgetting으로 설명하지 않는다.',
