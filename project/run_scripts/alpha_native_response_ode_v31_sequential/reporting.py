@@ -66,7 +66,12 @@ def collect(root,output,label,with_plots=False):
         terminal=load(chain/'terminal-receipt.json') if (chain/'terminal-receipt.json').exists() else None
         registry=dict(alias=alias,arm=arm,path=str(chain),status=terminal['status'] if terminal else 'INCOMPLETE',
             requested_contract=1000,entered_requests=sum(len(load(p)['case_ids']) for p in chain.glob('batch-*/entry.json')),
-            completed_batches=len(list(chain.glob('batch-*/complete.json'))))
+            completed_batches=len(list(chain.glob('batch-*/complete.json'))),slurm_job_id=runtime['slurm_job'],
+            model_load_and_context_setup_seconds=runtime['model_load_seconds'],
+            process_total_seconds=terminal['total_seconds'] if terminal else None,
+            dedicated_one_gpu_process_hours=terminal['total_seconds']/3600 if terminal else None,
+            terminal_compute=terminal['compute'] if terminal else 'NOT_YET_TERMINAL',
+            W0_restored=terminal['W0_restored'] if terminal else 'NOT_YET_TERMINAL')
         tables['run_registry'].append(registry)
         if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:
             if terminal['status']!='TERMINAL_VALID' or not terminal['W0_restored'] or terminal['history_appends']!=10:
@@ -90,6 +95,9 @@ def collect(root,output,label,with_plots=False):
                 checkpoint=summary['checkpoint_compute'],full_batch=summary['full_batch_compute'],
                 endpoint_evaluation_seconds=writer['endpoint_evaluation_seconds'],
                 history=writer.get('history_finalization_compute','NOT_RECORDED'),
+                source_endpoint_physical_write_count=writer['endpoint']['physical_write_count'],
+                inner_virtual_euler_nodes=len(writer.get('nodes',[])),main_jvp_count=writer.get('main_jvp_count',0),
+                persistent_commit_count=1,commit_compute=commit['compute'],
                 peak_gpu_bytes=summary['peak_gpu_allocated'],peak_host_rss_kib=summary['peak_host_rss_kib']))
             # Official and JV use the same actual committed endpoint observer.
             # This is net endpoint action, not a sum of Euler velocity actions.
