@@ -27,6 +27,8 @@ class ObservedFamily(old.FamilyRuntime):
     last_old_evaluation=None
     last_terminal=None
     evaluation_seconds=0.
+    metric_observer=None
+    last_physical_action=None
 
     def evaluate_endpoint(self):
         old._sync(); started=time.perf_counter()
@@ -35,17 +37,19 @@ class ObservedFamily(old.FamilyRuntime):
         if self.old_records:
             self.last_old_evaluation=evaluate_counterfact_with_canonical_ns(self.model,self.tokenizer,
                 self.old_records,device=self.device,microbatch_size=16)
+        if self.metric_observer is not None:
+            self.last_physical_action=self.metric_observer.actual_dense_action(self.parameters,self.w0)
         old._sync();self.evaluation_seconds+=time.perf_counter()-started
         return result
 
     def finalize(self, **kwargs):
         """Derived prefix evaluations cannot replace the primary observation."""
-        previous=(self.last_terminal,self.last_old_evaluation)
+        previous=(self.last_terminal,self.last_old_evaluation,self.last_physical_action)
         try:
             return super().finalize(**kwargs)
         finally:
             if kwargs.get('derived_observation_only',False):
-                self.last_terminal,self.last_old_evaluation=previous
+                self.last_terminal,self.last_old_evaluation,self.last_physical_action=previous
 
 
 def raw_requests(rows):
@@ -147,6 +151,11 @@ def run_cell(repo, root, cell_id):
         save(output/'D10A-native-warm-creation.json',native)
         old_records=f.endpoint_records
         commit=f.commit_captured_endpoint(expected_sha256=native['selected_weight_endpoint_sha256'])
+        # Later refinements must follow the FOUR-cell common primary table.
+        # Seal warm state now so a budget-permitted later wave never replays D10A.
+        torch.save(dict(weights=old._clone_selected(f.parameters),
+            alpha_cache=module.cache_c.detach().clone() if cell.writer_family=='AlphaEdit' else None,
+            contexts=contexts,commit=commit,sample_root=sample['ordered_root']),output/'warm-state.pt')
         save(output/'warm-entry.json',dict(**commit,common_D10A_entry=cold_sha,
             short_history_batches=1,fixed_target_shared_within_fixture=True))
         # D10B and H10 bind this same unchanged warm entry; no comparator carry.
@@ -155,6 +164,7 @@ def run_cell(repo, root, cell_id):
         with torch.no_grad():
             entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
             dictionary=NativeDictionary(f);builds=dictionary.build(entry,0);metric=dictionary.capture_reference(builds)
+            f.metric_observer=dictionary
             pre=f.evaluate_endpoint();old_before=f.last_old_evaluation
         save(output/'D10B-entry.json',dict(evaluation=pre,old_evaluation=old_before,metric=metric,
             target_seconds=target_seconds,fixed_z_sha=f.fixed_z.identity_sha256,
@@ -186,43 +196,16 @@ def run_cell(repo, root, cell_id):
                 peak_reserved_gpu_bytes=torch.cuda.max_memory_reserved(),
                 w0_restore=tensor_set_sha256(f.parameters)==f.w0_sha256,
                 fixed_z_sha=f.fixed_z.identity_sha256,source_entry_sha=f.w0_sha256)
+            result['actual_physical_action']=f.last_physical_action
             save(output/f'D10B-{arm}.json',result);primary.append(result);completed.append(arm)
             save(output/f'progress-{len(completed)}.json',dict(completed_primary=completed,stage=stage,
                  allocated_seconds=time.perf_counter()-started))
         save(output/'primary-terminal.json',dict(status='TERMINAL_VALID',cell_id=cell_id,primary_arm_count=4,
             primary_request_endpoints=40,completed=completed,scientific_promotion=False,
             source_head=source['head'],sample_root=sample['ordered_root']))
-        # Fixed resource-only estimate, never endpoint/efficacy-based selection.
-        # All four cells use this identical budget rule and predeclared D2 fixture.
-        primary_seconds=time.perf_counter()-started
-        remaining=6900-primary_seconds
-        estimate=max(60.,sum(r.get('total_seconds',0) for r in primary if r['arm']=='JV_NATIVE')*3.5)
-        if remaining > estimate:
-            stage='D2_REFINEMENT';f=make('D2');f.compute_fixed_z()
-            with torch.no_grad():
-                entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
-                dic=NativeDictionary(f);dic.capture_reference(dic.build(entry,0))
-            for n in (2,4,8):
-                result=run_joint(f,'JV_NATIVE',dic,norm,n=n,output=output/'D2'/f'N{n}',fixture='D2')
-                save(output/f'D2-N{n}.json',result)
-        else:
-            save(output/'refinement-status.json',dict(status='NOT_RUN_BUDGET',remaining_seconds=remaining,
-                locked_estimate_seconds=estimate,estimate_rule='3.5*observed_primary_JV_wall; min60; budget only'))
-        # H10 audit is never started unless the observed primary cost fits.
-        estimate=sum(r.get('total_seconds',0) for r in primary)*1.5+target_seconds*1.5
-        if 6900-(time.perf_counter()-started)>estimate:
-            stage='H10_AUDIT';f=make('H10');f.old_records=old_records;f.compute_fixed_z()
-            with torch.no_grad():
-                entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
-                dic=NativeDictionary(f);dic.capture_reference(dic.build(entry,0))
-            for arm in ARM_ORDER:
-                if arm=='O_NATIVE':result=f.run_official(fixed_z=f.fixed_z)
-                elif arm=='ORBFH_HIST':result=old._arm_run(f,configs['ORBFH'])
-                else:result=run_joint(f,arm,dic,norm,output=output/'H10'/arm,fixture='H10')
-                save(output/f'H10-{arm}.json',dict(result=result,old_after=f.last_old_evaluation))
-        else:
-            save(output/'audit-status.json',dict(status='NOT_RUN_BUDGET',remaining_seconds=6900-(time.perf_counter()-started),
-                estimate_seconds=estimate))
+        save(output/'refinement-status.json',dict(status='PENDING_FOUR_CELL_PRIMARY_COMMON_GATE',
+            planned_fixture='D2',planned_N=[2,4,8],warm_state_sealed=True))
+        save(output/'audit-status.json',dict(status='PENDING_FOUR_CELL_PRIMARY_COMMON_GATE',planned_fixture='H10'))
         f.reset_entry()
         old._restore_selected(f.parameters,cold)
         if cell.writer_family=='AlphaEdit':module.cache_c.copy_(cold_state);module.cache_c_new=cold_flag

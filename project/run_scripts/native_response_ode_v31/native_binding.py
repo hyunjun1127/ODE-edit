@@ -137,3 +137,22 @@ class NativeDictionary:
                 frob += scale*self.raw(a,b,frobenius=True)
         return dict(native_net_raw=native,native_net_normalized=native/self.qref if self.qref else 0.,
                     frobenius_net_sq=frob)
+
+    def actual_dense_action(self, parameters, entry):
+        """Observation-only actual materialized endpoint, including FP32 rounding.
+
+        This cost is accounted as endpoint observation, not controller solve.
+        All comparators, including stock Official, use the same entry metric.
+        """
+        started=time.perf_counter();rows=[]
+        for layer in (4,5,6,7,8):
+            name=f'{self.family.hparams.rewrite_module_tmp.format(layer)}.weight'
+            delta=parameters[name].detach().cpu().double()-entry[name].double()
+            q=float((delta.T*self.operator(layer)(delta.T)).sum())
+            frob=float(delta.square().sum())
+            rows.append(dict(layer=layer,native_raw=q,frobenius_sq=frob,
+                materialized_nonzero=int((delta!=0).sum()),parameter_elements=delta.numel()))
+        raw=sum(row['native_raw'] for row in rows)
+        return dict(native_net_raw=raw,native_net_normalized=raw/self.qref if self.qref else 0.,
+                    frobenius_net_sq=sum(row['frobenius_sq'] for row in rows),layers=rows,
+                    observation_wall_seconds=time.perf_counter()-started,controller_influence_count=0)
