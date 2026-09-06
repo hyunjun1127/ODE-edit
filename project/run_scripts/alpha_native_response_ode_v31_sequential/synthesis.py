@@ -85,7 +85,7 @@ def summarize(root,out,complete_chains,completed_batch_paths=None,load=read):
                 maximum_active_scale=max(positive) if positive else None,
                 minimum_scale_case_ids=[case for case,v in zip(e['case_ids'],scales) if positive and v==min(positive)],
                 max_over_min_active_scale=max(positive)/min(positive) if positive else None,
-                qN_ref=target['metric']['qN_ref'],
+                qN_ref=target['metric']['qN_ref'] if target['metric'] is not None else None,
                 node0_response_Gram_diagonal_max=max(first['full_H'][i][i] for i in range(len(first['full_H']))) if first and first['full_H'] else None,
                 node0_KKT_stationarity=first['KKT_stationarity'] if first else None,
                 final_V_ratio=w['nodes'][-1]['V_ratio'] if first else None,
