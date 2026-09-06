@@ -1,0 +1,29 @@
+{
+  "CSV_line_terminator": "RFC-style csv.writer CRLF; all rows verified; no trailing space/tab before CRLF",
+  "baseline": "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+  "default_CRLF_warnings": 5534,
+  "default_diff_returncode": 2,
+  "default_output_sha256": "8d698b6770f321a435df564ddd423f55470dd255108793d088824522b7f4f445",
+  "focused_tests": 26,
+  "full_diff_command": [
+    "git",
+    "-c",
+    "core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
+    "diff",
+    "--check",
+    "f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c",
+    "7da3e5f32537e69a33218964cfe918dc0b9677de"
+  ],
+  "full_diff_returncode": 0,
+  "non_csv_default_diff_returncode": 0,
+  "package_bytes": 4844826,
+  "package_member_file_count": 78,
+  "procedural_note": "Initial multi-command shell continued to authorized non-force push after default CRLF warnings; explicit non-CSV default and complete CRLF-aware checks were then run and passed. No claim that default diff was warning-free.",
+  "raw_literal_scan": "PASS",
+  "scientific_gate_change_count": 0,
+  "scientific_promotion": false,
+  "sealed_CSV_byte_change_count": 0,
+  "source_head": "7da3e5f32537e69a33218964cfe918dc0b9677de",
+  "source_tree": "0c598d75b27650b1269bc7b389a3a5f80191c8e4",
+  "status": "PASS_STANDARD_CSV_CRLF_AWARE_DIFF"
+}
