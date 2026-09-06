@@ -13,6 +13,7 @@ def ratio(a,b):return a/b if b else None
 
 def physical_rows(writer,meta):
     nodes=writer.get('nodes',[]);sums=defaultdict(lambda:defaultdict(float))
+    support={layer for n in nodes for layer in n['active_layers']}
     for n in nodes:
         h=n['h'];active=n['active_layers']
         for i,x in enumerate(n['layer_actions']):
@@ -28,10 +29,20 @@ def physical_rows(writer,meta):
             sums[x['layer']]['actual_step_squared_sum']+=x['actual_step_DeltaW_squared']
     endpoint=writer['actual_physical_action'];rows=[]
     for x in endpoint['layers']:
+        inactive=bool(nodes) and x['layer'] not in support
+        if inactive:
+            # These are exact support-implied zeros, not missing measurements.
+            for field in ('raw_native_velocity_action','normalized_native_velocity_action',
+                          'history_velocity_action','L2_velocity_action','frobenius_velocity_squared',
+                          'frobenius_velocity_norm'):
+                sums[x['layer']]['integral_'+field]=0.0
+            for field in ('signed_predicted_target_progress','actual_step_norm_sum','actual_step_squared_sum'):
+                sums[x['layer']][field]=0.0
         row=dict(meta,layer=x['layer'],endpoint_native_net_raw=x['native_raw'],
             endpoint_DeltaW_squared=x['frobenius_sq'],endpoint_DeltaW_norm=math.sqrt(x['frobenius_sq']),
             endpoint_energy_share=ratio(x['frobenius_sq'],endpoint['frobenius_net_sq']),
-            velocity_trajectory_status='RECORDED' if nodes else 'NOT_RECORDED_OFFICIAL_ONE_PASS',
+            velocity_trajectory_status=('STRUCTURAL_ZERO_INACTIVE_SUPPORT' if inactive else
+                'RECORDED' if nodes else 'NOT_RECORDED_OFFICIAL_ONE_PASS'),
             cross_batch_net_displacement='NOT_INFERRED_FROM_BATCH_NORMS',**sums[x['layer']])
         for key in ('raw_native_velocity_action','normalized_native_velocity_action'):
             field='integral_'+key;total=sum(s[field] for s in sums.values())

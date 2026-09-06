@@ -53,12 +53,15 @@ class Tests(unittest.TestCase):
             history_velocity_action=12.,L2_velocity_action=8.,frobenius_velocity_squared=4.)
         writer=dict(nodes=[dict(h=.5,active_layers=[8],layer_actions=[action],predicted_target_contribution=[-2.],
             actual_physical=[dict(layer=8,actual_step_DeltaW_squared=1.)])],
-            actual_physical_action=dict(frobenius_net_sq=1.,layers=[dict(layer=8,frobenius_sq=1.,native_raw=5.)]))
-        row=physical_rows(writer,{})[0]
+            actual_physical_action=dict(frobenius_net_sq=1.,layers=[dict(layer=8,frobenius_sq=1.,native_raw=5.),
+                dict(layer=4,frobenius_sq=0.,native_raw=0.)]))
+        row,zero=physical_rows(writer,{})
         self.assertEqual(row['integral_raw_native_velocity_action'],10.)
         self.assertEqual(row['integral_history_velocity_action'],6.)
         self.assertEqual(row['signed_predicted_target_progress'],-1.)
         self.assertEqual(row['actual_step_norm_sum'],1.)
+        self.assertEqual(zero['velocity_trajectory_status'],'STRUCTURAL_ZERO_INACTIVE_SUPPORT')
+        self.assertEqual(zero['integral_history_velocity_action'],0.)
 
     def test_preference_and_tie_not_token_accuracy(self):
         rows=[]
