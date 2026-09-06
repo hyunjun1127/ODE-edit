@@ -1,11 +1,23 @@
 """Small raw-free report regressions; never launches a model or scheduler."""
-import csv,hashlib,tempfile,unittest
+import csv,hashlib,json,tempfile,unittest
 from pathlib import Path
 from .reporting import sha,csvwrite,bits
 from .synthesis import physical_rows,ratio
+from .recovery_context import seal
 
 
 class Tests(unittest.TestCase):
+    def test_context_cache_recovers_existing_bytes_only(self):
+        value=[['{}'],['Existing native context. {}']]
+        digest=hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
+        with tempfile.TemporaryDirectory() as d:
+            d=Path(d);chain=d/'chain';chain.mkdir()
+            (chain/'runtime.lock.json').write_text(json.dumps({'contexts_sha256':digest}))
+            log=d/'stdout';log.write_text('header\nCached context templates '+repr(value)+'\nmore output\n')
+            r=seal(chain,log,d/'context');self.assertEqual(r['contexts_sha256'],digest)
+            self.assertEqual(r['additional_generation_count'],0)
+            with self.assertRaises(FileExistsError):seal(chain,log,d/'context')
+
     def test_hash_bytes_and_csv_lf(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'x.csv';csvwrite(p,[dict(value=1,vector=[1,2])])
