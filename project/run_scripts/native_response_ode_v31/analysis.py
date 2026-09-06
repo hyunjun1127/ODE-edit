@@ -7,6 +7,7 @@ import json
 import math
 from pathlib import Path
 import stat
+import subprocess
 import numpy as np
 from project.run_scripts.ordered_response_barrier_ode.artifacts import reduce_evaluation_payload
 from .provenance import save, ARM_ORDER, git
@@ -203,9 +204,18 @@ def build_package(root, output, *, allow_boundary=False):
                 diagnostic_JVP_calls=raw['diagnostic_jvp_count'],peak_gpu_bytes=raw['peak_allocated_gpu_bytes'])
             main.append(row);requests.extend(dict(cell=cell,arm=arm,**r) for r in req)
             oldrows.extend(dict(cell=cell,arm=arm,**r) for r in old)
-            compute.append({k:row[k] for k in ('cell','arm','write_wall_seconds','eval_wall_seconds','model_forward_calls','main_JVP_calls','diagnostic_JVP_calls','peak_gpu_bytes')})
+            comp={k:row[k] for k in ('cell','arm','write_wall_seconds','eval_wall_seconds','model_forward_calls','main_JVP_calls','diagnostic_JVP_calls','peak_gpu_bytes')}
+            comp.update(peak_gpu_scope='PROCESS_HIGH_WATER_NOT_RESET_PER_ARM',
+                main_layer_build_receipts=sum(len(v['build_ids']) for v in raw.get('nodes',[])) if 'nodes' in raw else 'NOT_RECORDED_IN_V31_SCHEMA',
+                main_controller_nodes=len(raw['nodes']) if 'nodes' in raw else 'NOT_APPLICABLE_NATIVE_OR_ORDERED',
+                NNLS_face_solve_count='NOT_RECORDED_SCHEMA_GAP')
+            compute.append(comp)
             for node in raw.get('nodes',[]):
                 clean={k:v for k,v in node.items() if k not in ('normalization_diagnostics','normalization_shadows')}
+                selected_shadow=[s for s in raw.get('same_state_fields',[]) if s['node']==node['node'] and s['lambda_value']==.1 and s['comparator']==arm]
+                if len(selected_shadow)!=1:raise ValueError('SELECTED_FROBENIUS_SHADOW_IDENTITY')
+                clean['field_F_frobenius']=math.sqrt(selected_shadow[0]['qF']*node['qF_ref'])
+                clean['field_F_norm_provenance']='same-node selected shadow qF * fixed entry qF_ref; factor-defined pre-write field, not rounded endpoint delta'
                 nodes.append(dict(cell=cell,**clean))
                 for v in node.get('normalization_diagnostics',[]):
                     j=v['column'];q=node['q_layers'][j]
@@ -227,7 +237,7 @@ def build_package(root, output, *, allow_boundary=False):
            'compute_accounting.csv':compute,'run_registry.csv':[dict(cell=s['cell'],status=s.get('status',s.get('type')),completed=s.get('completed_primary')) for s in status]}
     for name,rows in files.items():csv_once(output/name,rows)
     save(output/'external-inputs.json',inputs)
-    for name in ['science.lock.json','sample.lock.json','source.lock.json','resource.lock.json','cpu_algebra_checks.json']:
+    for name in ['science.lock.json','sample.lock.json','source.lock.json','resource.lock.json','cpu_algebra_checks.json','assets.lock.json']:
         save(output/name,json.loads((root/name).read_text()))
     for name in ('cap4-control-override.json','gpu-hour-ledger-before-submit.json','technical-exclusion.json','held-inspection.json'):
         if (root/name).is_file():save(output/name,json.loads((root/name).read_text()))
@@ -235,6 +245,19 @@ def build_package(root, output, *, allow_boundary=False):
     analysis_source=dict(head=git(analysis_repo,'rev-parse','HEAD'),tree=git(analysis_repo,'rev-parse','HEAD^{tree}'),
         path=str(analysis_repo),analyzer_sha256=sha(__file__),separate_from_execution=True)
     save(output/'analysis-source.lock.json',analysis_source)
+    save(output/'runtime.lock.json',[{**json.loads((root/f'cell-{i}'/'runtime.lock.json').read_text()),'cell_index':i}
+        for i in range(4) if (root/f'cell-{i}'/'runtime.lock.json').exists()])
+    code_members=[]
+    for revision,role in ((source['head'],'execution'),(analysis_source['head'],'analysis')):
+        files=git(analysis_repo,'ls-tree','-r','--name-only',revision,'project/run_scripts/native_response_ode_v31').splitlines()
+        for name in files:
+            payload=subprocess.check_output(['git','-C',str(analysis_repo),'show',f'{revision}:{name}'])
+            code_members.append(dict(role=role,head=revision,path=name,sha256=hashlib.sha256(payload).hexdigest(),bytes=len(payload)))
+    save(output/'source-manifest.json',dict(members=code_members,members_root=canonical_hash(code_members),
+        baseline_ref='f2dcfd4ab6fcb2917ae0a29cbc384cf95a82eb3c',
+        reuse=['ordered_response_barrier_ode.runtime.FamilyRuntime','ordered_response_barrier_ode.fp32_overlay.GroupedFP32Overlay',
+              'ordered_response_barrier_ode.terminal_jvp.TerminalResponseObserver','stock EasyEdit MEMIT/AlphaEdit compute_z and native entrypoints'],
+        modified_scientific_paths=['project/run_scripts/native_response_ode_v31/'],EasyEdit_mutation_count=0,Server4_mutation_count=0))
     save(output/'gpu_fidelity_checks.json',[dict(cell=i,**json.loads((root/f'cell-{i}'/'gpu_fidelity_checks.json').read_text()))
         for i in range(4) if (root/f'cell-{i}'/'gpu_fidelity_checks.json').exists()])
     primary=[r for r in main if r['arm'] in ARM_ORDER]
