@@ -172,6 +172,8 @@ def collect(root,output,label,with_plots=False):
         '\ncheckpoint_context_support.csv는 이미 생성된 native context cache를 해당 chain runtime hash 및 stdout의 정확한 byte 구간과 결속한다. 문자열은 별도 private local JSON에 보존하며 Git에 싣지 않는다. Selected weights/M checkpoint 자체는 수정하지 않았고 추가 generation/model replay는 0이다. 복원 시 pinned pretrained snapshot/source/hparams/P와 해당 selected-weight/M checkpoint 및 context-cache 보조 파일을 함께 사용한다. 추가 trajectory replay parity는 NOT_TESTED다.']
     from .synthesis import summarize
     text+=summarize(root,output,completed,completed_batch_paths=completed_batch_paths,load=load)
+    from .conclusions import make
+    text+=make(output,set(completed))
     if with_plots:
         from .plots import plot
         for p in plot(output):text.append(f'\n![trajectory]({Path(p).name})')

@@ -4,9 +4,22 @@ from pathlib import Path
 from .reporting import sha,csvwrite,bits
 from .synthesis import physical_rows,ratio
 from .recovery_context import seal
+from .conclusions import layer_trend
 
 
 class Tests(unittest.TestCase):
+    def test_concentration_is_not_absolute_redistribution(self):
+        data=[]
+        for batch,early,last in [(1,1.,9.),(2,.5,1.5)]:
+            for layer,value in [(4,early),(8,last)]:
+                data.append(dict(alias='test',arm='O_NATIVE',batch=str(batch),layer=str(layer),
+                    endpoint_DeltaW_squared=str(value),velocity_trajectory_status='NOT_RECORDED_OFFICIAL_ONE_PASS'))
+        a,b=layer_trend(data)
+        self.assertLess(b['L8_endpoint_energy_share'],a['L8_endpoint_energy_share'])
+        self.assertLess(b['L4_7_endpoint_energy'],a['L4_7_endpoint_energy'])
+        self.assertIsNone(a['normalized_native_work'])
+        self.assertIsNone(a['L4_7_signed_predicted_progress'])
+
     def test_context_cache_recovers_existing_bytes_only(self):
         value=[['{}'],['Existing native context. {}']]
         digest=hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
