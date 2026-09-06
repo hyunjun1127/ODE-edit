@@ -12,6 +12,8 @@ from project.run_scripts.ordered_response_barrier_ode.artifacts import reduce_ev
 from .provenance import save, ARM_ORDER, git
 from project.run_scripts.ordered_response_barrier_ode.preflight import canonical_hash
 
+CELL_NAMES=('Llama-MEMIT','Llama-AlphaEdit','Qwen-MEMIT','Qwen-AlphaEdit')
+
 
 def sha(path):
     digest=hashlib.sha256()
@@ -243,7 +245,7 @@ def build_package(root, output, *, allow_boundary=False):
     save(output/'decision_summary.json',decision)
     headline=[]
     for r in main:
-        headline.append(dict(cell=r['cell'],arm=r['arm'],RS=f"{r['RS_n']}/{r['RS_d']} ({100*r['RS_rate']:.2f}%)",
+        headline.append(dict(cell=CELL_NAMES[r['cell']],arm=r['arm'],RS=f"{r['RS_n']}/{r['RS_d']} ({100*r['RS_rate']:.2f}%)",
             PS=f"{r['PS_n']}/{r['PS_d']} ({100*r['PS_rate']:.2f}%)",NS=f"{r['NS_n']}/{r['NS_d']} ({100*r['NS_rate']:.2f}%)",
             old_RS=f"{r.get('old_before_RS_n','—')}→{r.get('old_after_RS_n','—')}",
             old_new_failure=f"{r.get('new_failure_n','—')}/{r.get('entry_success_d','—')}",V_ratio=r.get('V_ratio','—')))
@@ -266,6 +268,8 @@ def build_package(root, output, *, allow_boundary=False):
 ## 지표와 분모
 
 RS/PS는 각각 rewrite/rephrase에서 target-new NLL < target-true NLL인 prompt 수/전체 prompt 수다. NS는 반대로 neighborhood target-true NLL < target-new NLL이다. tie는 실패다. NLL은 token 평균이며 낮을수록 해당 continuation의 likelihood가 높다. strict teacher-forced coverage는 target token 전부 argmax와 일치하는 prompt 수다. old loss는 D10A의 warm-entry 성공 요청 중 D10B endpoint에서 실패한 요청만 센다. initially failed는 별도다.
+
+CSV cell mapping: 0=Llama-MEMIT, 1=Llama-AlphaEdit, 2=Qwen-MEMIT, 3=Qwen-AlphaEdit. `PRE_EDIT_WARM`은 pristine cold W0가 아니라 Official D10A 한 batch를 적용한 공통 warm entry다.
 
 {md_table(headline,['cell','arm','RS','PS','NS','old_RS','old_new_failure','V_ratio'])}
 
