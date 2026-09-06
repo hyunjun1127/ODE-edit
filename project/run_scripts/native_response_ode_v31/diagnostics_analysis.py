@@ -47,7 +47,10 @@ def build(primary,followup,output,audit_sources=None):
     for cell in range(4):
         root=followup/f'cell-{cell}';done=root/'terminal.json';failure=root/'failure-boundary.json'
         terminal=json.loads(done.read_text()) if done.exists() else json.loads(failure.read_text()) if failure.exists() else {'status':'NOT_RUN_BUDGET'}
-        registry.append(dict(cell=cell,scope='D2_ATTEMPT',source_root=str(followup),status=terminal.get('status','FAILURE'),stage=terminal.get('stage'),allocated_seconds=terminal.get('allocated_seconds')))
+        registry.append(dict(cell=cell,scope='D2_ATTEMPT',source_root=str(followup),status=terminal.get('status','FAILURE'),
+            stage=terminal.get('stage'),allocated_seconds=terminal.get('allocated_seconds'),
+            failure_current_entry_restore=terminal.get('restore'),cold_restore=terminal.get('cold_restore'),
+            failure_restore_scope='CURRENT_FAMILY_ENTRY_NOT_A_COLD_RESTORE_CLAIM'))
         valid=[]
         for n in (2,4,8):
             path=root/f'D2-N{n}.json'
@@ -79,7 +82,8 @@ def build(primary,followup,output,audit_sources=None):
         terminal=json.loads((done if done.exists() else failure).read_text())
         if done.exists() and terminal.get('cold_restore') is not True:raise ValueError('AUDIT_COLD_RESTORE_BOUNDARY')
         registry.append(dict(cell=cell,scope='H10_ATTEMPT',source_root=str(audit_roots[cell]),
-            status=terminal.get('status','FAILURE'),stage=terminal.get('stage'),allocated_seconds=terminal.get('allocated_seconds')))
+            status=terminal.get('status','FAILURE'),stage=terminal.get('stage'),allocated_seconds=terminal.get('allocated_seconds'),
+            failure_current_entry_restore=terminal.get('restore'),cold_restore=terminal.get('cold_restore')))
         entry_path=root/'H10-entry.json'
         if not entry_path.exists():
             why=json.loads((root/'audit-status.json').read_text()) if (root/'audit-status.json').exists() else {'status':'NOT_COMPLETED'}
