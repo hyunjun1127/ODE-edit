@@ -1,0 +1,252 @@
+{
+  "analysis_implementation": {
+    "head": "6e2445e9e93f2dcb8e6fee58420ffc36e368d1c7",
+    "members": [
+      {
+        "bytes": 80,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/__init__.py",
+        "sha256": "bd71b395ac76c6944a4f54ba47c4a5352ca55077880fa3f7623b9beee9c1ea30"
+      },
+      {
+        "bytes": 3464,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/accounting.py",
+        "sha256": "02f4354995b75f4b1665e3fda57a88adf7f0be135c35893032b774d610767ffc"
+      },
+      {
+        "bytes": 1293,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/contracts.py",
+        "sha256": "5be97ac714daa87a77ceef6b8dd542b24b061bc96eba6d7e8f08effc95474883"
+      },
+      {
+        "bytes": 1972,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/evaluation.py",
+        "sha256": "3bf8c76498ee2788973039cc86e8473af068227e752329518fbf025a27d6b999"
+      },
+      {
+        "bytes": 8253,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/milestones.py",
+        "sha256": "457b531b8fb3eccead69ad1ce47f0f2c63ca4989d65a9efb9d83c5b5dc77d961"
+      },
+      {
+        "bytes": 3987,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/package_report.py",
+        "sha256": "b5c2af66d30c1da65ae076b90860a044f47f8b759efceb7fe3d35aae584ec0a4"
+      },
+      {
+        "bytes": 3257,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/plots.py",
+        "sha256": "1a93de552588ae5aaf9dd669a9c972f8cfb6794ef60721f8105cccbe098874c0"
+      },
+      {
+        "bytes": 6802,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/provenance.py",
+        "sha256": "583ca35b8492aaad9f4ce939b6150307c806438d357568411ce2375165fdd248"
+      },
+      {
+        "bytes": 2775,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/recovery_context.py",
+        "sha256": "821e7b043cc8fb64069c2ae955b0e19f3ab55410543dfee74d3639accff77730"
+      },
+      {
+        "bytes": 17041,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/reporting.py",
+        "sha256": "26678a55e5a9ef163318269a4291dc555285a35741fa4a5bbb3a13b8ff79b404"
+      },
+      {
+        "bytes": 16698,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/runtime.py",
+        "sha256": "4748729e66028c30e77e31de01811fa95169dfa674aaaf35b1bf489b1c7590ea"
+      },
+      {
+        "bytes": 2883,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/state.py",
+        "sha256": "5ff24ed01db0051785aa396f1b62dc02ec7ddc5c09b543a996f6cdc7c5ade43e"
+      },
+      {
+        "bytes": 11731,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/synthesis.py",
+        "sha256": "9a0ca5a72a96cfcd7ba8c2d893e9e78ac5cd46ef17656e65db96bc14382942da"
+      },
+      {
+        "bytes": 4098,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/telemetry.py",
+        "sha256": "758eb70cb22a86ae0b18d29489261bf853e283566e6750882b9b2a194a0d48a9"
+      },
+      {
+        "bytes": 3399,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/test_reporting.py",
+        "sha256": "a35d23707db8d65503872eecb7fc48b7f2cb8bb72438a654a66dabba1b5b8295"
+      },
+      {
+        "bytes": 7390,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/test_sequential.py",
+        "sha256": "79d32eaab12b0f5d4138661f2c4209271f26e5f7a7295f1cb2b957a1e941db35"
+      },
+      {
+        "bytes": 8633,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/trajectory.py",
+        "sha256": "11795e561d96e455e2a504ce3b6b7962a1a94afd3ce2ce0686908a63130871e9"
+      }
+    ]
+  },
+  "completed_chains": [
+    1
+  ],
+  "external_raw_free_tables": [
+    {
+      "bytes": 3411683,
+      "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-paired-llama-qwen-official-terminal-20260906-v1/prompt_transition_metrics.csv",
+      "sha256": "30e8a2bcd2c50d818dbde113611fec3a003398f8dd681e37aca037b3f2ab3ac2"
+    },
+    {
+      "bytes": 3484112,
+      "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-paired-llama-qwen-official-terminal-20260906-v1/rewrite_retention_matrix.csv",
+      "sha256": "c967df7b45ec89478de77e8f6e1275ffc667f959ddd8a7b90028f9404e289dc4"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 644,
+      "path": "PACKAGE.md",
+      "sha256": "54cb8189abb7812d2805ababd35df298fda51e1e086bb409fb9f59c1a870be90"
+    },
+    {
+      "bytes": 3388,
+      "path": "checkpoint_context_support.csv",
+      "sha256": "086fa91e2a22299e6cb6e7261f66162064787c4e89a92d74b88bd79ef7801603"
+    },
+    {
+      "bytes": 3579,
+      "path": "checkpoint_inventory.csv",
+      "sha256": "938e1b8d001cf7d7f921d9c416af3858332f77ed11eb9bc1af2b45b8bab70fd3"
+    },
+    {
+      "bytes": 45373,
+      "path": "compute_accounting.csv",
+      "sha256": "eb0db310b01e9bccf12bee1f830ceb4c023726a1659b1f0d60cea526f1cc0682"
+    },
+    {
+      "bytes": 19507,
+      "path": "current_batch_metrics.csv",
+      "sha256": "87ab53a8aec0702d170fcf16d50fdd92c27d588537f263b6f90c39e496a18cee"
+    },
+    {
+      "bytes": 688,
+      "path": "external-table-identities.json",
+      "sha256": "e687e5c9fa043b6b09d72b4cb0a80ed36d3c3f82152e16989835259ca90a9ea1"
+    },
+    {
+      "bytes": 8102,
+      "path": "factual-report-ko.md",
+      "sha256": "26f14e4f716ae46153a653bbe07c55f8bc9d1f0f929553c7add939ad4518da2f"
+    },
+    {
+      "bytes": 1,
+      "path": "failure_registry.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "bytes": 4764,
+      "path": "final_metrics.csv",
+      "sha256": "e22be1c5c25609081ae1ac28b17ded25cebce95fe61f17f19c4726522b8423c0"
+    },
+    {
+      "bytes": 2409,
+      "path": "history_cost_shadows.csv",
+      "sha256": "84a1df43310b2606699bdda3ee976ab9197d011f3d9cd7e59c1b3336ec91a54f"
+    },
+    {
+      "bytes": 57979,
+      "path": "l8_single_layer_shadows.csv",
+      "sha256": "95f3e43d55cdbe03a0bf8060108b9544e36f4996dde4f3481c3a00102c7aba78"
+    },
+    {
+      "bytes": 75340,
+      "path": "layer_action_decomposition.csv",
+      "sha256": "4cedf9af66b4dd4ae8ba3e29e0b1831313bfb65df952ffb2c4d30ed669e3f7c8"
+    },
+    {
+      "bytes": 30653,
+      "path": "layer_allocation_nodes.csv",
+      "sha256": "58a26acbe4cb5d4cf48f75cf2076421b7868f57392a74270dd83460ddd70f1db"
+    },
+    {
+      "bytes": 118453,
+      "path": "llama3-8b-inst-trajectory-physical.png",
+      "sha256": "d1e30e8d555784e4cdcf6d6f61b19cf405e93ddc70d723c44be0ba383a4b8e53"
+    },
+    {
+      "bytes": 7359,
+      "path": "node_mechanism_summary.csv",
+      "sha256": "bcdc67e5f9d4e9282e1f4da2e5ab8fb1c635a747cf3804ce97aa989fb0626cac"
+    },
+    {
+      "bytes": 412,
+      "path": "online_own_batch_metrics.csv",
+      "sha256": "949dbfa297c7e450472c7c602d400a41abe9551712b922d0f1a11d74a93904e0"
+    },
+    {
+      "bytes": 1031,
+      "path": "paired_seen_endpoint_metrics.csv",
+      "sha256": "80c490b008d98e750df898cae45609fc45922a643dc75de087d7a3cc0b73112d"
+    },
+    {
+      "bytes": 33079,
+      "path": "physical_layer_batch_metrics.csv",
+      "sha256": "277a409068b31e706df1d7d882286c28047767c76bc805668f675f7f9c0354b6"
+    },
+    {
+      "bytes": 136072,
+      "path": "qwen2.5-7b-inst-trajectory-physical.png",
+      "sha256": "6b0294a7bbc81816e162db20831edfef86f0cac10fdcc613506cbddd6870c24a"
+    },
+    {
+      "bytes": 15793,
+      "path": "retention_cohort_metrics.csv",
+      "sha256": "01136168a35798a1cb60ba67a60993ffd7e764e99f96513448b9d1c493c38caf"
+    },
+    {
+      "bytes": 1451,
+      "path": "run_registry.csv",
+      "sha256": "1293c7e3df79317b8beb5bacee0b89d1787575043a260714c4df333ae06a277d"
+    },
+    {
+      "bytes": 492,
+      "path": "scheduler_terminal.csv",
+      "sha256": "33caccf8f26301c7c051e87d83933de7afde1151d27d575ea753ea3661607a5e"
+    },
+    {
+      "bytes": 7922,
+      "path": "seen_prefix_metrics.csv",
+      "sha256": "607df85c7f65fd50ef1a87dfecf33f494a67b94ec8c0517b97e8a8577788875d"
+    },
+    {
+      "bytes": 8506,
+      "path": "sequential_commit_checks.csv",
+      "sha256": "51cee982229be70d3d7c6306c914c6b40744f9fc0dc40c6c1a2eeb5b8056a72a"
+    },
+    {
+      "bytes": 80683,
+      "path": "source-analysis-manifest.json",
+      "sha256": "0e59547a8c2082d9241c8b5d064141d3544504718acf138c62cec3fa77c94f7d"
+    },
+    {
+      "bytes": 342,
+      "path": "source-rooted-analysis-receipt.json",
+      "sha256": "bf1b8a4d733604d438b8810bd9c7552fda8db4d74f7ae65ed498842f5632153d"
+    },
+    {
+      "bytes": 8558,
+      "path": "state_continuity_summary.csv",
+      "sha256": "119cffffed50696ea88b36442bc72efd3fbbb3391464194cdb0dbef2d4671e9a"
+    }
+  ],
+  "model_replay_count": 0,
+  "raw_prompt_target_generation_model_cache_log_bytes": 0,
+  "source_analysis_root": "32c0bee7c10bfb52f49c9be9e67aebea4c1706c68bae056ea17e085441d84f71",
+  "source_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+  "source_report_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-paired-llama-qwen-official-terminal-20260906-v1/factual-report-ko.md",
+  "source_report_sha256": "26f14e4f716ae46153a653bbe07c55f8bc9d1f0f929553c7add939ad4518da2f"
+}
