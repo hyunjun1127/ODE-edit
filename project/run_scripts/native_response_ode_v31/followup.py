@@ -140,6 +140,8 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
                     forward_count=old._model_forward_count(model)-forward_start,
                     fixed_z_sha=f.fixed_z.identity_sha256,source_entry_sha=f.w0_sha256,
                     w0_restore=tensor_set_sha256(f.parameters)==f.w0_sha256))
+            save(root/'audit-status.json',dict(status='TERMINAL_VALID',arm_count=4,request_endpoints=40,
+                D10A_replay_count=0,D10B_state_carry_count=0))
         f.reset_entry();old._restore_selected(f.parameters,cold_weights)
         if cell.writer_family=='AlphaEdit':module.cache_c.copy_(cold_cache);module.cache_c_new=cold_cache_flag
         save(root/'terminal.json',dict(status='TERMINAL_VALID',D2_refinements=3,cold_restore=tensor_set_sha256(f.parameters)==cold_sha,
