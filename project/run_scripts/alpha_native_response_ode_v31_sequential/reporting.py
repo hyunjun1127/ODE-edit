@@ -139,10 +139,15 @@ def collect(root,output,label,with_plots=False):
     for name,rows in tables.items():csvwrite(output/f'{name}.csv',rows)
     stamp=datetime.now(ZoneInfo('Asia/Seoul')).isoformat()
     text=['# AlphaEdit JV sequential routing — factual report',f'\n작성: {stamp} / 단계: {label}',
+        '\nTask authority: `ODEEDIT-S06-ALPHA-JV-SEQUENTIAL-ROUTING-SH2-V1`. '
+        '사용자가 요청한 A/B/C 및 Cases A..H 범위의 해석 예외를 적용하되, '
+        'source-backed 관측과 미검증 원인을 분리한다. 새 수식·threshold·선택·추가 trajectory는 도입하지 않았다.',
         '\nRS/PS/NS는 pinned NLL preference이고 tie는 실패다. 자유 생성 accuracy가 아니다. 아래 final 값은 동일한 W10의 전체 1,000 requests이며 online-own-batch pooling과 다르다.',
         '\n| Model | Arm / state | RS | PS | strict PS | NS |', '|---|---|---:|---:|---:|---:|']
     for x in tables['final_metrics']:
         text.append(f"| {x['alias']} | {x['arm']} / {x['scope']} | {x['RS_num']}/{x['RS_den']} | {x['PS_num']}/{x['PS_den']} | {x['PS_strict_num']}/{x['PS_strict_den']} | {x['NS_num']}/{x['NS_den']} |")
+    from .conclusions import endpoint_contrasts
+    text+=endpoint_contrasts(tables['final_metrics'])
     text+=['\n## Current-B100와 seen-prefix (완료 receipt만)',
         '\n| Model | Arm | Batch/state scope | RS | PS | strict PS | NS |',
         '|---|---|---|---:|---:|---:|---:|']

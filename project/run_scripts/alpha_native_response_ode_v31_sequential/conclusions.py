@@ -25,6 +25,27 @@ def pair(row, prefix):
     return f"{row[prefix+'_num']}/{row[prefix+'_den']}"
 
 
+def endpoint_contrasts(final):
+    """Final-state arithmetic only; missing arms never become zero outcomes."""
+    by={(x['alias'],x['arm']):x for x in final
+        if x['scope']=='single_final_W10_full1000'}
+    text=['\n### Final W10의 동일 분모 산술 비교']
+    for alias in sorted({key[0] for key in by}):
+        for left,right in [('O_NATIVE','JV_NATIVE'),('L8_ONLY_NATIVE','JV_NATIVE')]:
+            if (alias,left) not in by or (alias,right) not in by:continue
+            a,b=by[(alias,left)],by[(alias,right)];parts=[]
+            for metric in ('RS','PS','NS'):
+                den=int(a[metric+'_den'])
+                if den!=int(b[metric+'_den']):raise RuntimeError('FINAL_PAIRED_DENOMINATOR')
+                delta=int(b[metric+'_num'])-int(a[metric+'_num'])
+                parts.append(f'{metric} {delta:+d}/{den} ({100*delta/den:+.3f} percentage points)')
+            text.append(f'\n{alias}, {right}−{left}: '+', '.join(parts)+'.')
+    text.append('\n같은 sample/order와 final W10 평가 범위의 end-to-end 비교다. '
+        'Batch1 이후 W/M/z가 arm별로 달라져 same-state controller 인과 비교와 같지 않다. '
+        '미완료 arm은 위 산술에 포함하지 않으며, main 네 chain 보고 뒤 양 모델 L8-only를 결과 선택 없이 진행한다.')
+    return text
+
+
 def layer_trend(data):
     groups=defaultdict(list)
     for row in data:groups[(row['alias'],row['arm'],int(row['batch']))].append(row)

@@ -4,10 +4,20 @@ from pathlib import Path
 from .reporting import sha,csvwrite,bits
 from .synthesis import physical_rows,ratio
 from .recovery_context import seal
-from .conclusions import layer_trend
+from .conclusions import layer_trend,endpoint_contrasts
 
 
 class Tests(unittest.TestCase):
+    def test_final_pair_requires_recorded_same_denominator(self):
+        a=dict(alias='test',arm='O_NATIVE',scope='single_final_W10_full1000',
+            RS_num=10,RS_den=10,PS_num=18,PS_den=20,NS_num=80,NS_den=100)
+        b=dict(a,arm='JV_NATIVE',RS_num=9)
+        text='\n'.join(endpoint_contrasts([a,b]))
+        self.assertIn('RS -1/10 (-10.000 percentage points)',text)
+        self.assertNotIn('JV_NATIVE−L8_ONLY_NATIVE:',text)
+        with self.assertRaisesRegex(RuntimeError,'FINAL_PAIRED_DENOMINATOR'):
+            endpoint_contrasts([a,dict(b,RS_den=9)])
+
     def test_concentration_is_not_absolute_redistribution(self):
         data=[]
         for batch,early,last in [(1,1.,9.),(2,.5,1.5)]:
