@@ -47,11 +47,11 @@ def summarize(evaluation, records, entry=None):
             success.append(hit);advantages.append(margin)
             request_rows.append(dict(case_id=a['case_id'],metric=label,prompt_index=a['prompt_index'],
                 target_new_nll=a['nll'],target_true_nll=b['nll'],nll_advantage=margin,success=int(hit),
-                strict_teacher_forced=bool(a['all_tokens_correct'])))
+                strict_teacher_forced=bool((b if reverse else a)['all_tokens_correct'])))
         facts.update({f'{label}_n':sum(success),f'{label}_d':len(success),f'{label}_rate':sum(success)/len(success)})
         for target,rows in [('new',new),('true',true)]:
             for key,value in distribution([r['nll'] for r in rows]).items():facts[f'{kind}_{target}_nll_{key}']=value
-        facts[f'{kind}_strict_n']=sum(r['all_tokens_correct'] for r in new)
+        facts[f'{kind}_strict_n']=sum(r['all_tokens_correct'] for r in (true if reverse else new))
         facts[f'{kind}_strict_d']=len(new)
         for key,value in distribution(advantages).items():facts[f'{kind}_advantage_{key}']=value
     return facts,request_rows,public
@@ -109,8 +109,8 @@ def paired_deltas(requests):
     rows=[]
     for (cell,arm,metric,field),delta in grouped.items():
         # NS success uses target-true likelihood; do not call target-new NLL lower 'better' there.
-        sign=-1 if field.endswith('_nll') else 1
-        if metric=='NS' and field=='nll_advantage':sign=-1
+        sign=-1 if field=='target_new_nll' else 1
+        if metric=='NS' and field in ('target_new_nll','target_true_nll','nll_advantage'):sign=-sign
         rows.append(dict(cell=cell,arm=arm,metric=metric,field=field,delta='method-minus-O_NATIVE',
             **distribution(delta),negative=sum(v<0 for v in delta),equal=sum(v==0 for v in delta),
             positive=sum(v>0 for v in delta),favorable_direction='lower' if sign<0 else 'higher',
@@ -141,6 +141,9 @@ def matched_progress(main,nodes):
 
 def build_package(root, output, *, allow_boundary=False):
     root,output=Path(root).absolute(),Path(output).absolute()
+    analysis_repo=Path(__file__).resolve().parents[3]
+    if git(analysis_repo,'status','--porcelain','--untracked-files=no'):raise ValueError('ANALYSIS_SOURCE_DIRTY')
+    analyzer_sha=sha(__file__)
     if output.exists():raise ValueError('CREATE_ONCE_REPORT_EXISTS')
     terminals=[root/f'cell-{i}'/'terminal.json' for i in range(4)]
     if not allow_boundary and not all(p.is_file() for p in terminals):raise ValueError('FOUR_CELL_TERMINAL_NOT_COMPLETE')
@@ -241,9 +244,8 @@ def build_package(root, output, *, allow_boundary=False):
         save(output/name,json.loads((root/name).read_text()))
     for name in ('cap4-control-override.json','gpu-hour-ledger-before-submit.json','technical-exclusion.json','held-inspection.json'):
         if (root/name).is_file():save(output/name,json.loads((root/name).read_text()))
-    analysis_repo=Path(__file__).resolve().parents[3]
     analysis_source=dict(head=git(analysis_repo,'rev-parse','HEAD'),tree=git(analysis_repo,'rev-parse','HEAD^{tree}'),
-        path=str(analysis_repo),analyzer_sha256=sha(__file__),separate_from_execution=True)
+        path=str(analysis_repo),analyzer_sha256=analyzer_sha,separate_from_execution=True)
     save(output/'analysis-source.lock.json',analysis_source)
     save(output/'runtime.lock.json',[{**json.loads((root/f'cell-{i}'/'runtime.lock.json').read_text()),'cell_index':i}
         for i in range(4) if (root/f'cell-{i}'/'runtime.lock.json').exists()])
@@ -362,6 +364,8 @@ Analysis source {analysis_source['head']} / tree {analysis_source['tree']}ëŠ” ì‹
     receipt['identity']=canonical_hash(receipt);save(output/'rooted-receipt.json',receipt)
     for member in inputs:
         if sha(member['path'])!=member['sha256']:raise ValueError('RAW_INPUT_CHANGED_DURING_ANALYSIS')
+    if sha(__file__)!=analyzer_sha or git(analysis_repo,'rev-parse','HEAD')!=analysis_source['head']:
+        raise ValueError('ANALYSIS_SOURCE_CHANGED_DURING_REDUCTION')
     return receipt
 
 

@@ -31,6 +31,10 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(advantage['mean'],-1.);self.assertEqual(advantage['unfavorable'],1)
         with self.assertRaises(ValueError):paired_deltas(rows[1:])
         with self.assertRaises(ValueError):paired_deltas(rows+rows[:1])
+        locality=paired_deltas([dict(r,metric='NS') for r in rows])
+        new_nll=next(r for r in locality if r['field']=='target_new_nll')
+        self.assertEqual(new_nll['favorable_direction'],'higher')
+        self.assertEqual(new_nll['favorable'],1)
 
     def test_matched_progress_no_interpolation_or_endpoint_invention(self):
         node=dict(cell=0,arm='JV_NATIVE',V0=1.,V_exit=.5,node=1,N=4)
