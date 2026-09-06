@@ -263,6 +263,13 @@ def build_package(root, output, *, allow_boundary=False):
     save(output/'gpu_fidelity_checks.json',[dict(cell=i,**json.loads((root/f'cell-{i}'/'gpu_fidelity_checks.json').read_text()))
         for i in range(4) if (root/f'cell-{i}'/'gpu_fidelity_checks.json').exists()])
     primary=[r for r in main if r['arm'] in ARM_ORDER]
+    nll_rows=[]
+    for row in main:
+        for kind in ('rewrite','rephrase'):
+            for target in ('new','true'):
+                nll_rows.append(dict(cell=CELL_NAMES[row['cell']],arm=row['arm'],kind=kind,target=target,
+                    **{stat:row[f'{kind}_{target}_nll_{stat}'] for stat in ('n','mean','median','p90','max')}))
+    csv_once(output/'nll_distributions.csv',nll_rows)
     verdict='PRIMARY_FOUR_CELL_TECHNICAL_PASS' if len(primary)==16 and all(s.get('status')=='TERMINAL_VALID' for s in status) else 'INCOMPLETE_OR_BOUNDARY'
     decision=dict(status=verdict,primary_arm_endpoints=len(primary),expected=16,primary_request_endpoints=sum(r['RS_d'] for r in primary),
         expected_request_endpoints=160,scientific_promotion=False,server4_rerun_mutation=0,
@@ -297,6 +304,14 @@ RS/PS는 각각 rewrite/rephrase에서 target-new NLL < target-true NLL인 promp
 CSV cell mapping: 0=Llama-MEMIT, 1=Llama-AlphaEdit, 2=Qwen-MEMIT, 3=Qwen-AlphaEdit. `PRE_EDIT_WARM`은 pristine cold W0가 아니라 Official D10A 한 batch를 적용한 공통 warm entry다.
 
 {md_table(headline,['cell','arm','RS','PS','NS','old_RS','old_new_failure','V_ratio'])}
+
+### Rewrite NLL
+
+{md_table([r for r in nll_rows if r['kind']=='rewrite'],['cell','arm','target','n','mean','median','p90','max'])}
+
+### Rephrase NLL
+
+{md_table([r for r in nll_rows if r['kind']=='rephrase'],['cell','arm','target','n','mean','median','p90','max'])}
 
 ## 1. 수학 및 fidelity
 
