@@ -1,0 +1,4 @@
+NS_den,NS_num,NS_rate,PS_den,PS_num,PS_rate,RS_den,RS_num,RS_rate,alias,arm,completed_batches,scope
+4000,3379,0.84475,800,753,0.94125,400,400,1.0,llama3-8b-inst,O_NATIVE,4,online_own_batch_NOT_final_W10
+5000,3885,0.777,1000,979,0.979,500,499,0.998,qwen2.5-7b-inst,O_NATIVE,5,online_own_batch_NOT_final_W10
+3000,2526,0.842,600,543,0.905,300,300,1.0,llama3-8b-inst,JV_NATIVE,3,online_own_batch_NOT_final_W10

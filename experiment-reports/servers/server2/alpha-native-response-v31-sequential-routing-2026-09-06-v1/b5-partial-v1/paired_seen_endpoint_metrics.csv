@@ -1,0 +1,4 @@
+alias,batch,causal_claim,denominator,kind,left,left_failure_right_success,left_num,left_success_right_failure,margin_right_minus_left_mean,right,right_minus_left_count,right_minus_left_rate,right_num,shared_W_M_after_first_batch,shared_sample
+llama3-8b-inst,1,END_TO_END_CHAIN_COMPARISON,100,rewrite,O_NATIVE,0,100,0,-0.5599519648436035,JV_NATIVE,0,0.0,100,False,True
+llama3-8b-inst,1,END_TO_END_CHAIN_COMPARISON,200,rephrase,O_NATIVE,1,185,9,-1.4345064724361873,JV_NATIVE,-8,-0.04,177,False,True
+llama3-8b-inst,1,END_TO_END_CHAIN_COMPARISON,1000,locality,O_NATIVE,6,869,17,-0.2992894571452052,JV_NATIVE,-11,-0.011,858,False,True
