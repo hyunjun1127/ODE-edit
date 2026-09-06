@@ -1,5 +1,5 @@
 """Raw-free exact extraction; no model import, replay, imputation or decisions."""
-import argparse,csv,hashlib,json,os
+import argparse,csv,hashlib,json,os,subprocess
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -28,6 +28,12 @@ def metrics(p,meta):
             ('strict_num','strict_request_success_count'),('strict_den','strict_request_denominator')]:out[f'{key}_{short}']=x[long]
     for kind,x in p['kind_summaries'].items():
         for k in ('nll_mean','nll_median','nll_p90','nll_max','all_tokens_correct_count','row_count'):out[f'{kind}_{k}']=x[k]
+        rows=[r for r in p['rows'] if r['kind']==kind];by_case={}
+        for r in rows:by_case.setdefault(r['case_id'],[]).append(r['all_tokens_correct'])
+        out[f'{kind}_strict_teacher_forced_correct_num']=sum(all(v) for v in by_case.values())
+        out[f'{kind}_strict_teacher_forced_correct_den']=len(by_case)
+        out[f'{kind}_correct_token_count']=sum(r['correct_token_count'] for r in rows)
+        out[f'{kind}_target_token_denominator']=sum(r['target_token_count'] for r in rows)
     return out
 
 
@@ -146,7 +152,10 @@ def collect(root,output,label,with_plots=False):
     write(output/'factual-report-ko.md','\n'.join(text)+'\n')
     for name in ('source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json'):
         inputs.add(root/name)
-    manifest=dict(label=label,source=read(root/'source.lock.json'),sample_root=sample['ordered_root'],
+    code=Path(__file__).resolve().parent
+    analysis_identity=dict(head=subprocess.check_output(['git','-C',str(code),'rev-parse','HEAD'],text=True).strip(),
+        members=[dict(path=str(p),sha256=sha(p),bytes=p.stat().st_size) for p in sorted(code.glob('*.py'))])
+    manifest=dict(label=label,source=read(root/'source.lock.json'),analysis_implementation=analysis_identity,sample_root=sample['ordered_root'],
         inputs=[dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(inputs)],
         members=[dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(output.iterdir())],
         complete_chains=sorted(completed),model_replay_count=0,imputation_count=0)
