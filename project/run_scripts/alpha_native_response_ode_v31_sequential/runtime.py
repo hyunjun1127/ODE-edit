@@ -107,6 +107,11 @@ def run(repo,root,mode,index):
                 cold={n:p.detach().cpu().clone() for n,p in f.parameters.items()};coldsha=tensor_set_sha256(cold)
                 cold_pointers={n:p.data_ptr() for n,p in f.parameters.items()}
                 coldM=module.cache_c.detach().clone()
+                if mode=='main':
+                    gate_binding=json.loads((root/'smoke-gates.lock.json').read_text())
+                    reference=json.loads((Path(gate_binding['root'])/f'smoke-{alias}'/'W0-full.json').read_text())
+                    if reference['W0_sha256']!=coldsha or reference['sample_root']!=sample['ordered_root']:
+                        raise RuntimeError('COMMON_ORIGINAL_W0_REFERENCE_IDENTITY')
             else:f.bind_existing_method_state()
             check_entry(f,previous)
             entry=dict(batch_index=k,alias=alias,arm=arm,W_entry=f.w0_sha256,
