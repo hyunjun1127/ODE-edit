@@ -55,5 +55,16 @@ class AnalysisTests(unittest.TestCase):
             link=Path(d)/'link';link.symlink_to(p)
             with self.assertRaises(RuntimeError):verify_warm_member(link,digest)
 
+    def test_refinement_uses_dense_delta_distance_not_hash(self):
+        import torch
+        from .diagnostics_analysis import endpoint_distances
+        a={'delta':{'w':torch.tensor([1.,2.])},'activation':torch.tensor([1.,2.])}
+        b={'delta':{'w':torch.tensor([2.,2.])},'activation':torch.tensor([1.,3.])}
+        result=endpoint_distances(a,b)
+        self.assertEqual(result['delta_W_distance'],1.)
+        self.assertEqual(result['activation_distance'],1.)
+        self.assertAlmostEqual(result['relative_to_second_update'],1/(8**.5))
+        self.assertFalse(result['hash_only_convergence_claim'])
+
 
 if __name__=='__main__':unittest.main()
