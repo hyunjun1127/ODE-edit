@@ -172,6 +172,20 @@ def collect(root,output,label,with_plots=False):
         '\ncheckpoint_context_support.csv는 이미 생성된 native context cache를 해당 chain runtime hash 및 stdout의 정확한 byte 구간과 결속한다. 문자열은 별도 private local JSON에 보존하며 Git에 싣지 않는다. Selected weights/M checkpoint 자체는 수정하지 않았고 추가 generation/model replay는 0이다. 복원 시 pinned pretrained snapshot/source/hparams/P와 해당 selected-weight/M checkpoint 및 context-cache 보조 파일을 함께 사용한다. 추가 trajectory replay parity는 NOT_TESTED다.']
     from .synthesis import summarize
     text+=summarize(root,output,completed,completed_batch_paths=completed_batch_paths,load=load)
+    native_observations=[]
+    for p in sorted((root/'normalization-observations').glob('*.json')):
+        r=load(p)
+        for key in ('log','target_reference','official_compute_z'):
+            artifact=Path(r[key+'_path'])
+            if sha(artifact)!=r[key+'_sha256']:raise RuntimeError('NORMALIZATION_OBSERVATION_SOURCE_IDENTITY')
+            inputs.add(artifact)
+        native_observations.append(r)
+    csvwrite(output/'native_target_log_observations.csv',native_observations)
+    if native_observations:
+        text+=['\n### 기존 stock target log와의 결속',
+            '\n이 표는 완료된 자기 chain의 기존 stdout만 raw-free로 추출했다. Native optimizer의 소수점 세 자리 출력 loss는 canonical rewrite/rephrase NLL과 다른 필드이며, 새 evaluator 측정이나 replay가 아니다.']
+        for r in native_observations:
+            text.append(f"\n{r['alias']} {r['arm']} B{r['batch']}, case {r['case_id']}: native optimizer loss rows={r['optimizer_loss_rows']}, rounded initial total loss={r['rounded_optimizer_loss_terms'][0]}, reported optimizer delta norm={r['optimizer_reported_delta_norm']}; 별도 terminal capture 대비 N0 scale={r['source_N0_captured_residual_scale']:.12g}, active={r['source_N0_active']}. 전체 1,000 optimizer blocks의 batch별 backward ledger와 request/printed-target identity를 대조했다. 미세한 capture 잔차가 양수인 source N0에 남아 있는 사실과 response Gram 확대를 구분해서 기록하며, 원인 ablation은 실행하지 않았다.")
     from .conclusions import make
     text+=make(output,set(completed))
     if with_plots:
