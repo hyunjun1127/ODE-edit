@@ -17,7 +17,7 @@ def jwrite(path,obj):write(path,json.dumps(obj,ensure_ascii=False,sort_keys=True
 def csvwrite(path,rows):
     fields=sorted({k for r in rows for k in r})
     with open(path,'x',newline='',encoding='utf-8') as f:
-        w=csv.DictWriter(f,fields);w.writeheader()
+        w=csv.DictWriter(f,fields,lineterminator='\n');w.writeheader()
         for r in rows:w.writerow({k:json.dumps(v,ensure_ascii=False) if isinstance(v,(dict,list)) else v for k,v in r.items()})
 
 
@@ -43,14 +43,14 @@ def bits(public,prefix):
     return out
 
 
-def collect(root,output,label):
+def collect(root,output,label,with_plots=False):
     root=Path(root);output=Path(output);output.mkdir(parents=True,mode=0o700)
     sample=read(root/'sample.lock.json');record={r['case_id']:r for r in sample['records']}
     gate=read(root/'smoke-gates.lock.json');pre={}
     tables={k:[] for k in ('run_registry','sequential_commit_checks','current_batch_metrics','seen_prefix_metrics',
         'rewrite_retention_matrix','prompt_transition_metrics','layer_allocation_nodes','layer_action_decomposition',
         'history_cost_shadows','l8_single_layer_shadows','compute_accounting','failure_registry','final_metrics')}
-    inputs=set();completed=[]
+    inputs=set();completed=[];completed_batch_paths=[]
     def load(p):inputs.add(Path(p));return read(p)
     for alias in ('llama3-8b-inst','qwen2.5-7b-inst'):
         p=Path(gate['root'])/f'smoke-{alias}'/'W0-full.json';pre[alias]=load(p)['evaluation']
@@ -62,13 +62,17 @@ def collect(root,output,label):
             requested_contract=1000,entered_requests=sum(len(load(p)['case_ids']) for p in chain.glob('batch-*/entry.json')),
             completed_batches=len(list(chain.glob('batch-*/complete.json'))))
         tables['run_registry'].append(registry)
-        if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:completed.append(int(chain.name.split('-')[1]))
+        if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:
+            if terminal['status']!='TERMINAL_VALID' or not terminal['W0_restored'] or terminal['history_appends']!=10:
+                raise RuntimeError('TERMINAL_COMPLETENESS_BOUNDARY')
+            completed.append(int(chain.name.split('-')[1]))
         if (chain/'failure.json').exists():
             f=load(chain/'failure.json');tables['failure_registry'].append(dict(alias=alias,arm=arm,stage=f['stage'],
                 status=f['status'],identity=sha(chain/'failure.json'),completed_batches=f['completed_batches'],
                 missing_requests=1000-100*f['completed_batches'],imputation=0))
         for bd in sorted(chain.glob('batch-*')):
             if not (bd/'complete.json').exists():continue
+            completed_batch_paths.append(bd)
             summary=load(bd/'complete.json');writer=load(bd/'writer.json');commit=load(bd/'commit.json')
             k=summary['batch_index'];meta=dict(alias=alias,arm=arm,batch=k,W_sha256=commit['committed_weight_sha256'])
             current=writer['endpoint']['evaluation'];tables['current_batch_metrics'].append(metrics(current,meta))
@@ -81,6 +85,10 @@ def collect(root,output,label):
                 endpoint_evaluation_seconds=writer['endpoint_evaluation_seconds'],
                 history=writer.get('history_finalization_compute','NOT_RECORDED'),
                 peak_gpu_bytes=summary['peak_gpu_allocated'],peak_host_rss_kib=summary['peak_host_rss_kib']))
+            # Official and JV use the same actual committed endpoint observer.
+            # This is net endpoint action, not a sum of Euler velocity actions.
+            for x in writer['actual_physical_action']['layers']:
+                tables['layer_action_decomposition'].append(dict(meta,**x,kind='actual_endpoint_net_FP32'))
             if (bd/'seen-full.json').exists():
                 full=load(bd/'seen-full.json');tables['seen_prefix_metrics'].append(metrics(full,dict(meta,scope='single_W_seen_prefix')))
                 w0=bits(pre[alias],'locality');observed=bits(full,'locality')
@@ -130,6 +138,11 @@ def collect(root,output,label):
         '\n## 독립 검토',
         '\nA/B/C 및 Cases A..H 판정은 current-B100, all-seen retention, 절대 layer action, same-state history-cost 및 실제 L8-only trajectory를 함께 비교한다. Main 네 chain 보고를 L8-only 완료까지 미루지 않는다. 1,000 edits 이후 generalization, global causal claim 또는 learned history preservation 보장은 이번 범위 밖이다.',
         f'\n원본 root: `{root}`',f"\nSource: `{read(root/'source.lock.json')['head']}`; sample root: `{sample['ordered_root']}`."]
+    from .synthesis import summarize
+    text+=summarize(root,output,completed,completed_batch_paths=completed_batch_paths,load=load)
+    if with_plots:
+        from .plots import plot
+        for p in plot(output):text.append(f'\n![trajectory]({Path(p).name})')
     write(output/'factual-report-ko.md','\n'.join(text)+'\n')
     for name in ('source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json'):
         inputs.add(root/name)
@@ -146,4 +159,5 @@ def collect(root,output,label):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--label',required=True);a=p.parse_args();print(collect(a.root,a.output,a.label))
+    p.add_argument('--label',required=True);p.add_argument('--plots',action='store_true')
+    a=p.parse_args();print(collect(a.root,a.output,a.label,with_plots=a.plots))
