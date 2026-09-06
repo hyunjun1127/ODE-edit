@@ -33,6 +33,10 @@ def validate_inputs(repo,root):
 
 
 def verify_prerequisites(root,mode,index):
+    if (root/'server4-takeover.lock.json').is_file():
+        from .server4_takeover import validate_handoff
+        validate_handoff(root,mode,index)
+        return
     if mode=='smoke':return
     binding=json.loads((root/'smoke-gates.lock.json').read_text())
     for alias in ALIASES:
@@ -108,8 +112,12 @@ def run(repo,root,mode,index):
                 cold_pointers={n:p.data_ptr() for n,p in f.parameters.items()}
                 coldM=module.cache_c.detach().clone()
                 if mode=='main':
-                    gate_binding=json.loads((root/'smoke-gates.lock.json').read_text())
-                    reference=json.loads((Path(gate_binding['root'])/f'smoke-{alias}'/'W0-full.json').read_text())
+                    if (root/'server4-takeover.lock.json').is_file():
+                        from .server4_takeover import w0_reference
+                        reference=w0_reference(root,alias)
+                    else:
+                        gate_binding=json.loads((root/'smoke-gates.lock.json').read_text())
+                        reference=json.loads((Path(gate_binding['root'])/f'smoke-{alias}'/'W0-full.json').read_text())
                     if reference['W0_sha256']!=coldsha or reference['sample_root']!=sample['ordered_root']:
                         raise RuntimeError('COMMON_ORIGINAL_W0_REFERENCE_IDENTITY')
             else:f.bind_existing_method_state()
