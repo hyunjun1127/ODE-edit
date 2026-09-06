@@ -134,6 +134,12 @@ def collect(root,output,label,with_plots=False):
         '\n| Model | Arm / state | RS | PS | strict PS | NS |', '|---|---|---:|---:|---:|---:|']
     for x in tables['final_metrics']:
         text.append(f"| {x['alias']} | {x['arm']} / {x['scope']} | {x['RS_num']}/{x['RS_den']} | {x['PS_num']}/{x['PS_den']} | {x['PS_strict_num']}/{x['PS_strict_den']} | {x['NS_num']}/{x['NS_den']} |")
+    text+=['\n## Current-B100와 seen-prefix (완료 receipt만)',
+        '\n| Model | Arm | Batch/state scope | RS | PS | strict PS | NS |',
+        '|---|---|---|---:|---:|---:|---:|']
+    for scope,values in [('current B100',tables['current_batch_metrics']),('same Wk seen-prefix',tables['seen_prefix_metrics'])]:
+        for x in values:
+            text.append(f"| {x['alias']} | {x['arm']} | B{x['batch']} {scope} | {x['RS_num']}/{x['RS_den']} | {x['PS_num']}/{x['PS_den']} | {x['PS_strict_num']}/{x['PS_strict_den']} | {x['NS_num']}/{x['NS_den']} |")
     text+=['\n## 완전성·해석 경계',f'\n완료 chain: {sorted(completed)} / 계약: 6 chains × 1,000 requests. 미완료는 위 final 분모로 채우지 않는다; imputation0. Scientific promotion0.',
         '\n첫 B100, B5 및 final seen-prefix는 각 표에 분리했다. 실패·overwrite 후보는 canonical denominator에 유지하고 조건부 forgetting을 별도 행으로 기록한다. 평가하지 않은 intermediate PS/NS는 NOT_RECORDED다.',
         '\n## 상태와 계측',
