@@ -150,6 +150,17 @@ def collect(root,output,label,with_plots=False):
         '\n## 독립 검토',
         '\nA/B/C 및 Cases A..H 판정은 current-B100, all-seen retention, 절대 layer action, same-state history-cost 및 실제 L8-only trajectory를 함께 비교한다. Main 네 chain 보고를 L8-only 완료까지 미루지 않는다. 1,000 edits 이후 generalization, global causal claim 또는 learned history preservation 보장은 이번 범위 밖이다.',
         f'\n원본 root: `{root}`',f"\nSource: `{read(root/'source.lock.json')['head']}`; sample root: `{sample['ordered_root']}`."]
+    context_root=root.parent/'checkpoint-context-support-20260906-v1'
+    context_receipts=[]
+    if context_root.exists():
+        for p in sorted(context_root.glob('chain-*/context-recovery-receipt.json')):
+            r=load(p);raw_path=Path(r['raw_local_path'])
+            if sha(raw_path)!=r['file_sha256'] or raw_path.stat().st_size!=r['bytes']:
+                raise RuntimeError('PRIVATE_CONTEXT_CACHE_RECOVERY_IDENTITY')
+            context_receipts.append(dict(chain=p.parent.name,**r))
+    csvwrite(output/'checkpoint_context_support.csv',context_receipts)
+    text+=['\n## Checkpoint 복원 보조 state',
+        '\ncheckpoint_context_support.csv는 이미 생성된 native context cache를 해당 chain runtime hash 및 stdout의 정확한 byte 구간과 결속한다. 문자열은 별도 private local JSON에 보존하며 Git에 싣지 않는다. Selected weights/M checkpoint 자체는 수정하지 않았고 추가 generation/model replay는 0이다. 복원 시 pinned pretrained snapshot/source/hparams/P와 해당 selected-weight/M checkpoint 및 context-cache 보조 파일을 함께 사용한다. 추가 trajectory replay parity는 NOT_TESTED다.']
     from .synthesis import summarize
     text+=summarize(root,output,completed,completed_batch_paths=completed_batch_paths,load=load)
     if with_plots:
