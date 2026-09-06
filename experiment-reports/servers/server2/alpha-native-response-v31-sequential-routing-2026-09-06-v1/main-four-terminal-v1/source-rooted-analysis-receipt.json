@@ -1,0 +1,12 @@
+{
+  "completed_chains": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "manifest_sha256": "e80676c57188aa7debe95f204f07c0964816042178c1b19e745dae8e7e5bb408",
+  "report_sha256": "b9b7fd9b7f37f782ee5fe81608d1b80e942e701ccf01b9896d4d79401d2617ad",
+  "root_sha256": "58e4b5ba3dcddce7938d545388e9d4f4fc3301798cd46fd7f56857e604bfe3f6",
+  "status": "FACTUAL_EXTRACTION_COMPLETE"
+}

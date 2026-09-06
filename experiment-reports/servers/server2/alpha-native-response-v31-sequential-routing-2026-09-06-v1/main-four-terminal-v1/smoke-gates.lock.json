@@ -1,0 +1,9 @@
+{
+  "reuse_boundary": "identical state/target/NNLS/overlay/finalizer/checkpoint; child adds observation-only timings and pointer receipt",
+  "root": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-v1",
+  "source_head": "de9e38c16f44f1c774f18804d46649160b98e39c",
+  "terminal_receipt_sha256": {
+    "llama3-8b-inst": "2d39b2081f6fafa55fdd01a694e08373b884a5b061f2379a97b8c43506bd7cf2",
+    "qwen2.5-7b-inst": "9f0b5521f01d5653ea584c2cb0a4c65d34303ce5fec06cf97df9e1809dbf496d"
+  }
+}

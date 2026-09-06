@@ -1,0 +1,50 @@
+{
+  "N": 4,
+  "T": 2.0,
+  "arms": [
+    "O_NATIVE",
+    "JV_NATIVE",
+    "L8_ONLY_NATIVE"
+  ],
+  "backtracking": false,
+  "batches": 10,
+  "checkpoint_batches": [
+    1,
+    5,
+    10
+  ],
+  "cold_initialization_count": 1,
+  "controller_dtype": "float64",
+  "dynamic_z_per_batch": true,
+  "first_hit": false,
+  "gain": false,
+  "h": 0.5,
+  "history_append_per_batch": 1,
+  "inner_persistent_mutation_count": 0,
+  "inner_z_reoptimization_count": 0,
+  "instruction_id": "ODEEDIT-S06-ALPHA-JV-SEQUENTIAL-ROUTING-SH2-V1",
+  "lambda_value": 0.1,
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "main_batch_size": 100,
+  "main_priority": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "main_requested_edits": 1000,
+  "model_dtype": "float32",
+  "normalization": "SOURCE_EXACT_N0",
+  "normalization_sweep": false,
+  "scientific_promotion": false,
+  "secondary_priority": [
+    4,
+    5
+  ]
+}

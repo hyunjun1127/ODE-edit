@@ -1,0 +1,48 @@
+{
+  "W0_reference": "once per model after smoke W0 restoration",
+  "cold_model_loads": 8,
+  "existing_primitive_tests_reused": true,
+  "full_checkpoint_batches": [
+    1,
+    5,
+    10
+  ],
+  "main": {
+    "array_throttle_max": 3,
+    "batches": 10,
+    "indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "requests_per_batch": 100
+  },
+  "model_loads_detail": "two smoke + six chains; no extra scientific arm",
+  "no_main_merge": true,
+  "resource_recount_required": true,
+  "sample_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "secondary": {
+    "batches": 10,
+    "indices": [
+      4,
+      5
+    ],
+    "requests_per_batch": 100,
+    "requires": "MAIN_TABLE_READY"
+  },
+  "smoke": {
+    "arm": "JV_NATIVE",
+    "batches": 2,
+    "indices": [
+      0,
+      1
+    ],
+    "main_initialization": "fresh W0/M0; smoke discarded",
+    "requests_per_batch": 1,
+    "smoke_sample_ids": [
+      9299,
+      5657
+    ]
+  }
+}

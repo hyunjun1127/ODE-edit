@@ -1,0 +1,35 @@
+{
+  "cap": 3,
+  "chains": [
+    [
+      "llama3-8b-inst",
+      "O_NATIVE"
+    ],
+    [
+      "qwen2.5-7b-inst",
+      "O_NATIVE"
+    ],
+    [
+      "llama3-8b-inst",
+      "JV_NATIVE"
+    ],
+    [
+      "qwen2.5-7b-inst",
+      "JV_NATIVE"
+    ],
+    [
+      "llama3-8b-inst",
+      "L8_ONLY_NATIVE"
+    ],
+    [
+      "qwen2.5-7b-inst",
+      "L8_ONLY_NATIVE"
+    ]
+  ],
+  "cpus": 8,
+  "gpu_per_process": 1,
+  "maximum_hours": 48,
+  "mem_mib": 60416,
+  "pilot_gpu_hour_cap_inherited": false,
+  "server": "server2"
+}

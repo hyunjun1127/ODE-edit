@@ -1,0 +1,3 @@
+# Raw-free report package
+
+This is a small, byte-closed publication subset. Large per-request raw-free CSVs remain at the exact server2 paths in external-table-identities.json. They are not silently omitted from the full analysis: source-analysis-manifest.json and source-rooted-analysis-receipt.json bind the complete original package at /mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/main-four-terminal-20260907-v1. Those source manifests describe that original directory, not this subset. No raw prompts, target strings, generations, weights, cache, checkpoints or runtime logs are copied.
