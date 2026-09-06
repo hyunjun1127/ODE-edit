@@ -8,6 +8,17 @@ from .provenance import save,git
 from project.run_scripts.ordered_response_barrier_ode.preflight import canonical_hash
 
 
+def sealed_metadata(path,value):
+    """Resume metadata-only publication only when existing bytes are exact."""
+    path=Path(path)
+    if path.exists() or path.is_symlink():
+        expected=(json.dumps(value,sort_keys=True,indent=2,allow_nan=False,default=str)+'\n').encode()
+        if path.is_symlink() or not path.is_file() or path.read_bytes()!=expected:
+            raise ValueError('EXISTING_METADATA_IDENTITY_BOUNDARY')
+        return
+    save(path,value)
+
+
 def allocation_ledger(sacct_text,expected):
     """Charge max allocation/step lifetime once, never sum overlapping steps."""
     rows=list(csv.DictReader(io.StringIO(sacct_text),delimiter='|'))
@@ -72,11 +83,11 @@ def build(root,ledger,review):
             JV_ray_rephrase_nll_delta=float(j['rephrase_new_nll_mean'])-float(r['rephrase_new_nll_mean']),
             JV_Official_core_time_ratio=float(j['write_wall_seconds'])/float(o['write_wall_seconds']),
             native_Rturn_mean=float(turn[cell]['Rturn_mean'])))
-    save(root/'gpu-hour-ledger.json',ledger)
-    save(root/'REVIEW_READY.json',dict(**review,primary=primary,diagnostics=diagnostics,
-        primary_execution_head=source['head'],primary_execution_tree=source['tree'],
-        final_analysis_head=git(Path.cwd(),'rev-parse','HEAD'),final_analysis_tree=git(Path.cwd(),'rev-parse','HEAD^{tree}'),
-        gh_independent_review_status='PENDING',scientific_promotion=False))
+    sealed_metadata(root/'gpu-hour-ledger.json',ledger)
+    save(root/'REVIEW_READY.json',{**review,'primary':primary,'diagnostics':diagnostics,
+        'primary_execution_head':source['head'],'primary_execution_tree':source['tree'],
+        'final_analysis_head':git(Path.cwd(),'rev-parse','HEAD'),'final_analysis_tree':git(Path.cwd(),'rev-parse','HEAD^{tree}'),
+        'gh_independent_review_status':'PENDING','scientific_promotion':False})
     save(root/'decision_summary.json',dict(status='PILOT_COMPLETE_REVIEW_READY',
         same_state_physical_turning='OBSERVED_NOT_SCALAR_ONLY',
         realized_path_change='OBSERVED_NODE_READOUT_AND_ENDPOINT_ACTION_DIFFERENCES',

@@ -81,5 +81,15 @@ class AnalysisTests(unittest.TestCase):
         with self.assertRaises(ValueError):allocation_ledger(text,{7:[0,1]})
         with self.assertRaises(ValueError):allocation_ledger(text.replace('COMPLETED','RUNNING'),{7:[0]})
 
+    def test_existing_metadata_is_verified_never_overwritten(self):
+        from .finalize import sealed_metadata
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'ledger.json';sealed_metadata(p,{'seconds':1})
+            first=p.read_bytes();sealed_metadata(p,{'seconds':1})
+            self.assertEqual(first,p.read_bytes())
+            with self.assertRaises(ValueError):sealed_metadata(p,{'seconds':2})
+            link=Path(d)/'link';link.symlink_to(p)
+            with self.assertRaises(ValueError):sealed_metadata(link,{'seconds':1})
+
 
 if __name__=='__main__':unittest.main()
