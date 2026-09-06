@@ -60,6 +60,7 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
         if tok.pad_token_id is None:tok.pad_token_id=tok.eos_token_id
         tok.padding_side='right';model.config.pad_token_id=tok.pad_token_id;model.config.use_cache=False;model.eval()
         assert_full_fp32(model);old.seal_eager_attention(model);old._install_model_forward_counter(model)
+        old._sync();load_seconds=time.perf_counter()-load_start
         hp,_=old._load_hparams(repo,cell.writer_family,cell.model_alias);hp.device=0
         hp.stats_dir=str(assets.EASYEDIT_ARTIFACT_ROOT/'examples/data/stats')
         if cell.writer_family=='AlphaEdit':hp.P_loc=str(assets.EASYEDIT_ARTIFACT_ROOT/assets.MODEL_BINDINGS[cell.model_alias]['projector'][0])
@@ -90,7 +91,7 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
             entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
             dictionary=NativeDictionary(f);dictionary.capture_reference(dictionary.build(entry,0))
         save(root/'runtime.lock.json',dict(source_head=lock['source_head'],phase='POST_PRIMARY',
-            model_reload_count=1,model_reload_seconds=time.perf_counter()-load_start,
+            model_reload_count=1,model_reload_seconds=load_seconds,setup_until_D2_target_seconds=time.perf_counter()-load_start,
             D2_entry='COLD_DEV_FIXTURE',D2_z_compute_count=1,D10A_replay_count=0,
             warm_entry_sha=warm['commit']['committed_weight_sha256'],sample_root=sample['ordered_root'],
             budget_seconds=budget_seconds,scientific_promotion=False))
@@ -116,20 +117,29 @@ def run(repo,primary_root,output_root,cell_id,budget_seconds):
             f=make('H10');f.old_records=[raw[int(r['case_id'])] for r in sample['records'] if r['fixture']=='D10A']
             if f.method_state_identity()!=warm['commit']['committed_method_state_sha256']:
                 raise RuntimeError('WARM_METHOD_STATE_BOUNDARY')
-            f.compute_fixed_z()
+            old._sync();target_started=time.perf_counter();f.compute_fixed_z();old._sync()
+            target_seconds=time.perf_counter()-target_started
             with torch.no_grad():
                 entry=f.terminal();norm=FrozenNormalization.capture(f.fixed_z.values,entry,f.w0_sha256)
                 dictionary=NativeDictionary(f);dictionary.capture_reference(dictionary.build(entry,0))
                 f.metric_observer=dictionary;pre=f.evaluate_endpoint();old_before=f.last_old_evaluation
-            save(root/'H10-entry.json',dict(evaluation=pre,old_before=old_before,entry_sha=f.w0_sha256,fixed_z_sha=f.fixed_z.identity_sha256))
+            v0=float(norm.weight(f.fixed_z.values-entry).square().sum()/2)
+            save(root/'H10-entry.json',dict(evaluation=pre,old_before=old_before,entry_sha=f.w0_sha256,fixed_z_sha=f.fixed_z.identity_sha256,
+                target_seconds=target_seconds,method_state_sha=f.method_state_identity(),V0=v0))
             configs={c.arm.value:c for c in canonical_arm_configs()}
             for arm in ARM_ORDER:
                 stage=f'H10_{arm}'
+                old._sync();arm_started=time.perf_counter();forward_start=old._model_forward_count(model);eval_start=f.evaluation_seconds
                 if arm=='O_NATIVE':result=f.run_official(fixed_z=f.fixed_z)
                 elif arm=='ORBFH_HIST':result=old._arm_run(f,configs['ORBFH'])
                 else:result=run_joint(f,arm,dictionary,norm,output=root/'H10'/arm,fixture='H10')
+                old._sync();vt=float(norm.weight(f.fixed_z.values-f.last_terminal).square().sum()/2)
                 save(root/f'H10-{arm}.json',dict(result=result,old_before=old_before,old_after=f.last_old_evaluation,
-                    actual_physical_action=f.last_physical_action))
+                    actual_physical_action=f.last_physical_action,arm=arm,V0=v0,VT=vt,V_ratio=vt/v0 if v0 else None,
+                    total_seconds=time.perf_counter()-arm_started,evaluation_seconds=f.evaluation_seconds-eval_start,
+                    forward_count=old._model_forward_count(model)-forward_start,
+                    fixed_z_sha=f.fixed_z.identity_sha256,source_entry_sha=f.w0_sha256,
+                    w0_restore=tensor_set_sha256(f.parameters)==f.w0_sha256))
         f.reset_entry();old._restore_selected(f.parameters,cold_weights)
         if cell.writer_family=='AlphaEdit':module.cache_c.copy_(cold_cache);module.cache_c_new=cold_cache_flag
         save(root/'terminal.json',dict(status='TERMINAL_VALID',D2_refinements=3,cold_restore=tensor_set_sha256(f.parameters)==cold_sha,
