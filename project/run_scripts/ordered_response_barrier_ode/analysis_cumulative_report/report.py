@@ -5,7 +5,7 @@ from .common import *
 
 TITLE='ORBODE B100×10 cumulative rerun — 20-arm exhaustive factual report'
 REPORT='orbode-cumulative-exhaustive-factual-ko.md'
-GROUPS={'performance':'performance-v1','mechanism':'mechanism-v1','comparisons':'comparisons-v1','integrity':'integrity-v1'}
+GROUPS={'performance':'performance-v1','mechanism':'mechanism-v1','comparisons':'comparisons-v1','integrity':'integrity-v1','tail':'tail-v1'}
 PRIVATE={'request-state-records.csv.gz','prompt-pair-records.csv.gz'}
 
 def table(df,cols=None):
@@ -172,7 +172,7 @@ def build(work,out):
     '## 11. 성능–메커니즘 association과 outlier','',
     'Spearman300행은20arms×5기록량×RS/PS/NS, arm당10개 반복 checkpoint다. Shared cumulative history와 증가하는 seen denominator가 있어 독립표본 상관이나 인과효과가 아니다. 아래는 original-target q와 canonical 성능의 계수 전부다.','',table(f('comparisons','mechanism-cumulative-associations.csv').query("mechanism=='q_after_mean'")),'',
     '![association](figures/mechanism-cumulative-association.png)','',
-    '메커니즘 outlier ledger4,400행은 각checkpoint/cohort에서 q_after 및 own-immediate distance 상위2개를 request SHA로 식별한다. 전체 source identity/nonfinite0 검증에 포함되었고 값이 크다는 이유로 제외하지 않았다. 대상 raw prompt는 publish하지 않는다.','',
+    '메커니즘 outlier ledger4,400행은 각checkpoint/cohort에서 q_after 및 own-immediate distance 상위2개를 request SHA로 식별한다. 전체 source identity/nonfinite0 검증에 포함되었고 값이 크다는 이유로 제외하지 않았다. 대상 raw prompt는 publish하지 않는다. 아래 각arm 최댓값의 원래 frozen-origin residual norm도 CPU에서 재계산했다. 작은 양의 분모로 큰 normalized tail이 생기는 경우 raw post residual과 구분하며 임의 epsilon/clip/exclusion을 적용하지 않는다.','',table(f('tail','normalized-tail-origin-context.csv'),['cell','arm','batch','cohort','request_sha256','value','original_residual_norm','implied_post_residual_norm','original_target_norm']),'',
     '## 12. Compute ledger — 겹치는 bracket을 합산하지 않기','',table(cellcost,['cell','model_load_seconds','wall_seconds','model_forward_invocation_count','memory_peak_allocated_bytes','fixed_z_compute_count','fixed_z_recompute_count','inter_batch_weight_link_count','inter_batch_method_state_link_count']),'',
     '각 source cell당 model-load1, fixed-z5,000=5arms×10B×100request. JVP 내부 model forward는 model_forward_invocation_count와 겹치므로 더하지 않는다. GPU elapsed는 scheduler allocation 시간, 아래 endpoint call/observer/evaluation bracket과 다른 단위다. Hardware/software/backend provenance는 runtime receipt에 기록된 것만 사용한다.','',
     table(cost.groupby(['cell','arm'],sort=False)[['endpoint_wall_seconds','cumulative_evaluation_checkpoint_wall_seconds','observer_probe_wall_seconds_increment','endpoint_model_forward_calls','jvp_jvp_call_count','adapter_key_capture_count','adapter_solve_count','adapter_inner_history_append_count']].sum(min_count=1).reset_index()),'',

@@ -13,6 +13,7 @@ $PY -m "$MOD.integrity" --output <WORK>/integrity-v1
 $PY -m "$MOD.performance" --output <WORK>/performance-v1
 $PY -m "$MOD.mechanism" --output <WORK>/mechanism-v1
 $PY -m "$MOD.comparisons" --performance <WORK>/performance-v1 --mechanism <WORK>/mechanism-v1 --output <WORK>/comparisons-v1
+$PY -m "$MOD.tail" --mechanism <WORK>/mechanism-v1 --integrity <WORK>/integrity-v1 --output <WORK>/tail-v1
 $PY -m "$MOD.plots" --performance <WORK>/performance-v1 --mechanism <WORK>/mechanism-v1 --comparisons <WORK>/comparisons-v1 --output <WORK>/plots-v2
 $PY -m unittest -q "$MOD.test_focused"
 $PY -m "$MOD.report" --work <WORK> --output <NEW_PACKAGE>
