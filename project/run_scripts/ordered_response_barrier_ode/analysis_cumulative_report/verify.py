@@ -23,6 +23,14 @@ def scan_public(root):
 def verify(package,seal=False):
     p=Path(package);scan_public(p)
     integ=read(p/'tables/integrity/integrity-receipt.json');deep_identity(integ)
+    for cell in read(p/'tables/integrity/source-runtime-provenance.json'):
+        r=cell['result'];d=r['dtype_receipt'];inv=r['parameter_inventory'];a=r['attention_backend_receipt'];e=r['easyedit']
+        require(set(inv['parameter_elements_by_dtype'])==set(inv['parameter_tensors_by_dtype'])=={'torch.float32'},'parameter inventory FP32')
+        require(not inv['quantized'] and not d['quantized'] and not d['autocast_enabled'] and not d['tf32_enabled'] and d['bf16_fp16_cast_count']==0,'precision modes')
+        require(a['terminal_jvp_evaluator_shared_backend'] and a['per_observation_backend_switch_count']==0,'attention identity')
+        require(sha256_file(Path(a['model_class_source_path']))==a['model_class_source_sha256'],'model class source binding')
+        require(sha256_file(Path(a['hf_config_path']))==a['hf_config_sha256'],'HF config binding')
+        require(e['head']=='14cea8245f06715684592ab55184939b99d70784' and e['tree']=='9c52aadbc0883da422badf0a730fff21aaa3a8a7' and e['tracked_clean'],'pinned Official source')
     c=pd.read_csv(p/'tables/performance/cumulative-core.csv');f=pd.read_csv(p/'tables/performance/final-20-arm.csv')
     require(len(c)==200 and len(f)==20,'full table counts')
     require(not c.duplicated(['cell','arm','batch']).any(),'checkpoint duplicate')
