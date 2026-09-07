@@ -1,0 +1,14 @@
+{
+  "status":"PASS",
+  "tests":20,
+  "failures":0,
+  "errors":0,
+  "command":"/data/janghj/EasyEdit/.venv/bin/python -m unittest discover -q -s project/run_scripts/alpha_native_response_ode_v31_sequential/l8_takeover_analysis -t . -p 'test_*.py'",
+  "elapsed_seconds":8.430,
+  "scope":{"integrity":6,"mechanism":4,"plots":5,"performance":3,"package":2},
+  "compile":"PASS",
+  "deterministic_actual_pngs":9,
+  "warnings":"ResourceWarning from unchanged reused reporting.sha helper open handle; tests PASS, no numerical warning",
+  "model_GPU_evaluator_new_Slurm":0,
+  "raw_mutation":0
+}

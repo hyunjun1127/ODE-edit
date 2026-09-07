@@ -1,0 +1,1572 @@
+{
+  "batch10": [
+    {
+      "L2_work": "NOT_RECORDED",
+      "L4_7_batch_net_energy": 127.67812897261146,
+      "L4_7_signed_progress": "NOT_RECORDED",
+      "L8_batch_net_energy": 84.2098804195664,
+      "L8_energy_share": 0.3974263605625016,
+      "L8_native_work_share": "NOT_RECORDED",
+      "NS_den": 1000,
+      "NS_num": 764,
+      "NS_rate": 0.764,
+      "PS_den": 200,
+      "PS_num": 197,
+      "PS_rate": 0.985,
+      "RS_den": 100,
+      "RS_num": 100,
+      "RS_rate": 1.0,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "barrier_end_minus_entry": "NOT_RECORDED",
+      "barrier_positive_increment_count": "NOT_RECORDED",
+      "batch": 10,
+      "effective_layers": 4.359938797902691,
+      "entropy": 1.472458020084139,
+      "factor_net_frobenius_squared": "NOT_RECORDED",
+      "factor_net_native_raw": "NOT_RECORDED",
+      "final_V_ratio": "NOT_RECORDED",
+      "finite_defect_positive_count": "NOT_RECORDED",
+      "history_raw_work_ratio": "NOT_RECORDED",
+      "history_work": "NOT_RECORDED",
+      "materialization_discrepancy_normalized": "NOT_RECORDED",
+      "materialized_minus_factor_net_squared": "NOT_RECORDED",
+      "materialized_net_native_raw": 218.53525389346157,
+      "max_abs_KKT_stationarity": "NOT_RECORDED",
+      "max_abs_continuous_dissipation_residual": "NOT_RECORDED",
+      "max_layer": 8,
+      "max_over_min_active_scale": 2.3119871676990678,
+      "maximum_active_scale": 10.718997955322266,
+      "minimum_active_scale": 4.636270523071289,
+      "minimum_scale_case_ids": [
+        2746
+      ],
+      "node0_response_Gram_diagonal_max": "NOT_RECORDED",
+      "normalized_native_work": "NOT_RECORDED",
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "raw_native_work": "NOT_RECORDED",
+      "signed_predicted_progress": "NOT_RECORDED",
+      "total_batch_net_energy": 211.88800939217788,
+      "total_batch_net_norm": 14.55637349727527
+    },
+    {
+      "L2_work": 1.873781168877798e-09,
+      "L4_7_batch_net_energy": 2.716460500643614e-09,
+      "L4_7_signed_progress": 4.9450364292598434e-06,
+      "L8_batch_net_energy": 2.401994677294182e-13,
+      "L8_energy_share": 8.841587434330681e-05,
+      "L8_native_work_share": 0.0005877515427616734,
+      "NS_den": 1000,
+      "NS_num": 747,
+      "NS_rate": 0.747,
+      "PS_den": 200,
+      "PS_num": 52,
+      "PS_rate": 0.26,
+      "RS_den": 100,
+      "RS_num": 25,
+      "RS_rate": 0.25,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "barrier_end_minus_entry": -2.640571750273102e-05,
+      "barrier_positive_increment_count": 2,
+      "batch": 10,
+      "effective_layers": 1.0009140554006155,
+      "entropy": 0.0009136379063670333,
+      "factor_net_frobenius_squared": "NOT_RECORDED",
+      "factor_net_native_raw": "NOT_RECORDED",
+      "final_V_ratio": 0.9999471885780729,
+      "finite_defect_positive_count": 2,
+      "history_raw_work_ratio": 0.055144793021891056,
+      "history_work": 1.093599039968854e-10,
+      "materialization_discrepancy_normalized": 0.014180362566960526,
+      "materialized_minus_factor_net_squared": "NOT_RECORDED",
+      "materialized_net_native_raw": 2.8899788403169167e-09,
+      "max_abs_KKT_stationarity": 8.881784197001252e-16,
+      "max_abs_continuous_dissipation_residual": 9.825373393707667e-22,
+      "max_layer": 7,
+      "max_over_min_active_scale": 173776.31037026303,
+      "maximum_active_scale": 6.2120041847229,
+      "minimum_active_scale": 3.574712900444865e-05,
+      "minimum_scale_case_ids": [
+        4228
+      ],
+      "node0_response_Gram_diagonal_max": 4402280.675683666,
+      "normalized_native_work": 1.3385273772912413e-12,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "raw_native_work": 1.9831410728746837e-09,
+      "signed_predicted_progress": 4.955540336041659e-06,
+      "total_batch_net_energy": 2.7167007001113436e-09,
+      "total_batch_net_norm": 5.21219790502178e-05
+    },
+    {
+      "L2_work": 3.9172619575391246e-11,
+      "L4_7_batch_net_energy": 0.0,
+      "L4_7_signed_progress": 0.0,
+      "L8_batch_net_energy": 6.256747503414079e-11,
+      "L8_energy_share": 1.0,
+      "L8_native_work_share": 1.0,
+      "NS_den": 1000,
+      "NS_num": 746,
+      "NS_rate": 0.746,
+      "PS_den": 200,
+      "PS_num": 48,
+      "PS_rate": 0.24,
+      "RS_den": 100,
+      "RS_num": 22,
+      "RS_rate": 0.22,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "llama3-8b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "barrier_end_minus_entry": -4.851850132769897e-07,
+      "barrier_positive_increment_count": 1,
+      "batch": 10,
+      "effective_layers": 1.0,
+      "entropy": 0.0,
+      "factor_net_frobenius_squared": 7.684780323649968e-11,
+      "factor_net_native_raw": 8.143592209146354e-11,
+      "final_V_ratio": 0.9999990296302279,
+      "finite_defect_positive_count": 1,
+      "history_raw_work_ratio": 0.05634023300650205,
+      "history_work": 2.3387608453246824e-12,
+      "materialization_discrepancy_normalized": 0.006536882710701843,
+      "materialized_minus_factor_net_squared": -1.428032820235889e-11,
+      "materialized_net_native_raw": 9.661979560537463e-11,
+      "max_abs_KKT_stationarity": 0.0,
+      "max_abs_continuous_dissipation_residual": 5.3209332471310364e-21,
+      "max_layer": 8,
+      "max_over_min_active_scale": 377475.30401925964,
+      "maximum_active_scale": 6.2329230308532715,
+      "minimum_active_scale": 1.6512134607182816e-05,
+      "minimum_scale_case_ids": [
+        4228
+      ],
+      "node0_response_Gram_diagonal_max": 8418624.445901077,
+      "normalized_native_work": 2.8041985845096075e-14,
+      "provenance": "LOCAL_COMPLETED_L8_RAW",
+      "raw_native_work": 4.151138042071593e-11,
+      "signed_predicted_progress": 2.3607492606159269e-07,
+      "total_batch_net_energy": 6.256747503414079e-11,
+      "total_batch_net_norm": 7.909960495106204e-06
+    },
+    {
+      "L2_work": "NOT_RECORDED",
+      "L4_7_batch_net_energy": 3939.548038780084,
+      "L4_7_signed_progress": "NOT_RECORDED",
+      "L8_batch_net_energy": 1531.312441823842,
+      "L8_energy_share": 0.27990339860664865,
+      "L8_native_work_share": "NOT_RECORDED",
+      "NS_den": 1000,
+      "NS_num": 705,
+      "NS_rate": 0.705,
+      "PS_den": 200,
+      "PS_num": 190,
+      "PS_rate": 0.95,
+      "RS_den": 100,
+      "RS_num": 99,
+      "RS_rate": 0.99,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "barrier_end_minus_entry": "NOT_RECORDED",
+      "barrier_positive_increment_count": "NOT_RECORDED",
+      "batch": 10,
+      "effective_layers": 4.77246418944947,
+      "entropy": 1.5628627730693354,
+      "factor_net_frobenius_squared": "NOT_RECORDED",
+      "factor_net_native_raw": "NOT_RECORDED",
+      "final_V_ratio": "NOT_RECORDED",
+      "finite_defect_positive_count": "NOT_RECORDED",
+      "history_raw_work_ratio": "NOT_RECORDED",
+      "history_work": "NOT_RECORDED",
+      "materialization_discrepancy_normalized": "NOT_RECORDED",
+      "materialized_minus_factor_net_squared": "NOT_RECORDED",
+      "materialized_net_native_raw": 9085.858126171197,
+      "max_abs_KKT_stationarity": "NOT_RECORDED",
+      "max_abs_continuous_dissipation_residual": "NOT_RECORDED",
+      "max_layer": 8,
+      "max_over_min_active_scale": 20.43343576233481,
+      "maximum_active_scale": 611.6324462890625,
+      "minimum_active_scale": 29.93292236328125,
+      "minimum_scale_case_ids": [
+        13097
+      ],
+      "node0_response_Gram_diagonal_max": "NOT_RECORDED",
+      "normalized_native_work": "NOT_RECORDED",
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "raw_native_work": "NOT_RECORDED",
+      "signed_predicted_progress": "NOT_RECORDED",
+      "total_batch_net_energy": 5470.860480603926,
+      "total_batch_net_norm": 73.96526536560202
+    },
+    {
+      "L2_work": 12651.102971949007,
+      "L4_7_batch_net_energy": 21.282412663610003,
+      "L4_7_signed_progress": 0.008219613427871128,
+      "L8_batch_net_energy": 17131.370719832117,
+      "L8_energy_share": 0.9987592349417191,
+      "L8_native_work_share": 0.9962570701245581,
+      "NS_den": 1000,
+      "NS_num": 750,
+      "NS_rate": 0.75,
+      "PS_den": 200,
+      "PS_num": 189,
+      "PS_rate": 0.945,
+      "RS_den": 100,
+      "RS_num": 100,
+      "RS_rate": 1.0,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "barrier_end_minus_entry": -0.46930985428515626,
+      "barrier_positive_increment_count": 0,
+      "batch": 10,
+      "effective_layers": 1.0104473896018769,
+      "entropy": 0.010393192777206696,
+      "factor_net_frobenius_squared": "NOT_RECORDED",
+      "factor_net_native_raw": "NOT_RECORDED",
+      "final_V_ratio": 0.021031095200091464,
+      "finite_defect_positive_count": 2,
+      "history_raw_work_ratio": 0.6978855338062376,
+      "history_work": 29224.09463555374,
+      "materialization_discrepancy_normalized": 1.923607253732453e-06,
+      "materialized_minus_factor_net_squared": "NOT_RECORDED",
+      "materialized_net_native_raw": 66118.82350253945,
+      "max_abs_KKT_stationarity": 2.220446049250313e-16,
+      "max_abs_continuous_dissipation_residual": 1.734723475976807e-17,
+      "max_layer": 8,
+      "max_over_min_active_scale": 7.286897485885524,
+      "maximum_active_scale": 351.4131774902344,
+      "minimum_active_scale": 48.22534942626953,
+      "minimum_scale_case_ids": [
+        21886
+      ],
+      "node0_response_Gram_diagonal_max": 22.636736892537055,
+      "normalized_native_work": 0.2017456777628782,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "raw_native_work": 41875.19760750275,
+      "signed_predicted_progress": 0.6458497376647515,
+      "total_batch_net_energy": 17152.65313249573,
+      "total_batch_net_norm": 130.9681378522873
+    },
+    {
+      "L2_work": 7874.892267476011,
+      "L4_7_batch_net_energy": 0.0,
+      "L4_7_signed_progress": 0.0,
+      "L8_batch_net_energy": 12276.53330369155,
+      "L8_energy_share": 1.0,
+      "L8_native_work_share": 1.0,
+      "NS_den": 1000,
+      "NS_num": 736,
+      "NS_rate": 0.736,
+      "PS_den": 200,
+      "PS_num": 193,
+      "PS_rate": 0.965,
+      "RS_den": 100,
+      "RS_num": 99,
+      "RS_rate": 0.99,
+      "W0_net_squared": "NOT_RECORDED",
+      "alias": "qwen2.5-7b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "barrier_end_minus_entry": -0.46484997281680646,
+      "barrier_positive_increment_count": 0,
+      "batch": 10,
+      "effective_layers": 1.0,
+      "entropy": 0.0,
+      "factor_net_frobenius_squared": 12276.53379944128,
+      "factor_net_native_raw": 103321.3996616277,
+      "final_V_ratio": 0.025901971959005503,
+      "finite_defect_positive_count": 4,
+      "history_raw_work_ratio": 0.8556513838827099,
+      "history_work": 46679.785701014414,
+      "materialization_discrepancy_normalized": 2.7385337484536413e-06,
+      "materialized_minus_factor_net_squared": -0.0004957497294526547,
+      "materialized_net_native_raw": 103321.39553531732,
+      "max_abs_KKT_stationarity": 2.7755575615628914e-17,
+      "max_abs_continuous_dissipation_residual": 1.8457457784393227e-15,
+      "max_layer": 8,
+      "max_over_min_active_scale": 7.792869654984243,
+      "maximum_active_scale": 388.5259094238281,
+      "minimum_active_scale": 49.856590270996094,
+      "minimum_scale_case_ids": [
+        13097
+      ],
+      "node0_response_Gram_diagonal_max": 5.887612885920966,
+      "normalized_native_work": 0.22199086217851582,
+      "provenance": "LOCAL_COMPLETED_L8_RAW",
+      "raw_native_work": 54554.677968490425,
+      "signed_predicted_progress": 0.6419990602536264,
+      "total_batch_net_energy": 12276.53330369155,
+      "total_batch_net_norm": 110.79951851741754
+    }
+  ],
+  "cost": [
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "O_NATIVE",
+      "backward": 21025,
+      "checkpoint_wall": 95.41971720056608,
+      "commit_wall": 360.68253312353045,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 795.1884985365905,
+      "forward": 26895,
+      "full_batch_backward": 21025.0,
+      "full_batch_forward": 26887.0,
+      "full_batch_linalg_solve": 50.0,
+      "full_batch_native_keys": 100.0,
+      "full_batch_wall": 10775.96090912586,
+      "full_batch_wall_over_Official": 1.0,
+      "history_seconds": 886.302366558928,
+      "main_JVP": 0.0,
+      "native_direction_builds": "NOT_RECORDED",
+      "native_factor_solves": "NOT_RECORDED",
+      "native_key_captures": 100,
+      "peak_gpu_bytes": 39115080192,
+      "process_JV_over_O": 1.0,
+      "process_seconds": 10814.554998190142,
+      "process_seconds_over_Official": 1.0,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "seen_wall": 690.8450956861489,
+      "solve_instrumented": 50,
+      "target_seconds": 6914.258127889596,
+      "target_wall": 6914.258127889596,
+      "write_excluding_endpoint_seconds": 1633.158504512161,
+      "write_excluding_endpoint_seconds_over_Official": 1.0,
+      "write_including_endpoint_seconds": 2428.3470030487515,
+      "write_including_endpoint_wall": 2428.3470030487515
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "JV_NATIVE",
+      "backward": 23955,
+      "checkpoint_wall": 99.37473156256601,
+      "commit_wall": 376.2283587134443,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 801.9852530825883,
+      "forward": 31075,
+      "full_batch_backward": 23955.0,
+      "full_batch_forward": 31067.0,
+      "full_batch_linalg_solve": 1583.0,
+      "full_batch_native_keys": 300.0,
+      "full_batch_wall": 16332.063284254167,
+      "full_batch_wall_over_Official": 1.5156015711251327,
+      "history_seconds": 1089.096490080934,
+      "main_JVP": 200.0,
+      "native_direction_builds": "NOT_RECORDED",
+      "native_factor_solves": "NOT_RECORDED",
+      "native_key_captures": 300,
+      "peak_gpu_bytes": 38191523328,
+      "process_JV_over_O": 1.51380515259763,
+      "process_seconds": 16371.12907931069,
+      "process_seconds_over_Official": 1.51380515259763,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "seen_wall": 694.2631859406829,
+      "solve_instrumented": 1583,
+      "target_seconds": 7920.0616665738635,
+      "target_wall": 7920.0616665738635,
+      "write_excluding_endpoint_seconds": 5457.744553101715,
+      "write_excluding_endpoint_seconds_over_Official": 3.341833960404224,
+      "write_including_endpoint_seconds": 6259.729806184303,
+      "write_including_endpoint_wall": 6259.729806184303
+    },
+    {
+      "alias": "llama3-8b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "backward": 23950,
+      "checkpoint_wall": 82.27148379944265,
+      "commit_wall": 523.5070776259527,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 507.2074498385191,
+      "forward": 30910,
+      "full_batch_backward": 23950.0,
+      "full_batch_forward": 30902.0,
+      "full_batch_linalg_solve": 290.0,
+      "full_batch_native_keys": 300.0,
+      "full_batch_wall": 8645.83054202795,
+      "full_batch_wall_over_Official": 0.802325715074378,
+      "history_seconds": 599.7903430126607,
+      "main_JVP": 40.0,
+      "native_direction_builds": 250.0,
+      "native_factor_solves": 250.0,
+      "native_key_captures": 300,
+      "peak_gpu_bytes": 38191523328,
+      "process_JV_over_O": "NOT_RECORDED",
+      "process_seconds": 8671.439291507006,
+      "process_seconds_over_Official": 0.8018304306518581,
+      "provenance": "LOCAL_COMPLETED_L8_RAW",
+      "seen_wall": 307.8702883468941,
+      "solve_instrumented": 290,
+      "target_seconds": 4315.781899242662,
+      "target_wall": 4315.781899242662,
+      "write_excluding_endpoint_seconds": 2232.4296347033232,
+      "write_excluding_endpoint_seconds_over_Official": 1.3669399684938541,
+      "write_including_endpoint_seconds": 2739.6370845418423,
+      "write_including_endpoint_wall": 2739.6370845418423
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "O_NATIVE",
+      "backward": 13307,
+      "checkpoint_wall": 196.12284195469692,
+      "commit_wall": 632.1609923504293,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 931.8711706558242,
+      "forward": 19178,
+      "full_batch_backward": 13307.0,
+      "full_batch_forward": 19169.0,
+      "full_batch_linalg_solve": 50.0,
+      "full_batch_native_keys": 100.0,
+      "full_batch_wall": 8585.823653415311,
+      "full_batch_wall_over_Official": 1.0,
+      "history_seconds": 885.0840170504525,
+      "main_JVP": 0.0,
+      "native_direction_builds": "NOT_RECORDED",
+      "native_factor_solves": "NOT_RECORDED",
+      "native_key_captures": 100,
+      "peak_gpu_bytes": 40953551360,
+      "process_JV_over_O": 1.0,
+      "process_seconds": 8627.021725771017,
+      "process_seconds_over_Official": 1.0,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "seen_wall": 631.408996688202,
+      "solve_instrumented": 50,
+      "target_seconds": 4067.9094104385003,
+      "target_wall": 4067.9094104385003,
+      "write_excluding_endpoint_seconds": 1638.6939594787546,
+      "write_excluding_endpoint_seconds_over_Official": 1.0,
+      "write_including_endpoint_seconds": 2570.565130134579,
+      "write_including_endpoint_wall": 2570.565130134579
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "JV_NATIVE",
+      "backward": 11721,
+      "checkpoint_wall": 202.22635855711997,
+      "commit_wall": 625.0463751079515,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 917.869467667304,
+      "forward": 18842,
+      "full_batch_backward": 11721.0,
+      "full_batch_forward": 18833.0,
+      "full_batch_linalg_solve": 1583.0,
+      "full_batch_native_keys": 300.0,
+      "full_batch_wall": 13010.01895939419,
+      "full_batch_wall_over_Official": 1.5152907262681783,
+      "history_seconds": 1257.552414943464,
+      "main_JVP": 200.0,
+      "native_direction_builds": "NOT_RECORDED",
+      "native_factor_solves": "NOT_RECORDED",
+      "native_key_captures": 300,
+      "peak_gpu_bytes": 39044651520,
+      "process_JV_over_O": 1.513273918816432,
+      "process_seconds": 13055.046974672005,
+      "process_seconds_over_Official": 1.513273918816432,
+      "provenance": "SH2_PUBLICATION_SH1_RECOMPUTED",
+      "seen_wall": 631.3042113771662,
+      "solve_instrumented": 1583,
+      "target_seconds": 3595.7379358769394,
+      "target_wall": 3595.7379358769394,
+      "write_excluding_endpoint_seconds": 5824.369696656708,
+      "write_excluding_endpoint_seconds_over_Official": 3.5542754417117384,
+      "write_including_endpoint_seconds": 6742.239164324012,
+      "write_including_endpoint_wall": 6742.239164324012
+    },
+    {
+      "alias": "qwen2.5-7b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "backward": 11741,
+      "checkpoint_wall": 159.93245511129498,
+      "commit_wall": 888.1981555316597,
+      "cross_server_wall_time_caveat": "O/JV server2 vs L8 server4; hardware/concurrency not controlled",
+      "endpoint_seconds": 637.4360310314223,
+      "forward": 18702,
+      "full_batch_backward": 11741.0,
+      "full_batch_forward": 18693.0,
+      "full_batch_linalg_solve": 290.0,
+      "full_batch_native_keys": 300.0,
+      "full_batch_wall": 7679.896697558463,
+      "full_batch_wall_over_Official": 0.8944857252575314,
+      "history_seconds": 789.9618423702195,
+      "main_JVP": 40.0,
+      "native_direction_builds": 250.0,
+      "native_factor_solves": 250.0,
+      "native_key_captures": 300,
+      "peak_gpu_bytes": 39044651520,
+      "process_JV_over_O": "NOT_RECORDED",
+      "process_seconds": 7712.100763373077,
+      "process_seconds_over_Official": 0.8939470663827299,
+      "provenance": "LOCAL_COMPLETED_L8_RAW",
+      "seen_wall": 291.97670229896903,
+      "solve_instrumented": 290,
+      "target_seconds": 1935.6376113528386,
+      "target_wall": 1935.6376113528386,
+      "write_excluding_endpoint_seconds": 2762.2225993983448,
+      "write_excluding_endpoint_seconds_over_Official": 1.6856244470913708,
+      "write_including_endpoint_seconds": 3399.658630429767,
+      "write_including_endpoint_wall": 3399.658630429767
+    }
+  ],
+  "inputs": [
+    {
+      "bytes": 2348,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/commit.json",
+      "sha256": "ac7a65d7197b525ed5e52a72b33ec63dac769516be7fb3066914c8452332b7b0"
+    },
+    {
+      "bytes": 8203,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/complete.json",
+      "sha256": "f8c8fd91eca7a8b4b9260c9385e0ae9f5892047d7f074ee37d0f2e244a532960"
+    },
+    {
+      "bytes": 6099,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-00.json",
+      "sha256": "a6513e269606c1a89cc56c571234829b7945fb1a845e770cbc7a46d1ab16770a"
+    },
+    {
+      "bytes": 6100,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-01.json",
+      "sha256": "42c7eeafaa1bfecf810deefb3fe164335016e50ec832e590a9cef38fa5fe5803"
+    },
+    {
+      "bytes": 6119,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-02.json",
+      "sha256": "7bbab3c0ce6bc3605caae6b53cd838b47bf6c692d2d410635fc8b0d13b724cf6"
+    },
+    {
+      "bytes": 6112,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-03.json",
+      "sha256": "b31fbe0f70c1d783c04c27c9c99393f6f6856f9e48818ec3c4f7d29697952a63"
+    },
+    {
+      "bytes": 4270,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/target-reference.json",
+      "sha256": "708e81c570d0fb11dcb75f5536ced0df7ac99c23da017a62b247f3c08e7866e7"
+    },
+    {
+      "bytes": 1527937,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-01/writer.json",
+      "sha256": "f306fcb73dd5785dae28b224fb25c52dd18e3775394663017f22fddd62645e34"
+    },
+    {
+      "bytes": 2347,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/commit.json",
+      "sha256": "2ff770ab97d9647d1f96bca16667d31781e767dbbb51ff6b37ad111b6fda4cb1"
+    },
+    {
+      "bytes": 7567,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/complete.json",
+      "sha256": "01c310bff2faa3710e4fd38ea7439d55f4edc43ac7b635bb7d71d249dd566786"
+    },
+    {
+      "bytes": 6108,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-00.json",
+      "sha256": "cbd0e5d34a749618d1ba3c1327a63cf03227d9fae2ff5d2b1c98e91fa759994b"
+    },
+    {
+      "bytes": 6111,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-01.json",
+      "sha256": "1631661673b98708959486a300afb12cbd410e734be8e8f27430ad157a81a7ad"
+    },
+    {
+      "bytes": 6129,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-02.json",
+      "sha256": "bbc0195187f9a54b071f9bc3639a1cfd88211a07b9c04007e83b39830b181000"
+    },
+    {
+      "bytes": 6131,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-03.json",
+      "sha256": "8a363690f1157794fbb1f6ea47ec4a4936e4bd00a11f4271c45c9d4771dc5672"
+    },
+    {
+      "bytes": 4263,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/target-reference.json",
+      "sha256": "78faee71c43be8b364c2804b673992fbd665c556153768f14878617e9cc095c8"
+    },
+    {
+      "bytes": 1527892,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-02/writer.json",
+      "sha256": "4291887cf064247627bded6199fdbad4e31426739392b4b07ed1987909a90ac1"
+    },
+    {
+      "bytes": 2354,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/commit.json",
+      "sha256": "06223336854cc59b04ab5e425851acaf220cffc55e57f5a396a9380f0fd7f140"
+    },
+    {
+      "bytes": 7576,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/complete.json",
+      "sha256": "47b9b5c9d8aece2c333d056fa9eedd0833e497fd007bfa93f58ca8916cb2c65a"
+    },
+    {
+      "bytes": 6098,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-00.json",
+      "sha256": "930687abc5cb8efbe250dde16309399e4962608145b3c37f99c3cbd5bbc24531"
+    },
+    {
+      "bytes": 6106,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-01.json",
+      "sha256": "5f945a2117d2624b16149159c77542ae120ad77a97eadb9f3f2c4fbc512150ce"
+    },
+    {
+      "bytes": 6118,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-02.json",
+      "sha256": "af69d8e74ca5e9d09e8fd4ba30c195ad34e1092f46cdb6852f5aaa454113ea64"
+    },
+    {
+      "bytes": 6105,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-03.json",
+      "sha256": "5f2bd21dc77c90b529ed854e47086a33f3323a8e26cada761d5f00a1a317929f"
+    },
+    {
+      "bytes": 4261,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/target-reference.json",
+      "sha256": "9383f73a8a2df1772095f1ba11b5ad2520a9a39486e5c5cabed2845440e14e47"
+    },
+    {
+      "bytes": 1528007,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-03/writer.json",
+      "sha256": "f489b985f29028702073badd47c51d0135922e567d4e09fd613cab038324f8ad"
+    },
+    {
+      "bytes": 2357,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/commit.json",
+      "sha256": "8178c7dc8e1299fd15f04458576014fef60c0db44e2f55f6998837bc0b6cc8af"
+    },
+    {
+      "bytes": 7580,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/complete.json",
+      "sha256": "9dc68c53372f4ab04755dc3bb19dafcc37492610742d3f932b5bfeedb030c008"
+    },
+    {
+      "bytes": 6108,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-00.json",
+      "sha256": "200061c8e07a1819b1dea4aab1634890c48ff3f54aeda0966d46b3b9b21d0d25"
+    },
+    {
+      "bytes": 6112,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-01.json",
+      "sha256": "9cd09e0f496cb9f08b416eb24b50661cd4602028b32cb4e51ec8f2b27356331c"
+    },
+    {
+      "bytes": 6123,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-02.json",
+      "sha256": "0314b828a6fb8e9ccea6be73975ad87848f0dfca5d20d83e00e6e08d9f190d80"
+    },
+    {
+      "bytes": 6169,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-03.json",
+      "sha256": "4900708011005bf201c9340ee4bd6f9567dd2e0b814b58aaa57e13728e131911"
+    },
+    {
+      "bytes": 4270,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/target-reference.json",
+      "sha256": "db5897c50cd831aa263abeb85d7373c82e2c8a38f2f0bda4998cd5860ca4d927"
+    },
+    {
+      "bytes": 1528162,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-04/writer.json",
+      "sha256": "3dde17760d3a5f951782e4e93556c45efd87ef58d654b48ca93415aea96bf2d7"
+    },
+    {
+      "bytes": 2356,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/commit.json",
+      "sha256": "ef01d8a2288c842ac615d0707eb6a4ac520ddb9b6b85bff69947b5ba99872f44"
+    },
+    {
+      "bytes": 8219,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/complete.json",
+      "sha256": "9aeb5d678ecfb8989a0765f4c043e8d68ca1f9bb6dbec67eaeeb0f4628310fd9"
+    },
+    {
+      "bytes": 6104,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-00.json",
+      "sha256": "da6d2ef1f01c6e9cc711b1462f09a52b19e3d15d6e4517faeab8f9afadbfd91c"
+    },
+    {
+      "bytes": 6103,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-01.json",
+      "sha256": "99b87a774b3863f5410657ad6827842d191a021e915f272e1fadb695baa90263"
+    },
+    {
+      "bytes": 6123,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-02.json",
+      "sha256": "9566113fe8a7bc4240089799807053e4fabb131070eccf702dd1985391989e7f"
+    },
+    {
+      "bytes": 6120,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-03.json",
+      "sha256": "f5a7984df50621818258587c2cb41cc1301262252d11c915c8c4d551e22e5be0"
+    },
+    {
+      "bytes": 4262,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/target-reference.json",
+      "sha256": "b7d37b239963e679a2ca1b0f560056b7449efd63ca12542d9f6a2271ae5fde95"
+    },
+    {
+      "bytes": 1527941,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-05/writer.json",
+      "sha256": "0e8f611306980f9010ac14c9028ac3755fbb692d7c2df870cc6dca86c93b8deb"
+    },
+    {
+      "bytes": 2347,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/commit.json",
+      "sha256": "f73ef2998c2cc499effb628f4a2d1f58b96ef09023d06d840d415660b95d8f14"
+    },
+    {
+      "bytes": 7568,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/complete.json",
+      "sha256": "87d3a6e3f75b6e18f6ffe031f709708edda4a296860cd8c1dbf9db38ec76faf8"
+    },
+    {
+      "bytes": 6110,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-00.json",
+      "sha256": "62fcc63d07d9a42103730950f61e60c6dd823535cb8b723d1d5f3b8c403d27cb"
+    },
+    {
+      "bytes": 6113,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-01.json",
+      "sha256": "063b9f82aed2705685fec00e983a772b6ab64e9fb40f29463f7d9de1d1585354"
+    },
+    {
+      "bytes": 6123,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-02.json",
+      "sha256": "5af22e7e4460e4e9031eebc9445c5d9f170e42ef0ba31456d68dae8f4e91da6d"
+    },
+    {
+      "bytes": 6128,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-03.json",
+      "sha256": "2a75a7226f05c88283b3682894966267f27162655a8badc8cf19305e60b3cc8c"
+    },
+    {
+      "bytes": 4265,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/target-reference.json",
+      "sha256": "a72c36c8ecb72130da283c1d86b004e094d7f0b8ec075690d72b05a6d6d80b1d"
+    },
+    {
+      "bytes": 1527879,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-06/writer.json",
+      "sha256": "b74015528123b61a0aba1176a715d5ba49ac7f750a7787dc71a6060b855dca44"
+    },
+    {
+      "bytes": 2353,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/commit.json",
+      "sha256": "e05c4e6ac1bf0cf777308d2e07ab86c49c96173934a381280e6c7352ff60274a"
+    },
+    {
+      "bytes": 7579,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/complete.json",
+      "sha256": "c138733c5364c253cc583d1ce3471ad954daa08abe21488269d5105f745b36bd"
+    },
+    {
+      "bytes": 6105,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-00.json",
+      "sha256": "b99b62b3c828e048e6400fdebd9c4ccd2cc2163eaa5cf62e5d871742a525fd2d"
+    },
+    {
+      "bytes": 6158,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-01.json",
+      "sha256": "eeb7deb5cc6940502cb2142ede7fcae54970583afd69819866343ad9b48e0463"
+    },
+    {
+      "bytes": 6130,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-02.json",
+      "sha256": "6e65700088d815fff643295883b0066d977fbe4ecc7d8f5afcfc89057d12c47c"
+    },
+    {
+      "bytes": 6174,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-03.json",
+      "sha256": "9dddee6da0570674a089538948d988fa6f44d8682eacae5ce502ab5d9dfedbfe"
+    },
+    {
+      "bytes": 4276,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/target-reference.json",
+      "sha256": "8ebd4e3a93de2c9f10927bea7de6346191f419ea7b479d5af932c0f124015884"
+    },
+    {
+      "bytes": 1528131,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-07/writer.json",
+      "sha256": "3cdeb65cf7b5b68eba119d4220e9dbfb7c64d157fb22ab9202da307ed421bef9"
+    },
+    {
+      "bytes": 2341,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/commit.json",
+      "sha256": "efa1077f1f83ba4f924965cbd93c43a324336f220afd20a2394d8629e0fad2d8"
+    },
+    {
+      "bytes": 7565,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/complete.json",
+      "sha256": "fcd89c55337fe744be47bf771fd4c067ee2b05b78e48102cbef7fcd7d5350cd1"
+    },
+    {
+      "bytes": 6106,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-00.json",
+      "sha256": "0ca85e80004fddd3964af906c4452478648b9c6f5ef96099078c195bf3fa8b6a"
+    },
+    {
+      "bytes": 6112,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-01.json",
+      "sha256": "2a0cf8decff585b6609f0b410e812d55a571535eb2103344386814cad758a128"
+    },
+    {
+      "bytes": 6118,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-02.json",
+      "sha256": "8b6dccb658a84867a8aca52bbc5a1879f469df881e263599f96719ad609748b2"
+    },
+    {
+      "bytes": 6161,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-03.json",
+      "sha256": "981f79de0375249ca32175fed41b404313e8962e24a49ac97f5050762e71c72d"
+    },
+    {
+      "bytes": 4265,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/target-reference.json",
+      "sha256": "fcbdb192563fd0f37e1d2c5eecf28915d63d7ffab3fe7569908ed8e07d77d290"
+    },
+    {
+      "bytes": 1527681,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-08/writer.json",
+      "sha256": "1f9329b38ae1dde63783d42e8ed68b6a352cbc59448f25fb76b64e2e5eb63830"
+    },
+    {
+      "bytes": 2344,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/commit.json",
+      "sha256": "72d19616d6b47243d1d180b3768efeeb1ecca6487bffef4fd2460c6ce94c4096"
+    },
+    {
+      "bytes": 7572,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/complete.json",
+      "sha256": "d25375d17233a312630343aafe20011b2f3fb539ca4aa6b2573d4da9fc4d9d51"
+    },
+    {
+      "bytes": 6110,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-00.json",
+      "sha256": "f9f746c598c24a25a4f8c749c85671d5a7796e17d742205bf3c39971a246a04f"
+    },
+    {
+      "bytes": 6113,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-01.json",
+      "sha256": "245aa009ea368c5c5fa334c3565f6f3d0f2435ff4218f4f275f0445d43657e7f"
+    },
+    {
+      "bytes": 6154,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-02.json",
+      "sha256": "b0ad2943adfb59ade98defab9f041f7d02b4b59e51daadfbae5be7f23d35362a"
+    },
+    {
+      "bytes": 6133,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-03.json",
+      "sha256": "9a835d3e22e8afb1095eec7eb8da64074c30bfc93b83db01c50670a42dcb451b"
+    },
+    {
+      "bytes": 4263,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/target-reference.json",
+      "sha256": "9454c36210c1daf0944662a4fbe1b2182c4586e490574219a3ceccb970c71d2c"
+    },
+    {
+      "bytes": 1527748,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-09/writer.json",
+      "sha256": "5b1450717b073c50b8e9ca19d492fc2b82dc091cea471e0d6eb3050e4431c46b"
+    },
+    {
+      "bytes": 2353,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/commit.json",
+      "sha256": "92e20b4be43710c67c6eaf63d12b0c13b1e4e43c074247eed8e9ab9b1928fb74"
+    },
+    {
+      "bytes": 8205,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/complete.json",
+      "sha256": "8c0fbb43264e7897515eb69da52d4b02162c457b4b8f54b72f052e33f4414509"
+    },
+    {
+      "bytes": 6182,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-00.json",
+      "sha256": "c758c3f078ad0cd1fa5d5ca53eb35075c966f761c81e14c2d0a8081ab908d2c2"
+    },
+    {
+      "bytes": 6182,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-01.json",
+      "sha256": "e5bdfc847c1b52bc7c0b8fd6aac06ce897508e2f7c5cb6023d3f17d0f295b9ee"
+    },
+    {
+      "bytes": 6174,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-02.json",
+      "sha256": "4a45433a513cdfc4f885e22191d93ff22be20655d71332716fc2f4c756a9109c"
+    },
+    {
+      "bytes": 6184,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-03.json",
+      "sha256": "7be7604cf506a49d89098e10ee315e5b802a25627dd680098fa3d3c81009a632"
+    },
+    {
+      "bytes": 4275,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/target-reference.json",
+      "sha256": "c9d8aeeb49d8635c460cf1870968c11b967750469faba8a94f2dcc09afe7c019"
+    },
+    {
+      "bytes": 1527956,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/batch-10/writer.json",
+      "sha256": "a86f7cb06ead46cea959cd889255c5629185f44c261f1745b28703ad6eb43461"
+    },
+    {
+      "bytes": 9106,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/terminal-receipt.json",
+      "sha256": "78803a0af368f81f59e8fd08cb7aa20a2c599b36ae8f894aeb721ddd43d9ef22"
+    },
+    {
+      "bytes": 2346,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/commit.json",
+      "sha256": "02be232ec35f694c6fb8a88cc8c1f884aecfc0c2b4487f65681a139dedb5e37f"
+    },
+    {
+      "bytes": 8210,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/complete.json",
+      "sha256": "bfe94a18bdc2c7609a2d2bb5c77871f6553f201049965ccbdbb9f57fa3247ae9"
+    },
+    {
+      "bytes": 6130,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-00.json",
+      "sha256": "b72e6111ab10a268b4b8d68f2ff94c380ff6c40fe301760049d91efd69f2dc2e"
+    },
+    {
+      "bytes": 6174,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-01.json",
+      "sha256": "8a9b659c60117189baf51e8d92400af161ca6fbb3e80c66428345c8a45483993"
+    },
+    {
+      "bytes": 6145,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-02.json",
+      "sha256": "5f9f8b61ed328cda420faa6fe502a4a644c87d8b9f4a4930cc46061d257e9d7f"
+    },
+    {
+      "bytes": 6159,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/nodes/node-03.json",
+      "sha256": "e2142014cf795067c4b888c9fe35475c446698bf859a0e2ae1eb97bab0042ea9"
+    },
+    {
+      "bytes": 4303,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/target-reference.json",
+      "sha256": "9faae3d2a4a00cd5f1f98a3f124bd1d275b2d708e4c09d9790b74f16758eb1ac"
+    },
+    {
+      "bytes": 1527994,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-01/writer.json",
+      "sha256": "9e989ce1200213591a8cdb29da5c416aa3a1a15f296b5211570650fc4a534bc7"
+    },
+    {
+      "bytes": 2346,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/commit.json",
+      "sha256": "4ccc7b9f2093cc80eac770f8bdd16045cad4c5dcd1aa6750fa72d98f3c0e7cee"
+    },
+    {
+      "bytes": 7567,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/complete.json",
+      "sha256": "d0d6803060d5e46733c9797cf443f96c0daa7bc2d2556f55ea2a13d9b67dad6a"
+    },
+    {
+      "bytes": 6175,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-00.json",
+      "sha256": "855db0d36112ced617a76dad741ed600dcaa8b6878adf4d64c898c114083269d"
+    },
+    {
+      "bytes": 6155,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-01.json",
+      "sha256": "4ceaed22e212abf0d6c713f9a664cd376c3af5a59823739ef53ec71e21a269f1"
+    },
+    {
+      "bytes": 6160,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-02.json",
+      "sha256": "023ad83e3ed8d8f001ed5e2490aec3b8115dcbe11ca695bb0cb0cdd7d4522a30"
+    },
+    {
+      "bytes": 6202,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/nodes/node-03.json",
+      "sha256": "84d3a9d8ffc61853ca51c8c3e091b3c1b778bdea23d9dd8d50858e73b285885f"
+    },
+    {
+      "bytes": 4294,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/target-reference.json",
+      "sha256": "f1bccd590d8185451c175da43ee56cd7dbfc55dbd08d558ca2f5f85ddfa670d0"
+    },
+    {
+      "bytes": 1527936,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-02/writer.json",
+      "sha256": "f47acbe30524863a2397e1f7ac9a5afd39597f533cd436f27dac8a3584df0f36"
+    },
+    {
+      "bytes": 2354,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/commit.json",
+      "sha256": "71bd3c8349654d9cad912c78378319c72ec4648b874f5b2f9f45439ed5981152"
+    },
+    {
+      "bytes": 7566,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/complete.json",
+      "sha256": "7c139e6c979bd11ab0780ecaf3fb1432fa20aeedc028faefd8500d6ca0fd9357"
+    },
+    {
+      "bytes": 6134,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-00.json",
+      "sha256": "c1681a18386ad7a648941eda5e41c83bce2ff2b88525d86f62f2ee53d6b6cf74"
+    },
+    {
+      "bytes": 6149,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-01.json",
+      "sha256": "04321182bbd6f4260a33d2bcef39fcbb99fa14096fdca3c70454cab92b0577de"
+    },
+    {
+      "bytes": 6154,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-02.json",
+      "sha256": "70286d605d77c1fe586ff0a5c70dceadb66f866056ece948649ffefcb6ae1f7e"
+    },
+    {
+      "bytes": 6198,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/nodes/node-03.json",
+      "sha256": "6eb192cb411f284dc1fd7af3b415edf24cdc62ca12c9a0397ecf40e7092961cf"
+    },
+    {
+      "bytes": 4296,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/target-reference.json",
+      "sha256": "cd9c74a70cee1e97ea6c57efee146c784fd27144773c9a62700f6e61697c48c7"
+    },
+    {
+      "bytes": 1528055,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-03/writer.json",
+      "sha256": "a81884bbf80ab606b9dc98916632cc425e2fe41c323e3b6126003042fe7726d5"
+    },
+    {
+      "bytes": 2355,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/commit.json",
+      "sha256": "d8d0d1c72ab7d18ea7dac6168177fa86fd7d70a9dabd04e7dcf283d0a737700c"
+    },
+    {
+      "bytes": 7577,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/complete.json",
+      "sha256": "cbc4344a757a5d631ec68805cff9cbf59b67ae135f99ec0329e900b5c8a19d67"
+    },
+    {
+      "bytes": 6146,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-00.json",
+      "sha256": "87518458f14b5df5179b018a31911934cfd5ae5b43d331b487f03fff4e16a642"
+    },
+    {
+      "bytes": 6154,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-01.json",
+      "sha256": "a0bcb1432d65ce592355a6dafa9f93aafcb38bf22cacf55ff2b04486939e43e1"
+    },
+    {
+      "bytes": 6198,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-02.json",
+      "sha256": "8a8d345f40687087c4f5d2d544e6c912f3561040791aa1f16ffa1cfe9f0d5418"
+    },
+    {
+      "bytes": 6214,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/nodes/node-03.json",
+      "sha256": "0dd6aadb5589891ea6e931056a14f121c2d6945147df09433527ff78ac6dea74"
+    },
+    {
+      "bytes": 4300,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/target-reference.json",
+      "sha256": "cd70983a3a69a48cacd1f36456cdf50fd5b7834f2149a87909c994d0222e2dde"
+    },
+    {
+      "bytes": 1528137,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-04/writer.json",
+      "sha256": "d3541454833bcadba58b77340b4255d371292e634ca0309acd7fb86a49be969a"
+    },
+    {
+      "bytes": 2356,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/commit.json",
+      "sha256": "87c893cfb0fc21bef2847fd4eb6241012f9a65194c49a5510d4bc84ed2a424db"
+    },
+    {
+      "bytes": 8220,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/complete.json",
+      "sha256": "91ecef67b3b4b22e534abdccdc7e349bad08f8118f598a29f686e29f7a2a699d"
+    },
+    {
+      "bytes": 6168,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-00.json",
+      "sha256": "16cdc0bdb4b1e2c81f945f155cb08ceaa942adf8bc842c41b9fae44a5275c5fe"
+    },
+    {
+      "bytes": 6177,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-01.json",
+      "sha256": "cc51cd2718bd53c634cdab90088d0377bf5865f94d093365319a86734e17016c"
+    },
+    {
+      "bytes": 6162,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-02.json",
+      "sha256": "4f93c70a512f67d10fae10905f731ddf6300a65646fd7aaa4231c24e36d245ef"
+    },
+    {
+      "bytes": 6212,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/nodes/node-03.json",
+      "sha256": "138b527deae54e2f8b1bd05ddf9ce332af94270afa4709c0fb5cfea95708794d"
+    },
+    {
+      "bytes": 4294,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/target-reference.json",
+      "sha256": "9fca4a20fa8b68574d0acf8140486e27c8d592446a14dc554bbd869d570ff3ba"
+    },
+    {
+      "bytes": 1528148,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-05/writer.json",
+      "sha256": "f8e38ffe3bf96512f9dbfd7682b92deeb7f82ec5a0bc407cea845dd3abd9a80d"
+    },
+    {
+      "bytes": 2347,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/commit.json",
+      "sha256": "f2399214df6af4cd6a8c1a8b8f86e79b50d1cabece47544b871574f65de5f9ad"
+    },
+    {
+      "bytes": 7563,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/complete.json",
+      "sha256": "bf4f4cf2a712defb92f64346bd4e3c00c46c84430efc4644bdedc7965205e201"
+    },
+    {
+      "bytes": 6149,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-00.json",
+      "sha256": "57bdcc023c29084cfca1f26a5ebab635bff920f2280cd1f482d0431e10c6ee73"
+    },
+    {
+      "bytes": 6161,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-01.json",
+      "sha256": "e1c68965fb93b136f6415fc4e60665beabb7518531bbc49df534d2e321d5cf3c"
+    },
+    {
+      "bytes": 6159,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-02.json",
+      "sha256": "c89e9e8ca9d4ff0015514fef6f070f2d7326353a68a828d5ddbfb606526df4da"
+    },
+    {
+      "bytes": 6173,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/nodes/node-03.json",
+      "sha256": "f2a4310f453ccb4966dbb1049c6173df122e7dbc7bba45b1f14541d70ebaccc4"
+    },
+    {
+      "bytes": 4306,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/target-reference.json",
+      "sha256": "fb52344b369b1ee3d75e5328b86a65d31fd236e1775b873f0e3e65c1834d0008"
+    },
+    {
+      "bytes": 1527825,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-06/writer.json",
+      "sha256": "dccf1f4077b791a211fb094cf79338d2cd171ed2021a5359b10fc6ddd674bef5"
+    },
+    {
+      "bytes": 2353,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/commit.json",
+      "sha256": "dde7b4bada19eeb7994125732185b080839f493f3ff99ffdd886218b10a30cc3"
+    },
+    {
+      "bytes": 7572,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/complete.json",
+      "sha256": "37bc541e13a843d4ee2c359e18ae747c17e68deb135427e8a7b7b8c6d849ae7a"
+    },
+    {
+      "bytes": 6137,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-00.json",
+      "sha256": "cc178f438d07d46c437b06a5604b5791419f32bfec8c25361c138bcf227f3466"
+    },
+    {
+      "bytes": 6144,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-01.json",
+      "sha256": "2f8a04fb06f802e98465b94535f53baf6f56f96fce3be4bfa66e4738630c3e81"
+    },
+    {
+      "bytes": 6151,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-02.json",
+      "sha256": "b97a849b0d43e9ba0b9a913e9b2ad00d75f5f12ef3c1931d2c4e160b3c2e3dfc"
+    },
+    {
+      "bytes": 6135,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/nodes/node-03.json",
+      "sha256": "b7bb4ab6cf679d68ece8fcd3b9ed81dbda2854b426ea0f55fa1e04760c2727f6"
+    },
+    {
+      "bytes": 4294,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/target-reference.json",
+      "sha256": "1988782ac463c660715e859f5a7d9446b21265257d70d9b06e97d09a0d47c7eb"
+    },
+    {
+      "bytes": 1528033,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-07/writer.json",
+      "sha256": "6938aad8e4936beb69fa75e8da139b59142835c75c3356dabb32763e5efdb7f0"
+    },
+    {
+      "bytes": 2342,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/commit.json",
+      "sha256": "4e129986982616e3fcd402cb197eb5bc0acefeda0c696d8120650bce563910f7"
+    },
+    {
+      "bytes": 7558,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/complete.json",
+      "sha256": "31e17e97af5d5c9c248977a558b5e85fb4f9d17d8553071e8b3edc60b49a9db5"
+    },
+    {
+      "bytes": 6147,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-00.json",
+      "sha256": "4465b772ab84e3b92906ee02860044a210fa04cbb0301a73368c519b3368d256"
+    },
+    {
+      "bytes": 6157,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-01.json",
+      "sha256": "eefba1c5021d9a33b6516d7899e07455a195bf7aea74c77fef41402b29cf034c"
+    },
+    {
+      "bytes": 6170,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-02.json",
+      "sha256": "bf51a7a9bc1db8c7b1200f1db7126d19fcda71d3eda4257e840cce0ad00e130f"
+    },
+    {
+      "bytes": 6171,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/nodes/node-03.json",
+      "sha256": "afcf942aff7691ee301697d6c19c51a086321dc54880649a6405ea6ccdabb2e4"
+    },
+    {
+      "bytes": 4310,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/target-reference.json",
+      "sha256": "1dc7a58e2ae0776e44627b623d0978eb51c3724fddfb253c60e0456300caa519"
+    },
+    {
+      "bytes": 1527706,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-08/writer.json",
+      "sha256": "9bf19165cd768693fe195e1c0989670f75ac3631ed97b68bbe1d5b34729febcb"
+    },
+    {
+      "bytes": 2342,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/commit.json",
+      "sha256": "2e94e59b2ccd8cf0df0f5effc042d62e8e88c084234cd273b48ace71513e8493"
+    },
+    {
+      "bytes": 7568,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/complete.json",
+      "sha256": "26d2613a7386942f93bb27f7f6d93b6a9e1245d1711ea2a1370e98fcaa8d8000"
+    },
+    {
+      "bytes": 6170,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-00.json",
+      "sha256": "ef973be1db9a5f9661d7ba63ae18faa40d0f6681cf436fdac48c731ce12b8ee0"
+    },
+    {
+      "bytes": 6149,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-01.json",
+      "sha256": "417416aa8b38b0f27df5b2e48225a8bfad25475490ec3e0a40725e7a9abad126"
+    },
+    {
+      "bytes": 6146,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-02.json",
+      "sha256": "bcc22bc1bb3ff36b930aa5540dc214c5d9efdfefa8ae10165f97eae698d7dfa0"
+    },
+    {
+      "bytes": 6202,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/nodes/node-03.json",
+      "sha256": "bf78a34be422c70e1d02870cbf6a0b479a083ce73206ab236c247fc51b79725f"
+    },
+    {
+      "bytes": 4296,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/target-reference.json",
+      "sha256": "655cf04c605969edf55c6d7ff08221e8afac8ee18776a4e0a650fa937c5c2df9"
+    },
+    {
+      "bytes": 1527792,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-09/writer.json",
+      "sha256": "4de4b6258521d7d17d508305737b367b2849a2f3bef79d94336c4bd278985eea"
+    },
+    {
+      "bytes": 2353,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/commit.json",
+      "sha256": "88f22e1c4cabee9e67963f77bcaca6cebbf1296448eae8ce51fe3917979528ab"
+    },
+    {
+      "bytes": 8223,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/complete.json",
+      "sha256": "3da148b180c6d5816974f81118291c22d72dc9b83a03dbab9ef0bc38b6af5005"
+    },
+    {
+      "bytes": 6141,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-00.json",
+      "sha256": "96ca0890dee98208b0cabf34663c84e7738ca1e8a210c382509782732c2c7d89"
+    },
+    {
+      "bytes": 6140,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-01.json",
+      "sha256": "fb46add3fe0d6fee36dfa30bf58cf8085a5bf6a159e7c3834214e5f2a64a1843"
+    },
+    {
+      "bytes": 6188,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-02.json",
+      "sha256": "6e7b88ba3d0c36e8aac45f313b9810df1ed30f08ce6ded273acefa690d36d9d1"
+    },
+    {
+      "bytes": 6154,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/nodes/node-03.json",
+      "sha256": "c14e751207638549b3cc70a9f75850892dbcce59413659ad60fd3eed5fa523ad"
+    },
+    {
+      "bytes": 4293,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/target-reference.json",
+      "sha256": "9507092e9030166870ba527dc926767110b16afd7d38efb47f42b4b8c46ec6c2"
+    },
+    {
+      "bytes": 1527894,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/batch-10/writer.json",
+      "sha256": "488965713c1719cbdb59baf9a9c050a5065a467cb7e56e78721ee33ef48808dd"
+    },
+    {
+      "bytes": 9108,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/terminal-receipt.json",
+      "sha256": "6c265dceb9fe96ae60d6871c262e6b54599047c7af69a62b6b895a6a3512e7c4"
+    },
+    {
+      "bytes": 119133,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/external-main/layer_allocation_nodes.csv",
+      "sha256": "58c91dd3196a01bcbd5771387ff44c2dc1b1bca7dbee1c2ca74e43323dbc476b"
+    },
+    {
+      "bytes": 676766,
+      "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/sample.lock.json",
+      "sha256": "105750c7951164790e0fecced4bf5e08535f94e438bb1fbd3104ad9d77dba5e8"
+    },
+    {
+      "bytes": 8621,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/analysis-manifest.json",
+      "sha256": "1592130e665d90f33bf3d921e9408447afa0a4bcb99783178ba1cf1788819671"
+    },
+    {
+      "bytes": 47089,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/batch-layer.csv",
+      "sha256": "1232c6e65c98b19ea4c544524210a4dd0c8e413d950c3a22c14c7cd0939eb377"
+    },
+    {
+      "bytes": 18805,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/batches.csv",
+      "sha256": "9c96ad17064c18d631b20f7e1bb0c690ab2bcb37a72adfd0a4491b1a7f8e82e5"
+    },
+    {
+      "bytes": 78625,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/compute_accounting.csv",
+      "sha256": "b3281974c89db7c425b8a18760b6f8a102b118c3fab97a54c8771c4ac112b7bf"
+    },
+    {
+      "bytes": 135165,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/concentration-absolute-action-endpoints.png",
+      "sha256": "e9daf877179350d57b009f4d2b864dc9774f61eb95b52b70d6357c98b81d86e0"
+    },
+    {
+      "bytes": 765,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/cost.csv",
+      "sha256": "60256af4d0340e2fa1284a4e7ea9d5bcccc09e9d6a3ead5fcccf0b98a2834673"
+    },
+    {
+      "bytes": 32055,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/current_batch_metrics.csv",
+      "sha256": "086bd6d208143e879d9bd06b9b02c96b927f9f02c066951dc74882d82767fc6c"
+    },
+    {
+      "bytes": 552,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/endpoint-partitions.csv",
+      "sha256": "f37496921a3b2e9d9ba75bbde00a7ea47d914815783ee3944d8ae0ae7a0d0739"
+    },
+    {
+      "bytes": 28637,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/factual-report-ko.md",
+      "sha256": "7966d00f7e3218f2c092123bc87f45f9a2cc047f0caa726d28ac8c478b5595e7"
+    },
+    {
+      "bytes": 7187,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/final_metrics.csv",
+      "sha256": "e93dbcf0117b0c778f8204732fa2ea3ad4bc59825732341c60f22c03f003ce02"
+    },
+    {
+      "bytes": 189203,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/four-node-progression.png",
+      "sha256": "9fd2ba019002e91c87ad53e1a2546d6c20d79127ba85476dfea67a6cf15e5c4a"
+    },
+    {
+      "bytes": 22577,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/gh-crosscheck.json",
+      "sha256": "f53080baddd489ee4150e7fa5a37bc4165f3fb83247f2b4971308f80412bc152"
+    },
+    {
+      "bytes": 673,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/history-cost-comparison.csv",
+      "sha256": "8af0e0c97c1b3980aa02b963140cdc79adefa63fd345c163885545f9d6c88a7d"
+    },
+    {
+      "bytes": 6295,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/history_cost_shadows.csv",
+      "sha256": "625513fb85532daa5c58b9e5b9f2f9eb85cd6436d22cfc6999b5d65f9d60ddd7"
+    },
+    {
+      "bytes": 21570,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/input-inventory.json",
+      "sha256": "86cccda983c74e4d398025e221abd65c4a5a03ab471771881c9616f30f6d8fc9"
+    },
+    {
+      "bytes": 217673,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/l8_single_layer_shadows.csv",
+      "sha256": "13be4c822a7567adb293edc707b5e64dd2ff5c0210ff134157bfdc0690395189"
+    },
+    {
+      "bytes": 63887,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/layer-update-magnitude.png",
+      "sha256": "ff2ee697e746ba2b9857626f92bd00d3d3a94d616ad83c1f51d07ea9b6bca7c7"
+    },
+    {
+      "bytes": 119133,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/layer_allocation_nodes.csv",
+      "sha256": "58c91dd3196a01bcbd5771387ff44c2dc1b1bca7dbee1c2ca74e43323dbc476b"
+    },
+    {
+      "bytes": 1884,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/native_target_log_observations.csv",
+      "sha256": "da6cf6f6c76f0886d9333cf98a05ae400e537d4608ebb3809aed31414baad520"
+    },
+    {
+      "bytes": 725,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/neighborhood_transition_summary.csv",
+      "sha256": "9a18642d3f35062cb40b077af147cc28f4f8c318decb89222b0cd547a5782a33"
+    },
+    {
+      "bytes": 37030,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/nll-distributions.csv",
+      "sha256": "24d763e0f539f2867c49580304ad44583e4df93f113fd8b90ea7a7a651971bca"
+    },
+    {
+      "bytes": 231138,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/node-layer.csv",
+      "sha256": "916e1af13a14fadab7d56a3c8034b40ef5c2fa42f73ee9cf21d53f94c16d32ac"
+    },
+    {
+      "bytes": 41478,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/nodes.csv",
+      "sha256": "db4cc0f5c43779e16773ebb4c3487b7ed986632accede7e5994bf78316d997cb"
+    },
+    {
+      "bytes": 10799,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/normalization_batch_summary.csv",
+      "sha256": "9dc79a2817320b9baf9cea8e0557bfd582280570bfa057f1d96bd2a453d4562c"
+    },
+    {
+      "bytes": 2643,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/paired_seen_endpoint_metrics.csv",
+      "sha256": "7992ee9e55f5a7fb19c82e86863a2d8dc5516bca2987cace568d994de9bcf37b"
+    },
+    {
+      "bytes": 1091,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/plot-reproduction.json",
+      "sha256": "27931fbdee1c5048c2a013a1bc7768180be9300cc072ad3aee550e8d8ad5d349"
+    },
+    {
+      "bytes": 12432,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/previous-warm-old_edit_metrics.csv",
+      "sha256": "1a049a308352a633e6ccd30847b2272ab318700d736058f0eefec6b12d22e606"
+    },
+    {
+      "bytes": 21088,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/previous-warm-pilot_main_table.csv",
+      "sha256": "2ac3895bb0eceb2083ea16f37c85cb1f330b22903e0f51932957263d65c00342"
+    },
+    {
+      "bytes": 656167,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/request_normalization_scales.csv",
+      "sha256": "2dd0a7a5cfa0cc4a1aaf4deb110c916b2ecfe2b955e75593f9c1fdac88e38483"
+    },
+    {
+      "bytes": 32560,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/retention_cohort_metrics.csv",
+      "sha256": "5027bc1ddf14a99c07ed2b42dc27bb3b02b1d73c0f2c1371dc70cbba0565408f"
+    },
+    {
+      "bytes": 11863,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/seen_prefix_metrics.csv",
+      "sha256": "e91d275961e7e79a028c5d97807d5b72eec831e0251b399ea9b8bf0bb80a3d39"
+    },
+    {
+      "bytes": 1493,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/source.lock.json",
+      "sha256": "60bf18a2dcdddb2f692ef1cf029834c5277d222f8edd7ed9c52bc84744626042"
+    },
+    {
+      "bytes": 14757,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/state_continuity_summary.csv",
+      "sha256": "60ea15f0ac993e8a754a066427e81b4671d66895438815a597ae92226689a029"
+    },
+    {
+      "bytes": 3083,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/terminal-identity-checks.json",
+      "sha256": "2a0570bd2ded514661d8bb200b94c8a08fb598cf2de29e73338e55d19282e0eb"
+    },
+    {
+      "bytes": 995,
+      "path": "experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/verification.json",
+      "sha256": "315f4a9645f1a86bdeadfd3cb03f2c3d4db6bf8a2f1697aa30e59f906204f2ee"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 84046,
+      "path": "batch_layer_actions.csv",
+      "sha256": "9bdcecddf35efdd6d01b53d0b5980e9463fdd8d1df15ee61c0bbb0067d13dd17"
+    },
+    {
+      "bytes": 36704,
+      "path": "batch_mechanism.csv",
+      "sha256": "c198d5a492552c1ea1d1599edfab8d9a594ad1eca53c5e7b6a66dccb10b6ad12"
+    },
+    {
+      "bytes": 3484,
+      "path": "cost_by_arm.csv",
+      "sha256": "cf40bd65215516cd302fbdc8f4679a267de7fae936a8723e7bd9c471dbb151ce"
+    },
+    {
+      "bytes": 30474,
+      "path": "cost_by_batch.csv",
+      "sha256": "10e5796e4e4ed991daaf409f916d7b1ecc9cf1a3b64f0efa4575b8f78b90421e"
+    },
+    {
+      "bytes": 463724,
+      "path": "node_layer_actions.csv",
+      "sha256": "feb61a077298215840dd4cf341de94c58b2d8cd5664d88dcf11f12fedd599a54"
+    },
+    {
+      "bytes": 140958,
+      "path": "node_mechanism.csv",
+      "sha256": "85bcc7b0956848d2e0453fb1c131e21b687651fec14f1f52796be7c40440bc3c"
+    },
+    {
+      "bytes": 20213,
+      "path": "normalization.csv",
+      "sha256": "e99f31117731086ad8b2a5965981f48639df866481fd648610ed4cd8b66aa560"
+    },
+    {
+      "bytes": 1067198,
+      "path": "normalization_scales.csv",
+      "sha256": "9bba6a49451292efb475c9791ce653f9db7fc74bc7cef7b473f367bfd9a5d961"
+    }
+  ],
+  "model_evaluator_gpu_slurm_actions": 0,
+  "row_counts": {
+    "batch_layer_actions": 300,
+    "batch_mechanism": 60,
+    "cost_by_arm": 6,
+    "cost_by_batch": 60,
+    "node_layer_actions": 800,
+    "node_mechanism": 160,
+    "normalization": 60,
+    "normalization_scales": 6000
+  },
+  "semantics": {
+    "barrier": "B=V+lambda*E; E=sum(h*c^T G c). Its finite increment differs from the continuous KKT/dissipation identity and finite-step defect.",
+    "boundary": "No new science gate or outcome-filtering; positive barrier increments/finite defects are retained observations.",
+    "cost": "Timing comparisons are descriptive cross-server/concurrency comparisons, not hardware-controlled speedup.",
+    "denominator": "6 arms x 10 B100, dynamic 4 arms x40 nodes; output rows are batch/node/layer summaries, not independent request trials.",
+    "history": "Within-state history+L2 native work decomposition; not a controlled history-reset experiment.",
+    "l8": "All five entry native directions set qN_ref; all five directions rebuilt each node before L8 restriction. 25 builds and 4 L8 JVP per B.",
+    "normalization": "Exact source N0=entry residual norm, scale>0, no floor. Frozen within B; not comparable physical coefficient scale across different B or arms.",
+    "physical": "Actual materialized FP32 net and step differences; sum of step squared norms is not net squared norm. W0-to-W10 net NOT_RECORDED in publication.",
+    "support": "L4–7 actual physical zeros are recorded; missing L4–7 response/H/g in L8 are NOT_RECORDED, not zero."
+  },
+  "status": "MECHANISM_EXTRACTION_COMPLETE"
+}

@@ -1,0 +1,129 @@
+{
+  "arms": [
+    {
+      "M_chain_links": 9,
+      "W0_restored": true,
+      "W_chain_links": 9,
+      "alias": "llama3-8b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "batches": 10,
+      "dtype": {
+        "autocast_enabled": false,
+        "bf16_fp16_cast_count": 0,
+        "loaded_model_dtype": "torch.float32",
+        "parameter_dtype_counts": {
+          "torch.float32": 8030261248
+        },
+        "quantized": false,
+        "requested_dtype": "torch.float32",
+        "tf32_enabled": false
+      },
+      "history_appends": 10,
+      "history_key_captures": 50,
+      "imputation_count": 0,
+      "nodes": 40,
+      "requests": 1000,
+      "slurm_child": "38434",
+      "status": "TERMINAL_VALID_REHASH_PASS",
+      "target_count_authority": "100 request targets/batch plus once-per-batch source; standalone invocation counter not recorded",
+      "target_recompute": 0,
+      "target_requests": 1000,
+      "technical_failure_count": 0,
+      "terminal_receipt_sha256": "78803a0af368f81f59e8fd08cb7aa20a2c599b36ae8f894aeb721ddd43d9ef22"
+    },
+    {
+      "M_chain_links": 9,
+      "W0_restored": true,
+      "W_chain_links": 9,
+      "alias": "qwen2.5-7b-inst",
+      "arm": "L8_ONLY_NATIVE",
+      "batches": 10,
+      "dtype": {
+        "autocast_enabled": false,
+        "bf16_fp16_cast_count": 0,
+        "loaded_model_dtype": "torch.float32",
+        "parameter_dtype_counts": {
+          "torch.float32": 7615616512
+        },
+        "quantized": false,
+        "requested_dtype": "torch.float32",
+        "tf32_enabled": false
+      },
+      "history_appends": 10,
+      "history_key_captures": 50,
+      "imputation_count": 0,
+      "nodes": 40,
+      "requests": 1000,
+      "slurm_child": "38433",
+      "status": "TERMINAL_VALID_REHASH_PASS",
+      "target_count_authority": "100 request targets/batch plus once-per-batch source; standalone invocation counter not recorded",
+      "target_recompute": 0,
+      "target_requests": 1000,
+      "technical_failure_count": 0,
+      "terminal_receipt_sha256": "6c265dceb9fe96ae60d6871c262e6b54599047c7af69a62b6b895a6a3512e7c4"
+    }
+  ],
+  "batch_integrity_sha256": "6438d9b757462858ab2c03c895a616cc6ff8104c4e2c9242a96442b0cad7c2e6",
+  "batches": 20,
+  "caveats": [
+    "Original Server2 raw/checkpoints unavailable and not rehashed; its exact 48-member publication is reused.",
+    "Pointer/version restoration and native target once semantics are sealed runtime/source assertions; offline bytes validate checkpoints and chain links.",
+    "Runtime token IDs are NOT_RECORDED; exact pinned right-padding source binding is retained."
+  ],
+  "checkpoint_integrity_sha256": "99c2e7927f7fbe6caef1e2c6b61dee8531e0a5c72c1acbf44da05431a3f22f30",
+  "checkpoints": 6,
+  "duplicate_metric_rows": 0,
+  "evaluator_runs": 0,
+  "failure_member_count": 0,
+  "finite_float_values_checked": 328610,
+  "gpu_actions": 0,
+  "model_load": 0,
+  "nodes": 80,
+  "nonfinite_count": 0,
+  "publication": {
+    "external_raw_free_tables": [
+      {
+        "bytes": 7828241,
+        "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/main-four-terminal-20260907-v1/prompt_transition_metrics.csv",
+        "sha256": "b9a38bd13e3812e0c9639a8ab19b0e4d790e70a4279be0c98979573b6132dca5"
+      },
+      {
+        "bytes": 7241474,
+        "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/main-four-terminal-20260907-v1/rewrite_retention_matrix.csv",
+        "sha256": "81421d92ceee419fed2fc70d641cf52f6f28750aca6bb3ebb8dd958745d2453b"
+      }
+    ],
+    "guarantee": "48 locally published members and rooted package; Server2 raw/checkpoint bytes not accessed",
+    "manifest_sha256": "ffbe19fd206959c021d25b1178d27d129349d88b170293263efa37da8396adae",
+    "members": 48,
+    "root_sha256": "5e52e67d36759104da8c81f3c1e4751d1bc599dd225348b6ab361d013b8046ce",
+    "source_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "status": "RAW_FREE_PUBLICATION_SUBSET_REHASH_PASS",
+    "unavailable_server2_raw_rehashed": false
+  },
+  "raw_inventory_sha256": "b5536f63078a9aebd67173e927f83255d8314f1e4abbcb19252a4cc970361513",
+  "raw_member_count": 306,
+  "raw_member_root": "9fbe31e2b6fa944d692306ce398894a8d05a79a2e60835ebff2d589e447215f6",
+  "read_only_raw": true,
+  "requests": 2000,
+  "root_sha256": "35a9a43d24f34610f1357b77c77dc3b98c9b720d233f33a2e0c2204020929fe9",
+  "sample_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "scheduler_calls": 0,
+  "source": {
+    "head": "44602a1a80554c67da0ef9646b43d843104785f2",
+    "kernel_member_count": 14,
+    "kernel_status": "GIT_OBJECT_FULL_REHASH_PASS",
+    "official_head": "14cea8245f06715684592ab55184939b99d70784",
+    "official_raw_source_audit": "SEALED_RUNTIME_AUTHORITY_REUSED",
+    "official_tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+    "padding_gate": "PINNED_SOURCE_BINDING_REUSED_NO_TOKENIZER_OR_MODEL_LOAD",
+    "padding_side": "right",
+    "padding_source_path": "project/run_scripts/alpha_native_response_ode_v31_sequential/runtime.py",
+    "padding_source_sha256": "dca37afe03b0074ea5f4ba9d4f1cb46b16c536cf819fb311d4d08ab464e70112",
+    "runtime_padding_token_id_telemetry": "NOT_RECORDED_RUNTIME_SCHEMA",
+    "tree": "cdb089a139f180c822d1e6bf44fe3d27b858c1ce"
+  },
+  "status": "TERMINAL_FULL_REHASH_PASS"
+}
