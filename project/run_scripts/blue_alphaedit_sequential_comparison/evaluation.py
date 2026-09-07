@@ -1,6 +1,22 @@
 """Reuse JVP NLL kernel with a separate tokenizer; publish hashes/scalars only."""
 import math
+import sys
+import types
+from pathlib import Path
 from .integrity import digest, signature
+
+
+def bind_observation_only_package():
+    # Reuse exact evaluator bytes without executing the historical package's
+    # __init__, which eagerly imports an unrelated EasyEdit barrier writer.
+    name = 'project.run_scripts.alphaedit_strength_neutral_barrier'
+    path = Path(__file__).resolve().parents[1]/'alphaedit_strength_neutral_barrier'
+    if name not in sys.modules:
+        package = types.ModuleType(name)
+        package.__path__ = [str(path)]
+        package.__package__ = name
+        sys.modules[name] = package
+    assert sys.modules[name].__path__ == [str(path)]
 
 
 def reduce(raw):
@@ -28,6 +44,7 @@ def reduce(raw):
 
 def evaluate(model, tok, records, weights, cache, full=True):
     import torch
+    bind_observation_only_package()
     from project.run_scripts.alphaedit_strength_neutral_barrier.evaluator import counterfact_pairs, evaluate_pairs
     from project.run_scripts.ordered_response_barrier_ode.counterfact_locality_evaluator import counterfact_locality_target_new_pairs
     before = signature(weights, cache)

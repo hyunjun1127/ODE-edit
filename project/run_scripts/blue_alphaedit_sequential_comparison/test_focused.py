@@ -10,6 +10,14 @@ from .observer import observe
 
 
 class Focused(unittest.TestCase):
+    def test_shared_kernel_import_without_writer(self):
+        import sys
+        from .evaluation import bind_observation_only_package
+        bind_observation_only_package()
+        from project.run_scripts.alphaedit_strength_neutral_barrier.evaluator import evaluate_pairs
+        from project.run_scripts.ordered_response_barrier_ode.counterfact_locality_evaluator import counterfact_locality_target_new_pairs
+        self.assertTrue(callable(evaluate_pairs));self.assertTrue(callable(counterfact_locality_target_new_pairs))
+        self.assertNotIn('project.run_scripts.alphaedit_strength_neutral_barrier.writer',sys.modules)
     def test_metric_pair_direction_ties(self):
         def row(n):
             return dict(case_id=1,prompt_index=0,prompt='p',target='t',nll=n,all_tokens_correct=False,token_correct=[False])
