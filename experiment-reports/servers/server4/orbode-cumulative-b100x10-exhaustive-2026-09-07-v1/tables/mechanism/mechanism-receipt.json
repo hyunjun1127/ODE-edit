@@ -1,0 +1,24 @@
+{
+  "identity_sha256": "4bd75b0a5e03d27c6b995130882d02b6c5c9c9e74bc9ce64a04a17887a624e4c",
+  "no_model_GPU_evaluator": true,
+  "notes": [
+    "historical target has no new command",
+    "same layer revisit is not same entry counterfactual",
+    "native C_reg unbound",
+    "nominal dynamic visit action differs from actual stored batch/W0 net",
+    "checkpoint weights evaluation recoverable; cache hash only"
+  ],
+  "rows": {
+    "batch-mechanism.csv": 200,
+    "cell-compute.csv": 4,
+    "cost-by-batch.csv": 200,
+    "current-command-realization.csv": 3400,
+    "historical-checkpoint-residual.csv": 1100,
+    "key-writer-revisit.csv": 3200,
+    "layer-actual-action.csv": 1000,
+    "layer-visit-cohort-response.csv.gz": 18700,
+    "mechanism-outliers.csv": 4400,
+    "node-mechanism.csv": 3200
+  },
+  "status": "MECHANISM_RECORDED_SCOPE_EXTRACTED"
+}

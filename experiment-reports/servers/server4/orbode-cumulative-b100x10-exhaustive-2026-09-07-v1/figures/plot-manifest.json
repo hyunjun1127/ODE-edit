@@ -1,0 +1,5322 @@
+{
+  "arms": [
+    "O",
+    "QCL",
+    "NQFIX",
+    "ORBFH",
+    "JAC"
+  ],
+  "backend": "Agg",
+  "cells": [
+    "LM",
+    "LA",
+    "QM",
+    "QA"
+  ],
+  "colors": {
+    "JAC": "#CC79A7",
+    "NQFIX": "#D55E00",
+    "O": "#444444",
+    "ORBFH": "#009E73",
+    "QCL": "#0072B2"
+  },
+  "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.ordered_response_barrier_ode.analysis_cumulative_report.plots --performance /data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1 --mechanism /data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1 --comparisons /data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/comparisons-v1 --output <NEW_OUTPUT_DIR>",
+  "figures": [
+    {
+      "axes": [
+        {
+          "x": [
+            -0.585,
+            4.585
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "Canonical success (%)"
+        },
+        {
+          "x": [
+            -0.585,
+            4.585
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "Canonical success (%)"
+        },
+        {
+          "x": [
+            -0.585,
+            4.585
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "Canonical success (%)"
+        },
+        {
+          "x": [
+            -0.585,
+            4.585
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "Canonical success (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 70480,
+      "caption": "20 primary chains; each final W10 RS1000, PS2000, NS10000 prompts. No duplicate final evaluation.",
+      "dpi": 160,
+      "path": "final-full1000.png",
+      "sha256": "b47637cad4e73927534e2c6f580721e422551a19477045b1aa2857b6bf6bae0c",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 120830,
+      "caption": "Each W_B on first100B requests; RS100B, PS200B, NS1000B. Ten actual observations, missing not imputed.",
+      "dpi": 160,
+      "path": "cumulative-RS.png",
+      "sha256": "d1de7c8480dc208e5b8856ef5c813d2542ec9a6b7705536927d4c40266a7daf2",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "RS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 136685,
+      "caption": "Each newly edited B100 only; RS100/PS200/NS1000 prompt denominator.",
+      "dpi": 160,
+      "path": "current-RS.png",
+      "sha256": "5b52e5ec0bc54951da7f6d34bdf746a18ede81414c7c3aeb0c196d77823a29f0",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 133895,
+      "caption": "Each W_B on first100B requests; RS100B, PS200B, NS1000B. Ten actual observations, missing not imputed.",
+      "dpi": 160,
+      "path": "cumulative-PS.png",
+      "sha256": "4dcf315029de9fcba5bc3a2251bbed2787d817e1f097ce6dcfc4a8232d4bb038",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "PS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 179606,
+      "caption": "Each newly edited B100 only; RS100/PS200/NS1000 prompt denominator.",
+      "dpi": 160,
+      "path": "current-PS.png",
+      "sha256": "6d54fc8c0c487c7d6c5896db737c0df9247f657480c1495fc7b488fcc9b1005c",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 138944,
+      "caption": "Each W_B on first100B requests; RS100B, PS200B, NS1000B. Ten actual observations, missing not imputed.",
+      "dpi": 160,
+      "path": "cumulative-NS.png",
+      "sha256": "c8db5411e374d9283e747317047c9eeedebddabd891f1a488b21dcbf09ea71bb",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 174528,
+      "caption": "Each newly edited B100 only; RS100/PS200/NS1000 prompt denominator.",
+      "dpi": 160,
+      "path": "current-NS.png",
+      "sha256": "d8d0dc0694db92c3dc87ae4082efd69a6a4984b3baa5242138ede390cb21228b",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.4354583566699879,
+            9.163923326301743
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.4884428757673596,
+            10.26906880319235
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.4009773464570755,
+            8.569738934019115
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.0635909119341522,
+            22.4861749514658
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 217073,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-rewrite-new-nll.png",
+      "sha256": "c3d7e2ede80460ac969bdc9407ae85d4b8c2da9e2827f7334958515651d56f4a",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            6.009734258651733,
+            20.728941621780397
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            11.770191888809205,
+            21.329800291061403
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            7.689802098274231,
+            22.477190566062927
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            10.240386109352112,
+            21.73151378154755
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 318825,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-rewrite-true-nll.png",
+      "sha256": "de4d27d399ed07e30c6ceb76736b7e04a08987152b20f4c7db47986f287b91fd",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            2.2445206219563256,
+            20.90717356733512
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            11.706865651426197,
+            21.33203230184358
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            5.1524903978411745,
+            22.592690992793216
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.91319531979505,
+            22.261578186643316
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 318960,
+      "caption": "True-minus-new: positive favors rewrite/rephrase new; negative favors locality true. Same100B request clusters.",
+      "dpi": 160,
+      "path": "cumulative-rewrite-margin.png",
+      "sha256": "072fed22f0bb2ebc4742798d33ed17b7149eaaaa5cc02f1965b5a68b9bd1b301",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.026220923922956052,
+            10.081313584260643
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.18071527818450717,
+            10.32262115494581
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.05273330367170259,
+            9.85939351369627
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.4054458875954152,
+            21.51399292841554
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 308527,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-rephrase-new-nll.png",
+      "sha256": "9d67b5389ef4a753da71b7c86bccc1e4f4632bbe2fb3dc5b62471e59372e7b63",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            6.242020215988159,
+            15.356496915817264
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            7.881905295848845,
+            15.70966646432877
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            7.552469944953918,
+            18.275014662742613
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            8.710462182760237,
+            21.1952398121357
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 322015,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-rephrase-true-nll.png",
+      "sha256": "86c413e1e69aa9284fc0956c598dca760d7ccf4a66d378514d06f9f525a02018",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            2.1149242606325416,
+            14.868659613745116
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            5.289115313764269,
+            15.394918219955507
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            2.098212230966892,
+            18.216470118269786
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.86977906925953,
+            17.784804920087335
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 324784,
+      "caption": "True-minus-new: positive favors rewrite/rephrase new; negative favors locality true. Same100B request clusters.",
+      "dpi": 160,
+      "path": "cumulative-rephrase-margin.png",
+      "sha256": "7111ac2697119f859c6a6e5b50415cc9d010fa71aff9ae509abad7155e0033a9",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            6.0188434677124025,
+            15.415379840850832
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            7.049530138850211,
+            14.753751957535744
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            6.750546781819313,
+            13.945994054649029
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            8.058599106550217,
+            19.733155153512953
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 318428,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-locality-new-nll.png",
+      "sha256": "9bd180bdb365c7a04855012647c69edafde0ce6d6962da1169d787adefc7c098",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            3.6910823608487844,
+            8.961223064258695
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            3.8853603434264654,
+            8.945607590109109
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            4.638430790185928,
+            10.457486782789232
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            4.258062401175499,
+            20.282442547917363
+          ],
+          "ylabel": "Request-cluster NLL; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 289189,
+      "caption": "Request-cluster mean within each request; distribution over100B requests; nat/token. Dashed p90 distinct from median.",
+      "dpi": 160,
+      "path": "cumulative-locality-true-nll.png",
+      "sha256": "0f082cc43fa3d4de637c5a1acc75104d84ffe40610884f5e98c068515a15f0e5",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -6.253532723017037,
+            3.357074171282352
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -5.654447909519076,
+            3.158799604400992
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -4.742622970968485,
+            3.5700359523594383
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -4.464206234693527,
+            3.4267134206295013
+          ],
+          "ylabel": "Request-cluster margin; solid median / dashed p90"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 319618,
+      "caption": "True-minus-new: positive favors rewrite/rephrase new; negative favors locality true. Same100B request clusters.",
+      "dpi": 160,
+      "path": "cumulative-locality-margin.png",
+      "sha256": "877328e31d30af5e7e9257b41349d2aa55600124a9a0f8ed3ce80dc06c6883f4",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "W_B checkpoint",
+          "y": [
+            -0.5,
+            9.5
+          ],
+          "ylabel": "Edit cohort B (100 requests)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 176518,
+      "caption": "Each heatmap cell counts success /100 requests in that cohort. Future unedited cohorts masked, never zero-imputed.",
+      "dpi": 160,
+      "path": "rewrite-retention-20arms.png",
+      "sha256": "66cfcd182790c485123cab4ed012962320d4a746b06084e8a9af03d51893980f",
+      "size_inches": [
+        14.0,
+        16.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        },
+        {
+          "x": [
+            1.0,
+            10.0
+          ],
+          "xlabel": "W_B",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "NS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 367583,
+      "caption": "Within each seen-prefix: early20%, middle60%, recent20%; neighborhood prompts10 per request; relative cohorts change over checkpoints.",
+      "dpi": 160,
+      "path": "age-strata-NS.png",
+      "sha256": "6493aa922fae4459a62b99fe24e0e9ccad7fdb8f7282b03a57903042ae8ca95e",
+      "size_inches": [
+        14.0,
+        15.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.6345000000000001,
+            4.634500000000001
+          ],
+          "xlabel": "Editable layer",
+          "y": [
+            0.0,
+            11.81348469250211
+          ],
+          "ylabel": "Mean batch update Frobenius norm"
+        },
+        {
+          "x": [
+            -0.6345000000000001,
+            4.634500000000001
+          ],
+          "xlabel": "Editable layer",
+          "y": [
+            0.0,
+            10.05048009229449
+          ],
+          "ylabel": "Mean batch update Frobenius norm"
+        },
+        {
+          "x": [
+            -0.6345000000000001,
+            4.634500000000001
+          ],
+          "xlabel": "Editable layer",
+          "y": [
+            0.0,
+            152.20606471188165
+          ],
+          "ylabel": "Mean batch update Frobenius norm"
+        },
+        {
+          "x": [
+            -0.6345000000000001,
+            4.634500000000001
+          ],
+          "xlabel": "Editable layer",
+          "y": [
+            0.0,
+            471.6188572249421
+          ],
+          "ylabel": "Mean batch update Frobenius norm"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 87461,
+      "caption": "Actual stored-weight batch net Frobenius magnitude; ten B100 batch summaries per layer/arm, not100 independent update samples. No equal-share reference line.",
+      "dpi": 160,
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "69828bb716ba01534a2587c5dcad9917e90bd49fd756c5310562ab423fc287bb",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.513404648961262,
+            31.78159817933728
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.1300201016388187,
+            23.732321961432707
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            27.79946762912442,
+            217.9881517579455
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -124.19920740104659,
+            2608.1839821674766
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 209639,
+      "caption": "Five disjoint edited weight blocks combined by squared sum; path work is a different object.",
+      "dpi": 160,
+      "path": "batch_net_update_magnitude.png",
+      "sha256": "f81b1c681ec6b7cd538f3bb5607525d491c249ebe478f82f83ab7f9372bbaac8",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            4.506552206027176,
+            67.34002893154569
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            5.180073043855483,
+            56.72956213856694
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            23.00759287157173,
+            525.6248779894466
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -109.23537602626351,
+            3197.4688735134755
+          ],
+          "ylabel": "Frobenius norm (model-specific scale)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 214323,
+      "caption": "Five disjoint edited weight blocks combined by squared sum; path work is a different object.",
+      "dpi": 160,
+      "path": "net_from_original_W0_magnitude.png",
+      "sha256": "2d0ba71eecce93285afb25836f32d660eeb2920e5ee87b1a4a1aaed588cf6f40",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -38.3043074933447,
+            806.9088326510812
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.8124612095781336,
+            17.900991675702183
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -11.579998052128063,
+            243.70549199426696
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.3098183293368412,
+            6.642380215532246
+          ],
+          "ylabel": "Mean q after commit"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 162118,
+      "caption": "Each cohort100; mean across eligible cohorts. Historical rows have no new command; absent B1 historical cohort omitted.",
+      "dpi": 160,
+      "path": "current-fixed-z-residual.png",
+      "sha256": "33a8795fe95bb85a7929274ddb56bbf982f8b365ac91f297f1543343afe29490",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -116.51564740195356,
+            2454.715305346957
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.8184278330064931,
+            39.56297338234552
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -10.095953321299534,
+            215.7549206003247
+          ],
+          "ylabel": "Mean q after commit"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.5611726524369407,
+            33.350046689940015
+          ],
+          "ylabel": "Mean q after commit"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 144931,
+      "caption": "Each cohort100; mean across eligible cohorts. Historical rows have no new command; absent B1 historical cohort omitted.",
+      "dpi": 160,
+      "path": "historical-fixed-z-residual.png",
+      "sha256": "6beaf8ba3845ee25ecd075e5e892b7dcc33ea4abfe270c06f19201030541fa76",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.2826305222785016,
+            0.5655393345313627
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.4374979366257377,
+            0.8064720950842239
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.37669453774681844,
+            0.7795593670984907
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.4618129822733233,
+            1.979123435223498
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 252976,
+      "caption": "Per-visit request summary followed by visit mean; source CSV has complete per-visit n/quantiles. No-command/Official missing M remains missing.",
+      "dpi": 160,
+      "path": "rho_command_median.png",
+      "sha256": "3d1fe2dd6636ff24af00d781fb668cb5ab5e1792704b5a528cb450a4b5f87506",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -3.54720206597578,
+            82.68892258219933
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.4195027794810233,
+            1.694208687778315
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.4026338338674422,
+            0.7481582719829614
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.3564701386326684,
+            18.365002012006656
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 223769,
+      "caption": "Per-visit request summary followed by visit mean; source CSV has complete per-visit n/quantiles. No-command/Official missing M remains missing.",
+      "dpi": 160,
+      "path": "tau_command_median.png",
+      "sha256": "1fdde047587af01191069d8452e4c90db98f97e20c741356c935633b6d00646c",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -11.801314061962515,
+            247.86796040780607
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.7860465424476174,
+            16.537240537189156
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -1.6589179972839794,
+            35.76236823096956
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.06014479758684092,
+            1.2823269998015907
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 186217,
+      "caption": "Per-visit request summary followed by visit mean; source CSV has complete per-visit n/quantiles. No-command/Official missing M remains missing.",
+      "dpi": 160,
+      "path": "E_over_origin_mean.png",
+      "sha256": "69a70142b4fead661c08eb58196b5d4bc2bb1489dea6ae4920109860e6e68b99",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0012945057342084465,
+            0.013069333741794023
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.0008179739305268738,
+            0.01296586741150079
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.004403347052483818,
+            0.02119802327950306
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.0002045915234153258,
+            0.0235852993673966
+          ],
+          "ylabel": "Visit-summary mean (not pooled request quantile)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 204906,
+      "caption": "Per-visit request summary followed by visit mean; source CSV has complete per-visit n/quantiles. No-command/Official missing M remains missing.",
+      "dpi": 160,
+      "path": "M_over_origin_mean.png",
+      "sha256": "33c16bce50748020b2441831a06d6e9e2e388cf2e18d04d3c402b10bee141629",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.04999980605563652,
+            1.049999990764554
+          ],
+          "ylabel": "Mean u across20 visits"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.04999770616254403,
+            1.049999890769645
+          ],
+          "ylabel": "Mean u across20 visits"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            0.5199895411461892,
+            1.0228576408978005
+          ],
+          "ylabel": "Mean u across20 visits"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -0.04999987133363168,
+            1.04999999387303
+          ],
+          "ylabel": "Mean u across20 visits"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 146675,
+      "caption": "Dynamic arms only,20 layer visits/B; Official has no u. QCL/NQFIX fixed1 remain displayed.",
+      "dpi": 160,
+      "path": "response-multiplier.png",
+      "sha256": "eb4f9e6c71fe806d15ed6cfb72a17e37669ea3b0526f0347a4d0d20a682644ed",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -2280991.374552247,
+            47900818.86559719
+          ],
+          "ylabel": "Sum finite-step defect"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -9231.49251625343,
+            193861.342841322
+          ],
+          "ylabel": "Sum finite-step defect"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -149662.81444071198,
+            3142919.1032549515
+          ],
+          "ylabel": "Sum finite-step defect"
+        },
+        {
+          "x": [
+            0.8,
+            10.2
+          ],
+          "xlabel": "Committed B100 batch",
+          "y": [
+            -4.488396540239573,
+            94.25632734503104
+          ],
+          "ylabel": "Sum finite-step defect"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 146984,
+      "caption": "Continuous response condition does not certify finite steps; positive defects retained, no outcome filtering.",
+      "dpi": 160,
+      "path": "finite-step-defect.png",
+      "sha256": "e07f2b99027d4f97023edf73adb48fde510be44cc15e701f690f36fab5c47571",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -105.19666901403482,
+            2209.2716045208977
+          ],
+          "xlabel": "Mean original-target residual q",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "All-seen NS (%)"
+        },
+        {
+          "x": [
+            -105.19666901403482,
+            2209.2716045208977
+          ],
+          "xlabel": "Mean original-target residual q",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "All-seen NS (%)"
+        },
+        {
+          "x": [
+            -105.19666901403482,
+            2209.2716045208977
+          ],
+          "xlabel": "Mean original-target residual q",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "All-seen NS (%)"
+        },
+        {
+          "x": [
+            -105.19666901403482,
+            2209.2716045208977
+          ],
+          "xlabel": "Mean original-target residual q",
+          "y": [
+            0.0,
+            102.0
+          ],
+          "ylabel": "All-seen NS (%)"
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 98891,
+      "caption": "Ten repeated checkpoints/arm, shared histories; association only, no independent trial or causal inference.",
+      "dpi": 160,
+      "path": "mechanism-cumulative-association.png",
+      "sha256": "c8d057269a4fd164119d8d15c6a30a06dc66f088e20259b2de5889d33d17a966",
+      "size_inches": [
+        11.0,
+        7.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -933137.0493684256,
+            0.17750732111744583
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0469826900110855,
+            0.1671700448735025
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0545204534755985,
+            0.1375039218331265
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0337081996797861,
+            0.1529844018257839
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.005861484088792,
+            0.054748673712267125
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0061851250287427,
+            0.06326547270568565
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -425568.5447040598,
+            16352.171625791932
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0015790012826802252,
+            0.05632473490097365
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -2935919.707976222,
+            2232837.0955203753
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -30078.11461121294,
+            11285.36873049966
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0130107989933897,
+            0.0368079625692827
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -10.292704327102497,
+            8.037750512103363
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -3.908917815259008e-05,
+            0.04306078806688653
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.005166546073777502,
+            0.057244037900746954
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.007198760449005732,
+            0.04238549318051135
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.002801196172486225,
+            0.0473810607361837
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -5.92917663265787e-05,
+            0.0461830091259341
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -4.248610731604714e-05,
+            0.0608117605176305
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.005775945634070576,
+            0.04761794177920755
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -3.579174861361073e-05,
+            0.0585676435515017
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 207576,
+      "caption": "Mean normalized potential reduction across eligible100-request cohorts/visits; per-panel scales shown. Historical has no new command; future/absent cohorts masked.",
+      "dpi": 160,
+      "path": "layer-current-progress-heatmap.png",
+      "sha256": "a6b69b17bd82822706b072cfe746cb21a8090cfee8537a3690db2f1b7369afbc",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -1739566.0435719185,
+            -0.0007611573673784733
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.0010232227830884667,
+            -0.0001191339162133
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.04178735377348933,
+            -0.0007763282250694975
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.24427427016709805,
+            0.011970739613677644
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.007178313310930628,
+            -0.00019008315503671758
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -9.249840708935777e-05,
+            -1.255961926041122e-05
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -1167926.5552307938,
+            18362.745759313693
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.022533466039419813,
+            3.5995715894229785e-05
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -46479579.95225185,
+            -0.0009994655847549438
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -30993.07516894334,
+            2.3154003429226577e-05
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.014989780186680242,
+            -0.0004367906087567007
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -15.245138291128567,
+            4.744198335838286
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -145201.6472698141,
+            0.0
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.00015035629150127248,
+            -3.5748071778527726e-06
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.0032269597636962665,
+            -0.0001134463826976029
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.001129220584181675,
+            -6.7618695126395005e-06
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -7981450.76018537,
+            1.862645149230957e-09
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -14027.530950112308,
+            252.26571549108849
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.004319146387409122,
+            -2.7232323587094917e-05
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -28502.81750283964,
+            1898.6654672166587
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 222115,
+      "caption": "Mean normalized potential reduction across eligible100-request cohorts/visits; per-panel scales shown. Historical has no new command; future/absent cohorts masked.",
+      "dpi": 160,
+      "path": "layer-historical-progress-heatmap.png",
+      "sha256": "1cfe43afeb72a11130db9b1ded3162c82ac80b8e403d71894efba432dd69edea",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1429294418983497,
+            0.3352620494613911
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1390896754287503,
+            0.3175091826433175
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0930460459598361,
+            0.4515374928698622
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.042412480110337,
+            0.796745508832097
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1225776803470103,
+            0.38718604372672927
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1048968933030134,
+            0.4122780887521884
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0880926795665072,
+            0.3800669208587131
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0423135793447078,
+            0.7050819398999612
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1242806195578144,
+            0.2980364670415877
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1454971464672988,
+            0.2698094113617963
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0443731534768721,
+            0.6124578586693697
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0337339667116858,
+            0.7037625696789969
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            0.3780094451933577
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0497005469791931,
+            0.40371917646854183
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1395904945950248,
+            0.3575707054503872
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0719235488584476,
+            0.3474958133554876
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0433284306138279,
+            0.4860882366186419
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            0.4542753691424159
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0948951924269147,
+            0.287486645779589
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            0.4965759989159666
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 200018,
+      "caption": "One actual batch-level layer update/share or nominal workload per checkpoint. No request-replicated independent update denominator; Official u workload absent.",
+      "dpi": 160,
+      "path": "batch_magnitude_share-heatmap.png",
+      "sha256": "c8a33f0d4271430abe92dff01682ad69b344eb9a5328c73db5c0ee4641a2f7ee",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.1,
+            0.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.1,
+            0.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.1,
+            0.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.1,
+            0.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.9,
+            1.1
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            1.0000000000000002
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0670831259007798,
+            1.0
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1508543321852147,
+            1.0
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.030971898399617,
+            0.9786375052887116
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            1.0371877934289843e-07,
+            1.0000000000000002
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            1.0
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0661925425648834,
+            1.0
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0,
+            0.9703799297254522
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 175154,
+      "caption": "One actual batch-level layer update/share or nominal workload per checkpoint. No request-replicated independent update denominator; Official u workload absent.",
+      "dpi": 160,
+      "path": "dynamic_workload_sum_h_u_batch_increment-heatmap.png",
+      "sha256": "c02bf84791e4a548a5ba8d30a991cd56e77591cef610a84f75e8aebdc60a142c",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -10.969587510338748,
+            0.5773889500822182
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.4820646558823024,
+            0.9465860585123104
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.410387738167155,
+            0.8158257020368765
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.5725954917957224,
+            1.0255257721759945
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1758527232954706,
+            0.5554048414791586
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1584986634406697,
+            0.9478887091585433
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1600480895706369,
+            3.958865586117289
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -0.22555550962460272,
+            1.0323088938241796
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -25.022674368087092,
+            36.82833849973622
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -1.9689696153556653,
+            0.9480662062530854
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.2800835687965552,
+            0.8165856497231816
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -1.4326567278859699,
+            5.029057307061427
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.15925863472134433,
+            31920.609301794582
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.2105106162041386,
+            0.9486151421329283
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.16913646359233392,
+            0.7869869505855557
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.2677071506124415,
+            1.0317848938634713
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1386467620567063,
+            212589.41655342863
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -49.38537512837256,
+            969.528432797629
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.1409443564007349,
+            0.697279622481162
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            -253.32801345467135,
+            16856.936545652636
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 194495,
+      "caption": "Visit mean from100 current requests, then mean over layer visits; no historical command interpretation, missing not imputed.",
+      "dpi": 160,
+      "path": "rho_command_mean-heatmap.png",
+      "sha256": "aacd0f863b9610a667eb2ad711f55fe811b446e1b2a7ede49c40dc978c6509bd",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    },
+    {
+      "axes": [
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            -0.5,
+            9.5
+          ],
+          "xlabel": "B100 commit",
+          "y": [
+            -0.5,
+            4.5
+          ],
+          "ylabel": "Layer"
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0720361302154606,
+            162.71952961663715
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0246335113768728,
+            1.970251683756931
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0218891101406615,
+            1.434123071677454
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0105982464643523,
+            2.200932593433908
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.06406166406500603,
+            1.1283931537600325
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.029989684433448825,
+            1.5057107860047831
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.029465200120188675,
+            108.47374668582347
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0184203754688474,
+            2.3163735519369824
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0769770808276824,
+            237.3774898355091
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.03443705678837485,
+            55.79358227960672
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.022690779391159224,
+            1.0305258067486374
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.011537179203412426,
+            16.273371277485488
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0688714694829978,
+            131714.76041240996
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.029045410366221176,
+            1.5624574874816965
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0262210182980456,
+            1.0205277546521023
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.016218160829267626,
+            2.5138733182908632
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.0712997787531104,
+            906888.3210112945
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.043611059071835524,
+            5303.547256204686
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.04604994085230098,
+            1.1304376474905644
+          ],
+          "ylabel": ""
+        },
+        {
+          "x": [
+            0.0,
+            1.0
+          ],
+          "xlabel": "",
+          "y": [
+            0.053588322327699923,
+            220544.5600784307
+          ],
+          "ylabel": ""
+        }
+      ],
+      "byte_stable_rerender": true,
+      "bytes": 188199,
+      "caption": "Visit mean from100 current requests, then mean over layer visits; no historical command interpretation, missing not imputed.",
+      "dpi": 160,
+      "path": "tau_command_mean-heatmap.png",
+      "sha256": "3ab44e2fca13357282cfe5e79c7ed126937a689dab80f3127b3f4f8b0b1b5f21",
+      "size_inches": [
+        14.0,
+        14.0
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "bytes": 34219,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/final-20-arm.csv",
+      "sha256": "63b3b303cfdafcec3eb4641d68c09b99976f9c07fd184c7ea444c45e67cf9f1c"
+    },
+    {
+      "bytes": 312108,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/cumulative-core.csv",
+      "sha256": "6e60536335e79d6a969112ff11dd70953908c427277c7d89558bc8e7df1d1d67"
+    },
+    {
+      "bytes": 307717,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/current-B100.csv",
+      "sha256": "cda3bf03f0917f8faffe26d04e8babbb62848bbbd87a8d547083fd738eab5c71"
+    },
+    {
+      "bytes": 2224960,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/category-distributions.csv",
+      "sha256": "7e8b68e16f0193f224e7e5493c6444326f5581e0bbd2d997810b3921e19c01a5"
+    },
+    {
+      "bytes": 145291,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/retention-matrix.csv",
+      "sha256": "e47365aedd5451d167f6f78af55f1b10fe818013e0e3e0d0262626521ebdb47b"
+    },
+    {
+      "bytes": 926220,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/age-rates.csv",
+      "sha256": "7bf223ae752751f0cab6dd305a97f3831815e3d98cd3e72569cfb4cecc4ee2cf"
+    },
+    {
+      "bytes": 263323,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1/layer-actual-action.csv",
+      "sha256": "ef960119e98dee6b9ad221036bd30fe4c091ec029132668e4bf97a7b3cc5bb9c"
+    },
+    {
+      "bytes": 1109517,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1/historical-checkpoint-residual.csv",
+      "sha256": "40c8aee2afffdb7b985c7bd63a2649e59c20577fd027c0bf595ec0a65d4e3324"
+    },
+    {
+      "bytes": 5161982,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1/current-command-realization.csv",
+      "sha256": "5dbeb96aa271e7e1d149a7fffe49e378f042a0a12d9a40313e1e89dfe54f7a03"
+    },
+    {
+      "bytes": 5099357,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1/node-mechanism.csv",
+      "sha256": "b1aa3e032940285f7171015b9909b0d79d036cce98cae45d607aa48c97852f56"
+    },
+    {
+      "bytes": 33779,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/comparisons-v1/mechanism-performance-checkpoints.csv",
+      "sha256": "7a885bc6bbc5d217e1e217b97e4e855a7f91252c876b0154d7d265710c560e67"
+    },
+    {
+      "bytes": 8053292,
+      "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/mechanism-v1/layer-visit-cohort-response.csv.gz",
+      "sha256": "f406c6aedc08d8d81711883a237ffae493d37d897ba9414b717b66c789f53c1b"
+    }
+  ],
+  "matplotlib_version": "3.10.7",
+  "missing": "OMIT_OR_MASK_NOT_IMPUTE",
+  "numpy_version": "2.2.6",
+  "reused_style_source": {
+    "bytes": 5174,
+    "kind": "member",
+    "mode": "0664",
+    "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/analysis/project/run_scripts/ordered_response_barrier_ode/sequential_plots.py",
+    "sha256": "5906f74dcf6a6971d56907fcdd17a4bb8b49f9688313bc8b2dc73ccb84cf7295"
+  },
+  "seed": 20260907,
+  "source": {
+    "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/analysis/project/run_scripts/ordered_response_barrier_ode/analysis_cumulative_report/plots.py",
+    "sha256": "63f46faf1993c33ea9d846e0a71cf285f3456b53f27f1b751e05d461b7fa61da"
+  },
+  "status": "PLOTS_BYTE_STABLE",
+  "style": {
+    "axes.spines.right": false,
+    "axes.spines.top": false,
+    "axes.titlesize": 11,
+    "figure.dpi": 160,
+    "font.family": "DejaVu Sans",
+    "font.size": 10,
+    "path.simplify": false,
+    "savefig.dpi": 160
+  }
+}

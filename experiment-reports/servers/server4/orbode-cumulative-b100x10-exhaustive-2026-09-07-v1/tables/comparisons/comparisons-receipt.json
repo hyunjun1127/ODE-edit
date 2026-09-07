@@ -1,0 +1,19 @@
+{
+  "causal_claim": false,
+  "dataset_path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+  "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+  "overwrite_conflicts": 1,
+  "overwritten_requests": 1,
+  "relation_key": "EXACT_SUBJECT_AND_RELATION_DIFFERENT_TARGET_HASH",
+  "rows": {
+    "atwrite-final-conflict-strata.csv": 60,
+    "cumulative-vs-online-gaps.csv": 200,
+    "derived-prefix-inventory.csv": 40,
+    "mechanism-cumulative-associations.csv": 300,
+    "mechanism-performance-checkpoints.csv": 200,
+    "online-own-write.csv": 200,
+    "overwrite-conflicts.csv": 1,
+    "own-write-final-prompt-transitions.csv": 60
+  },
+  "status": "MATCHED_COMPARISONS_COMPLETE"
+}

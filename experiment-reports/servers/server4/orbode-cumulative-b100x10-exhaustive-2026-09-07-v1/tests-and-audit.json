@@ -1,0 +1,16 @@
+{
+  "all_input_raw_member_root": "65900f59dc967731e32debda33e36eb8d0ccc6c742a1736d6c21f6ddb83e55bd",
+  "cardinality_rate_partition_arithmetic": true,
+  "checkpoints": 200,
+  "cumulative_request_states": 110000,
+  "figure_count": 36,
+  "final_arms": 20,
+  "focused_command": "python -m unittest -q project.run_scripts.ordered_response_barrier_ode.analysis_cumulative_report.test_focused",
+  "focused_stderr": "----------------------------------------------------------------------\nRan 18 tests in 1.447s\n\nOK\n",
+  "focused_stdout": "",
+  "model_GPU_evaluator": 0,
+  "plot_bytes_reproduced": true,
+  "raw_free_scan": true,
+  "status": "ESSENTIAL_ANALYSIS_GATES_PASS",
+  "table_count": 34
+}

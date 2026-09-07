@@ -1,0 +1,20 @@
+[
+  {
+    "bytes": 244717623,
+    "kind": "member",
+    "mode": "0664",
+    "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/prompt-pair-records.csv.gz",
+    "reason": "Full request/prompt-state volume; complete raw-free aggregate tables published",
+    "scope": "LOCAL_ONLY_HASHED_SCALAR_ROWS_NOT_BROADCAST",
+    "sha256": "d957d6052e678c81d1fc6e82fdeef86da6af6027a4b2de4d7e6f050b8effc75b"
+  },
+  {
+    "bytes": 23997028,
+    "kind": "member",
+    "mode": "0664",
+    "path": "/data/janghj/ODE-edit/local/orbode-cumulative-exhaustive-report/review-v1/performance-v1/request-state-records.csv.gz",
+    "reason": "Full request/prompt-state volume; complete raw-free aggregate tables published",
+    "scope": "LOCAL_ONLY_HASHED_SCALAR_ROWS_NOT_BROADCAST",
+    "sha256": "1b236fe8e6acd565745a15fe5c03ff1dc2bf9402e12e16cbaa46e6a2a6edeab9"
+  }
+]
