@@ -1,0 +1,10 @@
+item,status
+Qwen BLUE,ORIGINAL_QWEN_CONFIG_UNAVAILABLE_NOT_RUN
+L4 pre-run tests/smoke,SKIPPED_USER_DIRECTED
+JVP/O server2 raw,NOT_AVAILABLE_GIT_PUBLICATION_ONLY
+cross BLUE vs JVP prompt-pair transitions,NOT_AVAILABLE_COMMON_PAIR_HASH; request/cohort comparison only
+PS/NS B2-4 B6-9 seen-prefix,NOT_RECORDED_NO_INTERPOLATION
+common terminal activation / residual across BLUE and JVP,NOT_RECORDED; target layers/policy differ
+BLUE native metric action/path/JVP counters,NOT_RECORDED; Frobenius not relabeled native action
+GPU utilization / solver-only/history-only BLUE time,NOT_RECORDED
+L4 observer projector_asset_index,METADATA_MISMATCH_4; actual runtime selects0; see CPU hash audit

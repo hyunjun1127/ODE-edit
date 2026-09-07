@@ -1,0 +1,416 @@
+[
+  {
+    "path": "final_full1000_performance.png",
+    "sha256": "5b213d4b54f37816cb936e6116856ed37962763d24ca9b1efb040b8f3c3687e2",
+    "caption": "Each arm final W10; RS1000/PS2000/NS10000 prompts. O_NATIVE is reference, not a fifth experimental arm. Five experimental arms + one reference.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "final_metrics.csv",
+        "sha256": "4c6f33b109d23d18866264c576fd0dc52db9084c8f1eeb5d1fe055d7bc63e271"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      13.0,
+      4.0
+    ]
+  },
+  {
+    "path": "allseen_rewrite_trajectory.png",
+    "sha256": "39236a13545f208bac8c5ae0afdc79a72e85598d2449d1af49bf7f2aedd456fd",
+    "caption": "Current:100/200/1000 prompts per batch; all-seen rewrite:100k requests at Wk; checkpoint full:only k=1,5,10, denominators100k/200k/1000k. No unrecorded PS/NS interpolation.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "allseen_rewrite.csv",
+        "sha256": "509f0ba0e0b05b48ac6c21e567f81c6488b0ec7272465ed6657498433dcd05a8"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      6.0,
+      4.0
+    ]
+  },
+  {
+    "path": "current_batch_trajectory.png",
+    "sha256": "d92ac6acf0242eb9ca637930c631e7d882cdc7749ffb53d53ea617a97aaab058",
+    "caption": "Current:100/200/1000 prompts per batch; all-seen rewrite:100k requests at Wk; checkpoint full:only k=1,5,10, denominators100k/200k/1000k. No unrecorded PS/NS interpolation.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "current_batch.csv",
+        "sha256": "e980d6006c88853bb36234c09063ca75c9c4094763b84aa92abda195a0c61954"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      13.0,
+      4.0
+    ]
+  },
+  {
+    "path": "checkpoint_seen_prefix.png",
+    "sha256": "e92266c3a00af4258b5ed5e4122528fd441f82ac6af0f5938e2afedf5d411164",
+    "caption": "Current:100/200/1000 prompts per batch; all-seen rewrite:100k requests at Wk; checkpoint full:only k=1,5,10, denominators100k/200k/1000k. No unrecorded PS/NS interpolation.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "seen_prefix.csv",
+        "sha256": "e6de828c89e02eeda24449680c3b0d3b0e5953449798e57aecf313fb75b01260"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      13.0,
+      4.0
+    ]
+  },
+  {
+    "path": "rewrite_retention_heatmap.png",
+    "sha256": "378c9f0535f5738ca3f08853bae36c2692f4013722b9935a6b32f1abaf5a020b",
+    "caption": "Every observed cohort cell n=100 requests; triangular future-cohort cells missing, not zero. Diagonal=current; off-diagonal=historical retention.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "retention_cohort.csv",
+        "sha256": "051fb1c07ce53343a88b905c3ca5ac415b8151217b31609c276abf407522fc02"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      12.0,
+      7.0
+    ]
+  },
+  {
+    "path": "final_nll_tails.png",
+    "sha256": "9cdadd5ee89f35eb7205847e60672062f63df9464ac38babb75b6e7dccee715a",
+    "caption": "Prompt-level NLL median/p90/max at final W10. n=1000 rewrite,2000 rephrase,10000 locality per arm; not request-cluster quantiles.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "final_metrics.csv",
+        "sha256": "4c6f33b109d23d18866264c576fd0dc52db9084c8f1eeb5d1fe055d7bc63e271"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      13.0,
+      4.0
+    ]
+  },
+  {
+    "path": "final_margin_distributions.png",
+    "sha256": "4dcba56952d4b8468abb1603f43bea7e433c921e82635a89e9fc48f0f8407196",
+    "caption": "Margin positive means canonical preference success. O/JVP prompt-pair quantiles unavailable, omitted; marginal quantiles never subtracted.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "final_metrics.csv",
+        "sha256": "4c6f33b109d23d18866264c576fd0dc52db9084c8f1eeb5d1fe055d7bc63e271"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      13.0,
+      4.0
+    ]
+  },
+  {
+    "path": "layer_wise_update_magnitude.png",
+    "sha256": "e7f533a6e033ff1347c4df00b97fd7b982693ee54d4f6771095a14c996be62bd",
+    "caption": "Actual batch-entry to endpoint update norm, mean over10 sequential batches, each batch joint100 requests. Known noneditable layers are zero support, not missing-value imputation. No equal-allocation reference line.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "layer_action.csv",
+        "sha256": "e0cf5ef0d590eb73736b0a82e90ddfb6cffcdc2d2b050eed59209a1c736acd62"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      12.0,
+      7.0
+    ]
+  },
+  {
+    "path": "compute_wall_time.png",
+    "sha256": "ac65b264759d13b47e721735acb2ee5959f18507be1a4b88f677e39c90dc5524",
+    "caption": "Recorded process/target wall time; O/JVP Server2 A6000, others Server4 RTX PRO6000. Includes different instrumentation/evaluation overhead; not controlled speedup or actual utilization.",
+    "source_sha256": "7f66a22ed9aa2ecee8a52bd834550ebb90406fa70ccd77ae7cf7fc4cb2b33018",
+    "inputs": [
+      {
+        "path": "compute.csv",
+        "sha256": "ab664fb38058002d5a7e9e82f2ea7526ab2289195146200f2520ef02a817d505"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_fivearm_analysis.plots --tables experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1 --output experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/figures",
+    "backend": "Agg",
+    "DPI": 160,
+    "style": {
+      "font.family": "DejaVu Sans",
+      "font.size": 9,
+      "axes.spines.top": false,
+      "axes.spines.right": false,
+      "savefig.dpi": 160,
+      "figure.dpi": 160,
+      "axes.grid": false
+    },
+    "seed": 0,
+    "missing": "No imputation; missing points omitted; lines connect recorded checkpoints only",
+    "arm_order": [
+      "BLUE",
+      "BLUE_L4_ONLY",
+      "BLUE_L8_ONLY",
+      "JVP",
+      "JVP_L8",
+      "O_NATIVE"
+    ],
+    "colors": [
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00",
+      "#666666"
+    ],
+    "figure_size": [
+      12.0,
+      4.0
+    ]
+  }
+]

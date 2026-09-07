@@ -1,0 +1,30 @@
+{
+  "status": "REVIEW_READY",
+  "report_sha256": "7c10f5c3797cca8b90d5db4de79583a56f3020041fe67a156ac24b8caeb67da9",
+  "manifest_sha256": "bd967468fd4d2bfe61cf106906acd157a533e2408a80aeb625ac018c6ad458ce",
+  "member_root": "daf57a0ebda793cf7a2349f35a9ebaace2e71ab14ab16366506efd9c2d6be7e6",
+  "members": 52,
+  "CSV_count": 35,
+  "PNG_count": 9,
+  "tests": {
+    "status": "PASS",
+    "focused_tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "actual_table_cardinality_arithmetic": "PASS",
+    "PNG_byte_reproduction": 9,
+    "raw_free_extension_scope": "PASS",
+    "source_compile": "PASS",
+    "experimental_preflight_distinction": "Analysis tests only; L4 pre-run skipped remains SKIPPED_USER_DIRECTED",
+    "GPU": 0,
+    "model": 0,
+    "evaluator": 0
+  },
+  "new_jobs": 0,
+  "BLUE_task_owned_active_pending": 0,
+  "terminal_observation": "bounded audit all three COMPLETED0; no repeated polling",
+  "main_integration": "USER_AUTHORIZED; actual final HEAD/tree recorded in external closeout receipt",
+  "scientific_promotion": false,
+  "next": "TASK_COMPLETE_STOP_AFTER_MAIN_PUSH_AND_GH_REPORT",
+  "root_sha256": "846a7a5d1674def79ce3c958c26c947aa0a6885cfe5b51b202498ed28683e415"
+}

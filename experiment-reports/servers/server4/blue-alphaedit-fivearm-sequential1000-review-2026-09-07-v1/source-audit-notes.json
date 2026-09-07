@@ -1,0 +1,9 @@
+{
+  "sample_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "raw_data_sha": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+  "Llama_decay_correction": "Actual pinned Llama JVP YAML v_weight_decay=0.5, not0.001; all BLUE variants also0.5. Qwen config0.001 not used here.",
+  "L4_metadata": "observer constant projector_asset_index=4 erroneous; runtime/index0 and selected P tensor SHA proved by CPU audit; no source/raw repair",
+  "context_difference": "BLUE native first-batch generated contexts and seed20260907 vs JVP fixed native contexts seed20260906; hashes not equal",
+  "raw_broadcast": "NOT_PERFORMED_LOCAL_ONLY; Git contains raw-free package only",
+  "scientific_promotion": false
+}
