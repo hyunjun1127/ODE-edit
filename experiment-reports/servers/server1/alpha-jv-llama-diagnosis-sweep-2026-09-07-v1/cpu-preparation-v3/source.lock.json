@@ -1,0 +1,599 @@
+{
+  "branch": "codex/server1-alpha-jv-diagnosis-sweep-v1",
+  "completed_publication_head": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+  "contract_sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5",
+  "execution_commit_status": "NOT_SUBMITTED_DEDICATED_COMMIT_BOUND_ON_FUTURE_RELEASE",
+  "implementation_members": [
+    {
+      "bytes": 82,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/__init__.py",
+      "sha256": "a93ad9b9a941224c828699bc6672e58e4b820300b41fb1f005af47727c556fb4"
+    },
+    {
+      "bytes": 4106,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/capture.py",
+      "sha256": "5776e424a495f6e9dfd8f26ecfa93864fcfa24a81cc8738f08ae55357705084e"
+    },
+    {
+      "bytes": 2200,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/contracts.py",
+      "sha256": "387269ef5e9c0c94467597247143dc0a270cf69ed882807d1d2a2ec722cd6e60"
+    },
+    {
+      "bytes": 8645,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/diagnosis.py",
+      "sha256": "1c9bb4dd4b90bffa861dc0f14c32363ca023e285a2e8afd4be4cc648096c8231"
+    },
+    {
+      "bytes": 12259,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/diagnosis_driver.py",
+      "sha256": "346a97ebf9ef9c2b3f361395cbf0b49f7d67bf109af82434ad34db2b8ebd084c"
+    },
+    {
+      "bytes": 8983,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/fixture.py",
+      "sha256": "e48bdd27eebb83eb671958cc6aa3f2699eafa3c815136a20a31bf24a0194f8b2"
+    },
+    {
+      "bytes": 5615,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/normalization_views.py",
+      "sha256": "c4ea112925082aae9ed6ba270673d494ecb0d030f2c496d7b4797005f29bfa47"
+    },
+    {
+      "bytes": 1927,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/observations.py",
+      "sha256": "560d3aef40af7efffefc40955b75209a5d491053d03e48db1a3465be62fb7466"
+    },
+    {
+      "bytes": 4023,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/publication.py",
+      "sha256": "683c7fc3a17eace620f44bf7a53dede815b7bb76251037e02592ed9f3ef0ca92"
+    },
+    {
+      "bytes": 11406,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/requestwise.py",
+      "sha256": "2c3de0906870886c827c0afba55cb98b4e2a6cbdbea7944ff933b1eaeae49a3a"
+    },
+    {
+      "bytes": 16155,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/resources.py",
+      "sha256": "b3925589e05f1cb4d938718a50c249322b75a109448b0d4bfead59374a2a0a29"
+    },
+    {
+      "bytes": 14526,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/runner.py",
+      "sha256": "85348e7068b29dd6786896b3cbc2de21228dc3ae56bb24706f2b4ae92e091923"
+    },
+    {
+      "bytes": 11936,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/sampling.py",
+      "sha256": "bb76bfd968a597083a54fee2203b728f19d65dc47d5427e1dca597c60d53b81c"
+    },
+    {
+      "bytes": 5990,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/sweep.py",
+      "sha256": "dc9f1f53bd608462fc5ced2de8962926ec897d5994321e0345a5425549c3227c"
+    },
+    {
+      "bytes": 10078,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/sweep_driver.py",
+      "sha256": "6b30adb7ca9dcae4902be6179efa62ba1e86b5a4358ac08d73436c24970827db"
+    },
+    {
+      "bytes": 1598,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_capture.py",
+      "sha256": "df2f29ada7139bc93aafbf66a57bdabe3f32278da890de20f13dafcc95a433e3"
+    },
+    {
+      "bytes": 12695,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_diagnosis.py",
+      "sha256": "d3e374be5bfa478e4a8edb416d1a8fbb969f8416c3560c2af44155ef237a6c74"
+    },
+    {
+      "bytes": 5691,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_diagnosis_driver.py",
+      "sha256": "bf4cf7ffedbd107d1ebc2337ea3047bdf0509c8f55124de06f77d66f988192e2"
+    },
+    {
+      "bytes": 1063,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_publication.py",
+      "sha256": "7dffb0bdf066f1c25ca6f1a62a339f61788ff141fa6f17356f300cc802a8eca1"
+    },
+    {
+      "bytes": 6480,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_resources.py",
+      "sha256": "a561235c8389521fbe50785841550cc60a9b36839c545ac17058b4d5105f1a6f"
+    },
+    {
+      "bytes": 9452,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_shared.py",
+      "sha256": "a50e012f663ced1ab223a90da7c0d89be885f3e0f569e2978c62289b57ef7ff0"
+    },
+    {
+      "bytes": 8452,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_sweep.py",
+      "sha256": "b9f0f65ed7afcdc09ec255d7edebf0170dc861d09ad8c5786afbcc53da937905"
+    },
+    {
+      "bytes": 11942,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_sweep_driver.py",
+      "sha256": "177930c654346f986423fa4322495e0c8d08cf25631efe4690e96e2351efc56b"
+    },
+    {
+      "bytes": 11729,
+      "mode": "0664",
+      "path": "project/run_scripts/alpha_jv_llama_diagnosis/trajectory.py",
+      "sha256": "65694a0264b097f95a3d19eca5b6824049e0a8cd53cdece62c9177b806eb1b07"
+    }
+  ],
+  "implementation_members_root": "1b2e6ab0e03ab9179aa314a8680fe665b74f336e4481ab6bda5bd03fa08395f6",
+  "instruction_id": "ODEEDIT-S06-ALPHA-JV-LLAMA-DIAGNOSIS-SWEEP-SH1-V1",
+  "main_merge_authority": "GH_REVIEW_ONLY",
+  "origin_main_observed": "765ca516d8b836e6672429b68d9e36d7a587cb0b",
+  "parent_HEAD": "765ca516d8b836e6672429b68d9e36d7a587cb0b",
+  "parent_tree": "142113b4ac63dd76be7b0bfee8cb004794cacb27",
+  "reused_runtime_closure": {
+    "byte_unchanged_from_runtime": true,
+    "members": [
+      {
+        "bytes": 2390,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/README.md",
+        "sha256": "c51fd0ebe7a6307919d8f9ba57339eeccfb36403f834f9152c6bd4dc8811dbf4"
+      },
+      {
+        "bytes": 80,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/__init__.py",
+        "sha256": "bd71b395ac76c6944a4f54ba47c4a5352ca55077880fa3f7623b9beee9c1ea30"
+      },
+      {
+        "bytes": 3464,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/accounting.py",
+        "sha256": "02f4354995b75f4b1665e3fda57a88adf7f0be135c35893032b774d610767ffc"
+      },
+      {
+        "bytes": 1293,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/contracts.py",
+        "sha256": "5be97ac714daa87a77ceef6b8dd542b24b061bc96eba6d7e8f08effc95474883"
+      },
+      {
+        "bytes": 1972,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/evaluation.py",
+        "sha256": "3bf8c76498ee2788973039cc86e8473af068227e752329518fbf025a27d6b999"
+      },
+      {
+        "bytes": 6802,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/provenance.py",
+        "sha256": "583ca35b8492aaad9f4ce939b6150307c806438d357568411ce2375165fdd248"
+      },
+      {
+        "bytes": 12554,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/reporting.py",
+        "sha256": "1f8b20edbf4ea44235064fcfb8fa2894ab76aec3b6cbe8837b894f282a474b19"
+      },
+      {
+        "bytes": 917,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/run.sbatch",
+        "sha256": "2e1eab71964f2eb889faa99ac4c000c913e7cea83dd840407d143bf0290a0424"
+      },
+      {
+        "bytes": 16698,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/runtime.py",
+        "sha256": "4748729e66028c30e77e31de01811fa95169dfa674aaaf35b1bf489b1c7590ea"
+      },
+      {
+        "bytes": 2883,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/state.py",
+        "sha256": "5ff24ed01db0051785aa396f1b62dc02ec7ddc5c09b543a996f6cdc7c5ade43e"
+      },
+      {
+        "bytes": 4098,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/telemetry.py",
+        "sha256": "758eb70cb22a86ae0b18d29489261bf853e283566e6750882b9b2a194a0d48a9"
+      },
+      {
+        "bytes": 7390,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/test_sequential.py",
+        "sha256": "79d32eaab12b0f5d4138661f2c4209271f26e5f7a7295f1cb2b957a1e941db35"
+      },
+      {
+        "bytes": 8633,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_native_response_ode_v31_sequential/trajectory.py",
+        "sha256": "11795e561d96e455e2a504ce3b6b7962a1a94afd3ce2ce0686908a63130871e9"
+      },
+      {
+        "bytes": 68,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/__init__.py",
+        "sha256": "61ad50349e80fef94c0ed39e5b05536109710da3a00d297f683a1d6a40f31d71"
+      },
+      {
+        "bytes": 5812,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/algebra.py",
+        "sha256": "4a1740af9fff530159ae14fe137ff8360ee238fd90928182f5b1bab9911785c5"
+      },
+      {
+        "bytes": 29446,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/analysis.py",
+        "sha256": "d7891e532681edd390331c557a27023013f1bf8287a960efffbe75f8ee9c0b1a"
+      },
+      {
+        "bytes": 11170,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/diagnostics_analysis.py",
+        "sha256": "e970470ef343a633dc6358669f31a3d964720bceeb1d8225d55856531677e02f"
+      },
+      {
+        "bytes": 7243,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/fidelity.py",
+        "sha256": "72c2798affd4f3d64c133da6f2c2e68c7e09014a06d5ec135ddb031aa4cd66f5"
+      },
+      {
+        "bytes": 12404,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/finalize.py",
+        "sha256": "2493623c0a1ae4aeacaed2d4a5536caee7acfdf8a775184d41697d665d8ccf58"
+      },
+      {
+        "bytes": 12676,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/followup.py",
+        "sha256": "d29ae27d407c527a98d7423b2c7820b032f97a94b4b0d52efa4943a92edca14b"
+      },
+      {
+        "bytes": 988,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/followup.sbatch",
+        "sha256": "1221cfca13ccf09ea489fd0c5b2a371f79a7834963e255767ef8bb0ac7d79b22"
+      },
+      {
+        "bytes": 8378,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/native_binding.py",
+        "sha256": "acef232f5de10f8e4ad64427bf779198858d9b809ec061674175f5d1524e2991"
+      },
+      {
+        "bytes": 799,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/pilot.sbatch",
+        "sha256": "97f8fdf63845be0c57c217618eb5b12e0438d018291ea97dcf457d2fe9aecf15"
+      },
+      {
+        "bytes": 5151,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/provenance.py",
+        "sha256": "1196b6c61a3367d3937e6e3694aa3f7ffff571ea6d12b9be6941e29c0c49d307"
+      },
+      {
+        "bytes": 14753,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/runtime.py",
+        "sha256": "04d681f2fe80fcee174bc718ca536572e96323011d728e78ee8d725b78cd9aff"
+      },
+      {
+        "bytes": 1477,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/state_identity.py",
+        "sha256": "728aef79883f90e37ddc65cf8c8e56d77bc16943265066c15f60daefede9cbcf"
+      },
+      {
+        "bytes": 4164,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/test_algebra.py",
+        "sha256": "a898a370b226dd6a2f28eb4af58dc6ddf82f68c7a0d4b7f16892a5c420477c0b"
+      },
+      {
+        "bytes": 5399,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/test_analysis.py",
+        "sha256": "dc4d47c7736843d64f026fc43e760d441c4fce7cf3ffb0aca794a217aae8d8ab"
+      },
+      {
+        "bytes": 4779,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/test_binding.py",
+        "sha256": "ebcca45eb848014e387a7d28ca3a8e872b2feac2f57370db1863201b00e41887"
+      },
+      {
+        "bytes": 1632,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/test_state_identity.py",
+        "sha256": "6d2bd46fcd0027d60f5a4401af287edb0b5a895c134fa49b6516b5f65315c2ec"
+      },
+      {
+        "bytes": 11008,
+        "mode": "0664",
+        "path": "project/run_scripts/native_response_ode_v31/trajectory.py",
+        "sha256": "6dfef926becbc3ba7d2b1c3de77f8d78e9f0230311dceaa1ec154be438183b91"
+      },
+      {
+        "bytes": 695,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/__init__.py",
+        "sha256": "aa7b332461eea6e6b2317da82e9c537f0c645aea592832445edf33f40e2e5a90"
+      },
+      {
+        "bytes": 15873,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/adapters.py",
+        "sha256": "b100b8471938d73330688c5ecf63b24f051380eb9009940480167c449148edf0"
+      },
+      {
+        "bytes": 86208,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/artifacts.py",
+        "sha256": "faaf53b52f55b437b9fa04e5fbf936fb2e65c45acc95f7fb0bef6d4924cc3aa5"
+      },
+      {
+        "bytes": 14663,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/contracts.py",
+        "sha256": "e94e1d2c17827bc89078010b8b5ca735470b5f376b70e9cee902921afb1dd514"
+      },
+      {
+        "bytes": 7892,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py",
+        "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+      },
+      {
+        "bytes": 9479,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/dry_plan.py",
+        "sha256": "8a71e1b88c9b281117081f883ddee1b006705f337d3868853c50efc70a92977c"
+      },
+      {
+        "bytes": 17827,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/fp32_overlay.py",
+        "sha256": "eeb86d8a2b4e9dde053436e3ac14c1710e184a89f2decc83b533cf9359ab44ac"
+      },
+      {
+        "bytes": 27630,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/integrator.py",
+        "sha256": "475b47a8f44ee4a4e760e34cde2210f396f074930a6fdba9075cf0a3928b4852"
+      },
+      {
+        "bytes": 9140,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/launch.py",
+        "sha256": "885c6d9ef57701d79fd810df60d174c614abb65cfac5a472645af00a56c36c0f"
+      },
+      {
+        "bytes": 4233,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/locks/server1-gated-execution-v1.json",
+        "sha256": "77bdc11de3d12e8365d45c550aee898c9257da6187c662916902009290fffbfc"
+      },
+      {
+        "bytes": 1106,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/locks/server4-sequential-b100x10-v1.json",
+        "sha256": "88b6d274963974899fb900ba0f385f0f610691cccc459543a3924e1a842079f6"
+      },
+      {
+        "bytes": 26554,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/preedit_ns_backfill.py",
+        "sha256": "fd3f60ea0182a2bfaced09b653f26aa43dbc7c3d54f1b7510684e1d458e6fa3d"
+      },
+      {
+        "bytes": 39039,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/preflight.py",
+        "sha256": "571e4abe3cd8ca0f95bb0517c9ba5d6efde1a70113ce08b06b3403cb54cd3e9c"
+      },
+      {
+        "bytes": 113813,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis.py",
+        "sha256": "cda8b15235e25349a7cf6733b00c27b9bfced816c51d061eae8556ae319b054e"
+      },
+      {
+        "bytes": 4486,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis_contracts.py",
+        "sha256": "6b95b03fdc662755e2efceedbe440c592059a8e562c7fa77ae0a947099f5848c"
+      },
+      {
+        "bytes": 3965,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_figures.py",
+        "sha256": "feeb972b91a46347cf559e42f72a0e7766e6f353b25e85d8fb5fd7882a4e5bf8"
+      },
+      {
+        "bytes": 50196,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_report.py",
+        "sha256": "5361f099ac7414d857bda753c77f8fa853c0c454dc301baabcbc8388e2e31a71"
+      },
+      {
+        "bytes": 4647,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_canonical_ns_analysis.py",
+        "sha256": "24d6526710ad458acc0ed54cb86a1975c152bb679bc4141abd2d4ec217cd65ee"
+      },
+      {
+        "bytes": 8596,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_figures.py",
+        "sha256": "cd84ef7294d1a51acedc767a705ee31e4d515be59a576c9d01cccf6bed564878"
+      },
+      {
+        "bytes": 6806,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_package_verify.py",
+        "sha256": "37dbedbc335a4ef886acc0775addc4e825fe34066a672f97fda4ffdf1a460789"
+      },
+      {
+        "bytes": 107258,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/runtime.py",
+        "sha256": "3c84ccbf4bfe5f366a431108f1c40108e877e6f7f220a7b1f49235a1fcdd6eac"
+      },
+      {
+        "bytes": 14714,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/semantic.py",
+        "sha256": "f18c46f2c2c4b50a7cd82fe4bf05340da65a73d3ce6dc96f868672e82fe36ef6"
+      },
+      {
+        "bytes": 21234,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_analysis.py",
+        "sha256": "d6dffe2d9a1e13b7f23efdcd49b8678271afa47ac4cbcaf0ac938e9b44070463"
+      },
+      {
+        "bytes": 4029,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_contracts.py",
+        "sha256": "35ca2c37ecb68b4ed153fa5a7c9331e5c1bff2345258d6a577aa89c05088ff34"
+      },
+      {
+        "bytes": 10131,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_launch.py",
+        "sha256": "0621b8c47ad23187e57cf625835a247171aa186ccd22690a871b6b4eeed55eea"
+      },
+      {
+        "bytes": 2668,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_package_verify.py",
+        "sha256": "1b3c776a751954c4b44c8166d8faee937d4718c60db226583b8bfd7e7a6e35d5"
+      },
+      {
+        "bytes": 5174,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_plots.py",
+        "sha256": "5906f74dcf6a6971d56907fcdd17a4bb8b49f9688313bc8b2dc73ccb84cf7295"
+      },
+      {
+        "bytes": 10611,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_preflight.py",
+        "sha256": "093987156992120abe5dff8966964e7615f5162f7e9ed5f759e7d2ccc313edea"
+      },
+      {
+        "bytes": 33157,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_report.py",
+        "sha256": "27830ce84119d1f28ebbc4acecb64bae23c6f1607402c2cd91368d2cb2e2cc66"
+      },
+      {
+        "bytes": 32423,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_runtime.py",
+        "sha256": "046b7451e932c10d4ff88d002fd6af9abe82ea98ad35c1d27336a39c94132441"
+      },
+      {
+        "bytes": 23152,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/telemetry.py",
+        "sha256": "5017c99837e2232d68b6f986af8f17ef41f13ede2c2604dd91bd166006384179"
+      },
+      {
+        "bytes": 13707,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/terminal_jvp.py",
+        "sha256": "47a0d3d3592a43dc2d2a62afba6beef7156630cd3d25cde0cda0c9079e424b40"
+      },
+      {
+        "bytes": 30394,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_artifacts.py",
+        "sha256": "d3862894c01a16175327ed67480d3646e20edb71830d259ac7ad480c4607393f"
+      },
+      {
+        "bytes": 49146,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_core_runtime.py",
+        "sha256": "cb62cb58eef33babcb91b9cea3e8bce3f027492c3b762d3e90c7e90e6ec012c6"
+      },
+      {
+        "bytes": 6886,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_dry_plan_execution.py",
+        "sha256": "5af86035701be2abbc9ca956c065ce33d2ff32cec4f762b2f4f09ee187e95591"
+      },
+      {
+        "bytes": 4697,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preedit_ns_backfill.py",
+        "sha256": "a5c65c786e0b54a03e57bf54113ea2059baf333c3c83a428e62dd352df7ff0df"
+      },
+      {
+        "bytes": 23958,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preflight_execution.py",
+        "sha256": "7cd729aa758db2e98a716ef2748cedfc7d2e08d151b33e3f9af17c93cee083d9"
+      },
+      {
+        "bytes": 5305,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_analysis.py",
+        "sha256": "2fffeb7d1c22eaa1a0b38bd1819062dad585d9812973daab66800ceb066e3104"
+      },
+      {
+        "bytes": 3954,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_baseline_report.py",
+        "sha256": "02af0d6b047ae579fd5983bea12a2d5dbf3fafbf81b87df275ff894cb5785aab"
+      },
+      {
+        "bytes": 4147,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_analysis.py",
+        "sha256": "8c259e69ecac0d18098cb883cb15ffdaf717a91ec84289f9cfb6f0cd6ea12052"
+      },
+      {
+        "bytes": 8546,
+        "mode": "0664",
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_server4.py",
+        "sha256": "72694a41d4dcce2e22ab188e081ccc14a405e1bb159630ac1f5da504c0997644"
+      }
+    ],
+    "members_root": "58c45f1a91ff818a3494fe27e9a63f397f72ba7512e3aad38f53b8894778b484",
+    "runtime_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "validation_scope": "tracked package bytes, not remote raw rehash"
+  },
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1"
+}

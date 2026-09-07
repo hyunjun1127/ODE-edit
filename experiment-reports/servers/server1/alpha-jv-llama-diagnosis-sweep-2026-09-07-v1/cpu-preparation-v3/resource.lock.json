@@ -1,0 +1,29 @@
+{
+  "budget_authority": null,
+  "canonical_registry": {
+    "bytes": 880,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+    "sha256": "d3a4c3ed930eb20712f4ba5eda05f4da25b87dab6e813c0b2f19e4e354d63839"
+  },
+  "current_allocations_reserved": false,
+  "existing_job_mutation_count": 0,
+  "gpu_hour_cap": null,
+  "local_registry": {
+    "bytes": 405,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/servers/local/gpu-caps.tsv",
+    "sha256": "dc9e06b7446317a2f2aaf0bc2e3b2972d83d09813cb468d035464e581f8df5ce"
+  },
+  "mem_MiB_per_GPU": 182272,
+  "old_budget_inheritance_count": 0,
+  "project_GPU_cap": 2,
+  "scheduler_recheck_required_before_submit": true,
+  "status": "GPU_HOUR_BUDGET_UNASSIGNED",
+  "tracked_ceiling": {
+    "bytes": 323,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/control/gpu-concurrency-policy.tsv",
+    "sha256": "c08bf2282d1ca8c4abe5bfaea6fea689ce9e03925a47b3fad63191e978be87d8"
+  }
+}

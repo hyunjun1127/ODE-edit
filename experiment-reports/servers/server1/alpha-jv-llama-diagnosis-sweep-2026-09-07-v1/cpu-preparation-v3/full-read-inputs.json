@@ -1,0 +1,211 @@
+[
+  {
+    "bytes": 59751,
+    "logical_records": 1260,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/PROTOCOL.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "0356668ab10c11e4a25f9c1a6da26be547debe3b0de0ffb9082607b28e72255b",
+    "terminal_newline": true,
+    "wc_lines": 1260
+  },
+  {
+    "bytes": 6537,
+    "logical_records": 109,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/servers/connection-inventory.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "1f33cefeb1f842749eb74d2e15087821f9a0cd5c1fb5913502e3ebcceb463966",
+    "terminal_newline": true,
+    "wc_lines": 109
+  },
+  {
+    "bytes": 1071,
+    "logical_records": 12,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/README.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "ddb988ef725f29849d75d5554614378bcd34fd43a27fbdb9d1aa0e33ec218a2c",
+    "terminal_newline": true,
+    "wc_lines": 12
+  },
+  {
+    "bytes": 924,
+    "logical_records": 11,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/candidate-grid.csv",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "ff8ccc5166821e0be419c9ed9c11254d87e70091e278fa609fe0b0d8bd164ed8",
+    "terminal_newline": true,
+    "wc_lines": 11
+  },
+  {
+    "bytes": 17556,
+    "logical_records": 188,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-ko.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "02f63c91ee240c1992e532c78f4aa432d7a3093cf729d1f8916e5ab9b5152916",
+    "terminal_newline": true,
+    "wc_lines": 188
+  },
+  {
+    "bytes": 3686,
+    "logical_records": 93,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-manifest.json",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "1409ee6ab2dbc3b77081d38548f124dbd8160e852aa777b3812a7d25b8351f46",
+    "terminal_newline": true,
+    "wc_lines": 93
+  },
+  {
+    "bytes": 34790,
+    "logical_records": 471,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/gh-execution-prompt-ko.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5",
+    "terminal_newline": true,
+    "wc_lines": 471
+  },
+  {
+    "bytes": 919,
+    "logical_records": 10,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/README.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "4f695d335cccc69ee1e39f680df68123e9da2c0176dcf7db2352782b8f08c889",
+    "terminal_newline": true,
+    "wc_lines": 10
+  },
+  {
+    "bytes": 4516,
+    "logical_records": 112,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/design-manifest.json",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "06333ab093ce5142cc9cda721b3b14ec236c073294ba55ce7180857ac6e63c53",
+    "terminal_newline": true,
+    "wc_lines": 112
+  },
+  {
+    "bytes": 992,
+    "logical_records": 11,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/gh-candidate-disposition.csv",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "8ff0a5d4f687c447f15e750113e1c8e3ab440231a9fd6b311cac39c586a113d7",
+    "terminal_newline": true,
+    "wc_lines": 11
+  },
+  {
+    "bytes": 56771,
+    "logical_records": 610,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/report-ko.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "88aa761993f9a2aafdb057224c504d4bab1225c90c47836faae5170d341de7cf",
+    "terminal_newline": true,
+    "wc_lines": 610
+  },
+  {
+    "bytes": 2275,
+    "logical_records": 12,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/task-matrix.csv",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "ad559b8547774408fe17f8ddcab1fd2601515adb9000ca8ad3c8e5e2840958ab",
+    "terminal_newline": true,
+    "wc_lines": 12
+  },
+  {
+    "bytes": 37885,
+    "logical_records": 385,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v2/gh-mechanism-review-ko.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "9cb37eb8e58ef3d3a2c4a309ca60fe0a0168595362377ecdbfcac11ca96a2889",
+    "terminal_newline": true,
+    "wc_lines": 385
+  },
+  {
+    "bytes": 2675,
+    "logical_records": 11,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v2/sweep-candidates.csv",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "5d959ab3f328f32a4e40d97333c11f563ac92f0b93d038ff65a3ed2afa390105",
+    "terminal_newline": true,
+    "wc_lines": 11
+  },
+  {
+    "bytes": 2663,
+    "logical_records": 85,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v2/sweep-candidate-policy.json",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "8b4c823c27f955d43239f61200ddd4a8068263fb64298ea92070a48e3a2dfec4",
+    "terminal_newline": true,
+    "wc_lines": 85
+  },
+  {
+    "bytes": 17294,
+    "logical_records": 138,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v2/supporting/llama-audit.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "eaf25a48f23c41f63f4b5f4b65c56eddcbcbd6d183da7da664a5c3c8dd5c0d24",
+    "terminal_newline": true,
+    "wc_lines": 138
+  },
+  {
+    "bytes": 28637,
+    "logical_records": 356,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-sequential1000-layer-review-2026-09-07-v1/factual-report-ko.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "7966d00f7e3218f2c092123bc87f45f9a2cc047f0caa726d28ac8c478b5595e7",
+    "terminal_newline": true,
+    "wc_lines": 356
+  },
+  {
+    "bytes": 8879,
+    "logical_records": 142,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-gh-alpha-jv-diag-dispatch-20260907-v1/messages/head/2026-09-07-alpha-jv-llama-diagnosis-sweep-sh1-v1.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "9b9ab0b4c7345d5e5a6793457852ece08022cdd100301e5e13213b04e55d75a1",
+    "terminal_newline": true,
+    "wc_lines": 142
+  },
+  {
+    "bytes": 1732,
+    "logical_records": 26,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-gh-alpha-jv-diag-dispatch-20260907-v1/messages/head/2026-09-07-alpha-jv-llama-diagnosis-sweep-operational-addendum.md",
+    "read_status": "FULL_READ_PASS",
+    "reading_scope": "main agent full read plus reproducible byte rehash",
+    "sha256": "cef298e6c0b4e4613727483ca20b42d2bf787c09d712cc1099e12387a87b5603",
+    "terminal_newline": true,
+    "wc_lines": 26
+  }
+]

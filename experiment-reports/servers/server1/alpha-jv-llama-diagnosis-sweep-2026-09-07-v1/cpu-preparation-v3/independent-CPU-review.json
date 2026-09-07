@@ -1,0 +1,11 @@
+{
+  "actual_GPU_fidelity": "NOT_RUN",
+  "review": {
+    "bytes": 8857,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/audits/servers/server1/2026-09-07-alpha-jv-llama-diagnosis-sweep/resource-review.md",
+    "sha256": "0c76348e13df1e340e2c9074a08a68753b459a5f89b30cda875a889aa0833977"
+  },
+  "scope": "bounded CPU callback and source-exact trajectory plus resource accounting",
+  "status": "PASS_CPU_ONLY"
+}

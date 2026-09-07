@@ -1,0 +1,129 @@
+{
+  "S_both_models_recorded_component_proxy_gpu_hours": {
+    "max_component_proxy": 3.9849428285770894,
+    "mean_component_proxy": 3.6109897448260835,
+    "min_component_proxy": 3.4496388454674483
+  },
+  "formula_D_main_proxy": "load + one B100 z + 2*(historical JV N4 writer minus evaluator) + Official writer minus evaluator + 4 current-B100 evaluations",
+  "formula_D_replay": "sum historical JV full_batch elapsed seconds B6..B9 / 3600; one optional replay, separate from D main",
+  "formula_S": "load + one B100 z + (34/4)*(historical JV N4 writer minus endpoint evaluator) + Official writer minus evaluator + 11 current-B100 evaluations",
+  "gpu_hour_cap": null,
+  "input_bindings": {
+    "compute_accounting.csv": {
+      "bytes": 78625,
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/compute_accounting.csv",
+      "publication_head": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "sha256": "b3281974c89db7c425b8a18760b6f8a102b118c3fab97a54c8771c4ac112b7bf"
+    },
+    "run_registry.csv": {
+      "bytes": 2479,
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/run_registry.csv",
+      "publication_head": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+      "sha256": "19496c0fb9d843c6d180af0394afc293185a3a2e634428162cd545da7b57baf3"
+    }
+  },
+  "limitations": [
+    "min/max component proxies are not confidence intervals or hard upper bounds",
+    "per-node attribution is not resolved by a mixed writer lifecycle timer",
+    "stored terminal_compute.wall is a monotonic clock reading, not elapsed time and is not used",
+    "no GPU budget or scheduling reservation is inferred from these estimates"
+  ],
+  "models": {
+    "llama3-8b-inst": {
+      "D_main_current100_recorded_component_proxy_gpu_hours": 0.6625676086420038,
+      "D_optional_W5_to_W9_exact_replay_historical_gpu_hours": 1.7497261520740317,
+      "S_JV_endpoints": 9,
+      "S_entry_evaluations": 1,
+      "S_official_endpoints": 1,
+      "S_recorded_component_proxy_gpu_hours": {
+        "max_component_proxy": 2.000084854472338,
+        "mean_component_proxy": 1.803274489915011,
+        "min_component_proxy": 1.7187878996539319
+      },
+      "historical_component_seconds": {
+        "endpoint_b100_evaluation_seconds": {
+          "max": 83.16339775780216,
+          "mean": 79.85868758095894,
+          "min": 77.8155755950138
+        },
+        "jv_four_node_core_proxy_seconds": {
+          "max": 620.6795626892708,
+          "mean": 545.7744553101714,
+          "min": 517.0416072052903
+        },
+        "model_load_and_context_setup_seconds": {
+          "max": 18.93970796605572,
+          "mean": 18.937713058432564,
+          "min": 18.935718150809407
+        },
+        "official_core_proxy_seconds": {
+          "max": 181.3146658479236,
+          "mean": 163.3158504512161,
+          "min": 153.56763004418463
+        },
+        "target_b100_once_seconds": {
+          "max": 809.4774440918118,
+          "mean": 792.0061666573863,
+          "min": 764.3080977690406
+        }
+      },
+      "nominal_S_main_target_JVP": 170,
+      "nominal_S_nodes": 34,
+      "nominal_S_paths": 7
+    },
+    "qwen2.5-7b-inst": {
+      "D_main_current100_recorded_component_proxy_gpu_hours": "NOT_APPLICABLE_D_MAIN_IS_LLAMA",
+      "D_optional_W5_to_W9_exact_replay_historical_gpu_hours": "NOT_AUTHORIZED_REPLAY_TARGET",
+      "S_JV_endpoints": 9,
+      "S_entry_evaluations": 1,
+      "S_official_endpoints": 1,
+      "S_recorded_component_proxy_gpu_hours": {
+        "max_component_proxy": 1.9848579741047514,
+        "mean_component_proxy": 1.8077152549110727,
+        "min_component_proxy": 1.7308509458135166
+      },
+      "historical_component_seconds": {
+        "endpoint_b100_evaluation_seconds": {
+          "max": 95.68559327814728,
+          "mean": 92.48703191615641,
+          "min": 89.78793062875047
+        },
+        "jv_four_node_core_proxy_seconds": {
+          "max": 647.8394630239345,
+          "mean": 582.4369696656707,
+          "min": 557.3235479840077
+        },
+        "model_load_and_context_setup_seconds": {
+          "max": 16.34945377893746,
+          "mean": 16.260134908370674,
+          "min": 16.17081603780389
+        },
+        "official_core_proxy_seconds": {
+          "max": 183.71431662887335,
+          "mean": 163.86939594787546,
+          "min": 158.08031579153612
+        },
+        "target_b100_once_seconds": {
+          "max": 386.24797460623085,
+          "mean": 359.57379358769396,
+          "min": 331.89487831899896
+        }
+      },
+      "nominal_S_main_target_JVP": 170,
+      "nominal_S_nodes": 34,
+      "nominal_S_paths": 7
+    }
+  },
+  "not_separately_recorded_or_not_comparable": [
+    "new first-entry/nonzero-node FD fidelity",
+    "D repeated-capture and requestwise raw-bundle observations",
+    "D four old900 rewrite evaluations and cross-objective observations",
+    "D optional C-B1/C-B6 control observations",
+    "new repeated Family/endpoint restoration overhead beyond historical proxy",
+    "technical-attempt reservation",
+    "server2-to-server1 hardware/contention and cold-vs-historical-state speed ratio"
+  ],
+  "runtime_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+  "scientific_promotion": false,
+  "status": "ESTIMATE_ONLY_GPU_HOUR_BUDGET_UNASSIGNED"
+}

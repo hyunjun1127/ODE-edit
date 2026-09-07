@@ -1,0 +1,60 @@
+{
+  "availability": {
+    "S_blocked_by_D": false,
+    "W0_to_W9_rescue_allowed": false,
+    "W10_as_W9_allowed": false,
+    "W9_in_selected_publication": false,
+    "exact_state_replay_pass": false,
+    "fixed_z_tensor_availability": "NOT_RECORDED_IN_CHECKPOINT_SCHEMA",
+    "journal_replay_status": [
+      "NOT_TESTED"
+    ],
+    "local_checks": [
+      {
+        "expected_bytes": 5284845813,
+        "expected_sha256": "e55601892376f3e87fccd070befca8935554cfb5ef6611efe1d53b7e5a1cb08b",
+        "host_scope": "SERVER1_LOCAL_ONLY",
+        "kind": "W5_M5",
+        "missing_component": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE/checkpoints/W5-M5.pt",
+        "status": "ABSENT_ON_SERVER1"
+      },
+      {
+        "expected_bytes": 268,
+        "expected_sha256": "3b9133574aba14f02bbfc0505f1141e1c9c9fed274e28d65a48eb80b1cf6919e",
+        "host_scope": "SERVER1_LOCAL_ONLY",
+        "kind": "EXACT_NATIVE_CONTEXT",
+        "missing_component": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/checkpoint-context-support-20260906-v1/chain-2/native-context-cache-local-only.json",
+        "status": "ABSENT_ON_SERVER1"
+      }
+    ],
+    "model_action_count": 0,
+    "published_checkpoint_batches": [
+      1,
+      5,
+      10
+    ],
+    "remote_access_count": 0,
+    "repeated_poll_count": 0,
+    "replay_action_count": 0,
+    "status": "HISTORICAL_EXACT_STATE_UNAVAILABLE_ON_SERVER1"
+  },
+  "git_mutation_count": 0,
+  "publication_head": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+  "publication_members": [
+    {
+      "bytes": 6007,
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/checkpoint_inventory.csv",
+      "rows": 12,
+      "sha256": "f3c17ab2f090a7eee333e129175347836b9a1a00b3816d22bd083c5d96634a83"
+    },
+    {
+      "bytes": 3388,
+      "path": "experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1/checkpoint_context_support.csv",
+      "rows": 4,
+      "sha256": "086fa91e2a22299e6cb6e7261f66162064787c4e89a92d74b88bd79ef7801603"
+    }
+  ],
+  "remote_access_count": 0
+}
