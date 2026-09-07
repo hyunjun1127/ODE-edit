@@ -1,0 +1,128 @@
+{
+  "action_counts": {
+    "job_mutation": 0,
+    "new_GPU": 0,
+    "new_Slurm_submit": 0,
+    "new_model": 0
+  },
+  "analysis_source": {
+    "head": "59263e89aee31995f1f53a1b725c42af43a244f4",
+    "tree": "5de4669d8633887da0c90798260b7e2721e63b2f"
+  },
+  "exact_cli_command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_jv_llama_diagnosis.analysis_s plot --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/tables.json --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction",
+  "identity": "c23e282991416aff15338f00595a26ce53f5283e82b7db7d99db5c2b3ccd54fc",
+  "independent_failures": 0,
+  "independent_metric_count_and_distribution_checks": 594,
+  "input_manifest": {
+    "bytes": 121038,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/input-manifest.json",
+    "sha256": "ee49d59dbdfbbcc8d756717ba54afb86d26a65ce7aab0dc25f02feec61ed6e4a"
+  },
+  "markdown_table_width_check": true,
+  "package": {
+    "manifest": {
+      "bytes": 14718,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/manifest.json",
+      "sha256": "e8020a4cb1465952a17f0a412a67e096893bf1807da3184566336cefe44b8777"
+    },
+    "member_count": 32,
+    "members_root": "f5b4147481a3e6b5d050c76ba213100dabd65f142b1657500af25245a1277f29",
+    "receipt": {
+      "bytes": 1411,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/rooted-receipt.json",
+      "sha256": "d8eb8fc4ca5fceb72c3c9d81c4d01f71ca565c6920d00745abde4de4ac636cf8"
+    },
+    "receipt_identity": "c3ea915094d22bdd694c20db28d9542069d6c7f34793ec6c012f43d970caaa55",
+    "status": "PACKAGE_REHASH_PASS"
+  },
+  "plots": [
+    {
+      "cli_reexecution": {
+        "bytes": 77991,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction/endpoint-rates.png",
+        "sha256": "c4d415c60e35e939d4357fa711a413acddba9a490aac20e42bdfcb0ce6264a21"
+      },
+      "published": {
+        "bytes": 77991,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/endpoint-rates.png",
+        "sha256": "c4d415c60e35e939d4357fa711a413acddba9a490aac20e42bdfcb0ce6264a21"
+      }
+    },
+    {
+      "cli_reexecution": {
+        "bytes": 71914,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction/layer-update-magnitude.png",
+        "sha256": "23eddaf120e488b78c1a7da01fdca7e23fd080db18d3384e13214ade28bd88de"
+      },
+      "published": {
+        "bytes": 71914,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/layer-update-magnitude.png",
+        "sha256": "23eddaf120e488b78c1a7da01fdca7e23fd080db18d3384e13214ade28bd88de"
+      }
+    },
+    {
+      "cli_reexecution": {
+        "bytes": 147279,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction/paired-nll-deltas.png",
+        "sha256": "9996e85d5af967bbfe45a7ef31d1cf3723afed166da4ad3e0a8b1512247d186f"
+      },
+      "published": {
+        "bytes": 147279,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/paired-nll-deltas.png",
+        "sha256": "9996e85d5af967bbfe45a7ef31d1cf3723afed166da4ad3e0a8b1512247d186f"
+      }
+    },
+    {
+      "cli_reexecution": {
+        "bytes": 85859,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction/path-compute.png",
+        "sha256": "25da0bc1ec24512fd367a73b0cab6c8c1645169adfdbfa568cef3d63c15215ed"
+      },
+      "published": {
+        "bytes": 85859,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/path-compute.png",
+        "sha256": "25da0bc1ec24512fd367a73b0cab6c8c1645169adfdbfa568cef3d63c15215ed"
+      }
+    },
+    {
+      "cli_reexecution": {
+        "bytes": 138584,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/plot-cli-reproduction/path-physics.png",
+        "sha256": "377fa892d73fe18adc65b6b06e263bfac0b96d6b5b35869395c2dacc918fea85"
+      },
+      "published": {
+        "bytes": 138584,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/path-physics.png",
+        "sha256": "377fa892d73fe18adc65b6b06e263bfac0b96d6b5b35869395c2dacc918fea85"
+      }
+    }
+  ],
+  "published_raw_prompt_token_firewall": true,
+  "report": {
+    "bytes": 41762,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/factual-report-ko.md",
+    "sha256": "e5bbc8c9598cb4c3ec816b54ae52dba1ae576f93e6eb6fe77a90cd8ac7a8f91f"
+  },
+  "scientific_promotion": false,
+  "status": "ANALYSIS_RELEASE_GATES_PASS",
+  "tests": {
+    "command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest -q project.run_scripts.alpha_jv_llama_diagnosis.test_analysis_s",
+    "passed": 19,
+    "seconds": 41.99,
+    "total": 19
+  }
+}

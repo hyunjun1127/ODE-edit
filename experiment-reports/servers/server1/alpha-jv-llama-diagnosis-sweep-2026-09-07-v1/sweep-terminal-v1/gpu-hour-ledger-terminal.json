@@ -1,0 +1,38 @@
+{
+  "campaign_ceiling_GPU_seconds": 172800,
+  "charged_GPU_seconds": 24899,
+  "identity": "6fc4610ccd297515366146a7e7f2c0bc3320afc4cc301d357d770a7394141845",
+  "instruction_id": "ODEEDIT-S06-ALPHA-JV-LLAMA-DIAGNOSIS-SWEEP-SH1-V1",
+  "jobs": [
+    {
+      "charged_GPU_seconds": 10899,
+      "job_id": "38475_0",
+      "live_state": null,
+      "reserved_remaining_GPU_seconds": 0,
+      "run_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1",
+      "source_head": "ee6594882e03b57cd6e8934dc758868bb1defdd8",
+      "state": "COMPLETED",
+      "track": "S"
+    },
+    {
+      "charged_GPU_seconds": 14000,
+      "job_id": "38475_1",
+      "live_state": null,
+      "reserved_remaining_GPU_seconds": 0,
+      "run_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1",
+      "source_head": "ee6594882e03b57cd6e8934dc758868bb1defdd8",
+      "state": "COMPLETED",
+      "track": "S"
+    }
+  ],
+  "queue_wait_charged": false,
+  "registered_job_count": 2,
+  "registry_identity": "bb24fcfdf9474b92182ac495d2c1545c089316ee29ea54a27ce4f498b1d6b83c",
+  "remaining_unreserved_GPU_seconds": 147901,
+  "reserved_running_or_queued_GPU_seconds": 0,
+  "sacct_sha256": "51855cb8294d216d523f2f7e49dbbcb36ad357ec89a8e52a18b4025cfcb2e19e",
+  "scheduler_queries_successful": true,
+  "schema": "alpha-jv-ds.accounting-snapshot.v1",
+  "scientific_exclusion_does_not_exclude_cost": true,
+  "squeue_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

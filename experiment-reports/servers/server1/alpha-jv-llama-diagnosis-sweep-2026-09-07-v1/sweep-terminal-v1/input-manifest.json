@@ -1,0 +1,2197 @@
+{
+  "members": [
+    {
+      "bytes": 1832,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/frozen-input-v2.json",
+      "sha256": "ee15b3231f4534574c76a955bed0cc8d9aa4fbc03a0f44a357c535a5e483c0d2"
+    },
+    {
+      "bytes": 281047,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/sample.lock.json",
+      "sha256": "f0b846c0b6476a1967b058e9f8f3d09d801a2f01bb2dd09b7275392d11ab6bb7"
+    },
+    {
+      "bytes": 7704,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/source.lock.json",
+      "sha256": "24934d98e890cc3c29794f7787f4891d9dd6a04db8e256a5e46ab3135e59484a"
+    },
+    {
+      "bytes": 9060,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/science.lock.json",
+      "sha256": "4e6f12dcecdb9abf4c1a7308230d6aeea3ae2b4634b42b00de4327c98524689e"
+    },
+    {
+      "bytes": 1338,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/resource.lock.json",
+      "sha256": "476d8383bf8f862f24011c13132422817b3438ca861911c5ba649103d51a9505"
+    },
+    {
+      "bytes": 9491,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/assets.lock.json",
+      "sha256": "13118931e3b8765f70d91e3bd592faaedd4e71f571dbeeb8477f4aa9d27a0e8a"
+    },
+    {
+      "bytes": 4860,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/held-inspection.json",
+      "sha256": "5a2063b0edbdb4381d997be276f0f9be04aebabb91a1f66927ddae9829bfb8a2"
+    },
+    {
+      "bytes": 1623,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/gpu-hour-ledger-terminal.json",
+      "sha256": "3c995f6d0c0f8a0f768adbb1c50290fdc23240e82991d06888d81352345a7fad"
+    },
+    {
+      "bytes": 406,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/scheduler.json",
+      "sha256": "e55b1c21acbf214f03750835800761ce9b4d992d65eacad218dfcd84b7923315"
+    },
+    {
+      "bytes": 119367,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/sweep-terminal-analysis-v1/json-inventory.json",
+      "sha256": "921d810218d559fa07d5d3d7daf7316e33702174876d1036396d6d857c7b5926"
+    },
+    {
+      "bytes": 803,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/admission-accounting.json",
+      "sha256": "31da16ce3ce629752dc081d4b3dee538c13e4b51c4fd48b56176b189c0810fae"
+    },
+    {
+      "bytes": 1705,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/budget-authority.lock.json",
+      "sha256": "c4786ee01b195ee0f8c3a779450297fad676dc69ae96a61d158a2b4288188981"
+    },
+    {
+      "bytes": 2301,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/O_NATIVE-metrics.json",
+      "sha256": "369dbe03557085e3b37369b2a9cbe2829da471e73f023faf92da765e63bac7a2"
+    },
+    {
+      "bytes": 1334246,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/O_NATIVE.json",
+      "sha256": "a9e64d11bc554a1036fbf5043c4589b06108e91aa604c780ccd54afeb06485e1"
+    },
+    {
+      "bytes": 1631766,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-LAM-001.json",
+      "sha256": "43ce6889cd96961cee64a18fb512e3805e8f2d155c003e70e041a6040c0049fc"
+    },
+    {
+      "bytes": 1631973,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-LAM-00316.json",
+      "sha256": "6a4b183b47dffa8f416ffb5ca4c25640cd489553719429ec2bd2953781f49e2b"
+    },
+    {
+      "bytes": 1632052,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-LAM-0316.json",
+      "sha256": "3384a3b49c4bd1d7158cd8bfe16d2e7f8de69ee9bb6b1df64e189e6c01466ec2"
+    },
+    {
+      "bytes": 1632982,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-LAM-1.json",
+      "sha256": "c6d7ee9ba5a6c9bbd274edabebcc9f84a00ac51c18eaa84b387466d538cd8f0f"
+    },
+    {
+      "bytes": 1579389,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-N2.json",
+      "sha256": "25b667302b837ca870627ec97655c481c9f92e3ca36a7b1d13cdae6cd85e5d3a"
+    },
+    {
+      "bytes": 1738456,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-N8.json",
+      "sha256": "832991d2e1d1705ebb40fed682ce321f10a14a5dd860f34581b0cc978da48f80"
+    },
+    {
+      "bytes": 4781046,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/S-PATH-T4.json",
+      "sha256": "444a4f6f18e50b777c872a9638c8d8981f9fd788f77113cc6f82df03f7fbcf52"
+    },
+    {
+      "bytes": 34545,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/first_fidelity.json",
+      "sha256": "87ba151a1666a28f3ab80979c501b16c105bf400637eb197de17c8cf4e655f03"
+    },
+    {
+      "bytes": 1238681,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/components/fixed_target_and_entry.json",
+      "sha256": "d322bd7fa94275865a08228470063f21eca26a1ad6ecf55b72a56a817433faca"
+    },
+    {
+      "bytes": 2933,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/compute-accounting.json",
+      "sha256": "08d48485c9f930e3ec1c540cdca89c80422a60d7b6830599624484ccfe36651c"
+    },
+    {
+      "bytes": 2289,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/entry-metrics.json",
+      "sha256": "d7f09ef820048fb2eb22c0c2efe9dff78e960b303bbbb860c6d39750aac23ade"
+    },
+    {
+      "bytes": 1716,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-entry-layer-4.json",
+      "sha256": "c51de036d0ed30cbc7c1d0d143dcd9184244c1b604bec56bd40b9fcd4ae0218e"
+    },
+    {
+      "bytes": 1720,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-entry-layer-5.json",
+      "sha256": "64444fd90e056dda504cd5ab07315d991ed48bd68f5e33e0c092b8a24d95fa31"
+    },
+    {
+      "bytes": 1719,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-entry-layer-6.json",
+      "sha256": "83b8c8571b5c4002170b0a0258882364d6fbcad8c94a7f4f9cf0cf3bf45e64a0"
+    },
+    {
+      "bytes": 1724,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-entry-layer-7.json",
+      "sha256": "ee02970c5401c248783b12f0ee09ef24b903ec53eee3d15c7d7dc920fdc339ef"
+    },
+    {
+      "bytes": 1720,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-entry-layer-8.json",
+      "sha256": "ea7cf19a8e7a0ce7e8379e6a25d1d484106995ccb3d33f85e326d1c97756be71"
+    },
+    {
+      "bytes": 1731,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-joint-step-1-layer-4.json",
+      "sha256": "90d38450de5cd84cf8023d81c2849592f8af679b8194469c465f0088f585ec1a"
+    },
+    {
+      "bytes": 1732,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-joint-step-1-layer-5.json",
+      "sha256": "cffeabe144eb26fd2fe1d84c9a417439789d73ffeda3a0a049ea6595fc19c8e7"
+    },
+    {
+      "bytes": 1724,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-joint-step-1-layer-6.json",
+      "sha256": "0aebf2d53196af4a0f49b8957d473a17b181c6165098cd9cf368f63886460cd1"
+    },
+    {
+      "bytes": 1727,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-joint-step-1-layer-7.json",
+      "sha256": "894e21d3c5803905baa154068b70c77722cf778ddf7f7a1226a7c65c173e09da"
+    },
+    {
+      "bytes": 1729,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/fd-joint-step-1-layer-8.json",
+      "sha256": "aad7d1dac68dcfc8fade93eb4392f21e2d2f4eefabbec4180aeae90a03895d45"
+    },
+    {
+      "bytes": 32345,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/gpu_fidelity_checks.json",
+      "sha256": "ddb066d29611f3daf718db046b3084294cd24b031b58809f7b40059dcb6382fd"
+    },
+    {
+      "bytes": 701,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/parity-entry.json",
+      "sha256": "20c028805364af81f2e2e9769cdd53e704538449b06900472181b72e503639fb"
+    },
+    {
+      "bytes": 788,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/fidelity/parity-joint-step-1.json",
+      "sha256": "3bafa6f2bdfa4482c03d14440184362ec17587b4716d7e5ba2875212ce5f4dae"
+    },
+    {
+      "bytes": 305,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/first-valid-fidelity.json",
+      "sha256": "d73356678d07d1a3e217280d87e2e0ef76ba99c8889d68c17630371d1f9fa605"
+    },
+    {
+      "bytes": 1535,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/O_NATIVE/endpoint-O_NATIVE-receipt.json",
+      "sha256": "c4e559439b6cfaa805301779319eb01517909ac8c00b1373ce39cf9cd4d6a87f"
+    },
+    {
+      "bytes": 1544,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/endpoint-JV-LAM-001-receipt.json",
+      "sha256": "da8d77dd449e37f61565bfa1d7f50bae9f1f6cad4c11c875937c93568e099a0d"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-00-post_node-receipt.json",
+      "sha256": "00205b18bf2340b1322721861015b3dbb14899db4aca32a238fe307f56c5b8fe"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-00-pre_node-receipt.json",
+      "sha256": "7e7c9b0d80450f57cdba1e5e616b9d1530a74ba1fcc7f7ee108aed11b1cba23c"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-01-post_node-receipt.json",
+      "sha256": "f6455fad5d0d900496db86c22b0eefc9a4e4589e883428b7e70721884c807a3c"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-01-pre_node-receipt.json",
+      "sha256": "72f802e99b32bc78fb80b93d9c47b4ac43e4b189c75a1b7c0e3c1e6a46ce0d87"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-02-post_node-receipt.json",
+      "sha256": "309b1cd84b4bbc032d7f77ed1fd3dbc5695f84cea4c5d05f6aec32522df1a519"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-02-pre_node-receipt.json",
+      "sha256": "bccbc5488259c7e1e63086455b5736baeecdd2084672ca637f6aa179832447fe"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-03-post_node-receipt.json",
+      "sha256": "6c84fb37a500f03ea6cf8fe2ff1b4670aa89d3da033b57b0e23eb02a8e569b84"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-001/node-03-pre_node-receipt.json",
+      "sha256": "e75a549e10fcee3875ecde676db469c8d69c16ea2c66d53753d02badac512c0b"
+    },
+    {
+      "bytes": 1552,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/endpoint-JV-LAM-00316-receipt.json",
+      "sha256": "6d8f892ab10127763622614def0aa265b63b221d5dddb25f7f9cf2d16f53ae9e"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-00-post_node-receipt.json",
+      "sha256": "e19b819351841e35d5ac74bf6692403fe737c1ae7cb7597ada08af9c636a8f62"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-00-pre_node-receipt.json",
+      "sha256": "c061e8b86199d6ead5691b12aad5addebf555b20991f8fb91af9f943be719d64"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-01-post_node-receipt.json",
+      "sha256": "0352d542c90345d4221c12639a7d3612acafe08d74b202187784c3d679636897"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-01-pre_node-receipt.json",
+      "sha256": "78041330ebf447f9c6b27bd9129822164ea46fa75caddee6c79204b983ee64a7"
+    },
+    {
+      "bytes": 785,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-02-post_node-receipt.json",
+      "sha256": "1df2531c7c1eea6880a56c7a3fa2abd321b6b85859ef3c06e1d74ee22aec9d80"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-02-pre_node-receipt.json",
+      "sha256": "b6e8f5e65953192340b6db51ffeb5e70508fd0f1c21283981f11650dab45b2f3"
+    },
+    {
+      "bytes": 785,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-03-post_node-receipt.json",
+      "sha256": "bcde9ca4597b5a9d6c8961e3bbb888ecee3e57e20ce5a965666cae37ebf2cf82"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-00316/node-03-pre_node-receipt.json",
+      "sha256": "ad975adda9ea6120ff9cf8498d024039eb40d740da92717948a98187f2db09e3"
+    },
+    {
+      "bytes": 1548,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/endpoint-JV-LAM-0316-receipt.json",
+      "sha256": "54fb7c79c7759bbe750be10e2fbfdb51eaa395ad31843dc7615073c718e6ed0d"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-00-post_node-receipt.json",
+      "sha256": "002e9f4d91638aee16aaabd73591c9567c85eea01c2d3265ef9d9aa63dd0aef7"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-00-pre_node-receipt.json",
+      "sha256": "33f2d732d31927d906c35ac27ce632b3b32f29539d370d4b3a1506b110ee3741"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-01-post_node-receipt.json",
+      "sha256": "0f0166a7dfccb07d2bef59f8f32e0fff7ac3d084cc1d58af870b99f6869dddb0"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-01-pre_node-receipt.json",
+      "sha256": "12be883d39fb5526f7a09291e84c4fdfc61f5cebe491be9d57c867adaa535d49"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-02-post_node-receipt.json",
+      "sha256": "8b38b7e82ce42a2184686daee7a1c406a1346cbeb65f1ba989a77a8d13d887aa"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-02-pre_node-receipt.json",
+      "sha256": "a0bce9e4a9196c44e58a8d1cfa59e34c50d3ab348f1876a23f8ec4f48c1643cc"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-03-post_node-receipt.json",
+      "sha256": "95a1cefd957afff9aa607808efc03c0fd9c79a874e6b92c1e20e2a624ae6cd3e"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-0316/node-03-pre_node-receipt.json",
+      "sha256": "cda1b259f87e0354d0c54a238bd012462ffe33c8eab592f10fedb6aed7865a75"
+    },
+    {
+      "bytes": 1536,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/endpoint-JV-LAM-1-receipt.json",
+      "sha256": "342c788bf6bb27a27e3bb547f595a67426c7cd77e94169fe5ad16c3a61c2f494"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-00-post_node-receipt.json",
+      "sha256": "63a3f44bc2c3df7ac848c52eeec2183f8208281c729e7648c59dbdcf41bec03a"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-00-pre_node-receipt.json",
+      "sha256": "33cc8b1dfe6c86426d1fa2d0edd9cfc7630bdc6cad89a32f4b889ed996bf54d0"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-01-post_node-receipt.json",
+      "sha256": "8a31aba2e6e2b42277426ae48dbf13fd7dbf4fea68b7f0dcd41a42a0b8ec120c"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-01-pre_node-receipt.json",
+      "sha256": "0265684dac18768c26f739db20b5dcbafaf2faf25c66a52ea7b3ffac7438ec55"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-02-post_node-receipt.json",
+      "sha256": "a2ac6ec6966eee9050cb7b0c0b7c2bf4a89de983a5a537cebdbfef99344750a5"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-02-pre_node-receipt.json",
+      "sha256": "1ebd9a0d34f70bd32656a963d26a98327ede847315de45ec799d0cff9574d6a0"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-03-post_node-receipt.json",
+      "sha256": "eb771cf7dc8090ca2f31b49fe7f1589f308b4f4ceb6b3aa497be2ad35788b9cf"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-LAM-1/node-03-pre_node-receipt.json",
+      "sha256": "23c9e290e21c09477440c32f822b9eb4773c9fd9e074414088369b0479996176"
+    },
+    {
+      "bytes": 1531,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N2/endpoint-JV-RES-N2-receipt.json",
+      "sha256": "02f79e18c297647910b65c2f7b10bd40d312a3664dc41e0bd11badbcd1b40f7c"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N2/node-00-post_node-receipt.json",
+      "sha256": "44aac4cd4b3ef15648d98b37fde8b8c795477c2282840a02683be21c8aa082db"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N2/node-00-pre_node-receipt.json",
+      "sha256": "25f969c0027bce3228b3a14e6cd7239eb125621ebd24dfd8aeb1abe7637d5e26"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N2/node-01-post_node-receipt.json",
+      "sha256": "c3623b4daa25fe456326bf99d750d8db4bffe4f007e80a6d89848f4061ae2a49"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N2/node-01-pre_node-receipt.json",
+      "sha256": "46d087e500f682a02c52d4cc19f209955f60c3fe23a1574a085587b23188d09c"
+    },
+    {
+      "bytes": 1532,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/endpoint-JV-RES-N8-receipt.json",
+      "sha256": "a69a53c57e4fbb1e6b083c1427765fe32c8615909055a2667ef105aae3490f74"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-00-post_node-receipt.json",
+      "sha256": "5afe8352649565290272c1917461c45fdd211c760bf7c5db55b0e07b5c8513b7"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-00-pre_node-receipt.json",
+      "sha256": "f046dd2d85be65c881000d2e43a13429bf947e6bc09e6b7c3625b0ec36c7fb05"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-01-post_node-receipt.json",
+      "sha256": "3dddd123af0a926ce8c2c6f5fca70eee0970eef2d79a8e1037103fc2b0a5c45e"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-01-pre_node-receipt.json",
+      "sha256": "9baa907e9eb73b5671fa3b34c8ee6b0c8eff95e18f1399ea70494650196ccbe7"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-02-post_node-receipt.json",
+      "sha256": "a1f60b2c909387222b6e1fa6215d8a2fe8204a4e709b67c2c939c9116aea88c5"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-02-pre_node-receipt.json",
+      "sha256": "35f9727482b043b1720474329a4e5a1da8514e516d68a18c240cbc77b5dba487"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-03-post_node-receipt.json",
+      "sha256": "b2b4df1be08e034ef00b63e5a0331c34bbf5c4c7fd7016856ade45967e1809fa"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-03-pre_node-receipt.json",
+      "sha256": "13fa1c6c8dedca70be5ab49ab7737acdfc549747e16f95f6c5b6b3b35d756848"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-04-post_node-receipt.json",
+      "sha256": "d92b1525b1c50db9b53b049bf70673e4f583df675d89fd29cb5c4a9272fc88ea"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-04-pre_node-receipt.json",
+      "sha256": "14b640dce5a93d0ef0f239b0df9bf631b593e81f6d81f366c8903524611895fb"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-05-post_node-receipt.json",
+      "sha256": "8b7b24fcd5d2ddf956d82ce9670232d2aa169a619d6e79b2060f0632e1b3ec12"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-05-pre_node-receipt.json",
+      "sha256": "abb51374dca866befb9d4f53e24b67b1b817712608155d12db50aaa5e3fb4d66"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-06-post_node-receipt.json",
+      "sha256": "14fe67f96ef3798e931431baad618d04e70bfb800a0751b7ed672615a9bd5e60"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-06-pre_node-receipt.json",
+      "sha256": "784672ffdb2d2f9f509cb0039315d959e631261d41b81814871cbfe76f081e93"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-07-post_node-receipt.json",
+      "sha256": "3ec5b05af6f24bc70f423e2993fca89324b4bb07e7005a68772170b7e436e957"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-N8/node-07-pre_node-receipt.json",
+      "sha256": "c49d40a79bfbea8f88aa3fea0e636cd01b7adbfe7c7fcc8875c2debbac99f2eb"
+    },
+    {
+      "bytes": 1527,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/endpoint-JV-BASE-receipt.json",
+      "sha256": "ae7c797a84f663a58c91aa33fb865061f7ff6fdb011aadef18c10031cc73c0f9"
+    },
+    {
+      "bytes": 1530,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/endpoint-JV-HOR-T1-receipt.json",
+      "sha256": "f5992dc3afd83f25ad33cc0e3a213b49d2fdd019b3aa5934b12d5a6c9e8c2a0d"
+    },
+    {
+      "bytes": 1532,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/endpoint-JV-HOR-T4-receipt.json",
+      "sha256": "595b70b244abaaf6af8b6934fd862944121d4aeb3c4cd9c9848067eb97add0ed"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-00-post_node-receipt.json",
+      "sha256": "34cab9502ba4d2643979839de9107a753eefebfa9953e72d1d2d56eee5cdd372"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-00-pre_node-receipt.json",
+      "sha256": "9b5999a555eae535b90cbec82199f0aa163d275f5ad063897eaa5ec3a01471f9"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-01-post_node-receipt.json",
+      "sha256": "7affc896615f3ac9e2ba21de1685a2a84c0606b618aed371bcb9fad15efa1a07"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-01-pre_node-receipt.json",
+      "sha256": "5a4fd5967a7cba83cd3271c8ec6df2024548fb0e338fe6ca6429ec37eab9e1c3"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-02-post_node-receipt.json",
+      "sha256": "890d233e32e9d3fec458dd0a12d4da39874e0b58ef6e19ea58ff9355778f9c8a"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-02-pre_node-receipt.json",
+      "sha256": "d2a5ac5d8e932e6ce92c5e49044991ff90cec68dd0ab46f4ef833b5d49e8b0e4"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-03-post_node-receipt.json",
+      "sha256": "0d941fce02bc742195e8d1d1e8e8d2e90096674f170743178acbcfec06827089"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-03-pre_node-receipt.json",
+      "sha256": "4bff01f18ca6a9d28c509b5230b27e497f63a753666a7b7ed9339bb2ac94f4a4"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-04-post_node-receipt.json",
+      "sha256": "5deb34ad97ad110c15437cfb26c7c434814783b80666ccf2349c5b589834df8c"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-04-pre_node-receipt.json",
+      "sha256": "cf8ea4ee84bad75ca1d9e239712bf8e43248f71eac991775466f191ae290921f"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-05-post_node-receipt.json",
+      "sha256": "375e4b4e9700ec4ad6a8433ded53233bcc41ca5a0fa7ce023b9cce046b39ee9d"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-05-pre_node-receipt.json",
+      "sha256": "27e10693dd8d161cca233ea63e01225db665837bc975d8666ebd68f60cfe9e67"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-06-post_node-receipt.json",
+      "sha256": "6f2fd0bf0c9df1ed4802d13816d9ceeb0e08f70525c3445433b7c15281806303"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-06-pre_node-receipt.json",
+      "sha256": "e64e7489de48022e5a7d9fc817ebbc5de3ae3a01dd98772ac30c599df00ab971"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-07-post_node-receipt.json",
+      "sha256": "fd6eabfde886cf7eb5b8b1725e0d4d3303b0dac62fc589c1e0f63ca6871909f5"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/S-PATH-T4/node-07-pre_node-receipt.json",
+      "sha256": "b73190ba4d08c9810c312edd49eaf5a82ff04caf3f1ce0a59008d3edf7f256eb"
+    },
+    {
+      "bytes": 1662,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/local-raw/fixed-target-receipt.json",
+      "sha256": "619a51d5136bcf1bd3137f16fa77ac8728ac18b4e2e98606c9c8884e3a5f0237"
+    },
+    {
+      "bytes": 2320,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-BASE.json",
+      "sha256": "3a53c5e638b5a082d342d9ebb8bbc845db62397217d9f2085bb6063b15b76235"
+    },
+    {
+      "bytes": 2317,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-HOR-T1.json",
+      "sha256": "b22694f60f8f4c98fe4814ffc8487eff8a95676d08924738bdd3dd6173d7f755"
+    },
+    {
+      "bytes": 2333,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-HOR-T4.json",
+      "sha256": "5811fd803c1d3b01828da537e6d18a6fc9ab9e8a7ceeeaf3328429f1c2133e58"
+    },
+    {
+      "bytes": 2333,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-LAM-001.json",
+      "sha256": "0a9d3cdcd5cc30bac245af13d275821b6af6a2a6dc4edb63b834a2751aaddfdf"
+    },
+    {
+      "bytes": 2336,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-LAM-00316.json",
+      "sha256": "ec4038f2e703f9b5c6ce1ac453e1283ddd2c63eaced6272b5b37d4fd0fe14d8f"
+    },
+    {
+      "bytes": 2329,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-LAM-0316.json",
+      "sha256": "b449a5828141e832a921ebc442e47380153ba380ebccb8707ab68370beeba467"
+    },
+    {
+      "bytes": 2327,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-LAM-1.json",
+      "sha256": "964c6ea5319e2f4a6b4c30651bb3a1021263a3660c296b3af5cc58af0a2b08a6"
+    },
+    {
+      "bytes": 2333,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-RES-N2.json",
+      "sha256": "9d5fa1851a5cfe37b9076e8e336627f6daccf0f749e8a00a8b30b14364c85a65"
+    },
+    {
+      "bytes": 2324,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/metrics/JV-RES-N8.json",
+      "sha256": "c270ab4fb45cf4048cc2bc4017f372ac2bb9caab2811588c2280f0c77e471844"
+    },
+    {
+      "bytes": 1144471,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-001/endpoint-JV-LAM-001.json",
+      "sha256": "f69f9e047ff497d844f2b2bfae266a02455dc1bcd030ee94b89cec8635f52bba"
+    },
+    {
+      "bytes": 20258,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-001/node-00.json",
+      "sha256": "014a7fc42639aef89aa32968c9ab1a59f0b7e2eaa05e5e9389781e49959064f6"
+    },
+    {
+      "bytes": 20238,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-001/node-01.json",
+      "sha256": "9f24035d0ac92ab14f51fc86a54ee7bcbc0218040ee01b4376c5b32fbe19b7e3"
+    },
+    {
+      "bytes": 20313,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-001/node-02.json",
+      "sha256": "557510eb0f4be0c6cbf59045d3a8a6d9b82b1676bdc49761b38fe2e803d669a7"
+    },
+    {
+      "bytes": 19991,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-001/node-03.json",
+      "sha256": "0d52c348fccbe076c53d06f8ac7083acb72fbc29ac529c1201b5979c229aa101"
+    },
+    {
+      "bytes": 1144500,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-00316/endpoint-JV-LAM-00316.json",
+      "sha256": "c63270a9bcfae333ced0d1c0c9f164b1856b5ef6446c789c7df4d5c01d3fa4cd"
+    },
+    {
+      "bytes": 20309,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-00316/node-00.json",
+      "sha256": "8444400ff3d05e832547585f43a564b398462163737595d32b12e9eab35096a3"
+    },
+    {
+      "bytes": 20293,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-00316/node-01.json",
+      "sha256": "9784e8e7f1462f60d8ea4de3eabdb50d5df2baf89af2b325435759bda45acb0b"
+    },
+    {
+      "bytes": 20325,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-00316/node-02.json",
+      "sha256": "d2c2a5ace688108c5ab77b9713670eb88fb9f9227a3f218036ce4b73271970aa"
+    },
+    {
+      "bytes": 20025,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-00316/node-03.json",
+      "sha256": "ea2287b76d44c66c76ecfe2634081afd2e45b2f2662483dc6004c902fc268000"
+    },
+    {
+      "bytes": 1144441,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-0316/endpoint-JV-LAM-0316.json",
+      "sha256": "4f005d579f702ae1506f7fde075e479e27e2304183c13bab518522833199170c"
+    },
+    {
+      "bytes": 20278,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-0316/node-00.json",
+      "sha256": "6ebde747bc91173926c23cc98bc68c9238ad3420f2325bfe6c7e6c8ac228543c"
+    },
+    {
+      "bytes": 20235,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-0316/node-01.json",
+      "sha256": "7c124ca6044011b435151b6a9732d7b57fcdad28cb6b7f88181d3e755d7ae2e7"
+    },
+    {
+      "bytes": 20246,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-0316/node-02.json",
+      "sha256": "a7e3bbe23e32127a602c026210cce7526aa6c3e93c8e9c0d6a63778d875597a4"
+    },
+    {
+      "bytes": 20343,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-0316/node-03.json",
+      "sha256": "0ab1afa2c5b9889e159748dd901f0c043504c944ac2f139884d59dd22da4d739"
+    },
+    {
+      "bytes": 1144464,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-1/endpoint-JV-LAM-1.json",
+      "sha256": "f46531326ef01bfc007e782f7a6480758353fa576570c623b34b61803b5ca151"
+    },
+    {
+      "bytes": 20178,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-1/node-00.json",
+      "sha256": "fc01092fc740cc0d648051475118011ad037aee9beeacfa3da620c77c5b47675"
+    },
+    {
+      "bytes": 20562,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-1/node-01.json",
+      "sha256": "f09c38151f821ce5af3ad6881bd1a58a5183a0aa7adeff3b61d78c0457b7b41d"
+    },
+    {
+      "bytes": 20613,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-1/node-02.json",
+      "sha256": "098282f4e9beaf674fa7dbfcb4b6f637e31b86e490780e99439b948c2bd561e4"
+    },
+    {
+      "bytes": 20641,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-LAM-1/node-03.json",
+      "sha256": "f845d1a2f1e284b7b304a5b576e3926df9f51a46a4c2a03794b75ecb0b02f5f8"
+    },
+    {
+      "bytes": 1144497,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N2/endpoint-JV-RES-N2.json",
+      "sha256": "2720b44cdff271582a76ef817814f868ad48d102b2283036cac49c401f8a17fa"
+    },
+    {
+      "bytes": 20283,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N2/node-00.json",
+      "sha256": "aef877e940ea9331b60b4e6d85e3e348fbe8189774617b8e33d6952e1cd7df5b"
+    },
+    {
+      "bytes": 20890,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N2/node-01.json",
+      "sha256": "7d0ae95d58590f1412c2ec95455d52fbbd63b2695866b04be109ef393ecdd7b2"
+    },
+    {
+      "bytes": 1144400,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/endpoint-JV-RES-N8.json",
+      "sha256": "c9369753d5a4cec8ba4ace598ecf59d3efa1b69d210d3de21460e4a55d73325b"
+    },
+    {
+      "bytes": 20273,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-00.json",
+      "sha256": "d607add26adbdd7d08f409ddfad69a6d7b55db83f2b04a6f106a248df935827b"
+    },
+    {
+      "bytes": 20231,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-01.json",
+      "sha256": "b0b2a0a14d897433c439d020cda0cbcf492e89e07e8f6945850d693c643b24a1"
+    },
+    {
+      "bytes": 20183,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-02.json",
+      "sha256": "244f8520d141e64b78295142856316b83e06b643ab6b715e547f18645c9a6908"
+    },
+    {
+      "bytes": 20212,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-03.json",
+      "sha256": "f867110b610632698e7648b51748650347255af5ed7b58a78e7f036f9811d080"
+    },
+    {
+      "bytes": 20257,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-04.json",
+      "sha256": "078c0f6399a455421dfa479eff955b7b8e5c8185b124d6f50675dd37712f0b75"
+    },
+    {
+      "bytes": 20244,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-05.json",
+      "sha256": "9005f65d35d3095e5739ee9a77d6305c428147be5c3b5b76e325f8d9632d2a26"
+    },
+    {
+      "bytes": 20267,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-06.json",
+      "sha256": "52723817909cf9fe2d6a57152bc000002306fab8c8c5eb65ca19593774a982e8"
+    },
+    {
+      "bytes": 20302,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-N8/node-07.json",
+      "sha256": "e618dfef149fe237430aa058989f0e9eabe4e38d4f52e4349828d154d9d694dd"
+    },
+    {
+      "bytes": 1144553,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/endpoint-JV-BASE.json",
+      "sha256": "4b9ddd9e1a62394bd85bd26b219a3cae3068205a6e8ccc2cf49ff75318ad0141"
+    },
+    {
+      "bytes": 1144316,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/endpoint-JV-HOR-T1.json",
+      "sha256": "462b376326b95b44771854ecdfd546498eb77fdbbbf42864f98d421f917d2d51"
+    },
+    {
+      "bytes": 1144525,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/endpoint-JV-HOR-T4.json",
+      "sha256": "27d1cbd54b805ee271972395bc3fb23b2dc4852b5451961ef4491fc2046455a5"
+    },
+    {
+      "bytes": 20244,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-00.json",
+      "sha256": "b52776a4ba7c7ac11dda76437562bab54fe25c0353b60877bd04d7e37a7bed7b"
+    },
+    {
+      "bytes": 20236,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-01.json",
+      "sha256": "c186dbaad7c628ea3794722d563a00c0f4c1e54ca4e5d213eb573f10cabcaf1e"
+    },
+    {
+      "bytes": 20289,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-02.json",
+      "sha256": "14ccac875ed6d046663dbf907c72a30e5cd9c2189206d5ca493fa45f78e25ad7"
+    },
+    {
+      "bytes": 20342,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-03.json",
+      "sha256": "34c76645284e85fd48deddc79ce6b2369d214d428905530628ef5bc38bc4cd7f"
+    },
+    {
+      "bytes": 20385,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-04.json",
+      "sha256": "d9c5accd2689c2e43d039437dd0df763b8035de817d28584b8788371225e7e00"
+    },
+    {
+      "bytes": 20078,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-05.json",
+      "sha256": "021d6ede7b1c34ba39a848f25077712e46ea89674ce3b124fe33449da23a7ebb"
+    },
+    {
+      "bytes": 20078,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-06.json",
+      "sha256": "437a54b6ca8d8e1419a9748f4340ad1e36ee8dca9469cc80de7535c0c8274c67"
+    },
+    {
+      "bytes": 20145,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/paths/S-PATH-T4/node-07.json",
+      "sha256": "7e21108c928a2383298a78ee18608a2944f4aec4a60ef9d3c6d686e2223ed6bd"
+    },
+    {
+      "bytes": 388,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/premodel.json",
+      "sha256": "1bd62d113a0ec5aabe43d30e32615866a1413dfce5a856de165b1fbd2f325631"
+    },
+    {
+      "bytes": 199,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/01.json",
+      "sha256": "c42e967434f0c27fd2cf6411dae1e5bd1ef42d4bbdf976234f92fc84774d1ecd"
+    },
+    {
+      "bytes": 208,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/02.json",
+      "sha256": "8113b9ec37c43ace1ee9c65d040b2fa637318852cf9e03fea8618790eb06c011"
+    },
+    {
+      "bytes": 210,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/03.json",
+      "sha256": "03840c8975518ea222a486c3d30c90fbcb4ba1bd05a064d510279334881121eb"
+    },
+    {
+      "bytes": 261,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/04.json",
+      "sha256": "f98b9a9acbff90818f4971c7f3df53c6a0200ddc39df3a8f03bbaa7020cf1960"
+    },
+    {
+      "bytes": 276,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/05.json",
+      "sha256": "50cf9d5d4d8cfb9846bdd2bba5f52d521369f0e7488a25337d2ab03a7fd90624"
+    },
+    {
+      "bytes": 295,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/06.json",
+      "sha256": "427f79306ce892233530499d1ca819efc6861b88aae0bdd4d370a05628375f43"
+    },
+    {
+      "bytes": 318,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/07.json",
+      "sha256": "4cc26b09b9c8755b75dde7886f3493c1318777390017e52dc4c8c2cd7174f611"
+    },
+    {
+      "bytes": 332,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/08.json",
+      "sha256": "83e4ec453ec0e3c16ecadb01eec577e4c53a0e6d0834ef7305270ffba965423b"
+    },
+    {
+      "bytes": 356,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/09.json",
+      "sha256": "c72b4303848074d272fb53c942f3503928cef58570dad2415df544dafd8c6ce0"
+    },
+    {
+      "bytes": 375,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/progress/10.json",
+      "sha256": "ee53e925b26a4703056901d7a16197162b92c09983dc949c18b6ef28ee8b0cfd"
+    },
+    {
+      "bytes": 10444,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/runtime.lock.json",
+      "sha256": "ce364e6755276495ddef0cef5ecdb349afdf596fa76bad6816d1b365e94eafcf"
+    },
+    {
+      "bytes": 30784221,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/sweep-result.json",
+      "sha256": "d1b95b38001df97ba7c9b76750d352c3fdc44d7298c955293bce9d4df76db23c"
+    },
+    {
+      "bytes": 1250,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-0/terminal.json",
+      "sha256": "740632485b37f068c1705a8dfad312604310a996361453e7e6962d4fdf0cdfdf"
+    },
+    {
+      "bytes": 2290,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/O_NATIVE-metrics.json",
+      "sha256": "b622a0d1e730447ceaabc023bea3e4e5c9e168080968c9aba0c4512a603173fe"
+    },
+    {
+      "bytes": 1333691,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/O_NATIVE.json",
+      "sha256": "bbcc8e75ef8d72d0e0e8d677d212e4bde574365f6a9602bf9dc6916b9b98032b"
+    },
+    {
+      "bytes": 1629841,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-LAM-001.json",
+      "sha256": "5cfcfc8de58cc3422cf14299b9a91cb1ea3a923c87bd5aac2130cf3b57689313"
+    },
+    {
+      "bytes": 1630082,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-LAM-00316.json",
+      "sha256": "23a36b4dc1f4f3795eee863768adee1dcfa933bdf0db9e9dc13146f725b95592"
+    },
+    {
+      "bytes": 1629830,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-LAM-0316.json",
+      "sha256": "c63481af4b8b7c401d1072cbb31d57bdfcce210d207f4bbe048edebedca7636b"
+    },
+    {
+      "bytes": 1631236,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-LAM-1.json",
+      "sha256": "d05e06244273e2408b4e33815489081802af7fcc618f9afe17a462ebccf882ad"
+    },
+    {
+      "bytes": 1577025,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-N2.json",
+      "sha256": "a70888898e3ae760765113cb9e78f709063d1b257e92bce3120e6f1902e151f1"
+    },
+    {
+      "bytes": 1734307,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-N8.json",
+      "sha256": "a571cfd10f68e47d3278c8bd54664a00829ca103140e5a02547850b730632b1c"
+    },
+    {
+      "bytes": 4776484,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/S-PATH-T4.json",
+      "sha256": "2c7a42449ec9cb7089afd67c25c05aa180d59ff745ba6124cdb3bffc2cf86ab7"
+    },
+    {
+      "bytes": 34431,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/first_fidelity.json",
+      "sha256": "134e70cf66d1a7d43eb7561111980d0a9f64b6a6065126476da87698c9d810fc"
+    },
+    {
+      "bytes": 1238308,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/components/fixed_target_and_entry.json",
+      "sha256": "c5ee17b61d2037d76e12d54d02a19553690c07eed71747ba040ca8b704c1d9f5"
+    },
+    {
+      "bytes": 2934,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/compute-accounting.json",
+      "sha256": "706497b09eb49b6c6c53e812e71729420bd6aa5b7c635b0e145ab690c7451514"
+    },
+    {
+      "bytes": 2287,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/entry-metrics.json",
+      "sha256": "507499ed5d7f22abb32fcfb1a1e6858d3534a1bc19d9ec8e49f17c5e2e8b6eaf"
+    },
+    {
+      "bytes": 1708,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-entry-layer-4.json",
+      "sha256": "c777cff614858eab5f2b22ce34d030f56f7185b19332f320bbfcc091e48e3e49"
+    },
+    {
+      "bytes": 1713,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-entry-layer-5.json",
+      "sha256": "93b861fa116f8220a56bdc91a0bb06a1381089ca44e90fafe37fa633a51fd7ef"
+    },
+    {
+      "bytes": 1711,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-entry-layer-6.json",
+      "sha256": "17fe39926373d6fd82db63055ae18144d0d754244ddec78f59813aa0bdd43bc4"
+    },
+    {
+      "bytes": 1714,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-entry-layer-7.json",
+      "sha256": "ae50cf8291f0b344849711a860f7a46f35ae7421ea4a97ff4800123d7e3cb429"
+    },
+    {
+      "bytes": 1713,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-entry-layer-8.json",
+      "sha256": "e05bf2e54d4ffbd280ece7fcb9d8e63cf82f5ce4f9391441935357d6bc7c3c4d"
+    },
+    {
+      "bytes": 1721,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-joint-step-1-layer-4.json",
+      "sha256": "220304b6c2276d778f6533d8e7b90e2cad7c59b65e36fb407a12b81fdbd1646e"
+    },
+    {
+      "bytes": 1720,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-joint-step-1-layer-5.json",
+      "sha256": "e089a9726922f715458f9b85ea44b71677dc723b2f53649407438a89896160b8"
+    },
+    {
+      "bytes": 1721,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-joint-step-1-layer-6.json",
+      "sha256": "dce88003886974c01a415f3e911c604f775c12a1059201131b3f1c92cebe48e2"
+    },
+    {
+      "bytes": 1723,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-joint-step-1-layer-7.json",
+      "sha256": "0e60c8066689b0ba74b0a8f0e85b119220fc3313393bf1940845d4668572ba64"
+    },
+    {
+      "bytes": 1722,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/fd-joint-step-1-layer-8.json",
+      "sha256": "9af23ae95eb2066e2586afc68795e53d74a225767c3eb4a31a000aa0a492d58c"
+    },
+    {
+      "bytes": 32231,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/gpu_fidelity_checks.json",
+      "sha256": "94b1f4474d1e9289cb449121ff6816d0903fae371806b0e7847e1c03715c6279"
+    },
+    {
+      "bytes": 701,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/parity-entry.json",
+      "sha256": "f908774ec9fd10b40064b2cc076d2de0da694d395c90fad5ca7bfa6e76d2d129"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/fidelity/parity-joint-step-1.json",
+      "sha256": "db1c27b328c9e0af7e6ff47477839b0d4fbab8c6feaffe22ea44361916344001"
+    },
+    {
+      "bytes": 306,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/first-valid-fidelity.json",
+      "sha256": "b7e8ef445c541367aac48d41e31168fb6829a1dc29fe0c8f3a219ef4cc705199"
+    },
+    {
+      "bytes": 1536,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/O_NATIVE/endpoint-O_NATIVE-receipt.json",
+      "sha256": "63328e3d1e1dd1792501f2ccb4978336fd66b36a1a0024854a052b70dfa09f6d"
+    },
+    {
+      "bytes": 1545,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/endpoint-JV-LAM-001-receipt.json",
+      "sha256": "26c67f49600170ba8de653aaf96c1e482b1e77b938ffe8ed4c0b42f5c3df3119"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-00-post_node-receipt.json",
+      "sha256": "dc6b976cf08bb5f3c9a88163999860c6391ad2eea5ba9d6abca41c888b23e020"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-00-pre_node-receipt.json",
+      "sha256": "db2b2089563459b3f6d620d46018a630995c702255c12b11baa3099574fbb06a"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-01-post_node-receipt.json",
+      "sha256": "f9005bf00c7e29b678bf89a0d3bf53370f252bd99ccf3bcd52ebe6ca1bfd7ebe"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-01-pre_node-receipt.json",
+      "sha256": "711565b24d50bf4df6bfb77cb1a667a55a90dd4d5868152a7cb8c3cd00f3b631"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-02-post_node-receipt.json",
+      "sha256": "87ffc2b9a58437ff8795eb8d1882cdb4b1c59f4d215371618831575ee7207fd9"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-02-pre_node-receipt.json",
+      "sha256": "ac7ba566d9b10229dea0c9f38671391c4a85fd8d91cc91235e481bbe53644425"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-03-post_node-receipt.json",
+      "sha256": "80abee0a71474a56004be0610939e60866a945e86481a6bd69901f90b227ebd2"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-001/node-03-pre_node-receipt.json",
+      "sha256": "b30b0806f302428a11e6a6fa7e915017de5f99f188394d87a13e6f42d8c3e48c"
+    },
+    {
+      "bytes": 1553,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/endpoint-JV-LAM-00316-receipt.json",
+      "sha256": "114b3f00857504f984949035ddce5a408c0f913d16ca197b56c9e7f0f2a00396"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-00-post_node-receipt.json",
+      "sha256": "9e1265b23ca264f47322d3625f3bd50ef49c741c463dd2b198667ef8ee305ef1"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-00-pre_node-receipt.json",
+      "sha256": "433d66c3d7db1086508dd05e6f1cca158468ca4377417fc66349075469fde805"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-01-post_node-receipt.json",
+      "sha256": "93f2502f188e9facc1b1423c822dd0a73e436e796a0694840661d266b43188c0"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-01-pre_node-receipt.json",
+      "sha256": "958a6f7f7129b9177c91e55c7e350089fa41cfdcb8a1af4057c1bc4684fd3424"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-02-post_node-receipt.json",
+      "sha256": "eb4ac3c1dd0175b5a8bb1a7dbe4f51d3439531f6d096681da06847175d4d69b4"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-02-pre_node-receipt.json",
+      "sha256": "90295fa651d00bf58a0d7e3f073a5dbc97fb9ae142c7e41a3b84917407966380"
+    },
+    {
+      "bytes": 785,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-03-post_node-receipt.json",
+      "sha256": "515106d7c70eb4c389aca7d5a0987497ab5dab5e5e38974c5de90b27de04c249"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-00316/node-03-pre_node-receipt.json",
+      "sha256": "d400f77444e39d517475a3790fc466b902e8e172f196ccf6c215d971730fdfe2"
+    },
+    {
+      "bytes": 1549,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/endpoint-JV-LAM-0316-receipt.json",
+      "sha256": "9cc004ae4f834ea41c9be4ef124ce89fca85fce010442803c9cff9643abe1cb1"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-00-post_node-receipt.json",
+      "sha256": "facd65f1ffc82a4a275245228d23fcbb8109e5ac10ef1bddb3d3b342f27ea9ca"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-00-pre_node-receipt.json",
+      "sha256": "44bfa7284a6b59ebbc9ba9dcad81e1954c39f37b1c59c564e6edae6b1dd25796"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-01-post_node-receipt.json",
+      "sha256": "4ee83fb1fbd80d3ee2b8fc50a0cffeba4b0932441e360936bf093777a2ed51d9"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-01-pre_node-receipt.json",
+      "sha256": "7179022a2367465e86449fca42a2c022cbd50645247191451f044819bbb8cc19"
+    },
+    {
+      "bytes": 783,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-02-post_node-receipt.json",
+      "sha256": "3d07bdd4073594bd5aa84d7d3fb06bc72a05f9999641af73fbfb1722ec613c00"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-02-pre_node-receipt.json",
+      "sha256": "ebe2079c7b84b736c599608f6144358cee7589769a1524eb32887f410303856f"
+    },
+    {
+      "bytes": 784,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-03-post_node-receipt.json",
+      "sha256": "9febc8f05f09097534eaf2dfa408acf10c26424910ca092bd70e4937fa564667"
+    },
+    {
+      "bytes": 782,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-0316/node-03-pre_node-receipt.json",
+      "sha256": "b0bd73bb1193f3c9961c1286ae099b870a91f3e6e8dcd8bb36f06703294db446"
+    },
+    {
+      "bytes": 1537,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/endpoint-JV-LAM-1-receipt.json",
+      "sha256": "712e96cb1dba14c11837d864afec678134435464565ac2445fe0dc2b7f6959fb"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-00-post_node-receipt.json",
+      "sha256": "4f99e06f1e61b6f21d2624fc837b447afafc9bf89fc9d3638268383f025cd3c2"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-00-pre_node-receipt.json",
+      "sha256": "c29072bd2897eea15f40f5fb3433712043fd2123945a03006697b578f6d67080"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-01-post_node-receipt.json",
+      "sha256": "7cc798728c2f9a1760f61434fcd6552e023926c3c84c4dd4abbf51c1cd2bb140"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-01-pre_node-receipt.json",
+      "sha256": "7e159e35e25677c79b5e05ea6aeaac99d24c7d748cb8e6b29ff70308551f21be"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-02-post_node-receipt.json",
+      "sha256": "3d1c7bd7f83a503f7bf021d8a41d63a030077e9d97cc9555c191deeb378fda18"
+    },
+    {
+      "bytes": 779,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-02-pre_node-receipt.json",
+      "sha256": "11c916618c9e9c6cc77b816138c14acfcf8a52834c9eebc4745b7a64d4989fcd"
+    },
+    {
+      "bytes": 781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-03-post_node-receipt.json",
+      "sha256": "6e1a14b75f93c83c1671389ac542c8f8ed8f68981a268755db52dcad119aa078"
+    },
+    {
+      "bytes": 780,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-LAM-1/node-03-pre_node-receipt.json",
+      "sha256": "83fc617da84e7b9e74faa7fece6c111c12edddcbebe1f3a8aa0a82eee2eace68"
+    },
+    {
+      "bytes": 1532,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N2/endpoint-JV-RES-N2-receipt.json",
+      "sha256": "758318b082cd093f1efabc53b488389f98b8e4fcf24b6a9a646ad3f2feca613b"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N2/node-00-post_node-receipt.json",
+      "sha256": "cb1050d4fc1b655bb92944f4e4bd9d727d6b65d5d745540a349fc6c2abeeaeab"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N2/node-00-pre_node-receipt.json",
+      "sha256": "4693ef60cc0624cca636b6c1cc715c91abc55d0a0d8967b680e5eee6e3534a04"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N2/node-01-post_node-receipt.json",
+      "sha256": "a5741ce38a9fd62ad4e21fae343aa1e95bcf6a41dbe9749b18cd984465d25713"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N2/node-01-pre_node-receipt.json",
+      "sha256": "ddafcbe355dba943069fc02763c6eb161f904672cc2eb3a833c2f785bfb731a0"
+    },
+    {
+      "bytes": 1533,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/endpoint-JV-RES-N8-receipt.json",
+      "sha256": "d2be7993843c4b78051b8b6168793cb0b7ab09c5c00f01549b3e9923a245bba1"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-00-post_node-receipt.json",
+      "sha256": "b94474a63a005e815c081742c6cc1122fbc69ffb752d18c708197181dc9d6eee"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-00-pre_node-receipt.json",
+      "sha256": "e0d890c4467d93c80fa9682f4207fc6089dd33b88b58f857d200afc37deef930"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-01-post_node-receipt.json",
+      "sha256": "8d3193a2ad1d2fbfa2e19432471c8fa296d023ffb597273e77078b3677cadbbc"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-01-pre_node-receipt.json",
+      "sha256": "b92cf4e1478274b80129bf872d15521d6fa701b473dcd91e125c4e2eca5596a3"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-02-post_node-receipt.json",
+      "sha256": "6b77d9b9a8d140615de983f2dde003cabcf96ab7b3051e7a36c321f1f4c8f8f5"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-02-pre_node-receipt.json",
+      "sha256": "9973e1c108f832b690ed1fb665f6bc70bf66e2105452f48029a644a0bdc6d4d2"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-03-post_node-receipt.json",
+      "sha256": "4504817cbb7ded59356bcd41cd369de2aff1ec76ad347885b8c0c9e55e7e446f"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-03-pre_node-receipt.json",
+      "sha256": "01b2c90c3cd3892fd82e0b92dd41e2aa1ee0febb91a8d3e11168c72890b1ce09"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-04-post_node-receipt.json",
+      "sha256": "986b3d1370a37d45b662f1ec6389e1bd04e061e90395252dd512643aa6720a1f"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-04-pre_node-receipt.json",
+      "sha256": "f10f79b0e697cfd6044d6a94a0a11a6e1db4a5f7527d7816441ef56c993971ac"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-05-post_node-receipt.json",
+      "sha256": "59d165a9c64b1227da17b6b8dc7736ab13d3a7ea3fa73a67eda8f2437a27de8e"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-05-pre_node-receipt.json",
+      "sha256": "78ba1657cc0a9d70a6ec499706fad4f5548430f2d96b8ffb54443dbc50c80067"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-06-post_node-receipt.json",
+      "sha256": "113cfb507ecefc1e62df043a882dec6b89d5cfde33eba2c691cb133804bc2413"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-06-pre_node-receipt.json",
+      "sha256": "04de2a331e8cfe25ab08e9bbadc8b35c4ce93f88e42c5fdca71a0f9acc74495f"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-07-post_node-receipt.json",
+      "sha256": "b345fec6d89a98c443dc6ac991c3a5904ebdfc07a3549816787d6fc5bce0946c"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-N8/node-07-pre_node-receipt.json",
+      "sha256": "d75c0b9b459fbc7556429583c9f66ad6c89cad2f0cd289064b4439aee8296412"
+    },
+    {
+      "bytes": 1528,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/endpoint-JV-BASE-receipt.json",
+      "sha256": "c980abcff9bdd115ba350e6fbb1d06a33be5963db32ae23377afac597c780595"
+    },
+    {
+      "bytes": 1531,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/endpoint-JV-HOR-T1-receipt.json",
+      "sha256": "2d93e9e6068a5d8af13dc2cb97bb5b90bbc9d26ad0416f0fe407bb43aae7cec4"
+    },
+    {
+      "bytes": 1533,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/endpoint-JV-HOR-T4-receipt.json",
+      "sha256": "0ba5e50b386276a8573106eacb7c68af0082e2d8d0582f97d5a977b95086dcc8"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-00-post_node-receipt.json",
+      "sha256": "d96d185247431341a9a9c25baf549658ceda0ead16bf8f063032e8a9f1d4cef8"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-00-pre_node-receipt.json",
+      "sha256": "88873a5e08c7a52bbc4e611a7eb52f54a5eb36936f1f2fcbcde33fa6abe090a5"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-01-post_node-receipt.json",
+      "sha256": "6696edaf6f2c1da94400a13756d1c3a7309a97a4e88cd5d428ce592a5f0b0ad8"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-01-pre_node-receipt.json",
+      "sha256": "e296e2c0b4f27b10cf72eb268584445b9421c81d0b5068522246102cbe40e262"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-02-post_node-receipt.json",
+      "sha256": "c8151c6229050d4c8997adfc9582cd155caaaa014fc3e0b9a629516423353006"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-02-pre_node-receipt.json",
+      "sha256": "546482077ea42c3e6d6292cab33d3fe00ad049f9e0254ba1eabcb18870c42546"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-03-post_node-receipt.json",
+      "sha256": "07bbed7fd0ddcf6a00a9dabcdfa9be2695134570fb4f3ff9c91bfd23891e6b4a"
+    },
+    {
+      "bytes": 776,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-03-pre_node-receipt.json",
+      "sha256": "ddd477d60df88fb000429b06c44c815f27d5f51337ae0e54f2f14ebdb818aa97"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-04-post_node-receipt.json",
+      "sha256": "e35bd3494729f851d52696abadb11e7f8efb2562526625ace7c07d9ebf020100"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-04-pre_node-receipt.json",
+      "sha256": "595b6a7a560ffa763403fbf41239584687758d4c3a6e5b361dfb2bce405877c5"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-05-post_node-receipt.json",
+      "sha256": "40f13714f410f83a2761ad012e9bfded66319e069216e0e42edd42019dfcdb75"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-05-pre_node-receipt.json",
+      "sha256": "8f0bbcbc8c0583a5fc0b9213fae7fc7933c1e046f6613ea4dd64ed11518b2930"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-06-post_node-receipt.json",
+      "sha256": "d615beaaf5db681b73993cec2162f709b42e3b71eb56607c9c3e79058d74fea3"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-06-pre_node-receipt.json",
+      "sha256": "87ee14e806ade57e0387fc2e3ae93709b7d25376451c4ca9d6f137831d6ac992"
+    },
+    {
+      "bytes": 778,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-07-post_node-receipt.json",
+      "sha256": "12db14d55748299f0c7b4242507632f5b24074f8ca7696654337761acf959d2c"
+    },
+    {
+      "bytes": 777,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/S-PATH-T4/node-07-pre_node-receipt.json",
+      "sha256": "f304470e460d4f4b5af268b6e628fd38b8fbd3e5c7cd83758192d119bc6a3dfa"
+    },
+    {
+      "bytes": 1663,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/local-raw/fixed-target-receipt.json",
+      "sha256": "da3eaaa6a06a984c7603aa3d925996646d27ad9a4868b6acf767b081e15e9566"
+    },
+    {
+      "bytes": 2328,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-BASE.json",
+      "sha256": "1b6497df93dd713515c0b53b56750df7aca86325296c34d43f3a537103fb9fe9"
+    },
+    {
+      "bytes": 2327,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-HOR-T1.json",
+      "sha256": "8b54ec836e028c8331b1a5763ca53a50103fefa0bf3f85bb32a0429ad7376774"
+    },
+    {
+      "bytes": 2325,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-HOR-T4.json",
+      "sha256": "0753b895f104d547a5fb5f57b1186cb2531dee3186dd120c5b400c13a19fd730"
+    },
+    {
+      "bytes": 2321,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-LAM-001.json",
+      "sha256": "d1443011d9a7d50bf632c37088917bfc9439cda5a51b4212c604693df9c63afb"
+    },
+    {
+      "bytes": 2323,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-LAM-00316.json",
+      "sha256": "52b2f014b6fc7c773f19be13b6f16f4caf0533cae9b871bf04f6656ad6fb38a7"
+    },
+    {
+      "bytes": 2331,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-LAM-0316.json",
+      "sha256": "73a3ff6afe5257e13cd8eab3fb86eef9af31ba3674438c7ed9fa55a1a999bf2e"
+    },
+    {
+      "bytes": 2327,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-LAM-1.json",
+      "sha256": "fbabd9679dcc3749f38722e7fc0e7cedab336651d5b9f00cd3f4e3eb9b7d1840"
+    },
+    {
+      "bytes": 2323,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-RES-N2.json",
+      "sha256": "f9158c51f15abfbb76524447ae282202dd04b82842cee52c09cecab27c8d3156"
+    },
+    {
+      "bytes": 2326,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/metrics/JV-RES-N8.json",
+      "sha256": "e116425b0e6ae44d4616c95ecbdbd42740e9f9fe0c0bcaf199189ada1f4fcb14"
+    },
+    {
+      "bytes": 1143881,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-001/endpoint-JV-LAM-001.json",
+      "sha256": "40eb1eeeec128f9acb9c2e918b89c2721e887eae533d403e4cc412e41680e89c"
+    },
+    {
+      "bytes": 19381,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-001/node-00.json",
+      "sha256": "3d1052835a83f812498eb221d1f93c4712be943716c94b6c2c5170b4fb6809b0"
+    },
+    {
+      "bytes": 20255,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-001/node-01.json",
+      "sha256": "197df5d1c858cb17c5f7efadbef48b06a626047f44f53b3f96da25b3a173d4f4"
+    },
+    {
+      "bytes": 19921,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-001/node-02.json",
+      "sha256": "62c4e10973185b22c79c7f24aeb88bb378e6913e5915a7a3634e6395980fb2fb"
+    },
+    {
+      "bytes": 19907,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-001/node-03.json",
+      "sha256": "69f8d161c7e8e065997f61d9b51ab65267bdbf8deb3690211f1eff72fff53c20"
+    },
+    {
+      "bytes": 1143959,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-00316/endpoint-JV-LAM-00316.json",
+      "sha256": "810fd77c7bb43b68f39042b28e29b84eb7855a3563a0cc0f9fdd357a360c5a24"
+    },
+    {
+      "bytes": 19413,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-00316/node-00.json",
+      "sha256": "bb8952fb5357f0a9f4f81774baec75aac4d259ceea7b9d8aebbbfc02f3e34f57"
+    },
+    {
+      "bytes": 20312,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-00316/node-01.json",
+      "sha256": "4ac0d64b5d60162d86999a23f470529f3ba81101fb6ab3b35b445dfacf851539"
+    },
+    {
+      "bytes": 19950,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-00316/node-02.json",
+      "sha256": "7bd7abf37d5a3f3261340d9b8baba9d6be9a06b255ca96ef4971730a93a1ca85"
+    },
+    {
+      "bytes": 19936,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-00316/node-03.json",
+      "sha256": "fb0a989deb7429b3f564fc7a97728fecb83ad9a1666853e0adbc4b247f755a8f"
+    },
+    {
+      "bytes": 1143966,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-0316/endpoint-JV-LAM-0316.json",
+      "sha256": "f14bc27cddcaf98d7b78f9bd830cdde15f62616c8799cbc393d05f03bddb37af"
+    },
+    {
+      "bytes": 19761,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-0316/node-00.json",
+      "sha256": "516474b0af9957d1dffc2a884a970b7d02b33835a97f9ba871ce1fe1d01cab2a"
+    },
+    {
+      "bytes": 19800,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-0316/node-01.json",
+      "sha256": "587752a704dccfe21ac87b779090e70f0b975fa94150503c1e9e68658e900fd8"
+    },
+    {
+      "bytes": 19904,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-0316/node-02.json",
+      "sha256": "da22dc3332cba1f6e66025cd8a7657c0b42a4a179a7813441f85544cb818f083"
+    },
+    {
+      "bytes": 19936,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-0316/node-03.json",
+      "sha256": "d8a166915bf4748313ac6402991ac591f0ca1ad6efe982385bd91a1bb32ef238"
+    },
+    {
+      "bytes": 1143952,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-1/endpoint-JV-LAM-1.json",
+      "sha256": "317719c77db749275e89566ce88bf5144d867086df6979c77abac1d1e3f3ad28"
+    },
+    {
+      "bytes": 20080,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-1/node-00.json",
+      "sha256": "dbb7b745a4e03073d95aafd17ca638d12de6c8e8b3afb58c06593218b0e99377"
+    },
+    {
+      "bytes": 20570,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-1/node-01.json",
+      "sha256": "1cd7bfb89e028841fae8b20ea8dc2b23620e97a659a349eb90aa7d55120eeb54"
+    },
+    {
+      "bytes": 20249,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-1/node-02.json",
+      "sha256": "2edd62931c53db9d6462362dc1effde9589cf5051ac03f1dd0814efef0a033e1"
+    },
+    {
+      "bytes": 19871,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-LAM-1/node-03.json",
+      "sha256": "7585e469f862eb4af0684beb7b47bba40f69bb53c962e16d1a54a3dd4f7d789e"
+    },
+    {
+      "bytes": 1143875,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N2/endpoint-JV-RES-N2.json",
+      "sha256": "065971df28bb7e2ae85017dafa0022f8eaa61082626976e26fa95adf4be058da"
+    },
+    {
+      "bytes": 19364,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N2/node-00.json",
+      "sha256": "e1e48a0e14bb49cb9215d619a2c0d01a7d2ef76404c2dbd662b08f2364e419cd"
+    },
+    {
+      "bytes": 20119,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N2/node-01.json",
+      "sha256": "a6c09027b8b40930fd6cf0e6c3eaa54e2250b5f8e67719540a3dff7d86f5d64e"
+    },
+    {
+      "bytes": 1143965,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/endpoint-JV-RES-N8.json",
+      "sha256": "37b68d62fdf7e852b70be6ebb8e1496a2123e415617c31ccd4c7a2a743cddffe"
+    },
+    {
+      "bytes": 19424,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-00.json",
+      "sha256": "c8db3acc8efe9f0430dadd2b06a8e7ad704eba1b2617fbcd28e2770914835013"
+    },
+    {
+      "bytes": 19724,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-01.json",
+      "sha256": "de28c99b726d3ed67bc62eb8eacb539cf72448d09bfde5890b8068bea54f4847"
+    },
+    {
+      "bytes": 19795,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-02.json",
+      "sha256": "205eb04d370f9dbbfb562e69d7ce7845da4d9219b4e311e770fdc39a59ccc649"
+    },
+    {
+      "bytes": 19815,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-03.json",
+      "sha256": "88da99778df3a48710cee19da1ab3be45760fe7df434316b3fc3c2273f5fe3e7"
+    },
+    {
+      "bytes": 19853,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-04.json",
+      "sha256": "173705b3483c015d87b43b034e33b82d9092149fdebd5038525a572991b4cfed"
+    },
+    {
+      "bytes": 19875,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-05.json",
+      "sha256": "42efa877cbf9015dbe1d8fc134ab436681aa44f3a5aa8b32313217ba22666b1d"
+    },
+    {
+      "bytes": 19899,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-06.json",
+      "sha256": "6655e0849c165cf1a4fa9c482b294dcdac7dce2a639ef3e0b1e19d71e88c1bc6"
+    },
+    {
+      "bytes": 19916,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-N8/node-07.json",
+      "sha256": "9f5cae31dbdd8820427056248e0abdb03f7d5073749c7fd09556e5e9a5f4d581"
+    },
+    {
+      "bytes": 1144032,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/endpoint-JV-BASE.json",
+      "sha256": "7f5a52889ea6494b88ea1a3b7b1d56788797090f76558a20accd93f14c98331f"
+    },
+    {
+      "bytes": 1144011,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/endpoint-JV-HOR-T1.json",
+      "sha256": "d2034b8d0478f079d1faf839591d2eee689067fd732ab903df4b5a61128571ed"
+    },
+    {
+      "bytes": 1143893,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/endpoint-JV-HOR-T4.json",
+      "sha256": "863e7404566921221c96def6b0a0a2cf5a82d1fd8b59487bf332ebb38fd66edf"
+    },
+    {
+      "bytes": 19352,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-00.json",
+      "sha256": "b9b0c196c1bc9e224f62ec3b13dcab89e2c75358295955a8d216c1e3c8968332"
+    },
+    {
+      "bytes": 19835,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-01.json",
+      "sha256": "cb847cbe406bc6c404b83887f392c47ed8f420e8765bf7da906e2d2631d9b30f"
+    },
+    {
+      "bytes": 19871,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-02.json",
+      "sha256": "d5056091b0663ed599d02dfdd31ea82d99a14c99ea8516368632ea513ff04deb"
+    },
+    {
+      "bytes": 19853,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-03.json",
+      "sha256": "2d486207f848529a286c9a3d0f91caa63d1cd2a4a3ae543f155b042293d4be07"
+    },
+    {
+      "bytes": 19893,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-04.json",
+      "sha256": "1e163f09696be08e2853151ca9653049a7ae880c7dc7d703b4e7ff94bd1e8b7b"
+    },
+    {
+      "bytes": 19969,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-05.json",
+      "sha256": "cf459726e8d44072b20f78f0a1c29f67076b29c4b6972262768bade30439d742"
+    },
+    {
+      "bytes": 19942,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-06.json",
+      "sha256": "451d0984ed59e8360484d87efb5184b353e19f061b8430237c35722ae4dff9e2"
+    },
+    {
+      "bytes": 20031,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/paths/S-PATH-T4/node-07.json",
+      "sha256": "436582759b6cae40129540cbdf587c2d3092017607f96c565fb6dcd9ab8ff945"
+    },
+    {
+      "bytes": 389,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/premodel.json",
+      "sha256": "b8d1cbea4a6516902884b7c4d95e8a450cd9bc1f51905612f1a1dcd568cff892"
+    },
+    {
+      "bytes": 200,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/01.json",
+      "sha256": "c89f5b4c41c8238a7fb1609c50a48cc6b3184ca8cf5186f988fb50b5256f5b42"
+    },
+    {
+      "bytes": 208,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/02.json",
+      "sha256": "c9c992006ac0ab459ae5fbaf6d414a25814f83c3dde9a18ae435f6b596fac0d9"
+    },
+    {
+      "bytes": 210,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/03.json",
+      "sha256": "e4a7da7f377f18a56bdbf9b7d431e41f2f783c039850df00ddf256330aacd454"
+    },
+    {
+      "bytes": 260,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/04.json",
+      "sha256": "29389744356c37d1cf175a9d5a4d5ee0cd2dd02c628e7bb8c2c3d255142183fb"
+    },
+    {
+      "bytes": 278,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/05.json",
+      "sha256": "0a567f1d1d1fe90b20e1aaa6c43c2e4ddd45083589f9fee2d6c46b28bb99c05b"
+    },
+    {
+      "bytes": 295,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/06.json",
+      "sha256": "e10a9ab052f43eab59f06d07924c93157513c2da5dc190acfdf1abf7efefe03c"
+    },
+    {
+      "bytes": 318,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/07.json",
+      "sha256": "8f0acfea2176037351e71e3bfabc343f9ea305185f228ccf45ded0bfe869b575"
+    },
+    {
+      "bytes": 333,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/08.json",
+      "sha256": "5d29c0588a1e1be0b782b66d8fb3be04f4d38bb015710e841d69824ec5602d53"
+    },
+    {
+      "bytes": 357,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/09.json",
+      "sha256": "a5329f34e3c2514fcf29b2a1b53e30407b34ed4121a4c5dd9b6669b464e5578b"
+    },
+    {
+      "bytes": 375,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/progress/10.json",
+      "sha256": "690e3868b558f2aa9699f42c7c41d4e695cc6bcace770b9e64b52cc2b8c7a179"
+    },
+    {
+      "bytes": 10436,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/runtime.lock.json",
+      "sha256": "3891ee8cadd974548f3929d3226fb86d9eebf64d5fdc243bd8eec4042732794c"
+    },
+    {
+      "bytes": 30759897,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/sweep-result.json",
+      "sha256": "2b2a8c00bfae0efe4a6a36aaed1f67c6f5ccc370af63a5b13691528537bc81af"
+    },
+    {
+      "bytes": 1251,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cell-1/terminal.json",
+      "sha256": "94f9ddf49aa3a9448dfb25a65dfde24239a3ba81afbb6a41c0615e504e823e73"
+    },
+    {
+      "bytes": 6377,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/cpu-checks.lock.json",
+      "sha256": "0ccdbe2845abbf66828384e03c4a31f2d13267f14397b1d5d9b4da0dad33f2ae"
+    },
+    {
+      "bytes": 845,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/held-submit.json",
+      "sha256": "bfe1df5d4eebcaa983175146fcd0d94d4aaad17971a325915b8c1a5b3d891552"
+    },
+    {
+      "bytes": 5067,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/launch.lock.json",
+      "sha256": "ee9a106032981effcec7dfa313f05dca7d427dbc090c1a046cb8517eb5d0a8ce"
+    },
+    {
+      "bytes": 2029,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/live-admission.json",
+      "sha256": "608bf69a2f0fd323b056a84e4eaa33c41c4ef0eb88052d2e5e0fadc9cffc691e"
+    },
+    {
+      "bytes": 231,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/prior-campaign-registry.json",
+      "sha256": "18115a838706a0486f0aac2e5c16dd1a71ebd325be2938d93d19907bbbc31237"
+    },
+    {
+      "bytes": 252,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/release-admission.json",
+      "sha256": "4fb26e920a5ad73d9276e88d05ed2fe142b375c933123f771001cc11ac7e4252"
+    },
+    {
+      "bytes": 262,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/release.json",
+      "sha256": "ab68da75ea5d86a26374fbea4575e4570114326314f4179989b9e0a198980b50"
+    },
+    {
+      "bytes": 2151,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1/local/alpha-jv-llama-diagnosis-sweep/run-20260907-sweep-r1/submission-registration.json",
+      "sha256": "cabe74c047ab170023d542e90717248aa79f2227bf20e026e9974d08b8584992"
+    },
+    {
+      "bytes": 1781,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/alpha-jv-llama-diagnosis-sweep/sealed-historical-inputs-20260907-v1/transfer-receipt.json",
+      "sha256": "906943e4e90e1227b73b3653cb2a58489297ac6a83982c7a568486da033b0baa"
+    }
+  ],
+  "members_root": "3263f06f652139fa9012f4c7a6326a223f79e34f3fcb0e82382bc339d0546d9d",
+  "raw_tensor_replay_verified": false,
+  "scope": "EXACT_CONSUMED_FROZEN_JSON_ONLY"
+}
