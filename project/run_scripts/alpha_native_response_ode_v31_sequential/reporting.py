@@ -205,8 +205,8 @@ def collect(root,output,label,with_plots=False):
     portable=[(root/name,name) for name in (
         'source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json',
         'assets.lock.json','dry-plan.json','main-held-inspection.json')]
-    if (root/'l8-held-inspection.json').exists():
-        portable.append((root/'l8-held-inspection.json','l8-held-inspection.json'))
+    for name in ('main-table-ready.json','l8-held-inspection.json','l8-initial-gate.json'):
+        if (root/name).exists():portable.append((root/name,name))
     for chain in sorted(root.glob('chain-*')):
         for name in ('runtime.lock.json','terminal-receipt.json'):
             path=chain/name
