@@ -11,7 +11,7 @@ import unittest
 
 import torch
 
-from project.run_scripts.ordered_response_barrier_ode.fp32_overlay import tensor_set_sha256
+from project.run_scripts.ordered_response_barrier_ode.fp32_overlay import tensor_set_sha256, tensor_sha256
 from .contracts import BindingBoundary
 from .fixture import EntrySnapshot
 from .sweep_driver import SweepCallbacks, run_model_sweep
@@ -86,6 +86,10 @@ class FakeFamily:
                 self.model.weight.add_(2)
                 self.module.cache_c.add_(1)
                 self.module.cache_c_new = False
+            self._captured_endpoint_weights = {"weight": self.model.weight.detach().clone()}
+            self._captured_endpoint_method_state = self.module.cache_c.clone()
+            self._captured_endpoint_cache_c_new = bool(self.module.cache_c_new)
+            self.last_terminal = self.terminal()
             return {"status": "TERMINAL_VALID", "evaluation": self.evaluate_endpoint()}
         finally:
             self.reset_entry()
@@ -123,16 +127,27 @@ def fake_trajectory(family, dictionary, normalization, config, *, output, arm, p
     try:
         # Lifecycle fixture only: not a native/controller approximation.
         for complete in range(1, config.N + 1):
+            if raw_sink is not None:
+                raw_sink(complete - 1, {"stage": "PRE_NODE", "increments_before": ()})
             with torch.no_grad():
                 family.model.weight.add_(1)
+            if raw_sink is not None:
+                raw_sink(complete - 1, {"stage": "POST_NODE", "increments_after": ()})
             if complete in prefixes:
                 label = prefixes[complete]
                 ledger["prefix_evaluate"] += 1
                 observations[label] = dict(config.endpoint_clock(complete), candidate_id=label,
                     history_append_count=0, persistent_endpoint_capture_count=0,
                     evaluation=family.evaluate_endpoint())
+                if endpoint_sink is not None:
+                    endpoint_sink(label, observations[label], {"weight": family.model.weight.detach().clone()}, family.terminal(), ())
+        family._captured_endpoint_weights = {"weight": family.model.weight.detach().clone()}
+        family._captured_endpoint_method_state = family.module.cache_c + 1
+        family._captured_endpoint_cache_c_new = True
         observations[arm] = dict(config.endpoint_clock(config.N), candidate_id=arm,
             history_append_count=1, evaluation=family.evaluate_endpoint(), finite_poor_endpoint_included=True)
+        if endpoint_sink is not None:
+            endpoint_sink(arm, observations[arm], family._captured_endpoint_weights, family.terminal(), ())
         return {"status": "TERMINAL_VALID", "endpoints": observations, "nodes": [None] * config.N}
     finally:
         family.reset_entry()
@@ -244,6 +259,53 @@ class SweepDriverTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 run_model_sweep(**kwargs)
             self.assertEqual(ledger["compute_z"], before)
+
+    def test_first_fidelity_and_fixed_target_before_Official(self):
+        events = []
+        def target_sink(bundle, entry, normalization, reference):
+            events.append("fixed_target_saved")
+            self.assertEqual(reference["capture_count"], 1)
+            self.assertEqual(bundle.semantic["context"], "bound")
+        def fidelity(family, dictionary, normalization):
+            self.assertEqual(family.ledger["official"], 0)
+            self.assertEqual(family.ledger["compute_z"], 1)
+            self.assertEqual(dictionary.qref, 5)
+            events.append("fidelity")
+            return {"status": "PASS_CPU_CALLBACK_FIXTURE"}
+        def component(identity, payload):
+            events.append((identity["component"], identity["phase"]))
+        with self.fixture(first_fidelity=fidelity, fixed_target_sink=target_sink, component_sink=component) as (kwargs, _, _):
+            result = run_model_sweep(**kwargs)
+            self.assertLess(events.index("fixed_target_saved"), events.index("fidelity"))
+            self.assertLess(events.index("fidelity"), events.index(("O_NATIVE", "begin")))
+            self.assertEqual(result["first_fidelity"]["status"], "PASS_CPU_CALLBACK_FIXTURE")
+
+    def test_fixed_target_sink_mutation_fail_close(self):
+        def bad_sink(bundle, entry, normalization, reference):
+            bundle.artifact.values.add_(1)
+        with self.fixture(fixed_target_sink=bad_sink) as (kwargs, _, entry):
+            with self.assertRaisesRegex(BindingBoundary, "S_OBSERVER_BINDING_MUTATION"):
+                run_model_sweep(**kwargs)
+            self.assertEqual(tensor_set_sha256({"weight": kwargs["model"].weight}), entry.W_sha256)
+
+    def test_raw_and_endpoint_callbacks_have_path_identity_and_M_semantics(self):
+        raw_rows, final_rows = [], []
+        def raw(path_id, node, payload):
+            raw_rows.append((path_id, node, payload["stage"]))
+        def ep(path_id, label, result, weights, activation, entry, method_state, increments):
+            final_rows.append((path_id, label, result["history_append_count"] if "history_append_count" in result else 1))
+            if label in ("JV-HOR-T1", "JV-BASE"):
+                self.assertTrue(torch.equal(method_state["alpha_cache"], entry.alpha_cache))
+                self.assertEqual(method_state["cache_c_new"], entry.cache_c_new)
+            else:
+                self.assertTrue(torch.equal(method_state["alpha_cache"], entry.alpha_cache + 1))
+                self.assertEqual(method_state["cache_c_new"], label != "O_NATIVE")
+        with self.fixture() as (kwargs, _, _):
+            run_model_sweep(**kwargs, raw_sink=raw, endpoint_sink=ep)
+            self.assertEqual(len(set(row[0] for row in raw_rows)), 7)
+            self.assertEqual(len(raw_rows), 68)
+            self.assertEqual(len(set(raw_rows)), 68)
+            self.assertEqual(len(final_rows), 10)  # Official+9, prefix does not duplicate path
 
 
 if __name__ == "__main__":

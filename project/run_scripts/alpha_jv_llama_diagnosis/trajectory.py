@@ -82,7 +82,7 @@ def run_joint(family,dictionary,normalization,config,*,output,arm='JV_NATIVE',pr
                 # All-row attribution is deliberately absent from write dispatch.
                 if raw_sink is not None:
                     with observation_callback_guard(family,overlay):
-                        raw_sink(node,dict(terminal=terminal.clone(),target=target.clone(),
+                        raw_sink(node,dict(stage='PRE_NODE',terminal=terminal.clone(),target=target.clone(),
                             raw_responses=torch.stack(responses) if responses else torch.empty((0,*terminal.shape),dtype=torch.float32),
                             q_layers=q.clone(),layers=list(layers),e=e.clone(),psi=psi.clone(),
                             increments_before=tuple(d.with_coefficient(d.coefficient) for d in overlay.deltas),
@@ -117,12 +117,31 @@ def run_joint(family,dictionary,normalization,config,*,output,arm='JV_NATIVE',pr
                     compute_seconds=dict(native_dictionary=dictionary.wall-native_before,
                         main_jvp=observer.ledger.wall_seconds-jvp_before,primary_NNLS=controller_seconds,
                         shadow_metric_NNLS=shadow_seconds),**controller_matrices(e,psi,metric,c),**fact)
+                # Training predicate is observation only at every completed
+                # node; no heldout evaluation or first-hit dynamics switch.
+                diagnostic_started=time.perf_counter()
+                if getattr(family,'record_node_semantic',False):
+                    diagnostic_before=old._model_forward_count(family.model)
+                    record['training_semantic_observation']=asdict(family.observe_semantic())
+                    record['training_semantic_forward_count']=old._model_forward_count(family.model)-diagnostic_before
+                else:
+                    record['training_semantic_forward_count']=0
+                record['training_semantic_wall_seconds']=time.perf_counter()-diagnostic_started
+                record['training_semantic_controls_dynamics']=False
+                record['raw_residual_norms_by_request']=primary_residual(target,exit_terminal).double().norm(dim=0).tolist()
                 save(output/f'node-{node:02}.json',record);nodes.append(record)
+                if raw_sink is not None:
+                    with observation_callback_guard(family,overlay):
+                        raw_sink(node,dict(stage='POST_NODE',terminal=exit_terminal.clone(),
+                            increments_after=tuple(d.with_coefficient(d.coefficient) for d in overlay.deltas),
+                            config=config.receipt(),state_version=overlay.state_version))
                 if node+1 in prefixes:
                     label=prefixes[node+1]
                     def prefix_sink(ep,weights):
                         if endpoint_sink is not None:
-                            endpoint_sink(label,dict(ep,**config.endpoint_clock(node+1),candidate_id=label),weights,exit_terminal.clone())
+                            endpoint_sink(label,dict(ep,**config.endpoint_clock(node+1),candidate_id=label),weights,
+                                getattr(family,'last_actual_activation',exit_terminal).clone(),
+                                tuple(d.with_coefficient(d.coefficient) for d in overlay.deltas))
                     ep=observe_prefix(family,overlay,shadow,arm=label,on_endpoint=prefix_sink)
                     ep.update(config.endpoint_clock(node+1),candidate_id=label)
                     save(output/f'endpoint-{label}.json',ep);endpoints[label]=ep
@@ -139,7 +158,8 @@ def run_joint(family,dictionary,normalization,config,*,output,arm='JV_NATIVE',pr
             endpoint.update(config.endpoint_clock(config.N),candidate_id=arm)
             if endpoint_sink is not None:
                 with observation_callback_guard(family,overlay,tensors=tuple(shadow.values())):
-                    endpoint_sink(arm,dict(endpoint),shadow,endpoint_activation.clone())
+                    endpoint_sink(arm,dict(endpoint),shadow,family.last_terminal.clone(),
+                        tuple(d.with_coefficient(d.coefficient) for d in overlay.deltas))
             save(output/f'endpoint-{arm}.json',endpoint);endpoints[arm]=endpoint
             return dict(status='TERMINAL_VALID',arm=arm,endpoints=endpoints,nodes=nodes,
                 jvp_ledger=asdict(observer.ledger),main_jvp_count=observer.ledger.jvp_call_count,
