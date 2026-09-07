@@ -1,0 +1,12 @@
+{
+  "GPU_action_count": 0,
+  "Slurm_submit_count": 0,
+  "experiment_model_load_count": 0,
+  "identity": "cbf702de740b30786201e12c6f7d80b13c905d07e17f15767b809d3a730e3fc0",
+  "manifest_sha256": "00ffe54f946b5fe0c656c339f81a7ebea601fa4bbe6bcbc1bd03c1c40e67d42b",
+  "members_root": "b05dc1a41de2786a21300894b6661aad7aa55d0b4425ffd93dfa63d9494bc86d",
+  "schema": "alpha-jv-ds.preparation-rooted-receipt.v1",
+  "scientific_endpoint_count": 0,
+  "scientific_promotion": false,
+  "scope": "CPU_PREPARATION_NOT_SCIENTIFIC_RESULT"
+}

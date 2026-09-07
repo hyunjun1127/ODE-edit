@@ -1,0 +1,301 @@
+{
+  "D_exact_replay_dependency": false,
+  "GPU_hour_cap": null,
+  "GPU_submission_status": "GPU_HOUR_BUDGET_UNASSIGNED",
+  "JV_endpoint_count": 18,
+  "O_NATIVE_count_per_model": 1,
+  "actual_lambda_values": [
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1.0
+  ],
+  "all_endpoint_count_including_entry_and_Official": 22,
+  "audit_reserved_execution": "NOT_AUTHORIZED_IN_BASIC_GRID",
+  "budget_priority": "both models BASE_TIME_COARSE_LAMBDA, then both INTERMEDIATE_LAMBDA_ACTUAL",
+  "compute_exclusions_from_nominal": [
+    "model_load",
+    "compute_z",
+    "Official",
+    "entry_reference_solves",
+    "evaluator",
+    "FD",
+    "history_finalization"
+  ],
+  "endpoints": [
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-BASE",
+      "completed_nodes": 4,
+      "derived_observation_only": true,
+      "effective_N": 4,
+      "effective_T": 2.0,
+      "h": 0.5,
+      "history_append_count": 0,
+      "lambda_response": 0.1,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 8,
+      "parent_T": 4.0,
+      "path_id": "S-PATH-T4",
+      "persistent_endpoint_capture_count": 0,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-LAM-001",
+      "completed_nodes": 4,
+      "derived_observation_only": false,
+      "effective_N": 4,
+      "effective_T": 2.0,
+      "h": 0.5,
+      "history_append_count": 1,
+      "lambda_response": 0.01,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 4,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-LAM-001",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-LAM-00316",
+      "completed_nodes": 4,
+      "derived_observation_only": false,
+      "effective_N": 4,
+      "effective_T": 2.0,
+      "h": 0.5,
+      "history_append_count": 1,
+      "lambda_response": 0.03162277660168379,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 4,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-LAM-00316",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-LAM-0316",
+      "completed_nodes": 4,
+      "derived_observation_only": false,
+      "effective_N": 4,
+      "effective_T": 2.0,
+      "h": 0.5,
+      "history_append_count": 1,
+      "lambda_response": 0.31622776601683794,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 4,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-LAM-0316",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-LAM-1",
+      "completed_nodes": 4,
+      "derived_observation_only": false,
+      "effective_N": 4,
+      "effective_T": 2.0,
+      "h": 0.5,
+      "history_append_count": 1,
+      "lambda_response": 1.0,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 4,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-LAM-1",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-RES-N2",
+      "completed_nodes": 2,
+      "derived_observation_only": false,
+      "effective_N": 2,
+      "effective_T": 2.0,
+      "h": 1.0,
+      "history_append_count": 1,
+      "lambda_response": 0.1,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 2,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-N2",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-RES-N8",
+      "completed_nodes": 8,
+      "derived_observation_only": false,
+      "effective_N": 8,
+      "effective_T": 2.0,
+      "h": 0.25,
+      "history_append_count": 1,
+      "lambda_response": 0.1,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 8,
+      "parent_T": 2.0,
+      "path_id": "S-PATH-N8",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-HOR-T1",
+      "completed_nodes": 2,
+      "derived_observation_only": true,
+      "effective_N": 2,
+      "effective_T": 1.0,
+      "h": 0.5,
+      "history_append_count": 0,
+      "lambda_response": 0.1,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 8,
+      "parent_T": 4.0,
+      "path_id": "S-PATH-T4",
+      "persistent_endpoint_capture_count": 0,
+      "prefix_is_sequential_resume_checkpoint": false
+    },
+    {
+      "actual_gpu_endpoint_required": true,
+      "candidate_id": "JV-HOR-T4",
+      "completed_nodes": 8,
+      "derived_observation_only": false,
+      "effective_N": 8,
+      "effective_T": 4.0,
+      "h": 0.5,
+      "history_append_count": 1,
+      "lambda_response": 0.1,
+      "normalization_id": "N0_SOURCE",
+      "parent_N": 8,
+      "parent_T": 4.0,
+      "path_id": "S-PATH-T4",
+      "persistent_endpoint_capture_count": 1,
+      "prefix_is_sequential_resume_checkpoint": false
+    }
+  ],
+  "entry_reference_count_per_model": 1,
+  "fixed_z_capture_per_model_cohort": 1,
+  "fixture": "S_DEV",
+  "main_target_JVP_actual_reuse": "MEASURE_AT_RUNTIME_NOT_ASSUMED",
+  "main_target_JVP_per_model_nominal": 170,
+  "model_count": 2,
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "nodes_per_model_nominal": 34,
+  "optional_N16": "NOT_ENABLED_SEPARATE_MANIFEST_REQUIRED",
+  "paths": [
+    {
+      "config": {
+        "N": 8,
+        "T": 4.0,
+        "lambda_response": 0.1,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-HOR-T1",
+        "JV-BASE",
+        "JV-HOR-T4"
+      ],
+      "h": 0.5,
+      "path_id": "S-PATH-T4",
+      "priority_group": "BASE_TIME_COARSE_LAMBDA"
+    },
+    {
+      "config": {
+        "N": 2,
+        "T": 2.0,
+        "lambda_response": 0.1,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-RES-N2"
+      ],
+      "h": 1.0,
+      "path_id": "S-PATH-N2",
+      "priority_group": "BASE_TIME_COARSE_LAMBDA"
+    },
+    {
+      "config": {
+        "N": 8,
+        "T": 2.0,
+        "lambda_response": 0.1,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-RES-N8"
+      ],
+      "h": 0.25,
+      "path_id": "S-PATH-N8",
+      "priority_group": "BASE_TIME_COARSE_LAMBDA"
+    },
+    {
+      "config": {
+        "N": 4,
+        "T": 2.0,
+        "lambda_response": 0.01,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-LAM-001"
+      ],
+      "h": 0.5,
+      "path_id": "S-PATH-LAM-001",
+      "priority_group": "BASE_TIME_COARSE_LAMBDA"
+    },
+    {
+      "config": {
+        "N": 4,
+        "T": 2.0,
+        "lambda_response": 1.0,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-LAM-1"
+      ],
+      "h": 0.5,
+      "path_id": "S-PATH-LAM-1",
+      "priority_group": "BASE_TIME_COARSE_LAMBDA"
+    },
+    {
+      "config": {
+        "N": 4,
+        "T": 2.0,
+        "lambda_response": 0.03162277660168379,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-LAM-00316"
+      ],
+      "h": 0.5,
+      "path_id": "S-PATH-LAM-00316",
+      "priority_group": "INTERMEDIATE_LAMBDA_ACTUAL"
+    },
+    {
+      "config": {
+        "N": 4,
+        "T": 2.0,
+        "lambda_response": 0.31622776601683794,
+        "normalization_id": "N0_SOURCE"
+      },
+      "endpoint_ids": [
+        "JV-LAM-0316"
+      ],
+      "h": 0.5,
+      "path_id": "S-PATH-LAM-0316",
+      "priority_group": "INTERMEDIATE_LAMBDA_ACTUAL"
+    }
+  ],
+  "paths_per_model": 7,
+  "requests_per_model": 100,
+  "same_case_ids_and_order_across_models": true,
+  "schema": "alpha-jv-diagnosis.s-sweep-plan.v1",
+  "scientific_promotion": false,
+  "track": "S"
+}

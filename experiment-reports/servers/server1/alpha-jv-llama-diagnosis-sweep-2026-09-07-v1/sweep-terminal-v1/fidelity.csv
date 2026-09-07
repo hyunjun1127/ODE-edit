@@ -1,0 +1,3 @@
+model,status,executed_device,JVP_calls,FD_forwards,dictionary_build_count,cosine_min,relative_L2_max,fd_epsilons,authoritative_write_count,history_append_count,W0_M_RNG_restore
+llama3-8b-inst,PASS,cuda,10,60,10,0.99,0.05,"[0.0078125, 0.00390625, 0.001953125]",0,0,True
+qwen2.5-7b-inst,PASS,cuda,10,60,10,0.99,0.05,"[0.0078125, 0.00390625, 0.001953125]",0,0,True

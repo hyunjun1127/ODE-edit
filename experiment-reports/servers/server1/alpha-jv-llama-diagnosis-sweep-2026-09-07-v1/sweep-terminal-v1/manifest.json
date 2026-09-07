@@ -1,0 +1,438 @@
+{
+  "imputation_count": 0,
+  "input_members_root": "3263f06f652139fa9012f4c7a6326a223f79e34f3fcb0e82382bc339d0546d9d",
+  "input_unchanged": true,
+  "interpolation_count": 0,
+  "members": [
+    {
+      "bytes": 535,
+      "mode": "0600",
+      "path": "budget.csv",
+      "sha256": "a3ab53c95e0e005a2387044df724e24555fe8a12b009357ffcf4b89dcc6e5471"
+    },
+    {
+      "bytes": 1973,
+      "mode": "0600",
+      "path": "clocks.csv",
+      "sha256": "40a359dfdee9599978974b8e1e9af3bf9c015ff1c4772f6f52339dbaa8e852e2"
+    },
+    {
+      "bytes": 7176,
+      "mode": "0600",
+      "path": "compute.csv",
+      "sha256": "dc8c8384b0a96fa0ee5f3f74d8208cda7be06759fa33042e5f1af44a6d7c86ee"
+    },
+    {
+      "bytes": 77991,
+      "mode": "0600",
+      "path": "endpoint-rates.png",
+      "sha256": "c4d415c60e35e939d4357fa711a413acddba9a490aac20e42bdfcb0ce6264a21"
+    },
+    {
+      "bytes": 15303,
+      "mode": "0600",
+      "path": "endpoint_layers.csv",
+      "sha256": "e287ec50628a5ecfcedea130357e3a680da0fb6acb881e9c53438fb91ce47cf0"
+    },
+    {
+      "bytes": 4250,
+      "mode": "0600",
+      "path": "endpoint_mechanics.csv",
+      "sha256": "776687f8ece8a0cb9b8f19f50804d5f42eb6b3ca8f4260c835c916ba6785286e"
+    },
+    {
+      "bytes": 41762,
+      "mode": "0600",
+      "path": "factual-report-ko.md",
+      "sha256": "e5bbc8c9598cb4c3ec816b54ae52dba1ae576f93e6eb6fe77a90cd8ac7a8f91f"
+    },
+    {
+      "bytes": 362,
+      "mode": "0600",
+      "path": "fidelity.csv",
+      "sha256": "91d1d6be6f328446fc5884a794a25388ab52cfff4df35aff552369e7daaa6e2b"
+    },
+    {
+      "bytes": 245329,
+      "mode": "0600",
+      "path": "first_hit.csv",
+      "sha256": "24c0cb12d11466458afcf1dbd725c0d0b2540bbb17f5233a0a2497b8812499fb"
+    },
+    {
+      "bytes": 1144,
+      "mode": "0600",
+      "path": "first_hit_summary.csv",
+      "sha256": "a9d55fc8e5c0e92f293d37bf62c2e4764069dafe81b8f86eed96ee03dab67201"
+    },
+    {
+      "bytes": 1623,
+      "mode": "0600",
+      "path": "gpu-hour-ledger-terminal.json",
+      "sha256": "3c995f6d0c0f8a0f768adbb1c50290fdc23240e82991d06888d81352345a7fad"
+    },
+    {
+      "bytes": 121038,
+      "mode": "0600",
+      "path": "input-manifest.json",
+      "sha256": "ee49d59dbdfbbcc8d756717ba54afb86d26a65ce7aab0dc25f02feec61ed6e4a"
+    },
+    {
+      "bytes": 7645,
+      "mode": "0600",
+      "path": "integrity.csv",
+      "sha256": "8d514610534d3fbab8d6b24754f136b60591e521a1391302d29c6bc7e33354c0"
+    },
+    {
+      "bytes": 4057,
+      "mode": "0600",
+      "path": "kernel_cost.csv",
+      "sha256": "b5db3a3769c31e9475a09fa1e10113df49508545256c94dbcc23ce762b4d1d5f"
+    },
+    {
+      "bytes": 71914,
+      "mode": "0600",
+      "path": "layer-update-magnitude.png",
+      "sha256": "23eddaf120e488b78c1a7da01fdca7e23fd080db18d3384e13214ade28bd88de"
+    },
+    {
+      "bytes": 142705,
+      "mode": "0600",
+      "path": "layers.csv",
+      "sha256": "044e289925795cdf599c1ff47e06199fabab01cb6555bb56cf7ccc36cbd658b9"
+    },
+    {
+      "bytes": 28884,
+      "mode": "0600",
+      "path": "main.csv",
+      "sha256": "f37f88125f47d65ccea60da6a37ff331c90c5762e7988018643f4d49dce1cdba"
+    },
+    {
+      "bytes": 56220,
+      "mode": "0600",
+      "path": "nodes.csv",
+      "sha256": "f05f846a10577507890c8668925b04a8a97bdc88d0cd04f238f999b3146e9513"
+    },
+    {
+      "bytes": 147279,
+      "mode": "0600",
+      "path": "paired-nll-deltas.png",
+      "sha256": "9996e85d5af967bbfe45a7ef31d1cf3723afed166da4ad3e0a8b1512247d186f"
+    },
+    {
+      "bytes": 21305,
+      "mode": "0600",
+      "path": "paired_headline.csv",
+      "sha256": "7475da105c8bf09840a10394ccd769151068f1fd1a35bbdc763bd02945119ec5"
+    },
+    {
+      "bytes": 115779,
+      "mode": "0600",
+      "path": "paired_prompt.csv",
+      "sha256": "7e0b4c3f8a62cb5f5a82f8d9a0caacea764b731300a187fc044645693612a7f9"
+    },
+    {
+      "bytes": 119583,
+      "mode": "0600",
+      "path": "paired_request.csv",
+      "sha256": "dfcb7ebdde733dcb95fd848b0a789857058b11500a99c0b7d64c6761f38fab11"
+    },
+    {
+      "bytes": 85859,
+      "mode": "0600",
+      "path": "path-compute.png",
+      "sha256": "25da0bc1ec24512fd367a73b0cab6c8c1645169adfdbfa568cef3d63c15215ed"
+    },
+    {
+      "bytes": 138584,
+      "mode": "0600",
+      "path": "path-physics.png",
+      "sha256": "377fa892d73fe18adc65b6b06e263bfac0b96d6b5b35869395c2dacc918fea85"
+    },
+    {
+      "bytes": 2063,
+      "mode": "0600",
+      "path": "plot-reproduction.json",
+      "sha256": "643add3a9855e7887bb9a3f1ade3e906da3bdd0363fed0c6fffb38178a094776"
+    },
+    {
+      "bytes": 4721913,
+      "mode": "0600",
+      "path": "prompts.csv",
+      "sha256": "bed250b9d7ad87c653ca097ce530fc93284dcf8d7aa8659dfd2eb6a5c2c4b95d"
+    },
+    {
+      "bytes": 1212925,
+      "mode": "0600",
+      "path": "requests.csv",
+      "sha256": "e1e591d9fd6c2e634438c605d57acb8318164a5e6fa0510668e91ebc6989f00f"
+    },
+    {
+      "bytes": 1975,
+      "mode": "0600",
+      "path": "runtime.csv",
+      "sha256": "519da0e2abc8d390876eff6d95efb0fd625b91f6dcc685361dce199e63ebfe49"
+    },
+    {
+      "bytes": 82407,
+      "mode": "0600",
+      "path": "shadows.csv",
+      "sha256": "133db7eba9951403235445ce26a2de0c429d91a48fa446220d528ff40fe9f281"
+    },
+    {
+      "bytes": 9778,
+      "mode": "0600",
+      "path": "source-manifest.json",
+      "sha256": "8e6368b9d77b9cc98c2db2823305a1b22234331b0663a34aa631e0ad9a798e7a"
+    },
+    {
+      "bytes": 352,
+      "mode": "0600",
+      "path": "status.csv",
+      "sha256": "cc66b16efcb1d4d361c6eef8cafdec17c8f4ae94f9bf0ab999392e988b16db73"
+    },
+    {
+      "bytes": 18061059,
+      "mode": "0600",
+      "path": "tables.json",
+      "sha256": "51676fc10c8a6ca1ad7acfc9f044f978145eb774d67039ef7ee40d962ea29284"
+    }
+  ],
+  "members_root": "f5b4147481a3e6b5d050c76ba213100dabd65f142b1657500af25245a1277f29",
+  "order_identity": "e6bed37af36d22ebc6c66bc0d0aa5e3108dbffc521a6ccd2f8e42b5ef615f737",
+  "row_counts": {
+    "budget": 2,
+    "clocks": 18,
+    "compute": 38,
+    "endpoint_layers": 100,
+    "endpoint_mechanics": 20,
+    "fidelity": 2,
+    "first_hit": 1400,
+    "first_hit_summary": 14,
+    "integrity": 22,
+    "kernel_cost": 14,
+    "layers": 340,
+    "main": 22,
+    "nodes": 68,
+    "paired_headline": 36,
+    "paired_prompt": 540,
+    "paired_request": 540,
+    "prompts": 28600,
+    "requests": 6600,
+    "runtime": 2,
+    "shadows": 340,
+    "status": 2
+  },
+  "sample_identity": "7b9ad328bdf7b9abf7f078791bdeaa1b5282def05265c3877a6b3ee82f44ea24",
+  "schema": "alpha-jv-ds.S-terminal-analysis-manifest.v1",
+  "scientific_promotion": false,
+  "source": {
+    "branch": "",
+    "contract_sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5",
+    "head": "ee6594882e03b57cd6e8934dc758868bb1defdd8",
+    "instruction_id": "ODEEDIT-S06-ALPHA-JV-LLAMA-DIAGNOSIS-SWEEP-SH1-V1",
+    "members": [
+      {
+        "bytes": 82,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/__init__.py",
+        "sha256": "a93ad9b9a941224c828699bc6672e58e4b820300b41fb1f005af47727c556fb4"
+      },
+      {
+        "bytes": 4106,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/capture.py",
+        "sha256": "5776e424a495f6e9dfd8f26ecfa93864fcfa24a81cc8738f08ae55357705084e"
+      },
+      {
+        "bytes": 2200,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/contracts.py",
+        "sha256": "387269ef5e9c0c94467597247143dc0a270cf69ed882807d1d2a2ec722cd6e60"
+      },
+      {
+        "bytes": 8645,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/diagnosis.py",
+        "sha256": "1c9bb4dd4b90bffa861dc0f14c32363ca023e285a2e8afd4be4cc648096c8231"
+      },
+      {
+        "bytes": 12259,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/diagnosis_driver.py",
+        "sha256": "346a97ebf9ef9c2b3f361395cbf0b49f7d67bf109af82434ad34db2b8ebd084c"
+      },
+      {
+        "bytes": 8983,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/fixture.py",
+        "sha256": "e48bdd27eebb83eb671958cc6aa3f2699eafa3c815136a20a31bf24a0194f8b2"
+      },
+      {
+        "bytes": 15919,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/gpu_fidelity.py",
+        "sha256": "1396f985223b568351094ea03e4e5a18d2ed22472a5a7f11035596c5697e2299"
+      },
+      {
+        "bytes": 17836,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/gpu_runtime.py",
+        "sha256": "758f549738f07565ee6d5b05f350a396a6b3c791d3e0934a3f866c9a497ec2d8"
+      },
+      {
+        "bytes": 21760,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/launch.py",
+        "sha256": "2937a337386b963c44acc9d1d84693ac48a1d9c3bc14a87a7b5bb5b58d8309bb"
+      },
+      {
+        "bytes": 5615,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/normalization_views.py",
+        "sha256": "c4ea112925082aae9ed6ba270673d494ecb0d030f2c496d7b4797005f29bfa47"
+      },
+      {
+        "bytes": 1927,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/observations.py",
+        "sha256": "560d3aef40af7efffefc40955b75209a5d491053d03e48db1a3465be62fb7466"
+      },
+      {
+        "bytes": 4023,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/publication.py",
+        "sha256": "683c7fc3a17eace620f44bf7a53dede815b7bb76251037e02592ed9f3ef0ca92"
+      },
+      {
+        "bytes": 11598,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/raw_store.py",
+        "sha256": "ba684263a6ef227814f06045a09c6d126bdd0820c2d7264546f2dff156bcd736"
+      },
+      {
+        "bytes": 11406,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/requestwise.py",
+        "sha256": "2c3de0906870886c827c0afba55cb98b4e2a6cbdbea7944ff933b1eaeae49a3a"
+      },
+      {
+        "bytes": 16155,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/resources.py",
+        "sha256": "b3925589e05f1cb4d938718a50c249322b75a109448b0d4bfead59374a2a0a29"
+      },
+      {
+        "bytes": 14526,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/runner.py",
+        "sha256": "85348e7068b29dd6786896b3cbc2de21228dc3ae56bb24706f2b4ae92e091923"
+      },
+      {
+        "bytes": 11936,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/sampling.py",
+        "sha256": "bb76bfd968a597083a54fee2203b728f19d65dc47d5427e1dca597c60d53b81c"
+      },
+      {
+        "bytes": 1015,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/server1_sweep.sbatch",
+        "sha256": "dcff4c8e11f8c592773df1f82fe9e5e20db201b7b2310f4aab9f4d7db4f2e335"
+      },
+      {
+        "bytes": 5990,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/sweep.py",
+        "sha256": "dc9f1f53bd608462fc5ced2de8962926ec897d5994321e0345a5425549c3227c"
+      },
+      {
+        "bytes": 17224,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/sweep_driver.py",
+        "sha256": "9eafaa447a9e216f1fb7f8da0515a9a3745f51a97f1847ea5499af7b388cb47c"
+      },
+      {
+        "bytes": 1598,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_capture.py",
+        "sha256": "df2f29ada7139bc93aafbf66a57bdabe3f32278da890de20f13dafcc95a433e3"
+      },
+      {
+        "bytes": 12695,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_diagnosis.py",
+        "sha256": "d3e374be5bfa478e4a8edb416d1a8fbb969f8416c3560c2af44155ef237a6c74"
+      },
+      {
+        "bytes": 5691,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_diagnosis_driver.py",
+        "sha256": "bf4cf7ffedbd107d1ebc2337ea3047bdf0509c8f55124de06f77d66f988192e2"
+      },
+      {
+        "bytes": 8423,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_gpu_fidelity.py",
+        "sha256": "ae1c5796dc74d239f725f26c832952d210e6b8a52c6ba5cf45827ef5f7b4d870"
+      },
+      {
+        "bytes": 7885,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_gpu_runtime.py",
+        "sha256": "72f66fcc830e8b0fa70b8a04606dabe0b3ce74215a23c87a376028177620ee31"
+      },
+      {
+        "bytes": 9388,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_launch.py",
+        "sha256": "8cd545e7f938c02ac00f373d5ecd1d7f6834ed9da296494fc783312c022ccbac"
+      },
+      {
+        "bytes": 1063,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_publication.py",
+        "sha256": "7dffb0bdf066f1c25ca6f1a62a339f61788ff141fa6f17356f300cc802a8eca1"
+      },
+      {
+        "bytes": 7897,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_raw_store.py",
+        "sha256": "a5b73550872f6d66441f057db02e65ab274000d304ff8020aa33a8906206ce18"
+      },
+      {
+        "bytes": 6480,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_resources.py",
+        "sha256": "a561235c8389521fbe50785841550cc60a9b36839c545ac17058b4d5105f1a6f"
+      },
+      {
+        "bytes": 9452,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_shared.py",
+        "sha256": "a50e012f663ced1ab223a90da7c0d89be885f3e0f569e2978c62289b57ef7ff0"
+      },
+      {
+        "bytes": 8452,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_sweep.py",
+        "sha256": "b9f0f65ed7afcdc09ec255d7edebf0170dc861d09ad8c5786afbcc53da937905"
+      },
+      {
+        "bytes": 15987,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/test_sweep_driver.py",
+        "sha256": "a99f9473dcd8ef4d5a2024e5102e5e6ec27961f14c662a4ced934af198fcd7c5"
+      },
+      {
+        "bytes": 13350,
+        "mode": "0664",
+        "path": "project/run_scripts/alpha_jv_llama_diagnosis/trajectory.py",
+        "sha256": "a57c4eb9b8e6f5ef4a54aaacf9c21a53025728b284e004891aaa26477f868cfb"
+      }
+    ],
+    "members_root": "55b209e6d855496fba665be9b35c77a1034dff27472e3ae3533bd90f3de96932",
+    "repo": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-ds-exec-r1",
+    "runtime_parent": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "tree": "4df08fb8523afedb9babf87e21bf8c527980be71"
+  }
+}

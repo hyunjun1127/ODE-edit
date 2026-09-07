@@ -1,0 +1,55 @@
+{
+  "DPI": 110,
+  "backend": "Agg",
+  "code": {
+    "bytes": 49653,
+    "mode": "0664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/project/run_scripts/alpha_jv_llama_diagnosis/analysis_s.py",
+    "sha256": "e4e5047ef9b33d1dccd9773ddaeb8ac01b5fef0ebc63d52065f28f29b391143e"
+  },
+  "exact_command": "python3 -m project.run_scripts.alpha_jv_llama_diagnosis.analysis_s plot --tables /mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/tables.json --output CREATE_ONCE_DIRECTORY",
+  "executions": 2,
+  "font": "DejaVu Sans",
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "outputs": [
+    {
+      "bytes": 77991,
+      "mode": "0600",
+      "path": "endpoint-rates.png",
+      "sha256": "c4d415c60e35e939d4357fa711a413acddba9a490aac20e42bdfcb0ce6264a21"
+    },
+    {
+      "bytes": 138584,
+      "mode": "0600",
+      "path": "path-physics.png",
+      "sha256": "377fa892d73fe18adc65b6b06e263bfac0b96d6b5b35869395c2dacc918fea85"
+    },
+    {
+      "bytes": 71914,
+      "mode": "0600",
+      "path": "layer-update-magnitude.png",
+      "sha256": "23eddaf120e488b78c1a7da01fdca7e23fd080db18d3384e13214ade28bd88de"
+    },
+    {
+      "bytes": 147279,
+      "mode": "0600",
+      "path": "paired-nll-deltas.png",
+      "sha256": "9996e85d5af967bbfe45a7ef31d1cf3723afed166da4ad3e0a8b1512247d186f"
+    },
+    {
+      "bytes": 85859,
+      "mode": "0600",
+      "path": "path-compute.png",
+      "sha256": "25da0bc1ec24512fd367a73b0cab6c8c1645169adfdbfa568cef3d63c15215ed"
+    }
+  ],
+  "plot_input": {
+    "bytes": 18061059,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/tables.json",
+    "sha256": "51676fc10c8a6ca1ad7acfc9f044f978145eb774d67039ef7ee40d962ea29284"
+  },
+  "python": "3.12.0",
+  "status": "BYTE_STABLE_REEXECUTION_PASS"
+}

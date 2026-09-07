@@ -1,0 +1,10 @@
+{
+  "CPU_python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+  "CPU_torch_version": "2.9.1+cu128",
+  "GPU_fidelity": "NOT_RUN",
+  "Slurm_submission": "NOT_RUN",
+  "future_first_fidelity": "normal-signal entry and nonzero node, source tolerances unchanged",
+  "model_load": "NOT_RUN",
+  "production_launcher": "NOT_SEALED_PENDING_BUDGET_AND_ASSET_RELEASE",
+  "status": "CPU_MODULES_PREPARED_GPU_BINDING_NOT_RELEASED"
+}

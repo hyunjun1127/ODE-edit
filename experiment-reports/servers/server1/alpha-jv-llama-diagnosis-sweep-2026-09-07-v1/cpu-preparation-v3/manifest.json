@@ -1,0 +1,90 @@
+{
+  "members": [
+    {
+      "bytes": 2454,
+      "mode": "0600",
+      "path": "artifact_availability.json",
+      "sha256": "ccf03c29889488ffb59d4c9434a0ed1bbe8c731ddffa199bd81a6ecb1e686a3a"
+    },
+    {
+      "bytes": 5400,
+      "mode": "0600",
+      "path": "cost-estimate.json",
+      "sha256": "ae8206a8e149f4bc7ebd7911bc237aff68580db48e96058801fb42c094b38174"
+    },
+    {
+      "bytes": 4667,
+      "mode": "0600",
+      "path": "cpu_checks.json",
+      "sha256": "0407647a3dacd824264129baef9d6a4fdc067d69953ee9c18852f86e89c567f5"
+    },
+    {
+      "bytes": 8072,
+      "mode": "0600",
+      "path": "dry-plan.json",
+      "sha256": "18568c8ee50cfec5ce757a37b154040eee0018591dc3cd2884603e285a9a3490"
+    },
+    {
+      "bytes": 4421,
+      "mode": "0600",
+      "path": "factual-report-ko.md",
+      "sha256": "59432cd6976f839c1a80c28cfdb7415fd5eec7d4087f2b4b6385d9d508581b68"
+    },
+    {
+      "bytes": 9459,
+      "mode": "0600",
+      "path": "full-read-inputs.json",
+      "sha256": "0b021f6c5d94fa5dfd2709a93ad6795cb149159b2dba852b7f2a632b68527d9e"
+    },
+    {
+      "bytes": 472,
+      "mode": "0600",
+      "path": "independent-CPU-review.json",
+      "sha256": "bc0cdcb5d2b68005b4b8bb7352f55a85bf5831991fa8171044fe63d7b893038f"
+    },
+    {
+      "bytes": 252,
+      "mode": "0600",
+      "path": "input-immutability.json",
+      "sha256": "adb2ee5b4685c7ca547ef24881245f96defe40cfee2c6d23fdb01215420bdfe5"
+    },
+    {
+      "bytes": 1076,
+      "mode": "0600",
+      "path": "resource.lock.json",
+      "sha256": "3a0a865a0047a30048ed650b59b77995681cac38bbe0adb2191247fa4e82c9bc"
+    },
+    {
+      "bytes": 2610,
+      "mode": "0600",
+      "path": "run_registry.csv",
+      "sha256": "93b651ff477cf697d034bf385f3614c032232637f25603b3100c6b2308b6d192"
+    },
+    {
+      "bytes": 422,
+      "mode": "0600",
+      "path": "runtime.lock.json",
+      "sha256": "11e880c5ea67ef417c69cd88f1e0de18778bd79fa4a470b9b894e07fdd5684d8"
+    },
+    {
+      "bytes": 281047,
+      "mode": "0600",
+      "path": "sample.lock.json",
+      "sha256": "f0b846c0b6476a1967b058e9f8f3d09d801a2f01bb2dd09b7275392d11ab6bb7"
+    },
+    {
+      "bytes": 9046,
+      "mode": "0600",
+      "path": "science.lock.json",
+      "sha256": "15206fa1568eb41ab23e61ab4f5ff4e681877a4498ef5b5b9167bfd87214288f"
+    },
+    {
+      "bytes": 23474,
+      "mode": "0600",
+      "path": "source.lock.json",
+      "sha256": "45d533db7824dec79304204c1f7ef132bad57c39f199136bfe129deddc6a75b3"
+    }
+  ],
+  "members_root": "b05dc1a41de2786a21300894b6661aad7aa55d0b4425ffd93dfa63d9494bc86d",
+  "schema": "alpha-jv-ds.preparation-manifest.v1"
+}

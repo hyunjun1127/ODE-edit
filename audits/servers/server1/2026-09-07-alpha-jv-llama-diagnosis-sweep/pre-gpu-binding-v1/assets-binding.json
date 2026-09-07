@@ -1,0 +1,11 @@
+{
+  "assets": {
+    "bytes": 9491,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-s06-alpha-jv-diagnosis-sweep-v1/local/state/alpha-jv-llama-diagnosis-sweep-20260907/pre-gpu-assets-v1/assets.lock.json",
+    "sha256": "13118931e3b8765f70d91e3bd592faaedd4e71f571dbeeb8477f4aa9d27a0e8a"
+  },
+  "deep_hash_status": "PINNED_NATIVE_ASSET_HASH_PASS",
+  "execution_GPU_fidelity_claim": false,
+  "model_load_count": 0
+}
