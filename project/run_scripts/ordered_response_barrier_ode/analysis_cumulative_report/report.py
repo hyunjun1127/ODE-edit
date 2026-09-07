@@ -59,6 +59,12 @@ def build(work,out):
     # Executed source identity remains separate from analysis and integration lineage.
     require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=runtime,text=True).strip()==SOURCE[0],'runtime HEAD')
     exclusions=read(Path(RAW).parent/'preparation-exclusion.json')
+    preflight=read(RAW/'preflight.json')
+    for m in preflight['source']['members']:
+        require(sha256_file(runtime/m['path'])==m['sha256'],'executed source member '+m['path'])
+    for k in ['seal_path']:
+        require(sha256_file(Path(preflight['stream'][k]))==preflight['stream']['seal_sha256'],'sealed stream file')
+    write_json_once(out/'execution-preflight.json',preflight)
     provenance=dict(instruction_id=INSTRUCTION,executed_source_head=SOURCE[0],executed_source_tree=SOURCE[1],analysis_source=source,authoritative_documents=docmeta,claim_map=claim,runtime_python_members=src,stream_root=STREAM_ROOT,order_root=ORDER_ROOT,technical_exclusion=exclusions,scheduler=read(work/'scheduler-once.json'),publication_policy='NEW_ANALYSIS_ONLY_MAIN_INTEGRATION_AUTHORIZED_20260907; GH_OWNED_HANDOFFS_NOT_REMERGED',prior_sequential_v1='HISTORICAL_IMMUTABLE_NOT_A_SOURCE_OF_ACTUAL_CUMULATIVE_RETENTION',counterfactual_scope='Different arm batch-entry W/z; end-to-end paired sample, NOT same-state causal comparison')
     write_json_once(out/'provenance.json',provenance)
     final=f('performance','final-20-arm.csv');cum=f('performance','cumulative-core.csv');dist=f('performance','category-distributions.csv');ages=f('performance','age-rates.csv');cmd=f('mechanism','current-command-realization.csv');hist=f('mechanism','historical-checkpoint-residual.csv');act=f('mechanism','layer-actual-action.csv');nodes=f('mechanism','node-mechanism.csv');batch=f('mechanism','batch-mechanism.csv');cost=f('mechanism','cost-by-batch.csv');cellcost=f('mechanism','cell-compute.csv')
