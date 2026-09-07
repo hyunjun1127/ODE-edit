@@ -32,3 +32,17 @@ exact metadata hash로 충돌 한 쌍을 분류할 뿐 표본을 선택/제외�
 고정 순서/색/스타일/seed/DPI를 쓰고 각 PNG를 두 번 렌더하여 bytes exact를 검사한다.
 `verify`는 table 산술, 분모, row SHA, plot input/output, source SHA 및 raw-free 범위를
 검사하고 manifest/rooted receipt를 생성한다. CUDA/model/GPU/Slurm 호출0.
+
+## Git checkout 권한 metadata
+
+Git은 executable bit만 보존하고0644/0664의 group-write 차이는 보존하지 않는다.
+Git clean checkout에서 byte/size는 exact인데 `exact package inventory` 검사가
+권한 차이로만 실패하면 다음 명령으로 audit한다. `--restore`는 모든 member의
+SHA/size가 일치할 때만 manifest에 기록된0644/0664 권한을 복구하며 bytes/raw는
+변경하지 않는다. 그 뒤 원래 strict verifier를 다시 실행한다.
+
+```bash
+$PY -m "$MOD.git_checkout_modes" --package <PACKAGE>
+$PY -m "$MOD.git_checkout_modes" --package <PACKAGE> --restore
+$PY -m "$MOD.verify" --package <PACKAGE>
+```
