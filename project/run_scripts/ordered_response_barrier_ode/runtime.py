@@ -756,7 +756,7 @@ class FamilyRuntime:
             left, oriented_right = right, residual
         else:
             raise TechnicalBoundary("canonical Official factor orientation differs from weight")
-        return LayerBuild(
+        result = LayerBuild(
             layer=layer,
             weight_name=name,
             left=left.detach().to(device="cpu", dtype=torch.float32),
@@ -773,6 +773,9 @@ class FamilyRuntime:
             }),
             solve_backward_error=backward_error,
         )
+        if getattr(self, "cumulative_observer", None) is not None:
+            self.cumulative_observer.on_build(result, keys)
+        return result
 
     def evaluate_endpoint(self) -> Mapping[str, Any]:
         from project.run_scripts.ordered_response_barrier_ode.counterfact_locality_evaluator import (
@@ -983,6 +986,9 @@ class FamilyRuntime:
 
         self.module.compute_z = fixed_compute_z
         try:
+            cumulative = getattr(self, "cumulative_observer", None)
+            if cumulative is not None:
+                cumulative.install_official(self)
             apply = self.module.apply_AlphaEdit_to_model if self.family == "AlphaEdit" else self.module.apply_memit_to_model
             with _model_name(self.model, str(self.hparams.model_name)):
                 edited, _ = apply(
@@ -997,6 +1003,8 @@ class FamilyRuntime:
                 )
             if edited is not self.model or call_index != fixed_z.request_count:
                 raise TechnicalBoundary("Official endpoint/fixed-z consumption differs")
+            if cumulative is not None:
+                cumulative.finish_official(self)
             if any(not bool(torch.isfinite(value).all()) for value in self.parameters.values()):
                 raise TechnicalBoundary("Official endpoint is non-finite before parity exclusion")
             endpoint_sha = tensor_set_sha256(self.parameters)
@@ -1029,6 +1037,8 @@ class FamilyRuntime:
             }
         finally:
             self.module.compute_z = original_compute_z
+            if getattr(self, "cumulative_observer", None) is not None:
+                self.cumulative_observer.restore_official(self)
             _restore_selected(self.parameters, self.w0)
             if self.family == "AlphaEdit":
                 if self._alpha_cache_entry is None:
@@ -1287,6 +1297,8 @@ def _arm_run(
         overlay=overlay,
         jvp=observer,
         observe_semantic=family.observe_semantic,
+        observe_transition=(getattr(family, "cumulative_observer", None).transition
+                            if getattr(family, "cumulative_observer", None) is not None else None),
     )
     started = time.perf_counter()
     forward_count_before = _model_forward_count(family.model)

@@ -7,6 +7,8 @@ import json
 import os
 from pathlib import Path
 import stat
+import shutil
+import hashlib
 from typing import Any, Mapping
 
 from .preflight import (
@@ -16,6 +18,7 @@ from .preflight import (
     canonical_hash,
     canonical_json,
     cell_spec,
+    MODEL_BINDINGS,
     validate_easyedit_source,
     validate_model_artifacts,
     validate_stream,
@@ -179,6 +182,7 @@ def parser() -> argparse.ArgumentParser:
         command.add_argument("--local-caps", type=Path, required=True)
         command.add_argument("--output-parent", type=Path, required=True)
         command.add_argument("--log-root", type=Path, required=True)
+        command.add_argument("--cumulative-observation", action="store_true")
     commands.choices["dry-plan"].add_argument("--receipt", type=Path, required=True)
     commands.choices["seal-preflight"].add_argument("--receipt", type=Path, required=True)
     commands.choices["run-cell"].add_argument("--preflight-receipt", type=Path, required=True)
@@ -199,9 +203,40 @@ def _dry_plan(args: argparse.Namespace) -> int:
         output_parent=args.output_parent,
         log_root=args.log_root,
     )
+    if args.cumulative_observation:
+        value['cumulative_observation']=True
+        value['cumulative_measurement_plan']=cumulative_measurement_plan(args.repo_root,args.output_parent,args.hf_hub_cache)
+        value.pop('identity_sha256');value['identity_sha256']=canonical_hash(value)
     write_create_once_json(args.receipt, value)
     print(canonical_json({"receipt": str(args.receipt.absolute()), "status": value["status"]}))
     return 0
+
+
+def cumulative_measurement_plan(repo:Path,output:Path,hub:Path)->dict[str,Any]:
+    estimates={};total=0
+    for alias,spec in MODEL_BINDINGS.items():
+        path=hub/str(spec['hf_repo'])/'snapshots'/str(spec['revision'])/'config.json'
+        data=path.read_bytes()
+        if hashlib.sha256(data).hexdigest()!=spec['config_sha256']:
+            raise PreflightBoundary('cumulative storage model-config identity')
+        config=json.loads(data);one=5*4*int(config['hidden_size'])*int(config['intermediate_size'])
+        estimates[alias]={'five_edited_FP32_tensor_bytes':one,'checkpoint_count_two_methods':100}
+        total+=100*one
+    free=shutil.disk_usage(output if output.exists() else output.parent).free
+    # Reserve 128 GiB plus 25% for journals, target tensors and serialization.
+    if free<total*1.25+128*2**30:
+        raise PreflightBoundary('cumulative storage reserve insufficient')
+    mapping=repo/'project/run_scripts/ordered_response_barrier_ode/cumulative_claim_measurement_map.md'
+    return {'status':'CUMULATIVE_MEASUREMENT_RESOURCE_PASS','claim_map_path':str(mapping),
+        'claim_map_sha256':hashlib.sha256(mapping.read_bytes()).hexdigest(),
+        'checkpoint_storage_bytes':total,'storage_estimates':estimates,'available_bytes':free,
+        'reserve_bytes':128*2**30,'checkpoints':200,'request_state_rows':110000,
+        'evaluation_type':'CHECKPOINT_W_ON_ALL_SEEN_REQUESTS',
+        'final_requests_per_arm':1000,'final_rewrite_per_arm':1000,'final_rephrase_per_arm':2000,'final_neighborhood_per_arm':10000,
+        'historical_layer_probe_cohorts':'ALL_SEEN_EVERY_VISITED_LAYER',
+        'controller_feedback':0,'z_reoptimization':0,'old_results_overwrite':0,
+        'gpu_hours_planning_range':[64,144],'estimate_basis':'prior four-cell total45.8 GPUh; added 110000 request-state evaluations and all-seen activation probes, not measured runtime',
+        'native_Creg_action':'UNBOUND_NOT_FROBENIUS_EQUIVALENT','scientific_promotion':False}
 
 
 def _seal_preflight(args: argparse.Namespace) -> int:
@@ -217,6 +252,12 @@ def _seal_preflight(args: argparse.Namespace) -> int:
         log_root=args.log_root,
         deep_artifact_hash=True,
     )
+    if args.cumulative_observation:
+        value['cumulative_observation']=True
+        value['cumulative_measurement_lock']='cumulative_claim_measurement_map.md'
+        value['cumulative_measurement_plan']=cumulative_measurement_plan(args.repo_root,args.output_parent,args.hf_hub_cache)
+        value.pop('identity_sha256')
+        value['identity_sha256']=canonical_hash(value)
     write_create_once_json(args.receipt, value)
     print(canonical_json({"receipt": str(args.receipt.absolute()), "status": value["status"]}))
     return 0
@@ -230,13 +271,15 @@ def _run_cell(args: argparse.Namespace) -> int:
     )
     if args.run_token != expected_token:
         raise PreflightBoundary("sequential run token differs")
-    load_preflight(
+    sealed=load_preflight(
         args.preflight_receipt,
         source_head=args.source_head,
         source_tree=args.source_tree,
         output_parent=args.output_parent,
         log_root=args.log_root,
     )
+    if bool(sealed.get('cumulative_observation',False))!=args.cumulative_observation:
+        raise PreflightBoundary('cumulative observer/preflight binding differs')
     repeat_runtime_binding(
         repo_root=args.repo_root,
         source_head=args.source_head,
@@ -262,6 +305,7 @@ def _run_cell(args: argparse.Namespace) -> int:
         source_tree=args.source_tree,
         cell_id=args.cell_id,
         run_token=args.run_token,
+        cumulative_observation=args.cumulative_observation,
     )
     print(canonical_json({"cell_id": args.cell_id, "status": terminal["status"]}))
     return 0
@@ -283,4 +327,3 @@ __all__ = [
     "repeat_runtime_binding",
     "write_create_once_json",
 ]
-

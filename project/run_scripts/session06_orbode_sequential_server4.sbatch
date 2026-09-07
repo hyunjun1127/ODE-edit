@@ -60,10 +60,14 @@ export MPLCONFIGDIR="${REPO_ROOT}/local/orbode-sequential/matplotlib-${SLURM_JOB
 readonly IMPORTED_EASYEDIT="$(${PYTHON_BIN} -c 'import pathlib,easyeditor; print(pathlib.Path(easyeditor.__file__).resolve())')"
 [[ "${IMPORTED_EASYEDIT}" == "${EASYEDIT_SOURCE_ROOT}"/* ]] || { echo "ORBODE imported EasyEdit source differs" >&2; exit 2; }
 
+OBSERVATION_ARGS=()
+if [[ "${ODE_ORBODE_CUMULATIVE:-0}" == "1" ]]; then
+  OBSERVATION_ARGS=(--cumulative-observation)
+fi
 exec "${PYTHON_BIN}" -m project.run_scripts.session06_orbode_sequential_server4 run-cell \
   --repo-root "${REPO_ROOT}" --source-head "${SOURCE_HEAD}" --source-tree "${SOURCE_TREE}" \
   --easyedit-source-root "${EASYEDIT_SOURCE_ROOT}" --easyedit-artifact-root "${EASYEDIT_ARTIFACT_ROOT}" \
   --hf-hub-cache "${HF_HUB_CACHE}" --local-caps "${LOCAL_CAPS}" \
   --output-parent "${OUTPUT_PARENT}" --log-root "${LOG_ROOT}" \
   --preflight-receipt "${PREFLIGHT_RECEIPT}" --cell-id "${SLURM_ARRAY_TASK_ID}" \
-  --run-token "${RUN_TOKEN}"
+  --run-token "${RUN_TOKEN}" "${OBSERVATION_ARGS[@]}"

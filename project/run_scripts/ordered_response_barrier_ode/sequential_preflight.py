@@ -63,6 +63,7 @@ EXECUTION_SOURCE_PATHS = (
     "project/run_scripts/ordered_response_barrier_ode",
     "project/run_scripts/session06_orbode_sequential_server4.py",
     "project/run_scripts/session06_orbode_sequential_server4.sbatch",
+    "project/run_scripts/session06_orbode_cumulative_server4.sbatch",
 )
 
 
