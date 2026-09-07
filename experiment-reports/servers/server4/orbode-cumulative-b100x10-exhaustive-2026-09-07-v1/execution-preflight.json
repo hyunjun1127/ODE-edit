@@ -1,0 +1,619 @@
+{
+  "action_counts": {
+    "gpu": 0,
+    "model": 0,
+    "slurm": 0
+  },
+  "authoritative_inputs": [
+    {
+      "absolute_path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "bytes": 55900,
+      "lines": 1359,
+      "mode": "0600",
+      "sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "absolute_path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "bytes": 13143,
+      "lines": 287,
+      "mode": "0600",
+      "sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "absolute_path": "/data/janghj/ODE-edit/local/state/orbode-sequential-b100x10-v1/authoritative-docs/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "bytes": 18113,
+      "lines": 451,
+      "mode": "0600",
+      "sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    }
+  ],
+  "create_once": {
+    "log_root": "/data/janghj/ODE-edit/local/state/orbode-cumulative-rerun-v1/execution-r2/logs",
+    "output_parent": "/data/janghj/ODE-edit/local/state/orbode-cumulative-rerun-v1/execution-r2/results"
+  },
+  "cumulative_measurement_lock": "cumulative_claim_measurement_map.md",
+  "cumulative_measurement_plan": {
+    "available_bytes": 743359131648,
+    "checkpoint_storage_bytes": 253231104000,
+    "checkpoints": 200,
+    "claim_map_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/ordered_response_barrier_ode/cumulative_claim_measurement_map.md",
+    "claim_map_sha256": "21fc939ebeccf30b646aa5be70e07f1d8c927e62a7000140e0b105ee0488b523",
+    "controller_feedback": 0,
+    "estimate_basis": "prior four-cell total45.8 GPUh; added 110000 request-state evaluations and all-seen activation probes, not measured runtime",
+    "evaluation_type": "CHECKPOINT_W_ON_ALL_SEEN_REQUESTS",
+    "final_neighborhood_per_arm": 10000,
+    "final_rephrase_per_arm": 2000,
+    "final_requests_per_arm": 1000,
+    "final_rewrite_per_arm": 1000,
+    "gpu_hours_planning_range": [
+      64,
+      144
+    ],
+    "historical_layer_probe_cohorts": "ALL_SEEN_EVERY_VISITED_LAYER",
+    "native_Creg_action": "UNBOUND_NOT_FROBENIUS_EQUIVALENT",
+    "old_results_overwrite": 0,
+    "request_state_rows": 110000,
+    "reserve_bytes": 137438953472,
+    "scientific_promotion": false,
+    "status": "CUMULATIVE_MEASUREMENT_RESOURCE_PASS",
+    "storage_estimates": {
+      "llama3-8b-inst": {
+        "checkpoint_count_two_methods": 100,
+        "five_edited_FP32_tensor_bytes": 1174405120
+      },
+      "qwen2.5-7b-inst": {
+        "checkpoint_count_two_methods": 100,
+        "five_edited_FP32_tensor_bytes": 1357905920
+      }
+    },
+    "z_reoptimization": 0
+  },
+  "cumulative_observation": true,
+  "easyedit_source": {
+    "head": "14cea8245f06715684592ab55184939b99d70784",
+    "implementation_boundary": "ODE_EDIT_HOOK_STOCK_EASYEDIT_READ_ONLY",
+    "members": [
+      {
+        "bytes": 13663,
+        "path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+        "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a"
+      },
+      {
+        "bytes": 10172,
+        "path": "easyeditor/models/alphaedit/compute_z.py",
+        "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a"
+      },
+      {
+        "bytes": 1552,
+        "path": "easyeditor/models/alphaedit/compute_ks.py",
+        "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+      },
+      {
+        "bytes": 74,
+        "path": "easyeditor/models/alphaedit/__init__.py",
+        "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+      },
+      {
+        "bytes": 11103,
+        "path": "easyeditor/models/memit/memit_main.py",
+        "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7"
+      },
+      {
+        "bytes": 10575,
+        "path": "easyeditor/models/memit/compute_z.py",
+        "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e"
+      },
+      {
+        "bytes": 1540,
+        "path": "easyeditor/models/memit/compute_ks.py",
+        "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+      },
+      {
+        "bytes": 1578,
+        "path": "easyeditor/models/memit/memit_hparams.py",
+        "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+      }
+    ],
+    "members_root": "a7935ad384903e4bb37fc8eaab6d2542c3733d5356518e4c929a9028b63c5962",
+    "root": "/data/janghj/EasyEdit-stock-14cea824",
+    "tracked_clean": true,
+    "tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7"
+  },
+  "execution_lock": {
+    "bytes": 1106,
+    "identity_sha256": "5a67d156d621b9354223abb887cb763847620d98ec61ac5d102e5e7149d7d240",
+    "path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/ordered_response_barrier_ode/locks/server4-sequential-b100x10-v1.json",
+    "sha256": "88b6d274963974899fb900ba0f385f0f610691cccc459543a3924e1a842079f6"
+  },
+  "identity_sha256": "2f37c76c3340a4163e32b49678754340f24e216ffc2e5753eb0a94d2f707c683",
+  "instruction_id": "ODEEDIT-S06-ORDERED-RESPONSE-BARRIER-ODE-SEQUENTIAL-B100X10-SERVER4-V1",
+  "model_artifacts": {
+    "deep_hash": true,
+    "models": {
+      "llama3-8b-inst": {
+        "hparams": {
+          "AlphaEdit": {
+            "absolute_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-llama3-8b.yaml",
+            "bytes": 743,
+            "sha256": "63239e48ea8faf78dfcc40d7d4f5aff3ff0832eb4208384d11f4a812819765c3"
+          },
+          "MEMIT": {
+            "absolute_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/fixed_z_nonuniqueness/config/memit-llama3-8b.yaml",
+            "bytes": 644,
+            "sha256": "1c5bccc160493c078de3066313443fe8cc6bc53ec2c61865d64851a10cb80444"
+          }
+        },
+        "native_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "projector": {
+          "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+          "bytes": 4110419877,
+          "expected_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+          "observed_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+        },
+        "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "snapshot_config_sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+        "snapshot_tokenizer_sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+        "statistics": [
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 822084814,
+            "expected_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+            "layer": 4,
+            "observed_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 822084814,
+            "expected_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+            "layer": 5,
+            "observed_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 822084814,
+            "expected_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+            "layer": 6,
+            "observed_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 822084814,
+            "expected_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+            "layer": 7,
+            "observed_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 822084814,
+            "expected_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+            "layer": 8,
+            "observed_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+          }
+        ]
+      },
+      "qwen2.5-7b-inst": {
+        "hparams": {
+          "AlphaEdit": {
+            "absolute_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-qwen2.5-7b.yaml",
+            "bytes": 732,
+            "sha256": "e980d9b5e4ee68b2dc6497672f9a6803f7a9ec5350888b23eb05b9c90f05e815"
+          },
+          "MEMIT": {
+            "absolute_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/fixed_z_nonuniqueness/config/memit-qwen2.5-7b.yaml",
+            "bytes": 638,
+            "sha256": "2cec6319248f24bf49575bf5dff1824ca8b6965b22ccb9d18a59e8a323463231"
+          }
+        },
+        "native_name": "Qwen/Qwen2.5-7B-Instruct",
+        "projector": {
+          "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+          "bytes": 7177504758,
+          "expected_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+          "observed_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff"
+        },
+        "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+        "snapshot_config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+        "snapshot_tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+        "statistics": [
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 1435501774,
+            "expected_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+            "layer": 4,
+            "observed_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 1435501774,
+            "expected_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+            "layer": 5,
+            "observed_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 1435501774,
+            "expected_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+            "layer": 6,
+            "observed_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 1435501774,
+            "expected_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+            "layer": 7,
+            "observed_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d"
+          },
+          {
+            "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "bytes": 1435501774,
+            "expected_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+            "layer": 8,
+            "observed_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"
+          }
+        ]
+      }
+    }
+  },
+  "resource": {
+    "array": "0-3%2",
+    "bytes": 148,
+    "cpus_per_task": 8,
+    "export": "NONE",
+    "gpu_per_task": 1,
+    "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*",
+    "max_project_gpus": 2,
+    "memory_mib_per_gpu": 60416,
+    "memory_mib_per_task": 60416,
+    "node": "server4",
+    "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+    "server": "server4"
+  },
+  "runtime_lock": {
+    "N": 4,
+    "T": 1.0,
+    "alpha_history": "DYNAMIC_APPEND_ON_SUCCESSFUL_TERMINAL_COMMIT",
+    "arm_entry_state": "COMMON_ORIGINAL_W0_AND_COLD_METHOD_STATE",
+    "arms": [
+      "O",
+      "QCL",
+      "NQFIX",
+      "ORBFH",
+      "JAC"
+    ],
+    "backtracking_count": 0,
+    "batch_count": 10,
+    "batch_size": 100,
+    "derived_arm": "ORBHit",
+    "execution_semantics": "ARM_LOCAL_B1_TO_B10_CUMULATIVE_W_CACHE_SEQUENTIAL",
+    "fallback_count": 0,
+    "fixed_z_recompute_within_batch": 0,
+    "full_fp32": true,
+    "h": 0.25,
+    "heldout_controller_influence": 0,
+    "identity_sha256": "13f234d9ea909b0fc25de53baee05394572c7fea6b03c0ad7ad18f094799e050",
+    "inter_arm_state_carry": 0,
+    "inter_batch_state_carry": 1,
+    "memit_covariance": "STATIC_COMPUTATION_CACHE",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "request_count_per_arm": 1000,
+    "retry_count": 0,
+    "round_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "scientific_promotion": false,
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+  },
+  "schema": "orbode.server4.sequential-preflight.v1",
+  "science": {
+    "N": 4,
+    "T": 1.0,
+    "arms": [
+      "O",
+      "QCL",
+      "NQFIX",
+      "ORBFH",
+      "JAC"
+    ],
+    "controller_evaluator_influence_count": 0,
+    "dynamic_z_recompute_count": 0,
+    "full_fp32": true,
+    "h": 0.25,
+    "round_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "scientific_promotion": false
+  },
+  "session": {
+    "boundary_check_required_in_launcher": true,
+    "expected_id": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd"
+  },
+  "source": {
+    "head": "8610faf0e114059a5e08116f1164baf31c573e80",
+    "members": [
+      {
+        "bytes": 695,
+        "path": "project/run_scripts/ordered_response_barrier_ode/__init__.py",
+        "sha256": "aa7b332461eea6e6b2317da82e9c537f0c645aea592832445edf33f40e2e5a90"
+      },
+      {
+        "bytes": 15873,
+        "path": "project/run_scripts/ordered_response_barrier_ode/adapters.py",
+        "sha256": "b100b8471938d73330688c5ecf63b24f051380eb9009940480167c449148edf0"
+      },
+      {
+        "bytes": 86208,
+        "path": "project/run_scripts/ordered_response_barrier_ode/artifacts.py",
+        "sha256": "faaf53b52f55b437b9fa04e5fbf936fb2e65c45acc95f7fb0bef6d4924cc3aa5"
+      },
+      {
+        "bytes": 14663,
+        "path": "project/run_scripts/ordered_response_barrier_ode/contracts.py",
+        "sha256": "e94e1d2c17827bc89078010b8b5ca735470b5f376b70e9cee902921afb1dd514"
+      },
+      {
+        "bytes": 7892,
+        "path": "project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py",
+        "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+      },
+      {
+        "bytes": 6508,
+        "path": "project/run_scripts/ordered_response_barrier_ode/cumulative_claim_measurement_map.md",
+        "sha256": "21fc939ebeccf30b646aa5be70e07f1d8c927e62a7000140e0b105ee0488b523"
+      },
+      {
+        "bytes": 19770,
+        "path": "project/run_scripts/ordered_response_barrier_ode/cumulative_observation.py",
+        "sha256": "e225f0b10d13bdec5aeca122975b1f7e0577861bf4ba088f9222b73d7ec778c2"
+      },
+      {
+        "bytes": 9479,
+        "path": "project/run_scripts/ordered_response_barrier_ode/dry_plan.py",
+        "sha256": "8a71e1b88c9b281117081f883ddee1b006705f337d3868853c50efc70a92977c"
+      },
+      {
+        "bytes": 17827,
+        "path": "project/run_scripts/ordered_response_barrier_ode/fp32_overlay.py",
+        "sha256": "eeb86d8a2b4e9dde053436e3ac14c1710e184a89f2decc83b533cf9359ab44ac"
+      },
+      {
+        "bytes": 28206,
+        "path": "project/run_scripts/ordered_response_barrier_ode/integrator.py",
+        "sha256": "9aed3b442ec3bca2732cce31749a36b316ee0ee74de5ee620918ff9569555fb7"
+      },
+      {
+        "bytes": 9140,
+        "path": "project/run_scripts/ordered_response_barrier_ode/launch.py",
+        "sha256": "885c6d9ef57701d79fd810df60d174c614abb65cfac5a472645af00a56c36c0f"
+      },
+      {
+        "bytes": 4233,
+        "path": "project/run_scripts/ordered_response_barrier_ode/locks/server1-gated-execution-v1.json",
+        "sha256": "77bdc11de3d12e8365d45c550aee898c9257da6187c662916902009290fffbfc"
+      },
+      {
+        "bytes": 1106,
+        "path": "project/run_scripts/ordered_response_barrier_ode/locks/server4-sequential-b100x10-v1.json",
+        "sha256": "88b6d274963974899fb900ba0f385f0f610691cccc459543a3924e1a842079f6"
+      },
+      {
+        "bytes": 26554,
+        "path": "project/run_scripts/ordered_response_barrier_ode/preedit_ns_backfill.py",
+        "sha256": "fd3f60ea0182a2bfaced09b653f26aa43dbc7c3d54f1b7510684e1d458e6fa3d"
+      },
+      {
+        "bytes": 39039,
+        "path": "project/run_scripts/ordered_response_barrier_ode/preflight.py",
+        "sha256": "571e4abe3cd8ca0f95bb0517c9ba5d6efde1a70113ce08b06b3403cb54cd3e9c"
+      },
+      {
+        "bytes": 113813,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis.py",
+        "sha256": "cda8b15235e25349a7cf6733b00c27b9bfced816c51d061eae8556ae319b054e"
+      },
+      {
+        "bytes": 4486,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_analysis_contracts.py",
+        "sha256": "6b95b03fdc662755e2efceedbe440c592059a8e562c7fa77ae0a947099f5848c"
+      },
+      {
+        "bytes": 3965,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_figures.py",
+        "sha256": "feeb972b91a46347cf559e42f72a0e7766e6f353b25e85d8fb5fd7882a4e5bf8"
+      },
+      {
+        "bytes": 50196,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_baseline_report.py",
+        "sha256": "5361f099ac7414d857bda753c77f8fa853c0c454dc301baabcbc8388e2e31a71"
+      },
+      {
+        "bytes": 4647,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_canonical_ns_analysis.py",
+        "sha256": "24d6526710ad458acc0ed54cb86a1975c152bb679bc4141abd2d4ec217cd65ee"
+      },
+      {
+        "bytes": 8596,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_figures.py",
+        "sha256": "cd84ef7294d1a51acedc767a705ee31e4d515be59a576c9d01cccf6bed564878"
+      },
+      {
+        "bytes": 6806,
+        "path": "project/run_scripts/ordered_response_barrier_ode/round0_package_verify.py",
+        "sha256": "37dbedbc335a4ef886acc0775addc4e825fe34066a672f97fda4ffdf1a460789"
+      },
+      {
+        "bytes": 107973,
+        "path": "project/run_scripts/ordered_response_barrier_ode/runtime.py",
+        "sha256": "43fe1aa83a74913b38ef7f503aad678b3d362d59a2e97688ed2c660e38a76686"
+      },
+      {
+        "bytes": 14714,
+        "path": "project/run_scripts/ordered_response_barrier_ode/semantic.py",
+        "sha256": "f18c46f2c2c4b50a7cd82fe4bf05340da65a73d3ce6dc96f868672e82fe36ef6"
+      },
+      {
+        "bytes": 21234,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_analysis.py",
+        "sha256": "d6dffe2d9a1e13b7f23efdcd49b8678271afa47ac4cbcaf0ac938e9b44070463"
+      },
+      {
+        "bytes": 4029,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_contracts.py",
+        "sha256": "35ca2c37ecb68b4ed153fa5a7c9331e5c1bff2345258d6a577aa89c05088ff34"
+      },
+      {
+        "bytes": 13148,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_launch.py",
+        "sha256": "c5459671815a1c3a6e65ac6591e0cf2a2f0f49f11f17368467a2e244fc92441c"
+      },
+      {
+        "bytes": 2668,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_package_verify.py",
+        "sha256": "1b3c776a751954c4b44c8166d8faee937d4718c60db226583b8bfd7e7a6e35d5"
+      },
+      {
+        "bytes": 5174,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_plots.py",
+        "sha256": "5906f74dcf6a6971d56907fcdd17a4bb8b49f9688313bc8b2dc73ccb84cf7295"
+      },
+      {
+        "bytes": 10681,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_preflight.py",
+        "sha256": "0e8a0e37c7c66eaa5bb8ffe773b8bf20cc45addb06a7f35c5ec477c4ba35720e"
+      },
+      {
+        "bytes": 33157,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_report.py",
+        "sha256": "27830ce84119d1f28ebbc4acecb64bae23c6f1607402c2cd91368d2cb2e2cc66"
+      },
+      {
+        "bytes": 33485,
+        "path": "project/run_scripts/ordered_response_barrier_ode/sequential_runtime.py",
+        "sha256": "58591182167c388fefe83ae84757701612ff307c38aa967120d047863d4060d9"
+      },
+      {
+        "bytes": 23152,
+        "path": "project/run_scripts/ordered_response_barrier_ode/telemetry.py",
+        "sha256": "5017c99837e2232d68b6f986af8f17ef41f13ede2c2604dd91bd166006384179"
+      },
+      {
+        "bytes": 13707,
+        "path": "project/run_scripts/ordered_response_barrier_ode/terminal_jvp.py",
+        "sha256": "47a0d3d3592a43dc2d2a62afba6beef7156630cd3d25cde0cda0c9079e424b40"
+      },
+      {
+        "bytes": 30394,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_artifacts.py",
+        "sha256": "d3862894c01a16175327ed67480d3646e20edb71830d259ac7ad480c4607393f"
+      },
+      {
+        "bytes": 49146,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_core_runtime.py",
+        "sha256": "cb62cb58eef33babcb91b9cea3e8bce3f027492c3b762d3e90c7e90e6ec012c6"
+      },
+      {
+        "bytes": 7660,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_cumulative_observation.py",
+        "sha256": "f34a50b270761c0baf4206677b218419dec204de4b7da4a93bb847b3453ee944"
+      },
+      {
+        "bytes": 6886,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_dry_plan_execution.py",
+        "sha256": "5af86035701be2abbc9ca956c065ce33d2ff32cec4f762b2f4f09ee187e95591"
+      },
+      {
+        "bytes": 4697,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preedit_ns_backfill.py",
+        "sha256": "a5c65c786e0b54a03e57bf54113ea2059baf333c3c83a428e62dd352df7ff0df"
+      },
+      {
+        "bytes": 23958,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_preflight_execution.py",
+        "sha256": "7cd729aa758db2e98a716ef2748cedfc7d2e08d151b33e3f9af17c93cee083d9"
+      },
+      {
+        "bytes": 5305,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_analysis.py",
+        "sha256": "2fffeb7d1c22eaa1a0b38bd1819062dad585d9812973daab66800ceb066e3104"
+      },
+      {
+        "bytes": 3954,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_round0_baseline_report.py",
+        "sha256": "02af0d6b047ae579fd5983bea12a2d5dbf3fafbf81b87df275ff894cb5785aab"
+      },
+      {
+        "bytes": 4147,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_analysis.py",
+        "sha256": "8c259e69ecac0d18098cb883cb15ffdaf717a91ec84289f9cfb6f0cd6ea12052"
+      },
+      {
+        "bytes": 8546,
+        "path": "project/run_scripts/ordered_response_barrier_ode/tests/test_sequential_server4.py",
+        "sha256": "72694a41d4dcce2e22ab188e081ccc14a405e1bb159630ac1f5da504c0997644"
+      },
+      {
+        "bytes": 750,
+        "path": "project/run_scripts/session06_orbode_cumulative_server4.sbatch",
+        "sha256": "b8f77b536ceeffef9d88305921275d4edafff826864d5cbbabfb072e391aaee3"
+      },
+      {
+        "bytes": 233,
+        "path": "project/run_scripts/session06_orbode_sequential_server4.py",
+        "sha256": "bd7e149ecb641285543d29b0e0f3794d458f3e9a6921efb3e43781a185890479"
+      },
+      {
+        "bytes": 4214,
+        "path": "project/run_scripts/session06_orbode_sequential_server4.sbatch",
+        "sha256": "c688059b81f96d1d8e9aaf9f6e64de0f554f31b32ed5e190fa87555420ba1c88"
+      }
+    ],
+    "members_root": "c1b21015c55a4a200ea5bdfcf1f120351e3a910bd33bd53836924019427467db",
+    "tracked_clean": true,
+    "tree": "bec9b180de905e40ccc9e810b0a5f6a0d7c7797a"
+  },
+  "status": "PRE_GPU_BINDING_PASS",
+  "stream": {
+    "batch_order_digests": [
+      "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+      "2c3554d22eb6978791aabf5c1d732f46d5645741cd6f18703bad4f33c4b26224",
+      "2df6391b47b18870111fe8f8f38920fd124f91e471b5ce9b8decc91d70c6a419",
+      "4316264deb4511d722f2879967e8a79f2a17b77becbde775271d3a029324bf71",
+      "b5e78da762e9d1b0141c2fdc2a63d45f6de76881c9475098336920717389da6a",
+      "2fa621dd1f9f4084429fe893522cbc4520d9934246108992c349533cb3724bc0",
+      "88b877a000846518d7f86ea7298b976c133aca24f0261a4d95bef378d31c3b8e",
+      "6ef207440ca644b418db74d2e2a67f62ae4dda5f5fbf1938c1f1ef16ec6d1009",
+      "d026aa965c1e77807fd3f27049631f9cac88dcd03b60bfe2a8cfd63f258a9e36",
+      "beb956b13d591e380880a221800ca32ab6d9fc0809b2e08a88cee106a2e3c25b"
+    ],
+    "dataset": {
+      "absolute_path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+      "bytes": 45108470,
+      "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+    },
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "request_count": 1000,
+    "seal_bytes": 404973,
+    "seal_path": "/data/janghj/ODE-edit/local/worktrees/orbode-cumulative-rerun-v1/project/run_scripts/ode_bf/locks/p1r52_sequential_b100x10_stream_seal.json",
+    "seal_sha256": "550600af120070594078b73a5da7d066ad6287d8a3224c55f61babca592e0586",
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+  }
+}

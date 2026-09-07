@@ -1,0 +1,19 @@
+{
+  "checkpoints": 200,
+  "cumulative_request_states": 110000,
+  "final_endpoint_request_states": 20000,
+  "final_in_cumulative_once": true,
+  "identity_sha256": "43a48caacf622c61b736765dc466c45edabfb807e33a5f50b3c293d27b260cf9",
+  "instruction_id": "ODEEDIT-S06-ORBODE-CUMULATIVE-RERUN-EXHAUSTIVE-REPORT-SH4-V1",
+  "manifest_sha256": "f2930dda26e15708b2070c2512e7c0e4883cc141a7c65940be61d2fb5fd371a2",
+  "member_root": "5dc6f760d3f000a64b1bbed02c9500a7c8ae78fcb98c919851157f28687c960b",
+  "members": 86,
+  "no_new_evaluator_model_GPU": true,
+  "primary_arms": 20,
+  "report_path": "orbode-cumulative-exhaustive-factual-ko.md",
+  "report_sha256": "c42db799dcb1245014f4af0500f33878c866ae431b0b641d9f9a07a2c4916ea0",
+  "schema": "orbode-cumulative-rooted-receipt/v1",
+  "scientific_promotion": false,
+  "status": "FULL_REHASH_ANALYSIS_COMPLETE",
+  "task_owned_active_pending": 0
+}

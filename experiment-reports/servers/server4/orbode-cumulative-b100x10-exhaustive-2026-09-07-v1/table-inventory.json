@@ -1,0 +1,206 @@
+[
+  {
+    "bytes": 2410083,
+    "path": "tables/performance/age-distributions.csv",
+    "rows": 7200,
+    "sha256": "9cf1e6a0bc22c4749506f250ec86e2a2e40462ddba76744a6203829d8de947a1"
+  },
+  {
+    "bytes": 926220,
+    "path": "tables/performance/age-rates.csv",
+    "rows": 600,
+    "sha256": "7bf223ae752751f0cab6dd305a97f3831815e3d98cd3e72569cfb4cecc4ee2cf"
+  },
+  {
+    "bytes": 2020,
+    "path": "tables/performance/atwrite-final-partitions.csv",
+    "rows": 20,
+    "sha256": "2d7a2e3105052654beefed3972c51d5848e636e4adeeca1dc5bafb40b3136e91"
+  },
+  {
+    "bytes": 2224960,
+    "path": "tables/performance/category-distributions.csv",
+    "rows": 7200,
+    "sha256": "7e8b68e16f0193f224e7e5493c6444326f5581e0bbd2d997810b3921e19c01a5"
+  },
+  {
+    "bytes": 16025,
+    "path": "tables/performance/checkpoint-transitions.csv",
+    "rows": 180,
+    "sha256": "d1c45bd2f8424a65186f883ea357d84011363aff4b35da6bb4a8fb0a2d5e4118"
+  },
+  {
+    "bytes": 312108,
+    "path": "tables/performance/cumulative-core.csv",
+    "rows": 200,
+    "sha256": "6e60536335e79d6a969112ff11dd70953908c427277c7d89558bc8e7df1d1d67"
+  },
+  {
+    "bytes": 307717,
+    "path": "tables/performance/current-B100.csv",
+    "rows": 200,
+    "sha256": "cda3bf03f0917f8faffe26d04e8babbb62848bbbd87a8d547083fd738eab5c71"
+  },
+  {
+    "bytes": 34219,
+    "path": "tables/performance/final-20-arm.csv",
+    "rows": 20,
+    "sha256": "63b3b303cfdafcec3eb4641d68c09b99976f9c07fd184c7ea444c45e67cf9f1c"
+  },
+  {
+    "bytes": 33885,
+    "path": "tables/performance/paired-arm-deltas.csv",
+    "rows": 280,
+    "sha256": "89ec4783f0514d8321edee028293444fd44aa392d48fbeff3d20629343e510bd"
+  },
+  {
+    "bytes": 244212,
+    "path": "tables/performance/paired-prompt-transitions.csv",
+    "rows": 480,
+    "sha256": "293c56fb26b6e2b3c56abf2fa9cabf13c05994236c258055a480ed7df66bf1fd"
+  },
+  {
+    "bytes": 913806,
+    "path": "tables/performance/performance-all-scopes.csv",
+    "rows": 600,
+    "sha256": "c489f7d2c3f4342673809c0987c5a8d2e219c0657aa1c473cfe3e53af4fb769b"
+  },
+  {
+    "bytes": 145291,
+    "path": "tables/performance/retention-matrix.csv",
+    "rows": 1100,
+    "sha256": "e47365aedd5451d167f6f78af55f1b10fe818013e0e3e0d0262626521ebdb47b"
+  },
+  {
+    "bytes": 81858,
+    "path": "tables/mechanism/batch-mechanism.csv",
+    "rows": 200,
+    "sha256": "09c310503262e95862d0df7effe66b2c1fd516f5cdb712207d70b3c8094c0bc4"
+  },
+  {
+    "bytes": 3645,
+    "path": "tables/mechanism/cell-compute.csv",
+    "rows": 4,
+    "sha256": "834b3aac8100b39445a0c54548c2d0bd6b12a888074f8a09192081a31ea00e95"
+  },
+  {
+    "bytes": 73832,
+    "path": "tables/mechanism/cost-by-batch.csv",
+    "rows": 200,
+    "sha256": "d41b9f9b82b3b329b6d4b56bb8f60942f58c48283636b5bf68fe8c1ccfa52495"
+  },
+  {
+    "bytes": 5161982,
+    "path": "tables/mechanism/current-command-realization.csv",
+    "rows": 3400,
+    "sha256": "5dbeb96aa271e7e1d149a7fffe49e378f042a0a12d9a40313e1e89dfe54f7a03"
+  },
+  {
+    "bytes": 1109517,
+    "path": "tables/mechanism/historical-checkpoint-residual.csv",
+    "rows": 1100,
+    "sha256": "40c8aee2afffdb7b985c7bd63a2649e59c20577fd027c0bf595ec0a65d4e3324"
+  },
+  {
+    "bytes": 876276,
+    "path": "tables/mechanism/key-writer-revisit.csv",
+    "rows": 3200,
+    "sha256": "ee127264ba8abded82b52178c42ce0764624e04270477dc8068979df63bad11b"
+  },
+  {
+    "bytes": 263323,
+    "path": "tables/mechanism/layer-actual-action.csv",
+    "rows": 1000,
+    "sha256": "ef960119e98dee6b9ad221036bd30fe4c091ec029132668e4bf97a7b3cc5bb9c"
+  },
+  {
+    "bytes": 8053292,
+    "path": "tables/mechanism/layer-visit-cohort-response.csv.gz",
+    "rows": 18700,
+    "sha256": "f406c6aedc08d8d81711883a237ffae493d37d897ba9414b717b66c789f53c1b"
+  },
+  {
+    "bytes": 545062,
+    "path": "tables/mechanism/mechanism-outliers.csv",
+    "rows": 4400,
+    "sha256": "3ff0a1062bd678d6196d71f54f7a4646c20b680f3bf8838d1423776768772041"
+  },
+  {
+    "bytes": 5099357,
+    "path": "tables/mechanism/node-mechanism.csv",
+    "rows": 3200,
+    "sha256": "b1aa3e032940285f7171015b9909b0d79d036cce98cae45d607aa48c97852f56"
+  },
+  {
+    "bytes": 2837,
+    "path": "tables/comparisons/atwrite-final-conflict-strata.csv",
+    "rows": 60,
+    "sha256": "07f47ab2f9fd2917c6782d1a746699d225797f176c1c18bbfd46744c79e56eda"
+  },
+  {
+    "bytes": 15201,
+    "path": "tables/comparisons/cumulative-vs-online-gaps.csv",
+    "rows": 200,
+    "sha256": "c0d1c68cc8ec0eb68115e760c76a3c65e26184d15bc2cd5359c98c19bb6df08c"
+  },
+  {
+    "bytes": 64692,
+    "path": "tables/comparisons/derived-prefix-inventory.csv",
+    "rows": 40,
+    "sha256": "ec27e71876d7f01773da7728cd924c8679a1f47f8d433d3ce330f57cf9743ff8"
+  },
+  {
+    "bytes": 33513,
+    "path": "tables/comparisons/mechanism-cumulative-associations.csv",
+    "rows": 300,
+    "sha256": "33ae7ee7d2e831ed1efa0fbc2856d900bdf991004f30b438deb7ec96b1babd9d"
+  },
+  {
+    "bytes": 33779,
+    "path": "tables/comparisons/mechanism-performance-checkpoints.csv",
+    "rows": 200,
+    "sha256": "7a885bc6bbc5d217e1e217b97e4e855a7f91252c876b0154d7d265710c560e67"
+  },
+  {
+    "bytes": 316889,
+    "path": "tables/comparisons/online-own-write.csv",
+    "rows": 200,
+    "sha256": "560d65d8c3fa347c56525a025645a350b819bb94613895f8901ea9b4a5470eb1"
+  },
+  {
+    "bytes": 583,
+    "path": "tables/comparisons/overwrite-conflicts.csv",
+    "rows": 1,
+    "sha256": "c31bcb2af3dd669aff6490eb673a0cbaec9a94d399eefdc8fb909f7a59c90343"
+  },
+  {
+    "bytes": 28288,
+    "path": "tables/comparisons/own-write-final-prompt-transitions.csv",
+    "rows": 60,
+    "sha256": "1ef1bf4be3952833df4f70ef67c9468968879de4db4af7af3f0ef4d496442276"
+  },
+  {
+    "bytes": 786,
+    "path": "tables/integrity/chain-integrity.csv",
+    "rows": 20,
+    "sha256": "e722a5a4b7c66a7f66bb6957224497db26183a94353f8a18f59f9ecabddedc31"
+  },
+  {
+    "bytes": 51065,
+    "path": "tables/integrity/checkpoint-integrity.csv",
+    "rows": 200,
+    "sha256": "51b54cbf9cfc9ee537a5ab3904097a12861b7763ad5b4c51d877b0684c5a3a40"
+  },
+  {
+    "bytes": 914827,
+    "path": "tables/integrity/raw-member-inventory.csv",
+    "rows": 5965,
+    "sha256": "098b7494d8dd177c0e351e4cd9bd03d65c0cbb70229794d34503cd1929826ec9"
+  },
+  {
+    "bytes": 6586,
+    "path": "tables/tail/normalized-tail-origin-context.csv",
+    "rows": 20,
+    "sha256": "ed41ea2f49fcd71a4b462ca303ef7b84d453186e08fa5f35c6b7a3c9d8fd313a"
+  }
+]

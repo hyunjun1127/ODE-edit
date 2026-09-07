@@ -1,0 +1,31 @@
+{
+  "GPU": 0,
+  "M_links": 180,
+  "W_links": 180,
+  "cells": 4,
+  "checkpoint_scope": "EVALUATION_ONLY_NOT_CACHE_RESUME",
+  "checkpoints": 200,
+  "cumulative_request_states": 110000,
+  "duplicate": 0,
+  "evaluator": 0,
+  "fixed_z_compute": 20000,
+  "identity_sha256": "0ed66976155b1f8dd750ca9e1430d2b0c85e4398cad108fa88d073dcff625043",
+  "imputation": 0,
+  "instruction_id": "ODEEDIT-S06-ORBODE-CUMULATIVE-RERUN-EXHAUSTIVE-REPORT-SH4-V1",
+  "model_load": 0,
+  "nonfinite": 0,
+  "primary_arms": 20,
+  "raw_bytes": 257569940477,
+  "raw_member_count": 5965,
+  "raw_member_root": "65900f59dc967731e32debda33e36eb8d0ccc6c742a1736d6c21f6ddb83e55bd",
+  "recompute": 0,
+  "scheduler": 0,
+  "schema_identity_count": 8093,
+  "source": [
+    "8610faf0e114059a5e08116f1164baf31c573e80",
+    "bec9b180de905e40ccc9e810b0a5f6a0d7c7797a"
+  ],
+  "status": "FULL_REHASH_CPU_RECOVERY_PASS",
+  "terminal_restore": 4,
+  "unique_requests": 1000
+}
