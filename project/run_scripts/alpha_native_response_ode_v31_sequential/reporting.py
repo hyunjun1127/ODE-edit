@@ -1,19 +1,23 @@
 """Raw-free exact extraction; no model import, replay, imputation or decisions."""
-import argparse,csv,hashlib,json,os
+import argparse,csv,hashlib,json,os,subprocess
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
 def read(p):return json.loads(Path(p).read_text())
-def sha(p):return hashlib.file_digest(Path(p).open('rb'),'sha256').hexdigest()
+def sha(p):
+    digest=hashlib.sha256()
+    with Path(p).open('rb') as f:
+        for chunk in iter(lambda:f.read(1024*1024),b''):digest.update(chunk)
+    return digest.hexdigest()
 def write(path,value):
     with open(path,'x',encoding='utf-8') as f:f.write(value)
 def jwrite(path,obj):write(path,json.dumps(obj,ensure_ascii=False,sort_keys=True,indent=2,allow_nan=False)+'\n')
 def csvwrite(path,rows):
     fields=sorted({k for r in rows for k in r})
     with open(path,'x',newline='',encoding='utf-8') as f:
-        w=csv.DictWriter(f,fields);w.writeheader()
+        w=csv.DictWriter(f,fields,lineterminator='\n');w.writeheader()
         for r in rows:w.writerow({k:json.dumps(v,ensure_ascii=False) if isinstance(v,(dict,list)) else v for k,v in r.items()})
 
 
@@ -24,6 +28,12 @@ def metrics(p,meta):
             ('strict_num','strict_request_success_count'),('strict_den','strict_request_denominator')]:out[f'{key}_{short}']=x[long]
     for kind,x in p['kind_summaries'].items():
         for k in ('nll_mean','nll_median','nll_p90','nll_max','all_tokens_correct_count','row_count'):out[f'{kind}_{k}']=x[k]
+        rows=[r for r in p['rows'] if r['kind']==kind];by_case={}
+        for r in rows:by_case.setdefault(r['case_id'],[]).append(r['all_tokens_correct'])
+        out[f'{kind}_strict_teacher_forced_correct_num']=sum(all(v) for v in by_case.values())
+        out[f'{kind}_strict_teacher_forced_correct_den']=len(by_case)
+        out[f'{kind}_correct_token_count']=sum(r['correct_token_count'] for r in rows)
+        out[f'{kind}_target_token_denominator']=sum(r['target_token_count'] for r in rows)
     return out
 
 
@@ -39,15 +49,16 @@ def bits(public,prefix):
     return out
 
 
-def collect(root,output,label):
+def collect(root,output,label,with_plots=False):
     root=Path(root);output=Path(output);output.mkdir(parents=True,mode=0o700)
     sample=read(root/'sample.lock.json');record={r['case_id']:r for r in sample['records']}
     gate=read(root/'smoke-gates.lock.json');pre={}
     tables={k:[] for k in ('run_registry','sequential_commit_checks','current_batch_metrics','seen_prefix_metrics',
         'rewrite_retention_matrix','prompt_transition_metrics','layer_allocation_nodes','layer_action_decomposition',
         'history_cost_shadows','l8_single_layer_shadows','compute_accounting','failure_registry','final_metrics')}
-    inputs=set();completed=[]
+    inputs=set();completed=[];completed_batch_paths=[]
     def load(p):inputs.add(Path(p));return read(p)
+    tables['scheduler_terminal']=[load(p) for p in sorted((root/'terminal-observations').glob('*.json'))]
     for alias in ('llama3-8b-inst','qwen2.5-7b-inst'):
         p=Path(gate['root'])/f'smoke-{alias}'/'W0-full.json';pre[alias]=load(p)['evaluation']
         tables['final_metrics'].append(metrics(pre[alias],dict(alias=alias,arm='PRE_EDIT_ORIGINAL_W0',scope='same1000_W0')))
@@ -56,15 +67,25 @@ def collect(root,output,label):
         terminal=load(chain/'terminal-receipt.json') if (chain/'terminal-receipt.json').exists() else None
         registry=dict(alias=alias,arm=arm,path=str(chain),status=terminal['status'] if terminal else 'INCOMPLETE',
             requested_contract=1000,entered_requests=sum(len(load(p)['case_ids']) for p in chain.glob('batch-*/entry.json')),
-            completed_batches=len(list(chain.glob('batch-*/complete.json'))))
+            completed_batches=len(list(chain.glob('batch-*/complete.json'))),slurm_job_id=runtime['slurm_job'],
+            model_load_and_context_setup_seconds=runtime['model_load_seconds'],
+            process_total_seconds=terminal['total_seconds'] if terminal else None,
+            dedicated_one_gpu_process_hours=terminal['total_seconds']/3600 if terminal else None,
+            terminal_compute=terminal['compute'] if terminal else 'NOT_YET_TERMINAL',
+            terminal_compute_wall_semantics='MONOTONIC_CLOCK_READING_NOT_ELAPSED',
+            W0_restored=terminal['W0_restored'] if terminal else 'NOT_YET_TERMINAL')
         tables['run_registry'].append(registry)
-        if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:completed.append(int(chain.name.split('-')[1]))
+        if terminal and terminal['completed_batches']==10 and terminal['requested']==1000:
+            if terminal['status']!='TERMINAL_VALID' or not terminal['W0_restored'] or terminal['history_appends']!=10:
+                raise RuntimeError('TERMINAL_COMPLETENESS_BOUNDARY')
+            completed.append(int(chain.name.split('-')[1]))
         if (chain/'failure.json').exists():
             f=load(chain/'failure.json');tables['failure_registry'].append(dict(alias=alias,arm=arm,stage=f['stage'],
                 status=f['status'],identity=sha(chain/'failure.json'),completed_batches=f['completed_batches'],
                 missing_requests=1000-100*f['completed_batches'],imputation=0))
         for bd in sorted(chain.glob('batch-*')):
             if not (bd/'complete.json').exists():continue
+            completed_batch_paths.append(bd)
             summary=load(bd/'complete.json');writer=load(bd/'writer.json');commit=load(bd/'commit.json')
             k=summary['batch_index'];meta=dict(alias=alias,arm=arm,batch=k,W_sha256=commit['committed_weight_sha256'])
             current=writer['endpoint']['evaluation'];tables['current_batch_metrics'].append(metrics(current,meta))
@@ -76,7 +97,14 @@ def collect(root,output,label):
                 checkpoint=summary['checkpoint_compute'],full_batch=summary['full_batch_compute'],
                 endpoint_evaluation_seconds=writer['endpoint_evaluation_seconds'],
                 history=writer.get('history_finalization_compute','NOT_RECORDED'),
+                source_endpoint_physical_write_count=writer['endpoint']['physical_write_count'],
+                inner_virtual_euler_nodes=len(writer.get('nodes',[])),main_jvp_count=writer.get('main_jvp_count',0),
+                persistent_commit_count=1,commit_compute=commit['compute'],
                 peak_gpu_bytes=summary['peak_gpu_allocated'],peak_host_rss_kib=summary['peak_host_rss_kib']))
+            # Official and JV use the same actual committed endpoint observer.
+            # This is net endpoint action, not a sum of Euler velocity actions.
+            for x in writer['actual_physical_action']['layers']:
+                tables['layer_action_decomposition'].append(dict(meta,**x,kind='actual_endpoint_net_FP32'))
             if (bd/'seen-full.json').exists():
                 full=load(bd/'seen-full.json');tables['seen_prefix_metrics'].append(metrics(full,dict(meta,scope='single_W_seen_prefix')))
                 w0=bits(pre[alias],'locality');observed=bits(full,'locality')
@@ -112,24 +140,87 @@ def collect(root,output,label):
     for name,rows in tables.items():csvwrite(output/f'{name}.csv',rows)
     stamp=datetime.now(ZoneInfo('Asia/Seoul')).isoformat()
     text=['# AlphaEdit JV sequential routing — factual report',f'\n작성: {stamp} / 단계: {label}',
+        '\nTask authority: `ODEEDIT-S06-ALPHA-JV-SEQUENTIAL-ROUTING-SH2-V1`. '
+        '사용자가 요청한 A/B/C 및 Cases A..H 범위의 해석 예외를 적용하되, '
+        'source-backed 관측과 미검증 원인을 분리한다. 새 수식·threshold·선택·추가 trajectory는 도입하지 않았다.',
         '\nRS/PS/NS는 pinned NLL preference이고 tie는 실패다. 자유 생성 accuracy가 아니다. 아래 final 값은 동일한 W10의 전체 1,000 requests이며 online-own-batch pooling과 다르다.',
         '\n| Model | Arm / state | RS | PS | strict PS | NS |', '|---|---|---:|---:|---:|---:|']
     for x in tables['final_metrics']:
         text.append(f"| {x['alias']} | {x['arm']} / {x['scope']} | {x['RS_num']}/{x['RS_den']} | {x['PS_num']}/{x['PS_den']} | {x['PS_strict_num']}/{x['PS_strict_den']} | {x['NS_num']}/{x['NS_den']} |")
+    from .conclusions import endpoint_contrasts
+    text+=endpoint_contrasts(tables['final_metrics'])
+    text+=['\n## Current-B100와 seen-prefix (완료 receipt만)',
+        '\n| Model | Arm | Batch/state scope | RS | PS | strict PS | NS |',
+        '|---|---|---|---:|---:|---:|---:|']
+    for scope,values in [('current B100',tables['current_batch_metrics']),('same Wk seen-prefix',tables['seen_prefix_metrics'])]:
+        for x in values:
+            text.append(f"| {x['alias']} | {x['arm']} | B{x['batch']} {scope} | {x['RS_num']}/{x['RS_den']} | {x['PS_num']}/{x['PS_den']} | {x['PS_strict_num']}/{x['PS_strict_den']} | {x['NS_num']}/{x['NS_den']} |")
     text+=['\n## 완전성·해석 경계',f'\n완료 chain: {sorted(completed)} / 계약: 6 chains × 1,000 requests. 미완료는 위 final 분모로 채우지 않는다; imputation0. Scientific promotion0.',
         '\n첫 B100, B5 및 final seen-prefix는 각 표에 분리했다. 실패·overwrite 후보는 canonical denominator에 유지하고 조건부 forgetting을 별도 행으로 기록한다. 평가하지 않은 intermediate PS/NS는 NOT_RECORDED다.',
         '\n## 상태와 계측',
         '\nsequential_commit_checks는 실제 W/M commit→entry identity 및 append1/recompute0을 결속한다. checkpoint1/5/10은 실제 selected weight/dense M tensor를 저장하고 다시 읽어 hash를 검증했다. Low-rank journal replay parity는 NOT_TESTED이며 hash만으로 복원성을 주장하지 않는다.',
         '\nlayer_allocation_nodes와 layer_action_decomposition은 g/full H/G, raw/normalized work, 실제 FP32 DeltaW를 구분한다. L8 share 감소 자체는 redistribution 성공이 아니다. 다른 layer의 절대 write/기여와 RS/PS를 함께 보아야 한다. 초기 history-cost shadow는 actual basis/response/N0/qref를 유지하며 M0+L2 Gram을 실제 계산한 observer다.',
         '\n## 비용',
-        '\ncompute_accounting의 writer 시간은 endpoint 평가 포함값과 endpoint 평가값을 함께 제공한다. Keys/solves/JVP/shadow/forward/materialization은 node와 writer receipt에 분리했다. History bracket은 post-key부터 snapshot/restore까지로, 순수 append-only 시간과 동일시하지 않는다. 첫 B100 비용의 10배는 예상치이지 실제 전체 시간은 아니다.',
+        '\ncompute_accounting의 writer 시간은 endpoint 평가 포함값과 endpoint 평가값을 함께 제공한다. Keys/solves/JVP/shadow/forward/materialization은 node와 writer receipt에 분리했다. History bracket은 post-key부터 snapshot/restore까지로, 순수 append-only 시간과 동일시하지 않는다. 첫 B100 비용의 10배는 예상치이지 실제 전체 시간은 아니다. Terminal compute.wall은 time.perf_counter의 절대 clock reading이며 elapsed가 아니다. 전체 시간은 terminal total_seconds/run_registry process_total_seconds, 구간 시간은 difference로 기록한 wall을 사용한다.',
         '\n## 독립 검토',
         '\nA/B/C 및 Cases A..H 판정은 current-B100, all-seen retention, 절대 layer action, same-state history-cost 및 실제 L8-only trajectory를 함께 비교한다. Main 네 chain 보고를 L8-only 완료까지 미루지 않는다. 1,000 edits 이후 generalization, global causal claim 또는 learned history preservation 보장은 이번 범위 밖이다.',
         f'\n원본 root: `{root}`',f"\nSource: `{read(root/'source.lock.json')['head']}`; sample root: `{sample['ordered_root']}`."]
+    context_root=root.parent/'checkpoint-context-support-20260906-v1'
+    context_receipts=[]
+    if context_root.exists():
+        for p in sorted(context_root.glob('chain-*/context-recovery-receipt.json')):
+            r=load(p);raw_path=Path(r['raw_local_path'])
+            if sha(raw_path)!=r['file_sha256'] or raw_path.stat().st_size!=r['bytes']:
+                raise RuntimeError('PRIVATE_CONTEXT_CACHE_RECOVERY_IDENTITY')
+            context_receipts.append(dict(chain=p.parent.name,**r))
+    csvwrite(output/'checkpoint_context_support.csv',context_receipts)
+    text+=['\n## Checkpoint 복원 보조 state',
+        '\ncheckpoint_context_support.csv는 이미 생성된 native context cache를 해당 chain runtime hash 및 stdout의 정확한 byte 구간과 결속한다. 문자열은 별도 private local JSON에 보존하며 Git에 싣지 않는다. Selected weights/M checkpoint 자체는 수정하지 않았고 추가 generation/model replay는 0이다. 복원 시 pinned pretrained snapshot/source/hparams/P와 해당 selected-weight/M checkpoint 및 context-cache 보조 파일을 함께 사용한다. 추가 trajectory replay parity는 NOT_TESTED다.']
+    from .synthesis import summarize
+    text+=summarize(root,output,completed,completed_batch_paths=completed_batch_paths,load=load)
+    native_observations=[]
+    for p in sorted((root/'normalization-observations').glob('*.json')):
+        r=load(p)
+        for key in ('log','target_reference','official_compute_z'):
+            artifact=Path(r[key+'_path'])
+            if sha(artifact)!=r[key+'_sha256']:raise RuntimeError('NORMALIZATION_OBSERVATION_SOURCE_IDENTITY')
+            inputs.add(artifact)
+        native_observations.append(r)
+    csvwrite(output/'native_target_log_observations.csv',native_observations)
+    if native_observations:
+        text+=['\n### 기존 stock target log와의 결속',
+            '\n이 표는 완료된 자기 chain의 기존 stdout만 raw-free로 추출했다. Native optimizer의 소수점 세 자리 출력 loss는 canonical rewrite/rephrase NLL과 다른 필드이며, 새 evaluator 측정이나 replay가 아니다.']
+        for r in native_observations:
+            text.append(f"\n{r['alias']} {r['arm']} B{r['batch']}, case {r['case_id']}: native optimizer loss rows={r['optimizer_loss_rows']}, rounded initial total loss={r['rounded_optimizer_loss_terms'][0]}, reported optimizer delta norm={r['optimizer_reported_delta_norm']}; 별도 terminal capture 대비 N0 scale={r['source_N0_captured_residual_scale']:.12g}, active={r['source_N0_active']}. 전체 1,000 optimizer blocks의 batch별 backward ledger와 request/printed-target identity를 대조했다. 미세한 capture 잔차가 양수인 source N0에 남아 있는 사실과 response Gram 확대를 구분해서 기록하며, 원인 ablation은 실행하지 않았다.")
+    from .conclusions import make
+    text+=make(output,set(completed))
+    if with_plots:
+        from .plots import plot
+        for p in plot(output):text.append(f'\n![trajectory]({Path(p).name})')
     write(output/'factual-report-ko.md','\n'.join(text)+'\n')
     for name in ('source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json'):
         inputs.add(root/name)
-    manifest=dict(label=label,source=read(root/'source.lock.json'),sample_root=sample['ordered_root'],
+    # Byte-preserving, allowlisted, raw-free locks make peer review possible
+    # without treating server2 absolute input paths as shared storage.
+    portable=[(root/name,name) for name in (
+        'source.lock.json','science.lock.json','sample.lock.json','resource.lock.json','smoke-gates.lock.json',
+        'assets.lock.json','dry-plan.json','main-held-inspection.json')]
+    if (root/'l8-held-inspection.json').exists():
+        portable.append((root/'l8-held-inspection.json','l8-held-inspection.json'))
+    for chain in sorted(root.glob('chain-*')):
+        for name in ('runtime.lock.json','terminal-receipt.json'):
+            path=chain/name
+            if path.exists():portable.append((path,chain.name+'.'+name))
+    for path,name in portable:
+        inputs.add(path)
+        if path.is_symlink() or not path.is_file():raise RuntimeError('RAW_FREE_LOCK_REGULAR_FILE')
+        with path.open('rb') as src,(output/name).open('xb') as dst:
+            for chunk in iter(lambda:src.read(1024*1024),b''):dst.write(chunk)
+        if sha(path)!=sha(output/name):raise RuntimeError('RAW_FREE_LOCK_COPY_IDENTITY')
+    code=Path(__file__).resolve().parent
+    analysis_identity=dict(head=subprocess.check_output(['git','-C',str(code),'rev-parse','HEAD'],text=True).strip(),
+        members=[dict(path=str(p),sha256=sha(p),bytes=p.stat().st_size) for p in sorted(code.glob('*.py'))])
+    manifest=dict(label=label,source=read(root/'source.lock.json'),analysis_implementation=analysis_identity,sample_root=sample['ordered_root'],
         inputs=[dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(inputs)],
         members=[dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(output.iterdir())],
         complete_chains=sorted(completed),model_replay_count=0,imputation_count=0)
@@ -142,4 +233,5 @@ def collect(root,output,label):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--label',required=True);a=p.parse_args();print(collect(a.root,a.output,a.label))
+    p.add_argument('--label',required=True);p.add_argument('--plots',action='store_true')
+    a=p.parse_args();print(collect(a.root,a.output,a.label,with_plots=a.plots))

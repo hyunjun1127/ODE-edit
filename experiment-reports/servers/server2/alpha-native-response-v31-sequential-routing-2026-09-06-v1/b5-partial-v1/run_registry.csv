@@ -1,0 +1,4 @@
+alias,arm,completed_batches,entered_requests,path,requested_contract,status
+llama3-8b-inst,O_NATIVE,4,500,/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-0-llama3-8b-inst-O_NATIVE,1000,INCOMPLETE
+qwen2.5-7b-inst,O_NATIVE,5,600,/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-1-qwen2.5-7b-inst-O_NATIVE,1000,INCOMPLETE
+llama3-8b-inst,JV_NATIVE,3,400,/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE,1000,INCOMPLETE

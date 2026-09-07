@@ -1,0 +1,8 @@
+{
+  "manifest_sha256": "d3c6f3159aa3b1504f417b2f15a5f7671c4be7d6773fef3e1d9f33d451f6e0d7",
+  "model_replay_count": 0,
+  "report_sha256": "0602ffaeb3e8006547c0b526240daf495c7abfd9c2170f8204398187774deec5",
+  "root_sha256": "14cdcc52d0df024f8e5d04574ec3a2ffff5807bc008f1f6bc3dddd740bdadeff",
+  "scientific_imputation_count": 0,
+  "status": "FIRST_B100_ALL_4_MEASURED"
+}

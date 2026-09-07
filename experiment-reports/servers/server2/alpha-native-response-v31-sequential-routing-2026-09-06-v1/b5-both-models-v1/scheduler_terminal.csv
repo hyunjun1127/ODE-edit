@@ -1,0 +1,3 @@
+W0_restored,allocated_cpu,allocated_gpu,completed_batches,elapsed_seconds,end_kst,exit_code,history_appends,job_id,job_id_raw,node,observation,requested_mem,requests,resubmit_count,runtime_terminal_status,slurm_batch_max_rss_kib,source_head,start_kst,state,technical_failure_count
+True,8,1,10,10820,2026-09-06T21:29:56+09:00,0:0,10,37980_0,37981,server2,SACCT_TERMINAL_READ_ONLY,59G,1000,0,TERMINAL_VALID,45175152,77358b1546d1baf83b3e251afcce663b08d7bfd7,2026-09-06T18:29:36+09:00,COMPLETED,0
+True,8,1,10,8634,2026-09-06T20:53:30+09:00,0:0,10,37980_1,37982,server2,SACCT_TERMINAL_READ_ONLY,59G,1000,0,TERMINAL_VALID,61863664,77358b1546d1baf83b3e251afcce663b08d7bfd7,2026-09-06T18:29:36+09:00,COMPLETED,0

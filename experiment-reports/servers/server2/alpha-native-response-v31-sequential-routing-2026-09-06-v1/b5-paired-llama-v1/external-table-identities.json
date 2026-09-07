@@ -1,0 +1,14 @@
+[
+  {
+    "bytes": 3411683,
+    "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-paired-llama-qwen-official-terminal-20260906-v1/prompt_transition_metrics.csv",
+    "sha256": "30e8a2bcd2c50d818dbde113611fec3a003398f8dd681e37aca037b3f2ab3ac2"
+  },
+  {
+    "bytes": 3484112,
+    "classification": "RAW_FREE_LARGE_TABLE_LOCAL_ONLY",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/b5-paired-llama-qwen-official-terminal-20260906-v1/rewrite_retention_matrix.csv",
+    "sha256": "c967df7b45ec89478de77e8f6e1275ffc667f959ddd8a7b90028f9404e289dc4"
+  }
+]

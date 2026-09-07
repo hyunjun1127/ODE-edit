@@ -1,0 +1,133 @@
+{
+  "inputs": [
+    {
+      "bytes": 8222,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-0-llama3-8b-inst-O_NATIVE/batch-01/complete.json",
+      "sha256": "e154e3ab269423c6d8e738ed2867f87e69ec643ad1d20db206e01df8dd7c4d01"
+    },
+    {
+      "bytes": 1498546,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-0-llama3-8b-inst-O_NATIVE/batch-01/writer.json",
+      "sha256": "d956f69141ecc2563976df197e527d4e23c5552c6c7ed0943f92f3cd75558eaf"
+    },
+    {
+      "bytes": 1729,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-0-llama3-8b-inst-O_NATIVE/batch-01/entry.json",
+      "sha256": "6e2e1aa18ea7c6d61fc17fe1a347b2968ba7c4ae3d41863a9e7a47e6441bbb76"
+    },
+    {
+      "bytes": 3989,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-0-llama3-8b-inst-O_NATIVE/batch-01/target-reference.json",
+      "sha256": "cce1da21bb5a27d4816236b40f30574c73d93363c69371742507e7446dc73df4"
+    },
+    {
+      "bytes": 8215,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-1-qwen2.5-7b-inst-O_NATIVE/batch-01/complete.json",
+      "sha256": "e8c0ecb1a961034419e8638f087ea24a4fa57061444622a5dd1c5345e6f6f332"
+    },
+    {
+      "bytes": 1498358,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-1-qwen2.5-7b-inst-O_NATIVE/batch-01/writer.json",
+      "sha256": "aa0b8b5342f3373fcbe7a48660c996d812bbfb9c416f509524bde8de9fb59070"
+    },
+    {
+      "bytes": 1730,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-1-qwen2.5-7b-inst-O_NATIVE/batch-01/entry.json",
+      "sha256": "b731e74f5eb6ddc6f320d67273f58139f079fa8d47a2dd3a8a8ab8ed91b86b49"
+    },
+    {
+      "bytes": 4009,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-1-qwen2.5-7b-inst-O_NATIVE/batch-01/target-reference.json",
+      "sha256": "410129ba86b6ee24a053306e36e500bf3b63b67d4fbfce2e7e99f0f02f354e92"
+    },
+    {
+      "bytes": 8215,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE/batch-01/complete.json",
+      "sha256": "42ae2facb28fb41fb683d9785b515850adec3ebf01412a39ff36efa9b4d31b97"
+    },
+    {
+      "bytes": 1575883,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE/batch-01/writer.json",
+      "sha256": "71a8edcb8584149914d04b18dbc04c78dd8884a857b0ebbe6cb078ad47c543c9"
+    },
+    {
+      "bytes": 1730,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE/batch-01/entry.json",
+      "sha256": "2818f750e1418e7e2a3c212156e78a653ce45d6489a3c8b25f7575e96bc922e4"
+    },
+    {
+      "bytes": 4275,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-2-llama3-8b-inst-JV_NATIVE/batch-01/target-reference.json",
+      "sha256": "8ac00eb37a64949ccf4583129ac2fa9602979a1443fb1ed2a82030236ef3fff3"
+    },
+    {
+      "bytes": 8214,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-3-qwen2.5-7b-inst-JV_NATIVE/batch-01/complete.json",
+      "sha256": "3cf4ade16c6c739996ac068ac4c9363a64b1fcf6c4653028b4e45d88dcc63423"
+    },
+    {
+      "bytes": 1572348,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-3-qwen2.5-7b-inst-JV_NATIVE/batch-01/writer.json",
+      "sha256": "61a1bb437157b6166e82456f08544ed7d67172615190bd8c088fdef0d7780b43"
+    },
+    {
+      "bytes": 1731,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-3-qwen2.5-7b-inst-JV_NATIVE/batch-01/entry.json",
+      "sha256": "998f7e9957ed2e733bded175a53ac2758996707c56a6e151a01fe020c8b4e1e0"
+    },
+    {
+      "bytes": 4293,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-main-v2/chain-3-qwen2.5-7b-inst-JV_NATIVE/batch-01/target-reference.json",
+      "sha256": "c7b0bf2654dfceb5928fbcaf24936ce86c36acc6713e8ce4eb6aaf59237e11af"
+    },
+    {
+      "bytes": 88080,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-v1/smoke-llama3-8b-inst/batch-01/writer.json",
+      "sha256": "3b57ca8a039e89ad6c962fb370ec1659b2d26778b791e8b592d92a668d5957fb"
+    },
+    {
+      "bytes": 14259393,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-v1/smoke-llama3-8b-inst/W0-full.json",
+      "sha256": "ce1391c2893ed753875fa3c92041077c0ba3beb6636eb9c08cd5d16633d6de65"
+    },
+    {
+      "bytes": 84278,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-v1/smoke-qwen2.5-7b-inst/batch-01/writer.json",
+      "sha256": "7829aacb24c4b7c1f7ed2318420a8db12155a057e70553c96d8acd6d2af923b3"
+    },
+    {
+      "bytes": 14258078,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing/run-20260906-v1/smoke-qwen2.5-7b-inst/W0-full.json",
+      "sha256": "2b3e532a9d6db92e81a34216f70f42c5e64bd103f8607da91f041ff40c3aaf87"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 6918,
+      "path": "first-b100-metrics.csv",
+      "sha256": "4a465843eeb6091bea9832a223b61099588fc1352ab2c97613c759a339693e84"
+    },
+    {
+      "bytes": 2673,
+      "path": "first-b100-report-ko.md",
+      "sha256": "0602ffaeb3e8006547c0b526240daf495c7abfd9c2170f8204398187774deec5"
+    },
+    {
+      "bytes": 962,
+      "path": "planning-cost-proxies.csv",
+      "sha256": "bc9c9f8e2695d2dec59315c2cd78ead8bf9b8c21acdbca7445280bf47212f764"
+    }
+  ],
+  "model_replay_count": 0,
+  "queued_cell": null,
+  "sample_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "scientific_imputation_count": 0,
+  "source_head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+  "source_tree": "b64e84f2af7c708405dd6a8a9f018d3ece985c58",
+  "valid_first_B100_cells": [
+    0,
+    1,
+    2,
+    3
+  ]
+}
