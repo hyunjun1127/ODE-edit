@@ -1,0 +1,10 @@
+arm,reference,metric,batch,denominator,reference_success,arm_success,success_to_loss,failure_to_recovery,stable_success,stable_failure,paired_identity_hash,unit
+BLUE,ONLINE_OWN_BATCH,RS,10,1000,1000,997,3,0,997,0,f970ccb138d9ca18640643ce1162ea07fcfe27c7627d7d01f00cb74c0a9b5752,"prompt; descriptive, no independence-based significance"
+BLUE,ONLINE_OWN_BATCH,PS,10,2000,1936,1939,8,11,1928,53,9ad41d26f1629261963f9d92825d92ebbd0281f86fca8b340c0121e408514ec9,"prompt; descriptive, no independence-based significance"
+BLUE,ONLINE_OWN_BATCH,NS,10,10000,8340,8057,413,130,7927,1530,5f64df1165a24ea7c000a179fd99a9b77c40d1e1670195e15bca3a1d6cccdca2,"prompt; descriptive, no independence-based significance"
+BLUE_L4_ONLY,ONLINE_OWN_BATCH,RS,10,1000,999,998,1,0,998,1,f970ccb138d9ca18640643ce1162ea07fcfe27c7627d7d01f00cb74c0a9b5752,"prompt; descriptive, no independence-based significance"
+BLUE_L4_ONLY,ONLINE_OWN_BATCH,PS,10,2000,1935,1943,5,13,1930,52,9ad41d26f1629261963f9d92825d92ebbd0281f86fca8b340c0121e408514ec9,"prompt; descriptive, no independence-based significance"
+BLUE_L4_ONLY,ONLINE_OWN_BATCH,NS,10,10000,8366,8072,418,124,7948,1510,5f64df1165a24ea7c000a179fd99a9b77c40d1e1670195e15bca3a1d6cccdca2,"prompt; descriptive, no independence-based significance"
+BLUE_L8_ONLY,ONLINE_OWN_BATCH,RS,10,1000,1000,996,4,0,996,0,f970ccb138d9ca18640643ce1162ea07fcfe27c7627d7d01f00cb74c0a9b5752,"prompt; descriptive, no independence-based significance"
+BLUE_L8_ONLY,ONLINE_OWN_BATCH,PS,10,2000,1858,1837,42,21,1816,121,9ad41d26f1629261963f9d92825d92ebbd0281f86fca8b340c0121e408514ec9,"prompt; descriptive, no independence-based significance"
+BLUE_L8_ONLY,ONLINE_OWN_BATCH,NS,10,10000,7618,6936,901,219,6717,2163,5f64df1165a24ea7c000a179fd99a9b77c40d1e1670195e15bca3a1d6cccdca2,"prompt; descriptive, no independence-based significance"

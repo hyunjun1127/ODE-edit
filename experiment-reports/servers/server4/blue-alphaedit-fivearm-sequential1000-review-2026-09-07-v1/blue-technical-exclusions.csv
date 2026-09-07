@@ -1,0 +1,3 @@
+job,classification,denominator,prior_batches,stage,error,process_seconds,path,sha256,scheduler_gpu_elapsed
+38929,PURE_TECHNICAL_PRE_EDIT,0,0,MODEL_LOAD,"AttributeError(""'PreTrainedTokenizerFast' object has no attribute 'add_bos_token'"")",43.623478746041656,/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/execution-original-v2/smoke-llama/failure.json,d418d99934d490c4c2c4bceaa233353b7f9ec00944867af6248e3f9c5fa6bf37,NOT_REQUERIED
+38932,PURE_TECHNICAL_PRE_EDIT,0,0,PRE_EDIT,"ModuleNotFoundError(""No module named 'easyeditor'"")",49.163913435302675,/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/execution-tech-r1/smoke-llama/failure.json,81f2ee1be38b3bc694e1c87a0a9676a991f86d1060c91362714d1b83f41d38e4,NOT_REQUERIED

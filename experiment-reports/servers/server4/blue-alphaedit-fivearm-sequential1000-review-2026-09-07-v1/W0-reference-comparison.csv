@@ -1,0 +1,4 @@
+arm,W0_RS,W0_PS,W0_NS,reference_RS,reference_PS,reference_NS,statement
+BLUE,71,227,8820,71,227,8820,"SAME_MODEL_ASSET_AND_SAMPLE; observed score parity separately, no cross-host bitwise guarantee"
+BLUE_L4_ONLY,71,227,8820,71,227,8820,"SAME_MODEL_ASSET_AND_SAMPLE; observed score parity separately, no cross-host bitwise guarantee"
+BLUE_L8_ONLY,71,227,8820,71,227,8820,"SAME_MODEL_ASSET_AND_SAMPLE; observed score parity separately, no cross-host bitwise guarantee"

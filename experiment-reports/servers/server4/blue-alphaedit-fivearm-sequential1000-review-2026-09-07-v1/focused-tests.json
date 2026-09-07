@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "focused_tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "actual_table_cardinality_arithmetic": "PASS",
+  "PNG_byte_reproduction": 9,
+  "raw_free_extension_scope": "PASS",
+  "source_compile": "PASS",
+  "experimental_preflight_distinction": "Analysis tests only; L4 pre-run skipped remains SKIPPED_USER_DIRECTED",
+  "GPU": 0,
+  "model": 0,
+  "evaluator": 0
+}

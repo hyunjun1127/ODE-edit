@@ -1,0 +1,18 @@
+{
+  "status": "POSTRUN_INTEGRITY_WITH_METADATA_WARNING",
+  "blue_terminal": 3,
+  "batches": 30,
+  "requests": 3000,
+  "W_M_links": 27,
+  "checkpoints": 9,
+  "source_asset_members": 1804,
+  "sample_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "projector_mapping": "CPU reconstructed selected-P hashes match runtime all three arms; L4 actual index0, observer label4 is incorrect metadata only",
+  "L4_pre_gate": "SKIPPED_USER_DIRECTED",
+  "model_load": 0,
+  "GPU": 0,
+  "evaluator": 0,
+  "raw_mutation": 0,
+  "version_restore": "NOT_CLAIMED_INPLACE_COPY_INCREMENTS_VERSION",
+  "nonedited_scope": "single-layer main pointer/version/shape/dtype; NOT full byte comparison; original BLUE selected-write source audit only"
+}
