@@ -81,7 +81,7 @@ def run(lock_path, output, mode):
             attention=model.config._attn_implementation, tf32_matmul=torch.backends.cuda.matmul.allow_tf32,
             tf32_cudnn=torch.backends.cudnn.allow_tf32, autocast=torch.is_autocast_enabled(),
             writer_tokenizer=dict(add_bos_token=tok.add_bos_token, padding=tok.padding_side, pad=tok.pad_token_id, eos=tok.eos_token_id),
-            evaluator_tokenizer=dict(add_bos_token=evaltok.add_bos_token, padding=evaltok.padding_side, pad=evaltok.pad_token_id),
+            evaluator_tokenizer=dict(add_bos_token=getattr(evaltok, 'add_bos_token', 'NOT_EXPOSED_BY_TOKENIZER'), padding=evaltok.padding_side, pad=evaltok.pad_token_id),
             context_policy='native get_context_templates at first batch; retained across sequential chain',
             W0=w0sig, projector_layers=[4,8], projector_sha256=tensor_sha(projector),
             scientific_promotion=False, model_training=False, slurm_job=os.environ.get('SLURM_JOB_ID'))
