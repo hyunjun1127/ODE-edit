@@ -61,19 +61,25 @@ def restore(weights, snapshot, cache, cache_snapshot):
         raise RuntimeError('EXACT_ROLLBACK_BYTES')
 
 
-def checkpoint(path, weights, cache, metadata):
+def tensor_artifact(path, obj):
     import torch
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    obj = dict(weights={k: v.detach().cpu().clone() for k, v in weights.items()},
-               cache_c=cache.clone(), metadata=metadata)
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'wb') as f:
         torch.save(obj, f)
         f.flush()
         os.fsync(f.fileno())
+    return dict(path=str(path), sha256=file_sha(path), bytes=path.stat().st_size)
+
+
+def checkpoint(path, weights, cache, metadata):
+    import torch
+    obj = dict(weights={k: v.detach().cpu().clone() for k, v in weights.items()},
+               cache_c=cache.clone(), metadata=metadata)
+    receipt = tensor_artifact(path, obj)
     loaded = torch.load(path, map_location='cpu', weights_only=True)
     assert {k: tensor_sha(v) for k, v in loaded['weights'].items()} == {k: tensor_sha(v) for k, v in weights.items()}
     assert tensor_sha(loaded['cache_c']) == tensor_sha(cache)
-    return dict(path=str(path), sha256=file_sha(path), bytes=path.stat().st_size,
+    return dict(**receipt,
                 reload_weights_cache_exact=True, full_model_saved=False)

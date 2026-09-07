@@ -10,7 +10,7 @@ import sys
 import time
 import traceback
 
-from .integrity import checkpoint, content, digest, file_sha, restore, save, signature, tensor_sha
+from .integrity import checkpoint, content, digest, file_sha, restore, save, signature, tensor_sha, tensor_artifact
 from .evaluation import evaluate
 from .observer import observe
 
@@ -117,6 +117,9 @@ def run(lock_path, output, mode):
                 edit_seconds = time.monotonic()-edit_start
                 endpoint = signature(weights, cache)
                 assert all(v.data_ptr() == pointers0[k] for k,v in weights.items())
+                targets = counters.pop('_target_tensors')
+                counters['targets_artifact'] = tensor_artifact(root/'native-layer-targets.pt', dict(values=targets, identities=counters['z']))
+                del targets
                 save(root/'native-observation.json', counters)
                 save(root/'contexts.json', module.CONTEXT_TEMPLATES_CACHE)
                 update = {}

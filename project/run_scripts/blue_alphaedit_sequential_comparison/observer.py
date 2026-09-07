@@ -7,12 +7,13 @@ from .integrity import tensor_sha, digest
 @contextmanager
 def observe(module, hp, weights, cache, requests):
     originals = {k: getattr(module, k) for k in ('compute_z', 'compute_ks')}
-    receipt = dict(z=[], keys=[], target_seconds=0.0, key_seconds=0.0)
+    receipt = dict(z=[], keys=[], target_seconds=0.0, key_seconds=0.0, _target_tensors=[])
     def z(*args, **kwargs):
         start = time.monotonic()
         value = originals['compute_z'](*args, **kwargs)
         receipt['target_seconds'] += time.monotonic()-start
         receipt['z'].append(dict(case_id=args[2]['case_id'], layer=args[4], sha256=tensor_sha(value), norm=float(value.detach().double().norm())))
+        receipt['_target_tensors'].append(value.detach().cpu().clone())
         return value
     def ks(*args, **kwargs):
         start = time.monotonic()
