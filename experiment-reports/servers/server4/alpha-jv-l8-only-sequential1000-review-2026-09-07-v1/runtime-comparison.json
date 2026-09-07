@@ -1,0 +1,266 @@
+{
+  "cross_host_numerical_bit_parity": "NOT_ESTABLISHED_NOT_REQUIRED_FOR_DESCRIPTIVE_COMPARISON",
+  "input_sha256": {
+    "assets.lock.json": "9f4a923e07e74ee69658bbded830ab45b09248131179ea058a51d2812f54088c",
+    "chain-4-llama3-8b-inst-L8_ONLY_NATIVE/runtime.lock.json": "2b56fe0167d3a302c18fd381e498145d4e3dbf0caa024400f43eefdf4403e64c",
+    "chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/runtime.lock.json": "efa452c629b5ec4354f8670f35297ba5621c55fbabf3876524397beef8a73607",
+    "external-main/assets.lock.json": "94e93c1e27a25a98b1a9fe128e26db35599c0d55066dd2449be77c2c688aa755",
+    "external-main/chain-0-llama3-8b-inst-O_NATIVE.runtime.lock.json": "99031458b9f982bb0982b54bdc7575f687063430204b938a6ab64f7486758382",
+    "external-main/chain-1-qwen2.5-7b-inst-O_NATIVE.runtime.lock.json": "2dd71c967eecf7c5e8b792e13026b9246043adc2cf2669c3c6ef648687d2e66d",
+    "external-main/chain-2-llama3-8b-inst-JV_NATIVE.runtime.lock.json": "c93a6323e2f36b40fab5c600e0e49c2ac84f4f6da1b37898bbf69c6fc70f5a0b",
+    "external-main/chain-3-qwen2.5-7b-inst-JV_NATIVE.runtime.lock.json": "58ab0117a94e4c2e75f52e07b6f6ed3ffd33756c0b51031e917e9a88ac5643b6",
+    "external-main/science.lock.json": "ade6c3de5b1236d6dd08df703b2a6bb0433e9e2e722011fe75dae4f8b3ac906f",
+    "science.lock.json": "ade6c3de5b1236d6dd08df703b2a6bb0433e9e2e722011fe75dae4f8b3ac906f"
+  },
+  "model_load": 0,
+  "raw_inventory_sha256": "b5536f63078a9aebd67173e927f83255d8314f1e4abbcb19252a4cc970361513",
+  "root_sha256": "8b7f2c2ba353bb85c5d918113c22b88f511d40c477a3ce58d190628b1a71a473",
+  "rows": [
+    {
+      "AlphaEdit_hparams_sha256": "63239e48ea8faf78dfcc40d7d4f5aff3ff0832eb4208384d11f4a812819765c3",
+      "alias": "llama3-8b-inst",
+      "contexts_sha256": "bef722a3c30990f06084570a55a8e2056f5d38d7b4d5bd303e7d48de70920611",
+      "control_arm": "O_NATIVE",
+      "control_cuda_device": "NVIDIA RTX A6000",
+      "control_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "control_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "dtype_inventory": {
+        "parameter_elements_by_dtype": {
+          "torch.float32": 8030261248
+        },
+        "parameter_tensors_by_dtype": {
+          "torch.float32": 291
+        },
+        "quantized": false
+      },
+      "host_bitwise_equivalence": "NOT_ESTABLISHED",
+      "identities_status": "SEALED_ASSET_IDENTITY_MATCH",
+      "local_arm": "L8_ONLY_NATIVE",
+      "local_cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "local_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "local_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "model_config_sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "official_head": "14cea8245f06715684592ab55184939b99d70784",
+      "official_tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+      "performance_interpretation": "Matched science/assets/W0; GPU architecture differs. Wall-time ratio is cross-host descriptive, not pure algorithm overhead.",
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "statistics": [
+        {
+          "layer": 4,
+          "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+        },
+        {
+          "layer": 5,
+          "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+        },
+        {
+          "layer": 6,
+          "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+        },
+        {
+          "layer": 7,
+          "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+        },
+        {
+          "layer": 8,
+          "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+        }
+      ],
+      "tokenizer_sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+    },
+    {
+      "AlphaEdit_hparams_sha256": "63239e48ea8faf78dfcc40d7d4f5aff3ff0832eb4208384d11f4a812819765c3",
+      "alias": "llama3-8b-inst",
+      "contexts_sha256": "bef722a3c30990f06084570a55a8e2056f5d38d7b4d5bd303e7d48de70920611",
+      "control_arm": "JV_NATIVE",
+      "control_cuda_device": "NVIDIA RTX A6000",
+      "control_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "control_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "dtype_inventory": {
+        "parameter_elements_by_dtype": {
+          "torch.float32": 8030261248
+        },
+        "parameter_tensors_by_dtype": {
+          "torch.float32": 291
+        },
+        "quantized": false
+      },
+      "host_bitwise_equivalence": "NOT_ESTABLISHED",
+      "identities_status": "SEALED_ASSET_IDENTITY_MATCH",
+      "local_arm": "L8_ONLY_NATIVE",
+      "local_cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "local_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "local_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "model_config_sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "official_head": "14cea8245f06715684592ab55184939b99d70784",
+      "official_tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+      "performance_interpretation": "Matched science/assets/W0; GPU architecture differs. Wall-time ratio is cross-host descriptive, not pure algorithm overhead.",
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "statistics": [
+        {
+          "layer": 4,
+          "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+        },
+        {
+          "layer": 5,
+          "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+        },
+        {
+          "layer": 6,
+          "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+        },
+        {
+          "layer": 7,
+          "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+        },
+        {
+          "layer": 8,
+          "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+        }
+      ],
+      "tokenizer_sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+    },
+    {
+      "AlphaEdit_hparams_sha256": "e980d9b5e4ee68b2dc6497672f9a6803f7a9ec5350888b23eb05b9c90f05e815",
+      "alias": "qwen2.5-7b-inst",
+      "contexts_sha256": "1873aa14c7724794a6b96763b68738dd45db38627da0bc4bd4881f9c5959a503",
+      "control_arm": "O_NATIVE",
+      "control_cuda_device": "NVIDIA RTX A6000",
+      "control_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "control_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "dtype_inventory": {
+        "parameter_elements_by_dtype": {
+          "torch.float32": 7615616512
+        },
+        "parameter_tensors_by_dtype": {
+          "torch.float32": 339
+        },
+        "quantized": false
+      },
+      "host_bitwise_equivalence": "NOT_ESTABLISHED",
+      "identities_status": "SEALED_ASSET_IDENTITY_MATCH",
+      "local_arm": "L8_ONLY_NATIVE",
+      "local_cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "local_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "local_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "model_config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "official_head": "14cea8245f06715684592ab55184939b99d70784",
+      "official_tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+      "performance_interpretation": "Matched science/assets/W0; GPU architecture differs. Wall-time ratio is cross-host descriptive, not pure algorithm overhead.",
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "statistics": [
+        {
+          "layer": 4,
+          "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b"
+        },
+        {
+          "layer": 5,
+          "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519"
+        },
+        {
+          "layer": 6,
+          "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a"
+        },
+        {
+          "layer": 7,
+          "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d"
+        },
+        {
+          "layer": 8,
+          "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"
+        }
+      ],
+      "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+    },
+    {
+      "AlphaEdit_hparams_sha256": "e980d9b5e4ee68b2dc6497672f9a6803f7a9ec5350888b23eb05b9c90f05e815",
+      "alias": "qwen2.5-7b-inst",
+      "contexts_sha256": "1873aa14c7724794a6b96763b68738dd45db38627da0bc4bd4881f9c5959a503",
+      "control_arm": "JV_NATIVE",
+      "control_cuda_device": "NVIDIA RTX A6000",
+      "control_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "control_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "control_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "dtype_inventory": {
+        "parameter_elements_by_dtype": {
+          "torch.float32": 7615616512
+        },
+        "parameter_tensors_by_dtype": {
+          "torch.float32": 339
+        },
+        "quantized": false
+      },
+      "host_bitwise_equivalence": "NOT_ESTABLISHED",
+      "identities_status": "SEALED_ASSET_IDENTITY_MATCH",
+      "local_arm": "L8_ONLY_NATIVE",
+      "local_cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "local_cuda_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_driver_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_python_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "local_torch_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "local_transformers_version": "NOT_RECORDED_RUNTIME_SCHEMA",
+      "model_config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "official_head": "14cea8245f06715684592ab55184939b99d70784",
+      "official_tree": "9c52aadbc0883da422badf0a730fff21aaa3a8a7",
+      "performance_interpretation": "Matched science/assets/W0; GPU architecture differs. Wall-time ratio is cross-host descriptive, not pure algorithm overhead.",
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "statistics": [
+        {
+          "layer": 4,
+          "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b"
+        },
+        {
+          "layer": 5,
+          "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519"
+        },
+        {
+          "layer": 6,
+          "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a"
+        },
+        {
+          "layer": 7,
+          "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d"
+        },
+        {
+          "layer": 8,
+          "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"
+        }
+      ],
+      "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+    }
+  ],
+  "scheduler_calls": 0,
+  "status": "CROSS_HOST_SEALED_IDENTITY_AUDIT_PASS"
+}

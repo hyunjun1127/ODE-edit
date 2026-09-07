@@ -1,0 +1,374 @@
+[
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "4f1cf73a412f821c6f8fe7b1a437c44b9cff5b259dd902ed21c32927b72cb994",
+    "cache_shape": [
+      5,
+      14336,
+      14336
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/checkpoints/W1-M1.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "fcaa4621b5e8d13dc02acaa711ffd35387cb615cc3b2e19b3713746961fac78e",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "c3e02d08260b166ef1c3df6dc97473d99c0c6ad424f33ea1ad4e02110619ec59",
+        "shape": [
+          4096,
+          14336
+        ]
+      }
+    ]
+  },
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "2d6790515d121a4c65b92650666aae156e8bd63f414eb0e18154406692da01b3",
+    "cache_shape": [
+      5,
+      14336,
+      14336
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/checkpoints/W5-M5.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "2a0340a2b0997f2933fa487615bb4a671b0397271d0cf89a5f624748b7e22164",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "eb9aa4611afdc5aa0b34add06dfe44f2496aeec5850312218b65463c3c40c6f7",
+        "shape": [
+          4096,
+          14336
+        ]
+      }
+    ]
+  },
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "bb015d158ac10e8f3cec09f5bd7abc746a41f1f92886c51d3ebd1dbba4ff37db",
+    "cache_shape": [
+      5,
+      14336,
+      14336
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-4-llama3-8b-inst-L8_ONLY_NATIVE/checkpoints/W10-M10.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "d1645cffd03493f45c2f54ecc94e2b24ddee4b7ac4d782eea805cf586104bc20",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "d0267d23c5ccb50dead069b819432e1750dbee142d332539ec0cd5f0dfd8f16b",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "a2c68f28f4142fd840a541001049f4e7d41633b5b51e47d417b2906dcf499597",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "96f95e0afdab51d9382e9de25f9d437d240a6d7591dacf1768537450e4ee9a24",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "abd1e823966595f963d8aabe14ddc5a4989b3795103a27dddcf7d42bba64be73",
+        "shape": [
+          4096,
+          14336
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "812c8a49d9aa095a389dc5887f6291e29d141165fef07f41564f22ef8c27fbb3",
+        "shape": [
+          4096,
+          14336
+        ]
+      }
+    ]
+  },
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "e66a98ef4bf7e918ea1524b923811dc08ee20e9aadd07e14d2242de651b13ee3",
+    "cache_shape": [
+      5,
+      18944,
+      18944
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W1-M1.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "3ca38ffefcb62505cf1912500387ca1f106d292255f7bc31974229f860896a28",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "aeb37c663bd8deb2cb8806a78b2946f9434ccea5eb4091f5c5181552022c0e35",
+        "shape": [
+          3584,
+          18944
+        ]
+      }
+    ]
+  },
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "a6fc1e763f1108f46940db3a72b151136749355e9d0334a2159f7aa308d7dee2",
+    "cache_shape": [
+      5,
+      18944,
+      18944
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W5-M5.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "433fb6b4d75072ff8f5b6aa0162a55412ee90062406c7838184c1fbc8af7b3e8",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "7be990030ab32a9d43b180e840d60f0f6144e904dfef2faa37638bddf004a845",
+        "shape": [
+          3584,
+          18944
+        ]
+      }
+    ]
+  },
+  {
+    "cache_c_new": true,
+    "cache_dtype": "torch.float32",
+    "cache_sha256": "493314eda692d6a1230e48f4ee80fb9449ad552157d5253abb6d4ea5f072a3b3",
+    "cache_shape": [
+      5,
+      18944,
+      18944
+    ],
+    "gpu_actions": 0,
+    "model_loaded": false,
+    "path": "/data/janghj/ODE-edit/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W10-M10.pt",
+    "status": "CPU_TENSOR_FULL_REHASH_PASS",
+    "weight_set_sha256": "7c19d9f227b5b849cdc3c8406125fbe2d00ddf49fff03363d2ca1c3abd7363ec",
+    "weights": [
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.4.mlp.down_proj.weight",
+        "sha256": "ee7588e3e286ee1c032c1372b38980a428fb49a816d6066c4d197e39dfdbd0eb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.5.mlp.down_proj.weight",
+        "sha256": "5d21a8d4ea84d13f473e5fce9f351ffc7e6ce1fa2c7e863c4121d794063939fb",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.6.mlp.down_proj.weight",
+        "sha256": "08dc226b1a5c2350d0f0bf336872eeed6293158ff164687863a3bf573eb87911",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.7.mlp.down_proj.weight",
+        "sha256": "22abdacd64c72934417bc6bd997ae7bae1e99243f42543d3cfbe908a917ac5f0",
+        "shape": [
+          3584,
+          18944
+        ]
+      },
+      {
+        "dtype": "torch.float32",
+        "name": "model.layers.8.mlp.down_proj.weight",
+        "sha256": "265fc0a90c2789bf9efbed01bbd2a0b2676c465529af46a54a289bd020f0dcad",
+        "shape": [
+          3584,
+          18944
+        ]
+      }
+    ]
+  }
+]

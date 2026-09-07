@@ -1,0 +1,10 @@
+{
+  "main_push": 0,
+  "manifest_sha256": "882b0d6ddca002bd55acc333fc9aa8b894847b686e1adcf9f9931ea1e5965d55",
+  "member_root": "aeb70fcef75cdddf41fcbc2d96c4672ba5fa481acbb3ff97557377bed27f782d",
+  "report_sha256": "a7b07d16ea36e0aefe7aa16fb2c259275ee1879d486f084a469f9f94dd414732",
+  "root_sha256": "1e61e4c40eb61f4ac2cf17cac3eac91df26dbdfa56e03085283729447aca1200",
+  "scientific_promotion": false,
+  "status": "REVIEW_READY",
+  "task_owned_active_jobs": 0
+}

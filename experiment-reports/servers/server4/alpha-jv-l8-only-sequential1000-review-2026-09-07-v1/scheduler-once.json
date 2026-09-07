@@ -1,0 +1,12 @@
+{
+  "instruction_id":"ODEEDIT-S06-ALPHA-JV-L8-SERVER4-RESULTS-REVIEW-V1",
+  "audit":"ONE_BOUNDED_ACCOUNTING_AND_QUEUE_READ",
+  "jobs":[
+    {"array_job":"38433_4","child":38434,"alias":"llama3-8b-inst","owner":"janghj","state":"COMPLETED","exit":"0:0","elapsed":"02:24:36","start":"2026-09-07T07:51:38","end":"2026-09-07T10:16:14","node":"server4","memory":"59G","gpu":1},
+    {"array_job":"38433_5","child":38433,"alias":"qwen2.5-7b-inst","owner":"janghj","state":"COMPLETED","exit":"0:0","elapsed":"02:08:39","start":"2026-09-07T07:51:38","end":"2026-09-07T10:00:17","node":"server4","memory":"59G","gpu":1}
+  ],
+  "squeue":"Invalid job id specified (completed array absent)",
+  "task_owned_active_jobs":0,
+  "mutation":0,
+  "polling_loop":false
+}

@@ -1,0 +1,7 @@
+alias,all_denominator,arm,at_write_success,at_write_success_to_final_failure,conditional_failure_denominator,final_RS,initial_failure_denominator,initially_failed,initially_failed_to_final_recovery,nonoverwrite_failure,nonoverwrite_success_den,overwrite_candidates,previous_checkpoint_failure_to_recovery
+llama3-8b-inst,1000,O_NATIVE,1000,0,1000,1000,0,0,0,0,999,1,0
+qwen2.5-7b-inst,1000,O_NATIVE,998,6,998,992,2,2,0,6,997,1,3
+llama3-8b-inst,1000,JV_NATIVE,925,2,925,923,75,75,0,1,924,1,0
+qwen2.5-7b-inst,1000,JV_NATIVE,1000,3,1000,997,0,0,0,3,999,1,1
+llama3-8b-inst,1000,L8_ONLY_NATIVE,922,4,922,918,78,78,0,3,921,1,0
+qwen2.5-7b-inst,1000,L8_ONLY_NATIVE,999,4,999,995,1,1,0,4,998,1,0

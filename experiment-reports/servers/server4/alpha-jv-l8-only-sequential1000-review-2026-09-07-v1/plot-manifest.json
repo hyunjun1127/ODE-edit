@@ -1,0 +1,993 @@
+{
+  "arm_order": [
+    "O_NATIVE",
+    "JV_NATIVE",
+    "L8_ONLY_NATIVE"
+  ],
+  "backend": "Agg",
+  "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+  "dpi": 150,
+  "figure_count": 9,
+  "figures": [
+    {
+      "byte_stable_rerender": true,
+      "caption": "Final W10 fixed endpoint: six arms; RS 1,000 rewrite, PS 2,000 paraphrase, NS 10,000 neighborhood prompts per arm. Strict NLL-pair inequalities; ties fail.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2/main_six_arm_table.csv",
+      "input_rows": 6,
+      "input_sha256": "240b9d3d5c06b6f163148136893e64acf8c8805a46edc7aaaec9ccda2c0e8902",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "final_six_arm_performance",
+      "output": "final_six_arm_performance.png",
+      "output_bytes": 96269,
+      "output_sha256": "cfbbc85e52fc54d25cbe86a82ccd2ee5b8431821dec83cdd7bea6236842d79fc",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama · RS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · PS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · NS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · RS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · PS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · NS",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              0.0,
+              112.0
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.2,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "60 current-batch endpoints; each point only the just-written B100: RS 100, PS 200, NS 1,000 prompts. Not cumulative performance.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2/current_batch_metrics.csv",
+      "input_rows": 60,
+      "input_sha256": "21a967c1e9f9c0fd0eec0eb9a8fe4261f497adcb4aa083604fb44d24440e7f0c",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "current_batch_performance",
+      "output": "current_batch_performance.png",
+      "output_bytes": 138806,
+      "output_sha256": "fe426bb4338609d8984dd58d4be6a99b9a9a79d95195bee5ed84e9a949cc7114",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama · RS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · PS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · NS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · RS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · PS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · NS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.2,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "18 frozen-W seen-prefix endpoints, B1/B5/B10 only: requests=100/500/1,000; RS=n, PS=2n, NS=10n. Markers only, no interpolation at unrecorded checkpoints.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2/seen_prefix_metrics.csv",
+      "input_rows": 18,
+      "input_sha256": "eee4e83d222c51b1bf8612fc436a438b962b475dbdb4f5f2d6d04cd0ab84b2cb",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "cumulative_seen_prefix_performance",
+      "output": "cumulative_seen_prefix_performance.png",
+      "output_bytes": 85118,
+      "output_sha256": "8aa7c371d2475a58bd08bb6492f5e9cf052c587ae8c0ff3d6066baf7f6e1c94c",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama · RS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · PS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · NS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · RS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · PS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · NS",
+            "xlabel": "Completed sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Canonical success (%)",
+            "ylim": [
+              -2.0,
+              102.0
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.2,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "330 observed cohort×evaluation-batch cells; 100 rewrite requests in every cohort. Grey cells are not-yet-edited cohorts, not failed observations.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2/retention_cohort_metrics.csv",
+      "input_rows": 330,
+      "input_sha256": "4c1790fd7c015a06e80f382fe6dcbd823a3da049467a8d041a3385a3e8e0d9a8",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "six_arm_rewrite_retention",
+      "output": "six_arm_rewrite_retention.png",
+      "output_bytes": 93165,
+      "output_sha256": "acc01e2c8482d06b3e0837dc50e9ccd390820c7a09ba9683ca0599a561ab2c7b",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama · Official O",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · JV",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · L8-only",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · Official O",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · JV",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · L8-only",
+            "xlabel": "Evaluation W after batch",
+            "xlim": [
+              -0.5,
+              9.5
+            ],
+            "xscale": "linear",
+            "ylabel": "Original edit cohort",
+            "ylim": [
+              9.5,
+              -0.5
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "",
+            "xlabel": "",
+            "xlim": [
+              0.0,
+              1.0
+            ],
+            "xscale": "linear",
+            "ylabel": "Rewrite success (%; 100 requests/cohort)",
+            "ylim": [
+              0.0,
+              100.0
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.2,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "300 physical batch×layer observations: ten sequential B100 writes per arm, five layers. Absolute Frobenius magnitude of actual materialized batch delta, not squared magnitude or per-request samples. No ideal/equal-share reference.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4/batch_layer_actions.csv",
+      "input_rows": 300,
+      "input_sha256": "9bdcecddf35efdd6d01b53d0b5980e9463fdd8d1df15ee61c0bbb0067d13dd17",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "layer_wise_update_magnitude",
+      "output": "layer_wise_update_magnitude.png",
+      "output_bytes": 186116,
+      "output_sha256": "a3786fdd3287c9b1eb0fe61adfa402ec28c2820ea3495220165f79f743b90e81",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama · Official O",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              9.486054565361652
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · JV",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              18.067711912332612
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama · L8-only",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              18.513625603772002
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · Official O",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              61.10539893019597
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · JV",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              137.43120540333956
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen · L8-only",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\|W_{b,l}-W_{b-1,l}\\|_F$",
+            "ylim": [
+              0.0,
+              116.33949444328842
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.2,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "60 batch rows; only recorded dynamic-arm values are drawn. Signed predicted progress is controller-predicted, not an actual activation-realization ratio. O dynamics are NOT_RECORDED; work and progress have distinct units.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4/batch_mechanism.csv",
+      "input_rows": 60,
+      "input_sha256": "c198d5a492552c1ea1d1599edfab8d9a594ad1eca53c5e7b6a66dccb10b6ad12",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "signed_progress_and_native_work",
+      "output": "signed_progress_and_native_work.png",
+      "output_bytes": 182716,
+      "output_sha256": "e1adbeb427104b4884761fbff2dae502597d231d305212f8c55da2193b5bc904",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama\nSigned predicted progress",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Signed predicted progress",
+            "ylim": [
+              -0.03296614730356569,
+              0.6922942870232527
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama\nRaw native work",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Raw native work",
+            "ylim": [
+              -11.870002182544814,
+              249.27004583435433
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nSigned predicted progress",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Signed predicted progress",
+            "ylim": [
+              0.6410393872109224,
+              0.662152194150411
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nRaw native work",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Raw native work",
+            "ylim": [
+              1448.5922654838182,
+              57083.53919244312
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          8.8,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "Ten batch summaries per dynamic arm, four configured nodes per batch; Official O lacks these dynamics. Delta(V+lambda E)>0 means reserve b=V0-V-lambda E decreases; it is not a positive reserve change. Positive increments are telemetry, not an exclusion rule. No causal or barrier-benefit conclusion follows from these curves.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4/batch_mechanism.csv",
+      "input_rows": 60,
+      "input_sha256": "c198d5a492552c1ea1d1599edfab8d9a594ad1eca53c5e7b6a66dccb10b6ad12",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "v_and_barrier_diagnostics",
+      "output": "v_and_barrier_diagnostics.png",
+      "output_bytes": 194547,
+      "output_sha256": "a6f4a9d364ca1bee23d3f608d76beea30498d240ac86b28b7f166f434deab555",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama\nFinal V / entry V",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Final V / entry V",
+            "ylim": [
+              -0.04490572759781285,
+              1.0497563990220393
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama\n$\\Delta(V+\\lambda E)$",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\Delta(V+\\lambda E)$",
+            "ylim": [
+              -0.5089145118276811,
+              0.024233516083685194
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama\nPositive $\\Delta(V+\\lambda E)$ count",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Positive $\\Delta(V+\\lambda E)$ count",
+            "ylim": [
+              -0.1,
+              2.1
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nFinal V / entry V",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Final V / entry V",
+            "ylim": [
+              0.0034111512478717256,
+              0.026972963421440444
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\n$\\Delta(V+\\lambda E)$",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "$\\Delta(V+\\lambda E)$",
+            "ylim": [
+              -0.4903594451676549,
+              -0.4636352360381946
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nPositive $\\Delta(V+\\lambda E)$ count",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Positive $\\Delta(V+\\lambda E)$ count",
+            "ylim": [
+              -0.05500000000000001,
+              0.05500000000000001
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.200000000000001,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "60 batch-entry normalization rows. Min/max are across the active requests of that batch; qN reference unavailable for Official O remains NOT_RECORDED. Batch-specific N0 values are not refreshed within its trajectory.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4/normalization.csv",
+      "input_rows": 60,
+      "input_sha256": "e99f31117731086ad8b2a5965981f48639df866481fd648610ed4cd8b66aa560",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "n0_normalization",
+      "output": "n0_normalization.png",
+      "output_bytes": 255998,
+      "output_sha256": "fe02feb985bf79e5d181a2ecb26ef5f2d4cff52ef1a790c2f9e3693cea773b2b",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama\nEntry qN reference",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Entry qN reference",
+            "ylim": [
+              808.1466512436303,
+              1513.6527012028246
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama\nMinimum active scale",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Minimum active scale",
+            "ylim": [
+              -0.23179618841222693,
+              4.8680832236181235
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama\nMaximum active scale",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Maximum active scale",
+            "ylim": [
+              5.134794211387634,
+              10.984912419319153
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nEntry qN reference",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Entry qN reference",
+            "ylim": [
+              30327.263174225554,
+              256010.2245597515
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nMinimum active scale",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Minimum active scale",
+            "ylim": [
+              -3.2196549804844836,
+              67.61678808942597
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen\nMaximum active scale",
+            "xlabel": "Sequential batch",
+            "xlim": [
+              0.65,
+              10.35
+            ],
+            "xscale": "linear",
+            "ylabel": "Maximum active scale",
+            "ylim": [
+              157.18811721801757,
+              633.2726524353027
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          13.200000000000001,
+          7.2
+        ]
+      }
+    },
+    {
+      "byte_stable_rerender": true,
+      "caption": "Six arm-level recorded process-time/peak-memory values. O/JV executed on Server2, L8 on Server4; hardware/concurrency are uncontrolled. Wall-time differences are descriptive, not algorithm-only overhead.",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.alpha_native_response_ode_v31_sequential.l8_takeover_analysis.plots --performance /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/performance-v2 --mechanism /data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4 --output <NEW_OUTPUT_DIR>",
+      "input_path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/mechanism-v4/cost_by_arm.csv",
+      "input_rows": 6,
+      "input_sha256": "cf40bd65215516cd302fbdc8f4679a267de7fae936a8723e7bd9c471dbb151ce",
+      "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+      "name": "compute_comparison",
+      "output": "compute_comparison.png",
+      "output_bytes": 78773,
+      "output_sha256": "c2fe7477e3f1e74aa4b10ab0a6162a66fcae48aea824ad06e421b0e11297642b",
+      "rendering": {
+        "axes": [
+          {
+            "title": "Llama",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Process wall time (hours)",
+            "ylim": [
+              0.0,
+              5.002289440900488
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Llama",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Recorded peak GPU memory (GiB)",
+            "ylim": [
+              0.0,
+              40.071632909774785
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Process wall time (hours)",
+            "ylim": [
+              0.0,
+              3.9890421311497795
+            ],
+            "yscale": "linear"
+          },
+          {
+            "title": "Qwen",
+            "xlabel": "",
+            "xlim": [
+              -0.4575,
+              2.4575
+            ],
+            "xscale": "linear",
+            "ylabel": "Recorded peak GPU memory (GiB)",
+            "ylim": [
+              0.0,
+              41.955063581466675
+            ],
+            "yscale": "linear"
+          }
+        ],
+        "figure_size_inches": [
+          10.0,
+          7.2
+        ]
+      }
+    }
+  ],
+  "matplotlib_version": "3.10.7",
+  "missing_policy": "NOT_RECORDED remains missing; no interpolation, replacement, or imputation.",
+  "model_order": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "numpy_version": "2.2.6",
+  "schema": "l8-takeover-deterministic-plots/v1",
+  "seed": 20260907,
+  "source": {
+    "path": "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review/analysis-v1/project/run_scripts/alpha_native_response_ode_v31_sequential/l8_takeover_analysis/plots.py",
+    "sha256": "53f422f63da16a9b082bfbbf8cdba020b92174734ffcc7cf8725656e3e797d40"
+  },
+  "style": {
+    "axes.grid": false,
+    "axes.labelsize": 9,
+    "axes.spines.right": false,
+    "axes.spines.top": false,
+    "axes.titlesize": 10,
+    "figure.facecolor": "white",
+    "figure.titlesize": 15,
+    "font.family": "DejaVu Sans",
+    "font.size": 9,
+    "savefig.facecolor": "white",
+    "svg.hashsalt": "alpha-jv-l8-review-v1"
+  }
+}
