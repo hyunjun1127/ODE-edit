@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-S06-ALPHA-JV-LLAMA-DIAGNOSIS-SWEEP-SH1-V1",
+  "date": "2026-09-07",
+  "status": "DELEGATED_CPU_IMPLEMENTATION_GPU_BUDGET_PENDING",
+  "source_base": "e25a5685a4ad7f8606a8c265abf070b0d77a83d1",
+  "preserved_dirty_root_head": "ddc178584ef14efd5d4e1271b3c324e3ebd3e443",
+  "user_documents_byte_exact": "10/10",
+  "scientific_runtime_diff_vs_77358": "EMPTY_IN_THREE_REUSED_PACKAGES",
+  "resource": {
+    "server": "server1",
+    "new_run_server_cap": 2,
+    "gpu_hour_cap": null,
+    "budget_assignment": "USER_INPUT_PENDING",
+    "admission_check": {
+      "active_project_gpus": 0,
+      "new_requested_gpus": 2,
+      "requested_mem_MiB": 364544,
+      "status": "PASS_NOT_A_RESERVATION"
+    },
+    "existing_runs_modified": 0,
+    "server3": "UNREGISTERED_LOCAL_DISABLED_CAP0_UNDER_GLOBAL_CEILING2"
+  },
+  "delivery": {
+    "SH1": {
+      "target": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "turn": "01a0794c-d053-7623-bf51-be9e630d83b1",
+      "status": "ACCEPTED_HANDLER_START_ACK",
+      "ack": "D/S implementation and CPU work start; GPU budget awaited",
+      "full_read_receipt": "PENDING"
+    },
+    "SH4": {
+      "target": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "turn": "01a0794c-c0e5-75a3-a52d-89e351d888ac",
+      "status": "CAP2_HANDLER_TERMINAL_ACK",
+      "local_cap_sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "memory_MiB": 60416,
+      "existing_37649_38433_changes": 0
+    },
+    "SH2": {
+      "target": "01a0493a-074c-7f91-9a13-769116326fef",
+      "status": "COMMUNICATION_HOLD",
+      "stage": "PRE_INITIALIZE_HANDSHAKE",
+      "error": "TimeoutError: timed out",
+      "accepted": false,
+      "local_cap_applied": "NOT_CONFIRMED",
+      "bounded_attempts": 1,
+      "fallback_used": false
+    },
+    "SH3": {
+      "status": "NO_REGISTERED_SESSION_NOT_ACTIVATED",
+      "tracked_new_run_ceiling": 2
+    }
+  },
+  "checks": {
+    "cap_mock_tests": 19,
+    "shell_syntax": "PASS",
+    "access": "PASS",
+    "diff_check": "PASS",
+    "redteam": "INDEPENDENT_READONLY_FINAL_PASS_19_MOCK_TESTS_NO_ESSENTIAL_BLOCKERS"
+  },
+  "members": [
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "0356668ab10c11e4a25f9c1a6da26be547debe3b0de0ffb9082607b28e72255b"
+    },
+    {
+      "path": "control/gpu-concurrency-policy.tsv",
+      "sha256": "c08bf2282d1ca8c4abe5bfaea6fea689ce9e03925a47b3fad63191e978be87d8"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/README.md",
+      "sha256": "ddb988ef725f29849d75d5554614378bcd34fd43a27fbdb9d1aa0e33ec218a2c"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/candidate-grid.csv",
+      "sha256": "ff8ccc5166821e0be419c9ed9c11254d87e70091e278fa609fe0b0d8bd164ed8"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-ko.md",
+      "sha256": "02f63c91ee240c1992e532c78f4aa432d7a3093cf729d1f8916e5ab9b5152916"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-manifest.json",
+      "sha256": "1409ee6ab2dbc3b77081d38548f124dbd8160e852aa777b3812a7d25b8351f46"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/gh-execution-prompt-ko.md",
+      "sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/README.md",
+      "sha256": "4f695d335cccc69ee1e39f680df68123e9da2c0176dcf7db2352782b8f08c889"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/design-manifest.json",
+      "sha256": "06333ab093ce5142cc9cda721b3b14ec236c073294ba55ce7180857ac6e63c53"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/gh-candidate-disposition.csv",
+      "sha256": "8ff0a5d4f687c447f15e750113e1c8e3ab440231a9fd6b311cac39c586a113d7"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/report-ko.md",
+      "sha256": "88aa761993f9a2aafdb057224c504d4bab1225c90c47836faae5170d341de7cf"
+    },
+    {
+      "path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/task-matrix.csv",
+      "sha256": "ad559b8547774408fe17f8ddcab1fd2601515adb9000ca8ad3c8e5e2840958ab"
+    },
+    {
+      "path": "messages/head/2026-09-07-alpha-jv-llama-diagnosis-sweep-sh1-v1.md",
+      "sha256": "9b9ab0b4c7345d5e5a6793457852ece08022cdd100301e5e13213b04e55d75a1"
+    },
+    {
+      "path": "scripts/check-slurm-gpu-cap.sh",
+      "sha256": "75641e5d7f9c9ef8bc2a7488073fd2d9dfa625e45d963587c3228aacabaeb479"
+    },
+    {
+      "path": "scripts/tests/test_gpu_concurrency_policy.sh",
+      "sha256": "00051f76b2a40e3e365f20c771e78c3a3d7fa72eeba6fc025a0bba96393ea998"
+    },
+    {
+      "path": "servers/templates/gpu-caps.tsv",
+      "sha256": "db712ecb512ad14a0bf7918b60f405fc1e97e1abf3f7dba3ff74b2a6a9463de5"
+    },
+    {
+      "path": "messages/head/2026-09-07-alpha-jv-llama-diagnosis-sweep-operational-addendum.md",
+      "sha256": "cef298e6c0b4e4613727483ca20b42d2bf787c09d712cc1099e12387a87b5603"
+    }
+  ],
+  "new_model_gpu_slurm_actions": 0,
+  "scientific_promotion": false
+}

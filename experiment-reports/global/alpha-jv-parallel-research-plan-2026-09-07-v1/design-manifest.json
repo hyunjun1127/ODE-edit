@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "document_date_kst": "2026-09-07",
+  "status": "DESIGN_ONLY_NOT_RUN_SEAL",
+  "scientific_promotion": false,
+  "new_gpu_runs_submitted": 0,
+  "runtime_implementation_changed": false,
+  "source_references": {
+    "remote_main_at_review": "e25a5685a4ad7f8606a8c265abf070b0d77a83d1",
+    "existing_alpha_scientific_runtime": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "completed_alpha_publication": "0d0a0131e4a6a2a645dfa6530377d420a084d136",
+    "l8_takeover_contract": "44602a1a80554c67da0ef9646b43d843104785f2",
+    "orbode_cumulative_contract": "8610faf0e114059a5e08116f1164baf31c573e80"
+  },
+  "gh_sweep_integration": {
+    "source_report": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v2/gh-mechanism-review-ko.md",
+    "source_section": "13",
+    "existing_candidate_count": 10,
+    "existing_model_candidate_count": 20,
+    "full_candidate_pool_preserved": true,
+    "disposition_file": "gh-candidate-disposition.csv",
+    "lambda_shadow_pool": [0.01, 0.03162277660168379, 0.1, 0.31622776601683794, 1.0],
+    "early_actual_lambda_priority": [0.01, 0.1, 1.0],
+    "intermediate_lambda_actual_runs": "SECOND_WAVE_CONDITIONAL",
+    "live_task_completion_required_for_independent_diagnosis_or_euler": false,
+    "baseline_compute_z_hparams_unchanged_per_model": true
+  },
+  "protected_live_tasks": [
+    "odeedit_orbode_cum_s4_r1",
+    "odeedit_alpha_l8_s4_takeover"
+  ],
+  "isolation_contract": {
+    "read_live_partial_outputs": false,
+    "change_live_source_process_gpu_or_state": false,
+    "consume_only_sealed_completed_publications": true,
+    "new_worktree_branch_process_output_required": true,
+    "isolated_gpu_required": true,
+    "no_resource_status": "WAITING_FOR_ISOLATED_RESOURCE"
+  },
+  "new_experiment_scope": {
+    "method_family": "AlphaEdit",
+    "priority_model": "Llama",
+    "regression_reference_model": "Qwen",
+    "new_memit_history_cache": false,
+    "new_external_reference_bank": false,
+    "new_causal_layer_weighting": false,
+    "target_reoptimization": false,
+    "evaluation_prompts_in_controller": false,
+    "historical_own_training_context_variant": "PROPOSED_SEPARATE_FROM_NATIVE_ONLY"
+  },
+  "proposals_not_validated_optima": {
+    "diagnostic_base": {
+      "lambda": 0.1,
+      "T": 2,
+      "N": 4,
+      "h": 0.5,
+      "normalizations": ["N0_SOURCE_EXACT", "NRMS_SAME_ACTIVE_SET"],
+      "first_hit": false,
+      "backtracking": false,
+      "posthoc_gain": false
+    },
+    "euler_operating_points": [
+      {"T": 2, "N": 4, "h": 0.5},
+      {"T": 2, "N": 2, "h": 1.0},
+      {"T": 2, "N": 8, "h": 0.25},
+      {"T": 1, "N": 2, "h": 0.5},
+      {"T": 4, "N": 8, "h": 0.5}
+    ],
+    "euler_reused_execution_per_model_fixture": {
+      "paths": 3,
+      "nodes": 18,
+      "main_target_jvps": 90,
+      "diagnostic_history_and_evaluation_cost_included": false
+    },
+    "history_variant": {
+      "replay_size": 8,
+      "replay_size_secondary_sensitivity": 16,
+      "selection": "outcome_independent_deterministic_hash",
+      "contexts_per_replayed_edit": 1,
+      "reference": "immutable_commit_training_margin",
+      "epsilon_H_nat": 0,
+      "eta_observer_grid": [0, 0.01, 0.1, 1.0],
+      "eta_first_actual_proposal": 0.1,
+      "hard_per_history_constraints": false,
+      "dictionary": "same_full_five_current_native_directions",
+      "variants": ["H_BASE", "H_METRIC", "H_ANCHOR"],
+      "anchor_certificate_potential": "U=current_V+eta*mean(squared_positive_margin_deficit)/2",
+      "current_V_monotonicity_claim_for_anchor": false
+    },
+    "normal_state_lambda_grid": [0.01, 0.1, 1.0]
+  },
+  "resources": {
+    "gpu_hour_budget": null,
+    "max_parallel_gpu_jobs": null,
+    "reason": "Must be separately sealed before execution; this report does not grant resource use.",
+    "automatic_budget_expansion": false
+  },
+  "literature_versions": [
+    {
+      "title": "ODESteer: A Unified ODE-Based Steering Framework for LLM Alignment",
+      "url": "https://arxiv.org/pdf/2602.17560v2",
+      "sections": ["Table 5", "Appendix E.4"],
+      "caution": "Model-specific T is not the same as fixed-T step-count sensitivity. Do not transfer activation-flow time units to weight editing."
+    },
+    {
+      "title": "Unlocking the Potential of Continual Model Merging: An ODE Perspective",
+      "url": "https://arxiv.org/pdf/2605.19409v3",
+      "sections": ["Section 4.3", "Table 4"],
+      "caution": "Published step-size table is for CLIP ViT-B/32, not a Llama-Qwen comparison."
+    }
+  ]
+}

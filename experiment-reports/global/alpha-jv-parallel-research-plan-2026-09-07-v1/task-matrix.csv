@@ -1,0 +1,12 @@
+task_id,priority,scope,initial_volume,depends_on,execution_status,main_question,output,live_task_interaction
+L0,P0,sealed_artifact_audit,CPU inventory only,none,DESIGN_ONLY,Can exact Llama B10 entry be restored?,artifact_availability.json,none
+L1,P0,llama_normalization_diagnosis,one common entry and five raw direction JVPs,L0,DESIGN_ONLY,Does tiny-anchor weighting dominate the actual response Gram?,request_response_contributions.csv,none
+L2,P0,llama_actual_counterfactual,two four-node common-entry paths,L1,DESIGN_ONLY,Does NRMS change the actual near-stall mechanism?,diagnostic_endpoints.csv,none
+E0,P1,immutable_sweep_config,CPU tests and source-exact parity,none,DESIGN_ONLY,Are controller and numerical clock consistently configured?,config_parity_checks.json,none
+E1,P1,two_model_euler_screen,three paths and 18 nodes per model per common-entry B100,E0,DESIGN_ONLY,Are resolution and exposure effects different across models?,time_resolution_grid.csv,none
+H0,P1,functional_history_observer,Llama controlled warm fixture and replay size 8,reference_capture,DESIGN_ONLY,Does output sensitivity add selection information beyond keys?,history_same_state_fields.csv,none
+H1,P2,functional_history_trajectory,base and metric and anchor four-node paths,H0 and normalization_decision,DESIGN_ONLY,Does added history improve useful realization rather than only slow it?,history_margin_transitions.csv,none
+S1,P2,llama_normal_state_operating_point,three coarse lambda shadows then limited actual candidates,E1,DESIGN_ONLY,Can normal-state PS and NS weakness improve?,operating_point_comparison.csv,none
+C0,P1,completed_publication_claim_join,CPU schema and paired-cohort analysis,sealed_publications_for_final_join,DESIGN_ONLY,What do the two existing tasks permit us to claim?,claim_evidence_matrix.csv,sealed_completed_read_only
+A0,P3,method_selection_and_independent_audit,independent three-batch audit then minimal ablation,diagnosis and E1 and live_result_claim_review,DESIGN_ONLY,What is the smallest supported method?,method_selection_record.md,sealed_completed_read_only
+LL,HOLD,longer_lifelong,selected candidate and Official only with separately sealed budget,A0,NOT_AUTHORIZED_BY_THIS_DESIGN,Does benefit survive beyond 1000 edits?,lifelong_cohort_metrics.csv,none

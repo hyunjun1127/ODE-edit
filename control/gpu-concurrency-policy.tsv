@@ -1,0 +1,8 @@
+# User override 2026-09-07: prospective project GPU ceilings, not resource grants.
+# Existing submitted runs are grandfathered unchanged; count their allocations
+# before admitting any new run. Server registration/disabled status still applies.
+# server<TAB>max_new_run_project_gpus
+server1	2
+server2	2
+server3	2
+server4	2

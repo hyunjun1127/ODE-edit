@@ -7,10 +7,10 @@ Usage:
   scripts/check-slurm-gpu-cap.sh SERVER REQUESTED_GPUS [JOB_PATTERNS]
 
 Check whether submitting another Slurm job would exceed this repo's per-server
-running GPU cap. The script counts RUNNING jobs on the configured Slurm node
+running GPU cap. The script counts RUNNING/COMPLETING/CONFIGURING jobs on the configured Slurm node
 whose job name matches one of the comma-separated shell patterns.
 
-Cap configuration:
+Cap configuration (bounded by control/gpu-concurrency-policy.tsv):
   preferred: servers/local/gpu-caps.tsv
   override:  AGENT_GPU_CAPS_FILE=/path/to/gpu-caps.tsv
   env:       AGENT_GPU_CAP_<SERVER>, AGENT_GPU_NODE_<SERVER>,
@@ -92,6 +92,27 @@ if [[ -n "${job_patterns_arg}" ]]; then
   job_patterns="${job_patterns_arg}"
 fi
 
+# A stale task/worktree cap must not enlarge the current tracked ceiling.
+# This is admission control only: it never modifies existing Slurm jobs.
+policy_file="${repo_root}/control/gpu-concurrency-policy.tsv"
+if [[ ! -f "${policy_file}" ]]; then
+  echo "ERROR: missing tracked GPU concurrency policy" >&2
+  exit 2
+fi
+policy_cap=""
+while IFS=$'\t' read -r policy_server policy_value rest; do
+  [[ "${policy_server}" == "${server}" ]] || continue
+  policy_cap="${policy_value}"
+  break
+done < "${policy_file}"
+if ! [[ "${policy_cap}" =~ ^[0-9]+$ ]] || [[ "${policy_cap}" -lt 1 ]]; then
+  echo "ERROR: missing/invalid tracked GPU ceiling for server=${server}" >&2
+  exit 2
+fi
+if [[ "${cap}" -gt "${policy_cap}" ]]; then
+  cap="${policy_cap}"
+fi
+
 if [[ "${requested_gpus}" -gt "${cap}" ]]; then
   echo "DENY server=${server} requested_gpus=${requested_gpus} cap=${cap} reason=single_job_exceeds_cap"
   exit 4
@@ -102,6 +123,10 @@ if ! command -v squeue >/dev/null 2>&1; then
   exit 2
 fi
 
+if ! queue_snapshot="$(squeue -h -t RUNNING,COMPLETING,CONFIGURING -w "${node}" -o '%i|%j|%b')"; then
+  echo "ERROR: scheduler query failed; resource admission is unresolved" >&2
+  exit 2
+fi
 active_gpus=0
 while IFS='|' read -r job_id job_name tres_per_node; do
   [[ -n "${job_id}" ]] || continue
@@ -119,10 +144,20 @@ while IFS='|' read -r job_id job_name tres_per_node; do
 
   # Some Slurm versions emit N/A for %b when jobs request GPUs via --gpus.
   # The running job record still carries the allocated TRES in scontrol.
-  if [[ "${tres_per_node}" == "N/A" ]] && command -v scontrol >/dev/null 2>&1; then
-    job_record="$(scontrol show job "${job_id}" --oneliner 2>/dev/null || true)"
+  if [[ "${tres_per_node}" == "N/A" ]]; then
+    if ! command -v scontrol >/dev/null 2>&1 ||
+       ! job_record="$(scontrol show job "${job_id}" --oneliner 2>/dev/null)"; then
+      echo "ERROR: GPU allocation unresolved for job=${job_id}" >&2
+      exit 2
+    fi
     if [[ "${job_record}" =~ AllocTRES=([^[:space:]]+) ]]; then
       tres_per_node="${BASH_REMATCH[1]}"
+    elif [[ "${job_record}" =~ ReqTRES=([^[:space:]]+) ]]; then
+      # Conservative reservation for a configuring job without AllocTRES yet.
+      tres_per_node="${BASH_REMATCH[1]}"
+    else
+      echo "ERROR: missing allocation/reservation TRES for job=${job_id}" >&2
+      exit 2
     fi
   fi
 
@@ -133,7 +168,7 @@ while IFS='|' read -r job_id job_name tres_per_node; do
     gpu_count="${BASH_REMATCH[1]}"
   fi
   active_gpus=$((active_gpus + gpu_count))
-done < <(squeue -h -t RUNNING -w "${node}" -o '%i|%j|%b')
+done <<< "${queue_snapshot}"
 
 total=$((active_gpus + requested_gpus))
 if [[ "${total}" -gt "${cap}" ]]; then

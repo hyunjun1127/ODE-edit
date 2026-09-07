@@ -426,6 +426,17 @@ this project on that server, not the physical GPU count of the machine.
 
 Configure the active caps in ignored local config or environment variables:
 
+User override effective 2026-09-07: future runs on **every server are limited
+to 2 project GPUs per server**, as recorded in
+`control/gpu-concurrency-policy.tsv`. Admission uses the smaller of that
+tracked ceiling and the local/task cap. This does not grant server registration,
+GPU-hour budget, or permission to start a previously disabled deployment.
+Already submitted runs are grandfathered: do not cancel, restart, preempt,
+change resources or lower their existing array throttle. Before admitting any
+new run, count their still-allocated GPUs too; if existing plus new exceeds 2,
+wait for capacity. A retry/replacement or follow-up submission is a new run.
+This override does not change the explicit-memory policy or scientific locks.
+
 - preferred local config: `servers/local/gpu-caps.tsv`
 - template/example format: `servers/templates/gpu-caps.tsv`
 - optional environment fallback:
