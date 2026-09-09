@@ -1,8 +1,8 @@
 {
   "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1",
   "authority_nonce": "ODEEDIT-GH-SH1-CUMRISK-AUTONOMY-20260910-R1",
-  "stage": "A",
-  "status": "RUNNING_EARLY_LATE_SELECTED_DIRECT",
+  "stage": "B",
+  "status": "A_COMPLETE_B_INITIAL_EXECUTION",
   "A_B_C_autonomous": true,
   "GH_stage_release_required": false,
   "GPU_stage_order": [
@@ -60,24 +60,60 @@
     {
       "id": 43206,
       "component": "A Late Direct-B alpha0.02",
-      "state": "RUNNING",
-      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c"
+      "state": "COMPLETED",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c",
+      "elapsed_gpu_seconds": 1792
     },
     {
       "id": 43207,
       "component": "A Early Direct-B alpha0.02",
-      "state": "RUNNING",
-      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c"
+      "state": "COMPLETED",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c",
+      "elapsed_gpu_seconds": 1797
+    },
+    {
+      "id": 43217,
+      "component": "A Late Direct-C alpha0.02",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 1812
+    },
+    {
+      "id": 43218,
+      "component": "A Early Direct-C alpha0.02",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 1810
+    },
+    {
+      "id": 43235,
+      "component": "B Middle 21 direction-amplitude trials",
+      "state": "RELEASED_MODEL_ENTRY_BOUND",
+      "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
+    },
+    {
+      "id": 43236,
+      "component": "B Early 21 direction-amplitude trials",
+      "state": "RELEASED_MODEL_ENTRY_BOUND",
+      "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     }
   ],
   "progress_authority": "local/single-layer-cumulative-risk-abc/20260910-v1/monitor-ledger",
   "other_tasks_mutation": 0,
   "scientific_promotion": false,
   "not_claimed": [
-    "A_COMPLETE",
-    "B_EXECUTED",
+    "B_COMPLETE",
     "C_EXECUTED",
     "BACKGROUND_MONITOR"
   ],
-  "gpu_hour_cap": null
+  "gpu_hour_cap": null,
+  "A_complete": {
+    "writers": 13,
+    "fullbatch_steps": 320,
+    "native_scalings_extra": 12,
+    "requirements_pass": 539,
+    "remaining_mandatory": 0,
+    "gpu_hours": 5.692777777777778,
+    "report": "experiment-reports/servers/server1/single-layer-cumulative-risk-abc-2026-09-10-v1/A/A-factual-report-ko.md",
+    "report_sha": "9d35bc4b183e1c858402d91c9c286194caaec2f4ae8b165508972912444f10ff",
+    "GH_report_accepted_turn": "01a08800-ec77-75b3-ac13-a1ac3ca06ded"
+  }
 }
