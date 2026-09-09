@@ -1,5 +1,5 @@
 import unittest
-from .analysis import paired_rows,aggregate,bootstrap,csv_bytes
+from .analysis import paired_rows,aggregate,bootstrap,csv_bytes,observed_resolutions
 from .auxiliary_analysis import ledger_delta
 from .direction_analysis import central
 
@@ -27,5 +27,15 @@ class AnalysisTests(unittest.TestCase):
         # f(x)=x^2 at x=2; GFminus points toward smaller x.
         r=central(1.5**2,2.5**2,4.,.5)
         self.assertEqual(r,{'derivative_along_GFminus':-4.,'central_curvature':2.})
+    def test_full_curve_exact_reuse_not_new_measurement(self):
+        rows=[];neighbors={}
+        for p,panel in enumerate(['Current100','Fixed100','Past100']):
+            for i in range(100):
+                case=p*100+i;neighbors[str(case)]=[2,7]
+                for metric,count in [('RS',1),('PS',2),('NS',10)]:
+                    rows.extend(dict(panel=panel,metric=metric,case_id=case,prompt_index=j) for j in range(count))
+        full,curve=list(observed_resolutions({'resolution':'full','rows':rows},{'neighbors':neighbors}))
+        self.assertEqual((len(full[1]),len(curve[1]),curve[2]),(3900,1100,True))
+        self.assertTrue(all(r['panel']=='Current100' for r in curve[1] if r['metric']=='PS'))
 
 if __name__=='__main__':unittest.main()

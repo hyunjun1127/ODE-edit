@@ -39,6 +39,7 @@ def common(prepared_path,entry,cp,records,model,tok,w,ledger):
     return data,panel,we,wn,u,m,objective,groups
 
 def build_j(objective,a,groups,output):
+    objective.ledger.add('group_jacobian_build')
     gradients,values=objective.group_edit_gradients(a,groups)
     j,receipt=normalized_rows(gradients)
     # Keep actual gradients locally for auditing; never put tensors into Git.
@@ -47,9 +48,11 @@ def build_j(objective,a,groups,output):
     mean=gradients.mean(0);del gradients
     return j,mean
 
-def risk_direction(w,reference,u,j):
-    raw=(w-reference)@u
-    filtered,receipt=soft_filter(raw,j)
+def risk_direction(w,reference,u,j,ledger):
+    with ledger.time('risk_gradient_pullback'):raw=(w-reference)@u
+    ledger.add('risk_gradient_pullback')
+    with ledger.time('small_filter_solve'):filtered,receipt=soft_filter(raw,j)
+    ledger.add('small_filter_solve')
     direction,norm=physical_unit(-filtered,u,product_resolution(w-reference,u))
     return direction,dict(**receipt,normalization=norm,final_Jd=(j@direction.flatten()).cpu().tolist())
 
@@ -71,6 +74,7 @@ def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
     directions={};probes={}
     for name,g in raw.items():
         with ledger.time('small_filter_solve'):filtered,r=soft_filter(g,j)
+        ledger.add('small_filter_solve')
         if not name.startswith('Random'):filtered=-filtered
         d,nr=physical_unit(filtered,u,uncertainty.get(name,0.));directions[name]=d
         probes[name]=dict(**r,normalization=nr,final_Jd=(j@d.flatten()).cpu().tolist(),
@@ -107,7 +111,7 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
     c0=covariance();correction_length=.1*data['native_norm']/8
     initial_a=torch.zeros((wn.shape[0],u.shape[1]),device=w.device,requires_grad=True)
     j0,_=build_j(objective,initial_a,groups,output/'initial-group-jacobian')
-    frozen,frozen_receipt=risk_direction(wn,w0,u,j0)
+    frozen,frozen_receipt=risk_direction(wn,w0,u,j0,ledger)
     raw_global=(wn-w0)@u;den=eta*float((raw_global@u.T).double().norm())
     soft_lambda=correction_length/den if den>0 else None
     save(output/'controller.json',dict(eta=eta,eta_source=str(selection_path),selection_sha=sha(selection_path),
@@ -135,7 +139,7 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
             else:
                 if step==1:j=j0
                 else:j,_=build_j(objective,a,groups,directory/f'group-jacobian-{step:03d}')
-                direction,probe=risk_direction(current,w0 if arm=='RefreshedGlobal' else we,u,j)
+                direction,probe=risk_direction(current,w0 if arm=='RefreshedGlobal' else we,u,j,ledger)
                 correction=correction_length*direction
             with torch.no_grad(),ledger.time('C_optimizer_update'):
                 new,velocity=momentum_update(a,nominal_gradient,velocity,eta)

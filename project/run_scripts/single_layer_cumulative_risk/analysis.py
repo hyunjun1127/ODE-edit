@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import numpy as np
 from .records import save,digest
+from .import_assets import ROOT
 
 def summary(values):
     a=np.asarray(values,dtype=np.float64)
@@ -15,6 +16,15 @@ def summary(values):
     return dict(mean=float(a.mean()),median=float(np.median(a)),p90=float(np.quantile(a,.9)),max=float(a.max()))
 
 def key(row):return row['panel'],row['metric'],row['case_id'],row['prompt_index']
+
+def observed_resolutions(observed,panel):
+    yield observed['resolution'],observed['rows'],False
+    if observed['resolution']=='full':
+        rows=[r for r in observed['rows'] if r['metric']=='RS' or
+              (r['metric']=='PS' and r['panel']=='Current100') or
+              (r['metric']=='NS' and r['prompt_index'] in panel['neighbors'][str(r['case_id'])])]
+        assert len(rows)==1100
+        yield 'curve',rows,True # Exact measured subset, not another evaluation.
 
 def paired_rows(post,entry,w0):
     base={key(r):r for r in entry};origin={key(r):r for r in w0}
@@ -81,6 +91,7 @@ def collect(root,registry):
         def load(path):
             data=path.read_bytes();members.append(dict(path=str(path),sha256=hashlib.sha256(data).hexdigest(),bytes=len(data)))
             return json.loads(data)
+        panel=load(Path(root)/'input.lock.json')['entries'][entry]['panels']
         base=load(native/'ENTRY-full.json')['rows'];w0=load(native/'W0-full.json')['rows']
         endpoints=[(native/name,name.removesuffix('.json')) for name in ['W0-full.json','ENTRY-full.json','N-full.json']]
         endpoints += [(p,p.stem) for p in sorted(native.glob('native-scale-*-curve.json'))]
@@ -96,11 +107,13 @@ def collect(root,registry):
                 for p in sorted(candidate.glob('step-*.json')):
                     trajectories.append(dict(entry=entry,endpoint=candidate.name,**load(p)))
         for path,endpoint in endpoints:
-            observed=load(path);joined=paired_rows(observed['rows'],base,w0)
-            for row in joined:requests.append(dict(entry=entry,endpoint=endpoint,resolution=observed['resolution'],**row))
-            for panel,metric in sorted({(r['panel'],r['metric']) for r in joined}):
-                group=[r for r in joined if (r['panel'],r['metric'])==(panel,metric)]
-                aggregates.append(dict(entry=entry,endpoint=endpoint,panel=panel,metric=metric,resolution=observed['resolution'],**aggregate(group)))
+            observed=load(path)
+            for resolution,values,reused in observed_resolutions(observed,panel):
+                joined=paired_rows(values,base,w0)
+                for row in joined:requests.append(dict(entry=entry,endpoint=endpoint,resolution=resolution,measurement_reuse=reused,**row))
+                for panel_name,metric in sorted({(r['panel'],r['metric']) for r in joined}):
+                    group=[r for r in joined if (r['panel'],r['metric'])==(panel_name,metric)]
+                    aggregates.append(dict(entry=entry,endpoint=endpoint,panel=panel_name,metric=metric,resolution=resolution,measurement_reuse=reused,**aggregate(group)))
     return aggregates,requests,trajectories,members
 
 def collect_later(registry,stage):
@@ -113,22 +126,23 @@ def collect_later(registry,stage):
     for entry,config in registry.items():
         if stage not in config:continue
         native=Path(config['native']);root=Path(config[stage])
+        panel=load(ROOT/'input.lock.json')['entries'][entry]['panels']
         bases={name:load(native/f'{file}-full.json')['rows'] for name,file in [('ENTRY','ENTRY'),('N','N'),('W0','W0')]}
         endpoints=[(native/'N-full.json','N_REUSED')]
         pattern='*/eval.json' if stage=='B' else '*/eval-*.json'
         endpoints += [(p,str(p.relative_to(root)).removesuffix('.json')) for p in sorted(root.glob(pattern))]
         for path,endpoint in endpoints:
             observed=load(path)
-            for reference in ['ENTRY','N']:
-                joined=paired_rows(observed['rows'],bases[reference],bases['W0'])
-                for row in joined:
-                    # Field names inherited/additional refer to the named reference.
-                    requests.append(dict(entry=entry,endpoint=endpoint,reference=reference,
-                         resolution=observed['resolution'],**row))
-                for panel,metric in sorted({(r['panel'],r['metric']) for r in joined}):
-                    group=[r for r in joined if (r['panel'],r['metric'])==(panel,metric)]
-                    aggregates.append(dict(entry=entry,endpoint=endpoint,reference=reference,panel=panel,metric=metric,
-                         resolution=observed['resolution'],**aggregate(group)))
+            for resolution,values,reused in observed_resolutions(observed,panel):
+                for reference in ['ENTRY','N']:
+                    joined=paired_rows(values,bases[reference],bases['W0'])
+                    for row in joined:
+                        requests.append(dict(entry=entry,endpoint=endpoint,reference=reference,
+                             resolution=resolution,measurement_reuse=reused,**row))
+                    for panel_name,metric in sorted({(r['panel'],r['metric']) for r in joined}):
+                        group=[r for r in joined if (r['panel'],r['metric'])==(panel_name,metric)]
+                        aggregates.append(dict(entry=entry,endpoint=endpoint,reference=reference,panel=panel_name,metric=metric,
+                             resolution=resolution,measurement_reuse=reused,**aggregate(group)))
         if stage=='C':
             for path in sorted(root.glob('*/step-*.json')):
                 trajectories.append(dict(entry=entry,endpoint=path.parent.name,**load(path)))

@@ -19,10 +19,17 @@ def observe(job,output,interval,reason):
     now=dt.datetime.now(dt.timezone.utc)
     progress=sorted((output/'progress').glob('*.json'))
     latest=json.loads(progress[-1].read_text()) if progress else None
-    row=dict(stage='A',job=job,active_agent_handle='01a04939-f93a-7b50-bca0-65438eab2062',
-             last_observed_utc=now.isoformat(),next_check_utc=(now+dt.timedelta(minutes=interval)).isoformat(),
+    artifacts=list(output.rglob('*.json'))
+    last_artifact=max(artifacts,key=lambda p:p.stat().st_mtime_ns) if artifacts else None
+    runtime=json.loads((output/'runtime.json').read_text()) if (output/'runtime.json').exists() else {}
+    mode=runtime.get('arguments',{}).get('mode','A');stage=mode if mode in ['B','C'] else 'A'
+    terminal=(output/'terminal.json').exists()
+    done=terminal and ('COMPLETED' in scheduler or 'FAILED' in scheduler or 'CANCELLED' in scheduler)
+    row=dict(stage=stage,job=job,active_agent_handle='01a04939-f93a-7b50-bca0-65438eab2062',
+             last_observed_utc=now.isoformat(),next_check_utc=None if done else (now+dt.timedelta(minutes=interval)).isoformat(),
              interval_minutes=interval,reason=reason,scheduler=scheduler,latest_progress=latest,
-             output=str(output),last_artifact_utc=dt.datetime.fromtimestamp(progress[-1].stat().st_mtime,dt.timezone.utc).isoformat() if progress else None,
+             output=str(output),last_artifact_utc=dt.datetime.fromtimestamp(last_artifact.stat().st_mtime,dt.timezone.utc).isoformat() if last_artifact else None,
+             last_artifact_path=str(last_artifact) if last_artifact else None,
              mechanism='active assistant turn; no background monitor',
              terminal_exists=(output/'terminal.json').exists(),failure_exists=(output/'failure.json').exists())
     path=ROOT/'monitor-ledger'/f'{time.time_ns()}-{job}.json';save(path,row)
