@@ -84,6 +84,7 @@ def build_later(package,completion):
     lines=[f'# 단일 layer 누적위험 진단 — 상위 {stage} 사실 보고서','',
        f"상태: {completion['status']}; trials={completion['trials']}, nominal optimizer steps={completion['fullbatch_steps']}.",'',
        'W0(원본), We(현재 batch 직전 historical checkpoint), WN(같은 entry의 native endpoint)를 구분한다. 모든 비교는 동일 request/prompt identity로 결속한다. ENTRY 대비 변화와 N 대비 변화는 별도 행이며 두 reference를 합산하여 분모를 늘리지 않는다.','',
+       'inherited_margin=We−W0, additional_margin=post−We는 비교 reference와 무관하게 고정한다. N 대비 margin 변화는 reference_margin_delta에 따로 기록한다. N 대비 손실/회복 및 NLL delta의 분모/reference 역시 N 행에 명시한다.','',
        'RS/PS=new NLL<true NLL; NS=true NLL<new NLL; tie 실패. Full은 panel별 RS100/PS200/NS1000, 총3900쌍; curve는 RS300/CurrentPS200/neighbor600, 총1100쌍이다.','',
        '상위 B는 Direct-B support가 아니며, 상위 C도 Direct-C support와 다른 단계다. 낮은 성능·risk 증가·0 또는 미해결 방향은 결과에 남기고 자동 성공/안전성 판정에 사용하지 않는다.','']
     if stage=='B':

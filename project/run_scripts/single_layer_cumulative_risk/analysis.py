@@ -24,16 +24,18 @@ def observed_resolutions(observed,panel):
         rows=curve_rows(observed['rows'],panel)
         yield 'curve',rows,True # Exact measured subset, not another evaluation.
 
-def paired_rows(post,entry,w0):
+def paired_rows(post,entry,w0,historical_entry=None):
     base={key(r):r for r in entry};origin={key(r):r for r in w0}
+    historical={key(r):r for r in (historical_entry if historical_entry is not None else entry)}
     assert len(base)==len(entry) and len(origin)==len(w0)
     out=[]
     for r in post:
-        e,z=base[key(r)],origin[key(r)]
-        assert r['identity']==e['identity']==z['identity']
+        e,z,h=base[key(r)],origin[key(r)],historical[key(r)]
+        assert r['identity']==e['identity']==z['identity']==h['identity']
         out.append(dict(**r,entry_success=e['success'],W0_success=z['success'],
              new_nll_delta=r['new_nll']-e['new_nll'],true_nll_delta=r['true_nll']-e['true_nll'],
-             inherited_margin=e['margin']-z['margin'],additional_margin=r['margin']-e['margin'],
+             inherited_margin=h['margin']-z['margin'],additional_margin=r['margin']-h['margin'],
+             reference_margin_delta=r['margin']-e['margin'],
              entry_success_to_failure=bool(e['success'] and not r['success']),
              entry_failure_to_success=bool(not e['success'] and r['success'])))
     return out
@@ -66,6 +68,8 @@ def aggregate(rows):
                 conditional_loss_rate=sum(r['entry_success_to_failure'] for r in rows)/den if den else None)
     for metric in ['new_nll','true_nll','margin','new_nll_delta','true_nll_delta','inherited_margin','additional_margin']:
         output.update({metric+'_'+stat:v for stat,v in summary([r[metric] for r in rows]).items()})
+    if all('reference_margin_delta' in r for r in rows):
+        output.update({'reference_margin_delta_'+stat:v for stat,v in summary([r['reference_margin_delta'] for r in rows]).items()})
     output.update(bootstrap(rows))
     return output
 
@@ -133,7 +137,7 @@ def collect_later(registry,stage):
             observed=load(path)
             for resolution,values,reused in observed_resolutions(observed,panel):
                 for reference in ['ENTRY','N']:
-                    joined=paired_rows(values,bases[reference],bases['W0'])
+                    joined=paired_rows(values,bases[reference],bases['W0'],historical_entry=bases['ENTRY'])
                     for row in joined:
                         requests.append(dict(entry=entry,endpoint=endpoint,reference=reference,
                              resolution=resolution,measurement_reuse=reused,**row))

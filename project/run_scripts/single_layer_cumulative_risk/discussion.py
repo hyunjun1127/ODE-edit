@@ -65,7 +65,7 @@ def build(package,completion):
             if r['resolution']=='full' and r['panel']=='Current100' and r['metric']=='RS':
                 ns=lookup[(r['entry'],r['endpoint'],'Past100','NS','full')]
                 past=lookup[(r['entry'],r['endpoint'],'Past100','RS','full')]
-                data.append([r['entry'],r['endpoint'],rate(r),num(r['new_nll_delta_mean']),rate(past),rate(ns),num(ns['additional_margin_mean'])])
+                data.append([r['entry'],r['endpoint'],rate(r),num(r['new_nll_delta_mean']),rate(past),rate(ns),num(ns['reference_margin_delta_mean'])])
         lines += [table(['entry','predeclared .1 endpoint','Current RS','Current new NLL delta vs N','Past RS','Past NS','Past NS margin delta vs N'],data),'',
           '추가 방향이 현재 성능을 유지하지 못해도 관측값을 제외하지 않는다. Risk 1차항·2차항은 실제 FP32 delta로, intended delta는 별도 열로 기록한다. GF sign-pair 중심차분은 유한 amplitude의 대칭 관측이며 해석적 local derivative의 정확값은 아니다.','']
     else:

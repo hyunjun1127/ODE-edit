@@ -21,6 +21,11 @@ class AnalysisTests(unittest.TestCase):
         a=bootstrap(rows);self.assertEqual(a['cluster_count'],4)
         self.assertEqual(a,bootstrap(rows));self.assertEqual(a['success_delta_ci95'],[1.,1.])
         self.assertEqual(csv_bytes([a]),csv_bytes([a]))
+    def test_historical_margin_is_not_redefined_by_native_comparator(self):
+        def row(m):return dict(panel='Past100',metric='NS',case_id=1,prompt_index=0,identity='x',
+             margin=m,new_nll=5.-m,true_nll=5.,success=m<0)
+        r=paired_rows([row(-1.)],[row(-2.)],[row(-5.)],historical_entry=[row(-3.)])[0]
+        self.assertEqual((r['inherited_margin'],r['additional_margin'],r['reference_margin_delta']),(2.,2.,1.))
     def test_cumulative_child_compute_is_differenced_not_summed(self):
         one={'seconds':{'objective':10},'counts':{'forward':100}}
         two={'seconds':{'objective':25},'counts':{'forward':250}}

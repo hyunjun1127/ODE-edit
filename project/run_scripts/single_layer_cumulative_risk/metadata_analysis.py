@@ -14,7 +14,7 @@ from .records import save,digest
 from .import_assets import sha
 
 BOOLS={'success','entry_success','W0_success','new_strict','true_strict','entry_success_to_failure','entry_failure_to_success'}
-NUMBERS={'new_nll','true_nll','margin','new_nll_delta','true_nll_delta','inherited_margin','additional_margin'}
+NUMBERS={'new_nll','true_nll','margin','new_nll_delta','true_nll_delta','inherited_margin','additional_margin','reference_margin_delta'}
 def decode(row):
     for name in BOOLS:
         if name in row:row[name]=row[name]=='True'
