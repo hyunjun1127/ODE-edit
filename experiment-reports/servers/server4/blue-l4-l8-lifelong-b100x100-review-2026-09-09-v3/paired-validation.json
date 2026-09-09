@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "exact_id_order_denominator": true,
+  "members": [
+    {
+      "arm": "MEMIT_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B100/seen-full.json",
+      "bytes": "66631772",
+      "sha256": "c7032f988a03089cd464c5cd1a4f67a3bd1cd515a9e26d408965c0bdadd3aacd"
+    },
+    {
+      "arm": "AlphaEdit_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B100/seen-full.json",
+      "bytes": "66630929",
+      "sha256": "1a8c5bef959cc0edda327be89df40814acbc3fa3de64a484c2bdf3e3a6e45c91"
+    },
+    {
+      "arm": "MEMIT_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/B100/seen-full.json",
+      "bytes": "66610607",
+      "sha256": "57d71a88154a0b00376aa84a9d6804b1796f1c6386e56680d426839137c95646"
+    },
+    {
+      "arm": "AlphaEdit_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+      "bytes": "66621830",
+      "sha256": "600ffc967dd8c27f7b562b31f42443b0b67d5a7951ef4197426577a4f22ddc69"
+    },
+    {
+      "arm": "MEMIT_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/B100/seen-full.json",
+      "bytes": "66611293",
+      "sha256": "9adbc334111d03a17ed6603ec2304ce05e5ad404304121ad80b3b05eddc6d479"
+    },
+    {
+      "arm": "AlphaEdit_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/B100/seen-full.json",
+      "bytes": "66630893",
+      "sha256": "b2dd4cf079e9a7453ee049f4b02d8f56039d4af16c62f47c31524a7e6b66833e"
+    }
+  ],
+  "no_remote_file_write": true,
+  "no_raw_prompt_or_tensor_transfer": true,
+  "new_model_GPU_evaluator_Slurm_actions": 0,
+  "instruction_id": "ODEEDIT-S06-FIXED10K-PREEDIT-BLUE-LIFELONG-REPORT-INTEGRATION-SH2-V1",
+  "authority": "SH4 SEALED FINAL SIX READY; identity receipt SHA1915ab402459cc8eeeb05cbb8473c2fed5f9048873e4f700e6274f8344d79eab",
+  "scalar_in_memory_request_bytes": 15433954,
+  "aggregate_response_bytes": 1258221,
+  "raw_replication_bytes": 0,
+  "raw_automatic_broadcast_exception": "approved immutable remote read-only CPU aggregate; six 399737324-byte raw files remain on server4; no prompts or weights transferred",
+  "w0_scalar_input": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-blue-report/20260909-v1/reduction/w0-scalar-rows.local.json",
+    "bytes": 58861275,
+    "sha256": "cc832c1b2c1748b9c4f07376b49b762ce7df3e05ff9ec2d0d16a5ad6748f159a"
+  },
+  "remote_code_sha256": "16f84dc7194279722908e565b8f18d42debb73b17bad487368c46aef794fe59e"
+}

@@ -1,0 +1,43 @@
+{
+  "instruction_id": "ODEEDIT-S06-FIXED10K-PREEDIT-BLUE-LIFELONG-REPORT-INTEGRATION-SH2-V1",
+  "authored_server": "server2",
+  "authorized_server4_v3_write": true,
+  "authoritative_contract": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-blue-report/20260909-v1/authoritative-instruction.txt",
+    "bytes": 6270,
+    "sha256": "654760711a769aeff741acd551798f6d43b8222e36bfce130b3b83e0b01643d0"
+  },
+  "protocol": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1/PROTOCOL.md",
+    "bytes": 60382,
+    "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b"
+  },
+  "base_origin_main": "4d70b8b8c7ce2fcfdc1513618b0ce25386dc0aaf",
+  "v2_report": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1/experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v2/factual-report-ko.md",
+    "bytes": 140524,
+    "sha256": "65645e52fb19f6aa4ac30ee00ce36334c5c3a9e22ed1ce92c142ed9c251239b8"
+  },
+  "v2_manifest": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1/experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v2/analysis-manifest.json",
+    "bytes": 17773,
+    "sha256": "24883ff98f1d2c212718f1d45d8200ffe26a4eedec73c1490f8a7b876aa11517"
+  },
+  "v2_receipt": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1/experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v2/rooted-receipt.json",
+    "bytes": 1154,
+    "sha256": "612d20f77f68fefe72ea1218bb7de021869b15dd2087e94495948fdcc42b179f"
+  },
+  "local_reduction_receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-blue-report/20260909-v1/reduction/independent-validation.json",
+    "bytes": 1991,
+    "sha256": "fc99168f5370ff143bf93c31193e23050a1d1febc21dc39eb0153b6cad393dcf"
+  },
+  "local_pair_receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-blue-report/20260909-v1/paired/paired-validation.json",
+    "bytes": 2776,
+    "sha256": "de2247267d9588b06356c1b50d332bf2a7c9b95ebb93fb53bd26aa3a90b0fad1"
+  },
+  "raw_auto_broadcast": "not needed: local source/model/260000 raw rows retained; remote BLUE raw retained; only raw-free publication broadcast",
+  "scientific_promotion": false
+}

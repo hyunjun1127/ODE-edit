@@ -1,0 +1,10 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-L8-LIFELONG-EXHAUSTIVE-REVIEW-SH4-V1",
+  "status": "FIRST_TABLE_READY",
+  "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "final_members": 6,
+  "final_request_observations": 60000,
+  "unique_requests": 10000,
+  "report_sha256": "2e22076465b1b5c3364d3f14713e5884c7d6ecf41cda1c2a1358b77a81fa568a",
+  "inputs_root": "1c5e4d232c219da48aa6869caf3d4bfa79e71d68b0773794d12904afa6f2f6db"
+}

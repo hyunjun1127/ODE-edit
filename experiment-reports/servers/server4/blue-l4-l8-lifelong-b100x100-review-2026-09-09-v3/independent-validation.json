@@ -1,0 +1,53 @@
+{
+  "instruction_id": "ODEEDIT-S06-FIXED10K-PREEDIT-BLUE-LIFELONG-REPORT-INTEGRATION-SH2-V1",
+  "status": "PASS",
+  "source_head": "12ad4cbe417d9935b1e7e55600214d14ba0d6360",
+  "source_tree": "be4ee8bede7e4e962fd13064814bd2fbd500b56a",
+  "execution_lock": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/execution.lock.json",
+    "bytes": 809270,
+    "sha256": "7ea4991018fb18b1cb4dc520acf3e6adb386ad39112440fa2f57af9e33bdf167"
+  },
+  "terminal": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/output/terminal.json",
+    "bytes": 249912,
+    "sha256": "f891cfd5efaf9ec1730da07d54b1cc68d6e76b90b7de2bd2ccd8857ad3f8972f"
+  },
+  "dataset": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "bytes": 16679956,
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+  },
+  "order_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "case_order": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+  "source_asset_environment_rehash": {
+    "files": 1777,
+    "bytes": 16123553429,
+    "status": "PASS"
+  },
+  "output_member_rehash": {
+    "files": 1404,
+    "bytes": 228945537,
+    "status": "PASS"
+  },
+  "dataset_members_rehash": {
+    "files": 3,
+    "bytes": 25463898,
+    "status": "PASS"
+  },
+  "unique_requests": 10000,
+  "paired_prompts": {
+    "RS": 10000,
+    "PS": 20000,
+    "NS": 100000
+  },
+  "raw_target_rows": 260000,
+  "independent_raw_vs_part_vs_full_exact": true,
+  "part_W0_guard_pass": 100,
+  "imputation": 0,
+  "NLL_recomputed_from_logits": false,
+  "NLL_definition": "recorded teacher-forced mean target-token negative log probability, nats/token; independent pair reduction only",
+  "nonselected_parameter_bytes": "NOT_CLAIMED; all parameter pointers/versions/requires_grad guarded by execution",
+  "new_model_GPU_evaluator_edit_Slurm_actions": 0,
+  "scientific_promotion": false
+}

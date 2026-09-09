@@ -1,0 +1,4 @@
+method,reference,scope,status,reason
+MEMIT,Base MEMIT,SAME_10K_FINAL_W100,NOT_AVAILABLE,No measured base result with exact BLUE10000/order in audited publications; historical results not substituted
+AlphaEdit,Official AlphaEdit,SAME_10K_FINAL_W100,NOT_AVAILABLE,No measured base result with exact BLUE10000/order in audited publications; historical results not substituted
+PRE_EDIT,Pre-edit W0,SAME_FULL10000,MEASURED_TERMINAL_VALID,job42673; independent 260000 raw NLL target rows ->130000 exact prompt pairs; one shared W0 evaluation

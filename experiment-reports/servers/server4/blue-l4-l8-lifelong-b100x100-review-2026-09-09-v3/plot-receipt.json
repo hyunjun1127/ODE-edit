@@ -1,0 +1,25 @@
+{
+  "code": "project/run_scripts/fixed10k_preedit_blue_report/plots.py",
+  "source_sha256": "a43a52bec789980c3496adf4fe3339ca3273795692380c3371451340f2af6b2c",
+  "input": [
+    {
+      "path": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/final-MEMIT-with-W0.csv",
+      "bytes": 1810,
+      "sha256": "d9bae903b1006b95a497d5818fac5b159c2ac0544df4c7742d0905d5beec4cc0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/final-AlphaEdit-with-W0.csv",
+      "bytes": 1845,
+      "sha256": "3ae8fac755013547ad057312bf6ea8df83d9aca4997c1f0ea32bcd20a7c90a17"
+    }
+  ],
+  "output": {
+    "path": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/figures/w0-final-comparison.png",
+    "bytes": 155690,
+    "sha256": "0754386a322333e9a3334e693a7d8e17e182408e7a9d67ee3ac3bf27a93201d2"
+  },
+  "byte_identical_reproduction": true,
+  "imagegen_visualize": 0,
+  "inherited_figures_byte_preserved": 10,
+  "matplotlib_version": "3.10.7"
+}

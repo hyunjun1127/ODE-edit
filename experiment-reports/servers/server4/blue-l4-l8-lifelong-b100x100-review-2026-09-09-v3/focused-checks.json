@@ -1,0 +1,19 @@
+{
+  "status": "PASS_WITH_DOCUMENTED_WARN",
+  "focused_tests": 15,
+  "failures": 0,
+  "errors": 0,
+  "original_v2_files_byte_identical": 77,
+  "original_v2_CSV_byte_identical": 47,
+  "original_PNG_byte_identical": 10,
+  "original_six_all_columns_values_order_exact": true,
+  "shared_W0_evaluations": 1,
+  "paired_full_rows": 18,
+  "paired_cohort_rows": 1800,
+  "denominator_pp_partition_checks": "PASS",
+  "raw_free": "PASS",
+  "cross_hardware_and_packing_parity": "NOT_TESTED_WARN",
+  "nonselected_full_parameter_bytes": "NOT_CLAIMED",
+  "scientific_promotion": false,
+  "new_GPU_model_evaluator_Slurm": 0
+}

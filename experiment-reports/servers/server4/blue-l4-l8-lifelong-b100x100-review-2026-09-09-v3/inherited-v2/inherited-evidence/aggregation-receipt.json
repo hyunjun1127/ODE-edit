@@ -1,0 +1,26 @@
+{
+  "checkpoints": 72,
+  "cumulative_request_state_rows": 333600,
+  "current_request_state_rows": 60000,
+  "final_request_rows": 60000,
+  "unique_requests": 10000,
+  "final_included_in_cumulative": true,
+  "current_checkpoint_rows_reused": true,
+  "independently_checked_prompt_rows": 5116800,
+  "no_imputation": true,
+  "no_replay": true,
+  "rows": {
+    "cumulative": 216,
+    "current": 1800,
+    "age": 648,
+    "cohort": 10008
+  },
+  "missing": [
+    "W0 performance",
+    "all-seen noncheckpoint batches",
+    "post-write realization residual/vector",
+    "native action in covariance/history metric",
+    "full weight byte preservation outside selected layers",
+    "separate history/snapshot timing"
+  ]
+}

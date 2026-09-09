@@ -1,0 +1,30 @@
+{
+  "status": "REVIEW_READY",
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-L8-LIFELONG-REPORT-BASELINE-LABEL-REVISION-SH4-V1",
+  "report_sha256": "65645e52fb19f6aa4ac30ee00ce36334c5c3a9e22ed1ce92c142ed9c251239b8",
+  "manifest_sha256": "24883ff98f1d2c212718f1d45d8200ffe26a4eedec73c1490f8a7b876aa11517",
+  "member_root": "8997c220ef84f3069c9214e5bed0d8a0460ca09df077e406d5e44d996ebd4d28",
+  "members": 75,
+  "CSV_count": 47,
+  "PNG_count": 10,
+  "original_measurements_unchanged": true,
+  "checks": {
+    "status": "PASS",
+    "old_csv_count": 30,
+    "all_original_columns_values_order_exact": true,
+    "figures_byte_identical": 10,
+    "base_same10k": "NOT_AVAILABLE",
+    "preedit_full10k": "NOT_RECORDED",
+    "new_GPU_model_evaluator_Slurm": 0
+  },
+  "tests": {
+    "status": "PASS",
+    "tests": 16,
+    "errors": 0,
+    "failures": 0,
+    "scope": "6 revision tests +10 related focused tests; no GPU/model/evaluator",
+    "command": "python -m unittest -q project.run_scripts.blue_lifelong_analysis.test_revision project.run_scripts.blue_lifelong_analysis.test_focused"
+  },
+  "new_GPU_model_evaluator_Slurm": 0,
+  "next": "MAIN_PUSH_GH_REPORT_STOP"
+}

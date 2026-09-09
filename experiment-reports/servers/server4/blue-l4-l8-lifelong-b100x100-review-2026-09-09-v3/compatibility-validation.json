@@ -1,0 +1,47 @@
+{
+  "status": "PASS_WITH_CROSS_HARDWARE_WARN",
+  "selected_W0_match_arms": 6,
+  "common_source_asset_count": 1757,
+  "cross_hardware_parity": "NOT_TESTED",
+  "full_nonselected_parameter_bytes": "NOT_CLAIMED",
+  "six_runtime_refs": [
+    {
+      "arm": "MEMIT_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/runtime.json",
+      "bytes": "3630",
+      "sha256": "6a1a193c7fc1a171de2a85a51a0261e9209d1bcae40aa004a8dad929fd721a5e"
+    },
+    {
+      "arm": "AlphaEdit_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/runtime.json",
+      "bytes": "3659",
+      "sha256": "850ed7ce290c8d6d26c82912b6a8b5d91a0ee3d86394a279aa2aca83db6a2d08"
+    },
+    {
+      "arm": "MEMIT_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/runtime.json",
+      "bytes": "3297",
+      "sha256": "92c8e1714f364261adf3f6c38bd888da1f31266e3b21690fdeddc6ff86c952f2"
+    },
+    {
+      "arm": "AlphaEdit_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/runtime.json",
+      "bytes": "3308",
+      "sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4"
+    },
+    {
+      "arm": "MEMIT_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/runtime.json",
+      "bytes": "3297",
+      "sha256": "8e08629d2ba3f9e9a34a5bbad1caf7e8065031eac8164be0881901a0a626587e"
+    },
+    {
+      "arm": "AlphaEdit_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/runtime.json",
+      "bytes": "3308",
+      "sha256": "dfe1781baf1a0656628e2425df3683ce20f7ea507d7e1f5da30ef99f75ff5ec6"
+    }
+  ],
+  "source_inventory_sha256": "36d30542b820aa0da2072369400af75a3ed4b467b6d2e3cd874bbd4d8cd65c47",
+  "new_model_GPU_evaluator_Slurm_actions": 0
+}

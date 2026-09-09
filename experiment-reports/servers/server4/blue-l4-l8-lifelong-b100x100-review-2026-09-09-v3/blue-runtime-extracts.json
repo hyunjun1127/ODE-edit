@@ -1,0 +1,306 @@
+[
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "input": {
+      "arm": "MEMIT_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/runtime.json",
+      "bytes": "3630",
+      "sha256": "6a1a193c7fc1a171de2a85a51a0261e9209d1bcae40aa004a8dad929fd721a5e"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 0,
+      "cache_sha256": "1e172d04c980dced33a580b77cea9cc60f9bd3faa3bbe1baa1c63db9e47e1b96",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 134539950980016,
+          "pointer": 134529448673280,
+          "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        },
+        "model.layers.8.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 134539951147040,
+          "pointer": 134526126784512,
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "input": {
+      "arm": "AlphaEdit_ORIGINAL",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/runtime.json",
+      "bytes": "3659",
+      "sha256": "850ed7ce290c8d6d26c82912b6a8b5d91a0ee3d86394a279aa2aca83db6a2d08"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 136357729005632,
+      "cache_sha256": "701208c45c5f56e392a6a87b5322aa1ac35ddf42ebe2b95bc8605e2ef2045e94",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 136386468150032,
+          "pointer": 136381418438656,
+          "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        },
+        "model.layers.8.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 136386468317136,
+          "pointer": 136372895612928,
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "input": {
+      "arm": "MEMIT_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/runtime.json",
+      "bytes": "3297",
+      "sha256": "92c8e1714f364261adf3f6c38bd888da1f31266e3b21690fdeddc6ff86c952f2"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 0,
+      "cache_sha256": "1e172d04c980dced33a580b77cea9cc60f9bd3faa3bbe1baa1c63db9e47e1b96",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 123802669054976,
+          "pointer": 123797634023424,
+          "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "input": {
+      "arm": "AlphaEdit_L4_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/runtime.json",
+      "bytes": "3308",
+      "sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 127087729963072,
+      "cache_sha256": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 127116208044976,
+          "pointer": 127105664811008,
+          "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "input": {
+      "arm": "MEMIT_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/runtime.json",
+      "bytes": "3297",
+      "sha256": "8e08629d2ba3f9e9a34a5bbad1caf7e8065031eac8164be0881901a0a626587e"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 0,
+      "cache_sha256": "1e172d04c980dced33a580b77cea9cc60f9bd3faa3bbe1baa1c63db9e47e1b96",
+      "weights": {
+        "model.layers.8.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 133484427282464,
+          "pointer": 133470537908224,
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "input": {
+      "arm": "AlphaEdit_L8_ONLY",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/runtime.json",
+      "bytes": "3308",
+      "sha256": "dfe1781baf1a0656628e2425df3683ce20f7ea507d7e1f5da30ef99f75ff5ec6"
+    },
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "W0": {
+      "cache_pointer": 134006049861696,
+      "cache_sha256": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+      "weights": {
+        "model.layers.8.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 134034401200320,
+          "pointer": 134020495048704,
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "dtype": "torch.float32",
+    "autocast": false
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "job": 42673,
+  "owner": "janghj",
+  "job_name": "odeedit_fixed10k_preedit_s2",
+  "source": "single bounded sacct call in this recall",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed": "01:14:00",
+  "alloc_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+  "batch_state": "COMPLETED0:0",
+  "extern_state": "COMPLETED0:0",
+  "scontrol": "Invalid job id specified (purged live record); used accounting + sealed runtime/lock instead",
+  "runtime_slurm_job": "42673",
+  "terminal_status": "TERMINAL_VALID",
+  "downstream42706_read": 0,
+  "other_jobs_read": 0,
+  "submit_cancel_requeue": 0
+}

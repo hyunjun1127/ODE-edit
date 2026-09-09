@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-L8-LIFELONG-EXHAUSTIVE-REVIEW-SH4-V1",
+  "status": "CPU_ARTIFACT_AUDIT_COMPLETE",
+  "raw_member_root": "0d92cf13d2c717273c4fe62aa9e092c3e6302bad440e72ec219c84e1c2a8e79f",
+  "raw_members": 3762,
+  "raw_bytes": 65997334452,
+  "chain_count": 6,
+  "checkpoint_count": 72,
+  "unique_request_count": 10000,
+  "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "prefix1000_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "raw_model_gpu_forward": 0,
+  "full_continuation_replay": 0,
+  "limits": [
+    "nonselected byte hashes unavailable",
+    "historical runtime W0 restore cannot be independently replayed without GPU",
+    "no causal method correctness inference from hashes"
+  ]
+}

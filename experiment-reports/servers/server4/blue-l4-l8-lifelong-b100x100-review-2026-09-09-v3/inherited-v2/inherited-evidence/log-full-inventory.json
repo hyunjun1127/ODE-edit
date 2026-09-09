@@ -1,0 +1,86 @@
+[
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-39307.out",
+    "bytes": 26558746,
+    "sha256": "e7e6df9cc4a95f72939537759f473682343a479b334bc6eeee5cafd492441297",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-39307.err",
+    "bytes": 923,
+    "sha256": "9ff9dd520fdf16c2d8fa7822c6f6cac1b50a286c53a2a207c98178fedff74c23",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_1.out",
+    "bytes": 26129406,
+    "sha256": "9f7f1cc7f9e55555ae162d070529a350cb9318a9e12d6bc5b6644c4429e9056c",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_1.err",
+    "bytes": 757,
+    "sha256": "75b43ab7bfda4b908e2a5d92a85e21532ab4e64ea3787d48ce10b430abb33985",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_2.out",
+    "bytes": 21747720,
+    "sha256": "fe6c863587df2cb7f7be8d488fae46add0b1b6d90afb90b04ea49236a3ef7b6b",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_2.err",
+    "bytes": 840,
+    "sha256": "fa09541522ff31e71920af758cd3524df32eeaebedae07f0421ca46e12d4caa9",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_3.out",
+    "bytes": 21962542,
+    "sha256": "b140ea8387965ce485bc0028fdd98481784fdfec18df087653b4b54a59e98fdf",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_3.err",
+    "bytes": 757,
+    "sha256": "f7f049ebeebfc7e631aa244bb37db7aea2528a774268b91d4ac0153e92830c8e",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_4.out",
+    "bytes": 13567498,
+    "sha256": "796eab1645efab1ddc556c76cf04824c38178e802d8c2587283e67e4920033eb",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_4.err",
+    "bytes": 840,
+    "sha256": "4a680eb8327ee9fac5f585c37c5a70e77a74e50caf2fc9ab2f1d3758c86454e5",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_5.out",
+    "bytes": 16951491,
+    "sha256": "d7a312a401c9c40b0c4c7f404489c5ad99dfb192b65881d64406e1542aa21472",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_5.err",
+    "bytes": 757,
+    "sha256": "9071f605c3bf6ea263d3972c28eb48a46083abb623cbf0f30341aba4382e0db5",
+    "status": "FULL_REHASH_PASS_LOCAL_ONLY"
+  }
+]

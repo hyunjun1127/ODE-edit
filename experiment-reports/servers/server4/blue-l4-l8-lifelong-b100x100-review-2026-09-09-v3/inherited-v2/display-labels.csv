@@ -1,0 +1,7 @@
+raw_arm_id,display_label,blue
+MEMIT_ORIGINAL,MEMIT_BLUE (L4+L8),True
+MEMIT_L4_ONLY,MEMIT_BLUE_L4_ONLY,True
+MEMIT_L8_ONLY,MEMIT_BLUE_L8_ONLY,True
+AlphaEdit_ORIGINAL,AlphaEdit_BLUE (L4+L8),True
+AlphaEdit_L4_ONLY,AlphaEdit_BLUE_L4_ONLY,True
+AlphaEdit_L8_ONLY,AlphaEdit_BLUE_L8_ONLY,True

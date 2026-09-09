@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-S06-FIXED10K-PREEDIT-BLUE-LIFELONG-REPORT-INTEGRATION-SH2-V1",
+  "owner": "SH2/01a0493a-074c-7f91-9a13-769116326fef",
+  "status": "REPORT_COMPLETE_VALIDATED_FOR_MAIN_PUBLICATION",
+  "job": "42673",
+  "job_status": "TERMINAL_VALID",
+  "requests": 10000,
+  "RS": {"numerator": 791, "denominator": 10000},
+  "PS": {"numerator": 1997, "denominator": 20000},
+  "NS": {"numerator": 89212, "denominator": 100000},
+  "report": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/factual-report-ko.md",
+  "report_sha256": "839a903839743ad6de7c8cb08d255e7ad2e2c43099f6b81b27a3c91483fb991f",
+  "publication_identity": "Git commit containing this record and its source ancestors; final pushed HEAD/tree returned peer-direct",
+  "focused_tests": 31,
+  "cross_hardware_numerical_parity": "NOT_TESTED_WARN",
+  "scientific_promotion": false,
+  "new_model_GPU_evaluator_Slurm": 0,
+  "downstream42706_read_or_monitor": 0,
+  "prospective_cap": 2,
+  "memory_MiB_per_GPU": 60416
+}

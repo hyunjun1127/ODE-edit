@@ -1,0 +1,91 @@
+{
+  "source": "single initial sacct+squeue bounded query",
+  "jobs": [
+    {
+      "job": "39307",
+      "child": "39307",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "41835",
+      "start": "2026-09-08T04:29:19",
+      "end": "2026-09-08T16:06:34",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    },
+    {
+      "job": "39283_1",
+      "child": "39306",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "43362",
+      "start": "2026-09-08T03:05:17",
+      "end": "2026-09-08T15:07:59",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    },
+    {
+      "job": "39283_2",
+      "child": "40425",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "38264",
+      "start": "2026-09-08T16:06:43",
+      "end": "2026-09-09T02:44:27",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    },
+    {
+      "job": "39283_3",
+      "child": "40426",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "39361",
+      "start": "2026-09-08T15:08:18",
+      "end": "2026-09-09T02:04:19",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    },
+    {
+      "job": "39283_4",
+      "child": "40427",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "25284",
+      "start": "2026-09-09T02:44:34",
+      "end": "2026-09-09T09:45:58",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    },
+    {
+      "job": "39283_5",
+      "child": "39283",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": "30935",
+      "start": "2026-09-09T02:04:34",
+      "end": "2026-09-09T10:40:09",
+      "node": "server4",
+      "gpus": "1",
+      "cpus": "8",
+      "mem": "59G"
+    }
+  ],
+  "squeue_selected_jobs_empty": true,
+  "other_jobs_not_inspected": true
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "before": "|Pre-edit W0 (full10000)|NOT_RECORDED|—|—|未測定|NOT_MEASURED|NOT_MEASURED|NOT_MEASURED|NOT_MEASURED|NOT_MEASURED|",
+    "after": "|Pre-edit W0 (full10000; v3 추가)|TERMINAL_VALID|42673|edit0|10000|791/10000 (7.910%)|1997/20000 (9.985%)|89212/100000 (89.212%)|34/10000|72/20000|",
+    "occurrences": 2
+  },
+  {
+    "before": "Base/W0 공란은 실패0점이 아니라 동일10k 측정 부재다.",
+    "after": "Base 공란은 실패0점이 아니라 동일10k 편집 endpoint 미확인이다. W0는 v3에서 job42673 실측으로 추가했고 두 표는 동일 평가 한 번을 참조한다.",
+    "occurrences": 2
+  },
+  {
+    "before": "동일 full10000 pre-edit도 기록되지 않았다.",
+    "after": "v2 작성 때 없던 동일 full10000 pre-edit는 v3에서 job42673 실측으로 추가했다.",
+    "occurrences": 1
+  },
+  {
+    "before": "현재6chain의 W0 전체10k 성능은 NOT_RECORDED다. 이전1k W0 점수를 이번10k의 W0 reference로 대입하지 않는다.",
+    "after": "v3 공통 W0 전체10k는 RS791/10000, PS1997/20000, NS89212/100000이다. 기존1k reference를 확대하지 않고 job42673 전체 원문 pair를 독립 재집계했다.",
+    "occurrences": 1
+  },
+  {
+    "before": "|W0 전체10k RS/PS/NS|NOT_RECORDED; 이전1k 점수로 대입0|",
+    "after": "|W0 전체10k RS/PS/NS|v3 job42673 실측 추가; RS791/10000, PS1997/20000, NS89212/100000; cross-hardware numeric parity 미검증|",
+    "occurrences": 1
+  }
+]

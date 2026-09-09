@@ -1,0 +1,28 @@
+{
+  "search": "Tracked experiment-reports JSON/MD <=8MB exact sample root, published v1/fivearm/v6 and small sample/preflight metadata",
+  "root_matches": [
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/supplemental-control-receipt.json",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/first-table-receipt.json",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/operational-receipt-inputs.json",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/analysis-manifest.json",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/full-audit-receipt.json",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/factual-report-ko.md",
+    "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v1/rooted-receipt.json"
+  ],
+  "global_nonexistence_claim": false,
+  "matched_final10k_base": "NOT_AVAILABLE_IN_AUDITED_ARTIFACTS",
+  "exact10k_W0": "NOT_RECORDED_IN_BLUE_LIFELONG_ARTIFACTS",
+  "prefix_records_exact": 1000,
+  "historical_unique": 10000,
+  "blue_unique": 10000,
+  "case_intersection": 4324,
+  "same_order": false,
+  "blue_sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "historical_sample_root": "2951b86dfa829ef38b2fb03551a81dc9ce4f11c779af3f0f0c027224ed65cf7d",
+  "historical_order": "f86dfc97f50614d8fe3d7ed929326485ea0b1237151f93d7ed7339bae8979c43",
+  "historical_collision_policy": "EXCLUDE_PRIOR_AND_ENTIRE_DUPLICATE_NFKC_CASEFOLD_SUBJECT_RELATION_TEMPLATE_GROUPS",
+  "BLUE_collision_policy": "retain all ordered canonical cases; annotate subject/relation/target identity; no replacement",
+  "new_GPU_evaluator_Slurm": 0,
+  "original_raw_rehash": "NOT_REPEATED; publication member rehash only",
+  "stopped_ORBODE_and_L567": "NOT_ACCESSED"
+}
