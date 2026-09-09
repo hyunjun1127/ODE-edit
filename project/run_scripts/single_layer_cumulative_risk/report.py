@@ -11,6 +11,7 @@ from .records import save,digest
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def table(headers,rows):
+    if any(len(row)!=len(headers) for row in rows):raise ValueError('TABLE_COLUMN_COUNT_MISMATCH')
     def cell(x):return str(x).replace('|','/').replace('\n',' ')
     return '\n'.join(['| '+' | '.join(headers)+' |','| '+' | '.join(['---']*len(headers))+' |']+
                      ['| '+' | '.join(cell(x) for x in row)+' |' for row in rows])
@@ -23,7 +24,7 @@ def endpoint_order(endpoint):
     return 6,endpoint
 
 def build_a(package,completion):
-    rows=list(csv.DictReader((package/'paired-summary.csv').open()))
+    with (package/'paired-summary.csv').open() as f:rows=list(csv.DictReader(f))
     lines=['# 단일 layer 누적위험 진단 — A 사실 보고서','',
       f"상태: {completion['status']}. writers {completion['writers']}/13, logical full-batch steps {completion['fullbatch_steps']}/320, 추가 native scaling endpoints {completion['native_scales']}/12.",'',
       '이 문서는 Llama L4 단일 weight의 세 historical entry를 이용한 진단이다. 새 lifelong run, 안전성 보장, 인과적 locality 개선 또는 scientific promotion을 의미하지 않는다. 상위 B/C는 이 A의 Direct-B/Direct-C support와 다른 실험 단계다.','',
@@ -78,7 +79,8 @@ def build_a(package,completion):
     return '\n'.join(lines)
 
 def build_later(package,completion):
-    stage=completion['stage'];rows=list(csv.DictReader((package/'paired-summary.csv').open()))
+    stage=completion['stage']
+    with (package/'paired-summary.csv').open() as f:rows=list(csv.DictReader(f))
     lines=[f'# 단일 layer 누적위험 진단 — 상위 {stage} 사실 보고서','',
        f"상태: {completion['status']}; trials={completion['trials']}, nominal optimizer steps={completion['fullbatch_steps']}.",'',
        'W0(원본), We(현재 batch 직전 historical checkpoint), WN(같은 entry의 native endpoint)를 구분한다. 모든 비교는 동일 request/prompt identity로 결속한다. ENTRY 대비 변화와 N 대비 변화는 별도 행이며 두 reference를 합산하여 분모를 늘리지 않는다.','',

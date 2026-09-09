@@ -7,7 +7,8 @@ from .report import table,rate
 from .records import save
 from .import_assets import sha
 
-def read_csv(path):return list(csv.DictReader(path.open()))
+def read_csv(path):
+    with path.open() as f:return list(csv.DictReader(f))
 def num(x):return f'{float(x):.6g}' if x not in [None,''] else 'NOT_RECORDED'
 
 def build(package,completion):
