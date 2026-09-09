@@ -10,6 +10,7 @@ from .import_assets import sha
 def read_csv(path):
     with path.open() as f:return list(csv.DictReader(f))
 def num(x):return f'{float(x):.6g}' if x not in [None,''] else 'NOT_RECORDED'
+def recorded(row,key):return row.get(key) or 'NOT_RECORDED'
 
 def build(package,completion):
     stage=completion['stage'];rows=read_csv(package/'paired-summary.csv')
@@ -81,10 +82,11 @@ def build(package,completion):
         lines += [table(['endpoint','Current RS','Current PS','Current new NLL delta vs N','Past RS','Past NS'],data),'',
           'Step별 실제 correction norm과 path를 함께 보며 성능 차이를 방향 정보만의 효과로 단정하지 않는다. 작은 correction, 음성 결과, finite defect 모두 같은 분모에 남는다. Classical CBF, monotonicity, 안전성 certificate를 주장하지 않는다.','']
     compute=read_csv(package/'auxiliary/compute-summary.csv')
-    lines += ['## 실제 계산량','',table(['entry','process','actual forwards','backwards','training/observation sequences','objective wall s','eval wall s','peak allocated bytes'],[
-       [r['entry'],r['unit'],r.get('counts.actual_model_forward_invocations','NOT_RECORDED'),r.get('counts.backward','NOT_RECORDED'),
-        r.get('counts.training_sequences','NOT_RECORDED'),r.get('seconds.direct_objective','NOT_RECORDED'),
-        r.get('seconds.full_evaluation','NOT_RECORDED'),r.get('peak_gpu_bytes','NOT_RECORDED')]
+    lines += ['## 실제 계산량','',table(['entry','process','actual forwards','nominal backward','group backward','small penalty backward','objective/probe sequences','objective wall s','group-J wall s','full-eval wall s','peak allocated bytes'],[
+       [r['entry'],r['unit'],recorded(r,'counts.actual_model_forward_invocations'),recorded(r,'counts.backward'),
+        recorded(r,'counts.group_backward'),recorded(r,'counts.penalty_backward'),
+        recorded(r,'counts.training_sequences'),recorded(r,'seconds.direct_objective'),recorded(r,'seconds.group_jacobian'),
+        recorded(r,'seconds.full_evaluation'),recorded(r,'peak_gpu_bytes')]
        for r in compute if r['scope']=='PROCESS_TOTAL_DO_NOT_SUM_WITH_CHILDREN' and r.get('execution_role')!='REUSED_A_REFERENCE']),'',
       'Process total만 합산 가능하다. Child cumulative ledger는 같은 process 내부 차분이며 process total과 다시 더하지 않는다. FLOPs는 측정하지 않아 NOT_RECORDED로 둔다. Native z는 정확한 sealed cache hit이며 cold compute-z 비용을 포함한 속도 비교가 아니다. GPU allocation의 실제 비용은 job ledger를 따로 본다.','']
     if stage=='A':
