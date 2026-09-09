@@ -100,6 +100,13 @@ def native_write(model,tok,cp,targets,rows,p,ledger):
     repr_tools=importlib.import_module('rome.repr_tools')
     original_reader=repr_tools.get_reprs_at_idxs
     repr_tools.get_reprs_at_idxs=bounded_reader(original_reader,ledger,2)
+    original_solve=torch.linalg.solve
+    def timed_solve(*args,**kwargs):
+        with ledger.time('native_linear_solve'):
+            value=original_solve(*args,**kwargs)
+        ledger.add('native_linear_solve')
+        return value
+    torch.linalg.solve=timed_solve
     requests=[dict(r['requested_rewrite'],case_id=r['case_id']) for r in rows]
     try:
         with ledger.time('native_write'):
@@ -107,6 +114,7 @@ def native_write(model,tok,cp,targets,rows,p,ledger):
     finally:
         native.compute_z=original_z;native.compute_ks=original_k
         repr_tools.get_reprs_at_idxs=original_reader
+        torch.linalg.solve=original_solve
     assert ledger.counts['native_z_cache_hit']==100 and len(keys)==1
     assert torch.isfinite(w).all() and torch.isfinite(state).all()
     return w.detach().clone(),state,keys[0],hp,native

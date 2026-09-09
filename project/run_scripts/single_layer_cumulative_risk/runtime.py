@@ -176,10 +176,15 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--mode',choices=['native','direct','B','C'],required=True);p.add_argument('--entry',choices=list(ENTRIES),required=True)
     p.add_argument('--support',choices=['B','C']);p.add_argument('--alpha',type=float,nargs='+');p.add_argument('--prepared',type=Path)
     p.add_argument('--prior-stage-receipt',type=Path);p.add_argument('--selection',type=Path)
+    p.add_argument('--repair-r1-covariance',action='store_true')
     p.add_argument('--output',type=Path,required=True);args=p.parse_args()
     output=args.output.absolute();output.mkdir(parents=True,exist_ok=False)
     ledger=Ledger();w=w0=None;stage='INPUT'
     try:
+        if args.repair_r1_covariance:
+            assert args.mode=='native'
+            from .covariance_repair import repair
+            repair(ROOT/'A/Middle/native-r1',[ROOT/'A/Middle/direct-B-r1'],output/'R1-C0-diagnostic-repair')
         if args.mode in ['B','C']:
             from .later_stages import require_previous
             require_previous(args.prior_stage_receipt,'A' if args.mode=='B' else 'B')
@@ -193,7 +198,8 @@ def main():
             if ids is not None:
                 ledger.add('actual_model_forward_sequences',ids.shape[0])
                 mask=kwargs.get('attention_mask')
-                ledger.add('actual_model_forward_input_tokens',int(mask.sum()) if mask is not None else ids.numel())
+                from .token_accounting import count_tokens
+                count_tokens(ledger,ids,mask)
         model.register_forward_pre_hook(forward_counter,with_kwargs=True)
         restore_rng(cp)
         save(output/'runtime.json',dict(arguments={k:str(v) for k,v in vars(args).items()},input_lock_sha=sha(ROOT/'input.lock.json'),

@@ -30,6 +30,12 @@ class CoreTests(unittest.TestCase):
         actual=bounded_reader(reader,ledger,2)(*args)
         for a,b in zip(actual,reader(*args)):torch.testing.assert_close(a,b,rtol=0,atol=0)
         self.assertEqual(ledger.counts['native_representation_physical_batches'],4)
+    def test_cached_query_token_accounting(self):
+        from .token_accounting import count_tokens
+        ledger=Ledger();count_tokens(ledger,torch.ones(1,1,dtype=torch.long),torch.ones(1,10,dtype=torch.long))
+        self.assertEqual(ledger.counts['actual_model_forward_nonpadding_query_tokens'],1)
+        self.assertEqual(ledger.counts['actual_model_forward_attention_visible_tokens'],10)
+        self.assertEqual(ledger.counts['actual_model_forward_input_token_elements'],1)
     def test_essence_direction_coefficient(self):
         t=torch.tensor([[.8,.2]],dtype=torch.float64).log()
         s=torch.tensor([[.3,.7]],dtype=torch.float64).log().requires_grad_()

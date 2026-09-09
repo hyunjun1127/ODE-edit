@@ -4,7 +4,7 @@ from pathlib import Path
 import torch
 from .algebra import reduced_metric,momentum_update
 from .binding import kernel
-from .directions import group_indices,normalized_rows,soft_filter,physical_unit,operator_gradient,frobenius_finite_change
+from .directions import group_indices,normalized_rows,soft_filter,physical_unit,operator_gradient,frobenius_finite_change,product_resolution
 from .evaluation import measure,materialized,generation
 from .import_assets import sha
 from .objective import DirectObjective,WEIGHT
@@ -50,7 +50,7 @@ def build_j(objective,a,groups,output):
 def risk_direction(w,reference,u,j):
     raw=(w-reference)@u
     filtered,receipt=soft_filter(raw,j)
-    direction,norm=physical_unit(-filtered,u)
+    direction,norm=physical_unit(-filtered,u,product_resolution(w-reference,u))
     return direction,dict(**receipt,normalization=norm,final_Jd=(j@direction.flatten()).cpu().tolist())
 
 def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
@@ -61,7 +61,10 @@ def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
     c0=covariance();global_d=wn-w0;local_d=wn-we
     with ledger.time('risk_gradients'):
         op,opreceipt=operator_gradient(global_d)
-        raw={'GFminus':global_d@u,'LFminus':local_d@u,'OPminus':op@u,'COVminus':(global_d@c0)@u}
+        cov_product=global_d@c0
+        raw={'GFminus':global_d@u,'LFminus':local_d@u,'OPminus':op@u,'COVminus':cov_product@u}
+        uncertainty={'GFminus':product_resolution(global_d,u),'LFminus':product_resolution(local_d,u),
+             'OPminus':product_resolution(op,u),'COVminus':product_resolution(global_d,c0)+product_resolution(cov_product,u)}
         for name,seed in [('Random1',20260910),('Random2',20260911)]:
             gen=torch.Generator(device=w.device);gen.manual_seed(seed)
             raw[name]=torch.randn(a.shape,device=w.device,generator=gen)
@@ -69,7 +72,7 @@ def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
     for name,g in raw.items():
         with ledger.time('small_filter_solve'):filtered,r=soft_filter(g,j)
         if not name.startswith('Random'):filtered=-filtered
-        d,nr=physical_unit(filtered,u);directions[name]=d
+        d,nr=physical_unit(filtered,u,uncertainty.get(name,0.));directions[name]=d
         probes[name]=dict(**r,normalization=nr,final_Jd=(j@d.flatten()).cpu().tolist(),
               raw_edit_cosine=float((g.double()*edit.double()).sum()/(g.double().norm()*edit.double().norm())) if g.norm()>0 and edit.norm()>0 else None)
     directions['GFplus']=-directions['GFminus'];probes['GFplus']=dict(exact_opposite_of='GFminus',final_Jd=(j@directions['GFplus'].flatten()).cpu().tolist())

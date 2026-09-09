@@ -16,12 +16,15 @@ def normalized_rows(gradients):
     row, not amplified. No requests/groups are removed from the denominator.
     """
     flat=gradients.flatten(1)
-    norms=flat.double().norm(dim=1)
+    # Full-Q rows are large; reduce one row at a time without a second complete
+    # FP64 copy of the 10-row gradient matrix.
+    norms=torch.stack([row.double().norm() for row in flat])
     if not torch.isfinite(norms).all():raise FloatingPointError('NONFINITE_GROUP_GRADIENT')
     threshold=torch.finfo(gradients.dtype).eps*norms.max()
     active=norms>threshold
     rows=torch.zeros_like(flat)
-    rows[active]=flat[active]/norms[active,None].to(flat.dtype)/math.sqrt(len(norms))
+    for i in range(len(norms)):
+        if active[i]:rows[i]=flat[i]/norms[i].to(flat.dtype)/math.sqrt(len(norms))
     return rows,dict(raw_norms=norms.cpu().tolist(),zero_rows=int((~active).sum()),
                      working_resolution_threshold=float(threshold),request_exclusions=0,group_count=len(norms))
 
@@ -35,16 +38,21 @@ def soft_filter(g,j,gamma=.1):
              leakage_before=(j@flat).cpu().tolist(),leakage_after=(j@result.flatten()).cpu().tolist(),
              small_solve_residual=float((gram@small+gamma*small-rhs).norm()))
 
-def physical_unit(d,u):
+def product_resolution(left,right):
+    """Dimension/dtype arithmetic budget, not an outcome-tuned cutoff."""
+    neps=left.shape[-1]*torch.finfo(left.dtype).eps
+    if neps>=1:raise FloatingPointError('ARITHMETIC_RESOLUTION_UNAVAILABLE')
+    return float((left.abs()@right.abs()).double().norm())*neps/(1-neps)
+
+def physical_unit(d,u,uncertainty=0.):
     physical=d@u.T;norm=physical.double().norm()
     if not torch.isfinite(norm):raise FloatingPointError('NONFINITE_DIRECTION')
     # No epsilon floor or forced amplification of unresolved/zero values.
-    coefficient_norm=d.double().norm()
-    resolution=torch.finfo(d.dtype).eps*coefficient_norm
+    resolution=uncertainty+product_resolution(d,u.T)
     if norm==0 or norm<=resolution:
-        return torch.zeros_like(d),dict(status='UNDEFINED_ZERO_DIRECTION',physical_norm=float(norm),applied_norm=0.)
+        return torch.zeros_like(d),dict(status='UNDEFINED_ZERO_OR_NUMERICALLY_UNRESOLVED_DIRECTION',physical_norm=float(norm),applied_norm=0.,arithmetic_resolution=resolution)
     result=d/norm.to(d.dtype)
-    return result,dict(status='FINITE_DIRECTION',physical_norm=float(norm),applied_norm=float((result@u.T).double().norm()))
+    return result,dict(status='FINITE_DIRECTION',physical_norm=float(norm),applied_norm=float((result@u.T).double().norm()),arithmetic_resolution=resolution)
 
 def frobenius_finite_change(w,reference,delta):
     linear=((w-reference).double()*delta.double()).sum()
