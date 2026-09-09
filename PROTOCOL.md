@@ -16,6 +16,15 @@ SSH, Slurm, and rsync are the execution plane. Once SSH mesh is available,
 global-head may submit remote jobs after preflight, but the target server-head
 still owns the experiment lifecycle and evidence review.
 
+## Frozen CounterFact 10k policy (2026-09-09)
+
+향후 CounterFact 실험은 [고정 10k 정책](plans/global/fixed-counterfact-10k-policy.md)의
+`counterfact-fixed-10k-v1` 전용 자산만 사용한다. 1k/3k 등 소규모 실험은 같은
+순서의 앞 N개를 사용하며 shuffle·재추출·성능 기반 교체를 하지 않는다.
+모델 로딩 전 `scripts/fixed_counterfact.py verify` 또는 `load_prefix`로 확인한다.
+이미 실행 중인 작업과 봉인된 과거 결과는 이 정책을 소급 적용해 수정하지 않는다.
+원본 전체 데이터셋은 보존하며, raw 데이터는 Git에 넣지 않는다.
+
 ## Language Policy
 
 모든 agent 간 통신은 사용자가 바로 읽을 수 있도록 한글로 작성한다.
