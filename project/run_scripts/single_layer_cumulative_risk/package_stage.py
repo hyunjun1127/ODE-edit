@@ -2,6 +2,7 @@
 import argparse
 import json
 import subprocess
+import stat
 import sys
 from pathlib import Path
 from .import_assets import sha
@@ -17,6 +18,7 @@ def verify(package):
         p=package/member['path']
         if p.is_symlink() or not p.is_file():raise ValueError('INVALID_PACKAGE_MEMBER')
         if p.stat().st_size!=member['bytes'] or sha(p)!=member['sha256']:raise ValueError('PACKAGE_REHASH_MISMATCH')
+        if oct(stat.S_IMODE(p.stat().st_mode))!=member['mode']:raise ValueError('PACKAGE_MODE_MISMATCH')
     if digest(manifest['members'])!=manifest['members_root']:raise ValueError('MEMBERS_ROOT_MISMATCH')
     receipt=json.loads((package/'rooted-receipt.json').read_text());identity=receipt.pop('identity')
     if identity!=digest(receipt) or receipt['manifest_sha']!=sha(package/'package-manifest.json'):raise ValueError('ROOTED_RECEIPT_MISMATCH')
@@ -52,6 +54,12 @@ def main():
          input_lock_path=str(a.root/'input.lock.json'),input_lock_sha=sha(a.root/'input.lock.json'),
          control_override_path=str(a.root/'control-override.json'),control_override_sha=sha(a.root/'control-override.json'),
          raw_payload_git=0,model_action=0,performance_gates=0,stage=a.stage))
+    source_root=Path(__file__).resolve().parent
+    members=[dict(path=str(p),sha256=sha(p),bytes=p.stat().st_size) for p in sorted(source_root.iterdir()) if p.suffix in ['.py','.sbatch']]
+    save(a.output/'analysis-source-manifest.json',dict(members=members,members_root=digest(members),
+         execution_sources='runtime.json per immutable process in raw inventory; source HEAD and tree in job receipts',
+         imported_source_manifest=str(a.root/'imports/manifest-v2.json'),
+         imported_source_manifest_sha=sha(a.root/'imports/manifest-v2.json')))
     call('report','--package',a.output,'--completion',completion)
     print(json.dumps(verify(a.output)))
 
