@@ -4,6 +4,7 @@ from pathlib import Path
 from .analysis import write_csv
 from .discussion import build
 from .report import build_a,table
+from .final_synthesis import endpoint_rows
 
 class ReportTests(unittest.TestCase):
     def test_measured_schema_rendering_and_table_width(self):
@@ -27,5 +28,19 @@ class ReportTests(unittest.TestCase):
             self.assertIn('scientific_promotion=false',build(root,completion))
         with self.assertRaisesRegex(ValueError,'TABLE_COLUMN'):
             table(['a'],[[1,2]])
+
+    def test_final_selection_uses_training_lock_not_endpoint_success(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            write_csv(root/'paired-summary.csv',[
+                dict(endpoint='N-full',resolution='full',rate=1.),
+                dict(endpoint='B-alpha-0.02/eval-032',resolution='full',rate=0.),
+                dict(endpoint='C-alpha-0.02/eval-032',resolution='full',rate=0.),
+                dict(endpoint='C-alpha-0.2/eval-032',resolution='full',rate=1.),
+                dict(endpoint='C-alpha-0.02/eval-004',resolution='curve',rate=1.)])
+            result=endpoint_rows(root,'A',dict(selections={s:dict(alpha=.02) for s in ['B','C']}))
+            self.assertEqual(len(result),3)
+            self.assertEqual(sum(float(r['rate'])==0 for r in result),2)
+            self.assertNotIn('C-alpha-0.2/eval-032',{r['endpoint'] for r in result})
 
 if __name__=='__main__':unittest.main()
