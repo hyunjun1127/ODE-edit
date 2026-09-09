@@ -89,7 +89,7 @@ def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
             if not torch.isfinite(state).all():raise FloatingPointError('NONFINITE_B_TRIAL')
             with materialized(w,state,ledger):
                 measure(model,evaltok,records,panel,amplitude==.1,ledger,trial/'eval.json')
-                structure=structural(state,w0,we,m,c0)
+                structure=structural(state,w0,we,m,c0,data['K'].cuda())
             tensor_save(trial/'endpoint.pt',dict(W=state.cpu(),M=data['MN'],entry=entry,direction=name,amplitude=amplitude))
             save(trial/'receipt.json',dict(status='TERMINAL_VALID',direction=name,amplitude=amplitude,
                  intended_extra_norm=float(delta.double().norm()),actual_extra_norm=float((state-wn).double().norm()),
@@ -153,7 +153,7 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
             if step in [2,4,8]:
                 with materialized(w,state,ledger):
                     measure(model,evaltok,records,panel,step==8,ledger,directory/f'eval-{step:03d}.json')
-                    save(directory/f'structure-{step:03d}.json',structural(state,w0,we,m,c0))
+                    save(directory/f'structure-{step:03d}.json',structural(state,w0,we,m,c0,data['K'].cuda()))
             progress(output,'C_STEP_SAVED',arm=arm,step=step)
         with materialized(w,state,ledger):generation(model,evaltok,records,panel,ledger,directory/'generation.json')
         tensor_save(directory/'endpoint.pt',dict(W=state.cpu(),M=data['MN'],entry=entry,arm=arm,step=8))

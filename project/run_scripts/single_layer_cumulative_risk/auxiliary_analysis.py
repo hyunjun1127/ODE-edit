@@ -1,0 +1,83 @@
+"""Small raw-free tables from recorded artifacts; cumulative counters are not summed."""
+import argparse
+import json
+from pathlib import Path
+from .analysis import write_csv
+from .import_assets import sha
+from .records import save,digest
+
+def flatten(value,prefix=''):
+    result={}
+    for k,v in value.items():
+        name=f'{prefix}.{k}' if prefix else k
+        if isinstance(v,dict):result.update(flatten(v,name))
+        else:result[name]=v
+    return result
+
+def ledger_delta(current,previous):
+    """Difference snapshots in one process only, never across job ledgers."""
+    result={}
+    for category in ['seconds','counts']:
+        for name,value in current.get(category,{}).items():
+            delta=value-previous.get(category,{}).get(name,0)
+            if delta < -1e-8:raise ValueError('NONMONOTONE_PROCESS_LEDGER')
+            result[f'{category}.{name}']=delta
+    return result
+
+def collect(registry,repairs=()):
+    compute=[];structures=[];generation=[];index=[];inputs=[]
+    def load(path):
+        inputs.append(dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size))
+        return json.loads(path.read_text())
+    corrections=[load(Path(path)) for path in repairs]
+    corrected={row['original_structure_path']:row for receipt in corrections for row in receipt['rows']}
+    for entry,config in registry.items():
+        roots=[('native',Path(config['native']))]+[(Path(p).name,Path(p)) for p in config.get('direct',[])]
+        roots += [(stage,Path(config[stage])) for stage in ['B','C'] if stage in config]
+        for label,root in roots:
+            runtime=load(root/'runtime.json');terminal=load(root/'terminal.json')
+            index.append(dict(entry=entry,unit=label,path=str(root),source_head=runtime['source_head'],
+                job=runtime['slurm_job'],status=terminal['status'],W0_restored=terminal['W0_restored'],
+                runtime_sha=sha(root/'runtime.json'),terminal_sha=sha(root/'terminal.json')))
+            compute.append(dict(entry=entry,unit=label,scope='PROCESS_TOTAL_DO_NOT_SUM_WITH_CHILDREN',
+                **flatten(terminal['compute']),peak_gpu_bytes=terminal['peak_gpu_bytes'],
+                peak_reserved_gpu_bytes=terminal['peak_reserved_gpu_bytes']))
+            # Child counters include earlier candidates in the same process.
+            previous={}
+            for candidate in sorted(root.glob('*-alpha-*'),key=lambda p:float(p.name.split('-alpha-')[1])):
+                if not (candidate/'terminal.json').exists():continue
+                child=load(candidate/'terminal.json')
+                compute.append(dict(entry=entry,unit=candidate.name,scope='INCREMENT_SINCE_PREVIOUS_CANDIDATE_TERMINAL',
+                    includes_initial_setup=not bool(previous),**ledger_delta(child['compute'],previous)))
+                previous=child['compute']
+            for path in sorted(root.rglob('*structure*.json')):
+                observed=load(path);correction=corrected.get(str(path))
+                if correction:
+                    if sha(path)!=correction['original_structure_sha']:raise ValueError('CORRECTION_INPUT_MISMATCH')
+                    observed=correction['complete_structure']
+                structures.append(dict(entry=entry,unit=label,member=str(path.relative_to(root)),
+                     precision_status='SEALED_ALGEBRA_ONLY_CORRECTION' if correction else 'RECORDED_SOURCE',
+                     original_covariance_risk=correction['original_covariance_risk'] if correction else observed['global_covariance_risk'],
+                     **flatten(observed)))
+            for path in sorted(root.rglob('*generation.json')):
+                observed=load(path);rows=observed['rows']
+                for kind in ['rewrite','rephrase']:
+                    group=[r for r in rows if (r['prompt_index']==0)==(kind=='rewrite')]
+                    generation.append(dict(entry=entry,unit=label,member=str(path.relative_to(root)),kind=kind,
+                         literal_prefix_numerator=sum(r['literal_prefix'] for r in group),denominator=len(group),
+                         semantic_accuracy_claim=False,raw_output_published=False))
+    return dict(compute=compute,structures=structures,generation=generation,index=index,inputs=inputs,corrections=corrections)
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--registry',type=Path,required=True)
+    p.add_argument('--output',type=Path,required=True);p.add_argument('--covariance-repair',type=Path,action='append',default=[])
+    a=p.parse_args();data=collect(json.loads(a.registry.read_text()),a.covariance_repair)
+    a.output.mkdir(parents=True,exist_ok=False)
+    outputs=[write_csv(a.output/name,data[key]) for name,key in [('compute-summary.csv','compute'),
+         ('structural-risk.csv','structures'),('generation-literal-summary.csv','generation'),('run-index.csv','index')]]
+    save(a.output/'auxiliary-manifest.json',dict(outputs=outputs,inputs=data['inputs'],
+         inputs_root=digest(data['inputs']),outputs_root=digest(outputs),C0_corrections=data['corrections'],
+         raw_generation_in_git=0,FLOPs='NOT_RECORDED',imputation=0,
+         counter_rule='Process totals are authoritative. Child counters are cumulative and differenced within a process only.'))
+
+if __name__=='__main__':main()

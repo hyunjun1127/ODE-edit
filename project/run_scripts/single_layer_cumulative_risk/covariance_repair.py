@@ -7,7 +7,7 @@ import argparse
 import json
 from pathlib import Path
 import torch
-from .runtime import covariance
+from .runtime import covariance,structural
 from .records import save,tensor_sha,Ledger
 from .import_assets import sha
 
@@ -18,7 +18,7 @@ def repair(native,direct,output):
     assert sha(native/'prepared.pt')==receipt['sha256']
     prepared=torch.load(native/'prepared.pt',map_location='cpu',weights_only=True,mmap=True)
     w0=prepared['W0'].cuda();we=prepared['We'].cuda();wn=prepared['WN'].cuda()
-    c0=covariance();members=[]
+    c0=covariance();m=prepared['M'][0].cuda();k=prepared['K'].cuda();members=[]
     states=[('W0',w0,native/'W0-structure.json',str(native/'prepared.pt')),
             ('ENTRY',we,native/'ENTRY-structure.json',str(native/'prepared.pt')),
             ('N',wn,native/'N-structure.json',str(native/'prepared.pt'))]
@@ -29,15 +29,18 @@ def repair(native,direct,output):
         original=json.loads(source.read_text());d=w-w0
         with torch.no_grad(),ledger.time('covariance_reduction_repair'):
             corrected=float(((d@c0).double()*d.double()).sum())*.5
+            complete_structure=structural(w,w0,we,m,c0,k)
         row=dict(endpoint=name,original_structure_path=str(source),original_structure_sha=sha(source),
                  state_source=state_source,selected_weight_sha=tensor_sha(w),
                  original_covariance_risk=original['global_covariance_risk'],corrected_covariance_risk=corrected,
                  delta=corrected-original['global_covariance_risk'],model_forward=0,writer_actions=0,
+                 complete_structure=complete_structure,
+                 added_observations=['local_operator_estimate','local_covariance_risk','current_key_action','native_action'],
                  method='native Torch FP32 mom2/count, original covariance definition',scientific_promotion=False)
         members.append(row)
     for name,w,source,state_source in states:calculate(name,w,source,state_source)
     for root in direct:
-        for candidate in sorted(root.glob('B-alpha-*')):
+        for candidate in sorted(root.glob('*-alpha-*')):
             for step in [4,8,16,24,32]:
                 path=candidate/f'snapshot-{step:03d}.pt'
                 if not path.exists():raise RuntimeError(f'MISSING_SNAPSHOT {path}')

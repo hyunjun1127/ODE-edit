@@ -1,5 +1,6 @@
 import unittest
 from .analysis import paired_rows,aggregate,bootstrap,csv_bytes
+from .auxiliary_analysis import ledger_delta
 
 class AnalysisTests(unittest.TestCase):
     def test_pairs_denominators_and_tie(self):
@@ -16,5 +17,10 @@ class AnalysisTests(unittest.TestCase):
         a=bootstrap(rows);self.assertEqual(a['cluster_count'],4)
         self.assertEqual(a,bootstrap(rows));self.assertEqual(a['success_delta_ci95'],[1.,1.])
         self.assertEqual(csv_bytes([a]),csv_bytes([a]))
+    def test_cumulative_child_compute_is_differenced_not_summed(self):
+        one={'seconds':{'objective':10},'counts':{'forward':100}}
+        two={'seconds':{'objective':25},'counts':{'forward':250}}
+        self.assertEqual(ledger_delta(two,one),{'seconds.objective':15,'counts.forward':150})
+        with self.assertRaisesRegex(ValueError,'NONMONOTONE'):ledger_delta(one,two)
 
 if __name__=='__main__':unittest.main()

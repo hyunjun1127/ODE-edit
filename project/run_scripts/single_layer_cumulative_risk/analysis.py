@@ -98,13 +98,48 @@ def collect(root,registry):
                 aggregates.append(dict(entry=entry,endpoint=endpoint,panel=panel,metric=metric,resolution=observed['resolution'],**aggregate(group)))
     return aggregates,requests,trajectories,members
 
+def collect_later(registry,stage):
+    """B/C comparisons retain both historical-entry and common-native references."""
+    if stage not in ['B','C']:raise ValueError(stage)
+    aggregates=[];requests=[];trajectories=[];members=[]
+    def load(path):
+        raw=path.read_bytes();members.append(dict(path=str(path),sha256=hashlib.sha256(raw).hexdigest(),bytes=len(raw)))
+        return json.loads(raw)
+    for entry,config in registry.items():
+        if stage not in config:continue
+        native=Path(config['native']);root=Path(config[stage])
+        bases={name:load(native/f'{file}-full.json')['rows'] for name,file in [('ENTRY','ENTRY'),('N','N'),('W0','W0')]}
+        endpoints=[(native/'N-full.json','N_REUSED')]
+        pattern='*/eval.json' if stage=='B' else '*/eval-*.json'
+        endpoints += [(p,str(p.relative_to(root)).removesuffix('.json')) for p in sorted(root.glob(pattern))]
+        for path,endpoint in endpoints:
+            observed=load(path)
+            for reference in ['ENTRY','N']:
+                joined=paired_rows(observed['rows'],bases[reference],bases['W0'])
+                for row in joined:
+                    # Field names inherited/additional refer to the named reference.
+                    requests.append(dict(entry=entry,endpoint=endpoint,reference=reference,
+                         resolution=observed['resolution'],**row))
+                for panel,metric in sorted({(r['panel'],r['metric']) for r in joined}):
+                    group=[r for r in joined if (r['panel'],r['metric'])==(panel,metric)]
+                    aggregates.append(dict(entry=entry,endpoint=endpoint,reference=reference,panel=panel,metric=metric,
+                         resolution=observed['resolution'],**aggregate(group)))
+        if stage=='C':
+            for path in sorted(root.glob('*/step-*.json')):
+                trajectories.append(dict(entry=entry,endpoint=path.parent.name,**load(path)))
+        else:
+            for path in sorted(root.glob('*/receipt.json')):
+                trajectories.append(dict(entry=entry,endpoint=path.parent.name,**load(path)))
+    return aggregates,requests,trajectories,members
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--registry',type=Path,required=True)
+    p.add_argument('--stage',choices=['A','B','C'],default='A')
     p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False)
-    registry=json.loads(a.registry.read_text());tables=collect(a.root,registry)
+    registry=json.loads(a.registry.read_text());tables=collect(a.root,registry) if a.stage=='A' else collect_later(registry,a.stage)
     outputs=[write_csv(a.output/'paired-summary.csv',tables[0]),write_csv(a.output/'request-metrics.csv.gz',tables[1],True),
              write_csv(a.output/'trajectory.csv',tables[2])]
-    save(a.output/'analysis-manifest.json',dict(inputs=tables[3],outputs=outputs,registry_sha=digest(registry),
+    save(a.output/'analysis-manifest.json',dict(stage=a.stage,inputs=tables[3],outputs=outputs,registry_sha=digest(registry),
          input_root=digest(tables[3]),output_root=digest(outputs),imputation=0,interpolation=0,model_action=0,
          scientific_promotion=False,full_campaign_completeness='MUST_BE_CHECKED_AGAINST_REQUIREMENTS_EVIDENCE'))
 

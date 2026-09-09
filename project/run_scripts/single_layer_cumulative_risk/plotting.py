@@ -37,11 +37,52 @@ def render(rows,kind):
         fig.savefig(buffer,format='png',metadata={'Software':'ODE-edit cumulative-risk plotting'})
         plt.close(fig);return buffer.getvalue()
 
+def companion(rows,trajectories,kind):
+    entries=[e for e in ['Early','Middle','Late'] if any(r['entry']==e for r in rows)]
+    train={(r['entry'],r['endpoint']+f"/eval-{int(r['step']):03d}"):r for r in trajectories}
+    with plt.rc_context({'font.family':'DejaVu Sans','font.size':9,'figure.dpi':120,'savefig.dpi':120}):
+        fig,axes=plt.subplots(1,len(entries),figsize=(5*len(entries),4),squeeze=False)
+        for ax,entry in zip(axes[0],entries):
+            per={(r['endpoint'],r['panel'],r['metric']):r for r in rows if r['entry']==entry}
+            for endpoint in sorted({r['endpoint'] for r in rows if r['entry']==entry}):
+                ps=per.get((endpoint,'Current100','PS'));rs=per.get((endpoint,'Current100','RS'))
+                if kind=='rs_ps_ns':
+                    ns=per.get((endpoint,'Current100','NS'))
+                    if ps and rs and ns:
+                        ax.scatter(100*float(rs['rate']),100*float(ns['rate']),c=[100*float(ps['rate'])],
+                             vmin=0,vmax=100,cmap='viridis',s=26)
+                elif kind=='ps_retention':
+                    if not ps:continue
+                    for metric,marker in [('RS','o'),('PS','x')]:
+                        past=per.get((endpoint,'Past100',metric))
+                        if past:ax.scatter(100*float(ps['rate']),100*float(past['loss'])/float(past['denominator']),
+                                          marker=marker,c='#2878b5' if metric=='RS' else '#c95c25',s=26)
+                else:
+                    point=train.get((entry,endpoint))
+                    if not point:continue # Native has no recorded common train NLL; no substitution.
+                    for panel,color in [('Current100','#2878b5'),('Fixed100','#c95c25'),('Past100','#3c9166')]:
+                        ns=per.get((endpoint,panel,'NS'))
+                        if ns:ax.scatter(float(point['edit_nll']),float(ns['additional_margin_mean']),color=color,s=26)
+            ax.set_title(entry);ax.grid(alpha=.2)
+            labels={'rs_ps_ns':('Current RS (%)','Current NS (%); color = Current PS (%)'),
+                    'ps_retention':('Current PS (%)','Past entry-success→failure / all prompts (%)'),
+                    'train_ns':('Observed six-context train NLL','NS margin change from entry')}
+            ax.set_xlabel(labels[kind][0]);ax.set_ylabel(labels[kind][1])
+        if kind=='rs_ps_ns':
+            fig.colorbar(plt.cm.ScalarMappable(norm=plt.Normalize(0,100),cmap='viridis'),ax=axes[0].tolist(),label='Current PS (%)',fraction=.025)
+        fig.suptitle('Observed companion comparisons; no interpolation or success filtering')
+        if kind!='rs_ps_ns':fig.tight_layout()
+        buffer=io.BytesIO();fig.savefig(buffer,format='png',metadata={'Software':'ODE-edit cumulative-risk plotting'})
+        plt.close(fig);return buffer.getvalue()
+
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--input',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--input',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--trajectory',type=Path);a=p.parse_args()
     data=a.input.read_bytes();rows=list(csv.DictReader(io.StringIO(data.decode())))
     # Separate resolutions: curve NS is 2/request and is never labeled full NS.
     a.output.mkdir(parents=True,exist_ok=False);members=[]
+    trajectory_data=a.trajectory.read_bytes() if a.trajectory else b''
+    trajectories=list(csv.DictReader(io.StringIO(trajectory_data.decode()))) if trajectory_data else []
     for resolution in ['curve','full']:
         selected=[r for r in rows if r['resolution']==resolution]
         if not selected:continue
@@ -51,8 +92,15 @@ def main():
             path=a.output/f'{resolution}-{kind}-locality.png'
             with path.open('xb') as f:f.write(first)
             members.append(dict(path=path.name,sha256=hashlib.sha256(first).hexdigest(),bytes=len(first),byte_reproduction=True))
+        for kind in ['rs_ps_ns','ps_retention']+(['train_ns'] if trajectories else []):
+            first=companion(selected,trajectories,kind);second=companion(selected,trajectories,kind)
+            assert first==second,'NONDETERMINISTIC_PLOT_BYTES'
+            path=a.output/f'{resolution}-{kind}.png'
+            with path.open('xb') as f:f.write(first)
+            members.append(dict(path=path.name,sha256=hashlib.sha256(first).hexdigest(),bytes=len(first),byte_reproduction=True))
     save(a.output/'plot-reproduction.json',dict(input_path=str(a.input),input_sha256=hashlib.sha256(data).hexdigest(),
-         command=f'python -m project.run_scripts.single_layer_cumulative_risk.plotting --input {a.input} --output {a.output}',
+         command=f'python -m project.run_scripts.single_layer_cumulative_risk.plotting --input {a.input} --output {a.output}'+(f' --trajectory {a.trajectory}' if a.trajectory else ''),
+         trajectory_path=str(a.trajectory) if a.trajectory else None,trajectory_sha256=hashlib.sha256(trajectory_data).hexdigest() if trajectory_data else None,
          python=platform.python_version(),matplotlib=matplotlib.__version__,numpy=np.__version__,outputs=members,
          image_tools=0,manual_edit=0))
 

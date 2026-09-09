@@ -19,26 +19,32 @@ from .evaluation import measure,materialized,generation
 def finite_state(w):
     if not torch.isfinite(w).all():raise FloatingPointError('NONFINITE_WEIGHT')
 
-def structural(w,w0,we,m,c0):
+def structural(w,w0,we,m,c0,k=None):
     # FP64 scalars/chunk reductions; parameter storage remains FP32.
     d=(w-w0);local=w-we
     def norm2(x):return float(x.double().square().sum())
     with torch.no_grad():
         cov=float(((d@c0).double()*d.double()).sum())*.5
         history=float(((local@m).double()*local.double()).sum())
-        estimates=[]
-        for seed in [20260910,20260911]:
-            gen=torch.Generator(device=w.device);gen.manual_seed(seed)
-            v=torch.randn(d.shape[1],generator=gen,device=w.device);v=v/v.norm()
-            for _ in range(30):
-                y=d.T@(d@v);norm=y.norm()
-                if norm==0:break
-                v=y/norm
-            eigen=(d@v).square().sum();res=(d.T@(d@v)-eigen*v).norm()
-            estimates.append(dict(singular_estimate=float(eigen.sqrt()),eigen_residual=float(res),seed=seed))
+        def spectral(x):
+            estimates=[]
+            for seed in [20260910,20260911]:
+                gen=torch.Generator(device=w.device);gen.manual_seed(seed)
+                v=torch.randn(x.shape[1],generator=gen,device=w.device);v=v/v.norm()
+                for _ in range(30):
+                    y=x.T@(x@v);norm=y.norm()
+                    if norm==0:break
+                    v=y/norm
+                eigen=(x@v).square().sum();res=(x.T@(x@v)-eigen*v).norm()
+                estimates.append(dict(singular_estimate=float(eigen.sqrt()),eigen_residual=float(res),seed=seed))
+            return estimates
+        estimates=spectral(d);local_estimates=spectral(local)
+        local_cov=float(((local@c0).double()*local.double()).sum())*.5
     return dict(global_frobenius_sq=norm2(d),local_frobenius_sq=norm2(local),global_covariance_risk=cov,
                 local_history_action=history,local_L2_action=norm2(local),operator_estimates=estimates,
-                operator_is_upper_bound=False)
+                local_operator_estimates=local_estimates,local_covariance_risk=local_cov,
+                native_action=history+norm2(local),current_key_action=norm2(local@k) if k is not None else None,
+                current_key_action_in_native_penalty=False,operator_is_upper_bound=False)
 
 def covariance():
     # Same serialized native second moment, not checkpoint's empty covariance map.
@@ -85,14 +91,14 @@ def native_run(entry,output,model,tok,evaltok,records,cp,targets,current,w,w0,le
     for name,state in [('W0',w0),('ENTRY',we),('N',wn)]:
         with materialized(w,state,ledger):
             measure(model,evaltok,records,panel,True,ledger,output/f'{name}-full.json')
-            save(output/f'{name}-structure.json',structural(state,w0,we,m,c0))
+            save(output/f'{name}-structure.json',structural(state,w0,we,m,c0,k))
             if name=='N':generation(model,evaltok,records,panel,ledger,output/'N-generation.json')
         progress(output,'FULL_EVALUATION_SAVED',entry=entry,endpoint=name)
     for scale in [.25,.5,.75,1.25]:
         state=we+scale*delta
         with materialized(w,state,ledger):
             measure(model,evaltok,records,panel,False,ledger,output/f'native-scale-{scale}-curve.json')
-            save(output/f'native-scale-{scale}-structure.json',structural(state,w0,we,m,c0))
+            save(output/f'native-scale-{scale}-structure.json',structural(state,w0,we,m,c0,k))
         progress(output,'NATIVE_SCALING_SAVED',entry=entry,scale=scale)
 
 def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
@@ -105,7 +111,7 @@ def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,recor
     for r in requests:
         if not r['target_new']['str'].startswith(' '):r['target_new']=dict(r['target_new'],str=' '+r['target_new']['str'])
     we=data['We'].cuda();u=data['Ub' if support=='B' else 'Q'].cuda();m=data['M'][0].cuda()
-    metric=reduced_metric(u,m);c0=covariance()
+    metric=reduced_metric(u,m);c0=covariance();k=data['K'].cuda()
     with torch.no_grad():w.copy_(we)
     native=kernel()
     objective=DirectObjective(model,tok,requests,data['contexts'],native.find_fact_lookup_idx,we,u,metric,data['J_native'],ledger,
@@ -139,7 +145,7 @@ def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,recor
                 if step in [4,8,16,24,32]:
                     with materialized(w,state,ledger):
                         measure(model,evaltok,records,panel,step==32,ledger,candidate/f'eval-{step:03d}.json')
-                        save(candidate/f'structure-{step:03d}.json',structural(state,w0,we,m,c0))
+                        save(candidate/f'structure-{step:03d}.json',structural(state,w0,we,m,c0,k))
                 progress(output,'DIRECT_STEP',entry=entry,support=support,alpha=alpha,step=step,objective=terms['objective'])
                 if step==1:save(candidate/'initial-execution.json',dict(input_applied=True,gradient_finite=True,step_weight_changed=stepnorm>0,
                        zero_update_is_observation=True,persistent_training_mutation=0,logical_requests=100,contexts_per_request=len(objective.contexts),
@@ -184,7 +190,7 @@ def main():
         if args.repair_r1_covariance:
             assert args.mode=='native'
             from .covariance_repair import repair
-            repair(ROOT/'A/Middle/native-r1',[ROOT/'A/Middle/direct-B-r1'],output/'R1-C0-diagnostic-repair')
+            repair(ROOT/'A/Middle/native-r1',[ROOT/'A/Middle/direct-B-r1',ROOT/'A/Middle/direct-C-r2'],output/'Middle-structure-diagnostic-repair')
         if args.mode in ['B','C']:
             from .later_stages import require_previous
             require_previous(args.prior_stage_receipt,'A' if args.mode=='B' else 'B')
