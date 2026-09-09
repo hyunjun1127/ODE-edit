@@ -1,0 +1,170 @@
+[
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/runtime.json",
+    "bytes": 3630,
+    "sha256": "6a1a193c7fc1a171de2a85a51a0261e9209d1bcae40aa004a8dad929fd721a5e",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B100/commit.json",
+    "bytes": 3261,
+    "sha256": "f83d8e55e02be75d0a719c145b5e2d13fe960f1cb451e1be9a893f801cce026e",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B100/seen-full.json",
+    "bytes": 66631772,
+    "sha256": "c7032f988a03089cd464c5cd1a4f67a3bd1cd515a9e26d408965c0bdadd3aacd",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/terminal.json",
+    "sha256": "bb99df1bb83fe8fab2ab1b9f75498ab1f72a71e2c8cf34d11c5e90ae253180f1",
+    "bytes": 97725,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/runtime.json",
+    "bytes": 3659,
+    "sha256": "850ed7ce290c8d6d26c82912b6a8b5d91a0ee3d86394a279aa2aca83db6a2d08",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B100/commit.json",
+    "bytes": 2689,
+    "sha256": "15e91297df7662f0a651c482c1d0375868d9fc5af5577e70781051644b38f282",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B100/seen-full.json",
+    "bytes": 66630929,
+    "sha256": "1a8c5bef959cc0edda327be89df40814acbc3fa3de64a484c2bdf3e3a6e45c91",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/terminal.json",
+    "sha256": "00a2f951f2c3d6348e6cd3b339c028a0736b8b0ae25a33720018b4d2b73d7c09",
+    "bytes": 97741,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/runtime.json",
+    "bytes": 3297,
+    "sha256": "92c8e1714f364261adf3f6c38bd888da1f31266e3b21690fdeddc6ff86c952f2",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/B100/commit.json",
+    "bytes": 2515,
+    "sha256": "9e25c9948ffc4ddd0fd389ce5d38dca16764b36898623e73c577933c1c3e99cc",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/B100/seen-full.json",
+    "bytes": 66610607,
+    "sha256": "57d71a88154a0b00376aa84a9d6804b1796f1c6386e56680d426839137c95646",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/terminal.json",
+    "sha256": "5a6e8836b438a886a32ee586b390cbb773be4f725fc5a0b50036e862e38a2546",
+    "bytes": 97726,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/runtime.json",
+    "bytes": 3308,
+    "sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/commit.json",
+    "bytes": 2230,
+    "sha256": "ee4b353fc8896233d55e173ba49eb10df5935e8726ac7e720fef0c4b97538ad5",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+    "bytes": 66621830,
+    "sha256": "600ffc967dd8c27f7b562b31f42443b0b67d5a7951ef4197426577a4f22ddc69",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/terminal.json",
+    "sha256": "0605044830a9defb0d00bd5c46a47051e6ea5f73d353c22001f3b07ae87712cd",
+    "bytes": 97740,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/runtime.json",
+    "bytes": 3297,
+    "sha256": "8e08629d2ba3f9e9a34a5bbad1caf7e8065031eac8164be0881901a0a626587e",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/B100/commit.json",
+    "bytes": 2518,
+    "sha256": "55f73a026d907fed76d95b6ab145f401e2f9c03ef3301354046bed11c4645fd4",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/B100/seen-full.json",
+    "bytes": 66611293,
+    "sha256": "9adbc334111d03a17ed6603ec2304ce05e5ad404304121ad80b3b05eddc6d479",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/terminal.json",
+    "sha256": "013ebc9dc082b5399010c93148991d27a2751a26235d31e87baaf37fcc9bbe6b",
+    "bytes": 97727,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/runtime.json",
+    "bytes": 3308,
+    "sha256": "dfe1781baf1a0656628e2425df3683ce20f7ea507d7e1f5da30ef99f75ff5ec6",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/B100/commit.json",
+    "bytes": 2233,
+    "sha256": "82d5bc36cbaf3b28bf4a4001c636441cde2eef472d8007988d75ebd77765fe2b",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/B100/seen-full.json",
+    "bytes": 66630893,
+    "sha256": "b2dd4cf079e9a7453ee049f4b02d8f56039d4af16c62f47c31524a7e6b66833e",
+    "status": "FULL_REHASH_PASS"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/terminal.json",
+    "sha256": "27f3b1ceed9cd8e18cd12799864173cb93c938ba8179df6a077b6aba0b3a52cb",
+    "bytes": 97740,
+    "status": "SELF_ROOT_REHASH_NO_EXTERNAL_SIGNATURE"
+  }
+]

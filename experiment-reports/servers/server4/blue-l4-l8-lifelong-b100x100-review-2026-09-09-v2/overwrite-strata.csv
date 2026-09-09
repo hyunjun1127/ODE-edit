@@ -1,0 +1,19 @@
+arm,category,denominator,before_num,after_num,retained,lost,gained,both_failed,conditional_loss_den,conditional_loss_rate,paired_rate_delta,arm_display_label
+MEMIT_ORIGINAL,no_later_same_subject_relation,9783,9782,7060,7060,2722,0,1,9782,0.2782662032304232,-0.2782377593785138,MEMIT_BLUE (L4+L8)
+MEMIT_ORIGINAL,later_different_target_same_subject_relation,212,212,118,118,94,0,0,212,0.44339622641509435,-0.44339622641509435,MEMIT_BLUE (L4+L8)
+MEMIT_ORIGINAL,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,MEMIT_BLUE (L4+L8)
+AlphaEdit_ORIGINAL,no_later_same_subject_relation,9783,9783,9720,9720,63,0,0,9783,0.006439742410303588,-0.0064397424103035394,AlphaEdit_BLUE (L4+L8)
+AlphaEdit_ORIGINAL,later_different_target_same_subject_relation,212,211,163,163,48,0,1,211,0.22748815165876776,-0.2264150943396226,AlphaEdit_BLUE (L4+L8)
+AlphaEdit_ORIGINAL,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,AlphaEdit_BLUE (L4+L8)
+MEMIT_L4_ONLY,no_later_same_subject_relation,9783,9718,7589,7568,2150,21,44,9718,0.22123893805309736,-0.2176224062148625,MEMIT_BLUE_L4_ONLY
+MEMIT_L4_ONLY,later_different_target_same_subject_relation,212,211,128,128,83,0,1,211,0.3933649289099526,-0.3915094339622641,MEMIT_BLUE_L4_ONLY
+MEMIT_L4_ONLY,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,MEMIT_BLUE_L4_ONLY
+AlphaEdit_L4_ONLY,no_later_same_subject_relation,9783,9778,9743,9742,36,1,4,9778,0.0036817345060339538,-0.003577634672390806,AlphaEdit_BLUE_L4_ONLY
+AlphaEdit_L4_ONLY,later_different_target_same_subject_relation,212,210,191,191,19,0,2,210,0.09047619047619047,-0.089622641509434,AlphaEdit_BLUE_L4_ONLY
+AlphaEdit_L4_ONLY,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,AlphaEdit_BLUE_L4_ONLY
+MEMIT_L8_ONLY,no_later_same_subject_relation,9783,9466,8047,7904,1562,143,174,9466,0.16501162053665752,-0.14504753143207605,MEMIT_BLUE_L8_ONLY
+MEMIT_L8_ONLY,later_different_target_same_subject_relation,212,205,125,125,80,0,7,205,0.3902439024390244,-0.37735849056603765,MEMIT_BLUE_L8_ONLY
+MEMIT_L8_ONLY,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,MEMIT_BLUE_L8_ONLY
+AlphaEdit_L8_ONLY,no_later_same_subject_relation,9783,9772,9204,9202,570,2,9,9772,0.058329922226770366,-0.05805989982622928,AlphaEdit_BLUE_L8_ONLY
+AlphaEdit_L8_ONLY,later_different_target_same_subject_relation,212,211,187,186,25,1,0,211,0.11848341232227488,-0.1132075471698113,AlphaEdit_BLUE_L8_ONLY
+AlphaEdit_L8_ONLY,later_same_target_only,5,5,5,5,0,0,0,5,0.0,0.0,AlphaEdit_BLUE_L8_ONLY

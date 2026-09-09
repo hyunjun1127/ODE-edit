@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "tests": 16,
+  "errors": 0,
+  "failures": 0,
+  "scope": "6 revision tests +10 related focused tests; no GPU/model/evaluator",
+  "command": "python -m unittest -q project.run_scripts.blue_lifelong_analysis.test_revision project.run_scripts.blue_lifelong_analysis.test_focused"
+}

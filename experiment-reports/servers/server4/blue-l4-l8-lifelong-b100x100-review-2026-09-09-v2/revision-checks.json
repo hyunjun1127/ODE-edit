@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "old_csv_count": 30,
+  "all_original_columns_values_order_exact": true,
+  "figures_byte_identical": 10,
+  "base_same10k": "NOT_AVAILABLE",
+  "preedit_full10k": "NOT_RECORDED",
+  "new_GPU_model_evaluator_Slurm": 0
+}

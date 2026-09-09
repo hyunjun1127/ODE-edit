@@ -1,0 +1,450 @@
+[
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/main-submission.json",
+    "bytes": 2441,
+    "sha256": "4c59b87aeba5d9d6468b5902bdbe8b1000d95de2d787b552c7fa5d1372fee928",
+    "receipt": {
+      "array": "0-5%2",
+      "cap2": true,
+      "job": "39183",
+      "lock_sha256": "0f91b5615bc9b7c878c77c9217e310aa8b066d237938e65f32fbb92251c51837",
+      "mem_mib": 60416,
+      "mode": "main",
+      "monitoring": "PAUSE_AFTER_MAIN_RELEASE",
+      "output": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output",
+      "release_inspection": "JobId=39183 ArrayJobId=39183 ArrayTaskId=0-5%2 ArrayTaskThrottle=2 JobName=odeedit_blue_life_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1 Nice=0 Account=lab QOS=normal JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-09-08T01:21:44 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-08T01:21:44 Scheduler=Main Partition=gpu AllocNode:Sid=server4:3701640 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/run.sbatch SubmitLine=sbatch --hold --parsable --chdir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 --output=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/main-%A_%a.out --error=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/main-%A_%a.err --array=0-5%2 /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/run.sbatch /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1 main WorkDir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 StdErr=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/main-39183_4294967294.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/main-39183_4294967294.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+      "source_archive_sha256": "41bfacf8c9097ceb1c1c90c343b7d5676f8666d24c88438e9c7ab732a0bfb297",
+      "status": "HELD_INSPECTION_PASS_RELEASED",
+      "unrelated_job_mutations": 0
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/smoke-submission.json",
+    "bytes": 2376,
+    "sha256": "e4b5fb497657f359a95b3afdca028486fa6260c3e18fb66cf35a7b942b46cad8",
+    "receipt": {
+      "array": null,
+      "cap2": true,
+      "job": "39172",
+      "lock_sha256": "0f91b5615bc9b7c878c77c9217e310aa8b066d237938e65f32fbb92251c51837",
+      "mem_mib": 60416,
+      "mode": "smoke",
+      "monitoring": "ESSENTIAL_SMOKE_GATE_ONLY",
+      "output": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output",
+      "release_inspection": "JobId=39172 JobName=odeedit_blue_life_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1 Nice=0 Account=lab QOS=normal JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-09-08T01:06:42 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-08T01:06:42 Scheduler=Main Partition=gpu AllocNode:Sid=server4:3685342 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/run.sbatch SubmitLine=sbatch --hold --parsable --chdir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 --output=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/smoke-%A_%a.out --error=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/smoke-%A_%a.err /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/run.sbatch /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1 smoke WorkDir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 StdErr=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/smoke-39172_4294967294.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/logs/smoke-39172_4294967294.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+      "source_archive_sha256": "41bfacf8c9097ceb1c1c90c343b7d5676f8666d24c88438e9c7ab732a0bfb297",
+      "status": "HELD_INSPECTION_PASS_RELEASED",
+      "unrelated_job_mutations": 0
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json",
+    "bytes": 2058,
+    "sha256": "49392a60dc51a5d797b7c11adce0e21e55ed9faaa6d64c9f52455454b3850a8f",
+    "receipt": {
+      "instruction_id": "ODEEDIT-S06-BLUE-MEMIT-ALPHAEDIT-LIFELONG-B100X100-SH4-V1",
+      "authority": "USER_DIRECTED_EVERY_1000_EDIT_CHECKPOINT_AND_FULL_SEEN_EVALUATION",
+      "old_checkpoint_batches": [
+        1,
+        5,
+        10,
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "checkpoint_batches": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "replacement_cells": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "unchanged_running": {
+        "cell": 0,
+        "job": "39183_0",
+        "child": 39218,
+        "method": "MEMIT_BLUE_ORIGINAL",
+        "source_archive": "41bfacf8c9097ceb1c1c90c343b7d5676f8666d24c88438e9c7ab732a0bfb297",
+        "actual_loaded_lock": "0f91b5615bc9b7c878c77c9217e310aa8b066d237938e65f32fbb92251c51837",
+        "committed_at_bounded_check": [
+          1,
+          2
+        ],
+        "stored_checkpoint_batches_at_check": [
+          1
+        ],
+        "live_schedule_mutation": false
+      },
+      "cancelled_pending": {
+        "jobs": "39183_1..39183_5",
+        "scheduler": "CANCELLED by1025 elapsed00:00:00",
+        "science_denominator": 0
+      },
+      "runtime_science_equation_change": 0,
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "evaluation": "At actual W_k evaluate ALL seen prefix canonical RS/PS/NS and new/true NLL pairs; current rows reused; final W100 evaluated once",
+      "saved_weight_keys": {
+        "original": [
+          "model.layers.4.mlp.down_proj.weight",
+          "model.layers.8.mlp.down_proj.weight"
+        ],
+        "L4_ONLY": [
+          "model.layers.4.mlp.down_proj.weight"
+        ],
+        "L8_ONLY": [
+          "model.layers.8.mlp.down_proj.weight"
+        ]
+      },
+      "saved_state": "AlphaEdit: full dense M for every selected layer. MEMIT: empty history sentinel, no invented history; native static covariance NPZ identities and runtime tensor hashes. All: selected weights, contexts, Python/NumPy/torch/CUDA RNG, source/config/base-model/stats/sample lock references.",
+      "restore_claim": "Selected-tensor/cache CPU reload + byte hash verification, NOT full continuation replay validated. Immutable nonedited base required.",
+      "uniform_six_chain_schedule": "NOT_ESTABLISHED: running cell0 still old schedule. For uniform schedule GH must authorize interruption/replacement of only cell0 or an exact-state resume adaptation. No automatic action on running cell.",
+      "new_gpu_smokes": 0,
+      "monitoring_after_queue": "MONITORING_PAUSED_AWAITING_GH"
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/old-lineage-exclusion.json",
+    "bytes": 3488,
+    "sha256": "f56da5c7821936b99eab7906edc0f52153dedc192bf2304fdcfeeac73aa18280",
+    "receipt": {
+      "GPU_compute_pid_absent": true,
+      "GPU_utilization": "NOT_MEASURED_HERE",
+      "Slurm_queue_absent": true,
+      "allocated_GPU_hours": 0.7683333333333333,
+      "allocated_elapsed_seconds": 2766,
+      "checkpoint_files": [
+        {
+          "bytes": 469784545,
+          "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B001/W-method-state.pt"
+        },
+        {
+          "bytes": 469785697,
+          "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B005/W-method-state.pt"
+        }
+      ],
+      "child": 39218,
+      "commits": [
+        {
+          "batch": 1,
+          "identity": {
+            "bytes": 3238,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B001/commit.json",
+            "sha256": "fcda97cf9dcea4aff66c9543237f33cf8b744df8c35ac189d300838a4e0ada04"
+          },
+          "requests": 100,
+          "seen_requests": 100
+        },
+        {
+          "batch": 2,
+          "identity": {
+            "bytes": 2942,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B002/commit.json",
+            "sha256": "b158545b43df1574119fa79ad1b27fbb381892e7120c4ff58321828a48d7f52a"
+          },
+          "requests": 100,
+          "seen_requests": 200
+        },
+        {
+          "batch": 3,
+          "identity": {
+            "bytes": 2944,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B003/commit.json",
+            "sha256": "82410cffeb0f98997f2d4f2b70f570a138380ea8453f911d40e6efd938ea613d"
+          },
+          "requests": 100,
+          "seen_requests": 300
+        },
+        {
+          "batch": 4,
+          "identity": {
+            "bytes": 2943,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B004/commit.json",
+            "sha256": "957e21312c951b3a09e17ee2c3e449eec3deca1f007f4082dfbeb15b24ff1c56"
+          },
+          "requests": 100,
+          "seen_requests": 400
+        },
+        {
+          "batch": 5,
+          "identity": {
+            "bytes": 3242,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B005/commit.json",
+            "sha256": "dfb9dfb899ed85a57db41f22d42fdaed714e51fcd6d534c88a533f0e4fd73135"
+          },
+          "requests": 100,
+          "seen_requests": 500
+        },
+        {
+          "batch": 6,
+          "identity": {
+            "bytes": 2946,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0/B006/commit.json",
+            "sha256": "ef26c53dcfc7885db1d99ca2e8915adbf460deeb8d4ad25fa43ae4d284e2e42c"
+          },
+          "requests": 100,
+          "seen_requests": 600
+        }
+      ],
+      "completed_prefix_batches": 6,
+      "completed_prefix_requests": 600,
+      "entered_batch_directories": [
+        "B001",
+        "B002",
+        "B003",
+        "B004",
+        "B005",
+        "B006",
+        "B007"
+      ],
+      "job": "39183_0",
+      "new_canonical_denominator": 0,
+      "old_artifact_mutation": 0,
+      "old_output": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-0",
+      "old_prefix_carry": 0,
+      "old_process_pids_gone": [
+        3770809,
+        3770800,
+        3770776
+      ],
+      "status": "OLD_SCHEDULE_USER_SUPERSEDED",
+      "terminal_accounting": "39183_0|janghj|CANCELLED by 1025|00:46:06|2026-09-08T02:19:09|2026-09-08T03:05:15|0:0|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1\n39183_0.batch||CANCELLED|00:46:06|2026-09-08T02:19:09|2026-09-08T03:05:15|0:15|cpu=8,gres/gpu=1,mem=59G,node=1\n39183_0.extern||COMPLETED|00:46:07|2026-09-08T02:19:09|2026-09-08T03:05:16|0:0|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1"
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/submission.json",
+    "bytes": 3049,
+    "sha256": "27d322c4c1433263fff8898f50b2e5729f6366457806942e4f6b7591ba0129cb",
+    "receipt": {
+      "canonical_six_job_mapping": {
+        "0": "39307",
+        "1-5": "39283_[1-5]"
+      },
+      "cell": 0,
+      "checkpoint_batches": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "execution_lock_sha256": "1111a3383047346394710905befdf5294f8de2993beaa2cb3eb5d09229154bb9",
+      "initialization": "fresh process pretrained W0 and cold native covariance computation cache; no resume or oldprefix carry",
+      "job": "39307",
+      "layers": [
+        4,
+        8
+      ],
+      "method": "MEMIT_BLUE_ORIGINAL",
+      "monitoring": "MONITORING_PAUSED_AWAITING_GH",
+      "old_science_denominator": 0,
+      "other_jobs_unchanged": "39283_[1-5] throttle1",
+      "output": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0",
+      "release_inspection": "JobId=39307 JobName=odeedit_blue_life_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1 Nice=0 Account=lab QOS=normal JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-09-08T03:07:12 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-08T03:07:12 Scheduler=Main Partition=gpu AllocNode:Sid=server4:3830569 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/run.sbatch SubmitLine=sbatch --hold --parsable --chdir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 --output=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-%j.out --error=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-%j.err /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/run.sbatch /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3 main 0 WorkDir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 StdErr=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-39307.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-39307.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+      "same_schedule_all_six": true,
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "scientific_promotion": false,
+      "source_archive_sha256": "cc834a23144f6ac23d2e3f23841405194485e4f4536c0911315676ff06ff4f48",
+      "status": "HELD_INSPECTION_PASS_RELEASED"
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/submission.json",
+    "bytes": 6098,
+    "sha256": "482226ab3bfcdba1fd2d32cdb7abb3c2aacb660516f21fa7f596eaaab93dee0f",
+    "receipt": {
+      "array": "1-5%1",
+      "checkpoint_batches": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "execution_lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+      "job": "39283",
+      "mapping": {
+        "1": {
+          "cell": 1,
+          "changed_fields": [],
+          "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/AlphaEdit-ORIGINAL.json",
+          "config_sha256": "588603990aa1234e62dd9c47f8449be60ba396358d9c0930c2ea3453606b24c4",
+          "layers": [
+            4,
+            8
+          ],
+          "method": "AlphaEdit",
+          "original_config": {
+            "bytes": 753,
+            "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json",
+            "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+          },
+          "variant": "ORIGINAL"
+        },
+        "2": {
+          "cell": 2,
+          "changed_fields": [
+            "layers"
+          ],
+          "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/MEMIT-L4_ONLY.json",
+          "config_sha256": "15908e0ff7233e9895376d87eddc36dcd116749b1800a399aa9b65e2b1f07a7f",
+          "layers": [
+            4
+          ],
+          "method": "MEMIT",
+          "original_config": {
+            "bytes": 718,
+            "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/MEMIT/Llama3-8B-blue.json",
+            "sha256": "919e6881813940aa18b7aed6e50ca019fad40aa85b1c24ad414608581f989a20"
+          },
+          "variant": "L4_ONLY"
+        },
+        "3": {
+          "cell": 3,
+          "changed_fields": [
+            "layers"
+          ],
+          "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/AlphaEdit-L4_ONLY.json",
+          "config_sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+          "layers": [
+            4
+          ],
+          "method": "AlphaEdit",
+          "original_config": {
+            "bytes": 753,
+            "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json",
+            "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+          },
+          "variant": "L4_ONLY"
+        },
+        "4": {
+          "cell": 4,
+          "changed_fields": [
+            "layers"
+          ],
+          "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/MEMIT-L8_ONLY.json",
+          "config_sha256": "9007d4ffdb14376dab8ef4388e2b6bdaf35053cbc9f55725641fb10c33a0f1d1",
+          "layers": [
+            8
+          ],
+          "method": "MEMIT",
+          "original_config": {
+            "bytes": 718,
+            "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/MEMIT/Llama3-8B-blue.json",
+            "sha256": "919e6881813940aa18b7aed6e50ca019fad40aa85b1c24ad414608581f989a20"
+          },
+          "variant": "L8_ONLY"
+        },
+        "5": {
+          "cell": 5,
+          "changed_fields": [
+            "layers"
+          ],
+          "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/AlphaEdit-L8_ONLY.json",
+          "config_sha256": "753a762b333edaf770585b6ebbeea7ca71f4bc881683ac7aa00950fe7a23f55d",
+          "layers": [
+            8
+          ],
+          "method": "AlphaEdit",
+          "original_config": {
+            "bytes": 753,
+            "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json",
+            "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+          },
+          "variant": "L8_ONLY"
+        }
+      },
+      "monitoring": "MONITORING_PAUSED_AWAITING_GH",
+      "old_pending_exclusion_denominator": 0,
+      "output_template": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-<1..5>",
+      "release_inspection": "JobId=39283 ArrayJobId=39283 ArrayTaskId=1-5%1 ArrayTaskThrottle=1 JobName=odeedit_blue_life_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1 Nice=0 Account=lab QOS=normal JobState=PENDING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-09-08T02:41:39 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-08T02:41:39 Scheduler=Main Partition=gpu AllocNode:Sid=server4:3797306 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/run.sbatch SubmitLine=sbatch --hold --parsable --array=1-5%1 --chdir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 --output=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-%A_%a.out --error=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-%A_%a.err /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/run.sbatch /data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2 main WorkDir=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2 StdErr=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_4294967294.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_4294967294.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+      "science_runtime_change": 0,
+      "source_archive_sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+      "status": "HELD_INSPECTION_PASS_RELEASED",
+      "unchanged_running": "39183_0",
+      "unrelated_or_running_job_mutations": 0
+    }
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/uniform-schedule-receipt.json",
+    "bytes": 1492,
+    "sha256": "1a8cff0db47bf72a314c10fb2609e6c76a77550bbcbade7b18817e98e947c197",
+    "receipt": {
+      "GPU_smoke": "SKIPPED_USER_DIRECTED",
+      "MEMIT_history": "NONE; static covariance/contexts/RNG/base/config/sample bound",
+      "canonical_mapping": {
+        "0": "this replacement",
+        "1-5": "39283_[1-5] checkpoint-r2"
+      },
+      "checkpoint_batches": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "execution_lock": {
+        "bytes": 527484,
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/execution.lock.json",
+        "sha256": "1111a3383047346394710905befdf5294f8de2993beaa2cb3eb5d09229154bb9"
+      },
+      "fresh_W0_M0": true,
+      "new_tests": 0,
+      "old_prefix_carry": 0,
+      "original_MEMIT_saved_weights": [
+        "model.layers.4.mlp.down_proj.weight",
+        "model.layers.8.mlp.down_proj.weight"
+      ],
+      "prior_CPU_checkpoint_test": {
+        "bytes": 1644,
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/focused-checkpoint-test.json",
+        "sha256": "fcf1d39d24bb8bdff55d94a1e6526cc923c47d7d1cd5d1e6171fa242e8b24ee4"
+      },
+      "same_model_seed_hparams_method_kernels": true,
+      "same_schedule_all_six": true,
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "source_archive": {
+        "bytes": 40960,
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/local-source.tar",
+        "sha256": "cc834a23144f6ac23d2e3f23841405194485e4f4536c0911315676ff06ff4f48"
+      },
+      "status": "LOCK_EQUALITY_PASS_NO_NEW_TEST"
+    }
+  }
+]

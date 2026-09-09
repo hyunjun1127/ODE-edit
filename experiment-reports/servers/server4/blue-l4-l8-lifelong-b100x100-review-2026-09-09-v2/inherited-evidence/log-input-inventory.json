@@ -1,0 +1,38 @@
+[
+  {
+    "arm": "MEMIT_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/logs/main-39307.out",
+    "bytes": 26558746,
+    "sha256": "e7e6df9cc4a95f72939537759f473682343a479b334bc6eeee5cafd492441297"
+  },
+  {
+    "arm": "AlphaEdit_ORIGINAL",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_1.out",
+    "bytes": 26129406,
+    "sha256": "9f7f1cc7f9e55555ae162d070529a350cb9318a9e12d6bc5b6644c4429e9056c"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_2.out",
+    "bytes": 21747720,
+    "sha256": "fe6c863587df2cb7f7be8d488fae46add0b1b6d90afb90b04ea49236a3ef7b6b"
+  },
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_3.out",
+    "bytes": 21962542,
+    "sha256": "b140ea8387965ce485bc0028fdd98481784fdfec18df087653b4b54a59e98fdf"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_4.out",
+    "bytes": 13567498,
+    "sha256": "796eab1645efab1ddc556c76cf04824c38178e802d8c2587283e67e4920033eb"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/logs/main-39283_5.out",
+    "bytes": 16951491,
+    "sha256": "d7a312a401c9c40b0c4c7f404489c5ad99dfb192b65881d64406e1542aa21472"
+  }
+]
