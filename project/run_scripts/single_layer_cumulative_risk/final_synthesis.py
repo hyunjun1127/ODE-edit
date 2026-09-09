@@ -86,6 +86,8 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--interpretation',type=Path,required=True)
     args=parser.parse_args();parents={};rows=[];cost=[];contrasts=[]
+    interpretation=args.interpretation.read_text()
+    if 'C_RESULT_NOT_YET_AVAILABLE' in interpretation:raise ValueError('UNFINISHED_FACTUAL_INTERPRETATION')
     for stage in ['A','B','C']:
         directory=args.parent/stage;identity=verify(directory)
         completion=json.loads((directory/'completion.json').read_text())
@@ -123,7 +125,6 @@ def main():
                  f'--parent {args.parent} --output <new-create-once-path> --interpretation {args.interpretation}',
          plot_code_sha=sha(Path(__file__)),model_action=0))
     save(args.output/'parent-packages.json',parents)
-    interpretation=args.interpretation.read_text()
     save(args.output/'interpretation-input.json',dict(path=str(args.interpretation),sha256=sha(args.interpretation)))
     lines=['# 단일 layer 누적위험 A→B→C 최종 진단 보고서','',
       'A/B/C 모두 완료. 각 stage의 immutable 상세 보고서·원본 identity·요구사항 evidence를 아래 parent package로 결속한다. '
