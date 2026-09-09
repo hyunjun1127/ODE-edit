@@ -5,7 +5,7 @@ import torch
 from .algebra import reduced_metric,momentum_update
 from .binding import kernel
 from .directions import group_indices,normalized_rows,soft_filter,physical_unit,operator_gradient,frobenius_finite_change,product_resolution
-from .evaluation import measure,materialized,generation
+from .evaluation import measure,materialized,generation,reuse_native_observation
 from .import_assets import sha
 from .objective import DirectObjective,WEIGHT
 from .panels import select
@@ -85,19 +85,26 @@ def run_b(entry,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
            native_norm=data['native_norm'],Q_rank=u.shape[1],source='common native WN',gamma=.1))
     del raw,edit
     tensor_save(output/'directions.pt',dict(directions={k:v.cpu() for k,v in directions.items()},J=j.cpu(),Q_sha=tensor_sha(u)))
+    native_sha=tensor_sha(wn)
     for name in ['GFminus','GFplus','LFminus','Random1','Random2','OPminus','COVminus']:
         d=directions[name]
         for amplitude in [.03,.1,.3]:
             trial=output/f'{name}-amplitude-{amplitude}';trial.mkdir(exist_ok=False)
             delta=amplitude*data['native_norm']*(d@u.T);state=wn+delta
             if not torch.isfinite(state).all():raise FloatingPointError('NONFINITE_B_TRIAL')
+            state_sha=tensor_sha(state)
             with materialized(w,state,ledger):
-                measure(model,evaltok,records,panel,amplitude==.1,ledger,trial/'eval.json')
+                if state_sha==native_sha:
+                    reuse_native_observation(prepared_path.parent/'N-full.json',trial/'eval.json',panel,amplitude==.1,state_sha,native_sha,ledger)
+                else:measure(model,evaltok,records,panel,amplitude==.1,ledger,trial/'eval.json')
                 structure=structural(state,w0,we,m,c0,data['K'].cuda())
             tensor_save(trial/'endpoint.pt',dict(W=state.cpu(),M=data['MN'],entry=entry,direction=name,amplitude=amplitude))
             save(trial/'receipt.json',dict(status='TERMINAL_VALID',direction=name,amplitude=amplitude,
                  intended_extra_norm=float(delta.double().norm()),actual_extra_norm=float((state-wn).double().norm()),
-                 global_risk_change=frobenius_finite_change(wn,w0,delta),local_risk_change=frobenius_finite_change(wn,we,delta),
+                 selected_weight_sha=state_sha,native_observation_reused=state_sha==native_sha,
+                 global_risk_change=frobenius_finite_change(wn,w0,state-wn),local_risk_change=frobenius_finite_change(wn,we,state-wn),
+                 intended_global_risk_change=frobenius_finite_change(wn,w0,delta),
+                 intended_local_risk_change=frobenius_finite_change(wn,we,delta),
                  structure=structure,compute=ledger.receipt(),endpoint_sha=sha(trial/'endpoint.pt')))
             progress(output,'B_TRIAL_SAVED',entry=entry,direction=name,amplitude=amplitude)
 

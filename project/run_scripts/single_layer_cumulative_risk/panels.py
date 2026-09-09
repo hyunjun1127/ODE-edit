@@ -8,6 +8,13 @@ ENTRIES={'Early':(10,1000),'Middle':(50,5000),'Late':(90,9000)}
 def ranked(values,label,key=lambda x:x):
     return sorted(values,key=lambda x:(digest([SALT,label,key(x)]),str(key(x))))
 
+def curve_rows(rows,panel):
+    result=[r for r in rows if r['metric']=='RS' or
+            (r['metric']=='PS' and r['panel']=='Current100') or
+            (r['metric']=='NS' and r['prompt_index'] in panel['neighbors'][str(r['case_id'])])]
+    assert len(result)==1100
+    return result
+
 def select(records,entry):
     batch,start=ENTRIES[entry]
     assert len(records)==10000 and len({r['case_id'] for r in records})==10000

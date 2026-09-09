@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 from .records import save,digest
 from .import_assets import ROOT
+from .panels import curve_rows
 
 def summary(values):
     a=np.asarray(values,dtype=np.float64)
@@ -20,10 +21,7 @@ def key(row):return row['panel'],row['metric'],row['case_id'],row['prompt_index'
 def observed_resolutions(observed,panel):
     yield observed['resolution'],observed['rows'],False
     if observed['resolution']=='full':
-        rows=[r for r in observed['rows'] if r['metric']=='RS' or
-              (r['metric']=='PS' and r['panel']=='Current100') or
-              (r['metric']=='NS' and r['prompt_index'] in panel['neighbors'][str(r['case_id'])])]
-        assert len(rows)==1100
+        rows=curve_rows(observed['rows'],panel)
         yield 'curve',rows,True # Exact measured subset, not another evaluation.
 
 def paired_rows(post,entry,w0):

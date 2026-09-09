@@ -1,4 +1,7 @@
 import unittest
+import tempfile
+import json
+from pathlib import Path
 from .analysis import paired_rows,aggregate,bootstrap,csv_bytes,observed_resolutions
 from .auxiliary_analysis import ledger_delta
 from .direction_analysis import central
@@ -37,5 +40,20 @@ class AnalysisTests(unittest.TestCase):
         full,curve=list(observed_resolutions({'resolution':'full','rows':rows},{'neighbors':neighbors}))
         self.assertEqual((len(full[1]),len(curve[1]),curve[2]),(3900,1100,True))
         self.assertTrue(all(r['panel']=='Current100' for r in curve[1] if r['metric']=='PS'))
+        from .evaluation import reuse_native_observation
+        from .records import Ledger,save,digest
+        panel={'neighbors':neighbors}
+        with tempfile.TemporaryDirectory() as tmp:
+            source=Path(tmp)/'native.json';target=Path(tmp)/'curve.json'
+            save(source,dict(resolution='full',rows=rows,panel_identity=digest(panel)))
+            ledger=Ledger()
+            with self.assertRaisesRegex(ValueError,'NONIDENTICAL_WEIGHT'):
+                reuse_native_observation(source,target,panel,False,'different','native',ledger)
+            self.assertFalse(target.exists())
+            reuse_native_observation(source,target,panel,False,'native','native',ledger)
+            result=json.loads(target.read_text())
+            self.assertEqual(result['pairs'],1100)
+            self.assertEqual(result['new_model_forwards'],0)
+            self.assertEqual(ledger.counts,{'evaluation_pairs_reused':1100})
 
 if __name__=='__main__':unittest.main()

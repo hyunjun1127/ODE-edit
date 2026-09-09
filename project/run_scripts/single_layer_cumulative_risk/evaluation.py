@@ -2,10 +2,26 @@
 import contextlib
 import importlib
 import math
+import json
 from pathlib import Path
 import torch
 from .binding import namespace
 from .records import digest,save,tensor_sha
+from .panels import curve_rows
+from .import_assets import sha
+
+def reuse_native_observation(source,output,panel,full,state_sha,native_sha,ledger):
+    """Only an exact saved physical native state can reuse its measured rows."""
+    if state_sha!=native_sha:raise ValueError('NONIDENTICAL_WEIGHT_EVALUATION_REUSE')
+    data=json.loads(source.read_text())
+    assert data['resolution']=='full' and data['panel_identity']==digest(panel)
+    rows=data['rows'] if full else curve_rows(data['rows'],panel)
+    assert len(rows)==(3900 if full else 1100)
+    ledger.add('evaluation_pairs_reused',len(rows))
+    save(output,dict(resolution='full' if full else 'curve',pairs=len(rows),rows=rows,
+         panel_identity=data['panel_identity'],controller_influence=0,measurement_reuse=True,
+         reused_source_path=str(source),reused_source_sha256=sha(source),selected_weight_sha=state_sha,
+         new_model_forwards=0,imputation=0))
 
 def evaluator():
     parent=Path(__file__).resolve().parents[1]

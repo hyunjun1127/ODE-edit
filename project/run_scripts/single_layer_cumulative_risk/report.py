@@ -27,7 +27,7 @@ def build_a(package,completion):
       '이 문서는 Llama L4 단일 weight의 세 historical entry를 이용한 진단이다. 새 lifelong run, 안전성 보장, 인과적 locality 개선 또는 scientific promotion을 의미하지 않는다. 상위 B/C는 이 A의 Direct-B/Direct-C support와 다른 실험 단계다.','',
       '## 읽는 법과 분모','',
       '- W0는 원본 모델, ENTRY(We)는 현재 B100을 편집하기 전 historical checkpoint다. 둘을 같은 pre-edit로 부르지 않는다.',
-      '- RS/PS는 target-new NLL < target-true NLL, NS는 target-true NLL < target-new NLL이다. Tie는 실패다. 각각의 NLL은 낮을수록 해당 target 확률이 높다.',
+      '- RS/PS는 target-new NLL < target-true NLL, NS는 target-true NLL < target-new NLL이다. Tie는 실패다. NLL은 target token별 평균이며 raw sequence joint NLL/확률과 구분한다. 낮을수록 해당 target의 token 평균 likelihood가 높다.',
       '- margin=true−new. NS에서 양의 margin 변화는 새 competing target 방향이다. inherited=ENTRY−W0, additional=post−ENTRY를 같은 prompt에서 계산한다.',
       '- Full은 panel마다 RS100/PS200/NS1000, 세 panel 합계3900쌍이다. Curve는 RS300/CurrentPS200/고정 neighbor600, 합계1100쌍이며 full NS로 부르지 않는다.',
       '- Teacher-forced exact는 모든 target token top-1 일치이며 자유 생성 의미적 정확도와 다르다.',
@@ -42,8 +42,9 @@ def build_a(package,completion):
             for panel in ['Current100','Fixed100','Past100']:
                 metrics=[lookup.get((endpoint,panel,m)) for m in ['RS','PS','NS']]
                 if not all(metrics):continue
-                data.append([endpoint,panel]+[rate(r) for r in metrics])
-        lines += [table(['endpoint','panel','RS','PS','NS'],data),'']
+                data.append([endpoint,panel]+[rate(r) for r in metrics]+
+                     [f"{r['strict_numerator']}/{r['strict_denominator']}" for r in metrics])
+        lines += [table(['endpoint','panel','RS','PS','NS','rewrite TF exact','rephrase TF exact','neighbor true TF exact'],data),'']
     lines += ['## NLL 및 손실/회복 — 전체 full endpoint','']
     data=[]
     for r in rows:
@@ -101,8 +102,9 @@ def build_later(package,completion):
         for endpoint in sorted({r['endpoint'] for r in selected},key=endpoint_order):
             for panel in ['Current100','Fixed100','Past100']:
                 metrics=[lookup.get((endpoint,panel,m)) for m in ['RS','PS','NS']]
-                if all(metrics):data.append([endpoint,panel]+[rate(r) for r in metrics])
-        lines += [f'### {entry}','',table(['endpoint','panel','RS','PS','NS'],data),'']
+                if all(metrics):data.append([endpoint,panel]+[rate(r) for r in metrics]+
+                     [f"{r['strict_numerator']}/{r['strict_denominator']}" for r in metrics])
+        lines += [f'### {entry}','',table(['endpoint','panel','RS','PS','NS','rewrite TF exact','rephrase TF exact','neighbor true TF exact'],data),'']
     lines+=['## Paired NLL와 loss/recovery','']
     data=[]
     for r in rows:
