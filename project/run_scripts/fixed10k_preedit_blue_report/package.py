@@ -11,6 +11,7 @@ import unittest
 from pathlib import Path
 from .reduce import TASK, DATA_SHA, ORDER_ROOT, read, save, sha, digest, member, require, verify_members, write_csv
 from .plots import generate
+from .inventory import emit
 
 V2_SHA='65645e52fb19f6aa4ac30ee00ce36334c5c3a9e22ed1ce92c142ed9c251239b8'
 REPO=Path(__file__).resolve().parents[3]
@@ -89,6 +90,7 @@ def build(local, v2, out):
                       (paired,['w0-final-paired-transitions.csv','w0-final-paired-cohorts.csv','paired-validation.json']),
                       (comp,['w0-blue-compatibility.csv','shared-source-asset-identity.csv','compatibility-validation.json','blue-runtime-extracts.json'])]:
         for name in names:shutil.copyfile(src/name,out/name)
+    emit(out)
     write_csv(out/'final-with-W0.csv',allsummary)
     for family in ('MEMIT','AlphaEdit'):
         write_csv(out/f'final-{family}-with-W0.csv',[r for r in allsummary if r['arm']=='PRE_EDIT_W0' or r['method']==family])
@@ -204,6 +206,8 @@ def validate(out,v2=None):
     require(len(after)==7,'ONE_SHARED_W0_PLUS_SIX')
     shared=csvread(out/'shared-source-asset-identity.csv')
     require(sum(m['server4_path'].endswith('.safetensors') for m in shared)==4,'FOUR_WEIGHT_SHARD_IDENTITIES')
+    require(len(csvread(out/'preedit-source-member-inventory.csv'))==1777,'SOURCE_MEMBER_CLOSURE')
+    require(len(csvread(out/'preedit-output-member-inventory.csv'))==1405,'OUTPUT_MEMBER_CLOSURE')
     for r in before:
         got=next(x for x in after if x['arm']==r['arm'])
         require(all(got[k]==v for k,v in r.items()),'SIX_SCIENTIFIC_VALUES_CHANGED')
