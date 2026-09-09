@@ -55,6 +55,33 @@ def figure(rows):
         fig.savefig(buffer,format='png',metadata={'Software':'ODE-edit cumulative-risk final synthesis'})
         plt.close(fig);return buffer.getvalue()
 
+def amplitude_figure(rows):
+    """All three predeclared amplitudes at the same curve denominator."""
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    selected=[r for r in rows if r['resolution']=='curve' and r['reference']=='N']
+    lookup={(r['entry'],r['endpoint'],r['panel'],r['metric']):r for r in selected}
+    with plt.rc_context({'font.family':'DejaVu Sans','font.size':9,'figure.dpi':120,'savefig.dpi':120}):
+        fig,axes=plt.subplots(2,3,figsize=(15,8))
+        for col,entry in enumerate(['Early','Middle','Late']):
+            for direction in ['GFminus','GFplus','LFminus','Random1','Random2','OPminus','COVminus']:
+                amplitudes=[.03,.1,.3]
+                for row,(panel,metric,field,scale) in enumerate([
+                    ('Current100','RS','new_nll_mean',1.),('Past100','NS','rate',100.)]):
+                    base=lookup[(entry,'N_REUSED',panel,metric)]
+                    values=[scale*(float(lookup[(entry,f'{direction}-amplitude-{a}/eval',panel,metric)][field])-float(base[field])) for a in amplitudes]
+                    axes[row,col].plot(amplitudes,values,marker='o',label=direction,linewidth=1)
+                    axes[row,col].axhline(0,color='black',linewidth=.4)
+                    axes[row,col].set_xticks(amplitudes);axes[row,col].set_xlabel('Extra action / native Frobenius norm')
+                    axes[row,col].set_ylabel('Current new NLL delta vs N' if row==0 else 'Past curve NS delta vs N (pp; n=200)')
+                    axes[row,col].set_title(entry);axes[row,col].grid(alpha=.2)
+            axes[0,col].legend(fontsize=6,ncol=2)
+        fig.suptitle('B direction × amplitude — markers measured; lines only visual guides')
+        fig.tight_layout();buffer=io.BytesIO()
+        fig.savefig(buffer,format='png',metadata={'Software':'ODE-edit cumulative-risk final synthesis'})
+        plt.close(fig);return buffer.getvalue()
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--interpretation',type=Path,required=True)
@@ -81,10 +108,16 @@ def main():
     if payload!=figure(rows):raise ValueError('PNG_BYTE_REPRODUCTION_FAILED')
     plot=args.output/'abc-measured-endpoints.png'
     with plot.open('xb') as stream:stream.write(payload)
+    amplitude_rows=read(args.parent/'B/paired-summary.csv')
+    amplitude_payload=amplitude_figure(amplitude_rows)
+    if amplitude_payload!=amplitude_figure(amplitude_rows):raise ValueError('AMPLITUDE_PNG_REPRODUCTION_FAILED')
+    amplitude_plot=args.output/'B-direction-amplitude.png'
+    with amplitude_plot.open('xb') as stream:stream.write(amplitude_payload)
     import matplotlib
     import numpy
-    save(args.output/'plot-reproduction.json',dict(byte_stable=True,actual_renders=2,
+    save(args.output/'plot-reproduction.json',dict(byte_stable=True,actual_renders_per_png=2,
          input_sha=sha(args.output/'full-endpoint-main-table.csv'),output_sha=sha(plot),
+         amplitude_input_sha=sha(args.parent/'B/paired-summary.csv'),amplitude_output_sha=sha(amplitude_plot),
          python=platform.python_version(),matplotlib=matplotlib.__version__,numpy=numpy.__version__,
          command='python -m project.run_scripts.single_layer_cumulative_risk.final_synthesis '
                  f'--parent {args.parent} --output <new-create-once-path> --interpretation {args.interpretation}',
@@ -125,6 +158,9 @@ def main():
       f"{sum(float(r['allocated_gpu_hours']) for r in cost):.6f} GPU-hours. 모델 준비·평가·생성·process residency를 포함한다. "
       '각 stage auxiliary/compute-summary.csv의 process total과 child ledger를 중복 합산하지 않는다. FLOPs는 NOT_RECORDED이며 시간에서 추정하지 않았다.', '',
       '![ABC measured endpoints](abc-measured-endpoints.png)','',
+      '![B direction amplitude](B-direction-amplitude.png)','',
+      '두 번째 그림은 curve에서 같은 Past NS200쌍을 사용하며, full NS1000쌍과 섞지 않는다. '
+      '연결선은 눈금을 읽기 위한 안내일 뿐 중간 amplitude의 측정·보간값이 아니다.','',
       '그림은 관측점만 나타내며 색/marker는 entry이다. 선형보간, NS 기반 선택, 동일 strength 또는 age-only 인과효과를 주장하지 않는다. '
       '전체 방향·amplitude 표와 내부 step 궤적은 각 stage CSV/PNG를 함께 본다.','',
       '## 봉인된 상세 보고서','']
