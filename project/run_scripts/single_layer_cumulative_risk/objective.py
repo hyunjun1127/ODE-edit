@@ -13,20 +13,26 @@ class AffineForward:
     def __init__(self,model,entry,u,ledger):
         self.model,self.entry,self.u,self.ledger=model,entry,u,ledger
         self.parameter=dict(model.named_parameters())[WEIGHT]
+        self.active_weight=None
     def __call__(self,a,**kw):
         pointer=self.parameter.data_ptr();version=self.parameter._version
         self.ledger.add('training_forward');self.ledger.add('training_sequences',kw['input_ids'].shape[0])
         self.ledger.add('training_tokens',int(kw['attention_mask'].sum()))
-        w=self.entry+a@self.u.T
+        w=self.entry+a@self.u.T if self.active_weight is None else self.active_weight
         out=torch.func.functional_call(self.model,{WEIGHT:w},(),dict(kw,use_cache=False),strict=False)
         assert self.parameter.data_ptr()==pointer and self.parameter._version==version
         return out.logits
 
 class DirectObjective:
-    def __init__(self,model,tok,requests,contexts,lookup_fn,entry,u,metric,j_native,ledger,microbatch=2):
+    def __init__(self,model,tok,requests,contexts,lookup_fn,entry,u,metric,j_native,ledger,microbatch=2,
+                 penalty_cross=None,penalty_constant=0.,accumulate_weight_gradient=False):
         self.forward=AffineForward(model,entry,u,ledger)
         self.tok,self.requests,self.contexts=tok,requests,[c for group in contexts for c in group]
         self.metric,self.j_native,self.ledger=metric,j_native,ledger
+        # C starts at exact WN (not its approximate Q reconstruction). Teacher
+        # is still the live We model at construction; penalty is relative to We.
+        self.penalty_cross,self.penalty_constant=penalty_cross,penalty_constant
+        self.accumulate_weight_gradient=accumulate_weight_gradient
         self.microbatch=microbatch;self.teacher=[];self.essence=[]
         self.training=[]
         assert tok.padding_side=='right'
@@ -63,6 +69,11 @@ class DirectObjective:
 
     def evaluate(self,a,backward=True):
         if a.grad is not None:a.grad=None
+        if self.accumulate_weight_gradient:
+            # A is unchanged throughout a logical batch. Accumulate the dense
+            # weight gradient in the same request/context order and pull it
+            # back to A once, instead of repeating the full-Q GEMM per microbatch.
+            self.forward.active_weight=(self.forward.entry+a.detach()@self.forward.u.T).detach().requires_grad_(backward)
         total_nll=total_kl=0.;n=len(self.requests);nc=len(self.contexts)
         with self.ledger.time('direct_objective'),torch.set_grad_enabled(backward):
             for start in range(0,n,self.microbatch):
@@ -85,11 +96,46 @@ class DirectObjective:
                 total_kl+=float(kl.detach())
                 if backward:(.0625*kl).backward();self.ledger.add('backward')
                 del logits,student,teacher,kl
-            j=((a@self.metric)*a).sum()/self.j_native
+            numerator=((a@self.metric)*a).sum()
+            if self.penalty_cross is not None:
+                numerator=numerator+2*(a*self.penalty_cross).sum()+self.penalty_constant
+            j=numerator/self.j_native
             j_value=float(j.detach())
             if backward:(.1*j).backward();self.ledger.add('penalty_backward')
+        if self.accumulate_weight_gradient:
+            if backward:
+                a.grad.add_(self.forward.active_weight.grad@self.forward.u)
+                self.ledger.add('coefficient_gradient_pullback')
+            self.forward.active_weight=None
         result=dict(edit_nll=total_nll,essence_kl_unweighted=total_kl,normalized_native_action=j_value,
                     objective=total_nll+.0625*total_kl+.1*j_value)
         if not all(torch.isfinite(torch.tensor(v)) for v in result.values()):raise FloatingPointError('NONFINITE_OBJECTIVE')
         if backward and not torch.isfinite(a.grad).all():raise FloatingPointError('NONFINITE_GRADIENT')
         return result
+
+    def group_edit_gradients(self,a,groups):
+        """Current NLL only, each group/request/context/token averaged once."""
+        gradients=[];values=[]
+        with self.ledger.time('group_jacobian'):
+            for group in groups:
+                a.grad=None;value=0.
+                if self.accumulate_weight_gradient:
+                    self.forward.active_weight=(self.forward.entry+a.detach()@self.forward.u.T).detach().requires_grad_(True)
+                for start in range(0,len(group),self.microbatch):
+                    selected=group[start:start+self.microbatch]
+                    for ci in range(len(self.contexts)):
+                        items=[self.training[i][ci] for i in selected]
+                        logits=self.forward(a,**self.pack([x[0] for x in items]))
+                        loss=logits.new_zeros(())
+                        for i,(inp,target) in enumerate(items):
+                            loss=loss+F.cross_entropy(logits[i,len(inp)-len(target):len(inp)],
+                                 torch.tensor(target,device=logits.device))/len(group)/len(self.contexts)
+                        value+=float(loss.detach());loss.backward();self.ledger.add('group_backward')
+                        del logits,loss
+                if self.accumulate_weight_gradient:
+                    a.grad=self.forward.active_weight.grad@self.forward.u
+                    self.forward.active_weight=None;self.ledger.add('coefficient_gradient_pullback')
+                if not torch.isfinite(a.grad).all():raise FloatingPointError('NONFINITE_GROUP_GRADIENT')
+                gradients.append(a.grad.detach().clone());values.append(value)
+            a.grad=None
+        return torch.stack(gradients),values

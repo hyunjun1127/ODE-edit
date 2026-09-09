@@ -44,8 +44,10 @@ def covariance():
     # Same serialized native second moment, not checkpoint's empty covariance map.
     import numpy as np
     with np.load(COVARIANCE,allow_pickle=False) as d:
-        moment=d['mom2.mom2']/d['mom2.count']
-    return torch.from_numpy(moment).float().cuda()
+        # Native SecondMoment.moment performs Torch FP32 division, not NumPy's
+        # float64 scalar-promotion path. The source asset bytes stay untouched.
+        moment=torch.from_numpy(d['mom2.mom2'])/int(d['mom2.count'])
+    return moment.float().cuda()
 
 def progress(output,stage,**fields):
     save(output/'progress'/f'{time.time_ns()}.json',dict(stage=stage,time_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),**fields))
@@ -106,7 +108,8 @@ def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,recor
     metric=reduced_metric(u,m);c0=covariance()
     with torch.no_grad():w.copy_(we)
     native=kernel()
-    objective=DirectObjective(model,tok,requests,data['contexts'],native.find_fact_lookup_idx,we,u,metric,data['J_native'],ledger)
+    objective=DirectObjective(model,tok,requests,data['contexts'],native.find_fact_lookup_idx,we,u,metric,data['J_native'],ledger,
+                              accumulate_weight_gradient=True)
     failures=[];all_history={};endpoints={}
     for alpha in alphas:
         candidate=output/f'{support}-alpha-{alpha}'
@@ -118,7 +121,8 @@ def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,recor
             save(candidate/'optimizer.json',dict(alpha=alpha,eta=eta,calibration=eta_status,momentum=.9,weight_decay=0,
                   initial_gradient_norm=float(a.grad.norm()),native_norm=data['native_norm'],J_native=data['J_native'],
                   support=support,rank=u.shape[1],objective_state='post-update Wk',source_z_in_direct=0,
-                  essence='KL(student||entry_teacher)',normalization_status=data['normalizer_status']))
+                  essence='KL(student||entry_teacher)',normalization_status=data['normalizer_status'],
+                  gradient_accumulation='dense-weight sum then one coefficient pullback; FP32 rounding order disclosed'))
             save(candidate/'step-000.json',dict(step=0,**terms))
             tensor_save(candidate/'snapshot-000.pt',dict(W=we.cpu(),A=a.detach().cpu(),step=0))
             for step in range(1,33):
@@ -169,12 +173,16 @@ def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,recor
               endpoint_path=str(chosen/'endpoint.pt'),endpoint_sha=sha(chosen/'endpoint.pt'),eta=endpoint['eta']))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['native','direct'],required=True);p.add_argument('--entry',choices=list(ENTRIES),required=True)
+    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['native','direct','B','C'],required=True);p.add_argument('--entry',choices=list(ENTRIES),required=True)
     p.add_argument('--support',choices=['B','C']);p.add_argument('--alpha',type=float,nargs='+');p.add_argument('--prepared',type=Path)
+    p.add_argument('--prior-stage-receipt',type=Path);p.add_argument('--selection',type=Path)
     p.add_argument('--output',type=Path,required=True);args=p.parse_args()
     output=args.output.absolute();output.mkdir(parents=True,exist_ok=False)
     ledger=Ledger();w=w0=None;stage='INPUT'
     try:
+        if args.mode in ['B','C']:
+            from .later_stages import require_previous
+            require_previous(args.prior_stage_receipt,'A' if args.mode=='B' else 'B')
         lock=json.loads((ROOT/'input.lock.json').read_text());records=load_prefix(DATA,10000)
         cp,targets,current=load_entry(args.entry,records)
         model,tok,evaltok=load_model(ledger);w=dict(model.named_parameters())[WEIGHT];w0=w.detach().clone()
@@ -199,7 +207,13 @@ def main():
         progress(output,'MODEL_ENTRY_BOUND',entry=args.entry,mode=args.mode)
         stage=args.mode
         if args.mode=='native':native_run(args.entry,output,model,tok,evaltok,records,cp,targets,current,w,w0,ledger)
-        else:direct_run(args.entry,args.support,args.alpha,args.prepared,output,model,tok,evaltok,records,cp,w,w0,ledger)
+        elif args.mode=='direct':direct_run(args.entry,args.support,args.alpha,args.prepared,output,model,tok,evaltok,records,cp,w,w0,ledger)
+        elif args.mode=='B':
+            from .later_stages import run_b
+            run_b(args.entry,args.prepared,output,model,tok,evaltok,records,cp,w,w0,ledger)
+        else:
+            from .later_stages import run_c
+            run_c(args.entry,args.prepared,args.selection,output,model,tok,evaltok,records,cp,w,w0,ledger)
         with torch.no_grad():w.copy_(w0)
         assert torch.equal(w,w0) and w.data_ptr()==original_pointer
         save(output/'terminal.json',dict(status='TERMINAL_VALID' if not (output/'candidate-failures.json').exists() else 'PARTIAL_TECHNICAL',
