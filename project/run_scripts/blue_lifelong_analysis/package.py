@@ -1,5 +1,5 @@
 """Essential CPU table/test/plot/raw-free checks and create-once package root."""
-import argparse,io,subprocess,unittest
+import argparse,io,json,subprocess,unittest
 from .common import *
 from .plots import generate
 
