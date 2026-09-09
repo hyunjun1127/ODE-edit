@@ -24,6 +24,13 @@ def ledger_delta(current,previous):
             result[f'{category}.{name}']=delta
     return result
 
+def structure_endpoint(relative):
+    p=Path(relative)
+    if len(p.parts)==1:
+        name=p.name.removesuffix('-structure.json')
+        return name+('-curve' if name.startswith('native-scale-') else '-full')
+    return p.parent.name+'/'+p.name.replace('structure-','eval-').removesuffix('.json')
+
 def collect(registry,repairs=()):
     compute=[];structures=[];generation=[];index=[];inputs=[]
     def load(path):
@@ -56,9 +63,15 @@ def collect(registry,repairs=()):
                     if sha(path)!=correction['original_structure_sha']:raise ValueError('CORRECTION_INPUT_MISMATCH')
                     observed=correction['complete_structure']
                 structures.append(dict(entry=entry,unit=label,member=str(path.relative_to(root)),
+                     endpoint=structure_endpoint(path.relative_to(root)),
                      precision_status='SEALED_ALGEBRA_ONLY_CORRECTION' if correction else 'RECORDED_SOURCE',
                      original_covariance_risk=correction['original_covariance_risk'] if correction else observed['global_covariance_risk'],
                      **flatten(observed)))
+            if label=='B':
+                for path in sorted(root.glob('*/receipt.json')):
+                    observed=load(path)
+                    structures.append(dict(entry=entry,unit=label,member=str(path.relative_to(root)),
+                         endpoint=path.parent.name+'/eval',precision_status='RECORDED_SOURCE',**flatten(observed['structure'])))
             for path in sorted(root.rglob('*generation.json')):
                 observed=load(path);rows=observed['rows']
                 for kind in ['rewrite','rephrase']:

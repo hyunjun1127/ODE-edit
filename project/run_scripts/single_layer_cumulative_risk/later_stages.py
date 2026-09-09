@@ -139,14 +139,19 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
                 correction=correction_length*direction
             with torch.no_grad(),ledger.time('C_optimizer_update'):
                 new,velocity=momentum_update(a,nominal_gradient,velocity,eta)
+                nominal_state=wn+new@u.T
                 a.copy_(new+correction);state=wn+a@u.T
                 if not torch.isfinite(state).all():raise FloatingPointError('NONFINITE_C_WEIGHT')
                 stepnorm=float((state-last).double().norm());path+=stepnorm;last=state.clone()
-                correction_norm=float((correction@u.T).double().norm());correction_path+=correction_norm
+                intended_correction_norm=float((correction@u.T).double().norm())
+                correction_norm=float((state-nominal_state).double().norm());correction_path+=correction_norm
+                nominal_step_norm=float((nominal_state-current).double().norm())
             terms=objective.evaluate(a,step<8)
             save(directory/f'step-{step:03d}.json',dict(step=step,**terms,probe=probe,
                actual_step_norm=stepnorm,path_length=path,correction_path=correction_path,
                correction_norm=correction_norm,extra_net_norm=float((state-wn).double().norm()),
+               intended_correction_norm=intended_correction_norm,actual_nominal_step_norm=nominal_step_norm,
+               correction_rounding_gap=correction_norm-intended_correction_norm,
                batch_net_norm=float((state-we).double().norm()),global_net_norm=float((state-w0).double().norm()),
                selected_weight_sha=tensor_sha(state),compute=ledger.receipt()))
             if step in [1,2,4,8]:tensor_save(directory/f'snapshot-{step:03d}.pt',dict(W=state.cpu(),A=a.detach().cpu(),momentum=velocity.cpu(),step=step))
