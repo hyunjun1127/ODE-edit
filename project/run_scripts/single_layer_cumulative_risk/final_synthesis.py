@@ -100,6 +100,7 @@ def main():
         if stage!='A':contrasts+=read(directory/'contrasts/paired-method-contrasts.csv')
     if any(r['status']!='PASS' for r in evidence):raise ValueError('INCOMPLETE_FINAL_EVIDENCE')
     args.output.mkdir(parents=True,exist_ok=False)
+    with (args.output/'interpretation-ko.md').open('x') as stream:stream.write(interpretation)
     write_csv(args.output/'requirements-evidence.csv',evidence)
     save(args.output/'completion.json',dict(status='COMPLETE',stage='final',remaining_mandatory=0,
          enumerated_checks=len(evidence),A_generation_endpoints=9,A_generation_prompt_rows=540,
@@ -130,10 +131,11 @@ def main():
          amplitude_input_sha=sha(args.parent/'B/paired-summary.csv'),amplitude_output_sha=sha(amplitude_plot),
          python=platform.python_version(),matplotlib=matplotlib.__version__,numpy=numpy.__version__,
          command='python -m project.run_scripts.single_layer_cumulative_risk.final_synthesis '
-                 f'--parent {args.parent} --output <new-create-once-path> --interpretation {args.interpretation}',
+                 f'--parent {args.parent} --output <new-create-once-path> --interpretation {args.output / "interpretation-ko.md"}',
          plot_code_sha=sha(Path(__file__)),model_action=0))
     save(args.output/'parent-packages.json',parents)
-    save(args.output/'interpretation-input.json',dict(path=str(args.interpretation),sha256=sha(args.interpretation)))
+    save(args.output/'interpretation-input.json',dict(path=str(args.interpretation),sha256=sha(args.interpretation),
+         published_member='interpretation-ko.md',published_sha=sha(args.output/'interpretation-ko.md')))
     lines=['# 단일 layer 누적위험 A→B→C 최종 진단 보고서','',
       'A/B/C 모두 완료. 각 stage의 immutable 상세 보고서·원본 identity·요구사항 evidence를 아래 parent package로 결속한다. '
       'Scientific promotion=false. 낮은 성능, risk 증가, strength 불일치를 제외하거나 성공 gate로 바꾸지 않았다.','',
