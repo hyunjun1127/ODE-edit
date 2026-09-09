@@ -137,6 +137,7 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
         tensor_save(directory/'snapshot-000.pt',dict(W=wn.cpu(),A=a.detach().cpu(),step=0))
         terms=objective.evaluate(a,True)
         save(directory/'step-000.json',dict(step=0,**terms))
+        save(directory/'structure-000.json',structural(wn,w0,we,m,c0,data['K'].cuda()))
         for step in range(1,9):
             # The nominal gradient is saved before group-gradient calls clear a.grad.
             nominal_gradient=a.grad.detach().clone();current=wn+a.detach()@u.T;probe={}
@@ -173,6 +174,7 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
                batch_net_norm=float((state-we).double().norm()),global_net_norm=float((state-w0).double().norm()),
                selected_weight_sha=tensor_sha(state),compute=ledger.receipt()))
             if step in [1,2,4,8]:tensor_save(directory/f'snapshot-{step:03d}.pt',dict(W=state.cpu(),A=a.detach().cpu(),momentum=velocity.cpu(),step=step))
+            if step==1:save(directory/'structure-001.json',structural(state,w0,we,m,c0,data['K'].cuda()))
             if step in [2,4,8]:
                 with materialized(w,state,ledger):
                     measure(model,evaltok,records,panel,step==8,ledger,directory/f'eval-{step:03d}.json')

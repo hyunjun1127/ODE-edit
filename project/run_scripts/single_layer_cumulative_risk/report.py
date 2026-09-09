@@ -3,6 +3,8 @@ import argparse
 import csv
 import hashlib
 import json
+import stat
+import subprocess
 from pathlib import Path
 from .records import save,digest
 
@@ -132,10 +134,13 @@ def main():
     members=[]
     for file in sorted(a.package.rglob('*')):
         if file.is_symlink():raise RuntimeError('PACKAGE_SYMLINK')
-        if file.is_file():members.append(dict(path=str(file.relative_to(a.package)),sha256=sha(file),bytes=file.stat().st_size))
+        if file.is_file():members.append(dict(path=str(file.relative_to(a.package)),sha256=sha(file),bytes=file.stat().st_size,mode=oct(stat.S_IMODE(file.stat().st_mode))))
     manifest=dict(stage=stage,members=members,members_root=digest(members),completion_path=str(a.completion),completion_sha=sha(a.completion),scientific_promotion=False)
     save(a.package/'package-manifest.json',manifest)
-    receipt=dict(stage=stage,report_sha=sha(path),manifest_sha=sha(a.package/'package-manifest.json'),members_root=manifest['members_root'],scientific_promotion=False)
+    source=Path(__file__).resolve().parents[3]
+    receipt=dict(stage=stage,report_sha=sha(path),manifest_sha=sha(a.package/'package-manifest.json'),members_root=manifest['members_root'],scientific_promotion=False,
+        analysis_source_head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=source,text=True).strip(),
+        analysis_source_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=source,text=True).strip())
     save(a.package/'rooted-receipt.json',dict(**receipt,identity=digest(receipt)))
 
 if __name__=='__main__':main()

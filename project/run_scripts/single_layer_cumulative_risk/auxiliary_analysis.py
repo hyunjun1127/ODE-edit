@@ -31,7 +31,7 @@ def structure_endpoint(relative):
         return name+('-curve' if name.startswith('native-scale-') else '-full')
     return p.parent.name+'/'+p.name.replace('structure-','eval-').removesuffix('.json')
 
-def collect(registry,repairs=()):
+def collect(registry,repairs=(),stage='A'):
     compute=[];structures=[];generation=[];index=[];inputs=[]
     def load(path):
         inputs.append(dict(path=str(path),sha256=sha(path),bytes=path.stat().st_size))
@@ -39,14 +39,18 @@ def collect(registry,repairs=()):
     corrections=[load(Path(path)) for path in repairs]
     corrected={row['original_structure_path']:row for receipt in corrections for row in receipt['rows']}
     for entry,config in registry.items():
-        roots=[('native',Path(config['native']))]+[(Path(p).name,Path(p)) for p in config.get('direct',[])]
-        roots += [(stage,Path(config[stage])) for stage in ['B','C'] if stage in config]
+        roots=[('native',Path(config['native']))]
+        if stage=='A':roots += [(Path(p).name,Path(p)) for p in config.get('direct',[])]
+        elif stage in config:roots.append((stage,Path(config[stage])))
+        elif stage!='A':continue
         for label,root in roots:
             runtime=load(root/'runtime.json');terminal=load(root/'terminal.json')
             index.append(dict(entry=entry,unit=label,path=str(root),source_head=runtime['source_head'],
+                scope='PROCESS',
                 job=runtime['slurm_job'],status=terminal['status'],W0_restored=terminal['W0_restored'],
                 runtime_sha=sha(root/'runtime.json'),terminal_sha=sha(root/'terminal.json')))
             compute.append(dict(entry=entry,unit=label,scope='PROCESS_TOTAL_DO_NOT_SUM_WITH_CHILDREN',
+                execution_role='REUSED_A_REFERENCE' if stage!='A' and label=='native' else 'CURRENT_STAGE_EXECUTION',
                 **flatten(terminal['compute']),peak_gpu_bytes=terminal['peak_gpu_bytes'],
                 peak_reserved_gpu_bytes=terminal['peak_reserved_gpu_bytes']))
             # Child counters include earlier candidates in the same process.
@@ -54,9 +58,19 @@ def collect(registry,repairs=()):
             for candidate in sorted(root.glob('*-alpha-*'),key=lambda p:float(p.name.split('-alpha-')[1])):
                 if not (candidate/'terminal.json').exists():continue
                 child=load(candidate/'terminal.json')
+                index.append(dict(entry=entry,unit=candidate.name,path=str(candidate),scope='WRITER_CANDIDATE',
+                     source_head=runtime['source_head'],job=runtime['slurm_job'],status=child['status'],
+                     completed_steps=child['completed_steps'],terminal_sha=sha(candidate/'terminal.json'),
+                     endpoint_sha=child.get('endpoint_sha256'),process_total_reference=str(root)))
                 compute.append(dict(entry=entry,unit=candidate.name,scope='INCREMENT_SINCE_PREVIOUS_CANDIDATE_TERMINAL',
                     includes_initial_setup=not bool(previous),**ledger_delta(child['compute'],previous)))
                 previous=child['compute']
+            if label=='native':
+                for name in ['N-full']+[f'native-scale-{s}-curve' for s in [.25,.5,.75,1.25]]:
+                    path=root/f'{name}.json'
+                    index.append(dict(entry=entry,unit=name,path=str(path),scope='NATIVE_OR_SCALING_ENDPOINT',
+                         source_head=runtime['source_head'],job=runtime['slurm_job'],status='MEASURED',
+                         evaluation_sha=sha(path),process_total_reference=str(root)))
             for path in sorted(root.rglob('*structure*.json')):
                 observed=load(path);correction=corrected.get(str(path))
                 if correction:
@@ -84,7 +98,8 @@ def collect(registry,repairs=()):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--registry',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--covariance-repair',type=Path,action='append',default=[])
-    a=p.parse_args();data=collect(json.loads(a.registry.read_text()),a.covariance_repair)
+    p.add_argument('--stage',choices=['A','B','C'],default='A')
+    a=p.parse_args();data=collect(json.loads(a.registry.read_text()),a.covariance_repair,a.stage)
     a.output.mkdir(parents=True,exist_ok=False)
     outputs=[write_csv(a.output/name,data[key]) for name,key in [('compute-summary.csv','compute'),
          ('structural-risk.csv','structures'),('generation-literal-summary.csv','generation'),('run-index.csv','index')]]
