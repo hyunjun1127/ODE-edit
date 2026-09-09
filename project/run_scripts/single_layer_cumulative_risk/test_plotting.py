@@ -17,5 +17,7 @@ class PlotTests(unittest.TestCase):
               for p in ['Current100','Fixed100','Past100'] for m in ['RS','PS','NS']]
         for kind in ['rs_ps_ns','ps_retention','train_ns']:
             self.assertEqual(companion(rows,[],kind),companion(rows,[],kind))
+        trial=[dict(entry='Middle',endpoint='GFminus-amplitude-0.1',actual_extra_norm='1')]
+        self.assertEqual(companion(rows,trial,'ps_retention'),companion(rows,[],'ps_retention'))
 
 if __name__=='__main__':unittest.main()

@@ -49,7 +49,8 @@ def render(rows,kind):
 
 def companion(rows,trajectories,kind):
     entries=[e for e in ['Early','Middle','Late'] if any(r['entry']==e for r in rows)]
-    train={(r['entry'],r.get('observation_endpoint') or r['endpoint']+f"/eval-{int(r['step']):03d}"):r for r in trajectories}
+    train={(r['entry'],r.get('observation_endpoint') or r['endpoint']+f"/eval-{int(r['step']):03d}"):r
+           for r in trajectories if r.get('observation_endpoint') or r.get('step','')!=''}
     with plt.rc_context({'font.family':'DejaVu Sans','font.size':9,'figure.dpi':120,'savefig.dpi':120}):
         fig,axes=plt.subplots(1,len(entries),figsize=(5*len(entries),4),squeeze=False)
         for ax,entry in zip(axes[0],entries):
@@ -103,7 +104,8 @@ def main():
             path=a.output/f'{resolution}-{kind}-locality.png'
             with path.open('xb') as f:f.write(first)
             members.append(dict(path=path.name,sha256=hashlib.sha256(first).hexdigest(),bytes=len(first),byte_reproduction=True))
-        for kind in ['rs_ps_ns','ps_retention']+(['train_ns'] if trajectories else []):
+        has_train=any(r.get('edit_nll','')!='' and (r.get('observation_endpoint') or r.get('step','')!='') for r in trajectories)
+        for kind in ['rs_ps_ns','ps_retention']+(['train_ns'] if has_train else []):
             first=companion(selected,trajectories,kind);second=companion(selected,trajectories,kind)
             assert first==second,'NONDETERMINISTIC_PLOT_BYTES'
             path=a.output/f'{resolution}-{kind}.png'
