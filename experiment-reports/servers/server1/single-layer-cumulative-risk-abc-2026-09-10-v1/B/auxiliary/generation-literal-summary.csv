@@ -1,0 +1,7 @@
+denominator,entry,kind,literal_prefix_numerator,member,raw_output_published,semantic_accuracy_claim,unit
+20,Early,rewrite,20,N-generation.json,False,False,native
+40,Early,rephrase,29,N-generation.json,False,False,native
+20,Late,rewrite,20,N-generation.json,False,False,native
+40,Late,rephrase,33,N-generation.json,False,False,native
+20,Middle,rewrite,20,N-generation.json,False,False,native
+40,Middle,rephrase,25,N-generation.json,False,False,native

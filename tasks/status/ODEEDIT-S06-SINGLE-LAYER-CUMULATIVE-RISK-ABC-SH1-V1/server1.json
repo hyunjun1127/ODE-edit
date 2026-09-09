@@ -1,8 +1,8 @@
 {
   "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1",
   "authority_nonce": "ODEEDIT-GH-SH1-CUMRISK-AUTONOMY-20260910-R1",
-  "stage": "B",
-  "status": "A_COMPLETE_B_INITIAL_EXECUTION",
+  "stage": "C",
+  "status": "A_B_COMPLETE_C_SUBMITTED",
   "A_B_C_autonomous": true,
   "GH_stage_release_required": false,
   "GPU_stage_order": [
@@ -86,13 +86,25 @@
     {
       "id": 43235,
       "component": "B Middle 21 direction-amplitude trials",
-      "state": "RELEASED_MODEL_ENTRY_BOUND",
+      "state": "COMPLETED",
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     },
     {
       "id": 43236,
       "component": "B Early 21 direction-amplitude trials",
-      "state": "RELEASED_MODEL_ENTRY_BOUND",
+      "state": "COMPLETED",
+      "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
+    },
+    {
+      "id": 43247,
+      "component": "B Late 21 direction-amplitude trials",
+      "state": "COMPLETED",
+      "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
+    },
+    {
+      "id": 43274,
+      "component": "C Middle five arms times eight steps",
+      "state": "SUBMITTED",
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     }
   ],
@@ -100,11 +112,22 @@
   "other_tasks_mutation": 0,
   "scientific_promotion": false,
   "not_claimed": [
-    "B_COMPLETE",
-    "C_EXECUTED",
+    "C_COMPLETE",
     "BACKGROUND_MONITOR"
   ],
   "gpu_hour_cap": null,
+  "B_complete": {
+    "trials": 63,
+    "full_endpoints": 21,
+    "requirements_pass": 205,
+    "remaining_mandatory": 0,
+    "allocated_gpu_seconds": 5336,
+    "report": "experiment-reports/servers/server1/single-layer-cumulative-risk-abc-2026-09-10-v1/B/B-factual-report-ko.md",
+    "report_sha": "20794f13900f1b4b35be0172c91644af2cd1e87f4c5ee3c68a6deb47738a5b07",
+    "members_root": "b4c57f94f90026e21ff4fd6575d6a0864d49c27cfd6948bde54b0e2d6b158373",
+    "receipt_identity": "8010341ea3884978ce379cb8ac62915834d66b7ec2837eb771afae083b672bdf",
+    "GH_report_accepted_turn": "01a08846-5470-7242-8597-bb3dd92d5f63"
+  },
   "A_complete": {
     "writers": 13,
     "fullbatch_steps": 320,
