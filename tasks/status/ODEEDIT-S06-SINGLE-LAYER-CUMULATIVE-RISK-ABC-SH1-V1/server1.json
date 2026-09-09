@@ -1,1 +1,83 @@
-{"instruction_id":"ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1","authority_nonce":"ODEEDIT-GH-SH1-CUMRISK-AUTONOMY-20260910-R1","stage":"A","status":"RUNNING_EARLY_LATE","A_B_C_autonomous":true,"GH_stage_release_required":false,"GPU_stage_order":["A","B","C"],"project_gpu_cap":2,"memory_mib":182272,"worktree":"/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-single-layer-cumulative-risk-abc-v1","branch":"codex/server1-single-layer-cumulative-risk-abc-v1","input_lock_sha256":"33cb332962444b4aad0d244bf70028b9e865b318626d6f74dbe60adda9648821","Middle_selection":{"B_alpha":0.02,"C_alpha":0.02,"PS_NS_influence":0,"direct_steps":192},"jobs":[{"id":43145,"component":"A Middle native","state":"COMPLETED","elapsed_gpu_seconds":789,"source":"cc09402831238549d23884b4026de0b2b15e3e52"},{"id":43149,"component":"A Middle Direct-B alpha0.02/0.06/0.2","state":"COMPLETED","elapsed_gpu_seconds":5181,"source":"cc09402831238549d23884b4026de0b2b15e3e52"},{"id":43165,"component":"A Middle Direct-C alpha0.02/0.06/0.2","state":"COMPLETED","elapsed_gpu_seconds":5166,"source":"fcd42af37efe1193aa1d2d85a4e66ccbd35ba9c6"},{"id":43196,"component":"A Early native plus immutable Middle observation repair","state":"FIRST_VALID_OBSERVATION_PATH","source":"c2a74d949856e17bf2f49c36e69a98c94661c17c"},{"id":43198,"component":"A Late native","state":"RELEASED","source":"c2a74d949856e17bf2f49c36e69a98c94661c17c"}],"progress_authority":"local/single-layer-cumulative-risk-abc/20260910-v1/monitor-ledger","other_tasks_mutation":0,"scientific_promotion":false,"not_claimed":["A_COMPLETE","B_EXECUTED","C_EXECUTED","BACKGROUND_MONITOR"]}
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1",
+  "authority_nonce": "ODEEDIT-GH-SH1-CUMRISK-AUTONOMY-20260910-R1",
+  "stage": "A",
+  "status": "RUNNING_EARLY_LATE_SELECTED_DIRECT",
+  "A_B_C_autonomous": true,
+  "GH_stage_release_required": false,
+  "GPU_stage_order": [
+    "A",
+    "B",
+    "C"
+  ],
+  "project_gpu_cap": 2,
+  "memory_mib": 182272,
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-single-layer-cumulative-risk-abc-v1",
+  "branch": "codex/server1-single-layer-cumulative-risk-abc-v1",
+  "input_lock_sha256": "33cb332962444b4aad0d244bf70028b9e865b318626d6f74dbe60adda9648821",
+  "Middle_selection": {
+    "B_alpha": 0.02,
+    "C_alpha": 0.02,
+    "PS_NS_influence": 0,
+    "direct_steps": 192
+  },
+  "jobs": [
+    {
+      "id": 43145,
+      "component": "A Middle native",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 789,
+      "source": "cc09402831238549d23884b4026de0b2b15e3e52"
+    },
+    {
+      "id": 43149,
+      "component": "A Middle Direct-B alpha0.02/0.06/0.2",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 5181,
+      "source": "cc09402831238549d23884b4026de0b2b15e3e52"
+    },
+    {
+      "id": 43165,
+      "component": "A Middle Direct-C alpha0.02/0.06/0.2",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 5166,
+      "source": "fcd42af37efe1193aa1d2d85a4e66ccbd35ba9c6"
+    },
+    {
+      "id": 43196,
+      "component": "A Early native plus immutable Middle observation repair",
+      "state": "COMPLETED",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c",
+      "elapsed_gpu_seconds": 1167
+    },
+    {
+      "id": 43198,
+      "component": "A Late native",
+      "state": "COMPLETED",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c",
+      "elapsed_gpu_seconds": 980
+    },
+    {
+      "id": 43206,
+      "component": "A Late Direct-B alpha0.02",
+      "state": "RUNNING",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c"
+    },
+    {
+      "id": 43207,
+      "component": "A Early Direct-B alpha0.02",
+      "state": "RUNNING",
+      "source": "c2a74d949856e17bf2f49c36e69a98c94661c17c"
+    }
+  ],
+  "progress_authority": "local/single-layer-cumulative-risk-abc/20260910-v1/monitor-ledger",
+  "other_tasks_mutation": 0,
+  "scientific_promotion": false,
+  "not_claimed": [
+    "A_COMPLETE",
+    "B_EXECUTED",
+    "C_EXECUTED",
+    "BACKGROUND_MONITOR"
+  ],
+  "gpu_hour_cap": null
+}
