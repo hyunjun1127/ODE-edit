@@ -85,7 +85,7 @@ def amplitude_figure(rows):
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--interpretation',type=Path,required=True)
-    args=parser.parse_args();parents={};rows=[];cost=[];contrasts=[];evidence=[]
+    args=parser.parse_args();parents={};rows=[];cost=[];contrasts=[];evidence=[];stage_counts={}
     interpretation=args.interpretation.read_text()
     if 'C_RESULT_NOT_YET_AVAILABLE' in interpretation:raise ValueError('UNFINISHED_FACTUAL_INTERPRETATION')
     for stage in ['A','B','C']:
@@ -93,6 +93,10 @@ def main():
         completion=json.loads((directory/'completion.json').read_text())
         if completion['status']!='COMPLETE' or completion['remaining_mandatory']!=0:
             raise ValueError('ALL_THREE_STAGES_MUST_BE_COMPLETE')
+        expected={'A':{'writers':13,'fullbatch_steps':320,'native_scales':12},
+                  'B':{'trials':63},'C':{'trials':5,'fullbatch_steps':40}}[stage]
+        if any(completion.get(k)!=v for k,v in expected.items()):raise ValueError('STAGE_COUNT_MISMATCH')
+        stage_counts[stage]={k:completion[k] for k in expected}
         parents[stage]=dict(path=str(directory),**identity,completion_sha=sha(directory/'completion.json'))
         evidence += [dict(stage=stage,**r) for r in read(directory/'requirements-evidence.csv')]
         rows+=endpoint_rows(directory,stage,completion)
@@ -103,6 +107,7 @@ def main():
     with (args.output/'interpretation-ko.md').open('x') as stream:stream.write(interpretation)
     write_csv(args.output/'requirements-evidence.csv',evidence)
     save(args.output/'completion.json',dict(status='COMPLETE',stage='final',remaining_mandatory=0,
+         stage_counts=stage_counts,
          enumerated_checks=len(evidence),A_generation_endpoints=9,A_generation_prompt_rows=540,
          upper_C_generation_endpoints=5,upper_C_generation_prompt_rows=300,
          extra_A_DirectC8_submission=0,generation_scope_nonce='ODEEDIT-GH-SH1-CUMRISK-GENERATION-SCOPE-20260910-R1',
