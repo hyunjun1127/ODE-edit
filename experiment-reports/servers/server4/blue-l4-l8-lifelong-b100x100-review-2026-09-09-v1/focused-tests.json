@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "test_count": 10,
+  "failures": 0,
+  "errors": 0,
+  "table_counts": {
+    "final-summary": 6,
+    "cumulative-metrics": 216,
+    "current-metrics": 1800,
+    "age-strata-metrics": 648,
+    "cohort-retention": 10008,
+    "layer-updates": 800,
+    "chain-integrity": 6,
+    "checkpoint-tensors": 96,
+    "checkpoint-recovery-metadata": 72,
+    "dataset-evaluator-identity": 672,
+    "target-tensor-audit": 600,
+    "raw-member-inventory": 3762
+  },
+  "denominator_partition_arithmetic": "PASS",
+  "PNG_byte_stable_count": 10,
+  "raw_free_scope": "PASS",
+  "GPU_tests": 0,
+  "pre_run_smoke": "SKIPPED_USER_DIRECTED remains unchanged"
+}

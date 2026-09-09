@@ -1,0 +1,81 @@
+{
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/main-queue-override-v1/pause-receipt.json",
+      "sha256": "bfa97fa61a02ed1b2f4ca1d319d2282cfecdf008de15af1c486773b7250039ed",
+      "receipt": {
+        "instruction_id": "ODEEDIT-S06-BLUE-MEMIT-ALPHAEDIT-LIFELONG-B100X100-SH4-V1",
+        "status": "MONITORING_PAUSED_AWAITING_GH",
+        "main_array": 39183,
+        "array_tasks": "0-5%2",
+        "release_state": "PENDING",
+        "reason_at_release": "None (immediate release inspection; no later scheduling poll)",
+        "dependency": null,
+        "user_hold": false,
+        "smoke_job": 39172,
+        "smoke_terminal": "CANCELLED by1025, elapsed00:00:00, no allocation",
+        "smoke_gate": "NOT_RUN_SKIPPED_USER_DIRECTED",
+        "main_count": 6,
+        "mapping": {
+          "39183_0": "MEMIT_BLUE_ORIGINAL",
+          "39183_1": "AlphaEdit_BLUE_ORIGINAL",
+          "39183_2": "MEMIT_BLUE_L4_ONLY",
+          "39183_3": "AlphaEdit_BLUE_L4_ONLY",
+          "39183_4": "MEMIT_BLUE_L8_ONLY",
+          "39183_5": "AlphaEdit_BLUE_L8_ONLY"
+        },
+        "output_template": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/output/main-cell-<0..5>",
+        "source_archive_sha256": "41bfacf8c9097ceb1c1c90c343b7d5676f8666d24c88438e9c7ab732a0bfb297",
+        "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "runtime_science_changed": 0,
+        "resource_per_task": {
+          "gpu": 1,
+          "cpu": 8,
+          "mem_MiB": 60416,
+          "wall_hours": 48
+        },
+        "project_cap": 2,
+        "project_allocated_before_admission": 0,
+        "future_admission_note": "Six pending tasks reserve up to two concurrent project GPUs; subsequent project admission must account for this queue, not only present allocations.",
+        "unrelated_mutations": 0,
+        "automatic_monitoring": false,
+        "new_smokes_or_tests": 0,
+        "main_started_or_firstbatch_validated": false,
+        "scientific_promotion": false
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/main-queue-override-v1/control-receipt.json",
+      "sha256": "6eb9c12690bfef44a1f1aa8fe08abc8fddc9468fb171cb2988616bac8ab22d3a",
+      "receipt": {
+        "instruction_id": "ODEEDIT-S06-BLUE-MEMIT-ALPHAEDIT-LIFELONG-B100X100-SH4-V1",
+        "authority": "USER_DIRECTED_SMOKE_WAIVER_SUBMIT_ALL_SIX_MAIN_PENDING",
+        "smoke_gate": "NOT_RUN_SKIPPED_USER_DIRECTED",
+        "smoke_is_main_dependency": false,
+        "smoke_initial_check": "39172 PENDING, RunTime00:00:00, AllocTRES(null), ownerjanghj, exact run.sbatch smoke invocation",
+        "cancel_scope": "39172 only, conditional on still PENDING",
+        "source_archive_sha256": "41bfacf8c9097ceb1c1c90c343b7d5676f8666d24c88438e9c7ab732a0bfb297",
+        "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "execution_lock_sha256": "0f91b5615bc9b7c878c77c9217e310aa8b066d237938e65f32fbb92251c51837",
+        "science_runtime_change": 0,
+        "new_tests_smokes": 0,
+        "resource": {
+          "server": "server4",
+          "cap": 2,
+          "array": "0-5%2",
+          "gpu_per_task": 1,
+          "cpus": 8,
+          "mem_MiB": 60416,
+          "wall_hours": 48
+        },
+        "queue_policy": "Reserve this array's maximum two concurrent slots for future project admission; new unrelated project admissions must account for active and already admitted pending array capacity. No active project jobs at this admission.",
+        "old_receipts": "IMMUTABLE",
+        "after_release": "MONITORING_PAUSED_AWAITING_GH; no first-batch wait or automatic monitoring"
+      }
+    }
+  ],
+  "smoke": "SKIPPED_USER_DIRECTED_NOT_PASS",
+  "evaluator_actual_tensor_padding": "manual LEFT; tokenizer property right",
+  "position_ids": "NOT_EXPLICITLY_PASSED; native model default",
+  "new_gpu_parity": "NOT_RUN"
+}

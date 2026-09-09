@@ -1,0 +1,907 @@
+[
+  {
+    "path": "final-full10000.png",
+    "sha256": "1f28b077df772fcadf2b452a8d5761a661536081c9a07c9358359f26a99d5390",
+    "bytes": 62636,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "final-summary.csv",
+        "sha256": "3000db32ab23391acb054b4ca81e95dc8970134d609be2ad58b6f68e106a6eb0"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      11.0,
+      4.7
+    ],
+    "axes": [
+      {
+        "title": "Final W100: all 10,000 edited requests",
+        "xlabel": "",
+        "ylabel": "Canonical preference success (%)",
+        "xlim": [
+          -0.646,
+          5.646000000000001
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "6 arms; RS 10000/PS 20000/NS 100000 prompts per arm, strict inequality; no missing/imputation; final endpoint only."
+  },
+  {
+    "path": "cumulative-seen-prefix.png",
+    "sha256": "fe0e152c0c772d4c674490b49eb3907478fb45c9d053c6705afca1d7dbe01d67",
+    "bytes": 161846,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "cumulative-metrics.csv",
+        "sha256": "943d556ced5ef983e0270787554817b7c39b1ec0b243276501ac6e6ba6190058"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT PS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit PS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "12 exact stored states per arm (100,500,1000..10000); denominators t/2t/10t. Connecting lines are guides, not evaluated missing states."
+  },
+  {
+    "path": "current-vs-cumulative.png",
+    "sha256": "27c10051b87079b7682e953ae35c2781a44c28416a5ccfdd8587432ab00c89e0",
+    "bytes": 108869,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "current-metrics.csv",
+        "sha256": "18275795cbe88d139f31cfaa7cc215031f4c45335ed33bb8a19efe554d7316f5"
+      },
+      {
+        "path": "cumulative-metrics.csv",
+        "sha256": "943d556ced5ef983e0270787554817b7c39b1ec0b243276501ac6e6ba6190058"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT_ORIGINAL",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L4_ONLY",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L8_ONLY",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_ORIGINAL",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L4_ONLY",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L8_ONLY",
+        "xlabel": "Sequential batch",
+        "ylabel": "RS (%)",
+        "xlim": [
+          1.0,
+          100.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Current denominator100 at each of100 batches versus all-seen denominator100*b at12 checkpoints. Distinct states/cohorts; no online pooling as final."
+  },
+  {
+    "path": "cohort-retention-heatmap.png",
+    "sha256": "0af6760ebdb28d0f3bc3feaa7336080fead3c6afe2a1bddee49f5620f095f712",
+    "bytes": 94577,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "cohort-retention.csv",
+        "sha256": "9d6e8d58bea874095bb8d9828b4d57d15eb385898f7a7c0fea0ebc838eb84ec0"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT_ORIGINAL",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "MEMIT_L4_ONLY",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "MEMIT_L8_ONLY",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "AlphaEdit_ORIGINAL",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "AlphaEdit_L4_ONLY",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "AlphaEdit_L8_ONLY",
+        "xlabel": "Write cohort (100 requests)",
+        "ylabel": "Checkpoint batch",
+        "xlim": [
+          -0.5,
+          99.5
+        ],
+        "ylim": [
+          11.5,
+          -0.5
+        ]
+      },
+      {
+        "title": "",
+        "xlabel": "",
+        "ylabel": "RS (%)",
+        "xlim": [
+          0.0,
+          1.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Each occupied cell100 requests; rows12 frozen checkpoints; future/unseen cohorts masked, no interpolation/imputation. Panel rows MEMIT/AlphaEdit, columns original/L4/L8."
+  },
+  {
+    "path": "cumulative-nll-new.png",
+    "sha256": "574730fe415f650a214d4d27cc10fa141d4449c8721f550ed0b1832e9d8b04a0",
+    "bytes": 299091,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "cumulative-metrics.csv",
+        "sha256": "943d556ced5ef983e0270787554817b7c39b1ec0b243276501ac6e6ba6190058"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT RS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          13.043378711234546
+        ]
+      },
+      {
+        "title": "MEMIT PS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          12.775345331206918
+        ]
+      },
+      {
+        "title": "MEMIT NS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          15.706366373538971
+        ]
+      },
+      {
+        "title": "AlphaEdit RS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          5.49912161023909
+        ]
+      },
+      {
+        "title": "AlphaEdit PS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          10.462733464492487
+        ]
+      },
+      {
+        "title": "AlphaEdit NS target-new",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          15.297427708148957
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Each request first averages own prompts; then median/p90 across t requests. Rewrite1/rephrase2/neighborhood10 prompts; target-new/true kept separate; no imputation."
+  },
+  {
+    "path": "cumulative-nll-true.png",
+    "sha256": "238ead50132c4474ac5608b9b9aad2f7cfefe3157173ea3c982d3551edb207e7",
+    "bytes": 282858,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "cumulative-metrics.csv",
+        "sha256": "943d556ced5ef983e0270787554817b7c39b1ec0b243276501ac6e6ba6190058"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT RS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          21.86078597784043
+        ]
+      },
+      {
+        "title": "MEMIT PS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          18.344980159997938
+        ]
+      },
+      {
+        "title": "MEMIT NS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          12.917076018184424
+        ]
+      },
+      {
+        "title": "AlphaEdit RS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          20.391131439208984
+        ]
+      },
+      {
+        "title": "AlphaEdit PS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          15.159565218687058
+        ]
+      },
+      {
+        "title": "AlphaEdit NS target-true",
+        "xlabel": "Seen requests",
+        "ylabel": "Request-cluster mean-token NLL (nats)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          11.394689779371024
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Each request first averages own prompts; then median/p90 across t requests. Rewrite1/rephrase2/neighborhood10 prompts; target-new/true kept separate; no imputation."
+  },
+  {
+    "path": "age-retention-RS.png",
+    "sha256": "e8f87f2fbe7dea64845909a4f06a8e587548ab6394ad9c7571883b2baf6c69da",
+    "bytes": 137395,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "age-strata-metrics.csv",
+        "sha256": "a9921c67a436d6978094b2d7d2f1158f32651491ef51a7443e3ccb0e850ddb4f"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT_ORIGINAL RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L4_ONLY RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L8_ONLY RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_ORIGINAL RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L4_ONLY RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L8_ONLY RS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Relative seen-prefix first20%, middle60%, last20%; prompt denominators per CSV; bins change with checkpoint, not longitudinal fixed individuals."
+  },
+  {
+    "path": "age-retention-NS.png",
+    "sha256": "17ff8a635152b385b855f8d23d17068e3ece49af8f235fb085ed26432483051f",
+    "bytes": 156486,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "age-strata-metrics.csv",
+        "sha256": "a9921c67a436d6978094b2d7d2f1158f32651491ef51a7443e3ccb0e850ddb4f"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      13.0,
+      7.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT_ORIGINAL NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L4_ONLY NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "MEMIT_L8_ONLY NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_ORIGINAL NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L4_ONLY NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      },
+      {
+        "title": "AlphaEdit_L8_ONLY NS",
+        "xlabel": "Seen requests",
+        "ylabel": "Success (%)",
+        "xlim": [
+          0.0,
+          10000.0
+        ],
+        "ylim": [
+          0.0,
+          100.0
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Relative seen-prefix first20%, middle60%, last20%; prompt denominators per CSV; bins change with checkpoint, not longitudinal fixed individuals."
+  },
+  {
+    "path": "layer-wise-update-magnitude.png",
+    "sha256": "f7ea8622abf2e65c7a8657f52bac5d3685e47ea62673c091254a8d5aedf6022a",
+    "bytes": 40989,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "layer-updates.csv",
+        "sha256": "827299de593c7e724fdc22c6e52f4d6c593ffb4f291cae8647e6ae8af83c0c09"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      11.0,
+      4.0
+    ],
+    "axes": [
+      {
+        "title": "MEMIT",
+        "xlabel": "",
+        "ylabel": "Mean batch-net Frobenius norm",
+        "xlim": [
+          -0.41300000000000003,
+          1.4129999999999998
+        ],
+        "ylim": [
+          0.0,
+          21.386979036154738
+        ]
+      },
+      {
+        "title": "AlphaEdit",
+        "xlabel": "",
+        "ylabel": "Mean batch-net Frobenius norm",
+        "xlim": [
+          -0.41300000000000003,
+          1.4129999999999998
+        ],
+        "ylim": [
+          0.0,
+          26.17209725773599
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "Each value averages100 observed batch-net update norms; unselected layer zero by support definition. Magnitude not squared norm/native action; no uniform reference line."
+  },
+  {
+    "path": "compute-accounting.png",
+    "sha256": "d49dd473eff3a12e3bdb536d18b11570cb55c2c3f37e682b6e2756ff225c7abe",
+    "bytes": 63433,
+    "source_sha256": "e26a9a7282e49c8b84c743d23cf877d744283c11231e8b0f2c6e285b91f73b56",
+    "inputs": [
+      {
+        "path": "batch-cost.csv",
+        "sha256": "6c0010a6fd885b4ba752a5cd48b7258d126eda0f70a6d642e192a7186ac26a55"
+      }
+    ],
+    "command": "python -m project.run_scripts.blue_lifelong_analysis.plots --out PACKAGE --dest NEW_FIGURE_DIRECTORY",
+    "backend": "Agg",
+    "DPI": 160,
+    "figsize_inches": [
+      11.0,
+      4.7
+    ],
+    "axes": [
+      {
+        "title": "Writer and evaluator accounting",
+        "xlabel": "",
+        "ylabel": "Recorded wall time (hours)",
+        "xlim": [
+          -0.69,
+          5.6899999999999995
+        ],
+        "ylim": [
+          0.0,
+          12.3371272152119
+        ]
+      }
+    ],
+    "colors": {
+      "ORIGINAL": "#2563a6",
+      "L4_ONLY": "#d56b28",
+      "L8_ONLY": "#238466"
+    },
+    "seed": "NO_RANDOMNESS",
+    "ordering": "methods MEMIT/AlphaEdit; variants ORIGINAL/L4_ONLY/L8_ONLY",
+    "caption": "100 batches/arm. Writer includes targets/keys/solve; evaluation includescurrent+12 seen-prefix scopes. Snapshot/hash/restore residual not attributed to writer/evaluator; not controlled speedup."
+  }
+]

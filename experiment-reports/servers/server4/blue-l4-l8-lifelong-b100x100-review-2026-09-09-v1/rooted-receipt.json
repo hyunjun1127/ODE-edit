@@ -1,0 +1,62 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-L8-LIFELONG-EXHAUSTIVE-REVIEW-SH4-V1",
+  "status": "REVIEW_READY",
+  "member_root": "4e732c5c062554b66998ede462438a0744f83758be76e6855a8c3233baae4ea4",
+  "report_sha256": "9c2a520d26e3bab27ebac3a6eab01653f5825e2294fd5194a74fe8df3b6bc38d",
+  "manifest_sha256": "c2b93f24601ff4e5afedab83541fab121df978043a388c23ca61733522395486",
+  "member_count": 54,
+  "CSV_count": 30,
+  "PNG_count": 10,
+  "tests": {
+    "status": "PASS",
+    "test_count": 10,
+    "failures": 0,
+    "errors": 0,
+    "table_counts": {
+      "final-summary": 6,
+      "cumulative-metrics": 216,
+      "current-metrics": 1800,
+      "age-strata-metrics": 648,
+      "cohort-retention": 10008,
+      "layer-updates": 800,
+      "chain-integrity": 6,
+      "checkpoint-tensors": 96,
+      "checkpoint-recovery-metadata": 72,
+      "dataset-evaluator-identity": 672,
+      "target-tensor-audit": 600,
+      "raw-member-inventory": 3762
+    },
+    "denominator_partition_arithmetic": "PASS",
+    "PNG_byte_stable_count": 10,
+    "raw_free_scope": "PASS",
+    "GPU_tests": 0,
+    "pre_run_smoke": "SKIPPED_USER_DIRECTED remains unchanged"
+  },
+  "complete_chains": 6,
+  "selected_task_active_pending": 0,
+  "scheduler_check": "single bounded initial audit; all six COMPLETED0",
+  "new_GPU_model_evaluator_Slurm": 0,
+  "other_L567_jobs": "NOT_INSPECTED_OR_MUTATED",
+  "raw_rehash": {
+    "instruction_id": "ODEEDIT-S06-BLUE-L4-L8-LIFELONG-EXHAUSTIVE-REVIEW-SH4-V1",
+    "status": "CPU_ARTIFACT_AUDIT_COMPLETE",
+    "raw_member_root": "0d92cf13d2c717273c4fe62aa9e092c3e6302bad440e72ec219c84e1c2a8e79f",
+    "raw_members": 3762,
+    "raw_bytes": 65997334452,
+    "chain_count": 6,
+    "checkpoint_count": 72,
+    "unique_request_count": 10000,
+    "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "prefix1000_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+    "raw_model_gpu_forward": 0,
+    "full_continuation_replay": 0,
+    "limits": [
+      "nonselected byte hashes unavailable",
+      "historical runtime W0 restore cannot be independently replayed without GPU",
+      "no causal method correctness inference from hashes"
+    ]
+  },
+  "scientific_promotion": false,
+  "next": "MAIN_INTEGRATION_GH_REPORT_THEN_STOP",
+  "root_sha256": "24b36d82a34f562c32af8c28809fe173fc1ab071efbd54b5d8127f1534993b4b"
+}
