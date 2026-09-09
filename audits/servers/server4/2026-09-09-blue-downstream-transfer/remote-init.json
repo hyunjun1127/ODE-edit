@@ -1,0 +1,14 @@
+{
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "rke-server2",
+    "python3 - init"
+  ],
+  "remote_script_sha256": "95df8e9cc978a9b3ba94c444cb0ff4a387a6e379bdbb31c253e3a2e5e6e1ad1f",
+  "stderr": "",
+  "stdout": "{\"status\": \"CREATE_ONCE_LANDING\", \"free_bytes\": 1690349776896, \"free_inodes\": 445705699, \"writer\": \"SH4\", \"original_overwrite\": false}\n"
+}

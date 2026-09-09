@@ -1,0 +1,22 @@
+{
+  "command": [
+    "rsync",
+    "-a",
+    "--no-owner",
+    "--no-group",
+    "--ignore-existing",
+    "--partial-dir=.rsync-partial",
+    "--stats",
+    "/data/janghj/ODE-edit/local/blue-checkpoint-downstream-transfer/20260909-v1/evaluator-source-package/",
+    "rke-server2:/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-source.partial/"
+  ],
+  "rsync_stdout": "\nNumber of files: 17 (reg: 14, dir: 3)\nNumber of created files: 16 (reg: 14, dir: 2)\nNumber of deleted files: 0\nNumber of regular files transferred: 14\nTotal file size: 85,927 bytes\nTotal transferred file size: 85,927 bytes\nLiteral data: 85,927 bytes\nMatched data: 0 bytes\nFile list size: 0\nFile list generation time: 0.001 seconds\nFile list transfer time: 0.000 seconds\nTotal bytes sent: 87,024\nTotal bytes received: 301\n\nsent 87,024 bytes  received 301 bytes  58,216.67 bytes/sec\ntotal size is 85,927  speedup is 0.98\n",
+  "remote_verification": {
+    "status": "EVALUATOR_SOURCE_READY",
+    "files": 13,
+    "source_manifest_sha256": "21badc13a1ceed8ac25edf545fcf0b3a3b9e6b69577240bf712acde84b9581e5",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-source",
+    "dataset_retransfer": 0,
+    "metric_correctness": "SH2_GH_PENDING"
+  }
+}

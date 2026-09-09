@@ -1,0 +1,15 @@
+{
+  "all_schedule_cells": 72,
+  "checkpoint_files": 72,
+  "destination_full_file_SHA_size": true,
+  "layer_tensor_rows": 96,
+  "model_GPU_forward_tests": "NOT_RUN_NOT_AUTHORIZED",
+  "path_and_arithmetic_assertions": true,
+  "scientific_promotion": false,
+  "semantic_evaluator_gate": "SH2/GH owner; not promoted by this transfer",
+  "source_CPU_tensor_hash_shape_dtype_finite": true,
+  "source_code_AST_files": 8,
+  "status": "PASS",
+  "terminal_commit_published_SHA_binding": true,
+  "total_bytes": 62011141768
+}

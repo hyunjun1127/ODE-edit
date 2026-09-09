@@ -1,0 +1,10 @@
+{
+  "GPU": 0,
+  "bytes": 62011141768,
+  "checkpoints": 72,
+  "monitoring": 0,
+  "report": "audits/servers/server4/2026-09-09-blue-downstream-transfer/factual-transfer-ko.md",
+  "report_sha256": "c9db299682ee07acaf2e8b86fe348d436669aa14180a81638484c8201b386013",
+  "scientific_promotion": false,
+  "status": "TRANSFER_READY_STOP"
+}

@@ -1,0 +1,233 @@
+{
+  "datasets": {
+    "cola": {
+      "eval100_ordered_row_hash": "f575cf6581e25f9ab8f004080bef562cc5e6b359ef0e1128329fc4e8dd245572",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "idx",
+        "label",
+        "sentence"
+      ],
+      "labels_all": {
+        "0": 322,
+        "1": 322
+      },
+      "labels_eval100": {
+        "0": 50,
+        "1": 50
+      },
+      "ordered_row_hash": "2a30c3eac91e878bd3612ba3ea5c0948176af80a214795207cd908d92594c370",
+      "reserved10_eval100_overlap": 0,
+      "rows": 644,
+      "safe_plain_pickle": true
+    },
+    "dialogue": {
+      "eval100_ordered_row_hash": "99e06b11daa6579331cc0b82915180b82a0b566576df1cab6a6f9a359d617ac0",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "answers",
+        "article",
+        "id",
+        "options"
+      ],
+      "labels_all": {
+        "NOT_PRESENT": 886
+      },
+      "labels_eval100": {
+        "NOT_PRESENT": 100
+      },
+      "ordered_row_hash": "3cc9834853765272fe8c8f899bd2db2e02d289fb38b220575a760e98c90b1766",
+      "reserved10_eval100_overlap": 0,
+      "rows": 886,
+      "safe_plain_pickle": true
+    },
+    "mmlu": {
+      "eval100_ordered_row_hash": "b3cb5f385b48db6dbe345242372699a0f51daf5ed237097015b2c672a4976ea1",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "answer",
+        "choices",
+        "question",
+        "subject"
+      ],
+      "labels_all": {
+        "0": 379,
+        "1": 379,
+        "2": 379,
+        "3": 379
+      },
+      "labels_eval100": {
+        "0": 25,
+        "1": 25,
+        "2": 25,
+        "3": 25
+      },
+      "ordered_row_hash": "9053c9f97a4a1912c932c419ceb4f6912c12f624c531e92fd89f4aac98edaf4b",
+      "reserved10_eval100_overlap": 0,
+      "rows": 1516,
+      "safe_plain_pickle": true
+    },
+    "mrpc": {
+      "eval100_ordered_row_hash": "6f4cba46cd069e27f4edbdad2ec7bc5fa9df845baa20d50b14ffa214ff547043",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "idx",
+        "label",
+        "sentence1",
+        "sentence2"
+      ],
+      "labels_all": {
+        "0": 129,
+        "1": 129
+      },
+      "labels_eval100": {
+        "0": 50,
+        "1": 50
+      },
+      "ordered_row_hash": "8a86f5819dbe7b748459bd38b68419c081d46b1e1fed1639d184c932fb4003e8",
+      "reserved10_eval100_overlap": 0,
+      "rows": 258,
+      "safe_plain_pickle": true
+    },
+    "nli": {
+      "eval100_ordered_row_hash": "0a6240d99d7d1f2fbce8483ac6794265891947cd582055d9ded763fe0be0533f",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "index",
+        "label",
+        "sentence1",
+        "sentence2"
+      ],
+      "labels_all": {
+        "entailment": 1249,
+        "not_entailment": 1240
+      },
+      "labels_eval100": {
+        "entailment": 50,
+        "not_entailment": 50
+      },
+      "ordered_row_hash": "0afdd08876a04859c5d2620b1e485c12bc80c2f81c18737eaea3b4d303b79882",
+      "reserved10_eval100_overlap": 0,
+      "rows": 2489,
+      "safe_plain_pickle": true
+    },
+    "rte": {
+      "eval100_ordered_row_hash": "526561f5cd1330fcbd3794a77bccc4658f12cf30188555b266a6a37e49718aa4",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "idx",
+        "label",
+        "sentence1",
+        "sentence2"
+      ],
+      "labels_all": {
+        "0": 131,
+        "1": 131
+      },
+      "labels_eval100": {
+        "0": 50,
+        "1": 50
+      },
+      "ordered_row_hash": "4d73af0320765b6c99fdc30ba7c748072b1fa008fe49e89e62f69837e4ca327b",
+      "reserved10_eval100_overlap": 0,
+      "rows": 262,
+      "safe_plain_pickle": true
+    },
+    "sentiment_analysis": {
+      "eval100_ordered_row_hash": "fd5ae7ab0351870ff22179f88e17871fd5e71544a6e04a8279d7fa2536e7cdb1",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "label",
+        "sentence"
+      ],
+      "labels_all": {
+        "0": 428,
+        "1": 444
+      },
+      "labels_eval100": {
+        "0": 50,
+        "1": 50
+      },
+      "ordered_row_hash": "80ab75f32f36b420c8aab2309e2b9126620f40a537d50a4db6d5b3f86c8aa062",
+      "reserved10_eval100_overlap": 0,
+      "rows": 872,
+      "safe_plain_pickle": true
+    },
+    "sst2": {
+      "eval100_ordered_row_hash": "ecb2efaefed792db3973f8ee4da29122df4460cfcf57517f540fdd370c3709af",
+      "exact_duplicate_rows": 0,
+      "keys": [
+        "idx",
+        "label",
+        "sentence"
+      ],
+      "labels_all": {
+        "0": 428,
+        "1": 428
+      },
+      "labels_eval100": {
+        "0": 50,
+        "1": 50
+      },
+      "ordered_row_hash": "f9bb4a68a3901cd01a689f8f1136ddf80646bf99f51753e93e49fc9753476972",
+      "reserved10_eval100_overlap": 0,
+      "rows": 856,
+      "safe_plain_pickle": true
+    }
+  },
+  "member_root": "e9328a5d351816cb9ba89454d228f7ade841c526313dae9c0d1a0e72a8ab00fc",
+  "members": [
+    {
+      "name": "cola.pkl",
+      "sha256": "60647626a1552b7070495ae919603a35ba04474b106d132b47067b7884bb6dc3",
+      "size": 38151
+    },
+    {
+      "name": "create_glue_subset.py",
+      "sha256": "848ca9f29a95cf9c50704041d39205f7fb7afcbcabdb1ce19364b1b5b7a6b191",
+      "size": 1753
+    },
+    {
+      "name": "dialogue.pkl",
+      "sha256": "b908c05f2c7928afbce88843ff07bb84805c5dc51753236260283cba5bbb52a1",
+      "size": 652342
+    },
+    {
+      "name": "mmlu.pkl",
+      "sha256": "fda21bebe7a7cdbaaac856ddb6e214bb78808ab845b64f25c5bf111474c6e715",
+      "size": 757282
+    },
+    {
+      "name": "mrpc.pkl",
+      "sha256": "11c20371e9e078397de2c5005d7358649ff7a6e830eac5af05bd232f4113875a",
+      "size": 66240
+    },
+    {
+      "name": "nli.pkl",
+      "sha256": "758f03cb511f1e5658648942818e35977998134a8ef35d46f475389b95c7e19b",
+      "size": 898153
+    },
+    {
+      "name": "rte.pkl",
+      "sha256": "f7e6b18e88067019e3ca5bddd4c6e54db35542f2822e72b34f7216441508eb84",
+      "size": 86425
+    },
+    {
+      "name": "sentiment_analysis.pkl",
+      "sha256": "5c8a278c8521047488ed7ed0ec00a5b9c350fbbcef1dc3603f9c596110f1618f",
+      "size": 103680
+    },
+    {
+      "name": "sst2.pkl",
+      "sha256": "e09e2cc85b7182b322012f93951b3c12f5efacd455955675bb9af81433c58b7a",
+      "size": 105835
+    },
+    {
+      "name": "useful_functions.py",
+      "sha256": "1d721f6a63d75989b400817ec9e22affde5ceaaa398c2114c3aa571a8dd25804",
+      "size": 460
+    }
+  ],
+  "path": "/data/janghj/EasyEdit/glue_eval/dataset",
+  "status": "PASS"
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=15",
+    "rke-server2",
+    "python3 - source --expected 37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa"
+  ],
+  "remote_script_sha256": "95df8e9cc978a9b3ba94c444cb0ff4a387a6e379bdbb31c253e3a2e5e6e1ad1f",
+  "stderr": "",
+  "stdout": "{\"status\": \"SOURCE_READY\", \"files\": 101, \"source_seal_sha256\": \"37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa\", \"manifest_sha256\": \"e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a\"}\n"
+}

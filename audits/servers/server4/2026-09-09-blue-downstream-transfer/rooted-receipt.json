@@ -1,0 +1,32 @@
+{
+  "checkpoint_manifest_sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a",
+  "checks": {
+    "all_schedule_cells": 72,
+    "checkpoint_files": 72,
+    "destination_full_file_SHA_size": true,
+    "layer_tensor_rows": 96,
+    "model_GPU_forward_tests": "NOT_RUN_NOT_AUTHORIZED",
+    "path_and_arithmetic_assertions": true,
+    "scientific_promotion": false,
+    "semantic_evaluator_gate": "SH2/GH owner; not promoted by this transfer",
+    "source_CPU_tensor_hash_shape_dtype_finite": true,
+    "source_code_AST_files": 8,
+    "status": "PASS",
+    "terminal_commit_published_SHA_binding": true,
+    "total_bytes": 62011141768
+  },
+  "manifest_sha256": "738bee53ed683f0ef1551b9171587af03cbb26cf5773735b0ea66f0e4867e71a",
+  "member_root": "97ea607e0ec8d408f5088ff24fd097c62c81037d46aebd9fc52b54788b0d8d45",
+  "remote_ready": {
+    "GPU": 0,
+    "bytes": 62011141768,
+    "checkpoints": 72,
+    "manifest_sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a",
+    "model_load": 0,
+    "source_seal_sha256": "37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa",
+    "status": "READY",
+    "verification": "remote full file size/SHA; source CPU tensor/schema hashes in manifest; SH2 independent loader audit separate"
+  },
+  "report_sha256": "c9db299682ee07acaf2e8b86fe348d436669aa14180a81638484c8201b386013",
+  "status": "TRANSFER_READY"
+}

@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-CHECKPOINT-DOWNSTREAM-S2-S4-V1",
+  "coverage": "이 turn의 단발 sacct -X 및 squeue 관측; 반복 polling 없음",
+  "completed": [
+    {"job": "39307", "child": "39307", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"},
+    {"job": "39283_1", "child": "39306", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"},
+    {"job": "39283_2", "child": "40425", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"},
+    {"job": "39283_3", "child": "40426", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"},
+    {"job": "39283_4", "child": "40427", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"},
+    {"job": "39283_5", "child": "39283", "owner": "janghj", "state": "COMPLETED", "exit": "0:0"}
+  ],
+  "not_ready": {"40441": "RUNNING", "40442": "RUNNING", "40443": "PENDING", "40444": "PENDING", "40445": "PENDING", "40446": "PENDING"},
+  "native_not_available": {"42657": "PENDING", "42658": "PENDING"},
+  "live_scientific_file_reads": 0,
+  "job_mutations": 0,
+  "new_gpu_model_evaluator_slurm": 0
+}

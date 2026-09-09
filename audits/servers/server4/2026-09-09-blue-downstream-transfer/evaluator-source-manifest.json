@@ -1,0 +1,185 @@
+{
+  "dataset_copy": 0,
+  "dataset_member_root": "e9328a5d351816cb9ba89454d228f7ade841c526313dae9c0d1a0e72a8ab00fc",
+  "dataset_root_on_SH2": "/mnt/raid5/janghj/EasyEdit/glue_eval/dataset",
+  "extra_imports_note": "dialogue/sentiment/perplexity copied as wrapper import closure, not extra execution authorization",
+  "members": [
+    {
+      "bytes": 8259,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "math",
+        "torch",
+        "time",
+        "numpy"
+      ],
+      "relative": "glue_eval/cola_eval.py",
+      "sha256": "8b9ba18b3dcb4b5c7583ea4812ff26636c22f8340143b2b2168b97c3a158550f"
+    },
+    {
+      "bytes": 9976,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/dialogue_eval.py",
+      "sha256": "c5aeaf544f2b2412a32fe51ca0b68103166c4f287044a7ba0953a6e2d8b44d16"
+    },
+    {
+      "bytes": 5943,
+      "imports": [
+        "sys",
+        "json",
+        "glue_eval.sst_eval",
+        "glue_eval.mrpc_eval",
+        "glue_eval.cola_eval",
+        "glue_eval.rte_eval",
+        "glue_eval.mmlu_eval",
+        "glue_eval.sentiment_analysis_eval",
+        "glue_eval.dialogue_eval",
+        "glue_eval.nli_eval",
+        "util.perplexity",
+        "datasets"
+      ],
+      "relative": "glue_eval/glue_eval.py",
+      "sha256": "732020d450a40960efd206f9dfe7610229838d740c9f4995f8cea4b408400e58"
+    },
+    {
+      "bytes": 9786,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "math",
+        "torch",
+        "time",
+        "numpy"
+      ],
+      "relative": "glue_eval/mmlu_eval.py",
+      "sha256": "e34dba1ceb7c281094f45c0679523131f11f8f9523439cf5edfcdd125835e854"
+    },
+    {
+      "bytes": 8432,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/mrpc_eval.py",
+      "sha256": "5c1e5852bdcad3dc37023a03122a33de9fb7b02c906b386abbfac2fab6227ff4"
+    },
+    {
+      "bytes": 8682,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/nli_eval.py",
+      "sha256": "7207a3bdbad6c4820c60e7de92cd1de50e203bad4b0d5d4270b4a88b17d26fa9"
+    },
+    {
+      "bytes": 8825,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/rte_eval.py",
+      "sha256": "851e0be4314f49cc9d48d2a43f2371857011c737ab5b875ae374408022440a34"
+    },
+    {
+      "bytes": 8725,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/sentiment_analysis_eval.py",
+      "sha256": "b4abeadefc70d5991d6c9b30da755707c6ec24f85ac29bd93485a0aaf4630d16"
+    },
+    {
+      "bytes": 7970,
+      "imports": [
+        "datasets",
+        "transformers",
+        "sklearn.metrics",
+        "glue_eval.useful_functions",
+        "time",
+        "torch",
+        "numpy"
+      ],
+      "relative": "glue_eval/sst_eval.py",
+      "sha256": "57f1c033f257128f4253f5e417938e10be40f1223c4536afad448dcc733f53cf"
+    },
+    {
+      "bytes": 1533,
+      "imports": [
+        "pickle"
+      ],
+      "relative": "glue_eval/useful_functions.py",
+      "sha256": "ec16120cde06cd853681545300a84776987c4811f9eec837b324c7db854e89d4"
+    },
+    {
+      "bytes": 758,
+      "imports": [
+        "torch",
+        "transformers"
+      ],
+      "relative": "util/perplexity.py",
+      "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e"
+    },
+    {
+      "bytes": 1999,
+      "imports": [],
+      "relative": "README.md",
+      "sha256": "a71002bd26098ea58cd8dbbd48888cd9b3c013fbeed51b56af0fac39b4821741"
+    },
+    {
+      "bytes": 34,
+      "imports": [
+        "logit_lens"
+      ],
+      "relative": "util/__init__.py",
+      "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+    }
+  ],
+  "metric_semantic_audit": "SH2/GH owner; source byte identity is NOT metric correctness PASS",
+  "model_GPU_forward": 0,
+  "module_imports_run": 0,
+  "source_changes": 0,
+  "source_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+  "source_kind": "BLUE glue_eval reference; not EasyEdit upstream",
+  "source_protocol": {
+    "fewshot": 0,
+    "gen_len": 5,
+    "number_of_tests": 100,
+    "split": "load_data_split reserved[:10],eval[10:110]"
+  },
+  "source_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763"
+}

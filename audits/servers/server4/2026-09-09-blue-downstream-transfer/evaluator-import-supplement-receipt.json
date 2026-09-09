@@ -1,0 +1,17 @@
+{
+  "command": [
+    "rsync",
+    "-a",
+    "--no-owner",
+    "--no-group",
+    "--ignore-existing",
+    "/data/janghj/ODE-edit/local/blue-checkpoint-downstream-transfer/20260909-v1/evaluator-import-supplement/",
+    "rke-server2:/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-import-supplement.partial/"
+  ],
+  "source_sha256": "8184c373ca4d8e4d5f60a78923243cdab9a0b1b24fcecb8ef116f7025ec356cc",
+  "remote": {
+    "status": "IMPORT_CLOSURE_SUPPLEMENT_READY",
+    "manifest_sha256": "8184c373ca4d8e4d5f60a78923243cdab9a0b1b24fcecb8ef116f7025ec356cc",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-import-supplement"
+  }
+}

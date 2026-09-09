@@ -1,0 +1,125 @@
+{
+  "member_root": "97ea607e0ec8d408f5088ff24fd097c62c81037d46aebd9fc52b54788b0d8d45",
+  "members": [
+    {
+      "bytes": 22641,
+      "path": "checkpoint-inventory.csv",
+      "sha256": "e4b8cdda72129c33f68ffa4c5fdcf9af525cd5a00802d28d1a9e5b19193bdd63"
+    },
+    {
+      "bytes": 281971,
+      "path": "checkpoint-manifest.json",
+      "sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a"
+    },
+    {
+      "bytes": 13170,
+      "path": "code/build_audit.py",
+      "sha256": "ffe540c5894c069adafaf8da4bc349509b445a5cab1a73c7bb7e12b06e080cf4"
+    },
+    {
+      "bytes": 8673,
+      "path": "code/build_inventory.py",
+      "sha256": "9dcf603edb540f997519ad1574c7824bf2939c925e56bebdb9b09d4363e9b62b"
+    },
+    {
+      "bytes": 1794,
+      "path": "code/checkpoint_loader.py",
+      "sha256": "fad4c785da0c54a49428f23e00043d3207355d3a0494dde833a023845bcab8de"
+    },
+    {
+      "bytes": 2733,
+      "path": "code/package_evaluator.py",
+      "sha256": "c9a846d53c826e3563afa6609e8861f3f839d8dab5dd5f33dfc3075a3eaff63f"
+    },
+    {
+      "bytes": 2923,
+      "path": "code/remote_seal.py",
+      "sha256": "95df8e9cc978a9b3ba94c444cb0ff4a387a6e379bdbb31c253e3a2e5e6e1ad1f"
+    },
+    {
+      "bytes": 2381,
+      "path": "code/supplement_imports.py",
+      "sha256": "0cd830c8734f2ba1bde0f783190c9dd3799f821ee0997b720a1660931a192544"
+    },
+    {
+      "bytes": 2078,
+      "path": "code/transfer.py",
+      "sha256": "a0cbc6cd007fa76911a176520512963cc6dae2221d9962bc2abd44d13d0ceabf"
+    },
+    {
+      "bytes": 2049,
+      "path": "code/transfer_evaluator.py",
+      "sha256": "f609667b64a878c8d70fa9cc6d45359432dc673499eb77c90c56795ac77f0457"
+    },
+    {
+      "bytes": 6287,
+      "path": "dataset-independent-verification.json",
+      "sha256": "955a319a3282dd483cc6889faa66b09d6b9aee5c09199e8e639b1acbdc4319e3"
+    },
+    {
+      "bytes": 520,
+      "path": "evaluator-import-supplement-manifest.json",
+      "sha256": "8184c373ca4d8e4d5f60a78923243cdab9a0b1b24fcecb8ef116f7025ec356cc"
+    },
+    {
+      "bytes": 745,
+      "path": "evaluator-import-supplement-receipt.json",
+      "sha256": "7377b82600e909ea1870054b6dd241cde995711184a6129bd57bf020c7e8c023"
+    },
+    {
+      "bytes": 5005,
+      "path": "evaluator-source-manifest.json",
+      "sha256": "21badc13a1ceed8ac25edf545fcf0b3a3b9e6b69577240bf712acde84b9581e5"
+    },
+    {
+      "bytes": 1344,
+      "path": "evaluator-source-transfer.json",
+      "sha256": "e70e49c09ada88c0a6e5119491ea7ccda20c3347fb71b475edf6912c6ca22cc7"
+    },
+    {
+      "bytes": 7747,
+      "path": "factual-transfer-ko.md",
+      "sha256": "c9db299682ee07acaf2e8b86fe348d436669aa14180a81638484c8201b386013"
+    },
+    {
+      "bytes": 513,
+      "path": "focused-checks.json",
+      "sha256": "8812cab7f1afc8f501c669c1449dce1b57d4f94356ffff7a56d31a009287e49d"
+    },
+    {
+      "bytes": 415,
+      "path": "remote-init.json",
+      "sha256": "1542812754bdce0df072944ec82ffff442435199b1ceed0764ea6917ae7c6bb7"
+    },
+    {
+      "bytes": 2725,
+      "path": "remote-payload.json",
+      "sha256": "78d25848643b309266078f82292b72ca2739a6da55d687cc026e5de4ef3bc446"
+    },
+    {
+      "bytes": 576,
+      "path": "remote-source.json",
+      "sha256": "4a0519c0d3a50d4f5663ea60e7556069e87a2f46fe545f02d106053c8bc31114"
+    },
+    {
+      "bytes": 1417,
+      "path": "rsync-payload.json",
+      "sha256": "76c80ccc36c837704ec29ac45e7e0b1446488a35addb3bf0159d13be40b2b4c6"
+    },
+    {
+      "bytes": 1323,
+      "path": "rsync-source.json",
+      "sha256": "ec88b40d320d72ab6824bf0ec3939f50177249dddd86e5badbad76365af65347"
+    },
+    {
+      "bytes": 1067,
+      "path": "scheduler-observation.json",
+      "sha256": "b90a134989a3f190f39d1fa3a10691f7b18dc5213fd13add157d375668c19687"
+    },
+    {
+      "bytes": 16448,
+      "path": "source-seal.json",
+      "sha256": "37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa"
+    }
+  ]
+}

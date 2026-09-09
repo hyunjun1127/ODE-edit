@@ -1,0 +1,22 @@
+{
+  "command": [
+    "rsync",
+    "-a",
+    "--no-owner",
+    "--no-group",
+    "--ignore-existing",
+    "--partial-dir=.rsync-partial",
+    "--stats",
+    "-e",
+    "ssh -o BatchMode=yes -o ConnectTimeout=15",
+    "/data/janghj/ODE-edit/local/blue-checkpoint-downstream-transfer/20260909-v1/source-package/",
+    "rke-server2:/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source.partial/"
+  ],
+  "delete": false,
+  "exception": "generic helper preserves source-relative destination and permits overwrites; user-directed custom imports and no-overwrite staged seal require direct allowlisted rsync",
+  "returncode": 0,
+  "seconds": 2.083462953567505,
+  "source_removal": false,
+  "stderr": "",
+  "stdout": "\nNumber of files: 103 (reg: 101, dir: 2)\nNumber of created files: 102 (reg: 101, dir: 1)\nNumber of deleted files: 0\nNumber of regular files transferred: 101\nTotal file size: 2,309,837 bytes\nTotal transferred file size: 2,309,837 bytes\nLiteral data: 2,309,837 bytes\nMatched data: 0 bytes\nFile list size: 0\nFile list generation time: 0.001 seconds\nFile list transfer time: 0.000 seconds\nTotal bytes sent: 2,317,491\nTotal bytes received: 1,950\n\nsent 2,317,491 bytes  received 1,950 bytes  1,546,294.00 bytes/sec\ntotal size is 2,309,837  speedup is 1.00\n"
+}

@@ -1,0 +1,16 @@
+{
+  "members": [
+    {
+      "relative": "util/logit_lens.py",
+      "bytes": 2893,
+      "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+    },
+    {
+      "relative": "util/nethook.py",
+      "bytes": 15506,
+      "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+    }
+  ],
+  "reason": "util.__init__ imports logit_lens, which imports util.nethook; source unchanged; original13memberseal immutable",
+  "source_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7"
+}

@@ -1,0 +1,505 @@
+{
+  "member_root": "702a1a8bc29eb35f3b0ede67f41889ccd1deda51c7430bce638bf4119468953f",
+  "members": [
+    {
+      "bytes": 281971,
+      "relative": "checkpoint-manifest.json",
+      "sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a"
+    },
+    {
+      "bytes": 3134,
+      "relative": "closure/000-integrity.py",
+      "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8"
+    },
+    {
+      "bytes": 5183,
+      "relative": "closure/001-authoritative-envelope.txt",
+      "sha256": "ab2792546f2f928305bc726592a992175d138775b09736673d08d91a8b221fd4"
+    },
+    {
+      "bytes": 8673,
+      "relative": "closure/002-build_inventory.py",
+      "sha256": "9dcf603edb540f997519ad1574c7824bf2939c925e56bebdb9b09d4363e9b62b"
+    },
+    {
+      "bytes": 1794,
+      "relative": "closure/003-checkpoint_loader.py",
+      "sha256": "fad4c785da0c54a49428f23e00043d3207355d3a0494dde833a023845bcab8de"
+    },
+    {
+      "bytes": 60382,
+      "relative": "closure/004-PROTOCOL.md",
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b"
+    },
+    {
+      "bytes": 527484,
+      "relative": "closure/005-execution.lock.json",
+      "sha256": "1111a3383047346394710905befdf5294f8de2993beaa2cb3eb5d09229154bb9"
+    },
+    {
+      "bytes": 40960,
+      "relative": "closure/006-local-source.tar",
+      "sha256": "cc834a23144f6ac23d2e3f23841405194485e4f4536c0911315676ff06ff4f48"
+    },
+    {
+      "bytes": 3255,
+      "relative": "closure/007-commit.json",
+      "sha256": "8f684816ce82a1ae3b6886524ec79d76ba99deba8f689b9572618f1b8dab30ac"
+    },
+    {
+      "bytes": 3260,
+      "relative": "closure/008-commit.json",
+      "sha256": "0ff4bb757ad2c239716910205cb6bf40fccb53fcbe2edf3e1bb06274a2fba86b"
+    },
+    {
+      "bytes": 3255,
+      "relative": "closure/009-commit.json",
+      "sha256": "95b01ad0c33266ab367f797b353b1e79006c360366c4b1469989282a158b4afa"
+    },
+    {
+      "bytes": 3259,
+      "relative": "closure/010-commit.json",
+      "sha256": "8fc37380f80e7ae3aa988a4635fcc7db822942c02cf35daac27202fe6321d008"
+    },
+    {
+      "bytes": 3259,
+      "relative": "closure/011-commit.json",
+      "sha256": "d9a6da960892909a82e451a97e4fdd1284dd6ab504ed2b200e5a3682685d8cd3"
+    },
+    {
+      "bytes": 3260,
+      "relative": "closure/012-commit.json",
+      "sha256": "60a84f846bb3728f425a4815bc5af8f5a8c3ab6031e4e5655aa2b2427fb339ff"
+    },
+    {
+      "bytes": 3255,
+      "relative": "closure/013-commit.json",
+      "sha256": "2948dafbd572865b3b202cfd6228de91952ea76562c2dd888d77a1c45f9c1498"
+    },
+    {
+      "bytes": 3255,
+      "relative": "closure/014-commit.json",
+      "sha256": "e952d0b12e0e671840153ed88426f9a31c43900b4f22ec2aabbdb48df5ccd7d7"
+    },
+    {
+      "bytes": 3256,
+      "relative": "closure/015-commit.json",
+      "sha256": "a7a8960ae40bb92926dbf87d6ebeb618019de766ae4cfd5f1e1f01049219d40f"
+    },
+    {
+      "bytes": 3258,
+      "relative": "closure/016-commit.json",
+      "sha256": "dedc18b068c350c198be77acde5c0440b5c00946d1581f9dd28aa8b14af28d65"
+    },
+    {
+      "bytes": 3259,
+      "relative": "closure/017-commit.json",
+      "sha256": "0baa436591ab5d5368b82248c2805a03c13663a2e29a37ec004599090385df65"
+    },
+    {
+      "bytes": 3261,
+      "relative": "closure/018-commit.json",
+      "sha256": "f83d8e55e02be75d0a719c145b5e2d13fe960f1cb451e1be9a893f801cce026e"
+    },
+    {
+      "bytes": 3630,
+      "relative": "closure/019-runtime.json",
+      "sha256": "6a1a193c7fc1a171de2a85a51a0261e9209d1bcae40aa004a8dad929fd721a5e"
+    },
+    {
+      "bytes": 97725,
+      "relative": "closure/020-terminal.json",
+      "sha256": "bb99df1bb83fe8fab2ab1b9f75498ab1f72a71e2c8cf34d11c5e90ae253180f1"
+    },
+    {
+      "bytes": 526723,
+      "relative": "closure/021-execution.lock.json",
+      "sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87"
+    },
+    {
+      "bytes": 40960,
+      "relative": "closure/022-local-source.tar",
+      "sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af"
+    },
+    {
+      "bytes": 2680,
+      "relative": "closure/023-commit.json",
+      "sha256": "050e9d98398c1eba9099e65acb060c9a912d920bba6eb59e3001f3376d9105d8"
+    },
+    {
+      "bytes": 2679,
+      "relative": "closure/024-commit.json",
+      "sha256": "a56fe6fc0863e0f2f227550ea1d8b8f44731de6495d99230334e5b779aee5d33"
+    },
+    {
+      "bytes": 2682,
+      "relative": "closure/025-commit.json",
+      "sha256": "c92b1756a230caa18da3401e29e5bfd177fcd3a96af33b62b0f7fb63e8b22bda"
+    },
+    {
+      "bytes": 2682,
+      "relative": "closure/026-commit.json",
+      "sha256": "669564b9490948f9fffa5521ebfcdb1e960e8f40f6c0820b1063330e6ad09f99"
+    },
+    {
+      "bytes": 2685,
+      "relative": "closure/027-commit.json",
+      "sha256": "4031ce079b1a7d37441dea6a0d9a78d830cde6799ff2c2fe5b86976a79024144"
+    },
+    {
+      "bytes": 2684,
+      "relative": "closure/028-commit.json",
+      "sha256": "a6e2e24d24681db21c64249baf0e05c12cc976e97c96eac426076375161c9e54"
+    },
+    {
+      "bytes": 2683,
+      "relative": "closure/029-commit.json",
+      "sha256": "45ace0fdd2ef4a6a90824522d0b2d3b31bdfe111491c0e884f0514c9499cb559"
+    },
+    {
+      "bytes": 2685,
+      "relative": "closure/030-commit.json",
+      "sha256": "ba17217f30b4958f2ec18fe720c30ac78ef7a9e21c08b3af32c188c4f26fa1e3"
+    },
+    {
+      "bytes": 2685,
+      "relative": "closure/031-commit.json",
+      "sha256": "5a474cc1aa3587fd421949b6ebfe8b861373e4629227df62e23813516101d300"
+    },
+    {
+      "bytes": 2684,
+      "relative": "closure/032-commit.json",
+      "sha256": "7554cfbf1faecd86bf0b328bd18bac359298964d2d8284e4e2ef54fc66f93af1"
+    },
+    {
+      "bytes": 2687,
+      "relative": "closure/033-commit.json",
+      "sha256": "607577a95fabc3adc43a2f9a40aa8f33ea5794ef09d7bdfc4a356c298ff72be8"
+    },
+    {
+      "bytes": 2689,
+      "relative": "closure/034-commit.json",
+      "sha256": "15e91297df7662f0a651c482c1d0375868d9fc5af5577e70781051644b38f282"
+    },
+    {
+      "bytes": 3659,
+      "relative": "closure/035-runtime.json",
+      "sha256": "850ed7ce290c8d6d26c82912b6a8b5d91a0ee3d86394a279aa2aca83db6a2d08"
+    },
+    {
+      "bytes": 97741,
+      "relative": "closure/036-terminal.json",
+      "sha256": "00a2f951f2c3d6348e6cd3b339c028a0736b8b0ae25a33720018b4d2b73d7c09"
+    },
+    {
+      "bytes": 2510,
+      "relative": "closure/037-commit.json",
+      "sha256": "6f71d343ae507b1d0ca66ef3ee37d8c389337ff041bf41924a413745f51a8052"
+    },
+    {
+      "bytes": 2509,
+      "relative": "closure/038-commit.json",
+      "sha256": "3661e80f2e5c7c0e075da6d432e697a759ad82f6a6b9700049ee37091a1c4ac9"
+    },
+    {
+      "bytes": 2513,
+      "relative": "closure/039-commit.json",
+      "sha256": "156c8f365102ce16874b2f1961c43ab11f23e0f3314a22e4f35500f97aeded7e"
+    },
+    {
+      "bytes": 2516,
+      "relative": "closure/040-commit.json",
+      "sha256": "edcda6b0a1b1baf774d8efb949024e2f1d10636809277ffaba7db4a6bef8f66d"
+    },
+    {
+      "bytes": 2509,
+      "relative": "closure/041-commit.json",
+      "sha256": "17dd6a64dd2574631806b0080b4df17d297551dbe4198ac9141b9019cd44de38"
+    },
+    {
+      "bytes": 2511,
+      "relative": "closure/042-commit.json",
+      "sha256": "a9c0be803a3df54195983f403c744461beaba509e01a2d8772824497e52a5a78"
+    },
+    {
+      "bytes": 2513,
+      "relative": "closure/043-commit.json",
+      "sha256": "086ee29fc682e7ff8bdea300c3082375c48b53767cc7140a6eab455c27d1ed7a"
+    },
+    {
+      "bytes": 2510,
+      "relative": "closure/044-commit.json",
+      "sha256": "1f3cd1765eaacae285c0187fe3dd1c2d8e8d9d62ae49427c8c6060dcbb3e0e5d"
+    },
+    {
+      "bytes": 2514,
+      "relative": "closure/045-commit.json",
+      "sha256": "9e777f7fba90ec048eee3ba03d9996765b4c8404fbbde6cb10e459db8876ec3e"
+    },
+    {
+      "bytes": 2514,
+      "relative": "closure/046-commit.json",
+      "sha256": "66f680acb29ab8cf31a8ec4a699f90909617eac3f589787229956522cdf97c92"
+    },
+    {
+      "bytes": 2512,
+      "relative": "closure/047-commit.json",
+      "sha256": "4f64af4fdbd8b3cc6ba0dd3e8c0b5c8007e25a628b14169d23637d975fbdd35b"
+    },
+    {
+      "bytes": 2515,
+      "relative": "closure/048-commit.json",
+      "sha256": "9e25c9948ffc4ddd0fd389ce5d38dca16764b36898623e73c577933c1c3e99cc"
+    },
+    {
+      "bytes": 3297,
+      "relative": "closure/049-runtime.json",
+      "sha256": "92c8e1714f364261adf3f6c38bd888da1f31266e3b21690fdeddc6ff86c952f2"
+    },
+    {
+      "bytes": 97726,
+      "relative": "closure/050-terminal.json",
+      "sha256": "5a6e8836b438a886a32ee586b390cbb773be4f725fc5a0b50036e862e38a2546"
+    },
+    {
+      "bytes": 2221,
+      "relative": "closure/051-commit.json",
+      "sha256": "96a133f347cad51b49000e991ecf4b96e9a1957d4ec748aa1fd523f8d0844e33"
+    },
+    {
+      "bytes": 2220,
+      "relative": "closure/052-commit.json",
+      "sha256": "e4773f7287048720d06feee78cda5141e15dbf7b986d6ef74d6a0b87de86f505"
+    },
+    {
+      "bytes": 2226,
+      "relative": "closure/053-commit.json",
+      "sha256": "56ef8232d7d1b80e645936a904b45aa38b7759da5fe7beb1004dae95e6fbe067"
+    },
+    {
+      "bytes": 2225,
+      "relative": "closure/054-commit.json",
+      "sha256": "2c052f536a0f79d25fceb7eb07ff87af86f03daaae04c1a4ef98cfd58d7a6033"
+    },
+    {
+      "bytes": 2228,
+      "relative": "closure/055-commit.json",
+      "sha256": "2be01cecfbdf446c35bdfbbf0e5bd7fc738e042a395f98fac7b14e859e599b76"
+    },
+    {
+      "bytes": 2224,
+      "relative": "closure/056-commit.json",
+      "sha256": "8289c59839ef26ed8ec68598644c4420cb9fa502c41e22672f477381f3b6e249"
+    },
+    {
+      "bytes": 2230,
+      "relative": "closure/057-commit.json",
+      "sha256": "2a78495f255b40ddf0b45ebfeb6aa79f842e9c9a2c8097b7958e544f63fed3af"
+    },
+    {
+      "bytes": 2229,
+      "relative": "closure/058-commit.json",
+      "sha256": "95a0e47868724c9f6d5db5f3ae7cb3f4d00f59b4fb4148dbfb8ff63b739e7252"
+    },
+    {
+      "bytes": 2228,
+      "relative": "closure/059-commit.json",
+      "sha256": "2007531c1047f31320645e4c3bdb1fa693db546dbe58da03bb44dbcf251af354"
+    },
+    {
+      "bytes": 2229,
+      "relative": "closure/060-commit.json",
+      "sha256": "a12ad3d3007db5ffec5fab98da234ddce689eaca9bdc78befca3de46452d3e7b"
+    },
+    {
+      "bytes": 2231,
+      "relative": "closure/061-commit.json",
+      "sha256": "5981ef43d2d0e6969edf39db514e1de551b91ff7ffb344bd7fc1a0573aa2aded"
+    },
+    {
+      "bytes": 2230,
+      "relative": "closure/062-commit.json",
+      "sha256": "ee4b353fc8896233d55e173ba49eb10df5935e8726ac7e720fef0c4b97538ad5"
+    },
+    {
+      "bytes": 3308,
+      "relative": "closure/063-runtime.json",
+      "sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4"
+    },
+    {
+      "bytes": 97740,
+      "relative": "closure/064-terminal.json",
+      "sha256": "0605044830a9defb0d00bd5c46a47051e6ea5f73d353c22001f3b07ae87712cd"
+    },
+    {
+      "bytes": 2509,
+      "relative": "closure/065-commit.json",
+      "sha256": "0e85f0c6d12720a551eeaa6b8a1ef6fa4346a479ca3fabe271a9ef8be37d755c"
+    },
+    {
+      "bytes": 2509,
+      "relative": "closure/066-commit.json",
+      "sha256": "b306e640052dfe9c56c7d8307c6cc3f9f730a5bf0aae183e1acb994898c953bf"
+    },
+    {
+      "bytes": 2512,
+      "relative": "closure/067-commit.json",
+      "sha256": "4dc8162603d064c2007bc6df9c537feb5118cf83f102ec157eded2adaf3ae342"
+    },
+    {
+      "bytes": 2515,
+      "relative": "closure/068-commit.json",
+      "sha256": "cb47335a6f8eeaaad5bf04fa3bfb41cf78b97c17e9f1b71e90b054855f24192c"
+    },
+    {
+      "bytes": 2514,
+      "relative": "closure/069-commit.json",
+      "sha256": "ad0855712faea287903a9f3401b5feb8471e1d8d44d88496f9e26ad5fbff0c75"
+    },
+    {
+      "bytes": 2512,
+      "relative": "closure/070-commit.json",
+      "sha256": "2605e4785947d287816fd6cbf501e2b8461917e3da40410ab84327bf91f003a1"
+    },
+    {
+      "bytes": 2514,
+      "relative": "closure/071-commit.json",
+      "sha256": "71d7b70c8a3d0a2b6b2902fcf7fbe6e689b848fd6ecaf355559f87ecc041e9dc"
+    },
+    {
+      "bytes": 2511,
+      "relative": "closure/072-commit.json",
+      "sha256": "9d51a689f910a05e76ed27314e46a9df0c8a54bbf32d5f4dc65b5301409cb2ba"
+    },
+    {
+      "bytes": 2513,
+      "relative": "closure/073-commit.json",
+      "sha256": "c69a9cb834fc686b6906b07c6a65d53eb74d7b812a73a1b126fb7f18ae0db76b"
+    },
+    {
+      "bytes": 2512,
+      "relative": "closure/074-commit.json",
+      "sha256": "121c18288ad8f004a550e905dc35aef9c678286aa88e5c3629c0bb921b00e36e"
+    },
+    {
+      "bytes": 2514,
+      "relative": "closure/075-commit.json",
+      "sha256": "b4caf5bbfbbe4ab50f93a03e62b428f2a616d6154807d133b476b3214fdc4f57"
+    },
+    {
+      "bytes": 2518,
+      "relative": "closure/076-commit.json",
+      "sha256": "55f73a026d907fed76d95b6ab145f401e2f9c03ef3301354046bed11c4645fd4"
+    },
+    {
+      "bytes": 3297,
+      "relative": "closure/077-runtime.json",
+      "sha256": "8e08629d2ba3f9e9a34a5bbad1caf7e8065031eac8164be0881901a0a626587e"
+    },
+    {
+      "bytes": 97727,
+      "relative": "closure/078-terminal.json",
+      "sha256": "013ebc9dc082b5399010c93148991d27a2751a26235d31e87baaf37fcc9bbe6b"
+    },
+    {
+      "bytes": 2222,
+      "relative": "closure/079-commit.json",
+      "sha256": "98b3179e78e2e06a3bb7bee1aab1c63d550d59b45baa23feb0c45050a5107b1b"
+    },
+    {
+      "bytes": 2226,
+      "relative": "closure/080-commit.json",
+      "sha256": "0b9d01a1b60bb10123022d5d92a45dd45926c0202902b97ed08d7af2d1a54965"
+    },
+    {
+      "bytes": 2228,
+      "relative": "closure/081-commit.json",
+      "sha256": "e743b5357bc73187d141dbc3c375f552741ab9960ae6012f04009d9fee04808c"
+    },
+    {
+      "bytes": 2227,
+      "relative": "closure/082-commit.json",
+      "sha256": "d181ab36ffb5def27cf3f3ea9ca7ae39649ace62f2d071c2aae1dd9ac93be314"
+    },
+    {
+      "bytes": 2229,
+      "relative": "closure/083-commit.json",
+      "sha256": "69f7b38cbbb88a5b5987e2f7510fe78f513f8a474ef302d8d92d14ff03224d59"
+    },
+    {
+      "bytes": 2229,
+      "relative": "closure/084-commit.json",
+      "sha256": "15d9ef4e4088f83c8faff62ac7814059c78dae9c036ee366a764b60e1d55c57b"
+    },
+    {
+      "bytes": 2226,
+      "relative": "closure/085-commit.json",
+      "sha256": "d8b4d9fb84dc10eaf782ec385336c39e739a70b898ad895686c8ccec2ed8c562"
+    },
+    {
+      "bytes": 2227,
+      "relative": "closure/086-commit.json",
+      "sha256": "de896625d379c2826e5f961fead84a319b61bd8768f7e54253b34e04aa260f54"
+    },
+    {
+      "bytes": 2228,
+      "relative": "closure/087-commit.json",
+      "sha256": "bcf736a01baefbbab82e449613c81aea9d3440033d42f93fb258ccd345c499c4"
+    },
+    {
+      "bytes": 2227,
+      "relative": "closure/088-commit.json",
+      "sha256": "53b3516db59fbd53121e5dd665cc03522da820177331e5451dbd2a5cc569c2c4"
+    },
+    {
+      "bytes": 2227,
+      "relative": "closure/089-commit.json",
+      "sha256": "f7b6670e1a197bff3488f909d2fdeab393c3989f3a8bfba0bdb65498ae341290"
+    },
+    {
+      "bytes": 2233,
+      "relative": "closure/090-commit.json",
+      "sha256": "82d5bc36cbaf3b28bf4a4001c636441cde2eef472d8007988d75ebd77765fe2b"
+    },
+    {
+      "bytes": 3308,
+      "relative": "closure/091-runtime.json",
+      "sha256": "dfe1781baf1a0656628e2425df3683ce20f7ea507d7e1f5da30ef99f75ff5ec6"
+    },
+    {
+      "bytes": 97740,
+      "relative": "closure/092-terminal.json",
+      "sha256": "27f3b1ceed9cd8e18cd12799864173cb93c938ba8179df6a077b6aba0b3a52cb"
+    },
+    {
+      "bytes": 711,
+      "relative": "closure/093-AlphaEdit-L4_ONLY.json",
+      "sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d"
+    },
+    {
+      "bytes": 711,
+      "relative": "closure/094-AlphaEdit-L8_ONLY.json",
+      "sha256": "753a762b333edaf770585b6ebbeea7ca71f4bc881683ac7aa00950fe7a23f55d"
+    },
+    {
+      "bytes": 718,
+      "relative": "closure/095-AlphaEdit-ORIGINAL.json",
+      "sha256": "588603990aa1234e62dd9c47f8449be60ba396358d9c0930c2ea3453606b24c4"
+    },
+    {
+      "bytes": 678,
+      "relative": "closure/096-MEMIT-L4_ONLY.json",
+      "sha256": "15908e0ff7233e9895376d87eddc36dcd116749b1800a399aa9b65e2b1f07a7f"
+    },
+    {
+      "bytes": 678,
+      "relative": "closure/097-MEMIT-L8_ONLY.json",
+      "sha256": "9007d4ffdb14376dab8ef4388e2b6bdaf35053cbc9f55725641fb10c33a0f1d1"
+    },
+    {
+      "bytes": 685,
+      "relative": "closure/098-MEMIT-ORIGINAL.json",
+      "sha256": "d6fe2d318b5ce5d5ac7040d2dbc9196dfeae3a596ad4c3886e10990e56eddf7b"
+    }
+  ]
+}
