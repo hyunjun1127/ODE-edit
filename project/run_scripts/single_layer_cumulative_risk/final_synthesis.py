@@ -85,7 +85,7 @@ def amplitude_figure(rows):
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--interpretation',type=Path,required=True)
-    args=parser.parse_args();parents={};rows=[];cost=[];contrasts=[]
+    args=parser.parse_args();parents={};rows=[];cost=[];contrasts=[];evidence=[]
     interpretation=args.interpretation.read_text()
     if 'C_RESULT_NOT_YET_AVAILABLE' in interpretation:raise ValueError('UNFINISHED_FACTUAL_INTERPRETATION')
     for stage in ['A','B','C']:
@@ -94,10 +94,18 @@ def main():
         if completion['status']!='COMPLETE' or completion['remaining_mandatory']!=0:
             raise ValueError('ALL_THREE_STAGES_MUST_BE_COMPLETE')
         parents[stage]=dict(path=str(directory),**identity,completion_sha=sha(directory/'completion.json'))
+        evidence += [dict(stage=stage,**r) for r in read(directory/'requirements-evidence.csv')]
         rows+=endpoint_rows(directory,stage,completion)
         cost += [dict(stage=stage,**r) for r in read(directory/'allocation/job-gpu-hour-ledger.csv')]
         if stage!='A':contrasts+=read(directory/'contrasts/paired-method-contrasts.csv')
+    if any(r['status']!='PASS' for r in evidence):raise ValueError('INCOMPLETE_FINAL_EVIDENCE')
     args.output.mkdir(parents=True,exist_ok=False)
+    write_csv(args.output/'requirements-evidence.csv',evidence)
+    save(args.output/'completion.json',dict(status='COMPLETE',stage='final',remaining_mandatory=0,
+         enumerated_checks=len(evidence),A_generation_endpoints=9,A_generation_prompt_rows=540,
+         upper_C_generation_endpoints=5,upper_C_generation_prompt_rows=300,
+         extra_A_DirectC8_submission=0,generation_scope_nonce='ODEEDIT-GH-SH1-CUMRISK-GENERATION-SCOPE-20260910-R1',
+         parent_bytes_unchanged=True,scientific_promotion=False))
     # A was already published before this additional paired analysis; never edit it.
     call('contrast_analysis','--stage','A','--request-table',args.parent/'A/request-metrics.csv.gz',
          '--completion',args.parent/'A/completion.json','--output',args.output/'A-paired-contrasts')
@@ -142,6 +150,9 @@ def main():
       '모든 margin은 true NLL−new NLL이다. 따라서 rewrite/rephrase에서는 큰 margin이 새 target 선호이고, '
       'neighbor에서는 작은 margin이 원래 정답 선호다. NLL은 해당 정답 token 평균으로 낮을수록 그 문자열에 높은 확률을 준다. '
       'Joint sequence probability나 literal generation accuracy와 동일한 지표가 아니다.','',
+      '생성 관측의 “Middle C step8”은 상위 C의5개 trajectory endpoint다. A는Native3+선택Direct-B/C6=9endpoint×60prompt, '
+      '상위 C는5endpoint×60prompt이다. A Direct-C step8을 추가 필수 항목으로 해석했던 준비는 '
+      '명시적 scope clarification으로 철회했으며 추가 model/GPU/Slurm 실행은0이다. 기존 A/B bytes는 바꾸지 않았다.','',
       '## Current / Fixed / Past — 사전 지정 full endpoints','']
     for stage in ['A','B','C']:
         subset=[r for r in rows if r['stage']==stage]

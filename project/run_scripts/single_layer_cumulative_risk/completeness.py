@@ -82,11 +82,6 @@ def a_evidence(registry):
                 if entry=='Middle':selections[support]=dict(alpha=selected,scores=scores,endpoint=candidate_paths[selected])
                 selected_root=Path(candidate_paths[selected]).parent
                 evidence.read(selected_root/'selected-generation.json',f'{entry}/{support}/selected-generation60',lambda x:len(x['rows'])==60)
-        if entry=='Middle':
-            # Original publication omitted this design-required observation.
-            # Missing registry binding must remain MISSING, never silently PASS.
-            generation8=Path(config.get('generation_step8',native/'MISSING-Middle-C8-generation.json'))
-            evidence.read(generation8,'Middle/selected-C-step8-generation60',lambda x:len(x['rows'])==60)
     for name,actual,expected in [('writers',writers,13),('fullbatch-steps',steps,320),('additional-native-scales',scales,12)]:
         evidence.rows.append(dict(requirement=name,path='',actual=actual,expected=expected,status='PASS' if actual==expected else 'INVALID'))
     return evidence,dict(writers=writers,fullbatch_steps=steps,native_scales=scales,selections=selections)

@@ -1,16 +1,13 @@
-# A 보조 생성 평가 coverage 정정
+# Generation scope clarification — 추가 A 관측 실행0
 
-설계 §8은 선택된 Middle Direct-C step8의60prompt greedy 생성도 요구한다.
-A의 기존539개 구현 evidence 항목에는 이 endpoint가 누락되어 있었다.
-따라서539/539는 **당시 나열된 검사**의 완료이지 원문 전체 coverage의 완전한 증명이 아니었다.
-기존 A report/manifest/receipt 및 모든 raw bytes는 그대로 보존한다.
+Authority: `ODEEDIT-GH-SH1-CUMRISK-GENERATION-SCOPE-20260910-R1`.
+설계의 “Middle C step8”은 상위 C의5개 trajectory endpoint이며,
+A selected Direct-C snapshot008을 기본 mandatory로 추가하는 계약이 아니다.
+이전 provisional commit90f0707a의 누락 해석을 이 명확화로 철회한다.
 
-새 보충은 train-only 선택 alpha0.02의 기존 `snapshot-008.pt`를 그대로 읽는다.
-같은20 Current request×3prompt,같은 tokenizer/model revision,greedy32token이다.
-새 direct/native edit,학습,선택,z 계산은0이다. 이 관측은 A 선택/B 방향/C 실행 입력에 영향을 주지 않는다.
-진행 중 C job43274는 변경하지 않는다. C의 예정 실험 이후 별도짧은 evaluation-only
-job에서 보충하여 최종 requirements/비용/receipt에 결속한다.
-
-추가 평가 전 최종 전체 완료 주장은 하지 않는다. 현재 A publication bytes를 고쳐
-누락을 숨기지 않으며 final package에 supplement identity와60행/복원증거를 추가한다.
+실제 요구량은 A Native3+선택Direct-B/C6=9endpoints×60prompt와,
+상위 C의5endpoints×60prompt이다. 기존 A/B report/manifest/receipt 및 raw bytes는 그대로다.
+준비했던 별도 A8 observer/test/launcher는 production tree에서 제거했다.
+Provisional source는 commit90f0707a에서 복구/확인 가능하며 model/GPU/Slurm 실행0이다.
+현재 C job43274/source/설정은 변경하지 않는다. 최종 완비 판정은 원래 A/B/C 요구량에 따른다.
 Scientific promotion=false.
