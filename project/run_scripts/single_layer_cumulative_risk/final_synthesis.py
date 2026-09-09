@@ -104,7 +104,10 @@ def main():
       'Curve1100쌍 및 full에서 재사용한 동일 관측행은 별도 독립 분모로 합산하지 않는다. '
       'Conditional loss/recovery, all-prompt success, TF exact 및 literal generation을 서로 구분한다.','',
       'W0=원본, We=historical entry, WN=native endpoint. NS inherited margin은 We−W0, '
-      'additional은post−We이며 N 대비 변화는 별도 reference delta다.','',
+      'additional은post−We이며 N 대비 변화는 별도 reference delta다. '
+      '모든 margin은 true NLL−new NLL이다. 따라서 rewrite/rephrase에서는 큰 margin이 새 target 선호이고, '
+      'neighbor에서는 작은 margin이 원래 정답 선호다. NLL은 해당 정답 token 평균으로 낮을수록 그 문자열에 높은 확률을 준다. '
+      'Joint sequence probability나 literal generation accuracy와 동일한 지표가 아니다.','',
       '## Current / Fixed / Past — 사전 지정 full endpoints','']
     for stage in ['A','B','C']:
         subset=[r for r in rows if r['stage']==stage]
