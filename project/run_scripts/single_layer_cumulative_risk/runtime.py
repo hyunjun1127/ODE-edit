@@ -88,10 +88,13 @@ def native_run(entry,output,model,tok,evaltok,records,cp,targets,current,w,w0,le
          native_cache_hits=100,native_compute_z=0,direct_z_influence=0,Q=q_receipt,Ub=ub_receipt,
          native_action=float(jn),native_norm=float(delta.norm()),compute=ledger.receipt()))
     progress(output,'NATIVE_PREPARED',entry=entry,rankB=ub.shape[1],rankC=q.shape[1])
+    from .train_observation import observer
+    observe=observer(model,tok,records,panel,cp['metadata']['contexts'],we,m,float(jn),ledger)
     for name,state in [('W0',w0),('ENTRY',we),('N',wn)]:
         with materialized(w,state,ledger):
             measure(model,evaltok,records,panel,True,ledger,output/f'{name}-full.json')
             save(output/f'{name}-structure.json',structural(state,w0,we,m,c0,k))
+            observe(state,output/f'{name}-train.json')
             if name=='N':generation(model,evaltok,records,panel,ledger,output/'N-generation.json')
         progress(output,'FULL_EVALUATION_SAVED',entry=entry,endpoint=name)
     for scale in [.25,.5,.75,1.25]:
@@ -99,6 +102,7 @@ def native_run(entry,output,model,tok,evaltok,records,cp,targets,current,w,w0,le
         with materialized(w,state,ledger):
             measure(model,evaltok,records,panel,False,ledger,output/f'native-scale-{scale}-curve.json')
             save(output/f'native-scale-{scale}-structure.json',structural(state,w0,we,m,c0,k))
+            observe(state,output/f'native-scale-{scale}-train.json')
         progress(output,'NATIVE_SCALING_SAVED',entry=entry,scale=scale)
 
 def direct_run(entry,support,alphas,prepared_path,output,model,tok,evaltok,records,cp,w,w0,ledger):
@@ -194,8 +198,14 @@ def main():
         if args.mode in ['B','C']:
             from .later_stages import require_previous
             require_previous(args.prior_stage_receipt,'A' if args.mode=='B' else 'B')
+        if args.mode=='direct' and args.entry!='Middle':
+            if args.selection is None:raise RuntimeError('MIDDLE_TRAIN_ONLY_SELECTION_REQUIRED')
+            selected=json.loads(args.selection.read_text())
+            assert selected['entry']=='Middle' and selected['support']==args.support
+            assert args.alpha==[selected['alpha']] and selected['PS_NS_influence']==0
+            assert sha(selected['endpoint_path'])==selected['endpoint_sha']
         lock=json.loads((ROOT/'input.lock.json').read_text());records=load_prefix(DATA,10000)
-        cp,targets,current=load_entry(args.entry,records)
+        with ledger.time('checkpoint_load_and_binding'):cp,targets,current=load_entry(args.entry,records)
         model,tok,evaltok=load_model(ledger);w=dict(model.named_parameters())[WEIGHT];w0=w.detach().clone()
         original_pointer=w.data_ptr()
         def forward_counter(module,args,kwargs):
@@ -217,6 +227,9 @@ def main():
                   original_cuda_rng_preserved_in_checkpoint=True,runtime_cuda_seed=20260907,
                   stochastic_direct_paths=0,compute=ledger.receipt(),scientific_promotion=False))
         progress(output,'MODEL_ENTRY_BOUND',entry=args.entry,mode=args.mode)
+        if args.repair_r1_covariance:
+            from .train_observation import saved_middle
+            saved_middle(model,tok,records,w,w0,ROOT/'A/Middle/native-r1',output/'Middle-native-train-observation',ledger)
         stage=args.mode
         if args.mode=='native':native_run(args.entry,output,model,tok,evaltok,records,cp,targets,current,w,w0,ledger)
         elif args.mode=='direct':direct_run(args.entry,args.support,args.alpha,args.prepared,output,model,tok,evaltok,records,cp,w,w0,ledger)

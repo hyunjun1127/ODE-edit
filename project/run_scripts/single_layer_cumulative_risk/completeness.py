@@ -45,6 +45,10 @@ def a_evidence(registry):
         if prepared:evidence.member(native/'prepared.pt',f'{entry}/prepared-bytes',prepared['sha256'])
         for endpoint in ['W0','ENTRY','N']:
             evidence.read(native/f'{endpoint}-full.json',f'{entry}/{endpoint}-full3900',lambda x:evaluation_valid(x,3900))
+        train_root=Path(config.get('native_train',native))
+        for endpoint in ['W0','ENTRY','N']+[f'native-scale-{s}' for s in [.25,.5,.75,1.25]]:
+            evidence.read(train_root/f'{endpoint}-train.json',f'{entry}/{endpoint}/observed-train-terms',
+                          lambda x:math.isfinite(x['edit_nll']) and x['observation_only'] and x['backward']==0)
         evidence.read(native/'N-generation.json',f'{entry}/N-generation60',lambda x:len(x['rows'])==60)
         for scale in [.25,.5,.75,1.25]:
             observed=evidence.read(native/f'native-scale-{scale}-curve.json',f'{entry}/native-scale-{scale}',lambda x:evaluation_valid(x,1100))

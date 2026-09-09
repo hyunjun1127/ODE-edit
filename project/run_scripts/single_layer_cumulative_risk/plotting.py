@@ -39,7 +39,7 @@ def render(rows,kind):
 
 def companion(rows,trajectories,kind):
     entries=[e for e in ['Early','Middle','Late'] if any(r['entry']==e for r in rows)]
-    train={(r['entry'],r['endpoint']+f"/eval-{int(r['step']):03d}"):r for r in trajectories}
+    train={(r['entry'],r.get('observation_endpoint') or r['endpoint']+f"/eval-{int(r['step']):03d}"):r for r in trajectories}
     with plt.rc_context({'font.family':'DejaVu Sans','font.size':9,'figure.dpi':120,'savefig.dpi':120}):
         fig,axes=plt.subplots(1,len(entries),figsize=(5*len(entries),4),squeeze=False)
         for ax,entry in zip(axes[0],entries):

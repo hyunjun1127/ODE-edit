@@ -1,6 +1,7 @@
 import unittest
 from .analysis import paired_rows,aggregate,bootstrap,csv_bytes
 from .auxiliary_analysis import ledger_delta
+from .direction_analysis import central
 
 class AnalysisTests(unittest.TestCase):
     def test_pairs_denominators_and_tie(self):
@@ -22,5 +23,9 @@ class AnalysisTests(unittest.TestCase):
         two={'seconds':{'objective':25},'counts':{'forward':250}}
         self.assertEqual(ledger_delta(two,one),{'seconds.objective':15,'counts.forward':150})
         with self.assertRaisesRegex(ValueError,'NONMONOTONE'):ledger_delta(one,two)
+    def test_sign_pair_derivative_axis_and_curvature(self):
+        # f(x)=x^2 at x=2; GFminus points toward smaller x.
+        r=central(1.5**2,2.5**2,4.,.5)
+        self.assertEqual(r,{'derivative_along_GFminus':-4.,'central_curvature':2.})
 
 if __name__=='__main__':unittest.main()

@@ -84,6 +84,11 @@ def collect(root,registry):
         base=load(native/'ENTRY-full.json')['rows'];w0=load(native/'W0-full.json')['rows']
         endpoints=[(native/name,name.removesuffix('.json')) for name in ['W0-full.json','ENTRY-full.json','N-full.json']]
         endpoints += [(p,p.stem) for p in sorted(native.glob('native-scale-*-curve.json'))]
+        train_root=Path(config.get('native_train',native))
+        for p in sorted(train_root.glob('*-train.json')):
+            name=p.name.removesuffix('-train.json')
+            endpoint=name+('-curve' if name.startswith('native-scale-') else '-full')
+            trajectories.append(dict(entry=entry,endpoint=endpoint,observation_endpoint=endpoint,step=-1,**load(p)))
         for direct in config.get('direct',[]):
             d=Path(direct)
             for candidate in sorted(d.glob('*-alpha-*')):

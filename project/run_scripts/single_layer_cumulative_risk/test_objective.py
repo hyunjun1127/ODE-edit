@@ -22,6 +22,16 @@ class Toy(torch.nn.Module):
         return types.SimpleNamespace(logits=self.out(torch.tanh(x)))
 
 class ObjectiveTests(unittest.TestCase):
+    def test_zero_coordinate_saved_weight_observation(self):
+        model=Toy().double().requires_grad_(False);weight=dict(model.named_parameters())[WEIGHT]
+        we=weight.detach().clone();state=we+.03
+        requests=[dict(prompt='{} lives in',subject='Ab',target_new={'str':' xy'})]
+        obj=DirectObjective(model,Tokenizer(),requests,[['{}']],lambda *args,**kw:0,state,
+             we.new_empty((4,0)),we.new_empty((0,0)),2.,Ledger(),penalty_cross=we.new_empty((3,0)),penalty_constant=.5,accumulate_weight_gradient=True)
+        result=obj.evaluate(we.new_empty((3,0)),False)
+        self.assertEqual(result['normalized_native_action'],.25)
+        self.assertGreater(result['edit_nll'],0)
+        torch.testing.assert_close(weight,we,rtol=0,atol=0)
     def test_actual_objective_gradient_fd_and_group_average(self):
         torch.manual_seed(20260910);model=Toy().double().requires_grad_(False)
         w=dict(model.named_parameters())[WEIGHT].detach().clone();u,_=torch.linalg.qr(torch.randn(4,2,dtype=torch.float64))
