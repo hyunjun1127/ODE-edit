@@ -1,0 +1,2 @@
+AllocTRES,ElapsedRaw,End,ExitCode,JobID,JobName,Start,State,User,allocated_gpu_hours,allocated_gpu_seconds,entry,gpu_count,output,scope,source_head
+"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1",4166,2026-09-10T08:34:57,0:0,43274,odeedit_cumrisk_C_Middle_s1,2026-09-10T07:25:31,COMPLETED,janghj,1.1572222222222222,4166,Middle,1,/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-single-layer-cumulative-risk-abc-v1/local/single-layer-cumulative-risk-abc/20260910-v1/C/Middle/run-v1,CANONICAL_EXECUTION,bb1c5536d7b53a9b65028ef31119492d95d24947

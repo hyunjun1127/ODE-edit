@@ -1,8 +1,8 @@
 {
   "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1",
   "authority_nonce": "ODEEDIT-GH-SH1-CUMRISK-AUTONOMY-20260910-R1",
-  "stage": "C",
-  "status": "A_B_COMPLETE_C_SUBMITTED",
+  "stage": "final",
+  "status": "A_B_C_COMPLETE_FINAL_REPORT_READY",
   "A_B_C_autonomous": true,
   "GH_stage_release_required": false,
   "GPU_stage_order": [
@@ -87,24 +87,28 @@
       "id": 43235,
       "component": "B Middle 21 direction-amplitude trials",
       "state": "COMPLETED",
+      "elapsed_gpu_seconds": 1761,
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     },
     {
       "id": 43236,
       "component": "B Early 21 direction-amplitude trials",
       "state": "COMPLETED",
+      "elapsed_gpu_seconds": 1782,
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     },
     {
       "id": 43247,
       "component": "B Late 21 direction-amplitude trials",
       "state": "COMPLETED",
+      "elapsed_gpu_seconds": 1793,
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     },
     {
       "id": 43274,
       "component": "C Middle five arms times eight steps",
-      "state": "SUBMITTED",
+      "state": "COMPLETED",
+      "elapsed_gpu_seconds": 4166,
       "source": "bb1c5536d7b53a9b65028ef31119492d95d24947"
     }
   ],
@@ -112,9 +116,44 @@
   "other_tasks_mutation": 0,
   "scientific_promotion": false,
   "not_claimed": [
-    "C_COMPLETE",
-    "BACKGROUND_MONITOR"
+    "BACKGROUND_MONITOR",
+    "SCIENTIFIC_PROMOTION",
+    "GENERAL_CAUSAL_OR_LOCALITY_GUARANTEE"
   ],
+  "task_owned_active_jobs": 0,
+  "remaining_mandatory": 0,
+  "allocated_gpu_seconds": 29996,
+  "allocated_gpu_hours": 8.332222222222223,
+  "C_complete": {
+    "job": 43274,
+    "arms": 5,
+    "fullbatch_steps": 40,
+    "requirements_pass": 99,
+    "generation_rows": 300,
+    "W0_restored": true,
+    "report": "experiment-reports/servers/server1/single-layer-cumulative-risk-abc-2026-09-10-v1/C/C-factual-report-ko.md",
+    "report_sha": "ed53ab9573f5647d123884bc847fae445a97453b83a0b26238777a857b1438d0",
+    "members_root": "25a924e04736aa186cf09a2375886269c7924ba94d4f2d55411b316c9983f46e",
+    "receipt_identity": "0d62cabd22155f29e6a612124b379649ca3222f3aea4af9467e86e1d18443258",
+    "GH_report_accepted_turn": "01a0888c-143a-7cb1-bc85-4290d8f603d7"
+  },
+  "final_complete": {
+    "requirements_pass": 843,
+    "report": "experiment-reports/servers/server1/single-layer-cumulative-risk-abc-2026-09-10-v1/final/final-diagnostic-report-ko.md",
+    "report_sha": "029ceba3001df7839dddbb35644f6806ab88357042dd95834cb1f2aca19baba0",
+    "manifest_sha": "36ef71ceafe31d8817c5b72770ee9a93a6cbc8fec240a2c0327a9a096ab25d63",
+    "members_root": "a365bbd505ff2c035a6370222ae3e5bff98b600f8380787e9e3c986e7d2619c2",
+    "receipt_identity": "c89336b2d18bb6b027212198112fe41798b69b8237ec72c08893b22e55b0fc68"
+  },
+  "generation_scope": {
+    "authority_nonce": "ODEEDIT-GH-SH1-CUMRISK-GENERATION-SCOPE-20260910-R1",
+    "A_native_endpoints": 3,
+    "A_selected_direct_endpoints": 6,
+    "upper_C_step8_endpoints": 5,
+    "prompts_per_endpoint": 60,
+    "extra_A_Direct_C8_submissions": 0,
+    "A_B_sealed_bytes_unchanged": true
+  },
   "gpu_hour_cap": null,
   "B_complete": {
     "trials": 63,
