@@ -35,6 +35,12 @@ class AnalysisTests(unittest.TestCase):
         # f(x)=x^2 at x=2; GFminus points toward smaller x.
         r=central(1.5**2,2.5**2,4.,.5)
         self.assertEqual(r,{'derivative_along_GFminus':-4.,'central_curvature':2.})
+    def test_method_contrast_pairs_requests_without_baseline_CI_subtraction(self):
+        from .contrast_analysis import contrast
+        def row(i,s,n):return dict(case_id=i,prompt_index=0,identity=str(i),success=s,new_nll=n,true_nll=2.,margin=2.-n)
+        r=contrast([row(1,False,3.),row(2,True,1.)],[row(1,True,1.),row(2,False,3.)])
+        self.assertEqual((r['loss'],r['recovery'],r['denominator'],r['success_delta']),(1,1,2,0.))
+        self.assertEqual(r['new_nll_delta_mean'],0.)
     def test_full_curve_exact_reuse_not_new_measurement(self):
         rows=[];neighbors={}
         for p,panel in enumerate(['Current100','Fixed100','Past100']):

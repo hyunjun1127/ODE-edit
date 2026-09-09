@@ -40,6 +40,7 @@ def main():
     repairs=[arg for path in a.covariance_repair for arg in ['--covariance-repair',path]]
     call('auxiliary_analysis','--registry',a.registry,'--stage',a.stage,'--output',a.output/'auxiliary',*repairs)
     call('metadata_analysis','--request-table',a.output/'request-metrics.csv.gz','--output',a.output/'metadata')
+    call('contrast_analysis','--stage',a.stage,'--request-table',a.output/'request-metrics.csv.gz','--completion',completion,'--output',a.output/'contrasts')
     call('job_accounting','--registry',a.registry,'--stage',a.stage,'--output',a.output/'allocation')
     if a.stage=='A':call('baseline_reuse_audit','--registry',a.registry,'--output',a.output/'baseline-reuse')
     if a.stage=='B':call('direction_analysis','--registry',a.registry,'--output',a.output/'directions')
