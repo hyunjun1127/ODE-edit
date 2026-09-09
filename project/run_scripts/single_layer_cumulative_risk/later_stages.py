@@ -111,9 +111,11 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
     c0=covariance();correction_length=.1*data['native_norm']/8
     initial_a=torch.zeros((wn.shape[0],u.shape[1]),device=w.device,requires_grad=True)
     j0,_=build_j(objective,initial_a,groups,output/'initial-group-jacobian')
+    del _
     frozen,frozen_receipt=risk_direction(wn,w0,u,j0,ledger)
     raw_global=(wn-w0)@u;den=eta*float((raw_global@u.T).double().norm())
     soft_lambda=correction_length/den if den>0 else None
+    del raw_global
     save(output/'controller.json',dict(eta=eta,eta_source=str(selection_path),selection_sha=sha(selection_path),
         correction_length=correction_length,soft_lambda=soft_lambda,soft_calibration_status='DEFINED' if soft_lambda is not None else 'UNDEFINED_ZERO_DENOMINATOR',
         frozen_receipt=frozen_receipt,nominal_momentum=.9,penalty_in_momentum=False,steps=8))
@@ -138,7 +140,12 @@ def run_c(entry,prepared_path,selection_path,output,model,tok,evaltok,records,cp
                 probe=dict(calibration_status='DEFINED')
             else:
                 if step==1:j=j0
-                else:j,_=build_j(objective,a,groups,directory/f'group-jacobian-{step:03d}')
+                else:
+                    # J from the preceding node is no longer consumed. Release
+                    # that buffer before building the next full-Q J; keep j0.
+                    del j
+                    j,_=build_j(objective,a,groups,directory/f'group-jacobian-{step:03d}')
+                    del _
                 direction,probe=risk_direction(current,w0 if arm=='RefreshedGlobal' else we,u,j,ledger)
                 correction=correction_length*direction
             with torch.no_grad(),ledger.time('C_optimizer_update'):

@@ -15,6 +15,11 @@ def table(headers,rows):
 
 def rate(row):return f"{row['numerator']}/{row['denominator']} ({100*float(row['rate']):.2f}%)"
 
+def endpoint_order(endpoint):
+    for index,prefix in enumerate(['W0','ENTRY','N-full','N_REUSED','B-alpha','C-alpha']):
+        if endpoint.startswith(prefix):return index,endpoint
+    return 6,endpoint
+
 def build_a(package,completion):
     rows=list(csv.DictReader((package/'paired-summary.csv').open()))
     lines=['# 단일 layer 누적위험 진단 — A 사실 보고서','',
@@ -33,7 +38,7 @@ def build_a(package,completion):
         selected=[r for r in rows if r['entry']==entry and r['resolution']=='full']
         lookup={(r['endpoint'],r['panel'],r['metric']):r for r in selected}
         data=[]
-        for endpoint in sorted({r['endpoint'] for r in selected}):
+        for endpoint in sorted({r['endpoint'] for r in selected},key=endpoint_order):
             for panel in ['Current100','Fixed100','Past100']:
                 metrics=[lookup.get((endpoint,panel,m)) for m in ['RS','PS','NS']]
                 if not all(metrics):continue
@@ -54,14 +59,15 @@ def build_a(package,completion):
        table(['support','selected alpha','training scores'],[[s,x['alpha'],json.dumps(x['scores'],ensure_ascii=False)] for s,x in completion.get('selections',{}).items()]),'',
        '목적함수는 context/request/target-token 평균 NLL + 0.1 native-action ratio + 0.0625 KL(student || frozen entry teacher)다. Canonical rewrite NLL 표는 이 six-context 전체 training objective와 구분한다.','',
        '## 그림과 재현','']
-    for path in sorted((package/'figures').glob('*.png')):
-        lines += [f'![{path.stem}](figures/{path.name})','']
+    for path in sorted(package.rglob('*.png')):
+        lines += [f'![{path.stem}]({path.relative_to(package)})','']
     lines += ['모든 PNG는 저장소 plotting.py를 실행하여 생성한다. 입력/명령/환경/출력 SHA 및 동일 입력 두 번 렌더링의 byte 일치는 figures/plot-reproduction.json에 기록한다. 기존 output을 덮어쓰지 않고 재현 시 새 output directory를 사용한다.','',
        '## 해석과 제한','',
        '- Early/Middle/Late는 다음 B100이 서로 다르므로 age만의 인과효과로 읽지 않는다.',
        '- Native z cache hit 비용과 direct training 비용을 cold-native online speed 비교로 해석하지 않는다. 모델 load, preparation, evaluation, generation과 optimizer 시간을 분리한다.',
        '- Norm의 합은 net norm이 아니며 native metric action은 Frobenius 제곱합이 아니다. 위험량 감소와 실제 Past/Fixed 성능 변화는 함께 해석한다.',
-       '- Curve에 없는 Past/Fixed PS는 미측정이다. 보간값이나 생성 점수로 채우지 않는다.',
+       '- Curve에 없는 Past/Fixed PS는 미측정이다. 보간값이나 생성 점수로 채우지 않는다. Full endpoint에서 curve에 해당하는 실제 행만 추출한 경우 measurement_reuse=true이며 별도 model 평가나 추가 독립 분모가 아니다.',
+       '- 그림의 marker는 W0=diamond, ENTRY=filled plus, Native=X, native scaling=square, Direct-B=circle, Direct-C=triangle이다. 각 점의 exact endpoint와 해상도는 CSV에 결속한다.',
        '- 손실 증가, risk 증가, 작은 gradient, strength 범위의 비중첩은 정상 관측이며 결과 제외나 다음 단계 차단 근거가 아니다.',
        '- A만으로 누적위험 방향이나 refresh의 정보 가치를 결론내리지 않는다. 상위 B/C의 공통 native 출발점 비교가 아직 별도로 필요하다.',
        '- 본 자동 factual table은 별도의 diagnostic discussion, direction/compute/metadata tables 및 requirements-evidence와 함께 읽는다. 없는 필드를 기록된 것으로 간주하지 않는다.','',
@@ -92,7 +98,7 @@ def build_later(package,completion):
         selected=[r for r in rows if r['entry']==entry and r['resolution']=='full' and r['reference']=='N']
         if not selected:continue
         lookup={(r['endpoint'],r['panel'],r['metric']):r for r in selected};data=[]
-        for endpoint in sorted({r['endpoint'] for r in selected}):
+        for endpoint in sorted({r['endpoint'] for r in selected},key=endpoint_order):
             for panel in ['Current100','Fixed100','Past100']:
                 metrics=[lookup.get((endpoint,panel,m)) for m in ['RS','PS','NS']]
                 if all(metrics):data.append([endpoint,panel]+[rate(r) for r in metrics])
