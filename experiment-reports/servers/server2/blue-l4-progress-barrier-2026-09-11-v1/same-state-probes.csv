@@ -1,0 +1,13 @@
+entry,arm,kind,pre_step,mean,median,p90,ci_mean_low,ci_mean_high,bootstrap,maximum,improved,worsened,denominator,first_order_difference,matched_reduced_risk,ep_reduced_risk,ep_actual_fp32_risk,matched_actual_fp32_risk,matched_velocity_risk_removal
+Middle,EP,same_state_nominal_shadow,0,3.7558086720909847e-06,2.1813805991155628e-07,1.3713977144409068e-06,1.4916643461552824e-07,8.993084721924543e-06,2000,0.0002304365140540776,4,92,100,4.871658632055187e-13,,,,,
+Middle,EP,same_state_nominal_shadow,3,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Middle,EP,same_state_nominal_shadow,7,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Middle,EP,matched_risk_at_WN,0,-1.3516962159586635e-06,0.0,1.9831350073088243e-08,-3.3989288519177754e-06,-1.1053893225205723e-07,2000,5.952703456199582e-08,42,19,100,-8.818947603767002e-06,5.921810492072699e-08,5.923780714926543e-08,5.923647190397928e-08,NOT_RECORDED,6.625610348382195e-07
+Early,EP,same_state_nominal_shadow,0,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Early,EP,same_state_nominal_shadow,3,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Early,EP,same_state_nominal_shadow,7,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Early,EP,matched_risk_at_WN,0,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,-3.7348032646530537e-06,-3.7348032646530537e-06,-3.7348036852497052e-06,NOT_RECORDED,0.0
+Late,EP,same_state_nominal_shadow,0,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Late,EP,same_state_nominal_shadow,3,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Late,EP,same_state_nominal_shadow,7,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,,,,,
+Late,EP,matched_risk_at_WN,0,0.0,0.0,0.0,0.0,0.0,2000,0.0,0,0,100,0.0,-1.5667011098179887e-07,-1.5667011098179887e-07,-1.5666879098089096e-07,NOT_RECORDED,0.0

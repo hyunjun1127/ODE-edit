@@ -1,0 +1,5 @@
+entry,arm,numerator,denominator,metric
+Middle,N,45,60,literal_prefix_not_semantic_accuracy
+Middle,H,45,60,literal_prefix_not_semantic_accuracy
+Middle,R,45,60,literal_prefix_not_semantic_accuracy
+Middle,EP,45,60,literal_prefix_not_semantic_accuracy

@@ -1,0 +1,1 @@
+{"cap":2,"cpu":8,"estimate_gpu_hours":[2.5,4],"estimate_not_limit":true,"gpu_hour_cap":null,"gpu_per_process":1,"mem_mib":60416,"other_jobs_mutation":0,"server":"server2"}
