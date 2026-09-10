@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-PROGRESS-PRESERVING-BARRIER-SH2-V1",
+  "owner": "SH2",
+  "status": "RESULTS_AND_REPORT_COMPLETE",
+  "source_head": "cd145abe6a773289120af91e012a895c1e7e6a64",
+  "source_tree": "9fa54df255240f2d5c3181bd029a72bb3ca4b582",
+  "completed_jobs": ["44124", "44143", "44144", "44158"],
+  "completed_trajectories": 12,
+  "completed_logical_steps": 104,
+  "remaining_experiment_actions": 0,
+  "publication_policy": "Authorized main integration; containing Git history records publication. STOP afterwards.",
+  "report": "experiment-reports/servers/server2/blue-l4-progress-barrier-2026-09-11-v1/diagnostic-report-ko.md",
+  "report_sha256": "902ca04d2bb646bfc28fdb8def1a9bb84ea6134a3bcc79cf36fd7ed2960025c3",
+  "local_root": "/mnt/raid5/janghj/ODE-edit/local/blue-l4-progress-barrier/attempt-v1",
+  "planned_trajectories": 12,
+  "planned_logical_steps": 104,
+  "input_lock_sha256": "97250e1466a856844bca76394dd8b5b0cf9b27bd8eeb7f70d53dee622df763e6",
+  "execution_lock_sha256": "a686bd6a9a6ed6dda0e5751ef756a7331493dcf866f675a8e9de0467f816ae2f",
+  "initial_actual_materialization_gate": "PASS_EXACT_LOGITS",
+  "other_task_monitoring_resumed": false,
+  "scientific_promotion": false
+}

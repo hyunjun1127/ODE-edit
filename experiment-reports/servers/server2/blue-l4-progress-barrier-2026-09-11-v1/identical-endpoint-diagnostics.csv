@@ -1,0 +1,8 @@
+entry,left,right,selected_weight_sha,full_evaluation_rows_exact_equal,stored_actual_risk_scalar_difference,independent_unique_state_claim
+Middle,H,EP-Free,189f26e5d66c58296ff5b6c53ea617dbcd4c9c720d7c82fd73b8bd9214d167a7,True,0.0,False
+Early,H,R,e31225fa108f10d3273bdf6b4d85e3ae3576e1c350f1eca7317bcc2c443db9bb,True,0.0,False
+Early,H,EP,e31225fa108f10d3273bdf6b4d85e3ae3576e1c350f1eca7317bcc2c443db9bb,True,0.0,False
+Early,R,EP,e31225fa108f10d3273bdf6b4d85e3ae3576e1c350f1eca7317bcc2c443db9bb,True,0.0,False
+Late,H,R,0a9e48423b0c39d5af39fdecfd0f08310caa930d30e740ebd2a15303bf3797ae,True,0.0,False
+Late,H,EP,0a9e48423b0c39d5af39fdecfd0f08310caa930d30e740ebd2a15303bf3797ae,True,0.0,False
+Late,R,EP,0a9e48423b0c39d5af39fdecfd0f08310caa930d30e740ebd2a15303bf3797ae,True,0.0,False

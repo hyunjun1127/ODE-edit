@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-PROGRESS-PRESERVING-BARRIER-SH2-V1",
+  "verified_at_utc": "2026-09-10 19:24:31 UTC",
+  "status": "FOCUSED_CPU_PASS",
+  "unittest_tests": 13,
+  "formula_and_observer_tests": 8,
+  "reducer_tests": 5,
+  "failures": 0,
+  "python_compileall": "PASS",
+  "bash_syntax": "PASS",
+  "pretrained_model_calls": 0,
+  "gpu_actions": 0,
+  "small_cpu_toy_model_fixture": true,
+  "expected_warning": "Frozen input parameters cause the full backward hook to fire on output gradients; request-observer fixture passes.",
+  "execution_source_head": "cd145abe6a773289120af91e012a895c1e7e6a64",
+  "analysis_source_binding": "Final publication analysis-source-manifest.json",
+  "scientific_promotion": false
+}

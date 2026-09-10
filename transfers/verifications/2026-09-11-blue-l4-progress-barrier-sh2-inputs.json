@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-S06-BLUE-L4-PROGRESS-PRESERVING-BARRIER-SH2-V1",
+  "설명": "SH2 단독 allowlist pull; source/destination 전체 SHA 검증 뒤 imports.partial을 seal. 기존 동일 P/C0는 재수신하지 않음.",
+  "owner": "SH2",
+  "source_server": "server1",
+  "destination": "/mnt/raid5/janghj/ODE-edit/local/blue-l4-progress-barrier/attempt-v1/imports",
+  "files": 89,
+  "bytes": 13461868847,
+  "source_manifest": "/mnt/raid5/janghj/ODE-edit/local/blue-l4-progress-barrier/attempt-v1/transfer-source-manifest.json",
+  "source_manifest_sha256": "f3665f1f193c00a5cebef67e9d0350178c82ba3be70c9f0d8ded4c462f44cc81",
+  "status": "FULL_SHA_PASS",
+  "overwrite": 0,
+  "source_mutation": 0,
+  "P_reuse_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+  "C0_reuse_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+}
