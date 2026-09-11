@@ -115,11 +115,14 @@ class NativeGeometryTests(unittest.TestCase):
         k, m, p, _ = fixture()
         before = k.clone(), m.clone(), p.vectors.clone()
         geometry = NativeWriterMetric(k, m, p)
+        # The source input is untouched; the derived SPD metric uses sym(M).
+        # Some BLAS kernels return an ULP-asymmetric Gram even for X@X.T.
+        torch.testing.assert_close(m, before[1], rtol=0, atol=0)
         k.add_(3)
         m.add_(4)
         p.vectors.zero_()
         torch.testing.assert_close(geometry.keys, before[0], rtol=0, atol=0)
-        torch.testing.assert_close(geometry.history, before[1], rtol=0, atol=0)
+        torch.testing.assert_close(geometry.history, (before[1]+before[1].T)*.5, rtol=0, atol=0)
         torch.testing.assert_close(geometry.projector.vectors, before[2], rtol=0, atol=0)
         self.assertEqual(str(geometry.cholesky.device), "cpu")
 
