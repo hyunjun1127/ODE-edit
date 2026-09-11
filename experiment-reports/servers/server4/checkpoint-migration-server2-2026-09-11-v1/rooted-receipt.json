@@ -1,0 +1,27 @@
+{
+  "status": "COMPLETE",
+  "manifest_sha256": "d63e34d8faf2d5f62427c0b7d9f1905860386a63a4af696c9c6139ee269d4636",
+  "report_sha256": "de091629c53deab0d50b475e511948a5d547e70da2ae60135c668547239bdd05",
+  "member_root": "64487556f141f854bd2ec37b494004bca5a3cdac306dd12edcd9913eaa2d72f7",
+  "summary": {
+    "checkpoint_inventory": 183,
+    "inventory_bytes": 240176147811,
+    "removed": 183,
+    "removed_logical_bytes": 240176147811,
+    "reused_count": 72,
+    "reused_bytes": 62011141768,
+    "new_count": 111,
+    "new_bytes": 178165006043,
+    "held": 0,
+    "additional_preserved": 4,
+    "additional_preserved_bytes": 6341797900,
+    "observed_filesystem_delta": 240176029696,
+    "GPU": 0,
+    "model": 0,
+    "Slurm_mutation": 0,
+    "scientific_outcome_change": false
+  },
+  "synthetic_guard_tests": 5,
+  "full_GPU_replay": 0,
+  "next": "OWN_SCOPE_NONFORCE_MAIN_PUSH_THEN_STOP"
+}

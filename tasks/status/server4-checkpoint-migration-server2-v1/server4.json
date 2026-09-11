@@ -1,0 +1,11 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1",
+  "status": "COMPLETE",
+  "checkpoints_retained_and_source_removed": 183,
+  "logical_bytes": 240176147811,
+  "observed_filesystem_available_delta_bytes": 240176029696,
+  "additional_smoke_checkpoints_preserved": 4,
+  "gpu_model_evaluator_slurm_mutations": 0,
+  "scientific_promotion": false,
+  "next": "DIRECT_HANDOFF_THEN_STOP"
+}
