@@ -46,3 +46,16 @@ def panel(view,rows,saved_teacher,pad_token_id,role,physical_microbatch=2):
         batches.append(OutputBatch(logits_fn=b.logits,**b.metadata(),**bind_teacher(b,saved_teacher),
           identity='|'.join(r['identity'] for r in b.rows),input_tokens=int(b.attention_mask.sum())))
     return FunctionalPanel(batches,role,tau=.1)
+
+def observe_panel(functional_panel,weights):
+    """Observation bridge for shared API v1, preserving all raw context terms."""
+    from .functional import values
+    result=[];total=0.;mean_nll=0.
+    with torch.no_grad():
+        for b in functional_panel.batches:
+            logits=functional_panel._logits(weights,b)
+            loss,nll,per,nlls=values(logits,b,functional_panel.role,functional_panel.tau)
+            total+=float(loss);mean_nll+=float(nll)
+            result.append(dict(identity=b.identity,values=per.cpu().tolist(),nll=nlls.cpu().tolist(),
+              context_weights=b.context_weights.cpu().tolist()))
+    return dict(value=total,mean_nll=mean_nll,context_rows=result,counts=functional_panel.counts.copy())
