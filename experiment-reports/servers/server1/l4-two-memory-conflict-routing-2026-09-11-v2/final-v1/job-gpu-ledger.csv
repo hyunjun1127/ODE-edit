@@ -1,0 +1,12 @@
+job,status,exit,elapsed_seconds,allocated_gpus,gpu_seconds,alloc_tres
+44573,COMPLETED,0:0,2439,1,2439,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44608,COMPLETED,0:0,1847,1,1847,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44615,COMPLETED,0:0,1844,1,1844,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44645,COMPLETED,0:0,838,1,838,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44646,COMPLETED,0:0,931,1,931,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44654,CANCELLED by 1025,0:0,178,1,178,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44655,CANCELLED by 1025,0:0,178,1,178,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44656,COMPLETED,0:0,1538,1,1538,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44657,COMPLETED,0:0,1628,1,1628,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44678,COMPLETED,0:0,1186,1,1186,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"
+44683,COMPLETED,0:0,1417,1,1417,"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"

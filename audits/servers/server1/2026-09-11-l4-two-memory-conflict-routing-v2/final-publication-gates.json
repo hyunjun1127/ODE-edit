@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "analysis_head": "aee197b5ad8e7c9eb28c0b0cd358cc9fc7c36805",
+  "analysis_tree": "4117bfe71add1d2475dc3fad272fdc2f32809011",
+  "focused_tests": 24,
+  "focused_test_result": "Ran 24 tests in 2.886s; OK",
+  "canonical_nodes": 37,
+  "negative_dual_or_slack_count": 0,
+  "snapshot_endpoints_verified": 19,
+  "full_endpoint_pair_rows": 100620,
+  "intermediate_pair_events": 2400,
+  "generation_prompts": 852,
+  "payload_members_full_rehash": 52,
+  "source_members_full_rehash": 41,
+  "payload_bytes": 95657458,
+  "markdown_tables_valid_unescaped_pipe_width": 17,
+  "PNG_actual_byte_stable_reruns": 5,
+  "raw_prompt_tensor_model_log_members": 0,
+  "input_byte_changes": 0,
+  "all_attempt_gpu_seconds": 14024,
+  "GPU_actions_during_analysis": 0,
+  "scientific_promotion": false
+}

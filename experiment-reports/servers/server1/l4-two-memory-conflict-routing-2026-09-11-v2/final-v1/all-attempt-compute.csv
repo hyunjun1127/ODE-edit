@@ -1,0 +1,210 @@
+job,purpose,scope,category,component,value
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,33600
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,9
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,4216
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_pairs_reused,11700
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,9
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,1728
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,224012
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,9601
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,19201
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,7680
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,240
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_b100_endpoint_reused,1
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,862
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_targets_reused,100
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,4
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,4
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,current_intermediate_evaluation,57.71676820144057
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,586.4324148092419
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_projector_eigen,27.430458534508944
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_space_factor_static_inverse,10.087533108890057
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,623.6565424390137
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,491.9554184600711
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,361.6214989889413
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,10.073205932974815
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_representation_capture,51.35591159760952
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,teacher_and_key_capture,24.075636951252818
+44573,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,1.1832203958183527
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,24600
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,3086
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_pairs_reused,11700
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,full_projector_exact_reuse,1
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,1728
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,144676
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,6145
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,12289
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,5760
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,180
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_b100_endpoint_reused,1
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,862
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_targets_reused,100
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,3
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,3
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,current_intermediate_evaluation,28.17368876002729
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,430.5847134646028
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_space_factor_static_inverse,10.13124493137002
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,630.6482357233763
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,263.6814432051033
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,272.1163867264986
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,12.614050038158894
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_representation_capture,51.19114141911268
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,teacher_and_key_capture,24.24020011536777
+44608,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.9073479231446981
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,24600
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,3086
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_pairs_reused,11700
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,full_projector_exact_reuse,1
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,1728
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,142354
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,6145
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,12289
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,5760
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,180
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_b100_endpoint_reused,1
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,862
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_targets_reused,100
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,3
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,3
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,current_intermediate_evaluation,29.49600818939507
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,442.11135417222977
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_space_factor_static_inverse,10.113591350615025
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,622.2276492528617
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,260.088324746117
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,271.36894753947854
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,9.77387948334217
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_representation_capture,51.7759291511029
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,teacher_and_key_capture,24.044237917289138
+44615,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.9225646909326315
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,26130
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,3300
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,full_projector_exact_reuse,1
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,192
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,57330
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,2689
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,5377
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,288
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,9
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_proposal_build,1
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,523
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_temporary_restore,1
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_z_cache_hits,1
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,3
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,3
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,489.6418357472867
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_space_factor_static_inverse,9.242979085072875
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,74.10284210927784
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,134.11907646246254
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,13.573728380724788
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,15.344834262505174
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_joint_write,1.8459745068103075
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_representation_capture,28.72536463662982
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,teacher_and_key_capture,24.192707939073443
+44645,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.9203056897968054
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,26910
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,3380
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,full_projector_exact_reuse,1
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,192
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,57268
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,2689
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,5377
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,2016
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,63
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_proposal_build,1
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,583
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_temporary_restore,1
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,native_z_cache_hits,7
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,3
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,3
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,507.05099351890385
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,full_space_factor_static_inverse,9.292015006765723
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,70.44454386644065
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,134.23144381307065
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,94.8250081576407
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,10.624097680673003
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_joint_write,4.447174308821559
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,native_representation_capture,30.034929620102048
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,teacher_and_key_capture,24.13370943069458
+44646,original primary; selected iterative paths later technically excluded,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.6402237247675657
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,base_evaluation_candidate_sequences,5376
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,base_evaluation_forwards,672
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,evaluation_materialization,1
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,evaluation_restore,1
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,native_representation_physical_batches,300
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,base_audit_answer_and_NS,89.85346848331392
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,current_all_context_entry_readout,20.187155256047845
+44654,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,model_load,12.753509039059281
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,base_evaluation_candidate_sequences,5376
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,base_evaluation_forwards,672
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,evaluation_materialization,1
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,evaluation_restore,1
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,counts,native_representation_physical_batches,300
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,base_audit_answer_and_NS,90.74571365304291
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,current_all_context_entry_readout,20.647044392302632
+44655,observation interrupted after technical domain discovery; partial valid W0 reused,INTERRUPTED_LAST_SAVED_LOWER_BOUND,seconds,model_load,12.95184119231999
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,18000
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,2260
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,1536
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,166592
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,6912
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,13824
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,3840
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,120
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,2
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,2
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,current_intermediate_evaluation,58.12393305450678
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,295.064910389483
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,480.12926711142063
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,357.3880393411964
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,181.2458584588021
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,12.879473043605685
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,saved_metric_bind_progress,1.8107711598277092
+44656,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.5902104042470455
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_candidate_sequences,18000
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,6
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_model_forwards,2260
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,6
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_backward,3072
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_input_tokens,169406
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_model_forward,6912
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,functional_sequences,13824
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,generation_output_tokens,3840
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,generation_sequences,120
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_active_ledger_finalize,2
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,counts,terminal_history_append,2
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,current_intermediate_evaluation,59.04980616644025
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,full_endpoint_evaluation,295.91697547212243
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_gradient,663.7566238511354
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,functional_harm,255.29115121252835
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,generation,181.20514985360205
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,14.313158456236124
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,saved_metric_bind_progress,3.543538646772504
+44657,four affected iterative path replacements only,COMPLETE_ALLOCATION_COUNTERS,seconds,terminal_history_finalize,0.6223419141024351
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_endpoint_observation_reused,1
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_evaluation_candidate_sequences,64512
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_evaluation_forwards,8064
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,12
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,12
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,600
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,base_audit_answer_and_NS,1085.512934859842
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,current_all_context_entry_readout,40.550485506653786
+44678,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,12.191598445177078
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_endpoint_observation_reused,1
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_evaluation_candidate_sequences,80640
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,base_evaluation_forwards,10080
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_materialization,15
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,evaluation_restore,15
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,counts,native_representation_physical_batches,324
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,base_audit_answer_and_NS,1342.0463768690825
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,current_all_context_entry_readout,21.995852267369628
+44683,mandated saved-endpoint BaseNS/context observations,COMPLETE_ALLOCATION_COUNTERS,seconds,model_load,11.370968952775002

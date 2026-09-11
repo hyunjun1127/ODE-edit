@@ -1,0 +1,6 @@
+entry,batch_raw,peak_allocated_gpu_bytes,new_paths,native_reused
+Early,100,44024290304,3,True
+Middle,100,44024803328,4,True
+Late,100,44025431040,3,True
+Middle,1,41585044480,3,False
+Middle,7,41591032832,3,False

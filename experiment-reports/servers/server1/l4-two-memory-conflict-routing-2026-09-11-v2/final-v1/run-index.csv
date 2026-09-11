@@ -1,0 +1,6 @@
+entry,batch_raw,batch_effective,path,source_head,job,new_paths,native_reused
+Early,100,100,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Early-B100,7e515f938dcca270388abec9e2e941d77e5ed884 + BF-repair 7b2ac5563f63be105d920cc37175d451d6323a59,44608 + BF-repair 44657,3,True
+Middle,100,100,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Middle-B100,7e515f938dcca270388abec9e2e941d77e5ed884 + BF-repair 7b2ac5563f63be105d920cc37175d451d6323a59,44573 + BF-repair 44656,4,True
+Late,100,100,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Late-B100,7e515f938dcca270388abec9e2e941d77e5ed884 + BF-repair 7b2ac5563f63be105d920cc37175d451d6323a59,44615 + BF-repair 44657,3,True
+Middle,1,1,local/l4-two-memory-conflict-routing/20260911-v2/attempt-r1/Middle-B1,7e515f938dcca270388abec9e2e941d77e5ed884,44645,3,False
+Middle,7,7,local/l4-two-memory-conflict-routing/20260911-v2/attempt-r1/Middle-B7,7e515f938dcca270388abec9e2e941d77e5ed884,44646,3,False
