@@ -44,6 +44,8 @@ context_weights, teacher_logp, reference_nll, identity='', input_tokens=0)`.
   backward on the same forward graph and records that cost. No duplicate
   evaluator forward is hidden. `context_rows` is local-only raw data.
 - `.value(weights) -> float` actual scalar risk/profile, no-grad, counts forward.
+- `.observe(weights) -> {value, mean_nll, context_rows}` shares the same single
+  no-grad forward for risk/profile and NLL; used for Frozen RHS/post-node facts.
 - `.ggn(weights, direction) -> WeightTree`: full-model JVP and VJP. Two actual
   model forwards per microbatch (one reverse graph, one forward AD), explicitly
   counted; no explicit Jacobian/Hessian or functional cross-block removal.
@@ -110,3 +112,25 @@ primal oracle, no negative dual, PCG true residuals, zero/approximate paths,
 full cross-block GGN, Past two-term action, global mean physical1/2/4 and FD
 of the actual objective gradient. Actual model/packing/FP32 forward and
 checkpoint restoration are separate required gates; not claimed by CPU PASS.
+
+## B path adapter v1
+
+`track_b.protocol.BProblem` owns immutable WN selected weights, support, fixed
+Base/Past/Current panels, fixed native operator callbacks, native risks,
+Current-reference mean NLL, validate_state callback and fixture identity.
+`run(problem, arm, on_node=None)` returns final FP32 blocks and local-only rows.
+Arms are B-OS/B-BF4/B-Frozen-BF4 and explicitly named N4-L4-FUNCTIONAL-OS.
+The inner live model remains frozen under JointView. All inner states are
+full-sequence functional FP32 selected weights. Caller materializes the final
+blocks and validates actual byte/forward parity before claiming an endpoint.
+No hidden writer/history append in inner callbacks.
+
+`track_b.native_adapter.operators(geometries)` adapts SH1 full-P* FP64 native
+geometry actions back to each input PCG vector's dtype; normalization remains
+trace(S)/din and factor/contraction internals remain FP64. This explicit vector
+storage boundary prevents FP64 native actions from silently producing FP64
+model weights. It is neither low-rank approximation nor a BF16 conversion.
+
+Operational override policy ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911 applies:
+after minimum actual initial-valid, agent stops; no autonomous terminal polling,
+follow-up submissions, analysis/main integration before explicit USER recall.
