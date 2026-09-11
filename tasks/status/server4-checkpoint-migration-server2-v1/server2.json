@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1",
+  "owner": "SH2",
+  "status": "INITIAL72_VERIFIED_AWAITING_NEW_BUNDLE_MANIFEST",
+  "verified_checkpoint_count": 72,
+  "verified_checkpoint_bytes": 62011141768,
+  "retention": "IN_PLACE_KEEP",
+  "sole_payload_writer": "SH4",
+  "source_deletion_owner": "SH4",
+  "local_control": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1",
+  "archive": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1",
+  "rsync_actions": 0,
+  "source_deletions": 0,
+  "gpu_model_evaluation_slurm_actions": 0,
+  "other_task_monitoring_resumed": false
+}
