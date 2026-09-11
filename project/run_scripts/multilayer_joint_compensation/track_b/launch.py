@@ -21,6 +21,7 @@ def admission(exclude_job=None):
     for line in queue['stdout'].splitlines():
         job,name,tres,state=line.split('|')
         if job==exclude_job:continue
+        if name=='odeedit_multilayer_b_s2':return False,dict(gate=gate,queue=queue,reason='DUPLICATE_B_JOB_ACTIVE_OR_PENDING')
         if not name.startswith(('odeedit_','odealloc_')):continue
         if '[' in job or 'gpu:' not in tres:return False,dict(gate=gate,queue=queue,reason='UNRESOLVED_ARRAY_OR_GPU_COUNT')
         count=sum(int(t.split(':')[-1]) for t in tres.split(',') if t.startswith('gres/gpu:') or t.startswith('gpu:'))
@@ -29,7 +30,8 @@ def admission(exclude_job=None):
     return gpu_count+1<=2,dict(gate=gate,queue=queue,project_jobs=jobs,existing_including_pending=gpu_count,requested=1,cap=2)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--input-lock',required=True);p.add_argument('--attempt',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--input-lock',required=True);p.add_argument('--attempt',required=True)
+    p.add_argument('--test-repair-lock');a=p.parse_args()
     root=Path.cwd();attempt=Path(a.attempt).absolute();attempt.mkdir(parents=True,exist_ok=False)
     boundary=command(['scripts/check-session-boundary.sh',SESSION]);save(attempt/'session.json',boundary)
     if boundary['exit']:raise RuntimeError('SESSION_BOUNDARY')
@@ -45,6 +47,9 @@ def main():
         input_lock=dict(path=str(inp),sha256=sha(inp)),arm='B-OS',entry='Middle',GPU=1,mem_mib=60416,CPUs=8,cap=2,
         output=str(attempt/'output'),monitoring_policy='ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911',
         agent_pauses_after_initial_valid=True,no_automatic_followup_submission=True,scientific_promotion=False)
+    if a.test_repair_lock:
+        repair=Path(a.test_repair_lock).absolute()
+        execution['test_repair_lock']=dict(path=str(repair),sha256=sha(repair))
     execution_path=attempt/'execution.lock.json';save(execution_path,execution)
     allowed,cap=admission();save(attempt/'admission.json',cap)
     if not allowed:

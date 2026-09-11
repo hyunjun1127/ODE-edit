@@ -108,8 +108,23 @@ def runtime(args):
             full=JointView(model,names,ledger);view=SelectedView(full,entry['WN'],support)
             fixed_wn_sha={name:tensor_sha(w) for name,w in zip(names,view.wn)}
             phase='CURRENT_REFERENCE'
-            wn_teacher=teacher(view,view.entry,packed['Current'],tok.pad_token_id,args.physical_microbatch)
-            tensor_save(out/'WN-current-teacher.pt',wn_teacher)
+            if 'test_repair_lock' in execution:
+                ref=execution['test_repair_lock']
+                if sha(ref['path'])!=ref['sha256']:raise RuntimeError('TEST_REPAIR_LOCK_CHANGED')
+                repair=json.loads(Path(ref['path']).read_text())
+                for m in repair['old_members']:
+                    if sha(m['path'])!=m['sha256']:raise RuntimeError('OLD_REPAIR_EVIDENCE_CHANGED')
+                old_run=json.loads(Path(repair['old_run_lock']).read_text())
+                if old_run['common_ready_sha']!=receiver['source_ready_sha256'] or old_run['torch']!=torch.__version__ or old_run['transformers']!=transformers.__version__:
+                    raise RuntimeError('REPAIR_COMMON_RUNTIME_MISMATCH')
+                wn_teacher=torch.load(repair['old_teacher'],map_location='cpu',weights_only=True)
+                ledger.add('WN_teacher_exact_reuse')
+                save(out/'WN-current-teacher-reuse.json',dict(test_repair_lock_sha=ref['sha256'],
+                    source=repair['old_teacher'],sha256=sha(repair['old_teacher']),fixed_WN=fixed_wn_sha,
+                    packing=digest(packed['Current']),new_teacher_forward=0))
+            else:
+                wn_teacher=teacher(view,view.entry,packed['Current'],tok.pad_token_id,args.physical_microbatch)
+                tensor_save(out/'WN-current-teacher.pt',wn_teacher)
             teacher_map={role:torch.load(source/f'We-teacher-{role}.pt',weights_only=True,map_location='cpu') for role in ('Base','Past')}
             current=panel(view,packed['Current'],wn_teacher,tok.pad_token_id,'current',args.physical_microbatch)
             base=panel(view,packed['Base'],teacher_map['Base'],tok.pad_token_id,'base',args.physical_microbatch)
