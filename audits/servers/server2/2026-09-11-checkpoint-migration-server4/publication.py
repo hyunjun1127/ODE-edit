@@ -32,12 +32,17 @@ def main(deletion_receipts):
     source_by={r['source']:r for r in mappings};removed=[];deletion_refs=[]
     for p in deletion_receipts:
         d=json.loads(p.read_text());assert d.get('recursive_delete',0)==0
+        assert d['status']=='SOURCE_EXACT_FILES_REMOVED_DESTINATION_PRESERVED'
+        assert d['receiver_receipt_sha256'] in {x['sha256'] for x in receipts}
+        assert len(d['removed'])==d['count']
+        assert sum(x['bytes'] for x in d['removed'])==d['logical_bytes']
         for row in d['removed']:
             m=source_by[row['source']]
             assert row['removed'] and (row['destination'],row['sha256'],row['bytes'])==(m['destination'],m['sha256'],m['bytes'])
             removed.append(row)
         deletion_refs.append(dict(path=str(p),sha256=sha(p),count=d['count'],logical_bytes=d['logical_bytes'],observed_available_delta=d.get('observed_available_delta'),source_owner='SH4',independent_remote_query_by_SH2=False))
     assert len({r['source'] for r in removed})==len(removed)
+    assert len(removed)==183, 'FINAL_PUBLICATION_REQUIRES_ALL_SOURCE_RECEIPTS'
     summary=dict(instruction_id='ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1',
         status='DESTINATION_PRESERVATION_COMPLETE',retained_count=183,retained_bytes=240176147811,
         reused_count=72,reused_bytes=62011141768,new_count=111,new_bytes=178165006043,

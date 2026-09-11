@@ -14,11 +14,20 @@ def rename_noreplace(source,target):
 
 def main(name,ready):
     assert ready.is_file() and ready.resolve().is_relative_to(CONTROL/'incoming')
+    completion=json.loads(ready.read_text())
+    assert completion['status']=='RSYNC_COMPLETED_NOT_DESTINATION_VERIFIED'
+    assert completion['phases'] and all(p['returncode']==0 for p in completion['phases'])
     # The caller binds this exact source transfer completion receipt after SH4 READY, never a partial payload.
     records=json.loads((CONTROL/(name+'-full-rehash.json')).read_text())
     refs=json.loads((CONTROL/(name+'-reference-closure.json')).read_text())
     assert records['status']=='ALL_BYTES_VERIFIED_AWAITING_REFERENCE_CLOSURE'
     assert refs['status']=='REFERENCE_CLOSURE_PASS' and not refs['missing']
+    coverage=None
+    if name=='jvp1k-v1':
+        cp=CONTROL/'jvp1k-v1-reference-coverage.json'
+        coverage=json.loads(cp.read_text())
+        assert coverage['status']=='REFERENCE_COVERAGE_PASS'
+        assert coverage['reference_receipt_sha256']==sha(CONTROL/(name+'-reference-closure.json'))
     stage=ARCHIVE/(name+'.partial');final=ARCHIVE/name
     for item in refs['verified']:
         v=item['destination'];s=Path(v['path']).stat()
@@ -39,15 +48,17 @@ def main(name,ready):
     fd=os.open(ARCHIVE,os.O_RDONLY|os.O_DIRECTORY)
     try:os.fsync(fd)
     finally:os.close(fd)
-    catalog=dict(bundle=name,retention='KEEP_UNTIL_SEPARATE_USER_AUTHORIZED_RETIREMENT',retained_root=str(final),
+    normalized=[dict(source_path=m['source_path'],destination=dict(path=m['destination_path'],bytes=m['source_stat']['bytes'],sha256=m['source_stat']['sha256']),arm=m['arm'],batch=m['batch']) for m in records['members']]
+    catalog=dict(bundle=name,retention='KEEP_UNTIL_SEPARATE_USER_AUTHORIZED_RETIREMENT',retained_root=str(final),members=normalized,
          checkpoint_members=records['members'],copy_only_companions=records['companions'],shared_references=refs,
+         additional_reference_coverage=coverage,
          source_transfer_ready=dict(path=str(ready),sha256=sha(ready)),
          full_rehash_receipt=dict(path=str(CONTROL/(name+'-full-rehash.json')),sha256=sha(CONTROL/(name+'-full-rehash.json'))),
          gpu_continuation_replay=0,full_model_checkpoint=False,
          restoration='Exact pretrained W0 + recorded selected keys overwrite + saved method state/context. Historical BLUE1k RNG not saved; no bitwise continuation claim.')
     save(CONTROL/(name+'-retention-catalog.json'),catalog)
     receipt=dict(status='VERIFIED_DESTINATION',instruction_id='ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1',
-      bundle=name,checkpoint_count=records['checkpoint_count'],checkpoint_bytes=records['checkpoint_bytes'],
+      bundle=name,checkpoint_count=records['checkpoint_count'],checkpoint_bytes=records['checkpoint_bytes'],count=records['checkpoint_count'],bytes=records['checkpoint_bytes'],full_sha256=True,
       companion_count=records['companion_count'],companion_bytes=records['companion_bytes'],retained_root=str(final),
       source_manifest_sha256=records['source_manifest_sha256'],
       destination_manifest=str(CONTROL/(name+'-retention-catalog.json')),
