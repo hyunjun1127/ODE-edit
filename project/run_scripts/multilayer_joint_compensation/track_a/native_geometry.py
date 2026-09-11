@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import math
 import time
+from copy import deepcopy
 from typing import Any
 
 import torch
@@ -44,6 +45,8 @@ class NativeWriterMetric:
     checked: K'=K/sqrt(B), M'=M/B, ridge'=ridge/B, R'=R/sqrt(B).
     Changing only K is *not* the same writer. No rank ceiling or ridge repair.
     """
+
+    STATE_SCHEMA = "multilayer-joint-native-writer-metric-v1"
 
     def __init__(self, keys: torch.Tensor, history: torch.Tensor, projector: Projector,
                  *, ridge: float = 1., storage_device: str | torch.device = "cpu"):
@@ -136,6 +139,125 @@ class NativeWriterMetric:
             "setup_wall_seconds": time.perf_counter() - started,
             "timer_scope": "CPU wall; caller must synchronize any explicit CUDA use",
         }
+
+    def to_state(self) -> dict[str, Any]:
+        """Return plain containers and CPU tensors safe for weights_only=True.
+
+        Values are cloned, including the existing factorization. This does not
+        change/recompute any construction output. The caller must SHA-seal the
+        serialized artifact together with its source/input identity.
+        """
+        tensors = {
+            "keys": self.keys, "history": self.history,
+            "cholesky": self.cholesky, "projector_vectors": self.projector.vectors,
+            "writer_factor_raw": self.writer_factor_raw,
+            "writer_factor": self.writer_factor, "image_metric": self.image_metric,
+            "raw_image_metric": self.raw_image_metric,
+        }
+        return {
+            "schema": self.STATE_SCHEMA, "dimension": self.dimension,
+            "batch": self.batch, "rank": self.rank, "ridge": self.ridge,
+            "projector_complement": self.projector.complement,
+            "mean_eigenvalue": self.mean_eigenvalue,
+            "normalization": "trace(S)/din", "receipt": deepcopy(self.receipt),
+            **{name: value.detach().to("cpu").clone() for name, value in tensors.items()},
+        }
+
+    @classmethod
+    def from_state(cls, state: dict[str, Any], *,
+                   storage_device: str | torch.device = "cpu") -> "NativeWriterMetric":
+        """Reuse a sealed factorization; no full factorization/eigen solve.
+
+        Schema/shape/dtype/finite checks and three deterministic factor-action
+        probes detect ordinary malformed/mismatched state. They do not replace
+        the caller's whole-file SHA verification. The probes use the existing
+        64*dimension*eps_FP64 numerical roundoff scale, not a science threshold.
+        """
+        tensor_names = ("keys", "history", "cholesky", "projector_vectors",
+                        "writer_factor_raw", "writer_factor", "image_metric", "raw_image_metric")
+        expected = set(tensor_names) | {"schema", "dimension", "batch", "rank", "ridge",
+                                       "projector_complement", "mean_eigenvalue", "normalization", "receipt"}
+        if type(state) is not dict or set(state) != expected or state["schema"] != cls.STATE_SCHEMA:
+            raise NativeGeometryBoundary("invalid native geometry state schema")
+        if state["normalization"] != "trace(S)/din":
+            raise NativeGeometryBoundary("state normalization mismatch")
+        d, b, rank = state["dimension"], state["batch"], state["rank"]
+        if any(type(v) is not int for v in (d, b, rank)) or d <= 0 or b < 0 or not 0 <= rank <= d:
+            raise NativeGeometryBoundary("invalid state dimensions")
+        if type(state["projector_complement"]) is not bool:
+            raise NativeGeometryBoundary("invalid state projector mode")
+        for scalar in ("ridge", "mean_eigenvalue"):
+            if type(state[scalar]) not in (int, float) or not math.isfinite(state[scalar]) or state[scalar] <= 0:
+                raise NativeGeometryBoundary(f"invalid state {scalar}")
+
+        def plain_receipt(value: Any) -> bool:
+            if value is None or type(value) in (bool, int, str):
+                return True
+            if type(value) is float:
+                return math.isfinite(value)
+            if type(value) in (list, tuple):
+                return all(plain_receipt(item) for item in value)
+            if type(value) is dict:
+                return all(type(key) is str and plain_receipt(item) for key, item in value.items())
+            return False
+
+        if type(state["receipt"]) is not dict or not plain_receipt(state["receipt"]):
+            raise NativeGeometryBoundary("state receipt is not finite primitive metadata")
+        columns = d - rank if state["projector_complement"] else rank
+        shapes = {"keys": (d, b), "history": (d, d), "cholesky": (d, d),
+                  "projector_vectors": (d, columns), "writer_factor_raw": (b, d),
+                  "writer_factor": (b, d), "image_metric": (b, b), "raw_image_metric": (b, b)}
+        obj = cls.__new__(cls)
+        obj.dimension, obj.batch, obj.rank = d, b, rank
+        obj.ridge, obj.mean_eigenvalue = float(state["ridge"]), float(state["mean_eigenvalue"])
+        obj.storage_device = torch.device(storage_device)
+        for name in tensor_names:
+            value = state[name]
+            dtype = torch.float32 if name == "writer_factor" else torch.float64
+            if (not isinstance(value, torch.Tensor) or value.layout != torch.strided
+                    or tuple(value.shape) != shapes[name] or value.dtype != dtype):
+                raise NativeGeometryBoundary(f"state tensor shape/dtype mismatch: {name}")
+            _finite(value, f"state {name}")
+            setattr(obj, name, value.detach().to(device=obj.storage_device).clone())
+        obj.projector = Projector(obj.projector_vectors, state["projector_complement"], d)
+        del obj.projector_vectors
+        if not bool((obj.cholesky.diagonal() > 0).all()):
+            raise NativeGeometryBoundary("state Cholesky has nonpositive diagonal")
+        if not torch.equal(obj.writer_factor, obj.writer_factor_raw.float()):
+            raise NativeGeometryBoundary("state physical writer is not the raw FP32 cast")
+        mean = float((obj.keys.square().sum() + obj.history.diagonal().sum() + obj.ridge * d) / d)
+        eps_scale = 64 * d * torch.finfo(torch.float64).eps
+        if abs(mean - obj.mean_eigenvalue) > eps_scale * max(abs(mean), abs(obj.mean_eigenvalue)):
+            raise NativeGeometryBoundary("state native normalization does not match S")
+        # Three deterministic dense vectors exercise all coordinates without
+        # refactorizing or retaining another d×d matrix.
+        indices = torch.arange(d, dtype=torch.float64, device=obj.storage_device)
+        probes = torch.stack((torch.ones_like(indices), ((indices % 7) - 3) / 4,
+                              ((indices % 11) - 5) / 6))
+        projected = obj.projector.right(probes)
+        expected_action = obj.projector.right(obj._s_action(projected)) + obj.ridge * (probes - projected)
+        actual_action = (probes @ obj.cholesky) @ obj.cholesky.T
+        residual = actual_action - expected_action
+        # Absolute-factor envelope avoids falsely flagging a tiny result that
+        # is a cancellation of legitimate terms of the stored SPD operator.
+        scale = (probes.abs() @ obj.cholesky.abs()) @ obj.cholesky.T.abs() + expected_action.abs()
+        allowed = eps_scale * scale
+        if bool((residual.abs() > allowed).any()):
+            raise NativeGeometryBoundary("state factor-action probe mismatch")
+        obj.receipt = deepcopy(state["receipt"])
+        if (obj.receipt.get("dimension") != d or obj.receipt.get("batch") != b
+                or obj.receipt.get("projector_rank") != rank or obj.receipt.get("ridge") != obj.ridge
+                or obj.receipt.get("normalization") != "trace(S)/din"):
+            raise NativeGeometryBoundary("state construction receipt identity mismatch")
+        obj.reuse_receipt = {
+            "schema": cls.STATE_SCHEMA, "status": "STATE_REUSED",
+            "shape_dtype_finite": "PASS", "deterministic_probe_count": 3,
+            "factor_action_probe_max_abs": float(residual.abs().max()),
+            "factor_action_roundoff_scale": eps_scale,
+            "full_refactorization_count": 0,
+            "whole_artifact_sha_verification": "CALLER_REQUIRED",
+        }
+        return obj
 
     def _rows(self, x: torch.Tensor) -> torch.Tensor:
         if x.ndim != 2 or x.shape[1] != self.dimension or not x.is_floating_point():
