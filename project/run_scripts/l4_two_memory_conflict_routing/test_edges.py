@@ -5,6 +5,23 @@ from .controller import joint_dual
 from .geometry import Projector,static_solution
 
 class EdgeTest(unittest.TestCase):
+    def test_full_declared_batch_topology_past_matrix(self):
+        torch.manual_seed(20260911);torch.set_num_threads(2)
+        p=Projector.from_raw(torch.diag(torch.tensor([1.,1.,1.,0.],dtype=torch.float64)))
+        for b in (1,7,64,100,257,1000):
+            for mode in ('ordinary','duplicate','collinear'):
+                for past_n in (0,3):
+                    with self.subTest(b=b,mode=mode,past=past_n):
+                        k=torch.randn(4,b,dtype=torch.float64)
+                        if mode=='duplicate' and b>1:k[:,1]=k[:,0]
+                        if mode=='collinear':k=k[:,:1].expand(-1,b).clone()
+                        r=torch.randn(2,b,dtype=torch.float64);delta=torch.randn(2,4,dtype=torch.float64)
+                        factors=[torch.randn(4,n,dtype=torch.float64)/max(n,1)**.5 for n in (6*b,past_n,3)]
+                        z,m,rc=static_solution(delta,k,r,*factors,p)
+                        self.assertTrue(bool(torch.isfinite(z).all()))
+                        self.assertLess(rc['algebraic_equality_relative'],1e-10)
+                        self.assertLess(rc['span_relative'],1e-10)
+                        self.assertLess(rc['stationarity_allowed_norm'],1e-9)
     def test_all_four_joint_active_sets(self):
         matrix=torch.tensor([[2.,.3],[.3,1.]],dtype=torch.float64)
         for active in ((False,False),(True,False),(False,True),(True,True)):
