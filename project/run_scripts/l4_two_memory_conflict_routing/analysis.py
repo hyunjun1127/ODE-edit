@@ -111,6 +111,9 @@ def main(args):
                 channels=[bank for bank in ('Past','Base') if bank in r['harms']['proposal']]
                 proposal=np.array([r['harms']['proposal'][bank]['value'] for bank in channels])/cal['sigma'].numpy()
                 clean['first_order_error_fp64_reconstructed_from_recorded_scalars']=(np.array(r['normalized_actual'])-proposal-np.array(r['linear_harm_after'])+np.array(r['e'])).tolist()
+                envelope=proposal-np.array(r['e'])
+                clean['actual_local_envelope_gap']=(np.array(r['normalized_actual'])-envelope-np.array(r['xi'])).tolist()
+                clean['actual_terminal_budget_excess']=(np.array(r['normalized_actual'])-cal['terminal_budget'].numpy()).tolist() if r['s_next']==1 else None
             trajectory.append(dict(**labels,arm=arm,**clean))
             if 'gram' in r:
                 q=np.asarray(r['gram']);den=np.sqrt(q[0,0]*q[1,1]) if q.shape==(2,2) else 0

@@ -99,14 +99,17 @@ def main(args):
              'context-response.csv의 성분은 실제 저장 weight 차이를 고정 L4 입력에 적용한 구조적 응답이며 final logits의 선형성 주장이 아니다.', '']
     text.append(table(['entry','B','channel','a_A','sigma','q_ref','epsilon','terminal budget'],
         [[r['entry'],r['batch_raw'],r['channel']]+[num(r[k]) for k in ('anchor_action_aA','sigma','q_ref','epsilon','terminal_budget')] for r in calibration]))
-    text.append(table(['entry','B','arm','node','Σ용 step action/h','cumulative Z H²','ξ/h','joint active','실제 normalized harm'],
+    text.append(table(['entry','B','arm','node','Σ용 step action/h','cumulative Z H²','ξ/h','joint active','실제 normalized harm','actual f−c−ξ','terminal f−budget'],
       [[r['entry'],r['batch_raw'],r['arm'],r['node'],num(r.get('action_over_h')),num(r.get('cumulative_anchor_action')),
-        r.get('xi_per_h',''),json.loads(r['kkt'])['active'] if r.get('kkt') else 'stationary',r.get('normalized_actual','')]
+        r.get('xi_per_h',''),json.loads(r['kkt'])['active'] if r.get('kkt') else 'stationary',r.get('normalized_actual',''),
+        r.get('actual_local_envelope_gap',''),r.get('actual_terminal_budget_excess','')]
        for r in trajectory]))
     text += ['conflict-map.csv는 같은 state 두 gradient의 H^-1 inner product와 joint dual/slack을 기록한다. '
              '작은 2×2 solve 시간은 전체 full-space/observer 비용이 아니다. 단순 Σ step norm을 net norm으로 바꾸지 않는다. '
              'FP32 runtime 표시용 first-order error와 저장된 FP64 scalar들에서 다시 산출한 진단값은 구분했다. '
              '후자는 추가 forward나 controller 변경 없이 산술적으로 유도한 값이다.',
+             'actual f−c−ξ와 최종 f−budget는 실제 nonlinear 관측의 signed gap이다. 양수도 정상 과학 관측이며 '
+             '재실행/탈락 조건이 아니다. Linearized KKT의 PASS와 실제10% bank 목표 달성은 서로 다르다.',
              '', '### 실제 물리 변화와 구조적 목적식', '',
              table(['entry','B','arm','||W−We||F²','||W−W0||F²','Past mapping','Base mapping','response deviation N','J_pres','native M action','entry C0 action'],
                 [[r['entry'],r['batch_raw'],r['arm']]+[num(r[k]) for k in ('physical_from_entry_sq','physical_from_W0_sq','Past_mapping_action','Base_mapping_action','response_deviation_from_native_sq','J_pres','native_history_action','entry_C0_action')] for r in structural]),
