@@ -9,12 +9,34 @@ import torch
 from ..evaluation import panel,materialized
 from ..observations import pack
 from ..linear_solve import norm,dot,scale,add,finite
-from ..contracts import digest
+from ..contracts import digest,save,tensor_sha
 
 FD_RELATIVE_TOLERANCE=.02
 GGN_RELATIVE_TOLERANCE=.002
 FD_DISPLACEMENT_RELATIVE_WEIGHT_NORM=.001
 FD_STEPS=(1.,.5,.25)
+FD_REFINEMENT_STEPS=(.125,.0625,.03125,.015625)
+
+
+def fd_observation(plus,minus,ad,eps,perturbation):
+    """Original allowance unchanged; resolution cannot enlarge that allowance."""
+    fd=(plus-minus)/(2*eps)
+    roundoff=64*torch.finfo(torch.float32).eps*max(abs(plus),abs(minus),1.)/eps
+    bound=FD_RELATIVE_TOLERANCE*max(abs(ad),abs(fd))+roundoff
+    error=abs(fd-ad)
+    sign_resolved=abs(ad)>roundoff and abs(fd)>roundoff
+    sufficient=sign_resolved and all(r['nonzero_fraction']>0 and r['actual_norm']>r['rounding_norm'] for r in perturbation)
+    return dict(eps=eps,plus_loss=plus,minus_loss=minus,ad=ad,fd=fd,error=error,
+        relative_error=error/max(abs(ad),abs(fd)) if max(abs(ad),abs(fd)) else None,
+        numerical_bound=bound,roundoff=roundoff,loss_difference=abs(plus-minus),
+        loss_resolution=2*eps*roundoff,sign_resolved=sign_resolved,sufficient_signal=sufficient,
+        passed=math.isfinite(fd) and error<=bound,perturbation=perturbation)
+
+
+def adjacent_fd_pass(rows):
+    pairs=[dict(indices=[i,i+1],passed=all(r['passed'] and r['sufficient_signal'] for r in rows[i:i+2]))
+           for i in range(len(rows)-1)]
+    return any(p['passed'] for p in pairs),pairs
 
 
 def initial_gate(problem,view,packed,wn_teacher,tok,model,ledger,out):
@@ -36,16 +58,28 @@ def initial_gate(problem,view,packed,wn_teacher,tok,model,ledger,out):
     displacement=FD_DISPLACEMENT_RELATIVE_WEIGHT_NORM*norm(w)
     d=scale(raw_direction,displacement/denominator)
     ad=dot(linear.nll_gradient,d);fdrows=[]
+    identity=dict(WN=[tensor_sha(t) for t in w],direction=[tensor_sha(t) for t in d],
+        direction_formula='unchanged projected Current NLL gradient scaled to .001*WN Frobenius norm',
+        first_ordinal=first_id,rows=digest(rows),AD=ad,
+        historical_direction_byte_hash='NOT_RECORDED_44991; same derivation/input/teacher reused, no retrospective byte-equality claim')
     with ledger.time('initial_actual_directional_fd'):
-        for eps in FD_STEPS:
-            plus=p.observe(add(w,d,eps))['mean_nll'];minus=p.observe(add(w,d,-eps))['mean_nll']
-            fd=(plus-minus)/(2*eps)
-            roundoff=64*torch.finfo(torch.float32).eps*max(abs(plus),abs(minus),1.)/eps
-            bound=FD_RELATIVE_TOLERANCE*max(abs(ad),abs(fd))+roundoff
-            passed=math.isfinite(fd) and abs(fd-ad)<=bound
-            fdrows.append(dict(eps=eps,ad=ad,fd=fd,error=abs(fd-ad),numerical_bound=bound,
-                sign_resolved=abs(ad)>roundoff and abs(fd)>roundoff,passed=passed))
-        if not all(r['passed'] for r in fdrows):raise RuntimeError('INITIAL_CURRENT_DIRECTIONAL_DERIVATIVE_MISMATCH:'+repr(fdrows))
+        for eps in FD_STEPS+FD_REFINEMENT_STEPS:
+            losses=[];perturbations=[]
+            for sign in (1,-1):
+                state=add(w,d,sign*eps)
+                actual=tuple(x-r for x,r in zip(state,w));nominal=scale(d,sign*eps)
+                rounding=add(actual,nominal,-1)
+                perturbations.append(dict(sign=sign,actual_norm=norm(actual),nominal_norm=norm(nominal),
+                    rounding_norm=norm(rounding),nonzero_fraction=sum(int(torch.count_nonzero(x)) for x in actual)/sum(x.numel() for x in actual)))
+                losses.append(p.observe(state)['mean_nll'])
+            fdrows.append(fd_observation(*losses,ad,eps,perturbations))
+        passed,pairs=adjacent_fd_pass(fdrows)
+        fd_receipt=dict(status='RAW_ADJACENT_FD_PASS' if passed else 'JVP_FD_NUMERICALLY_UNRESOLVED',
+            identity=identity,rows=fdrows,adjacent_pairs=pairs,old_eps=list(FD_STEPS),new_eps=list(FD_REFINEMENT_STEPS),
+            original_allowance_unchanged=True,extrapolation_gate_influence=0,
+            signal_rule='abs(AD),abs(rawFD)>original roundoff; both actual FP32 displacements nonzero and norm>rounding norm')
+        if out is not None:save(out/'fd-refinement.json',fd_receipt)
+        if not passed:raise RuntimeError('JVP_FD_NUMERICALLY_UNRESOLVED:'+repr(fdrows))
     y=problem.project(tuple(t.roll(1,0) for t in d))
     with ledger.time('initial_actual_ggn_symmetry_psd'):
         fd_action=finite(p.ggn(w,d));fy=finite(p.ggn(w,y))
@@ -69,7 +103,7 @@ def initial_gate(problem,view,packed,wn_teacher,tok,model,ledger,out):
         first_case_id=rows[0]['case_id'],row_identity=digest([r['identity'] for r in rows]),
         logical_requests=1,physical_microbatch=2,global_context_weight_sum=sum(r['context_weight'] for r in rows),
         reduction='same token/context formula; nested first effective request',
-        FD=fdrows,FD_relative_tolerance=FD_RELATIVE_TOLERANCE,FD_steps=list(FD_STEPS),
+        FD=fdrows,FD_adjacent_pairs=pairs,FD_identity=identity,FD_relative_tolerance=FD_RELATIVE_TOLERANCE,FD_steps=list(FD_STEPS+FD_REFINEMENT_STEPS),
         FD_displacement_weight_norm_ratio=FD_DISPLACEMENT_RELATIVE_WEIGHT_NORM,
         current_gradient_norm=anorm,GGN_quadratic=quadratic,GGN_PSD_bound=qbound,
         GGN_symmetry_absolute=symmetry,GGN_symmetry_bound=sbound,GGN_relative_tolerance=GGN_RELATIVE_TOLERANCE,
