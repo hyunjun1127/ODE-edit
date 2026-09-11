@@ -1,0 +1,18 @@
+task_id: server4-checkpoint-migration-server2-v1
+type: global-head-command
+instruction_id: ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1
+status: approved_pending_delivery
+worker_claimable: false
+owners:
+  source_transfer_delete: server4-server-head
+  destination_verify_retain: head-server2
+instruction: messages/head/2026-09-11-server4-checkpoint-migration-server2.md
+approval: transfers/approvals/2026-09-11-server4-checkpoint-migration-server2.md
+gpu_model_eval_slurm_mutation: forbidden
+source_delete: exact_verified_completed_checkpoint_files_only
+destination_verification: independent_full_sha256_and_size
+source_reports_code_shared_assets_delete: forbidden
+rsync_delete_or_remove_source_files: forbidden
+new_remote_resources: forbidden
+main_push: own_completed_raw_free_scope_non_force_allowed
+scientific_promotion: false
