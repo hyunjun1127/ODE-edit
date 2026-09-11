@@ -1,0 +1,13 @@
+{
+  "policy_id": "ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911",
+  "scope": "all_server_head_experiment_tasks",
+  "effective": "user_directive_2026-09-11",
+  "initial_gate_monitoring": true,
+  "after_initial_valid": "MONITORING_PAUSED_AWAITING_USER",
+  "running_and_previously_submitted_jobs": "leave_unchanged",
+  "agent_terminal_monitoring": false,
+  "automatic_followup_submission_after_gate": false,
+  "automatic_analysis_report_integration_after_gate": false,
+  "recall": "explicit_user_request_via_GH",
+  "source": "messages/head/2026-09-11-initial-gate-only-monitoring-policy.md"
+}
