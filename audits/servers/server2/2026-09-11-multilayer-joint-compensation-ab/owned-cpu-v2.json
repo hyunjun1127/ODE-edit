@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "scope": "CPU_SYNTHETIC_ONLY",
+  "command": [
+    "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "-m",
+    "unittest",
+    "-v",
+    "project.run_scripts.multilayer_joint_compensation.tests.test_b_protocol",
+    "project.run_scripts.multilayer_joint_compensation.tests.test_elastic",
+    "project.run_scripts.multilayer_joint_compensation.tests.test_functional",
+    "project.run_scripts.multilayer_joint_compensation.tests.test_native_baselines",
+    "project.run_scripts.multilayer_joint_compensation.tests.test_pcg"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 9.869352478533983,
+  "stdout": "",
+  "stderr": "test_bf_fixed_reference_and_frozen_derivatives (project.run_scripts.multilayer_joint_compensation.tests.test_b_protocol.TestBProtocol.test_bf_fixed_reference_and_frozen_derivatives) ... ok\ntest_invalid_support_and_state_guard (project.run_scripts.multilayer_joint_compensation.tests.test_b_protocol.TestBProtocol.test_invalid_support_and_state_guard) ... ok\ntest_os_control_support_and_empty_noop (project.run_scripts.multilayer_joint_compensation.tests.test_b_protocol.TestBProtocol.test_os_control_support_and_empty_noop) ... ok\ntest_joint_against_independent_primal (project.run_scripts.multilayer_joint_compensation.tests.test_elastic.TestElastic.test_joint_against_independent_primal) ... ok\ntest_negative_dual_never_admitted_or_clipped (project.run_scripts.multilayer_joint_compensation.tests.test_elastic.TestElastic.test_negative_dual_never_admitted_or_clipped) ... ok\ntest_os_and_zero_current (project.run_scripts.multilayer_joint_compensation.tests.test_elastic.TestElastic.test_os_and_zero_current) ... ok\ntest_current_profile_outer_not_residual_hessian (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_current_profile_outer_not_residual_hessian) ... ok\ntest_empty_and_invalid_weights (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_empty_and_invalid_weights) ... ok\ntest_full_cross_block_psd_symmetry (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_full_cross_block_psd_symmetry) ... ok\ntest_global_mean_microbatch_1_2_4 (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_global_mean_microbatch_1_2_4) ... ok\ntest_past_both_curvature_terms (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_past_both_curvature_terms) ... ok\ntest_true_gradient_direction_fd (project.run_scripts.multilayer_joint_compensation.tests.test_functional.TestFunctional.test_true_gradient_direction_fd) ... ok\ntest_b0_no_model_or_history_access (project.run_scripts.multilayer_joint_compensation.tests.test_native_baselines.TestNativeContracts.test_b0_no_model_or_history_access) ... ok\ntest_source_exact_and_native_settings (project.run_scripts.multilayer_joint_compensation.tests.test_native_baselines.TestNativeContracts.test_source_exact_and_native_settings) ... ok\ntest_approximate_is_not_capacity_failure (project.run_scripts.multilayer_joint_compensation.tests.test_pcg.TestPCG.test_approximate_is_not_capacity_failure) ... ok\ntest_bad_curvature_and_shape_fail (project.run_scripts.multilayer_joint_compensation.tests.test_pcg.TestPCG.test_bad_curvature_and_shape_fail) ... ok\ntest_empty_zero_rhs (project.run_scripts.multilayer_joint_compensation.tests.test_pcg.TestPCG.test_empty_zero_rhs) ... ok\ntest_exact_preconditioner (project.run_scripts.multilayer_joint_compensation.tests.test_pcg.TestPCG.test_exact_preconditioner) ... ok\ntest_spd_tuple_and_true_residual (project.run_scripts.multilayer_joint_compensation.tests.test_pcg.TestPCG.test_spd_tuple_and_true_residual) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 7.910s\n\nOK\n",
+  "members": [
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/elastic_qp.py",
+      "bytes": 5943,
+      "sha256": "7067bc8942839c8ac068992a77768c50c6c18f3c8f201ace0ae832d6b73d06e9"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/functional.py",
+      "bytes": 8995,
+      "sha256": "8d0f2c0ec8608398a0107703d06e0ac2cec98bb35b4dcf059f4c49e3300d8f4e"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/linear_solve.py",
+      "bytes": 3436,
+      "sha256": "ee5297ea69a6093977ec4f1741a527194a4726d7e0623f24f5cf0a2fec16c8a2"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_native_geometry.py",
+      "bytes": 7878,
+      "sha256": "b20f5b810903362b89d0ebff6e9b6f6dfaa41c9033385f72cdc9b31003ba26f3"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_planner.py",
+      "bytes": 10724,
+      "sha256": "8072f159aa31e3c930ba2ff72bed4326a97c324859ea2cbb88f2308bcd83aef1"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_b_protocol.py",
+      "bytes": 3335,
+      "sha256": "1d9ec4189b084f7fc9b11801a84cb9eebff6dd8306a63850078f418d065b421f"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_elastic.py",
+      "bytes": 3822,
+      "sha256": "e22b4b08f03007ef01821019d39b4d5177ae58e4e22be79719b694df4f0b30c1"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_fixtures.py",
+      "bytes": 1383,
+      "sha256": "3db26ea90b7cf83e991a696ce10c65bf6f70dbc327db4288430865eecdc884ac"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_functional.py",
+      "bytes": 5205,
+      "sha256": "32c58a62c6a37013baa40915d3c6a1c1799b5b4f586162960387cf3ea326aa92"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_native_baselines.py",
+      "bytes": 1222,
+      "sha256": "468ea2a552d1773c2cdbe5b75f879100fc5d6d1e68309f0c7aabc703c5777d91"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_observations.py",
+      "bytes": 3370,
+      "sha256": "059f46654e35faa3e768d6cb5a2c1e3de5c456af1320379026404ba651b86a32"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_pcg.py",
+      "bytes": 2169,
+      "sha256": "dbc2c00bf7b1e16c2141d686ab20644486a6ab48bdc39374d92a9898d3774d95"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_b/SHARED_API.md",
+      "bytes": 8102,
+      "sha256": "061c0da40b8022e949f8eb6b253b2fdce2f25d6290ca99e456cd8dfa25045c8f"
+    }
+  ],
+  "GPU": 0,
+  "model_load": 0,
+  "Slurm": 0,
+  "actual_model_gate": "NOT_YET_RUN",
+  "selection": "SH2_OWNED_TESTS_ONLY"
+}

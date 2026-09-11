@@ -1,0 +1,24 @@
+{
+  "scope": "SH2 B minimum actual-runtime preparation, not GPU PASS",
+  "owned_focused_tests": {"count": 20, "failures": 0, "wall_seconds": 8.121},
+  "test_modules": ["test_functional", "test_pcg", "test_elastic", "test_b_protocol", "test_b_runtime_gate", "test_native_baselines"],
+  "command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.multilayer_joint_compensation.tests.test_functional project.run_scripts.multilayer_joint_compensation.tests.test_pcg project.run_scripts.multilayer_joint_compensation.tests.test_elastic project.run_scripts.multilayer_joint_compensation.tests.test_b_protocol project.run_scripts.multilayer_joint_compensation.tests.test_b_runtime_gate project.run_scripts.multilayer_joint_compensation.tests.test_native_baselines -q",
+  "compile": "PASS",
+  "bash_syntax": "PASS",
+  "memory_audit": {"checked": 159, "failures": 0},
+  "common_receiver": {
+    "members": 184,
+    "bytes": 11533523718,
+    "source_READY_sha256": "b04054714268677c7a4bb71d7dacd664a06069861bb05c1a74864262095c3064",
+    "source_members_root": "9d639a639a4b31005dfe515d164e0ec9467affff8a3604332f97d4de470c9f65",
+    "receiver_sha256": "bf551735a1e67f45ca486a13485114a38df08e97153d199a43afc6785feed20c",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/multilayer-joint-compensation/20260911-v1/imports/common-r1-Middle-v1/receiver-ready.json",
+    "full_size_sha256": "PASS"
+  },
+  "preflight_v1_technical_error": "Historical weight-shard metadata contained an explicit NO_DUPLICATE_MULTIGB_HASH sentinel, not a SHA. New parser incorrectly compared it to a digest. Source assets unchanged; v2 explicitly verifies HF content-addressed blob SHA and records the prior revision-only boundary.",
+  "input_namespace": "preflight-middle-v2; v1 preserved",
+  "monitoring_policy": "ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911",
+  "after_actual_initial_valid": "MONITORING_PAUSED_AWAITING_USER",
+  "GPU_initial_gate": "NOT_YET_RUN",
+  "scientific_promotion": false
+}
