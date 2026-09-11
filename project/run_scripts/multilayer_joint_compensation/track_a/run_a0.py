@@ -17,6 +17,7 @@ from ..contracts import *
 from ..observations import JointView,pack,current_callback,teacher
 from ..evaluation import panel,materialized,measure,generation,observe_panel
 from ..history import finalize_history_once
+from ..banks import current_rows,protection_rows
 from ..common_reference.prepare import progress
 from .native_geometry import NativeWriterMetric
 from .planner import plan_joint_targets
@@ -54,6 +55,9 @@ def main(args):
                 state=torch.load(root/f'native-geometry-L{l}.pt',map_location='cpu',weights_only=True,mmap=True)
                 geometries.append(NativeWriterMetric.from_state(state))
             del state
+        save(out/'model-tokenizer-source.json',dict(revision=MODEL.name,
+          members=[hf_member(MODEL/name) for name in ('config.json','tokenizer.json','tokenizer_config.json','special_tokens_map.json')],
+          timing='before A0 model/tokenizer load'))
         torch.manual_seed(20260911)
         phase='MODEL';model,tok,evaltok=binding.load_model(ledger);params=dict(model.named_parameters())
         names=tuple(entry['names'])
@@ -64,6 +68,12 @@ def main(args):
         view=JointView(model,names,ledger)
         if dict(zip(names,view.entry_sha))!=entry['entry_identity']['weights']:
             raise RuntimeError('ACTUAL_ENTRY_IDENTITY')
+        inventory=entry['raw_effective_inventory']
+        repacked={'Current':current_rows(records,inventory['current_effective'],entry['contexts'],tok)}
+        for role,ids in inventory['bank'].items():repacked[role]=protection_rows(records,ids,role,tok)
+        if digest(repacked)!=digest(rows):raise RuntimeError('ACTUAL_TOKENIZER_PACKING_IDENTITY')
+        save(out/'packing-identity.json',dict(status='PASS',all_panels_sha=digest(rows),
+          native_padding_side=tok.padding_side,evaluator_padding_side=evaltok.padding_side))
         def count_forward(module,positional,kw):
             ids=kw.get('input_ids',positional[0] if positional else None)
             ledger.add('actual_model_forward_invocations')
