@@ -47,6 +47,18 @@ def main(args):
           table(['entry','arm','Past old→fixed','Base KL old→fixed','BaseAudit KL old→fixed','Current NS old→fixed'],
               [[r['entry'],r['arm']]+[num(r['excluded_'+k])+'→'+num(r['canonical_'+k]) for k in ('Past','Base','BaseAudit')]+
               [r['excluded_NS_n']+'/'+r['excluded_NS_d']+'→'+r['canonical_NS_n']+'/'+r['canonical_NS_d']] for r in impact]),
+          '', '### 고정 비교 구성', '',
+          'N은 원 BLUE L4 native proposal, OS는 We 기준의 새 정적 soft-preservation 해다. '
+          'gamma=lambda_p=lambda_b=1, lambda_r=1e−3·trace(C_E+C_resp+C_p+C_b)/d+1e−8이며, '
+          'C_p는 active-fact bank만 사용한다. Native M을 정화하거나 routing C_p에 섞지 않았다. '
+          'W0는 audit-only이고, Native에는 Praw·routing에는 전체 P*를 쓴다.',
+          '각 bank는 outcome-blind candidate512 중 hash 절반+native 구조 영향 절반으로 최대128개를 선택했다. '
+          'Past는 canonical+첫 paraphrase의 전체 target-new tokens, Base는 dataset target-true의 첫최대8tokens다. '
+          'BaseAudit128은 Base candidate512 밖이다. 실제 overlap/퇴역 version/분모는 bank-manifest 및 bank-overlap에 남겼다.',
+          'BF1/BF8/Frozen은 같은 We와 저장 WOS−We anchor에서 시작한다. h=1 또는1/8, kappa=2, eta=1; '
+          'sigma=F(WOS)+.01, terminal budget=.9·F(WOS)/sigma, epsilon=.1·(q_ref+1e−4)를 공통 고정했다. '
+          'Action과 slack 비용에는1/h가 있고 누적 Z 비용도 포함한다. Frozen만 OS gradient 방향을 고정하며 '
+          'actual risk/RHS/anchor는 갱신한다. Current backward·z/key 재계산·inner history append·line search는 없다.',
           '', '## 1. 지표와 분모', '',
           'RS/PS는 target-new NLL < target-true NLL, NS는 반대 방향이며 동률은 실패다. '
           'NLL은 낮을수록 해당 target의 확률이 높다. TF strict와 token accuracy는 별도 열로 보존했다. '
