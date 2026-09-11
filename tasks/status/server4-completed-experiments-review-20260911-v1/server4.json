@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-EXPERIMENTS-DETAILED-REVIEW-SH4-V1",
+  "owner": "server4-server-head",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "REVIEW_COMPLETE_OWN_SCOPE_MAIN_INTEGRATION",
+  "verified_chains": 14,
+  "checkpoints": 168,
+  "new_raw_audit_chains": 8,
+  "reused_audit_chains": 6,
+  "unique_requests": 10000,
+  "final_arm_request_observations": 140000,
+  "W0_shared_reference_evaluations": 1,
+  "report": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+  "report_sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce",
+  "task_owned_gpu_jobs": 0,
+  "new_gpu_model_evaluator": 0,
+  "scientific_promotion": false,
+  "stopped_ORBODE_resumed": false,
+  "monitoring": false,
+  "next": "NONFORCE_PUSH_AND_PEER_DIRECT_HANDOFF_THEN_STOP"
+}

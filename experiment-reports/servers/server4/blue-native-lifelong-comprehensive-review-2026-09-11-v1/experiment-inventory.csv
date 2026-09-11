@@ -1,0 +1,20 @@
+experiment,path,sha256,status,boundary,job
+BLUE 1k + JVP/JVP-L8/O,experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/factual-report-ko.md,7c10f5c3797cca8b90d5db4de79583a56f3020041fe67a156ac24b8caeb67da9,SEALED_PUBLICATION_REUSED_NO_RAW_REAUDIT,"38940/38997/38988; same1kprefix, final1k와final10k합산0",
+JVP L8 takeover,experiment-reports/servers/server4/alpha-jv-l8-only-sequential1000-review-2026-09-07-v1/factual-report-ko.md,a7b07d16ea36e0aefe7aa16fb2c259275ee1879d486f084a469f9f94dd414732,SEALED_PUBLICATION_REUSED_NO_RAW_REAUDIT,38433_4/5; Qwen은Llama14core에포함0,
+JVP/O primary publication,experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1,DIRECTORY_LINK_ONLY,SEALED_PUBLICATION_REUSED_NO_RAW_REAUDIT,sealed publication only; remote raw/再監査0,
+ORBODE cumulative,experiment-reports/servers/server4/orbode-cumulative-b100x10-exhaustive-2026-09-07-v1/,DIRECTORY_LINK_ONLY,SEALED_PUBLICATION_REUSED_NO_RAW_REAUDIT,"37649; raw사용자삭제, STOPPED_USER_REVIEW correctness 감사 재개0",
+BLUE6+W0 v3,experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/factual-report-ko.md,839a903839743ad6de7c8cb08d255e7ad2e2c43099f6b81b27a3c91483fb991f,SEALED_PUBLICATION_REUSED_NO_RAW_REAUDIT,본보고서의재사용source; v3원문불변,
+MEMIT_BLUE (L4+L8),/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39307
+AlphaEdit_BLUE (L4+L8),/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39283_1
+MEMIT_BLUE_L4_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39283_2
+AlphaEdit_BLUE_L4_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39283_3
+MEMIT_BLUE_L8_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39283_4
+AlphaEdit_BLUE_L8_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,39283_5
+MEMIT_BLUE_L5_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-0,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40441
+AlphaEdit_BLUE_L5_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-1,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40442
+MEMIT_BLUE_L6_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-2,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40443
+AlphaEdit_BLUE_L6_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-3,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40444
+MEMIT_BLUE_L7_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-4,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40445
+AlphaEdit_BLUE_L7_ONLY,/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-5,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,40446
+BASE_ALPHAEDIT (blue=False; L4–L8),/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,42657
+BASE_MEMIT (blue=False; L4–L8),/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2,,TERMINAL_VALID_EVIDENCE_VERIFIED,core fixed10k; raw local only,42658

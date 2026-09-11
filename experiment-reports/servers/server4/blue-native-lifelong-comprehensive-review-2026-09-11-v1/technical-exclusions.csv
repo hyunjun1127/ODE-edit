@@ -1,0 +1,9 @@
+job,status,canonical_denominator,committed_prefix_requests,uncommitted_batch,allocated_seconds,allocated_GPU_hours,receipt_path,receipt_sha256,evidence
+39183_0/39218,OLD_SCHEDULE_USER_SUPERSEDED,0,600,7,2766,0.7683333333333333,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/old-lineage-exclusion.json,f56da5c7821936b99eab7906edc0f52153dedc192bf2304fdcfeeac73aa18280,
+39183_1,PENDING_CANCEL_REPLACED_BY_CHECKPOINT_AMENDMENT,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json
+39183_2,PENDING_CANCEL_REPLACED_BY_CHECKPOINT_AMENDMENT,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json
+39183_3,PENDING_CANCEL_REPLACED_BY_CHECKPOINT_AMENDMENT,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json
+39183_4,PENDING_CANCEL_REPLACED_BY_CHECKPOINT_AMENDMENT,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json
+39183_5,PENDING_CANCEL_REPLACED_BY_CHECKPOINT_AMENDMENT,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/amendment.json
+39172,SMOKE_SKIPPED_USER_DIRECTED_PENDING_CANCELLED,0,0,,0,,,,/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/main-submission.json
+42656,PRE_EDIT_PENDING_CANCELLED_USER_TRANSFER_TO_SH2,0,0,,,,,,local/fixed10k-native-baselines/attempt-v1/preedit-transfer-receipt.json

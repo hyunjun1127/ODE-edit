@@ -1,0 +1,71 @@
+{
+  "utc": "2026-09-11T06:18:36.522217+00:00",
+  "reads": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/PROTOCOL.md",
+      "bytes": 60382,
+      "lines": 1269,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "full_read": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/messages/head/2026-09-11-server4-completed-experiments-review.md",
+      "bytes": 12590,
+      "lines": 115,
+      "sha256": "cc3d9b1314f29633e431b975a720e848ab444e533fba7b8540c743fba2988ead",
+      "full_read": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/tasks/pending/server4-completed-experiments-review-20260911-v1.yaml",
+      "bytes": 873,
+      "lines": 21,
+      "sha256": "7e7670b13d4629cd51d6f4365ddf87298cda3bc4350c4af00db3ef9816f9d7ce",
+      "full_read": true
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "sacct",
+        "-X",
+        "-n",
+        "-P",
+        "-j",
+        "39307,39283_1,39283_2,39283_3,39283_4,39283_5,40441,40442,40443,40444,40445,40446,42657,42658",
+        "--format=JobIDRaw,JobID,User,JobName%80,State,ExitCode,ElapsedRaw,AllocTRES%100,NodeList,Start,End"
+      ],
+      "returncode": 0,
+      "stdout": "39306|39283_1|janghj|odeedit_blue_life_s4|COMPLETED|0:0|43362|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-08T03:05:17|2026-09-08T15:07:59\n40425|39283_2|janghj|odeedit_blue_life_s4|COMPLETED|0:0|38264|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-08T16:06:43|2026-09-09T02:44:27\n40426|39283_3|janghj|odeedit_blue_life_s4|COMPLETED|0:0|39361|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-08T15:08:18|2026-09-09T02:04:19\n40427|39283_4|janghj|odeedit_blue_life_s4|COMPLETED|0:0|25284|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T02:44:34|2026-09-09T09:45:58\n39283|39283_5|janghj|odeedit_blue_life_s4|COMPLETED|0:0|30935|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T02:04:34|2026-09-09T10:40:09\n39307|39307|janghj|odeedit_blue_life_s4|COMPLETED|0:0|41835|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-08T04:29:19|2026-09-08T16:06:34\n40441|40441|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|35452|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T09:46:04|2026-09-09T19:36:56\n40442|40442|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|38701|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T10:40:34|2026-09-09T21:25:35\n40443|40443|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|27142|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T19:37:04|2026-09-10T03:09:26\n40444|40444|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|37919|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-09T21:26:05|2026-09-10T07:58:04\n40445|40445|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|25849|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-10T03:09:34|2026-09-10T10:20:23\n40446|40446|janghj|odeedit_blue_l567_s4|COMPLETED|0:0|32992|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-10T07:58:34|2026-09-10T17:08:26\n42657|42657|janghj|odeedit_fixed10k_base_s4|COMPLETED|0:0|37168|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-10T17:08:34|2026-09-11T03:28:02\n42658|42658|janghj|odeedit_fixed10k_base_s4|COMPLETED|0:0|43968|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4|2026-09-10T10:20:34|2026-09-10T22:33:22\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "squeue",
+        "-h",
+        "-j",
+        "39307,39283_1,39283_2,39283_3,39283_4,39283_5,40441,40442,40443,40444,40445,40446,42657,42658",
+        "-o",
+        "%i|%u|%j|%T|%M|%b|%R"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/scripts/fixed_counterfact.py",
+        "verify",
+        "--root",
+        "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1"
+      ],
+      "returncode": 0,
+      "stdout": "{\"case_order_sha256\": \"16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4\", \"dataset_bytes\": 16679956, \"dataset_id\": \"counterfact-fixed-10k-v1\", \"dataset_sha256\": \"3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1\", \"inventory\": {\"neighborhood\": 100000, \"rephrase\": 20000, \"rewrite\": 10000}, \"ordered_root\": \"5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729\", \"prefix_policy\": \"records[:n], 1 <= n <= 10000; no shuffle/reselection\", \"records\": 10000, \"source_dataset_sha256\": \"d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f\", \"source_sample_sha256\": \"a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92\"}\n",
+      "stderr": ""
+    }
+  ],
+  "base_head": "c60df37fe3d3c2b1ee8038b2ec3ac8704260a04f",
+  "base_tree": "5c988beb01eb4acf567ba81194247f80f19c6faa",
+  "gpu": 0,
+  "mutations": 0
+}

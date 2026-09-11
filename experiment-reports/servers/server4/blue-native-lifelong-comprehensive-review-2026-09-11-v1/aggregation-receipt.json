@@ -1,0 +1,26 @@
+{
+  "chains": 14,
+  "current_request_state_rows": 140000,
+  "cumulative_request_state_rows": 778400,
+  "checkpoint_evaluations": 168,
+  "unique_requests": 10000,
+  "final_request_state_rows": 140000,
+  "final_included_in_cumulative": true,
+  "current_rows_reused": true,
+  "imputation": 0,
+  "new_evaluator": 0,
+  "w0_new_arm_pairing": "NOT_AVAILABLE_LOCAL_PROMPT_W0_PUBLICATION; existing six W0 transitions reused only",
+  "table_rows": {
+    "current-metrics": 4200,
+    "cumulative-metrics": 504,
+    "age-strata-metrics": 1512,
+    "cohort-retention": 23352,
+    "checkpoint-deltas": 504,
+    "layer-updates": 2400,
+    "batch-cost": 1400,
+    "prompt-transitions": 966,
+    "outlier-ledger": 5040,
+    "overwrite-strata": 42,
+    "online-at-write": 504
+  }
+}

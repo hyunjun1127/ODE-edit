@@ -1,0 +1,109 @@
+{
+  "style": {
+    "dpi": 150,
+    "seed": 0,
+    "font": "DejaVu Sans",
+    "families": [
+      "MEMIT",
+      "AlphaEdit"
+    ],
+    "variants": [
+      "Native",
+      "BLUE",
+      "L4",
+      "L5",
+      "L6",
+      "L7",
+      "L8"
+    ],
+    "colors": [
+      "#777777",
+      "#111111",
+      "#0072B2",
+      "#009E73",
+      "#E69F00",
+      "#CC79A7",
+      "#D55E00"
+    ],
+    "missing": "NA masked; no interpolation/imputation"
+  },
+  "matplotlib": "3.10.7",
+  "source_sha256": "90331243e286f19d0f8b6e92c6c888c3a56c0f9ef3656940ec45ce8e2a27a216",
+  "inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/final-summary.csv",
+      "sha256": "f98bd3ff9bf0bac6b636c3518a4fba82ddba8ec956f8f913ec1975364b0259c0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/cumulative-metrics.csv",
+      "sha256": "8c9dc14240111ab6b3a28576c8d98101728c89c5423e3f96d025c32834a7970b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/current-metrics.csv",
+      "sha256": "06faeb07c49743014ff8130be17eb0e92bbb4cb636c06446b356b4ddaa29c765"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/cohort-retention.csv",
+      "sha256": "53594ce9155fa9774e8872101d4bea0986d307661ba24916b7baad8fadc7caeb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/layer-summary.csv",
+      "sha256": "3cd8c4dde58e48041f4015141f7bc6011819c4ebc2cb4063185a97259d8a614e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/compute-summary.csv",
+      "sha256": "3b7c6574d67c0dfd30140af9f3e391fcd5504bb740afd67b4a6f46f6cca67fe3"
+    }
+  ],
+  "figures": [
+    {
+      "path": "final-family-rspsns.png",
+      "sha256": "2316a51b6d0d856afd2aad3e44a82dcb1e7ca8a678895ae7e0f3aaee9090aadb",
+      "bytes": 54426,
+      "caption": "Final W100 full10000: per arm RS10000/PS20000/NS100000. W0 shared once, displayed twice. No imputation."
+    },
+    {
+      "path": "single-layer-vs-blue-native.png",
+      "sha256": "7607d1630464fe3e5ecc89a958d59a32095f79347cce025f2e07e7cb69579db5",
+      "bytes": 108991,
+      "caption": "Same final10000 requests. Layer-local target changes with layer; BLUE/native references not causal controls. RS/PS/NS denominators10000/20000/100000."
+    },
+    {
+      "path": "cumulative-rspsns.png",
+      "sha256": "b0e018ce31f80578abfd04e9e705a9f252e8240d2aeb2bf4a3a69e7136bb86ef",
+      "bytes": 251851,
+      "caption": "Solid: actual Wk all-seen prefix at12 stored checkpoints, denominator t/2t/10t; dashed if present: current B100 denominator100/200/1000. Lines connect observations, no fabricated intermediate values."
+    },
+    {
+      "path": "current-vs-cumulative.png",
+      "sha256": "147bef73e85f22ccf1cbc97d5499f64f0a07839ec5d542dab30c83e3ca143025",
+      "bytes": 516535,
+      "caption": "Solid: actual Wk all-seen prefix at12 stored checkpoints, denominator t/2t/10t; dashed if present: current B100 denominator100/200/1000. Lines connect observations, no fabricated intermediate values."
+    },
+    {
+      "path": "nll-median-tail.png",
+      "sha256": "844109e85f56b4630dfca52cb408f0937f7b269b926c83ab4da67420243caaf3",
+      "bytes": 455901,
+      "caption": "Solid median, dashed p90 of prompt-level mean-token NLL; all-seen t/2t/10t prompts, not request-cluster quantiles. p99 and true/margin in tables."
+    },
+    {
+      "path": "cohort-retention-heatmap.png",
+      "sha256": "9a4f6194f2f3a72db388140d1f3d554ad549222d6d9e21fc4956105dac12c559",
+      "bytes": 97486,
+      "caption": "Each pixel RS success/100 of a fixed edit cohort at recorded Wk; color0\u2013100%. Future cohorts masked (not evaluated), no imputation.12 columns,100 rows/arm."
+    },
+    {
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "8b4a30312f3d0054d3b30f59a53a1c54219915b8b25f1feb80d38ceb53aac873",
+      "bytes": 60883,
+      "caption": "100 batch-net stored-weight updates per selected layer, arithmetic mean Frobenius norm. Missing layers unedited, no uniform/ideal line. Magnitude is not native metric action or post-write activation realization."
+    },
+    {
+      "path": "cost-breakdown.png",
+      "sha256": "d939c9df31a3c062acd98342c894f5afec3daebc43aa1dc2c53c1aa2ee3dc481",
+      "bytes": 53953,
+      "caption": "Source-recorded target/key/solve/evaluation wall subsets vs Slurm allocated GPUh. Unseparated load/snapshot/guards excluded from stack; not controlled speedup."
+    }
+  ],
+  "command": "OPENBLAS_NUM_THREADS=1 /data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.server4_experiments_review.plots --out <new-output-directory>"
+}

@@ -1,0 +1,47 @@
+{
+  "status": "BYTE_STABLE_PASS",
+  "figures": [
+    {
+      "path": "final-family-rspsns.png",
+      "sha256": "2316a51b6d0d856afd2aad3e44a82dcb1e7ca8a678895ae7e0f3aaee9090aadb",
+      "byte_equal": true
+    },
+    {
+      "path": "single-layer-vs-blue-native.png",
+      "sha256": "7607d1630464fe3e5ecc89a958d59a32095f79347cce025f2e07e7cb69579db5",
+      "byte_equal": true
+    },
+    {
+      "path": "cumulative-rspsns.png",
+      "sha256": "b0e018ce31f80578abfd04e9e705a9f252e8240d2aeb2bf4a3a69e7136bb86ef",
+      "byte_equal": true
+    },
+    {
+      "path": "current-vs-cumulative.png",
+      "sha256": "147bef73e85f22ccf1cbc97d5499f64f0a07839ec5d542dab30c83e3ca143025",
+      "byte_equal": true
+    },
+    {
+      "path": "nll-median-tail.png",
+      "sha256": "844109e85f56b4630dfca52cb408f0937f7b269b926c83ab4da67420243caaf3",
+      "byte_equal": true
+    },
+    {
+      "path": "cohort-retention-heatmap.png",
+      "sha256": "9a4f6194f2f3a72db388140d1f3d554ad549222d6d9e21fc4956105dac12c559",
+      "byte_equal": true
+    },
+    {
+      "path": "layer-wise-update-magnitude.png",
+      "sha256": "8b4a30312f3d0054d3b30f59a53a1c54219915b8b25f1feb80d38ceb53aac873",
+      "byte_equal": true
+    },
+    {
+      "path": "cost-breakdown.png",
+      "sha256": "d939c9df31a3c062acd98342c894f5afec3daebc43aa1dc2c53c1aa2ee3dc481",
+      "byte_equal": true
+    }
+  ],
+  "source_sha256": "90331243e286f19d0f8b6e92c6c888c3a56c0f9ef3656940ec45ce8e2a27a216",
+  "rerender_root": "/data/janghj/ODE-edit/local/server4-experiments-review/20260911-v1/reproduced-figures"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "arms": 14,
+  "checkpoints": 168,
+  "selected_tensor_rows": 288,
+  "current_metric_rows": 4200,
+  "cumulative_metric_rows": 504,
+  "final_request_observations": 140000,
+  "unique_requests": 10000,
+  "cumulative_request_state_rows": 778400,
+  "W0_shared_evaluations": 1,
+  "W0_selected_all14_match_sealed_SH2": true,
+  "native_all_batches_seen_RS_requeststate_rows": 1010000,
+  "native_noncheckpoint_extra_RS_requeststate_rows": 898800,
+  "duplicate_denominator_policy": "final and checkpoint current reuses are not additional unique observations",
+  "tests": 10,
+  "raw_free": true,
+  "scientific_promotion": false,
+  "full_GPU_replay": 0
+}

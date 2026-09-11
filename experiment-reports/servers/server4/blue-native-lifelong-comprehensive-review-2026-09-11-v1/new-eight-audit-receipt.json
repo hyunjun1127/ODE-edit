@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETE",
+  "chains": 8,
+  "checkpoints": 96,
+  "raw_members": 5216,
+  "raw_bytes": 129402995180,
+  "member_root": "7f4a423c841b476afc203f217da6023ba7c5543696d5fc41199747e00ac9217a",
+  "gpu": 0,
+  "scope": "new eight only; old six audit reused"
+}

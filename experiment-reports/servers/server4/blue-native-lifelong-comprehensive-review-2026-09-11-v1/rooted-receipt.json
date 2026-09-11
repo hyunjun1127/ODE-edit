@@ -1,0 +1,33 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-EXPERIMENTS-DETAILED-REVIEW-SH4-V1",
+  "status": "REVIEW_COMPLETE_RAW_FREE",
+  "manifest_sha256": "63653fba916dfdda824ae800f0e406860382adae7679c7c6c2bb4626bc76508b",
+  "member_root": "0d05d9bd266ad4f19add091e2997ea2acfe7ba36b6906a75216b63f090d2f35f",
+  "members": 77,
+  "tables": 58,
+  "figures": 8,
+  "report_sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce",
+  "validation": {
+    "status": "PASS",
+    "arms": 14,
+    "checkpoints": 168,
+    "selected_tensor_rows": 288,
+    "current_metric_rows": 4200,
+    "cumulative_metric_rows": 504,
+    "final_request_observations": 140000,
+    "unique_requests": 10000,
+    "cumulative_request_state_rows": 778400,
+    "W0_shared_evaluations": 1,
+    "W0_selected_all14_match_sealed_SH2": true,
+    "native_all_batches_seen_RS_requeststate_rows": 1010000,
+    "native_noncheckpoint_extra_RS_requeststate_rows": 898800,
+    "duplicate_denominator_policy": "final and checkpoint current reuses are not additional unique observations",
+    "tests": 10,
+    "raw_free": true,
+    "scientific_promotion": false,
+    "full_GPU_replay": 0
+  },
+  "task_owned_GPU_jobs": 0,
+  "monitoring": 0,
+  "next": "OWN_SCOPE_NONFORCE_MAIN_INTEGRATION_THEN_STOP"
+}
