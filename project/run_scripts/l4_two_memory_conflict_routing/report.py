@@ -25,6 +25,7 @@ def main(args):
     structural=readcsv(root/'structural-actions.csv');paths=readcsv(root/'physical-path-actions.csv')
     intermediate=readcsv(root/'intermediate-current.csv');coverage=readcsv(root/'requirements-evidence.csv')
     resources=json.loads((root/'resource-receipt.json').read_text())
+    allcompute=json.loads((root/'all-attempt-compute-receipt.json').read_text())
     technical=json.loads((root/'technical-exclusions.json').read_text())
     peaks=readcsv(root/'peak-memory.csv')
     impact=readcsv(root/'repair-impact.csv')
@@ -124,6 +125,8 @@ def main(args):
     text += [f"전체 승인 scope allocation: {resources['total_gpu_seconds']:,} GPU-seconds = {resources['total_gpu_hours']:.4f} GPUh. "
              '모든 실제 job/attempt의 model 상주·평가·생성 시간을 포함한다. CPU geometry/분석 시간은 별도이며 GPUh로 세지 않는다.', '',
              table(['job','status','exit','GPU seconds'],[[r['job'],r['status'],r['exit'],r['gpu_seconds']] for r in resources['jobs']])]
+    text += [f"CPU geometry pass의 기록된 wall-time 합(이전 preview 포함)은 {allcompute['cpu_geometry_seconds_sum']:.3f}초다. "
+             '병행 실행된 pass의 합이므로 campaign 경과시간이나 GPU시간이 아니다. cpu-geometry-ledger.csv로 결속했다.','']
     text.append(table(['entry','B','종류','component','actual'],[[r['entry'],r['batch_raw'],r['category'],r['component'],num(r['value'])] for r in compute]))
     text.append(table(['entry','B','peak allocated GPU bytes','GiB'],[[r['entry'],r['batch_raw'],r['peak_allocated_gpu_bytes'],f"{int(r['peak_allocated_gpu_bytes'])/2**30:.3f}"] for r in peaks]))
     text += ['위 scoped component 합은 scheduler GPU elapsed와 동일하지 않다. 모델 load·native/cache·candidate/key·We/W0 teacher·full P*·factor/inverse·'
