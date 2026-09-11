@@ -27,6 +27,7 @@ def main(args):
     resources=json.loads((root/'resource-receipt.json').read_text())
     technical=json.loads((root/'technical-exclusions.json').read_text())
     peaks=readcsv(root/'peak-memory.csv')
+    impact=readcsv(root/'repair-impact.csv')
     from .interpretation import findings
     answers=findings(root)
     save(root/'interpretation-findings.json',dict(answers=answers,claim_scope='descriptive fixed experiment',scientific_promotion=False))
@@ -41,6 +42,10 @@ def main(args):
           '37개 canonical node의 비음수 domain과 저장 QP replay를 재검산했다. 실패/취소 allocation도 아래 비용에 포함한다.',
           '16개는 고유한 예정 경로의 수다. 최초16개 실행 중4개를 기술 교체했으므로 실제 신규 endpoint/history action은 '
           '총20회이며, 정상 endpoint를 성능 때문에 재실행한 것은 아니다. 원3개 N reference는 별도 재사용이다.',
+          '', '### 기술 정정의 수치 영향 — 이전 값은 과학 분모에서 제외', '',
+          table(['entry','arm','Past old→fixed','Base KL old→fixed','BaseAudit KL old→fixed','Current NS old→fixed'],
+              [[r['entry'],r['arm']]+[num(r['excluded_'+k])+'→'+num(r['canonical_'+k]) for k in ('Past','Base','BaseAudit')]+
+              [r['excluded_NS_n']+'/'+r['excluded_NS_d']+'→'+r['canonical_NS_n']+'/'+r['canonical_NS_d']] for r in impact]),
           '', '## 1. 지표와 분모', '',
           'RS/PS는 target-new NLL < target-true NLL, NS는 반대 방향이며 동률은 실패다. '
           'NLL은 낮을수록 해당 target의 확률이 높다. TF strict와 token accuracy는 별도 열로 보존했다. '

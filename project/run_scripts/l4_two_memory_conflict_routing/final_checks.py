@@ -7,7 +7,7 @@ from .identity import save,member,digest,ROOT,REPO
 from .controller_repair import joint_dual
 
 def main(args):
-    out=Path(args.output);nodes=[];exclusions=[];pathcompute=[];artifacts=[]
+    out=Path(args.output);nodes=[];exclusions=[];pathcompute=[];artifacts=[];impact=[]
     for run in map(Path,args.runs):
         term=read(run/'terminal.json');cal=torch.load(run/'calibration.pt',weights_only=True,mmap=True,map_location='cpu')
         for file in sorted(run.glob('*-trajectory/node*.json')):
@@ -24,11 +24,24 @@ def main(args):
                 domain_valid=True,replay_max_abs=float((lam-expected).abs().max()),source=member(file)))
         if (run/'repair-lineage.json').exists():
             lineage=read(run/'repair-lineage.json');exclusions+=lineage['exclusions']
+            for item in lineage['exclusions']:
+                arm=item['arm'];oldpath=Path(item['old_path']);newpath=run/arm
+                row=dict(entry=term['entry'],arm=arm,comparison_scope='technical repair impact; old values excluded from science denominator')
+                for label,folder in (('excluded',oldpath),('canonical',newpath)):
+                    hh=read(folder/'harms.json');rr=read(folder/'full.json')['rows']
+                    row[label+'_weight_sha']=read(folder/'terminal.json')['weight_sha']
+                    for bank in ('Past','Base','BaseAudit'):row[label+'_'+bank]=hh[bank]['value']
+                    for metric in ('RS','PS','NS'):
+                        values=[r for r in rr if r['panel']=='Current100' and r['metric']==metric]
+                        row[label+'_'+metric+'_n']=sum(r['success'] for r in values)
+                        row[label+'_'+metric+'_d']=len(values)
+                        row[label+'_'+metric+'_new_nll_mean']=sum(r['new_nll'] for r in values)/len(values)
+                impact.append(row)
         pathcompute.append(dict(entry=term['entry'],batch_raw=term['batch_raw'],peak_allocated_gpu_bytes=term['peak_gpu_bytes'],
             new_paths=term['new_path_count'],native_reused=term['N_reuse']))
         artifacts.append(member(run/'terminal.json'))
     if len(nodes)!=37:raise ValueError('CANONICAL_NODE_COUNT')
-    csv_save(out/'joint-domain-checks.csv',nodes);csv_save(out/'peak-memory.csv',pathcompute)
+    csv_save(out/'joint-domain-checks.csv',nodes);csv_save(out/'peak-memory.csv',pathcompute);csv_save(out/'repair-impact.csv',impact)
     save(out/'technical-exclusions.json',dict(status='FOUR_ITERATIVE_PATHS_REPLACED',paths=exclusions,
         original_primary_jobs=[44573,44608,44615,44645,44646],
         interrupted_observation_jobs=[44654,44655],all_original_bytes_preserved=True,
