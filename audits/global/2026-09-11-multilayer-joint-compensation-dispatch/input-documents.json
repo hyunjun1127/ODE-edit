@@ -1,0 +1,34 @@
+{
+  "description": "GH 원문 전체 읽기와 exact source-copy pin. 기존 리뷰 계산을 재실행한 것은 아님.",
+  "base_main": "cbeb7a031ca52051c0cf88bd5b19cf6c8ea037b6",
+  "inputs": [
+    {
+      "path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design.md",
+      "sha256": "a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05",
+      "bytes": 35133,
+      "lines": 280
+    },
+    {
+      "path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design-math-check.json",
+      "sha256": "2cbf00c4a3ddc79bec3019f1bff2a6bf150fef38fd0169b7e3c229ccd681613f",
+      "scope": "past synthetic CPU only"
+    },
+    {
+      "path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "sha256": "6069838537ea607d30d2aa01fc9b00dd2a3900974f962372c4240b1b6ace9cfc"
+    },
+    {
+      "path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "sha256": "6c3e77013fe482096fef86b06c84423ba622b078a1756ec6901b0d7b771ceb70"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/cb28c4e5-2f55-4a68-ab49-2691d5de5559/pasted-text.txt",
+      "sha256": "9094300705dca8f07b73dc9a6ba116c8016f660081f3dc9171a57544ece66400",
+      "bytes": 8940,
+      "scope": "local original CRLF not rewritten"
+    }
+  ],
+  "reference_copy_only": true,
+  "gh_new_model_or_raw_audit": 0,
+  "notes": "복사한 두 리뷰 markdown은 원문 보존. 상대 local/private companion은 각각 원문 provenance에서 찾으며 없으면 읽었다고 주장하지 않음."
+}

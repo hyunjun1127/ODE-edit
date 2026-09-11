@@ -1,0 +1,33 @@
+{
+  "scope": "CPU synthetic equation checks only; no model experiment",
+  "joint_elastic_qp_cases": 120,
+  "active_sets_observed": [
+    [
+      false,
+      false
+    ],
+    [
+      false,
+      true
+    ],
+    [
+      true,
+      false
+    ],
+    [
+      true,
+      true
+    ]
+  ],
+  "max_equality_residual": 6.328271240363392e-15,
+  "max_stationarity_residual": 1.2101430968414206e-14,
+  "max_complementarity_residual": 2.674226846244278e-15,
+  "max_positive_primal_violation": 1.887379141862766e-15,
+  "writer_image_normalized_progress_contributions": [
+    0.5000000000000001,
+    0.5
+  ],
+  "markdown_lines": 280,
+  "local_links_missing": [],
+  "design_sha256": "a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05"
+}

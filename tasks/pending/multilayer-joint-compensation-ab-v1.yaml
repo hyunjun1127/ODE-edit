@@ -1,0 +1,29 @@
+task_id: multilayer-joint-compensation-ab-v1
+type: global-head-command
+worker_claimable: false
+status: approved_pending_delivery
+instructions:
+  A: ODEEDIT-S06-MULTILAYER-JOINT-EDIT-A-SH1-V1
+  B: ODEEDIT-S06-MULTILAYER-DAMAGE-COMPENSATION-B-SH2-V1
+owners:
+  A_common_fixture_N4_BLUE: server1
+  B_functional_kernel_native_baselines: server2
+  cross_server_payload_transfer: server2
+design_sha256: a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05
+common_contract: messages/head/2026-09-11-multilayer-joint-compensation-common.md
+source_sha_at_assignment: cbeb7a031ca52051c0cf88bd5b19cf6c8ea037b6
+diagnostic_design_endpoints: 26
+additional_same_entry_native_baselines: 6
+short_chains: [N4, BLUE, A-BF4, B-BF4]
+short_chain_start: Middle_W50
+short_chain_batches: [51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+per_server_gpu_cap: 2
+server1_mem_mib: 182272
+server2_mem_mib: 60416
+gpu_hour_cap: null
+slurm_submission: allowed
+shared_dirty_mutation: forbidden
+new_full_10k_chain: forbidden
+source_delete: forbidden
+main_push: own_completed_scope_non_force_allowed
+scientific_promotion: false
