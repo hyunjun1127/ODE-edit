@@ -7,6 +7,7 @@ separated. No writer/key proxy, truncated rank, dense Hessian or mutable model.
 """
 from dataclasses import dataclass, field
 from typing import Callable
+import math
 import torch
 from .linear_solve import WeightTree, zeros, add, finite
 
@@ -33,6 +34,8 @@ class OutputBatch:
         if not torch.allclose(sums,torch.ones_like(sums),rtol=1e-6,atol=1e-7):raise ValueError('TOKEN_MEAN_NORMALIZATION')
         if not bool((self.context_weights>0).all() and (self.token_mean_weights>0).all()):raise ValueError('INVALID_MEAN_WEIGHTS')
         if self.teacher_logp.requires_grad or self.reference_nll.requires_grad:raise ValueError('TEACHER_MUST_BE_FROZEN')
+        if not all(bool(torch.isfinite(t).all()) for t in (self.token_mean_weights,self.context_weights,self.teacher_logp,self.reference_nll)):
+            raise FloatingPointError('NONFINITE_PANEL_METADATA')
 
 
 def psi(value,tau=.1):
@@ -129,6 +132,7 @@ class FunctionalPanel:
                 ngrad=add(ngrad,tuple(torch.zeros_like(p) if g is None else g.detach() for p,g in zip(params,ng)))
             value+=float(loss.detach());nll+=float(nll_loss.detach())
             rows.append(dict(identity=b.identity,values=per.detach().cpu().tolist(),nll=nlls.detach().cpu().tolist(),weights=b.context_weights.detach().cpu().tolist()))
+        if not math.isfinite(value) or not math.isfinite(nll):raise FloatingPointError('NONFINITE_PANEL_OBSERVATION')
         return PanelLinearization(value,nll,finite(gradient),finite(ngrad),rows,{k:self.counts[k]-before[k] for k in before})
 
     def ggn(self,weights:WeightTree,direction:WeightTree)->WeightTree:
@@ -147,5 +151,15 @@ class FunctionalPanel:
         return finite(out)
 
     def value(self,weights):
+        return self.observe(weights)['value']
+
+    def observe(self,weights):
+        """One actual no-grad panel pass; scalar and raw-context observations."""
+        total=0.;nll=0.;rows=[]
         with torch.no_grad():
-            return sum(float(values(self._logits(weights,b),b,self.role,self.tau)[0]) for b in self.batches)
+            for b in self.batches:
+                loss,nll_loss,per,nlls=values(self._logits(weights,b),b,self.role,self.tau)
+                total+=float(loss);nll+=float(nll_loss)
+                rows.append(dict(identity=b.identity,values=per.cpu().tolist(),nll=nlls.cpu().tolist(),weights=b.context_weights.cpu().tolist()))
+        if not math.isfinite(total) or not math.isfinite(nll):raise FloatingPointError('NONFINITE_PANEL_OBSERVATION')
+        return dict(value=total,mean_nll=nll,context_rows=rows)
