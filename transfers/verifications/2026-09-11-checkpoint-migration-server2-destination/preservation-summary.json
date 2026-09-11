@@ -1,0 +1,73 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1",
+  "status": "DESTINATION_PRESERVATION_COMPLETE",
+  "retained_count": 183,
+  "retained_bytes": 240176147811,
+  "reused_count": 72,
+  "reused_bytes": 62011141768,
+  "new_count": 111,
+  "new_bytes": 178165006043,
+  "new_companion_members": 6273,
+  "new_companion_bytes": 135254070,
+  "source_deletion_receipts": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/incoming/initial72-deletion-receipt.json",
+      "sha256": "57cee202f02673e68c2bf0dbad54b9afa164cab1386d04b308e08a52a433d047",
+      "count": 72,
+      "logical_bytes": 62011141768,
+      "observed_available_delta": 62011047936,
+      "source_owner": "SH4",
+      "independent_remote_query_by_SH2": false
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/incoming/jvp1k-deletion-receipt.json",
+      "sha256": "73b502dedfa2a3d7631cc90053126a55414ed9a89a77e3a2f8742edebd77fa5d",
+      "count": 6,
+      "logical_bytes": 41460748986,
+      "observed_available_delta": 41460588544,
+      "source_owner": "SH4",
+      "independent_remote_query_by_SH2": false
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/incoming/new177-deletion-receipt.json",
+      "sha256": "6692ff1ce6e8f9555b0c57566af69d0428456a99a6a69a61c054c1f42a77a2bd",
+      "count": 105,
+      "logical_bytes": 136704257057,
+      "observed_available_delta": 136704393216,
+      "source_owner": "SH4",
+      "independent_remote_query_by_SH2": false
+    }
+  ],
+  "source_removed_count_reported": 183,
+  "source_removed_bytes_reported": 240176147811,
+  "additional_preserved_inventory_count": 4,
+  "additional_preserved_inventory_bytes": 6341797900,
+  "local_control": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1",
+  "destination_receipts": [
+    {
+      "local_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/initial72-VERIFIED_DESTINATION-v2.json",
+      "publication_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-server4-v1/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/initial72-VERIFIED_DESTINATION-v2.json",
+      "sha256": "209c6d506f3fdb9cad6255b63e761067e4935d510167bdfd51a1592c69391159"
+    },
+    {
+      "local_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/new177-v1-VERIFIED_DESTINATION.json",
+      "publication_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-server4-v1/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/new177-v1-VERIFIED_DESTINATION.json",
+      "sha256": "618f8a3458f76a8add68b91aba6b2a8293a7ee70abdbec0126216e8ebe378d46"
+    },
+    {
+      "local_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/jvp1k-v1-VERIFIED_DESTINATION.json",
+      "publication_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-server4-v1/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/jvp1k-v1-VERIFIED_DESTINATION.json",
+      "sha256": "1fcefd7d8631e4ad7a7f46a9b337ee229159099b4c42e3795016393771bc0d90"
+    }
+  ],
+  "model_gpu_evaluator_slurm_actions": 0,
+  "rsync_actions": 0,
+  "source_unlink_actions": 0,
+  "other_task_monitoring_resumed": false,
+  "scientific_outcome_changed": false,
+  "limitations": [
+    "No GPU continuation replay",
+    "BLUE1k historical RNG not saved",
+    "SH4 deletion facts attributed to source receipts; shared filesystem delta not exclusive recovery attribution"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "status": "VERIFIED_DESTINATION",
+  "instruction_id": "ODEEDIT-S06-SERVER4-CHECKPOINT-MIGRATION-SERVER2-V1",
+  "bundle": "new177-v1",
+  "checkpoint_count": 105,
+  "checkpoint_bytes": 136704257057,
+  "count": 105,
+  "bytes": 136704257057,
+  "full_sha256": true,
+  "companion_count": 6202,
+  "companion_bytes": 134158120,
+  "retained_root": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1",
+  "source_manifest_sha256": "f74e15e88ebb72b2dd62d21cec85caf7a119bc1b714b6945c561b64a24309a96",
+  "destination_manifest": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/new177-v1-retention-catalog.json",
+  "destination_manifest_sha256": "2e57b63204e442a57b5dd0b9c8398db5ae92d8ca5c21ea1c1295281768a164c8",
+  "atomic_noreplace_seal": true,
+  "payload_full_sha256": true,
+  "source_transfer_ready": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/incoming/new177-transfer-complete.json",
+    "sha256": "d4e82619acbbf296411f140560bb7922731a798b449a9ed0286de6658392a6f9"
+  },
+  "source_deletion_owner": "SH4",
+  "source_delete_condition": "Only mapped exact checkpoint files after CURRENT source identity/no-consumer recheck; companions/shared assets/directories never delete.",
+  "raw_source_evaluation_log_mutation": 0,
+  "rsync_writer_actions": 0,
+  "gpu_model_evaluator_slurm_actions": 0,
+  "scientific_outcome_changed": false
+}

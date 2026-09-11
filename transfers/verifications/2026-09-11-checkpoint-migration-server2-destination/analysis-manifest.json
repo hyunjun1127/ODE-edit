@@ -1,0 +1,150 @@
+{
+  "schema": "S2_CHECKPOINT_PRESERVATION_PACKAGE_V1",
+  "members": [
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/README.md",
+      "bytes": 3050,
+      "sha256": "d538e63c4f02a0bfdd1217f676b5e29ca8b3755714c5ee2e3afec8c4e3e83d29"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/RESTORATION.md",
+      "bytes": 3157,
+      "sha256": "5413a2664b7b50a342136424753cee61d562fe63f1855d1b02af59efbdb10058"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/ack_jvp_deletion.py",
+      "bytes": 2576,
+      "sha256": "fdb672daa290a717cd341bcfc36bd44286c814521263c925a5f855d8e5fd4d59"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/admit.py",
+      "bytes": 3661,
+      "sha256": "591397012d40a8e2278bb1f0edc4df3dcc70f9478dc9c03a436296fb1ad49b14"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/factual-preservation-ko.md",
+      "bytes": 8969,
+      "sha256": "3effee5ea23ebe9ed2e711dc25e0995d05342d895bf405dfb466c867e8d52f71"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/jvp_reference_coverage.py",
+      "bytes": 3423,
+      "sha256": "45a47cc529c74e648aa6c6f354b05dd82d61f1703caab591846a7b8c94ec9424"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/package_gate.py",
+      "bytes": 4289,
+      "sha256": "193fe717e0494d01d768edf5465a85949dfeeb96add95decfa2c18fca6ce4d3f"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/peer.py",
+      "bytes": 1648,
+      "sha256": "497d9f6c7204a5dad0204391ad1e8da48393b9f1719f4261e60af0991c211398"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/publication.py",
+      "bytes": 4261,
+      "sha256": "4fd9056181e4edb34e72187adc00c44a599f2e9c45a929e00185c1582fbc10e0"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/reference_closure.py",
+      "bytes": 5529,
+      "sha256": "a0710a2057bf03e5776d3598341c90fb8f4702c2f3906a2295fdbf2e4877653c"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/seal_bundle.py",
+      "bytes": 5218,
+      "sha256": "ac22e53b060b02e41bb84e7e04370f6b919e8b22ca3004df48be656650286924"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/seal_initial.py",
+      "bytes": 3651,
+      "sha256": "b477afc1d596dd07dfed89e215aea41db8e025cf46ee44017a6328ac0ed1bdc1"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/test_verification.py",
+      "bytes": 2217,
+      "sha256": "5661838dbf749c4111dfb7ba07d931aab8368bbb154bc715dc5aebf4155dc0d5"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/verify_bundle.py",
+      "bytes": 4495,
+      "sha256": "157b3cbd05b084eae27a314d967e3c2e8674bd371487c8ea9cb7caa27efea30d"
+    },
+    {
+      "path": "audits/servers/server2/2026-09-11-checkpoint-migration-server4/verify_initial.py",
+      "bytes": 6245,
+      "sha256": "9147740a9008b785309e65681dd6c36a08beea1be6a58584493396030e4a1ece"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/initial72-VERIFIED_DESTINATION-v2.json",
+      "bytes": 1906,
+      "sha256": "209c6d506f3fdb9cad6255b63e761067e4935d510167bdfd51a1592c69391159"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/jvp1k-v1-VERIFIED_DESTINATION.json",
+      "bytes": 1422,
+      "sha256": "1fcefd7d8631e4ad7a7f46a9b337ee229159099b4c42e3795016393771bc0d90"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "bytes": 78056,
+      "sha256": "15981247210d3ab910b76e6ff8f100ba155e54d58936ff419aa85fdfb831d551"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/new177-v1-VERIFIED_DESTINATION.json",
+      "bytes": 1436,
+      "sha256": "618f8a3458f76a8add68b91aba6b2a8293a7ee70abdbec0126216e8ebe378d46"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/preservation-summary.json",
+      "bytes": 3660,
+      "sha256": "c9f3e927ba2d30c90282be4a5f60bbc9aeaeb1152ef43da4f30194e8366576fb"
+    },
+    {
+      "path": "messages/server-heads/server2/2026-09-11-checkpoint-migration-server4.md",
+      "bytes": 3812,
+      "sha256": "3c343962dcc185a371dd3fb087be21cbe84821cb7e29a78369bf20508f6ea4e5"
+    },
+    {
+      "path": "tasks/status/server4-checkpoint-migration-server2-v1/server2.json",
+      "bytes": 1296,
+      "sha256": "65ad7842d3d48be210cd0b461d99bcad46bf7b5baec7c3119ef301d91a5cad63"
+    }
+  ],
+  "local_evidence": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/authority-receipt.json",
+      "bytes": 1398,
+      "sha256": "714ed581ed0236c3629cb7ed52c7c809c02dd60a67c73a88bad2eb1b44c8bfb3"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/admission-v1.json",
+      "bytes": 1366,
+      "sha256": "95e1a8c58fd4cf02cca302d07f69364850d5a8688adb9cb67254ee395051a8f8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/initial72-retention-catalog.json",
+      "bytes": 218395,
+      "sha256": "553d4155aeb0a12f0568b8f653b81bc1f13a2a4f78040e90250f43d1ebb3c0c8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/new177-v1-retention-catalog.json",
+      "bytes": 7893464,
+      "sha256": "2e57b63204e442a57b5dd0b9c8398db5ae92d8ca5c21ea1c1295281768a164c8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/jvp1k-v1-retention-catalog.json",
+      "bytes": 156174,
+      "sha256": "fd6fc7e31d007cc5986504e821255fc42c6552042ab3b00ce44cef2e52361fa6"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/closure-scope-clarification.json",
+      "bytes": 839,
+      "sha256": "1d4a73e10d8acc949736529fe602d0fe652148592890d565aa8830fa93ed6666"
+    }
+  ],
+  "implementation_head": "bf1fd665a921991266da9439c281eb5571675834",
+  "raw_policy": "Payload local-only; explicit S4-to-S2 migration only. No third-server broadcast.",
+  "manifest_self_excluded": true
+}
