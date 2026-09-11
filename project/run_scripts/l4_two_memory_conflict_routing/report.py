@@ -207,7 +207,13 @@ def main(args):
         'Current/Past/C0 에너지와 공통 OS gradient의 native-mode 내적을 제공한다. 이 열들을 합해 독립 에너지 share로 만들지 않는다. '
         '각 BF node의 전체 gradient tensor 또는 request별 native factor attribution은 NOT_RECORDED이며, '
         '저장된 joint Gram/dual 및 OS gradient 이상으로 원인 귀속을 꾸며내지 않는다.', '']
-    text += ['이 수치와 비용은 이번 고정 entry/panel에 한정된다. OS가 같은 보존/품질을 더 적은 추가 비용으로 제공하면 one-shot을 우선한다. '
+    text += ['**이번 결과의 실용성 판단:** 세 B100에서 OS는 Native보다 보호 bank의 실제 Past 손상과 Base KL이 모두 커졌고, '
+             'Current NS도 낮아졌다. 따라서 구조 목적값 감소만으로 Native 대비 보존 우위를 주장할 수 없다. '
+             'BF8은 OS 대비 bank 손상을 줄이지만 Native 대비 이 격차를 해소하지 못한다. '
+             'BF1보다 작은 추가 bank 개선을 얻기 위해 방향 gradient를 반복 계산하는 비용이 들며, '
+             'Middle Frozen 비교도 방향 refresh의 광범위한 held-out 이득을 입증하지 않는다. '
+             '이는 이번 고정 진단에서 관측된 결과이며 자동 method 승격 또는 새 hyperparameter 선택의 근거가 아니다.', '',
+             '이 수치와 비용은 이번 고정 entry/panel에 한정된다. OS가 같은 보존/품질을 더 적은 추가 비용으로 제공하면 one-shot을 우선한다. '
              'BF8/Frozen 차이가 없거나 부정적이면 방향 갱신의 실용 이득이 입증되지 않은 결과로 남긴다. '
              '현재 설계에서 미분리된 요인은 요청 내용·history·bank 표본·scalar response의 대리성이다. '
              '가장 중요한 후속 질문은 **동일한 실제 Current 품질에서 bank 밖 보존 이득이 추가 observer 비용을 정당화하는가**다. 추가 실험은 자동 제출하지 않는다.',
