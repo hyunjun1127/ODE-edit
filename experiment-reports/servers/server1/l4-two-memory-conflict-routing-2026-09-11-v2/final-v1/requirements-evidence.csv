@@ -1,0 +1,17 @@
+requirement,entry,batch_raw,observed,status,evidence,sha256,expected
+entry independent paths and endpoint receipts,Early,100,3,PASS,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Early-B100/terminal.json,d127e0fc8e243feb1d8c908c911b31a563b3a1367d6f9caca528891118619897,
+entry independent paths and endpoint receipts,Middle,100,4,PASS,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Middle-B100/terminal.json,3fdd0e1d73f72c97a28f36bfb046a9170832d093de23f4f4e4d18aa1d558e6c8,
+entry independent paths and endpoint receipts,Late,100,3,PASS,local/l4-two-memory-conflict-routing/20260911-v2/canonical-r1/Late-B100/terminal.json,2f83879653278cb6f77493fd6d02a1cdfe051cc358dbf6947ec3e9d4427cfb47,
+entry independent paths and endpoint receipts,Middle,1,3,PASS,local/l4-two-memory-conflict-routing/20260911-v2/attempt-r1/Middle-B1/terminal.json,d9ee2bea5d18c13cd84ae502aa5c11c7a2ec6e5542455fa0909d652b8ef85bc8,
+entry independent paths and endpoint receipts,Middle,7,3,PASS,local/l4-two-memory-conflict-routing/20260911-v2/attempt-r1/Middle-B7/terminal.json,68f9cd3b0ab104d605c4376b1131fc1f51cdc09b265a8b7b1f9a19834ebfd64c,
+new_paths,,,16,PASS,,,16
+native_reuse,,,3,PASS,,,3
+full_paired_rows,,,100620,PASS,,,100620
+generation_prompts,,,852,PASS,,,852
+intermediate_pair_events,,,2400,PASS,,,2400
+functional_backward,,,5568,PASS,,,5568
+terminal_history_appends,,,16,PASS,,,16
+Base and disjoint audit NS / target_true actual endpoint evaluation,,,,PASS,local/l4-two-memory-conflict-routing/20260911-v2/observations-joined-r1/terminal.json,e7460439b11519d4a752fe6e52fba5397cb250a8b0c49731db604164bebd3a85,
+actual full B1000 / sequential / multilayer / new-z / hparam sweep,,,0,NOT_IN_SCOPE,,,
+global model.forward hook count and isolated per-node H inverse walltime,,,,NOT_RECORDED_SCHEMA_GAP,Scoped model/JVP-free observer counts and entire node/allocation time retained; no profiling-only rerun.,,
+cross-server large raw broadcast,,,,NO_BROADCAST_NOT_REQUIRED,same-host immutable references,,

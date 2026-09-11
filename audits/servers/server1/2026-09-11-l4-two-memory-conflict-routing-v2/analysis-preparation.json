@@ -1,0 +1,16 @@
+{
+  "status": "ANALYSIS_AND_ENDPOINT_OBSERVATION_SOURCE_PREPARED",
+  "execution_head": "7e515f938dcca270388abec9e2e941d77e5ed884",
+  "primary_execution_files_changed": false,
+  "focused_CPU_tests": 19,
+  "focused_CPU_result": "PASS",
+  "test_scope": "projector/equality, joint KKT/time-anchor, packing/We teacher, physical microbatch, active versions, paired accounting, structural response projection, code-PNG fixture reproduction",
+  "final_real_data_PNG_reproduction": "PENDING_FINAL_PUBLICATION",
+  "new_writer_paths_in_observation_pass": 0,
+  "observation_scope": "predeclared Base/audit NS and true NLL plus saved-state context response only",
+  "GPU_cap": 2,
+  "memory_MiB": 182272,
+  "no_additional_scientific_arm_or_hparam": true,
+  "middle_milestone_note": "Middle-first report is an immutable preliminary factual artifact; its development-module SHAs record the then-working analysis files, not a separately published execution tree. Final canonical analysis is rebuilt from all frozen raw with the subsequent committed analysis source.",
+  "scientific_promotion": false
+}
