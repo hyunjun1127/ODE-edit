@@ -1,0 +1,137 @@
+{
+  "members": [
+    {
+      "path": "experiment-reports/servers/server4/checkpoint-migration-server2-2026-09-11-v1/factual-migration-ko.md",
+      "bytes": 5835,
+      "sha256": "de091629c53deab0d50b475e511948a5d547e70da2ae60135c668547239bdd05"
+    },
+    {
+      "path": "experiment-reports/servers/server4/checkpoint-migration-server2-2026-09-11-v1/summary.json",
+      "bytes": 447,
+      "sha256": "9a55fda3eb0103887adafdcb03dc2d7a51e7d64454f693a0e3866c0dc4845076"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server4-source/local-evidence-inventory.json",
+      "bytes": 7305,
+      "sha256": "fea8b32c7c9e3d5d3380672c24c9e9beffb58da54edc0bf84eeca60dcbf8ac50"
+    },
+    {
+      "path": "transfers/verifications/2026-09-11-checkpoint-migration-server4-source/migration-map.csv",
+      "bytes": 80456,
+      "sha256": "259f2a5729e65521233f61755971bcfb3b647bbd69e6e8b10b5dada737c26eba"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/build_report.py",
+      "bytes": 9200,
+      "sha256": "87283cb9de830d6e5a533b1d50f5793c972a8da98f611c95404a0d07da2a9a38"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/check_preservation.py",
+      "bytes": 1327,
+      "sha256": "2d549e21970c74242cfc1b1faec7378239859c7b5846a1058a843aed78dd1846"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/delete_new_verified.py",
+      "bytes": 3324,
+      "sha256": "b9eececb5ba12dc69821ae7fde464ffb6af100d3ac49e864509540d4262eed98"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/delete_verified.py",
+      "bytes": 4789,
+      "sha256": "3e0fa68dbd0dba5caf6f2d110b43cee7c6784ca512c814f23232d809857477cd"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/extra_inventory.py",
+      "bytes": 1331,
+      "sha256": "5100a155cf75ef7104da3cfa8f60f8c0bd6ea943202fa14d08b6c20ab099dc9d"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/inventory.py",
+      "bytes": 6081,
+      "sha256": "d88c88912791b0ed804a6fc6e9ea1896cc110768ae962c213ae4a9f654f9402e"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/jvp_inventory.py",
+      "bytes": 2623,
+      "sha256": "7aeeda9e22b45c84ec26214e8bbe9a94c31949c858681e257ea52d19af0f7fa4"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/supplement.py",
+      "bytes": 1465,
+      "sha256": "03faf7798d47c00d47341b9f7348fb0b0ceb819a22b66606c4302d643e740779"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/test_storage_guards.py",
+      "bytes": 1474,
+      "sha256": "84f98061aea0a60932760484123c877deec8d232876c459ad25b89c83d8142f5"
+    },
+    {
+      "path": "audits/servers/server4/2026-09-11-checkpoint-migration-server2/tools/transfer.py",
+      "bytes": 1652,
+      "sha256": "e6664ea82055431e75f51ab10f02cf42af1c4309e279a70043c09cbe69bf9f6d"
+    }
+  ],
+  "member_root": "64487556f141f854bd2ec37b494004bca5a3cdac306dd12edcd9913eaa2d72f7",
+  "source_scripts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/build_report.py",
+      "bytes": 9199,
+      "sha256": "47a98cca71326f15b3568c71fea571e0c7654e2d831cba765f8cfaaa741d0753"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/check_preservation.py",
+      "bytes": 1327,
+      "sha256": "2d549e21970c74242cfc1b1faec7378239859c7b5846a1058a843aed78dd1846"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/delete_new_verified.py",
+      "bytes": 3324,
+      "sha256": "b9eececb5ba12dc69821ae7fde464ffb6af100d3ac49e864509540d4262eed98"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/delete_verified.py",
+      "bytes": 4789,
+      "sha256": "3e0fa68dbd0dba5caf6f2d110b43cee7c6784ca512c814f23232d809857477cd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/extra_inventory.py",
+      "bytes": 1331,
+      "sha256": "5100a155cf75ef7104da3cfa8f60f8c0bd6ea943202fa14d08b6c20ab099dc9d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/finalize_preservation.py",
+      "bytes": 428,
+      "sha256": "2f65e174bd9c59ae099530e56d289c5c536df5e0f43e2ac5858488cf53ec4d44"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/inventory.py",
+      "bytes": 6081,
+      "sha256": "d88c88912791b0ed804a6fc6e9ea1896cc110768ae962c213ae4a9f654f9402e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp_inventory.py",
+      "bytes": 2623,
+      "sha256": "7aeeda9e22b45c84ec26214e8bbe9a94c31949c858681e257ea52d19af0f7fa4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/prepare_control.py",
+      "bytes": 899,
+      "sha256": "d162cb612a0c16599dc4eaa88b181adff77ead75cb16f28069de400b00fc0884"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/supplement.py",
+      "bytes": 1465,
+      "sha256": "03faf7798d47c00d47341b9f7348fb0b0ceb819a22b66606c4302d643e740779"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/test_storage_guards.py",
+      "bytes": 1474,
+      "sha256": "84f98061aea0a60932760484123c877deec8d232876c459ad25b89c83d8142f5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/transfer.py",
+      "bytes": 1652,
+      "sha256": "e6664ea82055431e75f51ab10f02cf42af1c4309e279a70043c09cbe69bf9f6d"
+    }
+  ]
+}

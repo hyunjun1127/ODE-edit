@@ -1,0 +1,167 @@
+[
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/additional-inventory.json",
+    "bytes": 1735,
+    "sha256": "68a442990a8a1d813a0b46a58cb62fb90b2b2bef3c3eafcc632a8542499a8d23"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/admission-v1.json",
+    "bytes": 1366,
+    "sha256": "95e1a8c58fd4cf02cca302d07f69364850d5a8688adb9cb67254ee395051a8f8"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/closure-boundaries.json",
+    "bytes": 961,
+    "sha256": "72cf019075c598fd688b6322c375b0bc2b0bde87e7b9be29bd76ff5cfb4d7243"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/companion-manifest.json",
+    "bytes": 1748400,
+    "sha256": "b801ca86db22898bf6bb4221fcce3107020ee3f5c6caf9a306c6a1f61c3d6997"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/final-preservation-receipt.json",
+    "bytes": 3330,
+    "sha256": "d47ac97b7319c4d6253920c190002083345afff1bfda26d5aebead1ddbeaf35d"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/initial72-VERIFIED_DESTINATION-v2.json",
+    "bytes": 1906,
+    "sha256": "209c6d506f3fdb9cad6255b63e761067e4935d510167bdfd51a1592c69391159"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/initial72-deletion-plan.json",
+    "bytes": 401486,
+    "sha256": "e31ad69c66d5ec70f2a19d00bcfefb49c1b55f584bbc2d502e1f56425d3dd2f8"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/initial72-deletion-receipt.json",
+    "bytes": 41110,
+    "sha256": "57cee202f02673e68c2bf0dbad54b9afa164cab1386d04b308e08a52a433d047"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/initial72-retention-catalog.json",
+    "bytes": 218395,
+    "sha256": "553d4155aeb0a12f0568b8f653b81bc1f13a2a4f78040e90250f43d1ebb3c0c8"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp-companion-manifest.json",
+    "bytes": 31959,
+    "sha256": "d7cac7dc5acbca858f1fef91a32663bb624b09094395adb58405e496a7c5c291"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp-source-manifest.json",
+    "bytes": 20547,
+    "sha256": "5580c8c661c43061be54d99aad1a67dafe37a4a664bc102961b0363604200db6"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-closure-transfer.json",
+    "bytes": 1608,
+    "sha256": "399ff1d92063c0a009b9d27577d7e198de37db061eb353791dc4438f98e08625"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-deletion-plan.json",
+    "bytes": 22632,
+    "sha256": "48d5bf37cff96827dadddb484f4f9a33b92a5dbc8b899257a8a323ec8a04bce7"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-deletion-receipt.json",
+    "bytes": 4291,
+    "sha256": "73b502dedfa2a3d7631cc90053126a55414ed9a89a77e3a2f8742edebd77fa5d"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-payload-transfer.json",
+    "bytes": 1624,
+    "sha256": "7d240af1881dd824aeee2bff4915b972753f02181e859cd699560e800f1bd41a"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-transfer-complete.json",
+    "bytes": 3544,
+    "sha256": "e1a80bc666e8abd6d5c358f735f5c56b8abc756f9a772e305cb215b8ccf21dbf"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-v1-VERIFIED_DESTINATION.json",
+    "bytes": 1422,
+    "sha256": "1fcefd7d8631e4ad7a7f46a9b337ee229159099b4c42e3795016393771bc0d90"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/jvp1k-v1-retention-catalog.json",
+    "bytes": 156174,
+    "sha256": "fd6fc7e31d007cc5986504e821255fc42c6552042ab3b00ce44cef2e52361fa6"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/m0.json",
+    "bytes": 683,
+    "sha256": "4dd7396492876f959d7df7263addcf2756a6ac3eb65d936757dbdae301dc54a3"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-closure-transfer.json",
+    "bytes": 1639,
+    "sha256": "db873504ad57c78537259d932b6d5121b134b390310e8540efab0623d51f9b6f"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-deletion-plan.json",
+    "bytes": 596941,
+    "sha256": "2c49381ef104175dd94a62cd98cb1ff1673a781b0e24be08a62276c45d833235"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-deletion-receipt.json",
+    "bytes": 58179,
+    "sha256": "6692ff1ce6e8f9555b0c57566af69d0428456a99a6a69a61c054c1f42a77a2bd"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-payload-transfer.json",
+    "bytes": 1641,
+    "sha256": "0522b2e5f4703381f5e92e852546f08b576f5062342ed2392e30a1d960cc64a9"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-supplement-transfer.json",
+    "bytes": 1639,
+    "sha256": "a84c2ff6f40ddc33a49428b33d052a522ae20c9d5a923cf1562bdbe85fa4f915"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-transfer-complete.json",
+    "bytes": 5349,
+    "sha256": "d4e82619acbbf296411f140560bb7922731a798b449a9ed0286de6658392a6f9"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-v1-VERIFIED_DESTINATION.json",
+    "bytes": 1436,
+    "sha256": "618f8a3458f76a8add68b91aba6b2a8293a7ee70abdbec0126216e8ebe378d46"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/new177-v1-retention-catalog.json",
+    "bytes": 7893464,
+    "sha256": "2e57b63204e442a57b5dd0b9c8398db5ae92d8ca5c21ea1c1295281768a164c8"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/policy-and-boundary.json",
+    "bytes": 910,
+    "sha256": "3a5b30eada3eb56d17064e788a13b800de43a378565499768aa56f38778b2235"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/predelete-visibility-note.json",
+    "bytes": 513,
+    "sha256": "fbadd07e85a270087eefc3094c75f37f50c18d559cf8ae940e545e55e0a8615f"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/preservation-receipt.json",
+    "bytes": 3330,
+    "sha256": "d47ac97b7319c4d6253920c190002083345afff1bfda26d5aebead1ddbeaf35d"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/scheduler-scope.json",
+    "bytes": 344,
+    "sha256": "3251575511ad89de596a0d1426944f21d103a38f4e29a61d5d681109b609ec38"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/source-manifest.json",
+    "bytes": 996706,
+    "sha256": "f74e15e88ebb72b2dd62d21cec85caf7a119bc1b714b6945c561b64a24309a96"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/checkpoint-migration-server2/20260911-v1/supplement-manifest.json",
+    "bytes": 875336,
+    "sha256": "728ffc5ffd167a6b6a7d4e5318b14533f3b310d85429a01f8c2611ded2eb70a7"
+  }
+]

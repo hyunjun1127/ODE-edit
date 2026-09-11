@@ -1,0 +1,18 @@
+{
+  "checkpoint_inventory": 183,
+  "inventory_bytes": 240176147811,
+  "removed": 183,
+  "removed_logical_bytes": 240176147811,
+  "reused_count": 72,
+  "reused_bytes": 62011141768,
+  "new_count": 111,
+  "new_bytes": 178165006043,
+  "held": 0,
+  "additional_preserved": 4,
+  "additional_preserved_bytes": 6341797900,
+  "observed_filesystem_delta": 240176029696,
+  "GPU": 0,
+  "model": 0,
+  "Slurm_mutation": 0,
+  "scientific_outcome_change": false
+}
