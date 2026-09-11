@@ -25,10 +25,19 @@ def main(args):
     structural=readcsv(root/'structural-actions.csv');paths=readcsv(root/'physical-path-actions.csv')
     intermediate=readcsv(root/'intermediate-current.csv');coverage=readcsv(root/'requirements-evidence.csv')
     resources=json.loads((root/'resource-receipt.json').read_text())
+    technical=json.loads((root/'technical-exclusions.json').read_text())
+    peaks=readcsv(root/'peak-memory.csv')
     text=['# L4 two-memory conflict routing v2 — 상세 진단 보고서',
           '',f"새 경로 {complete['new_paths']}/16, B100 native reference 재사용 {complete['native_reused']}/3. "
           'We 기준 Base 보존, active-Past bank, full P* 및 시간당 비용·누적 anchor의 v2다. '
           'ABC/이전 EP 및 W0 복구 objective와 별도 실험이다. scientific_promotion=false.',
+          '', '**기술 정정:** 최초 실행의 BF8 3개와 Middle Frozen-BF8은 큰 Gram 행렬 크기의 residual tolerance를 '
+          'dual의 부호 검사에 잘못 적용하여 음수 dual/slack을 허용했다. 해당4경로만 제외·복구했고 N/OS/BF1 및 준비 자산은 보존했다. '
+          'Middle-first/primary-three-entry 중간 보고의 BF8/Frozen 수치와 최초 전체-valid 표기는 이 보고서로 대체한다. '
+          '새 solver는 기존 λ≥0 영역을 정확히 검사하며 목적식·bank·calibration·h·threshold를 바꾸지 않았다. '
+          '37개 canonical node의 비음수 domain과 저장 QP replay를 재검산했다. 실패/취소 allocation도 아래 비용에 포함한다.',
+          '16개는 고유한 예정 경로의 수다. 최초16개 실행 중4개를 기술 교체했으므로 실제 신규 endpoint/history action은 '
+          '총20회이며, 정상 endpoint를 성능 때문에 재실행한 것은 아니다. 원3개 N reference는 별도 재사용이다.',
           '', '## 1. 지표와 분모', '',
           'RS/PS는 target-new NLL < target-true NLL, NS는 반대 방향이며 동률은 실패다. '
           'NLL은 낮을수록 해당 target의 확률이 높다. TF strict와 token accuracy는 별도 열로 보존했다. '
@@ -105,6 +114,7 @@ def main(args):
              '모든 실제 job/attempt의 model 상주·평가·생성 시간을 포함한다. CPU geometry/분석 시간은 별도이며 GPUh로 세지 않는다.', '',
              table(['job','status','exit','GPU seconds'],[[r['job'],r['status'],r['exit'],r['gpu_seconds']] for r in resources['jobs']])]
     text.append(table(['entry','B','종류','component','actual'],[[r['entry'],r['batch_raw'],r['category'],r['component'],num(r['value'])] for r in compute]))
+    text.append(table(['entry','B','peak allocated GPU bytes','GiB'],[[r['entry'],r['batch_raw'],r['peak_allocated_gpu_bytes'],f"{int(r['peak_allocated_gpu_bytes'])/2**30:.3f}"] for r in peaks]))
     text += ['위 scoped component 합은 scheduler GPU elapsed와 동일하지 않다. 모델 load·native/cache·candidate/key·We/W0 teacher·full P*·factor/inverse·'
              'functional gradient·actual risk·Full 평가·generation·저장/계측·추가 관측 비용을 분리한다. '
              '원 B100 N3의 cold z/native GPU 시간을 이번 실행 시간에 더하지 않았다. B1/B7 native joint solve는 새로 실행했다. '
@@ -112,6 +122,11 @@ def main(args):
              'Global model.forward hook의 완전 계수와 node별 inverse-action 단독 timer는 NOT_RECORDED_SCHEMA_GAP이다. '
              '대신 실제 functional forward/backward, evaluator forward, generation token/sequence, static factor+inverse, 전체 node/할당 시간을 공개한다. '
              '이 누락을0이나 추정 FLOPs로 채우지 않았고 profiling-only 재실행도 하지 않았다.',
+             'compute-ledger는 유효 preparation/path와 최종 관측의 scoped count다. technical-exclusions.json은 교체된4경로의 '
+             '추가 소모를 따로 보존하며 job-gpu-ledger는 원시 시도·수리·중단된 관측을 모두 포함한다. '
+             '따라서 유효5568 backward와 실제 낭비를 포함한 총연산량을 동일시하지 않는다.',
+             'all-attempt-compute.csv는 allocation별 실제 cumulative counter를 중복 없이 기록한다. 중단된 관측2개는 '
+             '마지막 저장 시점의 lower bound이며 이후 호출을 추정하지 않는다. 중단 전후 전체 GPU 상주 시간은 scheduler로 정확히 계상한다.',
              '', '## 7. 사용자의 아홉 질문에 대한 해석', '']
     text += ['### 고정 generation 패널', '',table(['entry','B','arm','literal prefix / prompts'],
         [[r['entry'],r['batch_raw'],r['arm'],f"{r['literal_prefix_numerator']}/{r['denominator']}"] for r in generation]),

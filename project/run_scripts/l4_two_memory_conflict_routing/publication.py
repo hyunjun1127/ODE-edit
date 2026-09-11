@@ -49,7 +49,10 @@ def main(args):
     required=['bank-manifest.json','geometry-spectrum.csv','conflict-map.csv','native-response-parity.csv','trajectory.csv',
               'per-context-harm.csv','paired-endpoints.csv','compute-ledger.csv','base-preservation-versus-recovery.csv','diagnostic-report-ko.md',
               'requirements-evidence.csv','coverage-receipt.json','bank-overlap.csv','intermediate-current.csv',
-              'structural-actions.csv','physical-path-actions.csv','context-response.csv','job-gpu-ledger.csv']
+              'structural-actions.csv','physical-path-actions.csv','context-response.csv','job-gpu-ledger.csv',
+              'calibration.csv','input-mode-conflict.csv','input-mode-endpoint-change.csv','input-preservation-receipt.json',
+              'snapshot-check.json','joint-domain-checks.csv','joint-domain-receipt.json','technical-exclusions.json','peak-memory.csv',
+              'all-attempt-compute.csv','all-attempt-compute-receipt.json']
     missing=[p for p in required if not (report/p).is_file()]
     if missing:raise ValueError(f'MISSING_PUBLICATION: {missing}')
     code=[member(p) for p in sorted((REPO/'project/run_scripts/l4_two_memory_conflict_routing').glob('*')) if p.is_file()]

@@ -69,6 +69,7 @@ def main(args):
         source=[member(Path(__file__)),member(Path(__file__).with_name('evaluation.py'))],
         input_sha=sha(ROOT/'control/input.lock.json'),new_writer_paths=0,new_native_solves=0,new_z=0,
         purpose='predeclared endpoint-only Base NS/true-answer and per-context structural response'))
+    torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     model,tok,evaltok=binding.load_model(ledger);weight=dict(model.named_parameters())[WEIGHT]
     base=weight.detach().cpu().clone();records=load_prefix(binding.DATA,10000)
     lock=json.loads((ROOT/'control/input.lock.json').read_text())
@@ -104,9 +105,25 @@ def main(args):
                 response[refname]=response_components(state.double()-reference.double(),keys,goal,ncontext,b)
             save(dest/f'{label}-response.json',dict(rows=response,case_ids=[r['case_id'] for r in actual],
                 meaning='structural physical DeltaW times fixed L4 token input; not final logits',controller_influence=0))
-            with materialized(weight,state,ledger):
-                vals={kind:base_pairs(model,evaltok,records,inv[kind],ledger) for kind in ('Base','BaseAudit')}
-            save(dest/f'{label}-base.json',dict(banks=vals,weight_sha=tensor_sha(state),controller_influence=0))
+            reused=None;state_sha=tensor_sha(state)
+            for oldroot in map(Path,args.reuse):
+                oldfile=oldroot/dest.name/f'{label}-base.json'
+                if not oldfile.is_file():continue
+                oldlock=json.loads((oldroot/'run.lock.json').read_text())
+                oldruns=[Path(x) for x in oldlock['args']['runs'] if Path(x).name==dest.name]
+                if len(oldruns)!=1 or sha(oldruns[0]/'bank-manifest.json')!=sha(run/'bank-manifest.json'):
+                    raise ValueError('OBSERVATION_REUSE_BANK_IDENTITY')
+                d=json.loads(oldfile.read_text())
+                if d['weight_sha']!=state_sha:continue
+                reused=(oldfile,d);break
+            if reused:
+                oldfile,d=reused
+                save(dest/f'{label}-base.json',dict(**d,reused_path=str(oldfile),reused_sha256=sha(oldfile)))
+                ledger.add('base_endpoint_observation_reused')
+            else:
+                with materialized(weight,state,ledger):
+                    vals={kind:base_pairs(model,evaltok,records,inv[kind],ledger) for kind in ('Base','BaseAudit')}
+                save(dest/f'{label}-base.json',dict(banks=vals,weight_sha=state_sha,controller_influence=0))
             progress(dest,'OBSERVATION_ENDPOINT',ledger,arm=label)
         for arm in terminal['arms']:
             if arm not in ('BF8','Frozen-BF8'):continue
@@ -118,10 +135,12 @@ def main(args):
                 save(dest/f'{arm}-node{node:02d}-response.json',dict(rows=response,weight_sha=tensor_sha(state),controller_influence=0))
         save(dest/'terminal.json',dict(status='OBSERVATIONS_COMPLETE',trajectory_ref=str(run),trajectory_receipt_sha=sha(run/'terminal.json'),
             new_trajectory_count=0,new_native_solves=0,new_z=0,history_append=0,compute=ledger.receipt()))
-    save(out/'terminal.json',dict(status='OBSERVATIONS_COMPLETE',runs=args.runs,compute=ledger.receipt(),scientific_promotion=False))
+    save(out/'terminal.json',dict(status='OBSERVATIONS_COMPLETE',runs=args.runs,compute=ledger.receipt(),
+        peak_gpu_bytes=torch.cuda.max_memory_allocated(),scientific_promotion=False))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runs',nargs='+',required=True);p.add_argument('--output',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--runs',nargs='+',required=True);p.add_argument('--output',required=True)
+    p.add_argument('--reuse',nargs='*',default=[]);args=p.parse_args()
     try:main(args)
     except BaseException as exc:
         root=Path(args.output)
