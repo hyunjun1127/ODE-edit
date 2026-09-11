@@ -27,6 +27,9 @@ def main(args):
     resources=json.loads((root/'resource-receipt.json').read_text())
     technical=json.loads((root/'technical-exclusions.json').read_text())
     peaks=readcsv(root/'peak-memory.csv')
+    from .interpretation import findings
+    answers=findings(root)
+    save(root/'interpretation-findings.json',dict(answers=answers,claim_scope='descriptive fixed experiment',scientific_promotion=False))
     text=['# L4 two-memory conflict routing v2 — 상세 진단 보고서',
           '',f"새 경로 {complete['new_paths']}/16, B100 native reference 재사용 {complete['native_reused']}/3. "
           'We 기준 Base 보존, active-Past bank, full P* 및 시간당 비용·누적 anchor의 v2다. '
@@ -142,7 +145,10 @@ def main(args):
         ('누적 보정·수직 성분·slack','trajectory 및 structural/context 표는 추가 action, net 보정, 목표 밖 성분, 시간당 slack을 구분한다. slack이나 위험 증가는 정상 진단값이며 제외 기준이 아니다.'),
         ('We 보존 대 W0 복구','Base KL(We) 감소, KL(W0) 변화, 정답 NLL/NS는 각각 다른 관측이다. We 보존 objective에는 W0 복구항이 없다.'),
         ('B1/B7의 의미','해당 B의 새 native joint solve를 사용했다. NLL/성공률 차이는 서로 다른 요청과 batch 구성을 포함하므로 batch-size만의 인과 효과가 아니다.')]
-    for i,(title,body) in enumerate(questions,1):text.extend([f'### {i}. {title}','',body,''])
+    for i,answer in enumerate(answers,1):
+        text.extend([f"### {i}. {answer['question']}",''])
+        text.extend(s+'\n' for s in answer['observations'])
+        text.extend([answer['interpretation'],''])
     # Concrete per-entry primary contrasts, not a new decision gate.
     text += ['### 관측값에 묶인 핵심 비교', '']
     for e in ('Early','Middle','Late'):
@@ -195,7 +201,7 @@ def main(args):
              'v2 설계 SHA=4efe1063ea80684beafa791eb99e20c1aa7f3f61636dabab00f9f3805c32eb1d.', '',
              table(['requirement','expected','observed','status'],[[r['requirement'],r.get('expected',''),r.get('observed',''),r['status']] for r in coverage]),
              '```bash',f'python -m project.run_scripts.l4_two_memory_conflict_routing.plotting --input {root} --output <create-once-output>', '```','',
-             '![Current endpoint](endpoint.png)','', '![Bank harm](harm.png)','', '![Actual trajectory](trajectory.png)','', '![Compute](compute.png)','']
+             '![Current endpoint](endpoint.png)','', '![Paired differences](paired.png)','', '![Bank harm](harm.png)','', '![Actual trajectory](trajectory.png)','', '![Compute](compute.png)','']
     path=root/'diagnostic-report-ko.md'
     with path.open('x') as f:f.write('\n'.join(text))
     print(str(path),sha(path),flush=True)

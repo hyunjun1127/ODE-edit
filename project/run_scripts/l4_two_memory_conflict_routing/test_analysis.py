@@ -39,12 +39,12 @@ class AnalysisTest(unittest.TestCase):
             root=Path(t);summary=[]
             for m in ('RS','PS','NS'):
                 for arm in ('N','OS','BF1','BF8','Frozen-BF8'):
-                    summary.append(dict(entry='Middle',batch_raw=100,reference='N',panel='Current100',metric=m,arm=arm,rate=50))
+                    summary.append(dict(entry='Middle',batch_raw=100,reference='N',panel='Current100',metric=m,arm=arm,rate=50,delta_pp=0,paired_new_nll_delta_mean=0))
             csv_save(root/'endpoint-summary.csv',summary)
             csv_save(root/'trajectory.csv',[dict(entry='Middle',batch_raw=100,arm='BF8',node=0,s_next=.125,normalized_actual=[.1,.2])])
             csv_save(root/'base-preservation-versus-recovery.csv',[dict(entry='Middle',batch_raw=100,arm=a,bank=b,controller_value=.1) for a in ('N','OS','BF1','BF8','Frozen-BF8') for b in ('Past','Base')])
             csv_save(root/'compute-ledger.csv',[dict(entry='Middle',batch_raw=100,category='counts',component='functional_backward',value=192)])
-            for kind in ('endpoint','harm','trajectory','compute'):
+            for kind in ('endpoint','paired','harm','trajectory','compute'):
                 a=render(root,kind);b=render(root,kind)
                 self.assertEqual(a,b);self.assertTrue(a.startswith(b'\x89PNG'))
 

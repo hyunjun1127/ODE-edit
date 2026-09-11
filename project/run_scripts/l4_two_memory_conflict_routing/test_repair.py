@@ -25,5 +25,16 @@ class RepairTest(unittest.TestCase):
         a=torch.tensor([[8e9,8e4],[8e4,1.5e7]],dtype=torch.float64)
         b=torch.tensor([.03,.09],dtype=torch.float64)
         self.assertTrue(torch.equal(old(a,b)[0],joint_dual(a,b)[0]))
+    def test_private_step_reuse_under_budget_is_no_correction(self):
+        from .controller_repair import step
+        from . import controller
+        from .geometry import Projector,Metric
+        metric=Metric(Projector.from_raw(torch.eye(3,dtype=torch.float64)),torch.eye(3,dtype=torch.float64),.1)
+        metric.bind_progress(torch.ones(2,3,dtype=torch.float64))
+        z=torch.zeros(2,3,dtype=torch.float64);g=[torch.ones_like(z),torch.eye(2,3,dtype=torch.float64)]
+        v=torch.zeros(2,dtype=torch.float64)
+        zn,c,r=step(metric,z,g,v,v,torch.ones_like(v),0.,.125,torch.ones_like(v),1.)
+        self.assertTrue(torch.equal(zn,z));self.assertTrue(torch.equal(c,z))
+        self.assertEqual(r['xi'],[0.,0.]);self.assertIs(controller.joint_dual,old)
 
 if __name__=='__main__':unittest.main()
