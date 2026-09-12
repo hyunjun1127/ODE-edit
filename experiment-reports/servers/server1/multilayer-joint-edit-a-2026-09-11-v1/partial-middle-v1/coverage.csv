@@ -1,0 +1,8 @@
+scope,status,new_endpoint_count
+Middle A0,TERMINAL_VALID,1
+Middle N4,EXACT_WEIGHT_REFERENCE_REUSED; full same-panel metrics NOT_RECORDED_HERE,0
+Middle AOS,NO_LOCAL_TERMINAL_INPUT_IN_THIS_PACKAGE,0
+Middle BOS,PEER_REPORTED_COMPLETED_UNVERIFIED_NOT_INCLUDED_IN_MEASURED_TABLES,0
+"Other A/B arms, Early/Late, nested comparisons",NOT_RUN_IN_THIS_PARTIAL_PUBLICATION,0
+Four 10-batch short chains,NOT_RUN_IN_THIS_PARTIAL_PUBLICATION,0
+We NS and Fixed/Past before-after loss/recovery,NOT_RECORDED_SCHEMA_GAP,0
