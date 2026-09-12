@@ -1,0 +1,14 @@
+task_id: blue-downstream-report-review-sh2-20260912-v1
+type: global-head-command
+worker_claimable: false
+status: approved_pending_delivery
+instruction_id: ODEEDIT-S06-SH2-DOWNSTREAM-COMPLETED-REPORT-20260912-V1
+owner: server2
+instruction: messages/head/2026-09-12-blue-downstream-report-sh2.md
+existing_experiment_job: 42706
+scope: existing_report_check_then_completed_output_cpu_report
+new_model_gpu_eval_slurm_submission: forbidden
+bounded_exact_target_status_check: allowed
+other_task_monitoring: forbidden
+main_push: completed_own_raw_free_scope_non_force_allowed
+scientific_promotion: false
