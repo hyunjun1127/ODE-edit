@@ -6,7 +6,7 @@ import unittest
 
 from project.run_scripts.multilayer_joint_compensation.track_a.analyze_partial import (
     AnalysisBoundary, attribution, canonical, digest, endpoint_rows, functional_summary,
-    member, stats, summarize, verify_package)
+    member, stats, summarize, verify_package, symmetric_effects)
 
 
 class PartialAnalysisTests(unittest.TestCase):
@@ -48,9 +48,19 @@ class PartialAnalysisTests(unittest.TestCase):
             states[name]=copy.deepcopy(doc['rows'])
             for row in states[name]:row['new_nll']=nll
         rows,agg=attribution(states)
-        self.assertEqual(rows[0]['e4'],5);self.assertEqual(rows[0]['e8'],3)
-        self.assertEqual(rows[0]['e48'],7);self.assertEqual(rows[0]['interaction'],-1)
-        self.assertEqual(len(agg),12)
+        self.assertEqual(rows[0]['standalone_E4'],5);self.assertEqual(rows[0]['standalone_E8'],3)
+        self.assertEqual(rows[0]['standalone_E48'],7);self.assertEqual(rows[0]['interaction'],-1)
+        self.assertEqual(rows[0]['signed_L4'],4.5);self.assertEqual(rows[0]['signed_L8'],2.5)
+        self.assertEqual(rows[0]['signed_L4']+rows[0]['signed_L8'],7.)
+        self.assertEqual(len(agg),16)
+
+    def test_symmetric_identity_negative_zero_and_scaled(self):
+        for a,b,c in [(5.,3.,7.),(-4.,2.,-2.),(3.,-3.,0.),(1e6,-2e6,3e6)]:
+            x=symmetric_effects(a,b,c)
+            self.assertEqual(x['signed_L4']+x['signed_L8'],c)
+            self.assertNotIn('share',x)
+        with self.assertRaisesRegex(AnalysisBoundary,'NONFINITE'):
+            symmetric_effects(float('nan'),1.,2.)
 
     def test_functional_uneven_weighted_reduction_not_mean_of_chunks(self):
         d={'Base':dict(context_rows=[dict(identity='a|b',values=[1.,2.],nll=[3.,4.],context_weights=[.2,.3]),
