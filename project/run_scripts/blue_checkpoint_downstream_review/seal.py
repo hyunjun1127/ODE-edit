@@ -40,8 +40,8 @@ def run():
         n=sum(float(next(v for v in r if v['task']==t and v['variant']=='L4_ONLY')['weighted_f1'])>float(next(v for v in r if v['task']==t and v['variant']=='BLUE')['weighted_f1']) for t in ('sst2','mrpc','cola','rte','mmlu','nli'))
         need(n==wins,'NARRATIVE_CONTRAST')
     # Full report and PNG reproduction, not just plot-only re-rendering.
-    repeat=LOCAL/'publication-reproduction-r1'
-    publish(LOCAL/'reduction-r1',repeat,LOCAL/'publication-reproduction-plots-r1')
+    repeat=LOCAL/'publication-reproduction-r2'
+    publish(LOCAL/'reduction-r1',repeat,LOCAL/'publication-reproduction-plots-r2')
     for p in REPORT.rglob('*'):
         if p.is_file():need(sha(p)==sha(repeat/p.relative_to(REPORT)),'REPORT_REPRODUCIBILITY:'+str(p))
     save(REPORT/'test-receipt.json',dict(status='PASS',cpu_tests=15,independent_sklearn_random_fixtures=80,report_png_byte_exact_reproduction=True,pycompile='PASS',bash_parse='PASS',execution_source_byte_identity='PASS',session='PASS',commands=receipts,python=sys.version,platform=platform.platform(),new_gpu=0))

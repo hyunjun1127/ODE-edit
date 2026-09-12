@@ -87,7 +87,7 @@ def publish(reduction,dest,scratch):
                 for edits in (100,500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000):
                     rr.append([variant,edits]+[f'{float(lookup[(family,variant,edits,t,branch)]["weighted_f1"])*100:.2f}' for t in TASKS])
             text.append(mdtable(['variant','edits']+list(TASKS),rr))
-    (dest/'diagnostic-report-ko.md').write_text('\n'.join(text))
+    (dest/'diagnostic-report-ko.md').write_text('\n'.join(text).rstrip()+'\n')
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--reduction',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--scratch',type=Path,required=True);a=p.parse_args();publish(a.reduction,a.output,a.scratch)
