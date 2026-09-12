@@ -64,6 +64,12 @@ def runtime(args):
         if sha(execution['input_lock']['path'])!=execution['input_lock']['sha256']:raise RuntimeError('INPUT_LOCK_CHANGED')
         inputs=json.loads(Path(execution['input_lock']['path']).read_text())
         if inputs['common']!=str(Path(args.common).absolute()):raise RuntimeError('INPUT_LOCK_COMMON')
+        followup=None
+        if 'followup_lock' in execution:
+            from .followup import load_verified
+            followup=load_verified(execution['followup_lock'])
+            if args.arm!=followup['allowed_arm'] or args.common!=followup['common'] or args.entry!='Middle':
+                raise RuntimeError('FOLLOWUP_ALLOWED_SCOPE')
         for m in inputs['assets']+inputs['native_source']:
             if Path(m['path']).stat().st_size!=m['bytes'] or sha(m['path'])!=m['sha256']:
                 raise RuntimeError('INPUT_ASSET_CHANGED:'+m['path'])
@@ -108,7 +114,13 @@ def runtime(args):
             full=JointView(model,names,ledger);view=SelectedView(full,entry['WN'],support)
             fixed_wn_sha={name:tensor_sha(w) for name,w in zip(names,view.wn)}
             phase='CURRENT_REFERENCE'
-            if 'test_repair_lock' in execution:
+            if followup is not None:
+                wn_teacher=torch.load(followup['teacher'],map_location='cpu',weights_only=True)
+                ledger.add('WN_teacher_exact_reuse')
+                save(out/'WN-current-teacher-reuse.json',dict(followup_lock_sha=execution['followup_lock']['sha256'],
+                    source=followup['teacher'],sha256=sha(followup['teacher']),fixed_WN=fixed_wn_sha,
+                    packing=digest(packed['Current']),new_teacher_forward=0))
+            elif 'test_repair_lock' in execution:
                 ref=execution['test_repair_lock']
                 if sha(ref['path'])!=ref['sha256']:raise RuntimeError('TEST_REPAIR_LOCK_CHANGED')
                 repair=json.loads(Path(ref['path']).read_text())
@@ -148,13 +160,26 @@ def runtime(args):
             phase='ACTUAL_GATE'
             # Gate implementation is shared separately; never label preparation
             # or teacher capture alone as initial-valid.
-            from .runtime_gate import initial_gate
-            evidence=initial_gate(problem,view,packed,wn_teacher,tok,model,ledger,out)
+            if followup is not None:
+                from .followup import initial_reuse
+                evidence=initial_reuse(followup,problem,view,packed,tok,model,ledger,reference)
+            else:
+                from .runtime_gate import initial_gate
+                evidence=initial_gate(problem,view,packed,wn_teacher,tok,model,ledger,out)
             save(out/'INITIAL_VALID.json',dict(status='MINIMUM_ACTUAL_INITIAL_VALID',evidence=evidence,
                 source_head=head,common_ready_sha=receiver['source_ready_sha256'],job=os.environ.get('SLURM_JOB_ID'),
                 full_B100_endpoint_complete=False,agent_after_this='MONITORING_PAUSED_AWAITING_USER',
                 program_continues=True,compute=ledger.receipt(),scientific_promotion=False))
             print('MINIMUM_ACTUAL_INITIAL_VALID',flush=True)
+            if followup is not None:
+                phase='PRIOR_BOS_MISSING_OBSERVATIONS'
+                from .supplement import missing_observations
+                previous=Path(followup['reference_run'])/'output'
+                prior_endpoint=torch.load(previous/'endpoint.pt',weights_only=True,map_location='cpu',mmap=True)
+                missing_observations(full=full,entry=entry,source=source,packed=packed,endpoint=prior_endpoint['weights'],
+                    model=model,tok=tok,evaltok=evaltok,records=records,ledger=ledger,output=out/'prior-B-OS-supplement',
+                    full_result=previous/'endpoint-full.json',reference_members=followup['reference_members'])
+                del prior_endpoint
             phase='B_CORRECTION'
             def on_node(row,ws,actual_delta):
                 save(out/'nodes'/f'node-{row["node"]:02d}.json',row)
@@ -180,13 +205,19 @@ def runtime(args):
                     histories=final_hist,contexts=entry['contexts'],WN=fixed_wn_sha,entry_identity=entry['entry_identity'],
                     effective_current=entry['raw_effective_inventory']['current_effective'],history_receipt=history_receipt))
             full.assert_live(bytes_check=True)
+            if followup is not None:
+                phase='ENDPOINT_MISSING_OBSERVATIONS'
+                missing_observations(full=full,entry=entry,source=source,packed=packed,endpoint=full_endpoint,
+                    model=model,tok=tok,evaltok=evaltok,records=records,ledger=ledger,output=out/'endpoint-supplement',
+                    full_result=out/'endpoint-full.json',reference_members=followup['reference_members'])
         phase='TERMINAL'
         save(out/'terminal.json',dict(status='B_ENDPOINT_FINITE_RECORDED',arm=args.arm,entry=args.entry,source_head=head,
             endpoint_sha=endpoint_sha,solver_statuses=[row['solver']['status'] for row in rows],full_pairs=len(evalrows),
             W0_selected_restored=all(torch.equal(params[n].detach().cpu(),w) for n,w in zip(names,entry['W0'])),
             compute=ledger.receipt(),total_wall_seconds=time.monotonic()-started,
             peak_GPU_allocated=torch.cuda.max_memory_allocated(),peak_GPU_reserved=torch.cuda.max_memory_reserved(),
-            pending_observation_scope=['additional independent audit/attribution aggregation on USER recall'],
+            pending_observation_scope=['CPU aggregation on USER recall','remaining engineering batch/microbatch comparisons'] if followup else ['additional independent audit/attribution aggregation on USER recall'],
+            independent_audit_and_attribution_recorded=followup is not None,
             full_experiment_complete=False,scientific_promotion=False))
     except BaseException as error:
         save(out/'failure.json',dict(stage=phase,type=type(error).__name__,message=str(error),traceback=traceback.format_exc(),
