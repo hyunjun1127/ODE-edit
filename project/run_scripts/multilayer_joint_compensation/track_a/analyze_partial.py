@@ -62,15 +62,25 @@ def read(path):
 
 
 def save_json(path, value):
-    with Path(path).open('xb') as f: f.write(canonical(value) + b'\n')
+    write_identical_or_create(path, canonical(value) + b'\n')
+
+
+def write_identical_or_create(path, data):
+    """Resume a CPU publication only by exact bytes; never overwrite a member."""
+    path=Path(path)
+    if path.exists() or path.is_symlink():
+        require(member(path)['sha256']==hashlib.sha256(data).hexdigest(), 'PUBLICATION_RESUME_BYTE_MISMATCH')
+        return
+    with path.open('xb') as f:f.write(data)
 
 
 def write_csv(path, rows):
     require(bool(rows), 'EMPTY_PUBLICATION_TABLE')
     columns = list(dict.fromkeys(k for r in rows for k in r))
-    with Path(path).open('x', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=columns, lineterminator='\n')
-        w.writeheader(); w.writerows(rows)
+    f=io.StringIO(newline='')
+    w = csv.DictWriter(f, fieldnames=columns, lineterminator='\n')
+    w.writeheader(); w.writerows(rows)
+    write_identical_or_create(path,f.getvalue().encode())
 
 
 def verify_package(path):
@@ -185,7 +195,7 @@ def functional_summary(doc, bank, calibration):
         value = float(np.dot(values, weights)); nll = float(np.dot(nlls, weights))
         for name, exact, recorded, scale in [('risk', value, data['value'], sum(abs(v*w) for v,w in zip(values,weights))),
                                              ('nll', nll, data['mean_nll'], sum(abs(v*w) for v,w in zip(nlls,weights)))]:
-            bound = 8 * np.finfo(np.float32).eps * max(scale, 1.)
+            bound = float(8 * np.finfo(np.float32).eps * max(scale, 1.))
             require(abs(exact-recorded) <= bound, 'FUNCTIONAL_WEIGHTED_REDUCTION')
             checks.append(dict(role=role, field=name, residual=abs(exact-recorded), bound=bound,
                                rule='8*eps_FP32*max(1,sum_abs_weighted_terms)'))
@@ -261,7 +271,7 @@ def build(args):
     import torch
     torch.set_num_threads(4)
     a, c, out = (Path(x).absolute() for x in (args.a0,args.common,args.output))
-    require(not out.exists(), 'PUBLICATION_CREATE_ONCE')
+    require(not out.exists() or args.resume_publication, 'PUBLICATION_CREATE_ONCE')
     terminal, tverify = verify_package(a/'terminal.json'); common,cverify=verify_package(c/'READY.json')
     require(terminal['status']=='TERMINAL_VALID' and terminal['arm']=='A0' and not terminal['full_campaign_completed'], 'WRONG_PARTIAL_TERMINAL')
     require(common['entry']==terminal['entry']=='Middle', 'ENTRY_MISMATCH')
@@ -330,7 +340,7 @@ def build(args):
         for unit,group in [('seconds',raw['compute']['seconds']),('count',raw['compute']['counts'])]:
             for name,v in group.items():compute.append(dict(phase=phase,component=name,unit=unit,value=v,
                 interpretation='measured scoped counter/time; timings can be nested, do not sum as total'))
-    out.mkdir(parents=True)
+    out.mkdir(parents=True,exist_ok=args.resume_publication)
     write_csv(out/'endpoint-summary.csv',summary);write_csv(out/'signed-attribution.csv',paired)
     write_csv(out/'signed-attribution-summary.csv',attr);write_csv(out/'functional-summary.csv',functional)
     write_csv(out/'functional-context-metrics.csv',contexts);write_csv(out/'a0-trajectory.csv',rows)
@@ -340,8 +350,7 @@ def build(args):
     # Re-execute deterministic rendering twice from the identical derived input.
     figs=plots(summary,attr,rows,physical);again=plots(summary,attr,rows,physical)
     require(figs==again, 'PNG_BYTE_REPRODUCTION')
-    for name,blob in figs.items():
-        with (out/name).open('xb') as f:f.write(blob)
+    for name,blob in figs.items():write_identical_or_create(out/name,blob)
     import matplotlib
     command=f'{sys.executable} -m project.run_scripts.multilayer_joint_compensation.track_a.analyze_partial --a0 {a} --common {c} --output <new-create-once-output>'
     save_json(out/'plot-reproduction.json',dict(command=command,render_count=2,byte_identical=True,
@@ -382,7 +391,7 @@ def build(args):
       dict(scope='We NS and Fixed/Past before-after loss/recovery',status='NOT_RECORDED_SCHEMA_GAP',new_endpoint_count=0)]
     write_csv(out/'coverage.csv',coverage)
     text=report(summary,attr,functional,rows,physical,schedule,common,terminal,generated,verification,command)
-    with (out/'diagnostic-report-ko.md').open('x') as f:f.write(text)
+    write_identical_or_create(out/'diagnostic-report-ko.md',text.encode())
     members=[dict(name=p.name,bytes=p.stat().st_size,mode=oct(stat.S_IMODE(p.stat().st_mode)),sha256=sha(p)) for p in sorted(out.iterdir()) if p.is_file()]
     manifest=dict(schema='multilayer-middle-A0-partial-analysis-v1',scientific_promotion=False,
       execution_source_head=terminal['source_head'],execution_source_tree=subprocess.check_output(['git','rev-parse',terminal['source_head']+'^{tree}'],cwd=ROOT,text=True).strip(),
@@ -492,4 +501,5 @@ PNG는 repository Python 코드로 동일 derived 입력에서 두 번 실제 re
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--a0',required=True);parser.add_argument('--common',required=True);parser.add_argument('--output',required=True)
+    parser.add_argument('--resume-publication',action='store_true',help='reuse only already-written byte-identical CPU tables/plots; input hashes are all rechecked')
     build(parser.parse_args())
