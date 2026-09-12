@@ -38,6 +38,8 @@ def execute(lock_path, output):
             member(row['path'],expected=row['sha256'])
         for row in [lock['entry_checkpoint'],*lock['companion_members'].values()]:
             member(row['path'],expected=row['sha256'])
+        for key in ('general_manifest','covariance','comparison_checkpoint'):
+            if lock.get(key):member(lock[key]['path'],expected=lock[key]['sha256'])
         spec=SingletonSpec(lock['cell']['layer']);entry_n=lock['cell']['entry_n']
         if entry_n not in (1000,5000,9000):raise ContractBoundary('WARM_ENTRY_SCOPE')
         if lock['native_batches']!=list(range(entry_n//100+1,entry_n//100+11)):
@@ -65,6 +67,7 @@ def execute(lock_path, output):
             row['calls']+=1;ids=kwargs.get('input_ids',args[0] if args else None);mask=kwargs.get('attention_mask')
             if ids is not None:row['input_positions']+=ids.numel()
             if mask is not None:row['nonpadding_positions']+=int(mask.sum())
+        hook_state=[(m,dict(m._forward_hooks),dict(m._forward_pre_hooks),dict(m._backward_hooks)) for m in model.modules()]
         forward_handle=model.register_forward_pre_hook(forward_counter,with_kwargs=True)
         stack=torch.load(lock['projector'],map_location='cpu',weights_only=True,mmap=True)
         projector,mapping=select_projector(stack,spec);del stack
@@ -83,11 +86,16 @@ def execute(lock_path, output):
                 GPU=torch.cuda.get_device_name(),attention=model.config._attn_implementation,
                 tf32_matmul=torch.backends.cuda.matmul.allow_tf32,tf32_cudnn=torch.backends.cudnn.allow_tf32,
                 model_load_seconds=model_load_seconds,prior_gate_reused=lock['prior_gate'],repeat_FD=0,
+                new_direction_FD=bool(lock['diagnostics'].get('initial_probe_new_direction',False)),
                 original_trajectory_equivalence='NOT_YET_VERIFIED'))
             for batch in lock['native_batches']:
                 stage=f'B{batch:03d}_NATIVE';broot=root/f'B{batch:03d}';rows=records[(batch-1)*100:batch*100]
                 before=weight.detach().cpu().clone();before_m=history.clone();t=time.monotonic()
                 requests=[dict(r['requested_rewrite'],case_id=int(r['case_id'])) for r in rows]
+                save(broot/'entry-state.json',dict(batch=batch,weight_sha256=tensor_sha(before),
+                    history_sha256=tensor_sha(before_m),rng_sha256=digest(capture_rng()),
+                    contexts_sha256=source_digest(native.CONTEXT_TEMPLATES_CACHE),
+                    request_ids=[r['case_id'] for r in rows],request_hashes=[source_digest(r['requested_rewrite']) for r in rows]))
                 result=run_native_batch(model,tok,native,hp,history,projector,requests,spec,observer=observe_native)
                 torch.cuda.synchronize();elapsed=time.monotonic()-t
                 raw=result['observer'].pop('_tensors');raw_ref=tensor_artifact(broot/'native-tensors.pt',raw)
@@ -108,9 +116,36 @@ def execute(lock_path, output):
                     target_rows=[dict(index=i,exact=torch.equal(a,b),max_abs=float((a-b).abs().max())) for i,(a,b) in enumerate(zip(raw['targets'],refs['values']))]
                     assert len(raw['targets'])==len(refs['values'])==100
                     save(broot/'target-reproduction.json',dict(count=100,rows=target_rows,source_exact_equivalence='NOT_ASSUMED'))
+                    query_initial=None
+                    if lock.get('observations'):
+                        stage='E1_NATIVE_FACTOR_DIAGNOSTIC';begin=time.monotonic()
+                        from .geometry import native_write_diagnostics
+                        K=raw['solves'][0]['K'];R=raw['solves'][0]['R'];D=raw['physical_updates'][0]
+                        diagnostic=native_write_diagnostics(K.to(weight.device),R.to(weight.device),
+                            projector[0].to(weight.device),before_m[0].to(weight.device),D.to(weight.device),
+                            ridge=1.,weight_before=before.to(weight.device),return_factor=True)
+                        F=diagnostic.pop('diagnostic_factor_F').cpu()
+                        factor=tensor_artifact(broot/'diagnostic-factor.pt',dict(F=F,R=R,K=K,role='DIAGNOSTIC_ONLY_NOT_NATIVE_WRITE'))
+                        save(broot/'native-write-diagnostic.json',dict(values=diagnostic,factor=factor,seconds=time.monotonic()-begin))
+                        realised=(endpoint.double()-before.double()).float()
+                        from .query_initial import validate as query_gate
+                        query_initial=query_gate(model,evaltok,weight,hp.rewrite_module_tmp.format(spec.layer),before,
+                            rows[0],json.loads(Path(lock['general_manifest']['path']).read_text()),K,F,realised)
+                        save(broot/'query-initial.json',query_initial)
+                    signed_initial=None
+                    if lock['diagnostics'].get('initial_probe_new_direction'):
+                        stage='FIRST_NATIVE_SIGNED_PROBE'
+                        from .initial_probe import probe
+                        signed_initial=probe(model,evaltok,weight,hp.rewrite_module_tmp.format(spec.layer),
+                            before,endpoint,rows[0],lock['diagnostics'])
+                        save(broot/'signed-initial.json',signed_initial)
+                        if signed_initial['finite_difference']['status'] in ('NONFINITE','DERIVATIVE_MISMATCH'):
+                            raise ContractBoundary('SIGNED_DERIVATIVE_TECHNICAL_BOUNDARY',fd=signed_initial['finite_difference'])
                     save(root/'INITIAL_VALID.json',dict(status='INITIAL_VALID',entry_checkpoint_pointer_bytes_rng=True,
                         first_batch=batch,native_history_append=1,endpoint_finite=True,selected_rollback_reinstall_exact=True,
                         nonselected_native_bytes_version_exact=True,prior_signed_gate=lock['prior_gate'],repeated_FD_count=0,
+                        new_direction_signed_status=None if signed_initial is None else signed_initial['finite_difference']['status'],
+                        query_general_initial_status=None if query_initial is None else query_initial['status'],
                         continuation_complete=False,source_equivalence='NOT_YET_VERIFIED',elapsed_seconds=time.monotonic()-started,
                         after_initial='MONITORING_PAUSED_AWAITING_USER'))
                     print('E01_WARM_INITIAL_VALID',batch,flush=True)
@@ -130,8 +165,24 @@ def execute(lock_path, output):
                     from .fixtures import restore_rng
                     restore_rng(rng)
                     save(broot/'E1-coverage.json',dict(current_requests=100,historical_requests=128,prompt_pairs_per_endpoint=2964,
-                        general='NOT_YET_MEASURED',all_position_exposure='CAPTURED_NATIVE_K_R_ONLY_PENDING_QUERY_OBSERVATION',
-                        signed_backward='NOT_PRIORITY_CELL_PRIOR_GATE_REUSED',evaluation_seconds=time.monotonic()-eval_start))
+                        general='SEPARATE_FOLLOWING_OBSERVATION_PHASE' if lock.get('observations') else 'NOT_YET_MEASURED',
+                        all_position_exposure='SEPARATE_FOLLOWING_OBSERVATION_PHASE' if lock.get('observations') else 'CAPTURED_NATIVE_K_R_ONLY_PENDING_QUERY_OBSERVATION',
+                        signed_backward='PRIORITY_FOLLOWING_PHASE' if lock.get('observations') else 'NOT_PRIORITY_CELL_PRIOR_GATE_REUSED',evaluation_seconds=time.monotonic()-eval_start))
+                    if lock.get('observations'):
+                        from .observation_panels import run_observations
+                        stage='E1_QUERY_SIGNED_GENERAL'
+                        observation=run_observations(model,evaltok,weight,hp.rewrite_module_tmp.format(spec.layer),records,
+                            list(range(entry_n,entry_n+100)),historical_ordinals(entry_n),lock['general_manifest']['path'],
+                            before,endpoint,realised,K,F,broot/'observations',lock['observations'],w0_weight=w0,diagnostic_R=R)
+                        save(broot/'E1-observations-complete.json',dict(receipt=member(broot/'observations/observation-receipt.json'),
+                            signed_initial=member(broot/'signed-initial.json'),native_inputs_changed=False))
+                        if lock['observations'].get('full_geometry'):
+                            stage='E1_CPU_FULL_GEOMETRY'
+                            from .full_geometry import run as full_geometry
+                            full_geometry(projector[0],before_m[0],K,realised,before,w0,lock['covariance']['path'],broot/'geometry')
+                        restore_rng(rng)
+                        assert tensor_sha(weight)==result['receipt']['endpoint_sha256'] and tensor_sha(history)==result['receipt']['history_sha256']
+                        del K,R,D,F,realised,diagnostic,observation
                 record=dict(batch=batch,requests=100,native_seconds=elapsed,endpoint=snapshot,history_append=1,status='FINITE_NATIVE_BATCH')
                 save(broot/'commit.json',record);committed.append(record)
                 print('E01_NATIVE_BATCH_COMMITTED',batch,flush=True)
@@ -147,13 +198,21 @@ def execute(lock_path, output):
                 fidelity=dict(status='EXACT' if not torch.count_nonzero(dw) and not torch.count_nonzero(dm) else 'NONEXACT_CAUSE_UNRESOLVED',
                     weight_max_abs=float(dw.abs().max()),weight_relative_norm=float(dw.norm()/ref['weights'][spec.weight_name].double().norm()),
                     history_max_abs=float(dm.abs().max()),history_relative_norm=float(dm.norm()/ref['cache_c'].double().norm()),
-                    source_equivalence=bool(not torch.count_nonzero(dw) and not torch.count_nonzero(dm)),reference=comparison)
+                    endpoint_weight_history_exact=bool(not torch.count_nonzero(dw) and not torch.count_nonzero(dm)),
+                    source_equivalence=False,trajectory_equivalence='UNVERIFIED_REQUIRES_INTERMEDIATE_TARGET_CONTEXT_ORDER_RNG_COMPARISON',
+                    reference=comparison)
             save(root/'resume_fidelity.json',fidelity)
+        if forward_handle is not None:
+            forward_handle.remove();forward_handle=None
+        hooks_exact=all(dict(m._forward_hooks)==a and dict(m._forward_pre_hooks)==b and dict(m._backward_hooks)==c for m,a,b,c in hook_state)
+        if not hooks_exact:raise ContractBoundary('FINAL_MODEL_HOOK_REGISTRY_RESTORE')
         save(root/'terminal.json',dict(status='NATIVE_WINDOW_FINITE_OBSERVED',batches=len(committed),requests=len(committed)*100,
             E1_reused_first_batch=True,E1_double_count=0,source_equivalence=fidelity,restore=tx.receipt,
             forward_counts=forward_counts,model_load_seconds=model_load_seconds,elapsed_seconds=time.monotonic()-started,
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved(),
-            general='NOT_YET_MEASURED',full_E01_complete=False,scientific_promotion=False))
+            hook_registry_restore_exact=hooks_exact,
+            general='OBSERVED_FIRST_BATCH' if lock.get('observations') else 'NOT_YET_MEASURED',
+            full_E01_complete=False,scientific_promotion=False))
     except BaseException as exc:
         save(root/'failure.json',dict(stage=stage,error=repr(exc),receipt=getattr(exc,'receipt',{}),traceback=traceback.format_exc(),
             completed_batches=len(committed),restore=None if tx is None else tx.receipt,elapsed_seconds=time.monotonic()-started,
