@@ -1,0 +1,59 @@
+category,name,value,unit,counting
+allocation,job45633,23657,GPU-sec,sacct allocation elapsed; batch/extern not added
+seconds,AOS_protection_solve,23174.4787767604,seconds,nested/subset counters; not additive total
+seconds,current_intermediate_evaluation,29.15863603167236,seconds,nested/subset counters; not additive total
+seconds,full_endpoint_evaluation,147.2343261614442,seconds,nested/subset counters; not additive total
+seconds,generation,90.40807375125587,seconds,nested/subset counters; not additive total
+seconds,geometry_reuse_L4,1.9210105314850807,seconds,nested/subset counters; not additive total
+seconds,geometry_reuse_L8,1.7687515262514353,seconds,nested/subset counters; not additive total
+seconds,host_device_storage_identity,3.2809662353247404,seconds,nested/subset counters; not additive total
+seconds,model_load,10.338117090985179,seconds,nested/subset counters; not additive total
+seconds,native_key_capture,27.07535296306014,seconds,nested/subset counters; not additive total
+seconds,teacher_capture,35.05551686696708,seconds,nested/subset counters; not additive total
+counts,actual_forward_nonpadding_tokens,1513584,recorded_count,nested/subset counters; not additive total
+counts,actual_forward_padded_tokens,1746650,recorded_count,nested/subset counters; not additive total
+counts,actual_model_forward_invocations,47484,recorded_count,nested/subset counters; not additive total
+counts,attribution_observation_restores,2,recorded_count,nested/subset counters; not additive total
+counts,attribution_observation_temporary_materializations,2,recorded_count,nested/subset counters; not additive total
+counts,attribution_observation_version_increments,0,recorded_count,nested/subset counters; not additive total
+counts,authoritative_endpoint_materializations,1,recorded_count,nested/subset counters; not additive total
+counts,evaluation_candidate_sequences,9000,recorded_count,nested/subset counters; not additive total
+counts,evaluation_model_forwards,1130,recorded_count,nested/subset counters; not additive total
+counts,forward_nonpadding_tokens,1330524,recorded_count,nested/subset counters; not additive total
+counts,forward_padded_tokens,1579060,recorded_count,nested/subset counters; not additive total
+counts,generation_output_tokens,1920,recorded_count,nested/subset counters; not additive total
+counts,generation_sequences,60,recorded_count,nested/subset counters; not additive total
+counts,host_weight_transfer_bytes,20802003009536,recorded_count,nested/subset counters; not additive total
+counts,model_forward_invocations,44283,recorded_count,nested/subset counters; not additive total
+counts,native_key_capture,2,recorded_count,nested/subset counters; not additive total
+counts,native_key_context_rows,1200,recorded_count,nested/subset counters; not additive total
+counts,native_key_requests,200,recorded_count,nested/subset counters; not additive total
+counts,native_representation_physical_batches,150,recorded_count,nested/subset counters; not additive total
+counts,terminal_history_layer_appends,2,recorded_count,nested/subset counters; not additive total
+counts,terminal_restores,1,recorded_count,nested/subset counters; not additive total
+counts,terminal_temporary_materializations,1,recorded_count,nested/subset counters; not additive total
+counts,terminal_version_increments,0,recorded_count,nested/subset counters; not additive total
+functional_base,forward_input_tokens,97416,recorded_count,subset of model totals
+functional_base,ggn_matvecs,43,recorded_count,subset of model totals
+functional_base,gradient_backward,64,recorded_count,subset of model totals
+functional_base,jvp_calls,2752,recorded_count,subset of model totals
+functional_base,jvp_vectors,2752,recorded_count,subset of model totals
+functional_base,logits_forward,5632,recorded_count,subset of model totals
+functional_base,vjp_calls,2752,recorded_count,subset of model totals
+functional_base,vjp_vectors,2752,recorded_count,subset of model totals
+functional_current,forward_input_tokens,867416,recorded_count,subset of model totals
+functional_current,ggn_matvecs,43,recorded_count,subset of model totals
+functional_current,gradient_backward,600,recorded_count,subset of model totals
+functional_current,jvp_calls,12900,recorded_count,subset of model totals
+functional_current,jvp_vectors,12900,recorded_count,subset of model totals
+functional_current,logits_forward,26400,recorded_count,subset of model totals
+functional_current,vjp_calls,12900,recorded_count,subset of model totals
+functional_current,vjp_vectors,12900,recorded_count,subset of model totals
+functional_past,forward_input_tokens,336160,recorded_count,subset of model totals
+functional_past,ggn_matvecs,43,recorded_count,subset of model totals
+functional_past,gradient_backward,128,recorded_count,subset of model totals
+functional_past,jvp_calls,5504,recorded_count,subset of model totals
+functional_past,jvp_vectors,5504,recorded_count,subset of model totals
+functional_past,logits_forward,11264,recorded_count,subset of model totals
+functional_past,vjp_calls,5504,recorded_count,subset of model totals
+functional_past,vjp_vectors,5504,recorded_count,subset of model totals

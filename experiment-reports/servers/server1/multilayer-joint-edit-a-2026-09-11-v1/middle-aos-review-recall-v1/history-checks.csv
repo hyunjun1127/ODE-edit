@@ -1,0 +1,3 @@
+layer,history_replay_maxabs,history_replay_relative_l2,replay,final_sha256,finite,source_recorded_terminal_appends,source_recorded_inner_appends
+4,0.0,0.0,CPU FP32 M_entry + K K.T in 256-row blocks; reduction order may differ,84795972b1d974de17436b2982eb6787b127ac02a2ba17c882455cf7dcbafdac,True,1,0
+8,0.0,0.0,CPU FP32 M_entry + K K.T in 256-row blocks; reduction order may differ,29f371c849e1c8451c757150c008882f04c876b385ea043871671d89c9beed41,True,1,0
