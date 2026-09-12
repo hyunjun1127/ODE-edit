@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "figures": [
+    {
+      "name": "AlphaEdit-alternative.png",
+      "sha256": "e6771bf8e1f6d9b8b2ef579856540eef79966fdcb74e54e1c724d2dcc38a2461",
+      "byte_exact_repeat": true
+    },
+    {
+      "name": "AlphaEdit-generation.png",
+      "sha256": "724b23f76667a8d319c0ddb818cf3c68a3201783f291f012bb1fd4bb873cc879",
+      "byte_exact_repeat": true
+    },
+    {
+      "name": "MEMIT-alternative.png",
+      "sha256": "393927ee4308a6cd47df73e823984378769eb5ced533db47c21e4f2d507e2e7f",
+      "byte_exact_repeat": true
+    },
+    {
+      "name": "MEMIT-generation.png",
+      "sha256": "cb85e1704c89dc8a578f2b474bb8e0676efdb8760f07b233b385d73fe6044233",
+      "byte_exact_repeat": true
+    }
+  ]
+}

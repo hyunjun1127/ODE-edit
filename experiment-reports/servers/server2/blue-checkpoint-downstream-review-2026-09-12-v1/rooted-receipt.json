@@ -1,0 +1,19 @@
+{
+  "status": "TERMINAL_REPORT_VERIFIED",
+  "job42706": "COMPLETED_0:0",
+  "states": 73,
+  "state_task_cells": 438,
+  "observations": 43800,
+  "unique_task_items": 600,
+  "report_sha256": "d905cf8ce6a41733a588cf11b4e5dbb46b7c1bb4a2d33998a2af7ce7ed488308",
+  "manifest_sha256": "f221af8249b674c9182beba43814135fc787e0523963964469f03fc49ecd4da8",
+  "output_member_root": "53a68b90bd63bfc6af29b659fb5228b5137a509d28b98c435a71f5a9f5916ea9",
+  "test_receipt_sha256": "04265485209f654398b26183c8664b5770582b291d7b6af7a1a4a46fb1bb8c65",
+  "raw_member_root": "d96b4ba884c3d8c2951d531c59358538fed704dd1c1c2000b8d1b61a50e5cbfc",
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "source_raw_mutation": 0,
+  "new_model_evaluator": 0,
+  "new_gpu_slurm": 0,
+  "other_task_monitoring": 0,
+  "scientific_promotion": false
+}

@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-S06-SH2-DOWNSTREAM-COMPLETED-REPORT-20260912-V1",
+  "owner": "server2",
+  "status": "REPORT_VERIFIED_READY_FOR_MAIN_PUBLICATION",
+  "job": "42706",
+  "states": 73,
+  "state_task_cells": 438,
+  "task_example_observations": 43800,
+  "unique_task_items": 600,
+  "report": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/diagnostic-report-ko.md",
+  "report_sha256": "d905cf8ce6a41733a588cf11b4e5dbb46b7c1bb4a2d33998a2af7ce7ed488308",
+  "new_gpu_evaluation": 0,
+  "other_task_monitoring": 0,
+  "scientific_promotion": false,
+  "after_publication": "STOP"
+}

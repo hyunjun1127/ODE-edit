@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "cpu_tests": 15,
+  "independent_sklearn_random_fixtures": 80,
+  "report_png_byte_exact_reproduction": true,
+  "pycompile": "PASS",
+  "bash_parse": "PASS",
+  "execution_source_byte_identity": "PASS",
+  "session": "PASS",
+  "commands": [
+    {
+      "command": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "project/run_scripts/blue_checkpoint_downstream_review",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_independent_against_sklearn (test_metrics.MetricsTest.test_independent_against_sklearn) ... ok\ntest_missing_denominator (test_metrics.MetricsTest.test_missing_denominator) ... ok\ntest_pair_accounting (test_metrics.MetricsTest.test_pair_accounting) ... ok\ntest_perfect_inverse_invalid (test_metrics.MetricsTest.test_perfect_inverse_invalid) ... ok\ntest_rte_both_branches_and_invalid (test_metrics.MetricsTest.test_rte_both_branches_and_invalid) ... ok\ntest_tie_and_identity (test_metrics.MetricsTest.test_tie_and_identity) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.165s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "project/run_scripts/blue_checkpoint_downstream",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_nonselected_mutation_is_detected (test_bindings.BindingTests.test_nonselected_mutation_is_detected) ... ok\ntest_singleton_does_not_carry_previous_pair_and_no_history_apply (test_bindings.BindingTests.test_singleton_does_not_carry_previous_pair_and_no_history_apply) ... ok\ntest_six_original_classes_exact_slice (test_bindings.BindingTests.test_six_original_classes_exact_slice) ... ok\ntest_both_branches_same_mapping_and_input_immutable (test_rte_scoring.RteScoringTests.test_both_branches_same_mapping_and_input_immutable) ... ok\ntest_invalid_denominator (test_rte_scoring.RteScoringTests.test_invalid_denominator) ... ok\ntest_invalid_not_inverted (test_rte_scoring.RteScoringTests.test_invalid_not_inverted) ... ok\ntest_perfect_and_inverted_metrics (test_rte_scoring.RteScoringTests.test_perfect_and_inverted_metrics) ... ok\ntest_true_false_against_both_gold_labels (test_rte_scoring.RteScoringTests.test_true_false_against_both_gold_labels) ... ok\ntest_unknown_alternative_remains_invalid (test_rte_scoring.RteScoringTests.test_unknown_alternative_remains_invalid) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 2.621s\n\nOK\n"
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "project/run_scripts/blue_checkpoint_downstream/run.sbatch"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "bash",
+        "scripts/check-session-boundary.sh",
+        "01a0493a-074c-7f91-9a13-769116326fef"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS repository=hyunjun1127/ODE-edit server=server2 session=01a0493a-074c-7f91-9a13-769116326fef model=user-managed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "python": "3.12.12 (main, Oct 10 2025, 12:47:49) [Clang 20.1.4 ]",
+  "platform": "Linux-5.15.0-179-generic-x86_64-with-glibc2.35",
+  "new_gpu": 0
+}

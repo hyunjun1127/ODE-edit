@@ -1,0 +1,148 @@
+{
+  "schema": "downstream-review-v1",
+  "execution_source": "257fe5483dc3407690fec9c9bb45cc7dcda91215",
+  "analysis_head": "027e0dbe3149c445d63e6cb5475fadeab940165d",
+  "analysis_source": [
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/metrics.py",
+      "bytes": 3686,
+      "sha256": "dbd93af8ad65e811729b01c802f8943c57d6539ef9d1c73787a5a9d46690c551"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/plots.py",
+      "bytes": 2098,
+      "sha256": "735c2a75e360fc1c27f03d3067982b908ab50e000b2355392e1c8512aecb9639"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/publish.py",
+      "bytes": 17695,
+      "sha256": "18a905c8ac6e8d80ff8ae6b116fa855e97ce990b41138f4194c5a97fa87c83a4"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/review.py",
+      "bytes": 11727,
+      "sha256": "1f1a9906d12df6d8ac3bb3701bce27c4214aa2aa436ff2b60ced9cc6248d297d"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/seal.py",
+      "bytes": 5989,
+      "sha256": "8d429370b4fb2167597dec6e8c2c59143d287de0670e7d2328225980f6eddd89"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/project/run_scripts/blue_checkpoint_downstream_review/test_metrics.py",
+      "bytes": 2432,
+      "sha256": "0d77cd70476438be2be61d4d416f9a82d065111484cf4d874f9df86fd82f6596"
+    }
+  ],
+  "inputs": [
+    {
+      "repo_path": "messages/head/2026-09-12-blue-downstream-report-sh2.md",
+      "commit": "cf9f8c34b624f97d9ad9a8a63b3291df07a8f044",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260912-report-v1/authoritative-instruction.md",
+      "bytes": 9559,
+      "sha256": "ccd6aaead27087b071802168e3d64d2013870176b123661f7e2e9c57f8f51549",
+      "lines": 88,
+      "full_read": true
+    },
+    {
+      "repo_path": "PROTOCOL.md",
+      "commit": "cf9f8c34b624f97d9ad9a8a63b3291df07a8f044",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260912-report-v1/PROTOCOL-read.md",
+      "bytes": 60382,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "lines": 1269,
+      "full_read": true
+    }
+  ],
+  "output_members": [
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/checkpoints.csv",
+      "bytes": 49375,
+      "sha256": "bea09e2e9c6a29e0aa38a0dc574ba5da139bbaafc00afd11e5d4570a25902408"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/compute-states.csv",
+      "bytes": 9165,
+      "sha256": "f6f66cb793defc6d594ca294dc7d2aa972ecb38a326c4c623ed4f49a07d11ba4"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/compute-tasks.csv",
+      "bytes": 35208,
+      "sha256": "9aaf764f2cd491f61fab2ed990b565e334a1497f331853997ac433f820d15092"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/confusion.csv",
+      "bytes": 222472,
+      "sha256": "1b6775ae3721e650497518e4928475f01ad1d10025806e1c51bbfad8c43d3de5"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/diagnostic-report-ko.md",
+      "bytes": 28538,
+      "sha256": "d905cf8ce6a41733a588cf11b4e5dbb46b7c1bb4a2d33998a2af7ce7ed488308"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/figure-reproduction.json",
+      "bytes": 720,
+      "sha256": "4b3eeaf01057fb7094577ae6ba402739ade7225ab976386779919d9557f0d260"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/figures/AlphaEdit-alternative.png",
+      "bytes": 185700,
+      "sha256": "e6771bf8e1f6d9b8b2ef579856540eef79966fdcb74e54e1c724d2dcc38a2461"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/figures/AlphaEdit-generation.png",
+      "bytes": 203716,
+      "sha256": "724b23f76667a8d319c0ddb818cf3c68a3201783f291f012bb1fd4bb873cc879"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/figures/MEMIT-alternative.png",
+      "bytes": 191127,
+      "sha256": "393927ee4308a6cd47df73e823984378769eb5ced533db47c21e4f2d507e2e7f"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/figures/MEMIT-generation.png",
+      "bytes": 211042,
+      "sha256": "cb85e1704c89dc8a578f2b474bb8e0676efdb8760f07b233b385d73fe6044233"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/metrics.csv",
+      "bytes": 283106,
+      "sha256": "4b862c383f0f8eb34c1d05e6de915a70ecaf44dd284503fc43249363aa6cee39"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/mmlu-parser.csv",
+      "bytes": 4069,
+      "sha256": "ed1316b00a4899856655144247bb20bf96a1b08f3ee55dc7b2851b95ed7c5581"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/paired-transitions.csv",
+      "bytes": 73582,
+      "sha256": "55a6b30d1870f264463d30b27804a09df7cec0ffc0c755e96ab9f34011f1da5f"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/raw-member-manifest.json",
+      "bytes": 390241,
+      "sha256": "4595e73f68e25dfcf7728b49dfb0ce6b7481743abc33ec63979a8eaa5ea72efc"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/source-data-verification.json",
+      "bytes": 520402,
+      "sha256": "c8c671426a5a447df7e68ea7cf5a93f724fbe44ce5a44cf8ab844aa03e58bcb2"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/test-receipt.json",
+      "bytes": 3596,
+      "sha256": "04265485209f654398b26183c8664b5770582b291d7b6af7a1a4a46fb1bb8c65"
+    },
+    {
+      "path": "experiment-reports/servers/server2/blue-checkpoint-downstream-review-2026-09-12-v1/verification.json",
+      "bytes": 9625,
+      "sha256": "2bcbc0c283ba9d6390f3ab3a2d8431ae4403f3f3219d4249d3befd359cdf4ec1"
+    }
+  ],
+  "output_member_root": "53a68b90bd63bfc6af29b659fb5228b5137a509d28b98c435a71f5a9f5916ea9",
+  "raw_member_manifest_sha256": "4595e73f68e25dfcf7728b49dfb0ce6b7481743abc33ec63979a8eaa5ea72efc",
+  "scope": "job42706 only; CPU report",
+  "scientific_promotion": false
+}
