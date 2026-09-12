@@ -1,4 +1,4 @@
-"""One explicit B-OS admission/held-inspection/release, without monitoring loops."""
+"""One explicit B admission/held-inspection/release, without monitoring loops."""
 import argparse
 import json
 import os
@@ -31,7 +31,10 @@ def admission(exclude_job=None):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--input-lock',required=True);p.add_argument('--attempt',required=True)
-    p.add_argument('--test-repair-lock');a=p.parse_args()
+    p.add_argument('--test-repair-lock');p.add_argument('--followup-lock')
+    p.add_argument('--arm',choices=('B-OS','B-BF4'),default='B-OS');a=p.parse_args()
+    if a.arm=='B-BF4' and not a.followup_lock:raise ValueError('BF4_RECALL_REUSE_LOCK_REQUIRED')
+    if a.test_repair_lock and a.followup_lock:raise ValueError('REPAIR_AND_FOLLOWUP_EXCLUSIVE')
     root=Path.cwd();attempt=Path(a.attempt).absolute();attempt.mkdir(parents=True,exist_ok=False)
     boundary=command(['scripts/check-session-boundary.sh',SESSION]);save(attempt/'session.json',boundary)
     if boundary['exit']:raise RuntimeError('SESSION_BOUNDARY')
@@ -44,12 +47,18 @@ def main():
     paths=subprocess.check_output(['git','ls-files','-z','project/run_scripts','scripts','control/gpu-concurrency-policy.tsv','servers/slurm-memory-policy.tsv'],text=True).split('\0')
     members=[dict(path=str(root/n),sha256=sha(root/n)) for n in paths if n and (root/n).is_file()]
     execution=dict(source_head=head,source_tree=tree,worktree=str(root),source_members=members,source_root=digest(members),
-        input_lock=dict(path=str(inp),sha256=sha(inp)),arm='B-OS',entry='Middle',GPU=1,mem_mib=60416,CPUs=8,cap=2,
+        input_lock=dict(path=str(inp),sha256=sha(inp)),arm=a.arm,entry='Middle',GPU=1,mem_mib=60416,CPUs=8,cap=2,
         output=str(attempt/'output'),monitoring_policy='ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911',
         agent_pauses_after_initial_valid=True,no_automatic_followup_submission=True,scientific_promotion=False)
     if a.test_repair_lock:
         repair=Path(a.test_repair_lock).absolute()
         execution['test_repair_lock']=dict(path=str(repair),sha256=sha(repair))
+    if a.followup_lock:
+        followup=Path(a.followup_lock).absolute()
+        execution['followup_lock']=dict(path=str(followup),sha256=sha(followup))
+        from .followup import load_verified
+        lock=load_verified(execution['followup_lock'])
+        if lock['allowed_arm']!=a.arm:raise ValueError('FOLLOWUP_ARM_IDENTITY')
     execution_path=attempt/'execution.lock.json';save(execution_path,execution)
     allowed,cap=admission();save(attempt/'admission.json',cap)
     if not allowed:
@@ -57,7 +66,7 @@ def main():
         print('WAITING_FOR_ISOLATED_RESOURCE',flush=True);return
     launcher=root/'project/run_scripts/multilayer_joint_compensation/track_b/run.sbatch'
     cmd=['sbatch','--hold','--parsable','--output='+str(attempt/'slurm-%j.out'),'--error='+str(attempt/'slurm-%j.err'),
-         str(launcher),str(root),head,'--common',inputs['common'],'--entry','Middle','--arm','B-OS','--source-head',head,
+         str(launcher),str(root),head,'--common',inputs['common'],'--entry','Middle','--arm',a.arm,'--source-head',head,
          '--execution-lock',str(execution_path),'--output',str(attempt/'output')]
     submitted=command(cmd);save(attempt/'submission.json',submitted)
     if submitted['exit']:raise RuntimeError('SBATCH_FAILED')
