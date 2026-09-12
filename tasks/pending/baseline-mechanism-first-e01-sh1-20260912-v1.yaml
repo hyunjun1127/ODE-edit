@@ -1,0 +1,15 @@
+task_id: baseline-mechanism-first-e01-sh1-20260912-v1
+kind: global-head-command
+owner: server1
+target_session: 01a04939-f93a-7b50-bca0-65438eab2062
+instruction_id: ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1
+instruction_path: messages/head/2026-09-12-baseline-mechanism-first-e01-sh1.md
+design_path: project/proposals/2026-09-12-baseline-mechanism-first-lifelong-editing-design.md
+status: approved_for_preparation_and_scoped_execution
+scope: [evidence_reuse, E0, E1-A, E1-B]
+forbidden: [E2, E3, E4, E5, new_methods, new_full_10k_chains]
+gpu_cap: 2
+mem_mb_per_gpu: 182272
+gpu_hour_cap: null
+monitoring: INITIAL_GATE_ONLY_PAUSE_AWAITING_USER
+final_scientific_synthesis_owner: global-head

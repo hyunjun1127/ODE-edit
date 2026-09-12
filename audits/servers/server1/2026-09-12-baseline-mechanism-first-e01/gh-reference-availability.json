@@ -1,0 +1,166 @@
+{
+  "design": {
+    "path": "project/proposals/2026-09-12-baseline-mechanism-first-lifelong-editing-design.md",
+    "bytes": 53160,
+    "lines": 582,
+    "sha256": "e4dc0b1fc0666775deb6e43cbdf18269c8e8e6d41d70c192e2bd4a2661a6ccbe"
+  },
+  "references": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/diagnostic-report-ko.md",
+      "bytes": 115651,
+      "sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "bytes": 23335,
+      "sha256": "6069838537ea607d30d2aa01fc9b00dd2a3900974f962372c4240b1b6ace9cfc",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/servers/server4/fixed-z-nonuniqueness-screen-2026-08-31-v1/fixed-z-nonuniqueness-screen-factual-ko.md",
+      "bytes": 9093,
+      "sha256": "29f63c5c68a13e2f1aab3d3c15c2068ef5addc5a0844239f421730d578d86bec",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "bytes": 23532,
+      "sha256": "6c3e77013fe482096fef86b06c84423ba622b078a1756ec6901b0d7b771ceb70",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-multilayer-joint-edit-a-v1/experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/diagnostic-report-ko.md",
+      "bytes": 5349,
+      "sha256": "13b95941b31952f2a52bf4bfab2ac6d056d0bbe6f027e71161fa1b4c63069f5e",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-multilayer-joint-edit-a-v1/experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-r2/comparison-ko.md",
+      "bytes": 3129,
+      "sha256": "0e415ab2e4e3543979edbfc1b0bba429a0c85af4a290719f2aebb75e1142e9fe",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/gh-mechanism-review-ko.md",
+      "bytes": 35882,
+      "sha256": "6d64d751d22819e7445ee634e8aeb6076ce75a918e4d53c5ae54ee80f5711ab0",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditgh-downstream-report-recall-20260912-v1/experiment-reports/servers/server1/alpha-jv-llama-diagnosis-sweep-2026-09-07-v1/sweep-terminal-v1/factual-report-ko.md",
+      "bytes": 41762,
+      "sha256": "e5bbc8c9598cb4c3ec816b54ae52dba1ae576f93e6eb6fe77a90cd8ac7a8f91f",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/batch-cost.csv",
+      "bytes": 294114,
+      "sha256": "ce88aa89efa5787040f188223fb06cd488b10665a0bccedb2309f2bbb890e8cf",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/checkpoint-tensors.csv",
+      "bytes": 122705,
+      "sha256": "dcea81a0d45b55d1456219ad2f3136c5e7e6010b9c74b539278a438a8ba1ae4b",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-10-single-layer-cumulative-risk-diagnostic-design.md",
+      "bytes": 42046,
+      "sha256": "1b9c0e35b0115fe79c0e376775070b81abff8f4420f32625bf1332752032ee5c",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design.md",
+      "bytes": 35133,
+      "sha256": "a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/runtime-source/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/AlphaEdit_main.py",
+      "bytes": 12212,
+      "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_bf/alpha_backend.py",
+      "bytes": 59526,
+      "sha256": "45554313a89f22a3cea1fa9dc8bd32c73d9a4716d7e8703a22039623295a1165",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_motivation/alphaedit_factors.py",
+      "bytes": 38433,
+      "sha256": "d40c2894ea639847acd15df02486ff853708134b0082f59dd03a7114132a0874",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_motivation/tests/test_alphaedit_factors.py",
+      "bytes": 15895,
+      "sha256": "dc335e7ab8eb58daf6c1d7037f7190322ab9cf9f012cc975dd02adcadb14ecbd",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_motivation/hooks.py",
+      "bytes": 19630,
+      "sha256": "6f981ef8d9e69dcf8727544cf607bd9b990944ee7dcfa0e7582b955d8a9bb79a",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_motivation/tests/test_hooks_artifacts.py",
+      "bytes": 9342,
+      "sha256": "c95763a7b9c0df42c894c1a4f70c181993c92d6bf3a3cd7388765bdbb5479db5",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_method/hooks.py",
+      "bytes": 18840,
+      "sha256": "d208dd16392124cd8d0d0f5751208ac0b5e34f73e78ded8c18bb4c43b4fcde39",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_method/derivatives.py",
+      "bytes": 26819,
+      "sha256": "0636176eb557e02fe6fdf685f7b97ee23643bcd5ad0cc06bd92dd5aa4bbe7645",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_method/tests/test_derivatives_functional.py",
+      "bytes": 51022,
+      "sha256": "d8391eb905a3b5ea23d0ac17d43ae860bc771654461c006674678dec8de73abe",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/ode_edit_motivation/diagnostic_math.py",
+      "bytes": 20127,
+      "sha256": "dbd74ee9d9123d6640f90d79d3b39dbe4fa9532920b11748fc286d04b58896d4",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/fixed_z_nonuniqueness/algebra.py",
+      "bytes": 6771,
+      "sha256": "2fcbcfc164e8d434a2a6919b472f518b698879996536429e98dda4b61d1a63c8",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/alphaedit_strength_neutral_barrier/geometry.py",
+      "bytes": 14387,
+      "sha256": "6ddd767f0d5daace2ee2d788d7b8e49834fef0ae2f76c0717359c824fb88d088",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/analysis-source/project/run_scripts/blue_lifelong_analysis/metrics.py",
+      "bytes": 2618,
+      "sha256": "fe19fb63a9f380017de9d5e4ce50c91f6414d3bd6106b97912a321f984efca6c",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/analysis-source/project/run_scripts/server4_experiments_review/aggregate.py",
+      "bytes": 9149,
+      "sha256": "230e21441236ff8576e19855bd77b2a81fc0ca2bcdff0bf4251db91eb8eb5569",
+      "check": "FILE_BYTES_AVAILABLE_NOT_FULL_CODE_AUDIT"
+    }
+  ]
+}
