@@ -1,0 +1,57 @@
+{
+  "member_root": "1cdf7b5a78f9b23567657e774d683e72f20950d7cdc3a0f6aa3d3ea74b862bec",
+  "members": [
+    {
+      "bytes": 523806,
+      "name": "checkpoint-paired-retention.csv",
+      "sha256": "6654de0738a70ce6145f354c0626f82740b4307f26a2a0fce1a0813c0a3f377a"
+    },
+    {
+      "bytes": 5841,
+      "name": "factual-report-ko.md",
+      "sha256": "476c1f5e823adf8fcf5e90bc35a4d57a3c7a7729b8e6a5b00c0e9348a6d0fa24"
+    },
+    {
+      "bytes": 8479,
+      "name": "layer-paired-differences.csv",
+      "sha256": "d646ac825d99daf5d702b656d1fe42a7fb541f7df26fce2583574b403c033d8a"
+    },
+    {
+      "bytes": 113227,
+      "name": "margin_age_matched_retention.csv",
+      "sha256": "33039329ec2d7036cc04c63f8b43d4fdcebfa9186e50029aee2238c4e5462bbf"
+    },
+    {
+      "bytes": 16647213,
+      "name": "matching-strata-with-empty-bins.csv",
+      "sha256": "af7cfcd3cff8c1ad03b36d172507013d4c38101fe01eadd9c37758c207b2a71e"
+    },
+    {
+      "bytes": 9175,
+      "name": "matching-support.json",
+      "sha256": "8706d628d0af7ff13066fa7c921b10fe4cdf66b795e91c551f7a3f9705564f16"
+    },
+    {
+      "bytes": 574,
+      "name": "matching.lock.json",
+      "sha256": "ab50de785dbce56e3cf2239c35fdd6ab29ffdf0e15348cda00f2de5afba40b37"
+    },
+    {
+      "bytes": 5937,
+      "name": "observed-failure-intervals.csv",
+      "sha256": "d38b607fd047cbe4b8949b10b3173138786ac8ad78cf297d6d4c51f68b43954b"
+    },
+    {
+      "bytes": 685111,
+      "name": "paired_case_ledger_manifest.json",
+      "sha256": "4416d4889df4ce70d42c702ffbda027dc2bca0e76d118fe4e66b12499da086fe"
+    },
+    {
+      "bytes": 6023,
+      "name": "source-bindings.json",
+      "sha256": "6f4cf7e3d5c81bd1f3801c4a4bff4a52ee789e171da5a7167f83d8d365539e34"
+    }
+  ],
+  "scientific_promotion": false,
+  "source_sha256": "48bf7fee489a3b08f8295aaa7fd77989d3d50a3669abc9eea04b3ab4264b760c"
+}

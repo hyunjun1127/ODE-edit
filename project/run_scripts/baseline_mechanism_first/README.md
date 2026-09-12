@@ -40,3 +40,27 @@ factor/FP32 endpoint subtraction quantities remain separately labeled.
 
 All tensor/target/raw prompt/checkpoint/log artifacts are local-only. Package
 source/tests and compact receipts may be committed; scientific_promotion=false.
+
+## Explicit USER recall, 2026-09-12
+
+Cold L4 job45719 completed; `cold_analysis.py` publishes its bounded factual
+package without repeating the edit. Original source targets are non-bitexact:
+the report explicitly does not establish original trajectory equivalence.
+`case_population.py` independently joins the existing ten singleton chains;
+its large prompt ledgers stay local, and its shared-support bins are descriptive,
+not causal matching or prospective scientific gates.
+
+`warm_plan.py` binds the exact local B010 W/M/context/RNG checkpoint and fixed
+B011–B020 scope. `continuation.py` restores that entry once, performs unchanged
+native dense writes, saves reconstructable per-batch checkpoints, and reuses
+the first batch for E1 Current/Historical observations. Missing S2 B020 reference
+is explicitly unresolved; a later CPU comparison needs no duplicate GPU edit.
+Historical request/context hashes use BLUE's `ensure_ascii=True` convention,
+separately from new local-manifest canonical JSON. General/query exposure and
+priority backward cells are not marked complete by this warm window.
+
+The warm initial marker requires actual saved-entry restore, the first native
+write/history and rollback/reinstall, reusing the prior signed L4 gate. It is
+not ten-batch completion or original-trajectory equivalence. The submitted
+program continues its sealed window; the agent pauses immediately after this
+marker until another USER recall. No other task is resumed.
