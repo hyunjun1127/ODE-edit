@@ -1,0 +1,12 @@
+{
+  "status": "TECHNICAL_EXCLUSION_SCHEMA_WRAPPER_MISMATCH",
+  "exception": "KeyError: request_order",
+  "phase": "first seen-full.json read",
+  "exact_rca": "Original lifelong.evaluation.merge publishes state/evaluation_type/current_rows_reused, unlike current.json request_order/before_after_exact. The analyzer incorrectly applied current wrapper schema to both.",
+  "source_raw_mutation": 0,
+  "metric_or_matching_change": 0,
+  "complete_output_denominator": 0,
+  "repair": "Dispatch original wrapper validation by filename; exact row order and canonical prompt/target identity checks remain shared.",
+  "failed_matching_lock_preserved": true,
+  "replacement_output": "canonical-r2/"
+}

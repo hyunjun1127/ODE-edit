@@ -1,0 +1,7 @@
+endpoint,metric,numerator,denominator,rate
+W0,RS,5,100,0.05
+W0,PS,20,200,0.1
+W0,NS,886,1000,0.886
+NATIVE,RS,100,100,1.0
+NATIVE,PS,190,200,0.95
+NATIVE,NS,867,1000,0.867
