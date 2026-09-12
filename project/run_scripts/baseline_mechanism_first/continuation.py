@@ -40,6 +40,8 @@ def execute(lock_path, output):
             member(row['path'],expected=row['sha256'])
         for key in ('general_manifest','covariance','comparison_checkpoint'):
             if lock.get(key):member(lock[key]['path'],expected=lock[key]['sha256'])
+        for row in lock.get('terminal_performance',{}).values():
+            member(row['path'],expected=row['sha256'])
         spec=SingletonSpec(lock['cell']['layer']);entry_n=lock['cell']['entry_n']
         if entry_n not in (1000,5000,9000):raise ContractBoundary('WARM_ENTRY_SCOPE')
         if lock['native_batches']!=list(range(entry_n//100+1,entry_n//100+11)):
@@ -141,11 +143,20 @@ def execute(lock_path, output):
                         save(broot/'signed-initial.json',signed_initial)
                         if signed_initial['finite_difference']['status'] in ('NONFINITE','DERIVATIVE_MISMATCH'):
                             raise ContractBoundary('SIGNED_DERIVATIVE_TECHNICAL_BOUNDARY',fd=signed_initial['finite_difference'])
+                    performance_initial=None
+                    if lock.get('terminal_performance'):
+                        stage='PERFORMANCE_REPAIR_INITIAL'
+                        from .terminal_performance import initial as performance_probe
+                        performance_initial=performance_probe(model,evaltok,weight,history,rows[0],
+                            lock['companion_members']['current.json'],result['receipt']['endpoint_sha256'],
+                            result['receipt']['history_sha256'],evaluate_records)
+                        save(broot/'performance-repair-initial.json',performance_initial)
                     save(root/'INITIAL_VALID.json',dict(status='INITIAL_VALID',entry_checkpoint_pointer_bytes_rng=True,
                         first_batch=batch,native_history_append=1,endpoint_finite=True,selected_rollback_reinstall_exact=True,
                         nonselected_native_bytes_version_exact=True,prior_signed_gate=lock['prior_gate'],repeated_FD_count=0,
                         new_direction_signed_status=None if signed_initial is None else signed_initial['finite_difference']['status'],
                         query_general_initial_status=None if query_initial is None else query_initial['status'],
+                        performance_repair_status=None if performance_initial is None else performance_initial['status'],
                         continuation_complete=False,source_equivalence='NOT_YET_VERIFIED',elapsed_seconds=time.monotonic()-started,
                         after_initial='MONITORING_PAUSED_AWAITING_USER'))
                     print('E01_WARM_INITIAL_VALID',batch,flush=True)
@@ -202,6 +213,12 @@ def execute(lock_path, output):
                     source_equivalence=False,trajectory_equivalence='UNVERIFIED_REQUIRES_INTERMEDIATE_TARGET_CONTEXT_ORDER_RNG_COMPARISON',
                     reference=comparison)
             save(root/'resume_fidelity.json',fidelity)
+            if lock.get('terminal_performance'):
+                stage='TERMINAL_CURRENT_FULLSEEN_PERFORMANCE'
+                from .terminal_performance import run as terminal_performance
+                last_receipt=json.loads((root/f"B{lock['native_batches'][-1]:03d}"/'native-observation.json').read_text())['receipt']
+                terminal_performance(model,evaltok,weight,history,records,lock['native_batches'][-1],
+                    lock['terminal_performance'],last_receipt['endpoint_sha256'],last_receipt['history_sha256'],root/'terminal-performance',evaluate_records)
         if forward_handle is not None:
             forward_handle.remove();forward_handle=None
         hooks_exact=all(dict(m._forward_hooks)==a and dict(m._forward_pre_hooks)==b and dict(m._backward_hooks)==c for m,a,b,c in hook_state)

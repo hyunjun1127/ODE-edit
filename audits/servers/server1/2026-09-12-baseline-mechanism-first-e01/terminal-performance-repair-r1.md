@@ -1,0 +1,13 @@
+# User-confirmed terminal performance observation repair
+
+Authority: ODEEDIT-GH-SH1-E01-REPAIR-DEFINITION-PERFORMANCE-R1. The repair is missing original AlphaEdit BLUE-style singleton L4_ONLY comparison, not a diagnosed native solve/target bug. Old 45908/45913 are USER_SUPERSEDED, not scientific failures. Their output and source remain unchanged; cancellation order was pending Late then running Middle. Allocation 1187 GPU-sec (last extern step elapsed1190, not added twice), Late0.
+
+New code observes the real final B060/B100 materialized weight/history before the outer W0 transaction exits. It compares Current100 and separately full seen6000/10000 using the original canonical evaluator microbatch16. Source baseline current.json/seen-full.json, exact request order/prompt+target identities, strict NLL directions, per-prompt distributions and loss/recovery are bound. W/M mismatch and performance are parallel observations, not mutual substitutes for fidelity.
+
+Guard authority is the last native receipt W/M SHA, not an arbitrary current-state hash. All model parameter pointers/versions, selected weight/history bytes and RNG must remain unchanged across evaluation. No writer/compute-z/history append is invoked by this module. Outer fixture transaction owns restore on exceptions. A single canonical first-native record validates the new observation path before INITIAL_VALID; it is not terminal/fullseen completion. After that gate, E01 monitoring pauses. User-authorized AOS CPU review is a separate exception, not E01 terminal polling.
+
+Focused tests: terminal observer guard, wrong entry, mutation rejection, denominator isolation; existing paired comparison and canonical evaluator tests, 11 PASS. py_compile and diff-check PASS. Existing native input/source/formula/P/history/precision/target/tolerance are unchanged. No W-match repair or metric-based outcome gate.
+
+Prior measured panel cost289.310834s /8892 prompt-pair events implies planning values2537.8s for78000 and4229.7s for130000 fullseen events, plus current100 (~42.3s). These are extrapolations, not measurements. Preserve per-component timers and allocated GPU residency. Twelve-hour requested wall includes prior2.45h native window, first-batch query/signed/full-spectrum costs and observation/I/O variance; no new GPU-hour budget invented. Partition max30days and lab_gpu_s1 has no tighter MaxWall. New jobs are independent, dependency=null, each1GPU/8CPU/182272M, cap2 total including admitted pending. The former afterany policy is explicitly superseded by ODEEDIT-GH-SH1-E01-MIDDLE-LATE-PARALLEL-CAP2-R1.
+
+E0/E1 remains incomplete. Original endpoint W mismatch cause remains unresolved. Scientific promotion=false. No unrelated A/B source/job or shared EasyEdit mutation.
