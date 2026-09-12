@@ -60,6 +60,7 @@ class PartialAnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(summary[0]['weighted_value'],2.8)
         self.assertAlmostEqual(summary[0]['A0_to_native_ratio'],4.)
         self.assertEqual(len(checks),2)
+        canonical(checks)  # numpy scalar leakage must not break final receipt serialization.
         d['Base']['value']=2.25
         with self.assertRaisesRegex(AnalysisBoundary,'WEIGHTED_REDUCTION'):functional_summary(d,b,{'raw_native_risk':{}})
 
