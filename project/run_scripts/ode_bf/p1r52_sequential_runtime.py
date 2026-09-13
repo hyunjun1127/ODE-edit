@@ -168,6 +168,11 @@ from .p1r54_energyfree_localz_b100 import (
     expected_result_name as expected_p1r54_energyfree_localz_result_name,
     run_p1r54_energyfree_localz_b100,
 )
+from .p1r54_pdz_ablation_b100 import (
+    ROLES as P1R54_PDZ_ABLATION_ROLES,
+    expected_result_name as expected_p1r54_pdz_ablation_result_name,
+    run_p1r54_pdz_ablation_b100,
+)
 from .p1r54_fz_c3_sequential import (
     ROLE as P1R54_FZ_SEQUENTIAL_ROLE,
     expected_result_name as expected_p1r54_fz_sequential_result_name,
@@ -387,6 +392,14 @@ def expected_p1r52_sequential_result_name(
         ):
             raise ODEBFContractError("P1R54 FZ independent result scope differs")
         return expected_p1r54_fz_independent_result_name(role)
+    if role in P1R54_PDZ_ABLATION_ROLES:
+        if (
+            alias != "llama3-8b-inst"
+            or scale != P1R52_B100X10_SCALE
+            or attempt_suffix is not None
+        ):
+            raise ODEBFContractError("P1R54 PDZ ablation result scope differs")
+        return expected_p1r54_pdz_ablation_result_name(role)
     if role == P1R54_FZ_SEQUENTIAL_ROLE:
         if (
             alias != "llama3-8b-inst"
@@ -1377,6 +1390,36 @@ def run_p1r52_sequential(
         ):
             raise ODEBFContractError("P1R54 FZ independent runtime scope differs")
         return run_p1r54_fz_c3_independent(
+            model, tokenizer, alias=alias, role=role, destination=destination,
+            raw_root=raw_root, stages=stages, source_head=source_head,
+            stream_batches=stream_batches, stream=stream, hparams=hparams,
+            projector=projector, contexts=contexts,
+            covariance_registry=covariance_registry,
+            projector_sha256=projector_sha256, controller_lock=controller_lock,
+            request_by_sha256=request_by_sha256,
+            population_by_sha256=population_by_sha256, schedule=schedule,
+            theta0_cache=theta0_cache, dataset_path=dataset_path,
+            mutation_lock=mutation_lock, touched=touched,
+            base_receipt=base_receipt, base_values=base_values,
+            job_ledger=job_ledger,
+            request_microbatch_size=request_microbatch_size,
+            fp32_runtime=fp32_runtime,
+        )
+    if role in P1R54_PDZ_ABLATION_ROLES:
+        if (
+            scale != P1R52_B100X10_SCALE
+            or batch_entry_evaluation_enabled
+            or accepted_z_observation_enabled
+            or accepted_z_reference_root is not None
+            or not accepted_z_sealed_w_reuse
+            or postsolve_energy_warn_enabled
+            or piru_cache_complete_rounds is not None
+            or attempt_suffix is not None
+            or target_depth is not None
+            or target_depth_inner_telemetry
+        ):
+            raise ODEBFContractError("P1R54 PDZ ablation runtime scope differs")
+        return run_p1r54_pdz_ablation_b100(
             model, tokenizer, alias=alias, role=role, destination=destination,
             raw_root=raw_root, stages=stages, source_head=source_head,
             stream_batches=stream_batches, stream=stream, hparams=hparams,
