@@ -110,7 +110,7 @@ def run(root):
         "## 11. 비용·실패 lineage·중복계수 금지", "",
         "Allocation GPU-sec는 단일 GPU job의 실제 scheduler elapsed이고 batch/extern 중복합산0. Native total과 z/key/solve/history 세부시간, program elapsed, evaluation/guard wall은 서로 포함관계이므로 모두 더하지 않는다. Host wall을 FLOPs/CUDA kernel 시간으로 표시하지 않는다.", ""]
     allocations=[r for r in cost if r["component"]=="allocated_GPU_seconds"]
-    lines+=table(["Job","Entry","GPU-sec","GPU-hour","상태"],[[r["job_id"],r["entry_n"],fmt(r["value"]),f'{float(r["value"])/3600:.6f}',r["status"]] for r in allocations])
+    lines+=table(["Job","Entry","GPU-sec","GPU-hour","상태"],[[r["job_id"],r["entry_n"],fmt(r["value"]),f'{float(r["value"])/3600:.6f}',r["status"] or "PRIOR_COMPLETED_RECEIPT_REUSED"] for r in allocations])
     lines += ["", "46439+46440 신규 관측 allocation은 **7,469 GPU-sec(2.074722 GPUh)**. 재사용 native 실패 attempts45914+45915의 **19,475 GPU-sec**를 포함한 핵심 repair lineage는 **26,944 GPU-sec(7.484444 GPUh)**이다. 과거 user-superseded45908/45913은 각각1187/0초로 별도 보존하며, 이를 포함하면28131초다. 이 합은 모든 과거 E01 초기 job 비용을 포함한 campaign-total이라고 주장하지 않는다.", ""]
     component_names={"program_elapsed","model_load","fullseen_past_eval_guard_shards","native_10_batches","target_seconds","key_seconds","solve_seconds","history_seconds","peak_allocated_bytes","peak_reserved_bytes"}
     lines+=table(["Job","Component","값","단위","계수 경계"],[[r["job_id"],r["component"],fmt(r["value"]),r["unit"],r["accounting"]] for r in cost if r["component"] in component_names])
