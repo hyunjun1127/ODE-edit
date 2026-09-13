@@ -1,0 +1,5 @@
+# Seq10 completed review — own-scope publication
+
+Six scientific terminal cells,60commits,54W/Mlinks,18selected-state CP,9000request-z/90fits,historyL4=60/L8=20. Independent NLL reduction: W60 fullseen6000 RS/PS/NS counts N4 5984/11596/41621; S875 5985/11587/41767; S75 5984/11546/41939; FULL8 5977/11601/41651; RES8 5976/11606/41704; REFIT4 5979/11599/41901. Denominators6000/12000/60000. S75 gains318NS while losing50PS; RES8 gains10PS/83NS while losing8RS. NS gain includes lost/gained prompts, not universal preservation.
+
+Report: experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1/diagnostic-report-ko.md SHA97d0fe587ac864ecd8db21debbfee246dddb8819d2b066d2bf79a0742c3fb492. 55CPUtests/7PNGbyte-reproduction;462output fullSHA files. Allocated33475GPU-sec, new reviewGPU0. GPUcontinuation/off-on parity NOT_TESTED; audit/suffix policy selection PENDING_GH_REVIEW. Main HEAD/tree conveyed by final handoff, not embedded self-referentially. Ownbranch remnants separately inventoried; no experiment restart.

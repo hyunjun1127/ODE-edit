@@ -1,0 +1,12 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOWCOST-SEQ10-COMPLETED-DETAILED-REPORT-SH4-V1",
+  "status": "REVIEW_VERIFIED_PENDING_MAIN_INTEGRATION",
+  "scientific_terminal_cells": 6,
+  "CPU_tests": 55,
+  "PNG_byte_reproduced": 7,
+  "new_GPU": 0,
+  "new_Slurm_mutations": 0,
+  "claim_decision": "PENDING_GH_REVIEW",
+  "monitoring": "NO_MONITORING",
+  "report_sha256": "97d0fe587ac864ecd8db21debbfee246dddb8819d2b066d2bf79a0742c3fb492"
+}

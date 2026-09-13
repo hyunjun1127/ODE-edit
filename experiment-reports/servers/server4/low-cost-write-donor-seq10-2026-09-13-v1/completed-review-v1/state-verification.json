@@ -1,0 +1,32 @@
+{
+  "status": "STORED_STATE_AND_CPU_TENSOR_CHECKS_PASS",
+  "batches": 60,
+  "checkpoints": 18,
+  "links": 54,
+  "request_z": 9000,
+  "fit_solve": 90,
+  "history_append": 80,
+  "L4_history_append": 60,
+  "L8_history_append": 20,
+  "full_sha_members": 462,
+  "bytes": 45736205134,
+  "full_sha_tensor_finite": true,
+  "GPU_continuation_replay": "NOT_TESTED",
+  "model_level_observer_off_on_parity": "NOT_TESTED",
+  "incremental_exact_replay": "NOT_TESTED",
+  "state_nonmutation": "RECORDED_RUNTIME_GUARDS_AND_CPU_BOUND_SNAPSHOTS_NOT_NEW_GPU_TEST",
+  "capture_freshness": "PER_BATCH_DISTINCT_CAPTURE_PATH_AND_SOURCE_COUNTER_BOUND_NOT_NEW_FORWARD",
+  "nonselected_preservation": "RUNTIME_TERMINAL_FULL_PARAMETER_GUARD_NOT_NEW_FULL_MODEL_LOAD",
+  "capture_and_raw_edges": {
+    "status": "PASS",
+    "captured_calls": {
+      "compute_z": 9000,
+      "compute_ks": 90,
+      "get_module_input_output_at_words": 90
+    },
+    "raw_fit_finalizer_chain_edges": "PASS",
+    "B51_actual_increment_vs_checkpoint_entry": "FP32_TORCH_EQUAL",
+    "fresh_target_forward_reexecution": "NOT_TESTED"
+  },
+  "intermediate_alpha_reconstruction": "SOURCE_AND_RECORDED_MATERIALIZATION_BOUND_NOT_NEW_NATIVE_CANDIDATE_RECOMPUTATION"
+}

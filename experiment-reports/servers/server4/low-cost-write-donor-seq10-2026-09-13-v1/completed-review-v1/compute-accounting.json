@@ -1,0 +1,30 @@
+{
+  "scheduler_observation": "ONE_BOUNDED_SACCT_2026_09_14",
+  "allocated_gpu_seconds": 33475,
+  "allocated_GPUh": 9.29861111111111,
+  "concurrency_seconds": {
+    "0": 0,
+    "1": 1075.0,
+    "2": 16200.0
+  },
+  "peak_project_campaign_concurrency": 2,
+  "elapsed_campaign_seconds": 17275.0,
+  "reused_M8_setup_seconds": 276.130524,
+  "prior_M8_setup_not_added_to_new_allocation": true,
+  "prior_estimate_perchain_GPUh": [
+    2,
+    8
+  ],
+  "prior_estimate_campaign_GPUh": [
+    12,
+    48
+  ],
+  "prior_storage_estimate_GiB": 80,
+  "scheduler_walltime_limit_hours": 24,
+  "GPU_hour_budget": null,
+  "actual_request_z": 9000,
+  "actual_loss_evaluations": 161013,
+  "actual_adam_updates": 152013,
+  "IO_restore_P_diagnostic_breakdown": "NOT_SEPARATELY_RECORDED",
+  "same_host_component_ratios_only": true
+}

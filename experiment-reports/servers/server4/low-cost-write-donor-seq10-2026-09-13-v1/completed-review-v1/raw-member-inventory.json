@@ -1,0 +1,3744 @@
+{
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "eaa30fd5cb07a4964773ecda8e963b45ef391c7b0e9d1885263ea5e423964541",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "cb2ea9aff19dea2e8ac903fad9cd235db0de575e8a811b7143c92450b136dcc0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/checkpoint.pt",
+      "bytes": 1057001637,
+      "sha256": "326e0a32fc0ee60dd369325c9dbbbb7eb0238bd1c33cf462f8e61c3a12511a17",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "4d01e818029526c932e5a86d1a78c4464b2950a0698263df3780649342f3e3e6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/commit.json",
+      "bytes": 5583,
+      "sha256": "ce75e9e0dc96724c7760eee0e5dbc2996a23384a1176c917068141b54588836c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/entry.json",
+      "bytes": 2511,
+      "sha256": "0bc68fc02f97d8090a635291294905aa4622665f39e9cee21f9778834acac0d8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/evaluation.json",
+      "bytes": 2495884,
+      "sha256": "5a27b7edec2101658e3c4b2d8c30d9f8f7b62d2b02fbc05684b423d7c1fc7559",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/first-fit.json",
+      "bytes": 2225,
+      "sha256": "a9de3e95b12d3a4b597b6a0c1f498cd1cf5b27f9bafa323941f326aa68eabb8c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "a20c78803e94309f87b5d79bf660806f6485d5c6b310bfb9233a19b0f199bae4",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "99393972c269c5da61e941bccd8d5949045b9ad2f54d6345778dd15bf103def5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/commit.json",
+      "bytes": 5253,
+      "sha256": "7e063b36b95aebaef3522a5709c8906f46124e13a11caf6c3ba1969be4c4832f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/entry.json",
+      "bytes": 2509,
+      "sha256": "ca151769a33e43a2144a22cd74f69bd85698b91cc62575d11de98e7d9fe8b2d7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/evaluation.json",
+      "bytes": 2495708,
+      "sha256": "2f464cabab8c777700494f371a08c47cf167b2907127567c8d467d6ad9ac79d5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/first-fit.json",
+      "bytes": 2227,
+      "sha256": "911064ca72ecfad6f6a6baa9c620894d0e9e71b4a247c97726c93a5149013573",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c7188acd2d819d3c5828c0eb943187d2c695a6d731a21a8de0849d3656764e42",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "8198da8fdb16edce533bf4562dc1d8f335cd361a5a8947e1a3804d702269fe50",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "0645bf32c690070b978df0f76f4f47f4de82dc684f9b137a39fb53ba5c64fbb3",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "f334f89a3e45a8698218f8e2c98a551f62bb708dfd268e221d87b217843f8a42",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/commit.json",
+      "bytes": 5252,
+      "sha256": "1cc2b6ae56f8caf808e559b3aac20cb94b652f41fed50b604d45f17ac4239d3d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/entry.json",
+      "bytes": 2502,
+      "sha256": "ab0a8280f0cc36ee67d99befc2bc302168a90fbcd5b3c7e37f2650fc061ea737",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/evaluation.json",
+      "bytes": 2495755,
+      "sha256": "9db1cfdede369e82291b62b539a3700468c3bbc0ded0d9923bd1312a9f948490",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/first-fit.json",
+      "bytes": 2229,
+      "sha256": "b01ee7726abaf12c5df649593a0af4bf4c52b0dbbf566ca1a958ce614cb23a8a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "3f59656a18fbcf48adaa534e00ce4a18aeb4e030bfa5e49751f846fa54f8f513",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "a216ea7475c46f1b04ad542f4f002e101e272249cc43cee6262fc9f57e7c9184",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "a1e8dfded80001a7bdd003d66cc1369c7801c20b2cc69b9bd36e47afde4347a8",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "9f18c2a43d865da5ac1726e237b61c2269ec1fd6030189b387f3108f3cfb92f0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/commit.json",
+      "bytes": 5250,
+      "sha256": "ec90c896ff1eface148b0e7e6113656a63490296f25209cf147768d3cc5d99ca",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/entry.json",
+      "bytes": 2503,
+      "sha256": "cb0474cd40541def521983438f8f2b140ec1acdab62493cacc6b1477bf3dbd14",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/evaluation.json",
+      "bytes": 2495780,
+      "sha256": "2d59d9539953af7cea778e2234e48a447e101f565e80d45343ee0bee5db0b1d2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/first-fit.json",
+      "bytes": 2229,
+      "sha256": "4dda8a5bab58d0787d393397b8accc75614941d2f60fb03d4b60b939df3ac652",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "6412349620437829257d6fe9201fb9bf3317f183afd7a95b4b169990e4e7f90c",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "843f3b5eea797813b0f534eee8240aff15b2512e6f4ce6a0fc67023013cccecb",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "836b6d326c4d9f9f4eaca43d5f4a2a630e42dc2e53568459cb303c5ce8abe35b",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "50f65eeeeb99f2f76cfd30641972af18ab266cdf604028b5c100485ca3fe0cc7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/checkpoint.pt",
+      "bytes": 1057002853,
+      "sha256": "0b6bcbd872fed30af7d7253fb2ce04dfac051541b43f47d213d8e7e4e329f3c2",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "9e6da56521e891e7fcb474704540361ce2aec08924c6572d11fa99a632124814",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/commit.json",
+      "bytes": 5582,
+      "sha256": "6c6b1f71a38e1cd8d09998d8ec4573920101cf0bb3c60b41390bd492497be849",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/entry.json",
+      "bytes": 2499,
+      "sha256": "cd113f810abf6d30345c415d1f8b30407ee8719267678aa0dfd79c8c0b562611",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/evaluation.json",
+      "bytes": 6593472,
+      "sha256": "3f454e33a6be8ca3d652459825f8454ec2fc13ac5e1a7a6cdeadb97deb77eeab",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/first-fit.json",
+      "bytes": 2227,
+      "sha256": "5f0ac785fc0df558a0b33c1c7f96d211fd795ff211e9fc1e57de030b6b3a0ebf",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "15e4494cd344f59062f12364a5a4b3099f7ea0280848e08e88637844205ff2ac",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "4605b3ed0be6dcab86cebe1ff5b24a9877e18ad03e2f50e9014064caf05fd28c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "341f2d2e3f9e38d75b15e6ccc6dc7e5b2c8f844ba8368098ce74d1ee239a9349",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "af4b8f327f8380ade00efef1691dfafe775ce277a9c356e039381dfce38b63dc",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/commit.json",
+      "bytes": 5254,
+      "sha256": "8f56a73e003eda86a11bd26a8564c729a9c243038cc5082c8b91ee9e5e516b43",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/entry.json",
+      "bytes": 2510,
+      "sha256": "0339752df18fbb79136dfe1d4b6a843871dabd5ca507eb37bc68e9f8e5b17dd8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/evaluation.json",
+      "bytes": 2495791,
+      "sha256": "1b5f4c39b2e8414fc2d19dd10094c4b55925a67a441fb0f77f95a9146d334bd8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/first-fit.json",
+      "bytes": 2229,
+      "sha256": "251f6831d1b24e952a66635d8978b057e697e40d497337be9f79dc7aa19c211a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "19f6b8e7c8888981b6ed776b97ee32689b9d9977fe841b5296703266ff8f4e96",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "25d1b5bcf2d1e35b5b56146e9aa4e481ae5a8ec2f785c331f2a4e6132b1f260c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "f08ba79010d5cd0ea6fe3a10f06c7c9ccaec110fffd8a045b61f58cb3ff8a8b1",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "d88f85509d2d43f1be4e035592e0f5b6c3312dba7d5dd1b9d9045feceac52349",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/commit.json",
+      "bytes": 5253,
+      "sha256": "826b5b61c43f4e0d1441b7215d9aff2252308785ec7c73be0b1ac7b215062796",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/entry.json",
+      "bytes": 2511,
+      "sha256": "a6b83cf6f93c0b0da01f7136484347f640c76ce1cc2d21dda08ec9408c26ed44",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/evaluation.json",
+      "bytes": 2495701,
+      "sha256": "a2abcc700695356a57e7ab58e88f956510d92edcc6c0117665ecd50cdfa01d46",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/first-fit.json",
+      "bytes": 2227,
+      "sha256": "3854dd5bd9f09e345f445072ef9613db621496598d753fa7d0abfee9725999c1",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c3c854fb17f65ae925c225690578ab7d613fc6748fe7ce33c50de7ffd0a8eacc",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "bd51252ab6ae8358bb4adb422716f2d73c31abd0fa9031f523a9eefacc849c80",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "8cba0f8a1ecc7e277b7a4de3ce3d09bbf3e4c5503391a6ec68240d31fe247934",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "633590830b20c2309c9cfb0cbab1f7fbc676604f5729c7fb415ae57d1ede5e38",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/commit.json",
+      "bytes": 5251,
+      "sha256": "879c6d6ae19f6844f2cee58803625c3158b763594416f5ef243ba8e5cd5f7efb",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/entry.json",
+      "bytes": 2507,
+      "sha256": "57ce55e70feb5ab0fd9b28d17a11514bbf916d398a73e636dacc4dac6fdd3cb9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/evaluation.json",
+      "bytes": 2495811,
+      "sha256": "5ac298d18b12abee34ba57e468c40d310ed154a61770933126b01d52f2f2f20f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/first-fit.json",
+      "bytes": 2227,
+      "sha256": "d9d189eea433123bef4393979675c5593eab28b2a2ea55f10cdb115528f8b714",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2817be97eaf03988e11cf0cfd3deab77a3d373fe13f060105a53a96d82bb6499",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "71d1f511665980298113bafa02df4ea370092fbb30be2abfc1c555d5d3c4fa79",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "e3fb4dbcbf20c9e9b94f7b6a38b857c5a4036f4f39f3044cfdce77eaa16ff7c4",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "a46d9e0cfde739e8912b37781d4cf1eef2d2f1491527bcea494c691a682c920c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/commit.json",
+      "bytes": 5254,
+      "sha256": "3ac2d75b20a7e64695649dfffbf74003f36a2af18434e001f637dea57796c1a5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/entry.json",
+      "bytes": 2510,
+      "sha256": "02e9ea1ca4d3ed02b34f687ca85c46cfa8c54d6d1efd064af8dfb160e786ee43",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/evaluation.json",
+      "bytes": 2495969,
+      "sha256": "51809f4d3bb993ad35a15e7e5a6bc28279efa093256d9f8311b9a73943dd6b6a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/first-fit.json",
+      "bytes": 2229,
+      "sha256": "64782de6575dfacd81c14a3969e21961aaf8e602156d7c3b0bd06505b1d67c23",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "5d1a88fe638ee5bbe11e73d003b976e71b2ec4d126cdf878a47db343ba300fde",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "ba01b4b6635c28545e4d5f035b17a4a84e0f2386df3425ceb1bd8822e32e8f4e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "c79b71e95e431c0898b97bade80088ca2160783c4cc84a4168341964900dfff4",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "fb96ba69e5beebace6395a7edbcfadc4a71f70217d19b0a724efd859a324c0a5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/checkpoint.pt",
+      "bytes": 1057004325,
+      "sha256": "b9473dcfedef28e719069a1b4367e1d3b9f4a5f2086e2c868aca4028b1e0cc02",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "e792cfe26d33942dd4e00165e242e192ac6a6c6a5f8dbaf37f7a3eabb7ecd6a6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/commit.json",
+      "bytes": 5589,
+      "sha256": "c491bffec54df5c6f3154476a92f07433255eb093b0d5d4545876427df426c4b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/entry.json",
+      "bytes": 2507,
+      "sha256": "c599ec4d5294fa4bf57f20d52b742d389e4b1e6e23346f63b9717ec7cb278fb8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/evaluation.json",
+      "bytes": 100685723,
+      "sha256": "65b4dee5e4584713906a02566b1a081818d447dd8e232335928c95f882e34248",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/first-fit.json",
+      "bytes": 2230,
+      "sha256": "04fcd99d47b26cffce10479e44bfb5e2957c90212a73c401922911f0e2c1b6c5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "56f0684f2f1a4c67cdcddeaaa78a919db4d1eb231e73d2b3479622c3cee81b4b",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "5c46cf6e8f0bb01b26ea87875c4cfcb983c28d9dd584cc72542a073a2b641370",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/INITIAL_VALID.json",
+      "bytes": 1198,
+      "sha256": "3e62f38791539809b2e37c93b66207e0fa83b66f62505de6d4f524e73ce0c795",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/entry.json",
+      "bytes": 3612,
+      "sha256": "f4ec6aa48842474348d99a2a50e0353b9b681fb13cc55d92f0d80cb0a81cb1f7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/terminal.json",
+      "bytes": 4472,
+      "sha256": "a97fee2012f188eacb1e6445d0af210518cec5bb5c775627128ee04450d0be54",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "71df1d29096cf2c9aa0cec5d791324e8e36c0fd06d556e2227bc05c441e70b12",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "692537b76a8696a3f97215292edf025be6473db79324acf70cf6ac5aded159d3",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/checkpoint.pt",
+      "bytes": 2113966621,
+      "sha256": "ba19d407b067b4c02f2e5b77c202edea27a984ffba50719a600e89c00196d2f0",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "7222262d39117a83b1739809b633bdd7d20ab91675ad2754b072d28a269af0a6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/commit.json",
+      "bytes": 8335,
+      "sha256": "6d9d1f8589b3bc2cfdce9385b424748e01864f725d6edf54978973bfdd093b8c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/entry.json",
+      "bytes": 2513,
+      "sha256": "fe63124e4b4d50b134523f8cec548e2e0ee3f8722fda03398db807c3535f260e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/evaluation.json",
+      "bytes": 2495809,
+      "sha256": "a3a500846bdbeedffc08938a924eb1e86dded0179e000e99ad2bb532b002018b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/first-fit.json",
+      "bytes": 2225,
+      "sha256": "e5c988dcc27eaf9234b7cffc6f3fb0c275c34dc91ac2752508302cb0cb993c33",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/second-fit.json",
+      "bytes": 2230,
+      "sha256": "0d340bbc99443479ca604953d9741ed31fced3f76cf493774c319d8e40134aa9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B051/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "19841579a26987f47cb6c43a24d99625c80e4b588db3c7aa04e829592e4a692a",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "480bc8fb8098c4dcb1fc4b985ae651dead6c620bc3e1e8c0c363c68a511bf1b6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "1205b6133e79fe2058d772c252f6e1096b88ba51bcc379e3338e5b7fb2ff99c7",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "d3e91ace9608d3b6ae750310c724e14db8d8b194043d55dc584acc4f08594930",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/commit.json",
+      "bytes": 8001,
+      "sha256": "02742156e01a9966796b8a800e68fa023649d7d0077cfbac5c16efe41226f27c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/entry.json",
+      "bytes": 2511,
+      "sha256": "c22a1ed7419a33c111d0c4f8ad69be588e3d0de30ad455553490b5acde0b35a2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/evaluation.json",
+      "bytes": 2495595,
+      "sha256": "36555afe51b46b4412001d9e1571b5f8648f6b258ef11f9f2298cb75bc8f7496",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/first-fit.json",
+      "bytes": 2227,
+      "sha256": "3ac6b3328b80ca930d5a06c764ed8b40ecbc6714887ffe5215214e5e02c44d24",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "3e5d19c3b432e6a99cc60b077fe45b0ec505c4aaea0286d35c748bfc71ae17d7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "9dd1c7a84a757b901b83d5bf24be3e9942dd7493a9dda62bc8701b2244c71fd5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/second-fit.json",
+      "bytes": 2227,
+      "sha256": "42a607c3c80fb01147ff89f72288934ca5516f435b0d12ac6c10bf5550a2dafc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B052/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "030b865361d755a1d298b63f75ab0bb856a84cf9c18a303ee9a94c1c7cf7aa40",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "21136f6a818847a1cac55208558a7ffb9c76555c8ac8a39681b272219616c23d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "3d91fbf161cbd8315baab8916054c05e0862de244fcb0d0ae31e951c5a80d04d",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "f6f1259f9192c1af578a272acd68c55fbfb28813228bbd8c375f6f556c31cc3b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/commit.json",
+      "bytes": 8003,
+      "sha256": "3dc098d2639d99e1d0a91f57c4e4e1931459cbc07287cd9c80de420e13be3678",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/entry.json",
+      "bytes": 2504,
+      "sha256": "a098dc527b15d76fef2aff7a40832ff68b7ce8fad0552dbf72e227b12079ed31",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/evaluation.json",
+      "bytes": 2495665,
+      "sha256": "ac92b700d648d7738a53aadfb28cb14acd16345cd20b2532342b8e86ef2b8a1b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/first-fit.json",
+      "bytes": 2228,
+      "sha256": "868ce1cc53a5c08f497cd6e49897f2cf85596e44c9e2f0d606ee02680c773203",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "ffad76e063da038c2488cf05c01f9b457a03e0277306eb6268f97fe6acd61c6c",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "e72dd2e915880b697ca9b61973b44a1aaf3b7fd20e7bd5c9494dc24232c4b2d7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/second-fit.json",
+      "bytes": 2230,
+      "sha256": "10781920c966ffc804927631ededd58f7d9a0be95c200e6c52048c88912a1822",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B053/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "9b23cd48315281107677716523913001ce0a2244fc81c023e63b32950f2696dd",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "d075da9947b61e63b3689a408f70a786bfcebb349536d02ff02ccee425f72c1e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "88793c7e96b1ad057b9996f4f636b4ed18b78a6011ee23118463c53b4ea04d15",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "46e411cb45629b410842ede0b8bc2565f010966dd8b1776edeaa868f4036f24f",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/commit.json",
+      "bytes": 8001,
+      "sha256": "ab190294eba0d5eab32199b2d4430330f8d0336cf850571334f924f1c5e3f264",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/entry.json",
+      "bytes": 2505,
+      "sha256": "5c4a97bad2f016e28dd2f7f906eeba3c8569176e432139b2adf7969d768bef30",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/evaluation.json",
+      "bytes": 2495598,
+      "sha256": "9062913f1e462029498fd3614b545cb3d36f6b90df6407a8fe4bf65c73a76585",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/first-fit.json",
+      "bytes": 2228,
+      "sha256": "1f4983a472f2007d79b801ac850d025cb89fb215be00ce3338507b0fb8fdb2fe",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "d43cca0282d47dda9a57a1acc4698f0762c96e9246774e8801d5055cd4790132",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "54e3c0007b62e0f5beb8f096808a89d8e61315d54ea52c7227a7587a97aca008",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/second-fit.json",
+      "bytes": 2227,
+      "sha256": "337ca3c5ea63b388e87bca357fa87778947daed4de3354b04f9b1e55e634b655",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B054/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "883e4dae2326f42163a57649166d23ccae1ab11a89e3b49ec3de92ad141325ad",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "079d622cbead99b7e7a107fd973a1fe1561e9b2b1e3a25c16092028cbffda799",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "59adeda27ac6fa6e7c04d208a99472beecb0c1fe0c527ff1acb4461d6964c894",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "828a326cf0c897f672ea850aa86d6904b721e4f5e7e9511f2e078f7d6c1ef30e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/checkpoint.pt",
+      "bytes": 2113967837,
+      "sha256": "27ff98d57ffbbfe41a8e7b1f2dc8b0717a1b0e9014ed8f69fee0759e6ea04de8",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "6e76ce524f7ad102a33ee37a39ee9a797630b2ebcad0485174200e04282e7ac7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/commit.json",
+      "bytes": 8337,
+      "sha256": "7b5d610aedcb70938a345717f0a2d2621d1039e0ae007901932aba0984db8211",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/entry.json",
+      "bytes": 2501,
+      "sha256": "cf7e8f7d9cec1f1668690940b3a382d3bad70de97be1d20ee1e8a913ed2b5720",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/evaluation.json",
+      "bytes": 6593042,
+      "sha256": "a4c34bf037ed89abc5caddb099f4f6bc85acea85267e8174b1e1fed085fbe628",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/first-fit.json",
+      "bytes": 2228,
+      "sha256": "633a1c58b172d8083839dbc73e070cc4911c7e25b78b7744db3223cb82ecc816",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "13c839771619c4deaba099c26df3a3ff7aa8047772951ef93189e5e68b97dea8",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "584fc0aa9a92b789c786fc43e1118ef99276efbd7ce63588a70e508869dcbe14",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/second-fit.json",
+      "bytes": 2228,
+      "sha256": "217acca73734396ba2238ccffc477404a134232c621a4efcf2456e7065cb1cee",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B055/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c88577e0f422f7960725803f825a2af0dcd527fc5ef48ac93c176dfe0eee4caa",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "059bf3e7ccd2324ba0f27b692099b4ee22ee8dfbf0c5146cf5606d34c1950e9b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "6b97ae3ff431d72e7f1f1df28c2a775a76a0fe444a36e0757f890b01fe8caee6",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "2bd25a0244007e117f226d4bb92f946ad273c1eb338d25f4b04d56bc17e26e46",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/commit.json",
+      "bytes": 8001,
+      "sha256": "9cf7d8b300bbed861c0ac13511ff6c871f0dbb7471875ef316a5205b3c2781e5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/entry.json",
+      "bytes": 2512,
+      "sha256": "97c5f4d965e7d730181d72dcdade0a0cc553a20918bae90205a4062ea5ae2211",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/evaluation.json",
+      "bytes": 2495854,
+      "sha256": "636e0ad558c1eebe2f205f61b4d59b25eb423a5b7adb5306b54cf86c2f6a2de3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/first-fit.json",
+      "bytes": 2229,
+      "sha256": "cf63e88dcf100910a33ec5546ce28874adff09c9b63ccf69ff63973a8763dc93",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "314446f2b4e1573d67053d105424f1ab5cedeb65beb36cc83a64431a127aa0a0",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "0c63441b1d1822e4b4d9f207541bba4a9db204925be5d048feda78c9ff02f2b4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/second-fit.json",
+      "bytes": 2226,
+      "sha256": "eb8f7cccdbca77a173576f368b1a0381c691ff50c818e161107574e31ff3348f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B056/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2bad7546e486525604183af778abb350decb7be016d2f2fd76beadabe7942808",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "3f965d4e4ec14f5e039d492eb59554ddae1ebfe4c3ce90a1ef2d49f153fe5cf5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "401480d78ae561d36b5f748ca285acb73f74af7e393fe00805931b3075c1080e",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "cc549a2c4fb093ec0153bc7b6908f50dabfb8a68cd70be7bbcd79f2dd9f42c8e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/commit.json",
+      "bytes": 7999,
+      "sha256": "0d9057c7ddeae2cda1eda945b3174198bbfb0424ad3376f4654d6211cadcb042",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/entry.json",
+      "bytes": 2513,
+      "sha256": "49c5067fd53b240dd56d730e42af8d72689125bdf2d0b1dbc631d23dcddb2cb4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/evaluation.json",
+      "bytes": 2495800,
+      "sha256": "ee60214de9bc61d67ffd0352129c7caf4974cea72767169d29eec9969594c652",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/first-fit.json",
+      "bytes": 2227,
+      "sha256": "850ddb27ede2bb3406db382fb1eeb32ff36dc70bd098ff5273232dad1192da86",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "654a1b79a219847b17768d5efd9c08746763180cb158a9ba231f36d7564fc2b7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "9ca2b385cc3022c7b0bdb7a12515c7242e1b1ef122bd3f973aafafd5e5db207a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/second-fit.json",
+      "bytes": 2227,
+      "sha256": "a5afdf26d76736aea8eb3b0484842e17fb93414a884dd6545c37bd1032f1db6c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B057/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "4c0fd56fc7d9e40b6bb07fee6df1734f68233facfa2b749a6596718c4081ec82",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "33d60b4153abcf1acaa0e6e50371c8ff13aa29486e0f7804cdb3e7d70d3c1f03",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "c579d62d419518af9a5c4ed3037011abcef1f928dcac0c944eeafa1b103f52fb",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "73e57c09e28468d8697bf19bbdfd2677bd56609f8e1d509cd80d5c0e43a98304",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/commit.json",
+      "bytes": 8001,
+      "sha256": "9e1ebc7d788098bdda137a244a4126bd45d506f048e8d742984a21e1593b263d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/entry.json",
+      "bytes": 2509,
+      "sha256": "273c721d7b0c00148ecce6d532474c5333f6397499850ff22ab827b5435d4532",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/evaluation.json",
+      "bytes": 2495753,
+      "sha256": "2dae4c9c4b0af0982d1dd3fbd6eac59607495d3cdba795caf93eed3fdef8c768",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/first-fit.json",
+      "bytes": 2227,
+      "sha256": "46c5af9e67529aa4513dc8ccde70299f1de8b5ef5ea7f1146b58f3e1ffdf2a73",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "dccde66773417755d37fa38be671ded35a36b2cf5923219fb081c05a5f472d01",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "3fd52c70fbc32d05e3bef1f2973693e863cd0a0f464c0be068664b6d214c43b4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/second-fit.json",
+      "bytes": 2227,
+      "sha256": "734425e911d95063dd81d92fd7f7b61c131276631e46c172a1f72595b50cf3ec",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B058/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "e1cf7ae22b24b56f8c4b29fe5cae7d96269369f9513776ca84454d6f97e8dbe5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "5f9e091b2e9c7fa43a1b62482cf4de95c5f8ea7f4a91e50511f6772c38afaf47",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "ff87d4f6520ddda65a92e174fdd34ab46056c0b5ed5dde29085729d95fb95dfb",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "8651ce9ea0b0e5bd6eb2520c72cb0fae8606e9d3870235222eb84b0119686d7a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/commit.json",
+      "bytes": 8001,
+      "sha256": "cb37e29e71c4a760ffffe7c1e25591ec5e7853571a192d29662790b5f21bb124",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/entry.json",
+      "bytes": 2512,
+      "sha256": "48c82a4607de3a4fbad3d670732764e20fc7df4943489a671985887463b2d0b4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/evaluation.json",
+      "bytes": 2495886,
+      "sha256": "87f754a110ac3c2c2964cc112b5e728814cb8f829b13a4b87b58b4303893008a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/first-fit.json",
+      "bytes": 2227,
+      "sha256": "bf13aa86c1c5971eb758795c5abc2e51a1fcf5556ada75fc2b1419b1fea64b88",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "1ea0f2e5da36c3aaebda75b7ae49a224719a871b171ec8319ecfde760cabd8a1",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "5eeccaa094f48726930b498150c5c44768901efe71a065f014cc07498fe80c57",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/second-fit.json",
+      "bytes": 2229,
+      "sha256": "140b985c4fd75f92962a8e6bb1cea53cc08eb2cefffb71b632fa19aa47dfa106",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B059/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "dba2cdc65276b97802c7fd5d768cf8d9c8df426023e3cfb52bd9d3a0414a548f",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "71dd93abb5c80685f6be69c603eb5af46704136dc604f64ec4c8f64ae50a8426",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "10abc2ea632bc41a131b872b992a838dd5cfc86d480f2333e300ac454a87fe1c",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "38aa68a09a3f8508cf5219b5ec49bb310a84b86a9d53c4727119099006e12a96",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/checkpoint.pt",
+      "bytes": 2113969309,
+      "sha256": "35206b2021942a98433a0333d0292fc8a27d45c301d32071d1d1197f8386118e",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "33e77287d6104c1a76c8b618ced5c3978a61203853202b9c9a240ddb2abe2428",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/commit.json",
+      "bytes": 8336,
+      "sha256": "9faa5e52871d38e5654eb1669ed0e0d7eeca4cb6601d30f3211781174dfb90dc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/entry.json",
+      "bytes": 2509,
+      "sha256": "e0ab42eb58172bd2814afce5e62ffcb4e1985d2bd42ac9d04aeaf71e266728de",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/evaluation.json",
+      "bytes": 100686022,
+      "sha256": "0f18cd5793143a538542d132b120d3f496d187af469e68f51be3a16815cad5f9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/first-fit.json",
+      "bytes": 2228,
+      "sha256": "ed8f0b15ee1e37f4238b985bdee85abc77fbda3f9fdb4635de0bc15bf18ff9f7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "23e502678bfb3c9aa3b2c6679cfb649be230706ae08107e27893d0e5fced0875",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "24fa942bc56bcf8b9ef8972c515a7e0bcb84c72450ea62b7e70006237b45564e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/second-fit.json",
+      "bytes": 2228,
+      "sha256": "1b915cc42f23aee9e1f4930729f2b6817169e67a84e0ba707652745cd085d215",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/B060/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "cca836309a8c3ebc3e5aec6a5e383d9708c10be5784bb5b91ec38e7970d7f131",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "21224c86db6cb08d6749caaf8ad98cd564c7c076286edb4f45f17bba79c50c59",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/INITIAL_VALID.json",
+      "bytes": 1200,
+      "sha256": "cd3ce18b89af5dd368fee8b9428c3ff6a4c7c2af047bd3f695799cbab48c24f8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/entry.json",
+      "bytes": 3614,
+      "sha256": "fa87570a504c9e0c00cbca88bc0d6890a1f161157aa76e675fa9f41edf29e8a6",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-1/terminal.json",
+      "bytes": 4476,
+      "sha256": "b364e903820e7d3e4d10d30ab1cd451f5e4341fb8c1a3edecdabd634c9658365",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "a8bd2de0452c96edbf3cfd2248035f0bdd0e6660bdc097933b7f80fe285ef239",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "d2e875fc0b15f6dddc8712fa5c4ff37e7b3c02d318bf4b8cf081a341d1dde69c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/checkpoint.pt",
+      "bytes": 1057001637,
+      "sha256": "bd1a6de8c4b8d1a8dbb0a86dadd468aa39c719c3467b1a0bebf81f9d90748050",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "d1a93b2a20bbfdaed2f5d82d15ad48f09c9e113bc0a11ef59dd2ee483ecb50b6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/commit.json",
+      "bytes": 5614,
+      "sha256": "cf0daec2b863d0363b087c95876f5d7b76f993e8fa5a719005cae630875de99f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/entry.json",
+      "bytes": 2513,
+      "sha256": "1d4a1fba0aa2766eb640d5c8b889a2b98d4e8c59fd77da03751d777411f8ba2c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/evaluation.json",
+      "bytes": 2495773,
+      "sha256": "4adc53cb7ab150642808a2698c081c91e1ec5fd325e1bb41983586a75914a26b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/first-fit.json",
+      "bytes": 2225,
+      "sha256": "89c8e2cf941290c514d95afbb638c461dd9e68e76afde1a22f41d907880dea62",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "4eaf296c6597b3ce22169b19450d34f7ff75c5016bccc665f79b91c67e1cfb75",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "f2c856b82156830b855e9e610dd9d726f2b0453c8536153882d03fb88eb4ad90",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/commit.json",
+      "bytes": 5283,
+      "sha256": "2c754b3654bc94282818354cdb08f66debdabde6cfa2693af09ac7f721bc6a07",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/entry.json",
+      "bytes": 2511,
+      "sha256": "9b3669d0da8d59e4d76a42cefd8cc34f1f1921d37c30b43016d8496106efbd1b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/evaluation.json",
+      "bytes": 2495730,
+      "sha256": "1785edb86d24af4c0f7a0f687a7990f1c25242c2ccb3e2ed459053f6fc2f92d9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/first-fit.json",
+      "bytes": 2228,
+      "sha256": "a1896beee8bea47f856afad04dc384171a4e0940c14428933b020ea80ff7daed",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2251d7b22b96948e209b1017bff9c6da1bfa545257d388802f9441f6bb056de9",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "6fefed856f17473f2216e3b1af94fd94221334339c43eb56eec72ffb62221df0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "6647dd2d2bfa51d9de71ebb071b12d76fb326070b44584fd00d58b9c998b168d",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "bbb5e947888fb2791bbb6c76f3547a2aee6d05e3bef8ac93baaa074fd0ef14c8",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/commit.json",
+      "bytes": 5285,
+      "sha256": "e7fed64f12d4801b48c68c930d6eea2c4ef824b6633f727a8188a6da9d55d687",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/entry.json",
+      "bytes": 2504,
+      "sha256": "513d18683e8f9d66578a85e9c9a9b0ddfc5b70401d64a459d6e4992d3fc185b0",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/evaluation.json",
+      "bytes": 2495659,
+      "sha256": "3e9376afb977f6e48aae6e1f71858a50121e8469aa09d128cc76c01aec3e0f19",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/first-fit.json",
+      "bytes": 2229,
+      "sha256": "719074091e16c7f43a1a082502f26dad1f94d9d19b3e8f7a033539c739cc3813",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2ecd74134c03dac9c7cdb77c86e721718e4dc5f6b53f74ab46a93f7f9c04cb90",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "2b7834a6f27b7f36e1c62f85bbcbb5491343a610607cdc5ec3a72e871c87ccf0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "179e060eee3764aec9ec95000bc9c01eb59b3f20ef6fa6ac661bcf39a12609f2",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "517601e11c748698b9f34dff8056bd6d5678bbf05fe027a148188b120fed74fb",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/commit.json",
+      "bytes": 5282,
+      "sha256": "8df97c1369f2bc1daaa6a24b2ade554d6fc5ada956c8b69c64bf9f37bc8e7f02",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/entry.json",
+      "bytes": 2505,
+      "sha256": "540e7c7c4929e635725af63da6e0ec750d8d3ab3ffa29bcf2bed37375d094998",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/evaluation.json",
+      "bytes": 2495674,
+      "sha256": "bf80cae09577684070bb1d92c71e03f365de580b93d3f4b0d54a228361f08fe0",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/first-fit.json",
+      "bytes": 2228,
+      "sha256": "4e425901939f3b726bf3947de492e3e676074692f166a1472568324e2d14ca3f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "19a7a0e1eb39fac00e9d2a251b07b4516937d9aab4a88ec7ac78977b963bdc15",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "2a25b4e3e40664992ece31817d4620c845abbc983380536a9eac1aa638ec78e0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "0c9044cdb71793e15550e4735c683ef605d9d9599bac5e4fe7e7e560cf5a43cc",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "f04c5d6c2ce446389b5b4a774b9d4a94b1f043849020aab597f51757787264d7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/checkpoint.pt",
+      "bytes": 1057002853,
+      "sha256": "c07baf3d1bb97d1862dd7e3f7111a4cedfc6d25b5b1a73ce79364a5125fedbeb",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "189f8b19ea4e4a34f104df5c1026b5323cfef9172ca2cbb3413f4ec287efa9ba",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/commit.json",
+      "bytes": 5618,
+      "sha256": "562004b765b51edf86733bcbeb8db3bec97f7cbd7fe42c97beba7a79c2902d89",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/entry.json",
+      "bytes": 2501,
+      "sha256": "1c57cca2e8de7be8cffc6aa2851a73182804db9eb664ee11249076f51f84e39e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/evaluation.json",
+      "bytes": 6593189,
+      "sha256": "b9af4c748941310ae34a97f508769cf95edf989846c0ff63a0faa961646162a7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/first-fit.json",
+      "bytes": 2228,
+      "sha256": "8553bff033bca6bdd2a2258b134b2398b708ef1195b66980b747078e8671eca4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "5677fb0dd711078d483186f18716e1fd157e58e234464784c32fce9c45b6d1c6",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "b57fa8f7ca8de045252ae4f4a6dd61afe40a07d73063235f9a01fb3afedc0884",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "2548d7ee0590ae618e5aa931657297e15820b0434471304ea129ed07f984ec01",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "7333455208355d976fb925a6e677ea1c3dd3e3cd2494ae73d20eb8e8a56f1220",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/commit.json",
+      "bytes": 5282,
+      "sha256": "eceeb39665cf6297ab4f083c5ef019680743a3a843bb2b85130eeb42fdbce203",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/entry.json",
+      "bytes": 2512,
+      "sha256": "9705523ac656ddc7c6f53918a2bcb051dcd270a4aa31815110ea9a75f596aa1f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/evaluation.json",
+      "bytes": 2495865,
+      "sha256": "72434e0ee310817b0732b3a320031a30d223ee37ef00bdf83d7943d2fa00a11a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/first-fit.json",
+      "bytes": 2226,
+      "sha256": "270f3e63e93f1981ada79bbd7d07f460ffbb21a5a2af6c7e08af1c3128ff53ae",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "0a19c0ad36bdf7cead51089c0cb4e9e4f7714d00e668ad27ea2b25fc94c3f231",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "370ede640ad732caac46ace804d9e012825a732fe328bf4ae04cf039ffa2873f",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "173975bd38da25cafa4cd939d1cfb63c16eb8529d59117bd632815975002fc4a",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "bfe49cdef2811b316ffcee0c8efe9358792de0fe39ec31853de6548ee76b398d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/commit.json",
+      "bytes": 5281,
+      "sha256": "a914c50a2fa0cba8dd27e6ce97b0cde152c0425f92312ae33e0332cfae9df2b3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/entry.json",
+      "bytes": 2513,
+      "sha256": "77dbe5fdd11dff8618cfdee0c81ff4470917e04a1227f52d4bbc01a52305678d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/evaluation.json",
+      "bytes": 2495723,
+      "sha256": "a6c1dd269dd6e7031b4084c1cb0f1cfc47c8dc077183df8bb2162220879c64da",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/first-fit.json",
+      "bytes": 2226,
+      "sha256": "1c230aed86b8af50928b55a21aacc4889127874a757d338fa720684f53d81190",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "07229e519b8bf3e0dfbf67688e6ad6a5fbae0a67e2e7ebe91b61457dc9de6142",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "e341705e85eec5f76739bd07983ee3fca7f40f16621d873c55d89b816eb9fa4e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "f4a39761b316275ed83925d23a0da8292e633ad0b53a4ce954403cef31770d87",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "b91aa1a25e1c536714c6a61d9fcc2cbc2296e6038cfd5124eed02996315da8a2",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/commit.json",
+      "bytes": 5283,
+      "sha256": "abcdec9b4fb7b0ee2dae9b29f2b1a99fa48dc4b49f21ce0ac0400be62b4fea3a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/entry.json",
+      "bytes": 2509,
+      "sha256": "b8a1c0f4903de053ba087ac479469f18b804ab90500f119b545e9fd6d762fb86",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/evaluation.json",
+      "bytes": 2495639,
+      "sha256": "b0c80e418c7f694dc2b6eb03120c5a2e37422bef0d3baa29732e58db7d736b1f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/first-fit.json",
+      "bytes": 2228,
+      "sha256": "339b9f195689a9d5ea9f14586e5804b1e30d424d4fb7bc8bef251907699d6520",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "4075db2dcd13fcd3680a94dfaba496b8acd10f0378ab023c0588186be7f341cb",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "beb23f52c352e44ae9be5b8707736729d16d9d321d3b25e114f06ee853c4c9b9",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "6cc541fbe46dc822307fbb8be1a70dea3860caec065a5c865fcf462192b2a0f6",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "3e1058ee598cda5175f728805021d4bdfec29cc15d53e0c7e218875e85d69f0b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/commit.json",
+      "bytes": 5281,
+      "sha256": "ed4273f3f60508640c20fe4374b576e0122f9e4de4b8becaf5deea169791862b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/entry.json",
+      "bytes": 2512,
+      "sha256": "15e6ba1a5b1c04846273b42bd053a37904bd45f8f1c5520deaff34479f06384e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/evaluation.json",
+      "bytes": 2495773,
+      "sha256": "bf5c8117afb176ba1bb6ac31fbf847053b9c7b6adc67ac7ff876dd146ec1b1a4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/first-fit.json",
+      "bytes": 2227,
+      "sha256": "8f96320af5f0b6e8f63a163c8b3eab668ba2396dd3479e02db9bfaede4ec4df7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "160e9e702ce83005e09d244c8f7a95d8bb0c35425df6f8f0af61e68c49bcb135",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "5d36e100ca0134eb60cefca8a700191fb08bd87a995ea5d106f3304218da8705",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "fe5a398d3d556fefc242160004909b5b233d24c7b50adb1c7a933451ad0dc7d0",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "45ba5241a28293493fd5a3a0c294d79c6ca982421aabb30108efb7f08c9b42b7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/checkpoint.pt",
+      "bytes": 1057004325,
+      "sha256": "fc3bfdf6435871e5b5315866b5fc875f3761866de2fdc34d4c34c2ad322abcfb",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "bbb68a91c5e094ec2ffef932181322685229b1c2b8c45a5caa050d3aaddf1056",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/commit.json",
+      "bytes": 5619,
+      "sha256": "b7a3b1ec251742e41a6f35c044a30f61bc04042946e717667efecc2fde7c2e9d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/entry.json",
+      "bytes": 2509,
+      "sha256": "88f1a88a6c5da42e796a3e2eb31fc1e6dae1fdb5a5075d0abbddfea30ad828c4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/evaluation.json",
+      "bytes": 100683325,
+      "sha256": "db2f6f423231863287b7ebfd4bf0e27b3b6ad3421152b06d5e50613e8678b2c2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/first-fit.json",
+      "bytes": 2227,
+      "sha256": "668f4cd9871f008434a117c5e7dbc61b7e0177617a17a6cde7075d166e4e731c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "aac3a18f8ccdf5cc9673f39dff6d5fbcdfb635d8baf15dd17072acbb89bba0c7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "44b8adc89269ab7e064ed6bbac4439d5a0772b9b8f28b46d3be19d29fa3862e7",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/INITIAL_VALID.json",
+      "bytes": 1200,
+      "sha256": "9746fd4b69bbfd77c7d134587d27694d6004246cab83f18781ea981c1ae76c83",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/entry.json",
+      "bytes": 3614,
+      "sha256": "ec3b47840ebad2fad03478dadc7a16f8f32eab9bfb2702683fea32328b7b45db",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-2/terminal.json",
+      "bytes": 4475,
+      "sha256": "6692aa2a716611fba2ec9eca09efa919e7d5669887226f52368af8b75f6b81ab",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "783294dfa9f8acf18bde1f7bf63451cef2cde9bc0d70ed029b00e3355b7d6004",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "70d45ac95d2361cd4c7120382aec9826d7992d024660000787103e6a97867ca9",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/checkpoint.pt",
+      "bytes": 1057001637,
+      "sha256": "10ce9607c45f93288a1d2738c026454948d4f32361d49592687d630f8cbeff90",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "da49576fa08019964b5193ffa1a7fb43373b66ced9cfbd2a3f04797bd7701d1e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/commit.json",
+      "bytes": 5607,
+      "sha256": "de363e421b16c24135249e642be49d8b015a5a166f08698a2a9e4645f7e58c27",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/entry.json",
+      "bytes": 2512,
+      "sha256": "ddeadfd8efaea2d3e536368ad4c13bd846d5f2fb186c0075bd7c9dab0268bc23",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/evaluation.json",
+      "bytes": 2495701,
+      "sha256": "21bf3c6cd6828b59df6c2bb0c55eb84935ee8a2e583b7e6f92323820387f15b7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/first-fit.json",
+      "bytes": 2223,
+      "sha256": "bf3f7f5567485c207f131d01b01b998dc405361d9a6e6a6fa4570f61ec94af5f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "c91dac206c1939e4f0a7ba8d978014058f2623ab748a8f744c57ee7a6843fd45",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "a195ce8f7b1f3b47b62d939cf6dfb069508cf87ea2b342f8bc95c79d469ae428",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/commit.json",
+      "bytes": 5280,
+      "sha256": "7a5dd94dbb7f7d3a046a37394e35ee054afb7457c98f668cde1143448419bedc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/entry.json",
+      "bytes": 2510,
+      "sha256": "59d9e030b3c5652cd53be34705c55e6969c4098d9d48988a5153bac866273363",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/evaluation.json",
+      "bytes": 2495757,
+      "sha256": "3b0102b353c65081e2e40441ee1d4af980b3f1c1252ae261f92558d80abc8ab2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/first-fit.json",
+      "bytes": 2228,
+      "sha256": "9fdcb56e2443fe5c3f0b6fac166cec7ae70a834c689515ca0c97cdc7dd03b4ed",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "9a81728654c53373b85316dc5ce8d4a6814e82810a8836e76bede7bb43ccdb30",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "d1973fb2a60f4130fca6c55a20fa8723c3e471c1210d5cf90d97fbe4eb0d46eb",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "48542e99a2e366407e7e87c37c186a3fa88d3ee207a9c41d3dd7929614994876",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "b460f4e9941e99ea6018beca4811cc34d62da04b64de52e551dbd87b678e18b4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/commit.json",
+      "bytes": 5281,
+      "sha256": "a0266c3282b2dad38ebc698b650e494f06ebd5e9feac4c886d3e51345d61766c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/entry.json",
+      "bytes": 2503,
+      "sha256": "b41e39e2c98b42f5718ee385d83c4825ea92d5f2d65a3c8eebafbce7121e262e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/evaluation.json",
+      "bytes": 2495631,
+      "sha256": "6ead588a7a43611880ed119fcc4a2709d3aec18a6649d29959ba53e41bd04d10",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/first-fit.json",
+      "bytes": 2227,
+      "sha256": "6566e2c725cecc9b7dcf6f12edf055b329c757befa2873d11419c9874947a599",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "162a374d56465584ab07cf90a27397d9e5f01a21f07c64d309e5ade5740d7c46",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "6c5f7b8abd45fd8f3fb86cd50e3e5f583c9fc65eab0f6553fa0aafde040dbcc0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "a873e6964d249bcd5608d8e094a6ae51ffd4e0845bae841b876e27d7748eabdb",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "33e28212f3b9d817a1dd9581608db653278039878f7ac655662d2e526a6c7ded",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/commit.json",
+      "bytes": 5280,
+      "sha256": "5c68171cefbb4e8991d8c725cb99482dc9f79a1f9c2ae64df30eb397d53950ec",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/entry.json",
+      "bytes": 2504,
+      "sha256": "f6aa150d01c864c8a97bf710ea4f09062bebf30d00ad2055439ef1b43ede3441",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/evaluation.json",
+      "bytes": 2495603,
+      "sha256": "511fbb8686d58ed0b3269fd15d46e0aa5ea1842ff31357f2a603c1323223f79d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/first-fit.json",
+      "bytes": 2227,
+      "sha256": "c802b465491185afe737d32865239be037214fd483c4301073af8d709d4955d5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "240cac78f2faf6ab1a98547ae2907aa127198213cc7912cb8b911f208eb3d7ed",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "8d52d2d2ea950bf382ab7c8e1c5b45c7bb8a015c92a9a3ac50f994e973cf18a6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "f99a5b9f05fcd2a4fd77446f083350159b99612e55a473d089dc2d6c3fe88409",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "c758c0779408e8d2cd3e3c45c0f3584946282e4ef24024af192dffe0bd755039",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/checkpoint.pt",
+      "bytes": 1057002853,
+      "sha256": "58cbd79b9d7164e3bef9fe9673e8b4ce4ae468c55251801fddaf45574e9f148d",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "b3d7211a7eee9628bdae36308be92e579baa83b4f9ed9420e40f50e5a6b2a33e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/commit.json",
+      "bytes": 5611,
+      "sha256": "fc48d8df3f80b7eb1d7e527a61b0c37e4d7f738f443469ea46ea9dee64149f7c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/entry.json",
+      "bytes": 2500,
+      "sha256": "0109722a163ba55fff7e41d859e7abf5af821dbcc3ee674983d4ec6550327671",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/evaluation.json",
+      "bytes": 6592598,
+      "sha256": "acef9f1d6baa0bfbaba26eb2eaac6f09e606ab70f1ed458778d7bd8087e2c981",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/first-fit.json",
+      "bytes": 2225,
+      "sha256": "6c2d5e4eee4269b805035e0b6191dbaef42c26aad2c7827c4b5b2da5d2eb3068",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c385012a0bbaa10d2d00d8cd8a3ea34f789ca2c521dc2ec1529b2cc5b779c765",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "b47224cc6c7844e46ff55436bfa09a687d3d6212a3fe4971731f8f9777189ffd",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "d12041354dcf0b0174aafae1c0069541d72f36b77c85ac18aea494622a76cde2",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "5009acdfe9a9541db6913645502f63151c168911ebb2a315d307f0c35b2db870",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/commit.json",
+      "bytes": 5282,
+      "sha256": "d2350fca88a514ea8b2b6b2edd41425efde9ff45217bf8dab8da7419b1f1a6ad",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/entry.json",
+      "bytes": 2511,
+      "sha256": "8cbd3b97eef962936d1e56c103ca3752fd5c61c81e9c2a628b8512cabd5fecbc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/evaluation.json",
+      "bytes": 2495695,
+      "sha256": "773d22aa6789d769a8f57bedd5cf6973a92fc6040e4f0c1d8dcad90ad568d478",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/first-fit.json",
+      "bytes": 2228,
+      "sha256": "6a444367a967d4fa2f41c5a71735f255b93053673f3aff993e7e50ff29ba95f3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "cbd7f6d3a3942929ff66ff23b1c69badf72a019146343c828fb6861f30563416",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "b25302d3417453323e7638f3d651c7b53f1e5eb9c11fd3c7b7630896da34f9b6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "a7b19d708a4c3fc0fca689890dbac9e06c888c62c80e1aaa99895c5f7cd89685",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "0ed22fbbef1c4864c9de3fb50337f8f598b84838074d146c3c72f89c6b21d46a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/commit.json",
+      "bytes": 5282,
+      "sha256": "c37ad7a46aab1ea763469ec155a6229cb97ee8112b87ab176eb4b34e8f1976c5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/entry.json",
+      "bytes": 2512,
+      "sha256": "6f1f9e5bf4c72561ebab31c6e8701e226b56b1a97c966de247a13b024e04c577",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/evaluation.json",
+      "bytes": 2495657,
+      "sha256": "52e711387731cb0d75e5897ce208fdd10e78aae7828fcca48ece8392a4ce5455",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/first-fit.json",
+      "bytes": 2229,
+      "sha256": "f24b5746e8a3f9a6a6e0989c9fbee4cd04256e69b1475aab4496b2cbe5da4672",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "6687ebf87477f83eb42fc7019e185caa9e8ae8a225cbc096676c407a2d2b34ce",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "4a9263bae36e923dcd4ee8277786f6347b866175135181a9a0a54b06c73069f4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "ab42a4869469873decbb3ad6a07163114cab2024300cc5f3b27a3e23f3c532e8",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "15c2df6dcd04fffb80db7a55ff1e2df76269c3e82347844c5278099ae0612872",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/commit.json",
+      "bytes": 5282,
+      "sha256": "9ec1e1953b6fc0e8fe49f52254480734e9dffbe40484de2239c334dce07bba53",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/entry.json",
+      "bytes": 2508,
+      "sha256": "277105c0212e666ea68e04d7afbd771b26b034b10deefb55ce422ec65b302486",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/evaluation.json",
+      "bytes": 2495633,
+      "sha256": "e48759017e4b59c20951a9a39db98a4e8a268292df2ceffef1ed35b8a4221a74",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/first-fit.json",
+      "bytes": 2229,
+      "sha256": "67c9e2fc48c91bc9e3ac199dec7dba0250622bcde70ceaf2e3f6996d2b4ca0a2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c8efc9e2a54e11ebce10e9a297955b216084c4ed191e93b7e721d7dbf6dda4f5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "8a6ff507a2e9f17edab5c2b2d76a6f757ff55cbb6cf94215202224bfaf086de4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "ca8ef406ef706f239c9c240913979280459aa6dab3db987a4dcf7bf407837f64",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "daa08794fe25683f8103db070c023c79361cced956e7fbde0b4bcc70c8412b9a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/commit.json",
+      "bytes": 5277,
+      "sha256": "132ece0c0a8359082cede701481f9259d5cf90f8beae60046e834ab3af524297",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/entry.json",
+      "bytes": 2511,
+      "sha256": "b1d20fdab2eebd2dd3cabed5c94caf57506f0fcd810d65a44c969c6e13fd312d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/evaluation.json",
+      "bytes": 2495812,
+      "sha256": "2d6838261c002bd47b8592f3f9d54be0a5b0a2ca384322618bb57f7faa05a118",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/first-fit.json",
+      "bytes": 2224,
+      "sha256": "588ba73221b0d61079aa88289061ad74b687b6debb29a40e7899b20d3cc59cd4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "19c6d556f472ec84cfd1ff83cabfd6c58162d054e235bb88202e12499c56fb9d",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "6b2c104010d4e8e835ca567d529cc26f3e8b3b1c67e112fdb6d10879e9e9565b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "412ebfcce312f137a5a27ad33f2ad6ea3add5c9d50df3192d64adf94e9e29d99",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "6732880e9a9b5dcf3b623ccc9e75903bb4e8d037cee5d2ab9f81953a341ae3f8",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/checkpoint.pt",
+      "bytes": 1057004325,
+      "sha256": "a40ee5e258eb6860dd185a7366d53f088bd4349593f4ebc16dfb363da8e52eb0",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "32a983520cdb08579c1db6bb556045d530beb0e9b65d17d286b8a9e5dc4c9f1b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/commit.json",
+      "bytes": 5618,
+      "sha256": "b745565a4d58a5b27e9f5b7e802cdfe4425042fcba335081b5a68586cf4c7807",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/entry.json",
+      "bytes": 2508,
+      "sha256": "11c0a49f54763b9c993223e05774ae36396f604bfdb88b15d0df1e1a75cb5633",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/evaluation.json",
+      "bytes": 100681807,
+      "sha256": "4247fd2102533694f6345d688050acdcbfce1f6e02ffa0f6dae5107285330e7c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/first-fit.json",
+      "bytes": 2228,
+      "sha256": "6341efaecc9b79b03434c9663e2c62108d14a2fb4b343a30c66dc7cc6b0d2259",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "c1fdc2a5e945c76c635edfd1a6adcbcb9e8bd01b87e3eccaeb96273d1804f4da",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "3b4dc4269cdc43718d5ead50938232872ecf997299c50e32012940baf762e504",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/INITIAL_VALID.json",
+      "bytes": 1199,
+      "sha256": "d1f89c7e9a348c87707840bbd7ba34325b2c353ec065f79f1e5a73a389c8b581",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/entry.json",
+      "bytes": 3613,
+      "sha256": "292b887a0957323be0391cec8cff02df48417234c86162580549d9f04f67783c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-3/terminal.json",
+      "bytes": 4474,
+      "sha256": "493cd7bbf035ac5f5e64c966a1501787bb9f17fdc84eec3d0a010aa55e4a7284",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "77930eb3322b07d03024c5ad317aeb2e1e9be77b45874dc24525798300f25912",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "493dbe9adbd52e292096711c27a5f02f2051700ccdc8631d0ae42b339f2c896a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/checkpoint.pt",
+      "bytes": 2113966621,
+      "sha256": "ecdcfc4d98e02020731b9ed13cfa62b430801b2fc4aea994c3abec713bf821ee",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "3ebf39767fe260315ce905b20efaf3a6b2286b2297b84958dc3525adb69b1b17",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/commit.json",
+      "bytes": 8305,
+      "sha256": "9155c1c45507bf9c98f45fab5b7c9e526a09c8a9ba3942d59e0595c53de5f4c4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/entry.json",
+      "bytes": 2514,
+      "sha256": "ee5669f9245e58eff9fcde98c86f22ee488499bba3eb242e94fa2d2dc0e2f569",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/evaluation.json",
+      "bytes": 2495938,
+      "sha256": "76ebb09180e15dbb3d88ef383f8ae79d12d0411c3e2e592ccb218969288a9d10",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/first-fit.json",
+      "bytes": 2224,
+      "sha256": "cad0270464e7e069e6d91a2859f14be9b1e75538d92d33cd8043284fded0b89d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/second-fit.json",
+      "bytes": 2229,
+      "sha256": "31faac3edf290522d4d34ced5b6c58cb0ebe0b371c11bb24a780339ba8c62f36",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B051/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "77374c7e46b8120dc34980e82b9d43df66791a9283c1870278a7abf539622658",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "cef4e403c3c1b92880621df1b70706d8e84bc6087b126cc56b97bb68ac900b08",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "7ac0e23cb7339bd94151e89cc5a18622d262335defc2da851e5ff37dcc1490ee",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "bdd08420ec467ea5023fbe5de74e617e08660a5b9ff5ab7cec5d0bd4e0980fd0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/commit.json",
+      "bytes": 7978,
+      "sha256": "09e38b9e9dcf82033812b8b47a62c39de7f798528d809a9d55da418e305413a2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/entry.json",
+      "bytes": 2512,
+      "sha256": "6763406b749599239cf82c5c84d92b085dd443241e4cea89d994c66c52e57ce7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/evaluation.json",
+      "bytes": 2495851,
+      "sha256": "01399485bc1d318b53ac6ee441614d6b31641e3c21d8fab290e4fec2dde56f6f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/first-fit.json",
+      "bytes": 2228,
+      "sha256": "a62fe658c08ad896de52ba115aa831196fdcf049b620be789e948406b8c62b47",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "9cb223b73f4811d4d6853492bfbf24390cd61991f0398b02a0047a138cfc17b5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "70e02da0712415a7a440bc86c0bcad66104bcda15a86431b2fe62cee14b565d9",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/second-fit.json",
+      "bytes": 2231,
+      "sha256": "b46f848d3b805314215d4c4cdcbd9a374038dfb0dd3da12a796ab0e51c874d60",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B052/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "fd55b345a73b4b59b70837efb363fa2b0ced0a39612fc76ff3203f655aceaa4e",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "b0f6567fd8f1d0bfd3ee40c48f6c09acb1323e419a625280df2a71db8309386e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "61abb86b8bf6b9f0f9d821a5eb179b3a9fd4fa315ce529aeb1c8c378f85f6e5f",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "ad3042739b0ae9e18cdd0537fca99f7e15755f7705e7a2f06d80d5f4d5d31c01",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/commit.json",
+      "bytes": 7977,
+      "sha256": "264bcf5eaaf1cd2f7bbe6ba4aa3424f8a2a5a9bc65cca350b471b1dd5f0d3b44",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/entry.json",
+      "bytes": 2505,
+      "sha256": "21b655c6e68cc1a58774272242f8b3996b7b88c63583e531e41eccaa927eac1c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/evaluation.json",
+      "bytes": 2495977,
+      "sha256": "3ea66ab18ec308b1579105aadbbacf2d7663bb613a222d64229cfef2e0b84a20",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/first-fit.json",
+      "bytes": 2229,
+      "sha256": "4c1beed1cfb1eda6f21266e18a91f851c0b4414187a4db2288d8fc8daefef2fc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "4cafb45a586efa071fd687018119fe9cec1ba14b700899cde83b7dc7f46de0e7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "1a94ccaa98a566f9e448ac58280395696c5cde19d26b6e78b777682e9631616b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/second-fit.json",
+      "bytes": 2231,
+      "sha256": "387eeb604279c4012851b97fa77d6f1f18b4692ce9e395577a8a67bacb505b79",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B053/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2f2ab25f8787d62b335b949cd0056dfda45ceafc383d3b138e6c4fe7f3836112",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "b2d439bbbe2462f6bd42c100d1e9c9207ffe11a80b09097bf14562e7b412c6d5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "f0ffa0a54a34073f8d9d3714b71e3f6cac201f69d63b80fcdf44574c1d48dd0b",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "f737130bde0ded649e2c1bd6a91907817e5bf544882389375aaf3555cda2d5d8",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/commit.json",
+      "bytes": 7980,
+      "sha256": "3681b3c4fbad5cb4c286bc34817abf2770cf3bbcb3c334ba4c1d77e1ce84b8c7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/entry.json",
+      "bytes": 2506,
+      "sha256": "d1fc49d05ef77a158178734d446f0cf7b41123dd8a1c80e981874c6d344daf6a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/evaluation.json",
+      "bytes": 2495720,
+      "sha256": "b8c24e2c537e1f678ab1e7fff5487b41d8259569325e10450bc62a3d5778246f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/first-fit.json",
+      "bytes": 2228,
+      "sha256": "369cb4c3ad597d9e04c85aa8765a7f032ff073177d1c3e67fecfb0e310536bfc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2c90f40e9ad5dfb62028f441e2aa1094bd10e61e4d3914f941fed5a9a977eda8",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "26ad7a565fecbf7cb88ab4ee515980e6cde23a7d6a775c570143d7fb778c339f",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/second-fit.json",
+      "bytes": 2233,
+      "sha256": "fb49e7b048e06e4c19feac801feb3f08c28fc196f396a836aeda469252f68cc3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B054/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "947f8213389fec358cc10c1a804ad99294883401ba0fafa3f134f010e23e949d",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c34223216e4e62014f721b30f41da73e064fd3f3624b2499253cffdbd189b8c6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "4c514dbb9a968ffefe8fd94ee3377d6b3403c12961b59567bcc4b7ea2370d035",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "5f074910d4ffea5cf5c027cc3dd4bda7965f6b67ad557735512f1663795f2f7d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/checkpoint.pt",
+      "bytes": 2113967837,
+      "sha256": "6eb582d6277d4d27401140d6569a049d087821bceb20ee14b884e287fc47f715",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "e615091da624d65203eaed1bb3871cfc6c236e77ff15542256e56974692a3236",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/commit.json",
+      "bytes": 8313,
+      "sha256": "16c485fe1edc25c539d851395d9e7f3b2b93033c130fffac85dbc70fad5449d6",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/entry.json",
+      "bytes": 2502,
+      "sha256": "4edc5fb0a72a87e75cfee89e57f27bdd372bba092e749e87bfd899953a28d7f2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/evaluation.json",
+      "bytes": 6593779,
+      "sha256": "9fd42c4ffd8845037cc6d28c3ec60126bc5296d4a58372ee1f7e12b51e6c2d1c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/first-fit.json",
+      "bytes": 2229,
+      "sha256": "8ba220b3a8f80c245c4df0d211ba667f73896886ddd7f722312e6898b8f06b8d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "5117c54ec98b1a5a7afb5b0dab52576835185f3888285eee3b539d5df90147e3",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c7ec119833beaa5e0d78531db09cec9c2a3bdded9054b7445fae71fab3fbff47",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/second-fit.json",
+      "bytes": 2230,
+      "sha256": "b5a7fd1634daba37915b27058b4d955e2ce253ac95742ea6b3afa2f81bedceae",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B055/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "a88be1271b28c4a9325d57268604ff21152fa7dcec5de89669318aca04c6c770",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "2708e2a8f9484f26ef9c72e9194e09e3cb849f645bf964972248325d6894c096",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "a3fff93d6f82f72b74604e70cb91b19787022c356202af16e13e70b6cd85ba8a",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "6c318e749f27582b266d90218f272c11629af2aa1fd88f6c533a0a406eb32f2f",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/commit.json",
+      "bytes": 7975,
+      "sha256": "3b95343d413401f17560683f733078828245f9b4d74a17e83dc6b79e9a54ca53",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/entry.json",
+      "bytes": 2513,
+      "sha256": "350475bee68c1e0dea1a45aa206817575200578b5da4870d9231d34f4b5e7586",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/evaluation.json",
+      "bytes": 2495901,
+      "sha256": "a4ba8f990145d964f71e10695fd98f12a2eb264b7cd1d8f2d476192cf4b47a1f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/first-fit.json",
+      "bytes": 2227,
+      "sha256": "494d85eb65d0d8336afa60068222497792bc8e6f4f5bf28ae12ff88718b8ba8a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "3aa28baa9e4477f65d2e146b880b602d62ace4a66053152f4811c7d1d6e7e7f5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "58394f2c1eaf9521de89bc16cc37a990fdbdc0d4dab5bd0b91ec071cb50cd036",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/second-fit.json",
+      "bytes": 2229,
+      "sha256": "a04d54f4a9fcfcda4590f71c1754405e1baa19ec8de65366e510350f291708b7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B056/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "8d6bf881faaf5d4f2dc6720f44226b5520b8bc2ff5d1d4265ec2b5539894b2f7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "cb24ea2e14b0d2bf248d85e591251a865429813c7b9bf244f8b1845cf4a5308b",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "260e3b3b9a3ea02e6900bfbac2d88d3f29174e0a856dcb86aa08bacd6a9aa69d",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "3d52a3664ef8c57ac4c5768c860e9f421198bd6767fd7fa8a57f6791596df254",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/commit.json",
+      "bytes": 7971,
+      "sha256": "76d38aaeed9edc084458946cfd8353e13f0e85777ff935c3477841f34e9b6598",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/entry.json",
+      "bytes": 2514,
+      "sha256": "77aee89dfef82f5098e2b249f298fe8baf95a1acbd9caa1fc066472d41bfbfca",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/evaluation.json",
+      "bytes": 2495645,
+      "sha256": "70d600ef313cce59856247e8bba2fd5142208c435ae6061f178a35f7203c3017",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/first-fit.json",
+      "bytes": 2227,
+      "sha256": "d410231b5f2555b97e520459b276bb70543274d70b835412445b61a69ff60133",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "21c0b19ee9bf25e659741f33e076edd587289c3f9791da9a08eec797c2a7db1a",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "29ac00429ecc68c5994bb393ee223c59d611efff1828d0606a807bdca5755175",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/second-fit.json",
+      "bytes": 2227,
+      "sha256": "996864744b663cf5ad48c247e4d47fcc4b866122aae6938d0c69934d35e8dc90",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B057/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "b6795321464c66afaaca56dfe464ae6a3487290746021c9bed6741a166257d38",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "f04295120e049ce13c27ac065546d56b7a8a1fbbb5c5665badd8297fed2129e6",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "0fecc3c611cf4549dc2a7fa253f8e5a1fdff1f8ee9553530f7d7bda94e89090b",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "b1b98b0119c838d1df2335dc7e300a11b64c84f444692d25d91b5981031964f4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/commit.json",
+      "bytes": 7974,
+      "sha256": "8037c8dec197e2eabf62e6576ce487fb3de41d8f75d5924acf99396a9d3d733f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/entry.json",
+      "bytes": 2510,
+      "sha256": "fd5acd88e78f4a500fdfe52a09bcc824e461ff63044de8baa4bfd29277e0ccb5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/evaluation.json",
+      "bytes": 2495748,
+      "sha256": "8d37c53cc44254913ac042b2afda3958de9f7bad6415048633438cc0908f99b7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/first-fit.json",
+      "bytes": 2229,
+      "sha256": "0c4dddf5566e1633ebeccf30f58fcbef261215a6a8cda3680a8a96c5f27ab90f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "e07838969657d5a5c63044a8ae600807ee8d484d313946e6f30825efe8f13f66",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "0cfd03a22ec61ddbf3b956b3483daba6952d2037dd8cf23423507ede972ba9b3",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/second-fit.json",
+      "bytes": 2228,
+      "sha256": "f36eb63206250786b89d7585799a12a1484e3114dbe904f4041547e7cc262ff7",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B058/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "ef295fc390374392546d40e03cd64f5cb2bcb3897a68dcdda130fd43890c756b",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "567df08028271bf36b707f7436a24462eb0cc8fb3741d100768d20cf23d952a5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "2d2995b183ff27688ebcdb37bc1e3240e5eb1649b3e7c40cc07cb09f065120ce",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "858e01d8639a9b203f703e369c5a1c7717f3ee7dca58e789296304d0ec5ee6e5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/commit.json",
+      "bytes": 7973,
+      "sha256": "361576dde6932188c67e9792e63634e17287bdc86a83790e6109b7a0295a5ec8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/entry.json",
+      "bytes": 2513,
+      "sha256": "8eb8e54417df7810090ef12aaf205e8cb5106f61a2b765497e3412b4a626b20e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/evaluation.json",
+      "bytes": 2495886,
+      "sha256": "ec7b9997461045712df1b1671c962494173077fc2a82954bead53679b2cf3ddb",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/first-fit.json",
+      "bytes": 2227,
+      "sha256": "3ccb739e376d6da5a6f6942ba8f838956b36ac83f0d71aee38c7be997b43bfc4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "84bc8e4bda5cf093b1d3e0c124e0da219395907d2ed0b5c06c166ddc147c4388",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "e0ab685c71c75239cdcf1d2e406a05e0ca7588a86f1cbc86a8bd186a32ebf083",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/second-fit.json",
+      "bytes": 2231,
+      "sha256": "e36991f79173902bdf899957b73c6a2103f8574e04bd890191bd5f40deb075fa",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B059/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "41e73df4265e36445653a500c95ab0c3f5fef59ba3dee95f426a0c715da55be5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "ac643a0577e607a26df4e21744e1e64bea7907ab1aaf2cf63d460f170392b011",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/actual-increments.pt",
+      "bytes": 469765221,
+      "sha256": "a09041456af523dec7cd4bd24210253afe27bc4f92c2049174ddb9ee6d5ae2e7",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "4bc99d3817817e75bf868849c1f9dde347b22ee52922cc59eab49f9ecdc17a2d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/checkpoint.pt",
+      "bytes": 2113969309,
+      "sha256": "14710a6359928d637e45c79e3c83bd758cd018ea56d81ae9f642141a6a31f5a0",
+      "stable_stat": true,
+      "tensor_count": 4,
+      "tensor_inventory_sha256": "9e62edf1000b4b9f2f2e6d0aa16035503f5bc5bc8ee46af5f104de3a3778b99f",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/commit.json",
+      "bytes": 8316,
+      "sha256": "674de7b2bfbe46d4eceda259fe87f19102782cf17ea53f9232d5ceabf6826c04",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/entry.json",
+      "bytes": 2510,
+      "sha256": "7536f37d0f9ebda85ddb1a53caba4f230930067a520f001a7f331f1cf0318963",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/evaluation.json",
+      "bytes": 100687846,
+      "sha256": "e7f69f6ef9116762e5b47f6c41ed5ae6a862f92df8dd8d0e606f636be4d8bdcc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/first-fit.json",
+      "bytes": 2230,
+      "sha256": "a893f5b9b5cebcaa2e20e07865d6250199d40bf22882c5e71ccf0b09896eec1d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "d5f6e81890c8d76098f9ff30e664c3432892574781a0ae04f380e4ee8014553b",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "a9e04e9868f1c4d38dd8b9dd834c08a144b5feb6ec1e0888bff143296f033a15",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/second-fit.json",
+      "bytes": 2229,
+      "sha256": "dfa5b73c824117fa34a2dc61ee994ce84854d0d11f4317300d2ddb6a64322924",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/B060/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "8293e28b1a27fb3e82596aa3ee2c4484b04b0f2a27bff7a7a937d536f57d10a7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "980f591b3d8fe3012add6ffaa9072e91f4014c8fb583ac3c4d185dacbbb4f791",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/INITIAL_VALID.json",
+      "bytes": 1201,
+      "sha256": "71f376d503c7489f4f38da561e4b6999d283c83802b26b827cd77969bac9da3a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/entry.json",
+      "bytes": 3615,
+      "sha256": "f3b801db0e4f8d62170f2cf77781c09466c10d43d9a16a46c1146e1f6197c614",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-4/terminal.json",
+      "bytes": 4477,
+      "sha256": "ab57dd112f3314e8f33a362b78a6a0c84733b901a79af27a976daa3b7e96b817",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "4a877f2b2dad94a78b8945fa0a6d0957c8b300e0674196f664cbe3e1620c2e2f",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "f69d16a4d2ca0782eb532d3f651a32f8d2753926504bf6ef5cd22446af3af61d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/checkpoint.pt",
+      "bytes": 1057001637,
+      "sha256": "cf04d08966ff6a96169804d4c677743c6ad0e63f9cf6d4456ccaa289ca9b0a1e",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "5b4c89bd3ab2d38f9a120125c57c127883d404915782df01645f1d7ae98eb653",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/commit.json",
+      "bytes": 7937,
+      "sha256": "0acae6d1cb3d99d85185eb7c377d8b297df6aa57a6af194318891a55ec33c188",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/entry.json",
+      "bytes": 2515,
+      "sha256": "a111248eeb4b04c73bd2642c3877fdedb25f12bfa4023be9d02dca4731c07fe9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/evaluation.json",
+      "bytes": 2495702,
+      "sha256": "d26dcf06f542fbcb4ba8882318c745e700f4488992b2635c239d0169ee8c8703",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/first-fit.json",
+      "bytes": 2225,
+      "sha256": "2bc21ae5ae5297fa2815bdcf40ff4fad1743d2e33f7c222f7f468d7f7bd023d0",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "bd1f44eaa25a66cd43d95f52b5f9769556f06e3f7676d2e81f838a0f635a1276",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c68f58279f6859785bec2a4025e43bcdc4fe367ac9bd952f589d2150349c5063",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/second-fit.json",
+      "bytes": 2231,
+      "sha256": "488c6bd18e78169d89edb27cfe88925401270b9d160b5b6c091e682191e42961",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B051/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "0f5369fd30df1b1607e112ae48fb60e74d9af5d6473a71e8585bb3110d039459",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "2f3084f6ae318f08c69bdf34aca8325e42010b1913e429b0840df3c7088e25ca",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "e63489f31cb69888a18e33a3fdb44ec335d322599cf5f94d408321f98e457bb7",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "9f9b1ad2de65e7dc338b47fbe607f7fd759b11f559c0fc808136e22de87b5b83",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/commit.json",
+      "bytes": 7601,
+      "sha256": "77cf045a026fed3254dc2349ab0ba00ef5ffee232262bcb8cc4a578274ee34f0",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/entry.json",
+      "bytes": 2513,
+      "sha256": "b491419d7f6c16e68a29192c609e19e71164a850e438d1cac2e08e0d414d77c3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/evaluation.json",
+      "bytes": 2495544,
+      "sha256": "2cab483448f5add308588544de74ac4314ad3ce79ce98db4e0ad6ae656295d91",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/first-fit.json",
+      "bytes": 2226,
+      "sha256": "e6c4f2db491dcaf935b1eeb94d0b2891673600e6abf187656c3b0f5a8df8685e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "dd2caf9770df7f8db5d71fb8467600b1a56eeb1503225be3ce856ba841dfbaa5",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "84053cb6eae944ddf275fc4beb1cc4786cf6d9a4336b7e7f7faa22368f81cb38",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/second-fit.json",
+      "bytes": 2227,
+      "sha256": "75f0adca20718187b99e1d43fab7da0a4c3f21fb2f5661dc435a5a3cce3e082c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B052/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "9afe36d30fe701fcb6e8d5e30129fa276c8f43a51527be5e75067a16f69463bf",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "582ed7b0440760433d6505b25499a10e535c439b947c69df9856cac6e3a81d4c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "bb4d2628fc0c0140dcbb16457d86b4560bc2f64ae21b4ec0cd285f0597dadc26",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "139ab8fdd9f0342082b7be854475bbb5722b5299520627a9ca4535fe32d148bb",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/commit.json",
+      "bytes": 7603,
+      "sha256": "57ef42d878563ff3b955eb2cd256f9afb966ce981e847addd4ef074df0b490d4",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/entry.json",
+      "bytes": 2506,
+      "sha256": "6916af8c1c4214d821d0d5d3011e3c9dcf37911c8f7c035644a1d90c1fb020df",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/evaluation.json",
+      "bytes": 2495706,
+      "sha256": "f658874e9b19d76f4e95db93b3cc37d6118ce4e70d339d01cf0d2c266bb220d8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/first-fit.json",
+      "bytes": 2228,
+      "sha256": "5bb87992d189a7ad6c3c2ac29a3663e4393f1e60f825aecbb48a3773e5a981c9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "36fa42839c3cfbbe4904bed3427854cacf86840738a70c24a8fcb1217a4a49ae",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "d1901994ef579a53b82d18939cccfac6722687a0404b4e9f642303501b9bee5a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/second-fit.json",
+      "bytes": 2228,
+      "sha256": "ff35c94a012d811be3d44ca7deb1ed4f6929471e7c3a25e2204a133ad9cf1b2a",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B053/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "8b5ad400bf7e070713ec477c92fd15d954caf5166abf967ba8dbd22709dd3411",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c78209b60e3d3f549fdf11d19b65c9e820fc54badf73c96d7371477eeba2a4c5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "e6c1d9f943573fcdc87b185331aa5323e3acfca3010087dec402f4f69034a242",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "8cb32631b242492a02783b2b77cbb2d28fd290e11394ea573ba483207246c137",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/commit.json",
+      "bytes": 7596,
+      "sha256": "077f7cd340e014e7f7feb17142a419da2cea9df17e02fb267190363ca873703f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/entry.json",
+      "bytes": 2507,
+      "sha256": "ab045878c257d979f893e1ec88b5ce5e831beec12b23b4d59890ef2b5ee364b0",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/evaluation.json",
+      "bytes": 2495721,
+      "sha256": "25133c04981492ac91164aa2e099e7a965e2d2032c2546c33735eea670336b9c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/first-fit.json",
+      "bytes": 2224,
+      "sha256": "6caf46fc240dda4250f876a5bfc5a8b8f361a86eb21963781fecda2fe11f54ac",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "40f54f943268874e42c1db2cd808ad7cff442ddbcdd84ae19af3b87a04b3a093",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "e86722bbe1d325351f9757b3c0615da00ec34dab405584af2b78b9b423cfd87a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/second-fit.json",
+      "bytes": 2226,
+      "sha256": "f2fcc42892fc75cb8a43fcdc9655c35d57a76977d1f08ff074e37f0ae435ab6f",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B054/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "e090b51c97a4764fbd64cdd7776cd7ed97285d80019aad0a45aed0e3fb2121f7",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "9d045066e9a4e39e8ff37641b2a989dfd5502c6152ece0209c783ba8d6955f8a",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "d2ed77c84812378cd011371272f4688357b84b656c5e731a8d118d573a677f3a",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "9c2f8707a3eaad283c34ef05c1e524c54bc38927b4492c9ca190313f06d80987",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/checkpoint.pt",
+      "bytes": 1057002853,
+      "sha256": "b5f807c8cf3d8f51dfefc52dfd261de29ac93553745de64e9dc1da9f5329e3f4",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "1e82a85232acd16c705c9dc9faa418164b45630d42711e28cca8694d96dbd2bb",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/commit.json",
+      "bytes": 7943,
+      "sha256": "81a7d8bbaa82eb59cb50dfdad57a81ac6d6c3aa06d6a69e4f6d0195963c203ba",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/entry.json",
+      "bytes": 2503,
+      "sha256": "54553849f87cfb01659f43fd957167c0197c9de28a2444eb77aadbfc0804bda6",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/evaluation.json",
+      "bytes": 6592937,
+      "sha256": "ec2edf383ee0e20a16622747f4f0b4b3c096e05d5be54d590a1a881edc093835",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/first-fit.json",
+      "bytes": 2231,
+      "sha256": "15789f35e4e0592867c51adf76e0392035071877ecb589ab5f86434dac9506ab",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "2a678165559f7184e8f6720030a4e4265fbb214cf552cc5aa9ef8aae0cc2a344",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "01a3d6436db6d82ced9733db594a7d03712eb8e3f30d9b65c97d26e6dbf09210",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/second-fit.json",
+      "bytes": 2229,
+      "sha256": "43d56d9ef407e3bd279a3d47ed3c6ace1a7d264a396581f8d272ca44a375ef5c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B055/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "cb5c49d5910f0aeb737242cd6248aed31b12ab4b23b23f887047ed1c7dd8f1f3",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "3ba1a50b81ad568f2702e5443da0a07b88ba74730b6fdfe31347c4685f07d058",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "2918f77fb0b38e514e39b71aecfe73cc5e593979be6fb249265242a57b1bcdb6",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "8a95ba10fd09bc1f86ff35495fd14deb0fb51c9b33739d3e8bf2411ecd4a78a4",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/commit.json",
+      "bytes": 7604,
+      "sha256": "8b7105efa06d7114f4a966ad31bb61f8c0f43f2f397afe6f8137b37402238402",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/entry.json",
+      "bytes": 2514,
+      "sha256": "8403c1b8f18ec8c3b272ffb7c63bd783ac89296c668db817034e2e7296149b5c",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/evaluation.json",
+      "bytes": 2495771,
+      "sha256": "3558edee1b6807269695337407980ccf656c35513b5f402e3206b89d837df6a5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/first-fit.json",
+      "bytes": 2229,
+      "sha256": "0776979f318bc98542efbdfa5115b5eb31f5cea1df952fa66127c08ee8b71420",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "a61ec9db4f11209e1f5b7ed8dd8b44fe56c883a6b8cf01dc8fd534b5f4f59c69",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "c520c280033ca1f746aea0e0e4c975d91e841a8b7b710867d8361bd6c4fda2e0",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/second-fit.json",
+      "bytes": 2226,
+      "sha256": "c979121f9ffb9ee79e702367ec8608c910c91f3ea5a4dad8ceb2aaaeb3576e78",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B056/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "952858bb763dc5b72a1fd9efc018f31113171e360eb8e82ad79224c56424b5fe",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "ca35890de7e955bd6794a21c42c63e2b80d773c4c92b8ad1c201ad2c162d8553",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "82ca04fa891d3b40259b346411699bf55461ee22fc417fb1e2b71e42cf783099",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "1038dff872b25af6b67b1bb4d97dc2f4bd0d9a585a1f47ad1936f0caf7a3f59c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/commit.json",
+      "bytes": 7602,
+      "sha256": "de44708feddb3e2f29a72b70de083c23094b97322d32c158ddd8f0f664493976",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/entry.json",
+      "bytes": 2515,
+      "sha256": "f1c836524e3467ef1998bac5703f248d42a01418a547ebd5cc925130b1c4ac4b",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/evaluation.json",
+      "bytes": 2495569,
+      "sha256": "ad7a5801d93afa5bf297dcdf1fbbb3b9dccb72eae9b8e3d67d0af64c5e999fe5",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/first-fit.json",
+      "bytes": 2228,
+      "sha256": "8bd051ecf4be7237aa0d8111d8258e911516a2493b29025c387c3184c92de30e",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "00e7b00afbbdcff7b863786a8a82b581e566ad09d06dd81edc9905ae3df95d48",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "e034792e11110aafa113e2771ec26cdf0a57d47fa381885dbf9fff5376333751",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/second-fit.json",
+      "bytes": 2228,
+      "sha256": "5d1e34c0708afd946b2996f8a33d8cc7700c892cbd01568397066f6a5212b7d8",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B057/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "05f4755214ff3527f058dbbd657642cdfdeb5d9af2764354ac2c79609ddbc3d9",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "552d77f545605a6f2af0c65cae9c60c142fc64be0234e44d2a9e64fd01a086db",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "dbb249a80e37f3947304b0bee2378e48d261aa6efb51213766d1a14f1cccd8f4",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "3e7002c1bedd10cfd8e14e5d71809b77f5c80b5fc52ba85cf59789c6ca18906c",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/commit.json",
+      "bytes": 7603,
+      "sha256": "6fafcf6091b405d45868dc27cd7c998b575e056d3b61b5cd4b18609028515abf",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/entry.json",
+      "bytes": 2511,
+      "sha256": "18d16228ee806a4d64ef6fe64e01aa6e2f492701afedd0774faafb5eca556825",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/evaluation.json",
+      "bytes": 2495713,
+      "sha256": "57a7c2cf5244094e059a82965a819acc50937e7a13ba3a55a3a63285eccf1452",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/first-fit.json",
+      "bytes": 2229,
+      "sha256": "63e1e348413a28c25f4154d1164329f3a24b7c7f5781e2067311977c3f5c6dfc",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "0719dfdd681e4ac7b2605702a3569dcf79723f629dbfd7e3c78287eb75138e5c",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "6369bb5892e9d31cb144bc98f6a19a6c5d0a049ede56e90b071b4956b41b72dc",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/second-fit.json",
+      "bytes": 2227,
+      "sha256": "a0d1205ca52330cf1c2cfa233e0bb7c2e67a8f51aa97c58069541780310014fd",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B058/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "aff6cd78ec2efdbd1b955ea904fd65b0a2f01b79434079674ee41ef9a20d730a",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "a47b54d3378f912b4cf5c135926af4b3928fa86a422a984a1098dd144497a167",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "c9919ec79c5371dea46026f823ef2aba81dbe9a1947dc11da281a99770e03d86",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "dde413fecf15b33fe138726cfdbec68c5707d871dfd75ea78f5ca430e2b3a55e",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/commit.json",
+      "bytes": 7605,
+      "sha256": "e609f584c56048f59d0e013289632d7d2742bf9e353921f7c0c5003a7e45dee3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/entry.json",
+      "bytes": 2514,
+      "sha256": "10d82d064e7d611e83a427d734319877bbcb85c0155bfb74f7bed1d9339744d3",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/evaluation.json",
+      "bytes": 2495840,
+      "sha256": "24aa7b5ffe8ebce2f333f279f10b224aeae3ef93c32929b90cf6038585c59b20",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/first-fit.json",
+      "bytes": 2229,
+      "sha256": "efd5b7bfe664e460eb09de0a566a59a256c94b858a21318f4a081ed609969d2d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "6ad76685b488f597a02a525215762de6252a031214534ee8c0912be74a6805bc",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "5a5373ce02a3bc50ce72adba77b52ef0447214727506acd7690ee6b599567fe5",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/second-fit.json",
+      "bytes": 2227,
+      "sha256": "d26f1460dd9691c11a53db178a89cfda95df73b5f2c2f847fbc9bef15a5a47a9",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B059/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "f480763536bfa6a890dfd0bc51cf98b938f2e60721ba58b879d4c29d88f1d0bd",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "053ed7396407533b8c537d1efedd8f947fe707f5c35ddc85471a858ab996ec93",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/actual-increments.pt",
+      "bytes": 234884009,
+      "sha256": "b499b7270934907ce1a74de10a27d0ef0e60a5648d8503e11a53edbaa4649ce0",
+      "stable_stat": true,
+      "tensor_count": 1,
+      "tensor_inventory_sha256": "fe72b6323fe18f3237f5ada528f8bddc405f421425cfcee5e4df47992bfc3779",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/checkpoint.pt",
+      "bytes": 1057004325,
+      "sha256": "6748fed30c94e1ff236ccbfa4abcd074d105886322ef206a6c35775094d2f139",
+      "stable_stat": true,
+      "tensor_count": 2,
+      "tensor_inventory_sha256": "7401d77db0d13142f121f009537c9d2a05bd06a6fec95ca6aca771fc5edbda6d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/commit.json",
+      "bytes": 7943,
+      "sha256": "6fb41e7c5ce886b8837a17c84c7ac816ea9ffbafb6e76738e5b5a9c64e407eff",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/entry.json",
+      "bytes": 2511,
+      "sha256": "d60d192bfb18b6b3400e8702b56705496e2e290fc3ba39c0a8ee997c1fb249d2",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/evaluation.json",
+      "bytes": 100684183,
+      "sha256": "be4500da46b2791cc96cc41c4c924787d9e2dc99ae16acabc256d36efb580342",
+      "stable_stat": true,
+      "preexisting_runtime_reference": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/first-fit.json",
+      "bytes": 2229,
+      "sha256": "5b0271cec26cff8db46d7d06f00162a1e8e9321b2f19ef3e5462ff28b8552b75",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/first-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "59a28c8a42a99d6793b1e7fa3e7388e6c91b56e6532b5ce83194037c83be88bf",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "35163ca4c2844f21e3143ba73b9a21db8defffdfffcfded3b57aa078acc6e744",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/second-fit.json",
+      "bytes": 2230,
+      "sha256": "1516754f222aca1fc15985e92b322f6fe7bc3f86bb6612688a28b6f3a1efef37",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/B060/second-target-key-readout.pt",
+      "bytes": 9038067,
+      "sha256": "485170f85abd6c2ef934a3ef59022968ec18c7659d145f132b51ae87ffeba3ed",
+      "stable_stat": true,
+      "tensor_count": 102,
+      "tensor_inventory_sha256": "a7b13e557db6d961569e6d936b30627ab6ffc04edd415ba647f220802a8ff39d",
+      "tensor_finite": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/INITIAL_VALID.json",
+      "bytes": 1202,
+      "sha256": "d705bbd2d736e8d2441984392fd92fa00a9b5d5ff5316c8b61e9abb7a952f29d",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/entry.json",
+      "bytes": 3616,
+      "sha256": "f4659ee6c98fdb9f9b82ce7da7931cf0f9f37c5db19a75ce40282c934599f259",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/process-restore.json",
+      "bytes": 159,
+      "sha256": "8d9f9df403465cb72d0f7f545b69751f7a4020bcc884bf6ad82cf01f8f1c6744",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/terminal.json",
+      "bytes": 4477,
+      "sha256": "6c8d8bbb6472f17317348fbd7ce52946d1d34c0cba7db8e59b1c786c361b8351",
+      "stable_stat": true,
+      "preexisting_runtime_reference": false
+    }
+  ],
+  "count": 462,
+  "bytes": 45736205134
+}
