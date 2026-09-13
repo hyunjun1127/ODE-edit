@@ -125,3 +125,13 @@ experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/
 factual report에는batchcurve/current-suffix-fullseen/pairedtransitions/statehistory/cost/실패미측정을전부포함.
 GH해석/claim선택은별도global. 이번10batch끝에서FULL10k안정성/다른entry효과를주장하지않는다.
 최초ACK는 FULL_READ/source/commonentry/sampleB51..60hash/6arm등록/자원·저장예상, 이후6jobid/mapping/cap-safequeue/initialgate또는pending상태를보고하라.
+
+## 8. 최신 사용자 추가 지시 — cap2 동시 활용
+"실험 스케일이 크니 cap 2개 채워서 올리라고 해"를 반영한다.
+자원이 가용하면 독립1GPU chain 두 개가 실제 동시에 실행되도록 전체6개를 array%2로 제출한다.
+권장 명시mapping:0=N4,1=RES8,2=S875,3=S75,4=FULL8,5=REFIT4.
+한 slot이 비면 다음 arm이 자동 시작하도록 준비하며 arm간 불필요 afterany 직렬화0.
+모든 arm의 sharedprepared검증을 먼저 끝내고 immutable read-only로 참조한다. 진행중chain 결과를 다음chain의입력으로 쓰지 않는다.
+같은GPU에두process를중첩하는뜻이아니라서로다른2GPU에각1process다.
+기존다른project작업이cap을점유하면변경/선점하지말고aggregatecap2를지키는pending/throttle를설정하며,가용slot이2가되는시점에두chain이자동배치될수있도록한다.
+이최신지시는동시성2활용이지cap증대/별도GPU-hour상한설정이아니다. 초기gate/pending뒤monitoringpause는그대로유지한다.
