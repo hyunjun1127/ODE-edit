@@ -1,0 +1,1436 @@
+{
+  "status": "PASS",
+  "publication_source_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec",
+  "base_main": "7d5bae2e3be8dba87c92b86a727d5de9ed549af3",
+  "members": [
+    {
+      "path": "audits/servers/server1/2026-09-12-baseline-mechanism-first-e01/cpu-preflight-r1.json",
+      "bytes": 1510,
+      "sha256": "c91c3f6636ba144afa3116b517fa262cee0fb5c090ed4f8c4ba57e44de93cef6",
+      "git_blob": "7859670e191077540d8be523f67d4eafdbd60449",
+      "mode": "100644"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-12-baseline-mechanism-first-e01/recall-warm-preflight-r1.md",
+      "bytes": 2782,
+      "sha256": "5d1c71111a7263234c47b17245ce14bbcd3af767360792c23c2b25023c21786b",
+      "git_blob": "3499fd04f196ccd49a56641dfb45bf5d667127dd",
+      "mode": "100644"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-12-baseline-mechanism-first-e01/source-preflight-r1.json",
+      "bytes": 8064,
+      "sha256": "88a1b6e0fe4a259cbda4f2b395388cc6250fcb9fdaa3c8ca93d67c4c43141a4f",
+      "git_blob": "822149ea398898dabd981010f73e73cc0f1eb251",
+      "mode": "100644"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-12-baseline-mechanism-first-e01/terminal-performance-repair-r1.md",
+      "bytes": 2759,
+      "sha256": "287c88b7eadaf6cc0f2e161e4658ff6e8bdfbb883feb9e80d898ab369e510817",
+      "git_blob": "e962cddca95108fb444548b77821894ff9ea7e54",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/analysis-manifest.json",
+      "bytes": 1853,
+      "sha256": "f91fbf6faf29e20ad3c1398520107b254d2d463874683baf4fc68633f79271d4",
+      "git_blob": "8b4ec6949050a89325813113cb292d4b6983c09f",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/checkpoint-paired-retention.csv",
+      "bytes": 523806,
+      "sha256": "6654de0738a70ce6145f354c0626f82740b4307f26a2a0fce1a0813c0a3f377a",
+      "git_blob": "1619489bd8074b451974d1a927ae0b37bc6fbcd3",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/factual-report-ko.md",
+      "bytes": 5841,
+      "sha256": "476c1f5e823adf8fcf5e90bc35a4d57a3c7a7729b8e6a5b00c0e9348a6d0fa24",
+      "git_blob": "45ceed6161fd09c8c0ac9c17b1f07ebd1ea3a215",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/layer-paired-differences.csv",
+      "bytes": 8479,
+      "sha256": "d646ac825d99daf5d702b656d1fe42a7fb541f7df26fce2583574b403c033d8a",
+      "git_blob": "5020c19d4d2867f063c417f1f2cdb79f74dfb2dc",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/margin_age_matched_retention.csv",
+      "bytes": 113227,
+      "sha256": "33039329ec2d7036cc04c63f8b43d4fdcebfa9186e50029aee2238c4e5462bbf",
+      "git_blob": "5df5a0045d27554a4295effe2dcf4ea84dea95d6",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/matching-strata-with-empty-bins.csv",
+      "bytes": 16647213,
+      "sha256": "af7cfcd3cff8c1ad03b36d172507013d4c38101fe01eadd9c37758c207b2a71e",
+      "git_blob": "7be154de2e9b4f07dfa661b656d6534c4858deeb",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/matching-support.json",
+      "bytes": 9175,
+      "sha256": "8706d628d0af7ff13066fa7c921b10fe4cdf66b795e91c551f7a3f9705564f16",
+      "git_blob": "c63a50374571317a2d55341d2907a787713bc5a1",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/matching.lock.json",
+      "bytes": 574,
+      "sha256": "ab50de785dbce56e3cf2239c35fdd6ab29ffdf0e15348cda00f2de5afba40b37",
+      "git_blob": "566b3a8920aeb8c53cdb8b8bf56085b17c3e1ef0",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/observed-failure-intervals.csv",
+      "bytes": 5937,
+      "sha256": "d38b607fd047cbe4b8949b10b3173138786ac8ad78cf297d6d4c51f68b43954b",
+      "git_blob": "f34cd3db5828d59bdd87d0ee85a2f2728db0ec48",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/paired_case_ledger_manifest.json",
+      "bytes": 685111,
+      "sha256": "4416d4889df4ce70d42c702ffbda027dc2bca0e76d118fe4e66b12499da086fe",
+      "git_blob": "2b53b6fc10724f9b0566f57cdf6c2f0770dba340",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/rooted-receipt.json",
+      "bytes": 1055,
+      "sha256": "51c4b96d5fb0fdb7b5e11527404fbe9f70459a465b4699b40da2187271c4dcf4",
+      "git_blob": "e0e58555f085689a36b748f500d14d314c9f4d2f",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/source-bindings.json",
+      "bytes": 6023,
+      "sha256": "6f4cf7e3d5c81bd1f3801c4a4bff4a52ee789e171da5a7167f83d8d365539e34",
+      "git_blob": "a4ad25c392b2613a97d0002430189b2d1e417ede",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/matching.lock.json",
+      "bytes": 574,
+      "sha256": "ab50de785dbce56e3cf2239c35fdd6ab29ffdf0e15348cda00f2de5afba40b37",
+      "git_blob": "566b3a8920aeb8c53cdb8b8bf56085b17c3e1ef0",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/technical-attempt-r1.json",
+      "bytes": 690,
+      "sha256": "76d8f6ff2c2cd784a65d0955f08b59ced0089e2293684a1a51cc5be35a80acc1",
+      "git_blob": "0d373964a037e2afbe50d31741364a57ffe76ce3",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/cold-l4-B001.json",
+      "bytes": 2382,
+      "sha256": "a8587c8b80b6bd9a2c101272d8cf9666da58324bb9cc64c11d84c1aa893ba04e",
+      "git_blob": "372df6d57da36a183f54e267ca3df940c6b0c07e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/factual-report-ko.md",
+      "bytes": 2568,
+      "sha256": "4082db8f5e46707adcd9a5af91abdb3c7e1c5724089224f5a93eb7b2bf002c20",
+      "git_blob": "34892613b0f1495cb5816900420af55189164fda",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/manifest.json",
+      "bytes": 1108,
+      "sha256": "af6457425a0f620896daf20ee47b0fd761c3326d130ae600c9d3d85db749d885",
+      "git_blob": "ba559a5cc2d09d6849aba5b1b3e51a2424508cd4",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/rooted-receipt.json",
+      "bytes": 457,
+      "sha256": "d603bb770b4aeb5ef7ae0040a15fd264c2a8ebbc732480c30c0c4df4128d0861",
+      "git_blob": "279a1956d5e8066064f0f42ace7a4f0972e75535",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/warm-l4-B020.json",
+      "bytes": 2270,
+      "sha256": "59b75892157b6fedbd31018e03f816c52f12be8e72db2114c23d0219dceb8f23",
+      "git_blob": "6f2fb6a527e484bd181de26905dcce21bb767d98",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/NLL-summary.csv",
+      "bytes": 1210,
+      "sha256": "19fe5494500454906e18e524a0653c4702cbc5d19c4118772279a587a9c9627a",
+      "git_blob": "c84b38319fbc166ade932a77811f5c2772a28a25",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/compute-accounting.csv",
+      "bytes": 364,
+      "sha256": "3d60b8ee7b6c447272d2c9f120d64237ba21850f136607c8f598eee7241ae30b",
+      "git_blob": "22a9cc08d6721b6f22f914103b50c8a3c7436ab9",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/endpoint-counts.csv",
+      "bytes": 175,
+      "sha256": "7f6db1d5d148f5f249c7c8c2707b326b87a47eddfae9782481cd8a863a1cb728",
+      "git_blob": "934f7a24f5f0facd0a2bd3efb55c81b36ccaf494",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/factual-report-ko.md",
+      "bytes": 2463,
+      "sha256": "ed1b05dfe19dfd6539d037474392a37b0f616ad9e5bb72db6d473c7b99f48b63",
+      "git_blob": "4c4032dabbc0095c28360b251ca22f8115a66f40",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "bytes": 7386,
+      "sha256": "b1a3d4409832c8b65bc9710454a13b9ed0c99a5f90de481f1bb1b230a5c99fe8",
+      "git_blob": "d17ec4db55eaca5b15631d0cabef11452c1a6530",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/numeric-checks.json",
+      "bytes": 2220,
+      "sha256": "97746cad28f71abbbcbcca94874ec172084fc10d92c3d70f0753516e4db80e61",
+      "git_blob": "21be85f5c9117b59eeeff5a1d8bc63a7a2bc056c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/rooted-receipt.json",
+      "bytes": 515,
+      "sha256": "31f24a9c90b1c0a4ab71dc2d97e2773ca702fc01eb63e691f575ae2c29985d98",
+      "git_blob": "875f56654e53091c609551d28498fa98a6338d4d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/source-evaluation-deltas.csv",
+      "bytes": 418,
+      "sha256": "5733f96221df341ff7dc1e299fa5a9b23084d5da3450fdd0d9d68c4b35879e96",
+      "git_blob": "c7bc92a830bac9364ff14997195407371c336de4",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/evidence-reuse-manifest.json",
+      "bytes": 1029,
+      "sha256": "0eb2aecafec8ae179a0cf0f71959011d21ad3e24fd54597b10582802db486900",
+      "git_blob": "d5d48ab3b3411fc57ad7a5931b5fc8877f0539ac",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/coverage.json",
+      "bytes": 1349,
+      "sha256": "681875c4e067ca03043a8f8e1832dbe49b8ba700e91853735169fa1ec038b22e",
+      "git_blob": "cdc6cc28db63090ac28e7a060dadadd0cb7453fc",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/factual-report-ko.md",
+      "bytes": 2217,
+      "sha256": "e543e77f68436b8f937623157a92b1ed78616842cc2055a19d77475ad381e5f2",
+      "git_blob": "6029149cc56e753d1393bb88ab09eda5c4d1064b",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/manifest.json",
+      "bytes": 2996,
+      "sha256": "114c1dde5611997b9abb363ceb1ed4cdd8a11737265041819d729f1c8c9a8ef6",
+      "git_blob": "4ee1357ad1a5b2795825d5a0e82ee20ec3fdb68e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/paired-performance.csv",
+      "bytes": 5843,
+      "sha256": "1c83913a42e83c01d22c90cc5c713d83592b18c1a732cb99205d6286be0d2fb6",
+      "git_blob": "c6783a1d5545c8094da11011c7f25bf28799adf1",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/rooted-receipt.json",
+      "bytes": 451,
+      "sha256": "d9f03191321a42d44290f0dcb17f205a77b45735cbc1b807e90b54afb3d4c45c",
+      "git_blob": "1d5760380a55929ecd99102d4e5ee9af1605d012",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/pre-gpu-factual-ko.md",
+      "bytes": 3876,
+      "sha256": "accd6758b52f7018785f1aada25b2bd99164290c6af2d1eecfca0298d729d996",
+      "git_blob": "2995a47ea0c22bfd887047dc8956102fd2eddd6c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/NLL-summary.csv",
+      "bytes": 5917,
+      "sha256": "44806ebb7757a2d397edfdc83c7d2128fef3e2feb3cb59a9bceebe243c00e2aa",
+      "git_blob": "89f8f4831c7595c15ad7cfd9f6164c4c06742ed2",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/batch-continuity.csv",
+      "bytes": 4134,
+      "sha256": "9f1d4c6558c7e944b8157b1328b1a8789adcacb0bd4e31c3694fd565183b45cc",
+      "git_blob": "6f0e401126f45cd0c706eaec2a3e92f886206b7b",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/compute-accounting.csv",
+      "bytes": 932,
+      "sha256": "d4eb816e614b8dff484bd17ed20d33022b77e36071de408dc04ecad5c42c036f",
+      "git_blob": "06077fd29ae9474dab24b0955a3a41347c50bc1d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/endpoint-counts.csv",
+      "bytes": 661,
+      "sha256": "659c86138c8a47a9635ad1270cd50c5c82f2c514774defb7ccbecbbe062f3f8e",
+      "git_blob": "e286634c339aa511cdb267c104643fcd45dd285d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/factual-report-ko.md",
+      "bytes": 4424,
+      "sha256": "20f952056690856c7c97e9ee47aae0b0171dd2ee3ba7fa19098aab9374dd6e30",
+      "git_blob": "301f348d0d8c61447fbcebed0478eec2c9cc1f1d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "bytes": 29505,
+      "sha256": "b5bed11d1d1f3a17bf596a8137c440149dd072e6d23df22e332deb981ef0fdd4",
+      "git_blob": "c39793b04f93dc3c850aa53372f54a7119ddb8b7",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/nested-native-cost.csv",
+      "bytes": 4241,
+      "sha256": "6bd6eca004e846b7a874ec8c80c95328417ef24db82481c78361886edc949bd2",
+      "git_blob": "258e0301064c5f3bba52911ed30440ce1db51196",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/rooted-receipt.json",
+      "bytes": 634,
+      "sha256": "340270ce4103617e31ede17a5434645aecb29832c4aee63730280d72f8045148",
+      "git_blob": "7e367476ba14e592c6f7999b9bf0e30d263ad57c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/run-index.csv",
+      "bytes": 2371,
+      "sha256": "1e8eb05f478f54905fe20f7618d0070b18a2e6f61b119b5623e390e8fe6fed4b",
+      "git_blob": "255b81c28a9b99f29c5a2e63803bb6ac4fa367f8",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/verification.json",
+      "bytes": 2198,
+      "sha256": "d0f5d15f654aa01862338b7f1148111e0a0ce3d69da4635a6080196985f4aef8",
+      "git_blob": "dbc296c25dee21dbf729b029286e46a439cffb2c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/diagnostic-report-ko.md",
+      "bytes": 5349,
+      "sha256": "13b95941b31952f2a52bf4bfab2ac6d056d0bbe6f027e71161fa1b4c63069f5e",
+      "git_blob": "3097ef697f73fd5b48c39a9269678ca25bafa089",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/attribution-correction-ko.md",
+      "bytes": 4798,
+      "sha256": "79a66b1c732a5e0d2bd4770e45292c3ad7e31048be974e6d36aba5b583c60769",
+      "git_blob": "105200939cb4b113da2a6218cbd8d973442f1620",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/identity-checks.json",
+      "bytes": 1504,
+      "sha256": "32f48a17d9a174ba8c827f9ae5408789613348994fc61d5d1cdd6f5afd36210d",
+      "git_blob": "0bb45fbc7dc04e68c57c7a85579cd113d1aafb0d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/manifest.json",
+      "bytes": 2522,
+      "sha256": "5440ef0d386d90a2e4756ed797e5d8965016d09760717821fd3dfc6c35617910",
+      "git_blob": "02af592e1a1f89fb35093b1a3239d6eb9c8c2e98",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/rooted-receipt.json",
+      "bytes": 575,
+      "sha256": "5fd2c82a77bc89e73b138325f7e3840307bc84fa443ad35601ee426d8da591e9",
+      "git_blob": "3e3047470f624bacbaa90e4282f3ede5e7a0dd44",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/symmetric-attribution-summary.csv",
+      "bytes": 1293,
+      "sha256": "6d1673e14f2530d0a01828440e063f3b509b8e33d943fc0c1beff022b43f149a",
+      "git_blob": "c0fdf74ad62544facc2cb2be17b73ccc23ce51bf",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/symmetric-attribution.csv",
+      "bytes": 64299,
+      "sha256": "03aa30e5e29c0819c0ef4827006f5de80f6023e69e4159baa451baafdddd784e",
+      "git_blob": "036c97decd279d7e6896bd2f957db25e9444ea14",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/a0-optimization-trajectory.png",
+      "bytes": 67739,
+      "sha256": "048dcdf5690c39ea7ac6efbdf70f9c23478ecbae063cd9b6f6ede3bf24460b94",
+      "git_blob": "6a8476b82fb9d81fc51d93a50c58861ab74f0041",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/a0-trajectory.csv",
+      "bytes": 2842,
+      "sha256": "6bd9c9df39c1faba287916b53f795c420862d582d970fd3a17d9a47da435fe33",
+      "git_blob": "c7e0f68c672c48a4d7ba810efd633ac78a0c4e71",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/compute-accounting.csv",
+      "bytes": 7662,
+      "sha256": "0b6941741d520e05b21cbc9aebf7497c629cb2d312d53daad06dc6f5de630ab8",
+      "git_blob": "037486dc736fd7224bd404590c153bdd91b68618",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/coverage.csv",
+      "bytes": 503,
+      "sha256": "5c9ece7dda7d66eb0ed86d50898eb8af7c12655da491351511fda8a14f8e0780",
+      "git_blob": "d7003abeba08e911b6e75a2e82a3fa120187a087",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/current-signed-attribution.png",
+      "bytes": 49938,
+      "sha256": "72c145e9dde28274eeb9262662bcd7d4e8b28a258feec362777c3cfbd4b3ac25",
+      "git_blob": "0273ddae8ab2a16f0338121789c227444a6997a8",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/diagnostic-report-ko.md",
+      "bytes": 13434,
+      "sha256": "1b62cf47a55763dd3d90be4df6b83fa3b7d5dcf6b6474a4c202a55ec7c18e3c7",
+      "git_blob": "01ba97c24cc0e92eea9763a5c5f0632fb698e468",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/endpoint-rates.png",
+      "bytes": 31122,
+      "sha256": "0c98de4efa604fe5d524837cd1beb7f7568c9f7f597cf096c6954074c63f3c45",
+      "git_blob": "4bb9adbb76852b2a94fbfba50cc6f282961fa00e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/endpoint-summary.csv",
+      "bytes": 4430,
+      "sha256": "885f6de405d7ad12c179863123f7a4dde4078dc6634b64bfc42c82dc473031ca",
+      "git_blob": "b6644ce9a96ab4399b63094df6d1c9a66487a079",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/functional-context-metrics.csv",
+      "bytes": 169332,
+      "sha256": "80f1ff5e263815782412ca6e27028f69bf95118670e25a762fce3cf94352472c",
+      "git_blob": "1d6adfa3161364d1ecbe799b9ef7fe4db5e390d2",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/functional-summary.csv",
+      "bytes": 1034,
+      "sha256": "a35fc5afd315b61d0b62abe75faebf074fbacbf3e711822dda89f037361fe72a",
+      "git_blob": "6efe44a5adc3ae669fde7afaaeb91771671ba6bb",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/generation-summary.json",
+      "bytes": 99,
+      "sha256": "2127c3b3f03d820888a95945c23c01bcadd7cc21976953b2abc6fee0b4c82248",
+      "git_blob": "98c4a52c2b72430e7e6552e5e1026bf29843db1d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/input-verification.json",
+      "bytes": 70910,
+      "sha256": "2988f0a7266cde077518288f3214fbd46542a665cd75de06b94043333d94f822",
+      "git_blob": "0dc63476a0c9c440b1ebf8cb7639f67eab329c8b",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/layer-wise-update-magnitude.png",
+      "bytes": 18140,
+      "sha256": "4a7c1fcda490a89a387e8b661f196e3a1f0205e77e2b0b4132a001228217bb41",
+      "git_blob": "b635373ea39b7b844d16b4a17dd66b8963b7a9bf",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/manifest.json",
+      "bytes": 6835,
+      "sha256": "097450bca315856fbc70b2b7a4bf631eba4a18bc58bb1e7d2e55da26d3f4971e",
+      "git_blob": "c05af491b4d79adaa16ceba5358e5f9532b94f7e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/physical-layer-update.csv",
+      "bytes": 727,
+      "sha256": "02a13adcedda96d6bca71dafcaaf70c8e48d3d5a11a6cf9ac3a33f1a96ad415e",
+      "git_blob": "fd54809da8e8003cdf3ffb05f40f074ebc82551e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/plot-reproduction.json",
+      "bytes": 1623,
+      "sha256": "015d27864709b703e66944815a972057ee550a21e85fef6da30f3839f4b16589",
+      "git_blob": "2e3fb41d70853732cab490c36277ab87367c1e9d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/rooted-receipt.json",
+      "bytes": 688,
+      "sha256": "751089e08bfbd00ddd234feb21d4bc0ef8efda4ba947b10aebb52c033a7f6da0",
+      "git_blob": "cd61782f7238b32744597632688437da11272bf3",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/scheduler-accounting.csv",
+      "bytes": 524,
+      "sha256": "be2d5a6b495ca8092fabb2a896987722163884bdaa5e98af5f2e0b2461ca0920",
+      "git_blob": "5452031cf3096127d3f32b6b66be01c43ec83a47",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/signed-attribution-summary.csv",
+      "bytes": 1276,
+      "sha256": "7c9798430fd2e35f62dfdc76b4bcfaa2318f3d60263e52a0622248151dfbfca1",
+      "git_blob": "aa7ee62cf0300d8fece8234aa4dd9a6d5d5c986f",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/signed-attribution.csv",
+      "bytes": 63421,
+      "sha256": "ebe9ac0e8d0bda4ccc5e4027f69e8a9b2d9e00d71dedf4132c51c035346e763a",
+      "git_blob": "5f7db7ef1aa81c23251448143560fc1cacbdf6eb",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/comparison-ko.md",
+      "bytes": 3161,
+      "sha256": "d43a990cbf3224a4c2c7d7cddbf975214fbdda4386f28d72a5e66a402ea4eeb9",
+      "git_blob": "f419625137bb32df0d9a3df3c701b64bfd41927c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/manifest.json",
+      "bytes": 2525,
+      "sha256": "98d0533df22fdb218f7d0f6942e9990922c6d751f52e767d3b240bf10dc29e78",
+      "git_blob": "ec572221fda823483dacdfd0e2d72de93b0455e7",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/rooted-receipt.json",
+      "bytes": 238,
+      "sha256": "95d233c2c13bdca04125bfdc85c24a7157c6bbff9f71339b7e3887b76a6fd350",
+      "git_blob": "8f314d799359b3f41bf5b1153ef07f8e010cda29",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/same-entry-summary.csv",
+      "bytes": 2977,
+      "sha256": "8129c689d20da14399b950834814f35eb55df7e1de6f2d3b440e5203c360622b",
+      "git_blob": "fd2830fef29584291d865137a588ac7a2be3e4d1",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/aggregates.json",
+      "bytes": 58496,
+      "sha256": "e598b07fd60a1cdf223a5f348a2621cf3c75b0caed239254d3e734d212365bdd",
+      "git_blob": "9a61736f292566ec0d3ff04b06b97e9b454779fb",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "bytes": 7663,
+      "sha256": "c655146eeaf602a8a6610f7ed8ab19f1a9fd89ce8c149ac28486110f9cdcb1b8",
+      "git_blob": "8b55bdb284ca42d055b87a3293bc858fb623a33d",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/compute.csv",
+      "bytes": 2494,
+      "sha256": "b4bbe842821eb915a835b550aebc386309b303714d933a14196f6b56cf777ee9",
+      "git_blob": "66f8b5dbff7a66736231187191f24d81594cb591",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/microstep-summary.csv",
+      "bytes": 87594,
+      "sha256": "6cd598eedc7b2c288eba857c3ae267931635a9bd31f231b6a07183cf9713dbd7",
+      "git_blob": "18112310a1561d604a3b5f0406bc00f48c3dc23c",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/microstep-trajectory.csv",
+      "bytes": 3038173,
+      "sha256": "55b4fa4ca9f876babe7fa31317429eddbf95322a3777490578f56b7c57641221",
+      "git_blob": "411aff0d34c5a0c208c3644eac6fef413a0b9a27",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/outer-writer-summary.csv",
+      "bytes": 981,
+      "sha256": "bed01c1b87d9a7fa25cf0c7b85aadc3e04ddb3232388bf383804860d1cfe591d",
+      "git_blob": "3f89ff1059c600fc39604ef835483a0882f97f2e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/outer-writer.csv",
+      "bytes": 7538,
+      "sha256": "f140922fa35cfe682d40f53bdf60db0f46a9cb08c8fa4b271a3c936c7477bebe",
+      "git_blob": "461dca467f8c6e96886d21979cb17ba9bfea42e6",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/p1r54-pdz-target-time-sweep-llama-b100-factual-ko.md",
+      "bytes": 13454,
+      "sha256": "83cabd07349af8245a2d1b2aa78bdd3d9e645c155e0cce8607ca0d2e8b96972c",
+      "git_blob": "960bd2e7b52ef3462a6be970936deb1aa9fc8df0",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/paired-target-time-gains.csv",
+      "bytes": 151479,
+      "sha256": "a90c881780460b7088bce8e2bc1b79585a2f6a10ea5e9b3f53145828ba801175",
+      "git_blob": "fe8ecc42b0b67c7caafc3d416842b9a5ea797d8e",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/source-receipt.json",
+      "bytes": 784,
+      "sha256": "d0d8c0d25f36103d1004d186c8ca1a05b1e53c53b4535666cd1af1de38effdba",
+      "git_blob": "6813c01a7052a4e204817d26f7afbffbf2115b51",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/terminal-z-w-nll.csv",
+      "bytes": 14133,
+      "sha256": "ca4865c6f68a3b81fb8831e79db508da21a13059b3021d82556dd609bb32057d",
+      "git_blob": "57a6ab43e185c350f399aa10640cb5c919ce0dd0",
+      "mode": "100644"
+    },
+    {
+      "path": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/writer-transfer.csv",
+      "bytes": 183624,
+      "sha256": "cb8228207165e935706a5be679914388eaef9008b620903f2ba740a34e09d41b",
+      "git_blob": "557b2270b11e4ab02b50e10f792479299b89b7b5",
+      "mode": "100644"
+    },
+    {
+      "path": "messages/acks/server1/2026-09-12-baseline-mechanism-first-e01.md",
+      "bytes": 1727,
+      "sha256": "0f5670eefc6da62715abfd4552d62b4d372f447e11ab19fd88fec7745370c751",
+      "git_blob": "8e14da97830f712aa4a6bfe5a40c660200e9309b",
+      "mode": "100644"
+    },
+    {
+      "path": "plans/updates/server1/2026-09-11-multilayer-joint-compensation-ab.md",
+      "bytes": 1785,
+      "sha256": "204b5afd5182c89aa5bb5de33a256cb8d5e0314ad0280604c72539cb72828abf",
+      "git_blob": "ffee9143022f7e250b59bb2e897fa61d820177de",
+      "mode": "100644"
+    },
+    {
+      "path": "plans/updates/server1/2026-09-12-multilayer-a-os-recall.md",
+      "bytes": 3480,
+      "sha256": "9970483ddbe6c8fc922be495b26d9349944dca0e0776a393ba648c7f580389db",
+      "git_blob": "4b3bd07878485f77c78d4e0a2ee4355eabd0d461",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/barrier_guided_ode/s1_analyzer.py",
+      "bytes": 29181,
+      "sha256": "0df4ea269a0225d086b5ae9ab4aac3f8afdfcc43ddeb830102f78570c3df1eb9",
+      "git_blob": "26bed8197c8302df1efeb953d16e70ee69d3be78",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/endpoint_observation_resume.py",
+      "bytes": 7750,
+      "sha256": "cd61e556a9c847bd7bc1d060ad17096b9b3f78acf39fcbefbf20cd164dc670ac",
+      "git_blob": "0098b4a4c433f38de67c1c4606d146a42d718e2d",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/launch_cold_l4.sh",
+      "bytes": 1091,
+      "sha256": "f0bf794972601780fe049cc1df19a4a4c14abd660725735392eadcac0f689c88",
+      "git_blob": "2d4f921939b1075834a36e5c0e0004b73c2ea90f",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/launch_continuation.sh",
+      "bytes": 945,
+      "sha256": "ead54c547efc9a13d1e3886c76508f58677bdf80cd040de58191289715aeed0a",
+      "git_blob": "0de2ec3d071c29c95311257f8eacd3098f159d7d",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/launch_endpoint_observation.sh",
+      "bytes": 964,
+      "sha256": "5934ba00b01289044a91b4ecfc548429dfd75eaf76ed0dbcba47ca5b90f200b3",
+      "git_blob": "1a584aff6170249dc0331d075c450cc087abcc9a",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/prepare_fullseen_resume.py",
+      "bytes": 5511,
+      "sha256": "9193677ccbdd306a4a637ee2c3979d24bc1b2b443e3140ad06ad31b1ab81eaf3",
+      "git_blob": "1e726b954d0c9c656133565920e2d59f76533966",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/tests/test_performance_schema.py",
+      "bytes": 2953,
+      "sha256": "1efe6466b2946fb879bfda5c21b829d37ca6d16ff05905a161b9e49df07059c4",
+      "git_blob": "952691dbefac2d3bed89a6707b4de1e7d3670d6c",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/__init__.py",
+      "bytes": 79,
+      "sha256": "30dac27f2a2dd145a9c5cd57d541bf0f7b5983e333e614d92dd4ea1e0586d450",
+      "git_blob": "c1cca038207430d2498e5596eb702840aec65a59",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/banks.py",
+      "bytes": 4601,
+      "sha256": "541fae4a7bbae8052b5a8e2e13f98fe7ccf8996b0f8cff3979561e02c41ebad0",
+      "git_blob": "5e662249d64c1e7a0ed69efc624dc3bf28cb8bd7",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/common_reference/prepare.py",
+      "bytes": 13454,
+      "sha256": "200e72ecc11bcb481df061be9b980a959d09e06f5cd8018b1ab54bb8228cea2f",
+      "git_blob": "317db5bfa0b5a0ed032f415f9ad85f1e85aa5bea",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/common_reference/session.py",
+      "bytes": 5167,
+      "sha256": "de50347be3b7ed27e26cc140cfe5b259af15974b032fa878051a1b20fd771100",
+      "git_blob": "e1933e09ec734740539f375448601e4813654733",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/contracts.py",
+      "bytes": 5479,
+      "sha256": "102ba1feeb3855464ebe7fe72f7c2ad988aeb8d600f76e770618070615015c4b",
+      "git_blob": "e3927405d63dadfd63ebd0a26957c6eb272aab67",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/evaluation.py",
+      "bytes": 3314,
+      "sha256": "cff88486e83d77bb03a8171484ed66ca93230bf1262dac2c0967a16e8d65f537",
+      "git_blob": "569e3cab7370723b98f498297aa5d9b08b350dbf",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/fixture.py",
+      "bytes": 2090,
+      "sha256": "25e729be27b0c0ed2a8413f9469812b4f7b8321f90fd1b7286ea8c14e1088aec",
+      "git_blob": "67de2f47e1bc67081c688a0792a90455a083f605",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/history.py",
+      "bytes": 15453,
+      "sha256": "0294b6abed168cc0cd0a0765e2d343ec0bd25f6b317c864e663559dda393e775",
+      "git_blob": "07d0cbfc14fbe28a686accdf2ebf47194f26bbf9",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/observations.py",
+      "bytes": 8685,
+      "sha256": "cf1a6515a0b2155271f499f2b52360eefdc8121e972c06579a003ab134fe99b7",
+      "git_blob": "5d86bb2dacdc840e19520b8c24f6dc1422722fe2",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_initial_checks.py",
+      "bytes": 7049,
+      "sha256": "131bb95361f09a8870880d7d03df4a2a567c45b4612b5c4705d9cdb16696aa5a",
+      "git_blob": "ddc77906406487ccc446b6524f019107f5aac2e4",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_native_geometry.py",
+      "bytes": 11250,
+      "sha256": "5bd291bbd00120f76363c7e4436ffa2342213e52da6f7daa6e4f99d35bd0272e",
+      "git_blob": "1371fb21cb9403417fc3153043ef968a95ba481c",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_os_binding.py",
+      "bytes": 2668,
+      "sha256": "7a25d958d52006533f0ee8d014659864f07f69af0adbea915bd1d0df2eb00b11",
+      "git_blob": "1d8b1f7420511c873d711e79b31f9bf9ae4374e2",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_partial_analysis.py",
+      "bytes": 5622,
+      "sha256": "231968774fac323f7ae9c04d0c6c7a9bd144c3d8b709739cfc8b209e894cdfbe",
+      "git_blob": "84a01cbc8f824e9298697432a4aca75275d4abe8",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_planner.py",
+      "bytes": 10724,
+      "sha256": "8072f159aa31e3c930ba2ff72bed4326a97c324859ea2cbb88f2308bcd83aef1",
+      "git_blob": "aa1b85d748453284afef5123ac69ecf6d9fc04df",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_a_protocol.py",
+      "bytes": 14952,
+      "sha256": "d9d0b231ccd2e7b13cb84ef3a02ec249af4f94a367adb8b72ef8bdbe8113b7d5",
+      "git_blob": "fb988f1752801497997be9349af26f66120d677d",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_evaluation_binding.py",
+      "bytes": 1953,
+      "sha256": "e51f06e4417341f60696d21b340cfff5648f6d6fecd23861ee1cf487e3be7e07",
+      "git_blob": "33d826015343ee5507b252e0bb8ea9b7f42a254d",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_fixtures.py",
+      "bytes": 1383,
+      "sha256": "3db26ea90b7cf83e991a696ce10c65bf6f70dbc327db4288430865eecdc884ac",
+      "git_blob": "3bdf071aea8a0982f9b24454a6f3654695ac11a1",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_history.py",
+      "bytes": 8391,
+      "sha256": "b82cc7ec8d508f79b8f7cfaa5b6be824ad1a73e32c049f5b08d85d2e4d296a69",
+      "git_blob": "4c582667e4c6c148eaee8939e65f5f193a55d5ba",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_observations.py",
+      "bytes": 3370,
+      "sha256": "059f46654e35faa3e768d6cb5a2c1e3de5c456af1320379026404ba651b86a32",
+      "git_blob": "dbc53c69e5626a7c742d0d8e0b15e08aa144c963",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/a0.slurm.sh",
+      "bytes": 998,
+      "sha256": "6c5e1b4bf874e930388d55f8ded5774dc586665ddafb5260fdf773b09fcf4a9a",
+      "git_blob": "a02430db81c56d87a35784d75318f36aaacddc3e",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/analyze_partial.py",
+      "bytes": 51106,
+      "sha256": "a3db0b15028252b43d4880fec570252842f5ac48a293c426c06375321ab5b5bb",
+      "git_blob": "91c21aca6cdbe338a74e4855a857f53949e0ca04",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/compare_peer.py",
+      "bytes": 7770,
+      "sha256": "294a6bd1e0b34abf829e97ae5ca06231f1f11e6c26ea186e3e8dd567d0ca4c40",
+      "git_blob": "45ef3e6e550008edc95cffa9c086db351ebd33cb",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/delivered.py",
+      "bytes": 1363,
+      "sha256": "6e0cae6dfc9e65b088fb819a3f853e62b93f24ee39494589f753c113fcc86ae0",
+      "git_blob": "cfb591f1ddc0dc43b4bb863b35b8187bd11a2f10",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/initial_checks.py",
+      "bytes": 15900,
+      "sha256": "437ae8f479e54071d81c18c69b9882412f52c154a212f6b8699078a9b3ac442a",
+      "git_blob": "d5af46273df860a515915e549a19551237c1eba6",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/native_geometry.py",
+      "bytes": 18989,
+      "sha256": "c86218b141b25a14283facfb9c5a7993ea96109c053cb452e3486ca8d902f406",
+      "git_blob": "e2500fa898a30956e992b1a5fbf8ea801f5230d4",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/os.slurm.sh",
+      "bytes": 1165,
+      "sha256": "a4e842025946d91312ff731c9f383ac02ec0354e289f41631570041835014fb3",
+      "git_blob": "2c4868a83bd46d7b86de335fb62bb18756e57b52",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/planner.py",
+      "bytes": 10109,
+      "sha256": "0895b4b11f8e10d22843782e2be4b3b9bf26b4a39074ad1403a30098c477f349",
+      "git_blob": "e6e798f1e45a1a56d6bffa12966b505396add8ec",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/prepare.slurm.sh",
+      "bytes": 1214,
+      "sha256": "2b3b5c96df01569a742e5c4f0f66db055ad54ddf63ff207b08d9eba22612106c",
+      "git_blob": "f45d2dfd234e6aa0b0fe27943f419d088d579877",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/protocol.py",
+      "bytes": 13949,
+      "sha256": "339603dd5ec3477793e2850d09e1e2d11173836ea9235368b93fc0e3e582705b",
+      "git_blob": "6bd2c359025ca8f7c521236c613cfc8aaeb1df14",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/run_a0.py",
+      "bytes": 12612,
+      "sha256": "f73ed8004707b1ad075d5c12f13cfa95e81196bb2ae4d1ae9ed7f92d48ce6ff2",
+      "git_blob": "e5ced3059a23f860dd972de86a9156968451f412",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/run_os.py",
+      "bytes": 14618,
+      "sha256": "52d025b067f7a89d5ab71e385f2ca8b5fc0f993eb6c5fc2080a48534e92a6b14",
+      "git_blob": "72d8cb85997b8d07408291e7f33d62eaecc55c12",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r54_pdz_ablation_llama_b100_v1.json",
+      "bytes": 2892,
+      "sha256": "6637ee44ae08370f084a3b72dd7dbdc5a9d8f791e9584ed769ff28daf76fa780",
+      "git_blob": "edfbd39b84d535f73b2bcea5f724eeade4cb5671",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r55_rms_pdz_floored_rate_v1.json",
+      "bytes": 2273,
+      "sha256": "7bef47c320b427af73b883903cccf8c36c88f950d8df16230134580e3983bec2",
+      "git_blob": "95dd3fa852edf5a0a56cf1f252da3ca3500704e5",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_runtime.py",
+      "bytes": 257793,
+      "sha256": "5c0150c694ab7024f72fb9e79897b7c741f5400d6a71a706644479d2f0d04598",
+      "git_blob": "f6a67f84ff229781e8f444f98ca887d722830aa5",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      "bytes": 189521,
+      "sha256": "649d18d9383eee62b2c9e1480a6410031add7291727ad55b828775c414d93aeb",
+      "git_blob": "5f2dbcc494b6be152557232ea1f8a472543dff2b",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_c_writer_kstep_cache_sequential.py",
+      "bytes": 37938,
+      "sha256": "9793c45690530793a9abda0f596eba6260df3a290be3cd19b0ead777290e10e2",
+      "git_blob": "3b74454d0671c2809b25f87a149bd0911b6d53d7",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_joint_pc_fp32_runtime.py",
+      "bytes": 32890,
+      "sha256": "196a3fb1a6374900a6bab93d36494162069379c33d574605f67a6200745544d0",
+      "git_blob": "8a64795428acf5733c58545a092cdfb630967798",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
+      "bytes": 164206,
+      "sha256": "9b55d393931c72b9d11527720816aadc8e97899af05b9e3118d0945c76643e82",
+      "git_blob": "07a03c781234f4aeeef2c2afac56b6477ff3e6a4",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_target_timescale.py",
+      "bytes": 21115,
+      "sha256": "02880f35512e13c357d8a7e290c85ea48e9efce9d28b899f7d6e77e9c2769ef3",
+      "git_blob": "a0f8100b76b25613c16b437a47a4720b06589ea7",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r52_target_timescale_b100.py",
+      "bytes": 18072,
+      "sha256": "fb834311c23282106b216f87b7d07538ad22030fda82584655cb3c7e867c68c6",
+      "git_blob": "82faaac132b834683a37d849356b8532f1ffb1c7",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r54_pdz_ablation.py",
+      "bytes": 27968,
+      "sha256": "294acae983fca6d1979f79d07d30c3333bb0565cbe10062610686456bb17dec2",
+      "git_blob": "a01885ea1c19dea07eb7ff469e4be127287b6424",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r54_pdz_ablation_analysis.py",
+      "bytes": 3135,
+      "sha256": "aefa0cb50224730b18ed4f21fc0ceeb44dcae80a7907fcee97efbdbc5cccc462",
+      "git_blob": "a7b0717966e631cff80b2f0362b842002059c8b8",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r54_pdz_ablation_b100.py",
+      "bytes": 7658,
+      "sha256": "8463c2a018d83492272b6676e96241dc87c25b6c5936d1655420629dbecfe2a7",
+      "git_blob": "fa95bfc96284376b5e4b4bf64c49f4d49d8f1a5c",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r54_pdz_time_sweep_factual_analysis.py",
+      "bytes": 57921,
+      "sha256": "e0b971ef35f0abde299bce41ef2b53ad12b8e6f9fb709477a8f4ff3f27a18e58",
+      "git_blob": "63ba9a75faeadf716674a7cbb9ca20ecb2b4a5d9",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r55_objective_risk.py",
+      "bytes": 16232,
+      "sha256": "8ee48ce1901dfc22776e5c5571bd9d4a44e19bdf41b572f8c6fe2008cc7c385d",
+      "git_blob": "83972e49e259baf1632c2b4d05432884691f67a5",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r55_pdz_floored_rate.py",
+      "bytes": 17494,
+      "sha256": "137333205ece76400d7704f36425fe28bfabdf72775e1ba668addf92ceda25bd",
+      "git_blob": "5329e136ebb38c67bc4cc05079d281da0f7d2e96",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/p1r55_rms_pdz_rate_experiment.py",
+      "bytes": 10105,
+      "sha256": "ca5a8bfa7b8b6f49aab2adfdf4b2bc015bbe0e0b212aa8c58800df5e7e8c926c",
+      "git_blob": "a09cfdf43cbabee7ff0442f7a376d8ed1b3b78fd",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r54_pdz_ablation.py",
+      "bytes": 13529,
+      "sha256": "e8af02356f1db32e58cea862f4fc1a62d3cb75739e9bae978560f69b0fdc352e",
+      "git_blob": "d011af13c606a30b2c2a6298ec540da6b641fae6",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/ode_bf/tests/test_p1r55_rms_pdz_floored_rate.py",
+      "bytes": 15023,
+      "sha256": "4c28e73bc5dd696abbda931e4d146d5a13ab5bb639d8486bd1770624e0c9f124",
+      "git_blob": "24f49e465bbda651497d889fa9140c117d1397a9",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r54_pdz_ablation_b100.py",
+      "bytes": 5282,
+      "sha256": "859ddd8830471e362997d98f1ff05099592ca434f40bb062671efc789f0aa866",
+      "git_blob": "8ec186e74f665600ba14eb96b36b5020226d4958",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r54_pdz_ablation_b100.sbatch",
+      "bytes": 3102,
+      "sha256": "82d00939f1892c2bbf7e7b81e92515b349f40d1160210e2886a7d83cd8430ed6",
+      "git_blob": "f18098a54a710973c3f2d6aadbbc8c6775b38db5",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r54_pdz_ablation_b100_dry_plan.py",
+      "bytes": 2080,
+      "sha256": "c7ace268294b0eeea04de0a142218c3f53403ed614c79c02fcdeb8597a0e3916",
+      "git_blob": "5005e7a9d32e911bcdad76b3dd5d91485b7dfe7e",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r54_pdz_ablation_b100_preflight.py",
+      "bytes": 8279,
+      "sha256": "3f17dda2893e0de59cc7ce580f9a7dec7ce87654b310677689331deab8034da5",
+      "git_blob": "215d0f654242c365fd88c2659b1398979f96b679",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r55_rms_pdz_rate.py",
+      "bytes": 7522,
+      "sha256": "6919743c2cf3f397be9ec74ac3e1ac516dbab142058f6794dcbbe9ca5efbb737",
+      "git_blob": "cd726af91bd249d3357716a2b0816c37dfad6019",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r55_rms_pdz_rate.sbatch",
+      "bytes": 3829,
+      "sha256": "fd6e33b50231dba285622be333287be0e154409c8bbeccbba9a963af852c19fd",
+      "git_blob": "4ec9d92fb59481808d699e4b9672afa39cf8eb83",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r55_rms_pdz_rate_dry_plan.py",
+      "bytes": 2230,
+      "sha256": "c348bba6fb936e689d0a3f4e45402ca25b38ce3bd65d7d838dd88f62793be277",
+      "git_blob": "4a56eda95125bd058fdd66eab2ab5a4a8eb8f276",
+      "mode": "100644"
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r55_rms_pdz_rate_preflight.py",
+      "bytes": 9056,
+      "sha256": "0de8cbcba63fc93d28c850b1c2beff10b7c23b117be231a1c2bfd0262206cf3f",
+      "git_blob": "c38f78d76eeae2a49061b5b467e1cd20947bfea4",
+      "mode": "100644"
+    },
+    {
+      "path": "runs/baseline-mechanism-first-e01-sh1-20260912-v1/first-wave-plan.json",
+      "bytes": 6960,
+      "sha256": "81843f72d1f0a3e83fe92a90afb32c226cc37bd753812b47474642c4aaa4c6c8",
+      "git_blob": "ccd177065f68352a04a5fd704819f7998d794a74",
+      "mode": "100644"
+    },
+    {
+      "path": "transfers/verifications/2026-09-12-baseline-mechanism-first-e01/catalog-intent.json",
+      "bytes": 685,
+      "sha256": "33a4495e2becccc7d98c53fee5acfc304c90e53a917a0ba45a6ad9446df4b89c",
+      "git_blob": "e109e6718bc7148ad30beccb7f904e5e329f288a",
+      "mode": "100644"
+    }
+  ],
+  "member_count": 160,
+  "total_bytes": 23564574,
+  "members_root": "6fd025dcc84a7f25876f9c49759bfcbb9aeb8a8c8310906600522403fa77a98e",
+  "ast_py_compile_count": 54,
+  "bash_n_count": 8,
+  "scope_violations": [],
+  "forbidden_files": [],
+  "manifest_report_reference_checks": [
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/cold-l4-B001.json",
+      "expected": "a8587c8b80b6bd9a2c101272d8cf9666da58324bb9cc64c11d84c1aa893ba04e",
+      "actual": "a8587c8b80b6bd9a2c101272d8cf9666da58324bb9cc64c11d84c1aa893ba04e"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/factual-report-ko.md",
+      "expected": "4082db8f5e46707adcd9a5af91abdb3c7e1c5724089224f5a93eb7b2bf002c20",
+      "actual": "4082db8f5e46707adcd9a5af91abdb3c7e1c5724089224f5a93eb7b2bf002c20"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/warm-l4-B020.json",
+      "expected": "59b75892157b6fedbd31018e03f816c52f12be8e72db2114c23d0219dceb8f23",
+      "actual": "59b75892157b6fedbd31018e03f816c52f12be8e72db2114c23d0219dceb8f23"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/rooted-receipt.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/manifest.json",
+      "expected": "af6457425a0f620896daf20ee47b0fd761c3326d130ae600c9d3d85db749d885",
+      "actual": "af6457425a0f620896daf20ee47b0fd761c3326d130ae600c9d3d85db749d885"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/endpoint-counts.csv",
+      "expected": "7f6db1d5d148f5f249c7c8c2707b326b87a47eddfae9782481cd8a863a1cb728",
+      "actual": "7f6db1d5d148f5f249c7c8c2707b326b87a47eddfae9782481cd8a863a1cb728"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/NLL-summary.csv",
+      "expected": "19fe5494500454906e18e524a0653c4702cbc5d19c4118772279a587a9c9627a",
+      "actual": "19fe5494500454906e18e524a0653c4702cbc5d19c4118772279a587a9c9627a"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/source-evaluation-deltas.csv",
+      "expected": "5733f96221df341ff7dc1e299fa5a9b23084d5da3450fdd0d9d68c4b35879e96",
+      "actual": "5733f96221df341ff7dc1e299fa5a9b23084d5da3450fdd0d9d68c4b35879e96"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/compute-accounting.csv",
+      "expected": "3d60b8ee7b6c447272d2c9f120d64237ba21850f136607c8f598eee7241ae30b",
+      "actual": "3d60b8ee7b6c447272d2c9f120d64237ba21850f136607c8f598eee7241ae30b"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/numeric-checks.json",
+      "expected": "97746cad28f71abbbcbcca94874ec172084fc10d92c3d70f0753516e4db80e61",
+      "actual": "97746cad28f71abbbcbcca94874ec172084fc10d92c3d70f0753516e4db80e61"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/factual-report-ko.md",
+      "expected": "ed1b05dfe19dfd6539d037474392a37b0f616ad9e5bb72db6d473c7b99f48b63",
+      "actual": "ed1b05dfe19dfd6539d037474392a37b0f616ad9e5bb72db6d473c7b99f48b63"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/rooted-receipt.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/manifest.json",
+      "expected": "b1a3d4409832c8b65bc9710454a13b9ed0c99a5f90de481f1bb1b230a5c99fe8",
+      "actual": "b1a3d4409832c8b65bc9710454a13b9ed0c99a5f90de481f1bb1b230a5c99fe8"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/coverage.json",
+      "expected": "681875c4e067ca03043a8f8e1832dbe49b8ba700e91853735169fa1ec038b22e",
+      "actual": "681875c4e067ca03043a8f8e1832dbe49b8ba700e91853735169fa1ec038b22e"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/factual-report-ko.md",
+      "expected": "e543e77f68436b8f937623157a92b1ed78616842cc2055a19d77475ad381e5f2",
+      "actual": "e543e77f68436b8f937623157a92b1ed78616842cc2055a19d77475ad381e5f2"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/paired-performance.csv",
+      "expected": "1c83913a42e83c01d22c90cc5c713d83592b18c1a732cb99205d6286be0d2fb6",
+      "actual": "1c83913a42e83c01d22c90cc5c713d83592b18c1a732cb99205d6286be0d2fb6"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/rooted-receipt.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/performance-comparison-recall-r1/manifest.json",
+      "expected": "114c1dde5611997b9abb363ceb1ed4cdd8a11737265041819d729f1c8c9a8ef6",
+      "actual": "114c1dde5611997b9abb363ceb1ed4cdd8a11737265041819d729f1c8c9a8ef6"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/rooted-receipt.json",
+      "expected": "31f24a9c90b1c0a4ab71dc2d97e2773ca702fc01eb63e691f575ae2c29985d98",
+      "actual": "31f24a9c90b1c0a4ab71dc2d97e2773ca702fc01eb63e691f575ae2c29985d98"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/rooted-receipt.json",
+      "expected": "51c4b96d5fb0fdb7b5e11527404fbe9f70459a465b4699b40da2187271c4dcf4",
+      "actual": "51c4b96d5fb0fdb7b5e11527404fbe9f70459a465b4699b40da2187271c4dcf4"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/batch-continuity.csv",
+      "expected": "9f1d4c6558c7e944b8157b1328b1a8789adcacb0bd4e31c3694fd565183b45cc",
+      "actual": "9f1d4c6558c7e944b8157b1328b1a8789adcacb0bd4e31c3694fd565183b45cc"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/endpoint-counts.csv",
+      "expected": "659c86138c8a47a9635ad1270cd50c5c82f2c514774defb7ccbecbbe062f3f8e",
+      "actual": "659c86138c8a47a9635ad1270cd50c5c82f2c514774defb7ccbecbbe062f3f8e"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/NLL-summary.csv",
+      "expected": "44806ebb7757a2d397edfdc83c7d2128fef3e2feb3cb59a9bceebe243c00e2aa",
+      "actual": "44806ebb7757a2d397edfdc83c7d2128fef3e2feb3cb59a9bceebe243c00e2aa"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/compute-accounting.csv",
+      "expected": "d4eb816e614b8dff484bd17ed20d33022b77e36071de408dc04ecad5c42c036f",
+      "actual": "d4eb816e614b8dff484bd17ed20d33022b77e36071de408dc04ecad5c42c036f"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/nested-native-cost.csv",
+      "expected": "6bd6eca004e846b7a874ec8c80c95328417ef24db82481c78361886edc949bd2",
+      "actual": "6bd6eca004e846b7a874ec8c80c95328417ef24db82481c78361886edc949bd2"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/run-index.csv",
+      "expected": "1e8eb05f478f54905fe20f7618d0070b18a2e6f61b119b5623e390e8fe6fed4b",
+      "actual": "1e8eb05f478f54905fe20f7618d0070b18a2e6f61b119b5623e390e8fe6fed4b"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/verification.json",
+      "expected": "d0f5d15f654aa01862338b7f1148111e0a0ce3d69da4635a6080196985f4aef8",
+      "actual": "d0f5d15f654aa01862338b7f1148111e0a0ce3d69da4635a6080196985f4aef8"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/factual-report-ko.md",
+      "expected": "20f952056690856c7c97e9ee47aae0b0171dd2ee3ba7fa19098aab9374dd6e30",
+      "actual": "20f952056690856c7c97e9ee47aae0b0171dd2ee3ba7fa19098aab9374dd6e30"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/rooted-receipt.json",
+      "member": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/manifest.json",
+      "expected": "b5bed11d1d1f3a17bf596a8137c440149dd072e6d23df22e332deb981ef0fdd4",
+      "actual": "b5bed11d1d1f3a17bf596a8137c440149dd072e6d23df22e332deb981ef0fdd4"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/identity-checks.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/signed-attribution.csv",
+      "expected": "ebe9ac0e8d0bda4ccc5e4027f69e8a9b2d9e00d71dedf4132c51c035346e763a",
+      "actual": "ebe9ac0e8d0bda4ccc5e4027f69e8a9b2d9e00d71dedf4132c51c035346e763a"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/identity-checks.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/manifest.json",
+      "expected": "097450bca315856fbc70b2b7a4bf631eba4a18bc58bb1e7d2e55da26d3f4971e",
+      "actual": "097450bca315856fbc70b2b7a4bf631eba4a18bc58bb1e7d2e55da26d3f4971e"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/identity-checks.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/rooted-receipt.json",
+      "expected": "751089e08bfbd00ddd234feb21d4bc0ef8efda4ba947b10aebb52c033a7f6da0",
+      "actual": "751089e08bfbd00ddd234feb21d4bc0ef8efda4ba947b10aebb52c033a7f6da0"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/manifest.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/signed-attribution.csv",
+      "expected": "ebe9ac0e8d0bda4ccc5e4027f69e8a9b2d9e00d71dedf4132c51c035346e763a",
+      "actual": "ebe9ac0e8d0bda4ccc5e4027f69e8a9b2d9e00d71dedf4132c51c035346e763a"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/manifest.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/manifest.json",
+      "expected": "097450bca315856fbc70b2b7a4bf631eba4a18bc58bb1e7d2e55da26d3f4971e",
+      "actual": "097450bca315856fbc70b2b7a4bf631eba4a18bc58bb1e7d2e55da26d3f4971e"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-attribution-v2/manifest.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/partial-middle-v1/rooted-receipt.json",
+      "expected": "751089e08bfbd00ddd234feb21d4bc0ef8efda4ba947b10aebb52c033a7f6da0",
+      "actual": "751089e08bfbd00ddd234feb21d4bc0ef8efda4ba947b10aebb52c033a7f6da0"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/manifest.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/comparison-ko.md",
+      "expected": "d43a990cbf3224a4c2c7d7cddbf975214fbdda4386f28d72a5e66a402ea4eeb9",
+      "actual": "d43a990cbf3224a4c2c7d7cddbf975214fbdda4386f28d72a5e66a402ea4eeb9"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/manifest.json",
+      "member": "experiment-reports/servers/server1/multilayer-joint-edit-a-2026-09-11-v1/peer-comparison-v1/same-entry-summary.csv",
+      "expected": "8129c689d20da14399b950834814f35eb55df7e1de6f2d3b440e5203c360622b",
+      "actual": "8129c689d20da14399b950834814f35eb55df7e1de6f2d3b440e5203c360622b"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/aggregates.json",
+      "expected": "60622b74a6d059294c2de633b32a0f6122284da7ac4ef6d8e97b8fdde8c563fc",
+      "actual": "60622b74a6d059294c2de633b32a0f6122284da7ac4ef6d8e97b8fdde8c563fc"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/paired-request-deltas.csv",
+      "expected": "5472457dde5efbdbc88d14d06e679b9adfcd3649f0ad2918b2a619a48032d484",
+      "actual": "5472457dde5efbdbc88d14d06e679b9adfcd3649f0ad2918b2a619a48032d484"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/compute.csv",
+      "expected": "6ffc8d4f426da95771be751cd80d3d2e4017b5f12266cb6f052772cc26ab2c1c",
+      "actual": "6ffc8d4f426da95771be751cd80d3d2e4017b5f12266cb6f052772cc26ab2c1c"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/analysis-manifest.json",
+      "expected": "a1765961854deb2b2b078a94f1365dc535c647fddec515ffe2e4c5c994a1d685",
+      "actual": "a1765961854deb2b2b078a94f1365dc535c647fddec515ffe2e4c5c994a1d685"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server4/p1r54-energyfree-localz-llama-b100-2026-08-24-v3/source-receipt.json",
+      "expected": "673933a3d5de212449863c00f941dbcf03d24f0f513aa4b47514b7dd07fda5ce",
+      "actual": "673933a3d5de212449863c00f941dbcf03d24f0f513aa4b47514b7dd07fda5ce"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/p1r54-pdz-target-time-sweep-llama-b100-factual-ko.md",
+      "expected": "83cabd07349af8245a2d1b2aa78bdd3d9e645c155e0cce8607ca0d2e8b96972c",
+      "actual": "83cabd07349af8245a2d1b2aa78bdd3d9e645c155e0cce8607ca0d2e8b96972c"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/aggregates.json",
+      "expected": "e598b07fd60a1cdf223a5f348a2621cf3c75b0caed239254d3e734d212365bdd",
+      "actual": "e598b07fd60a1cdf223a5f348a2621cf3c75b0caed239254d3e734d212365bdd"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/terminal-z-w-nll.csv",
+      "expected": "ca4865c6f68a3b81fb8831e79db508da21a13059b3021d82556dd609bb32057d",
+      "actual": "ca4865c6f68a3b81fb8831e79db508da21a13059b3021d82556dd609bb32057d"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/paired-target-time-gains.csv",
+      "expected": "a90c881780460b7088bce8e2bc1b79585a2f6a10ea5e9b3f53145828ba801175",
+      "actual": "a90c881780460b7088bce8e2bc1b79585a2f6a10ea5e9b3f53145828ba801175"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/microstep-trajectory.csv",
+      "expected": "55b4fa4ca9f876babe7fa31317429eddbf95322a3777490578f56b7c57641221",
+      "actual": "55b4fa4ca9f876babe7fa31317429eddbf95322a3777490578f56b7c57641221"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/microstep-summary.csv",
+      "expected": "6cd598eedc7b2c288eba857c3ae267931635a9bd31f231b6a07183cf9713dbd7",
+      "actual": "6cd598eedc7b2c288eba857c3ae267931635a9bd31f231b6a07183cf9713dbd7"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/outer-writer.csv",
+      "expected": "f140922fa35cfe682d40f53bdf60db0f46a9cb08c8fa4b271a3c936c7477bebe",
+      "actual": "f140922fa35cfe682d40f53bdf60db0f46a9cb08c8fa4b271a3c936c7477bebe"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/outer-writer-summary.csv",
+      "expected": "bed01c1b87d9a7fa25cf0c7b85aadc3e04ddb3232388bf383804860d1cfe591d",
+      "actual": "bed01c1b87d9a7fa25cf0c7b85aadc3e04ddb3232388bf383804860d1cfe591d"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/writer-transfer.csv",
+      "expected": "cb8228207165e935706a5be679914388eaef9008b620903f2ba740a34e09d41b",
+      "actual": "cb8228207165e935706a5be679914388eaef9008b620903f2ba740a34e09d41b"
+    },
+    {
+      "manifest": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/analysis-manifest.json",
+      "member": "experiment-reports/servers/server1/p1r54-pdz-target-time-sweep-llama-b100-2026-08-24-v4/compute.csv",
+      "expected": "b4bbe842821eb915a835b550aebc386309b303714d933a14196f6b56cf777ee9",
+      "actual": "b4bbe842821eb915a835b550aebc386309b303714d933a14196f6b56cf777ee9"
+    }
+  ],
+  "manifest_mismatches": [],
+  "prompt_named_fields_category_only": 28,
+  "raw_prompt_publication_count": 0,
+  "format_exceptions": "기존 CSV CRLF 및 Markdown hardbreak 보존. Git mode100644/100755는 원 실행0600 보증이 아님.",
+  "model_gpu_scheduler_transfer_actions": 0,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
