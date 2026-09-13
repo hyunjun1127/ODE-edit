@@ -1,0 +1,28 @@
+{
+  "age_cutpoints": [
+    1000,
+    3000,
+    6000,
+    9000
+  ],
+  "common_success": "EXACT_PROMPT_ATWRITE_SUCCESS_IN_ALL_FIVE_LAYERS",
+  "edges": "bisect_right: cutpoint belongs to bin above it",
+  "margin_cutpoints": [
+    -2,
+    0,
+    0.5,
+    1,
+    2,
+    4,
+    8
+  ],
+  "primary_population": "ALL_ORIGINAL_PROMPTS",
+  "selection_uses_final_outcomes": false,
+  "status": "EXPLORATORY_DESCRIPTIVE_NOT_PREREGISTERED_EXPERIMENT_GATE",
+  "support": "INTERSECTION_OF_OCCUPIED_RELATION_MARGIN_AGE_NEW_TOKEN_BINS",
+  "token_length_cutpoints": [
+    2,
+    4,
+    8
+  ]
+}

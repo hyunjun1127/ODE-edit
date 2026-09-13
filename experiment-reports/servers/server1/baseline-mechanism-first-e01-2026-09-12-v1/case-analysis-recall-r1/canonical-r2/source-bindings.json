@@ -1,0 +1,122 @@
+[
+  {
+    "arm": "AlphaEdit_L4_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+    "family": "AlphaEdit",
+    "layer": 4,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "a7155e206108234e60613f5d2e1d713c368c4f179c8ddbb357410679cc9a6445",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "AlphaEdit_L5_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "217d45bf068ed8956a99d0310dfa0cc26c9dff9507900509cd5bc102f3e9939d",
+    "family": "AlphaEdit",
+    "layer": 5,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "b45fe20089b8e9946e7d757f520043da18a66e6bf0720d16e724d1da62331714",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "3972c61f0fbcadc975039e27f4b1587280da4fb1a01d758ade599c6e6e5d1dd6",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "AlphaEdit_L6_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "e30485e28cbbf69e79de3d3c8596b5d88d683cedb0871dd77fdd70e6081bbcf9",
+    "family": "AlphaEdit",
+    "layer": 6,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "9c54f1ba3e45a8bfcf538b892d5ef3cfb423c50e9f1369c5fbb7dcb469c96232",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "87835c7dc59585c2b3c8f716f11205c5f8084a7bc19e5d41360bffdeaf28fab5",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "AlphaEdit_L7_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "57b64e8044c3cbc725f385b2fa5a8f8810fc0ef5d75c3f157c6e474f2ba64edf",
+    "family": "AlphaEdit",
+    "layer": 7,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "5b9968ddfaa8d07ac4c67065bf94130701ebb8938eb5caffdcbc6ed0239bf991",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "6f6be6095dde453ddb3e8133a43dcd153a4cbcae3440b9fa804b8f781c8fb5eb",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "AlphaEdit_L8_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "753a762b333edaf770585b6ebbeea7ca71f4bc881683ac7aa00950fe7a23f55d",
+    "family": "AlphaEdit",
+    "layer": 8,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "dfe1781baf1a0656628e2425df3683ce20f7ea507d7e1f5da30ef99f75ff5ec6",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "f7be256a7d4e0dba1773f5dd1c0416f88a9d8ef85d10cb46ecb0cadd9abceda9",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "MEMIT_L4_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "15908e0ff7233e9895376d87eddc36dcd116749b1800a399aa9b65e2b1f07a7f",
+    "family": "MEMIT",
+    "layer": 4,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "92c8e1714f364261adf3f6c38bd888da1f31266e3b21690fdeddc6ff86c952f2",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "18a0e23a212afa9ebde504747c5815c0197149696fda79ff3b7cd88176c9ed84",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "MEMIT_L5_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "b038d880ef6770ee4f5f4e53e7dcb4233a40fba0b5e16025185498b457de0ea6",
+    "family": "MEMIT",
+    "layer": 5,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "e7d7647757f2b3cf2c86391bdc3937fbf4dc65ef8b175f701d231a6eb8e4b517",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "fe5d19ece739c04b21d7f70791ad4d8f01641d89a6419568e1923477df74e0dc",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "MEMIT_L6_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "7c5b5a21cde1a31dac3764c6a1f3d7139978099c2a35d9ff3f510c9da8dd2456",
+    "family": "MEMIT",
+    "layer": 6,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "ea012220bc59cce3b28ecfef55ba3c447e9043a760ba6e8c17388dc666b5bf11",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "56eb3dc5f55f46b5fad4b2fd2a166e4b490f27ce494dd1e56d7d0d896d3b60ee",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "MEMIT_L7_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "07b41700402f5d5ebfd589dc9b929e68df76b976280985ece1e97b32c86e6f67",
+    "family": "MEMIT",
+    "layer": 7,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "cd7edce77b229a1489e9530a0cd607aaa96a6b32a46424d5d76a551fda219857",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "7cde9425a36537d4e15d97fe6261cc205ca7dfbf63b44110f7a714f606a6bb1f",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  },
+  {
+    "arm": "MEMIT_L8_ONLY",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "config_sha256": "9007d4ffdb14376dab8ef4388e2b6bdaf35053cbc9f55725641fb10c33a0f1d1",
+    "family": "MEMIT",
+    "layer": 8,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime_sha256": "8e08629d2ba3f9e9a34a5bbad1caf7e8065031eac8164be0881901a0a626587e",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_identity": "753e3422d7bfe7c05716219dc5d7e626f390af28ce601fafd355526e3c709cca",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323"
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "schema": "ode-edit-s05-p1r54-pdz-ablation-llama-b100-numerical-lock/v1",
+  "instruction_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
+  "authoritative_contract_sha256": "d9f5ee879534bb5f33c6741cf39b1ff3bfb938d07238842f584bfb44f6b9195e",
+  "model_alias": "llama3-8b-inst",
+  "selected_batch": "B1",
+  "selected_request_count": 100,
+  "physical_outer_count": 8,
+  "target_dt": 0.125,
+  "arms": [
+    {
+      "arm": "PDZ-T2-PRC",
+      "microsteps_per_outer": 2,
+      "target_horizon": 2.0,
+      "field_gradient_count": 16,
+      "primary_evaluation_count": 16,
+      "selector_count": 16,
+      "finite_demand_builder_count": 8,
+      "writer_count": 8,
+      "writer_layer_apply_count": 40
+    },
+    {
+      "arm": "PDZ-T3-PRC",
+      "microsteps_per_outer": 3,
+      "target_horizon": 3.0,
+      "field_gradient_count": 24,
+      "primary_evaluation_count": 24,
+      "selector_count": 24,
+      "finite_demand_builder_count": 8,
+      "writer_count": 8,
+      "writer_layer_apply_count": 40
+    },
+    {
+      "arm": "PDZ-T5-PRC",
+      "microsteps_per_outer": 5,
+      "target_horizon": 5.0,
+      "field_gradient_count": 40,
+      "primary_evaluation_count": 40,
+      "selector_count": 40,
+      "finite_demand_builder_count": 8,
+      "writer_count": 8,
+      "writer_layer_apply_count": 40
+    },
+    {
+      "arm": "PDZ-T1-DIRECT",
+      "microsteps_per_outer": 1,
+      "target_horizon": 1.0,
+      "field_gradient_count": 8,
+      "primary_evaluation_count": 8,
+      "selector_count": 0,
+      "rescue_count": 0,
+      "current_count": 0,
+      "selection_type": "DIRECT_EULER",
+      "finite_demand_builder_count": 8,
+      "writer_count": 8,
+      "writer_layer_apply_count": 40,
+      "scientific_boundary": "SCIENTIFIC_BOUNDARY_NTSM_PRE_WRITE"
+    }
+  ],
+  "pdz": {
+    "rho_formula": "rho_i=norm(z0_i)",
+    "rho_capture_global_ordinal": 0,
+    "rho_refresh_count": 0,
+    "deficit_formula": "-expm1(-current_target_new_nll_i)",
+    "direction_authority": "P1R52_RSA_R42_ONE_SIDED_SAFE_KL_DECAY_ORIGIN_CLAMP",
+    "field_recompute_each_microstep": true
+  },
+  "writer": {
+    "authority": "C3_OFFICIAL_ALPHAEDIT_KSTEP_CACHE",
+    "inner_writer_materialization_history_cache_append_count": 0,
+    "outer_writer_count": 8,
+    "layer_apply_count": 40,
+    "heldout_outer_indices": [8],
+    "heldout_decision_influence_count": 0
+  },
+  "stream": {
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "order_root": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "sample_duplication_count": 0
+  },
+  "dtype": {
+    "model_and_algorithm": "FULL_FP32",
+    "bf16_fp16_autocast_quantization_numeric_storage_cast_count": 0
+  },
+  "adaptive_retry_fallback_early_stop_count": 0,
+  "scientific_promotion": false,
+  "root_digest": "dd7b36b2a24da704fb7c66dd7f0b61a7678fa1ab63a9747bf18d69a9f46ea7ec"
+}

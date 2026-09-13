@@ -1,0 +1,9 @@
+component,seconds,additive
+model_load,11.551598524674773,True
+native_B100,806.5390968527645,True
+signed_initial,2.8505674209445715,True
+evaluation_W0,44.80618177168071,True
+evaluation_NATIVE,45.532710099592805,True
+unitemized_program_overhead,256.83224598504603,True
+allocation_minus_program_elapsed,6.887599345296621,True
+TOTAL_GPU_ALLOCATION,1175,False

@@ -115,6 +115,8 @@ def run_target_timescale_b100(
     easyedit_root: Path = Path("/data/janghj/EasyEdit"),
     target_schedule_override: TargetSubcycleSchedule | None = None,
     amplitude_policy: Any | None = None,
+    target_subcycle_runner: Any | None = None,
+    objective_evaluator: Any | None = None,
     realization_controller: Any | None = None,
     heldout_k_indices: tuple[int, ...] | None = None,
     experiment_instruction_id: str = INSTRUCTION_ID,
@@ -226,6 +228,8 @@ def run_target_timescale_b100(
                     c_kstep_writer_factory=factory,
                     target_subcycle_schedule=target_schedule,
                     amplitude_policy=amplitude_policy,
+                    target_subcycle_runner=target_subcycle_runner,
+                    objective_evaluator=objective_evaluator,
                     realization_controller=realization_controller,
                     easyedit_root=easyedit_root,
                 )

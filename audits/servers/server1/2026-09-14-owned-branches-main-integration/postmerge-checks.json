@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "checked_source_head": "4728313bfc214a42ebf49c851fcf984089ab3d92",
+  "preserved_peer_main": "a2ecac5458d533f841e3f9e696865b07bb9f7956",
+  "peer_unchanged_blob_count": 105,
+  "composition_file": "project/run_scripts/ode_bf/p1r52_sequential_runtime.py",
+  "composition_evidence": "SH2 native-z dispatch and SH1 P1R54/P1R55 role paths coexist; postmerge 230 tests PASS",
+  "scope_exception": {
+    "path": "tasks/status/server1/2026-09-14-owned-branches-main-integration.json",
+    "authority": "exact user policy20260914",
+    "legacy_helper_exit": 7
+  },
+  "audit_members": [
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/branch-inventory.csv",
+      "bytes": 151874,
+      "sha256": "e23bd8e0b3fff986bd5d0b9f897a08917edc274e43922856e89c35e4f798c272"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/finalize_inventory.py",
+      "bytes": 6367,
+      "sha256": "c1e3aa829f8be8e60b2883ff6ec465474a5784ed25ec13236b9a08a75ce2ed51"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/focused-tests.json",
+      "bytes": 907,
+      "sha256": "614ba9bdaacc430e46dac846192da3ba5870ef3ed0b61d6800acbc0785d110c3"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/focused_checks.py",
+      "bytes": 2930,
+      "sha256": "5ce87c0661db3d2557d0ba9f2a2d04dea614120c880db7a41b65c83500fbcaac"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/integration-report.md",
+      "bytes": 10829,
+      "sha256": "f5cfc081b9af15da668a3946190a98280a57bc7dc21b970867ac814627c33cf6"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/inventory-after.json",
+      "bytes": 639104,
+      "sha256": "9d49b09fb07063642419da6effe41f98e9f492f544c4361b8cdb9b91a79f7c58"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/inventory-before.json",
+      "bytes": 597031,
+      "sha256": "a697d3a6e33b14333ab98fe23b87d03c9688a0147be33b7533a7147be5b7eb22"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/inventory.py",
+      "bytes": 4467,
+      "sha256": "97e8d167e033e84202a70121be3b4871586f4520521c8d7e33ef28f7bd9b19e2"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/postmerge-focused-tests.json",
+      "bytes": 908,
+      "sha256": "ccec2cd06baadf51030440af70987cbc3237c578fe3e712ea456269a20d3a1b3"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/postmerge_checks.py",
+      "bytes": 2976,
+      "sha256": "876923b74de46741c198df6c93b4b1940fd33742dee7697a8c028d0b1dea6e4a"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/publication-checks.json",
+      "bytes": 73675,
+      "sha256": "86d1eded831ba42854fce60cbbc89699ded61520f5bf058b038194d06bfbe346"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/publication_checks.py",
+      "bytes": 5011,
+      "sha256": "5f07463134ecaafe52ca83963dc025c726e569d02a436e6134e39f8b322be9da"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/remaining-files.csv",
+      "bytes": 11255,
+      "sha256": "34173f8258c36e4a8b260bd7907352fac0670798992802b44aa19f2c44fc6ceb"
+    },
+    {
+      "path": "audits/servers/server1/2026-09-14-owned-branches-main-integration/run_cpu_checks.py",
+      "bytes": 3786,
+      "sha256": "a8b6f970116302e1dd1a9b86d44d743f0212bf904e69cebf453d6a7de73fb25a"
+    }
+  ],
+  "audit_member_root": "9c2db29ba7ceb5ff3f9c028eab30bcbf466646a412fc2c2572df6e39302eebc9",
+  "audit_self_and_publication_receipt_excluded": true,
+  "new_gpu_model_scheduler_raw_actions": 0
+}

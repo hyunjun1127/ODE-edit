@@ -1,0 +1,278 @@
+{
+  "AlphaEdit/NS": {
+    "common_strata": 1480,
+    "groups": {
+      "AlphaEdit_L4_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 40118,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99837,
+        "excluded_count": 163,
+        "excluded_rate": 0.00163
+      },
+      "AlphaEdit_L5_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 40118,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99871,
+        "excluded_count": 129,
+        "excluded_rate": 0.00129
+      },
+      "AlphaEdit_L6_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 40118,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99846,
+        "excluded_count": 154,
+        "excluded_rate": 0.00154
+      },
+      "AlphaEdit_L7_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 40118,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99822,
+        "excluded_count": 178,
+        "excluded_rate": 0.00178
+      },
+      "AlphaEdit_L8_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 40118,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99836,
+        "excluded_count": 164,
+        "excluded_rate": 0.00164
+      }
+    },
+    "union_strata": 1625
+  },
+  "AlphaEdit/PS": {
+    "common_strata": 841,
+    "groups": {
+      "AlphaEdit_L4_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 16399,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19622,
+        "excluded_count": 378,
+        "excluded_rate": 0.0189
+      },
+      "AlphaEdit_L5_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 16399,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19554,
+        "excluded_count": 446,
+        "excluded_rate": 0.0223
+      },
+      "AlphaEdit_L6_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 16399,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19335,
+        "excluded_count": 665,
+        "excluded_rate": 0.03325
+      },
+      "AlphaEdit_L7_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 16399,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19010,
+        "excluded_count": 990,
+        "excluded_rate": 0.0495
+      },
+      "AlphaEdit_L8_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 16399,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 18582,
+        "excluded_count": 1418,
+        "excluded_rate": 0.0709
+      }
+    },
+    "union_strata": 1479
+  },
+  "AlphaEdit/RS": {
+    "common_strata": 288,
+    "groups": {
+      "AlphaEdit_L4_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9959,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9827,
+        "excluded_count": 173,
+        "excluded_rate": 0.0173
+      },
+      "AlphaEdit_L5_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9959,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9859,
+        "excluded_count": 141,
+        "excluded_rate": 0.0141
+      },
+      "AlphaEdit_L6_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9959,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9902,
+        "excluded_count": 98,
+        "excluded_rate": 0.0098
+      },
+      "AlphaEdit_L7_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9959,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9833,
+        "excluded_count": 167,
+        "excluded_rate": 0.0167
+      },
+      "AlphaEdit_L8_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9959,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9784,
+        "excluded_count": 216,
+        "excluded_rate": 0.0216
+      }
+    },
+    "union_strata": 537
+  },
+  "MEMIT/NS": {
+    "common_strata": 1454,
+    "groups": {
+      "MEMIT_L4_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 38198,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99730,
+        "excluded_count": 270,
+        "excluded_rate": 0.0027
+      },
+      "MEMIT_L5_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 38198,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99807,
+        "excluded_count": 193,
+        "excluded_rate": 0.00193
+      },
+      "MEMIT_L6_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 38198,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99782,
+        "excluded_count": 218,
+        "excluded_rate": 0.00218
+      },
+      "MEMIT_L7_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 38198,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99817,
+        "excluded_count": 183,
+        "excluded_rate": 0.00183
+      },
+      "MEMIT_L8_ONLY": {
+        "all_population_denominator": 100000,
+        "common_atwrite_success_denominator": 38198,
+        "common_prompt_denominator": 100000,
+        "common_support_denominator": 99805,
+        "excluded_count": 195,
+        "excluded_rate": 0.00195
+      }
+    },
+    "union_strata": 1611
+  },
+  "MEMIT/PS": {
+    "common_strata": 951,
+    "groups": {
+      "MEMIT_L4_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 15191,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19676,
+        "excluded_count": 324,
+        "excluded_rate": 0.0162
+      },
+      "MEMIT_L5_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 15191,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19549,
+        "excluded_count": 451,
+        "excluded_rate": 0.02255
+      },
+      "MEMIT_L6_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 15191,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 19038,
+        "excluded_count": 962,
+        "excluded_rate": 0.0481
+      },
+      "MEMIT_L7_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 15191,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 18922,
+        "excluded_count": 1078,
+        "excluded_rate": 0.0539
+      },
+      "MEMIT_L8_ONLY": {
+        "all_population_denominator": 20000,
+        "common_atwrite_success_denominator": 15191,
+        "common_prompt_denominator": 20000,
+        "common_support_denominator": 18825,
+        "excluded_count": 1175,
+        "excluded_rate": 0.05875
+      }
+    },
+    "union_strata": 1522
+  },
+  "MEMIT/RS": {
+    "common_strata": 396,
+    "groups": {
+      "MEMIT_L4_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9533,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9879,
+        "excluded_count": 121,
+        "excluded_rate": 0.0121
+      },
+      "MEMIT_L5_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9533,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9776,
+        "excluded_count": 224,
+        "excluded_rate": 0.0224
+      },
+      "MEMIT_L6_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9533,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9454,
+        "excluded_count": 546,
+        "excluded_rate": 0.0546
+      },
+      "MEMIT_L7_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9533,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 9339,
+        "excluded_count": 661,
+        "excluded_rate": 0.0661
+      },
+      "MEMIT_L8_ONLY": {
+        "all_population_denominator": 10000,
+        "common_atwrite_success_denominator": 9533,
+        "common_prompt_denominator": 10000,
+        "common_support_denominator": 8867,
+        "excluded_count": 1133,
+        "excluded_rate": 0.1133
+      }
+    },
+    "union_strata": 1060
+  }
+}

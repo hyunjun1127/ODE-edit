@@ -56,7 +56,7 @@ class TargetSubcycleSchedule:
             or self.microsteps_per_outer <= 0
             or self.outer_count != 8
             or self.target_horizon <= 0
-            or self.target_horizon > 3
+            or self.target_horizon > 5
             or self.target_dt <= 0
             or self.microsteps_per_outer * self.target_dt
             != self.target_horizon / self.outer_count

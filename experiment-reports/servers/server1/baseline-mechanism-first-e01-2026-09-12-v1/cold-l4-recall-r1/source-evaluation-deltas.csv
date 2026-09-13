@@ -1,0 +1,4 @@
+metric,denominator,identity_exact,success_disagreements,maximum_abs_NLL_delta,mean_new_NLL_delta,mean_true_NLL_delta,equivalent_original_trajectory_claim
+RS,100,True,0,0.015550613403320312,3.9349466533167284e-06,0.0004141807556152344,False
+PS,200,True,0,0.01920032501220703,9.184102702420205e-05,0.0001014631986618042,False
+NS,1000,True,0,0.0012722015380859375,-7.414089515805245e-06,-2.4714304599910974e-06,False

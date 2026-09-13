@@ -78,6 +78,10 @@ class Phase3SequentialExperimentBinding:
     metadata: Mapping[str, Any]
     realization_controller_factory: Callable[[int, int], Any] | None = None
     writer_cadence: WriterCadence = WriterCadence.KSTEP_EACH_OUTER
+    objective_evaluator_factory: Callable[[int, int], Any] | None = None
+    probe_batch_index: int | None = None
+    canonical_prefix_amplitude_policy_factory: Callable[[int, int], Any] | None = None
+    canonical_prefix_objective_evaluator_factory: Callable[[int, int], Any] | None = None
 
     def __post_init__(self) -> None:
         if (
@@ -98,11 +102,31 @@ class Phase3SequentialExperimentBinding:
                 )
             )
             or not callable(self.selected_target_resolver)
-            or self.heldout_step_indices != (7,)
+            or self.heldout_step_indices not in ((7,), (0, 3, 7))
             or not callable(self.amplitude_policy_factory)
             or (
                 self.realization_controller_factory is not None
                 and not callable(self.realization_controller_factory)
+            )
+            or (
+                self.objective_evaluator_factory is not None
+                and not callable(self.objective_evaluator_factory)
+            )
+            or (
+                self.probe_batch_index is not None
+                and (
+                    isinstance(self.probe_batch_index, bool)
+                    or not 1 <= self.probe_batch_index <= ROUND_COUNT
+                    or not callable(self.canonical_prefix_amplitude_policy_factory)
+                    or not callable(self.canonical_prefix_objective_evaluator_factory)
+                )
+            )
+            or (
+                self.probe_batch_index is None
+                and (
+                    self.canonical_prefix_amplitude_policy_factory is not None
+                    or self.canonical_prefix_objective_evaluator_factory is not None
+                )
             )
             or not self.easyedit_root.is_absolute()
             or not isinstance(self.writer_cadence, WriterCadence)
@@ -117,7 +141,7 @@ def validate_phase3_batch_chain(
 
     if (
         isinstance(expected_count, bool)
-        or expected_count != ROUND_COUNT
+        or not 1 <= expected_count <= ROUND_COUNT
         or len(rows) != expected_count
         or any(
             row.get("batch_index") != index
@@ -228,7 +252,7 @@ def run_phase3(
     prior_official_exit_sha256: str | None = None
     batch_rows: list[dict[str, Any]] = []
     batch_shas: list[str] = []
-    cohort_cases: list[tuple[Any, ...]] = []
+    cohort_cases: list[tuple[int, tuple[Any, ...]]] = []
     started = time.perf_counter()
     from easyeditor.models.alphaedit import AlphaEdit_main as alpha_main
 
@@ -262,11 +286,22 @@ def run_phase3(
                         else experiment_binding.writer_cadence
                     ),
                 )
+                prefix_replay = bool(
+                    experiment_binding is not None
+                    and experiment_binding.probe_batch_index is not None
+                    and batch_index < experiment_binding.probe_batch_index
+                )
                 amplitude_policy = (
                     None
                     if experiment_binding is None
-                    else experiment_binding.amplitude_policy_factory(
-                        batch_index, len(requests)
+                    else (
+                        experiment_binding.canonical_prefix_amplitude_policy_factory(
+                            batch_index, len(requests)
+                        )
+                        if prefix_replay
+                        else experiment_binding.amplitude_policy_factory(
+                            batch_index, len(requests)
+                        )
                     )
                 )
                 realization_controller = (
@@ -275,6 +310,23 @@ def run_phase3(
                     or experiment_binding.realization_controller_factory is None
                     else experiment_binding.realization_controller_factory(
                         batch_index, len(requests)
+                    )
+                )
+                objective_evaluator = (
+                    None
+                    if experiment_binding is None
+                    else (
+                        experiment_binding.canonical_prefix_objective_evaluator_factory(
+                            batch_index, len(requests)
+                        )
+                        if prefix_replay
+                        else (
+                            None
+                            if experiment_binding.objective_evaluator_factory is None
+                            else experiment_binding.objective_evaluator_factory(
+                                batch_index, len(requests)
+                            )
+                        )
                     )
                 )
                 created: list[CKStepWriterRuntime] = []
@@ -324,6 +376,7 @@ def run_phase3(
                                 experiment_binding.target_subcycle_schedule
                             ),
                             amplitude_policy=amplitude_policy,
+                            objective_evaluator=objective_evaluator,
                             realization_controller=realization_controller,
                             easyedit_root=experiment_binding.easyedit_root,
                         )
@@ -392,10 +445,13 @@ def run_phase3(
                             for accepted in outer_transitions
                             for micro in accepted["target_update"]["microstep_receipts"]
                         ]
+                        expected_field_evaluations = int(
+                            experiment_binding.target_subcycle_schedule.total_field_evaluations
+                        )
                         if (
-                            len(microstep_trajectory) != P1R23_GRID_COUNT
+                            len(microstep_trajectory) != expected_field_evaluations
                             or amplitude_terminal.get("amplitude_call_count")
-                            != P1R23_GRID_COUNT
+                            != expected_field_evaluations
                             or amplitude_terminal.get("rho_refresh_count") != 0
                             or amplitude_terminal.get("forbidden_decision_access_count")
                             != 0
@@ -425,7 +481,12 @@ def run_phase3(
                             expected_batch_size=BATCH_SIZE,
                         )
                     )
-                    cohort_cases.append(loaded_cases)
+                    if (
+                        experiment_binding is None
+                        or experiment_binding.probe_batch_index is None
+                        or batch_index == experiment_binding.probe_batch_index
+                    ):
+                        cohort_cases.append((batch_index, loaded_cases))
                     payload: dict[str, Any] = {
                         "schema": (
                             "ode-edit-s05-p1r52-c-writer-phase3-batch/v1"
@@ -464,6 +525,11 @@ def run_phase3(
                         "rollback_count": 0,
                         "retry_count": 0,
                         "imputation_count": 0,
+                        "warm_snapshot_prefix_replay": prefix_replay,
+                        "scientific_probe_batch": bool(
+                            experiment_binding is not None
+                            and experiment_binding.probe_batch_index == batch_index
+                        ),
                         "batch_total_seconds": time.perf_counter() - batch_started,
                         "dtype_contract": {
                             "status": "FULL_FP32_PASS",
@@ -484,7 +550,10 @@ def run_phase3(
                                 "outer_transitions": outer_transitions,
                                 "microstep_trajectory": microstep_trajectory,
                                 "amplitude_policy_terminal": amplitude_terminal,
-                                "heldout_outer_indices": [8],
+                                "heldout_outer_indices": [
+                                    index + 1
+                                    for index in experiment_binding.heldout_step_indices
+                                ],
                                 "heldout_evaluator_decision_influence_count": 0,
                                 "writer_layer_apply_count": sum(
                                     int(item.compute["native_apply_count"])
@@ -547,13 +616,18 @@ def run_phase3(
                         "full_fp32": True,
                     },
                 )
+                if (
+                    experiment_binding is not None
+                    and experiment_binding.probe_batch_index == batch_index
+                ):
+                    break
 
             final_hashes = _hashes(touched)
             final_rows = []
-            for batch_index, loaded_cases in enumerate(cohort_cases, start=1):
+            for batch_index, loaded_cases in cohort_cases:
                 freeze = EndpointActionFreeze(
                     arm=f"{arm}-final-b{batch_index:02d}",
-                    sequential_batch=ROUND_COUNT - 1,
+                    sequential_batch=len(batch_rows) - 1,
                     request_order_sha256=batch_rows[batch_index - 1]["request_order_sha256"],
                     selected_snapshot_sha256=canonical_hash(final_hashes),
                     fixed_budget_slots_completed=P1R23_GRID_COUNT,
@@ -565,7 +639,14 @@ def run_phase3(
             sequential_chain = (
                 None
                 if experiment_binding is None
-                else validate_phase3_batch_chain(batch_rows)
+                else validate_phase3_batch_chain(
+                    batch_rows,
+                    expected_count=(
+                        ROUND_COUNT
+                        if experiment_binding.probe_batch_index is None
+                        else experiment_binding.probe_batch_index
+                    ),
+                )
             )
             final_payload = {
                 "schema": (
@@ -615,7 +696,12 @@ def run_phase3(
         "role": role,
         "arm": arm,
         "completed_batch_count": len(batch_rows),
-        "valid_request_count": len(batch_rows) * BATCH_SIZE,
+        "valid_request_count": (
+            len(batch_rows) * BATCH_SIZE
+            if experiment_binding is None
+            or experiment_binding.probe_batch_index is None
+            else BATCH_SIZE
+        ),
         "K_writer_call_count": sum(
             int(row.get("writer_call_count", P1R23_GRID_COUNT))
             for row in batch_rows
@@ -623,8 +709,10 @@ def run_phase3(
         "batch_terminal_sha256": batch_shas,
         "final_w10_sha256": final_sha,
         "alpha_cache_status": "ALPHA_CACHE_CONTINUITY_ON_BATCH_ENTRY_SNAPSHOT",
-        "alpha_cache_entry_widths": [index * BATCH_SIZE for index in range(ROUND_COUNT)],
-        "alpha_cache_append_count": ROUND_COUNT,
+        "alpha_cache_entry_widths": [
+            index * BATCH_SIZE for index in range(len(batch_rows))
+        ],
+        "alpha_cache_append_count": len(batch_rows),
         "same_batch_current_key_history_inclusion_count": 0,
         "dtype_contract": {
             "status": "FULL_FP32_PASS",
@@ -648,17 +736,52 @@ def run_phase3(
         terminal.update(
             {
                 "target_field_evaluation_count": len(batch_rows)
-                * P1R23_GRID_COUNT,
+                * int(
+                    experiment_binding.target_subcycle_schedule.total_field_evaluations
+                ),
                 "writer_layer_apply_count": len(batch_rows)
                 * experiment_binding.writer_cadence.writer_calls_per_block
                 * 5,
                 "batch_commit_to_next_entry_chain": True,
                 "sequential_chain_receipt": sequential_chain,
-                "heldout_outer_indices_per_batch": [8],
+                "heldout_outer_indices_per_batch": [
+                    index + 1
+                    for index in experiment_binding.heldout_step_indices
+                ],
                 "heldout_evaluator_decision_influence_count": 0,
                 "forbidden_decision_access_count": 0,
                 "additional_model_forward_count": 0,
                 "additional_backward_count": 0,
+                "warm_snapshot_probe_batch_index": (
+                    experiment_binding.probe_batch_index
+                ),
+                "warm_snapshot_prefix_replay_batch_count": (
+                    0
+                    if experiment_binding.probe_batch_index is None
+                    else experiment_binding.probe_batch_index - 1
+                ),
+                "scientific_probe_batch_count": (
+                    len(batch_rows)
+                    if experiment_binding.probe_batch_index is None
+                    else 1
+                ),
+                "scientific_probe_request_count": (
+                    len(batch_rows) * BATCH_SIZE
+                    if experiment_binding.probe_batch_index is None
+                    else BATCH_SIZE
+                ),
+                "scientific_probe_writer_call_count": (
+                    len(batch_rows) * P1R23_GRID_COUNT
+                    if experiment_binding.probe_batch_index is None
+                    else P1R23_GRID_COUNT
+                ),
+                "scientific_probe_writer_layer_apply_count": (
+                    len(batch_rows)
+                    * experiment_binding.writer_cadence.writer_calls_per_block
+                    * 5
+                    if experiment_binding.probe_batch_index is None
+                    else experiment_binding.writer_cadence.writer_calls_per_block * 5
+                ),
                 **dict(experiment_binding.metadata),
             }
         )

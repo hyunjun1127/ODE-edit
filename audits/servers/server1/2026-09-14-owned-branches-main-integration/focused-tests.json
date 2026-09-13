@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "test_count": 230,
+  "suite_counts": [
+    105,
+    74,
+    45,
+    6
+  ],
+  "errors": 0,
+  "failures": 0,
+  "skipped": 0,
+  "seconds": 5.945189947262406,
+  "cuda_initialized": false,
+  "source_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec",
+  "shared_dependency": "read-only ba91f274 SH2 kernel bytes; SH2 main integration separately owned",
+  "fixture_boundary": "CPU mock socket.gethostname=server4 for existing server4 capacity fixture; no real hostname/resource change",
+  "initial_findings": [
+    "audit invocation PYTHONPATH binding corrected",
+    "audit-only wrong constant import corrected",
+    "T5 required original c0dc8e3f horizon patch, now integrated exactly",
+    "unmocked historical server4 fixture fails on devbox; unchanged source, mock recorded",
+    "combined discovery uses independent TestLoader per root to avoid cached top-level import mismatch"
+  ]
+}

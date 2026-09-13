@@ -3282,12 +3282,14 @@ def run_p1(
     )
     from .p1r53_request_local_speed_b100 import is_p1r53_role
     from .p1r54_energyfree_localz_b100 import is_p1r54_role
+    from .p1r54_pdz_ablation_b100 import is_p1r54_pdz_ablation_role
     from .p1r54_fz_c3_independent import is_p1r54_fz_independent_role
     from .p1r54_fz_c3_sequential import is_p1r54_fz_sequential_role
     from .p1r54_realization_reset import is_p1r54_realization_reset_role
     from .p1r54_fz_finalz_oneshot_sequential import (
         is_p1r54_fz_finalz_oneshot_role,
     )
+    from .p1r55_rms_pdz_rate_experiment import is_p1r55_phase1_role
 
     joint_pc_full_fp32_mode = (
         is_joint_pc_full_fp32_role(p1r52_sequential_role)
@@ -3299,10 +3301,12 @@ def run_p1(
         or is_target_timescale_native_reference_role(p1r52_sequential_role)
         or is_p1r53_role(p1r52_sequential_role)
         or is_p1r54_role(p1r52_sequential_role)
+        or is_p1r54_pdz_ablation_role(p1r52_sequential_role)
         or is_p1r54_fz_independent_role(p1r52_sequential_role)
         or is_p1r54_fz_sequential_role(p1r52_sequential_role)
         or is_p1r54_realization_reset_role(p1r52_sequential_role)
         or is_p1r54_fz_finalz_oneshot_role(p1r52_sequential_role)
+        or is_p1r55_phase1_role(p1r52_sequential_role)
     )
     if runtime_gpu_capacity_validator is not None and not (
         is_phase1_role(p1r52_sequential_role)
@@ -3310,6 +3314,7 @@ def run_p1(
         or is_target_timescale_native_reference_role(p1r52_sequential_role)
         or is_p1r53_role(p1r52_sequential_role)
         or is_p1r54_role(p1r52_sequential_role)
+        or is_p1r54_pdz_ablation_role(p1r52_sequential_role)
         or is_p1r54_fz_independent_role(p1r52_sequential_role)
         or is_p1r54_fz_sequential_role(p1r52_sequential_role)
         or is_p1r54_realization_reset_role(p1r52_sequential_role)
