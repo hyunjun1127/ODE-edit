@@ -1,0 +1,15 @@
+{
+  "status": "BYTE_IDENTICAL",
+  "plots": 7,
+  "sha256": {
+    "general-panels.png": "1e334538ea9653450901d56650066b2ad85ba90a4e0deb1809d8c78ef8f65abe",
+    "cohort-retention.png": "0041bdf8a865ca32333be56e636a8fcf88371f91c7af500f073ab85b50dafa0c",
+    "compute-components.png": "a77a45ace0dd2b3982a420dc1dc00871f92747386fcf501d7285e194e91c1c3f",
+    "nll-tails.png": "f8310be386bd1e4b4b3d9a695032beb62665898a427eecf1ba8f601199b87abd",
+    "layer-update-magnitude.png": "a528ebd062aa3e7f18bc79491e5baba22238553be4a67754476375dc868f96a5",
+    "batch-trajectories.png": "7cb032655f2247a237568b4b125249210c97cd8f98df8011417a38cc47011b86",
+    "final-populations.png": "83db952e474aee613065166422ac545f09602eed3ee8b5d039c3371edf119db4"
+  },
+  "python": "/data/janghj/EasyEdit/.venv/bin/python",
+  "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f"
+}

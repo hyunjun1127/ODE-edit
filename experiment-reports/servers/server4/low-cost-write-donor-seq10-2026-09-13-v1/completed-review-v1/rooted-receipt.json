@@ -1,0 +1,20 @@
+{
+  "status": "PACKAGE_FULL_REHASH_PASS",
+  "member_root": "d2e36699aa070e85c9c7e4e44e37933e5474c0975e00786166ba2dae60f2f065",
+  "members": 40,
+  "manifest_sha256": "ba34f4faa6e79c4ca5268f3778659596cd4b19cb794daa1ab3516ffebcf37b4c",
+  "scope": "SIX_ARM_B51_B60_CPU_REVIEW",
+  "scientific_terminal_cells": 6,
+  "batches": 60,
+  "checkpoints": 18,
+  "state_links": 54,
+  "request_z": 9000,
+  "fit_solve": 90,
+  "history_L4": 60,
+  "history_L8": 20,
+  "new_GPU_forward": 0,
+  "GPU_continuation_replay": "NOT_TESTED",
+  "claim_decision": "PENDING_GH_REVIEW",
+  "audit_evaluated": false,
+  "scientific_promotion": false
+}

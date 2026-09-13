@@ -1,0 +1,79 @@
+[
+  {
+    "path": "final-populations.png",
+    "sha256": "83db952e474aee613065166422ac545f09602eed3ee8b5d039c3371edf119db4",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "finalpopulationmetrics.csv": "87631c822dff1a343a9a96e553d22dd4d9fc1c5b35b2964b0753739736926754"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "W60 full6000/old5000/suffix1000/current100 are distinct populations; overlapping rows are not independent evaluations."
+  },
+  {
+    "path": "batch-trajectories.png",
+    "sha256": "7cb032655f2247a237568b4b125249210c97cd8f98df8011417a38cc47011b86",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "batchmetrics.csv": "8698dfecf9b2b2e24dd87b430a0c7ae8b6e440165c4f89ddc1a466439bcadfde"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Current changes cohort each batch; fixed Historical128 does not. Neither current pooling nor Historical128 is all-seen retention."
+  },
+  {
+    "path": "cohort-retention.png",
+    "sha256": "0041bdf8a865ca32333be56e636a8fcf88371f91c7af500f073ab85b50dafa0c",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "cohort-final.csv": "7362207086538ff08b593f62e0e670836a7452373355a0805548a70d0fa138c7"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Actual W60 cohort outcomes. Vertical separator is historical entry5000/new suffix1000. Not a full checkpoint-by-cohort matrix."
+  },
+  {
+    "path": "nll-tails.png",
+    "sha256": "f8310be386bd1e4b4b3d9a695032beb62665898a427eecf1ba8f601199b87abd",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "nll-distributions.csv": "e31e93394afbc9422bcb0fb06031f53e5d802cc1c30bf942c2e691a3fea5972e"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Median/p90/p99 are prompt distributions, not confidence intervals; length normalized target NLL."
+  },
+  {
+    "path": "general-panels.png",
+    "sha256": "1e334538ea9653450901d56650066b2ad85ba90a4e0deb1809d8c78ef8f65abe",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "general-panels.csv": "6c0b62e769a673bbbd9e356df31fb4906ceaa2b351a37732fb2df3852b296da9"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Fixed Wiki128/24999 next-token positions and MMLUdev32; no audit68, no generation F1, no full-benchmark claim."
+  },
+  {
+    "path": "compute-components.png",
+    "sha256": "a77a45ace0dd2b3982a420dc1dc00871f92747386fcf501d7285e194e91c1c3f",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "compute-summary.csv": "4c78884112164d50d0f11fa049217e7487344ea00c1c7813c81544f5ea845b75"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Recorded synchronous policy stages include instrumentation. Unseparated I/O/restore/setup is not reassigned to pure writer."
+  },
+  {
+    "path": "layer-update-magnitude.png",
+    "sha256": "a528ebd062aa3e7f18bc79491e5baba22238553be4a67754476375dc868f96a5",
+    "source_sha256": "4f6cf106ac2a5c05ec15acb8102da30b04e09e67ed9c5bf7179e23e2cafce08f",
+    "inputs": {
+      "layer-action.csv": "e91a97412982281e1c10ddd0f2d0060ee46744c82e25e5895120ddcf01bbe07c"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.seq_review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-seq10-completed-review-20260914-v1",
+    "caption": "Actual stored increments, sum of batch increment norms, and actual checkpoint net from W50 are distinct. Net sampled only at B51/55/60; no uniform-allocation reference."
+  }
+]

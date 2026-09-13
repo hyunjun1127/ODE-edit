@@ -1,0 +1,23 @@
+{
+  "execution_commit": "5e96dcb3745977b1f273e3f5afbee61167248d49",
+  "execution_tree": "6e9f8bdb432392fd5f0d7d0937ff7058666944c0",
+  "analysis_start_main": "83ca22bd1bd318d5e6bdfd32c37794ffbbcd68ed",
+  "analysis_start_tree": "38a6318d6b87941421255ae886ab66a97f5adc47",
+  "execution_lock_sha256": "695a2d985d5abb8fae1cc6f0b1933022895a47a71142aa032a9da3b6be1bbb28",
+  "archive_sha256": "3dadca9463ab131846bff5227fe1bbbb540dd5b8f238bfad53b15b121ed0eb42",
+  "sample_lock_sha256": "1f57f8888bb13801f0748081acb61c1de448adb5bf04b6a9d02aef952a63d3bb",
+  "source_members": 2041,
+  "new_rehash": 96,
+  "reused_verified_inputs": 1945,
+  "prepared": {
+    "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/prepared.pt",
+    "bytes": 2113950237,
+    "sha256": "4ea9e5a7733725ab513571845691a28e4ed321884d749156e256fb992a55f933"
+  },
+  "prior_initial_agent_observation": "N4_B51_TO_B52_ONLY",
+  "current_scope": "CPU_COMPLETED_SEQ10_REVIEW",
+  "GPU_model_evaluator_Slurm_mutation": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "claim_decision": "PENDING_GH_REVIEW",
+  "scientific_promotion": false
+}
