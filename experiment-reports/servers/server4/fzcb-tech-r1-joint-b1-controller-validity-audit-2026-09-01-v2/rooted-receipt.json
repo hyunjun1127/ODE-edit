@@ -1,0 +1,54 @@
+{
+  "b10_submit_count": 0,
+  "main_push_count": 0,
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/analysis-manifest.json",
+    "sha256": "b15a5a167c5f0c15764d8747205a5d831597d6521c7df2cd0e4bb84341d8a9d2"
+  },
+  "member_root": "66c7878d04195be267e527800c489d5d498acac2c9b166cff829a05461022a58",
+  "members": [
+    {
+      "bytes": 5479,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/fzcb-tech-r1-joint-b1-controller-validity-factual-ko.md",
+      "sha256": "fb9918f54b90f2e11e654f47570bfc47ed3d213d2b7945bec8127df2ff8bd342"
+    },
+    {
+      "bytes": 1788,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/joint-controller-validity-summary.csv",
+      "sha256": "2368892f49269534d43514c98c090cb37ba56102fdc22333492120b99525936a"
+    },
+    {
+      "bytes": 2224,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/arm-status.csv",
+      "sha256": "d8ccfebfb3acf542d903895a49f9f5d66f4ac10ed32ae4d92db23c4e63e54fe1"
+    },
+    {
+      "bytes": 4872,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/failure-ledger.csv",
+      "sha256": "27eadbc15c6d56b6fa66c91f2283c009aac978dc3edc86273174ba64fc206001"
+    },
+    {
+      "bytes": 4045,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/waypoint-summary.csv",
+      "sha256": "1a58618a671bd46b216a976e193af9bb3a0396431dfec3934b7dfb18c09a0747"
+    },
+    {
+      "bytes": 5515,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/fd-axis-sweep.csv",
+      "sha256": "1e4c8b513254c770923be65b971d30a5440188078b2c98a3547692667a8ae0a3"
+    },
+    {
+      "bytes": 20,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/sketch-ladder.csv",
+      "sha256": "a46163fc92835eee814cfffa9cb18346b7260a3632952c4ff9c853a3eeb76089"
+    },
+    {
+      "bytes": 15992,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/analysis-manifest.json",
+      "sha256": "b15a5a167c5f0c15764d8747205a5d831597d6521c7df2cd0e4bb84341d8a9d2"
+    }
+  ],
+  "raw_roots_modified": 0,
+  "schema": "odeedit.s06.fzcb-tech-r1.joint-b1-rooted-receipt.v1",
+  "scientific_promotion": false
+}

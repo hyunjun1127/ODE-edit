@@ -1,0 +1,289 @@
+{
+  "b10_submit_count": 0,
+  "case_ids": {
+    "llama3-8b-inst": [
+      19795
+    ],
+    "qwen2.5-7b-inst": [
+      19795
+    ]
+  },
+  "instruction_id": "ODEEDIT-S06-FZCB-TECH-R1-JOINT-B1-CONTROLLER-VALIDITY-AUDIT-V1",
+  "job_id": "30828",
+  "main_push_count": 0,
+  "models": [
+    "llama3-8b-inst",
+    "qwen2.5-7b-inst"
+  ],
+  "output_member_root": "4f7522b4a58b5cfff106beea2b4e8a4e2fc75d645d33b636c488cb4771000416",
+  "outputs": [
+    {
+      "bytes": 5479,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/fzcb-tech-r1-joint-b1-controller-validity-factual-ko.md",
+      "sha256": "fb9918f54b90f2e11e654f47570bfc47ed3d213d2b7945bec8127df2ff8bd342"
+    },
+    {
+      "bytes": 1788,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/joint-controller-validity-summary.csv",
+      "sha256": "2368892f49269534d43514c98c090cb37ba56102fdc22333492120b99525936a"
+    },
+    {
+      "bytes": 2224,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/arm-status.csv",
+      "sha256": "d8ccfebfb3acf542d903895a49f9f5d66f4ac10ed32ae4d92db23c4e63e54fe1"
+    },
+    {
+      "bytes": 4872,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/failure-ledger.csv",
+      "sha256": "27eadbc15c6d56b6fa66c91f2283c009aac978dc3edc86273174ba64fc206001"
+    },
+    {
+      "bytes": 4045,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/waypoint-summary.csv",
+      "sha256": "1a58618a671bd46b216a976e193af9bb3a0396431dfec3934b7dfb18c09a0747"
+    },
+    {
+      "bytes": 5515,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/fd-axis-sweep.csv",
+      "sha256": "1e4c8b513254c770923be65b971d30a5440188078b2c98a3547692667a8ae0a3"
+    },
+    {
+      "bytes": 20,
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-controller-validity-audit-tech-r5/experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2/sketch-ladder.csv",
+      "sha256": "a46163fc92835eee814cfffa9cb18346b7260a3632952c4ff9c853a3eeb76089"
+    }
+  ],
+  "schema": "odeedit.s06.fzcb-tech-r1.joint-b1-analysis-manifest.v1",
+  "scientific_input_member_root": "b79861b8dbad31385a1d5b9aa1ab6d66c9a5c4d9e8d3612d14ea76167167f98f",
+  "scientific_inputs": [
+    {
+      "bytes": 5167,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/campaign-manifest.json",
+      "role": "CONTROL_INPUT",
+      "sha256": "b13da46724a3867383db8c3e2ce72a3ea109c5acddff9e33f2ed044416922ad7"
+    },
+    {
+      "bytes": 9888,
+      "path": "/data/janghj/ODE-edit/local/state/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/focused-gate.json",
+      "role": "CONTROL_INPUT",
+      "sha256": "63c99cf8c04494df7841d0000efd96580eb0dbe5019d661d453d46170908361b"
+    },
+    {
+      "bytes": 28545,
+      "path": "/data/janghj/ODE-edit/local/state/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/pre-gpu.json",
+      "role": "CONTROL_INPUT",
+      "sha256": "6bb3310aba82d4e715542c21baf6f28a395e867b3ed3e351f46941e80e601588"
+    },
+    {
+      "bytes": 5433,
+      "path": "/data/janghj/ODE-edit/local/state/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/submission-receipt.json",
+      "role": "CONTROL_INPUT",
+      "sha256": "54b3930fbd8f9779ff370a5ede2843ffe6d1b45d5c8855dd34fa4cf343f42695"
+    },
+    {
+      "bytes": 609042,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/llama3-8b-inst-B1/result.json",
+      "role": "SCIENTIFIC_RAW_INPUT",
+      "sha256": "9e8543280cbd50275674314a45dca7a157adf07b88586632b083a776d5e87cea"
+    },
+    {
+      "bytes": 2558,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/llama3-8b-inst-B1/arm-journal/journal-index.json",
+      "role": "JOURNAL_INDEX",
+      "sha256": "786cefcb9ec2c498f611a62fdf9186c8e5dae341416f052169e4af2013b2245b"
+    },
+    {
+      "bytes": 399431,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/qwen2.5-7b-inst-B1/result.json",
+      "role": "SCIENTIFIC_RAW_INPUT",
+      "sha256": "60b2684c98f0acb538fcbf499a5643929bbda505b28a0ae9478928e9446a81ec"
+    },
+    {
+      "bytes": 2563,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-cead60d-tech-r5/qwen2.5-7b-inst-B1/arm-journal/journal-index.json",
+      "role": "JOURNAL_INDEX",
+      "sha256": "9992b3afe0f5cd4294319df2c34348ac7b774f7f24ce1c4d3fbcd4ece3caffcb"
+    },
+    {
+      "bytes": 4992,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1/campaign-manifest.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "a05ef415f80c2eec10f6806c1d5b46031e7458212336a288f9331c16918ebe79"
+    },
+    {
+      "bytes": 5889,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1/llama3-8b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "ea4e264fb4589901815612e6a5cf654836fee2cf295d0b4a423cf798a4208056"
+    },
+    {
+      "bytes": 5077,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1/llama3-8b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "66c88eb938f4e9f6b304edeed5f0ab0c629e4d4f3e4f0bc1ffb1c7f56a0a30e0"
+    },
+    {
+      "bytes": 5891,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1/qwen2.5-7b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "969bbbc0490e54ed1deb631d525c3144b3beb1f17fb53874e32f36dd62f658b3"
+    },
+    {
+      "bytes": 5085,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1/qwen2.5-7b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "20eb5f53ef94bfa46065027fb1c381b6b894c17ef9b6571367bec1d5c7d1a611"
+    },
+    {
+      "bytes": 5052,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/campaign-manifest.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "8e65dae642a47525c2436a9b968fa4339f4fa0a6db0c6b5eee158bbd267b01a7"
+    },
+    {
+      "bytes": 5889,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/llama3-8b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "ea4e264fb4589901815612e6a5cf654836fee2cf295d0b4a423cf798a4208056"
+    },
+    {
+      "bytes": 23566,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/llama3-8b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "5222424e40c23c3fb1bc6d759058ba9a429dbe4f2ba8c7714631ac58cb7230d6"
+    },
+    {
+      "bytes": 5891,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/qwen2.5-7b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "969bbbc0490e54ed1deb631d525c3144b3beb1f17fb53874e32f36dd62f658b3"
+    },
+    {
+      "bytes": 20609,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/qwen2.5-7b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "381ed479180450c0f2b575d5234e7af08b09964edcc4a8dae221971d80bff00f"
+    },
+    {
+      "bytes": 9575,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2/qwen2.5-7b-inst-B1/arm-journal/02-refreshed_equality_only.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "df0738de4454cce7287838668fb32993517dc40c0c16a96a8509637aebabc810"
+    },
+    {
+      "bytes": 5052,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3/campaign-manifest.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "9bb1e9b6ed2d46e237a89a6ba23f6cf768a0a7eb6d83e43efe3913d72660952a"
+    },
+    {
+      "bytes": 5889,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3/llama3-8b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "ea4e264fb4589901815612e6a5cf654836fee2cf295d0b4a423cf798a4208056"
+    },
+    {
+      "bytes": 23566,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3/llama3-8b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "de39e3a6cf7dac3768cf47f597511072a7a390b67e1dbf71351e4e4e02641a99"
+    },
+    {
+      "bytes": 5891,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3/qwen2.5-7b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "969bbbc0490e54ed1deb631d525c3144b3beb1f17fb53874e32f36dd62f658b3"
+    },
+    {
+      "bytes": 20609,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3/qwen2.5-7b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "67b44e26c7e52757e2179e5fffa7fb86024b079c8d23eb5530ce49d8edc75f4d"
+    },
+    {
+      "bytes": 5026,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/campaign-manifest.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "b693d1e1fa323fb6c3113718871ec0083b2d6f32ecac8c545d4ef99a67c20cfd"
+    },
+    {
+      "bytes": 5889,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/llama3-8b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "ea4e264fb4589901815612e6a5cf654836fee2cf295d0b4a423cf798a4208056"
+    },
+    {
+      "bytes": 26554,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/llama3-8b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "6a342b90bbd3e311a9bc076ddeb50ee52ea8e857147be972b1f8705e8b354bca"
+    },
+    {
+      "bytes": 207201,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/llama3-8b-inst-B1/arm-journal/02-refreshed_equality_only.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "51e2a0fc42231521960edf5dfa2ae2bc69bac6b883b5292f2f690b1d06c1535b"
+    },
+    {
+      "bytes": 5891,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/00-official_memit.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "969bbbc0490e54ed1deb631d525c3144b3beb1f17fb53874e32f36dd62f658b3"
+    },
+    {
+      "bytes": 23600,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/01-true_frozen_c_split.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "bfa659ae63cffd8128067ac251f3b04024d3c6cdaf2f7cf94d6d5a082cb89e8a"
+    },
+    {
+      "bytes": 225976,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/02-refreshed_equality_only.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "d6c9ab634a21e1cce44aa3698446159e02de741ba2d4e3336088e2761dca9272"
+    },
+    {
+      "bytes": 59611,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/03-fzcb.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "d10ea98df3e436b5eb1e11a6695f10362d7dcfd1d2b4421f99cdb198e871eea2"
+    },
+    {
+      "bytes": 9681,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/04-strong_static_same_objective.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "ff4be17f6585c4f3479aa2b14e0f9693b30603102dfaa6e21e3218470d0af1f3"
+    },
+    {
+      "bytes": 2562,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/arm-journal/journal-index.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "08bcb0f11dd7a8a0af18a73668685faaa87ed0dbd36593b194c5fbc3b743f7d0"
+    },
+    {
+      "bytes": 355803,
+      "path": "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4/qwen2.5-7b-inst-B1/result.json",
+      "role": "EXCLUDED_TECHNICAL_ATTEMPT_DENOMINATOR0",
+      "sha256": "7a77fa19f11a910d160213a3a0fcd901d6e1052bcd2d7eb893685383199e2dc7"
+    }
+  ],
+  "scientific_promotion": false,
+  "source": {
+    "head": "cead60d151167043a710913aa51fc4f288db2b4f",
+    "tree": "aca370b0558e09f33eb05262f184efa9274c492e"
+  },
+  "technical_attempt_roots": [
+    "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-d193ced-r1",
+    "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-c9be848-tech-r2",
+    "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-679f1e8-tech-r3",
+    "/data/janghj/ODE-edit/local/results/fzcb-tech-r1-joint-b1-controller-validity-audit-v1/campaign-39d2f67-tech-r4"
+  ],
+  "typed_conclusions": {
+    "llama3-8b-inst": "NUMERICAL_CONTROLLER_FAILURE",
+    "qwen2.5-7b-inst": "NUMERICAL_CONTROLLER_FAILURE"
+  },
+  "valid_denominators": {
+    "llama3-8b-inst": 2,
+    "qwen2.5-7b-inst": 2
+  }
+}

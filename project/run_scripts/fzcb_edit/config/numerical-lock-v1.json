@@ -1,0 +1,29 @@
+{
+  "backtrack_factor": 0.5,
+  "cg_internal_refinement_count": 2,
+  "cg_max_iterations": 768,
+  "controller_output_metric_access_count": 0,
+  "corrector_iterations": 2,
+  "dense_inverse_count": 0,
+  "direct_z_rule": "exactly_once_per_edit_shared_by_all_arms",
+  "dtype": "float32",
+  "explicit_kronecker_count": 0,
+  "finite_difference_step": 0.00034526698300124393,
+  "kappa": 0.0,
+  "macro_step": 0.25,
+  "maximum_backtracks": 3,
+  "metric_epsilon_rule": "256*eps_fp32*mean(diag(C_l^0))",
+  "progress_grid": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "rank_rule": "max(rows,cols)*eps_fp32*largest_eigenvalue",
+  "reduced_null_axes": 2,
+  "relative_floor_rule": "64*eps_fp32*sqrt(output_dimension)",
+  "seed_namespace": "ODEEDIT-S06-FZCB-EDIT-MAIN-METHOD-INITIAL-V1",
+  "sensitivity_method": "REDUCED_NULL_FINITE_DIFFERENCE_CORRECTNESS_PROTOTYPE",
+  "terminal_commit_rule": "s_equals_1_closure_and_budget_then_atomic_commit"
+}
