@@ -1,0 +1,20 @@
+{
+  "status": "PUBLICATION_PACKAGE_REHASH_PASS",
+  "manifest_sha256": "c2e00440f18df38082f37c5bd78309a03aae1428752d28b6442b39df4c234527",
+  "member_root": "f606a3a7127092b0925b5c1a7e924ed73e9359924f08a918c4ba9df707075a5c",
+  "report": {
+    "path": "integration-report.md",
+    "bytes": 6908,
+    "sha256": "10adbfc06a2fc0327a9d437f975c7473bf2e3d2d29a8cafb8a705a1381694e1f"
+  },
+  "original_head": "7d5bae2e3be8dba87c92b86a727d5de9ed549af3",
+  "content_head": "3bf9d1310c0809c3ff0ba424e3f6515cfa306a8b",
+  "publication_identity": "Git commit carrying this receipt; exact pushed HEAD/tree in terminal ACK",
+  "all_branches_integrated": false,
+  "GPU": 0,
+  "Slurm": 0,
+  "model": 0,
+  "evaluator": 0,
+  "monitoring": 0,
+  "rsync": 0
+}
