@@ -43,3 +43,14 @@ PYTHONDONTWRITEBYTECODE=1 /data/janghj/EasyEdit/.venv/bin/python -m unittest \
 실행 결과: `Ran 16 tests ... OK`. Order/target drift, history between fits, duplicate finalization, rollback/evaluator mutation, prompt pairing/state mismatch/nonfinite/tie policy, 6000 cardinality 및 source AST/P/alpha가 검사 대상이다. 유한 낮은 성능, 비용 참고선 초과는 제외 또는 gate 실패 근거가 아니다.
 
 초기 actual gate 또는 PENDING inspection 후 MONITORING_PAUSED_AWAITING_USER. 이 preflight는 추가 모니터링·후속 제출·main 통합 권한을 만들지 않는다.
+
+## 제출 기록의 명시 경로 권한 — 좁은 사후 확인
+
+주 실행자가 요청한 범위만 독립 확인했다. `runs/lowcost-sixarm-seq10-s4-20260913-v1/submission.json`은 governing envelope `messages/head/2026-09-13-sh4-lowcost-sixarm-seq10.md`의 서버 소유 경로 목록(122행)에 명시된 디렉터리 안에 있다. 따라서 **이번 task의 이 raw-free 기록에 한정하여 명시적 사용자 envelope상 허용 범위**라고 판정한다. 이는 일반 `runs/*` 쓰기 권한 확대나 다른 task 파일의 예외가 아니다.
+
+- 검사한 submission SHA256: `215f75ee008634272a82673fdc79fe59155aa7335404ebc1259c8e6841d03393`.
+- governing envelope SHA256: `eb1d7eccd662cc8ef1c8a3649e3c798893f22313a95e514f4b2201f1cdfccdcd`.
+- generic helper SHA256: `eac168b1d379ee0aea6edf24f5171893b1375abdf6f42dce2dd00c335539bc51`.
+- 파일은 job/array mapping, source/archive/lock/receipt hashes, local 경로, 자원 및 검증 상태의 작은 metadata다. 실제 prompt, tensor, weights, cache, full logs, credentials payload는 포함하지 않는다. 파일 내용의 자원·job 관측은 주 실행자 receipt를 인용한 것이며 이 검토자가 scheduler를 새로 조회한 결과가 아니다.
+- generic `scripts/check-agent-access.sh`의 server-head allowlist(65행 부근)에는 이 `runs/` 경로가 없고, worker 전용 규칙(106행)은 agent-ID suffix 파일만 허용한다. 따라서 해당 helper가 거부한 사실을 **PASS로 바꾸지 않는다**. 기록 상태는 `GENERIC_HELPER_DENIED / EXPLICIT_TASK_ENVELOPE_ALLOWED`이다. shared helper/role/protocol 수정은 수행하지 않았다.
+- `621ec8b202a482141771e59b141640e8fcc1d99c`의 source branch 기록은 이미 생성된 상태에서 확인했다. 이 확인은 frozen runtime `5e96dcb3745977b1f273e3f5afbee61167248d49`/archive/lock 또는 live job의 변경·재평가 승인이나 initial GPU gate PASS가 아니다. main 통합을 수행하지 않았다.
