@@ -57,7 +57,10 @@ def submit(attempt):
     assert len(row)==1 and row[0][1:4]==['server4','2','60416']
     patterns=row[0][4].split(',')
     sq=command(['squeue','-h','-w','server4','-o','%i|%u|%j|%T|%D|%b|%E'],w)
-    existing=project_rows(sq,patterns)
+    # Node-list filtering omits pending jobs without an allocated NodeList.
+    # This deployment's server4 QOS admits those pending reservations as well.
+    pending_sq=command(['squeue','-h','-q','lab_gpu_s4','-o','%i|%u|%j|%T|%D|%b|%E'],w)
+    existing=list({r['job']:r for r in project_rows(sq,patterns)+project_rows(pending_sq,patterns)}.values())
     # New array may start only after all earlier project allocations/admissions
     # have terminated. This is applied only if such earlier work actually exists.
     deps=sorted(set(r['job'].split('_')[0] for r in existing))
@@ -75,7 +78,7 @@ def submit(attempt):
     evidence=save(a/'admission.json',dict(observed_epoch=time.time(),host=host,session=lock['session'],
         cap_registry=dict(path=str(cap),sha256=file_sha(cap)),existing_project_rows=existing,
         tracked_cap_helper=cap_helper,
-        scheduler_snapshot=sq,partition=partition,memory_audit=memory,
+        scheduler_snapshot=sq,pending_qos_snapshot=pending_sq,partition=partition,memory_audit=memory,
         admitted_array_throttle=2,per_process_gpus=1,mem='60416M',
         dependency_ids=deps,aggregate_cap_proof='existingnone+array%2<=2' if not deps else 'afterany all existing admissions then array%2<=2',
         unrelated_job_mutation=0))
