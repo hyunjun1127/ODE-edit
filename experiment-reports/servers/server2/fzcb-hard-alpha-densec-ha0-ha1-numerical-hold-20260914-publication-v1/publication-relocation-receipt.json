@@ -1,0 +1,39 @@
+{
+  "status": "EXACT_GIT_BYTES_RELOCATED",
+  "source_commit": "d9521fbd2549eea2956a80099c5a584b9ba6bed9",
+  "members": [
+    {
+      "original_path": "local/odebf/reports/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-v1/fzcb-hard-alpha-densec-ha0-ha1-hold-factual-ko.md",
+      "published_path": "experiment-reports/servers/server2/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-20260914-publication-v1/fzcb-hard-alpha-densec-ha0-ha1-hold-factual-ko.md",
+      "bytes": 4532,
+      "sha256": "920652b2cfc1de39e1a06de88e240618503c1ee8d3b243359299909f126c0936",
+      "git_blob": "709ebe38ab4b16c52b2fa735dfca595a1b0b5ecf"
+    },
+    {
+      "original_path": "local/odebf/reports/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-v1/ha1-hold-summary.json",
+      "published_path": "experiment-reports/servers/server2/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-20260914-publication-v1/ha1-hold-summary.json",
+      "bytes": 12021,
+      "sha256": "89c079727f2b549ee74d75f6dad79fdc70f4bd718b954e78b7f57eab9d872767",
+      "git_blob": "adc9b26fb51bd8ff384ad243deb0c5fbdb7be174"
+    },
+    {
+      "original_path": "local/odebf/reports/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-v1/analysis-manifest.json",
+      "published_path": "experiment-reports/servers/server2/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-20260914-publication-v1/analysis-manifest.json",
+      "bytes": 762,
+      "sha256": "7a2c8e07709d1bdc5311322b17a27d1133aa73b56072c49d8e2d91382669391c",
+      "git_blob": "553976a6e4afe14775c205b7bf3f117ddbc48c83"
+    },
+    {
+      "original_path": "local/odebf/reports/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-v1/rooted-analysis-receipt.json",
+      "published_path": "experiment-reports/servers/server2/fzcb-hard-alpha-densec-ha0-ha1-numerical-hold-20260914-publication-v1/rooted-analysis-receipt.json",
+      "bytes": 596,
+      "sha256": "0f606db3034d4848e0577e698edb328db6df8b334129905f6fcc317cf1f24334",
+      "git_blob": "ba573e56f58c5c577f61f1d5e1769093c1bdceb2"
+    }
+  ],
+  "historical_paths_and_mode_fields": "PRESERVED; original mode0600 is not publication Git100644",
+  "raw_rehash_this_turn": false,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "scientific_reinterpretation": false,
+  "canonical_for": "historical factual package only, not a new execution or newer family replacement"
+}

@@ -219,6 +219,12 @@ R52_CONTROL_ROLE = "r52-soft-sequential-alphacache-on-structuralh-off"
 NATIVE_ROLE = "native-alphaedit-sequential"
 NATIVE_CORRECTED_ROLE = "native-alphaedit-sequential-cache-on-corrected"
 MEMIT_ROLE = "official-memit-sequential"
+JOINT_PC_ALPHAEDIT_NATIVE_Z_ROLE = "joint-pc-official-alphaedit-native-z-b100"
+JOINT_PC_MEMIT_NATIVE_Z_ROLE = "joint-pc-official-memit-native-z-b100"
+JOINT_PC_NATIVE_Z_ROLES = (
+    JOINT_PC_ALPHAEDIT_NATIVE_Z_ROLE,
+    JOINT_PC_MEMIT_NATIVE_Z_ROLE,
+)
 R52_STRUCTURAL_H_ROLES = (
     R52_H_ROLE,
     P1R52_PIRU_SEQUENTIAL_ROLE,
@@ -232,7 +238,7 @@ R52_ROLES = (
 )
 ROLES = (*R52_ROLES, NATIVE_ROLE)
 OFFICIAL_BASELINE_ROLES = (NATIVE_ROLE, NATIVE_CORRECTED_ROLE, MEMIT_ROLE)
-EXECUTION_ROLES = (*R52_ROLES, *OFFICIAL_BASELINE_ROLES)
+EXECUTION_ROLES = (*R52_ROLES, *OFFICIAL_BASELINE_ROLES, *JOINT_PC_NATIVE_Z_ROLES)
 RESULT_NAMES = {
     R52_H_ROLE: "s05-p1r52-llama-soft-sequential-historical-10xb10-tech-r3-v1",
     R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb10-v1",
@@ -246,6 +252,12 @@ RESULT_NAMES_B100X10 = {
     R52_CONTROL_ROLE: "s05-p1r52-llama-soft-sequential-alphacache-on-structuralh-off-10xb100-v1",
     NATIVE_CORRECTED_ROLE: "s05-p1r52-official-alphaedit-sequential-cache-on-10xb100-v1",
     MEMIT_ROLE: "s05-p1r52-official-memit-sequential-10xb100-v1",
+    JOINT_PC_ALPHAEDIT_NATIVE_Z_ROLE: (
+        "s05-p1r52-joint-pc-official-alphaedit-native-z-b100-v1"
+    ),
+    JOINT_PC_MEMIT_NATIVE_Z_ROLE: (
+        "s05-p1r52-joint-pc-official-memit-native-z-b100-v1"
+    ),
     TARGET_OFFICIAL_PHASE_A_ROLE: TARGET_OFFICIAL_PHASE_A_RESULT_NAME,
     TARGET_OFFICIAL_PHASE_B_ROLE: TARGET_OFFICIAL_PHASE_B_RESULT_NAME,
 }
@@ -1934,6 +1946,27 @@ def run_p1r52_sequential(
     )
     if alias != "llama3-8b-inst" or role not in role_names:
         raise ODEBFContractError("P1R52 sequential model/role differs")
+    if role in JOINT_PC_NATIVE_Z_ROLES:
+        from .p1r52_joint_pc_native_z_b100 import run_joint_pc_native_z_b100
+
+        return run_joint_pc_native_z_b100(
+            model,
+            tokenizer,
+            alias=alias,
+            role=role,
+            destination=destination,
+            raw_root=raw_root,
+            source_head=source_head,
+            stream_batches=stream_batches,
+            stream=stream,
+            hparams=hparams,
+            contexts=contexts,
+            dataset_path=dataset_path,
+            touched=touched,
+            base_receipt=base_receipt,
+            job_ledger=job_ledger,
+            scale=scale,
+        )
     if is_piru_structural_h_role(role) and batch_entry_evaluation_enabled:
         raise ODEBFContractError(
             "P1R52 PIR-U batch-entry evaluator contract differs"
@@ -3581,6 +3614,9 @@ def run_p1r52_sequential(
 
 __all__ = [
     "EXECUTION_ROLES",
+    "JOINT_PC_ALPHAEDIT_NATIVE_Z_ROLE",
+    "JOINT_PC_MEMIT_NATIVE_Z_ROLE",
+    "JOINT_PC_NATIVE_Z_ROLES",
     "MEMIT_ROLE",
     "NATIVE_CORRECTED_ROLE",
     "NATIVE_ROLE",

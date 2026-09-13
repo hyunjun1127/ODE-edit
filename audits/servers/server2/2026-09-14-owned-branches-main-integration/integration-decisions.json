@@ -1,0 +1,35 @@
+{
+  "status": "VERIFIED_SCOPE_INTEGRATED_WITH_EXPLICIT_REMAINDER",
+  "refs": 55,
+  "unique_heads": 48,
+  "counts": {
+    "ALREADY_IN_MAIN": 39,
+    "CONFLICT_REQUIRES_DECISION": 8,
+    "NOT_READY": 1,
+    "INTEGRATED": 5,
+    "PARTIALLY_INTEGRATED": 2
+  },
+  "source_head": "3bf9d1310c0809c3ff0ba424e3f6515cfa306a8b",
+  "source_tree": "1dc16cf125489760744bd86d2091c20975154d20",
+  "source_execution_publication_distinct": true,
+  "resource_exceptions": [
+    {
+      "path": "project/run_scripts/session06_fzcb_hard_alpha_densec_ha1_server2.sbatch",
+      "historical_memory_mib": 65000,
+      "published_memory_mib": 60416,
+      "reason": "current server2 memory policy only; historical source refs unchanged; no submission authority",
+      "science_change": false
+    },
+    {
+      "path": "project/run_scripts/session05_ode_bf_p1r52_joint_pc_native_z_b100.sbatch",
+      "historical_memory_mib": 65000,
+      "published_memory_mib": 60416,
+      "reason": "current server2 memory policy only; historical source refs unchanged; no submission authority",
+      "science_change": false
+    }
+  ],
+  "other_owner": "SH1 ba91f274 common/track_a/report excluded; no overwrite",
+  "source_only_not_runtime_authorization": true,
+  "all_branches_integrated": false,
+  "scientific_promotion": false
+}

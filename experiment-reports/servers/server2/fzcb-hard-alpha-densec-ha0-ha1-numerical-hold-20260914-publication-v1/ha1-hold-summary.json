@@ -1,0 +1,274 @@
+{
+  "contract": {
+    "bytes": 27954,
+    "mode": "0600",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/state/fzcb-hard-alpha-densec-ha0-b10-v1/authoritative-contract.txt",
+    "sha256": "65d1f80291d64a6cdf97f7e6072d7fe33cb1595f5fcd7462f42e8ad7ecd1b35a"
+  },
+  "gates": {
+    "b100x10_submission_count": 0,
+    "ha0": "PASS",
+    "ha1_llama": "PASS",
+    "ha1_qwen": "HOLD",
+    "ha2_atomic_b10": "NOT_RELEASED",
+    "ha3_b10x10_submission_count": 0
+  },
+  "ha0": {
+    "focused_tests": {
+      "passed": 13,
+      "total": 13
+    },
+    "gpu_action_count": 0,
+    "preflight": {
+      "bytes": 22596,
+      "mode": "0600",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state/fzcb-hard-alpha-densec-ha0-b10-v1/pre-gpu-ha0-tech-r3.json",
+      "sha256": "181d378b4997b6d3fe8ba69bc996fe764bd0371f8e64d5a7364f6bde52eb7734"
+    }
+  },
+  "ha1": {
+    "llama": {
+      "cache_append_count": 0,
+      "case_id": 21100,
+      "job": "31020_0",
+      "layers": [
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "6a989a624adf61259fdd40a0ad0bf81134bfa425861adcd40784c3bdf1f9808a",
+          "d_sha256": "8492b292717a29a75762ba8eb565dfb62b14829725a7b04c10301d61c3651f07",
+          "history": "nonzero_real_key",
+          "layer": 4,
+          "official_equation_residual": 9.299916996496904e-07,
+          "official_transposed": false,
+          "official_update_sha256": "efc96b453aa463703a6c9a7f76f0cb515402a0430bd458e42cf477a419750d27",
+          "projector_leakage": 4.408870154293254e-06,
+          "relative_update_difference": 6.289513748924946e-06,
+          "small_condition": 1.0,
+          "solve_relative": 2.3326565212755668e-07,
+          "update_cosine": 0.9999998807907104,
+          "woodbury_direct_d_relative": 2.6401623927085893e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "56f6ef51ce73429a5f608fbba087825f322a4e3a420afedbb59df5a62bed6ceb",
+          "d_sha256": "787d3c021c4c18190eb1ce06c2a4f5bdd1266bd36e0186a76315a30dc4940ac7",
+          "history": "zero",
+          "layer": 4,
+          "official_equation_residual": 9.131274509854848e-07,
+          "official_transposed": false,
+          "official_update_sha256": "3bdd7717903441b2d34657cd66ae3b626283db9f0e14af9aa45f77764e7f8991",
+          "projector_leakage": 4.406136213219725e-06,
+          "relative_update_difference": 5.415561645349953e-06,
+          "small_condition": 1.0,
+          "solve_relative": 3.459264164007436e-08,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 1.2566102896016673e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "d8f351403d8960c8a5388ac04856982898d6076d748b62ffad07ae926965ed7d",
+          "d_sha256": "330374a945b09e3e135e4e195c47de12d52b8a48eb535bf9682adb4298e1f10c",
+          "history": "nonzero_real_key",
+          "layer": 5,
+          "official_equation_residual": 9.548930393066257e-07,
+          "official_transposed": false,
+          "official_update_sha256": "49d25a801c9b583be131d7df5096b408ddee478d919ffad897c05a5b08d7c868",
+          "projector_leakage": 4.339673068898264e-06,
+          "relative_update_difference": 7.513393939007074e-06,
+          "small_condition": 1.0,
+          "solve_relative": 2.4757000005593e-07,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 3.581204055080889e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "453ed4612a800d78f656e337d2ff19ae2c37c2339523051bda027a8b53e5a58b",
+          "d_sha256": "0b1ec4d6e0455ca06420a4274a065c3a4133c84644368768da2b5a5156760e14",
+          "history": "zero",
+          "layer": 5,
+          "official_equation_residual": 9.548019761496107e-07,
+          "official_transposed": false,
+          "official_update_sha256": "7f5d48c93e49202ba1c00c1cd94ae97959fd08cb63ff49fef2861e323e1d7a0d",
+          "projector_leakage": 4.336995061748894e-06,
+          "relative_update_difference": 6.448643489420647e-06,
+          "small_condition": 1.0,
+          "solve_relative": 4.090560778990948e-08,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 1.4615352483815514e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "33b84029b4b7ba8db0c292264c6fc242dfa51cfdca5d5753312733c961ba0b8b",
+          "d_sha256": "5f4173c65f025362ca9aac45c74fcd316b5799cd42efa7aa6db12c304b83c120",
+          "history": "nonzero_real_key",
+          "layer": 6,
+          "official_equation_residual": 9.663363016443327e-07,
+          "official_transposed": false,
+          "official_update_sha256": "d0f21175d24b91ebc3de901c62835d389e1035718b4e4d3839a636bec2435059",
+          "projector_leakage": 4.256128704582807e-06,
+          "relative_update_difference": 1.019053888740018e-05,
+          "small_condition": 1.0,
+          "solve_relative": 2.3335853427397524e-07,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 3.982386260759085e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "f28afbefa8c3db095d38f71802f7231e965703dca7825e07bc845bfc69039566",
+          "d_sha256": "f65ff54bf6f6d4a89dc54a01fc8969ea97332df05f4d93cafd59648a3fa92ecd",
+          "history": "zero",
+          "layer": 6,
+          "official_equation_residual": 9.465520633966662e-07,
+          "official_transposed": false,
+          "official_update_sha256": "48ff4cd9aed605f2678a1b715412c32221e51e0f9a290f1f0ae1ff7f72bf27e4",
+          "projector_leakage": 4.251584414305398e-06,
+          "relative_update_difference": 8.761107892496511e-06,
+          "small_condition": 1.0,
+          "solve_relative": 2.9163558679101698e-08,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 1.694808588581509e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "47555a55d3e28343a5c1e0e0efb42762e1ddd71ee6ddd1b3d32dda4c34ce607b",
+          "d_sha256": "4e6eb4bd2262aba38b9346d79be53f3641681653e6afae852f3b8bd29390921e",
+          "history": "nonzero_real_key",
+          "layer": 7,
+          "official_equation_residual": 9.70464952843031e-07,
+          "official_transposed": false,
+          "official_update_sha256": "fc3d94d6f61fa33436bbaa90c0b238c7d4114b83a8c8658aadfe778a68781a0e",
+          "projector_leakage": 4.2703441067715175e-06,
+          "relative_update_difference": 8.785921636444982e-06,
+          "small_condition": 1.0,
+          "solve_relative": 2.0535345868211152e-07,
+          "update_cosine": 1.0,
+          "woodbury_direct_d_relative": 3.2513635233044624e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "d5420e5a09b0589e9e7d53787eb747aca7bd56b39b70a582eafb2231a876f20e",
+          "d_sha256": "23c09ee38d42ebc5a3b4cd33bf03dedc4860a8f2e5dfa265c36016bdcafae4e0",
+          "history": "zero",
+          "layer": 7,
+          "official_equation_residual": 9.754261327543645e-07,
+          "official_transposed": false,
+          "official_update_sha256": "380b27e90c506b7b78e583b00ca8c5415adf0330815ad244e0556f16b8400422",
+          "projector_leakage": 4.26455881097354e-06,
+          "relative_update_difference": 7.5892512541031465e-06,
+          "small_condition": 1.0,
+          "solve_relative": 5.1619192475982345e-08,
+          "update_cosine": 0.9999999403953552,
+          "woodbury_direct_d_relative": 1.6189890175155597e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "315475b0e6c5998b125d7db8b0b2072141fc61885d5a6beb25f2694baa79ff6d",
+          "d_sha256": "a980349d8dbbb02c79850b6bab793c372c8fa6bd0f8334c9358b96430e23cfa3",
+          "history": "nonzero_real_key",
+          "layer": 8,
+          "official_equation_residual": 9.36826154429582e-07,
+          "official_transposed": false,
+          "official_update_sha256": "08b2dd04115e1dc1489da6c2ea2f91e229f8e4b6fa672dbac9c5abefe1303854",
+          "projector_leakage": 4.459599040274043e-06,
+          "relative_update_difference": 8.538191650586668e-06,
+          "small_condition": 1.0,
+          "solve_relative": 2.1599771571345627e-07,
+          "update_cosine": 0.9999999403953552,
+          "woodbury_direct_d_relative": 3.6432429624255747e-06
+        },
+        {
+          "backend_transposed": false,
+          "backend_update_sha256": "44c847301ea1b2e13a1298f5528a7eb3914f10a61ffab774eca42898113d86e3",
+          "d_sha256": "be3fb9d4442d04c011565895499726aa1752ca4ec022196d7a54b2919b974fe7",
+          "history": "zero",
+          "layer": 8,
+          "official_equation_residual": 9.409647532265808e-07,
+          "official_transposed": false,
+          "official_update_sha256": "5a11ec2e36de9e016e3af008e49761f348f4938d8b2a631bb7dc6bf841d1c86b",
+          "projector_leakage": 4.452549546840601e-06,
+          "relative_update_difference": 7.344996902247658e-06,
+          "small_condition": 1.0,
+          "solve_relative": 5.074040743124897e-08,
+          "update_cosine": 0.9999999403953552,
+          "woodbury_direct_d_relative": 1.6307434407281107e-06
+        }
+      ],
+      "result": {
+        "bytes": 27395,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/results/fzcb-hard-alpha-densec-ha1-b1-tech-r2-v1/llama3-8b-inst/ha1-result.json",
+        "sha256": "ef777ecc6edbed469ebcd3dae3e2e4ff6d8aa37cd7aecbd7dfe856b3fefef953"
+      },
+      "status": "TERMINAL_VALID",
+      "w0_bytes_restore": true,
+      "w0_pointer_restore": true
+    },
+    "qwen": {
+      "evidence": {
+        "history": "zero",
+        "layer": 4,
+        "official_equation_residual": 1.1518749261085759e-06,
+        "relative_update_difference": 0.0009607659303583205,
+        "small_condition": 1.0,
+        "tolerance": 0.00048828125,
+        "woodbury_direct_d_relative": 0.0001793193514458835,
+        "woodbury_solve_relative": 3.019503935774992e-08
+      },
+      "imputation_count": 0,
+      "jobs": [
+        "31020_1",
+        "31024_1"
+      ],
+      "log": {
+        "bytes": 2089,
+        "mode": "0600",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/logs/fzcb-hard-alpha-densec-ha0-b10-v1/ha1-qwen-tech-r3-v1/ha1-qwen2.5-7b-inst-31024_1.err",
+        "sha256": "8788b92f8aad5cecbd1803416cff7c9233d388f369069522931d12711f2e3df1"
+      },
+      "status": "SENSITIVITY_NUMERICALLY_INCONCLUSIVE",
+      "terminal_endpoint_count": 0
+    }
+  },
+  "instruction_id": "ODEEDIT-S06-FZCB-HARD-ALPHA-DENSEC-HA0-B10-V1",
+  "official_source": {
+    "head": "3488a66ee988d83ee7891a8abbbe6bcb24a77daf",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/state/fzcb-hard-alpha-densec-ha0-b10-v1/easyedit-official-3488a66-v1",
+    "tracked_clean": true,
+    "tree": "1f6d5e9a4a95daa15a4b5a8963dcd133876e47b3"
+  },
+  "plan": {
+    "b100x10": "not authorized; compute/memory estimate remains NOT_RECORDED before HA2 timing",
+    "ha2_release_condition": "Qwen direct/Woodbury numerical parity authority resolved without changing equation or outcome",
+    "ha3": "plan only after HA2 terminal-valid and GH review"
+  },
+  "schema": "odeedit.s06.fzcb-hard-alpha-densec.ha1-hold-summary.v1",
+  "scientific_failure": false,
+  "scientific_promotion": false,
+  "source": {
+    "branch": "codex/server2-fzcb-hard-alpha-densec-ha0-b10-v1",
+    "head": "f4658c3f05d70299266c687f0df00e2c70294d25",
+    "parent": "0ae42e079a77e50f1473e04b2fb348dd1bb1d81a",
+    "tree": "885028d453c3e37e15f287e0431d745d114629c6"
+  },
+  "status": "SENSITIVITY_NUMERICALLY_INCONCLUSIVE",
+  "technical_history": [
+    {
+      "job": "31006_[0-1]",
+      "label": "PRE_MODEL_PREFLIGHT_SHA_ARGUMENT_DIAGNOSTIC_GAP",
+      "model_load_count": 0
+    },
+    {
+      "job": "31015_[0-1]",
+      "label": "PINNED_OFFICIAL_NETHOOK_WITH_KWARGS_SIGNATURE",
+      "target_compute_count": 0
+    },
+    {
+      "job": "31020_1",
+      "label": "QWEN_DENSE_PARITY_BOUNDARY"
+    },
+    {
+      "job": "31024_1",
+      "label": "QWEN_DENSE_PARITY_EVIDENCE_REPRODUCED"
+    }
+  ]
+}
