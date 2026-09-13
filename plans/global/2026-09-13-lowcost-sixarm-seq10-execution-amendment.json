@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "instruction_id": "ODEEDIT-S06-LOWCOST-SIXARM-SEQUENTIAL-B100X10-SH4-V1",
+  "user_override": "All six core policies repeated for ten sequential B100 batches from common Middle entry; replaces max-one-candidate/five-batch condition for this scope only",
+  "server": "server4",
+  "gpu_cap": 2,
+  "mem_mib_per_process": 60416,
+  "gpu_hour_budget": null,
+  "entry_edited_count": 5000,
+  "batch_size": 100,
+  "batch_count": 10,
+  "global_batches": [
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60
+  ],
+  "suffix_ordinal_start_inclusive": 5000,
+  "suffix_ordinal_end_exclusive": 6000,
+  "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "arms": [
+    [
+      "N4",
+      1,
+      null
+    ],
+    [
+      "S875",
+      0.875,
+      null
+    ],
+    [
+      "S75",
+      0.75,
+      null
+    ],
+    [
+      "FULL8",
+      1,
+      8
+    ],
+    [
+      "RES8",
+      0.75,
+      8
+    ],
+    [
+      "REFIT4",
+      0.75,
+      4
+    ]
+  ],
+  "fresh_chain_executions": 6,
+  "logical_batch_executions": 60,
+  "unique_new_requests": 1000,
+  "arm_request_observations": 6000,
+  "first_fit_fresh_per_arm_per_batch": true,
+  "second_fit_fresh_at_partial_state": true,
+  "history_between_fits": 0,
+  "history_final_once_per_selected_layer": true,
+  "common_M8_reuse": "Verified core prepared, then donor-specific append-only; no past5000 rebuild each batch",
+  "checkpoint_batches": [
+    51,
+    55,
+    60
+  ],
+  "suffix_evaluation_batches": [
+    55,
+    60
+  ],
+  "terminal_fullseen_requests": 6000,
+  "new_audit_evaluation": false,
+  "automatic_followup": false,
+  "monitoring": "INITIAL_GATE_ONLY_OR_PENDING_PAUSE",
+  "scientific_promotion": false
+}
