@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "tests_run": 47,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "official_import_tests_not_rerun": [
+    "project.run_scripts.fzcb_hard_alpha_densec.tests.test_ha0_backend.DenseBackendTest.test_official_trace_kwargs_adapter_preserves_output",
+    "project.run_scripts.fzcb_hard_alpha_densec.tests.test_ha0_backend.DenseBackendTest.test_single_shape_adapter_matches_official"
+  ],
+  "dependency_mode": "frozen SH1 common read-only; new SH2 source first in import paths",
+  "dependencies": [
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/__init__.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "30dac27f2a2dd145a9c5cd57d541bf0f7b5983e333e614d92dd4ea1e0586d450",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/contracts.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "102ba1feeb3855464ebe7fe72f7c2ad988aeb8d600f76e770618070615015c4b",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/observations.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "cf1a6515a0b2155271f499f2b52360eefdc8121e972c06579a003ab134fe99b7",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/evaluation.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "031d702b201e599a3f0c994997d2133fcbba3092d9837653581aceeac604cb84",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/history.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "0294b6abed168cc0cd0a0765e2d343ec0bd25f6b317c864e663559dda393e775",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/banks.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "541fae4a7bbae8052b5a8e2e13f98fe7ccf8996b0f8cff3979561e02c41ebad0",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/fixture.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "25e729be27b0c0ed2a8413f9469812b4f7b8321f90fd1b7286ea8c14e1088aec",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/track_a/native_geometry.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "c86218b141b25a14283facfb9c5a7993ea96109c053cb452e3486ca8d902f406",
+      "owner": "SH1",
+      "published_by_this_task": false
+    },
+    {
+      "path": "project/run_scripts/multilayer_joint_compensation/tests/test_observations.py",
+      "source_commit": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+      "sha256": "059f46654e35faa3e768d6cb5a2c1e3de5c456af1320379026404ba651b86a32",
+      "owner": "SH1",
+      "published_by_this_task": false
+    }
+  ],
+  "torch": "2.9.1+cu128",
+  "python": "3.12.12 (main, Oct 10 2025, 12:47:49) [Clang 20.1.4 ]",
+  "GPU": 0,
+  "Slurm": 0,
+  "model_asset_load": 0,
+  "experiment_raw": 0
+}

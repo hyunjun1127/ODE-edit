@@ -1,0 +1,24 @@
+{
+  "direct_suite": {
+    "tests_run": 24,
+    "passes": 22,
+    "import_errors": 2,
+    "reason": "SH1 common not in integration main"
+  },
+  "harness_r1": {
+    "tests_run": 24,
+    "passes": 14,
+    "import_errors": 10,
+    "reason": "test-only parent namespace attachment"
+  },
+  "corrected_cpu_suite": {
+    "tests_run": 47,
+    "passes": 47
+  },
+  "p1r52_and_memory_suite": {
+    "tests_run": 23,
+    "passes": 23
+  },
+  "total_successful_focused_tests": 70,
+  "model_or_scheduler_calls": 0
+}

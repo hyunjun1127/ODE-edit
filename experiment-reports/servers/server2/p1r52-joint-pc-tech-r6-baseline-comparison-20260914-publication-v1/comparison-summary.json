@@ -1,0 +1,44 @@
+{
+  "baseline_source": {
+    "aggregate_sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d",
+    "batch_checkpoints_sha256": "84fc346f95377118615f51db067e37902dfea0683c903d8ea232480d00580713",
+    "manifest_sha256": "1999ff19bbf581a1731ad2068f4c64908c605af826a81ac257e82624febec314",
+    "panel": "B1 immediate-post from original W0",
+    "report_package": "p1r52-llama-sequential-10xb100-fourarm-v1"
+  },
+  "denominators": {
+    "locality": 1000,
+    "rephrase_prompt": 200,
+    "request": 100,
+    "rewrite": 100
+  },
+  "identity": {
+    "baseline_common_w0_panel_sha256": "1cae3ce92ced7dcd7fbfddf1c3bc8638d06238a67c4f338471c8cda182858fbc",
+    "cross_run_w0_layer_hash_exact": true,
+    "joint_accepted_z_sha256": "467a195af3602208e97606ed5c2a78f1d148b4afd35bb2d2332e4f1b3410e461",
+    "joint_terminal_sha256": "17e5888f548c753cc3fec672f25d4bb2167248273911da390a4e54811079253e",
+    "request_order_sha256": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+    "sample_match": true,
+    "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "w0_layer_sha256": {
+      "model.layers.4.mlp.down_proj.weight": "10c24f6f22c779b39409622ace0e8ba4e5e4587a95f9c3879e4f72876839308e",
+      "model.layers.5.mlp.down_proj.weight": "7c006100be11c7c8e74823e9c29c47287a7bee6766ea195d04dd5ce64ada3ea2",
+      "model.layers.6.mlp.down_proj.weight": "73db4a10dcce0840b90e82e8419157e3cd426f573f2e7a2a8d34e209b5f0b695",
+      "model.layers.7.mlp.down_proj.weight": "e814d631d651ffba339afe8a3ac4ba51d9012f91425c7730e4ba8810b06bdc48",
+      "model.layers.8.mlp.down_proj.weight": "2acbde8f2f89f1ac2fffeb701ab86c2d3cc5be82619058aafeb5d429641e2149"
+    }
+  },
+  "panels": [
+    {"name":"Pre-edit original W0","rewrite_success":13,"rewrite_accuracy":0,"rewrite_nll":11.09672607421875,"rephrase_success":28,"rephrase_strict_success":8,"rephrase_accuracy":1,"rephrase_strict_accuracy":0,"rephrase_nll":9.816823120117187,"locality":892},
+    {"name":"Official MEMIT B1","rewrite_success":98,"rewrite_accuracy":97,"rewrite_nll":0.24584248185157775,"rephrase_success":163,"rephrase_strict_success":75,"rephrase_accuracy":98,"rephrase_strict_accuracy":35,"rephrase_nll":2.9351699495315553,"locality":886},
+    {"name":"Official AlphaEdit B1","rewrite_success":100,"rewrite_accuracy":100,"rewrite_nll":0.0013090097904205323,"rephrase_success":184,"rephrase_strict_success":88,"rephrase_accuracy":127,"rephrase_strict_accuracy":48,"rephrase_nll":1.8168613839149474,"locality":871},
+    {"name":"P1R52 J0 B1","rewrite_success":99,"rewrite_accuracy":99,"rewrite_nll":0.07314964294433594,"rephrase_success":177,"rephrase_strict_success":81,"rephrase_accuracy":103,"rephrase_strict_accuracy":31,"rephrase_nll":2.3324723052978515,"locality":885},
+    {"name":"Accepted-z common","rewrite_success":100,"rewrite_accuracy":100,"rewrite_nll":0.022487354278564454,"rephrase_success":196,"rephrase_strict_success":97,"rephrase_accuracy":141,"rephrase_strict_accuracy":56,"rephrase_nll":1.3466938018798829,"locality":null},
+    {"name":"C0 PIU/PIR-U","rewrite_success":100,"rewrite_accuracy":99,"rewrite_nll":0.028274173736572265,"rephrase_success":179,"rephrase_strict_success":82,"rephrase_accuracy":106,"rephrase_strict_accuracy":34,"rephrase_nll":2.276501808166504,"locality":891},
+    {"name":"C1 Joint P+C suffix","rewrite_success":100,"rewrite_accuracy":99,"rewrite_nll":0.026397056579589843,"rephrase_success":179,"rephrase_strict_success":82,"rephrase_accuracy":105,"rephrase_strict_accuracy":34,"rephrase_nll":2.2971811294555664,"locality":889},
+    {"name":"C2 Joint P+C fixed quota","rewrite_success":100,"rewrite_accuracy":93,"rewrite_nll":0.2115357971191406,"rephrase_success":174,"rephrase_strict_success":79,"rephrase_accuracy":92,"rephrase_strict_accuracy":28,"rephrase_nll":2.6334014701843262,"locality":892}
+  ],
+  "rerun_count": 0,
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-baseline-comparison/v1"
+}

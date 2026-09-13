@@ -1,0 +1,50 @@
+{
+  "baseline_rerun_count": 0,
+  "canonical_report": "p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-ko.md",
+  "evidence": {
+    "baseline_aggregate": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-aggregate.json",
+      "sha256": "5d2f013b1ccc613cad28ac86f9dff3e3fcab05c72ac26ccfa179deca99ff4d7d"
+    },
+    "baseline_batch_rows": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/p1r52-b100-four-arm-batch-checkpoints.json",
+      "sha256": "84fc346f95377118615f51db067e37902dfea0683c903d8ea232480d00580713"
+    },
+    "baseline_manifest": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/reports/p1r52-llama-sequential-10xb100-fourarm-v1/manifest-v2.json",
+      "sha256": "1999ff19bbf581a1731ad2068f4c64908c605af826a81ac257e82624febec314"
+    },
+    "joint_terminal": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local/odebf/results/s05-p1r52-joint-pc-c1-c2-pilot-b100-tech-r6-v1/raw/case-01/terminal.json",
+      "sha256": "17e5888f548c753cc3fec672f25d4bb2167248273911da390a4e54811079253e"
+    }
+  },
+  "members": [
+    {
+      "bytes": 4049,
+      "lines": 44,
+      "mode": "0600",
+      "path": "comparison-summary.json",
+      "sha256": "4f8d795516cd683f653601cfeaff693108a754edbbcff9bc3845c8fd5fa2bbfe"
+    },
+    {
+      "bytes": 5171,
+      "lines": 76,
+      "mode": "0600",
+      "path": "p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-ko.md",
+      "sha256": "d871546fb1348eaebed3689cae4c85724e1520973c2eaf2a06083ef1771f88d7"
+    }
+  ],
+  "package_root": "c9a3750f430f2542465632706c5c41d68be30338b216e25d78079a9ecbab3280",
+  "package_root_basis": "sorted UTF-8 lines: relative_path<TAB>sha256<TAB>bytes<LF>",
+  "sample_identity": {
+    "request_order_sha256": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+    "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+    "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a",
+    "w0_layer_hash_exact": true
+  },
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-baseline-comparison-manifest/v1",
+  "source_head": "09fc812d14dea0083519944b9928975dcd46361b",
+  "source_tree": "1e8d1159d4cdd1637797c68193b7a4fe6f00119a",
+  "status": "PASS_REUSED_EXACT_SAME_SAMPLE_BASELINES"
+}

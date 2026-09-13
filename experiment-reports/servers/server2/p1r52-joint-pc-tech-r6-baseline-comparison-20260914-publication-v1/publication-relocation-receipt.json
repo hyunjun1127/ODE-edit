@@ -1,0 +1,39 @@
+{
+  "status": "EXACT_GIT_BYTES_RELOCATED",
+  "source_commit": "00417f7c2a5b384a50f1fbb13b9e43aaf4cc523b",
+  "members": [
+    {
+      "original_path": "local/odebf/reports/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-v1/comparison-summary.json",
+      "published_path": "experiment-reports/servers/server2/p1r52-joint-pc-tech-r6-baseline-comparison-20260914-publication-v1/comparison-summary.json",
+      "bytes": 4049,
+      "sha256": "4f8d795516cd683f653601cfeaff693108a754edbbcff9bc3845c8fd5fa2bbfe",
+      "git_blob": "09251d8962a0465444d79102452237e018c80800"
+    },
+    {
+      "original_path": "local/odebf/reports/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-v1/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-ko.md",
+      "published_path": "experiment-reports/servers/server2/p1r52-joint-pc-tech-r6-baseline-comparison-20260914-publication-v1/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-ko.md",
+      "bytes": 5171,
+      "sha256": "d871546fb1348eaebed3689cae4c85724e1520973c2eaf2a06083ef1771f88d7",
+      "git_blob": "5a7caf2544207f273ec2d5d09d5191d67c94dddf"
+    },
+    {
+      "original_path": "local/odebf/reports/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-v1/report-manifest.json",
+      "published_path": "experiment-reports/servers/server2/p1r52-joint-pc-tech-r6-baseline-comparison-20260914-publication-v1/report-manifest.json",
+      "bytes": 2629,
+      "sha256": "7324282a5284f7721b71088a65607284f36ec1692348d2c3c9e4c0176a8d623a",
+      "git_blob": "005f9ba75a0497d7b388336edda09bb79eb56b86"
+    },
+    {
+      "original_path": "local/odebf/reports/p1r52-joint-pc-c1-c2-pilot-tech-r6-baseline-comparison-v1/rooted-report-receipt.json",
+      "published_path": "experiment-reports/servers/server2/p1r52-joint-pc-tech-r6-baseline-comparison-20260914-publication-v1/rooted-report-receipt.json",
+      "bytes": 1046,
+      "sha256": "106bb5cf07fbbc3ebc3e58fe3186954a36f3fce73c2eddd56746fe83509faaf7",
+      "git_blob": "a76adea1e7128bbf2f0aafd85fdbbe305e8bc76c"
+    }
+  ],
+  "historical_paths_and_mode_fields": "PRESERVED; original mode0600 is not publication Git100644",
+  "raw_rehash_this_turn": false,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "scientific_reinterpretation": false,
+  "canonical_for": "historical factual package only, not a new execution or newer family replacement"
+}

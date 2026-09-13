@@ -1,0 +1,23 @@
+{
+  "status": "FULL_READ_PASS",
+  "host": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "cwd": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-owned-branches-main-integration-20260914-v1",
+  "remote": "https://github.com/hyunjun1127/ODE-edit.git",
+  "members": [
+    {
+      "path": "PROTOCOL.md",
+      "bytes": 60382,
+      "lines": 1269,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "full_read": true
+    },
+    {
+      "path": "messages/head/2026-09-14-all-sh-owned-branches-main-integration.md",
+      "bytes": 5838,
+      "lines": 55,
+      "sha256": "b2da4b52467d09d0b6d41dd8bb405d6b38a20e3e0447b4ba34a5ff3b6bac82fc",
+      "full_read": true
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+[
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit",
+    "head": "979b4606b82d5095f89503ea052d586e8c097f38",
+    "branch": "refs/heads/main",
+    "status": [
+      "?? agents/server2/"
+    ]
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-checkpoint-downstream-v1",
+    "head": "257fe5483dc3407690fec9c9bb45cc7dcda91215",
+    "branch": "refs/heads/codex/server2-blue-checkpoint-downstream-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1",
+    "head": "a9e0f7babe70dae252938210d93b3523bb7f7ca1",
+    "branch": "refs/heads/codex/server2-blue-downstream-report-review-20260912-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-l4-progress-barrier-integration-v1",
+    "head": "e6cbf8791e06cd78ceaec891f694a2d495e12268",
+    "branch": "refs/heads/codex/server2-blue-l4-progress-barrier-integration-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-l4-progress-barrier-v1",
+    "head": "5e3e435b90f71d2a15faa6a5c9e83b8ca2ac7a72",
+    "branch": "refs/heads/codex/server2-blue-l4-progress-barrier-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-main-integration-v1",
+    "head": "8969d89957182788432cae365137515f73d42650",
+    "branch": "refs/heads/codex/server2-checkpoint-migration-main-integration-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-server4-v1",
+    "head": "da89d9b3eab4fdc068f5944475766d5243ed5396",
+    "branch": "refs/heads/codex/server2-checkpoint-migration-server4-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed-counterfact10k-policy-20260909-v1",
+    "head": "6fd7f1482c395b9ea7271c15c94967120dffca7e",
+    "branch": "DETACHED",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1",
+    "head": "627139777a347f543f82749ef58cf4da82116031",
+    "branch": "refs/heads/codex/server2-fixed10k-preedit-blue-report-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-eval-v1",
+    "head": "12ad4cbe417d9935b1e7e55600214d14ba0d6360",
+    "branch": "refs/heads/codex/server2-fixed10k-preedit-eval-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-multilayer-damage-compensation-b-v1",
+    "head": "6f5e5456cd45131697fc0530c9d9989fc47e770e",
+    "branch": "refs/heads/codex/server2-multilayer-damage-compensation-b-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-all-experiments-main-audit-v1",
+    "head": "18c666ca394dd07cdac2108400bf79b4e8dc109e",
+    "branch": "refs/heads/codex/all-sh2-experiments-main-audit-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1",
+    "head": "1a9aec1b7b6e97a0ffb78ac70a579cf6c17773e2",
+    "branch": "refs/heads/codex/p1r52-joint-pc-c1-c2-independent-b100-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-main-integration-v1",
+    "head": "edb7ac64e8a993dcc6102d955c8f8447b6c72585",
+    "branch": "refs/heads/codex/p1r52-joint-pc-c1-c2-main-integration-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-full-fp32-b100-v1",
+    "head": "a42a85c87283d717d2acef655fb29c4c7a4f030b",
+    "branch": "refs/heads/codex/p1r52-joint-pc-full-fp32-b100-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-full-fp32-main-integration-v1",
+    "head": "0d63ad4ec4978be6d04aabb640e17917bd1348d7",
+    "branch": "refs/heads/codex/p1r52-joint-pc-full-fp32-main-integration-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-native-z-b100-v1",
+    "head": "00417f7c2a5b384a50f1fbb13b9e43aaf4cc523b",
+    "branch": "refs/heads/codex/p1r52-joint-pc-native-z-b100-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-uniform-weight-off-pilot-v1",
+    "head": "35dee76f201586f624cc23e12424a9ba20689b89",
+    "branch": "refs/heads/codex/p1r52-joint-pc-uniform-weight-off-pilot-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1",
+    "head": "9e5bd22d22a5580f74cd63bb7232f57461c40c4e",
+    "branch": "refs/heads/codex/p1r52-llama-j0-il5-sequential-10xb100-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1",
+    "head": "3bc4d45a90811ca6da88888eaff3da9f8ae46791",
+    "branch": "refs/heads/codex/p1r52-target-depth-il1-il3full-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1",
+    "head": "db30255a39ec48dcd190fecd61cb5fd8c3ce3555",
+    "branch": "refs/heads/codex/p1r52-target-depth-il8-il10-il15-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-main-integration-v1",
+    "head": "04b22042da47e1ec9e0801372905fdcb2d1ea225",
+    "branch": "refs/heads/codex/p3r1-two-timescale-fastz-fh-c013-fp32-main-integration-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-v1",
+    "head": "770dd02a26efa1805cd4010fef200ba962da711f",
+    "branch": "refs/heads/codex/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1",
+    "head": "f143c3dd85a27d3c52a51ebcbcd2e14809e8ab6f",
+    "branch": "refs/heads/codex/p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1",
+    "head": "05a804b0bf554a1ee3af0067dfc41fb1db8b21f8",
+    "branch": "refs/heads/codex/p3r1-two-timescale-fastz-fh-c013-fp32-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1",
+    "head": "a036641bf0df70ce3cd6388d0587486183ba34bf",
+    "branch": "refs/heads/codex/server2-alpha-jv-sequential-routing-analysis-v1",
+    "status": [
+      "?? audits/servers/server2/",
+      "?? experiment-reports/servers/server2/alpha-native-response-v31-sequential-routing-2026-09-06-v1/first-b100-v1/"
+    ]
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-main-v2",
+    "head": "77358b1546d1baf83b3e251afcce663b08d7bfd7",
+    "branch": "refs/heads/codex/server2-alpha-jv-sequential-routing-main-v2",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-v1",
+    "head": "de9e38c16f44f1c774f18804d46649160b98e39c",
+    "branch": "refs/heads/codex/server2-alpha-jv-sequential-routing-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-fzcb-hard-alpha-densec-ha0-b10-v1",
+    "head": "d9521fbd2549eea2956a80099c5a584b9ba6bed9",
+    "branch": "refs/heads/codex/server2-fzcb-hard-alpha-densec-ha0-b10-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2/ODE-edit",
+    "head": "005443557311f68f080ef566ddcbf2c6d4b3d037",
+    "branch": "refs/heads/codex/odeeditsh2-ode-bf-v1",
+    "status": [
+      "?? agents/server2/",
+      "?? audits/servers/server2/"
+    ]
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-atomic-runtime-optimization-p1r22-a3-direct-run",
+    "head": "60fc604e18636499683aebf0f4f24724d8c28981",
+    "branch": "refs/heads/codex/odeeditsh2-s05-atomic-runtime-optimization-p1r22-a3-direct-run",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-atomic-runtime-optimization-p1r22-v1",
+    "head": "60fc604e18636499683aebf0f4f24724d8c28981",
+    "branch": "refs/heads/codex/odeeditsh2-s05-atomic-runtime-optimization-p1r22-v1",
+    "status": [
+      " M project/run_scripts/ode_bf/atomic_runtime_optimization.py",
+      " M project/run_scripts/ode_bf/locks/source_manifest_s05_atomic_runtime_optimization.json",
+      " M project/run_scripts/ode_bf/p1_atomic_runtime_optimization.py",
+      " M project/run_scripts/ode_bf/p1_atomic_runtime_optimization_panel.py",
+      " M project/run_scripts/ode_bf/p1_runtime.py",
+      " M project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization.py",
+      " M project/run_scripts/ode_bf/tests/test_atomic_runtime_optimization_launch.py",
+      " M project/run_scripts/session05_ode_bf_atomic_runtime_optimization.py",
+      "?? project/run_scripts/session05_ode_bf_atomic_runtime_observability.sbatch",
+      "?? project/run_scripts/session05_ode_bf_submit_atomic_runtime_observability.py"
+    ]
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r23-progress-simplex-router-v1",
+    "head": "47941b0bdfc50f48515f86bdded97e3cc4938d65",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p1r23-progress-simplex-router-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r25-writer-state-pacing-v1",
+    "head": "b4c1fed7f9be2d63f1a1cf016ca81156511cfdf5",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p1r25-writer-state-pacing-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r29-debt-writer-v1",
+    "head": "d25fa10d8a9733f695dca82ef9d3f75be7a85578",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p1r29-debt-writer-v1",
+    "status": [
+      " M project/run_scripts/ode_bf/locks/numerical_lock_s05_p1r29_debt_writer.json",
+      " M project/run_scripts/ode_bf/p1_scalable_batched_experiment.py",
+      " M project/run_scripts/ode_bf/p1r29_debt_writer.py",
+      " M project/run_scripts/ode_bf/p1r29_debt_writer_experiment.py",
+      " M project/run_scripts/ode_bf/tests/test_p1r29_debt_writer.py"
+    ]
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r29-full-strength-debt-followup-v1",
+    "head": "ab1d01e8b5a2d91576c6c692b8d847bf45845919",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p1r29-full-strength-debt-followup-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r30-debt-priority-a0-barrier-v1",
+    "head": "5a52724b2441c9b1f4e0c52362ec39c8f6d4b523",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p1r30-debt-priority-a0-barrier-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r37-no-persistent-freeze-v1",
+    "head": "9bfe75d1503793fc673e1bac4ffe4668c00ee0ed",
+    "branch": "refs/heads/codex/p1r37-p1r36-no-persistent-freeze-independent-b10x10-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p1r40-semantic-deficit-velocity-decay-v1",
+    "head": "a5a0d39501de31ab6ebc0386511cb26a50d72846",
+    "branch": "refs/heads/codex/p1r40-semantic-deficit-velocity-decay-atomic-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p2r4-p2r1-clamp-off-v1",
+    "head": "402975870321cacd2be9e42a8aca4e953ff24e8f",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p2r4-p2r1-clamp-off-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-p2r4-phaseb-clamp-on-off-writer-v1",
+    "head": "96f23e804be66569ad3fcf98bfcdd8a02ff3f7fb",
+    "branch": "refs/heads/codex/odeeditsh2-s05-p2r4-phaseb-clamp-on-off-writer-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-r13-sameseal-baselines-p1r18-v1",
+    "head": "083d7b73881822db8d7232b1148d105d067a7b6d",
+    "branch": "refs/heads/codex/odeeditsh2-s05-r13-sameseal-baselines-p1r18-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-scalable-batched-runtime-p1r23-a5-rs-v1",
+    "head": "242f321c442708599a6a2b8b795fae5534257ac2",
+    "branch": "refs/heads/codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-a5-rs-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-scalable-batched-runtime-p1r23-a6-native-equivalence",
+    "head": "5c9c665b87a2335b3d7a434bc64850cc9f5f84a3",
+    "branch": "refs/heads/codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-a6-native-equivalence",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-scalable-batched-runtime-p1r23-tech-r2",
+    "head": "96b3b33bd566c6d1ad3ac15d4cc5c825dddd1e2f",
+    "branch": "refs/heads/codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-tech-r2",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-scalable-batched-runtime-p1r23-v1",
+    "head": "1c88523f61d7d983b5cdbe7ed54b8e56e17747bd",
+    "branch": "refs/heads/codex/odeeditsh2-s05-scalable-batched-runtime-p1r23-v1",
+    "status": []
+  },
+  {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees/odeeditsh2-s05-strength-preserving-router-p1r19-v1",
+    "head": "d604953a046b6af4da7386dd6c64c20fc848f625",
+    "branch": "refs/heads/codex/odeeditsh2-s05-strength-preserving-router-p1r19-v1",
+    "status": []
+  }
+]
