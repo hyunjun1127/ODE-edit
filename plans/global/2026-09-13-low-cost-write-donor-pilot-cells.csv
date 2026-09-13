@@ -1,0 +1,12 @@
+phase,arm_id,entry,next_batch,request_start_inclusive,request_end_exclusive,alpha,second_fit_layer,second_fit_target_mode,history_before_second,history_commit,additional_request_z,activation,role
+core,N4,L4-only-W50-M50,B051,5000,5100,1,none,none,entry_history_no_current_append,one_append_per_selected_layer_at_final,0,core_reference_reuse_if_capsule_matches,same-host native; fresh target computation if reference capsule missing
+core,S875,L4-only-W50-M50,B051,5000,5100,0.875,none,none,entry_history_no_current_append,one_append_per_selected_layer_at_final,0,core,mild scalar shrink
+core,S75,L4-only-W50-M50,B051,5000,5100,0.75,none,none,entry_history_no_current_append,one_append_per_selected_layer_at_final,0,core,quality-boundary scalar shrink
+core,FULL8,L4-only-W50-M50,B051,5000,5100,1,8,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,core,same-entry reconstructed-history BLUE-style reference
+core,RES8,L4-only-W50-M50,B051,5000,5100,0.75,8,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,core,reduced L4 followed by L8 fitting
+core,REFIT4,L4-only-W50-M50,B051,5000,5100,0.75,4,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,core,reduced L4 followed by same-layer fitting
+extension_l5,FULL5,L4-only-W50-M50,B051,5000,5100,1,5,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,only_if_layer_complementarity_question,full L4 followed by L5 reference
+extension_l5,RES5,L4-only-W50-M50,B051,5000,5100,0.75,5,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,only_if_layer_complementarity_question,reduced L4 followed by L5 fitting
+extension_alpha50,S50,L4-only-W50-M50,B051,5000,5100,0.5,none,none,entry_history_no_current_append,one_append_per_selected_layer_at_final,0,only_if_stronger_under_edit_stress_is_informative,known under-edit stress reference; reuse only on exact capsule
+extension_alpha50,RES50,L4-only-W50-M50,B051,5000,5100,0.5,locked_donor,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,only_if_stronger_under_edit_stress_is_informative,stronger shrink followed by frozen donor
+extension_alpha50,REFIT50,L4-only-W50-M50,B051,5000,5100,0.5,4,fresh_actual_partial_state,entry_history_no_current_append,one_append_per_selected_layer_at_final,100,only_if_stronger_under_edit_stress_is_informative,matched same-layer second fitting

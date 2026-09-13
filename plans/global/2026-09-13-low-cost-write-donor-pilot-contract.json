@@ -1,0 +1,214 @@
+{
+  "schema_version": 2,
+  "status": "design_only_not_executed_not_a_scheduler_job",
+  "design": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-13-low-cost-write-donor-pilot-design.md",
+  "source_review_date": "2026-09-13",
+  "gh_instruction": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-13-low-cost-write-donor-pilot-gh-instruction.md",
+  "decision_policy": {
+    "revision_basis": "2026-09-13 사용자 지시: 수치 기준을 너무 strict하게 잡지 않고 ours claim이 적절히 드러나면 허용하되 report는 냉정하게 작성한다.",
+    "mode": "claim_aligned_permissive_with_candid_reporting",
+    "numeric_performance_and_cost_references_are_hard_gates": false,
+    "automatic_conjunctive_performance_gate": false,
+    "valid_comparison_required": true,
+    "allow_when": "유효한 claim별 대조에서 해석 가능한 핵심 이득이 있고, 관측된 손실·비용·반례를 함께 고려해 범위를 명시한 ours claim이 지지될 때 허용한다.",
+    "not_standalone_rejection_reasons": [
+      "small_R_or_P_loss",
+      "some_current_NS_degradation",
+      "NS_gain_below_one_percentage_point",
+      "confidence_interval_includes_zero",
+      "online_cost_above_1_5_or_2_times_native"
+    ],
+    "decision_labels": [
+      "ALLOW",
+      "ALLOW_WITH_LIMITED_CLAIM",
+      "NEEDS_TARGETED_CHECK",
+      "NOT_SUPPORTED",
+      "INVALID_COMPARISON"
+    ],
+    "allow_scope": "관측 범위 안의 claim 채택과 사전 정의한 후속 실험. 모든 metric PASS, 통계적 유의성, 무손실, 저비용, full10k 안정성을 자동으로 뜻하지 않는다.",
+    "no_forced_winner_or_posthoc_metric_denominator_changes": true,
+    "narrow_claims_to_evidence_and_label_posthoc_findings_exploratory": true,
+    "technical_validity_data_separation_and_honest_reporting_are_unchanged": true
+  },
+  "core_arm_ids": [
+    "N4",
+    "S875",
+    "S75",
+    "FULL8",
+    "RES8",
+    "REFIT4"
+  ],
+  "execution": {
+    "preferred_host": "same Server1 environment as E01 assets",
+    "host_change_requires_paired_native": true,
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "parameter_dtype": "float32",
+    "entry_edited_requests": 5000,
+    "next_batch": "B051",
+    "batch_size": 100,
+    "alpha_grid_core": [
+      0.75,
+      0.875,
+      1.0
+    ],
+    "native_L2": 1,
+    "z_max_loss_evaluations": 25,
+    "z_max_adam_updates": 24,
+    "entry_capsule_hash": null,
+    "evaluation_panel_hashes": null,
+    "note": "Null capsule/panel hashes are to be bound before execution; this file is not a completed numerical lock."
+  },
+  "runtime_policy": {
+    "adaptive_alpha": false,
+    "adaptive_donor": false,
+    "uses_official_PN_in_optimizer": false,
+    "uses_audit_for_runtime_selection": false,
+    "quality_based_fallback": false,
+    "on_execution_failure": "record_failed_batch_restore_entry_no_silent_native_substitution",
+    "donor_K_and_z": "fresh on each actual partial state",
+    "history_before_second_fit": "original entry M; no current append between subwrites",
+    "history_commit": "one append per selected layer only after final endpoint",
+    "warm_donor_history": "all prior request events re-encoded once at common entry in sealed B100 order",
+    "donor_history_per_batch": "append_only_no_full_refresh",
+    "future_z": "branch_own_state"
+  },
+  "core_cost_counts": {
+    "endpoints_including_native": 6,
+    "candidate_endpoints": 5,
+    "second_fit_B100_groups": 3,
+    "additional_request_z_if_native_reused": 300,
+    "additional_request_z_if_native_created_once": 400,
+    "passive_logger_extra_reference_run_is_separate": true
+  },
+  "adapter_tolerances_proposed": {
+    "identical_input_weight_history_rng_bytes": true,
+    "update_relative_frobenius": 1e-06,
+    "NLL_max_abs_fixed_32_R_pairs": 0.0001,
+    "R_success_bit_flips": 0
+  },
+  "quality_diagnostic_references": {
+    "current_R_new_failures_among_native_success_max": 0,
+    "current_P_net_loss_max_count": 2,
+    "current_P_count": 200,
+    "current_RP_mean_new_NLL_increase_max_nats": 0.1,
+    "current_RP_paired_NLL_harm_q95_max_nats": 0.5,
+    "active_historical_R_new_failures_max": 0,
+    "active_historical_P_net_loss_max_pp": 1.0,
+    "active_historical_P_mean_new_NLL_increase_max_nats": 0.1,
+    "current_R_strict_net_loss_max_count": 1,
+    "current_P_strict_net_loss_max_count": 4,
+    "wiki128_mean_NLL_increase_max_nats": 0.05,
+    "mmlu32_warning_net_accuracy_loss_count_at_least": 2,
+    "enforcement": "report_reference_exceedance_only_no_automatic_rejection",
+    "scope": "개발 진단용 참고선. 단독 또는 결합 자동 gate가 아니며 통계적 동등성 기준도 아니다."
+  },
+  "selection": {
+    "method": "GH_claim_aligned_joint_assessment",
+    "historical_dev_NS_gain_reference_pp": 1.0,
+    "current_dev_NS_gain_reference_pp": 0.0,
+    "practical_tie_band_reference_pp": 0.5,
+    "numeric_references_are_eligibility_requirements": false,
+    "audit_only_after_one_candidate_selected": true,
+    "retuning_after_audit": "requires reclassifying consumed audit as development",
+    "primary_summary_metric": "historical_dev_NS_gain_pp",
+    "joint_evidence": [
+      "claim_specific_controls",
+      "current_and_historical_N_changes",
+      "R_P_success_transitions_and_NLL_tails",
+      "general_sentinel",
+      "actual_cost_and_additional_information"
+    ],
+    "current_NS_role": "report_and_weigh_tradeoff_not_a_no_degradation_gate",
+    "tie_preference_is_advisory": true,
+    "tie_preference_order": [
+      "online_cost",
+      "additional_information",
+      "number_of_changes"
+    ]
+  },
+  "audit": {
+    "neighborhood_requests": 128,
+    "neighbors_per_request": 10,
+    "seed": 20260913,
+    "exclude_development_case_ids": true,
+    "exclude_known_canonical_subject_relation_overlap": true,
+    "unknown_semantic_overlap_must_be_reported": true,
+    "corpus": "existing fixed10k if no new corpus; not globally blind",
+    "mmlu_development_rows": 32,
+    "mmlu_audit_rows": 68,
+    "mmlu_combined_100_is_descriptive": true,
+    "future_N_used_in_candidate_selection": false,
+    "strong_local_signal_annotation": {
+      "NS_point_gain_min_pp": 1.0,
+      "paired_request_cluster_95CI_lower_greater_than": 0.0,
+      "required_for_allow": false,
+      "not_final_confirmatory_proof": true
+    },
+    "uncertain_or_mixed_result": "핵심 claim에 제한적 근거가 남으면 한 후보의 사전 정의된 5-batch suffix를 허용할 수 있다. 음수 결과와 불확실성은 공개하고 audit 기반 grid 확대는 하지 않는다.",
+    "material_counterevidence": "반박되는 claim은 좁히거나 NOT_SUPPORTED로 기록한다."
+  },
+  "suffix": {
+    "policy": "repeated_every_batch",
+    "methods": 2,
+    "entries_initial": [
+      5000
+    ],
+    "batches_initial": 5,
+    "total_batch_executions_initial": 10,
+    "new_batch_executions_if_first_batch_of_both_reused": 8,
+    "first_request_range": [
+      5000,
+      5500
+    ],
+    "full_seen_at_suffix_end": 5500,
+    "conditional_entries": [
+      1000,
+      5000,
+      9000
+    ],
+    "conditional_batches_per_entry": 10,
+    "conditional_total_batch_executions": 60,
+    "native_future_z_reuse_for_candidate": false
+  },
+  "practical_cost_references": {
+    "primary_online_ratio_reference": 1.5,
+    "pareto_online_ratio_reference": 2.0,
+    "automatic_rejection_above_reference": false,
+    "low_cost_claim_requires_measured_comparator_and_setup_accounting": true,
+    "hard_gpu_hour_cap": null,
+    "not_a_user_budget_or_job_timeout": true,
+    "warm_replay_setup_must_be_counted": true
+  },
+  "later_full10k_engineering_targets": {
+    "final_RS_delta_min_pp": -0.5,
+    "final_PS_delta_min_pp": -1.0,
+    "final_NS_point_delta_min_pp": 3.0,
+    "enforcement": "advisory_targets_not_automatic_claim_or_pilot_rejection_gates",
+    "note": "Pilot과 별도인 장기 engineering 참고 목표. 최종 claim은 실측 효과·손실·비용·반복 근거에 맞추며 이 값을 통계적 noninferiority margin으로 자동 승계하지 않는다."
+  },
+  "reporting": {
+    "language": "ko",
+    "SH_role": "facts_metrics_denominators_deltas_reference_exceedances_failures_provenance_only",
+    "GH_role": "separate_global_interpretation_and_claim_decision",
+    "performance_reference_labels": [
+      "WITHIN_REFERENCE",
+      "EXCEEDS_REFERENCE",
+      "NOT_RECORDED"
+    ],
+    "all_planned_arms_and_failures_must_be_reported": true,
+    "claim_record_required_fields": [
+      "decision",
+      "exact_scoped_claim",
+      "supporting_comparisons",
+      "counterevidence_and_quality_losses",
+      "numeric_reference_exceedances",
+      "uncertainty_and_missing_measurements",
+      "online_and_setup_costs",
+      "why_the_tradeoff_is_accepted_or_not",
+      "allowed_next_step"
+    ],
+    "unmeasured_values": "NOT_RECORDED",
+    "drafting_is_not_execution_or_dispatch": true
+  }
+}
