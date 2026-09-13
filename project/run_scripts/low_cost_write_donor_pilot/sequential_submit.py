@@ -41,7 +41,7 @@ def inspect(text,job,attempt):
         raise ValueError('HELD_ARRAY_THROTTLE')
     if not ('MinMemoryNode=59G' in text or 'MinMemoryNode=60416M' in text):
         raise ValueError('HELD_MEMORY_REQUEST')
-    if 'gres/gpu:rtx_pro_6000=1' not in text and 'gres:gpu:rtx_pro_6000:1' not in text:
+    if not any(s in text for s in ('gres/gpu:rtx_pro_6000=1','gres:gpu:rtx_pro_6000:1','TresPerNode=gres/gpu:rtx_pro_6000:1')):
         raise ValueError('HELD_GPU_REQUEST')
     if 'JobState=PENDING' not in text or 'Reason=JobHeldUser' not in text:
         raise ValueError('NOT_EXPECTED_HELD_PENDING')
@@ -103,5 +103,31 @@ def submit(attempt):
     print(json.dumps(receipt))
 
 
+def release_existing(attempt):
+    """Recover only held inspection; never submit a second job or edit source."""
+    a=Path(attempt).resolve();w=Path(__file__).resolve().parents[3]
+    command(['scripts/check-session-boundary.sh','01a04939-b5c7-7a03-ba2d-ef3343d62cfd'],w)
+    accepted=json.loads((a/'submission-accepted.json').read_text())
+    job=accepted['job']
+    assert job.isdigit() and not (a/'released-inspection.json').exists()
+    assert file_sha(a/'execution.lock.json')==accepted['lock_sha256']
+    held=command(['scontrol','show','job',job,'-o'],w)
+    inspect(held,job,a)
+    save(a/'held-inspection-repair-v1.json',dict(job=job,status='EXACT_REQUEST_PASS',
+        cause='Slurm26 TresPerNode uses gres/gpu:type:1; inspection accepted only equals or legacy colon',
+        current_held_output=held,control_source=dict(path=__file__,sha256=file_sha(__file__)),
+        runtime_archive_mutation=0,science_execution_before_release=0,duplicate_submit=0,resource_changes=0))
+    command(['scontrol','release',job],w)
+    text=command(['squeue','-h','-r','-j',job,'-o','%i|%u|%j|%T|%D|%b|%E'],w)
+    rows=project_rows(text,['odeedit_lowcost_seq10_s4'])
+    assert len(rows)==6 and all(r['state'] in ['PENDING','RUNNING','CONFIGURING'] for r in rows)
+    receipt=save(a/'released-inspection.json',dict(job=job,cells=rows,status='RELEASED',
+        all_pending=all(r['state']=='PENDING' for r in rows),initial_gpu_gate='NOT_YET_RUN',
+        output_root=str(a/'output'),lock_sha256=accepted['lock_sha256'],
+        monitoring='PENDING_GATE_NOT_RUN_PAUSE' if all(r['state']=='PENDING' for r in rows) else 'MINIMUM_INITIAL_GATE_ONLY'))
+    print(json.dumps(receipt))
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--attempt',required=True);args=p.parse_args();submit(args.attempt)
+    p=argparse.ArgumentParser();p.add_argument('--attempt',required=True);p.add_argument('--release-existing',action='store_true')
+    args=p.parse_args();(release_existing if args.release_existing else submit)(args.attempt)

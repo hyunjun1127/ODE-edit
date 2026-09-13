@@ -18,6 +18,7 @@ class SubmissionTests(unittest.TestCase):
         source=root/'source/project/run_scripts/low_cost_write_donor_pilot/sequential.sbatch'
         text=f'JobId=100 UserId={owner}(0) JobName=odeedit_lowcost_seq10_s4 ArrayTaskId=0-5%2 NumCPUs=8 MinMemoryNode=59G TimeLimit=1-00:00:00 ReqNodeList=server4 Command={source} gres/gpu:rtx_pro_6000=1 JobState=PENDING Reason=JobHeldUser'
         inspect(text,'100',root)
+        inspect(text.replace('gres/gpu:rtx_pro_6000=1','TresPerNode=gres/gpu:rtx_pro_6000:1'),'100',root)
         for bad in [text.replace('59G','60G'),text.replace('%2','%3'),text.replace('JobHeldUser','Resources'),text.replace('NumCPUs=8','NumCPUs=16')]:
             with self.assertRaises(ValueError):inspect(bad,'100',root)
 
