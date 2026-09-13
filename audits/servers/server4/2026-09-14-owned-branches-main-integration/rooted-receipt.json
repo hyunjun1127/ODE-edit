@@ -1,0 +1,9 @@
+{
+  "status": "RAW_FREE_INVENTORY_FULL_REHASH_PASS",
+  "member_root": "6d2342e6da6adaf0d1ece8de95f4ee9da4d4cb209c281431af0b6ce64be004cd",
+  "manifest_sha256": "421c407c80a54977291ecd8f6181647aa1e6f060675dad563fca03ac912ceb68",
+  "members": 6,
+  "GPU": 0,
+  "Slurm_mutation": 0,
+  "claim": "VERIFIED_SCOPE_ONLY_HISTORICAL_REMAINDERS_LISTED"
+}

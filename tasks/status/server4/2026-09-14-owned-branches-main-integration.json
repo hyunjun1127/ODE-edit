@@ -1,0 +1,13 @@
+{
+  "policy_id": "ODEEDIT-ALL-SH-OWNED-BRANCH-MAIN-INTEGRATION-20260914-V1",
+  "status": "VERIFIED_SCOPE_PUBLICATION",
+  "inventory_refs": 83,
+  "already_in_main": 62,
+  "integrated": 16,
+  "partially_integrated": 5,
+  "all_historical_bytes_merged": false,
+  "new_GPU": 0,
+  "Slurm_mutations": 0,
+  "monitoring": "PAUSED_TASKS_UNCHANGED",
+  "completion": "TASK_COMPLETE_STOP_AFTER_NONFORCE_PUSH"
+}

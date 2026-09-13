@@ -1,0 +1,44 @@
+{
+  "status": "OWN_SCOPE_RAW_FREE_PACKAGE_CHECK_PASS",
+  "base": "7d5bae2e3be8dba87c92b86a727d5de9ed549af3",
+  "candidate": "37195bb86ca9b002692e072edd9d839034f0034d",
+  "changed_files": 176,
+  "historical_packages": [
+    {
+      "path": "experiment-reports/servers/server4/fzcb-completion-value-fast-kill-v1",
+      "members": 3,
+      "manifest_sha256": "07e44147ce1cd18716f31d8d1b35fc2fba3f4dd726efef0f86696ea181aa173e",
+      "status": "SEALED_MEMBER_SHA_SIZE_PASS",
+      "old_raw_reaudit": false
+    },
+    {
+      "path": "experiment-reports/servers/server4/fzcb-edit-main-method-initial-v1-hold",
+      "members": 3,
+      "manifest_sha256": "04dc40460b51216a73582a92ded7c13c8edbe5a823ad5bc9177c0c2ba696a9b5",
+      "status": "SEALED_MEMBER_SHA_SIZE_PASS",
+      "old_raw_reaudit": false
+    },
+    {
+      "path": "experiment-reports/servers/server4/fzcb-tech-r1-joint-b1-controller-validity-audit-2026-09-01-v2",
+      "members": 8,
+      "manifest_sha256": "b15a5a167c5f0c15764d8747205a5d831597d6521c7df2cd0e4bb84341d8a9d2",
+      "status": "SEALED_MEMBER_SHA_SIZE_PASS",
+      "old_raw_reaudit": false
+    }
+  ],
+  "status_counts": {
+    "ALREADY_IN_MAIN": 62,
+    "INTEGRATED": 16,
+    "PARTIALLY_INTEGRATED": 5
+  },
+  "residual_branches": [
+    "codex/server4-blue-alphaedit-jvp-sample-sequential-tech-r1",
+    "codex/server4-blue-alphaedit-jvp-sample-sequential-v1",
+    "codex/server4-fzcb-tech-r1-joint-b1-analysis-v1",
+    "codex/server4-official-layer-realization-debt-lifelong-b100-v1",
+    "origin/codex/server4-official-layer-realization-debt-lifelong-b100-v1"
+  ],
+  "new_GPU": 0,
+  "Slurm_mutations": 0,
+  "raw_transfer": 0
+}

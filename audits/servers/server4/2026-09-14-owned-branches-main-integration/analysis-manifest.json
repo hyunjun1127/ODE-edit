@@ -1,0 +1,36 @@
+{
+  "members": [
+    {
+      "path": "branch-details.json",
+      "bytes": 154779,
+      "sha256": "1d924cdc0b8cafd73d0dd29e66af7b355a9e963465fc20b40fa570a12e89f1ec"
+    },
+    {
+      "path": "branch-inventory.csv",
+      "bytes": 32086,
+      "sha256": "6037f41a5b4a6738044012034d72088e85e6e09951ae8750e5a66e9c739e0470"
+    },
+    {
+      "path": "build_inventory.py",
+      "bytes": 5643,
+      "sha256": "2a31bb806ecf556dd22e00f459e368c6d342be8a95cff360d832aaff4e2e9c4e"
+    },
+    {
+      "path": "integration-report.md",
+      "bytes": 5257,
+      "sha256": "247f5c96c4187baa59c7b498330c73f2c1568b06f8e68f1f8029ffa7e5c979f5"
+    },
+    {
+      "path": "publication-checks.json",
+      "bytes": 1651,
+      "sha256": "8ec3bc68963eb407128e180c57a691d416c6476415f86c8668474a08c748764c"
+    },
+    {
+      "path": "seal_publication.py",
+      "bytes": 1118,
+      "sha256": "c248a435050e0a9850d51baff1b1898f761d30f2cb60481e74ac99601f2dceae"
+    }
+  ],
+  "member_root": "6d2342e6da6adaf0d1ece8de95f4ee9da4d4cb209c281431af0b6ce64be004cd",
+  "raw_payload": false
+}

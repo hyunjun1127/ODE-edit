@@ -1,0 +1,3 @@
+# SH4 verified own-scope integration
+
+83refs:62already included,16integrated candidates,5partially integrated historical variants. Latest BLUE/Official lifelong/FzCB/Seq10 verified source and raw-free reports included; old conflicting/superseded bytes retained in source branches, not restored over latest fixes. Details: audits/servers/server4/2026-09-14-owned-branches-main-integration/integration-report.md and branch-details.json. CPU checks and preserved-package SHA verified; no GPU/new experiments/raw transfer/deletion. Final main identity is delivered after nonforce push. Other SH main contents preserved. TASK_COMPLETE_STOP with explicit historical remnants, not an all-branches-identical claim.

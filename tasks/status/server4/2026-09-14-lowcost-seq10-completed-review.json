@@ -1,6 +1,6 @@
 {
   "instruction_id": "ODEEDIT-S06-LOWCOST-SEQ10-COMPLETED-DETAILED-REPORT-SH4-V1",
-  "status": "REVIEW_VERIFIED_PENDING_MAIN_INTEGRATION",
+  "status": "TASK_COMPLETE_STOP_AFTER_NONFORCE_PUSH",
   "scientific_terminal_cells": 6,
   "CPU_tests": 55,
   "PNG_byte_reproduced": 7,
