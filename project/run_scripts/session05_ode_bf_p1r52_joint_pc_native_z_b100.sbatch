@@ -4,11 +4,13 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --nodelist=server2
-#SBATCH --mem=65000M
+#SBATCH --mem=60416M
 #SBATCH --time=23:59:00
 #SBATCH --array=0-1%2
 #SBATCH --export=NONE
 
+# Publication resource alignment only; historical 00417f7c used 65000M.
+# Historical session/branch/output guards remain; no experiment resume authorized.
 set -euo pipefail
 umask 077
 

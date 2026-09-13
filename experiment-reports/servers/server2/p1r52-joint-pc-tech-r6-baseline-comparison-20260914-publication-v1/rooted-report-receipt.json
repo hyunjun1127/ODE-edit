@@ -1,0 +1,21 @@
+{
+  "baseline_action_counts": {
+    "evaluator": 0,
+    "gpu": 0,
+    "model": 0,
+    "rerun": 0,
+    "slurm": 0
+  },
+  "baseline_manifest_sha256": "1999ff19bbf581a1731ad2068f4c64908c605af826a81ac257e82624febec314",
+  "cross_run_w0_layer_hash_exact": true,
+  "joint_terminal_sha256": "17e5888f548c753cc3fec672f25d4bb2167248273911da390a4e54811079253e",
+  "package_root": "c9a3750f430f2542465632706c5c41d68be30338b216e25d78079a9ecbab3280",
+  "report_manifest_sha256": "7324282a5284f7721b71088a65607284f36ec1692348d2c3c9e4c0176a8d623a",
+  "request_order_sha256": "bb2e661ad44bf8dc20e0224f21dc90164ed4b3dcf3316d751afb7d8a00bfaed6",
+  "root_digest": "4bcdbea8b1933906b3a7dc96382303bffcacdd8c7ee879d33d50104e33a06137",
+  "sample_match": true,
+  "schema": "ode-edit-s05-p1r52-joint-pc-tech-r6-baseline-comparison-receipt/v1",
+  "status": "PASS_REUSED_EXACT_SAME_SAMPLE_BASELINES",
+  "stream_order": "018be113361157d6f4050c37a4fec14fff78e60388e3898253d66f070d78cfc3",
+  "stream_root": "467e5946ec0eb975284ca25e16f63f3b8ae0093503ca8b84948409689e0ad25a"
+}

@@ -7,12 +7,15 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --mem=65000M
+#SBATCH --mem=60416M
 #SBATCH --time=08:00:00
 #SBATCH --array=0-1%2
 #SBATCH --output=/mnt/raid5/janghj/ODE-edit/local/logs/fzcb-hard-alpha-densec-ha0-b10-v1/ha1-%A_%a.scheduler.out
 #SBATCH --error=/mnt/raid5/janghj/ODE-edit/local/logs/fzcb-hard-alpha-densec-ha0-b10-v1/ha1-%A_%a.scheduler.err
 
+# Publication-only resource compatibility, 2026-09-14. Historical execution
+# used 65000M at f4658c3f; its source/locks/results remain unchanged. This file
+# is not authority to resume the held experiment or reuse its result namespace.
 set -euo pipefail
 umask 077
 : "${FZCB_SOURCE_ROOT:?}"
