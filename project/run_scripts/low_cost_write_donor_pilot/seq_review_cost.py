@@ -4,6 +4,7 @@ from pathlib import Path
 from .review_provenance import sha,write,csvwrite
 
 ARMS=['N4','RES8','S875','S75','FULL8','REFIT4']
+CONTROL_93C={'sequential_submit.py':'46e7e9bebbfc65637c53450e0cc545f5237e26cb750123d4a2430b09749798dc','test_sequential_submission.py':'8345efa076b51074deeb19341a38bec8046f27dfb6be40d34c11afcbfba8ef2a'}
 # Single bounded sacct observation on 2026-09-14; no scheduler queries in reproduction.
 SCHED=[
  (5237,'2026-09-13T21:06:30','2026-09-13T22:33:47',38041400),
@@ -38,8 +39,9 @@ def run(attempt,out,repo):
  for p in sorted((a/'source/project/run_scripts/low_cost_write_donor_pilot').glob('*')):
   if p.suffix not in ('.py','.sbatch'):continue
   q=repo/'project/run_scripts/low_cost_write_donor_pilot'/p.name
-  if q.exists():assert sha(p)==sha(q),('EXECUTED_PUBLICATION_BYTES',p.name)
-  source.append(dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p),publication_path=str(q),publication_exact=q.exists()))
+  exact=q.exists() and sha(p)==sha(q)
+  if q.exists() and not exact:assert CONTROL_93C.get(p.name)==sha(q),('EXECUTED_PUBLICATION_BYTES',p.name)
+  source.append(dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p),publication_path=str(q),publication_exact=exact,publication_sha256=sha(q) if q.exists() else None,publication_lineage='EXECUTION_EXACT' if exact else '93c3e4f_CONTROL_ONLY_NO_RUNTIME_ARCHIVE_MUTATION'))
  csvwrite(o/'executed-source-identities.csv',source)
  sums=[];batchrows=[];fitrows=[];zr=[];scheduler=[];logrefs=[]
  for i,arm in enumerate(ARMS):

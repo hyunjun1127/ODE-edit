@@ -1,8 +1,8 @@
 {
   "status": "PACKAGE_FULL_REHASH_PASS",
-  "member_root": "d2e36699aa070e85c9c7e4e44e37933e5474c0975e00786166ba2dae60f2f065",
+  "member_root": "ad4182f7af31362c5fe14d72b3262785d39b7ee3672529d8c4de37d7665a2742",
   "members": 40,
-  "manifest_sha256": "ba34f4faa6e79c4ca5268f3778659596cd4b19cb794daa1ab3516ffebcf37b4c",
+  "manifest_sha256": "49b993fa063c235840dcffa562c85a018868fa495c742d0156d58afedc3b18be",
   "scope": "SIX_ARM_B51_B60_CPU_REVIEW",
   "scientific_terminal_cells": 6,
   "batches": 60,
