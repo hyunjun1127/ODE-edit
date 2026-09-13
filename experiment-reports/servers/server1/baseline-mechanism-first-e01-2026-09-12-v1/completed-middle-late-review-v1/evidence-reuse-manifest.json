@@ -1,0 +1,1600 @@
+{
+  "E1_A_prior_receipt": {
+    "analysis_manifest_sha256": "f91fbf6faf29e20ad3c1398520107b254d2d463874683baf4fc68633f79271d4",
+    "arms": 10,
+    "final_paired_prompt_rows": 1300000,
+    "focused_tests_passed": 22,
+    "identity": "471ad2c7d5e1c951c0f18b98132908e77de5cee77b9957a6c0323a01bae1612a",
+    "imputation": 0,
+    "input_metric_members": 1120,
+    "input_prompt_rows": 8528000,
+    "member_root": "1cdf7b5a78f9b23567657e774d683e72f20950d7cdc3a0f6aa3d3ea74b862bec",
+    "model_tokenizer_gpu_slurm_actions": 0,
+    "new_tests_passed": 8,
+    "package_members_rehashed": 10,
+    "py_compile": "PASS",
+    "raw_prompt_git": 0,
+    "report_sha256": "476c1f5e823adf8fcf5e90bc35a4d57a3c7a7729b8e6a5b00c0e9348a6d0fa24",
+    "schema": "e01-case-analysis-recall-r1-receipt-v1",
+    "scientific_promotion": false,
+    "source_sha256": "48bf7fee489a3b08f8295aaa7fd77989d3d50a3669abc9eea04b3ab4264b760c",
+    "status": "E1_A_CPU_JOIN_COMPLETE_E0_E1_CAMPAIGN_INCOMPLETE",
+    "subset_count_identity_rows": 210,
+    "tests_sha256": "212a1529f54d886d686cd6a0e9d42ff8c67c6bd3cf08d6a0e02eec0fe17e12f1",
+    "unique_cases": 10000
+  },
+  "canonical_20_cells_observed": 4,
+  "canonical_cells_not_run": 16,
+  "cpu_tensor_reload_only": true,
+  "difference_status": "NONEXACT_CAUSE_UNRESOLVED",
+  "file_hash_scheme": "SHA256_FULL_SERIALIZED_FILE_BYTES",
+  "members": [
+    {
+      "bytes": 7480,
+      "inode": 246841636,
+      "mode": "0o600",
+      "mtime_ns": 1789292331710248679,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/reused-native-chain-receipt.json",
+      "sha256": "e3cd4bb4664da453e65f494418fcbc3003a245bb9682a2877289d033bc753a51"
+    },
+    {
+      "bytes": 4651,
+      "inode": 246841610,
+      "mode": "0o600",
+      "mtime_ns": 1789292136206313878,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/input.lock.json",
+      "sha256": "257c01561d71c5424db89ec145795d87e4c328def06ed77e3d4a09eb61345566"
+    },
+    {
+      "bytes": 19009,
+      "inode": 246847071,
+      "mode": "0o600",
+      "mtime_ns": 1789295083916308541,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/terminal.json",
+      "sha256": "328dc99d85d948d1e8d26867a8f3050f181f85f3a1caea85b18445db6dab5d02"
+    },
+    {
+      "bytes": 691,
+      "inode": 246785226,
+      "mode": "0o600",
+      "mtime_ns": 1789218446862329828,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/resume_fidelity.json",
+      "sha256": "d605cb3238aa79d0d59462261c5b2e6b04c2370c5e8dd09977649ad4cd26e6cf"
+    },
+    {
+      "bytes": 1057002917,
+      "inode": 246813102,
+      "mode": "0o664",
+      "mtime_ns": 1789218437034303693,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B060/W-method-state.pt",
+      "sha256": "ec9a2c6841f90c813eb967434a2f95e076443091bbade2549e96ce832661972d"
+    },
+    {
+      "bytes": 1057003813,
+      "inode": 246750157,
+      "mode": "0o600",
+      "mtime_ns": 1788869496705934096,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/local/baseline-mechanism-first-e01/20260912-v1/imports/server2-selected-v1/AlphaEdit_L4_ONLY/B060/W-method-state.pt",
+      "sha256": "5a47c2f1848f2aba7dccf97cc7ecc3b6ba7a2bbb514eda01de294d1a89cd24d7"
+    },
+    {
+      "bytes": 2618,
+      "inode": 246812988,
+      "mode": "0o600",
+      "mtime_ns": 1789210480589595245,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/observations/observation-receipt.json",
+      "sha256": "b4eedeb3dfc49af3b189a5b2a04e21cb22c781ce06281fdcd4ec5aac6b2a92ae"
+    },
+    {
+      "bytes": 1219,
+      "inode": 246812920,
+      "mode": "0o600",
+      "mtime_ns": 1789209845052590237,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/native-write-diagnostic.json",
+      "sha256": "91b5e81863f7dcec8fe5f0ec12f67cf764bf164ef7767cfb94a875e151c6dcb4"
+    },
+    {
+      "bytes": 1270,
+      "inode": 246812923,
+      "mode": "0o600",
+      "mtime_ns": 1789209847932595078,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/signed-initial.json",
+      "sha256": "da0e42387fb159ab7869dc9644fe6a9d08e04f9b4dcfabedd6ea3e916974a901"
+    },
+    {
+      "bytes": 11670,
+      "inode": 246812985,
+      "mode": "0o664",
+      "mtime_ns": 1789210361741414220,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/observations/signed-response.jsonl.gz",
+      "sha256": "b1eb80098e97526d9359e6e8a3d4ebf0e27ccf7aeffd47d701a3609d4a6b8dcd"
+    },
+    {
+      "bytes": 2413176,
+      "inode": 246812976,
+      "mode": "0o664",
+      "mtime_ns": 1789210336841376011,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/observations/query-positions.jsonl.gz",
+      "sha256": "a0fca66dba4ed35df89dd6236b9b71d6208fd86f9328ccc4cd4f6ca40b5d0555"
+    },
+    {
+      "bytes": 61447,
+      "inode": 246812987,
+      "mode": "0o600",
+      "mtime_ns": 1789210480193594645,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/observations/general-nll.json",
+      "sha256": "652edef6c88b4ed8504a72d4079f8d92bc500bb276dd529331b89b46864a3e43"
+    },
+    {
+      "bytes": 6526,
+      "inode": 246841641,
+      "mode": "0o600",
+      "mtime_ns": 1789292413366224973,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00000-00128.receipt.json",
+      "sha256": "ac8871ca8f070ee0bb7cb191b4681fa7286f341dfcca484ec484b930f34824ee"
+    },
+    {
+      "bytes": 6517,
+      "inode": 246841648,
+      "mode": "0o600",
+      "mtime_ns": 1789292466542210432,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00128-00256.receipt.json",
+      "sha256": "c4f95eb7758ec5a7d24ecc0c12dc17191b78af6041cb3268d3285960f0af0e73"
+    },
+    {
+      "bytes": 6530,
+      "inode": 246841653,
+      "mode": "0o600",
+      "mtime_ns": 1789292521694196011,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00256-00384.receipt.json",
+      "sha256": "7f8933fd8efc19d5661f3bcd629f3660793c6ecfceaba940d96b7c01307ae476"
+    },
+    {
+      "bytes": 6527,
+      "inode": 246841657,
+      "mode": "0o600",
+      "mtime_ns": 1789292575898182426,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00384-00512.receipt.json",
+      "sha256": "861f0a314f29a596182c4568bee7c77a5c20574591ebdd666a7fd3a0f3300c82"
+    },
+    {
+      "bytes": 6534,
+      "inode": 246841661,
+      "mode": "0o600",
+      "mtime_ns": 1789292632070326545,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00512-00640.receipt.json",
+      "sha256": "1cc71250d325c0e0e9cb714f80e767b37a7e817a9c008560bca89ef845a3f219"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246841665,
+      "mode": "0o600",
+      "mtime_ns": 1789292688170951315,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00640-00768.receipt.json",
+      "sha256": "d155a02fe078b678376e1d9576b7049de37e57f24e6662eafe78cd8aa21d0474"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246841669,
+      "mode": "0o600",
+      "mtime_ns": 1789292742323499346,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00768-00896.receipt.json",
+      "sha256": "6f75afc2a0925fa6ffacb74ce531de3be25a34a208f076962c7c5028a6160876"
+    },
+    {
+      "bytes": 6554,
+      "inode": 246841673,
+      "mode": "0o600",
+      "mtime_ns": 1789292798168013680,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/00896-01024.receipt.json",
+      "sha256": "d9c83c6d53e5411ec5dd61e6253c2dda1af58da21154146229f1018c173dccd0"
+    },
+    {
+      "bytes": 6556,
+      "inode": 246841677,
+      "mode": "0o600",
+      "mtime_ns": 1789292853972481373,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01024-01152.receipt.json",
+      "sha256": "9e8ec4da3e329dccd913cd78ddfbd51f4f7c51ac505a86b0fbde13faace70964"
+    },
+    {
+      "bytes": 6540,
+      "inode": 246841681,
+      "mode": "0o600",
+      "mtime_ns": 1789292908836900732,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01152-01280.receipt.json",
+      "sha256": "f96267b2c949d7697ce59178d934c57bd0d2ece5ff146889854e4cc23e3a5b82"
+    },
+    {
+      "bytes": 6526,
+      "inode": 246841685,
+      "mode": "0o600",
+      "mtime_ns": 1789292962273274532,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01280-01408.receipt.json",
+      "sha256": "b25fb45fc55dc2b4629abd6ec444ec3aac4ea0427e946a3eff2662401c4ba779"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246841689,
+      "mode": "0o600",
+      "mtime_ns": 1789293015685617417,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01408-01536.receipt.json",
+      "sha256": "0015805fde42553ea2af76b83e91ec544e966a1e69b8aab57ffd56b6641ff780"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246841693,
+      "mode": "0o600",
+      "mtime_ns": 1789293069305933786,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01536-01664.receipt.json",
+      "sha256": "c22c4102e9d03898cdf8fd820803ee8fa62caf65f17be630b760ca04d46c8004"
+    },
+    {
+      "bytes": 6545,
+      "inode": 246841697,
+      "mode": "0o600",
+      "mtime_ns": 1789293122502222817,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01664-01792.receipt.json",
+      "sha256": "1539e39304f1b6aa253d601d1364f309ef8d623febf250c4a04722a1dc839917"
+    },
+    {
+      "bytes": 6527,
+      "inode": 246841701,
+      "mode": "0o600",
+      "mtime_ns": 1789293178382502463,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01792-01920.receipt.json",
+      "sha256": "566aa7bb160d9ac19c41128761cf003f08f1098602f975743e6bfc63949dd816"
+    },
+    {
+      "bytes": 6537,
+      "inode": 246841705,
+      "mode": "0o600",
+      "mtime_ns": 1789293232886753959,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/01920-02048.receipt.json",
+      "sha256": "6d1e63955ec0ab68b80c0eca347e11c18745d66f4e6bb2ea8370d0942c2ef9af"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246841709,
+      "mode": "0o600",
+      "mtime_ns": 1789293288234990059,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02048-02176.receipt.json",
+      "sha256": "95db55827f3d2cf13207c78fe5dff26ef6691cb3a04612cec3674a348a009a5e"
+    },
+    {
+      "bytes": 6549,
+      "inode": 246841713,
+      "mode": "0o600",
+      "mtime_ns": 1789293343939210060,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02176-02304.receipt.json",
+      "sha256": "73ec60a18543a38bc13a4ffd3f65de9dedce412e0219f7896ccd8f8d2a0089d1"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246841717,
+      "mode": "0o600",
+      "mtime_ns": 1789293399631414162,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02304-02432.receipt.json",
+      "sha256": "a72b6ce6660e47825765e7997a26dc293b4a3742b0212a0284f91ddf2286036e"
+    },
+    {
+      "bytes": 6554,
+      "inode": 246841721,
+      "mode": "0o600",
+      "mtime_ns": 1789293453091596695,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02432-02560.receipt.json",
+      "sha256": "f56ac86f212f5179157b4efa0b01a168be776a547ee80790cf1c27c7133d9646"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246841725,
+      "mode": "0o600",
+      "mtime_ns": 1789293510459779483,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02560-02688.receipt.json",
+      "sha256": "7e86fbd20e235c9ce37015cfb34d77c3d3e85e64f4dade1d8d8be083ff1af4c3"
+    },
+    {
+      "bytes": 6528,
+      "inode": 246841729,
+      "mode": "0o600",
+      "mtime_ns": 1789293566199945439,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02688-02816.receipt.json",
+      "sha256": "c731254c9294ae9ed6f2f033073652ad9c91696f2ff323c5642396fae039f1bf"
+    },
+    {
+      "bytes": 6558,
+      "inode": 246841733,
+      "mode": "0o600",
+      "mtime_ns": 1789293619496094488,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02816-02944.receipt.json",
+      "sha256": "808e6164e0be1e227781ac90c561dfdf81ad3f60cde7e23b38260988f19a9775"
+    },
+    {
+      "bytes": 6550,
+      "inode": 246841737,
+      "mode": "0o600",
+      "mtime_ns": 1789293674160238573,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/02944-03072.receipt.json",
+      "sha256": "74f195f082ebf3dabdbf43fa08648edba28614e47c61027ee82214268d4442a5"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246846972,
+      "mode": "0o600",
+      "mtime_ns": 1789293731332380718,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03072-03200.receipt.json",
+      "sha256": "b5ec4277aa1b11d18ec98a8dbcba19e50a25d084fe942791d8f1cea2e17af065"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246846976,
+      "mode": "0o600",
+      "mtime_ns": 1789293785628508448,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03200-03328.receipt.json",
+      "sha256": "4fbc4f5744746e52264fcb9c222f13088e1092534f75172029f9b6ca8a6642ec"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246846980,
+      "mode": "0o600",
+      "mtime_ns": 1789293838924627644,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03328-03456.receipt.json",
+      "sha256": "af50ddae29ca70379956fb235376f6f8300810bb43dfaf7ec1951056608e43fe"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246846988,
+      "mode": "0o600",
+      "mtime_ns": 1789293892924742794,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03456-03584.receipt.json",
+      "sha256": "cd6cc81336c6273f4d46a0903e4fe29d1247ac138639cc0ab5c97f6f3db60edf"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246846992,
+      "mode": "0o600",
+      "mtime_ns": 1789293947936854866,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03584-03712.receipt.json",
+      "sha256": "c352a8e8d1a0f484bee9c37b74e3fb6783aeb1aab7038c5919bb3ce005c6510c"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246846996,
+      "mode": "0o600",
+      "mtime_ns": 1789294001588959591,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03712-03840.receipt.json",
+      "sha256": "aa520a7ec1d1a7f00592df0010449e14905064f50de9d1acce891aa6d2edf7e7"
+    },
+    {
+      "bytes": 6549,
+      "inode": 246847000,
+      "mode": "0o600",
+      "mtime_ns": 1789294056485062539,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03840-03968.receipt.json",
+      "sha256": "f3757e24b9233541e293be79815c985ae7b5e7b6b9aec63a8c69bcfc8f79a0d0"
+    },
+    {
+      "bytes": 6551,
+      "inode": 246847004,
+      "mode": "0o600",
+      "mtime_ns": 1789294111945162663,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/03968-04096.receipt.json",
+      "sha256": "2ff1d8d0216379ec231b3df78de6fd3bc06566ab4b5006f059b6f3d37e25af1d"
+    },
+    {
+      "bytes": 6534,
+      "inode": 246847008,
+      "mode": "0o600",
+      "mtime_ns": 1789294167809259978,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04096-04224.receipt.json",
+      "sha256": "e7acd33f05f766361e0a977d7a0ab8c088c08cf67f5c86a7ec8cc585949db4cf"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246847010,
+      "mode": "0o600",
+      "mtime_ns": 1789294222977352953,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04224-04352.receipt.json",
+      "sha256": "e27a24361746f74b7de6d28ca7ea08424172d2774e472095440238091f1778ed"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246847014,
+      "mode": "0o600",
+      "mtime_ns": 1789294276441440393,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04352-04480.receipt.json",
+      "sha256": "1a3c8f37b0381e501bf7d939e2f6c4b44b77c233d94d9207605db50654fb0f4b"
+    },
+    {
+      "bytes": 6561,
+      "inode": 246847018,
+      "mode": "0o600",
+      "mtime_ns": 1789294330577526528,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04480-04608.receipt.json",
+      "sha256": "fd39eb9248ea43ff2e11ba758862943cdb450703bedd2e926d63593cda0ccb5d"
+    },
+    {
+      "bytes": 6556,
+      "inode": 246847022,
+      "mode": "0o600",
+      "mtime_ns": 1789294385349611462,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04608-04736.receipt.json",
+      "sha256": "e66973f179b6a5f67f3553343d1efaaa87a5d7011f2bf18c503cffe7f90fa5a4"
+    },
+    {
+      "bytes": 6555,
+      "inode": 246847026,
+      "mode": "0o600",
+      "mtime_ns": 1789294439065692814,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04736-04864.receipt.json",
+      "sha256": "c9d9008b0a72febbcc4810e87e263095ca29712d107fc6cd395e9107a6fc8e8e"
+    },
+    {
+      "bytes": 6534,
+      "inode": 246847030,
+      "mode": "0o600",
+      "mtime_ns": 1789294494153774445,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04864-04992.receipt.json",
+      "sha256": "1e1097a3cfa002e2829ae96b046e673534b0acf1edac67baf33e030903c9e440"
+    },
+    {
+      "bytes": 6540,
+      "inode": 246847034,
+      "mode": "0o600",
+      "mtime_ns": 1789294548685853641,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/04992-05120.receipt.json",
+      "sha256": "f6e99be45b3a10bb4ee657961cfe6e9028d88375cced7e6ee0e8e3a9a514c918"
+    },
+    {
+      "bytes": 6553,
+      "inode": 246847038,
+      "mode": "0o600",
+      "mtime_ns": 1789294603189931354,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05120-05248.receipt.json",
+      "sha256": "261ea0acafb177e13a00a9b9fc7bce3de174085b60b7bce78fbb865f0d656378"
+    },
+    {
+      "bytes": 6538,
+      "inode": 246847042,
+      "mode": "0o600",
+      "mtime_ns": 1789294657838007973,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05248-05376.receipt.json",
+      "sha256": "37683ce93a8c052a49e50d27db590e242a7f1b1acf989a2f80509ec1826f415e"
+    },
+    {
+      "bytes": 6532,
+      "inode": 246847046,
+      "mode": "0o600",
+      "mtime_ns": 1789294712246325512,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05376-05504.receipt.json",
+      "sha256": "06e1424fdcbdae2aef6987669d49be1efa65bab1a53f9940ec7809d371a74a5c"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246847050,
+      "mode": "0o600",
+      "mtime_ns": 1789294766410672922,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05504-05632.receipt.json",
+      "sha256": "e95e0ae48792cbd025a5e56ef5395beded964b6d9048f1341afdd8148a60f8ac"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246847054,
+      "mode": "0o600",
+      "mtime_ns": 1789294823271012501,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05632-05760.receipt.json",
+      "sha256": "df27562ee58ca65b3f6af30470e2dcd942df603b39cf8310946ef848e5d4fd3a"
+    },
+    {
+      "bytes": 6539,
+      "inode": 246847058,
+      "mode": "0o600",
+      "mtime_ns": 1789294877999317531,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05760-05888.receipt.json",
+      "sha256": "24b2b858a6a2a2e55bcb5b548496438623a300c64d6f5c6026b177b76c1558a3"
+    },
+    {
+      "bytes": 6550,
+      "inode": 246847060,
+      "mode": "0o600",
+      "mtime_ns": 1789294885687358795,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n5000/output/shards/05888-05900.receipt.json",
+      "sha256": "956a1e2369c12c627fd26e0589ec1e869521106ed4f194b0068e0639a6d490a9"
+    },
+    {
+      "bytes": 1108,
+      "inode": 246785228,
+      "mode": "0o600",
+      "mtime_ns": 1789218672098911339,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/failure.json",
+      "sha256": "d544c85456d51ea02c91f6b89c5174d97038b000128bded0149baf7e704b2fcd"
+    },
+    {
+      "bytes": 17874,
+      "inode": 246812916,
+      "mode": "0o600",
+      "mtime_ns": 1789209839780581363,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/native-observation.json",
+      "sha256": "bed94ca5d2f4ce273e3294a3fb799f1021f1b6f6f04c69c4b1ce0673d017ffca"
+    },
+    {
+      "bytes": 17871,
+      "inode": 246813009,
+      "mode": "0o600",
+      "mtime_ns": 1789211787689428778,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B052/native-observation.json",
+      "sha256": "f78a4c9565d91e2742740b57d9ec56f52fe069e5ade515c46c1e29a5940fea05"
+    },
+    {
+      "bytes": 17867,
+      "inode": 246813019,
+      "mode": "0o600",
+      "mtime_ns": 1789212608211103242,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B053/native-observation.json",
+      "sha256": "65bbcf1bd5a135f6341f31453425230a2ee9dd3c6bc86935c047efd2e16be10c"
+    },
+    {
+      "bytes": 17865,
+      "inode": 246813031,
+      "mode": "0o600",
+      "mtime_ns": 1789213425417263976,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B054/native-observation.json",
+      "sha256": "409e524ecb26baf38c3a78d3d22b464c657c3d9365c83a551c7ec8da9f34a47e"
+    },
+    {
+      "bytes": 17862,
+      "inode": 246813043,
+      "mode": "0o600",
+      "mtime_ns": 1789214258785091521,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B055/native-observation.json",
+      "sha256": "461c4283acdd9df906363b2660614077359138dae2a0706374ba865948b08a30"
+    },
+    {
+      "bytes": 17872,
+      "inode": 246813055,
+      "mode": "0o600",
+      "mtime_ns": 1789215095173347053,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B056/native-observation.json",
+      "sha256": "18ba4dea3c0d72670cb94157095578a58a6336782db2be599a735d3a53754bd1"
+    },
+    {
+      "bytes": 17874,
+      "inode": 246813067,
+      "mode": "0o600",
+      "mtime_ns": 1789215936861685248,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B057/native-observation.json",
+      "sha256": "7c9f520ed416e87a44b6e453cc6badc411e2b53ae25dd6b4d1e16ed60034fd2e"
+    },
+    {
+      "bytes": 17867,
+      "inode": 246813079,
+      "mode": "0o600",
+      "mtime_ns": 1789216771350121399,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B058/native-observation.json",
+      "sha256": "1f87a6ec862b6e20e7431fcc9465357f6d0edbf953c06aa3be9f276d167a45dd"
+    },
+    {
+      "bytes": 17872,
+      "inode": 246813091,
+      "mode": "0o600",
+      "mtime_ns": 1789217601999581258,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B059/native-observation.json",
+      "sha256": "483fc196e2d52c1423b298cbf3220f0bdace54da7106727b72a479790d53af64"
+    },
+    {
+      "bytes": 17870,
+      "inode": 246813103,
+      "mode": "0o600",
+      "mtime_ns": 1789218439614310561,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B060/native-observation.json",
+      "sha256": "2749935d1d32a395acec8cffbf3129dc44264caedb423cebab520ae83b58193f"
+    },
+    {
+      "bytes": 281,
+      "inode": 246812973,
+      "mode": "0o600",
+      "mtime_ns": 1789210135789062999,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/E1-coverage.json",
+      "sha256": "a3981bad5b7b39b456c71e42d7e22707e3d32d2c80a53ae5b1ab2e562aa18b58"
+    },
+    {
+      "bytes": 4652,
+      "inode": 246841614,
+      "mode": "0o600",
+      "mtime_ns": 1789292141306311997,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/input.lock.json",
+      "sha256": "442e07d54bc774352d736d910c3b6abf2270ca1192636c51e1a2a9816c371cba"
+    },
+    {
+      "bytes": 28589,
+      "inode": 246847134,
+      "mode": "0o600",
+      "mtime_ns": 1789296940271762278,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/terminal.json",
+      "sha256": "4e811cac0c978b20a9c9bc4f343378c719315f7a346e7ed1b73cdd3aa8fdbf56"
+    },
+    {
+      "bytes": 687,
+      "inode": 246785227,
+      "mode": "0o600",
+      "mtime_ns": 1789218461830369490,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/resume_fidelity.json",
+      "sha256": "0b9516e97f232cd0e25a90808e116fb4e45a3f35b6e5f5ce0bb387721e806178"
+    },
+    {
+      "bytes": 1057014885,
+      "inode": 246813106,
+      "mode": "0o664",
+      "mtime_ns": 1789218452166343901,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B100/W-method-state.pt",
+      "sha256": "6d89383bbea0cdaef336724563515eea2fc40c3e0866944ebc28f275f1312750"
+    },
+    {
+      "bytes": 1057015781,
+      "inode": 246750159,
+      "mode": "0o600",
+      "mtime_ns": 1788887035531145207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/local/baseline-mechanism-first-e01/20260912-v1/imports/server2-selected-v1/AlphaEdit_L4_ONLY/B100/W-method-state.pt",
+      "sha256": "8ace335a744bfe11d8ecf587e78d7752208b98f80be760a6a6ccd10043823ee7"
+    },
+    {
+      "bytes": 2617,
+      "inode": 246812991,
+      "mode": "0o600",
+      "mtime_ns": 1789210496277618990,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/observations/observation-receipt.json",
+      "sha256": "9353cbf6509692eb22f782151cb7aa840a6c964d7488bb52188c305ec04060bf"
+    },
+    {
+      "bytes": 1221,
+      "inode": 246812927,
+      "mode": "0o600",
+      "mtime_ns": 1789209852012601931,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/native-write-diagnostic.json",
+      "sha256": "96a660ba1c824685752fcd34abecfd9c4c05ed03f06ab0674fbeda3c44bc4b91"
+    },
+    {
+      "bytes": 1267,
+      "inode": 246812929,
+      "mode": "0o600",
+      "mtime_ns": 1789209854800606609,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/signed-initial.json",
+      "sha256": "7444d33ed39a5341f23414062a1fc8792d512a8f04c9c33a291050af19514494"
+    },
+    {
+      "bytes": 11817,
+      "inode": 246812986,
+      "mode": "0o664",
+      "mtime_ns": 1789210377041437646,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/observations/signed-response.jsonl.gz",
+      "sha256": "63f5657bff0aadf0362c7f21bf336a3a8e0ddb238c1d3c6e7784950ead2901ae"
+    },
+    {
+      "bytes": 2417832,
+      "inode": 246812981,
+      "mode": "0o664",
+      "mtime_ns": 1789210352313399765,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/observations/query-positions.jsonl.gz",
+      "sha256": "4cacb8ed368a48eba10844ee76589bd09cbf30ff21f0a564132b7aef9aad3f7c"
+    },
+    {
+      "bytes": 61444,
+      "inode": 246812990,
+      "mode": "0o600",
+      "mtime_ns": 1789210495869618373,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/observations/general-nll.json",
+      "sha256": "80bc4d93a63628a4e18d7c46a0b7fd7f9db636a0411a91eb94bba759b9e26603"
+    },
+    {
+      "bytes": 6529,
+      "inode": 246841645,
+      "mode": "0o600",
+      "mtime_ns": 1789292420878222880,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00000-00128.receipt.json",
+      "sha256": "d724991a8b0478f5a7b9373f8d44f3982e6cabc80d37930de3e9b8fc7bbc11af"
+    },
+    {
+      "bytes": 6533,
+      "inode": 246841650,
+      "mode": "0o600",
+      "mtime_ns": 1789292475370208081,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00128-00256.receipt.json",
+      "sha256": "c9cb537a6c9e3bf94623908f3d95f52a8a5e244693f7df7288250c8b6b509767"
+    },
+    {
+      "bytes": 6520,
+      "inode": 246841655,
+      "mode": "0o600",
+      "mtime_ns": 1789292531818193431,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00256-00384.receipt.json",
+      "sha256": "50ee32db50f322a11fdd0e5e04e98421195c83b0b24629134900bda2b131cfb3"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246841659,
+      "mode": "0o600",
+      "mtime_ns": 1789292587214179657,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00384-00512.receipt.json",
+      "sha256": "30fb44879efd508185bce8f0437f694910c64d9f96b06a52a95a4578e747ea37"
+    },
+    {
+      "bytes": 6534,
+      "inode": 246841663,
+      "mode": "0o600",
+      "mtime_ns": 1789292645150477736,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00512-00640.receipt.json",
+      "sha256": "972216eb5a2253666da51f89afcba77e09ce9995fd82e72be4054fc1ab2fa87c"
+    },
+    {
+      "bytes": 6529,
+      "inode": 246841667,
+      "mode": "0o600",
+      "mtime_ns": 1789292702763104068,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00640-00768.receipt.json",
+      "sha256": "c09a091a07635c42c011f8e402add44c47a93cf53399397ea55e8db940203076"
+    },
+    {
+      "bytes": 6536,
+      "inode": 246841671,
+      "mode": "0o600",
+      "mtime_ns": 1789292758379652270,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00768-00896.receipt.json",
+      "sha256": "aff01fe6e26db51127d23b290be07302db660a8f82088be86e48bb8022f6aae3"
+    },
+    {
+      "bytes": 6548,
+      "inode": 246841675,
+      "mode": "0o600",
+      "mtime_ns": 1789292815732165634,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/00896-01024.receipt.json",
+      "sha256": "8174a9c30e8379e44c985dbead9d8313d2a535b2f1bad3c76e00c8094f9864da"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246841679,
+      "mode": "0o600",
+      "mtime_ns": 1789292872940630675,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01024-01152.receipt.json",
+      "sha256": "fb8768234d0af2248a600ed86a4824411895ba9febc0f5f72ed53b5f7f7de4ad"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246841683,
+      "mode": "0o600",
+      "mtime_ns": 1789292929425048602,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01152-01280.receipt.json",
+      "sha256": "ccca1c4086fdb26c6e40c48924c0189e99491dd8f553510d825ca0a9de78410c"
+    },
+    {
+      "bytes": 6532,
+      "inode": 246841687,
+      "mode": "0o600",
+      "mtime_ns": 1789292984329419668,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01280-01408.receipt.json",
+      "sha256": "3e3753a0a0b30b8d11c2888354754d54d082ad47a88f2b43603ba5222f942b1e"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246841691,
+      "mode": "0o600",
+      "mtime_ns": 1789293039385760522,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01408-01536.receipt.json",
+      "sha256": "8969ac6d48ca37f7fc97993d6b6dd7b6c2eaafcc20708488fe40eb98e14d02be"
+    },
+    {
+      "bytes": 6561,
+      "inode": 246841695,
+      "mode": "0o600",
+      "mtime_ns": 1789293094458073372,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01536-01664.receipt.json",
+      "sha256": "3fddcdc2d613e8bfc51353f9be0e6bd27eb5b6a1794134fe0377523ad2335af1"
+    },
+    {
+      "bytes": 6534,
+      "inode": 246841699,
+      "mode": "0o600",
+      "mtime_ns": 1789293148994358298,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01664-01792.receipt.json",
+      "sha256": "9fa55b595355a32502cd65d8e802e78ffbdd80340176f214359900b7705e66b9"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246841703,
+      "mode": "0o600",
+      "mtime_ns": 1789293206502634697,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01792-01920.receipt.json",
+      "sha256": "eeb501ca54e0487e03874d21acef0f7af344290acf8796a119c6d22a0643d32b"
+    },
+    {
+      "bytes": 6537,
+      "inode": 246841707,
+      "mode": "0o600",
+      "mtime_ns": 1789293262426882258,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/01920-02048.receipt.json",
+      "sha256": "37bfb05e34fe6c1201f05b6820634a5c1ad1c45f0c2107de62efb3fe0a91305f"
+    },
+    {
+      "bytes": 6537,
+      "inode": 246841711,
+      "mode": "0o600",
+      "mtime_ns": 1789293319479115512,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02048-02176.receipt.json",
+      "sha256": "f7b7ffaaa8a91f4d1ebfabb63513375f2c362277e0ac86cb835d0b3a777941f5"
+    },
+    {
+      "bytes": 6561,
+      "inode": 246841715,
+      "mode": "0o600",
+      "mtime_ns": 1789293376655331771,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02176-02304.receipt.json",
+      "sha256": "d7eac585affcd5e67cdce001078c7fc0d56950b69625b7ef1baea0d48a8ea299"
+    },
+    {
+      "bytes": 6540,
+      "inode": 246841719,
+      "mode": "0o600",
+      "mtime_ns": 1789293433723531994,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02304-02432.receipt.json",
+      "sha256": "f46ea0eb498c0b3a4c1ff3a7471fc628168fc552aa6a94eafc65e2301c490a7b"
+    },
+    {
+      "bytes": 6548,
+      "inode": 246841723,
+      "mode": "0o600",
+      "mtime_ns": 1789293488923712362,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02432-02560.receipt.json",
+      "sha256": "16c8b84da1e6bb57f3aeb9e78be1a57ec6bc14d468aeeec38952a2dffa162f8c"
+    },
+    {
+      "bytes": 6546,
+      "inode": 246841727,
+      "mode": "0o600",
+      "mtime_ns": 1789293547799891849,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02560-02688.receipt.json",
+      "sha256": "87ef8c6b6161e881a7967de20dfc9f2f977cf1401cfd322ecf6486d932122989"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246841731,
+      "mode": "0o600",
+      "mtime_ns": 1789293605016054868,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02688-02816.receipt.json",
+      "sha256": "f2295c5954fdd637b193130c5fbd6b7b47afd3986e381a6247f91a946822b14f"
+    },
+    {
+      "bytes": 6563,
+      "inode": 246841735,
+      "mode": "0o600",
+      "mtime_ns": 1789293659720201325,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02816-02944.receipt.json",
+      "sha256": "a83aec386c84204bd74275668d979fc3af44fae55869a3c643c857c7909cb33b"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246846970,
+      "mode": "0o600",
+      "mtime_ns": 1789293715884343119,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/02944-03072.receipt.json",
+      "sha256": "51dee99a6b2da0061438b3ce659b2a17d42c074e7e4f5885ca22f1b5e7557cd4"
+    },
+    {
+      "bytes": 6540,
+      "inode": 246846974,
+      "mode": "0o600",
+      "mtime_ns": 1789293774740483365,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03072-03200.receipt.json",
+      "sha256": "ee69e535ab764b863f75301836f1403e4f98d522dc5b6f6b3a9ce37d95c54daf"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246846978,
+      "mode": "0o600",
+      "mtime_ns": 1789293830724609678,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03200-03328.receipt.json",
+      "sha256": "f752a45059f9f8e827f4c76fc131b5a4fa35b813f223853bc37c294f2eadf6fc"
+    },
+    {
+      "bytes": 6554,
+      "inode": 246846986,
+      "mode": "0o600",
+      "mtime_ns": 1789293885396727058,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03328-03456.receipt.json",
+      "sha256": "c7abb7469b5b2f57541fccaee0f24a3646fe03efbc249520e96c994b81330136"
+    },
+    {
+      "bytes": 6561,
+      "inode": 246846990,
+      "mode": "0o600",
+      "mtime_ns": 1789293940900840807,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03456-03584.receipt.json",
+      "sha256": "b515f29658b61d18064d3df82c09341fa4487b3323346738d907f7b4e9c06aab"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246846994,
+      "mode": "0o600",
+      "mtime_ns": 1789293997212951207,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03584-03712.receipt.json",
+      "sha256": "0cce4bc52e44e4a8c8292b6db63cdd0b6c0b20c1d345993c89aae159a17c66f9"
+    },
+    {
+      "bytes": 6545,
+      "inode": 246846998,
+      "mode": "0o600",
+      "mtime_ns": 1789294052305054840,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03712-03840.receipt.json",
+      "sha256": "1662132efca3a3d8ea6a36b444a231c4189d887ad1ba151c2b4eea7645ad5e5e"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246847002,
+      "mode": "0o600",
+      "mtime_ns": 1789294109009157454,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03840-03968.receipt.json",
+      "sha256": "82dfd5932ae92a0304c05e20bbf243110f2b6fa53f51ae3bccb1454f59e2fba2"
+    },
+    {
+      "bytes": 6551,
+      "inode": 246847006,
+      "mode": "0o600",
+      "mtime_ns": 1789294165865256647,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/03968-04096.receipt.json",
+      "sha256": "5561a34b01094b36b3d6bb2bad6f37a3d14f9405a2475243cb196c9f37e24399"
+    },
+    {
+      "bytes": 6536,
+      "inode": 246847012,
+      "mode": "0o600",
+      "mtime_ns": 1789294223257353417,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04096-04224.receipt.json",
+      "sha256": "3e0c16ae3160c9a83d776eb744a3d88190e6455f055334b20205ac19c1437f34"
+    },
+    {
+      "bytes": 6549,
+      "inode": 246847016,
+      "mode": "0o600",
+      "mtime_ns": 1789294279953446051,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04224-04352.receipt.json",
+      "sha256": "3714089e382169b96aa3eaa01c98ba2056046c7a91a3086b4c2a8bb0afecc97a"
+    },
+    {
+      "bytes": 6565,
+      "inode": 246847020,
+      "mode": "0o600",
+      "mtime_ns": 1789294334813533173,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04352-04480.receipt.json",
+      "sha256": "85d0e63932593c2483ceeacf11a41bcdb83e69f7ca46200d1a7f9509a69d79f0"
+    },
+    {
+      "bytes": 6550,
+      "inode": 246847024,
+      "mode": "0o600",
+      "mtime_ns": 1789294390409619204,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04480-04608.receipt.json",
+      "sha256": "5e5952721c5e914ba7fbbaea58714715d178b6e0921e1fa0b3abf2356085d74c"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246847028,
+      "mode": "0o600",
+      "mtime_ns": 1789294446709704246,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04608-04736.receipt.json",
+      "sha256": "76dcc5251e3a1b7bde3ff399833e00b6bb4098a6839e02cb02ecdb7c75065356"
+    },
+    {
+      "bytes": 6562,
+      "inode": 246847032,
+      "mode": "0o600",
+      "mtime_ns": 1789294501869785745,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04736-04864.receipt.json",
+      "sha256": "00871e3bd413996617911da7ea74c6475d52678a919d63d1f2cb0b00c71d6e90"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246847036,
+      "mode": "0o600",
+      "mtime_ns": 1789294558445867658,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04864-04992.receipt.json",
+      "sha256": "d1acabcaef4e3d56ba635d3031a0365abb63af2de822c249095dd5524c635de3"
+    },
+    {
+      "bytes": 6538,
+      "inode": 246847040,
+      "mode": "0o600",
+      "mtime_ns": 1789294614481947289,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/04992-05120.receipt.json",
+      "sha256": "bbeed061690359e11aa4e20fd30c8caf1704653c99e1c57b963b4785821f6ca3"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847044,
+      "mode": "0o600",
+      "mtime_ns": 1789294670246038366,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05120-05248.receipt.json",
+      "sha256": "1b007924c806070618ae75aaabb0cc9a6788a27e002c1e47d17e1eb36d827eb9"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246847048,
+      "mode": "0o600",
+      "mtime_ns": 1789294726394418656,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05248-05376.receipt.json",
+      "sha256": "b0891f81354f4f7e3bf429288eedd6857c6c2ec1f742a8ca2c41d4a3997a5608"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246847052,
+      "mode": "0o600",
+      "mtime_ns": 1789294782330770476,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05376-05504.receipt.json",
+      "sha256": "2dea9bcfd2d7dc0d3bf6caf2e5e6e67a7caf5bdf8db04be8ca89a433a8da5d09"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847056,
+      "mode": "0o600",
+      "mtime_ns": 1789294838015096687,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05504-05632.receipt.json",
+      "sha256": "2f991676dd31dafb147aea8c58861edb674df95420f16a57ce3a3e297a93a11f"
+    },
+    {
+      "bytes": 6529,
+      "inode": 246847064,
+      "mode": "0o600",
+      "mtime_ns": 1789294896531416365,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05632-05760.receipt.json",
+      "sha256": "366cd1b01c3758b59d4a0c699dfd048b8fc54cfca421186227984b65c141e476"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847066,
+      "mode": "0o600",
+      "mtime_ns": 1789294952835703945,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05760-05888.receipt.json",
+      "sha256": "7f36407ff3b4f965c1077b942eecf07bb57101ba324ee8b29bb037e818a5cb3f"
+    },
+    {
+      "bytes": 6545,
+      "inode": 246847068,
+      "mode": "0o600",
+      "mtime_ns": 1789295009999977964,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/05888-06016.receipt.json",
+      "sha256": "15c3128b8c1b4c02bf8228acbf51a8f4dd45bee882f7b58159185db0b93b2004"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246847070,
+      "mode": "0o600",
+      "mtime_ns": 1789295064524224220,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06016-06144.receipt.json",
+      "sha256": "9f71e89849e256069a25995888a81d304a3f5648815ab74c934f6a191455efa4"
+    },
+    {
+      "bytes": 6544,
+      "inode": 246847073,
+      "mode": "0o600",
+      "mtime_ns": 1789295121336466752,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06144-06272.receipt.json",
+      "sha256": "2c1cd62ac7abe9c1134f27f9d9ff7952988571ff01f356128068a164d42fd160"
+    },
+    {
+      "bytes": 6544,
+      "inode": 246847075,
+      "mode": "0o600",
+      "mtime_ns": 1789295178052696047,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06272-06400.receipt.json",
+      "sha256": "cf736fb45e96e891a5004e1f8396ee1e3b883941e5646175c471f2655baa97f0"
+    },
+    {
+      "bytes": 6555,
+      "inode": 246847077,
+      "mode": "0o600",
+      "mtime_ns": 1789295233848910422,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06400-06528.receipt.json",
+      "sha256": "fdb5195e6c82366a95eb8ee279e334c6b947dbe9fc6da39d9e2bb46029059f35"
+    },
+    {
+      "bytes": 6533,
+      "inode": 246847079,
+      "mode": "0o600",
+      "mtime_ns": 1789295292585125359,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06528-06656.receipt.json",
+      "sha256": "b54e0100ccf66a7eecd88a6914056163dc98a45da18a184470b817d131528b9b"
+    },
+    {
+      "bytes": 6555,
+      "inode": 246847081,
+      "mode": "0o600",
+      "mtime_ns": 1789295348853322027,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06656-06784.receipt.json",
+      "sha256": "75cacb2fd169cd03d3dfcef93f8008a0337514ab613d9455e11ec523353551d3"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847083,
+      "mode": "0o600",
+      "mtime_ns": 1789295406317514537,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06784-06912.receipt.json",
+      "sha256": "2b402dd2ad864e592d2c5e00af778492b9e362fbfc84b97ce92ff0810631cb03"
+    },
+    {
+      "bytes": 6542,
+      "inode": 246847085,
+      "mode": "0o600",
+      "mtime_ns": 1789295463213697715,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/06912-07040.receipt.json",
+      "sha256": "94affbbd76e228ecfee029888a8ea1f1cf956fe4b315bb2eba947642d04376e7"
+    },
+    {
+      "bytes": 6553,
+      "inode": 246847087,
+      "mode": "0o600",
+      "mtime_ns": 1789295519105871222,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07040-07168.receipt.json",
+      "sha256": "d507d92006816b7517041d411f8129de1da124a5dad490680c570c5a9c4946af"
+    },
+    {
+      "bytes": 6569,
+      "inode": 246847089,
+      "mode": "0o600",
+      "mtime_ns": 1789295575130039401,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07168-07296.receipt.json",
+      "sha256": "6ad6b3e6a6fd47c2acb81938011c0e7094a9a4dac021e9f8ea6992de00bf3474"
+    },
+    {
+      "bytes": 6558,
+      "inode": 246847091,
+      "mode": "0o600",
+      "mtime_ns": 1789295631426203208,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07296-07424.receipt.json",
+      "sha256": "89f3eeb2b186e098200af7fdc34db51f7e951e8ef2391240544c2ccbdf8089fe"
+    },
+    {
+      "bytes": 6551,
+      "inode": 246847093,
+      "mode": "0o600",
+      "mtime_ns": 1789295689266366663,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07424-07552.receipt.json",
+      "sha256": "239225f96a1c851aecc64857b793e1929162cedf4cdef2b6fa2f19488e64f9be"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246847095,
+      "mode": "0o600",
+      "mtime_ns": 1789295746446523934,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07552-07680.receipt.json",
+      "sha256": "50179d87fe1932d98528998980c6e89a28c3f1c075e9ed026e21c2f702ac8655"
+    },
+    {
+      "bytes": 6553,
+      "inode": 246847097,
+      "mode": "0o600",
+      "mtime_ns": 1789295803198676233,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07680-07808.receipt.json",
+      "sha256": "a5b0643f44925adfafd48a82126555259ac4dfb8ed68b988884710e262ae137a"
+    },
+    {
+      "bytes": 6553,
+      "inode": 246847099,
+      "mode": "0o600",
+      "mtime_ns": 1789295858486821346,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07808-07936.receipt.json",
+      "sha256": "d210c4d644cc2ca44c6278c14d321148fe922333fa0586b16f8ce637fc0b8825"
+    },
+    {
+      "bytes": 6551,
+      "inode": 246847101,
+      "mode": "0o600",
+      "mtime_ns": 1789295916142969609,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/07936-08064.receipt.json",
+      "sha256": "b11275792324a35ae16240c589defc9be67833c2f2d4839e677a4191e4d5d56b"
+    },
+    {
+      "bytes": 6549,
+      "inode": 246847103,
+      "mode": "0o600",
+      "mtime_ns": 1789295972735112410,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08064-08192.receipt.json",
+      "sha256": "37210e1eb1208c0e20435242146dd0da62a47390222ba8a7dd8f1ccee1e3593f"
+    },
+    {
+      "bytes": 6555,
+      "inode": 246847105,
+      "mode": "0o600",
+      "mtime_ns": 1789296029395252965,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08192-08320.receipt.json",
+      "sha256": "1d9001c7501fe8759201686cd29b94cdcdddad63ec19e09434f441ee83163d3f"
+    },
+    {
+      "bytes": 6550,
+      "inode": 246847107,
+      "mode": "0o600",
+      "mtime_ns": 1789296085955391109,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08320-08448.receipt.json",
+      "sha256": "ec6ca99eb372d15a2073d791c068ebe831ede7a7ac6be0f57c441f59fdf0d3d4"
+    },
+    {
+      "bytes": 6560,
+      "inode": 246847109,
+      "mode": "0o600",
+      "mtime_ns": 1789296140511522524,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08448-08576.receipt.json",
+      "sha256": "ca10d23d526ff9b640dd08f1db188f84ce91f2f928592632ce9c5c6aeee455c5"
+    },
+    {
+      "bytes": 6570,
+      "inode": 246847111,
+      "mode": "0o600",
+      "mtime_ns": 1789296197995659247,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08576-08704.receipt.json",
+      "sha256": "9b72de5b6a48c326c7182ceb6610797093f4a1202830236a9cd9a1b87d7fe76c"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847113,
+      "mode": "0o600",
+      "mtime_ns": 1789296254447791953,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08704-08832.receipt.json",
+      "sha256": "4932d4d00ad42948d30f91a499095d49dd19aacedb2ab45ac7bd4e8de7e2f367"
+    },
+    {
+      "bytes": 6547,
+      "inode": 246847115,
+      "mode": "0o600",
+      "mtime_ns": 1789296312363926661,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08832-08960.receipt.json",
+      "sha256": "1b62af2e5796ec019451458fdb496e44f41f26971e4248d18c2a1f0dab9161f3"
+    },
+    {
+      "bytes": 6552,
+      "inode": 246847117,
+      "mode": "0o600",
+      "mtime_ns": 1789296369212057618,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/08960-09088.receipt.json",
+      "sha256": "e466677a316d1d1aabb0380cf69caf4921fe06b00794be8217a7f45c8c1aacb3"
+    },
+    {
+      "bytes": 6560,
+      "inode": 246847119,
+      "mode": "0o600",
+      "mtime_ns": 1789296425636186488,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09088-09216.receipt.json",
+      "sha256": "05cfb2e8aa598ce7bf422c88e68392acbde9959abb2ff70e3c6d8e92428f3265"
+    },
+    {
+      "bytes": 6543,
+      "inode": 246847121,
+      "mode": "0o600",
+      "mtime_ns": 1789296483456317520,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09216-09344.receipt.json",
+      "sha256": "fe502a312d0bb42ab61024b0f92f24babcedd2dcd7900fed7f352c3c58a51673"
+    },
+    {
+      "bytes": 6533,
+      "inode": 246847123,
+      "mode": "0o600",
+      "mtime_ns": 1789296540680446286,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09344-09472.receipt.json",
+      "sha256": "78e97dfcb5688d800889d8bb71f318d8c3453af3d0c433e7178cbbff0b7519ec"
+    },
+    {
+      "bytes": 6545,
+      "inode": 246847125,
+      "mode": "0o600",
+      "mtime_ns": 1789296597260572803,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09472-09600.receipt.json",
+      "sha256": "82e21c392632cae20ae72fa6103833ba17112272c5f821cbc0004f3d4fc69dcd"
+    },
+    {
+      "bytes": 6529,
+      "inode": 246847127,
+      "mode": "0o600",
+      "mtime_ns": 1789296655840703043,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09600-09728.receipt.json",
+      "sha256": "b2d95596d6b19f05b9bc4ec8b83ed7dca3aa497384011b80ac9b2d67c9269053"
+    },
+    {
+      "bytes": 6541,
+      "inode": 246847129,
+      "mode": "0o600",
+      "mtime_ns": 1789296715440834852,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09728-09856.receipt.json",
+      "sha256": "dbef66a82dc17bad8b964be2ba7bf4e1ec5acca99ca36326c831ca566abb303f"
+    },
+    {
+      "bytes": 6557,
+      "inode": 246847131,
+      "mode": "0o600",
+      "mtime_ns": 1789296736544711818,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-fullseen-schema-repair-r3/local/baseline-mechanism-first-e01/20260912-v1/fullseen-schema-repair-r3/n9000/output/shards/09856-09900.receipt.json",
+      "sha256": "8c292eea8d47432908c1506f9a8ea29b7957899237f0132dc6433759a56c0750"
+    },
+    {
+      "bytes": 1110,
+      "inode": 246785229,
+      "mode": "0o600",
+      "mtime_ns": 1789218693158964266,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/failure.json",
+      "sha256": "f6bb1b13a9959d3d69f3f85e67ddfe6accb929aaa0116b9f480eb99c359de81b"
+    },
+    {
+      "bytes": 17880,
+      "inode": 246812922,
+      "mode": "0o600",
+      "mtime_ns": 1789209846996593505,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/native-observation.json",
+      "sha256": "e1b199abc6df48fd5e593610290ec3ac019675b091cf7cbdf2b6e853f6b6b90d"
+    },
+    {
+      "bytes": 17869,
+      "inode": 246813010,
+      "mode": "0o600",
+      "mtime_ns": 1789211789645433135,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B092/native-observation.json",
+      "sha256": "e686be956284aa769305d634a28f110957e192a9f39e0f07f5e6ae0b384303aa"
+    },
+    {
+      "bytes": 17870,
+      "inode": 246813025,
+      "mode": "0o600",
+      "mtime_ns": 1789212617995122116,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B093/native-observation.json",
+      "sha256": "bae4b9f65a2553e537fa2629d3a03d9482f8bb08f45b6dd00360ea39d2d68302"
+    },
+    {
+      "bytes": 17881,
+      "inode": 246813037,
+      "mode": "0o600",
+      "mtime_ns": 1789213471249218794,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B094/native-observation.json",
+      "sha256": "854714bc251715dededa6401cc8c91ebd107081ef272ec41ebeb073ff8110219"
+    },
+    {
+      "bytes": 17860,
+      "inode": 246813049,
+      "mode": "0o600",
+      "mtime_ns": 1789214313081108358,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B095/native-observation.json",
+      "sha256": "bf7c86dec5b848a9d381e17a8fb3b4153236fa1c11bc78eed00b13f9b822df1e"
+    },
+    {
+      "bytes": 17868,
+      "inode": 246813061,
+      "mode": "0o600",
+      "mtime_ns": 1789215144001359758,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B096/native-observation.json",
+      "sha256": "49c7f8bb8dc5f9b4ba857cd15aa4d5992e7ac1d059500069b0930ea5265653c6"
+    },
+    {
+      "bytes": 17877,
+      "inode": 246813073,
+      "mode": "0o600",
+      "mtime_ns": 1789215988625710906,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B097/native-observation.json",
+      "sha256": "5992b8668eb2045844ab3e56d2f1f86bbc72e5be4443239ba6e0034909bbc943"
+    },
+    {
+      "bytes": 17874,
+      "inode": 246813085,
+      "mode": "0o600",
+      "mtime_ns": 1789216811794143265,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B098/native-observation.json",
+      "sha256": "e63264655e8bde905ceb381cb17decd096930eef35a7d078cb10fd58eb2078d5"
+    },
+    {
+      "bytes": 17867,
+      "inode": 246813097,
+      "mode": "0o600",
+      "mtime_ns": 1789217612371625431,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B099/native-observation.json",
+      "sha256": "009a28db217bbde9c8082c7a1802a2baf43ff039c61e3c9fc37d59cf0e3ab54e"
+    },
+    {
+      "bytes": 17872,
+      "inode": 246813107,
+      "mode": "0o600",
+      "mtime_ns": 1789218454706350633,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B100/native-observation.json",
+      "sha256": "76bc314bccc7ba133bea5913e82bbadc46c464fd04d95376b67dccf3dbebea07"
+    },
+    {
+      "bytes": 281,
+      "inode": 246812978,
+      "mode": "0o600",
+      "mtime_ns": 1789210150437086114,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/E1-coverage.json",
+      "sha256": "cdf665600cbee4dd34faf5907e7c4e09f861357720bf6833856de868cc0e4a56"
+    },
+    {
+      "bytes": 2382,
+      "inode": 246750246,
+      "mode": "0o600",
+      "mtime_ns": 1789206461895363300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/cold-l4-B001.json",
+      "sha256": "a8587c8b80b6bd9a2c101272d8cf9666da58324bb9cc64c11d84c1aa893ba04e"
+    },
+    {
+      "bytes": 2270,
+      "inode": 246750213,
+      "mode": "0o600",
+      "mtime_ns": 1789206332431104362,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/warm-l4-B020.json",
+      "sha256": "59b75892157b6fedbd31018e03f816c52f12be8e72db2114c23d0219dceb8f23"
+    },
+    {
+      "bytes": 674,
+      "inode": 246778988,
+      "mode": "0o600",
+      "mtime_ns": 1789208667009803063,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/local/baseline-mechanism-first-e01/20260912-v1/control/user-repair-r1/terminal-release.json",
+      "sha256": "4efad57aa33d780342e23d87f49e1aeaf7391c3ed4952d4fb13d519b5b0dd915"
+    },
+    {
+      "bytes": 364,
+      "inode": 246750021,
+      "mode": "0o664",
+      "mtime_ns": 1789195905364315746,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/compute-accounting.csv",
+      "sha256": "3d60b8ee7b6c447272d2c9f120d64237ba21850f136607c8f598eee7241ae30b"
+    },
+    {
+      "bytes": 932,
+      "inode": 246750198,
+      "mode": "0o664",
+      "mtime_ns": 1789206319475078359,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/compute-accounting.csv",
+      "sha256": "d4eb816e614b8dff484bd17ed20d33022b77e36071de408dc04ecad5c42c036f"
+    },
+    {
+      "bytes": 1055,
+      "inode": 246750041,
+      "mode": "0o664",
+      "mtime_ns": 1789196602949204369,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/rooted-receipt.json",
+      "sha256": "51c4b96d5fb0fdb7b5e11527404fbe9f70459a465b4699b40da2187271c4dcf4"
+    },
+    {
+      "bytes": 11788,
+      "inode": 246782620,
+      "mode": "0o664",
+      "mtime_ns": 1789208635669681704,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/fixtures.py",
+      "sha256": "a64be1c27fec76c247d9623542947d59a1fa8fadcccbf1191dd0ca9034e0a2b0"
+    },
+    {
+      "bytes": 16897,
+      "inode": 246782629,
+      "mode": "0o664",
+      "mtime_ns": 1789208635669681704,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/observation_panels.py",
+      "sha256": "09b567fc9fc22d0ed99a6566165c5147947ad0b366763122fc0242dd7b03777b"
+    },
+    {
+      "bytes": 11254,
+      "inode": 246782636,
+      "mode": "0o664",
+      "mtime_ns": 1789208635669681704,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/signed_response.py",
+      "sha256": "f95ba7d528473d826a94ccd549ef4d957c77a3e9d52de711952f67a793f2c496"
+    },
+    {
+      "bytes": 10169,
+      "inode": 246782623,
+      "mode": "0o664",
+      "mtime_ns": 1789208635669681704,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/geometry.py",
+      "sha256": "918689896ac6439deb318b7570927e2215ffbc4b932556da90f33dec5125e665"
+    },
+    {
+      "bytes": 8479,
+      "inode": 246782625,
+      "mode": "0o664",
+      "mtime_ns": 1789208635669681704,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/instrumentation.py",
+      "sha256": "1dc9327b790a3bb9e90e7deb85fb5db30b61870a5836b53ed1bcc2b6a2d728e1"
+    },
+    {
+      "bytes": 20276,
+      "inode": 246782616,
+      "mode": "0o664",
+      "mtime_ns": 1789208793042248138,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/project/run_scripts/baseline_mechanism_first/continuation.py",
+      "sha256": "d9eaae8e2af16ce8fad61d534c405117fa206bad4332bec9ab8f30f9517e02a7"
+    },
+    {
+      "bytes": 515,
+      "inode": 246750025,
+      "mode": "0o600",
+      "mtime_ns": 1789195905368315750,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/cold-l4-recall-r1/rooted-receipt.json",
+      "sha256": "31f24a9c90b1c0a4ab71dc2d97e2773ca702fc01eb63e691f575ae2c29985d98"
+    },
+    {
+      "bytes": 634,
+      "inode": 246750204,
+      "mode": "0o600",
+      "mtime_ns": 1789206319479078367,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/warm-l4-recall-r2/rooted-receipt.json",
+      "sha256": "340270ce4103617e31ede17a5434645aecb29832c4aee63730280d72f8045148"
+    },
+    {
+      "bytes": 457,
+      "inode": 246750276,
+      "mode": "0o600",
+      "mtime_ns": 1789207311965267064,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/checkpoint-comparison-recall-r2/rooted-receipt.json",
+      "sha256": "d603bb770b4aeb5ef7ae0040a15fd264c2a8ebbc732480c30c0c4df4128d0861"
+    },
+    {
+      "bytes": 1853,
+      "inode": 246750065,
+      "mode": "0o664",
+      "mtime_ns": 1789196508733022894,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/analysis-manifest.json",
+      "sha256": "f91fbf6faf29e20ad3c1398520107b254d2d463874683baf4fc68633f79271d4"
+    },
+    {
+      "bytes": 5841,
+      "inode": 246750064,
+      "mode": "0o664",
+      "mtime_ns": 1789196508713022853,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-mechanism-first-e01-v1/experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/case-analysis-recall-r1/canonical-r2/factual-report-ko.md",
+      "sha256": "476c1f5e823adf8fcf5e90bc35a4d57a3c7a7729b8e6a5b00c0e9348a6d0fa24"
+    },
+    {
+      "bytes": 5990,
+      "inode": 246812918,
+      "mode": "0o600",
+      "mtime_ns": 1789209843612587814,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n5000-performance-r2/output/B051/target-reproduction.json",
+      "sha256": "fe600a9a6c6ce40df4a54447fcd0e646527ccd0ca17f4fdb6bdee9fe44dcf6f9"
+    },
+    {
+      "bytes": 5997,
+      "inode": 246812924,
+      "mode": "0o600",
+      "mtime_ns": 1789209850780599863,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-e01-terminal-performance-repair-r1/local/baseline-mechanism-first-e01/20260912-v1/attempts/warm-l4-n9000-performance-r2/output/B091/target-reproduction.json",
+      "sha256": "04b1a97abb418e0137af233feebdc870bc298aa7324a19ca50e45cf031522ef5"
+    }
+  ],
+  "native_batches_valid_unique": 31,
+  "new_GPU_model_forward_native_write": 0,
+  "new_review_native_batches": 0,
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "parameter_version_restore_claim": false,
+  "schema": "E01_COMPLETED_REVIEW_EVIDENCE_V1",
+  "tensor_hardware_cause_attribution": false,
+  "tensor_hash_scheme": "SHA256(str((str(dtype),list(shape))).encode()+contiguous_tensor_bytes)",
+  "tensor_metadata_comparison": [
+    {
+      "entry_n": 5000,
+      "full_file_SHA_before_after_exact": true,
+      "metadata_exact": {
+        "base_model_revision": true,
+        "batch": true,
+        "contexts": true,
+        "covariance": true,
+        "rng": true,
+        "seen_ids": true
+      },
+      "original_trajectory_equivalence": false,
+      "status": "NONEXACT_CAUSE_UNRESOLVED"
+    },
+    {
+      "entry_n": 9000,
+      "full_file_SHA_before_after_exact": true,
+      "metadata_exact": {
+        "base_model_revision": true,
+        "batch": true,
+        "contexts": true,
+        "covariance": true,
+        "rng": true,
+        "seen_ids": true
+      },
+      "original_trajectory_equivalence": false,
+      "status": "NONEXACT_CAUSE_UNRESOLVED"
+    }
+  ],
+  "whole_E01_complete": false
+}
