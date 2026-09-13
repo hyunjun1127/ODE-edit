@@ -152,29 +152,59 @@ def weight_action_energy(
         raise ObservationBoundary("weight action inventory differs")
     rows = []
     total = 0.0
+    total_magnitude = 0.0
     for layer, (name, parameter) in zip(LAYERS, touched.items(), strict=True):
         original = originals[name].to(parameter.device, parameter.dtype)
         flat = (parameter.detach() - original).reshape(-1)
         energy = 0.0
+        weight_energy = 0.0
         for begin in range(0, flat.numel(), 4 * 1024 * 1024):
             chunk = flat[begin : begin + 4 * 1024 * 1024].to(torch.float64)
             energy += _finite_scalar(torch.dot(chunk, chunk), "weight energy")
+            weight_chunk = original.reshape(-1)[
+                begin : begin + 4 * 1024 * 1024
+            ].to(torch.float64)
+            weight_energy += _finite_scalar(
+                torch.dot(weight_chunk, weight_chunk), "entry weight magnitude"
+            )
+        magnitude = math.sqrt(energy)
+        weight_magnitude = math.sqrt(weight_energy)
         rows.append({
             "layer": layer,
             "weight_name": name,
             "frobenius_energy": energy,
+            "frobenius_magnitude": magnitude,
+            "entry_weight_frobenius_magnitude": weight_magnitude,
+            # A zero entry-weight norm is a typed reporting boundary; never
+            # conceal it with an epsilon.  Real model matrices are nonzero,
+            # while the explicit null keeps synthetic fixtures well-defined.
+            "relative_update_magnitude": (
+                None if weight_magnitude == 0.0 else magnitude / weight_magnitude
+            ),
             "edited_weight_sha256": tensor_sha256(parameter),
             "entry_weight_sha256": tensor_sha256(originals[name]),
         })
         total += energy
+        total_magnitude += magnitude
     if not math.isfinite(total) or total <= 0.0:
         raise ObservationBoundary("nonpositive total physical weight action")
     for row in rows:
         row["energy_share"] = row["frobenius_energy"] / total
+        row["update_magnitude_share"] = (
+            row["frobenius_magnitude"] / total_magnitude
+        )
     return {
         "definition": "frobenius_energy=||Delta_W_l||_F^2",
+        "primary_definition": "layer-wise update magnitude=||Delta_W_l||_F",
         "scalar_reduction_dtype": "float64",
         "total_frobenius_energy": total,
+        "total_layer_update_magnitude": total_magnitude,
         "layers": rows,
         "share_sum": sum(row["energy_share"] for row in rows),
+        "update_magnitude_share_sum": sum(
+            row["update_magnitude_share"] for row in rows
+        ),
+        "zero_entry_weight_magnitude_count": sum(
+            row["entry_weight_frobenius_magnitude"] == 0.0 for row in rows
+        ),
     }

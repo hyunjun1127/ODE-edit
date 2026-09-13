@@ -196,9 +196,17 @@ def _run_apply(
     capture_layers: bool,
     reset_alpha_cache: bool = True,
     alpha_cache_history_width: int | None = 0,
+    fixed_z_replay: Sequence[torch.Tensor] | None = None,
+    z_capture_sink: list[torch.Tensor] | None = None,
+    raw_capture_sink: list[dict[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], Mapping[str, torch.Tensor]]:
     request_hashes = [str(value["request_sha256"]) for value in requests]
-    observer = OfficialLayerObserver(method=method, request_sha256=request_hashes, capture_layers=capture_layers)
+    observer = OfficialLayerObserver(
+        method=method,
+        request_sha256=request_hashes,
+        capture_layers=capture_layers,
+        replay_z=fixed_z_replay,
+    )
     call_audit = OfficialCallAudit()
     hook = OfficialTokenizerHook(tokenizer, [])
     # Preserve the independent experiment byte-for-byte by default.  The
@@ -243,6 +251,10 @@ def _run_apply(
     payload["identity_sha256"] = canonical_hash(
         {key: value for key, value in payload.items() if key != "identity_sha256"}
     )
+    if z_capture_sink is not None:
+        z_capture_sink.extend(observer.replay_tensors())
+    if raw_capture_sink is not None:
+        raw_capture_sink.append(observer.raw_capture())
     return payload, originals
 
 
