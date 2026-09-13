@@ -1,0 +1,140 @@
+{
+  "schema": "E01_POSTRUN_REPORT_REVIEW_V1",
+  "status": "CONTENT_CHECK_PASS_FINAL_PACKAGE_REHASH_PENDING",
+  "analysis_source_head": "089dfe7eb807a904752272cb3d0697d06b94eca8",
+  "analysis_source_tree": "df5ae9f68cc2b160a54c3e709934c20c44ec563b",
+  "checks": {
+    "main_result_table_csv_exact_rows": 12,
+    "strict_token_column_order_csv_exact_rows": 6,
+    "atwrite_table_reference_and_values_csv_exact_rows": 12,
+    "fullseen_distribution_display_rounding_csv_exact_rows": 36,
+    "weight_difference_display_csv_exact_rows": 4,
+    "signed_derivative_summary_csv_exact_rows": 12,
+    "transition_conservation_rows": 522,
+    "report_all_markdown_table_column_counts": "PASS",
+    "replay_own_atwrite_observed_requests_per_endpoint": 200,
+    "replay_own_missing_prefix_requests": [
+      5800,
+      9800
+    ],
+    "replay_own_missing_newwindow_requests_per_endpoint": 800,
+    "metadata_exactness_statement": "Matches tensor_metadata_comparison existing receipt; no new tensor rehash",
+    "recorded_focused_tests": 17,
+    "recorded_reducer_byte_reproduction_outputs": 7,
+    "plot_source_identity_current_file": "MATCH",
+    "scope": "Middle/Late observation complete; full E01 4/20 measured first native cells,16 NOT_RUN"
+  },
+  "findings": [],
+  "resolved_findings": [
+    {
+      "issue": "Prior cold/warm allocation status cells were blank",
+      "resolution": "Parent changed report generator fallback to PRIOR_COMPLETED_RECEIPT_REUSED and regenerated report; CSV values unchanged",
+      "checked_jobs": [
+        45719,
+        45805
+      ]
+    }
+  ],
+  "limits": [
+    "No large raw or tensor file reopened/rehashed in this bounded postrun review.",
+    "Final package seal/whole-package rehash/main push remains parent-owned and was not complete at review time.",
+    "This content check does not supply a new model measurement, fidelity proof, or causal interpretation.",
+    "Recorded seventeen focused tests and seven byte-reproduced outputs were checked from validation.json; tests were not rerun here.",
+    "Fullseen and Current100 overlap, original atwrite reference and replay-own atwrite are explicitly distinguished."
+  ],
+  "actions": {
+    "GPU": 0,
+    "model_forward": 0,
+    "scheduler": 0,
+    "remote": 0,
+    "source_runtime_changes": 0
+  },
+  "members": [
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/diagnostic-report-ko.md",
+      "bytes": 30844,
+      "sha256": "6ca75653378015b4f9e019a73f6ba31cc51d251e1d124827758de13cb035c8c1"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/endpoint-performance.csv",
+      "bytes": 5235,
+      "sha256": "b9aabeb904dc7ad46ff5cf2b19d9b1cff4d3be3594244aed9c36918533ba00f7"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/paired-transitions.csv",
+      "bytes": 64320,
+      "sha256": "cf7311629be953610d544cd2311a3f3c3becf6b2f282e649e117d17e8a3c9103"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/cohort-performance.csv",
+      "bytes": 81696,
+      "sha256": "1b7906b8117281d43fa3f07388c54d35d61a243f1808ade4ac00d8e38c8d6813"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/distributions.csv",
+      "bytes": 876343,
+      "sha256": "fe9134bb305db51ccecea32b5ba9fcf2d064dd812e56e10c8acb17bf5a1f9198"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/atwrite-transitions.csv",
+      "bytes": 37130,
+      "sha256": "242e1d68e5588680eca90db4bb30febaa78b199587ab8a1e28390b8dc482d222"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/atwrite-checks.json",
+      "bytes": 60489,
+      "sha256": "e7d8926b3a69159bac5ba21887f96b1c8d895263eb03f878b6439e7036096c89"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/weight-history-differences.csv",
+      "bytes": 5386,
+      "sha256": "ff2842c75eb2022e1203bf69d4023a57c68ac89782d43db5f45b47e8031ff625"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/instrumentation-summary.csv",
+      "bytes": 160494,
+      "sha256": "7dbe8596dce0bebd396fe6b5689d4394bbf0d7b917f45147b0428fa6e5e4b659"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/compute-summary.csv",
+      "bytes": 16837,
+      "sha256": "d40a4a994631d97bc09282355cbefe42c970e1b270997957377723c598350f8e"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/coverage.csv",
+      "bytes": 3528,
+      "sha256": "ba8c234ef9c62d98d7cdc9d4f86bc5c22c591c77fb53908a0aef8f444416f657"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/reduction-checks.json",
+      "bytes": 125868,
+      "sha256": "fd4e80da67ab12088c2ec171f905d60036945af14ec79ba187ee035d49274291"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/evidence-reuse-manifest.json",
+      "bytes": 82118,
+      "sha256": "b3e9a85c56e67e3ceefa04e4a359aded5180bbe12a76ea63418a4d4e7ac245e6"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/plot-reproduction.json",
+      "bytes": 2006,
+      "sha256": "2ab4dfbb605bd76f48df0722ece043b23bab2bc8c85787bd2e52c9b91bb2ed78"
+    },
+    {
+      "path": "experiment-reports/servers/server1/baseline-mechanism-first-e01-2026-09-12-v1/completed-middle-late-review-v1/validation.json",
+      "bytes": 4821,
+      "sha256": "f8cb593b37ce0174f18dd2273fa6300b608eb3b7f8315df01aad23e338b0e429"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/completed_review_report.py",
+      "bytes": 24302,
+      "sha256": "b16ec3886aa22124a84fdcb6c40c5638501aefc32af016b769ca936d2bc7ab15"
+    },
+    {
+      "path": "project/run_scripts/baseline_mechanism_first/completed_review_package.py",
+      "bytes": 12891,
+      "sha256": "be3a0aec23f142a15947b98027795394d7f1a225ca28ec5f3a511ff7897ba7a5"
+    }
+  ],
+  "scientific_promotion": false
+}

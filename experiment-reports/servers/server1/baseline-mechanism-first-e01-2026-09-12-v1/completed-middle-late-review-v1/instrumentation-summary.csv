@@ -1,0 +1,953 @@
+entry_n,instrumented_batch,category,panel,metric,value,status,detail
+5000,51,observation_receipt,all,canonical_evaluator_calls,0,RECORDED,
+5000,51,observation_receipt,all,direction_source,ACTUAL_ENDPOINT_DIFFERENCE_FP32,RECORDED,
+5000,51,observation_receipt,all,fd_calls,0,RECORDED,
+5000,51,observation_receipt,all,forward_pairs,2965,RECORDED,
+5000,51,observation_receipt,all,general_W0,MEASURED,RECORDED,
+5000,51,observation_receipt,all,general_backward_sequences,16,RECORDED,
+5000,51,observation_receipt,all,general_forward_sequences,512,RECORDED,
+5000,51,observation_receipt,all,input_preservation,ALL_CAUSAL_POSITIONS; PADDING_TAGGED_NOT_HIDDEN,RECORDED,
+5000,51,observation_receipt,all,native_delta_sha256,8b152d0764c3abae37e50999f58ba69c9c9e4c49de42ce07aac92e2e70328316,RECORDED,
+5000,51,observation_receipt,all,native_state_mutation,0,RECORDED,
+5000,51,observation_receipt,all,numerical_layout,PAIR2_DIAGNOSTIC_NOT_CANONICAL_MB16_PARITY,RECORDED,
+5000,51,observation_receipt,all,parameter_guard,PASS,RECORDED,
+5000,51,observation_receipt,all,raw_position_rows,88607,RECORDED,
+5000,51,observation_receipt,all,rng_consumed_before_restore,False,RECORDED,
+5000,51,observation_receipt,all,rng_restored,True,RECORDED,
+5000,51,observation_receipt,all,selected_bytes_restored,True,RECORDED,
+5000,51,observation_receipt,all,selected_version_change,0,RECORDED,
+5000,51,observation_receipt,all,signed_backward_pairs,160,RECORDED,
+5000,51,observation_receipt,all,source_pre_addition_update,CALLER_SEPARATE_ARTIFACT,RECORDED,
+5000,51,observation_receipt,all,status,OBSERVATIONS_FINITE,RECORDED,
+5000,51,observation_receipt,all,subject_token_span,NOT_RECORDED_NO_SUBSEQUENCE_GUESS,RECORDED,
+5000,51,observation_receipt,all,temporary_state_policy,DATA_STORAGE_SWAP_NO_COPY_INTO_LIVE_PARAMETER,RECORDED,
+5000,51,observation_receipt,all,wall_seconds,344.77445547655225,RECORDED,
+5000,51,observation_receipt,all,writer_calls,0,RECORDED,
+5000,51,native_write,all,delta_K_minus_R_norm,7.352747440338135,RECORDED,
+5000,51,native_write,all,delta_K_minus_R_relative,0.2599928219603366,RECORDED,
+5000,51,native_write,all,delta_norm,10.74401569366455,RECORDED,
+5000,51,native_write,all,delta_relative_norm,0.10554135149235035,RECORDED,
+5000,51,native_write,all,direction_source,ACTUAL_NATIVE_MATERIALIZED_DENSE,RECORDED,
+5000,51,native_write,all,factor_vs_actual_bitwise,False,RECORDED,
+5000,51,native_write,all,factor_vs_actual_max_abs,3.450550138950348e-07,RECORDED,
+5000,51,native_write,all,factor_vs_actual_norm,3.738013401743956e-05,RECORDED,
+5000,51,native_write,all,factor_vs_actual_relative,3.479158545857448e-06,RECORDED,
+5000,51,native_write,all,key_columns,100,RECORDED,
+5000,51,native_write,all,native_history_symmetrized,False,RECORDED,
+5000,51,native_write,all,native_projector_symmetrized,False,RECORDED,
+5000,51,native_write,all,native_solve_backward_error,1.327831131194129e-08,RECORDED,
+5000,51,native_write,all,native_solve_residual_norm,0.00026132003404200077,RECORDED,
+5000,51,native_write,all,native_system_symmetry_error,0.9459301537853188,RECORDED,
+5000,51,native_write,all,recomputed_dense_vs_actual_bitwise,True,RECORDED,
+5000,51,native_write,all,recomputed_dense_vs_actual_norm,0.0,RECORDED,
+5000,51,native_write,all,status,FINITE,RECORDED,
+5000,51,native_write,all,timing_kind,HOST_WALL_INCLUDES_SCALAR_SYNCHRONIZATION,RECORDED,
+5000,51,native_write,all,wall_seconds,0.8369475416839123,RECORDED,
+5000,51,native_write,all,writer_replaced,False,RECORDED,
+5000,51,representative_signed_FD,all,absolute_error,0.1230621337890625,RECORDED,
+5000,51,representative_signed_FD,all,absolute_tolerance,0.0008331434801220894,RECORDED,
+5000,51,representative_signed_FD,all,alpha,0.00390625,RECORDED,
+5000,51,representative_signed_FD,all,central_slope,68.8226318359375,RECORDED,
+5000,51,representative_signed_FD,all,event_derivative,68.94569396972656,RECORDED,
+5000,51,representative_signed_FD,all,forward_noise,0.0,RECORDED,
+5000,51,representative_signed_FD,all,minus,-3.6825342178344727,RECORDED,
+5000,51,representative_signed_FD,all,performance_selection,False,RECORDED,
+5000,51,representative_signed_FD,all,plus,-3.144857406616211,RECORDED,
+5000,51,representative_signed_FD,all,positive_one_sided_slope,68.53076171875,RECORDED,
+5000,51,representative_signed_FD,all,relative_error,0.0017849139910477655,RECORDED,
+5000,51,representative_signed_FD,all,relative_tolerance,0.05,RECORDED,
+5000,51,representative_signed_FD,all,slope_noise_bound,0.0,RECORDED,
+5000,51,representative_signed_FD,all,status,PASS,RECORDED,
+5000,51,representative_signed_FD,all,zero,-3.412555694580078,RECORDED,
+5000,51,signed_R,Current,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_mean,35.3527702242136,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_median,29.791701316833496,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_p90,59.31855163574219,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_p95,64.26010913848876,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_p99,125.56411270141612,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_min,3.454759120941162,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_max,151.00137329101562,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_positive,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_negative,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_mean,35.3527702242136,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_median,29.791701316833496,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_p90,59.31855163574219,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_p95,64.26010913848876,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_p99,125.56411270141612,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_min,3.454759120941162,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_max,151.00137329101562,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_positive,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_negative,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_mean,35.35277011990547,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_median,29.79169750213623,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_p90,59.318538665771484,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_p95,64.26011390686034,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_p99,125.56411743164074,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_min,3.454758644104004,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_max,151.00137329101562,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_positive,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_negative,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_mean,-1.043081283569336e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_median,0.0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_p90,3.814697265625e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_p95,1.1062622070312495e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_p99,1.52587890625e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_min,-1.52587890625e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_max,1.52587890625e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_negative,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Current,factor_minus_actual_derivative_zero,6,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_mean,0.049000285274814814,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_median,-0.0005001598037779331,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_p90,0.28490814268589026,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_p95,0.6727119296789169,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_p99,0.9191482448577885,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_min,-0.9634535312652588,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_max,1.0123088359832764,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_mean,0.049000285274814814,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_median,-0.0005001598037779331,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_p90,0.28490814268589026,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_p95,0.6727119296789169,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_p99,0.9191482448577885,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_min,-0.9634535312652588,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_max,1.0123088359832764,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_mean,0.049000178871210665,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_median,-0.0005006380379199982,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_p90,0.2849086374044419,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_p95,0.6727112859487533,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_p99,0.9191493594646458,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_min,-0.963455080986023,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_max,1.01231050491333,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_mean,-1.0640360414981842e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_median,-1.6298145055770874e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_p90,6.772577762603763e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_p95,8.99285078048706e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_p99,1.4379620552062997e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_min,-1.5497207641601562e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_max,1.6689300537109375e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_R,Historical,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_mean,0.040976457472424954,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_median,0.04676743410527706,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_p90,0.25459328293800365,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_p95,0.4677617937326429,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_p99,0.7787523806095127,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_min,-0.928899884223938,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_max,0.849103569984436,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_positive,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_mean,0.040976457472424954,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_median,0.04676743410527706,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_p90,0.25459328293800365,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_p95,0.4677617937326429,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_p99,0.7787523806095127,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_min,-0.928899884223938,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_max,0.849103569984436,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_positive,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_mean,0.04097674513468519,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_median,0.04676830396056175,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_p90,0.25459180772304546,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_p95,0.4677650123834608,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_p99,0.7787541645765308,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_min,-0.928900957107544,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_max,0.8491052985191345,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_positive,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_mean,2.8766226023435593e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_median,1.3969838619232178e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_p90,1.6048550605773937e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_p95,1.8090009689331053e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_p99,3.5524368286132843e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_min,-1.564621925354004e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_max,4.291534423828125e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_positive,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_negative,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_P,Historical,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_mean,-0.05445226770825684,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_median,-0.010997340083122253,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_p90,0.2924528330564499,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_p95,0.36153571307659144,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_p99,0.5570685118436817,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_min,-0.648181676864624,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_max,0.6289360523223877,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_mean,-0.05445226770825684,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_median,-0.010997340083122253,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_p90,0.2924528330564499,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_p95,0.36153571307659144,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_p99,0.5570685118436817,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_min,-0.648181676864624,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_max,0.6289360523223877,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_mean,-0.05445222032722086,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_median,-0.010997036471962929,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_p90,0.29245252013206485,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_p95,0.36153690516948694,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_p99,0.5570667669177058,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_min,-0.6481809616088867,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_max,0.6289334297180176,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_mean,4.738103598356247e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_median,2.3655593395233154e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_p90,1.0520219802856449e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_p95,1.497566699981689e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_p99,1.9690394401550295e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_min,-2.6226043701171875e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_max,1.996755599975586e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_positive,21,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_negative,11,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Current,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_mean,-0.08328926376998425,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_median,-0.032070547342300415,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_p90,0.4339354544878007,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_p95,0.5685968965291976,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_p99,0.6842259484529497,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_min,-1.1235127449035645,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_max,0.722212553024292,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_mean,-0.08328926376998425,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_median,-0.032070547342300415,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_p90,0.4339354544878007,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_p95,0.5685968965291976,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_p99,0.6842259484529497,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_min,-1.1235127449035645,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_max,0.722212553024292,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_mean,-0.08328942343359813,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_median,-0.03207085281610489,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_p90,0.4339357405900956,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_p95,0.5685951203107833,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_p99,0.6842270362377169,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_min,-1.1235114336013794,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_max,0.7222141027450562,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_mean,-1.596636138856411e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_median,-2.086162567138672e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_p90,1.2785196304321295e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_p95,1.5966594219207762e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_p99,1.746565103530884e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_min,-3.2782554626464844e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_max,1.7881393432617188e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_positive,14,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_N,Historical,factor_minus_actual_derivative_zero,1,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_mean,-0.005674375926901121,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_median,-0.0009213914745487273,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_p90,0.009060055948793888,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_p95,0.012588533805683255,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_p99,0.01647197962738573,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_min,-0.05181816220283508,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_max,0.017442841082811356,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_positive,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_mean,-0.005674375926901121,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_median,-0.0009213914745487273,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_p90,0.009060055948793888,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_p95,0.012588533805683255,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_p99,0.01647197962738573,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_min,-0.05181816220283508,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_max,0.017442841082811356,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_positive,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_mean,-0.0056743997120065615,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_median,-0.0009213933954015374,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p90,0.00905994838103652,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p95,0.012588371522724628,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p99,0.01647194419056177,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_min,-0.051818184554576874,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_max,0.017442837357521057,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_positive,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_negative,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_mean,-2.378510544076562e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_median,-9.778887033462524e-09,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p90,1.5599653124809265e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p95,2.4097971618175507e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p99,2.7171336114406583e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_min,-2.1513551473617554e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_max,2.7939677238464355e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_positive,5,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_negative,10,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,signed_GENERAL_NLL,General,factor_minus_actual_derivative_zero,1,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+5000,51,query,Current,row_count,25156,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_mean,0.1639192045918867,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_max,8.966030027098013,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_mean,14.127221873193028,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_max,224.4501935300462,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_mean,0.020787338917452502,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_max,0.7785988132598448,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,row_count,2600,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_mean,0.06862164361447026,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_max,0.17799458804949908,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_mean,7.582522570206339,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_max,21.04654963911558,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_mean,0.008537832793221812,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_max,0.019855668176934006,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,row_count,52,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_mean,0.08369992450755914,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_max,0.18771696274548444,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_mean,15.216502331714231,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_max,25.07636697174847,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_mean,0.009958758044522452,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_max,0.021053271036135437,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,row_count,52,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_mean,0.03893522637816867,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,actual_delta_q_sq_max,0.09131378680710044,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_mean,2.0976567275833022,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,raw_Ktq_sq_max,6.758717048902371,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_mean,0.004703748852692925,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Current,writer_Ftq_sq_max,0.010554022820832636,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,row_count,32420,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,actual_delta_q_sq_mean,0.05573505141183006,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,actual_delta_q_sq_max,4.088517610648649,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,raw_Ktq_sq_mean,12.599591696175723,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,raw_Ktq_sq_max,83.85894353886006,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,writer_Ftq_sq_mean,0.006821062610242318,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,writer_Ftq_sq_max,0.6580462802045701,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,row_count,3328,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,actual_delta_q_sq_mean,0.06949461044460664,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,actual_delta_q_sq_max,0.3422267212740137,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,raw_Ktq_sq_mean,7.534590443279284,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,raw_Ktq_sq_max,19.568678119520307,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,writer_Ftq_sq_mean,0.008577300089637087,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,Historical,writer_Ftq_sq_max,0.037326607428863075,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,row_count,24999,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,actual_delta_q_sq_mean,0.05945248685532904,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,actual_delta_q_sq_max,1.5215218232609002,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,raw_Ktq_sq_mean,7.2793945806343086,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,raw_Ktq_sq_max,92.35390668639383,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,writer_Ftq_sq_mean,0.007367856073488369,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,query,General,writer_Ftq_sq_max,0.12671368503860359,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+5000,51,general_NLL,W0,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,mean,2.059837182983756,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,median,2.0916547775268555,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,p90,2.6460656404495237,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,p95,2.8283066034317015,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,p99,3.0831177306175235,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,min,0.706656277179718,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,max,3.27500057220459,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,W0,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,mean,2.304138441104442,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,median,2.340182662010193,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,p90,2.8999003410339355,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,p95,3.0765460848808286,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,p99,3.2022765922546386,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,min,0.7455458641052246,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,max,3.551185369491577,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,entry,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,mean,2.3038726057857275,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,median,2.3413074016571045,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,p90,2.902730202674866,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,p95,3.07247941493988,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,p99,3.195504353046417,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,min,0.7460888624191284,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,max,3.513887405395508,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL,native,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+5000,51,general_NLL_delta,native-entry,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,mean,-0.00026583531871438026,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,median,0.0010094642639160156,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,p90,0.013454914093017576,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,p95,0.021028959751129152,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,p99,0.03281992197036744,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,min,-0.06419563293457031,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,max,0.033432960510253906,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,positive,70,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,negative,58,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-entry,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,mean,0.24430125812068582,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,median,0.17896515130996704,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,p90,0.5959705471992491,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,p95,0.7874637126922602,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,p99,1.3459943544864665,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,min,-0.13937950134277344,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,max,1.6094810962677002,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,positive,120,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,negative,8,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,entry-W0,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,mean,0.24403542280197144,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,median,0.18451213836669922,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,p90,0.5969375252723692,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,p95,0.7695523619651788,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,p99,1.3595679938793195,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,min,-0.1589362621307373,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,max,1.5888772010803223,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,positive,120,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,negative,8,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,general_NLL_delta,native-W0,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+5000,51,missing,all,compute_z_final_training_nll,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,compute_z_iterations,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,compute_z_stop_reason,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,compute_z_clamp,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,projected_C0_spectrum,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,projected_history_spectrum,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,effective_rank,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,missing,all,subject_token_span,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,observation_receipt,all,canonical_evaluator_calls,0,RECORDED,
+9000,91,observation_receipt,all,direction_source,ACTUAL_ENDPOINT_DIFFERENCE_FP32,RECORDED,
+9000,91,observation_receipt,all,fd_calls,0,RECORDED,
+9000,91,observation_receipt,all,forward_pairs,2965,RECORDED,
+9000,91,observation_receipt,all,general_W0,MEASURED,RECORDED,
+9000,91,observation_receipt,all,general_backward_sequences,16,RECORDED,
+9000,91,observation_receipt,all,general_forward_sequences,512,RECORDED,
+9000,91,observation_receipt,all,input_preservation,ALL_CAUSAL_POSITIONS; PADDING_TAGGED_NOT_HIDDEN,RECORDED,
+9000,91,observation_receipt,all,native_delta_sha256,77a713a9cf97558d030a436ae5b3834ec4c3e62d8df860587c202c4e32734c5a,RECORDED,
+9000,91,observation_receipt,all,native_state_mutation,0,RECORDED,
+9000,91,observation_receipt,all,numerical_layout,PAIR2_DIAGNOSTIC_NOT_CANONICAL_MB16_PARITY,RECORDED,
+9000,91,observation_receipt,all,parameter_guard,PASS,RECORDED,
+9000,91,observation_receipt,all,raw_position_rows,88353,RECORDED,
+9000,91,observation_receipt,all,rng_consumed_before_restore,False,RECORDED,
+9000,91,observation_receipt,all,rng_restored,True,RECORDED,
+9000,91,observation_receipt,all,selected_bytes_restored,True,RECORDED,
+9000,91,observation_receipt,all,selected_version_change,0,RECORDED,
+9000,91,observation_receipt,all,signed_backward_pairs,160,RECORDED,
+9000,91,observation_receipt,all,source_pre_addition_update,CALLER_SEPARATE_ARTIFACT,RECORDED,
+9000,91,observation_receipt,all,status,OBSERVATIONS_FINITE,RECORDED,
+9000,91,observation_receipt,all,subject_token_span,NOT_RECORDED_NO_SUBSEQUENCE_GUESS,RECORDED,
+9000,91,observation_receipt,all,temporary_state_policy,DATA_STORAGE_SWAP_NO_COPY_INTO_LIVE_PARAMETER,RECORDED,
+9000,91,observation_receipt,all,wall_seconds,345.7910761591047,RECORDED,
+9000,91,observation_receipt,all,writer_calls,0,RECORDED,
+9000,91,native_write,all,delta_K_minus_R_norm,9.322263717651367,RECORDED,
+9000,91,native_write,all,delta_K_minus_R_relative,0.30987273065369814,RECORDED,
+9000,91,native_write,all,delta_norm,11.466560363769531,RECORDED,
+9000,91,native_write,all,delta_relative_norm,0.09237612756165671,RECORDED,
+9000,91,native_write,all,direction_source,ACTUAL_NATIVE_MATERIALIZED_DENSE,RECORDED,
+9000,91,native_write,all,factor_vs_actual_bitwise,False,RECORDED,
+9000,91,native_write,all,factor_vs_actual_max_abs,4.844041541218758e-07,RECORDED,
+9000,91,native_write,all,factor_vs_actual_norm,5.5431064538424835e-05,RECORDED,
+9000,91,native_write,all,factor_vs_actual_relative,4.834149281031854e-06,RECORDED,
+9000,91,native_write,all,key_columns,100,RECORDED,
+9000,91,native_write,all,native_history_symmetrized,False,RECORDED,
+9000,91,native_write,all,native_projector_symmetrized,False,RECORDED,
+9000,91,native_write,all,native_solve_backward_error,1.3064881499870029e-08,RECORDED,
+9000,91,native_write,all,native_solve_residual_norm,0.0004770983650814742,RECORDED,
+9000,91,native_write,all,native_system_symmetry_error,0.968450831018971,RECORDED,
+9000,91,native_write,all,recomputed_dense_vs_actual_bitwise,True,RECORDED,
+9000,91,native_write,all,recomputed_dense_vs_actual_norm,0.0,RECORDED,
+9000,91,native_write,all,status,FINITE,RECORDED,
+9000,91,native_write,all,timing_kind,HOST_WALL_INCLUDES_SCALAR_SYNCHRONIZATION,RECORDED,
+9000,91,native_write,all,wall_seconds,0.8423230834305286,RECORDED,
+9000,91,native_write,all,writer_replaced,False,RECORDED,
+9000,91,representative_signed_FD,all,absolute_error,0.00572967529296875,RECORDED,
+9000,91,representative_signed_FD,all,absolute_tolerance,0.000244140625,RECORDED,
+9000,91,representative_signed_FD,all,alpha,0.00390625,RECORDED,
+9000,91,representative_signed_FD,all,central_slope,23.330810546875,RECORDED,
+9000,91,representative_signed_FD,all,event_derivative,23.33654022216797,RECORDED,
+9000,91,representative_signed_FD,all,forward_noise,0.0,RECORDED,
+9000,91,representative_signed_FD,all,minus,-0.9619035720825195,RECORDED,
+9000,91,representative_signed_FD,all,performance_selection,False,RECORDED,
+9000,91,representative_signed_FD,all,plus,-0.7796316146850586,RECORDED,
+9000,91,representative_signed_FD,all,positive_one_sided_slope,23.230712890625,RECORDED,
+9000,91,representative_signed_FD,all,relative_error,0.00024552376823733224,RECORDED,
+9000,91,representative_signed_FD,all,relative_tolerance,0.05,RECORDED,
+9000,91,representative_signed_FD,all,slope_noise_bound,0.0,RECORDED,
+9000,91,representative_signed_FD,all,status,PASS,RECORDED,
+9000,91,representative_signed_FD,all,zero,-0.8703765869140625,RECORDED,
+9000,91,signed_R,Current,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_mean,34.04242499219254,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_median,32.491065979003906,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_p90,67.81005935668945,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_p95,80.17815170288085,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_p99,106.25880249023442,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_min,-5.283344268798828,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_max,114.9404296875,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_positive,29,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_negative,3,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_mean,34.04242499219254,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_median,32.491065979003906,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_p90,67.81005935668945,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_p95,80.17815170288085,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_p99,106.25880249023442,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_min,-5.283344268798828,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_max,114.9404296875,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_positive,29,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_negative,3,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_mean,34.04242391511798,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_median,32.49106788635254,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_p90,67.81005401611328,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_p95,80.17815170288085,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_p99,106.25879196166996,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_min,-5.283342361450195,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_max,114.94041442871094,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_positive,29,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_negative,3,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_mean,-1.077074557542801e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_median,-5.21540641784668e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_p90,5.531311035156254e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_p95,9.346008300781247e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_p99,1.4076232910156255e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_min,-1.52587890625e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_max,1.52587890625e-05,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_positive,8,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Current,factor_minus_actual_derivative_zero,8,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_mean,-0.031442018924281,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_median,-0.05910775437951088,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_p90,0.1894762858748437,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_p95,0.3101575642824172,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_p99,0.5090311685204508,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_min,-0.37684565782546997,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_max,0.5668038129806519,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_mean,-0.031442018924281,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_median,-0.05910775437951088,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_p90,0.1894762858748437,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_p95,0.3101575642824172,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_p99,0.5090311685204508,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_min,-0.37684565782546997,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_max,0.5668038129806519,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_mean,-0.03144201682880521,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_median,-0.05910997465252876,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_p90,0.18947491347789774,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_p95,0.31015797704458226,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_p99,0.5090322044491771,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_min,-0.37684470415115356,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_max,0.5668048858642578,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_mean,2.0954757928848267e-09,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_median,-3.725290298461914e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_p90,1.2189149856567385e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_p95,2.3536384105682367e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_p99,3.0312314629554755e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_min,-4.395842552185059e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_max,3.1478703022003174e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_positive,14,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_negative,18,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_R,Historical,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_mean,0.017831829463830218,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_median,-0.054216088727116585,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_p90,0.3607011631131175,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_p95,0.677863837778568,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_p99,1.132370712757111,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_min,-0.4230981171131134,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_max,1.2380268573760986,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_mean,0.017831829463830218,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_median,-0.054216088727116585,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_p90,0.3607011631131175,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_p95,0.677863837778568,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_p99,1.132370712757111,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_min,-0.4230981171131134,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_max,1.2380268573760986,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_mean,0.017831586650572717,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_median,-0.054216304793953896,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_p90,0.3607044458389286,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_p95,0.6778640061616895,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_p99,1.1323714900016788,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_min,-0.4230979084968567,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_max,1.2380279302597046,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_positive,13,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_negative,19,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_mean,-2.428132575005293e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_median,-1.4901161193847656e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_p90,1.0997056961059572e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_p95,1.758337020874023e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_p99,3.2788515090942403e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_min,-2.5331974029541016e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_max,3.814697265625e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_positive,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_negative,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_P,Historical,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_mean,-0.19450548640452325,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_median,-0.15215997770428658,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_p90,0.27466988265514375,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_p95,0.3349044635891914,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_p99,0.39997336119413385,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_min,-1.399899959564209,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_max,0.41534802317619324,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_negative,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_mean,-0.19450548640452325,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_median,-0.15215997770428658,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_p90,0.27466988265514375,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_p95,0.3349044635891914,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_p99,0.39997336119413385,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_min,-1.399899959564209,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_max,0.41534802317619324,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_negative,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_mean,-0.1945057570701465,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_median,-0.15215905755758286,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_p90,0.2746696174144745,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_p95,0.33490641117095943,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_p99,0.3999747762084008,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_min,-1.3999009132385254,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_max,0.41534844040870667,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_negative,23,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_mean,-2.7066562324762344e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_median,-1.3783574104309082e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_p90,1.5497207641601562e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_p95,2.2750347852706902e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_p99,3.3194571733474746e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_min,-8.255243301391602e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_max,3.635883331298828e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_positive,14,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_negative,18,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Current,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_mean,0.04477888741530478,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_median,-0.04113112762570381,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_p90,0.4174642443656922,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_p95,0.9109430551528926,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_p99,1.395458587408066,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_min,-0.6553662419319153,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_max,1.461378812789917,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_mean,0.04477888741530478,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_median,-0.04113112762570381,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_p90,0.4174642443656922,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_p95,0.9109430551528926,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_p99,1.395458587408066,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_min,-0.6553662419319153,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_max,1.461378812789917,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_mean,0.04477875854354352,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_median,-0.04113214462995529,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_p90,0.4174641937017441,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_p95,0.9109409093856807,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_p99,1.3954591608047489,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_min,-0.6553642749786377,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_max,1.461381196975708,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_positive,15,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_negative,17,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_count,32,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_mean,-1.2887176126241684e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_median,-1.4156103134155273e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_p90,1.9073486328125013e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_p95,2.3350119590759276e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_p99,2.836585044860841e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_min,-3.4570693969726562e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_max,3.039836883544922e-06,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_positive,14,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_negative,18,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_N,Historical,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_mean,0.004386063039419241,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_median,0.0036765332333743572,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_p90,0.02401256375014782,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_p95,0.03438743110746145,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_p99,0.037448106519877906,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_min,-0.01411534659564495,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_max,0.038213275372982025,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_negative,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,event_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_mean,0.004386063039419241,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_median,0.0036765332333743572,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_p90,0.02401256375014782,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_p95,0.03438743110746145,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_p99,0.037448106519877906,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_min,-0.01411534659564495,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_max,0.038213275372982025,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_negative,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,raw_all_position_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_mean,0.004386104075820185,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_median,0.003676489694043994,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p90,0.024012628942728043,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p95,0.03438754938542843,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_p99,0.03744814209640026,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_min,-0.014115332625806332,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_max,0.03821329027414322,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_positive,9,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_negative,7,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,diagnostic_factor_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_count,16,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_mean,4.103640094399452e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_median,1.4435499906539917e-08,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p90,1.6437843441963196e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p95,1.805601641535759e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_p99,1.9145663827657699e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_min,-1.2665987014770508e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_max,1.9418075680732727e-07,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_positive,10,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_negative,6,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,signed_GENERAL_NLL,General,factor_minus_actual_derivative_zero,0,RECORDED,"Signed values retained, not clipped progress_slope; pair2 diagnostic, not canonical MB16 evaluator."
+9000,91,query,Current,row_count,25166,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_mean,0.16067062975006982,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_max,12.268483678601179,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_mean,14.308703430948588,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_max,315.16978370267566,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_mean,0.018015581942640347,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_max,0.7891892792829833,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,row_count,2600,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_mean,0.07968332930560677,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_max,0.7682286647368366,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_mean,8.006131068723128,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_max,31.156223382465075,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_mean,0.009232558277922706,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_max,0.11110345313273817,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,row_count,26,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_mean,0.06620445592646397,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_max,0.09897130795035465,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_mean,12.690450699857461,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_max,16.736890355512962,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_mean,0.0072857056826595625,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_max,0.010146443033145026,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,row_count,26,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_mean,0.0500057707049723,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,actual_delta_q_sq_max,0.12702331285355456,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_mean,2.450753745118736,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,raw_Ktq_sq_max,8.016403341040494,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_mean,0.0056330905172899326,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Current,writer_Ftq_sq_max,0.015196355821483695,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,row_count,32156,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_mean,0.05286096233104712,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_max,0.9696567806273826,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_mean,12.428378392276855,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_max,75.88296564604737,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_mean,0.005970823470439267,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_max,0.10893143951549777,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,row_count,3328,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_mean,0.07897213372355168,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_max,0.591548898737688,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_mean,7.688871485753127,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_max,24.2768711784632,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_mean,0.009097498016319327,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_max,0.0852326894994053,RECORDED,PREFIX_SUBJECT_UNRESOLVED; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,row_count,26,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_mean,0.041571132019227096,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_max,0.1231535687137552,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_mean,2.799648251571104,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_max,9.295210869996613,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_mean,0.004723685427346225,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_max,0.014442883368850287,RECORDED,PADDING; target_prediction=False; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,row_count,26,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_mean,0.0651990503424063,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,actual_delta_q_sq_max,0.0959352662043367,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_mean,11.573915432813802,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,raw_Ktq_sq_max,16.727188997111874,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_mean,0.007029384235738055,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,Historical,writer_Ftq_sq_max,0.009471442370171446,RECORDED,CONTINUATION_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,row_count,24999,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,actual_delta_q_sq_mean,0.06046198854583675,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,actual_delta_q_sq_max,4.530829727082626,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,raw_Ktq_sq_mean,7.407421890539541,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,raw_Ktq_sq_max,70.99622621892654,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,writer_Ftq_sq_mean,0.006755520970228314,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,query,General,writer_Ftq_sq_max,0.40223280508400083,RECORDED,GENERAL_TEXT_INPUT; target_prediction=True; positions not independent requests; raw K overlap and writer Ftq are not actual physical response.
+9000,91,general_NLL,W0,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,mean,2.059837182983756,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,median,2.0916547775268555,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,p90,2.6460656404495237,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,p95,2.8283066034317015,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,p99,3.0831177306175235,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,min,0.706656277179718,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,max,3.27500057220459,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,W0,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,mean,2.4572255476377904,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,median,2.489614963531494,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,p90,3.0408375740051268,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,p95,3.2479036927223204,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,p99,3.5450124311447144,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,min,0.8504027128219604,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,max,3.583601236343384,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,entry,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,count,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,mean,2.464333964046091,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,median,2.4902184009552,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,p90,3.072158098220825,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,p95,3.2277702689170837,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,p99,3.552880146503449,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,min,0.8505754470825195,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,max,3.5906600952148438,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,positive,128,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,negative,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL,native,zero,0,RECORDED,Per-sequence next-token NLL mean; not canonical RS/PS/NS.
+9000,91,general_NLL_delta,native-entry,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,mean,0.0071084164083004,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,median,0.003261089324951172,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,p90,0.022790193557739247,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,p95,0.03828533887863158,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,p99,0.11529076099395763,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,min,-0.037445783615112305,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,max,0.15577936172485352,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,positive,85,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,negative,43,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-entry,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,mean,0.3973883646540344,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,median,0.31842005252838135,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,p90,0.7680737137794493,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,p95,1.0520845353603359,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,p99,1.5341805577278138,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,min,-0.08594083786010742,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,max,1.6334075927734375,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,positive,125,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,negative,3,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,entry-W0,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,count,128,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,mean,0.4044967810623348,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,median,0.3146836757659912,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,p90,0.797396981716156,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,p95,1.1327128946781158,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,p99,1.5367117953300478,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,min,-0.03678584098815918,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,max,1.6100590229034424,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,positive,125,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,negative,3,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,general_NLL_delta,native-W0,zero,0,RECORDED,Same 128 serialized input token sequences; lower NLL better. First-B100 endpoints only.
+9000,91,missing,all,compute_z_final_training_nll,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,compute_z_iterations,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,compute_z_stop_reason,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,compute_z_clamp,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,projected_C0_spectrum,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,projected_history_spectrum,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,effective_rank,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+9000,91,missing,all,subject_token_span,,NOT_RECORDED,"No inference from aggregate norm, native update or unresolved prefix tag."
+5000,51,target_reproduction,Current100,count,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,exact,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_count,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_mean,5.1386452978476884e-05,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_median,7.993541657924652e-06,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_p90,3.083329647779467e-05,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_p95,3.6609359085559825e-05,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_p99,0.00021548755466939819,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_min,1.9706785678863525e-06,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_max,0.0037001296877861023,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_positive,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_negative,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,51,target_reproduction,Current100,max_abs_zero,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+5000,52,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,53,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,54,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,55,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,56,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,57,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,58,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,59,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+5000,60,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,91,target_reproduction,Current100,count,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,exact,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_count,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_mean,0.001033066068775952,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_median,1.0972842574119568e-05,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_p90,6.720907986164093e-05,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_p95,0.0001361624337732791,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_p99,0.011269403882325103,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_min,1.296401023864746e-06,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_max,0.09020320326089859,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_positive,100,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_negative,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,91,target_reproduction,Current100,max_abs_zero,0,RECORDED_TARGET_COMPARISON_NOT_TRAJECTORY_EQUIVALENCE,Frozen original target vs recomputation; no hardware cause assigned; source_exact_equivalence NOT_ASSUMED.
+9000,92,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,93,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,94,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,95,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,96,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,97,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,98,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,99,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
+9000,100,target_reproduction,Current100,original_target_comparison,,NOT_RECORDED,No saved target-reproduction comparison for this continuation batch; native target hashes alone are not cross-run comparisons.
