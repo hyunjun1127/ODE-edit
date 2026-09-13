@@ -1,0 +1,25 @@
+arm,reference,value,threshold,status,unit,enforcement
+N4,historical_NS_gain_shortfall_to_1pp,1.0,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+N4,current_NS_degradation,-0.0,0,WITHIN,pp loss,NO_AUTOMATIC_REJECTION
+N4,online_ratio_1_5,1.0,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+N4,online_ratio_2,1.0,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+S875,historical_NS_gain_shortfall_to_1pp,1.0,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+S875,current_NS_degradation,-0.30000000000000027,0,WITHIN,pp loss,NO_AUTOMATIC_REJECTION
+S875,online_ratio_1_5,1.000884107779744,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+S875,online_ratio_2,1.000884107779744,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+S75,historical_NS_gain_shortfall_to_1pp,1.0,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+S75,current_NS_degradation,-0.7000000000000006,0,WITHIN,pp loss,NO_AUTOMATIC_REJECTION
+S75,online_ratio_1_5,1.000972963506712,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+S75,online_ratio_2,1.000972963506712,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+FULL8,historical_NS_gain_shortfall_to_1pp,0.609375,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+FULL8,current_NS_degradation,0.20000000000000018,0,EXCEEDS,pp loss,NO_AUTOMATIC_REJECTION
+FULL8,online_ratio_1_5,1.169842144026164,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+FULL8,online_ratio_2,1.169842144026164,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+RES8,historical_NS_gain_shortfall_to_1pp,0.8437499999999978,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+RES8,current_NS_degradation,-0.10000000000000009,0,WITHIN,pp loss,NO_AUTOMATIC_REJECTION
+RES8,online_ratio_1_5,1.1886739405823938,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+RES8,online_ratio_2,1.1886739405823938,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+REFIT4,historical_NS_gain_shortfall_to_1pp,1.0,0,EXCEEDS,pp shortfall,NO_AUTOMATIC_REJECTION
+REFIT4,current_NS_degradation,-0.5000000000000004,0,WITHIN,pp loss,NO_AUTOMATIC_REJECTION
+REFIT4,online_ratio_1_5,1.1480290710482608,1.5,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION
+REFIT4,online_ratio_2,1.1480290710482608,2.0,WITHIN,instrumented ratio,NO_AUTOMATIC_REJECTION

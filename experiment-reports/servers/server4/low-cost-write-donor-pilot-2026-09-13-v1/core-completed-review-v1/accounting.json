@@ -1,0 +1,46 @@
+{
+  "scheduler_state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed_seconds": 2132,
+  "allocated_gpus": 1,
+  "allocated_GPUh": 0.5922222222222222,
+  "scheduler_start": "2026-09-13T19:22:12",
+  "scheduler_end": "2026-09-13T19:57:44",
+  "host_max_rss": "52.27G",
+  "resource": "1GPU/8CPU/60416M/12h",
+  "status": "SIX_FIXED_ENDPOINTS_COMPLETE",
+  "preparation": {
+    "model_seconds": 19.334942940622568,
+    "M8_seconds": 276.1305243931711,
+    "W0_evaluation": {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/W0/evaluation.json",
+      "bytes": 2496099,
+      "sha256": "e81e85d47c925004060dcab33204ddb03feb31fa046f1bbd9d555362598b7e9b"
+    },
+    "entry_evaluation": {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/ENTRY/evaluation.json",
+      "bytes": 2495497,
+      "sha256": "010897289b6336fbc6cad6dcc3b782ce38ef26ca8c1bfb104ccd9636951c6dbd"
+    }
+  },
+  "study_shared_native_fit_seconds": 288.56532035861164,
+  "policy_selection": null,
+  "audit_executed": false,
+  "suffix_executed": false,
+  "peak_allocated_bytes": 35702145536,
+  "peak_reserved_bytes": 42880466944,
+  "seconds": 2069.9333548042923,
+  "request_z_observed": 400,
+  "loss_evaluations": 3376,
+  "adam_updates": 2976,
+  "output_bytes": 14853827915,
+  "I_O_restore_P_diagnostic_seconds": "NOT_SEPARATELY_RECORDED",
+  "prior_estimate_GPUh": [
+    2,
+    8
+  ],
+  "prior_estimate_GiB": [
+    20,
+    40
+  ]
+}

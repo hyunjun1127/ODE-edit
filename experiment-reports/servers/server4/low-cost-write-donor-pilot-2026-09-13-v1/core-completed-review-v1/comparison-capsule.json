@@ -1,0 +1,64 @@
+{
+  "entry": {
+    "status": "WARM_SELECTED_STATE_RESTORED",
+    "next_batch_index": 51,
+    "physical_layer": 4,
+    "weight_sha256": "af3297032de5f1bda6a9a5303907b2d1500c06a0683eb3eaa0b9c40d125ab262",
+    "history_sha256": "af76a0d9f02aa6ed0b7275725d1baa1994473bd08f6da35cdac5979509cfe270",
+    "rng_restored_exact": true,
+    "full_W0_authority": "CALLER_PINNED_MODEL_REQUIRED",
+    "C0_restored": false
+  },
+  "prepared": {
+    "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/prepared.pt",
+    "bytes": 2113950237,
+    "sha256": "4ea9e5a7733725ab513571845691a28e4ed321884d749156e256fb992a55f933"
+  },
+  "entry_state": {
+    "weights": {
+      "4": "af3297032de5f1bda6a9a5303907b2d1500c06a0683eb3eaa0b9c40d125ab262",
+      "8": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+    },
+    "M4": "af76a0d9f02aa6ed0b7275725d1baa1994473bd08f6da35cdac5979509cfe270",
+    "M8": "570ba89de4dca222bbe1d9a7084a26c44c64debc921c76d8f4ef5004180e16af",
+    "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+    "P8": "d686063cec02f7fe0fa872d1fe72e0779f8d80b1a1c044e803ff64d15670f09b",
+    "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+    "rng": "219870a691a263e5927b54c88639272508f40a41c88145ee4aaa0042579a041d"
+  },
+  "source_lock_sha256": "a672a782c20543b66add9ed83dc5cf04432e9f98f6cc2646e40b68e3627a9317",
+  "target_mode": "SAME_HOST_FRESH_NATIVE",
+  "native_z_shared_first_fit": true,
+  "second_fit_fresh": 3,
+  "request_z_total": 400,
+  "original_target_replay": 0,
+  "same_host_target_replay": 0,
+  "evaluator_binding": {
+    "sources": {
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py": {
+        "bytes": 3134,
+        "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8"
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py": {
+        "bytes": 3407,
+        "sha256": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e"
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py": {
+        "bytes": 4018,
+        "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e"
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py": {
+        "bytes": 6936,
+        "sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e"
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py": {
+        "bytes": 7892,
+        "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+      }
+    },
+    "canonical_microbatch": 16,
+    "package_initializers_executed": 0,
+    "source_modification": 0,
+    "transaction_guard": "CALLER_OWNED"
+  }
+}

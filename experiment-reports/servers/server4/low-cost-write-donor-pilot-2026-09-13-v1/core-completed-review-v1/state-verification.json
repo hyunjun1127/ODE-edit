@@ -1,0 +1,318 @@
+{
+  "status": "SAVED_STATE_CPU_AUDIT_PASS",
+  "snapshots": 7,
+  "endpoint_count": 6,
+  "request_z_calls": 400,
+  "fit_solves": 4,
+  "endpoint_history_appends": 8,
+  "M8_reencoding_batches": 50,
+  "M8_reencoding_events": 5000,
+  "rows": [
+    {
+      "arm": "N4",
+      "snapshot_file_sha256": "c942eb6d33342f9dd46e2cee7fd6382e199f00351ad87ca9810dcf581b6863f2",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "458a11b10e66bc285e6c55d9290534e5471517e9540741ddd090fff817ed8902"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "570ba89de4dca222bbe1d9a7084a26c44c64debc921c76d8f4ef5004180e16af"
+        }
+      ],
+      "append_count": 1,
+      "delta_norm": {
+        "4": 10.7440168052634,
+        "8": 0.0
+      },
+      "z_capture_order_root": "d79b53c4d0484c0f3cf08564f8886342226b8e8ecd0bd5b62058974af7e2c79c",
+      "actual_z_calls": 100
+    },
+    {
+      "arm": "S875",
+      "snapshot_file_sha256": "f468efbcd8c413bb1a3edb36da4da7e9e2f81e6f9d0ac623233d47519c7a8d66",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "4a7c3b89eb436007c399bad3adfd0b354a0845e58549d8177b0b18d2109d34a0"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "570ba89de4dca222bbe1d9a7084a26c44c64debc921c76d8f4ef5004180e16af"
+        }
+      ],
+      "append_count": 1,
+      "delta_norm": {
+        "4": 9.401014704161975,
+        "8": 0.0
+      }
+    },
+    {
+      "arm": "S75",
+      "snapshot_file_sha256": "bf50027a96866cde0ba4839b2d51d79d5d77362ae0ec1445cc2422cb0ed65900",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "dd8c017b5d290aedcdb3a7945806c081ed3866363c83eec8a6d221d94cfc0b65"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "570ba89de4dca222bbe1d9a7084a26c44c64debc921c76d8f4ef5004180e16af"
+        }
+      ],
+      "append_count": 1,
+      "delta_norm": {
+        "4": 8.058012604281407,
+        "8": 0.0
+      }
+    },
+    {
+      "arm": "FULL8",
+      "snapshot_file_sha256": "f0ad3ffd4f632695ccb40a2d6d56dc9c384d0e86ad8ccd4c0cfec152a0385361",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "458a11b10e66bc285e6c55d9290534e5471517e9540741ddd090fff817ed8902"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a71efc5e129305273d0abf314a99155eff283d29264f47bf5331426056ae1c95"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "8e68e5c1d2afcdbab48106dbae4be6aca8293803e368201df6924bccedc9c88f"
+        }
+      ],
+      "append_count": 2,
+      "delta_norm": {
+        "4": 10.7440168052634,
+        "8": 5.214695775869617
+      },
+      "z_capture_order_root": "9198971e8576904eb26ede9a9fc64547e57cb9f700e1572fcfff36ba19c33d9e",
+      "actual_z_calls": 100
+    },
+    {
+      "arm": "RES8",
+      "snapshot_file_sha256": "65da92573fd1a9a42d80f9240de666cc264500b24fefe69cc21c5a524b84b4c8",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "dd8c017b5d290aedcdb3a7945806c081ed3866363c83eec8a6d221d94cfc0b65"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "6a503e5a8a45eb81344466c74603e0174ed02fb1ccb56aa1aa5a9f7d987f56e6"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "a57d5aabc5e5078d897148676b9a4430338ae416485a1653aa9410fc054da90c"
+        }
+      ],
+      "append_count": 2,
+      "delta_norm": {
+        "4": 8.058012604281407,
+        "8": 6.044554162789381
+      },
+      "z_capture_order_root": "30f9e9560f43a7a4b06c62df921b7f21b1f1e304a0ef09295aece24e9bd18d21",
+      "actual_z_calls": 100
+    },
+    {
+      "arm": "REFIT4",
+      "snapshot_file_sha256": "f65e0ec549da09fadeafc96c3e74297482eaa7e8c7e958e56a86eb8ae43da49b",
+      "tensors": [
+        {
+          "name": "W4",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "f186d77ba6e4ec34c5210a9342e42617999964f09d511d43796ad783f558c481"
+        },
+        {
+          "name": "W8",
+          "shape": [
+            4096,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+        },
+        {
+          "name": "M4",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "0a4cd42cf4a40adcec21d339279249a9cbce18431eaf155523421369274cb788"
+        },
+        {
+          "name": "M8",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "sha256": "570ba89de4dca222bbe1d9a7084a26c44c64debc921c76d8f4ef5004180e16af"
+        }
+      ],
+      "append_count": 1,
+      "delta_norm": {
+        "4": 9.285660014794022,
+        "8": 0.0
+      },
+      "z_capture_order_root": "b4f79f73a45e0f64f0e76dfa97e3284f9272072771259d9dac63b023c8c6265d",
+      "actual_z_calls": 100
+    }
+  ],
+  "alpha0": "SOURCE_ENDPOINT_COPY_AND_CPU_TEST_ONLY_NOT_A_CORE_ENDPOINT",
+  "GPU_continuation_replay": "NOT_RUN",
+  "model_level_observer_off_parity": "NOT_TESTED",
+  "actual_z_optimizer_iteration_counts": "NOT_RECORDED_IN_STRUCTURED_FIT_RECEIPTS"
+}

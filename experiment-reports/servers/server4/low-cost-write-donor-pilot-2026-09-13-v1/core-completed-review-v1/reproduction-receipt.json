@@ -1,0 +1,22 @@
+{
+  "status": "BYTE_STABLE_PNG_REGENERATION_PASS",
+  "png_count": 5,
+  "output_sha256": {
+    "core-performance.png": "df500d32cddd8a2ed4f4da853c462ea81435b8670da38fad2a53c721a7f70da0",
+    "nll-tails.png": "112289c6ebc504b8a9c1203721995a93752568226bcca1a23229839620e49681",
+    "paired-locality.png": "de392430ad50703ba5629221563b12e4d18fb7e2b3d9ae75af29d7b67966a531",
+    "layer-update-magnitude.png": "cc0e6ecdded8b797f252f9a3f8088b3c557db462c02352e407240ffca60e01f9",
+    "compute.png": "6f610eae3b3414a39707f5fca017909275ff18da9b7fae3849668c98efb69589"
+  },
+  "python": "3.12.3",
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "backend": "Agg",
+  "seed": 20260913,
+  "DPI": 160,
+  "model_forward": 0,
+  "review_tests": 12,
+  "reused_preGPU_CPU_tests": 12,
+  "original_GPU_initial_tests": "Stored job receipt reviewed retrospectively, not previously observed by agent",
+  "code_only_PNG": true
+}

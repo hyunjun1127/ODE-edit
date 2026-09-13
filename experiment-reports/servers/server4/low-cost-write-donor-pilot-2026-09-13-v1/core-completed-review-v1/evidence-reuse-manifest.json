@@ -1,0 +1,25 @@
+{
+  "execution_head": "7ece056c33fbb4246245c15f5f7c2a678315c05c",
+  "execution_tree": "352cdd8ca3f3d7b6f2b15f3ed6a6f775fb478443",
+  "lock_sha256": "a672a782c20543b66add9ed83dc5cf04432e9f98f6cc2646e40b68e3627a9317",
+  "archive_sha256": "d6cf34ab416ee313a01c8491ac0ab9d15a0f39d88a5ea8f7ead43b439dbe4312",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+  "runtime_members": 1940,
+  "new_member_rehash": 67,
+  "old_asset_rehash_reused": 1873,
+  "output_members": 34,
+  "output_bytes": 14853827915,
+  "new_gpu_forward": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "prior_initial_observation": "PENDING_NOT_YET_RUN",
+  "current_stored_initial": "ACTUAL_NATIVE_AND_PARTIAL_SECOND_FIT_RESTORED",
+  "process_restore": {
+    "selected_W0_exact": true,
+    "parameter_version_restore": "NOT_CLAIMED_COPY_INCREMENTS",
+    "RNG_restored": true,
+    "method_state_process_discarded": true
+  },
+  "claim_decision": "PENDING_GH_REVIEW"
+}

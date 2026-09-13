@@ -1,0 +1,67 @@
+[
+  {
+    "path": "core-performance.png",
+    "sha256": "df500d32cddd8a2ed4f4da853c462ea81435b8670da38fad2a53c721a7f70da0",
+    "source_sha256": "adf13d067771549a11d25ff4c7ad28f1f4c0a0951815669cfdfe83f68934b561",
+    "inputs": {
+      "first-core-table.csv": "37f363629c0eb30706312a8c3cf37a8866f8b8519d8e4a3146c9ab6ee26aebd1"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+    "caption": "Six frozen endpoints. Current R100/P200/N1000; Historical R128/P256/N1280. Strict NLL preference; ties fail. No pooled current/history denominator.",
+    "missing": "No imputation; unavailable rows omitted with report disclosure",
+    "dpi": 160
+  },
+  {
+    "path": "nll-tails.png",
+    "sha256": "112289c6ebc504b8a9c1203721995a93752568226bcca1a23229839620e49681",
+    "source_sha256": "adf13d067771549a11d25ff4c7ad28f1f4c0a0951815669cfdfe83f68934b561",
+    "inputs": {
+      "nll-distributions.csv": "2ce51c0bbad3d021712e2e5b1311c29ea4c288b9ef55f873df0912556493ba8b"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+    "caption": "Prompt-level desired-target NLL, length-normalized. Current100/200/1000 and Historical128/256/1280. Median/p90/p99 are different summaries, not uncertainty intervals. Arms categorical, connected lines only visual guide.",
+    "missing": "No imputation; unavailable rows omitted with report disclosure",
+    "dpi": 160
+  },
+  {
+    "path": "paired-locality.png",
+    "sha256": "de392430ad50703ba5629221563b12e4d18fb7e2b3d9ae75af29d7b67966a531",
+    "source_sha256": "adf13d067771549a11d25ff4c7ad28f1f4c0a0951815669cfdfe83f68934b561",
+    "inputs": {
+      "paired-transitions.csv": "12f152a86de223dd563f499d522fefa2fcad2359bc3ef1b051228fdbf42169f1"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+    "caption": "Identity-matched N4\u2192candidate loss/gain counts. Current N1000 and Historical N1280, within100/128 request clusters. Opposing transitions not netted away.",
+    "missing": "No imputation; unavailable rows omitted with report disclosure",
+    "dpi": 160
+  },
+  {
+    "path": "layer-update-magnitude.png",
+    "sha256": "cc0e6ecdded8b797f252f9a3f8088b3c557db462c02352e407240ffca60e01f9",
+    "source_sha256": "adf13d067771549a11d25ff4c7ad28f1f4c0a0951815669cfdfe83f68934b561",
+    "inputs": {
+      "layer-action.csv": "3f21df10e28f6b0a788b4933c67a2f55555090c0087a0882c564a68fcee24825"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+    "caption": "CPU FP64 norm of actual stored FP32 endpoint minus common We, one batch endpoint per arm/layer. REFIT4 net action is not summed path work. No equal-allocation reference.",
+    "missing": "No imputation; unavailable rows omitted with report disclosure",
+    "dpi": 160
+  },
+  {
+    "path": "compute.png",
+    "sha256": "6f610eae3b3414a39707f5fca017909275ff18da9b7fae3849668c98efb69589",
+    "source_sha256": "adf13d067771549a11d25ff4c7ad28f1f4c0a0951815669cfdfe83f68934b561",
+    "inputs": {
+      "compute-ledger.csv": "d7826d85282d4879d0b3d523d9f02bbbc0762db3b821db89e91f18d50942d8c6"
+    },
+    "command": "/data/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.low_cost_write_donor_pilot.review_plots --root /data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1",
+    "cwd": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+    "caption": "Policy accounting includes shared native fit per policy; study total counts native once. M8 setup shared once by FULL8/RES8 in study, not two actual executions. Diagnostics included; pure writer cost NOT_SEPARATED.",
+    "missing": "No imputation; unavailable rows omitted with report disclosure",
+    "dpi": 160
+  }
+]

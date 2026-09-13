@@ -1,0 +1,45 @@
+{
+  "attempt": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/execution.lock.json",
+      "bytes": 569578,
+      "sha256": "a672a782c20543b66add9ed83dc5cf04432e9f98f6cc2646e40b68e3627a9317"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/execution-source.tar",
+      "bytes": 512000,
+      "sha256": "d6cf34ab416ee313a01c8491ac0ab9d15a0f39d88a5ea8f7ead43b439dbe4312"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/panel-lock.json",
+      "bytes": 68052,
+      "sha256": "8a2014eb981bb0baf2a240c1acf133ae82952a0a8246c6f92a6e9f08c535106a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/config4.json",
+      "bytes": 711,
+      "sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/config8.json",
+      "bytes": 711,
+      "sha256": "753a762b333edaf770585b6ebbeea7ca71f4bc881683ac7aa00950fe7a23f55d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/P0-cpu-receipt.json",
+      "bytes": 1030,
+      "sha256": "5feb9cb8bf248531b3b514c39bc32f240d401b68fd00f54964b7cd00a1789cc1"
+    }
+  ],
+  "raw_output_inventory": {
+    "path": "raw-member-inventory.csv",
+    "sha256": "8c61f5451d25068c68c16d3e12eecfbaa3bda9a00301d296e3c73d5ee7e0bebf"
+  },
+  "state_CPU_receipt": {
+    "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/state-cpu-review-v1.json",
+    "sha256": "1036568b853a844d57a58791d481cb867a1efbf840f8669d7ffcd6a422cc1bac"
+  },
+  "new_raw_transfer": 0,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

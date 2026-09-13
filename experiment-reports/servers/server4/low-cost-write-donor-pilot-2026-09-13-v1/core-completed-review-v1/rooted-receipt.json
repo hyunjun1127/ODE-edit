@@ -1,0 +1,10 @@
+{
+  "status": "PACKAGE_FULL_REHASH_PASS",
+  "members": 36,
+  "member_root": "9cab0fbf0f740c7abb515b22be059b195af1c40925c63fb9f353bb4485e19bd4",
+  "manifest_sha256": "744f3b77ae2cf49e6d5a5e59db5d4ef07c3b2b327caddfec040607d4e673f470",
+  "scope": "SIX_CORE_ENDPOINT_REVIEW_ONLY",
+  "claim_decision": "PENDING_GH_REVIEW",
+  "audit_and_suffix_executed": false,
+  "scientific_promotion": false
+}

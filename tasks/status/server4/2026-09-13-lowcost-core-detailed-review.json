@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOW-COST-WRITE-DONOR-CORE-DETAILED-REVIEW-SH4-V1",
+  "owner": "SH4",
+  "job": "46451",
+  "scheduler": "COMPLETED_0:0",
+  "review": "COMPLETE",
+  "status": "TASK_COMPLETE_STOP",
+  "core_endpoints": 6,
+  "new_GPU_actions": 0,
+  "audit_suffix_executed": false,
+  "claim_decision": "PENDING_GH_REVIEW",
+  "scientific_promotion": false,
+  "report": "experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1/diagnostic-report-ko.md",
+  "execution_commit": "7ece056c33fbb4246245c15f5f7c2a678315c05c",
+  "new_CPU_tests": 12,
+  "monitoring": "STOPPED"
+}

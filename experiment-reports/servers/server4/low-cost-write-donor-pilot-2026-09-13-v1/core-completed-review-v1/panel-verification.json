@@ -1,0 +1,41 @@
+{
+  "status": "CPU_IDENTITY_DISJOINTNESS_PASS",
+  "current": 100,
+  "historical": 128,
+  "audit_sealed_not_evaluated": 128,
+  "audit_neighbors_not_evaluated": 1280,
+  "mmlu_development": 32,
+  "mmlu_audit_not_evaluated": 68,
+  "wiki_sequences": 128,
+  "wiki_predicted_tokens": 24999,
+  "panel_sha256": "8a2014eb981bb0baf2a240c1acf133ae82952a0a8246c6f92a6e9f08c535106a",
+  "audit_data_metadata_reviewed": true,
+  "audit_performance_read": false,
+  "audit_global_blind": false,
+  "unknown_semantic_overlap": "NOT_EXCLUDED",
+  "current_historical_audit_identity": [
+    "a36d2c32af7b01d4f8886cd188d255d232646e3ef28c956ab58046d3c0ad7658",
+    "21a003563c7e2fd0d87839bf3d516af15e5e0ecb09d4605449fff2d933b17aa6",
+    "c59bf95d4aa7961c14c2f4e54f1e2200f1b8032ed53472494945de9144c73a4c"
+  ],
+  "audit_selection_details": {
+    "identity": "c59bf95d4aa7961c14c2f4e54f1e2200f1b8032ed53472494945de9144c73a4c",
+    "requests": 128,
+    "R": 128,
+    "P": 256,
+    "N": 1280,
+    "outcome_selection": 0,
+    "optimizer_access": 0,
+    "seed": 20260913,
+    "eligible": 9749,
+    "case_excluded": 228,
+    "subject_relation_excluded": 23,
+    "missing_relation_eligible": 0,
+    "known_overlap_policy": "EXACT_SUBJECT_RELATION_PAIR",
+    "unknown_semantic_overlap": "NOT_EXCLUDED_NOT_GLOBALLY_BLIND",
+    "access": "ONLY_AFTER_GH_CANDIDATE_POLICY_LOCK"
+  },
+  "source_runtime_audit_access": "NO_SCORING_BRANCH",
+  "future_N": "NOT_EXECUTED",
+  "claim_decision": "PENDING_GH_REVIEW"
+}

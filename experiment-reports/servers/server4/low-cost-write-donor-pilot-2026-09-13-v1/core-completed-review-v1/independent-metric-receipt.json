@@ -1,0 +1,152 @@
+{
+  "audit_evaluation": "NOT_RUN",
+  "core_endpoints": 6,
+  "duplicate": 0,
+  "evaluation_files": 8,
+  "gpu": 0,
+  "historical_annotation_scope": "EXACT_SUBJECT_RELATION_AND_TARGET_AT_ENTRY5000_124_ACTIVE_4_SUPERSEDED",
+  "imputation": 0,
+  "inputs": [
+    {
+      "bytes": 2496099,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/W0/evaluation.json",
+      "sha256": "e81e85d47c925004060dcab33204ddb03feb31fa046f1bbd9d555362598b7e9b",
+      "state": "W0"
+    },
+    {
+      "bytes": 2495497,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/ENTRY/evaluation.json",
+      "sha256": "010897289b6336fbc6cad6dcc3b782ce38ef26ca8c1bfb104ccd9636951c6dbd",
+      "state": "ENTRY"
+    },
+    {
+      "bytes": 2495288,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/N4/evaluation.json",
+      "sha256": "ada16fa0071a35fa666ccb130c5b1de039bfc43c840e09bbe63e589d52e77ad8",
+      "state": "N4"
+    },
+    {
+      "bytes": 2495178,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/S875/evaluation.json",
+      "sha256": "053a495dc7cef7c16124c6596984f7c08d62a5a61a770405f50e03dbe74a8601",
+      "state": "S875"
+    },
+    {
+      "bytes": 2495106,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/S75/evaluation.json",
+      "sha256": "95bdd3fd87752b5f057e3d51b0a76461f0742c49f8838fb529c3d16dbe35e6aa",
+      "state": "S75"
+    },
+    {
+      "bytes": 2495342,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/FULL8/evaluation.json",
+      "sha256": "03d1d8ebedb2d73c7f3647562f8ede600854dd9a647af6dc90fb095e9dfc6f07",
+      "state": "FULL8"
+    },
+    {
+      "bytes": 2495214,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/RES8/evaluation.json",
+      "sha256": "55038dbee9fb94603f06dc89470fb2cbee085fef48ba308d8e16c8369c59c02f",
+      "state": "RES8"
+    },
+    {
+      "bytes": 2495105,
+      "local_path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/REFIT4/evaluation.json",
+      "sha256": "c39a079aeba71da5848d692bc61979038e60dd25556dbe15a48ac75054969d8e",
+      "state": "REFIT4"
+    }
+  ],
+  "missing_policy": "NO_IMPUTATION_EMPTY_GROUP_N0",
+  "mmlu": "ALTERNATIVE_UNIQUE_MAX_PROBABILITY_INTEGER_COUNTS_NOT_F1",
+  "nonfinite": 0,
+  "quantiles": "LINEAR_(N-1)*P",
+  "raw_prompt_pairs": 23712,
+  "scientific_claim": "PENDING_GH_REVIEW",
+  "source_reducer_import": 0,
+  "source_sha256": "70643705d365957fbed8c8b559bc995bd8d49090b08bd9ad8f3d70c94f5fc466",
+  "status": "INDEPENDENT_RAW_PAIR_REDUCTION_PASS",
+  "suffix": "NOT_RUN",
+  "supporting_input_files": [
+    {
+      "bytes": 30239,
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/inputs.json",
+      "sha256": "ab36fe9670de6dc2f4a7933b377249670988a51b98fde1e94c37353d53b87e3b"
+    },
+    {
+      "bytes": 152728,
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/imports/server1/attempt-v1/wiki128.json",
+      "sha256": "32a7badcdc58db9434cfa0d18b02710b4d6891a3b8c696d3ec3f19e614e22330"
+    },
+    {
+      "bytes": 66508,
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/mmlu100.json",
+      "sha256": "a3e23f60aee009b72cffaeaedbc63a9d88689075b814c3f3632d899855f0198b"
+    },
+    {
+      "bytes": 16679956,
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+    },
+    {
+      "bytes": 68052,
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/panel-lock.json",
+      "sha256": "8a2014eb981bb0baf2a240c1acf133ae82952a0a8246c6f92a6e9f08c535106a"
+    },
+    {
+      "bytes": 8922,
+      "path": "plans/global/2026-09-13-low-cost-write-donor-pilot-contract.json",
+      "sha256": "086590036cd4074c8b68ec6f68405f2144f9c2bff4a8a10627f05123c6057045"
+    }
+  ],
+  "tables": {
+    "endpoint-metrics.csv": {
+      "rows": 96,
+      "sha256": "ab85584b2e7e4503e78d4284d37c602ad4bad9a6da4d074838451ed0ab8dad05"
+    },
+    "first-core-table.csv": {
+      "rows": 6,
+      "sha256": "37f363629c0eb30706312a8c3cf37a8866f8b8519d8e4a3146c9ab6ee26aebd1"
+    },
+    "metric-integrity.csv": {
+      "rows": 48,
+      "sha256": "1b3fc50e0211ff4fc4c8dd18432b74c9627263a556e2ddf10fc28d311521875c"
+    },
+    "metric-raw-inputs.csv": {
+      "rows": 8,
+      "sha256": "3056805c6644006102028530e38eed0708bfe8d66424ab673ec55dd10d506fd9"
+    },
+    "nll-distributions.csv": {
+      "rows": 576,
+      "sha256": "2ce51c0bbad3d021712e2e5b1311c29ea4c288b9ef55f873df0912556493ba8b"
+    },
+    "nll-outliers.csv": {
+      "rows": 288,
+      "sha256": "1e2ac8ed10ad4afbbe6c8c15ba5b9a322ca8fd5ee2139a2d17a47b935e29878a"
+    },
+    "paired-request-distributions.csv": {
+      "rows": 756,
+      "sha256": "a635c358f43243296ff6d2dad4ac87a3b5bf67adbe25aef6cdf7a55e57178c72"
+    },
+    "paired-sentinels.csv": {
+      "rows": 42,
+      "sha256": "dfb6ac5ef1620f355fb7816a6c1fe339835990b4413702cee264f80da45937d4"
+    },
+    "paired-transitions.csv": {
+      "rows": 252,
+      "sha256": "12f152a86de223dd563f499d522fefa2fcad2359bc3ef1b051228fdbf42169f1"
+    },
+    "quality-frontier.csv": {
+      "rows": 78,
+      "sha256": "690b252ca5bdbe35bd65f57d0d3957c00bd148e0bcc579c1373ab9771bdb0fe1"
+    },
+    "reference-and-core-table.csv": {
+      "rows": 8,
+      "sha256": "16a73ca73765b8b6161a4ad4fdbcfbcb842ee41ffeaa382b7390cbfc34590056"
+    },
+    "sentinel-metrics.csv": {
+      "rows": 96,
+      "sha256": "0025537cd7e4ec9ad3655659c05e16f96e998a69d8e7c094971f787b92792189"
+    }
+  },
+  "wiki_mask": "ALL_NEXT_TOKEN_POSITIONS_24999"
+}
