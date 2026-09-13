@@ -1,14 +1,13 @@
 {
   "base_main": "7d5bae2e3be8dba87c92b86a727d5de9ed549af3",
-  "source_publication_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec",
+  "source_publication_head": "4728313bfc214a42ebf49c851fcf984089ab3d92",
   "branch_ref_count": 81,
   "unique_heads": 66,
   "classification_counts": {
     "ALREADY_IN_MAIN": 63,
     "CONFLICT_REQUIRES_DECISION": 1,
-    "INTEGRATED": 14,
-    "NOT_READY": 1,
-    "PARTIALLY_INTEGRATED": 2
+    "INTEGRATED": 16,
+    "NOT_READY": 1
   },
   "branches": [
     {
@@ -268,7 +267,7 @@
         "project/run_scripts/barrier_guided_ode/fixed_subspace/tests/test_receipt_security.py",
         "project/run_scripts/barrier_guided_ode/fixed_subspace/tests/test_terminal_receipts.py"
       ],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-fbp-minimal-barrier-ode-v1",
@@ -291,7 +290,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-r1-s1-analysis",
@@ -327,7 +326,7 @@
       "task_id": "BGODE-R1-S1-MATCHED-ANALYSIS",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-r1-s1-qwen",
@@ -350,7 +349,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-r1-science-r1",
@@ -373,7 +372,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-r2-rho-free-prefix-event-v1",
@@ -396,7 +395,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/bgode-r3-fine-event-target-excluded-v1",
@@ -419,7 +418,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-audit-tech-r1",
@@ -503,7 +502,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-pilot-analysis-v1",
@@ -526,7 +525,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-pilot-followup-v1",
@@ -567,7 +566,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-pilot-sh1-v1",
@@ -590,7 +589,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-pilot-tech-r2",
@@ -673,7 +672,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/native-response-ode-v31-pilot-tech-r3",
@@ -771,7 +770,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/orbode-fast-main-server1-gated-tech-r5",
@@ -794,7 +793,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/orbode-fast-main-server1-gated-v1",
@@ -817,7 +816,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/orbode-round0-b100-exhaustive-review-v1",
@@ -840,7 +839,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/orbode-round0-canonical-ns-report-v3",
@@ -863,7 +862,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/orbode-round0-canonical-ns-rerun-v1",
@@ -886,7 +885,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r51-p1r43-requestwise-semantic-allocation-a1-v1",
@@ -909,7 +908,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r51-p1r43-rsa-a1-v1",
@@ -932,7 +931,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-b100-accepted-z-rephrase-obs-tech-r1-r52-v1",
@@ -1240,7 +1239,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-b100-accepted-z-rephrase-obs-tech-r1-v1",
@@ -1505,7 +1504,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-b100-accepted-z-rephrase-obs-v1",
@@ -1713,7 +1712,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-c-writer-phase1-preedit-r1",
@@ -1783,7 +1782,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "changed file blobs/modes all equal",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-c-writer-phase1-tech-r1",
@@ -1806,7 +1805,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-c-writer-phase2-tech-r1",
@@ -1829,7 +1828,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-c-writer-three-phase-v1",
@@ -1852,7 +1851,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-fpiq-atomic-b10x10-v1",
@@ -2258,7 +2257,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-joint-pc-fullfp32-independent-10xb100-final-integration-v1",
@@ -2281,7 +2280,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-joint-pc-fullfp32-independent-10xb100-v1",
@@ -2645,7 +2644,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-llama-seq-10xb100-fourarm-r1-v1",
@@ -2668,7 +2667,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-llama-seq-10xb100-fourarm-v1",
@@ -2691,7 +2690,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-llama-soft-seq-hist-10xb10-v1",
@@ -2714,7 +2713,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-llama-soft-seq-nohistorical-v1",
@@ -2737,7 +2736,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-native-alphaedit-sequential-cache-on-corrected-v1",
@@ -2760,7 +2759,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-pir-atomic-b10x10-v1",
@@ -3265,7 +3264,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-piru-cache-continuity-a1-tech-r1",
@@ -3288,7 +3287,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-piru-cache-continuity-a1-v1",
@@ -3311,7 +3310,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-piru-seq-10xb100-hon-v1",
@@ -3461,7 +3460,7 @@
         "project/run_scripts/session05_ode_bf_p1r52_piru_b4_diag_c1.sbatch",
         "project/run_scripts/session05_ode_bf_submit_p1r52_piru_b4_diag_c1.py"
       ],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-piru-seq-postenergy-warn-r1-v1",
@@ -3484,7 +3483,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-residual-reserve-pcsoft-writer-v1",
@@ -3507,7 +3506,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-rsa-r42safekdc-m1-v1",
@@ -3530,7 +3529,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-target-official-alphaedit-writer-a1-phase-b-v1",
@@ -3553,7 +3552,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r52-target-official-alphaedit-writer-a1-v1",
@@ -3576,7 +3575,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r54-pdz-ablation-v1",
@@ -3776,7 +3775,7 @@
       "task_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r54-pdz-time-sweep-analysis-v1",
@@ -4107,7 +4106,7 @@
       "task_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/p1r55-rms-pdz-floored-rate-v1",
@@ -4310,7 +4309,7 @@
       "task_id": "ODEEDIT-S05-P1R55-REQUEST-LOCAL-RMS-PDZ-FLOORED-RATE-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/phase123-results-main-v1",
@@ -4333,7 +4332,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/publish-p1r52-piru-postenergy-warn-r1",
@@ -4840,7 +4839,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "patch-equivalent cherry-picks",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/publish-p1r52-piru-postenergy-warn-r1-merge",
@@ -4863,7 +4862,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/realization-debt-phase-a-lifelong-v6-v1",
@@ -4886,7 +4885,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-all-experiment-integration-v1",
@@ -4909,7 +4908,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-alpha-jv-analysis-main-integration-v1",
@@ -4932,7 +4931,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-alpha-jv-dense-sweep-v1",
@@ -4955,7 +4954,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-alpha-jv-diagnosis-sweep-v1",
@@ -4978,7 +4977,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-alpha-jv-sequential-detailed-analysis-v1",
@@ -5001,7 +5000,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-aos-cpu-review-recall-v1",
@@ -5024,7 +5023,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-baseline-mechanism-first-e01-v1",
@@ -6166,7 +6165,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-cumrisk-main-integration-A-v1",
@@ -6189,7 +6188,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-e01-completed-detailed-review-20260913-v1",
@@ -6212,7 +6211,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-e01-fullseen-schema-repair-r3",
@@ -7527,7 +7526,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-e01-performance-supplement-r1",
@@ -8748,7 +8747,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-e01-review-main-integration-20260913-v1",
@@ -8771,7 +8770,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-e01-terminal-performance-repair-r1",
@@ -10031,7 +10030,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-l4-two-memory-routing-v2",
@@ -10054,7 +10053,7 @@
       "task_id": "ODEEDIT-S06-L4-TWO-MEMORY-CONFLICT-ROUTING-SH1-V2",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-l4-two-memory-routing-v2-integration-20260911",
@@ -10077,7 +10076,7 @@
       "task_id": "ODEEDIT-S06-L4-TWO-MEMORY-CONFLICT-ROUTING-SH1-V2",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-multilayer-joint-edit-a-v1",
@@ -10107,7 +10106,7 @@
         "+ 815f933e3bb6e6694cb3c0ad8bb6cd6ff63234d0",
         "+ ba91f274ddf452be4124aedfc1ff37c1fb92fdb8"
       ],
-      "status": "PARTIALLY_INTEGRATED",
+      "status": "INTEGRATED",
       "members": [
         {
           "path": "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/implementation-checklist-ko.md",
@@ -10902,25 +10901,9 @@
       ],
       "worktree_tracked_dirty": "",
       "task_id": "ODEEDIT-S06-MULTILAYER-JOINT-EDIT-A-SH1-V1",
-      "integration_reason": "all SH1-owned scope integrated; SH2 shared kernels/track_b/tests/server2 audits excluded and handed to SH2, no duplicate merge",
-      "remaining_files": [
-        "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/implementation-checklist-ko.md",
-        "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/shared-cpu-v1.json",
-        "project/run_scripts/multilayer_joint_compensation/elastic_qp.py",
-        "project/run_scripts/multilayer_joint_compensation/functional.py",
-        "project/run_scripts/multilayer_joint_compensation/linear_solve.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_b_protocol.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_elastic.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_functional.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_pcg.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/SHARED_API.md",
-        "project/run_scripts/multilayer_joint_compensation/track_b/coordination.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/native_adapter.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/protocol.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/seal_read.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/validate_shared.py"
-      ],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "integration_reason": "SH1 own scope integrated; 15 SH2-owned members subsequently published by SH2 in main a2ecac54 and byte-exact independently verified; normal main merge preserved ownership",
+      "remaining_files": [],
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/server1-single-layer-cumulative-risk-abc-v1",
@@ -10943,7 +10926,7 @@
       "task_id": "ODEEDIT-S06-SINGLE-LAYER-CUMULATIVE-RISK-ABC-SH1-V1",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "codex/strength-neutral-barrier-ode-hook-v1",
@@ -10966,7 +10949,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-alpha-jv-diagnosis-sweep-v1",
@@ -10989,7 +10972,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-alpha-jv-sequential-detailed-analysis-v1",
@@ -11012,7 +10995,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-aos-cpu-review-recall-v1",
@@ -11035,7 +11018,7 @@
       "task_id": "HISTORICAL_TASK_ID_NOT_EXTRACTED; source/ref evidence retained",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-baseline-mechanism-first-e01-v1",
@@ -12177,7 +12160,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-e01-completed-detailed-review-20260913-v1",
@@ -12200,7 +12183,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-e01-fullseen-schema-repair-r3",
@@ -13515,7 +13498,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-e01-performance-supplement-r1",
@@ -14736,7 +14719,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-e01-terminal-performance-repair-r1",
@@ -15996,7 +15979,7 @@
       "task_id": "ODEEDIT-S06-BASELINE-MECHANISM-FIRST-E01-SH1-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-l4-two-memory-routing-v2",
@@ -16019,7 +16002,7 @@
       "task_id": "ODEEDIT-S06-L4-TWO-MEMORY-CONFLICT-ROUTING-SH1-V2",
       "integration_reason": "ancestor proof",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/server1-multilayer-joint-edit-a-v1",
@@ -16049,7 +16032,7 @@
         "+ 815f933e3bb6e6694cb3c0ad8bb6cd6ff63234d0",
         "+ ba91f274ddf452be4124aedfc1ff37c1fb92fdb8"
       ],
-      "status": "PARTIALLY_INTEGRATED",
+      "status": "INTEGRATED",
       "members": [
         {
           "path": "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/implementation-checklist-ko.md",
@@ -16844,25 +16827,9 @@
       ],
       "worktree_tracked_dirty": "NO_LOCAL_WORKTREE",
       "task_id": "ODEEDIT-S06-MULTILAYER-JOINT-EDIT-A-SH1-V1",
-      "integration_reason": "all SH1-owned scope integrated; SH2 shared kernels/track_b/tests/server2 audits excluded and handed to SH2, no duplicate merge",
-      "remaining_files": [
-        "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/implementation-checklist-ko.md",
-        "audits/servers/server2/2026-09-11-multilayer-joint-compensation-ab/shared-cpu-v1.json",
-        "project/run_scripts/multilayer_joint_compensation/elastic_qp.py",
-        "project/run_scripts/multilayer_joint_compensation/functional.py",
-        "project/run_scripts/multilayer_joint_compensation/linear_solve.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_b_protocol.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_elastic.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_functional.py",
-        "project/run_scripts/multilayer_joint_compensation/tests/test_pcg.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/SHARED_API.md",
-        "project/run_scripts/multilayer_joint_compensation/track_b/coordination.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/native_adapter.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/protocol.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/seal_read.py",
-        "project/run_scripts/multilayer_joint_compensation/track_b/validate_shared.py"
-      ],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "integration_reason": "SH1 own scope integrated; 15 SH2-owned members subsequently published by SH2 in main a2ecac54 and byte-exact independently verified; normal main merge preserved ownership",
+      "remaining_files": [],
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/p1r54-pdz-ablation-v1",
@@ -17062,7 +17029,7 @@
       "task_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     },
     {
       "branch": "origin/codex/p1r54-pdz-time-sweep-analysis-v1",
@@ -17393,7 +17360,7 @@
       "task_id": "ODEEDIT-S05-P1R54-PDZ-PRC-TIME-SWEEP-T2-T3-T5-DIRECT-V1",
       "integration_reason": "verified SH1 scope integrated; original source/report blobs preserved except documented additive dispatch composition or existing repaired E01 successor",
       "remaining_files": [],
-      "comparison_after_head": "b3b40db422bdb4d4e19ed04fca535b9d903ce8ec"
+      "comparison_after_head": "4728313bfc214a42ebf49c851fcf984089ab3d92"
     }
   ],
   "root_dirty_preserved": true,

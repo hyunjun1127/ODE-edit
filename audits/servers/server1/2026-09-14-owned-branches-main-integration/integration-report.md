@@ -22,8 +22,8 @@
 | 분류 | ref 수 | 의미 |
 |---|---:|---|
 | ALREADY_IN_MAIN | 63 | ancestor, patch-equivalent cherry-pick 또는 전체 변경 blob/mode 동일 |
-| INTEGRATED | 14 | 이번에 잔여 SH1 범위를 반영, 후속 main 수정은 보존 |
-| PARTIALLY_INTEGRATED | 2 | multilayer A local/remote refs; SH1 범위 완료, SH2 소유 15 files는 별도 owner 통합 |
+| INTEGRATED | 16 | 이번에 잔여 SH1 범위를 반영, 후속 main 수정은 보존; A의 SH2 부분도 owner가 게시한 main을 병합해 해소 |
+| PARTIALLY_INTEGRATED | 0 | push 전 SH2 게시를 반영하여 종전 2 refs의 잔여 해소 |
 | NOT_READY | 1 | BGODE-FBP F0-R1의 미해결 필수 수정 |
 | CONFLICT_REQUIRES_DECISION | 1 | 과거 PIR-U H diagnostic과 최신 runtime 충돌·원 worktree dirty |
 
@@ -46,7 +46,7 @@ source/report 변경은 160 files, 23,564,574 bytes이며 전수 SHA/blob/mode�
 1. E01 README/continuation/warm_plan은 main에 이미 후속 source가 존재했다. 원 중간 commit을 순차 cherry-pick하며 나온 충돌은 최종 `58f50a25`와 기존 main blob 동일성을 확인한 해당 파일만 보존했다. 이전 functionality로 되돌리지 않았다.
 2. `terminal_performance.py`는 SH4가 main에 통합한 schema-normalize와 일반 terminal-batch 검사가 있었다. 이를 보존했다. 과거 실패한 raw `request_order` 접근을 복원하지 않았으며, 이 main 파일을 원 E01 실행 bytes라고 주장하지 않는다.
 3. P1R54의 옛 전체 runtime snapshot은 최신 역할과 충돌했다. 원 `c0dc8e3f`의 선택적 callback(기본 None), 허용 horizon5, 고유 역할 dispatch만 적용하고 이후 FZ/realization/P1R55 경로를 유지했다. 새로운 objective/threshold/실험 조건을 만들지 않았다. 원 execution source는 계속 `c0dc8e3f`이고 이번 main은 composition/publication source다.
-4. SH2 functional/linear_solve/elastic_qp, track_b, 관련 tests 및 server2 audit는 변경·재통합하지 않았다. SH2에 exact peer-direct 소유 분리를 전달했다. A CPU 검사는 `ba91f274`의 SHA 확인된 SH2 dependency를 읽기전용으로 연결한 검사이며, clean main의 SH2 closure 포함을 앞서 주장하지 않는다.
+4. SH2 functional/linear_solve/elastic_qp, track_b, 관련 tests 및 server2 audit는 SH1이 대신 cherry-pick하지 않았다. SH2에 exact peer-direct 소유 분리를 전달했다. 최초 A CPU 검사는 `ba91f274`의 SHA 확인된 SH2 dependency를 읽기전용으로 연결했다. push 직전 SH2가 게시한 main `a2ecac5458d533f841e3f9e696865b07bb9f7956`을 정상 병합했다. 종전 잔여 15 files는 원 `ba91f274`와 모두 byte-exact였고, 외부 worktree dependency 없이 통합 경로의 실제 shared closure로 230 tests를 다시 통과했다 (`postmerge-focused-tests.json`).
 5. 옛 launcher의 당시 session/branch/resource lock(cap3 등)은 역사적 source bytes다. 이번 게시가 그 launcher의 신규 제출 승인이 아니며 현재 prospective cap2 정책을 무효화하지 않는다. 신규 제출·현 job resource 변경은 0이다.
 
 ## CPU·publication 검사
@@ -61,7 +61,7 @@ source/report 변경은 160 files, 23,564,574 bytes이며 전수 SHA/blob/mode�
 | 통합 특화 source-byte/API/role/default/helper 검사 | 6 PASS |
 | 변경 Python AST + py_compile | 54 PASS |
 | 변경 shell/bash -n | 8 PASS |
-| memory policy audit | 163 files, failure0 |
+| memory policy audit | 최초 163 files, SH2 main 병합 후 167 files, failure0 |
 | 재사용 report manifest의 가용 report-member SHA | 49 references 일치, mismatch0 |
 | 전수 publication path/type/JSON/CSV 폭/비밀·raw field 검사 | PASS |
 | diff whitespace | PASS, 기존 CRLF/Markdown hardbreak 예외만 허용 |
@@ -72,6 +72,7 @@ source/report 변경은 160 files, 23,564,574 bytes이며 전수 SHA/blob/mode�
 
 ```bash
 CUDA_VISIBLE_DEVICES='' PYTHONPATH=. /mnt/raid5/janghj/EasyEdit/.venv/bin/python audits/servers/server1/2026-09-14-owned-branches-main-integration/run_cpu_checks.py
+CUDA_VISIBLE_DEVICES='' PYTHONPATH=. /mnt/raid5/janghj/EasyEdit/.venv/bin/python audits/servers/server1/2026-09-14-owned-branches-main-integration/run_cpu_checks.py --local-shared
 python3 audits/servers/server1/2026-09-14-owned-branches-main-integration/publication_checks.py
 python3 scripts/slurm_memory_policy.py audit
 ```
@@ -84,7 +85,7 @@ python3 scripts/slurm_memory_policy.py audit
 
 - **BGODE-FBP F0-R1 4891906a: NOT_READY.** 기존 GH `F0_R1_HOLD_F0_R2_REQUIRED`의 전체-W0 restore, observer accounting, device-order, receipt typing/mode 등의 미해결 결함을 재확인했다. 21 files는 원 branch에 그대로 남겼다. Git 통합을 끝내려고 F0를 새로 수리하거나 과학 task를 재개하지 않았다.
 - **PIR-U H diagnostic 1d083ede: CONFLICT_REQUIRES_DECISION.** `p1_runtime.py`, `p1r52_sequential_contract.py`, `p1r52_sequential_runtime.py`가 최신 main과 충돌한다. 원 worktree에는 추가 미커밋 3 files도 있다. 10 committed files를 남겼다. 이후 명시적 정합화 범위 결정 또는 archive 유지가 필요하며 blanket ours/theirs로 해결하지 않았다.
-- **Multilayer A의 SH2 부분 15 files:** SH2가 own branch 통합을 담당한다. 이 요청에서 SH1이 대신 다른 SH 코드를 덮지 않았다. 별도 user 과학 승인 문제가 아니라 cross-owner Git 게시 상태다.
+- **Multilayer A의 SH2 부분 15 files: 해소.** SH2 own-scope main 게시를 병합했고 원 source bytes와 모두 일치했다. 새 서버2 runtime 변경을 SH1 작업으로 주장하거나 덮어쓰지 않았다.
 - `p1r52-llama-seq-10xb100-fourarm-v1`의 committed HEAD는 이미 main에 있지만 6 tracked dirty files는 별개로 보존했다. PIR-U의 3 tracked dirty files도 미게시다. 이를 branch HEAD의 ALREADY_IN_MAIN과 혼동하지 않는다.
 - 각 잔여 파일의 정확 경로·HEAD·소유·사유는 `remaining-files.csv`; 원 worktree dirty 목록은 `inventory-before.json`/`branch-inventory.csv`에 있다. untracked 사용자 자산은 stage하지 않았다.
 

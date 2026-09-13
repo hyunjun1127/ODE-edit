@@ -42,6 +42,12 @@ def main():
             if 'multilayer-joint-edit-a-v1' in r['branch']:
                 r['status']='PARTIALLY_INTEGRATED';reason='all SH1-owned scope integrated; SH2 shared kernels/track_b/tests/server2 audits excluded and handed to SH2, no duplicate merge'
         r['integration_reason']=reason
+        if r['status']=='PARTIALLY_INTEGRATED':
+            owner_paths=[m['path'] for m in r['members'] if m['path'].startswith('audits/servers/server2/') or '/track_b/' in m['path'] or (m['path'].startswith('project/run_scripts/multilayer_joint_compensation/') and Path(m['path']).name in exclusions|btests)]
+            if owner_paths and all(subprocess.run(['git','cat-file','-e','a2ecac5458d533f841e3f9e696865b07bb9f7956:'+p],capture_output=True).returncode==0 and git('rev-parse','a2ecac5458d533f841e3f9e696865b07bb9f7956:'+p)==git('rev-parse',r['head']+':'+p)==git('rev-parse','HEAD:'+p) for p in owner_paths):
+                r['status']='INTEGRATED'
+                reason='SH1 own scope integrated; 15 SH2-owned members subsequently published by SH2 in main a2ecac54 and byte-exact independently verified; normal main merge preserved ownership'
+                r['integration_reason']=reason
         rem=[]
         for m in r['members']:
             p=m['path']
