@@ -3,7 +3,7 @@
 - Instruction: GH-BG1-C4-OURS-FIRST-20260915-V1.
 - SH task: ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1.
 - Owner: SH4 server4, session01a04939-b5c7-7a03-ba2d-ef3343d62cfd.
-- 상태: SH4 직접 전달 ACCEPTED 및 신규 task 착수 응답 수신. 실제 GPU 제출/G0 통과는 아직 보고받지 않았다.
+- 상태: SH4 G0_BLOCKED / CALIBRATION_MISSING 인계 수신. agent=WAITING_USER_RESUME. BG scientific chain 미제출.
 - 전달 publication: e56af00b16ecaed38ecb4ea890ce71f0c57aa4ff / tree f4f770b3a06684bf5fb7017e8640dd9bdfb172f8.
 - Direct accepted turn: 01a0a121-ee45-7de2-bb00-4c8cdfc0c78a; nonce ODEEDIT-GH-SH4-BG1-C4-OURS-FIRST-20260915-R1.
 - SH4 초기 응답: 신규 BG-1 한 chain, N4 B1–B10 calibration 가용성 우선 확인, G0 확정 후 사용자 재개 대기. FULL_READ 완료/GPU gate PASS 주장 아님.
@@ -13,12 +13,20 @@
 - GPU cap2; host mem≤60416M/GPU; hour cap=null.
 - 신규 scientific scope: BG-1만, W0 fixed first1000/B100×10.
 - baseline editing rerun0. 저장 N4 B1–B10 전 endpoint의 새 C4 forward calibration 필요.
-- reference768/teacher192/calibration manifest: 아직 SH 실물 보고 미수신, path/hash=null.
-- scientific/prepare job IDs: 미수신, [].
-- G0: NOT_RUN (GH가 실제 실행을 확인하지 않음).
-- Local resume-manifest: SH actual run root에서 생성 후 path/SHA 수신 예정.
-- monitoring_active=false: GH 자동 모니터링 미설정. SH G0전 제한적 gate 관찰 권한과는 별도.
+- 출처: SH4 publication d87f2bf4a14d25f5b40b2ccd208eea2e67c80496 / tree87388996d95dff0acd66a476d2efcf59a7f255ef. 이 업데이트는 인계·Git compact manifest 결속이며 GH의 원격 raw/GPU 재감사가 아니다.
+- Calibration: SH2 owner 조사상 lifelong L4와 1k L4 38997 모두 B1/5/10 CP만 있고 B2/3/4/6/7/8/9 CP 및 복원 가능한 weight delta 없음. 부분max/warm proxy/native rerun은 사용하지 않음. calibration forward0, b 미설정.
+- Reference: pinned source359779975B/401893rows 및768×257 tokens 구축·검증 보고 수신. identity f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0; memberroot0c6aa4e2ddb350c61999580fe3efabaae880ec8e17aa208a8f7d85c026a6f1aa.
+- Reference build-status: /data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/reference-v1/build-status.json SHA b9a66d3c59d0d9bdb5c6e738317a1a610a4e7a8e859d0f7fda48258dd6dee515.
+- Teacher 준비 job47592만 제출. 마지막 SH 관측2026-09-14T18:38:20.797733+00:00에서 PENDING, dependency[], requeue0. 최신 scheduler 상태로 주장하지 않으며 GH 재조회0. 1GPU/8CPU/60416M/2h, 준비 job 자연 진행.
+- Teacher execution8b8f2a678128156852f4941dbaa3cb9023f18559/tree071bba51b57efd84499e42d0b08c4ce180392a91; archive7630c27eebf800c21fdbbff8de0995fcc66c6d3c919793de7ef1a77da9fe83d3; lock174d3c3b738444082b59caf21d7bdd655fdc321b69c64a98d7835ce26accf968.
+- Teacher expected manifest: /data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json. 실제 생성/192완료/load/종료 미관측. 12608077824 tensor bytes와0.25–2GPUh는 예상이며 실측 아님.
+- BG adapter/persistent controller/model-level history·restore·gradient: INCOMPLETE/NOT_TESTED. CPU39 및 source closure1772 검증 보고를 Llama parity로 해석하지 않음.
+- Scientific job IDs=[], processed batch0, next ordinal0; scientific checkpoint/history/RNG/terminal path=null. FirstB100/G0_PASS/전체1000 완료 아님.
+- Local resume-manifest: /data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/resume-manifest.json SHA44bba7e96e2bb163ee812282a538fc49152ed1d6e89f5624e2c17f898cc9d99d.
+- Factual report: experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md SHAf74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6. 같은 package의 calibration-availability.json/reuse/resume-manifest.json에 세부 근거.
+- monitoring_active=false: GH·SH·worker 모두 능동 모니터링/자동 wakeup 미설정 또는 종료. Teacher job은 취소하지 않음.
 - automatic_resume=false; resume_trigger=explicit_user_call.
 - 최종 인계 후 읽기 순서: resume-manifest → 정확한 scheduler 1회 → terminal receipt/log → checkpoint/metric → GH 해석.
 - G0_PASS이면 agent WAITING_USER_RESUME, 제출 job은 계속. 확정 FAIL/BLOCKED이면 자동수리0.
 - GH는 다른 SH 실험/중단된 task를 재개하지 않는다.
+- 재개 조건: 명시적 사용자 호출. Missing calibration에 필요한 과학 계약 변경이나 baseline rerun은 별도 사용자 결정 전 승인하지 않는다. 새 submit/자동 수리/후속 분석0.
