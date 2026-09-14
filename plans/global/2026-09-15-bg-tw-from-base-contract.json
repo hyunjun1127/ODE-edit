@@ -1,0 +1,109 @@
+{
+  "status": "설계. 구현·GPU 실행·원격 제출 미수행.",
+  "method_first": "BG-1",
+  "design": "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
+  "initial_state": "pre-edit W0; no warm W50/W90 weights/history",
+  "first_round": {
+    "policies": [
+      "AlphaEdit",
+      "MEMIT",
+      "AlphaEdit-BLUE",
+      "MEMIT-BLUE",
+      "AlphaEdit-L4_only",
+      "REFIT4",
+      "BG-1"
+    ],
+    "batches_per_policy": 10,
+    "batch_size": 100,
+    "unique_requests_shared_across_policies": 1000,
+    "logical_batches": 70,
+    "full10k": false
+  },
+  "BG1": {
+    "native_target_calls_per_request": 1,
+    "max_adam_updates_per_request": 24,
+    "max_loss_evaluations_per_request": 25,
+    "extra_route_gradients_per_batch": 1,
+    "control_chunks": 64,
+    "scored_tokens_per_chunk": 128,
+    "teacher": "fixed W0 full vocabulary KL(p0||pW)",
+    "ceiling_scope": "fixed control64 committed endpoints only",
+    "representative_of_full512_certificate": false,
+    "vulnerability_chunks": 0,
+    "old_feedback_requests": 0,
+    "accepted_label_ledger_recorded": true,
+    "candidate_menu": [
+      {
+        "direction": "raw",
+        "eta": 1
+      },
+      {
+        "direction": "corrected",
+        "eta": 1
+      },
+      {
+        "direction": "corrected",
+        "eta": 0.5
+      },
+      {
+        "direction": "corrected",
+        "eta": 0.25
+      }
+    ],
+    "history_policy": "once per processed B100 including zero-write; inner append0",
+    "candidate_denominator_policy": "all requested, including rejected and partial",
+    "control_corpus": "C4-en; pinned official cleaned English train shard; Wikipedia allowed and tagged, no domain-disjoint sampling",
+    "control_data_status": "설계·source 확인; 정식 텍스트·token·teacher 미생성",
+    "input_tokens_per_chunk": 257,
+    "scoring_logits_indices_half_open": [
+      128,
+      256
+    ],
+    "development_monitor_chunks": 128,
+    "independent_report_chunks": 256,
+    "reference_contract_id": "C4-WebRef-v2",
+    "report_source": "separate official C4 validation shard; document/URL/duplicate separation from train bank",
+    "reference_packet": "one fixed 257-token document input plus 128 full-vocabulary W0 conditional distributions and manifests"
+  },
+  "initial_development_config": {
+    "zeta": 0.25,
+    "tau": 0.1,
+    "mu_base": 0.01,
+    "b_recipe": ".9 * maximum new C4 control64 KL along W0 N4 B1-B10 development; fixed positive numeric floor; never import FineWeb b",
+    "old_extension_tolerance_nats_per_desired_token": 0.1,
+    "mu_old": 0.01,
+    "validated_optimal": false,
+    "future_confirmatory_stream_tuning": false,
+    "alpha_cap_and_numeric_tolerances": "implementation manifest; NOT_MEASURED"
+  },
+  "runtime": {
+    "online_target_ratio_N4": 1.5,
+    "allocation_estimate_ratio_N4": 2.0,
+    "scientific_AND_gate": false,
+    "token_based_profile_required_for_actual_allocation": true
+  },
+  "full10k": {
+    "start": "W0",
+    "policy_lock_required": true,
+    "policies": "five named baselines plus one selected method",
+    "batches_per_policy": 100,
+    "logical_batches": 600,
+    "first1000_used_for_development_not_blind_test": true
+  },
+  "not_prerequisites": [
+    "Audit128/MMLU68 completion",
+    "NM4",
+    "E01 full cells",
+    "full landscape sweep",
+    "single-batch scientific screening"
+  ],
+  "not_demonstrated": [
+    "BG performance",
+    "native FP32 implementation parity",
+    "continuous invariance",
+    "ODE necessity",
+    "barrier bypass",
+    "full bank or full old-ledger retention"
+  ],
+  "reference_data_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json"
+}

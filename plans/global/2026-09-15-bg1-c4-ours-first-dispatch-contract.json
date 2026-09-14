@@ -1,0 +1,76 @@
+{
+  "instruction_id": "GH-BG1-C4-OURS-FIRST-20260915-V1",
+  "status": "지시문 설계. GH 전달·실제 제출·gate 판정은 아직 수행하지 않음.",
+  "instruction": "project/proposals/2026-09-15-bg1-c4-ours-first-gh-instruction.md",
+  "reference_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+  "method_contract": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+  "overrides": [
+    "기존 7-policy/70-batch 표는 비교 목록; 이번 신규 제출 목록이 아님",
+    "baseline 재사용 불가 시 자동 editing rerun 금지",
+    "전체 실행 완료까지 agent 지속 모니터링 및 자동 후속 확장 금지"
+  ],
+  "execution_server": "server4",
+  "new_scientific_policies": ["BG-1"],
+  "new_scientific_chains": 1,
+  "initial_model": "pre-edit W0",
+  "batch_size": 100,
+  "batches_per_chain": 10,
+  "unique_requests": 1000,
+  "new_editing_logical_batches": 10,
+  "baseline_editing_reruns_allowed": false,
+  "reference_policies_reuse_only": [
+    "AlphaEdit", "MEMIT", "AlphaEdit-BLUE", "MEMIT-BLUE", "AlphaEdit-L4_only", "REFIT4"
+  ],
+  "allowed_preparation_jobs": [
+    "C4 reference builder", "fixed W0 teacher192", "BG-1 technical validation",
+    "saved N4 endpoints C4 forward evaluation without target/write recomputation"
+  ],
+  "calibration": {
+    "recipe": "max(b_num, .9 * max_t D64_C4(saved N4 Wt)), t=1..10",
+    "required_identity": "matching pre-edit W0, order, native L4 policy and fixed C4 reference",
+    "saved_delta_materialization_allowed": true,
+    "native_target_or_writer_reexecution_allowed": false,
+    "missing_required_endpoints_status": "CALIBRATION_MISSING",
+    "missing_data_blocks_independent_implementation": false,
+    "missing_data_blocks_scientific_execution": true,
+    "silent_threshold_fallback_allowed": false
+  },
+  "initial_gate": {
+    "id": "G0",
+    "kind": "technical readiness and scientific job startup; not method efficacy",
+    "pass_requires": [
+      "actual reference768 and teacher192 validity",
+      "BG-1 technical checks and fixed C4 calibration receipt",
+      "persistent W0 B1-B10 job submitted and running",
+      "first B100 completed with valid finite state, denominator100 and one finalization",
+      "durable resume state and autonomous in-job continuation to batch10"
+    ],
+    "zero_write_allowed_by_contract": true,
+    "first_batch_performance_threshold": null,
+    "states": ["G0_PENDING", "G0_PASS", "G0_FAIL", "G0_BLOCKED"],
+    "stop_agent_monitoring_on": ["G0_PASS", "G0_FAIL", "G0_BLOCKED"],
+    "scheduler_pending_is_pass": false
+  },
+  "after_gate": {
+    "agent_state": "WAITING_USER_RESUME",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "resume_trigger": "explicit_user_call",
+    "scope": "this task's GH, SH, workers and audit agents",
+    "cancel_valid_running_job": false,
+    "continue_predeclared_job_logging_checkpoints_and_evaluation": true,
+    "job_integrity_fail_stop_allowed": true,
+    "automatic_retry_requeue_or_new_chain": false,
+    "completion_callback_starts_agent_turn": false,
+    "new_monitoring_automation_allowed": false,
+    "disable_unrelated_shared_services": false
+  },
+  "deferred_new_submissions": [
+    "S128", "Pile", "BG-1R", "BG-2R", "ScalarGuard", "FixedPenalty",
+    "EditGradient+Guard", "one-shot endpoint comparator", "full10k"
+  ],
+  "resume_manifest_required": true,
+  "initial_gate_result": "NOT_RUN",
+  "scientific_job_ids": [],
+  "submitted": false
+}

@@ -1,0 +1,99 @@
+{
+  "date": "2026-09-15",
+  "contract_id": "C4-WebRef-v2",
+  "scope": "갱신 설계의 산술·data/source schema·split/정보 분리·문서 연결 검사. 실제 reference 구축·LLM 검사 아님.",
+  "checks": {
+    "contract_id_matches_method": true,
+    "C4_schema_not_FineWeb_schema": true,
+    "no_nonexistent_language_score_filter": true,
+    "splits_total_768": true,
+    "bank_512": true,
+    "train_vs_validation": true,
+    "S64_weights": true,
+    "Wiki_allowed_not_excluded": true,
+    "domain_caps_removed": true,
+    "sample_selection_without_model_loss": true,
+    "report_IDs_locked_before_losses": true,
+    "no_whole_corpus_uniform_claim": true,
+    "sampling_scans_complete_shard": true,
+    "exact_near_duplicate_check": true,
+    "input_token_count": true,
+    "score_shift_and_count": true,
+    "score_indices_within_input": true,
+    "score_indices_match_method": true,
+    "no_dynamic_prefix_or_document_concat": true,
+    "original_teacher_immutable": true,
+    "initial_teacher_and_cache_192": true,
+    "active_teacher_and_cache_448": true,
+    "full_cache_768": true,
+    "native_projector_unchanged": true,
+    "first_policies_match": true,
+    "first_is_W0_SEQ1000": true,
+    "first_logical_batches_70": true,
+    "full10k_logical_batches_600": true,
+    "generic_token_costs": true,
+    "corpus_specific_calibration": true,
+    "no_audit_or_single_batch_scientific_gate": true,
+    "pipeline_has_D0_through_E3": true,
+    "bounded_source_probes_consistent": true,
+    "source_revision_matches": true,
+    "source_total_bytes": true,
+    "prefix_probe_checksums": true,
+    "official_calibration_code_hashes": true,
+    "counts_not_claimed_live": true,
+    "formal_build_and_run_not_claimed": true,
+    "Pile_schema_not_claimed": true,
+    "local_document_links_exist": true,
+    "numbered_reference_links_resolve": true,
+    "survey_primary_C4_not_FineWeb": true,
+    "from_base_protocol_declares_no_old5000": true,
+    "no_trailing_whitespace_in_updated_files": true
+  },
+  "all_pass": true,
+  "missing_local_links": [],
+  "artifacts": {
+    "audits/global/2026-09-15-reference-set-survey-ko.md": {
+      "bytes": 38576,
+      "sha256": "84de1553003951e3824f6e5610ab866d28baf108a495407247b9874962221c25"
+    },
+    "plans/global/2026-09-15-bg-tw-reference-data-contract.json": {
+      "bytes": 20571,
+      "sha256": "806563b30b3d63fe4e33b58dbe5978c04cfaebaa8e227088786e723d4422759c"
+    },
+    "audits/global/2026-09-15-reference-source-audit.json": {
+      "bytes": 19115,
+      "sha256": "42b9563ed15e2f5b28c75b38b36d03eac162086724f6dbf9e472d9f956cc2b46"
+    },
+    "audits/global/2026-09-15-reference-candidates.csv": {
+      "bytes": 2151,
+      "sha256": "93e122c3e77a92c365edbac8a5b05c5bcaefa3aff19826b6f2e7ccbc485ac314"
+    },
+    "audits/global/2026-09-15-reference-literature-evidence.csv": {
+      "bytes": 2774,
+      "sha256": "76cde633864799f4993df128ad1b815465bb96987376ebfa85db5f77186962d6"
+    },
+    "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md": {
+      "bytes": 29923,
+      "sha256": "b74a7998979d8b207f9f6a3341c115ae359d4ea7347b80931cd3370fc5369464"
+    },
+    "plans/global/2026-09-15-bg-tw-from-base-contract.json": {
+      "bytes": 3653,
+      "sha256": "cdb5eb45c117967fefb86ef407542c117e133583f2730395d8fca7d5c9cfc5b9"
+    },
+    "project/proposals/README.md": {
+      "bytes": 11328,
+      "sha256": "9931a5d367db19683624899dfe1531012748892aa2ff2e2ce4c7132f55e91cc4"
+    }
+  },
+  "storage_GiB": {
+    "64": 3.9140625,
+    "128": 7.828125,
+    "192": 11.7421875,
+    "256": 15.65625,
+    "448": 27.3984375,
+    "512": 31.3125,
+    "768": 46.96875
+  },
+  "gpu_execution": false,
+  "checker": "local/reviews/reference-set-survey-2026-09-15-v2/check_design.py"
+}

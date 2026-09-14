@@ -1,0 +1,21 @@
+# BG-1 C4 ours-first — GH 사용자 인계 상태
+
+- Instruction: GH-BG1-C4-OURS-FIRST-20260915-V1.
+- SH task: ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1.
+- Owner: SH4 server4, session01a04939-b5c7-7a03-ba2d-ef3343d62cfd.
+- 상태: 배정 준비. 이 문서는 실제 제출/전달 수신/G0 통과 증거가 아니다.
+- 기준 main: c2710f3e8fddf2a8df230f076e4519cc6d0d77e5.
+- 원문과 주요 reference 전체 읽음; source/문서 inventory는 audits/global/2026-09-15-bg1-c4-ours-first-dispatch-source-inventory.json.
+- 실행 envelope: messages/head/2026-09-15-sh4-bg1-c4-ours-first.md.
+- GPU cap2; host mem≤60416M/GPU; hour cap=null.
+- 신규 scientific scope: BG-1만, W0 fixed first1000/B100×10.
+- baseline editing rerun0. 저장 N4 B1–B10 전 endpoint의 새 C4 forward calibration 필요.
+- reference768/teacher192/calibration manifest: 아직 SH 실물 보고 미수신, path/hash=null.
+- scientific/prepare job IDs: 미수신, [].
+- G0: NOT_RUN (GH가 실제 실행을 확인하지 않음).
+- Local resume-manifest: SH actual run root에서 생성 후 path/SHA 수신 예정.
+- monitoring_active=false: GH 자동 모니터링 미설정. SH G0전 제한적 gate 관찰 권한과는 별도.
+- automatic_resume=false; resume_trigger=explicit_user_call.
+- 최종 인계 후 읽기 순서: resume-manifest → 정확한 scheduler 1회 → terminal receipt/log → checkpoint/metric → GH 해석.
+- G0_PASS이면 agent WAITING_USER_RESUME, 제출 job은 계속. 확정 FAIL/BLOCKED이면 자동수리0.
+- GH는 다른 SH 실험/중단된 task를 재개하지 않는다.

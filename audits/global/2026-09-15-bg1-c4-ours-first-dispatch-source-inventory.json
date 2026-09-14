@@ -1,0 +1,143 @@
+{
+  "date": "2026-09-15",
+  "instruction_id": "ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1",
+  "user_source_root": "/mnt/raid5/janghj/ODE-edit",
+  "user_local_head": "ddc178584ef14efd5d4e1271b3c324e3ebd3e443",
+  "base_main": "c2710f3e8fddf2a8df230f076e4519cc6d0d77e5",
+  "base_tree": "f89adf1551c9c770b42836f1f6a570cf70e7e65c",
+  "shared_dirty_preserved": true,
+  "files": [
+    {
+      "path": "project/proposals/2026-09-15-bg1-c4-ours-first-gh-instruction.md",
+      "bytes": 16620,
+      "sha256": "d8c025d6aef864cbd375c4e22c61ad40f75c726a3a335a01c0597ce5fd8e56c1",
+      "lf_count": 152,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg1-c4-ours-first-dispatch-contract.json",
+      "bytes": 3467,
+      "sha256": "d468683baac7830ac8b13202e3fdb5e2a3e02f3c0c1480a04da122d481fe674d",
+      "lf_count": 76,
+      "source_copy_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-set-survey-ko.md",
+      "bytes": 38576,
+      "sha256": "84de1553003951e3824f6e5610ab866d28baf108a495407247b9874962221c25",
+      "lf_count": 408,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "bytes": 20571,
+      "sha256": "806563b30b3d63fe4e33b58dbe5978c04cfaebaa8e227088786e723d4422759c",
+      "lf_count": 479,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
+      "bytes": 29923,
+      "sha256": "b74a7998979d8b207f9f6a3341c115ae359d4ea7347b80931cd3370fc5369464",
+      "lf_count": 366,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+      "bytes": 3653,
+      "sha256": "cdb5eb45c117967fefb86ef407542c117e133583f2730395d8fca7d5c9cfc5b9",
+      "lf_count": 109,
+      "source_copy_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md",
+      "bytes": 21904,
+      "sha256": "b439aa6e166093f3d42852990c828327fd7b8cc01ba137f36fc3c99dab27aa98",
+      "lf_count": 252,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-design-checks.json",
+      "bytes": 3969,
+      "sha256": "583b42c2d784582490882412aa08cb948a5c92a6ef81454c18a6ffd9cc122af5",
+      "lf_count": 137,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reference-design-checks.json",
+      "bytes": 3742,
+      "sha256": "3391a438e47102cf04c90a0012efb6f8f98461c401ba196cd4d1e8cbd75c9418",
+      "lf_count": 99,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-from-base-cells.csv",
+      "bytes": 1184,
+      "sha256": "2b5967b8f464ea67baa6ff6a3e9f7c6f04d0b83fb806bacf9e6bd76eff43b80c",
+      "lf_count": 14,
+      "source_copy_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reviewed-evidence.csv",
+      "bytes": 661,
+      "sha256": "05854163257ff112dd03350b1369a7e6132b5c914d3803a9f33c15d7919f6503",
+      "lf_count": 7,
+      "source_copy_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-source-audit.json",
+      "bytes": 19115,
+      "sha256": "42b9563ed15e2f5b28c75b38b36d03eac162086724f6dbf9e472d9f956cc2b46",
+      "lf_count": 574,
+      "source_copy_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-candidates.csv",
+      "bytes": 2151,
+      "sha256": "93e122c3e77a92c365edbac8a5b05c5bcaefa3aff19826b6f2e7ccbc485ac314",
+      "lf_count": 7,
+      "source_copy_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-literature-evidence.csv",
+      "bytes": 2774,
+      "sha256": "76cde633864799f4993df128ad1b815465bb96987376ebfa85db5f77186962d6",
+      "lf_count": 14,
+      "source_copy_exact": true
+    }
+  ],
+  "full_read_authoritative": [
+    "project/proposals/2026-09-15-bg1-c4-ours-first-gh-instruction.md",
+    "plans/global/2026-09-15-bg1-c4-ours-first-dispatch-contract.json",
+    "audits/global/2026-09-15-reference-set-survey-ko.md",
+    "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+    "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
+    "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+    "audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md",
+    "plans/global/2026-09-15-bg-tw-design-checks.json",
+    "plans/global/2026-09-15-bg-tw-reference-design-checks.json"
+  ],
+  "additional_read_scope": [
+    "PROTOCOL.md 전체 및 origin/main 차이 전체",
+    "pinned native AlphaEdit_main.py singleton branch22-155 및 history source 위치",
+    "origin/main low_cost_write_donor_pilot/fitting.py 전체",
+    "reference-source-audit.json 전체, 후보·문헌 CSV"
+  ],
+  "not_claimed": [
+    "신규 LLM/GPU/Slurm 실행",
+    "C4 full-source download / reference768 / teacher192 실물 준비",
+    "N4 B1-B10 calibration 가용성",
+    "원 PDF·인용 논문 원문 신규 독립감사",
+    "전체 baseline raw 독립감사"
+  ],
+  "structural_checks": {
+    "exact_source_copies": 14,
+    "json_parse": "PASS",
+    "dispatch_only_BG1": "PASS",
+    "baseline_rerun_prohibited": "PASS",
+    "reference_768_teacher_192": "PASS",
+    "csv_eol": "원본 CRLF 유지",
+    "gpu_cap": 2,
+    "hour_cap": null
+  }
+}

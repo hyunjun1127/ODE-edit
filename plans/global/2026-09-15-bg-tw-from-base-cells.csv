@@ -1,0 +1,14 @@
+round,policy,start,first_batch,last_batch,batch_size,requested_per_chain,layers,blue,role,status
+A,AlphaEdit,W0,1,10,100,1000,"4,5,6,7,8",False,지정 baseline,DESIGN_NOT_SUBMITTED
+A,MEMIT,W0,1,10,100,1000,"4,5,6,7,8",False,지정 baseline,DESIGN_NOT_SUBMITTED
+A,AlphaEdit-BLUE,W0,1,10,100,1000,"4,8",True,지정 baseline,DESIGN_NOT_SUBMITTED
+A,MEMIT-BLUE,W0,1,10,100,1000,"4,8",True,지정 baseline,DESIGN_NOT_SUBMITTED
+A,AlphaEdit-L4_only,W0,1,10,100,1000,4,True,직접 native 대조,DESIGN_NOT_SUBMITTED
+A,REFIT4,W0,1,10,100,1000,4,True,W0 fresh 두 stage 대조,DESIGN_NOT_SUBMITTED
+A,BG-1,W0,1,10,100,1000,4,True,최소 제안 방법,DESIGN_NOT_SUBMITTED
+B,Scalar-guard,W0,1,10,100,1000,4,True,방향 고정 scale 대조,FOLLOWUP_DESIGN
+B,Fixed-penalty,W0,1,10,100,1000,4,True,고정 penalty 대조,FOLLOWUP_DESIGN
+B,Edit-gradient-guard,W0,1,10,100,1000,4,True,current gradient 및 screen 대조,FOLLOWUP_DESIGN
+C,BG-1R,W0,1,10,100,1000,4,True,accepted old 추가,CONDITIONAL_EXTENSION
+C,BG-2R,W0,1,10,100,1000,4,True,두 stage fresh target,CONDITIONAL_EXTENSION
+C,EP-2G-R,W0,1,10,100,1000,4,True,gradient 두 번의 endpoint 직접 최적화,CONDITIONAL_EXTENSION

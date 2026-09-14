@@ -1,0 +1,137 @@
+{
+  "status": "CPU 수식·산술 점검. LLM/GPU 미실행.",
+  "source_commit": "c2710f3e8fddf2a8df230f076e4519cc6d0d77e5",
+  "pdf_sha256": "9ac95303ddeaabcd57e0b83e3a298d7f24cd0571d89ee830c3194f9a33cc728f",
+  "pdf_pages": 13,
+  "fixed_operator_chain_rule_max_abs_error": 1.4887195642909745e-11,
+  "fixed_operator_endpoint_sum_max_abs_error": 1.1102230246251565e-16,
+  "barrier_and_frozen_slope_penalty_gradient_max_abs_error": 0.0,
+  "relaxed_barrier_join": {
+    "tau": 0.1,
+    "value_left": 2.3025850929940455,
+    "value_right": 2.3025850929940455,
+    "derivative_left": -10.0,
+    "derivative_right": -10.0,
+    "second_derivative_left": 99.99999999999999,
+    "second_derivative_right": 99.99999999999999
+  },
+  "relaxed_barrier_not_invariant_counterexample": {
+    "D": "w",
+    "E": "-100*w",
+    "ceiling": 1,
+    "scale": 1,
+    "mu": 1,
+    "tau": 0.1,
+    "boundary_w": 1,
+    "descent_velocity_at_boundary": 80.0,
+    "crosses_to_violation": true
+  },
+  "core_not_bank_certificate_counterexample": {
+    "bank_size": 512,
+    "core_size": 64,
+    "core_losses": 0,
+    "other_losses": 1,
+    "core_mean": 0,
+    "bank_mean": 0.875
+  },
+  "teacher_FP32_GiB_at_vocab_128256": {
+    "64": 3.9140625,
+    "80": 4.892578125,
+    "512": 31.3125
+  },
+  "BG1_generic_scored_tokens": {
+    "route_backward_exposure_one_pass": 8192,
+    "maximum_four_candidate_forward_exposure": 32768,
+    "not_latency_prediction": true
+  },
+  "six_arm_recomputed_rows": [
+    {
+      "policy": "N4",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 1000,
+      "RS_d": 1000,
+      "PS_n": 1938,
+      "PS_d": 2000,
+      "PS_strict_n": 1423,
+      "NS_n": 7108,
+      "NS_d": 10000,
+      "online_seconds": 3048.9109355434775,
+      "online_ratio_N4": 1.0
+    },
+    {
+      "policy": "REFIT4",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 999,
+      "RS_d": 1000,
+      "PS_n": 1950,
+      "PS_d": 2000,
+      "PS_strict_n": 1405,
+      "NS_n": 7175,
+      "NS_d": 10000,
+      "online_seconds": 3727.52581872046,
+      "online_ratio_N4": 1.2225761583475108
+    },
+    {
+      "policy": "FROZEN2",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 1000,
+      "RS_d": 1000,
+      "PS_n": 1958,
+      "PS_d": 2000,
+      "PS_strict_n": 1467,
+      "NS_n": 7070,
+      "NS_d": 10000,
+      "online_seconds": 3254.333564837463,
+      "online_ratio_N4": 1.0673757396122063
+    },
+    {
+      "policy": "I2",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 1000,
+      "RS_d": 1000,
+      "PS_n": 1961,
+      "PS_d": 2000,
+      "PS_strict_n": 1456,
+      "NS_n": 7086,
+      "NS_d": 10000,
+      "online_seconds": 3480.963488657959,
+      "online_ratio_N4": 1.1417071742167721
+    },
+    {
+      "policy": "FROZEN4",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 999,
+      "RS_d": 1000,
+      "PS_n": 1969,
+      "PS_d": 2000,
+      "PS_strict_n": 1487,
+      "NS_n": 7056,
+      "NS_d": 10000,
+      "online_seconds": 3636.1753174467012,
+      "online_ratio_N4": 1.1926144758959782
+    },
+    {
+      "policy": "I4",
+      "scope": "W50_to_W60_new1000",
+      "RS_n": 999,
+      "RS_d": 1000,
+      "PS_n": 1966,
+      "PS_d": 2000,
+      "PS_strict_n": 1489,
+      "NS_n": 7056,
+      "NS_d": 10000,
+      "online_seconds": 3891.8415133673698,
+      "online_ratio_N4": 1.2764694002691939
+    }
+  ],
+  "limits": [
+    "유한차분은 작은 FP64 Python 수학 예제이며 native FP32 구현 검증이 아니다.",
+    "선행 결과는 CSV 재계산이며 원시 모델 재평가가 아니다.",
+    "Barriers/ODE의 LLM 효능은 미실험이다."
+  ],
+  "preserved_native_source": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/runtime-source/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/AlphaEdit_main.py",
+    "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+    "matches_current_execution_capsule": true
+  }
+}

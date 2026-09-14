@@ -1,0 +1,14 @@
+paper,venue,year,input_data,actual_role,limit_of_transfer_to_BG,citation_displayed,citation_scope,primary_source_url
+LwF,ECCV,2016,"new-task inputs, old-network outputs",current task inputs; distillation,not a shared external corpus,,,https://arxiv.org/abs/1606.09282
+iCaRL,CVPR,2017,CIFAR100/ImageNet exemplars,stored past class exemplars and distillation,not generic LLM reference,,,https://openaccess.thecvf.com/content_cvpr_2017/html/Rebuffi_iCaRL_Incremental_Classifier_CVPR_2017_paper.html
+DER,NeurIPS,2020,"stream reservoir, stored logits",past trajectory output replay,teacher is not globally fixed W0,,,https://papers.neurips.cc/paper/2020/hash/b704ea2c39778f07c617f6b7ce480e9e-Abstract.html
+MbPA++,NeurIPS,2019,AGNews/Yelp/DBPedia/Amazon/Yahoo plus QA,stream example memory,task suite rather than universal generic preservation corpus,,,https://proceedings.neurips.cc/paper/2019/hash/f8d2e80c1458ea2501f98a2cafadb397-Abstract.html
+LAMOL,ICLR,2020,decaNLP subset and five classification datasets,generated past-task pseudo samples,not fixed natural-text W0 KL,,,https://arxiv.org/abs/1909.03329
+T5,JMLR journal,2020,C4,pretraining corpus construction,not conference and not reference-buffer efficacy proof,,,https://www.jmlr.org/papers/v21/20-074.html
+GPTQ,ICLR,2023,C4 128x2048 segments,post-training quantization calibration,no BG output-KL result,1761,Semantic Scholar cached 2022 arXiv record; not live total,https://arxiv.org/pdf/2210.17323
+SparseGPT,ICML,2023,C4 128x2048 from first shard,one-shot pruning calibration,no sequential-edit preservation guarantee,1163,Semantic Scholar cached ICML2023 record; not live total,https://proceedings.mlr.press/v202/frantar23a/frantar23a.pdf
+Wanda,ICLR,2024,C4 train 128 sequences,pruning calibration following SparseGPT,not custom S64 efficacy evidence,748,Semantic Scholar cached ICLR2024 record; not live total,https://arxiv.org/pdf/2306.11695
+SmoothQuant,ICML,2023,The Pile 512 random sentences,activation calibration,not a fixed W0 KL reference result,1382,Semantic Scholar cached ICML2023 record; not live total,https://proceedings.mlr.press/v202/xiao23c/xiao23c.pdf
+AWQ,MLSys,2024,The Pile / official pile-val-backup loader,activation-aware calibration,loader default512 is not necessarily every experiment call count,,,https://proceedings.mlsys.org/paper_files/paper/2024/hash/42a452cbafa9dd64e9ba4aa95cc1ef21-Abstract-Conference.html
+The Pile,arXiv dataset paper,2021 identifier,22 source English mixture,pretraining corpus,do not invent top-tier venue for corpus paper,,,https://arxiv.org/abs/2101.00027
+Documenting C4,EMNLP,2021,C4 source/filter/contamination audit,corpus documentation,wide adoption does not imply unbiased or contamination-free,,,https://aclanthology.org/2021.emnlp-main.98/

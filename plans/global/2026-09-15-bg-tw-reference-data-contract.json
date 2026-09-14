@@ -1,0 +1,479 @@
+{
+  "contract_id": "C4-WebRef-v2",
+  "date": "2026-09-15",
+  "status": "문헌·공식 calibration 코드·C4 pinned source prefix 확인 및 설계 갱신. 정식 reference768·token·teacher·GPU 실험 미생성.",
+  "survey": "audits/global/2026-09-15-reference-set-survey-ko.md",
+  "method_contract": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+  "corpus": {
+    "dataset": "allenai/c4",
+    "config": "en",
+    "variant": "official cleaned English C4, not en.noclean / en.noblocklist / multilingual default",
+    "revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
+    "source_verified": true,
+    "verification_scope": "HTTP206 first 1MiB per pinned file; decompressed complete rows and source schema",
+    "formal_rows_collected": false,
+    "source_metadata": [
+      "text",
+      "url",
+      "timestamp"
+    ],
+    "source_files": [
+      {
+        "split": "train",
+        "path": "en/c4-train.00000-of-01024.json.gz",
+        "url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-train.00000-of-01024.json.gz",
+        "expected_bytes_from_content_range": 319308785,
+        "full_file_sha256": null,
+        "full_file_downloaded": false,
+        "prefix_bytes_verified": 1048576,
+        "prefix_sha256": "0b638e0453d7d1d1a51bc078418524cf44b2eee2f7b3a749c324e06e0f8b2022",
+        "range_etag_opaque_not_assumed_sha256": "\"6656aac078668b0d5feb1cfb7b04def05bff73e7e375d0a66e252827336ac1a8\"",
+        "schema_keys_observed": [
+          "text",
+          "timestamp",
+          "url"
+        ],
+        "complete_rows_in_probe_only": 1150
+      },
+      {
+        "split": "validation",
+        "path": "en/c4-validation.00000-of-00008.json.gz",
+        "url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-validation.00000-of-00008.json.gz",
+        "expected_bytes_from_content_range": 40471190,
+        "full_file_sha256": null,
+        "full_file_downloaded": false,
+        "prefix_bytes_verified": 1048576,
+        "prefix_sha256": "4fd33bf9709fee4d9a1f342c1d8c1f39f9ecdd3b076b75a585f9afdedbf1f612",
+        "range_etag_opaque_not_assumed_sha256": "\"dffa9a5aa789525d19e0d6d9473f981585bd51d31019f9ba258b54d311dd5bf2\"",
+        "schema_keys_observed": [
+          "text",
+          "timestamp",
+          "url"
+        ],
+        "complete_rows_in_probe_only": 1167
+      }
+    ],
+    "total_compressed_source_bytes": 359779975,
+    "loader": "pinned .json.gz files -> gzip JSONL; old load_dataset script/config aliases need not be copied",
+    "source_row_id": "allenai/c4@revision|split|shard_path|zero_based_original_jsonl_row_index",
+    "source_schema_has_document_id": false,
+    "secondary_comparator": {
+      "name": "The Pile",
+      "candidate_distribution": "mit-han-lab/pile-val-backup",
+      "revision_metadata_verified": "2f5e46ae6a69cf0dce4b12f78241c408936ca0e4",
+      "file": "val.jsonl.zst",
+      "split": "validation",
+      "gated_on_probe": false,
+      "formal_rows_collected": false,
+      "row_schema_verified": false,
+      "next_requirement": "backup text/schema/source-composition/duplicate audit and independent split contract before Pile runs",
+      "role": "후속 두 번째 corpus 대조; 첫 C4 실험 선행조건 아님"
+    },
+    "native_mom2_projector_dataset_changed": false,
+    "native_mom2_projector_dataset": "existing wikipedia assets, unchanged by this reference contract"
+  },
+  "sampling": {
+    "seed": 20260915,
+    "hash": "SHA256(UTF-8(C4-WebRef-v2|20260915|salt|source_row_id)), full digest ascending, source_row_id tie-break",
+    "hash_salts": [
+      "document-priority",
+      "bank-role",
+      "window"
+    ],
+    "scan_scope": "each complete pinned first shard; do not sample only a decompressed prefix",
+    "whole_corpus_uniform_sample": false,
+    "within_shard_rule": "전체 shard의 유효 JSONL row 중 hash priority가 가장 작은 후보를 보관; 내용·길이·중복 조건 이후 고정 순서로 충원",
+    "initial_retained_candidate_rows": {
+      "train": 8192,
+      "validation": 4096
+    },
+    "single_extension_retained_candidate_rows": {
+      "train": 16384,
+      "validation": 8192
+    },
+    "extension_trigger": "exact tokenization and overlap/dedup filtering leave fewer than train512 or validation256",
+    "extension_is_more_rows_from_same_hash_ranked_complete_shard": true,
+    "exhausted_status": "INSUFFICIENT_ELIGIBLE_DOCUMENTS; no corpus switch or filter relaxation inside a chain",
+    "train_bank_selection": "first 512 eligible unique documents by document-priority",
+    "bank_role_assignment": "sort the selected train512 by bank-role; first64 S64, next128 Dev128, remaining320 Reserve320",
+    "report_selection": "first256 eligible validation documents by document-priority after overlap checks against bank512; bank wins duplicate ties",
+    "one_document_per_registrable_domain": false,
+    "domain_disjoint_splits": false,
+    "one_document_per_canonical_url": true,
+    "public_suffix_private_domains": true,
+    "public_suffix_snapshot_sha256": null,
+    "public_suffix_role": "domain-composition reporting only; does not alter selection",
+    "window_hash_input": "C4-WebRef-v2|20260915|window|source_row_id|raw_text_sha256",
+    "window_offset": "int(full SHA256 hex,16) mod (exact_token_length - 256 + 1)",
+    "selection_uses_model_losses": false,
+    "loss_based_row_replacement": false,
+    "new_seed_requires_new_dataset_id_and_fresh_W0_chain": true
+  },
+  "filters": {
+    "language": "official en split; no nonexistent row-level language_score threshold",
+    "minimum_language_score": null,
+    "require_fields": [
+      "text",
+      "url",
+      "timestamp"
+    ],
+    "require_nonempty_text_and_parseable_http_url": true,
+    "url_schemes": [
+      "http",
+      "https"
+    ],
+    "canonical_url": "lower-case IDNA host, remove default port and fragment, empty path -> /; preserve scheme, path case and query",
+    "exact_token_minimum": 256,
+    "wikipedia_allowed": true,
+    "wikipedia_domain_blocklist": [],
+    "wikipedia_mirror_exclusion": false,
+    "wikipedia_diagnostics": {
+      "host_rule": "host == domain or host.endswith(dot + domain)",
+      "tagged_domains": [
+        "wikipedia.org",
+        "wikimedia.org",
+        "wikidata.org",
+        "wiktionary.org",
+        "wikisource.org",
+        "wikibooks.org",
+        "wikiquote.org",
+        "wikiversity.org",
+        "wikivoyage.org",
+        "wikinews.org",
+        "mediawiki.org"
+      ],
+      "case_insensitive_mirror_phrases": [
+        "from wikipedia, the free encyclopedia",
+        "copied from wikipedia",
+        "content from wikipedia",
+        "text from wikipedia"
+      ],
+      "tag_is_provenance_proof": false,
+      "replace_based_on_wikipedia_fraction": false
+    },
+    "dedup_normalization": "Unicode NFKC, casefold, whitespace collapse; comparison only, model input preserves raw text",
+    "exact_dedup": [
+      "canonical_url",
+      "normalized_full_document",
+      "normalized_selected_window"
+    ],
+    "near_duplicate": {
+      "scope": "selected reference documents/windows including cross-split pairs; not a corpus-wide certificate",
+      "word_regex": "[a-z0-9]+",
+      "word_ngram": 13,
+      "jaccard_threshold": 0.8,
+      "method": "deterministic greedy rejection against all already selected documents; exact shingle-set Jaccard on full documents and decoded windows",
+      "empty_shingle_sets": "skip Jaccard when either is empty; exact normalized text checks still apply",
+      "minhash_or_lsh_required": false,
+      "post_build_all_pairs_exact_audit": true,
+      "unselected_intermediate_documents_clustered": false
+    },
+    "existing_wikipedia_fingerprint_scope": "accessible mom2 Wikipedia assets and Wiki128 identified by hashes/counts; mom2 overlap is diagnostic, evaluator overlap is excluded",
+    "all_wikipedia_mirrors_eliminated_claim": false,
+    "evaluation_overlap": "independent checker applies exact normalized text/window fingerprints and declared 13-word-shingle matches to available evaluator inputs; no answers, scores, or future subject list supplied to sampler",
+    "evaluation_overlap_missing_assets": "record inspected/unavailable scopes; cannot label uninspected assets overlap-free",
+    "future_stream_semantic_filter": false,
+    "report_panel_reselection_after_policy_results": false
+  },
+  "splits": {
+    "S64": {
+      "documents": 64,
+      "role": "gradient·candidate screen",
+      "teacher_phase": "initial",
+      "weight": 0.015625,
+      "source_split": "train",
+      "representativeness_certificate": false
+    },
+    "Dev128": {
+      "documents": 128,
+      "role": "development, W5/W10 확인만",
+      "teacher_phase": "initial",
+      "weight": 0.0078125,
+      "source_split": "train"
+    },
+    "Reserve320": {
+      "documents": 320,
+      "role": "후속 core 개발",
+      "teacher_phase": "deferred",
+      "weight": 0.003125,
+      "source_split": "train"
+    },
+    "Report256": {
+      "documents": 256,
+      "role": "policy lock 이후 독립 보고; C4 자체가 처음 보는 corpus라는 뜻은 아님",
+      "teacher_phase": "after_policy_lock",
+      "weight": 0.00390625,
+      "source_split": "validation"
+    },
+    "bank_documents": 512,
+    "total_documents": 768,
+    "bank_members": [
+      "S64",
+      "Dev128",
+      "Reserve320"
+    ],
+    "disjoint_keys": [
+      "source_row_id",
+      "canonical_url",
+      "normalized_full_document_hash",
+      "normalized_selected_window_hash"
+    ],
+    "cross_split_near_duplicate_pair_check_required": true,
+    "domains_may_overlap": true,
+    "report_identity_locked_before_first_model_loss": true
+  },
+  "tokenization": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "tokenizer_revision": "same exact W0 capsule",
+    "tokenizer_file_sha256": null,
+    "natural_text_tokens": 256,
+    "explicit_bos_tokens": 1,
+    "input_tokens": 257,
+    "add_special_tokens_in_text_encoding": false,
+    "prepend_exact_tokenizer_bos": true,
+    "score_input_indices_half_open": [
+      129,
+      257
+    ],
+    "score_logits_indices_half_open": [
+      128,
+      256
+    ],
+    "scored_positions": 128,
+    "chat_template": false,
+    "eos_append": false,
+    "score_padding": false,
+    "cross_document_concatenation": false,
+    "one_window_per_document": true,
+    "dynamic_generation_prefix": false,
+    "window_decode_policy": "input is the exact selected token slice, without decode/re-encode; decoded text only for overlap diagnostics",
+    "literal_model_special_tokens_in_corpus": "record tokenizer behavior and any resulting special IDs in manifest; do not silently switch tokenizer options"
+  },
+  "teacher": {
+    "reference": "fixed pre-edit W0, stream 전체에서 불변",
+    "model_weight_dtype": "float32",
+    "mode": "eval",
+    "vocabulary_expected": 128256,
+    "vocabulary_runtime_assert": true,
+    "temperature": 1.0,
+    "cache_value": "full-vocabulary log probabilities",
+    "log_softmax_dtype": "float32",
+    "cache_dtype": "float32",
+    "topk": null,
+    "shape_per_document": [
+      128,
+      128256
+    ],
+    "storage": "CPU memory-mapped shards; GPU에 document microbatch streaming",
+    "documents_per_cache_shard": 8,
+    "initial_teacher_documents": 192,
+    "initial_cache_bytes": 12608077824,
+    "active_including_report_documents": 448,
+    "active_including_report_cache_bytes": 29418848256,
+    "all_768_cache_bytes": 50432311296,
+    "setup_microbatch_documents_initial": 1,
+    "teacher_update_per_batch": false,
+    "actual_kernel_library_microbatch_manifest_required": true,
+    "cache_shard_checksums_required": true,
+    "model_weights_and_tokenizer_hashes_required": true,
+    "reference_packet": "source/document identity, fixed input_ids and score indices, logp0[128,V], reductions and complete model/cache manifest",
+    "self_kl_mathematical_value": 0,
+    "candidate_kl_gradient_at_W0_mathematical_value": 0,
+    "gradient_evaluated_at": "actual native post-write preview; an identically zero KL gradient at W0 is not a failed reference set",
+    "coverage_of_free_generation_or_chat": false
+  },
+  "loss": {
+    "direction": "KL(p0 || pW)",
+    "reduction": "vocabulary sum -> 128 positions mean -> document mean",
+    "purpose": "선정한 자연 텍스트 분포의 original response 보존; 진실성·전체 지식 보증이 아님",
+    "finite_screen_scope": "S64 only",
+    "dev_or_report_gradient": false,
+    "roundoff_clamping_used_to_hide_violation": false,
+    "reference_self_kl_tolerance": "기술 실측에 따라 manifest 고정; 비유한 값이나 큰 self-error를 허용하지 않음",
+    "matched_evaluation_metrics": [
+      "document-mean full-vocab KL",
+      "paired document KL p95/max",
+      "natural-token NLL change vs W0",
+      "separate requested R/P/N and active-old desired loss"
+    ]
+  },
+  "experiment": {
+    "start": "pre-edit W0",
+    "batch_size": 100,
+    "first_batches_per_policy": 10,
+    "first_policies": [
+      "AlphaEdit",
+      "MEMIT",
+      "AlphaEdit-BLUE",
+      "MEMIT-BLUE",
+      "AlphaEdit-L4_only",
+      "REFIT4",
+      "BG-1"
+    ],
+    "first_logical_batches": 70,
+    "first_unique_requests": 1000,
+    "controller_documents_BG1": 64,
+    "extra_route_passes_per_B100": 1,
+    "route_pass_semantics": "64 documents를 microbatch별 F/B; 단일 F/B call이 아님",
+    "generic_scored_tokens_per_route_pass": 8192,
+    "generic_input_tokens_per_route_pass": 16448,
+    "max_candidates": 4,
+    "development_checkpoints_batches": [
+      5,
+      10
+    ],
+    "calibration": "Freeze C4 IDs/tokens/p0 -> measure W0 N4 B1-B10 D64 -> b0=.9 max_t D64 with fixed numeric floor; never reuse a FineWeb-derived b or refresh b inside a chain",
+    "read_report_losses": "policy lock 이후",
+    "same_data_ablations": [
+      "ScalarGuard",
+      "FixedPenalty",
+      "EditGradient+Guard"
+    ],
+    "ablation_batches_each": 10,
+    "final_baselines": 5,
+    "final_selected_methods": 1,
+    "full10k_batches_per_policy": 100,
+    "full10k_logical_batches": 600,
+    "additional_order_required_for_order_claim": true,
+    "audit_mmlu_implementation_prerequisite": false,
+    "all_requested_denominator": true,
+    "same_data_ablations_all_use_identical_reference_hashes": true,
+    "baseline_receipt_reuse": "only matching W0/order/native policy/checkpoint identity; recompute new C4 metrics, never reuse old corpus KL",
+    "first_1000_is_method_development": true,
+    "future_reference_extensions": [
+      {
+        "name": "S128",
+        "construction": "S64 plus first64 Reserve320 by frozen bank-role order; preserve Dev128 and Report256",
+        "changes": "core size only; equal doc weights1/128, fresh size-specific development ceiling",
+        "sequence": "new W0 B100x10 chain; extra64 teacher generated before run"
+      },
+      {
+        "name": "Pile robustness",
+        "construction": "new separately pinned Pile reference with same token/teacher/budget rules; do not concatenate C4 and Pile in first comparator",
+        "changes": "corpus only; source-specific N4 KL ceiling uses the same calibration recipe",
+        "sequence": "new W0 B100x10 chain after Pile text/provenance readiness; retain C4 reporting for transfer assessment"
+      }
+    ],
+    "generic_candidate_scored_tokens_max_per_B100": 32768,
+    "zero_write_native_history_semantics": "method contract unchanged: append once per processed B100, including zero-write; accepted-label ledger separate",
+    "development_and_online_reference_overhead_separate": true
+  },
+  "artifact_contract": {
+    "source_inventory": "source-manifest.json",
+    "filter_counts": "filter-counts.json",
+    "documents": "reference-documents.jsonl",
+    "tokenized": "reference-tokens.npz",
+    "splits": "splits.json",
+    "teacher_manifest": "teacher-manifest.json",
+    "teacher_shards": "teacher/<split>/logp0-*.npy",
+    "overlap_audit": "overlap-audit.json",
+    "status": "build-status.json",
+    "ready_required": [
+      "complete pinned-source checksums and row IDs",
+      "final768 unique IDs, roles, token windows and declared overlap audit",
+      "exact W0/tokenizer hashes and score-shift contract",
+      "S64+Dev128 finite full-vocab teacher/checksums",
+      "W0 self-KL and native/gradient/restore technical receipts"
+    ],
+    "raw_data_in_git": false,
+    "source_inventory_required_fields": [
+      "repo/config/revision",
+      "split/shard",
+      "full_file_bytes/sha256",
+      "gzip_CRC/row_count",
+      "bounded_probe_vs_complete_download",
+      "builder_revision/software_versions"
+    ],
+    "composition": "reference-composition.json; split-wise domains/top10 share, Wikipedia/direct-mirror tags, lengths, duplicate/drop counts, overlap coverage",
+    "documents_required_fields": [
+      "source_row_id",
+      "split_role",
+      "url",
+      "canonical_url",
+      "timestamp",
+      "raw_text_sha256",
+      "normalized_text_sha256",
+      "raw_text",
+      "priority_hash",
+      "exact_token_length",
+      "window_start",
+      "window_input_sha256",
+      "wiki_tags"
+    ],
+    "raw_data_root": "server4 local artifact root / references/C4-WebRef-v2/<manifest_sha256>; actual path recorded at build, raw text/teacher excluded from Git"
+  },
+  "readiness": {
+    "literature_survey_complete": true,
+    "source_schema_verified": true,
+    "formal_text_set_ready": false,
+    "exact_token_set_ready": false,
+    "teacher_ready": false,
+    "method_technical_checks_ready": false,
+    "scientific_chain_submitted": false,
+    "performance_measured": false,
+    "source_full_shards_downloaded": false,
+    "secondary_pile_metadata_verified": true,
+    "secondary_pile_schema_verified": false
+  },
+  "schema_version": 2,
+  "supersedes": "FW-WebRef-v1; 이전 원문과 hash는 local/reviews/reference-set-survey-2026-09-15-v2/previous/manifest.json",
+  "selection_basis": {
+    "primary_corpus": "C4-en",
+    "primary_adoption_papers": [
+      "GPTQ / ICLR 2023",
+      "SparseGPT / ICML 2023",
+      "Wanda / ICLR 2024"
+    ],
+    "dataset_origin": "T5 / JMLR 2020; 학술지이며 conference로 표기하지 않음",
+    "secondary_corpus": "The Pile; SmoothQuant / ICML 2023 및 AWQ / MLSys 2024",
+    "continual_learning_universal_reference_set_claim": false,
+    "custom_subset_not_published_calibration_ids": true,
+    "compression_calibration_proves_BG_KL_efficacy": false,
+    "citation_evidence": "audits/global/2026-09-15-reference-literature-evidence.csv",
+    "citation_counts_are_live_totals": false,
+    "direct_recent_editing_work_role": "GeRe/REMIX는 관련 직접 사례로 유지하되 corpus 선택의 주된 권위 근거로 사용하지 않음"
+  },
+  "build_pipeline": [
+    {
+      "id": "D0",
+      "action": "download both complete pinned C4 source files; full sha256, bytes, gzip CRC, exact row count, source README hash",
+      "current_status": "PREFIX_SCHEMA_VERIFIED_ONLY"
+    },
+    {
+      "id": "D1",
+      "action": "stream complete shards, form hash-priority candidate pools, preserve row/URL/timestamp/raw-text hashes, apply deterministic content filters",
+      "current_status": "NOT_BUILT"
+    },
+    {
+      "id": "D2",
+      "action": "existing exact W0 tokenizer -> one window/document; deterministic duplicate/overlap replacement -> freeze final768 IDs, role/window hashes and composition",
+      "current_status": "NOT_BUILT"
+    },
+    {
+      "id": "D3",
+      "action": "original FP32 W0 in eval mode -> full-vocab logp0 for S64+Dev128; streaming shards/checksums",
+      "current_status": "NOT_BUILT"
+    },
+    {
+      "id": "D4",
+      "action": "self-KL, score shift, restoration/native parity, real post-write KL gradient finite-difference and memory/runtime smoke checks; no scientific method selection from one batch",
+      "current_status": "NOT_RUN"
+    },
+    {
+      "id": "E1",
+      "action": "W0 B100x10 for seven named policies; N4 calibrates source-specific b before BG-1, common requested denominator",
+      "current_status": "NOT_SUBMITTED"
+    },
+    {
+      "id": "E2",
+      "action": "same-data W0 SEQ1000 ablations as needed, policy lock -> Report256 teacher/evaluation on frozen endpoints; Audit/MMLU independent checks",
+      "current_status": "NOT_SUBMITTED"
+    },
+    {
+      "id": "E3",
+      "action": "locked method plus five baselines, W0 B100x100; preserve development/test attribution and add order replication for order claim",
+      "current_status": "NOT_SUBMITTED"
+    }
+  ]
+}

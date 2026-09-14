@@ -1,0 +1,574 @@
+{
+  "date": "2026-09-15",
+  "contract_id": "C4-WebRef-v2",
+  "status": "실제 bounded source·공식 코드 확인 기록. reference768·teacher 생성 기록 아님.",
+  "c4_primary": {
+    "dataset": "allenai/c4",
+    "revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
+    "range_probes": [
+      {
+        "split": "train",
+        "source_url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-train.00000-of-01024.json.gz",
+        "shard": "en/c4-train.00000-of-01024.json.gz",
+        "revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
+        "formal_selection": false,
+        "status": 206,
+        "bytes_read": 1048576,
+        "headers": {
+          "etag": "\"6656aac078668b0d5feb1cfb7b04def05bff73e7e375d0a66e252827336ac1a8\"",
+          "content-length": "1048576",
+          "content-range": "bytes 0-1048575/319308785"
+        },
+        "prefix_sha256": "0b638e0453d7d1d1a51bc078418524cf44b2eee2f7b3a749c324e06e0f8b2022",
+        "complete_prefix_rows": 1150,
+        "schema_keys": [
+          "text",
+          "timestamp",
+          "url"
+        ],
+        "sample_metadata": [
+          {
+            "row": 0,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 747,
+            "url": "https://klyq.com/beginners-bbq-class-taking-place-in-missoula/",
+            "timestamp": "2019-04-25T12:57:54Z",
+            "text_sha256": "817d25ec0005bddc46001d4d492a74ea5fe3afa6e8bd91d9f8a0a576fc5d2c9e"
+          },
+          {
+            "row": 1,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 1628,
+            "url": "https://forums.macrumors.com/threads/restore-from-larger-disk-to-smaller-disk.1311329/",
+            "timestamp": "2019-04-21T10:07:13Z",
+            "text_sha256": "26ce48a6498845317e7a2699a738a61efd267eec1429e27df7fb5463fe2df84c"
+          },
+          {
+            "row": 2,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 183,
+            "url": "https://awishcometrue.com/Catalogs/Clearance/Tweens/V1960-Find-A-Way",
+            "timestamp": "2019-04-25T10:40:23Z",
+            "text_sha256": "400d5dc2ca92f77b2a9ba09d6206f918a32b6b0b0cf1bb680fee1a3480905452"
+          }
+        ]
+      },
+      {
+        "split": "validation",
+        "source_url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-validation.00000-of-00008.json.gz",
+        "shard": "en/c4-validation.00000-of-00008.json.gz",
+        "revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
+        "formal_selection": false,
+        "status": 206,
+        "bytes_read": 1048576,
+        "headers": {
+          "etag": "\"dffa9a5aa789525d19e0d6d9473f981585bd51d31019f9ba258b54d311dd5bf2\"",
+          "content-length": "1048576",
+          "content-range": "bytes 0-1048575/40471190"
+        },
+        "prefix_sha256": "4fd33bf9709fee4d9a1f342c1d8c1f39f9ecdd3b076b75a585f9afdedbf1f612",
+        "complete_prefix_rows": 1167,
+        "schema_keys": [
+          "text",
+          "timestamp",
+          "url"
+        ],
+        "sample_metadata": [
+          {
+            "row": 0,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 1625,
+            "url": "https://www.kentlive.news/news/sevenoaks-mum-who-died-after-2582402",
+            "timestamp": "2019-04-21T18:54:04Z",
+            "text_sha256": "88a764087a4e0146907d546cea4b5e4a952a09982cc7fbf3e45f2ebd17dfcc96"
+          },
+          {
+            "row": 1,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 2702,
+            "url": "https://jmtd.net/log/geek/linux/ui/",
+            "timestamp": "2019-04-23T18:39:18Z",
+            "text_sha256": "061b9a4ce6aad4e41325dd2cd73e2a567cfa2018e7c0dddb29dfb07956ef5177"
+          },
+          {
+            "row": 2,
+            "keys": [
+              "text",
+              "timestamp",
+              "url"
+            ],
+            "text_characters": 3027,
+            "url": "http://synergistic-technologies.com/biocmeisner.html",
+            "timestamp": "2019-04-19T11:07:52Z",
+            "text_sha256": "286399b04c32b08774966c32ef990fdecbd7f7be70bfd89935240f81db5404ca"
+          }
+        ]
+      }
+    ],
+    "total_probe_bytes": 2097152,
+    "formal_selection": false,
+    "complete_shard_downloads": false
+  },
+  "pile_secondary_metadata_probe": {
+    "dataset": "mit-han-lab/pile-val-backup",
+    "api_url": "https://huggingface.co/api/datasets/mit-han-lab/pile-val-backup",
+    "formal_selection": false,
+    "status": 200,
+    "revision": "2f5e46ae6a69cf0dce4b12f78241c408936ca0e4",
+    "gated": false,
+    "siblings": [
+      {
+        "rfilename": ".gitattributes"
+      },
+      {
+        "rfilename": "README.md"
+      },
+      {
+        "rfilename": "val.jsonl.zst"
+      }
+    ],
+    "card": null,
+    "api_sha256": "efe21db240a7daed3aba72be914a1d3a14ef3c6e4584cf606d3f119e79913572"
+  },
+  "official_calibration_sources": [
+    {
+      "name": "gptq",
+      "repository": "IST-DASLab/gptq",
+      "path": "datautils.py",
+      "commit": "669e51587e93a1cc04015119e26b1b00e48e77c9",
+      "source_url": "https://github.com/IST-DASLab/gptq/blob/669e51587e93a1cc04015119e26b1b00e48e77c9/datautils.py",
+      "raw_url": "https://raw.githubusercontent.com/IST-DASLab/gptq/669e51587e93a1cc04015119e26b1b00e48e77c9/datautils.py",
+      "sha256": "e1e32aac037b0080aac946adb44a254f59692923ea514609ddad9242f1695a3b",
+      "bytes": 6239,
+      "matched_lines": [
+        {
+          "line": 5,
+          "text": "def set_seed(seed):"
+        },
+        {
+          "line": 6,
+          "text": "    np.random.seed(seed)"
+        },
+        {
+          "line": 7,
+          "text": "    torch.random.manual_seed(seed)"
+        },
+        {
+          "line": 10,
+          "text": "def get_wikitext2(nsamples, seed, seqlen, model):"
+        },
+        {
+          "line": 21,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 23,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 32,
+          "text": "def get_ptb(nsamples, seed, seqlen, model):"
+        },
+        {
+          "line": 43,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 45,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 54,
+          "text": "def get_c4(nsamples, seed, seqlen, model):"
+        },
+        {
+          "line": 57,
+          "text": "        'allenai/c4', 'allenai--c4', data_files={'train': 'en/c4-train.00000-of-01024.json.gz'}, split='train'"
+        },
+        {
+          "line": 60,
+          "text": "        'allenai/c4', 'allenai--c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation'"
+        },
+        {
+          "line": 67,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 69,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 83,
+          "text": "    random.seed(0)"
+        },
+        {
+          "line": 102,
+          "text": "def get_ptb_new(nsamples, seed, seqlen, model):"
+        },
+        {
+          "line": 113,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 115,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 124,
+          "text": "def get_c4_new(nsamples, seed, seqlen, model):"
+        },
+        {
+          "line": 127,
+          "text": "        'allenai/c4', 'allenai--c4', data_files={'train': 'en/c4-train.00000-of-01024.json.gz'}, split='train'"
+        },
+        {
+          "line": 130,
+          "text": "        'allenai/c4', 'allenai--c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation'"
+        },
+        {
+          "line": 137,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 139,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 164,
+          "text": "    name, nsamples=128, seed=0, seqlen=2048, model=''"
+        },
+        {
+          "line": 167,
+          "text": "        return get_wikitext2(nsamples, seed, seqlen, model)"
+        },
+        {
+          "line": 170,
+          "text": "            return get_ptb_new(nsamples, seed, seqlen, model)"
+        },
+        {
+          "line": 171,
+          "text": "        return get_ptb(nsamples, seed, seqlen, model)"
+        },
+        {
+          "line": 172,
+          "text": "    if 'c4' in name:"
+        },
+        {
+          "line": 174,
+          "text": "            return get_c4_new(nsamples, seed, seqlen, model)"
+        },
+        {
+          "line": 175,
+          "text": "        return get_c4(nsamples, seed, seqlen, model)"
+        }
+      ]
+    },
+    {
+      "name": "sparsegpt",
+      "repository": "IST-DASLab/sparsegpt",
+      "path": "datautils.py",
+      "commit": "e9dae34263c3f1b36cb5952981cd0fdf5df1a143",
+      "source_url": "https://github.com/IST-DASLab/sparsegpt/blob/e9dae34263c3f1b36cb5952981cd0fdf5df1a143/datautils.py",
+      "raw_url": "https://raw.githubusercontent.com/IST-DASLab/sparsegpt/e9dae34263c3f1b36cb5952981cd0fdf5df1a143/datautils.py",
+      "sha256": "42b64ec9f5b74620feb1f3613bcc6410402f715caae85464056e9f284a2476f6",
+      "bytes": 3690,
+      "matched_lines": [
+        {
+          "line": 9,
+          "text": "def set_seed(seed):"
+        },
+        {
+          "line": 10,
+          "text": "    np.random.seed(seed)"
+        },
+        {
+          "line": 11,
+          "text": "    torch.random.manual_seed(seed)"
+        },
+        {
+          "line": 27,
+          "text": "def get_wikitext2(nsamples, seed, seqlen, model, tokenizer):"
+        },
+        {
+          "line": 35,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 37,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 46,
+          "text": "def get_ptb(nsamples, seed, seqlen, model, tokenizer):"
+        },
+        {
+          "line": 53,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 55,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 64,
+          "text": "def get_c4(nsamples, seed, seqlen, model, tokenizer):"
+        },
+        {
+          "line": 66,
+          "text": "        'allenai/c4', data_files={'train': 'en/c4-train.00000-of-01024.json.gz'}, split='train'"
+        },
+        {
+          "line": 69,
+          "text": "        'allenai/c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation'"
+        },
+        {
+          "line": 72,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 74,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 97,
+          "text": "def get_loaders(name, nsamples=128, seed=0, seqlen=2048, model=''):"
+        },
+        {
+          "line": 100,
+          "text": "        return get_wikitext2(nsamples, seed, seqlen, model, tokenizer)"
+        },
+        {
+          "line": 102,
+          "text": "        return get_ptb(nsamples, seed, seqlen, model, tokenizer)"
+        },
+        {
+          "line": 103,
+          "text": "    if 'c4' in name:"
+        },
+        {
+          "line": 104,
+          "text": "        return get_c4(nsamples, seed, seqlen, model, tokenizer)"
+        }
+      ]
+    },
+    {
+      "name": "wanda",
+      "repository": "locuslab/wanda",
+      "path": "lib/data.py",
+      "commit": "0628038aa65d9947aff0929279cdf4197c14b1cc",
+      "source_url": "https://github.com/locuslab/wanda/blob/0628038aa65d9947aff0929279cdf4197c14b1cc/lib/data.py",
+      "raw_url": "https://raw.githubusercontent.com/locuslab/wanda/0628038aa65d9947aff0929279cdf4197c14b1cc/lib/data.py",
+      "sha256": "f0b814ec5ca486c82418641621619aa4b64c408bbaeb7809b0ae66caf744ecff",
+      "bytes": 2742,
+      "matched_lines": [
+        {
+          "line": 8,
+          "text": "# Set seed for reproducibility"
+        },
+        {
+          "line": 9,
+          "text": "def set_seed(seed):"
+        },
+        {
+          "line": 10,
+          "text": "    np.random.seed(seed)"
+        },
+        {
+          "line": 11,
+          "text": "    torch.random.manual_seed(seed)"
+        },
+        {
+          "line": 19,
+          "text": "def get_wikitext2(nsamples, seed, seqlen, tokenizer):"
+        },
+        {
+          "line": 29,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 31,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 40,
+          "text": "# Load and process c4 dataset"
+        },
+        {
+          "line": 41,
+          "text": "def get_c4(nsamples, seed, seqlen, tokenizer):"
+        },
+        {
+          "line": 43,
+          "text": "    traindata = load_dataset('allenai/c4', 'allenai--c4', data_files={'train': 'en/c4-train.00000-of-01024.json.gz'}, split='train')"
+        },
+        {
+          "line": 44,
+          "text": "    valdata = load_dataset('allenai/c4', 'allenai--c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation')"
+        },
+        {
+          "line": 47,
+          "text": "    random.seed(seed)"
+        },
+        {
+          "line": 49,
+          "text": "    for _ in range(nsamples):"
+        },
+        {
+          "line": 69,
+          "text": "def get_loaders(name, nsamples=128, seed=0, seqlen=2048, tokenizer=None):"
+        },
+        {
+          "line": 71,
+          "text": "        return get_wikitext2(nsamples, seed, seqlen, tokenizer)"
+        },
+        {
+          "line": 72,
+          "text": "    if \"c4\" in name:"
+        },
+        {
+          "line": 73,
+          "text": "        return get_c4(nsamples, seed, seqlen, tokenizer)"
+        }
+      ]
+    },
+    {
+      "name": "smoothquant",
+      "repository": "mit-han-lab/smoothquant",
+      "path": "smoothquant/calibration.py",
+      "commit": "0c727bc10cb30b0fc1b0754ec4b16c454cd00b24",
+      "source_url": "https://github.com/mit-han-lab/smoothquant/blob/0c727bc10cb30b0fc1b0754ec4b16c454cd00b24/smoothquant/calibration.py",
+      "raw_url": "https://raw.githubusercontent.com/mit-han-lab/smoothquant/0c727bc10cb30b0fc1b0754ec4b16c454cd00b24/smoothquant/calibration.py",
+      "sha256": "e53a5b8b59b47c2eecade2bcf35244bda5ce700176bc22b3e0f1a0762f3cc42b",
+      "bytes": 4286,
+      "matched_lines": [
+        {
+          "line": 13,
+          "text": "def get_act_scales(model, tokenizer, dataset_path, num_samples=512, seq_len=512):"
+        },
+        {
+          "line": 39,
+          "text": "    dataset = load_dataset(\"json\", data_files=dataset_path, split=\"train\")"
+        },
+        {
+          "line": 40,
+          "text": "    dataset = dataset.shuffle(seed=42)"
+        },
+        {
+          "line": 42,
+          "text": "    for i in tqdm(range(num_samples)):"
+        },
+        {
+          "line": 59,
+          "text": "    num_samples=512,"
+        },
+        {
+          "line": 91,
+          "text": "    pbar = tqdm(range(num_samples))"
+        },
+        {
+          "line": 92,
+          "text": "    dataset = load_dataset(\"json\", data_files=dataset_path, split=\"train\")"
+        },
+        {
+          "line": 93,
+          "text": "    dataset = dataset.shuffle(seed=42)"
+        }
+      ]
+    },
+    {
+      "name": "awq",
+      "repository": "mit-han-lab/llm-awq",
+      "path": "awq/utils/calib_data.py",
+      "commit": "559f9648dc90a73305ced16f935eb32c40e4564a",
+      "source_url": "https://github.com/mit-han-lab/llm-awq/blob/559f9648dc90a73305ced16f935eb32c40e4564a/awq/utils/calib_data.py",
+      "raw_url": "https://raw.githubusercontent.com/mit-han-lab/llm-awq/559f9648dc90a73305ced16f935eb32c40e4564a/awq/utils/calib_data.py",
+      "sha256": "5895b81dd0f2eff7c03a0b9f8004aedd870a0900df9f635b0db410ee3cbaa3f1",
+      "bytes": 1050,
+      "matched_lines": [
+        {
+          "line": 5,
+          "text": "def get_calib_dataset(data=\"pileval\", tokenizer=None, n_samples=512, block_size=512):"
+        },
+        {
+          "line": 6,
+          "text": "    if data == \"pileval\":"
+        },
+        {
+          "line": 7,
+          "text": "        dataset = load_dataset(\"mit-han-lab/pile-val-backup\", split=\"validation\")"
+        },
+        {
+          "line": 10,
+          "text": "    dataset = dataset.shuffle(seed=42)"
+        },
+        {
+          "line": 24,
+          "text": "        if n_run == n_samples:"
+        }
+      ]
+    }
+  ],
+  "historical_FineWeb_GeRe_audit": "local/reviews/reference-set-survey-2026-09-15-v2/previous/audits/global/2026-09-15-reference-source-audit.json",
+  "historical_archive_manifest": "local/reviews/reference-set-survey-2026-09-15-v2/previous/manifest.json",
+  "citation_count_method": {
+    "provider": "Semantic Scholar displayed reference entries retrieved through web search/open",
+    "retrieval_date": "2026-09-15",
+    "page_cache_age_reported": "about 5 months; exact index-count timestamp unknown",
+    "live_count": false,
+    "google_scholar_count": false,
+    "sum_across_versions": false,
+    "api_limits": "Semantic Scholar graph API 429; OpenAlex returned duplicate/incomplete paper records, so no aggregate count inferred",
+    "counts_scope": "counts of specifically named indexed papers, not C4/Pile dataset reuse counts and not counts of the low-citation paper hosting the reference entry",
+    "counts": [
+      {
+        "paper": "GPTQ",
+        "displayed": 1761,
+        "record": "2022 arXiv title; venue independently verified as ICLR 2023",
+        "evidence_url": "https://www.semanticscholar.org/paper/LLMC%2B%3A-Benchmarking-Vision-Language-Model-with-a-Lv-Zhang/35eb32becd46e1845b0f2bb4cc5065b89aee254e"
+      },
+      {
+        "paper": "SparseGPT",
+        "displayed": 1163,
+        "record": "ICML 2023",
+        "evidence_url": "https://www.semanticscholar.org/paper/Restoring-Pruned-Large-Language-Models-via-Lost-Feng-Zhou/1b6c33edca944c871ba40b165803e16241d9e33c"
+      },
+      {
+        "paper": "Wanda",
+        "displayed": 748,
+        "record": "ICLR 2024",
+        "evidence_url": "https://www.semanticscholar.org/paper/Restoring-Pruned-Large-Language-Models-via-Lost-Feng-Zhou/1b6c33edca944c871ba40b165803e16241d9e33c"
+      },
+      {
+        "paper": "SmoothQuant",
+        "displayed": 1382,
+        "record": "ICML 2023",
+        "evidence_url": "https://www.semanticscholar.org/paper/60b2f37a51dd6ff9dd63e56772215939fbc24a69"
+      }
+    ]
+  },
+  "git": {
+    "raw_data_tracked": false,
+    "commit_or_push_performed": false
+  },
+  "gpu_execution": false
+}
