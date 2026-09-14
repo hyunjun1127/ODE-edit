@@ -1,0 +1,28 @@
+{
+  "instruction_id": "ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1",
+  "scope": "own source plus compact preparation/G0_BLOCKED publication only",
+  "checked_report_sha256": "f74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6",
+  "cpu_tests": 39,
+  "compact_package_member_sha_size": "PASS",
+  "python_ast": "PASS",
+  "sbatch_memory_audit": "PASS_60416M_1GPU",
+  "shell_syntax": "PASS",
+  "rawfree_scope_suffix_size_review": "PASS",
+  "csv_line_ending_exception": {
+    "reason": "Python csv.DictWriter default CRLF in three create-once sealed CSV files",
+    "files": ["implementation-coverage.csv", "reference-composition-summary.csv", "reference-source-summary.csv"],
+    "ordinary_git_diff_check": "CRLF_ONLY_WARNINGS",
+    "git_diff_check_core_whitespace_cr_at_eol": "PASS",
+    "sealed_csv_bytes_normalized": false,
+    "other_whitespace_exceptions": []
+  },
+  "latest_main_before_integration": "28a75931f483aad80e6744b0d5d02d47c46e5050",
+  "other_owner_change_preserved": "plans/global/2026-09-15-bg1-c4-ours-first-handoff.md",
+  "integration_method": "clean worktree, own commits only, non-force",
+  "new_scientific_jobs": 0,
+  "preparation_job": "47592",
+  "last_job_observation": "PENDING; release and no-requeue control inspection only",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "task_state": "WAITING_USER_RESUME"
+}
