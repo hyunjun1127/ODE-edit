@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "instruction_id": "GLOBAL-REFIT4-WRITE-REFRESH-SEQ1000-DESIGN-20260914-V1",
+  "status": "FINAL_DESIGN_NOT_SUBMITTED",
+  "language": "ko",
+  "purpose_ko": "동일 최대 target Adam budget 아래 분할 최적화와 반복 frozen fitting을 정책별 1,000요청 순차로 비교한다.",
+  "supersedes_scope": "이전 2026-09-14 G1/G1-R 단일 batch 성능 선별 및 실행 순서",
+  "provenance": {
+    "review_commit": "7e67befa1c73b67768d16ab98029468c945f2ac0",
+    "native_execution_commit": "5e96dcb3745977b1f273e3f5afbee61167248d49",
+    "attachment_sha256": "b30d54de059191ab6f45904c5817f1ef34b883d4333598b9d9eac4aa4a4d5514",
+    "six_arm_root": "experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1"
+  },
+  "model": {
+    "name": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "precision": "FP32",
+    "physical_layers": [
+      4
+    ],
+    "blue": true,
+    "L2": 1,
+    "other_hparams": "inherit_locked_native_config",
+    "mode": "eval"
+  },
+  "sequence": {
+    "entry": "original_common_L4_W50_M50_context_RNG",
+    "batch_size": 100,
+    "first_batch": 51,
+    "last_batch": 60,
+    "ordinal_start_inclusive": 5000,
+    "ordinal_stop_exclusive": 6000,
+    "unique_requests_per_policy": 1000,
+    "order": "fixed_original_order_no_replacement",
+    "old_requests": 5000,
+    "terminal_fullseen_requests": 6000,
+    "independent_chain_per_policy": true,
+    "future_target_sharing_across_policies": false,
+    "inter_batch_optimizer_state_carry": false
+  },
+  "policies": [
+    {
+      "id": "N4",
+      "target_update_caps": [
+        24
+      ],
+      "write_gammas": [
+        1.0
+      ],
+      "target_mode": "native_fresh_batch_entry",
+      "optimizer_mode": "native_one_call",
+      "reference_reuse": "existing_seq10_if_comparison_closure_matches",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 10,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "REFIT4",
+      "target_update_caps": [
+        24,
+        24
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "fresh_current_stage",
+      "optimizer_mode": "reset_each_stage_including_teacher_anchor",
+      "reference_reuse": "existing_seq10_if_comparison_closure_matches",
+      "max_adam_updates_per_1000": 48000,
+      "max_target_loss_evaluations_per_1000": 50000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "FROZEN2",
+      "target_update_caps": [
+        24,
+        0
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "freeze_own_batch_first_absolute_target",
+      "optimizer_mode": "native_first_call_only",
+      "reference_reuse": "new_1000_request_chain",
+      "legacy_alias": "previous_G1_FZ4",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "I2",
+      "target_update_caps": [
+        12,
+        12
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "carry_absolute_target_with_entry_offset_leaf",
+      "optimizer_mode": "carry_m_v_actual_step_within_batch_only",
+      "reference_reuse": "new_1000_request_chain",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 26000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "FROZEN4",
+      "target_update_caps": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "write_gammas": [
+        0.75,
+        0.75,
+        0.75,
+        1.0
+      ],
+      "target_mode": "freeze_own_batch_first_absolute_target",
+      "optimizer_mode": "native_first_call_only",
+      "reference_reuse": "new_1000_request_chain",
+      "legacy_alias": "attachment_F4",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 40,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "I4",
+      "target_update_caps": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "write_gammas": [
+        0.75,
+        0.75,
+        0.75,
+        1.0
+      ],
+      "target_mode": "carry_absolute_target_with_entry_offset_leaf",
+      "optimizer_mode": "carry_m_v_actual_step_within_batch_only",
+      "reference_reuse": "new_1000_request_chain",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 28000,
+      "writer_solves_per_1000": 40,
+      "history_appends_per_1000": 10
+    }
+  ],
+  "primary_contrasts": [
+    [
+      "REFIT4",
+      "FROZEN2"
+    ],
+    [
+      "I2",
+      "FROZEN2"
+    ],
+    [
+      "I4",
+      "FROZEN4"
+    ]
+  ],
+  "secondary_contrasts": [
+    [
+      "I2",
+      "N4"
+    ],
+    [
+      "I4",
+      "N4"
+    ],
+    [
+      "FROZEN2",
+      "N4"
+    ],
+    [
+      "FROZEN4",
+      "N4"
+    ],
+    [
+      "I4",
+      "I2"
+    ]
+  ],
+  "carry_target_semantics": {
+    "applies_to": [
+      "I2",
+      "I4"
+    ],
+    "optimizer_leaf": "u_entry_offset",
+    "initial_u": 0,
+    "absolute_target": "a0+u",
+    "hook_delta": "u+(a0-aj)",
+    "anchor_detached": true,
+    "entry_teacher_fixed_within_batch": true,
+    "native_kl_argument_order": "kl_div(entry_log_probs,current_log_probs,log_target=True,reduction=batchmean)",
+    "regularizer": "v_weight_decay*norm(u)/norm(a0)^2",
+    "clamp": "norm(u)<=clamp_norm_factor*norm(a0)",
+    "adam_m_v_step_carry": true,
+    "step_increments": "actual_optimizer_step_only",
+    "clamp_does_not_reset_moments": true,
+    "early_stop_total_loss_below": 0.05,
+    "recheck_each_chunk": true,
+    "unused_quota_transfer": false,
+    "remove_zero_step_requests": false,
+    "backprop_through_weight_trajectory": false
+  },
+  "writer": {
+    "batch_synchronous_requests": 100,
+    "residual": "current_absolute_target-current_canonical_Y",
+    "first_residual_reuse": false,
+    "inner_history_appends": 0,
+    "terminal_history_appends_per_batch": 1,
+    "selected_layer": 4,
+    "materialization": "six_arm_native_full_candidate_then_actual_FP32_candidate_minus_entry_scaling",
+    "gamma_one": "exact_full_candidate_copy",
+    "gamma_fraction_arithmetic": "six_arm_CPU_entry_and_native_endpoint_arithmetic",
+    "norm_reduction": "FP64_on_actual_FP32_weight_differences",
+    "first_campaign_solver": "native_direct_solve_same_order",
+    "same_batch_K_PK_G_cache": "only_after_identity_check_log_cache_and_cost",
+    "precomputed_rhs_map_or_factorization_reuse": false,
+    "analytic_Y_instead_of_forward": false,
+    "M8_setup": false
+  },
+  "evaluation": {
+    "every_batch": [
+      "Current100_R_P_N",
+      "Current_R_P_TF_strict",
+      "Current_two_P_request_strict",
+      "Current_true_new_NLL_margin",
+      "Historical128_R_P_N_active"
+    ],
+    "checkpoint_batches": [
+      51,
+      55,
+      60
+    ],
+    "suffix500_at_batches": [
+      55,
+      60
+    ],
+    "terminal": [
+      "FullSeen6000",
+      "entry_old5000",
+      "suffix_new1000",
+      "ALL_ACTIVE_TARGET_SUPERSEDED_UNKNOWN",
+      "paired_transitions",
+      "NLL_distribution_and_paired_harm_p95_p99",
+      "Wiki128",
+      "MMLUdev32"
+    ],
+    "at_write_to_final_population": "suffix_new1000_only",
+    "future_exposure_zero_batch_separate": 60,
+    "active_definition": "six_arm_raw_subject_relation_last_observed_target_string_including_same_target_reissues",
+    "audit128": "DEFERRED_NOT_EVALUATED",
+    "mmlu68": "DEFERRED_NOT_EVALUATED",
+    "futureN": "DEFERRED_NOT_EVALUATED",
+    "online_quality_feedback": false,
+    "single_batch_scientific_selection": false
+  },
+  "technical_checks": [
+    "I1_native_loss_target_endpoint_history_connection",
+    "fixed_weight_pause_resume_adam_carry",
+    "FROZEN2_partial_matches_S75_materialization",
+    "history_append_and_branch_isolation",
+    "reference_reuse_full_comparison_closure"
+  ],
+  "execution_accounting": {
+    "logical_policy_chains": 6,
+    "logical_batch_executions": 60,
+    "new_batch_executions_if_both_references_reusable": 40,
+    "new_batch_executions_if_neither_reusable": 60,
+    "single_batch_technical_checks_accounted_separately": true,
+    "new_policy_runtime_measured": false,
+    "gpu_hour_hard_cap": null,
+    "online_ratio_hard_gate": false,
+    "quality_AND_gate": false
+  },
+  "deferred_arms": [
+    "NM4_oracle_chain",
+    "I4_reset",
+    "refresh8",
+    "Euler",
+    "I2_B48"
+  ],
+  "conditional_budget_check": {
+    "id": "I2_B48",
+    "default_enabled": false,
+    "target_update_caps": [
+      24,
+      24
+    ],
+    "write_gammas": [
+      0.75,
+      1.0
+    ],
+    "other_settings": "same_as_I2",
+    "requests_if_run": 1000
+  },
+  "next_validation": {
+    "entry": "common_native_L4_W90_M90",
+    "batches": [
+      91,
+      100
+    ],
+    "requests_per_policy": 1000,
+    "policies": "N4_REFIT4_one_selected_candidate_at_most",
+    "warm_entry_not_full10k_policy": true
+  },
+  "claim_decisions": [
+    "ALLOW",
+    "ALLOW_WITH_LIMITED_CLAIM",
+    "NEEDS_TARGETED_CHECK",
+    "NOT_SUPPORTED",
+    "INVALID_COMPARISON"
+  ],
+  "reporting": "SH 사실·수치 보고와 global scientific claim 판단 분리"
+}

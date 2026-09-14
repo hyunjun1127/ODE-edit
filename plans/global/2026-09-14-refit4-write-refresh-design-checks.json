@@ -1,0 +1,31 @@
+{
+  "review_date": "2026-09-14",
+  "source_commit": "7e67befa1c73b67768d16ab98029468c945f2ac0",
+  "attachment_sha256": "b30d54de059191ab6f45904c5817f1ef34b883d4333598b9d9eac4aa4a4d5514",
+  "second_fit_adam_histogram": {
+    "0": 853,
+    "21": 1,
+    "24": 146
+  },
+  "positive_request_count": 147,
+  "positive_request_mean_adam": 23.979591836734695,
+  "euler_scalar_realization": {
+    "1": 1.0,
+    "2": 0.75,
+    "4": 0.68359375,
+    "8": 0.6563910841941833
+  },
+  "euler_limit": 0.6321205588285577,
+  "frozen_writer_synthetic_check": {
+    "seed": 20260914,
+    "shape": [
+      9,
+      4,
+      6
+    ],
+    "direct_vs_map_max_abs_error": 1.6653345369377348e-16,
+    "residual_recurrence_max_abs_error": 2.220446049250313e-15,
+    "scope": "소형 합성 행렬의 수식 검산. 모델 FP32 동등성·GPU 실험 성능 증거가 아님."
+  },
+  "checks": "첨부 수치와 수식의 재계산. 신경망 target-stepper의 실행 검증은 수행하지 않음."
+}
