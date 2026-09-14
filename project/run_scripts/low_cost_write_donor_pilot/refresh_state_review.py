@@ -94,7 +94,13 @@ def verify(attempt,out):
     require(history['weight_sha256']==raw_w,'REFERENCE_RAW_FINALIZER_WEIGHT')
     raw_links.append(dict(policy=policy,batch=batch,raw_entry_W=previous_raw_w,raw_endpoint_W=raw_w,raw_entry_M=previous_raw_m,raw_endpoint_M=history['after_sha256'],bridge='COMMON_ENTRY_NEW_CPU; REFERENCE_CP_AUDIT_REUSED'))
     previous_raw_w=raw_w;previous_raw_m=history['after_sha256']
-    cost.append(dict(policy=policy,batch=batch,reused=True,online_seconds=c['policy_instrumented_online_seconds'],evaluation_seconds=c['evaluation_seconds'],new_spending=0))
+    fits=[c['first_fit']]+([c['second_fit']] if c['second_fit'] else [])
+    cost.append(dict(policy=policy,batch=batch,reused=True,online_seconds=c['policy_instrumented_online_seconds'],evaluation_seconds=c['evaluation_seconds'],new_spending=0,
+                     compute_z_seconds=sum(f['compute_z_seconds'] for f in fits),
+                     keys_seconds=sum(f['compute_ks_seconds'] for f in fits),
+                     readout_seconds=sum(f['get_module_input_output_at_words_seconds'] for f in fits),
+                     solve_seconds=sum(f['solve_seconds'] for f in fits),
+                     history_seconds=c['finalization_seconds'],materialization_seconds=c['materialization_seconds']))
     continue
    cfg=next(p for p in lock['policies'] if p['id']==policy)
    require(len(c['subwrites'])==len(cfg['write_gammas']),'SUBWRITE_COUNT')
@@ -163,7 +169,10 @@ def verify(attempt,out):
      target_counts.append(dict(policy=policy,batch=batch,chunk=chunk,request_index=i,adam=updates,loss=losses,optimized_target_chunk=not frozen_reuse,frozen_reuse=frozen_reuse,stop=summary.get('stop_reason',summary.get('status')),clamp_hits=summary.get('clamp_hits',0)))
      snapshots[i]={k:e[k] for k in ['u','m','v','t','a0','teacher','Z','target_loss_evaluations']}
      del value,e
-    chunks.append(dict(policy=policy,batch=batch,chunk=chunk,requests=100,gamma=sub['gamma'],cap=sub['cap'],history_appends=0,solve=1,current_residual='CPU_EXACT_PASS',actual_delta_norm=float(loaded['actual_delta'].double().norm()),native_candidate_delta_norm=float(loaded['native_candidate_delta'].double().norm()),write_seconds=sub['write_seconds']))
+    chunks.append(dict(policy=policy,batch=batch,chunk=chunk,requests=100,gamma=sub['gamma'],cap=sub['cap'],history_appends=0,solve=1,current_residual='CPU_EXACT_PASS',actual_delta_norm=float(loaded['actual_delta'].double().norm()),native_candidate_delta_norm=float(loaded['native_candidate_delta'].double().norm()),write_seconds=sub['write_seconds'],
+                       keys_seconds=fit.get('compute_ks_seconds','NOT_RECORDED'),
+                       readout_seconds=fit.get('get_module_input_output_at_words_seconds','NOT_RECORDED'),
+                       solve_seconds=fit.get('solve_seconds','NOT_RECORDED')))
     del loaded
    require(total_adam==c['actual_adam_updates'] and total_losses==c['target_loss_evaluations'],'BATCH_TARGET_TOTALS')
    require(previous_subwrite['weights']==c['endpoint']['weights'] and previous_subwrite['P4']==c['endpoint']['P4'] and previous_subwrite['contexts']==c['endpoint']['contexts'],'FINAL_SUBWRITE_COMMIT_BINDING')

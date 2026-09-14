@@ -57,6 +57,14 @@ def report(attempt,root):
  a=Path(attempt);lock=json.loads((a/'execution.lock.json').read_text());final=read(root,'first-final-table');rates=read(root,'batchmetrics');cost=read(root,'compute-ledger');trans=read(root,'paired-transitions');general=read(root,'terminal-general')
  def population(pop):
   return [r for r in rates if r['batch']=='60' and r['population']==pop and r['group']=='ALL']
+ cost_summary=[]
+ for policy in ORDER:
+  rows=[r for r in cost if r['policy']==policy]
+  result=dict(policy=policy,new_spending=policy not in lock['reference_reuse'])
+  for field in ['online_seconds','evaluation_seconds','target_including_nested_IO_seconds','native_writer_seconds','history_seconds','materialization_seconds','snapshot_seconds']:
+   values=[r.get(field) for r in rows]
+   result[field]=round(sum(float(v) for v in values),4) if len(values)==10 and all(v not in (None,'','NOT_RECORDED') for v in values) else 'NOT_RECORDED'
+  cost_summary.append(result)
  policyrows=[]
  for p in lock['policies']:
   policyrows.append(dict(policy=p['id'],caps=str(p['target_update_caps']),gammas=str(p['write_gammas']),target_mode=p['target_mode'],reuse=p['id'] in lock['reference_reuse']))
@@ -85,6 +93,7 @@ def report(attempt,root):
   'state-review-receipt.json 및 state-links/subwrites/checkpoints/target-counters CSV에 실제검산을 기록한다. innerhistoryappend0, native endpoint finalizer append1/batch; request100 target barrier 뒤 batchwrite1이다. u/Adam m/v/t는 request내chunk사이에만 유지하며 anchor/teacher/clamp는batchentry고정이다. Frozen후속chunk도 현재Y로residual을새로읽는다. oldreference optimizer내부미저장항목은 NOT_RECORDED이다.',
   'CPU weights_only/tensorSHA와 실제 GPU continuation/replay는 다르다. 신규 CP51/55/60은 selectedW4/M4/context/RNG를 보존하지만 전체모델checkpoint가 아니다. Base model/P/config/source/order closure가필요하다. Actualdelta journal의 exacttrajectory replay는 NOT_TESTED다. 원native및NativeSingletonFitter.fit 수정0.',
   '## 비용과 저장',
+  table(cost_summary,['policy','new_spending','online_seconds','evaluation_seconds','target_including_nested_IO_seconds','native_writer_seconds','history_seconds','materialization_seconds','snapshot_seconds']),
   'compute-ledger.csv는 reused reference와 신규spending을 분리한다. 신규targettimer의 requeststate I/O는 nested이므로 총합에 다시더하지 않는다. 기존reference는 매batchgeneral, 신규는terminalgeneral이므로 평가포함wall을 같은정책online비용으로 치환하지 않는다. Instrumentedonline은purewriter가 아니다. Prepared/M8과기존N4/REFIT4의과거비용을새연구비로중복계상하지않는다. Scheduler allocation/queue/concurrency는별도receipt근거이며 측정되지않은component는NOT_RECORDED.',
   '## 재현·산출물·제한',
   '원시tensor/request/teacher/prompt/fullstdout은 local-only이고 Git에 포함하지 않는다. NO_BROADCAST_NOT_REQUIRED. 원본checkpoint/공유asset/다른run삭제0. Main에는 본namespace CPU분석코드와raw-free표/PNG/manifest만통합한다.',
