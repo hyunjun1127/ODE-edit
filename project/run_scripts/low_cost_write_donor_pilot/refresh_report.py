@@ -4,6 +4,8 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import platform
+from importlib.metadata import version
 
 from .refresh_review import ORDER
 
@@ -121,6 +123,8 @@ def seal(attempt,root):
   files.append(dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)))
  code=Path(__file__).resolve().parent;sources=[dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(code.glob('refresh*py'))]
  lock=json.loads((a/'execution.lock.json').read_text());m=dict(members=files,sources=sources,execution_commit=lock['worktree_head'],execution_lock_sha256=sha(a/'execution.lock.json'),reference_execution='5e96dcb3745977b1f273e3f5afbee61167248d49',raw_payload_in_git=False)
+ m['analysis_environment']=dict(python=platform.python_version(),platform=platform.platform(),
+  packages={name:version(name) for name in ['numpy','torch','matplotlib']})
  (root/'analysis-manifest.json').write_text(json.dumps(m,indent=2)+'\n')
  (root/'rooted-receipt.json').write_text(json.dumps(dict(status='RAWFREE_PACKAGE_REHASH_PASS',manifest_sha256=sha(root/'analysis-manifest.json'),member_root=hashlib.sha256(json.dumps(files,sort_keys=True).encode()).hexdigest(),scientific_promotion=False,claim_decision='PENDING_GH_REVIEW'),indent=2)+'\n')
 
