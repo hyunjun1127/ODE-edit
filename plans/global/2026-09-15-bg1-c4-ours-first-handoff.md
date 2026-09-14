@@ -3,7 +3,10 @@
 - Instruction: GH-BG1-C4-OURS-FIRST-20260915-V1.
 - SH task: ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1.
 - Owner: SH4 server4, session01a04939-b5c7-7a03-ba2d-ef3343d62cfd.
-- 상태: 배정 준비. 이 문서는 실제 제출/전달 수신/G0 통과 증거가 아니다.
+- 상태: SH4 직접 전달 ACCEPTED 및 신규 task 착수 응답 수신. 실제 GPU 제출/G0 통과는 아직 보고받지 않았다.
+- 전달 publication: e56af00b16ecaed38ecb4ea890ce71f0c57aa4ff / tree f4f770b3a06684bf5fb7017e8640dd9bdfb172f8.
+- Direct accepted turn: 01a0a121-ee45-7de2-bb00-4c8cdfc0c78a; nonce ODEEDIT-GH-SH4-BG1-C4-OURS-FIRST-20260915-R1.
+- SH4 초기 응답: 신규 BG-1 한 chain, N4 B1–B10 calibration 가용성 우선 확인, G0 확정 후 사용자 재개 대기. FULL_READ 완료/GPU gate PASS 주장 아님.
 - 기준 main: c2710f3e8fddf2a8df230f076e4519cc6d0d77e5.
 - 원문과 주요 reference 전체 읽음; source/문서 inventory는 audits/global/2026-09-15-bg1-c4-ours-first-dispatch-source-inventory.json.
 - 실행 envelope: messages/head/2026-09-15-sh4-bg1-c4-ours-first.md.
