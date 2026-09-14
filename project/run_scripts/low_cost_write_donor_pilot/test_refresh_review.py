@@ -53,9 +53,10 @@ class RefreshReviewTests(unittest.TestCase):
 
     def test_actual_counters_are_loss_observation_bound(self):
         summary = dict(actual_adam_updates=2,target_loss_evaluations=3,
-                       target_forwards=3,target_backwards=2,quota_transferred=0,unused_quota=1)
+                       target_forwards=3,target_backwards=2,quota_transferred=0,unused_quota=1,
+                       stop_reason='LOSS_BELOW_0_05')
         evidence = dict(t=2,actual_adam_updates=2,target_loss_evaluations=3,
-                        losses=[dict(iteration=i) for i in range(3)])
+                        losses=[dict(iteration=i,total=.01,nll=.01,kl=0.,regularizer=0.) for i in range(3)])
         self.assertEqual(chunk_counters(evidence,summary,3),(2,3))
         with self.assertRaises(ValueError):
             chunk_counters(dict(evidence,t=1),summary,3)

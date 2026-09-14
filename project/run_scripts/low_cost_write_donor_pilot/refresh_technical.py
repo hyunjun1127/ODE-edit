@@ -138,9 +138,12 @@ def run(lock_path, output, mode):
    if 'initial_rng' in locals():restore_rng(initial_rng)
    save(out/'restore.json',dict(W0_restored=tensor_sha(w)==tensor_sha(original),methodstate_discarded=True))
 
-def compare(root):
+def compare(root,native_reference=None):
  import torch
- a=Path(root);terms=[json.loads((a/m/'terminal.json').read_text()) for m in ['native','I1']]
+ a=Path(root);roots=[Path(native_reference) if native_reference else a/'native',a/'I1']
+ term_paths=[p/'terminal.json' for p in roots]
+ terms=[json.loads(p.read_text()) for p in term_paths]
+ assert [t['mode'] for t in terms]==['native','I1']
  cps=[]
  for term in terms:
   r=term['comparison'];assert file_sha(r['path'])==r['sha256']
@@ -165,9 +168,9 @@ def compare(root):
  checks['carry_last_loss']=dict(equal=value['whole']['losses'][-1]['total']==value['second']['losses'][-1]['total'])
  # Preserve mismatch evidence before failing; no adaptive tolerance.
  status='PASS' if all(v['equal'] for v in checks.values()) else 'TECHNICAL_PARITY_HOLD'
- r=save(a/'comparison-receipt.json',dict(status=status,checks=checks,inputs=[t['comparison'] for t in terms],criterion='EXACT_FP32_NO_POSTHOC_RELAXATION',scientific_gate=False))
+ r=save(a/'comparison-receipt.json',dict(status=status,checks=checks,inputs=[t['comparison'] for t in terms]+[dict(path=str(p),sha256=file_sha(p)) for p in term_paths],native_reference_reused=bool(native_reference),native_source_lock_sha256=terms[0]['source_lock_sha256'],I1_source_lock_sha256=terms[1]['source_lock_sha256'],criterion='EXACT_FP32_NO_POSTHOC_RELAXATION',scientific_gate=False))
  print(json.dumps(r));assert status=='PASS',checks
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--lock');p.add_argument('--output',required=True);p.add_argument('--mode',choices=['native','I1','compare'],required=True)
- args=p.parse_args();compare(args.output) if args.mode=='compare' else run(args.lock,args.output,args.mode)
+ p=argparse.ArgumentParser();p.add_argument('--lock');p.add_argument('--output',required=True);p.add_argument('--mode',choices=['native','I1','compare'],required=True);p.add_argument('--native-reference')
+ args=p.parse_args();compare(args.output,args.native_reference) if args.mode=='compare' else run(args.lock,args.output,args.mode)

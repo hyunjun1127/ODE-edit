@@ -34,6 +34,17 @@ def native_kl(teacher, current, factor):
         teacher, current, log_target=True, reduction="batchmean")
 
 
+def rebased_hook_delta(u, a0, aj):
+    """Preserve the native leaf graph when no exact coordinate shift is needed.
+
+    Sharing a zero-offset AddBackward node across contexts changes the FP32
+    accumulation order against the direct-leaf norm regularizer. This is an
+    exact-state branch, never a tolerance/quality or optimizer-policy branch.
+    """
+    zero_offset = torch.equal(a0, aj)
+    return (u if zero_offset else u + (a0 - aj)), zero_offset
+
+
 @dataclass
 class RequestTargetState:
     request_index: int
@@ -198,15 +209,17 @@ class NativeTargetStepper:
         moment_ptrs = {k: initial_adam[k].data_ptr() for k in ("exp_avg", "exp_avg_sq") if k in initial_adam}
         initial_opt = {k: _cpu(v) for k, v in initial_adam.items() if torch.is_tensor(v)}
         initial_u = _cpu(state.u)
+        hook_zero_offset_native_leaf = None
 
         def edit_output(cur_out, cur_layer):
+            nonlocal hook_zero_offset_native_leaf
             if cur_layer == target_layer:
                 # Exact native clean-sentence indexing, before any intervention.
                 if state.aj is None:
                     state.aj = cur_out[0][0, state.lookup_idxs[0]].detach().clone()
                     if state.a0 is None:
                         state.a0 = state.aj.detach().clone()
-                delta = state.u + (state.a0 - state.aj)
+                delta, hook_zero_offset_native_leaf = rebased_hook_delta(state.u, state.a0, state.aj)
                 for i, idx in enumerate(state.lookup_idxs):
                     if len(state.lookup_idxs) != len(cur_out[0]):
                         cur_out[0][idx, i, :] += delta
@@ -265,6 +278,7 @@ class NativeTargetStepper:
         summary.update(request_index=state.request_index, chunk_index=chunk_index,
                        max_updates=max_updates, seconds=time.monotonic()-begin,
                        optimizer_object_preserved=True, u_leaf_preserved=True,
+                       hook_zero_offset_native_leaf=hook_zero_offset_native_leaf,
                        capture_anchor_extra_forwards=0, target_mode="entry-offset-carry",
                        clamp_max_norm=float((hp.clamp_norm_factor * state.a0.norm()).item()))
         state.summaries.append(deepcopy(summary))

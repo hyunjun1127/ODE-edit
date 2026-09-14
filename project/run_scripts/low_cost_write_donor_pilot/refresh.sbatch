@@ -26,6 +26,10 @@ if [[ "$task_mode" == technical ]]; then
   [[ "$task_cell" =~ ^[0-1]$ ]]
   exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.low_cost_write_donor_pilot.refresh_technical --lock "$task_attempt/execution.lock.json" --output "$task_attempt/technical/${task_modes[$task_cell]}" --mode "${task_modes[$task_cell]}"
 fi
+if [[ "$task_mode" == repair-I1 ]]; then
+  [[ "$task_cell" == 0 ]]
+  exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.low_cost_write_donor_pilot.refresh_technical --lock "$task_attempt/execution.lock.json" --output "$task_attempt/technical/I1" --mode I1
+fi
 [[ "$task_mode" == main && "$task_cell" =~ ^[0-3]$ ]]
 task_policies=(FROZEN2 I2 FROZEN4 I4)
 exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.low_cost_write_donor_pilot.refresh_runtime --lock "$task_attempt/execution.lock.json" --output "$task_attempt/output/cell-$task_cell" --policy "${task_policies[$task_cell]}"

@@ -2,6 +2,7 @@
 import argparse
 from copy import deepcopy
 import json
+import math
 from pathlib import Path
 
 from .runtime import file_sha,save
@@ -22,6 +23,9 @@ def chunk_counters(e,summary,cap,old=None,frozen_reuse=False):
  else:
   require(losses==updates+1==len(e['losses']),'ACTUAL_LOSS_OBSERVATIONS')
   require([r['iteration'] for r in e['losses']]==list(range(losses)),'LOSS_ITERATION_ORDER')
+  require(all(math.isfinite(r[k]) for r in e['losses'] for k in ['total','nll','kl','regularizer']),'FINITE_LOSS_COMPONENTS')
+  if summary['stop_reason']=='LOSS_BELOW_0_05':require(e['losses'][-1]['total']<.05,'EARLY_STOP_SOURCE_RULE')
+  else:require(summary['stop_reason']=='CHUNK_QUOTA_EXHAUSTED' and updates==cap and e['losses'][-1]['total']>=.05,'QUOTA_STOP_SOURCE_RULE')
   require(summary['target_forwards']==losses and summary['target_backwards']==updates,'TARGET_FB_COUNTS')
   require(summary['quota_transferred']==0 and summary['unused_quota']==cap-updates,'NO_QUOTA_TRANSFER')
  return updates,losses
@@ -47,6 +51,7 @@ def verify(attempt,out):
    links.append(dict(policy=policy,batch=batch,entry_previous_exact=True,first_common_entry=batch==51,continued_link=batch>51))
    previous=c['endpoint'];require(c['evaluation_nonmutation'] is True,'EVAL_NONMUTATION')
    require(len(c['history'])==1 and c['history'][0]['layer']==4 and c['history'][0]['history_append']==1,'HISTORY_APPEND_ONCE')
+   require(c['history'][0]['compute_ks']==1 and c['history'][0].get('compute_z',0)==0 and c['history'][0].get('solve',0)==0,'FINALIZATION_ONLY_KEYS')
    require(c['history'][0]['before_sha256']==c['entry']['M4'] and c['history'][0]['after_sha256']==c['endpoint']['M4'],'HISTORY_COMMIT_BINDING')
    require(c['history'][0]['weight_sha256']==c['endpoint']['weights']['4'],'FINALIZER_WEIGHT_ENDPOINT')
    require(c['history_counts']['4']==batch-50,'CHRONOLOGICAL_HISTORY_COUNT')
@@ -101,6 +106,7 @@ def verify(attempt,out):
       require(e[name].dtype==torch.float32 and bool(torch.isfinite(e[name]).all()),'FINITE_TARGET_ADAM')
      if chunk==0:
       require(torch.count_nonzero(e['initial_u']).item()==0 and not e['initial_adam'],'REQUEST_COLD_OPTIMIZER')
+      require(torch.equal(e['a0'],e['aj']),'CHUNK_ZERO_ANCHOR_CONNECTION')
      else:
       old=snapshots[i]
       require(torch.equal(e['a0'],old['a0']) and torch.equal(e['teacher'],old['teacher']),'FIXED_ENTRY_ANCHOR_TEACHER')

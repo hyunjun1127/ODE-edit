@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import torch
 
 from .target_stepper import (NativeTargetStepper, TargetBoundary, advance_adam,
-                             native_kl, native_regularizer, snapshot_state)
+                             native_kl, native_regularizer, rebased_hook_delta, snapshot_state)
 
 
 class CarriedAdamTests(unittest.TestCase):
@@ -67,6 +67,39 @@ class CarriedAdamTests(unittest.TestCase):
                              max_updates=0, max_norm_fn=lambda: torch.tensor(1.))
         self.assertEqual(report["target_loss_evaluations"], 1)
         self.assertEqual(report["actual_adam_updates"], 0)
+
+    def test_zero_offset_preserves_native_gradient_accumulation_graph(self):
+        torch.manual_seed(73)
+        a0 = torch.randn(4096)
+        contexts, desired = torch.randn(6, 4096), torch.randn(6, 4096)
+        initial = torch.randn(4096)*.02
+        results = []
+        for mode in ("native", "repaired", "shared_zero_add"):
+            u = initial.clone().requires_grad_()
+            if mode == "native":
+                delta = u
+            elif mode == "repaired":
+                delta, exact_zero = rebased_hook_delta(u, a0, a0.clone())
+                self.assertTrue(exact_zero)
+                self.assertIs(delta, u)
+            else:
+                delta = u+(a0-a0)
+            loss = sum((contexts[i]+delta-desired[i]).square().mean() for i in range(6))
+            loss = loss + native_regularizer(u, a0, .5)
+            loss.backward()
+            results.append((loss.detach(), u.grad.clone()))
+        self.assertTrue(torch.equal(results[0][0], results[1][0]))
+        self.assertTrue(torch.equal(results[0][1], results[1][1]))
+        self.assertTrue(torch.equal(results[0][0], results[2][0]))
+        self.assertFalse(torch.equal(results[0][1], results[2][1]))
+
+    def test_nonzero_rebase_keeps_registered_formula(self):
+        u = torch.tensor([.2, -.1], requires_grad=True)
+        a0, aj = torch.tensor([2., 3.]), torch.tensor([2.1, 2.9])
+        delta, exact_zero = rebased_hook_delta(u, a0, aj)
+        self.assertFalse(exact_zero)
+        self.assertIsNot(delta, u)
+        self.assertTrue(torch.equal(delta, u+(a0-aj)))
 
 
 class TokenBatch(dict):
@@ -167,11 +200,13 @@ class ModelHookFixtures(unittest.TestCase):
         state = stepper.create_state(request, 0)
         initial_flags = [p.requires_grad for p in model.parameters()]
         first = stepper.run_chunk(state, 2, 0)
+        self.assertTrue(first["summary"]["hook_zero_offset_native_leaf"])
         a0, teacher, leaf, optimizer = state.a0.clone(), state.teacher.clone(), id(state.u), id(state.opt)
         moments = state.opt.state[state.u]["exp_avg"].data_ptr()
         with torch.no_grad():
             model.block.shift.add_(.4)
         second = stepper.run_chunk(state, 2, 1)
+        self.assertFalse(second["summary"]["hook_zero_offset_native_leaf"])
         self.assertTrue(torch.equal(state.a0, a0))
         self.assertTrue(torch.equal(state.teacher, teacher))
         self.assertTrue(torch.allclose(state.aj, state.a0+.4))
