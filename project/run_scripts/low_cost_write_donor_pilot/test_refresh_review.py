@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 from .refresh_review import checked_ref, strict_two_p, terminal_commit_refs
-from .refresh_state_review import chunk_counters
+from .refresh_state_review import chunk_counters, tensor_hash_pair, dual_hash_bridge, reference_raw_endpoint
 from .review_metrics import file_sha, panel_digest
 from project.run_scripts.baseline_mechanism_first.contracts import digest
 
@@ -77,6 +77,29 @@ class RefreshReviewTests(unittest.TestCase):
         state = dict(contexts=[['한국어 {}']],rng=dict(python=(3,(1,2),None),numpy=['MT19937',[1,2],0,0,0.0],torch=[1,2],cuda=[[3,4]]))
         self.assertEqual(panel_digest(state),digest(state))
         self.assertEqual(panel_digest(state),panel_digest(json.loads(json.dumps(state))))
+
+    def test_raw_tensor_and_header_state_hash_are_distinct_bridged_conventions(self):
+        import torch
+        value=torch.tensor([[1.,2.],[3.,4.]],dtype=torch.float32)
+        pair=tensor_hash_pair(value)
+        self.assertNotEqual(pair['raw_sha256'],pair['state_sha256'])
+        self.assertEqual(dual_hash_bridge(value,pair['raw_sha256'],pair['state_sha256']),pair)
+        with self.assertRaises(ValueError):
+            dual_hash_bridge(value,pair['state_sha256'],pair['state_sha256'])
+        reshaped=tensor_hash_pair(value.reshape(4))
+        self.assertEqual(pair['raw_sha256'],reshaped['raw_sha256'])
+        self.assertNotEqual(pair['state_sha256'],reshaped['state_sha256'])
+
+    def test_normalized_request_hash_matches_writer_not_tensor_hash(self):
+        from .write_refresh_policy import request_sha
+        request=dict(subject='한국어',prompt='{} is',target_new={'str':' answer'})
+        self.assertEqual(panel_digest(request),request_sha(request))
+
+    def test_reference_raw_ledger_never_compares_header_digest(self):
+        commit=dict(first_fit=dict(entry_weight_sha256='raw-entry',history_sha256='raw-M',projector_sha256='raw-P',endpoint_weight_sha256='raw-native'),materialization=dict(weight_sha256='raw-partial'),second_fit=dict(entry_weight_sha256='raw-partial',history_sha256='raw-M',projector_sha256='raw-P',endpoint_weight_sha256='raw-final'))
+        self.assertEqual(reference_raw_endpoint(commit,'raw-entry','raw-M','raw-P'),'raw-final')
+        with self.assertRaises(ValueError):
+            reference_raw_endpoint(commit,'header-entry','raw-M','raw-P')
 
 
 if __name__ == '__main__':

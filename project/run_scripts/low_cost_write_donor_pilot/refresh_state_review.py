@@ -10,6 +10,29 @@ from .refresh_review import (policy_roots,checked_ref,load_policy_chain,
                              load_committed_evaluation)
 from .review_metrics import write_csv,require,panel_digest,DATA_SHA
 
+def tensor_hash_pair(value):
+ """Two independent conventions; neither digest can stand in for the other."""
+ from .fitting import tensor_sha as raw_sha
+ from project.run_scripts.baseline_mechanism_first.fixtures import tensor_sha as state_sha
+ return dict(raw_sha256=raw_sha(value),state_sha256=state_sha(value),
+             dtype=str(value.dtype),shape=list(value.shape))
+
+def dual_hash_bridge(value,raw_expected,state_expected):
+ result=tensor_hash_pair(value)
+ require(result['raw_sha256']==raw_expected,'RAW_TENSOR_BRIDGE')
+ require(result['state_sha256']==state_expected,'HEADER_TENSOR_BRIDGE')
+ return result
+
+def reference_raw_endpoint(commit,raw_entry_w,raw_entry_m,raw_projector):
+ """Reused native/REFIT receipts form their own raw-byte hash ledger."""
+ first=commit['first_fit'];second=commit['second_fit'];mat=commit['materialization']
+ require(first['entry_weight_sha256']==raw_entry_w and first['history_sha256']==raw_entry_m and first['projector_sha256']==raw_projector,'REFERENCE_RAW_FIRST_FIT')
+ if second is not None:
+  require(second['entry_weight_sha256']==mat['weight_sha256'] and second['history_sha256']==raw_entry_m and second['projector_sha256']==raw_projector,'REFERENCE_RAW_SECOND_FIT')
+  return second['endpoint_weight_sha256']
+ require(first['endpoint_weight_sha256']==mat['weight_sha256'],'REFERENCE_NATIVE_FULL_MATERIALIZATION')
+ return mat['weight_sha256']
+
 def chunk_counters(e,summary,cap,old=None,frozen_reuse=False):
  """Crosscheck actual counters against saved loss history, never infer them."""
  updates=summary['actual_adam_updates'];losses=summary['target_loss_evaluations']
@@ -38,12 +61,23 @@ def verify(attempt,out):
  lock,roots=policy_roots(a)
  dataset=Path(lock['dataset_root'])/'counterfact.json';require(file_sha(dataset)==DATA_SHA,'FIXED_DATASET_SHA')
  records=json.loads(dataset.read_text())
- files={};links=[];chunks=[];checkpoints=[];cost=[];target_counts=[]
+ files={};links=[];chunks=[];checkpoints=[];cost=[];target_counts=[];bridges=[];raw_links=[]
  def checked(ref):
   return checked_ref(ref,files)
+ prepared=torch.load(checked(lock['prepared']),map_location='cpu',weights_only=True,mmap=True)
+ # Projector source is shared immutable input: reuse its locked whole-file
+ # audit, and inspect/hash only the actual physical L4 slice for this bridge.
+ projector=torch.load(lock['projector'],map_location='cpu',weights_only=True,mmap=True)[:1]
+ common={}
+ for name,value,expected in [('W4',prepared['weights'][4],lock['common_state']['weights']['4']),('M4',prepared['M4'],lock['common_state']['M4']),('P4',projector,lock['common_state']['P4'])]:
+  pair=tensor_hash_pair(value);require(pair['state_sha256']==expected,'COMMON_HEADER_BRIDGE')
+  common[name]=pair
+  bridges.append(dict(policy='ALL_SIX_COMMON_ENTRY',batch=50,tensor=name,**pair,source='CPU_PREPARED_OR_PHYSICAL_P4_SLICE'))
+ del prepared,projector
  for policy,root in roots.items():
   terminal,commits=load_policy_chain(lock,root,policy,files)
   previous=terminal['entry_state']
+  previous_raw_w=common['W4']['raw_sha256'];previous_raw_m=common['M4']['raw_sha256']
   policy_adam=policy_losses=policy_solves=policy_optimized=0
   for batch,c in zip(range(51,61),commits):
    require(c['batch']==batch and c['entry']==previous,'W_M_RNG_NEXT_ENTRY')
@@ -52,15 +86,19 @@ def verify(attempt,out):
    previous=c['endpoint'];require(c['evaluation_nonmutation'] is True,'EVAL_NONMUTATION')
    require(len(c['history'])==1 and c['history'][0]['layer']==4 and c['history'][0]['history_append']==1,'HISTORY_APPEND_ONCE')
    require(c['history'][0]['compute_ks']==1 and c['history'][0].get('compute_z',0)==0 and c['history'][0].get('solve',0)==0,'FINALIZATION_ONLY_KEYS')
-   require(c['history'][0]['before_sha256']==c['entry']['M4'] and c['history'][0]['after_sha256']==c['endpoint']['M4'],'HISTORY_COMMIT_BINDING')
-   require(c['history'][0]['weight_sha256']==c['endpoint']['weights']['4'],'FINALIZER_WEIGHT_ENDPOINT')
+   history=c['history'][0]
+   require(history['before_sha256']==previous_raw_m,'RAW_HISTORY_PREVIOUS_ENDPOINT')
    require(c['history_counts']['4']==batch-50,'CHRONOLOGICAL_HISTORY_COUNT')
    if policy in lock['reference_reuse']:
+    raw_w=reference_raw_endpoint(c,previous_raw_w,previous_raw_m,common['P4']['raw_sha256'])
+    require(history['weight_sha256']==raw_w,'REFERENCE_RAW_FINALIZER_WEIGHT')
+    raw_links.append(dict(policy=policy,batch=batch,raw_entry_W=previous_raw_w,raw_endpoint_W=raw_w,raw_entry_M=previous_raw_m,raw_endpoint_M=history['after_sha256'],bridge='COMMON_ENTRY_NEW_CPU; REFERENCE_CP_AUDIT_REUSED'))
+    previous_raw_w=raw_w;previous_raw_m=history['after_sha256']
     cost.append(dict(policy=policy,batch=batch,reused=True,online_seconds=c['policy_instrumented_online_seconds'],evaluation_seconds=c['evaluation_seconds'],new_spending=0))
     continue
    cfg=next(p for p in lock['policies'] if p['id']==policy)
    require(len(c['subwrites'])==len(cfg['write_gammas']),'SUBWRITE_COUNT')
-   snapshots={};total_adam=total_losses=0;previous_subwrite=c['entry']
+   snapshots={};total_adam=total_losses=0;previous_subwrite=c['entry'];raw_subwrite_w=previous_raw_w
    current=records[(batch-1)*100:batch*100]
    require(len(current)==100 and len({r['case_id'] for r in current})==100,'B100_SOURCE_CARDINALITY')
    normalized=[]
@@ -78,10 +116,10 @@ def verify(attempt,out):
     require(sub['entry']['M4']==c['entry']['M4']==sub['endpoint']['M4'],'INNER_HISTORY_IMMUTABLE')
     require(sub['entry']['P4']==sub['endpoint']['P4']==c['entry']['P4'],'PROJECTOR_IMMUTABLE')
     require(sub['entry']['contexts']==sub['endpoint']['contexts']==c['entry']['contexts'],'CONTEXT_IMMUTABLE')
-    require(fit['entry_weight_sha256']==sub['entry']['weights']['4'] and fit['history_sha256']==c['entry']['M4'] and fit['projector_sha256']==c['entry']['P4'],'FIT_INPUT_BINDING')
-    require(sub['materialization']['weight_sha256']==sub['endpoint']['weights']['4'],'MATERIALIZED_ENDPOINT_BINDING')
+    require(fit['entry_weight_sha256']==raw_subwrite_w and fit['history_sha256']==previous_raw_m and fit['projector_sha256']==common['P4']['raw_sha256'],'RAW_FIT_INPUT_BINDING')
+    raw_subwrite_w=sub['materialization']['weight_sha256']
     require(fit['request_sha256']==normalized and len(fit['target_sha256'])==100,'NATIVE_NORMALIZED_REQUEST_ORDER')
-    if sub['gamma']==1.:require(fit['endpoint_weight_sha256']==sub['endpoint']['weights']['4'],'GAMMA_ONE_EXACT_ENDPOINT')
+    if sub['gamma']==1.:require(fit['endpoint_weight_sha256']==raw_subwrite_w,'GAMMA_ONE_RAW_EXACT_ENDPOINT')
     tensor_ref=sub['tensors'];loaded=torch.load(checked(tensor_ref),map_location='cpu',weights_only=True,mmap=True)
     require(loaded['entry']==sub['entry'] and loaded['endpoint']==sub['endpoint'] and loaded['policy']==policy and loaded['batch']==batch and loaded['chunk']==chunk,'SUBWRITE_TENSOR_ASSOCIATION')
     require(loaded['current_y'].shape==loaded['residual'].shape==(4096,100),'Y_R_SCHEMA')
@@ -129,12 +167,17 @@ def verify(attempt,out):
     del loaded
    require(total_adam==c['actual_adam_updates'] and total_losses==c['target_loss_evaluations'],'BATCH_TARGET_TOTALS')
    require(previous_subwrite['weights']==c['endpoint']['weights'] and previous_subwrite['P4']==c['endpoint']['P4'] and previous_subwrite['contexts']==c['endpoint']['contexts'],'FINAL_SUBWRITE_COMMIT_BINDING')
+   require(history['weight_sha256']==raw_subwrite_w,'RAW_FINALIZER_LAST_MATERIALIZATION')
+   raw_links.append(dict(policy=policy,batch=batch,raw_entry_W=previous_raw_w,raw_endpoint_W=raw_subwrite_w,raw_entry_M=previous_raw_m,raw_endpoint_M=history['after_sha256'],bridge='CPU_CHECKPOINT' if c['checkpoint'] else 'DUAL_LEDGERS_ONLY_NO_NEW_TENSOR_BRIDGE'))
+   previous_raw_w=raw_subwrite_w;previous_raw_m=history['after_sha256']
    policy_adam+=total_adam;policy_losses+=total_losses;policy_solves+=len(c['subwrites'])
    require(bool(c['checkpoint'])==(batch in [51,55,60]),'CHECKPOINT_SCHEDULE_COMPLETENESS')
    if c['checkpoint']:
     ref=c['checkpoint'];cp=torch.load(checked(ref),map_location='cpu',weights_only=True,mmap=True)
-    require(set(cp['weights'])=={4} and tensor_sha(cp['weights'][4])==c['endpoint']['weights']['4'],'CP_WEIGHT')
-    require(tensor_sha(cp['M4'])==c['endpoint']['M4'],'CP_M4')
+    require(set(cp['weights'])=={4},'CP_SELECTED_WEIGHT_KEYS')
+    for name,value,raw_expected,state_expected in [('W4',cp['weights'][4],previous_raw_w,c['endpoint']['weights']['4']),('M4',cp['M4'],previous_raw_m,c['endpoint']['M4'])]:
+     pair=dual_hash_bridge(value,raw_expected,state_expected)
+     bridges.append(dict(policy=policy,batch=batch,tensor=name,**pair,source='CPU_CHECKPOINT_SELECTED_TENSOR'))
     require(all(t.dtype==torch.float32 and bool(torch.isfinite(t).all()) for t in [cp['weights'][4],cp['M4']]),'CP_FINITE_FP32')
     require(panel_digest(cp['contexts'])==c['endpoint']['contexts'] and panel_digest(cp['rng'])==c['endpoint']['rng'],'CP_CONTEXT_RNG')
     require(cp['metadata']['next_batch']==batch+1 and cp['metadata']['batch']==batch and cp['metadata']['policy']==policy,'CP_NEXT_INDEX')
@@ -148,8 +191,8 @@ def verify(attempt,out):
  optimized=sum(r['optimized_target_chunk'] for r in target_counts)
  require(len(links)==60 and sum(r['continued_link'] for r in links)==54 and len(chunks)==120 and len(checkpoints)==12 and len(target_counts)==12000 and optimized==8000,'COMPLETE_LOGICAL_AND_NEW_SCOPE')
  inventory=[{k:v for k,v in row.items() if k!='_stat'} for row in files.values()]
- for name,rows in [('state-links',links),('subwrites',chunks),('checkpoints',checkpoints),('compute-ledger',cost),('target-counters',target_counts),('new-raw-rehash-inventory',inventory)]:write_csv(out/(name+'.csv'),rows)
- receipt=dict(status='CPU_STATE_AND_COUNTER_REDUCTION_PASS',logical_batches=len(links),logical_links=sum(r['continued_link'] for r in links),new_subwrites=len(chunks),new_checkpoints=len(checkpoints),stored_request_chunk_states=len(target_counts),optimized_target_chunks=optimized,frozen_target_reuse_states=len(target_counts)-optimized,target_supplies=len(target_counts),rehash_files=len(files),rehash_bytes=sum(r['bytes'] for r in files.values()),rehash_scope='newly_rehashed_new_payload_plus_reused_reference_commit_evaluation_metadata',reference_prior_CP_audit='EXACT_EXECUTION_PUBLICATION_REUSED_NOT_NEW_FULL_REHASH',GPU_continuation='NOT_TESTED',native_model_off_on_parity='TECHNICAL_I1_GATE_SEPARATE',delta_replay='NOT_TESTED',scientific_promotion=False)
+ for name,rows in [('state-links',links),('raw-writer-history-links',raw_links),('tensor-hash-bridges',bridges),('subwrites',chunks),('checkpoints',checkpoints),('compute-ledger',cost),('target-counters',target_counts),('new-raw-rehash-inventory',inventory)]:write_csv(out/(name+'.csv'),rows)
+ receipt=dict(status='CPU_STATE_AND_COUNTER_REDUCTION_PASS',logical_batches=len(links),logical_links=sum(r['continued_link'] for r in links),new_subwrites=len(chunks),new_checkpoints=len(checkpoints),stored_request_chunk_states=len(target_counts),optimized_target_chunks=optimized,frozen_target_reuse_states=len(target_counts)-optimized,target_supplies=len(target_counts),rehash_files=len(files),rehash_bytes=sum(r['bytes'] for r in files.values()),rehash_scope='newly_rehashed_new_payload_plus_common_prepared_and_reused_reference_commit_evaluation_metadata',tensor_hash_conventions=dict(writer_targets_teacher='SHA256_RAW_CONTIGUOUS_BYTES',state_ledger='SHA256_DTYPE_SHAPE_HEADER_THEN_RAW_BYTES',cross_convention_bridges='COMMON_PREPARED_W4_M4_P4_AND_NEW_CP51_55_60_ONLY',missing_intermediate_tensor_bridge='NOT_TESTED_DUAL_LEDGER_CHAIN_CHECKS_ONLY'),reference_prior_CP_audit='EXACT_EXECUTION_PUBLICATION_REUSED_NOT_NEW_FULL_REHASH',GPU_continuation='NOT_TESTED',native_model_off_on_parity='TECHNICAL_I1_GATE_SEPARATE',delta_replay='NOT_TESTED',scientific_promotion=False)
  print(json.dumps(save(out/'state-review-receipt.json',receipt)))
 
 if __name__=='__main__':
