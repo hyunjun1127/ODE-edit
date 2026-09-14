@@ -140,15 +140,19 @@ def run(lock_path, output, mode):
 
 def compare(root,native_reference=None):
  import torch
+ from project.run_scripts.baseline_mechanism_first.contracts import digest
  a=Path(root);roots=[Path(native_reference) if native_reference else a/'native',a/'I1']
  term_paths=[p/'terminal.json' for p in roots]
  terms=[json.loads(p.read_text()) for p in term_paths]
  assert [t['mode'] for t in terms]==['native','I1']
+ assert all(t['status']=='TECHNICAL_B100_COMPLETE_PENDING_INDEPENDENT_COMPARISON' and t['request_count']==100 for t in terms)
  cps=[]
  for term in terms:
   r=term['comparison'];assert file_sha(r['path'])==r['sha256']
   cps.append(torch.load(r['path'],map_location='cpu',weights_only=True,mmap=True))
  checks={}
+ for key in ['context','entry_rng']:
+  checks[key]=dict(equal=digest(cps[0][key])==digest(cps[1][key]))
  for key in ['targets','weight','partial75','history','entryW','entryM']:
   x,y=[c[key] for c in cps]
   checks[key]=dict(equal=torch.equal(x,y),max_abs=float((x-y).abs().max()))
