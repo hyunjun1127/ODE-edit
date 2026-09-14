@@ -1,0 +1,32 @@
+{
+  "status": "BLOCK_SCIENTIFIC_ALLOW_PREPARATION",
+  "independent_red": "bounded read-only source/39 parent-final tests; no GPU",
+  "findings": [
+    {
+      "item": "dispatch warm/server/calibration bypass guards",
+      "status": "FIXED_CPU_REGRESSION_PASS"
+    },
+    {
+      "item": "token OOV and source ID bridge",
+      "status": "FIXED_CPU_REGRESSION_PASS"
+    },
+    {
+      "item": "teacher required closure/tokenizer/reference seal",
+      "status": "FIXED_ACTUAL_FROZEN_1772_FULLSHA_PASS"
+    },
+    {
+      "item": "transformers ambient4.57 vs pinned4.44.2",
+      "status": "FIXED_FREEZE_ASSERT_AND_EXACT_PYTHONPATH"
+    },
+    {
+      "item": "model-level BG flow not implemented/tested",
+      "status": "UNRESOLVED_EXPLICIT"
+    },
+    {
+      "item": "missing N4 seven endpoints",
+      "status": "BLOCK_CALIBRATION_MISSING"
+    }
+  ],
+  "no_efficacy_selection": true,
+  "all_workers_stopped": true
+}

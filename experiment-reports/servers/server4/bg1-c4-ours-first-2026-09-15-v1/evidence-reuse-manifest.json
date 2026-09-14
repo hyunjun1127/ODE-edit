@@ -1,0 +1,75 @@
+{
+  "reports": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+      "bytes": 115651,
+      "sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 36290,
+      "sha256": "6466ddfb6390c0cdf2a2125e3a1d45dd18b3c692562a1f9086c8d473f8653b5b"
+    }
+  ],
+  "policies": [
+    {
+      "policy": "AlphaEdit",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "Existing W0 lifelong publication only; full10k is not this first1000 measurement; config/layers differ",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    },
+    {
+      "policy": "MEMIT",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "Existing W0 lifelong publication only; full10k is not this first1000 measurement; config/layers differ",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    },
+    {
+      "policy": "AlphaEdit-BLUE",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "Existing W0 lifelong publication only; full10k is not this first1000 measurement; config/layers differ",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    },
+    {
+      "policy": "MEMIT-BLUE",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "Existing W0 lifelong publication only; full10k is not this first1000 measurement; config/layers differ",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    },
+    {
+      "policy": "AlphaEdit-L4_only",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "Existing W0 lifelong publication only; full10k is not this first1000 measurement; config/layers differ",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    },
+    {
+      "policy": "REFIT4",
+      "status": "REUSE_SCOPE_LIMITED",
+      "interpretation": "W50/B51..60 auxiliary only; not W0 paired baseline",
+      "new_editing": 0,
+      "new_C4_evaluation": 0
+    }
+  ],
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "model_assets": "1772-member frozen preparation closure verified; no new model download",
+  "full_read": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/full-read-receipt.json",
+    "bytes": 8863,
+    "sha256": "af753a79eae0a26111220a1130cf4e59d6d9bf00e3b7b6f5169cfc803b9771b0"
+  },
+  "data_order_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "first1000_order_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+  "fields_not_reused": [
+    "warmW50/M50/M8",
+    "historical teacher probabilities",
+    "historical C4 budget",
+    "prior policy list"
+  ],
+  "remote_payload_transfers": 0,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

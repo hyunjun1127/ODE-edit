@@ -1,0 +1,49 @@
+{
+  "status": "CALIBRATION_MISSING",
+  "scientific_submission_allowed": false,
+  "required_batches": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "present_batches": [
+    1,
+    5,
+    10
+  ],
+  "missing_batches": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9
+  ],
+  "trajectories": [
+    "AlphaEdit_BLUE_L4_ONLY lifelong main-cell-3 (39283_3)",
+    "BLUE L4 one-shot1000 (38997)"
+  ],
+  "owner_check": "SH2:20 immutable commit metadata file SHA/size newly checked; missing7 each checkpoint=null",
+  "owner_peer_receipt": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/sh2-calibration-peer-receipt-r2.json",
+    "bytes": 2733,
+    "sha256": "8b0bb29f84210d098d0e65a79884414cca37f3fa831f7eadd89dab6e7ea0e7d1"
+  },
+  "cp_fullSHA_level": "SH2 reused exact prior fullSHA + current stable stat; no new S4 tensor transfer/load",
+  "weight_delta_journal": "NOT_AVAILABLE in either checked catalog/companion closure",
+  "native_targets_or_hashes_are_weight_deltas": false,
+  "calibration_D64": "NOT_MEASURED",
+  "fixed_b": null,
+  "numerical_floor": null,
+  "partial_max_or_warmproxy_or_zero_fallback": false,
+  "baseline_editing_reruns": 0,
+  "next_authority_needed": "Actual missing seven compatible stored states/deltas, or explicit changed calibration/re-execution authority; no automatic proposal execution"
+}

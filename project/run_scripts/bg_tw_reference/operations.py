@@ -61,7 +61,7 @@ def submit_teacher(worktree, attempt):
         free_bytes=disk.free,free_inodes=s.f_favail,estimated_task_reserve_bytes=60*(1<<30),
         reserve_is_not_filesystem_exclusive=True,hour_cap=None,teacher_only=True,
         node=command(['scontrol','show','node','server4','-o']),raw_queue=queue))
-    args=['sbatch','--parsable','--hold',f'--output={ctl}/slurm-%j.out',f'--error={ctl}/slurm-%j.err',
+    args=['sbatch','--parsable','--hold','--no-requeue',f'--output={ctl}/slurm-%j.out',f'--error={ctl}/slurm-%j.err',
         str(shell),str(source),str(lockpath),lock['output']]
     job=command(args).split(';')[0];assert job.isdigit()
     save(ctl/'held-submission.json',dict(job_id=job,args=args,source_archive=lock['source_archive'],lock=identity(lockpath),resource=resource))

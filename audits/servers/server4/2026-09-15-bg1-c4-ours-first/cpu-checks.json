@@ -1,0 +1,11 @@
+{
+  "status": "PASS_CPU_FIXTURES",
+  "tests": 39,
+  "failures": 0,
+  "errors": 0,
+  "gpu_model_tests": "NOT_RUN",
+  "frozen_source_fullSHA_members": 1772,
+  "frozen_source_verification": "FROZEN_PREPARATION_CLOSURE_PASS; model load0/GPU0; separate completed CPU invocation",
+  "raw_model_off_on_parity": "NOT_TESTED",
+  "teacher_same_logp_selfKL": "code fixture only; real teacher NOT_OBSERVED"
+}

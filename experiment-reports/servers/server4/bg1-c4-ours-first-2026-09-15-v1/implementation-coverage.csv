@@ -1,0 +1,16 @@
+component,status,evidence,limit
+source/documents,FULL_READ,14 docs + PROTOCOL1269 + envelope + native/fitter source,NOT_A_GPU_GATE
+fixed10k prefix,CPU_VERIFIED,exact load_prefix1000; originalfull10000 bytes/order/inventory verified,no resampling
+C4 full gzip,NEW_FULL_SHA_CRC,359779975B;401893 JSONL rows; full EOF,"only two pinned first shards, not all C4"
+reference768,CPU_TOKEN_SEALED,S64/Dev128/Reserve320/Report256; actual768x257; token/member SHA,no losses used
+overlap,PARTIAL_SCOPE_VERIFIED,Wiki128 + first1000 R/P/N input-only13128; selected294528 pairs,mom2/MMLU/Audit/future NOT_INSPECTED
+teacher192,PENDING_NOT_VALIDATED,47592 released; last PENDING;24x8doc FP32 planned,"12,608,077,824 tensor bytes estimate"
+calibration10,BLOCKED,missing2/3/4/6/7/8/9; two trajectories checked by owner,no partial max/rerun
+native S(R)=RA,CPU_FIXTURE_PASS,nonSPD direct solve; map/direct FP32 comparison; FD/VJP,actual Llama/native model parity NOT_TESTED
+barrier/gradient,CPU_FIXTURE_PASS,C2 join/negative slack; one fullD64 slope; mass accumulation,real model gradient NOT_TESTED
+anchor/trust/materialization,CPU_FIXTURE_PASS,own anchors vsH; FP32; candidateorder/screen/parent,live model transaction NOT_TESTED
+teacher token/lock guard,CPU_VERIFIED,vocab/range/roles/IDs/source+tokenizer/shard coverage;1772 fullSHA,model forward NOT_RUN by agent
+BG model adapter/persistent runner,INCOMPLETE_NOT_GPU_VALIDATED,math and failclosed gate only; no executable scientific submission,not a completed BG implementation
+history/zero-write/restore/resume,NOT_TESTED_MODEL_LEVEL,no actual BG batch; no history append claim,needs model adapter and approved calibration
+scientific B1..B10,NOT_SUBMITTED,0 scientific jobs;0 new baselineediting,G0 firstB100 notrun
+Dev/Reserve/Report/Audit/MMLU eval,DEFERRED_NOT_EVALUATED,Dev teacher only prep; no general evaluation scores,no policy choice/claim

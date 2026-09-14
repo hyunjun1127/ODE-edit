@@ -1,0 +1,53 @@
+{
+  "scope": "PREPARATION_AND_G0_ONLY_NOT_RESULTS",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/calibration-availability.json",
+      "bytes": 1382,
+      "sha256": "ad07f9fa4700f10bb2bb6a01564ef08af3d22cae885f0754e61c3f9f4c359141"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/evidence-reuse-manifest.json",
+      "bytes": 3016,
+      "sha256": "3421f39dc7adbc71c14a1c8002b9db2e44e02d9bc69321ca7f2b4d92ebe0d5b9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md",
+      "bytes": 6269,
+      "sha256": "f74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/implementation-coverage.csv",
+      "bytes": 1900,
+      "sha256": "18792527f97f17bd961cac11aaef49817c1c5e7704398d0cb74a020d75412a34"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/preparation-summary.json",
+      "bytes": 996,
+      "sha256": "e3b3084a1a9dd0bc941c2a221c7642b7f0bad7dada329cb2eec8809b66fbac69"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/reference-composition-summary.csv",
+      "bytes": 192,
+      "sha256": "5895b648c455aaaf7b998902f375a113b0d1669c9bfd0dfbbc5f2e1f35f2d92f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/reference-source-summary.csv",
+      "bytes": 264,
+      "sha256": "0f81614cffb21903061c2e531e8b16f652b6083b10e5c7362a51360cee64dfef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/resume-manifest.json",
+      "bytes": 3456,
+      "sha256": "44bba7e96e2bb163ee812282a538fc49152ed1d6e89f5624e2c17f898cc9d99d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/source-manifest.json",
+      "bytes": 6167,
+      "sha256": "09c05d026b8a19ad429a435d8ded773b2d102de6e192f1a533b35116252068ea"
+    }
+  ],
+  "rawfree": true,
+  "model_forward_analysis": 0,
+  "reproduction_command": "python -m project.run_scripts.bg_tw_reference.preparation_report --worktree <fresh-cleanW> --attempt <A> --control <A/new-report-control>"
+}
