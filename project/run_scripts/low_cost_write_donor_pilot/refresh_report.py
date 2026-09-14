@@ -119,12 +119,30 @@ def report(attempt,root):
 
 def seal(attempt,root):
  a=Path(attempt);files=[]
+ lock=json.loads((a/'execution.lock.json').read_text())
+ member_map={r['path']:r for r in lock['members']}
+ selected_assets={k:member_map.get(lock[k],dict(path=lock[k],status='REFERENCE_IN_EXECUTION_CLOSURE')) for k in ['config4','projector','wiki_panel','mmlu100']}
+ capsule=dict(execution_commit=lock['worktree_head'],execution_tree=lock['worktree_tree'],
+  execution_archive=lock['execution_source_archive'],execution_lock_sha256=sha(a/'execution.lock.json'),
+  blue_head=lock['blue_head'],native_editor_sha256=lock['editor_sha256'],
+  model_revision=lock['model_revision'],snapshot=lock['snapshot'],precision='FP32',attention='eager',
+  torch=lock['torch'],transformers=lock['transformers'],tf32_matmul=lock['tf32_matmul'],tf32_cudnn=lock['tf32_cudnn'],
+  actual_config=json.loads(Path(lock['config4']).read_text()),selected_assets=selected_assets,
+  prepared=lock['prepared'],common_L4_state={k:v for k,v in lock['common_state'].items() if k in ['M4','P4','contexts','rng']},
+  common_W4=lock['common_state']['weights']['4'],dataset_root=lock['dataset_root'],sample_root=lock['sample_root'],
+  batches=[dict(batch=r['batch'],records_sha256=r['records_sha256'],requests=len(r['case_ids'])) for r in lock['batch_locks']],
+  references_reused=lock['reference_reuse'],policies=lock['policies'],
+  observed_scope_contract=dict(new_policies=4,new_batches=40,logical_policies=6,logical_batches=60,new_solves=120,logical_solves=150,new_history_appends=40,logical_history_appends=60),
+  unused_legacy_inherited_lock_fields={k:lock[k] for k in ['expected_total_fit_solve','expected_total_request_z','config8','past_M8_reconstruction_reused','source_reference_commit','start_main']},
+  legacy_field_interpretation='Inherited prior-seq10 reference metadata, not the refresh execution scope. refresh_runtime uses explicit four-policy caps/gammas and L4-only state; no config8/M8 or prior expected90solve/9000z execution.',
+  GPU_continuation_replay='NOT_TESTED',Late_submitted=False,audit_evaluated=False)
+ (root/'comparison-capsule.json').write_text(json.dumps(capsule,indent=2,ensure_ascii=False)+'\n')
  for p in sorted(root.iterdir()):
   if not p.is_file() or p.name in ['analysis-manifest.json','rooted-receipt.json']:continue
   assert p.suffix in ['.csv','.json','.md','.png']
   files.append(dict(path=p.name,bytes=p.stat().st_size,sha256=sha(p)))
  code=Path(__file__).resolve().parent;sources=[dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(code.glob('refresh*py'))]
- lock=json.loads((a/'execution.lock.json').read_text());m=dict(members=files,sources=sources,execution_commit=lock['worktree_head'],execution_lock_sha256=sha(a/'execution.lock.json'),reference_execution='5e96dcb3745977b1f273e3f5afbee61167248d49',raw_payload_in_git=False)
+ m=dict(members=files,sources=sources,execution_commit=lock['worktree_head'],execution_lock_sha256=sha(a/'execution.lock.json'),reference_execution='5e96dcb3745977b1f273e3f5afbee61167248d49',raw_payload_in_git=False)
  m['analysis_environment']=dict(python=platform.python_version(),platform=platform.platform(),
   packages={name:version(name) for name in ['numpy','torch','matplotlib']})
  worktree=code.parents[2]
