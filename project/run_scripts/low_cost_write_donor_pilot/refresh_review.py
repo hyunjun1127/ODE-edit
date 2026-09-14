@@ -118,6 +118,7 @@ def first(attempt,out,records):
  return rows
 
 def reduce(attempt,out,records):
+ from .refresh_uncertainty import request_cluster_bootstrap
  lock,roots=policy_roots(attempt)
  hist=[records[i] for i in lock['historical_ordinals']]
  wiki_rows=json.loads(Path(lock['wiki_panel']).read_text())['rows']
@@ -221,7 +222,26 @@ def reduce(attempt,out,records):
      a=[r for r in docs[p][55]['suffix']['metrics'][m]['rows'] if key(r) in keys]
      z=[r for r in docs[p][60]['suffix']['metrics'][m]['rows'] if key(r) in keys]
      transitions.append(dict(contrast=f'{before}_{after}_W55_CONDITIONAL_NOT_CAUSAL',before=p,after=p,population='first_suffix500',metric=m,group=tag,**pairs(a,z,m)))
- tables={'batchmetrics':rates,'nll-distributions':tails,'cohort-final':cohorts,'paired-transitions':transitions,'terminal-general':general,'metric-validation':checks,'metric-input-inventory':inputs}
+ uncertainty=[]
+ for before,after in CONTRASTS:
+  for pop in ['suffix','entry_old','fullseen']:
+   for m in MULT:
+    uncertainty.append(dict(contrast='TERMINAL_CROSS_POLICY_DIFFERENT_TRAJECTORIES',before=before,after=after,population=pop,
+     **request_cluster_bootstrap(docs[before][60][pop]['metrics'][m]['rows'],docs[after][60][pop]['metrics'][m]['rows'],m)))
+ for p in ORDER:
+  for m in MULT:
+   after=subset(docs[p][60]['suffix']['metrics'][m]['rows'],[r['case_id'] for r in records[5000:5500]])
+   uncertainty.append(dict(contrast='W55_TO_W60_FIRST500',before=p,after=p,population='first_suffix500',
+    **request_cluster_bootstrap(docs[p][55]['suffix']['metrics'][m]['rows'],after,m)))
+ dump(out/'request-cluster-uncertainty.json',uncertainty)
+ flat=[]
+ for r in uncertainty:
+  row={k:v for k,v in r.items() if k not in ['method','preference_delta_pp_ci95','desired_target_nll_mean_delta_ci95']}
+  for field in ['preference_delta_pp','desired_target_nll_mean_delta']:
+   row.update({field+'_ci95_'+k:v for k,v in r[field+'_ci95'].items()})
+  row['bootstrap_seed']=r['method']['seed'];row['CI_zero_is_gate']=False
+  flat.append(row)
+ tables={'batchmetrics':rates,'nll-distributions':tails,'cohort-final':cohorts,'paired-transitions':transitions,'terminal-general':general,'metric-validation':checks,'metric-input-inventory':inputs,'request-cluster-uncertainty':flat}
  for name,rows in tables.items():write_csv(out/(name+'.csv'),rows)
  dump(out/'metric-reduction-receipt.json',dict(status='INDEPENDENT_METRICS_PASS_STATE_AUDIT_SEPARATE',logical_policies=6,new_policies=4,logical_batches=60,new_batches=40,new_forward=0,reference_reused=['N4','REFIT4'],row_identity='case/prompt/hash/target not positionalpairing',NLL_definition='RSPS new<true; NS true<new; tie failure',reference_internal_optimizer='NOT_RECORDED',table_rows={n:len(r) for n,r in tables.items()},table_sha256={n:file_sha(out/(n+'.csv')) for n in tables},audit_evaluated=False,claim_decision='PENDING_GH_REVIEW',scientific_promotion=False))
 
