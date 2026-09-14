@@ -14,6 +14,7 @@ FIELDS=['JobID','JobIDRaw','State','ExitCode','ElapsedRaw','Submit','Start','End
 
 def allocation_rows(raw):
     rows=list(csv.DictReader(io.StringIO(raw),delimiter='|'))
+    batch_memory={r['JobID'][:-6]:r.get('MaxRSS') for r in rows if r['JobID'].endswith('.batch')}
     jobs=[]
     for r in rows:
         if '.' in r['JobID']:
@@ -26,7 +27,9 @@ def allocation_rows(raw):
                          elapsed_seconds=int(r['ElapsedRaw']),gpus=gpus,
                          allocated_gpu_seconds=int(r['ElapsedRaw'])*gpus,
                          submit=r['Submit'],start=r['Start'],end=r['End'],mem=r['ReqMem'],node=r['NodeList'],
-                         max_rss=r.get('MaxRSS') or 'NOT_RECORDED_JOB_LEVEL'))
+                         max_rss=r.get('MaxRSS') or 'NOT_RECORDED_JOB_LEVEL',
+                         batch_step_max_rss=batch_memory.get(r['JobID']) or 'NOT_RECORDED',
+                         RSS_scope='SLURM_JOB_OR_BATCH_STEP_NOT_DIRECT_GPU_MEMORY'))
     return jobs
 
 def concurrency(jobs):
