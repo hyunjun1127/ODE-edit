@@ -1,0 +1,20 @@
+{
+  "instruction_id": "ODEEDIT-S06-REFIT4-WRITE-REFRESH-SEQ1000-SH4-V1",
+  "status": "MAIN_SUBMITTED_ACTUAL_INITIAL_NOT_YET_CONFIRMED",
+  "execution": "8a061ea21661d9480acfc740fb888e7bcbdb4216",
+  "execution_tree": "dd8ef765cfcd84a5ce28d3d61aeffd8cdb68379c",
+  "execution_lock_sha256": "235c11e48f18d01277c3bf5c24a32fba44ad26f79b21b70a1b1d2baee3d625e5",
+  "attempt": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2",
+  "technical_parity": "EXACT_PASS_AFTER_PRESERVED_R1_FAILURE",
+  "technical_receipt_sha256": "17eb65ffaa7d4713cfb128b1e30a441b8907db539d5825d37d19823bffe59e1f",
+  "technical_gpu_seconds": 1418,
+  "main_array": "47020_[0-3]%2",
+  "mapping": ["FROZEN2", "I2", "FROZEN4", "I4"],
+  "references_reused": ["N4", "REFIT4"],
+  "new_batches": 40,
+  "logical_batches": 60,
+  "after_initial": "CONTINUE_THROUGH_MIDDLE_REPORT_USER_TASK_OVERRIDE",
+  "late_submitted": false,
+  "scientific_promotion": false,
+  "other_paused_tasks_unchanged": true
+}
