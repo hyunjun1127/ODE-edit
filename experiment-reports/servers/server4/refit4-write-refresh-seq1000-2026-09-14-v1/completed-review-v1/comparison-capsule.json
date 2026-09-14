@@ -1,0 +1,321 @@
+{
+  "execution_commit": "8a061ea21661d9480acfc740fb888e7bcbdb4216",
+  "execution_tree": "dd8ef765cfcd84a5ce28d3d61aeffd8cdb68379c",
+  "execution_archive": {
+    "path": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2/execution-source.tar",
+    "bytes": 1085440,
+    "sha256": "eb22891d84733f75c861cb27490aa8247722fba49ac865e30a9924464f38de39"
+  },
+  "execution_lock_sha256": "235c11e48f18d01277c3bf5c24a32fba44ad26f79b21b70a1b1d2baee3d625e5",
+  "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+  "native_editor_sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "precision": "FP32",
+  "attention": "eager",
+  "torch": "2.9.1+cu128",
+  "transformers": "4.44.2",
+  "tf32_matmul": false,
+  "tf32_cudnn": true,
+  "actual_config": {
+    "L2": 1,
+    "attn_module_tmp": "model.layers.{}.self_attn",
+    "blue": true,
+    "clamp_norm_factor": 0.75,
+    "fact_token": "subject_last",
+    "kl_factor": 0.0625,
+    "layer_module_tmp": "model.layers.{}",
+    "layer_selection": "all",
+    "layers": [
+      4
+    ],
+    "lm_head_module": "lm_head",
+    "ln_f_module": "model.norm",
+    "mlp_module_tmp": "model.layers.{}.mlp",
+    "model_name": "Llama3-8B",
+    "mom2_adjustment": true,
+    "mom2_dataset": "wikipedia",
+    "mom2_dtype": "float32",
+    "mom2_n_samples": 100000,
+    "mom2_update_weight": 15000,
+    "nullspace_threshold": 0.02,
+    "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+    "v_loss_layer": 31,
+    "v_lr": 0.1,
+    "v_num_grad_steps": 25,
+    "v_weight_decay": 0.5
+  },
+  "selected_assets": {
+    "config4": {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/config4.json",
+      "bytes": 711,
+      "sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d"
+    },
+    "projector": {
+      "bytes": 4110419877,
+      "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+    },
+    "wiki_panel": {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/imports/server1/attempt-v1/wiki128.json",
+      "bytes": 152728,
+      "sha256": "32a7badcdc58db9434cfa0d18b02710b4d6891a3b8c696d3ec3f19e614e22330"
+    },
+    "mmlu100": {
+      "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/mmlu100.json",
+      "bytes": 66508,
+      "sha256": "a3e23f60aee009b72cffaeaedbc63a9d88689075b814c3f3632d899855f0198b"
+    }
+  },
+  "prepared": {
+    "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/output/prepared.pt",
+    "bytes": 2113950237,
+    "sha256": "4ea9e5a7733725ab513571845691a28e4ed321884d749156e256fb992a55f933"
+  },
+  "common_L4_state": {
+    "M4": "af76a0d9f02aa6ed0b7275725d1baa1994473bd08f6da35cdac5979509cfe270",
+    "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+    "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+    "rng": "219870a691a263e5927b54c88639272508f40a41c88145ee4aaa0042579a041d"
+  },
+  "common_W4": "af3297032de5f1bda6a9a5303907b2d1500c06a0683eb3eaa0b9c40d125ab262",
+  "dataset_root": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1",
+  "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "batches": [
+    {
+      "batch": 51,
+      "records_sha256": "67968a88870e50a14f6a516a370bc8bb344db4bc4ba6cbaa41177531f113b489",
+      "requests": 100
+    },
+    {
+      "batch": 52,
+      "records_sha256": "ff3fdd74c06d7ef1c1245c0a277012022f4396aa403ae3f27cc0b352de7f8379",
+      "requests": 100
+    },
+    {
+      "batch": 53,
+      "records_sha256": "b8a6c4e6cfbe7e72f74019f749066b1d5ec6b8e51d429618f4a47f766e5fd3d9",
+      "requests": 100
+    },
+    {
+      "batch": 54,
+      "records_sha256": "c7c0101913edf804773b03279caf617ba8ae2ea73fb3b6280c12cb3a1a70adca",
+      "requests": 100
+    },
+    {
+      "batch": 55,
+      "records_sha256": "b0ed27c9652618e3b6ee2cb5c54b036076cdca445ea77d754a34b6462e4dd693",
+      "requests": 100
+    },
+    {
+      "batch": 56,
+      "records_sha256": "dfa30ce75464e4ff0c5a964deda3298c57a774323c4620687c7c0a30ecff454d",
+      "requests": 100
+    },
+    {
+      "batch": 57,
+      "records_sha256": "03f6959d7cad23c7995fbb2bd102da87a155a74acc3aed5c16c8197aa3862a95",
+      "requests": 100
+    },
+    {
+      "batch": 58,
+      "records_sha256": "e4bb5ac777b307bd31534733d9db955a45064c1ac4aa33ae42f199c36f2f882c",
+      "requests": 100
+    },
+    {
+      "batch": 59,
+      "records_sha256": "1d481bf1446cd24d69d05d7c4d5eb517d86f8aa2e8ab2f28e02efc9e759999cc",
+      "requests": 100
+    },
+    {
+      "batch": 60,
+      "records_sha256": "49042d7c4482ef2209839fd5934ff35646cc9ea89185ae590894fa52429cf77a",
+      "requests": 100
+    }
+  ],
+  "references_reused": {
+    "N4": {
+      "status": "REUSE_EXACT_COMMON_CAPSULE_AND_NATIVE_SOURCE",
+      "entry": {
+        "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/entry.json",
+        "bytes": 3612,
+        "sha256": "f4ec6aa48842474348d99a2a50e0353b9b681fb13cc55d92f0d80cb0a81cb1f7"
+      },
+      "terminal": {
+        "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0/terminal.json",
+        "bytes": 4472,
+        "sha256": "a97fee2012f188eacb1e6445d0af210518cec5bb5c775627128ee04450d0be54"
+      },
+      "root": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-0",
+      "execution": "5e96dcb3745977b1f273e3f5afbee61167248d49",
+      "logical_batches": 10,
+      "new_batches": 0,
+      "missing_optimizer_state": "NOT_RECORDED_REFERENCE_NO_SYNTHESIS",
+      "additional_observation_gpu": 0,
+      "strict_firstsuffix500": "CPU_DERIVABLE_FROM_EXISTING_IDENTITY_ROWS",
+      "comparison": "samehost/model/config/context/RNG/precision/evaluator/order/entry; new policy mechanism differs by design"
+    },
+    "REFIT4": {
+      "status": "REUSE_EXACT_COMMON_CAPSULE_AND_NATIVE_SOURCE",
+      "entry": {
+        "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/entry.json",
+        "bytes": 3616,
+        "sha256": "f4659ee6c98fdb9f9b82ce7da7931cf0f9f37c5db19a75ce40282c934599f259"
+      },
+      "terminal": {
+        "path": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5/terminal.json",
+        "bytes": 4477,
+        "sha256": "6c8d8bbb6472f17317348fbd7ce52946d1d34c0cba7db8e59b1c786c361b8351"
+      },
+      "root": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/output/cell-5",
+      "execution": "5e96dcb3745977b1f273e3f5afbee61167248d49",
+      "logical_batches": 10,
+      "new_batches": 0,
+      "missing_optimizer_state": "NOT_RECORDED_REFERENCE_NO_SYNTHESIS",
+      "additional_observation_gpu": 0,
+      "strict_firstsuffix500": "CPU_DERIVABLE_FROM_EXISTING_IDENTITY_ROWS",
+      "comparison": "samehost/model/config/context/RNG/precision/evaluator/order/entry; new policy mechanism differs by design"
+    }
+  },
+  "policies": [
+    {
+      "id": "N4",
+      "target_update_caps": [
+        24
+      ],
+      "write_gammas": [
+        1.0
+      ],
+      "target_mode": "native_fresh_batch_entry",
+      "optimizer_mode": "native_one_call",
+      "reference_reuse": "existing_seq10_if_comparison_closure_matches",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 10,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "REFIT4",
+      "target_update_caps": [
+        24,
+        24
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "fresh_current_stage",
+      "optimizer_mode": "reset_each_stage_including_teacher_anchor",
+      "reference_reuse": "existing_seq10_if_comparison_closure_matches",
+      "max_adam_updates_per_1000": 48000,
+      "max_target_loss_evaluations_per_1000": 50000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "FROZEN2",
+      "target_update_caps": [
+        24,
+        0
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "freeze_own_batch_first_absolute_target",
+      "optimizer_mode": "native_first_call_only",
+      "reference_reuse": "new_1000_request_chain",
+      "legacy_alias": "previous_G1_FZ4",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "I2",
+      "target_update_caps": [
+        12,
+        12
+      ],
+      "write_gammas": [
+        0.75,
+        1.0
+      ],
+      "target_mode": "carry_absolute_target_with_entry_offset_leaf",
+      "optimizer_mode": "carry_m_v_actual_step_within_batch_only",
+      "reference_reuse": "new_1000_request_chain",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 26000,
+      "writer_solves_per_1000": 20,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "FROZEN4",
+      "target_update_caps": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "write_gammas": [
+        0.75,
+        0.75,
+        0.75,
+        1.0
+      ],
+      "target_mode": "freeze_own_batch_first_absolute_target",
+      "optimizer_mode": "native_first_call_only",
+      "reference_reuse": "new_1000_request_chain",
+      "legacy_alias": "attachment_F4",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 25000,
+      "writer_solves_per_1000": 40,
+      "history_appends_per_1000": 10
+    },
+    {
+      "id": "I4",
+      "target_update_caps": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "write_gammas": [
+        0.75,
+        0.75,
+        0.75,
+        1.0
+      ],
+      "target_mode": "carry_absolute_target_with_entry_offset_leaf",
+      "optimizer_mode": "carry_m_v_actual_step_within_batch_only",
+      "reference_reuse": "new_1000_request_chain",
+      "max_adam_updates_per_1000": 24000,
+      "max_target_loss_evaluations_per_1000": 28000,
+      "writer_solves_per_1000": 40,
+      "history_appends_per_1000": 10
+    }
+  ],
+  "observed_scope_contract": {
+    "new_policies": 4,
+    "new_batches": 40,
+    "logical_policies": 6,
+    "logical_batches": 60,
+    "new_solves": 120,
+    "logical_solves": 150,
+    "new_history_appends": 40,
+    "logical_history_appends": 60
+  },
+  "unused_legacy_inherited_lock_fields": {
+    "expected_total_fit_solve": 90,
+    "expected_total_request_z": 9000,
+    "config8": "/data/janghj/ODE-edit/local/low-cost-write-donor-pilot/20260913-v1/attempt-v1/config8.json",
+    "past_M8_reconstruction_reused": true,
+    "source_reference_commit": "7ece056c33fbb4246245c15f5f7c2a678315c05c",
+    "start_main": "1c379d9c3194460d6c9a1c4a3a5d513fadec5ba7"
+  },
+  "legacy_field_interpretation": "Inherited prior-seq10 reference metadata, not the refresh execution scope. refresh_runtime uses explicit four-policy caps/gammas and L4-only state; no config8/M8 or prior expected90solve/9000z execution.",
+  "GPU_continuation_replay": "NOT_TESTED",
+  "Late_submitted": false,
+  "audit_evaluated": false
+}

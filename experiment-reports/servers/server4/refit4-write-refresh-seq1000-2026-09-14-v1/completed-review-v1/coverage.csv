@@ -1,0 +1,14 @@
+item,status,evidence
+Final six policies/full6000 old+new,PASS,metric-reduction-receipt.json; final-populations.csv
+Current/Historical all60; strict/token/two-P,PASS,batchmetrics.csv
+W55/W60 same first500; at-write; B60 exposure0,PASS,paired-transitions.csv
+"Active/superseded/unknown, both NLL tails",PASS,terminal-contrasts.csv; nll-distributions.csv
+Request-cluster CI,PASS_DESCRIPTIVE_SINGLE_ORDER,request-cluster-uncertainty.json
+New output fullhash/checkpoints/carry/history,SEE_STATE_RECEIPT,state-review-receipt.json
+Native reference internal u/m/v/teacher,NOT_RECORDED,Reference source/CP audit reused; no invented moments
+Intermediate actual tensor cross-hash bridge,PARTIAL,Stored CP/prepared bridged; other states dual ledgers only
+GPU continuation / full nonzero-offset parity,NOT_TESTED,I1/fixedW exact gate does not prove all I2/I4 trajectories
+Pure writer / target F-B separately,NOT_RECORDED_WHERE_NESTED,compute-ledger.csv; do not add nested IO twice
+Quality/cost reference lines,DESCRIPTIVE_NO_AND_GATE,quality-frontier.csv; no policy pruning
+Oldentry whole5000 temporal forgetting,NOT_MEASURED,Final cross-policy difference only
+Audit128/MMLU68/FutureN/Late/selection,DEFERRED_NOT_EVALUATED,No new evaluation or policy selection

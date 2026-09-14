@@ -1,0 +1,19 @@
+{
+  "status": "CPU_SMALL_RECEIPT_SUPPLEMENT_PASS",
+  "restores": 4,
+  "source_reference": {
+    "path": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2/source/project/run_scripts/low_cost_write_donor_pilot/refresh_runtime.py",
+    "bytes": 23648,
+    "sha256": "9ef37f5cda536c86b6ccada2c9740f9c1106e8b3bdaad18d46f83ac9c83a0d8c"
+  },
+  "non_L4_invariance": "LOCKED_SOURCE_GUARD_AND_SUCCESS_RECEIPTS_NOT_INDEPENDENT_MODEL_TENSOR_AUDIT",
+  "primary_inventory_files": 12379,
+  "additional_output_full_sha_files": 52,
+  "remaining_unreferenced_stat_only_files": 0,
+  "additional_output_rehash_bytes": 107778,
+  "additional_source_rehash_files": 1,
+  "scope": "PRIMARY_STATE_RECEIPT_PLUS_THIS_SUPPLEMENT",
+  "GPU_execution": 0,
+  "model_load": 0,
+  "raw_mutations": 0
+}

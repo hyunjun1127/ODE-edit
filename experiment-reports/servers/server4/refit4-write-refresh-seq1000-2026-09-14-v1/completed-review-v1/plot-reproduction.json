@@ -1,0 +1,14 @@
+{
+  "status": "BYTE_IDENTICAL",
+  "plots": {
+    "cohort-retention-transitions.png": "178aad00d4ccd2c544350b4f10f769fe2a70237a079a5f8cf809d235612dbcbe",
+    "current-batch-curves.png": "a920ec862c22925b8b94091b9f5ed8343c88e50d862e6b28801bd8240dc3156e",
+    "desired-target-nll-tails.png": "5df664acf483f7e655311014f6dcff1de562539b879b7b12408947261c9fa8a0",
+    "final-six-policy.png": "b2ca3781f47c6ce93d3c296edb0c4c9362c0013198d5287083a490511e68de26",
+    "fixed-first500-retention.png": "84bd5fd1bd636c2a50563afbfd1d1c286998a404898d847129abd36373211ae0",
+    "layer-update-magnitude.png": "19d7ddcb7c75239241a96afea8e2364968104964aa863842ebeb324b8682ef00",
+    "recorded-compute-cost.png": "7d077e232a90214d50902b79121ae27424dd868acaa04aeeccf1df7bdeed3da0",
+    "suffix-preference-contrasts.png": "f0c2fa2724e527bc244c678083988781cc43a722de165ce78dd35f7c8267cee8"
+  },
+  "source_sha256": "69dc5e1b8745490d37a0515be86006b94f3e1d923feed152687a00eef2abb216"
+}

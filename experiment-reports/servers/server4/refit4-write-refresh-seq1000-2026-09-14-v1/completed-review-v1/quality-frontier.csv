@@ -1,0 +1,7 @@
+policy,reference,measured,status,automatic_pruning
+N4,online_ratio_1.5_descriptive_not_admission_gate,1.0,WITHIN,False
+REFIT4,online_ratio_1.5_descriptive_not_admission_gate,1.2225761583475108,WITHIN,False
+FROZEN2,online_ratio_1.5_descriptive_not_admission_gate,1.0673757396122063,WITHIN,False
+I2,online_ratio_1.5_descriptive_not_admission_gate,1.1417071742167721,WITHIN,False
+FROZEN4,online_ratio_1.5_descriptive_not_admission_gate,1.1926144758959782,WITHIN,False
+I4,online_ratio_1.5_descriptive_not_admission_gate,1.2764694002691939,WITHIN,False

@@ -1,0 +1,67 @@
+{
+  "instruction_id": "ODEEDIT-S06-REFIT4-WRITE-REFRESH-SEQ1000-COMPLETED-REVIEW-SH4-V1",
+  "full_read_documents": [
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "bytes": 60382
+    },
+    {
+      "path": "project/proposals/2026-09-14-refit4-write-refresh-seq1000-gh-instruction.md",
+      "sha256": "55c8eb6ca5730b197b83852ed65f20d00519bf89247ec2a5afd7894a75d99f54",
+      "bytes": 18121
+    },
+    {
+      "path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-final-design.md",
+      "sha256": "0763b390163e50b6ce711743ced304c6ac035198d69f7d2afffdaa446d45af6e",
+      "bytes": 23358
+    },
+    {
+      "path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-cells.csv",
+      "sha256": "a13bffa3f7d86e1c90cb20eff77d5184199a8bf591535f35088bcba1b139e0cb",
+      "bytes": 10194
+    },
+    {
+      "path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-contract.json",
+      "sha256": "5e47ec6f5d821c260bb2b1020f6786b61caea20a08a32fdd2a476fa88ee898fe",
+      "bytes": 9317
+    },
+    {
+      "path": "plans/global/2026-09-14-refit4-write-refresh-design-checks.json",
+      "sha256": "baf019ba5c8500ac78abd39be2330d10922844bcb01b41229a985048629631f5",
+      "bytes": 971
+    },
+    {
+      "path": "audits/global/2026-09-14-lowcost-seq10-review-ko.md",
+      "sha256": "3494439c5b0463e71bbc90fea03939f3b929614f46394dd38a7cfcdba7339d59",
+      "bytes": 12423
+    }
+  ],
+  "pause_receipt": {
+    "path": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2/user-pause-override-20260914-r1.json",
+    "sha256": "5fdb0191e7f9558fbb6cb1b97c54289db78cc3f631426cda2ac8f271d8bf386d"
+  },
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2/execution.lock.json",
+    "sha256": "235c11e48f18d01277c3bf5c24a32fba44ad26f79b21b70a1b1d2baee3d625e5"
+  },
+  "first_table_sha256": "e4391a6ac217a9a299367c9a728e1d272294d33e6168e54b67cb70b0bd6c5c32",
+  "source_main_at_recall": "cc348e012707f2507dc2d66cfdb5af937a44b4fc",
+  "analysis_base": "a2553e2",
+  "analysis_worktree": "/data/janghj/ODE-edit/local/worktrees/server4-refit4-completed-review-20260914-v1",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "source_original_unchanged": true,
+  "recall_scope": "CPU_COMPLETED_REVIEW_ONLY",
+  "GPU": 0,
+  "other_paused_tasks_unchanged": true,
+  "technical_exact_gate": {
+    "path": "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000/20260914-v1/attempt-r2/technical/comparison-receipt.json",
+    "sha256": "17eb65ffaa7d4713cfb128b1e30a441b8907db539d5825d37d19823bffe59e1f",
+    "verification": "PRIOR_GPU_GATE_REUSED_NEW_SMALL_RECEIPT_HASH",
+    "new_GPU_comparison": false
+  },
+  "original_attachment_sha256": "6dbd71d8a495afdbc958677540019d7a55d13fbb0d6dc5091f31891615b05b35",
+  "posted_instruction_sha256": "55c8eb6ca5730b197b83852ed65f20d00519bf89247ec2a5afd7894a75d99f54",
+  "attachment_relation": "Whitespace/line-ending normalized equality previously verified; not identical bytes"
+}

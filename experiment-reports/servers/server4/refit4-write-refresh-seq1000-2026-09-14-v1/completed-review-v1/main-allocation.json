@@ -1,0 +1,89 @@
+{
+  "command": [
+    "sacct",
+    "-P",
+    "-j",
+    "47020_0,47020_1,47020_2,47020_3",
+    "--format=JobID,JobIDRaw,State,ExitCode,ElapsedRaw,Submit,Start,End,AllocTRES,ReqMem,NodeList,MaxRSS"
+  ],
+  "rows": [
+    {
+      "job": "47020_0",
+      "raw_id": "47021",
+      "status": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": 5178,
+      "gpus": 1,
+      "allocated_gpu_seconds": 5178,
+      "submit": "2026-09-14T14:54:45",
+      "start": "2026-09-14T14:54:45",
+      "end": "2026-09-14T16:21:03",
+      "mem": "59G",
+      "node": "server4",
+      "max_rss": "NOT_RECORDED_JOB_LEVEL",
+      "batch_step_max_rss": "33519920K",
+      "RSS_scope": "SLURM_JOB_OR_BATCH_STEP_NOT_DIRECT_GPU_MEMORY"
+    },
+    {
+      "job": "47020_1",
+      "raw_id": "47022",
+      "status": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": 5444,
+      "gpus": 1,
+      "allocated_gpu_seconds": 5444,
+      "submit": "2026-09-14T14:54:45",
+      "start": "2026-09-14T14:59:34",
+      "end": "2026-09-14T16:30:18",
+      "mem": "59G",
+      "node": "server4",
+      "max_rss": "NOT_RECORDED_JOB_LEVEL",
+      "batch_step_max_rss": "34114100K",
+      "RSS_scope": "SLURM_JOB_OR_BATCH_STEP_NOT_DIRECT_GPU_MEMORY"
+    },
+    {
+      "job": "47020_2",
+      "raw_id": "47062",
+      "status": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": 5813,
+      "gpus": 1,
+      "allocated_gpu_seconds": 5813,
+      "submit": "2026-09-14T14:54:45",
+      "start": "2026-09-14T16:21:19",
+      "end": "2026-09-14T17:58:12",
+      "mem": "59G",
+      "node": "server4",
+      "max_rss": "NOT_RECORDED_JOB_LEVEL",
+      "batch_step_max_rss": "38599892K",
+      "RSS_scope": "SLURM_JOB_OR_BATCH_STEP_NOT_DIRECT_GPU_MEMORY"
+    },
+    {
+      "job": "47020_3",
+      "raw_id": "47020",
+      "status": "COMPLETED",
+      "exit": "0:0",
+      "elapsed_seconds": 6065,
+      "gpus": 1,
+      "allocated_gpu_seconds": 6065,
+      "submit": "2026-09-14T14:54:45",
+      "start": "2026-09-14T16:30:19",
+      "end": "2026-09-14T18:11:24",
+      "mem": "59G",
+      "node": "server4",
+      "max_rss": "NOT_RECORDED_JOB_LEVEL",
+      "batch_step_max_rss": "33522500K",
+      "RSS_scope": "SLURM_JOB_OR_BATCH_STEP_NOT_DIRECT_GPU_MEMORY"
+    }
+  ],
+  "concurrency": {
+    "status": "RECORDED_ALLOCATION_INTERVALS",
+    "max_concurrent_GPUs": 2,
+    "interval_gpu_seconds": 22500.0,
+    "at_least_two_GPU_seconds": 10701.0,
+    "GPU_compute_occupancy": "NOT_MEASURED_ALLOCATION_IS_NOT_UTILIZATION"
+  },
+  "allocated_gpu_seconds": 22500,
+  "readonly": true,
+  "polling_loop": false
+}

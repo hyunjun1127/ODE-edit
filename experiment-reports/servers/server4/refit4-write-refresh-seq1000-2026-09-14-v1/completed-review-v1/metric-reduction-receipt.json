@@ -1,0 +1,38 @@
+{
+  "NLL_definition": "RSPS new<true; NS true<new; tie failure",
+  "audit_evaluated": false,
+  "claim_decision": "PENDING_GH_REVIEW",
+  "logical_batches": 60,
+  "logical_policies": 6,
+  "new_batches": 40,
+  "new_forward": 0,
+  "new_policies": 4,
+  "reference_internal_optimizer": "NOT_RECORDED",
+  "reference_reused": [
+    "N4",
+    "REFIT4"
+  ],
+  "row_identity": "case/prompt/hash/target not positionalpairing",
+  "scientific_promotion": false,
+  "status": "INDEPENDENT_METRICS_PASS_STATE_AUDIT_SEPARATE",
+  "table_rows": {
+    "batchmetrics": 1242,
+    "cohort-final": 1080,
+    "metric-input-inventory": 60,
+    "metric-validation": 432,
+    "nll-distributions": 7452,
+    "paired-transitions": 1269,
+    "request-cluster-uncertainty": 99,
+    "terminal-general": 6
+  },
+  "table_sha256": {
+    "batchmetrics": "8730ab43a6a1a2a5c0d32a8ae07496966f6e2936a375e00b6dc0b8511ee43f05",
+    "cohort-final": "d825cf053f6303756107c09f4d89e4c0c592b66cc4e1847e2dcdd724c0ff6b5c",
+    "metric-input-inventory": "5d5524441215ddef743a4731ecd063cd2420ab344d8cb2df60ab9c2b6311e073",
+    "metric-validation": "df83f242ab3ac69d50eb7e7973b82e2c1d1dce7eb3de74861c7638406cf79282",
+    "nll-distributions": "7f4fefacb78cbca838ad96100a4a973dbd246a857cc7b7675f655c5c5086aa03",
+    "paired-transitions": "ee8eb760f49235b6324007cec24cdc03f71b44e5c4802b4057a72a5c86d5a711",
+    "request-cluster-uncertainty": "f25d9bd06668fa85099f7eca5c857c319cf100d630747223d56c12ecf8ef0936",
+    "terminal-general": "d1760d5a5fc4a2076ee1ea3519649e1456ef2eeef351df9a465bd45d9ac54933"
+  }
+}

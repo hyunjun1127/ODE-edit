@@ -1,0 +1,7 @@
+{
+  "status": "RAWFREE_PACKAGE_REHASH_PASS",
+  "manifest_sha256": "cb598867a48177bdb7114058dc3f52c7777c02f7f363548aed2b2bd1808af528",
+  "member_root": "e1b54c87ce358b76265412fbbcc587ec7d7d32f675781d461e2dbf4c140c0a25",
+  "scientific_promotion": false,
+  "claim_decision": "PENDING_GH_REVIEW"
+}

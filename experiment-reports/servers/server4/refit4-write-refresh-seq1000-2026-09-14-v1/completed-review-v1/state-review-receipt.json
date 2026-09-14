@@ -1,0 +1,45 @@
+{
+  "status": "CPU_STATE_AND_COUNTER_REDUCTION_PASS",
+  "logical_batches": 60,
+  "logical_links": 54,
+  "new_subwrites": 120,
+  "new_checkpoints": 12,
+  "stored_request_chunk_states": 12000,
+  "optimized_target_chunks": 8000,
+  "frozen_target_reuse_states": 4000,
+  "target_supplies": 12000,
+  "rehash_files": 12379,
+  "rehash_bytes": 81633255100,
+  "rehash_scope": "newly_rehashed_new_payload_plus_common_prepared_and_reused_reference_commit_evaluation_metadata",
+  "tensor_hash_conventions": {
+    "writer_targets_teacher": "SHA256_RAW_CONTIGUOUS_BYTES",
+    "state_ledger": "SHA256_DTYPE_SHAPE_HEADER_THEN_RAW_BYTES",
+    "cross_convention_bridges": "COMMON_PREPARED_W4_M4_P4_AND_NEW_CP51_55_60_ONLY",
+    "missing_intermediate_tensor_bridge": "NOT_TESTED_DUAL_LEDGER_CHAIN_CHECKS_ONLY"
+  },
+  "reference_prior_CP_audit": "EXACT_EXECUTION_PUBLICATION_REUSED_NOT_NEW_FULL_REHASH",
+  "GPU_continuation": "NOT_TESTED",
+  "native_model_off_on_parity": "TECHNICAL_I1_GATE_SEPARATE",
+  "delta_replay": "NOT_TESTED",
+  "scientific_promotion": false,
+  "new_links": 36,
+  "reused_links": 18,
+  "cpu_threads": 2,
+  "checkpoint_load": {
+    "map_location": "cpu",
+    "weights_only": true
+  },
+  "new_output_coverage": {
+    "scope": "FOUR_NEW_POLICY_ROOTS_REGULAR_FILES_RECURSIVE_STAT_INVENTORY",
+    "files": 12388,
+    "full_sha_size_files": 12336,
+    "unreferenced_stat_only_files": 52
+  },
+  "geometry": {
+    "target_rows": 12000,
+    "checkpoint_path_rows": 12,
+    "predicted_realization": "NOT_TESTED_CANONICAL_KC_NOT_SAVED",
+    "actual_readout_realization": "NEXT_CHUNK_ONLY_FINAL_SUBWRITE_NOT_OBSERVED",
+    "reference_geometry": "NOT_NEWLY_LOADED"
+  }
+}
