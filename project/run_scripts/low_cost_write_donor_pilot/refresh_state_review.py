@@ -53,15 +53,73 @@ def chunk_counters(e,summary,cap,old=None,frozen_reuse=False):
   require(summary['quota_transferred']==0 and summary['unused_quota']==cap-updates,'NO_QUOTA_TRANSFER')
  return updates,losses
 
+def norm(value):
+ return float(value.double().norm())
+
+def target_geometry(e,summary,old,frozen_reuse):
+ """Stored-vector descriptions only; frozen snapshots have stale aj anchors."""
+ prior_u=e['initial_u'] if old is None else old['u']
+ prior_z=e['a0'] if old is None else old['Z']
+ return dict(u_norm=norm(e['u']),Z_norm=norm(e['Z']),
+             u_chunk_displacement_norm=norm(e['u'].double()-prior_u.double()),
+             Z_chunk_displacement_norm=norm(e['Z'].double()-prior_z.double()),
+             stored_aj_minus_a0_norm=norm(e['aj'].double()-e['a0'].double()),
+             aj_scope='STALE_FROZEN_SNAPSHOT_NOT_CURRENT_READOUT' if frozen_reuse else 'CURRENT_CHUNK_UNHOOKED_ANCHOR',
+             adam_m_norm=norm(e['m']),adam_v_norm=norm(e['v']),adam_t=e['t'],
+             clamp_max_norm=summary.get('clamp_max_norm','NA_FROZEN_REUSE'),
+             cumulative_clamp_hits=e.get('clamp_hits','NA'),
+             zero_step=summary['actual_adam_updates']==0,
+             early_stop=summary.get('stop_reason')=='LOSS_BELOW_0_05')
+
+def supplement(attempt,out):
+ """Hash small unreferenced JSON and bind restore receipts to runtime guards."""
+ import csv
+ out=Path(out);lock,roots=policy_roots(attempt);files={};restores=[];extras=[]
+ inventory=list(csv.DictReader((out/'new-raw-rehash-inventory.csv').open()))
+ known={r['path'] for r in inventory}
+ source_refs=[r for r in lock['members'] if Path(r['path']).name=='refresh_runtime.py']
+ require(len(source_refs)==1,'ONE_LOCKED_RUNTIME_SOURCE')
+ source=checked_ref(source_refs[0],files).read_text()
+ require("assert tensor_sha(obj) == sha, ('NONSELECTED_BYTES',key)" in source,'SOURCE_NONSELECTED_FULL_HASH_GUARD')
+ require("nonguard(full=True)\n        save(root/'terminal.json'" in source,'SOURCE_TERMINAL_AFTER_FULL_GUARD')
+ require("nonguard(full=True)\n            save(root/'process-restore.json'" in source,'SOURCE_RESTORE_AFTER_FULL_GUARD')
+ for policy,root in roots.items():
+  if policy in lock['reference_reuse']:continue
+  require(not (root/'failure.json').exists(),'NO_FAILURE_WITH_COMPLETED_CHAIN')
+  restore=root/'process-restore.json'
+  require(restore.exists(),'PROCESS_RESTORE_RECEIPT_PRESENT')
+  for path in sorted(root.rglob('*')):
+   if not path.is_file() or str(path) in known:continue
+   size=path.stat().st_size
+   if path.suffix=='.json' and size<=1_000_000:
+    ref=dict(path=str(path),bytes=size,sha256=file_sha(path))
+    document=json.loads(checked_ref(ref,files).read_text())
+    extras.append(dict(policy=policy,**ref,coverage='FULL_SHA_SIZE_SMALL_UNREFERENCED_JSON',json_type=type(document).__name__))
+    if path==restore:
+     require(all(document.get(k) is True for k in ['selected_W0_exact','RNG_restored','method_state_process_discarded']),'RECORDED_PROCESS_RESTORE_FLAGS')
+     require(document.get('parameter_version_restore')=='NOT_CLAIMED_COPY_INCREMENTS','NO_VERSION_RESTORE_OVERCLAIM')
+     restores.append(dict(policy=policy,**ref,**document,non_L4_invariance='LOCKED_RUNTIME_FULL_HASH_GUARD_BEFORE_TERMINAL_AND_RESTORE_RECEIPTS',independent_non_L4_tensor_rehash='NOT_TESTED',independent_GPU_restore='NOT_TESTED'))
+   else:extras.append(dict(policy=policy,path=str(path),bytes=size,sha256='NOT_REHASHED',coverage='STAT_ONLY_UNREFERENCED',json_type='NOT_LOADED'))
+ require(len(restores)==4,'FOUR_NEW_PROCESS_RESTORE_RECEIPTS')
+ write_csv(out/'process-restore-review.csv',restores)
+ write_csv(out/'supplemental-output-inventory.csv',extras)
+ receipt=dict(status='CPU_SMALL_RECEIPT_SUPPLEMENT_PASS',restores=4,source_reference=source_refs[0],
+              non_L4_invariance='LOCKED_SOURCE_GUARD_AND_SUCCESS_RECEIPTS_NOT_INDEPENDENT_MODEL_TENSOR_AUDIT',
+              primary_inventory_files=len(inventory),additional_output_full_sha_files=sum(r['coverage']=='FULL_SHA_SIZE_SMALL_UNREFERENCED_JSON' for r in extras),
+              remaining_unreferenced_stat_only_files=sum(r['coverage']=='STAT_ONLY_UNREFERENCED' for r in extras),
+              additional_output_rehash_bytes=sum(r['bytes'] for r in extras if r['coverage']=='FULL_SHA_SIZE_SMALL_UNREFERENCED_JSON'),
+              additional_source_rehash_files=1,scope='PRIMARY_STATE_RECEIPT_PLUS_THIS_SUPPLEMENT',GPU_execution=0,model_load=0,raw_mutations=0)
+ print(json.dumps(save(out/'state-review-supplement-receipt.json',receipt)))
+
 def verify(attempt,out):
  import torch
  from .fitting import tensor_sha
- torch.set_num_threads(8)
+ torch.set_num_threads(2)
  a=Path(attempt);out=Path(out);out.mkdir(parents=True,exist_ok=True)
  lock,roots=policy_roots(a)
  dataset=Path(lock['dataset_root'])/'counterfact.json';require(file_sha(dataset)==DATA_SHA,'FIXED_DATASET_SHA')
  records=json.loads(dataset.read_text())
- files={};links=[];chunks=[];checkpoints=[];cost=[];target_counts=[];bridges=[];raw_links=[]
+ files={};links=[];chunks=[];checkpoints=[];cost=[];target_counts=[];bridges=[];raw_links=[];geometry=[];paths=[]
  def checked(ref):
   return checked_ref(ref,files)
  prepared=torch.load(checked(lock['prepared']),map_location='cpu',weights_only=True,mmap=True)
@@ -73,13 +131,16 @@ def verify(attempt,out):
   pair=tensor_hash_pair(value);require(pair['state_sha256']==expected,'COMMON_HEADER_BRIDGE')
   common[name]=pair
   bridges.append(dict(policy='ALL_SIX_COMMON_ENTRY',batch=50,tensor=name,**pair,source='CPU_PREPARED_OR_PHYSICAL_P4_SLICE'))
+ common_w=prepared['weights'][4].clone()
  del prepared,projector
  for policy,root in roots.items():
   terminal,commits=load_policy_chain(lock,root,policy,files)
   previous=terminal['entry_state']
   previous_raw_w=common['W4']['raw_sha256'];previous_raw_m=common['M4']['raw_sha256']
   policy_adam=policy_losses=policy_solves=policy_optimized=0
+  delta_sum=None;path_length=0.
   for batch,c in zip(range(51,61),commits):
+   print(json.dumps(dict(stage='CPU_STATE_BATCH',policy=policy,batch=batch)),flush=True)
    require(c['batch']==batch and c['entry']==previous,'W_M_RNG_NEXT_ENTRY')
    evaluation=load_committed_evaluation(root,batch,c,files);del evaluation
    links.append(dict(policy=policy,batch=batch,entry_previous_exact=True,first_common_entry=batch==51,continued_link=batch>51))
@@ -105,6 +166,7 @@ def verify(attempt,out):
    cfg=next(p for p in lock['policies'] if p['id']==policy)
    require(len(c['subwrites'])==len(cfg['write_gammas']),'SUBWRITE_COUNT')
    snapshots={};total_adam=total_losses=0;previous_subwrite=c['entry'];raw_subwrite_w=previous_raw_w
+   prior_y=prior_residual=prior_targets=None
    current=records[(batch-1)*100:batch*100]
    require(len(current)==100 and len({r['case_id'] for r in current})==100,'B100_SOURCE_CARDINALITY')
    normalized=[]
@@ -167,9 +229,22 @@ def verify(attempt,out):
      updates,losses=chunk_counters(e,summary,sub['cap'],snapshots.get(i),frozen_reuse)
      total_adam+=updates;total_losses+=losses;policy_optimized+=int(not frozen_reuse)
      target_counts.append(dict(policy=policy,batch=batch,chunk=chunk,request_index=i,adam=updates,loss=losses,optimized_target_chunk=not frozen_reuse,frozen_reuse=frozen_reuse,stop=summary.get('stop_reason',summary.get('status')),clamp_hits=summary.get('clamp_hits',0)))
+     geometry.append(dict(policy=policy,batch=batch,chunk=chunk,request_index=i,
+                          **target_geometry(e,summary,snapshots.get(i),frozen_reuse),
+                          current_residual_norm=norm(loaded['residual'][:,i])))
      snapshots[i]={k:e[k] for k in ['u','m','v','t','a0','teacher','Z','target_loss_evaluations']}
      del value,e
-    chunks.append(dict(policy=policy,batch=batch,chunk=chunk,requests=100,gamma=sub['gamma'],cap=sub['cap'],history_appends=0,solve=1,current_residual='CPU_EXACT_PASS',actual_delta_norm=float(loaded['actual_delta'].double().norm()),native_candidate_delta_norm=float(loaded['native_candidate_delta'].double().norm()),write_seconds=sub['write_seconds'],
+    delta=loaded['actual_delta'].double();delta_norm=norm(delta);path_length+=delta_norm
+    if delta_sum is None:delta_sum=delta.clone()
+    else:delta_sum.add_(delta)
+    del delta
+    realization=dict(realization_scope='NA_FIRST_CHUNK_NO_PRIOR_WRITE',prior_write_actual_readout_change_norm='NA',prior_write_remaining_fixed_target_residual_norm='NA',prior_write_readout_to_residual_cosine='NA',predicted_realization='NA_CANONICAL_KC_NOT_SAVED')
+    if prior_y is not None:
+     dy=loaded['current_y'].double()-prior_y.double();denom=norm(dy)*norm(prior_residual)
+     realization.update(realization_scope='NEXT_CHUNK_CURRENT_Y_AFTER_PREVIOUS_WRITE_SAME_BATCH',prior_write_actual_readout_change_norm=norm(dy),prior_write_remaining_fixed_target_residual_norm=norm(prior_targets.T.double()-loaded['current_y'].double()),prior_write_readout_to_residual_cosine=float((dy*prior_residual.double()).sum())/denom if denom else 'NA_ZERO_NORM')
+     del dy
+    prior_y=loaded['current_y'].clone();prior_residual=loaded['residual'].clone();prior_targets=loaded['targets'].clone()
+    chunks.append(dict(policy=policy,batch=batch,chunk=chunk,requests=100,gamma=sub['gamma'],cap=sub['cap'],history_appends=0,solve=1,current_residual='CPU_EXACT_PASS',current_residual_norm=norm(loaded['residual']),current_targets_norm=norm(loaded['targets']),**realization,actual_delta_norm=delta_norm,native_candidate_delta_norm=norm(loaded['native_candidate_delta']),write_seconds=sub['write_seconds'],
                        keys_seconds=fit.get('compute_ks_seconds','NOT_RECORDED'),
                        readout_seconds=fit.get('get_module_input_output_at_words_seconds','NOT_RECORDED'),
                        solve_seconds=fit.get('solve_seconds','NOT_RECORDED')))
@@ -192,17 +267,37 @@ def verify(attempt,out):
     require(cp['metadata']['next_batch']==batch+1 and cp['metadata']['batch']==batch and cp['metadata']['policy']==policy,'CP_NEXT_INDEX')
     require(cp['metadata']['state']==c['endpoint'] and cp['metadata']['seen_ids']==[r['case_id'] for r in records[:batch*100]],'CP_STATE_SEEN_IDS')
     checkpoints.append(dict(policy=policy,batch=batch,**files[str(Path(ref['path']))],CPU_reload='PASS',GPU_continuation='NOT_TESTED'))
+    displacement=cp['weights'][4].double()-common_w.double();net=norm(displacement)
+    paths.append(dict(policy=policy,batch=batch,path_length_sum_actual_delta_frobenius=path_length,
+                      summed_stored_delta_net_frobenius=norm(delta_sum),checkpoint_W_minus_W50_frobenius=net,
+                      path_to_checkpoint_net_ratio=path_length/net if net else 'NA_ZERO_NET',
+                      delta_sum_minus_checkpoint_displacement_frobenius=norm(delta_sum-displacement),
+                      accumulation='FP64_SUM_OF_STORED_FP32_DELTAS_NOT_EXACT_REPLAY',GPU_continuation='NOT_TESTED'))
+    del displacement
     del cp
    cost.append(dict(policy=policy,batch=batch,reused=False,online_seconds=c['instrumented_online_seconds'],target_including_nested_IO_seconds=c['target_seconds_including_request_state_IO'],native_writer_seconds=c['native_writer_seconds'],history_seconds=c['history_seconds'],materialization_seconds=c['materialization_seconds'],evaluation_seconds=c['evaluation_seconds'],snapshot_seconds=c.get('checkpoint_save_reload_seconds','NOT_RECORDED'),nested_IO_seconds=c['nested_request_subwrite_IO_seconds'],new_spending='YES'))
   require(previous==terminal['terminal_state'],'TERMINAL_STATE')
   if policy not in lock['reference_reuse']:
    require(terminal['actual_adam_updates']==policy_adam and terminal['target_loss_evaluations']==policy_losses and terminal['fit_solve_total']==policy_solves and terminal['request_target_chunks']==policy_optimized and terminal['history_counts']['4']==10,'TERMINAL_ACTUAL_COUNTERS')
  optimized=sum(r['optimized_target_chunk'] for r in target_counts)
+ new_links=sum(r['continued_link'] and r['policy'] not in lock['reference_reuse'] for r in links)
+ require(new_links==36,'COMPLETE_NEW_CONTINUED_LINKS')
  require(len(links)==60 and sum(r['continued_link'] for r in links)==54 and len(chunks)==120 and len(checkpoints)==12 and len(target_counts)==12000 and optimized==8000,'COMPLETE_LOGICAL_AND_NEW_SCOPE')
  inventory=[{k:v for k,v in row.items() if k!='_stat'} for row in files.values()]
- for name,rows in [('state-links',links),('raw-writer-history-links',raw_links),('tensor-hash-bridges',bridges),('subwrites',chunks),('checkpoints',checkpoints),('compute-ledger',cost),('target-counters',target_counts),('new-raw-rehash-inventory',inventory)]:write_csv(out/(name+'.csv'),rows)
+ coverage=[]
+ for policy,root in roots.items():
+  if policy in lock['reference_reuse']:continue
+  for path in sorted(root.rglob('*')):
+   if not path.is_file():continue
+   row=files.get(str(path))
+   coverage.append(dict(policy=policy,path=str(path),bytes=path.stat().st_size,sha256=row['sha256'] if row else 'NOT_REHASHED_UNREFERENCED',coverage='FULL_SHA_SIZE_REFERENCED' if row else 'STAT_ONLY_UNREFERENCED'))
+ for name,rows in [('state-links',links),('raw-writer-history-links',raw_links),('tensor-hash-bridges',bridges),('subwrites',chunks),('checkpoints',checkpoints),('compute-ledger',cost),('target-counters',target_counts),('target-geometry',geometry),('weight-path-geometry',paths),('new-output-coverage',coverage),('new-raw-rehash-inventory',inventory)]:write_csv(out/(name+'.csv'),rows)
  receipt=dict(status='CPU_STATE_AND_COUNTER_REDUCTION_PASS',logical_batches=len(links),logical_links=sum(r['continued_link'] for r in links),new_subwrites=len(chunks),new_checkpoints=len(checkpoints),stored_request_chunk_states=len(target_counts),optimized_target_chunks=optimized,frozen_target_reuse_states=len(target_counts)-optimized,target_supplies=len(target_counts),rehash_files=len(files),rehash_bytes=sum(r['bytes'] for r in files.values()),rehash_scope='newly_rehashed_new_payload_plus_common_prepared_and_reused_reference_commit_evaluation_metadata',tensor_hash_conventions=dict(writer_targets_teacher='SHA256_RAW_CONTIGUOUS_BYTES',state_ledger='SHA256_DTYPE_SHAPE_HEADER_THEN_RAW_BYTES',cross_convention_bridges='COMMON_PREPARED_W4_M4_P4_AND_NEW_CP51_55_60_ONLY',missing_intermediate_tensor_bridge='NOT_TESTED_DUAL_LEDGER_CHAIN_CHECKS_ONLY'),reference_prior_CP_audit='EXACT_EXECUTION_PUBLICATION_REUSED_NOT_NEW_FULL_REHASH',GPU_continuation='NOT_TESTED',native_model_off_on_parity='TECHNICAL_I1_GATE_SEPARATE',delta_replay='NOT_TESTED',scientific_promotion=False)
+ receipt.update(new_links=new_links,reused_links=receipt['logical_links']-new_links,cpu_threads=torch.get_num_threads(),checkpoint_load=dict(map_location='cpu',weights_only=True))
+ receipt.update(new_output_coverage=dict(scope='FOUR_NEW_POLICY_ROOTS_REGULAR_FILES_RECURSIVE_STAT_INVENTORY',files=len(coverage),full_sha_size_files=sum(r['coverage']=='FULL_SHA_SIZE_REFERENCED' for r in coverage),unreferenced_stat_only_files=sum(r['coverage']=='STAT_ONLY_UNREFERENCED' for r in coverage)),geometry=dict(target_rows=len(geometry),checkpoint_path_rows=len(paths),predicted_realization='NOT_TESTED_CANONICAL_KC_NOT_SAVED',actual_readout_realization='NEXT_CHUNK_ONLY_FINAL_SUBWRITE_NOT_OBSERVED',reference_geometry='NOT_NEWLY_LOADED'))
  print(json.dumps(save(out/'state-review-receipt.json',receipt)))
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--attempt',required=True);p.add_argument('--out',required=True);args=p.parse_args();verify(args.attempt,args.out)
+ p=argparse.ArgumentParser();p.add_argument('--attempt',required=True);p.add_argument('--out',required=True);p.add_argument('--supplement-only',action='store_true');args=p.parse_args()
+ if args.supplement_only:supplement(args.attempt,args.out)
+ else:verify(args.attempt,args.out)

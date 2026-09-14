@@ -54,6 +54,21 @@ def plots(root):
    ax.plot(ORDER,[float(selected[p][q]) for p in ORDER],marker='.',label=q)
   ax.set_title('Suffix1000 desired-target NLL: '+m);ax.tick_params(axis='x',rotation=35);ax.set_ylabel('Mean-token NLL')
  axes[-1].legend();save(fig,'desired-target-nll-tails.png')
+ fig,axes=plt.subplots(1,2,figsize=(12,4))
+ for ax,m,den in [(axes[0],'PS',2000),(axes[1],'NS',10000)]:
+  rr={r['policy']:r for r in rates if r['batch']=='60' and r['population']=='suffix' and r['metric']==m and r['group']=='ALL'}
+  baseline=int(rr['N4']['numerator'])
+  ax.bar(ORDER,[int(rr[p]['numerator'])-baseline for p in ORDER])
+  ax.axhline(0,color='black',linewidth=.6);ax.set_title(f'W60 suffix1000 {m}: difference from N4');ax.set_ylabel(f'Preference success count (denominator {den})');ax.tick_params(axis='x',rotation=35)
+ save(fig,'suffix-preference-contrasts.png')
+ transitions=read(root,'paired-transitions')
+ fig,axes=plt.subplots(1,2,figsize=(12,4))
+ for ax,m in zip(axes,['PS','NS']):
+  lookup={(r['before'],r['population']):int(r['delta_numerator']) for r in transitions if r['contrast']=='AT_WRITE_TO_W60' and r['group']=='ALL' and r['metric']==m}
+  matrix=[[lookup[(p,f'cohort{b}')] for b in range(51,61)] for p in ORDER]
+  scale=max(1,max(abs(x) for row in matrix for x in row))
+  im=ax.imshow(matrix,cmap='RdBu',vmin=-scale,vmax=scale,aspect='auto');ax.set_xticks(range(10),range(51,61));ax.set_yticks(range(6),ORDER);ax.set_xlabel('At-write cohort; B60 has zero later exposure');ax.set_title(m+' at-write to W60 net success count');fig.colorbar(im,ax=ax)
+ save(fig,'cohort-retention-transitions.png')
  fig,ax=plt.subplots(figsize=(9,4))
  for p in ORDER[2:]:
   rr=[r for r in sub if r['policy']==p]
@@ -115,7 +130,7 @@ def report(attempt,root):
   '## 재현·산출물·제한',
   '원시tensor/request/teacher/prompt/fullstdout은 local-only이고 Git에 포함하지 않는다. NO_BROADCAST_NOT_REQUIRED. 원본checkpoint/공유asset/다른run삭제0. Main에는 본namespace CPU분석코드와raw-free표/PNG/manifest만통합한다.',
   '재현 명령(저장된 terminal 자료만 CPU):\n\n```bash\npython -m project.run_scripts.low_cost_write_donor_pilot.refresh_review --attempt '+str(a)+' --out '+str(root)+'\npython -m project.run_scripts.low_cost_write_donor_pilot.refresh_state_review --attempt '+str(a)+' --out '+str(root)+'\npython -m project.run_scripts.low_cost_write_donor_pilot.refresh_report --attempt '+str(a)+' --out '+str(root)+'\n```',
-  'PNG는 이 코드가 CSV를 읽어 생성한다: final-six-policy.png, current-batch-curves.png, fixed-first500-retention.png, desired-target-nll-tails.png, layer-update-magnitude.png, recorded-compute-cost.png. AI 이미지생성/수동그림수정0. 각PNG SHA는manifest와plot-reproduction.json에결속한다.',
+  'PNG는 이 코드가 CSV를 읽어 생성한다: final-six-policy.png, current-batch-curves.png, fixed-first500-retention.png, desired-target-nll-tails.png, suffix-preference-contrasts.png, cohort-retention-transitions.png, layer-update-magnitude.png, recorded-compute-cost.png. AI 이미지생성/수동그림수정0. 각PNG SHA는manifest와plot-reproduction.json에결속한다.',
   'Middle 결과 후 최대1후보/Late policy는GH가결정한다. 본보고서가후보선정/새Late제출/full10k/추가alpha·layer실험을승인하지않는다. finitepoor결과를제외하거나성능ANDgate로완료를판정하지않는다.']
  (root/'diagnostic-report-ko.md').write_text('\n\n'.join(paragraphs)+'\n')
 

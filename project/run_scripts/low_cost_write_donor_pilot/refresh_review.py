@@ -216,6 +216,12 @@ def reduce(attempt,out,records):
     for m in MULT:
      a=docs[before][b][pop]['metrics'][m]['rows'];z=docs[after][b][pop]['metrics'][m]['rows']
      transitions.append(dict(contrast='CROSS_POLICY_SAME_ITEMS_DIFFERENT_TRAJECTORIES',before=before,after=after,batch=b,population=pop,metric=m,group='ALL',**pairs(a,z,m)))
+     if b==60 and pop in ['suffix','entry_old','fullseen']:
+      ann=annotation(records,6000)
+      for status in ['ACTIVE_TARGET','SUPERSEDED','UNKNOWN_RELATION']:
+       aa=[r for r in a if ann[r['case_id']]==status]
+       zz=[r for r in z if ann[r['case_id']]==status]
+       transitions.append(dict(contrast='CROSS_POLICY_SAME_ITEMS_DIFFERENT_TRAJECTORIES',before=before,after=after,batch=b,population=pop,metric=m,group=status,**pairs(aa,zz,m)))
   # Common success/failure strata at W55; post-treatment strata, not causal.
   for m in MULT:
    a55=docs[before][55]['suffix']['metrics'][m]['rows'];z55=docs[after][55]['suffix']['metrics'][m]['rows']
