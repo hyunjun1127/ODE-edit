@@ -98,10 +98,13 @@ def strict_two_p(rows):
  require(all(set(v)=={0,1} for v in cases.values()),'P_REQUEST_CARDINALITY')
  return dict(two_P_request_strict_n=sum(all(v.values()) for v in cases.values()),two_P_request_strict_d=len(cases))
 
-def first(attempt,out,records):
+def first(attempt,out,records,allow_partial=False):
  lock,roots=policy_roots(attempt);rows=[];files={}
  for policy in ORDER:
   root=roots[policy];terminal=root/'terminal.json'
+  if allow_partial and not terminal.exists():
+   rows.append(dict(policy=policy,status='NOT_TERMINAL_NO_RESULTS_READ',result_reuse=False))
+   continue
   require(terminal.exists(),f'NOT_TERMINAL_{policy}')
   term,commits=load_policy_chain(lock,root,policy,files)
   p=root/'B060/evaluation.json';doc=load_committed_evaluation(root,60,commits[-1],files)
@@ -111,6 +114,7 @@ def first(attempt,out,records):
   for m,v in metrics.items():row.update({f'{m}_n':v['numerator'],f'{m}_d':v['prompt_denominator'],f'{m}_percent':100*v['rate']})
   rows.append(row)
  for row in rows:
+  if row['status']=='NOT_TERMINAL_NO_RESULTS_READ':continue
   for m in MULT:
    row[f'{m}_delta_n_N4']=row[f'{m}_n']-rows[0][f'{m}_n']
    row[f'{m}_delta_pp_N4']=row[f'{m}_percent']-rows[0][f'{m}_percent']
@@ -246,8 +250,9 @@ def reduce(attempt,out,records):
  dump(out/'metric-reduction-receipt.json',dict(status='INDEPENDENT_METRICS_PASS_STATE_AUDIT_SEPARATE',logical_policies=6,new_policies=4,logical_batches=60,new_batches=40,new_forward=0,reference_reused=['N4','REFIT4'],row_identity='case/prompt/hash/target not positionalpairing',NLL_definition='RSPS new<true; NS true<new; tie failure',reference_internal_optimizer='NOT_RECORDED',table_rows={n:len(r) for n,r in tables.items()},table_sha256={n:file_sha(out/(n+'.csv')) for n in tables},audit_evaluated=False,claim_decision='PENDING_GH_REVIEW',scientific_promotion=False))
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--first-only',action='store_true');args=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--first-only',action='store_true');p.add_argument('--allow-partial',action='store_true');args=p.parse_args()
+ require(not args.allow_partial or args.first_only,'PARTIAL_FIRST_TABLE_ONLY')
  lock,_=policy_roots(args.attempt);dataset=Path(lock['dataset_root'])/'counterfact.json'
  require(file_sha(dataset)==DATA_SHA,'FIXED_DATASET_SHA');records=json.loads(dataset.read_text())
- args.out.mkdir(parents=True,exist_ok=True);first(args.attempt,args.out,records)
+ args.out.mkdir(parents=True,exist_ok=True);first(args.attempt,args.out,records,args.allow_partial)
  if not args.first_only:reduce(args.attempt,args.out,records)

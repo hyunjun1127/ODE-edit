@@ -103,6 +103,7 @@ def report(attempt,root):
   '## 작은 general 패널',table(general,['policy','wiki_nll','wiki_tokens','wiki_sequences','mmlu_correct','mmlu_d','mmlu_invalid']),
   'Wiki128 mask/입력과 MMLUdev32 identity를 재사용했다. MMLU는 alternative integercorrect/invalid이고 generation parser/F1/full57subject 점수와 다르다. Audit128/MMLU68/FutureN은 DEFERRED_NOT_EVALUATED, 신규평가·정책feedback0.',
   '## 실행·상태·기술 검증',
+  '첫 기술 array46990 native/I1 비교는 target maxabs1.273453e-4, stored weight3.423542e-6로 exact 기준에 실패하여 보존했다. 원인은 zero-offset 공유 AddBackward와 native leaf의 FP32 gradient 합산 경로 차이로 좁혀졌다. r2는 a0와aj가 torch.equal일 때 동일 leafu를 직접 사용하고 nonzero offset은 원계약 u+(a0-aj)를 유지한다. 수정 I1 47014는 보존 native B100과 target/loss/weight/history/.75partial/context/RNG 모두 exact이며 fixed-W pause/resume u/m/v/t도 exact였다. 원native/optimizerbudget/teacher/clamp/tolerance 변경0. 이 기술 비교는 정책 품질 PASS가 아니다. 기술 비용1418GPU-sec(실패942포함)는 본신규40batch 비용과 분리한다.',
   'state-review-receipt.json 및 state-links/subwrites/checkpoints/target-counters CSV에 실제검산을 기록한다. innerhistoryappend0, native endpoint finalizer append1/batch; request100 target barrier 뒤 batchwrite1이다. u/Adam m/v/t는 request내chunk사이에만 유지하며 anchor/teacher/clamp는batchentry고정이다. Frozen후속chunk도 현재Y로residual을새로읽는다. oldreference optimizer내부미저장항목은 NOT_RECORDED이다.',
   'CPU weights_only/tensorSHA와 실제 GPU continuation/replay는 다르다. 신규 CP51/55/60은 selectedW4/M4/context/RNG를 보존하지만 전체모델checkpoint가 아니다. Base model/P/config/source/order closure가필요하다. Actualdelta journal의 exacttrajectory replay는 NOT_TESTED다. 원native및NativeSingletonFitter.fit 수정0.',
   '## 비용과 저장',
