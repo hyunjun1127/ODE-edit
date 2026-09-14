@@ -1,0 +1,17 @@
+{
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md",
+    "bytes": 6269,
+    "sha256": "f74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6"
+  },
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/analysis-manifest.json",
+    "bytes": 2939,
+    "sha256": "195d35ab1915267f9db718a9269adc012cf9a316b591914d38a73cf6f2b2e8aa"
+  },
+  "member_count": 9,
+  "root_sha256": "195d35ab1915267f9db718a9269adc012cf9a316b591914d38a73cf6f2b2e8aa",
+  "verification": "Every published member SHA/size verified",
+  "status": "G0_BLOCKED_WAITING_USER_RESUME",
+  "scientific_promotion": false
+}

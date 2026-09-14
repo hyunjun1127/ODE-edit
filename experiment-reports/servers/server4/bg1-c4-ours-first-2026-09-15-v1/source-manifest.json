@@ -1,0 +1,124 @@
+{
+  "authoritative_main": "e56af00b16ecaed38ecb4ea890ce71f0c57aa4ff",
+  "authoritative_tree": "f4f770b3a06684bf5fb7017e8640dd9bdfb172f8",
+  "execution_source_head": "8b8f2a678128156852f4941dbaa3cb9023f18559",
+  "execution_source_tree": "071bba51b57efd84499e42d0b08c4ce180392a91",
+  "execution_archive": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-source-v1.tar",
+    "bytes": 153600,
+    "sha256": "7630c27eebf800c21fdbbff8de0995fcc66c6d3c919793de7ef1a77da9fe83d3"
+  },
+  "teacher_lock": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher.lock.json",
+    "bytes": 511220,
+    "sha256": "174d3c3b738444082b59caf21d7bdd655fdc321b69c64a98d7835ce26accf968"
+  },
+  "builder_execution_git_head": "e56af00b16ecaed38ecb4ea890ce71f0c57aa4ff",
+  "builder_exact_file": {
+    "bytes": 36950,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/builder.py",
+    "realpath": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/builder.py",
+    "sha256": "815e0d8a88fc5222d0aa58e073ad40a7b649074436f56b2370cf7c3dedb45c46",
+    "stat_dev_inode_size_mtime_ns": [
+      66305,
+      132923235,
+      36950,
+      1789410432894675505
+    ]
+  },
+  "builder_note": "Executed before source commit; exact file SHA authoritative, dirty/new file not claimed present at priorHEAD",
+  "analysis_code": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/README.md",
+      "bytes": 2307,
+      "sha256": "32a36b5300e8bc289387c0dda4883e11e60d07b05dd35eee207f2710a2b22934"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/__init__.py",
+      "bytes": 73,
+      "sha256": "1ea46f19dcb6c1bd8ed8072e07e9b773e744aef63b01e0f0376e5c6f4470f4c0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/acquire.py",
+      "bytes": 3036,
+      "sha256": "1fa8d38d5f3d7692a1ff26146bc3746dc75c7ce19f6809bdd512d1b05dadf346"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/builder.py",
+      "bytes": 36950,
+      "sha256": "815e0d8a88fc5222d0aa58e073ad40a7b649074436f56b2370cf7c3dedb45c46"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/control.py",
+      "bytes": 5260,
+      "sha256": "482b0002839d7ed528e683f0bdb647a404edfa846696383982e91da7cb24bbb7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/correction.py",
+      "bytes": 14473,
+      "sha256": "a930be05db4ef4b23ddf45c62cdc7049165e19c1279fc3b96c634b9ee6b25528"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/gate.py",
+      "bytes": 2677,
+      "sha256": "5b2168e42d6c01963f5f1b5e97db0cb1c9401f2d4f21460596cc86daf5de4c4c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/native_map.py",
+      "bytes": 8173,
+      "sha256": "fd2f53e5a9cd8d93a34cc0cba89f24d5d271cb4d29a4d84cf45b9340a5f16914"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/operations.py",
+      "bytes": 5321,
+      "sha256": "aab9022854378f4b4adc476e01471346224d21d8d84d5caae7240666857e2f97"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/preparation.py",
+      "bytes": 7394,
+      "sha256": "13ac2d3d627c78842422695bd65852beb8a31da52714a18433b778bf75906d53"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/preparation.sbatch",
+      "bytes": 891,
+      "sha256": "2c476db338447827f32fcd4aa7370542e0f638aa1225d3c1f13271095f603550"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/preparation_report.py",
+      "bytes": 21514,
+      "sha256": "3643244adacf54f0d7cb4d108c10e579dd19dc24bf6310a99561e9a19ccd7e35"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/teacher.py",
+      "bytes": 10323,
+      "sha256": "3b344d30424fa1734f52ea02d053f4e1d6093d873a3e06bb84eb3d94dd0f9400"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/test_builder.py",
+      "bytes": 11466,
+      "sha256": "3970944fd8b244c7e23cc81a128647eca68525952428bce79666d41acc953560"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/test_control_teacher.py",
+      "bytes": 2943,
+      "sha256": "4840c24c12fc120a0611af3a841f800bba61918177806c8cf52681eae247bfa3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/test_gate.py",
+      "bytes": 2092,
+      "sha256": "bcdc22cbfa43ea90d5ba9b0fdb1e323beea3581333a7ff412356cf32cbb5a6ff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/project/run_scripts/bg_tw_reference/test_math.py",
+      "bytes": 15791,
+      "sha256": "168fdcaff3115513276cfecac69b8a4be0070a20fb248cb6811c3aec1c747f31"
+    }
+  ],
+  "analysis_code_hash_level": "exact file bytes; publication commit separately supplied in final handoff",
+  "operation_amendment": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-submission-v1/no-requeue-control-receipt.json",
+    "bytes": 513,
+    "sha256": "b40ff45855220c9a27a9d95397d014fea6a81e5ab9cf6fe8015c1327511762f6"
+  },
+  "existing_source_mutations": 0
+}

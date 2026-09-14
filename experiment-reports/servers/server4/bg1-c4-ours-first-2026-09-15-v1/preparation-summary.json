@@ -1,0 +1,28 @@
+{
+  "reference_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+  "reference_member_root": "0c6aa4e2ddb350c61999580fe3efabaae880ec8e17aa208a8f7d85c026a6f1aa",
+  "source_total_bytes": 359779975,
+  "reference_rows": 768,
+  "teacher_rows_planned": 192,
+  "cpu_build_elapsed_seconds": 21.627712457440794,
+  "cpu_tests": 39,
+  "teacher_last_job_state": "PENDING",
+  "teacher_job_id": "47592",
+  "teacher_measured_GPU_seconds_at_last_observation": 0,
+  "teacher_final_cost": "NOT_OBSERVED",
+  "teacher_estimated_GPU_hours": [
+    0.25,
+    2.0
+  ],
+  "teacher_requested_wall_hours": 2,
+  "teacher_tensor_payload_bytes": 12608077824,
+  "task_reserved_estimate_bytes": 64424509440,
+  "filesystem_exclusive_reservation": false,
+  "disk_free_at_submit": 255904006144,
+  "local_unique_inode_logical_bytes": 368936123,
+  "teacher_io_model_C4_metrics": "NOT_OBSERVED",
+  "scientific_edits": 0,
+  "baseline_reruns": 0,
+  "calibration_forwards": 0,
+  "teacher_NLL_in_Git": false
+}

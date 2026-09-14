@@ -1,0 +1,34 @@
+{
+  "instruction_id": "ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1",
+  "status": "WAITING_USER_RESUME",
+  "gate": "G0_BLOCKED",
+  "reason": "CALIBRATION_MISSING",
+  "reference_documents": 768,
+  "CPU_tests": 39,
+  "teacher_job_id": "47592",
+  "teacher_last_state": "PENDING",
+  "scientific_job_ids": [],
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md",
+    "bytes": 6269,
+    "sha256": "f74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6"
+  },
+  "resume_manifest": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/resume-manifest.json",
+    "bytes": 3456,
+    "sha256": "44bba7e96e2bb163ee812282a538fc49152ed1d6e89f5624e2c17f898cc9d99d"
+  },
+  "source": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-source-v1.tar",
+    "bytes": 153600,
+    "sha256": "7630c27eebf800c21fdbbff8de0995fcc66c6d3c919793de7ef1a77da9fe83d3"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher.lock.json",
+    "bytes": 511220,
+    "sha256": "174d3c3b738444082b59caf21d7bdd655fdc321b69c64a98d7835ce26accf968"
+  }
+}

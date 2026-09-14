@@ -1,0 +1,88 @@
+{
+  "instruction_id": "ODEEDIT-S06-BG1-C4-OURS-FIRST-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-BG1-C4-OURS-FIRST-20260915-R1",
+  "host": "server4",
+  "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "run_root": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1",
+  "status": "WAITING_USER_RESUME",
+  "gate": "G0_BLOCKED",
+  "reason": "CALIBRATION_MISSING",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "scientific_jobs": [],
+  "preparation_jobs": [
+    {
+      "job_id": "47592",
+      "phase": "W0_TEACHER192",
+      "last_state": "PENDING",
+      "last_observation": "2026-09-14T18:38:20.797733+00:00",
+      "last_state_amendment": {
+        "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-submission-v1/no-requeue-control-receipt.json",
+        "bytes": 513,
+        "sha256": "b40ff45855220c9a27a9d95397d014fea6a81e5ab9cf6fe8015c1327511762f6"
+      },
+      "dependencies": [],
+      "requeue": 0,
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher.lock.json",
+        "bytes": 511220,
+        "sha256": "174d3c3b738444082b59caf21d7bdd655fdc321b69c64a98d7835ce26accf968"
+      },
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-source-v1.tar",
+        "bytes": 153600,
+        "sha256": "7630c27eebf800c21fdbbff8de0995fcc66c6d3c919793de7ef1a77da9fe83d3"
+      },
+      "output": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1"
+    }
+  ],
+  "reference": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/reference-v1/build-status.json",
+    "bytes": 4452,
+    "sha256": "b9a66d3c59d0d9bdb5c6e738317a1a610a4e7a8e859d0f7fda48258dd6dee515"
+  },
+  "teacher_manifest": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+    "current_existence": "NOT_OBSERVED; job PENDING at bounded submission check"
+  },
+  "calibration": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/calibration-availability.json",
+    "bytes": 1382,
+    "sha256": "ad07f9fa4700f10bb2bb6a01564ef08af3d22cae885f0754e61c3f9f4c359141"
+  },
+  "reuse": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-bg1-c4-ours-first-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/evidence-reuse-manifest.json",
+    "bytes": 3016,
+    "sha256": "3421f39dc7adbc71c14a1c8002b9db2e44e02d9bc69321ca7f2b4d92ebe0d5b9"
+  },
+  "selected_checkpoint": null,
+  "history": null,
+  "RNG": null,
+  "last_processed_batch": 0,
+  "next_ordinal": 0,
+  "expected_scientific_terminal": null,
+  "expected_scientific_evaluation": null,
+  "G0": {
+    "reference768": true,
+    "teacher192": false,
+    "calibration10": false,
+    "model_technical_validity": false,
+    "persistent_scientific_job": false,
+    "firstB100_finite": false,
+    "denominator100": false,
+    "finalization1": false,
+    "next_ordinal100": false,
+    "resume_state": false
+  },
+  "pending_job_is_pass": false,
+  "whole1000_completed": false,
+  "scientific_promotion": false,
+  "deferred": [
+    "all baselineediting",
+    "BG B1..B10",
+    "Reserve/Report teacher",
+    "Audit/MMLU/Report scores",
+    "new policies"
+  ]
+}
