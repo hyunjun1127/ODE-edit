@@ -1,7 +1,8 @@
 """EP-TW-1 only: cold W0/M0, native Vp anchor, persistent B1..B10.
 
 Observers cannot enter policy arguments. No native baseline trajectory is run.
-First episode contains bounded technical forwards, no extra target fitting.
+Default first episode contains technical forwards. Explicit user skip mode
+never imports/calls those diagnostics and never emits a numerical G0_PASS.
 All files are create-once. A failed open batch restores its own entry; already
 committed batches are immutable. There is no automatic retry/resume/submission.
 """
@@ -17,6 +18,7 @@ import time
 import traceback
 
 from .control import identity, save, sha, verify_dispatch
+from .gate_skip import skip_enabled, diagnostic, parity_record, verify_skip_members
 
 def save_tensor(path,payload):
     import torch
@@ -59,15 +61,17 @@ def run(lock_path,output):
     from project.run_scripts.baseline_mechanism_first.performance_schema import subset
     from project.run_scripts.bg_tw_reference.native_map import FrozenNativeMap
     from .model_adapter import EpisodeAdapter,TeacherStore,capture_native_fit,ModelBoundary
-    from .technical import self_kl_check,validate_episode
     from .policy import NumericalPolicy,build_correction,materialize_candidates,CandidateObservation,choose_candidate
     from .ledger import AcceptedLedger
     root=Path(output);root.mkdir(parents=True,exist_ok=False,mode=0o700)
     started=time.monotonic();stage='SOURCE_INPUT_VERIFY';completed=[];rollback=None;model=None
     try:
         lock=json.loads(Path(lock_path).read_text())
+        skipped=skip_enabled(lock)
+        if not skipped:
+            from .technical import self_kl_check,validate_episode
         repair_prior=None
-        if 'repair_pass_path' in lock:
+        if not skipped and 'repair_pass_path' in lock:
             from .repair_runtime import verify_members,validate_repair_pass,recorder,scientific_checks
             lock['_lock_path']=str(Path(lock_path).resolve())
             repair_prior,repair_reference=validate_repair_pass(lock)
@@ -79,7 +83,10 @@ def run(lock_path,output):
         assert lock['warm_state_imports']==lock['M8_imports']==lock['baseline_reruns']==0 and lock['N4_calibration'] is False
         assert os.environ.get('SLURMD_NODENAME')=='server4'
         assert torch.__version__==lock['torch'] and transformers.__version__==lock['transformers']
-        if repair_prior is None:
+        if skipped:
+            save(root/'validation-waiver.json',dict(diagnostic(lock,'ALL_NUMERICAL_DIAGNOSTICS'),
+                source_input_verification=verify_skip_members(lock),waiver=lock['validation_override']))
+        elif repair_prior is None:
             for m in lock['members']:
                 assert Path(m['path']).stat().st_size==m['bytes'] and sha(m['path'])==m['sha256'],('FROZEN_MEMBER_DRIFT',m['path'])
         assert identity(lock['source_archive']['path'])==lock['source_archive']
@@ -143,7 +150,7 @@ def run(lock_path,output):
             expected_manifest_sha=lock['teacher_manifest']['sha256'],verify_payload_hashes=False)
         adapter=EpisodeAdapter(model,etok,name,teacher)
         stage='W0_TEACHER_TECHNICAL'
-        selfkl=observe(lambda:self_kl_check(adapter,numerics=lock['technical_numerics']))
+        selfkl=diagnostic(lock,'W0_SELF_KL',lambda:observe(lambda:self_kl_check(adapter,numerics=lock['technical_numerics'])))
         selfref=save(root/'technical/w0-teacher.json',selfkl)
         common=state();chronology=Chronology(common)
         entryref=save(root/'entry.json',dict(state=common,initial='PRETRAINED_W0_COLD_M0',M_zero=bool((M==0).all()),
@@ -160,12 +167,14 @@ def run(lock_path,output):
             save(bdir/'entry.json',dict(batch=batch,state=entry,order=item,prior_endpoint_exact=True,history_count=chronology.history_count))
             if batch==2:
                 assert chronology.history_count==1 and ledger.next_ordinal==100 and technical_ref
-                save(root/'G0_PASS.json',dict(status='G0_PASS',completed_requests=100,next_ordinal=100,history_finalizations=1,
+                marker='INITIAL_EXECUTION_OBSERVED_WITH_VALIDATION_SKIPPED' if skipped else 'G0_PASS'
+                save(root/(marker+'.json'),dict(status=marker,completed_requests=100,next_ordinal=100,history_finalizations=1,
                     first_commit=completed[0],B2_entry=identity(bdir/'entry.json'),state=entry,teacher=selfref,model_technical=technical_ref,
                     finite=True,original_denominator=100,actual_native_candidate_and_selected_verified=True,
                     durable_restore_cpu_and_live_selected_state=True,persistent_B2_B10_programmed=True,
-                    not_full1000_complete=True,agent_next_state='WAITING_USER_RESUME'))
-                print('EP_TW1_G0_PASS',flush=True)
+                    not_full1000_complete=True,agent_next_state='WAITING_USER_RESUME',
+                    numerical_validation='NOT_ESTABLISHED' if skipped else 'ORIGINAL_TECHNICAL_SCOPE'))
+                print('EP_TW1_'+marker,flush=True)
             old_ids=set(ledger.accepted_ids)
             old_records=[r for r in records[:(batch-1)*100] if r['case_id'] in old_ids]
             def panel_observation(label):
@@ -186,8 +195,9 @@ def run(lock_path,output):
             stage=f'B{batch:03d}_FIXED_MAP';map_begin=time.monotonic()
             native_map=FrozenNativeMap.from_frozen_kpm(K,P[0].to(weight.device),M[0].to(weight.device),
                 request_count=100,weight_shape=tuple(weight.shape),source_identity=lock['editor_sha256'])
-            map_receipt=native_map.comparison(Z-H,We,captured_native_endpoint=Vp)
-            assert map_receipt['rhs_captured_endpoint_exact'],'DIRECT_NATIVE_CAPTURE_MISMATCH'
+            map_receipt=diagnostic(lock,'NATIVE_MAP_NUMERICAL_COMPARISON',
+                lambda:native_map.comparison(Z-H,We,captured_native_endpoint=Vp))
+            if not skipped:assert map_receipt['rhs_captured_endpoint_exact'],'DIRECT_NATIVE_CAPTURE_MISMATCH'
             map_seconds=time.monotonic()-map_begin
             adapter.set_episode(Vp,native_map.A)
             save_tensor(bdir/'native-targets-map.pt',dict(captures=fit['captures'],target_observations=fit['target_observations'],
@@ -200,7 +210,9 @@ def run(lock_path,output):
             stage=f'B{batch:03d}_GRADIENTS';sweeps=observe(lambda:adapter.gradient_sweeps(cur,recorder=early))
             if batch==1:
                 stage='B001_MODEL_TECHNICAL';begin=time.monotonic()
-                if repair_prior is None:
+                if skipped:
+                    tech=diagnostic(lock,'VALIDATE_EPISODE_FD_DIRECT_ROUTE_SYNTHETIC')
+                elif repair_prior is None:
                     tech=validate_episode(adapter,cur,sweeps,numerics=lock['technical_numerics'])
                 else:
                     truth=copy.deepcopy(cur)
@@ -220,8 +232,7 @@ def run(lock_path,output):
                 native_delta_norm=correction.diagnostics['actual_native_delta_norm'],config=config)
             raw_panel=panel_observation('RAW')
             raw_rows=raw_panel['current']['metrics']['RS']['rows']
-            assert [r['new_nll'] for r in raw_rows]==[r['nll'] for r in sweeps['current']['rows']],'CANONICAL_CURRENT_NLL_PARITY'
-            assert [r['case_id'] for r in raw_rows if r['new_strict']]==sweeps['current']['strict_ids'],'CANONICAL_CURRENT_STRICT_PARITY'
+            raw_panel['method_observer_parity']=parity_record(lock,raw_rows,sweeps['current'],[r['case_id'] for r in cur])
             rawref=save(bdir/'raw-evaluation.json',raw_panel)
             candidate_evals={'RAW':dict(current=sweeps['current'],generic=sweeps['generic'])}
             obs={'RAW':CandidateObservation(sweeps['current']['E'],frozenset(sweeps['current']['strict_ids']),sweeps['generic']['D'],tuple(r['case_id'] for r in cur))}
@@ -286,7 +297,7 @@ def run(lock_path,output):
             stage=f'B{batch:03d}_SELECTED_OBSERVATION';eval_begin=time.monotonic()
             selected_panel=panel_observation('SELECTED')
             selected_rs=selected_panel['current']['metrics']['RS']['rows']
-            assert [r['new_nll'] for r in selected_rs]==[r['nll'] for r in chosen['current']['rows']]
+            selected_panel['method_observer_parity']=parity_record(lock,selected_rs,chosen['current'],[r['case_id'] for r in cur],check_strict=False)
             evals=dict(selected=selected_panel,requested_annotations=ledger.annotate_requested())
             if batch in (5,10):
                 seen=records[:batch*100]
@@ -304,7 +315,9 @@ def run(lock_path,output):
                 nonselected_guard='POINTER_VERSION_GRAD_MODE_HOOK_BUFFERS; base/final full SHA',
                 evaluations={'entry':entry_eval,'raw':rawref,'selected':evalref},source_lock=identity(lock_path),
                 native=fit['receipt'],map=map_receipt,gradient=sweeps['receipt'],
-                cost={'native_instrumented':fit_seconds,'map_setup_comparison':map_seconds,'screen':screen_seconds,
+                validation_mode=lock.get('validation_mode','ORIGINAL_DIAGNOSTICS'),
+                numerical_validation='NOT_ESTABLISHED' if skipped else 'ORIGINAL_TECHNICAL_SCOPE',
+                cost={'native_instrumented':fit_seconds,('map_setup_no_comparison' if skipped else 'map_setup_comparison'):map_seconds,'screen':screen_seconds,
                       'current_gradient':sweeps['current']['seconds'],'generic_gradient':sweeps['generic']['seconds'],
                       'history':final_seconds,'selected_evaluation':evaluation_seconds,
                       'pure_writer':'NOT_SEPARATED_FROM_NATIVE_INSTRUMENTATION'},finite=True,
@@ -318,7 +331,9 @@ def run(lock_path,output):
             state=state(),history_count=10,source_lock=identity(lock_path),seconds=time.monotonic()-started,
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved(),
             host_maxrss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-            teacher_setup_reused_not_new_cost=98,audit_report_mmlu='DEFERRED_NOT_EVALUATED',scientific_promotion=False))
+            teacher_setup_reused_not_new_cost=98,audit_report_mmlu='DEFERRED_NOT_EVALUATED',scientific_promotion=False,
+            validation_mode=lock.get('validation_mode','ORIGINAL_DIAGNOSTICS'),
+            numerical_validation='NOT_ESTABLISHED' if skipped else 'ORIGINAL_TECHNICAL_SCOPE'))
     except BaseException as exc:
         trace=traceback.format_exc();restored='NO_OPEN_BATCH'
         if rollback is not None:

@@ -32,6 +32,9 @@ def submit(worktree,attempt):
     w,a=Path(worktree).resolve(),Path(attempt).resolve();boundary(w)
     repair=(a/'repair.lock.json').exists()
     lp=a/('repair.lock.json' if repair else 'execution.lock.json');lock=json.loads(lp.read_text());verify_dispatch(lock['dispatch']['path'])
+    from .gate_skip import skip_enabled
+    skipped=skip_enabled(lock)
+    assert not (skipped and repair)
     if repair:
         from .repair_control import verify_repair
         verify_repair(lock['repair_dispatch']['path'])
@@ -41,7 +44,7 @@ def submit(worktree,attempt):
         assert not Path(science['output']).exists()
     assert lock['new_scientific_chains']==1 and lock['baseline_reruns']==0
     assert identity(lock['source_archive']['path'])==lock['source_archive']
-    source=Path(lock['source_root']);shell=source/'project/run_scripts/bg_tw_reference/ep_tw'/('repair.sbatch' if repair else 'run.sbatch')
+    source=Path(lock['source_root']);shell=source/'project/run_scripts/bg_tw_reference/ep_tw'/('nogate.sbatch' if skipped else ('repair.sbatch' if repair else 'run.sbatch'))
     for m in lock['members']:
         assert Path(m['path']).stat().st_size==m['bytes']
         if m['path'].startswith(str(source)+'/'):assert sha(m['path'])==m['sha256']
@@ -72,7 +75,7 @@ def submit(worktree,attempt):
     command(['scontrol','update',f'JobId={job}','Requeue=0'])
     held=command(['scontrol','show','job',job,'-o'])
     try:
-        for field in ['JobName='+('odeedit_ep_tw1_repair_s4' if repair else 'odeedit_ep_tw1_s4'),'UserId=janghj(','JobState=PENDING','ReqNodeList=server4',
+        for field in ['JobName='+('odeedit_ep_tw1_nogate_s4' if skipped else ('odeedit_ep_tw1_repair_s4' if repair else 'odeedit_ep_tw1_s4')),'UserId=janghj(','JobState=PENDING','ReqNodeList=server4',
                       'MinMemoryNode=59G','NumCPUs=8','TimeLimit=12:00:00','Requeue=0','Dependency=(null)']:
             assert field in held,field
         assert 'gpu:rtx_pro_6000:1' in held and str(shell) in held
@@ -85,6 +88,8 @@ def submit(worktree,attempt):
         last_record=last,source_archive=lock['source_archive'],source_head=lock['source_head'],lock=identity(lp),output=lock['output'],
         status='SUBMITTED_NOT_G0_PASS',scientific_chain_count=1,teacher_reused='47592_COMPLETE_NO_NEW_TEACHER',
         saved_episode_technical_then_conditional_science=repair,
+        validation_mode=lock.get('validation_mode','ORIGINAL_DIAGNOSTICS'),
+        numerical_validation='NOT_ESTABLISHED' if skipped else 'NOT_YET_OBSERVED',
         scientific_output=science['output'] if repair else lock['output'],
         gate='PENDING_GATE_NOT_RUN' if 'JobState=PENDING' in last else 'INITIAL_GATE_NOT_YET_OBSERVED',
         no_callback=True,no_automatic_resume=True))
