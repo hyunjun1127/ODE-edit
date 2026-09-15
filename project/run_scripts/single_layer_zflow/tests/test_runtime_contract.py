@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 import torch
 from project.run_scripts.single_layer_zflow.config import validate_config,validate_main
-from project.run_scripts.single_layer_zflow.runtime import state_fingerprint
+from project.run_scripts.single_layer_zflow.runtime import state_fingerprint,tokenizer_metadata
 
 
 class RuntimeContractTests(unittest.TestCase):
@@ -31,5 +31,16 @@ class RuntimeContractTests(unittest.TestCase):
         self.assertNotEqual(state_fingerprint(state),state_fingerprint(clone))
         clone=copy.deepcopy(state);clone['python']=list(clone['python'])
         self.assertNotEqual(state_fingerprint(state),state_fingerprint(clone))
+
+    def test_fast_tokenizer_without_optional_bos_attribute(self):
+        class Fast:
+            padding_side='right';bos_token_id=1;pad_token_id=2
+            def encode(self,text,add_special_tokens=True):return [1,3] if add_special_tokens else [3]
+        token=Fast();before=dict(token.__dict__)
+        result=tokenizer_metadata(token)
+        self.assertFalse(result['add_bos_attribute_present'])
+        self.assertIsNone(result['add_bos_attribute'])
+        self.assertEqual(result['fixed_probe_default_ids'],[1,3])
+        self.assertEqual(before,token.__dict__)
 
 if __name__=='__main__':unittest.main()
