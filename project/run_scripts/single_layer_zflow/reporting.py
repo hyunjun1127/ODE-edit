@@ -96,7 +96,14 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
     output.mkdir(parents=True, exist_ok=True)
     with report_path.open('x') as handle: handle.write('\n'.join(sections))
     _write_json(output / 'allocation-receipt.json', jobs)
-    evidence = [member(report_path), member(output/'allocation-receipt.json'), member(aggregates/'manifest.json'), member(figures/'plot-receipt.json')]
+    reuse_keys = ('decision','status','historical_job','historical_process_seconds','unique_requests',
+        'new_N4_batches','new_GPU_actions','new_metrics','raw_path','raw_sha256','metrics','endpoint',
+        'final_commit_sha256','terminal_sha256','source_input_bridge','runtime_difference',
+        'historical_missing_rng','actual_SL_ZFlow_parity')
+    _write_json(output / 'n4-reuse-receipt.json', dict(source_manifest=member(Path(n4_reuse)),
+        **{key: reuse[key] for key in reuse_keys}))
+    evidence = [member(report_path), member(output/'allocation-receipt.json'),
+                member(output/'n4-reuse-receipt.json'), member(aggregates/'manifest.json'), member(figures/'plot-receipt.json')]
     receipt = dict(status='FACTUAL_REPORT_COMPLETE', scientific_promotion=False,
         source_analysis_head=subprocess.check_output(['git','rev-parse','HEAD'], cwd=Path(__file__).parent, text=True).strip(),
         members=evidence, member_root=digest(evidence), raw_broadcast='NO_BROADCAST_NOT_REQUIRED')
