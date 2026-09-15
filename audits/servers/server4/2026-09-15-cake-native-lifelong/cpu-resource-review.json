@@ -1,0 +1,33 @@
+{
+  "active_and_pending_other_gpus": 0,
+  "admission_available_bytes": 256463474688,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "common_context": "native get_context_templates AST equal; saved contexts33cec0ee reused; no regeneration",
+  "continuation_replay": "NOT_TESTED",
+  "cuda_initialized_during_import": false,
+  "data": "official load_prefix10000/verify/full record SHA/order/inventory PASS",
+  "deferred": "first native batch/history/actualstate; full completion and scientific analysis",
+  "disk_change_attribution": "external filesystem change, no SH4 deletion/transfer",
+  "fixtures": 9,
+  "focused_auditor": "parent SH4; bounded worker spawn unavailable: agent thread limit; no independent red/GPU PASS claim",
+  "frozen_member_fullsha": {
+    "bytes": 8287575787,
+    "count": 1959,
+    "status": "PASS"
+  },
+  "import_compatibility": {
+    "execution": "PASS after unused import removal + final LF",
+    "native_AST": "otherwise identical",
+    "original": "ModuleNotFoundError: notebooks"
+  },
+  "memory_policy": "PASS 60416MiB/1GPU",
+  "model": "revision/config/shard readability+size reuse; new full model shard rehash0",
+  "native_gpu_execution": "NOT_OBSERVED",
+  "original_disk_hold": "observed39,098,310,656B <63,417,876,480B tensor floor; user removed checkpoint storage",
+  "projector": "file fullSHA/current size verified, five-layer prior tensor identity bound; actual tensor shape/identity check remains in submitted runtime",
+  "raw_reserve_bytes": 17179869184,
+  "shell_syntax": "PASS",
+  "source_and_raw_of_other_tasks_changed": false,
+  "status": "CPU_SOURCE_RESOURCE_PREPARATION_PASS_NOT_GPU_VALIDITY",
+  "syntax_python_files": 7
+}

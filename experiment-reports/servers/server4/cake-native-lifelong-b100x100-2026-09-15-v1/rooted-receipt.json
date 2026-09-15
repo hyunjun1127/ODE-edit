@@ -1,0 +1,22 @@
+{
+  "manifest": {
+    "bytes": 5604,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-cake-native-lifelong-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/analysis-manifest.json",
+    "sha256": "56bbd4795dd54ecbc0acdde85fa4ea8d16d5816c91c053c6996de6c720ce1619"
+  },
+  "new_scientific_jobs": 1,
+  "raw_git": 0,
+  "report": {
+    "bytes": 6883,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-cake-native-lifelong-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/submission-factual-report-ko.md",
+    "sha256": "a3fa5323a00926f7c25f8e51b145c827626081dd15962418eb72862df4f242d7"
+  },
+  "resume": {
+    "bytes": 2789,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/resume-manifest.json",
+    "sha256": "7a1a219f5e8944fb76a505ba35053bee31b1d13602ab6cc2d203d099898a10a0"
+  },
+  "scientific_promotion": false,
+  "scope_complete": "compact submission only, scientific results pending",
+  "status": "SUBMITTED_PENDING_MONITORING_PAUSED"
+}

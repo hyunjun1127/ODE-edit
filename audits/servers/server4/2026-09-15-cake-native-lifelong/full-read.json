@@ -1,0 +1,163 @@
+[
+  {
+    "bytes": 3393,
+    "lines": 81,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/README.md",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "f525859f8dd1c5b574ba4c2f7bbbc7248e27eff25167a74acdcf00a8745a5c59"
+  },
+  {
+    "bytes": 1064,
+    "lines": 21,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/LICENSE",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051"
+  },
+  {
+    "bytes": 59,
+    "lines": 1,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/__init__.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "53066983b8b9360dfd04d9ef14cfdd16240a20aa8d44016b0aea2e688e6d2952"
+  },
+  {
+    "bytes": 9774,
+    "lines": 303,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/Cake_main.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20"
+  },
+  {
+    "bytes": 923,
+    "lines": 41,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/Cake_hparams.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "a2281bd837df6b9c1619ca913b2f760f81a549c8ff276b0b77c80bc8ae14abbb"
+  },
+  {
+    "bytes": 9509,
+    "lines": 278,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/compute_z.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "7981fa6885d2ff4513a451199f732276d1e5f2f4d0b91a0d347903e15242f7d1"
+  },
+  {
+    "bytes": 1537,
+    "lines": 50,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/compute_ks.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "524c57cfc362dc8e07a10055c8b39829ea1277dcd0d667b03737c80a90f286d5"
+  },
+  {
+    "bytes": 979,
+    "lines": 39,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/Llama3-8B.json",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e"
+  },
+  {
+    "bytes": 24181,
+    "lines": 594,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/evaluate.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "c1ffa7d7ea6df541dc1857c4da40cea9fa4bc5923b5212da9c83273bcc9410bd"
+  },
+  {
+    "bytes": 388,
+    "lines": 19,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/globals.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+  },
+  {
+    "bytes": 268,
+    "lines": 14,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/globals.yml",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "41f77160ea401cc61e95f78738ee2911d73ee1997204d4a52df727221f4c5478"
+  },
+  {
+    "bytes": 319,
+    "lines": 16,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/hparams.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+  },
+  {
+    "bytes": 34,
+    "lines": 1,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/__init__.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+  },
+  {
+    "bytes": 15506,
+    "lines": 451,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/nethook.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+  },
+  {
+    "bytes": 5559,
+    "lines": 159,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/generate.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3"
+  },
+  {
+    "bytes": 2893,
+    "lines": 97,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/logit_lens.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+  },
+  {
+    "bytes": 74,
+    "lines": 1,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/__init__.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+  },
+  {
+    "bytes": 9162,
+    "lines": 249,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/repr_tools.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "7be2921dea65325b0190e32c01fde14106970e78b897b93c03824e8490957504"
+  },
+  {
+    "bytes": 7383,
+    "lines": 201,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/layer_stats.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "68a2338d2107b95719cbedfad365ec3bba675ef6247be8a8147972a7935a5411"
+  },
+  {
+    "bytes": 3103,
+    "lines": 99,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/tok_dataset.py",
+    "scope": "FULL_READ_UPSTREAM_SOURCE",
+    "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4"
+  },
+  {
+    "bytes": 60382,
+    "lines": 1269,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-cake-native-lifelong-v1/PROTOCOL.md",
+    "scope": "FULL_READ_GOVERNING_POLICY",
+    "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b"
+  },
+  {
+    "bytes": 3549,
+    "lines": 51,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-cake-native-lifelong-v1/plans/global/fixed-counterfact-10k-policy.md",
+    "scope": "FULL_READ_GOVERNING_POLICY",
+    "sha256": "0fd115e3a060569f7e30f074f435a0eb9a51a55eecf6654161c15b8392e550f0"
+  },
+  {
+    "bytes": 6344,
+    "lines": 139,
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-cake-native-lifelong-v1/scripts/fixed_counterfact.py",
+    "scope": "FULL_READ_GOVERNING_POLICY",
+    "sha256": "8201a570b19a9e4e93ec7528d6a9131d5c7b203ddf333cba83d73f31220f9000"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "available_bytes": 256463233024,
+  "free_inodes": 226299490,
+  "held_scontrol": "JobId=48101 JobName=odeedit_cake_native_lifelong_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-09-15T17:52:42 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-15T17:52:42 Scheduler=Main Partition=gpu AllocNode:Sid=server4:359379 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/source/cake_native_lifelong/run.sbatch SubmitLine=sbatch --hold --parsable --output /data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/%j.out --error /data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/%j.err --chdir /data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution/CAKE /data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/source/cake_native_lifelong/run.sbatch /data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1 WorkDir=/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution/CAKE StdErr=/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/48101.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/48101.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+  "host": "server4",
+  "inspection": "PASS",
+  "job_id": "48101",
+  "mode": "inspect-release",
+  "other_active_plus_pending_reserved_gpus": 0,
+  "owner": "janghj",
+  "project_cap": 2,
+  "queue_snapshot": "",
+  "requested_gpu": 1,
+  "resource": {
+    "cpus": 8,
+    "export": "NONE",
+    "gpus": 1,
+    "mem_mib": 60416,
+    "requeue": 0,
+    "wall": "2-00:00:00"
+  },
+  "source_lock": {
+    "bytes": 625520,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution.lock.json",
+    "sha256": "f2ade3ee9dbdabdc6a1ac00a9d36b0e902710a44cf5e2a6a49c6d861e18eb401"
+  },
+  "time_utc": "2026-09-15T08:52:49.088429+00:00"
+}

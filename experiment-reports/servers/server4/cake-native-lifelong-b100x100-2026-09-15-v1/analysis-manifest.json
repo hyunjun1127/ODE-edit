@@ -1,0 +1,140 @@
+{
+  "execution_source": {
+    "branch": "codex/server4-cake-native-lifelong-v1",
+    "head": "7884aeb6000f8343139172825ec6c4ca24357fc0",
+    "tree": "4dabdb1e408726974ac0f91285ad35bac698b88e"
+  },
+  "members": [
+    {
+      "bytes": 1667,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/cpu-resource-review.json",
+      "sha256": "189e3c276f1d3d210a3aa9f61537801759a7d119c6c794999baa67c79c8cbdfb"
+    },
+    {
+      "bytes": 625520,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/execution.lock.json",
+      "sha256": "f2ade3ee9dbdabdc6a1ac00a9d36b0e902710a44cf5e2a6a49c6d861e18eb401"
+    },
+    {
+      "bytes": 1121,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/focused-review-ko.md",
+      "sha256": "20d84ae5bdbea1d0bcf4bd6a0b1f54f3dc3ed66c2e27d98d6a8dd992afd079b3"
+    },
+    {
+      "bytes": 6582,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/full-read.json",
+      "sha256": "df5e5f0faf254cd0c63b9a0b54c9843017e16787ff7116b64e194310b0ef1977"
+    },
+    {
+      "bytes": 2693,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/held-inspection.json",
+      "sha256": "94620be2ffb22d6bbc59c88e5458bebf4639167e4fb432cb7eb27d495e94fbe2"
+    },
+    {
+      "bytes": 71802,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/preparation.json",
+      "sha256": "25973ff18f7ceffef9b2107427cb39b46befb7e5276d6049901440cc32b1227e"
+    },
+    {
+      "bytes": 2218,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/release.json",
+      "sha256": "a557eb3e8ef3b2a51dc9c6d83d63e1cd132106705373e958925aa422ac856115"
+    },
+    {
+      "bytes": 1515,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/submission-held.json",
+      "sha256": "7346eb2dab93ba451713c15756215391924195babca93e3bc3015346fc2820c7"
+    },
+    {
+      "bytes": 486,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/unused-notebooks-import.patch",
+      "sha256": "0adfd40b82d168ca3ca6b1691f0e09ee9c7a4c3ff796fa0f7495cdff66fea930"
+    },
+    {
+      "bytes": 54867,
+      "path": "audits/servers/server4/2026-09-15-cake-native-lifelong/upstream-inventory.json",
+      "sha256": "3a8558e8afbd0388bba2446f45c621d99b1f1a67651b996c5f2ceec9beae4c1b"
+    },
+    {
+      "bytes": 2410,
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/compatibility.json",
+      "sha256": "2f7cb277cb0e2160ce5386bb0586cd9151818289b9abea61d2b55af46d22f65c"
+    },
+    {
+      "bytes": 847,
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/reproduce.md",
+      "sha256": "dbe2456bd60ccb7c27c669964612b9509588688f1e0e45ecd9d5d4dcd34b926e"
+    },
+    {
+      "bytes": 2789,
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/resume-manifest.json",
+      "sha256": "7a1a219f5e8944fb76a505ba35053bee31b1d13602ab6cc2d203d099898a10a0"
+    },
+    {
+      "bytes": 6883,
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/submission-factual-report-ko.md",
+      "sha256": "a3fa5323a00926f7c25f8e51b145c827626081dd15962418eb72862df4f242d7"
+    },
+    {
+      "bytes": 2463,
+      "path": "project/run_scripts/cake_native_lifelong/README.md",
+      "sha256": "40489da9b2e9828822fc4512a5f396e63e7114cdd209c0204107a45f25f38005"
+    },
+    {
+      "bytes": 1064,
+      "path": "project/run_scripts/cake_native_lifelong/UPSTREAM-LICENSE",
+      "sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051"
+    },
+    {
+      "bytes": 80,
+      "path": "project/run_scripts/cake_native_lifelong/__init__.py",
+      "sha256": "24e0fba3c4b62230efc634e0d090749e510da1a74c9020402ab148c13565ed43"
+    },
+    {
+      "bytes": 3142,
+      "path": "project/run_scripts/cake_native_lifelong/observation.py",
+      "sha256": "da1d18341f5c7700a25aa540778568c705a6b1fbfce5ece03aea264bee22db82"
+    },
+    {
+      "bytes": 15571,
+      "path": "project/run_scripts/cake_native_lifelong/preflight.py",
+      "sha256": "cc5be8b714b8af2eab72c933281db3ccbcdb137585345350fad1884347019c8b"
+    },
+    {
+      "bytes": 5676,
+      "path": "project/run_scripts/cake_native_lifelong/prepare_execution.py",
+      "sha256": "a29e3691a4573a2a3e2e23d401dc77b8f3eff65dcbeb41176d91376a3e1d86da"
+    },
+    {
+      "bytes": 16618,
+      "path": "project/run_scripts/cake_native_lifelong/publication.py",
+      "sha256": "317b7c95444bde575e43e259f79601287ee3c2f30421b898d8279bce3db09a82"
+    },
+    {
+      "bytes": 1005,
+      "path": "project/run_scripts/cake_native_lifelong/run.sbatch",
+      "sha256": "beaf66069bc419300a51fcd083da16fa853eea3f566e08343f9e90c74ef3993f"
+    },
+    {
+      "bytes": 13717,
+      "path": "project/run_scripts/cake_native_lifelong/runtime.py",
+      "sha256": "aeb0a7ceff747a7d6d2ce344d33c0bb17fa974f9a1a5157ebacb655303016813"
+    },
+    {
+      "bytes": 4113,
+      "path": "project/run_scripts/cake_native_lifelong/submission_control.py",
+      "sha256": "ff6ab259db678e4694f60a1ebf4328c5991768368736b10465c699d6aa1f8a8e"
+    },
+    {
+      "bytes": 1913,
+      "path": "project/run_scripts/cake_native_lifelong/test_preflight.py",
+      "sha256": "731984e9ae75a58eda3a3943f4fdeaf1c2573977741c10fa59ca8101964d54b4"
+    },
+    {
+      "bytes": 1802,
+      "path": "project/run_scripts/cake_native_lifelong/test_runtime.py",
+      "sha256": "28fe031c7cd9dbe2a1143d7147574ab72c2ec877320cbf6980ba8845eae1ebe5"
+    }
+  ],
+  "scope": "CAKE own source + raw-free preparation/submission only"
+}

@@ -1,0 +1,56 @@
+{
+  "agent_status": "MONITORING_PAUSED_AWAITING_USER",
+  "automatic_resume": false,
+  "checkpoint_storage": "DISABLED_USER_DIRECTED_NO_W_M_TENSORS",
+  "committed_batches": "NOT_OBSERVED",
+  "dependencies": "none; initial project active+admitted pending=0, requested1/cap2",
+  "exact_restart_available": false,
+  "execution_lock": {
+    "bytes": 625520,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution.lock.json",
+    "sha256": "f2ade3ee9dbdabdc6a1ac00a9d36b0e902710a44cf5e2a6a49c6d861e18eb401"
+  },
+  "execution_source": {
+    "branch": "codex/server4-cake-native-lifelong-v1",
+    "head": "7884aeb6000f8343139172825ec6c4ca24357fc0",
+    "tree": "4dabdb1e408726974ac0f91285ad35bac698b88e"
+  },
+  "expected_initial_path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/output/main/initial-execution.json",
+  "expected_terminal_path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/output/main/terminal.json",
+  "host": "server4",
+  "initial_native_batch": "NOT_RUN_OR_NOT_OBSERVED_AT_PENDING_HANDOFF",
+  "instruction_id": "ODEEDIT-S06-CAKE-NATIVE-FIXED10K-LIFELONG-SH4-V1",
+  "job_id": "48101",
+  "job_name": "odeedit_cake_native_lifelong_s4",
+  "last_observed_job_state": "PENDING",
+  "last_observed_utc": "2026-09-15T08:52:49.137129+00:00",
+  "monitoring_active": false,
+  "output": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/output/main",
+  "output_existence": "NOT_REOBSERVED_AFTER_PENDING; no live output inspection",
+  "owner": "SH4",
+  "registered_cwd": "/data/janghj/ODE-edit",
+  "remaining": "Submitted program B1..B100/evaluation; detailed analysis only explicit completion recall",
+  "resume_trigger": "explicit_user_call",
+  "scientific_promotion": false,
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "source_archive": {
+    "bytes": 4003840,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/source-execution.tar",
+    "sha256": "983589f0b6ca5dcca85508bdaa2d5a3a1d38128697ec89dedf54f5ede1f16ebf"
+  },
+  "upstream": {
+    "execution_main": {
+      "bytes": 9740,
+      "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution/CAKE/Cake/Cake_main.py",
+      "sha256": "42599bb68675c0cf167ce676a0827a33827c2254cd7d6bd622553be5c914b96c"
+    },
+    "head": "c8243e1d7e43ca9cf64d552f96221fcb9561aac2",
+    "original_main": {
+      "bytes": 9774,
+      "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/Cake_main.py",
+      "sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20"
+    },
+    "patch": "remove unused notebooks.util import only",
+    "tree": "4f59249bb23c7cacf0f6490bce8127c74ff7b111"
+  }
+}

@@ -1,0 +1,1142 @@
+[
+  {
+    "bytes": 864,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/AlphaEdit/AlphaEdit_hparams.py",
+    "relative_path": "AlphaEdit/AlphaEdit_hparams.py",
+    "sha256": "34bb443e06027a889b51384eb5dd5369c9ac30f52682ef01ab638839ac8b2fc3"
+  },
+  {
+    "bytes": 7927,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/AlphaEdit/AlphaEdit_main.py",
+    "relative_path": "AlphaEdit/AlphaEdit_main.py",
+    "sha256": "019a06aa26227f88d93f1f8941384cf78bb4db734f45b1ddd2700a7801744d72"
+  },
+  {
+    "bytes": 74,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/AlphaEdit/__init__.py",
+    "relative_path": "AlphaEdit/__init__.py",
+    "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+  },
+  {
+    "bytes": 1552,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/AlphaEdit/compute_ks.py",
+    "relative_path": "AlphaEdit/compute_ks.py",
+    "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+  },
+  {
+    "bytes": 9524,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/AlphaEdit/compute_z.py",
+    "relative_path": "AlphaEdit/compute_z.py",
+    "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f"
+  },
+  {
+    "bytes": 880,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Blue/Blue_hparams.py",
+    "relative_path": "Blue/Blue_hparams.py",
+    "sha256": "dc13a56202391939fa1998198c7088d683f759211f362dfa7be8285e24fda187"
+  },
+  {
+    "bytes": 12192,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Blue/Blue_main.py",
+    "relative_path": "Blue/Blue_main.py",
+    "sha256": "51911fa818df12c1ea60bdbbf9a3e69bddc535fff11d421b7e06bdbc0409736d"
+  },
+  {
+    "bytes": 59,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Blue/__init__.py",
+    "relative_path": "Blue/__init__.py",
+    "sha256": "31ca4ac0a771fd26e2f0a9d835b28cce1118cb701bd1adde9a583d3363cb9347"
+  },
+  {
+    "bytes": 1537,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Blue/compute_ks.py",
+    "relative_path": "Blue/compute_ks.py",
+    "sha256": "39830cab87599fd05a6c418a747c42b43f6d816c9f0eb27a0fadcc7df9982e48"
+  },
+  {
+    "bytes": 9509,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Blue/compute_z.py",
+    "relative_path": "Blue/compute_z.py",
+    "sha256": "4c1cb45e2e42ba3b421fab2b723257f020b8b41a097864ecb2c39f2a4dbf4aae"
+  },
+  {
+    "bytes": 923,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/Cake_hparams.py",
+    "relative_path": "Cake/Cake_hparams.py",
+    "sha256": "a2281bd837df6b9c1619ca913b2f760f81a549c8ff276b0b77c80bc8ae14abbb"
+  },
+  {
+    "bytes": 9774,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/Cake_main.py",
+    "relative_path": "Cake/Cake_main.py",
+    "sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20"
+  },
+  {
+    "bytes": 3393,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/README.md",
+    "relative_path": "Cake/README.md",
+    "sha256": "ea1e9279fc52929fe55f673f7fdd4b500c56414891e05f6994c6b43cd22eab0c"
+  },
+  {
+    "bytes": 59,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/__init__.py",
+    "relative_path": "Cake/__init__.py",
+    "sha256": "53066983b8b9360dfd04d9ef14cfdd16240a20aa8d44016b0aea2e688e6d2952"
+  },
+  {
+    "bytes": 1537,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/compute_ks.py",
+    "relative_path": "Cake/compute_ks.py",
+    "sha256": "524c57cfc362dc8e07a10055c8b39829ea1277dcd0d667b03737c80a90f286d5"
+  },
+  {
+    "bytes": 9509,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/Cake/compute_z.py",
+    "relative_path": "Cake/compute_z.py",
+    "sha256": "7981fa6885d2ff4513a451199f732276d1e5f2f4d0b91a0d347903e15242f7d1"
+  },
+  {
+    "bytes": 1064,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/LICENSE",
+    "relative_path": "LICENSE",
+    "sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051"
+  },
+  {
+    "bytes": 3393,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/README.md",
+    "relative_path": "README.md",
+    "sha256": "f525859f8dd1c5b574ba4c2f7bbbc7248e27eff25167a74acdcf00a8745a5c59"
+  },
+  {
+    "bytes": 6148,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/.DS_Store",
+    "relative_path": "baselines/.DS_Store",
+    "sha256": "d52bca4a116b74b70e0cd5efebbb543a558285c9d1b579eca14f2ce566a8637c"
+  },
+  {
+    "bytes": 816,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/README.md",
+    "relative_path": "baselines/README.md",
+    "sha256": "e44248aeb435f44301544b39c92195baa1367552978f9f20060a186c1c223e95"
+  },
+  {
+    "bytes": 66,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/ft/__init__.py",
+    "relative_path": "baselines/ft/__init__.py",
+    "sha256": "19646aa4d3c5b6fd8dc0032aab1cee6afc7ab24e7404c5c657cadbdd077ea0fd"
+  },
+  {
+    "bytes": 568,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/ft/ft_hparams.py",
+    "relative_path": "baselines/ft/ft_hparams.py",
+    "sha256": "fdd83bbc0cb87ebc1b6aae238a38798aab6e2b8b1723e666e797c1c5df851ab1"
+  },
+  {
+    "bytes": 5964,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/ft/ft_main.py",
+    "relative_path": "baselines/ft/ft_main.py",
+    "sha256": "2b2346b02f5dfeb0ad1b7b60df9816b6e613abc4e03cf0fc546c23704f22dd2e"
+  },
+  {
+    "bytes": 2438,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/README.md",
+    "relative_path": "baselines/mend/README.md",
+    "sha256": "43f8919beb3498934f0282763523db4f1b0825d98c103bbd4230fce52e756076"
+  },
+  {
+    "bytes": 85,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/__init__.py",
+    "relative_path": "baselines/mend/__init__.py",
+    "sha256": "ce6f24b656aa412ba07c893dd6fa37001d0a148312c9fd5b823ac27c83e145b0"
+  },
+  {
+    "bytes": 4017,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/algs/enn.py",
+    "relative_path": "baselines/mend/algs/enn.py",
+    "sha256": "fcde13387249220bf8ccde0c8bf174f6444a956806f86aee0c4c1a0c062e3a90"
+  },
+  {
+    "bytes": 5450,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/algs/ft.py",
+    "relative_path": "baselines/mend/algs/ft.py",
+    "sha256": "c60355576cac69dbca0816a4747cbb7bbba7a2352d0e7edb2191d870450eeff7"
+  },
+  {
+    "bytes": 16759,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/algs/mend.py",
+    "relative_path": "baselines/mend/algs/mend.py",
+    "sha256": "3d94e338ff9efe07815d9d4d339485e9abaa17af555f88d0adacb0a3ad19eca5"
+  },
+  {
+    "bytes": 57,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/alg/efk.yaml",
+    "relative_path": "baselines/mend/config/alg/efk.yaml",
+    "sha256": "6d8a009b23a6d15971f0fd3f41f446e55f9f439ddd4f37f37e003a9ba39c3d4b"
+  },
+  {
+    "bytes": 91,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/alg/enn.yaml",
+    "relative_path": "baselines/mend/config/alg/enn.yaml",
+    "sha256": "5d57b48f592317500c828b93650db753917781cacae4b72afbaf6af7bcdfff96"
+  },
+  {
+    "bytes": 250,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/alg/ft.yaml",
+    "relative_path": "baselines/mend/config/alg/ft.yaml",
+    "sha256": "f2ed848825e236de2073930e6bea4faf2ca1f6c828a7f84d79fad54a0b7e607d"
+  },
+  {
+    "bytes": 277,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/alg/mend.yaml",
+    "relative_path": "baselines/mend/config/alg/mend.yaml",
+    "sha256": "bce5e203d627552b2caf8d1a3b185ccaf28773b285a17a9f27538a86fe9eea87"
+  },
+  {
+    "bytes": 944,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/config.yaml",
+    "relative_path": "baselines/mend/config/config.yaml",
+    "sha256": "d46810afd50bf9dc19b443df22f7c77ee88ae03f7540bb7939b6eeaba4079d96"
+  },
+  {
+    "bytes": 56,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/experiment/fc.yaml",
+    "relative_path": "baselines/mend/config/experiment/fc.yaml",
+    "sha256": "678a899a35e0840de77f5fea74236c9f0d8b9ea4f0b8e1a05b981cfac131a043"
+  },
+  {
+    "bytes": 131,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/experiment/gen.yaml",
+    "relative_path": "baselines/mend/config/experiment/gen.yaml",
+    "sha256": "c208288115ae91d8cd47dfcc6c157e94d41657eebef327700363ed288f9dbee3"
+  },
+  {
+    "bytes": 55,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/experiment/qa.yaml",
+    "relative_path": "baselines/mend/config/experiment/qa.yaml",
+    "sha256": "038666cff47e927cc70891afcc2efd0f62898274d0287f1ab0719c3771394027"
+  },
+  {
+    "bytes": 487,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/bart-base.yaml",
+    "relative_path": "baselines/mend/config/model/bart-base.yaml",
+    "sha256": "25eac9c87259e197ecf587413f4660098b779c6b21fa1cc6584e7d64b1479475"
+  },
+  {
+    "bytes": 470,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/bert-base.yaml",
+    "relative_path": "baselines/mend/config/model/bert-base.yaml",
+    "sha256": "49ff1dc40a3306dd7649f697c134e6ed0f83e5382038f18962793f3eca410e01"
+  },
+  {
+    "bytes": 360,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/distilgpt2.yaml",
+    "relative_path": "baselines/mend/config/model/distilgpt2.yaml",
+    "sha256": "ba77ac0a70e92efac417a8f9b2aa25872f4c0152ae7e6bcb7a1a1c394e88a0d7"
+  },
+  {
+    "bytes": 322,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gpt2.yaml",
+    "relative_path": "baselines/mend/config/model/gpt2.yaml",
+    "sha256": "6c9ac030faea26cfa57a21d10713298b5b05e2acfcda057db9ef8b7797e0182d"
+  },
+  {
+    "bytes": 337,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gpt2large.yaml",
+    "relative_path": "baselines/mend/config/model/gpt2large.yaml",
+    "sha256": "feeab1704c76f5917876da5c631940dfde806dfdf0bf37f704ae29e8081c016c"
+  },
+  {
+    "bytes": 338,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gpt2medium.yaml",
+    "relative_path": "baselines/mend/config/model/gpt2medium.yaml",
+    "sha256": "a943050f9ad67b30e16e312d0a63b8dff6518a582e5c49d4f36475931dee5dc6"
+  },
+  {
+    "bytes": 331,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gpt2xl.yaml",
+    "relative_path": "baselines/mend/config/model/gpt2xl.yaml",
+    "sha256": "5eb704b1c06b3636eb62db43614f87650412d08c2c6f374555187c194f031429"
+  },
+  {
+    "bytes": 354,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gptj.yaml",
+    "relative_path": "baselines/mend/config/model/gptj.yaml",
+    "sha256": "0f3fe0caa24560fc62ffe7c2752cc23b5216bf99291d0fe969a55026982e4868"
+  },
+  {
+    "bytes": 365,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/gptneo27.yaml",
+    "relative_path": "baselines/mend/config/model/gptneo27.yaml",
+    "sha256": "809ce5da7d801f0b9c7ffc1b4b53632b23c7c8544f5dd1a401b8be4d3f17a46a"
+  },
+  {
+    "bytes": 572,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/t5large.yaml",
+    "relative_path": "baselines/mend/config/model/t5large.yaml",
+    "sha256": "109cf49c1cb32333e492e79d9974fa3e75f8c9a0459d40c872571e4eb13c85d5"
+  },
+  {
+    "bytes": 572,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/t5small.yaml",
+    "relative_path": "baselines/mend/config/model/t5small.yaml",
+    "sha256": "cee5cfbb9295137f1ecf154949c55f0f76254941d9cb48ecdd66bc6decd1a929"
+  },
+  {
+    "bytes": 574,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/t5xl.yaml",
+    "relative_path": "baselines/mend/config/model/t5xl.yaml",
+    "sha256": "e9611b81bd40bb80c21f462b195095deabab3d3d6ac344165ba16a3ec45bc5a6"
+  },
+  {
+    "bytes": 576,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/config/model/t5xxl.yaml",
+    "relative_path": "baselines/mend/config/model/t5xxl.yaml",
+    "sha256": "690ee1486411befec7312a0e37ed4ef615a57e1c74e4f7bea39ed6f87530d427"
+  },
+  {
+    "bytes": 4399,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/data_classes/fever.py",
+    "relative_path": "baselines/mend/data_classes/fever.py",
+    "sha256": "098397ce1214eb8cce6b90c8ba6ebd67024afcbc2f58ccaf887b5a365732308a"
+  },
+  {
+    "bytes": 2098,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/data_classes/nq.py",
+    "relative_path": "baselines/mend/data_classes/nq.py",
+    "sha256": "f8d8dfaadf866e82c50e4c5bfef14a9b54aa5799aca3cea8f403f0461ba61f69"
+  },
+  {
+    "bytes": 4533,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/data_classes/wiki.py",
+    "relative_path": "baselines/mend/data_classes/wiki.py",
+    "sha256": "60ea3f99dcb4386f38454fdda9b7a65963df76240ce516d093e396a969576627"
+  },
+  {
+    "bytes": 7502,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/data_classes/zsre.py",
+    "relative_path": "baselines/mend/data_classes/zsre.py",
+    "sha256": "2acb707212802d65a55f46ada4381af330ff1cc9842ed9c56326de14b0711581"
+  },
+  {
+    "bytes": 876,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/editable_model.py",
+    "relative_path": "baselines/mend/editable_model.py",
+    "sha256": "34330a12b9864001ea46ecae794df1ea85cedb38082df783b31d67cc8939e245"
+  },
+  {
+    "bytes": 854,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/hooks.py",
+    "relative_path": "baselines/mend/hooks.py",
+    "sha256": "b6037d8f9778f2d74952dafe3acc76f761df6884d85e9b5b57559cd08f7d2d6f"
+  },
+  {
+    "bytes": 2859,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/losses.py",
+    "relative_path": "baselines/mend/losses.py",
+    "sha256": "271a10d9e995ffd92c2de239f652928d651013f8a0889bd4205ffca1469127e8"
+  },
+  {
+    "bytes": 229,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/mend_hparams.py",
+    "relative_path": "baselines/mend/mend_hparams.py",
+    "sha256": "071bc2c833cd1362906eee12b081c272650f909e9c93389bb05be86ae8626eb3"
+  },
+  {
+    "bytes": 6157,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/mend_main.py",
+    "relative_path": "baselines/mend/mend_main.py",
+    "sha256": "7e72af6f626798696f50c81ad72276f4807422bd365d5d6f130ca7e2852f53b5"
+  },
+  {
+    "bytes": 6628,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/models.py",
+    "relative_path": "baselines/mend/models.py",
+    "sha256": "2e94d797f3813d57a532c676ba6609a91e89eb36bdfb8479bc092dccc5ce4420"
+  },
+  {
+    "bytes": 6879,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/nn.py",
+    "relative_path": "baselines/mend/nn.py",
+    "sha256": "ffca4fb48675c4c6cf56bb9cbbff8ce50f2c46eb8fdbfc6a7e1b6308acddab92"
+  },
+  {
+    "bytes": 3983,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/oracle.py",
+    "relative_path": "baselines/mend/oracle.py",
+    "sha256": "d3657df3b292a4c78564c59b9a07ccdb8e6ff74b111cd489e38c5e5112ad4b1b"
+  },
+  {
+    "bytes": 290,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/requirements.txt",
+    "relative_path": "baselines/mend/requirements.txt",
+    "sha256": "17082daf26c99220b8bfff81f282ca445e19b6ee69835f31009a4ce0d0ed20cd"
+  },
+  {
+    "bytes": 3244,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/run.py",
+    "relative_path": "baselines/mend/run.py",
+    "sha256": "2e57976fb507bc5bc27f88ea8a7bacd7b2a75d6b45170ed4870643ae5ce74765"
+  },
+  {
+    "bytes": 15105,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/trainer.py",
+    "relative_path": "baselines/mend/trainer.py",
+    "sha256": "91c9d6378c0cbe6340cf4591618a68aa70f805059a01881f43c71859e001dcb1"
+  },
+  {
+    "bytes": 8198,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/baselines/mend/utils.py",
+    "relative_path": "baselines/mend/utils.py",
+    "sha256": "bb981c845c07709efa4e81610ec575be7e3f3b909a42b79610a47044c04c0554"
+  },
+  {
+    "bytes": 260,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/__init__.py",
+    "relative_path": "dsets/__init__.py",
+    "sha256": "9f4341dcfcb2c81e3d473abc581e203b2eccba3dd874ebcca017d8beb70f1c48"
+  },
+  {
+    "bytes": 1327,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/attr_snippets.py",
+    "relative_path": "dsets/attr_snippets.py",
+    "sha256": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a"
+  },
+  {
+    "bytes": 1400,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/counterfact.py",
+    "relative_path": "dsets/counterfact.py",
+    "sha256": "7848e935a578c40e187167a2894601b0dbf42d2334b5289a012276ea1eb672b5"
+  },
+  {
+    "bytes": 857,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/knowns.py",
+    "relative_path": "dsets/knowns.py",
+    "sha256": "e2428c36d17b0dec1f390888a98334bd0fd1f64168bffae7566ef8a8606f361e"
+  },
+  {
+    "bytes": 1239,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/mquake.py",
+    "relative_path": "dsets/mquake.py",
+    "sha256": "d4a674daa74ef20779e9003af90ea7e643ce1f046a8fabfaeba81dbb3a9114cd"
+  },
+  {
+    "bytes": 2335,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/tfidf_stats.py",
+    "relative_path": "dsets/tfidf_stats.py",
+    "sha256": "c5e55b81931fd060a625da2983f4297518b9610df8d174baee242ac73f7ae5be"
+  },
+  {
+    "bytes": 2237,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/dsets/zsre.py",
+    "relative_path": "dsets/zsre.py",
+    "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e"
+  },
+  {
+    "bytes": 0,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/__init__.py",
+    "relative_path": "experiments/__init__.py",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "bytes": 28449,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/causal_trace.py",
+    "relative_path": "experiments/causal_trace.py",
+    "sha256": "153a06b99afe197a449d764654c92588b7c14fb0f356e6a58a3d5421a600a3d0"
+  },
+  {
+    "bytes": 2168,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/causal_trace_llama3.py",
+    "relative_path": "experiments/causal_trace_llama3.py",
+    "sha256": "2b12752ad3f4d9bd760e1e3754c0c3d39189035f5610835ceeaa0f61e5844fd0"
+  },
+  {
+    "bytes": 2162,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/causal_trace_phi.py",
+    "relative_path": "experiments/causal_trace_phi.py",
+    "sha256": "34b4bd52d947d2c8a33c14a09aade47e7e08ac92bf98e31f2109d5d61ff264dc"
+  },
+  {
+    "bytes": 2208,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/causal_trace_qwen_thinking.py",
+    "relative_path": "experiments/causal_trace_qwen_thinking.py",
+    "sha256": "0f0edcf195ff3a84cf1e3a1a500cd29bcc0137dcd00838be9b3a3d5aef30a306"
+  },
+  {
+    "bytes": 24181,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/evaluate.py",
+    "relative_path": "experiments/evaluate.py",
+    "sha256": "c1ffa7d7ea6df541dc1857c4da40cea9fa4bc5923b5212da9c83273bcc9410bd"
+  },
+  {
+    "bytes": 4890,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/py/demo.py",
+    "relative_path": "experiments/py/demo.py",
+    "sha256": "268c16a1c2c4e8642b7641739c2cd0808c08be80f36f280d1e5bef4944733772"
+  },
+  {
+    "bytes": 7996,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/py/eval_utils_counterfact.py",
+    "relative_path": "experiments/py/eval_utils_counterfact.py",
+    "sha256": "ee00ee9cfb1be1cb1e5d1495fd15b2d1bfef9426af2b159095b924e6bdd0da26"
+  },
+  {
+    "bytes": 3480,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/py/eval_utils_mquake.py",
+    "relative_path": "experiments/py/eval_utils_mquake.py",
+    "sha256": "68a9fe411aaeac1532e555212ec875cc3387c7fc47a6644aeb5dc5869508e25e"
+  },
+  {
+    "bytes": 4168,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/py/eval_utils_zsre.py",
+    "relative_path": "experiments/py/eval_utils_zsre.py",
+    "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97"
+  },
+  {
+    "bytes": 7541,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/summarize.py",
+    "relative_path": "experiments/summarize.py",
+    "sha256": "88145064675b6391139e89036a7aa32c320d357ac7d101fb343ad19aaf2c8afd"
+  },
+  {
+    "bytes": 4803,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/experiments/sweep.py",
+    "relative_path": "experiments/sweep.py",
+    "sha256": "bfc7a91e9abb526814f7d975a81ff0333e930b452e2da58b31dc2ae8a10cce74"
+  },
+  {
+    "bytes": 344099,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/fig/figure1.png",
+    "relative_path": "fig/figure1.png",
+    "sha256": "654076261f045dab9b2d7070c6e3f6059e835d4787dfc222e74f236db77b4242"
+  },
+  {
+    "bytes": 268,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/globals.yml",
+    "relative_path": "globals.yml",
+    "sha256": "41f77160ea401cc61e95f78738ee2911d73ee1997204d4a52df727221f4c5478"
+  },
+  {
+    "bytes": 8198,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/cola_eval.py",
+    "relative_path": "glue_eval/cola_eval.py",
+    "sha256": "966aa9ea2538f1b92e39b1629a635ec3c8a436f91d1b7335011b926fdca2e604"
+  },
+  {
+    "bytes": 38151,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/cola.pkl",
+    "relative_path": "glue_eval/dataset/cola.pkl",
+    "sha256": "60647626a1552b7070495ae919603a35ba04474b106d132b47067b7884bb6dc3"
+  },
+  {
+    "bytes": 1753,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/create_glue_subset.py",
+    "relative_path": "glue_eval/dataset/create_glue_subset.py",
+    "sha256": "848ca9f29a95cf9c50704041d39205f7fb7afcbcabdb1ce19364b1b5b7a6b191"
+  },
+  {
+    "bytes": 652342,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/dialogue.pkl",
+    "relative_path": "glue_eval/dataset/dialogue.pkl",
+    "sha256": "b908c05f2c7928afbce88843ff07bb84805c5dc51753236260283cba5bbb52a1"
+  },
+  {
+    "bytes": 757282,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/mmlu.pkl",
+    "relative_path": "glue_eval/dataset/mmlu.pkl",
+    "sha256": "fda21bebe7a7cdbaaac856ddb6e214bb78808ab845b64f25c5bf111474c6e715"
+  },
+  {
+    "bytes": 66240,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/mrpc.pkl",
+    "relative_path": "glue_eval/dataset/mrpc.pkl",
+    "sha256": "11c20371e9e078397de2c5005d7358649ff7a6e830eac5af05bd232f4113875a"
+  },
+  {
+    "bytes": 898153,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/nli.pkl",
+    "relative_path": "glue_eval/dataset/nli.pkl",
+    "sha256": "758f03cb511f1e5658648942818e35977998134a8ef35d46f475389b95c7e19b"
+  },
+  {
+    "bytes": 86425,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/rte.pkl",
+    "relative_path": "glue_eval/dataset/rte.pkl",
+    "sha256": "f7e6b18e88067019e3ca5bddd4c6e54db35542f2822e72b34f7216441508eb84"
+  },
+  {
+    "bytes": 103680,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/sentiment_analysis.pkl",
+    "relative_path": "glue_eval/dataset/sentiment_analysis.pkl",
+    "sha256": "5c8a278c8521047488ed7ed0ec00a5b9c350fbbcef1dc3603f9c596110f1618f"
+  },
+  {
+    "bytes": 105835,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/sst2.pkl",
+    "relative_path": "glue_eval/dataset/sst2.pkl",
+    "sha256": "e09e2cc85b7182b322012f93951b3c12f5efacd455955675bb9af81433c58b7a"
+  },
+  {
+    "bytes": 460,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dataset/useful_functions.py",
+    "relative_path": "glue_eval/dataset/useful_functions.py",
+    "sha256": "1d721f6a63d75989b400817ec9e22affde5ceaaa398c2114c3aa571a8dd25804"
+  },
+  {
+    "bytes": 9880,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/dialogue_eval.py",
+    "relative_path": "glue_eval/dialogue_eval.py",
+    "sha256": "896c42703f4499a5127a112f7c7594b7988fc7c26a1150f313114379d468ecab"
+  },
+  {
+    "bytes": 4718,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/glue_eval.py",
+    "relative_path": "glue_eval/glue_eval.py",
+    "sha256": "82b78a82eb011caec34bb9b316dd3d10e35ad7c4238ac7dc78594cca4597b9b8"
+  },
+  {
+    "bytes": 9755,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/mmlu_eval.py",
+    "relative_path": "glue_eval/mmlu_eval.py",
+    "sha256": "f18e66ff55b7d1a7fb5004a15e2c385f1a3148e100af88e65f7e3da6adf2fdc4"
+  },
+  {
+    "bytes": 8401,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/mrpc_eval.py",
+    "relative_path": "glue_eval/mrpc_eval.py",
+    "sha256": "c198cf37b665d3877996a843276f6ca8ec3ec4a6f781f247e74336b207eeeddb"
+  },
+  {
+    "bytes": 8621,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/nli_eval.py",
+    "relative_path": "glue_eval/nli_eval.py",
+    "sha256": "d6184b2065fb59d057ede1f83f41cd3dd50658168cf9e5481ad0449f39c1b6ee"
+  },
+  {
+    "bytes": 8738,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/rte_eval.py",
+    "relative_path": "glue_eval/rte_eval.py",
+    "sha256": "9784545b77724ffdb6954f76e4b7ee6b464acb09c9c7972df6464f9dedb90089"
+  },
+  {
+    "bytes": 8664,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/sentiment_analysis_eval.py",
+    "relative_path": "glue_eval/sentiment_analysis_eval.py",
+    "sha256": "73aae4298b436de90d9b43cf9e495eb72fb1d718d49fb780bc7553d8069ae01f"
+  },
+  {
+    "bytes": 7901,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/sst_eval.py",
+    "relative_path": "glue_eval/sst_eval.py",
+    "sha256": "5e141538122c61971af9cefd02bae89721f1c5d7ce0bbef3745cd5f08e579f2d"
+  },
+  {
+    "bytes": 1554,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/glue_eval/useful_functions.py",
+    "relative_path": "glue_eval/useful_functions.py",
+    "sha256": "26e62600dbc36cbf2b10abda4f186a876baaddbd5aea440fad6d75332b94ee06"
+  },
+  {
+    "bytes": 8196,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/.DS_Store",
+    "relative_path": "hparams/.DS_Store",
+    "sha256": "467f65b4b104ee7f2d7a86656d717b1940a39e5e83f1b6443f6c38afd9dad5bf"
+  },
+  {
+    "bytes": 777,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/AlphaEdit/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/AlphaEdit/EleutherAI_gpt-j-6B.json",
+    "sha256": "e47fc4a4791ea9e5347e8dfe58dc5e91f6085cce5ad6960bacf9d56afd209b14"
+  },
+  {
+    "bytes": 744,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/AlphaEdit/Llama3-8B.json",
+    "relative_path": "hparams/AlphaEdit/Llama3-8B.json",
+    "sha256": "8c7e737e947c0be23a7193c9d1b87e998f10f456e43c952512734ca3b932a992"
+  },
+  {
+    "bytes": 759,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/AlphaEdit/Qwen3-4B-Thinking-2507.json",
+    "relative_path": "hparams/AlphaEdit/Qwen3-4B-Thinking-2507.json",
+    "sha256": "eaea1872e8fbefeb156b7284a91d30c7069a450e86f6dd127f510d22252b394a"
+  },
+  {
+    "bytes": 750,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/AlphaEdit/gpt2-xl.json",
+    "relative_path": "hparams/AlphaEdit/gpt2-xl.json",
+    "sha256": "d5cdab0739b3334df3b4a6c8e40c6907e6f42a32be1a48ebb65d4c7ce74ad322"
+  },
+  {
+    "bytes": 748,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/AlphaEdit/phi-1.5.json",
+    "relative_path": "hparams/AlphaEdit/phi-1.5.json",
+    "sha256": "a15589a7072c6603654afcd4c7835475f8bcff6e054035ce2a52d33836b9a01c"
+  },
+  {
+    "bytes": 782,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Blue/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/Blue/EleutherAI_gpt-j-6B.json",
+    "sha256": "2e7b7e473ee6f1c1e065f44960126315a3a07abdf8cee12d825c98e20ca43482"
+  },
+  {
+    "bytes": 753,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Blue/Llama3-8B.json",
+    "relative_path": "hparams/Blue/Llama3-8B.json",
+    "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+  },
+  {
+    "bytes": 750,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Blue/Qwen3-4B-Thinking-2507.json",
+    "relative_path": "hparams/Blue/Qwen3-4B-Thinking-2507.json",
+    "sha256": "56a4d2501c3c0930540d93b2e39fe601e36a0b88a32ef3563af02f8031858748"
+  },
+  {
+    "bytes": 755,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Blue/gpt2-xl.json",
+    "relative_path": "hparams/Blue/gpt2-xl.json",
+    "sha256": "4514321a42ea06d95b9c41984886095c8b1235c32622d5f54b7a67e04a314818"
+  },
+  {
+    "bytes": 757,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Blue/phi-1.5.json",
+    "relative_path": "hparams/Blue/phi-1.5.json",
+    "sha256": "3b022ec1372b5938b1307b7a64984ccebcf6e30c190c6e27af0a4d990e453698"
+  },
+  {
+    "bytes": 995,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/Cake/EleutherAI_gpt-j-6B.json",
+    "sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0"
+  },
+  {
+    "bytes": 979,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/Llama3-8B.json",
+    "relative_path": "hparams/Cake/Llama3-8B.json",
+    "sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e"
+  },
+  {
+    "bytes": 926,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/Qwen3-4B-Thinking-2507.json",
+    "relative_path": "hparams/Cake/Qwen3-4B-Thinking-2507.json",
+    "sha256": "07ca512dc037bc09c145fdadabc460cc06cb5aa86f5e1e4704e195da70b6b6e7"
+  },
+  {
+    "bytes": 941,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/gpt2-xl.json",
+    "relative_path": "hparams/Cake/gpt2-xl.json",
+    "sha256": "44cc8de6e4f5978e1d3079fc98e93d75291ec57e86935aab418fe3bf676e1179"
+  },
+  {
+    "bytes": 915,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/Cake/phi-1.5.json",
+    "relative_path": "hparams/Cake/phi-1.5.json",
+    "sha256": "9fd0e369cafd1e52044e1e77bff5927fcac302c21686c9db9ece15f67e18aac5"
+  },
+  {
+    "bytes": 411,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/EleutherAI_gpt-j-6B_constr.json",
+    "relative_path": "hparams/FT/EleutherAI_gpt-j-6B_constr.json",
+    "sha256": "018e27089431ed3632aa0b8f2f1b4aa51daa81ba39f24952a400a92df84fa28b"
+  },
+  {
+    "bytes": 413,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/EleutherAI_gpt-j-6B_unconstr.json",
+    "relative_path": "hparams/FT/EleutherAI_gpt-j-6B_unconstr.json",
+    "sha256": "1d605b748ed9709efb19d3f04c82de2d1ff12c81144c1d6621e72408f838d098"
+  },
+  {
+    "bytes": 454,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/EleutherAI_gpt-j-6B_wd.json",
+    "relative_path": "hparams/FT/EleutherAI_gpt-j-6B_wd.json",
+    "sha256": "5161e47c66580d13524abc1bbbb42b146163ff2f51121a4c74f23679bbad8254"
+  },
+  {
+    "bytes": 418,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/Llama3-8B.json",
+    "relative_path": "hparams/FT/Llama3-8B.json",
+    "sha256": "b6f8748a488d99ddfe715e92da4b50a6cd4d6b80faba3fc90302dd0872a3d4d0"
+  },
+  {
+    "bytes": 419,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/gpt2-large_constr.json",
+    "relative_path": "hparams/FT/gpt2-large_constr.json",
+    "sha256": "48298eec3688c393dcf610e114b30a521fa3d8b5fc7fb5d5e938f61996f93d19"
+  },
+  {
+    "bytes": 419,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/gpt2-medium_constr.json",
+    "relative_path": "hparams/FT/gpt2-medium_constr.json",
+    "sha256": "fd1b7a80dff0e6d1c8e32c38b0ab620505ed1668d366d292a5776a49d2d7e23d"
+  },
+  {
+    "bytes": 421,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/gpt2-xl_attn.json",
+    "relative_path": "hparams/FT/gpt2-xl_attn.json",
+    "sha256": "28348947fe372113c6fc9d0a1b851121dbf8e198311ae7d573b4b6f8173a477b"
+  },
+  {
+    "bytes": 419,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/gpt2-xl_constr.json",
+    "relative_path": "hparams/FT/gpt2-xl_constr.json",
+    "sha256": "6f1a26e915b2fc5a203443322aa224f4dd47150117f1cc5d1ee7f8026108047f"
+  },
+  {
+    "bytes": 420,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/FT/gpt2-xl_unconstr.json",
+    "relative_path": "hparams/FT/gpt2-xl_unconstr.json",
+    "sha256": "484393773f7a18844dd7c7f212673e4a8113515f0dfcc29c9d02c494f13bb137"
+  },
+  {
+    "bytes": 733,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+    "sha256": "ca708d6945cbd8cd0e707efe2167c336ca9310881e6e6101ce8af1c25ef21624"
+  },
+  {
+    "bytes": 700,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEMIT/Llama3-8B.json",
+    "relative_path": "hparams/MEMIT/Llama3-8B.json",
+    "sha256": "7dbe03a346265a9d63d2b5042b445b73d84f66eb261e263bab9c0638c6c619fe"
+  },
+  {
+    "bytes": 705,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEMIT/gpt2-xl.json",
+    "relative_path": "hparams/MEMIT/gpt2-xl.json",
+    "sha256": "21d810a4d799e7700ebedb8dfbf0e886f90e9dda331dd411c5e1a09cb3964894"
+  },
+  {
+    "bytes": 146,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/MEND/EleutherAI_gpt-j-6B.json",
+    "sha256": "d1e7bbd8a8486cda08af026c7cfdcc12b3a4fac3fab738a528e11adb8e52d97b"
+  },
+  {
+    "bytes": 145,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/EleutherAI_gpt-j-6B_CF.json",
+    "relative_path": "hparams/MEND/EleutherAI_gpt-j-6B_CF.json",
+    "sha256": "b30a5f403fa4972201d1ca994c70b3c6dbd396d7163bd502bc1cbe571e87d44c"
+  },
+  {
+    "bytes": 200,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/Llama3-8B.json",
+    "relative_path": "hparams/MEND/Llama3-8B.json",
+    "sha256": "a486acf02bd24b3f6c6dd57dc8a60ba9e398fc23f28031678b4c61dfef8fddf4"
+  },
+  {
+    "bytes": 134,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/gpt2-xl.json",
+    "relative_path": "hparams/MEND/gpt2-xl.json",
+    "sha256": "fe1a786ca540a3dee435621a56659d070b52b0354f85d08f9c0874f2e3d8fb79"
+  },
+  {
+    "bytes": 132,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/gpt2-xl_CF.json",
+    "relative_path": "hparams/MEND/gpt2-xl_CF.json",
+    "sha256": "5691b370fc2b8540d2c28d608d53e2328005ce5b933ab9e04726bde7cf93f44e"
+  },
+  {
+    "bytes": 132,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/MEND/gpt2-xl_zsRE.json",
+    "relative_path": "hparams/MEND/gpt2-xl_zsRE.json",
+    "sha256": "f6b0cc610281f474f702075064fe5eef83e0e7925d7f7d51036ee1fbc03a999a"
+  },
+  {
+    "bytes": 825,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/NSE/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/NSE/EleutherAI_gpt-j-6B.json",
+    "sha256": "5a579210bebe197acef3499ae5fc228ea1531ac8da4ce4572f55928dec88388d"
+  },
+  {
+    "bytes": 795,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/NSE/Llama3-8B.json",
+    "relative_path": "hparams/NSE/Llama3-8B.json",
+    "sha256": "0b995542d794f66c3e5703337d8b2d38d83346ea769a8b644d2c45f403c32f58"
+  },
+  {
+    "bytes": 800,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/NSE/gpt2-xl.json",
+    "relative_path": "hparams/NSE/gpt2-xl.json",
+    "sha256": "b573973937ce40004c11bf5b16ad9d074a465a3182bb20a4b554d126c941058f"
+  },
+  {
+    "bytes": 832,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/PMET/EleutherAI_gpt-j-6B-mcf-batch.json",
+    "relative_path": "hparams/PMET/EleutherAI_gpt-j-6B-mcf-batch.json",
+    "sha256": "a17160c2b15ca70e57704813d5bd1c4fd81c3d4d90a5c806e610558bc4e4a70a"
+  },
+  {
+    "bytes": 828,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/PMET/EleutherAI_gpt-j-6B-zsre-batch.json",
+    "relative_path": "hparams/PMET/EleutherAI_gpt-j-6B-zsre-batch.json",
+    "sha256": "e1b5fd178d5b20888b7e610d0f3346acf6f0c4a8ea624b2f4833b18605dde124"
+  },
+  {
+    "bytes": 809,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/PMET/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/PMET/EleutherAI_gpt-j-6B.json",
+    "sha256": "ff1ebb66a38ab2b0bcfb32cf5ce18d11208c3e605ce97263f0f0dce81df5ddfb"
+  },
+  {
+    "bytes": 779,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/PMET/Llama3-8B.json",
+    "relative_path": "hparams/PMET/Llama3-8B.json",
+    "sha256": "a67601a0dbe847a669189fc29b01ebe6b2b23e56ce9ca0a53fc7fbe9775b466f"
+  },
+  {
+    "bytes": 776,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/PMET/gpt2-xl.json",
+    "relative_path": "hparams/PMET/gpt2-xl.json",
+    "sha256": "ebc137f6b97d13c0ade95a7f161830154695f697f6b51531049d03d320419bb2"
+  },
+  {
+    "bytes": 667,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/EleutherAI_gpt-j-6B.json",
+    "relative_path": "hparams/ROME/EleutherAI_gpt-j-6B.json",
+    "sha256": "b9670ba53009c96c39c9d40c7602a5236b92315d157fb95764ce0bc1d7b3e4db"
+  },
+  {
+    "bytes": 698,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/EleutherAI_gpt-neox-20b.json",
+    "relative_path": "hparams/ROME/EleutherAI_gpt-neox-20b.json",
+    "sha256": "fadf233859d46cf02ef219f74bced47652d277cd392de51c7c1ce6585d1d60b9"
+  },
+  {
+    "bytes": 652,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/Llama3-8B.json",
+    "relative_path": "hparams/ROME/Llama3-8B.json",
+    "sha256": "706409f768fe942ed397dd9a7235622e12f5a3ef5be23cbeef518846382f1552"
+  },
+  {
+    "bytes": 671,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/gpt2-large.json",
+    "relative_path": "hparams/ROME/gpt2-large.json",
+    "sha256": "2c5cb903948c6e261d2bb9aa2e9dfbd20ac30d38a2669054a25defcaed4a13ed"
+  },
+  {
+    "bytes": 670,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/gpt2-medium.json",
+    "relative_path": "hparams/ROME/gpt2-medium.json",
+    "sha256": "3a6b72ddf9e0b859e6909a1e144c5bb6958852a0e4fef36db0e4424c424c1913"
+  },
+  {
+    "bytes": 675,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/hparams/ROME/gpt2-xl.json",
+    "relative_path": "hparams/ROME/gpt2-xl.json",
+    "sha256": "81a98b788b8fbb89718288a8831441200e7d824fd057f62cb7d913ae4da5cf42"
+  },
+  {
+    "bytes": 62,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/__init__.py",
+    "relative_path": "memit/__init__.py",
+    "sha256": "911cc037562a368ca7017ea66f4821c5a848f286a55b7d624c242209afcd01df"
+  },
+  {
+    "bytes": 1540,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/compute_ks.py",
+    "relative_path": "memit/compute_ks.py",
+    "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+  },
+  {
+    "bytes": 9512,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/compute_z.py",
+    "relative_path": "memit/compute_z.py",
+    "sha256": "cc6884dd66b58de0647b3ad47d2d5daa4db99b7157b464dbd2c62db52e47421a"
+  },
+  {
+    "bytes": 815,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/memit_hparams.py",
+    "relative_path": "memit/memit_hparams.py",
+    "sha256": "5930c2ee1634726fb4d1dd1b950133a783a18dce78fe26d4a3bea21d274c89bb"
+  },
+  {
+    "bytes": 10072,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/memit_main.py",
+    "relative_path": "memit/memit_main.py",
+    "sha256": "4b5c6478da463bb174036a3a0495d7786f8e4d207ee7021a7e9afb6aef977168"
+  },
+  {
+    "bytes": 10389,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/memit_rect_main.py",
+    "relative_path": "memit/memit_rect_main.py",
+    "sha256": "539d73f5db22ce4e5d4b4017c28c92467cae734a6e57e1336b7339747ae5693e"
+  },
+  {
+    "bytes": 10372,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/memit/memit_seq_main.py",
+    "relative_path": "memit/memit_seq_main.py",
+    "sha256": "0df1d34b8395dfaeba83747e701b864dd23edad0cc7700a5e5ac258da7777785"
+  },
+  {
+    "bytes": 56,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/nse/__init__.py",
+    "relative_path": "nse/__init__.py",
+    "sha256": "89e2644b30e3e56f5aef72d0244abd49d5a01a2a28bc9cab7c6c02763af75e3a"
+  },
+  {
+    "bytes": 1534,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/nse/compute_ks.py",
+    "relative_path": "nse/compute_ks.py",
+    "sha256": "db50a9faf5387c59ceea4ddc8e6cd7c0e9c789525ae2b711f347791fc416b7b2"
+  },
+  {
+    "bytes": 9506,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/nse/compute_z.py",
+    "relative_path": "nse/compute_z.py",
+    "sha256": "6337689843edacabbc4f50e7dd625c3d84e92e721369eb6a093621bd77ad1bce"
+  },
+  {
+    "bytes": 905,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/nse/nse_hparams.py",
+    "relative_path": "nse/nse_hparams.py",
+    "sha256": "8e5396213de444da956848fa9306711ce57f70e7ef9a3906f901e28430e08fd0"
+  },
+  {
+    "bytes": 12629,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/nse/nse_main.py",
+    "relative_path": "nse/nse_main.py",
+    "sha256": "5c109af2ee764d4298c939c7af9c168ed0f5ec3779cdea52c64221feb00c810e"
+  },
+  {
+    "bytes": 135,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/__init__.py",
+    "relative_path": "pmet/__init__.py",
+    "sha256": "2b7391a578e20fc456bf81fab76b8b2bef2174944c3b108741e0290263b95f67"
+  },
+  {
+    "bytes": 3371,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/compute_ks.py",
+    "relative_path": "pmet/compute_ks.py",
+    "sha256": "1c001bdd77b2650f26441a524e5d3f522b62d245b52781c2046ad27fb44d3d78"
+  },
+  {
+    "bytes": 22427,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/compute_zs.py",
+    "relative_path": "pmet/compute_zs.py",
+    "sha256": "37caa0fc2721718f5400d059e1ab0e22e779efcaf60fd810bcff45636e11a24e"
+  },
+  {
+    "bytes": 1013,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/pmet_hparams.py",
+    "relative_path": "pmet/pmet_hparams.py",
+    "sha256": "5a9b69af997a76b0d3f2d9e70cacd1ba11bf330f73eb02a3e9ff96066f0c6a31"
+  },
+  {
+    "bytes": 23865,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/pmet_main.py",
+    "relative_path": "pmet/pmet_main.py",
+    "sha256": "01d787ca804d446379b1b6e039072a36acc6f14d7c39ade8b11f9d21640979b3"
+  },
+  {
+    "bytes": 24470,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/pmet/pmet_seq_main.py",
+    "relative_path": "pmet/pmet_seq_main.py",
+    "sha256": "29a6010eb3abfd2dc08b3dba50df50bd54e8303aee13315ca79b84fc6a020fd2"
+  },
+  {
+    "bytes": 861,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/README.md",
+    "relative_path": "rome/README.md",
+    "sha256": "4711e2605517fe1308cccd59748761e19342b4c0b0b26d2a9a32bbf3a93f94a6"
+  },
+  {
+    "bytes": 74,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/__init__.py",
+    "relative_path": "rome/__init__.py",
+    "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+  },
+  {
+    "bytes": 30640,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/causal_trace.py",
+    "relative_path": "rome/causal_trace.py",
+    "sha256": "ef5d9679fc0b76d8fc7dd504f0c83ba1872582db849064f6cd33f4665c40507e"
+  },
+  {
+    "bytes": 3637,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/compute_u.py",
+    "relative_path": "rome/compute_u.py",
+    "sha256": "4e931a6be742e9e9be6cd55d534b5610ae51651610d361157391c95177f118bd"
+  },
+  {
+    "bytes": 9558,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/compute_v.py",
+    "relative_path": "rome/compute_v.py",
+    "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009"
+  },
+  {
+    "bytes": 7383,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/layer_stats.py",
+    "relative_path": "rome/layer_stats.py",
+    "sha256": "68a2338d2107b95719cbedfad365ec3bba675ef6247be8a8147972a7935a5411"
+  },
+  {
+    "bytes": 9162,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/repr_tools.py",
+    "relative_path": "rome/repr_tools.py",
+    "sha256": "7be2921dea65325b0190e32c01fde14106970e78b897b93c03824e8490957504"
+  },
+  {
+    "bytes": 674,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/rome_hparams.py",
+    "relative_path": "rome/rome_hparams.py",
+    "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+  },
+  {
+    "bytes": 6041,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/rome_main.py",
+    "relative_path": "rome/rome_main.py",
+    "sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f"
+  },
+  {
+    "bytes": 3103,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/rome/tok_dataset.py",
+    "relative_path": "rome/tok_dataset.py",
+    "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4"
+  },
+  {
+    "bytes": 34,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/__init__.py",
+    "relative_path": "util/__init__.py",
+    "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+  },
+  {
+    "bytes": 5559,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/generate.py",
+    "relative_path": "util/generate.py",
+    "sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3"
+  },
+  {
+    "bytes": 388,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/globals.py",
+    "relative_path": "util/globals.py",
+    "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+  },
+  {
+    "bytes": 319,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/hparams.py",
+    "relative_path": "util/hparams.py",
+    "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+  },
+  {
+    "bytes": 2893,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/logit_lens.py",
+    "relative_path": "util/logit_lens.py",
+    "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+  },
+  {
+    "bytes": 15506,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/nethook.py",
+    "relative_path": "util/nethook.py",
+    "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+  },
+  {
+    "bytes": 758,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/perplexity.py",
+    "relative_path": "util/perplexity.py",
+    "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e"
+  },
+  {
+    "bytes": 65305,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/upstream/CAKE/util/runningstats.py",
+    "relative_path": "util/runningstats.py",
+    "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+  }
+]

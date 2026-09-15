@@ -1,0 +1,15 @@
+--- a/Cake/Cake_main.py
++++ b/Cake/Cake_main.py
+@@ -3,7 +3,6 @@
+ from pathlib import Path
+ from typing import Any, Dict, List, Optional, Tuple
+ import csv
+-from notebooks.util import hparams
+ import numpy as np
+ import torch
+ from transformers import AutoModelForCausalLM, AutoTokenizer
+@@ -300,4 +299,4 @@
+     constraint_error = torch.linalg.norm(sum_deltas - targets)
+     print(f"Constraint error ||Σ δ_l - R||: {constraint_error:.6f}")
+     
+-    return deltas+    return deltas

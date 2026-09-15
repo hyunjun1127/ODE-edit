@@ -1,0 +1,44 @@
+{
+  "argv": [
+    "sbatch",
+    "--hold",
+    "--parsable",
+    "--output",
+    "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/%j.out",
+    "--error",
+    "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/%j.err",
+    "--chdir",
+    "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution/CAKE",
+    "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/source/cake_native_lifelong/run.sbatch",
+    "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1"
+  ],
+  "available_bytes": 256463474688,
+  "free_inodes": 226299494,
+  "host": "server4",
+  "job_id": "48101",
+  "mode": "submit-held",
+  "other_active_plus_pending_reserved_gpus": 0,
+  "owner": "janghj",
+  "project_cap": 2,
+  "queue_snapshot": "",
+  "requested_gpu": 1,
+  "resource": {
+    "cpus": 8,
+    "export": "NONE",
+    "gpus": 1,
+    "mem_mib": 60416,
+    "requeue": 0,
+    "wall": "2-00:00:00"
+  },
+  "script": {
+    "bytes": 1005,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/source/cake_native_lifelong/run.sbatch",
+    "sha256": "beaf66069bc419300a51fcd083da16fa853eea3f566e08343f9e90c74ef3993f"
+  },
+  "source_lock": {
+    "bytes": 625520,
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution.lock.json",
+    "sha256": "f2ade3ee9dbdabdc6a1ac00a9d36b0e902710a44cf5e2a6a49c6d861e18eb401"
+  },
+  "time_utc": "2026-09-15T08:52:42.470774+00:00"
+}

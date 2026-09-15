@@ -1,0 +1,95 @@
+{
+  "baseline_lock": {
+    "bytes": 529205,
+    "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/execution.lock.json",
+    "sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a"
+  },
+  "baseline_runtime": {
+    "bytes": 5702,
+    "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/runtime.json",
+    "sha256": "ca21536f4c5e6acbb473991e121e5dc89fa9408e90fe7322ea9f5cc2c71c7b45"
+  },
+  "baseline_source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+  "baseline_source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+  "context": {
+    "bytes": 270,
+    "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+    "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+  },
+  "context_function_ast_equal": true,
+  "hparam_differences": {
+    "causal_scores": {
+      "BASE_ALPHAEDIT": "NOT_PRESENT",
+      "CAKE": {
+        "0": 0.4812439084,
+        "1": 0.4743820429,
+        "2": 0.4656370878,
+        "3": 0.4440660179,
+        "4": 0.4335190654
+      }
+    },
+    "clamp_norm_factor": {
+      "BASE_ALPHAEDIT": 0.75,
+      "CAKE": 0.5
+    },
+    "temperature": {
+      "BASE_ALPHAEDIT": "NOT_PRESENT",
+      "CAKE": 0.1
+    },
+    "v_weight_decay": {
+      "BASE_ALPHAEDIT": 0.5,
+      "CAKE": 0.4
+    }
+  },
+  "planned_environment": {
+    "attention": "eager",
+    "dtype": "torch.float32",
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "tf32_cudnn": true,
+    "tf32_matmul": false,
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    }
+  },
+  "projector_mapping": [
+    {
+      "asset_index": 0,
+      "local_index": 0,
+      "physical_layer": 4
+    },
+    {
+      "asset_index": 1,
+      "local_index": 1,
+      "physical_layer": 5
+    },
+    {
+      "asset_index": 2,
+      "local_index": 2,
+      "physical_layer": 6
+    },
+    {
+      "asset_index": 3,
+      "local_index": 3,
+      "physical_layer": 7
+    },
+    {
+      "asset_index": 4,
+      "local_index": 4,
+      "physical_layer": 8
+    }
+  ],
+  "upstream_readme_environment": {
+    "torch": "2.6.0",
+    "transformers": "4.51.3"
+  }
+}
