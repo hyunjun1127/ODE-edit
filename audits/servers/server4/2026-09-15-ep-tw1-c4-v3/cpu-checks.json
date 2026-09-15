@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "cpu_tests": 51,
+  "status": "CPU_FIXTURES_PASS_NOT_GPU_G0",
+  "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=<deps-transformers-4.44.2>:<worktree> /data/janghj/EasyEdit/.venv/bin/python -m unittest discover -s project/run_scripts/bg_tw_reference/ep_tw -t . -v",
+  "scope": ["projection and KKT", "target ball and actual trust", "RAW C0 bytes", "same strict count different IDs rejected", "zero-positive E allowance", "FP32 candidate dedup", "RAW fallback", "accepted ledger", "native return observer", "toy model all-token functional weight", "canonical current gradient mass", "C4 score shift and KL direction", "separate gradients", "chronology", "first1000", "active plus pending reservations"],
+  "bash_syntax": "PASS",
+  "slurm_memory_audit": "PASS explicit60416M",
+  "source_red": "NO_KNOWN_BLOCK; actual model technical tests embedded before first commit",
+  "actual_model_GPU_parity": "NOT_RUN",
+  "positive_quality_allowance": null,
+  "baseline_editing_reruns": 0,
+  "N4_calibration": false,
+  "scientific_promotion": false
+}
