@@ -1,0 +1,42 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-SAVED-EPISODE-FD-REPAIR-SH4-V1",
+  "base_main": "e665d32f27fcb07f2a9d86670e93f46cbbcda859",
+  "documents": [
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-failure-review-ko.md",
+      "bytes": 15229,
+      "sha256": "4c2241e0709a98d2d16ae401633bb7b4afe0018c8c67dac7855d637a85e88c89"
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-failure-review-checks.json",
+      "bytes": 3896,
+      "sha256": "ac50462b1301faa13187cb7ac99e73cffdc9c04c410e9a06aa998583909ddef8"
+    }
+  ],
+  "failed_source_commit": "3fb0bfb27773ec9d016e76fcdc978dc996f010a7",
+  "failed_source_verified": [
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/technical.py",
+      "bytes": 10331,
+      "sha256": "dfcd42afa147427ae24e86ea8ff7e83b963976f90897542d25f12e6127dd9dc4"
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "bytes": 23247,
+      "sha256": "aaf857a16359cb1cf4b901a9737dd16b32e9d2fc62fde2ea86232485b81bbdc5"
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/runner.py",
+      "bytes": 23774,
+      "sha256": "1ba5630c5846db5ac07145724669a85361220ef078a58ea34e8cd3286ba012c4"
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/native_map.py",
+      "bytes": 8173,
+      "sha256": "fd2f53e5a9cd8d93a34cc0cba89f24d5d271cb4d29a4d84cf45b9340a5f16914"
+    }
+  ],
+  "validation": "GH fully read supplied review/checks and affected source; exact bytes and dispatch invariants verified. Provided36 checks not relabeled as new model/FD PASS.",
+  "GH_model_GPU_repair": 0,
+  "SH4_new_execution": "NOT_OBSERVED"
+}

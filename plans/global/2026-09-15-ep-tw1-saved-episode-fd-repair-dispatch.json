@@ -1,0 +1,88 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-SAVED-EPISODE-FD-REPAIR-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EP-TW1-SAVED-EPISODE-FD-REPAIR-20260915-R1",
+  "parent": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "prior_failed_job": "47884",
+  "authority": "user explicit repair-run 2026-09-15; supersedes diagnosis-only only within this envelope",
+  "envelope": "messages/head/2026-09-15-sh4-ep-tw1-saved-episode-fd-repair.md",
+  "reuse": {
+    "native_episode_sha256": "67b1aaaf765fca753e3399016967f62b2e0cf3f5b2f374874b1eb9d9aae88451",
+    "native_target_calls_diagnostic": 0,
+    "native_solves_diagnostic": 0,
+    "complete_scientific_checkpoint": false,
+    "old_gradients_saved": false,
+    "teacher_regeneration": false
+  },
+  "diagnostic": {
+    "grid_factors": [
+      1,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125,
+      0.00390625,
+      0.001953125
+    ],
+    "grid_objectives": [
+      "E",
+      "D"
+    ],
+    "direction_roles": [
+      "self_gradient",
+      "one_prelocked_independent"
+    ],
+    "max_signed_grid_observations": 80,
+    "repeats_rechecks_cap": "must prelock before GPU; separate from80 grid observations",
+    "minimum_adjacent_resolved_scales": 2,
+    "relative_derivative_tolerance": 0.15,
+    "absolute_derivative_tolerance": 1e-7,
+    "relative_convergence_tolerance": 0.15,
+    "convergence_denominator": "max(abs(AD),1e-7)",
+    "coarse_failures_preserved": true,
+    "extrapolation_for_PASS": false,
+    "E_must_pass_before_D": true,
+    "E_and_D_required_before_science": true,
+    "direct_weight_gradient_independent_of_custom_affine_node": true,
+    "early_saves_required": true
+  },
+  "scientific": {
+    "conditional_after_technical_PASS": true,
+    "new_replacement_chains": 1,
+    "start": "fresh W0/cold M0",
+    "batch_size": 100,
+    "batches": 10,
+    "unique_requests": 1000,
+    "old_failed_commit_count": 0,
+    "baseline_reruns": 0,
+    "science_semantics_unchanged": true,
+    "quality_restoration": false,
+    "ODE": false,
+    "N4_calibration": false
+  },
+  "resource": {
+    "server": "server4",
+    "gpu_cap": 2,
+    "gpus_per_job": 1,
+    "memory_mb_per_gpu_max": 60416,
+    "gpu_hour_cap": null,
+    "count_active_and_pending": true
+  },
+  "after_gate": {
+    "technical_PASS_is_scientific_G0": false,
+    "agent_stop": "after scientific G0, scheduler PENDING handoff, or terminal technical failure/unresolved",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "resume_trigger": "explicit_user_call",
+    "submitted_program_unchanged": true
+  },
+  "observations": {
+    "old_allocated_gpu_sec": 473,
+    "old_teacher_gpu_sec": 98,
+    "old_native_fit_seconds": 286.54453050531447,
+    "old_fit_nested_in_old_allocation": true,
+    "new_GPU_or_source_repair_by_GH": 0
+  }
+}
