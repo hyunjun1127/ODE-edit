@@ -1,0 +1,20 @@
+{
+  "status": "CPU_REGRESSION_PASS_NOT_MAIN_TERMINAL",
+  "tested_analysis_head": "6fe68873f8935f30ef289e1ce079447e0e364df8",
+  "tested_analysis_tree": "e1b5751b65525311817082fa7df2f9f297a60fe1",
+  "execution_source_unchanged": "5d149fec254a7a53b6d91790d186880f248676e6",
+  "command": "PYTHONPATH=/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/deps-transformers-4.44.2 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -B -m unittest discover -s project/run_scripts/single_layer_zflow/tests -q",
+  "tests": 119,
+  "elapsed_seconds": 13.768,
+  "exit_code": 0,
+  "prior_local_invocation": {
+    "status": "PINNED_DEPENDENCY_PATH_OMITTED",
+    "tests": 119,
+    "errors": 4,
+    "elapsed_seconds": 13.337,
+    "exact_error": "PINNED_TRANSFORMERS_4_44_2_REQUIRED",
+    "repair": "Reused the already sealed task-local dependency path; no source, environment installation, science or GPU job mutation."
+  },
+  "new_GPU_model_evaluator_calls": 0,
+  "main_terminal_claim": false
+}
