@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "source_analysis_head": "e4991cf",
+  "review_payload_head": "b7aa47c6ac785f66c8d9f7229720cf368476e802",
+  "review_payload_tree": "ebd600f90c6058b47dd4006af6b7c65c7305a96c",
+  "preserved_main_base": "7ef4fc05bb6d6175e453b1dfa887f3a387ab82a4",
+  "integration_worktree": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-main-integration-20260916-v1",
+  "merge": "OWN_SCOPE_FAST_FORWARD_FROM_LATEST_MAIN_NO_CONFLICT",
+  "push": "ATOMIC_NONFORCE_MAIN_AND_OWN_REVIEW_BRANCH",
+  "remote_exact": true,
+  "integration_tests": "21 FOCUSED_CPU_PASS",
+  "analysis_package_tests": "21 CPU tests; 9 PNG byte-identical; Markdown and SHA checks",
+  "working_and_staged_bytes_match": "107 payload members / 2987671 bytes before final-checks record added",
+  "raw_tensor_prompt_checkpoint_fullstdout_git": false,
+  "scope_exceptions": "Only explicit user-authorized runs receipt; helper limitation and sealed CRLF/patch/EOF formats recorded separately",
+  "sealed_report_mutation_during_integration": false,
+  "new_scheduler_or_GPU_action": false,
+  "historical_sweep_dirty_and_shared_root_preserved": true
+}

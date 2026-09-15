@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "status": "TASK_COMPLETE_STOP",
+  "published_payload_head": "b7aa47c6ac785f66c8d9f7229720cf368476e802",
+  "published_payload_tree": "ebd600f90c6058b47dd4006af6b7c65c7305a96c",
+  "remote_exact": true,
+  "integration_clean": true,
+  "ahead_behind_at_payload_publication": [0, 0],
+  "all_new_jobs_terminal": [48101, 48148, 48149, 48150],
+  "failed_or_not_completed_new_targets": [],
+  "CAKE_report_sha256": "7b14e523cbbe3bf814eaad9ca75b8703847385ec75af18b124125a40784ba7b3",
+  "sweep_report_sha256": "ee48fa359d8e006ffaec50a214998139481cc4474306e93995627c9a94191d55",
+  "overall_report_sha256": "61121821a8c4d9bce89fdc449d14eaf3a94d93dfca424e563d461df21a3903e7",
+  "new_GPU_seconds": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "numerical_validation": "SKIPPED_USER_DIRECTED / NOT_ESTABLISHED",
+  "historical_raw_and_pause_preserved": true
+}
