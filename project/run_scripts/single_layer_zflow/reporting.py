@@ -23,6 +23,24 @@ def load_csv(path):
     with path.open() as stream: return list(csv.DictReader(stream))
 
 
+def technical_binding(technical, verification):
+    """Bind postrun thresholds to the actual pre-MAIN technical receipt."""
+    technical = Path(technical)
+    gate = read_json(technical / 'TECHNICAL_VALID.json')
+    require(gate['status'] == 'ACTUAL_LLAMA_TECHNICAL_VALID', 'actual technical gate absent')
+    require(gate['source_input_lock_sha256'] == verification['execution_source']['input_lock_sha256'],
+            'technical/MAIN input binding mismatch')
+    phase = member(technical / 'phase1-complete.json')
+    tolerance_member = member(technical / 'parity-tolerance.json')
+    require(phase['sha256'] == gate['phase1_sha256'] and
+            tolerance_member['sha256'] == gate['tolerance_sha256'], 'technical evidence SHA mismatch')
+    tolerance = read_json(technical / 'parity-tolerance.json')
+    require(verification['parity_tolerance'] == tolerance and
+            verification['cost_relative_tolerance'] == tolerance['cost_relative'],
+            'MAIN tolerance differs from presealed technical tolerance')
+    return gate, [member(technical / 'TECHNICAL_VALID.json'), phase, tolerance_member]
+
+
 def publish(aggregates, figures, output, technical, n4_reuse, allocation):
     aggregates, figures, output, technical = map(lambda p: Path(p).absolute(), (aggregates, figures, output, technical))
     report_path = output / 'diagnostic-report-ko.md'
@@ -37,8 +55,7 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
     plot = read_json(figures / 'plot-receipt.json')
     for item in plot['inputs'] + plot['outputs']: member(Path(item['path']), item)
     metrics, batches, pairs = [load_csv(aggregates / f) for f in ('metrics.csv', 'batch.csv', 'paired.csv')]
-    gate = read_json(technical / 'TECHNICAL_VALID.json')
-    require(gate['status'] == 'ACTUAL_LLAMA_TECHNICAL_VALID', 'actual technical gate absent')
+    gate, technical_members = technical_binding(technical, verification)
     reuse = read_json(Path(n4_reuse)); require(reuse['decision'] == 'REUSE', 'N4 reuse receipt absent')
     jobs = read_json(Path(allocation))
     require(jobs['status'] == 'BOUNDED_TERMINAL_VERIFIED' and jobs['main_exit_code'] == '0:0', 'terminal allocation receipt')
@@ -102,8 +119,14 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
         'historical_missing_rng','actual_SL_ZFlow_parity')
     _write_json(output / 'n4-reuse-receipt.json', dict(source_manifest=member(Path(n4_reuse)),
         **{key: reuse[key] for key in reuse_keys}))
+    _write_json(output / 'technical-binding-receipt.json', dict(
+        status='PRESEALED_TECHNICAL_MAIN_THRESHOLD_AND_INPUT_MATCH', members=technical_members,
+        source_input_lock_sha256=gate['source_input_lock_sha256'],
+        next_entry_logits_max_abs=gate['next_entry_logits_max_abs'],
+        exact_same_logits=gate['exact_same_logits'], new_GPU_calls=0))
     evidence = [member(report_path), member(output/'allocation-receipt.json'),
-                member(output/'n4-reuse-receipt.json'), member(aggregates/'manifest.json'), member(figures/'plot-receipt.json')]
+                member(output/'n4-reuse-receipt.json'), member(output/'technical-binding-receipt.json'),
+                member(aggregates/'manifest.json'), member(figures/'plot-receipt.json')]
     receipt = dict(status='FACTUAL_REPORT_COMPLETE', scientific_promotion=False,
         source_analysis_head=subprocess.check_output(['git','rev-parse','HEAD'], cwd=Path(__file__).parent, text=True).strip(),
         members=evidence, member_root=digest(evidence), raw_broadcast='NO_BROADCAST_NOT_REQUIRED')
