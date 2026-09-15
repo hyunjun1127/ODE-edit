@@ -1,0 +1,35 @@
+{
+  "code": {
+    "bytes": 5034,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/project/run_scripts/single_layer_zflow/plots.py",
+    "sha256": "49fe89d6a70fedbb745776226ed4f36b4e7e5a18792089157a6d42d11947701f"
+  },
+  "command": "python -m project.run_scripts.single_layer_zflow.plots --aggregates /mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates --output /mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures",
+  "format": "SL_ZFLOW_CODE_PLOT_V1",
+  "inputs": [
+    {
+      "bytes": 38295,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/metrics.csv",
+      "sha256": "64dfce5910f3db48de08c85adada87f8bff38ca0562c0431234481e95f471cb3"
+    },
+    {
+      "bytes": 6804,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/batch.csv",
+      "sha256": "bcb8b74a41670c482f028d39a372d22db7a6a0fff21b929632a83ac3baf1eba1"
+    }
+  ],
+  "matplotlib": "3.10.7",
+  "model_evaluator_GPU_calls": 0,
+  "outputs": [
+    {
+      "bytes": 89255,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures/quality.png",
+      "sha256": "7353c0699428401c0d6a57820593713f9114db85bdad36689d4b892e41bb55ad"
+    },
+    {
+      "bytes": 68782,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures/work.png",
+      "sha256": "8bf0c57dd7d25cf4df7da29fb85c82e43841e86cd3adbbe129c41045104e3758"
+    }
+  ]
+}

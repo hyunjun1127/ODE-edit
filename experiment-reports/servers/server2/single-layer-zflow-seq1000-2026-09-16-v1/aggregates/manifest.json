@@ -1,0 +1,38 @@
+{
+  "format": "SL_ZFLOW_ANALYSIS_V1",
+  "member_root": "37f23735f95283808b47335a380be228e5c68283bef7fabc9fc88f27b7177afc",
+  "members": [
+    {
+      "bytes": 6804,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/batch.csv",
+      "sha256": "bcb8b74a41670c482f028d39a372d22db7a6a0fff21b929632a83ac3baf1eba1"
+    },
+    {
+      "bytes": 29024,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/compute.csv",
+      "sha256": "98cbae45ad31f75bab589fd8e58fa62557e6d60eacd4dbf0d653b058d47fa943"
+    },
+    {
+      "bytes": 38295,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/metrics.csv",
+      "sha256": "64dfce5910f3db48de08c85adada87f8bff38ca0562c0431234481e95f471cb3"
+    },
+    {
+      "bytes": 76534,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/node.csv",
+      "sha256": "631d826278a7956108264056c9ddb49ba68d27c11aa81f17e9105054a8acd242"
+    },
+    {
+      "bytes": 13121,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/paired.csv",
+      "sha256": "09b50d6802fdced60150cb240eed1d2405b1bb7aa99ee6e4515982d8e7677080"
+    },
+    {
+      "bytes": 31969,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/verification.json",
+      "sha256": "0212e24b8d7f69bc3b51c564d67e923e110aaa00c92778a1ee33c068b9b42171"
+    }
+  ],
+  "model_evaluator_GPU_calls": 0,
+  "raw_payload_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

@@ -1,0 +1,24 @@
+{
+  "exact_same_logits": true,
+  "members": [
+    {
+      "bytes": 2607,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/technical/attempt-r2/TECHNICAL_VALID.json",
+      "sha256": "fa2d020259fb899ed60b4c500bd0cb345e4dc01b99362644633824d4cfc8545c"
+    },
+    {
+      "bytes": 1523,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/technical/attempt-r2/phase1-complete.json",
+      "sha256": "de71c4d81deccc4b8b82746ee5058f46278ca6e5f4109ef002feae4861d29b09"
+    },
+    {
+      "bytes": 251,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/technical/attempt-r2/parity-tolerance.json",
+      "sha256": "57eeaa236a0090f4da6a2c869e2875af8f5b169b84ed17be9633b8efb5858042"
+    }
+  ],
+  "new_GPU_calls": 0,
+  "next_entry_logits_max_abs": 0.0,
+  "source_input_lock_sha256": "79e69eee91a7c60e57351f9253c5ee6768dbea4557c71f8957f3b4020017d911",
+  "status": "PRESEALED_TECHNICAL_MAIN_THRESHOLD_AND_INPUT_MATCH"
+}

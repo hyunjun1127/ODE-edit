@@ -1,0 +1,11 @@
+{
+  "GPU_actions": 0,
+  "large_model_content_sha_reused_not_rehashed": true,
+  "member_root": "f168e3c0b998df0ad2f2d605e4f0dbf18bd7832b52157b9bd125a51a4923c4a4",
+  "members": 1782,
+  "model_loads": 0,
+  "source_head": "5d149fec254a7a53b6d91790d186880f248676e6",
+  "source_tree": "0202db9aee30ba5103c52e21d0647c66e1428567",
+  "status": "SOURCE_INPUT_REVERIFIED_NOT_LLAMA_VALIDATED",
+  "unique_sample_requests": 1000
+}

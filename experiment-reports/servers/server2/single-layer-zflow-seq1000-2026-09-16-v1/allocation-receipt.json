@@ -1,0 +1,73 @@
+{
+  "execution_source": "5d149fec254a7a53b6d91790d186880f248676e6",
+  "input_lock": {
+    "bytes": 815149,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/inputs/freeze-r2/input.lock.json",
+    "sha256": "79e69eee91a7c60e57351f9253c5ee6768dbea4557c71f8957f3b4020017d911"
+  },
+  "jobs": [
+    {
+      "allocated_gpu_seconds": 31,
+      "allocated_gpus": 1,
+      "cpus": "8",
+      "elapsed_seconds": 31,
+      "exit_code": "1:0",
+      "job_id": "48294",
+      "job_name": "odeedit_sl_zflow_seq1000_s2_tech_r1",
+      "mem": "59G",
+      "node": "server2",
+      "owner": "janghj",
+      "scope": "TECHNICAL_FAILED_METADATA",
+      "slurm_sampled_max_rss": "14504360K",
+      "slurm_sampled_max_vm": "0",
+      "state": "FAILED"
+    },
+    {
+      "allocated_gpu_seconds": 1064,
+      "allocated_gpus": 1,
+      "cpus": "8",
+      "elapsed_seconds": 1064,
+      "exit_code": "0:0",
+      "job_id": "48297",
+      "job_name": "odeedit_sl_zflow_seq1000_s2_tech_r2",
+      "mem": "59G",
+      "node": "server2",
+      "owner": "janghj",
+      "scope": "TECHNICAL_VALID",
+      "slurm_sampled_max_rss": "34362540K",
+      "slurm_sampled_max_vm": "0",
+      "state": "COMPLETED"
+    },
+    {
+      "allocated_gpu_seconds": 11191,
+      "allocated_gpus": 1,
+      "cpus": "8",
+      "elapsed_seconds": 11191,
+      "exit_code": "0:0",
+      "job_id": "48303",
+      "job_name": "odeedit_sl_zflow_seq1000_s2",
+      "mem": "59G",
+      "node": "server2",
+      "owner": "janghj",
+      "scope": "MAIN_SEQ1000",
+      "slurm_sampled_max_rss": "17508700K",
+      "slurm_sampled_max_vm": "0",
+      "state": "COMPLETED"
+    }
+  ],
+  "main_exit_code": "0:0",
+  "main_output": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/main/attempt-r1",
+  "main_runtime": {
+    "bytes": 2116,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/main/attempt-r1/runtime.json",
+    "sha256": "9ff0ed62cb0e816d808c2e6c7c5a3eed9c4b8ad52b7fadf2bceb705f3149c4a8"
+  },
+  "main_terminal": {
+    "bytes": 108101,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/main/attempt-r1/TERMINAL.json",
+    "sha256": "c4bf4a0d1d27887c923b5718c04fc36d7d3d7be1edaa63ee3c1110b1ce7caf3f"
+  },
+  "model_GPU_evaluator_calls": 0,
+  "scheduler_mutations": 0,
+  "status": "BOUNDED_TERMINAL_VERIFIED"
+}

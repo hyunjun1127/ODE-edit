@@ -1,0 +1,28 @@
+{
+  "model_GPU_calls": 0,
+  "outputs": [
+    {
+      "bytes": 89255,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures/quality.png",
+      "sha256": "7353c0699428401c0d6a57820593713f9114db85bdad36689d4b892e41bb55ad"
+    },
+    {
+      "bytes": 68782,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures/work.png",
+      "sha256": "8bf0c57dd7d25cf4df7da29fb85c82e43841e86cd3adbbe129c41045104e3758"
+    }
+  ],
+  "repeat_outputs": [
+    {
+      "bytes": 89255,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/raw/plot-repro-r2/quality.png",
+      "sha256": "7353c0699428401c0d6a57820593713f9114db85bdad36689d4b892e41bb55ad"
+    },
+    {
+      "bytes": 68782,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/raw/plot-repro-r2/work.png",
+      "sha256": "8bf0c57dd7d25cf4df7da29fb85c82e43841e86cd3adbbe129c41045104e3758"
+    }
+  ],
+  "status": "EXACT_PNG_BYTES_REPRODUCED"
+}
