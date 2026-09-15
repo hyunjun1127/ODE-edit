@@ -1,0 +1,91 @@
+{
+  "source_head": "3fb0bfb27773ec9d016e76fcdc978dc996f010a7",
+  "source_tree": "46dfaff451159cefef1230372e54a93e01c58ef3",
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/source-v1.tar",
+    "bytes": 1372160,
+    "sha256": "69194e1804d8e2f31ecd802c7426770f747f2ba588a0684019bf944c1eee403b"
+  },
+  "locks": {
+    "full-read-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/full-read-receipt.json",
+      "bytes": 9664,
+      "sha256": "deb707a0a9c73b24fd3c2d484e2ebbb2f2cc1891a9a099991a33777e97daea86"
+    },
+    "sample.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/sample.lock.json",
+      "bytes": 19287,
+      "sha256": "871f6c04df4697f236353938e09290462eed67871f07f02d8f0b112e9f9ee7d3"
+    },
+    "teacher-reuse-verification.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/teacher-reuse-verification.json",
+      "bytes": 10600,
+      "sha256": "d3173d2a55d8c89f39a6a93a2737c180456d0fcd0322087d8ad779dd365f228d"
+    },
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/execution.lock.json",
+      "bytes": 622479,
+      "sha256": "306ad09b56d470ce47562bd3f36230d7f96fe258769dc0fb5b3dc192c33d954b"
+    },
+    "submission-v1/release-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/release-receipt.json",
+      "bytes": 2919,
+      "sha256": "e6f9bf8d65609af8a32b4aab5433d450851ee279eecb90b9cc1f580078bac31c"
+    },
+    "submission-v1/held-inspection.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/held-inspection.json",
+      "bytes": 2105,
+      "sha256": "b1d9a3c62dc283c4fe53fe2611093594a02d45ef1486d4263b6f55d112e42c6c"
+    },
+    "submission-v1/resource-preflight.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/resource-preflight.json",
+      "bytes": 1980,
+      "sha256": "35d89439a72c00c37b04ed831e7d8e803a6f37d5d39270e853d1803a85521f8e"
+    }
+  },
+  "source_member_count": 2103,
+  "frozen_root": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/source-v1",
+  "numerical_policy": {
+    "alpha_cap": 1.0,
+    "epsilon_num": 1e-12,
+    "zeta": 0.25,
+    "zero_norm_atol": 0.0,
+    "ball_atol": 0.0,
+    "ball_rtol": 9.5367431640625e-07,
+    "trust_atol": 0.0,
+    "trust_rtol": 9.5367431640625e-07,
+    "d_tie_atol": 0.0,
+    "d_tie_rtol": 9.5367431640625e-07,
+    "max_identical_rechecks": 0,
+    "schema": "EP_TW1_NUMERICAL_POLICY_V1",
+    "quality_positive_allowance": null,
+    "numerical_constants_are_not_performance_tuned": true,
+    "model_numeric_resolution_status": "REQUIRES_SEPARATE_TECHNICAL_RECEIPT",
+    "tensor_arithmetic": "FP32",
+    "diagnostic_scalar_reductions": "FP64",
+    "rationale": {
+      "alpha_cap": "finite unit cap, fixed before policy outcomes",
+      "epsilon_num": "division guard; exact-zero direction/native action skips",
+      "ball_trust_rtol": "eight FP32 eps relative representational envelope",
+      "d_tie": "conservative RAW-priority tie only; never relaxes E<=Ep",
+      "zero_norm_atol": "exact zero, no fitted small-gradient threshold"
+    }
+  },
+  "technical": {
+    "self_kl_document_abs_max": 1e-06,
+    "teacher_normalizer_abs_max": 5e-05,
+    "fd_relative_weight_step": 0.001,
+    "fd_step_factors": [
+      1.0,
+      0.5
+    ],
+    "fd_derivative_relative_tolerance": 0.15,
+    "fd_derivative_absolute_tolerance": 1e-07,
+    "fd_convergence_relative_tolerance": 0.15,
+    "fd_signal_roundoff_multiple": 8.0,
+    "functional_materialized_max_abs": 0.0,
+    "current_positive_quality_tolerance": 0.0
+  },
+  "actual_execution_started": "NOT_OBSERVED",
+  "source_tree_is_not_publication_tree": true
+}

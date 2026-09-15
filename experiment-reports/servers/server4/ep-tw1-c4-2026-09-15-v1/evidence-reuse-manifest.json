@@ -1,0 +1,38 @@
+{
+  "C4": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+  "teacher": {
+    "job": "47592",
+    "status": "COMPLETED_FULLSHA_SCHEMA_REUSED",
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+      "bytes": 71431,
+      "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+    },
+    "new_generation": false,
+    "prior_allocated_gpu_seconds": 98
+  },
+  "baseline_editing_reruns": 0,
+  "reference_reports": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+      "bytes": 115651,
+      "sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 36290,
+      "sha256": "6466ddfb6390c0cdf2a2125e3a1d45dd18b3c692562a1f9086c8d473f8653b5b"
+    }
+  ],
+  "reference_scope": "Sealed publications only; old methods not inputs to admission; no raw/model re-evaluation.",
+  "warm_REFIT4": "AUXILIARY_NOT_PAIRED_W0_BASELINE",
+  "baseline_C4_metrics": "NOT_AVAILABLE_NOT_REQUIRED",
+  "comparison_policies_reuse_only": [
+    "AlphaEdit",
+    "MEMIT",
+    "AlphaEdit-BLUE",
+    "MEMIT-BLUE",
+    "AlphaEdit-L4_only",
+    "REFIT4"
+  ]
+}
