@@ -544,6 +544,8 @@ def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
                    checkpoint_payload_sha256=receipt["payload_sha256"], terminal_L=flow["terminal"]["L"],
                    terminal_C=flow["terminal"]["C"], terminal_F=flow["terminal"]["F"],
                    actual_delta_cost_fp64=prep["actual_delta_cost_fp64"], **commit_summary)
+        checkpoint_root = root / 'checkpoints' / batch
+        row['checkpoint_bundle_bytes'] = sum(p.stat().st_size for p in checkpoint_root.iterdir() if p.is_file())
         batches.append(row)
         for component, seconds in (("flow_total_including_oracle", flow["flow_seconds"]),
                                    ("preparation_total", ledger["preparation"]["total_preparation_seconds"]),
@@ -567,6 +569,15 @@ def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
                             "seconds": None if seconds is None else finite(seconds, component, nonnegative=True),
                             "missing_status": "NOT_RECORDED" if seconds is None else None,
                             "additivity": "SUBCOMPONENT_DO_NOT_ADD_TO_PARENT_TOTAL"})
+        commit_parts = [complete['commit_seconds'], detailed_times['terminal_physical_parity'],
+                        detailed_times['explicit_actual_cost'], detailed_times['durable_state_prepare']]
+        if all(value is not None for value in commit_parts):
+            remainder = commit_parts[0] - sum(commit_parts[1:])
+            require(remainder >= -1e-6, 'commit component timing overlap/inconsistency')
+            compute.append(dict(batch=batch,component='publication_hash_transfer_misc_remainder',
+                seconds=remainder,additivity='DERIVED_NONEXCLUSIVE_COMMIT_REMAINDER_NOT_PURE_IO'))
+        compute.append(dict(batch=batch,component='pure_filesystem_IO',seconds=None,
+            missing_status='NOT_SEPARATELY_TIMED_INCLUDED_IN_COMMIT',bytes=row['checkpoint_bundle_bytes']))
         evidence.append(member(root / "checkpoints" / batch / "manifest.json"))
         previous = receipt
         # Full tensor bundles are verified one at a time, not held tenfold.
