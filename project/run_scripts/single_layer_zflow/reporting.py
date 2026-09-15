@@ -101,6 +101,7 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
         '순수 filesystem I/O 시간은 별도로 계측하지 않았으며 commit timer에 포함된다. 별도 기록된 parity/cost/prepare 시간을 뺀 나머지는 publication·hash·전송·기타를 포함하는 nonexclusive remainder이지 순수 I/O 시간이 아니다. Batch별 checkpoint_bundle_bytes는 실제 저장량이다. CPU MaxRSS는 Slurm의 sampled 값이다. Torch GPU peak는 batch마다 reset하지 않은 해당 process 시작 이후 누적 최대값이며 batch-local peak나 CPU RSS와 같지 않다.', '',
         '## 6. source·재현·artifact', '',
         f"실행 HEAD `{source['source_head']}`, tree `{source['source_tree']}`, input lock `{source['input_lock_sha256']}`. 분석 source는 verification.json의 analysis_source에 별도 기록했다. Source/hash 검증은 실제 model parity의 대체물이 아니다.", '',
+        '원 reference JSON의 llama_adapter_implemented=false/durable_commit_implemented=false는 원 CPU publication 당시 상태로 byte-preserving 유지했다. 이 필드를 새 실제 구현 완료표시로 수정하지 않았으며, 실제 adapter/durable 구현 및 검증은 위 별도 실행 source와 TECHNICAL_VALID/checkpoint receipt로 결속한다.', '',
         '- 집계: `aggregates/{node,batch,metrics,paired,compute}.csv`, verification.json 및 manifest.json.',
         '- 기술: `' + str(technical) + '`.',
         '- N4 재사용 근거: `' + str(Path(n4_reuse).absolute()) + '`.',
