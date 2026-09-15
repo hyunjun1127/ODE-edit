@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "source_origin": "GH dirty review workspace; originals preserved",
+  "publication_type": "byte-exact CPU reference, not real Llama runtime",
+  "members": [
+    {
+      "path": "project/proposals/2026-09-16-single-layer-zflow-gh-instruction.md",
+      "bytes": 17864,
+      "sha256": "609b5ec1f2f7dbc32feebb3e5374fe4cbe1c912a287c042855b087abe5edcaba"
+    },
+    {
+      "path": "plans/global/2026-09-16-single-layer-zflow-pipeline-v1.md",
+      "bytes": 19983,
+      "sha256": "7d1e9388af83d7e590105e2f05ccbbaae3592024fd789eb6c5b456ef366439cd"
+    },
+    {
+      "path": "plans/global/2026-09-16-single-layer-zflow-contract-v1.json",
+      "bytes": 2451,
+      "sha256": "597d02230a0ad804387aca57948c32b9eb6b27ee35908d70afcdd1fbae6064da"
+    },
+    {
+      "path": "audits/global/2026-09-16-single-layer-zflow-design-review-ko.md",
+      "bytes": 27513,
+      "sha256": "7b3268cdd6f8de0a21b9e0e30a7778fce2ee43a27fe7dea97a32fd1466ed4cfd"
+    },
+    {
+      "path": "audits/global/2026-09-16-single-layer-zflow-pipeline-checks.json",
+      "bytes": 3116,
+      "sha256": "42d1f852cd12748fbc27aed7a06d2e21d2979b239dba165afb10be371cc4ec3f"
+    },
+    {
+      "path": "audits/global/2026-09-16-single-layer-zflow-pipeline-cpu-demo.json",
+      "bytes": 12737,
+      "sha256": "61c34ca3f0c1687a2e875dd3ccb608f9abca94fea7ea23bf346423833785c9d1"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/README.md",
+      "bytes": 3246,
+      "sha256": "dd6cada185ce352084ec0371ab01b14af20d312538ab6f7674ce62d67f21cd0a"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/__init__.py",
+      "bytes": 84,
+      "sha256": "f58b589f598e8da4f89096e14469947f57ee66aa726e23dad6e89ccd43bc0179"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/demo.py",
+      "bytes": 10330,
+      "sha256": "4afcdc8c1a521e91173968d481a02b811c1b822fa6e92bf58f7169a0aec94f55"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/flow_core.py",
+      "bytes": 17576,
+      "sha256": "e3919f083632ddfd0886c6f4474f602a5843e9fc46fe9c7bd633554620a4a02e"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/oracle.py",
+      "bytes": 9337,
+      "sha256": "c9f124083b78d36770470887a1c74c09b65a8b3cbf5667601cdd17310b739657"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/transaction.py",
+      "bytes": 8049,
+      "sha256": "f851a3b3d585c3071128d8a59f49b852985afa284abc10525135bc640a6c37fb"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/tests/__init__.py",
+      "bytes": 67,
+      "sha256": "120408db020f5571e141c4d17ac0ffd6b0121bd7e9c068d28da0a7b3da5085ad"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/tests/test_flow_core.py",
+      "bytes": 14283,
+      "sha256": "de972185ba7160e17c8ea2e9b22d18cd2a70c5bc29efc348c62989c826b6526f"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/tests/test_oracle_transaction.py",
+      "bytes": 11175,
+      "sha256": "e5e7d6312deecdb20c6473fda6cd68f623e832b3ecaac3e7ef8f231bc0130939"
+    },
+    {
+      "path": "project/run_scripts/single_layer_zflow/tests/test_pipeline.py",
+      "bytes": 2381,
+      "sha256": "5ebcdb7cc2d87e5068ec3cfd2c510e4538773f04fc5bb95a74fb6b426ef4afc9"
+    }
+  ],
+  "inherited_source_manifest_verified": 12,
+  "gh_read_scope": "user body, full instruction/pipeline/contract/design review/README/checks/demo plus core/oracle/transaction/demo; tests SHA verified, not rerun"
+}

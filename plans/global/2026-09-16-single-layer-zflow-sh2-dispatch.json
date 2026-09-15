@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-ZFLOW-SEQ1000-SH2-V1",
+  "nonce": "ODEEDIT-GH-SH2-SL-ZFLOW-SEQ1000-20260916-R1",
+  "user_instruction_id": "GH-SL-ZFLOW-IMPLEMENT-SEQ1000-20260916-V1",
+  "target": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "execution_authorized": true,
+  "execution_binding": "PENDING_SH_IMPLEMENTATION_TECHNICAL_VERIFICATION_AND_SOURCE_FREEZE",
+  "science": {
+    "main_chains": 1,
+    "main_batches": 10,
+    "conditional_native_chains": 1,
+    "max_new_scientific_batches": 20,
+    "requests_per_batch": 100,
+    "unique_requests": 1000,
+    "initial_state": "pretrained_W0_native_M0",
+    "conditional_n4": "only evidence/runtime not reusable under stated GH rule",
+    "lambda_write": 1,
+    "lambda_flow": 1,
+    "beta": 0.0625,
+    "barrier": "off",
+    "budget": null,
+    "initial_step": 1,
+    "maximum_step": 1,
+    "max_oracle_calls": 25
+  },
+  "monitoring": {
+    "task_specific_override": "CONTINUE_THIS_SCOPE_THROUGH_REPORT_MAIN",
+    "stop_at_initial_gate": false,
+    "other_paused_tasks": "unchanged",
+    "daemon_callback": false
+  },
+  "resource": {
+    "gpu_cap": 2,
+    "cap_includes_active_and_admitted_pending": true,
+    "gpus_per_chain": 1,
+    "cpus": 8,
+    "mem_mb": 60416,
+    "gpu_hour_hard_cap": null,
+    "wall_hours_max": 48,
+    "source_time_estimate": "SH derives from actual technical work; not prior native25 or toy"
+  },
+  "report": "experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/diagnostic-report-ko.md",
+  "native_source_mutation": false,
+  "main_push_authorized": "own source/tests/factual raw-free report only, non-force",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "gh_global_interpretation": "after SH final factual package"
+}

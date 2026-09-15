@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "method": "single_layer_write_coupled_zflow",
+  "status": "cpu_reference_and_adapter_contract",
+  "scientific_performance_validated": false,
+  "runtime": {
+    "physical_layer": 4,
+    "parameter": "model.layers.4.mlp.down_proj.weight",
+    "candidate_anchor": "batch_entry",
+    "initial_state": "zeros",
+    "native_z_warm_start": false,
+    "external_protection_data": false,
+    "history_updates_inside_flow": 0,
+    "history_updates_per_committed_batch": 1,
+    "no_accepted_step_policy": "NO_ACCEPTED_UPDATE_WITHOUT_HISTORY_APPEND",
+    "llama_adapter_implemented": false,
+    "durable_commit_implemented": false
+  },
+  "native_writer": {
+    "ridge": 1.0,
+    "key_aggregation": "mean_within_each_context_group_then_mean_groups",
+    "pinned_key_columns_per_request": 1,
+    "system": "P @ (K @ K.T + M_entry) + ridge * I",
+    "factorizations_per_batch": 1
+  },
+  "objective": {
+    "edit_weighting": "1 / (request_count * contexts_for_request * target_tokens_for_request)",
+    "beta_essence": 0.0625,
+    "kl_direction": "current_to_batch_entry",
+    "teacher_refreshes_inside_flow": 0,
+    "price": 1.0,
+    "price_status": "untuned_provisional_working_setting",
+    "cost": "trace(X @ S @ X.T) / 2",
+    "cost_normalization": "native_history_and_write_ridge_sum_divided_by_request_count",
+    "native_endpoint_normalization": false
+  },
+  "geometry": {
+    "metric_ridge_relative": 0.001
+  },
+  "integrator": {
+    "barrier_mode": "off",
+    "budget": null,
+    "kappa": 1.0,
+    "initial_step": 1.0,
+    "maximum_step": 1.0,
+    "step_growth": 1.5,
+    "growth_after_accepts": 2,
+    "max_oracle_calls": 25,
+    "relative_stationarity": 1e-5,
+    "absolute_stationarity": 1e-9,
+    "active_tolerance": 1e-8,
+    "feasibility_tolerance": 1e-10,
+    "complementarity_tolerance": 1e-7,
+    "armijo": 0.0001,
+    "minimum_step": 1e-12
+  },
+  "accounting": {
+    "oracle_identity": "1 + accepted_steps + rejected_steps",
+    "oracle_unit": "complete_logical_suffix_loss_gradient_sweep",
+    "separate_preparation_and_commit_cost": true,
+    "native_max25_equivalent_work_claim": false
+  },
+  "deployment_parity": {
+    "candidate_dtype": "pinned_runtime_fp32",
+    "reference_backend": "eager_tf32_off",
+    "padding": "right",
+    "logit_tolerances": "must_be_measured_and_pinned_before_real_model_use",
+    "check_actual_materialized_cost": true,
+    "on_failure": "leave_entry_weight_and_history_unchanged"
+  }
+}

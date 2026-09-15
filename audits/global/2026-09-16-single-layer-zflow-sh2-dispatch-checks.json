@@ -1,0 +1,20 @@
+{
+  "scope": "GH routing/source/contract review only",
+  "full_read": true,
+  "source_manifest_12_sha_size_verified": true,
+  "source_package_members": 16,
+  "original_files_modified": false,
+  "source_ref_actual_main_before": "730d8cc33ae97fe4ff78529d9ba805f70a890908",
+  "reference_is_cpu_only": true,
+  "new_gpu_calls": 0,
+  "cpu_tests_rerun_by_gh": 0,
+  "n4_decision": "REUSE_PREFERRED_PENDING_SH_EXACT_BINDING; conditional existing-scope rule preauthorized",
+  "conflicts_resolved": [
+    "latest explicit SH2 overrides source Server4 preference",
+    "finish-scope overrides prior initial-only for this task",
+    "previous EP gates waiver not inherited",
+    "CAKE no-checkpoint waiver not inherited"
+  ],
+  "scientific_result": "NOT_RUN",
+  "session_boundary": "PASS registered GH"
+}
