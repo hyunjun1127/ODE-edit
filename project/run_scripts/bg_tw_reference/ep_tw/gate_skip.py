@@ -4,6 +4,7 @@ from .control import identity, sha
 
 TASK='ODEEDIT-S06-EP-TW1-DIAGNOSTIC-GATES-SKIP-RUN-SH4-V1'
 MODE='SKIPPED_USER_DIRECTED'
+SWEEP_TASK='ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1'
 SKIPPED=['saved_episode_repair_prerequisite','repair_pass_receipt','conditional_E_D_science_gate',
     'FD_grid_convergence_resolution_jitter','direct_weight_gradient_comparison',
     'independent_direction_probes','ULP_statistics','W0_self_KL_threshold',
@@ -13,9 +14,11 @@ SKIPPED=['saved_episode_repair_prerequisite','repair_pass_receipt','conditional_
 
 def skip_enabled(lock):
     if lock.get('validation_mode')!=MODE:return False
-    assert lock['instruction_id']==TASK and lock['numerical_validation']=='NOT_ESTABLISHED'
+    assert lock['instruction_id'] in (TASK,SWEEP_TASK) and lock['numerical_validation']=='NOT_ESTABLISHED'
     assert 'repair_pass_path' not in lock and 'repair_dispatch' not in lock
     assert lock['validation_override']['instruction_id']==TASK
+    if lock['instruction_id']==SWEEP_TASK:
+        assert lock['validation_override']['inherited_by']==SWEEP_TASK
     return True
 
 def diagnostic(lock,name,callback=None):

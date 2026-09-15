@@ -34,7 +34,7 @@ class NumericalPolicy:
     division. Exact zeros, rather than a fitted gradient floor, are skipped.
     """
 
-    alpha_cap: float = 1.0
+    alpha_cap: float | None = 1.0
     epsilon_num: float = 1e-12
     zeta: float = 0.25
     zero_norm_atol: float = 0.0
@@ -45,12 +45,23 @@ class NumericalPolicy:
     d_tie_atol: float = 0.0
     d_tie_rtol: float = 8 * _EPS32
     max_identical_rechecks: int = 0
+    alpha_cap_mode: str = "bounded"
 
     def __post_init__(self):
         values = asdict(self)
+        mode = values.pop("alpha_cap_mode")
+        cap = values.pop("alpha_cap")
+        if mode not in ("bounded", "disabled"):
+            raise PolicyError("ALPHA_CAP_MODE")
+        if mode == "disabled":
+            if cap is not None:
+                raise PolicyError("DISABLED_ALPHA_CAP_MUST_BE_NULL")
+        elif (isinstance(cap, bool) or not isinstance(cap, (int, float))
+              or not math.isfinite(cap) or cap <= 0):
+            raise PolicyError("BOUNDED_ALPHA_CAP_POSITIVE_FINITE")
         if not all(math.isfinite(v) for v in values.values()):
             raise PolicyError("NUMERICAL_POLICY_NONFINITE")
-        if self.zeta != 0.25 or self.alpha_cap <= 0 or self.epsilon_num <= 0:
+        if self.zeta != 0.25 or self.epsilon_num <= 0:
             raise PolicyError("POLICY_ZETA_OR_POSITIVE_NUMERICS")
         if any(v < 0 for v in values.values()):
             raise PolicyError("NEGATIVE_NUMERICAL_POLICY")
@@ -65,7 +76,7 @@ class NumericalPolicy:
             model_numeric_resolution_status="REQUIRES_SEPARATE_TECHNICAL_RECEIPT",
             tensor_arithmetic="FP32", diagnostic_scalar_reductions="FP64",
             rationale={
-                "alpha_cap": "finite unit cap, fixed before policy outcomes",
+                "alpha_cap": "explicit bounded positive finite cap or disabled/null; fixed before outcomes",
                 "epsilon_num": "division guard; exact-zero direction/native action skips",
                 "ball_trust_rtol": "eight FP32 eps relative representational envelope",
                 "d_tie": "conservative RAW-priority tie only; never relaxes E<=Ep",
@@ -248,7 +259,10 @@ def build_correction(Vp, Wentry, Zp, anchors, radii, A, gE, gD,
     if mapped_norm <= config.zero_norm_atol:
         return raw_only("ZERO_MAPPED_DIRECTION_RAW_ONLY")
     trust_limit = config.zeta * native_norm
-    alpha = min(config.alpha_cap, trust_limit / (mapped_norm + config.epsilon_num))
+    alpha_norm = trust_limit / (mapped_norm + config.epsilon_num)
+    alpha = min(config.alpha_cap, alpha_norm) if config.alpha_cap_mode == "bounded" else alpha_norm
+    if not math.isfinite(alpha):
+        return raw_only("ALPHA_NONFINITE_RAW_ONLY")
     temporary = Zp + alpha * direction
     if not bool(torch.isfinite(temporary).all()):
         return raw_only("TARGET_DISPLACEMENT_NONFINITE_RAW_ONLY")
@@ -271,7 +285,12 @@ def build_correction(Vp, Wentry, Zp, anchors, radii, A, gE, gD,
     mapped_final_norm = _norm(mapped)
     final_distance = ((Zp + correction).double() - anchors.double()).norm(dim=0)
     diagnostics.update(
-        alpha=alpha, ball_projected_requests=int(outside.sum()), trust_retraction=retract,
+        alpha=alpha, alpha_norm=alpha_norm, alpha_cap=config.alpha_cap,
+        alpha_cap_mode=config.alpha_cap_mode,
+        alpha_cap_active=(config.alpha_cap_mode == "bounded" and config.alpha_cap < alpha_norm),
+        pre_ball_residual_norm=_norm(alpha * direction),
+        post_ball_mapped_norm=projected_norm,
+        ball_projected_requests=int(outside.sum()), trust_retraction=retract,
         residual_correction_norm=_norm(correction), mapped_correction_norm=mapped_final_norm,
         ge_dot_correction=_dot(gE, correction), gd_dot_correction=_dot(gD, correction),
         postprojection_ball_max_excess=float((final_distance - radii.double()).max()),

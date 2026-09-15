@@ -79,7 +79,12 @@ def run(lock_path,output):
             save(root/'conditional-admission.json',dict(status='TECHNICAL_PASS_EXACT_LOCK_VERIFIED',
                 technical=repair_reference,verification=verification,fresh_W0_science=True,
                 failed_old_B1_not_resumed=True))
-        verify_dispatch(lock['dispatch']['path']);assert lock['policy']=='EP-TW-1' and lock['new_scientific_chains']==1
+        if lock.get('sweep_arm') is not None:
+            from .sweep_control import verify_arm_lock
+            verify_arm_lock(lock)
+        else:
+            verify_dispatch(lock['dispatch']['path'])
+        assert lock['policy']=='EP-TW-1' and lock['new_scientific_chains']==1
         assert lock['warm_state_imports']==lock['M8_imports']==lock['baseline_reruns']==0 and lock['N4_calibration'] is False
         assert os.environ.get('SLURMD_NODENAME')=='server4'
         assert torch.__version__==lock['torch'] and transformers.__version__==lock['transformers']
@@ -172,7 +177,7 @@ def run(lock_path,output):
                     first_commit=completed[0],B2_entry=identity(bdir/'entry.json'),state=entry,teacher=selfref,model_technical=technical_ref,
                     finite=True,original_denominator=100,actual_native_candidate_and_selected_verified=True,
                     durable_restore_cpu_and_live_selected_state=True,persistent_B2_B10_programmed=True,
-                    not_full1000_complete=True,agent_next_state='WAITING_USER_RESUME',
+                    not_full1000_complete=True,agent_next_state=lock.get('after_gate','WAITING_USER_RESUME'),
                     numerical_validation='NOT_ESTABLISHED' if skipped else 'ORIGINAL_TECHNICAL_SCOPE'))
                 print('EP_TW1_'+marker,flush=True)
             old_ids=set(ledger.accepted_ids)
