@@ -44,14 +44,21 @@ def main(validation):
     copy(validation.parent/'focused-tests.json',AUDIT/'focused-tests.json')
     root_boundary=query(['bash','scripts/check-session-boundary.sh',SESSION],ROOT)
     child_boundary=query(['bash','scripts/check-session-boundary.sh',SESSION])
+    registry=WT/'servers/active/server4.md'
+    registry_text=registry.read_text().split('##',2)[1]
+    assert SESSION in registry_text
+    assert '01a028a7-9e3c-7541-81ba-efb40555d17d' in registry_text and 'supersede' in registry_text
     boundary=dict(session=SESSION,actual_host=query(['hostname'])['stdout'].strip(),
         root_origin=query(['git','remote','get-url','origin'],ROOT),
         root_boundary_helper=root_boundary,child_boundary_helper=child_boundary,
         root_dirty=query(['git','status','--short'],ROOT),
         old_sweep_dirty=query(['git','status','--short'],ROOT/'local/worktrees/server4-ep-tw1-alpha-cap-sweep-v1'),
-        interpretation='Child helper missing local config is NOT PASS; explicit user clean-child scope and root boundary reused. No helper/config mutation.')
+        current_registry=digest(registry),
+        stale_local_config=digest(ROOT/'servers/local/session-boundary.env'),
+        interpretation='Neither helper is PASS: child lacks config; root ignored config pins superseded 01a028a7. Current committed registry explicitly supersedes it with user-target 01a04939. Host/CWD/origin and exact user authority checked independently; no helper/config mutation.')
     assert boundary['actual_host']=='server4'
-    assert root_boundary['returncode']==0,root_boundary
+    assert boundary['root_origin']['stdout'].strip()=='https://github.com/hyunjun1127/ODE-edit.git'
+    assert root_boundary['returncode']==4 and 'session ID mismatch' in root_boundary['stderr']
     assert boundary['root_dirty']['stdout']==''
     save(AUDIT/'boundary-checks.json',boundary)
     write(AUDIT/'analysis-repairs-ko.md',
