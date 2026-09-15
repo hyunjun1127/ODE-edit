@@ -74,10 +74,11 @@ def transition(before,after,m,**labels):
         **dist((y[target]-x[target] for x,y in pairs),'desired_NLL_harm_'),
         **dist((y[comp]-x[comp] for x,y in pairs),'competing_NLL_change_'))
 
-def reduce(worktree,output):
+def reduce(worktree,output,*,root=None,expected_lock_sha='5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9',allocated_gpu_seconds=7694,instruction_id=TASK):
     w,out=Path(worktree),Path(output);out.mkdir(parents=True,exist_ok=False)
-    raw=ROOT/'scientific-v1';lock=read(ROOT/'execution.lock.json')
-    assert sha(ROOT/'execution.lock.json')=='5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9'
+    source_root=Path(root) if root is not None else ROOT
+    raw=source_root/'scientific-v1';lock=read(source_root/'execution.lock.json')
+    assert sha(source_root/'execution.lock.json')==expected_lock_sha
     terminal=read(raw/'terminal.json');assert len(terminal['commits'])==10 and terminal['completed_requests']==1000
     assert terminal['numerical_validation']=='NOT_ESTABLISHED'
     metrics=[];whole=[];pairs=[];candidates=[];policyrows=[];warnings=[];ledgerrows=[];cost=[];general=[];atwrite={m:[] for m in ('RS','PS','NS')}
@@ -189,14 +190,14 @@ def reduce(worktree,output):
             if rr:whole.append(summary(rr,m,batch=10,scope=status))
     for name,data in [('batch-current-metrics',metrics),('whole-prefix-metrics',whole),('paired-transitions',pairs),('cohort-retention',cohorts),
         ('candidate-details',candidates),('batch-policy',policyrows),('parity-warnings',warnings),('ledger-summary',ledgerrows),('cost-by-batch',cost),('general-observer',general)]:table(out/(name+'.csv'),data)
-    result=dict(instruction_id=TASK,status='INDEPENDENT_NLL_AND_SELECTION_REDUCED',terminal=ref(raw/'terminal.json'),
+    result=dict(instruction_id=instruction_id,status='INDEPENDENT_NLL_AND_SELECTION_REDUCED',terminal=ref(raw/'terminal.json'),
         final=first,selection_counts=dict(Counter(x['selected'] for x in policyrows)),
         candidate_feasible_counts=dict(Counter(x['candidate'] for x in candidates if x.get('feasible'))),
         warnings=dict(panels=len(warnings),warn_panels=sum(x['recorded_status']=='WARNING' for x in warnings),
             max_abs_NLL_difference=max(x['max_abs_NLL_difference'] for x in warnings),strict_disagreements=sum(x['strict_lost']+x['strict_gained'] for x in warnings)),
         ledger_final=ledgerrows[-1],cost_totals={k:sum(x[k] for x in cost) for k in cost[0] if k not in ('batch','peak_GPU_allocated') and isinstance(cost[0][k],(int,float))},
         peak_GPU_allocated=max(x['peak_GPU_allocated'] for x in cost),
-        terminal_seconds=terminal['seconds'],allocated_GPU_seconds=7694,numerical_validation='NOT_ESTABLISHED',
+        terminal_seconds=terminal['seconds'],allocated_GPU_seconds=allocated_gpu_seconds,numerical_validation='NOT_ESTABLISHED',
         checksum_scope='THIS_REDUCER_JSON_INPUTS; tensor/raw full inventory separate')
     save(out/'metrics-summary.json',result)
     return result

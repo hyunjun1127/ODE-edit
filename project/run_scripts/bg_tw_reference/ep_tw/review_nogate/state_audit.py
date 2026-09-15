@@ -47,9 +47,10 @@ def csvfile(p,rows):
     with p.open('x',newline='') as f:
         wr=csv.DictWriter(f,fieldnames=list(dict.fromkeys(k for r in rows for k in r)));wr.writeheader();wr.writerows(rows)
 
-def run(out):
+def run(out,*,root=None):
     out=Path(out);out.mkdir(parents=True,exist_ok=False);torch.set_num_threads(4)
-    raw=ROOT/'scientific-v1';lock=read(ROOT/'execution.lock.json');inventory=[];byfile={}
+    source_root=Path(root) if root is not None else ROOT
+    raw=source_root/'scientific-v1';lock=read(source_root/'execution.lock.json');inventory=[];byfile={}
     for p in sorted(raw.rglob('*')):
         if p.is_dir():continue
         s=p.lstat();assert stat.S_ISREG(s.st_mode) and not p.is_symlink()
@@ -72,9 +73,10 @@ def run(out):
     for b in range(1,11):
         p=raw/f'B{b:03d}';c=read(p/'commit.json');e=read(p/'entry.json');pol=read(p/'policy.json')
         assert c['entry']==e['state']==last and e['history_count']==b-1
-        assert e['order']==lock['batches'][b-1] and c['source_lock']['sha256']==filehash(ROOT/'execution.lock.json')
+        assert e['order']==lock['batches'][b-1] and c['source_lock']['sha256']==filehash(source_root/'execution.lock.json')
         if b>1:links.append(dict(from_batch=b-1,to_batch=b,W=True,M=True,P=True,context=True,RNG=True,ledger=True,exact=True))
         assert c['native']['history_append']==0 and len(c['history'])==1 and c['history'][0]['history_append']==1
+        assert c['native']['compute_z']==100 and c['native']['solve']==1 and c['history_count']==b
         cp=torch.load(p/'checkpoint.pt',weights_only=True,map_location='cpu',mmap=True)
         assert list(cp['weights'])==['model.layers.4.mlp.down_proj.weight']
         W=cp['weights']['model.layers.4.mlp.down_proj.weight'];M=cp['M4'];wh=hashes(W);mh=hashes(M)
