@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-COMPLETED-CAKE-CAP-REVIEW-20260916-R1",
+  "user_text": "server4에서 끝난 실험들 자세히 리뷰시켜",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "primary_jobs": {
+    "CAKE": 48101,
+    "CAP10": 48148,
+    "CAP100": 48149,
+    "NORM_ONLY": 48150
+  },
+  "reused_job": {
+    "CAP1": 47962
+  },
+  "mode": "CPU_COMPLETED_REVIEW_ONLY",
+  "new_gpu_allowed": false,
+  "new_slurm_submit_allowed": false,
+  "scheduler": "bounded terminal check of exact listed jobs only",
+  "running_or_pending": "record NOT_COMPLETED; no live scientific access or wait/poll",
+  "failure": "CPU source-backed diagnosis, no rerun",
+  "old_completed": "reuse sealed reports and inventory links; no blanket re-audit",
+  "gpu_cap": 2,
+  "resource_mutation_allowed": false,
+  "raw_mutation_allowed": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "main_push": "own-scope completed source/tests/raw-free factual reports non-force",
+  "other_paused_tasks": "unchanged",
+  "completion": "family reports + overall inventory + main; STOP",
+  "gh_interpretation": "separate after SH factual reports"
+}

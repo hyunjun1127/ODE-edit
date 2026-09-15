@@ -1,0 +1,16 @@
+{
+  "scope": "GH task routing and existing publication read only",
+  "main_before": "69b467d380715f236fad81141d00b53723e01ba7",
+  "session_boundary": "PASS",
+  "sh4_transport": "idle observed, last sweep monitoring pause receipt read",
+  "remote_scheduler_read_by_gh": false,
+  "remote_scientific_raw_read_by_gh": false,
+  "job_completion_claim": "NOT_YET_CHECKED_BY_SH4_THIS_RECALL",
+  "reviewed_docs": [
+    "messages/head/2026-09-15-sh4-ep-tw1-alpha-cap-sweep.md",
+    "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/submission-factual-report-ko.md",
+    "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/compatibility.json"
+  ],
+  "authority": "current user completed experiment review request",
+  "no_new_science": true
+}
