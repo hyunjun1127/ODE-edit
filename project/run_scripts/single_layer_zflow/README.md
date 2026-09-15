@@ -27,6 +27,17 @@ python -m project.run_scripts.single_layer_zflow.runner --lock INPUT_LOCK --tech
 
 위 명령의 기술 단계는 MAIN과 별도 allocation/비용/분모다. Actual technical receipt가 없으면 MAIN은 실행하지 않는다. MAIN은 기술 W/M를 carry하지 않는다. Barrier/Adam 및 조건 없는 N4 재실행은 이 launcher 범위가 아니다.
 
+## 완료 결과의 CPU 검산과 그림
+
+`analysis.py`는 완료된 10개 checkpoint의 file/tensor/RNG 및 parent/W/M/source 연결을 독립 검산하고, 저장된 per-item NLL에서 RS/PS/NS·strict/token·paired lost/gained를 재계산한다. 모델·evaluator를 호출하지 않는다. 미완료 chain을 완료 결과로 보간하지 않으며, canonical 분모는 1,000개다. At-write pooling, W10 전체, W5와 W10의 같은 first500은 별도 표다.
+
+```bash
+python -m project.run_scripts.single_layer_zflow.analysis --root MAIN_OUTPUT --input-lock INPUT_LOCK --input-sha256 INPUT_SHA --output NEW_AGGREGATE_DIR --private-output NEW_LOCAL_PRIVATE_DIR --n4-raw N4_RAW --n4-sha256 N4_SHA
+python -m project.run_scripts.single_layer_zflow.plots --aggregates NEW_AGGREGATE_DIR --output NEW_PNG_DIR
+```
+
+`plots.py`는 집계 CSV만 읽고 고정 matplotlib 설정으로 PNG를 생성한다. 입력/code/output SHA와 재현 명령은 plot receipt에 포함된다. 그림의 current cohort 곡선을 final retention으로 해석하지 않는다. 같은 subject/relation에서 나중 batch의 다른 target이 있는 경우는 `SUPERSEDED_CANDIDATE_LATER_BATCH`로 별도 계수한다. 동일 batch 충돌과 relation 미기록은 별도 상태이며, 이 분류는 실제 forgetting 원인 인증이나 분모 제외가 아니다.
+
 - [전체 method 파이프라인](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-single-layer-zflow-pipeline-v1.md)
 - [실행 설정](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-single-layer-zflow-contract-v1.json)
 - [선행 리뷰](/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-16-single-layer-zflow-design-review-ko.md)
