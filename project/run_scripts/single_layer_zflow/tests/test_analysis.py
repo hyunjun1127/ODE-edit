@@ -230,6 +230,8 @@ class CompleteChainTests(unittest.TestCase):
         self.lock = self.inputs / 'input.lock.json'
         put(self.lock, dict(source_head='source-head', source_tree='source-tree', source_root=str(self.inputs),
             model_path=str(self.inputs),
+            model={'members':[dict(a.member(self.inputs/name), realpath=str(self.inputs/name), symlink=False)
+                              for name in ('model.safetensors.index.json','fixture.safetensors')]},
             source_lock=a.member(source_lock), dataset_root=str(self.inputs), contexts_path=str(contexts),
             contexts=dict(sha256=a.sha256(contexts), semantic_sha256=a.digest(json.loads(contexts.read_text()))),
             sample=dict(members=[a.member(dataset)], case_ids=ids, case_order_sha256=a.digest(ids),
@@ -378,6 +380,29 @@ class FileSafetyTests(unittest.TestCase):
             link = root / 'link'; link.symlink_to(path)
             with self.assertRaisesRegex(a.AnalysisIntegrityError, 'symlink'):
                 a.child(root, 'link')
+
+
+class PinnedModelReadTests(unittest.TestCase):
+    def test_hf_blob_symlink_is_bound_not_blanket_allowed(self):
+        from safetensors.torch import save_file
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); snapshot = root/'snapshot'; snapshot.mkdir()
+            blobs = root/'blobs'; blobs.mkdir()
+            weight = torch.arange(6,dtype=torch.float32).reshape(2,3)
+            save_file({a.WEIGHT:weight},str(blobs/'weight'))
+            put(blobs/'index',dict(weight_map={a.WEIGHT:'fixture.safetensors'}))
+            for name, target in [('model.safetensors.index.json','index'),('fixture.safetensors','weight')]:
+                (snapshot/name).symlink_to(blobs/target)
+            members = [dict(a.member(blobs/target),path=str(snapshot/name),realpath=str(blobs/target),symlink=True)
+                       for name,target in [('model.safetensors.index.json','index'),('fixture.safetensors','weight')]]
+            lock = dict(model_path=str(snapshot),model={'members':members})
+            restored, history = a.initial_cpu_state(lock,{'base_selected_weight_sha256':tensor_sha256(weight)})
+            self.assertTrue(torch.equal(restored,weight)); self.assertEqual(history.count_nonzero(),0)
+            (blobs/'other-index').write_bytes((blobs/'index').read_bytes())
+            (snapshot/'model.safetensors.index.json').unlink()
+            (snapshot/'model.safetensors.index.json').symlink_to(blobs/'other-index')
+            with self.assertRaisesRegex(a.AnalysisIntegrityError,'realpath changed'):
+                a.initial_cpu_state(lock,{'base_selected_weight_sha256':tensor_sha256(weight)})
 
 
 if __name__ == '__main__':

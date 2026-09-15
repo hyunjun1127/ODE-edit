@@ -401,16 +401,31 @@ def saved_state_arithmetic(tensors: dict, entry_weight, entry_history, prepared:
         arithmetic_CPU_threads=torch.get_num_threads(), model_forward_calls=0)
 
 
+def pinned_model_path(lock: dict, path: Path, *, full_hash: bool = False) -> Path:
+    """HF snapshot symlinks are allowed only to their already pinned blob."""
+    matches = [m for m in lock['model']['members'] if m['path'] == str(path.absolute())]
+    require(len(matches) == 1, 'model member absent/duplicated in input lock')
+    expected = matches[0]
+    resolved = path.resolve(strict=True)
+    require(str(resolved) == expected['realpath'] and path.is_symlink() == expected['symlink'] and
+            resolved.is_file() and not resolved.is_symlink(), 'pinned model realpath changed')
+    require(resolved.stat().st_size == expected['bytes'], 'pinned model size changed')
+    if full_hash:
+        member(resolved, expected)
+    return resolved
+
+
 def initial_cpu_state(lock: dict, runtime: dict):
     import torch
     from safetensors import safe_open
     from .durable import tensor_sha256
     torch.set_num_threads(8)  # Same CPU FP32 history materialization order/threads.
     model_root = Path(lock['model_path'])
-    index = read_json(model_root / 'model.safetensors.index.json')
+    index = read_json(pinned_model_path(lock, model_root / 'model.safetensors.index.json', full_hash=True))
     shard = index['weight_map'][WEIGHT]
     require(not Path(shard).is_absolute() and '..' not in Path(shard).parts, 'model shard path escape')
-    with safe_open(str(model_root / shard), framework='pt', device='cpu') as stream:
+    shard_path = pinned_model_path(lock, model_root / shard)
+    with safe_open(str(shard_path), framework='pt', device='cpu') as stream:
         weight = stream.get_tensor(WEIGHT).to(torch.float32).clone()
     require(tensor_sha256(weight) == runtime['base_selected_weight_sha256'], 'CPU W0 selected weight tensor identity')
     return weight, torch.zeros((weight.shape[1],weight.shape[1]), dtype=torch.float32)
