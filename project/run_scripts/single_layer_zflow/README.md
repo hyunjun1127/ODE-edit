@@ -36,6 +36,7 @@ CPU에서 base snapshot의 selected W0 tensor만 읽고, 저장 W의 FP64 차이
 ```bash
 python -m project.run_scripts.single_layer_zflow.analysis --root MAIN_OUTPUT --input-lock INPUT_LOCK --input-sha256 INPUT_SHA --output NEW_AGGREGATE_DIR --private-output NEW_LOCAL_PRIVATE_DIR --n4-raw N4_RAW --n4-sha256 N4_SHA
 python -m project.run_scripts.single_layer_zflow.plots --aggregates NEW_AGGREGATE_DIR --output NEW_PNG_DIR
+python -m project.run_scripts.single_layer_zflow.reporting --aggregates NEW_AGGREGATE_DIR --figures NEW_PNG_DIR --output NEW_REPORT_DIR --technical TECHNICAL_OUTPUT --n4-reuse N4_REUSE_MANIFEST --allocation TERMINAL_ALLOCATION_RECEIPT
 ```
 
 `plots.py`는 집계 CSV만 읽고 고정 matplotlib 설정으로 PNG를 생성한다. 입력/code/output SHA와 재현 명령은 plot receipt에 포함된다. 그림의 current cohort 곡선을 final retention으로 해석하지 않는다. 같은 subject/relation에서 나중 batch의 다른 target이 있는 경우는 `SUPERSEDED_CANDIDATE_LATER_BATCH`로 별도 계수한다. 동일 batch 충돌과 relation 미기록은 별도 상태이며, 이 분류는 실제 forgetting 원인 인증이나 분모 제외가 아니다.
@@ -62,14 +63,24 @@ Main reference는 positive price=1, barrier off, 최대 25개 complete logical o
 
 ## CPU 실행
 
-저장소 root에서 cached uv/PyTorch 환경을 사용한다.
+원 CPU reference만 실행할 때는 저장소 root에서 cached uv/PyTorch 환경을 사용한다. 실제 adapter를 포함한 전체 테스트는 아래 별도 pinned 의존성이 필요하다.
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 uv run --offline --no-project --with torch python -m unittest discover -s project/run_scripts/single_layer_zflow/tests -v
+PYTHONDONTWRITEBYTECODE=1 uv run --offline --no-project --with torch python -m unittest project.run_scripts.single_layer_zflow.tests.test_flow_core project.run_scripts.single_layer_zflow.tests.test_oracle_transaction project.run_scripts.single_layer_zflow.tests.test_pipeline -v
 PYTHONDONTWRITEBYTECODE=1 uv run --offline --no-project --with torch python -m project.run_scripts.single_layer_zflow.demo --output /tmp/single-layer-zflow-demo.json
 ```
 
 이미 PyTorch가 설치된 환경에서는 `uv run --offline --no-project --with torch python` 부분을 해당 Python으로 바꾸면 된다. Demo는 CPU tensor만 만들며 checkpoint 다운로드나 원격 실행을 하지 않는다. CPU suffix callback은 full logits를 반환한다. 실모델에서의 selected-position head 최적화는 별도 adapter에 속한다.
+
+SH2 실제 adapter를 포함한 전체 CPU 회귀검사(작은 synthetic Llama, 다운로드/GPU 호출 없음):
+
+```bash
+PYTHONPATH=/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/deps-transformers-4.44.2 \
+OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 PYTHONDONTWRITEBYTECODE=1 \
+/mnt/raid5/janghj/EasyEdit/.venv/bin/python -B -m unittest discover -s project/run_scripts/single_layer_zflow/tests -q
+```
+
+이는 새 의존성을 설치하거나 공유 환경을 바꾸는 명령이 아니다. Task-local sealed transformers4.44.2 경로가 없거나 다른 버전이면 actual adapter 검사는 fail-close한다. 이 CPU 테스트 통과를 실제 8B parity/SEQ1000 완료로 대체하지 않는다.
 
 ## 해석 경계
 
