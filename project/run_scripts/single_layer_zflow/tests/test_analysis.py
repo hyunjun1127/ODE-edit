@@ -84,6 +84,32 @@ class ReductionTests(unittest.TestCase):
         self.assertEqual(q['p25'], 1.5)
         self.assertAlmostEqual(q['p90'], 5.4)
 
+    def test_saved_cost_and_one_append_are_recomputed_from_tensors(self):
+        entry = torch.zeros(2,3,dtype=torch.float32)
+        history = torch.diag(torch.tensor([1.,2.,3.]))
+        keys = torch.tensor([[1.,2.],[0.,1.],[2.,0.]])
+        weight = torch.tensor([[1.,0.,0.],[0.,2.,0.]])
+        final_history = torch.tensor([[6.,2.,2.],[2.,3.,0.],[2.,0.,7.]])
+        prepared = dict(entry_weight_sha256=tensor_sha256(entry), entry_history_sha256=tensor_sha256(history),
+                        accepted=1, request_count=2, actual_delta_cost_fp64=3.5)
+        state = dict(W=weight,M=final_history,K=keys)
+        result = a.saved_state_arithmetic(state,entry,history,prepared)
+        self.assertEqual(result['saved_actual_cost_recomputed_fp64'],3.5)
+        self.assertTrue(result['saved_history_fp32_one_gram_equal'])
+        state['M'] = final_history + keys@keys.T
+        with self.assertRaisesRegex(a.AnalysisIntegrityError,'one-Gram'):
+            a.saved_state_arithmetic(state,entry,history,prepared)
+
+    def test_saved_no_update_preserves_weight_and_history(self):
+        entry = torch.zeros(2,3,dtype=torch.float32);history=torch.eye(3)
+        prepared = dict(entry_weight_sha256=tensor_sha256(entry),entry_history_sha256=tensor_sha256(history),
+                        accepted=0,request_count=2,actual_delta_cost_fp64=0.)
+        state=dict(W=entry.clone(),M=history.clone(),K=torch.ones(3,2))
+        self.assertEqual(a.saved_state_arithmetic(state,entry,history,prepared)['saved_actual_cost_recomputed_fp64'],0.)
+        state['W'][0,0]=1
+        with self.assertRaisesRegex(a.AnalysisIntegrityError,'no-update'):
+            a.saved_state_arithmetic(state,entry,history,prepared)
+
     def test_superseded_is_input_only_later_batch_not_same_batch_order(self):
         selected = records(101)
         for row in selected:
@@ -196,8 +222,14 @@ class CompleteChainTests(unittest.TestCase):
         source_lock = self.inputs / 'source.lock.json'
         put(source_lock, {'head': 'source-head', 'tree': 'source-tree', 'members': [a.member(dummy_source)]})
         ids = [r['case_id'] for r in self.records]
+        # Tiny actual safetensors fixture, never a model download/instance.
+        from safetensors.torch import save_file
+        fixture_weight = torch.arange(6,dtype=torch.float32).reshape(2,3)
+        save_file({a.WEIGHT:fixture_weight},str(self.inputs/'fixture.safetensors'))
+        put(self.inputs/'model.safetensors.index.json',dict(weight_map={a.WEIGHT:'fixture.safetensors'}))
         self.lock = self.inputs / 'input.lock.json'
         put(self.lock, dict(source_head='source-head', source_tree='source-tree', source_root=str(self.inputs),
+            model_path=str(self.inputs),
             source_lock=a.member(source_lock), dataset_root=str(self.inputs), contexts_path=str(contexts),
             contexts=dict(sha256=a.sha256(contexts), semantic_sha256=a.digest(json.loads(contexts.read_text()))),
             sample=dict(members=[a.member(dataset)], case_ids=ids, case_order_sha256=a.digest(ids),
@@ -264,6 +296,9 @@ class CompleteChainTests(unittest.TestCase):
         self.assertEqual(len(result['node_rows']), 20)
         self.assertEqual(len(result['metric_rows']), 39)
         self.assertEqual(result['terminal_counts']['no_update_batches'], 10)
+        self.assertEqual(result['observation_inventory']['new_forward_prompt_pairs'],32500)
+        self.assertEqual(result['observation_inventory']['derived_no_forward_prompt_pairs'],6500)
+        self.assertEqual(result['saved_state_arithmetic'],'CPU_FP32_ONE_GRAM_AND_FP64_STORED_DELTA_COST')
         self.assertEqual(result['paired_rows'][-1]['status'], 'NOT_MEASURED_NO_N4_RAW')
         self.assertTrue(all(r['lost'] == r['gained'] == 0 for r in result['paired_rows'] if 'lost' in r))
 

@@ -372,6 +372,50 @@ def commit_checks(prepared: dict) -> dict:
             **{key: parity[key] for key in ("max_logit_abs", "logit_relative_l2", "edit_abs_error", "kl_abs_error")}}
 
 
+def saved_state_arithmetic(tensors: dict, entry_weight, entry_history, prepared: dict) -> dict:
+    """CPU-only independent rounded W cost and native FP32 Gram end-state.
+
+    This verifies the saved end state, not an additional GPU replay or a claim
+    that observing one endpoint alone counts every operation during a run.
+    """
+    import torch
+    from .durable import tensor_sha256
+    from .transaction import materialized_cost
+    require(tensor_sha256(entry_weight) == prepared['entry_weight_sha256'] and
+            tensor_sha256(entry_history) == prepared['entry_history_sha256'], 'arithmetic entry identity')
+    w, m, k = tensors['W'], tensors['M'], tensors['K']
+    require(all(t.device.type == 'cpu' and t.dtype == torch.float32 for t in (w,m,k,entry_weight,entry_history)),
+            'saved arithmetic CPU FP32 contract')
+    if prepared['accepted']:
+        gram = k @ k.T
+        expected = entry_history + gram
+        require(torch.equal(m, expected), 'saved history differs from native CPU FP32 one-Gram append')
+        del gram, expected
+    else:
+        require(torch.equal(w, entry_weight) and torch.equal(m, entry_history), 'saved no-update changed state')
+    delta = w.double() - entry_weight.double()
+    actual_cost = materialized_cost(delta, entry_history, request_count=prepared['request_count'])
+    close(actual_cost, prepared['actual_delta_cost_fp64'], 'independent saved W actual cost')
+    return dict(saved_history_fp32_one_gram_equal=True,
+        saved_actual_cost_recomputed_fp64=actual_cost, saved_delta_norm_recomputed_fp64=float(delta.norm()),
+        arithmetic_CPU_threads=torch.get_num_threads(), model_forward_calls=0)
+
+
+def initial_cpu_state(lock: dict, runtime: dict):
+    import torch
+    from safetensors import safe_open
+    from .durable import tensor_sha256
+    torch.set_num_threads(8)  # Same CPU FP32 history materialization order/threads.
+    model_root = Path(lock['model_path'])
+    index = read_json(model_root / 'model.safetensors.index.json')
+    shard = index['weight_map'][WEIGHT]
+    require(not Path(shard).is_absolute() and '..' not in Path(shard).parts, 'model shard path escape')
+    with safe_open(str(model_root / shard), framework='pt', device='cpu') as stream:
+        weight = stream.get_tensor(WEIGHT).to(torch.float32).clone()
+    require(tensor_sha256(weight) == runtime['base_selected_weight_sha256'], 'CPU W0 selected weight tensor identity')
+    return weight, torch.zeros((weight.shape[1],weight.shape[1]), dtype=torch.float32)
+
+
 def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
             n4_path: str | Path | None = None, n4_sha256: str | None = None,
             checkpoint_loader=None) -> dict:
@@ -402,6 +446,7 @@ def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
     if full_checkpoint_verification:
         from .durable import CheckpointStore
         checkpoint_loader = CheckpointStore(root / "checkpoints").load
+        entry_weight, entry_history = initial_cpu_state(lock, runtime)
     nodes, batches, metrics, compute, all_items = [], [], [], [], {}
     all_current = {tag: [] for tag in TAGS}; previous = None; config = None
     parity_tolerance, cost_tolerance = None, None
@@ -423,6 +468,9 @@ def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
                 "chain config/context changed")
         prep = metadata["prepared"]
         commit_summary = commit_checks(prep)
+        if full_checkpoint_verification:
+            commit_summary.update(saved_state_arithmetic(loaded['tensors'], entry_weight, entry_history, prep))
+            entry_weight, entry_history = loaded['tensors']['W'], loaded['tensors']['M']
         if parity_tolerance is None:
             parity_tolerance, cost_tolerance = prep["parity_evidence"]["tolerance"], prep["cost_evidence"]["tolerance"]
         require(prep["parity_evidence"]["tolerance"] == parity_tolerance and
@@ -560,6 +608,7 @@ def analyze(root: str | Path, lock_path: str | Path, *, input_sha256: str,
             "metric_rows": metrics, "paired_rows": pairs, "compute_rows": compute,
             "input_members": evidence, "private_items": all_items,
             "checkpoint_verification": "FULL_FILE_TENSOR_RNG_SHA256" if full_checkpoint_verification else "INJECTED_FIXTURE_LOADER_NOT_A_PRODUCTION_RECEIPT",
+            "saved_state_arithmetic": "CPU_FP32_ONE_GRAM_AND_FP64_STORED_DELTA_COST" if full_checkpoint_verification else "NOT_A_PRODUCTION_RECEIPT",
             "parity_tolerance": parity_tolerance, "cost_relative_tolerance": cost_tolerance,
             "limits": ["Historical N4 cudnn TF32=True versus MAIN False; cross-hardware bitwise parity NOT_CLAIMED.",
                        "Source/input verification is not a new model/evaluator correctness measurement.",

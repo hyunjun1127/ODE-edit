@@ -29,7 +29,9 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
     require(not report_path.exists(), 'report create-once')
     verification = read_json(aggregates / 'verification.json')
     require(verification['status'] == 'CPU_VERIFIED_SEQ1000' and
-            verification['checkpoint_verification'] == 'FULL_FILE_TENSOR_RNG_SHA256', 'verified full ten required')
+            verification['checkpoint_verification'] == 'FULL_FILE_TENSOR_RNG_SHA256' and
+            verification.get('saved_state_arithmetic') == 'CPU_FP32_ONE_GRAM_AND_FP64_STORED_DELTA_COST',
+            'verified full ten required')
     manifest = read_json(aggregates / 'manifest.json')
     for item in manifest['members']: member(Path(item['path']), item)
     plot = read_json(figures / 'plot-receipt.json')
@@ -71,7 +73,7 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
         '## 4. 실제 Llama·state·resume 검증', '',
         f"기술 gate `{member(technical/'TECHNICAL_VALID.json')['sha256']}`: full-write↔all-token suffix logits/NLL/X-gradient와 global microbatch weight, actual FP32 Δ cost, entry rollback/nonselected guard, inner append0/terminal append1을 확인했다. 별도 Python process에서 W/M/context/RNG를 복원한 다음 batch 첫 request logits max-abs={gate['next_entry_logits_max_abs']}; exact-same={gate['exact_same_logits']}. 동일 commit 재시도는 no-op였다.", '',
         '범위: native source compute_ks replay는 실제 첫 2개 요청, gradient calibration/독립 고정 perturbation 검사는 첫 2개 요청의 7개 packed caches(모든 token), microbatch partition 검사는 같은 2개 요청의 microbatch1/2였다. Writer 좌표는 B100의 100개를 유지했다. 이후 terminal physical parity/cost와 flow는 전체 기술 B100에서 수행했다. 모든 1,000개 요청마다 full-write X-gradient를 별도 재검증했다고 주장하지 않는다.', '',
-        '10개 MAIN checkpoint는 W/M/X/B/S/K/config/context/RNG/ledger/parent/next-index/cache-binding을 담고 있으며 CPU에서 full file/tensor/RNG SHA와 chain continuity를 재검산했다. Actual model resume 실험은 기술 checkpoint에서 수행했으며 모든 MAIN checkpoint를 별도 GPU replay했다고 주장하지 않는다. 완성 manifest 없는 partial bundle은 resume 대상이 아니다.', '',
+        '10개 MAIN checkpoint는 W/M/X/B/S/K/config/context/RNG/ledger/parent/next-index/cache-binding을 담고 있으며 CPU에서 full file/tensor/RNG SHA와 chain continuity를 재검산했다. 저장된 W와 이전 W의 FP64 차이로 실제 cost를 다시 계산하고, 저장 M이 이전 M+CPU FP32 K@K.T 한 번의 결과와 정확히 일치하는지도 확인했다. 이는 saved end-state 검증이며 단독으로 모든 중간 연산을 계수했다는 주장은 아니다. Actual model resume 실험은 기술 checkpoint에서 수행했으며 모든 MAIN checkpoint를 별도 GPU replay했다고 주장하지 않는다. 완성 manifest 없는 partial bundle은 resume 대상이 아니다.', '',
         '수치 threshold는 품질 평가 전에 fixed calibration으로 봉인했으며 chain 중 변경하지 않았다. Tokenizer는 source-native add_bos attribute=False 대입을 보존했으나 Fast tokenizer의 실제 backend BOS 제거와 같지 않다. 실제 token IDs와 source key 경로를 확인했으며 속성값만으로 BOS 부재를 주장하지 않는다.', '',
         '## 5. 비용·오류와 자원', '',
         table(jobs['jobs'], [('job_id','Job'),('scope','범위'),('state','상태'),('exit_code','Exit'),('allocated_gpu_seconds','할당 GPU-sec')]), '',

@@ -31,6 +31,8 @@ python -m project.run_scripts.single_layer_zflow.runner --lock INPUT_LOCK --tech
 
 `analysis.py`는 완료된 10개 checkpoint의 file/tensor/RNG 및 parent/W/M/source 연결을 독립 검산하고, 저장된 per-item NLL에서 RS/PS/NS·strict/token·paired lost/gained를 재계산한다. 모델·evaluator를 호출하지 않는다. 미완료 chain을 완료 결과로 보간하지 않으며, canonical 분모는 1,000개다. At-write pooling, W10 전체, W5와 W10의 같은 first500은 별도 표다.
 
+CPU에서 base snapshot의 selected W0 tensor만 읽고, 저장 W의 FP64 차이로 actual cost를 재계산한다. 각 M이 이전 M에 native CPU FP32 K@K.T를 한 번 더한 값과 정확히 같은지 확인한다. 모델 객체 생성·forward는 없으며 CPU threads=8을 실행과 맞춘다. 이는 saved end-state의 추가 검산이며 새로운 GPU resume/replay가 아니다.
+
 ```bash
 python -m project.run_scripts.single_layer_zflow.analysis --root MAIN_OUTPUT --input-lock INPUT_LOCK --input-sha256 INPUT_SHA --output NEW_AGGREGATE_DIR --private-output NEW_LOCAL_PRIVATE_DIR --n4-raw N4_RAW --n4-sha256 N4_SHA
 python -m project.run_scripts.single_layer_zflow.plots --aggregates NEW_AGGREGATE_DIR --output NEW_PNG_DIR
