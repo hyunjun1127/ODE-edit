@@ -1,0 +1,148 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-47962-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "addendum": "ODEEDIT-S06-EP-TW1-47962-DESIGN-CONFORMANCE-ADDENDUM-SH4-V1",
+  "analysis_base": "0043108edc25bd6173e4e1995713b9a7ea79840b",
+  "execution_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "execution_tree": "6db14423a207eaccad195ce291c40bb8ce93cc8d",
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json",
+    "bytes": 1233680,
+    "sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9"
+  },
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1.tar",
+    "bytes": 1525760,
+    "sha256": "2dec619e12f72e1cf6fce843c61adc68726ddc025a6b09cff326bb4b6229124a"
+  },
+  "documents": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/messages/head/2026-09-15-sh4-ep-tw1-47962-completed-review.md",
+      "bytes": 11701,
+      "sha256": "3458ce5521ffdcbaa884cacdeb43b97db5ab68c75e3c6de51cd9558882ba91c7",
+      "relative_path": "messages/head/2026-09-15-sh4-ep-tw1-47962-completed-review.md",
+      "lines": 81,
+      "read_level": "FULL_READ_THIS_TASK"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/messages/head/2026-09-15-sh4-ep-tw1-47962-design-conformance-addendum.md",
+      "bytes": 8764,
+      "sha256": "a2b30f7abdea06b5d602e4b2bcf400c5d609e25b2a31036438c0467315758eb9",
+      "relative_path": "messages/head/2026-09-15-sh4-ep-tw1-47962-design-conformance-addendum.md",
+      "lines": 46,
+      "read_level": "FULL_READ_THIS_TASK"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/messages/head/2026-09-15-sh4-ep-tw1-gate-skip-run.md",
+      "bytes": 8585,
+      "sha256": "df39ca022b7d41e5c88fa5f4f4d4210e077495a61870fea6dcba3e28fc46045f",
+      "relative_path": "messages/head/2026-09-15-sh4-ep-tw1-gate-skip-run.md",
+      "lines": 68,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/audits/global/2026-09-15-ep-tw1-numerical-gate-user-waiver.md",
+      "bytes": 1194,
+      "sha256": "9538d89b67336e452c45cdbcc7f54c1289604272c2c0535322387d90f5947dab",
+      "relative_path": "audits/global/2026-09-15-ep-tw1-numerical-gate-user-waiver.md",
+      "lines": 13,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "bytes": 17969,
+      "sha256": "37a626e2de5d90e19851914d892122cc4dfb07279e8be794efa5a01c62326a4d",
+      "relative_path": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "lines": 157,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "bytes": 10515,
+      "sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea",
+      "relative_path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "lines": 249,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "bytes": 24298,
+      "sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20",
+      "relative_path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "lines": 527,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/PROTOCOL.md",
+      "bytes": 60382,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "relative_path": "PROTOCOL.md",
+      "lines": 1269,
+      "read_level": "EXACT_BYTES_PRIOR_FULL_READ_REUSED"
+    }
+  ],
+  "prior_full_read": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/full-read-receipt.json",
+    "bytes": 3679,
+    "sha256": "54e583f37dca335c4f5681855fd68f727627a79504c93250045169417e18c75a"
+  },
+  "new_fixed_dataset_verify": {
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "unique_prefix": 1000,
+    "batch_order_match": true,
+    "loader": "scripts.fixed_counterfact.load_prefix"
+  },
+  "reused_assets": {
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "teacher_manifest": {
+      "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+      "bytes": 71431,
+      "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+    },
+    "teacher_full_payload_rehash_this_review": false,
+    "teacher_reuse_receipt": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/teacher-reuse-verification.json",
+      "bytes": 10600,
+      "sha256": "d3173d2a55d8c89f39a6a93a2737c180456d0fcd0322087d8ad779dd365f228d"
+    },
+    "asset_reuse": {
+      "prior_full_sha_with_stable_stat": 34,
+      "prior_stat_lock": {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/repair.lock.json",
+        "bytes": 1233975,
+        "sha256": "e6501577e55aa509765d454d3c605f12a7d710f1a07cf83bbd18aecc97c2f43c"
+      },
+      "teacher_evidence": {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/teacher-reuse-verification.json",
+        "bytes": 10600,
+        "sha256": "d3173d2a55d8c89f39a6a93a2737c180456d0fcd0322087d8ad779dd365f228d"
+      },
+      "new_teacher_generation": false
+    },
+    "projector_mapping": {
+      "physical_layer": 4,
+      "source_index": 0,
+      "local_index": 0,
+      "source_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c",
+      "selected_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c"
+    }
+  },
+  "source_members_new_rehash": 164,
+  "generic_panels": 42,
+  "S64_Dev128_disjoint": true,
+  "validation_mode": "SKIPPED_USER_DIRECTED",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "new_GPU": 0,
+  "new_model_forward": 0,
+  "new_teacher_generation": 0,
+  "remote_raw_transfer": 0,
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39"
+  },
+  "raw_fullsha_reused": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/raw-member-inventory.csv",
+    "bytes": 26141,
+    "sha256": "a79c8b33c0436131daff373cb535af190f063556de077f4300702b844bd44905"
+  }
+}

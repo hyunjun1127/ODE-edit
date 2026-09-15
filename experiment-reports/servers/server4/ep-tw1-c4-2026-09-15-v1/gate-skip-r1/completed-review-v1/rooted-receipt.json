@@ -1,0 +1,64 @@
+{
+  "schema": "EP47962_ROOTED_REVIEW_RECEIPT_V1",
+  "instruction_id": "ODEEDIT-S06-EP-TW1-47962-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "addendum": "ODEEDIT-S06-EP-TW1-47962-DESIGN-CONFORMANCE-ADDENDUM-SH4-V1",
+  "status": "TASK_COMPLETE_STOP",
+  "report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
+  "analysis_manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
+  "package_member_root": "5206e8719ebf8cc71f70433907a42d1272de804b4eaee3be6c535158327e050d",
+  "package_member_count": 43,
+  "package_member_bytes": 820388,
+  "analysis_source_head": "3a1200a4fd57e87aaf74307daf91284b54e04167",
+  "analysis_source_tree": "9cbbb572b6e6f428a932e4b74eab64f539a14860",
+  "execution_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "execution_tree": "6db14423a207eaccad195ce291c40bb8ce93cc8d",
+  "analysis_original_base": "833e6396522924b8bbb26eedadf763e2d3ebd4d4",
+  "main_before_integration": "0043108edc25bd6173e4e1995713b9a7ea79840b",
+  "completion_Git_identity": "Post-push local receipt and GH peer-direct handoff; intentionally not self-referential",
+  "verified": {
+    "raw_fullSHA_files": 116,
+    "raw_bytes": 13407776774,
+    "CP_CPU_weights_only": 10,
+    "CP_bytes": 10570873202,
+    "state_links": 9,
+    "final_history": 10,
+    "inner_history": 0,
+    "independent_selector_decisions": 10,
+    "all_candidate_rows": 40,
+    "design_conformance_rows": 15,
+    "metrics_byte_rerun": 12,
+    "PNG_byte_rerun": 6,
+    "CPU_fixture_tests": 10
+  },
+  "terminal": {
+    "job": 47962,
+    "state": "COMPLETED",
+    "exit": "0:0",
+    "requests": 1000,
+    "allocated_GPU_seconds": 7694
+  },
+  "canonical_final": {
+    "RS": [
+      998,
+      1000
+    ],
+    "PS": [
+      1942,
+      2000
+    ],
+    "NS": [
+      8056,
+      10000
+    ]
+  },
+  "validation_mode": "SKIPPED_USER_DIRECTED",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "GPU_continuation": "NOT_TESTED",
+  "scientific_promotion": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_GPU_model_evaluator_Slurm_mutations": 0,
+  "other_tasks_unchanged": true,
+  "CAKE": "NOT_DISPATCHED_NOT_STARTED",
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

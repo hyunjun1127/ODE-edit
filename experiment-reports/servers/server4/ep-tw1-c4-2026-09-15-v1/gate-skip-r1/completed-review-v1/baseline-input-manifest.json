@@ -1,0 +1,77 @@
+{
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/seen-full.json",
+      "bytes": 6664325,
+      "sha256": "dc8545bb8c984e6afc67ca3bbae4e6e36a1bc6a460cbfe27e2a7c57390c062b2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B010/seen-full.json",
+      "bytes": 6664488,
+      "sha256": "9c8f22a3c255769d21ee4c349fba6b8ceb83cdea22d0661ca8055521fbed1fd7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B010/seen-full.json",
+      "bytes": 6664981,
+      "sha256": "25ad8c52b7fb139a081220a666b01992d7552912cf1da65a6f471976f7ad8bcf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B010/seen-full.json",
+      "bytes": 6664396,
+      "sha256": "2bb0c625101296a53dc588a0a616bc61c2cf318fa13f9071ac16e11c3b760aec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B010/seen-full.json",
+      "bytes": 6662812,
+      "sha256": "36c132348ef10845aa137c599ee717cc04846a2f0120bf88db9c70948c45b158"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/w0-distributions.csv",
+      "bytes": 8950,
+      "sha256": "b2b9ba7c0fca5857832140acf5dfaead26f268762d7c214e4445a5ed17a3bbe7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/cumulative-metrics.csv",
+      "bytes": 498142,
+      "sha256": "8c9dc14240111ab6b3a28576c8d98101728c89c5423e3f96d025c32834a7970b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/source-config-compatibility.csv",
+      "bytes": 28899,
+      "sha256": "7ca66f950c6a2ccf18557e3822765b08ae330b7c26caf543b6b365dd2ed2e2d0"
+    }
+  ],
+  "forbidden_population_excluded": [
+    "W50_to_W60_full6000",
+    "W100_final10k",
+    "unrelated older methods"
+  ],
+  "scope": "FIVE_SAVED_W10_LOCAL_JSONS_PLUS_EXISTING_W0_PREFIX_AGGREGATE",
+  "remote_transfers": 0,
+  "new_evaluations": 0
+}

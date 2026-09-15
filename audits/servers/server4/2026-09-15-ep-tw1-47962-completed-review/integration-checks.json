@@ -1,0 +1,32 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-47962-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "phase": "PRE_PUSH",
+  "review_complete": true,
+  "package_member_rehash": 43,
+  "source_rehash": 10,
+  "control_rehash": 5,
+  "raw_free": true,
+  "diff_check": {
+    "ordinary": "CSV CRLF flagged; sealed generated CSV bytes preserved",
+    "scoped": "git -c core.whitespace=cr-at-eol diff --cached --check PASS",
+    "shared_config_mutation": false
+  },
+  "access_check": {
+    "generic": "BLOCK only runs/odeedit_ep_tw1_47962_review_s4_v1/server4.json",
+    "resolution": "Explicit latest user envelope §6 authorizes this exact run record; all other paths pass server-head scope",
+    "exception_scope": [
+      "runs/odeedit_ep_tw1_47962_review_s4_v1/server4.json"
+    ],
+    "explicit_path_allowlist_check": "PASS49 staged own publication paths",
+    "shared_policy_modified": false
+  },
+  "plot_visual_inspection_all6": true,
+  "initial_analysis_code_head": "744365629d13205d4b2f6d89eec82f8ed57abdf9",
+  "final_analysis_code_head": "3a1200a4fd57e87aaf74307daf91284b54e04167",
+  "report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
+  "manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
+  "rooted_receipt_sha256": "a6c1291559ef9f23cf2e49ad771fce044d2aa86ae54ed98019da449748f12611",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "scientific_promotion": false,
+  "other_tasks_mutated": false
+}

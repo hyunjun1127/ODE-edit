@@ -1,0 +1,33 @@
+{
+  "execution_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "execution_tree": "6db14423a207eaccad195ce291c40bb8ce93cc8d",
+  "analysis_code_head": "744365629d13205d4b2f6d89eec82f8ed57abdf9",
+  "analysis_code_tree": "f126ccc1d32047e8e9803bc999762b2a203bc683",
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json",
+    "bytes": 1233680,
+    "sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9"
+  },
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "dtype": "float32",
+  "attention": "eager",
+  "seed": 20260915,
+  "canonical_microbatch": 16,
+  "physical_layer": 4,
+  "projector_mapping": {
+    "physical_layer": 4,
+    "source_index": 0,
+    "local_index": 0,
+    "source_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c",
+    "selected_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c"
+  },
+  "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "initial": "W0_COLD_M0",
+  "requests": 1000,
+  "batches": 10,
+  "other_entry_imports": 0,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_mode": "SKIPPED_USER_DIRECTED",
+  "scientific_promotion": false,
+  "claim_decision": "PENDING_GH_REVIEW"
+}

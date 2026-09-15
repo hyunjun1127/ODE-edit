@@ -1,0 +1,188 @@
+{
+  "aggregate_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/batch-current-metrics.csv",
+      "bytes": 80714,
+      "sha256": "7a9482ea071b87230ec35fe591d0050b3eb91112a6428eb6c4c7324fe41ce84e",
+      "published_name": "batch-current-metrics.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/batch-policy.csv",
+      "bytes": 3303,
+      "sha256": "15eabad111716d966bfa4b18c6767d86a4330db29c47a5a7fdd4601dc4e9b32b",
+      "published_name": "batch-policy.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/candidate-details.csv",
+      "bytes": 6850,
+      "sha256": "5457b404a898d2e934865513603f578cfbab5cf2cbe8b0b624ad330e890c72a9",
+      "published_name": "candidate-details.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/cohort-retention.csv",
+      "bytes": 11124,
+      "sha256": "f8f486dd91f84d23570b29beac64345f100f230e07ca175ce670853a0b2bfc54",
+      "published_name": "cohort-retention.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/cost-by-batch.csv",
+      "bytes": 4318,
+      "sha256": "e2e4cea5868fe602a66af6ebbd9e2892004d9fa27a1b1ab99bb4f058722e7e59",
+      "published_name": "cost-by-batch.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/first-final-table.csv",
+      "bytes": 1975,
+      "sha256": "e801d2294660a6e0c454e5e5f09d4ba4d18256643f0af30abed176e6c00d736b",
+      "published_name": "first-final-table.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/general-observer.csv",
+      "bytes": 225,
+      "sha256": "af36826aa451a9e43c813d02b6ba387d63d648ba43be40a27bf16faffb05de67",
+      "published_name": "general-observer.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/ledger-summary.csv",
+      "bytes": 532,
+      "sha256": "3b8ffdf1a9dc4a57d933dc46a839e71c8b45f46f07aadd2c3d758f31a1418575",
+      "published_name": "ledger-summary.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/metrics-summary.json",
+      "bytes": 6524,
+      "sha256": "37fbf7bbaea877a0c43cce80019485fbab92ff26e944cd1181f5b4332f60dd7c",
+      "published_name": "metrics-summary.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/paired-transitions.csv",
+      "bytes": 31995,
+      "sha256": "474519e80c805b5c4d1ec6b9c2d0e0c889cd8d78b445e92666ea3405490d76d9",
+      "published_name": "paired-transitions.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/parity-warnings.csv",
+      "bytes": 1074,
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9",
+      "published_name": "parity-warnings.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/metrics-v3/whole-prefix-metrics.csv",
+      "bytes": 10368,
+      "sha256": "e05b2489a00c475b34f19203356fbc859b670438d4011bfa3bb69652f52164b1",
+      "published_name": "whole-prefix-metrics.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/checkpoint-inventory.csv",
+      "bytes": 3279,
+      "sha256": "214505eb82588601bfcd68f7746fefc34561cae0569c67919e0239c082a8863d",
+      "published_name": "checkpoint-inventory.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/checkpoint-tensor-hashes.csv",
+      "bytes": 10317,
+      "sha256": "fdbec482535338f68c80c7e2a5cbffdf04222c5bfe09ca14d0863ab7c91df9ea",
+      "published_name": "checkpoint-tensor-hashes.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/raw-member-inventory.csv",
+      "bytes": 26141,
+      "sha256": "a79c8b33c0436131daff373cb535af190f063556de077f4300702b844bd44905",
+      "published_name": "raw-member-inventory.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5",
+      "published_name": "state-links.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/state-summary.json",
+      "bytes": 928,
+      "sha256": "ac35400b333f917876da104f11f12d91d5fd514f970762eb572d11124b0fc3cf",
+      "published_name": "state-summary.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067",
+      "published_name": "target-counters.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/write-actions.csv",
+      "bytes": 2979,
+      "sha256": "7903dc40f8f3f739657f1aa5dd7fadbf9e06e34da8116f679d99efda4043adfc",
+      "published_name": "write-actions.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/baselines-v1/baseline-first1000.csv",
+      "bytes": 9350,
+      "sha256": "7f33b5e7d12774510feb2e44bcd9e1e9388f906bd27f1ad8ae88a45937dc9442",
+      "published_name": "baseline-first1000.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/baselines-v1/baseline-input-manifest.json",
+      "bytes": 3696,
+      "sha256": "82d2baf237475349a86df21ef2889741f12b7d6e2bab7c1bea4cd5a14813fab9",
+      "published_name": "baseline-input-manifest.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/baselines-v1/baseline-paired.csv",
+      "bytes": 7336,
+      "sha256": "eb2342f84a828d98182eb5f08074f2baeeed274e2c2fb179a06008c99282209c",
+      "published_name": "baseline-paired.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/baselines-v1/compatibility.csv",
+      "bytes": 5833,
+      "sha256": "ea6df25cbf0b54c321a7846cf989252fda43e3ca76afa204ffe8223b1974d5a1",
+      "published_name": "compatibility.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/mechanism-v1/design-conformance.csv",
+      "bytes": 6043,
+      "sha256": "69f33a0ee4a560031baacf447c8ec8ce4e3b87397171747b0e7363c754e249b1",
+      "published_name": "design-conformance.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/mechanism-v1/mechanism-summary.json",
+      "bytes": 2317,
+      "sha256": "b6206b5ae2e391fe73c733c3690bbe27ff90cda80413435f15ee6172e6c0abbd",
+      "published_name": "mechanism-summary.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/mechanism-v1/per-batch-mechanism.csv",
+      "bytes": 11972,
+      "sha256": "9a3f224313b4c8d272f163cdc9f9c598dc5117b9dd404e03d8419173e03cf756",
+      "published_name": "per-batch-mechanism.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/evidence-v1/evidence-reuse-manifest.json",
+      "bytes": 7020,
+      "sha256": "ed7837a32f6ec4b0ecfe043f7f905b552ec1171fdaf1bd6a72a73a438232cd03",
+      "published_name": "evidence-reuse-manifest.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/evidence-v1/executed-source-inventory.csv",
+      "bytes": 37441,
+      "sha256": "a1070a7a4215aa88b41332248bb99f6a31d3bb51f668e75be7fb646b9801ed60",
+      "published_name": "executed-source-inventory.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/evidence-v1/generic-reduction.csv",
+      "bytes": 7341,
+      "sha256": "bea48b38a7929296d6479e240ee137a37562c3d65614f25bd80920df8468e474",
+      "published_name": "generic-reduction.csv"
+    }
+  ],
+  "raw_payload_copied": false,
+  "source_root": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1",
+  "source_code_head": "744365629d13205d4b2f6d89eec82f8ed57abdf9",
+  "local_reducer_attempts": [
+    "metrics-v1 analysis-only scalar/dict timer error preserved",
+    "metrics-v2 provisional",
+    "metrics-v3 final"
+  ],
+  "original_reports_modified": false,
+  "new_GPU": 0
+}

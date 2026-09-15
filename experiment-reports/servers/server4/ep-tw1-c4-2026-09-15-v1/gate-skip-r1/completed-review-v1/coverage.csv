@@ -1,0 +1,20 @@
+requirement,status,evidence_or_limitation
+Terminal and actual population,COMPLETE_CPU_VERIFIED,COMPLETED0:0; 10commit/1000unique; independent13000prompt pairs
+Entry/RAW/selected and finite selector,COMPLETE_CPU_VERIFIED,30current panels;40candidate receipts;10deterministic selections
+New raw byte inventory,COMPLETE_FULL_SHA,116members/13407776774B;65 internal file references
+Selected W/M CP and9links,COMPLETE_CPU_WEIGHTS_ONLY,10CP/10570873202B; three hash conventions bridged
+Design/source/runtime evidence,SOURCE_AND_STORED_EVIDENCE,15requirements; executed source rather than newer implementation
+Halfspace/ball/trust/action,CPU_SCALAR_AND_SAVED_TENSOR,all10; pretrust temporary tensor not stored; B1 full native geometry not reloaded
+General reduction and leakage boundary,SOURCE_AND_STORED_EVIDENCE,40S64+2Dev panels; disjoint192document IDs; no observer input to selector
+Ledger/retention/cohorts,COMPLETE_FOR_SAVED_ROWS,1000atwrite accepted; all-request vsaccepted definitions; first500 W5/W10
+Prior five W10 references,MATCHED_PROMPT_IDS_NOT_CONTROLLED,source/config/seed differences exposed; only local completedJSON
+W0 reference,SEALED_AGGREGATE_REUSE,71/227/8820 first1000; no new prompt-level W0 pairing
+Independent numerical FD/direct/selfKL,SKIPPED_USER_DIRECTED,numerical_validation=NOT_ESTABLISHED; CPU arithmetic is not replacement
+GPU continuation/off-on parity,NOT_TESTED,no GPU/model/forward in this review
+Teacher/model/P full payload,PRIOR_FULL_SHA_REUSED,small manifest newly hashed; heavy payload not duplicated
+Original target optimizer/local teacher,NOT_SAVED_FULL_PAYLOAD,anchor/radius/target+teacher hash/counters saved; no complete optimizer resume claim
+Intermediate first failure/recovery times,NOT_RECORDED,"only observed endpoints, no interpolation"
+Report256/Audit/MMLU/FutureN,NOT_MEASURED,"no new loss, teacher, calibration, baseline forward"
+Pure writer / all evaluator / checkpoint IO timing,NOT_SEPARATED,nested timers not summed; component gaps remain
+Statistical replication/causal effect,NOT_ESTABLISHED,one fixed order andseed; no independent10batch replication claim
+Scientific promotion/CAKE/next policy,NOT_AUTHORIZED,GH claim/next dispatch separate; no clone/run now

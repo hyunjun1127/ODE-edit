@@ -1,0 +1,119 @@
+{
+  "status": "CPU_ANALYSIS_PACKAGE_CHECKS_PASS_NOT_MODEL_VALIDATION",
+  "reducer_fixture_tests": 10,
+  "syntax_files": 9,
+  "metrics_byte_reproduction_files": 12,
+  "PNG_byte_reproduction": 6,
+  "plot_visual_inspection": [
+    "mechanism-actions.png",
+    "candidate-screen.png",
+    "baseline-reference.png"
+  ],
+  "table_cardinality": {
+    "candidate-details.csv": 40,
+    "batch-policy.csv": 10,
+    "per-batch-mechanism.csv": 10,
+    "checkpoint-inventory.csv": 10,
+    "state-links.csv": 9,
+    "generic-reduction.csv": 42,
+    "baseline-first1000.csv": 18,
+    "design-conformance.csv": 15
+  },
+  "paired_integer_conservation": true,
+  "canonical_final": [
+    [
+      "RS",
+      998,
+      1000
+    ],
+    [
+      "PS",
+      1942,
+      2000
+    ],
+    [
+      "NS",
+      8056,
+      10000
+    ]
+  ],
+  "raw_new_fullsha_evidence": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/completed-review-v1/state-v1/raw-member-inventory.csv",
+    "bytes": 26141,
+    "sha256": "a79c8b33c0436131daff373cb535af190f063556de077f4300702b844bd44905"
+  },
+  "current_raw_stat_unchanged": true,
+  "shared_heavy_rehash": false,
+  "scope": "OWN_NEW_ANALYSIS_CODE_REPORT_ONLY",
+  "raw_payload_Git": 0,
+  "source_code": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate.py",
+      "bytes": 17284,
+      "sha256": "fec27a62de14fc9938952ca0991d2e77ed5595cf82993575995f645afc973016",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/plot_nogate_review.py",
+      "bytes": 6614,
+      "sha256": "cdfb48e61f1bfaf66d93406694d20424ca3839348a23ca96dddae1638a1c61fd",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/plot_nogate_review.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/test_review_nogate.py",
+      "bytes": 2116,
+      "sha256": "5dd6a253b81c583f59c73bf44b8caa6d6447092dc9402341b08a305d389cb03b",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/test_review_nogate.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/baselines.py",
+      "bytes": 5657,
+      "sha256": "965998bda65f8012710405e210767a1de74eb4fbc3ee6579d9b8b728d608d8e3",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/baselines.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/build_publication.py",
+      "bytes": 38479,
+      "sha256": "3c84e0e98fe0bb69dbaf5fb1c6da5f73a6702f5d67584c655669a49d33c58216",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/build_publication.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/evidence.py",
+      "bytes": 6004,
+      "sha256": "d29bb16d6cb721cc622c40da120f73cc5ad4941d83a9935dab95303aecbd9fa1",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/evidence.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/mechanism.py",
+      "bytes": 11823,
+      "sha256": "165994ad79e5c0b0159b9ca2323760db45e7b24566c64d46173b02da620d344d",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/mechanism.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/state_audit.py",
+      "bytes": 10952,
+      "sha256": "a19b05139e4a62a1c9cac4f477c16d82b6f9b7f0c4a485bfdacf577d42b850d1",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/state_audit.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-47962-completed-review-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/verify_publication.py",
+      "bytes": 5109,
+      "sha256": "a0354c1eb516946171c1ed2ecc1aa9aa76ed424a48e408f0f4023909f4df4f68",
+      "relative_path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/verify_publication.py"
+    }
+  ],
+  "model_load": 0,
+  "new_GPU": 0,
+  "Slurm_mutations": 0,
+  "FD_revalidation": 0,
+  "new_evaluations": 0,
+  "skipped_validation": "SKIPPED_USER_DIRECTED",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "review_limitations": [
+    "no independent GPU gradient/parity/replay",
+    "no purewriter timing",
+    "no baseline C4 evaluation",
+    "single order/seed; no causal interpretation",
+    "source/CPU consistency not efficacy validation"
+  ]
+}

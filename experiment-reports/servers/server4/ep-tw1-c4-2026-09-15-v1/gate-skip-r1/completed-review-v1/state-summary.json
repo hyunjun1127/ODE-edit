@@ -1,0 +1,25 @@
+{
+  "status": "CPU_FILE_TENSOR_STATE_LINK_AND_HASH_BRIDGE_VERIFIED",
+  "raw_files": 116,
+  "raw_bytes": 13407776774,
+  "raw_file_refs_verified": 65,
+  "checkpoints": 10,
+  "checkpoint_bytes": 10570873202,
+  "adjacent_links": 9,
+  "inner_history_appends": 0,
+  "final_history_appends": 10,
+  "targets": 1000,
+  "solves": 10,
+  "model_level_numerical_validation": "NOT_ESTABLISHED",
+  "GPU_continuation": "NOT_TESTED",
+  "nonselected_weights": "RUNTIME_POINTER_VERSION_GRAD_HOOK_BUFFER_GUARDS_AND_BASE_FINAL_HASH_ASSERT; no full base tensor reload by analysis",
+  "initial_marker": "INITIAL_EXECUTION_OBSERVED_WITH_VALIDATION_SKIPPED",
+  "submission_agent_was_pending": true,
+  "all_raw_fullsha_new": true,
+  "shared_model_teacher_P_rehash": false,
+  "missing": [
+    "no W0 selected tensor loaded for new norm reconstruction",
+    "no full-model GPU continuation",
+    "no original FD/direct/selfKL numerical verification"
+  ]
+}

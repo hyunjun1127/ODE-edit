@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-47962-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "job_id": "47962",
+  "job_name": "odeedit_ep_tw1_nogate_s4",
+  "owner": "janghj",
+  "host": "server4",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "derived_exit_code": "0:0",
+  "signal": 0,
+  "start_KST": "2026-09-15T14:32:06",
+  "end_KST": "2026-09-15T16:40:20",
+  "elapsed_seconds": 7694,
+  "allocated_GPUs": 1,
+  "allocated_GPU_seconds": 7694,
+  "MaxRSS_KiB_batch_step": 33459184,
+  "scope": "One bounded sacct -j47962; no other job query or mutation. Terminal source receipt independently checked.",
+  "initial_submission_observation": "PENDING only; do not retroactively claim agent initial numerical G0"
+}

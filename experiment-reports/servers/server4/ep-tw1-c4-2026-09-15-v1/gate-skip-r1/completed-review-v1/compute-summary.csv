@@ -1,0 +1,20 @@
+component,seconds,kind,additive_group,evidence
+job47962_new_scientific_allocated,7694,NEW,allocated,scheduler-once.json
+job47884_prior_failure,473,REUSED_HISTORICAL,old_failure,execution.lock.cost_plan
+job47942_prior_failure,69,REUSED_HISTORICAL,old_failure,execution.lock.cost_plan
+teacher47592_prior,98,REUSED_HISTORICAL,teacher,execution.lock.cost_plan
+old_nativefit_nested_in47884,286.54453050531447,NESTED_DO_NOT_ADD,none,old failed source receipt
+model_load,16.754229348152876,NEW_NESTED_IN_ALLOCATED,none,entry.json
+native_seconds,2956.769621820189,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+z_seconds,2798.643825504929,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+native_keys_seconds,37.57556988764554,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+readout_seconds,4.5423282803967595,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+solve_seconds,1.2294135363772511,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+map_seconds,3.3118603164330125,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+screen_seconds,743.841052884236,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+history_seconds,141.89781727362424,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+selected_evaluation_seconds,1262.0592530993745,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+current_gradient_total,10.165236654691398,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+S64_gradient_total,169.43805163446814,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+S64_gradient_FB,123.459907123819,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv
+S64_teacher_read,45.434528776444495,RECORDED_COMPONENT_MAY_NEST,none,cost-by-batch.csv

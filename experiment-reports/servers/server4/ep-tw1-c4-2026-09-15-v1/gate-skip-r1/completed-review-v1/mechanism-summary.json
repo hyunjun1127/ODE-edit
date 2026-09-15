@@ -1,0 +1,50 @@
+{
+  "projection_active": 9,
+  "alpha_cap_active": 10,
+  "ball_clamped_requests_total": 111,
+  "trust_retractions": 0,
+  "positive_postprojection_ge_C": 8,
+  "correction_native_ratio_min": 6.750936787496524e-05,
+  "correction_native_ratio_max": 0.0002354931811673049,
+  "CPU_reconstruction_max_abs": 0.0,
+  "CPU_reconstruction_max_norm": 0.0,
+  "projection_q_CPU_max_abs_difference": 1.0587911840678754e-22,
+  "executed_source_files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/policy.py",
+      "bytes": 19505,
+      "sha256": "56b28d7b1398aa71c23ac11bb5164216c5c921d80ed287940b48d03652a3797d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "bytes": 29976,
+      "sha256": "9e4d440e9aae260191d2adcfcc631c9d418311f1c4a8a76b7df46c8e9bb7dba5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/runner.py",
+      "bytes": 26727,
+      "sha256": "dfa9a6d0bbab8195a247069a0d5812aa62e2d44b891500bf2897cac7145e8c5e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/ledger.py",
+      "bytes": 9086,
+      "sha256": "981fe0b15de08b9387004866d0a7e5bba698773c3b973cd8466e15832b58b127"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py",
+      "bytes": 3184,
+      "sha256": "3e4da025df2b3109e98238cf78d41b06105687738620125ae1b9db66c252a1eb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/native_map.py",
+      "bytes": 8173,
+      "sha256": "fd2f53e5a9cd8d93a34cc0cba89f24d5d271cb4d29a4d84cf45b9340a5f16914"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/low_cost_write_donor_pilot/fitting.py",
+      "bytes": 12154,
+      "sha256": "859ee2fcfc673344e72c3af8380768304a49fb4682726e31ef62d82b5d5c0db7"
+    }
+  ],
+  "numerical_validation": "NOT_ESTABLISHED"
+}
