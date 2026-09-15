@@ -1,0 +1,39 @@
+{
+  "member_root": "d985ba7c75589c5be01f067aa8bf2858bcdce96f1468f9035d2a63b7c919bc19",
+  "members": [
+    {
+      "bytes": 16231,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/diagnostic-report-ko.md",
+      "sha256": "a5c91281c1f90156eefd0f2fc32fc229855e70f8f099f90679a092ab5daa5f99"
+    },
+    {
+      "bytes": 2350,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/allocation-receipt.json",
+      "sha256": "2bc477754f5c5eca0800b2b1a4c61ecdcc25eafabb3dfd988b3e31e973b80fa6"
+    },
+    {
+      "bytes": 2177,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/n4-reuse-receipt.json",
+      "sha256": "e5adac9c04b08179990d12fd03dc95c355510c77dd740f28d377dc0d95b8fefc"
+    },
+    {
+      "bytes": 992,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/technical-binding-receipt.json",
+      "sha256": "5ca830e0658638404387d677a2a499cdf8854803448dc736e41f7e17eec97cf3"
+    },
+    {
+      "bytes": 2097,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/aggregates/manifest.json",
+      "sha256": "c8f80b8560d343428b8b1ea4c1a30c80354529921dd590fbe4f052527d589355"
+    },
+    {
+      "bytes": 2043,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/experiment-reports/servers/server2/single-layer-zflow-seq1000-2026-09-16-v1/figures/plot-receipt.json",
+      "sha256": "01db64b22ade649f5867c305768215d2c5b1e792e978123d15b14a04e66881ae"
+    }
+  ],
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "scientific_promotion": false,
+  "source_analysis_head": "83913514eabc9a7325b032a3f551f52eff792418",
+  "status": "FACTUAL_REPORT_COMPLETE"
+}

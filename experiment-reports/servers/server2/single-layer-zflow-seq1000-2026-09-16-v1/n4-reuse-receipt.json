@@ -1,0 +1,55 @@
+{
+  "actual_SL_ZFlow_parity": "separate technical receipt; N4 raw is not proof",
+  "decision": "REUSE",
+  "endpoint": {
+    "cache": "9f97b1efa3968f9f9859656025726d6cf3455fb73beda95f6832a80ec9445948",
+    "weights": {
+      "model.layers.4.mlp.down_proj.weight": "f243d05389c4657c70eafce6930636e84e5ca782b73144123ed89482ffb3a511"
+    }
+  },
+  "final_commit_sha256": "4bfa9475c2ed7473877a39fe1ff374b05b40f294e6f92b183f9e9d4935685285",
+  "historical_job": 38997,
+  "historical_missing_rng": "checkpoint W/M/context only; no old bitwise continuation claim",
+  "historical_process_seconds": 3654.8821333535016,
+  "metrics": {
+    "NS": {
+      "case_prompt_target_identity_order_exact": true,
+      "denominator": 10000,
+      "nonfinite": 0,
+      "numerator": 8072,
+      "rate": 0.8072,
+      "tie_failure": true
+    },
+    "PS": {
+      "case_prompt_target_identity_order_exact": true,
+      "denominator": 2000,
+      "nonfinite": 0,
+      "numerator": 1943,
+      "rate": 0.9715,
+      "tie_failure": true
+    },
+    "RS": {
+      "case_prompt_target_identity_order_exact": true,
+      "denominator": 1000,
+      "nonfinite": 0,
+      "numerator": 998,
+      "rate": 0.998,
+      "tie_failure": true
+    }
+  },
+  "new_GPU_actions": 0,
+  "new_N4_batches": 0,
+  "new_metrics": false,
+  "raw_path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/inputs/n4-reference-r1/seen-full.json",
+  "raw_sha256": "e58ed53d6733415d9ae9b20c4f9f1cb82f0769d9cd749bf4af4d98ea138583e3",
+  "runtime_difference": "historical cudnn TF32=True vs SL-ZFlow False; matmul TF32=False in both; cross-host bitwise parity NOT_CLAIMED",
+  "source_input_bridge": "same Llama8afb/contextcf14/config2392/sample1000/evaluator pinned by source input lock and archived execution lock",
+  "source_manifest": {
+    "bytes": 1937,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/inputs/n4-reuse-manifest-r1.json",
+    "sha256": "301b33102c3524fc9e24319347f99a48d0e36a3a50be5e06413235564841ad20"
+  },
+  "status": "REUSE_APPROVED_BY_PREAUTHORIZED_RULES",
+  "terminal_sha256": "bcee1fac51627b910e6cafb58e9d7502afded9f5d788f370a0bc524e15fec948",
+  "unique_requests": 1000
+}

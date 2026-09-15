@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-ZFLOW-SEQ1000-SH2-V1",
+  "status": "CPU_IMPLEMENTED_ACTUAL_LLAMA_NOT_YET_RUN",
+  "cpu_tests": 90,
+  "cpu_tests_passed": 90,
+  "test_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/deps-transformers-4.44.2 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest discover -s project/run_scripts/single_layer_zflow/tests -q",
+  "shell_syntax": "PASS",
+  "source_diff_check": "PASS",
+  "task_slurm_memory_audit": {"checked": 1, "failures": 0},
+  "repository_memory_audit": {"checked": 181, "failures": 6, "boundary": "pre-existing Server4 submit files outside scope; unchanged"},
+  "session_boundary": "PASS",
+  "actual_llama_model_loads": 0,
+  "submitted_jobs": 0,
+  "main_batches": 0,
+  "gpu_replay_claim": false,
+  "scientific_promotion": false
+}

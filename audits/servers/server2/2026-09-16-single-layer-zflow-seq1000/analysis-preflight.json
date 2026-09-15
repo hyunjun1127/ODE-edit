@@ -1,0 +1,28 @@
+{
+  "status": "ANALYSIS_TOOLS_CPU_VALIDATED_NOT_FINAL_SCIENTIFIC_RESULT",
+  "analysis_source_head": "93e4d1d0b2319aca63d35b108201e96a29d821d7",
+  "execution_source_head": "5d149fec254a7a53b6d91790d186880f248676e6",
+  "cpu_tests": 117,
+  "cpu_test_seconds": 13.478,
+  "test_command": "python -m unittest discover -s project/run_scripts/single_layer_zflow/tests -q",
+  "checks": [
+    "existing solver/oracle/native-binding/durable/runner regression preserved",
+    "exact case/prompt/target identity and order before NLL pairing",
+    "nonfinite/duplicate/missing denominator fail-close",
+    "full W/M/X/B/S/K/RNG checkpoint hashes and parent continuity",
+    "no-update and superseded candidate remain in canonical denominator",
+    "current pooling distinct from final W10 and same-first500 retention",
+    "synthetic aggregate PNG byte-for-byte reproducibility",
+    "partial and injected fixture results cannot publish as full scientific report"
+  ],
+  "actual_technical_flow_cpu_reducer": {
+    "oracle_calls": 25,
+    "accepted": 16,
+    "rejected": 8,
+    "N_oracle_identity": true,
+    "scientific_batch_count": 0
+  },
+  "runtime_source_mutations": 0,
+  "model_evaluator_gpu_calls_by_analysis": 0,
+  "raw_payload_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

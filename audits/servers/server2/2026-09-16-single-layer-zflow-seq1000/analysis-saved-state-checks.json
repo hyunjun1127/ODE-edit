@@ -1,0 +1,21 @@
+{
+  "status": "CPU_REDUCER_SAVED_STATE_ARITHMETIC_VALIDATED_NOT_FULL_RUN_ANALYSIS",
+  "analysis_parent_head": "f5ad8f2caa0c6445ffdf8ea4ab5efaa44ba563b2",
+  "analysis_file_sha256": "387a960374934b8855b8481f0e48704027dfe804a7c4b9e909e5b147305464b2",
+  "cpu_tests": 119,
+  "cpu_test_seconds": 13.491,
+  "test_command": "python -m unittest discover -s project/run_scripts/single_layer_zflow/tests -q",
+  "test_fixture_repairs": [
+    "Add synthetic tiny safetensors W0 fixture required by new independent tensor arithmetic check",
+    "Preserve W0 selected-weight failure wording for existing negative regression"
+  ],
+  "scope": "CPU verification only; runtime/science/tolerances unchanged",
+  "actual_B002_preliminary_CPU_check": {
+    "saved_history_one_fp32_Gram_exact": true,
+    "saved_delta_cost_fp64": 0.6577439276646282,
+    "model_forward_calls": 0,
+    "note": "Working-tree helper validation; final ten-checkpoint analysis reruns this arithmetic from committed analysis source. No final-result claim here."
+  },
+  "model_evaluator_GPU_calls": 0,
+  "execution_source_head": "5d149fec254a7a53b6d91790d186880f248676e6"
+}
