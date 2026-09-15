@@ -84,8 +84,8 @@
     },
     {
       "path": "diagnostic-report-ko.md",
-      "bytes": 42997,
-      "sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121"
+      "bytes": 43025,
+      "sha256": "7b29c87b7b23b3ce4503f1980c67fb232deadc6bd216cbd9040eff925d366188"
     },
     {
       "path": "evidence-reuse-manifest.json",
@@ -246,8 +246,8 @@
     },
     {
       "path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/build_publication.py",
-      "bytes": 38479,
-      "sha256": "3c84e0e98fe0bb69dbaf5fb1c6da5f73a6702f5d67584c655669a49d33c58216"
+      "bytes": 38495,
+      "sha256": "2c685672be881c02c080c953d5fb583face976fdaadd61707042cbd2d943b74b"
     },
     {
       "path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/evidence.py",
@@ -273,6 +273,11 @@
       "path": "project/run_scripts/bg_tw_reference/ep_tw/review_nogate/README.md",
       "bytes": 4977,
       "sha256": "af843267a6eb59f53b4798d00e87add600a3bf0573d7d22c54de4a83658b1310"
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_review_markdown.py",
+      "bytes": 3676,
+      "sha256": "4a87d673d36bc0138a5b90c69d37ea44b6745c885864a2fada350cfe94905651"
     }
   ],
   "control_members": [
@@ -311,7 +316,24 @@
     "rooted-receipt.json"
   ],
   "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
-  "member_root": "5206e8719ebf8cc71f70433907a42d1272de804b4eaee3be6c535158327e050d",
+  "member_root": "6a165968253e625913679c83dd735443ebc1450999eebd924e1f97fa08ee5b53",
   "count": 43,
-  "bytes": 820388
+  "bytes": 820416,
+  "presentation_amendment": {
+    "kind": "GH_USER_AUTHORIZED_PRESENTATION_ONLY",
+    "date": "2026-09-15",
+    "audit": "audits/global/2026-09-15-ep-tw1-report-table-rendering-fix.json",
+    "original_publication": "d6b0db17946f8901e71d578ecde7bd89413a78ec",
+    "original_report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
+    "original_manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
+    "original_receipt_sha256": "a6c1291559ef9f23cf2e49ad771fce044d2aa86ae54ed98019da449748f12611",
+    "changed_report_lines": [
+      142,
+      162,
+      234
+    ],
+    "numerical_data_unchanged": true,
+    "original_analysis_source_and_verification_records_preserved": true,
+    "current_source_members_include_formatter_fix_and_render_tests": true
+  }
 }

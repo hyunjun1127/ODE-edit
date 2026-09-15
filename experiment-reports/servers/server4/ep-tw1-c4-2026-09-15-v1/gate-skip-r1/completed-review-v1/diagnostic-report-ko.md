@@ -139,7 +139,7 @@ Controller로 전달되는 것은 Current E/strict 및 S64 D다. 공식 P/N, acc
 
 식은 q=〈gE,gD〉, d=−gD+min(q,0)/||gE||²·gE이며 gE=0이면−gD다. 실제 gE=0분기는0회다. 저장 gE/gD로 FP64 dot/norm과 FP32 d를 CPU재계산했다. q의 저장GPUscalar와CPU최대절대차이는1.06e−22였다. 아래 수치는 충분한 표시자리로만 반올림하며 전체정밀값·gradientSHA·KKT는 CSV에 있다.
 
-| B | q | ||gE|| | ||gD|| | cos | projection coeff | 〈gE,d〉 | 〈gD,d〉 |
+| B | q | \|\|gE\|\| | \|\|gD\|\| | cos | projection coeff | 〈gE,d〉 | 〈gD,d〉 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | -2.1026344e-07 | 0.02677069 | 0.0020146166 | -0.003898628 | -0.00029338956 | 7.32639e-15 | -4.0586184e-06 |
 | 2 | -4.5444658e-06 | 0.15033149 | 0.0030998449 | -0.0097519822 | -0.00020108649 | -9.1092865e-14 | -9.6081247e-06 |
@@ -159,7 +159,7 @@ Controller로 전달되는 것은 Current E/strict 및 S64 D다. 공식 P/N, acc
 
 alpha=min(1,.25||actualVp−Wentry||/(||dA||+1e−12)), 이후 Zp+alpha·d를 원 request anchor/radius ball로 projection, C=Zprojected−Zp, 필요시C만 줄여||CA||≤.25||actual native delta|| 순이다. alpha_cap=1은10회 모두 bind했다. Ball projection은111events, trustretraction은항상1이었다. Zero/near-zero 기준을 사후 조정하지 않았다.
 
-| B | alpha | ball requests | post ball excess | retraction | ||C|| | ||CA|| | 〈gE,C〉 | 〈gD,C〉 |
+| B | alpha | ball requests | post ball excess | retraction | \|\|C\|\| | \|\|CA\|\| | 〈gE,C〉 | 〈gD,C〉 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | 1 | 0 | -2.7154571e-06 | 1 | 0.0020146006 | 0.00065510344 | 1.1114909e-11 | -4.0586165e-06 |
 | 2 | 1 | 7 | 7.6582139e-08 | 1 | 0.0030996913 | 0.0010418295 | 2.8504075e-11 | -9.6080805e-06 |
@@ -231,7 +231,7 @@ RAW B5/B10은 feasiblecorrected가0개였다. NumericalD tie, duplicatebytes, tr
 
 저장Vp/C/A/selectedcheckpoint를 CPU로 `Vp+beta(C@A)` 재구성했을 때10/10 selectedW byte가 일치했다(maxabs0). 이는 저장tensoralgebra의 일치이며 모델forward/functional parity/GPUcontinuation 증거가 아니다. 파일SHA/fixtureheaderSHA/policyheaderSHA가 서로 다른 convention임을 같은 tensorbytes로 bridge했다.
 
-| B | selected | ||Vp−We|| recorded | ||Wsel−Vp|| | correction/native % | ||Wsel−We|| CPU | correction/native cos | orthogonal norm |
+| B | selected | \|\|Vp−We\|\| recorded | \|\|Wsel−Vp\|\| | correction/native % | \|\|Wsel−We\|\| CPU | correction/native cos | orthogonal norm |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | C1 | 7.6101871 | 0.00065510641 | 0.0086082826 | NA | NA | NA |
 | 2 | C05 | 7.716241 | 0.00052091855 | 0.0067509368 | 7.716215511535217 | -0.04888514407629815 | 0.0005202957427571399 |

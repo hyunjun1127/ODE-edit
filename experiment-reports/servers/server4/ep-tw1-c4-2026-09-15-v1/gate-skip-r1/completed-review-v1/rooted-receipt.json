@@ -3,11 +3,11 @@
   "instruction_id": "ODEEDIT-S06-EP-TW1-47962-COMPLETED-DETAILED-REVIEW-SH4-V1",
   "addendum": "ODEEDIT-S06-EP-TW1-47962-DESIGN-CONFORMANCE-ADDENDUM-SH4-V1",
   "status": "TASK_COMPLETE_STOP",
-  "report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
-  "analysis_manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
-  "package_member_root": "5206e8719ebf8cc71f70433907a42d1272de804b4eaee3be6c535158327e050d",
+  "report_sha256": "7b29c87b7b23b3ce4503f1980c67fb232deadc6bd216cbd9040eff925d366188",
+  "analysis_manifest_sha256": "5f354bfe29c73c260f622bc5846db8bd8c529b100ec0b56f69bedc15d1854efc",
+  "package_member_root": "6a165968253e625913679c83dd735443ebc1450999eebd924e1f97fa08ee5b53",
   "package_member_count": 43,
-  "package_member_bytes": 820388,
+  "package_member_bytes": 820416,
   "analysis_source_head": "3a1200a4fd57e87aaf74307daf91284b54e04167",
   "analysis_source_tree": "9cbbb572b6e6f428a932e4b74eab64f539a14860",
   "execution_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
@@ -60,5 +60,22 @@
   "new_GPU_model_evaluator_Slurm_mutations": 0,
   "other_tasks_unchanged": true,
   "CAKE": "NOT_DISPATCHED_NOT_STARTED",
-  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "presentation_amendment": {
+    "kind": "GH_USER_AUTHORIZED_PRESENTATION_ONLY",
+    "date": "2026-09-15",
+    "audit": "audits/global/2026-09-15-ep-tw1-report-table-rendering-fix.json",
+    "original_publication": "d6b0db17946f8901e71d578ecde7bd89413a78ec",
+    "original_report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
+    "original_manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
+    "original_receipt_sha256": "a6c1291559ef9f23cf2e49ad771fce044d2aa86ae54ed98019da449748f12611",
+    "changed_report_lines": [
+      142,
+      162,
+      234
+    ],
+    "numerical_data_unchanged": true,
+    "original_analysis_source_and_verification_records_preserved": true,
+    "current_source_members_include_formatter_fix_and_render_tests": true
+  }
 }
