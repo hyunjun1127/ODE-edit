@@ -30,10 +30,18 @@ def count_reservations(queue,describe):
 
 def submit(worktree,attempt):
     w,a=Path(worktree).resolve(),Path(attempt).resolve();boundary(w)
-    lp=a/'execution.lock.json';lock=json.loads(lp.read_text());verify_dispatch(lock['dispatch']['path'])
+    repair=(a/'repair.lock.json').exists()
+    lp=a/('repair.lock.json' if repair else 'execution.lock.json');lock=json.loads(lp.read_text());verify_dispatch(lock['dispatch']['path'])
+    if repair:
+        from .repair_control import verify_repair
+        verify_repair(lock['repair_dispatch']['path'])
+        assert identity(lock['scientific_lock']['path'])==lock['scientific_lock']
+        science=json.loads(Path(lock['scientific_lock']['path']).read_text())
+        assert science['repair_pass_path']==str(Path(lock['output'])/'technical-PASS.json')
+        assert not Path(science['output']).exists()
     assert lock['new_scientific_chains']==1 and lock['baseline_reruns']==0
     assert identity(lock['source_archive']['path'])==lock['source_archive']
-    source=Path(lock['source_root']);shell=source/'project/run_scripts/bg_tw_reference/ep_tw/run.sbatch'
+    source=Path(lock['source_root']);shell=source/'project/run_scripts/bg_tw_reference/ep_tw'/('repair.sbatch' if repair else 'run.sbatch')
     for m in lock['members']:
         assert Path(m['path']).stat().st_size==m['bytes']
         if m['path'].startswith(str(source)+'/'):assert sha(m['path'])==m['sha256']
@@ -56,6 +64,7 @@ def submit(worktree,attempt):
         node=command(['scontrol','show','node','server4','-o']),queue=queue))
     args=['sbatch','--parsable','--hold','--no-requeue',f'--output={ctl}/slurm-%j.out',f'--error={ctl}/slurm-%j.err',
         str(shell),str(source),str(lp),lock['output']]
+    if repair:args += [lock['scientific_lock']['path'],science['output']]
     job=command(args).split(';')[0];assert job.isdigit()
     save(ctl/'held-submission.json',dict(job_id=job,args=args,lock=identity(lp),resource=resource))
     # Public scheduler may retain its default Requeue=1 despite --no-requeue.
@@ -63,7 +72,7 @@ def submit(worktree,attempt):
     command(['scontrol','update',f'JobId={job}','Requeue=0'])
     held=command(['scontrol','show','job',job,'-o'])
     try:
-        for field in ['JobName=odeedit_ep_tw1_s4','UserId=janghj(','JobState=PENDING','ReqNodeList=server4',
+        for field in ['JobName='+('odeedit_ep_tw1_repair_s4' if repair else 'odeedit_ep_tw1_s4'),'UserId=janghj(','JobState=PENDING','ReqNodeList=server4',
                       'MinMemoryNode=59G','NumCPUs=8','TimeLimit=12:00:00','Requeue=0','Dependency=(null)']:
             assert field in held,field
         assert 'gpu:rtx_pro_6000:1' in held and str(shell) in held
@@ -75,6 +84,8 @@ def submit(worktree,attempt):
     return save(ctl/'release-receipt.json',dict(job_id=job,last_observation=datetime.now(timezone.utc).isoformat(),
         last_record=last,source_archive=lock['source_archive'],source_head=lock['source_head'],lock=identity(lp),output=lock['output'],
         status='SUBMITTED_NOT_G0_PASS',scientific_chain_count=1,teacher_reused='47592_COMPLETE_NO_NEW_TEACHER',
+        saved_episode_technical_then_conditional_science=repair,
+        scientific_output=science['output'] if repair else lock['output'],
         gate='PENDING_GATE_NOT_RUN' if 'JobState=PENDING' in last else 'INITIAL_GATE_NOT_YET_OBSERVED',
         no_callback=True,no_automatic_resume=True))
 
