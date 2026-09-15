@@ -1,0 +1,46 @@
+{
+  "original_publication": "d6b0db17946f8901e71d578ecde7bd89413a78ec",
+  "changed_report_lines": [
+    142,
+    162,
+    234
+  ],
+  "old_rendered_tables": 13,
+  "new_rendered_tables": 16,
+  "unescaped_report_equals_original": true,
+  "numeric_rows_and_prose_unchanged": true,
+  "original_report_sha256": "66cc456a3fce2925e23565e4098b6381d3233021ab4e921f9c03fd7e9556c121",
+  "report_sha256": "7b29c87b7b23b3ce4503f1980c67fb232deadc6bd216cbd9040eff925d366188",
+  "tests": {
+    "existing_reducer": 10,
+    "rendering_regression": 6,
+    "total_passed": 16,
+    "renderer": "markdown-it-py 4.2.0 / commonmark + table"
+  },
+  "source_changes": [
+    "보고서 표 머리글/셀의 구분자 이스케이프만 수정"
+  ],
+  "GPU_model_raw_or_scheduler_access": 0,
+  "unchanged_package_members": 42,
+  "original_manifest_sha256": "423059d75afa407ee501cf7b7076fcd0b6880213e476bc00e73784fdb6765b39",
+  "original_receipt_sha256": "a6c1291559ef9f23cf2e49ad771fce044d2aa86ae54ed98019da449748f12611",
+  "original_member_root": "5206e8719ebf8cc71f70433907a42d1272de804b4eaee3be6c535158327e050d",
+  "analysis_manifest_sha256": "5f354bfe29c73c260f622bc5846db8bd8c529b100ec0b56f69bedc15d1854efc",
+  "rooted_receipt_sha256": "4c2876f68d6738d167176264761c9cfc5b2858d8d81effed0dd1a0499d33b268",
+  "member_root": "6a165968253e625913679c83dd735443ebc1450999eebd924e1f97fa08ee5b53",
+  "historical_records": "기존 SH verification-receipt/source pin 및 control 기록은 원본 d6b0 publication 당시의 사실로 보존한다. 재실행한 것으로 주장하지 않으며 이번 렌더링 수정 검증과 구분한다.",
+  "scope": "사용자의 명시적 요청에 따라 GH가 세 Markdown 머리글과 표 생성 코드를 직접 수정하고 package hash를 갱신했다. SH task/실험은 재개하지 않았다.",
+  "access_check": {
+    "generic_helper": "BLOCK: GH 역할에 서버 소유 보고서 경로 세 개가 기본 허용되지 않음",
+    "resolution": "사용자가 GH에게 해당 EP-TW-1 보고서를 직접 수정하고 main push하도록 명시적으로 지시함. 정확한 보고서와 필수 checksum 두 파일에 한정한 사용자 권한을 적용한다.",
+    "explicit_user_request": "EP-TW 1 실험 report에서 표 랜더링이 깨진거 같은데 별도로 GH가 수정한뒤에 main push해",
+    "exception_paths": [
+      "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/diagnostic-report-ko.md",
+      "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/analysis-manifest.json",
+      "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/rooted-receipt.json"
+    ],
+    "scope_check": "수정 6개 파일은 보고서/표 생성기/렌더링 테스트/본 GH 감사기록으로 한정",
+    "helper_policy_or_role_mutation": false,
+    "generic_helper_pass_claimed": false
+  }
+}

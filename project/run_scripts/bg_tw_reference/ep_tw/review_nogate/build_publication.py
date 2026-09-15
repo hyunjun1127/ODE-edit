@@ -12,12 +12,12 @@ from review_nogate import ROOT,REPORT,read,ref,save,table,sha
 def rows(p):return list(csv.DictReader(p.open()))
 def fmt(x):
     if x in ('',None):return 'NA'
-    if isinstance(x,str):return x.replace('|',' / ').replace('\n',' ')
+    if isinstance(x,str):return x.replace('|',r'\|').replace('\n',' ')
     if isinstance(x,bool):return str(x)
     if isinstance(x,int):return str(x)
     return f'{x:.8g}'
 def md(headers,data):
-    return '\n'+'| '+' | '.join(headers)+' |\n| '+' | '.join(['---']*len(headers))+' |\n'+''.join('| '+' | '.join(fmt(x) for x in row)+' |\n' for row in data)+'\n'
+    return '\n'+'| '+' | '.join(fmt(x) for x in headers)+' |\n| '+' | '.join(['---']*len(headers))+' |\n'+''.join('| '+' | '.join(fmt(x) for x in row)+' |\n' for row in data)+'\n'
 def n(r):return f"{r['numerator']}/{r['denominator']} ({float(r['percent']):.2f}%)"
 def f(r,k):return float(r[k])
 
