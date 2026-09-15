@@ -1,0 +1,81 @@
+{
+  "schema": "EP_TW1_GH_ARM_SCIENCE_LOCK_V1",
+  "instruction_id": "ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1",
+  "execution_authorized_by_user": true,
+  "execution_binding": "PENDING_SH_SOURCE_FREEZE_NOT_EXECUTED",
+  "policy": "EP-TW-1",
+  "new_scientific_policies": [
+    "EP-TW-1"
+  ],
+  "new_scientific_chains": 1,
+  "initial_model": "pre-edit W0",
+  "initial_history": "native M0",
+  "layer": 4,
+  "native_l2": 1,
+  "batch_size": 100,
+  "batches_per_chain": 10,
+  "unique_requests": 1000,
+  "ordinals": [
+    0,
+    1000
+  ],
+  "new_editing_logical_batches": 10,
+  "baseline_editing_reruns_allowed": false,
+  "N4_calibration_required": false,
+  "preservation_budget": null,
+  "tv_allowance": null,
+  "base_penalty_weight": null,
+  "log_barrier": false,
+  "candidate_ids": [
+    "RAW",
+    "C1",
+    "C05",
+    "C025"
+  ],
+  "candidate_betas": [
+    0,
+    1,
+    0.5,
+    0.25
+  ],
+  "candidate_scale": "correction_only",
+  "fallback": "actual_RAW_native_not_parent",
+  "gradient_sweeps": {
+    "current": 1,
+    "S64": 1
+  },
+  "seed": 20260915,
+  "zeta": 0.25,
+  "epsilon_num": 1e-12,
+  "validation_mode": "SKIPPED_USER_DIRECTED",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "source_execution_reference": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "source_lock_sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9",
+  "sample_lock_sha256": "871f6c04df4697f236353938e09290462eed67871f07f02d8f0b112e9f9ee7d3",
+  "teacher_manifest_sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a",
+  "requested_gpu_per_chain": 1,
+  "host_mem_mb": 60416,
+  "project_gpu_cap": 2,
+  "agent_stops_after_initial_gate": false,
+  "completion_scope": "ALL_1000_AND_FACTUAL_REPORT_MAIN",
+  "runtime_lock_required_fields": [
+    "execution_HEAD",
+    "execution_tree",
+    "archive_SHA256",
+    "import_identity",
+    "source_files",
+    "model_P_reference_identity",
+    "output_root",
+    "resource_plan",
+    "input_order",
+    "actual_source_diff"
+  ],
+  "final_weight_retention_required": true,
+  "full_resume_requires_actual_M_RNG_ledger_cache": true,
+  "arm": "CAP1",
+  "alpha_cap_mode": "bounded",
+  "alpha_cap": 1,
+  "default_action": "REUSE_47962",
+  "run_authority": "CONDITIONAL_SHARED_SCIENCE_BEHAVIOR_CHANGE_ONLY",
+  "output_root": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP1/attempt-v1"
+}

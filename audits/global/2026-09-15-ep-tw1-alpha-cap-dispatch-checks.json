@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1",
+  "status": "GH_DISPATCH_SCOPE_AND_IDENTITY_CHECKS_PASS_NOT_MODEL_VALIDATION",
+  "checks": {
+    "four_arm_contracts_consistent": true,
+    "per_arm_single_chain": true,
+    "source_docs_exact_count": 9,
+    "unique_examples": 1000,
+    "default_chains": 3,
+    "conditional_max_chains": 4,
+    "old_design_false_preserved": true,
+    "CAKE_unchanged": true,
+    "GPU_cap_aggregate": 2,
+    "new_science_source_NOT_YET_IMPLEMENTED": true,
+    "initial_pause_overridden_this_task_only": true
+  },
+  "scope": "사용자 정본을 변경 없이 발행하고 cap-only 범위·개별 chain 잠금·CAKE 합산 cap2·이번 task 완주 정책을 직접 점검했다. 새 source 구현·GPU·원격 raw 검증은 SH4 소유다.",
+  "monitoring_helper": "app wait_threads snapshot 응답 지연으로 그 로컬 대기만 종료. app-server direct inspect로 SH4 idle 확인; SH task/job 중단0.",
+  "formatting": "복사 중 CSV 줄바꿈 정규화 차이를 발견하여 원본 CRLF로 복구한 뒤 9개 파일 전 bytes 일치를 확인했다. cr-at-eol-aware diff 검사 적용; 공유 Git 설정 수정0.",
+  "new_gpu": 0,
+  "new_Slurm": 0,
+  "GH_duplicate_raw_audit": false
+}

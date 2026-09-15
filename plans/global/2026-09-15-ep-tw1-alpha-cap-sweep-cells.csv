@@ -1,0 +1,5 @@
+cell,alpha_cap_mode,alpha_cap,run_status,new_chain,initial,batches,requests_per_batch,requests_per_chain,order,seed,gradient_sweeps_E,gradient_sweeps_D,candidates,zeta,conditional_rerun
+CAP1,bounded,1,REUSE_COMPLETED_47962,False,W0_M0,10,100,1000,same locked B001-B010,20260915,1,1,RAW|C1|C05|C025,0.25,CAP1 if shared scientific runtime behavior changes
+CAP10,bounded,10,PLANNED,True,W0_M0,10,100,1000,same locked B001-B010,20260915,1,1,RAW|C1|C05|C025,0.25,
+CAP100,bounded,100,PLANNED,True,W0_M0,10,100,1000,same locked B001-B010,20260915,1,1,RAW|C1|C05|C025,0.25,
+NORM_ONLY,disabled,,PLANNED,True,W0_M0,10,100,1000,same locked B001-B010,20260915,1,1,RAW|C1|C05|C025,0.25,

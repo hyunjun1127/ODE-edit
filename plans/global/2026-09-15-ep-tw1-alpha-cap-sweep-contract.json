@@ -1,0 +1,285 @@
+{
+  "contract_id": "EP-TW1-ALPHA-CAP-SWEEP-W0-SEQ1000-V1",
+  "date": "2026-09-15",
+  "schema_version": 1,
+  "status": "설계 제안; GPU 실험·구현 완료 보고가 아님",
+  "execution_authorized_by_this_file": false,
+  "implementation_changed": false,
+  "design": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-design.md",
+  "evidence": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/summary.json",
+  "parent_review": "audits/global/2026-09-15-ep-tw1-completed-artifact-review-ko.md",
+  "scientific_question": "cap=1이 제한한 보정 크기를 키우면 native current 품질 조건 아래 1000개 순차 보존 결과가 개선되는가",
+  "factors_changed": [
+    "alpha_cap_mode",
+    "alpha_cap"
+  ],
+  "scientific_policies": 4,
+  "new_scientific_chains_default": 3,
+  "new_batch_count_default": 30,
+  "new_request_processing_events_default": 3000,
+  "distinct_requested_examples_across_policies": 1000,
+  "cells": [
+    {
+      "cell": "CAP1",
+      "alpha_cap_mode": "bounded",
+      "alpha_cap": 1,
+      "run_status": "REUSE_COMPLETED_47962",
+      "new_chain": false,
+      "initial": "W0_M0",
+      "batches": 10,
+      "requests_per_batch": 100,
+      "requests_per_chain": 1000,
+      "order": "same locked B001-B010",
+      "seed": 20260915,
+      "gradient_sweeps_E": 1,
+      "gradient_sweeps_D": 1,
+      "candidates": "RAW|C1|C05|C025",
+      "zeta": 0.25,
+      "conditional_rerun": "CAP1 if shared scientific runtime behavior changes"
+    },
+    {
+      "cell": "CAP10",
+      "alpha_cap_mode": "bounded",
+      "alpha_cap": 10,
+      "run_status": "PLANNED",
+      "new_chain": true,
+      "initial": "W0_M0",
+      "batches": 10,
+      "requests_per_batch": 100,
+      "requests_per_chain": 1000,
+      "order": "same locked B001-B010",
+      "seed": 20260915,
+      "gradient_sweeps_E": 1,
+      "gradient_sweeps_D": 1,
+      "candidates": "RAW|C1|C05|C025",
+      "zeta": 0.25,
+      "conditional_rerun": ""
+    },
+    {
+      "cell": "CAP100",
+      "alpha_cap_mode": "bounded",
+      "alpha_cap": 100,
+      "run_status": "PLANNED",
+      "new_chain": true,
+      "initial": "W0_M0",
+      "batches": 10,
+      "requests_per_batch": 100,
+      "requests_per_chain": 1000,
+      "order": "same locked B001-B010",
+      "seed": 20260915,
+      "gradient_sweeps_E": 1,
+      "gradient_sweeps_D": 1,
+      "candidates": "RAW|C1|C05|C025",
+      "zeta": 0.25,
+      "conditional_rerun": ""
+    },
+    {
+      "cell": "NORM_ONLY",
+      "alpha_cap_mode": "disabled",
+      "alpha_cap": null,
+      "run_status": "PLANNED",
+      "new_chain": true,
+      "initial": "W0_M0",
+      "batches": 10,
+      "requests_per_batch": 100,
+      "requests_per_chain": 1000,
+      "order": "same locked B001-B010",
+      "seed": 20260915,
+      "gradient_sweeps_E": 1,
+      "gradient_sweeps_D": 1,
+      "candidates": "RAW|C1|C05|C025",
+      "zeta": 0.25,
+      "conditional_rerun": ""
+    }
+  ],
+  "initialization": {
+    "model": "pre-edit W0",
+    "history": "native M0",
+    "selected_layer": "L4 down-projection",
+    "seed": 20260915,
+    "no_warm_checkpoint_start": true,
+    "source_execution_lock_sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9",
+    "source_execution_commit": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "sample_lock": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/sample.lock.json",
+      "bytes": 19287,
+      "sha256": "871f6c04df4697f236353938e09290462eed67871f07f02d8f0b112e9f9ee7d3"
+    },
+    "contexts": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/inputs/contexts.json",
+    "config4": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/inputs/config4.json",
+    "dtype": "float32",
+    "attention": "eager",
+    "teacher_manifest": {
+      "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+      "bytes": 71431,
+      "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+    },
+    "teacher_status": "COMPLETED_REUSED_JOB47592",
+    "reference_id": "C4-WebRef-v2",
+    "reference_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0"
+  },
+  "per_chain_independence": {
+    "own_current_model_target_gradient_map_history_ledger": true,
+    "no_sharing_future_targets_or_updates": true,
+    "shared_immutable_assets": [
+      "W0 model source",
+      "original teacher",
+      "P",
+      "tokenized reference",
+      "locked request order/contexts"
+    ],
+    "saved_cap1_geometry_is_not_a_new_chain": true
+  },
+  "fixed_policy": {
+    "native_target_calls_per_request": 1,
+    "max_adam_updates": 24,
+    "max_loss_evaluations": 25,
+    "original_early_stop": true,
+    "original_target_anchor_radius": true,
+    "projection": "d=-gD+min(<gE,gD>,0)/||gE||^2*gE; original exact-zero handling",
+    "zeta": 0.25,
+    "epsilon_num": 1e-12,
+    "alpha_norm": ".25*||actual native delta||/(||dA||+epsilon_num)",
+    "bounded_alpha": "min(alpha_cap,alpha_norm)",
+    "disabled_alpha": "alpha_norm",
+    "target_then_write_trust_projection": true,
+    "finite_actual_candidates": [
+      "RAW",
+      "C1",
+      "C05",
+      "C025"
+    ],
+    "correction_betas": [
+      0,
+      1,
+      0.5,
+      0.25
+    ],
+    "whole_native_delta_scaling": false,
+    "candidates_materialized_from_same_parent": true,
+    "identical_candidate_byte_deduplication": "same existing rule",
+    "candidate_quality": [
+      "E(candidate)<=E(own RAW)",
+      "RAW strict-success IDs subset of candidate strict-success IDs"
+    ],
+    "selection": "actual finite min-D64; same RAW-priority tie policy",
+    "positive_E_allowance": null,
+    "KL_budget": null,
+    "N4_calibration": false,
+    "old_replay_feedback": false,
+    "quality_restoration": false,
+    "second_target_refresh": false,
+    "early_exit_candidate_search": false,
+    "larger_or_nested_candidate_menu": false,
+    "history_append_per_B100": 1,
+    "inner_history_append": 0,
+    "RAW_fallback_commits_native_edit": true,
+    "original_requested_denominator": true
+  },
+  "implementation_contract": {
+    "bounded_cases_already_accepted_by_legacy_numerical_policy": true,
+    "cap_disabled_requires_explicit_mode": true,
+    "prohibited_none_encodings": [
+      "float infinity rejected by legacy finite validator",
+      "zero cap",
+      "NaN",
+      "arbitrary huge finite proxy"
+    ],
+    "cap_disabled_does_not_disable": [
+      "finite checks",
+      "epsilon guard",
+      "target ball",
+      "zeta trust",
+      "E constraint",
+      "strict IDs"
+    ],
+    "computed_alpha_and_candidate_must_be_finite": true,
+    "per_arm_runtime_policy": "EP-TW-1 with a separate cap setting and output identity",
+    "per_arm_dispatch": "legacy single-chain semantics; do not pass the aggregate three-chain design to the old single-chain validator",
+    "legacy_cap1_arithmetic_preserved": true,
+    "do_not_reinstate_user_waived_numeric_gates": true,
+    "inherited_validation_status": "diagnostics skipped by user; not converted to numerical PASS"
+  },
+  "execution_sequence": {
+    "order": [
+      "CAP10",
+      "CAP100",
+      "NORM_ONLY"
+    ],
+    "each_runs_all_10_batches": true,
+    "no_B1_scientific_promotion_gate": true,
+    "no_mid_chain_cap_tuning": true,
+    "no_quality_rejection_early_termination": true,
+    "genuine_technical_failure_status": "INCOMPLETE; record last exact commit, do not relabel complete",
+    "native_and_cap1_existing_results": "references; baseline is not a method input",
+    "reuse_cap1_if": "scientific arithmetic, initialization, context/RNG/teacher and observer influence preserved",
+    "rerun_cap1_if": "shared runtime change can affect scientific trajectory; total new chains then4"
+  },
+  "measurements": {
+    "all_candidates": [
+      "raw E/D",
+      "actual E/D",
+      "delta E/D",
+      "lost strict IDs",
+      "feasibility reasons",
+      "numeric cap active",
+      "alpha_norm/used",
+      "pre/post-ball action norm",
+      "actual materialized correction norm",
+      "target-ball events",
+      "post-clamp <gE,C>/<gD,C>",
+      "gradient prediction vs actual loss"
+    ],
+    "sequential": [
+      "all requested R/P/N",
+      "canonical/PS TF strict",
+      "both P strict",
+      "entry-to-raw-to-selected current and accepted-old",
+      "at-write-to-W10",
+      "first500 W5-to-W10",
+      "active/superseded",
+      "true/new NLL and paired tails",
+      "coverage",
+      "S64 all batches",
+      "Dev128 W5/W10 observer"
+    ],
+    "selected_action_summaries": [
+      "C1 candidate action",
+      "selected action including RAW zero",
+      "nonzero selected action",
+      "selection IDs and frequency"
+    ],
+    "reporting_panels_not_required_before_sweep": [
+      "Report256",
+      "Audit128",
+      "MMLU68",
+      "FutureN"
+    ],
+    "official_P_N_not_controller_inputs": true,
+    "original_reference_teacher_not_refreshed": true,
+    "artifact_policy": "기존 평가/계측 schedule 유지; 실제 보존되는 native/route·checkpoint·ledger/RNG 파일을 manifest에 구분",
+    "minimum_followup_inference_state": "각 arm W10 L4 weight+W0/model/token/context identity 유지",
+    "resume_claim_requires": "M/history/RNG/ledger 등 완전 상태의 실제 보존 확인"
+  },
+  "interpretation": {
+    "design_is_development_single_order": true,
+    "no_new_KL_or_PS_tolerance_threshold": true,
+    "no_terminal_native_dominance_guarantee": true,
+    "larger_cap_menus_are_not_nested": true,
+    "RAW_rejection_does_not_prove_all_intermediate_actions_infeasible": true,
+    "no_cap1000_in_first_wave": true,
+    "followup_menu_or_quality_restoration": "결과로 원인을 좁힌 다음 별도 버전에서 비교",
+    "method_claim_boundary": "cap sweep은 amplitude 가설 평가; ODE/barrier/다단계의 필수성 입증이 아님"
+  },
+  "cost": {
+    "observed_cap1_GPU_seconds": 7694,
+    "observed_cap1_GPU_hours": 2.1372222222222224,
+    "three_new_chains_linear_estimate_GPU_hours": 6.411666666666667,
+    "four_new_chains_if_cap1_rerun_linear_estimate_GPU_hours": 8.54888888888889,
+    "estimate_is_not_measurement": true,
+    "same_hardware_and_observation_schedule_assumed": true,
+    "teacher_setup_reused_not_repeated": true,
+    "preparation_and_runtime_spikes_recorded_separately": true
+  }
+}

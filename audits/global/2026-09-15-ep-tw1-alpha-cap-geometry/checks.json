@@ -1,0 +1,14 @@
+{
+  "geometry_cells": 40,
+  "materialized_candidates": 120,
+  "source_tensor_files_hash_matched": 20,
+  "cap1_C_exact_replays": 10,
+  "model_forwards": 0,
+  "new_scientific_chains": 0,
+  "all_actual_candidate_norms_within_zeta": true,
+  "disabled_cap_uses_alpha_norm": true,
+  "bounded_caps_all_active_in_saved_episodes": true,
+  "contract_cells": 4,
+  "planned_new_chains": 3,
+  "no_chain_started": true
+}

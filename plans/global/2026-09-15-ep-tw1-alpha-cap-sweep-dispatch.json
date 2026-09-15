@@ -1,0 +1,50 @@
+{
+  "schema": "EP_TW1_GH_SWEEP_AUTHORIZATION_V1",
+  "instruction_id": "ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EP-TW1-ALPHA-CAP-SWEEP-20260915-R1",
+  "user_instruction": "GH-EP-TW1-ALPHA-CAP-SWEEP-20260915-V1",
+  "execution_authorized_by_this_dispatch": true,
+  "old_design_status_preserved": true,
+  "aggregate_not_single_chain_runner_input": true,
+  "scope": {
+    "default_new_chains": 3,
+    "conditional_max_new_chains": 4,
+    "unique_requests": 1000,
+    "batches_per_chain": 10,
+    "batch_size": 100,
+    "default_sequence": [
+      "CAP10",
+      "CAP100",
+      "NORM_ONLY"
+    ],
+    "CAP1": "reuse unless shared science behavior change"
+  },
+  "arm_science_locks": [
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-dispatch/arms/CAP1.json",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-dispatch/arms/CAP10.json",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-dispatch/arms/CAP100.json",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-dispatch/arms/NORM_ONLY.json"
+  ],
+  "final_execution_locks_owner": "SH4 exact source freeze before admission",
+  "target": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repo": "hyunjun1127/ODE-edit"
+  },
+  "authority_message": "messages/head/2026-09-15-sh4-ep-tw1-alpha-cap-sweep.md",
+  "resource_policy": {
+    "aggregate_project_gpu_cap": 2,
+    "per_chain_gpu": 1,
+    "cpus": 8,
+    "mem_mb": 60416,
+    "gpu_hour_cap": null,
+    "wall_hours_default": 12,
+    "known_other_admitted_job": 48101,
+    "known_job_state": "last PENDING; current not queried by GH",
+    "existing_job_mutation": false
+  },
+  "monitoring_override": "CONTINUE_OWN_SWEEP_TO_COMPLETION_AND_REPORT_NOT_INITIAL_PAUSE",
+  "unchanged_other_tasks": true,
+  "scope_expansion_beyond_max": false
+}

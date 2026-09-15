@@ -1,0 +1,286 @@
+{
+  "status": "GEOMETRY_ONLY_NOT_METHOD_SWEEP_RESULTS",
+  "scope": "기존 cap1 경로의 각 저장 parent/proposal/gradient/map을 고정한 CPU 계산",
+  "comparison": null,
+  "source_run_job": 47962,
+  "source_execution_commit": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "all_inputs_match_previous_audit": true,
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B001/native-targets-map.pt",
+      "sha256": "67b1aaaf765fca753e3399016967f62b2e0cf3f5b2f374874b1eb9d9aae88451",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B001/route.pt",
+      "sha256": "5395ddc816751847f1e4bc76b90c5054654b879f1da6f1b42d79522ac1721e58",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B002/native-targets-map.pt",
+      "sha256": "95fbeb8d01522c45e71b75a1ee8c0f683e522ced1165aa783b36db59fb534fc8",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B002/route.pt",
+      "sha256": "a6ba95697f639d833f69d0b28e5b105cf2ceab040f628a04fc0e208baffd0bbf",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B003/native-targets-map.pt",
+      "sha256": "9c68f6a28b904c9db1082633a05d74410b34a3d942f5953b47a7accfdd13520f",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B003/route.pt",
+      "sha256": "593be1c3f31b48c161f119642fc227a15fe49e5d1f79ecc19476665e8904d110",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B004/native-targets-map.pt",
+      "sha256": "3cce6c180147cea1f8650697904f7d0a971ef7a951a66781ae7304d56da21200",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B004/route.pt",
+      "sha256": "df35ca28f1cba04911a786e10bc32261a3ccf364692c307e15ffa628923e9441",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B005/native-targets-map.pt",
+      "sha256": "668d7e568a8ae6d6e5f1d79a282bb6d7f791e7cb7081c9cfc9bd019ca0dade70",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B005/route.pt",
+      "sha256": "a0107b6a2fd53a5a44be61aa2931cb623efba4d27ecc27ebf2944a84af05395d",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B006/native-targets-map.pt",
+      "sha256": "6811637b5cf9255110984243cc64a6bda615691cd29e12b1508dd863e7666cd0",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B006/route.pt",
+      "sha256": "490f102069ebcdef881bacc919e013e500e2a96f1cce253b3ed6007e4b59705e",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B007/native-targets-map.pt",
+      "sha256": "a83c62e50dbca677a5fc36885cbe505aeb1bc81189b705ae663664ebb57ebe7c",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B007/route.pt",
+      "sha256": "b7934757d9e8f4c06316e54c807d54f753951ee9b31f2067fe3ef1195a9b26e6",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B008/native-targets-map.pt",
+      "sha256": "67b0f7e2c89a50eb1f172177b0a5367a2e097fad7d74aea9621a129e66ea7885",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B008/route.pt",
+      "sha256": "2e87b463b1d5daadb304b326975f14d4d6aa31c5748fb2cd8efe17a4f25ad596",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B009/native-targets-map.pt",
+      "sha256": "220f1d0aeb7b138eb42cc55a58399a910048489e59791ec7fc94f2e486ff1989",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B009/route.pt",
+      "sha256": "2e063c3540737cd2f27634ee54c97396d7a19380236933339d85ec0c2d09cc7f",
+      "bytes": 10651997,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B010/native-targets-map.pt",
+      "sha256": "bed61feed67b457b917940cb2772086f4eebc49a6fb63be0af552fa0d163ae41",
+      "bytes": 256307027,
+      "stable_stat": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1/B010/route.pt",
+      "sha256": "7e295ccef3ebbe45420198e3c400e557162b6f1deaa26926671200f3b221673f",
+      "bytes": 10651997,
+      "stable_stat": true
+    }
+  ],
+  "settings": [
+    {
+      "cap": 1,
+      "cap_mode": "bounded",
+      "stored_episodes": 10,
+      "linear_pre_ball_C1_percent_range": [
+        0.008608244890837752,
+        0.026489865156789204
+      ],
+      "actual_materialized_C1_percent_range": [
+        0.00860828255231979,
+        0.026489524849764735
+      ],
+      "actual_materialized_C05_percent_range": [
+        0.004304198406407288,
+        0.013244784266537444
+      ],
+      "actual_materialized_C025_percent_range": [
+        0.002152212008436732,
+        0.006622418502236575
+      ],
+      "target_ball_requests_range": [
+        0,
+        19
+      ],
+      "target_ball_request_events_total": 111,
+      "numeric_cap_active_batches": 10,
+      "positive_post_clamp_ge_C_batches": 8,
+      "residual_direction_cosine_range": [
+        0.9999763457302788,
+        0.9999998854857022
+      ],
+      "linear_C1_D_endpoint_below_zero_batches": 0,
+      "quality_KL_or_sequential_performance_evaluated": false
+    },
+    {
+      "cap": 10,
+      "cap_mode": "bounded",
+      "stored_episodes": 10,
+      "linear_pre_ball_C1_percent_range": [
+        0.08608244890837752,
+        0.2648986515678921
+      ],
+      "actual_materialized_C1_percent_range": [
+        0.08608245411825133,
+        0.264893732221013
+      ],
+      "actual_materialized_C05_percent_range": [
+        0.043041231230705225,
+        0.13244686762708496
+      ],
+      "actual_materialized_C025_percent_range": [
+        0.021520623501066267,
+        0.06622343545724738
+      ],
+      "target_ball_requests_range": [
+        0,
+        20
+      ],
+      "target_ball_request_events_total": 118,
+      "numeric_cap_active_batches": 10,
+      "positive_post_clamp_ge_C_batches": 7,
+      "residual_direction_cosine_range": [
+        0.9999741137915187,
+        0.9999999988529511
+      ],
+      "linear_C1_D_endpoint_below_zero_batches": 0,
+      "quality_KL_or_sequential_performance_evaluated": false
+    },
+    {
+      "cap": 100,
+      "cap_mode": "bounded",
+      "stored_episodes": 10,
+      "linear_pre_ball_C1_percent_range": [
+        0.8608244890837752,
+        2.6489865156789207
+      ],
+      "actual_materialized_C1_percent_range": [
+        0.8608244969005443,
+        2.648574379175084
+      ],
+      "actual_materialized_C05_percent_range": [
+        0.4304122504518769,
+        1.3242871932556135
+      ],
+      "actual_materialized_C025_percent_range": [
+        0.21520613481186215,
+        0.6621435925887559
+      ],
+      "target_ball_requests_range": [
+        0,
+        41
+      ],
+      "target_ball_request_events_total": 209,
+      "numeric_cap_active_batches": 10,
+      "positive_post_clamp_ge_C_batches": 7,
+      "residual_direction_cosine_range": [
+        0.9999240792593052,
+        0.9999999999885368
+      ],
+      "linear_C1_D_endpoint_below_zero_batches": 0,
+      "quality_KL_or_sequential_performance_evaluated": false
+    },
+    {
+      "cap": null,
+      "cap_mode": "disabled",
+      "stored_episodes": 10,
+      "linear_pre_ball_C1_percent_range": [
+        24.999999961838093,
+        24.999999989030407
+      ],
+      "actual_materialized_C1_percent_range": [
+        24.30811579380317,
+        24.6276855874315
+      ],
+      "actual_materialized_C05_percent_range": [
+        12.154057900905183,
+        12.313842790603186
+      ],
+      "actual_materialized_C025_percent_range": [
+        6.077028944493894,
+        6.156921386893703
+      ],
+      "target_ball_requests_range": [
+        87,
+        100
+      ],
+      "target_ball_request_events_total": 982,
+      "numeric_cap_active_batches": 0,
+      "positive_post_clamp_ge_C_batches": 10,
+      "residual_direction_cosine_range": [
+        0.9911928258350649,
+        0.9966417614430615
+      ],
+      "linear_C1_D_endpoint_below_zero_batches": 10,
+      "quality_KL_or_sequential_performance_evaluated": false
+    }
+  ],
+  "model_forwards": 0,
+  "new_scientific_chains": 0,
+  "remote_files_written": 0,
+  "observation": {
+    "kind": "complete",
+    "batches": 10,
+    "cap_settings": 4,
+    "materialized_candidates": 120,
+    "CPU_seconds": 60.41670510638505,
+    "model_forwards": 0,
+    "remote_files_written": 0,
+    "CUDA_initialized": false
+  },
+  "limitations": [
+    "새 cap chain의 B002 이후 모델·gradient·map은 이 저장 경로와 다름",
+    "표는 C1 및 고정 beta 후보의 기하이며 품질 통과·실제 선택 크기가 아님",
+    "선형 손실 예측은 실제 loss 평가가 아니며 음수 KL 예측은 근사 적용 범위의 한계"
+  ]
+}

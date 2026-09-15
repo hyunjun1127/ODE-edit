@@ -1,0 +1,69 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1",
+  "originals_preserved": true,
+  "source_documents": [
+    {
+      "path": "project/proposals/2026-09-15-ep-tw1-alpha-cap-sweep-gh-instruction.md",
+      "bytes": 16536,
+      "sha256": "233d5bd45e71158a34eb464aa3323abb3eb1af05ed80ea8809ca436ecebf31bc",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-design.md",
+      "bytes": 17183,
+      "sha256": "0216726f891d8af21f5e042734f8c12fb96ac163d8602f57d7fd46e92a93f96a",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-contract.json",
+      "bytes": 10382,
+      "sha256": "0f94a54d86db3a244fbd91696efc318b8347816cf9241415f7739699e9eb825c",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-cells.csv",
+      "bytes": 679,
+      "sha256": "d3657383e22ba8237a4666f14d9150931a6e7a07b4ec55ed975f9437841731ac",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review-ko.md",
+      "bytes": 31202,
+      "sha256": "c55f0334ea62fba254b2853a72357541867ca85024de406a83ceaa8afe6fc3e1",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/summary.json",
+      "bytes": 10130,
+      "sha256": "2672ad8e483d9f4ecb0d3413b171d9e04d59277caa55d04a78d38e57d1082825",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/by-batch.csv",
+      "bytes": 10374,
+      "sha256": "c24ef9e9e7e491a422cee1a95c4edcadfb281d897de1999e5d641c15fd7a0629",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/candidate-geometry.csv",
+      "bytes": 21331,
+      "sha256": "0d46e4ae67c388420a62a1fca454444a847f4151235045e69743f6222311cd60",
+      "source_bytes_exact": true
+    },
+    {
+      "path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/checks.json",
+      "bytes": 407,
+      "sha256": "763219808183244871b5de40c22cfc3408123cdb55215e89cb4c5c15acfd1862",
+      "source_bytes_exact": true
+    }
+  ],
+  "GH_full_read_primary_documents": [
+    "project/proposals/2026-09-15-ep-tw1-alpha-cap-sweep-gh-instruction.md",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-design.md",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-contract.json",
+    "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-cells.csv",
+    "audits/global/2026-09-15-ep-tw1-completed-artifact-review-ko.md",
+    "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/summary.json"
+  ],
+  "status": "AUTHORITATIVE_DOCUMENT_IDENTITIES_NOT_GPU_VALIDATION"
+}
