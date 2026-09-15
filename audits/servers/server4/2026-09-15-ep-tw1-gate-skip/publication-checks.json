@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-DIAGNOSTIC-GATES-SKIP-RUN-SH4-V1",
+  "status": "COMPACT_SUBMISSION_PUBLICATION_VERIFIED_NOT_NUMERICAL_PASS",
+  "routing_mock_tests": 5,
+  "python_AST_and_bash_syntax": "PASS",
+  "publication_JSON_schema_and_manifest_full_SHA": "PASS",
+  "manifest_members": 3,
+  "raw_payloads_in_publication": false,
+  "runtime_changes_after_submission": 0,
+  "additional_scheduler_or_result_queries_after_release": 0,
+  "generic_access_check": {
+    "exit_code": 7,
+    "only_blocked_path": "runs/odeedit_ep_tw1_gate_skip_s4_v1/submission.json",
+    "resolution": "Current user envelope explicitly authorizes this exact runs/ namespace. Apply task-local exception only; do not modify shared access policy or impersonate GH."
+  },
+  "session_boundary": "Exact task session/host/repo/registry verified by control.boundary; stale shared session-boundary.env preserved per existing approved local binding.",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "scientific_promotion": false
+}

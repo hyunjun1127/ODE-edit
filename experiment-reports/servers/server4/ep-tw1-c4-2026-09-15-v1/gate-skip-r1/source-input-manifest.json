@@ -1,0 +1,107 @@
+{
+  "source": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "tree": "6db14423a207eaccad195ce291c40bb8ce93cc8d",
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1.tar",
+    "bytes": 1525760,
+    "sha256": "2dec619e12f72e1cf6fce843c61adc68726ddc025a6b09cff326bb4b6229124a"
+  },
+  "references": {
+    "full-read-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/full-read-receipt.json",
+      "bytes": 3679,
+      "sha256": "54e583f37dca335c4f5681855fd68f727627a79504c93250045169417e18c75a"
+    },
+    "minimal-checks.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/minimal-checks.json",
+      "bytes": 6965,
+      "sha256": "5568721afd61a6109c43d6180b5e84f0fccf21e12bff576f63dec9ba8e411d67"
+    },
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json",
+      "bytes": 1233680,
+      "sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9"
+    },
+    "input-verification.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/input-verification.json",
+      "bytes": 443,
+      "sha256": "e5d03f4586e1db8572c6b588bebba6479b282acb8f69475ffbd7f02fb4d272d6"
+    },
+    "submission-v1/resource-preflight.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/resource-preflight.json",
+      "bytes": 2275,
+      "sha256": "b4d55986d962ef2a887414b5d64376dc7c4a9d16f14f1b1d6be2e722cce16b27"
+    },
+    "submission-v1/held-inspection.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/held-inspection.json",
+      "bytes": 2144,
+      "sha256": "37ffd734a28c38b732fce6dd6b32f0f1493dea659f6fc0081dfbaa75be2b0925"
+    },
+    "submission-v1/release-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/release-receipt.json",
+      "bytes": 3220,
+      "sha256": "8237978cdd5402cf97f7e1d19d024cd41c7bceeda6d8704b20ec927db825a991"
+    }
+  },
+  "method_numerical_policy_unchanged": {
+    "alpha_cap": 1.0,
+    "epsilon_num": 1e-12,
+    "zeta": 0.25,
+    "zero_norm_atol": 0.0,
+    "ball_atol": 0.0,
+    "ball_rtol": 9.5367431640625e-07,
+    "trust_atol": 0.0,
+    "trust_rtol": 9.5367431640625e-07,
+    "d_tie_atol": 0.0,
+    "d_tie_rtol": 9.5367431640625e-07,
+    "max_identical_rechecks": 0
+  },
+  "skip_override": {
+    "instruction_id": "ODEEDIT-S06-EP-TW1-DIAGNOSTIC-GATES-SKIP-RUN-SH4-V1",
+    "envelope": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/messages/head/2026-09-15-sh4-ep-tw1-gate-skip-run.md",
+      "bytes": 8585,
+      "sha256": "df39ca022b7d41e5c88fa5f4f4d4210e077495a61870fea6dcba3e28fc46045f"
+    },
+    "waiver": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/audits/global/2026-09-15-ep-tw1-numerical-gate-user-waiver.md",
+      "bytes": 1194,
+      "sha256": "9538d89b67336e452c45cdbcc7f54c1289604272c2c0535322387d90f5947dab"
+    },
+    "skipped": [
+      "saved_episode_repair_prerequisite",
+      "repair_pass_receipt",
+      "conditional_E_D_science_gate",
+      "FD_grid_convergence_resolution_jitter",
+      "direct_weight_gradient_comparison",
+      "independent_direction_probes",
+      "ULP_statistics",
+      "W0_self_KL_threshold",
+      "functional_materialized_numerical_parity",
+      "synthetic_zero_nonzero_checks",
+      "validate_episode",
+      "scientific_checks",
+      "native_map_redundant_RHS_comparison",
+      "canonical_method_NLL_byte_equality_gate"
+    ],
+    "diagnostic_callbacks_executed": 0
+  },
+  "member_count": 2119,
+  "reused_asset_verification": {
+    "new_full_sha_members": 2085,
+    "prior_full_sha_stable_stat_reuse": 34,
+    "numerical_tests_executed": 0,
+    "sample_prefix": 1000,
+    "batches": 10,
+    "cold_W0_M0": true,
+    "policy_ledger_bytes_unchanged": true,
+    "execution_lock": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json",
+      "bytes": 1233680,
+      "sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9"
+    }
+  },
+  "readonly_policy_ledger": true,
+  "readonly_native_helper": true,
+  "execution_source_not_publication_source": true
+}

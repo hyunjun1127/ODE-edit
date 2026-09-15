@@ -1,0 +1,21 @@
+{
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/submission-factual-report-ko.md",
+    "bytes": 5066,
+    "sha256": "7aca507c75e7d69cb39fa0c8567b01a4682c6cd5e8e5dd2fecf4befcbe1398ae"
+  },
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/analysis-manifest.json",
+    "bytes": 984,
+    "sha256": "a1173bae06c8d94358369e55895bc36ff1b85aff09c6d6d62f864a047b55ef1c"
+  },
+  "resume": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/resume-manifest.json",
+    "bytes": 7114,
+    "sha256": "d66d4acf77bdc45f36945308f4d691ad2bff894e60d0f439f9f64e3802fbe637"
+  },
+  "source": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "rawfree": true,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "scientific_promotion": false
+}

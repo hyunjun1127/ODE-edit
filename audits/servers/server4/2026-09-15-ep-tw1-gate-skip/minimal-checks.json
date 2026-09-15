@@ -1,0 +1,138 @@
+{
+  "status": "MINIMAL_ROUTING_SYNTAX_PASS_NOT_NUMERICAL_VALIDATION",
+  "routing_mocks": 5,
+  "test_output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK\n",
+  "python_AST_files": 24,
+  "bash_syntax": true,
+  "model_import_loads": 0,
+  "GPU_jobs": 0,
+  "numerical_tests": 0,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "source_members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/__init__.py",
+      "bytes": 79,
+      "sha256": "a0e4b6de1811d07eb45d5f4a25e34451af136c911b14fb31b0eef7949bf6ffd9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/control.py",
+      "bytes": 7987,
+      "sha256": "9cb7ff73a44f9ab30068afd9e5cd7341b4e8e95db39cabed50d29775d682be06"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py",
+      "bytes": 3184,
+      "sha256": "3e4da025df2b3109e98238cf78d41b06105687738620125ae1b9db66c252a1eb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/gate_skip_control.py",
+      "bytes": 8020,
+      "sha256": "35686673a8fc6a53ee1dbfd3b11f5d301758aebec73456491b3a1bfa8f229408"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/handoff.py",
+      "bytes": 12090,
+      "sha256": "82a5bf52bd0fac558395e36be98fb06e366d53c77d1f5182a7a358f712ab0320"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/ledger.py",
+      "bytes": 9086,
+      "sha256": "981fe0b15de08b9387004866d0a7e5bba698773c3b973cd8466e15832b58b127"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "bytes": 29976,
+      "sha256": "9e4d440e9aae260191d2adcfcc631c9d418311f1c4a8a76b7df46c8e9bb7dba5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/operations.py",
+      "bytes": 6476,
+      "sha256": "414193276bf357750e99539fe241e9c643bdaa58e20220838a3577c5983d3b51"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/policy.py",
+      "bytes": 19505,
+      "sha256": "56b28d7b1398aa71c23ac11bb5164216c5c921d80ed287940b48d03652a3797d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/preparation.py",
+      "bytes": 9539,
+      "sha256": "b293288b2c8cd2d3cf85dce78dc5b78504586027bd97458f56ec0ec924538d03"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/repair_checks.py",
+      "bytes": 31021,
+      "sha256": "e34d6d5b87c9126dee1431494508b1243fb75056304cd378a33043791292bc0b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/repair_control.py",
+      "bytes": 11127,
+      "sha256": "9936982c1bc6a74ff3796605658bef721979529a321f0163618b14596d95ef9a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/repair_handoff.py",
+      "bytes": 12727,
+      "sha256": "c749a96bfb8cc3424c392ea69d9f11f32f60031ca40ed9c667f61097e41c55da"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/repair_runtime.py",
+      "bytes": 15750,
+      "sha256": "17deff5c83ce925031e34300f32300e0678d0f907f5ba733fae6732b2583ab9a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/runner.py",
+      "bytes": 26727,
+      "sha256": "dfa9a6d0bbab8195a247069a0d5812aa62e2d44b891500bf2897cac7145e8c5e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/technical.py",
+      "bytes": 10455,
+      "sha256": "8ee4e0ac9b12c5c9149fd7034405cfa74142391b12224711ffacd35023b4b854"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_direct_gradient.py",
+      "bytes": 8223,
+      "sha256": "5c371ad5ff37468f6f1a43eb5cb6e45233de9c8d0f58426868bbe39621e03ffa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_gate_skip.py",
+      "bytes": 1835,
+      "sha256": "4e96a295ba07c01ac43c9793ca7242e3b3582cac1115e10fe3d6a3901b3e0373"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_ledger.py",
+      "bytes": 6614,
+      "sha256": "5f44a368d9a2740659117f2ad277e45405bb3129c773fcb52a2faaa3f8ab048c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_model_adapter.py",
+      "bytes": 10182,
+      "sha256": "d754809e0a3656580c4c8ca870dcf31d270959413a75de20c5349937ebd9cfb1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_policy.py",
+      "bytes": 10495,
+      "sha256": "fe1d9aceb88b66072cc5c2c00dce82c8c188e7a664e63ce3bc7ab25b3d210a09"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_repair_checks.py",
+      "bytes": 11982,
+      "sha256": "ee686b85dfb2bad2de9a1da5791732ea3e9ba156e853c2cd908ce4592a231bb7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_repair_runtime.py",
+      "bytes": 4106,
+      "sha256": "c25cfaca1c640309ceb2fa6a08c3fb64e9f3908b6684610913f7343867a1a177"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/test_runner.py",
+      "bytes": 2304,
+      "sha256": "12720d893d106a55cda821ae6e66424c0f686bdc944971ba654e69c3313e09f9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1/project/run_scripts/bg_tw_reference/ep_tw/nogate.sbatch",
+      "bytes": 919,
+      "sha256": "ee2249b7163d511903a452ac8bcce0cdf9e4e588a109d0d0a2cf06fc0dc86a43"
+    }
+  ]
+}

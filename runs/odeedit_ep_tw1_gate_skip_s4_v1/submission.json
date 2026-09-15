@@ -1,0 +1,35 @@
+{
+  "release": {
+    "job_id": "47962",
+    "last_observation": "2026-09-15T05:32:06.139575+00:00",
+    "last_record": "JobId=47962 JobName=odeedit_ep_tw1_nogate_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=12:00:00 TimeMin=N/A SubmitTime=2026-09-15T14:32:06 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-15T14:32:06 Scheduler=Main Partition=gpu AllocNode:Sid=server4:4193523 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/nogate.sbatch SubmitLine=sbatch --parsable --hold --no-requeue --output=/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/slurm-%j.out --error=/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/slurm-%j.err /data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1/project/run_scripts/bg_tw_reference/ep_tw/nogate.sbatch /data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1 /data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json /data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1 WorkDir=/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-gate-skip-run-v1 StdErr=/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/slurm-47962.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/submission-v1/slurm-47962.out TresPerNode=gres/gpu:rtx_pro_6000:1 TresPerTask=cpu=8",
+    "source_archive": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/source-v1.tar",
+      "bytes": 1525760,
+      "sha256": "2dec619e12f72e1cf6fce843c61adc68726ddc025a6b09cff326bb4b6229124a"
+    },
+    "source_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+    "lock": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/execution.lock.json",
+      "bytes": 1233680,
+      "sha256": "5a19c2be919362d08b2ea80e69a406d7b6de569aade8de639036f69db5d5d8f9"
+    },
+    "output": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1",
+    "status": "SUBMITTED_NOT_G0_PASS",
+    "scientific_chain_count": 1,
+    "teacher_reused": "47592_COMPLETE_NO_NEW_TEACHER",
+    "saved_episode_technical_then_conditional_science": false,
+    "validation_mode": "SKIPPED_USER_DIRECTED",
+    "numerical_validation": "NOT_ESTABLISHED",
+    "scientific_output": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/scientific-v1",
+    "gate": "PENDING_GATE_NOT_RUN",
+    "no_callback": true,
+    "no_automatic_resume": true
+  },
+  "source": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "resume": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/gate-skip-r1/resume-manifest.json",
+    "bytes": 7114,
+    "sha256": "d66d4acf77bdc45f36945308f4d691ad2bff894e60d0f439f9f64e3802fbe637"
+  }
+}
