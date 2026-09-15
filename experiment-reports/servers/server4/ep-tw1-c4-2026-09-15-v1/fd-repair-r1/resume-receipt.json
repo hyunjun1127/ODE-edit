@@ -1,0 +1,138 @@
+{
+  "resume_manifest": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/resume-manifest.json",
+    "bytes": 6045,
+    "sha256": "f8885520d3e1b9570a6409a6a3b0608e628f2556a2c1089f343674ac1643dadf"
+  },
+  "instruction_id": "ODEEDIT-S06-EP-TW1-SAVED-EPISODE-FD-REPAIR-SH4-V1",
+  "host": "server4",
+  "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "WAITING_USER_RESUME",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "last_observation": "2026-09-15T04:46:07.004700+00:00",
+  "last_job_state": "PENDING",
+  "last_reason": "None",
+  "job_id": "47942",
+  "source_head": "2a0fe8e2033086bd86eb740d9b83eb8a2d5c5972",
+  "source_tree": "cfe6c43024dbc0928877fbc16e9aee138626419e",
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/source-v1.tar",
+    "bytes": 1505280,
+    "sha256": "c18f18e4aa773454bc34f10713090224a4502556f509b11e944dd7a991fef7c2"
+  },
+  "source_branch": "codex/server4-ep-tw1-fd-repair-v1",
+  "locks": {
+    "full-read-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/full-read-receipt.json",
+      "bytes": 6937,
+      "sha256": "b51ba608cb4c1b527b6eb83a9ec0c3179194f00a9307fe550e2cfc93f352cfef"
+    },
+    "cpu-checks.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/cpu-checks.json",
+      "bytes": 8985,
+      "sha256": "7d5b8b631c3beed8eed8ef34786ba401445fa75341220b53aaabbf119d3e0e8c"
+    },
+    "cpu-checks-v2.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/cpu-checks-v2.json",
+      "bytes": 8985,
+      "sha256": "2fd92562601c5b6886fc059acea3514f40d7888fe0c3ba9ca71d333fa36ed53b"
+    },
+    "repair.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/repair.lock.json",
+      "bytes": 1233975,
+      "sha256": "e6501577e55aa509765d454d3c605f12a7d710f1a07cf83bbd18aecc97c2f43c"
+    },
+    "scientific.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific.lock.json",
+      "bytes": 1232544,
+      "sha256": "f715685f793508ca35be0cc4ed3a4765e584e40ef3d60a1f578599f9f89e4ff2"
+    },
+    "submission-v1/resource-preflight.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/submission-v1/resource-preflight.json",
+      "bytes": 1910,
+      "sha256": "47ef2099bdca434f7e98de8b7481181b2ffc9f63fbe1f0c7e59d5a77e97d67fe"
+    },
+    "submission-v1/held-submission.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/submission-v1/held-submission.json",
+      "bytes": 1300,
+      "sha256": "76d2c70c23aa3326fc2df6c397f443bd02d9a0ff5bf475bffe520727727e8c9a"
+    },
+    "submission-v1/held-inspection.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/submission-v1/held-inspection.json",
+      "bytes": 2264,
+      "sha256": "3662aa59ee55600e36500b9e64f4cdb5427640e5989c1b17792ac51cc04754ec"
+    },
+    "submission-v1/release-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/submission-v1/release-receipt.json",
+      "bytes": 3232,
+      "sha256": "2941e20ca8d2324e957a6c55020c5b334203804b7d5b635556c874b3ee75d008"
+    }
+  },
+  "technical_gate": "NOT_RUN_NOT_OBSERVED",
+  "scientific_G0": "NOT_RUN_NOT_OBSERVED",
+  "last_batch": null,
+  "next_ordinal": null,
+  "expected": {
+    "technical_output": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/technical-v1",
+    "technical_PASS": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/technical-v1/technical-PASS.json",
+    "technical_failure": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/technical-v1/failure.json",
+    "science_output": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2",
+    "G0": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2/G0_PASS.json",
+    "first_checkpoint": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2/B001/checkpoint.pt",
+    "B2_entry": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2/B002/entry.json",
+    "terminal": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2/terminal.json",
+    "scientific_failure": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific-r2/failure.json",
+    "existence": "NOT_INSPECTED_AFTER_PENDING_RELEASE; not asserted absent or present"
+  },
+  "conditional_program": "one allocation; saved episode technical PASS -> exact-lock verified fresh W0 B100x10",
+  "saved_episode": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/B001/native-targets-map.pt",
+    "bytes": 256307027,
+    "sha256": "67b1aaaf765fca753e3399016967f62b2e0cf3f5b2f374874b1eb9d9aae88451"
+  },
+  "teacher_manifest": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+    "bytes": 71431,
+    "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+  },
+  "diagnostic_native_fit": 0,
+  "diagnostic_native_solve": 0,
+  "new_teacher": 0,
+  "old_failed_job": "47884",
+  "old_failed_gpu_seconds": 473,
+  "old_failed_commits": 0,
+  "teacher_reused_job": "47592",
+  "teacher_prior_gpu_seconds": 98,
+  "old_fit_component_seconds": 286.54453050531447,
+  "old_fit_is_nested_in_473_not_additional": true,
+  "current_allocated_gpu_seconds": "NOT_OBSERVED",
+  "scientific_completed_requests": "NOT_OBSERVED",
+  "resource": {
+    "gpu": 1,
+    "cpus": 8,
+    "mem": "60416M",
+    "wall": "12:00:00",
+    "gpu_cap": 2,
+    "gpu_hour_cap": null
+  },
+  "admitted_including_new": 1,
+  "new_scientific_chains_max": 1,
+  "model_G0_not_inferred_from_CPU86": true,
+  "preserved_old_coarse_FAIL": true,
+  "scientific_promotion": false,
+  "forbidden_or_deferred": [
+    "baseline rerun",
+    "N4 calibration",
+    "teacher rebuild",
+    "quality restoration",
+    "ODE",
+    "additional policies",
+    "Audit",
+    "MMLU",
+    "Report256"
+  ],
+  "next_user_recall": "bounded exact47942 state + technical/G0 receipts; no automatic retry",
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

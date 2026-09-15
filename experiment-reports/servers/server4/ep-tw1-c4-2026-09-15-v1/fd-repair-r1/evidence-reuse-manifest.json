@@ -1,0 +1,31 @@
+{
+  "old_failure": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/failure.json",
+    "bytes": 4394,
+    "sha256": "281fd37d7d2512b18a1cf48e0e35096c5060866a009b9e43c6ca2ce8dfbe80a5"
+  },
+  "old_cpu": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/failure-diagnosis-r1/cpu-evidence.json",
+    "bytes": 48988,
+    "sha256": "614182bebb0b92a0ed0bf16cb8628a650c83a95f5e3884dc6dc30fd025c610e0"
+  },
+  "native_episode": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/B001/native-targets-map.pt",
+    "bytes": 256307027,
+    "sha256": "67b1aaaf765fca753e3399016967f62b2e0cf3f5b2f374874b1eb9d9aae88451"
+  },
+  "teacher": {
+    "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+    "bytes": 71431,
+    "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+  },
+  "prior_teacher_fullSHA": "REUSED_WITH_CURRENT_STAT_LOCK",
+  "current256MBepisode_fullSHA": "VERIFIED_BEFORE_SUBMIT",
+  "new_model_teacher_whole_rehash": false,
+  "old_gradient_and_postfit_RNG": "NOT_SAVED",
+  "diagnostic_not_continuation": true,
+  "CPU_tests": 86,
+  "red_focused_tests": 35,
+  "red_tests_subset_of86_not_added": true,
+  "actual_direct_Llama_or_FD": "NOT_OBSERVED"
+}

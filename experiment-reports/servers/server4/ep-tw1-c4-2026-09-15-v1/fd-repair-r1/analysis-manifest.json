@@ -1,0 +1,28 @@
+{
+  "kind": "COMPACT_PREPARATION_SUBMISSION_NOT_RESULT_ANALYSIS",
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/diagnostic-report-ko.md",
+      "bytes": 5913,
+      "sha256": "9bbb9d7f1ac0fab4fdc0aa0162a43f9f2603a0a05ced41c4675c396f5944d54d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/evidence-reuse-manifest.json",
+      "bytes": 1344,
+      "sha256": "4d051ebadea63e8d16450851cf352085b5fda03f3d5805a7aa9ae9777823e903"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/resume-receipt.json",
+      "bytes": 6269,
+      "sha256": "8f73cf466a1b92016576bb9e2ef8d3271269457a8cbcdff7d7737825322887fa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/source-input-manifest.json",
+      "bytes": 5601,
+      "sha256": "e6501f643bd05c2278e0a9cad64cf069970199bc3f57f584fc90ef9a1ea50491"
+    }
+  ],
+  "raw_payload": false,
+  "PNG_count": 0,
+  "execution_source": "2a0fe8e2033086bd86eb740d9b83eb8a2d5c5972"
+}
