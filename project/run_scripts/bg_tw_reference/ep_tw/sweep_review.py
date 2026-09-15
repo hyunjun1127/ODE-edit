@@ -25,6 +25,26 @@ LABELS=('CAP1',*NEW_ARMS)
 METRICS=('RS','PS','NS')
 
 
+def binding_capsules(output):
+    """Explicit GH field-name bridge; immutable execution locks not rewritten."""
+    out=Path(output);out.mkdir(parents=True,exist_ok=False)
+    lineage=r.ref(ROOT/'source-lineage.json');members=[]
+    for arm in NEW_ARMS:
+        a=attempt(arm);lock=r.read(a/'execution.lock.json');verify_arm_lock(lock)
+        capsule=dict(arm=arm,execution_lock=r.ref(a/'execution.lock.json'),
+            execution_HEAD=lock['source_head'],execution_tree=lock['source_tree'],archive_SHA256=lock['source_archive']['sha256'],
+            import_identity={k:lock[k] for k in ('blue_root','historical_evaluator_root','helper_scripts_root','torch','transformers')},
+            source_files=[x for x in lock['members'] if Path(x['path']).is_relative_to(lock['source_root'])],
+            model_P_reference_identity={k:lock[k] for k in ('snapshot','model_revision','projector','projector_mapping','dtype','attention')},
+            output_root=lock['output'],resource_plan=lock['resource'],input_order=lock['sample_lock'],
+            actual_source_diff=lineage,
+            note='Equivalent locked values indexed under GH field names; supplement does not mutate locked input/source or runtime semantics',
+            source_lock_aliases={'execution_HEAD':'source_head','execution_tree':'source_tree','archive_SHA256':'source_archive.sha256',
+                'source_files':'members under source_root','input_order':'sample_lock + batches','resource_plan':'resource'})
+        members.append(r.save(out/(arm+'-binding.json'),capsule))
+    return r.save(out/'binding-manifest.json',dict(instruction_id=TASK,members=members,execution_lock_mutations=0))
+
+
 def status(output):
     """One explicit own-job observation. No polling/sleep/callback."""
     release=r.read(ROOT/'submission-v1/release-receipt.json')
@@ -305,8 +325,8 @@ def combine(worktree,analysis_root,output):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('command',choices=['status','first','arm','combine']);p.add_argument('--output',required=True)
+    p=argparse.ArgumentParser();p.add_argument('command',choices=['bindings','status','first','arm','combine']);p.add_argument('--output',required=True)
     p.add_argument('--worktree',default='.');p.add_argument('--arm',choices=NEW_ARMS);p.add_argument('--allocated',type=int)
     p.add_argument('--analysis-root');x=p.parse_args()
-    result=status(x.output) if x.command=='status' else first(x.output) if x.command=='first' else arm_review(x.worktree,x.arm,x.output,x.allocated) if x.command=='arm' else combine(x.worktree,x.analysis_root,x.output)
+    result=binding_capsules(x.output) if x.command=='bindings' else status(x.output) if x.command=='status' else first(x.output) if x.command=='first' else arm_review(x.worktree,x.arm,x.output,x.allocated) if x.command=='arm' else combine(x.worktree,x.analysis_root,x.output)
     print(json.dumps(result,ensure_ascii=False))

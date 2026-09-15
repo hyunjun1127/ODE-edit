@@ -13,3 +13,5 @@ Admission resource-only 조회에서 CAKE48101 예약1, 신규1lane를 사용하
 좁은cap/routing11 CPUchecks PASS와 제출source syntax/diff/memory 검사를 수행했다. 그 이후 작성한 분석 경로는 실행archive와 격리된다. CAP1의 기존 저장JSON을 통한 reducer regression은 기존metrics-v3의 모든 CSV/JSON과 byte-identical이었다. 이 회귀검사는 신규arm의 결과나 model numerical validation이 아니다.
 
 미완료: 신규3chain은 마지막 관측PENDING/commit0. 아직 terminal/raw/state/metrics 검증을 했다고 주장하지 않는다. 본task만 명시완주override로 계속하며, CAKE/타task모니터링은 재개하지 않는다. GH FULL_READ/M0와 submission ACK는 각각 local GH-M0-delivery.json/GH-submission-delivery.json에 별도 결속되어 있다. GH 중복검산 요청0.
+
+복잡한 source/analysis 독립 점검을 위한 bounded red agent 호출1회는 agent thread limit으로 시작되지 않았다. 해당 결과를 independent red PASS로 기록하지 않으며 현재 검토는 SH4 parent의 scoped CPU/source review다. 생략된 GPU numerical gate를 이 이유로 복원하지 않는다.
