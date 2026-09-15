@@ -1,0 +1,23 @@
+{
+  "status": "CLEAN_OWN_SCOPE_INTEGRATION_CHECKS_PASS",
+  "base_main": "307ba7ae9426324404cfa83df3b4b766846bca74",
+  "source_report_branch_head": "a178bf4c2904623a9f4b4c9ddd6257a67123367d",
+  "checked_merge_head": "21c8a47604fe351b3761ca184d07d0c454bf5aee",
+  "prior_main_ancestry_preserved": true,
+  "runtime_files_byte_equal_to_execution_source": "5d149fec254a7a53b6d91790d186880f248676e6",
+  "pre_audit_changed_files": 52,
+  "scope_allowlist": "PASS",
+  "python_AST": "PASS",
+  "shell_syntax": "PASS",
+  "CPU_tests": {"passed": 121, "seconds": 13.551},
+  "report_graph_member_bytes_equal": 17,
+  "report_sha256": "a5c91281c1f90156eefd0f2fc32fc229855e70f8f099f90679a092ab5daa5f99",
+  "package_manifest_sha256": "298d3265d01812a61cc5c37d2de5a78ad751c7d4ea3deb1f3e6b026165b42a0b",
+  "whitespace": "PASS with cr-at-eol for standard CSV; sealed CSV bytes unchanged",
+  "conflicts": 0,
+  "raw_model_prompt_tensor_cache_log_commit": 0,
+  "new_GPU_or_Slurm_actions_during_publication": 0,
+  "other_task_actions": 0,
+  "remote_final_identity": "Recorded after ordinary push in local final publication receipt; no self-referential commit hash",
+  "scientific_promotion": false
+}

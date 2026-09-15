@@ -1,6 +1,8 @@
 {
   "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-ZFLOW-SEQ1000-SH2-V1",
-  "status": "RESULTS_REPORT_VERIFIED_MAIN_INTEGRATION_PENDING",
+  "status": "TASK_COMPLETE_STOP",
+  "publication_identity": "Containing main commit; exact remote HEAD/tree also sealed in final local publication receipt",
+  "monitoring": "STOP",
   "owner": "SH2",
   "execution_source": "5d149fec254a7a53b6d91790d186880f248676e6",
   "execution_tree": "0202db9aee30ba5103c52e21d0647c66e1428567",
