@@ -64,6 +64,17 @@ def state_fingerprint(value):
     return digest(describe(value))
 
 
+def tokenizer_metadata(tokenizer):
+    """Observe fast-tokenizer policy without assuming optional convenience attrs."""
+    return dict(tokenizer_class=type(tokenizer).__name__,
+                add_bos_attribute_present=hasattr(tokenizer,'add_bos_token'),
+                add_bos_attribute=getattr(tokenizer,'add_bos_token',None),
+                padding_side=tokenizer.padding_side,
+                bos_token_id=tokenizer.bos_token_id,pad_token_id=tokenizer.pad_token_id,
+                fixed_probe_default_ids=tokenizer.encode('ZFlow technical tokenizer probe.'),
+                fixed_probe_no_special_ids=tokenizer.encode('ZFlow technical tokenizer probe.',add_special_tokens=False))
+
+
 def load_model(lock):
     from transformers import AutoModelForCausalLM,AutoTokenizer
     import transformers
@@ -88,7 +99,8 @@ def load_model(lock):
         cuda=str(torch.version.cuda),device=torch.cuda.get_device_name(0),
         gpu_total_bytes=torch.cuda.get_device_properties(0).total_memory,
         tf32_matmul=torch.backends.cuda.matmul.allow_tf32,tf32_cudnn=torch.backends.cudnn.allow_tf32,
-        model_dtype='float32',attention='eager',writer_add_bos=False,evaluator_add_bos=evaltok.add_bos_token,
+        model_dtype='float32',attention='eager',writer_add_bos=False,evaluator_add_bos=getattr(evaltok,'add_bos_token',None),
+        writer_tokenizer_policy=tokenizer_metadata(tok),evaluator_tokenizer_policy=tokenizer_metadata(evaltok),
         writer_padding='right',evaluator_packing='native manual left / microbatch16',
         base_selected_weight_sha256=tensor_sha256(dict(model.named_parameters())[WEIGHT]))
 
