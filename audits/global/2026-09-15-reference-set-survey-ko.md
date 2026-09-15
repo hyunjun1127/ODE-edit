@@ -1,8 +1,8 @@
-# BG-TW reference set 재조사와 구축·실험 계약 v2
+# BG-TW reference set 재조사 — C4 데이터 v2, 실험 연결 v3
 
-작성·재확인: 2026-09-15. 대상: Server4 Llama fixed10k, BG-1부터 시작하는 단계적 method 개발.
+작성·재확인: 2026-09-15. 대상: Server4 Llama fixed10k, 사전 보존 한도 없는 EP-TW-1부터 시작하는 단계적 method 개발.
 
-상태: 문헌·공식 코드·고정 데이터 source를 확인하고 설계를 갱신했다. 정식 reference768, 정확한 token 자료, W0 teacher cache, 신규 GPU 성능 결과는 아직 생성하지 않았다. 기존 FineWeb 우선안은 이 문서와 `C4-WebRef-v2` 계약으로 대체한다.
+상태 갱신: corpus 조사·C4-WebRef-v2 선택 규약은 유지한다. Server4 보고에서 정식768 문서·token 구축을 확인했고, teacher의 마지막 관측은 PENDING으로 완료 여부는 미확인이다. 새 method의 GPU 성능 결과는 없다. [파이프라인 재검토](/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md)에 따라 N4 최대 KL 기반 한도를 제거하고 §11–15와 reference JSON을 갱신했다. 기존 원격 V1 dispatch를 자동 변경한 것은 아니다.
 
 ## 1. 결정과 변경 이유
 
@@ -49,12 +49,12 @@ q_i=(\mathrm{source\_id}_i,\ x_i,\ I_i,\ w_i,\ \log p_0(\cdot\mid x_{i,<\ell})_{
 
 **저장하는 것은 W0가 생성한 한 문장의 label도, C4 다음 token 하나의 확률도 아니다.** 문서 packet의 128개 고정 prefix 각각에 대해 vocabulary 전체 분포를 저장한다. S64는 문서64개이면서 조건부 분포8,192개다. 전체768문서에는 98,304개의 조건부 분포가 대응하지만, 첫 단계에서 이를 모두 cache하지는 않는다.
 
-| 자료 | 역할 | BG-1 controller에 사용 |
+| 자료 | 역할 | 첫 EP-TW-1 controller에 사용 |
 | --- | --- | --- |
 | Native `mom2_dataset=wikipedia` 및 projector/covariance | 원 closed-form writer 구성 | 원 baseline 규약 유지; C4로 교체하지 않음 |
 | Current canonical desired requests | 지금 요청한 변경 달성 | 사용 |
 | 새 C4 S64 + fixed W0 분포 | 일반 입력에서 original response 보존 | 사용 |
-| 과거 accepted canonical desired label | 요청된 edit의 유지 | BG-1은 ledger만 저장; BG-1R에서 추가 |
+| 과거 accepted canonical desired label | 요청된 edit의 유지 | EP-TW-1은 ledger만 저장; 별도 old 정책 정의 후 추가 |
 | Dev128 | 개발 중 일반화 관찰 | gradient·candidate 선택 미사용; 개발 정보로 분류 |
 | Report256, 공식 P/N, Audit/MMLU 등 | 별도 평가 | controller로 제공하지 않음 |
 
@@ -156,7 +156,7 @@ Pile 후속 후보인 [mit-han-lab/pile-val-backup][19]은 API200, ungated metad
 
 | 집합 | 문서 수 | source split | 사용 시점·용도 |
 | --- | ---: | --- | --- |
-| S64 | 64 | C4 train | gradient와 finite candidate screen |
+| S64 | 64 | C4 train | gradient와 candidate KL 비교; hard screen은 current quality |
 | Dev128 | 128 | C4 train | W5/W10 개발 관찰; controller에는 미제공 |
 | Reserve320 | 320 | C4 train | 추후 S128·core 실험용; 첫 teacher 연기 |
 | Report256 | 256 | C4 validation | 정책 lock 이후 독립 보고 |
@@ -217,7 +217,7 @@ p_0(v\mid x_{i,<\ell})
 
 방향은 **KL(p0||pW)**, temperature1, vocabulary sum → scored positions mean → document mean이다. Prefix는 C4 자연 text를 teacher forcing한 것이며 W0 자유 생성 trajectory가 아니다. Chat prompt·자유 생성 분포 보존까지 자동으로 측정하지 않는다.
 
-W0에서 KL와 student gradient는 수학적으로0이다. 이를 reference가 무효라는 신호로 읽지 않는다. BG-1은 **실제 native post-write preview**에서 gradient를 계산한다. Finite-precision self-KL와 복원 오차는 별도로 확인한다.
+W0에서 KL와 student gradient는 수학적으로0이다. 이를 reference가 무효라는 신호로 읽지 않는다. EP-TW-1은 **실제 native post-write preview**에서 gradient를 계산한다. Finite-precision self-KL와 복원 오차는 별도로 확인한다.
 
 ## 10. 저장·연산 비용
 
@@ -235,127 +235,84 @@ W0에서 KL와 student gradient는 수학적으로0이다. 이를 reference가 �
 
 처음은 S64+Dev128만 생성한다. Reserve는 필요할 때, Report teacher와 model-loss 평가는 정책 lock 후 연다. Raw text/teacher는 Git에 넣지 않고 server4 local artifact root에서 manifest hash로 식별한다. CPU memory-mapped shard에 문서8개씩 저장하고 GPU에는 microbatch를 보낸다. 첫 setup microbatch는 문서1개이며 실제 peak memory·처리량과 조정값을 기록한다.
 
-BG-1 추가 route pass는 generic 부분만 **8,192 scored positions, 16,448 input tokens**다. 64문서의 microbatch 처리이며 F/B 함수 한 번이라는 뜻이 아니다. Current100 계산이 추가된다. 네 후보를 모두 screen하면 generic scored positions 최대32,768개이며 teacher read·복원·materialization도 센다.
+EP-TW-1 추가 route pass는 generic 부분만 **8,192 scored positions, 16,448 input tokens**다. 64문서의 microbatch 처리이며 F/B 함수 한 번이라는 뜻이 아니다. Current100 계산이 추가된다. 네 후보를 모두 screen하면 generic scored positions 최대32,768개이며 teacher read·복원·materialization도 센다.
 
-Warm N4 약304.89초/B100, REFIT4 약372.75초/B100은 이전 환경의 참고값이다. 이를 C4 BG-1 실제 wall이나 W0 비용의 측정값으로 쓰지 않는다. 1.5×N4 목표, 초기2× 수준 allocation 추정은 profiling 후 조정할 운영 기준이며 token 수만으로 latency를 예측하지 않는다.
+Warm N4 약304.89초/B100, REFIT4 약372.75초/B100은 이전 환경의 참고값이다. 이를 C4 EP-TW-1 실제 wall이나 W0 비용의 측정값으로 쓰지 않는다. 1.5×N4 목표, 초기2× 수준 allocation 추정은 profiling 후 조정할 운영 기준이며 token 수만으로 latency를 예측하지 않는다.
 
 FP16/top-k teacher는 첫 규약에 넣지 않는다. 필요하면 같은 입력에서 full-FP32 대비 KL·gradient·candidate 차이를 측정하는 비용 ablation으로 추가한다. Approximate cache를 full-vocabulary FP32와 동등하다고 쓰지 않는다.
 
-## 11. 구축 산출물과 기술 확인
+## 11. 구축 산출물과 현재 상태
 
-| 단계 | 수행 작업 | 완료 증거 | 이번 상태 |
-| --- | --- | --- | --- |
-| D0 | 두 pinned source 전체 획득 | full hash/bytes/CRC/row 수/README hash | prefix·schema만 확인 |
-| D1 | 전체 shard hash sampling, text 후보 수집 | source row ID, 후보 순서, filter counts | 미수행 |
-| D2 | exact tokenizer/window, 중복 충원, split lock | 768 unique IDs, token/role hashes, overlap·composition | 미수행 |
-| D3 | W0 S64+Dev128 full-vocab teacher | 192 finite caches, W0/tokenizer/kernel manifest, checksum | 미수행 |
-| D4 | 입력·gradient·복원·비용 기술 확인 | 작은 재현 가능한 기술 receipt | 미수행 |
-| E1 | W0 SEQ1000 정책 비교 | 7개 정책×10 batches | 미제출 |
+최신 근거는 Git `05a9c11e16edee3d43e18e66bc0072c5472fc440`의 [Server4 G0 보고 사본](/mnt/raid5/janghj/ODE-edit/local/reviews/bg-tw-pipeline-reset-2026-09-15/source/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md)이다. 이번 검토가 원격 전체 tensor의 독립 검증을 수행한 것은 아니다.
 
-D4는 scoring shift, cache 재독출, W0 self-KL, native endpoint/materialization 차이, post-write residual 방향미분의 finite-difference 일치, rollback 후 loss, microbatch 가중치 합을 확인한다. **한 batch의 PS/NS가 좋아야1000개를 허용하는 과학적 gate가 아니다.** Reference와 gradient 구현의 연결을 확인하는 검사다.
-
-정식 asset에는 다음을 남긴다.
-
-- `source-manifest.json`, `filter-counts.json`;
-- `reference-documents.jsonl`: row/URL/timestamp/raw text·hash/priority/window;
-- `reference-tokens.npz`, `splits.json`;
-- `reference-composition.json`, `overlap-audit.json`;
-- `teacher-manifest.json`, `teacher/<split>/logp0-*.npy`;
-- `build-status.json`: source/text/token/teacher/technical-ready 별도 boolean.
-
-실행자는 기존 W0 capsule과 고정 contract로 이 자산을 만든다. Manifest 없는 truncation, special-token 추가, split 재선정, teacher 교체를 하지 않는다. Download·CPU 선정·teacher GPU 시간은 online method 비용과 분리하되 총 연구 비용에 포함한다.
-
-## 12. 첫 실험: W0부터 동일1000요청
-
-**신규 method test는 pre-edit W0에서 시작한다.** W50/W90 checkpoint는 동기·기술 자산으로만 사용한다.
-
-| 정책 | 시작·길이 | 역할 |
+| 단계 | 수행 작업 | 현재 확인된 범위 |
 | --- | --- | --- |
-| AlphaEdit | W0, B1–B10 | 지정 native baseline |
-| MEMIT | W0, B1–B10 | 지정 native baseline |
-| AlphaEdit-BLUE | W0, B1–B10 | 지정 BLUE baseline |
-| MEMIT-BLUE | W0, B1–B10 | 지정 BLUE baseline |
-| AlphaEdit-L4_only / N4 | W0, B1–B10 | 직접 native 대조 및 ceiling 개발 |
-| REFIT4 | W0, B1–B10 | 무보존-guide 두 stage 대조 |
-| **BG-1** | **W0, B1–B10** | **S64 KL, native proposal1 + route correction1** |
+| D0 | 두 pinned source 전체 획득 | 합359,779,975 bytes, train356,317/validation45,576 rows, SHA·CRC 완료 보고 |
+| D1–D2 | 전체 shard 선정·tokenization·중복 제거·split lock | 768문서, `[768,257]` token 자료 완료 보고 |
+| D3 | fixed W0 full-vocab teacher | 기존 job47592, 마지막 PENDING; 완료 미확인 |
+| D4 | 실제 모델 gradient·복원·transaction | 기존 CPU fixture39 PASS와 구분; 새 EP-TW-1 검증 미수행 |
+| E1 | W0 B100×10 | 기존 BG는 calibration missing으로0 edits; EP-TW-1은 설계 단계 |
 
-**7개 독립 chain, 70 logical batches**다. 공유하는 고유 요청은1000개이며 서로 다른7000개가 아니다. Native baseline은 원 data/solve 규약을 유지한다. Reference 접근 자체가 정책 간 차이임을 밝히고 barrier 효과는 same-data ablation으로 분리한다.
+Reference identity는 `f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0`다. 원문·token을 다시 선정하지 않고 source/document/token/overlap manifest를 재사용한다. Teacher는 기존 봉인 산출물을 먼저 확인한다. Online에는 S64가 필요하고, Dev128은 개발 보고에 필요하다. 기존192문서 teacher 계획 자체를 이번 문서로 변경·재제출하지 않는다.
 
-### 12.1 Corpus 변경에 따른 ceiling 재측정
+D4는 score shift, self-KL, 실제 native bytes 복원, residual 방향미분, current strict-ID screen, microbatch 가중치, history1회와 resume를 확인한다. **한 batch의 PS/NS가 좋아야1000개를 허용하는 성능 gate가 아니다.** 구현 오류를 구분하는 기술 검사다.
 
-S64 identity·tokens·teacher를 먼저 고정하고 W0 N4의 B1–B10에서 새 C4 D64를 측정한다.
+정식 자료에는 source/filter/documents/token/splits/composition/overlap/teacher/build-status manifest를 남긴다. Raw text·teacher는 Git에 넣지 않는다. Build 비용과 online 비용을 구분하되 총 연구 비용에는 포함한다.
 
-\[
-b_{\rm C4}=\max\{b_{\rm num},\;0.9\max_{t=1,\ldots,10}D_{64}^{\rm C4}(W_t^{\rm N4})\}.
-\]
+## 12. 첫 실험: W0부터1000요청, 사전 KL 한도 없음
 
-`b_num`은 기술 noise와 구분되는 고정 positive floor로 manifest에 남긴다. **BG chain 안에서 b를 갱신하지 않고 FineWeb의 절대 ceiling을 복사하지 않는다.** μ=.01, τ=.1, ζ=.25는 최소 개발 시작값이며 최적값이 아니다.
+**새 method test는 EP-TW-1 한 경로, W0 B100×10**이다. AlphaEdit / MEMIT / AlphaEdit-BLUE / MEMIT-BLUE / AlphaEdit-L4_only와 REFIT4는 비교 목록이며 자동 신규 실행 목록이 아니다. 기존 W0/order/source/checkpoint identity가 맞는 자료를 가능한 범위에서 재사용한다. 없는 중간 endpoint를 보간하거나 그것 때문에 ours 구현을 중단하지 않는다.
 
-W0/order/native 설정과 checkpoint identity가 일치하는 N4 자산은 새 C4 평가를 추가해 재사용할 수 있다. Warm suffix metric이나 다른 corpus KL를 가져오지는 않는다. 첫1000으로 b와 정책을 개발했다면 그1000은 독립 confirmatory test가 아니다.
+### 12.1 삭제한 의존성과 새로운 선택 규칙
+
+기존 `.9×max N4 D64`와 사전 TV→KL 한도는 사용하지 않는다. Corpus/core가 바뀌어도 새 N4 calibration을 요구하지 않는다. 외부 요구로 정당한 한도가 주어지는 다른 적용의 `D≤b`가 잘못됐다는 뜻은 아니다.
+
+첫 방법은 자기 현재 batch의 실제 native preview Vp에서 Ep와 canonical strict 성공 ID Ap를 얻는다. 그다음 **E≤Ep, Ap 보존 조건을 만족하는 유한 후보 중 D64 최소**를 선택한다. 고정 W0 reference는 그대로 필요하지만 허용 KL량·μbase·log barrier는 필요 없다.
+
+Candidates는 `Vp`, `Vp+C A`, `Vp+.5 C A`, `Vp+.25 C A`다. Scale은 보정분 C에만 적용한다. 모두 부적절하면 parent rejection 대신 native를 commit한다. 한 번의 current/generic gradient 보정과 native target ball을 사용한다. 세부 수식·수치 한계는 [v3 설계](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md)를 따른다.
 
 ### 12.2 성능·보존 평가
 
-- 각 batch R/P/N을 at-write와 terminal에서 연결한다. Failed/partial/zero-write를 all-request 원분모에 포함한다.
-- **W0 시작에는 old5000이 없다.** Old retention은 앞 batch에서 실제 수락한 요청으로 정의하고, 첫500의 W5→W10 유지도 기록한다. Warm population을 복사하지 않는다.
-- R/P, P TF-strict, 두 paraphrase 모두 strict, true/new NLL과 paired tail을 보고한다.
-- D64 매 batch, Dev128 W5/W10의 mean·문서 p95/max·자연 token NLL 변화를 기록한다. Dev는 개발 정보다.
-- Accepted-label ledger와 W0 KL를 분리하고 active/superseded, acceptance coverage를 기록한다.
-- D64 감소만으로 전체 지식·일반능력 보존을 주장하지 않고 NS·old-edit·독립 문서를 함께 본다.
+- R/P/N·strict·true/new NLL과 paired tail을 all-request 원분모로 보고한다.
+- 각 batch at-write→W10과 first500 W5→W10을 기록한다. W0 시작에는 old5000이 없다.
+- Current canonical 평균과 성공 ID를 지켜도 모든 요청의 NLL·P 일반화·old retention은 보장되지 않는다.
+- S64 매 batch, Dev128 W5/W10, Report256 lock 이후를 구분한다. Generic uncertainty는 문서 단위, editing uncertainty는 request 단위로 묶는다.
+- Accepted old ledger와 W0 KL을 분리하고 active/superseded·수락 성공률을 보고한다.
+- Own raw 대비 매번 KL이 줄어도 독립 N4 trajectory의 terminal보다 좋다는 결론은 나지 않는다. 최종 sequential 대조를 별도로 읽는다.
 
-Generic 불확실성은 문서 단위 paired bootstrap으로 볼 수 있다. 같은 문서의128 tokens를 독립 표본으로 간주하지 않는다. Stream order 반복은 문항 bootstrap으로 대신할 수 없다.
-
-### 12.3 최소 방법 유지
-
-BG-1은 단일 native L4 proposal와 executable residual-gradient correction1회다. 후보는 raw1, corrected1/.5/.25 최대4개이며 S64 screen 통과 후보에서 current desired loss로 선택한다. 모두 실패하면 parent 유지 후 원분모·coverage에 남긴다.
-
-Native history는 processed B100당 한 번이며 zero-write history와 accepted-label ledger를 구분한다. Current N 평가를 controller에 제공하지 않는다. Corpus 선택은 ODE 필요성·continuous invariance·barrier bypass의 증명이 아니다. 관련 한계는 [PDF method review](/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md)와 [단계적 method 설계](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md)를 따른다.
+Native history는 processed B100당 한 번, inner append0이다. Current N과 독립 reporting은 controller에 노출하지 않는다. 이 reference 선택은 ODE 필요성·CBF invariance·barrier bypass의 증명이 아니다.
 
 ## 13. 한 번에 한 요소씩 확장
 
-| 질문·관측 | 다음 비교 | 규약 |
-| --- | --- | --- |
-| 방향 보정이 scale보다 유용한가 | ScalarGuard | 같은 S64·screen·원분모, 새 W0 SEQ1000 |
-| 비선형 barrier가 필요한가 | FixedPenalty | 같은 current/reference/gradient quota·개발 예산 |
-| current-gradient만으로 설명되는가 | EditGradient+Guard | 같은 reference screen, preservation gradient의 역할 분리 |
-| D64 개선이 Dev로 전이되지 않는가 | nested S128 | S64+고정 Reserve64; Dev/Report 보호, 새 W0 chain |
-| accepted edit 손상이 남는가 | BG-1R | canonical desired64 추가; W0 teacher로 대체하지 않음 |
-| 한 stage의 quality-cost가 제한적인가 | BG-2R + 강한 endpoint 대조 | 같은 정보와 실제 비용을 기록, W0 SEQ1000 |
-| 다른 일반 corpus에도 성립하는가 | **Pile reference** | source/schema/split lock 후 같은 token·loss recipe, W0 SEQ1000 |
-
-첫 결과 전에 corpus·core·old replay·stage 수를 동시에 sweep하지 않는다. S128은 S64에 `bank-role` 순서상 Reserve320의 첫64를 더한다. Dev128은 학습에 흡수하지 않는다. 크기가 바뀌면 N4의 해당 core KL로 같은 ceiling recipe를 적용하고 token/candidate 비용을 공개한다.
-
-Pile는 C4와 혼합하기보다 **같은 방법에서 corpus만 바꾸는 대조**부터 한다. Backup의 provenance/schema를 확인하고 그 안의 development/report 문서를 새롭게 분리한다. 이름이 validation이어도 일부를 controller에 사용한 뒤 분리 없이 모두 test라고 부를 수는 없다. Corpus별 ceiling은 같은 recipe로 개발하고 token budget을 맞춘다.
-
-Cross-corpus 평가는 C4-control/Pile-control endpoint를 각 corpus의 별도 보고 문서에서 함께 볼 수 있다. 결과로 정책을 다시 선택하면 해당 보고는 개발 정보가 된다. Corpus transfer·sample-seed robustness에는 각각 새 고정 reference와 W0 순차 chain이 필요하다.
-
-Response medoids, vulnerability sampling, teacher compression은 비용·coverage 문제에 따라 추가한다. Finite set의 적합을 gradient matching이나 전체 bank 보호 정리로 확대하지 않는다. 이런 확장을 첫 BG-1의 선행조건으로 두지 않는다.
-
-## 14. Policy lock, 독립 보고, full10k
-
-개발 후 reference manifest, teacher, hyperparameters, 후보 menu, rejection/history, 평가 규약을 고정한다. 이후 Report256 teacher를 만들고 frozen endpoint를 평가한다. Audit128/MMLU68은 최종 generality claim의 독립 확인이며 reference 구축·method 구현을 막는 선행조건이 아니다.
-
-주 lifelong 비교는 **선택된1개 방법 + 지정5개 baseline**을 **W0부터100 batches, fixed10k 전체**에 적용한다. 합계600 logical batches다. 앞1000의 개발 사용을 명시하고 별도 order로 robustness를 확인한다. W0를 다시 로드했다고 이미 본 첫1000이 새로운 blind test가 되지는 않는다.
-
-| 결과 | 허용되는 해석 |
+| 확인할 질문 | 후속 비교 |
 | --- | --- |
-| S64·Dev/Report 및 NS/old retention 동시 개선 | Reference feedback이 editing preservation에 전달된 근거 |
-| S64만 개선하고 Dev/Report 악화 | Finite core 과적합 또는 coverage 부족 가능성 |
-| KL는 개선하지만 NS·old retention 악화/정체 | Generic drift surrogate와 원하는 지식 보존의 불일치 |
-| Rejection 증가와 KL/NS 개선 | Coverage–quality–preservation trade-off; 무손실 개선 아님 |
-| Scalar/FixedPenalty가 동등 | 해당 방향 제어·barrier 비선형성의 독자 필요성 미입증 |
-| Endpoint 대조가 동등 | 실제 multistep/ODE 필수성 claim 제외 |
+| Projection이 필요한가 | unprojected preservation gradient + 같은 current-quality screen |
+| 방향 변경이 필요한가 | scalar native write + 같은 quality 조건에서 min D |
+| 접선 보정이 finite quality 조건에서 탈락하는가 | bounded quality restoration; 임의 NLL 허용량으로 대체하지 않음 |
+| Accepted old 손상이 남는가 | old feasibility·충돌/복귀 정책을 먼저 정의한 추가 버전 |
+| D64 개선이 Dev로 전이되지 않는가 | nested S128, Dev/Report 분리 유지 |
+| Target refresh가 필요한가 | 같은 endpoint family의 one-shot·비용 대조 포함 |
+| 다른 일반 corpus에도 성립하는가 | 별도 pinned Pile reference, 같은 품질 조건·token/loss 규약 |
 
-지금 확정하는 것은 **corpus와 재현 가능한 구축·실험 절차**다. 첫 실행은 “C4 고정 입력의 W0 분포를 보는 최소 BG-1이 같은1000요청에서 edit 품질·보존·비용의 균형을 개선하는가”를 묻는다.
+첫 결과 전에 여러 모듈을 동시에 sweep하지 않는다. S128은 고정 Reserve320의 첫64를 더하고 가중치를1/128로 한다. Pile는 provenance/schema/분할을 먼저 정의한다. **둘 모두 새로운 N4 ceiling을 산출하지 않는다.** Corpus를 바꾸면 같은 W0에서 새 순차 chain으로 비교하며 corpus별 독립 보고를 분리한다.
 
-## 15. 완료 범위와 다음 작업
+Medoid·위험군·teacher 압축은 비용과 coverage에 따라 추가한다. Finite core 적합을 전체 bank의 loss/gradient 보증으로 확대하지 않는다.
 
-갱신 완료: 이 survey, reference JSON, 후보 CSV, 논문 근거 CSV, source 감사, 연결된 from-base 계약·설계, 문서 정합성 검사.
+## 14. Policy lock과 full10k
 
-실제 확인: 13개 핵심 문헌 항목의 역할, 다섯 공식 calibration 파일의 고정 commit/hash, C4 두 pinned 파일의1MiB prefix/schema, Pile backup API metadata. 인용수는 위 네 논문의 cache 표시값이다.
+개발 후 method/source/reference/teacher/menu/history/평가를 lock하고 Report256을 확인한다. 결과를 보고 정책을 다시 선택하면 해당 보고는 개발 정보다. Audit128/MMLU68은 독립 claim 확인이며 첫 구현의 선행조건이 아니다.
 
-미수행: 전체 source 획득, 정식768 선정, exact token 자료/tokenizer hash, teacher192 생성, BG gradient 기술 검사, 신규 GPU chain 제출·성능 측정. 다음 구현은 **D0–D4 reference builder/teacher/검증 자산 생성**, 이후 E1 W0 SEQ1000이다.
+주 lifespan 비교는 **W0부터100 batches**의 선택 후보와 지정 다섯 baseline이다. 처음1000을 개발에 사용했다는 사실은 W0 재로딩으로 사라지지 않는다. 추가 order의 재현성은 문항 bootstrap으로 대신하지 않는다. 이 목록은 최종 연구 계획이며 이번에 신규 제출한600 batches가 아니다.
 
-이전 FineWeb 계약·survey는 [이전 버전 manifest](/mnt/raid5/janghj/ODE-edit/local/reviews/reference-set-survey-2026-09-15-v2/previous/manifest.json)에 hash와 함께 보존했다. Raw data·scratch probe는 local에 두고 실제 구축·실험이 완료된 것으로 표시하지 않았다.
+S64만 좋아지면 surrogate/coverage 문제, scalar가 같으면 방향의 필요성 미입증, unprojected가 같으면 projection의 추가 효용 미입증, one-shot이 같으면 multistep/ODE 필수성 미입증으로 해석한다. First method에는 preservation rejection과 log barrier가 없으므로 old BG-1의 rejection/FixedPenalty 판정표를 그대로 적용하지 않는다.
+
+## 15. 이번 갱신과 남은 일
+
+Corpus 조사·공식 코드 근거·C4 선택 규약은 유지했다. Reference JSON의 method 연결, 구축 상태, 첫 신규 경로 수, 한도 산출과 후속 corpus 규칙을 갱신했다. 새 검증은 [EP-TW 설계 점검](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-15-ep-tw-design-checks.json)에 둔다. 이전 revision2 검사 결과는 역사적 기록이다.
+
+문서·token은 Server4 구축 완료 보고를 확인했고 teacher 완료는 미확인이다. 실제 EP-TW-1 adapter와 admission·gradient·resume 검증 및 W0 SEQ1000은 남아 있다. **이번에는 원격 지시 변경·GPU 작업 제출·teacher 재실행을 수행하지 않았다.**
+
+이전 문서·계약의 exact hash는 [보존 manifest](/mnt/raid5/janghj/ODE-edit/local/reviews/bg-tw-pipeline-reset-2026-09-15/source-manifest.json)에 있다. 이미 전달된 V1 instruction/source lock은 그대로 보존한다.
 
 ## 원문·공식 구현·인용 색인
 

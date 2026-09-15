@@ -1,0 +1,44 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "base_commit": "05a9c11e16edee3d43e18e66bc0072c5472fc440",
+  "files": [
+    {
+      "path": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+      "bytes": 30524,
+      "lines": 251,
+      "sha256": "e34ac88f0a86914783d2e99ad1372abdc2c7439c8ee0219f7e409271e0485edd"
+    },
+    {
+      "path": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "bytes": 17969,
+      "lines": 157,
+      "sha256": "37a626e2de5d90e19851914d892122cc4dfb07279e8be794efa5a01c62326a4d"
+    },
+    {
+      "path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "bytes": 10515,
+      "lines": 249,
+      "sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea"
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "bytes": 24298,
+      "lines": 527,
+      "sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20"
+    },
+    {
+      "path": "plans/global/2026-09-15-ep-tw-design-checks.json",
+      "bytes": 4924,
+      "lines": 145,
+      "sha256": "72c7113f0b98dd08c89c00f977e392c2e45d8f47956fef3a2ea83578b995c9de"
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-set-survey-ko.md",
+      "bytes": 36407,
+      "lines": 365,
+      "sha256": "4399da9bb185c875a3ec335db1df127c3ab08983ff9f476c9bfcafdee88ac2cb"
+    }
+  ],
+  "validation": "Supplied files fully read and exact bytes/hash verified by GH; 47 supplied math checks not rebranded as fresh runtime/GPU PASS.",
+  "runtime_verified_by_GH": false
+}

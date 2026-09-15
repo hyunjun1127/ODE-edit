@@ -1,0 +1,249 @@
+{
+  "contract_id": "EP-TW-1-W0-SEQ1000-design-v1",
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "status": "설계 사양. 새 구현·GPU 실행·원격 지시 전달 결과가 아니다.",
+  "design": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+  "review": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+  "reference_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+  "reference_dataset_id": "C4-WebRef-v2",
+  "proposed_policy": "EP-TW-1",
+  "execution_authorized_by_this_file": false,
+  "remote_dispatch_amended": false,
+  "old_dispatch_preserved": "GH-BG1-C4-OURS-FIRST-20260915-V1",
+  "method_inputs": {
+    "start": "pre-edit W0",
+    "layer": "L4 down-projection",
+    "current_requests": 100,
+    "history": "자기 branch의 native state; inner 고정, B1은 W0 규약",
+    "generic_reference": "고정 C4 S64 inputs와 full-vocabulary W0 log probabilities",
+    "teacher_stream_refresh": false,
+    "independent_baseline_checkpoints_required": false,
+    "future_batches_or_baseline_losses_required": false,
+    "preservation_budget_required": false,
+    "preservation_budget": null,
+    "preservation_budget_calibration": null,
+    "tv_allowance": null,
+    "base_penalty_weight": null,
+    "log_barrier": false,
+    "old_replay_feedback": false,
+    "old_nll_tolerance": null,
+    "old_ledger_recorded": true
+  },
+  "proposal": {
+    "native_target_calls_per_request": 1,
+    "max_adam_updates_per_request": 24,
+    "max_loss_evaluations_per_request": 25,
+    "native_early_stop_and_clamp": true,
+    "raw_endpoint": "actual stored FP32 native provisional endpoint Vp on own current branch",
+    "raw_is_independent_N4_chain": false,
+    "raw_reconstructed_from_factorized_map": false,
+    "keys_map_history_fixed_within_batch": true,
+    "writer": "S_t(R)=R A_t; actual source solve/transpose/context-repeat semantics",
+    "gradient_through_inverse": false
+  },
+  "current_quality": {
+    "loss": "canonical desired teacher-forced NLL; token mean per request then mean over all100 requests",
+    "anchor": "Ep=E(actual own native preview Vp)",
+    "success_anchor": "Ap=IDs whose entire canonical desired answer passes pinned native TF-strict evaluator at Vp",
+    "constraints": [
+      "E(candidate)<=Ep",
+      "Ap is a subset of candidate TF-strict success IDs"
+    ],
+    "success_count_only_sufficient": false,
+    "positive_quality_loss_allowance": null,
+    "ambiguous_numeric_comparison": "동일 kernel/reduction 재검사 또는 RAW 우선; 양의 품질 악화 tolerance를 tuning하지 않음",
+    "guarantees_every_request_NLL": false,
+    "guarantees_paraphrase_or_old_retention": false,
+    "controller_uses_official_P_N_or_reporting": false
+  },
+  "direction": {
+    "coordinates": "V(C)=Vp+C A_t; C=0 directly restores native bytes",
+    "gradients": [
+      "gE=grad_C E at C0",
+      "gD=grad_C D64 at C0"
+    ],
+    "chain_rule": "grad_C F=grad_V F A_t^T",
+    "objective": "min_u .5||u+gD||_F^2 subject to <gE,u><=0",
+    "closed_form_nonzero_gE": "d=-gD+min(<gE,gD>,0)/||gE||^2*gE",
+    "zero_gE": "d=-gD; finite current-quality screen still required",
+    "metric": "Euclidean residual coordinates; not native-metric or weight-space projection",
+    "route_updates_per_B100": 1,
+    "current_gradient_sweeps_max": 1,
+    "generic_gradient_sweeps_max": 1,
+    "current_and_generic_F_B_accounted_separately": true,
+    "zeta": 0.25,
+    "zeta_role": "executable correction trust; not a KL damage allowance",
+    "alpha": "min(alpha_cap,zeta*||Vp-Wentry||_F/(||d A_t||_F+epsilon_num))",
+    "numeric_constants_status": "실제 모델 기술 검사에서 고정; 아직 미측정",
+    "target_projection": "Zp+alpha*d onto same native per-request anchor/radius balls",
+    "correction": "C=projected_target-Zp; retract C if needed to ||C A_t||<=zeta||Vp-Wentry||",
+    "projected_first_order_conditions_rechecked": true,
+    "actual_materialized_trust_checked": true,
+    "HVP_PCG_or_per_token_Jacobians": false,
+    "quality_restoration_in_first_run": false
+  },
+  "selection": {
+    "objective": "minimum actual D64 among finite candidates satisfying current_quality",
+    "D64": "fixed W0 KL(p0||pV), vocab sum ->128 scored positions mean ->64 documents mean",
+    "candidate_menu": [
+      {
+        "id": "RAW",
+        "beta": 0,
+        "formula": "stored actual Vp"
+      },
+      {
+        "id": "C1",
+        "beta": 1,
+        "formula": "FP32(Vp+C A_t)"
+      },
+      {
+        "id": "C05",
+        "beta": 0.5,
+        "formula": "FP32(Vp+.5 C A_t)"
+      },
+      {
+        "id": "C025",
+        "beta": 0.25,
+        "formula": "FP32(Vp+.25 C A_t)"
+      }
+    ],
+    "max_unique_candidates": 4,
+    "backtrack_scales": "correction only; never the entire native write",
+    "recompute_gradient_per_candidate": false,
+    "deduplicate_identical_materialized_bytes": true,
+    "tie_order": [
+      "RAW priority",
+      "smaller actual correction norm",
+      "fixed candidate ID order"
+    ],
+    "numeric_uncertainty": "RAW 우선; nonfinite candidate 제외 및 사유 기록",
+    "fallback_if_no_improving_quality_feasible_correction": "commit actual RAW native endpoint",
+    "parent_rejection_due_to_preservation": false,
+    "native_nonfinite_or_execution_failure": "technical failure; not successful policy fallback",
+    "local_statement": "exact finite screen gives D(selected)<=D(own raw) and declared current constraints",
+    "global_monotonic_D_guarantee": false,
+    "independent_N4_terminal_dominance_guarantee": false
+  },
+  "transaction": {
+    "committed_writes_per_B100": 1,
+    "provisional_materializations_counted_separately": true,
+    "inner_history_append": 0,
+    "native_finalizer_calls_per_processed_B100": 1,
+    "accepted_label_ledger": "final-model canonical strict success only; desired label and acceptance loss recorded",
+    "active_superseded": "고정 task의 exact subject/relation 규칙; accepted 요청에 의한 갱신만 허용; semantic conflict 전체 해결 보증이 아님",
+    "all_requested_denominator": true,
+    "native_failures_and_partial_success_in_denominator": true,
+    "state_restore_scope": [
+      "weights",
+      "history",
+      "RNG",
+      "hooks",
+      "cache",
+      "optimizer state"
+    ],
+    "resume_manifest_and_single_finalizer_required": true
+  },
+  "pipeline": {
+    "reference_rows_reported_built": 768,
+    "reference_identity_reported": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+    "teacher_last_reported_state": "PENDING; completion unknown",
+    "teacher_existing_job": "47592",
+    "minimum_teacher_for_online": [
+      "S64"
+    ],
+    "existing_initial_teacher_plan": [
+      "S64",
+      "Dev128"
+    ],
+    "Dev128_required_for": "W5/W10 development report, not the online gradient",
+    "sealed_assets_reused_before_rebuilding": true,
+    "actual_model_technical_checks_status": "새 policy 미구현·미검증",
+    "new_versioned_dispatch_validator_required": true,
+    "new_versioned_scientific_admission_required": true,
+    "N4_calibration_admission": false,
+    "old_calibration_PASS_spoof_or_infinite_budget": false,
+    "current_remote_wait_state_unchanged": true
+  },
+  "first_experiment": {
+    "start": "W0",
+    "new_policies": [
+      "EP-TW-1"
+    ],
+    "new_chains": 1,
+    "batch_size": 100,
+    "batches": 10,
+    "unique_requested_samples": 1000,
+    "scientific_single_batch_selection": false,
+    "comparison_inventory": [
+      "AlphaEdit",
+      "MEMIT",
+      "AlphaEdit-BLUE",
+      "MEMIT-BLUE",
+      "AlphaEdit-L4_only",
+      "REFIT4"
+    ],
+    "automatic_baseline_editing_reruns": false,
+    "baseline_reuse_condition": "matching W0/order/source/checkpoint identity; missing C4 endpoint metrics remain unmeasured",
+    "own_raw_comparisons_are_same_entry_only": true,
+    "first1000_are_development": true,
+    "all_requested_denominator": true,
+    "audit_mmlu_prerequisite": false
+  },
+  "cost": {
+    "generic_gradient_scored_positions": 8192,
+    "generic_gradient_input_tokens": 16448,
+    "generic_candidate_scored_positions_max": 32768,
+    "current_backward_is_additional": true,
+    "reuse_raw_gradient_forward_when_valid": true,
+    "rejected_probes_and_rechecks_counted": true,
+    "teacher_setup_read_and_I_O_counted": true,
+    "old_warm_N4_seconds_per_B100_reference_only": 304.89,
+    "online_target_ratio_reference_only": 1.5,
+    "allocation_ratio_estimate_only": 2.0,
+    "actual_W0_profile_required": true
+  },
+  "later_modules_in_order_of_need": [
+    "unprojected -gD with identical finite quality screen",
+    "scalar quality comparator eta=[1,.875,.75,.5]",
+    "bounded quality restoration if finite curvature rejection observed",
+    "explicit old-retention feasibility and conflict policy",
+    "target refresh/two committed stages with strong one-shot and cost comparators"
+  ],
+  "final_claim_plan": {
+    "start": "W0",
+    "batches": 100,
+    "samples": 10000,
+    "policies": "locked selected method plus five user-named baselines",
+    "additional_order_for_order_claim": true,
+    "new_final_runs_submitted": false
+  },
+  "not_claimed": [
+    "parameter-free method",
+    "full-C4 or full-ledger guarantee",
+    "continuous-time invariance",
+    "ODE necessity",
+    "barrier bypass",
+    "new projection theorem",
+    "measured LLM improvement"
+  ],
+  "later_quality_restoration_proposal": {
+    "included_in_first_EP_TW1": false,
+    "trigger_candidate": "finite/trust/Ap 및 D(raw) 개선을 만족하고 평균 E만 실패한 후보 중 E-Ep가 가장 작은 후보",
+    "correction": "trial C에서 gEprime를 재계산하고 C_restore=C_trial-max(E-Ep,0)*gEprime/||gEprime||^2",
+    "guards": "native target ball과 전체 correction trust 재적용; actual E/Ap/D screen; zero/nonfinite gradient면 생략",
+    "extra_current_backward_max": 1,
+    "extra_candidate_max": 1,
+    "total_current_backward_max": 2,
+    "total_unique_candidates_max": 5,
+    "failure": "RAW 포함 기존 quality-feasible 후보 중 min D",
+    "guarantee": "선형화된 위반 복원 제안; nonlinear feasibility 또는 수렴 보증 없음"
+  },
+  "later_continuous_interpretation": {
+    "role": "quality-feasible projected gradient dynamics; 후속 해석이며 첫 controller의 보증 아님",
+    "preservation_budget_required": false,
+    "requires_tangent_cone_and_regular_solution_assumptions": true,
+    "first_finite_controller_claimed_exact_flow": false,
+    "reference": "https://arxiv.org/pdf/1809.04831"
+  }
+}

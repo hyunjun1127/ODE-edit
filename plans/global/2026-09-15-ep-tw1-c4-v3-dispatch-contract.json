@@ -1,0 +1,131 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EP-TW1-C4-V3-20260915-R1",
+  "schema_version": 1,
+  "policy": "EP-TW-1",
+  "design_contract": "EP-TW-1-W0-SEQ1000-design-v1",
+  "execution_server": "server4",
+  "session_id": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "new_scientific_policies": [
+    "EP-TW-1"
+  ],
+  "new_scientific_chains": 1,
+  "initial_model": "pre-edit W0",
+  "layer": 4,
+  "native_l2": 1,
+  "batch_size": 100,
+  "batches_per_chain": 10,
+  "unique_requests": 1000,
+  "ordinals": [
+    0,
+    1000
+  ],
+  "new_editing_logical_batches": 10,
+  "baseline_editing_reruns_allowed": false,
+  "N4_calibration_required": false,
+  "preservation_budget": null,
+  "tv_allowance": null,
+  "base_penalty_weight": null,
+  "log_barrier": false,
+  "old_v1_dispatch_immutable": true,
+  "method_contract": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+  "design": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+  "reference_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+  "envelope": "messages/head/2026-09-15-sh4-ep-tw1-c4-v3.md",
+  "quality": {
+    "mean_nll": "all100 canonical desired per-request token means",
+    "condition": "E(candidate)<=E(actual own native Vp)",
+    "success_condition": "Ap subset A(candidate); exact IDs not counts",
+    "positive_quality_tolerance": null
+  },
+  "coordinates": "V(C)=actual_stored_Vp+C*A; C=0 direct native bytes",
+  "gradient_sweeps": {
+    "current": 1,
+    "S64": 1
+  },
+  "direction": "-gD+min(dot(gE,gD),0)/norm(gE)^2*gE; zero_gE -> -gD",
+  "zeta": 0.25,
+  "candidate_ids": [
+    "RAW",
+    "C1",
+    "C05",
+    "C025"
+  ],
+  "candidate_betas": [
+    0,
+    1,
+    0.5,
+    0.25
+  ],
+  "candidate_scale": "correction_only",
+  "selector": "min_actual_D64_over_finite_quality_feasible_candidates",
+  "fallback": "actual_RAW_native_not_parent",
+  "history": {
+    "inner_append": 0,
+    "finalizer_per_processed_batch": 1,
+    "accepted_ledger": "final strict successes only; failed requested intent never supersedes prior accepted label"
+  },
+  "reference": {
+    "dataset_id": "C4-WebRef-v2",
+    "reported_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+    "prior_teacher_job": "47592",
+    "prior_teacher_last_reported": "PENDING; current unknown",
+    "inspect_and_reuse_before_regeneration": true,
+    "online_required": [
+      "S64"
+    ],
+    "Dev128_required_before": [
+      "W5_report",
+      "W10_report"
+    ],
+    "automatic_Report_Reserve_teacher": false
+  },
+  "resource": {
+    "gpu_cap": 2,
+    "count_active_and_admitted_pending": true,
+    "default_gpus_per_job": 1,
+    "memory_mb_per_gpu_max": 60416,
+    "gpu_hour_cap": null,
+    "no_automatic_scientific_replication": true
+  },
+  "reference_policies_reuse_only": [
+    "AlphaEdit",
+    "MEMIT",
+    "AlphaEdit-BLUE",
+    "MEMIT-BLUE",
+    "AlphaEdit-L4_only",
+    "REFIT4"
+  ],
+  "deferred": [
+    "N4 optional saved-state C4 forward",
+    "Unprojected",
+    "Scalar",
+    "QualityRestoration",
+    "OldReplay",
+    "TargetRefresh",
+    "TwoStage",
+    "ODE",
+    "CBF",
+    "S128",
+    "Pile",
+    "Report256",
+    "Audit",
+    "MMLU",
+    "full10k",
+    "neworder"
+  ],
+  "after_gate": {
+    "agent_state": "WAITING_USER_RESUME",
+    "triggers": [
+      "G0_PASS",
+      "TERMINAL_G0_FAIL",
+      "TERMINAL_G0_BLOCKED",
+      "SCHEDULER_PENDING_HANDOFF"
+    ],
+    "pending_is_PASS": false,
+    "automatic_resume": false,
+    "monitoring_active": false,
+    "resume_trigger": "explicit_user_call",
+    "keep_submitted_jobs_unchanged": true
+  }
+}

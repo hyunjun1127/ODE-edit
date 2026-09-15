@@ -1,0 +1,145 @@
+{
+  "date": "2026-09-15",
+  "scope": "CPU 산술·수식 반례·로컬 문서 계약 검사. 실제 LLM gradient/adapter 또는 성능 검증 아님.",
+  "method_contract_id": "EP-TW-1-W0-SEQ1000-design-v1",
+  "checks": {
+    "projection_primal_and_descent_1000": true,
+    "projection_KKT_complementarity_1000": true,
+    "projection_descent_identity_1000": true,
+    "positive_loss_rescaling_direction_geometry": true,
+    "antiparallel_gradients_can_stall": true,
+    "zero_edit_gradient_does_not_remove_finite_screen": true,
+    "zero_KL_gradient_has_zero_correction": true,
+    "tangent_step_fails_every_tested_positive_scale": true,
+    "curved_candidate_preserves_quality_and_improves_D": true,
+    "trajectory_same_second_native_map": true,
+    "trajectory_local_KL_improvement": true,
+    "trajectory_current_quality_screen": true,
+    "trajectory_zeta_quarter_respected": true,
+    "trajectory_terminal_dominance_does_not_follow": true,
+    "ball_projection_can_break_linear_quality_constraint": true,
+    "reference_sampling_unchanged": true,
+    "reference_filters_unchanged": true,
+    "reference_splits_unchanged": true,
+    "reference_tokenization_unchanged": true,
+    "reference_teacher_unchanged": true,
+    "reference_selection_basis_unchanged": true,
+    "same_corpus_revision_and_source_files": true,
+    "source_full_checksums_from_report": true,
+    "same_dataset_id": true,
+    "contract_links_to_current_method": true,
+    "N4_calibration_removed_from_active_contracts": true,
+    "no_damage_budget_rho_or_mu": true,
+    "no_hidden_log_barrier": true,
+    "quality_success_IDs_not_only_count": true,
+    "quality_no_tuned_positive_loss_allowance": true,
+    "one_W0_SEQUENTIAL1000_new_chain": true,
+    "all_requests_retained": true,
+    "no_automatic_baseline_reruns": true,
+    "correction_only_four_candidates": true,
+    "native_fallback_without_preservation_rejection": true,
+    "history_one_inner_zero": true,
+    "separate_current_and_generic_gradients": true,
+    "generic_backward_token_arithmetic": true,
+    "candidate_forward_token_arithmetic": true,
+    "teacher_payload_arithmetic_unchanged": true,
+    "actual_teacher_completion_not_claimed": true,
+    "no_remote_execution_change_claim": true,
+    "old_fixed_budget_design_archived": true,
+    "TV_budget_still_withdrawn": true,
+    "prior_dispatched_json_bytes_unchanged": true,
+    "prior_dispatched_md_bytes_unchanged": true,
+    "updated_artifact_local_links_exist": true
+  },
+  "passed": 47,
+  "failed": 0,
+  "projection_random_cases": 1000,
+  "projection_residuals": {
+    "max_positive_gE_dot_d": 1.762479051592436e-15,
+    "max_positive_gD_dot_d": 0.0,
+    "max_KKT_complementarity_error": 1.7708831464278636e-15,
+    "max_rescaling_error": 6.661338147750939e-16
+  },
+  "finite_curvature_counterexample": [
+    {
+      "alpha": 0.5,
+      "straight_E": 1.25,
+      "straight_D": 0.625,
+      "curved_E": 1.0,
+      "curved_D": 0.90625
+    },
+    {
+      "alpha": 0.25,
+      "straight_E": 1.0625,
+      "straight_D": 0.78125,
+      "curved_E": 1.0,
+      "curved_D": 0.845703125
+    },
+    {
+      "alpha": 0.125,
+      "straight_E": 1.015625,
+      "straight_D": 0.8828125,
+      "curved_E": 1.0,
+      "curved_D": 0.8985595703125
+    },
+    {
+      "alpha": 0.01,
+      "straight_E": 1.0001,
+      "straight_D": 0.99005,
+      "curved_E": 1.0,
+      "curved_D": 0.9901500049999999
+    }
+  ],
+  "trajectory_counterexample": {
+    "native_states": [
+      0.0,
+      2.0,
+      2.0
+    ],
+    "ours_states": [
+      0.0,
+      1.5,
+      2.25
+    ],
+    "own_native_previews": [
+      2.0,
+      2.5
+    ],
+    "current_raw_loss": [
+      0.25,
+      0.0625
+    ],
+    "current_selected_loss": [
+      0.0,
+      0.0
+    ],
+    "native_terminal_D": 4.0,
+    "ours_terminal_D": 5.0625
+  },
+  "source_manifest": "local/reviews/bg-tw-pipeline-reset-2026-09-15/source-manifest.json",
+  "checked_artifact_hashes": [
+    {
+      "path": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+      "sha256": "e34ac88f0a86914783d2e99ad1372abdc2c7439c8ee0219f7e409271e0485edd"
+    },
+    {
+      "path": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "sha256": "37a626e2de5d90e19851914d892122cc4dfb07279e8be794efa5a01c62326a4d"
+    },
+    {
+      "path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea"
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20"
+    },
+    {
+      "path": "audits/global/2026-09-15-reference-set-survey-ko.md",
+      "sha256": "4399da9bb185c875a3ec335db1df127c3ab08983ff9f476c9bfcafdee88ac2cb"
+    }
+  ],
+  "checker_sha256": "319de5cc7af5c19fe311e51fec10c339d74a39e5d346c9913bb793e644f8e435",
+  "GPU_used": false,
+  "remote_jobs_submitted": false
+}

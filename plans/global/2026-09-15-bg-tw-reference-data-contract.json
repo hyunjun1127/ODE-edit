@@ -1,17 +1,17 @@
 {
   "contract_id": "C4-WebRef-v2",
   "date": "2026-09-15",
-  "status": "문헌·공식 calibration 코드·C4 pinned source prefix 확인 및 설계 갱신. 정식 reference768·token·teacher·GPU 실험 미생성.",
+  "status": "C4 문서·token 768개는 Server4 구축 완료 보고. Teacher 마지막 관측 PENDING, 완료 미확인. 사전 보존 한도를 제거한 EP-TW-1 설계로 method 연결 갱신; 새 실행 지시 아님.",
   "survey": "audits/global/2026-09-15-reference-set-survey-ko.md",
-  "method_contract": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+  "method_contract": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
   "corpus": {
     "dataset": "allenai/c4",
     "config": "en",
     "variant": "official cleaned English C4, not en.noclean / en.noblocklist / multilingual default",
     "revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
     "source_verified": true,
-    "verification_scope": "HTTP206 first 1MiB per pinned file; decompressed complete rows and source schema",
-    "formal_rows_collected": false,
+    "verification_scope": "로컬 prefix/schema 확인 + Server4 전체 두 파일 SHA/CRC/row count 완료 보고; 원격 전체 bytes를 이번 task에서 재검증한 것은 아님",
+    "formal_rows_collected": true,
     "source_metadata": [
       "text",
       "url",
@@ -23,8 +23,8 @@
         "path": "en/c4-train.00000-of-01024.json.gz",
         "url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-train.00000-of-01024.json.gz",
         "expected_bytes_from_content_range": 319308785,
-        "full_file_sha256": null,
-        "full_file_downloaded": false,
+        "full_file_sha256": "8ef8d75b0e045dec4aa5123a671b4564466b0707086a7ed1ba8721626dfffbc9",
+        "full_file_downloaded": true,
         "prefix_bytes_verified": 1048576,
         "prefix_sha256": "0b638e0453d7d1d1a51bc078418524cf44b2eee2f7b3a749c324e06e0f8b2022",
         "range_etag_opaque_not_assumed_sha256": "\"6656aac078668b0d5feb1cfb7b04def05bff73e7e375d0a66e252827336ac1a8\"",
@@ -33,15 +33,18 @@
           "timestamp",
           "url"
         ],
-        "complete_rows_in_probe_only": 1150
+        "complete_rows_in_probe_only": 1150,
+        "full_jsonl_rows_reported": 356317,
+        "full_file_verification_basis": "experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/reference-source-summary.csv@05a9c11e16edee3d43e18e66bc0072c5472fc440",
+        "gzip_crc_reported": "PASS_ALL_MEMBERS_TO_EOF"
       },
       {
         "split": "validation",
         "path": "en/c4-validation.00000-of-00008.json.gz",
         "url": "https://huggingface.co/datasets/allenai/c4/resolve/1588ec454efa1a09f29cd18ddd04fe05fc8653a2/en/c4-validation.00000-of-00008.json.gz",
         "expected_bytes_from_content_range": 40471190,
-        "full_file_sha256": null,
-        "full_file_downloaded": false,
+        "full_file_sha256": "1f25b6af12da84115301d4ee93ea5246c8fea5bb4a2008472794d95b917cc97f",
+        "full_file_downloaded": true,
         "prefix_bytes_verified": 1048576,
         "prefix_sha256": "4fd33bf9709fee4d9a1f342c1d8c1f39f9ecdd3b076b75a585f9afdedbf1f612",
         "range_etag_opaque_not_assumed_sha256": "\"dffa9a5aa789525d19e0d6d9473f981585bd51d31019f9ba258b54d311dd5bf2\"",
@@ -50,7 +53,10 @@
           "timestamp",
           "url"
         ],
-        "complete_rows_in_probe_only": 1167
+        "complete_rows_in_probe_only": 1167,
+        "full_jsonl_rows_reported": 45576,
+        "full_file_verification_basis": "experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/reference-source-summary.csv@05a9c11e16edee3d43e18e66bc0072c5472fc440",
+        "gzip_crc_reported": "PASS_ALL_MEMBERS_TO_EOF"
       }
     ],
     "total_compressed_source_bytes": 359779975,
@@ -287,7 +293,7 @@
     "direction": "KL(p0 || pW)",
     "reduction": "vocabulary sum -> 128 positions mean -> document mean",
     "purpose": "선정한 자연 텍스트 분포의 original response 보존; 진실성·전체 지식 보증이 아님",
-    "finite_screen_scope": "S64 only",
+    "finite_screen_scope": "S64는 최소화 objective; 유한 candidate의 hard screen은 current-quality 조건이며 generic KL 한도는 없음",
     "dev_or_report_gradient": false,
     "roundoff_clamping_used_to_hide_violation": false,
     "reference_self_kl_tolerance": "기술 실측에 따라 manifest 고정; 비유한 값이나 큰 self-error를 허용하지 않음",
@@ -296,26 +302,17 @@
       "paired document KL p95/max",
       "natural-token NLL change vs W0",
       "separate requested R/P/N and active-old desired loss"
-    ]
+    ],
+    "preservation_budget_required": false
   },
   "experiment": {
     "start": "pre-edit W0",
     "batch_size": 100,
     "first_batches_per_policy": 10,
-    "first_policies": [
-      "AlphaEdit",
-      "MEMIT",
-      "AlphaEdit-BLUE",
-      "MEMIT-BLUE",
-      "AlphaEdit-L4_only",
-      "REFIT4",
-      "BG-1"
-    ],
-    "first_logical_batches": 70,
+    "first_logical_batches": 10,
     "first_unique_requests": 1000,
-    "controller_documents_BG1": 64,
     "extra_route_passes_per_B100": 1,
-    "route_pass_semantics": "64 documents를 microbatch별 F/B; 단일 F/B call이 아님",
+    "route_pass_semantics": "current100과 S64의 gradient를 각각 계산·누적해 방향 보정1회; 두 F/B와 token 비용을 분리",
     "generic_scored_tokens_per_route_pass": 8192,
     "generic_input_tokens_per_route_pass": 16448,
     "max_candidates": 4,
@@ -323,12 +320,11 @@
       5,
       10
     ],
-    "calibration": "Freeze C4 IDs/tokens/p0 -> measure W0 N4 B1-B10 D64 -> b0=.9 max_t D64 with fixed numeric floor; never reuse a FineWeb-derived b or refresh b inside a chain",
+    "calibration": null,
     "read_report_losses": "policy lock 이후",
     "same_data_ablations": [
-      "ScalarGuard",
-      "FixedPenalty",
-      "EditGradient+Guard"
+      "UnprojectedPreservation+SameQualityScreen",
+      "ScalarQualityComparator"
     ],
     "ablation_batches_each": 10,
     "final_baselines": 5,
@@ -339,25 +335,46 @@
     "audit_mmlu_implementation_prerequisite": false,
     "all_requested_denominator": true,
     "same_data_ablations_all_use_identical_reference_hashes": true,
-    "baseline_receipt_reuse": "only matching W0/order/native policy/checkpoint identity; recompute new C4 metrics, never reuse old corpus KL",
+    "baseline_receipt_reuse": "matching W0/order/source/checkpoint identity의 available endpoint 비교에 재사용; missing 중간 endpoint는 미측정이며 method admission을 막지 않음",
     "first_1000_is_method_development": true,
     "future_reference_extensions": [
       {
         "name": "S128",
         "construction": "S64 plus first64 Reserve320 by frozen bank-role order; preserve Dev128 and Report256",
-        "changes": "core size only; equal doc weights1/128, fresh size-specific development ceiling",
+        "changes": "core size only; equal doc weights1/128; no new N4 calibration or KL ceiling",
         "sequence": "new W0 B100x10 chain; extra64 teacher generated before run"
       },
       {
         "name": "Pile robustness",
-        "construction": "new separately pinned Pile reference with same token/teacher/budget rules; do not concatenate C4 and Pile in first comparator",
-        "changes": "corpus only; source-specific N4 KL ceiling uses the same calibration recipe",
+        "construction": "new separately pinned Pile reference with same token/teacher/current-quality selection rules; do not concatenate C4 and Pile in first comparator",
+        "changes": "corpus only; no corpus-specific N4 ceiling",
         "sequence": "new W0 B100x10 chain after Pile text/provenance readiness; retain C4 reporting for transfer assessment"
       }
     ],
     "generic_candidate_scored_tokens_max_per_B100": 32768,
-    "zero_write_native_history_semantics": "method contract unchanged: append once per processed B100, including zero-write; accepted-label ledger separate",
-    "development_and_online_reference_overhead_separate": true
+    "zero_write_native_history_semantics": "native processed-B100 finalizer1회, inner append0; preservation rejection 없음, RAW fallback; accepted-label ledger 별도",
+    "development_and_online_reference_overhead_separate": true,
+    "comparison_inventory": [
+      "AlphaEdit",
+      "MEMIT",
+      "AlphaEdit-BLUE",
+      "MEMIT-BLUE",
+      "AlphaEdit-L4_only",
+      "REFIT4",
+      "EP-TW-1"
+    ],
+    "first_new_policies": [
+      "EP-TW-1"
+    ],
+    "first_new_chains": 1,
+    "comparison_inventory_is_launch_list": false,
+    "controller_documents": 64,
+    "N4_calibration_required": false,
+    "preservation_budget_required": false,
+    "selection": "actual own native preview anchored candidates; current mean NLL/strict-ID screen, then minimum D64; RAW fallback",
+    "candidate_backtrack": "Vp+beta*C*A; beta=[0,1,.5,.25], correction only",
+    "ablation_launch_automatic": false,
+    "automatic_baseline_editing_reruns": false
   },
   "artifact_contract": {
     "source_inventory": "source-manifest.json",
@@ -373,8 +390,8 @@
       "complete pinned-source checksums and row IDs",
       "final768 unique IDs, roles, token windows and declared overlap audit",
       "exact W0/tokenizer hashes and score-shift contract",
-      "S64+Dev128 finite full-vocab teacher/checksums",
-      "W0 self-KL and native/gradient/restore technical receipts"
+      "S64 finite full-vocab teacher/checksums for online controller; Dev128 before its development report",
+      "W0 self-KL and new-policy actual native/gradient/restore/transaction receipts"
     ],
     "raw_data_in_git": false,
     "source_inventory_required_fields": [
@@ -406,18 +423,19 @@
   "readiness": {
     "literature_survey_complete": true,
     "source_schema_verified": true,
-    "formal_text_set_ready": false,
-    "exact_token_set_ready": false,
-    "teacher_ready": false,
+    "formal_text_set_ready": true,
+    "exact_token_set_ready": true,
+    "teacher_ready": null,
     "method_technical_checks_ready": false,
     "scientific_chain_submitted": false,
     "performance_measured": false,
-    "source_full_shards_downloaded": false,
+    "source_full_shards_downloaded": true,
     "secondary_pile_metadata_verified": true,
-    "secondary_pile_schema_verified": false
+    "secondary_pile_schema_verified": false,
+    "ready_flags_evidence": "text/token/source는 Server4 완료 보고; teacher는 마지막 관측 이후 UNKNOWN; EP-TW-1 기술·성능 결과 없음"
   },
-  "schema_version": 2,
-  "supersedes": "FW-WebRef-v1; 이전 원문과 hash는 local/reviews/reference-set-survey-2026-09-15-v2/previous/manifest.json",
+  "schema_version": 3,
+  "supersedes": "FW-WebRef-v1의 corpus 변경 이력은 유지. 이번 revision은 C4-WebRef-v2 데이터 선택을 유지하며 이전 N4 한도·7chain 동시 실행 설계를 대체; 이전 파일 hash와 source-manifest 보존.",
   "selection_basis": {
     "primary_corpus": "C4-en",
     "primary_adoption_papers": [
@@ -438,36 +456,36 @@
     {
       "id": "D0",
       "action": "download both complete pinned C4 source files; full sha256, bytes, gzip CRC, exact row count, source README hash",
-      "current_status": "PREFIX_SCHEMA_VERIFIED_ONLY"
+      "current_status": "REPORTED_COMPLETE_REUSE_SEALED_ASSETS"
     },
     {
       "id": "D1",
       "action": "stream complete shards, form hash-priority candidate pools, preserve row/URL/timestamp/raw-text hashes, apply deterministic content filters",
-      "current_status": "NOT_BUILT"
+      "current_status": "REPORTED_COMPLETE_REUSE_SEALED_ASSETS"
     },
     {
       "id": "D2",
       "action": "existing exact W0 tokenizer -> one window/document; deterministic duplicate/overlap replacement -> freeze final768 IDs, role/window hashes and composition",
-      "current_status": "NOT_BUILT"
+      "current_status": "REPORTED_COMPLETE_REUSE_SEALED_ASSETS"
     },
     {
       "id": "D3",
-      "action": "original FP32 W0 in eval mode -> full-vocab logp0 for S64+Dev128; streaming shards/checksums",
-      "current_status": "NOT_BUILT"
+      "action": "기존 W0 teacher job/manifest의 봉인 완료 여부 확인 후 재사용; online 최소 S64, 기존 계획은 S64+Dev128; job 변경·재제출을 이 파일로 수행하지 않음",
+      "current_status": "LAST_REPORTED_PENDING_COMPLETION_UNKNOWN"
     },
     {
       "id": "D4",
-      "action": "self-KL, score shift, restoration/native parity, real post-write KL gradient finite-difference and memory/runtime smoke checks; no scientific method selection from one batch",
-      "current_status": "NOT_RUN"
+      "action": "새 EP-TW-1의 self-KL/score shift/raw-byte restore, actual gradient finite-difference, quality-ID screen, history/resume 및 비용 기술 검사",
+      "current_status": "NEW_POLICY_NOT_IMPLEMENTED_OR_VALIDATED"
     },
     {
       "id": "E1",
-      "action": "W0 B100x10 for seven named policies; N4 calibrates source-specific b before BG-1, common requested denominator",
-      "current_status": "NOT_SUBMITTED"
+      "action": "EP-TW-1 신규1chain, W0 B100x10; N4 calibration 없음; 비교 목록의 기존 baseline 자산은 가능한 scope에서 재사용",
+      "current_status": "DESIGN_ONLY_NOT_DISPATCHED"
     },
     {
       "id": "E2",
-      "action": "same-data W0 SEQ1000 ablations as needed, policy lock -> Report256 teacher/evaluation on frozen endpoints; Audit/MMLU independent checks",
+      "action": "필요한 same-data W0 SEQ1000 대조를 하나씩 추가; policy lock 후 Report256/Audit/MMLU 독립 확인",
       "current_status": "NOT_SUBMITTED"
     },
     {
@@ -475,5 +493,35 @@
       "action": "locked method plus five baselines, W0 B100x100; preserve development/test attribution and add order replication for order claim",
       "current_status": "NOT_SUBMITTED"
     }
-  ]
+  ],
+  "contract_revision": "reference-method-separation-v3",
+  "dataset_id": "C4-WebRef-v2",
+  "method_review": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+  "previous_contract_sha256": "806563b30b3d63fe4e33b58dbe5978c04cfaebaa8e227088786e723d4422759c",
+  "reuse_contract": {
+    "sampling_token_teacher_semantics_changed": false,
+    "reported_sealed_dataset_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+    "reported_sealed_member_root": "0c6aa4e2ddb350c61999580fe3efabaae880ec8e17aa208a8f7d85c026a6f1aa",
+    "prior_execution_contract_and_source_lock_preserved": true,
+    "new_file_hash_is_not_prior_dispatch_hash": true,
+    "requirement": "기존 sealed ID/token/teacher manifest와 데이터 규약의 호환성을 확인해 연결; method metadata 변경만으로 원문 재선정·teacher 재생성하지 않음",
+    "rebuild_performed_this_revision": false
+  },
+  "observed_execution": {
+    "source_commit": "05a9c11e16edee3d43e18e66bc0072c5472fc440",
+    "report": "experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md",
+    "preparation_summary": "experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/preparation-summary.json",
+    "observation_kind": "봉인된 Git 보고 검토; 이번 task에서 원격 자산 독립 재검증 또는 job polling 없음",
+    "reference_rows": 768,
+    "reference_token_shape": [
+      768,
+      257
+    ],
+    "teacher_job_id": "47592",
+    "teacher_last_reported_state": "PENDING",
+    "teacher_completion": "UNKNOWN_AFTER_LAST_REPORT",
+    "legacy_BG1_scientific_edits_reported": 0,
+    "legacy_BG1_blocker": "CALIBRATION_MISSING",
+    "new_EP_TW1_scientific_submission": false
+  }
 }
