@@ -1,6 +1,31 @@
-# Single-layer write-coupled z-flow CPU reference
+# Single-layer write-coupled z-flow: CPU reference와 SH2 runtime
 
-고정 native writer를 이용해 actual-write loss와 변경 비용을 함께 최적화하는 참조 구현이다. 실제 Llama adapter, tokenizer/key extractor, GPU 성능, durable checkpoint transaction은 포함하지 않는다.
+고정 native writer를 이용해 actual-write loss와 변경 비용을 함께 최적화한다. 원 publication `69b467d3`은 CPU reference만 포함했다. 아래 SH2 runtime을 새로 구현했으며, 구현·CPU 테스트·실제 8B Llama 기술 검증·과학 실행 완료는 각각 별도 receipt로 구분한다. 파일 존재만으로 실제 Llama PASS를 주장하지 않는다.
+
+## SH2 실행 경로 (2026-09-16)
+
+| 파일 | 범위 |
+|---|---|
+| native_binding.py | pinned BLUE context/target/lookup/key group port; compute_z 호출 없음 |
+| llama_adapter.py | 모든 token의 L4 affine cache, fresh L5–31 suffix, 필요한 위치의 full-vocabulary head, actual write parity |
+| runtime.py / config.py | FP32 nonsymmetric native LU, batch당 B/S, 고정 main 설정과 telemetry |
+| durable.py | W/M/X/B/S/K 및 config/context/RNG/ledger의 hash manifest + fsync + atomic non-overwrite publish |
+| technical.py | actual 8B calibration/holdout parity, microbatch1/2, physical commit, 별도 Python process resume |
+| runner.py | fresh W0/M0 B100×10, committed endpoint 관측 복구, 원분모 유지 |
+| provenance.py / run.sbatch | original16/inherited12 및 실제 source/import/asset freeze, explicit60416M 제출 진입점 |
+
+원본16개와 authority는 exact publication Git bytes에서 task-local `authoritative/`로 보존한다. 새로운 source HEAD/tree와 input.lock은 별도다. Pretrained shard는 기존 full-hash manifest와 현재 size/header/index를 결속하며, 중복 full-content 재해시나 cross-hardware bitwise parity로 표기하지 않는다.
+
+실제 기술 검증 명령은 source freeze 이후 다음 순서다. `input.lock.json`과 output은 create-once task-local 경로다. task-only PYTHONPATH는 기존 portable transformers4.44.2를 가리키며 공유 환경을 수정하지 않는다.
+
+```bash
+python -m project.run_scripts.single_layer_zflow.provenance prepare --source-root "$PWD" --output /mnt/raid5/janghj/ODE-edit/local/single-layer-zflow/20260916-v1/inputs/freeze-r1
+python -m project.run_scripts.single_layer_zflow.technical --phase initial --lock INPUT_LOCK --output TECHNICAL_OUTPUT
+python -m project.run_scripts.single_layer_zflow.technical --phase resume --lock INPUT_LOCK --output TECHNICAL_OUTPUT
+python -m project.run_scripts.single_layer_zflow.runner --lock INPUT_LOCK --technical TECHNICAL_OUTPUT --output MAIN_OUTPUT
+```
+
+위 명령의 기술 단계는 MAIN과 별도 allocation/비용/분모다. Actual technical receipt가 없으면 MAIN은 실행하지 않는다. MAIN은 기술 W/M를 carry하지 않는다. Barrier/Adam 및 조건 없는 N4 재실행은 이 launcher 범위가 아니다.
 
 - [전체 method 파이프라인](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-single-layer-zflow-pipeline-v1.md)
 - [실행 설정](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-single-layer-zflow-contract-v1.json)
@@ -40,4 +65,4 @@ PYTHONDONTWRITEBYTECODE=1 uv run --offline --no-project --with torch python -m p
 - 작은 budget의 잘못된 boundary 판정을 상대 slack으로 수정했다. Raw 및 normalized residual을 함께 기록한다.
 - Teacher/prefix 준비와 terminal parity 비용은 oracle 횟수 밖에 별도로 기록한다.
 - Candidate/reject에서 W/M를 변경하지 않는다. 실제 commit cost는 저장될 weight와 entry 차이로 다시 계산한다.
-- Transaction은 프로세스 내 exclusive ownership에서 동작한다. 디스크 crash recovery와 분산 실행의 exactly-once 보장은 별도 구현이 필요하다.
+- 원 `transaction.py`는 in-memory reference다. 새 `durable.py`는 Linux local-filesystem single-writer, complete-bundle/parent 검증과 idempotent commit을 제공한다. 분산 multi-writer 보장을 주장하지 않는다. Actual separate-process Llama resume은 `TECHNICAL_VALID.json`이 있는 경우에만 주장한다.
