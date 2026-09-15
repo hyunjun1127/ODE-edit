@@ -1,0 +1,21 @@
+{
+  "status": "COMPLETED_SCIENCE_STORED_ARTIFACT_CPU_REVIEW",
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/analysis-manifest.json",
+    "bytes": 39896,
+    "sha256": "90df20539ab024060ac50fc8d45fcb8291045bdfc3b09eca6844cfa5d4f914ec"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md",
+    "bytes": 29902,
+    "sha256": "ee48fa359d8e006ffaec50a214998139481cc4474306e93995627c9a94191d55"
+  },
+  "new_chains": 3,
+  "reused_chains": 1,
+  "new_batches": 30,
+  "unique_requests": 1000,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "GPU_continuation": "NOT_TESTED",
+  "automatic_resume": false,
+  "next": "TASK_COMPLETE_STOP_AFTER_OWN_SCOPE_MAIN_PUBLICATION"
+}

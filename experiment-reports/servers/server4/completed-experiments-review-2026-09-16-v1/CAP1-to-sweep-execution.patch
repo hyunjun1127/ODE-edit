@@ -1,0 +1,125 @@
+diff --git a/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py b/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py
+index bedfa35..6bc3c2c 100644
+--- a/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py
++++ b/project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py
+@@ -4,6 +4,7 @@ from .control import identity, sha
+ 
+ TASK='ODEEDIT-S06-EP-TW1-DIAGNOSTIC-GATES-SKIP-RUN-SH4-V1'
+ MODE='SKIPPED_USER_DIRECTED'
++SWEEP_TASK='ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1'
+ SKIPPED=['saved_episode_repair_prerequisite','repair_pass_receipt','conditional_E_D_science_gate',
+     'FD_grid_convergence_resolution_jitter','direct_weight_gradient_comparison',
+     'independent_direction_probes','ULP_statistics','W0_self_KL_threshold',
+@@ -13,9 +14,11 @@ SKIPPED=['saved_episode_repair_prerequisite','repair_pass_receipt','conditional_
+ 
+ def skip_enabled(lock):
+     if lock.get('validation_mode')!=MODE:return False
+-    assert lock['instruction_id']==TASK and lock['numerical_validation']=='NOT_ESTABLISHED'
++    assert lock['instruction_id'] in (TASK,SWEEP_TASK) and lock['numerical_validation']=='NOT_ESTABLISHED'
+     assert 'repair_pass_path' not in lock and 'repair_dispatch' not in lock
+     assert lock['validation_override']['instruction_id']==TASK
++    if lock['instruction_id']==SWEEP_TASK:
++        assert lock['validation_override']['inherited_by']==SWEEP_TASK
+     return True
+ 
+ def diagnostic(lock,name,callback=None):
+diff --git a/project/run_scripts/bg_tw_reference/ep_tw/policy.py b/project/run_scripts/bg_tw_reference/ep_tw/policy.py
+index 7c6f911..0e7d905 100644
+--- a/project/run_scripts/bg_tw_reference/ep_tw/policy.py
++++ b/project/run_scripts/bg_tw_reference/ep_tw/policy.py
+@@ -34,7 +34,7 @@ class NumericalPolicy:
+     division. Exact zeros, rather than a fitted gradient floor, are skipped.
+     """
+ 
+-    alpha_cap: float = 1.0
++    alpha_cap: float | None = 1.0
+     epsilon_num: float = 1e-12
+     zeta: float = 0.25
+     zero_norm_atol: float = 0.0
+@@ -45,12 +45,23 @@ class NumericalPolicy:
+     d_tie_atol: float = 0.0
+     d_tie_rtol: float = 8 * _EPS32
+     max_identical_rechecks: int = 0
++    alpha_cap_mode: str = "bounded"
+ 
+     def __post_init__(self):
+         values = asdict(self)
++        mode = values.pop("alpha_cap_mode")
++        cap = values.pop("alpha_cap")
++        if mode not in ("bounded", "disabled"):
++            raise PolicyError("ALPHA_CAP_MODE")
++        if mode == "disabled":
++            if cap is not None:
++                raise PolicyError("DISABLED_ALPHA_CAP_MUST_BE_NULL")
++        elif (isinstance(cap, bool) or not isinstance(cap, (int, float))
++              or not math.isfinite(cap) or cap <= 0):
++            raise PolicyError("BOUNDED_ALPHA_CAP_POSITIVE_FINITE")
+         if not all(math.isfinite(v) for v in values.values()):
+             raise PolicyError("NUMERICAL_POLICY_NONFINITE")
+-        if self.zeta != 0.25 or self.alpha_cap <= 0 or self.epsilon_num <= 0:
++        if self.zeta != 0.25 or self.epsilon_num <= 0:
+             raise PolicyError("POLICY_ZETA_OR_POSITIVE_NUMERICS")
+         if any(v < 0 for v in values.values()):
+             raise PolicyError("NEGATIVE_NUMERICAL_POLICY")
+@@ -65,7 +76,7 @@ class NumericalPolicy:
+             model_numeric_resolution_status="REQUIRES_SEPARATE_TECHNICAL_RECEIPT",
+             tensor_arithmetic="FP32", diagnostic_scalar_reductions="FP64",
+             rationale={
+-                "alpha_cap": "finite unit cap, fixed before policy outcomes",
++                "alpha_cap": "explicit bounded positive finite cap or disabled/null; fixed before outcomes",
+                 "epsilon_num": "division guard; exact-zero direction/native action skips",
+                 "ball_trust_rtol": "eight FP32 eps relative representational envelope",
+                 "d_tie": "conservative RAW-priority tie only; never relaxes E<=Ep",
+@@ -248,7 +259,10 @@ def build_correction(Vp, Wentry, Zp, anchors, radii, A, gE, gD,
+     if mapped_norm <= config.zero_norm_atol:
+         return raw_only("ZERO_MAPPED_DIRECTION_RAW_ONLY")
+     trust_limit = config.zeta * native_norm
+-    alpha = min(config.alpha_cap, trust_limit / (mapped_norm + config.epsilon_num))
++    alpha_norm = trust_limit / (mapped_norm + config.epsilon_num)
++    alpha = min(config.alpha_cap, alpha_norm) if config.alpha_cap_mode == "bounded" else alpha_norm
++    if not math.isfinite(alpha):
++        return raw_only("ALPHA_NONFINITE_RAW_ONLY")
+     temporary = Zp + alpha * direction
+     if not bool(torch.isfinite(temporary).all()):
+         return raw_only("TARGET_DISPLACEMENT_NONFINITE_RAW_ONLY")
+@@ -271,7 +285,12 @@ def build_correction(Vp, Wentry, Zp, anchors, radii, A, gE, gD,
+     mapped_final_norm = _norm(mapped)
+     final_distance = ((Zp + correction).double() - anchors.double()).norm(dim=0)
+     diagnostics.update(
+-        alpha=alpha, ball_projected_requests=int(outside.sum()), trust_retraction=retract,
++        alpha=alpha, alpha_norm=alpha_norm, alpha_cap=config.alpha_cap,
++        alpha_cap_mode=config.alpha_cap_mode,
++        alpha_cap_active=(config.alpha_cap_mode == "bounded" and config.alpha_cap < alpha_norm),
++        pre_ball_residual_norm=_norm(alpha * direction),
++        post_ball_mapped_norm=projected_norm,
++        ball_projected_requests=int(outside.sum()), trust_retraction=retract,
+         residual_correction_norm=_norm(correction), mapped_correction_norm=mapped_final_norm,
+         ge_dot_correction=_dot(gE, correction), gd_dot_correction=_dot(gD, correction),
+         postprojection_ball_max_excess=float((final_distance - radii.double()).max()),
+diff --git a/project/run_scripts/bg_tw_reference/ep_tw/runner.py b/project/run_scripts/bg_tw_reference/ep_tw/runner.py
+index fb20f1a..9eab159 100644
+--- a/project/run_scripts/bg_tw_reference/ep_tw/runner.py
++++ b/project/run_scripts/bg_tw_reference/ep_tw/runner.py
+@@ -79,7 +79,12 @@ def run(lock_path,output):
+             save(root/'conditional-admission.json',dict(status='TECHNICAL_PASS_EXACT_LOCK_VERIFIED',
+                 technical=repair_reference,verification=verification,fresh_W0_science=True,
+                 failed_old_B1_not_resumed=True))
+-        verify_dispatch(lock['dispatch']['path']);assert lock['policy']=='EP-TW-1' and lock['new_scientific_chains']==1
++        if lock.get('sweep_arm') is not None:
++            from .sweep_control import verify_arm_lock
++            verify_arm_lock(lock)
++        else:
++            verify_dispatch(lock['dispatch']['path'])
++        assert lock['policy']=='EP-TW-1' and lock['new_scientific_chains']==1
+         assert lock['warm_state_imports']==lock['M8_imports']==lock['baseline_reruns']==0 and lock['N4_calibration'] is False
+         assert os.environ.get('SLURMD_NODENAME')=='server4'
+         assert torch.__version__==lock['torch'] and transformers.__version__==lock['transformers']
+@@ -172,7 +177,7 @@ def run(lock_path,output):
+                     first_commit=completed[0],B2_entry=identity(bdir/'entry.json'),state=entry,teacher=selfref,model_technical=technical_ref,
+                     finite=True,original_denominator=100,actual_native_candidate_and_selected_verified=True,
+                     durable_restore_cpu_and_live_selected_state=True,persistent_B2_B10_programmed=True,
+-                    not_full1000_complete=True,agent_next_state='WAITING_USER_RESUME',
++                    not_full1000_complete=True,agent_next_state=lock.get('after_gate','WAITING_USER_RESUME'),
+                     numerical_validation='NOT_ESTABLISHED' if skipped else 'ORIGINAL_TECHNICAL_SCOPE'))
+                 print('EP_TW1_'+marker,flush=True)
+             old_ids=set(ledger.accepted_ids)

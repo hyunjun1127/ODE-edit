@@ -1,0 +1,6 @@
+{
+  "maximum_allocated_GPU_overlap": 2,
+  "method": "HALF_OPEN_START_END_INTERVALS_FROM_EXACT_FOUR_JOB_SACCT",
+  "GPU_utilization": "NOT_MEASURED",
+  "new_review_GPU_seconds": 0
+}

@@ -1,0 +1,37 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "time": "2026-09-15T19:04:14.094582+00:00",
+  "jobs": [
+    48101,
+    48148,
+    48149,
+    48150
+  ],
+  "no_repeat_polling": true,
+  "squeue": {
+    "args": [
+      "squeue",
+      "-h",
+      "-j",
+      "48101,48148,48149,48150",
+      "-o",
+      "%i|%j|%T|%R"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "sacct": {
+    "args": [
+      "sacct",
+      "-n",
+      "-P",
+      "-j",
+      "48101,48148,48149,48150",
+      "--format=JobIDRaw,JobName%48,User,State,ExitCode,Submit,Start,End,ElapsedRaw,AllocTRES%160,MaxRSS,MaxVMSize,ReqMem,NodeList"
+    ],
+    "returncode": 0,
+    "stdout": "48101|odeedit_cake_native_lifelong_s4|janghj|COMPLETED|0:0|2026-09-15T17:52:42|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48101.batch|batch||COMPLETED|0:0|2026-09-15T18:50:34|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|cpu=8,gres/gpu=1,mem=59G,node=1|32046396K|0||server4\n48101.extern|extern||COMPLETED|0:0|2026-09-15T18:50:34|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48148|odeedit_ep_tw1_cap10_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48148.batch|batch||COMPLETED|0:0|2026-09-15T21:35:01|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|cpu=8,gres/gpu=1,mem=59G,node=1|37559500K|0||server4\n48148.extern|extern||COMPLETED|0:0|2026-09-15T21:35:01|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48149|odeedit_ep_tw1_cap100_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48149.batch|batch||COMPLETED|0:0|2026-09-15T23:41:05|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|cpu=8,gres/gpu=1,mem=59G,node=1|33457856K|0||server4\n48149.extern|extern||COMPLETED|0:0|2026-09-15T23:41:05|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48150|odeedit_ep_tw1_normonly_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48150.batch|batch||COMPLETED|0:0|2026-09-16T01:50:05|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|cpu=8,gres/gpu=1,mem=59G,node=1|33459300K|0||server4\n48150.extern|extern||COMPLETED|0:0|2026-09-16T01:50:05|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n",
+    "stderr": ""
+  }
+}

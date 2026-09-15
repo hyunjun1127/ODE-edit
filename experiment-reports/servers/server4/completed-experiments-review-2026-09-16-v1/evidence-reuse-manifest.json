@@ -1,0 +1,62 @@
+{
+  "task": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "reused_reports": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 43025,
+      "sha256": "7b29c87b7b23b3ce4503f1980c67fb232deadc6bd216cbd9040eff925d366188"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+      "bytes": 115651,
+      "sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/factual-report-ko.md",
+      "bytes": 157960,
+      "sha256": "839a903839743ad6de7c8cb08d255e7ad2e2c43099f6b81b27a3c91483fb991f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/factual-report-ko.md",
+      "bytes": 62214,
+      "sha256": "7c10f5c3797cca8b90d5db4de79583a56f3020041fe67a156ac24b8caeb67da9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/alpha-jv-l8-only-sequential1000-review-2026-09-07-v1/factual-report-ko.md",
+      "bytes": 49689,
+      "sha256": "a7b07d16ea36e0aefe7aa16fb2c259275ee1879d486f084a469f9f94dd414732"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 76344,
+      "sha256": "8ce7a2b0bbf6ae634f7f58b1035dcb79abbefc1700cb21c22fc5bf5f08c5988b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 100743,
+      "sha256": "97d0fe587ac864ecd8db21debbfee246dddb8819d2b066d2bf79a0742c3fb492"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 36290,
+      "sha256": "6466ddfb6390c0cdf2a2125e3a1d45dd18b3c692562a1f9086c8d473f8653b5b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md",
+      "bytes": 6269,
+      "sha256": "f74ce33190c1ec86dae469c0a44144a1ff61e1f8c0e565c08c5a60215acb3fa6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/diagnostic-report-ko.md",
+      "bytes": 5913,
+      "sha256": "9bbb9d7f1ac0fab4fdc0aa0162a43f9f2603a0a05ced41c4675c396f5944d54d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/checkpoint-migration-server2-2026-09-11-v1/factual-migration-ko.md",
+      "bytes": 5835,
+      "sha256": "de091629c53deab0d50b475e511948a5d547e70da2ae60135c668547239bdd05"
+    }
+  ],
+  "history_raw_reaudits": 0,
+  "ORBODE": "STOPPED_LINK_ONLY"
+}

@@ -1,0 +1,14 @@
+requirement,status,limitation
+"fixed W0/M0, sample1000/order/model/P/context/RNG",SOURCE_AND_INPUT_LOCK_CONFIRMED,새3arm 동일10B100; CAP1 과거execution 별도
+cap-only mode/null/finite/legacy arithmetic,SOURCE_AND_CPU_FIXTURE_CONFIRMED,새GPU derivative correctness 검증 아님
+full terminal/current/accepted-old/first500/NLL/strict,STORED_ROWS_CPU_REDUCED,분모별 CSV; atwrite pool을 동일W0 평가로 부르지 않음
+all40 logical batches/all160 candidates,SOURCE_AND_STORED_CANDIDATE_RECORDS,CAP1 10batch 재사용+신규30batch; duplicate는 추가forward 아님
+M/RNG/ledger/selected W checkpoint,CPU_RELOAD_HASH_BRIDGE,"신규30CP; CAP1 현재10CP 부재, 과거 JSON/tensor감사 재사용"
+S64/Dev128,STORED_ROWS_CPU_REDUCED,S64 controller; Dev W5/W10 observer; independent Report 아님
+raw byte SHA vs tensor header hashes,CPU_FILE_AND_TENSOR_BRIDGE,full model/GPU continuation이나kernel parity 아님
+FD/direct-gradient/ULP/jitter/selfKL,SKIPPED_USER_DIRECTED,numerical_validation=NOT_ESTABLISHED; 사후GPU 재검증0
+pure writer / checkpoint I-O component,NOT_SEPARATED,native instrumentation 또는 미분리 overhead; 임의시간 추정0
+request Adam/m/v/local-teacher full payload,PARTIAL_OBSERVATION,native counter/target/anchor는 저장; fulloptimizer payload NOT_SAVED
+Report256/Audit128/MMLU68/FutureN,NOT_MEASURED,본scope 미실행; loss/selection에 사용0
+new baseline editing/teacher generation/remote raw,NOT_RUN,기존localasset·publication 재사용
+full10k/다른order/다른layer/후속method,NOT_RUN,추가cap/후속chain 자동제출0

@@ -1,0 +1,17 @@
+experiment,job,status,scope,report,new_review
+CAKE,48101,COMPLETED_0_0_NEW_CPU_REVIEW,W0_B100x100_10k,experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md,True
+CAP10,48148,COMPLETED_0_0_NEW_CPU_REVIEW,W0_B100x10_1k,experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md,True
+CAP100,48149,COMPLETED_0_0_NEW_CPU_REVIEW,W0_B100x10_1k,experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md,True
+NORM_ONLY,48150,COMPLETED_0_0_NEW_CPU_REVIEW,W0_B100x10_1k,experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md,True
+CAP1 EP-TW-1,47962,COMPLETED_REUSED_NUMERICAL_NOT_ESTABLISHED,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/diagnostic-report-ko.md,False
+BLUE/native14chains + W0,39307/39283_1..5/40441..46/42657/42658/42673,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md,False
+BLUE/L4/L8 canonical6,39307/39283_1..5,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3/factual-report-ko.md,False
+BLUE/JVP/O fivearm1k,38940/38997/38988,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/blue-alphaedit-fivearm-sequential1000-review-2026-09-07-v1/factual-report-ko.md,False
+JVP L8 takeover,38433_4/5,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/alpha-jv-l8-only-sequential1000-review-2026-09-07-v1/factual-report-ko.md,False
+lowcost static core6,46451,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/low-cost-write-donor-pilot-2026-09-13-v1/core-completed-review-v1/diagnostic-report-ko.md,False
+lowcost seq10 sixarm,46475_0..5,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1/diagnostic-report-ko.md,False
+write-refresh Middle,47020_0..3 + reusedN4REFIT4,SEALED_COMPLETE_REUSE,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/diagnostic-report-ko.md,False
+BG1,47592teacher only,CALIBRATION_MISSING_SCIENCE_NOT_SUBMITTED; NO_REAUDIT,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/bg1-c4-ours-first-2026-09-15-v1/g0-factual-report-ko.md,False
+EP original/repair technical,47884/47942,FAILED_PRIOR_RCA_REUSED; NO_REDIAGNOSIS,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/diagnostic-report-ko.md,False
+Checkpoint preservation,183CP,STORAGE_TASK_COMPLETE_REUSE_NO_RAW_ACCESS,PRIOR_SEALED_SCOPE_NOT_NEW_REAUDIT,experiment-reports/servers/server4/checkpoint-migration-server2-2026-09-11-v1/factual-migration-ko.md,False
+ORBODE cumulative,37649,STOPPED_USER_REVIEW_RAW_DELETED_USER_AUTHORITY_NO_REAUDIT,LINK_ONLY,experiment-reports/servers/server4/orbode-cumulative-b100x10-exhaustive-2026-09-07-v1/,False

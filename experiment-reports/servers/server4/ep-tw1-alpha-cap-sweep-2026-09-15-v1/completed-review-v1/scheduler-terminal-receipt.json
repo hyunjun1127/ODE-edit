@@ -1,0 +1,281 @@
+{
+  "time": "2026-09-15T19:04:14.094582+00:00",
+  "queries": {
+    "sacct": {
+      "args": [
+        "sacct",
+        "-n",
+        "-P",
+        "-j",
+        "48101,48148,48149,48150",
+        "--format=JobIDRaw,JobName%48,User,State,ExitCode,Submit,Start,End,ElapsedRaw,AllocTRES%160,MaxRSS,MaxVMSize,ReqMem,NodeList"
+      ],
+      "returncode": 0,
+      "stdout": "48101|odeedit_cake_native_lifelong_s4|janghj|COMPLETED|0:0|2026-09-15T17:52:42|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48101.batch|batch||COMPLETED|0:0|2026-09-15T18:50:34|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|cpu=8,gres/gpu=1,mem=59G,node=1|32046396K|0||server4\n48101.extern|extern||COMPLETED|0:0|2026-09-15T18:50:34|2026-09-15T18:50:34|2026-09-16T03:47:08|32194|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48148|odeedit_ep_tw1_cap10_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48148.batch|batch||COMPLETED|0:0|2026-09-15T21:35:01|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|cpu=8,gres/gpu=1,mem=59G,node=1|37559500K|0||server4\n48148.extern|extern||COMPLETED|0:0|2026-09-15T21:35:01|2026-09-15T21:35:01|2026-09-15T23:41:00|7559|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48149|odeedit_ep_tw1_cap100_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48149.batch|batch||COMPLETED|0:0|2026-09-15T23:41:05|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|cpu=8,gres/gpu=1,mem=59G,node=1|33457856K|0||server4\n48149.extern|extern||COMPLETED|0:0|2026-09-15T23:41:05|2026-09-15T23:41:05|2026-09-16T01:50:00|7735|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n48150|odeedit_ep_tw1_normonly_s4|janghj|COMPLETED|0:0|2026-09-15T19:53:09|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|||59G|server4\n48150.batch|batch||COMPLETED|0:0|2026-09-16T01:50:05|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|cpu=8,gres/gpu=1,mem=59G,node=1|33459300K|0||server4\n48150.extern|extern||COMPLETED|0:0|2026-09-16T01:50:05|2026-09-16T01:50:05|2026-09-16T03:57:24|7639|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||||server4\n",
+      "stderr": ""
+    }
+  },
+  "states": [
+    {
+      "arm": "CAP10",
+      "job_id": "48148",
+      "terminal": {
+        "status": "EP_TW1_TEN_BATCHES_COMPLETE",
+        "completed_requests": 1000,
+        "commits": [
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B001/commit.json",
+            "bytes": 6896,
+            "sha256": "e0be70efd0428481292d262b039432500b705a76d9f84aee4227ef74d8bef219"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B002/commit.json",
+            "bytes": 6900,
+            "sha256": "03b20c8810f6c63c4095b48e96a6709a745bd42fca5a6de98e998600668a4dff"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B003/commit.json",
+            "bytes": 6898,
+            "sha256": "5881c51d130628ca12ac2b546dc737748a6255e195e55d33b847d887a790c99a"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B004/commit.json",
+            "bytes": 6901,
+            "sha256": "c5f379b394352ae0e845c434922d751f3fff1a15b76f754d2112563cd3ebe905"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B005/commit.json",
+            "bytes": 6901,
+            "sha256": "4db7c98a8b9fc3b0037d12a488e5dc4d8ea2de6e8f758c5a3317ccf3afa2eaf4"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B006/commit.json",
+            "bytes": 6904,
+            "sha256": "55bd36344c69d3fd3c1c055a1b1a0105a9237419c0b7fa527acbe43cbabb7e24"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B007/commit.json",
+            "bytes": 6901,
+            "sha256": "898b99a44397dd8c5006e0484ed46988e47c7afa57a57f17a54f1b124b260caa"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B008/commit.json",
+            "bytes": 6902,
+            "sha256": "1b7d2efa27da0f98b0cdb4c2667e6d77e3f771054913fb04330148d58624c101"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B009/commit.json",
+            "bytes": 6903,
+            "sha256": "7a973353e0ed180ba3c37e8572ca55609002c666da1c1ba9e5bfe273162d2510"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/scientific-v1/B010/commit.json",
+            "bytes": 6906,
+            "sha256": "65f177b21fee521846c5db09959120ed6ce54e977e873c56cec97e3f87bc40bc"
+          }
+        ],
+        "state": {
+          "W4": "84c5248a6301600349ee4e52f08bd40bfa19bcd60f890dd908de6103088e07c2",
+          "M4": "9f97b1efa3968f9f9859656025726d6cf3455fb73beda95f6832a80ec9445948",
+          "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+          "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+          "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+          "ledger": "d7645043be0df5f99017c427fa185f5ee5d2b925380b1fa95836d68e8b18bb6f"
+        },
+        "history_count": 10,
+        "source_lock": {
+          "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/execution.lock.json",
+          "bytes": 1248396,
+          "sha256": "e1ecd43a3b26162dc9cbecfa83ca9ac6f79fd76a29d5600c7273f1db7cab70b4"
+        },
+        "seconds": 7553.915241503157,
+        "peak_allocated_bytes": 38208243200,
+        "peak_reserved_bytes": 44157632512,
+        "host_maxrss_kib": 36156488,
+        "teacher_setup_reused_not_new_cost": 98,
+        "audit_report_mmlu": "DEFERRED_NOT_EVALUATED",
+        "scientific_promotion": false,
+        "validation_mode": "SKIPPED_USER_DIRECTED",
+        "numerical_validation": "NOT_ESTABLISHED"
+      },
+      "failure": null,
+      "committed_batches": 10
+    },
+    {
+      "arm": "CAP100",
+      "job_id": "48149",
+      "terminal": {
+        "status": "EP_TW1_TEN_BATCHES_COMPLETE",
+        "completed_requests": 1000,
+        "commits": [
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B001/commit.json",
+            "bytes": 6903,
+            "sha256": "9bd9131eaf078e62c8d103124b78de21b02953c7daef5e82e071e1560e4b97a7"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B002/commit.json",
+            "bytes": 6905,
+            "sha256": "c1572e549a02424bd255bc56ae7b7b797f901c7abd3b452e2f005f46be47d452"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B003/commit.json",
+            "bytes": 6906,
+            "sha256": "08b6cf3dd7e4ce473f0c0f561b7a0bf297baf6d53081e70b1f17653c3856aae7"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B004/commit.json",
+            "bytes": 6904,
+            "sha256": "779db496918d3c09aa6ffcb3a49fb71bfce62ca67aa33974ac323d293af01366"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B005/commit.json",
+            "bytes": 6907,
+            "sha256": "54f030ea868a7813a9013e43f8f55df1f4307eb2d8c14a3482bd7ea21ba136de"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B006/commit.json",
+            "bytes": 6908,
+            "sha256": "b311fff23eff28afda5fa6e1ece115d3b57f91e982d9cdde585234e988945a79"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B007/commit.json",
+            "bytes": 6907,
+            "sha256": "c360bd937ef554e8c6136ee92529154342bd8d900155a0bdfbe6b1ced0e232b0"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B008/commit.json",
+            "bytes": 6909,
+            "sha256": "1c0cd53606593ef0e5a4f891e8c7fa0d9f1061f946046c110f970a01939c9fdf"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B009/commit.json",
+            "bytes": 6907,
+            "sha256": "bf637ef86999722da59fb9fc8ecc6a840de67bcdd8f6138f82806259e4566b76"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/scientific-v1/B010/commit.json",
+            "bytes": 6907,
+            "sha256": "9313fe4ffb5c51018d2ceb4996ed54569dcd69132ac4d341dd4e99a81b4c67db"
+          }
+        ],
+        "state": {
+          "W4": "714174159658f181a88faf1f8d580af3d5bb43ca3372cc26b979bc3ac76c5b57",
+          "M4": "9f97b1efa3968f9f9859656025726d6cf3455fb73beda95f6832a80ec9445948",
+          "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+          "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+          "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+          "ledger": "9e0bdccb8980ab68b7a92531802916f5c9f6364bb05b8672d090c85b188519f6"
+        },
+        "history_count": 10,
+        "source_lock": {
+          "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/execution.lock.json",
+          "bytes": 1248400,
+          "sha256": "6a1c34a722849f73b2dd8203d2190cfbbb147374802a1f33e89118eb9c742eeb"
+        },
+        "seconds": 7730.4690474476665,
+        "peak_allocated_bytes": 38208243200,
+        "peak_reserved_bytes": 44157632512,
+        "host_maxrss_kib": 36155948,
+        "teacher_setup_reused_not_new_cost": 98,
+        "audit_report_mmlu": "DEFERRED_NOT_EVALUATED",
+        "scientific_promotion": false,
+        "validation_mode": "SKIPPED_USER_DIRECTED",
+        "numerical_validation": "NOT_ESTABLISHED"
+      },
+      "failure": null,
+      "committed_batches": 10
+    },
+    {
+      "arm": "NORM_ONLY",
+      "job_id": "48150",
+      "terminal": {
+        "status": "EP_TW1_TEN_BATCHES_COMPLETE",
+        "completed_requests": 1000,
+        "commits": [
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B001/commit.json",
+            "bytes": 6913,
+            "sha256": "e30472bac7e968e7608805813ac08beac5c3a9cfe0fea5516cb64391139fb045"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B002/commit.json",
+            "bytes": 6924,
+            "sha256": "7da9e16c6068de9a346ec5769f352760cd5eeed1172437abc53b4614fd340de9"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B003/commit.json",
+            "bytes": 6925,
+            "sha256": "934ff2b8ae4999f72666777f0efb81f29ccfe0b3eb1d1fdae5f2a167828efac1"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B004/commit.json",
+            "bytes": 6918,
+            "sha256": "6a0093e6e33dbe5c8017c2f14b954744fc19b5a3a6d4c34d6ba14205bd5aab84"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B005/commit.json",
+            "bytes": 6925,
+            "sha256": "c095de381c44b03bb32826eb8eeed45bcf690f7f5d8783cf778d4c28483018eb"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B006/commit.json",
+            "bytes": 6924,
+            "sha256": "9944611beb399f06534506bcceebf4d14df751785b424ea18831f1f466af5eeb"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B007/commit.json",
+            "bytes": 6921,
+            "sha256": "96e2b5777968e6cf498901ae613b30bbabffc8dae5a55a267bb17d4709f7c6c8"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B008/commit.json",
+            "bytes": 6921,
+            "sha256": "7dccaefd18c6ea64645a187b52fcb4790858208957eb0ef3a1dc6cb85f7210fb"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B009/commit.json",
+            "bytes": 6924,
+            "sha256": "c6197b5760085e9d34198739a2488b2544d59f3424723d92be82895f27791354"
+          },
+          {
+            "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/scientific-v1/B010/commit.json",
+            "bytes": 6925,
+            "sha256": "4ec69106a8a1f4b02c8d34352b78fe9ede67c87db8cfc20dc9de44173ed450a4"
+          }
+        ],
+        "state": {
+          "W4": "49ef61a4e4ee738f0c2f60bb1612b69394fff6261bd294a3e53ed99f34e36bcb",
+          "M4": "9f97b1efa3968f9f9859656025726d6cf3455fb73beda95f6832a80ec9445948",
+          "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+          "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+          "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+          "ledger": "6466a0b7fb032e32aaae29704ba194b000319bc295d0641defb3ed49c707d812"
+        },
+        "history_count": 10,
+        "source_lock": {
+          "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/execution.lock.json",
+          "bytes": 1248411,
+          "sha256": "fda2657e39ba00af78b0ff554c1a2af9d75204601fcaa3984c7a6c4e0bee8b1b"
+        },
+        "seconds": 7634.344660376199,
+        "peak_allocated_bytes": 38208243200,
+        "peak_reserved_bytes": 44157632512,
+        "host_maxrss_kib": 36156280,
+        "teacher_setup_reused_not_new_cost": 98,
+        "audit_report_mmlu": "DEFERRED_NOT_EVALUATED",
+        "scientific_promotion": false,
+        "validation_mode": "SKIPPED_USER_DIRECTED",
+        "numerical_validation": "NOT_ESTABLISHED"
+      },
+      "failure": null,
+      "committed_batches": 10
+    }
+  ],
+  "source_receipt": {
+    "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/receipts/scheduler-terminal-once.json",
+    "bytes": 2666,
+    "sha256": "a7dfe7541ba74862ccadf40155d3938c325ea7f595940acaf6cb6cbb8c2f93ae"
+  },
+  "no_new_query": true
+}

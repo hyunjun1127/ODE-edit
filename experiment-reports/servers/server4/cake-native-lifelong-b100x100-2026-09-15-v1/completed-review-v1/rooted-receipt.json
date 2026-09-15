@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "status": "REVIEW_COMPLETE_PUBLICATION_READY",
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md",
+    "bytes": 13758,
+    "sha256": "7b14e523cbbe3bf814eaad9ca75b8703847385ec75af18b124125a40784ba7b3"
+  },
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/analysis-manifest.json",
+    "bytes": 13485,
+    "sha256": "795557a87b7e833b1ec6b53f284209644587392230c6cfb9741b1aa31c030435"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_GPU_seconds": 0,
+  "GPU_continuation": "NOT_TESTED",
+  "completion_boundary": "OWN_SCOPE_NONFORCE_MAIN_PUBLICATION_THEN_TASK_COMPLETE_STOP"
+}

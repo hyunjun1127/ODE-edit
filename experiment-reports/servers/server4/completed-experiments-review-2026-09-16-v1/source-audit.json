@@ -1,0 +1,129 @@
+{
+  "task": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "caps": [
+    {
+      "arm": "CAP10",
+      "source": "8c64366c2314f188e034e5f4403fe89f0eaad873",
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/execution.lock.json",
+        "bytes": 1248396,
+        "sha256": "e1ecd43a3b26162dc9cbecfa83ca9ac6f79fd76a29d5600c7273f1db7cab70b4"
+      },
+      "numerical_policy": {
+        "alpha_cap": 10,
+        "epsilon_num": 1e-12,
+        "zeta": 0.25,
+        "zero_norm_atol": 0.0,
+        "ball_atol": 0.0,
+        "ball_rtol": 9.5367431640625e-07,
+        "trust_atol": 0.0,
+        "trust_rtol": 9.5367431640625e-07,
+        "d_tie_atol": 0.0,
+        "d_tie_rtol": 9.5367431640625e-07,
+        "max_identical_rechecks": 0,
+        "alpha_cap_mode": "bounded"
+      },
+      "seed": 20260915,
+      "base_W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+      "state": {
+        "W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+        "M4": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+        "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+        "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+        "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+        "ledger": "3917bea1a41e05c298718669b262875452067f3bb10d3579fb8eeed6a6b2e5fe"
+      },
+      "old_numerical_rationale_alpha": 1.0,
+      "rationale_status": "LEGACY_CAP1_DESCRIPTIVE_METADATA; actual numerical_policy and executed correction receipt govern",
+      "monitoring_metadata": "HISTORICAL_EXECUTION_LOCK_RUN_THROUGH; latest user pause and this review-only recall govern agent"
+    },
+    {
+      "arm": "CAP100",
+      "source": "8c64366c2314f188e034e5f4403fe89f0eaad873",
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/execution.lock.json",
+        "bytes": 1248400,
+        "sha256": "6a1c34a722849f73b2dd8203d2190cfbbb147374802a1f33e89118eb9c742eeb"
+      },
+      "numerical_policy": {
+        "alpha_cap": 100,
+        "epsilon_num": 1e-12,
+        "zeta": 0.25,
+        "zero_norm_atol": 0.0,
+        "ball_atol": 0.0,
+        "ball_rtol": 9.5367431640625e-07,
+        "trust_atol": 0.0,
+        "trust_rtol": 9.5367431640625e-07,
+        "d_tie_atol": 0.0,
+        "d_tie_rtol": 9.5367431640625e-07,
+        "max_identical_rechecks": 0,
+        "alpha_cap_mode": "bounded"
+      },
+      "seed": 20260915,
+      "base_W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+      "state": {
+        "W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+        "M4": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+        "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+        "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+        "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+        "ledger": "3917bea1a41e05c298718669b262875452067f3bb10d3579fb8eeed6a6b2e5fe"
+      },
+      "old_numerical_rationale_alpha": 1.0,
+      "rationale_status": "LEGACY_CAP1_DESCRIPTIVE_METADATA; actual numerical_policy and executed correction receipt govern",
+      "monitoring_metadata": "HISTORICAL_EXECUTION_LOCK_RUN_THROUGH; latest user pause and this review-only recall govern agent"
+    },
+    {
+      "arm": "NORM_ONLY",
+      "source": "8c64366c2314f188e034e5f4403fe89f0eaad873",
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/execution.lock.json",
+        "bytes": 1248411,
+        "sha256": "fda2657e39ba00af78b0ff554c1a2af9d75204601fcaa3984c7a6c4e0bee8b1b"
+      },
+      "numerical_policy": {
+        "alpha_cap": null,
+        "epsilon_num": 1e-12,
+        "zeta": 0.25,
+        "zero_norm_atol": 0.0,
+        "ball_atol": 0.0,
+        "ball_rtol": 9.5367431640625e-07,
+        "trust_atol": 0.0,
+        "trust_rtol": 9.5367431640625e-07,
+        "d_tie_atol": 0.0,
+        "d_tie_rtol": 9.5367431640625e-07,
+        "max_identical_rechecks": 0,
+        "alpha_cap_mode": "disabled"
+      },
+      "seed": 20260915,
+      "base_W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+      "state": {
+        "W4": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+        "M4": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+        "P4": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+        "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+        "rng": "e973ad79e041d72bb6610a06cd3bf21802d0c3d36211d47f1a5bf9c5022b8a81",
+        "ledger": "3917bea1a41e05c298718669b262875452067f3bb10d3579fb8eeed6a6b2e5fe"
+      },
+      "old_numerical_rationale_alpha": 1.0,
+      "rationale_status": "LEGACY_CAP1_DESCRIPTIVE_METADATA; actual numerical_policy and executed correction receipt govern",
+      "monitoring_metadata": "HISTORICAL_EXECUTION_LOCK_RUN_THROUGH; latest user pause and this review-only recall govern agent"
+    }
+  ],
+  "model_adapter_ledger_bytes_unchanged": true,
+  "cake_native_patch": "UNUSED_NOTEBOOKS_IMPORT_REMOVAL_AND_EOF_LF_ONLY",
+  "cake_same_native_AST": true,
+  "CAKE_actual_log_losses": 76952,
+  "CAKE_log_Adam": 66952,
+  "CAKE_log_early_stop": 9623,
+  "CAKE_log_zero_updates": 16,
+  "log_ref": {
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/logs/48101.out",
+    "bytes": 8961772,
+    "sha256": "6ca88c0f01e768d9e562c6365b65e67c0a78210a15c008b340c367cb72bae065"
+  },
+  "full_model_teacher_P_rehash": "REUSED_PRIOR_IMMUTABLE_IDENTITY_NOT_NEW_FULL_REHASH",
+  "source_files": 222,
+  "new_model_forwards": 0,
+  "numerical_validation": "NOT_ESTABLISHED"
+}

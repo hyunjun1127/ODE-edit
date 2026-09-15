@@ -1,0 +1,695 @@
+{
+  "instruction_id": "ODEEDIT-S06-EP-TW1-ALPHA-CAP-SWEEP-SH4-V1",
+  "analysis_head": "4aa85d4e5ab2b4c3acf3df42b794bc33d88ec207",
+  "analysis_worktree": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1",
+  "analysis_source": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/project/run_scripts/bg_tw_reference/ep_tw/build_sweep_report.py",
+      "bytes": 20959,
+      "sha256": "e6b267818d6e29ad8d2062b4effd777f63a8ac7c50ab7f317b78cc34b4835300"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/project/run_scripts/bg_tw_reference/ep_tw/sweep_review.py",
+      "bytes": 22904,
+      "sha256": "dc4b43d14283b8ba90544b2c65f975312114866bf77b5ba95c077cd6db03447f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/project/run_scripts/bg_tw_reference/ep_tw/plot_sweep.py",
+      "bytes": 6440,
+      "sha256": "ed1e60dd82e356d9b1af906af86ec1e75c6a3f6dc0f07342f38ee8f22682d5d5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate.py",
+      "bytes": 17760,
+      "sha256": "e482c500db1a0bc5620d52dbcb18ffb41dbeabf019281c30110a4a1944ebafe0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/project/run_scripts/bg_tw_reference/ep_tw/review_nogate/state_audit.py",
+      "bytes": 11141,
+      "sha256": "b0028c34d274c817f8f567acbf1669a42219d3f9ccf6147c825eb9fb0a6a9cc6"
+    }
+  ],
+  "execution": {
+    "status": "SOURCE_INPUT_FROZEN_NOT_SUBMITTED",
+    "locks": [
+      {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP10/attempt-v1/execution.lock.json",
+        "bytes": 1248396,
+        "sha256": "e1ecd43a3b26162dc9cbecfa83ca9ac6f79fd76a29d5600c7273f1db7cab70b4"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/CAP100/attempt-v1/execution.lock.json",
+        "bytes": 1248400,
+        "sha256": "6a1c34a722849f73b2dd8203d2190cfbbb147374802a1f33e89118eb9c742eeb"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/NORM_ONLY/attempt-v1/execution.lock.json",
+        "bytes": 1248411,
+        "sha256": "fda2657e39ba00af78b0ff554c1a2af9d75204601fcaa3984c7a6c4e0bee8b1b"
+      }
+    ],
+    "source_archive": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/source-v1.tar",
+      "bytes": 1751040,
+      "sha256": "304be4f3de58ce2f9457f63324646525000191609ba64e1bb1e290253e59ea21"
+    },
+    "source_head": "8c64366c2314f188e034e5f4403fe89f0eaad873",
+    "source_tree": "76ef5072b70134bf4bc1f9d3659a056041922bde"
+  },
+  "CAP1_execution": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "full_read": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep/20260915-v1/full-read-receipt.json",
+    "bytes": 7328,
+    "sha256": "e4c6d8c3ca7f9622c76a8ca8f68ecb4dd153275000f6d4cb55a13a3493cbc2fc"
+  },
+  "reuse_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/batch-current-metrics.csv",
+      "bytes": 80714,
+      "sha256": "7a9482ea071b87230ec35fe591d0050b3eb91112a6428eb6c4c7324fe41ce84e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/batch-current-metrics.csv",
+      "bytes": 80623,
+      "sha256": "14910b2a71764de2ebd8c44903032a20b97bb36b592fd957e7d14e429f40fcba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/batch-current-metrics.csv",
+      "bytes": 80698,
+      "sha256": "943ae48f03a98556cd51ce2ddecb668bc0d26cfc3239fb8de4e99f1c56f61661"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/batch-current-metrics.csv",
+      "bytes": 80631,
+      "sha256": "b8e9c1e474ce7026b8a52e5ae6bef7a1ebc1114111ad63132649b49806e736ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/whole-prefix-metrics.csv",
+      "bytes": 10368,
+      "sha256": "e05b2489a00c475b34f19203356fbc859b670438d4011bfa3bb69652f52164b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/whole-prefix-metrics.csv",
+      "bytes": 10388,
+      "sha256": "1f89f13d450038ca35f0ae164d3cdff07478f648ceda6cc6522450b529ba07af"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/whole-prefix-metrics.csv",
+      "bytes": 13048,
+      "sha256": "dbaa1e6d684fd7bfc341b0935a8d8a8287dced8f314a5259a8829eea454297f3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/whole-prefix-metrics.csv",
+      "bytes": 13061,
+      "sha256": "349c9292f88878b9710790a3cc05b72639bc15de14355d2373e8003608e46347"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/paired-transitions.csv",
+      "bytes": 31995,
+      "sha256": "474519e80c805b5c4d1ec6b9c2d0e0c889cd8d78b445e92666ea3405490d76d9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/paired-transitions.csv",
+      "bytes": 25965,
+      "sha256": "e098dec933d01139212e9190007bb7fbe97c0e65a243f2cd521d901e30758b24"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/paired-transitions.csv",
+      "bytes": 22178,
+      "sha256": "ee41d2ac5be3dd27444363e55a60ca78e1e4047989c4f4e245d7df13e8439bd4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/paired-transitions.csv",
+      "bytes": 22152,
+      "sha256": "f65f0593f83219049e8832602204c7f7eb488080650b13b638e0ea07814ed044"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/cohort-retention.csv",
+      "bytes": 11124,
+      "sha256": "f8f486dd91f84d23570b29beac64345f100f230e07ca175ce670853a0b2bfc54"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/cohort-retention.csv",
+      "bytes": 11075,
+      "sha256": "8d536cf7675df5d655bdda9c9dd91c9486d539a03ea7fe4e7f041445f1aa4201"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/cohort-retention.csv",
+      "bytes": 11104,
+      "sha256": "c758e1e453e7c77b3455e9370eda7367b93f7257a6499a4099e5570dcd9cef78"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/cohort-retention.csv",
+      "bytes": 11091,
+      "sha256": "f1f8e08f7c521132c98ddf8917ed1585f6856b4eaee6d32163d8edf0c46ca45c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/candidate-details.csv",
+      "bytes": 6850,
+      "sha256": "5457b404a898d2e934865513603f578cfbab5cf2cbe8b0b624ad330e890c72a9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/candidate-details.csv",
+      "bytes": 6814,
+      "sha256": "42917fdeb5bf28f92c6300be609fbfd729197dab67593440be5ebcd172bf65a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/candidate-details.csv",
+      "bytes": 6794,
+      "sha256": "60d611d36219b7b6e642c6affafec80e1e88fef6f5b861a9f12842f47aa26fe0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/candidate-details.csv",
+      "bytes": 6836,
+      "sha256": "9a5cb6c1b22e29a6a0ba82049ba82debf2b5770f13c937518994f3938e65a517"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/batch-policy.csv",
+      "bytes": 3303,
+      "sha256": "15eabad111716d966bfa4b18c6767d86a4330db29c47a5a7fdd4601dc4e9b32b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/batch-policy.csv",
+      "bytes": 3188,
+      "sha256": "17e0d57afa7c882a09ba144eff9826a71ad1c5faa063a718a9d3bbd0b7772adc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/batch-policy.csv",
+      "bytes": 3095,
+      "sha256": "c3c7fbcbdb5fad7e1eae6e08b0beecbc011d62497cbf4f4921ff14fdf560a1a7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/batch-policy.csv",
+      "bytes": 3226,
+      "sha256": "bf0b6cb9209d699871179e32095b6a0a13420d081527370561202d39a91db434"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/parity-warnings.csv",
+      "bytes": 1074,
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/parity-warnings.csv",
+      "bytes": 1074,
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/parity-warnings.csv",
+      "bytes": 1074,
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/parity-warnings.csv",
+      "bytes": 1074,
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/ledger-summary.csv",
+      "bytes": 532,
+      "sha256": "3b8ffdf1a9dc4a57d933dc46a839e71c8b45f46f07aadd2c3d758f31a1418575"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/ledger-summary.csv",
+      "bytes": 532,
+      "sha256": "3b8ffdf1a9dc4a57d933dc46a839e71c8b45f46f07aadd2c3d758f31a1418575"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/ledger-summary.csv",
+      "bytes": 529,
+      "sha256": "d3dc1621e2d931d0b281a0c5912d77e35a49a75f81234a8ed576ea0725d38702"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/ledger-summary.csv",
+      "bytes": 529,
+      "sha256": "d3dc1621e2d931d0b281a0c5912d77e35a49a75f81234a8ed576ea0725d38702"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/cost-by-batch.csv",
+      "bytes": 4318,
+      "sha256": "e2e4cea5868fe602a66af6ebbd9e2892004d9fa27a1b1ab99bb4f058722e7e59"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/cost-by-batch.csv",
+      "bytes": 4306,
+      "sha256": "abb0972531cb7c3e6a170c1647d65680945d0fea180b7a96d2c06182e2acbbca"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/cost-by-batch.csv",
+      "bytes": 4319,
+      "sha256": "cc73657a963491c87a663977eb4df4a1980ad6c04b0ec4c890a2de41bff88f3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/cost-by-batch.csv",
+      "bytes": 4319,
+      "sha256": "50f6ff11d03492aa287a3dd9c13ba8ef83e3081ff16a6c57ac1e181b9b70450f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/general-observer.csv",
+      "bytes": 225,
+      "sha256": "af36826aa451a9e43c813d02b6ba387d63d648ba43be40a27bf16faffb05de67"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/metrics/general-observer.csv",
+      "bytes": 225,
+      "sha256": "ee1f48dc66aee27b0200ab1dcd02261c0b8e2f6f4d2ad73de63b0702f9b3d136"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/metrics/general-observer.csv",
+      "bytes": 225,
+      "sha256": "7b278de43869f5703c4c26b90c99111e0bd396e6940b6bb1aa46b7537702abb3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/metrics/general-observer.csv",
+      "bytes": 225,
+      "sha256": "f70718b99cd52808380746828e0412473b84a62c3284dac1243116f240b0649c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/per-batch-actions.csv",
+      "bytes": 7056,
+      "sha256": "20088bbd54ccaed723331abb33af546208580c127f3aab31001533459eaae20b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/candidate-firstorder-observed.csv",
+      "bytes": 12309,
+      "sha256": "ba219be7ac4193c241d7679cbe3271c1a1e85d907de23a938c276356da3c561c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/generic-panels.csv",
+      "bytes": 6062,
+      "sha256": "aa1c5522f85131a6115228c5e757f993daabb7612329af20b0e2e699dfee44c1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/per-batch-actions.csv",
+      "bytes": 6815,
+      "sha256": "876b187c07d775abe0b5241fa16b7da4ba32865d92ef8f679460b1a998d3d0b8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/candidate-firstorder-observed.csv",
+      "bytes": 12291,
+      "sha256": "0cb158860307abc42ec985723ac009aa274836148d3b99b93abf15118613e259"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/generic-panels.csv",
+      "bytes": 6115,
+      "sha256": "4de893f752440c8a34f1c5e86c12582639a4c9d506d806c80d48b0be1a0c6fe3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/per-batch-actions.csv",
+      "bytes": 6903,
+      "sha256": "5621b272715602f227d7aeb75fa96e42df0b0acc25c73992a6141de76cf3f9ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/candidate-firstorder-observed.csv",
+      "bytes": 12096,
+      "sha256": "096642d8bd5535a238db39627a2baf2f8a36e4f428a07ae93699c496595daefa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/generic-panels.csv",
+      "bytes": 6230,
+      "sha256": "404e9cef64df5f2ef62565e1a7256738a932dece7b6c6e25a0dcbcad942494d9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/baseline-first1000.csv",
+      "bytes": 9350,
+      "sha256": "7f33b5e7d12774510feb2e44bcd9e1e9388f906bd27f1ad8ae88a45937dc9442"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/compatibility.csv",
+      "bytes": 5833,
+      "sha256": "ea6df25cbf0b54c321a7846cf989252fda43e3ca76afa204ffe8223b1974d5a1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/seen-full.json",
+      "bytes": 6664325,
+      "sha256": "dc8545bb8c984e6afc67ca3bbae4e6e36a1bc6a460cbfe27e2a7c57390c062b2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B010/seen-full.json",
+      "bytes": 6664488,
+      "sha256": "9c8f22a3c255769d21ee4c349fba6b8ceb83cdea22d0661ca8055521fbed1fd7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B010/seen-full.json",
+      "bytes": 6664981,
+      "sha256": "25ad8c52b7fb139a081220a666b01992d7552912cf1da65a6f471976f7ad8bcf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B010/seen-full.json",
+      "bytes": 6664396,
+      "sha256": "2bb0c625101296a53dc588a0a616bc61c2cf318fa13f9071ac16e11c3b760aec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B010/seen-full.json",
+      "bytes": 6662812,
+      "sha256": "36c132348ef10845aa137c599ee717cc04846a2f0120bf88db9c70948c45b158"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/arm-summary.json",
+      "bytes": 10149,
+      "sha256": "80d3b4df7daf70bb4b3bd5a77012f5ab8fa613d205821d0d3b00161e4ae35f23"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/arm-summary.json",
+      "bytes": 10097,
+      "sha256": "6084bfe18dcb3b1415f20048492601ce96ae578efad8f37aee5ed64ddeb24ccc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/arm-summary.json",
+      "bytes": 10087,
+      "sha256": "8855875793725ff70d8ab95574fbd685bb9661d051c355c03b6bae4868a73597"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/state/checkpoint-inventory.csv",
+      "bytes": 3449,
+      "sha256": "14d0412fabecccf124b51d51a32b8031034b18d452885d4ff65d1388604a66a5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/state/state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/state/raw-member-inventory.csv",
+      "bytes": 28113,
+      "sha256": "aee445eb700dfa465b7b38b81b76cf48fb6b0a007fc67ef1c4a2a6ea34b4539d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP10/state/target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/state/checkpoint-inventory.csv",
+      "bytes": 3459,
+      "sha256": "7b5e7fb262268dcd7a17f3ba74a903c13fa045b7b38cbdb5e4827ff7b6b1f58c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/state/state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/state/raw-member-inventory.csv",
+      "bytes": 28229,
+      "sha256": "e177774a162be1bbd93b77eaf497535803d087a3b13db652b5beb961d1a82baf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/CAP100/state/target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/state/checkpoint-inventory.csv",
+      "bytes": 3489,
+      "sha256": "7a076e8b37a625e655d0e4e1f6c6ebe4ea1e79eb2d6db2811e943b0a97947659"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/state/state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/state/raw-member-inventory.csv",
+      "bytes": 28577,
+      "sha256": "51426fdca5eb86835b8e2bbe5610bebe510b1cbae137092681733bb2e0ca4414"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/analysis/caps/NORM_ONLY/state/target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    }
+  ],
+  "package": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAKE-B10-first1000.csv",
+      "bytes": 1993,
+      "sha256": "90ead2ef48ec4215639f3e4c49252cb9631ea37f0dfcadb326988bccd34b8cfd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP10-checkpoint-inventory.csv",
+      "bytes": 3449,
+      "sha256": "14d0412fabecccf124b51d51a32b8031034b18d452885d4ff65d1388604a66a5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP10-raw-member-inventory.csv",
+      "bytes": 28113,
+      "sha256": "aee445eb700dfa465b7b38b81b76cf48fb6b0a007fc67ef1c4a2a6ea34b4539d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP10-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP10-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP100-checkpoint-inventory.csv",
+      "bytes": 3459,
+      "sha256": "7b5e7fb262268dcd7a17f3ba74a903c13fa045b7b38cbdb5e4827ff7b6b1f58c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP100-raw-member-inventory.csv",
+      "bytes": 28229,
+      "sha256": "e177774a162be1bbd93b77eaf497535803d087a3b13db652b5beb961d1a82baf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP100-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/CAP100-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/NORM_ONLY-checkpoint-inventory.csv",
+      "bytes": 3489,
+      "sha256": "7a076e8b37a625e655d0e4e1f6c6ebe4ea1e79eb2d6db2811e943b0a97947659"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/NORM_ONLY-raw-member-inventory.csv",
+      "bytes": 28577,
+      "sha256": "51426fdca5eb86835b8e2bbe5610bebe510b1cbae137092681733bb2e0ca4414"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/NORM_ONLY-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/NORM_ONLY-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/RAW-selection-reasons.csv",
+      "bytes": 4493,
+      "sha256": "62c95be89328fcf5ce2b33c9aaa598f2ff6a254ac0fd4603fc2abc348d4f00c4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/action-summary.csv",
+      "bytes": 2132,
+      "sha256": "4b3c2d212aae7122f3081d1df2a2f7a083fcd71138dd50bb82a4da1812ee8a4b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/baseline-first1000.csv",
+      "bytes": 9350,
+      "sha256": "7f33b5e7d12774510feb2e44bcd9e1e9388f906bd27f1ad8ae88a45937dc9442"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/baseline-paired.csv",
+      "bytes": 27074,
+      "sha256": "1d25f3ca4aa647318310dd942803ca9b74f28d56ac6d8a47b4a6aeee1817484f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/batch-current-metrics.csv",
+      "bytes": 341263,
+      "sha256": "8a3c8bc4c895adb13970d9f122893a9843865d2c5505f3c89fbbe81fad3baa69"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/batch-policy.csv",
+      "bytes": 13236,
+      "sha256": "a29a5330666a5e2994a3cec6177133c90b209d4f03bac955d0f17d9ce9eadca3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/candidate-details.csv",
+      "bytes": 31534,
+      "sha256": "5c68028a1091e5e68336c8d442161e24c7685d9790ba34bc59d037c3b2d61412"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/candidate-firstorder-observed.csv",
+      "bytes": 35962,
+      "sha256": "170b40cc7b72d76b84409cec1ce19f212060cca9e6ee82d9b54edac9a0f36f06"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/cohort-retention.csv",
+      "bytes": 46272,
+      "sha256": "115503cabc1c64d06c2d02c236ca938c046cb783362633c9cb3ed68519c5eb2f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/compatibility.csv",
+      "bytes": 5833,
+      "sha256": "ea6df25cbf0b54c321a7846cf989252fda43e3ca76afa204ffe8223b1974d5a1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/cost-by-batch.csv",
+      "bytes": 16507,
+      "sha256": "4f776f3049af6a08a38ef528693bc7a5dfe91d6f8eedc85a818a5ef970374ca2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/cost-summary.csv",
+      "bytes": 2124,
+      "sha256": "a5837613871efabd2b21adb79d79a7ae13f95ee4e50a70f038e720ad74c42d3e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/coverage.csv",
+      "bytes": 1599,
+      "sha256": "7c0d05fa1404357f3a5c05c75654423af369e394c7e3b522253615e4488ece8b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/cross-arm-paired.csv",
+      "bytes": 7208,
+      "sha256": "6d64452432e1efe43429cb44b3ab7a27ab94a703aafda28b267c963c488a03f1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/design-conformance-ko.md",
+      "bytes": 9861,
+      "sha256": "aa0e5a6f0e7ee7b836c9a8971e6c671166fd28f69f397d10ebc139aedf9fc0c9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/design-conformance.csv",
+      "bytes": 3697,
+      "sha256": "487a125f92149aacba8c5cf7f8cf69e343b98a3e905794246259e596de3613a5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/diagnostic-report-ko.md",
+      "bytes": 29902,
+      "sha256": "ee48fa359d8e006ffaec50a214998139481cc4474306e93995627c9a94191d55"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/atwrite-terminal-transitions.png",
+      "bytes": 55721,
+      "sha256": "075d55af9212f7898019b2950be36cec0d4e44df3066dab3fff689f11afe5c2a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/candidate-finite-screen.png",
+      "bytes": 196292,
+      "sha256": "85bb52da8c36f7a13722dbe9ccc00836f5fc99ce09b7c20ffb776b6de478431a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/candidate-versus-selected-action.png",
+      "bytes": 160879,
+      "sha256": "663b163baabd6b3be7d9fab68be131b0fa8fa892d3c1ec9f452fcd486694b0da"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/current-curves.png",
+      "bytes": 140832,
+      "sha256": "a2e21a37469a20637051ad643619e2650358e1ff187a1507b057337ade291280"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/final-first1000.png",
+      "bytes": 63908,
+      "sha256": "46022ff7d22ae944b428f48fc5a17d6af64ea45195181abe34b47112041e1d1a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/generic-controller-observer.png",
+      "bytes": 127522,
+      "sha256": "9007cc8fb0b1ffe92d8430688ec2cb3f8604d428fc5854560d82d23e4e780faa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/figures/plot-manifest.json",
+      "bytes": 2174,
+      "sha256": "b74f5ec152133aeec51268bee38dd882bf269f10c4296c9a11afe03b3a2d0cca"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/first-final-table.csv",
+      "bytes": 6620,
+      "sha256": "f4b04a785395e48b2157715361144efe1d285628a160e954c5084f540e0120a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/general-observer.csv",
+      "bytes": 875,
+      "sha256": "d36885856b4eeb9eaca9b3d78f580369067cc286088d2ff84ca3d8f02bd046b8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/generic-panels.csv",
+      "bytes": 18155,
+      "sha256": "8288e6cc562428fc74b586c525cb4b62b4210c3255fcbb6a40f03e9850783c01"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/ledger-summary.csv",
+      "bytes": 2783,
+      "sha256": "462067a43f29bddf28f4c69d9cf7de4d26460fc8b38af425f69d7a132a348dcd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/mechanism-observed-details.csv",
+      "bytes": 23938,
+      "sha256": "c6d16d5d461832450b93ee61813f0bfbf0c8369e0bb81cdb2bb1d7c08a971220"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/mechanism-summary.csv",
+      "bytes": 246,
+      "sha256": "2cf2ecaa4779af1f5e880a58b7522227c5bdc59904acc3ce8ac42e5a2b58ce9b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/new-state-summary.csv",
+      "bytes": 1742,
+      "sha256": "573763cdebad643f0d3b2fbe36510dcb642bbaee08a49d1699912c43c41d99d9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/paired-transitions.csv",
+      "bytes": 111659,
+      "sha256": "960dc49f45c72cdd29befeaff8d6ce36d5241fd95e0c6e88a916475728a88157"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/parity-warnings.csv",
+      "bytes": 6245,
+      "sha256": "e2f4a0c505469a529f8654342f41f92abb0ef3d9f359301156a1887ea774db39"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/per-batch-actions.csv",
+      "bytes": 21765,
+      "sha256": "5bfc34f1dadf64d8cb608b34c974898b8d662b63d0acf6a9f953a16aec11b259"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/scheduler-summary.csv",
+      "bytes": 659,
+      "sha256": "0e12b091c856f0c93bbe6bde299192b04ab69c4f256a0af49f10d45e57833714"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/scheduler-terminal-receipt.json",
+      "bytes": 15470,
+      "sha256": "cae6efa80e9c3285fede8732bc328765b82b74d2c03934dfe7ebde3712fa604e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/sweep-summary.json",
+      "bytes": 41975,
+      "sha256": "9aed0f802f1506a2846bfea9823689d10c7a7efc62460cd32bc3e7256cf359a8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/whole-prefix-metrics.csv",
+      "bytes": 48185,
+      "sha256": "a1b63c73ab43e469a572ec9aa01e8c71bcd533726d1507c3530c37a9bd7d70c3"
+    }
+  ],
+  "scheduler": {
+    "path": "/data/janghj/ODE-edit/local/server4-completed-review/20260916-v1/receipts/sweep-scheduler-adapted.json",
+    "bytes": 15470,
+    "sha256": "cae6efa80e9c3285fede8732bc328765b82b74d2c03934dfe7ebde3712fa604e"
+  },
+  "python": "3.12.3",
+  "time": "2026-09-15T19:23:32.811120+00:00",
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_mode": "SKIPPED_USER_DIRECTED",
+  "raw_policy": "LOCAL_ONLY_NO_BROADCAST_NOT_REQUIRED",
+  "new_model_forwards_analysis": 0,
+  "reproduction": [
+    "python -m project.run_scripts.bg_tw_reference.ep_tw.sweep_review arm --arm <arm> --allocated <actual seconds> --worktree <worktree> --output <new-dir>",
+    "python -m project.run_scripts.bg_tw_reference.ep_tw.sweep_review combine --analysis-root <three-arm-root> --worktree <worktree> --output <new-package>",
+    "python -m project.run_scripts.bg_tw_reference.ep_tw.plot_sweep --package <package> --output <new-figure-dir>"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_host": "server4",
+  "root_origin": {
+    "args": [
+      "git",
+      "remote",
+      "get-url",
+      "origin"
+    ],
+    "returncode": 0,
+    "stdout": "https://github.com/hyunjun1127/ODE-edit.git\n",
+    "stderr": ""
+  },
+  "root_boundary_helper": {
+    "args": [
+      "bash",
+      "scripts/check-session-boundary.sh",
+      "01a04939-b5c7-7a03-ba2d-ef3343d62cfd"
+    ],
+    "returncode": 4,
+    "stdout": "",
+    "stderr": "BLOCK Codex session ID mismatch for server=server4\n"
+  },
+  "child_boundary_helper": {
+    "args": [
+      "bash",
+      "scripts/check-session-boundary.sh",
+      "01a04939-b5c7-7a03-ba2d-ef3343d62cfd"
+    ],
+    "returncode": 4,
+    "stdout": "",
+    "stderr": "BLOCK missing local session boundary config: /data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/servers/local/session-boundary.env\n"
+  },
+  "root_dirty": {
+    "args": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "old_sweep_dirty": {
+    "args": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": " M messages/server-heads/server4/2026-09-15-ep-tw1-alpha-cap-sweep.md\n M tasks/status/odeedit_ep_tw1_alpha_cap_sweep_s4_v1/server4.json\n",
+    "stderr": ""
+  },
+  "current_registry": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/servers/active/server4.md",
+    "bytes": 14546,
+    "sha256": "5b1805a3a9330fc92ba0b637eab7725aef9a587974807e6f3704bd7a3aae16e4"
+  },
+  "stale_local_config": {
+    "path": "/data/janghj/ODE-edit/servers/local/session-boundary.env",
+    "bytes": 351,
+    "sha256": "2e3eb4c596a8971201502ea534fa3f07e6c3f1698813c47a912d95be74f4c9dd"
+  },
+  "interpretation": "Neither helper is PASS: child lacks config; root ignored config pins superseded 01a028a7. Current committed registry explicitly supersedes it with user-target 01a04939. Host/CWD/origin and exact user authority checked independently; no helper/config mutation."
+}

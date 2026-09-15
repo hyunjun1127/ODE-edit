@@ -1,0 +1,37 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "REVIEW_COMPLETE_PUBLICATION_READY",
+  "current_review": "CPU_ONLY",
+  "reports": {
+    "overall": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v1/rooted-receipt.json",
+      "bytes": 985,
+      "sha256": "89621d6c7ce68c97a7f2d01e059d9f0f5621b88d6b7dd1cc96240cf8bb8a2327"
+    },
+    "CAKE": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+      "bytes": 1029,
+      "sha256": "412678bb011a7ac39c05a8bd39eadf4265975aea13a8be92d0802e0291e3f2d6"
+    },
+    "caps": {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+      "bytes": 998,
+      "sha256": "5def699fe02ddacb85085665718eeadd4ea28bc87b2fa32af691616c0d8e10c2"
+    }
+  },
+  "terminal_jobs": {
+    "48101": "COMPLETED_0_0",
+    "48148": "COMPLETED_0_0",
+    "48149": "COMPLETED_0_0",
+    "48150": "COMPLETED_0_0"
+  },
+  "new_review_GPU_seconds": 0,
+  "new_model_forwards": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "numerical_validation": "SKIPPED_USER_DIRECTED / NOT_ESTABLISHED",
+  "resume_trigger": "EXPLICIT_USER_CALL_ONLY",
+  "next": "NONFORCE_MAIN_PUBLICATION_THEN_STOP"
+}

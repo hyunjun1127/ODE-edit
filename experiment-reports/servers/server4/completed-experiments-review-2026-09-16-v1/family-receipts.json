@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "CAKE": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+    "bytes": 1029,
+    "sha256": "412678bb011a7ac39c05a8bd39eadf4265975aea13a8be92d0802e0291e3f2d6"
+  },
+  "EP_SWEEP": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-completed-cake-cap-review-20260916-v1/experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+    "bytes": 998,
+    "sha256": "5def699fe02ddacb85085665718eeadd4ea28bc87b2fa32af691616c0d8e10c2"
+  },
+  "limitations": [
+    "CAKE no W/M tensor save",
+    "CAP1 CP absence is historical sealed reuse",
+    "EP user-skipped FD/direct/selfKL not established",
+    "No new model or GPU execution"
+  ]
+}

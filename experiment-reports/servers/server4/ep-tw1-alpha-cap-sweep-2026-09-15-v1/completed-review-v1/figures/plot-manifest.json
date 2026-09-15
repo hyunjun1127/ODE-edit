@@ -1,0 +1,69 @@
+{
+  "generator_sha256": "ed1e60dd82e356d9b1af906af86ec1e75c6a3f6dc0f07342f38ee8f22682d5d5",
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "inputs": [
+    {
+      "path": "first-final-table.csv",
+      "sha256": "f4b04a785395e48b2157715361144efe1d285628a160e954c5084f540e0120a4"
+    },
+    {
+      "path": "per-batch-actions.csv",
+      "sha256": "5bfc34f1dadf64d8cb608b34c974898b8d662b63d0acf6a9f953a16aec11b259"
+    },
+    {
+      "path": "batch-current-metrics.csv",
+      "sha256": "8a3c8bc4c895adb13970d9f122893a9843865d2c5505f3c89fbbe81fad3baa69"
+    },
+    {
+      "path": "candidate-details.csv",
+      "sha256": "5c68028a1091e5e68336c8d442161e24c7685d9790ba34bc59d037c3b2d61412"
+    },
+    {
+      "path": "paired-transitions.csv",
+      "sha256": "960dc49f45c72cdd29befeaff8d6ce36d5241fd95e0c6e88a916475728a88157"
+    },
+    {
+      "path": "batch-policy.csv",
+      "sha256": "a29a5330666a5e2994a3cec6177133c90b209d4f03bac955d0f17d9ce9eadca3"
+    },
+    {
+      "path": "general-observer.csv",
+      "sha256": "d36885856b4eeb9eaca9b3d78f580369067cc286088d2ff84ca3d8f02bd046b8"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "atwrite-terminal-transitions.png",
+      "bytes": 55721,
+      "sha256": "075d55af9212f7898019b2950be36cec0d4e44df3066dab3fff689f11afe5c2a"
+    },
+    {
+      "path": "candidate-finite-screen.png",
+      "bytes": 196292,
+      "sha256": "85bb52da8c36f7a13722dbe9ccc00836f5fc99ce09b7c20ffb776b6de478431a"
+    },
+    {
+      "path": "candidate-versus-selected-action.png",
+      "bytes": 160879,
+      "sha256": "663b163baabd6b3be7d9fab68be131b0fa8fa892d3c1ec9f452fcd486694b0da"
+    },
+    {
+      "path": "current-curves.png",
+      "bytes": 140832,
+      "sha256": "a2e21a37469a20637051ad643619e2650358e1ff187a1507b057337ade291280"
+    },
+    {
+      "path": "final-first1000.png",
+      "bytes": 63908,
+      "sha256": "46022ff7d22ae944b428f48fc5a17d6af64ea45195181abe34b47112041e1d1a"
+    },
+    {
+      "path": "generic-controller-observer.png",
+      "bytes": 127522,
+      "sha256": "9007cc8fb0b1ffe92d8430688ec2cb3f8604d428fc5854560d82d23e4e780faa"
+    }
+  ],
+  "image_generation": "PYTHON_MATPLOTLIB_ONLY",
+  "raw_access": false
+}

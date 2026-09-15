@@ -1,0 +1,252 @@
+{
+  "task": "ODEEDIT-S06-SERVER4-COMPLETED-CAKE-CAP-DETAILED-REVIEW-SH4-V1",
+  "status": "SAVED_NLL_AND_METADATA_VERIFIED_NO_TENSOR_CP",
+  "rows": [
+    {
+      "arm": "CAKE_NATIVE",
+      "state": "ACTUAL_W100_FULL10000",
+      "metric": "RS",
+      "numerator": 9840,
+      "denominator": 10000,
+      "percent": 98.4,
+      "request_denominator": 10000,
+      "ties": 0,
+      "desired_strict_n": 9170,
+      "desired_strict_d": 10000,
+      "new_strict_n": 9170,
+      "true_strict_n": 35,
+      "desired_token_correct": 9333,
+      "desired_token_d": 10163,
+      "all_prompt_strict_requests": 9170,
+      "new_nll_mean": 0.4027635672873366,
+      "new_nll_median": 0.03195149637758732,
+      "new_nll_p90": 0.8359653532505037,
+      "new_nll_p95": 2.517882275581356,
+      "new_nll_p99": 6.872569804191594,
+      "new_nll_min": 5.483612312673358e-06,
+      "new_nll_max": 15.324371337890625,
+      "true_nll_mean": 9.950044960516202,
+      "true_nll_median": 9.707388401031494,
+      "true_nll_p90": 15.010290145874023,
+      "true_nll_p95": 16.75676803588867,
+      "true_nll_p99": 20.089672260284424,
+      "true_nll_min": 0.0035225029569119215,
+      "true_nll_max": 28.382869720458984,
+      "desired_margin_mean": 9.547281393228866,
+      "desired_margin_median": 9.477295368909836,
+      "desired_margin_p90": 14.910373558243739,
+      "desired_margin_p95": 16.683284395736692,
+      "desired_margin_p99": 20.063472450940463,
+      "desired_margin_min": -10.465376270236447,
+      "desired_margin_max": 28.381899589148816
+    },
+    {
+      "arm": "CAKE_NATIVE",
+      "state": "ACTUAL_W100_FULL10000",
+      "metric": "PS",
+      "numerator": 17755,
+      "denominator": 20000,
+      "percent": 88.775,
+      "request_denominator": 10000,
+      "ties": 0,
+      "desired_strict_n": 12266,
+      "desired_strict_d": 20000,
+      "new_strict_n": 12266,
+      "true_strict_n": 509,
+      "desired_token_correct": 12586,
+      "desired_token_d": 20326,
+      "all_prompt_strict_requests": 4550,
+      "new_nll_mean": 1.9879314977940237,
+      "new_nll_median": 0.643947184085846,
+      "new_nll_p90": 6.1678923130035415,
+      "new_nll_p95": 8.11511330604553,
+      "new_nll_p99": 11.707587938308711,
+      "new_nll_min": 7.009260298218578e-05,
+      "new_nll_max": 21.032573699951172,
+      "true_nll_mean": 7.807592159361718,
+      "true_nll_median": 7.5968592166900635,
+      "true_nll_p90": 12.594972515106202,
+      "true_nll_p95": 14.08647494316101,
+      "true_nll_p99": 17.384306812286376,
+      "true_nll_min": 0.002372785471379757,
+      "true_nll_max": 25.2335205078125,
+      "desired_margin_mean": 5.819660661567695,
+      "desired_margin_median": 5.911051973700523,
+      "desired_margin_p90": 11.817115635611117,
+      "desired_margin_p95": 13.531605113856491,
+      "desired_margin_p99": 16.95666653468272,
+      "desired_margin_min": -18.606329202651978,
+      "desired_margin_max": 25.233238975109998
+    },
+    {
+      "arm": "CAKE_NATIVE",
+      "state": "ACTUAL_W100_FULL10000",
+      "metric": "NS",
+      "numerator": 62935,
+      "denominator": 100000,
+      "percent": 62.935,
+      "request_denominator": 10000,
+      "ties": 0,
+      "desired_strict_n": 12525,
+      "desired_strict_d": 100000,
+      "new_strict_n": 8265,
+      "true_strict_n": 12525,
+      "desired_token_correct": 13725,
+      "desired_token_d": 101270,
+      "all_prompt_strict_requests": 4,
+      "new_nll_mean": 7.334778914400568,
+      "new_nll_median": 7.214670181274414,
+      "new_nll_p90": 12.931713962554932,
+      "new_nll_p95": 14.598201942443847,
+      "new_nll_p99": 17.751606292724595,
+      "new_nll_min": 3.0040289857424796e-05,
+      "new_nll_max": 27.986328125,
+      "true_nll_mean": 5.75052846182981,
+      "true_nll_median": 5.428975820541382,
+      "true_nll_p90": 10.698937511444093,
+      "true_nll_p95": 12.258707094192479,
+      "true_nll_p99": 15.763511657714844,
+      "true_nll_min": 0.0006220789509825408,
+      "true_nll_max": 23.112247467041016,
+      "desired_margin_mean": 1.5842504525707566,
+      "desired_margin_median": 1.5313663482666016,
+      "desired_margin_p90": 8.00194172859192,
+      "desired_margin_p95": 10.075710165500636,
+      "desired_margin_p99": 14.058993735797701,
+      "desired_margin_min": -21.216887806309387,
+      "desired_margin_max": 25.594914101064205
+    }
+  ],
+  "batches": 100,
+  "requests": 10000,
+  "links": 99,
+  "fullseen_points": [
+    1,
+    5,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100
+  ],
+  "raw_files": 515,
+  "raw_bytes": 714442408,
+  "totals": {
+    "compute_z": 10000,
+    "solve_calls": 500,
+    "history_append_passes": 100,
+    "layer_history_updates": 500,
+    "key_calls": 1000,
+    "edit_seconds": 12478.56907699164,
+    "target_seconds": 7746.184179132804,
+    "key_seconds": 3706.0243227956817,
+    "solve_seconds": 59.857020863331854,
+    "evaluation_seconds": 17949.79975434486
+  },
+  "allocated_GPU_seconds": 32194,
+  "program_seconds": 32189.621725284494,
+  "load_setup_seconds": 39.642700461670756,
+  "peak_GPU_allocated_bytes": 37612267520,
+  "layer_path_lengths": {
+    "model.layers.4.mlp.down_proj.weight": 132.88426805542585,
+    "model.layers.5.mlp.down_proj.weight": 155.39179643569528,
+    "model.layers.6.mlp.down_proj.weight": 185.000034842845,
+    "model.layers.7.mlp.down_proj.weight": 213.07147772869354,
+    "model.layers.8.mlp.down_proj.weight": 334.4480454205469
+  },
+  "layer_net_update_norm": "NOT_RECORDED_NO_WEIGHTS",
+  "actual_Adam": "NOT_RECORDED",
+  "loss_evaluations": "NOT_RECORDED",
+  "saved_tensor_CP": 0,
+  "tensor_reload": "NOT_AVAILABLE_USER_DIRECTED_NO_SAVE",
+  "GPU_continuation": "NOT_TESTED",
+  "pure_writer": "NOT_SEPARATED",
+  "baseline_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B100/seen-full.json",
+      "bytes": 66630929,
+      "sha256": "1a8c5bef959cc0edda327be89df40814acbc3fa3de64a484c2bdf3e3a6e45c91"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+      "bytes": 66621830,
+      "sha256": "600ffc967dd8c27f7b562b31f42443b0b67d5a7951ef4197426577a4f22ddc69"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-5/B100/seen-full.json",
+      "bytes": 66630893,
+      "sha256": "b2dd4cf079e9a7453ee049f4b02d8f56039d4af16c62f47c31524a7e6b66833e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-1/B100/seen-full.json",
+      "bytes": 66624288,
+      "sha256": "8469f2722436dbab37fb8c440093329a2494e8aa8fccd4762ec9062ef5e2c07b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-3/B100/seen-full.json",
+      "bytes": 66625881,
+      "sha256": "1b3a20f675ff88ca36a48d62241b81d1fdd63a4b9bc57e97d6db638582378390"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-5/B100/seen-full.json",
+      "bytes": 66630356,
+      "sha256": "65142c9baa0a3bca053a322bc766c68bfc9b5dbe20adf0e97e30e67f3998c13b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B100/seen-full.json",
+      "bytes": 66637841,
+      "sha256": "7a123ce26685fa516af5da67badb56a152460eceb92e788ba83f5acd812c0c7e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/output/main-cell-0/B100/seen-full.json",
+      "bytes": 66631772,
+      "sha256": "c7032f988a03089cd464c5cd1a4f67a3bd1cd515a9e26d408965c0bdadd3aacd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-2/B100/seen-full.json",
+      "bytes": 66610607,
+      "sha256": "57d71a88154a0b00376aa84a9d6804b1796f1c6386e56680d426839137c95646"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-4/B100/seen-full.json",
+      "bytes": 66611293,
+      "sha256": "9adbc334111d03a17ed6603ec2304ce05e5ad404304121ad80b3b05eddc6d479"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-0/B100/seen-full.json",
+      "bytes": 66605424,
+      "sha256": "9cad606104315cbb3e159f55c4fcfdc3b0fb9211a372a7ba956e5acdd30866f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-2/B100/seen-full.json",
+      "bytes": 66609961,
+      "sha256": "e1a8ac342aba61389ae1702eff4142e7f2973557c78ab66f930d103092cc2c49"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567/attempt-v1/output/main-cell-4/B100/seen-full.json",
+      "bytes": 66607869,
+      "sha256": "2a139a6d992b95c8a07b026afd3798e4caaeb20b645bece5e6afa017e9df0ec3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B100/seen-full.json",
+      "bytes": 66699153,
+      "sha256": "6b4dbf4d803727673596d2ab85e0af2f87b15e18bc89a9a54f56602776ca879c"
+    }
+  ],
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/execution.lock.json",
+    "bytes": 625520,
+    "sha256": "f2ade3ee9dbdabdc6a1ac00a9d36b0e902710a44cf5e2a6a49c6d861e18eb401"
+  },
+  "runtime": {
+    "path": "/data/janghj/ODE-edit/local/cake-native-lifelong/20260915-v1/attempt-v1/output/main/runtime.json",
+    "bytes": 10874,
+    "sha256": "3498f4422f2cbd2dc50c488abe4d5ba3fbf49d21d3ec3c6b81ec9ec379f8eb0c"
+  },
+  "model_forwards": 0
+}

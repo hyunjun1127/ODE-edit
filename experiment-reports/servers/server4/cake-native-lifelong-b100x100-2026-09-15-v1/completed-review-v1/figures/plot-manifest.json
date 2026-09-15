@@ -1,0 +1,42 @@
+{
+  "generator_sha256": "c99cb952024664c49ecffb296dc4320850bbc4cd68e45a88f5b832481e250f8b",
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "inputs": [
+    {
+      "path": "seen-prefix.csv",
+      "sha256": "584012115d6c4f5bc537765631cb3ac35e866f2ba985a99e02c8d2c747e1a051"
+    },
+    {
+      "path": "batch-current.csv",
+      "sha256": "1c994b450ff0225acb5a5aecb3e4d82191d51618d714c972f55aa868560e4903"
+    },
+    {
+      "path": "cohort-retention.csv",
+      "sha256": "ce572bcc1a9405ef716014378d89199f589ee385bd8f0f6fc6ce1eb5a110145a"
+    },
+    {
+      "path": "family-final-comparison.csv",
+      "sha256": "54b3e7be916cc50207b6b4c404cd3757a8f695e997e9f694609d321addcda24e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "cake-cohort-retention.png",
+      "sha256": "0e14d3dc7c5404e28709d463a967a70067054388779eed59a6c509fa2dd46c1d",
+      "bytes": 180970
+    },
+    {
+      "path": "cake-family-comparison.png",
+      "sha256": "2985169dfec4c68e8481c04b9e75f9168b4ce6b83755e3fe68bcf0f1dabb2dd4",
+      "bytes": 101258
+    },
+    {
+      "path": "cake-fullseen.png",
+      "sha256": "9290ecf7a8ab035b54b70605b6d3734cecce5f9414dc19556dd79d9c7ba213ba",
+      "bytes": 132915
+    }
+  ],
+  "raw_access": false,
+  "method": "CSV_PYTHON_MATPLOTLIB_ONLY"
+}

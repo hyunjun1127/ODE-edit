@@ -1,0 +1,13 @@
+{
+  "helper": {
+    "args": [
+      "bash",
+      "scripts/check-agent-access.sh",
+      "--all-changed"
+    ],
+    "returncode": 7,
+    "stdout": "",
+    "stderr": "blocked by agent access policy: role=server-head agent=server4-server-head host=server4 path=runs/odeedit_server4_completed_cake_cap_review_20260916_v1/review-receipt.json\naccess check failed; ask the parent agent or global-head to own these paths\n"
+  },
+  "explicit_user_authorized_exception": "runs/odeedit_server4_completed_cake_cap_review_20260916_v1/ is explicitly authorized by section7; helper lacks generic server-head runs rule. No helper modification and no helper PASS claim for rejected path."
+}
