@@ -1,0 +1,25 @@
+{
+  "scope": "COMPACT_PREPARATION_AND_PENDING_NOT_TERMINAL_ANALYSIS",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/evidence-reuse-manifest.json",
+      "bytes": 1558,
+      "sha256": "9609d60cf1c95445a1be2a232f9daa6e6a708284423ccf4e0a3faffab6ccf34b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/g0-factual-report-ko.md",
+      "bytes": 5541,
+      "sha256": "42a8e30e7c2f1b3348bef90a4cb091e5a694ca2351bd1836dec7b379dbc81094"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/resume-receipt.json",
+      "bytes": 5978,
+      "sha256": "208fed431f6062fbcaf2c014ffcb5bd5ca0f900b74bb0788fc10d449ec968dfd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/source-input-manifest.json",
+      "bytes": 3859,
+      "sha256": "64eee821e519fef02c472ecf3d4d13d5b2507b6f6ee4d18dbccd2f1bf7e07aa5"
+    }
+  ]
+}

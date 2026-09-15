@@ -1,0 +1,142 @@
+{
+  "resume_manifest": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/resume-manifest.json",
+    "bytes": 5753,
+    "sha256": "f890b8955729caa27480961813f8ae4638fa51f8200adbc746185966f5640b4c"
+  },
+  "instruction_id": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EP-TW1-C4-V3-20260915-R1",
+  "host": "server4",
+  "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "WAITING_USER_RESUME",
+  "gate": "G0_PENDING",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "policy": "EP-TW-1",
+  "old_lineage": "BG-1 CALIBRATION_MISSING immutable; new policy has no calibration",
+  "execution_source": "3fb0bfb27773ec9d016e76fcdc978dc996f010a7",
+  "execution_tree": "46dfaff451159cefef1230372e54a93e01c58ef3",
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/source-v1.tar",
+    "bytes": 1372160,
+    "sha256": "69194e1804d8e2f31ecd802c7426770f747f2ba588a0684019bf944c1eee403b"
+  },
+  "source_branch": "codex/server4-ep-tw1-c4-v3-v1",
+  "references": {
+    "full-read-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/full-read-receipt.json",
+      "bytes": 9664,
+      "sha256": "deb707a0a9c73b24fd3c2d484e2ebbb2f2cc1891a9a099991a33777e97daea86"
+    },
+    "sample.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/sample.lock.json",
+      "bytes": 19287,
+      "sha256": "871f6c04df4697f236353938e09290462eed67871f07f02d8f0b112e9f9ee7d3"
+    },
+    "teacher-reuse-verification.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/teacher-reuse-verification.json",
+      "bytes": 10600,
+      "sha256": "d3173d2a55d8c89f39a6a93a2737c180456d0fcd0322087d8ad779dd365f228d"
+    },
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/execution.lock.json",
+      "bytes": 622479,
+      "sha256": "306ad09b56d470ce47562bd3f36230d7f96fe258769dc0fb5b3dc192c33d954b"
+    },
+    "submission-v1/release-receipt.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/release-receipt.json",
+      "bytes": 2919,
+      "sha256": "e6f9bf8d65609af8a32b4aab5433d450851ee279eecb90b9cc1f580078bac31c"
+    },
+    "submission-v1/held-inspection.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/held-inspection.json",
+      "bytes": 2105,
+      "sha256": "b1d9a3c62dc283c4fe53fe2611093594a02d45ef1486d4263b6f55d112e42c6c"
+    },
+    "submission-v1/resource-preflight.json": {
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/submission-v1/resource-preflight.json",
+      "bytes": 1980,
+      "sha256": "35d89439a72c00c37b04ed831e7d8e803a6f37d5d39270e853d1803a85521f8e"
+    }
+  },
+  "reference_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+  "reference_member_root": "0c6aa4e2ddb350c61999580fe3efabaae880ec8e17aa208a8f7d85c026a6f1aa",
+  "teacher": {
+    "job": "47592",
+    "status": "COMPLETED_FULLSHA_SCHEMA_REUSED",
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+      "bytes": 71431,
+      "sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a"
+    },
+    "new_generation": false,
+    "prior_allocated_gpu_seconds": 98
+  },
+  "jobs": [
+    {
+      "job_id": "47884",
+      "policy": "EP-TW-1",
+      "last_state": "PENDING",
+      "last_reason": "None",
+      "last_observation": "2026-09-15T03:13:54.989677+00:00",
+      "dependencies": [],
+      "resource": {
+        "gpu": 1,
+        "cpus": 8,
+        "mem": "60416M",
+        "wall": "12:00:00",
+        "gpu_cap": 2,
+        "gpu_hour_cap": null
+      },
+      "output": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1"
+    }
+  ],
+  "cap": {
+    "max": 2,
+    "preexisting_project_admitted": 0,
+    "with_new": 1
+  },
+  "last_observed_batch": null,
+  "last_observed_next_ordinal": null,
+  "G0_evidence": {
+    "CPU_fixtures": 51,
+    "teacher192_fullSHA_schema": true,
+    "native_P4_cpu_binding": {
+      "physical_layer": 4,
+      "source_index": 0,
+      "local_index": 0,
+      "source_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c",
+      "selected_tensor_sha256": "24a654cc0f8cc56f7f0a6b1bc93e0e4c27b072bd68c58127659d87751eee292c"
+    },
+    "model_W0_selfKL": "NOT_OBSERVED",
+    "actual_model_gradient_parity": "NOT_OBSERVED",
+    "first_B100_complete": "NOT_OBSERVED",
+    "history1_ledger_ordinal100": "NOT_OBSERVED",
+    "durable_selected_checkpoint_B2_link": "NOT_OBSERVED"
+  },
+  "expected": {
+    "G0": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/G0_PASS.json",
+    "checkpoint": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/B001/checkpoint.pt",
+    "history_ledger_RNG": "inside per-batch checkpoint.pt",
+    "chronology": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/B002/entry.json",
+    "terminal": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/terminal.json",
+    "failure": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/failure.json",
+    "terminal_evaluation": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/scientific-v1/B010/selected-evaluation.json",
+    "current_existence": "NOT_INSPECTED_AFTER_PENDING_RELEASE; no result polling"
+  },
+  "new_scientific_chains": 1,
+  "whole1000_complete": "NOT_OBSERVED",
+  "baseline_editing_reruns": 0,
+  "N4_calibration": false,
+  "deferred": [
+    "all other policies",
+    "baseline C4 forwards",
+    "Report256",
+    "Audit",
+    "MMLU",
+    "full10k"
+  ],
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "scientific_promotion": false
+}

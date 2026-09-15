@@ -1,0 +1,20 @@
+{
+  "status": "WAITING_USER_RESUME",
+  "gate": "G0_PENDING",
+  "instruction_id": "ODEEDIT-S06-EP-TW1-C4-V3-OURS-FIRST-SH4-V1",
+  "job_id": "47884",
+  "last_observation": "2026-09-15T03:13:54.989677+00:00",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-c4-v3-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/g0-factual-report-ko.md",
+    "bytes": 5541,
+    "sha256": "42a8e30e7c2f1b3348bef90a4cb091e5a694ca2351bd1836dec7b379dbc81094"
+  },
+  "resume": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/resume-manifest.json",
+    "bytes": 5753,
+    "sha256": "f890b8955729caa27480961813f8ae4638fa51f8200adbc746185966f5640b4c"
+  }
+}
