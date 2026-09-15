@@ -140,6 +140,11 @@ def cake_report():
       'target/key/solve는edit_seconds안의nestedtimer다. evaluation_seconds와program총시간사이남은overhead를purewriter라고추정하지않는다. Purewriter/readout/별도JSONI-O는NOT_SEPARATED/NOT_RECORDED,checkpoint I-O는user no-tensor다. SchedulerMaxRSS32046396K와GPUpeak는다른지표다. Utilization·통제된speedup은미측정이다. 이CPU리뷰새GPU시간0.',
       '## 7. Coverage와 재현',
       '원NLL/분모/identity/finite/ties/strict·100commit·99metadata links·12fullseen·원source/호출routing·actualcost는확인했다. 저장W/M/전체모델off-on/derivative/GPUcontinuation은미측정. W0재평가·GLUE/MMLU/새downstream·baseline rerun0. CSV raw-inventory/source-inventory/analysis-manifest와rooted-receipt에입출력SHA를결속한다. PNG는CSV기반직접코드생성. README의CPU재현명령에서출력은새namespace를사용하고scheduler조회는기존receipt를재사용한다. 최종효능/우열/원인및후속선택은GH소유다.']
+    lines += ['## 8. 저장 CSV로 생성한 그림',
+      '![12 fullseen과 Current100](figures/cake-fullseen.png)',
+      '![At-write와 W100의 cohort retention](figures/cake-cohort-retention.png)',
+      '![동일10k family별 비교](figures/cake-family-comparison.png)',
+      '그림의 AE/ME는 AlphaEdit/MEMIT 약칭이다. 원 hparam·layer 차이를 보존하며, CAKE를 두 family에 표시한 것은 같은 CAKE 측정값의 참고 표시이지 두 번 실행한 것이 아니다.']
     write(CAKE/'diagnostic-report-ko.md','\n\n'.join(lines))
     r.table(CAKE/'coverage.csv',[dict(requirement=x['requirement'],status=x['verification'],boundary=x['artifact']) for x in conf]+[
        dict(requirement='W/M checkpoint CPU reload',status='NOT_SAVED_USER_DIRECTED',boundary='No tensor replay/backfill'),

@@ -25,6 +25,15 @@ class Tests(unittest.TestCase):
     def test_names(self):
         self.assertEqual(label('AlphaEdit_ORIGINAL'),'AlphaEdit_BLUE(L4+L8)')
         self.assertEqual(label('BASE_ALPHAEDIT'),'BASE_ALPHAEDIT_NATIVE')
+    def test_markdown_escaped_pipes(self):
+        import tempfile
+        from .validate_publication import markdown_check
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'x.md'
+            p.write_text('# Title\n\n| A | B |\n| --- | --- |\n| x\\|y | z |\n')
+            self.assertEqual(markdown_check(p)['errors'],[])
+            p.write_text('| A | B |\n| --- | --- |\n| x | y | z |\n')
+            self.assertTrue(markdown_check(p)['errors'])
     def test_no_model_execution(self):
         for p in Path(__file__).parent.glob('*.py'):
             if p.name.startswith('test_'):continue

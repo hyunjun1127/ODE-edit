@@ -30,3 +30,14 @@ Previously unpublished sweep runtime files are copied exactly from owned commit
 a7bfd2f (execution subset8c64366), for publication, never executed by this review.
 Only analysis modules receive new modifications. Historical reports and GH table
 fixes are unchanged. Source/cost inventories distinguish prior reuse from this audit.
+
+Final CSV/PNG/Markdown/seal validation (no scheduler or scientific raw reload):
+
+```bash
+python -B -m project.run_scripts.server4_completed_review.validate_publication --output NEW_VALIDATION
+```
+
+This runs focused CPU tests and regenerates nine PNGs into new output directories,
+then compares exact bytes against the publication. Markdown tables are checked for
+column consistency, heading spacing and local link existence. Source/extension and
+aggregate-content review is distinct from model-level numerical validation.
