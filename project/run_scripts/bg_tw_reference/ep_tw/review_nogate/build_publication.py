@@ -205,7 +205,7 @@ Acceptedledger는 selectedTFstrict request만 추가한다. 이번모든1000이a
 
 ### 4.9 설계 준수 판정과 남은 경계
 
-이번저장자료에서actualVp anchor, correction-onlyscale, 별도E/Dsweep, halfspace식, ball/trust순서, strictIDsubset+E무악화screen, minDselector, selectedcommit/history1/연속state는**SOURCE_CONFIRMED 및 STORED_EVIDENCE_CONSISTENT**다. 이검토가발견한범위내새DEVIATION은없다. 다만ball뒤일차부호는보장되지않았고그사실을숨기지않았다. SKIPPED진단은silent구현누락으로재분류하지않으며FD/direct/selfKL정확성은NOT_ESTABLISHED다. 따라서“설계된분기/선택/저장규칙을실제적용했는가”에는근거범위내일치라고답할수있지만“미분이검증되어방법효능이입증됐는가”에는답할수없다.
+이번 저장 자료에서 actual Vp anchor, correction-only scale, 별도 E/D sweep, halfspace 식, ball/trust 순서, strict ID subset+E 무악화 screen, min-D selector, selected commit/history1/연속 state는 **SOURCE_CONFIRMED 및 STORED_EVIDENCE_CONSISTENT**다. 이 검토 범위에서 새 DEVIATION은 발견되지 않았다. 다만 ball 뒤 일차 부호는 보장되지 않았으며 그 사실을 함께 남긴다. SKIPPED 진단을 조용한 구현 누락으로 재분류하지 않고, FD/direct/self-KL 정확성은 NOT_ESTABLISHED로 유지한다. 따라서 “설계된 분기·선택·저장 규칙을 실제 적용했는가”에는 근거 범위 안에서 일치한다고 답할 수 있지만, “미분을 검증했고 방법의 효능을 입증했는가”에는 답할 수 없다.
 
 ## 5. Paired 변화·retention·NLL tail
 
