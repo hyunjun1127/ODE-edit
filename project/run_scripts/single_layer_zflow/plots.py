@@ -32,7 +32,7 @@ def render(aggregates: str | Path, output: str | Path) -> dict:
         require(len(current) == 10, 'plot current inventory')
         x = [int(r['batch_index']) * 100 for r in current]
         axes[0, column].plot(x, [float(r['percent']) for r in current], marker='o', label='Current B100')
-        axes[0, column].set(title=tag + ': online current cohort', xlabel='Committed request index',
+        axes[0, column].set(title=tag + ': online current cohort', xlabel='Processed request index',
                            ylabel='Preference success (%)', ylim=(0, 100))
         sl = [r for r in metrics if r['metric'] == tag and r['scope'] == 'seen-full' and r['batch_index'] == '10']
         n4 = [r for r in metrics if r['metric'] == tag and r['scope'] == 'historical-n4']
