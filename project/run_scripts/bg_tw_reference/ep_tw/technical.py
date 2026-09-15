@@ -73,7 +73,7 @@ def verify_w0_teacher(adapter, numerics=None):
     return receipt
 
 
-def functional_materialized(adapter, correction, *, numerics=None):
+def functional_materialized(adapter, correction, *, numerics=None, recorder=None):
     """Same full 257-token sequence and full logits under both real routes."""
     numerical = dict(DEFAULT_NUMERICS, **(numerics or {}))
     adapter._assert_episode()
@@ -104,6 +104,8 @@ def functional_materialized(adapter, correction, *, numerics=None):
         weight_sha256=tensor_sha(expected_weight), restored_sha256=before_sha,
         nonselected_pointer_version_preserved=True, model_forwards=2,
         endpoint_restore_exact=True)
+    if recorder is not None:
+        recorder(receipt)  # durable evidence before a numerical FAIL is raised
     if receipt['status'] != 'PASS':
         raise ModelBoundary('FUNCTIONAL_MATERIALIZED_ALL_TOKEN_PARITY:' + repr(receipt))
     return receipt

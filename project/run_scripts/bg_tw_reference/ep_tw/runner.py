@@ -21,7 +21,8 @@ from .control import identity, save, sha, verify_dispatch
 def save_tensor(path,payload):
     import torch
     p=Path(path);p.parent.mkdir(parents=True,exist_ok=True)
-    with p.open('xb') as f:torch.save(payload,f)
+    with p.open('xb') as f:
+        torch.save(payload,f);f.flush();os.fsync(f.fileno())
     return identity(p)
 
 def validate_batch(records,batch,item):
@@ -65,12 +66,22 @@ def run(lock_path,output):
     started=time.monotonic();stage='SOURCE_INPUT_VERIFY';completed=[];rollback=None;model=None
     try:
         lock=json.loads(Path(lock_path).read_text())
+        repair_prior=None
+        if 'repair_pass_path' in lock:
+            from .repair_runtime import verify_members,validate_repair_pass,recorder,scientific_checks
+            lock['_lock_path']=str(Path(lock_path).resolve())
+            repair_prior,repair_reference=validate_repair_pass(lock)
+            verification=verify_members(lock)
+            save(root/'conditional-admission.json',dict(status='TECHNICAL_PASS_EXACT_LOCK_VERIFIED',
+                technical=repair_reference,verification=verification,fresh_W0_science=True,
+                failed_old_B1_not_resumed=True))
         verify_dispatch(lock['dispatch']['path']);assert lock['policy']=='EP-TW-1' and lock['new_scientific_chains']==1
         assert lock['warm_state_imports']==lock['M8_imports']==lock['baseline_reruns']==0 and lock['N4_calibration'] is False
         assert os.environ.get('SLURMD_NODENAME')=='server4'
         assert torch.__version__==lock['torch'] and transformers.__version__==lock['transformers']
-        for m in lock['members']:
-            assert Path(m['path']).stat().st_size==m['bytes'] and sha(m['path'])==m['sha256'],('FROZEN_MEMBER_DRIFT',m['path'])
+        if repair_prior is None:
+            for m in lock['members']:
+                assert Path(m['path']).stat().st_size==m['bytes'] and sha(m['path'])==m['sha256'],('FROZEN_MEMBER_DRIFT',m['path'])
         assert identity(lock['source_archive']['path'])==lock['source_archive']
         records=load_prefix(lock['dataset_root'],1000)
         assert len(records)==len({r['case_id'] for r in records})==1000
@@ -182,10 +193,23 @@ def run(lock_path,output):
             save_tensor(bdir/'native-targets-map.pt',dict(captures=fit['captures'],target_observations=fit['target_observations'],
                 anchors=fit['anchors'],radii=fit['radii'],A=native_map.A.cpu(),native_proposal=fit['weight']))
             save(bdir/'native-fit.json',dict(fit['receipt'],synchronized_seconds=fit_seconds,map=map_receipt,map_seconds=map_seconds))
-            stage=f'B{batch:03d}_GRADIENTS';sweeps=observe(lambda:adapter.gradient_sweeps(cur))
+            early=recorder(bdir/'early-diagnostics') if repair_prior is not None else None
+            if early is not None:
+                early('postfit-entry',dict(state=state(),rng=capture_rng(),native_targets=identity(bdir/'native-targets-map.pt'),
+                    method_history_appends=0,committed=False))
+            stage=f'B{batch:03d}_GRADIENTS';sweeps=observe(lambda:adapter.gradient_sweeps(cur,recorder=early))
             if batch==1:
                 stage='B001_MODEL_TECHNICAL';begin=time.monotonic()
-                tech=validate_episode(adapter,cur,sweeps,numerics=lock['technical_numerics'])
+                if repair_prior is None:
+                    tech=validate_episode(adapter,cur,sweeps,numerics=lock['technical_numerics'])
+                else:
+                    truth=copy.deepcopy(cur)
+                    for row in truth:row['requested_rewrite']['target_new']=row['requested_rewrite']['target_true']
+                    truth_observation=observe(lambda:adapter.current(truth))
+                    save(bdir/'early-diagnostics/current-true-margin.json',dict(observation=truth_observation,
+                        margins=[t['nll']-n['nll'] for t,n in zip(truth_observation['rows'],sweeps['current']['rows'])],
+                        controller_access=False,technical_extra_forwards=7))
+                    tech=scientific_checks(adapter,cur,sweeps,lock,root/'technical/fresh-episode-checks',repair_prior)
                 nonguard();assert tensor_sha(weight)==tensor_sha(Vp) and state()['M4']==entry['M4']
                 tech['seconds_total']=time.monotonic()-begin
                 technical_ref=save(root/'technical/episode1.json',tech)

@@ -1,0 +1,18 @@
+{
+  "status": "WAITING_USER_RESUME",
+  "job_id": "47942",
+  "gate": "G0_PENDING_NOT_RUN",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_manifest": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/resume-manifest.json",
+    "bytes": 6045,
+    "sha256": "f8885520d3e1b9570a6409a6a3b0608e628f2556a2c1089f343674ac1643dadf"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/diagnostic-report-ko.md",
+    "bytes": 5913,
+    "sha256": "9bbb9d7f1ac0fab4fdc0aa0162a43f9f2603a0a05ced41c4675c396f5944d54d"
+  },
+  "scientific_promotion": false
+}

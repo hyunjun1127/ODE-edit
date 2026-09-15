@@ -1,0 +1,35 @@
+{
+  "job_id": "47942",
+  "last_observation": "2026-09-15T04:46:07.004700+00:00",
+  "last_state": "PENDING",
+  "resource": {
+    "gpu": 1,
+    "cpus": 8,
+    "mem": "60416M",
+    "wall": "12:00:00",
+    "gpu_cap": 2,
+    "gpu_hour_cap": null
+  },
+  "source_head": "2a0fe8e2033086bd86eb740d9b83eb8a2d5c5972",
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/source-v1.tar",
+    "bytes": 1505280,
+    "sha256": "c18f18e4aa773454bc34f10713090224a4502556f509b11e944dd7a991fef7c2"
+  },
+  "repair_lock": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/repair.lock.json",
+    "bytes": 1233975,
+    "sha256": "e6501577e55aa509765d454d3c605f12a7d710f1a07cf83bbd18aecc97c2f43c"
+  },
+  "science_lock": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/scientific.lock.json",
+    "bytes": 1232544,
+    "sha256": "f715685f793508ca35be0cc4ed3a4765e584e40ef3d60a1f578599f9f89e4ff2"
+  },
+  "scientific_conditional_only": true,
+  "resume": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/resume-manifest.json",
+    "bytes": 6045,
+    "sha256": "f8885520d3e1b9570a6409a6a3b0608e628f2556a2c1089f343674ac1643dadf"
+  }
+}

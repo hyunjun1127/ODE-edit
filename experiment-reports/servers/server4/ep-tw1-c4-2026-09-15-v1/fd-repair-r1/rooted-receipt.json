@@ -1,0 +1,20 @@
+{
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/analysis-manifest.json",
+    "bytes": 1380,
+    "sha256": "d027afc2fded1078547028bf7576e23d011c8ede2712dff77ef8ed9b3571f590"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-fd-repair-v1/experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/fd-repair-r1/diagnostic-report-ko.md",
+    "bytes": 5913,
+    "sha256": "9bbb9d7f1ac0fab4fdc0aa0162a43f9f2603a0a05ced41c4675c396f5944d54d"
+  },
+  "resume": {
+    "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/repair-r1/resume-manifest.json",
+    "bytes": 6045,
+    "sha256": "f8885520d3e1b9570a6409a6a3b0608e628f2556a2c1089f343674ac1643dadf"
+  },
+  "status": "WAITING_USER_RESUME",
+  "raw_free": true,
+  "scientific_results_observed": false
+}

@@ -252,6 +252,8 @@ class EpisodeAdapter:
             raise ModelBoundary('MODEL_FP32_REQUIRED')
         self.raw = self.fixed_a = None
         self._sweeps = 0
+        self._direct_objectives = set()
+        self._direct_completed = set()
 
     def set_episode(self, raw, fixed_a):
         if (raw.shape != self.weight.shape or raw.dtype != torch.float32
@@ -263,6 +265,8 @@ class EpisodeAdapter:
         _finite(self.raw, 'RAW'); _finite(self.fixed_a, 'FIXED_A')
         self._versions = (self.raw._version, self.fixed_a._version)
         self._sweeps = 0
+        self._direct_objectives = set()
+        self._direct_completed = set()
 
     def _assert_episode(self):
         if self.raw is None or self._versions != (self.raw._version, self.fixed_a._version):
@@ -299,6 +303,22 @@ class EpisodeAdapter:
         replacement = anchored_weight(correction, self.raw, self.fixed_a)
         return torch.func.functional_call(self.model, {self.weight_name: replacement}, (), kwargs,
                                           strict=False).logits.float()
+
+    def _direct_weight_forward(self, inputs, attention, weight_leaf):
+        """Technical independent route: direct selected weight, no custom map.
+
+        In particular this function must not call ``anchored_weight`` or
+        ``_forward``. Only the selected L4 leaf is differentiated; the actual
+        model and all other parameters stay frozen and are restored by
+        functional_call. This is not a scientific update policy.
+        """
+        self._assert_episode()
+        if (weight_leaf.shape != self.weight.shape or weight_leaf.dtype != torch.float32
+                or weight_leaf.device != self.device or not weight_leaf.is_leaf):
+            raise ModelBoundary('DIRECT_SELECTED_WEIGHT_LEAF_SCHEMA')
+        return torch.func.functional_call(self.model, {self.weight_name: weight_leaf}, (),
+            dict(input_ids=inputs, attention_mask=attention, use_cache=False),
+            strict=False).logits.float()
 
     def _current_groups(self, records):
         records = list(records)
@@ -350,19 +370,23 @@ class EpisodeAdapter:
                 all_tokens_correct=bool(correct.all().item())))
         return torch.stack(losses), rows
 
-    def _current(self, records, correction, *, backward=False):
+    def _current(self, records, correction, *, backward=False, direct_weight=None):
+        if direct_weight is not None and correction is not None:
+            raise ModelBoundary('DIRECT_AND_RESIDUAL_ROUTES_ARE_EXCLUSIVE')
         records = list(records)
         rows, input_count, forwards, backward_count = [], 0, 0, 0
-        gradient = torch.zeros_like(correction) if backward else None
+        gradient_leaf = direct_weight if direct_weight is not None else correction
+        gradient = torch.zeros_like(gradient_leaf) if backward else None
         start = time.monotonic()
         with self._state_guard(), torch.set_grad_enabled(backward):
             for group, ids, attention, positions in self._current_groups(records):
-                logits = self._forward(ids, attention, correction)
+                logits = (self._forward(ids, attention, correction) if direct_weight is None
+                          else self._direct_weight_forward(ids, attention, direct_weight))
                 losses, values = self._current_values(logits, group, positions)
                 _finite(losses, 'CURRENT_NLL')
                 if backward:
                     scalar = losses.sum() / len(records)
-                    gradient.add_(torch.autograd.grad(scalar, correction)[0].detach())
+                    gradient.add_(torch.autograd.grad(scalar, gradient_leaf)[0].detach())
                     backward_count += 1
                 rows.extend(values)
                 input_count += int(attention.sum())
@@ -381,12 +405,15 @@ class EpisodeAdapter:
     def current(self, records, correction=None):
         return self._current(records, correction, backward=False)[0]
 
-    def _generic(self, role, correction, *, backward=False):
+    def _generic(self, role, correction, *, backward=False, direct_weight=None):
+        if direct_weight is not None and correction is not None:
+            raise ModelBoundary('DIRECT_AND_RESIDUAL_ROUTES_ARE_EXCLUSIVE')
         if backward and role != 'S64':
             raise ModelBoundary('ONLY_S64_GRADIENT_ALLOWED')
         indices = self.teacher.indices(role)
         rows, forward_seconds, io_seconds, backward_count = [], 0., 0., 0
-        gradient = torch.zeros_like(correction) if backward else None
+        gradient_leaf = direct_weight if direct_weight is not None else correction
+        gradient = torch.zeros_like(gradient_leaf) if backward else None
         start = time.monotonic()
         with self._state_guard(), torch.set_grad_enabled(backward):
             for index in indices:
@@ -396,7 +423,8 @@ class EpisodeAdapter:
                 begin = time.monotonic()
                 if inputs.shape[1] != 257 or logp0.shape[1] != 128:
                     raise ModelBoundary('GENERIC_SCORE_SCHEMA')
-                logits = self._forward(inputs, torch.ones_like(inputs), correction)
+                logits = (self._forward(inputs, torch.ones_like(inputs), correction) if direct_weight is None
+                          else self._direct_weight_forward(inputs, torch.ones_like(inputs), direct_weight))
                 logpw = torch.log_softmax(logits[:, 128:256, :].float(), dim=-1)
                 if logpw.shape != logp0.shape:
                     raise ModelBoundary('FULL_VOCAB_TEACHER_SHAPE')
@@ -406,7 +434,7 @@ class EpisodeAdapter:
                 _finite(loss, 'GENERIC_KL')
                 natural = -logpw.gather(-1, inputs[:, 129:257, None]).mean()
                 if backward:
-                    gradient.add_(torch.autograd.grad(loss/len(indices), correction)[0].detach())
+                    gradient.add_(torch.autograd.grad(loss/len(indices), gradient_leaf)[0].detach())
                     backward_count += 1
                 rows.append(dict(index=index, role=role, source_row_id=source_id,
                     kl=float(loss.detach()), natural_nll=float(natural.detach()),
@@ -426,7 +454,34 @@ class EpisodeAdapter:
     def generic(self, role='S64', correction=None):
         return self._generic(role, correction, backward=False)[0]
 
-    def gradient_sweeps(self, records):
+    def _gradient_record(self, recorder, stage, objective, gradient, result, *, route):
+        """Synchronous early-save hook; a recording exception propagates.
+
+        The caller must save create-once before returning. This is invoked
+        immediately after a complete E or D sweep and before the next sweep
+        or any technical pass/fail assertion. Tensors/rows/RNG are local-only.
+        """
+        if recorder is None:
+            return
+        _sync(self.device)
+        gradient_version = gradient._version
+        finite = bool(torch.isfinite(gradient).all())
+        recorder(stage, dict(objective=objective, gradient=gradient,
+            result=result, route=route,
+            raw_sha256=tensor_sha(self.raw), map_sha256=tensor_sha(self.fixed_a),
+            gradient_sha256=tensor_sha(gradient), gradient_shape=list(gradient.shape),
+            gradient_dtype=str(gradient.dtype),
+            gradient_finite=finite,
+            gradient_norm=float(gradient.double().norm()) if finite else None,
+            rng=dict(torch_cpu=torch.random.get_rng_state().clone(),
+                     torch_cuda=torch.cuda.get_rng_state(self.device).clone()
+                     if self.device.type == 'cuda' else None),
+            technical_only=route=='DIRECT_SELECTED_WEIGHT_LEAF'))
+        self._assert_episode()
+        if gradient._version != gradient_version:
+            raise ModelBoundary('GRADIENT_RECORDER_MUTATION')
+
+    def gradient_sweeps(self, records, *, recorder=None):
         self._assert_episode()
         if self._sweeps:
             raise ModelBoundary('EPISODE_GRADIENT_SWEEPS_ALREADY_CONSUMED')
@@ -436,7 +491,11 @@ class EpisodeAdapter:
         correction = torch.zeros((self.raw.shape[0], self.fixed_a.shape[0]),
                                  device=self.device, dtype=torch.float32, requires_grad=True)
         current, g_e = self._current(records, correction, backward=True)
+        self._gradient_record(recorder, 'residual_current_gradient', 'E', g_e, current,
+                              route='CUSTOM_RESIDUAL_C0')
         generic, g_d = self._generic('S64', correction, backward=True)
+        self._gradient_record(recorder, 'residual_generic_gradient', 'D', g_d, generic,
+                              route='CUSTOM_RESIDUAL_C0')
         return dict(gE=g_e, gD=g_d, current=current, generic=generic,
             receipt=dict(current_sweeps=1, generic_sweeps=1,
                 gradients_finite=bool(torch.isfinite(g_e).all() and torch.isfinite(g_d).all()),
@@ -445,3 +504,53 @@ class EpisodeAdapter:
                 raw_sha256=tensor_sha(self.raw), map_sha256=tensor_sha(self.fixed_a),
                 residual_shape=list(correction.shape), current_microbatch=16, generic_microbatch=1,
                 gradient_through_solver=False, all_token_weight_application=True))
+
+    def direct_weight_gradients(self, records, *, objectives=('E', 'D'), recorder=None):
+        """Independent technical gW route at exactly the stored RAW endpoint.
+
+        E-only then D-only calls are allowed for E-before-D diagnostic staging.
+        An objective is consumed before execution so a partly failed technical
+        sweep cannot silently repeat. This never consumes or resets scientific
+        residual-gradient quota and does not build/recompute a solver map.
+        The caller compares each gC with gW @ A.T and records actual numerical
+        error under preregistered technical tolerances, not a parity assertion.
+        """
+        self._assert_episode()
+        objectives = tuple(objectives)
+        if (not objectives or len(set(objectives)) != len(objectives)
+                or any(x not in ('E', 'D') for x in objectives)
+                or ('D' in objectives and 'E' in objectives and objectives != ('E','D'))):
+            raise ModelBoundary('DIRECT_GRADIENT_OBJECTIVE_ORDER')
+        if len(records) != self.fixed_a.shape[0]:
+            raise ModelBoundary('FIXED_A_CURRENT_REQUEST_COUNT')
+        if set(objectives) & self._direct_objectives:
+            raise ModelBoundary('DIRECT_GRADIENT_OBJECTIVE_ALREADY_CONSUMED')
+        if objectives == ('D',) and 'E' not in self._direct_completed:
+            raise ModelBoundary('DIRECT_E_MUST_PRECEDE_DIRECT_D')
+        leaf = self.raw.detach().clone().requires_grad_(True)
+        output = {}
+        for objective in objectives:
+            self._direct_objectives.add(objective)
+            if objective == 'E':
+                result, gradient = self._current(records, None, backward=True, direct_weight=leaf)
+                output.update(current=result, gWE=gradient)
+                stage = 'direct_current_weight_gradient'
+            else:
+                result, gradient = self._generic('S64', None, backward=True, direct_weight=leaf)
+                output.update(generic=result, gWD=gradient)
+                stage = 'direct_generic_weight_gradient'
+            self._gradient_record(recorder, stage, objective, gradient, result,
+                                  route='DIRECT_SELECTED_WEIGHT_LEAF')
+            self._direct_completed.add(objective)
+        output['receipt'] = dict(scope='TECHNICAL_DIRECT_SELECTED_WEIGHT_GRADIENT',
+            objectives=list(objectives), selected_weight_name=self.weight_name,
+            weight_shape=list(leaf.shape), weight_dtype=str(leaf.dtype),
+            raw_sha256=tensor_sha(leaf), fixed_A_recomputed=False,
+            custom_affine_node_calls=0, residual_gradient_quota_consumed=0,
+            direct_leaf_bytes_equal_RAW=torch.equal(leaf.detach(),self.raw),
+            current_sweeps=int('E' in objectives), generic_sweeps=int('D' in objectives),
+            actual_model_parity='NOT_ASSERTED_BY_ADAPTER',
+            full_model_parameter_gradients=False, selected_weight_only=True,
+            source_class=f'{type(self.model).__module__}.{type(self.model).__qualname__}',
+            torch_version=torch.__version__, current_microbatch=16, generic_microbatch=1)
+        return output
