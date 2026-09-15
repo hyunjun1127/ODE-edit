@@ -63,6 +63,7 @@ def publish(aggregates, figures, output, technical, n4_reuse, allocation):
         table([r for r in pairs if r['comparison'] in ('SL_ZFLOW_ATWRITE_TO_W10','SL_ZFLOW_W5_TO_W10_SAME_FIRST500','N4_W10_TO_SL_ZFLOW_W10')],
               [('comparison','비교'),('metric','지표'),('denominator','d'),('left_success','이전 성공'),('right_success','이후 성공'),('lost','성공→실패'),('gained','실패→성공'),('delta_pp','Δpp')]), '',
         'Lost/gained는 exact item identity/order join이다. W10 first500은 W10 full1000의 동일 raw rows를 CPU로 잘랐고 중복 forward가 없다. 반복 관측 수를 독립 표본 수로 세지 않는다. Input-only superseded 후보/동일 batch 충돌/미확정 그룹은 paired.csv에 따로 남겼으며 canonical 분모를 삭제하지 않는다.', '',
+        '실제 관측 inventory: `' + str(verification['observation_inventory']) + '`.', '',
         '입력 population: `' + str(verification['request_population_summary']['counts']) + '`.', '',
         table([r for r in metrics if r['scope'] in ('historical-n4','seen-full','first500')], [('batch','상태'),('scope','범위'),('metric','지표'),('new_nll_median','new NLL median'),('new_nll_p95','new NLL p95'),('new_nll_p99','new NLL p99'),('true_nll_median','true NLL median'),('success_margin_p05','성공방향 margin p05')]), '',
         '전체 strict/token·new/true NLL quantile은 metrics.csv, exact-paired NLL 변화 quantile은 paired.csv에 있다. NS를 전체 pretrained capability 보존으로 확대하지 않는다.', '',
