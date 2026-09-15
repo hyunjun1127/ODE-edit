@@ -99,8 +99,8 @@ def main(validation):
         'SH2 exact N4 seen-full 파일은6663948B/SHAe58ed53d6733415d9ae9b20c4f9f1cb82f0769d9cd749bf4af4d98ea138583e3/regular ownerjanghj로 확인했다. SH4 복사0. 직접 transport는 대상 Codex binary 부재로 COMMUNICATION_HOLD이며 수신 완료로 기록하지 않았다.')
     write(WT/'messages/server-heads/server4/2026-09-16-completed-cake-cap-review.md',
         '# CAKE/cap completed CPU review — publication ready\n\n'
-        'CAKE48101:9840/10000,17755/20000,62935/100000. Cap W10: CAP1(reuse)998/1942/8056; CAP10 999/1947/8075; CAP100 998/1945/8052; NORM_ONLY999/1938/8042 (denominators1000/2000/10000). 10kと1kは別表。\n\n'
-        'CAKE100commit/99metadata links/12fullseen、user no-CP. 新規cap30CP/27links/3000targets/30solve/30history。21CPU tests、9PNG byte reproduction、exact source/manifest/Markdown checks. Numerical validation NOT_ESTABLISHEDを維持。\n\n'
+        'CAKE48101:9840/10000,17755/20000,62935/100000. Cap W10: CAP1(reuse)998/1942/8056; CAP10 999/1947/8075; CAP100 998/1945/8052; NORM_ONLY999/1938/8042 (분모1000/2000/10000). 10k와1k는 별도 표다.\n\n'
+        'CAKE100commit/99metadata links/12fullseen, 사용자 no-CP. 신규cap30CP/27links/3000targets/30solve/30history. 21CPU tests, 9PNG byte reproduction, exact source/manifest/Markdown checks. Numerical validation NOT_ESTABLISHED를 유지한다.\n\n'
         f'Overall receipt SHA{overall_receipt["sha256"]}; CAKE{cake_receipt["sha256"]}; sweep{cap_receipt["sha256"]}.\n\n'
         'New execution allocation55127GPU-sec (CAKE32194/cap22933), prior CAP1/teacher/failures separate. ReviewGPU0. Ownscope nonforce main publication ready; no further experiments or monitoring scheduled.')
     access=query(['bash','scripts/check-agent-access.sh','--all-changed'])
