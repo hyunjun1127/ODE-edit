@@ -1,6 +1,10 @@
 {
   "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
-  "status": "PUBLICATION_READY",
+  "status": "TASK_COMPLETE_STOP",
+  "published_main_payload_head": "557f7e1346ac32e5d04131a63ff7cab3141c397d",
+  "published_main_payload_tree": "11b3ea5b071475b589c72d28a33bbfe0a25a63eb",
+  "remote_publication_verified": true,
+  "source_and_report_only": true,
   "reports": [
     {
       "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/rooted-receipt.json",
