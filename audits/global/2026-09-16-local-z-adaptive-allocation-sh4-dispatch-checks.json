@@ -1,0 +1,34 @@
+{
+  "status": "GH_DOCUMENT_SOURCE_DISPATCH_CHECK_ONLY",
+  "design_full_read_lines": 169,
+  "design_bytes": 21218,
+  "contract_full_read_lines": 405,
+  "cell_rows": 70,
+  "cpu_reference_lines": 154,
+  "cpu_original_reported_checks": 35,
+  "cpu_checks_are_not_llama_validation": true,
+  "gh_rerun_cpu_reference": false,
+  "existing_fitter_and_sequential_runtime_read": true,
+  "main_report_split_completed_seen_by_direct_response": true,
+  "scope_totals": {
+    "targets": 12000,
+    "solves": 150,
+    "candidate_endpoints_max": 190,
+    "max_adam": 288000,
+    "max_target_loss": 300000
+  },
+  "critical_boundaries": [
+    "all seven policies new W0 M0, no warm import",
+    "LOCAL versus TERMINAL readout separation",
+    "TD is terminal proposals plus own-entry common N4",
+    "official P/N observer only",
+    "C4 seed20260915 versus method seed20260916",
+    "toy choose nonfinite skip does not authorize production fallback",
+    "former EP numerical waiver not inherited",
+    "latest Server4 cap1 supersedes prior cap2",
+    "initial gate/pending pause remains"
+  ],
+  "scientific_execution_verified": false,
+  "remote_tensor_reads": 0,
+  "gpu": 0
+}

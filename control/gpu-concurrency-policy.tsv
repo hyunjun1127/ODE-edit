@@ -2,7 +2,8 @@
 # Existing submitted runs are grandfathered unchanged; count their allocations
 # before admitting any new run. Server registration/disabled status still applies.
 # server<TAB>max_new_run_project_gpus
+# User override 2026-09-16: server4 is limited to 1 project GPU; other servers unchanged.
 server1	2
 server2	2
 server3	2
-server4	2
+server4	1

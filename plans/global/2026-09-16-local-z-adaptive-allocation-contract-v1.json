@@ -1,0 +1,405 @@
+{
+  "contract_id": "LOCAL-Z-ADAPTIVE-ALLOC-W0-SEQ1000-V1",
+  "schema_version": 1,
+  "date": "2026-09-16",
+  "status": "설계 구체화; model runner 미구현; 새 GPU 실행 없음",
+  "latest_user_instruction": "모든 비교를 동일 pre-edit W0부터 시작; warm 5000-edit entry 사용하지 않음",
+  "design": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md",
+  "new_gpu_jobs_submitted": false,
+  "existing_jobs_modified": false,
+  "main_target_family": "local_z_at_write_layer",
+  "comparison_target_family": "fixed_entry_terminal_L8_z_with_current_L8_residual_refresh",
+  "experiment": {
+    "preferred_asset_host": "server4",
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "entry": "common pre-edit W0",
+    "edit_history_initial": "exact zeros for all eligible layers",
+    "native_original_knowledge_projectors": "same pinned P4/P8; never zeroed",
+    "dtype": "float32",
+    "attention": "eager",
+    "tf32": false,
+    "seed": 20260916,
+    "contexts": "native context procedure once at common W0; freeze text and token bytes for every arm",
+    "batch_size": 100,
+    "start_batch": 1,
+    "end_batch_inclusive": 10,
+    "ordinal_half_open": [
+      0,
+      1000
+    ],
+    "new_chains": 7,
+    "new_batches": 70,
+    "unique_requests": 1000,
+    "arm_request_observations": 7000,
+    "terminal_fullseen_requests": 1000,
+    "each_arm_owns_trajectory": true,
+    "scientific_baseline_endpoint_reuse": false,
+    "past_results": "historical evidence only; no replacement of current seven-arm results",
+    "ridge": 1,
+    "native_max_target_loss_evaluations": 25,
+    "native_max_adam_updates": 24,
+    "development_data": true,
+    "blind_generalization": false,
+    "performance_based_early_stop": false,
+    "zero_all_noise_guarantee": false
+  },
+  "arms": [
+    {
+      "id": "N4",
+      "family": "local4",
+      "policy": "fixed",
+      "gates": [
+        [
+          1,
+          0
+        ]
+      ],
+      "target_calls_per_batch": 100,
+      "solves_per_batch": 1,
+      "candidates_per_batch": 1,
+      "history_layers": [
+        4
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "REFIT4",
+      "family": "local4_then_local4",
+      "policy": "fixed",
+      "gates": [
+        [
+          0.75,
+          1
+        ]
+      ],
+      "target_calls_per_batch": 200,
+      "solves_per_batch": 2,
+      "candidates_per_batch": 1,
+      "history_layers": [
+        4
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "L75",
+      "family": "local4_then_fresh_local8",
+      "policy": "fixed",
+      "gates": [
+        [
+          0.75,
+          1
+        ]
+      ],
+      "target_calls_per_batch": 200,
+      "solves_per_batch": 2,
+      "candidates_per_batch": 1,
+      "history_layers": [
+        4,
+        8
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "T75",
+      "family": "entry_terminal8",
+      "policy": "fixed",
+      "gates": [
+        [
+          0.75,
+          1
+        ]
+      ],
+      "target_calls_per_batch": 100,
+      "solves_per_batch": 2,
+      "candidates_per_batch": 1,
+      "history_layers": [
+        4,
+        8
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "L4D",
+      "family": "local4",
+      "policy": "dynamic",
+      "gates": [
+        [
+          0.75,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "target_calls_per_batch": 100,
+      "solves_per_batch": 1,
+      "candidates_per_batch": 2,
+      "history_layers": [
+        4
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "LD",
+      "family": "local4_then_fresh_local8",
+      "policy": "dynamic",
+      "gates": [
+        [
+          0.75,
+          0
+        ],
+        [
+          0.75,
+          0.5
+        ],
+        [
+          0.75,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "target_calls_per_batch": 300,
+      "solves_per_batch": 3,
+      "candidates_per_batch": 6,
+      "history_layers": [
+        4,
+        8
+      ],
+      "execution": "new_from_common_W0"
+    },
+    {
+      "id": "TD",
+      "family": "entry_terminal8_plus_common_N4",
+      "policy": "dynamic",
+      "gates": [
+        [
+          0.75,
+          0
+        ],
+        [
+          0.75,
+          0.5
+        ],
+        [
+          0.75,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          0.5
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "target_calls_per_batch": 200,
+      "solves_per_batch": 4,
+      "candidates_per_batch": 7,
+      "history_layers": [
+        4,
+        8
+      ],
+      "execution": "new_from_common_W0"
+    }
+  ],
+  "candidate_generation": {
+    "a4": [
+      0.75,
+      1
+    ],
+    "a8": [
+      0,
+      0.5,
+      1
+    ],
+    "sum_to_one_constraint": false,
+    "gate_semantics": "scale actual stored-weight full native fitting delta at that stage",
+    "fp32_formula": "copy U at g=0; copy V at g=1; otherwise FP32(U+g*(V-U))",
+    "local_z4": "once at branch batch entry",
+    "local_z8": "fresh once per a4 partial state; share only across a8 at that state",
+    "terminal_z8": "once at own branch batch entry; frozen across terminal candidates",
+    "terminal_L4_residual": "Z8-h8(entry)",
+    "terminal_L8_residual": "Z8-h8(partial_state)",
+    "forbidden_residual": "Z8-h4",
+    "TD_common_N4_separate_candidate": true,
+    "TD_is_pure_terminal": false,
+    "actual_all_token_weight_forward": true,
+    "weight_deduplication": true,
+    "screen_all_declared_candidates": true,
+    "canonical_terminal_uniform_gate_technical_check": [
+      0.5,
+      1
+    ],
+    "canonical_uniform_gate_in_scientific_menu": false
+  },
+  "selector": {
+    "reference": "actual own-entry N4 action; no independent baseline chain input",
+    "objective": "min D=KL(p_W0||p_candidate); vocab sum then128 positions then64 document mean",
+    "E": "native rewrite training target NLL averaged token/context/request",
+    "current_plateau": 0.05,
+    "current_condition": "E(c)<=max(E(N4),.05)+epsilon_E",
+    "current_strict": "N4 canonical target-new TF-strict success IDs subset of candidate IDs",
+    "current_constraint_granularity": "batch mean, not per-request or per-context",
+    "plateau_meaning": "prespecified confidence plateau, not native total-loss stop or PS guarantee",
+    "H": "mean target NLL on active received Past64 canonical requests",
+    "past_condition": "if memory nonempty, H(c)<=H(N4)+epsilon_E and N4 Past64 strict IDs retained",
+    "past_absolute_entry_preservation": false,
+    "epsilon_E": 0.0001,
+    "epsilon_D": 0.000001,
+    "numerical_preflight": "repeat identical endpoint: error<=epsilon/2, strict bits identical; repair evaluator if failed",
+    "choice": "within epsilon_D of min feasible D",
+    "tie_order": [
+      "common N4",
+      "zero actual L8 delta",
+      "smaller concatenated actual weight-delta Frobenius norm",
+      "candidate ID"
+    ],
+    "normal_fallback": "common N4; record selection and feasibility reasons",
+    "technical_failure": "restore entry; no commit or history append; report typed failure",
+    "shadow_diagnostics": [
+      "no plateau",
+      "strict-only current screen"
+    ],
+    "shadow_may_affect_commit": false,
+    "independent_N4_lifelong_dominance_guarantee": false,
+    "official_PS_guarantee": false
+  },
+  "reference": {
+    "dataset": "C4-WebRef-v2",
+    "online_base": "S64",
+    "teacher": "fixed original W0 full-vocabulary log probabilities",
+    "existing_teacher_manifest_server4": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/teacher-output-v1/teacher-manifest.json",
+    "existing_teacher_manifest_sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a",
+    "reference768_identity": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+    "teacher_reported_complete": true,
+    "remote_bytes_rehashed_here": false,
+    "teacher_reuse": "verify tokens/model/runtime closure against common cold W0; on mismatch regenerate once under shared settings and bind new ID before any arm",
+    "teacher_updated_after_edits": false,
+    "Dev128": "observer only B5/B10",
+    "Report256_teacher_required": false,
+    "C4_KL_is_official_neighborhood_loss": false,
+    "official_P_N_or_future_requests_in_controller": false,
+    "past": {
+      "max_size": 64,
+      "B1": "empty",
+      "input": "previously received active canonical requests",
+      "active_rule": "latest raw (subject,relation) target, one latest event per fact, current overwrites excluded",
+      "priority": "SHA256(UTF8(LZ-ALLOC-v1|20260916|past| + stable_event_id)) ascending",
+      "event_id_encoding": "bind in execution manifest",
+      "loss_based_sampling": false,
+      "official_Historical128_reused": false
+    }
+  },
+  "state": {
+    "warm_capsule_import": false,
+    "warm_history_reconstruction": false,
+    "common_W0_hash_verification": true,
+    "initial_memory_nonzero_count": 0,
+    "inner_history_appends": 0,
+    "final_appends_per_eligible_layer": 1,
+    "zero_gate_memory": "append whole batch for each eligible layer even if gate zero",
+    "history_gate_weighting": false,
+    "full_history_refresh": false,
+    "restore": [
+      "weights",
+      "M/P",
+      "contexts",
+      "RNG",
+      "hooks",
+      "cache identity"
+    ],
+    "target_cache_identity": [
+      "full model state",
+      "physical target layer",
+      "context/token/lookup",
+      "source/hparams/RNG"
+    ]
+  },
+  "cost_totals": {
+    "target_request_calls": 12000,
+    "max_adam_updates": 288000,
+    "max_target_loss_evaluations": 300000,
+    "writer_solves": 150,
+    "candidate_endpoints_max": 190,
+    "cost_categories": [
+      "cold/teacher setup",
+      "target forward/backward",
+      "native solve",
+      "materialization",
+      "Current/Past/S64 candidate scoring",
+      "history",
+      "official evaluation",
+      "I/O"
+    ],
+    "equal_compute_claim": false
+  },
+  "evaluation": {
+    "every_batch": "entry and selected Current R/P/N; strict, NLL, margin and training/base/past candidate scores",
+    "B5": [
+      "first500",
+      "Dev128"
+    ],
+    "B10": [
+      "same first500",
+      "second500",
+      "all1000",
+      "Dev128"
+    ],
+    "transitions": [
+      "W0-entry",
+      "entry-atwrite",
+      "atwrite-final",
+      "B5-first500 to B10-same500"
+    ],
+    "all_requested": true,
+    "active_superseded_separate": true,
+    "cluster_unit": "request, not separate P/N prompts",
+    "primary_contrasts": [
+      "LD-L4D",
+      "LD-L75",
+      "LD-REFIT4",
+      "LD-TD",
+      "T75-L75"
+    ],
+    "fixed_controls_best_tuned": false,
+    "dynamic_vs_fixed_allocation_only": false,
+    "report_TD_fallback_and_raw_family_feasibility": true
+  },
+  "followup": {
+    "first": "lock family-specific fixed gates on development and compare on separate stream",
+    "second": "selected method and simple controls W0-to10k; changed order measures robustness, not unseen-data validation",
+    "conditional": [
+      "dynamic common scale at fixed ratio",
+      "L4+L5",
+      "per-request gates",
+      "preservation-only correction"
+    ],
+    "automatic_sweep_or_dispatch": false
+  },
+  "runtime_binding_pending": [
+    "new adapter and source hash",
+    "common cold W0/P/context/token/RNG capsule",
+    "teacher runtime closure",
+    "exact stable_event_id encoding",
+    "real-model numerical parity",
+    "run IDs and resource allocation"
+  ]
+}

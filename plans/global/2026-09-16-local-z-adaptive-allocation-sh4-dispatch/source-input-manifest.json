@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "copies": "byte-exact; original user worktree preserved",
+  "members": [
+    {
+      "path": "plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md",
+      "sha256": "0aa17998b55850c7b361545c6388930bf75f7ed9d11dc5e4968acf868c370b69",
+      "bytes": 21218
+    },
+    {
+      "path": "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json",
+      "sha256": "07579b9976090266310b3f771312a7dd486c2afacc233cfd1332b0c9a69279df",
+      "bytes": 11699
+    },
+    {
+      "path": "plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv",
+      "sha256": "6c4fa65a61307400189f214e0af6da8b0697ce13ec7b098ddc9e07989a35e65d",
+      "bytes": 5290
+    },
+    {
+      "path": "audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py",
+      "sha256": "89851564b2e606774bab77b4a362bd595013994b6c3cedab9fd12402d4e8c45e",
+      "bytes": 7621
+    },
+    {
+      "path": "audits/global/2026-09-16-local-z-adaptive-allocation/checks.json",
+      "sha256": "7c20488b00104b9472e0622ff3c66a61eb90db8565ba6e13b774d93e352d445a",
+      "bytes": 2645
+    }
+  ],
+  "existing_refs": [
+    {
+      "path": "plans/global/2026-09-13-low-cost-write-donor-pilot-design.md",
+      "sha256": "585dfddb90031d719a668232be1af4ac1815cc81b48f4500c59b8b34fbd016c8"
+    },
+    {
+      "path": "audits/global/2026-09-14-lowcost-seq10-review-ko.md",
+      "sha256": "3494439c5b0463e71bbc90fea03939f3b929614f46394dd38a7cfcdba7339d59"
+    },
+    {
+      "path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20"
+    }
+  ],
+  "existing_refs_verified_equal_to_main": true,
+  "gh_model_gpu_or_remote_scientific_reads": 0
+}

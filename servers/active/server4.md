@@ -1,5 +1,15 @@
 # server4 active record
 
+## 최신 GPU cap override — 2026-09-16
+
+- 사용자 원문: “server4 gpu cap은 1이다.”
+- 현재 Server4 project GPU cap은 **1**이며 아래 역사적 cap4 및 이전 cap2보다 우선한다.
+- 정본: `control/gpu-concurrency-policy.tsv`; 신규 기술/prep/teacher/과학 job을 합쳐 단일 slot으로 admission한다.
+- 이미 할당된 GPU와 admitted pending의 동시실행 가능 용량을 포함한다. 신규 array는 `%1` 또는 동등한 단일 dependency lane을 사용한다.
+- 기존 job 취소·재시작·원source 변경 허가는 아니며, 기존점유가 있으면 신규실행을 대기시킨다. 다른 서버 cap은 불변이다.
+- 인계: `messages/head/2026-09-16-sh4-local-z-adaptive-allocation.md`.
+- 아래 온보딩·실험 수치는 당시 관측을 보존한 기록이다.
+
 ## 현재 authority
 
 - server: `server4`
