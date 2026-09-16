@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-CAKE-BASELINE-CAP-REPORT-SEPARATION-20260916-R1",
+  "source_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "server": "server4",
+  "cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "envelope": "messages/head/2026-09-16-sh4-cake-baseline-cap-report-separation.md",
+  "base_main": "8aabac92fea441e4499d1426db2611cc3d3e7daa",
+  "evidence_publication": "307ba7ae9426324404cfa83df3b4b766846bca74",
+  "scope": "CPU publication-only report separation",
+  "gpu_cap": 2,
+  "new_gpu": 0,
+  "slurm": "not allowed",
+  "monitoring": false,
+  "rsync": false,
+  "deletion": false,
+  "original_v1": "immutable",
+  "main_push": "own-scope non-force allowed",
+  "done_state": "TASK_COMPLETE_STOP",
+  "delivery_status": "PENDING_LIVE_DISPATCH"
+}
