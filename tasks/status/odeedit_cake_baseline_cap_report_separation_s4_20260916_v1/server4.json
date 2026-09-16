@@ -1,0 +1,25 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "status": "PUBLICATION_READY",
+  "reports": [
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/rooted-receipt.json",
+      "bytes": 798,
+      "sha256": "f63c7ed7993cfd0e6332279a3ec206fe69d659fe1ab3089f06fc3baed5418c3a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/rooted-receipt.json",
+      "bytes": 784,
+      "sha256": "9fb87ed00d05d02beb6f582836d8beece3694ded8cf4b8601bba9cfb00e512bd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v2/rooted-receipt.json",
+      "bytes": 739,
+      "sha256": "5b897c83bebfd9c93b862be793b8c128aca196e636994cf88e61a4be0f773b80"
+    }
+  ],
+  "new_GPU_seconds": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "numerical_validation_change": false
+}

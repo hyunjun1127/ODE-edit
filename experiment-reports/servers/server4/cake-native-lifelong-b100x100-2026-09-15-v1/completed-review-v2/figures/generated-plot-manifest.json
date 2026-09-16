@@ -1,0 +1,44 @@
+{
+  "generator": {
+    "path": "project/run_scripts/server4_completed_review/report_separation/plots.py",
+    "bytes": 3387,
+    "sha256": "45e2f92e0046f8a2460f7ccc47611fe42f3a1a99b51ce77d0b192d2c9ca57622"
+  },
+  "matplotlib": "3.10.7",
+  "inputs": [
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/family-final-comparison.csv",
+      "bytes": 6380,
+      "sha256": "e86b1349375d6c332a82728802aa6c354690f978f4e6f515aa91717c6684c05c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/w0-reference.csv",
+      "bytes": 3716,
+      "sha256": "e231b53faf0feb3fdeb36ea219feec556aae2182e34f13eb773526446168593e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-cumulative.csv",
+      "bytes": 514424,
+      "sha256": "21947e5af78e39ad658b69ea358d62beb8ff29131987dc9154e41be06cdf2545"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/seen-prefix.csv",
+      "bytes": 67476,
+      "sha256": "584012115d6c4f5bc537765631cb3ac35e866f2ba985a99e02c8d2c747e1a051"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "cake-family-comparison.png",
+      "bytes": 154810,
+      "sha256": "e32f80ad37faaa3745107595a4855d801faa011126e6adbc22c683dc8912b461"
+    },
+    {
+      "name": "family-cumulative.png",
+      "bytes": 549425,
+      "sha256": "bee50bea40357de77ea7bc639a36bad09952124e152c02286399bbb10067be49"
+    }
+  ],
+  "model_forwards": 0,
+  "raw_access": false
+}

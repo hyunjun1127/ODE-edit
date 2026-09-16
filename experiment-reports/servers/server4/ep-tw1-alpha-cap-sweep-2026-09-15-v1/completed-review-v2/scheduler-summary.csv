@@ -1,0 +1,4 @@
+arm,job_id,state,exit,submit_host_KST,start_host_KST,end_host_KST,elapsed_seconds,allocated_GPU_seconds,queued_seconds,allocated_TRES,MaxRSS
+CAP10,48148,COMPLETED,0:0,2026-09-15T19:53:09,2026-09-15T21:35:01,2026-09-15T23:41:00,7559,7559,6112.0,"billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",48148.batch:37559500K
+CAP100,48149,COMPLETED,0:0,2026-09-15T19:53:09,2026-09-15T23:41:05,2026-09-16T01:50:00,7735,7735,13676.0,"billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",48149.batch:33457856K
+NORM_ONLY,48150,COMPLETED,0:0,2026-09-15T19:53:09,2026-09-16T01:50:05,2026-09-16T03:57:24,7639,7639,21416.0,"billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",48150.batch:33459300K

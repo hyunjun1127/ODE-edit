@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "status": "REPORT_RESTRUCTURING_COMPLETE_PENDING_MAIN_PUBLICATION",
+  "report": {
+    "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v2/README.md",
+    "bytes": 737,
+    "sha256": "75c4a66ca19346fc6861bdfd86f4fc4f954626893b2f31db623c306ef60d2910"
+  },
+  "manifest": {
+    "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v2/analysis-manifest.json",
+    "bytes": 3181,
+    "sha256": "d23951929cdb3d65c3b965c4e29e317d4fe276ba13644ca45147260a48c4df80"
+  },
+  "v1_unchanged": true,
+  "new_GPU_seconds": 0,
+  "new_model_forwards": 0,
+  "scheduler_queries": 0,
+  "automatic_resume": false
+}

@@ -1,0 +1,53 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "base_main": "4d9bd91006df5b6966f36e080e89b0e7ba1b4da7",
+  "base_tree": "9f8e4151dc9e2c6baedc0cfa320f639cb35cb679",
+  "documents": [
+    {
+      "path": "messages/head/2026-09-16-sh4-cake-baseline-cap-report-separation.md",
+      "bytes": 8390,
+      "sha256": "14689b36eaf21114441fdcbc683927cd4092c22baa2e2b9b934fae5efe41abf8",
+      "reading": "FULL_READ"
+    },
+    {
+      "path": "plans/global/2026-09-16-sh4-cake-baseline-cap-report-separation.json",
+      "bytes": 922,
+      "sha256": "bdeab9562915be36cc967568ea77f305eb744ce987faec7f7ab33c7db90eb5d6",
+      "reading": "FULL_READ"
+    }
+  ],
+  "protected_packages": [
+    {
+      "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v1",
+      "git_tree": "fd5403be03d7c4435a9465250c8f1fdcbf9b0f85",
+      "evidence_tree": "fd5403be03d7c4435a9465250c8f1fdcbf9b0f85"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1",
+      "git_tree": "1ddf4fa13c01ac01d930f412efc2c5f91294adf1",
+      "evidence_tree": "1ddf4fa13c01ac01d930f412efc2c5f91294adf1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1",
+      "git_tree": "f80602de0876da4e2ec78d95a3acd69008b3a366",
+      "evidence_tree": "f80602de0876da4e2ec78d95a3acd69008b3a366"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1",
+      "git_tree": "6bdb5371d99ea46dce60a7d64a7b709890846405",
+      "evidence_tree": "6bdb5371d99ea46dce60a7d64a7b709890846405"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3",
+      "git_tree": "4b43155da2e9f765d500f5d3b5dac6dfd05c1235",
+      "evidence_tree": "4b43155da2e9f765d500f5d3b5dac6dfd05c1235"
+    }
+  ],
+  "scheduler_queries": 0,
+  "model_forwards": 0,
+  "raw_payload_reads": 0,
+  "new_server4_README": true,
+  "SH2_publication_preserved": true
+}

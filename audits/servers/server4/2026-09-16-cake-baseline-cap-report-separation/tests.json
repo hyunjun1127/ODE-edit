@@ -1,0 +1,32 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "project.run_scripts.server4_completed_review.report_separation.test_separation"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.069s\n\nOK\n",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "figures": [
+    {
+      "name": "cake-family-comparison.png",
+      "sha256": "e32f80ad37faaa3745107595a4855d801faa011126e6adbc22c683dc8912b461",
+      "repeat_sha256": "e32f80ad37faaa3745107595a4855d801faa011126e6adbc22c683dc8912b461",
+      "byte_equal": true
+    },
+    {
+      "name": "family-cumulative.png",
+      "sha256": "bee50bea40357de77ea7bc639a36bad09952124e152c02286399bbb10067be49",
+      "repeat_sha256": "bee50bea40357de77ea7bc639a36bad09952124e152c02286399bbb10067be49",
+      "byte_equal": true
+    }
+  ],
+  "PNG_byte_reproduction": true,
+  "new_GPU_seconds": 0,
+  "new_scheduler_queries": 0,
+  "scientific_raw_reads": 0
+}

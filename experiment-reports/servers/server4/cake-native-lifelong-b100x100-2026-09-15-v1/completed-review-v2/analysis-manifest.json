@@ -1,0 +1,241 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "source_head": "78c3097aa4da6079ee1891678b64edad97f4f204",
+  "source_tree": "537b01179330121054804dbeb32b20eadb81e6a6",
+  "publication_type": "REPORT_SEPARATION_ONLY_NO_SCIENCE_RECOMPUTATION",
+  "source": [
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/README.md",
+      "bytes": 2706,
+      "sha256": "704ada464a5bb981bab9ec1d92232da59ce289e9f54cf913f11c6b6c04179153"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/build.py",
+      "bytes": 16166,
+      "sha256": "e9fc1761c858e90df6a1425b03ee6cd137399b110b681cce0bc343e609b174f4"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/checks.py",
+      "bytes": 7152,
+      "sha256": "1e0e5d8a5e5c48822afbfa7fc0d6ab5f2a71d50117f490a3260712f53be79279"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/common.py",
+      "bytes": 3554,
+      "sha256": "cd5fa671f63b2f56af22b044063b41ebe22d93754186600f4a12d3a99a4a02a8"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/finish.py",
+      "bytes": 3937,
+      "sha256": "0cecbe7aba9e1b536bd08d707df6bfaf75e3be06516648b5af51626139d155c3"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/plots.py",
+      "bytes": 3387,
+      "sha256": "45e2f92e0046f8a2460f7ccc47611fe42f3a1a99b51ce77d0b192d2c9ca57622"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/test_separation.py",
+      "bytes": 1819,
+      "sha256": "a0424102f756117d26b49287caba1c8f9c9891d24efdf554804fbf57050dc3b2"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/verify.py",
+      "bytes": 1531,
+      "sha256": "9ecf2099706aaec954aa37857eac3a7b41c7340e300319a4fc80df80d87cec55"
+    }
+  ],
+  "prior_package": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1",
+  "prior_receipt": {
+    "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+    "bytes": 1029,
+    "sha256": "412678bb011a7ac39c05a8bd39eadf4265975aea13a8be92d0802e0291e3f2d6"
+  },
+  "mapping": {
+    "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/source-to-v2.json",
+    "bytes": 17278,
+    "sha256": "334e98003c042ced668aaca81f762be45ec7b6a8ec303841b8933dde8f158dea"
+  },
+  "members": [
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/CAKE-B10-first1000.csv",
+      "bytes": 1993,
+      "sha256": "90ead2ef48ec4215639f3e4c49252cb9631ea37f0dfcadb326988bccd34b8cfd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/CAKE-layer-weights.csv",
+      "bytes": 520,
+      "sha256": "727077bb4082aaecfd7e96e563d48530b3af0b7aadf9a0d26d5818013f49240c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/CAKE-log-target-counters.csv",
+      "bytes": 8789,
+      "sha256": "7dc407caed722b73b4b421208fce4e9941f118a84e6c932b910fde4d0b5e95ad"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/README.md",
+      "bytes": 885,
+      "sha256": "6b644f1142eb937d7782c1c362222eeda21a2afd1136e5d1983c6576ed6bf8f0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/arm-label-provenance.csv",
+      "bytes": 4093,
+      "sha256": "1c68e3ed7fffd6648167d3768cd4429864d3599c191754c3aa3fa0075a3fa394"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-B10-first1000.csv",
+      "bytes": 43890,
+      "sha256": "67e41c1379e3e46f366fbb040cb9185bc6140cd5a46bc3cdda72cd8fc06b55ed"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-compatibility.csv",
+      "bytes": 29361,
+      "sha256": "ef054051a7b361396b40dfcc0ac42aa09ff6dd6c29043bf8e548fd14c952abbb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-cumulative.csv",
+      "bytes": 514424,
+      "sha256": "21947e5af78e39ad658b69ea358d62beb8ff29131987dc9154e41be06cdf2545"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-final-distributions.csv",
+      "bytes": 45080,
+      "sha256": "f9d5d393baf08de782fcaee692290c3990c4bd3854b338c7a8bb659206016f00"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/baseline-paired.csv",
+      "bytes": 17593,
+      "sha256": "feef3dd7ef705a01631aa02091d9306881c073ca9a9619e355b095cad27ba14e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/batch-current.csv",
+      "bytes": 138354,
+      "sha256": "1c994b450ff0225acb5a5aecb3e4d82191d51618d714c972f55aa868560e4903"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/cohort-retention.csv",
+      "bytes": 102590,
+      "sha256": "ce572bcc1a9405ef716014378d89199f589ee385bd8f0f6fc6ce1eb5a110145a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/compatibility.json",
+      "bytes": 2410,
+      "sha256": "2f7cb277cb0e2160ce5386bb0586cd9151818289b9abea61d2b55af46d22f65c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/cost-by-batch.csv",
+      "bytes": 19060,
+      "sha256": "87a3607dc4e758615e25725c9e68fc71462931e15e517c36d96a02508cd09d55"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/coverage.csv",
+      "bytes": 958,
+      "sha256": "3c5630bb08a5054d438b4098cd2828c135098648901dec8cb382faf12fa0b14a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/design-conformance.csv",
+      "bytes": 2300,
+      "sha256": "8cea1972bda879d910e4ffda2779fdd3631f10fc14734e6dd51665a3ee0f6b22"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+      "bytes": 16502,
+      "sha256": "e108438abd51b8d536925ce4ad863e6e8e815df10a105aa1503899c4de65953a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/family-final-comparison.csv",
+      "bytes": 6380,
+      "sha256": "e86b1349375d6c332a82728802aa6c354690f978f4e6f515aa91717c6684c05c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/figures/cake-cohort-retention.png",
+      "bytes": 180970,
+      "sha256": "0e14d3dc7c5404e28709d463a967a70067054388779eed59a6c509fa2dd46c1d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/figures/cake-family-comparison.png",
+      "bytes": 154810,
+      "sha256": "e32f80ad37faaa3745107595a4855d801faa011126e6adbc22c683dc8912b461"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/figures/cake-fullseen.png",
+      "bytes": 132915,
+      "sha256": "9290ecf7a8ab035b54b70605b6d3734cecce5f9414dc19556dd79d9c7ba213ba"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/figures/family-cumulative.png",
+      "bytes": 549425,
+      "sha256": "bee50bea40357de77ea7bc639a36bad09952124e152c02286399bbb10067be49"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/figures/generated-plot-manifest.json",
+      "bytes": 1662,
+      "sha256": "0b4308ad1c0a03bd4359d062e983e7e5205eaf09cb0f83947c33f7b8437ab930"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/first-final-table.csv",
+      "bytes": 2014,
+      "sha256": "f52d75a611ef32bb01751ec86588536ceaf2258b6daac56e511ce88adeaaeb23"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/layer-actions.csv",
+      "bytes": 39569,
+      "sha256": "9402343527126258c3b6ee7093499ab74a78d9828ab0587506ae29764576fc1c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/paired-transitions.csv",
+      "bytes": 7104,
+      "sha256": "2cae03b34805f3f89dd9ffb79e7c172c3a9558ed764039ba352f114b125bd1c8"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/raw-inventory.csv",
+      "bytes": 112172,
+      "sha256": "dd8b0e1ef3af27290340d580e16ab68db428f250c1c8bb051c8a48cc9e307570"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/rewrite-trajectories.csv",
+      "bytes": 7146,
+      "sha256": "b7787a8f77c22ed7eda2785548d90503808f9dd2b09be527043396149fddc5c0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/seen-prefix.csv",
+      "bytes": 67476,
+      "sha256": "584012115d6c4f5bc537765631cb3ac35e866f2ba985a99e02c8d2c747e1a051"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/source-to-v2.json",
+      "bytes": 17278,
+      "sha256": "334e98003c042ced668aaca81f762be45ec7b6a8ec303841b8933dde8f158dea"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/state-links.csv",
+      "bytes": 6501,
+      "sha256": "eb64a216ec1e9c24c8b646a3035d8e620778b19dd3cb02e8a2a0edaca700892c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/w0-prior-cost.csv",
+      "bytes": 610,
+      "sha256": "6d270a5887d20a4649adcc17ac4f49e82aff14303240434b541255a55c2d8d4c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/w0-reference.csv",
+      "bytes": 3716,
+      "sha256": "e231b53faf0feb3fdeb36ea219feec556aae2182e34f13eb773526446168593e"
+    }
+  ],
+  "checks": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/checks.json",
+    "bytes": 4126,
+    "sha256": "677b377b5642f2698a2f4540be24f92295bb6037cea1ed053af96cf6d25a4bc6"
+  },
+  "tests": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/tests.json",
+    "bytes": 1118,
+    "sha256": "a4986feccde3034ae3546ac7ee8c9a9d9b8d8808ae7b0e887274f0e86a53e3f6"
+  },
+  "new_GPU_seconds": 0,
+  "new_scheduler_queries": 0,
+  "v1_unchanged": true,
+  "numerical_validation": "GPU_CONTINUATION_NOT_TESTED_NO_NEW_NUMERICAL_CLAIM",
+  "automatic_resume": false
+}

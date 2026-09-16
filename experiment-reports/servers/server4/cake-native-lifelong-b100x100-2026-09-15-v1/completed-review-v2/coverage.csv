@@ -1,0 +1,11 @@
+requirement,status,boundary
+original apply once B100,SOURCE_AND_STORED_TELEMETRY,100 native-observation/commit
+last L8 target once per request,SOURCE_AND_STORED_TELEMETRY,"z[100] per batch, layer8 and case order"
+current-state residual,SOURCE_CONFIRMED_PARTIAL_TELEMETRY,"keys[4..8], solves5; residual tensor NOT_SAVED"
+remaining causal-weight allocation,SOURCE_AND_LOG_AGGREGATE,layer-weights CPU source formula; log six decimals
+native projected direct solve,SOURCE_AND_STORED_TELEMETRY,500 solve shape/dtype records
+history only original apply final pass,SOURCE_AND_STORED_TELEMETRY,100 final passes /500 layer histories
+observer/current+allseen; no controller feedback,SOURCE_AND_REDUCED_ROWS,current and fullseen state hashes
+no saved W/M,USER_DIRECTED_NO_CP_NOT_REPLAY,"0 pt files, metadata links99"
+W/M checkpoint CPU reload,NOT_SAVED_USER_DIRECTED,No tensor replay/backfill
+GPU continuation/derivative,NOT_TESTED,No new GPU in this review

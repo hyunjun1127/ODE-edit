@@ -1,0 +1,77 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "source_head": "78c3097aa4da6079ee1891678b64edad97f4f204",
+  "source_tree": "537b01179330121054804dbeb32b20eadb81e6a6",
+  "publication_type": "REPORT_SEPARATION_ONLY_NO_SCIENCE_RECOMPUTATION",
+  "source": [
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/README.md",
+      "bytes": 2706,
+      "sha256": "704ada464a5bb981bab9ec1d92232da59ce289e9f54cf913f11c6b6c04179153"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/build.py",
+      "bytes": 16166,
+      "sha256": "e9fc1761c858e90df6a1425b03ee6cd137399b110b681cce0bc343e609b174f4"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/checks.py",
+      "bytes": 7152,
+      "sha256": "1e0e5d8a5e5c48822afbfa7fc0d6ab5f2a71d50117f490a3260712f53be79279"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/common.py",
+      "bytes": 3554,
+      "sha256": "cd5fa671f63b2f56af22b044063b41ebe22d93754186600f4a12d3a99a4a02a8"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/finish.py",
+      "bytes": 3937,
+      "sha256": "0cecbe7aba9e1b536bd08d707df6bfaf75e3be06516648b5af51626139d155c3"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/plots.py",
+      "bytes": 3387,
+      "sha256": "45e2f92e0046f8a2460f7ccc47611fe42f3a1a99b51ce77d0b192d2c9ca57622"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/test_separation.py",
+      "bytes": 1819,
+      "sha256": "a0424102f756117d26b49287caba1c8f9c9891d24efdf554804fbf57050dc3b2"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/verify.py",
+      "bytes": 1531,
+      "sha256": "9ecf2099706aaec954aa37857eac3a7b41c7340e300319a4fc80df80d87cec55"
+    }
+  ],
+  "prior_package": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v1",
+  "prior_receipt": {
+    "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v1/rooted-receipt.json",
+    "bytes": 985,
+    "sha256": "89621d6c7ce68c97a7f2d01e059d9f0f5621b88d6b7dd1cc96240cf8bb8a2327"
+  },
+  "mapping": "LINKS_ONLY_NO_MIXED_SCIENTIFIC_TABLE",
+  "members": [
+    {
+      "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v2/README.md",
+      "bytes": 737,
+      "sha256": "75c4a66ca19346fc6861bdfd86f4fc4f954626893b2f31db623c306ef60d2910"
+    }
+  ],
+  "checks": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/checks.json",
+    "bytes": 4126,
+    "sha256": "677b377b5642f2698a2f4540be24f92295bb6037cea1ed053af96cf6d25a4bc6"
+  },
+  "tests": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/tests.json",
+    "bytes": 1118,
+    "sha256": "a4986feccde3034ae3546ac7ee8c9a9d9b8d8808ae7b0e887274f0e86a53e3f6"
+  },
+  "new_GPU_seconds": 0,
+  "new_scheduler_queries": 0,
+  "v1_unchanged": true,
+  "numerical_validation": "NOT_APPLICABLE_LINK_INDEX",
+  "automatic_resume": false
+}

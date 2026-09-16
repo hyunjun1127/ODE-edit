@@ -1,0 +1,96 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "status": "CPU_PUBLICATION_SCOPE_NUMERIC_AND_GFM_HTML_PASS",
+  "input_mapping_entries": 74,
+  "scope": {
+    "CAKE_unique_edited_runs": 15,
+    "W0_separate": true,
+    "alpha_arms": 4,
+    "index_scientific_table_count": 0
+  },
+  "render_engine": "markdown-it-py 3.0.0",
+  "actual_render": "HTML table DOM cells and links checked; not claimed browser pixel rendering",
+  "documents": [
+    {
+      "input": {
+        "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+        "bytes": 16502,
+        "sha256": "e108438abd51b8d536925ce4ad863e6e8e815df10a105aa1503899c4de65953a"
+      },
+      "html_path": "/data/janghj/ODE-edit/local/report-separation/20260916-v1/staging/checks-v1/cake.html",
+      "html_sha256": "f0a5b055ee13f0c79f4d45a4d88320221075476c937c8b9ee7c47a4bd43088e9",
+      "rendered_tables": 9,
+      "rendered_rows": 92,
+      "links_checked": 22
+    },
+    {
+      "input": {
+        "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+        "bytes": 31304,
+        "sha256": "fa966bc035b866600a72503c9715fa632ee27c1c71b2cffee160db978ea0ef47"
+      },
+      "html_path": "/data/janghj/ODE-edit/local/report-separation/20260916-v1/staging/checks-v1/cap.html",
+      "html_sha256": "4f0877f1c4d32eb9848925ef7c0b9b0ecec0d193c4d72987ca13c54670a11bf0",
+      "rendered_tables": 19,
+      "rendered_rows": 170,
+      "links_checked": 26
+    },
+    {
+      "input": {
+        "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v2/README.md",
+        "bytes": 737,
+        "sha256": "75c4a66ca19346fc6861bdfd86f4fc4f954626893b2f31db623c306ef60d2910"
+      },
+      "html_path": "/data/janghj/ODE-edit/local/report-separation/20260916-v1/staging/checks-v1/index.html",
+      "html_sha256": "1c313761596a5edbe3cef8202642242591fa68e22f9698f0559cd54e17435e47",
+      "rendered_tables": 0,
+      "rendered_rows": 0,
+      "links_checked": 3
+    },
+    {
+      "input": {
+        "path": "experiment-reports/servers/server4/README.md",
+        "bytes": 5553,
+        "sha256": "198d4a50b9f490f8e08e7300be9107abbb9494ef2eb31194a6121991dcab0ad0"
+      },
+      "html_path": "/data/janghj/ODE-edit/local/report-separation/20260916-v1/staging/checks-v1/server4.html",
+      "html_sha256": "9761d76ad7a43ddbef528f8536eba2ebd3ee5df01e4c18ddbe09a419fd456a80",
+      "rendered_tables": 0,
+      "rendered_rows": 0,
+      "links_checked": 50
+    }
+  ],
+  "protected_v1_trees": [
+    {
+      "path": "experiment-reports/servers/server4/completed-experiments-review-2026-09-16-v1",
+      "git_tree": "fd5403be03d7c4435a9465250c8f1fdcbf9b0f85",
+      "evidence_tree": "fd5403be03d7c4435a9465250c8f1fdcbf9b0f85"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v1",
+      "git_tree": "1ddf4fa13c01ac01d930f412efc2c5f91294adf1",
+      "evidence_tree": "1ddf4fa13c01ac01d930f412efc2c5f91294adf1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1",
+      "git_tree": "f80602de0876da4e2ec78d95a3acd69008b3a366",
+      "evidence_tree": "f80602de0876da4e2ec78d95a3acd69008b3a366"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1",
+      "git_tree": "6bdb5371d99ea46dce60a7d64a7b709890846405",
+      "evidence_tree": "6bdb5371d99ea46dce60a7d64a7b709890846405"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-l4-l8-lifelong-b100x100-review-2026-09-09-v3",
+      "git_tree": "4b43155da2e9f765d500f5d3b5dac6dfd05c1235",
+      "evidence_tree": "4b43155da2e9f765d500f5d3b5dac6dfd05c1235"
+    }
+  ],
+  "new_scheduler_queries": 0,
+  "new_GPU_seconds": 0,
+  "scientific_raw_reads": 0,
+  "numerical_validation_change": false,
+  "cap_all_old_table_cells_identical": true,
+  "cake_all_old_table_cells_preserved_except_display_labels": true
+}

@@ -1,0 +1,316 @@
+{
+  "instruction_id": "ODEEDIT-S06-CAKE-BASELINE-CAP-REPORT-SEPARATION-SH4-V1",
+  "source_head": "78c3097aa4da6079ee1891678b64edad97f4f204",
+  "source_tree": "537b01179330121054804dbeb32b20eadb81e6a6",
+  "publication_type": "REPORT_SEPARATION_ONLY_NO_SCIENCE_RECOMPUTATION",
+  "source": [
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/README.md",
+      "bytes": 2706,
+      "sha256": "704ada464a5bb981bab9ec1d92232da59ce289e9f54cf913f11c6b6c04179153"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/build.py",
+      "bytes": 16166,
+      "sha256": "e9fc1761c858e90df6a1425b03ee6cd137399b110b681cce0bc343e609b174f4"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/checks.py",
+      "bytes": 7152,
+      "sha256": "1e0e5d8a5e5c48822afbfa7fc0d6ab5f2a71d50117f490a3260712f53be79279"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/common.py",
+      "bytes": 3554,
+      "sha256": "cd5fa671f63b2f56af22b044063b41ebe22d93754186600f4a12d3a99a4a02a8"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/finish.py",
+      "bytes": 3937,
+      "sha256": "0cecbe7aba9e1b536bd08d707df6bfaf75e3be06516648b5af51626139d155c3"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/plots.py",
+      "bytes": 3387,
+      "sha256": "45e2f92e0046f8a2460f7ccc47611fe42f3a1a99b51ce77d0b192d2c9ca57622"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/test_separation.py",
+      "bytes": 1819,
+      "sha256": "a0424102f756117d26b49287caba1c8f9c9891d24efdf554804fbf57050dc3b2"
+    },
+    {
+      "path": "project/run_scripts/server4_completed_review/report_separation/verify.py",
+      "bytes": 1531,
+      "sha256": "9ecf2099706aaec954aa37857eac3a7b41c7340e300319a4fc80df80d87cec55"
+    }
+  ],
+  "prior_package": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1",
+  "prior_receipt": {
+    "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v1/rooted-receipt.json",
+    "bytes": 998,
+    "sha256": "5def699fe02ddacb85085665718eeadd4ea28bc87b2fa32af691616c0d8e10c2"
+  },
+  "mapping": {
+    "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/source-to-v2.json",
+    "bytes": 27664,
+    "sha256": "9c620f76f3f6523ceb8af3aadca34c1729112f0ab04976d7ced2ca517fcc71e7"
+  },
+  "members": [
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP10-checkpoint-inventory.csv",
+      "bytes": 3449,
+      "sha256": "14d0412fabecccf124b51d51a32b8031034b18d452885d4ff65d1388604a66a5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP10-raw-member-inventory.csv",
+      "bytes": 28113,
+      "sha256": "aee445eb700dfa465b7b38b81b76cf48fb6b0a007fc67ef1c4a2a6ea34b4539d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP10-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP10-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP100-checkpoint-inventory.csv",
+      "bytes": 3459,
+      "sha256": "7b5e7fb262268dcd7a17f3ba74a903c13fa045b7b38cbdb5e4827ff7b6b1f58c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP100-raw-member-inventory.csv",
+      "bytes": 28229,
+      "sha256": "e177774a162be1bbd93b77eaf497535803d087a3b13db652b5beb961d1a82baf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP100-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/CAP100-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/NORM_ONLY-checkpoint-inventory.csv",
+      "bytes": 3489,
+      "sha256": "7a076e8b37a625e655d0e4e1f6c6ebe4ea1e79eb2d6db2811e943b0a97947659"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/NORM_ONLY-raw-member-inventory.csv",
+      "bytes": 28577,
+      "sha256": "51426fdca5eb86835b8e2bbe5610bebe510b1cbae137092681733bb2e0ca4414"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/NORM_ONLY-state-links.csv",
+      "bytes": 413,
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/NORM_ONLY-target-counters.csv",
+      "bytes": 580,
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/RAW-selection-reasons.csv",
+      "bytes": 4493,
+      "sha256": "62c95be89328fcf5ce2b33c9aaa598f2ff6a254ac0fd4603fc2abc348d4f00c4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/README.md",
+      "bytes": 882,
+      "sha256": "ac0e13d109d6bb43dbb883f007d7c29f9b817cc4b825de9a55ebf86a55318790"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/action-summary.csv",
+      "bytes": 2132,
+      "sha256": "4b3c2d212aae7122f3081d1df2a2f7a083fcd71138dd50bb82a4da1812ee8a4b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/baseline-first1000.csv",
+      "bytes": 9350,
+      "sha256": "7f33b5e7d12774510feb2e44bcd9e1e9388f906bd27f1ad8ae88a45937dc9442"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/baseline-paired.csv",
+      "bytes": 27074,
+      "sha256": "1d25f3ca4aa647318310dd942803ca9b74f28d56ac6d8a47b4a6aeee1817484f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/batch-current-metrics.csv",
+      "bytes": 341263,
+      "sha256": "8a3c8bc4c895adb13970d9f122893a9843865d2c5505f3c89fbbe81fad3baa69"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/batch-policy.csv",
+      "bytes": 13236,
+      "sha256": "a29a5330666a5e2994a3cec6177133c90b209d4f03bac955d0f17d9ce9eadca3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/candidate-details.csv",
+      "bytes": 31534,
+      "sha256": "5c68028a1091e5e68336c8d442161e24c7685d9790ba34bc59d037c3b2d61412"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/candidate-firstorder-observed.csv",
+      "bytes": 35962,
+      "sha256": "170b40cc7b72d76b84409cec1ce19f212060cca9e6ee82d9b54edac9a0f36f06"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/cohort-retention.csv",
+      "bytes": 46272,
+      "sha256": "115503cabc1c64d06c2d02c236ca938c046cb783362633c9cb3ed68519c5eb2f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/compatibility.csv",
+      "bytes": 5833,
+      "sha256": "ea6df25cbf0b54c321a7846cf989252fda43e3ca76afa204ffe8223b1974d5a1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/cost-by-batch.csv",
+      "bytes": 16507,
+      "sha256": "4f776f3049af6a08a38ef528693bc7a5dfe91d6f8eedc85a818a5ef970374ca2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/cost-summary.csv",
+      "bytes": 2124,
+      "sha256": "a5837613871efabd2b21adb79d79a7ae13f95ee4e50a70f038e720ad74c42d3e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/coverage.csv",
+      "bytes": 1599,
+      "sha256": "7c0d05fa1404357f3a5c05c75654423af369e394c7e3b522253615e4488ece8b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/cross-arm-paired.csv",
+      "bytes": 7208,
+      "sha256": "6d64452432e1efe43429cb44b3ab7a27ab94a703aafda28b267c963c488a03f1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/design-conformance.csv",
+      "bytes": 3697,
+      "sha256": "487a125f92149aacba8c5cf7f8cf69e343b98a3e905794246259e596de3613a5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+      "bytes": 31304,
+      "sha256": "fa966bc035b866600a72503c9715fa632ee27c1c71b2cffee160db978ea0ef47"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/atwrite-terminal-transitions.png",
+      "bytes": 55721,
+      "sha256": "075d55af9212f7898019b2950be36cec0d4e44df3066dab3fff689f11afe5c2a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/candidate-finite-screen.png",
+      "bytes": 196292,
+      "sha256": "85bb52da8c36f7a13722dbe9ccc00836f5fc99ce09b7c20ffb776b6de478431a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/candidate-versus-selected-action.png",
+      "bytes": 160879,
+      "sha256": "663b163baabd6b3be7d9fab68be131b0fa8fa892d3c1ec9f452fcd486694b0da"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/current-curves.png",
+      "bytes": 140832,
+      "sha256": "a2e21a37469a20637051ad643619e2650358e1ff187a1507b057337ade291280"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/final-first1000.png",
+      "bytes": 63908,
+      "sha256": "46022ff7d22ae944b428f48fc5a17d6af64ea45195181abe34b47112041e1d1a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/figures/generic-controller-observer.png",
+      "bytes": 127522,
+      "sha256": "9007cc8fb0b1ffe92d8430688ec2cb3f8604d428fc5854560d82d23e4e780faa"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/first-final-table.csv",
+      "bytes": 6620,
+      "sha256": "f4b04a785395e48b2157715361144efe1d285628a160e954c5084f540e0120a4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/general-observer.csv",
+      "bytes": 875,
+      "sha256": "d36885856b4eeb9eaca9b3d78f580369067cc286088d2ff84ca3d8f02bd046b8"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/generic-panels.csv",
+      "bytes": 18155,
+      "sha256": "8288e6cc562428fc74b586c525cb4b62b4210c3255fcbb6a40f03e9850783c01"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/ledger-summary.csv",
+      "bytes": 2783,
+      "sha256": "462067a43f29bddf28f4c69d9cf7de4d26460fc8b38af425f69d7a132a348dcd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/mechanism-observed-details.csv",
+      "bytes": 23938,
+      "sha256": "c6d16d5d461832450b93ee61813f0bfbf0c8369e0bb81cdb2bb1d7c08a971220"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/mechanism-summary.csv",
+      "bytes": 246,
+      "sha256": "2cf2ecaa4779af1f5e880a58b7522227c5bdc59904acc3ce8ac42e5a2b58ce9b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/new-state-summary.csv",
+      "bytes": 1742,
+      "sha256": "573763cdebad643f0d3b2fbe36510dcb642bbaee08a49d1699912c43c41d99d9"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/paired-transitions.csv",
+      "bytes": 111659,
+      "sha256": "960dc49f45c72cdd29befeaff8d6ce36d5241fd95e0c6e88a916475728a88157"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/parity-warnings.csv",
+      "bytes": 6245,
+      "sha256": "e2f4a0c505469a529f8654342f41f92abb0ef3d9f359301156a1887ea774db39"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/per-batch-actions.csv",
+      "bytes": 21765,
+      "sha256": "5bfc34f1dadf64d8cb608b34c974898b8d662b63d0acf6a9f953a16aec11b259"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/scheduler-summary.csv",
+      "bytes": 659,
+      "sha256": "0e12b091c856f0c93bbe6bde299192b04ab69c4f256a0af49f10d45e57833714"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/source-to-v2.json",
+      "bytes": 27664,
+      "sha256": "9c620f76f3f6523ceb8af3aadca34c1729112f0ab04976d7ced2ca517fcc71e7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/whole-prefix-metrics.csv",
+      "bytes": 48185,
+      "sha256": "a1b63c73ab43e469a572ec9aa01e8c71bcd533726d1507c3530c37a9bd7d70c3"
+    }
+  ],
+  "checks": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/checks.json",
+    "bytes": 4126,
+    "sha256": "677b377b5642f2698a2f4540be24f92295bb6037cea1ed053af96cf6d25a4bc6"
+  },
+  "tests": {
+    "path": "audits/servers/server4/2026-09-16-cake-baseline-cap-report-separation/tests.json",
+    "bytes": 1118,
+    "sha256": "a4986feccde3034ae3546ac7ee8c9a9d9b8d8808ae7b0e887274f0e86a53e3f6"
+  },
+  "new_GPU_seconds": 0,
+  "new_scheduler_queries": 0,
+  "v1_unchanged": true,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "automatic_resume": false
+}
