@@ -22,7 +22,7 @@ def plots(data,out):
         values=[float(rr[a]['percent']) for a in ARMS];ax.bar(ARMS,values,color=[colors[a] for a in ARMS])
         ax.set(title=tag+' at W10',ylabel='Canonical success (%)',ylim=(0,105));ax.tick_params(axis='x',rotation=45)
         for i,v in enumerate(values):ax.text(i,v+1,f'{v:.2f}',ha='center',fontsize=8)
-    fig.suptitle('Local-z: matched cold first1000 (one fixed order)',y=1.03);save(fig,'final-seven-arm.png')
+    fig.suptitle('Local-z: matched cold first1000 (one fixed order)',y=.99);save(fig,'final-seven-arm.png')
     fig,axes=plt.subplots(3,1,figsize=(10,8),sharex=True)
     for ax,tag in zip(axes,('RS','PS','NS')):
         for a in ARMS:
