@@ -1,0 +1,25 @@
+{
+  "check_level": "GH_DOCUMENT_DISPATCH_ONLY",
+  "current_protocol_sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+  "gh_boundary": "PASS",
+  "target_inspection": "exact registered SH4 idle, prior pending handoff read",
+  "last_published_scientific_status": "PENDING_GATE_NOT_RUN, 2026-09-16T11:36:50.122707+00:00; not a current state claim",
+  "design_full_read": true,
+  "prior_envelope_read": true,
+  "preparation_submission_report_read": true,
+  "gh_remote_scheduler_raw_gpu_checks": 0,
+  "review_includes": [
+    "independent NLL reducer",
+    "7-arm same-data pairing",
+    "actual design conformance",
+    "candidate constraints and exact selected IDs",
+    "Past64/teacher/observer separation",
+    "history and CP/source lineage",
+    "retention/loss-gain/tails",
+    "technical versus science cost",
+    "missing and failure boundaries"
+  ],
+  "new_experiment_authority": false,
+  "other_task_resume": false,
+  "cap1_preserved": true
+}

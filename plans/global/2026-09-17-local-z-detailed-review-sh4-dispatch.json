@@ -1,0 +1,44 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-LOCAL-Z-DETAILED-REVIEW-20260917-R1",
+  "user_request": "server4 실험 자세히 리뷰시켜",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "envelope": "messages/head/2026-09-17-sh4-local-z-detailed-review.md",
+  "base_main": "e62824df52149d947ee4836e59863b1e12a55b7d",
+  "execution_source": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+  "jobs": {
+    "preparation": 48679,
+    "array": 48680,
+    "mapping": {
+      "0": "LD",
+      "1": "N4",
+      "2": "REFIT4",
+      "3": "L75",
+      "4": "T75",
+      "5": "L4D",
+      "6": "TD"
+    }
+  },
+  "scope": "CPU detailed review of exact completed local-z outputs; stable failed outputs RCA only",
+  "gpu_cap": 1,
+  "new_gpu": 0,
+  "slurm_submission": "NOT_ALLOWED",
+  "scheduler": "bounded read once exact target jobs; no polling",
+  "on_incomplete": "NA with reason; no wait/resubmit; complete independently possible CPU review",
+  "on_failure": "read-only RCA; no runtime fix or rerun",
+  "expected_if_all_complete": {
+    "chains": 7,
+    "batches": 70,
+    "unique_requests": 1000,
+    "arm_request_observations": 7000,
+    "checkpoint_files": 21,
+    "batch_links": 63,
+    "history_appends": 110
+  },
+  "automatic_monitoring": false,
+  "main_push": "own compact analysis/report/source scope non-force after review",
+  "report": "experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+  "status": "PENDING_LIVE_DISPATCH"
+}
