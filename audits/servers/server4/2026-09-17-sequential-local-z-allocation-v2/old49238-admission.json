@@ -1,0 +1,1 @@
+{"args":["sacct","-X","-j","49238","--noheader","--parsable2","--format=JobIDRaw,JobName,User,State,AllocTRES,NodeList"],"exit":0,"purpose":"ADMISSION_ONLY_NO_REPAIR_RAW_OR_JOB_MUTATION","stderr":"","stdout":"49238|odeedit_l4repair_pilot_s4|janghj|COMPLETED|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4\n"}

@@ -1,0 +1,50 @@
+{
+  "status": "SCOPED_CPU_PUBLICATION_CHECK_PASS",
+  "members": [
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/full-read-m0.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/cpu-checks.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/old49238-admission.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/execution-summary.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-manifest.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/technical-submission.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/technical-admission.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/preparation-submission-ko.md",
+    "messages/acks/server4/2026-09-17-sequential-local-z-allocation-v2.md",
+    "messages/server-heads/server4/2026-09-17-sequential-local-z-allocation-v2.md",
+    "tasks/status/odeedit_sequential_local_z_v2_s4_20260917/server4.json",
+    "runs/odeedit_sequential_local_z_v2_s4_20260917/receipt.json"
+  ],
+  "links": [
+    {
+      "source": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/preparation-submission-ko.md",
+      "target": "https://docs.scipy.org/doc/scipy-1.15.3/reference/optimize.minimize-cobyla.html",
+      "external_not_rechecked": true
+    },
+    {
+      "source": "messages/acks/server4/2026-09-17-sequential-local-z-allocation-v2.md",
+      "target": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/worktree/experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/preparation-submission-ko.md",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/2026-09-17-sequential-local-z-allocation-v2.md",
+      "target": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/worktree/experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/preparation-submission-ko.md",
+      "exists": true
+    }
+  ],
+  "manifest_SHA": "390fafcebf3beae7149c46745f45f95affd7c4df3c57ee5a18e5970e9674cbbd",
+  "runtime_frozen_unchanged": true,
+  "scientific_results_claimed": false,
+  "raw_payloads": false,
+  "new_GPU_checks": 0,
+  "scheduler_queries": 0,
+  "markdown": {
+    "fences_balanced": true,
+    "links_exist": true,
+    "tables": "NONE_COMPACT_PROSE_AND_CODE_BLOCKS",
+    "actual_HTML_renderer": "NOT_AVAILABLE_IN_ENVIRONMENT; MANUAL_TEXT_REVIEW_ONLY"
+  },
+  "self_source": {
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/receipts/publication_check.py",
+    "sha256": "7f059743b70c0d27686fb4d6988c8f24b3c54acfceabf25ce7de7d1f43cb83ad"
+  }
+}
