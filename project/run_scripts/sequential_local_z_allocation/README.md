@@ -26,8 +26,15 @@ certificate. [Official versioned documentation](https://docs.scipy.org/doc/scipy
 Module prefix: `python -m project.run_scripts.sequential_local_z_allocation.`
 The launcher binds exact source/lock/dependencies with exportNONE, one GPU,
 8CPUs,60416MiB and Requeue0. There are no callbacks or automatic submissions.
-PENDING means handoff immediately; no wait for start. Initial actual science
-selection/history5/next-entry means pause. Detailed completion review needs recall.
+The original PENDING handoff interpretation was superseded by the explicit
+2026-09-17 main-gate recall. Technical PENDING or PASS is not a stopping point.
+Use `resume_control` for that recall: finish required actual technical checks,
+register/inspect/release all six mains, then observe scientific B1
+selection/history5/B2 entry. Only verified GPU-resource shortage of properly
+released mains, with no main running, allows a PENDING handoff. Generic
+Resources/None/dependency/hold is not sufficient evidence. Detailed completion
+review still needs a later recall. The original frozen source and old pause
+receipt remain unchanged.
 
 ## Validation and storage limits
 
