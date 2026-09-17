@@ -3,7 +3,7 @@ import json
 import tempfile
 from pathlib import Path
 from .common import save
-from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate
+from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate,inspect_main_fields
 
 class MainGateOverrideTests(unittest.TestCase):
     def test_own_technical_serializes_without_permanent_throttle(self):
@@ -68,5 +68,28 @@ class InitialGateBindingTests(unittest.TestCase):
         for change in ('double_history','wrong_source','wrong_ordinal','wrong_entry','overclaim','altered_commit'):
             with self.subTest(change=change),tempfile.TemporaryDirectory() as d:
                 with self.assertRaises(AssertionError):verify_initial_gate(*self.fixture(Path(d),change))
+
+class HeldInspectionTests(unittest.TestCase):
+    def detail(self,script,source,lock):
+        return (f'UserId=janghj(1025) JobState=PENDING Priority=0 NumCPUs=8 MinMemoryNode=59G '
+            f'ReqNodeList=server4 Requeue=0 Command={script} TresPerNode=gres/gpu:rtx_pro_6000:1 '
+            f'ArrayTaskId=0-5 ArrayTaskThrottle=2 TimeLimit=12:00:00 Dependency=afterok:49421 '
+            f'SubmitLine=sbatch {script} {source} {lock} science')
+    def test_correct_and_resolved_dependency(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d);script=p/'run.sbatch';script.write_text('#SBATCH --export=NONE\n')
+            detail=self.detail(script,p,p/'lock')
+            inspect_main_fields(detail,script,p,p/'lock',12,2,['afterok:49421'])
+            inspect_main_fields(detail.replace('afterok:49421','(null)'),script,p,p/'lock',12,2,
+                ['afterok:49421'],['afterok:49421'])
+    def test_incorrect_held_scope_stops_release(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d);script=p/'run.sbatch';script.write_text('#SBATCH --export=NONE\n')
+            detail=self.detail(script,p,p/'lock')
+            for old,new in [('Priority=0','Priority=1'),('ArrayTaskId=0-5','ArrayTaskId=0-4'),
+                ('ArrayTaskThrottle=2','ArrayTaskThrottle=3'),('Requeue=0','Requeue=1'),
+                ('afterok:49421','(null)'),(' science',' technical'),('NumCPUs=8','NumCPUs=16')]:
+                with self.subTest(old=old),self.assertRaises(AssertionError):
+                    inspect_main_fields(detail.replace(old,new),script,p,p/'lock',12,2,['afterok:49421'])
 
 if __name__=='__main__':unittest.main()

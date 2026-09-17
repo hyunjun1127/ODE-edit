@@ -13,7 +13,7 @@ import re
 import shutil
 from .common import ROOT,TASK,ARMS,save,identity,sha,verify
 from .control import command,git,PACKAGE
-from .operations import admission,inspected_submit,fields
+from .operations import admission,fields
 
 RESUME=ROOT/'resume-r1'
 AUTH='messages/head/2026-09-17-sh4-slz-v2-main-initial-gate-override.md'
@@ -181,6 +181,47 @@ def observe_main(label):
     print(json.dumps(dict(receipt=ref,**evidence)));return evidence
 
 
+def inspect_main_fields(detail,script,source,lock,wall,throttle,dependencies,resolved=()):
+    f=fields(detail)
+    assert f.get('UserId','').startswith('janghj(') and f.get('JobState')=='PENDING'
+    assert f.get('Priority')=='0','MAIN_NOT_HELD'
+    assert f.get('NumCPUs')=='8' and f.get('MinMemoryNode') in ('59G','60416M')
+    assert f.get('ReqNodeList')=='server4' and f.get('Requeue')=='0'
+    assert f.get('Command')==str(script) and 'gpu:rtx_pro_6000:1' in detail
+    assert f.get('ArrayTaskId','').split('%')[0]=='0-5' and f.get('ArrayTaskThrottle')==str(throttle)
+    assert f.get('TimeLimit') in (f'{wall:02d}:00:00',f'{wall//24}-{wall%24:02d}:00:00')
+    assert all(d in f.get('Dependency','') or d in resolved for d in dependencies)
+    assert f'{script} {source} {lock} science' in detail,'MAIN_SOURCE_LOCK_ARGS_MISMATCH'
+    assert '#SBATCH --export=NONE' in script.read_text()
+    return f
+
+
+def submit_all_main(folder,plan,wall):
+    source=ROOT/'source-v1';lock=ROOT/'execution.lock.json';script=source/(PACKAGE+'run.sbatch')
+    args=['sbatch','--parsable','--hold','--no-requeue','--job-name=odeedit_slz_v2_seq1000_s4',
+        '--time='+str(wall)+':00:00','--output='+str(folder/'science-%A_%a.out'),
+        '--error='+str(folder/'science-%A_%a.err'),'--dependency='+','.join(plan['dependencies']),
+        '--array=0-5%'+str(plan['throttle']),str(script),str(source),str(lock),'science']
+    job=command(args).split(';')[0];assert job.isdigit()
+    # Persist registration before subsequent operations, preventing blind duplicate retry.
+    save(folder/'registered.json',dict(job_id=job,args=args,time=datetime.now(timezone.utc).isoformat()))
+    command(['scontrol','update','JobId='+job,'Requeue=0'])
+    detail=command(['scontrol','show','job',job,'-o'])
+    resolved=[];resolution=None
+    own_dependency='afterok:'+TECH_JOB
+    if own_dependency not in fields(detail).get('Dependency',''):
+        resolution=command(['sacct','-X','-j',TECH_JOB,'--noheader','--parsable2','--format=JobIDRaw,State,ExitCode'])
+        if any(row.split('|')[:3]==[TECH_JOB,'COMPLETED','0:0'] for row in resolution.splitlines()):
+            resolved.append(own_dependency)
+    held=save(folder/'science-held.json',dict(job_id=job,args=args,inspection=detail,
+        satisfied_dependency_evidence=resolution,resolved_dependencies=resolved))
+    inspect_main_fields(detail,script,source,lock,wall,plan['throttle'],plan['dependencies'],resolved)
+    command(['scontrol','release',job])
+    queue=command(['squeue','-r','-h','-j',job,'-o','%i|%j|%T|%b|%R'])
+    return dict(job_id=job,held=held,last_observation=queue,last_time=datetime.now(timezone.utc).isoformat(),
+        actual_GPU_validation='NOT_OBSERVED',requested_scope='SIX_COLD_ARMS_ONLY')
+
+
 def science():
     lockpath=ROOT/'execution.lock.json';lock=json.loads(lockpath.read_text());verify(lock)
     assert not (ROOT/'submission-science-v1').exists(),'DO_NOT_DUPLICATE_EXISTING_SCIENTIFIC_REGISTRATION'
@@ -199,9 +240,7 @@ def science():
         disk_reserve_bytes=lock['storage']['reserve_bytes'],free_inodes=fs.f_favail,
         no_disk_W_M_checkpoint=True))
     assert cost['peak_host_RSS_bytes']<60416*1024**2,'MEASURED_HOST_PEAK_EXCEEDS_RESOURCE'
-    dependency=','.join(plan['dependencies'])
-    result=inspected_submit('science',folder,['--dependency='+dependency,'--array=0-5%'+str(plan['throttle'])],
-        wall_hours=wall,expected_dependency='afterok:'+TECH_JOB,throttle=plan['throttle'])
+    result=submit_all_main(folder,plan,wall)
     result.update(mapping=dict(enumerate(ARMS)),all_six_registered=True,normal_held_inspection_release=True,
         technical_ready=identity(ready_path),resource_lock=resource,plan=plan,
         monitoring_policy='MAIN_INITIAL_GATE_OR_CONFIRMED_MAIN_GPU_RESOURCE_PENDING_ONLY',
