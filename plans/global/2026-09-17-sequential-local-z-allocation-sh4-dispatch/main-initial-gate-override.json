@@ -1,0 +1,34 @@
+{
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-SLZV2-MAIN-GATE-RESUME-20260917-R1",
+  "explicit_user_recall": true,
+  "supersedes_monitoring_only": true,
+  "superseded_policy": "INITIAL_GATE_ONLY_OR_PENDING_HANDOFF",
+  "monitoring_policy": "MAIN_INITIAL_GATE_ONLY_OR_VERIFIED_MAIN_GPU_RESOURCE_PENDING",
+  "technical_pending_stops_task": false,
+  "technical_pass_stops_task": false,
+  "required_main_registration_count": 6,
+  "main_arms": [
+    "N4",
+    "F48",
+    "G48",
+    "C4",
+    "C48",
+    "C45678"
+  ],
+  "gpu_cap": 2,
+  "main_initial_gate": "actual representative main B1 selection/commit/five-history exactly-once/next-entry",
+  "pending_exception": {
+    "requires_technical_ready": true,
+    "requires_all_six_normal_release": true,
+    "no_running_main_available_for_initial_gate": true,
+    "verified_gpu_allocation_shortage": true,
+    "reason_none_is_sufficient": false,
+    "technical_dependency_is_sufficient": false,
+    "manual_hold_is_sufficient": false
+  },
+  "pause_changes_slurm_jobs": false,
+  "automatic_resume_after_new_pause": false,
+  "unchanged_science": true,
+  "authority": "messages/head/2026-09-17-sh4-slz-v2-main-initial-gate-override.md"
+}
