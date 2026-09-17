@@ -1,0 +1,63 @@
+{
+  "status": "CPU_PUBLICATION_POSTRUN_PASS",
+  "reviewer": "SH4 자체 검산; 별도 독립 red 미사용",
+  "tests": 93,
+  "renderer": "markdown-it-py3.0.0",
+  "table_column_counts": [
+    [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    [
+      4,
+      4
+    ]
+  ],
+  "relative_links": "PASS",
+  "manifest_members": 13,
+  "manifest_hashes": "PASS",
+  "original_package_bytes": "UNCHANGED",
+  "old_source_archive_lock_pause": "UNCHANGED",
+  "new_scientific_results_claim": false,
+  "new_GPU_actions_after_pending_seal": 0,
+  "post_seal_scheduler_polling": 0,
+  "report": {
+    "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/main-initial-handoff-ko.md",
+    "sha256": "cf48b42ca377887dee26912c0f5a9c03f5fc201e60d105e5edd390236b3ac377"
+  },
+  "manifest_sha256": "01486ac3109fd2eca1b20e2e726b87a3d2b366ecf84f1383cf70e99061a9ca18",
+  "rooted_receipt_sha256": "3f92f8013e573f344b4ab3366afa2202ab9146576b7c393ca733c8aa8daaf9d6",
+  "raw_free_files": [
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/resource.lock.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/released.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/resume-manifest.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/technical-summary.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/admission.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/main-initial-handoff-ko.md",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/boundary-evidence.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/publication-manifest.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/technical-READY.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/rooted-receipt.json",
+    "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/resume-main-r1/science-held.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/resume-main-r1/cpu-checks-final.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/resume-main-r1/override-receipt.json",
+    "audits/servers/server4/2026-09-17-sequential-local-z-allocation-v2/resume-main-r1/preflight.json"
+  ]
+}

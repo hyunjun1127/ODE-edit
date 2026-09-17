@@ -97,6 +97,8 @@ def publish(w,evidence_path):
 
 기술검사의 native 연결·반복 점수·coverage·history는 기술 first100에서 확인한 범위다. CPU 검사 또는 파일 존재만으로 실제 PASS를 만들지 않았다. C45678 coverage는 운영상 gate-vector 수이며 최적성·solver simplex 인증이 아니다. Teacher 재사용/재생성은 technical-READY와 capsule의 실제 identity를 기준으로 한다.
 
+Native N4/48/45678 연결은 해당 모든 layer의 실제 weight byte가 일치했다(maxabs0). 기존 W0 teacher의 original/effective D=0으로 재생성 없이 재사용했다. C45678은 N4 제외 완료 search vector11/unique endpoint11/distinct a4=6, search suffix-fit32/추가Adam888, pruning4완료, 예산 미완료 후보1이었다. 미완료 후보는 score pool에서 제외했고 기술 오류0, 예산 확대0이다. 종료 이유 SUFFIX_FIT_CAP이며 optimizer 수렴 PASS를 주장하지 않는다.
+
 실측 기술 비용(중첩 component 중복 합산 금지):
 
 ```json
@@ -133,7 +135,7 @@ def publish(w,evidence_path):
 | --- | --- | --- | --- |
 {gate_table or '| NOT_OBSERVED | NA | NA | NA |'}
 
-실제 gate는 B1 selected/selection seal/commit/5층 history receipt와 B2 entry의 W/M/context/RNG 연결을 대조한 범위다. 확인하지 않은 arm의 실제 PASS나 W10 완주를 주장하지 않는다. GPU-resource PENDING으로 인계한 경우에만 GPU allocation 부족 근거와 모든6개 정상 release를 함께 요구했다. Dependency/수동 hold/Reason=None/단순 기술 PASS를 해당 예외로 쓰지 않았다.
+본실험 초기 gate의 확인 규칙은 B1 selected/selection seal/commit/5층 history receipt와 B2 entry의 W/M/context/RNG 대조다. 이번 본실험은 해당 단계 미실행으로 이 실제 대조를 수행하지 않았고 NOT_OBSERVED로 남겼다. 확인하지 않은 arm의 실제 PASS나 W10 완주를 주장하지 않는다. GPU-resource PENDING으로 인계한 경우에만 GPU allocation 부족 근거와 모든6개 정상 release를 함께 요구했다. Dependency/수동 hold/Reason=None/단순 기술 PASS를 해당 예외로 쓰지 않았다.
 
 {('기술/권한 block: '+evidence.get('scientific_block_reason','')) if boundary=='UNRESOLVABLE_TYPED_BLOCKER' else ''}
 
