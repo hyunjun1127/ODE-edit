@@ -1,0 +1,33 @@
+{
+  "type": "GH_DOCUMENT_DISPATCH_CHECK_ONLY",
+  "read": {
+    "design_lines": 189,
+    "contract_lines": 179,
+    "cells_data_rows": 5,
+    "math_source_lines": 251,
+    "math_result_lines": 153,
+    "contract_source_lines": 74,
+    "contract_result_lines": 135,
+    "cold7_prose_lines": 203
+  },
+  "existing_math_checks": 8,
+  "existing_contract_checks": 28,
+  "GH_reran_math_or_model": false,
+  "source_copy_policy": "byte-exact, original dirty worktrees preserved, CSV CRLF preserved",
+  "effective_main_arms": 2,
+  "effective_science_batches": 20,
+  "server4_cap": 2,
+  "SH2_not_dispatched": true,
+  "actual_runtime_or_performance_PASS": false,
+  "mandatory_boundaries": [
+    "full L4 then L8 repair only",
+    "fixed W0 teacher, pN GN",
+    "no paraphrase/official PN controller",
+    "m<=3, no P8 or operational M8",
+    "no plateau, strict/preference exact IDs",
+    "same WN zero fallback with accumulated L8 preserved",
+    "first acceptable radius <=6, no quality-based scope tuning",
+    "new N4 REFIT4 LD excluded",
+    "initial gate/PENDING pause"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "authority": "Latest user: R-GD and R-QP only on SH4, cap2. Original five-arm design preserved unchanged.",
+  "copies": [
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-v1.md",
+      "path": "plans/global/2026-09-17-l4-preserving-batch-repair-v1.md",
+      "sha256": "a01588b8d64f9abe05625c7e3d611576b7b940a93fb446aff309deaa573fa158",
+      "bytes": 23142
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
+      "path": "plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
+      "sha256": "37fefce4c1131d31446ea15805b25700ca8d74537bcacd5d0fd934ed7378d02e",
+      "bytes": 6939
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
+      "path": "plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
+      "sha256": "8e5c6144f6c48cd5e6f863d83a915d064cf362ede41304f9208de3b8cdea323d",
+      "bytes": 640
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-l4-preserving-repair/validate_math.py",
+      "path": "audits/global/2026-09-17-l4-preserving-repair/validate_math.py",
+      "sha256": "b5025fc08f6fa8026c0dba8ddb0f66262fb7254c397bc34c0377826886228876",
+      "bytes": 11168
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-l4-preserving-repair/math-checks.json",
+      "path": "audits/global/2026-09-17-l4-preserving-repair/math-checks.json",
+      "sha256": "312d91a12732bc6714ea49403af1b7c9144fb3078e9978d8354a1b1180706bd9",
+      "bytes": 4223
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-l4-preserving-repair/validate_contract.py",
+      "path": "audits/global/2026-09-17-l4-preserving-repair/validate_contract.py",
+      "sha256": "64e99d248134444a49ed3830177beaeaca6bfde5c6a04dd609b5a9db7d1a9ae0",
+      "bytes": 5404
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-l4-preserving-repair/contract-checks.json",
+      "path": "audits/global/2026-09-17-l4-preserving-repair/contract-checks.json",
+      "sha256": "22613bdbb6f3ec43257df3e9129d69146a5844f2900d98d9e03585c0b194ea75",
+      "bytes": 2926
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/global/2026-09-17-local-z-seven-arm-independent-review.md",
+      "path": "plans/global/2026-09-17-l4-preserving-repair-sh4-dispatch/references/cold7-independent-review-ko.md",
+      "sha256": "5c9a50f177f24a91239c51f671f9e39e7102ccbd4f6c72008f14f53b54cadbdd",
+      "bytes": 18844
+    }
+  ],
+  "reference_note": "Cold7 independent prose is exact-copy context only; original relative links identify its separate package, not bundled/re-audited payload. Its earlier paraphrase follow-up suggestion is superseded by no-paraphrase contract.",
+  "reference_repo_paths": [
+    "experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+    "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design.md",
+    "experiment-reports/servers/server2/multilayer-damage-compensation-b-2026-09-11-v1/partial-recall-r1/diagnostic-report-ko.md"
+  ],
+  "prior_base_main": "c6b9937a29e663da305464cd7a04448b24ea6361",
+  "GH_new_model_GPU_remote_raw": 0
+}

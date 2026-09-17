@@ -1,0 +1,6 @@
+stage,arm,start,requests,batch_size,batches,role,repair_compute_z8,official_P_N_feedback,execution_status
+cold-seq1000,N4,W0,1000,100,10,full local L4 baseline,0,False,PLANNED_NOT_SUBMITTED
+cold-seq1000,REFIT4,W0,1000,100,10,same-layer refit comparator,0,False,PLANNED_NOT_SUBMITTED
+cold-seq1000,LD,W0,1000,100,10,legacy partial-L4/local-L8 allocation comparator,legacy local-z8,False,PLANNED_NOT_SUBMITTED
+cold-seq1000,R-GD,W0,1000,100,10,full L4 then 1D KL-descent proposal with actual guard,0,False,PLANNED_NOT_SUBMITTED
+cold-seq1000,R-QP,W0,1000,100,10,full L4 then constrained response-space repair,0,False,PLANNED_NOT_SUBMITTED

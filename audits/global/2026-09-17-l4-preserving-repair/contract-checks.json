@@ -1,0 +1,135 @@
+{
+  "status": "PASS_CONTRACT_AND_CPU_SCALE_ONLY",
+  "checks": [
+    {
+      "name": "design_only",
+      "pass": true
+    },
+    {
+      "name": "write_at_local4_full",
+      "pass": true
+    },
+    {
+      "name": "no_target_z8",
+      "pass": true
+    },
+    {
+      "name": "no_native8_projection_or_target_ball",
+      "pass": true
+    },
+    {
+      "name": "history_once_no_inner",
+      "pass": true
+    },
+    {
+      "name": "W0_cold",
+      "pass": true
+    },
+    {
+      "name": "all_five_new_cold",
+      "pass": true
+    },
+    {
+      "name": "first1000_fixed_order",
+      "pass": true
+    },
+    {
+      "name": "50_batches_planned",
+      "pass": true
+    },
+    {
+      "name": "arms_match",
+      "pass": true
+    },
+    {
+      "name": "no_P_N_feedback",
+      "pass": true
+    },
+    {
+      "name": "no_paraphrase_training_set_generation_or_guard",
+      "pass": true
+    },
+    {
+      "name": "only_rewrite_guard_panels",
+      "pass": true
+    },
+    {
+      "name": "official_PS_observer_and_evaluation_retained",
+      "pass": true
+    },
+    {
+      "name": "Past_postnative_for_zero_feasibility",
+      "pass": true
+    },
+    {
+      "name": "no_plateau",
+      "pass": true
+    },
+    {
+      "name": "success_ID_not_count",
+      "pass": true
+    },
+    {
+      "name": "heldout_PS_not_guaranteed",
+      "pass": true
+    },
+    {
+      "name": "no_quality_relaxation",
+      "pass": true
+    },
+    {
+      "name": "dimension_bounded",
+      "pass": true
+    },
+    {
+      "name": "gradient_JVP_costs_match_rewrite_only_basis",
+      "pass": true
+    },
+    {
+      "name": "no_first_gradient_KL_equality_or_large_PCG",
+      "pass": true
+    },
+    {
+      "name": "correct_GN_probability",
+      "pass": true
+    },
+    {
+      "name": "zero_is_part_of_controller",
+      "pass": true
+    },
+    {
+      "name": "six_probes_one_accept",
+      "pass": true
+    },
+    {
+      "name": "no_relinearization_claim",
+      "pass": true
+    },
+    {
+      "name": "zero_pp_scientific_goal",
+      "pass": true
+    },
+    {
+      "name": "100_damping_and_trust_box_fixtures",
+      "pass": true
+    }
+  ],
+  "count": 28,
+  "model_calls": 0,
+  "GPU_calls": 0,
+  "max_sampled_predicted_energy_to_drift": 0.9841320585606939,
+  "inputs": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
+      "sha256": "37fefce4c1131d31446ea15805b25700ca8d74537bcacd5d0fd934ed7378d02e"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
+      "sha256": "8e5c6144f6c48cd5e6f863d83a915d064cf362ede41304f9208de3b8cdea323d"
+    }
+  ],
+  "limits": [
+    "실제 Llama gradient/JVP/Fisher·production QP·RS/PS/NS·walltime은 검증하지 않았다.",
+    "실제 model numerical lock은 아직 만들어지지 않았다. 별도 paraphrase corpus는 사용하지 않는다."
+  ]
+}

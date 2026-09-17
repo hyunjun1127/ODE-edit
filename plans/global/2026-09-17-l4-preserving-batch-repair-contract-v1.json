@@ -1,0 +1,179 @@
+{
+  "contract_id": "L4-PRESERVING-BATCH-REPAIR-V1",
+  "date": "2026-09-17",
+  "status": "DESIGN_AND_CPU_MATH_ONLY",
+  "model_runner_implemented": false,
+  "GPU_jobs_submitted": 0,
+  "objective": "full native L4 target write 유지; 추가 L8은 edit-quality-preserving W0-output repair에만 사용",
+  "states": {
+    "entry": "own trajectory We; includes persistent past L8 repairs",
+    "anchor": "WN = full native local-z4 write at We",
+    "candidate": "WN + L8-only correction",
+    "fallback": "exact WN; do not remove historical L8 correction",
+    "L4_preserving_scope": "within batch anchor bytes; not identical W4 across independent lifelong chains"
+  },
+  "writer": {
+    "layer": 4,
+    "target_location": 4,
+    "native_gate": 1.0,
+    "native_solver_unchanged": true,
+    "repair_layer": 8,
+    "repair_target_new_compute_z_calls": 0,
+    "repair_native_P8": false,
+    "repair_edit_Z_ball": false,
+    "repair_operational_M8": false,
+    "M4_append_per_committed_batch": 1,
+    "inner_history_append": 0
+  },
+  "capsule": {
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "entry": "common pretrained W0",
+    "M4_initial": "zeros",
+    "dtype": "FP32",
+    "attention": "eager",
+    "TF32": false,
+    "method_seed": 20260916,
+    "dataset": "counterfact-fixed-10k-v1",
+    "ordinal_half_open": [
+      0,
+      1000
+    ],
+    "batch_size": 100,
+    "batches": 10,
+    "preservation_teacher": "fixed W0 Teacher192; verify same model/token binding",
+    "teacher_regeneration": "only if identity/effective distribution check requires it; no generation performed by this design"
+  },
+  "data": {
+    "S64": "online preservation objective/gradient/acceptance",
+    "official_P_or_N_in_controller": false,
+    "Past64": "received latest active fact; excludes current overwrites; hash priority; no success filtering",
+    "Past_reference": "post-native WN",
+    "Dev128": "observer only",
+    "paraphrase_training_set": false,
+    "paraphrase_generation": false,
+    "paraphrase_online_guard": false,
+    "official_paraphrase_role": "observer_only_after_selection_seal",
+    "online_guard_panels": [
+      "Current-R",
+      "Past-R"
+    ],
+    "Past_prompt_scope": "canonical rewrite only; no paraphrase expansion",
+    "native_context_policy": "keep existing native writer contexts; do not create a paraphrase guard set"
+  },
+  "quality": {
+    "panels": [
+      "Current-R",
+      "Past-R"
+    ],
+    "mean_NLL_ceiling": "each panel own WN mean + epsilon_L",
+    "mean_plateau": false,
+    "WN_strict_success_ID_subset": true,
+    "pair_success_ID_subset_if_old_target_available": true,
+    "individual_NLL_nonworsening_guarantee": false,
+    "official_PS_online_guarantee": false,
+    "entry_Past_nonforgetting_guarantee": false,
+    "epsilon_L_nats_per_token": 0.0001,
+    "epsilon_B_nats_per_token": 1e-06,
+    "repeat_noise_max_fraction_of_tolerance": 0.5,
+    "posthoc_tolerance_relaxation": false,
+    "official_PS_evaluation_required": true
+  },
+  "direction_space": {
+    "parameter": "full L8 down-projection weight",
+    "gradients": [
+      "Base KL",
+      "Current canonical mean NLL",
+      "Past canonical mean NLL if nonempty"
+    ],
+    "max_dimensions": 3,
+    "orthonormalization": "FP64 Gram/QR; preserve resolved gradient span; drop numerical zero/dependency",
+    "additional_key_basis": false,
+    "active_guard_expansion": "deferred new version, not v1",
+    "direction_scope_failure": "not intrinsic L8 capacity failure",
+    "first_batch_max_dimensions": 2
+  },
+  "response_model": {
+    "base_gradient_teacher": "p0",
+    "base_GN_probability": "p_N at anchor",
+    "base_GN": "mean Jz^T (diag(p_N)-p_N p_N^T) Jz",
+    "guard_Jacobian": "mean-NLL and successful context target margin/pair margin scalars",
+    "model_constraint_mean_slack": 0.0,
+    "successful_margin_slack": "native nonnegative token margin (argmax tie allowed); strictly positive pair-NLL preference margin",
+    "full_vocab_streaming": "per document; never materialize all documents x vocab x directions",
+    "KL_first_gradient_equality": false,
+    "large_PCG": false,
+    "max_condition_number": 1000000.0,
+    "damping": "minimum nonnegative shift giving condition cap; technical regularization",
+    "whitening": "R=(H_B+lambda_num I)^(-1/2); c=R u",
+    "QP": "min (R^T b)^T u + ||u||^2/2 subject A R u <= s and box radius r",
+    "KKT_tolerance_scaled": 1e-08
+  },
+  "controller": {
+    "initial_radius": "sqrt(2*B(WN)/m); numerical local scale, not capacity budget",
+    "max_finite_probes": 6,
+    "radius_shrink_factor": 0.5,
+    "max_accepted_repairs_per_batch": 1,
+    "accept": "first finite quality-feasible candidate with predicted>epsilon_B, actual>epsilon_B, actual/predicted>=0.1",
+    "minimum_agreement": 0.1,
+    "zero_candidate_always_available": true,
+    "rollback_anchor": "exact WN for each rejected probe",
+    "no_relinearization_v1": true,
+    "stateful_learned_router": false,
+    "repair_loss_scalar_penalty_lambda_sweep": false,
+    "max_radius_shrinks": 5,
+    "free_gain_zero_ratio": "NA"
+  },
+  "signals": [
+    "W0 drift",
+    "native step damage",
+    "Gamma_free",
+    "Gamma_safe",
+    "Gamma_safe/Gamma_free",
+    "actual gain",
+    "actual/predicted agreement",
+    "active guard and unit-aware dual",
+    "accepted radius",
+    "zero cause",
+    "per-layer delta/path/net/energy"
+  ],
+  "plans": {
+    "technical_pilot": "cold first100 numerical/mechanism check; model-level not yet run",
+    "main": "new W0 B100x10 for five arms",
+    "main_arms": [
+      "N4",
+      "REFIT4",
+      "LD",
+      "R-GD",
+      "R-QP"
+    ],
+    "later": "locked W0 to fixed10k; no automatic submission",
+    "scientific_RS_PS_loss_allowance_pp": 0.0,
+    "claim_scope": "same fixed-stream observations; paired uncertainty, not universal noninferiority proof",
+    "performance_based_early_stop": false
+  },
+  "cost_upper_structure": {
+    "native_target_request_calls_per_repair_batch": 100,
+    "L8_target_request_calls": 0,
+    "gradient_panel_sweeps_max": 3,
+    "directional_JVP_sweeps_max": 3,
+    "QP_solves_max": 6,
+    "finite_probes_max": 6,
+    "sweep_is_single_forward": false,
+    "no_walltime_speedup_claim": true,
+    "first_batch_gradient_panel_sweeps_max": 2,
+    "first_batch_directional_JVP_sweeps_max": 2,
+    "paraphrase_generation_or_guard_calls": 0,
+    "official_paraphrase_observer_cost": "record separately; not zero"
+  },
+  "claims_excluded": [
+    "LD already demonstrated post-full-L4 repair",
+    "newness of role split or projected gradient alone",
+    "official PS guaranteed by rewrite guards",
+    "intrinsic remaining layer capacity",
+    "QP KKT implies nonlinear quality feasibility",
+    "CPU fixture implies model derivative PASS"
+  ],
+  "design_revision": 2,
+  "latest_user_constraint": "paraphrase를 target으로 하는 별도 set을 만들거나 사용하지 않음; 공식 paraphrase는 observer only"
+}

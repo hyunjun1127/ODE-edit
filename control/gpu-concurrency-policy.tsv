@@ -3,7 +3,8 @@
 # before admitting any new run. Server registration/disabled status still applies.
 # server<TAB>max_new_run_project_gpus
 # User override 2026-09-16: server4 is limited to 1 project GPU; other servers unchanged.
+# User override 2026-09-17: server4 increases to 2 project GPUs; supersedes 2026-09-16 cap1 prospectively.
 server1	2
 server2	2
 server3	2
-server4	1
+server4	2

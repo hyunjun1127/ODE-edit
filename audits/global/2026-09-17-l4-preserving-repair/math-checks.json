@@ -1,0 +1,153 @@
+{
+  "schema": "l4-preserving-repair-math-checks/v1",
+  "status": "PASS_STDLIB_CPU_TOY_ONLY",
+  "source_sha256": "b5025fc08f6fa8026c0dba8ddb0f66262fb7254c397bc34c0377826886228876",
+  "model_calls": 0,
+  "GPU_calls": 0,
+  "production_solver": false,
+  "QP_scope": "최대2차원 SPD, finite linear inequality active-set enumeration",
+  "KKT_absolute_tolerance": 1e-09,
+  "checks_passed": 8,
+  "checks": [
+    {
+      "name": "zero_is_feasible",
+      "status": "PASS",
+      "maximum_guard_violation": 0.0
+    },
+    {
+      "name": "known_feasible_preservation_repair",
+      "status": "PASS",
+      "base_objective_before": 2.0,
+      "base_objective_after": 0.5,
+      "edit_response_change": 0.0,
+      "solution": {
+        "coefficients": [
+          1.0,
+          -0.0
+        ],
+        "objective_change": -1.5,
+        "active_constraint_indices": [
+          0
+        ],
+        "multipliers": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "KKT": {
+          "primal_max_positive_violation": 0.0,
+          "dual_max_negative_violation": 0.0,
+          "stationarity_infinity_norm": 0.0,
+          "complementarity_infinity_norm": 0.0
+        }
+      }
+    },
+    {
+      "name": "unconstrained_objective_is_lower_bound",
+      "status": "PASS",
+      "unconstrained": -2.0,
+      "constrained": -1.5
+    },
+    {
+      "name": "edit_conflict_selects_zero",
+      "status": "PASS",
+      "solution": {
+        "coefficients": [
+          0.0,
+          -0.0
+        ],
+        "objective_change": 0.0,
+        "active_constraint_indices": [
+          4
+        ],
+        "multipliers": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "KKT": {
+          "primal_max_positive_violation": 0.0,
+          "dual_max_negative_violation": 0.0,
+          "stationarity_infinity_norm": 0.0,
+          "complementarity_infinity_norm": 0.0
+        }
+      },
+      "interpretation": "이 toy 방향 공간에서 edit guard와 Base descent가 충돌한다."
+    },
+    {
+      "name": "finite_curvature_invalidates_linear_guard",
+      "status": "PASS",
+      "first_order_guard_change": -0.0,
+      "finite_guard_change": 1.0,
+      "base_improves": true,
+      "actual_screen_accepts": false,
+      "fallback_coefficients": [
+        0.0,
+        0.0
+      ],
+      "solution": {
+        "coefficients": [
+          1.0,
+          -0.0
+        ],
+        "objective_change": -0.5,
+        "active_constraint_indices": [],
+        "multipliers": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "KKT": {
+          "primal_max_positive_violation": 0.0,
+          "dual_max_negative_violation": 0.0,
+          "stationarity_infinity_norm": 0.0,
+          "complementarity_infinity_norm": 0.0
+        }
+      }
+    },
+    {
+      "name": "fixed_L4_does_not_fix_final_output",
+      "status": "PASS",
+      "W4_before_and_after": 2.0,
+      "output_before": 6.0,
+      "output_after": 5.0
+    },
+    {
+      "name": "KL_teacher_and_GN_metric_are_distinct",
+      "status": "PASS",
+      "p_at_WN": [
+        0.4,
+        0.6
+      ],
+      "teacher_dependent_logit_gradients": [
+        -0.3999999999201864,
+        0.1000000000798279
+      ],
+      "teacher_independent_logit_H00": [
+        0.24000001430657392,
+        0.24000001014323757
+      ],
+      "analytic_Fisher_H00": 0.24,
+      "scope": "logit Hessian=F(pN); weight GN는 logit 비선형성의 추가 Hessian항을 생략한다."
+    },
+    {
+      "name": "KL_guard_zero_first_gradient_is_insufficient",
+      "status": "PASS",
+      "reference_KL_gradient_finite_difference": 7.982501175362623e-11,
+      "finite_nonzero_step_KL": 0.0307056927355977
+    }
+  ],
+  "limits": [
+    "실제 Llama, native writer, JVP 또는 full-matrix direction을 검증하지 않았다.",
+    "저차원 toy의 성공/실패는 모델 성능·RS/PS 유지·intrinsic capacity의 증거가 아니다.",
+    "실제 nonlinear endpoint 검증을 linear feasibility 또는 KKT residual로 대체할 수 없다.",
+    "Production의 scaling, numerical damping, trust radius, tolerance는 별도 계약이 필요하다."
+  ]
+}

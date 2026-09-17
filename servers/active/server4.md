@@ -1,5 +1,14 @@
 # server4 active record
 
+## 최신 GPU cap override — 2026-09-17
+
+- 사용자 원문: “R-GD와 R-Q 만 실험 진행시키자. SH4에게 전달하는 것으로 해”, 이어 “cap 2로 늘리자.”
+- 현재 Server4 project GPU cap은 **2**이며 아래 2026-09-16 cap1보다 우선한다. 다른 서버 cap은 불변이다.
+- 정본: `control/gpu-concurrency-policy.tsv`. 기술/prep/teacher/science 및 다른 admitted project capacity를 합쳐 최대2GPU다.
+- 공통 기술 검증 뒤 R-GD/R-QP 두 arm은 각각1GPU로 두 slot을 활용한다. 다른 점유가 있으면 합계 cap2를 지키며 기존 job은 임의 변경하지 않는다.
+- 인계: `messages/head/2026-09-17-sh4-l4-preserving-repair-twoarm.md`. 과거 cap 초과 기록을 새 cap으로 소급 정당화하지 않는다.
+- 아래 정책·온보딩·실험 수치는 당시 기록을 보존한다.
+
 ## 최신 GPU cap override — 2026-09-16
 
 - 사용자 원문: “server4 gpu cap은 1이다.”

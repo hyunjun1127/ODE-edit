@@ -1,0 +1,48 @@
+{
+  "instruction_id": "ODEEDIT-S06-L4-PRESERVING-REPAIR-TWOARM-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-L4-PRESERVING-REPAIR-TWOARM-20260917-R1",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "latest_user_overrides": [
+    "R-GD와 R-Q 만 실험 진행시키자. SH4에게 전달하는 것으로 해",
+    "cap 2로 늘리자."
+  ],
+  "R_Q_name_resolution": "R-QP in referenced design, not a new method",
+  "envelope": "messages/head/2026-09-17-sh4-l4-preserving-repair-twoarm.md",
+  "source_manifest": "plans/global/2026-09-17-l4-preserving-repair-sh4-dispatch/source-input-manifest.json",
+  "effective_cells": "plans/global/2026-09-17-l4-preserving-repair-sh4-dispatch/dispatch-approved-cells.csv",
+  "original_five_arm_cells": "preserved provenance only, NOT execution allowlist",
+  "scientific_arms": [
+    "R-GD",
+    "R-QP"
+  ],
+  "new_scientific_chains": 2,
+  "new_scientific_batches": 20,
+  "unique_requests": 1000,
+  "arm_request_observations": 2000,
+  "fresh_W0_M4": true,
+  "native_L4_gate": 1,
+  "repair_target_new_L8_calls": 0,
+  "repair_operational_P8_M8": false,
+  "paraphrase_training_or_guard": false,
+  "gpu_cap": 2,
+  "cap_scope": "Server4 project aggregate including preparation and other admitted tasks",
+  "queue": "after common technical READY, array%2 or two independent 1GPU jobs when two slots free",
+  "resource_per_job": {
+    "gpus": 1,
+    "cpus": 8,
+    "mem_MiB": 60416,
+    "export": "NONE",
+    "requeue": false,
+    "gpu_hour_hardcap": null
+  },
+  "technical": "bounded first100 pilot, actual derivatives/GN/QP/materialization/history/cost, separate from main",
+  "new_baseline_chains": 0,
+  "baseline_policy": "reuse existing comparable cold7 N4/REFIT4/LD, otherwise mark unavailable; no automatic rerun",
+  "agent_monitoring": "INITIAL_GATE_ONLY_OR_PENDING_HANDOFF",
+  "automatic_terminal_analysis": false,
+  "scientific_promotion": false,
+  "SH2_dispatch_count": 0,
+  "status": "PENDING_LIVE_DISPATCH"
+}
