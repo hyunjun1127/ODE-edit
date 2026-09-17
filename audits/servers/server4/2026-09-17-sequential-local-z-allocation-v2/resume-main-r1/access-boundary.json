@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "phase": "최종 compact publication staged 검사",
+  "helper": "scripts/check-agent-access.sh --staged",
+  "helper_result": "FAIL_NARROW_PATH_RULE_NOT_PASS",
+  "exact_denied_path": "runs/odeedit_sequential_local_z_v2_s4_20260917/resume-main-r1/receipt.json",
+  "error": "blocked by agent access policy: role=server-head agent=server4-server-head host=server4 path=runs/odeedit_sequential_local_z_v2_s4_20260917/resume-main-r1/receipt.json",
+  "explicit_authority": {
+    "envelope": "messages/head/2026-09-17-sh4-sequential-local-z-allocation-v2.md",
+    "envelope_sha256": "707e10a5a7488b5dd4ec460cf4094bfb56a1807f8042100c359bca69c2eeccde",
+    "allowed_prefix": "runs/odeedit_sequential_local_z_v2_s4_20260917/",
+    "inherited_by": "messages/head/2026-09-17-sh4-slz-v2-main-initial-gate-override.md",
+    "override_sha256": "6f2bf01cb126c95423dbe063daa83016d02b7d815229687833d2cb70bb358303"
+  },
+  "handling": "명시 사용자 write envelope 안의 compact receipt로 확인하여 게시한다. helper PASS로 오기하지 않는다.",
+  "shared_helper_or_policy_modified": false,
+  "role_or_session_impersonation": false,
+  "scope_expanded": false,
+  "source_only_earlier_helper_checks": "PASS였으나 이 최종 nested runs 경로까지 PASS였다는 뜻은 아님",
+  "runtime_source_lock_old_report_changed": false,
+  "scientific_result_or_GPU_validation_claim_added": false
+}
