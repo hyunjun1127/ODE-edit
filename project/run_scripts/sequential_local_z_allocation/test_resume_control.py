@@ -3,7 +3,7 @@ import json
 import tempfile
 from pathlib import Path
 from .common import save
-from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate,inspect_main_fields,measured_storage_plan
+from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate,inspect_main_fields,measured_storage_plan,queue_rows
 
 class MainGateOverrideTests(unittest.TestCase):
     def test_own_technical_serializes_without_permanent_throttle(self):
@@ -31,6 +31,11 @@ class MainGateOverrideTests(unittest.TestCase):
         self.assertEqual(self.classify(['PENDING'],['Resources'],gpu_free=1),'CONTINUE_PENDING_GPU_EXHAUSTION_NOT_ESTABLISHED')
     def test_verified_gpu_exhaustion_only(self):
         self.assertEqual(self.classify(['PENDING'],['Resources']),'MAIN_GPU_RESOURCE_PENDING_HANDOFF')
+    def test_actual_squeue_reason_wrapper_preserved(self):
+        rows=queue_rows('12_0|PENDING|(Resources)\n12_1|RUNNING|server4','12')
+        self.assertEqual(rows[0]['reason'],'Resources');self.assertEqual(rows[0]['reason_raw'],'(Resources)')
+        self.assertEqual(rows[1]['reason'],'server4')
+        self.assertEqual(queue_rows('12_0|PENDING|(None)','12')[0]['reason'],'None')
 
 class InitialGateBindingTests(unittest.TestCase):
     def fixture(self,p,change=None):

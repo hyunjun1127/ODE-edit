@@ -138,6 +138,16 @@ def verify_initial_gate(out,lockpath,ready_path):
         all_six_actual_PASS=False,full1000_complete_claim=False,disk_W_M_checkpoints=False)
 
 
+def queue_rows(raw,job):
+    rows=[]
+    for line in raw.splitlines():
+        jid,state,reason=line.split('|',2);assert jid.startswith(job+'_')
+        ordinal=jid[len(job)+1:];assert ordinal.isdigit() and int(ordinal) in range(6)
+        normalized=reason[1:-1] if reason.startswith('(') and reason.endswith(')') else reason
+        rows.append(dict(job=jid,state=state,reason=normalized,reason_raw=reason))
+    return rows
+
+
 def observe_main(label):
     releasedpath=RESUME/'submission-science-r1/released.json'
     released=json.loads(releasedpath.read_text());job=released['job_id']
@@ -145,10 +155,7 @@ def observe_main(label):
     ready_path=Path(json.loads((ROOT/'execution.lock.json').read_text())['common_ready'])
     verify_ready(ready_path,ROOT/'execution.lock.json')
     raw=command(['squeue','-r','-h','-j',job,'-o','%i|%T|%R'])
-    rows=[]
-    for line in raw.splitlines():
-        jid,state,reason=line.split('|',2);assert jid.startswith(job+'_')
-        rows.append(dict(job=jid,state=state,reason=reason))
+    rows=queue_rows(raw,job)
     accounting=command(['sacct','-X','-j',job,'--noheader','--parsable2',
         '--format=JobID,JobName,User,State,ExitCode,Start,End,Elapsed,AllocTRES,NodeList'])
     node_raw=command(['scontrol','show','node','server4','-o']);nf=fields(node_raw)
@@ -179,6 +186,28 @@ def observe_main(label):
         scientific_completion_claim=False,no_job_mutation=True)
     ref=save(RESUME/'observations'/(label+'.json'),evidence)
     print(json.dumps(dict(receipt=ref,**evidence)));return evidence
+
+
+def seal_pending(observation):
+    """One final release-integrity inspection, then no further monitoring."""
+    v=json.loads(observation.read_text());assert v['boundary']=='MAIN_GPU_RESOURCE_PENDING_HANDOFF'
+    assert v['node']['gpu_total']==v['node']['gpu_allocated'] and v['node']['gpu_free']==0
+    detail=command(['scontrol','show','job',v['array'],'-o']);f=fields(detail)
+    assert f['JobState']=='PENDING' and f['Reason']=='Resources' and int(f['Priority'])>0
+    assert f.get('Dependency') in ('(null)','None') and f['Requeue']=='0'
+    assert f['ArrayTaskId'].split('%')[0]=='0-5' and f['ArrayTaskThrottle']=='2'
+    assert f['UserId'].startswith('janghj(') and f['NumCPUs']=='8' and f['MinMemoryNode']=='59G'
+    assert f['Command']==str(ROOT/'source-v1'/(PACKAGE+'run.sbatch'))
+    nf=fields(v['node_raw']);available=int(nf['RealMemory'])-int(nf['AllocMem'])
+    v.update(post_release_inspection=detail,release_integrity=dict(priority_positive=True,manual_hold=False,
+        unsatisfied_dependency=False,requested_array_range='0-5',throttle=2),
+        GPU_exhaustion_independently_sufficient_for_no_start=True,
+        GPU_is_exclusive_pending_cause_claim=False,
+        additional_resource_constraint=dict(scheduler_host_memory_available_MiB=available,
+            requested_host_memory_MiB=60416,host_memory_also_insufficient=available<60416),
+        previous_observation=identity(observation),handoff_sealed_at=datetime.now(timezone.utc).isoformat(),
+        monitoring_active=False,automatic_resume=False)
+    ref=save(RESUME/'observations/main-boundary-r1.json',v);print(json.dumps(ref));return ref
 
 
 def inspect_main_fields(detail,script,source,lock,wall,throttle,dependencies,resolved=()):
@@ -278,9 +307,10 @@ def science():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['initialize','observe-technical','observe-main','science'])
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['initialize','observe-technical','observe-main','seal-pending','science'])
     p.add_argument('--worktree',type=Path);p.add_argument('--label');a=p.parse_args()
     if a.action=='initialize':print(json.dumps(initialize(a.worktree)))
     elif a.action=='observe-technical':observe_technical(a.label)
     elif a.action=='observe-main':observe_main(a.label)
+    elif a.action=='seal-pending':seal_pending(Path(a.label))
     else:science()
