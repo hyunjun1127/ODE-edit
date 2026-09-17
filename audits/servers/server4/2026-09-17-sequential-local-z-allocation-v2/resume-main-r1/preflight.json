@@ -1,0 +1,27 @@
+{
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "review_type": "SH4 자체 CPU/source 검산; 별도 독립 red agent 미사용",
+  "orchestration_head": "7ec6aa4388c407f2de3d538827f487b885d7324f",
+  "orchestration_tree": "5a7c5c5039eda061489c5d160929cc851f2b928e",
+  "preserved_execution_head": "21297ec19e7f5aecec16d2fdb14cc79380a1df94",
+  "CPU_tests": 88,
+  "CPU_receipt": {
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/checks/702196172d601ca4165ee3ae6450ab5cfd871b898ba24285f10a5d9c61ed851d.json",
+    "sha256": "66afd278e54849d13c6f8468f6c8e3a3f7490d9fa091cbbe3c3efcac806da1e5"
+  },
+  "CPU_does_not_establish_actual_model_PASS": true,
+  "changed_source_paths": ["README.md", "resume_control.py", "resume_handoff.py", "test_resume_control.py"],
+  "runtime_controller_native_numerics_inputs_changed": false,
+  "source_scope": "project/run_scripts/sequential_local_z_allocation/",
+  "technical_pending_stop": false,
+  "technical_READY_alone_stop": false,
+  "require_all6_main_registration_inspection_release": true,
+  "main_pending_exception": "실행 중 main 없음 + 6개 정상 release + exact reason 및 실제 GPU 부족 근거",
+  "main_initial_evidence": "B1 selected/commit/history5/nextordinal100/B2 entry 결속; 6arm 전체 PASS 아님",
+  "resource_policy": "기술 afterok 직렬화; 다른 project admission 합산 cap2; 제출 직전 재계수",
+  "no_disk_W_M_checkpoint": true,
+  "old_pause_source_raw_preserved": true,
+  "raw_free_source": true,
+  "check_agent_access": "PASS",
+  "git_diff_check": "PASS"
+}

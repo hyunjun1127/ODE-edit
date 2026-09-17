@@ -166,12 +166,16 @@ def observe_main(label):
         if (out/'initial-gate.json').is_file():
             gates.append(verify_initial_gate(out,ROOT/'execution.lock.json',ready_path))
         if (out/'failure.json').is_file():failures.append(identity(out/'failure.json'))
-    boundary='MAIN_INITIAL_VALID' if gates else main_pending_classification(rows,node,
+    representative=next((g for g in gates if g['arm']=='C45678'),None)
+    preferred_active=any(r['job']==job+'_0' and r['state'] in ('RUNNING','CONFIGURING','COMPLETING') for r in rows)
+    if representative is None and not preferred_active and gates:representative=gates[0]
+    boundary='MAIN_INITIAL_VALID' if representative else main_pending_classification(rows,node,
         ready=True,registered=6,released=True)
     if failures and not gates:boundary='CONTINUE_MAIN_TECHNICAL_FAILURE_DIAGNOSIS'
     evidence=dict(time=datetime.now(timezone.utc).isoformat(),array=job,mapping=released['mapping'],
         registered=6,released=True,queue=rows,accounting=accounting,node=node,node_raw=node_raw,
-        gate_evidence=gates,failure_evidence=failures,boundary=boundary,
+        gate_evidence=gates,representative_gate=representative,
+        preferred_C45678_running=preferred_active,failure_evidence=failures,boundary=boundary,
         scientific_completion_claim=False,no_job_mutation=True)
     ref=save(RESUME/'observations'/(label+'.json'),evidence)
     print(json.dumps(dict(receipt=ref,**evidence)));return evidence
