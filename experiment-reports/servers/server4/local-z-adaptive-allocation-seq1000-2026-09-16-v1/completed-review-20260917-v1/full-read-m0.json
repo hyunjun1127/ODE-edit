@@ -1,0 +1,200 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "envelope": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/messages/head/2026-09-17-sh4-local-z-detailed-review.md",
+    "bytes": 15652,
+    "sha256": "26f4f0b485da7ede2602d00f3a483fb41b343d1d1cd69a085815621722689c23"
+  },
+  "envelope_reading": "FULL_READ_THIS_RECALL",
+  "prior_full_read": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/full-read-receipt.json",
+    "bytes": 6940,
+    "sha256": "a8de455e9294f82acecd38b250c88c1c7662800d892a91a87e04057cc07986fa"
+  },
+  "documents": [
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/messages/head/2026-09-16-sh4-local-z-adaptive-allocation.md",
+      "bytes": 17939,
+      "sha256": "37f820a76fc7a0e90478feaae802965dd4f7f50f192b89155bd3c866662ba6fd",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/messages/head/2026-09-16-sh4-local-z-adaptive-allocation.md"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-16-local-z-adaptive-allocation-sh4-dispatch/source-input-manifest.json",
+      "bytes": 1792,
+      "sha256": "4fc3094643cf09f7bd37ffe66a2e1b2d58666594f399c11f7117c6588e4d4446",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-16-local-z-adaptive-allocation-sh4-dispatch/source-input-manifest.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/PROTOCOL.md",
+      "bytes": 60382,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/PROTOCOL.md"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/control/gpu-concurrency-policy.tsv",
+      "bytes": 413,
+      "sha256": "bae9afa844f00febbdd371c195fd462eef6a8d97e92d6c9f4afbe05ef45d8b1c",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/control/gpu-concurrency-policy.tsv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-16-local-z-adaptive-allocation-sh4-dispatch.json",
+      "bytes": 1454,
+      "sha256": "da981a7cba585915fc71e522ede23f895153bb15e2284db33e64538af22b7a00",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-16-local-z-adaptive-allocation-sh4-dispatch.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md",
+      "bytes": 21218,
+      "sha256": "0aa17998b55850c7b361545c6388930bf75f7ed9d11dc5e4968acf868c370b69",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json",
+      "bytes": 11699,
+      "sha256": "07579b9976090266310b3f771312a7dd486c2afacc233cfd1332b0c9a69279df",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv",
+      "bytes": 5290,
+      "sha256": "6c4fa65a61307400189f214e0af6da8b0697ce13ec7b098ddc9e07989a35e65d",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py",
+      "bytes": 7621,
+      "sha256": "89851564b2e606774bab77b4a362bd595013994b6c3cedab9fd12402d4e8c45e",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/global/2026-09-16-local-z-adaptive-allocation/checks.json",
+      "bytes": 2645,
+      "sha256": "7c20488b00104b9472e0622ff3c66a61eb90db8565ba6e13b774d93e352d445a",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/audits/global/2026-09-16-local-z-adaptive-allocation/checks.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-13-low-cost-write-donor-pilot-design.md",
+      "bytes": 33750,
+      "sha256": "585dfddb90031d719a668232be1af4ac1815cc81b48f4500c59b8b34fbd016c8",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-13-low-cost-write-donor-pilot-design.md"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/global/2026-09-14-lowcost-seq10-review-ko.md",
+      "bytes": 12423,
+      "sha256": "3494439c5b0463e71bbc90fea03939f3b929614f46394dd38a7cfcdba7339d59",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/audits/global/2026-09-14-lowcost-seq10-review-ko.md"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "bytes": 24298,
+      "sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/2026-09-15-bg-tw-reference-data-contract.json"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/plans/global/fixed-counterfact-10k-policy.md",
+      "bytes": 3549,
+      "sha256": "0fd115e3a060569f7e30f074f435a0eb9a51a55eecf6654161c15b8392e550f0",
+      "reading": "EXACT_PRIOR_FULL_READ_REUSED",
+      "prior_path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/authoritative/plans/global/fixed-counterfact-10k-policy.md"
+    }
+  ],
+  "native_reuse": [
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/AlphaEdit_main.py",
+      "bytes": 12212,
+      "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/compute_z.py",
+      "bytes": 9524,
+      "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/compute_ks.py",
+      "bytes": 1552,
+      "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/worktree/project/run_scripts/low_cost_write_donor_pilot/fitting.py",
+      "bytes": 12154,
+      "sha256": "859ee2fcfc673344e72c3af8380768304a49fb4682726e31ef62d82b5d5c0db7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/worktree/project/run_scripts/low_cost_write_donor_pilot/sequential_runtime.py",
+      "bytes": 21601,
+      "sha256": "7e39831dc01d7e6b8d5feb7c5885c1a8bbcc4366bb292fc9d6b129652562afa0"
+    }
+  ],
+  "pins": [
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/execution.lock.json",
+      "bytes": 719966,
+      "sha256": "093bb13dd6b42b8f2f8b8478248b067add1d94533547afa8ca9af416e6f14629"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/resume-manifest.json",
+      "bytes": 5076,
+      "sha256": "541012971022dd245df9aa64d085379d931116e7eb4dad2eba085a31e0920ebe"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1.tar",
+      "bytes": 1648640,
+      "sha256": "6378df3a237d5a6c489b87c90f6d99c0221b409857632852916f2f5bffa7f901"
+    }
+  ],
+  "host": {
+    "args": [
+      "hostname"
+    ],
+    "returncode": 0,
+    "stdout": "server4\n",
+    "stderr": ""
+  },
+  "main": {
+    "args": [
+      "git",
+      "rev-parse",
+      "origin/main",
+      "origin/main^{tree}"
+    ],
+    "returncode": 0,
+    "stdout": "31c02006affc2f94f64ff43539c8892206ca4b17\nb047f56a99433874546c343d589520adee7a0766\n",
+    "stderr": ""
+  },
+  "worktree": {
+    "args": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "?? project/run_scripts/local_z_adaptive_allocation/analysis/\n",
+    "stderr": ""
+  },
+  "shared_root": {
+    "args": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "GPU_actions": 0,
+  "source_runtime_modified": false,
+  "prior_observation": "2026-09-16T11:36:50.122707+00:00 PENDING/GATE_NOT_OBSERVED"
+}

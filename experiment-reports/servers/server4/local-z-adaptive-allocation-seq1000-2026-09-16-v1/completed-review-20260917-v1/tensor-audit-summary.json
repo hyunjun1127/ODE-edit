@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "mismatches": [],
+  "CP_count": 21,
+  "checkpoint_tensor_count": 84,
+  "reconstructed_candidate_count": 171,
+  "target_calls": 12000,
+  "Adam": 203663,
+  "loss": 215663,
+  "source_scope": "SAVED_TARGET_AND_SELECTED_STATE_CPU_ONLY",
+  "W0_candidate_reconstruction": "NOT_TESTED_B1",
+  "final_history_keys": "NOT_SAVED; cannot independently recompute M append Gram",
+  "GPU_off_on": "NOT_TESTED",
+  "bytes": 118609441932,
+  "members": 1201,
+  "seconds": 1365.6709296032786,
+  "GPU_calls": 0
+}

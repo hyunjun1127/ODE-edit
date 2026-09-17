@@ -1,0 +1,15 @@
+{
+  "status": "CPU_SOURCE_RESIDUAL_STRICT_REUSE_CHECKS_PASS",
+  "terminal_saved_residuals": 50,
+  "source_members": 2136,
+  "runtime_source_modified": false,
+  "technical_repeat_max": {
+    "E": 0.0,
+    "H": 0.0,
+    "D": 0.0
+  },
+  "N4_TD_weights_M4_identical_all_batches": true,
+  "N4_TD_M8_different_all_batches": true,
+  "subset_reuse_exact": true,
+  "new_GPU": 0
+}

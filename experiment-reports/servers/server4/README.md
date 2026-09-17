@@ -2,6 +2,7 @@
 
 ## 현재 독립 정본
 
+- [Local-z cold 7-arm — first1000 상세 CPU 리뷰](local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md) — 7/7 완료, 운영 cap1 이탈 별도 명시
 - [CAKE + AlphaEdit/MEMIT baseline — fixed10k](cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md)
 - [EP-TW-1 alpha-cap sweep — first1000](ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md)
 - [범위별 보고 목록](completed-experiments-review-2026-09-16-v2/README.md)

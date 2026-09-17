@@ -1,1 +1,199 @@
-{"CPU_frozen_imports_assets":2136,"CPU_tests":12,"RNG":null,"array_mapping":{"0":"LD","1":"N4","2":"REFIT4","3":"L75","4":"T75","5":"L4D","6":"TD"},"automatic_resume":false,"broadcast":"NO_BROADCAST_NOT_REQUIRED","capsule":"PREPARATION_NOT_YET_OBSERVED; source declares common W0/context/RNG/teacher lock","checkpoint":null,"concurrent_reserved_capacity":1,"conditional_dependency":"afterok:48679","deferred":"All numerical/GPU checks, dynamic B1 commit/B2 entry and all scientific results not yet observed","expected_READY":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/technical/attempt-v1/READY.json","expected_outputs":{"L4D":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/L4D/attempt-v1/output","L75":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/L75/attempt-v1/output","LD":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/LD/attempt-v1/output","N4":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/N4/attempt-v1/output","REFIT4":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/REFIT4/attempt-v1/output","T75":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/T75/attempt-v1/output","TD":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/TD/attempt-v1/output"},"gate":"PENDING_GATE_NOT_RUN","gpu_cap":1,"history":null,"host":"server4","instruction_id":"ODEEDIT-S06-LOCAL-Z-ADAPTIVE-ALLOCATION-SEQ1000-SH4-V1","jobs_last_observed":"48680_[0-6%1]|odeedit_lz_seq1000_s4|PENDING|gres/gpu:rtx_pro_6000:1|(None)\n48679|odeedit_lz_prepare_s4|PENDING|gres/gpu:rtx_pro_6000:1|(None)","last_batch":null,"last_observation_time":"2026-09-16T11:36:50.122707+00:00","model_level_validation":"NOT_RUN_AT_LAST_OBSERVATION","monitoring_active":false,"new_GPU_hours_measured":"NOT_AVAILABLE_PENDING","new_scientific_chains_observed_running":0,"new_scientific_chains_registered":7,"next_ordinal":null,"nonce":"ODEEDIT-GH-SH4-LOCAL-Z-ADAPTIVE-ALLOCATION-20260916-R1","other_tasks_changed":false,"output_existence":"NOT_REPOLLED_AFTER_PENDING","publication_source":"Includes CPU-only handoff after frozen execution commit; runtime unchanged","references":{"CPU_checks":{"bytes":4295,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/checks/191503a8393a1c872b2087471ede98f2094974fec5898fb63da290eba8180c9b.json","sha256":"404014d1aaa0d75418f4091ac78370b72eff9a199ad71fe9128e145f4867d4b2"},"admission":{"bytes":87,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/admission.json","sha256":"12a3f8ab2c7711492e8048cb6e0dc276da0a346a1bf9bbfb0dcb58898aedda0e"},"execution_lock":{"bytes":719966,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/execution.lock.json","sha256":"093bb13dd6b42b8f2f8b8478248b067add1d94533547afa8ca9af416e6f14629"},"full_read":{"bytes":6940,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/full-read-receipt.json","sha256":"a8de455e9294f82acecd38b250c88c1c7662800d892a91a87e04057cc07986fa"},"registered":{"bytes":245,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/registered.json","sha256":"d668a5fe9636572bf0a837fb693283fa7a5a4e571d23da79cd4f20c615129f9b"},"release":{"bytes":315,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/released.json","sha256":"1b1f6d2706dce72a1e8854a763b2f242d29937e24a78418593bd232f02fa3188"},"source_archive":{"bytes":1648640,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1.tar","sha256":"6378df3a237d5a6c489b87c90f6d99c0221b409857632852916f2f5bffa7f901"}},"resource":{"cpus":8,"estimate":"Per-arm up to 3 native target sweeps plus up to 7 candidate E/H/D evaluations per batch; 12h reserve, NOT_MEASURED","gpus":1,"hour_cap":null,"mem_MiB":60416,"queue":"technical then afterok science array%1; no overlapping reservation capacity","wall_hours":12},"resume_manifest":{"bytes":5076,"path":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/resume-manifest.json","sha256":"541012971022dd245df9aa64d085379d931116e7eb4dad2eba085a31e0920ebe"},"resume_trigger":"explicit_user_call","scientific_array":"48680","scientific_completion":"NOT_OBSERVED","session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd","source_branch":"codex/server4-local-z-adaptive-allocation-seq1000-v1","source_head":"32a92ad6f3fff2f258d8778f3936d152e975ac1b","source_root":"/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1","source_tree":"75a96b2e2122d2be6b096af12c22df8a4365a8e1","storage":{"CP_count":21,"CP_schedule":[1,5,10],"candidate_weights":"RECONSTRUCT_FROM_EPISODE_ENTRY_AND_SAVED_FITS_GATES","delta_replay":"FP32 deltas alone NOT_CLAIMED_EXACT; selected weights in snapshots","fit_native_weights_and_targets":true,"free_bytes":431185588224,"optional_teacher_bytes":12608077824,"reserve_bytes":227633266688},"task_state":"MONITORING_PAUSED_AWAITING_USER","teacher":"47592 existing192 reused by identity; current TF32off reproduction pending; conditional same-token repair only","technical_READY_required":true,"technical_job":"48679","technical_status":"REGISTERED_NOT_OBSERVED_READY"}
+{
+  "instruction_id": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-LOCAL-Z-DETAILED-REVIEW-20260917-R1",
+  "task_state": "TASK_COMPLETE_STOP",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "gpu_cap": 1,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "pre_review_submission_and_pause_provenance": {
+    "CPU_frozen_imports_assets": 2136,
+    "CPU_tests": 12,
+    "RNG": null,
+    "array_mapping": {
+      "0": "LD",
+      "1": "N4",
+      "2": "REFIT4",
+      "3": "L75",
+      "4": "T75",
+      "5": "L4D",
+      "6": "TD"
+    },
+    "automatic_resume": false,
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+    "capsule": "PREPARATION_NOT_YET_OBSERVED; source declares common W0/context/RNG/teacher lock",
+    "checkpoint": null,
+    "concurrent_reserved_capacity": 1,
+    "conditional_dependency": "afterok:48679",
+    "deferred": "All numerical/GPU checks, dynamic B1 commit/B2 entry and all scientific results not yet observed",
+    "expected_READY": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/technical/attempt-v1/READY.json",
+    "expected_outputs": {
+      "L4D": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/L4D/attempt-v1/output",
+      "L75": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/L75/attempt-v1/output",
+      "LD": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/LD/attempt-v1/output",
+      "N4": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/N4/attempt-v1/output",
+      "REFIT4": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/REFIT4/attempt-v1/output",
+      "T75": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/T75/attempt-v1/output",
+      "TD": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/TD/attempt-v1/output"
+    },
+    "gate": "PENDING_GATE_NOT_RUN",
+    "gpu_cap": 1,
+    "history": null,
+    "host": "server4",
+    "instruction_id": "ODEEDIT-S06-LOCAL-Z-ADAPTIVE-ALLOCATION-SEQ1000-SH4-V1",
+    "jobs_last_observed": "48680_[0-6%1]|odeedit_lz_seq1000_s4|PENDING|gres/gpu:rtx_pro_6000:1|(None)\n48679|odeedit_lz_prepare_s4|PENDING|gres/gpu:rtx_pro_6000:1|(None)",
+    "last_batch": null,
+    "last_observation_time": "2026-09-16T11:36:50.122707+00:00",
+    "model_level_validation": "NOT_RUN_AT_LAST_OBSERVATION",
+    "monitoring_active": false,
+    "new_GPU_hours_measured": "NOT_AVAILABLE_PENDING",
+    "new_scientific_chains_observed_running": 0,
+    "new_scientific_chains_registered": 7,
+    "next_ordinal": null,
+    "nonce": "ODEEDIT-GH-SH4-LOCAL-Z-ADAPTIVE-ALLOCATION-20260916-R1",
+    "other_tasks_changed": false,
+    "output_existence": "NOT_REPOLLED_AFTER_PENDING",
+    "publication_source": "Includes CPU-only handoff after frozen execution commit; runtime unchanged",
+    "references": {
+      "CPU_checks": {
+        "bytes": 4295,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/checks/191503a8393a1c872b2087471ede98f2094974fec5898fb63da290eba8180c9b.json",
+        "sha256": "404014d1aaa0d75418f4091ac78370b72eff9a199ad71fe9128e145f4867d4b2"
+      },
+      "admission": {
+        "bytes": 87,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/admission.json",
+        "sha256": "12a3f8ab2c7711492e8048cb6e0dc276da0a346a1bf9bbfb0dcb58898aedda0e"
+      },
+      "execution_lock": {
+        "bytes": 719966,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/execution.lock.json",
+        "sha256": "093bb13dd6b42b8f2f8b8478248b067add1d94533547afa8ca9af416e6f14629"
+      },
+      "full_read": {
+        "bytes": 6940,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/full-read-receipt.json",
+        "sha256": "a8de455e9294f82acecd38b250c88c1c7662800d892a91a87e04057cc07986fa"
+      },
+      "registered": {
+        "bytes": 245,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/registered.json",
+        "sha256": "d668a5fe9636572bf0a837fb693283fa7a5a4e571d23da79cd4f20c615129f9b"
+      },
+      "release": {
+        "bytes": 315,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/released.json",
+        "sha256": "1b1f6d2706dce72a1e8854a763b2f242d29937e24a78418593bd232f02fa3188"
+      },
+      "source_archive": {
+        "bytes": 1648640,
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1.tar",
+        "sha256": "6378df3a237d5a6c489b87c90f6d99c0221b409857632852916f2f5bffa7f901"
+      }
+    },
+    "resource": {
+      "cpus": 8,
+      "estimate": "Per-arm up to 3 native target sweeps plus up to 7 candidate E/H/D evaluations per batch; 12h reserve, NOT_MEASURED",
+      "gpus": 1,
+      "hour_cap": null,
+      "mem_MiB": 60416,
+      "queue": "technical then afterok science array%1; no overlapping reservation capacity",
+      "wall_hours": 12
+    },
+    "resume_manifest": {
+      "bytes": 5076,
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/resume-manifest.json",
+      "sha256": "541012971022dd245df9aa64d085379d931116e7eb4dad2eba085a31e0920ebe"
+    },
+    "resume_trigger": "explicit_user_call",
+    "scientific_array": "48680",
+    "scientific_completion": "NOT_OBSERVED",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "source_branch": "codex/server4-local-z-adaptive-allocation-seq1000-v1",
+    "source_head": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+    "source_root": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1",
+    "source_tree": "75a96b2e2122d2be6b096af12c22df8a4365a8e1",
+    "storage": {
+      "CP_count": 21,
+      "CP_schedule": [
+        1,
+        5,
+        10
+      ],
+      "candidate_weights": "RECONSTRUCT_FROM_EPISODE_ENTRY_AND_SAVED_FITS_GATES",
+      "delta_replay": "FP32 deltas alone NOT_CLAIMED_EXACT; selected weights in snapshots",
+      "fit_native_weights_and_targets": true,
+      "free_bytes": 431185588224,
+      "optional_teacher_bytes": 12608077824,
+      "reserve_bytes": 227633266688
+    },
+    "task_state": "MONITORING_PAUSED_AWAITING_USER",
+    "teacher": "47592 existing192 reused by identity; current TF32off reproduction pending; conditional same-token repair only",
+    "technical_READY_required": true,
+    "technical_job": "48679",
+    "technical_status": "REGISTERED_NOT_OBSERVED_READY"
+  },
+  "review": {
+    "status": "TASK_COMPLETE_STOP",
+    "report": {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+      "bytes": 42787,
+      "sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+    },
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/analysis-manifest.json",
+      "bytes": 12514,
+      "sha256": "d48675f8a6f13e183f1bc849462581fe104e62c8e4dcdf062d876c487b5b4f90"
+    },
+    "postrun": {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/servers/server4/2026-09-17-local-z-adaptive-allocation-review/postrun-checks.json",
+      "bytes": 10537,
+      "sha256": "8c2c096b72994041ff3d8b58426edbd083687e409a5c17076f0c01cf082f7398"
+    },
+    "execution": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+    "analysis": "e91ba03ffcc4ac810038d03de0aa9a535a804f57",
+    "jobs": [
+      "48679",
+      "48680_0",
+      "48680_1",
+      "48680_2",
+      "48680_3",
+      "48680_4",
+      "48680_5",
+      "48680_6"
+    ],
+    "committed_batches": 70,
+    "requests_per_arm": 1000,
+    "unique_requests": 1000,
+    "CP_count": 21,
+    "CPU_reconstructed_candidates": 171,
+    "history_append": 110,
+    "state_links": 63,
+    "science_GPU_seconds": 67637,
+    "preparation_GPU_seconds": 2895,
+    "new_review_GPU_seconds": 0,
+    "numerical_scope": "Stored actual technical checks and CPU arithmetic, not fresh model parity",
+    "operational_deviation": {
+      "cap_required": 1,
+      "actual_max_GPU": 2,
+      "seconds_above_cap": 19428,
+      "cause": "NOT_RECORDED"
+    },
+    "automatic_resume": false,
+    "monitoring_active": false,
+    "scientific_status": "7_OF_7_COMPLETED_1000_CPU_AUDITED",
+    "source_runtime_changed": false,
+    "missing": [
+      "B1 all-candidate independent W0 materialization",
+      "finalizer keys Gram reconstruction",
+      "GPU off-on continuation",
+      "candidate official R/P/N",
+      "native clamp-hit counter"
+    ],
+    "report_repo_path": "experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+    "report_SHA256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+  },
+  "main_publication": "THIS_COMMIT_IS_OWN_SCOPE_PUBLICATION_PAYLOAD; exact remote confirmation recorded separately in local publication receipt and direct handoff"
+}

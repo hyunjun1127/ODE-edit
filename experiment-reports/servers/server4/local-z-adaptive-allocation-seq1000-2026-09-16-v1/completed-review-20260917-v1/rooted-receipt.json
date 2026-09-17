@@ -1,0 +1,49 @@
+{
+  "status": "TASK_COMPLETE_STOP",
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+    "bytes": 42787,
+    "sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+  },
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/analysis-manifest.json",
+    "bytes": 12514,
+    "sha256": "d48675f8a6f13e183f1bc849462581fe104e62c8e4dcdf062d876c487b5b4f90"
+  },
+  "postrun": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/servers/server4/2026-09-17-local-z-adaptive-allocation-review/postrun-checks.json",
+    "bytes": 10537,
+    "sha256": "8c2c096b72994041ff3d8b58426edbd083687e409a5c17076f0c01cf082f7398"
+  },
+  "execution": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+  "analysis": "e91ba03ffcc4ac810038d03de0aa9a535a804f57",
+  "jobs": [
+    "48679",
+    "48680_0",
+    "48680_1",
+    "48680_2",
+    "48680_3",
+    "48680_4",
+    "48680_5",
+    "48680_6"
+  ],
+  "committed_batches": 70,
+  "requests_per_arm": 1000,
+  "unique_requests": 1000,
+  "CP_count": 21,
+  "CPU_reconstructed_candidates": 171,
+  "history_append": 110,
+  "state_links": 63,
+  "science_GPU_seconds": 67637,
+  "preparation_GPU_seconds": 2895,
+  "new_review_GPU_seconds": 0,
+  "numerical_scope": "Stored actual technical checks and CPU arithmetic, not fresh model parity",
+  "operational_deviation": {
+    "cap_required": 1,
+    "actual_max_GPU": 2,
+    "seconds_above_cap": 19428,
+    "cause": "NOT_RECORDED"
+  },
+  "automatic_resume": false,
+  "monitoring_active": false
+}

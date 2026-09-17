@@ -1,0 +1,404 @@
+{
+  "members": [
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/allocation-intervals.csv",
+        "bytes": 971,
+        "sha256": "5a39e17a9680e93a8610d8797058e5581808a6b6c9f5931a12f57adc3f6d457b"
+      },
+      "publication": "allocation-intervals.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/batch-metrics.csv",
+        "bytes": 186728,
+        "sha256": "a2f6f54231bb20ee05039549d647e2d0192fbc9843c7e181a526fb278e8d4b21"
+      },
+      "publication": "batch-metrics.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/candidate-metrics.csv",
+        "bytes": 76708,
+        "sha256": "c4556d7c37e00a6f5913c81e59fc6f3b4b7053077c17c39712d3c4ba1929af2b"
+      },
+      "publication": "candidate-metrics.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/cohorts.csv",
+        "bytes": 94147,
+        "sha256": "167bb44cb412f8331c2e6438abd36b68abe1b7611ecb5a857d5fa12789c975e5"
+      },
+      "publication": "cohorts.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/compute-components.csv",
+        "bytes": 3716,
+        "sha256": "24e76c3582b0639fa23cb0b29e86a1cf21bcc706ccc24fc78bfe0c81bba103cd"
+      },
+      "publication": "compute-components.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/constraints.csv",
+        "bytes": 7458,
+        "sha256": "20662e3ef9cf9324720d7a937e554e64415a6435caf4a769071e4e11f15c8f8d"
+      },
+      "publication": "constraints.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/generic-observer.csv",
+        "bytes": 929,
+        "sha256": "f5071017821a942dce52c542eba84895680a17b4095be70ecbe9202414536e64"
+      },
+      "publication": "generic-observer.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/paired-policy-comparisons.csv",
+        "bytes": 18385,
+        "sha256": "30bb7659c7996be819d53cdf914d7039d792b1a03d9a8ef37d062f507ade7a85"
+      },
+      "publication": "paired-policy-comparisons.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/paired-transitions.csv",
+        "bytes": 242208,
+        "sha256": "14d9349cb327da609852d6125c52a41ac96447f8da53866e6261f9e5cee82261"
+      },
+      "publication": "paired-transitions.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/past64.csv",
+        "bytes": 6017,
+        "sha256": "23c4144b72e6a3510c2ed931177ffe9d9de4d0b7ba73bcebb639551e808287ee"
+      },
+      "publication": "past64.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/population-metrics.csv",
+        "bytes": 79302,
+        "sha256": "645faa3a1ffb2f0cadf7025a1222b71387324bf30fbf94b68377bd7d972f05e1"
+      },
+      "publication": "population-metrics.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/scheduler-cost.csv",
+        "bytes": 1708,
+        "sha256": "390766a99a6e83fcc5b2ca55bae57fd3b6625f6f2c0558efce8ea64d422d7b23"
+      },
+      "publication": "scheduler-cost.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/selection.csv",
+        "bytes": 10323,
+        "sha256": "59f8e74c33b450a314a8c3e47b27e63b5c34c4d0cedcdd4c0a4b9ef18a91e1d3"
+      },
+      "publication": "selection.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/analysis-r2/state-links.csv",
+        "bytes": 1268,
+        "sha256": "d69b504882afc2ae39c25a4629264b5c4a0a124c9ab14eb6484cd1bc7e618eaa"
+      },
+      "publication": "state-links.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/N4-TD-state-comparison.csv",
+        "bytes": 292,
+        "sha256": "d020048fd543159d5ae64735187bf0b6295fb798a7e80cd1428b58e091ed9f1a"
+      },
+      "publication": "N4-TD-state-comparison.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/source-functions.csv",
+        "bytes": 11329,
+        "sha256": "1ea8ad5f1549d31250bd257ec2b110e8ab4d45e67e0248ca75788df717764e69"
+      },
+      "publication": "source-functions.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/strict-transitions.csv",
+        "bytes": 26331,
+        "sha256": "a7b1e31bb527d9d9810f44dbcd1d8f0df76b2d781e6f3c38703604f0d8dc7259"
+      },
+      "publication": "strict-transitions.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/technical-repeat.csv",
+        "bytes": 205,
+        "sha256": "e4c547667f1dbd1d6ab195b044b2bb013c573e2c3f92bd5a7550121dfa3a8c6e"
+      },
+      "publication": "technical-repeat.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/terminal-residual.csv",
+        "bytes": 8536,
+        "sha256": "2bf2cf27f9b139e5af0a78ec0754029f6a3f8a9d8b927da9281c521a8c1adaec"
+      },
+      "publication": "terminal-residual.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/terminal-target-cost.csv",
+        "bytes": 763,
+        "sha256": "8c3e5c0620dcb2de80cd7627e46d6d3220ea9dd0ecf74b9a80ba8aba01745819"
+      },
+      "publication": "terminal-target-cost.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/tensor-audit/checkpoint-tensors.csv",
+        "bytes": 22672,
+        "sha256": "5dd892d7522dd2f5490b62506ae164e9287a4bb3c6fab03447c8b0a1d3c6e711"
+      },
+      "publication": "checkpoint-tensors.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/tensor-audit/candidate-reconstruction.csv",
+        "bytes": 15525,
+        "sha256": "a432c5a58ea05535afb1b707c9e1d54c80e9b8b5b90f2b838fe1cb645b97516c"
+      },
+      "publication": "candidate-reconstruction.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/tensor-audit/native-fit-tensors.csv",
+        "bytes": 33397,
+        "sha256": "7832151ef467745de44555b2663349a6cb43e299e1c67894e15f6d0b1b6de989"
+      },
+      "publication": "native-fit-tensors.csv",
+      "mode": "BYTE_EXACT_CPU_OUTPUT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/tensor-audit/raw-inventory.json",
+        "bytes": 378199,
+        "sha256": "99f077cda0ffc85836b943354e7e5a091f70a229757f67893e9b4f987630fc09"
+      },
+      "publication": "raw-inventory.json",
+      "mode": "BYTE_EXACT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/supplement-v1/input-source-inventory.json",
+        "bytes": 726784,
+        "sha256": "e53634cbd9a1ea1f98283c9f11408509ab46cd6b47ca88caf36b64e12d5509fe"
+      },
+      "publication": "input-manifest.json",
+      "mode": "BYTE_EXACT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/first-tables/first-final-table.csv",
+        "bytes": 1113,
+        "sha256": "bd0df527e2b4b884f29c337bb37e04d2c27af6b43040ff3f2d171bc380896350"
+      },
+      "publication": "first-final-table.csv",
+      "mode": "BYTE_EXACT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/full-read-m0.json",
+        "bytes": 10564,
+        "sha256": "771100dafc48590f1613cfb329ced6a6805e6bd0823d7db4287a41fe8faa3efc"
+      },
+      "publication": "full-read-m0.json",
+      "mode": "BYTE_EXACT"
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-polished-v1/current-batch-curves.png",
+        "bytes": 222394,
+        "sha256": "cdc6e4e0b14397ff83fd7e2ae609735af1f79597749b70d116b4003e8c07e32c"
+      },
+      "publication": "figures/current-batch-curves.png",
+      "mode": "CODE_GENERATED_BYTE_EXACT_COPY",
+      "prior_layout_source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-v1/current-batch-curves.png",
+        "bytes": 222394,
+        "sha256": "cdc6e4e0b14397ff83fd7e2ae609735af1f79597749b70d116b4003e8c07e32c"
+      }
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-polished-v1/dynamic-selections.png",
+        "bytes": 29851,
+        "sha256": "c7f6043cf61bcbb9be6d6d7d946d6b0a44e42abda89def3668fa92a3cda97f00"
+      },
+      "publication": "figures/dynamic-selections.png",
+      "mode": "CODE_GENERATED_BYTE_EXACT_COPY",
+      "prior_layout_source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-v1/dynamic-selections.png",
+        "bytes": 29851,
+        "sha256": "c7f6043cf61bcbb9be6d6d7d946d6b0a44e42abda89def3668fa92a3cda97f00"
+      }
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-polished-v1/final-seven-arm.png",
+        "bytes": 60604,
+        "sha256": "29c10993119baacf93596e157ee0546f05c79b1460c3bbad2f4ee5fe161e8090"
+      },
+      "publication": "figures/final-seven-arm.png",
+      "mode": "CODE_GENERATED_BYTE_EXACT_COPY",
+      "prior_layout_source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-v1/final-seven-arm.png",
+        "bytes": 53985,
+        "sha256": "a0e98f3a826e8800c0c1fd09f4f6b9a96f7240b41079a9335b806bf855a972e1"
+      }
+    },
+    {
+      "source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-polished-v1/selector-and-paired.png",
+        "bytes": 90218,
+        "sha256": "14e51935c9b6dd7095c94d226db6ab19ddba42463adedd6a1ede7c3f0ba2c5b1"
+      },
+      "publication": "figures/selector-and-paired.png",
+      "mode": "CODE_GENERATED_BYTE_EXACT_COPY",
+      "prior_layout_source": {
+        "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/figures-v1/selector-and-paired.png",
+        "bytes": 90218,
+        "sha256": "14e51935c9b6dd7095c94d226db6ab19ddba42463adedd6a1ede7c3f0ba2c5b1"
+      }
+    }
+  ],
+  "large_assets": "PRIOR_FULL_SHA_CURRENT_STABLE_STAT",
+  "old_pending_immutable": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/resume-manifest.json",
+    "bytes": 5076,
+    "sha256": "541012971022dd245df9aa64d085379d931116e7eb4dad2eba085a31e0920ebe"
+  },
+  "current_CPU": {
+    "metrics": {
+      "status": "CPU_METRICS_STATE_JSON_SELECTOR_PAST_COUNTS_PASS",
+      "arms": 7,
+      "batches": 70,
+      "links": 63,
+      "candidates": 190,
+      "history": 110,
+      "target_calls": 12000,
+      "solves": 150,
+      "selection_counts": {
+        "N4": {
+          "N4": 10
+        },
+        "REFIT4": {
+          "REFIT4": 10
+        },
+        "L75": {
+          "L0.75-1": 10
+        },
+        "T75": {
+          "T0.75-1": 10
+        },
+        "L4D": {
+          "N4": 9,
+          "L0.75-0": 1
+        },
+        "LD": {
+          "L0.75-0.5": 9,
+          "N4": 1
+        },
+        "TD": {
+          "N4": 10
+        }
+      },
+      "teacher_regenerated": false,
+      "teacher_W0_D": 0.0,
+      "maximum_allocated_GPUs": 2,
+      "cap1_exceed_seconds": 19428.0,
+      "science_GPU_seconds": 67637,
+      "preparation_GPU_seconds": 2895,
+      "unchanged_current_N4_TD_NLL_pairs": true,
+      "active_counts": {
+        "ACTIVE": 999,
+        "SUPERSEDED": 1
+      },
+      "violations": [],
+      "GPU_calls": 0,
+      "missing": [
+        "candidate_official_R_P_N",
+        "saved_finalizer_keys",
+        "native_iteration_clamp_hits",
+        "GPU_off_on_continuation"
+      ]
+    },
+    "tensors": {
+      "status": "PASS",
+      "mismatches": [],
+      "CP_count": 21,
+      "checkpoint_tensor_count": 84,
+      "reconstructed_candidate_count": 171,
+      "target_calls": 12000,
+      "Adam": 203663,
+      "loss": 215663,
+      "source_scope": "SAVED_TARGET_AND_SELECTED_STATE_CPU_ONLY",
+      "W0_candidate_reconstruction": "NOT_TESTED_B1",
+      "final_history_keys": "NOT_SAVED; cannot independently recompute M append Gram",
+      "GPU_off_on": "NOT_TESTED",
+      "bytes": 118609441932,
+      "members": 1201,
+      "seconds": 1365.6709296032786,
+      "GPU_calls": 0
+    },
+    "supplement": {
+      "status": "CPU_SOURCE_RESIDUAL_STRICT_REUSE_CHECKS_PASS",
+      "terminal_saved_residuals": 50,
+      "source_members": 2136,
+      "runtime_source_modified": false,
+      "technical_repeat_max": {
+        "E": 0.0,
+        "H": 0.0,
+        "D": 0.0
+      },
+      "N4_TD_weights_M4_identical_all_batches": true,
+      "N4_TD_M8_different_all_batches": true,
+      "subset_reuse_exact": true,
+      "new_GPU": 0
+    }
+  },
+  "analysis_bug": "analysis-v1 duplicate keyword reasons; corrected reducer only; original raw unchanged",
+  "new_GPU": 0,
+  "layout_only_repair": {
+    "reason": "suptitle y1.03 clipped; y.99, no data change",
+    "backup": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/publication-before-layout-polish-v1"
+  }
+}

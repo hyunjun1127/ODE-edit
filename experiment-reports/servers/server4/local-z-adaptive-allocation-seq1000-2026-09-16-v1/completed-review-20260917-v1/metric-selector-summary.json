@@ -1,0 +1,54 @@
+{
+  "status": "CPU_METRICS_STATE_JSON_SELECTOR_PAST_COUNTS_PASS",
+  "arms": 7,
+  "batches": 70,
+  "links": 63,
+  "candidates": 190,
+  "history": 110,
+  "target_calls": 12000,
+  "solves": 150,
+  "selection_counts": {
+    "N4": {
+      "N4": 10
+    },
+    "REFIT4": {
+      "REFIT4": 10
+    },
+    "L75": {
+      "L0.75-1": 10
+    },
+    "T75": {
+      "T0.75-1": 10
+    },
+    "L4D": {
+      "N4": 9,
+      "L0.75-0": 1
+    },
+    "LD": {
+      "L0.75-0.5": 9,
+      "N4": 1
+    },
+    "TD": {
+      "N4": 10
+    }
+  },
+  "teacher_regenerated": false,
+  "teacher_W0_D": 0.0,
+  "maximum_allocated_GPUs": 2,
+  "cap1_exceed_seconds": 19428.0,
+  "science_GPU_seconds": 67637,
+  "preparation_GPU_seconds": 2895,
+  "unchanged_current_N4_TD_NLL_pairs": true,
+  "active_counts": {
+    "ACTIVE": 999,
+    "SUPERSEDED": 1
+  },
+  "violations": [],
+  "GPU_calls": 0,
+  "missing": [
+    "candidate_official_R_P_N",
+    "saved_finalizer_keys",
+    "native_iteration_clamp_hits",
+    "GPU_off_on_continuation"
+  ]
+}

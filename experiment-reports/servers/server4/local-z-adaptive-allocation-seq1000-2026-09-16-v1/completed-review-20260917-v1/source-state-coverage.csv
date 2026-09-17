@@ -1,0 +1,17 @@
+item,status,scope
+W10/full1000 and all Current,COMPLETE_CPU_REDUCED,7×1000/2000/10000;140 entry/selected panels
+W5→W10 samefirst500; cohorts/atwrite,COMPLETE_CPU_REDUCED,Exact identities; all-request and active/superseded separate
+Candidate E/H/D/strict/selection,COMPLETE_CPU_REDUCED,190declared=190unique;30dynamic;4fixedpolicies unscreened
+Candidate official RS/PS/NS,NOT_RECORDED,Only entry and selected canonical pairs; no new forward to fill
+Snapshots/state,PARTIAL_VERIFICATION,21CP CPU tensors;63hash links; no GPU restart
+B2–B10 all candidate endpoint materialization,CPU_EXACT_HASH,171weight candidates; starting actual B1CP
+B1 all candidate reconstruction,NOT_TESTED,No independent W0 selected tensor file; selected CP verified
+Final history K/Gram,NOT_RECORDED,Append source/receipt/M hash verified; K not saved
+Target/Adam/loss,SAVED_NATIVE_COUNTERS,12000target observations; exact totals below
+Clamp hits/total F-B/copy ops,NOT_RECORDED,No inference of iteration hits or total FLOPs from quota
+S64/Dev128,COMPLETE_STORED_REDUCED,Controller vs observer split; one reused W0 teacher
+GPU allocation,COMPLETE_EXACT_JOB_AUDIT_WITH_DEVIATION,8targets once; cap1 exceeded by recorded max2
+Pure writer/utilization,NOT_SEPARATED_OR_NOT_MEASURED,Inclusive timers not additive; allocation not utilization
+Report256/Audit/MMLU/FutureN,NOT_MEASURED_NOT_REQUESTED,No backfill; future content never selected online
+FD/ULP/KKT/backbone/off-on,NOT_TESTED_THIS_REVIEW,Local-z design does not require EP gradient diagnostics
+Historical arms,NOT_REAUDITED,No old N4/REFIT4 substitution; prior reports preserved

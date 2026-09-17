@@ -1,0 +1,314 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "analysis_source_head": "e91ba03ffcc4ac810038d03de0aa9a535a804f57",
+  "analysis_source_tree": "8ee1ce3a397f9e72754907e8af5b0ebcb8ead5bc",
+  "analysis_branch": "codex/server4-local-z-detailed-review-20260917-v1",
+  "execution_source_head": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+  "execution_tree": "75a96b2e2122d2be6b096af12c22df8a4365a8e1",
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/execution.lock.json",
+    "bytes": 719966,
+    "sha256": "093bb13dd6b42b8f2f8b8478248b067add1d94533547afa8ca9af416e6f14629"
+  },
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/source-v1.tar",
+    "bytes": 1648640,
+    "sha256": "6378df3a237d5a6c489b87c90f6d99c0221b409857632852916f2f5bffa7f901"
+  },
+  "source": [
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/__init__.py",
+      "bytes": 64,
+      "sha256": "b04a8807ba188512025f0a9866210a89b1276e91659304cb1f7b6a77ced200f5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/audit.py",
+      "bytes": 7488,
+      "sha256": "0d8567614bf9e9ccf4e31ec0645ae97b6ed9c7060f65f2570b55c940fc49ac54"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/bootstrap.py",
+      "bytes": 3634,
+      "sha256": "e946d4d45e0a9e47f51eb24c64f3d50cef5bcd2d7d2c5b638d49c2f25d4029fd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/finalize.py",
+      "bytes": 8924,
+      "sha256": "a1b95f55ad890adbc6382feac445f52d7a999748b326e2d2e239ebdae0a9131d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/metrics.py",
+      "bytes": 6870,
+      "sha256": "117069fd8817a036c2640aae16ca8a9efc6827c49816d719536842f470b4b027"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/plot.py",
+      "bytes": 3782,
+      "sha256": "ad3059e2ea7367d71cee6c100a30ecf54577a97bd39f0498a6ef71b5b5a65137"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/polish.py",
+      "bytes": 3704,
+      "sha256": "e1e2b4ee422f458c187893e13d138f90d8995a29ad1c9817cd80bacbd36ae5b0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/publish.py",
+      "bytes": 42355,
+      "sha256": "9a041b25b219f2e7d0aecdc0b8412e74b1bdb6990e5fc9e35f5dc6c7dd5c389e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/reduce.py",
+      "bytes": 20031,
+      "sha256": "4feb153d03ef17b0cec27977aa398f9182f941da7c22e37a5e49c124bc4fd439"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/tensors.py",
+      "bytes": 8399,
+      "sha256": "0133cf2d681d980e441d0221e8f74dec8a04fce520825d361c70fece49c1ce85"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/project/run_scripts/local_z_adaptive_allocation/analysis/test_analysis.py",
+      "bytes": 4671,
+      "sha256": "f4a784932f7d94c0c209d507c6f2bd990a1f7f97b46304318d71ae90610bc7ed"
+    }
+  ],
+  "data_root": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1",
+  "review_root": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1",
+  "scheduler_single_audit": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/scheduler-once.json",
+    "bytes": 5805,
+    "sha256": "3ef3acab3f89ddc345f8cb4d253bc2a7d400f67d1fbc01d9b7b2d4369f3430d1"
+  },
+  "reused_evidence": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/evidence-reuse-manifest.json",
+    "bytes": 15698,
+    "sha256": "167648663dd791dbc0aa80e422d11dae8e6eaac31e09cfc991f0a85a80871909"
+  },
+  "postrun": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/audits/servers/server4/2026-09-17-local-z-adaptive-allocation-review/postrun-checks.json",
+    "bytes": 10537,
+    "sha256": "8c2c096b72994041ff3d8b58426edbd083687e409a5c17076f0c01cf082f7398"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+    "bytes": 42787,
+    "sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+  },
+  "GPU_calls": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "verification": "CPU metric/selector/state/CP; runtime GPU technical evidence reused; no independent GPU continuation",
+  "operational_deviation": {
+    "cap_required": 1,
+    "actual_max_GPU": 2,
+    "seconds_above_cap": 19428,
+    "cause": "NOT_RECORDED"
+  },
+  "artifacts": [
+    {
+      "path": "N4-TD-state-comparison.csv",
+      "bytes": 292,
+      "sha256": "d020048fd543159d5ae64735187bf0b6295fb798a7e80cd1428b58e091ed9f1a"
+    },
+    {
+      "path": "REPRODUCE.md",
+      "bytes": 1711,
+      "sha256": "7c91dba3b4b3972eea4bba66d18e3445527b3d2eea1b7ff2c9f290fe395512fa"
+    },
+    {
+      "path": "allocation-intervals.csv",
+      "bytes": 971,
+      "sha256": "5a39e17a9680e93a8610d8797058e5581808a6b6c9f5931a12f57adc3f6d457b"
+    },
+    {
+      "path": "batch-metrics.csv",
+      "bytes": 186728,
+      "sha256": "a2f6f54231bb20ee05039549d647e2d0192fbc9843c7e181a526fb278e8d4b21"
+    },
+    {
+      "path": "candidate-metrics.csv",
+      "bytes": 76708,
+      "sha256": "c4556d7c37e00a6f5913c81e59fc6f3b4b7053077c17c39712d3c4ba1929af2b"
+    },
+    {
+      "path": "candidate-reconstruction.csv",
+      "bytes": 15525,
+      "sha256": "a432c5a58ea05535afb1b707c9e1d54c80e9b8b5b90f2b838fe1cb645b97516c"
+    },
+    {
+      "path": "checkpoint-tensors.csv",
+      "bytes": 22672,
+      "sha256": "5dd892d7522dd2f5490b62506ae164e9287a4bb3c6fab03447c8b0a1d3c6e711"
+    },
+    {
+      "path": "cohorts.csv",
+      "bytes": 94147,
+      "sha256": "167bb44cb412f8331c2e6438abd36b68abe1b7611ecb5a857d5fa12789c975e5"
+    },
+    {
+      "path": "compute-components.csv",
+      "bytes": 3716,
+      "sha256": "24e76c3582b0639fa23cb0b29e86a1cf21bcc706ccc24fc78bfe0c81bba103cd"
+    },
+    {
+      "path": "constraints.csv",
+      "bytes": 7458,
+      "sha256": "20662e3ef9cf9324720d7a937e554e64415a6435caf4a769071e4e11f15c8f8d"
+    },
+    {
+      "path": "design-conformance.csv",
+      "bytes": 4358,
+      "sha256": "20ed402bad98fc3ed8975afe9644db770a268e81208b146ddac249a4b8b7a25f"
+    },
+    {
+      "path": "diagnostic-report-ko.md",
+      "bytes": 42787,
+      "sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+    },
+    {
+      "path": "evidence-reuse-manifest.json",
+      "bytes": 15698,
+      "sha256": "167648663dd791dbc0aa80e422d11dae8e6eaac31e09cfc991f0a85a80871909"
+    },
+    {
+      "path": "figures/current-batch-curves.png",
+      "bytes": 222394,
+      "sha256": "cdc6e4e0b14397ff83fd7e2ae609735af1f79597749b70d116b4003e8c07e32c"
+    },
+    {
+      "path": "figures/dynamic-selections.png",
+      "bytes": 29851,
+      "sha256": "c7f6043cf61bcbb9be6d6d7d946d6b0a44e42abda89def3668fa92a3cda97f00"
+    },
+    {
+      "path": "figures/final-seven-arm.png",
+      "bytes": 60604,
+      "sha256": "29c10993119baacf93596e157ee0546f05c79b1460c3bbad2f4ee5fe161e8090"
+    },
+    {
+      "path": "figures/selector-and-paired.png",
+      "bytes": 90218,
+      "sha256": "14e51935c9b6dd7095c94d226db6ab19ddba42463adedd6a1ede7c3f0ba2c5b1"
+    },
+    {
+      "path": "final-seven-arm.csv",
+      "bytes": 1211,
+      "sha256": "b887576b58bf3fd70aa23ef22ac17b001384fb210c4fddd6e5405656293ecbf1"
+    },
+    {
+      "path": "first-final-table.csv",
+      "bytes": 1113,
+      "sha256": "bd0df527e2b4b884f29c337bb37e04d2c27af6b43040ff3f2d171bc380896350"
+    },
+    {
+      "path": "full-read-m0.json",
+      "bytes": 10564,
+      "sha256": "771100dafc48590f1613cfb329ced6a6805e6bd0823d7db4287a41fe8faa3efc"
+    },
+    {
+      "path": "generic-observer.csv",
+      "bytes": 929,
+      "sha256": "f5071017821a942dce52c542eba84895680a17b4095be70ecbe9202414536e64"
+    },
+    {
+      "path": "input-manifest.json",
+      "bytes": 726784,
+      "sha256": "e53634cbd9a1ea1f98283c9f11408509ab46cd6b47ca88caf36b64e12d5509fe"
+    },
+    {
+      "path": "metric-selector-summary.json",
+      "bytes": 1000,
+      "sha256": "122f9a2b29ad5da6a5a42ea1afb2f47ced36264789d0c8c1843a2796c3bc8753"
+    },
+    {
+      "path": "native-fit-tensors.csv",
+      "bytes": 33397,
+      "sha256": "7832151ef467745de44555b2663349a6cb43e299e1c67894e15f6d0b1b6de989"
+    },
+    {
+      "path": "paired-policy-comparisons.csv",
+      "bytes": 18385,
+      "sha256": "30bb7659c7996be819d53cdf914d7039d792b1a03d9a8ef37d062f507ade7a85"
+    },
+    {
+      "path": "paired-transitions.csv",
+      "bytes": 242208,
+      "sha256": "14d9349cb327da609852d6125c52a41ac96447f8da53866e6261f9e5cee82261"
+    },
+    {
+      "path": "past64.csv",
+      "bytes": 6017,
+      "sha256": "23c4144b72e6a3510c2ed931177ffe9d9de4d0b7ba73bcebb639551e808287ee"
+    },
+    {
+      "path": "population-metrics.csv",
+      "bytes": 79302,
+      "sha256": "645faa3a1ffb2f0cadf7025a1222b71387324bf30fbf94b68377bd7d972f05e1"
+    },
+    {
+      "path": "raw-inventory.json",
+      "bytes": 378199,
+      "sha256": "99f077cda0ffc85836b943354e7e5a091f70a229757f67893e9b4f987630fc09"
+    },
+    {
+      "path": "scheduler-cost.csv",
+      "bytes": 1708,
+      "sha256": "390766a99a6e83fcc5b2ca55bae57fd3b6625f6f2c0558efce8ea64d422d7b23"
+    },
+    {
+      "path": "selection.csv",
+      "bytes": 10323,
+      "sha256": "59f8e74c33b450a314a8c3e47b27e63b5c34c4d0cedcdd4c0a4b9ef18a91e1d3"
+    },
+    {
+      "path": "source-functions.csv",
+      "bytes": 11329,
+      "sha256": "1ea8ad5f1549d31250bd257ec2b110e8ab4d45e67e0248ca75788df717764e69"
+    },
+    {
+      "path": "source-state-coverage.csv",
+      "bytes": 1627,
+      "sha256": "0cb77fd1bd7c99bb2fbdb781d332e13c65ac205520704c07bf718de996c4fd5a"
+    },
+    {
+      "path": "state-links.csv",
+      "bytes": 1268,
+      "sha256": "d69b504882afc2ae39c25a4629264b5c4a0a124c9ab14eb6484cd1bc7e618eaa"
+    },
+    {
+      "path": "strict-transitions.csv",
+      "bytes": 26331,
+      "sha256": "a7b1e31bb527d9d9810f44dbcd1d8f0df76b2d781e6f3c38703604f0d8dc7259"
+    },
+    {
+      "path": "supplement-summary.json",
+      "bytes": 371,
+      "sha256": "58815749a4bbbe6f6c78a4c4523a13b1769a88863fc05f601b2b5904d82e7fc9"
+    },
+    {
+      "path": "target-counter-summary.csv",
+      "bytes": 2814,
+      "sha256": "00613c2afb725cd869b224c3a8cd5969f45aa66920463f535be8d009b72a389e"
+    },
+    {
+      "path": "technical-repeat.csv",
+      "bytes": 205,
+      "sha256": "e4c547667f1dbd1d6ab195b044b2bb013c573e2c3f92bd5a7550121dfa3a8c6e"
+    },
+    {
+      "path": "tensor-audit-summary.json",
+      "bytes": 515,
+      "sha256": "9b54f83a5bb70f690042b7e29338ca935916d16b0a1e44b58d971e1ff528c307"
+    },
+    {
+      "path": "terminal-residual.csv",
+      "bytes": 8536,
+      "sha256": "2bf2cf27f9b139e5af0a78ec0754029f6a3f8a9d8b927da9281c521a8c1adaec"
+    },
+    {
+      "path": "terminal-target-cost.csv",
+      "bytes": 763,
+      "sha256": "8c3e5c0620dcb2de80cd7627e46d6d3220ea9dd0ecf74b9a80ba8aba01745819"
+    }
+  ]
+}

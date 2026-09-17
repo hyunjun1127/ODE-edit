@@ -1,0 +1,24 @@
+{
+  "instruction": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "scope": "CPU_ONLY_EXACT_48679_48680_ARRAY_COMPLETED_OUTPUT",
+  "full_read": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/full-read-m0.json",
+    "bytes": 10564,
+    "sha256": "771100dafc48590f1613cfb329ced6a6805e6bd0823d7db4287a41fe8faa3efc"
+  },
+  "scheduler_once": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/scheduler-once.json",
+    "bytes": 5805,
+    "sha256": "3ef3acab3f89ddc345f8cb4d253bc2a7d400f67d1fbc01d9b7b2d4369f3430d1"
+  },
+  "prior_pending_preserved": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/resume-manifest.json",
+    "bytes": 5076,
+    "sha256": "541012971022dd245df9aa64d085379d931116e7eb4dad2eba085a31e0920ebe"
+  },
+  "source_exec": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+  "resource_change": false,
+  "model_calls": 0,
+  "raw_writes": false,
+  "helper": "No generic helper PASS claimed; explicit user write paths and host/repo/branch checked"
+}

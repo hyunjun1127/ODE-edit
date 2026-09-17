@@ -1,0 +1,13 @@
+{
+  "scope": "New local-z CPU review publication only",
+  "default_git_diff_check": "CSV CRLF reported as trailing whitespace",
+  "exception": "Python csv.writer default CRLF retained byte-exact for source-to-publication identity; no sealed CSV normalized",
+  "focused_command": "git -c core.whitespace=cr-at-eol diff --cached --check",
+  "focused_result": "PASS",
+  "configuration_mutation": false,
+  "raw_free_scope_check": "All staged files restricted to explicit report/audit/ack/head/run/status/README allowlist; only md/json/csv/png, under 5MB each",
+  "manifest_all_members": "PASS after figure layout-only correction",
+  "runtime_original_bytes": "UNCHANGED",
+  "new_GPU": 0,
+  "automatic_resume": false
+}

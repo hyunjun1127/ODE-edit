@@ -1,0 +1,7 @@
+candidate,strict_same,E_abs_diff,H_abs_diff,D_abs_diff
+L1-1,True,0.0,0.0,0.0
+L0.75-0,True,0.0,0.0,0.0
+L0.75-1,True,0.0,0.0,0.0
+L0.75-0.5,True,0.0,0.0,0.0
+N4,True,0.0,0.0,0.0
+L1-0.5,True,0.0,0.0,0.0

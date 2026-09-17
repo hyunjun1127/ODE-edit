@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOCAL-Z-SEVENARM-DETAILED-REVIEW-SH4-V1",
+  "status": "CPU_REVIEW_COMPLETE_READY_FOR_NONFORCE_PUBLICATION",
+  "report": "experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+  "report_sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641",
+  "manifest_sha256": "d48675f8a6f13e183f1bc849462581fe104e62c8e4dcdf062d876c487b5b4f90",
+  "rooted_receipt_sha256": "07f28a310a7aa64c57039c6c078fa2c44d532d4fd66a3425f1de562cfea393a2",
+  "execution_head": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+  "analysis_head": "e91ba03ffcc4ac810038d03de0aa9a535a804f57",
+  "completed_scientific_arms": 7,
+  "scientific_GPU_seconds": 67637,
+  "preparation_GPU_seconds": 2895,
+  "new_review_GPU_seconds": 0,
+  "operational_cap_deviation": "cap1 required; exact saved intervals max2 for 19428 seconds; cause not recorded",
+  "automatic_resume": false,
+  "monitoring_active": false,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

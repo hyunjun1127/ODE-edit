@@ -1,0 +1,412 @@
+{
+  "status": "CPU_PUBLICATION_CHECKS_PASS_WITH_OPERATIONAL_DEVIATION",
+  "test_count": 26,
+  "tests": [
+    "test_D_not_tied",
+    "test_D_tie_N4_priority",
+    "test_FP32_gate_endpoints",
+    "test_FP32_gate_half",
+    "test_cluster_ci_zero",
+    "test_exact_job_overlap_receipt_only",
+    "test_header_hash_distinct",
+    "test_neighborhood_reverse",
+    "test_no_CUDA_initialized",
+    "test_no_plateau_shadow",
+    "test_nonfinite_not_fallback",
+    "test_pair_duplicate",
+    "test_pair_identity_mismatch",
+    "test_past_constraint",
+    "test_past_empty",
+    "test_past_latest_excludes_current",
+    "test_past_latest_same_target",
+    "test_past_strict_constraint",
+    "test_plateau",
+    "test_rewrite_ties_failure",
+    "test_same_count_not_same_identity",
+    "test_same_count_strict_loss",
+    "test_status_overwrite",
+    "test_status_target_reissue",
+    "test_strict_not_nll_success",
+    "test_two_p_request_cluster"
+  ],
+  "source_AST": true,
+  "CSV_columns": true,
+  "GFM_table_count": 22,
+  "GFM_tables": [
+    {
+      "line": 15,
+      "columns": 6,
+      "rows": 10
+    },
+    {
+      "line": 30,
+      "columns": 7,
+      "rows": 9
+    },
+    {
+      "line": 48,
+      "columns": 7,
+      "rows": 9
+    },
+    {
+      "line": 62,
+      "columns": 6,
+      "rows": 20
+    },
+    {
+      "line": 89,
+      "columns": 8,
+      "rows": 11
+    },
+    {
+      "line": 111,
+      "columns": 8,
+      "rows": 23
+    },
+    {
+      "line": 137,
+      "columns": 8,
+      "rows": 23
+    },
+    {
+      "line": 169,
+      "columns": 5,
+      "rows": 23
+    },
+    {
+      "line": 199,
+      "columns": 6,
+      "rows": 21
+    },
+    {
+      "line": 239,
+      "columns": 4,
+      "rows": 9
+    },
+    {
+      "line": 253,
+      "columns": 8,
+      "rows": 5
+    },
+    {
+      "line": 265,
+      "columns": 9,
+      "rows": 8
+    },
+    {
+      "line": 276,
+      "columns": 9,
+      "rows": 8
+    },
+    {
+      "line": 287,
+      "columns": 9,
+      "rows": 9
+    },
+    {
+      "line": 299,
+      "columns": 9,
+      "rows": 3
+    },
+    {
+      "line": 305,
+      "columns": 9,
+      "rows": 3
+    },
+    {
+      "line": 321,
+      "columns": 7,
+      "rows": 9
+    },
+    {
+      "line": 341,
+      "columns": 2,
+      "rows": 11
+    },
+    {
+      "line": 361,
+      "columns": 9,
+      "rows": 9
+    },
+    {
+      "line": 373,
+      "columns": 10,
+      "rows": 9
+    },
+    {
+      "line": 391,
+      "columns": 5,
+      "rows": 8
+    },
+    {
+      "line": 406,
+      "columns": 3,
+      "rows": 18
+    }
+  ],
+  "rendered_HTML": {
+    "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/rendered-report-v1.html",
+    "bytes": 57073,
+    "sha256": "a1b79715efa504832e22d5d04fbd46ed906378af2bb9ec760d6942878b8939ed"
+  },
+  "render_scope": "markdown-it CommonMark plus table; HTML checked, no browser screenshot claim",
+  "links": [
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "figures/final-seven-arm.png",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "first-final-table.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "final-seven-arm.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "paired-policy-comparisons.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "strict-transitions.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "figures/current-batch-curves.png",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "batch-metrics.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "cohorts.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "population-metrics.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "paired-transitions.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "source-functions.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L53",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L84",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/engine.py#L13",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L26",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/engine.py#L33",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/policy.py#L5",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L189",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L223",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L103",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/policy.py#L37",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/policy.py#L26",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/engine.py#L13",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/model.py#L118",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/runner.py#L60",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/runner.py#L69",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/runner.py#L51",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/technical.py#L65",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/control.py#L181",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../../../../project/run_scripts/local_z_adaptive_allocation/policy.py#L39",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "figures/dynamic-selections.png",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "candidate-metrics.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "constraints.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "selection.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "figures/selector-and-paired.png",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "checkpoint-tensors.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "candidate-reconstruction.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "native-fit-tensors.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "terminal-residual.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "terminal-target-cost.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "terminal-residual.csv",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "../../ep-tw1-alpha-cap-sweep-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+      "exists": true
+    },
+    {
+      "document": "diagnostic-report-ko.md",
+      "href": "REPRODUCE.md",
+      "exists": true
+    }
+  ],
+  "PNG": [
+    {
+      "file": "current-batch-curves.png",
+      "bytes": 222394,
+      "sha256": "cdc6e4e0b14397ff83fd7e2ae609735af1f79597749b70d116b4003e8c07e32c",
+      "byte_reproduced": true
+    },
+    {
+      "file": "dynamic-selections.png",
+      "bytes": 29851,
+      "sha256": "c7f6043cf61bcbb9be6d6d7d946d6b0a44e42abda89def3668fa92a3cda97f00",
+      "byte_reproduced": true
+    },
+    {
+      "file": "final-seven-arm.png",
+      "bytes": 60604,
+      "sha256": "29c10993119baacf93596e157ee0546f05c79b1460c3bbad2f4ee5fe161e8090",
+      "byte_reproduced": true
+    },
+    {
+      "file": "selector-and-paired.png",
+      "bytes": 90218,
+      "sha256": "14e51935c9b6dd7095c94d226db6ab19ddba42463adedd6a1ede7c3f0ba2c5b1",
+      "byte_reproduced": true
+    }
+  ],
+  "first_table_metrics_unchanged": true,
+  "runtime_bytes_unchanged": true,
+  "prior_README_entries_preserved": true,
+  "new_GPU": 0,
+  "independent_agent_review": "NOT_USED; independent reducer implementation by same SH4",
+  "limitations": [
+    "GPU_off_on_NOT_TESTED",
+    "full_backbone_bytes_NOT_REHASHED",
+    "cap1_actual_max2_DEVIATION"
+  ],
+  "figure_visual_check": "Final bars and selection heatmap inspected; title clipping repaired without metric change"
+}
