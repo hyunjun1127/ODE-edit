@@ -1,0 +1,52 @@
+{
+  "instruction_id": "ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "parent_instruction": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-SLZV2-COMPLETED-REVIEW-20260918-R1",
+  "user_request": "server4실험 끝난거 자세히 리뷰시키자",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "base": "38fe0d39a768d7d0eecdf4f232f0e76355508187",
+  "jobs": [
+    {
+      "id": "49466_0",
+      "arm": "C45678"
+    },
+    {
+      "id": "49466_1",
+      "arm": "N4"
+    },
+    {
+      "id": "49466_2",
+      "arm": "F48"
+    },
+    {
+      "id": "49466_3",
+      "arm": "G48"
+    },
+    {
+      "id": "49466_4",
+      "arm": "C4"
+    },
+    {
+      "id": "49466_5",
+      "arm": "C48"
+    }
+  ],
+  "technical_evidence_reuse": "49421",
+  "new_gpu": 0,
+  "slurm_write": "NOT_ALLOWED",
+  "scheduler_read": "BOUNDED_EXACT_SIX_MAIN",
+  "evaluation_rerun": false,
+  "model_load": false,
+  "old_raw_mutation": false,
+  "scope_ko": "완료범위 CPU 검산·사실 보고·main 통합",
+  "gpu_cap_retained": 2,
+  "disk_weight_history_checkpoint": false,
+  "initial_gate_stop_does_not_apply_to_completed_review": true,
+  "automatic_new_experiments": false,
+  "publication": "OWN_SCOPE_NONFORCE",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "authority": "messages/head/2026-09-18-sh4-sequential-local-z-v2-completed-review.md"
+}
