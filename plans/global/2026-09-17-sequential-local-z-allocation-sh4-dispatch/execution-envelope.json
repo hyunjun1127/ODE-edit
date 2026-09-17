@@ -1,0 +1,46 @@
+{
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-20260917-R1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "gpu_cap": 2,
+  "main_arms": [
+    "N4",
+    "F48",
+    "G48",
+    "C4",
+    "C48",
+    "C45678"
+  ],
+  "fresh_w0": true,
+  "batch_size": 100,
+  "batches": 10,
+  "unique_requests": 1000,
+  "scientific_batches": 60,
+  "history_layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "supersedes_future_dispatch": "ODEEDIT-S06-L4-PRESERVING-REPAIR-TWOARM-SH4-V1",
+  "old_job_preserve": 49238,
+  "old_job_cancel_authorized": false,
+  "monitoring": "INITIAL_GATE_ONLY_OR_PENDING_HANDOFF",
+  "stop_after_initial": true,
+  "automatic_resume": false,
+  "post_pause_analysis": false,
+  "interim_reports": [
+    "FULL_READ_M0",
+    "TECHNICAL_AND_MEASURED_COST",
+    "SUBMISSION",
+    "INITIAL_VALID_OR_PENDING_OR_HOLD"
+  ],
+  "slurm_permission": "ALLOWED_BOUNDED_TECHNICAL_AND_SIX_MAIN_ONLY",
+  "publication_permission": "OWN_SCOPE_SOURCE_AND_COMPACT_HANDOFF_NONFORCE",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "envelope": "messages/head/2026-09-17-sh4-sequential-local-z-allocation-v2.md"
+}

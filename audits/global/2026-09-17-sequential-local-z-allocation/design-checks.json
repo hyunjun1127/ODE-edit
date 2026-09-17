@@ -1,0 +1,331 @@
+{
+  "status": "PASS",
+  "check_count": 66,
+  "checks": [
+    {
+      "check": "six unique arms",
+      "pass": true
+    },
+    {
+      "check": "model runner explicitly pending",
+      "pass": true
+    },
+    {
+      "check": "all start W0",
+      "pass": true
+    },
+    {
+      "check": "cold stream coordinates",
+      "pass": true
+    },
+    {
+      "check": "no paraphrase controller data",
+      "pass": true
+    },
+    {
+      "check": "local target uses actual prefix",
+      "pass": true
+    },
+    {
+      "check": "no entry bank or terminal redistribution",
+      "pass": true
+    },
+    {
+      "check": "prefix may be quality infeasible",
+      "pass": true
+    },
+    {
+      "check": "independent gate bounds",
+      "pass": true
+    },
+    {
+      "check": "fixed native 25 evaluations 24 updates",
+      "pass": true
+    },
+    {
+      "check": "no quality plateau",
+      "pass": true
+    },
+    {
+      "check": "strict and pair quality guards",
+      "pass": true
+    },
+    {
+      "check": "quality limits and limits of guarantees",
+      "pass": true
+    },
+    {
+      "check": "raw static arm is unguarded",
+      "pass": true
+    },
+    {
+      "check": "raw static exception is explicit",
+      "pass": true
+    },
+    {
+      "check": "continuous arms protected",
+      "pass": true
+    },
+    {
+      "check": "five-layer candidate set",
+      "pass": true
+    },
+    {
+      "check": "solver pinned and inward coordinates",
+      "pass": true
+    },
+    {
+      "check": "bounds before transform",
+      "pass": true
+    },
+    {
+      "check": "margin unit scales",
+      "pass": true
+    },
+    {
+      "check": "observed incumbent required",
+      "pass": true
+    },
+    {
+      "check": "exact deletion and no gate snapping",
+      "pass": true
+    },
+    {
+      "check": "same history protocol",
+      "pass": true
+    },
+    {
+      "check": "fit reserve sum",
+      "pass": true
+    },
+    {
+      "check": "endpoint reserve sum",
+      "pass": true
+    },
+    {
+      "check": "whole native fit Adam reservation",
+      "pass": true
+    },
+    {
+      "check": "no mid-target truncation",
+      "pass": true
+    },
+    {
+      "check": "target cap arithmetic",
+      "pass": true
+    },
+    {
+      "check": "Adam cap arithmetic",
+      "pass": true
+    },
+    {
+      "check": "loss cap arithmetic",
+      "pass": true
+    },
+    {
+      "check": "score cap arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C4 has no suffix target cost",
+      "pass": true
+    },
+    {
+      "check": "multilayer continuous caps shared",
+      "pass": true
+    },
+    {
+      "check": "cells exactly cover arms",
+      "pass": true
+    },
+    {
+      "check": "N4 cell parity",
+      "pass": true
+    },
+    {
+      "check": "F48 cell parity",
+      "pass": true
+    },
+    {
+      "check": "G48 cell parity",
+      "pass": true
+    },
+    {
+      "check": "C4 cell parity",
+      "pass": true
+    },
+    {
+      "check": "C48 cell parity",
+      "pass": true
+    },
+    {
+      "check": "C45678 cell parity",
+      "pass": true
+    },
+    {
+      "check": "science total target_calls",
+      "pass": true
+    },
+    {
+      "check": "science total Adam_updates",
+      "pass": true
+    },
+    {
+      "check": "science total solves",
+      "pass": true
+    },
+    {
+      "check": "science total scored_endpoints",
+      "pass": true
+    },
+    {
+      "check": "science loss total",
+      "pass": true
+    },
+    {
+      "check": "science history total",
+      "pass": true
+    },
+    {
+      "check": "reference config max_suffix_fits",
+      "pass": true
+    },
+    {
+      "check": "reference config max_endpoints",
+      "pass": true
+    },
+    {
+      "check": "reference config reserve_suffix_fits_for_pruning",
+      "pass": true
+    },
+    {
+      "check": "reference config reserve_endpoints_for_pruning",
+      "pass": true
+    },
+    {
+      "check": "reference config max_extra_adam",
+      "pass": true
+    },
+    {
+      "check": "reference config max_adam_per_suffix_fit",
+      "pass": true
+    },
+    {
+      "check": "reference solver call cap",
+      "pass": true
+    },
+    {
+      "check": "reference canonical guard disabled",
+      "pass": true
+    },
+    {
+      "check": "structured convergence evidence exists",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/analysis/tensors.py:62",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/engine.py:28",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md:361",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/input-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/raw-inventory.json",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/audits/global/2026-09-17-local-z-independent-review/layer-delta-by-batch.csv",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/model.py:68",
+      "pass": true
+    },
+    {
+      "check": "local link /mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md:263",
+      "pass": true
+    }
+  ],
+  "scope": "design consistency and CPU reference configuration; no real model validation",
+  "GPU_calls": 0,
+  "science_upper_bounds": {
+    "chains": 6,
+    "committed_batches": 60,
+    "unique_requests": 1000,
+    "arm_request_observations": 6000,
+    "target_calls": 89000,
+    "Adam_updates": 408000,
+    "solves": 890,
+    "scored_endpoints": 960,
+    "history_appends": 300,
+    "loss_evaluations": 497000
+  },
+  "artifacts": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+      "bytes": 24041,
+      "sha256": "fac114d403502c96cbcb33a58b0ff1ee2b0b65b017c44b22a2a22adcda749b73"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-sequential-local-z-allocation-contract-v2.json",
+      "bytes": 13559,
+      "sha256": "a7aaac67ffe1f6fb47d372b1eaea62d33d4cf12fcb9e0874fbe92d2750239f8c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+      "bytes": 797,
+      "sha256": "92f51ceffa031a5373ef782e0d08587c5c4634590932ed646c1099b7630ac9ad"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "bytes": 22638,
+      "sha256": "dd6a7a854b1451bdf37e823659d1905a54e68831766995556cbb2868b32884bb"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "bytes": 11861,
+      "sha256": "fe99396a9efa2b2092dbe7f1b13efe0c368533cc24a90053b58cc5214895fe01"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+      "bytes": 21615,
+      "sha256": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/test_controller_reference.py",
+      "bytes": 15735,
+      "sha256": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/cpu-validation.json",
+      "bytes": 1272,
+      "sha256": "b0e1b91c762528c6af4158cb5ef41cb5e14d7db764d0b610e34fa40720bc427a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/validate_design.py",
+      "bytes": 8666,
+      "sha256": "bf755bc558ea9be96625b19a4274799f3a457278b9b23242fe52982b1d014f4e"
+    }
+  ]
+}

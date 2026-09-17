@@ -1,0 +1,695 @@
+{
+  "schema": "sequential-local-z-convergence-evidence-v1",
+  "date": "2026-09-17",
+  "status": "기존 저장 자료의 CPU 검산 완료; optimizer 수렴 판정 아님",
+  "scope": {
+    "arm": "LD",
+    "scientific_source_head": "32a92ad6f3fff2f258d8778f3936d152e975ac1b",
+    "batches": 10,
+    "unique_requests": 1000,
+    "source_target_calls": 3000,
+    "new_experiments": 0,
+    "new_model_forwards": 0,
+    "new_GPU_calls": 0,
+    "raw_mutations": 0,
+    "CPU_mmap_cuda_initialized": false,
+    "writes_owned": [
+      "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md"
+    ]
+  },
+  "sources": {
+    "stdout": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/submission-v1/science-48680_0.out",
+      "bytes": 3260708,
+      "lines": 50164,
+      "sha256": "558810a1aaf32fbcaaf8ecf9af41ac6138e08a367ec7903dc21ec73c0511be7e",
+      "verification": "직접 read 및 full SHA; 30 fit/3000 요청/31584 loss 관측을 기존 per-target CSV에 대응"
+    },
+    "target_counters": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/review-20260917-v1/tensor-audit/target-counters.csv",
+      "rows": 12000,
+      "LD_rows": 3000,
+      "sha256": "ec99a4ca230f0a91ff36642928fdd843f247888a73b020b2a8216808390fa6f6",
+      "verification": "직접 read 및 full SHA; 새 target 계산 아님"
+    },
+    "compute_z": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/compute_z.py",
+      "bytes": 9524,
+      "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f",
+      "verification": "직접 full SHA가 기존 input-manifest와 일치",
+      "objective_lines": [
+        159,
+        175
+      ],
+      "termination_lines": [
+        175,
+        183
+      ],
+      "clamp_lines": [
+        185,
+        189
+      ]
+    },
+    "config4": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/ep-tw1-c4/20260915-v1/attempt-v1/inputs/config4.json",
+      "bytes": 711,
+      "sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+      "verification": "직접 full SHA가 기존 input-manifest와 일치"
+    },
+    "fit_B1_075": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/LD/attempt-v1/output/B001/proposals/local8-a4-0.75.pt",
+      "bytes": 252213779,
+      "prior_inventory_sha256": "571a7db0a529eb61f58d36f737d214570ea59fd439347c0e2d0f6f1104a44319",
+      "verification": "기존 full-SHA inventory 재사용; 이번에는 CPU weights_only mmap으로 저장 capture를 읽음. 큰 파일 full SHA 재계산 아님"
+    },
+    "fit_B1_1": {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/LD/attempt-v1/output/B001/proposals/local8-a4-1.pt",
+      "bytes": 252213779,
+      "prior_inventory_sha256": "a02df382bf42861b143a9b22c58d2488356c11763b0e4034a469ff69242b80b4",
+      "verification": "기존 full-SHA inventory 재사용; 이번에는 CPU weights_only mmap으로 저장 capture를 읽음. 큰 파일 full SHA 재계산 아님"
+    },
+    "native_receipts": {
+      "host": "server4",
+      "pattern": "/data/janghj/ODE-edit/local/local-z-adaptive-allocation/20260916-v1/arms/LD/attempt-v1/output/B{001..010}/proposals/local8-a4-{0.75,1}.json",
+      "verification": "20개 작은 receipt의 actual_delta_norm 직접 read"
+    },
+    "extraction_code": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/analysis/tensors.py",
+      "lines": [
+        62,
+        80
+      ],
+      "output_line": 110
+    },
+    "hparam_copy_code": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/model.py",
+      "lines": [
+        68,
+        71
+      ]
+    },
+    "generation_code": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/project/run_scripts/local_z_adaptive_allocation/engine.py",
+      "lines": [
+        28,
+        48
+      ]
+    },
+    "existing_report": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+      "candidate_B1_lines": [
+        263,
+        272
+      ],
+      "counter_lines": [
+        361,
+        371
+      ]
+    },
+    "existing_selected_delta": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/audits/global/2026-09-17-local-z-independent-review/layer-delta-by-batch.csv"
+    },
+    "existing_input_manifest": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/input-manifest.json"
+    },
+    "existing_raw_inventory": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/raw-inventory.json"
+    }
+  },
+  "binding": {
+    "log_layer_blocks": 30,
+    "requests_per_fit": 100,
+    "fit_order_per_batch": [
+      "own-N4",
+      "local8-a4-0.75",
+      "local8-a4-1"
+    ],
+    "matched_target_calls": 3000,
+    "matched_loss_observations": 31584,
+    "checks": [
+      "source의 고정 fit/요청 순서로 로그와 target-counters 행을 대응",
+      "모든 요청의 로그 loss 관측 수 = CSV loss_evaluations",
+      "모든 요청의 stdout 최종 delta norm과 CSV final_delta_norm 차이 < 1e-5",
+      "모든 요청의 stdout 반올림 최종 loss와 CSV loss_final 차이 <= .000501",
+      "B1 저장 target과 compute_z captures 및 target_observations의 target tensor exact 일치",
+      "B1 zero-step delta tensor 모든 원소 정확히 0",
+      "CPU tensor 검사 후 torch.cuda.is_initialized() == False"
+    ],
+    "caveat": "stdout에 case_id가 직접 기록된 것은 아니다. source 고정 순서와 capture의 case_id를 연결하고 loss 수/최종 norm/loss로 교차 검증했다.",
+    "selected_active_filter": {
+      "arm": "LD",
+      "fit": "local8-a4-0.75",
+      "Adam": 24,
+      "excluded_batch": 4,
+      "n": 160
+    }
+  },
+  "optimizer": {
+    "name": "Adam",
+    "learning_rate": 0.1,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 0.75,
+    "kl_factor": 0.0625,
+    "v_num_grad_steps": 25,
+    "max_loss_evaluations": 25,
+    "max_Adam_updates": 24,
+    "stop_total_loss_strict_lt": 0.05,
+    "stop_check_before_backward": true,
+    "objective": "total = NLL + weighted_KL + .5 * ||delta|| / ||anchor||^2",
+    "radius": "radius = .75 * ||anchor||",
+    "h8": "config4를 deepcopy한 뒤 layers=[8]만 변경"
+  },
+  "step_groups": [
+    {
+      "fit": "own-N4",
+      "n": 1000,
+      "histogram": {
+        "0": 1,
+        "24": 999
+      },
+      "Adam_sum": 23976,
+      "mean": 23.976,
+      "median": 24,
+      "max": 24
+    },
+    {
+      "fit": "local8-a4-0.75",
+      "n": 1000,
+      "histogram": {
+        "0": 826,
+        "24": 174
+      },
+      "Adam_sum": 4176,
+      "mean": 4.176,
+      "median": 0,
+      "max": 24,
+      "zero_step_delta_exact_zero_n": 826,
+      "nonzero_delta_norm": {
+        "mean": 4.501010365869807,
+        "median": 4.525350093841553,
+        "min": 2.3829681873321533,
+        "max": 6.611504554748535
+      }
+    },
+    {
+      "fit": "local8-a4-1",
+      "n": 1000,
+      "histogram": {
+        "0": 982,
+        "24": 18
+      },
+      "Adam_sum": 432,
+      "mean": 0.432,
+      "median": 0,
+      "max": 24,
+      "zero_step_delta_exact_zero_n": 982,
+      "nonzero_delta_norm": {
+        "mean": 4.687560783492194,
+        "median": 4.65951681137085,
+        "min": 3.3787643909454346,
+        "max": 5.656026363372803
+      }
+    }
+  ],
+  "step_totals": {
+    "target_calls": 3000,
+    "Adam": 28584,
+    "loss_evaluations": 31584,
+    "zero_step": 1809,
+    "L8_only_zero_step": 1808,
+    "L8_only_requests": 2000,
+    "L8_only_zero_fraction": 0.904
+  },
+  "selected_075_steps": {
+    "batches": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "n": 900,
+    "zero_step": 740,
+    "nonzero_24step": 160,
+    "zero_fraction": 0.8222222222222222,
+    "mean_Adam": 4.266666666666667,
+    "between_1_and_23_updates": 0
+  },
+  "per_batch": [
+    {
+      "batch": 1,
+      "L8_after_075": {
+        "zero": 64,
+        "active_24": 36,
+        "full_fit_weight_delta_norm": 7.398134557952759
+      },
+      "L8_after_1": {
+        "zero": 100,
+        "active_24": 0,
+        "full_fit_weight_delta_norm": 0.000055108641178411785
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 3.699067278873697
+    },
+    {
+      "batch": 2,
+      "L8_after_075": {
+        "zero": 78,
+        "active_24": 22,
+        "full_fit_weight_delta_norm": 5.820525352861235
+      },
+      "L8_after_1": {
+        "zero": 95,
+        "active_24": 5,
+        "full_fit_weight_delta_norm": 2.686823468310674
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.9102626762633426
+    },
+    {
+      "batch": 3,
+      "L8_after_075": {
+        "zero": 78,
+        "active_24": 22,
+        "full_fit_weight_delta_norm": 5.897822003237822
+      },
+      "L8_after_1": {
+        "zero": 99,
+        "active_24": 1,
+        "full_fit_weight_delta_norm": 1.3453661117333062
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.9489110022688467
+    },
+    {
+      "batch": 4,
+      "L8_after_075": {
+        "zero": 86,
+        "active_24": 14,
+        "full_fit_weight_delta_norm": 4.82072176598003
+      },
+      "L8_after_1": {
+        "zero": 98,
+        "active_24": 2,
+        "full_fit_weight_delta_norm": 1.8062600144595136
+      },
+      "selected": "N4",
+      "actual_selected_L8_weight_delta_norm": 0
+    },
+    {
+      "batch": 5,
+      "L8_after_075": {
+        "zero": 89,
+        "active_24": 11,
+        "full_fit_weight_delta_norm": 4.415904178922984
+      },
+      "L8_after_1": {
+        "zero": 98,
+        "active_24": 2,
+        "full_fit_weight_delta_norm": 1.9964249391890594
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.207952089731698
+    },
+    {
+      "batch": 6,
+      "L8_after_075": {
+        "zero": 89,
+        "active_24": 11,
+        "full_fit_weight_delta_norm": 4.506560879994454
+      },
+      "L8_after_1": {
+        "zero": 100,
+        "active_24": 0,
+        "full_fit_weight_delta_norm": 0.000051279216591326574
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.253280440172435
+    },
+    {
+      "batch": 7,
+      "L8_after_075": {
+        "zero": 84,
+        "active_24": 16,
+        "full_fit_weight_delta_norm": 5.457063385011631
+      },
+      "L8_after_1": {
+        "zero": 98,
+        "active_24": 2,
+        "full_fit_weight_delta_norm": 2.116467369658227
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.728531692584934
+    },
+    {
+      "batch": 8,
+      "L8_after_075": {
+        "zero": 87,
+        "active_24": 13,
+        "full_fit_weight_delta_norm": 4.857309783491009
+      },
+      "L8_after_1": {
+        "zero": 100,
+        "active_24": 0,
+        "full_fit_weight_delta_norm": 0.00005324201216553436
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.4286548922299698
+    },
+    {
+      "batch": 9,
+      "L8_after_075": {
+        "zero": 89,
+        "active_24": 11,
+        "full_fit_weight_delta_norm": 4.546961596879827
+      },
+      "L8_after_1": {
+        "zero": 99,
+        "active_24": 1,
+        "full_fit_weight_delta_norm": 1.5065429583353906
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.273480798550018
+    },
+    {
+      "batch": 10,
+      "L8_after_075": {
+        "zero": 82,
+        "active_24": 18,
+        "full_fit_weight_delta_norm": 5.882052401364521
+      },
+      "L8_after_1": {
+        "zero": 95,
+        "active_24": 5,
+        "full_fit_weight_delta_norm": 3.381390204361975
+      },
+      "selected": "L0.75-0.5",
+      "actual_selected_L8_weight_delta_norm": 2.9410262008087984
+    }
+  ],
+  "loss_threshold_groups": {
+    "zero_after_075": {
+      "n": 826,
+      "final_total": {
+        "mean": 0.011965048962600245,
+        "median": 0.008145751897245646,
+        "min": 0.00037933862768113613,
+        "max": 0.04994406923651695
+      },
+      "all_below_005": true
+    },
+    "active_after_075": {
+      "n": 174,
+      "all_above_005": true
+    },
+    "zero_after_1": {
+      "n": 982,
+      "final_total": {
+        "mean": 0.002521026053661153,
+        "median": 0.0015835497761145234,
+        "min": 0.00009144717478193343,
+        "max": 0.03864433243870735
+      },
+      "all_below_005": true
+    },
+    "active_after_1": {
+      "n": 18,
+      "final_total": {
+        "mean": 0.07770515274670389,
+        "median": 0.06572866812348366,
+        "min": 0.058933407068252563,
+        "max": 0.1319774091243744
+      },
+      "all_above_005": true
+    }
+  },
+  "convergence_groups": {
+    "selected_active_075": {
+      "n": 160,
+      "final_total_saved": {
+        "mean": 0.06976806675083935,
+        "median": 0.06763951480388641,
+        "min": 0.05076761543750763,
+        "max": 0.14886243641376495
+      },
+      "final_NLL_stdout_rounded": {
+        "mean": 0.00048125,
+        "median": 0,
+        "min": 0,
+        "max": 0.004
+      },
+      "final_KL_stdout_rounded": {
+        "mean": 0.00705625,
+        "median": 0.003,
+        "min": 0,
+        "max": 0.082
+      },
+      "final_decay_norm_recomputed": {
+        "mean": 0.06213771563164121,
+        "median": 0.06148173263375812,
+        "min": 0.04433507201224554,
+        "max": 0.08643834857593455
+      },
+      "final_avg_target_probability": {
+        "mean": 0.9994355425238609,
+        "median": 0.9996092021465302,
+        "min": 0.9964410662651062,
+        "max": 0.9999706149101257
+      },
+      "final_radius_ratio_within_1e_minus_6_of_one": 144,
+      "current_delta_decay_ge_005": 156,
+      "last_five_loss_observations": {
+        "total_direction_rounded": {
+          "down": 113,
+          "same": 46,
+          "up": 1
+        },
+        "mean_change": {
+          "total": -0.00204375,
+          "NLL": -0.00013125,
+          "KL": -0.00145625,
+          "decay": -0.00045624999999999995
+        },
+        "total_change_range": [
+          -0.05299999999999999,
+          0.0010000000000000009
+        ]
+      }
+    },
+    "all_active_075": {
+      "n": 174,
+      "final_total_saved": {
+        "mean": 0.07083358461486883,
+        "median": 0.06772635132074356,
+        "min": 0.05076761543750763,
+        "max": 0.14886243641376495
+      },
+      "final_NLL_stdout_rounded": {
+        "mean": 0.000471264367816092,
+        "median": 0,
+        "min": 0,
+        "max": 0.004
+      },
+      "final_KL_stdout_rounded": {
+        "mean": 0.008051724137931034,
+        "median": 0.004,
+        "min": 0,
+        "max": 0.084
+      },
+      "final_decay_norm_recomputed": {
+        "mean": 0.062218191443303254,
+        "median": 0.06150926431909738,
+        "min": 0.04253948824438275,
+        "max": 0.08643834857593455
+      },
+      "final_avg_target_probability": {
+        "mean": 0.9994441832619152,
+        "median": 0.9996108412742615,
+        "min": 0.9964410662651062,
+        "max": 0.9999706149101257
+      },
+      "final_radius_ratio_within_1e_minus_6_of_one": 155,
+      "current_delta_decay_ge_005": 169,
+      "last_five_loss_observations": {
+        "total_direction_rounded": {
+          "down": 122,
+          "same": 51,
+          "up": 1
+        },
+        "mean_change": {
+          "total": -0.0024310344827586207,
+          "NLL": -0.0003218390804597701,
+          "KL": -0.0015919540229885059,
+          "decay": -0.000528735632183908
+        },
+        "total_change_range": [
+          -0.059,
+          0.0010000000000000009
+        ]
+      }
+    },
+    "B1_active_075": {
+      "n": 36,
+      "final_total_saved": {
+        "mean": 0.06590963361991777,
+        "median": 0.06710503250360489,
+        "min": 0.05076761543750763,
+        "max": 0.07936631143093109
+      },
+      "final_NLL_stdout_rounded": {
+        "mean": 0.0006111111111111111,
+        "median": 0,
+        "min": 0,
+        "max": 0.003
+      },
+      "final_KL_stdout_rounded": {
+        "mean": 0.004277777777777778,
+        "median": 0.003,
+        "min": 0,
+        "max": 0.027
+      },
+      "final_decay_norm_recomputed": {
+        "mean": 0.061036081325659367,
+        "median": 0.062134489045706814,
+        "min": 0.04433507201224554,
+        "max": 0.07535541318075756
+      },
+      "final_radius_ratio_within_1e_minus_6_of_one": 33,
+      "current_delta_decay_ge_005": 33,
+      "last_five_loss_observations": {
+        "total_direction_rounded": {
+          "down": 21,
+          "same": 14,
+          "up": 1
+        },
+        "mean_change": {
+          "total": -0.0012777777777777783,
+          "NLL": -0.00016666666666666666,
+          "KL": -0.0006388888888888889,
+          "decay": -0.00044444444444444447
+        }
+      }
+    }
+  },
+  "residual_B1": {
+    "method": "저장 target Z와 captures.get_module_input_output_at_words[0].T에서 R=Z-H를 CPU FP32 차분한 뒤 norm/energy는 CPU FP64로 계산. 새 forward 없음.",
+    "target_shape": [
+      4096,
+      100
+    ],
+    "writer_readout_shape": [
+      4096,
+      100
+    ],
+    "after_075": {
+      "zero_n": 64,
+      "active_n": 36,
+      "R_F": 27.74511223584276,
+      "delta_F": 27.74511121819266,
+      "R_minus_delta_F": 0.0002237190521164055,
+      "R_minus_delta_max_abs": 0.00000772625207901001,
+      "anchor_minus_writer_readout_F": 0.000223718661213736,
+      "zero": {
+        "delta_exact_zero": true,
+        "Rcol_norm": {
+          "mean": 0.00002188167988145757,
+          "median": 0.00002152772142458292,
+          "min": 0.000012993637760088402,
+          "max": 0.000036446989919150595
+        },
+        "R_group_F": 0.00017786731843532442,
+        "R_energy_share": 4.109787276085873e-11
+      },
+      "active": {
+        "Rcol_norm": {
+          "mean": 4.591563591266902,
+          "median": 4.47698432588563,
+          "min": 3.4659694395666394,
+          "max": 6.343736173123417
+        },
+        "R_group_F": 27.745112235272245,
+        "R_energy_share": 0.9999999999589024
+      },
+      "full_fit_weight_delta_norm": 7.398134557952759,
+      "actual_half_weight_delta_norm": 3.699067278873697
+    },
+    "after_1": {
+      "zero_n": 100,
+      "active_n": 0,
+      "delta_exact_zero": true,
+      "delta_F": 0,
+      "R_F": 0.00020816698598250641,
+      "Rcol_norm": {
+        "mean": 0.000020487167807631955,
+        "median": 0.00002039270140774611,
+        "min": 0.000012921471114512846,
+        "max": 0.000031895154968251216
+      },
+      "full_fit_weight_delta_norm": 0.000055108641178411785
+    },
+    "caveat": "R energy 집중은 weight-update의 요청별 기여나 성능 기여를 분리한 ablation이 아니다. zero-residual 요청의 key도 공동 solve geometry에 들어간다."
+  },
+  "endpoint_context": {
+    "B1_after_075_only": {
+      "E": 0.1828003568947315,
+      "D": 0.0009513358722159637,
+      "current_strict": 99
+    },
+    "B1_after_075_half8": {
+      "E": 0.012414455455291318,
+      "D": 0.001252664631266498,
+      "current_strict": 100
+    },
+    "B1_ownN4": {
+      "E": 0.003404614371538628,
+      "D": 0.0017209079930182725,
+      "current_strict": 100
+    },
+    "interpretation": "작은 L4 write 뒤 남은 edit를 local L8가 보완하는 관측. partial L4 대비 S64 KL을 줄이는 repair 관측이 아니다.",
+    "final_LD_minus_N4": {
+      "RS_count": 0,
+      "PS_count": -25,
+      "NS_count": 284,
+      "denominators": {
+        "RS": 1000,
+        "PS": 2000,
+        "NS": 10000
+      }
+    }
+  },
+  "precision": {
+    "total_loss": "target-counters.csv의 saved loss_final 원값",
+    "NLL_KL_and_loss_trajectory": "stdout np.round(...,3). 각 관측은 약 ±.0005 반올림 오차; 두 관측 차이에는 약 ±.001. 0은 정확0이 아니고 same은 수렴 판정 아님.",
+    "decay": "stdout init/delta norm에서 .5*delta_norm/init_norm^2를 CPU 재계산; 실제 GPU FP32 component bit-parity 주장이 아님.",
+    "probability": "stdout native exp(-nll_loss_each).mean(); NLL mean의 단순 exp 또는 strict token accuracy가 아님.",
+    "clamp": "abs(final_delta_norm/radius - 1)<=1e-6. 최종 boundary 근접 지표이며 전체 iteration clamp-hit 횟수 아님.",
+    "last_five": "마지막 5 loss 관측, update20 이후부터 update24 이후까지: 4 optimizer-update 간격.",
+    "median_steps": "평균4.176을 개별 요청 약4회 수렴으로 해석하면 안 됨."
+  },
+  "conclusions": [
+    "L8 active target의 cap 종료는 target NLL 미학습과 동의어가 아니다. 선택160개는 final target NLL이 작고 대부분 현재 delta의 decay 항만 .05 이상이다.",
+    "현재 delta에서 총loss stop threshold가 막혀 있다는 사실은 모든 feasible delta의 최적loss 하한이 아니다.",
+    "마지막 관측에서 일부 총loss 감소는 남으며 KL/decay 변화가 NLL 변화보다 크다. 추가 반복의 actual write/PS/locality 이득은 미측정이다.",
+    "B1의 큰 target residual은36 nonzero-step 요청에 집중한다. 모든요청zero인 fullL4 branch의 미세 residual과 의미있는 L8 write를 혼동하지 않는다."
+  ],
+  "limits": [
+    "최종 gradient norm 및 projected-gradient/KKT residual 미저장",
+    "반복별 정확한 NLL/KL/decay tensor 미저장; stdout는3자리 반올림",
+    "반복별 clamp-hit 횟수 미저장",
+    "추가25회이상 optimizer continuation 미실행",
+    "per-request weight/성능 attribution ablation 미실행",
+    "direct activation target의 낮은 NLL은 실제 half-write 이후 RS/PS/NS 보장이 아님",
+    "새 convergence 정책 cold lifelong chain의 성능은 측정하지 않음"
+  ]
+}

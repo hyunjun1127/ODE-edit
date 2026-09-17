@@ -1,0 +1,469 @@
+{
+  "contract_id": "SEQUENTIAL-LOCAL-Z-ALLOCATION-V2",
+  "date": "2026-09-17",
+  "status": "DESIGN_WITH_CPU_REFERENCE_ONLY",
+  "model_runner_implemented": false,
+  "GPU_jobs_submitted": 0,
+  "objective": "Minimize W0-reference preservation KL subject to own-entry native L4 final rewrite quality, along state-conditioned sequential local-z paths.",
+  "scope": {
+    "current": "six-arm cold development pilot",
+    "repair": false,
+    "training_router": false,
+    "request_specific_gates": false,
+    "global_optimum_claim": false,
+    "production_efficiency_claim": false,
+    "calibrated_best_static_comparison": false
+  },
+  "capsule": {
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "initial_weights": "pretrained_W0",
+    "warm_checkpoint_allowed": false,
+    "physical_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "indexing": "zero_based",
+    "parameter": "model.layers.{layer}.mlp.down_proj.weight",
+    "initial_edit_history": "all_zero_M4_to_M8",
+    "preedit_projector_preserved": true,
+    "dtype": "float32",
+    "attention": "eager",
+    "TF32": false,
+    "seed": 20260916,
+    "ordinal_half_open": [
+      0,
+      1000
+    ],
+    "batch_size": 100,
+    "batches": 10,
+    "context": "reuse common native cold capsule, no new prompt augmentation",
+    "teacher_manifest_sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a",
+    "effective_teacher_revalidation_required": true
+  },
+  "data": {
+    "Current": "native rewrite contexts and canonical rewrite",
+    "Past64": "received latest-active facts excluding current overwrites; existing SHA256 priority",
+    "past_priority_prefix": "LZ-ALLOC-v1|20260916|past|",
+    "Base": "fixed S64 W0 full-vocabulary KL",
+    "Dev128": "observer_only",
+    "official_P_N": "observer_only_after_selection_seal",
+    "paraphrase_target_set": false,
+    "paraphrase_generation": false,
+    "paraphrase_online_guard": false,
+    "future_request_access": false,
+    "development_data_previously_exposed": true
+  },
+  "path": {
+    "L4_native_fit_once_per_batch": true,
+    "N4_anchor": "own entry We plus full native L4; retains earlier batches other-layer writes",
+    "order": "ascending_physical_layer",
+    "gate_bounds": [
+      0,
+      1
+    ],
+    "sum_to_one": false,
+    "zero_L4_boundary_allowed": true,
+    "target_location": "write_layer",
+    "target_state": "actual current prefix",
+    "zero_gate": "exact skip target and solve",
+    "full_gate": "exact native endpoint copy",
+    "interior_gate": "FP32(U+g*(V-U))",
+    "earlier_gate_change_invalidates_later_targets": true,
+    "entry_state_frozen_target_bank": false,
+    "terminal_z_distribution": false,
+    "prefix_quality_pruning": false,
+    "cache_key": [
+      "actual_full_model_state",
+      "layer",
+      "history",
+      "projector",
+      "request_tokens",
+      "context",
+      "source",
+      "hparams",
+      "RNG"
+    ],
+    "inner_history_appends": 0
+  },
+  "native": {
+    "source_numeric_changes": false,
+    "L2": 1,
+    "v_lr": 0.1,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 0.75,
+    "kl_factor": 0.0625,
+    "v_num_grad_steps": 25,
+    "max_loss_evaluations_per_request": 25,
+    "max_Adam_updates_per_request": 24,
+    "early_stop_total_loss": 0.05,
+    "warm_start": false,
+    "adaptive_target_iterations": false,
+    "extended_z_experiment_in_scope": false
+  },
+  "quality": {
+    "reference": "own_entry_N4",
+    "E": "native rewriting token-context-request mean new-target NLL",
+    "H": "Past64 canonical mean new-target NLL",
+    "mean_plateau": false,
+    "epsilon_E": 0.0001,
+    "epsilon_H": 0.0001,
+    "epsilon_B": 1e-06,
+    "current_strict_subset": true,
+    "current_pair_subset": true,
+    "past_strict_subset": true,
+    "past_pair_subset": true,
+    "pair_condition": "new_NLL < old_NLL; missing-old excluded only from pair check",
+    "past_empty": "disable Past guards",
+    "canonical_current_mean_guard": false,
+    "individual_NLL_nonworsening": false,
+    "PS_online_guarantee": false,
+    "repeat_fraction_of_tolerance": 0.5,
+    "repeat_ID_exact": true,
+    "posthoc_tolerance_relaxation": false,
+    "raw_fixed_baseline_exception": [
+      "F48"
+    ]
+  },
+  "selector": {
+    "feasible_pool": "all completed actually scored finite candidates satisfying exact endpoint guards",
+    "B_tie": "within epsilon_B of global minimum B, never chained epsilon degradation",
+    "tie_priority": [
+      "exact_own_N4",
+      "fewer_actual_nonzero_layers",
+      "smaller_concat_delta_norm",
+      "lexicographic_gate_tuple",
+      "endpoint_SHA"
+    ],
+    "scipy_return_not_auto_committed": true
+  },
+  "optimizer": {
+    "package": "scipy",
+    "version": "1.15.3",
+    "implementation": "legacy_COBYLA_not_PRIMA",
+    "verified_remote_python": "3.12.3",
+    "coordinates": "u=1-a",
+    "x0": "all_zero_u_all_full_native_gates",
+    "rhobeg": 0.25,
+    "tol": 0.01,
+    "catol": 1e-08,
+    "maxiter": 64,
+    "disp": false,
+    "objective": "B/max(B_N4,epsilon_B)",
+    "mean_constraint_scale": 0.05,
+    "mean_constraint_scale_is_not_plateau": true,
+    "strict_proposal": "min target-vs-best-other token margin over reference strict IDs",
+    "pair_proposal": "min old_NLL-new_NLL over reference pair IDs",
+    "empty_margin": 1,
+    "objective_constraints_share_evaluation": true,
+    "out_of_bounds": "finite dummy objective=1 and violated box constraints; no model call/no clipping/no incumbent",
+    "algorithm_error": "propagate except typed evaluator BudgetExceeded",
+    "insufficient_search": "fewer than d+2 distinct completed search gate vectors (N4 anchor excluded), or fewer than 2 distinct a4; count proxy includes cached identical endpoint states and is not true simplex reconstruction",
+    "technical_C45678_search_coverage_required": true,
+    "pair_margin_scale": 0.05,
+    "strict_logit_margin_scale": 1.0,
+    "raw_coordinate_bounds_checked_before_transform": true
+  },
+  "pruning": {
+    "enabled_for": [
+      "C48",
+      "C45678"
+    ],
+    "order": [
+      8,
+      7,
+      6,
+      5
+    ],
+    "passes": 1,
+    "skip_not_active": true,
+    "remove_exactly_one_at_a_time": true,
+    "base": "current globally selected feasible incumbent",
+    "recompute_suffix": true,
+    "accept": "same global feasible-pool selector",
+    "never_snap_small_gates": true,
+    "remove_L4": false,
+    "incomplete_budget_flag": true,
+    "necessity_claim": "only completed local removal comparisons; not global support optimality"
+  },
+  "budget": {
+    "baseline_fit_included_in_extra_caps": false,
+    "baseline_score_included_in_extra_caps": false,
+    "search_suffix_fits": 32,
+    "pruning_reserved_suffix_fits": 8,
+    "total_suffix_fits": 40,
+    "search_scored_endpoints": 24,
+    "pruning_reserved_endpoints": 4,
+    "total_extra_scored_endpoints": 28,
+    "extra_Adam_updates": 9600,
+    "extra_Adam_reserve_for_pruning": 0,
+    "pre_fit_Adam_reservation": 2400,
+    "charge_actual_Adam_and_release_unused": true,
+    "mid_target_truncation": false,
+    "check_before_work": true,
+    "cached_duplicate_extra_cost": 0,
+    "partial_candidate_on_exhaustion": "charge completed work; keep valid cache; restore We; do not score incomplete candidate",
+    "budget_stop": "normal return best observed feasible incumbent",
+    "NaN_OOM_source_errors": "technical_failure_not_fallback",
+    "max_total_targets_per_cont_multilayer_batch": 4100,
+    "max_total_Adam_per_cont_multilayer_batch": 12000,
+    "max_total_loss_evaluations_per_cont_multilayer_batch": 16100,
+    "max_total_solves_per_cont_multilayer_batch": 41,
+    "max_total_scores_per_cont_batch": 29,
+    "actual_cost_matched_claim": false
+  },
+  "history": {
+    "layers_for_all_arms": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "initial": "zeros",
+    "append_at": "final selected actual endpoint",
+    "appends_per_layer_per_committed_batch": 1,
+    "scale_by_gate": false,
+    "drop_zero_step_keys": false,
+    "refresh_all_past_keys": false,
+    "unused_layer_history_cost_separate": true
+  },
+  "arms": [
+    {
+      "id": "N4",
+      "layers": [
+        4
+      ],
+      "policy": "native_full",
+      "quality_commit_guard": false,
+      "fixed_gates": [
+        1
+      ],
+      "max_target_calls": 100,
+      "max_Adam": 2400,
+      "max_solves": 1,
+      "max_scores": 1,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "F48",
+      "layers": [
+        4,
+        8
+      ],
+      "policy": "raw_fixed",
+      "quality_commit_guard": false,
+      "fixed_gates": [
+        0.75,
+        0.5
+      ],
+      "max_target_calls": 200,
+      "max_Adam": 4800,
+      "max_solves": 2,
+      "max_scores": 2,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "G48",
+      "layers": [
+        4,
+        8
+      ],
+      "policy": "guarded_grid",
+      "quality_commit_guard": true,
+      "grid_a4": [
+        0.75,
+        1
+      ],
+      "grid_a8": [
+        0,
+        0.5,
+        1
+      ],
+      "max_target_calls": 300,
+      "max_Adam": 7200,
+      "max_solves": 3,
+      "max_scores": 6,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "C4",
+      "layers": [
+        4
+      ],
+      "policy": "continuous",
+      "quality_commit_guard": true,
+      "max_target_calls": 100,
+      "max_Adam": 2400,
+      "max_solves": 1,
+      "max_scores": 29,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "C48",
+      "layers": [
+        4,
+        8
+      ],
+      "policy": "continuous",
+      "quality_commit_guard": true,
+      "max_target_calls": 4100,
+      "max_Adam": 12000,
+      "max_solves": 41,
+      "max_scores": 29,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "C45678",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "policy": "continuous",
+      "quality_commit_guard": true,
+      "max_target_calls": 4100,
+      "max_Adam": 12000,
+      "max_solves": 41,
+      "max_scores": 29,
+      "batches": 10,
+      "batch_size": 100,
+      "cold_start": true,
+      "history_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "pair": "C4-N4",
+      "meaning": "L4 strength control policy"
+    },
+    {
+      "pair": "C48-C4",
+      "meaning": "allowing L8 supplementation under common search caps, not equal realized compute"
+    },
+    {
+      "pair": "C48-F48",
+      "meaning": "quality feedback and adaptive selection policy versus raw fixed proposal"
+    },
+    {
+      "pair": "C48-G48",
+      "meaning": "continuous search, wider coefficient domain and larger search budget; not continuity-only or cost-matched causal effect"
+    },
+    {
+      "pair": "C45678-C48",
+      "meaning": "allowing L5-L7 with common caps; measured support and completed deletion tests reported"
+    }
+  ],
+  "evaluation": {
+    "current_entry_and_at_write_each_batch": true,
+    "full_seen_batches": [
+      5,
+      10
+    ],
+    "candidate_official_observer_batches": [
+      1,
+      5,
+      10
+    ],
+    "candidate_observer_scope": "all completed scored endpoints after commit decision sealed; no completion of budget-aborted paths",
+    "candidate_observer_feedback": false,
+    "source_W0_conditional_N_retention": true,
+    "lost_gained_IDs": true,
+    "canonical_confidence_distribution": true,
+    "official_metric_definition": "new-vs-old target NLL preference; separately report TF strict",
+    "scientific_RS_PS_loss_allowance_pp": 0,
+    "universal_noninferiority_claim": false
+  },
+  "technical": {
+    "required": [
+      "CPU_reference_semantics",
+      "actual_scipy_version_smoke",
+      "native_L4_parity",
+      "same_entry_BLUE_48_parity",
+      "native_BLUE_45678_parity",
+      "zero_gate_and_prefix_cache",
+      "fixed_candidate_replay_order",
+      "repeat_scoring_and_teacher_binding",
+      "physical_layer_M_P_mapping",
+      "C45678_initial_simplex_and_post_simplex_coverage"
+    ],
+    "new_adapter_required_for_layers_5_6_7": true,
+    "pinned_native_sources_unchanged": true,
+    "run_manifest_before_science": true
+  },
+  "artifacts": {
+    "design": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+    "cells": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+    "evidence": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+    "cpu_reference": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+    "runner_status": "not implemented"
+  },
+  "science_upper_bounds": {
+    "chains": 6,
+    "committed_batches": 60,
+    "unique_requests": 1000,
+    "arm_request_observations": 6000,
+    "target_calls": 89000,
+    "Adam_updates": 408000,
+    "solves": 890,
+    "scored_endpoints": 960,
+    "history_appends": 300,
+    "loss_evaluations": 497000
+  }
+}

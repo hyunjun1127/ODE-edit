@@ -1,0 +1,33 @@
+{
+  "schema": "gh-sequential-local-z-v2-dispatch-checks-v1",
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "time_utc": "2026-09-17T05:45:55.377Z",
+  "read_scope": "v2 설계/contract/cells/CPU 참조·테스트/구조화 convergence 근거를 전체 읽음; 실행 지시는 별도 envelope.",
+  "copies": 10,
+  "exact_copy_check": "PASS",
+  "cpu": {
+    "standard_library_pass": 20,
+    "scipy_1_15_3_skipped": 3,
+    "actual_model_or_gpu": 0,
+    "claim": "CPU 참조 검사이며 실제 Llama 또는 신규 SciPy 검증이 아님"
+  },
+  "access": "PASS_GLOBAL_HEAD",
+  "diff_check": {
+    "default_cr_at_eol": "WARN_EXISTING_EOF_BLANK",
+    "exact_file": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+    "line": 123,
+    "decision": "원 증거 byte/SHA 보존. 기존 봉인된 EOF 공백은 정규화하지 않고 예외 공개.",
+    "allowed_scoped_check": "core.whitespace=cr-at-eol,-blank-at-eof"
+  },
+  "scientific_actions_by_GH": 0,
+  "old_task_observation": {
+    "transport": "direct peer peek",
+    "old_pilot": 49238,
+    "last_report": "PENDING",
+    "current_scheduler_queried": false,
+    "repair_science_registered": false,
+    "old_job_mutation_authorized": false
+  },
+  "handoff": "INITIAL_GATE_ONLY_OR_PENDING_HANDOFF",
+  "official_solver_document": "https://docs.scipy.org/doc/scipy-1.15.3/reference/optimize.minimize-cobyla.html"
+}

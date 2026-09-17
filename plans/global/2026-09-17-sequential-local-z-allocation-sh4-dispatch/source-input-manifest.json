@@ -1,0 +1,69 @@
+{
+  "schema": "gh-sequential-local-z-v2-dispatch-source-v1",
+  "instruction_id": "ODEEDIT-S06-SEQUENTIAL-LOCAL-Z-ALLOCATION-V2-SH4-V1",
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "publication_base": "01c63f868f7f38afbeb5e000d7a34e0eb35aa3f8",
+  "members": [
+    {
+      "path": "plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+      "bytes": 24041,
+      "sha256": "fac114d403502c96cbcb33a58b0ff1ee2b0b65b017c44b22a2a22adcda749b73"
+    },
+    {
+      "path": "plans/global/2026-09-17-sequential-local-z-allocation-contract-v2.json",
+      "bytes": 13559,
+      "sha256": "a7aaac67ffe1f6fb47d372b1eaea62d33d4cf12fcb9e0874fbe92d2750239f8c"
+    },
+    {
+      "path": "plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+      "bytes": 797,
+      "sha256": "92f51ceffa031a5373ef782e0d08587c5c4634590932ed646c1099b7630ac9ad"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+      "bytes": 21615,
+      "sha256": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "bytes": 11861,
+      "sha256": "fe99396a9efa2b2092dbe7f1b13efe0c368533cc24a90053b58cc5214895fe01"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "bytes": 22638,
+      "sha256": "dd6a7a854b1451bdf37e823659d1905a54e68831766995556cbb2868b32884bb"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/cpu-validation.json",
+      "bytes": 1272,
+      "sha256": "b0e1b91c762528c6af4158cb5ef41cb5e14d7db764d0b610e34fa40720bc427a"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/design-checks.json",
+      "bytes": 9320,
+      "sha256": "72459261708e48cb8f131a9f8b20f5a86769b7b6f9679145a10323a7950a6fba"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/test_controller_reference.py",
+      "bytes": 15735,
+      "sha256": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649"
+    },
+    {
+      "path": "audits/global/2026-09-17-sequential-local-z-allocation/validate_design.py",
+      "bytes": 8666,
+      "sha256": "bf755bc558ea9be96625b19a4274799f3a457278b9b23242fe52982b1d014f4e"
+    }
+  ],
+  "scope": "정본 원bytes와 기존 CPU 증거 게시; 새 Llama/GPU 검증 아님",
+  "reference_mapping": [
+    {
+      "gh_root": "/mnt/raid5/janghj/.codex/worktrees/odeedit-local-z-independent-audit-20260917",
+      "resolution": "원문 안 source/report/manifest는 같은 repo-relative path의 main 및 S4기존 local 원artifact로 대응. GH-only 독립 prose는 아래 mirror 재사용.",
+      "mirror": "plans/global/2026-09-17-l4-preserving-repair-sh4-dispatch/references/cold7-independent-review-ko.md",
+      "sha256": "5c9a50f177f24a91239c51f671f9e39e7102ccbd4f6c72008f14f53b54cadbdd"
+    }
+  ],
+  "protocol_sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+  "actual_model_validation": "NOT_RUN_BY_GH"
+}

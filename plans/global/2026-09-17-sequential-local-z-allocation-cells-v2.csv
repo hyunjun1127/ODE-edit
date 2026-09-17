@@ -1,0 +1,7 @@
+cell_id,stage,policy,allowed_layers,start,ordinal_start,ordinal_end_exclusive,batch_size,batches,quality_commit_guard,max_target_calls_per_batch,max_Adam_per_batch,max_solves_per_batch,max_scored_endpoints_per_batch,status
+N4-cold1000,SCIENCE,native_full,4,W0,0,1000,100,10,false,100,2400,1,1,PLANNED_NOT_SUBMITTED
+F48-cold1000,SCIENCE,raw_fixed,4|8,W0,0,1000,100,10,false,200,4800,2,2,PLANNED_NOT_SUBMITTED
+G48-cold1000,SCIENCE,guarded_grid,4|8,W0,0,1000,100,10,true,300,7200,3,6,PLANNED_NOT_SUBMITTED
+C4-cold1000,SCIENCE,continuous,4,W0,0,1000,100,10,true,100,2400,1,29,PLANNED_NOT_SUBMITTED
+C48-cold1000,SCIENCE,continuous,4|8,W0,0,1000,100,10,true,4100,12000,41,29,PLANNED_NOT_SUBMITTED
+C45678-cold1000,SCIENCE,continuous,4|5|6|7|8,W0,0,1000,100,10,true,4100,12000,41,29,PLANNED_NOT_SUBMITTED

@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "CPU synthetic controller semantics and real SciPy backend; not Llama evaluation",
+  "local": {
+    "passed": 20,
+    "skipped_scipy": 3
+  },
+  "remote": {
+    "host": "rke-server4",
+    "python": "3.12.3",
+    "scipy": "1.15.3",
+    "passed": 23,
+    "skipped": 0,
+    "remote_source_transfer": "stdin_only",
+    "remote_files_written": 0,
+    "model_calls": 0,
+    "GPU_calls": 0
+  },
+  "source_sha256": {
+    "controller_reference.py": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab",
+    "test_controller_reference.py": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649"
+  },
+  "verified_by": "implementation_geometry agent; root verified file hashes and reruns local suite",
+  "coverage": [
+    "state-conditioned prefix cache",
+    "budget reservation and rollback",
+    "actual feasible incumbent",
+    "strict and pair ID guards",
+    "exact zero-layer pruning",
+    "raw coordinate bounds before subtraction",
+    "history layer protocol",
+    "pruning completion and search count proxy"
+  ],
+  "known_backend_behavior": "Legacy F2PY may print callback failure stderr when typed BudgetExceeded propagates; caught intentional budget stops passed tests. Other errors remain technical failures."
+}
