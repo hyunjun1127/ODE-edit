@@ -222,6 +222,26 @@ def submit_all_main(folder,plan,wall):
         actual_GPU_validation='NOT_OBSERVED',requested_scope='SIX_COLD_ARMS_ONLY')
 
 
+def measured_storage_plan(max_native_tensor_bytes,full1000_observer_bytes,upper):
+    """Post-pilot resource estimate, not a scientific threshold or disk guarantee.
+
+    Conservatively charge every allowed endpoint a DOUBLE full1000 observer,
+    though the runtime observes current100 and only selected fullseen endpoints.
+    No checkpoint/teacher regeneration is admitted by this replacement estimate.
+    """
+    gib=1<<30
+    components=dict(native_tensor=math.ceil(max_native_tensor_bytes*1.25)*upper['solve'],
+        observer=full1000_observer_bytes*2*upper['score'],
+        scalar_json_ledger=2*gib,stdout_stderr=2*gib,miscellaneous=1*gib)
+    subtotal=sum(components.values())
+    reserve=max(44*gib,math.ceil(subtotal*1.25/gib)*gib)
+    return dict(version='MEASURED_NO_CP_POSTPILOT_RESOURCE_V2',components_bytes=components,
+        subtotal_bytes=subtotal,additional_contingency_fraction=.25,reserve_bytes=reserve,
+        original_pre_measurement_reserve_bytes=64*gib,old_execution_lock_unchanged=True,
+        empirical_estimate_not_mathematical_serialization_upper_bound=True,
+        disk_W_M_checkpoint=False,new_teacher_bytes=0,shared_volume_future_growth_guaranteed=False)
+
+
 def science():
     lockpath=ROOT/'execution.lock.json';lock=json.loads(lockpath.read_text());verify(lock)
     assert not (ROOT/'submission-science-v1').exists(),'DO_NOT_DUPLICATE_EXISTING_SCIENTIFIC_REGISTRATION'
@@ -230,14 +250,23 @@ def science():
     adm=admission(folder/'admission.json');plan=capacity_plan(adm['existing'])
     cost=json.loads(Path(ready['cost']['path']).read_text())
     wall=max(12,math.ceil(ready['seconds']*10*1.5/3600)+1)
+    teacher_result=json.loads((TECH_ROOT/'TEACHER_REPRODUCTION/result.json').read_text())
+    assert teacher_result['evidence']['regenerated'] is False,'REMEASURE_STORAGE_IF_TEACHER_CHANGED'
+    tensors=list(TECH_ROOT.rglob('*.pt'))
+    storage=measured_storage_plan(max(p.stat().st_size for p in tensors),lock['W0_observation']['bytes'],
+        lock['planned_science_upper_bounds'])
     free=shutil.disk_usage(ROOT).free;fs=os.statvfs(ROOT)
-    assert free>=lock['storage']['reserve_bytes'],'SCIENCE_DISK_RESERVE_UNAVAILABLE'
+    assert free>=storage['reserve_bytes'],'SCIENCE_MEASURED_DISK_RESERVE_UNAVAILABLE'
     assert fs.f_favail>=100000,'SCIENCE_INODE_RESERVE_UNAVAILABLE'
     resource=save(folder/'resource.lock.json',dict(technical=identity(ready_path),technical_cost=ready['cost'],
+        orchestration_head=git(Path(__file__).resolve().parents[3],'rev-parse','HEAD'),
+        execution_head=lock['source_head'],execution_lock=identity(lockpath),
+        technical_scheduler=command(['sacct','-j',TECH_JOB,'--noheader','--parsable2',
+            '--format=JobID,State,ExitCode,Start,End,ElapsedRaw,AllocTRES,MaxRSS']),
         measured_technical_seconds=ready['seconds'],science_estimate_rule='10*common_pilot_seconds*1.5 plus round reserve; NOT_MEASURED_MAIN',
         gpus_per_job=1,cpus=8,mem_MiB=60416,wall_hours=wall,hour_hardcap=None,plan=plan,
         technical_peak_host_bytes=cost['peak_host_RSS_bytes'],disk_free_bytes=free,
-        disk_reserve_bytes=lock['storage']['reserve_bytes'],free_inodes=fs.f_favail,
+        storage_plan=storage,free_inodes=fs.f_favail,
         no_disk_W_M_checkpoint=True))
     assert cost['peak_host_RSS_bytes']<60416*1024**2,'MEASURED_HOST_PEAK_EXCEEDS_RESOURCE'
     result=submit_all_main(folder,plan,wall)

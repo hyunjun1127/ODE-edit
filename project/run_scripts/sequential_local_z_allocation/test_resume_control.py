@@ -3,7 +3,7 @@ import json
 import tempfile
 from pathlib import Path
 from .common import save
-from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate,inspect_main_fields
+from .resume_control import capacity_plan,main_pending_classification,verify_initial_gate,inspect_main_fields,measured_storage_plan
 
 class MainGateOverrideTests(unittest.TestCase):
     def test_own_technical_serializes_without_permanent_throttle(self):
@@ -91,5 +91,16 @@ class HeldInspectionTests(unittest.TestCase):
                 ('afterok:49421','(null)'),(' science',' technical'),('NumCPUs=8','NumCPUs=16')]:
                 with self.subTest(old=old),self.assertRaises(AssertionError):
                     inspect_main_fields(detail.replace(old,new),script,p,p/'lock',12,2,['afterok:49421'])
+
+class StoragePlanningTests(unittest.TestCase):
+    def test_postpilot_measured_no_cp_reserve(self):
+        p=measured_storage_plan(17897237,5168928,dict(solve=890,score=960))
+        self.assertEqual(p['reserve_bytes'],44*(1<<30))
+        self.assertGreaterEqual(p['reserve_bytes'],p['subtotal_bytes']*1.25)
+        self.assertFalse(p['disk_W_M_checkpoint'])
+        self.assertTrue(p['old_execution_lock_unchanged'])
+    def test_larger_output_cannot_inherit_smaller_floor(self):
+        p=measured_storage_plan(100000000,5168928,dict(solve=890,score=960))
+        self.assertGreater(p['reserve_bytes'],44*(1<<30))
 
 if __name__=='__main__':unittest.main()
