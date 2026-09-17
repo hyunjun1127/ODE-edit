@@ -1,0 +1,22 @@
+{
+  "status": "COMPACT_PENDING_HANDOFF_CHECKED",
+  "runtime_source": "a89350e2c2b2b0652f0a085b2b6c2e9c3accc89b",
+  "runtime_cpu_tests": 51,
+  "runtime_model_validation": "NOT_RUN_AT_LAST_PENDING_OBSERVATION",
+  "registered_job": "49238",
+  "registered_science_jobs": [],
+  "checkpoint_W_M_RNG_payload": false,
+  "exact_restart": "NOT_AVAILABLE",
+  "publication_ast_json": "PASS",
+  "rooted_members_SHA_size": "PASS_7_MEMBERS",
+  "markdown_table_column_check": "PASS_4_COLUMNS_3_DATA_ROWS",
+  "markdown_render": "NOT_AVAILABLE_IN_CURRENT_CPU_ENVIRONMENT",
+  "new_GPU_validation_from_publication": 0,
+  "scheduler_or_result_poll_after_pending_handoff": 0,
+  "raw_tensor_prompt_teacher_log_payload_in_publication": false,
+  "immutable_runtime_archive_changed": false,
+  "scope": "new l4_preserving_repair package and own compact audit/report/status/ack/head/run receipts only",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call"
+}
