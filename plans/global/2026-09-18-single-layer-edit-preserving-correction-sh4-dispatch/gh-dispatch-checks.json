@@ -1,0 +1,55 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "scope": "GH dispatch only; no remote raw audit, model, scheduler or GPU execution",
+  "full_read": [
+    "user initial instruction plus both monitoring amendments",
+    "design full 284 lines",
+    "contract full 446 lines",
+    "cells full 127 lines",
+    "positioning full 289 lines",
+    "BLUE/L4 audit full 306 lines",
+    "geometry_reference.py",
+    "test_geometry_reference.py",
+    "validate_design.py"
+  ],
+  "protocol": {
+    "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+    "full_read": "previous exact FULL_READ reused",
+    "session_boundary": "PASS",
+    "SH4_transport": "registered session/CWD idle observed; not scheduler audit"
+  },
+  "source_copy": {
+    "files": 11,
+    "byte_exact": true,
+    "CSV_CRLF_preserved": true,
+    "external_docs_mirrored": true
+  },
+  "prior_cpu": {
+    "geometry_tests": 11,
+    "status": "PRIOR_PASS_REUSED_NOT_MODEL",
+    "design_checks": 1430,
+    "status_design": "PRIOR_PASS_REUSED"
+  },
+  "GH_new_unittest_attempt": {
+    "status": "NOT_RUN_IMPORT_DEPENDENCY_MISSING",
+    "python": "/usr/bin/python3 3.10",
+    "error": "ModuleNotFoundError: No module named numpy",
+    "model_calls": 0,
+    "shared_env_changed": false,
+    "prior_receipts_overwritten": false
+  },
+  "latest_scope": {
+    "M_reuse_overrides_blanket_rerun": true,
+    "allowed": "necessary T and missing M evaluation/execution only",
+    "S_R_L_authorized": false,
+    "monitoring": "actual M initial gate then pause",
+    "end_to_end_override_superseded": true,
+    "GPU_cap": 2,
+    "M_final_endpoint_retention": true
+  },
+  "limitations": [
+    "No GH scientific reuse decision made; SH4 must audit existing evidence per cell/diagnostic before deciding new M.",
+    "No actual GPU validity or new jobs claimed.",
+    "External prose's old absolute empirical/figure links are provenance, not SH4 available-asset assertions."
+  ]
+}

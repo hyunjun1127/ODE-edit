@@ -1,0 +1,90 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "scope": "Authoritative design and CPU references plus byte-exact external prose mirrors; not actual model validation",
+  "base_main": "ef7abac71862b93f567945cdf6b559ac94a857a1",
+  "files": [
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "destination": "plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "bytes": 36164,
+      "sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "destination": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "bytes": 15553,
+      "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "destination": "plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "bytes": 14480,
+      "sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c",
+      "crlf": true
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/artifact_manifest.json",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/artifact_manifest.json",
+      "bytes": 2050,
+      "sha256": "1da82a88979c432ebd21e8e8b122f47f51d487991c09c4f3389bed8fe2519c7a",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+      "bytes": 1326,
+      "sha256": "6e6c2b4905e0f88ad1c824c7064ef7b0a5ed481f0557aa0b31a8d0d463f70325",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+      "bytes": 6611,
+      "sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+      "bytes": 8079,
+      "sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+      "bytes": 8210,
+      "sha256": "e52921ea3e59f51011e4da74e00a2cf87e997938adf4f968ce5f97eb63ac5f7a",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+      "destination": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+      "bytes": 142274,
+      "sha256": "3fc3beab3243eb4a7c57b5bb5db2a46033abe4ad819d066facb082f837096baa",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/layer_allocation/07_single_layer_method_positioning.md",
+      "destination": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/07_single_layer_method_positioning.md",
+      "bytes": 24256,
+      "sha256": "5233db01620ad75cc00d2146488858e20188e3721578d53b8c9d0551bf779522",
+      "crlf": false
+    },
+    {
+      "source": "/mnt/raid5/janghj/layer_allocation/06_blue_l4_detailed_audit.md",
+      "destination": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/06_blue_l4_detailed_audit.md",
+      "bytes": 31411,
+      "sha256": "719417dbb99da11166dc9b0fb78492aa311426ff6fb5793e1805ac91f42557b8",
+      "crlf": false
+    }
+  ],
+  "precedence": [
+    "latest M-only and main-initial pause user override",
+    "user M reuse overrides blanket M reruns",
+    "unchanged design/contract numeric/method/data/technical/storage rules"
+  ],
+  "external_links": "Original external prose bytes kept; GH empirical/figure absolute paths are not presumed to exist on server4. Request exact needed evidence separately."
+}

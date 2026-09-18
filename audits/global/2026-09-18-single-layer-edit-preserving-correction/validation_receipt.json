@@ -1,0 +1,7212 @@
+{
+  "status": "PASS",
+  "scope": "design consistency, data-role constraints, arithmetic and file links only",
+  "model_runner_validated": false,
+  "gpu_model_tests": 0,
+  "checks_total": 1430,
+  "checks_passed": 1430,
+  "failed": [],
+  "stage_cells": {
+    "T": 1,
+    "M": 110,
+    "S": 5,
+    "R": 4,
+    "L": 6
+  },
+  "science_upper_bounds": {
+    "native_fit_batches": 700,
+    "native_target_calls_cap": 70000,
+    "native_adam_cap": 1680000,
+    "extra_z_calls": 0,
+    "correction_controllers": 430,
+    "gradient_sweeps_cap": 460,
+    "neural_gradient_sweeps_cap": 450,
+    "trial_sweeps_cap": 3600,
+    "history_appends": 690
+  },
+  "checks": [
+    {
+      "name": "not_model_runner",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_gpu_dispatch",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "warm_checkpoint_forbidden",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "single_L4",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native_z_no_extra",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_paraphrase_set",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_paraphrase_generation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_online_official_eval",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_eval_candidate_selection",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_guard_P_N",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_future_requests",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "report_final_only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "development_exposure_declared",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_unseen_guarantee",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "W0_teacher",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "full_vocab_teacher",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "old_new_all_tokens",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "not_all_history_exact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_native_quadratic_guard",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_output_span_restriction",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "main_one_gradient_eight_trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "actual_movement_armijo",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ideal_actual_state_separate",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "finite_polyak_status",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R_quality_same_four_metrics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fallback_history_commit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "zero_inner_history_appends",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_posthoc_PS_allowance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_sequential_iid_claim",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unique_cell_ids",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "T-O0-cold8-TECH:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b001-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b002-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b003-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b004-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b005-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b006-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b007-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b008-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b009-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-N4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-SCALE:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-KL-P:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-S:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-COV:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-EN-F4:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-CA-EXACT:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND+:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:independent_cold",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "M-O0-b010-RAND-:one_shared_fit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-SCALE:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-CA:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-KL-P:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "S-O0-seq1000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O1-seq1000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "R-O2-seq1000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O0-seq10000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O1-seq10000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-N4:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:W0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:z",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:target_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:adam_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:ordinal_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:controllers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:neural_grad",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:trials",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "L-O2-seq10000-EN-F:own_trajectory",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "sum:native_fit_batches",
+      "passed": true,
+      "detail": {
+        "computed": 700,
+        "contract": 700
+      }
+    },
+    {
+      "name": "sum:native_target_calls_cap",
+      "passed": true,
+      "detail": {
+        "computed": 70000,
+        "contract": 70000
+      }
+    },
+    {
+      "name": "sum:native_adam_cap",
+      "passed": true,
+      "detail": {
+        "computed": 1680000,
+        "contract": 1680000
+      }
+    },
+    {
+      "name": "sum:extra_z_calls",
+      "passed": true,
+      "detail": {
+        "computed": 0,
+        "contract": 0
+      }
+    },
+    {
+      "name": "sum:correction_controllers",
+      "passed": true,
+      "detail": {
+        "computed": 430,
+        "contract": 430
+      }
+    },
+    {
+      "name": "sum:gradient_sweeps_cap",
+      "passed": true,
+      "detail": {
+        "computed": 460,
+        "contract": 460
+      }
+    },
+    {
+      "name": "sum:neural_gradient_sweeps_cap",
+      "passed": true,
+      "detail": {
+        "computed": 450,
+        "contract": 450
+      }
+    },
+    {
+      "name": "sum:trial_sweeps_cap",
+      "passed": true,
+      "detail": {
+        "computed": 3600,
+        "contract": 3600
+      }
+    },
+    {
+      "name": "sum:history_appends",
+      "passed": true,
+      "detail": {
+        "computed": 690,
+        "contract": 690
+      }
+    },
+    {
+      "name": "stage_cells",
+      "passed": true,
+      "detail": {
+        "T": 1,
+        "M": 110,
+        "S": 5,
+        "R": 4,
+        "L": 6
+      }
+    },
+    {
+      "name": "EN_F4_M_only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "random_not_chain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "math_fences_balanced",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "local_link:/mnt/raid5/janghj/layer_allocation/07_single_layer_method_positioning.md",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "local_link:/mnt/raid5/janghj/layer_allocation/06_blue_l4_detailed_audit.md",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "local_link:2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "local_link:2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:70000",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:1680000",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:700",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:430",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:460",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:450",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "design_mentions_total:3600",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geometry_tests_pass",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geometry_no_model_claim",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geometry_source_hash:geometry_reference.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geometry_source_hash:test_geometry_reference.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "CPU_scope_declared",
+      "passed": true,
+      "detail": null
+    }
+  ]
+}

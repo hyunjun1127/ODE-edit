@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "contract_id": "ENFC-W0-L4-V1",
+  "date": "2026-09-18",
+  "status": "DESIGN_AND_CPU_GEOMETRY_ONLY",
+  "model_runner_implemented": false,
+  "gpu_jobs_submitted": 0,
+  "objective": "Reduce actual W0 functional drift by changing same-layer weights while retaining current native full-token responses.",
+  "artifacts": {
+    "design": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+    "cells": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+    "audit": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction"
+  },
+  "capsule": {
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "parameter": "model.layers.4.mlp.down_proj.weight",
+    "physical_layer_zero_based": 4,
+    "shape": [
+      4096,
+      14336
+    ],
+    "initial_state": "pretrained_W0",
+    "warm_checkpoint_allowed": false,
+    "initial_M4": "exact_zero",
+    "preserve_native_P4": true,
+    "weight_dtype": "float32",
+    "geometry_dtype": "float64",
+    "eval_mode": true,
+    "attention": "eager",
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "method_seed": 20260916,
+    "context_policy": "verify and freeze native cold7 capsule, else new common W0 capsule with new identity",
+    "microbatch_policy": "native unchanged; correction reference docs 1; current screen sequences 1; lock exact values in runtime receipt"
+  },
+  "native": {
+    "L2": 1,
+    "v_lr": 0.1,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 0.75,
+    "kl_factor": 0.0625,
+    "loss_evaluations_max": 25,
+    "adam_steps_max": 24,
+    "early_stop_total_loss": 0.05,
+    "target_layer": 4,
+    "source_numeric_changes": false,
+    "target_calls_per_request": 1,
+    "additional_z_for_correction": 0
+  },
+  "data": {
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "whole_order_sha256": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "first1000_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+    "previously_exposed_requests": true,
+    "unseen_request_confirmatory_claim": false,
+    "O0": "existing order",
+    "O1": "SHA256(ENFC-v1|order|20260918|case_id) ascending",
+    "O2": "SHA256(ENFC-v1|order|20260919|case_id) ascending",
+    "permutation_pool": "first1k in R; full10k in L independently",
+    "tie_break": "case_id string ascending",
+    "future_request_access_by_optimizer": false,
+    "official_paraphrase_target_set": false,
+    "paraphrase_generation": false,
+    "official_P_N_online": false,
+    "official_P_N_candidate_selection": false,
+    "official_P_N_read_after": "selection seal",
+    "Dev128": "development observer, never optimizer",
+    "Report256": "unopened until all L policies sealed and all L endpoints complete",
+    "past_selection": "latest-arrived active subject-relation, exclude current overwrite, SHA256(ENFC-v1|past|case_id), first64, no success filtering"
+  },
+  "reference": {
+    "reference_manifest_sha256": "f5791dd3c986261a252796bd5d7293ece46339d261609449dcfe674970bbfde0",
+    "teacher192_manifest_sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a",
+    "identity_status": "reported existing hashes; actual artifact revalidation required before model use",
+    "teacher": "W0 fixed",
+    "train_documents": 64,
+    "dev_documents": 128,
+    "report_documents": 256,
+    "input_tokens_per_document": 257,
+    "scored_logits_indices_half_open": [
+      128,
+      256
+    ],
+    "scored_positions_per_document": 128,
+    "vocabulary": 128256,
+    "topk": null,
+    "teacher_logp_dtype": "float32",
+    "loss": "KL(p0||pW)",
+    "reduction": "vocab sum, positions mean, documents mean",
+    "accumulation": "float64 signed reductions",
+    "observer_gradients": false,
+    "overlap_policy": "retain presealed bank; audit current/received scope flags; no future-based reselection"
+  },
+  "lock": {
+    "current_sequences": "all native rewrite contexts including canonical, teacher-forced new and supplied old branches",
+    "include_all_valid_input_tokens": true,
+    "exclude_padding": true,
+    "deduplicate": "identical complete token-prefix key columns, preserving provenance",
+    "essence_in_correction_lock": false,
+    "old_target_missing": "new branch only; pair claim denominator reduced and counted",
+    "old_target_information": "provided request label; extra versus new-target-only native z, available to all correction controls",
+    "proposed_constraint": "D K_E=0 and D P_star=D",
+    "materialization": "FP32(W_N + D_acc64) from immutable W_N every trial",
+    "actual_D": "float64(W_candidate)-float64(W_N)",
+    "all_history_exact_lock": false,
+    "unseen_PS_guarantee": false
+  },
+  "geometry": {
+    "native_projector": "raw P unchanged",
+    "correction_projector": "orthogonal allowed range of native P_raw from provenance; else sym eigenvalues within .1 of 0 or 1 AND none in [.1,.9], split .5",
+    "P_star_binding_required": true,
+    "intersection": "V(I-JJdagger)V.T, J=V.T K_E",
+    "rank_threshold": "max(shape)*eps64*sigma_max",
+    "ambiguous_band_multipliers": [
+      0.1,
+      10.0
+    ],
+    "rank_unresolved": "valid no-correction status, retain diagnostic; no posthoc cutoff tuning",
+    "space_empty": "native fallback; no global incapacity claim",
+    "native_rowspace_exact_diagnostic": true,
+    "gradient_signal": "chi=||G Q_E||_F^2",
+    "output_span_restriction": false,
+    "same_native_quadratic_cost_guard": false
+  },
+  "arms": {
+    "N4": {
+      "space": "native endpoint",
+      "objective": "none",
+      "lock": "none",
+      "grad": 0,
+      "trials": 0,
+      "neural": false
+    },
+    "SCALE": {
+      "space": "native scalar s in [0,1]",
+      "objective": "W0_S64_forward_KL",
+      "lock": "finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": true
+    },
+    "CA": {
+      "space": "orthogonal native A rowspace",
+      "objective": "W0_S64_forward_KL",
+      "lock": "finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": true
+    },
+    "KL-P": {
+      "space": "range P_star",
+      "objective": "W0_S64_forward_KL",
+      "lock": "finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": true
+    },
+    "EN-S": {
+      "space": "P_star intersection null native mean subject keys",
+      "objective": "W0_S64_forward_KL",
+      "lock": "subject_response_plus_finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": true
+    },
+    "EN-F": {
+      "space": "P_star intersection null current all-token old/new keys",
+      "objective": "W0_S64_forward_KL",
+      "lock": "all_token_response_plus_finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": true
+    },
+    "EN-COV": {
+      "space": "same EN-F",
+      "objective": "W0_cumulative_full_input_activation_drift",
+      "lock": "all_token_response_plus_finite_current",
+      "grad": 1,
+      "trials": 8,
+      "neural": false
+    },
+    "EN-F4": {
+      "space": "same EN-F",
+      "objective": "W0_S64_forward_KL",
+      "lock": "all_token_response_plus_finite_current",
+      "grad": 4,
+      "trials": 24,
+      "neural": true
+    }
+  },
+  "optimizer": {
+    "main_gradient_rounds": 1,
+    "main_trials": 8,
+    "diagnostic_EN_F4_rounds": 4,
+    "diagnostic_EN_F4_trials_per_round": 6,
+    "initial_step": "objective/chi, known nonnegative objective lower bound 0",
+    "backtrack_factor": 0.5,
+    "armijo_c1": 0.0001,
+    "current_state_gradient": true,
+    "early_accept": "first resolved Armijo decrease satisfying invariant and common finite guards",
+    "trial_dedup": "actual weight SHA",
+    "training_metric_selects_only": true,
+    "target_ball_on_correction": false,
+    "sequential_add_sub_rollback": false,
+    "budget_exhaustion": "best already accepted, otherwise exact W_N",
+    "not_claimed": [
+      "global optimum",
+      "KKT convergence",
+      "parameter-free optimum",
+      "same actual compute across arms"
+    ],
+    "actual_armijo": "p=<G,W_trial-W_current><0 and L_trial<=L_current+c1*p; record nominal prediction separately",
+    "scalar_clipping": "use actual clipped displacement; nominal scalar g_a*(a_trial-a_current), never unclipped eta*g_a^2",
+    "polyak_overflow": "STEP_SCALE_UNRESOLVED; no infinity halving; not infeasibility",
+    "EN_F4_state": "retain ideal D_acc64 and actual D separately; gradient/cache at actual accepted FP32 weight; next proposal accumulates ideal D_acc64"
+  },
+  "quality": {
+    "reference": "own batch native endpoint",
+    "current_per_sequence_new_NLL_epsilon": 0.0001,
+    "current_pair_success_subset": true,
+    "current_strict_success_subset": true,
+    "past64_per_request_new_NLL_epsilon": 0.0001,
+    "past_pair_success_subset": true,
+    "past_strict_success_subset": true,
+    "past_reference": "own W_N, prevents only additional correction damage",
+    "mean_plateau": false,
+    "guard_accesses_P_or_N": false,
+    "rank_cutoff_uses_metrics": false
+  },
+  "numeric_design_ceilings": {
+    "status": "proposed hard ceilings, actual model not yet validated",
+    "fp64_projector_relative": 1e-10,
+    "fp64_proposed_response_relative": 1e-10,
+    "actual_max_token_normalized_response": 1e-05,
+    "actual_projection_leakage_relative": 1e-05,
+    "protected_logits_max_abs": 0.001,
+    "protected_logits_rms": 0.0001,
+    "protected_new_old_sequence_NLL_max_abs": 0.0001,
+    "protected_pair_strict_ID_changes": 0,
+    "noop_repeat_NLL_max_abs": 1e-05,
+    "noop_repeat_logits_max_abs": 0.0001,
+    "KL_roundoff_floor": 1e-06,
+    "resolved_KL_decrease_floor": 1e-06,
+    "EN_COV_resolution": "10 times independent technical roundoff band, pinned before M",
+    "direct_cached_gradient_relative": 0.0001,
+    "FD_relative_error": 0.01,
+    "FD_adjacent_scales": 2,
+    "FD_signal_to_noise_min": 10,
+    "FD_max_scales": 12,
+    "FD_initial_norm_relative_to_native": 0.01,
+    "FD_initial_scale_is_method_step": false,
+    "posthoc_relaxation": false
+  },
+  "random_diagnostic": {
+    "distribution": "seeded isotropic Gaussian projected to same full-token null space",
+    "norm_match": "selected EN-F correction Frobenius norm",
+    "signs": [
+      "+",
+      "-"
+    ],
+    "selection_on_loss": false,
+    "norm_match_relative_tolerance": 0.001,
+    "zero_EN_F": "zero random pair",
+    "chain": false
+  },
+  "history": {
+    "native_append": "once per committed batch, selected or native fallback",
+    "candidate_appends": 0,
+    "scale_Gram_by_correction": false,
+    "drop_zero_step_keys": false,
+    "ledger": "all received latest-arrived version, not accepted-only",
+    "old_anchor_restoration_claim": false,
+    "technical_failure_append": 0,
+    "resume": "atomic own-arm order-bound checkpoint, deduplicate commit ID"
+  },
+  "stages": {
+    "T": {
+      "technical_episode_size": 8,
+      "native_repeats": 2,
+      "science": false
+    },
+    "M": {
+      "episodes": 10,
+      "size": 100,
+      "reset_W0_each_episode": true,
+      "arms": [
+        "N4",
+        "SCALE",
+        "CA",
+        "KL-P",
+        "EN-S",
+        "EN-F",
+        "EN-COV",
+        "EN-F4"
+      ],
+      "diagnostics": [
+        "CA-EXACT",
+        "RAND+",
+        "RAND-"
+      ],
+      "shared_native_fits": 10
+    },
+    "S": {
+      "orders": [
+        "O0"
+      ],
+      "arms": [
+        "N4",
+        "SCALE",
+        "CA",
+        "KL-P",
+        "EN-F"
+      ],
+      "requests_per_chain": 1000,
+      "batches": 10,
+      "own_trajectory": true
+    },
+    "R": {
+      "new_orders": [
+        "O1",
+        "O2"
+      ],
+      "arms": [
+        "N4",
+        "EN-F"
+      ],
+      "requests_per_chain": 1000,
+      "batches": 10,
+      "O0_reused_from_S": true,
+      "own_trajectory": true
+    },
+    "L": {
+      "orders": [
+        "O0",
+        "O1",
+        "O2"
+      ],
+      "arms": [
+        "N4",
+        "EN-F"
+      ],
+      "requests_per_chain": 10000,
+      "batches": 100,
+      "all_start_W0": true,
+      "Report256_after_all_complete": true
+    }
+  },
+  "advancement": {
+    "not_online_policy": true,
+    "M_to_S": "nonzero admissible EN-F, mean Dev decrease beyond noise, nonnegative RS PS NS points; strict/joint harm blocks quality-maintained claim",
+    "S_to_R": {
+      "NS_gain_pp_min": 1.0,
+      "Dev_KL_relative_reduction_min": 0.05,
+      "RS_PS_joint_Pstrict_point_loss_allowance_pp": 0,
+      "N_true_NLL_mean_worsening": "inconclusive preservation claim"
+    },
+    "R_to_L": "three-order NS/Dev improvement direction consistent; every order RS PS joint Pstrict point nonnegative; unchanged policy; uncertainty reported",
+    "point_equality_is_statistical_equivalence": false,
+    "no_posthoc_PS_allowance": true,
+    "within_stage_performance_stop": false
+  },
+  "evaluation": {
+    "current_states": [
+      "W0",
+      "entry",
+      "own_native",
+      "selected",
+      "final"
+    ],
+    "official_eval_after_selection_seal": true,
+    "M_all_final_arms_and_random": true,
+    "rejected_trial_official_P_N": false,
+    "S_R_fullseen_batches": [
+      5,
+      10
+    ],
+    "L_fullseen_batches": [
+      10,
+      25,
+      50,
+      75,
+      100
+    ],
+    "Dev_schedule": "M final endpoints; S/R B5 B10; L fullseen milestones",
+    "Report_schedule": "L final only after all chains complete",
+    "metrics": [
+      "RS",
+      "PS",
+      "NS",
+      "joint_R_two_P",
+      "R_new_TF_strict",
+      "P_new_TF_strict",
+      "new_old_NLL",
+      "paired_tails",
+      "W0_correct_N_retention",
+      "lost_gained_IDs",
+      "ACTIVE_SUPERSEDED",
+      "canonical_greedy_generation"
+    ],
+    "greedy_generation": {
+      "do_sample": false,
+      "max_new_tokens": 32,
+      "stop": "original model EOS IDs",
+      "metric": "generated target token-prefix match plus completion length/EOS",
+      "target_over_32": "censored count; do not silently drop"
+    }
+  },
+  "statistics": {
+    "primary_comparison": "EN-F minus N4",
+    "M_resample_unit": "paired independent cold batch",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260918,
+    "S_sequential_batch_independence_claim": false,
+    "R_L_top_level_unit": "order",
+    "three_order_intervals": "exploratory descriptive, not no-significance equivalence",
+    "functional_bank_unit": "document",
+    "within_request_P_N_independence_claim": false,
+    "unseen_request_inference": false,
+    "repeated_reference_documents": "retain batch/order by document paired matrix; do not count Dev128*10 or Report256*3 as independent documents"
+  },
+  "science_upper_bounds_excluding_T_observers_teacher_and_key_preparation": {
+    "native_fit_batches": 700,
+    "native_target_calls_cap": 70000,
+    "native_adam_cap": 1680000,
+    "extra_z_calls": 0,
+    "correction_controllers": 430,
+    "gradient_sweeps_cap": 460,
+    "neural_gradient_sweeps_cap": 450,
+    "trial_sweeps_cap": 3600,
+    "history_appends": 690
+  },
+  "remaining_before_model_science": [
+    "actual model runner",
+    "source and state capsule",
+    "teacher shard availability/hash revalidation",
+    "Report256 readiness before L",
+    "actual GPU numerical and derivative preflight",
+    "token, microbatch and exact original EOS IDs in runtime lock"
+  ],
+  "provenance_local_inputs": [
+    "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+    "/mnt/raid5/janghj/layer_allocation/07_single_layer_method_positioning.md",
+    "/mnt/raid5/janghj/layer_allocation/06_blue_l4_detailed_audit.md"
+  ]
+}

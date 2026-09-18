@@ -1,0 +1,37 @@
+{
+  "scope": "NumPy FP64 small CPU mathematical fixtures ONLY",
+  "status": "PASS",
+  "tests_run": 11,
+  "failures": 0,
+  "errors": 0,
+  "numpy_version": "2.2.6",
+  "dtype": "float64",
+  "model_forward_calls": 0,
+  "GPU_calls": 0,
+  "production_runner": false,
+  "real_model_gradient_validation": "NOT_RUN",
+  "real_FP32_materialization_validation": "NOT_RUN",
+  "model_rank_or_capacity_claim": false,
+  "near_rank_policy": {
+    "threshold": "max(shape)*eps64*s_max of captured entries",
+    "ambiguity_band": "[threshold/10, 10*threshold]",
+    "action": "RANK_UNRESOLVED; no repair projector emitted",
+    "provenance": "numerical design choice; not calibrated on a model"
+  },
+  "sources": {
+    "geometry_reference.py": {
+      "sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095",
+      "bytes": 6611
+    },
+    "test_geometry_reference.py": {
+      "sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb",
+      "bytes": 8079
+    }
+  },
+  "limitations": [
+    "Full SVD is intentionally for small fixtures, not production scalability.",
+    "Rank of captured FP32 entries is not intrinsic neural rank or capacity.",
+    "The nonlinear suffix is a deterministic toy, not a language-model test.",
+    "No dataset, teacher, native target, checkpoint, or GPU was loaded."
+  ]
+}

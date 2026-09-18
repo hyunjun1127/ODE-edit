@@ -1,0 +1,46 @@
+{
+  "scope": "new design package only",
+  "model_experiments": 0,
+  "files": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "bytes": 36164,
+      "sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "bytes": 15553,
+      "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "bytes": 14480,
+      "sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+      "bytes": 6611,
+      "sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+      "bytes": 8079,
+      "sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+      "bytes": 1326,
+      "sha256": "6e6c2b4905e0f88ad1c824c7064ef7b0a5ed481f0557aa0b31a8d0d463f70325"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+      "bytes": 8210,
+      "sha256": "e52921ea3e59f51011e4da74e00a2cf87e997938adf4f968ce5f97eb63ac5f7a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+      "bytes": 142274,
+      "sha256": "3fc3beab3243eb4a7c57b5bb5db2a46033abe4ad819d066facb082f837096baa"
+    }
+  ]
+}

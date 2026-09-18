@@ -1,0 +1,39 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-ENFC-M-REUSE-INITIAL-GATE-20260918-R1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "gpu_cap": 2,
+  "gpu_hour_cap": null,
+  "execution_phases": [
+    "T_REQUIRED_ACTUAL_VALIDATION",
+    "M_EVAL_ONLY",
+    "M_RUN_MISSING"
+  ],
+  "prohibited_phases": [
+    "S",
+    "R",
+    "L"
+  ],
+  "M_reuse_first": true,
+  "M_classifications": [
+    "REUSE",
+    "EVAL_ONLY",
+    "RUN_MISSING",
+    "REFERENCE_ONLY"
+  ],
+  "M_independent_W0_M0": true,
+  "all_required_M_registered_before_pause": true,
+  "monitoring": "M_ACTUAL_INITIAL_GATE_ONLY_OR_VERIFIED_MAIN_GPU_RESOURCE_PENDING",
+  "technical_pending_is_stop": false,
+  "completion_override_superseded": true,
+  "automatic_resume": false,
+  "followup_submit_after_pause": false,
+  "all_reuse_no_new_M": true,
+  "M_final_L4_endpoints_retained": true,
+  "publication": "OWN_SCOPE_SOURCE_AND_COMPACT_REUSE_SUBMISSION_INITIAL_HANDOFF_NONFORCE",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "envelope": "messages/head/2026-09-18-sh4-single-layer-edit-preserving-correction-m.md"
+}
