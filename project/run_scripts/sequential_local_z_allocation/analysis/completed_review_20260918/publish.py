@@ -51,6 +51,8 @@ def main():
     inventory=list(csv.DictReader((REPORT/'raw-inventory.csv').open()))
     for r in inventory:
         s=Path(r['path']).stat();assert s.st_size==int(r['bytes']) and s.st_mtime_ns==int(r['mtime_ns']),r['path']
+    current_paths={str(p) for a in ARMS for p in (ROOT/'arms'/a/'attempt-v1/output').rglob('*') if p.is_file()}
+    assert current_paths=={r['path'] for r in inventory}
     checks['raw_immutable_post_stat_members']=len(inventory);checks['raw_full_SHA_already_recorded']=True
     for r in csv.DictReader((REPORT/'first-final-table.csv').open()):
         for tag in MULT:assert abs(float(r[tag+'_percent'])-100*int(r[tag+'_count'])/int(r[tag+'_denominator']))<1e-12
@@ -63,7 +65,7 @@ def main():
     sources=[member(p) for p in sorted(ANALYSIS.glob('*.py'))]
     artifacts=[member(p) for p in sorted(REPORT.rglob('*')) if p.is_file() and p.name not in ['analysis-manifest.json','rooted-receipt.json']]
     writejson(REPORT/'analysis-manifest.json',dict(schema='SLZV2_CPU_REVIEW_V1',execution_head='21297ec19e7f5aecec16d2fdb14cc79380a1df94',analysis_source_head=source_head,analysis_source_tree=source_tree,source_members=sources,artifacts=artifacts,source_runtime_unchanged=True,raw_inventory=member(REPORT/'raw-inventory.csv'),local_full_audit_sha=sha(LOCAL/'audit-checks.json'),local_tensor_audit_sha=sha(LOCAL/'tensor-checks.json'),new_gpu=0,immutable_originals=True))
-    writejson(REPORT/'rooted-receipt.json',dict(schema='SLZV2_COMPLETED_REVIEW_ROOT_V1',instruction_id='ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1',manifest=member(REPORT/'analysis-manifest.json'),report=member(REPORT/'diagnostic-report-ko.md'),first_table=member(REPORT/'first-final-table.csv'),scheduler_receipt_sha=sha(LOCAL/'scheduler-r1.json'),scope=dict(arms=6,batches=60,arm_requests=6000,unique_requests=1000,commits=60,history_appends=300,adjacent_links=54),new_gpu=0,disk_W_M_checkpoint=0,exact_crash_resume='NOT_AVAILABLE',GPU_continuation='NOT_TESTED',automatic_resume=False,task_completion='CPU_REVIEW_COMPLETE_PENDING_PUBLICATION_ACK'))
+    writejson(REPORT/'rooted-receipt.json',dict(schema='SLZV2_COMPLETED_REVIEW_ROOT_V1',instruction_id='ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1',manifest=member(REPORT/'analysis-manifest.json'),report=member(REPORT/'diagnostic-report-ko.md'),first_table=member(REPORT/'first-final-table.csv'),scheduler_receipt_sha=sha(LOCAL/'scheduler-r1.json'),scope=dict(arms=6,batches=60,arm_requests=6000,unique_requests=1000,commits=60,history_appends=300,adjacent_links=54),new_gpu=0,disk_W_M_checkpoint=0,exact_crash_resume='NOT_AVAILABLE',GPU_continuation='NOT_TESTED',automatic_resume=False,review_state='CPU_REVIEW_COMPLETE',publication_commit='REPORTED_SEPARATELY_IN_FINAL_HANDOFF_TO_AVOID_SELF_REFERENCE'))
     for link in parser.links:
         if ':' not in link and not link.startswith('#'):assert (REPORT/link.split('#')[0]).is_file(),link
     for m in load(REPORT/'analysis-manifest.json')['artifacts']:
