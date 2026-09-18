@@ -1,0 +1,18 @@
+{
+  "acyclic": true,
+  "manifest": {
+    "bytes": 2069,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/manifest.json",
+    "sha256": "3d3f80f3210ccbc9b52472009ce27d9363195d2d4cca50a532ac4d3fcbfa4373"
+  },
+  "receipt": {
+    "bytes": 3401,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/receipt.json",
+    "sha256": "f92fd60eee610a39ed842de422464ae501813316063e31c74f59427e24376fe6"
+  },
+  "report": {
+    "bytes": 5115,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/diagnostic-report-ko.md",
+    "sha256": "19d80b980990880cec0c230a947a10986b200415928579f29d203be30dfee4b5"
+  }
+}

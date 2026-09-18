@@ -1,0 +1,51 @@
+{
+  "inputs": [
+    {
+      "bytes": 148232,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/execution.lock.json",
+      "sha256": "4d600d4b57df58203fb21f447116c0362b8a731b9b6d71c4485353d913224d56"
+    },
+    {
+      "bytes": 1289,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/submission.json",
+      "sha256": "e62d6ff430e50de051d5639b6ff9233f5f03315e32ad19e1c5f1d5e1eaee7986"
+    },
+    {
+      "bytes": 3768,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/held-inspection.json",
+      "sha256": "5a4da2736f8a8c4632930ba8e6ac0349abcb878c7021b7e557442a6a367bada2"
+    },
+    {
+      "bytes": 2874,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/resource-admission.json",
+      "sha256": "5d9e37ae4d9b6f47760f57fdeac635f26949c90b22f3916660f3ba0aa4c8b83b"
+    },
+    {
+      "bytes": 920,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/receipts/observation-001.json",
+      "sha256": "3d6744c77cc22c5c50249fc85dd81c69e6e978ac4bd9480e4d6a572aed4389c1"
+    },
+    {
+      "bytes": 6897,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/preflight-r1/receipt.json",
+      "sha256": "bf451bb90989d9220c715d025271d8adbd870d693262a03a17747ce7f828b940"
+    },
+    {
+      "bytes": 931,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/user-authority-r1.json",
+      "sha256": "00cfef569a390a7f22399230178deeec50430b3f9efc4f0a604d5081d2059792"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 5115,
+      "relative": "diagnostic-report-ko.md",
+      "sha256": "19d80b980990880cec0c230a947a10986b200415928579f29d203be30dfee4b5"
+    },
+    {
+      "bytes": 3401,
+      "relative": "receipt.json",
+      "sha256": "f92fd60eee610a39ed842de422464ae501813316063e31c74f59427e24376fe6"
+    }
+  ]
+}

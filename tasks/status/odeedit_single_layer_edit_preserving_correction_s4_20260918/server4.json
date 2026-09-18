@@ -153,5 +153,24 @@
     "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
   },
   "source_data_deleted": false,
-  "status": "M2_RUNNING_USER_CANCELLED_PENDING8_AWAITING_INITIAL"
+  "latest_sequential_override": {
+    "user": "B1·B2 작업 그냥 끝내버리고 sequential job 올려",
+    "M50050_0_1": "CANCELLED_USER_DIRECTED_PARTIAL_PRESERVED",
+    "M50050_allocated_GPU_seconds": 9768,
+    "array": "50071_[0-3]%2",
+    "mapping": {"0":"EN-S","1":"EN-F","2":"EN-COV","3":"EN-F4"},
+    "source": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+    "lock_sha256": "4d600d4b57df58203fb21f447116c0362b8a731b9b6d71c4485353d913224d56",
+    "cold_chains": 4,
+    "batches_per_chain": 10,
+    "cap": 2,
+    "M_T_dependency": null,
+    "T": "SKIPPED_USER_DIRECTED",
+    "M_to_S_scientific_gate": "USER_DIRECTED_NOT_ESTABLISHED",
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "R_L_submitted": 0,
+    "initial_observed": false,
+    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/diagnostic-report-ko.md"
+  },
+  "status": "S4_REGISTERED_RUNNING_AWAITING_INITIAL"
 }

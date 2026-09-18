@@ -40,3 +40,17 @@ SHA8d095a4308d7fac69b4a8ed3c710fc6f8cbb2171026888b9632884c2a33cab6b.
 unique200이며 순차200 chain이 아니다. 원 M10 제출/lock/source/partial 보존, 삭제이동0.
 cap2/Tskip/수치검증미확립/SRL0 유지, 대표 EN-F initial 후 pause 경계 유지. GH direct 수신 완료.
 Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/two-batch-override-ko.md`.
+
+## 최신 사용자: M B1·B2 중단 / EN 계열 네 sequential 제출
+
+“B1·B2 작업 그냥 끝내버리고 sequential job 올려”에 따라 50050_0/_1도 취소했다.
+각4884 GPU초/합9768초, partial과 source는 보존, SIGTERM rollback은 미검증이다.
+50071_[0–3]%2 = EN-S / EN-F / EN-COV / EN-F4를 held inspection 뒤 06:01:07Z release했다.
+각 cold W0/zeroM4→O0 first1000 B100×10이며 M 완료/T dependency 없음. cap2/RL0.
+원18 CPU routing/state 검사 PASS, 실제T numerical validation NOT_ESTABLISHED.
+실행source9e5884f5a2f8dcb7fc7406084f3fde94df450a55 및 원 numeric core는 불변이다.
+M→S는 USER_DIRECTED_NOT_ESTABLISHED이며 완료 M 증거 또는 과학 gate PASS로 쓰지 않는다.
+06:04:44Z EN-S/EN-F RUNNING, EN-COV/EN-F4는 JobArrayTaskLimit 대기, actualSinitial 미관측.
+Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/diagnostic-report-ko.md`.
+Report SHA19d80b980990880cec0c230a947a10986b200415928579f29d203be30dfee4b5.
+GH direct 전송/수신 완료. 초기 실제 S 경계만 관찰한 뒤 pause한다.

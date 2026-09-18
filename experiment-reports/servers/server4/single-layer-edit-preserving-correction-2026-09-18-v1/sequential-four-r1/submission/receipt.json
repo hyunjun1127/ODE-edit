@@ -1,0 +1,93 @@
+{
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "initial": {},
+  "inputs": [
+    {
+      "bytes": 148232,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/execution.lock.json",
+      "sha256": "4d600d4b57df58203fb21f447116c0362b8a731b9b6d71c4485353d913224d56"
+    },
+    {
+      "bytes": 1289,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/submission.json",
+      "sha256": "e62d6ff430e50de051d5639b6ff9233f5f03315e32ad19e1c5f1d5e1eaee7986"
+    },
+    {
+      "bytes": 3768,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/held-inspection.json",
+      "sha256": "5a4da2736f8a8c4632930ba8e6ac0349abcb878c7021b7e557442a6a367bada2"
+    },
+    {
+      "bytes": 2874,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/resource-admission.json",
+      "sha256": "5d9e37ae4d9b6f47760f57fdeac635f26949c90b22f3916660f3ba0aa4c8b83b"
+    },
+    {
+      "bytes": 920,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/receipts/observation-001.json",
+      "sha256": "3d6744c77cc22c5c50249fc85dd81c69e6e978ac4bd9480e4d6a572aed4389c1"
+    },
+    {
+      "bytes": 6897,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/preflight-r1/receipt.json",
+      "sha256": "bf451bb90989d9220c715d025271d8adbd870d693262a03a17747ce7f828b940"
+    },
+    {
+      "bytes": 931,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/user-authority-r1.json",
+      "sha256": "00cfef569a390a7f22399230178deeec50430b3f9efc4f0a604d5081d2059792"
+    }
+  ],
+  "job": "50071",
+  "mapping": {
+    "0": "EN-S",
+    "1": "EN-F",
+    "2": "EN-COV",
+    "3": "EN-F4"
+  },
+  "observation": {
+    "arms": {
+      "EN-COV": {
+        "B1_stages": [],
+        "started": false
+      },
+      "EN-F": {
+        "B1_stages": [
+          "ENTRY.json",
+          "native/native-binding.json",
+          "protected-provenance.json",
+          "geometry/space.json"
+        ],
+        "started": true
+      },
+      "EN-F4": {
+        "B1_stages": [],
+        "started": false
+      },
+      "EN-S": {
+        "B1_stages": [
+          "ENTRY.json",
+          "native/native-binding.json",
+          "protected-provenance.json",
+          "geometry/space.json"
+        ],
+        "started": true
+      }
+    },
+    "job": "50071",
+    "queue": "50071_[2-3%2]|PENDING|janghj|odeedit_enfc_S4_s4|(JobArrayTaskLimit)|gres/gpu:rtx_pro_6000:1|N/A\n50071_1|RUNNING|janghj|odeedit_enfc_S4_s4|server4|gres/gpu:rtx_pro_6000:1|2026-09-18T15:01:07\n50071_0|RUNNING|janghj|odeedit_enfc_S4_s4|server4|gres/gpu:rtx_pro_6000:1|2026-09-18T15:01:07",
+    "time": "2026-09-18T06:04:44.160928+00:00"
+  },
+  "raw_Git": false,
+  "source": {
+    "archive": {
+      "bytes": 583680,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/source.tar",
+      "sha256": "d2d31418632d98f9056db20666a663e79dde4bcb3c6ddbdc90cf0a2b771496bf"
+    },
+    "head": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+    "tree": "aaacc6a0c55e19038a81516f40a9b4938c3fb38a"
+  },
+  "status": "S4_REGISTERED_RUNNING_AWAITING_INITIAL"
+}
