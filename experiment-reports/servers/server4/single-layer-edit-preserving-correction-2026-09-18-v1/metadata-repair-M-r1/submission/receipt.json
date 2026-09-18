@@ -1,0 +1,95 @@
+{
+  "CPU_new_tests": 7,
+  "S_R_L": 0,
+  "T": "SKIPPED_USER_DIRECTED",
+  "automatic_resume": false,
+  "cleanup_completion": "NOT_VERIFIED",
+  "current_allocation": "RUNNING_NOT_FINAL; no task-end cost report",
+  "deleted_or_moved": 0,
+  "execution": {
+    "archive": {
+      "bytes": 512000,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source.tar",
+      "sha256": "d3dd9b928a25da42ce4bca4e7dcc3288ef9cd5122d57ef83c88291b5d639a65f"
+    },
+    "head": "87f65ea2abcbe7e77e04367f73a001d63443734b",
+    "source_root": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source",
+    "tree": "980c04b3e998caab0284b855041f6ad3e2e30356"
+  },
+  "final_L4_required": 80,
+  "free_bytes": 195109154816,
+  "full_M_complete": false,
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "held": {
+    "bytes": 3927,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/held-inspection.json",
+    "sha256": "0f949f3113f4d0235b1a9a5f962e44d94f6678bc32fc7a5f6671743a28525b76"
+  },
+  "independent_red": false,
+  "initials": [],
+  "job": "50050",
+  "lock": {
+    "bytes": 152582,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/execution.lock.json",
+    "sha256": "635dd6e953e32e8278a8d7ff5c2cb3f3c9a6ad3625fbed14bc67da9a3c71a5a1"
+  },
+  "monitoring_active": true,
+  "native_reuse": [
+    "b001",
+    "b002",
+    "b003"
+  ],
+  "new_T": 0,
+  "new_native_fits_max": 7,
+  "new_native_targets_max": 700,
+  "observation": {
+    "bytes": 2427,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/observation-001.json",
+    "sha256": "d23d2837591924af92919ee4c8ff7ab951c1dc22490a50dddb6678c5d4407b71"
+  },
+  "observed_time": "2026-09-18T04:22:44.189818+00:00",
+  "old_50021_allocation_GPU_seconds": 2301,
+  "original_reuse_matrix": {
+    "bytes": 395620,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/reuse/m-reuse-decisions.json",
+    "sha256": "0c0d25dc81336c20670bc3aa86b9412eac949bfde97943a04cd280a6fb67d1eb"
+  },
+  "original_reuse_plan": {
+    "bytes": 1426,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/reuse/m-execution-plan.csv",
+    "sha256": "56e6d86f2624977400c35660af03383b20309f4f7a05352e277d8bd53ddc5289"
+  },
+  "prior_49928_49973_allocation_GPU_seconds": 3231,
+  "prior_attempt": {
+    "bytes": 1095,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/old-attempt-terminal.json",
+    "sha256": "93a3d6ae0914a20a943f064451ae2cc9e066de6d58a63eb7c96119770fc6285f"
+  },
+  "queue": "50050_[2-9%2]|odeedit_enfc_M_s4|PENDING|(JobArrayTaskLimit)|gres/gpu:rtx_pro_6000:1|\n50050_1|odeedit_enfc_M_s4|RUNNING|server4|gres/gpu:rtx_pro_6000:1|server4\n50050_0|odeedit_enfc_M_s4|RUNNING|server4|gres/gpu:rtx_pro_6000:1|server4",
+  "registered_M": 10,
+  "repair_authority": {
+    "bytes": 485,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/user-recall.txt",
+    "sha256": "1194ebfd855add05266cd439cbb30eeade22ec6cf1d7458dc382ade29530217e"
+  },
+  "reserved_bytes_original": 77309411328,
+  "resource": {
+    "bytes": 3857,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/resource-admission.json",
+    "sha256": "fa49143c4dbeeee43f46ccc9b89bb5972e61c7425d33745dabb58f25d3bb226e"
+  },
+  "retained_native_plan": {
+    "bytes": 3715,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/retained-native-plan.json",
+    "sha256": "0f4173c148a342260ff01f29ab0136ff6fc300b66cc18e79bb6f584251d0a9f5"
+  },
+  "scope": "actual initial only, not efficacy/model numerical PASS",
+  "self_audit": true,
+  "status": "M10_REPAIR_RELEASED_AWAITING_ACTUAL_INITIAL",
+  "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
+  "submission": {
+    "bytes": 5570,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/submission.json",
+    "sha256": "212133610e6be892d740ab422471c1501b452285c8a30806083f06614dc8abc0"
+  }
+}

@@ -19,3 +19,16 @@ SHA: `58759653cf7fe28054b01eddd694e65d3c7cc332e6cfc4117777b799d1996554`
 Resume: `/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-skip-t-storage-blocked-r1.json`
 SHA: `c6896966f4af41e758a4801d979269e58d650d2d1877113558e8222b460b55df`
 허용 저장공간 해결 후 명시 recall 필요. 추가조회/자동재개0.
+
+## 사용자 기술수리 recall / M50050 재제출
+
+위 대기는 후속 사용자 storage waiver 및 “기술적 오류는 해당 오류 보고 이후 SH가 직접 수정후 재제출해”로 해제되었다.
+50021 first N4 endpoint의 TorchVersion metadata weights_only reload 오류를 보고하고 builtin str 저장으로 최소 수정했다.
+50021_0/1 FAILED, 정확 live _2–9만 취소; 원자료/2301GPU초 보존, rollback NOT_VERIFIED.
+B1–B3 native REUSE와 B4–10 최대7fresh fit을 새 lock으로 봉인했다.
+M50050_[0–9]%2 전량 held inspection→2026-09-18T04:22:31.192135Z release.
+Source87f65ea2abcbe7e77e04367f73a001d63443734b, lock635dd6e953e32e8278a8d7ff5c2cb3f3c9a6ad3625fbed14bc67da9a3c71a5a1.
+T생략/수치검증미확립/cap2/M-only/80endpoint보존/SRL0 유지. GH direct 수신확인 완료.
+현재 실제 M 초기 gate 확인 중이며 submission 상세 사실은 아래 별도 보고에 있다.
+Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/report-ko.md`
+SHA8d095a4308d7fac69b4a8ed3c710fc6f8cbb2171026888b9632884c2a33cab6b.

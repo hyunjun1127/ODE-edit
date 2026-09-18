@@ -1,0 +1,20 @@
+{
+  "members": [
+    {
+      "bytes": 4198,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/report-ko.md",
+      "sha256": "8d095a4308d7fac69b4a8ed3c710fc6f8cbb2171026888b9632884c2a33cab6b"
+    },
+    {
+      "bytes": 4441,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/receipt.json",
+      "sha256": "841cc5ea1ad8e4785700598f41863314248213d9863da1e91b6da41a896715e0"
+    },
+    {
+      "bytes": 31660,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/input-manifest.json",
+      "sha256": "cb07179143f75e783b9cbae584a03ce1f506fab5cace566f0f92de9ec11ca7a6"
+    }
+  ],
+  "raw_free": true
+}

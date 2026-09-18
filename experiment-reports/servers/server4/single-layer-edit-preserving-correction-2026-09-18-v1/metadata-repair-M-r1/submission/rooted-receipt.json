@@ -1,0 +1,14 @@
+{
+  "actual_initial_scope": [],
+  "full_model_validation": false,
+  "manifest": {
+    "bytes": 1121,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/manifest.json",
+    "sha256": "cbe9653cb7b46db6c2b88f1126240c96d1395aeefdbc488e190b1ae45d61eb4d"
+  },
+  "observation": {
+    "bytes": 2427,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/observation-001.json",
+    "sha256": "d23d2837591924af92919ee4c8ff7ab951c1dc22490a50dddb6678c5d4407b71"
+  }
+}

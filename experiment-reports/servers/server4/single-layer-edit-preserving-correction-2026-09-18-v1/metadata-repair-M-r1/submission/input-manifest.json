@@ -1,0 +1,509 @@
+{
+  "execution_source": [
+    {
+      "bytes": 446,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/alphaedit_strength_neutral_barrier/__init__.py",
+      "relative": "project/run_scripts/alphaedit_strength_neutral_barrier/__init__.py",
+      "sha256": "563abfbbbc8c3a985e4ddd21344537b78575ffd527c9d5cc43188e26af649f10"
+    },
+    {
+      "bytes": 4018,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py",
+      "relative": "project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py",
+      "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e"
+    },
+    {
+      "bytes": 80,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/baseline_mechanism_first/__init__.py",
+      "relative": "project/run_scripts/baseline_mechanism_first/__init__.py",
+      "sha256": "b2e9d8342b5fbea695007641a7b22b3b738cff8979dfe2165231d11144dfaa91"
+    },
+    {
+      "bytes": 8468,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/baseline_mechanism_first/evaluation.py",
+      "relative": "project/run_scripts/baseline_mechanism_first/evaluation.py",
+      "sha256": "5d92319046851aa35df4335d41954ced3bf771fc8d77ac4327540c45a0961189"
+    },
+    {
+      "bytes": 11788,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/baseline_mechanism_first/fixtures.py",
+      "relative": "project/run_scripts/baseline_mechanism_first/fixtures.py",
+      "sha256": "a64be1c27fec76c247d9623542947d59a1fa8fadcccbf1191dd0ca9034e0a2b0"
+    },
+    {
+      "bytes": 73,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/bg_tw_reference/__init__.py",
+      "relative": "project/run_scripts/bg_tw_reference/__init__.py",
+      "sha256": "1ea46f19dcb6c1bd8ed8072e07e9b773e744aef63b01e0f0376e5c6f4470f4c0"
+    },
+    {
+      "bytes": 79,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/bg_tw_reference/ep_tw/__init__.py",
+      "relative": "project/run_scripts/bg_tw_reference/ep_tw/__init__.py",
+      "sha256": "a0e4b6de1811d07eb45d5f4a25e34451af136c911b14fb31b0eef7949bf6ffd9"
+    },
+    {
+      "bytes": 29976,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "relative": "project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "sha256": "9e4d440e9aae260191d2adcfcc631c9d418311f1c4a8a76b7df46c8e9bb7dba5"
+    },
+    {
+      "bytes": 72,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/low_cost_write_donor_pilot/__init__.py",
+      "relative": "project/run_scripts/low_cost_write_donor_pilot/__init__.py",
+      "sha256": "ec8ae70c48eec20fb817886f5a2dd1e5c6ab66ee70515837dc37d43c6d6109f6"
+    },
+    {
+      "bytes": 12154,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/low_cost_write_donor_pilot/fitting.py",
+      "relative": "project/run_scripts/low_cost_write_donor_pilot/fitting.py",
+      "sha256": "859ee2fcfc673344e72c3af8380768304a49fb4682726e31ef62d82b5d5c0db7"
+    },
+    {
+      "bytes": 75,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/__init__.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/__init__.py",
+      "sha256": "5664077b86280c6915b9a4ce2848f7e0e0885612b9abfee637372727731f64c5"
+    },
+    {
+      "bytes": 14877,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/admission.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/admission.py",
+      "sha256": "5a3aeb37eb312d42bb8a9534ccf261faad2630de4e26bad64ff8120a01ce3e69"
+    },
+    {
+      "bytes": 29791,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+      "sha256": "a0c2a6791b3cd9cde2dfaf3dea26277f5d0d2fb0c1c5a415883af058e3ba6b95"
+    },
+    {
+      "bytes": 4595,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+      "sha256": "120e9806a17e9818b0b4bf7a6e48fd772351fcd80360ee64899637054089fa6f"
+    },
+    {
+      "bytes": 1552,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/common.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/common.py",
+      "sha256": "80108b1755fad793406e256dc68bcdb3b7a4d980ed0c9b6186580874984e4e8f"
+    },
+    {
+      "bytes": 9098,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/control.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/control.py",
+      "sha256": "2e409cd9add2cacebef245f275670b80f86492bddfca5616d32873ce10e75bc6"
+    },
+    {
+      "bytes": 22955,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+      "sha256": "9c11d70d16aa3b7265b123c1caa28cc2cf4f1122e7447db8c1eb90c796a50e7a"
+    },
+    {
+      "bytes": 15827,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/handoff.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/handoff.py",
+      "sha256": "595732fba3e9d68228627e32482e6e64b8ee2a7a1f0aad1670235401bce520a6"
+    },
+    {
+      "bytes": 4761,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/metadata_repair.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/metadata_repair.py",
+      "sha256": "30f5fccffd00df502351dc8681b5ec578e90bbe426836977a6e3d9f0dd72daf2"
+    },
+    {
+      "bytes": 5424,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/observe_skip_M.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/observe_skip_M.py",
+      "sha256": "75ab1d592389ac75ee0f36a37d8c44915409e08e369efedc074045a38ef64370"
+    },
+    {
+      "bytes": 36332,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/observer.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/observer.py",
+      "sha256": "fc2174d9636fdaa79854f5823bc22e73461f8b7f145753dd96f3c483892b36ae"
+    },
+    {
+      "bytes": 26349,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+      "sha256": "0c602dc58fd40ade4e13673483d025cc77a55d196a8aa9bcce463a6fe6a08db8"
+    },
+    {
+      "bytes": 2889,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/paired_stop.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/paired_stop.py",
+      "sha256": "f6900e3cc3d689a42219a6404c5417d4249d2f4962bebc58eeb3767ed633bc59"
+    },
+    {
+      "bytes": 2496,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/preflight.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/preflight.py",
+      "sha256": "7bc45922b6d5e6080f3de1c58e3662a144ea8e8d69b6094bcc2091b1b4f64e05"
+    },
+    {
+      "bytes": 9575,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/preparation.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/preparation.py",
+      "sha256": "99f015d8f3de9277111bf6642bf8dfc6546143d75f32197e584dea401e1c77e5"
+    },
+    {
+      "bytes": 2682,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/publication_check.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/publication_check.py",
+      "sha256": "68610f3275b2d9bd0f4e80358787891adecb6d8057acc6973de8ae0b6c6dc811"
+    },
+    {
+      "bytes": 3079,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/retained_native.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/retained_native.py",
+      "sha256": "8f32f4021d536970eb86bdce6c83bc9158e2c69d12acbf47a7b9086a84a0169f"
+    },
+    {
+      "bytes": 3256,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/reuse_bindings.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/reuse_bindings.py",
+      "sha256": "db393a1d9f1fbe030c18af3b847fb660cae37b850e125b8e7baf764fa0a1ce57"
+    },
+    {
+      "bytes": 1095,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/run.sbatch",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/run.sbatch",
+      "sha256": "f2d44a92c5c35ce2a75bed845c587160b73d712a5ddf1ceedb45bf991117c22a"
+    },
+    {
+      "bytes": 23182,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/runner.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/runner.py",
+      "sha256": "f175acf98f5f909a98ba314e61352771ae296e3fbb60d1b1b2c4c9e458ae5965"
+    },
+    {
+      "bytes": 13744,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+      "sha256": "43576f0aef03beb45409bc9d08ae798ae089ee7f7288b7bbf7a928d03c0c2de7"
+    },
+    {
+      "bytes": 3662,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/serialization_rca.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/serialization_rca.py",
+      "sha256": "7374d284803721a028c7975e7621af0fea396f12b0a257b23e25b79378c4067c"
+    },
+    {
+      "bytes": 8087,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/skip_M_handoff.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/skip_M_handoff.py",
+      "sha256": "2d944d97bfd4bd3ef1ac53365f258497600b12f6887a55d2796c43f0a1fdeca8"
+    },
+    {
+      "bytes": 10966,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/skip_t_control.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_control.py",
+      "sha256": "c5c3d6c99b15cadbad8474b916dc1bd1eef11903b97e3585c4e70add162dfb7f"
+    },
+    {
+      "bytes": 2779,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/skip_t_preflight.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_preflight.py",
+      "sha256": "c0a1a9b8f9f8ccd0d0abc30f65cec3996a010a2a306d6ec32d010fcf5cc67b44"
+    },
+    {
+      "bytes": 7593,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/skip_t_resource_handoff.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_resource_handoff.py",
+      "sha256": "171241965786060e9a4c54e83fc0834e4c743fd5c18553f04d5d2e797f20a867"
+    },
+    {
+      "bytes": 1861,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/storage_waiver.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/storage_waiver.py",
+      "sha256": "180195fbd957edecc1aa1f2200ca23fab90822ccbd4681266226f6453a324543"
+    },
+    {
+      "bytes": 13571,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/technical.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/technical.py",
+      "sha256": "f93b40266ec672c9e9cfdd99ae55277ac646be8a7ccfbf465cada7ddc340675a"
+    },
+    {
+      "bytes": 8381,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/technical_resume.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/technical_resume.py",
+      "sha256": "6cec412cef310bd63e84650c550925762b9bf54d3e771a736c34f22aa7af9d2d"
+    },
+    {
+      "bytes": 2369,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/test_metadata_repair.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/test_metadata_repair.py",
+      "sha256": "c9a254d42f9208c1d7b82d90c7222d90ee1403576007d3875ce46e23286f12e4"
+    },
+    {
+      "bytes": 2130,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_admission.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_admission.py",
+      "sha256": "250501bddbb1b986d2f795c8b30e532df41b3172dd65aa90c0f172911ed2ed5a"
+    },
+    {
+      "bytes": 8423,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_alltoken.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_alltoken.py",
+      "sha256": "e07c0af88510f0628d51abdf1e272a92399581287dfccd58d05b1e34ce308913"
+    },
+    {
+      "bytes": 8692,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_geometry.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_geometry.py",
+      "sha256": "0d347b0e05e4e9a662a056dafcf8a76bc6a0d2169ae8110c517b03d4d24d714d"
+    },
+    {
+      "bytes": 3428,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_integration_boundaries.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_integration_boundaries.py",
+      "sha256": "29d183058706ace3875b7f8ba6c82b218ff3ca493544805254f08ed297067c40"
+    },
+    {
+      "bytes": 19720,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_observer.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_observer.py",
+      "sha256": "3cdaaaf2f503e3083261f6a05370523f0ed92fe4949d6c22375d95055bdfbf8c"
+    },
+    {
+      "bytes": 13828,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_optimizer.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_optimizer.py",
+      "sha256": "b36bdf7bbce853d9a136a3b894089ca7487b927bcdf6b71616a37b2737d15d02"
+    },
+    {
+      "bytes": 16498,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_runner_observer_boundary.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_runner_observer_boundary.py",
+      "sha256": "1d4eccd09c0e6744f51243a6a06f01af2f1c60619a8fde006312c2b163fc23dc"
+    },
+    {
+      "bytes": 3046,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_skip_t.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_skip_t.py",
+      "sha256": "b4ff0dff191d0160694a117c526c2d2df0d2442637dd39875e796c54666426a7"
+    },
+    {
+      "bytes": 2229,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/tests/test_storage_waiver.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_storage_waiver.py",
+      "sha256": "928bbdacf1a577c0d39022cb5c9a558088086244372a82ad0e0a4c01ddbf37c0"
+    },
+    {
+      "bytes": 2429,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_edit_preserving_correction/validation_route.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/validation_route.py",
+      "sha256": "334cc231d35c2a94509cf87a58d705c65ae314f876071952945e855ad07a3893"
+    },
+    {
+      "bytes": 84,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_zflow/__init__.py",
+      "relative": "project/run_scripts/single_layer_zflow/__init__.py",
+      "sha256": "f58b589f598e8da4f89096e14469947f57ee66aa726e23dad6e89ccd43bc0179"
+    },
+    {
+      "bytes": 18376,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/project/run_scripts/single_layer_zflow/native_binding.py",
+      "relative": "project/run_scripts/single_layer_zflow/native_binding.py",
+      "sha256": "49ac3c4af8a6646e4b9735473473b776dc1e7fbc15b3981712f9c8cc841beb4f"
+    },
+    {
+      "bytes": 6344,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/source/scripts/fixed_counterfact.py",
+      "relative": "scripts/fixed_counterfact.py",
+      "sha256": "8201a570b19a9e4e93ec7528d6a9131d5c7b203ddf333cba83d73f31220f9000"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 152582,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/execution.lock.json",
+      "sha256": "635dd6e953e32e8278a8d7ff5c2cb3f3c9a6ad3625fbed14bc67da9a3c71a5a1"
+    },
+    {
+      "bytes": 5570,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/submission.json",
+      "sha256": "212133610e6be892d740ab422471c1501b452285c8a30806083f06614dc8abc0"
+    },
+    {
+      "bytes": 3927,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/held-inspection.json",
+      "sha256": "0f949f3113f4d0235b1a9a5f962e44d94f6678bc32fc7a5f6671743a28525b76"
+    },
+    {
+      "bytes": 3857,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/resource-admission.json",
+      "sha256": "fa49143c4dbeeee43f46ccc9b89bb5972e61c7425d33745dabb58f25d3bb226e"
+    },
+    {
+      "bytes": 4390,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/validation-waiver-binding.json",
+      "sha256": "c0a41a33ea6c3ad7458353b20a01139ee10a5838256a59b07137c9b4abdeed7a"
+    },
+    {
+      "bytes": 951,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/skip-t-all-m-override.json",
+      "sha256": "24d30df8f4f9598ae6dad96079ae9ec18b8d1dfcfa3d8ee4bd5a7155b4457d12"
+    },
+    {
+      "bytes": 897,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/storage-waiver-submit-override.json",
+      "sha256": "7d5781c5f96fad2a02c9dc46f7f9de1af172b578d5ec7494aa7b032ec71b55d2"
+    },
+    {
+      "bytes": 485,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/user-recall.txt",
+      "sha256": "1194ebfd855add05266cd439cbb30eeade22ec6cf1d7458dc382ade29530217e"
+    },
+    {
+      "bytes": 452,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/cancel-result.json",
+      "sha256": "8efceaea8957b13fe94713000b854b74f8d2efb3dfaf141f698926d10c574208"
+    },
+    {
+      "bytes": 1095,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/old-attempt-terminal.json",
+      "sha256": "93a3d6ae0914a20a943f064451ae2cc9e066de6d58a63eb7c96119770fc6285f"
+    },
+    {
+      "bytes": 3715,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/retained-native-plan.json",
+      "sha256": "0f4173c148a342260ff01f29ab0136ff6fc300b66cc18e79bb6f584251d0a9f5"
+    },
+    {
+      "bytes": 1109,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/metadata-repair-r1/cpu-regression.json",
+      "sha256": "71f01af9c5d4d12f60873ed1d0c474fe1bd2b8aba4131774488819beeb3b67b3"
+    },
+    {
+      "bytes": 3486,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/storage-waiver-r1/serialization-rca.json",
+      "sha256": "e239c2139c204d0bce49417dd39f50888dfa1963d214e334f600c3831da345e7"
+    }
+  ],
+  "raw_payload_in_git": false,
+  "unchanged_numerical_source": {
+    "alltoken.py": {
+      "current": {
+        "bytes": 29791,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+        "sha256": "a0c2a6791b3cd9cde2dfaf3dea26277f5d0d2fb0c1c5a415883af058e3ba6b95"
+      },
+      "prior": {
+        "bytes": 29791,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+        "sha256": "a0c2a6791b3cd9cde2dfaf3dea26277f5d0d2fb0c1c5a415883af058e3ba6b95"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "binding.py": {
+      "current": {
+        "bytes": 4595,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+        "sha256": "120e9806a17e9818b0b4bf7a6e48fd772351fcd80360ee64899637054089fa6f"
+      },
+      "prior": {
+        "bytes": 4595,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+        "sha256": "120e9806a17e9818b0b4bf7a6e48fd772351fcd80360ee64899637054089fa6f"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "geometry.py": {
+      "current": {
+        "bytes": 22955,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+        "sha256": "9c11d70d16aa3b7265b123c1caa28cc2cf4f1122e7447db8c1eb90c796a50e7a"
+      },
+      "prior": {
+        "bytes": 22955,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+        "sha256": "9c11d70d16aa3b7265b123c1caa28cc2cf4f1122e7447db8c1eb90c796a50e7a"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "observer.py": {
+      "current": {
+        "bytes": 36332,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/observer.py",
+        "sha256": "fc2174d9636fdaa79854f5823bc22e73461f8b7f145753dd96f3c483892b36ae"
+      },
+      "prior": {
+        "bytes": 36332,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/observer.py",
+        "sha256": "fc2174d9636fdaa79854f5823bc22e73461f8b7f145753dd96f3c483892b36ae"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "optimizer.py": {
+      "current": {
+        "bytes": 26349,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+        "sha256": "0c602dc58fd40ade4e13673483d025cc77a55d196a8aa9bcce463a6fe6a08db8"
+      },
+      "prior": {
+        "bytes": 26349,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+        "sha256": "0c602dc58fd40ade4e13673483d025cc77a55d196a8aa9bcce463a6fe6a08db8"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "reuse_bindings.py": {
+      "current": {
+        "bytes": 3256,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/reuse_bindings.py",
+        "sha256": "db393a1d9f1fbe030c18af3b847fb660cae37b850e125b8e7baf764fa0a1ce57"
+      },
+      "prior": {
+        "bytes": 3256,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/reuse_bindings.py",
+        "sha256": "db393a1d9f1fbe030c18af3b847fb660cae37b850e125b8e7baf764fa0a1ce57"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "run.sbatch": {
+      "current": {
+        "bytes": 1095,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/run.sbatch",
+        "sha256": "f2d44a92c5c35ce2a75bed845c587160b73d712a5ddf1ceedb45bf991117c22a"
+      },
+      "prior": {
+        "bytes": 1095,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/run.sbatch",
+        "sha256": "f2d44a92c5c35ce2a75bed845c587160b73d712a5ddf1ceedb45bf991117c22a"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "runtime.py": {
+      "current": {
+        "bytes": 13744,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+        "sha256": "43576f0aef03beb45409bc9d08ae798ae089ee7f7288b7bbf7a928d03c0c2de7"
+      },
+      "prior": {
+        "bytes": 13744,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+        "sha256": "43576f0aef03beb45409bc9d08ae798ae089ee7f7288b7bbf7a928d03c0c2de7"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    },
+    "technical.py": {
+      "current": {
+        "bytes": 13571,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/technical.py",
+        "sha256": "f93b40266ec672c9e9cfdd99ae55277ac646be8a7ccfbf465cada7ddc340675a"
+      },
+      "prior": {
+        "bytes": 13571,
+        "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/source/project/run_scripts/single_layer_edit_preserving_correction/technical.py",
+        "sha256": "f93b40266ec672c9e9cfdd99ae55277ac646be8a7ccfbf465cada7ddc340675a"
+      },
+      "status": "EXACT_BYTES_NOT_GPU_PASS"
+    }
+  }
+}

@@ -45,8 +45,67 @@
     "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/full-read-m0.json",
     "sha256": "96aab038b4d8de8eace27d17961ee31db5933873e3c2fb6c2aa197328aaf7ac3"
   },
+  "historical_skip_recall": {
+    "M_intended": 10,
+    "M_jobs": [],
+    "M_registered": 0,
+    "T": "SKIPPED_USER_DIRECTED",
+    "actual_initial": "NOT_RUN",
+    "blocked_on": "available71.1144GiB below existing72GiB storage reserve; no deletion or retention waiver",
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "new_GPU_seconds": 0,
+    "nonce": "ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1",
+    "prepared_source": "fb9d2ac41455dc6e97fa78080b7307047f8395b2",
+    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/resource-blocked-ko.md",
+    "report_sha256": "58759653cf7fe28054b01eddd694e65d3c7cc332e6cfc4117777b799d1996554",
+    "resume": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-skip-t-storage-blocked-r1.json",
+    "resume_sha256": "c6896966f4af41e758a4801d979269e58d650d2d1877113558e8222b460b55df"
+  },
+  "historical_status": "PAIRED_STOP_WAITING_USER_RESUME",
   "instruction": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
-  "monitoring_active": false,
+  "latest_recall": {
+    "M_array": "50021_[0-9]%2",
+    "M_registered_released": 10,
+    "S_R_L_submitted": 0,
+    "T": "SKIPPED_USER_DIRECTED",
+    "archive_sha256": "acc8743073fa6892a81c8b1b4e0c216e8b17e5c57b4fb2e1cbf977705b447748",
+    "automatic_resume": false,
+    "deletion_or_move": 0,
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "initial_observed": false,
+    "lock_sha256": "7b828617a23d5659cb39868910070d5e6eeb7be0d8bef147ebd7401e998abaf6",
+    "monitoring_active": true,
+    "monitoring_scope": "bounded exact M initial only; no automatic follow-up",
+    "nonce": "ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1",
+    "old_T_dependency_or_failcancel": false,
+    "root": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-skip-t-v1",
+    "source": "894d2c7120f67b8f716d021e150f121d7d68dc38",
+    "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
+    "tree": "518fd724d47e9f4ee3203bae0a225f38b79a4d37"
+  },
+  "metadata_repair_r1": {
+    "manifest": {
+      "bytes": 1121,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/manifest.json",
+      "sha256": "cbe9653cb7b46db6c2b88f1126240c96d1395aeefdbc488e190b1ae45d61eb4d"
+    },
+    "receipt": {
+      "bytes": 4441,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/receipt.json",
+      "sha256": "841cc5ea1ad8e4785700598f41863314248213d9863da1e91b6da41a896715e0"
+    },
+    "report": {
+      "bytes": 4198,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/report-ko.md",
+      "sha256": "8d095a4308d7fac69b4a8ed3c710fc6f8cbb2171026888b9632884c2a33cab6b"
+    },
+    "rooted_receipt": {
+      "bytes": 695,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/rooted-receipt.json",
+      "sha256": "38dc6b949129be0c062508c30ecfe9be30681959ff3b4d017b0e43459b77d67d"
+    }
+  },
+  "monitoring_active": true,
   "new_analysis_GPU": 0,
   "nonce": "ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1",
   "override": {
@@ -89,42 +148,5 @@
     "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
   },
   "source_data_deleted": false,
-  "status": "M10_RELEASED_AWAITING_ACTUAL_INITIAL_WITH_T_SKIPPED",
-  "historical_status": "PAIRED_STOP_WAITING_USER_RESUME",
-  "historical_skip_recall": {
-    "nonce": "ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1",
-    "T": "SKIPPED_USER_DIRECTED",
-    "full_numerical_validation": "NOT_ESTABLISHED",
-    "prepared_source": "fb9d2ac41455dc6e97fa78080b7307047f8395b2",
-    "M_jobs": [],
-    "M_registered": 0,
-    "M_intended": 10,
-    "new_GPU_seconds": 0,
-    "actual_initial": "NOT_RUN",
-    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/resource-blocked-ko.md",
-    "report_sha256": "58759653cf7fe28054b01eddd694e65d3c7cc332e6cfc4117777b799d1996554",
-    "resume": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-skip-t-storage-blocked-r1.json",
-    "resume_sha256": "c6896966f4af41e758a4801d979269e58d650d2d1877113558e8222b460b55df",
-    "blocked_on": "available71.1144GiB below existing72GiB storage reserve; no deletion or retention waiver"
-  },
-  "latest_recall": {
-    "nonce": "ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1",
-    "T": "SKIPPED_USER_DIRECTED",
-    "full_numerical_validation": "NOT_ESTABLISHED",
-    "M_array": "50021_[0-9]%2",
-    "M_registered_released": 10,
-    "initial_observed": false,
-    "source": "894d2c7120f67b8f716d021e150f121d7d68dc38",
-    "tree": "518fd724d47e9f4ee3203bae0a225f38b79a4d37",
-    "archive_sha256": "acc8743073fa6892a81c8b1b4e0c216e8b17e5c57b4fb2e1cbf977705b447748",
-    "lock_sha256": "7b828617a23d5659cb39868910070d5e6eeb7be0d8bef147ebd7401e998abaf6",
-    "root": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-skip-t-v1",
-    "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
-    "deletion_or_move": 0,
-    "old_T_dependency_or_failcancel": false,
-    "monitoring_active": true,
-    "monitoring_scope": "bounded exact M initial only; no automatic follow-up",
-    "automatic_resume": false,
-    "S_R_L_submitted": 0
-  }
+  "status": "M10_REPAIR_RELEASED_AWAITING_ACTUAL_INITIAL"
 }

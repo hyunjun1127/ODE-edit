@@ -46,3 +46,10 @@ nonce ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1 FULL_READ.
 M50021_[0–9]%2 전량 held inspection→release(2026-09-18T03:54:49.387131Z).
 실행source894d2c7, lock7b828617a23d5659cb39868910070d5e6eeb7be0d8bef147ebd7401e998abaf6.
 초기03:55:08Z _0/_1 RUNNING, 나머지arraythrottle 대기. 등록완료이지 actualinitial/수치PASS가 아니다.
+
+## 기술 오류 보고 후 직접 수리·재제출 승인 적용
+
+사용자 원문 “기술적 오류는 해당 오류 보고 이후 SH가 직접 수정후 재제출해” 수신.
+50021 저장 metadata 오류를 먼저 보고하고 수치불변 수리 후50050 M10/10 %2를 제출했다.
+Native B1/B2/B3 재사용, 원 실패비용·partial 보존. T0/SRL0/삭제이동0.
+실제 M 초기 gate 후 agent 모니터링 중지 경계를 유지한다.
