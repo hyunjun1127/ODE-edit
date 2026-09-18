@@ -86,6 +86,7 @@ class PublicationTests(unittest.TestCase):
                 create_json(raw/'arms'/arm/'execution-exactness.json',dict(trials=[],full_sweep_rows=[]))
             create_json(raw/'matched-exactness.json',dict(status='CPU_FIXTURE_ONLY'))
             create_json(raw/'technical/checks.json',dict(pass_=True))
+            create_json(raw/'geometry/EN-F.json',dict(status='CPU_FIXTURE_ONLY',dimension=1))
             create_json(raw/'artifact-manifest.json',dict(members=[]))
             work={arm:dict(wall_seconds=1.,schedule_entry_pre_timing_seconds=.1,
                 optimizer={'gradient_sweeps':0,'objective_trial_sweeps':0,'attempted_trial_slots':0},

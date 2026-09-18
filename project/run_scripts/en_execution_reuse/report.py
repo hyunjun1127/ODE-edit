@@ -100,7 +100,7 @@ def run(lock_path,repo,scheduler_path,local_output):
     CSV(directory/'W0-correct-N-retention.csv',retention)
     CSV(directory/'strict-joint.csv',[dict(endpoint=k,denominator=100,**v['strict']) for k,v in reduced.items()])
     exact=read(raw/'matched-exactness.json');create_json(directory/'exactness-summary.json',exact)
-    work=end['arm_work'];compute=[];trials=[];coverage=[];conditions=[]
+    work=end['arm_work'];compute=[];trials=[];coverage=[];conditions=[];method=[]
     for arm in ARMS:
         receipt=read(raw/'arms'/arm/'selection-ledger.json')
         for key,v in work[arm].items():
@@ -113,6 +113,11 @@ def run(lock_path,repo,scheduler_path,local_output):
                 accepted=row['accepted'],reason=row.get('reason'),actual_norm=row['actual_norm'],ideal_norm=row['ideal_norm'],
                 candidate_sha256=row['weight_sha256']))
         evidence=read(raw/'arms'/arm/'execution-exactness.json')
+        method.append(dict(arm=arm,loss=evidence.get('loss'),chi=evidence.get('chi'),eta0=evidence.get('eta0'),
+            G_sha256=evidence.get('gradient_sha256'),H_sha256=evidence.get('projected_gradient_sha256'),
+            selected_sha256=evidence.get('selected_sha256'),stop_reason=evidence.get('stop_reason'),
+            gradient_sweeps=evidence.get('gradient_sweeps'),history_appends=evidence.get('history_appends'),
+            trials=len(evidence['trials']),accepted_trials=sum(t['decision']['accepted'] for t in evidence['trials'])))
         for sweep in evidence['full_sweep_rows']:
             coverage.append(dict(arm=arm,gradient=sweep['gradient'],candidate=sweep['weight_sha256'],
                 signed_KL=sweep['loss'],rows_sha256=sweep['rows_sha256'],**sweep['coverage']))
@@ -126,9 +131,16 @@ def run(lock_path,repo,scheduler_path,local_output):
                     max_NLL_difference=detail.get('max_NLL_difference'),logit_max=detail.get('logit_max'),
                     logit_rms=detail.get('logit_rms'),actual_response_pass=detail.get('actual_response_pass'),
                     actual_leakage_pass=detail.get('actual_leakage_pass'),
+                    ideal_response_relative=detail.get('ideal_response_relative'),
+                    actual_max_token_normalized_response=detail.get('actual_max_token_normalized_response'),
+                    actual_projection_leakage_relative=detail.get('actual_projection_leakage_relative'),
+                    ideal_norm=detail.get('ideal_norm'),actual_norm=detail.get('actual_norm'),
+                    rounding_delta_norm=detail.get('rounding_delta_norm'),
                     raw_detail_sha256=digest(detail)))
     CSV(directory/'compute.csv',compute);CSV(directory/'trials.csv',trials)
     CSV(directory/'objective-coverage.csv',coverage);CSV(directory/'candidate-conditions.csv',conditions)
+    CSV(directory/'method-summary.csv',method)
+    create_bytes(directory/'shared-geometry.json',(raw/'geometry/EN-F.json').read_bytes())
     CSV(directory/'Dev128-observer.csv',[resolved_dev(raw,arm) for arm in ('N4',*ARMS)])
     CSV(directory/'setup-and-storage.csv',[dict(quantity=k,value=v) for k,v in end['setup_timing'].items()]+
         [dict(quantity='new_B1_artifact_logical_bytes',value=artifact_result['logical_bytes'])])
@@ -210,7 +222,7 @@ RS/PS는 new NLL<true NLL, NS는 true NLL<new NLL이며 tie=failure다. Current 
 
 두 arm은 LEGACY_SCHEDULE_R512_G256와 REUSE_SCHEDULE_R512_G256다. 같은 R512/G256 adapter·full-vocab loss·native WN·K_E·Q_E이며 arm 사이 G/H/trial/판정 공유0. 기존 S64 historical 시간은 비교 분모가 아니다. 정확한 문서별 loss-row digest, G/H·chi·eta, trial FP32 SHA·Armijo·개별 guard·invariant·선택 endpoint를 비교했다. 보호 tolerance를 dedup 동등성 tolerance로 사용하지 않았다.
 
-판정/모든 불일치: [exactness-summary.json](exactness-summary.json). Trial별값은 [trials.csv](trials.csv), [후보별 조건](candidate-conditions.csv), [실제 sweep coverage](objective-coverage.csv)에 있다. 빈 공간/rank 미확정으로 실제 gradient가 없으면 그 범위를 별도로 표시하며 full512 gradient 수행으로 승격하지 않는다. 새 threshold·native target·layer·8trial 축소·GSS·reference subsampling은 없다.
+판정/모든 불일치: [exactness-summary.json](exactness-summary.json). [Loss/chi/eta/G·H SHA/선택·fallback](method-summary.csv), [공통 geometry와 rank](shared-geometry.json), [trial별값](trials.csv), [후보별 조건·FP32 response](candidate-conditions.csv), [실제 sweep coverage](objective-coverage.csv)를 함께 보존했다. 빈 공간/rank 미확정으로 실제 gradient가 없으면 그 범위를 별도로 표시하며 full512 gradient 수행으로 승격하지 않는다. 새 threshold·native target·layer·8trial 축소·GSS·reference subsampling은 없다.
 
 ## 3. 데이터와 coverage
 

@@ -14,7 +14,7 @@
     "total_required_documents": 640,
     "actual_correction_or_B1_parity": "NOT_RUN"
   },
-  "CPU_tests": {"passed": 142, "seconds": 42.066, "receipt": "local/en-execution-reuse/20260919-v1/receipts/cpu-matched-r7.json", "actual_Llama_PASS": false},
+  "CPU_tests": {"passed": 142, "seconds": 39.298, "receipt": "local/en-execution-reuse/20260919-v1/receipts/cpu-matched-r8.json", "actual_Llama_PASS": false},
   "new_matched_native_fit_calls_planned": 0,
   "prior_native": "EXACT_RETAINED_SAME_HOST_B100_CAPSULE_REUSE_RUNTIME_BINDING_PENDING",
   "matched_schedule_jobs": [],
