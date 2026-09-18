@@ -1,0 +1,50 @@
+{
+  "description_ko": "GH가 정독한 사용자 원문 및 linked source 정본. 원 root와 byte-exact 대조; method 원본은 수정하지 않고 별도 B1-only SH4 envelope 우선.",
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "destination_base": "13fae514d476a1c5a15b34f3cf3964c105ba4eb9",
+  "members": [
+    {
+      "path": "project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md",
+      "sha256": "7d6c07cc07595b8828af76e6c0fbd53740aa5ca0b6d044773f6f13cec461ab3d"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-v2.md",
+      "sha256": "c48f014c2b280d39566a315bc8a512c2555c52bd5fb17b2a351ee9b37ef3a6aa"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json",
+      "sha256": "60ba775fe4561f5fe4dcda28e6ef7cfd974c0277904dea6dc42b9ef08c41d361"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-cells-v2.csv",
+      "sha256": "cca278fd5539aecd80601edd2e8cbcfe1adf7abd91d4ca69d82ae14cf236f46e"
+    },
+    {
+      "path": "audits/global/2026-09-18-base-choice-constrained-write/check_math.py",
+      "sha256": "518a039324dc0f157471a2ad72b5295c389141bb6ab557b7eafd7e6eae990d8d"
+    },
+    {
+      "path": "audits/global/2026-09-18-base-choice-constrained-write/math-checks.json",
+      "sha256": "3e165482b1fa89809a3d7fb00c4717236f2ed3b908c1a3b05c29bb5abf40abb3"
+    },
+    {
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0"
+    },
+    {
+      "path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-contract-v1.json",
+      "sha256": "728af7c85ab67f2859eb529457d99536b43010bb75d662b9fef59328f5b7a526"
+    }
+  ],
+  "overrides": {
+    "target": "SH4/server4",
+    "max_batches": 1,
+    "sequential_authorized": false
+  },
+  "not_claimed": [
+    "GPU_VALID",
+    "CAPSULE_BUILT",
+    "MODEL_IMPLEMENTED",
+    "TASK_DELIVERED_AT_MANIFEST_CREATION"
+  ]
+}
