@@ -114,8 +114,14 @@ class Runtime:
         if reuse:
             if [r['case_id'] for r in records]!=self.lock['sample_order'][:100]:raise ValueError('REUSE_EPISODE_NOT_B1')
             path=Path(self.lock['reused_native_b1'])
+            sealed=self.lock['reused_native_binding']
+            if path.stat().st_size!=sealed['native']['bytes'] or sha(path)!=sealed['native']['sha256']:
+                raise ValueError('REUSED_NATIVE_FILE_IDENTITY')
             result=torch.load(path,weights_only=True,mmap=True,map_location='cpu')
             receipt=result['receipt']
+            if tensor_sha(result['weight'])!=sealed['b1_endpoint_verified'] or tensor_sha(result['weight'])!=receipt['endpoint_weight_sha256']:
+                raise ValueError('REUSED_NATIVE_ENDPOINT_BYTES')
+            if [r['case_id'] for r in result['target_observations']]!=[r['case_id'] for r in records]:raise ValueError('REUSED_NATIVE_TARGET_ORDER')
             if receipt['entry_weight_sha256']!=before['W'] or receipt['history_sha256']!=before['M']:
                 raise ValueError('REUSE_W0_M0_MISMATCH')
             if receipt['projector_sha256']!=tensor_sha(self.P):raise ValueError('REUSE_P_MISMATCH')
@@ -182,7 +188,7 @@ class Runtime:
         return total/len(rows),g,rows
 
     def byte_hash_nonselected(self):
-        # Used at T boundaries only: no persistent full-model copy.
+        # T and M episode boundaries: no persistent full-model copy.
         return {n:tensor_sha(p) for n,p in self.model.named_parameters() if n!=WEIGHT}
 
 

@@ -99,17 +99,38 @@ def submit_T(lockpath):
     job=call(args).split(';')[0]
     inspection=call(['scontrol','show','job',job])
     write(parent/'held-inspection.json',dict(job=job,arguments=args,inspection=inspection,lock=member(lockpath),resource=audit))
-    for required in ('UserId=janghj','JobState=PENDING','JobHeldUser','NumCPUs=8','mem=60416M','Requeue=0','server4'):
+    for required in ('UserId=janghj','JobState=PENDING','JobHeldUser','NumCPUs=8','Requeue=0','server4'):
         if required not in inspection:raise ValueError('HELD_INSPECTION_'+required)
+    if 'mem=60416M' not in inspection and 'mem=59G' not in inspection:raise ValueError('HELD_MEMORY_NOT_60416_MiB')
     if 'gres/gpu=1' not in inspection and 'gres/gpu:rtx_pro_6000=1' not in inspection:raise ValueError('GPU_REQUEST')
     call(['scontrol','release',job])
     write(parent/'submission.json',dict(job=job,args=args,inspection=inspection,release_time=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         stage='T',M_registered=0,technical_or_pending_NOT_stop=True))
     print(job)
 
+def release_existing_T(lockpath):
+    parent=Path(lockpath).parent;lock=json.loads(Path(lockpath).read_text())
+    if (parent/'submission.json').exists():raise ValueError('ALREADY_RELEASED')
+    held=json.loads((parent/'held-inspection.json').read_text());job=held['job']
+    inspection=call(['scontrol','show','job',job])
+    for required in ('UserId=janghj','JobState=PENDING','JobHeldUser','NumCPUs=8','Requeue=0','gres/gpu=1','mem=59G',
+                     'Command='+lock['source_root']+'/'+PACKAGE+'run.sbatch',str(lockpath)+' T'):
+        if required not in inspection:raise ValueError('EXACT_HELD_RECHECK:'+required)
+    for m in lock['execution']['members']:
+        if sha(m['path'])!=m['sha256']:raise ValueError('SOURCE_DRIFT')
+    write(parent/'held-inspection-r1.json',dict(job=job,inspection=inspection,
+        earlier_control_failure='string formatter expected 60416M; actual59G = 60416MiB, unchanged resources',
+        original=member(parent/'held-inspection.json'),control_source=member(Path(__file__))))
+    call(['scontrol','release',job])
+    write(parent/'submission.json',dict(job=job,args=held['arguments'],stage='T',M_registered=0,
+        release_time=datetime.datetime.now(datetime.timezone.utc).isoformat(),technical_or_pending_NOT_stop=True,
+        narrow_control_repair='accept scheduler equivalent59G formatting; no job/source/resource mutation'))
+    print(job)
+
 def main():
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze','submit-T']);p.add_argument('--worktree');p.add_argument('--attempt',default='attempt-v1');p.add_argument('--lock');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze','submit-T','release-existing-T']);p.add_argument('--worktree');p.add_argument('--attempt',default='attempt-v1');p.add_argument('--lock');a=p.parse_args()
     if a.action=='freeze':freeze(Path(a.worktree),a.attempt)
-    else:submit_T(Path(a.lock))
+    elif a.action=='submit-T':submit_T(Path(a.lock))
+    else:release_existing_T(Path(a.lock))
 
 if __name__=='__main__':main()

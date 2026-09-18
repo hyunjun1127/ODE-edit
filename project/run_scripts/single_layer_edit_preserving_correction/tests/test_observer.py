@@ -1,5 +1,7 @@
 """CPU-only observer fixtures; no pretrained model, GPU, native fit or editor."""
 import copy
+import hashlib
+import json
 from pathlib import Path
 import random
 import types
@@ -206,6 +208,121 @@ class ObserverTests(unittest.TestCase):
         with self.assertRaisesRegex(ObserverBoundary, "BASE_NONSELECTED"):
             self.observer.observe(self.records, self.weight, selection_seal=self.seal())
         self.assertEqual(self.observer.work["model_forward_calls"], 0)
+
+    def reduced_fixture(self, result, *, w0=False):
+        prior = dict(requests=result["requests"], request_order=result["request_order"],
+                     metrics=copy.deepcopy(result["metrics"]), source_binding=result["source_binding"],
+                     evaluator_layout=result["compatibility"]["evaluator_layout"])
+        raw_bytes = json.dumps(prior, sort_keys=True, separators=(",", ":")).encode()
+        proof = dict(status="COMPATIBILITY_SEALED", **result["compatibility"],
+                     source_raw_sha256=hashlib.sha256(raw_bytes).hexdigest(),
+                     endpoint_role="ENDPOINT_CURRENT",
+                     lineage_evidence="CPU fixture, not actual Llama equivalence")
+        if w0:
+            proof.update(endpoint_role="W0_PRETRAINED",
+                         model_pretrained_weight_sha256=proof["endpoint_weight_sha256"])
+        proof["proof_sha256"] = digest(proof)
+        return dict(source_bytes=raw_bytes, proof=proof)
+
+    @staticmethod
+    def reseal_changed_reduced(bundle, change):
+        bundle = copy.deepcopy(bundle)
+        prior = json.loads(bundle["source_bytes"])
+        change(prior)
+        bundle["source_bytes"] = json.dumps(prior, sort_keys=True, separators=(",", ":")).encode()
+        bundle["proof"]["source_raw_sha256"] = hashlib.sha256(bundle["source_bytes"]).hexdigest()
+        bundle["proof"]["proof_sha256"] = digest({k:v for k,v in bundle["proof"].items() if k != "proof_sha256"})
+        return bundle
+
+    def test_reduced_pair_reuse_no_raw_synthesis_no_canonical_forwards(self):
+        prior = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False)
+        bundle = self.reduced_fixture(prior)
+        evaluator = self.observer.bindings["evaluator"]
+        with patch.object(evaluator, "evaluate_pairs", side_effect=AssertionError("covered canonical evaluation repeated")):
+            out = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=bundle)
+        self.assertEqual(out["metrics"], prior["metrics"])
+        self.assertEqual(out["raw"], {})
+        self.assertEqual(out["raw_token_payload"], "NOT_RETAINED_PRIOR")
+        self.assertEqual(out["work"]["canonical_pair_rows_computed"], 0)
+        self.assertEqual(out["work"]["canonical_microbatches_computed"], 0)
+        self.assertEqual(out["work"]["reduced_metric_pairs_reused"], 13)
+        self.assertEqual(out["work"]["greedy_requests_computed"], 1)
+        self.assertEqual(out["work"]["model_forward_calls"], 1)
+        self.assertEqual(out["strict"], prior["strict"])
+        with self.assertRaisesRegex(ObserverBoundary, "EXPLICIT_PROOF"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reuse=out)
+
+    def test_reduced_reuse_rejects_bad_identity_denominator_endpoint_or_source(self):
+        prior = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False)
+        bundle = self.reduced_fixture(prior)
+        wrong = self.reseal_changed_reduced(bundle, lambda p:p["metrics"]["RS"]["rows"][0].update(identity="f"*64))
+        with self.assertRaisesRegex(ObserverBoundary, "PAIR_IDENTITY"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+        wrong = self.reseal_changed_reduced(bundle, lambda p:p["metrics"]["PS"].update(denominator=20))
+        with self.assertRaisesRegex(ObserverBoundary, "PAIR_CARDINALITY"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+        wrong = copy.deepcopy(bundle)
+        wrong["proof"]["endpoint_weight_sha256"] = "f"*64
+        wrong["proof"]["proof_sha256"] = digest({k:v for k,v in wrong["proof"].items() if k != "proof_sha256"})
+        with self.assertRaisesRegex(ObserverBoundary, "ENDPOINT_WEIGHT_SHA256_MISMATCH"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+        wrong = self.reseal_changed_reduced(bundle, lambda p:p.update(source_binding={}))
+        with self.assertRaisesRegex(ObserverBoundary, "SOURCE_SHA"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+        wrong = copy.deepcopy(bundle)
+        wrong["source_bytes"] += b" "
+        with self.assertRaisesRegex(ObserverBoundary, "SOURCE_BYTES_SHA"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+
+    def test_reduced_reuse_validates_inequality_ties_and_strict_counts(self):
+        prior = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False)
+        bundle = self.reduced_fixture(prior)
+        def change(p):
+            row = p["metrics"]["RS"]["rows"][0]
+            row.update(new_nll=1., true_nll=1., margin=0., success=True)
+        wrong = self.reseal_changed_reduced(bundle, change)
+        with self.assertRaisesRegex(ObserverBoundary, "INEQUALITY_OR_TIE"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+        wrong = self.reseal_changed_reduced(bundle, lambda p:p["metrics"]["PS"]["rows"][0].update(new_token_count=99))
+        with self.assertRaisesRegex(ObserverBoundary, "TOKEN_COUNT"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), reduced_metrics_reuse=wrong)
+
+    def test_precomputed_W0_pairs_require_separate_pretrained_endpoint_proof(self):
+        prior = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False)
+        bundle, w0 = self.reduced_fixture(prior), self.reduced_fixture(prior, w0=True)
+        out = self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False,
+                                    reduced_metrics_reuse=bundle, w0_reduced_metrics_reuse=w0)
+        self.assertEqual(out["work"]["model_forward_calls"], 0)
+        self.assertEqual(out["W0_correct_NS"]["lost"], 0)
+        with self.assertRaisesRegex(ObserverBoundary, "PRETRAINED_ENDPOINT_PROOF"):
+            self.observer.observe(self.records, self.weight, selection_seal=self.seal(), greedy=False,
+                                  reduced_metrics_reuse=bundle, w0_reduced_metrics_reuse=bundle)
+
+    def test_W0_source_population_subset_preserves_original_rows_and_layout(self):
+        records = [record(i+1) for i in range(3)]
+        whole = self.observer.observe(records, self.weight, selection_seal=self.seal(records), greedy=False)
+        subset = [records[1]]
+        actual = self.observer.observe(subset, self.weight, selection_seal=self.seal(subset), greedy=False)
+        w0 = self.reduced_fixture(whole, w0=True)
+        original_bytes = w0["source_bytes"]
+        w0["proof"].update(actual["compatibility"])
+        w0["proof"].update(endpoint_role="W0_REFERENCE_SUBSET", selected_case_ids=[2],
+                            source_population=3, source_request_order_sha256=whole["request_order"])
+        w0["proof"]["proof_sha256"] = digest({k:v for k,v in w0["proof"].items() if k != "proof_sha256"})
+        out = self.observer.observe(subset, self.weight, selection_seal=self.seal(subset), greedy=False,
+                                    reduced_metrics_reuse=self.reduced_fixture(actual), w0_reduced_metrics_reuse=w0)
+        self.assertEqual(out["work"]["model_forward_calls"], 0)
+        self.assertEqual(out["W0_correct_NS"]["all_requested_N"], 10)
+        self.assertEqual(out["W0_reference_subset_scope"]["source_population"], 3)
+        self.assertEqual(out["W0_reference_subset_scope"]["selected_population"], 1)
+        self.assertEqual(out["W0_reference_subset_scope"]["current_B100_padding_bit_parity"], "NOT_CLAIMED")
+        self.assertEqual(w0["source_bytes"], original_bytes)
+        bad = copy.deepcopy(w0)
+        bad["proof"]["selected_case_ids"] = [1]
+        bad["proof"]["proof_sha256"] = digest({k:v for k,v in bad["proof"].items() if k != "proof_sha256"})
+        with self.assertRaisesRegex(ObserverBoundary, "SOURCE_ORDER_PROOF"):
+            self.observer.observe(subset, self.weight, selection_seal=self.seal(subset), greedy=False,
+                                  reduced_metrics_reuse=self.reduced_fixture(actual), w0_reduced_metrics_reuse=bad)
 
 
 if __name__ == "__main__":

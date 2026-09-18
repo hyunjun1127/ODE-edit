@@ -33,7 +33,9 @@ class TechnicalHold(RuntimeError):pass
 
 
 def require(directory,name,condition,evidence):
-    receipt=write(directory/(name+'.json'),dict(status='PASS' if condition else 'FAIL',**evidence))
+    payload=dict(evidence);payload['check_status']='PASS' if condition else 'FAIL'
+    payload.setdefault('status',payload['check_status'])
+    receipt=write(directory/(name+'.json'),payload)
     if not condition:raise TechnicalHold(name)
     return receipt
 
@@ -163,6 +165,9 @@ def run(lock):
                 require(directory,'actual-invariant',inv['pass'],inv)
                 station=[cur.key_stationarity(i,weight) for i in range(len(cur.caches))];rt.sync_oracles()
                 require(directory,'perturbed-key-stationarity',all(s['byte_equal'] for s in station),dict(rows=station))
+                physical_parity=[cur.compare_logits(i,weight,weight) for i in range(len(cur.caches))];rt.sync_oracles()
+                require(directory,'nonzero-physical-cached-parity',max(s['max_abs'] for s in physical_parity)<=1e-4,
+                    dict(rows=physical_parity,scope='same nonzero absoluteFP32 Polyak candidate, cached versus independent physical model'))
             else:write(directory/'actual-invariant.json',dict(status='NO_DIRECTION_OR_LOSS_FLOOR',actual_nonzero_path_NOT_TESTED=True))
         else:write(directory/'actual-invariant.json',dict(status=space.status,actual_nonzero_path_NOT_TESTED=True))
         stage='restore'
@@ -184,6 +189,10 @@ def run(lock):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--lock',required=True);a=p.parse_args()
-    lock=json.loads(Path(a.lock).read_text());run(lock)
+    lock=json.loads(Path(a.lock).read_text())
+    if lock.get('resume_prior'):
+        from .technical_resume import run as continue_validated_stages
+        continue_validated_stages(lock)
+    else:run(lock)
 
 if __name__=='__main__':main()
