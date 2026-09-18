@@ -29,6 +29,12 @@
   "technical_skip_inherited": false,
   "storage_waiver_inherited": false,
   "fresh_matched_native_required": true,
+  "pre_submission_en_job_cancel_required": true,
+  "server4_en_checkpoint_deletion_authorized": true,
+  "cleanup_exact_inventory_and_in_use_check_required": true,
+  "shared_baseline_model_teacher_raw_metrics_preserved": true,
+  "other_server_deletion_authorized": false,
+  "new_bpcw_checkpoint_deletion_authorized": false,
   "report": "experiment-reports/servers/server4/bpcw512-20260918-v2/b1/diagnostic-report-ko.md",
   "terminal_state": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL",
   "notes_ko": "원문 Server1/자동 S10 권한은 최신 사용자 SH4/B1-only 지시로 대체. 원 과학 gate는 바꾸지 않음."
