@@ -233,6 +233,44 @@ Report256 미개봉, 새로운 arm/order/후속job0. `max_batches=1`, `sequentia
 최종 상태 **WAITING_USER_APPROVAL_FOR_SEQUENTIAL**, monitoring_active=false, automatic_resume=false.
 '''
     create_bytes(report/'diagnostic-report-ko.md',reporttext.encode())
+    create_bytes(report/'report-ko.md',b'# BPCW512 B1 canonical report\n\n[Detailed Korean factual report](diagnostic-report-ko.md)\n\nSequential is not authorized.\n')
+    create_json(report/'b1-gate.json',dict(status=s['status'],gates=s['gates'],
+        endpoints={a:terminal['commits'][a]['identity']['W'] for a in ['N4','BPCW512']},
+        sequential_authorized=False,expansion_submitted=False,next='WAITING_USER_APPROVAL_FOR_SEQUENTIAL'))
+    create_json(report/'execution-manifest.json',dict(instruction='ODEEDIT-S06-BPCW512-COLD-B1-SH4-V2',
+        execution_source=s['source'],tree=s['source_tree'],archive=lock['execution']['archive'],lock=s['lock'],
+        job=s['accounting']['job'],raw_output=str(output),model_revision=lock['model_revision'],
+        reference_capsule_manifest=member(output/'capsule-manifest.json'),runtime_identity=member(output/'runtime-identity.json') if (output/'runtime-identity.json').exists() else 'execution-entry lock and terminal.identity',
+        sample_order=lock['sample_order'],prior_source_replaced=False,teacher='new W0 deterministic answer capsules; not old distribution teacher'))
+    create_json(report/'preflight.json',dict(local_execution_lock=s['lock'],
+        source_resource_admission=member(output.parent/'resource-admission.json'),held_inspection=member(output.parent/'held-inspection.json'),
+        prior_CPU35=member(ROOT/'CPU-preflight-r1/receipt.json'),integrated_actual=member(output/'technical/result.json'),
+        limits_source=member(source/'project/run_scripts/base_choice_constrained_write/config.py'),
+        actual_B1_only=True,task_concurrent_GPU=1,project_cap=2,old_EN_cleanup=member(ROOT/'en-cleanup/removal-receipt.json')))
+    csvout(report/'batch-metrics.csv',[dict(batch=1,phase='entry_W0' if r['arm']=='W0' else ('native_selected' if r['arm']=='N4' else 'selected'),
+        q=geometry['dimension'],blocked_rank=geometry['blocked_dimension'],**r) for r in s['final']])
+    create_bytes(report/'reference-summary.csv',(report/'reference-Dev.csv').read_bytes())
+    ledger=[];orders=[]
+    for directory in sorted((output/'controller').glob('round*')):
+        if not directory.is_dir():continue
+        qp_path=directory/'qp-solution.json';infeasible=directory/'qp-local-infeasible.json'
+        sol=read(qp_path) if qp_path.exists() else (read(infeasible) if infeasible.exists() else {})
+        ledger.append(dict(round=directory.name,problem=member(directory/'qp-problem.pt'),
+            pair_rows=member(directory/'factors/rows.json'),state=read(directory/'round.json') if (directory/'round.json').exists() else 'see selection fallback',
+            local_status=sol.get('status'),row_ids=sol.get('row_ids'),working_set_history=sol.get('working_set_history'),
+            diagnostics=sol.get('diagnostics'),guard=member(directory/'current-invariant.json') if (directory/'current-invariant.json').exists() else 'NOT_INVOKED'))
+        audit=read(directory/'ordering-audit.json')
+        orders.append(dict(round=directory.name,status=audit['status'],comparisons=audit.get('comparisons'),
+            order_summaries={k:dict(status=v.get('status'),elapsed_seconds=v.get('elapsed_seconds'),diagnostics=v.get('diagnostics')) for k,v in audit.get('results',{}).items()},
+            local_full_audit=member(directory/'ordering-audit.json')))
+    ledger.append(dict(final_selection=selection))
+    create_bytes(report/'controller-ledger.jsonl',(''.join(json.dumps(x,ensure_ascii=False,allow_nan=False)+'\n' for x in ledger)).encode())
+    create_json(report/'qp-order-audit.json',dict(rounds=orders,status='NOT_APPLICABLE_NO_QP' if not orders else 'STORED_SAME_PROBLEM_CPU_AUDIT',new_GPU=0))
+    create_bytes(report/'artifact-index.json',(report/'raw-inventory.json').read_bytes())
+    create_json(report/'terminal.json',dict(status=s['status'],batch_count=1,unique_requests=100,arms=['N4','BPCW512'],
+        raw_terminal=member(output/'terminal.json'),source=s['source'],job=s['accounting']['job'],
+        checkpoints=[member(output/f'arms/{a}/checkpoint.pt') for a in ['N4','BPCW512']],
+        sequential_authorized=False,monitoring_active=False,automatic_resume=False,next='WAITING_USER_APPROVAL_FOR_SEQUENTIAL'))
     create_json(report/'analysis-lineage.json',dict(time=now(),analysis_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),
         sources=[member(Path(__file__).parent/n) for n in ['review.py','publication.py','test_review.py']],
         executed_source=s['source'],source_tree=s['source_tree'],new_GPU=0,model_replay=False))
