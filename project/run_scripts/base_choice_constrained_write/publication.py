@@ -137,6 +137,8 @@ Top8은 provenance일 뿐 competitor 제한이 아니다. W0 답변을 사실 �
 
 확률 감쇠 d=logp_W0(base token)−logp_current(base token)는 진단량이다. d threshold/평균KL을 목적이나 선택 기준으로 추가하지 않았다.
 Dev flip은 독립 observer이며 R512 조건 충족과 구별한다.
+Reference와 current의 의미상 직접 fact 충돌을 전수 판정하는 semantic audit는 미측정이다.
+입력·중복·split 검사는 의미상 양립성 증명이 아니며, 이번 reference 미충족을 특정 원인의 증거로 해석하지 않는다.
 
 ## 4. 실제 보정 경로와 최소거리 문제
 
@@ -257,6 +259,10 @@ Report256 미개봉, 새로운 arm/order/후속job0. `max_batches=1`, `sequentia
         prior_CPU35=member(ROOT/'CPU-preflight-r1/receipt.json'),integrated_actual=member(output/'technical/result.json'),
         limits_source=member(source/'project/run_scripts/base_choice_constrained_write/config.py'),
         actual_B1_only=True,task_concurrent_GPU=1,project_cap=2,old_EN_cleanup=member(ROOT/'en-cleanup/removal-receipt.json')))
+    create_json(report/'reference-scope-ledger.json',dict(status='SEMANTIC_DIRECT_FACT_CONFLICT_NOT_ESTABLISHED',
+        input_split_and_duplicate_checks='BOUND_TO_LOCKED_BUILDER',exhaustive_semantic_adjudication=False,
+        confirmed_conflict_count=None,reference_reselected_after_result=False,
+        limit='No inference from token-flip failure to semantic conflict; W0 answers are behavioral anchors, not external truth.'))
     csvout(report/'batch-metrics.csv',[dict(batch=1,phase='entry_W0' if r['arm']=='W0' else ('native_selected' if r['arm']=='N4' else 'selected'),
         q=geometry['dimension'],blocked_rank=geometry['blocked_dimension'],**r) for r in s['final']])
     create_bytes(report/'reference-summary.csv',(report/'reference-Dev.csv').read_bytes())
