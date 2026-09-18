@@ -1,0 +1,25 @@
+{
+  "code": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_review_package.py",
+    "bytes": 15686,
+    "sha256": "40141fcd159662f40123b0889b29b3f11012e6c36f7dba4d714c27e206e60aa1"
+  },
+  "inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/metrics-summary.json",
+      "bytes": 388504,
+      "sha256": "efe3029fe1cb7f77f7a1899ad454e63559928ca88064248cb7faef6df779658e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/tensor-summary.json",
+      "bytes": 13830,
+      "sha256": "5ac81da2b3c3410c6187ece3aa6e4ced8c7872b2b071498a51d0d2b3f3a99033"
+    }
+  ],
+  "output": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/figures/en-f-observations.png",
+    "bytes": 176026,
+    "sha256": "9291165de98ae1ecb307cec5c55871cdb0e84518a85ae05f861275a13dcbec33"
+  },
+  "new_scientific_evaluation": false
+}

@@ -1,0 +1,261 @@
+{
+  "schema": "enf-sequential-cpu-review-v1",
+  "job": "50071_1",
+  "arm": "EN-F",
+  "execution": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+  "analysis_source_commit": "c232d7bd45b999c51b5e831a6bc86c9f5823126c",
+  "analysis_source_tree": "5492418cede1b914dc34673f293d34f56cfa87d7",
+  "analysis_code": [
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_publication.py",
+      "bytes": 8898,
+      "sha256": "f355786c0a27148cd7460b0a03e5337dfc7ef3adb3a8ae5963788f8a5c6514ae"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_review_package.py",
+      "bytes": 15686,
+      "sha256": "40141fcd159662f40123b0889b29b3f11012e6c36f7dba4d714c27e206e60aa1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_sequential_review.py",
+      "bytes": 20820,
+      "sha256": "cb0493fca4b05fb4b8d2d3e7085cc51697e4dcae933b96d3257d88ed704e2379"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_tensor_audit.py",
+      "bytes": 9326,
+      "sha256": "9ac72d3ddb3490158ccd7cab03521967c3b22b4bb14698252a83ce7f8a1c2ff5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/enf_write_report.py",
+      "bytes": 34356,
+      "sha256": "9a4c7ad4bda868ab244be7a20ec4ddf931a1fcc3975b4be9293e5db69b8be3bf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/project/run_scripts/single_layer_edit_preserving_correction/analysis/test_enf_review.py",
+      "bytes": 2830,
+      "sha256": "fe8efb6c346d5fd6be2dc188cdcdcd3d5bf53357cd098d3fee059b8d7891f022"
+    }
+  ],
+  "package": [
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/README.md",
+      "bytes": 1963,
+      "sha256": "5f9bda92a50a3f6382e408e05734cfa0743a7a05c9e0e04577334ced56deb7dd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/baseline-reuse.json",
+      "bytes": 1988,
+      "sha256": "0d6af8a97e706697f3cce86927fd950b4860b86878d434629489854d6aa06faf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/batch-current.csv",
+      "bytes": 3747,
+      "sha256": "d5f3eed6a138dda5900eb4aa37e69c2363802232046bf23b3fba801342c2f912"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/checkpoint-state.csv",
+      "bytes": 3737,
+      "sha256": "2d7cad7205538f2020d88fe16f5f11b7e5e35cb0237d289e1db2d633a27c9c59"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/cohorts.csv",
+      "bytes": 1107,
+      "sha256": "fad81abf7394c91c24f806b93cf904edeeb5ccc8a2458e2fda337bb719f06a66"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/commit-links.csv",
+      "bytes": 2998,
+      "sha256": "f1396c0b617f872c59955ff3f5bf643d7afdc9ae653a4706c728db8d77e8167c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/compute.csv",
+      "bytes": 2004,
+      "sha256": "506bdd0a0933915c07d326b3e367ac93287bb211f784ecb2fcb46fd470000641"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/cost-components.csv",
+      "bytes": 20695,
+      "sha256": "1c9179a125c136edda0da01b0ab6919d4d1df14ec0b8ef1d439121c0189df42e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/coverage.csv",
+      "bytes": 1886,
+      "sha256": "52909889e14dd6cc33e7dd2adea16d381a4c804507430b516f3033714710ebce"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/diagnostic-report-ko.md",
+      "bytes": 33217,
+      "sha256": "903a7b159c5157b1c5707fca64ebb5d50870a151fd137ac7bba4664c2f480954"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/figures/en-f-observations.png",
+      "bytes": 176026,
+      "sha256": "9291165de98ae1ecb307cec5c55871cdb0e84518a85ae05f861275a13dcbec33"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/figures/figure-provenance.json",
+      "bytes": 1340,
+      "sha256": "64135b93b0b9e44c342ff48145fb6a690a4c180741630b17a8d4e3a2e9de5c4f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/final-table.csv",
+      "bytes": 601,
+      "sha256": "99b87907bf858e915e60f5f8da7dd9ea1554c45857a5cc088e28c850a7c62bdf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/first-final-table.csv",
+      "bytes": 153,
+      "sha256": "1c35d3fa16bce61fd93aecaa4eb9c031c5e9e0b910bc8d14480ecf795c0bebf1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/first-table-receipt.json",
+      "bytes": 2302,
+      "sha256": "14efe8501a7390f3c4715891c5fb9ba65cb73921937cc12a21695af015a7bc63"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/generic.csv",
+      "bytes": 1027,
+      "sha256": "4583b619ef8fa5d720d1931b06240842caf3a794cd226c31a4593061ce758235"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/guards.csv",
+      "bytes": 1223,
+      "sha256": "e83b50a2b35060ea82c2d4c50d93c81a3af5d3b045ac32fe9794f14fee4c2491"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/input-manifest.json",
+      "bytes": 6052,
+      "sha256": "df25858a61e3d601c7ba4b21370a1354429a6dc136d13fd89312d8cc46a66a45"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/invariants.csv",
+      "bytes": 3651,
+      "sha256": "e5b504e1e8c18e2e18fe08673ef5634ddba1c9d1a928f5f26d716443dd1bc841"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/loss-gain-identities.csv",
+      "bytes": 12299,
+      "sha256": "92dc191d77b63dddd3079c76c9acff0cc15e5e6c0548bb6acc8629dbf0498126"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/mechanism.csv",
+      "bytes": 2556,
+      "sha256": "ec6df3df1a8a7c17f911251f36a4ec0979c2067dcaa6a1bbbaa7228f0ad81e6c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/native-fit-counts.csv",
+      "bytes": 753,
+      "sha256": "4796d3d3d1b800b0ceae790862ebdea8fd3d0cd688f276750c92c3a4b1ab04a2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/nll-tails.csv",
+      "bytes": 3531,
+      "sha256": "cc5ffc4b358c8f743973327357c31225ee0120b6f0b26a4cb8d0e77026db2b8b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/paired.csv",
+      "bytes": 29969,
+      "sha256": "864686ccdba22656d36fa42804160f3b7c626ffcb6193971b7dfa816b0d6595c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/population.csv",
+      "bytes": 328,
+      "sha256": "a5247865d85e02de7c57c441129185c048b2e1804ad311c2e5a88bd8d66dafb0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/raw-inventory.csv",
+      "bytes": 98958,
+      "sha256": "d585435b0db7a82c4a56736a7ac2fd373be1211abfb850101a9eafd7a0333d8d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/retention.csv",
+      "bytes": 4090,
+      "sha256": "a2d77de7e995f31e645fb7f72f39ef3e984a80749def5dd6a622da8f4df4a1c4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/reuse.csv",
+      "bytes": 674,
+      "sha256": "305d43b0ad41a8df34626e0815bc9077e35e7fb4c08a57ddf89cf6f26b735e0a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/scheduler-receipt.json",
+      "bytes": 484,
+      "sha256": "f639487803215ecf9f18c83ea3750d8f074e1568590dee0347f8b6295c252a34"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/source-conformance.csv",
+      "bytes": 6983,
+      "sha256": "0d660c0b89a80383a524678a2dc780412c355a43ed9d097bb12d832ae19d14dc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/source-input-inventory.csv",
+      "bytes": 20032,
+      "sha256": "f8f90a3ce8f3d2b66fc47b6f6d9fab2d28020dc5772989e48aa9816b5bdf220e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/strict-generation.csv",
+      "bytes": 1322,
+      "sha256": "c0c8cd0a42db444702595a5128b091a3eb713b49ddf3f0a83b693bc7d6ca6394"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/strict-retention.csv",
+      "bytes": 543,
+      "sha256": "115e60bd52bf74205dc87c6bc9e9224f1599355a9dc6f05484fa30969e76068a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/token-accuracy.csv",
+      "bytes": 140,
+      "sha256": "882c9f9f3d21a84dbce0143a40829199d1e0f20cb8e5c16680b76ab0e3e03eac"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/trials.csv",
+      "bytes": 9912,
+      "sha256": "f2dcdb950b974b32781eeca98dcec8fd547adb8ec9721f2871e7442943b272d4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/validation-receipt.json",
+      "bytes": 2268,
+      "sha256": "655f18aceccbe6a1b2f3fcc08049cc5f592976527f447e1561a7a38d4aea0d79"
+    },
+    {
+      "path": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/work-counters.csv",
+      "bytes": 63307,
+      "sha256": "a81961b4437f91f5c83dedda617bf23f8dfca8afdd6d09bac9c775fb891df927"
+    }
+  ],
+  "source_raw_access": "EXACT_ENF_PLUS_COMMON_IMMUTABLE_AND_SEALED_HISTORICAL_REFERENCE",
+  "new_GPU": 0,
+  "local_analysis_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/metrics-summary.json",
+      "bytes": 388504,
+      "sha256": "efe3029fe1cb7f77f7a1899ad454e63559928ca88064248cb7faef6df779658e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/tensor-summary.json",
+      "bytes": 13830,
+      "sha256": "5ac81da2b3c3410c6187ece3aa6e4ced8c7872b2b071498a51d0d2b3f3a99033"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/supplement-summary.json",
+      "bytes": 46010,
+      "sha256": "1067c6ecba6d853a85fbd9df279c033b83ad261d851fc52ab0430af5900c2fda"
+    }
+  ],
+  "excludes": [
+    "analysis-manifest.json (self)",
+    "rooted-receipt.json (manifest root)",
+    "later publication commit (Git ancestry)"
+  ],
+  "raw_root_inventory": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/raw-inventory.csv",
+    "bytes": 98958,
+    "sha256": "d585435b0db7a82c4a56736a7ac2fd373be1211abfb850101a9eafd7a0333d8d"
+  },
+  "validation": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/validation-receipt.json",
+    "bytes": 2268,
+    "sha256": "655f18aceccbe6a1b2f3fcc08049cc5f592976527f447e1561a7a38d4aea0d79"
+  }
+}

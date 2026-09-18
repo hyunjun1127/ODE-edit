@@ -1,0 +1,29 @@
+{
+  "schema": "rooted-enf-review-v1",
+  "root": "c66f81cef4b22061340c3019bb668730c2449ade2a3f93ad5ba0b7189e41da52",
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/analysis-manifest.json",
+    "bytes": 14834,
+    "sha256": "43abd238f41c6dabd25600bd880f881241d861d99e2ffa85c5daf83301cf7d3a"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/diagnostic-report-ko.md",
+    "bytes": 33217,
+    "sha256": "903a7b159c5157b1c5707fca64ebb5d50870a151fd137ac7bba4664c2f480954"
+  },
+  "first_table": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/first-final-table.csv",
+    "bytes": 153,
+    "sha256": "1c35d3fa16bce61fd93aecaa4eb9c031c5e9e0b910bc8d14480ecf795c0bebf1"
+  },
+  "analysis_source_commit": "c232d7bd45b999c51b5e831a6bc86c9f5823126c",
+  "execution": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+  "scope": "50071_1 EN-F only",
+  "status": "COMPLETED_1000_CPU_REVIEW_COMPLETE",
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "M_to_S": "USER_DIRECTED_NOT_ESTABLISHED",
+  "terminal_policy": "TASK_COMPLETE_STOP",
+  "automatic_resume": false,
+  "new_GPU": 0
+}

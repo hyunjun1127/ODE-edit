@@ -1,0 +1,11 @@
+comparison,metric,denominator,before,after,lost,gained
+ATWRITE_to_W10,R_strict,1000,999,994,5,0
+ATWRITE_to_W10,twoP_strict,1000,501,515,12,26
+ATWRITE_to_W10,R_twoP_strict,1000,501,515,12,26
+ATWRITE_to_W10,R_twoP_NLL_joint,1000,943,945,5,7
+ATWRITE_to_W10,greedy32_prefix,1000,999,994,5,0
+W5_to_W10_first500,R_strict,500,498,495,3,0
+W5_to_W10_first500,twoP_strict,500,250,255,9,14
+W5_to_W10_first500,R_twoP_strict,500,250,255,9,14
+W5_to_W10_first500,R_twoP_NLL_joint,500,466,468,1,3
+W5_to_W10_first500,greedy32_prefix,500,498,495,3,0

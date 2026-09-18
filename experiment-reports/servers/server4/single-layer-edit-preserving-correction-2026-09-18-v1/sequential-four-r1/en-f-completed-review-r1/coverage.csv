@@ -1,0 +1,16 @@
+item,status,scope
+terminal / final denominator,CPU_CHECKED,"COMPLETED 10 batch / unique1000 / 1000,2000,10000; finite / ties / identity checked"
+raw NLL / paired transitions,INDEPENDENT_REDUCER_CHECKED,aggregate is comparison only; success recomputed from raw pairs
+10 CP / 9 links / selected materialization,CPU_WEIGHTS_ONLY_CHECKED,W/M/context/RNG/ledger/hash/next-index; all 10 exact stored FP32 reconstruction
+history exactly once,STORED_EVIDENCE_CONSISTENT,"10 append / inner0, M before/after hash; selected finalizer K not retained"
+individual guards / Armijo / first acceptance,CPU_REPLAY_CHECKED,14 guard panels / 20 trials / first accepted10
+P-star / blocked-space spectrum,STORED_FACTORS_AND_ARITHMETIC_CHECKED,"fixed cutoff / ambiguity / q; prior P-star identity reused, no new SVD"
+full K_E / independent DK recomputation,NOT_RETAINED,provenance and hash aliases exist; original full captured keys do not
+logits / response invariant,STORED_RUNTIME_SCALARS_CHECKED,recorded cached-route ceilings and IDs; no new forward
+full physical model parity / derivative / FD,NOT_ESTABLISHED,T=SKIPPED_USER_DIRECTED; no GPU validation in review
+GPU continuation / crash resume,NOT_TESTED,CPU checkpoint loading is not model-level continuation
+GP norm / cumulative W-W0,NOT_RECORDED_OR_NOT_AVAILABLE,G and GQ available; no pretrained model loaded to derive cumulative displacement
+native clamp events / loss component traces,NOT_RECORDED,target final total loss and update counts only; no inferred clamp count
+Past entry-to-native forgetting,NOT_RECORDED,"own WN and candidate Past64 scores exist, corresponding entry Past64 panel absent"
+Report256 / new holdout / sibling arms,NOT_MEASURED_IN_SCOPE,unopened; no current EN-S/EN-COV/EN-F4 result access
+independent reviewer / GPU use,NOT_RUN / ZERO,single reviewer + independent arithmetic reducer; no separate red agent

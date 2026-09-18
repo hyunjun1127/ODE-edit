@@ -1,0 +1,6 @@
+item,decision,new_fit,evidence,limit
+B1 native capsule,REUSE,0,native-binding + stored WN/K/targets/zeroM/context + tensor hashes,prior 100 targets/2400 Adam/2500 loss not charged as new
+B1 initial gradient / geometry,REUSE,0,shared gradient identity + stored factors,old partial T evidence is not full numerical PASS
+B2-B10 native,NEW_OWN_TRAJECTORY,9,entry W/M links + native-binding + target observations,not independent cold episodes
+teacher/model/context/P,PRIOR_IMMUTABLE_REUSE,0,lock/manifest/current small-file hash/stat,no full model/teacher payload rehash or load
+historical N4,REFERENCE_ONLY,0,sealed aggregate report only,no synthetic paired baseline rows

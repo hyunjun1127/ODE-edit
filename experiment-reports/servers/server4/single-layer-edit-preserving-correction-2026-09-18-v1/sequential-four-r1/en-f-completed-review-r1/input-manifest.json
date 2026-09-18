@@ -1,0 +1,122 @@
+{
+  "execution": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+  "tree": "aaacc6a0c55e19038a81516f40a9b4938c3fb38a",
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/execution.lock.json",
+    "bytes": 148232,
+    "sha256": "4d600d4b57df58203fb21f447116c0362b8a731b9b6d71c4485353d913224d56"
+  },
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/source.tar",
+    "bytes": 583680,
+    "sha256": "d2d31418632d98f9056db20666a663e79dde4bcb3c6ddbdc90cf0a2b771496bf"
+  },
+  "review_envelope": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/messages/head/2026-09-18-sh4-enfc-sequential-enf-completed-review.md",
+    "bytes": 10565,
+    "sha256": "08be90bc83f2c84299064f1d2d233d011f819aa2cd81f4989db319a19bfdf7a3"
+  },
+  "full_read": {
+    "prior": {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/full-read-m0.json",
+      "bytes": 9667,
+      "sha256": "96aab038b4d8de8eace27d17961ee31db5933873e3c2fb6c2aa197328aaf7ac3"
+    },
+    "bindings": [
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+        "sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+        "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+        "sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/artifact_manifest.json",
+        "sha256": "1da82a88979c432ebd21e8e8b122f47f51d487991c09c4f3389bed8fe2519c7a",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+        "sha256": "6e6c2b4905e0f88ad1c824c7064ef7b0a5ed481f0557aa0b31a8d0d463f70325",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+        "sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+        "sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+        "sha256": "e52921ea3e59f51011e4da74e00a2cf87e997938adf4f968ce5f97eb63ac5f7a",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+        "sha256": "3fc3beab3243eb4a7c57b5bb5db2a46033abe4ad819d066facb082f837096baa",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/07_single_layer_method_positioning.md",
+        "sha256": "5233db01620ad75cc00d2146488858e20188e3721578d53b8c9d0551bf779522",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/06_blue_l4_detailed_audit.md",
+        "sha256": "719417dbb99da11166dc9b0fb78492aa311426ff6fb5793e1805ac91f42557b8",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "messages/head/2026-09-18-sh4-single-layer-edit-preserving-correction-m.md",
+        "sha256": "4e586d42e8f207f5da5e43702b19c556705c08eb85601d7a0be73151f194fa14",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/user-instruction-ko.md",
+        "sha256": "2e8d5c036e43c77eed92cc2da8958b201ad80962a3ff2fdca9505b368000f5a5",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/source-input-manifest.json",
+        "sha256": "df5f8ec0ef6f4f455ebfaf6daaab495f4de5e7acc2135ce3f404ae459e5f000f",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "PROTOCOL.md",
+        "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "control/gpu-concurrency-policy.tsv",
+        "sha256": "39346c40153cd3c6c015b915b3f75675e343ae12e3fac561f8c1973811f5551e",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      },
+      {
+        "relative": "servers/active/server4.md",
+        "sha256": "33e2d94b74f4e07811c24dc59e15fb1e2bb85dfc20b6fc61ec54ab3108313757",
+        "mode": "EXACT_PRIOR_FULL_READ_REUSE"
+      }
+    ],
+    "new_envelope": {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/messages/head/2026-09-18-sh4-enfc-sequential-enf-completed-review.md",
+      "bytes": 10565,
+      "sha256": "08be90bc83f2c84299064f1d2d233d011f819aa2cd81f4989db319a19bfdf7a3"
+    }
+  },
+  "model_payload": "PRIOR_SEAL_REUSE_NOT_REHASHED_OR_LOADED",
+  "teacher_payload": "PRIOR_SEAL_REUSE_NO_REGENERATION",
+  "source_inventory": "source-input-inventory.csv",
+  "sibling_raw_access": false
+}

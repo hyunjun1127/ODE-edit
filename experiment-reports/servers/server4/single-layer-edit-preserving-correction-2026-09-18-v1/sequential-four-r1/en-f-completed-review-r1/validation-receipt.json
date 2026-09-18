@@ -1,0 +1,78 @@
+{
+  "status": "CPU_PUBLICATION_CHECKS_PASS",
+  "tests": {
+    "command": "unittest analysis.test_enf_review -v",
+    "exit_code": 0,
+    "passed": 10,
+    "names": [
+      "test_duplicate",
+      "test_empty_past",
+      "test_id_not_count",
+      "test_individual_nll",
+      "test_metric_inequality",
+      "test_nonfinite",
+      "test_pair_target_identity",
+      "test_past_latest_overwrite",
+      "test_prompt_mismatch",
+      "test_ties_failure"
+    ],
+    "full_stdout_published": false
+  },
+  "raw_scope": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/arms/EN-F/attempt-v1",
+  "raw_files": 467,
+  "raw_full_SHA_inventory": "raw-inventory.csv",
+  "postcheck": "all files size + all JSON fullSHA unchanged; large tensor SHA reused from completed CPU inventory",
+  "CP": 10,
+  "links": 9,
+  "tensor_objects_checked": 4120,
+  "independent_reducer": true,
+  "separate_reviewer_agent": false,
+  "new_GPU": 0,
+  "new_model_execution": 0,
+  "additional_scheduler_queries_in_publication": 0,
+  "total_exact_accounting_queries_this_recall": 1,
+  "HTML": {
+    "renderer": "system python3 markdown_it commonmark + table extension",
+    "rendered": {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/diagnostic-report-ko.html",
+      "bytes": 42736,
+      "sha256": "a481a6549117829dd7902a2d66055a8c91965305d07c894e7462f84007dc73e7"
+    },
+    "tables": 20,
+    "columns": [
+      3,
+      2,
+      2,
+      4,
+      3,
+      4,
+      6,
+      4,
+      5,
+      5,
+      4,
+      3,
+      7,
+      7,
+      6,
+      5,
+      2,
+      3,
+      5,
+      3
+    ],
+    "browser_visual": "NOT_RUN",
+    "Korean_UTF8": "CHECKED"
+  },
+  "links_checked": 39,
+  "PNG_byte_reproduced": true,
+  "PNG_visual_inspection": "MAIN_AGENT_VIEWED",
+  "raw_free": "COMPACT_AGGREGATES_IDENTITIES_ONLY_NO_PROMPT_TENSOR_LOG_PAYLOAD",
+  "scientific_numerical_validation": "NOT_ESTABLISHED",
+  "analysis_only_repair": {
+    "scope": "publication checker only",
+    "first_error": "Compared full member dict to lock dict with extra metadata keys",
+    "fix": "Compare exact path/bytes/SHA fields; all original validations retained",
+    "runtime_or_raw_changed": false
+  }
+}

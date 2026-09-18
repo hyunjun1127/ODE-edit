@@ -1,0 +1,18 @@
+{
+  "job": "50071_1",
+  "raw_job": "50073",
+  "owner": "janghj",
+  "name": "odeedit_enfc_S4_s4",
+  "state": "COMPLETED",
+  "exit": "0:0",
+  "start_KST": "2026-09-18T15:01:07+09:00",
+  "end_KST": "2026-09-18T19:58:01+09:00",
+  "allocated_GPU_seconds": 17814,
+  "GPU_count": 1,
+  "CPUs": 8,
+  "host_memory_MiB": 60416,
+  "MaxRSS_batch_KiB": 31869140,
+  "query_count_this_recall": 1,
+  "evidence": "Single exact child accounting; batch/extern not added",
+  "other_jobs_queried": false
+}

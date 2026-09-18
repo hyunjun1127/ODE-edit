@@ -1,0 +1,76 @@
+{
+  "status": "RAW_NLL_REDUCED_NOT_FULL_STATE_AUDIT",
+  "input": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/arms/EN-F/attempt-v1/B010/observers/selected-fullseen.json",
+    "bytes": 22405989,
+    "sha256": "5b551da15f076f70b5a00dee4e53f71802b98def4f2f875adee5b16030eca5fd"
+  },
+  "table": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/first-final-table.csv",
+    "bytes": 153,
+    "sha256": "1c35d3fa16bce61fd93aecaa4eb9c031c5e9e0b910bc8d14480ecf795c0bebf1"
+  },
+  "terminal": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/arms/EN-F/attempt-v1/TERMINAL.json",
+    "bytes": 1256,
+    "sha256": "61ff2693500d53a5d12351aef5c76fc5d4834be3e42468cf01fb8d6436e586b4"
+  },
+  "first": [
+    {
+      "scope": "W10_full1000",
+      "metric": "RS",
+      "numerator": 997,
+      "denominator": 1000,
+      "percent": 99.7,
+      "ties": 0
+    },
+    {
+      "scope": "W10_full1000",
+      "metric": "PS",
+      "numerator": 1931,
+      "denominator": 2000,
+      "percent": 96.55,
+      "ties": 0
+    },
+    {
+      "scope": "W10_full1000",
+      "metric": "NS",
+      "numerator": 8034,
+      "denominator": 10000,
+      "percent": 80.34,
+      "ties": 0
+    }
+  ],
+  "auxiliary": {
+    "strict": {
+      "rewrite_strict": 994,
+      "two_P_strict": 515,
+      "R_two_P_strict": 515,
+      "R_two_P_NLL_joint": 945,
+      "denominator": 1000
+    },
+    "W0_correct_NS": {
+      "all_requested_N": 10000,
+      "denominator": 8820,
+      "gained": 177,
+      "lost": 963,
+      "numerator": 7857,
+      "rate": 0.8908163265306123
+    },
+    "S64": 0.008580388606041288,
+    "Dev128": 0.02126512749575689,
+    "fallback_batches": 0,
+    "nonzero_batches": 10,
+    "allocated_GPU_seconds": 17814,
+    "allocated_GPU_hours": 4.948333333333333,
+    "generation": {
+      "requests": 1000,
+      "prefix_match": 994,
+      "reached_max": 1000,
+      "censored": 0
+    }
+  },
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "new_GPU": 0
+}

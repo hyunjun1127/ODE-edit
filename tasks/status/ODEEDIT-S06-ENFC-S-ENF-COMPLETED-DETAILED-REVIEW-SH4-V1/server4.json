@@ -1,0 +1,67 @@
+{
+  "instruction_id": "ODEEDIT-S06-ENFC-S-ENF-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-ENFC-S-ENF-REVIEW-20260918-R1",
+  "status": "TASK_COMPLETE_STOP",
+  "automatic_resume": false,
+  "review_complete": true,
+  "job": "50071_1",
+  "arm": "EN-F",
+  "scheduler": {
+    "state": "COMPLETED",
+    "exit": "0:0",
+    "allocated_GPU_seconds": 17814,
+    "exact_query_count": 1
+  },
+  "scope": {
+    "new_GPU": 0,
+    "new_model_execution": 0,
+    "Slurm_mutation": 0,
+    "sibling_scientific_access": 0,
+    "raw_changed": false
+  },
+  "execution": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+  "analysis_source": "c232d7bd45b999c51b5e831a6bc86c9f5823126c",
+  "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/diagnostic-report-ko.md",
+  "report_sha256": "903a7b159c5157b1c5707fca64ebb5d50870a151fd137ac7bba4664c2f480954",
+  "manifest_sha256": "43abd238f41c6dabd25600bd880f881241d861d99e2ffa85c5daf83301cf7d3a",
+  "rooted_receipt_sha256": "e608b857a3cd87f7919fa13fd85443ff159153bbbd30ab8e18d3b76fff883bbd",
+  "metrics": {
+    "RS": [
+      997,
+      1000
+    ],
+    "PS": [
+      1931,
+      2000
+    ],
+    "NS": [
+      8034,
+      10000
+    ],
+    "nonzero_batches": 10,
+    "fallback": 0
+  },
+  "verification": {
+    "CP": 10,
+    "links": 9,
+    "tests": 10,
+    "GFM_tables": 20,
+    "links_checked": 39,
+    "PNG_reproduced": true,
+    "HTML_rendered": true,
+    "separate_red_agent": false
+  },
+  "limitations": {
+    "T": "SKIPPED_USER_DIRECTED",
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "M_to_S": "USER_DIRECTED_NOT_ESTABLISHED",
+    "GPU_continuation": "NOT_TESTED",
+    "full_K_E": "NOT_RETAINED",
+    "selected_finalizer_K": "NOT_RETAINED"
+  },
+  "publication": {
+    "mode": "OWN_SCOPE_NONFORCE_MAIN",
+    "final_commit_location": "Git commit containing this state and direct GH completion handoff"
+  },
+  "historical_initial": "EN-S representative only; EN-F not retroactively observed"
+}

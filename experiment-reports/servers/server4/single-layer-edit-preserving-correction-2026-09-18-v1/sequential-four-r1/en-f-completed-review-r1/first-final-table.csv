@@ -1,0 +1,4 @@
+scope,metric,numerator,denominator,percent,ties
+W10_full1000,RS,997,1000,99.7,0
+W10_full1000,PS,1931,2000,96.55,0
+W10_full1000,NS,8034,10000,80.34,0

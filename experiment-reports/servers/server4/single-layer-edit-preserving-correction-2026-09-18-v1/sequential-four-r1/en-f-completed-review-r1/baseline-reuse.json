@@ -1,0 +1,57 @@
+{
+  "status": "REFERENCE_ONLY_NOT_NEW_MATCHED_S_ARM",
+  "source": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/final-seven-arm.csv",
+    "bytes": 1211,
+    "sha256": "b887576b58bf3fd70aa23ef22ac17b001384fb210c4fddd6e5405656293ecbf1"
+  },
+  "rows": [
+    {
+      "arm": "N4",
+      "status": "COMPLETED_1000_CPU_METRIC_STATE_CHECKED; OPERATIONAL_CAP_DEVIATION",
+      "RS_count": "999",
+      "RS_denominator": "1000",
+      "RS_percent": "99.9",
+      "RS_vs_N4_pp": "0.0",
+      "PS_count": "1934",
+      "PS_denominator": "2000",
+      "PS_percent": "96.7",
+      "PS_vs_N4_pp": "0.0",
+      "NS_count": "8026",
+      "NS_denominator": "10000",
+      "NS_percent": "80.26",
+      "NS_vs_N4_pp": "0.0"
+    }
+  ],
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/completed-en-f-review-r1/worktree/experiment-reports/servers/server4/local-z-adaptive-allocation-seq1000-2026-09-16-v1/completed-review-20260917-v1/diagnostic-report-ko.md",
+    "bytes": 42787,
+    "sha256": "f28df155b881df44124cbe13984408274a2c6562316ccc9fffd4e9b5bbdb3641"
+  },
+  "exact_aggregate": {
+    "RS": 999,
+    "RS_den": 1000,
+    "PS": 1934,
+    "PS_den": 2000,
+    "NS": 8026,
+    "NS_den": 10000
+  },
+  "shared": [
+    "model revision",
+    "cold W0/zeroM4",
+    "method seed20260916",
+    "fixed first1000/order",
+    "cold context token capsule",
+    "FP32/eager/TF32off",
+    "native L4 BLUE hparams",
+    "canonical inequalities"
+  ],
+  "differences": [
+    "execution/controller wrapper source",
+    "new EN-F correction and Past guard",
+    "validation/observer schedule",
+    "cost protocol"
+  ],
+  "paired_baseline_raw_this_review": "NOT_REAUDITED_NO_SYNTHETIC_PAIRED_ROWS",
+  "own_native": "same-state EN-F shadow not independent N4 chain"
+}
