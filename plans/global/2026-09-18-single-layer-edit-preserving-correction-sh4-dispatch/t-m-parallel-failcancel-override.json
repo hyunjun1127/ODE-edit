@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1",
+  "gpu_cap": 2,
+  "T_job_reference": 49928,
+  "initial_T_state": "must be observed by SH4, not inferred",
+  "M_waits_for_T_ready": false,
+  "T_validation_waived": false,
+  "M_pending_T_status": "PROVISIONAL_T_UNRESOLVED",
+  "parallel_capacity": {
+    "T": 1,
+    "M": 1
+  },
+  "M_capacity_after_T_release": 2,
+  "only_M_allowed": true,
+  "reuse_first": true,
+  "M_endpoints_retained": true,
+  "T_failure_cancels": "exact linked M running and pending IDs only",
+  "M_autoretry_after_T_failure": false,
+  "default_pause": "T success plus actual M initial; or T failure and exact M cancellation handoff",
+  "original_envelope": "messages/head/2026-09-18-sh4-single-layer-edit-preserving-correction-m.md",
+  "override": "messages/head/2026-09-18-sh4-enfc-t-m-parallel-failcancel.md"
+}
