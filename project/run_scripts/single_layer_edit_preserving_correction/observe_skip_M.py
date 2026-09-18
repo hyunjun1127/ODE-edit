@@ -17,8 +17,9 @@ def stable_json(path):
     return value
 
 
-def snapshot(index):
-    parent=ROOT/'M/attempt-skip-t-v1';submission=json.loads((parent/'submission.json').read_text())
+def snapshot(index,attempt='attempt-skip-t-v1',receipt_namespace='storage-waiver-r1'):
+    if Path(attempt).name!=attempt or Path(receipt_namespace).name!=receipt_namespace:raise ValueError('LOCAL_NAMESPACE')
+    parent=ROOT/'M'/attempt;submission=json.loads((parent/'submission.json').read_text())
     job=submission['job'];lock=json.loads((parent/'execution.lock.json').read_text())
     queue=call(['squeue','-h','-j',job,'-o','%i|%j|%T|%R|%b|%N'])
     episodes=[];initials=[]
@@ -65,14 +66,21 @@ def snapshot(index):
         source=lock['execution']['head'],lock=member(parent/'execution.lock.json'),
         episodes=episodes,initials=initials,monitor_snapshot_only=True,new_GPU=0,
         T='SKIPPED_USER_DIRECTED',full_numerical_validation='NOT_ESTABLISHED')
-    ref=write(ROOT/'receipts/storage-waiver-r1'/f'observation-{index}.json',result)
+    ref=write(ROOT/'receipts'/receipt_namespace/f'observation-{index}.json',result)
     print(json.dumps(dict(receipt=ref,time=result['time'],queue=queue,initials=initials,
         stages=[dict(episode=e['episode'],native_new=e['native_new'],json_count=len(e['json_members']),
-            latest=e['json_members'][-3:],initial=e['initial_observed'],failure=e['failure']) for e in episodes])))
+            phase=('initial' if e['initial_observed'] else 'observers' if 'ALL_SELECTIONS_SEALED.json' in e['json_members']
+                else 'controllers' if any(n.startswith('arms/') for n in e['json_members'])
+                else 'gradient_diagnostics' if 'native-objective.json' in e['json_members']
+                else 'geometry_or_anchor' if 'protected-provenance.json' in e['json_members']
+                else 'native' if 'nonselected-before.json' in e['json_members'] else 'load'),
+            initial=e['initial_observed'],failure=e['failure']) for e in episodes if e['json_members']])))
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--index',required=True);a=p.parse_args();snapshot(a.index)
+    p=argparse.ArgumentParser();p.add_argument('--index',required=True)
+    p.add_argument('--attempt',default='attempt-skip-t-v1');p.add_argument('--receipt-namespace',default='storage-waiver-r1')
+    a=p.parse_args();snapshot(a.index,a.attempt,a.receipt_namespace)
 
 
 if __name__=='__main__':main()

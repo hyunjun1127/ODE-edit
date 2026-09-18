@@ -23,6 +23,7 @@ from .optimizer import optimize,Observation,Check,TrialNumericalOverflow
 from .observer import CanonicalObserver
 from .geometry import RightSpace,edit_null_space,row_space,ca_exact,rank_diagnostic,columns,gradient_diagnostics
 from .validation_route import validation_binding
+from .retained_native import load_native,endpoint_identity
 
 
 class EventStore:
@@ -88,7 +89,7 @@ def run(lock,episode):
         applicable=('W0','M0','P4','contexts','context_tokens','rng','teacher','records_digest','torch','transformers','microbatch','physical_layer')
         if any(rt.identity[k]!=ready['identity'][k] for k in applicable):raise ValueError('T_RUNTIME_IDENTITY_NOT_APPLICABLE')
         before_nonselected=rt.byte_hash_nonselected();write(root/'nonselected-before.json',before_nonselected)
-        stage='shared_native';native=rt.native(records,root/'native',reuse=episode==0);WN=native['weight']
+        stage='shared_native';native=load_native(rt,records,root/'native',episode);WN=native['weight']
         stage='cached_inputs';ref=rt.reference_oracle();cur,rows,K,meta=rt.protected_oracle(records)
         write(root/'protected-provenance.json',meta)
         write(root/'retention-policy.json',dict(final_L4='all8actualweights',native_capsule='retained or exact existing B1 reuse',
@@ -176,7 +177,7 @@ def run(lock,episode):
             endpoint=save_tensor(armroot/'final-L4.pt',dict(weight=result.weight,weight_name='model.layers.4.mlp.down_proj.weight',
                 source=lock['execution'],model_revision=Path(lock['snapshot']).name,episode=episode,case_ids=ids,
                 W0_sha=tensor_sha(rt.W0),WN_sha=tensor_sha(WN),context_identity=rt.identity['context_tokens'],
-                tokenizer_identity=rt.identity,history=0,full_resume=False))
+                tokenizer_identity=endpoint_identity(rt.identity),history=0,full_resume=False))
             # CPU reload verifies retained bytes, not GPU continuation.
             loaded=torch.load(endpoint['path'],weights_only=True,map_location='cpu',mmap=True)
             if tensor_sha(loaded['weight'])!=tensor_sha(result.weight):raise RuntimeError('FINAL_ENDPOINT_SAVE_RELOAD_MISMATCH')
@@ -301,7 +302,8 @@ def run(lock,episode):
         write(root/'terminal.json',dict(status='COMPLETE_WITH_T_SKIPPED' if skipped else 'PROVISIONAL_COMPLETE' if provisional else 'COMPLETE',
             full_numerical_validation=lock.get('full_numerical_validation','SEE_TECHNICAL_SCOPE'),
             validation=ready['status'],episode=episode,requests=100,arms=8,diagnostics=2,initial=initial,
-            history_appends=0,native_fit_new=0 if episode==0 else 1,source=lock['execution'],technical=lock['technical_evidence'],
+            history_appends=0,native_fit_new=0 if episode==0 or str(episode) in lock.get('retained_cold_native',{}) else 1,
+            source=lock['execution'],technical=lock['technical_evidence'],
             timing=rt.timing,oracle_work=dict(S64=ref.work,protected=protected_work,Dev128=dev.work),observer_work=obs.work,
             wall_seconds=time.monotonic()-started,peak_gpu_allocated=torch.cuda.max_memory_allocated(),
             peak_gpu_reserved=torch.cuda.max_memory_reserved(),peak_host_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))

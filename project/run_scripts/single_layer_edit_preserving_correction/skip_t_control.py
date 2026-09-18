@@ -12,7 +12,7 @@ from .validation_route import check_waiver, validation_binding, SKIPPED
 from .storage_waiver import admission as storage_admission
 
 
-def freeze(repo, prior_lock, override, attempt, storage_override=None):
+def freeze(repo, prior_lock, override, attempt, storage_override=None, retained_plan=None):
     authority=json.loads(override.read_text());check_waiver(authority)
     old=json.loads(prior_lock.read_text())
     if old['execution']['head']!='76bb90372b6ddc05f53374812bfc2df90153601e':
@@ -33,6 +33,20 @@ def freeze(repo, prior_lock, override, attempt, storage_override=None):
     prior_binding=json.loads(Path(old['technical_evidence']['path']).read_text())
     if member(old['technical_evidence']['path'])!=old['technical_evidence']:
         raise ValueError('PRIOR_BINDING_IDENTITY')
+    retained={};plan=None
+    if retained_plan is not None:
+        plan=json.loads(retained_plan.read_text());prior=json.loads(Path(plan['source_lock']['path']).read_text())
+        if member(plan['source_lock']['path'])!=plan['source_lock']:raise ValueError('REPAIR_SOURCE_LOCK')
+        for key in ('snapshot','cold_capsule','config4','editor_sha256','projector','teacher_manifest',
+                    'records_digest','sample_order','seed','torch','transformers','numpy','scipy',
+                    'TF32_cudnn','TF32_matmul','loss_microbatch','guard_microbatch','numeric_contract'):
+            if old[key]!=prior[key]:raise ValueError('REPAIR_NATIVE_COMPATIBILITY:'+key)
+        if sha(Path(prior['source_root'])/PACKAGE/'runtime.py')!=sha(repo/PACKAGE/'runtime.py'):
+            raise ValueError('RETAINED_NATIVE_RUNTIME_CHANGED')
+        retained=plan['retained']
+        for spec in retained.values():
+            for field in ('native','binding','runtime','prior_lock'):
+                if member(spec[field]['path'])!=spec[field]:raise ValueError('REPAIR_RETAINED_IDENTITY:'+field)
     disk=shutil.disk_usage(ROOT)
     storage_ref=None if storage_override is None else member(storage_override)
     storage=storage_admission(disk.free,old['disk']['reserve_bytes'],storage_ref)
@@ -76,6 +90,12 @@ def freeze(repo, prior_lock, override, attempt, storage_override=None):
         partial_cancelled_geometry_reuse=False,
         partial_cancelled_geometry_reason='no complete factor tensor closure retained; safe W0/native reuse only')
     lock.pop('lock_identity',None);lock['lock_identity']=digest(lock)
+    if plan is not None:
+        lock.update(retained_cold_native=retained,retained_native_plan=member(retained_plan),
+            repair_authority=plan['user_recall'],repair_prior_terminal=plan['old_terminal'],
+            M_native_new_max=plan['new_native_fits_max'],
+            repair_scope='builtin string metadata only + exact completed cold native reuse; numerical method unchanged')
+        lock.pop('lock_identity');lock['lock_identity']=digest(lock)
     ref=write(parent/'execution.lock.json',lock)
     validation_binding(lock,0)
     print(json.dumps(ref));return ref
@@ -122,7 +142,8 @@ def submit(lockpath):
     call(['scontrol','release',job])
     result=write(parent/'submission.json',dict(job=job,args=args,inspection=inspection,
         mapping={str(i):dict(episode=f'b{i+1:03d}',ordinal=[100*i,100*(i+1)],arms=8,
-            native='REUSE' if i==0 else 'RUN_MISSING',N4_pair_eval='REUSE' if i==0 else 'RUN_MISSING') for i in range(10)},
+            native='REUSE' if i==0 or str(i) in lock.get('retained_cold_native',{}) else 'RUN_MISSING',
+            N4_pair_eval='REUSE' if i==0 else 'RUN_MISSING') for i in range(10)},
         release_time=datetime.datetime.now(datetime.timezone.utc).isoformat(),stage='M',
         scope='ALL10_M_REGISTERED_RELEASED_NOT_COMPLETION',array_throttle=throttle,S_R_L_registered=0,
         initial_gate_observed=False,T_job=None,T_dependency=False,T_failcancel=False,
@@ -134,9 +155,10 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze','submit'])
     p.add_argument('--worktree',type=Path);p.add_argument('--prior-lock',type=Path)
     p.add_argument('--override',type=Path);p.add_argument('--storage-override',type=Path)
+    p.add_argument('--retained-plan',type=Path)
     p.add_argument('--attempt');p.add_argument('--lock',type=Path)
     a=p.parse_args()
-    if a.action=='freeze':freeze(a.worktree,a.prior_lock,a.override,a.attempt,a.storage_override)
+    if a.action=='freeze':freeze(a.worktree,a.prior_lock,a.override,a.attempt,a.storage_override,a.retained_plan)
     else:submit(a.lock)
 
 
