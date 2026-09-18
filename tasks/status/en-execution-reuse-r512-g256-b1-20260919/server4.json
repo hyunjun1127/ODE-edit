@@ -1,0 +1,30 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-EXECUTION-REUSE-R512-G256-B1-SH4-V1",
+  "status": "PREPARATION_RUNNING_MATCHED_B1_NOT_SUBMITTED",
+  "preparation_job": "50410",
+  "preparation_execution": "a297039dc756a0e8953e4bab4695e66361a161ac",
+  "preparation_tree": "2ecf48e05f460fc46f2bebe7b793a2ddb20d7b8d",
+  "preparation_archive_sha256": "86e557328bbacf06f0260c19cddc2ecc3b88b038782e0802073d6461a106717b",
+  "preparation_lock_sha256": "4d21cfd4649476e71d802d95569eda11fefad8506769f54a859127f6f9c06701",
+  "last_bounded_observation": {
+    "scheduler_state": "RUNNING",
+    "elapsed_seconds": 2478,
+    "completed_document_indices": "0..99",
+    "observed_T": 256,
+    "total_required_documents": 640,
+    "actual_correction_or_B1_parity": "NOT_RUN"
+  },
+  "CPU_tests": {"passed": 140, "seconds": 39.459, "actual_Llama_PASS": false},
+  "new_matched_native_fit_calls_planned": 0,
+  "prior_native": "EXACT_RETAINED_SAME_HOST_B100_CAPSULE_REUSE_RUNTIME_BINDING_PENDING",
+  "matched_schedule_jobs": [],
+  "project_GPU_cap": 2,
+  "task_simultaneous_GPU_cap": 1,
+  "max_batches": 1,
+  "sequential_authorized": false,
+  "auto_continue": false,
+  "old_tasks_resumed": false,
+  "files_deleted_or_moved": 0,
+  "monitoring": "BOUNDED_CURRENT_TASK_UNTIL_B1_AND_REPORT",
+  "final_required_status": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
+}

@@ -13,7 +13,7 @@ def main():
     a=p.parse_args()
     if not a.output.resolve().is_relative_to(ROOT.resolve()):raise ValueError('TASK_LOCAL_RECEIPT_ONLY')
     modules=['test_boundaries','test_endpoint_observation','test_current_observation',
-             'test_generated_teacher','test_generated_reference']
+             'test_generated_teacher','test_generated_reference','test_generated_oracle','test_transaction','test_schedule','test_reducer','test_observer_reuse','test_publication']
     args=[sys.executable,'-B','-m','unittest',*['project.run_scripts.en_execution_reuse.'+m for m in modules],'-v']
     started=time.monotonic()
     result=subprocess.run(args,text=True,capture_output=True,
@@ -30,7 +30,7 @@ def main():
             source='CPU exact pinned-tokenizer protected_sequences before model load; actual FP32 key dedup not established'),
         sources=[member(p) for p in sorted(Path(__file__).parent.glob('*.py'))])
     create_json(a.output,receipt)
-    print(result.stderr)
+    print(result.stderr[-500:])
     if receipt['status']=='CPU_FAIL':raise SystemExit(1)
 
 

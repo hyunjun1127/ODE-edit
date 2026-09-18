@@ -1,0 +1,12 @@
+{
+  "stage": "GENERATED_REFERENCE_PREPARATION",
+  "job": "50410",
+  "source": "a297039dc756a0e8953e4bab4695e66361a161ac",
+  "local_root": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1",
+  "submission": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/submission.json",
+  "held_inspection": "CONTROL_ONLY_INSPECTION_REPAIR_THEN_EXACT_SAME_JOB_RELEASED",
+  "resources": {"GPU": 1, "CPU": 8, "host_MiB": 60416, "wall_hours": 24, "export": "NONE", "requeue": 0},
+  "science_B1_submitted": false,
+  "sequential_authorized": false,
+  "raw_tensor_teacher_prompt_stdout_in_git": false
+}

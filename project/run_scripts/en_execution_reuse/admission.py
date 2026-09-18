@@ -24,7 +24,9 @@ def call(args, cwd=None):
 
 def inspect_held(text, command):
     match=re.search(r'^\s*Command=(.*?)\s*$',text,re.M)
-    if match is None or shlex.split(match.group(1))!=command:
+    submitted=re.search(r'^\s*SubmitLine=(.*?)\s*$',text,re.M)
+    if (match is None or shlex.split(match.group(1))!=command[:1] or submitted is None or
+        shlex.split(submitted.group(1))[-len(command):]!=command):
         raise ValueError('HELD_EXACT_COMMAND_SOURCE_LOCK_STAGE')
     fields=dict(re.findall(r'(?:^|\s)([A-Za-z][A-Za-z0-9_]*)=([^\s]+)',text))
     exact=dict(JobState='PENDING',Reason='JobHeldUser',NumCPUs='8',Requeue='0',
@@ -155,6 +157,12 @@ def freeze(repo, stage, attempt, cpu_receipt, teacher_ready=None):
         sequential_authorized=False,auto_continue=False,source_checks_not_actual_Llama_PASS=True)
     if stage == 'MATCHED_B1':
         lock['generated_ready'] = member(teacher_ready)
+        oldroot=PRIOR.parent/'output'
+        oldsource=Path(prior['execution']['source_root'])/'project/run_scripts/single_layer_edit_preserving_correction/observer.py'
+        lock['prior_observer_reuse']={k:member(p) for k,p in dict(lock=PRIOR,
+            runtime=oldroot/'runtime-load.json',nonselected_before=oldroot/'nonselected-before.json',
+            nonselected_after=oldroot/'nonselected-after.json',W0=oldroot/'W0-current.json',
+            N4=oldroot/'arms/N4/current.json',observer_source=oldsource).items()}
     verify_large_asset_stats(lock)
     lock['lock_identity'] = digest(lock)
     require_lock(lock)
@@ -203,12 +211,50 @@ def submit(path):
     print(json.dumps(receipt,indent=2))
 
 
+def release_inspected(path):
+    """Narrow recovery of already-held OWN job after control-only inspection bug.
+
+    No resubmission, new lock, changed science source, or job configuration.
+    Slurm Command is script-only; SubmitLine holds the submitted positional args.
+    """
+    path=Path(path).resolve();parent=path.parent
+    if (parent/'submission.json').exists():raise ValueError('ALREADY_RELEASED')
+    lock=json.loads(path.read_text());require_lock(lock);verify_large_asset_stats(lock)
+    held=json.loads((parent/'held-inspection.json').read_text())
+    if sha(path)!=held['lock']['sha256']:raise ValueError('HELD_LOCK_CHANGED')
+    job=held['job']
+    if not job.isdecimal():raise ValueError('EXACT_JOB_ID')
+    text=call(['scontrol','show','job',job])
+    command=held['args'][-4:]
+    if command!=[str(Path(lock['execution']['source_root'])/PKG/'run.sbatch'),lock['execution']['source_root'],str(path),lock['stage']]:
+        raise ValueError('ORIGINAL_SUBMISSION_ARG_IDENTITY')
+    inspect_held(text,command)
+    if f'JobId={job} ' not in text:raise ValueError('EXACT_JOB_MAPPING')
+    queue=call(['squeue','-h','-u','janghj','-w','server4','-o','%i|%j|%T|%b|%R'])
+    if any(row.split('|')[0]!=job for row in queue.splitlines() if row):
+        raise ValueError('OTHER_PROJECT_ADMISSION_REQUIRES_CAP_ACCOUNTING')
+    if shutil.disk_usage(ROOT).free<lock['storage']['required_free_bytes']:
+        raise ValueError('STORAGE_NO_WAIVER')
+    for item in lock['execution']['members']+lock['external_members']:
+        if sha(item['path'])!=item['sha256']:raise ValueError('PRE_RELEASE_SOURCE_ASSET_CHANGED')
+    create_json(parent/'held-inspection-control-r1.json',dict(job=job,text=text,queue=queue,
+        control_source_sha=sha(Path(__file__)),execution_source=lock['execution']['commit'],
+        repair='Command is script-only; exact SubmitLine positional source/lock/stage checked',
+        model_execution_before_repair=0,lock_unchanged=True,science_code_change=0))
+    call(['scontrol','release',job])
+    receipt=dict(job=job,stage=lock['stage'],lock=member(path),args=held['args'],released=True,
+        inspection='PASS_EXACT_COMMAND_AND_SUBMITLINE_OWNER_NODE_RESOURCES',max_batches=1,
+        actual_model_validation='NOT_OBSERVED_AT_RELEASE',sequential_authorized=False,automatic_resume=False)
+    create_json(parent/'submission.json',receipt);print(json.dumps(receipt,indent=2))
+
+
 if __name__ == '__main__':
     p=argparse.ArgumentParser()
-    p.add_argument('action',choices=['freeze','submit'])
+    p.add_argument('action',choices=['freeze','submit','release-inspected'])
     p.add_argument('--repo',type=Path);p.add_argument('--stage',choices=['GENERATED_REFERENCE_PREPARATION','MATCHED_B1'])
     p.add_argument('--attempt',default='attempt-v1');p.add_argument('--cpu-receipt',type=Path)
     p.add_argument('--teacher-ready',type=Path);p.add_argument('--lock',type=Path)
     a=p.parse_args()
     if a.action=='freeze':freeze(a.repo,a.stage,a.attempt,a.cpu_receipt,a.teacher_ready)
-    else:submit(a.lock)
+    elif a.action=='submit':submit(a.lock)
+    else:release_inspected(a.lock)

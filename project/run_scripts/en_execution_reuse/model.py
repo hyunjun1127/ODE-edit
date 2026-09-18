@@ -13,6 +13,8 @@ from project.run_scripts.single_layer_edit_preserving_correction.common import d
 from project.run_scripts.single_layer_edit_preserving_correction.alltoken import WEIGHT, model_guard, tensor_sha256
 from project.run_scripts.low_cost_write_donor_pilot.fitting import NativeSingletonFitter, select_projector
 from project.run_scripts.baseline_mechanism_first.fixtures import restore_rng
+from project.run_scripts.single_layer_edit_preserving_correction.binding import protected_sequences
+from .current_oracle import MeasuredCurrentOracle
 
 
 def require_lock(lock):
@@ -137,3 +139,21 @@ class Runtime(LegacyRuntime):
         result = super().native(records, directory, reuse=True)
         self.sync_oracles()
         return result
+
+    def protected_oracle(self,records):
+        packs,rows,unique,meta=protected_sequences(self.tok,self.etok,self.requests(records),self.context)
+        oracle=MeasuredCurrentOracle(self.model,packs)
+        self.oracles.append(oracle)
+        values=[];prefixes={};actual_alias=[]
+        for alias in meta['key_aliases']:
+            ci,pos=alias['cache'],alias['position'];value=oracle.caches[ci].keys[0,pos]
+            candidates=prefixes.setdefault(alias['prefix_sha'],[])
+            found=next((i for i in candidates if torch.equal(values[i],value)),None)
+            if found is None:
+                found=len(values);values.append(value);candidates.append(found)
+            actual_alias.append(dict(**alias,actual_key_column=found))
+        K=torch.stack(values,1).contiguous()
+        meta.update(actual_key_aliases=actual_alias,actual_distinct_key_columns=len(values),
+            dedup_rule='same exact token prefix AND identical captured FP32 key bytes only',
+            K_shape=list(K.shape),K_sha256=tensor_sha(K))
+        return oracle,rows,K,meta

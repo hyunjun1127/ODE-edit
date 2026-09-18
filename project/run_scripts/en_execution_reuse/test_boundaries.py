@@ -12,7 +12,8 @@ class Boundaries(unittest.TestCase):
         text='''UserId=janghj(1) JobState=PENDING Reason=JobHeldUser NumCPUs=8 Requeue=0
 ReqNodeList=server4 Dependency=(null) TimeLimit=1-00:00:00 ReqTRES=cpu=8,mem=59G,node=1,gres/gpu=1
 TresPerNode=gres/gpu:rtx_pro_6000:1
-Command=/source/run.sbatch /source /attempt/lock.json GENERATED_REFERENCE_PREPARATION
+Command=/source/run.sbatch
+SubmitLine=sbatch --hold /source/run.sbatch /source /attempt/lock.json GENERATED_REFERENCE_PREPARATION
 '''
         command=['/source/run.sbatch','/source','/attempt/lock.json','GENERATED_REFERENCE_PREPARATION']
         inspect_held(text,command)
@@ -93,7 +94,8 @@ Command=/source/run.sbatch /source /attempt/lock.json GENERATED_REFERENCE_PREPAR
                     trials=[dict(trial=0, weight_sha256='trial', loss=.09, actual_p=-.02,
                                  armijo=True, guard={'accepted': True}, invariant={'accepted': True}, decision='ACCEPT')],
                     selected_sha256='trial', stop_reason='ACCEPT', history_appends=1,
-                    gradient_sweeps=1, method_gradient_shared=False)
+                    gradient_sweeps=1, method_gradient_shared=False,
+                    full_sweep_rows=[dict(gradient=True,rows_sha256='exact512rows',coverage='fixture')])
 
     def test_exact_parity(self):
         a = self.result()
@@ -104,6 +106,17 @@ Command=/source/run.sbatch /source /attempt/lock.json GENERATED_REFERENCE_PREPAR
         b = copy.deepcopy(a)
         b['trials'][0]['loss'] += 1e-12
         self.assertEqual(compare_exact(a, b)['status'], 'EXACTNESS_NOT_ESTABLISHED')
+
+    def test_same_mean_different_document_rows_fails(self):
+        a=self.result();b=copy.deepcopy(a);b['full_sweep_rows'][0]['rows_sha256']='different'
+        self.assertEqual(compare_exact(a,b)['status'],'EXACTNESS_NOT_ESTABLISHED')
+
+    def test_normal_empty_space_is_not_fabricated_full_sweep(self):
+        a=self.result();a.update(stop_reason='REPAIR_SPACE_EMPTY',gradient_sweeps=0,gradient_sha256=None,
+            selected_sha256=a['native_sha256'],trials=[],full_sweep_rows=[])
+        result=compare_exact(a,copy.deepcopy(a))
+        self.assertEqual(result['status'],'EXACT_RECEIPT_MATCH')
+        self.assertEqual(result['gradient_coverage'],'NOT_RUN_NORMAL_EMPTY_OR_UNRESOLVED_SPACE')
 
     def test_receipt_cannot_hide_missing_coverage_or_shared_gradient(self):
         a = self.result()

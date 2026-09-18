@@ -199,6 +199,14 @@ class CurrentObservationController:
             self.session.close()
             raise
 
+    @property
+    def candidate_rows(self):
+        self._check_inputs()
+        if self._candidate is None:
+            raise ObservationError("CURRENT_CANDIDATE_NOT_OBSERVED")
+        with self.session.readonly(self._candidate.handle):
+            return self._candidate.lookup_rows("current", key=self._candidate.key)
+
     def _compare_hidden(self, index, left, right):
         # Same loop, head call order, dtypes and scalar reductions as
         # FullWeightLlamaOracle.compare_logits. Only hidden production changes.

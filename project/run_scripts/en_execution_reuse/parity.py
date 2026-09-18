@@ -10,7 +10,7 @@ REQUIRED = ('data_id', 'input_sha256', 'native_sha256', 'geometry_sha256',
             'current_binding_sha256', 'teacher_sha256', 'model_epoch',
             'loss', 'gradient_sha256', 'projected_gradient_sha256', 'chi', 'eta0',
             'reference_document_ids', 'reference_position_counts', 'trials',
-            'selected_sha256', 'stop_reason', 'history_appends')
+            'selected_sha256', 'stop_reason', 'history_appends', 'full_sweep_rows')
 TRIAL_FIELDS = ('trial', 'weight_sha256', 'loss', 'actual_p', 'armijo',
                 'guard', 'invariant', 'decision')
 
@@ -52,7 +52,11 @@ def compare_exact(left, right):
             for key in TRIAL_FIELDS:
                 if key not in trial:
                     mismatches.append(dict(path=f'{name}.trials[{i}].{key}', reason='NOT_RECORDED'))
-        if result.get('gradient_sweeps') != 1:
+        normal_no_direction=(result.get('stop_reason') in ('REPAIR_SPACE_EMPTY','RANK_UNRESOLVED') and
+            result.get('gradient_sweeps')==0 and result.get('gradient_sha256') is None and
+            result.get('selected_sha256')==result.get('native_sha256') and not result.get('trials') and
+            not result.get('full_sweep_rows'))
+        if result.get('gradient_sweeps') != 1 and not normal_no_direction:
             mismatches.append(dict(path=name+'.gradient_sweeps', reason='FULL_SWEEP_NOT_EXACTLY_ONE'))
         if result.get('method_gradient_shared') is not False:
             mismatches.append(dict(path=name+'.method_gradient_shared', reason='INDEPENDENCE_NOT_ESTABLISHED'))
@@ -71,5 +75,6 @@ def compare_exact(left, right):
     return dict(status='EXACT_RECEIPT_MATCH' if not mismatches else 'EXACTNESS_NOT_ESTABLISHED',
                 mismatches=mismatches, numerical_tolerance=0,
                 protection_tolerance_used_as_parity_tolerance=False,
+                gradient_coverage='NOT_RUN_NORMAL_EMPTY_OR_UNRESOLVED_SPACE' if left.get('gradient_sweeps')==right.get('gradient_sweeps')==0 else 'SEE_FULL_SWEEP_ROWS',
                 method_efficacy_claim=False,
                 tensor_verification='CALLER_SUPPLIED_EXACT_DIGESTS_NOT_RECONSTRUCTION')
