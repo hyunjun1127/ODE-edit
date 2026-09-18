@@ -9,6 +9,7 @@ this local linear problem only, never nonlinear choice or Llama validation.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from fractions import Fraction
 import json
 import time
 from typing import Any, Sequence
@@ -56,7 +57,7 @@ class QPInputError(QPError):
 
 
 class QPInfeasible(QPError):
-    """Local linear infeasibility with a recorded numerical Farkas witness."""
+    """Local infeasibility with an exact supplied-Gram Farkas witness."""
 
 
 class QPZeroRowInfeasible(QPInfeasible):
@@ -248,13 +249,22 @@ def _stationary_or_ray(matrix, rhs, policy):
     ray = vectors[:, ~retained] @ (vectors[:, ~retained].T @ rhs)
     roundoff_bound = (policy.eigenvalue_roundoff_multiplier * np.finfo(np.float64).eps
                       * len(matrix) * max(1.0, float(values[-1])))
-    if (values[0] > roundoff_bound and
+    positive_discarded = (~retained) & (values > roundoff_bound)
+    positive_rhs_component = (vectors[:, positive_discarded]
+                              @ (vectors[:, positive_discarded].T @ rhs))
+    positive_component_inf = _maximum(np.abs(positive_rhs_component))
+    if (positive_component_inf > threshold and
             np.all(ray >= -policy.recession_residual_relative * _maximum(np.abs(ray)))):
-        # A resolvably positive small eigenvalue does not constitute a null
-        # recession ray. Near-rank-loss must fail technically, not impose an
-        # undeclared norm cap by mislabeling its huge finite optimum infeasible.
+        # Check ALL discarded eigenspaces, not only the smallest eigenvalue:
+        # an exact dependency can coexist with a small positive eigenvalue.
+        # Its RHS component is positive curvature, not a null recession ray.
+        # An approximate Gram*witness == 0 check cannot distinguish these
+        # cases, so unresolved large finite solutions must fail technically.
         raise QPSolverFailure("QP_POSITIVE_SMALL_EIGENVALUE_UNRESOLVED", {
             "minimum_eigenvalue": float(values[0]), "rank_cutoff": cutoff,
+            "discarded_positive_eigenvalues": values[positive_discarded].tolist(),
+            "discarded_positive_rhs_component_inf": positive_component_inf,
+            "rhs_resolution_threshold": threshold,
             "eigenvalue_roundoff_bound": float(roundoff_bound)})
     return point, ray
 
@@ -343,6 +353,36 @@ def _working_solve(matrix, beta, keys, warm, policy):
     raise QPSolverFailure("QP_ITERATION_LIMIT", {"iterations": policy.max_pivots, "trace": trace})
 
 
+def _exact_farkas(gram, b, approximate, policy):
+    """Conservatively certify a numerical witness in exact rational arithmetic.
+
+    Small positive curvature can be below any FP64 spectral/residual cutoff;
+    without a norm cap, a small Gram residual therefore cannot prove local
+    infeasibility. Rationalization only proposes a witness. Every equality
+    against the caller's original finite FP64 entries is then checked EXACTLY.
+    Failure to find such a witness is numerical uncertainty, not infeasibility.
+    The denominator search uses the existing residual precision and adds no
+    numerical acceptance tolerance or change to the optimization problem.
+    """
+    scale = _maximum(approximate)
+    denominator = int(np.ceil(1.0 / policy.recession_residual_relative))
+    witness = [Fraction(float(value / scale)).limit_denominator(denominator)
+               for value in approximate]
+    support = [j for j, value in enumerate(witness) if value]
+    for i in range(len(b)):
+        residual = sum((Fraction(float(gram[i, j])) * witness[j] for j in support), Fraction(0))
+        if residual:
+            return {"exact_supplied_gram_farkas_pass": False,
+                    "exact_witness_first_nonzero_gram_row": i,
+                    "exact_witness_first_residual": str(residual)}
+    gain = sum((Fraction(float(b[j])) * witness[j] for j in support), Fraction(0))
+    passed = all(value >= 0 for value in witness) and gain > 0
+    return {"exact_supplied_gram_farkas_pass": bool(passed),
+            "witness_original_rows_rational": [str(value) for value in witness],
+            "exact_b_dot_witness": str(gain),
+            "exact_farkas_scope": "supplied FP64 Gram/RHS treated as exact rational entries; not nonlinear feasibility"}
+
+
 def solve(gram, b, ids: Sequence, order: str = "gss", *,
           policy: QPPolicy = DEFAULT_QP_POLICY) -> dict:
     """Return a JSON-safe certified solution or raise a typed QPError.
@@ -388,6 +428,10 @@ def solve(gram, b, ids: Sequence, order: str = "gss", *,
                     raise QPSolverFailure("QP_FULL_RECESSION_UNRESOLVED", exc.receipt) from exc
                 exc.receipt["witness_original_rows"] = (witness / scales).tolist()
                 exc.receipt["full_gram_witness_inf"] = _maximum(np.abs(residual))
+                exact_proof = _exact_farkas(raw_g, rhs, witness / scales, policy)
+                exc.receipt.update(exact_proof)
+                if not exact_proof["exact_supplied_gram_farkas_pass"]:
+                    raise QPSolverFailure("QP_RECESSION_UNRESOLVED", exc.receipt) from exc
             raise
         lam[:] = 0.0
         lam[indices] = values

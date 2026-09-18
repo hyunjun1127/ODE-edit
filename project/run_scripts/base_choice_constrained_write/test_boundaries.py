@@ -18,6 +18,16 @@ def lock():
         native_policy='FRESH_SAME_HOST_SHARED_ONCE',task_gpu_cap=1,project_gpu_cap=2)
 
 class Boundaries(unittest.TestCase):
+    def test_zero_FD_not_technical_pass(self):
+        from .checks import technical_status,fd_pair
+        with tempfile.TemporaryDirectory() as tmp:
+            result=fd_pair(None,None,None,None,torch.zeros(2,3),1.,tmp)
+        self.assertEqual(result['status'],'NO_DIRECTION')
+        self.assertNotEqual(technical_status('RESOLVED',[dict(status='PASS'),result]),'INTEGRATED_MODEL_CHECKS_PASS')
+        self.assertNotEqual(technical_status('RANK_UNRESOLVED',[]),'INTEGRATED_MODEL_CHECKS_PASS')
+        self.assertNotEqual(technical_status('RESOLVED',[]),'INTEGRATED_MODEL_CHECKS_PASS')
+        self.assertEqual(technical_status('RESOLVED',[dict(status='PASS')]*2),'INTEGRATED_MODEL_CHECKS_PASS')
+
     def test_scope(self):
         require_scope(lock())
         for key,value in [('max_batches',10),('sequential_authorized',True),('arms',['N4']),

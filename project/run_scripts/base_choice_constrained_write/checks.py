@@ -13,6 +13,12 @@ from .config import NUMERIC
 
 class TechnicalHold(RuntimeError):pass
 
+def technical_status(space_status,fd_results):
+    if space_status=='RANK_UNRESOLVED':return 'RANK_UNRESOLVED_NOT_FULL_TECHNICAL_PASS'
+    if space_status=='RESOLVED' and (len(fd_results)!=2 or any(x['status']!='PASS' for x in fd_results)):
+        return 'NO_DIRECTION_NOT_FULL_FD_PASS'
+    return 'INTEGRATED_MODEL_CHECKS_PASS'
+
 def require(path,condition,evidence):
     create_json(path,dict(evidence,check_status='PASS' if condition else 'FAIL'))
     if not condition:raise TechnicalHold(Path(path).stem)
@@ -105,7 +111,7 @@ def integrated(rt,ref,cur,rows,K,WN,space,allowed,out):
     pj=geometry.projector_diagnostics(space)
     if space.status!='RANK_UNRESOLVED':require(out/'projector.json',pj['status']=='PASS',pj)
     else:create_json(out/'projector.json',dict(status='RANK_UNRESOLVED',new_nonzero_not_tested=True))
-    gradient_directions=[];factor_checks=[]
+    gradient_directions=[];factor_checks=[];factor_files=[];projected_files=[]
     for i in range(4):
         cap=ref.capsules[i];step=cap['steps'][0]
         pair=dict(index=i,position=cap['positions'][0],target=cap['y0'][0],competitor=step['competitor'])
@@ -117,9 +123,9 @@ def integrated(rt,ref,cur,rows,K,WN,space,allowed,out):
         require(out/f'pair-{i}-AD.json',relative<=1e-4 and abs(value-direct)<=1e-4,
             dict(pair=pair,cached_margin=value,direct_margin=direct,relative_gradient_error=relative,
                 factor_norm=float(factor.norm()),direct_norm=float(g.norm()),physical_selected_leaf=True))
-        if i<2 and space.status=='RESOLVED':
+        if space.status=='RESOLVED':
             direction=space.project(factor)
-            gradient_directions.append((pair,g,direction))
+            if i<2:gradient_directions.append((pair,g,direction))
             # Independent dense contraction confirms the factor orientation.
             U=space.project(k.T).T
             projected=space.project(factor)
@@ -127,19 +133,38 @@ def integrated(rt,ref,cur,rows,K,WN,space,allowed,out):
             error=float((projected-reconstructed).norm()/projected.norm().clamp_min(1e-300))
             factor_checks.append(dict(index=i,projected_factor_relative=error,
                 dense_gram_diagonal=float(projected.square().sum()),factor_gram_diagonal=float(((A.double().T@A.double())*(U.T@U)).sum())))
-            require(out/f'pair-{i}-projected-factor.json',error<=1e-10,factor_checks[-1])
+            diagonal_scale=max(1.,abs(factor_checks[-1]['dense_gram_diagonal']))
+            diagonal_error=abs(factor_checks[-1]['dense_gram_diagonal']-factor_checks[-1]['factor_gram_diagonal'])/diagonal_scale
+            require(out/f'pair-{i}-projected-factor.json',error<=1e-10 and diagonal_error<=1e-10,factor_checks[-1])
+            fp=out/f'factor-Gram/{i}.pt';atomic_tensor(fp,dict(A=A,U=U));factor_files.append(fp)
+            pp=out/f'factor-Gram/projected-{i}.pt';atomic_tensor(pp,dict(projected=projected));projected_files.append(pp)
         del factor,g,A,k
+    if factor_files:
+        from .factors import gram
+        actual=gram(factor_files,ref.device,tile=2)
+        expected=np.zeros((len(projected_files),len(projected_files)))
+        for i,pi in enumerate(projected_files):
+            vi=torch.load(pi,weights_only=True,mmap=True)['projected']
+            for j,pj in enumerate(projected_files):
+                vj=torch.load(pj,weights_only=True,mmap=True)['projected']
+                expected[i,j]=float((vi*vj).sum())
+        error=float(np.linalg.norm(actual-expected)/max(np.linalg.norm(expected),1e-300))
+        require(out/'actual-factor-Gram.json',error<=1e-10,dict(relative_error=error,
+            actual_Gram=actual.tolist(),independent_dense_Gram=expected.tolist(),rows=len(factor_files),
+            production_factor_gram_routine=True,actual_Llama_gradients=True,diagonals_and_offdiagonals=True))
+    else:create_json(out/'actual-factor-Gram.json',dict(status='NOT_APPLICABLE_NO_RESOLVED_SPACE'))
+    fd_results=[]
     for i,(pair,g,direction) in enumerate(gradient_directions):
-        fd_pair(ref,pair,WN,g,direction,float((WN.double()-rt.W0.double()).norm()),out/f'FD-pair{i}')
+        fd_results.append(fd_pair(ref,pair,WN,g,direction,float((WN.double()-rt.W0.double()).norm()),out/f'FD-pair{i}'))
     # Repeat current sequence observation on bounded prefix; full final guard remains one.
     subset=[r for r in rows if r['cache']<4]
     q0=score_rows(cur,WN,subset);q1=score_rows(cur,WN,subset)
     nll=max(abs(q0[k]['nll']-q1[k]['nll']) for k in q0)
     require(out/'current-noop.json',nll<=1e-5 and all(q0[k]['strict']==q1[k]['strict'] for k in q0),dict(max_NLL_difference=nll,sequence_count=len(subset)))
     rt.guard()
-    result=dict(status=('RANK_UNRESOLVED_NOT_FULL_TECHNICAL_PASS' if space.status=='RANK_UNRESOLVED'
-                        else 'INTEGRATED_MODEL_CHECKS_PASS'),scope='reference4/current-prefix, fresh B100 native shared',
-        seconds=time.monotonic()-started,space_status=space.status,nonzero_FD_directions=len(gradient_directions),
+    result=dict(status=technical_status(space.status,fd_results),scope='reference4/current-prefix, fresh B100 native shared',
+        seconds=time.monotonic()-started,space_status=space.status,
+        FD_directions=[x['status'] for x in fd_results],nonzero_FD_directions=sum(x['status']=='PASS' for x in fd_results),
         histories_during_checks=0,continuation='B1 checkpoint reload/resume check still pending',
         sequential_authorized=False,checks=checks,factor_checks=factor_checks)
     create_json(out/'result.json',result);return result

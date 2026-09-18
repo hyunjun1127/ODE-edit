@@ -32,7 +32,7 @@ def run(lock):
     started=time.monotonic();stage='preflight';rt=None;timers={}
     create_json(out/'execution-entry.json',dict(max_batches=1,sequential_authorized=False,lock=lock))
     try:
-        for item in lock['execution']['members']:
+        for item in lock['execution']['members']+lock['external_members']:
             p=Path(item['path'])
             if p.stat().st_size!=item['bytes'] or sha(p)!=item['sha256']:raise ValueError('FROZEN_SOURCE:'+str(p))
         if lock['qp_policy']!=asdict(qp.DEFAULT_QP_POLICY):raise ValueError('QP_POLICY_DRIFT')
@@ -44,6 +44,8 @@ def run(lock):
         stage='W0-answer-capsules';t=time.monotonic();capsules=build_capsules(rt,inputs,out/'capsules')
         timers['answer_capsule_setup']=time.monotonic()-t
         capsule_manifest=dict(W0=rt.identity['W0'],inputs=lock['reference_inputs'],count=len(capsules),
+            newly_generated=len(capsules)-len(lock.get('reused_completed_W0_capsules',[])),
+            prior_completed_reused=len(lock.get('reused_completed_W0_capsules',[])),
             max_new_tokens=16,raw_argmax=True,corpus_revision=lock['corpus_revision'],model_revision=lock['model_revision'],
             train=[member(p) for p in sorted((out/'capsules/R512').glob('*.json'))],
             dev=[member(p) for p in sorted((out/'capsules/Dev128').glob('*.json'))])

@@ -25,11 +25,12 @@ def call(args,cwd=None):
 def member(p):
     p=Path(p);return dict(path=str(p),bytes=p.stat().st_size,sha256=sha(p))
 
-def preflight(repo):
-    directory=ROOT/'CPU-preflight-v1';directory.mkdir(exist_ok=False)
+def preflight(repo,cpu_label='v1'):
+    directory=ROOT/f'CPU-preflight-{cpu_label}';directory.mkdir(exist_ok=False)
     env=dict(os.environ,CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',
         PYTHONPATH=DEPS+':'+str(repo),OMP_NUM_THREADS='8',OPENBLAS_NUM_THREADS='8',MKL_NUM_THREADS='8')
-    cmd=[PYTHON,'-B','-m','unittest',PACKAGE.replace('/','.')+'.test_qp',PACKAGE.replace('/','.')+'.test_boundaries','-v']
+    cmd=[PYTHON,'-B','-m','unittest',PACKAGE.replace('/','.')+'.test_qp',PACKAGE.replace('/','.')+'.test_boundaries',
+         PACKAGE.replace('/','.')+'.test_review','-v']
     start=time.monotonic();p=subprocess.run(cmd,cwd=repo,env=env,text=True,capture_output=True)
     create_json(directory/'tests.json',dict(args=cmd,exit=p.returncode,stdout=p.stdout,stderr=p.stderr,
         seconds=time.monotonic()-start,model_forwards=0))
@@ -48,7 +49,8 @@ def preflight(repo):
         reason='Legacy overlap checker included CounterFact future/official P/N; final selector only uses Wiki128 and old reference fingerprints',
         same_selected_input_bytes=old['inputs_sha256']==final['inputs_sha256'],model_evaluations_before_fix=0,
         old_inputs_preserved=True,selection_used_for_execution='reference-inputs-v2'))
-    r=dict(status='CPU_IMPLEMENTATION_CHECKS_PASS_ACTUAL_MODEL_NOT_RUN',time=now(),tests=27,
+    r=dict(status='CPU_IMPLEMENTATION_CHECKS_PASS_ACTUAL_MODEL_NOT_RUN',time=now(),
+        tests_summary=p.stderr.split('Ran ')[-1].split('\n')[0],
         torch=str(torch.__version__),transformers=transformers.__version__,numpy=numpy.__version__,scipy=scipy.__version__,
         records_digest=digest(records),sample_order=[r['case_id'] for r in records],
         reference=member(ROOT/'reference-inputs-v2/manifest.json'),source_import=str(runner.__file__),
@@ -57,11 +59,11 @@ def preflight(repo):
         test_receipt=member(directory/'tests.json'),syntax=True,sequential_authorized=False,max_batches=1)
     create_json(directory/'receipt.json',r);print(json.dumps(r,indent=2))
 
-def freeze(repo,attempt):
+def freeze(repo,attempt,cpu_label='v1',reuse_capsules=None):
     repo=repo.resolve();parent=ROOT/'B1'/attempt
     if parent.exists():raise FileExistsError(parent)
     if call(['git','status','--porcelain'],repo):raise ValueError('SOURCE_MUST_BE_COMMITTED_CLEAN')
-    pre=json.loads((ROOT/'CPU-preflight-v1/receipt.json').read_text())
+    pre=json.loads((ROOT/f'CPU-preflight-{cpu_label}/receipt.json').read_text())
     old=json.loads(OLD.read_text())
     cleanup=json.loads((ROOT/'en-cleanup/removal-receipt.json').read_text())
     if cleanup['removed_files']!=52 or cleanup['EN_exact_checkpoint_resume']!='UNAVAILABLE_AFTER_USER_DIRECTED_REMOVAL':
@@ -94,6 +96,20 @@ def freeze(repo,attempt):
         if member(lock[key]['path'])!=lock[key]:raise ValueError('IMMUTABLE_ASSET_'+key)
     assets=[]
     for path in [Path(lock['config4']),*Path(lock['blue_root'],'AlphaEdit').glob('*.py')]:assets.append(member(path))
+    prior_assets=[]
+    prefixes=(lock['snapshot']+'/',lock['blue_root']+'/',lock['helper_scripts_root']+'/',DEPS+'/')
+    for item in old['external_members']:
+        path=Path(item['path'])
+        if not (str(path).startswith(prefixes) or str(path)==lock['projector']):continue
+        st=path.stat()
+        if st.st_size!=item['bytes'] or ('stat' in item and [st.st_dev,st.st_ino,st.st_mtime_ns]!=item['stat']):
+            raise ValueError('PRIOR_IMMUTABLE_STAT_CHANGED:'+str(path))
+        if st.st_size<64*2**20:
+            actual=member(path)
+            if actual['sha256']!=item['sha256']:raise ValueError('EXTERNAL_SOURCE_DRIFT:'+str(path))
+            assets.append(actual)
+        prior_assets.append(item)
+    assets=list({r['path']:r for r in assets}.values())
     # Large pretrained/P bytes: reuse prior sealed identity; current stat separately; actual W0/P tensor hash checked on load.
     identity_stats=[]
     for path in [Path(lock['projector']),*Path(lock['snapshot']).glob('*')]:
@@ -108,8 +124,8 @@ def freeze(repo,attempt):
         corpus_revision=json.loads((ROOT/'reference-inputs-v2/selection-policy.json').read_text())['corpus_revision'],
         records_digest=pre['records_digest'],sample_order=pre['sample_order'],reference_inputs=member(ROOT/'reference-inputs-v2/inputs.json'),
         fixed8=ref['fixed8'],nested256=ref['nested256'],storage=storage,immutable_asset_stats=identity_stats,
-        external_members=assets,prior_asset_locator=member(OLD),full_read=member(ROOT/'receipts/full-read-m0.json'),
-        cleanup=member(ROOT/'en-cleanup/removal-receipt.json'),CPU_checks=member(ROOT/'CPU-preflight-v1/receipt.json'),
+        external_members=assets,prior_immutable_members=prior_assets,prior_asset_locator=member(OLD),full_read=member(ROOT/'receipts/full-read-m0.json'),
+        cleanup=member(ROOT/'en-cleanup/removal-receipt.json'),CPU_checks=member(ROOT/f'CPU-preflight-{cpu_label}/receipt.json'),
         execution=execution,output=str(parent/'output'),resources=dict(GPU=1,CPU=8,mem_MiB=60416,wall_hours=24,
             node='server4',export='NONE',requeue=0,hour_hardcap=None),
         cost_plan=dict(status='PRE_EXECUTION_ESTIMATE_NOT_MEASURED',W0_generation_max_full_prefix_forwards=640*16,
@@ -119,6 +135,11 @@ def freeze(repo,attempt):
             GPU_peak_estimate_GiB=[45,75],host_peak_estimate_GiB=[40,58],
             historical_EN_measurement_not_new_actual=True),
         monitoring='CONTINUE_TO_B1_REPORT; NO_B2_WITHOUT_NEW_USER_AUTHORITY')
+    if reuse_capsules is not None:
+        reuse=json.loads(reuse_capsules.read_text())
+        if reuse['old_job']!='50291' or reuse['native_fit_completed']!=0:raise ValueError('REPAIR_SCOPE_BINDING')
+        lock['reused_completed_W0_capsules']=reuse['capsules']
+        lock['prior_technical_failure']=member(reuse_capsules)
     require_scope(lock);lock['lock_identity']=digest(lock)
     create_json(parent/'execution.lock.json',lock);print(json.dumps(member(parent/'execution.lock.json'),indent=2))
 
@@ -155,7 +176,8 @@ def submit(path):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('action',choices=['preflight','freeze','submit'])
     p.add_argument('--repo',type=Path);p.add_argument('--attempt',default='attempt-v1');p.add_argument('--lock',type=Path)
+    p.add_argument('--cpu-label',default='v1');p.add_argument('--reuse-capsules',type=Path)
     a=p.parse_args()
-    if a.action=='preflight':preflight(a.repo)
-    elif a.action=='freeze':freeze(a.repo,a.attempt)
+    if a.action=='preflight':preflight(a.repo,a.cpu_label)
+    elif a.action=='freeze':freeze(a.repo,a.attempt,a.cpu_label,a.reuse_capsules)
     else:submit(a.lock)

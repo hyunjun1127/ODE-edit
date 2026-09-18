@@ -6,7 +6,8 @@ import torch.nn.functional as F
 from project.run_scripts.single_layer_edit_preserving_correction.alltoken import FullWeightLlamaOracle
 from project.run_scripts.single_layer_edit_preserving_correction.binding import pack
 from project.run_scripts.single_layer_edit_preserving_correction.common import tensor_sha
-from .provenance import create_json
+from .provenance import create_json,create_bytes,sha
+import json
 
 @torch.no_grad()
 def raw_greedy(model,input_ids,max_new_tokens=16):
@@ -36,7 +37,19 @@ def raw_greedy(model,input_ids,max_new_tokens=16):
 def build_capsules(rt,inputs,directory):
     directory=Path(directory);capsules=[]
     if not torch.equal(rt.W.detach().cpu(),rt.W0):raise ValueError('CAPSULE_NOT_W0')
+    reused={x['source_row_id']:x for x in rt.lock.get('reused_completed_W0_capsules',[])}
     for row in inputs:
+        if row['source_row_id'] in reused:
+            proof=reused[row['source_row_id']];path=Path(proof['path'])
+            if sha(path)!=proof['sha256'] or path.stat().st_size!=proof['bytes']:raise ValueError('PARTIAL_CAPSULE_IDENTITY')
+            item=json.loads(path.read_text())
+            if any(item[k]!=v for k,v in row.items()) or item['W0']!=rt.identity['W0']:
+                raise ValueError('CAPSULE_MODEL_OR_INPUT_MISMATCH')
+            if (item['tf_input_ids']!=item['input_ids']+item['y0'][:-1] or
+                item['positions']!=list(range(len(item['input_ids'])-1,len(item['tf_input_ids']))) or
+                not 1<=len(item['y0'])<=16 or len(item['steps'])!=len(item['y0'])):raise ValueError('CAPSULE_COMPLETE_SCHEMA')
+            create_bytes(directory/row['role']/f'{row["ordinal"]:03d}.json',path.read_bytes());capsules.append(item)
+            continue
         answer=raw_greedy(rt.model,row['input_ids'])
         item={**row,**answer,'W0':rt.identity['W0']}
         # Prompt+answer[:-1], includes actual generated EOS as label, no fake EOS.

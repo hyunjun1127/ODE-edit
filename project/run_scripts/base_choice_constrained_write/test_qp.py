@@ -98,6 +98,7 @@ class QPTests(unittest.TestCase):
                 from_rows([[1, 0], [-1, 0]], [1, 1], order)
             self.assertGreater(ctx.exception.receipt["b_dot_witness"], 0)
             self.assertLessEqual(ctx.exception.receipt["full_gram_witness_inf"], 2e-12)
+            self.assertTrue(ctx.exception.receipt["exact_supplied_gram_farkas_pass"])
         # Contradiction can involve three rows rather than an opposite pair.
         with self.assertRaises(QPInfeasible):
             from_rows([[1, 0], [0, 1], [-1, -1]], [1, 1, 1])
@@ -160,6 +161,58 @@ class QPTests(unittest.TestCase):
         direction, result = from_rows(h, [1, 1])
         self.assertGreater(np.linalg.norm(direction), 1000)
         self.assertCertified(result)
+
+    def test_duplicate_null_plus_small_positive_is_technical_not_infeasible(self):
+        # Regression: the exact duplicate supplies a zero eigenvalue, but the
+        # separate small positive eigenvalue still permits a finite solution.
+        # Looking only at the minimum eigenvalue falsely certified a ray.
+        h = np.array([[1., 0.], [-1., 1e-7], [1., 0.]])
+        b = np.ones(3)
+        feasible = np.array([1., 20000000.])
+        np.testing.assert_array_equal(h @ feasible - b, np.zeros(3))
+        gram = h @ h.T
+        self.assertGreater(gram[1, 1] - 1., 0.)
+        ids = np.array(["a", "b", "c"])
+        for permutation in itertools.permutations(range(3)):
+            p = np.asarray(permutation)
+            for order in ("full", "gss", "most_violation"):
+                with self.subTest(permutation=permutation, order=order):
+                    with self.assertRaises(QPSolverFailure) as ctx:
+                        solve(gram[np.ix_(p, p)], b[p], ids[p].tolist(), order)
+                    self.assertEqual(ctx.exception.code, "QP_POSITIVE_SMALL_EIGENVALUE_UNRESOLVED")
+                    self.assertNotIsInstance(ctx.exception, QPInfeasible)
+                    receipt = ctx.exception.receipt
+                    self.assertGreater(len(receipt["discarded_positive_eigenvalues"]), 0)
+                    self.assertGreater(receipt["discarded_positive_rhs_component_inf"],
+                                       receipt["rhs_resolution_threshold"])
+                    json.dumps(receipt, allow_nan=False)
+
+    def test_exact_infeasible_with_duplicate_null_still_has_farkas_witness(self):
+        h = np.array([[1., 0.], [-1., 0.], [1., 0.]])
+        b = np.ones(3)
+        for order in ("full", "gss", "most_violation"):
+            with self.subTest(order=order), self.assertRaises(QPInfeasible) as ctx:
+                solve(h @ h.T, b, ["a", "b", "c"], order)
+            self.assertEqual(ctx.exception.code, "QP_INFEASIBLE")
+            self.assertTrue(ctx.exception.receipt["exact_supplied_gram_farkas_pass"])
+            witness = np.asarray(ctx.exception.receipt["witness_original_rows"])
+            self.assertTrue(np.all(witness >= 0))
+            np.testing.assert_allclose(witness @ h, np.zeros(2), atol=2e-12)
+            self.assertGreater(float(b @ witness), 0.)
+
+    def test_duplicate_count_cannot_hide_small_positive_curvature(self):
+        # Larger duplicate sets enlarge spectral roundoff bounds; even a
+        # witness below those bounds needs an exact supplied-Gram null proof.
+        for duplicates in (4, 8, 16, 64):
+            h = np.vstack((np.tile([1., 0.], (duplicates, 1)), [-1., 1e-7]))
+            b = np.ones(len(h))
+            np.testing.assert_array_equal(h @ np.array([1., 20000000.]) - b, np.zeros(len(h)))
+            for order in ("full", "gss", "most_violation"):
+                with self.subTest(duplicates=duplicates, order=order):
+                    with self.assertRaises(QPSolverFailure) as ctx:
+                        solve(h @ h.T, b, list(range(len(h))), order)
+                    self.assertNotIsInstance(ctx.exception, QPInfeasible)
+                    self.assertIn("UNRESOLVED", ctx.exception.code)
 
     def test_uncertified_subsolver_cannot_false_pass(self):
         with patch(f"{solve.__module__}._working_solve", return_value=(np.zeros(1), {})):
