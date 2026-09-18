@@ -8,13 +8,13 @@
   "preparation_lock_sha256": "4d21cfd4649476e71d802d95569eda11fefad8506769f54a859127f6f9c06701",
   "last_bounded_observation": {
     "scheduler_state": "RUNNING",
-    "elapsed_seconds": 2478,
-    "completed_document_indices": "0..99",
+    "elapsed_seconds": 3138,
+    "completed_document_indices": "0..127",
     "observed_T": 256,
     "total_required_documents": 640,
     "actual_correction_or_B1_parity": "NOT_RUN"
   },
-  "CPU_tests": {"passed": 140, "seconds": 39.459, "actual_Llama_PASS": false},
+  "CPU_tests": {"passed": 142, "seconds": 42.066, "receipt": "local/en-execution-reuse/20260919-v1/receipts/cpu-matched-r7.json", "actual_Llama_PASS": false},
   "new_matched_native_fit_calls_planned": 0,
   "prior_native": "EXACT_RETAINED_SAME_HOST_B100_CAPSULE_REUSE_RUNTIME_BINDING_PENDING",
   "matched_schedule_jobs": [],

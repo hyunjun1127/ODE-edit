@@ -68,6 +68,7 @@ def storage_plan(lengths=None, current_valid_token_upper=0):
                  three_W4_M4_checkpoint_payload=3*(weight+memory),
                  largest_atomic_checkpoint_temporary=weight+memory,
                  two_saved_gradient_FP64=2*4096*14336*8,
+                 bounded_physical_cached_AD_gradient_FP64=2*4096*14336*8,
                  two_geometry_factor_upper_FP64=2*14336*14336*8,
                  current_key_residual_upper_FP32=current_valid_token_upper*(14336+4096)*4,
                  largest_document_atomic_teacher=256*128256*4)

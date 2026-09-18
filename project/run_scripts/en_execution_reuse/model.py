@@ -59,6 +59,7 @@ class Runtime(LegacyRuntime):
     def __init__(self, lock, output):
         require_lock(lock)
         import transformers
+        import numpy, scipy
         from transformers import AutoModelForCausalLM, AutoTokenizer
         from scripts.fixed_counterfact import load_prefix
         self.lock, self.output, self.timing = lock, Path(output), {}
@@ -68,6 +69,8 @@ class Runtime(LegacyRuntime):
             raise ValueError('EXACT_FIRST100_BEFORE_MODEL')
         if str(torch.__version__) != lock['torch'] or transformers.__version__ != lock['transformers']:
             raise ValueError('PINNED_IMPORT')
+        if numpy.__version__!=lock['numpy'] or scipy.__version__!=lock['scipy']:
+            raise ValueError('PINNED_GEOMETRY_BACKEND_VERSION')
         if str(Path(transformers.__file__).resolve()) != lock['transformers_import']:
             raise ValueError('TRANSFORMERS_IMPORT_PATH')
         if os.environ.get('SLURMD_NODENAME') != 'server4' or not torch.cuda.is_available():
