@@ -71,6 +71,9 @@ def publish(report,output,repo):
     generation=table(s['generation'],['arm','denominator','target_prefix_match','stopped_on_original_EOS','reached_max32','target_over32_censored'])
     retention=table(s['retention'],['arm','W0_correct_N','retained','lost','retention_percent'])
     cost=table(s['compute'],['component','seconds','aggregation'])
+    allocation=table([dict(job=r['JobID'],state=r['State'],exit=r['ExitCode'],start=r['Start'],end=r['End'],
+        allocated_GPU_seconds=s['accounting']['allocated_GPU_seconds'],GPU_hours=s['accounting']['allocated_GPU_hours']) for r in s['accounting']['rows']],
+        ['job','state','exit','start','end','allocated_GPU_seconds','GPU_hours'])
     cf=table(conf,['requirement','file','function','line','evidence','verification_level'])
     roundpath=report/'round-ledger.csv'
     roundtable=table(list(csv.DictReader(roundpath.open())),['round','rows','candidate_scanned','all_choices','token_flips','ideal_norm','actual_norm','CPU_same_problem_order_audit']) if roundpath.exists() else 'Local QP/round 없음: NOT_APPLICABLE.'
@@ -80,6 +83,10 @@ def publish(report,output,repo):
 상태: **{s['status']} / B1 한 batch만 완료 / WAITING_USER_APPROVAL_FOR_SEQUENTIAL**.
 N4/BPCW512는 Server4 동일 GPU/runtime의 W0/zeroM4에서 새로 계산한 native100 한 번을 공유했다.
 사용자 별도 승인 전 B2–B10은 제출·예약·실행하지 않았다. 여섯 gate가 모두 통과하더라도 sequential 권한은 발생하지 않는다.
+모델 revision `{lock['model_revision']}`, method seed20260916, FP32/eager 및 matmul/cuDNN TF32off,
+physical L4 down_proj [4096,14336] 하나다. Native L2=1/lr=.1/decay=.5/clamp=.75/KL=.0625,
+최대25 loss·24 Adam과 원 early-stop 수식을 유지했다. Canonical evaluator MB16과 choice MB1을 구분한다.
+공통 context의 실제 token/RNG/P4 binding은 실행 lock 및 runtime-load.json에 결속했다. 같은 source라는 사실을 다른 hardware bitwise 동등성으로 확대하지 않는다.
 
 ## 1. 범위와 원분모
 
@@ -203,10 +210,13 @@ FD-fixed-grid.csv는 두 방향의 사전 고정12scale 전체를 포함한다. 
 
 실제 shared native fit은 1회다. standalone 비교에는 같은 native 비용을 각 arm에 포함하지만 실제 연구 총비용에는 중복 청구하지 않는다.
 표의 standalone view/전체wall/nested component를 서로 합산하지 않는다. Setup W0 capsule/cache와 통합기술/observer는 2× gate의 editing과 분리했다.
-반면 BPCW current K/Q·native anchor·controller·commit history는 editing에 포함했다. 순수 writer는 native inclusive에서 NOT_SEPARATED다.
+반면 BPCW current K/Q·native anchor·controller·전체 commit(atomic 저장·재적재 포함)은 editing에 포함했다. History/I-O는 commit 내부 timer이므로 다시 합산하지 않는다. 순수 writer는 native inclusive에서 NOT_SEPARATED다.
 GPU allocated seconds는 accounting.json 원job행 기준이며 extern/batch 중복합산0; utilization으로 부르지 않는다.
 peak GPU allocated={s['peak_gpu_allocated']} bytes, peak host={s['peak_host_KiB']} KiB.
-실제 성공 attempt의 parent GPU allocation은 {s['accounting']}이다. 첫 취소267초와 별도이며 이미 합산한 값이 아니다.
+실제 완료 attempt의 parent GPU allocation은 아래와 같다. 첫 취소267초와 별도이며 이미 합산한 값이 아니다.
+
+{allocation}
+
 Forward/token/교사강제/두-logit backward의 실제 계수는 runtime-work-counters.json에 보존했다. 이 계수에는 명시된 기술·관측 경로가 포함될 수 있어 phase별 timer와 중복 합산하지 않는다.
 두 W/M/RNG/context/ledger/registry atomic B1 checkpoint를 보존한다. 원자료 actual bytes와 SHA는 raw-inventory.json, CPU tensor 검산은 checkpoint-inventory.csv에 있다.
 전체 pretrained/Jacobian/512개 dense W-gradient를 저장하지 않았다. Gradient는 pair activation/projected-key factors와 bounded 기술4개 dense 증거로 구분했다.

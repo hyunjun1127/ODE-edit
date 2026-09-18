@@ -1,6 +1,7 @@
 import copy
 import unittest
-from .review import reduce_raw,pair,digest,audit_scan
+from .review import reduce_raw,pair,digest,audit_scan,bind_endpoint,audit_qp_numbers
+import numpy as np
 
 def fixture():
     raw={};metrics={}
@@ -52,5 +53,21 @@ class ReviewTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'REFERENCE_CHOICE_ID'):audit_scan(y,1)
         y=copy.deepcopy(x);y['token_flips']=0
         with self.assertRaisesRegex(ValueError,'REFERENCE_AGGREGATE'):audit_scan(y,1)
+    def test_endpoint_binding_rejects_stale_observer(self):
+        x=dict(selection_seal=dict(endpoint_weight_sha256='abc'),compatibility=dict(endpoint_weight_sha256='abc',request_order_sha256=digest([1])),request_order=digest([1]),requests=1)
+        bind_endpoint(x,'abc',[1])
+        with self.assertRaisesRegex(ValueError,'ENDPOINT_SHA'):bind_endpoint(x,'other',[1])
+        with self.assertRaisesRegex(ValueError,'ORDER_BINDING'):bind_endpoint(x,'abc',[2])
+    def test_missing_protected_position_rejected(self):
+        p=dict(position=128,target=2,choice=2,margin=1.,kappa=.1,mu=.9,logp=-1.,d=.2,preserved=True)
+        x=dict(documents=[dict(source_row_id='synthetic',positions=[p],all_choices=True,eos=False,censored=True)],positions=1,token_flips=0,sequence_retained=1,all_choices=True)
+        capsule=dict(source_row_id='synthetic',positions=[128,129],y0=[2,3],eos=False,censored=True)
+        with self.assertRaisesRegex(ValueError,'CAPSULE_BINDING'):audit_scan(x,1,[capsule])
+    def test_independent_KKT_rejects_false_source_pass(self):
+        policy=dict(feasibility_absolute=1e-9,feasibility_relative=1e-10,objective_relative=1e-8)
+        sol=dict(alpha=[1.,1.],policy=policy,diagnostics=dict(KKT_pass=True))
+        self.assertTrue(audit_qp_numbers(np.eye(2),np.ones(2),sol,policy)['independent_locked_row_scaled_KKT'])
+        sol['alpha']=[0.,0.]
+        with self.assertRaisesRegex(ValueError,'KKT_FAIL'):audit_qp_numbers(np.eye(2),np.ones(2),sol,policy)
 
 if __name__=='__main__':unittest.main()

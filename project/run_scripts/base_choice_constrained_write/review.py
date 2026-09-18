@@ -57,6 +57,12 @@ def pair(left,right):
         true_nll_delta=b['true_nll']-a['true_nll'],desired_margin_delta=b['desired_margin']-a['desired_margin'])
         for a,b in zip(left,right,strict=True)]
 
+def bind_endpoint(obj,expected,order):
+    if obj['selection_seal']['endpoint_weight_sha256']!=expected or obj['compatibility']['endpoint_weight_sha256']!=expected:
+        raise ValueError('OBSERVER_ENDPOINT_SHA')
+    if obj['request_order']!=digest(order) or obj['compatibility']['request_order_sha256']!=digest(order):raise ValueError('OBSERVER_ORDER_BINDING')
+    if obj['requests']!=len(order):raise ValueError('OBSERVER_REQUEST_COUNT')
+
 def refsummary(scan,arm,split,eos_ids=()):
     positions=[p for d in scan['documents'] for p in d['positions']]
     return dict(arm=arm,split=split,documents=len(scan['documents']),positions=len(positions),
@@ -68,14 +74,18 @@ def refsummary(scan,arm,split,eos_ids=()):
         minimum_margin=min(p['margin'] for p in positions),mean_d=statistics.mean(p['d'] for p in positions),
         max_d=max(p['d'] for p in positions),outside_base_top8=sum(p['outside_base_top8'] for p in positions))
 
-def audit_scan(scan,documents):
+def audit_scan(scan,documents,capsules=None):
     """Stored full-vocabulary results, not a new full-vocabulary forward."""
     if len(scan['documents'])!=documents:raise ValueError('REFERENCE_DOCUMENT_COUNT')
     ids=[d['source_row_id'] for d in scan['documents']]
     if len(set(ids))!=documents:raise ValueError('REFERENCE_DUPLICATE')
     flips=0;retained=0;positions=0
-    for doc in scan['documents']:
+    for ix,doc in enumerate(scan['documents']):
         ps=doc['positions'];positions+=len(ps)
+        if capsules is not None:
+            cap=capsules[ix]
+            if (doc['source_row_id'],[p['position'] for p in ps],[p['target'] for p in ps],doc['eos'],doc['censored'])!=(
+                cap['source_row_id'],cap['positions'],cap['y0'],cap['eos'],cap['censored']):raise ValueError('REFERENCE_CAPSULE_BINDING')
         if len({p['position'] for p in ps})!=len(ps):raise ValueError('REFERENCE_POSITION_DUPLICATE')
         for p in ps:
             if not all(math.isfinite(p[k]) for k in ['margin','kappa','mu','logp','d']):raise ValueError('REFERENCE_NONFINITE')
@@ -90,9 +100,27 @@ def audit_scan(scan,documents):
     return dict(documents=documents,positions=positions,token_flips=flips,retained_sequences=retained,
                 stored_arithmetic='PASS',new_full_vocab_forward=False)
 
+def audit_qp_numbers(G,b,sol,policy):
+    if sol['policy']!=policy:raise ValueError('QP_POLICY_BINDING')
+    a=np.asarray(sol['alpha'],dtype=np.float64);scales=np.sqrt(np.diag(G));scales=np.where(scales==0,1.,scales)
+    lam=a*scales;beta=b/scales;response=(G/scales[:,None]/scales[None,:])@lam
+    slack=response-beta;raw=G@a-b
+    limit=policy['feasibility_absolute']+policy['feasibility_relative']*np.maximum(np.abs(beta),np.abs(response))
+    primal=float(.5*lam@response);dual=float(beta@lam-primal)
+    objective_limit=policy['objective_relative']*max(1.,abs(primal),abs(dual))
+    finite=all(np.isfinite(v).all() for v in [a,slack,raw,limit,np.array([primal,dual,objective_limit])])
+    passed=(finite and np.all(a>=0) and np.all(slack>=-limit) and np.all(raw>=-scales*limit) and
+        np.all(np.abs(np.minimum(lam,slack))<=limit) and np.max(np.abs(lam*slack),initial=0)<=objective_limit and abs(primal-dual)<=objective_limit)
+    if not passed or not sol['diagnostics']['KKT_pass']:raise ValueError('INDEPENDENT_QP_KKT_FAIL')
+    return dict(minimum_dual=float(a.min()),minimum_raw_slack=float(raw.min()),
+        raw_complementarity_max=float(np.max(np.abs(a*raw))),primal_objective=primal,dual_objective=dual,
+        independent_locked_row_scaled_KKT=True,source_KKT_pass=True,
+        validation='INDEPENDENT_FP64_RAW_AND_ROW_NORMALIZED_CERTIFICATE; no new solve or model')
+
 def mechanism_tables(output,report,terminal):
     import torch
     selection=terminal['selection'];roundrows=[];factorrows=[];audit=[];previous=set();gradient_count=0
+    policy=read(output.parent/'execution.lock.json')['qp_policy']
     for item in selection['rounds']:
         ix=item['round'];directory=output/f'controller/round{ix}'
         rows=read(directory/'factors/rows.json');problem=torch.load(directory/'qp-problem.pt',weights_only=True,mmap=True,map_location='cpu')
@@ -109,13 +137,9 @@ def mechanism_tables(output,report,terminal):
         gradient_count+=len(ids);previous=set(ids)
         solpath=directory/'qp-solution.json';sol=read(solpath) if solpath.exists() else None
         if sol is not None:
-            a=np.asarray(sol['alpha']);slack=G@a-b
-            if not np.isfinite(a).all():raise ValueError('DUAL_NONFINITE')
-            audit.append(dict(round=ix,minimum_dual=float(a.min()),minimum_raw_slack=float(slack.min()),
-                raw_complementarity_max=float(np.max(np.abs(a*slack))),primal_objective=float(.5*a@G@a),
-                dual_objective=float(a@b-.5*a@G@a),source_KKT_pass=sol['diagnostics']['KKT_pass'],
-                validation='INDEPENDENT_RAW_FP64_ARITHMETIC; runtime row-scaled certificate separately retained'))
+            audit.append(dict(round=ix,**audit_qp_numbers(G,b,sol,policy)))
         order=read(directory/'ordering-audit.json')
+        if not (order.get('pass') is True or order.get('pass_all') is True):raise ValueError('QP_ORDER_AUDIT_FAILED')
         roundrows.append(dict(round=ix,rows=len(ids),pair_gradients_cumulative=gradient_count,
             factor_seconds=item['factor_seconds'],gram_seconds=item['gram_seconds'],qp_seconds=item['qp_seconds'],
             reconstruction_seconds=item.get('reconstruction_seconds'),scan_seconds=item['scan_seconds'],
@@ -129,7 +153,7 @@ def mechanism_tables(output,report,terminal):
     for p in sorted((output/'technical').glob('pair-*-AD.json')):
         v=read(p);checks.append(dict(check=p.stem,status=v['check_status'],value=v['relative_gradient_error'],ceiling=1e-4,scope='one actual scalar pair'))
     v=read(output/'technical/actual-factor-Gram.json')
-    checks.append(dict(check='factor-Gram',status=v['check_status'],value=v['relative_error'],ceiling=1e-10,scope='actual reference4; all16 Gram entries'))
+    checks.append(dict(check='factor-Gram',status=v.get('check_status',v.get('status')),value=v.get('relative_error'),ceiling=1e-10,scope='actual reference4 if resolved; otherwise N/A'))
     fd=[]
     for p in sorted((output/'technical').glob('FD-pair*/result.json')):
         v=read(p)
@@ -147,6 +171,11 @@ def analyze(output,accounting,report):
     terminal=read(output/'terminal.json');lock=read(output.parent/'execution.lock.json')
     if terminal['batch']!=1 or terminal['requests']!=100 or terminal['sequential_authorized']:raise ValueError('B1_SCOPE')
     objs={arm:read(output/('W0-current.json' if arm=='W0' else f'arms/{arm}/current.json')) for arm in ['W0','N4','BPCW512']}
+    endpoint_sha=dict(W0=terminal['identity']['W0'],N4=terminal['selection']['native_sha256'],BPCW512=terminal['selection']['selected_sha256'])
+    for a,obj in objs.items():
+        bind_endpoint(obj,endpoint_sha[a],lock['sample_order'])
+        for key in ['input_token_identity','runtime_identity','source_sha256s','evaluator_layout']:
+            if obj['compatibility'][key]!=objs['W0']['compatibility'][key]:raise ValueError('OBSERVER_COMPATIBILITY:'+key)
     panels={a:reduce_raw(v,lock['sample_order']) for a,v in objs.items()}
     final=[];tails=[];paired=[];retention=[]
     for arm,metrics in panels.items():
@@ -204,9 +233,21 @@ def analyze(output,accounting,report):
     eos_ids=read(output/'capsules/R512/000.json')['original_eos_ids']
     references=[refsummary(nativeRef,'N4','R512',eos_ids),refsummary(selectedRef,'BPCW512','R512',eos_ids)]
     references += [refsummary(read(output/f'arms/{a}/Dev128-choice.json'),a,'Dev128',eos_ids) for a in ['N4','BPCW512']]
-    scanchecks={name:audit_scan(scan,n) for name,scan,n in [('N4-R512',nativeRef,512),('BPCW-R512',selectedRef,512)]+[
-        (a+'-Dev128',read(output/f'arms/{a}/Dev128-choice.json'),128) for a in ['N4','BPCW512']]}
+    capsule_paths={split:sorted((output/'capsules'/split).glob('*.json')) for split in ['R512','Dev128']}
+    capsules={split:[read(p) for p in ps] for split,ps in capsule_paths.items()}
+    capmanifest=read(output/'capsule-manifest.json')
+    capmember=member(output/'capsule-manifest.json')
+    if capmanifest['W0']!=endpoint_sha['W0'] or capmanifest['inputs']!=lock['reference_inputs']:raise ValueError('CAPSULE_W0_INPUT_BINDING')
+    for key,split,count in [('train','R512',512),('dev','Dev128',128)]:
+        if len(capmanifest[key])!=count or [Path(r['path']) for r in capmanifest[key]]!=capsule_paths[split]:raise ValueError('CAPSULE_EXACT_MEMBERSHIP')
+        for row in capmanifest[key]:
+            p=Path(row['path'])
+            if p.stat().st_size!=row['bytes'] or sha(p)!=row['sha256']:raise ValueError('CAPSULE_MANIFEST_SHA')
+    scanchecks={name:audit_scan(scan,n,capsules[split]) for name,scan,n,split in [('N4-R512',nativeRef,512,'R512'),('BPCW-R512',selectedRef,512,'R512')]+[
+        (a+'-Dev128',read(output/f'arms/{a}/Dev128-choice.json'),128,'Dev128') for a in ['N4','BPCW512']]}
     create_json(report/'reference-stored-arithmetic.json',scanchecks)
+    for a,scan in [('N4',nativeRef),('BPCW512',selectedRef)]+[(a,read(output/f'arms/{a}/Dev128-choice.json')) for a in ['N4','BPCW512']]:
+        if scan['weight_sha256']!=endpoint_sha[a]:raise ValueError('REFERENCE_ENDPOINT_BINDING')
     mechanism_tables(output,report,terminal)
     selectedSHA=objs['BPCW512']['selection_seal']['endpoint_weight_sha256']
     if selectedSHA!=selection['selected_sha256'] or selectedRef['weight_sha256']!=selectedSHA:raise ValueError('SELECTED_EVAL_BINDING')
@@ -216,6 +257,17 @@ def analyze(output,accounting,report):
     for a in ['N4','BPCW512']:
         receipt=read(output/f'arms/{a}/commit.json');cp=output/f'arms/{a}/checkpoint.pt'
         value=torch.load(cp,weights_only=True,mmap=True,map_location='cpu')
+        if receipt['identity']['W']!=endpoint_sha[a] or value['identity']!=receipt['identity'] or terminal['commits'][a]!=receipt:
+            raise ValueError('CHECKPOINT_COMMIT_ENDPOINT_BINDING')
+        if value['reference_manifest']!=capmember:raise ValueError('CHECKPOINT_CAPSULE_MANIFEST_BINDING')
+        if value['source']['commit']!=lock['execution']['commit'] or value['model_revision']!=lock['model_revision']:raise ValueError('CHECKPOINT_SOURCE_BINDING')
+        for key,field in [('rng','rng'),('context','context'),('received_ledger','ledger')]:
+            if digest(value[key])!=receipt['identity'][field]:raise ValueError('CHECKPOINT_STATE_HASH:'+field)
+        if receipt['identity']['order']!=digest(lock['sample_order']) or [r['case_id'] for r in value['received_ledger']]!=lock['sample_order']:raise ValueError('CHECKPOINT_LEDGER_ORDER')
+        if receipt['history_appends']!=1 or len(value['history'])!=1:raise ValueError('HISTORY_ONCE')
+        h=value['history'][0]
+        if (h['layer'],h['history_append'],h['compute_ks'],h.get('compute_z',0),h.get('solve',0))!=(4,1,1,0,0):raise ValueError('HISTORY_COUNTS')
+        if h['before_sha256']!=terminal['identity']['M0'] or h['after_sha256']!=receipt['identity']['M'] or h['weight_sha256']!=endpoint_sha[a]:raise ValueError('HISTORY_STATE_LINK')
         for key,shape,field in [('weight',(4096,14336),'W'),('M4',(1,14336,14336),'M')]:
             t=value[key]
             if tuple(t.shape)!=shape or t.dtype!=torch.float32 or not torch.isfinite(t).all():raise ValueError('CP_SCHEMA')
@@ -229,6 +281,7 @@ def analyze(output,accounting,report):
     bpcp=torch.load(output/'arms/BPCW512/checkpoint.pt',weights_only=True,mmap=True,map_location='cpu')
     native_cp=torch.load(output/'native/native-capsule.pt',weights_only=True,mmap=True,map_location='cpu')
     selected_ideal=torch.load(output/'selected-ideal.pt',weights_only=True,mmap=True,map_location='cpu')
+    if selected_ideal['native']!=endpoint_sha['N4'] or selected_ideal['selected']!=endpoint_sha['BPCW512']:raise ValueError('IDEAL_NATIVE_ENDPOINT_BINDING')
     if tensor_sha(n4cp['weight'])!=tensor_sha(native_cp['weight']):raise ValueError('N4_NOT_NATIVE_ENDPOINT')
     native_copy=selection['selected_sha256']==selection['native_sha256']
     expected=native_cp['weight'] if native_copy else (native_cp['weight'].double()+selected_ideal['ideal']).float()
@@ -244,10 +297,14 @@ def analyze(output,accounting,report):
              key_identity_binding=member(output/'protected-provenance.json'),
              geometry_helper_kind_not_optimizer='EN-F null-space constructor reused; optimizer is BPCW QP'))
     timers=terminal['timings'];native=timers['native_shared_once']
-    n4edit=native+terminal['commits']['N4']['history_seconds']
-    bpedit=native+timers['current_keys_geometry']+timers['current_anchor']+timers['controller']+terminal['commits']['BPCW512']['history_seconds']
+    # The contract includes commit: atomic storage/reload is not silently removed.
+    n4edit=native+terminal['commits']['N4']['seconds']
+    bpedit=native+timers['current_keys_geometry']+timers['current_anchor']+timers['controller']+terminal['commits']['BPCW512']['seconds']
     ratio=bpedit/n4edit
     compute=[dict(component=k,seconds=v,aggregation='EXCLUSIVE_TOP_LEVEL_PROGRAM_PHASE') for k,v in timers.items()]
+    compute += [dict(component=a+'_commit',seconds=terminal['commits'][a]['seconds'],aggregation='EXCLUSIVE_TOP_LEVEL_COMMIT') for a in ['N4','BPCW512']]
+    compute += [dict(component=a+'_'+k,seconds=terminal['commits'][a][k],aggregation='NESTED_IN_COMMIT_DO_NOT_SUM')
+                for a in ['N4','BPCW512'] for k in ['history_seconds','checkpoint_io_seconds']]
     compute += [dict(component='N4_standalone_editing',seconds=n4edit,aggregation='COMPARISON_VIEW_NATIVE_INCLUDED'),
         dict(component='BPCW512_standalone_editing',seconds=bpedit,aggregation='COMPARISON_VIEW_NATIVE_INCLUDED'),
         dict(component='program_wall',seconds=terminal['wall_seconds'],aggregation='TOTAL_NOT_ADD_TO_PHASES')]
