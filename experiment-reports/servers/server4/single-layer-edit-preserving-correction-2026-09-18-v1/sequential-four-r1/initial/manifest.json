@@ -1,0 +1,56 @@
+{
+  "inputs": [
+    {
+      "bytes": 148232,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/execution.lock.json",
+      "sha256": "4d600d4b57df58203fb21f447116c0362b8a731b9b6d71c4485353d913224d56"
+    },
+    {
+      "bytes": 1289,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/submission.json",
+      "sha256": "e62d6ff430e50de051d5639b6ff9233f5f03315e32ad19e1c5f1d5e1eaee7986"
+    },
+    {
+      "bytes": 3768,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/held-inspection.json",
+      "sha256": "5a4da2736f8a8c4632930ba8e6ac0349abcb878c7021b7e557442a6a367bada2"
+    },
+    {
+      "bytes": 2874,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/attempt-v1/resource-admission.json",
+      "sha256": "5d9e37ae4d9b6f47760f57fdeac635f26949c90b22f3916660f3ba0aa4c8b83b"
+    },
+    {
+      "bytes": 2663,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/receipts/observation-010.json",
+      "sha256": "53748e88f78de57d4c54ee216d82a1d463da7d8dcc71e5e22aea54d63435337a"
+    },
+    {
+      "bytes": 6897,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/preflight-r1/receipt.json",
+      "sha256": "bf451bb90989d9220c715d025271d8adbd870d693262a03a17747ce7f828b940"
+    },
+    {
+      "bytes": 931,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/user-authority-r1.json",
+      "sha256": "00cfef569a390a7f22399230178deeec50430b3f9efc4f0a604d5081d2059792"
+    },
+    {
+      "bytes": 1886,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/receipts/initial-boundary-cpu.json",
+      "sha256": "6c939e5674fd893fc2da2bd374aff0e89763e08e5d5025e6f86cdde2a51c7f5d"
+    }
+  ],
+  "members": [
+    {
+      "bytes": 5081,
+      "relative": "diagnostic-report-ko.md",
+      "sha256": "8aaa2aa82bb08fce398c4dd8cb9ae20b6bc965b9688dbfd549b358015d36ee9d"
+    },
+    {
+      "bytes": 6670,
+      "relative": "receipt.json",
+      "sha256": "287031912c330d7fc8da1f63d81c416e7df09643f4e235b01fdea54a8bed8238"
+    }
+  ]
+}

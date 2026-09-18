@@ -110,7 +110,7 @@
       "sha256": "38dc6b949129be0c062508c30ecfe9be30681959ff3b4d017b0e43459b77d67d"
     }
   },
-  "monitoring_active": true,
+  "monitoring_active": false,
   "new_analysis_GPU": 0,
   "nonce": "ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1",
   "override": {
@@ -169,8 +169,15 @@
     "M_to_S_scientific_gate": "USER_DIRECTED_NOT_ESTABLISHED",
     "full_numerical_validation": "NOT_ESTABLISHED",
     "R_L_submitted": 0,
-    "initial_observed": false,
-    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/diagnostic-report-ko.md"
+    "initial_observed": true,
+    "initial_scope": "EN-S B1 selected/atomic checkpoint/history1/observer nonmutation/B2 entry only",
+    "last_scheduler_observation": "2026-09-18T06:20:06.329682+00:00",
+    "CPU_boundary_sha256": "6c939e5674fd893fc2da2bd374aff0e89763e08e5d5025e6f86cdde2a51c7f5d",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/initial/diagnostic-report-ko.md",
+    "report_sha256": "8aaa2aa82bb08fce398c4dd8cb9ae20b6bc965b9688dbfd549b358015d36ee9d",
+    "resume_manifest": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/resume-manifest.json"
   },
-  "status": "S4_REGISTERED_RUNNING_AWAITING_INITIAL"
+  "status": "S_INITIAL_VALID_MONITORING_PAUSED_AWAITING_USER"
 }

@@ -1,0 +1,18 @@
+{
+  "source_publication": "47d14ba",
+  "source_execution": "9e5884f5a2f8dcb7fc7406084f3fde94df450a55",
+  "raw_tensor_prompt_gradient_fullstdout_Git": false,
+  "manifest_hash_check": "PASS",
+  "GFM_table_column_check": "PASS",
+  "relative_link_check": "PASS",
+  "HTML_render": "NOT_RUN_MARKDOWN_IT_UNAVAILABLE",
+  "generic_access_helper": "BLOCKED_RUNS_PATH_NOT_PASS",
+  "blocked_path": "runs/odeedit_single_layer_edit_preserving_correction_s4_20260918/S-four-submission-r1.json",
+  "initial_blocked_path": "runs/odeedit_single_layer_edit_preserving_correction_s4_20260918/S-four-initial-r1.json",
+  "authority": "원 M envelope가 exact runs/odeedit_single_layer_edit_preserving_correction_s4_20260918/ 기록을 허용하고 최신 direct 사용자+GH 회신이 같은 task의 네 sequential 제출을 승인. 해당 compact run 기록만 게시했으며 generic helper를 수정하거나 PASS라고 기록하지 않음.",
+  "shared_helper_modified": false,
+  "independent_red": "NOT_RUN_SELF_AUDIT_ONLY",
+  "source_native_method_core": "EXACT_PRIOR_BYTES",
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED"
+}

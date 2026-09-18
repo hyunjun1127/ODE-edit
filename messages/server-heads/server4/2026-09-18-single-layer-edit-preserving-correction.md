@@ -54,3 +54,17 @@ M→S는 USER_DIRECTED_NOT_ESTABLISHED이며 완료 M 증거 또는 과학 gate 
 Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/submission/diagnostic-report-ko.md`.
 Report SHA19d80b980990880cec0c230a947a10986b200415928579f29d203be30dfee4b5.
 GH direct 전송/수신 완료. 초기 실제 S 경계만 관찰한 뒤 pause한다.
+
+## S 초기 경계 확인 / 모니터링 종료
+
+최종 scheduler/result 관측06:20:06.329682Z: EN-S는 B1 완료/selected checkpoint/history1/observer후 B2 entry,
+EN-F는 B1 selected/commit 뒤 관측중, EN-COV/EN-F4는 cap2 array 대기였다.
+EN-S B1의 safe CPU reload(W4/M4 finite/shape/hash) 및 W/M/RNG/context/ledger가 B2 entry와 같은 것을 확인했다.
+선택 correction norm0.006435743799504245, nativefallback=false. 이는 효능 또는 full numerical PASS가 아니다.
+EN-S 초기 실행만 S_INITIAL_VALID이며 다른 세 arm의 동일 단계나 전체40batch 완료를 주장하지 않는다.
+이후 scheduler/log/result polling0, automatic_resume=false, 제출된 네 프로그램은 자연진행한다.
+Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/initial/diagnostic-report-ko.md`
+SHA8aaa2aa82bb08fce398c4dd8cb9ae20b6bc965b9688dbfd549b358015d36ee9d.
+ManifestSHA3934b1897864566c347f6074eb0e2d29a180ef0063f16e7261eb0625f7d1ffc8.
+RootedreceiptSHA756493871ba6a08803cb94dc7fbff1d0bd3c1fd2b82f0d8a748aab19c8e75725.
+Resume `/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/resume-manifest.json`.

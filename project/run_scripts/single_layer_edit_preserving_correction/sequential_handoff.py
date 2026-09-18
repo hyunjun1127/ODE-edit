@@ -16,6 +16,12 @@ def main():
     sub=json.loads((attempt/'submission.json').read_text());obs=json.loads(a.observation.read_text())
     initial={arm:d['S_INITIAL_VALID.json'] for arm,d in obs['arms'].items() if 'S_INITIAL_VALID.json' in d}
     if a.phase=='initial' and not initial:raise ValueError('ACTUAL_S_INITIAL_NOT_OBSERVED')
+    checked=None
+    if a.phase=='initial':
+        checked=member(ROOT/'S/receipts/initial-boundary-cpu.json')
+        value=json.loads(Path(checked['path']).read_text())
+        if value['status']!='STORED_BOUNDARY_CPU_CONSISTENT' or value['arm'] not in initial:
+            raise ValueError('STORED_BOUNDARY_NOT_CHECKED')
     status='S_INITIAL_VALID_MONITORING_PAUSED_AWAITING_USER' if initial else 'S4_REGISTERED_RUNNING_AWAITING_INITIAL'
     scope='experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1'
     out=a.repo/scope/a.phase
@@ -83,6 +89,7 @@ Raw/tensor/gradient/prompt/fullstdout Git0. NO_BROADCAST_NOT_REQUIRED.
     report=textfile(out/'diagnostic-report-ko.md',body)
     inputs=[member(attempt/x) for x in ('execution.lock.json','submission.json','held-inspection.json','resource-admission.json')]
     inputs.extend([member(a.observation),member(ROOT/'S/preflight-r1/receipt.json'),member(ROOT/'S/user-authority-r1.json')])
+    if checked:inputs.append(checked)
     receipt=write(out/'receipt.json',dict(status=status,job=sub['job'],mapping=sub['mapping'],initial=initial,
         observation=obs,inputs=inputs,source={k:lock['execution'][k] for k in ('head','tree','archive')},
         T='SKIPPED_USER_DIRECTED',full_numerical_validation='NOT_ESTABLISHED',raw_Git=False))
@@ -90,6 +97,14 @@ Raw/tensor/gradient/prompt/fullstdout Git0. NO_BROADCAST_NOT_REQUIRED.
     root=write(out/'rooted-receipt.json',dict(report=report,receipt=receipt,manifest=manifest,acyclic=True))
     run=write(a.repo/'runs/odeedit_single_layer_edit_preserving_correction_s4_20260918'/f'S-four-{a.phase}-r1.json',
         dict(status=status,report=report,manifest=manifest,rooted_receipt=root,job=sub['job'],mapping=sub['mapping']))
+    if a.phase=='initial':
+        write(ROOT/'S/resume-manifest.json',dict(status='WAITING_USER_RESUME',automatic_resume=False,
+            monitoring_active=False,job=sub['job'],mapping=sub['mapping'],source=lock['execution']['head'],
+            lock=member(attempt/'execution.lock.json'),output=str(attempt/'arms'),
+            initial_observation=member(a.observation),CPU_boundary=checked,
+            report=report,manifest=manifest,rooted_receipt=root,
+            submitted_programs='NATURAL_EXECUTION_UNCHANGED',future_submit=False,R_L=False,
+            next_action='USER_RECALL_ONLY',checkpoint_GPU_continuation='NOT_TESTED'))
     print(json.dumps(dict(report=report,manifest=manifest,rooted_receipt=root,run=run),ensure_ascii=False))
 
 if __name__=='__main__':main()

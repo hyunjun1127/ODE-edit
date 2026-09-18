@@ -1,0 +1,25 @@
+{
+  "job": "50071",
+  "manifest": {
+    "bytes": 2321,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/initial/manifest.json",
+    "sha256": "3934b1897864566c347f6074eb0e2d29a180ef0063f16e7261eb0625f7d1ffc8"
+  },
+  "mapping": {
+    "0": "EN-S",
+    "1": "EN-F",
+    "2": "EN-COV",
+    "3": "EN-F4"
+  },
+  "report": {
+    "bytes": 5081,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/initial/diagnostic-report-ko.md",
+    "sha256": "8aaa2aa82bb08fce398c4dd8cb9ae20b6bc965b9688dbfd549b358015d36ee9d"
+  },
+  "rooted_receipt": {
+    "bytes": 1099,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/S/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/initial/rooted-receipt.json",
+    "sha256": "756493871ba6a08803cb94dc7fbff1d0bd3c1fd2b82f0d8a748aab19c8e75725"
+  },
+  "status": "S_INITIAL_VALID_MONITORING_PAUSED_AWAITING_USER"
+}
