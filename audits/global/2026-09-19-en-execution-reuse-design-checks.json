@@ -1,0 +1,63 @@
+{
+  "status": "DESIGN_ARITHMETIC_AND_LINK_CHECKS_PASS_IMPLEMENTATION_NOT_TESTED",
+  "date": "2026-09-19",
+  "design": {
+    "path": "plans/global/2026-09-19-en-execution-reuse-r512-g256-design-v1.md",
+    "bytes": 28665,
+    "sha256": "b671e1eb26d01068b561cf32144d66291f43c8f11505d550e6945229b43b16bd"
+  },
+  "contract": {
+    "path": "plans/global/2026-09-19-en-execution-reuse-r512-g256-contract-v1.json",
+    "bytes": 3893,
+    "sha256": "84dc6d7b35afb21cb095606a490132ccfc3b72bdbd5ac6ef3de2d241ce1700a0"
+  },
+  "source_members": [
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+      "bytes": 29791,
+      "sha256": "a0c2a6791b3cd9cde2dfaf3dea26277f5d0d2fb0c1c5a415883af058e3ba6b95"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+      "bytes": 4595,
+      "sha256": "120e9806a17e9818b0b4bf7a6e48fd772351fcd80360ee64899637054089fa6f"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+      "bytes": 13774,
+      "sha256": "5d9a8f1c38739eaa85cd75c8bc945229ab474465f869141733dd8d3a8bdf92ea"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_runner.py",
+      "bytes": 18300,
+      "sha256": "8f8fce180ff032cbf50099c1217c44077ae5d7c875558694e80b26c9684a61b5"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+      "bytes": 26349,
+      "sha256": "0c602dc58fd40ade4e13673483d025cc77a55d196a8aa9bcce463a6fe6a08db8"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+      "bytes": 22955,
+      "sha256": "9c11d70d16aa3b7265b123c1caa28cc2cf4f1122e7447db8c1eb90c796a50e7a"
+    }
+  ],
+  "local_links_checked": [
+    "plans/global/2026-09-19-en-execution-reuse-r512-g256-contract-v1.json",
+    "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/diagnostic-report-ko.md",
+    "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/sequential-four-r1/en-f-completed-review-r1/compute.csv",
+    "project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+    "project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+    "project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+    "project/run_scripts/single_layer_edit_preserving_correction/sequential_runner.py"
+  ],
+  "measured_legacy_guard_seconds": 1676.5733204428107,
+  "measured_legacy_invariant_seconds": 3298.7604317562655,
+  "legacy_guard_invariant_fraction_of_correction": 0.6029485419709202,
+  "independent_document_review": "요청 범위의 중대한 모순 없음; code/GPU 검증이 아님",
+  "model_forwards": 0,
+  "GPU_jobs_submitted": 0,
+  "implementation_tests_run": false,
+  "measured_speedup": null
+}
