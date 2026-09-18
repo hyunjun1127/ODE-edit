@@ -1,6 +1,6 @@
 import copy
 import unittest
-from .review import reduce_raw,pair,digest
+from .review import reduce_raw,pair,digest,audit_scan
 
 def fixture():
     raw={};metrics={}
@@ -41,5 +41,16 @@ class ReviewTests(unittest.TestCase):
         p=pair(r,x);self.assertEqual(sum(v['lost'] for v in p),1);self.assertEqual(sum(v['gained'] for v in p),1)
         x[0]['identity']='wrong'
         with self.assertRaisesRegex(ValueError,'CROSS_ENDPOINT'):pair(r,x)
+    def test_reference_arithmetic_and_tie_identity(self):
+        p=dict(position=128,target=2,choice=1,margin=0.,kappa=0.,mu=0.,logp=-1.,d=.2,preserved=False)
+        x=dict(documents=[dict(source_row_id='synthetic',positions=[p],all_choices=False)],
+            positions=1,token_flips=1,sequence_retained=0,all_choices=False)
+        self.assertEqual(audit_scan(x,1)['token_flips'],1)
+        y=copy.deepcopy(x);y['documents'][0]['positions'][0]['mu']=.1
+        with self.assertRaisesRegex(ValueError,'REFERENCE_MU'):audit_scan(y,1)
+        y=copy.deepcopy(x);y['documents'][0]['positions'][0]['preserved']=True
+        with self.assertRaisesRegex(ValueError,'REFERENCE_CHOICE_ID'):audit_scan(y,1)
+        y=copy.deepcopy(x);y['token_flips']=0
+        with self.assertRaisesRegex(ValueError,'REFERENCE_AGGREGATE'):audit_scan(y,1)
 
 if __name__=='__main__':unittest.main()
