@@ -22,7 +22,7 @@ def call(args, cwd=None):
     return subprocess.check_output(args, cwd=cwd, text=True).strip()
 
 
-def inspect_held(text, command):
+def inspect_held(text, command, dependency_job=None):
     match=re.search(r'^\s*Command=(.*?)\s*$',text,re.M)
     submitted=re.search(r'^\s*SubmitLine=(.*?)\s*$',text,re.M)
     if (match is None or shlex.split(match.group(1))!=command[:1] or submitted is None or
@@ -30,10 +30,16 @@ def inspect_held(text, command):
         raise ValueError('HELD_EXACT_COMMAND_SOURCE_LOCK_STAGE')
     fields=dict(re.findall(r'(?:^|\s)([A-Za-z][A-Za-z0-9_]*)=([^\s]+)',text))
     exact=dict(JobState='PENDING',Reason='JobHeldUser',NumCPUs='8',Requeue='0',
-               ReqNodeList='server4',Dependency='(null)',TimeLimit='1-00:00:00',
+               ReqNodeList='server4',TimeLimit='1-00:00:00',
                TresPerNode='gres/gpu:rtx_pro_6000:1')
     if any(fields.get(k)!=v for k,v in exact.items()):
         raise ValueError('HELD_EXACT_STATE_RESOURCE_NODE')
+    dependency = fields.get('Dependency')
+    if dependency_job is None:
+        if dependency != '(null)':raise ValueError('HELD_UNEXPECTED_DEPENDENCY')
+    elif dependency not in (f'afterok:{dependency_job}',f'afterok:{dependency_job}(unfulfilled)',
+                             f'afterok:{dependency_job}(fulfilled)'):
+        raise ValueError('HELD_EXACT_PREPARATION_AFTEROK')
     if not re.fullmatch(r'janghj\([0-9]+\)',fields.get('UserId','')):
         raise ValueError('HELD_OWNER')
     tres=dict(item.split('=',1) for item in fields.get('ReqTRES','').split(',') if '=' in item)
@@ -42,7 +48,7 @@ def inspect_held(text, command):
         raise ValueError('RESOURCE_OR_ARRAY_MISMATCH')
 
 
-def freeze(repo, stage, attempt, cpu_receipt, teacher_ready=None):
+def freeze(repo, stage, attempt, cpu_receipt, teacher_ready=None, preparation_lock=None):
     repo = Path(repo).resolve()
     if stage not in ('GENERATED_REFERENCE_PREPARATION', 'MATCHED_B1'):
         raise ValueError('B1_STAGE_ALLOWLIST')
@@ -58,7 +64,17 @@ def freeze(repo, stage, attempt, cpu_receipt, teacher_ready=None):
     # Current input bound is computed with the exact pinned tokenizer/context,
     # before any model load. Add explicit raw/log/serializer operational margin.
     ready = None
-    if stage == 'MATCHED_B1':
+    pending = None
+    if preparation_lock is not None:
+        if stage != 'MATCHED_B1' or teacher_ready is not None:
+            raise ValueError('DEFERRED_READY_MATCHED_B1_ONLY')
+        from .dependent_start import pending_spec
+        pending = pending_spec(preparation_lock)
+        plan = storage_plan(current_valid_token_upper=10416)
+        plan['incremental_phase'] = 'DEPENDENT_B1_CONSERVATIVE_FULL_PREP_PAYLOAD_PLUS_B1'
+        plan['conservative_duplicate_payload_reserve_while_preparation_runs'] = plan['payload_teacher_key_bytes']
+        plan['runtime_incremental_bytes_without_margin'] = plan['estimated_bytes_without_unrecorded_overhead']-plan['payload_teacher_key_bytes']
+    elif stage == 'MATCHED_B1':
         if teacher_ready is None:
             raise ValueError('SEALED_GENERATED256_TEACHER_REQUIRED')
         ready = json.loads(Path(teacher_ready).read_text())
@@ -156,7 +172,12 @@ def freeze(repo, stage, attempt, cpu_receipt, teacher_ready=None):
             source='Planning range; old max16 timing not a generated256 measurement or speedup claim'),
         sequential_authorized=False,auto_continue=False,source_checks_not_actual_Llama_PASS=True)
     if stage == 'MATCHED_B1':
-        lock['generated_ready'] = member(teacher_ready)
+        if pending is None:
+            lock['generated_ready'] = member(teacher_ready)
+        else:
+            lock['generated_ready_pending'] = pending
+            from .dependent_start import compare_preparation_inputs
+            compare_preparation_inputs(lock,json.loads(Path(pending['lock']['path']).read_text()))
         oldroot=PRIOR.parent/'output'
         oldsource=Path(prior['execution']['source_root'])/'project/run_scripts/single_layer_edit_preserving_correction/observer.py'
         lock['prior_observer_reuse']={k:member(p) for k,p in dict(lock=PRIOR,
@@ -182,7 +203,16 @@ def submit(path):
     # This conservative path accepts only the unambiguous empty project queue.
     # Nonempty capacity must be resolved explicitly, never cancelled here.
     queue = call(['squeue','-h','-u','janghj','-w','server4','-o','%i|%j|%T|%b|%R'])
-    if queue:
+    pending=lock.get('generated_ready_pending')
+    if pending:
+        from .dependent_start import verify_pending_members, inspect_preparation_job
+        verify_pending_members(pending)
+        prep_job=pending['job']
+        if any(row.split('|')[0]!=prep_job for row in queue.splitlines() if row):
+            raise ValueError('OTHER_PROJECT_ADMISSION_REQUIRES_CAP_ACCOUNTING:'+queue)
+        prep_text=call(['scontrol','show','job',prep_job])
+        inspect_preparation_job(prep_text,pending)
+    elif queue:
         raise ValueError('EXACT_PROJECT_CAPACITY_ACCOUNTING_REQUIRED:'+queue)
     if shutil.disk_usage(ROOT).free < lock['storage']['required_free_bytes']:
         raise ValueError('STORAGE_NO_PRIOR_WAIVER')
@@ -191,22 +221,29 @@ def submit(path):
             raise ValueError('PRE_SUBMIT_SOURCE_ASSET_DRIFT')
     create_json(parent/'resource-admission.json',dict(queue=queue,node=call(['scontrol','show','node','server4']),
         free_bytes=shutil.disk_usage(ROOT).free,free_inodes=os.statvfs(ROOT).f_favail,
-        task_admitted_capacity=1,project_admitted_capacity=1,project_cap=2,other_job_mutations=0))
+        task_admitted_capacity=1,project_admitted_capacity=1,project_cap=2,other_job_mutations=0,
+        serialization=(dict(afterok=prep_job,preparation_inspection=prep_text,
+            explanation='PREP and B1 cannot overlap; one task lane') if pending else None)))
     (parent/'logs').mkdir()
     script = str(Path(lock['execution']['source_root'])/PKG/'run.sbatch')
     tag = 'prep' if lock['stage']=='GENERATED_REFERENCE_PREPARATION' else 'B1'
-    args = ['sbatch','--parsable','--hold','--job-name=odeedit_en_reuse_g256_'+tag+'_s4',
+    args = ['sbatch','--parsable','--hold',*([f'--dependency=afterok:{prep_job}'] if pending else []),
+            '--job-name=odeedit_en_reuse_g256_'+tag+'_s4',
             f'--output={parent}/logs/%j.out',f'--error={parent}/logs/%j.err',
             script,lock['execution']['source_root'],str(path),lock['stage']]
     job = call(args).split(';')[0]
     text = call(['scontrol','show','job',job])
     create_json(parent/'held-inspection.json',dict(job=job,args=args,text=text,lock=member(path)))
-    inspect_held(text,[script,lock['execution']['source_root'],str(path),lock['stage']])
+    inspect_held(text,[script,lock['execution']['source_root'],str(path),lock['stage']],
+                 pending['job'] if pending else None)
     call(['scontrol','release',job])
     receipt=dict(job=job,stage=lock['stage'],lock=member(path),args=args,
                  inspection='PASS_HELD_OWNER_SOURCE_ARGS_NODE_RESOURCES_DEPENDENCY',released=True,
                  actual_model_validation='NOT_OBSERVED_AT_RELEASE',max_batches=1,
                  sequential_authorized=False,automatic_resume=False)
+    if pending:
+        receipt.update(dependency=f'afterok:{prep_job}',teacher_ready='PENDING_RUNTIME_EXACT_BINDING',
+            monitoring_active=False,submission_authority='USER_B1_PENDING_REQUEST_AFTER_MONITORING_PAUSE')
     create_json(parent/'submission.json',receipt)
     print(json.dumps(receipt,indent=2))
 
@@ -254,7 +291,8 @@ if __name__ == '__main__':
     p.add_argument('--repo',type=Path);p.add_argument('--stage',choices=['GENERATED_REFERENCE_PREPARATION','MATCHED_B1'])
     p.add_argument('--attempt',default='attempt-v1');p.add_argument('--cpu-receipt',type=Path)
     p.add_argument('--teacher-ready',type=Path);p.add_argument('--lock',type=Path)
+    p.add_argument('--preparation-lock',type=Path)
     a=p.parse_args()
-    if a.action=='freeze':freeze(a.repo,a.stage,a.attempt,a.cpu_receipt,a.teacher_ready)
+    if a.action=='freeze':freeze(a.repo,a.stage,a.attempt,a.cpu_receipt,a.teacher_ready,a.preparation_lock)
     elif a.action=='submit':submit(a.lock)
     else:release_inspected(a.lock)

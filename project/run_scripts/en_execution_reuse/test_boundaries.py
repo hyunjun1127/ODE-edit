@@ -39,6 +39,88 @@ SubmitLine=sbatch --hold /source/run.sbatch /source /attempt/lock.json GENERATED
             changed['lock_identity']=digest({k:v for k,v in changed.items() if k!='lock_identity'})
             with self.assertRaises(ValueError):require_lock(changed)
 
+    def test_dependency_held_requires_exact_afterok(self):
+        from .admission import inspect_held
+        text='''UserId=janghj(1) JobState=PENDING Reason=JobHeldUser NumCPUs=8 Requeue=0
+ReqNodeList=server4 Dependency=afterok:50410(unfulfilled) TimeLimit=1-00:00:00 ReqTRES=cpu=8,mem=59G,node=1,gres/gpu=1
+TresPerNode=gres/gpu:rtx_pro_6000:1
+Command=/source/run.sbatch
+SubmitLine=sbatch --hold --dependency=afterok:50410 /source/run.sbatch /source /attempt/lock.json MATCHED_B1
+'''
+        command=['/source/run.sbatch','/source','/attempt/lock.json','MATCHED_B1']
+        inspect_held(text,command,'50410')
+        for old,new in (('afterok:50410(unfulfilled)','afterany:50410(unfulfilled)'),
+                        ('afterok:50410(unfulfilled)','afterok:99999(unfulfilled)'),
+                        ('afterok:50410(unfulfilled)','(null)')):
+            with self.subTest(new=new),self.assertRaises(ValueError):
+                inspect_held(text.replace(old,new),command,'50410')
+        with self.assertRaises(ValueError):inspect_held(text,command)
+
+    def test_deferred_ready_is_fail_closed_and_does_not_rewrite_lock(self):
+        import json
+        from pathlib import Path
+        import tempfile
+        from unittest.mock import patch
+        from . import dependent_start as ds
+        from .preparation import create_json,member
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);out=root/'output';(out/'generated').mkdir(parents=True)
+            shared={k:'fixture' for k in ('snapshot','config4','blue_root','dataset_root','projector',
+                'cold_capsule','reference_inputs','model_revision','records_digest','sample_order','torch',
+                'transformers','model_config_sha256','model_weights_identity_sha256','tokenizer_identity_sha256','seed')}
+            shared['reference_inputs']={'sha256':'input'}
+            prep=dict(shared,stage='GENERATED_REFERENCE_PREPARATION',output=str(out),
+                execution=dict(commit='prep',archive={'sha256':'archive'}))
+            pm=create_json(root/'prep-lock.json',prep)
+            submission=create_json(root/'submission.json',dict(job='50410',lock=pm,released=True))
+            spec=dict(job='50410',lock=pm,submission=submission,expected_ready=str(out/'READY.json'),
+                preparation_source='prep',preparation_archive_sha256='archive')
+            lock=dict(shared,stage='MATCHED_B1',lock_identity='admission',generated_ready_pending=spec)
+            original=copy.deepcopy(lock)
+            binding=dict(source_sha256='archive',runtime={'source':'prep'})
+            bm=create_json(out/'teacher-binding.json',binding)
+            mm=create_json(out/'generated/manifest.json',dict(status='COMPLETE',production_ready=True,
+                document_counts={'R512':512,'Dev128':128},upstream_cache_status='COMPLETE',binding=binding,
+                inputs_sha256='input',documents=[{'logp':{'shape':[256,128256]}} for _ in range(640)]))
+            ready=dict(status='GENERATED_REFERENCE_READY_NOT_CORRECTION_VALIDATION',generated_documents=640,
+                source=prep['execution'],B2_authorized=False,automatic_continuation=False,binding=bm,manifest=mm)
+            with patch.object(ds,'require_lock'),patch.object(ds.shutil,'disk_usage') as disk:
+                disk.return_value.free=10**15
+                with self.assertRaises(FileNotFoundError):ds.resolve(lock)
+                create_json(out/'READY.json',ready)
+                effective,receipt=ds.resolve(lock)
+                self.assertEqual(lock,original)
+                self.assertEqual(effective['generated_ready']['sha256'],member(out/'READY.json')['sha256'])
+                self.assertNotIn('generated_ready_pending',effective)
+                self.assertEqual(effective['admission_lock_identity'],'admission')
+                self.assertFalse(receipt['monitoring_process_created'])
+                disk.return_value.free=0
+                with self.assertRaisesRegex(ValueError,'STORAGE'):ds.resolve(lock)
+                disk.return_value.free=10**15
+                bad=copy.deepcopy(lock);bad['generated_ready']=member(out/'READY.json')
+                with self.assertRaisesRegex(ValueError,'AMBIGUOUS'):ds.resolve(bad)
+                bad=copy.deepcopy(lock);bad['seed']='changed'
+                with self.assertRaisesRegex(ValueError,'INPUT_MISMATCH'):ds.resolve(bad)
+                bad=copy.deepcopy(lock);bad['generated_ready_pending']['job']='99999'
+                with self.assertRaisesRegex(ValueError,'PRODUCER'):ds.resolve(bad)
+                altered=dict(ready,generated_documents=639)
+                (out/'READY.json').write_text(json.dumps(altered))
+                with self.assertRaisesRegex(ValueError,'COMPLETENESS'):ds.resolve(lock)
+                altered=dict(ready,source={'commit':'other'})
+                (out/'READY.json').write_text(json.dumps(altered))
+                with self.assertRaisesRegex(ValueError,'SOURCE'):ds.resolve(lock)
+                (out/'READY.json').write_text(json.dumps(ready))
+                create_json(out/'failure.json',{'error':'failure must not be masked by READY'})
+                with self.assertRaisesRegex(ValueError,'FAILURE_PRESENT'):ds.resolve(lock)
+
+    def test_dependency_bootstrap_has_no_submit_poll_or_B2(self):
+        import inspect
+        from . import dependent_start
+        source=inspect.getsource(dependent_start)
+        for prohibited in ('subprocess.','time.sleep(',"['sbatch'","['squeue'",'while True'):
+            self.assertNotIn(prohibited,source)
+        self.assertIn("args.max_batches!=1",source)
+
     def test_single_batch(self):
         Scope().require_batch(0)
         for x in (-1, 1, 9, True):

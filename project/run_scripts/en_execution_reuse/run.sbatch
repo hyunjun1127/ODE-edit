@@ -20,7 +20,7 @@ export PATH=/usr/local/cuda/bin:/usr/bin:/bin
 cd "$task_source"
 case "$task_stage" in
   GENERATED_REFERENCE_PREPARATION) task_module=project.run_scripts.en_execution_reuse.prepare_runner ;;
-  MATCHED_B1) task_module=project.run_scripts.en_execution_reuse.matched_runner ;;
+  MATCHED_B1) task_module=project.run_scripts.en_execution_reuse.dependent_start ;;
   *) exit 64 ;;
 esac
 exec /data/janghj/EasyEdit/.venv/bin/python -u -m "$task_module" --lock "$task_lock" --max-batches 1

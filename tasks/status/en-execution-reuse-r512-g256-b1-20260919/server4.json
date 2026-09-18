@@ -1,6 +1,6 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-EXECUTION-REUSE-R512-G256-B1-SH4-V1",
-  "status": "PREPARATION_RUNNING_MATCHED_B1_NOT_SUBMITTED",
+  "status": "USER_REQUESTED_B1_DEPENDENT_REGISTRATION_PREPARING",
   "preparation_job": "50410",
   "preparation_execution": "a297039dc756a0e8953e4bab4695e66361a161ac",
   "preparation_tree": "2ecf48e05f460fc46f2bebe7b793a2ddb20d7b8d",
@@ -25,6 +25,11 @@
   "auto_continue": false,
   "old_tasks_resumed": false,
   "files_deleted_or_moved": 0,
-  "monitoring": "BOUNDED_CURRENT_TASK_UNTIL_B1_AND_REPORT",
+  "monitoring": "ONE_TIME_B1_DEPENDENT_REGISTRATION_ONLY; NO_ONGOING_MONITORING",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "user_pause_receipt": "local/en-execution-reuse/20260919-v1/receipts/user-monitoring-pause-r1.json",
+  "latest_user_request": "B1 부분 pending으로 걸어놓을 수 있나?",
+  "pending_registration_plan": {"dependency": "afterok:50410", "jobs": 1, "max_batches": 1, "READY_validation": "ONE_SHOT_BEFORE_MODEL", "preparation_job_mutated": false},
   "final_required_status": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
 }
