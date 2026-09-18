@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-S06-BPCW512-COLD-B1-SH4-V2",
+  "nonce": "ODEEDIT-GH-SH4-BPCW512-B1-USER-SEQUENTIAL-GATE-20260918-R1",
+  "source_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "transport": "app-server direct via registered SSH/local socket",
+  "accepted_turn_id": "01a0b45f-0d89-7c72-b086-ec5a9d3d3d74",
+  "publication": "e666b37485d07332c662d7a4359aaf25904a9dbc",
+  "status": "TURN_START_ACCEPTED",
+  "full_read_ack": "NOT_YET_CLAIMED",
+  "task_ack": "SH4 착수 ACK: fresh N4/BPCW512 B1-only, sequential 사용자 승인 잠금, 기존 EN exact job 취소·checkpoint 목록/소유 확인 삭제, 공용/native/평가/보고 보존",
+  "runtime_or_cleanup_completion": "NOT_OBSERVED_BY_GH",
+  "scope_ko": "SH4 구현·준비·cold B1 두 arm 비교·최종보고. 새 제출 전 기존 EN 정확 job 취소 및 server4 EN checkpoint 정확 목록 삭제. B2 이후 사용자 별도 명시 허가 필요.",
+  "source_files_verified": 8,
+  "cpu_math_checks": 12,
+  "model_validation_claim": false
+}
