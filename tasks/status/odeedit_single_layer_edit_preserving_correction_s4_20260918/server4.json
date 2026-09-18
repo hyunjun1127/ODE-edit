@@ -89,5 +89,22 @@
     "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
   },
   "source_data_deleted": false,
-  "status": "PAIRED_STOP_WAITING_USER_RESUME"
+  "status": "RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION",
+  "historical_status": "PAIRED_STOP_WAITING_USER_RESUME",
+  "latest_recall": {
+    "nonce": "ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1",
+    "T": "SKIPPED_USER_DIRECTED",
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "prepared_source": "fb9d2ac41455dc6e97fa78080b7307047f8395b2",
+    "M_jobs": [],
+    "M_registered": 0,
+    "M_intended": 10,
+    "new_GPU_seconds": 0,
+    "actual_initial": "NOT_RUN",
+    "report": "experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/resource-blocked-ko.md",
+    "report_sha256": "58759653cf7fe28054b01eddd694e65d3c7cc332e6cfc4117777b799d1996554",
+    "resume": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-skip-t-storage-blocked-r1.json",
+    "resume_sha256": "c6896966f4af41e758a4801d979269e58d650d2d1877113558e8222b460b55df",
+    "blocked_on": "available71.1144GiB below existing72GiB storage reserve; no deletion or retention waiver"
+  }
 }

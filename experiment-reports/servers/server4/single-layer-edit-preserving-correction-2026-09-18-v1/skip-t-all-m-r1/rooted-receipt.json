@@ -1,0 +1,16 @@
+{
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "local_evidence": {
+    "bytes": 3059,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/skip-t-r1/resource-blocked.json",
+    "sha256": "10c95b0d916c5b81bfc14c61fc4665fd75f39d0d23383b433362c81942baa8eb"
+  },
+  "manifest": {
+    "bytes": 868,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/artifact-manifest.json",
+    "sha256": "73db09de51575cf06d678a3be768bc56a5d7eecae7b88d0413703e70483f1046"
+  },
+  "new_GPU": 0,
+  "new_jobs": []
+}

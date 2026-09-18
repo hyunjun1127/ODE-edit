@@ -26,3 +26,14 @@ WN/target/key/zeroM/context를 보존 proposal에서 확인하여 native fit을 
 all-token/optimizer 및 observer 경계 검토는 실제 Llama T와 구분하여 기록한다.
 실제 T49928 및 후속 필요한 M의 상태는 별도 create-once 실행 receipt에 기록한다.
 이 ACK는 T_READY, M 제출 완료 또는 효능 PASS가 아니다.
+
+## 2026-09-18 최신 T 생략 recall
+
+nonce ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1 적용. T 신규0,
+M10 independent cold episode만 cap2, reuse-first/B1fit재사용/80final L4보존,
+S/R/L0. T=SKIPPED_USER_DIRECTED/full_numerical_validation=NOT_ESTABLISHED.
+정본은 prior FULL_READ SHA로 재결속했고 새 envelope/override 전체를 읽었다.
+새 waiver routing4CPU 검사 및 import 확인, 원 method 수치/source 불변.
+실제 M_INITIAL 또는 검증된 GPU shortage 후 pause 규칙은 유지한다.
+이번에는 제출전 storage reserve72GiB 미충족으로 M0/10등록, 새GPU0이다.
+이는 M PENDING/초기gate 통과가 아닌 RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION이다.

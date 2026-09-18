@@ -1,0 +1,67 @@
+{
+  "S_R_L_submitted": 0,
+  "T": "SKIPPED_USER_DIRECTED",
+  "automatic_resume": false,
+  "checkpoint_waiver": false,
+  "components": {
+    "additional": "native+small factors+teacher references+receipts, no teacher duplication",
+    "available": 90847756288,
+    "estimate_not_measured": true,
+    "final_L4_raw_bytes": 18790481920,
+    "maximum_unique_gradient_bytes": 23488102400,
+    "reserve_bytes": 77309411328,
+    "upper_ENF_blocked_bytes": 16441671680
+  },
+  "deletion": 0,
+  "endpoint_policy_unchanged": true,
+  "free_GiB": 71.11440658569336,
+  "free_bytes": 76358512640,
+  "free_inodes": 225613343,
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "full_read_CPU": {
+    "bytes": 11083,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/skip-t-r1/preflight-fullread.json",
+    "sha256": "a0872a5b73e3dc9e62a8cc5578d1e537be7329a0232c0ab9445807d0e3840831"
+  },
+  "intended_M_episodes": 10,
+  "intended_endpoints": 80,
+  "intended_throttle_if_unoccupied": 2,
+  "monitoring_active": false,
+  "new_GPU_seconds": 0,
+  "new_M_jobs": [],
+  "new_T_jobs": [],
+  "new_execution_lock": "NOT_CREATED_RESOURCE_PREFLIGHT_FAILED",
+  "no_old_scheduler_requery": true,
+  "nonce": "ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1",
+  "old_M_lock": {
+    "bytes": 133839,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/execution.lock.json",
+    "sha256": "cc7510f4cd6fb41bf24195205b6c12549041f01b149e99aabfb01907eb88f6ea"
+  },
+  "original_freeze_failure": "M_STORAGE_RESERVE_UNAVAILABLE before source/attempt creation or sbatch",
+  "owner_resource_only_queue": "",
+  "post_preflight_delta": "scheduler48h formatting2-00:00:00 only, AST parsed before freeze",
+  "prior_GPU_seconds": 3231,
+  "prior_terminal_reused": {
+    "bytes": 1192,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/paired-stop-r1/scheduler-terminal.json",
+    "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
+  },
+  "required_reserve_GiB": 72.0,
+  "required_reserve_bytes": 77309411328,
+  "reserve_is": "retained prior conservative storage plan, not measured irreducible output size",
+  "resume_trigger": "explicit_user_call",
+  "science_threshold_change": false,
+  "shortfall_GiB": 0.8855934143066406,
+  "shortfall_bytes": 950898688,
+  "skip_control_current": {
+    "bytes": 7847,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/skip_t_control.py",
+    "sha256": "3a3fca3483bd9f364bc8ca465f2ee6079687df59649c799aabef6c5f0eb6232e"
+  },
+  "source_head": "fb9d2ac41455dc6e97fa78080b7307047f8395b2",
+  "source_tree": "2bfe091deec8f9ee40f5d8089fa7b7c21f8b5cd3",
+  "status": "RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION",
+  "time": "2026-09-18T03:44:16.464944+00:00",
+  "unblock": "provide capacity to meet72GiB at next admission or authorize exact alternative storage/deletion; no automatic action"
+}

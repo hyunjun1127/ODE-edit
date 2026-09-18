@@ -1,0 +1,17 @@
+{
+  "members": [
+    {
+      "bytes": 3661,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/resource-blocked-ko.md",
+      "sha256": "58759653cf7fe28054b01eddd694e65d3c7cc332e6cfc4117777b799d1996554"
+    },
+    {
+      "bytes": 3059,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/skip-t-all-m-r1/resource-blocked.json",
+      "sha256": "10c95b0d916c5b81bfc14c61fc4665fd75f39d0d23383b433362c81942baa8eb"
+    }
+  ],
+  "raw_payload_committed": false,
+  "source": "fb9d2ac41455dc6e97fa78080b7307047f8395b2",
+  "status": "RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION"
+}
