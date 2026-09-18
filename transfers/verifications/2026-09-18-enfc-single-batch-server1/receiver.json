@@ -1,0 +1,16 @@
+{
+  "S_live_access": 0,
+  "allowlist": {
+    "bytes": 130691,
+    "path": "local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/allowlist.json",
+    "sha256": "cf73e02efef68eb29f95e7cdd91d07d29a074b5c2492518c79d0c607668d97b6"
+  },
+  "bytes": 16733125876,
+  "custom_nonoverwrite_import_exception": "EXPLICIT_USER_ENVELOPE",
+  "path": "local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/receiver-seal.json",
+  "raw_git": 0,
+  "sha256": "7929d24769cf6351229ddf78fcd73d029bf8f5719a18fbfe11fbbe22df94c171",
+  "sole_writer": "SH1",
+  "source_scope": "STOPPED_M_B001_AND_ALLOWLISTED_COMPANIONS",
+  "status": "VERIFIED_FULL_SHA_SIZE_269_MEMBERS"
+}

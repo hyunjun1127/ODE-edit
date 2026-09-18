@@ -32,8 +32,8 @@ class Runtime:
             raise ValueError('FIXED_PREFIX_IDENTITY')
         if torch.__version__ != lock['torch'] or transformers.__version__ != lock['transformers']:
             raise ValueError('PINNED_LIBRARY_IDENTITY')
-        if os.environ.get('SLURMD_NODENAME') != 'server4' or not torch.cuda.is_available():
-            raise ValueError('SLURM_SERVER4_GPU_REQUIRED')
+        if os.environ.get('SLURMD_NODENAME') != lock.get('runtime_node', 'server4') or not torch.cuda.is_available():
+            raise ValueError('LOCKED_SLURM_NODE_GPU_REQUIRED')
         torch.set_num_threads(8); transformers.set_seed(lock['seed'])
         torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
         sys.path.insert(0,lock['blue_root']); os.chdir(lock['blue_root'])
