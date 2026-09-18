@@ -1,0 +1,14 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-EXECUTION-REUSE-R512-G256-B1-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EN-REUSE-R512-G256-B1-20260919-R1",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "publication": "af343b72f4ad7d63984a9c4ec986f6d0238f754f",
+  "accepted_turn": "01a0b5b0-0a2e-7ee3-86c8-c4c27cfa584f",
+  "transport": "registered app-server direct SSH/local socket",
+  "status": "DELIVERED_AND_START_ACK_RECEIVED",
+  "ack_ko": "새 R512/generated256 legacy/reuse cold B100 하나; 기존 자료·checkpoint 보존; FULL_READ/저장공간 확인 후 M0; sequential 미제출.",
+  "full_read_completion": "NOT_YET_REPORTED",
+  "gpu_submission": "NOT_YET_REPORTED",
+  "gh_remote_scientific_reads": 0
+}
