@@ -1,0 +1,240 @@
+[
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 2
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 3
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 4
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 5
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 6
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "SCALE",
+    "round": 0,
+    "trial": 7
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 2
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 3
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 4
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 5
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 6
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "CA",
+    "round": 0,
+    "trial": 7
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "KL-P",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "KL-P",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "KL-P",
+    "round": 0,
+    "trial": 2
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "KL-P",
+    "round": 0,
+    "trial": 3
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-S",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-S",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-S",
+    "round": 0,
+    "trial": 2
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-F",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-F",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-COV",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-COV",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 0,
+    "trial": 0
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 0,
+    "trial": 1
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 1,
+    "trial": 0
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 1,
+    "trial": 1
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 2,
+    "trial": 0
+  },
+  {
+    "accepted": false,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 3,
+    "trial": 0
+  },
+  {
+    "accepted": true,
+    "arithmetic": "PASS",
+    "arm": "EN-F4",
+    "round": 3,
+    "trial": 1
+  }
+]

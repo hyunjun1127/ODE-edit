@@ -1,0 +1,305 @@
+{
+  "M_original_commit": "87f65ea2abcbe7e77e04367f73a001d63443734b",
+  "analysis_HEAD": "8d56c332b768ecd751858ee0aa9029868c516931",
+  "execution_commit": "3f1941b21538d6a7ad0afd756774ad6a0b605750",
+  "execution_lock": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/submission-r1/execution.lock.json",
+    "sha256": "b463293b23131b1453d1d3521a58f8f57e1804b0ca18d0fd8fcd0bdc64999147"
+  },
+  "execution_tree": "72503847266864bf5e1b0c96d63ba99aa03d846d",
+  "frozen_runtime_files": [
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/__init__.py",
+      "sha256": "5664077b86280c6915b9a4ce2848f7e0e0885612b9abfee637372727731f64c5"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/admission.py",
+      "sha256": "5a3aeb37eb312d42bb8a9534ccf261faad2630de4e26bad64ff8120a01ce3e69"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/alltoken.py",
+      "sha256": "a0c2a6791b3cd9cde2dfaf3dea26277f5d0d2fb0c1c5a415883af058e3ba6b95"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/binding.py",
+      "sha256": "120e9806a17e9818b0b4bf7a6e48fd772351fcd80360ee64899637054089fa6f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/common.py",
+      "sha256": "80108b1755fad793406e256dc68bcdb3b7a4d980ed0c9b6186580874984e4e8f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/control.py",
+      "sha256": "2e409cd9add2cacebef245f275670b80f86492bddfca5616d32873ce10e75bc6"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/geometry.py",
+      "sha256": "9c11d70d16aa3b7265b123c1caa28cc2cf4f1122e7447db8c1eb90c796a50e7a"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/handoff.py",
+      "sha256": "595732fba3e9d68228627e32482e6e64b8ee2a7a1f0aad1670235401bce520a6"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/metadata_handoff.py",
+      "sha256": "50e41cf762760380ddebdf98add16b121919c2a23d7b638a60a2bd2847a84597"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/metadata_repair.py",
+      "sha256": "30f5fccffd00df502351dc8681b5ec578e90bbe426836977a6e3d9f0dd72daf2"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/observe_skip_M.py",
+      "sha256": "9ecd18300f5d1e80da2a9f4c32073b4cdc07a9d735db7c39cc36c1fdd700b394"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/observer.py",
+      "sha256": "fc2174d9636fdaa79854f5823bc22e73461f8b7f145753dd96f3c483892b36ae"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/optimizer.py",
+      "sha256": "0c602dc58fd40ade4e13673483d025cc77a55d196a8aa9bcce463a6fe6a08db8"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/paired_stop.py",
+      "sha256": "f6900e3cc3d689a42219a6404c5417d4249d2f4962bebc58eeb3767ed633bc59"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/preflight.py",
+      "sha256": "7bc45922b6d5e6080f3de1c58e3662a144ea8e8d69b6094bcc2091b1b4f64e05"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/preparation.py",
+      "sha256": "99f015d8f3de9277111bf6642bf8dfc6546143d75f32197e584dea401e1c77e5"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/publication_check.py",
+      "sha256": "68610f3275b2d9bd0f4e80358787891adecb6d8057acc6973de8ae0b6c6dc811"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/retained_native.py",
+      "sha256": "8f32f4021d536970eb86bdce6c83bc9158e2c69d12acbf47a7b9086a84a0169f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/reuse_bindings.py",
+      "sha256": "db393a1d9f1fbe030c18af3b847fb660cae37b850e125b8e7baf764fa0a1ce57"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/runner.py",
+      "sha256": "f175acf98f5f909a98ba314e61352771ae296e3fbb60d1b1b2c4c9e458ae5965"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/runtime.py",
+      "sha256": "5d9a8f1c38739eaa85cd75c8bc945229ab474465f869141733dd8d3a8bdf92ea"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_control.py",
+      "sha256": "0c85168c51374f5170f663919f39fb632b3ce299b44567054a175405e6eaf3aa"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_handoff.py",
+      "sha256": "cf1c2941162bd66f1b9725d57b6f2898993d112482a56aa09d2e14e8331ceb73"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_initial_check.py",
+      "sha256": "7712043720f9231381821c6859bb22160f0cfde04e4e418134f79bf639385047"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_observe.py",
+      "sha256": "a5d4383050a6665f1e1efc4e423fe6a5eaecb538ca5d5f2fcbfe6e1957b1f5fc"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_preflight.py",
+      "sha256": "ae8523968646f7a403603ad468254321d3c9807fa720ec88ab5360fea94004bf"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_runner.py",
+      "sha256": "8f8fce180ff032cbf50099c1217c44077ae5d7c875558694e80b26c9684a61b5"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_runtime.py",
+      "sha256": "32bc7d0d5c79aaa1fbbc81f35942dd5a000e343a4d24f007d2925c6ceaad9d5f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/sequential_state.py",
+      "sha256": "c79b1292370a466d3548bf2991a2a1b5a8b937593aa1a513dd0deeef666ddb94"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/serialization_rca.py",
+      "sha256": "7374d284803721a028c7975e7621af0fea396f12b0a257b23e25b79378c4067c"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/__init__.py",
+      "sha256": "f5e578acf44733b16366b523c0a4a746025e8c0cb125ecc277cb377c936829a5"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/imports.py",
+      "sha256": "cc97a234e61b17e638c7db863d440db3ebc67a0b8fc9583f744108e47d46edc3"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/prepare.py",
+      "sha256": "b0f939595753355d75cca8cf5d0151bb930d15c854805c94ec947b1679fb6d8b"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/reuse.py",
+      "sha256": "60195216e312d752039ab38bc38c5cd89b1c66675696b50877ca99ca70a68031"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/runner.py",
+      "sha256": "1802c08b04c358ea9b9f422d72e2f385451c9e3e8068e9953af15bcf99092331"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/submit.py",
+      "sha256": "37dd17efb4e35b8932fb8a6176cb63c76c0d4381718235866b96ccb5862b711f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/test_reuse.py",
+      "sha256": "413464bb59842c095ebf3cb310d201eeb6bdaeab44f30ef64c93efa7da20ec70"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/skip_M_handoff.py",
+      "sha256": "2d944d97bfd4bd3ef1ac53365f258497600b12f6887a55d2796c43f0a1fdeca8"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_control.py",
+      "sha256": "c5c3d6c99b15cadbad8474b916dc1bd1eef11903b97e3585c4e70add162dfb7f"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_preflight.py",
+      "sha256": "c0a1a9b8f9f8ccd0d0abc30f65cec3996a010a2a306d6ec32d010fcf5cc67b44"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/skip_t_resource_handoff.py",
+      "sha256": "171241965786060e9a4c54e83fc0834e4c743fd5c18553f04d5d2e797f20a867"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/storage_waiver.py",
+      "sha256": "180195fbd957edecc1aa1f2200ca23fab90822ccbd4681266226f6453a324543"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/technical.py",
+      "sha256": "f93b40266ec672c9e9cfdd99ae55277ac646be8a7ccfbf465cada7ddc340675a"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/technical_resume.py",
+      "sha256": "6cec412cef310bd63e84650c550925762b9bf54d3e771a736c34f22aa7af9d2d"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/test_metadata_repair.py",
+      "sha256": "c9a254d42f9208c1d7b82d90c7222d90ee1403576007d3875ce46e23286f12e4"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/test_sequential.py",
+      "sha256": "15512c1521eb703337a8ce9e4e850b4b7483becfbbd97f71f88c22fe6c49d88c"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_admission.py",
+      "sha256": "250501bddbb1b986d2f795c8b30e532df41b3172dd65aa90c0f172911ed2ed5a"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_alltoken.py",
+      "sha256": "e07c0af88510f0628d51abdf1e272a92399581287dfccd58d05b1e34ce308913"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_geometry.py",
+      "sha256": "0d347b0e05e4e9a662a056dafcf8a76bc6a0d2169ae8110c517b03d4d24d714d"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_integration_boundaries.py",
+      "sha256": "29d183058706ace3875b7f8ba6c82b218ff3ca493544805254f08ed297067c40"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_observer.py",
+      "sha256": "3cdaaaf2f503e3083261f6a05370523f0ed92fe4949d6c22375d95055bdfbf8c"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_optimizer.py",
+      "sha256": "b36bdf7bbce853d9a136a3b894089ca7487b927bcdf6b71616a37b2737d15d02"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_runner_observer_boundary.py",
+      "sha256": "1d4eccd09c0e6744f51243a6a06f01af2f1c60619a8fde006312c2b163fc23dc"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_skip_t.py",
+      "sha256": "b4ff0dff191d0160694a117c526c2d2df0d2442637dd39875e796c54666426a7"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/tests/test_storage_waiver.py",
+      "sha256": "928bbdacf1a577c0d39022cb5c9a558088086244372a82ad0e0a4c01ddbf37c0"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/two_batch_override.py",
+      "sha256": "8815fe74691e4e2613144ce5b73fd63a97846c4120fbc735b8a6fd8da5659e0c"
+    },
+    {
+      "execution_bytes_equal": true,
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/validation_route.py",
+      "sha256": "334cc231d35c2a94509cf87a58d705c65ae314f876071952945e855ad07a3893"
+    }
+  ],
+  "prior_FULL_READ": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/audits/servers/server1/2026-09-18-enfc-single-batch-m/full-read-preflight.json",
+    "sha256": "d8d08d2179017315cc9cd3f882de79c0278104df5e992b297d28e7115ab94254"
+  },
+  "reuse_seal": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/receiver-seal.json",
+    "sha256": "7929d24769cf6351229ddf78fcd73d029bf8f5719a18fbfe11fbbe22df94c171"
+  }
+}

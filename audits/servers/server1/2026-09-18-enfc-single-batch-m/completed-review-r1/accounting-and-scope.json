@@ -1,0 +1,16 @@
+{
+  "scheduler_query_count": 1,
+  "command": "sacct -j 50098 --format=JobIDRaw,JobName%36,User,State,ExitCode,ElapsedRaw,Start,End,AllocTRES%90 -P",
+  "parent": {"job":50098,"name":"odeedit_enfc_m_b001_s1","user":"janghj","state":"COMPLETED","exit":"0:0","elapsed_seconds":9147,"start":"2026-09-18T16:42:17","end":"2026-09-18T19:14:44","AllocTRES":"billing=8,cpu=8,gres/gpu=1,mem=178G,node=1"},
+  "batch_and_extern": "COMPLETED_0:0_NOT_ADDED_TO_PARENT_COST",
+  "read_scope": "S1 execution output/imports/locks and exact source only",
+  "write_scope": "dedicated analysis package/server1 publication only",
+  "red": "OWNER_SOURCE_AUDIT_AND_INDEPENDENT_REDUCER_NO_SEPARATE_AGENT",
+  "new_GPU":0,
+  "remote_raw_transfer":0,
+  "model_teacher_payload_rehash": "NOT_REPEATED_EXISTING_SEALS_REUSED",
+  "root_session_helper": "shared root local boundary belongs to GH; SH1 dedicated ignored session-boundary config passes",
+  "git_identity_note": "Initial user.name/email setup used common config; prior values were not captured. Subsequent identity is worktree-specific. Shared agent.* was not changed. No tracked root file changes.",
+  "csv_format_exception": "Python csv default RFC4180 CRLF preserved; plain git diff --check flags CR as trailing whitespace. Rechecked with core.whitespace=cr-at-eol; no scientific bytes normalized.",
+  "scientific_promotion":false
+}

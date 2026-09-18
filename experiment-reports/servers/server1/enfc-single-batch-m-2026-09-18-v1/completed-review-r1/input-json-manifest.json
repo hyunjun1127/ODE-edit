@@ -1,0 +1,947 @@
+[
+  {
+    "bytes": 4981,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/ALL_SELECTIONS_SEALED.json",
+    "sha256": "47dd8ea908c4a6bb7f373a73baca4a3008f42eec8a23ff636d36f8ebce1e5f43"
+  },
+  {
+    "bytes": 11900,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/M_INITIAL_VALID_WITH_T_SKIPPED.json",
+    "sha256": "a63abeb98774aca94ae343cfa086a1dede6dc7ff9e716dd90193cae5078b26d0"
+  },
+  {
+    "bytes": 1239,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/CA/reuse.json",
+    "sha256": "57525367d9ec559a389bf7c995059e24e70a603b5e50df0a76337b1a83abbdcd"
+  },
+  {
+    "bytes": 1114,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0000.json",
+    "sha256": "b97fff1c0121f5a7e5a71251a24dcc114dfdb436cb3a84bc8ea27de0f2405247"
+  },
+  {
+    "bytes": 958,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0001.json",
+    "sha256": "ebcff095990d8382d283b25df4d81a27986b840ee7b1fc7d92572de874de4ffd"
+  },
+  {
+    "bytes": 8169,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0002.json",
+    "sha256": "b50c706764723ae87bf819bc00b045e9a26e1d7158989d381d8d5f290d33fd87"
+  },
+  {
+    "bytes": 9092,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0003.json",
+    "sha256": "dd001092c1b09765f226dbbaf2b8494dd9573da55a29a374e508b36e9561628d"
+  },
+  {
+    "bytes": 9101,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0004.json",
+    "sha256": "9592f64c0d34215d6b4f4c9a5d021f92179bfd96047543ff97a267b44b4b4932"
+  },
+  {
+    "bytes": 10451,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0005.json",
+    "sha256": "f045ddd90d55aa03a9565e985301102b8c730a96a1ad5a9cf165164662ad2a28"
+  },
+  {
+    "bytes": 9935,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0006.json",
+    "sha256": "03f53c76eaca922e2e2ed1e06da4ff3d67bf4bf54e74d54c20521063ee3662a1"
+  },
+  {
+    "bytes": 9860,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0007.json",
+    "sha256": "3b2f380b7bf0b07909bd3cf688aac800a12c3825bd7c933d3ba49a897fdb310f"
+  },
+  {
+    "bytes": 16600,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0008.json",
+    "sha256": "5c60764b91b70bb035de9d94667ec152456c4201df5a31affd31743186fafcd5"
+  },
+  {
+    "bytes": 17265,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0009.json",
+    "sha256": "cdcc282f872a4ec669986922f2210882fc09cf51764144e479f207e584b693ad"
+  },
+  {
+    "bytes": 17287,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0010.json",
+    "sha256": "22e9598805a7da98ef31948a95a81f95ff6e35d1f5f160513d37e00d4f2899c2"
+  },
+  {
+    "bytes": 17106,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0011.json",
+    "sha256": "81eaa7c8313d7e27608a5d80ef42caa5f88869a6006d4d8dbe177c3e312e4ab8"
+  },
+  {
+    "bytes": 16589,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0012.json",
+    "sha256": "106d7c622322a401028898ed61f3f86fad0ed662fef081c8b2b0f8929446efc1"
+  },
+  {
+    "bytes": 16514,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0013.json",
+    "sha256": "f37674fba3ab0df051011c8cd5c1b0ead791aecf611670cd8284ad0fc86216af"
+  },
+  {
+    "bytes": 16616,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0014.json",
+    "sha256": "14790fe2fc96a2c563b9fa0d5de26cb79eaaa3995fce03cba1996c0012c8796d"
+  },
+  {
+    "bytes": 17281,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0015.json",
+    "sha256": "15e48cc6ba1cc9af2e233569091ad4e3c88a2b6982f54c02301cbaa9d2b16ad3"
+  },
+  {
+    "bytes": 16523,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0016.json",
+    "sha256": "87077c4b11bdcddfdc7fa14c539324b9e76d1cc7cb0a9dc1129cc91b1edaed8c"
+  },
+  {
+    "bytes": 643675,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0017.json",
+    "sha256": "7b60c25d3a1821760397732e33d8efae2cd3210541936627b4e12d2b3b744ae3"
+  },
+  {
+    "bytes": 16527,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0018.json",
+    "sha256": "48dc550a94034798541d9859ab9060473f390df8712d43c016cd1c8d3b4f8c25"
+  },
+  {
+    "bytes": 17422,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0019.json",
+    "sha256": "2e860b93f3dde0b8a93468746464a758e4a600d431bb3018571b077f9820a06b"
+  },
+  {
+    "bytes": 17311,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0020.json",
+    "sha256": "f964c447ad6a2b02220221b2549e81ca5b6725f11f4a4742d754fdde060360df"
+  },
+  {
+    "bytes": 2095,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0021.json",
+    "sha256": "e16e63e498a181ded073d414ef6f4fad47e86425a606bdf296fe39b3f4c5ab3a"
+  },
+  {
+    "bytes": 10199,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/selection-ledger.json",
+    "sha256": "f09bbc596c89e63c38b6c2a7f672df3c8931e0768f4efad118fd67de853f33e1"
+  },
+  {
+    "bytes": 373,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/selection-seal.json",
+    "sha256": "35e0102f3f7a70c20cbe6fb3ba97f68951851e54139b199ffd68901c76bf45da"
+  },
+  {
+    "bytes": 1148,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0000.json",
+    "sha256": "dc6dbdd2ae469f68efd863708460bb1b424e26f081176b50608b13c170ba0f71"
+  },
+  {
+    "bytes": 1033,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0001.json",
+    "sha256": "e8434b9edeb9b5dce08192962ea7be8cf7d0d733a068bac4e43ac6c4d320c106"
+  },
+  {
+    "bytes": 12263,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0002.json",
+    "sha256": "dc4349b6d44b227e72cf039a4a5972bd5c39ddbaf24b332c2eeb72bf738af19a"
+  },
+  {
+    "bytes": 13134,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0003.json",
+    "sha256": "2bae6774a401228d679dd1c6b3f31be47255a705b65eb1ad5c276e3021ecbfb6"
+  },
+  {
+    "bytes": 13141,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0004.json",
+    "sha256": "40405f90f3c56f17463bb253bf3d0f2b575e7ac789326f29781f8a34b45f7726"
+  },
+  {
+    "bytes": 14497,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0005.json",
+    "sha256": "24ee589d0515b0d780564ee39c2bfb9f300c304595d29e86af75235db2100c87"
+  },
+  {
+    "bytes": 13975,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0006.json",
+    "sha256": "dec751b7751481470db32d6219e9ab4f62398fe6b13920fb83179ff9370be1e1"
+  },
+  {
+    "bytes": 13900,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0007.json",
+    "sha256": "0af20290864333ab0afea3dadc9b79392cf1d5ad4ceb89b30c33647796fd6456"
+  },
+  {
+    "bytes": 24692,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0008.json",
+    "sha256": "15879188a66dbd75da4817f1a6e32f9ad45e5b001dd3defaf3c429d3c8591ca2"
+  },
+  {
+    "bytes": 25367,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0009.json",
+    "sha256": "b778faceb20bbe2364db85cd097c550f72d71fefd83bcbe290861f0217aa4ad5"
+  },
+  {
+    "bytes": 25389,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0010.json",
+    "sha256": "fdbafd371e19b7306e633c2e705137edc48c63f97fb93f4ac733792248f73baf"
+  },
+  {
+    "bytes": 25204,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0011.json",
+    "sha256": "780b4463949123d470ac0e34ba5f153409f90bafb46878b3b39a50af4abe87fc"
+  },
+  {
+    "bytes": 24679,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0012.json",
+    "sha256": "eb6eda3394f8dbb7e2b8321f684bf558e818c306a0c17a66c5642f45cacd4fa6"
+  },
+  {
+    "bytes": 24604,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0013.json",
+    "sha256": "2354b094e755d2b4e275fb121ff89691fa4501e0ad673b1fa40472efc9a3e0b7"
+  },
+  {
+    "bytes": 24687,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0014.json",
+    "sha256": "4025613cc02fcf4edbbdb314a20218ff0113bc11d0b9164b7e93e56c4f7cb3ef"
+  },
+  {
+    "bytes": 25363,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0015.json",
+    "sha256": "74317a21f13028a8bd1d7f96d414a3401abd4a5b121f67d74988ef58a48db6aa"
+  },
+  {
+    "bytes": 24594,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0016.json",
+    "sha256": "6d9eb427d1563a9d7e7c5a56ec9458183d2ff61e77928c1fe0d70a19caf51024"
+  },
+  {
+    "bytes": 651777,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0017.json",
+    "sha256": "ba0816202d61d51e5ed8a2728f683fc59b79e108c5abc6aa0649de6e0ef1562a"
+  },
+  {
+    "bytes": 24598,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0018.json",
+    "sha256": "ee8b047582a103afcb31b6ddb3ca8116118d293c810e53bba74ab77106395dc7"
+  },
+  {
+    "bytes": 25498,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0019.json",
+    "sha256": "2238bf48b6663b579e20138acd69f409e61c8ac5a54a76bd3ed1e48585ddcc27"
+  },
+  {
+    "bytes": 25393,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0020.json",
+    "sha256": "f8bc0e7b2e5e1505d6ffa7dca77c99bb56c8c46b086bef04887145ff1ff086be"
+  },
+  {
+    "bytes": 2096,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0021.json",
+    "sha256": "2f8c34b9d72ace66c9cac30667d02e83751fe3f3ee9fcbbe288e1a54c220166e"
+  },
+  {
+    "bytes": 10185,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/selection-ledger.json",
+    "sha256": "8a65a30d5150af749cf21d73b3a8bf97390da7d2bcbc80ac8dfe02bbb1c40186"
+  },
+  {
+    "bytes": 371,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/selection-seal.json",
+    "sha256": "eb21d5e9dd0873c6ed114e524b8c2f0ae49ea123827a5d9fb407a56c03454293"
+  },
+  {
+    "bytes": 1149,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0000.json",
+    "sha256": "1f97d13e8c25375ebd07567e792be6acf521ae3bfa56c3b26409711f24857183"
+  },
+  {
+    "bytes": 1034,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0001.json",
+    "sha256": "e0e3ffc346242464c59c133b43663901e43822cc4f40177ea719727b5bde5bba"
+  },
+  {
+    "bytes": 12264,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0002.json",
+    "sha256": "a0e36b1c5aac89f9df2c2b1add6e1801b47e36f4fb8b61878b0b81b813cc663f"
+  },
+  {
+    "bytes": 13135,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0003.json",
+    "sha256": "39ce41f03978dc165c0a77101565c800fc4f0c6cb32527cfcb00fb9d20bfb4b4"
+  },
+  {
+    "bytes": 13142,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0004.json",
+    "sha256": "5c1ac5c70229c342bfe322516dd39cfd4e375702ad065f1323bddd4cc9e35910"
+  },
+  {
+    "bytes": 14498,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0005.json",
+    "sha256": "989cd5b304eeef4567bceb41676b954d507aa0e4d70481ededa1c40780d3b584"
+  },
+  {
+    "bytes": 13976,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0006.json",
+    "sha256": "d106af29f23ab85d7b4dfaa065b38a8f61af09a476f573ceace6f7382b9ec468"
+  },
+  {
+    "bytes": 13901,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0007.json",
+    "sha256": "96230474605a16f03e66530a70397f2013c790091ce7a1a131153d333fc9612b"
+  },
+  {
+    "bytes": 24693,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0008.json",
+    "sha256": "9d84f0e33284c2c0fa1bbd63034af85846f7558a47ee3e4864b3f7da2c05a3d5"
+  },
+  {
+    "bytes": 25368,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0009.json",
+    "sha256": "b528798ae3a8c4f4d1e889149f22d09c180e33ec15ba9e500e59b3af7be7c9e9"
+  },
+  {
+    "bytes": 25390,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0010.json",
+    "sha256": "cd8952c20fa0e5d768d34fdf2aee10856b6d595c2cc3c291c8a4b0ea87538fde"
+  },
+  {
+    "bytes": 25205,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0011.json",
+    "sha256": "af7a33b32cf473e0864dec046f98b0083c91071c16328c451a92db7b86eef3a8"
+  },
+  {
+    "bytes": 24680,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0012.json",
+    "sha256": "7b6962f792329333886000fe5380b100541ab27b2facd2f82a6ae562adb6dd7f"
+  },
+  {
+    "bytes": 24605,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0013.json",
+    "sha256": "8723a1112753e251e0ec05b080c6675699ab3f489c75a8831f0b415837608793"
+  },
+  {
+    "bytes": 24688,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0014.json",
+    "sha256": "f6b922da0d6b7d639c98f57adaab50bee8cbcfdd710f3df50191715e7f5ccab5"
+  },
+  {
+    "bytes": 25364,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0015.json",
+    "sha256": "544bce89fb43a518bf4ff6a82020cdbf58834f26edf14642ec73fe43520dcf5a"
+  },
+  {
+    "bytes": 24595,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0016.json",
+    "sha256": "461d3fcd942c04bdb18950128fc45a67309d0bab7396cd69944736b563e768f1"
+  },
+  {
+    "bytes": 651778,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0017.json",
+    "sha256": "f6584386d82bfbf77e325679548aa93832f7728bca8ba4f873e32f0ad0c751a3"
+  },
+  {
+    "bytes": 24599,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0018.json",
+    "sha256": "11cb1e9918383310be79a064bd6a582ace377c12350417764c6efa0a37406513"
+  },
+  {
+    "bytes": 25499,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0019.json",
+    "sha256": "deb71930680f9de3c574d0d25edabbfa53533b109bb24c87042271ef8b86f86e"
+  },
+  {
+    "bytes": 25394,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0020.json",
+    "sha256": "8951a189d9d3efe5cc3425f2240992d402a87b8f9fa345f60f0fb9148f29a2e9"
+  },
+  {
+    "bytes": 958,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0021.json",
+    "sha256": "8ee4bb0b6a542eae4ec588fec9c259305d8fc9660379ff610216f22c1b0ed30c"
+  },
+  {
+    "bytes": 12213,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0022.json",
+    "sha256": "c7c87a1db9c96f4abfd25d3fdbd2b01804156b8241278898488921beae055491"
+  },
+  {
+    "bytes": 13152,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0023.json",
+    "sha256": "0b0ed740e5f9db5df59520d333150a98c68593489c47a0642b08e05488358694"
+  },
+  {
+    "bytes": 13144,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0024.json",
+    "sha256": "b9dad97a39056ab06650126f1cc90862958d080fc87f4be447c9968878a4d677"
+  },
+  {
+    "bytes": 14502,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0025.json",
+    "sha256": "2e3a57a7865fb837b6dba4f71cec2bda8b4689ae37878ba5211ace9e1c250ed1"
+  },
+  {
+    "bytes": 13977,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0026.json",
+    "sha256": "90f6ce84601e96fc04d99bf06261c31a04904bde48ba6ec98698e32738db150a"
+  },
+  {
+    "bytes": 13903,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0027.json",
+    "sha256": "e520af31d62d8060fb795ae43329a64c066e8c31fba88aca0eb5367aeee52a4e"
+  },
+  {
+    "bytes": 24698,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0028.json",
+    "sha256": "4238adb59d204fbb0c7d414c1cd972b6670566d04edcbccd77295d3999af4b36"
+  },
+  {
+    "bytes": 25374,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0029.json",
+    "sha256": "a4642df985c0279d09031de26ea815ecf10a3a981f04e545a5d13e9ebfffe967"
+  },
+  {
+    "bytes": 25395,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0030.json",
+    "sha256": "6f6b39f6163fea7a10f3cc929fc1713adc5e2c386fd18a0ad7ba8e260a644597"
+  },
+  {
+    "bytes": 25209,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0031.json",
+    "sha256": "d2074931fc390b3cc020c73ea7640bae68b107bf969a1890208cc4b2356426d6"
+  },
+  {
+    "bytes": 24684,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0032.json",
+    "sha256": "9d80e7d2625f0e2af9c35ada6ca32b12a9a91e35ff5ba6482376ad9de381a005"
+  },
+  {
+    "bytes": 24609,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0033.json",
+    "sha256": "30e1d3be614b878f7bfea8bac492ec2ef70e832dba0998e2e78cc4522c429026"
+  },
+  {
+    "bytes": 24701,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0034.json",
+    "sha256": "e5365bf9e244a27b444c01a28ca306b1d3273ae646e7ec6d84366730ccf03514"
+  },
+  {
+    "bytes": 25378,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0035.json",
+    "sha256": "97dc32b933fb398f17c2f77cdea13dd994e85a7a77195ca0108c176a73ba9290"
+  },
+  {
+    "bytes": 24607,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0036.json",
+    "sha256": "767d1d1e1ceb60a238b657c7ad89ce372e0610ae12089cc0e0b4ab066f928014"
+  },
+  {
+    "bytes": 651789,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0037.json",
+    "sha256": "42015d6314d315e289eba1344948611ec261ea1d1821eea0f81872f915b28fb8"
+  },
+  {
+    "bytes": 24611,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0038.json",
+    "sha256": "42feb714efe776f20cd81cf48f0449723b5fd151e0938d88d81cadecff174109"
+  },
+  {
+    "bytes": 25511,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0039.json",
+    "sha256": "dd31c7bdaa515a03bac077dee7aae4dd237d255583721d19e459751449e5d0b3"
+  },
+  {
+    "bytes": 25408,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0040.json",
+    "sha256": "d6538e629bc44653965c0786a23f119028c326c85af5a22785fe63735b49680f"
+  },
+  {
+    "bytes": 958,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0041.json",
+    "sha256": "245f2654f0eb3cfb0a1fbbdada4c1ec4cf2e1a8a29658736441bbdea71878d14"
+  },
+  {
+    "bytes": 12225,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0042.json",
+    "sha256": "a5178b11a61997d82cf80735512723dce4003217a4c0aaf0e8f740b50f54c5e7"
+  },
+  {
+    "bytes": 13164,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0043.json",
+    "sha256": "dbe36dab96d3888309dda7bab768bb98080429ef7279aa0a3124185f616dcf06"
+  },
+  {
+    "bytes": 13155,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0044.json",
+    "sha256": "94ade5567d619f4b00045e12871aeb71f42b05189e4f736a14a1274369b8a595"
+  },
+  {
+    "bytes": 14515,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0045.json",
+    "sha256": "c67cfe9a90f8dad2bf5c3ad2cc85e8b2f75a6c8a8e587cd975e0f743b4dd884f"
+  },
+  {
+    "bytes": 13988,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0046.json",
+    "sha256": "83ac83102cf3d0110f286518643652db873410029870604a92641c8ce78ab44b"
+  },
+  {
+    "bytes": 13914,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0047.json",
+    "sha256": "b1f04371d641d2c06e83b610fbef4c186ea480c432b56240f68b0b2c15c0000f"
+  },
+  {
+    "bytes": 24709,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0048.json",
+    "sha256": "f125b57d3e69c96181c34b59891cce5c5d9afd03beeccc1ac4e4850183c9a02d"
+  },
+  {
+    "bytes": 25388,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0049.json",
+    "sha256": "41320d7312951528b2b0d8eba5c5e060cca3e6d4f687b8dd488db3fd7f5d0874"
+  },
+  {
+    "bytes": 24615,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0050.json",
+    "sha256": "8be64ccfcf3446f7f50534c0cbf42245854160d0573aa57233b119ed85b21db5"
+  },
+  {
+    "bytes": 651770,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0051.json",
+    "sha256": "b2f4b296553dce7c76e347f4003fed5132888edfc40c0df4059f8f1c63429d62"
+  },
+  {
+    "bytes": 24619,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0052.json",
+    "sha256": "c10de17a650b8956abde8bc2f847698e5cc22d5050298ae7bd5518a41f55fe1d"
+  },
+  {
+    "bytes": 25525,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0053.json",
+    "sha256": "d5c8498289b36fd95628426fffd4412f64c7f27318341080417b7f11db8a032c"
+  },
+  {
+    "bytes": 25418,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0054.json",
+    "sha256": "dda2698f7cad75adc3480f84822586987db31a7f7cabfddffa1db2aa7d4a66d4"
+  },
+  {
+    "bytes": 958,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0055.json",
+    "sha256": "6ec85e064f56d16649a14ee468ce0dc668d89e67180120d32547143ca97af066"
+  },
+  {
+    "bytes": 12222,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0056.json",
+    "sha256": "8c78f5712c0edb7413bfea12551e5465771ecb1b9ea29ba474d6f342efc03822"
+  },
+  {
+    "bytes": 13161,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0057.json",
+    "sha256": "fa8b5d11813e6270bab54e9ff3ed15c64c51f3779699c823fb23b0ac1758c48a"
+  },
+  {
+    "bytes": 13152,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0058.json",
+    "sha256": "4297d9ad47a56ec1f8ca5f38b6e9e355beb0c89286edeb3f75b578ca9a42ff7c"
+  },
+  {
+    "bytes": 14510,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0059.json",
+    "sha256": "bd5909a2a8e1bc56eff20b4e16cd3ac0f2a218b4fe42d9ae5df3e064907f7157"
+  },
+  {
+    "bytes": 13985,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0060.json",
+    "sha256": "e23dfe55ae88bab39e7032bc79d731a2ca667d88cdff381df6323b626114176b"
+  },
+  {
+    "bytes": 13911,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0061.json",
+    "sha256": "1f3f3babe2afd9cb43f9ebc9890bba5f48e4c0daea93568830ebf770b3a7472f"
+  },
+  {
+    "bytes": 24712,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0062.json",
+    "sha256": "aad407f5f2e4677c379f8a8476b7f457ab70bbba5a5a794506cd586e7ad3ec3b"
+  },
+  {
+    "bytes": 25389,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0063.json",
+    "sha256": "bda1d87365f578f1a7693635a0e8be95f9f5da88d791211814ff03729d4bfab7"
+  },
+  {
+    "bytes": 25410,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0064.json",
+    "sha256": "3d394bd21d7fa35f5b1bc4f4275fd4e47c940c072f1025abf3d68ae1aae7037e"
+  },
+  {
+    "bytes": 25224,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0065.json",
+    "sha256": "39d7d05e7e43803ee1eb0ad2d4b8b41ee39dbeeb6c32201758b05fd14b31b32e"
+  },
+  {
+    "bytes": 24697,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0066.json",
+    "sha256": "7a04c9e7d4570f596c92622361b59c3b3fddf28caedf025611eb27cb14fea81c"
+  },
+  {
+    "bytes": 24623,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0067.json",
+    "sha256": "d417d99fde2742aef7a8b34b29b5bdc0a756dfe8e62d5a9c5018b4b530367a0c"
+  },
+  {
+    "bytes": 24710,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0068.json",
+    "sha256": "33687821163356cd9efefe071ca2e6c06f28bef89299662dd6ab4db1bba65567"
+  },
+  {
+    "bytes": 25388,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0069.json",
+    "sha256": "8a726b3e96f1c0667351f34d5782131fce1bf2ecb70e6f7b3d944ca077fc2492"
+  },
+  {
+    "bytes": 24616,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0070.json",
+    "sha256": "80d286ce4843913f730b13aa6a79a89b77f89ff4501e7e122b6a9b6003d4e8ad"
+  },
+  {
+    "bytes": 651809,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0071.json",
+    "sha256": "30c31ca9798a64fd7707b016863f0dd105d0ad4ff40ebde0713bb1a78dbd4b7b"
+  },
+  {
+    "bytes": 24620,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0072.json",
+    "sha256": "fdeee64cec29b2a65a2488db60d9231512940deed317f6b4d26ad8443435f539"
+  },
+  {
+    "bytes": 25525,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0073.json",
+    "sha256": "bc9b0dc23ee40ed2748eaad1d278ffd893e1d7c761dd4ca4ee420d47678600ac"
+  },
+  {
+    "bytes": 25418,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0074.json",
+    "sha256": "1301fa053f18f970d3000ba4a9d6db15ed3e14de72e66b5cde78f5a059d219a3"
+  },
+  {
+    "bytes": 2096,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0075.json",
+    "sha256": "a08d0e66623f29c82962c2c61fd9996e070defaa0b1b5c5a1a0c5308a0d246e6"
+  },
+  {
+    "bytes": 30998,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/selection-ledger.json",
+    "sha256": "34275a257d8f3c4058a267513a7183f63567e1a1f49dbf747a7cdbcc816324e4"
+  },
+  {
+    "bytes": 372,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/selection-seal.json",
+    "sha256": "6b42945feeb2f3daf44f80dccb7f94a0aeb4268b1853a48ffd34328689e20eb7"
+  },
+  {
+    "bytes": 1245,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-S/reuse.json",
+    "sha256": "7fbda212c0ba148ff93cfe0839734d9eb583a1aab79940f7042dfb60d4335458"
+  },
+  {
+    "bytes": 1245,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/KL-P/reuse.json",
+    "sha256": "a87e213354a2836d66c7ba5ff7481e96eceb28fe5c70457bb5c514c432ec57b4"
+  },
+  {
+    "bytes": 1238,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/N4/reuse.json",
+    "sha256": "4dd9c283e9bf6b813feac2eafa236eed83d9e443610291d340cbba5c521e7324"
+  },
+  {
+    "bytes": 1248,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/SCALE/reuse.json",
+    "sha256": "b52de46d93f132298556061ec4b0969340a5fd5d0b979fce9b6008be4ab58dfa"
+  },
+  {
+    "bytes": 1212,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/diagnostics/RAND+.json",
+    "sha256": "e1760cf1538e86459340a941f9fe653dd12f9661eae0a870226c344c197fe6fb"
+  },
+  {
+    "bytes": 1207,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/diagnostics/RAND-.json",
+    "sha256": "67228142f703a19c1ef4dce3e0f4b287032c74c6f79c2e088bd1dc15db9f1523"
+  },
+  {
+    "bytes": 12250,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/episode-integrity.json",
+    "sha256": "c19c5367b52579791e7b95abe280354e4b623f6bdb2f7e0f40623cfe19a0d1c1"
+  },
+  {
+    "bytes": 308,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/CA-EXACT-gradient.json",
+    "sha256": "4b5d0b20f504e61cbc9bbbcc8077440fe9f60bcf7d4fcff17be3084c8696ec46"
+  },
+  {
+    "bytes": 11191,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/CA-EXACT.json",
+    "sha256": "6f348aac29057626fd05781c33c9e7e3479a4d410f5f8b4edc24348f93d7df64"
+  },
+  {
+    "bytes": 394,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/CA-gradient.json",
+    "sha256": "b1347f7d5bc6046cd06a01f5e4073e7ef9997a528e97c547b031999414ad6ce8"
+  },
+  {
+    "bytes": 4124,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/CA.json",
+    "sha256": "236ac8ff6aa69f7f1e15a345f8e597633a5d86d1c765d90eec1a3f8696e8408c"
+  },
+  {
+    "bytes": 393,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-F-gradient.json",
+    "sha256": "29f75380cedb39a1edcd65e0ef96e2172d0208d6c2b7220152cb26ed5996fc54"
+  },
+  {
+    "bytes": 118213,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-F.json",
+    "sha256": "7aec228dfcc624cc8bfb68c3ee9fc990986ac3fcac83e8dad5fa3ec9f9472a07"
+  },
+  {
+    "bytes": 390,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-S-gradient.json",
+    "sha256": "9e16d0c252dfddef7e47e47f5398da9bd0e76e90094972efc5305bcb898cf772"
+  },
+  {
+    "bytes": 4044,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-S.json",
+    "sha256": "50543c842a82cc0fdbb222512fc6d50e2cd8eb5d7736e2c6515d32d603b57aa6"
+  },
+  {
+    "bytes": 377,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/KL-P-gradient.json",
+    "sha256": "e39f0ed5331ddd5ff3e769a1ef224f53c218d0a8ef656bed150e280d452ef161"
+  },
+  {
+    "bytes": 108723,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/full-K-spectrum.json",
+    "sha256": "4d10970338b04fc2e8d1fa42bc281d1b402e446274675a74ccbddb971267ac03"
+  },
+  {
+    "bytes": 311,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/reuse.json",
+    "sha256": "fba2a1279d4a22dbbd2944fe6d009d24a1e5e6ea8e702e892aac53300bc729a0"
+  },
+  {
+    "bytes": 4650,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/native/native-binding.json",
+    "sha256": "109c5a3e33b5ea8c4d48765ea0b67dc674366f36bf99f6fbffbcce773ccbdd4a"
+  },
+  {
+    "bytes": 10817,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/native-objective.json",
+    "sha256": "2606dbcf89be17067ff3ffc36223c226522151f3e6a3020688c98bedae9cb2e9"
+  },
+  {
+    "bytes": 466973,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/native-quality.json",
+    "sha256": "592071026ce1be1b29d614e8cdac56bd7ffe027e6279a25e4aea159d29aeefff"
+  },
+  {
+    "bytes": 32498,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/nonselected-after.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2"
+  },
+  {
+    "bytes": 32498,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/nonselected-before.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2"
+  },
+  {
+    "bytes": 20008,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/CA-Dev128.json",
+    "sha256": "ca0b22d50cdfaca134eedb7e24502dd1eb5f8101a229bc32cf2e0a7cd0ab6f9d"
+  },
+  {
+    "bytes": 9987,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/CA-S64-output-KL.json",
+    "sha256": "9042b5d436792784011b61d20a7fcf65532ea9afb33136dc5fa3a86a3c0f4992"
+  },
+  {
+    "bytes": 2242517,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/CA.json",
+    "sha256": "4b20a8fa04e08e146baba83b33493346f488fdeb137b09cad54e58819ff48018"
+  },
+  {
+    "bytes": 19689,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-COV-Dev128.json",
+    "sha256": "bc97a9ac23f72d663ba05035522a3b461dd578c2315db852dab211d12a5cae8f"
+  },
+  {
+    "bytes": 9991,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-COV-S64-output-KL.json",
+    "sha256": "89185b2ab4860d039fe1653f6b2fdb29cfc17951d1e8bc79187790e4ee3ce306"
+  },
+  {
+    "bytes": 2242057,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-COV.json",
+    "sha256": "b0dc9eac1c9448ee67b2a58ff6f3c1402f00ff08927edb8d6d0f726186640da7"
+  },
+  {
+    "bytes": 19694,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F-Dev128.json",
+    "sha256": "9dc5337be384e62209417e0bae88577c804d33383a05f9ee77ff256a4180003d"
+  },
+  {
+    "bytes": 9984,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F-S64-output-KL.json",
+    "sha256": "e9660faa5d3d473ce2a03f55ebd43108589bb8d25fc1ae51903089aeb500d118"
+  },
+  {
+    "bytes": 2242023,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F.json",
+    "sha256": "a00310ee635e1e4fb32df696995d38c838cd4ed28eb4039262209a9cd52b3484"
+  },
+  {
+    "bytes": 19685,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F4-Dev128.json",
+    "sha256": "c7e8d51c0e61abd5e4c6a12b86d78e07af6b7e494be6f947ce379c3414794e1e"
+  },
+  {
+    "bytes": 9997,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F4-S64-output-KL.json",
+    "sha256": "14dcf0c09a03d832ab3fb8aa61b8bc27397b62608aba2eadc43b5ba265ccd5d6"
+  },
+  {
+    "bytes": 2242138,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-F4.json",
+    "sha256": "bcf5f35a129b06b55600ad8b4f24643398700d6fba4d57672d8a9493d970f4c9"
+  },
+  {
+    "bytes": 19689,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-S-Dev128.json",
+    "sha256": "557c26266155c141780fc8216a805100bed104bd25bf72f38604f2282ea2087b"
+  },
+  {
+    "bytes": 9979,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-S-S64-output-KL.json",
+    "sha256": "d3db4e857aeeca6c77172cb00827d950ac8271dd0b6cf2d307e97c67e0c04ca2"
+  },
+  {
+    "bytes": 2242179,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/EN-S.json",
+    "sha256": "15c0cc0c1d35664ce1446056964fe5997fafbe7c8d71b72f84ec0012e1d3a66f"
+  },
+  {
+    "bytes": 19695,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/KL-P-Dev128.json",
+    "sha256": "6ef9737c97ccef2f446be778ad6571ebe37a64d333cd57d7acb63e41e4e121c5"
+  },
+  {
+    "bytes": 9980,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/KL-P-S64-output-KL.json",
+    "sha256": "0343d2f95c8d2183b9f61cde4800df221dac9df27ff798877eb0eafbc782af3a"
+  },
+  {
+    "bytes": 2242286,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/KL-P.json",
+    "sha256": "3b84057c9a7eede47455b91a90cf4ea20dc5057797318e0bd29ba00c499c6eca"
+  },
+  {
+    "bytes": 19690,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/N4-Dev128.json",
+    "sha256": "195c9f7ff5052a3e123f30a8c02d2347eb3488721e193e25df95d609fd1bae59"
+  },
+  {
+    "bytes": 9987,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/N4-S64-output-KL.json",
+    "sha256": "9042b5d436792784011b61d20a7fcf65532ea9afb33136dc5fa3a86a3c0f4992"
+  },
+  {
+    "bytes": 2242183,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/N4.json",
+    "sha256": "fc4ef800a35834753b2445ec4c24f4a801220edda2acba35c0a22a62b40733d1"
+  },
+  {
+    "bytes": 19695,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND+-Dev128.json",
+    "sha256": "2922f25aa5747968df179fdc09e5f348bcd48403d08a8fcd42a1e0d09f938d07"
+  },
+  {
+    "bytes": 9982,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND+-S64-output-KL.json",
+    "sha256": "74157a014b6b6fe61e4e75e9ba2ac7db448e2cac0183774e0e912c392874230a"
+  },
+  {
+    "bytes": 2242197,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND+.json",
+    "sha256": "4a763dad472d4ccad0d933d0b4c2511088d835da6dd285f9193534d833fbd1d6"
+  },
+  {
+    "bytes": 19691,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND--Dev128.json",
+    "sha256": "a2cf39d2c31aa5e58bd7d7dca47ed275f914e426bed90503069d0ffc6dc500a3"
+  },
+  {
+    "bytes": 9986,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND--S64-output-KL.json",
+    "sha256": "f5b5b000c01962d4a5341ea05b8a44bc4a633823b3a621842550029cff60f25e"
+  },
+  {
+    "bytes": 2242222,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/RAND-.json",
+    "sha256": "2dcf981d17153c8134d3a2bbeef0ebd75289e2fd33442f6b909e63b40b38da12"
+  },
+  {
+    "bytes": 20008,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/SCALE-Dev128.json",
+    "sha256": "ca0b22d50cdfaca134eedb7e24502dd1eb5f8101a229bc32cf2e0a7cd0ab6f9d"
+  },
+  {
+    "bytes": 9987,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/SCALE-S64-output-KL.json",
+    "sha256": "9042b5d436792784011b61d20a7fcf65532ea9afb33136dc5fa3a86a3c0f4992"
+  },
+  {
+    "bytes": 2242520,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/SCALE.json",
+    "sha256": "474b7e684f3a9c50fcf8a1198b448d29290fcfa0ad892e12987474e34fde246c"
+  },
+  {
+    "bytes": 1827547,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/W0.json",
+    "sha256": "e3b124f60dad9e37d1c50a686f2332e10f915df2a6df6733db67a74ac59350c6"
+  },
+  {
+    "bytes": 2655,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/observers/cross-hardware.json",
+    "sha256": "eac72bf5d17f0ca791807c8ed3fbd4f32af1880e1688d93f540d5ff65f3d398d"
+  },
+  {
+    "bytes": 3789523,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/protected-provenance.json",
+    "sha256": "a73c6d31ce182bbd79fde4f0a54023afe20a028f801a26997a00fb94551bc968"
+  },
+  {
+    "bytes": 495,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/retention-policy.json",
+    "sha256": "392159d14195232690068f8ce2e6200b74241425a7d62661423c60d9a1ed90f4"
+  },
+  {
+    "bytes": 1362,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/runtime-load.json",
+    "sha256": "e8fe42716ea5e988e3745e7c28612c1ea785a6386ced57607c9a43256efa9a09"
+  },
+  {
+    "bytes": 5702,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/terminal.json",
+    "sha256": "af35bad73c10c3dc9dbbf8c6c681a261f4e0b3b11b95f5895e0a5505a8ba972e"
+  },
+  {
+    "bytes": 530,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/validation-status.json",
+    "sha256": "348861ca9ba5ee302b8d37dc3ae821e4c3f6e630b1975f5804baf77908d407d0"
+  }
+]

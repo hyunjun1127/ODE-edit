@@ -1,0 +1,70 @@
+{
+  "current_full_read": {
+    "bytes": 9954,
+    "path": "messages/head/2026-09-18-sh1-enfc-b001-completed-review.md",
+    "sha256": "6c435631ea8048fe7e6fb3354b05ccbfd3d10c8638abadabf43e3eb3f6c224fe"
+  },
+  "evidence_policy": "prior FULL_READ reused only with identical SHA; current review envelope fully read",
+  "prior_full_read": [
+    {
+      "bytes": 60382,
+      "lines": 1269,
+      "path": "PROTOCOL.md",
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b"
+    },
+    {
+      "bytes": 6537,
+      "lines": 109,
+      "path": "servers/connection-inventory.md",
+      "sha256": "1f33cefeb1f842749eb74d2e15087821f9a0cd5c1fb5913502e3ebcceb463966"
+    },
+    {
+      "bytes": 11396,
+      "lines": 82,
+      "path": "messages/head/2026-09-18-sh1-enfc-single-batch-resume.md",
+      "sha256": "fbc603c463a78ac075aa0bf690040a33637dd103e85593ae367072b9d6b6bfd9"
+    },
+    {
+      "bytes": 36164,
+      "lines": 284,
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06"
+    },
+    {
+      "bytes": 15553,
+      "lines": 446,
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0"
+    },
+    {
+      "bytes": 14480,
+      "lines": 127,
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c"
+    },
+    {
+      "bytes": 31411,
+      "lines": 306,
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/06_blue_l4_detailed_audit.md",
+      "sha256": "719417dbb99da11166dc9b0fb78492aa311426ff6fb5793e1805ac91f42557b8"
+    },
+    {
+      "bytes": 24256,
+      "lines": 289,
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-sh4-dispatch/references/07_single_layer_method_positioning.md",
+      "sha256": "5233db01620ad75cc00d2146488858e20188e3721578d53b8c9d0551bf779522"
+    },
+    {
+      "bytes": 7712,
+      "lines": 56,
+      "path": "messages/head/2026-09-18-sh4-enfc-skip-t-all-m.md",
+      "sha256": "5eb4e4dcbe172e0f9f7124d7e608437a6caeaa60197101396f7b06634a830101"
+    },
+    {
+      "bytes": 5191,
+      "lines": 41,
+      "path": "messages/head/2026-09-18-sh4-enfc-storage-waiver-submit.md",
+      "sha256": "e2214a08e569be3499eaa983ab7dc7f7831212d47ba6f6b5efd64e00591f28d3"
+    }
+  ]
+}

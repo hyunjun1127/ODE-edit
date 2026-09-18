@@ -1,0 +1,2090 @@
+[
+  {
+    "bytes": 252213779,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/local-z-adaptive-allocation/20260916-v1/arms/N4/attempt-v1/output/B001/proposals/own-N4.pt",
+    "sha256": "59832a80d513c5cd9062916423b1062d9f4558ae1b14624b09685d1c212b86a7"
+  },
+  {
+    "bytes": 234903785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/N4/final-L4.pt",
+    "sha256": "76185436fce41fe842c36c836f3ff1aaecbdf4b7590b4dd093e0064360cb0f20"
+  },
+  {
+    "bytes": 2205,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/N4/selection-ledger.json",
+    "sha256": "64c16376a683bd8ecfc20fc4c63931aed71d7329eb9ebdf38795fadf5dafe3f9"
+  },
+  {
+    "bytes": 369,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/N4/selection-seal.json",
+    "sha256": "9ef55d6235535ab660d5cefd0bcb750fe0b20861bfbfcac48c7bbf6786fde534"
+  },
+  {
+    "bytes": 1099,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/N4/events/0000.json",
+    "sha256": "2cac427073093a6bb6a0f5cac47c4fa34e6cb5c118a903b13acffca90f6083af"
+  },
+  {
+    "bytes": 1991,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/N4/events/0001.json",
+    "sha256": "8e0b8fda65ba3d6294024ce63caabbaa21d0cbad4de5a12fbb51d22dab209e7c"
+  },
+  {
+    "bytes": 234903785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/final-L4.pt",
+    "sha256": "76185436fce41fe842c36c836f3ff1aaecbdf4b7590b4dd093e0064360cb0f20"
+  },
+  {
+    "bytes": 27945,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/selection-ledger.json",
+    "sha256": "065491edec7e02fd3b4430df3f585649c6dc04a51137113e2dff3df87ab01609"
+  },
+  {
+    "bytes": 372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/selection-seal.json",
+    "sha256": "a1e02fde253451bf4b4893c60eadbf949694fb756f7171e516ec44b086eccff2"
+  },
+  {
+    "bytes": 1149,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0000.json",
+    "sha256": "f07ed1432fef48652c7b78d5b5ff4ebba55817a1a0806e77feb29a20632bd673"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0001.json",
+    "sha256": "f40c59c73012861cba98e0bc407ec49cd99887e6afcd3f9864f0d20133c9b6d2"
+  },
+  {
+    "bytes": 12264,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0002.json",
+    "sha256": "46966d7ccea9bc57f5a52f95bca61743bdbb2ec6263042c0eeb9433d1adcf2d2"
+  },
+  {
+    "bytes": 13129,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0003.json",
+    "sha256": "a2b7d0ac5cbebfcc7514ef3b037ddba92b7a6d62ddc03a9a7e03f3174204ec4d"
+  },
+  {
+    "bytes": 12888,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0004.json",
+    "sha256": "309f43f69391317b388c6363bca1b2ddc8de8667148de602694c2be179a955c6"
+  },
+  {
+    "bytes": 14299,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0005.json",
+    "sha256": "679588b3d290dc887df83294800e7b3a88fc6de5587e58d312f8f1606134a598"
+  },
+  {
+    "bytes": 13691,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0006.json",
+    "sha256": "1484720fae78dffa9a0a4e81213c55811e7f1d8be6ce73ec71a1330188cdd1f9"
+  },
+  {
+    "bytes": 24518,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0007.json",
+    "sha256": "86c021a1b657dd5cacc13dc09f48a1f43ad01b8306c8a592d69313cd3d8df500"
+  },
+  {
+    "bytes": 25203,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0008.json",
+    "sha256": "92c254e7c74fe12c9e36c57769283a27d8946765d0339a1866e24e00efbd1df7"
+  },
+  {
+    "bytes": 24423,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0009.json",
+    "sha256": "35ed93ba9fbf9a3b72e2ea4bfae55c9792370978f1b0e8d90543f73a829ae512"
+  },
+  {
+    "bytes": 726041,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0010.json",
+    "sha256": "94b0d1d0f0f7e00349aa0fa5b64ea39aa3703668666cc389586a00118ad4414c"
+  },
+  {
+    "bytes": 25287,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0011.json",
+    "sha256": "1c026ef83132ac4981a62d89db479c40de49adccefbc26b5365d47b57aeb3874"
+  },
+  {
+    "bytes": 25038,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0012.json",
+    "sha256": "0f43a8641e9c415c4e13e3b239af8f939fb04041c47e3a4988c1fd8cbf7b30d0"
+  },
+  {
+    "bytes": 24429,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0013.json",
+    "sha256": "2bf1d8abcfbc1edac0f2564cf0a5167938eafe39f38960e65bedd4e33a1b9e03"
+  },
+  {
+    "bytes": 24496,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0014.json",
+    "sha256": "8480bff8a25244978258686a18bc5a8c15537ac2852039f2de114a4ed3111de3"
+  },
+  {
+    "bytes": 25182,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0015.json",
+    "sha256": "3f9e360bce7384927c49b7d37bf36b73728092250e0789fd22059090da673b5e"
+  },
+  {
+    "bytes": 24402,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0016.json",
+    "sha256": "3cd5100688cafe46d5da5bc358f29232c4749d21476fd4e0e379d90e2060dfd4"
+  },
+  {
+    "bytes": 709183,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0017.json",
+    "sha256": "c81513af845b9c535b0f6c0cbe9012bd87ccba7b4ed0a793f8c90812ab7b0a9c"
+  },
+  {
+    "bytes": 25265,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0018.json",
+    "sha256": "89856b2277937980a50f80f04eb34edc960a4184eb8a0de0dc34dfd13dc8fb80"
+  },
+  {
+    "bytes": 25016,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0019.json",
+    "sha256": "2f3939a0e80c56ff618e103bb46471b6e3e70bc9fc41837e4327ef37d0bbb0bf"
+  },
+  {
+    "bytes": 24407,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0020.json",
+    "sha256": "5e07a549b560a86ef8e030e7d19e94e4d3283f46e09411d92192b9ca28a7d3c5"
+  },
+  {
+    "bytes": 24489,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0021.json",
+    "sha256": "85794dafdc423b831683f86b4d31c13fca28e80b81927b0a83cff857b23042dc"
+  },
+  {
+    "bytes": 25174,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0022.json",
+    "sha256": "4e60a2deb9be2c6d78fd0ed0d27a4a72bc7b5bdf8f0c0b1313fa7f7b7bf5303b"
+  },
+  {
+    "bytes": 24395,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0023.json",
+    "sha256": "bae43cfeab93a6863c0f345b21c992a59cb145993b6d0e93775ec55b852b7bee"
+  },
+  {
+    "bytes": 707121,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0024.json",
+    "sha256": "e88b9f318f4f76a0388757ab5169e3989db5375812027d20203f63e52a948617"
+  },
+  {
+    "bytes": 25257,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0025.json",
+    "sha256": "6a4cafbe6af70158d42f7af9c68dab48b07a8bef276c5c1ea705f0abf896c622"
+  },
+  {
+    "bytes": 25011,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0026.json",
+    "sha256": "21bf779478c49c2506498f944a041f0cb2aaffe9961e4d33f30f897e7e373362"
+  },
+  {
+    "bytes": 24400,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0027.json",
+    "sha256": "4f6dc4d43ff751881a5ff97ab4aeb4f9d41d410a7a353b90a7d48ceda875757c"
+  },
+  {
+    "bytes": 24484,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0028.json",
+    "sha256": "bad4be23463b31980280cf73fe9b4dda46df5c24a5a14a54676c2488414238f0"
+  },
+  {
+    "bytes": 25173,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0029.json",
+    "sha256": "477a5811fb824156a54c36454b6cb95720eec5019416096f89e1c51271363fe0"
+  },
+  {
+    "bytes": 24390,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0030.json",
+    "sha256": "f039b2ba0e39b4c09ad60e9540c85b027addad832573e2e66cef9cbfa5139e21"
+  },
+  {
+    "bytes": 703689,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0031.json",
+    "sha256": "00a9edd75d7760de0e6afa15e5f16c14863e85161e2610577ce11ad9444799d0"
+  },
+  {
+    "bytes": 25256,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0032.json",
+    "sha256": "3d204c2c8a988881ae26bb30f9b2b6d9334d0be651607b706bbb4be852ce436b"
+  },
+  {
+    "bytes": 25007,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0033.json",
+    "sha256": "7ff6a9264c34fe7f35b73301b3d424e164461c5d5db56afa35f8e511841b277c"
+  },
+  {
+    "bytes": 24395,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0034.json",
+    "sha256": "020436311e506e7ae9f8479e4809bf5d3a32943cbb04b68a4c71a2fb23dd898f"
+  },
+  {
+    "bytes": 24483,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0035.json",
+    "sha256": "359f037c923a01f22ecee9a17d278f60c9b7642a8e34e94297d4fa29450dd152"
+  },
+  {
+    "bytes": 25173,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0036.json",
+    "sha256": "a00ea63b31a7707654f2b873d435c6009f174f61926b1121be43a112b3906ceb"
+  },
+  {
+    "bytes": 24389,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0037.json",
+    "sha256": "846efd92f5693a61a1143bd87909c46a4bdd742a66c6b8a8cce25c56e17fb0a0"
+  },
+  {
+    "bytes": 695561,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0038.json",
+    "sha256": "da4b6912ecd1e93a126a158c42e8d0d1f74ff326b732910a678a0d9105bab04e"
+  },
+  {
+    "bytes": 25256,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0039.json",
+    "sha256": "8fc4edba0620a0f43521eada15c95a69bad1f5973743180aee73d744ab1f6590"
+  },
+  {
+    "bytes": 25007,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0040.json",
+    "sha256": "d5fc7535008ac9e342d2223d6afda35e0344af5c8fd9650df4df8434a933480a"
+  },
+  {
+    "bytes": 24394,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0041.json",
+    "sha256": "38907af92c2745f1f1a6df6e1c1fc34c70287cec3702df8f719502aa867e8314"
+  },
+  {
+    "bytes": 24482,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0042.json",
+    "sha256": "25f59b5b80fa7045a593dcd65db992b40c7967c23c620d914a7d69f6e5b51942"
+  },
+  {
+    "bytes": 25173,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0043.json",
+    "sha256": "8a195534eb0adf5d9828be0bdbfb37ef5becd7c862eafd89223eaa5ca0b5d495"
+  },
+  {
+    "bytes": 24388,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0044.json",
+    "sha256": "96ef0b7b416e0562cd61d25c1258e5d910095966dadfafe223df3b0ba3fb83f7"
+  },
+  {
+    "bytes": 684725,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0045.json",
+    "sha256": "6728bbaf4c0044d29eb47305a098fbdb1a17cc4de180f05a6d6dc44acba20bef"
+  },
+  {
+    "bytes": 25256,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0046.json",
+    "sha256": "93b343ae086f5353d53a72ee616e6727cf9e7ba9a9e85677b2192d75a0cfaa3f"
+  },
+  {
+    "bytes": 25007,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0047.json",
+    "sha256": "adb09254cc4b34cb5a8a56cd23022d80d467b2a045c55d4e7d7cda13fe0d40a2"
+  },
+  {
+    "bytes": 24393,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0048.json",
+    "sha256": "9180cc3aa02b420f8bb3c423e2a0f2c79e91b7683d5920462f9b1a9a8ef82d06"
+  },
+  {
+    "bytes": 24479,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0049.json",
+    "sha256": "17adeeae9b3d941096f0107dddaccaf5701999068c319a3e4f5fdcd5c08b2b8e"
+  },
+  {
+    "bytes": 25170,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0050.json",
+    "sha256": "7bb0bfef13c1c1429792dd5810436a28744e7c580048fd66dff247a0a92bb9d9"
+  },
+  {
+    "bytes": 24386,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0051.json",
+    "sha256": "ab9ea3e5a224753a47b1dfab8101990ca9900a2b9e37eef2971b2284d363ceda"
+  },
+  {
+    "bytes": 671986,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0052.json",
+    "sha256": "b755cba87e0f2c3dff8a83afd648ec60bcf91bf5b9eb052d84df3bec06cb9d5d"
+  },
+  {
+    "bytes": 25253,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0053.json",
+    "sha256": "cbfa0e0cecea82e15eb5bd9c69f2a9ff20dbbede3d33b06cb55bc6ca8c53637a"
+  },
+  {
+    "bytes": 25008,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0054.json",
+    "sha256": "16476e4c40d759918d55abee83f1433b9b50deca1658cec0f0007c2b6ff4014c"
+  },
+  {
+    "bytes": 24391,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0055.json",
+    "sha256": "3fec10074182bec5695590da93dcba8a4d5d34893618e65976cee693208170ea"
+  },
+  {
+    "bytes": 24484,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0056.json",
+    "sha256": "004f76a1a487b36d792cba3d812bd2e67607f17dfac6829a414b6d3d4de2659b"
+  },
+  {
+    "bytes": 25178,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0057.json",
+    "sha256": "31c6cb12a9f9605de5e5bde1abb263600492794efe77b2612b7a91b314969aaa"
+  },
+  {
+    "bytes": 24391,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0058.json",
+    "sha256": "e9257f0fabfba3040b3f63baf806dac4c1cabde048945f2ce6260da17c585899"
+  },
+  {
+    "bytes": 661877,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0059.json",
+    "sha256": "b2376356c04665c6cf13a1fefe640eb56c608349f2adfaea8df4c25c0846de5d"
+  },
+  {
+    "bytes": 25261,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0060.json",
+    "sha256": "3780d70d539126f2acbd92f7e449bd2314ddc531f7227533b137a2d0c3043e38"
+  },
+  {
+    "bytes": 2062,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/SCALE/events/0061.json",
+    "sha256": "ab04622ec85578ffca19f75a6be14bc02ff87e1be25980564f18bc5962be915d"
+  },
+  {
+    "bytes": 234903785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/final-L4.pt",
+    "sha256": "76185436fce41fe842c36c836f3ff1aaecbdf4b7590b4dd093e0064360cb0f20"
+  },
+  {
+    "bytes": 27675,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/selection-ledger.json",
+    "sha256": "19b71a55fd2bd7743a36bd9870ba158d71b324655074a4ef6ec6ec3b9bbe1096"
+  },
+  {
+    "bytes": 369,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/selection-seal.json",
+    "sha256": "299f69c4ad8e01c0f3c70c1b68635a0bbdc1d6061df7925b03256f1b8c9b831d"
+  },
+  {
+    "bytes": 1146,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0000.json",
+    "sha256": "1200498cb239ea758c6aa47537aca496f19b8b0f8f7f3634bbe2e410ef9577ca"
+  },
+  {
+    "bytes": 1031,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0001.json",
+    "sha256": "a83e576fd4bd2175b4c401ad0fe92b53bf78d00ea488ff07385d22eb2d10aeea"
+  },
+  {
+    "bytes": 12261,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0002.json",
+    "sha256": "dfb2012f265671e1b716775f08502fe3d169afc0c599869aeacf85e67142b835"
+  },
+  {
+    "bytes": 13126,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0003.json",
+    "sha256": "dcb0d13e96e5edced7daf36fad0750d60e028e01a58d3bda34df7709062868d1"
+  },
+  {
+    "bytes": 13133,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0004.json",
+    "sha256": "00630694a3575b2c7b92d9b08e6512dfceb8967a675f1c069ba64a39b6d0c6cf"
+  },
+  {
+    "bytes": 14485,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0005.json",
+    "sha256": "73abeac7deaae9eabdfdd843a0fd3a28d77fe9368c2a138cb68706994946d309"
+  },
+  {
+    "bytes": 13892,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0006.json",
+    "sha256": "2b496fbf0f63278804b99ea0cf00378a56ed531aa0311d5b87189c105ebf6e62"
+  },
+  {
+    "bytes": 24683,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0007.json",
+    "sha256": "a11f025d3194582b58a4b8d9afdaeb77caed5588a2c84b74e93e6a51a66cd4c2"
+  },
+  {
+    "bytes": 25353,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0008.json",
+    "sha256": "6b844c9a34e0ccacd243d83de5820405d55dd238dc8a58a8e77840d4a05c09db"
+  },
+  {
+    "bytes": 24590,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0009.json",
+    "sha256": "382bc3a121807d23d5512f23735719ace5a55f9148e6f53d95c8febab1eead85"
+  },
+  {
+    "bytes": 680043,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0010.json",
+    "sha256": "3a91599bd4ba11a0e4e614dc21f9631f442993ca2b87a4e4af84bba3c1032fcc"
+  },
+  {
+    "bytes": 25437,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0011.json",
+    "sha256": "20d347619e3c9f66140fb30e8029e3750a1c0568739f321f71b1a167866b36a4"
+  },
+  {
+    "bytes": 25194,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0012.json",
+    "sha256": "77d3d11c3a59716060f3733d2c276498091b40adee64be0ed94328b0645c97eb"
+  },
+  {
+    "bytes": 24596,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0013.json",
+    "sha256": "56bb21da93adcdd09c42a7e5f78137fa2c84a645eca16fb3310c7fae7d766f77"
+  },
+  {
+    "bytes": 24680,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0014.json",
+    "sha256": "8fcb142a09e8064ce908223cf5637e5eba9a328d43dba5bce0cd5b2c4a028156"
+  },
+  {
+    "bytes": 25354,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0015.json",
+    "sha256": "a7d9f9991322d6f3f367e382edf5e816fb1ac733db96ec9c4207d8d27ae50fc4"
+  },
+  {
+    "bytes": 24587,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0016.json",
+    "sha256": "4cfb29b59f703dc47fb766040d3da624dcaaa4e21c2d29dbf34c0ad3ee256f22"
+  },
+  {
+    "bytes": 668373,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0017.json",
+    "sha256": "324719dab3cdaf7191c8d019ea49298daad5b102c4d3364b206cd6a8bc5b5844"
+  },
+  {
+    "bytes": 25437,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0018.json",
+    "sha256": "789fc9ec6ca13ba99c77abfa01be31f6697fa81872b463996d5a1deb12ef098d"
+  },
+  {
+    "bytes": 25189,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0019.json",
+    "sha256": "06d8bf3f53c226585936e586433f4bd4525855126f4a8df12bdb6108730d3f64"
+  },
+  {
+    "bytes": 24592,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0020.json",
+    "sha256": "77fa8157b7d85adbc2ee58a0b773c544cc76dd60b0a3077aa61128f6e89d10ac"
+  },
+  {
+    "bytes": 24686,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0021.json",
+    "sha256": "825373f813bc4d5f8b340ee3a6bce7abbf164bbeda628e769626fc385bb73484"
+  },
+  {
+    "bytes": 25361,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0022.json",
+    "sha256": "c9d9275c0d53b1a70f5cd94f92f99578bff92b9396ed21a6bd037c85821d32c3"
+  },
+  {
+    "bytes": 24592,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0023.json",
+    "sha256": "b8cda6c4ccd36a423c7f4fac084fba9bae9ee7c5266b3803c203107593f617c6"
+  },
+  {
+    "bytes": 660311,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0024.json",
+    "sha256": "44a66fae9023743574887509237696934dbd9ee030a0cd42297bc68305d76991"
+  },
+  {
+    "bytes": 25444,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0025.json",
+    "sha256": "86a9aa7f0522a041a4e1acded8fd7ea09b2c5ef1227fd61b5a5d0f0ef4a2915c"
+  },
+  {
+    "bytes": 25199,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0026.json",
+    "sha256": "a1f79b7d06887922b542b91dee09cb8f97fbf318d2aaf7446937304418376c80"
+  },
+  {
+    "bytes": 24597,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0027.json",
+    "sha256": "739d1e44327b8037a1553a316584929cc59f3e169aeba6565c20da0c8eaf56d8"
+  },
+  {
+    "bytes": 24687,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0028.json",
+    "sha256": "bc69d3fe6819e4995639c9402e444b30af2e7aadec19c78eb3b70856cf3e0d6c"
+  },
+  {
+    "bytes": 25365,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0029.json",
+    "sha256": "e404c90629e8499d22a503555defcb7ce0ce695bab0d856b20d5982778a2d75e"
+  },
+  {
+    "bytes": 24593,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0030.json",
+    "sha256": "c37d3c459c0bd4165ad3ed5a07ac8f2482dbba5ad2f50bde11821c8fd88461de"
+  },
+  {
+    "bytes": 655604,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0031.json",
+    "sha256": "bd328900e8563e3f7bdb84bf912a3baba067fde36e4df9a824cbfda00662c0cc"
+  },
+  {
+    "bytes": 25448,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0032.json",
+    "sha256": "14351a838151b7dfc55ff6322b7ce3495229654c4b9b2dcdc66bb31f25e14827"
+  },
+  {
+    "bytes": 25201,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0033.json",
+    "sha256": "405a7f5dd0ec611d92531406d7b0f1913444f8972e7fc7117a96be5055f36512"
+  },
+  {
+    "bytes": 24598,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0034.json",
+    "sha256": "be56bcfa4a491fc000efe7b5067916ff76532eadd68712be05f06934c286d921"
+  },
+  {
+    "bytes": 24685,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0035.json",
+    "sha256": "743ea3d318fa0ea42be5a85d7bb8518a08efe0492d786623d247a47daedca307"
+  },
+  {
+    "bytes": 25366,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0036.json",
+    "sha256": "7782dfd3ab456fa0f99c731a9e4b596954343e8b1aae10bdbd49eb5768fa456c"
+  },
+  {
+    "bytes": 24592,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0037.json",
+    "sha256": "2441762c4d287f7475f701fa6bfccc510f603df86134ad0df256efd88b71695c"
+  },
+  {
+    "bytes": 653579,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0038.json",
+    "sha256": "730c37cd5b0c598acacee0673b2894190bef9f8fe40fa6066de3e6a31017008e"
+  },
+  {
+    "bytes": 25449,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0039.json",
+    "sha256": "64375c53b9c3d208ce2a12d074eec1b6f00971c6dc5a46b146f8041b046f6be4"
+  },
+  {
+    "bytes": 25197,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0040.json",
+    "sha256": "72f8698f6aa5127b1e4133d3ec047111dd6695488c3e1617b62c68d74650bb96"
+  },
+  {
+    "bytes": 24597,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0041.json",
+    "sha256": "342d2298979d89d48459d98b4b38371c81bc6326cdca4b3256229bd46603db9a"
+  },
+  {
+    "bytes": 24688,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0042.json",
+    "sha256": "347966c47df2fd3a39957d9947dbb05a566ce0bbad69ffbb5331b6c017b15baa"
+  },
+  {
+    "bytes": 25366,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0043.json",
+    "sha256": "557e87553ba4d1f777c880053af96e7b71a0d44b56f5367ac379f3f96607f63d"
+  },
+  {
+    "bytes": 24594,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0044.json",
+    "sha256": "64ff4b9bf5c693b4733c78a102617fc6a5e6066eea8066f9b3cabf1630ef4347"
+  },
+  {
+    "bytes": 652683,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0045.json",
+    "sha256": "ea3ee193a9fbf5a1c4d3f2ee94bbbce50f1543746edad5200be44b294dd145c4"
+  },
+  {
+    "bytes": 25449,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0046.json",
+    "sha256": "24561ead93cfd93729ca2492e48897698a9c6575eb94d508ea4370b027f69dec"
+  },
+  {
+    "bytes": 25204,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0047.json",
+    "sha256": "53d9cc80163450db20d4a6e48effd506ec7ec30e7e7f077c5edf0dff70ad03a8"
+  },
+  {
+    "bytes": 24599,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0048.json",
+    "sha256": "32d9de772cd1b55df0cbf1fcafe8166898335b6de619c16ab0db09bca1a5b342"
+  },
+  {
+    "bytes": 24683,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0049.json",
+    "sha256": "6c86728f49a8cfdd1144ea2ee89fe03fbedc6353e5002e806651fd055bee6f47"
+  },
+  {
+    "bytes": 25366,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0050.json",
+    "sha256": "09eec5f47583601d2237b6d1bd5e3a5223cbd45acee1c50849085ad770833cf6"
+  },
+  {
+    "bytes": 24590,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0051.json",
+    "sha256": "17bc82ace5d6dbfda8980b1fbd231ec99c9eead35757cf078b1da492ffaa076e"
+  },
+  {
+    "bytes": 652250,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0052.json",
+    "sha256": "30f5016caa48e526b6cb7511c54d950a13ff31eb5f50db1cb200a9a2808e3728"
+  },
+  {
+    "bytes": 25449,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0053.json",
+    "sha256": "08c0bdf9fe6ffecd02c1105222006186cd688fa3092aa685e34bcba68fdb07c2"
+  },
+  {
+    "bytes": 25202,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0054.json",
+    "sha256": "4992a8bd2a092dd56a4353c03bc74b15e6a1b29e150c33746da0cab5e487363f"
+  },
+  {
+    "bytes": 24595,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0055.json",
+    "sha256": "27bc3ec74adc3330816a6544af554ae35e49fdfaf7f229e024cd528856b44732"
+  },
+  {
+    "bytes": 24678,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0056.json",
+    "sha256": "3e5ccee5e05324a592f2a5d94bc76c91db10e3139d2458fa04863bca43ee2695"
+  },
+  {
+    "bytes": 25362,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0057.json",
+    "sha256": "0ac9d3e9053178c60cd151e27f0773e816efd46d803a4cb9a1ef75b18c9e38e0"
+  },
+  {
+    "bytes": 24585,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0058.json",
+    "sha256": "428f6632619c87dcaedc467663a558b3b1dd7f06a15a600f38f898e38181de33"
+  },
+  {
+    "bytes": 651863,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0059.json",
+    "sha256": "6c8de76751f431922c69a61464ff39545cf7c1dafb05621f67fadbfa243ac08b"
+  },
+  {
+    "bytes": 25445,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0060.json",
+    "sha256": "c0d46150c5398a469154441817c0cc4ea14ad78d9c86c2544a2127a37ba80b1c"
+  },
+  {
+    "bytes": 2071,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/CA/events/0061.json",
+    "sha256": "0f799dedc9d98b46f8d955fa4b8c555666711d4235c47323608cbded557e9e06"
+  },
+  {
+    "bytes": 234903785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/final-L4.pt",
+    "sha256": "9bfccf05dd5cff42115b6762e0f04c11cb46af100e9ff85608ee76698e413d5c"
+  },
+  {
+    "bytes": 14958,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/selection-ledger.json",
+    "sha256": "407ca695c0370cc8e49fcc75f4dc44a64b01e2aca7b10007ccb45652c75d07b3"
+  },
+  {
+    "bytes": 371,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/selection-seal.json",
+    "sha256": "6f5a3dddb317687689deb6ee85ca01fabab17dad61625ed56144c51bafa5109b"
+  },
+  {
+    "bytes": 1148,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0000.json",
+    "sha256": "9da1d01c44b28b8ad7c36fb1e98c3a463082cf7ceb6611c73969e5931d5ef715"
+  },
+  {
+    "bytes": 1033,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0001.json",
+    "sha256": "759228b0e98bf1edf9248ee9ef0241db8f75a221058acb80e68cf30ed636b5da"
+  },
+  {
+    "bytes": 12263,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0002.json",
+    "sha256": "1df562491cb315763f0a40d24bcb97927a080d24be4dcee49e2720c117881d78"
+  },
+  {
+    "bytes": 13128,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0003.json",
+    "sha256": "9192cc1384159ebe1a77a32da87340711e7849618564468b0e8b2effb3dd15ab"
+  },
+  {
+    "bytes": 13134,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0004.json",
+    "sha256": "74225145ca01e91adaa2a2c57e094ca7c20c23919359bb3d6595083f338be5c3"
+  },
+  {
+    "bytes": 14495,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0005.json",
+    "sha256": "66314603ede61e0ba1eaa9d3dc74fc230929be71c3ec3fc95eb89b356e70347e"
+  },
+  {
+    "bytes": 13894,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0006.json",
+    "sha256": "d26a4afaa31cd01d4c1675ac58e2c0da8eda2b5a63928fd123c1264660c3476c"
+  },
+  {
+    "bytes": 24688,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0007.json",
+    "sha256": "4c1a556f6c031dd31781592706d9c6fcb96b40b3c69c6dd900a8e316951c2bda"
+  },
+  {
+    "bytes": 25366,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0008.json",
+    "sha256": "13543c5176940aac629f3d49a81dbb6920a652f65f97c418c3858abd4bc3bfe4"
+  },
+  {
+    "bytes": 25387,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0009.json",
+    "sha256": "d2cce6ae6f537c3952d35610f8ac0464a1277e97624d317aebd35c1a16783451"
+  },
+  {
+    "bytes": 25199,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0010.json",
+    "sha256": "dd1c1d6476a85a9ee420b5c6adee02e73b765b126d0bdc268ccded292f6b72ed"
+  },
+  {
+    "bytes": 24600,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0011.json",
+    "sha256": "5b308a43c86f24dfcaf7442dab07d8c2cf14720c82d73cb17c21b57ac03b1186"
+  },
+  {
+    "bytes": 24690,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0012.json",
+    "sha256": "1e7bc81af211872c07ae425cc168a842d4e087ae18457fa3d89498130f003dfe"
+  },
+  {
+    "bytes": 25367,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0013.json",
+    "sha256": "029a0db156f845fa1855d30fb9f5c199dc9fc3ad174aba615fdb6119fceb05af"
+  },
+  {
+    "bytes": 24596,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0014.json",
+    "sha256": "c782f361979fe644d749564f12e06b67cee0d48ccada1d9459179a05e502f66d"
+  },
+  {
+    "bytes": 652037,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0015.json",
+    "sha256": "3aefdf0c6662ae47cfcc3502bbe544ec6b96059e5bf3424b42069ae7ec6753ca"
+  },
+  {
+    "bytes": 25450,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0016.json",
+    "sha256": "7101f25ba58a386999b9e11c2d01b5662d55812115a034179cf940b58a6cdb4d"
+  },
+  {
+    "bytes": 25202,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0017.json",
+    "sha256": "915e1a92ba192137ab364cb4d3db6a2e4282b6621c62ebf260f5edb3b2b412b3"
+  },
+  {
+    "bytes": 24601,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0018.json",
+    "sha256": "25bda713c3ee5224c3fdff649499318be3b79a2395feed1a0451d58d39e1d06c"
+  },
+  {
+    "bytes": 24693,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0019.json",
+    "sha256": "18b46960b49af5c32b848b4e921fd7dc7d77c067e3c970ce3d9b78cfa3201c38"
+  },
+  {
+    "bytes": 25372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0020.json",
+    "sha256": "8417a91756d2ff9bdf51c3f0b9ba431c840b5648cacb330a6d9599f6b8dd1d9c"
+  },
+  {
+    "bytes": 24600,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0021.json",
+    "sha256": "c5a2aa075918e27798db46cc3f2f6f80659f99cca6d222bf8b177743976a3922"
+  },
+  {
+    "bytes": 651872,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0022.json",
+    "sha256": "be7f31923d4282d3eee07a28c89a3a4a87718abc3f12b8f7f1f14ec68aba4772"
+  },
+  {
+    "bytes": 25455,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0023.json",
+    "sha256": "5043b2bdbb155c1b0a34562e5ab358a49dbc972b46aad82aa46bc03878ce848f"
+  },
+  {
+    "bytes": 25208,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0024.json",
+    "sha256": "b5afb109279a787166e52b87ac7c611ff353c0ae47b606f85f82d957031ca41a"
+  },
+  {
+    "bytes": 24605,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0025.json",
+    "sha256": "9c2c7b64e99f454923bf5e72f25660ca42f7d9d7be6bffb46315e98ebf0f5bfd"
+  },
+  {
+    "bytes": 24686,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0026.json",
+    "sha256": "4ab8e79309aa9c3abaa45f8ba3f87d3542125000234dc58e229f1e43785afdab"
+  },
+  {
+    "bytes": 25366,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0027.json",
+    "sha256": "daa296c120f9d4274cb776ee944724b1c08dd7eed2a07622696813189c055744"
+  },
+  {
+    "bytes": 24592,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0028.json",
+    "sha256": "9716ece77e247fb5b582b659768117a859a8fb0515ef457ec0ad73c354ee1404"
+  },
+  {
+    "bytes": 651762,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0029.json",
+    "sha256": "a5db7aa1a8e56245f548e5ce13b850e0d0bcab428ed2cb2acfc57b84305e9720"
+  },
+  {
+    "bytes": 25396,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0030.json",
+    "sha256": "49785eed5dd04f6ed97a6f3653d9bbbbd8e7ec1c6f75c2fa165b5f56bff4f6a2"
+  },
+  {
+    "bytes": 2065,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/KL-P/events/0031.json",
+    "sha256": "4c3afc2833fc61f6f57972a10546885f0feb36bb948913c43b388d998124a95e"
+  },
+  {
+    "bytes": 234903785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/final-L4.pt",
+    "sha256": "c25580650f3ab6d3b4edb12bb0ba65e762450af84c81638558c7f74d84bc7f72"
+  },
+  {
+    "bytes": 11918,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/selection-ledger.json",
+    "sha256": "24651d18f3ae17d687fc0cf8740946931f682e3bf55817800240104bdc2dfd16"
+  },
+  {
+    "bytes": 371,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/selection-seal.json",
+    "sha256": "a87d556d8e310b31cfbdee66124743c82c3336f0aa17f9802bc174f0680043dc"
+  },
+  {
+    "bytes": 1148,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0000.json",
+    "sha256": "f4c4545c093bae1d444d290703ddfb01c171e9fd51b6a90dbae7afb14c6771ba"
+  },
+  {
+    "bytes": 1033,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0001.json",
+    "sha256": "0bccf5c9646123807f24c0c9bd39f746b441b21a9d1122f66202470565d52fab"
+  },
+  {
+    "bytes": 12263,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0002.json",
+    "sha256": "724834289ca4136f58cfb5e531ae0533d401dfe8ad2621b8149d41c65385bf34"
+  },
+  {
+    "bytes": 13128,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0003.json",
+    "sha256": "2b869d413ef28d7dc1440a08de174c2f2a1072288ebdb0085a8cf06578fb77cd"
+  },
+  {
+    "bytes": 13134,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0004.json",
+    "sha256": "f550008854692228c38294681f071a4a837f0f5f5817720b0001e6a6780884ea"
+  },
+  {
+    "bytes": 14496,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0005.json",
+    "sha256": "a1f648528f7772d78ec1ba8d4b52f0155ca4c6315cd520aabe7a5776e1ddd165"
+  },
+  {
+    "bytes": 13894,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0006.json",
+    "sha256": "0ea4b669300da7c84695d2bcdffe39479c364caa5940c60d3a3bb38d9c797455"
+  },
+  {
+    "bytes": 24685,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0007.json",
+    "sha256": "78f38edc16d96691d697a9d0017ac5acd3bc208da6646535aaa586c85b968c2d"
+  },
+  {
+    "bytes": 25365,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0008.json",
+    "sha256": "e0401b369d312dc9b54af102e81fc11639b60e66bd0d7dc11f95e230c16886d3"
+  },
+  {
+    "bytes": 25386,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0009.json",
+    "sha256": "0639caade4a3665eefcd31b2e73953e6accbc6923f1083ce26a2b5aa08ffe32f"
+  },
+  {
+    "bytes": 25198,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0010.json",
+    "sha256": "dc99bfb7fdb0db1c755ecf7b98c5d1843ab817bfd7d7fc6d639bbf3777e0afe1"
+  },
+  {
+    "bytes": 24597,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0011.json",
+    "sha256": "c3decc04a4267cd38f3d2a05da3d56f07cbb4e5021879e482a1dd5b6a57e6387"
+  },
+  {
+    "bytes": 24693,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0012.json",
+    "sha256": "78bf482f85f5640d2b7f930149e47ad15e8aed0ffc85f19b37b2f36fcd35ca77"
+  },
+  {
+    "bytes": 25372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0013.json",
+    "sha256": "f4fbf5e8dd192237123f24c0cfdf2c1c49cc31957903e7b13615d415e483c759"
+  },
+  {
+    "bytes": 24599,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0014.json",
+    "sha256": "cc511475649dd0e80e336bc7961a06a09a98bf3ca6c970ae8cb187afb1ce87de"
+  },
+  {
+    "bytes": 651870,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0015.json",
+    "sha256": "5a2685e7c5ea359cd7c038cb4111bb7ab1aba55e713718faf1e0da5ab93379af"
+  },
+  {
+    "bytes": 25455,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0016.json",
+    "sha256": "1039a23da956fbfed8e8a794938a095026cd1fcac80444dcc32610a8f1b69eff"
+  },
+  {
+    "bytes": 25207,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0017.json",
+    "sha256": "2d99553ff090a681731a23568f4370d547237efb6f2264f7da089087fb0b6477"
+  },
+  {
+    "bytes": 24604,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0018.json",
+    "sha256": "b37336e230be560b7547e8c4e73bbd7893d2c0e58d035c30bb58ace2439f9042"
+  },
+  {
+    "bytes": 24692,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0019.json",
+    "sha256": "aabccf378f1d0b51936ed297f33601e6a42534fa4afeb6f297d7a0b53d5b2924"
+  },
+  {
+    "bytes": 25372,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0020.json",
+    "sha256": "68fcb4143c4c29ca7eff91b736567d671c5e878b34c658fabb190965af74eccd"
+  },
+  {
+    "bytes": 24598,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0021.json",
+    "sha256": "ae867ef00ceaa109e8dd9fe2bcaf065c63e7334645a7f91c36d45c80009dfe22"
+  },
+  {
+    "bytes": 651785,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0022.json",
+    "sha256": "d4cedf2fbe9ffe343d9282bd5ba4497b7bb87951354c8c7359b98fd46910bb8e"
+  },
+  {
+    "bytes": 25402,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0023.json",
+    "sha256": "c47b0b5fbd3635392deb780494f9f4bdc8a051f5f7bd999c73cf7b1816e8b42e"
+  },
+  {
+    "bytes": 2066,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/arms/EN-S/events/0024.json",
+    "sha256": "970d591c6cee5425787e42e82f366acc1c0470f711ac8a676d5abd5fa4950661"
+  },
+  {
+    "bytes": 234885097,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/final-L4.pt",
+    "sha256": "45d97cc6a47e47782a2f68c29635d85d8cec0cbfdc4df3b9d25e34f45427d752"
+  },
+  {
+    "bytes": 10185,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/selection-ledger.json",
+    "sha256": "8a65a30d5150af749cf21d73b3a8bf97390da7d2bcbc80ac8dfe02bbb1c40186"
+  },
+  {
+    "bytes": 371,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/selection-seal.json",
+    "sha256": "eb21d5e9dd0873c6ed114e524b8c2f0ae49ea123827a5d9fb407a56c03454293"
+  },
+  {
+    "bytes": 1148,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0000.json",
+    "sha256": "dc6dbdd2ae469f68efd863708460bb1b424e26f081176b50608b13c170ba0f71"
+  },
+  {
+    "bytes": 1033,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0001.json",
+    "sha256": "e8434b9edeb9b5dce08192962ea7be8cf7d0d733a068bac4e43ac6c4d320c106"
+  },
+  {
+    "bytes": 12263,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0002.json",
+    "sha256": "dc4349b6d44b227e72cf039a4a5972bd5c39ddbaf24b332c2eeb72bf738af19a"
+  },
+  {
+    "bytes": 13134,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0003.json",
+    "sha256": "2bae6774a401228d679dd1c6b3f31be47255a705b65eb1ad5c276e3021ecbfb6"
+  },
+  {
+    "bytes": 13141,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0004.json",
+    "sha256": "40405f90f3c56f17463bb253bf3d0f2b575e7ac789326f29781f8a34b45f7726"
+  },
+  {
+    "bytes": 14497,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0005.json",
+    "sha256": "24ee589d0515b0d780564ee39c2bfb9f300c304595d29e86af75235db2100c87"
+  },
+  {
+    "bytes": 13975,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0006.json",
+    "sha256": "dec751b7751481470db32d6219e9ab4f62398fe6b13920fb83179ff9370be1e1"
+  },
+  {
+    "bytes": 13900,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0007.json",
+    "sha256": "0af20290864333ab0afea3dadc9b79392cf1d5ad4ceb89b30c33647796fd6456"
+  },
+  {
+    "bytes": 24692,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0008.json",
+    "sha256": "15879188a66dbd75da4817f1a6e32f9ad45e5b001dd3defaf3c429d3c8591ca2"
+  },
+  {
+    "bytes": 25367,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0009.json",
+    "sha256": "b778faceb20bbe2364db85cd097c550f72d71fefd83bcbe290861f0217aa4ad5"
+  },
+  {
+    "bytes": 25389,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0010.json",
+    "sha256": "fdbafd371e19b7306e633c2e705137edc48c63f97fb93f4ac733792248f73baf"
+  },
+  {
+    "bytes": 25204,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0011.json",
+    "sha256": "780b4463949123d470ac0e34ba5f153409f90bafb46878b3b39a50af4abe87fc"
+  },
+  {
+    "bytes": 24679,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0012.json",
+    "sha256": "eb6eda3394f8dbb7e2b8321f684bf558e818c306a0c17a66c5642f45cacd4fa6"
+  },
+  {
+    "bytes": 24604,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0013.json",
+    "sha256": "2354b094e755d2b4e275fb121ff89691fa4501e0ad673b1fa40472efc9a3e0b7"
+  },
+  {
+    "bytes": 24687,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0014.json",
+    "sha256": "4025613cc02fcf4edbbdb314a20218ff0113bc11d0b9164b7e93e56c4f7cb3ef"
+  },
+  {
+    "bytes": 25363,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0015.json",
+    "sha256": "74317a21f13028a8bd1d7f96d414a3401abd4a5b121f67d74988ef58a48db6aa"
+  },
+  {
+    "bytes": 24594,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0016.json",
+    "sha256": "6d9eb427d1563a9d7e7c5a56ec9458183d2ff61e77928c1fe0d70a19caf51024"
+  },
+  {
+    "bytes": 651777,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0017.json",
+    "sha256": "ba0816202d61d51e5ed8a2728f683fc59b79e108c5abc6aa0649de6e0ef1562a"
+  },
+  {
+    "bytes": 24598,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0018.json",
+    "sha256": "ee8b047582a103afcb31b6ddb3ca8116118d293c810e53bba74ab77106395dc7"
+  },
+  {
+    "bytes": 25498,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0019.json",
+    "sha256": "2238bf48b6663b579e20138acd69f409e61c8ac5a54a76bd3ed1e48585ddcc27"
+  },
+  {
+    "bytes": 25393,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0020.json",
+    "sha256": "f8bc0e7b2e5e1505d6ffa7dca77c99bb56c8c46b086bef04887145ff1ff086be"
+  },
+  {
+    "bytes": 2096,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F/events/0021.json",
+    "sha256": "2f8c34b9d72ace66c9cac30667d02e83751fe3f3ee9fcbbe288e1a54c220166e"
+  },
+  {
+    "bytes": 234885097,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/final-L4.pt",
+    "sha256": "7cedb6675c21542c0126202aa7efcf474b2e94941b7d8271798e4596f02b9b7c"
+  },
+  {
+    "bytes": 10199,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/selection-ledger.json",
+    "sha256": "f09bbc596c89e63c38b6c2a7f672df3c8931e0768f4efad118fd67de853f33e1"
+  },
+  {
+    "bytes": 373,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/selection-seal.json",
+    "sha256": "35e0102f3f7a70c20cbe6fb3ba97f68951851e54139b199ffd68901c76bf45da"
+  },
+  {
+    "bytes": 1114,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0000.json",
+    "sha256": "b97fff1c0121f5a7e5a71251a24dcc114dfdb436cb3a84bc8ea27de0f2405247"
+  },
+  {
+    "bytes": 958,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0001.json",
+    "sha256": "ebcff095990d8382d283b25df4d81a27986b840ee7b1fc7d92572de874de4ffd"
+  },
+  {
+    "bytes": 8169,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0002.json",
+    "sha256": "b50c706764723ae87bf819bc00b045e9a26e1d7158989d381d8d5f290d33fd87"
+  },
+  {
+    "bytes": 9092,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0003.json",
+    "sha256": "dd001092c1b09765f226dbbaf2b8494dd9573da55a29a374e508b36e9561628d"
+  },
+  {
+    "bytes": 9101,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0004.json",
+    "sha256": "9592f64c0d34215d6b4f4c9a5d021f92179bfd96047543ff97a267b44b4b4932"
+  },
+  {
+    "bytes": 10451,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0005.json",
+    "sha256": "f045ddd90d55aa03a9565e985301102b8c730a96a1ad5a9cf165164662ad2a28"
+  },
+  {
+    "bytes": 9935,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0006.json",
+    "sha256": "03f53c76eaca922e2e2ed1e06da4ff3d67bf4bf54e74d54c20521063ee3662a1"
+  },
+  {
+    "bytes": 9860,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0007.json",
+    "sha256": "3b2f380b7bf0b07909bd3cf688aac800a12c3825bd7c933d3ba49a897fdb310f"
+  },
+  {
+    "bytes": 16600,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0008.json",
+    "sha256": "5c60764b91b70bb035de9d94667ec152456c4201df5a31affd31743186fafcd5"
+  },
+  {
+    "bytes": 17265,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0009.json",
+    "sha256": "cdcc282f872a4ec669986922f2210882fc09cf51764144e479f207e584b693ad"
+  },
+  {
+    "bytes": 17287,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0010.json",
+    "sha256": "22e9598805a7da98ef31948a95a81f95ff6e35d1f5f160513d37e00d4f2899c2"
+  },
+  {
+    "bytes": 17106,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0011.json",
+    "sha256": "81eaa7c8313d7e27608a5d80ef42caa5f88869a6006d4d8dbe177c3e312e4ab8"
+  },
+  {
+    "bytes": 16589,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0012.json",
+    "sha256": "106d7c622322a401028898ed61f3f86fad0ed662fef081c8b2b0f8929446efc1"
+  },
+  {
+    "bytes": 16514,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0013.json",
+    "sha256": "f37674fba3ab0df051011c8cd5c1b0ead791aecf611670cd8284ad0fc86216af"
+  },
+  {
+    "bytes": 16616,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0014.json",
+    "sha256": "14790fe2fc96a2c563b9fa0d5de26cb79eaaa3995fce03cba1996c0012c8796d"
+  },
+  {
+    "bytes": 17281,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0015.json",
+    "sha256": "15e48cc6ba1cc9af2e233569091ad4e3c88a2b6982f54c02301cbaa9d2b16ad3"
+  },
+  {
+    "bytes": 16523,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0016.json",
+    "sha256": "87077c4b11bdcddfdc7fa14c539324b9e76d1cc7cb0a9dc1129cc91b1edaed8c"
+  },
+  {
+    "bytes": 643675,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0017.json",
+    "sha256": "7b60c25d3a1821760397732e33d8efae2cd3210541936627b4e12d2b3b744ae3"
+  },
+  {
+    "bytes": 16527,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0018.json",
+    "sha256": "48dc550a94034798541d9859ab9060473f390df8712d43c016cd1c8d3b4f8c25"
+  },
+  {
+    "bytes": 17422,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0019.json",
+    "sha256": "2e860b93f3dde0b8a93468746464a758e4a600d431bb3018571b077f9820a06b"
+  },
+  {
+    "bytes": 17311,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0020.json",
+    "sha256": "f964c447ad6a2b02220221b2549e81ca5b6725f11f4a4742d754fdde060360df"
+  },
+  {
+    "bytes": 2095,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-COV/events/0021.json",
+    "sha256": "e16e63e498a181ded073d414ef6f4fad47e86425a606bdf296fe39b3f4c5ab3a"
+  },
+  {
+    "bytes": 234885097,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/final-L4.pt",
+    "sha256": "535b1311b53b4248bb28cc08f620f18cd310032472b473f6a52482ac3bd1efae"
+  },
+  {
+    "bytes": 30998,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/selection-ledger.json",
+    "sha256": "34275a257d8f3c4058a267513a7183f63567e1a1f49dbf747a7cdbcc816324e4"
+  },
+  {
+    "bytes": 372,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/selection-seal.json",
+    "sha256": "6b42945feeb2f3daf44f80dccb7f94a0aeb4268b1853a48ffd34328689e20eb7"
+  },
+  {
+    "bytes": 1149,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0000.json",
+    "sha256": "1f97d13e8c25375ebd07567e792be6acf521ae3bfa56c3b26409711f24857183"
+  },
+  {
+    "bytes": 1034,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0001.json",
+    "sha256": "e0e3ffc346242464c59c133b43663901e43822cc4f40177ea719727b5bde5bba"
+  },
+  {
+    "bytes": 12264,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0002.json",
+    "sha256": "a0e36b1c5aac89f9df2c2b1add6e1801b47e36f4fb8b61878b0b81b813cc663f"
+  },
+  {
+    "bytes": 13135,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0003.json",
+    "sha256": "39ce41f03978dc165c0a77101565c800fc4f0c6cb32527cfcb00fb9d20bfb4b4"
+  },
+  {
+    "bytes": 13142,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0004.json",
+    "sha256": "5c1ac5c70229c342bfe322516dd39cfd4e375702ad065f1323bddd4cc9e35910"
+  },
+  {
+    "bytes": 14498,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0005.json",
+    "sha256": "989cd5b304eeef4567bceb41676b954d507aa0e4d70481ededa1c40780d3b584"
+  },
+  {
+    "bytes": 13976,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0006.json",
+    "sha256": "d106af29f23ab85d7b4dfaa065b38a8f61af09a476f573ceace6f7382b9ec468"
+  },
+  {
+    "bytes": 13901,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0007.json",
+    "sha256": "96230474605a16f03e66530a70397f2013c790091ce7a1a131153d333fc9612b"
+  },
+  {
+    "bytes": 24693,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0008.json",
+    "sha256": "9d84f0e33284c2c0fa1bbd63034af85846f7558a47ee3e4864b3f7da2c05a3d5"
+  },
+  {
+    "bytes": 25368,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0009.json",
+    "sha256": "b528798ae3a8c4f4d1e889149f22d09c180e33ec15ba9e500e59b3af7be7c9e9"
+  },
+  {
+    "bytes": 25390,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0010.json",
+    "sha256": "cd8952c20fa0e5d768d34fdf2aee10856b6d595c2cc3c291c8a4b0ea87538fde"
+  },
+  {
+    "bytes": 25205,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0011.json",
+    "sha256": "af7a33b32cf473e0864dec046f98b0083c91071c16328c451a92db7b86eef3a8"
+  },
+  {
+    "bytes": 24680,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0012.json",
+    "sha256": "7b6962f792329333886000fe5380b100541ab27b2facd2f82a6ae562adb6dd7f"
+  },
+  {
+    "bytes": 24605,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0013.json",
+    "sha256": "8723a1112753e251e0ec05b080c6675699ab3f489c75a8831f0b415837608793"
+  },
+  {
+    "bytes": 24688,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0014.json",
+    "sha256": "f6b922da0d6b7d639c98f57adaab50bee8cbcfdd710f3df50191715e7f5ccab5"
+  },
+  {
+    "bytes": 25364,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0015.json",
+    "sha256": "544bce89fb43a518bf4ff6a82020cdbf58834f26edf14642ec73fe43520dcf5a"
+  },
+  {
+    "bytes": 24595,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0016.json",
+    "sha256": "461d3fcd942c04bdb18950128fc45a67309d0bab7396cd69944736b563e768f1"
+  },
+  {
+    "bytes": 651778,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0017.json",
+    "sha256": "f6584386d82bfbf77e325679548aa93832f7728bca8ba4f873e32f0ad0c751a3"
+  },
+  {
+    "bytes": 24599,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0018.json",
+    "sha256": "11cb1e9918383310be79a064bd6a582ace377c12350417764c6efa0a37406513"
+  },
+  {
+    "bytes": 25499,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0019.json",
+    "sha256": "deb71930680f9de3c574d0d25edabbfa53533b109bb24c87042271ef8b86f86e"
+  },
+  {
+    "bytes": 25394,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0020.json",
+    "sha256": "8951a189d9d3efe5cc3425f2240992d402a87b8f9fa345f60f0fb9148f29a2e9"
+  },
+  {
+    "bytes": 958,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0021.json",
+    "sha256": "8ee4bb0b6a542eae4ec588fec9c259305d8fc9660379ff610216f22c1b0ed30c"
+  },
+  {
+    "bytes": 12213,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0022.json",
+    "sha256": "c7c87a1db9c96f4abfd25d3fdbd2b01804156b8241278898488921beae055491"
+  },
+  {
+    "bytes": 13152,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0023.json",
+    "sha256": "0b0ed740e5f9db5df59520d333150a98c68593489c47a0642b08e05488358694"
+  },
+  {
+    "bytes": 13144,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0024.json",
+    "sha256": "b9dad97a39056ab06650126f1cc90862958d080fc87f4be447c9968878a4d677"
+  },
+  {
+    "bytes": 14502,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0025.json",
+    "sha256": "2e3a57a7865fb837b6dba4f71cec2bda8b4689ae37878ba5211ace9e1c250ed1"
+  },
+  {
+    "bytes": 13977,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0026.json",
+    "sha256": "90f6ce84601e96fc04d99bf06261c31a04904bde48ba6ec98698e32738db150a"
+  },
+  {
+    "bytes": 13903,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0027.json",
+    "sha256": "e520af31d62d8060fb795ae43329a64c066e8c31fba88aca0eb5367aeee52a4e"
+  },
+  {
+    "bytes": 24698,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0028.json",
+    "sha256": "4238adb59d204fbb0c7d414c1cd972b6670566d04edcbccd77295d3999af4b36"
+  },
+  {
+    "bytes": 25374,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0029.json",
+    "sha256": "a4642df985c0279d09031de26ea815ecf10a3a981f04e545a5d13e9ebfffe967"
+  },
+  {
+    "bytes": 25395,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0030.json",
+    "sha256": "6f6b39f6163fea7a10f3cc929fc1713adc5e2c386fd18a0ad7ba8e260a644597"
+  },
+  {
+    "bytes": 25209,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0031.json",
+    "sha256": "d2074931fc390b3cc020c73ea7640bae68b107bf969a1890208cc4b2356426d6"
+  },
+  {
+    "bytes": 24684,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0032.json",
+    "sha256": "9d80e7d2625f0e2af9c35ada6ca32b12a9a91e35ff5ba6482376ad9de381a005"
+  },
+  {
+    "bytes": 24609,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0033.json",
+    "sha256": "30e1d3be614b878f7bfea8bac492ec2ef70e832dba0998e2e78cc4522c429026"
+  },
+  {
+    "bytes": 24701,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0034.json",
+    "sha256": "e5365bf9e244a27b444c01a28ca306b1d3273ae646e7ec6d84366730ccf03514"
+  },
+  {
+    "bytes": 25378,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0035.json",
+    "sha256": "97dc32b933fb398f17c2f77cdea13dd994e85a7a77195ca0108c176a73ba9290"
+  },
+  {
+    "bytes": 24607,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0036.json",
+    "sha256": "767d1d1e1ceb60a238b657c7ad89ce372e0610ae12089cc0e0b4ab066f928014"
+  },
+  {
+    "bytes": 651789,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0037.json",
+    "sha256": "42015d6314d315e289eba1344948611ec261ea1d1821eea0f81872f915b28fb8"
+  },
+  {
+    "bytes": 24611,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0038.json",
+    "sha256": "42feb714efe776f20cd81cf48f0449723b5fd151e0938d88d81cadecff174109"
+  },
+  {
+    "bytes": 25511,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0039.json",
+    "sha256": "dd31c7bdaa515a03bac077dee7aae4dd237d255583721d19e459751449e5d0b3"
+  },
+  {
+    "bytes": 25408,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0040.json",
+    "sha256": "d6538e629bc44653965c0786a23f119028c326c85af5a22785fe63735b49680f"
+  },
+  {
+    "bytes": 958,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0041.json",
+    "sha256": "245f2654f0eb3cfb0a1fbbdada4c1ec4cf2e1a8a29658736441bbdea71878d14"
+  },
+  {
+    "bytes": 12225,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0042.json",
+    "sha256": "a5178b11a61997d82cf80735512723dce4003217a4c0aaf0e8f740b50f54c5e7"
+  },
+  {
+    "bytes": 13164,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0043.json",
+    "sha256": "dbe36dab96d3888309dda7bab768bb98080429ef7279aa0a3124185f616dcf06"
+  },
+  {
+    "bytes": 13155,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0044.json",
+    "sha256": "94ade5567d619f4b00045e12871aeb71f42b05189e4f736a14a1274369b8a595"
+  },
+  {
+    "bytes": 14515,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0045.json",
+    "sha256": "c67cfe9a90f8dad2bf5c3ad2cc85e8b2f75a6c8a8e587cd975e0f743b4dd884f"
+  },
+  {
+    "bytes": 13988,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0046.json",
+    "sha256": "83ac83102cf3d0110f286518643652db873410029870604a92641c8ce78ab44b"
+  },
+  {
+    "bytes": 13914,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0047.json",
+    "sha256": "b1f04371d641d2c06e83b610fbef4c186ea480c432b56240f68b0b2c15c0000f"
+  },
+  {
+    "bytes": 24709,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0048.json",
+    "sha256": "f125b57d3e69c96181c34b59891cce5c5d9afd03beeccc1ac4e4850183c9a02d"
+  },
+  {
+    "bytes": 25388,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0049.json",
+    "sha256": "41320d7312951528b2b0d8eba5c5e060cca3e6d4f687b8dd488db3fd7f5d0874"
+  },
+  {
+    "bytes": 24615,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0050.json",
+    "sha256": "8be64ccfcf3446f7f50534c0cbf42245854160d0573aa57233b119ed85b21db5"
+  },
+  {
+    "bytes": 651770,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0051.json",
+    "sha256": "b2f4b296553dce7c76e347f4003fed5132888edfc40c0df4059f8f1c63429d62"
+  },
+  {
+    "bytes": 24619,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0052.json",
+    "sha256": "c10de17a650b8956abde8bc2f847698e5cc22d5050298ae7bd5518a41f55fe1d"
+  },
+  {
+    "bytes": 25525,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0053.json",
+    "sha256": "d5c8498289b36fd95628426fffd4412f64c7f27318341080417b7f11db8a032c"
+  },
+  {
+    "bytes": 25418,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0054.json",
+    "sha256": "dda2698f7cad75adc3480f84822586987db31a7f7cabfddffa1db2aa7d4a66d4"
+  },
+  {
+    "bytes": 958,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0055.json",
+    "sha256": "6ec85e064f56d16649a14ee468ce0dc668d89e67180120d32547143ca97af066"
+  },
+  {
+    "bytes": 12222,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0056.json",
+    "sha256": "8c78f5712c0edb7413bfea12551e5465771ecb1b9ea29ba474d6f342efc03822"
+  },
+  {
+    "bytes": 13161,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0057.json",
+    "sha256": "fa8b5d11813e6270bab54e9ff3ed15c64c51f3779699c823fb23b0ac1758c48a"
+  },
+  {
+    "bytes": 13152,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0058.json",
+    "sha256": "4297d9ad47a56ec1f8ca5f38b6e9e355beb0c89286edeb3f75b578ca9a42ff7c"
+  },
+  {
+    "bytes": 14510,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0059.json",
+    "sha256": "bd5909a2a8e1bc56eff20b4e16cd3ac0f2a218b4fe42d9ae5df3e064907f7157"
+  },
+  {
+    "bytes": 13985,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0060.json",
+    "sha256": "e23dfe55ae88bab39e7032bc79d731a2ca667d88cdff381df6323b626114176b"
+  },
+  {
+    "bytes": 13911,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0061.json",
+    "sha256": "1f3f3babe2afd9cb43f9ebc9890bba5f48e4c0daea93568830ebf770b3a7472f"
+  },
+  {
+    "bytes": 24712,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0062.json",
+    "sha256": "aad407f5f2e4677c379f8a8476b7f457ab70bbba5a5a794506cd586e7ad3ec3b"
+  },
+  {
+    "bytes": 25389,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0063.json",
+    "sha256": "bda1d87365f578f1a7693635a0e8be95f9f5da88d791211814ff03729d4bfab7"
+  },
+  {
+    "bytes": 25410,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0064.json",
+    "sha256": "3d394bd21d7fa35f5b1bc4f4275fd4e47c940c072f1025abf3d68ae1aae7037e"
+  },
+  {
+    "bytes": 25224,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0065.json",
+    "sha256": "39d7d05e7e43803ee1eb0ad2d4b8b41ee39dbeeb6c32201758b05fd14b31b32e"
+  },
+  {
+    "bytes": 24697,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0066.json",
+    "sha256": "7a04c9e7d4570f596c92622361b59c3b3fddf28caedf025611eb27cb14fea81c"
+  },
+  {
+    "bytes": 24623,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0067.json",
+    "sha256": "d417d99fde2742aef7a8b34b29b5bdc0a756dfe8e62d5a9c5018b4b530367a0c"
+  },
+  {
+    "bytes": 24710,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0068.json",
+    "sha256": "33687821163356cd9efefe071ca2e6c06f28bef89299662dd6ab4db1bba65567"
+  },
+  {
+    "bytes": 25388,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0069.json",
+    "sha256": "8a726b3e96f1c0667351f34d5782131fce1bf2ecb70e6f7b3d944ca077fc2492"
+  },
+  {
+    "bytes": 24616,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0070.json",
+    "sha256": "80d286ce4843913f730b13aa6a79a89b77f89ff4501e7e122b6a9b6003d4e8ad"
+  },
+  {
+    "bytes": 651809,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0071.json",
+    "sha256": "30c31ca9798a64fd7707b016863f0dd105d0ad4ff40ebde0713bb1a78dbd4b7b"
+  },
+  {
+    "bytes": 24620,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0072.json",
+    "sha256": "fdeee64cec29b2a65a2488db60d9231512940deed317f6b4d26ad8443435f539"
+  },
+  {
+    "bytes": 25525,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0073.json",
+    "sha256": "bc9b0dc23ee40ed2748eaad1d278ffd893e1d7c761dd4ca4ee420d47678600ac"
+  },
+  {
+    "bytes": 25418,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0074.json",
+    "sha256": "1301fa053f18f970d3000ba4a9d6db15ed3e14de72e66b5cde78f5a059d219a3"
+  },
+  {
+    "bytes": 2096,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/arms/EN-F4/events/0075.json",
+    "sha256": "a08d0e66623f29c82962c2c61fd9996e070defaa0b1b5c5a1a0c5308a0d246e6"
+  },
+  {
+    "bytes": 5735977,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/A.pt",
+    "sha256": "4c80f80c4be537cf5eff230a81bed9414e778e1efd60a373f7b0c7fcabd6d53c"
+  },
+  {
+    "bytes": 11470565,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/CA-factors.pt",
+    "sha256": "03d7eebe879f39c70f9b57b19beae775cbdf8e79bffb68b0d43caeb869e59c81"
+  },
+  {
+    "bytes": 513675049,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-F-factors.pt",
+    "sha256": "d7f57c4f1944c97caf93497c873d8b1731ed79e1a1592fdfb993a9629837f1a5"
+  },
+  {
+    "bytes": 11462825,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/geometry/EN-S-factors.pt",
+    "sha256": "66858dba2c9aeac8e779a1479259fb5ebbd9ab633b5f224209e0e36d99573ccf"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/gradients/757f15215fb257b9f216dabe5a7eaaab4947d0c3d5a3ed1b7bfde5ffa6b1a67c.pt",
+    "sha256": "6031c15e7842615121e3406ebba7f60d4c3d69c9ca2dfca6a5d257ec0d118ac7"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/gradients/8c4a01cb7a0d7c4f0d2b6b69140cd0162ceab49765a58645d4c2e4fc2806a0c3.pt",
+    "sha256": "9e1b13915df3bda56c3737558123f060d179936e6e04e93643329b4c59a4419c"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/gradients/c247a76bdcbe1fa164f931999850369718989e03807d53e4f64764c554633725.pt",
+    "sha256": "2c1da140f1283c3c71fa2720b89e996e38a997d341d71d63a01e89062ebe7c4d"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/gradients/cbeb8603be9a591b9fcc75629126ae45b9440be59abee7a8da68ca57beebd42c.pt",
+    "sha256": "dbabb217dd4c72fcc4dae568372d5ae9255eacc3693d54aa6cca7957af884e75"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/gradients/ffdb5a4339faf5ea3f013a5a1459f11cdcde2cd18d5042413a60d3dff0c19cbf.pt",
+    "sha256": "7fb12450a80cbee340f63ca9677d680f51db22d702306d2d0fc49ac9d851f9ae"
+  },
+  {
+    "bytes": 5735977,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/geometry/A.pt",
+    "sha256": "4c80f80c4be537cf5eff230a81bed9414e778e1efd60a373f7b0c7fcabd6d53c"
+  },
+  {
+    "bytes": 11470565,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/geometry/CA-factors.pt",
+    "sha256": "03d7eebe879f39c70f9b57b19beae775cbdf8e79bffb68b0d43caeb869e59c81"
+  },
+  {
+    "bytes": 526740265,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/geometry/EN-F-factors.pt",
+    "sha256": "a912a345298480caa8992e6a9c133c5e9adec97f1ac4194a2533ccf15b903425"
+  },
+  {
+    "bytes": 11462697,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/geometry/EN-S-factors.pt",
+    "sha256": "a67dc3b9a6f5590b6efb21ebadc97a7255ab6e554751e53488cbea23c0aa6c58"
+  },
+  {
+    "bytes": 469763625,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/gradients/d5e921c90eb82f95a85775927fc2d1a49e5e68edae286c1f65568307e013d2d3.pt",
+    "sha256": "1b34065c5e703c75faefeb1310cb27b32f5dbe3ea486832de387443ccb0161bd"
+  },
+  {
+    "bytes": 32498,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/nonselected-before.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2"
+  },
+  {
+    "bytes": 32498,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/nonselected-after.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2"
+  },
+  {
+    "bytes": 12250,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/episode-integrity.json",
+    "sha256": "c19c5367b52579791e7b95abe280354e4b623f6bdb2f7e0f40623cfe19a0d1c1"
+  },
+  {
+    "bytes": 4981,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/ALL_SELECTIONS_SEALED.json",
+    "sha256": "47dd8ea908c4a6bb7f373a73baca4a3008f42eec8a23ff636d36f8ebce1e5f43"
+  },
+  {
+    "bytes": 5702,
+    "mode": "0o664",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/output-r1/b001/attempt-v1/terminal.json",
+    "sha256": "af35bad73c10c3dc9dbbf8c6c681a261f4e0b3b11b95f5895e0a5505a8ba972e"
+  },
+  {
+    "bytes": 3789689,
+    "mode": "0o600",
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/imports/server4-b001-r1/sealed/single-layer-edit-preserving-correction/20260918-v1/M/attempt-metadata-r1/episodes/b001/attempt-v1/protected-provenance.json",
+    "sha256": "d8b575af0700752aaa11f0292752640e02a795c44156491f8713494e5d06bd9b"
+  }
+]

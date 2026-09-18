@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-S06-ENFC-B001-COMPLETED-DETAILED-REVIEW-SH1-V1",
+  "status": "REVIEW_COMPLETE_PUBLICATION_READY",
+  "job": 50098,
+  "scheduler": "COMPLETED_0:0",
+  "parent_GPU_seconds": 9147,
+  "primary_arm_rows": 8,
+  "unique_requests": 100,
+  "primary_unique_weight_tensors": 6,
+  "new_GPU": 0,
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "scientific_promotion": false,
+  "report": "experiment-reports/servers/server1/enfc-single-batch-m-2026-09-18-v1/completed-review-r1/diagnostic-report-ko.md",
+  "next": "OWN_SCOPE_NONFORCE_MAIN_PUSH_THEN_TASK_COMPLETE_STOP"
+}

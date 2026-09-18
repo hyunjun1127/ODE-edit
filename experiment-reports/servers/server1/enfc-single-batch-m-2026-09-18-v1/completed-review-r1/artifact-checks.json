@@ -1,0 +1,20 @@
+{
+  "K_payload_byte_equal": false,
+  "RAND_final_weight_files": "NOT_RETAINED_SEED_FACTORS_NORM_HASH_ONLY",
+  "S1_distinct_FP32_columns": 4482,
+  "S4_distinct_FP32_columns": 4596,
+  "W0_tensor_local": "NOT_AVAILABLE_NO_MODEL_READ",
+  "cross_hardware_numerical_equivalence": "NOT_TESTED",
+  "endpoint_count": 8,
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "history_appends": 0,
+  "native_WN_sha": "3d33f44b13688fb3c18db8eb4d8be5cc6509aea161c96bed254e89240f265015",
+  "native_capsule_sha": "59832a80d513c5cd9062916423b1062d9f4558ae1b14624b09685d1c212b86a7",
+  "native_fit_new": 0,
+  "nonselected_before_after_manifest_equal": true,
+  "nonselected_evidence": "RUNTIME_HASH_RECEIPTS_ONLY_NOT_CPU_FULL_MODEL_RELOAD",
+  "protected_token_prefix_aliases_equal": true,
+  "request_count": 100,
+  "unique_primary_weights": 6,
+  "valid_position_inventory": 10416
+}

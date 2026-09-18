@@ -1,0 +1,9 @@
+group,seconds,scope
+parent allocation,9147,single parent; batch/extern not added
+program wall,9142.141954604536,subset of allocation
+model load,16.243131948634982,shared
+canonical+generation observer,1596.287395088002,9 unique states including W0
+S64 backward,181.45462702400982,nested in objective; not additive
+S64 suffix forward,268.56859852187335,overlaps objective/invariant components
+protected suffix forward,859.5859665069729,overlaps guards/invariants
+Dev128 suffix forward,240.9248419329524,observer component

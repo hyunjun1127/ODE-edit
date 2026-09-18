@@ -1,0 +1,23 @@
+{
+  "GFM_table_column_check": "PASS",
+  "PNG_visual_inspection": "BOTH_FIGURES_INSPECTED",
+  "browser_screenshot": "NOT_RUN",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "independent_red_agent": "NOT_USED_OWNER_SOURCE_AUDIT_PLUS_SEPARATE_REDUCER",
+  "markdown_renderer": "Python-Markdown 3.7",
+  "new_GPU": 0,
+  "raw_free": "ALLOWLIST_EXTENSIONS_CSV_SCHEMA_MANUAL_SOURCE_REVIEW",
+  "relative_links": 21,
+  "remote_raw": 0,
+  "rendered_html": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-b001-completed-review-v1/local/enfc-single-batch-m/20260918-v1/completed-review-r1/diagnostic-report-ko.html",
+    "sha256": "82cae83b016d55a0ea7f15f40421d5ad53d3c1b51f3c661766e560a3f5ed1979"
+  },
+  "renderer_result": "ACTUAL_HTML_RENDER_PASS",
+  "scheduler_reads": 1,
+  "scientific_json_immutability": "PASS",
+  "tables": 11,
+  "test_log_sha256": "19585caf2ebc135802e3d640c7f337ba54374dc408b50b5198b4b5e5977409e5",
+  "tests": 8,
+  "tests_failed": 0
+}

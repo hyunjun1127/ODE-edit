@@ -1,0 +1,18 @@
+{
+  "backend": "Agg",
+  "byte_identical": true,
+  "command": "project/run_scripts/single_layer_edit_preserving_correction/server1_single_batch/analysis/plot.py --root experiment-reports/servers/server1/enfc-single-batch-m-2026-09-18-v1/completed-review-r1",
+  "font": "DejaVu Sans",
+  "independent_render_passes": 2,
+  "input_sha": {
+    "final-eight-arm-table.csv": "579cdf7b10864c1ff12cbf78867cd8ed22dc42d3f9b0d74bae803b1b62ac3b64",
+    "trials.csv": "b026e84ccd07347043cbc8a373f10bc12e92b3a3915f6e226b0d53986fc00685"
+  },
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "output_sha": {
+    "correction-trials.png": "a4eb470dd19110df7a453ac866ee795b632505856d4b1fe3e397d75fa3239e48",
+    "endpoint-observations.png": "9536e856b05d0f15c3b46b6a3bfe8114ebf3591329531e0ed602ba244641122c"
+  },
+  "python": "3.12.0"
+}

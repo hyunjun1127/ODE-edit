@@ -1,0 +1,18 @@
+requirement,file,function,runtime_evidence,bounded_finding
+scope/T override,server1_single_batch/reuse.py:54,validation_binding,validation-status.json; terminal.json,b001 only; T skipped; no T PASS
+same native endpoint / cold history,runtime.py:24,Runtime; native,runtime-load.json; native/; endpoint-artifacts.csv,8 metadata W0/WN/context/order equal; history0
+reuse selection binding,server1_single_batch/reuse.py:16,verify_endpoint,arms/*/reuse.json; imported selection seals,5 optimization endpoints reused; 3 new
+old/new all-valid-token union,binding.py:12,protected_sequences,protected-provenance.json,1400 sequences; 624 inputs; 10416 positions; no P/N in lock
+actual FP32 key dedup,runtime.py:152,protected_oracle,geometry/reuse.json; artifact-checks.json,identical prefix plus identical FP32 key required; S4 4596 vs S1 4482
+P star and rank rule,geometry.py:280,allowed_range; edit_null_space,P-star-basis seal; geometry/*.json,14326 allowed; cutoff unchanged; T not established
+W0 forward KL teacher,runtime.py:141,reference_oracle,native-objective.json; teacher path-binding lock,fixed stored payload; current WN gradient recomputed on S1
+EN-COV cumulative objective,runtime.py:179,covariance,arms/EN-COV/events; selection ledger,"W-W0, not W-WN; activation drift distinct from output KL"
+FP64 ideal / FP32 actual,optimizer.py:373,optimize trial materialization,trials.csv; endpoint-artifacts.csv,(WN64+Dideal).float; actual endpoint-WN norm rechecked
+Armijo / budget / fallback,optimizer.py:450,optimize acceptance,trials.csv; controller-counts.csv,actual negative directional product; c1=1e-4; no quality-based endpoint exclusion
+per-sequence current guard,binding.py:49,quality_ok,controller-events.csv; raw event hashes,new NLL epsilon1e-4; successful strict/canonical IDs retained
+ideal/actual response and logits,runtime.py:195,invariant,controller-events.csv,ideal1e-10; actual response/leak1e-5; NLL1e-4; logit max1e-3/rms1e-4
+EN-F4 fresh gradients,optimizer.py:306,optimize rounds,gradient event state SHAs,4 rounds; shared first +3 fresh; 7/24 available trial slots used
+selection before observer,server1_single_batch/runner.py:207,run observer phase,ALL_SELECTIONS_SEALED.json; observer seals,P/N/Dev after selection; Report256 not opened by this route
+canonical RS/PS/NS and strict,observer.py:79,strict_summary; observe,raw rows vs final tables,CPU independent identity-based reduce PASS; ties failure
+observer and final reset,server1_single_batch/runner.py:270,independent_reset,episode-integrity; before/after manifests,runtime W0/M0/RNG reset evidence; no new GPU continuation verification
+RAND paired diagnostics,server1_single_batch/runner.py:179,RAND_diagnostic,diagnostics/RAND±.json,both signs; norm match; no selection; final RAND tensor not saved

@@ -1,0 +1,86 @@
+{
+  "checks": [
+    {
+      "W0_N": "PASS",
+      "arm": "N4",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "SCALE",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "CA",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "KL-P",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "EN-S",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "EN-F",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "EN-COV",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "EN-F4",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "W0",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "RAND+",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    },
+    {
+      "W0_N": "PASS",
+      "arm": "RAND-",
+      "joint": "PASS",
+      "raw_nll_reduction": "PASS",
+      "raw_pair_identity": "PASS"
+    }
+  ],
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "new_GPU_calls": 0,
+  "primary_arm_requests": 800,
+  "statistical_independent_batches": 1,
+  "unique_requests": 100
+}

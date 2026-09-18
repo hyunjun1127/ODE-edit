@@ -1,0 +1,18 @@
+{
+  "T": "SKIPPED_USER_DIRECTED",
+  "analysis_manifest_sha256": "439058cf8ffc344431069fd5d39efd3b735d697896e9c02f571e02d1d1636e60",
+  "analysis_source": "8d56c332b768ecd751858ee0aa9029868c516931",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "execution_source": "3f1941b21538d6a7ad0afd756774ad6a0b605750",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "job": 50098,
+  "member_root": "eb8d705d974278fa6a5cb614d29849132f6f962d831cbbb0e3114b74ef2218b6",
+  "new_GPU": 0,
+  "parent_GPU_seconds": 9147,
+  "primary_rows": 8,
+  "primary_unique_weight_tensors": 6,
+  "report_sha256": "d99b4a0b819324fd305e54735349e426c6287dfd6ee3c59639226c2e8f0db0fa",
+  "scientific_promotion": false,
+  "status": "REVIEW_COMPLETE_WITH_EXPLICIT_LIMITATIONS",
+  "unique_requests": 100
+}

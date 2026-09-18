@@ -1,0 +1,10 @@
+item,status,limitation
+T full validation,SKIPPED_USER_DIRECTED,FD/ULP/full GPU numerical validation NOT_ESTABLISHED
+cross-hardware equivalence,NOT_TESTED,S4 and S1 actual key byte inventories differ; no same hardware counterfactual
+cumulative Frobenius(W-W0),NOT_RECORDED_WITHIN_LOCAL_INPUTS,WN delta norm recorded; full local W0 weight absent; norms cannot be added
+RAND final tensors,NOT_RETAINED,seed/rule/space/norm/hash/invariant/observer saved; primary final8 preserved
+all trial tensors,NOT_RETAINED_BY_POLICY,"gradient/factors/formula/hash/events retained, not every rejected physical weight"
+full K tensor,NOT_RETAINED_BY_POLICY,token alias SHA and projector factors saved; actual full K numeric payload not saved
+GPU continuation / full model CPU restore,NOT_RUN_REVIEW_ONLY,stored selected and nonselected hash receipt audit only
+Report256 / Past / sequential / M10,NOT_IN_SCOPE,Report256 unopened; cold Past empty; one batch only
+storage I/O / individual arm complete wall,NOT_SEPARATED,callback and streaming counters overlap; cannot sum as disjoint costs
