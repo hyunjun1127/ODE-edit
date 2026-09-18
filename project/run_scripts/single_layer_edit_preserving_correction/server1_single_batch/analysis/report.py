@@ -119,9 +119,9 @@ def main():
         dict(group='model load',seconds=term['timing']['model_load'],scope='shared'),
         dict(group='canonical+generation observer',seconds=term['observer_work']['observer_seconds'],scope='9 unique states including W0'),
         dict(group='S64 backward',seconds=term['oracle_work']['S64']['backward_seconds'],scope='nested in objective; not additive'),
-        dict(group='S64 suffix forward',seconds=term['oracle_work']['S64']['suffix_seconds'],scope='overlaps objective/invariant components'),
-        dict(group='protected suffix forward',seconds=term['oracle_work']['protected']['suffix_seconds'],scope='overlaps guards/invariants'),
-        dict(group='Dev128 suffix forward',seconds=term['oracle_work']['Dev128']['suffix_seconds'],scope='observer component')]
+        dict(group='S64 suffix forward',seconds=term['oracle_work']['S64']['cached_suffix_seconds'],scope='overlaps objective/invariant components'),
+        dict(group='protected suffix forward',seconds=term['oracle_work']['protected']['cached_suffix_seconds'],scope='overlaps guards/invariants'),
+        dict(group='Dev128 suffix forward',seconds=term['oracle_work']['Dev128']['cached_suffix_seconds'],scope='observer component')]
     csvout(dest/'compute-summary.csv',components)
     text=f'''# ENFC B1 완료 실험 상세 사실 리뷰
 
