@@ -1,0 +1,19 @@
+{
+  "status": "PASS_WITH_EXPLICIT_HTML_RENDER_LIMIT",
+  "figure": "experiment-reports/servers/server4/bpcw512-20260918-v2/b1/b1-canonical-cost.png",
+  "figure_sha256": "b8b800724a69ecb39aa6abb1bdf0975923d275f1f0a249cbb71a031cd81c5b1b",
+  "inspection": "Parent agent directly viewed final PNG; axes, endpoint labels, denominators and cost ratio are readable and consistent with the independent reducer.",
+  "code_generated": true,
+  "second_render_byte_equal": true,
+  "second_render_evidence": "experiment-reports/servers/server4/bpcw512-20260918-v2/b1/publication-checks.json",
+  "GFM_column_rows_checked": 93,
+  "report_markdown_local_links_checked": 2,
+  "report_markdown_local_links_status": "PASS",
+  "actual_HTML_render": "NOT_RUN_NO_INSTALLED_RENDERER",
+  "CSV_line_endings": "Original generated CRLF bytes and manifest hashes preserved. Default git whitespace check flags CRLF; explicit cr-at-eol-aware diff check passes without changing global Git settings.",
+  "narrow_analysis_regression_tests": 8,
+  "prior_runtime_CPU_checks": 35,
+  "independent_review": "Bounded worker solver and publication audit; scope and parent-only final follow-up documented in independent-publication-review.json. Not an independent GPU replay.",
+  "new_GPU_for_publication": 0,
+  "sequential_authorized": false
+}

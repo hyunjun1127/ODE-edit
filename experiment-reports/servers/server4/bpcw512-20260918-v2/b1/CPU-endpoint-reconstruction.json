@@ -1,0 +1,10 @@
+{
+  "status": "PASS_CPU_EXACT_STORED_WN_PLUS_IDEAL",
+  "native_matches_N4": true,
+  "BPCW_immutable_native_FP32_equal": true,
+  "native_exact_copy_route": true,
+  "M4_equal_between_arms": true,
+  "all_parameters_model_replay": false,
+  "GPU_B2_continuation": false,
+  "distinct_factors_reconstructed_independently": false
+}

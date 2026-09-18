@@ -1,0 +1,20 @@
+{
+  "status": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL",
+  "B1_job": 50305,
+  "execution_source": "ae3237f12c70b77fcea6c5fae7bdb8538c6310a1",
+  "execution_lock": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/execution.lock.json",
+  "execution_lock_sha256": "1e70d880d4d77883300891089fbebd8ab7500be90a33060a74632d16920a5a3a",
+  "checkpoints": [
+    {"arm": "N4", "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/N4/checkpoint.pt", "bytes": 1057571045, "sha256": "f58b525df1d7c85988c5d4ea03cb9e508432c5edfc6928afac0e1724d01dbde5"},
+    {"arm": "BPCW512", "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/BPCW512/checkpoint.pt", "bytes": 1057572709, "sha256": "dfea3100be58ea3bef61373724d06769ce95c5aefb1b90726904d0f1a9ad53b4"}
+  ],
+  "resume_evidence": "Atomic complete W/M/context/RNG/ledger checkpoint, CPU weights_only finite/shape/hash plus bounded runtime physical W reload. Future GPU continuation NOT_TESTED.",
+  "B1_gate": "FAIL_REFERENCE_AND_BUDGET",
+  "requires_before_any_B2": "New explicit user authorization and separate scope/gate review; these files confer no execution authority.",
+  "sequential_authorized": false,
+  "max_batches": 1,
+  "automatic_resume": false,
+  "monitoring_active": false,
+  "report": "experiment-reports/servers/server4/bpcw512-20260918-v2/b1/diagnostic-report-ko.md",
+  "report_sha256": "a70b0e51dc0f12b3cef730299bcc4e9fb22fddfda6a21501206d78a363df96e4"
+}

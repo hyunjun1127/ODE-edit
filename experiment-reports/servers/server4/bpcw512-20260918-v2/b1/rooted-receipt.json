@@ -1,0 +1,13 @@
+{
+  "status": "B1_GATE_FAIL",
+  "manifest_SHA256": "5d74a424409c685c16db8182744a7fea49d619026a3c0c3e7c1b2cea1999998a",
+  "report_SHA256": "a70b0e51dc0f12b3cef730299bcc4e9fb22fddfda6a21501206d78a363df96e4",
+  "source": "ae3237f12c70b77fcea6c5fae7bdb8538c6310a1",
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/execution.lock.json",
+    "bytes": 862290,
+    "sha256": "1e70d880d4d77883300891089fbebd8ab7500be90a33060a74632d16920a5a3a"
+  },
+  "sequential_authorized": false,
+  "next": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
+}

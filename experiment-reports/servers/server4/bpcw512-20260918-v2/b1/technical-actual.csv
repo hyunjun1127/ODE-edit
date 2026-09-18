@@ -1,0 +1,6 @@
+check,status,value,ceiling,scope
+pair-0-AD,PASS,1.4582818596661715e-07,0.0001,one actual scalar pair
+pair-1-AD,PASS,1.1274870633843512e-07,0.0001,one actual scalar pair
+pair-2-AD,PASS,1.0972844336492437e-07,0.0001,one actual scalar pair
+pair-3-AD,PASS,9.34173564592831e-08,0.0001,one actual scalar pair
+factor-Gram,PASS,1.0401118611686931e-14,1e-10,actual reference4 if resolved; otherwise N/A

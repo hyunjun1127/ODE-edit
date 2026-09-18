@@ -1,0 +1,3 @@
+round,minimum_dual,minimum_raw_slack,raw_complementarity_max,primal_objective,dual_objective,independent_locked_row_scaled_KKT,source_KKT_pass,validation
+1,0.0,-2.220446049250313e-16,7.21401317217726e-20,0.00057174928179428,0.00057174928179428,True,True,INDEPENDENT_FP64_RAW_AND_ROW_NORMALIZED_CERTIFICATE; no new solve or model
+2,0.0,-2.220446049250313e-16,5.367710447670401e-20,0.0006537696867963231,0.0006537696867963228,True,True,INDEPENDENT_FP64_RAW_AND_ROW_NORMALIZED_CERTIFICATE; no new solve or model

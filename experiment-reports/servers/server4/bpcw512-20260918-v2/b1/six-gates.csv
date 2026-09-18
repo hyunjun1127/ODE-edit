@@ -1,0 +1,7 @@
+gate,name,passed,evidence
+1,technical/source/state,True,INTEGRATED_MODEL_CHECKS_PASS
+2,all reference choices/current/Past,False,token_flips=137;Past=N/A0
+3,RS/PS additional lost IDs zero,True,RS=0;PS=0
+4,NS net/W0-correct N no additional loss,True,NSnet=0;W0loss=0
+5,Dev choice flips no increase,True,flip_delta=0
+6,standalone editing <=2x matched N4,False,ratio=5.03147716
