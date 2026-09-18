@@ -42,7 +42,9 @@ def protected_sequences(tok,eval_tok,requests,contexts):
             aliases.append(dict(cache=ci,position=pos,key_column=seen[prefix],prefix_sha=digest(prefix)))
     return caches,rows,unique,dict(sequences=len(rows),distinct_inputs=len(caches),key_columns=len(unique),key_aliases=aliases,
         missing_old=missing_old,essence_in_lock=False,official_P_N=False,padding_in_lock=False,new_EOS=False,
-        native_tokenizer_add_bos=tok.add_bos_token,canonical_tokenizer_add_bos=eval_tok.add_bos_token)
+        native_tokenizer_add_bos_attribute=getattr(tok,'add_bos_token',None),
+        canonical_tokenizer_add_bos_attribute=getattr(eval_tok,'add_bos_token',None),
+        actual_token_IDs_authoritative=True)
 
 def quality_ok(candidate,anchor,epsilon=1e-4):
     if set(candidate)!=set(anchor):raise ValueError('QUALITY_ID_INVENTORY')
