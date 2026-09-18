@@ -1,0 +1,52 @@
+{
+  "auto_poll": false,
+  "auto_wake": false,
+  "dependency": null,
+  "evidence": [
+    {
+      "bytes": 924,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/submission-r1/held.json",
+      "sha256": "f568d1a145ae4686092d7908d4d81e0e6ca5efccfe480fea139914f95669e14e"
+    },
+    {
+      "bytes": 2494,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/submission-r1/inspection.json",
+      "sha256": "ab317bd72ba3e2218b0140349ed500258811308c345495a7b4bf8be8f08e5104"
+    },
+    {
+      "bytes": 2856,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/submission-r1/released.json",
+      "sha256": "de0fc67af4c51228a2292261979f7fd5125cb4b32c01ffd7980ad62c1287ae6b"
+    }
+  ],
+  "gpu_actions_new": 0,
+  "initial_gate": "NOT_YET_RUN",
+  "instruction_id": "ODEEDIT-S06-ENFC-SINGLE-BATCH-M-RESUME-SH1-V1",
+  "job": 50098,
+  "lock": {
+    "bytes": 132023,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-enfc-single-batch-m-v1/local/enfc-single-batch-m/20260918-v1/submission-r1/execution.lock.json",
+    "sha256": "b463293b23131b1453d1d3521a58f8f57e1804b0ca18d0fd8fcd0bdc64999147"
+  },
+  "next_action": "USER_RECALL",
+  "node_gpu_allocated": 6,
+  "node_gpu_total": 8,
+  "node_state": "MIXED+PLANNED",
+  "project_admitted_including_new": 1,
+  "project_cap": 2,
+  "reason": "RESOURCE_PENDING_NODE_RESERVED_FOR_REQUESTED_WINDOW",
+  "report": {
+    "bytes": 6023,
+    "path": "experiment-reports/servers/server1/enfc-single-batch-m-2026-09-18-v1/submission-pending-ko.md",
+    "sha256": "d206d241f5e013a3c9ab49022a9876a7d2bc7137f3bafb9a1829955f79505e83"
+  },
+  "scheduler_reason": "ReqNodeNotAvail,_May_be_reserved_for_other_job",
+  "scheduler_state": "PENDING",
+  "scientific_promotion": false,
+  "source": "3f1941b21538d6a7ad0afd756774ad6a0b605750",
+  "source_branch": "codex/server1-enfc-single-batch-m-v1",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "submitted": 1,
+  "terminal": "NOT_YET",
+  "tree": "72503847266864bf5e1b0c96d63ba99aa03d846d"
+}

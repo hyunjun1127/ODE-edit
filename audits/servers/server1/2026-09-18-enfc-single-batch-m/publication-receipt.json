@@ -1,0 +1,20 @@
+{
+  "compile": true,
+  "execution_worktree_mutated": false,
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "raw_git": 0,
+  "renderer_check": "Markdown tables/headings/code paths reviewed",
+  "report": {
+    "bytes": 6023,
+    "path": "experiment-reports/servers/server1/enfc-single-batch-m-2026-09-18-v1/submission-pending-ko.md",
+    "sha256": "d206d241f5e013a3c9ab49022a9876a7d2bc7137f3bafb9a1829955f79505e83"
+  },
+  "scope": "SOURCE_REUSE_SUBMISSION_PENDING_NOT_RESULTS",
+  "status": {
+    "bytes": 2175,
+    "path": "tasks/status/ODEEDIT-S06-ENFC-SINGLE-BATCH-M-RESUME-SH1-V1/server1.json",
+    "sha256": "91f2f93ddd1cbce32eb2fd898d06a4e0b466425b7478325088b9d0a92b21bc99"
+  },
+  "task_memory_audit": "PASS",
+  "test_count": 40
+}
