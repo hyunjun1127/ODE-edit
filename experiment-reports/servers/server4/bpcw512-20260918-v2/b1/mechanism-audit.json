@@ -1,0 +1,10 @@
+{
+  "status": "PASS_STORED_ARITHMETIC",
+  "rounds": 2,
+  "pair_scalar_gradients": 1046,
+  "full_first_bank": true,
+  "prior_pairs_retained": true,
+  "actual_center_raw_gradient_RHS": true,
+  "no_new_model_execution": true,
+  "full_factor_D_reconstruction": "NOT_RUN; small stored Gram/b/alpha independently reduced"
+}

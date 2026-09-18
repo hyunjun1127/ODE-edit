@@ -1,0 +1,48 @@
+{
+  "status": "B1_GATE_FAIL",
+  "gates": [
+    {
+      "gate": 1,
+      "name": "technical/source/state",
+      "passed": true,
+      "evidence": "INTEGRATED_MODEL_CHECKS_PASS"
+    },
+    {
+      "gate": 2,
+      "name": "all reference choices/current/Past",
+      "passed": false,
+      "evidence": "token_flips=137;Past=N/A0"
+    },
+    {
+      "gate": 3,
+      "name": "RS/PS additional lost IDs zero",
+      "passed": true,
+      "evidence": "RS=0;PS=0"
+    },
+    {
+      "gate": 4,
+      "name": "NS net/W0-correct N no additional loss",
+      "passed": true,
+      "evidence": "NSnet=0;W0loss=0"
+    },
+    {
+      "gate": 5,
+      "name": "Dev choice flips no increase",
+      "passed": true,
+      "evidence": "flip_delta=0"
+    },
+    {
+      "gate": 6,
+      "name": "standalone editing <=2x matched N4",
+      "passed": false,
+      "evidence": "ratio=5.03147716"
+    }
+  ],
+  "endpoints": {
+    "N4": "3d33f44b13688fb3c18db8eb4d8be5cc6509aea161c96bed254e89240f265015",
+    "BPCW512": "3d33f44b13688fb3c18db8eb4d8be5cc6509aea161c96bed254e89240f265015"
+  },
+  "sequential_authorized": false,
+  "expansion_submitted": false,
+  "next": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
+}

@@ -1,0 +1,32 @@
+{
+  "status": "B1_GATE_FAIL",
+  "batch_count": 1,
+  "unique_requests": 100,
+  "arms": [
+    "N4",
+    "BPCW512"
+  ],
+  "raw_terminal": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/terminal.json",
+    "bytes": 659448,
+    "sha256": "cebadfcdfa7dafd0338839667aee1ea8956cf41d93a91451bf7fd80f9b0013df"
+  },
+  "source": "ae3237f12c70b77fcea6c5fae7bdb8538c6310a1",
+  "job": "50305",
+  "checkpoints": [
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/N4/checkpoint.pt",
+      "bytes": 1057571045,
+      "sha256": "f58b525df1d7c85988c5d4ea03cb9e508432c5edfc6928afac0e1724d01dbde5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/BPCW512/checkpoint.pt",
+      "bytes": 1057572709,
+      "sha256": "dfea3100be58ea3bef61373724d06769ce95c5aefb1b90726904d0f1a9ad53b4"
+    }
+  ],
+  "sequential_authorized": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "next": "WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
+}

@@ -1,0 +1,36 @@
+{
+  "time_utc": "2026-09-18T12:04:44.845987+00:00",
+  "actions": [
+    {
+      "args": [
+        "scancel",
+        "50071_3"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "time_utc": "2026-09-18T12:04:44.745175+00:00"
+    },
+    {
+      "args": [
+        "scancel",
+        "50071_0"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "time_utc": "2026-09-18T12:04:44.788767+00:00"
+    },
+    {
+      "args": [
+        "scancel",
+        "50071_2"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "time_utc": "2026-09-18T12:04:44.845936+00:00"
+    }
+  ],
+  "completed_job_not_cancelled": "50071_1"
+}

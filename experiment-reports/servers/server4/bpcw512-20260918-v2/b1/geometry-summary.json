@@ -1,0 +1,62 @@
+{
+  "kind": "EN-F",
+  "key_identity": "NOT_BOUND_BY_GEOMETRY",
+  "key_shape": [
+    14336,
+    4596
+  ],
+  "status": "RESOLVED",
+  "dimension": 9730,
+  "input_dimension": 14336,
+  "allowed_dimension": 14326,
+  "blocked_dimension": 4596,
+  "basis_sha256": "7ef5045a438d1c5569a610c70d99f4ab54f9997aced642a6bd360207118c5867",
+  "blocked_sha256": "76deb05064d801201b7b66a8c8e4d170040a5b60defce1711919f41245a52d7d",
+  "reduced_rank": {
+    "shape": [
+      14326,
+      4596
+    ],
+    "rank": 4596,
+    "status": "RESOLVED",
+    "threshold": 1.052602151424415e-10,
+    "sigma_max": 33.09017630130098,
+    "ambiguous_indices": [],
+    "ambiguity_band": [
+      1.052602151424415e-11,
+      1.052602151424415e-09
+    ],
+    "condition_full": 1598670960.9833777,
+    "condition_retained": 1598670960.9833777,
+    "threshold_policy": "max(original_shape)*eps64*sigma_max",
+    "algorithm": "TSQR(K.T)_then_SVD(R.T); no_Gram; no_rank_truncation",
+    "blocks": 9,
+    "wall_seconds": 48.5668736435473,
+    "cpu_threads": 8,
+    "workspace_plan": {
+      "shape": [
+        14326,
+        4596
+      ],
+      "dtype": "float64",
+      "algorithm": "TSQR_then_thin_SVD",
+      "compressed_R_bytes": 526738368,
+      "maximum_stacked_QR_input_bytes": 526738368,
+      "thin_left_vectors_bytes": 526738368,
+      "input_block_bytes": 58679296,
+      "peak_status": "ESTIMATE_COMPONENTS_NOT_MEASURED_PEAK",
+      "lapack_workspace_and_input_storage_additional": true
+    }
+  },
+  "full_spectrum_local": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/edit-null-space.json",
+    "bytes": 121550,
+    "sha256": "86f2ae430e98d05c57df1b0268be5348b57e147d4e2849ab1fca234f7d0d966f"
+  },
+  "key_identity_binding": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/protected-provenance.json",
+    "bytes": 3789689,
+    "sha256": "6959c7e057ac88f8a0ff4f476d412051ea26f05be7e9603ba2300b6e9fc1adb4"
+  },
+  "geometry_helper_kind_not_optimizer": "EN-F null-space constructor reused; optimizer is BPCW QP"
+}

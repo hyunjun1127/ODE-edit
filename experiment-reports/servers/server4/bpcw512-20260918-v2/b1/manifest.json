@@ -1,0 +1,216 @@
+{
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/CPU-endpoint-reconstruction.json",
+      "bytes": 324,
+      "sha256": "0d02f3774cc7204d39896b005d7105ef0f4692ef1633c9c5dffd46b55be8f3dd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/FD-fixed-grid.csv",
+      "bytes": 4010,
+      "sha256": "01fd8940c62575c1bc0a87c44168d47c05a9c107180e4605f147cb6a7896f308"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/NLL-distributions.csv",
+      "bytes": 4170,
+      "sha256": "621c7ed1722f23f1cfec3065df44773e838eef726a2e09f09dcc210edbeab0ff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/QP-independent-arithmetic.csv",
+      "bytes": 512,
+      "sha256": "4daa514f8dbd0020300123bb2a6719f94094bc63cd2655b226ba6c04f5ccdf18"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/W0-N-retention.csv",
+      "bytes": 174,
+      "sha256": "19974c631bb1e016825b452ee718ba802c2b568213f5765de81ee962d66dc442"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/accounting.json",
+      "bytes": 619,
+      "sha256": "55ba16b1ea20c913397029320aa609b82ec3b0ccfd97d9a7d782af80381ad519"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/analysis-lineage.json",
+      "bytes": 1065,
+      "sha256": "168db66ba34b71dd5b2781463b453a268d2f5f23d0a877fa15b18059b0a606ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/artifact-index.json",
+      "bytes": 435444,
+      "sha256": "2f32b77daaab7e1efcc9cf9651538d70b032a696641af311412ea497cd08dbbf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/b1-canonical-cost.png",
+      "bytes": 46592,
+      "sha256": "b8b800724a69ecb39aa6abb1bdf0975923d275f1f0a249cbb71a031cd81c5b1b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/b1-gate.json",
+      "bytes": 1186,
+      "sha256": "02f4dd5e200147c3d01282cbc59e84cbcd92ae7d3914e131318c2a358289f7df"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/batch-metrics.csv",
+      "bytes": 631,
+      "sha256": "82d0d82991fbd29a559d3e940b727ebb1c5da3b0733cde43f1ca2d497499ab94"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/checkpoint-inventory.csv",
+      "bytes": 634,
+      "sha256": "1efea12091df3249fdc8bebcba8694332c57ed9441209850a721225640a8f246"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/compute.csv",
+      "bytes": 1399,
+      "sha256": "b975647749aa0106d2d9315c2afe6cabef1a75f2f4243e3204992472e4482cbd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/controller-ledger.jsonl",
+      "bytes": 275539,
+      "sha256": "98e0eede77592aef63cbbc35e5ae3b6140ab2c3693eecfe6b08a9d3e6476689c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/design-conformance.csv",
+      "bytes": 3240,
+      "sha256": "d2752acfd7d5fb9d5b5fe6dee62147b8a9f1c9f7a60ed8f9aaa577b6a720e6e1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/diagnostic-report-ko.md",
+      "bytes": 19911,
+      "sha256": "a70b0e51dc0f12b3cef730299bcc4e9fb22fddfda6a21501206d78a363df96e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/execution-manifest.json",
+      "bytes": 2276,
+      "sha256": "ceb06208d9a15b7f171ae04d8ea2b2f889866389d860fcd8393285d2dd4436b7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/factor-row-ledger.csv",
+      "bytes": 237528,
+      "sha256": "c5bed7fbe0b777ec786f99703de600cf7881ed08a304e1a4149297586ca7443f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/first-final-table.csv",
+      "bytes": 394,
+      "sha256": "62c3c157b636323f58c356214bb8efe0bfd417d474006146381ee03945fd3f61"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/geometry-summary.json",
+      "bytes": 2050,
+      "sha256": "275e50532a8f81ac7d6f428ea56d73f722ba4626e6c9361c84db1d1b0692b277"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/greedy32.csv",
+      "bytes": 143,
+      "sha256": "cf48eaf45332ece9692cff864e096e7abc70d5d4ace496ed29d3bfc3687b2eea"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/mechanism-audit.json",
+      "bytes": 318,
+      "sha256": "06dc6c7b560835f788c589f71503fa5ee3d8a7be938ab72dc70f4bb297fbec04"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/paired-NS.csv",
+      "bytes": 107832,
+      "sha256": "0e48e24a686ecc41ad46ffc2ba0af1f0684a78bfa26f212a430c32d4a82b9766"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/paired-PS.csv",
+      "bytes": 21622,
+      "sha256": "cf09d957bb16182e666f8d81b660b6e4912d3f046a8520e5d9fa3a2d34dc2efe"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/paired-RS.csv",
+      "bytes": 10866,
+      "sha256": "c834dfa2a6f1586f83053ae0565b524be7bcfdcfe24b2e107e870b16bfd3d217"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/paired-summary.csv",
+      "bytes": 185,
+      "sha256": "0eb17f06625c74d033d55cdce92ce8a3f5042109959d94b7c6466adb5cac82a3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/preflight.json",
+      "bytes": 1718,
+      "sha256": "ea99611f5adbca5b5f3e962a9b1d18a75957999cec37e367fa0636a7355ada3e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/publication-checks.json",
+      "bytes": 416,
+      "sha256": "a32c5b64c2a57576d6d46484bc179536720c7430d3f75aa33318ab73b8e73156"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/qp-order-audit.json",
+      "bytes": 536757,
+      "sha256": "343fdf6eac663e6e232eea3e5c3f30b07f754fb81521cc806f066f8de9a527b3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/raw-inventory.json",
+      "bytes": 435444,
+      "sha256": "2f32b77daaab7e1efcc9cf9651538d70b032a696641af311412ea497cd08dbbf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/reference-Dev.csv",
+      "bytes": 607,
+      "sha256": "5bc1e581fb0e55d087609afa6982648a9ce0bd25becdfa2be469016c3ce3a8b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/reference-scope-ledger.json",
+      "bytes": 384,
+      "sha256": "36a3e37ebcc9f7d13483a90d9c9e326c3236d0a18e9242969a404625c4596d72"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/reference-stored-arithmetic.json",
+      "bytes": 768,
+      "sha256": "948e1232b3ec002a991db10099818a2b59d0215266704535e87a8356615e6c80"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/reference-summary.csv",
+      "bytes": 607,
+      "sha256": "5bc1e581fb0e55d087609afa6982648a9ce0bd25becdfa2be469016c3ce3a8b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/report-ko.md",
+      "bytes": 120,
+      "sha256": "1bb379fd3b6bcc279570b03dcad46f29174960c08f78d6148978267b582234d8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/round-ledger.csv",
+      "bytes": 622,
+      "sha256": "3bb724cd40cf9b05131e319cf9deaac269317e156f34fd24d905cf362ea8fdae"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/runtime-work-counters.json",
+      "bytes": 3876,
+      "sha256": "62376f649bcefc968d32574d5e9f3523c27f811fe805f8ad3e1a26e97c6c54f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/six-gates.csv",
+      "bytes": 381,
+      "sha256": "885dea6955c7a19263da3aeaddba264b83a298cdac10466168a1c19bcfc5c1fa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/strict-joint.csv",
+      "bytes": 141,
+      "sha256": "d119b341217542359e5b221034ec932ede8243dc3a891841ddeae3452a6d28eb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/summary.json",
+      "bytes": 16589,
+      "sha256": "eb02ce72848fec8df56bace76a875a454bc06486283af9e68571ef99b3f2c5d2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/technical-actual.csv",
+      "bytes": 400,
+      "sha256": "b47f66ab59710cc68b8725a5f3d586e2b551ace9681e63c6b225bee975f38ab1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/experiment-reports/servers/server4/bpcw512-20260918-v2/b1/terminal.json",
+      "bytes": 1050,
+      "sha256": "1cffa28c1f5eba1b66f4cbdbeeafc5ca641678bf57d0f9371ace11e0740792a8"
+    }
+  ],
+  "analysis_only": true,
+  "raw_modified": false
+}

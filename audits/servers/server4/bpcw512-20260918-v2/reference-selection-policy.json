@@ -1,0 +1,26 @@
+{
+  "existing_train_roles": [
+    "S64",
+    "Reserve320"
+  ],
+  "existing_train_count": 384,
+  "extra_count": 128,
+  "seed": 20260915,
+  "corpus_revision": "1588ec454efa1a09f29cd18ddd04fe05fc8653a2",
+  "extra_order": "same whole pinned train shard lowest document-priority SHA, stable source-ID tie",
+  "retain": 16384,
+  "initial_limit": 8192,
+  "window_rule": "original C4-WebRef-v2 window hash",
+  "duplicate_rules": "same normalized URL/full/window + exact13gram Jaccard>=.8; exclude all old768 and previous extra",
+  "prompt": "original BOS plus first128 natural tokens of exact locked256-token window",
+  "native_current_or_future_access": false,
+  "model_outcome_access": false,
+  "new_overlap_allowlist": [
+    "Wiki128"
+  ],
+  "legacy_overlap_excluded": "CounterFact-first1000-input-only contains future and official P/N; not used by v2 selection",
+  "original_S64_Reserve320": "unchanged prior identity; historical sampler provenance not erased",
+  "Report256_access": "INPUT_ONLY_EXCLUSION_FINGERPRINTS; no capsule/model/evaluation",
+  "fixed8": "lowest SHA BPCW-v2|20260918|spot|source_row_id",
+  "nested256": "lowest SHA BPCW-v2|20260918|nested|source_row_id; metadata only"
+}

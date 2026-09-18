@@ -1,0 +1,4 @@
+arm,W0_correct_N,retained,lost,total_requested_N,retention_percent
+W0,886,886,0,1000,100.0
+N4,886,862,24,1000,97.29119638826185
+BPCW512,886,862,24,1000,97.29119638826185

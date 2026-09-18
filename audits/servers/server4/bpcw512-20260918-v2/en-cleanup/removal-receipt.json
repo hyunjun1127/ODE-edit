@@ -1,0 +1,15 @@
+{
+  "time_utc": "2026-09-18T12:07:32.422510+00:00",
+  "inventory_sha256": "5dd6714af6989e13cf8db23b62e0a6719686a442d5a2d0f7fc6e505278d6a725",
+  "removed_files": 52,
+  "logical_bytes": 29480834368,
+  "unique_single_link_allocated_bytes": 29481070592,
+  "shared_hardlinks": [],
+  "available_bytes_before": 78003789824,
+  "available_bytes_after": 107484844032,
+  "observed_free_delta": 29481054208,
+  "free_delta_exclusive_attribution": false,
+  "known_recoverable_copy": "NOT_VERIFIED",
+  "EN_exact_checkpoint_resume": "UNAVAILABLE_AFTER_USER_DIRECTED_REMOVAL",
+  "preserved": "all evaluation/generation/raw/log/source/receipt; shared model/tokenizer/data/P/stats/context/reference/teacher; native target/key/mixed capsules; gradients/geometry/ideal-delta not model checkpoints"
+}

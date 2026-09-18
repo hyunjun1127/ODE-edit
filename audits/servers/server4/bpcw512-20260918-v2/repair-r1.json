@@ -1,0 +1,27 @@
+{
+  "time": "2026-09-18T12:37:29.405718+00:00",
+  "old_job": "50291",
+  "accounting": "50291|odeedit_bpcw512_B1_s4|janghj|CANCELLED by 1025|0:0|2026-09-18T21:30:49|2026-09-18T21:35:16|267|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1|server4\n",
+  "allocated_GPU_seconds": 267,
+  "status": "USER_AUTHORIZED_NARROW_B1_TECHNICAL_REPAIR",
+  "failures": [
+    "near-positive Gram eigenspace misclassified numerical Farkas infeasibility",
+    "zero FD direction must not count as derivative PASS",
+    "actual production factor Gram comparison absent"
+  ],
+  "failure_detection": "CPU/source independent red, before model correction/native",
+  "native_fit_completed": 0,
+  "scientific_endpoints_completed": 0,
+  "incomplete_capsules": [],
+  "generation_function_AST_equal": true,
+  "old_source_preserved": true,
+  "live_cancellation_rollback": "NOT_VERIFIED",
+  "preserved": "all source/log/capsules/receipts; no deletion",
+  "sequential_authorized": false,
+  "reused_capsule_count": 151,
+  "capsule_manifest_local": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/repair-r1/receipt.json",
+    "bytes": 54224,
+    "sha256": "fbb53f41f9bf3dfeb93fe4cf57ff4ce869d6615e410eb8e519785d5be2785e9a"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "time_utc": "2026-09-18T12:02:06.645156+00:00",
+  "source_commit": "e666b37485d07332c662d7a4359aaf25904a9dbc",
+  "members": [
+    {
+      "path": "project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md",
+      "sha256": "7d6c07cc07595b8828af76e6c0fbd53740aa5ca0b6d044773f6f13cec461ab3d",
+      "bytes": 29320,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-v2.md",
+      "sha256": "c48f014c2b280d39566a315bc8a512c2555c52bd5fb17b2a351ee9b37ef3a6aa",
+      "bytes": 25145,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/plans/global/2026-09-18-base-choice-constrained-write-v2.md"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json",
+      "sha256": "60ba775fe4561f5fe4dcda28e6ef7cfd974c0277904dea6dc42b9ef08c41d361",
+      "bytes": 9895,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json"
+    },
+    {
+      "path": "plans/global/2026-09-18-base-choice-constrained-write-cells-v2.csv",
+      "sha256": "cca278fd5539aecd80601edd2e8cbcfe1adf7abd91d4ca69d82ae14cf236f46e",
+      "bytes": 717,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/plans/global/2026-09-18-base-choice-constrained-write-cells-v2.csv"
+    },
+    {
+      "path": "audits/global/2026-09-18-base-choice-constrained-write/check_math.py",
+      "sha256": "518a039324dc0f157471a2ad72b5295c389141bb6ab557b7eafd7e6eae990d8d",
+      "bytes": 9786,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/audits/global/2026-09-18-base-choice-constrained-write/check_math.py"
+    },
+    {
+      "path": "audits/global/2026-09-18-base-choice-constrained-write/math-checks.json",
+      "sha256": "3e165482b1fa89809a3d7fb00c4717236f2ed3b908c1a3b05c29bb5abf40abb3",
+      "bytes": 2030,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/audits/global/2026-09-18-base-choice-constrained-write/math-checks.json"
+    },
+    {
+      "path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0",
+      "bytes": 15553,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json"
+    },
+    {
+      "path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-contract-v1.json",
+      "sha256": "728af7c85ab67f2859eb529457d99536b43010bb75d662b9fef59328f5b7a526",
+      "bytes": 9379,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/plans/global/2026-09-18-fixed-key-reference-constrained-write-contract-v1.json"
+    },
+    {
+      "path": "messages/head/2026-09-18-sh4-bpcw512-cold-b1-v2.md",
+      "sha256": "70a5c894f380d53560daadb48871f1f0a2663ad3df7e64e59111db6e68e0a38b",
+      "bytes": 16021,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/messages/head/2026-09-18-sh4-bpcw512-cold-b1-v2.md"
+    },
+    {
+      "path": "tasks/pending/bpcw512-cold-b1-sh4-20260918-v2.json",
+      "sha256": "2112c0f3f4cdc79b9bbf906136b96a4b24c1a935df6aed5b1150b048d565118d",
+      "bytes": 1799,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/tasks/pending/bpcw512-cold-b1-sh4-20260918-v2.json"
+    },
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "bytes": 60382,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/PROTOCOL.md"
+    },
+    {
+      "path": "control/gpu-concurrency-policy.tsv",
+      "sha256": "39346c40153cd3c6c015b915b3f75675e343ae12e3fac561f8c1973811f5551e",
+      "bytes": 520,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/control/gpu-concurrency-policy.tsv"
+    },
+    {
+      "path": "servers/active/server4.md",
+      "sha256": "33e2d94b74f4e07811c24dc59e15fb1e2bb85dfc20b6fc61ec54ab3108313757",
+      "bytes": 16219,
+      "copy": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/authoritative/servers/active/server4.md"
+    }
+  ],
+  "full_read": "Canonical new instruction/design/contract/cells/math/envelope read in full; unchanged PROTOCOL exact prior FULL_READ reused",
+  "prior_full_read": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/full-read-m0.json",
+    "sha256": "96aab038b4d8de8eace27d17961ee31db5933873e3c2fb6c2aa197328aaf7ac3"
+  },
+  "max_batches": 1,
+  "sequential_authorized": false,
+  "scientific_gpu_status": "NOT_SUBMITTED",
+  "R512_additional128_status": "NOT_BUILT",
+  "answer_capsules_status": "NOT_BUILT",
+  "model_numerical_validation": "NOT_ESTABLISHED",
+  "en_cleanup": "NOT_YET_PERFORMED"
+}

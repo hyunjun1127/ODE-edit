@@ -1,0 +1,40 @@
+{
+  "local_execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/execution.lock.json",
+    "bytes": 862290,
+    "sha256": "1e70d880d4d77883300891089fbebd8ab7500be90a33060a74632d16920a5a3a"
+  },
+  "source_resource_admission": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/resource-admission.json",
+    "bytes": 2914,
+    "sha256": "ee533486e53994ed63eb142f56664d99049059c85735e9972efea3b3ecaa7941"
+  },
+  "held_inspection": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/held-inspection.json",
+    "bytes": 2921,
+    "sha256": "de44d7befab13053a77109fa526954215d19e18b3a7c75651b0f33b7c69e4a6f"
+  },
+  "prior_CPU35": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/CPU-preflight-r1/receipt.json",
+    "bytes": 2288,
+    "sha256": "b793e32004bb8502211243117862d6c0f56cbe96456916f29b6da25e5cdafc6e"
+  },
+  "integrated_actual": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/technical/result.json",
+    "bytes": 1388,
+    "sha256": "d55757c33ae30ba56a19f434074fe2c422f7565e5b1f797846864f044a583230"
+  },
+  "limits_source": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/source/project/run_scripts/base_choice_constrained_write/config.py",
+    "bytes": 1570,
+    "sha256": "c1a36832a025fa62df83cc6dc9356a97b0da18c1adfe68476e47bdf44ca4d790"
+  },
+  "actual_B1_only": true,
+  "task_concurrent_GPU": 1,
+  "project_cap": 2,
+  "old_EN_cleanup": {
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/en-cleanup/removal-receipt.json",
+    "bytes": 779,
+    "sha256": "1bcd41d1cd365dd69238bc1adf0539871f7d5d2cadef02a362e96c0172efa48a"
+  }
+}

@@ -1,0 +1,4 @@
+metric,denominator,lost,gained,net_gain,mean_new_NLL_delta,maximum_new_NLL_increase,p95_new_NLL_increase
+RS,100,0,0,0,0.0,0.0,0.0
+PS,200,0,0,0,0.0,0.0,0.0
+NS,1000,0,0,0,0.0,0.0,0.0

@@ -1,0 +1,23 @@
+{
+  "time": "2026-09-18T13:37:05.614858+00:00",
+  "job": "50305",
+  "parent_allocation_only": true,
+  "rows": [
+    {
+      "JobID": "50305",
+      "JobName": "odeedit_bpcw512_B1_s4",
+      "User": "janghj",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Start": "2026-09-18T21:40:57",
+      "End": "2026-09-18T22:36:10",
+      "ElapsedRaw": "3313",
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "NodeList": "server4"
+    }
+  ],
+  "allocated_GPU_seconds": 3313,
+  "allocated_GPU_hours": 0.9202777777777778,
+  "utilization": "NOT_MEASURED",
+  "job_step_extern_double_count": false
+}

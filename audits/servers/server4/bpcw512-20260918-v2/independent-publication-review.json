@@ -1,0 +1,19 @@
+{
+  "scope": "bounded source/schema and synthetic CPU audit of BPCW review.py/publication.py",
+  "reviewer": "bpcw_qp bounded worker, separate from parent reducer author",
+  "GPU": 0,
+  "scheduler_reads": 0,
+  "live_scientific_raw_reads": 0,
+  "worker_code_edits": 0,
+  "findings": [
+    {"id": "ENDPOINT_CHAIN", "issue": "observer/reference/Dev/checkpoint identities were not fully joined", "repair": "per-arm W0/native/selected/observer/scan/CP/ideal/history exact identity joins", "verification": "worker source reinspection and parent negative test"},
+    {"id": "QP_FALSE_AUDIT_PASS", "issue": "residuals and failed order flag logged without enforcing failure", "repair": "independent raw+row-normalized KKT against frozen policy and order pass enforcement", "verification": "worker source reinspection; synthetic invalid alpha rejected"},
+    {"id": "REFERENCE_MEMBERSHIP", "issue": "internally consistent missing positions could pass stored scan arithmetic", "repair": "sealed capsule count/path/SHA/positions/targets/EOS plus CP-bound manifest", "verification": "worker verified position checks; final exact manifest-membership and CP binding source fix checked by parent"},
+    {"id": "UNRESOLVED_SPACE_SCHEMA", "issue": "Gram N/A schema could raise KeyError", "repair": "explicit N/A read without full technical PASS", "verification": "worker source reinspection"}
+  ],
+  "narrow_reducer_tests": {"passed": 8, "failed": 0, "kind": "CPU synthetic; not actual Llama validation"},
+  "runtime_changed_by_publication_repairs": false,
+  "raw_changed": false,
+  "entire_model_independent_red": "NOT_PERFORMED",
+  "worker_status": "COMPLETED_STOPPED"
+}

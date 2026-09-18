@@ -1,0 +1,25 @@
+{
+  "time": "2026-09-18T13:40:26.605109+00:00",
+  "analysis_commit": "a17af92cb1cc13b425fbf4c2f9d2c123a84efc91",
+  "sources": [
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/project/run_scripts/base_choice_constrained_write/review.py",
+      "bytes": 28229,
+      "sha256": "8e1af98ed0fc9fc0e9855cf58d0b6553c93a04b1c26b745cbd43b9a0e323bf84"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/project/run_scripts/base_choice_constrained_write/publication.py",
+      "bytes": 27108,
+      "sha256": "2a2616661bbbd4d45c771b3518edda01bf8de3d03bc855a62ecc8a210947cd2d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/worktree/project/run_scripts/base_choice_constrained_write/test_review.py",
+      "bytes": 4994,
+      "sha256": "a9a5bc1b3d81d4854e932782e4b757c91a8de69ce2bb3f7dc6c7ccf58f819d34"
+    }
+  ],
+  "executed_source": "ae3237f12c70b77fcea6c5fae7bdb8538c6310a1",
+  "source_tree": "1d62c423601196cbeb4272ee09f2f9ea149682c3",
+  "new_GPU": 0,
+  "model_replay": false
+}

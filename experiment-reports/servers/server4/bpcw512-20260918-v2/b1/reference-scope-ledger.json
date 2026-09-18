@@ -1,0 +1,8 @@
+{
+  "status": "SEMANTIC_DIRECT_FACT_CONFLICT_NOT_ESTABLISHED",
+  "input_split_and_duplicate_checks": "BOUND_TO_LOCKED_BUILDER",
+  "exhaustive_semantic_adjudication": false,
+  "confirmed_conflict_count": null,
+  "reference_reselected_after_result": false,
+  "limit": "No inference from token-flip failure to semantic conflict; W0 answers are behavioral anchors, not external truth."
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS_CPU_PUBLICATION_CHECKS",
+  "checked_staged_files_before_this_receipt": 50,
+  "checked_staged_bytes_before_this_receipt_and_CRLF_note": 2870574,
+  "own_scope_paths": "PASS",
+  "forbidden_raw_tensor_archive_log_extensions": "ABSENT",
+  "maximum_individual_file_below_bytes": 5000000,
+  "JSON_JSONL_parse": "PASS",
+  "sealed_report_manifest_members_full_SHA_size": "PASS",
+  "local_markdown_links": "PASS",
+  "analysis_regression": {"tests": 8, "failures": 0, "errors": 0},
+  "diff_whitespace": "PASS using per-command core.whitespace trailing-space,space-before-tab,cr-at-eol; existing generated CSV CRLF kept exact",
+  "new_GPU": 0,
+  "source_runtime_modified_after_execution_freeze": false,
+  "sequential_authorized": false,
+  "latest_main_before_integration": "7e4a9110b8b3e94c2dabd03aa71626e6f0776adf",
+  "latest_main_overlap_with_own_paths": "NONE"
+}

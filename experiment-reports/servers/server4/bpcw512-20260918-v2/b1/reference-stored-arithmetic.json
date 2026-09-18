@@ -1,0 +1,34 @@
+{
+  "N4-R512": {
+    "documents": 512,
+    "positions": 8192,
+    "token_flips": 137,
+    "retained_sequences": 398,
+    "stored_arithmetic": "PASS",
+    "new_full_vocab_forward": false
+  },
+  "BPCW-R512": {
+    "documents": 512,
+    "positions": 8192,
+    "token_flips": 137,
+    "retained_sequences": 398,
+    "stored_arithmetic": "PASS",
+    "new_full_vocab_forward": false
+  },
+  "N4-Dev128": {
+    "documents": 128,
+    "positions": 2048,
+    "token_flips": 28,
+    "retained_sequences": 104,
+    "stored_arithmetic": "PASS",
+    "new_full_vocab_forward": false
+  },
+  "BPCW512-Dev128": {
+    "documents": 128,
+    "positions": 2048,
+    "token_flips": 28,
+    "retained_sequences": 104,
+    "stored_arithmetic": "PASS",
+    "new_full_vocab_forward": false
+  }
+}
