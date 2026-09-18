@@ -1,0 +1,161 @@
+{
+  "time": "2026-09-18T00:04:56.217525+00:00",
+  "documents": [
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+      "bytes": 24041,
+      "sha256": "fac114d403502c96cbcb33a58b0ff1ee2b0b65b017c44b22a2a22adcda749b73",
+      "lines": 192,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-contract-v2.json",
+      "bytes": 13559,
+      "sha256": "a7aaac67ffe1f6fb47d372b1eaea62d33d4cf12fcb9e0874fbe92d2750239f8c",
+      "lines": 469,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+      "bytes": 797,
+      "sha256": "92f51ceffa031a5373ef782e0d08587c5c4634590932ed646c1099b7630ac9ad",
+      "lines": 7,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+      "bytes": 21615,
+      "sha256": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab",
+      "lines": 429,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "bytes": 11861,
+      "sha256": "fe99396a9efa2b2092dbe7f1b13efe0c368533cc24a90053b58cc5214895fe01",
+      "lines": 123,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "bytes": 22638,
+      "sha256": "dd6a7a854b1451bdf37e823659d1905a54e68831766995556cbb2868b32884bb",
+      "lines": 695,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/cpu-validation.json",
+      "bytes": 1272,
+      "sha256": "b0e1b91c762528c6af4158cb5ef41cb5e14d7db764d0b610e34fa40720bc427a",
+      "lines": 35,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/design-checks.json",
+      "bytes": 9320,
+      "sha256": "72459261708e48cb8f131a9f8b20f5a86769b7b6f9679145a10323a7950a6fba",
+      "lines": 331,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/test_controller_reference.py",
+      "bytes": 15735,
+      "sha256": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649",
+      "lines": 348,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/audits/global/2026-09-17-sequential-local-z-allocation/validate_design.py",
+      "bytes": 8666,
+      "sha256": "bf755bc558ea9be96625b19a4274799f3a457278b9b23242fe52982b1d014f4e",
+      "lines": 96,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/messages/head/2026-09-17-sh4-sequential-local-z-allocation-v2.md",
+      "bytes": 21150,
+      "sha256": "707e10a5a7488b5dd4ec460cf4094bfb56a1807f8042100c359bca69c2eeccde",
+      "lines": 145,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-sh4-dispatch/source-input-manifest.json",
+      "bytes": 3117,
+      "sha256": "1b28e1bfb42490c308966e1b7b4a63bf0d0b45fba15b8d401c86d4c88da61f63",
+      "lines": 69,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-sh4-dispatch/execution-envelope.json",
+      "bytes": 1297,
+      "sha256": "09e9186568fae146af20489f63992f9280649cef85b2b8653ed6199e2b0dbb50",
+      "lines": 46,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-sh4-dispatch/gh-dispatch-checks.json",
+      "bytes": 1428,
+      "sha256": "cd5a0a404c42a242f513b956a5b1b3fafb2ce60c47094e676b1fc296ab264f94",
+      "lines": 33,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/PROTOCOL.md",
+      "bytes": 60382,
+      "sha256": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+      "lines": 1269,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/control/gpu-concurrency-policy.tsv",
+      "bytes": 520,
+      "sha256": "39346c40153cd3c6c015b915b3f75675e343ae12e3fac561f8c1973811f5551e",
+      "lines": 10,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/servers/connection-inventory.md",
+      "bytes": 6537,
+      "sha256": "1f33cefeb1f842749eb74d2e15087821f9a0cd5c1fb5913502e3ebcceb463966",
+      "lines": 109,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-l4-preserving-repair-sh4-dispatch/references/cold7-independent-review-ko.md",
+      "bytes": 18844,
+      "sha256": "5c9a50f177f24a91239c51f671f9e39e7102ccbd4f6c72008f14f53b54cadbdd",
+      "lines": 203,
+      "reading": "EXACT_PRIOR_FULL_READ_REUSE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/messages/head/2026-09-18-sh4-sequential-local-z-v2-completed-review.md",
+      "bytes": 15710,
+      "sha256": "a39aa959faa562833ecea2339849caadd1d6b285499100773af3db2c91de2d39",
+      "lines": 109,
+      "reading": "FULL_READ_CURRENT_TURN"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/messages/head/2026-09-17-sh4-slz-v2-main-initial-gate-override.md",
+      "bytes": 7551,
+      "sha256": "6f2bf01cb126c95423dbe063daa83016d02b7d815229687833d2cb70bb358303",
+      "lines": 64,
+      "reading": "FULL_READ_CURRENT_TURN"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/plans/global/2026-09-17-sequential-local-z-allocation-sh4-dispatch/completed-review-20260918.json",
+      "bytes": 1476,
+      "sha256": "0d51e4f688e19ad2d3b407d8d92ad48c56f566d6b0915b276278bbc055b295bb",
+      "lines": 52,
+      "reading": "FULL_READ_CURRENT_TURN"
+    }
+  ],
+  "prior": {
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/full-read-m0.json",
+    "bytes": 8691,
+    "sha256": "53f347a6c26b1c90adf0c69493ca8f843a417bb092267cc319b863d265b00f07",
+    "lines": 1
+  },
+  "new_gpu": 0,
+  "source": "21297ec19e7f5aecec16d2fdb14cc79380a1df94",
+  "publication_base": "3658b7b46aba0b64274bf24d5ae19009352536f6"
+}

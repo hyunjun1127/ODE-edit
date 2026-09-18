@@ -1,0 +1,14 @@
+{
+  "generator": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/worktree/project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/plot.py",
+  "inputs": {
+    "first-final-table.csv": "e648ea8a0de86c70162db4f15b603513041cfb68e956910b983038da97460640",
+    "selected-gates.csv": "a9bfd16df04e238303ab5bca184110866a0d8424dfa85bb4e4464a6370d004c3",
+    "candidate.csv": "4e8499b0fb84f02903bbaf8b342096dc44088b1184ca68f94c2f6743930a4680"
+  },
+  "outputs": {
+    "candidate-quality.png": "f53b54a487cf414b920443724fd6706d715fdddd8256379ad20335d7acb8f2ec",
+    "selected-gates.png": "cf96cbf2018ce52e6759841c810c04065d897387c0cd88996af777f3a4fc8aad",
+    "final-rpn.png": "ff9f746d887ff2c6b36c060052dc64a673782d4ab925d8ca9728ede68f752486"
+  },
+  "unmeasured_interpolation": false
+}

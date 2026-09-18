@@ -1,0 +1,7 @@
+arm,batches,own_N4,selected_nonN4,selected_support1,selected_support2,selected_support3plus,selected_infeasible,completed_candidates,feasible_candidates,incomplete,coverage_adequate,coverage_applicable,stop_reasons,quality_failures
+N4,10,10,0,10,0,0,0,10,10,0,0,False,"{""NATIVE_FULL"": 10}",{}
+F48,10,0,10,0,10,0,7,20,13,0,0,False,"{""RAW_FIXED_NO_QUALITY_FALLBACK"": 10}","{""CURRENT_TRAINING_MEAN"": 7, ""PAST_MEAN"": 2}"
+G48,10,8,2,8,2,0,0,60,34,0,0,False,"{""COMPLETE_SIX_POINT_GRID"": 10}","{""CURRENT_PAIR_IDS"": 5, ""CURRENT_STRICT_IDS"": 9, ""CURRENT_TRAINING_MEAN"": 26, ""PAST_MEAN"": 2}"
+C4,10,8,2,10,0,0,0,40,12,0,10,True,"{""SOLVER_RETURN"": 10}","{""CURRENT_PAIR_IDS"": 5, ""CURRENT_STRICT_IDS"": 7, ""CURRENT_TRAINING_MEAN"": 28, ""PAST_MEAN"": 2}"
+C48,10,1,9,3,7,0,0,174,69,4,10,True,"{""ENDPOINT_RESERVE"": 1, ""EXTRA_ADAM_RESERVE"": 3, ""SOLVER_RETURN"": 6}","{""CURRENT_PAIR_IDS"": 2, ""CURRENT_STRICT_IDS"": 7, ""CURRENT_TRAINING_MEAN"": 99, ""PAST_MEAN"": 10}"
+C45678,10,3,7,4,4,2,0,142,78,11,10,True,"{""SUFFIX_FIT_CAP"": 10}","{""CURRENT_TRAINING_MEAN"": 62, ""PAST_MEAN"": 2}"

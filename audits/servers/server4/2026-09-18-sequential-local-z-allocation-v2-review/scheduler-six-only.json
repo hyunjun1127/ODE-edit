@@ -1,0 +1,15 @@
+{
+  "time": "2026-09-18T00:04:56.235070+00:00",
+  "command": [
+    "sacct",
+    "-j",
+    "49466_0,49466_1,49466_2,49466_3,49466_4,49466_5",
+    "--parsable2",
+    "--noheader",
+    "--format=JobID,JobIDRaw,JobName%40,User,State,ExitCode,Start,End,ElapsedRaw,AllocTRES%100,MaxRSS,NodeList,ReqMem"
+  ],
+  "returncode": 0,
+  "stdout": "49466_0|49474|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T16:35:01|2026-09-17T22:03:37|19716|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_0.batch|49474.batch|batch||COMPLETED|0:0|2026-09-17T16:35:01|2026-09-17T22:03:37|19716|cpu=8,gres/gpu=1,mem=59G,node=1|40477296K|server4|\n49466_0.extern|49474.extern|extern||COMPLETED|0:0|2026-09-17T16:35:01|2026-09-17T22:03:37|19716|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n49466_1|49492|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T17:44:31|2026-09-17T19:00:12|4541|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_1.batch|49492.batch|batch||COMPLETED|0:0|2026-09-17T17:44:31|2026-09-17T19:00:12|4541|cpu=8,gres/gpu=1,mem=59G,node=1|31844948K|server4|\n49466_1.extern|49492.extern|extern||COMPLETED|0:0|2026-09-17T17:44:31|2026-09-17T19:00:12|4541|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n49466_2|49556|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T19:00:31|2026-09-17T20:33:11|5560|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_2.batch|49556.batch|batch||COMPLETED|0:0|2026-09-17T19:00:31|2026-09-17T20:33:11|5560|cpu=8,gres/gpu=1,mem=59G,node=1|31849568K|server4|\n49466_2.extern|49556.extern|extern||COMPLETED|0:0|2026-09-17T19:00:31|2026-09-17T20:33:11|5560|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n49466_3|49592|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T20:33:31|2026-09-17T22:27:12|6821|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_3.batch|49592.batch|batch||COMPLETED|0:0|2026-09-17T20:33:31|2026-09-17T22:27:12|6821|cpu=8,gres/gpu=1,mem=59G,node=1|31848484K|server4|\n49466_3.extern|49592.extern|extern||COMPLETED|0:0|2026-09-17T20:33:31|2026-09-17T22:27:12|6821|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n49466_4|49720|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T22:03:57|2026-09-17T23:31:56|5279|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_4.batch|49720.batch|batch||COMPLETED|0:0|2026-09-17T22:03:57|2026-09-17T23:31:56|5279|cpu=8,gres/gpu=1,mem=59G,node=1|31849924K|server4|\n49466_4.extern|49720.extern|extern||COMPLETED|0:0|2026-09-17T22:03:57|2026-09-17T23:31:56|5279|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n49466_5|49466|odeedit_slz_v2_seq1000_s4|janghj|COMPLETED|0:0|2026-09-17T22:27:34|2026-09-18T03:06:00|16706|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|59G\n49466_5.batch|49466.batch|batch||COMPLETED|0:0|2026-09-17T22:27:34|2026-09-18T03:06:00|16706|cpu=8,gres/gpu=1,mem=59G,node=1|38205472K|server4|\n49466_5.extern|49466.extern|extern||COMPLETED|0:0|2026-09-17T22:27:34|2026-09-18T03:06:01|16707|billing=8,cpu=8,gres/gpu=1,mem=59G,node=1||server4|\n",
+  "stderr": "",
+  "scope": "EXACT_SIX_ONLY_ONCE"
+}

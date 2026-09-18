@@ -1,0 +1,38 @@
+{
+  "files": 9696,
+  "bytes": 9922229924,
+  "per_arm": {
+    "N4": {
+      "files": 252,
+      "bytes": 204829431
+    },
+    "F48": {
+      "files": 398,
+      "bytes": 382875616
+    },
+    "G48": {
+      "files": 822,
+      "bytes": 570668454
+    },
+    "C4": {
+      "files": 680,
+      "bytes": 215477613
+    },
+    "C48": {
+      "files": 3074,
+      "bytes": 2714645769
+    },
+    "C45678": {
+      "files": 4470,
+      "bytes": 5833733041
+    }
+  },
+  "native_files": 552,
+  "native_targets": 55200,
+  "disk_W_M": 0,
+  "full_selected_state_reconstruction": "NOT_AVAILABLE",
+  "GPU_continuation": "NOT_TESTED",
+  "CPU_seconds": 44.56494552548975,
+  "scalar_local_sha": "2d6a6a2eb66dc85ba1b671428f885f9affe880ba066a059de9e25f005e7c431d",
+  "schema_full_SHA": true
+}

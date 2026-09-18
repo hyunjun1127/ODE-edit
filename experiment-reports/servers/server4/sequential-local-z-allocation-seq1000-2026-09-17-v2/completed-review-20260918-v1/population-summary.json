@@ -1,0 +1,20 @@
+{
+  "requests": 1000,
+  "distinct_case": 1000,
+  "active": 999,
+  "superseded": 1,
+  "overwrite_events": [
+    {
+      "prior_ordinal": 94,
+      "latest_ordinal": 689,
+      "prior_case": 14566,
+      "latest_case": 21743,
+      "target_changed": true
+    }
+  ],
+  "fact_rule": "EXACT_RAW_SUBJECT_RELATION_LATEST_RECEIVED",
+  "paired_local_path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/completed-review-20260918-v1/paired-row-changes.json",
+  "paired_rows_sha256": "7fb290d489aa496766b2625ab7b6f3892c83f22077254a5489a57c79a627d4a3",
+  "new_gpu": 0,
+  "unobserved_failure_times": "NOT_INFERRED"
+}

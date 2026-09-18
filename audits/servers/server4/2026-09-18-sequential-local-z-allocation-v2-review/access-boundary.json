@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "authority": "messages/head/2026-09-18-sh4-sequential-local-z-v2-completed-review.md",
+  "authority_sha256": "a39aa959faa562833ecea2339849caadd1d6b285499100773af3db2c91de2d39",
+  "helper": "scripts/check-agent-access.sh --staged",
+  "helper_result": "FAIL_NARROW_GENERIC_PATH_ALLOWLIST",
+  "denied_path": "runs/odeedit_slz_v2_review_s4_20260918_v1/receipt.json",
+  "explicit_user_scope": "runs/odeedit_slz_v2_review_s4_20260918_v1/",
+  "resolution": "Publish only the exact user-authorized task receipt; preserve helper limitation and do not claim helper PASS.",
+  "helper_or_shared_policy_changes": 0,
+  "source_only_helper_check": "PASS_BEFORE_REPORT_STAGING",
+  "csv_line_endings": "CRLF from csv.DictWriter retained byte-exact, including the previously delivered first-final-table.csv SHA",
+  "whitespace_check": "git -c core.whitespace=cr-at-eol diff --cached --check",
+  "configuration_change": "COMMAND_SCOPED_ONLY_NO_REPOSITORY_OR_GLOBAL_CONFIG_CHANGE",
+  "report_and_manifest_bytes": "UNCHANGED_BY_ACCESS_BOUNDARY_RECORD"
+}

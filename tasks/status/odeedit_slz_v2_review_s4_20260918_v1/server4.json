@@ -1,0 +1,28 @@
+{
+  "instruction_id": "ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-SLZV2-COMPLETED-REVIEW-20260918-R1",
+  "status": "TASK_COMPLETE_STOP",
+  "effective_after_successful_main_push": true,
+  "scientific_jobs": [
+    "49466_0",
+    "49466_1",
+    "49466_2",
+    "49466_3",
+    "49466_4",
+    "49466_5"
+  ],
+  "completed_arms": 6,
+  "completed_batches": 60,
+  "unique_requests": 1000,
+  "arm_requests": 6000,
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "resume_trigger": "explicit_user_call",
+  "report": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/diagnostic-report-ko.md",
+  "report_sha256": "c68ad8e4d7dce3801a3a933e8d8f5e59e350315c1673b289b6154cbc73b2d09b",
+  "execution_source": "21297ec19e7f5aecec16d2fdb14cc79380a1df94",
+  "historical_initial_gate_observation": "NOT_OBSERVED_PRESERVED",
+  "disk_W_M_checkpoint": 0,
+  "GPU_continuation": "NOT_TESTED"
+}
