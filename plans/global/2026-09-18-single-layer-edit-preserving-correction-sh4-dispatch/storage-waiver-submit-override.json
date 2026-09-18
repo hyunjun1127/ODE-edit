@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1",
+  "user_exact": "일단 올리라고 해. 내가 공간 확보 해놓을게",
+  "reserve_bytes_original": 77309411328,
+  "reserve_is_submission_block": false,
+  "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
+  "space_cleanup_owner": "USER",
+  "SH4_delete_move_authorized": false,
+  "actual_IO_error_detection": true,
+  "atomic_endpoint_integrity": true,
+  "M_final_endpoints_retained": 80,
+  "M_episodes": 10,
+  "GPU_cap": 2,
+  "T": "SKIPPED_USER_DIRECTED",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "M_waits_for_T": false,
+  "monitoring": "ACTUAL_M_INITIAL_ONLY",
+  "S_R_L": false,
+  "original_resource_block_report_preserved": true,
+  "envelope": "messages/head/2026-09-18-sh4-enfc-storage-waiver-submit.md"
+}
