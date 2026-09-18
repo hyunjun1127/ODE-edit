@@ -106,7 +106,7 @@ def main():
     if args.first_only:
         print(json.dumps(tables, indent=2)); return
     pairs = {a: {m: pair_rows(d['raw'], m) for m in METRICS} for a, d in docs.items()}
-    counts, tails, changes, secondary, generation = [], [], [], [], []
+    counts, tails, changes, secondary, generation, changed_ids = [], [], [], [], [], []
     checks = []
     for a, d in docs.items():
         for m, rows in pairs[a].items():
@@ -129,6 +129,13 @@ def main():
             gained = sum(not base[k]['success'] and r['success'] for k, r in rows.items())
             changes.append(dict(arm=a, metric=m, reference='N4', denominator=len(rows), lost=lost, gained=gained,
                                 unchanged=len(rows)-lost-gained, delta_pp=100*(gained-lost)/len(rows)))
+            if a != 'W0':
+                for key,r in rows.items():
+                    if r['success'] != base[key]['success']:
+                        changed_ids.append(dict(arm=a,metric=m,case_id=r['case_id'],prompt_index=r['prompt_index'],
+                            identity_sha256=hashlib.sha256(json.dumps(key,ensure_ascii=False).encode()).hexdigest(),
+                            transition='gained' if r['success'] else 'lost',native_margin=base[key]['desired_margin'],
+                            selected_margin=r['desired_margin']))
             secondary.append(dict(arm=a, metric=m, new_TF_strict_n=sum(r['strict'] for r in rows.values()),
                 prompt_d=len(rows), new_token_correct=sum(r['token_correct'] for r in rows.values()),
                 target_token_d=sum(r['token_count'] for r in rows.values())))
@@ -158,9 +165,14 @@ def main():
                 censored=sum(r['target_over_32_censored'] for r in g), EOS=sum(r['stopped_on_original_eos'] for r in g),
                 at_limit=sum(r['reached_max_new_tokens'] for r in g), **quantiles(r['generated_length'] for r in g)))
         checks.append(dict(arm=a, raw_pair_identity='PASS', raw_nll_reduction='PASS', joint='PASS', W0_N='PASS'))
+        if a != 'W0':
+            for suffix,den in [('S64-output-KL',64),('Dev128',128)]:
+                obs=read(out/'observers'/(a+'-'+suffix+'.json'))
+                assert len(obs['rows'])==den
+                assert abs(sum(r['loss'] for r in obs['rows'])/den-obs['loss'])<1e-14
     for r in tables: r['integrity']='CPU_RAW_REDUCTION_PASS_NOT_T_PASS'
     for name, rows in [('final-eight-arm-table',tables),('endpoint-counts',counts),('request-tail',tails),
-                       ('paired-transitions',changes),('strict-and-retention',secondary),('generation',generation)]:
+                       ('paired-transitions',changes),('changed-identities',changed_ids),('strict-and-retention',secondary),('generation',generation)]:
         csvout(dest/(name+'.csv'), rows)
     trials, mechanics, costs = [], [], []
     for a, l in ledgers.items():

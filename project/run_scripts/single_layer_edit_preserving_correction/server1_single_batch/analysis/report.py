@@ -99,7 +99,7 @@ def main():
     missing=[
         ('T full validation','SKIPPED_USER_DIRECTED','FD/ULP/full GPU numerical validation NOT_ESTABLISHED'),
         ('cross-hardware equivalence','NOT_TESTED','S4 and S1 actual key byte inventories differ; no same hardware counterfactual'),
-        ('cumulative ||W-W0||','NOT_RECORDED_WITHIN_LOCAL_INPUTS','WN delta norm recorded; full local W0 weight absent; norms cannot be added'),
+        ('cumulative Frobenius(W-W0)','NOT_RECORDED_WITHIN_LOCAL_INPUTS','WN delta norm recorded; full local W0 weight absent; norms cannot be added'),
         ('RAND final tensors','NOT_RETAINED','seed/rule/space/norm/hash/invariant/observer saved; primary final8 preserved'),
         ('all trial tensors','NOT_RETAINED_BY_POLICY','gradient/factors/formula/hash/events retained, not every rejected physical weight'),
         ('full K tensor','NOT_RETAINED_BY_POLICY','token alias SHA and projector factors saved; actual full K numeric payload not saved'),
@@ -159,7 +159,7 @@ W0 RS5/100, PS20/200, NS886/1000이다. W0-correct NS 조건분모886은 전체 
 
 {table(selected_tails,['arm','metric','quantity','mean','median','p95','p99'])}
 
-greedy32는 모든 primary 및 RAND 행에서 rewrite target-prefix100/100, target>32 censor0, EOS 종료0, 길이32/한도도달100이다. 의미적 정확도나 자연스러운 후속 생성의 검증이 아니다. PS TF strict44/100과 생성 prefix100/100을 같은 지표로 부르지 않는다. 실제 고유 endpoint 8개에서 generation800회/25,600 tokens가 실행됐고 SCALE/CA는 중복 실행하지 않았다.
+greedy32는 모든 primary 및 RAND 행에서 rewrite target-prefix100/100, target>32 censor0, EOS 종료0, 길이32/한도도달100이다. 의미적 정확도나 자연스러운 후속 생성의 검증이 아니다. 두 P 동시 TF strict44/100과 생성 prefix100/100을 같은 지표로 부르지 않는다. 실제 고유 endpoint 8개에서 generation800회/25,600 tokens가 실행됐고 SCALE/CA는 중복 실행하지 않았다. 바뀐 case/prompt ID와 양쪽 margin은 [changed-identities.csv](changed-identities.csv)에 raw 문장 없이 공개한다.
 
 ## 4. 교정 경로와 수용/거절
 
