@@ -12,6 +12,16 @@ L4-only의 강한 RS/PS를 출발점으로, current 품질 조건을 만족하�
 - CAKE의 낮은 PS는 pooled at-write부터 존재한다. Static score가 PS 열세의 인과원인이라는 가정으로 arm을 설계하지 않는다.
 - 첫 1,000-request 실험은 이미 조회한 fixed10k의 개발 실험이다. 별도 최적 fixed gate나 blind generalization보다 우월하다는 최종 주장이 아니다.
 
+**추가 layer의 이득은 전제가 아니라 검증할 가설이다.** 사용자의 후속 질문을 반영해 연구 목적을 '여러 layer로 반드시 분산'이 아니라 '편집 품질을 유지하면서 실제 보존 손상이 작은 write를 현재 상태에 맞게 선택'으로 명시한다. Local-z 주방식 결정은 유지하되, LD가 L4D보다 우월해야 한다는 전제는 두지 않는다. L4-only를 선택하는 정책도 정상 결과다.
+
+보존 입력의 일차 출력 변화는 J4 D4 + J8 D8이다. 추가 layer의 영향은 기존 손상과 더해지거나 상쇄될 수 있어 layer 수만으로 locality의 순서를 정할 수 없다. 동일한 목적·제약에서 D8=0이 허용되면 이상적인 다층 최적화 공간은 단층을 포함하지만, 작은 native-direction 후보 집합·C4 proxy·greedy batch 선택이 그 최적값이나 lifelong 지배 관계를 보장하지 않는다.
+
+판단 순서는 L4D−N4로 적응적 강도 조절의 가치를 보고, LD−L4D로 추가 layer 후보의 가치를 보는 것이다. LD가 N4만 이기고 L4D는 이기지 못하면 multi-layer 분담의 기여가 입증되지 않는다. LD가 주로 L4를 선택하면 L8 후보의 품질 탈락, feasible하지만 큰 보존 비용, 거의0인 update, 수치 tie를 구분한다. 사용한 후보 family에서의 결과를 모든 다층 방법의 불가능성으로 확대하지 않는다.
+
+S64에서만 개선하고 Dev128/공식 N에서 이득이 없으면 preservation proxy의 전이와 selector 일반화를 별도 문제로 기록한다. 추가 layer가 유용하지 않으면 L4 내부 request별 residual 강도 또는 방향 조절은 별도 후속 가설이며 자동으로 성공·신규성이 있는 것으로 승격하지 않는다. 첫 일곱-arm W0 실행 범위는 유지한다.
+
+누적 budget과 후보별 locality 진단은 [보완 사양](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-local-z-adaptive-allocation-budget-diagnostics-v1.md)을 따른다. W0에서 시작하는70 batches와 online 선택 정책은 유지하고, LD/TD의 B1/B5/B10에 선택 봉인 후 공식 P/N 후보 평가와 고정 reference geometry 계측을 추가한다. 추가 observer prompt-state는 최대66,000개이며 그 비용은 기존190개 online 후보와 구분한다. 임의의 layer별 norm cap이나 KL budget은 도입하지 않는다.
+
 ## Target와 실제 write의 정확한 정의
 
 W_e는 batch entry, M_l은 entry history, P_l은 원 projector다. 모든 arm의 AlphaEdit ridge는 1, target hparams는 기존 BLUE/L4 설정을 유지한다. Native 대비 변경은 target family와 명시한 gate/controller다. 원 AlphaEdit/CAKE의 L2=10 결과를 target-only causal control로 사용하지 않는다.

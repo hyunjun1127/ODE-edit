@@ -263,7 +263,7 @@
     "past_condition": "if memory nonempty, H(c)<=H(N4)+epsilon_E and N4 Past64 strict IDs retained",
     "past_absolute_entry_preservation": false,
     "epsilon_E": 0.0001,
-    "epsilon_D": 0.000001,
+    "epsilon_D": 1e-06,
     "numerical_preflight": "repeat identical endpoint: error<=epsilon/2, strict bits identical; repair evaluator if failed",
     "choice": "within epsilon_D of min feasible D",
     "tie_order": [
@@ -401,5 +401,103 @@
     "exact stable_event_id encoding",
     "real-model numerical parity",
     "run IDs and resource allocation"
-  ]
+  ],
+  "scientific_hypothesis": {
+    "objective": "현재 편집 품질을 유지하면서 보존 손상이 작은 write를 선택",
+    "multi_layer_benefit_assumed": false,
+    "local_target_main_design_retained": true,
+    "diagnostic_order": [
+      "L4D-N4: 적응적 강도 조절",
+      "LD-L4D: 추가 layer 후보의 가치"
+    ],
+    "zero_L8_selection_reasons": [
+      "quality infeasible",
+      "feasible but higher preservation risk",
+      "near-zero actual update",
+      "numerical tie prefers N4"
+    ],
+    "failure_scope": "검사한 native-direction 후보 family; 모든 다층 방법의 불가능성 아님",
+    "proxy_only_gain": "S64 개선과 Dev128/공식 N 전이를 구분",
+    "request_level_single_layer_extension": "조건부 후속 가설; 이득과 신규성 미검증",
+    "campaign_changed": false
+  },
+  "budget_diagnostics": {
+    "specification": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-16-local-z-adaptive-allocation-budget-diagnostics-v1.md",
+    "scope": "measure cumulative usage and current candidate frontier; no capacity percentage or hard cap inferred",
+    "new_editing_chains": 0,
+    "campaign_batches_unchanged": 70,
+    "hard_budget_enabled": false,
+    "layer_norm_caps": null,
+    "KL_ceiling": null,
+    "online_policy_changed": false,
+    "geometry_added_to_selector": false,
+    "dynamic_variables": [
+      "batch a4 native write strength",
+      "batch a8 added write strength including zero"
+    ],
+    "z_policy": "local at write layer for main; fixed terminal target remains control",
+    "every_batch": [
+      "actual per-layer delta norm",
+      "cumulative net weight displacement",
+      "path length",
+      "current residual and actual delta*K realization",
+      "fixed-W0 S64 KL",
+      "signed change in fixed-W0 KL",
+      "positive/negative drift increments separately"
+    ],
+    "layer_geometry_checkpoints": [
+      1,
+      5,
+      10
+    ],
+    "DiagKeys128": {
+      "source": "two hash-selected positions from each S64 document scored128",
+      "priority": "SHA256('LZ-ALLOC-DIAG-v1|document_id|scored_position') ascending",
+      "base_keys": "fixed W0 L4/L8 down-projection inputs",
+      "total_positions": 128,
+      "usage": "diagnostic only; online S64 retains full scored positions and full-token write"
+    },
+    "cumulative_mapping_drift": "mean ||(W_l,t-W_l,0) k_l,0||^2",
+    "mapping_increment_includes_cross_term": true,
+    "L8_module_decomposition": [
+      "A8*k8,0",
+      "W8,0*(k8,t-k8,0)",
+      "A8*(k8,t-k8,0)"
+    ],
+    "full_history_quadratic": "optional cost-accounted; native M sum and normalized mean reported separately",
+    "rank_or_trace_is_capacity_percentage": false,
+    "sum_stepwise_KL_is_cumulative_damage": false,
+    "candidate_observer": {
+      "arms": [
+        "LD",
+        "TD"
+      ],
+      "batches": [
+        1,
+        5,
+        10
+      ],
+      "order": "seal candidate training metrics and chosen ID before observer P/N",
+      "current": "current request P/N on all deduplicated candidates",
+      "past": "first B1 100 requests fixed P/N cohort at B5/B10 only",
+      "influences_runtime_selection": false,
+      "synthetic_future_chain_from_best_observer_candidate": false,
+      "max_additional_current_candidate_states": 33,
+      "max_additional_current_prompt_states": 39600,
+      "max_additional_fixed_cohort_prompt_states": 26400,
+      "max_additional_prompt_states_total": 66000,
+      "cost": "separate from online candidate190 and target/solve counts; geometry cost additional",
+      "prompt_state_is_sequence_or_token_count": false
+    },
+    "interpretation": "same-state gain8 is current L8 action value, not a full-history L4-only counterfactual; compare LD-L4D trajectories separately",
+    "same_state_frontier": {
+      "arms": [
+        "LD"
+      ],
+      "metric": "min feasible C4 D0 minus min feasible C48 D0",
+      "additional_candidate_generation": false
+    },
+    "history_mean_denominator": "total key columns actually appended to M; not unique or active fact count",
+    "history_empty_mean": "null/NOT_APPLICABLE when n_history=0"
+  }
 }

@@ -1,0 +1,53 @@
+{
+  "schema": "SLZ_V2_INDEPENDENT_ARTIFACT_AUDIT_SESSION_SUMMARY_V1",
+  "audit_date": "2026-09-18",
+  "provenance": "Results transcribed from completed read-only inline commands in the artifact_audit agent session; original stored reviewer checks were not substituted for these newly executed checks.",
+  "execution_host": "codex-server4",
+  "python_for_tensor_checks": "/data/janghj/EasyEdit/.venv/bin/python",
+  "raw_root": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2",
+  "raw_transfer": false,
+  "new_gpu": 0,
+  "model_forward_calls": 0,
+  "scheduler_queries": 0,
+  "original_files_written": 0,
+  "reproduction_script": "verify_artifacts.py",
+  "reproduction_script_status": "Consolidated from the individually executed inline commands; syntax checked, not rerun end-to-end as a file.",
+  "execution_lock_sha256": "a41cb76a25ab98b02c043397cd9cf4db0768e9ae312931b349008c3e9b303d18",
+  "source_archive_sha256": "c97083a1e1039c059b082bcf0ad0de1143bbfbe41a26be1db5c5d7a1bf54a7a8",
+  "technical_ready_sha256": "d4ed2138d658ade5c5b565eb5df1ca8241e2fe0e4f054a2ad6c39977d3782666",
+  "teacher_manifest_sha256": "f81b798f44ce626ac1e2e402ca7438363b1dd60f5681ec0ac17b9e92d096761a",
+  "raw_inventory_sha256": "5a122bde9679d7039f49ff155f58e675e672c25ddf8080bbd68f89adc8b52f6d",
+  "small_input_sha": {"members": 380, "bytes": 22730865, "mismatches": []},
+  "large_input_scope": {"members_excluded_from_completed_full_sha_check": 30, "stable_stat_mismatches": [], "fresh_full_payload_sha_claimed": false},
+  "publication_sha": {"source_members": 11, "artifacts": 39, "mismatches": []},
+  "technical_results": {"stages": 9, "sha_and_status_mismatches": []},
+  "whole_raw_sha": {"files": 9696, "bytes": 9922229924, "mismatches": [], "seconds": 13.34},
+  "native_tensor_checks": {
+    "files": 552,
+    "targets": 55200,
+    "adam": 215614,
+    "loss_evaluations": 270814,
+    "errors": [],
+    "checks": ["top-level schema", "FP32 tensor schema and finiteness", "captured tensor finiteness", "target equals anchor plus delta exactly", "target equals compute_z capture exactly", "target and anchor observation stacks match", "Adam at most 24", "loss evaluations at most 25", "loss count equals Adam plus one and trace length", "physical layer matches receipt", "Adam and loss sums match receipt"],
+    "elapsed_including_whole_raw_sha_seconds": 43.76,
+    "by_arm": {
+      "N4": {"files": 10, "targets": 1000, "adam": 24000, "losses": 25000, "zero_adam": 0},
+      "F48": {"files": 20, "targets": 2000, "adam": 27912, "losses": 29912, "zero_adam": 837},
+      "G48": {"files": 30, "targets": 3000, "adam": 28152, "losses": 31152, "zero_adam": 1827},
+      "C4": {"files": 10, "targets": 1000, "adam": 24000, "losses": 25000, "zero_adam": 0},
+      "C48": {"files": 151, "targets": 15100, "adam": 65759, "losses": 80859, "zero_adam": 12357},
+      "C45678": {"files": 331, "targets": 33100, "adam": 45791, "losses": 78891, "zero_adam": 31191}
+    }
+  },
+  "request_order_and_scalar_checks": {"files": 552, "targets": 55200, "reference": "case IDs in the same batch's episode/scores/000.json metrics.details.training.rows", "all_trace_float_values_finite": true, "errors": [], "seconds": 21.79},
+  "transaction_checks": {
+    "commits": 60,
+    "adjacent_links": 54,
+    "history_appends": 300,
+    "common_cold_entry_exact": true,
+    "incomplete_excluded": 15,
+    "incomplete_reasons": {"C45678:SUFFIX_FIT_CAP": 10, "C45678:EXTRA_ADAM_RESERVE": 1, "C48:EXTRA_ADAM_RESERVE": 3, "C48:ENDPOINT_RESERVE": 1},
+    "errors": []
+  },
+  "limitations": ["Stored-tensor and receipt checks do not constitute a new GPU model parity run.", "W/M checkpoints are absent under the authorized no-checkpoint policy.", "Actual selected FP32 per-layer delta/path/net/energy were not recorded; full native actual_delta_norm is available.", "Fresh technical teacher numerical reproduction covers S64, while Teacher192 manifest/schema bindings cover S64 and Dev128."]
+}

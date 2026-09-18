@@ -1,0 +1,33 @@
+{
+  "unique_server_path": true,
+  "server_totals_reconcile": true,
+  "historical_map_rows_183": true,
+  "partials_excluded_from_checkpoint_index": true,
+  "checkpoint_index_rows": 1326,
+  "all_artifact_rows": 6981,
+  "migration_summary": [
+    {
+      "period": "2026-09-11",
+      "members": 183,
+      "expected_GiB": 223.681,
+      "source": 0,
+      "destination": 183,
+      "incoming": 0,
+      "source_size_match": 0,
+      "destination_size_match": 183,
+      "incoming_size_match": 0
+    },
+    {
+      "period": "2026-09-18",
+      "members": 34,
+      "expected_GiB": 113.682,
+      "source": 34,
+      "destination": 0,
+      "incoming": 15,
+      "source_size_match": 34,
+      "destination_size_match": 0,
+      "incoming_size_match": 15
+    }
+  ],
+  "scientific_validation": "NOT_PERFORMED"
+}

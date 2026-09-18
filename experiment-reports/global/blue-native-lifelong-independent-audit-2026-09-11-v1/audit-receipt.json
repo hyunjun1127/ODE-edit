@@ -1,0 +1,187 @@
+{
+  "status": "COMPLETE_NO_NUMERICAL_OR_HASH_MISMATCH_FOUND",
+  "original_report": "/data/janghj/ODE-edit/local/worktrees/server4-experiments-detailed-review-20260911-v1/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+  "original_report_sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce",
+  "source_package_snapshot": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package",
+  "package": {
+    "checks": {
+      "manifest": 1,
+      "report_hash": 1,
+      "member_root": 1,
+      "member_sha": 77,
+      "row_count": 58,
+      "analysis_source_sha": 16,
+      "runtime_source_sha": 44,
+      "source_line": 44,
+      "report_table_inventory": 58,
+      "transition_total": 3918,
+      "transition_before": 3918,
+      "transition_after": 3918,
+      "rate": 45445,
+      "quantile_order": 40800,
+      "scope_denominator": 4704,
+      "family_projection": 12,
+      "summary_from_cumulative": 42,
+      "final_distribution_from_cumulative": 2622,
+      "cohort_sum": 504,
+      "cohort_denominator": 504,
+      "latest_current": 504,
+      "compute_sum": 112,
+      "layer_mean": 72,
+      "first_receipt_hash": 1
+    },
+    "errors": [],
+    "files": 79,
+    "tables": 58,
+    "table_rows": 82090,
+    "source_report_sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce"
+  },
+  "raw_members": {
+    "files": 8978,
+    "unique_expected": 8978,
+    "bytes": 195400329632,
+    "by_arm": {
+      "MEMIT_ORIGINAL": {
+        "files": 627,
+        "bytes": 6415053320,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_ORIGINAL": {
+        "files": 627,
+        "bytes": 26144966333,
+        ".pt": 112,
+        ".json": 515
+      },
+      "MEMIT_L4_ONLY": {
+        "files": 627,
+        "bytes": 3426800674,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_L4_ONLY": {
+        "files": 627,
+        "bytes": 13291871756,
+        ".pt": 112,
+        ".json": 515
+      },
+      "MEMIT_L8_ONLY": {
+        "files": 627,
+        "bytes": 3426748965,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_L8_ONLY": {
+        "files": 627,
+        "bytes": 13291893404,
+        ".pt": 112,
+        ".json": 515
+      },
+      "MEMIT_L5_ONLY": {
+        "files": 627,
+        "bytes": 3426796810,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_L5_ONLY": {
+        "files": 627,
+        "bytes": 13291883394,
+        ".pt": 112,
+        ".json": 515
+      },
+      "MEMIT_L6_ONLY": {
+        "files": 627,
+        "bytes": 3426760227,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_L6_ONLY": {
+        "files": 627,
+        "bytes": 13291890813,
+        ".pt": 112,
+        ".json": 515
+      },
+      "MEMIT_L7_ONLY": {
+        "files": 627,
+        "bytes": 3426743297,
+        ".pt": 112,
+        ".json": 515
+      },
+      "AlphaEdit_L7_ONLY": {
+        "files": 627,
+        "bytes": 13291890615,
+        ".pt": 112,
+        ".json": 515
+      },
+      "BASE_ALPHAEDIT": {
+        "files": 727,
+        "bytes": 64285683692,
+        ".pt": 112,
+        ".json": 615
+      },
+      "BASE_MEMIT": {
+        "files": 727,
+        "bytes": 14961346332,
+        ".pt": 112,
+        ".json": 615
+      }
+    },
+    "source_archives": 4,
+    "errors": [],
+    "elapsed_seconds": 193.93711304664612,
+    "model_loads": 0,
+    "GPU_calls": 0
+  },
+  "raw_reduction": {
+    "elapsed_seconds": 71.56213641166687,
+    "counts": {
+      "raw_json_files": 4582,
+      "raw_json_bytes": 6655303173,
+      "commit_counts": 1400,
+      "current_state": 1400,
+      "entry_ids": 1400,
+      "entry_targets": 1400,
+      "runtime_flags": 1400,
+      "float": 367170,
+      "integer": 352582,
+      "finite": 4904,
+      "raw_success_rule": 4904,
+      "raw_margin": 4904,
+      "request_order": 4904,
+      "prompt_rows_checked": 12949200,
+      "checkpoint_state": 168,
+      "current_checkpoint_reuse": 504,
+      "state_chain": 1386,
+      "native_rw_state": 200,
+      "paired_identity": 126
+    },
+    "errors": [],
+    "max_float_abs_difference": 2.7755575615628914e-17,
+    "source_report_sha256": "60a4bcf69f5a63cf581b1b9ee55f299694a786d070b5a0ddb738d544f254e6ce",
+    "GPU_model_forward_calls": 0
+  },
+  "W0_extension": {
+    "w0_sha256": "149fa8c97ec59c559c4c49ce9b030ec09c54d1f7be364e6bcbb920b664026569",
+    "w0_matches_sealed_inventory": true,
+    "arms": 14,
+    "paired_prompt_rows": 1820000,
+    "old6_published_rows_rechecked": 18,
+    "new8_transition_rows": 24,
+    "errors": [],
+    "model_forward_calls": 0
+  },
+  "neighborhood_overlap": {
+    "normalization": "Unicode NFC + whitespace; exact canonical rewrite prompt AND relation_id",
+    "counts": {
+      "no_exact_edited_prompt_match": 97568,
+      "matched_same_true": 1112,
+      "exact_match_to_edit_prompt": 2432,
+      "matched_latest_target_is_ns_true": 29,
+      "matched_latest_target_is_ns_competitor": 253
+    }
+  },
+  "model_forward_calls": 0,
+  "GPU_jobs": 0,
+  "checkpoint_tensor_deserialization_in_this_review": 0,
+  "checkpoint_tensor_semantics": "Existing full CPU tensor audits inspected; all 168 checkpoint files and 1400 target tensor files independently rehashed, no model replay."
+}

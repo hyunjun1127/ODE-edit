@@ -1,0 +1,211 @@
+{
+  "id": "FRCW-v1",
+  "date": "2026-09-18",
+  "status": "SUPERSEDED_NOT_RUNNABLE",
+  "method_document": "plans/global/2026-09-18-fixed-key-reference-constrained-write-v1.md",
+  "user_scope": "Detailed method/equations, one cold single batch, then immediate continuation into sequential with the same frozen policy",
+  "model": {
+    "name": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "weight": "model.layers.4.mlp.down_proj.weight",
+    "shape": [
+      4096,
+      14336
+    ],
+    "dtype": "float32",
+    "eval": true,
+    "attention": "eager",
+    "tf32": false,
+    "all_other_parameters_frozen": true
+  },
+  "native": {
+    "baseline": "AlphaEdit L4-only local-z",
+    "z_layer": 4,
+    "write_layer": 4,
+    "additional_z_optimizations": 0,
+    "native_hparams_unchanged": true,
+    "native_mom2_unchanged": true,
+    "history_append_once_per_committed_batch": true,
+    "reference_bank_not_used_to_reoptimize_z": true
+  },
+  "geometry": {
+    "protection": "all-valid-token native rewrite contexts and canonical, old/new teacher-forcing paths",
+    "Q": "V (I - (V^T K_E)(V^T K_E)^dagger) V^T",
+    "space": "D = D Q; D K_E = 0; D = D P_star",
+    "rank_threshold": "original EN FP64 rank rule; unresolved ranks are technical failures",
+    "same_fixed_inputs_stationary_across_batches": true,
+    "Q_and_downstream_gradients_stationary_across_batches": false,
+    "cumulative_all_past_exact_lock": false,
+    "native_output_span_restriction": false
+  },
+  "reference": {
+    "primary_source": "Wikipedia-backed externally supported factual records",
+    "source_revision": null,
+    "source_revision_status": "REQUIRED_IN_DATA_MANIFEST_BEFORE_EXECUTION",
+    "train_facts": 512,
+    "nested_subset_facts": 256,
+    "nested_subset_in_quick_arms": false,
+    "independent_factual_dev": 128,
+    "factual_bank_ready": false,
+    "one_canonical_prompt_per_fact": true,
+    "separate_paraphrase_training_set": false,
+    "max_total_input_tokens": 64,
+    "max_answer_tokens": 16,
+    "truncate_answers": false,
+    "base_eligibility": "source-verified answer and wrong challenger; W0 prefers answer over fixed challenger",
+    "seed": 20260918,
+    "hash_prefix": "FRCW-v1|20260918|",
+    "split_grouping": "source and subject disjoint",
+    "future_requests_visible_to_controller": false,
+    "official_P_N_visible_to_controller": false,
+    "conflicts": "exclude same-subject aliases, overwritten facts, and metadata-known dependent facts; do not silently replace during a batch",
+    "general_document_KL": "C4 Dev128 observer only; existing held-out records never repurposed as train",
+    "full_vocab_teacher_storage_required": false,
+    "challenger": {
+      "candidates": "fixed verified c0 plus current-request new targets verified wrong for this record",
+      "selection": "maximum first-answer-token likelihood at native preview, tie by stable target hash",
+      "limitations": "proxy only; shared-first-token candidates tied; no claim of full-answer maximum",
+      "per_fact_selected_count": 1,
+      "fixed_within_batch": true,
+      "entry_and_candidate_use_identical_challenger": true
+    },
+    "functions": {
+      "A": "mean_target_token_NLL(answer)",
+      "M": "mean_target_token_NLL(answer) - mean_target_token_NLL(challenger)"
+    },
+    "bound": "same-function same-challenger value at own batch entry",
+    "numerical_epsilon": 0.0001,
+    "performance_slack": 0
+  },
+  "history": {
+    "registry": "all observed latest active request versions",
+    "memory_capacity": 512,
+    "memory_selection": "stable-hash priority among latest active records",
+    "screen_count": 64,
+    "screen_selection": "deterministic rotating window in memory hash order",
+    "B1_count": 0,
+    "bounds": "entry q, latest target only",
+    "active_rows_can_enter_QP": true,
+    "inactive_screen_guard": "q_candidate <= max(q_entry,q_native)+epsilon and no additional native preference/strict ID losses",
+    "overwrite": "exclude old version before controller, atomically commit latest version with weights/history/cache",
+    "no_history_knowledge_from_W0_teacher": true
+  },
+  "selection": {
+    "candidate_unit": "record and A/M constraint row, not document or fact count",
+    "violation": "positive q_native - q_entry exceeding epsilon",
+    "gradient_candidate_cap": 32,
+    "shortlist": "largest actual native violations; stable hash ties",
+    "active_cap": 16,
+    "active_seed": "largest violation with nonzero projected gradient",
+    "active_greedy": "max-min cosine distance in projected gradient space; ties by violation and stable hash",
+    "claim": "GSS-inspired budgeted selection, not exact GSS feasible-cone optimization",
+    "unreachable_rows": "record separately and retain in full-bank diagnostics"
+  },
+  "solver": {
+    "objective": "min 0.5 * FrobeniusNorm(D)^2",
+    "nonlinear_constraints": "q_i(W_native+D) <= q_i(W_entry) for active i",
+    "first_linearization": "actual native preview",
+    "linearization_count_cap": 2,
+    "second_linearization_condition": "first physical candidate fails active finite constraints and no technical error",
+    "active_set_fixed_across_rounds": true,
+    "gradient_row_evaluations_cap": 48,
+    "QP_count_cap": 2,
+    "active_candidate_forward_count_cap": 2,
+    "full_bank_candidate_forward_count_cap": 1,
+    "current_full_guard_count_cap": 1,
+    "line_search_trials": 0,
+    "physical_center_RHS": "q_i(W_k)-b_i-<g_i(W_k),W_k-W_native>",
+    "left_projected_gradient": "h_i = g_i Q",
+    "dual": "min_alpha>=0 0.5 alpha^T G alpha - d^T alpha",
+    "reconstruction": "D = -sum_i alpha_i h_i",
+    "fp64_primal_dual_checks_required": true,
+    "arbitrary_gram_ridge_allowed": false,
+    "infeasible_behavior": "native fallback with explicit unresolved constraint status",
+    "technical_failure_behavior": "abort cell, no scientific success or fallback claim",
+    "materialization": "from immutable native FP32 weights, verify actual stored delta"
+  },
+  "acceptance": {
+    "active_all_bounds_required": true,
+    "current_success_ID_losses_allowed": 0,
+    "current_NLL_increase_tolerance": 0.0001,
+    "current_logits_max_tolerance": 0.001,
+    "current_logits_rms_tolerance": 0.0001,
+    "nominal_DKE_normalized_tolerance": 1e-10,
+    "actual_max_token_response_tolerance": 1e-05,
+    "full_R_mean_positive_violation_resolved_decrease_min": 1e-05,
+    "full_R_max_violation_increase_tolerance": 0.0001,
+    "full_R_entry_correct_to_wrong_count_must_not_exceed_native": true,
+    "no_universal_reference_preservation_claim": true,
+    "fallback_is_not_reference_success": true,
+    "official_or_dev_metrics_used_for_candidate_selection": false
+  },
+  "execution": {
+    "location": "server1, one matched GPU/runtime for both arms",
+    "dispatch_performed": false,
+    "order": "existing O0 first1000; first100 is already observed development data",
+    "batch_size": 100,
+    "quick_arms": [
+      "N4",
+      "FRCW512"
+    ],
+    "cold_single_batches": 1,
+    "sequential_total_batches": 10,
+    "sequential_new_batches_after_P1": 9,
+    "P1_native_shared": true,
+    "B2_plus_native_or_z_shared": false,
+    "warm_5000_checkpoint_allowed": false,
+    "continue_own_P1_checkpoint_if_gate_passes": true,
+    "changed_policy_requires_new_W0_episode": true,
+    "technical_checks_inside_P1": [
+      "fixed-key stationarity",
+      "cached/physical forward and gradient",
+      "factor gradient",
+      "two legal directions at two finite-difference step sizes",
+      "QP sign/KKT",
+      "physical restore/transaction"
+    ],
+    "maximum_gradient_relative_error": 0.0001,
+    "finite_difference_relative_error_target": 0.001,
+    "B1_gate": {
+      "technical_pass": true,
+      "nonzero_correction_accepted": true,
+      "new_RS_success_ID_losses": 0,
+      "new_PS_success_ID_losses": 0,
+      "NS_net_decrease_allowed": 0,
+      "W0_correct_N_losses_increase_allowed": 0,
+      "factual_dev_success_count_decrease_allowed": 0,
+      "NS_improvement_required": false,
+      "standalone_editing_time_ratio_cap_vs_N4": 2.0,
+      "gate_is_significance_test": false
+    }
+  },
+  "evaluation": {
+    "same_batch_official_observer_after_endpoint_seal": true,
+    "current_each_batch": "R/P/N at write; N also at entry",
+    "fixed_old_cohort": "B1 100 requests each subsequent endpoint",
+    "full_seen_evaluation": "B10 once, R1000/P2000/N10000",
+    "factual_and_C4_dev_checkpoints": [
+      1,
+      5,
+      10
+    ],
+    "fixed_c0_W0_drift_checkpoints": [
+      1,
+      10
+    ],
+    "reuse_exact_same_state_observations": true,
+    "Report256_open_in_quick_development": false,
+    "cost": "both standalone editing and total research cost, shared native counted explicitly",
+    "paired_ID_changes_and_denominators_required": true
+  },
+  "readiness": {
+    "method_defined": true,
+    "factual_manifest_ready": false,
+    "model_adapter_implemented": false,
+    "model_numerical_validation_passed": false,
+    "model_performance_measured": false,
+    "CPU_math_checks": "separate receipt; does not certify model readiness"
+  },
+  "superseded_by": "plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json",
+  "supersession_reason": "User replaced factual-label/entry-NLL bounds with fixed W0 greedy-choice protection. The interrupted v1 document and contract had different selection settings; neither is an execution contract."
+}

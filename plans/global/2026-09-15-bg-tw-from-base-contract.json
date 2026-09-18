@@ -1,5 +1,5 @@
 {
-  "status": "설계. 구현·GPU 실행·원격 제출 미수행.",
+  "status": "이전 fixed-budget BG-1 설계 기록. 아래 구성은 역사적 보존이며 최신 첫 method 또는 자동 실행 목록이 아니다.",
   "method_first": "BG-1",
   "design": "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
   "initial_state": "pre-edit W0; no warm W50/W90 weights/history",
@@ -105,5 +105,8 @@
     "barrier bypass",
     "full bank or full old-ledger retention"
   ],
-  "reference_data_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json"
+  "reference_data_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+  "active_design": false,
+  "superseded_by": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+  "historical_config_preserved": true
 }

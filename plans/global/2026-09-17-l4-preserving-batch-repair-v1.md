@@ -1,12 +1,14 @@
-# L4-preserving batch-wise repair: full native write 뒤의 조건부 L8 복구
+# L4-preserving batch-wise repair: full native write 뒤의 조건부 추가층 복구
 
 2026-09-17. 사용자 방향을 반영한 v1 설계. 모델 runner 구현·GPU 제출·효능 검증은 아직 아니다. CPU 수식 fixture와 계약 검사를 수행한다. 기존 실험 source와 산출물은 수정하지 않는다.
 
 사용자 후속 지시 반영: **paraphrase를 target으로 하는 별도 세트는 만들거나 사용하지 않는다.** 공식 paraphrase는 평가 observer로만 사용한다. 온라인 편집 보호는 현재·과거 canonical rewrite로 한정한다.
 
+추가 수정: **repair layer는 미확정이며 L8 고정을 해제한다.** 아래 단일층 방법에서 ℓ은 진단 후 정할 추가층이다. [층별 가능성 검토와 선행 진단](2026-09-17-repair-layer-feasibility-audit-v1.md)에 따라 L5–L8 및 L9/L12를 같은 post-L4 상태에서 먼저 비교한다. 기존 box는 단일층 제어 template이며 주 layer 비교에는 별도 계약의 회전 불변 Fisher ellipsoid를 사용한다. 두 solver의 결과를 같은 알고리즘으로 혼합하지 않는다. 5-arm lifelong 계획은 이 진단 후 층과 solver 정책을 lock할 때 구체화한다.
+
 ## 1. 방법의 정체성과 증거
 
-목표는 L4-only의 편집 성능을 유지하면서 original-knowledge preservation 비용을 줄이는 것이다. L4는 target writing, L8은 그 뒤의 preservation repair를 담당한다. Layer 사용 수·norm 균등 분담·gate 합1을 목적에 넣지 않는다.
+목표는 L4-only의 편집 성능을 유지하면서 original-knowledge preservation 비용을 줄이는 것이다. L4는 target writing, 선택된 추가층 ℓ은 그 뒤의 preservation repair를 담당한다. Layer 사용 수·norm 균등 분담·gate 합1을 목적에 넣지 않는다.
 
 Cold7 LD는10batch 중9회(.75,.5)를 택했고 N4보다 NS+2.84pp, PS−1.25pp였다. 이는 다층 조합에서 유용한 신호가 반복됨을 보여주므로, static(.75,.5) 추가 결과를 기다려야만 새 방법을 설계할 수 있는 것은 아니다. 다만 LD의 L8 적용9회 모두 partial L4 대비 S64 KL은 증가했다. 이번의 full-L4 후 repair는 그 관측에서 자동으로 도출되는 성공 사례가 아니라, 역할을 바꾼 새 가설이다.
 
@@ -18,17 +20,17 @@ Cold7 LD는10batch 중9회(.75,.5)를 택했고 N4보다 NS+2.84pp, PS−1.25pp�
 
 각 batch t에서 상태를 다음과 같이 정의한다.
 
-    We = 직전 batch의 최종 모델; 과거 L8 repair 포함
+    We = 직전 batch의 최종 모델; 과거 채택된 repair 포함
     WN = NativeL4(We, current requests)
-    W(c) = WN with W8 := WN8 + Σ_j c_j Q_j
+    W(c) = WN with Wℓ := WNℓ + Σ_j c_j Q_j
 
 1. Native local-z4를 L4에서 계산하고 full native update를 적용한다. L4 gate=.75, terminal-z 배분, target 강도 축소를 넣지 않는다.
-2. WN을 임시 anchor로 봉인한다. 모든 repair 후보는 동일 WN에서 시작한다. W4와 모든 비L8 parameter는 후보·최종상태에서 WN과 동일해야 한다.
-3. **L8에서는 target_new compute_z를 호출하지 않는다.** L8 방향은 실제 출력 preservation gradient 및 edit 보호 response에서 구한다. Repair에 activation target을 별도로 fit한 뒤 write하는 단계도 없다.
-4. Repair 실패 시 WN을 선택한다. 이때 이번 Δ8=0이며 이전에 누적된 L8 repair를 제거하는 것은 아니다.
+2. WN을 임시 anchor로 봉인한다. 모든 repair 후보는 동일 WN에서 시작한다. W4와 선택된 repair parameter 이외의 모든 weight는 후보·최종상태에서 WN과 동일해야 한다.
+3. **Repair 층에서는 target_new compute_z를 호출하지 않는다.** 방향은 실제 출력 preservation gradient 및 edit 보호 response에서 구한다. Repair에 activation target을 별도로 fit한 뒤 write하는 단계도 없다.
+4. Repair 실패 시 WN을 선택한다. 이때 이번 Δℓ=0이며 이전에 누적된 repair를 제거하는 것은 아니다.
 5. 다음 batch의 z4는 자기 branch의 실제 We에서 계산한다. L4-preserving은 한 batch의 native W4를 유지한다는 뜻이다. 독립 N4 lifelong chain과 모든 W4 bytes가 같다는 뜻은 아니다.
 
-이 업데이트는 L8 down-projection weight 자체에 적용하므로 모든 token에 영향을 준다. 일부 subject 위치에만 hook한 효과를 실제 write로 대신하지 않는다. L4 weight 고정만으로 편집 출력이 고정되는 것은 아니다.
+이 업데이트는 선택 층의 down-projection weight 자체에 적용하므로 모든 token에 영향을 준다. 일부 subject 위치에만 hook한 효과를 실제 write로 대신하지 않는다. L4 weight 고정만으로 편집 출력이 고정되는 것은 아니다.
 
 ## 3. 온라인 입력과 관측 분리
 
@@ -48,7 +50,7 @@ S64에 편집 fact와 충돌하는 내용이 있을 가능성을 지우지 않�
 
 ## 4. 목적과 실제 품질 제약
 
-목적은 B(W)=mean_x KL(p_W0(.|x) || p_W(.|x))다. 기존 S64의 vocab sum → scored128-position mean → document mean을 유지한다. 목표는 B(WN+Δ8)<B(WN)이며, W0 지식을 완전히 복구하거나 N을 반드시 올린다는 보장은 아니다.
+목적은 B(W)=mean_x KL(p_W0(.|x) || p_W(.|x))다. 기존 S64의 vocab sum → scored128-position mean → document mean을 유지한다. 목표는 B(WN+Δℓ)<B(WN)이며, W0 지식을 완전히 복구하거나 N을 반드시 올린다는 보장은 아니다.
 
 온라인 품질 기준은 WN에서 한 번 봉인한다.
 
@@ -64,24 +66,24 @@ Past 기준은 We가 아니라 WN이다. We→WN에서 native L4가 이미 낸 �
 
 ## 5. 무엇을 적응적으로 계산하는가
 
-layer weight softmax가 아니라 **이번 L8의 update 방향·크기·사용 여부**를 response에 맞춰 계산한다. 시작 시점의 primary 신호는 다음과 같다.
+layer weight softmax가 아니라 **이번 repair의 update 방향·크기·사용 여부**를 response에 맞춰 계산한다. 층 선택의 적응성은 동일-anchor 층 진단 후 별도 판단한다. 시작 시점의 primary 신호는 다음과 같다.
 
     D_N = B(WN)                         누적 W0 drift
     delta_D_native = B(WN)-B(We)        이번 full L4의 추가 손상
-    g_B = ∇W8 B(WN)                    가능한 repair 방향
+    g_B = ∇Wℓ B(WN)                    가능한 repair 방향
     edit response Jacobian             어떤 repair가 edit을 얼마나 바꾸는가
     constrained predicted gain          품질 조건 아래 남는 복구 여력
     actual gain / predicted gain        이 batch에서 근사가 믿을 만한가
 
-큰 D_N이나 큰 z residual만으로 L8를 켜지 않는다. 실제 feasible repair gain이 있어야 한다. delta_D_native≤0이어도 과거 누적 손상을 더 줄일 가능성은 있으므로 D_N>0이면 proposal은 허용한다.
+큰 D_N이나 큰 z residual만으로 추가층을 켜지 않는다. 실제 feasible repair gain이 있어야 한다. delta_D_native≤0이어도 과거 누적 손상을 더 줄일 가능성은 있으므로 D_N>0이면 proposal은 허용한다.
 
 ## 6. 작은 방향 공간: v1은 최대3개
 
-WN에서 L8에 대해서만 g_B, g_R, g_H를 구한다. 각각 Base KL, Current canonical NLL, Past canonical NLL의 gradient다. Past가 비면 g_H는 없어 B1은 최대2방향이다. 전체 W8 gradient의 span을 FP64 Gram/QR로 정규직교화하여 Q1..Qm을 만든다. m≤3이며 zero·선형종속 방향은 제거한다. g_B가 finite numerical zero이고 검증된 descent가 없으면 그 batch는 repair off다.
+WN에서 선택한 추가층에 대해서만 g_B, g_R, g_H를 구한다. 각각 Base KL, Current canonical NLL, Past canonical NLL의 gradient다. Past가 비면 g_H는 없어 B1은 최대2방향이다. 전체 Wℓ gradient의 span을 FP64 Gram/QR로 정규직교화하여 Q1..Qm을 만든다. m≤3이며 zero·선형종속 방향은 제거한다. g_B가 finite numerical zero이고 검증된 descent가 없으면 그 batch는 repair off다.
 
-**v1은 별도 key basis V8나 native P8 null-space를 추가하지 않는다.** 이중 압축으로 복구 방향을 미리 제거하는 교란을 줄이기 위해서다. Native P4는 L4 writer에서 그대로 유지한다. L8 repair는 edit response 제약으로 보호한다. Native P8 적용은 별도 후속 ablation이며, 그 안에서 실패했다고 전체 L8 repair가 불가능하다고 주장하지 않는다.
+**v1은 별도 key basis Vℓ나 native Pℓ null-space를 추가하지 않는다.** 이중 압축으로 복구 방향을 미리 제거하는 교란을 줄이기 위해서다. Native P4는 L4 writer에서 그대로 유지한다. Repair는 edit response 제약으로 보호한다. Native projector 적용은 별도 후속 ablation이며, 그 안에서 실패했다고 해당 층 전체의 repair가 불가능하다고 주장하지 않는다.
 
-Q는 full W8 shape이며 CPU에 보관할 수 있다. m=3·FP32이면 약0.70GB 추가 방향 저장량이다. 후보는 WN+ΣcQ로 materialize한다. Random LoRA 초기화나 update norm 재확대를 하지 않는다. Gradient span 밖의 가능한 repair는 v1에서 탐색하지 않는다.
+Q는 선택층의 full weight shape이며 CPU에 보관할 수 있다. 현재 Llama down-projection에서 m=3·FP32이면 약0.70GB 추가 방향 저장량이다. 후보는 WN+ΣcQ로 materialize한다. Random LoRA 초기화나 update norm 재확대를 하지 않는다. Gradient span 밖의 가능한 repair는 v1에서 탐색하지 않는다.
 
 후속으로 active guard gradient를 추가해 m≤8로 확장할 수 있으나 **v1 결과에 소급 혼합하지 않는다.** 작은 공간에서 zero가 나온 것은 현재 basis·제약·reference의 결과다.
 
@@ -125,13 +127,13 @@ predicted>ε_B, actual>ε_B, agreement≥0.1 및 모든 finite 품질 조건을 
 
 Guard 실패, Base 악화, 예측 불일치, 작은 실제 개선, QP residual 실패, basis zero, FP32 materialization zero를 각각 다른 사유로 기록한다. 기술 오류는 정상 품질 off와 합치지 않는다.
 
-이 과정에서 layer-on은 nonzero accepted Δ8 여부이며 강도는 최종 ||Δ8||·Fisher 크기·선택 radius로 정량화한다. Softmax나 수동(.75,.5) menu는 필요 없다. 다만 basis 크기, trust 축소 규칙, numerical threshold라는 engineering 선택은 여전히 존재한다.
+이 과정에서 layer-on은 nonzero accepted Δℓ 여부이며 강도는 최종 ||Δℓ||·Fisher 크기·선택 radius로 정량화한다. Softmax나 수동(.75,.5) menu는 필요 없다. 다만 basis 크기, trust 축소 규칙, numerical threshold라는 engineering 선택은 여전히 존재한다.
 
 ## 9. 누적 상태·history·관측 budget
 
-L4 native M4는 최종 commit에서 이번 Current keys를 정확히1회 append한다. 후보 생성/평가에서는 append0회. L8 repair에는 native solver가 없으므로 operational M8/P8를 사용하거나 임의로 append하지 않는다. L8 current/past response는 현 WN에서 다시 계산하며 예전 batch의 key/Jacobian을 그대로 사용하지 않는다. M8가 필요하면 별도 diagnostic으로만 명명한다.
+L4 native M4는 최종 commit에서 이번 Current keys를 정확히1회 append한다. 후보 생성/평가에서는 append0회. Repair에는 native solver가 없으므로 operational Mℓ/Pℓ를 사용하거나 임의로 append하지 않는다. 해당 층의 current/past response는 현 WN에서 다시 계산하며 예전 batch의 key/Jacobian을 그대로 사용하지 않는다. Mℓ가 필요하면 별도 diagnostic으로만 명명한다.
 
-각 batch의 checkpoint는 W4/W8, M4, received active ledger, native context/token identity, Current/Past rewrite 기준값, Q/b/A/H/λnum, solver 결과, probe 상태·실패 사유·선택을 연결한다. Full backbone pointer/version guard와 selected weight byte hash를 구분한다. L8 off여도 과거 누적 A8가0이라고 보고하지 않는다.
+각 batch의 checkpoint는 W4 및 수정된 추가층 weight, M4, received active ledger, native context/token identity, Current/Past rewrite 기준값, Q/b/A/H/λnum, solver 결과, probe 상태·실패 사유·선택을 연결한다. Full backbone pointer/version guard와 selected weight byte hash를 구분한다. Repair off여도 과거 누적 Aℓ가0이라고 보고하지 않는다.
 
 Budget에는 세 값을 구분한다.
 
@@ -143,19 +145,19 @@ Base·guard는 token/문서 수가 다르므로 mean 단위·row scaling을 기�
 
 ## 10. 비용 사양과 재사용
 
-각 batch의 native z target는 N4와 같은100회이며 L8 target call은0이다. 추가로 Base/Current-R/Past-R 최대3개 gradient sweep, 최대m=3 JVP sweep, 작은 QP solve≤6, 실제 후보 평가≤6이 있다. Past가 빈 B1은 gradient·JVP가 각각 최대2개다. Paraphrase 생성·온라인 학습·guard 비용은0이며 공식 P observer 비용은 별도로 남는다. 한 sweep이 한 model forward라는 뜻이 아니며 문서·microbatch·token·backward/JVP·teacher I/O를 각각 기록한다.
+선택한 단일층 방법의 각 batch에서 native z target는 N4와 같은100회이며 repair target call은0이다. 추가로 Base/Current-R/Past-R 최대3개 gradient sweep, 최대m=3 JVP sweep, 작은 QP solve≤6, 실제 후보 평가≤6이 있다. Past가 빈 B1은 gradient·JVP가 각각 최대2개다. 층 선정 진단의18cells 비용은 이 단일층 비용과 별도다. Paraphrase 생성·온라인 학습·guard 비용은0이며 공식 P observer 비용은 별도로 남는다. 한 sweep이 한 model forward라는 뜻이 아니며 문서·microbatch·token·backward/JVP·teacher I/O를 각각 기록한다.
 
 FullVocab Fisher streaming은 구현 복잡도와 비용을 갖는다. 과거 B-OS의 두 RHS×20 PCG와 구조가 다르지만 실제 속도 우위를 미리 주장하지 않는다. 초기 numerical pilot에서 단1batch의 wall/peak memory를 재고10batch 비용을 추정한다. 더 큰 budget이 필요하다고 method tolerance를 바꾸지 않는다.
 
-재사용 가능한 것은 cold7 snapshot/restore/observer 거래, W0 Teacher192, native L4 fitter/finalizer, saved-NLL evaluator, source/state hash 계측이다. EP의 target-space build_correction/edit-z ball은 L8 preservation repair의 main parameterization으로 가져오지 않는다. B-OS의 SelectedView는 참고 가능하나 거대 PCG 경로는 재사용하지 않는다.
+재사용 가능한 것은 cold7 snapshot/restore/observer 거래, W0 Teacher192, native L4 fitter/finalizer, saved-NLL evaluator, source/state hash 계측이다. EP의 target-space build_correction/edit-z ball은 preservation repair의 main parameterization으로 가져오지 않는다. B-OS의 SelectedView는 참고 가능하나 거대 PCG 경로는 재사용하지 않는다. 기존4/8 전용 parameter 관리와 repair forward는 후보 층으로 일반화해야 한다.
 
 ## 11. 실험 계획: 모든 main chain은 W0에서
 
 공통 capsule은 cold7의 Llama3-8B-Instruct revision·FP32/eager·TF32off·fixed10k order·context와 seed20260916을 우선 유지한다. Repair source와 rewrite 보호 규약을 별도 봉인한다. 실제 실행 전에 config와 기술 검사 결과를 lock해야 하며, 이 문서는 제출 지시가 아니다.
 
-**단계0: first100의 bounded numerical/mechanism pilot.** W0→native L4를 한 번 수행하고 QP model 및 finite 후보를 검사한다. 두 FD scale에서 derivative 부호/크기, parameter vs functional materialization, L4 고정, rollback/history0, repeat noise, full-vocab GN PSD/whitening/KKT를 확인한다. Tiny mathematical fixture PASS를 actual-model PASS로 바꾸지 않는다. Official P/N은 선택 봉인 후 raw/repair 후보에 observer로만 기록한다.
+**선행 단계: 동일-anchor 층별 feasibility 진단.** [별도 계약](2026-09-17-repair-layer-feasibility-contract-v1.json)에 따라 W0 출발 N4 chain의 B1/B5/B10에서 L5–L8 및 L9/L12를 비교한다. 단일 L8 first100 pilot을 이 단계로 대체한다. 두 FD scale에서 derivative 부호/크기, parameter vs functional materialization, L4 고정, rollback/history0, repeat noise, full-vocab GN PSD/whitening/KKT를 확인한다. Tiny mathematical fixture PASS를 actual-model PASS로 바꾸지 않는다. Official P/N은 선택 봉인 후 raw/repair 후보에 observer로만 기록한다.
 
-**단계1: 신규 cold B100×10, 5 arms.** N4, REFIT4, 기존 LD, R-GD, R-QP. 각 arm은 자체 W0→W10 trajectory를 갖는다. R-GD는 같은 L8 Base descent 한 방향에서 guard 없는 scalar quadratic proposal을 구하고 동일한 curvature normalization/trust 축소/실제 품질 acceptance를 적용한다. R-QP는 proposal 단계부터 guard response를 사용하여 방향을 바꾼다. 따라서 R-GD도 실패한 품질 후보를 commit하지 않으며, R-QP의 최대3방향·제약 응답 모델이 실제 추가 이득을 내는지 분리한다. 각 방법의 방향 수에 따른 비용 차이는 그대로 기록하고 dummy backward로 비용을 맞추지 않는다. 모든 arm을 지표를 보고 중도 탈락시키지 않는다. 기술 실패만 별도 종료한다.
+**조건부 단계1: 신규 cold B100×10, 5 arms.** 층과 최종 solver 정책을 lock한 뒤 N4, REFIT4, 기존 LD, R-GD, R-QP를 비교한다. 각 arm은 자체 W0→W10 trajectory를 갖는다. R-GD는 같은 추가층 Base descent 한 방향에서 guard 없는 scalar quadratic proposal을 구하고 동일한 curvature normalization/trust 축소/실제 품질 acceptance를 적용한다. R-QP는 proposal 단계부터 guard response를 사용하여 방향을 바꾼다. 따라서 R-GD도 실패한 품질 후보를 commit하지 않으며, R-QP의 최대3방향·제약 응답 모델이 실제 추가 이득을 내는지 분리한다. 각 방법의 방향 수에 따른 비용 차이는 그대로 기록하고 dummy backward로 비용을 맞추지 않는다. 모든 arm을 지표를 보고 중도 탈락시키지 않는다. 기술 실패만 별도 종료한다.
 
 | 핵심 비교 | 질문 |
 |---|---|
@@ -178,7 +180,7 @@ FullVocab Fisher streaming은 구현 복잡도와 비용을 갖는다. 과거 B-
 - Rewrite 유지, official PS 손실: rewrite 보호만으로 paraphrase 일반화가 유지되지 않은 결과. RS·PS 유지 목표를 충족했다고 부르지 않으며 공식 P를 controller로 옮겨 같은 결과를 재평가하지 않음.
 - current는 유지, old P/N 손실: sampled Past 범위/누적 native 손상/이전 repair와 새로운 L4 상호작용을 분리.
 - R-GD와 동일: 작은 QP 방향 제어의 추가 필요성은 미확인.
-- 모두 zero: 강한 N4 fallback이 유지된 유효한 음성 결과. L8를 쓰기 위해 threshold를 바꾸지 않음.
+- 모두 zero: 강한 N4 fallback이 유지된 유효한 음성 결과. 추가층을 쓰기 위해 threshold를 바꾸지 않음.
 
 ## 13. 관련 연구와 주장 범위
 

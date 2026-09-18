@@ -1,0 +1,60 @@
+{
+  "status": "PASS_CPU_ALGEBRA_ONLY",
+  "checks": [
+    {
+      "name": "single_constraint_closed_form_and_dual_sign",
+      "pass": true
+    },
+    {
+      "name": "fixed_key_current_exact_and_reference_total_update_constraint",
+      "pass": true,
+      "native_ref_action": [
+        3.0,
+        6.0
+      ],
+      "correction_ref_action": [
+        -3.0,
+        -6.0
+      ]
+    },
+    {
+      "name": "redundancy_and_positive_row_scaling",
+      "pass": true
+    },
+    {
+      "name": "zero_projected_gradient_and_conflicting_constraints_not_feasible",
+      "pass": true
+    },
+    {
+      "name": "factor_gradient_and_Gram_identity",
+      "pass": true
+    },
+    {
+      "name": "physical_center_RHS_includes_rounding_component",
+      "pass": true
+    },
+    {
+      "name": "finite_nonlinear_counterexample_requires_fallback_after_two_rounds",
+      "pass": true,
+      "candidate_q_values": [
+        1.5625,
+        1.050625
+      ],
+      "bound": 1.0
+    },
+    {
+      "name": "challenger_identity_must_match_entry_bound",
+      "pass": true
+    },
+    {
+      "name": "contract_budget_and_own_chain_consistency",
+      "pass": true
+    }
+  ],
+  "n_checks": 9,
+  "model_loaded": false,
+  "model_numerical_validation": "NOT_RUN",
+  "factual_bank_built": false,
+  "GPU_experiment_submitted": false,
+  "scope": "Hand-sized deterministic linear algebra and counterexamples; does not establish large-model conditioning, runtime, or efficacy."
+}

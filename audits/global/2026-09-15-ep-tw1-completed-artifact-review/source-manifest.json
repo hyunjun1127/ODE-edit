@@ -1,0 +1,498 @@
+{
+  "publication_head": "9ae2ecc405942afc7a09f2bed27a07ffbf8a373d",
+  "publication": [
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/analysis-manifest.json",
+      "sha256": "a1173bae06c8d94358369e55895bc36ff1b85aff09c6d6d62f864a047b55ef1c",
+      "bytes": 984
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/analysis-manifest.json",
+      "sha256": "5f354bfe29c73c260f622bc5846db8bd8c529b100ec0b56f69bedc15d1854efc",
+      "bytes": 11836
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/baseline-first1000.csv",
+      "sha256": "7f33b5e7d12774510feb2e44bcd9e1e9388f906bd27f1ad8ae88a45937dc9442",
+      "bytes": 9350
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/baseline-input-manifest.json",
+      "sha256": "82d2baf237475349a86df21ef2889741f12b7d6e2bab7c1bea4cd5a14813fab9",
+      "bytes": 3696
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/baseline-paired.csv",
+      "sha256": "eb2342f84a828d98182eb5f08074f2baeeed274e2c2fb179a06008c99282209c",
+      "bytes": 7336
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/batch-current-metrics.csv",
+      "sha256": "7a9482ea071b87230ec35fe591d0050b3eb91112a6428eb6c4c7324fe41ce84e",
+      "bytes": 80714
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/batch-policy.csv",
+      "sha256": "15eabad111716d966bfa4b18c6767d86a4330db29c47a5a7fdd4601dc4e9b32b",
+      "bytes": 3303
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/candidate-details.csv",
+      "sha256": "5457b404a898d2e934865513603f578cfbab5cf2cbe8b0b624ad330e890c72a9",
+      "bytes": 6850
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/checkpoint-inventory.csv",
+      "sha256": "214505eb82588601bfcd68f7746fefc34561cae0569c67919e0239c082a8863d",
+      "bytes": 3279
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/checkpoint-tensor-hashes.csv",
+      "sha256": "fdbec482535338f68c80c7e2a5cbffdf04222c5bfe09ca14d0863ab7c91df9ea",
+      "bytes": 10317
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/cohort-retention.csv",
+      "sha256": "f8f486dd91f84d23570b29beac64345f100f230e07ca175ce670853a0b2bfc54",
+      "bytes": 11124
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/comparison-capsule.json",
+      "sha256": "1f6a5ebbd8df048dc6d10b9bdb299dad150484e01a2fce22e932b2af464eb388",
+      "bytes": 1316
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/compatibility.csv",
+      "sha256": "ea6df25cbf0b54c321a7846cf989252fda43e3ca76afa204ffe8223b1974d5a1",
+      "bytes": 5833
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/compute-summary.csv",
+      "sha256": "de740c8d480b15e664f4df7901add182c27febae281f07a6c958043dcf7b8e17",
+      "bytes": 1667
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/cost-by-batch.csv",
+      "sha256": "e2e4cea5868fe602a66af6ebbd9e2892004d9fa27a1b1ab99bb4f058722e7e59",
+      "bytes": 4318
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/coverage.csv",
+      "sha256": "d1c8439b5579750e11e757b256f0b17b2ca720433056bc5497ee5247d05c7d10",
+      "bytes": 2237
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/design-conformance.csv",
+      "sha256": "69f33a0ee4a560031baacf447c8ec8ce4e3b87397171747b0e7363c754e249b1",
+      "bytes": 6043
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/diagnostic-report-ko.md",
+      "sha256": "7b29c87b7b23b3ce4503f1980c67fb232deadc6bd216cbd9040eff925d366188",
+      "bytes": 43025
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/evidence-reuse-manifest.json",
+      "sha256": "ed7837a32f6ec4b0ecfe043f7f905b552ec1171fdaf1bd6a72a73a438232cd03",
+      "bytes": 7020
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/executed-source-inventory.csv",
+      "sha256": "a1070a7a4215aa88b41332248bb99f6a31d3bb51f668e75be7fb646b9801ed60",
+      "bytes": 37441
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/baseline-reference.png",
+      "sha256": "703e5930d72d53d656d50e241375415d875108f046f62d2dc7dec390291b274c",
+      "bytes": 79807
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/candidate-screen.png",
+      "sha256": "0d8f9a0e44b70336044df77c406c620e6c7a4d8e061f0cd83686a70cae840f5b",
+      "bytes": 64107
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/cohort-transitions.png",
+      "sha256": "2e1078dc5a5bcaf7e70d00128d326b1ab2eb7e1bf265e636670fb3d69ce39c85",
+      "bytes": 59871
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/current-state-curves.png",
+      "sha256": "e8c4fd9a5e4a4d0f7d8fa47998554b4d1cb6d8b26465577939e3e00de533734a",
+      "bytes": 109635
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/final-nll-tails.png",
+      "sha256": "15f483aed95cba666118b14ae6da3658bf12cb9aa87816b02d99c33738ece11f",
+      "bytes": 40972
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/mechanism-actions.png",
+      "sha256": "24dbae08b71cb89a53a91c6a370def2c0e233f1c6e3f8cd3ebab4ce18d7a74a4",
+      "bytes": 98862
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/figures/plot-manifest.json",
+      "sha256": "32c51d7f27d04474388d0824fb459213c8101323cee8aa32f05e8227e14e9c1d",
+      "bytes": 2008
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/first-final-table.csv",
+      "sha256": "e801d2294660a6e0c454e5e5f09d4ba4d18256643f0af30abed176e6c00d736b",
+      "bytes": 1975
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/general-observer.csv",
+      "sha256": "af36826aa451a9e43c813d02b6ba387d63d648ba43be40a27bf16faffb05de67",
+      "bytes": 225
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/generic-reduction.csv",
+      "sha256": "bea48b38a7929296d6479e240ee137a37562c3d65614f25bd80920df8468e474",
+      "bytes": 7341
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/ledger-summary.csv",
+      "sha256": "3b8ffdf1a9dc4a57d933dc46a839e71c8b45f46f07aadd2c3d758f31a1418575",
+      "bytes": 532
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/mechanism-summary.json",
+      "sha256": "b6206b5ae2e391fe73c733c3690bbe27ff90cda80413435f15ee6172e6c0abbd",
+      "bytes": 2317
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/metrics-summary.json",
+      "sha256": "37fbf7bbaea877a0c43cce80019485fbab92ff26e944cd1181f5b4332f60dd7c",
+      "bytes": 6524
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/paired-transitions.csv",
+      "sha256": "474519e80c805b5c4d1ec6b9c2d0e0c889cd8d78b445e92666ea3405490d76d9",
+      "bytes": 31995
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/parity-warnings.csv",
+      "sha256": "275f8f52e6a04f34159b308bcf15f0f347c8dcd4e0787b3efd90c1cb6acb2cf9",
+      "bytes": 1074
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/per-batch-mechanism.csv",
+      "sha256": "9a3f224313b4c8d272f163cdc9f9c598dc5117b9dd404e03d8419173e03cf756",
+      "bytes": 11972
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/publication-inputs.json",
+      "sha256": "740666c7aedf42ea0d0a7456ae6dc9b4bbeb743204146d5d960e3059d402d164",
+      "bytes": 9132
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/raw-member-inventory.csv",
+      "sha256": "a79c8b33c0436131daff373cb535af190f063556de077f4300702b844bd44905",
+      "bytes": 26141
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/rooted-receipt.json",
+      "sha256": "4c2876f68d6738d167176264761c9cfc5b2858d8d81effed0dd1a0499d33b268",
+      "bytes": 3016
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/scheduler-once.json",
+      "sha256": "6caffdf52d5a6490c4b57b752f9cb6d85d568c8ca034b2d433f717939e4e58d1",
+      "bytes": 701
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/state-links.csv",
+      "sha256": "842c1ad2c56cd5d44b776755ae1233babea4dddf8bb67402b0cbd34b5bb39df5",
+      "bytes": 413
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/state-summary.json",
+      "sha256": "ac35400b333f917876da104f11f12d91d5fd514f970762eb572d11124b0fc3cf",
+      "bytes": 928
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/target-counters.csv",
+      "sha256": "93896a8f5adda88812c81b36ea9782b007d152ae62d9f612200cc6a5a64b5067",
+      "bytes": 580
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/verification-receipt.json",
+      "sha256": "2940a4bba4cd42798575d44d63fbaa1021c0631b244ea1b429d64b5f5ea13d64",
+      "bytes": 5088
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/whole-prefix-metrics.csv",
+      "sha256": "e05b2489a00c475b34f19203356fbc859b670438d4011bfa3bb69652f52164b1",
+      "bytes": 10368
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/completed-review-v1/write-actions.csv",
+      "sha256": "7903dc40f8f3f739657f1aa5dd7fadbf9e06e34da8116f679d99efda4043adfc",
+      "bytes": 2979
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/resume-receipt.json",
+      "sha256": "982c41340c99df1eeb93507479034215749dca010c529fdc2edfaf190697ab8f",
+      "bytes": 7341
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/rooted-receipt.json",
+      "sha256": "830e6ceff14b27dae65568027d71041154a72f931cb83402961a667a46c36e5c",
+      "bytes": 982
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/source-input-manifest.json",
+      "sha256": "d6da5a3cfe6858304507796687d10115980aa52c589cd9d8e6696e4561a38bf1",
+      "bytes": 4385
+    },
+    {
+      "path": "experiment-reports/servers/server4/ep-tw1-c4-2026-09-15-v1/gate-skip-r1/submission-factual-report-ko.md",
+      "sha256": "7aca507c75e7d69cb39fa0c8567b01a4682c6cd5e8e5dd2fecf4befcbe1398ae",
+      "bytes": 5066
+    },
+    {
+      "path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea",
+      "bytes": 10515
+    },
+    {
+      "path": "plans/global/2026-09-15-ep-tw1-c4-v3-dispatch-contract.json",
+      "sha256": "c1da2b870f8594e74445089f2fb7931a5e851dd49eaab9f498dd218897f8149d",
+      "bytes": 3619
+    }
+  ],
+  "execution_head": "6d317bdb2660d7e9919bc3a9fb878564e9729e37",
+  "execution_source": [
+    {
+      "path": "project/run_scripts/bg_tw_reference/README.md",
+      "sha256": "32a36b5300e8bc289387c0dda4883e11e60d07b05dd35eee207f2710a2b22934",
+      "bytes": 2307
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/__init__.py",
+      "sha256": "1ea46f19dcb6c1bd8ed8072e07e9b773e744aef63b01e0f0376e5c6f4470f4c0",
+      "bytes": 73
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/acquire.py",
+      "sha256": "1fa8d38d5f3d7692a1ff26146bc3746dc75c7ce19f6809bdd512d1b05dadf346",
+      "bytes": 3036
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/builder.py",
+      "sha256": "815e0d8a88fc5222d0aa58e073ad40a7b649074436f56b2370cf7c3dedb45c46",
+      "bytes": 36950
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/control.py",
+      "sha256": "482b0002839d7ed528e683f0bdb647a404edfa846696383982e91da7cb24bbb7",
+      "bytes": 5260
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/correction.py",
+      "sha256": "a930be05db4ef4b23ddf45c62cdc7049165e19c1279fc3b96c634b9ee6b25528",
+      "bytes": 14473
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/README.md",
+      "sha256": "cb1a4c748db02514f19106181020c15df441d604dbfb0a3136731d0e8833f923",
+      "bytes": 4262
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/REPAIR.md",
+      "sha256": "5eae7f19a14fdba7959f160c18c1ee119c4e40552042501d178eef02194e327d",
+      "bytes": 2572
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/__init__.py",
+      "sha256": "a0e4b6de1811d07eb45d5f4a25e34451af136c911b14fb31b0eef7949bf6ffd9",
+      "bytes": 79
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/control.py",
+      "sha256": "9cb7ff73a44f9ab30068afd9e5cd7341b4e8e95db39cabed50d29775d682be06",
+      "bytes": 7987
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/gate_skip.py",
+      "sha256": "3e4da025df2b3109e98238cf78d41b06105687738620125ae1b9db66c252a1eb",
+      "bytes": 3184
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/gate_skip_control.py",
+      "sha256": "35686673a8fc6a53ee1dbfd3b11f5d301758aebec73456491b3a1bfa8f229408",
+      "bytes": 8020
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/handoff.py",
+      "sha256": "82a5bf52bd0fac558395e36be98fb06e366d53c77d1f5182a7a358f712ab0320",
+      "bytes": 12090
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/ledger.py",
+      "sha256": "981fe0b15de08b9387004866d0a7e5bba698773c3b973cd8466e15832b58b127",
+      "bytes": 9086
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/model_adapter.py",
+      "sha256": "9e4d440e9aae260191d2adcfcc631c9d418311f1c4a8a76b7df46c8e9bb7dba5",
+      "bytes": 29976
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/nogate.sbatch",
+      "sha256": "ee2249b7163d511903a452ac8bcce0cdf9e4e588a109d0d0a2cf06fc0dc86a43",
+      "bytes": 919
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/operations.py",
+      "sha256": "414193276bf357750e99539fe241e9c643bdaa58e20220838a3577c5983d3b51",
+      "bytes": 6476
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/policy.py",
+      "sha256": "56b28d7b1398aa71c23ac11bb5164216c5c921d80ed287940b48d03652a3797d",
+      "bytes": 19505
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/preparation.py",
+      "sha256": "b293288b2c8cd2d3cf85dce78dc5b78504586027bd97458f56ec0ec924538d03",
+      "bytes": 9539
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/repair.sbatch",
+      "sha256": "fa1f1c535d9536a4cf2a56b63dc8504692d2eb89c73f401b8f959ad78e606552",
+      "bytes": 1298
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/repair_checks.py",
+      "sha256": "e34d6d5b87c9126dee1431494508b1243fb75056304cd378a33043791292bc0b",
+      "bytes": 31021
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/repair_control.py",
+      "sha256": "9936982c1bc6a74ff3796605658bef721979529a321f0163618b14596d95ef9a",
+      "bytes": 11127
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/repair_handoff.py",
+      "sha256": "c749a96bfb8cc3424c392ea69d9f11f32f60031ca40ed9c667f61097e41c55da",
+      "bytes": 12727
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/repair_runtime.py",
+      "sha256": "17deff5c83ce925031e34300f32300e0678d0f907f5ba733fae6732b2583ab9a",
+      "bytes": 15750
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/run.sbatch",
+      "sha256": "7f44dd94a78f353d3d936f9bf1e4cc69ae50ec33ada5c8ba7bedb934f25247a5",
+      "bytes": 891
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/runner.py",
+      "sha256": "dfa9a6d0bbab8195a247069a0d5812aa62e2d44b891500bf2897cac7145e8c5e",
+      "bytes": 26727
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/technical.py",
+      "sha256": "8ee4e0ac9b12c5c9149fd7034405cfa74142391b12224711ffacd35023b4b854",
+      "bytes": 10455
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_direct_gradient.py",
+      "sha256": "5c371ad5ff37468f6f1a43eb5cb6e45233de9c8d0f58426868bbe39621e03ffa",
+      "bytes": 8223
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_gate_skip.py",
+      "sha256": "4e96a295ba07c01ac43c9793ca7242e3b3582cac1115e10fe3d6a3901b3e0373",
+      "bytes": 1835
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_ledger.py",
+      "sha256": "5f44a368d9a2740659117f2ad277e45405bb3129c773fcb52a2faaa3f8ab048c",
+      "bytes": 6614
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_model_adapter.py",
+      "sha256": "d754809e0a3656580c4c8ca870dcf31d270959413a75de20c5349937ebd9cfb1",
+      "bytes": 10182
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_policy.py",
+      "sha256": "fe1d9aceb88b66072cc5c2c00dce82c8c188e7a664e63ce3bc7ab25b3d210a09",
+      "bytes": 10495
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_repair_checks.py",
+      "sha256": "ee686b85dfb2bad2de9a1da5791732ea3e9ba156e853c2cd908ce4592a231bb7",
+      "bytes": 11982
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_repair_runtime.py",
+      "sha256": "c25cfaca1c640309ceb2fa6a08c3fb64e9f3908b6684610913f7343867a1a177",
+      "bytes": 4106
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/ep_tw/test_runner.py",
+      "sha256": "12720d893d106a55cda821ae6e66424c0f686bdc944971ba654e69c3313e09f9",
+      "bytes": 2304
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/gate.py",
+      "sha256": "5b2168e42d6c01963f5f1b5e97db0cb1c9401f2d4f21460596cc86daf5de4c4c",
+      "bytes": 2677
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/native_map.py",
+      "sha256": "fd2f53e5a9cd8d93a34cc0cba89f24d5d271cb4d29a4d84cf45b9340a5f16914",
+      "bytes": 8173
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/operations.py",
+      "sha256": "aab9022854378f4b4adc476e01471346224d21d8d84d5caae7240666857e2f97",
+      "bytes": 5321
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/preparation.py",
+      "sha256": "13ac2d3d627c78842422695bd65852beb8a31da52714a18433b778bf75906d53",
+      "bytes": 7394
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/preparation.sbatch",
+      "sha256": "2c476db338447827f32fcd4aa7370542e0f638aa1225d3c1f13271095f603550",
+      "bytes": 891
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/preparation_report.py",
+      "sha256": "3643244adacf54f0d7cb4d108c10e579dd19dc24bf6310a99561e9a19ccd7e35",
+      "bytes": 21514
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/teacher.py",
+      "sha256": "3b344d30424fa1734f52ea02d053f4e1d6093d873a3e06bb84eb3d94dd0f9400",
+      "bytes": 10323
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/test_builder.py",
+      "sha256": "3970944fd8b244c7e23cc81a128647eca68525952428bce79666d41acc953560",
+      "bytes": 11466
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/test_control_teacher.py",
+      "sha256": "4840c24c12fc120a0611af3a841f800bba61918177806c8cf52681eae247bfa3",
+      "bytes": 2943
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/test_gate.py",
+      "sha256": "bcdc22cbfa43ea90d5ba9b0fdb1e323beea3581333a7ff412356cf32cbb5a6ff",
+      "bytes": 2092
+    },
+    {
+      "path": "project/run_scripts/bg_tw_reference/test_math.py",
+      "sha256": "168fdcaff3115513276cfecac69b8a4be0070a20fb248cb6811c3aec1c747f31",
+      "bytes": 15791
+    }
+  ]
+}

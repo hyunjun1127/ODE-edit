@@ -95,5 +95,8 @@
     "768": 46.96875
   },
   "gpu_execution": false,
-  "checker": "local/reviews/reference-set-survey-2026-09-15-v2/check_design.py"
+  "checker": "local/reviews/reference-set-survey-2026-09-15-v2/check_design.py",
+  "status": "reference revision2 당시 설계 검사 기록. corpus-specific ceiling와 70-batch 항목은 현재 설계에서 폐기했으며 최신 검사가 아니다.",
+  "historical_result_preserved": true,
+  "current_checks": "plans/global/2026-09-15-ep-tw-design-checks.json"
 }

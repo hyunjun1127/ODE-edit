@@ -1,0 +1,43 @@
+{
+  "status": "arithmetic_and_link_check_only_not_model_benchmark",
+  "note": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-18-single-layer-edit-preserving-correction-efficiency-review-v1.md",
+  "teacher_fp32_bytes": 4202692608,
+  "dense_Q_fp64_bytes": 1644167168,
+  "historical_L4_edit_seconds_per_batch": 284.56626527234914,
+  "historical_L4_target_seconds_per_batch": 275.3275194235984,
+  "work_counts": {
+    "EN-F-v1": {
+      "forward_documents": 576,
+      "backward_documents": 64,
+      "forward_input_tokens": 148032,
+      "backward_input_tokens": 16448,
+      "forward_head_positions": 73728,
+      "illustrative_B_eq_2F": 704
+    },
+    "EN-F-2": {
+      "forward_documents": 192,
+      "backward_documents": 64,
+      "forward_input_tokens": 49344,
+      "backward_input_tokens": 16448,
+      "forward_head_positions": 24576,
+      "illustrative_B_eq_2F": 320
+    },
+    "EN-F-16g-fused": {
+      "forward_documents": 160,
+      "backward_documents": 16,
+      "forward_input_tokens": 41120,
+      "backward_input_tokens": 4112,
+      "forward_head_positions": 20480,
+      "illustrative_B_eq_2F": 192
+    },
+    "EN-F-16g-unfused": {
+      "forward_documents": 176,
+      "backward_documents": 16,
+      "forward_input_tokens": 45232,
+      "backward_input_tokens": 4112,
+      "forward_head_positions": 22528,
+      "illustrative_B_eq_2F": 208
+    }
+  },
+  "missing_local_links": []
+}

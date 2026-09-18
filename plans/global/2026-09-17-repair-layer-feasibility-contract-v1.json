@@ -1,0 +1,202 @@
+{
+  "contract_id": "REPAIR-LAYER-FEASIBILITY-V1",
+  "date": "2026-09-17",
+  "status": "DESIGN_ONLY_NOT_EXECUTED",
+  "model_runner_implemented": false,
+  "GPU_jobs_submitted": 0,
+  "purpose": "동일 full-native-L4 손상에서 층별 repair 가능성 측정",
+  "capsule": {
+    "model": "Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "entry": "common pretrained W0",
+    "M4_initial": "zeros",
+    "dtype": "FP32",
+    "attention": "eager",
+    "TF32": false,
+    "method_seed": 20260916,
+    "dataset": "counterfact-fixed-10k-v1",
+    "ordinal_half_open": [
+      0,
+      1000
+    ],
+    "batch_size": 100,
+    "batches": 10,
+    "preservation_teacher": "fixed W0 Teacher192; verify same model/token binding",
+    "teacher_regeneration": "only if identity/effective distribution check requires it; no generation performed by this design"
+  },
+  "anchor": {
+    "chain": "N4 only; full native local-z4 writes; no repair committed",
+    "start": "W0",
+    "batch_size": 100,
+    "post_write_batches": [
+      1,
+      5,
+      10
+    ],
+    "cumulative_edits": [
+      100,
+      500,
+      1000
+    ],
+    "forbid_warm_5000_start": true,
+    "reuse_existing_cold_N4_checkpoint": "only after source/model/token/order/history/teacher hash binding is verified",
+    "candidate_receives_other_candidate_update": false
+  },
+  "layers": {
+    "indexing": "physical zero-based",
+    "writer": 4,
+    "main": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "outside_band_controls": [
+      9,
+      12
+    ],
+    "parameter_template": "model.layers.{layer}.mlp.down_proj.weight",
+    "selected_final_layer": null,
+    "outside_controls_justification": "L9 adjacent outside window; L12 separated downstream control, not proven optimal",
+    "L4_repair": "excluded by frozen writer condition; REFIT4 is separate",
+    "layer_native_target_fits": 0
+  },
+  "cells": {
+    "count": 18,
+    "CSV": "2026-09-17-repair-layer-feasibility-cells-v1.csv",
+    "independent_same_anchor": true,
+    "common_repair_off_anchor": true,
+    "commits_to_anchor_chain": 0,
+    "W4_and_nonselected_parameters": "exact WN throughout candidate evaluation and restoration"
+  },
+  "data": {
+    "S64": "online preservation objective/gradient/acceptance",
+    "official_P_or_N_in_controller": false,
+    "Past64": "received latest active fact; excludes current overwrites; hash priority; no success filtering",
+    "Past_reference": "post-native WN",
+    "Dev128": "observer only",
+    "paraphrase_training_set": false,
+    "paraphrase_generation": false,
+    "paraphrase_online_guard": false,
+    "official_paraphrase_role": "observer_only_after_selection_seal",
+    "online_guard_panels": [
+      "Current-R",
+      "Past-R"
+    ],
+    "Past_prompt_scope": "canonical rewrite only; no paraphrase expansion",
+    "native_context_policy": "keep existing native writer contexts; do not create a paraphrase guard set"
+  },
+  "quality": {
+    "panels": [
+      "Current-R",
+      "Past-R"
+    ],
+    "mean_NLL_ceiling": "each panel own WN mean + epsilon_L",
+    "mean_plateau": false,
+    "WN_strict_success_ID_subset": true,
+    "pair_success_ID_subset_if_old_target_available": true,
+    "individual_NLL_nonworsening_guarantee": false,
+    "official_PS_online_guarantee": false,
+    "entry_Past_nonforgetting_guarantee": false,
+    "epsilon_L_nats_per_token": 0.0001,
+    "epsilon_B_nats_per_token": 1e-06,
+    "repeat_noise_max_fraction_of_tolerance": 0.5,
+    "posthoc_tolerance_relaxation": false,
+    "official_PS_evaluation_required": true
+  },
+  "direction_space": {
+    "parameter": "full selected-layer down-projection weight",
+    "gradients": [
+      "Base KL",
+      "Current canonical mean NLL",
+      "Past canonical mean NLL if nonempty"
+    ],
+    "max_dimensions": 3,
+    "orthonormalization": "FP64 Gram/QR; preserve resolved gradient span; drop numerical zero/dependency",
+    "additional_key_basis": false,
+    "active_guard_expansion": "deferred new version, not v1",
+    "direction_scope_failure": "not intrinsic capacity failure of the selected layer",
+    "first_batch_max_dimensions": 2
+  },
+  "trust": {
+    "solver_family": "small convex QCQP / SOCP; linear edit guards plus ellipsoid",
+    "coordinate_box_used_for_ranking": false,
+    "metric": "Htilde_l = Base-output GN restricted to Q_l + minimal numerical diagonal damping",
+    "tau0": "B(WN), identical across layers at the same anchor",
+    "tau_levels": "tau0 / 4**k, k=0..5",
+    "constraint": "0.5 * c^T Htilde_l c <= tau; whitened ||u||_2 <= sqrt(2*tau)",
+    "objective": "min b_l^T c + 0.5*c^T Htilde_l*c",
+    "guards": "same rewrite mean/margin linearization as main method; zero model mean slack",
+    "condition_cap": 1000000.0,
+    "m_zero_or_tau_below_epsilon": "zero; no divide by m and no fabricated gain",
+    "gain_comparison": "Gamma_free and Gamma_safe use identical layer, basis, objective, Htilde and tau; never mix accepted radii",
+    "record": [
+      "damping",
+      "undamped and damped energy",
+      "actual weight norm",
+      "conditioning",
+      "numerical residual",
+      "Gamma_free",
+      "Gamma_safe",
+      "Gamma_safe/Gamma_free or NA"
+    ]
+  },
+  "probe_policy": {
+    "guarded_proposals_max_per_cell": 6,
+    "evaluate_all_nonduplicate_levels_for_diagnosis": true,
+    "guard_free_shadow_proposals_max_per_cell": 1,
+    "shadow_radius": "tau0 only",
+    "shadow_committed": false,
+    "candidate_state_always": "same WN plus one layer correction",
+    "rollback_after_each": "exact WN; no history append",
+    "controller_choice": "first acceptable guarded proposal in descending tau order; or zero",
+    "acceptance": "first finite quality-feasible candidate with predicted>epsilon_B, actual>epsilon_B, actual/predicted>=0.1",
+    "minimum_agreement": 0.1,
+    "observer_after": "seal proposal identities, acceptance flags and controller choice before official P/N and Dev128",
+    "cross_layer_online_winner": "not committed or prescribed by this diagnosis"
+  },
+  "numerical_checks": {
+    "two_scale_central_FD": "each retained basis direction; Base derivative and all guard scalar JVPs",
+    "functional_vs_physical_forward": true,
+    "repeat_noise_fraction_max": 0.5,
+    "W4_hash_unchanged": true,
+    "no_native_history_mutation": true,
+    "PSD_whitening_and_KKT": true,
+    "CPU_contract_checks_are_model_validation": false
+  },
+  "cost_structure": {
+    "anchors": 3,
+    "layers_per_anchor": 6,
+    "finite_guarded_proposals_upper": 108,
+    "finite_shadow_proposals_upper": 18,
+    "proposal_evaluation_units_are_single_forward_calls": false,
+    "derivative_checks_and_observers": "additional, measured separately",
+    "new_native_L4_writes": "up to 10 batches if verified existing N4 anchors unavailable",
+    "repair_target_z_calls": 0,
+    "paraphrase_generation_or_guard_calls": 0
+  },
+  "reporting": {
+    "per_cell_questions": [
+      "Base sensitivity and derivative fidelity",
+      "edit compatibility under matched trust",
+      "finite accepted gain",
+      "sealed independent observer transfer"
+    ],
+    "capacity_claim": "local repair headroom in tested response basis; not remaining edit count or intrinsic layer capacity",
+    "failure_scope": "three-direction family and tested numerical controller only",
+    "PS_online_guaranteed": false,
+    "official_RS_PS_loss_allowance_pp": 0.0,
+    "development_vs_test": "if observer results influence global method selection, these data are development; independent held-out evaluation requires disjoint locked data/order strategy",
+    "long_horizon": "not tested by independent-cell study; needs subsequent cold lifelong repaired trajectories"
+  },
+  "next_stage": {
+    "fixed_layer_if_consistent_winner": true,
+    "dynamic_layer_if": "finite safe gains change across batches and selection benefit justifies cost; separate locked follow-up",
+    "softmax_weights_required": false,
+    "lifelong_main_blocked_until": "layer and solver policy fixed with numerical/model evidence; no automatic job submission"
+  },
+  "artifacts": {
+    "audit": "2026-09-17-repair-layer-feasibility-audit-v1.md",
+    "method": "2026-09-17-l4-preserving-batch-repair-v1.md"
+  }
+}

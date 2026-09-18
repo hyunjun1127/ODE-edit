@@ -1,0 +1,270 @@
+{
+  "schema": "SLZV2_CPU_REVIEW_V1",
+  "execution_head": "21297ec19e7f5aecec16d2fdb14cc79380a1df94",
+  "analysis_source_head": "de8d71c1cbd0be0fa5e4ab5574a069ee803e72c0",
+  "analysis_source_tree": "d464b6efc54bd9060e200815a2f9e3ad34558fc6",
+  "source_members": [
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/artifacts.py",
+      "bytes": 5105,
+      "sha256": "d0cf513bd70341b89f49278601f5a6c54ac3774757d45a6652e3d42d974cd076"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/audit.py",
+      "bytes": 17329,
+      "sha256": "0327c324b094a66490fad86ac8e48f73505440210b6f869903785685e0d13869"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/bootstrap.py",
+      "bytes": 2177,
+      "sha256": "3030409515e0053ca1b12c05dac7d041d12a313ee1ad7318ae8fd82a5b0e6145"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/performance.py",
+      "bytes": 9234,
+      "sha256": "29ad95b8746827580d6553852f38b3fbd048eae7fd80e3d5c06fba176f367889"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/plot.py",
+      "bytes": 3211,
+      "sha256": "c47025078ffc28b635e8e82e9386c76080c7f41b5ec5034b11cdff2ffc1eb0e9"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/publish.py",
+      "bytes": 7097,
+      "sha256": "e9a264897ced8d846cffa29d360a6231aa357806562eb4521c36529fa35eb7dc"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/reducer.py",
+      "bytes": 3626,
+      "sha256": "6d5905a82be71475866204ec648c5e64013ac08f36567bcebb81744c20f8865c"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/report.py",
+      "bytes": 27136,
+      "sha256": "5310d41474fa9318678a0108281478bbf4f55bd070d429b59039c24895e3bc60"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/seal_inputs.py",
+      "bytes": 1811,
+      "sha256": "0ac636578f6c1e4ba4e91c0393d03656bd01d4c207bcbe538ce12c0f4f43b188"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/synthesis.py",
+      "bytes": 6359,
+      "sha256": "9beb07572eb1ff5c88a7dd74625c6b54869a4a1d0359cb086002c159254ca199"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/analysis/completed_review_20260918/test_review.py",
+      "bytes": 3497,
+      "sha256": "9e0c9daac5fc6ff8876763692826785c1f8e3f09bcb45668e91b10abc70ff216"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/actual-cost.csv",
+      "bytes": 1814,
+      "sha256": "9ffded8e32fa03bd1a64099e0b7bae48fd5deb4af43adabb60b4c4c982e33b63"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/allocation.csv",
+      "bytes": 1175,
+      "sha256": "aee353bb484b3aa7bb1c92687b6d7f2d6da9ca36431f7bbe3e23e30d198ff5ff"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/artifact-summary.json",
+      "bytes": 770,
+      "sha256": "162e7789b050a5acc67b5f0257c306b6bdf110b7e2e15265fd6f243a49eb4b46"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/audit-summary.json",
+      "bytes": 2464,
+      "sha256": "741f58ee86d1582f03dd063f8d8339b4a4b93b1af3be1dc378e1a9b5140fe13c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/candidate-observer.csv",
+      "bytes": 200808,
+      "sha256": "af2e555ac3b5c878ccf2b3a5d5118da8abb803b793ea64733dda88f490861353"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/candidate-quality.png",
+      "bytes": 135491,
+      "sha256": "f53b54a487cf414b920443724fd6706d715fdddd8256379ad20335d7acb8f2ec"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/candidate.csv",
+      "bytes": 148640,
+      "sha256": "4e8499b0fb84f02903bbaf8b342096dc44088b1184ca68f94c2f6743930a4680"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/compute.csv",
+      "bytes": 1045,
+      "sha256": "ee0074fe57107f549e1aabca0d573d2e2c3112b3c2bddf8781380133f4ef4626"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/cost-summary.json",
+      "bytes": 700,
+      "sha256": "c4190081fae42b03a50c8c8dde46053a1bc114e183af3b9ed8951e65f83f44ad"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/diagnostic-report-ko.md",
+      "bytes": 30567,
+      "sha256": "c68ad8e4d7dce3801a3a933e8d8f5e59e350315c1673b289b6154cbc73b2d09b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/event-counts.csv",
+      "bytes": 30094,
+      "sha256": "e019a32e3f648b43df3c060eb65706311432bb4e42a1f27c9854544254ebd855"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/figure-manifest.json",
+      "bytes": 856,
+      "sha256": "075e471ba1f79d9926ba6c9e31bb3431312d22171215fafc1b15d6d0f1deaad8"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/final-rpn.png",
+      "bytes": 77538,
+      "sha256": "ff9f746d887ff2c6b36c060052dc64a673782d4ab925d8ca9728ede68f752486"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/final-table.csv",
+      "bytes": 1109,
+      "sha256": "4dc6d8d2e95196f5c3994de12c8923938306a5922ee958ebca07b614d0466310"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/first-final-table.csv",
+      "bytes": 1091,
+      "sha256": "e648ea8a0de86c70162db4f15b603513041cfb68e956910b983038da97460640"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/fit-cost.csv",
+      "bytes": 324560,
+      "sha256": "8db2b85e0bb201cec950c0b7c1336a6c07e5ea06bcd0cc873c29a158ad803329"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/generic.csv",
+      "bytes": 6638,
+      "sha256": "b42af8c36b319086aa7945021fc4b88e880b1a567c370736f74743e569f4496f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/history.csv",
+      "bytes": 69851,
+      "sha256": "1d887a1a0735518f5dfbdb9f0ce25e7689b457683157971e46afe61363a77cae"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/input-manifest.json",
+      "bytes": 232227,
+      "sha256": "72f1c6b75370ee7d64ebe30cbbc2d9aa5436328d565660ab0676c01b59849703"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/mechanism-summary.csv",
+      "bytes": 1109,
+      "sha256": "eff801f46c09954d60a2ede2188f959b64d0e950c7f4c27a8309f5ac318a7771"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/native-target-summary.csv",
+      "bytes": 99679,
+      "sha256": "4b817955bb7e275d0722407745bdea51cc993e7f2da6d4cbbfd462be3fd85c10"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/own-n4-to-selected.csv",
+      "bytes": 16117,
+      "sha256": "79d2854a0d86538fed6de39a85c16c723d9d2338a5ec1eef30500dfc6c2cc4ec"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/paired.csv",
+      "bytes": 13364,
+      "sha256": "6292722ca8dd8f5991af3303c5757c7e287d7923e6809b0ab8b04c42b05ee7fe"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/performance.csv",
+      "bytes": 276935,
+      "sha256": "96289b22c9dc282a53dc0d79076b283d1b89cdc1dfc33ca9c53af01fe58caa07"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/population-summary.json",
+      "bytes": 629,
+      "sha256": "1beff6e60148ae756f3d0a99885e17a737e377110c812da7411a38e486d7962c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/pruning-summary.csv",
+      "bytes": 800,
+      "sha256": "718c89c8456714e727132dda4d0fb39aefc5c908befdb3984366338ccc5a4e0a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/pruning.csv",
+      "bytes": 451806,
+      "sha256": "3962e5b1ee5084f2f7a128a89065b62cfb0fe56e1f43bd9cc016141c855c0c00"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/publication-checks.json",
+      "bytes": 1052,
+      "sha256": "d298d0f1a5417ce834859eece44cecd26b5db2ccce6f1f73fff155a1d8531c84"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/raw-inventory.csv",
+      "bytes": 2561539,
+      "sha256": "5a122bde9679d7039f49ff155f58e675e672c25ddf8080bbd68f89adc8b52f6d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/retention.csv",
+      "bytes": 175403,
+      "sha256": "96814c0517aeedbeca9370b3c963226630c8955d78dd2023c3c960c75154fb6e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/score-cost.csv",
+      "bytes": 321000,
+      "sha256": "52ebf6b6bc45e3e8eefdcfc5df4377789ea440b4442de33f7c670841072c36b0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/selected-gates.csv",
+      "bytes": 3037,
+      "sha256": "a9bfd16df04e238303ab5bca184110866a0d8424dfa85bb4e4464a6370d004c3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/selected-gates.png",
+      "bytes": 93626,
+      "sha256": "cf96cbf2018ce52e6759841c810c04065d897387c0cd88996af777f3a4fc8aad"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/selection.csv",
+      "bytes": 17173,
+      "sha256": "8917927ec00dd86762945375ed110fdf5bf0fcbb8628f17d6e7c4c38db1f3920"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/source-conformance.csv",
+      "bytes": 4455,
+      "sha256": "a4ee9365cfee5fce036f406d32aa7f87528ab99129ca5611648dbb3a3db9ed76"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/source-inventory.csv",
+      "bytes": 1595,
+      "sha256": "c7d0d59df445a72612ec7186bbf0b0069b97a04f7faf0e6ac5f028e9a459c043"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/state-links.csv",
+      "bytes": 29513,
+      "sha256": "9051e946cbff24cf7e90b8ae751b044e254e6694924a6ce4faac2e6c77b6c54a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/tensor-schema.csv",
+      "bytes": 200740,
+      "sha256": "09a2a1aae8781cc2b156b96ae700e59aec775e66303a023cd6d814243b87ef6f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/w0-conditioned-ns.csv",
+      "bytes": 2954,
+      "sha256": "4f32e1b4b640f92000676c275a4b2051930db2b1d59d531a4d5bb74b230f109e"
+    }
+  ],
+  "source_runtime_unchanged": true,
+  "raw_inventory": {
+    "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/raw-inventory.csv",
+    "bytes": 2561539,
+    "sha256": "5a122bde9679d7039f49ff155f58e675e672c25ddf8080bbd68f89adc8b52f6d"
+  },
+  "local_full_audit_sha": "711c172e960ae7a13bf76238865a535624164e863573d037a549db5094f69226",
+  "local_tensor_audit_sha": "b7fc30e42f24782776856ec2bbe505e02f273893941e21e317ecc821f81bb87d",
+  "new_gpu": 0,
+  "immutable_originals": true
+}

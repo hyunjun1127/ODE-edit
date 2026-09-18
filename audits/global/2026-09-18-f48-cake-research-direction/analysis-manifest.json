@@ -1,0 +1,69 @@
+{
+  "scope": "F48 and CAKE research-direction analysis; no new model forward or GPU run",
+  "source_review": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-18-sequential-local-z-allocation-review",
+  "checks": {
+    "derived_chains": 6,
+    "same_entry_B1_endpoints": 6,
+    "arrival_retention_rows": 12,
+    "local_links_checked": 29,
+    "missing_local_links": 0,
+    "independent_reviews": "Metrics and method reviewers; substantive corrections incorporated"
+  },
+  "files": [
+    {
+      "file": "arrival-and-retention.csv",
+      "bytes": 483,
+      "sha256": "a9a710af0c8fbc5f416209ae050f7b4298d90cb1b51219a9c57d4515d5695de6"
+    },
+    {
+      "file": "cake-and-repair-results-ko.md",
+      "bytes": 15637,
+      "sha256": "9096398d75adffcda89e85c5bcad6e1bc8c103ed63c35673b51612cd6f0cb198"
+    },
+    {
+      "file": "cake-method-audit-ko.md",
+      "bytes": 12687,
+      "sha256": "6d2eecfe17d038f383effd8eecdaf6ea0a5eaa5149461d5bd6ff97d31f21ab97"
+    },
+    {
+      "file": "derive_f48_evidence.py",
+      "bytes": 8495,
+      "sha256": "acb602e8cd1b96cca95a37cdca963d6cbf4b09e543bf302af0ca8382a4d8d8c8"
+    },
+    {
+      "file": "f48-derived-summary.json",
+      "bytes": 2153,
+      "sha256": "e122767eea7c6854fe96fb5d35147fe937026f1719dafd109040e3ca910cec7a"
+    },
+    {
+      "file": "f48-frontier-and-mechanism.pdf",
+      "bytes": 24253,
+      "sha256": "5e1824e01f9cd85040e57885485528cdb98ba57076c6187162412c130d3fabcb"
+    },
+    {
+      "file": "f48-frontier-and-mechanism.png",
+      "bytes": 220200,
+      "sha256": "da054452cc4b82d69706c72ef82139ba98cca5e2e3998ba49f29b504f8d16608"
+    },
+    {
+      "file": "historical-evidence-ko.md",
+      "bytes": 20341,
+      "sha256": "d8900274cca941f3ba5fa6263a8e55ebab24a1c1e490e58a1737cefda9b6a989"
+    },
+    {
+      "file": "research-direction-ko.md",
+      "bytes": 32869,
+      "sha256": "944bacbe0cf242b4c638fe4e590886651bc7e77463137fa4975d0f1c19db965b"
+    },
+    {
+      "file": "same-entry-b1-endpoints.csv",
+      "bytes": 810,
+      "sha256": "c0540c9751dbb489be775aa7acedb7ce6444ff5fdde033c7a11c6ca45e0b58f7"
+    },
+    {
+      "file": "v2-final-frontier.csv",
+      "bytes": 765,
+      "sha256": "4153a86b7838dc19041ec0778b18cf21f1c769c7be80e9df33562fbe15093f3b"
+    }
+  ]
+}

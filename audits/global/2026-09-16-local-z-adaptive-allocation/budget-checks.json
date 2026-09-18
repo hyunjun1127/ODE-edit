@@ -1,0 +1,32 @@
+{
+  "status": "PASS_CPU_DIAGNOSTIC_DEFINITIONS_ONLY",
+  "new_model_or_gpu_experiments": false,
+  "intrinsic_capacity_estimated": false,
+  "check_count": 13,
+  "checks": {
+    "no_hard_budget_invented": "PASS",
+    "W0_campaign_unchanged": "PASS",
+    "observer_not_controller": "PASS",
+    "observer_count_current": "PASS",
+    "observer_count_all": "PASS",
+    "more_layers_can_cancel_locality_response": "PASS",
+    "sum_norm_squared_is_not_net_drift": "PASS",
+    "signed_cumulative_mapping_identity": "PASS",
+    "L8_key_drift_decomposition": "PASS",
+    "step_KL_not_additive_cumulative_drift": "PASS",
+    "signed_output_ledger_telescopes": "PASS",
+    "same_history_rank_different_realization": "PASS",
+    "nested_same_state_frontier_gain_nonnegative": "PASS"
+  },
+  "illustrative_numbers_not_model_measurements": {
+    "endpoint_bernoulli_KL": 0.08717669357238886,
+    "stepwise_KL_sum": 0.042993418344485,
+    "signed_mapping_increment": -1.875,
+    "L8_module_difference": 1.2199999999999998
+  },
+  "sha256": {
+    "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json": "4c1a68a146eaa83384e4cd1e98e25e88c10e5809d16ea4162d3fd19825040116",
+    "plans/global/2026-09-16-local-z-adaptive-allocation-budget-diagnostics-v1.md": "9332085f4e75e60692e60f9de4731c3ccff6567b8690ba16acd8732baad6c82a",
+    "audits/global/2026-09-16-local-z-adaptive-allocation/validate_budget_diagnostics.py": "b0f5489a422f324345f5dc421f8f0442149bbbfaad700542e2ca4636bb921037"
+  }
+}

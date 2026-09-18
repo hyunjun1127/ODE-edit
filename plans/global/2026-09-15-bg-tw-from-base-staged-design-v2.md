@@ -1,5 +1,7 @@
 # BG-TW v2：W0부터 시작하는 단계적 방법 설계
 
+> 2026-09-15 후속 재검토: 아래는 이전 검토·설계의 기록이다. N4 기반 한도와 fixed-budget BG-1을 현재 첫 방법으로 사용하지 않는다. 현행 권고는 [파이프라인 재검토](/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md)와 [사전 보존 한도 없는 EP-TW-1 v3](/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md)를 따른다. 이전 실험 수치·수식 검토는 역사적 근거로 보존한다. 이 표지는 원격 V1 dispatch 변경을 뜻하지 않는다.
+
 작성: 2026-09-15. 상태: 설계 확정안. 방법 구현·GPU 실행·원격 제출·성능 검증은 아직 수행하지 않았다.
 
 기준 문서: [사용자 PDF](/mnt/raid5/janghj/ODE-edit/plans/global/ICLR_2027.pdf), [상세 검토](/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md).

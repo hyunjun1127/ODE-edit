@@ -1,0 +1,36 @@
+{
+  "schema": "SLZV2_COMPLETED_REVIEW_ROOT_V1",
+  "instruction_id": "ODEEDIT-S06-SLZV2-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "manifest": {
+    "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/analysis-manifest.json",
+    "bytes": 13871,
+    "sha256": "00c365fa49dce8907b09a566e17aeb365c7cbd1cdb5a3a8efad6b78f0b42c241"
+  },
+  "report": {
+    "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/diagnostic-report-ko.md",
+    "bytes": 30567,
+    "sha256": "c68ad8e4d7dce3801a3a933e8d8f5e59e350315c1673b289b6154cbc73b2d09b"
+  },
+  "first_table": {
+    "path": "experiment-reports/servers/server4/sequential-local-z-allocation-seq1000-2026-09-17-v2/completed-review-20260918-v1/first-final-table.csv",
+    "bytes": 1091,
+    "sha256": "e648ea8a0de86c70162db4f15b603513041cfb68e956910b983038da97460640"
+  },
+  "scheduler_receipt_sha": "bb7bca69dfc29a3739e4f044e3570476479ff0cc4a301c14165c88f2ccd8baea",
+  "scope": {
+    "arms": 6,
+    "batches": 60,
+    "arm_requests": 6000,
+    "unique_requests": 1000,
+    "commits": 60,
+    "history_appends": 300,
+    "adjacent_links": 54
+  },
+  "new_gpu": 0,
+  "disk_W_M_checkpoint": 0,
+  "exact_crash_resume": "NOT_AVAILABLE",
+  "GPU_continuation": "NOT_TESTED",
+  "automatic_resume": false,
+  "review_state": "CPU_REVIEW_COMPLETE",
+  "publication_commit": "REPORTED_SEPARATELY_IN_FINAL_HANDOFF_TO_AVOID_SELF_REFERENCE"
+}

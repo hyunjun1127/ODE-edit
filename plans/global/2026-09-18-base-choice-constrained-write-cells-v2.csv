@@ -1,0 +1,7 @@
+cell,stage,arm,start,batch_ordinals,new_requests,total_requests,gate,dispatch_status
+PREP_BASE512,data,BPCW512,W0_no_edits,NA,0,0,independent_train512_and_W0_greedy_capsules_with_fixed_prefixes,DESIGN_ONLY
+P1_N4,single_batch,N4,W0,1,100,100,integrated_B1_numerical_checks,NOT_SUBMITTED
+P1_BPCW,single_batch,BPCW512,same_W0_and_P1_native_preview,1,100,100,integrated_B1_numerical_checks,NOT_SUBMITTED
+S10_N4,sequential,N4,own_N4_B1_checkpoint,2-10,900,1000,frozen_B1_pair_gate,NOT_SUBMITTED
+S10_BPCW,sequential,BPCW512,own_BPCW_B1_checkpoint,2-10,900,1000,frozen_B1_pair_gate,NOT_SUBMITTED
+LOCAL_QP_ORDER_AUDIT,CPU_solver,NONE,stored_P1_local_gradients,NA,0,0,compare_GSS_order_and_full_local_QP_no_model_runs,NOT_RUN

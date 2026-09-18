@@ -1,0 +1,152 @@
+{
+  "status": "COMPLETE_NO_DATA_OR_CANONICAL_QP_MISMATCH_FOUND",
+  "source_report": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-l4-two-memory-v2-final-integration/experiment-reports/servers/server1/l4-two-memory-conflict-routing-2026-09-11-v2/final-v1/diagnostic-report-ko.md",
+  "source_report_sha256": "bf4d1ac802a9f3d0cd835482bd84823cd7f406876663e6ea096f872dfe17fbc5",
+  "raw_path_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-l4-two-memory-routing-v2",
+  "audits": {
+    "member": {
+      "status": "PASS",
+      "source_report_sha256": "bf4d1ac802a9f3d0cd835482bd84823cd7f406876663e6ea096f872dfe17fbc5",
+      "package_files": 54,
+      "package_bytes": 95680525,
+      "csv_files": 29,
+      "csv_rows": 485176,
+      "counts": {
+        "receipt_manifest": 1,
+        "receipt_report": 1,
+        "csv_field_count": 485176,
+        "manifest_root": 2,
+        "package_or_source_member": 93,
+        "raw_member_root": 1,
+        "raw_member": 422,
+        "raw_bytes": 58239664973,
+        "raw.json": 328,
+        "raw.pt": 94,
+        "prepared_input_asset": 5
+      },
+      "errors": [],
+      "elapsed_seconds": 88.89395689964294,
+      "model_loads": 0,
+      "model_forwards": 0
+    },
+    "table": {
+      "status": "PASS",
+      "counts": {
+        "exact": 3839691,
+        "numeric": 1183704,
+        "endpoint_prompt_rows": 100620,
+        "structured": 101783,
+        "harm_contexts": 50688,
+        "harm_tokens": 51196,
+        "generation_prompts": 852,
+        "endpoint_summary_rows": 783,
+        "joint_feasible": 37,
+        "joint_dual_relative": 37,
+        "nonnegative_domain": 37,
+        "linear_primal_feasible": 37,
+        "trajectory_nodes": 37,
+        "total_unique_endpoint_table_keys": 100620,
+        "total_unique_harm_table_keys": 50688,
+        "preservation_recovery_rows": 100620
+      },
+      "errors": [],
+      "max_absolute_float_difference": 4.618527782440651e-14,
+      "elapsed_seconds": 27.753420114517212,
+      "model_loads": 0,
+      "model_forwards": 0
+    },
+    "snapshot": {
+      "status": "PASS",
+      "counts": {
+        "OS_materialization": 5,
+        "stored_OS_anchor": 5,
+        "numeric": 7992,
+        "geometry_shapes": 5,
+        "endpoint_shape_dtype": 16,
+        "endpoint_finite": 16,
+        "ledger_same_across_arms": 16,
+        "OS_endpoint_identity": 5,
+        "endpoint_tensors": 16,
+        "history_same_across_arms": 11,
+        "node_shape_dtype": 37,
+        "BF_endpoint_anchor_identity": 9,
+        "node_tensors": 37,
+        "teacher_packing_identity": 25,
+        "teacher_row_identity": 3840,
+        "prediction_position_packing": 3840,
+        "teacher_selected_target_nll": 3840,
+        "teacher_files": 25
+      },
+      "errors": [],
+      "elapsed_seconds": 148.72186136245728,
+      "model_loads": 0,
+      "model_forwards": 0,
+      "GPU_calls": 0
+    },
+    "observation": {
+      "status": "PASS",
+      "counts": {
+        "exact": 1060842,
+        "numeric": 639851,
+        "base_NS_rows": 74240,
+        "base_summary_rows": 58,
+        "context_response_rows": 56520,
+        "context_response_summary_rows": 123,
+        "dataset_sha": 1
+      },
+      "errors": [],
+      "elapsed_seconds": 25.299455642700195,
+      "model_loads": 0,
+      "model_forwards": 0
+    },
+    "compute": {
+      "status": "PASS",
+      "checks": 372,
+      "errors": [],
+      "valid_backward": 5568,
+      "recorded_all_attempt_backward": 10176,
+      "total_allocated_gpu_seconds": 14024,
+      "total_allocated_gpu_hours": 3.8955555555555557,
+      "model_loads": 0,
+      "model_forwards": 0
+    }
+  },
+  "figures_visually_inspected": [
+    "endpoint.png",
+    "paired.png",
+    "harm.png",
+    "trajectory.png",
+    "compute.png"
+  ],
+  "independent_model_forward_calls": 0,
+  "independent_GPU_jobs": 0,
+  "original_files_modified": false,
+  "limitations": [
+    "No full-model forward or GPU continuation replay.",
+    "No independent byte comparison of every unselected model parameter.",
+    "Not every dense structural quadratic was recomputed; source/input hashes, scalar identities, and endpoint/trajectory tensors were checked.",
+    "Local-sample and one-order diagnostics; no new sequential chain or batch-size causal comparison."
+  ],
+  "audit_scripts": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit_compute.py",
+      "sha256": "8a705df32a7c8aa4298c45157a60332b5e56a7d118e4fb63dcd47af9ca9da199"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit_members.py",
+      "sha256": "2791b98ce76d6e695b000a035d7cf473ead47da36e261ff52be9d00ec175501c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit_observations.py",
+      "sha256": "dcbf8dabd19c5dd3ec16f2a9a1ca77826856023bcf9a5af143a8e6468e1c5fa6"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit_snapshots.py",
+      "sha256": "94b908cf76fe5dbcb464c50b63ff6b1517eed7c239264149645011bfc5c57687"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit_tables.py",
+      "sha256": "33b766011f9852682688ab64760913f599cbaea65aa38f79c8c1af46394094e9"
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 {
   "contract_id": "L4-PRESERVING-BATCH-REPAIR-V1",
   "date": "2026-09-17",
-  "status": "DESIGN_AND_CPU_MATH_ONLY",
+  "status": "DESIGN_PENDING_LAYER_FEASIBILITY",
   "model_runner_implemented": false,
   "GPU_jobs_submitted": 0,
-  "objective": "full native L4 target write 유지; 추가 L8은 edit-quality-preserving W0-output repair에만 사용",
+  "objective": "full native L4 target write 유지; 진단 후 선택할 추가층은 edit-quality-preserving W0-output repair에만 사용",
   "states": {
-    "entry": "own trajectory We; includes persistent past L8 repairs",
+    "entry": "own trajectory We; includes persistent past additional-layer repairs",
     "anchor": "WN = full native local-z4 write at We",
-    "candidate": "WN + L8-only correction",
-    "fallback": "exact WN; do not remove historical L8 correction",
+    "candidate": "WN + one selected additional-layer correction",
+    "fallback": "exact WN; retain all historical repairs",
     "L4_preserving_scope": "within batch anchor bytes; not identical W4 across independent lifelong chains"
   },
   "writer": {
@@ -17,13 +17,23 @@
     "target_location": 4,
     "native_gate": 1.0,
     "native_solver_unchanged": true,
-    "repair_layer": 8,
+    "repair_layer": null,
     "repair_target_new_compute_z_calls": 0,
-    "repair_native_P8": false,
     "repair_edit_Z_ball": false,
-    "repair_operational_M8": false,
     "M4_append_per_committed_batch": 1,
-    "inner_history_append": 0
+    "inner_history_append": 0,
+    "repair_layer_candidates": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "repair_layer_outside_band_controls": [
+      9,
+      12
+    ],
+    "repair_native_projector": false,
+    "repair_operational_history": false
   },
   "capsule": {
     "model": "Llama-3-8B-Instruct",
@@ -80,7 +90,7 @@
     "official_PS_evaluation_required": true
   },
   "direction_space": {
-    "parameter": "full L8 down-projection weight",
+    "parameter": "full selected-layer down-projection weight",
     "gradients": [
       "Base KL",
       "Current canonical mean NLL",
@@ -90,7 +100,7 @@
     "orthonormalization": "FP64 Gram/QR; preserve resolved gradient span; drop numerical zero/dependency",
     "additional_key_basis": false,
     "active_guard_expansion": "deferred new version, not v1",
-    "direction_scope_failure": "not intrinsic L8 capacity failure",
+    "direction_scope_failure": "not intrinsic capacity failure of the selected layer",
     "first_batch_max_dimensions": 2
   },
   "response_model": {
@@ -138,8 +148,8 @@
     "per-layer delta/path/net/energy"
   ],
   "plans": {
-    "technical_pilot": "cold first100 numerical/mechanism check; model-level not yet run",
-    "main": "new W0 B100x10 for five arms",
+    "technical_pilot": "same W0-start N4 anchors B1/B5/B10; six repair layers each; no model run yet",
+    "main": "conditional five-arm W0 B100x10 after layer and solver policy lock",
     "main_arms": [
       "N4",
       "REFIT4",
@@ -154,7 +164,6 @@
   },
   "cost_upper_structure": {
     "native_target_request_calls_per_repair_batch": 100,
-    "L8_target_request_calls": 0,
     "gradient_panel_sweeps_max": 3,
     "directional_JVP_sweeps_max": 3,
     "QP_solves_max": 6,
@@ -164,7 +173,9 @@
     "first_batch_gradient_panel_sweeps_max": 2,
     "first_batch_directional_JVP_sweeps_max": 2,
     "paraphrase_generation_or_guard_calls": 0,
-    "official_paraphrase_observer_cost": "record separately; not zero"
+    "official_paraphrase_observer_cost": "record separately; not zero",
+    "repair_target_request_calls": 0,
+    "scope": "single selected-layer legacy box template; excludes layer-feasibility diagnostic"
   },
   "claims_excluded": [
     "LD already demonstrated post-full-L4 repair",
@@ -172,8 +183,21 @@
     "official PS guaranteed by rewrite guards",
     "intrinsic remaining layer capacity",
     "QP KKT implies nonlinear quality feasibility",
-    "CPU fixture implies model derivative PASS"
+    "CPU fixture implies model derivative PASS",
+    "causal tracing identifies best preservation repair layer",
+    "L8 repair feasibility already established",
+    "three-direction failure proves whole-layer impossibility"
   ],
-  "design_revision": 2,
-  "latest_user_constraint": "paraphrase를 target으로 하는 별도 set을 만들거나 사용하지 않음; 공식 paraphrase는 observer only"
+  "design_revision": 3,
+  "latest_user_constraint": "별도 paraphrase target/guard set 없음; 추가층 repair 가능성과 L8 고정 근거를 먼저 점검; pre-edit W0 출발",
+  "layer_selection": {
+    "status": "UNRESOLVED",
+    "diagnostic_contract": "2026-09-17-repair-layer-feasibility-contract-v1.json",
+    "causal_critical_band_is_repair_boundary": false,
+    "L8_is_default_or_proven_best": false,
+    "diagnostic_trust": "common functional-energy ellipsoid; small convex QCQP",
+    "single_layer_template_trust": "legacy coordinate box QP; not the diagnostic solver",
+    "main_requires_layer_and_solver_policy_lock": true,
+    "dynamic_layer_router_required": false
+  }
 }

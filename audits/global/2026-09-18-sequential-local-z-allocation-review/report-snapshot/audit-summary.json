@@ -1,0 +1,64 @@
+{
+  "checks": 7966,
+  "failed": [],
+  "selected": 60,
+  "candidates": 446,
+  "fits": 552,
+  "history_rows": 300,
+  "sources": [
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/common.py",
+      "sha256": "5584175d33abce0780d9a4b08e204139c36ccc77d2299e98556d2c9a1db03e6d",
+      "bytes": 1601,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/controller.py",
+      "sha256": "855a945a0339cf663ef8c1781b340d859540f49da80f6f81f57dabe3621b1a24",
+      "bytes": 36361,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/runner.py",
+      "sha256": "65605aa5f58db05af2efe7c93c582ae79f555553e3e6655c4307c10ad3586965",
+      "bytes": 8976,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/runtime.py",
+      "sha256": "df4f139d58fbdc163b011c1b4983c75e6446a8100e7eb8052106223ed5c14c7c",
+      "bytes": 16039,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/native.py",
+      "sha256": "a790e93c96619f3db4fec9e6a5ee5b2b4057a3bdc4397c8af4f645e7394ee1a5",
+      "bytes": 11380,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/metrics.py",
+      "sha256": "64b7c29b91ad5fc73e36b9c94455e8d91275b3d907da79c15b530ba41130023a",
+      "bytes": 9586,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/technical.py",
+      "sha256": "c99704109bcdddef37f4354b1d7083891ac551dade6f7360d64333e82bd4c0e6",
+      "bytes": 25879,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/control.py",
+      "sha256": "0c69771c9888d7cf07256f8d77fef5441100ba35c4fd3fbad0057a3687fc6222",
+      "bytes": 9448,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    },
+    {
+      "path": "project/run_scripts/sequential_local_z_allocation/operations.py",
+      "sha256": "48fe2153451c48761db82b957ec62c564e56dd748a758c19afd903781b06b9cf",
+      "bytes": 6472,
+      "execution": "21297ec19e7f5aecec16d2fdb14cc79380a1df94"
+    }
+  ]
+}

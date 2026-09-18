@@ -10,11 +10,11 @@
       "pass": true
     },
     {
-      "name": "no_target_z8",
+      "name": "no_repair_target_z",
       "pass": true
     },
     {
-      "name": "no_native8_projection_or_target_ball",
+      "name": "no_native_repair_projection_or_target_ball",
       "pass": true
     },
     {
@@ -26,7 +26,7 @@
       "pass": true
     },
     {
-      "name": "all_five_new_cold",
+      "name": "all_five_new_cold_conditional",
       "pass": true
     },
     {
@@ -110,26 +110,87 @@
       "pass": true
     },
     {
+      "name": "repair_layer_unresolved",
+      "pass": true
+    },
+    {
+      "name": "main_requires_layer_and_solver_lock",
+      "pass": true
+    },
+    {
+      "name": "feasibility_only_no_model_execution",
+      "pass": true
+    },
+    {
+      "name": "same_W0_N4_anchors",
+      "pass": true
+    },
+    {
+      "name": "critical_and_outside_controls_agree",
+      "pass": true
+    },
+    {
+      "name": "18_unique_layer_anchor_cells",
+      "pass": true
+    },
+    {
+      "name": "frozen_L4_no_candidate_commits",
+      "pass": true
+    },
+    {
+      "name": "cell_start_count_and_status",
+      "pass": true
+    },
+    {
+      "name": "diagnostic_reuses_no_paraphrase_contract",
+      "pass": true
+    },
+    {
+      "name": "ellipsoid_separate_from_legacy_box",
+      "pass": true
+    },
+    {
+      "name": "matched_gain_comparison",
+      "pass": true
+    },
+    {
+      "name": "proposal_cost_bounds",
+      "pass": true
+    },
+    {
+      "name": "shadow_not_committed",
+      "pass": true
+    },
+    {
       "name": "100_damping_and_trust_box_fixtures",
       "pass": true
     }
   ],
-  "count": 28,
+  "count": 41,
   "model_calls": 0,
   "GPU_calls": 0,
   "max_sampled_predicted_energy_to_drift": 0.9841320585606939,
   "inputs": [
     {
       "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
-      "sha256": "37fefce4c1131d31446ea15805b25700ca8d74537bcacd5d0fd934ed7378d02e"
+      "sha256": "36ec8fcb57f987cc73b7ac4e667ff8a8262e209ef6b6c2e367d2453f674ae700"
     },
     {
       "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
-      "sha256": "8e5c6144f6c48cd5e6f863d83a915d064cf362ede41304f9208de3b8cdea323d"
+      "sha256": "af753e4c21a88d9c667bf1051be179787d98a03bdf2b1f7d696b3ac09f03adeb"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-repair-layer-feasibility-contract-v1.json",
+      "sha256": "ea47e9cc4dbac59afa678ead6dc5e383faffe07a0d071ad4d7e478355a75815d"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-17-repair-layer-feasibility-cells-v1.csv",
+      "sha256": "9c32709d092f105c0edbb97da792db5cdf5153205cddb724a93fea033ec82e03"
     }
   ],
   "limits": [
     "실제 Llama gradient/JVP/Fisher·production QP·RS/PS/NS·walltime은 검증하지 않았다.",
-    "실제 model numerical lock은 아직 만들어지지 않았다. 별도 paraphrase corpus는 사용하지 않는다."
+    "실제 model numerical lock은 아직 만들어지지 않았다. 별도 paraphrase corpus는 사용하지 않는다.",
+    "100개 수치 fixture는 기존 단일층 box의 damping/energy 범위만 검사한다. 새 층 비교 QCQP solver를 검증한 결과가 아니다."
   ]
 }

@@ -1,0 +1,153 @@
+{
+  "budget_policy_id": "W0-KL-TV010-v1",
+  "method_config_id": "BG1-W0-C4-TV010-v1",
+  "date": "2026-09-15",
+  "status": "사용자가 사전 손상 허용치 자체를 배제하도록 요청하여 채택 전 철회한 초안. 실행 계약에 통합하지 않았음.",
+  "design": "plans/global/2026-09-15-bg-tw-baseline-independent-budget-design.md",
+  "reference_contract": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+  "reference_dataset_id_unchanged": "C4-WebRef-v2",
+  "reference_anchor": "stream 전체에서 고정한 pre-edit W0",
+  "divergence": {
+    "direction": "KL(p0 || pW)",
+    "log_base": "natural",
+    "reduction": "vocabulary sum -> 128 scored positions mean -> reference document weighted mean",
+    "weights_nonnegative_sum_one": true,
+    "first_screen_set": "S64",
+    "units": "nats per scored position, 문서 평균"
+  },
+  "budget": {
+    "input_parameter": "rho_tv",
+    "rho_tv": 0.1,
+    "valid_rho_interval": "0 < rho_tv < 1",
+    "recipe": "b = 2 * rho_tv ** 2",
+    "kl_ceiling_nats": 0.02,
+    "origin": "사전에 선언하는 보존 허용치; baseline 손상이나 W0 entropy/noise로 추정하지 않음",
+    "dependencies": [
+      "declared rho_tv",
+      "고정 KL 방향·자연로그·평균 규약"
+    ],
+    "needs_baseline_checkpoint": false,
+    "needs_baseline_forward_evaluation": false,
+    "needs_baseline_editing_run": false,
+    "needs_future_requests_or_terminal_metrics": false,
+    "needs_known_stream_length": false,
+    "changes_with_sample_count": false,
+    "changes_with_corpus_or_model": false,
+    "changes_with_observed_rejections": false,
+    "changes_with_numeric_self_kl": false,
+    "per_batch_additive_allowance": false,
+    "automatic_budget_update": false,
+    "empirically_optimal": false,
+    "is_parameter_free": false
+  },
+  "interpretation": {
+    "total_variation": "TV(p,q) = 0.5 * sum_v abs(p_v-q_v)",
+    "derivation": "mean TV <= mean sqrt(KL/2) <= sqrt(mean KL/2) <= rho_tv",
+    "condition": "동일한 고정 prefix와 weights의 exact distributions에서의 해석; 구현은 별도 확인",
+    "scope": "선정한 finite reference의 weighted mean conditional-distribution 변화",
+    "per_prefix_bound": false,
+    "generation_sequence_bound": false,
+    "argmax_or_NS_accuracy_bound": false,
+    "heldout_or_population_bound": false,
+    "pinsker_is_sufficient_not_equivalent": true
+  },
+  "controller": {
+    "slack": "h = (b - D64(candidate)) / b",
+    "objective": "E_cur(candidate) + mu_base * relaxed_log_barrier_tau(h)",
+    "mu_base": 0.01,
+    "tau": 0.1,
+    "zeta": 0.25,
+    "effective_KL_gradient_weight": "mu_base / b * psi_tau(h), psi=1/h if h>=tau else (2*tau-h)/(tau*tau)",
+    "effective_weight_at_D_zero": 0.5,
+    "effective_weight_at_D_equal_b": 10.0,
+    "gradient_combination": "같은 고정 R_prop에서 G = G_current + effective_weight * G_D64",
+    "global_barrier_not_mean_of_microbatch_barriers": true,
+    "implementation_one_pass_option": "current와 generic residual-gradient buffers를 별도로 누적하고 global D64 scalar slope를 마지막에 적용",
+    "extra_route_gradient_updates_per_B100": 1,
+    "candidate_menu": [
+      "raw@1",
+      "corrected@1",
+      "corrected@0.5",
+      "corrected@0.25"
+    ],
+    "selection": "actual-forward D64 <= b + epsilon_screen 후보 중 E_cur 최소",
+    "if_no_candidate": "parent 유지; 원 requested denominator와 coverage에 포함",
+    "native_current_batch_proposal_still_used": true,
+    "independent_native_chain_required": false
+  },
+  "numerics": {
+    "screen_epsilon_nats_default": 0.0,
+    "self_kl_absolute_tolerance_nats_initial": 1e-06,
+    "self_kl_failure_status": "REFERENCE_NUMERIC_INVALID",
+    "noise_failure_action": "teacher/mask/reduction/dtype/복원 구현 확인; b를 키워 통과시키지 않음",
+    "if_nonzero_screen_epsilon_declared": "effective ceiling=b+epsilon_screen 및 TV bound=sqrt((b+epsilon_screen)/2)를 함께 기록",
+    "automatic_numeric_floor_in_budget": false,
+    "machine_precision_invariance_claim": false
+  },
+  "lifecycle": {
+    "before_first_edit": [
+      "W0/reference/teacher 유효성 확인",
+      "rho와 b 및 numeric contract lock",
+      "BG technical validation"
+    ],
+    "lock_file": "preservation-budget-manifest.json",
+    "lock_includes": [
+      "budget_policy_id",
+      "rho_tv",
+      "kl_ceiling_nats",
+      "KL reduction",
+      "reference/teacher hashes",
+      "screen epsilon",
+      "self-KL receipt",
+      "mu/tau/zeta"
+    ],
+    "chain_resume_requires_same_budget_manifest_hash": true,
+    "legacy_baseline_calibration_missing_is_blocker": false,
+    "baseline_results_role": "사후 성능·비용 비교와 재사용 provenance만",
+    "current_new_scientific_policies": [
+      "BG-1"
+    ],
+    "current_new_scientific_chains": 1,
+    "start": "W0",
+    "batch_size": 100,
+    "batches": 10,
+    "requested": 1000,
+    "runtime_allocation_requires_N4_timing": false,
+    "runtime_allocation_basis": "BG 자체 기술 profile과 서버 자원; N4 대비 배수는 사후 보고",
+    "remote_amendment_dispatched_in_this_revision": false
+  },
+  "future_sensitivity": {
+    "prerequisite_for_first_run": false,
+    "automatic_submission": false,
+    "settings": [
+      {
+        "rho_tv": 0.05,
+        "kl_ceiling_nats": 0.005
+      },
+      {
+        "rho_tv": 0.1,
+        "kl_ceiling_nats": 0.02
+      },
+      {
+        "rho_tv": 0.2,
+        "kl_ceiling_nats": 0.08
+      }
+    ],
+    "execution": "설정마다 W0 B100x10 독립 chain; 현재 신규 제출 범위에 추가하지 않음",
+    "first_S128_or_Pile_comparison": "동일 rho=0.1 및 mean KL b=0.02 유지; 효과는 새 1000요청 결과로 판단"
+  },
+  "fixed_penalty_comparator": {
+    "same_budget_and_data": true,
+    "initial_lambda": 0.5,
+    "initial_lambda_recipe": "mu_base / b; barrier의 D=0 slope와 일치",
+    "is_optimal_fixed_lambda": false,
+    "later_development_budget": "barrier와 동일한 제한된 개발 예산; 한 초기 lambda 실패로 barrier 우위를 주장하지 않음"
+  },
+  "sources": {
+    "pinsker": "https://arxiv.org/pdf/2202.07198",
+    "fixed_KL_constraint_precedent": "https://proceedings.mlr.press/v37/schulman15.pdf",
+    "precedent_scope": "고전 부등식과 사전 KL radius 설정 선례; BG efficacy/ODE/CBF theorem의 근거가 아님"
+  },
+  "active": false,
+  "superseded_by_discussion": "plans/global/2026-09-15-bg-tw-no-budget-discussion.md"
+}

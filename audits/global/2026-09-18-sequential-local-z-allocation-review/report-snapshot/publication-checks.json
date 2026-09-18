@@ -1,0 +1,32 @@
+{
+  "syntax_files": 11,
+  "focused_tests": "14 PASS",
+  "stored_evidence_checks": 7966,
+  "input_closure_members": 410,
+  "PNG_byte_reproducible": [
+    "candidate-quality.png",
+    "selected-gates.png",
+    "final-rpn.png"
+  ],
+  "PNG_visual_inspection": "SH4 viewed all3 actual PNG; readable axes/labels, measured points only; heatmap labels rounded2 with exact CSV",
+  "GFM_HTML_tables": 14,
+  "GFM_HTML_rows": 178,
+  "Korean_UTF8": true,
+  "render_level": "markdown-it actual HTML table parse; browser pixel rendering NOT_TESTED",
+  "links": 21,
+  "raw_immutable_post_stat_members": 9696,
+  "raw_full_SHA_already_recorded": true,
+  "final_table_arithmetic": true,
+  "runtime_changes": 0,
+  "model_load": 0,
+  "new_GPU": 0,
+  "slurm_mutations": 0,
+  "scheduler": "EXACT_SIX_ONCE_REUSED_RECEIPT",
+  "new_remote_transfer": 0,
+  "independent_red_agent": false,
+  "review_type": "SH_SELF_AUDIT_PLUS_INDEPENDENT_CPU_REDUCER_SELECTOR",
+  "analysis_repairs": [
+    "ASCII_JSON_IDENTITY_ENCODING",
+    "SET_ID_SERIALIZATION_ORDER_NOT_SEMANTIC_CHANGE"
+  ]
+}

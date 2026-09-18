@@ -1,16 +1,24 @@
 # ODE-Edit
 
-`ODE-Edit`는 sequential knowledge editing을 한 번의 고정 weight jump가 아니라,
-현재 model state에서 target과 layer별 write direction을 다시 계산하는 edit
-trajectory로 다루는 연구 저장소다.
+**2026-09-18 최신 설계:** [Base-choice constrained L4 write](plans/global/2026-09-18-base-choice-constrained-write-v2.md).
+전체 reference512의 W0 답변 선택을 제약으로 사용하고 현재 L4 편집 response를 보존하는 최소 보정을 설계한다.
+[GH 실행 지시문](project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md)은 cold B100 비교 뒤 조건부 B100×10 확장을 정의한다.
+설계·CPU 검증·전달문 단계이며 실제 BPCW 모델 runner 및 GPU 성능 검증은 미완료다.
 
-현재 primary research direction은 **FzCB-Edit: Fixed-z Conditional-Completion Barrier
-Editing**이다. 2026-08-31 method pivot에 따라 output-KL/reference-fact controller를
+**2026-09-12 연구 배경:** [Baseline 메커니즘 분석에서 출발하는 lifelong 실험 방향](/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-12-baseline-mechanism-first-lifelong-editing-design.md).
+기존 결과·계측 코드를 재사용해 baseline의 원인을 분석하고, 최소 개입의 결과에 따라
+방법을 선택한다. Barrier/ODE는 이 진단의 실험군에 포함하지 않는다.
+
+`ODE-Edit`는 sequential knowledge editing의 baseline 메커니즘,
+edit retention과 locality를 분석하고, 그 근거에 따라 편집 방법을 개발하는 연구 저장소다.
+
+이하 본문은 **FzCB-Edit: Fixed-z Conditional-Completion Barrier Editing**의
+2026-08-31 설계와 그 이전 연구 기록이다. 당시 method pivot에 따라 output-KL/reference-fact controller를
 core에서 제거하고, fixed target progress를 hard equality로 유지한 상태에서 남은 edit의
 conditional completion action만 단일 barrier로 제어한다. 2026-08-30 이전 결과와 FCW
 branch는 역사적 evidence로 보존하며 새 method의 성능 근거로 자동 승계하지 않는다.
 
-## 현재 연구 방향 한눈에 보기
+## 이전 FzCB 설계 한눈에 보기
 
 ```text
 stock z*/shared delta* 1회 계산
@@ -82,7 +90,7 @@ preregister하기 전에는 해당 claim을 재개하지 않는다.
 
 ## Follow-up 읽기 순서
 
-1. [2026-08-31 current FzCB method pivot](project/proposals/2026-08-31-fzcb-edit-method-pivot-proposal.md)
+1. [현재 BPCW-v2 method와 GH 실행 지시문](project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md)
 2. [Proposal index와 historical 문서 상태](project/proposals/README.md)
 3. [2026-08-30 직전 FCW research reset proposal](project/proposals/2026-08-30-fixed-z-functional-safe-write-proposal.md)
 4. [2026-08-30 F1/F2 fast falsification plan](plans/global/2026-08-30-fixed-z-fast-falsification-plan.md)
@@ -112,7 +120,8 @@ Model/GPU/Slurm 실행과 raw artifact는 ignored execution plane에 둔다. Act
 worktree의 미완성 source는 main에 섞지 않으며, 완료 checkpoint도 source/history가
 정리되고 필수 gate를 통과한 뒤에만 main으로 승격한다.
 
-현재 repository documentation은 2026-08-31 FzCB method pivot proposal을 primary로 안내한다.
+현재 실험 설계의 진입점은 위 BPCW-v2와 GH 지시문이며, 2026-09-12 baseline mechanism 설계는 배경 기록이다.
+2026-08-31 FzCB method pivot proposal은 이전 방법 기록으로 보존한다.
 2026-08-30 FCW proposal과 pre-reset R8/R10 source/evidence는 별도 역사 계보로 보존하며,
 FzCB의 hypothesis support로 자동 승계하지 않는다.
 

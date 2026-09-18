@@ -1,0 +1,135 @@
+{
+  "created_at": "2026-09-18T04:11:23.067803+00:00",
+  "inputs": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/scans/server2-scan.json",
+      "bytes": 5270645,
+      "sha256": "6b4463c8334f483340138033e0ec8bdfbd433df7decca296902e5eef504417a6"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/scans/server1-scan.json",
+      "bytes": 20307163,
+      "sha256": "60af35f0fc62d1e306dd39924542340e7c563fc3d616a62eb6366ab4ca2f3a55"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/scans/server3-scan.json",
+      "bytes": 62085,
+      "sha256": "80dab1eb6d9fa1d3d6864d6a77a5f735da0524e61fa82979fa53df359616312b"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/scans/server4-scan.json",
+      "bytes": 14797771,
+      "sha256": "ea941a7bfed49ade81f615f276b778bd12c13694340448a8af4ee060ef689c6a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/transfer-metadata.json",
+      "bytes": 398678,
+      "sha256": "75bec6de6b5dcc3516f3cd0704070944a36937d4f32b099b96bcab2bcd33c20d"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-location-index/20260918-v1/final-stat-recheck.json",
+      "bytes": 2529446,
+      "sha256": "59e6b05031db504ddd65cb577429ec80bb2c8e33744e87f576ebb0b23279e024"
+    }
+  ],
+  "members": [
+    {
+      "path": "all-tensor-artifacts.csv",
+      "bytes": 5029025,
+      "sha256": "7e156bc505c023782ee8bdcaa047eb42e1819f43e7f00099762f563c4e5385e7"
+    },
+    {
+      "path": "build_index.py",
+      "bytes": 26222,
+      "sha256": "08a5739c6c00b5edd0520e749ae2d65410afdf08d066c8616a010a4d345d17cb"
+    },
+    {
+      "path": "checkpoint-components.csv",
+      "bytes": 848499,
+      "sha256": "9be9f2cff617e63fd9d102f9d9ba349c9a8c65d79606f12a56c42b89313d0db1"
+    },
+    {
+      "path": "checkpoint-index.csv",
+      "bytes": 1062000,
+      "sha256": "d0d80862725c40de4d65a5572600d21b6f809704f6609942a193967fa565c56a"
+    },
+    {
+      "path": "checkpoint-location-report-ko.md",
+      "bytes": 10243,
+      "sha256": "84ea0d141854763c26276f739eb96212b86c9647a941a2f780c84adbc105535a"
+    },
+    {
+      "path": "checkpoint_inventory.py",
+      "bytes": 12740,
+      "sha256": "116bc10ab9816cb966292d8577a1a80c9d2e75b5b354953a14b7d0b4735f2d02"
+    },
+    {
+      "path": "classification-counts.json",
+      "bytes": 440,
+      "sha256": "bfb017e6c71bc3f949cde18421c10f7a67b615197feab4e80ddc33962bd4d02e"
+    },
+    {
+      "path": "directory-aliases.csv",
+      "bytes": 51419,
+      "sha256": "0f8a658e207aaf2c67b4aaae4f2e8786193b99ba27b25c9c00c42a82569eeaea"
+    },
+    {
+      "path": "experiment-server-matrix.csv",
+      "bytes": 1195,
+      "sha256": "a1f7961383f9e2cc1fd52038f82c1726a99b612b7f3c4b587346866f2780486d"
+    },
+    {
+      "path": "experiment-summary.csv",
+      "bytes": 7314,
+      "sha256": "724f9c5419f1af566c67b5d3a786a70f79bfb168a577893e96ecac1eff42a382"
+    },
+    {
+      "path": "lifelong-sequential-index.csv",
+      "bytes": 226078,
+      "sha256": "294d08c84c87a2d1cb586e9c594895b41412410b20ec34b09115e8ba9a0bc59f"
+    },
+    {
+      "path": "migration-status.csv",
+      "bytes": 126251,
+      "sha256": "95e1c05b8d155a2f82f5dedcdd6646124115075d5d905bf7b19a2e40edf9fce8"
+    },
+    {
+      "path": "scan-coverage.json",
+      "bytes": 6817,
+      "sha256": "f69fa1bd2f6ca1c5a46931caa0a26cd2202ac1a69d75e09c1d2d93552620afb5"
+    },
+    {
+      "path": "server-summary.csv",
+      "bytes": 702,
+      "sha256": "3dc2e5205550545d6e5b932c0db24bb96fd1132d79b3b8e41c59a02266c13bbb"
+    },
+    {
+      "path": "test_inventory.py",
+      "bytes": 3516,
+      "sha256": "670a6ca2b4f60c0f45a7359cea4d98167f2b03b3104bc81e63f6578a821fefd6"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 808,
+      "sha256": "2819838263c257ecfb55648aeebff58689b840ae409ba7c4ae4a0df7cec04e0c"
+    }
+  ],
+  "checkpoint_payload_rehash": false,
+  "transfer_evidence": {
+    "old_map_path": "transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+    "old_map_git_commit": "deecbb1f65ebeec4ad7b8ca18d65ae0080b2c500",
+    "old_map_sha256": "15981247210d3ab910b76e6ff8f100ba155e54d58936ff419aa85fdfb831d551"
+  },
+  "current_transfer_metadata": [
+    {
+      "path": "/data/janghj/ODE-edit/local/transfers/20260918-official-lifelong-server4-to-server2-r1/source-manifest.json",
+      "sha256": "f99493927f7372ce96f0bde9b979f9dd21ff7cd268d97d6b57f19aba33b8fee0",
+      "bytes": 242404
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/transfers/20260918-official-lifelong-server4-to-server2-r1/transfer-command.json",
+      "sha256": "d6c824102aed902a0697ce84ac33f2c2a847910444805a13dd73d62a0c85a7fa",
+      "bytes": 601
+    }
+  ]
+}

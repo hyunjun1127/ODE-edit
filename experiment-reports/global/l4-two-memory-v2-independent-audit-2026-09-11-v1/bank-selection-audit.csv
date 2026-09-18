@@ -1,0 +1,6 @@
+entry,batch_raw,active_past,past_eligible,base_eligible,past_selected,base_selected,Base_BaseAudit_fact_overlap,Base_BaseAudit_canonical_prompt_overlap
+Early,100,999,797,8686,128,128,0,0
+Middle,100,4931,4729,4754,128,128,0,0
+Late,100,8824,8623,860,128,128,0,0
+Middle,1,4931,4731,4851,128,128,0,0
+Middle,7,4931,4731,4845,128,128,0,0

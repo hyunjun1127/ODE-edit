@@ -1,0 +1,84 @@
+{
+  "status": "PASS_CPU_ALGEBRA_ONLY",
+  "checks": [
+    {
+      "name": "choice_probability_original_margin_distinct",
+      "pass": true,
+      "values": {
+        "native": {
+          "margin": -0.13353139262452274,
+          "attenuation": 0.5389965007326871,
+          "choice_safe": false
+        },
+        "A": {
+          "margin": 0.6061358035703156,
+          "attenuation": 0.0870113769896297,
+          "choice_safe": true
+        },
+        "B": {
+          "margin": 0.8754687373538999,
+          "attenuation": 0.0,
+          "choice_safe": true
+        }
+      }
+    },
+    {
+      "name": "logit_gap_equals_log_probability_gap",
+      "pass": true
+    },
+    {
+      "name": "frozen_base_competitor_can_false_pass",
+      "pass": true
+    },
+    {
+      "name": "tie_requires_exact_token_ID_guard",
+      "pass": true
+    },
+    {
+      "name": "positive_margin_dual_reconstruction_and_zero_safe_update",
+      "pass": true
+    },
+    {
+      "name": "initially_safe_reference_must_remain_in_full_problem",
+      "pass": true
+    },
+    {
+      "name": "working_set_with_full_scan_matches_full_QP",
+      "pass": true,
+      "row_order": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "offset_strength_conflict_and_zero_gradient",
+      "pass": true
+    },
+    {
+      "name": "retain_exposed_pairs_to_avoid_competitor_switch_oscillation",
+      "pass": true,
+      "retained_D": [
+        0.09999999999999787,
+        0.9999999999999859
+      ]
+    },
+    {
+      "name": "actual_center_rounding_term_in_positive_margin_RHS",
+      "pass": true
+    },
+    {
+      "name": "greedy_prefix_induction_EOS_and_censor_scope",
+      "pass": true
+    },
+    {
+      "name": "all_reference_contract_caps_and_supersession",
+      "pass": true
+    }
+  ],
+  "n_checks": 12,
+  "model_loaded": false,
+  "base_capsules_built": false,
+  "GPU_runs": 0,
+  "model_numerical_validation": "NOT_RUN",
+  "scope": "Small deterministic algebra and counterexamples, not numerical validation or efficacy of the LLM method."
+}

@@ -1,0 +1,130 @@
+{
+  "scope": "Stored CSV arithmetic and CPU algebra only; no tensor replay or model evaluation",
+  "second_Adam_histogram": {
+    "0": 853,
+    "21": 1,
+    "24": 146
+  },
+  "second_Adam_total": 3525,
+  "second_positive_request_count": 147,
+  "second_positive_request_mean_Adam": 23.979591836734695,
+  "history_hash_unique_counts_across_six_policies": {
+    "51": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "52": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "53": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "54": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "55": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "56": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "57": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "58": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "59": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    },
+    "60": {
+      "raw_entry_M": 1,
+      "raw_endpoint_M": 1
+    }
+  },
+  "history_hash_limitation": "Published hashes agree. This is not an independent raw tensor or K equality check.",
+  "suffix_final_metrics": {
+    "N4": {
+      "P_success": 1938,
+      "P_strict": 1423,
+      "N_success": 7108,
+      "P_den": 2000,
+      "N_den": 10000
+    },
+    "REFIT4": {
+      "P_success": 1950,
+      "P_strict": 1405,
+      "N_success": 7175,
+      "P_den": 2000,
+      "N_den": 10000
+    },
+    "FROZEN2": {
+      "P_success": 1958,
+      "P_strict": 1467,
+      "N_success": 7070,
+      "P_den": 2000,
+      "N_den": 10000
+    },
+    "I2": {
+      "P_success": 1961,
+      "P_strict": 1456,
+      "N_success": 7086,
+      "P_den": 2000,
+      "N_den": 10000
+    },
+    "FROZEN4": {
+      "P_success": 1969,
+      "P_strict": 1487,
+      "N_success": 7056,
+      "P_den": 2000,
+      "N_den": 10000
+    },
+    "I4": {
+      "P_success": 1966,
+      "P_strict": 1489,
+      "N_success": 7056,
+      "P_den": 2000,
+      "N_den": 10000
+    }
+  },
+  "algebra": {
+    "repeat_vs_accumulated_endpoint_maxabs": 1.1102230246251565e-16,
+    "frozen2_minus_native_formula_maxabs": 5.551115123125783e-17,
+    "same_geometry_RHS_split_maxabs": 0.0,
+    "scalar_native": 0.5,
+    "scalar_frozen2": 0.6875,
+    "scalar_native_objective": 0.5,
+    "scalar_frozen2_objective": 0.5703125,
+    "tangent_Euler_barrier_value": -0.010000000000000009
+  },
+  "source_files": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/refit4-seq10-review-2026-09-14/source/experiment-reports/servers/server4/low-cost-write-donor-seq10-2026-09-13-v1/completed-review-v1/z-iterations.csv",
+      "sha256": "50d3acc4c7af34e22f069d47a688dcf14b597e383de032eba6ed36e31f42dac8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/bg-tw-method-review-2026-09-15/source/experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/raw-writer-history-links.csv",
+      "sha256": "0283d4cddaa41f1397441c8a255f0477dde0213cc32456a33cae530b72d73266"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/bg-tw-method-review-2026-09-15/source/experiment-reports/servers/server4/refit4-write-refresh-seq1000-2026-09-14-v1/completed-review-v1/final-populations.csv",
+      "sha256": "ba6103cbc48e6c6f37b604a1438919373bcfefb5e270520423798643a2f6e0a8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/final-summary.csv",
+      "sha256": "f98bd3ff9bf0bac6b636c3518a4fba82ddba8ec956f8f913ec1975364b0259c0"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/AlphaEdit-layer-summary.csv",
+      "sha256": "2d9cd1a4385b6a9a7b770e498923d4a0af2b4c8b9add61f88d16d4ee086132fe"
+    }
+  ]
+}

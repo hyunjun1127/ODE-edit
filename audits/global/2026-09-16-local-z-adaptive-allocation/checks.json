@@ -48,8 +48,8 @@
     "max_target_loss_evaluations": 300000
   },
   "source_sha256": {
-    "plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md": "0aa17998b55850c7b361545c6388930bf75f7ed9d11dc5e4968acf868c370b69",
-    "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json": "07579b9976090266310b3f771312a7dd486c2afacc233cfd1332b0c9a69279df",
+    "plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md": "d4a90c525d4a88a6caab3dbb6afa8159aa796889a6c57759114354765ccf7da7",
+    "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json": "4c1a68a146eaa83384e4cd1e98e25e88c10e5809d16ea4162d3fd19825040116",
     "plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv": "6c4fa65a61307400189f214e0af6da8b0697ce13ec7b098ddc9e07989a35e65d",
     "audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py": "89851564b2e606774bab77b4a362bd595013994b6c3cedab9fd12402d4e8c45e"
   },

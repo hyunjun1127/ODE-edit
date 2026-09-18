@@ -1,0 +1,56 @@
+{
+  "step_norm_summary": {
+    "N4": {
+      "sum_step_concat_fro": 80.57722461735567,
+      "sum_step_concat_fro_squared": 650.431722599538,
+      "own_n4_selected": 10,
+      "sum_step_concat_fro_vs_N4_ratio": 1.0,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 1.0
+    },
+    "F48": {
+      "sum_step_concat_fro": 64.89084408589994,
+      "sum_step_concat_fro_squared": 421.4593834856433,
+      "own_n4_selected": 0,
+      "sum_step_concat_fro_vs_N4_ratio": 0.8053248842219739,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 0.6479686780977165
+    },
+    "G48": {
+      "sum_step_concat_fro": 77.24116150110193,
+      "sum_step_concat_fro_squared": 600.4541711777099,
+      "own_n4_selected": 8,
+      "sum_step_concat_fro_vs_N4_ratio": 0.9585979396523521,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 0.9231624939477335
+    },
+    "C4": {
+      "sum_step_concat_fro": 80.4605897429198,
+      "sum_step_concat_fro_squared": 648.5268638476931,
+      "own_n4_selected": 8,
+      "sum_step_concat_fro_vs_N4_ratio": 0.9985525081685334,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 0.997071393221364
+    },
+    "C48": {
+      "sum_step_concat_fro": 71.79828961030857,
+      "sum_step_concat_fro_squared": 519.8052998703806,
+      "own_n4_selected": 1,
+      "sum_step_concat_fro_vs_N4_ratio": 0.8910494243412277,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 0.7991696619483882
+    },
+    "C45678": {
+      "sum_step_concat_fro": 74.44044110468963,
+      "sum_step_concat_fro_squared": 558.9669650926277,
+      "own_n4_selected": 3,
+      "sum_step_concat_fro_vs_N4_ratio": 0.9238397259050762,
+      "sum_step_concat_fro_squared_vs_N4_ratio": 0.8593783877247575
+    }
+  },
+  "note": "Sum of stored actual concat per-step norms/squares; net displacement and layer-resolved norms unavailable; association not causal proof.",
+  "F48_vs_N4": {
+    "S64_KL_relative_reduction": 0.4126821870221684,
+    "Dev128_KL_relative_reduction": 0.3975518386762593,
+    "program_ratio": 1.2247385338500942,
+    "NS_delta_pp": 2.9799999999999898,
+    "PS_delta_pp": -1.25,
+    "P_strict_delta_pp": -3.700000000000003,
+    "P_two_strict_delta_pp": -5.6
+  }
+}

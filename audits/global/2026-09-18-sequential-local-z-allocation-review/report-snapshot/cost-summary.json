@@ -1,0 +1,28 @@
+{
+  "new_science_allocated_GPU_seconds": 58623,
+  "new_science_GPU_hours": 16.284166666666668,
+  "technical_prior_49421_GPU_seconds": 3379,
+  "teacher_reuse_prior_GPU_seconds": 98,
+  "review_GPU_seconds": 0,
+  "observed_exact_six_peak_allocation": 2,
+  "cap": 2,
+  "other_task_intervals": "NOT_QUERIED",
+  "total_actual": {
+    "native_targets": 55200,
+    "native_Adam": 215614,
+    "native_loss": 270814,
+    "native_clamp": 214078,
+    "native_solves": 552,
+    "online_scores": 446,
+    "history_appends": 300
+  },
+  "planned_upper": {
+    "Adam": 408000,
+    "history": 300,
+    "loss": 497000,
+    "score": 960,
+    "solve": 890,
+    "target": 89000
+  },
+  "allocation_is_utilization": false
+}

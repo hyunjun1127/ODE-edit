@@ -1,0 +1,249 @@
+[
+  {
+    "version": "checkpoint-location-index-v1",
+    "server": "server1",
+    "hostname": "devbox",
+    "started_at": "2026-09-18T04:01:29.926953+00:00",
+    "finished_at": "2026-09-18T04:01:40.221117+00:00",
+    "scope": [
+      {
+        "path": "/mnt/raid5/janghj",
+        "status": "PRESENT",
+        "free_bytes": 861529616384
+      },
+      {
+        "path": "/data/janghj",
+        "status": "ABSENT"
+      }
+    ],
+    "scanned_roots": [
+      "/mnt/raid5/janghj/.codex/worktrees",
+      "/mnt/raid5/janghj/agent-control-template",
+      "/mnt/raid5/janghj/EAIR-ACL2026",
+      "/mnt/raid5/janghj/00.KE",
+      "/mnt/raid5/janghj/future_work",
+      "/mnt/raid5/janghj/knowledge-editing-regularization",
+      "/mnt/raid5/janghj/snap",
+      "/mnt/raid5/janghj/layer_allocation",
+      "/mnt/raid5/janghj/slurm",
+      "/mnt/raid5/janghj/__MACOSX",
+      "/mnt/raid5/janghj/knowledge-revision",
+      "/mnt/raid5/janghj/nltk_data",
+      "/mnt/raid5/janghj/ODE-edit",
+      "/mnt/raid5/janghj/tmp",
+      "/mnt/raid5/janghj/edit-scheduling",
+      "/mnt/raid5/janghj/EasyEdit",
+      "/mnt/raid5/janghj/superseded-prior-reflective-ke",
+      "/mnt/raid5/janghj/.cache/huggingface",
+      "/mnt/raid5/janghj/edge-propagation-ke",
+      "/mnt/raid5/janghj/reflection-based-ke"
+    ],
+    "excluded_directory_names": [
+      ".git",
+      ".ipynb_checkpoints",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "env",
+      "envs",
+      "node_modules",
+      "site-packages",
+      "tensorboard",
+      "venv",
+      "wandb"
+    ],
+    "hidden_scope": "Only .codex/worktrees and .cache/huggingface at user-root; nested hidden directories excluded except .rsync-partial.",
+    "counts": {
+      "directories": 68147,
+      "files_seen": 664831,
+      "excluded_directories": 2309
+    },
+    "errors": [],
+    "payload_hashes_recomputed": 0,
+    "tensor_deserialization": 0,
+    "remote_writes": 0,
+    "GPU_or_scheduler_actions": 0
+  },
+  {
+    "version": "checkpoint-location-index-v1",
+    "server": "server2",
+    "hostname": "server2",
+    "started_at": "2026-09-18T04:01:30.685193+00:00",
+    "finished_at": "2026-09-18T04:01:44.196568+00:00",
+    "scope": [
+      {
+        "path": "/mnt/raid5/janghj",
+        "status": "PRESENT",
+        "free_bytes": 556873859072
+      },
+      {
+        "path": "/data/janghj",
+        "status": "ABSENT"
+      }
+    ],
+    "scanned_roots": [
+      "/mnt/raid5/janghj/knowledge-revision",
+      "/mnt/raid5/janghj/EasyEdit",
+      "/mnt/raid5/janghj/edit-scheduling",
+      "/mnt/raid5/janghj/course_work",
+      "/mnt/raid5/janghj/.codex/worktrees",
+      "/mnt/raid5/janghj/edge-propagation-ke",
+      "/mnt/raid5/janghj/tmp",
+      "/mnt/raid5/janghj/00.KE",
+      "/mnt/raid5/janghj/agent-control",
+      "/mnt/raid5/janghj/slurm",
+      "/mnt/raid5/janghj/snap",
+      "/mnt/raid5/janghj/superseded-prior-reflective-ke",
+      "/mnt/raid5/janghj/knowledge-editing-regularization",
+      "/mnt/raid5/janghj/ODE-edit",
+      "/mnt/raid5/janghj/.cache/huggingface",
+      "/mnt/raid5/janghj/toolkit",
+      "/mnt/raid5/janghj/nltk_data"
+    ],
+    "excluded_directory_names": [
+      ".git",
+      ".ipynb_checkpoints",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "env",
+      "envs",
+      "node_modules",
+      "site-packages",
+      "tensorboard",
+      "venv",
+      "wandb"
+    ],
+    "hidden_scope": "Only .codex/worktrees and .cache/huggingface at user-root; nested hidden directories excluded except .rsync-partial.",
+    "counts": {
+      "directories": 22917,
+      "files_seen": 198964,
+      "excluded_directories": 1083
+    },
+    "errors": [],
+    "payload_hashes_recomputed": 0,
+    "tensor_deserialization": 0,
+    "remote_writes": 0,
+    "GPU_or_scheduler_actions": 0
+  },
+  {
+    "version": "checkpoint-location-index-v1",
+    "server": "server3",
+    "hostname": "ubuntu",
+    "started_at": "2026-09-18T04:01:30.289766+00:00",
+    "finished_at": "2026-09-18T04:01:30.345081+00:00",
+    "scope": [
+      {
+        "path": "/mnt/raid5/janghj",
+        "status": "ABSENT"
+      },
+      {
+        "path": "/data/janghj",
+        "status": "PRESENT",
+        "free_bytes": 353588682752
+      }
+    ],
+    "scanned_roots": [
+      "/data/janghj/EasyEdit",
+      "/data/janghj/edge-propagation-ke",
+      "/data/janghj/.cache/huggingface"
+    ],
+    "excluded_directory_names": [
+      ".git",
+      ".ipynb_checkpoints",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "env",
+      "envs",
+      "node_modules",
+      "site-packages",
+      "tensorboard",
+      "venv",
+      "wandb"
+    ],
+    "hidden_scope": "Only .codex/worktrees and .cache/huggingface at user-root; nested hidden directories excluded except .rsync-partial.",
+    "counts": {
+      "directories": 429,
+      "files_seen": 1562,
+      "excluded_directories": 70
+    },
+    "errors": [],
+    "payload_hashes_recomputed": 0,
+    "tensor_deserialization": 0,
+    "remote_writes": 0,
+    "GPU_or_scheduler_actions": 0
+  },
+  {
+    "version": "checkpoint-location-index-v1",
+    "server": "server4",
+    "hostname": "server4",
+    "started_at": "2026-09-18T04:01:30.569720+00:00",
+    "finished_at": "2026-09-18T04:01:40.344083+00:00",
+    "scope": [
+      {
+        "path": "/mnt/raid5/janghj",
+        "status": "ABSENT"
+      },
+      {
+        "path": "/data/janghj",
+        "status": "PRESENT",
+        "free_bytes": 75358494720
+      }
+    ],
+    "scanned_roots": [
+      "/data/janghj/.cache/huggingface",
+      "/data/janghj/BLUE",
+      "/data/janghj/ODE-M",
+      "/data/janghj/ODE-edit",
+      "/data/janghj/EasyEdit-stock-14cea824",
+      "/data/janghj/knowledge-revision",
+      "/data/janghj/SUIT",
+      "/data/janghj/knowledge-editing-regularization",
+      "/data/janghj/odesteer",
+      "/data/janghj/EasyEdit",
+      "/data/janghj/agent-control-template"
+    ],
+    "excluded_directory_names": [
+      ".git",
+      ".ipynb_checkpoints",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".svn",
+      ".tox",
+      ".venv",
+      "__pycache__",
+      "env",
+      "envs",
+      "node_modules",
+      "site-packages",
+      "tensorboard",
+      "venv",
+      "wandb"
+    ],
+    "hidden_scope": "Only .codex/worktrees and .cache/huggingface at user-root; nested hidden directories excluded except .rsync-partial.",
+    "counts": {
+      "directories": 37677,
+      "files_seen": 407249,
+      "excluded_directories": 949
+    },
+    "errors": [],
+    "payload_hashes_recomputed": 0,
+    "tensor_deserialization": 0,
+    "remote_writes": 0,
+    "GPU_or_scheduler_actions": 0
+  }
+]

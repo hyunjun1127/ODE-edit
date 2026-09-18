@@ -1,0 +1,134 @@
+[
+  {
+    "arm": "N4",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/N4/attempt-v1/output/terminal.json",
+    "sha256": "ebc7be175fe214e6500ee5f604c370d5c668e084b11e45328bc5838b1ed66f4b",
+    "seconds": 4534.978909712285,
+    "timers": {
+      "components": {
+        "controller_inclusive": 3172.8178543411195,
+        "finalize_inclusive": 735.4205154934898,
+        "postseal_all_completed_candidate_observer": 0.605981482192874,
+        "postseal_entry_observer": 157.46167588420212,
+        "postseal_selected_observer": 404.3870958322659
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 642.2661066707224,
+        "model_load": 14.060140769928694,
+        "native_fit_inclusive": 2979.108206071891,
+        "projector_load": 21.89696299377829
+      }
+    }
+  },
+  {
+    "arm": "F48",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/F48/attempt-v1/output/terminal.json",
+    "sha256": "7cf3bd6e38e2ad1cb7a04b053ecc8cba04bcb8b5c30fb2189dfe7f22faf97f83",
+    "seconds": 5554.163420922123,
+    "timers": {
+      "components": {
+        "controller_inclusive": 4057.761851636693,
+        "finalize_inclusive": 830.1714962627739,
+        "postseal_all_completed_candidate_observer": 48.55948987789452,
+        "postseal_entry_observer": 156.77449893765152,
+        "postseal_selected_observer": 395.9015896692872
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 716.0324832787737,
+        "model_load": 12.40541225578636,
+        "native_fit_inclusive": 3655.4131889995188,
+        "projector_load": 21.451666122302413
+      }
+    }
+  },
+  {
+    "arm": "G48",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/G48/attempt-v1/output/terminal.json",
+    "sha256": "5a9702a7eef0732dcd95e5d8b126cc16f41d2fb0c1ed835d13d9f1ee275d2beb",
+    "seconds": 6815.739417755976,
+    "timers": {
+      "components": {
+        "controller_inclusive": 5103.577494092286,
+        "finalize_inclusive": 857.3642295459285,
+        "postseal_all_completed_candidate_observer": 237.82334822509438,
+        "postseal_entry_observer": 156.16792593803257,
+        "postseal_selected_observer": 394.5003400994465
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 739.7435340192169,
+        "model_load": 11.758770249783993,
+        "native_fit_inclusive": 3912.295389218256,
+        "projector_load": 21.551287689246237
+      }
+    }
+  },
+  {
+    "arm": "C4",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/C4/attempt-v1/output/terminal.json",
+    "sha256": "919b4787a3cec674cb3f1fd5c7f5842326004c07e3e0dc317adf5fa1675d8ee1",
+    "seconds": 5274.589990301058,
+    "timers": {
+      "components": {
+        "controller_inclusive": 3706.1116401934996,
+        "finalize_inclusive": 807.9677305324003,
+        "postseal_all_completed_candidate_observer": 143.19513897877187,
+        "postseal_entry_observer": 157.63911763299257,
+        "postseal_selected_observer": 398.27986617945135
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 696.7890256149694,
+        "model_load": 11.173736691474915,
+        "native_fit_inclusive": 2986.679612101987,
+        "projector_load": 21.589258713647723
+      }
+    }
+  },
+  {
+    "arm": "C48",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/C48/attempt-v1/output/terminal.json",
+    "sha256": "3bfca3181891f3cab918aeb877d8efb87a54ccbb3e38aa321efc08530a056df9",
+    "seconds": 16701.544794794172,
+    "timers": {
+      "components": {
+        "controller_inclusive": 14574.196352468804,
+        "finalize_inclusive": 904.0747177489102,
+        "postseal_all_completed_candidate_observer": 594.7720576534048,
+        "postseal_entry_observer": 157.88984800316393,
+        "postseal_selected_observer": 400.1551231313497
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 784.2376090465114,
+        "model_load": 11.746831169351935,
+        "native_fit_inclusive": 10909.082359200343,
+        "projector_load": 21.83704819623381
+      }
+    }
+  },
+  {
+    "arm": "C45678",
+    "path": "/data/janghj/ODE-edit/local/sequential-local-z-allocation/20260917-v2/arms/C45678/attempt-v1/output/terminal.json",
+    "sha256": "20d153e2dd630f3e5081211490486e9db06d3e12453493c9176405d04df3aab1",
+    "seconds": 19711.47628435027,
+    "timers": {
+      "components": {
+        "controller_inclusive": 17344.246536487713,
+        "finalize_inclusive": 1066.7534793857485,
+        "postseal_all_completed_candidate_observer": 669.2754507735372,
+        "postseal_entry_observer": 155.50742288678885,
+        "postseal_selected_observer": 403.8065326977521
+      },
+      "nested_sum_forbidden": true,
+      "runtime": {
+        "history_five_layers": 920.1227512983605,
+        "model_load": 12.641188661567867,
+        "native_fit_inclusive": 13043.081843852066,
+        "projector_load": 21.75150102842599
+      }
+    }
+  }
+]

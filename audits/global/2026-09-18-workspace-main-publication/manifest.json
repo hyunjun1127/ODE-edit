@@ -1,0 +1,2374 @@
+{
+  "status": "VALIDATED_WORKSPACE_SNAPSHOT",
+  "authorization": "현재 대화의 사용자 지시: 전부 push해봐",
+  "base_main": "13fae514d476a1c5a15b34f3cf3964c105ba4eb9",
+  "source_workspace": "/mnt/raid5/janghj/ODE-edit",
+  "source_file_count": 294,
+  "new_execution_jobs": 0,
+  "files": [
+    {
+      "source_path": "README.md",
+      "published_path": "README.md",
+      "source_sha256": "62a9bdb6d6ec0e32e0754f3f3bd3c584b51b98a2f01001162ff756ad926ac385",
+      "bytes": 6997,
+      "disposition": "merged_navigation_latest_BPCW",
+      "published_sha256": "e7a7cebd0f75faaa4d8fcfa394b3ec3b2b090af97242609c243613df3efbca6e"
+    },
+    {
+      "source_path": "audits/global/2026-09-13-server4-fixed10k-attached-analysis-review-ko.md",
+      "published_path": "audits/global/2026-09-13-server4-fixed10k-attached-analysis-review-ko.md",
+      "source_sha256": "6c67bef03acf3102264a64dd87ac08b130b2f255df013b7c6ef93e8a5388b652",
+      "bytes": 25235,
+      "disposition": "published",
+      "published_sha256": "6c67bef03acf3102264a64dd87ac08b130b2f255df013b7c6ef93e8a5388b652"
+    },
+    {
+      "source_path": "audits/global/2026-09-14-lowcost-seq10-review-ko.md",
+      "published_path": "audits/global/2026-09-14-lowcost-seq10-review-ko.md",
+      "source_sha256": "3494439c5b0463e71bbc90fea03939f3b929614f46394dd38a7cfcdba7339d59",
+      "bytes": 12423,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "3494439c5b0463e71bbc90fea03939f3b929614f46394dd38a7cfcdba7339d59"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md",
+      "published_path": "audits/global/2026-09-15-bg-tw-pdf-method-review-ko.md",
+      "source_sha256": "f7254bc11d4d1a6418bfa5eaa0f4381ee4ae9b6036d4380c663e89ab779054a1",
+      "bytes": 22493,
+      "disposition": "published",
+      "published_sha256": "f7254bc11d4d1a6418bfa5eaa0f4381ee4ae9b6036d4380c663e89ab779054a1"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+      "published_path": "audits/global/2026-09-15-bg-tw-pipeline-reset-review-ko.md",
+      "source_sha256": "e34ac88f0a86914783d2e99ad1372abdc2c7439c8ee0219f7e409271e0485edd",
+      "bytes": 30524,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e34ac88f0a86914783d2e99ad1372abdc2c7439c8ee0219f7e409271e0485edd"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/by-batch.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/by-batch.csv",
+      "source_sha256": "c24ef9e9e7e491a422cee1a95c4edcadfb281d897de1999e5d641c15fd7a0629",
+      "bytes": 10374,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c24ef9e9e7e491a422cee1a95c4edcadfb281d897de1999e5d641c15fd7a0629"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/candidate-geometry.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/candidate-geometry.csv",
+      "source_sha256": "0d46e4ae67c388420a62a1fca454444a847f4151235045e69743f6222311cd60",
+      "bytes": 21331,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "0d46e4ae67c388420a62a1fca454444a847f4151235045e69743f6222311cd60"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/checks.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/checks.json",
+      "source_sha256": "763219808183244871b5de40c22cfc3408123cdb55215e89cb4c5c15acfd1862",
+      "bytes": 407,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "763219808183244871b5de40c22cfc3408123cdb55215e89cb4c5c15acfd1862"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/cpu-observations.jsonl",
+      "published_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/cpu-observations.jsonl",
+      "source_sha256": "3fa1d91dc7304e1861151bcb043f7c2324f6fc6144156f9b2a659b82f0e3943f",
+      "bytes": 73030,
+      "disposition": "published",
+      "published_sha256": "3fa1d91dc7304e1861151bcb043f7c2324f6fc6144156f9b2a659b82f0e3943f"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/summary.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-alpha-cap-geometry/summary.json",
+      "source_sha256": "2672ad8e483d9f4ecb0d3413b171d9e04d59277caa55d04a78d38e57d1082825",
+      "bytes": 10130,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "2672ad8e483d9f4ecb0d3413b171d9e04d59277caa55d04a78d38e57d1082825"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review-ko.md",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review-ko.md",
+      "source_sha256": "c55f0334ea62fba254b2853a72357541867ca85024de406a83ceaa8afe6fc3e1",
+      "bytes": 31202,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c55f0334ea62fba254b2853a72357541867ca85024de406a83ceaa8afe6fc3e1"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/artifact-provenance.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/artifact-provenance.json",
+      "source_sha256": "d3000198616b9489c6aee9d4bd5e2be7f4afc1c7b476c35fbe6e1724f362ae8f",
+      "bytes": 32470,
+      "disposition": "published",
+      "published_sha256": "d3000198616b9489c6aee9d4bd5e2be7f4afc1c7b476c35fbe6e1724f362ae8f"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/baseline-paired-recomputed.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/baseline-paired-recomputed.csv",
+      "source_sha256": "0bede6c58c3dfb1409cd09a7384c640c27fc9f2896c9063023bcb8fa6b0729a6",
+      "bytes": 2637,
+      "disposition": "published",
+      "published_sha256": "0bede6c58c3dfb1409cd09a7384c640c27fc9f2896c9063023bcb8fa6b0729a6"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/baseline-recomputed.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/baseline-recomputed.csv",
+      "source_sha256": "980ea605acbafabf87f4f82eda8603a01706420a04ca6417fca1ab8ff3cc51ce",
+      "bytes": 841,
+      "disposition": "published",
+      "published_sha256": "980ea605acbafabf87f4f82eda8603a01706420a04ca6417fca1ab8ff3cc51ce"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/batch-recomputed.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/batch-recomputed.csv",
+      "source_sha256": "cd825fe98e1ea08cf50625bc497effbb1f1e6da7aaff9efed61dcac1849a887c",
+      "bytes": 1756,
+      "disposition": "published",
+      "published_sha256": "cd825fe98e1ea08cf50625bc497effbb1f1e6da7aaff9efed61dcac1849a887c"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/candidate-recomputed.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/candidate-recomputed.csv",
+      "source_sha256": "3b63006f6e69acaf876bba3990ec60ac2339d0bd34f7722ddb4b69d25da5d510",
+      "bytes": 10386,
+      "disposition": "published",
+      "published_sha256": "3b63006f6e69acaf876bba3990ec60ac2339d0bd34f7722ddb4b69d25da5d510"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/cohort-recomputed.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/cohort-recomputed.csv",
+      "source_sha256": "15e72d4f1e5317d2dd3a6417f9bdfda0e17fd88ef36cb6ad3039b82df0e532ec",
+      "bytes": 1658,
+      "disposition": "published",
+      "published_sha256": "15e72d4f1e5317d2dd3a6417f9bdfda0e17fd88ef36cb6ad3039b82df0e532ec"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/current-raw-selected.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/current-raw-selected.csv",
+      "source_sha256": "271ba90dd96c880ee15394a6bd6a54c3261a42135b2bb0689f2f016ef3c17408",
+      "bytes": 4191,
+      "disposition": "published",
+      "published_sha256": "271ba90dd96c880ee15394a6bd6a54c3261a42135b2bb0689f2f016ef3c17408"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/generic-document-deltas.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/generic-document-deltas.csv",
+      "source_sha256": "c7de0a5b0de6aa13f4742024fa15e5a5c81e2b08bb78fece537d510637386672",
+      "bytes": 380167,
+      "disposition": "published",
+      "published_sha256": "c7de0a5b0de6aa13f4742024fa15e5a5c81e2b08bb78fece537d510637386672"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/metrics-recomputed.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/metrics-recomputed.json",
+      "source_sha256": "d20bbdebc6e1a5dfc60feae01110a371fe9234677c666bf2128674f0ac17bf8d",
+      "bytes": 29897,
+      "disposition": "published",
+      "published_sha256": "d20bbdebc6e1a5dfc60feae01110a371fe9234677c666bf2128674f0ac17bf8d"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/n4-b001-initial-comparison.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/n4-b001-initial-comparison.json",
+      "source_sha256": "6208c54e93951667411ed9990c89ea49639114a61ae3e14a025d4297803e2bbb",
+      "bytes": 2628,
+      "disposition": "published",
+      "published_sha256": "6208c54e93951667411ed9990c89ea49639114a61ae3e14a025d4297803e2bbb"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/old-raw-selected.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/old-raw-selected.csv",
+      "source_sha256": "a3186426eb364c253f4033ab3f76df31f226d07781c46e3d9ca292feba792ac0",
+      "bytes": 3723,
+      "disposition": "published",
+      "published_sha256": "a3186426eb364c253f4033ab3f76df31f226d07781c46e3d9ca292feba792ac0"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/review-checks.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/review-checks.json",
+      "source_sha256": "8850a193ddb73271087c3ca692232044341260b1165564d754e4cc501da22ddd",
+      "bytes": 20633,
+      "disposition": "published",
+      "published_sha256": "8850a193ddb73271087c3ca692232044341260b1165564d754e4cc501da22ddd"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/source-manifest.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/source-manifest.json",
+      "source_sha256": "a436c940152627c375890cfd39eccc4dc34ebf97b7b9c506ccbf7eabdad06ee2",
+      "bytes": 21644,
+      "disposition": "published",
+      "published_sha256": "a436c940152627c375890cfd39eccc4dc34ebf97b7b9c506ccbf7eabdad06ee2"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/tensor-inspection.jsonl",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/tensor-inspection.jsonl",
+      "source_sha256": "3207e28c9b1a9d4df4fab454810a4a883b4333e8dee910dec59035304b6961f1",
+      "bytes": 38547,
+      "disposition": "published",
+      "published_sha256": "3207e28c9b1a9d4df4fab454810a4a883b4333e8dee910dec59035304b6961f1"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/tensor-mechanism.csv",
+      "published_path": "audits/global/2026-09-15-ep-tw1-completed-artifact-review/tensor-mechanism.csv",
+      "source_sha256": "9af1b183361ad3aedc2e59ff56bc896ab0ae928bb01fe0f231233b0905dbed2c",
+      "bytes": 3803,
+      "disposition": "published",
+      "published_sha256": "9af1b183361ad3aedc2e59ff56bc896ab0ae928bb01fe0f231233b0905dbed2c"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-failure-review-checks.json",
+      "published_path": "audits/global/2026-09-15-ep-tw1-failure-review-checks.json",
+      "source_sha256": "ac50462b1301faa13187cb7ac99e73cffdc9c04c410e9a06aa998583909ddef8",
+      "bytes": 3896,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "ac50462b1301faa13187cb7ac99e73cffdc9c04c410e9a06aa998583909ddef8"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-ep-tw1-failure-review-ko.md",
+      "published_path": "audits/global/2026-09-15-ep-tw1-failure-review-ko.md",
+      "source_sha256": "4c2241e0709a98d2d16ae401633bb7b4afe0018c8c67dac7855d637a85e88c89",
+      "bytes": 15229,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "4c2241e0709a98d2d16ae401633bb7b4afe0018c8c67dac7855d637a85e88c89"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-reference-candidates.csv",
+      "published_path": "audits/global/2026-09-15-reference-candidates.csv",
+      "source_sha256": "93e122c3e77a92c365edbac8a5b05c5bcaefa3aff19826b6f2e7ccbc485ac314",
+      "bytes": 2151,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "93e122c3e77a92c365edbac8a5b05c5bcaefa3aff19826b6f2e7ccbc485ac314"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-reference-literature-evidence.csv",
+      "published_path": "audits/global/2026-09-15-reference-literature-evidence.csv",
+      "source_sha256": "76cde633864799f4993df128ad1b815465bb96987376ebfa85db5f77186962d6",
+      "bytes": 2774,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "76cde633864799f4993df128ad1b815465bb96987376ebfa85db5f77186962d6"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-reference-set-survey-ko.md",
+      "published_path": "audits/global/2026-09-15-reference-set-survey-ko.md",
+      "source_sha256": "4399da9bb185c875a3ec335db1df127c3ab08983ff9f476c9bfcafdee88ac2cb",
+      "bytes": 36407,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "4399da9bb185c875a3ec335db1df127c3ab08983ff9f476c9bfcafdee88ac2cb"
+    },
+    {
+      "source_path": "audits/global/2026-09-15-reference-source-audit.json",
+      "published_path": "audits/global/2026-09-15-reference-source-audit.json",
+      "source_sha256": "42b9563ed15e2f5b28c75b38b36d03eac162086724f6dbf9e472d9f956cc2b46",
+      "bytes": 19115,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "42b9563ed15e2f5b28c75b38b36d03eac162086724f6dbf9e472d9f956cc2b46"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-local-z-adaptive-allocation/budget-checks.json",
+      "published_path": "audits/global/2026-09-16-local-z-adaptive-allocation/budget-checks.json",
+      "source_sha256": "8b3e75e8a8413ba50681572f812742c5eebcca903c9f00eac2e7a5dc98d5ef51",
+      "bytes": 1482,
+      "disposition": "published",
+      "published_sha256": "8b3e75e8a8413ba50681572f812742c5eebcca903c9f00eac2e7a5dc98d5ef51"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-local-z-adaptive-allocation/checks.json",
+      "published_path": "audits/global/2026-09-16-local-z-adaptive-allocation/checks.json",
+      "source_sha256": "b7f227bdb613bf0f8032cb4aea49d2b6e8586596c7e079902ae20e29c7a6c933",
+      "bytes": 2645,
+      "disposition": "published",
+      "published_sha256": "b7f227bdb613bf0f8032cb4aea49d2b6e8586596c7e079902ae20e29c7a6c933"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-local-z-adaptive-allocation/validate_budget_diagnostics.py",
+      "published_path": "audits/global/2026-09-16-local-z-adaptive-allocation/validate_budget_diagnostics.py",
+      "source_sha256": "b0f5489a422f324345f5dc421f8f0442149bbbfaad700542e2ca4636bb921037",
+      "bytes": 3996,
+      "disposition": "published",
+      "published_sha256": "b0f5489a422f324345f5dc421f8f0442149bbbfaad700542e2ca4636bb921037"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py",
+      "published_path": "audits/global/2026-09-16-local-z-adaptive-allocation/validate_design.py",
+      "source_sha256": "89851564b2e606774bab77b4a362bd595013994b6c3cedab9fd12402d4e8c45e",
+      "bytes": 7621,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "89851564b2e606774bab77b4a362bd595013994b6c3cedab9fd12402d4e8c45e"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-refit-feedback-mechanism/checks.json",
+      "published_path": "audits/global/2026-09-16-refit-feedback-mechanism/checks.json",
+      "source_sha256": "481cfeac89235b43e8e3c5de8c8fd83bb72a8f8b758334e4c921359bbd191a49",
+      "bytes": 3860,
+      "disposition": "published",
+      "published_sha256": "481cfeac89235b43e8e3c5de8c8fd83bb72a8f8b758334e4c921359bbd191a49"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-refit-feedback-mechanism/recompute.py",
+      "published_path": "audits/global/2026-09-16-refit-feedback-mechanism/recompute.py",
+      "source_sha256": "c39d8aa7971c47b0b9646b856277c9a59b62b52cfa6868f8f2f9cbfa365673f8",
+      "bytes": 6487,
+      "disposition": "published",
+      "published_sha256": "c39d8aa7971c47b0b9646b856277c9a59b62b52cfa6868f8f2f9cbfa365673f8"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-design-review-ko.md",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-design-review-ko.md",
+      "source_sha256": "7b3268cdd6f8de0a21b9e0e30a7778fce2ee43a27fe7dea97a32fd1466ed4cfd",
+      "bytes": 27513,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "7b3268cdd6f8de0a21b9e0e30a7778fce2ee43a27fe7dea97a32fd1466ed4cfd"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-pipeline-checks.json",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-pipeline-checks.json",
+      "source_sha256": "42d1f852cd12748fbc27aed7a06d2e21d2979b239dba165afb10be371cc4ec3f",
+      "bytes": 3116,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "42d1f852cd12748fbc27aed7a06d2e21d2979b239dba165afb10be371cc4ec3f"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-pipeline-cpu-demo.json",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-pipeline-cpu-demo.json",
+      "source_sha256": "61c34ca3f0c1687a2e875dd3ccb608f9abca94fea7ea23bf346423833785c9d1",
+      "bytes": 12737,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "61c34ca3f0c1687a2e875dd3ccb608f9abca94fea7ea23bf346423833785c9d1"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review-ko.md",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review-ko.md",
+      "source_sha256": "1672fd3519a339d3c6642e727c6daeb4148df1256234cb785ed254da375bf8e1",
+      "bytes": 32336,
+      "disposition": "published",
+      "published_sha256": "1672fd3519a339d3c6642e727c6daeb4148df1256234cb785ed254da375bf8e1"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review/derived-summary.json",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review/derived-summary.json",
+      "source_sha256": "2bf64d52b56baac4336d1805965ca07053511489cea26d6e7cc1d16ca41e218f",
+      "bytes": 12526,
+      "disposition": "published",
+      "published_sha256": "2bf64d52b56baac4336d1805965ca07053511489cea26d6e7cc1d16ca41e218f"
+    },
+    {
+      "source_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review/recompute.py",
+      "published_path": "audits/global/2026-09-16-single-layer-zflow-seq1000-review/recompute.py",
+      "source_sha256": "a85bfec73fa569db0f8777941f98fd5b4ca79efaa97ed439a6ddb9df21887764",
+      "bytes": 9578,
+      "disposition": "published",
+      "published_sha256": "a85bfec73fa569db0f8777941f98fd5b4ca79efaa97ed439a6ddb9df21887764"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-l4-preserving-repair/contract-checks.json",
+      "published_path": "audits/global/2026-09-17-l4-preserving-repair/contract-checks.json",
+      "source_sha256": "6705a6415e91ee535bba27589613e2577da7715730aa27b77e5533387b186e98",
+      "bytes": 4532,
+      "disposition": "published",
+      "published_sha256": "6705a6415e91ee535bba27589613e2577da7715730aa27b77e5533387b186e98"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-l4-preserving-repair/math-checks.json",
+      "published_path": "audits/global/2026-09-17-l4-preserving-repair/math-checks.json",
+      "source_sha256": "312d91a12732bc6714ea49403af1b7c9144fb3078e9978d8354a1b1180706bd9",
+      "bytes": 4223,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "312d91a12732bc6714ea49403af1b7c9144fb3078e9978d8354a1b1180706bd9"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-l4-preserving-repair/validate_contract.py",
+      "published_path": "audits/global/2026-09-17-l4-preserving-repair/validate_contract.py",
+      "source_sha256": "799359817e9dacc24f1ecdf0343199c4369b48e4d144882b5eb5fc038f9c932c",
+      "bytes": 8167,
+      "disposition": "published",
+      "published_sha256": "799359817e9dacc24f1ecdf0343199c4369b48e4d144882b5eb5fc038f9c932c"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-l4-preserving-repair/validate_math.py",
+      "published_path": "audits/global/2026-09-17-l4-preserving-repair/validate_math.py",
+      "source_sha256": "b5025fc08f6fa8026c0dba8ddb0f66262fb7254c397bc34c0377826886228876",
+      "bytes": 11168,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "b5025fc08f6fa8026c0dba8ddb0f66262fb7254c397bc34c0377826886228876"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/controller_reference.py",
+      "source_sha256": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab",
+      "bytes": 21615,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d5a0f6b3100fd5c8def993a9281e873d592cccc287f4246ff174eefe3b51deab"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence-ko.md",
+      "source_sha256": "fe99396a9efa2b2092dbe7f1b13efe0c368533cc24a90053b58cc5214895fe01",
+      "bytes": 11861,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "fe99396a9efa2b2092dbe7f1b13efe0c368533cc24a90053b58cc5214895fe01"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/convergence-evidence.json",
+      "source_sha256": "dd6a7a854b1451bdf37e823659d1905a54e68831766995556cbb2868b32884bb",
+      "bytes": 22638,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "dd6a7a854b1451bdf37e823659d1905a54e68831766995556cbb2868b32884bb"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/cpu-validation.json",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/cpu-validation.json",
+      "source_sha256": "b0e1b91c762528c6af4158cb5ef41cb5e14d7db764d0b610e34fa40720bc427a",
+      "bytes": 1272,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "b0e1b91c762528c6af4158cb5ef41cb5e14d7db764d0b610e34fa40720bc427a"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/design-checks.json",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/design-checks.json",
+      "source_sha256": "72459261708e48cb8f131a9f8b20f5a86769b7b6f9679145a10323a7950a6fba",
+      "bytes": 9320,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "72459261708e48cb8f131a9f8b20f5a86769b7b6f9679145a10323a7950a6fba"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/test_controller_reference.py",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/test_controller_reference.py",
+      "source_sha256": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649",
+      "bytes": 15735,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d2010bb3c0e418f7c5ca9b0214977b15fff607be8b0dd49b18e9ef0ad58c3649"
+    },
+    {
+      "source_path": "audits/global/2026-09-17-sequential-local-z-allocation/validate_design.py",
+      "published_path": "audits/global/2026-09-17-sequential-local-z-allocation/validate_design.py",
+      "source_sha256": "bf755bc558ea9be96625b19a4274799f3a457278b9b23242fe52982b1d014f4e",
+      "bytes": 8666,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "bf755bc558ea9be96625b19a4274799f3a457278b9b23242fe52982b1d014f4e"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-base-choice-constrained-write/check_math.py",
+      "published_path": "audits/global/2026-09-18-base-choice-constrained-write/check_math.py",
+      "source_sha256": "518a039324dc0f157471a2ad72b5295c389141bb6ab557b7eafd7e6eae990d8d",
+      "bytes": 9786,
+      "disposition": "published",
+      "published_sha256": "518a039324dc0f157471a2ad72b5295c389141bb6ab557b7eafd7e6eae990d8d"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-base-choice-constrained-write/math-checks.json",
+      "published_path": "audits/global/2026-09-18-base-choice-constrained-write/math-checks.json",
+      "source_sha256": "3e165482b1fa89809a3d7fb00c4717236f2ed3b908c1a3b05c29bb5abf40abb3",
+      "bytes": 2030,
+      "disposition": "published",
+      "published_sha256": "3e165482b1fa89809a3d7fb00c4717236f2ed3b908c1a3b05c29bb5abf40abb3"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/analysis-manifest.json",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/analysis-manifest.json",
+      "source_sha256": "24faa9ba1da59281f988e1d24629e8516a2e13523aa42f2abdae6637d454d075",
+      "bytes": 2257,
+      "disposition": "published",
+      "published_sha256": "24faa9ba1da59281f988e1d24629e8516a2e13523aa42f2abdae6637d454d075"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/arrival-and-retention.csv",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/arrival-and-retention.csv",
+      "source_sha256": "a9a710af0c8fbc5f416209ae050f7b4298d90cb1b51219a9c57d4515d5695de6",
+      "bytes": 483,
+      "disposition": "published",
+      "published_sha256": "a9a710af0c8fbc5f416209ae050f7b4298d90cb1b51219a9c57d4515d5695de6"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/cake-and-repair-results-ko.md",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/cake-and-repair-results-ko.md",
+      "source_sha256": "9096398d75adffcda89e85c5bcad6e1bc8c103ed63c35673b51612cd6f0cb198",
+      "bytes": 15637,
+      "disposition": "published",
+      "published_sha256": "9096398d75adffcda89e85c5bcad6e1bc8c103ed63c35673b51612cd6f0cb198"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/cake-method-audit-ko.md",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/cake-method-audit-ko.md",
+      "source_sha256": "6d2eecfe17d038f383effd8eecdaf6ea0a5eaa5149461d5bd6ff97d31f21ab97",
+      "bytes": 12687,
+      "disposition": "published",
+      "published_sha256": "6d2eecfe17d038f383effd8eecdaf6ea0a5eaa5149461d5bd6ff97d31f21ab97"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/derive_f48_evidence.py",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/derive_f48_evidence.py",
+      "source_sha256": "acb602e8cd1b96cca95a37cdca963d6cbf4b09e543bf302af0ca8382a4d8d8c8",
+      "bytes": 8495,
+      "disposition": "published",
+      "published_sha256": "acb602e8cd1b96cca95a37cdca963d6cbf4b09e543bf302af0ca8382a4d8d8c8"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-derived-summary.json",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-derived-summary.json",
+      "source_sha256": "e122767eea7c6854fe96fb5d35147fe937026f1719dafd109040e3ca910cec7a",
+      "bytes": 2153,
+      "disposition": "published",
+      "published_sha256": "e122767eea7c6854fe96fb5d35147fe937026f1719dafd109040e3ca910cec7a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-frontier-and-mechanism.pdf",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-frontier-and-mechanism.pdf",
+      "source_sha256": "5e1824e01f9cd85040e57885485528cdb98ba57076c6187162412c130d3fabcb",
+      "bytes": 24253,
+      "disposition": "published",
+      "published_sha256": "5e1824e01f9cd85040e57885485528cdb98ba57076c6187162412c130d3fabcb"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-frontier-and-mechanism.png",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/f48-frontier-and-mechanism.png",
+      "source_sha256": "da054452cc4b82d69706c72ef82139ba98cca5e2e3998ba49f29b504f8d16608",
+      "bytes": 220200,
+      "disposition": "published",
+      "published_sha256": "da054452cc4b82d69706c72ef82139ba98cca5e2e3998ba49f29b504f8d16608"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/historical-evidence-ko.md",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/historical-evidence-ko.md",
+      "source_sha256": "d8900274cca941f3ba5fa6263a8e55ebab24a1c1e490e58a1737cefda9b6a989",
+      "bytes": 20341,
+      "disposition": "published",
+      "published_sha256": "d8900274cca941f3ba5fa6263a8e55ebab24a1c1e490e58a1737cefda9b6a989"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/research-direction-ko.md",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/research-direction-ko.md",
+      "source_sha256": "944bacbe0cf242b4c638fe4e590886651bc7e77463137fa4975d0f1c19db965b",
+      "bytes": 32869,
+      "disposition": "published",
+      "published_sha256": "944bacbe0cf242b4c638fe4e590886651bc7e77463137fa4975d0f1c19db965b"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/same-entry-b1-endpoints.csv",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/same-entry-b1-endpoints.csv",
+      "source_sha256": "c0540c9751dbb489be775aa7acedb7ce6444ff5fdde033c7a11c6ca45e0b58f7",
+      "bytes": 810,
+      "disposition": "published",
+      "published_sha256": "c0540c9751dbb489be775aa7acedb7ce6444ff5fdde033c7a11c6ca45e0b58f7"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-f48-cake-research-direction/v2-final-frontier.csv",
+      "published_path": "audits/global/2026-09-18-f48-cake-research-direction/v2-final-frontier.csv",
+      "source_sha256": "4153a86b7838dc19041ec0778b18cf21f1c769c7be80e9df33562fbe15093f3b",
+      "bytes": 765,
+      "disposition": "published",
+      "published_sha256": "4153a86b7838dc19041ec0778b18cf21f1c769c7be80e9df33562fbe15093f3b"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-fixed-key-reference-constrained-write/check_math.py",
+      "published_path": "audits/global/2026-09-18-fixed-key-reference-constrained-write/check_math.py",
+      "source_sha256": "aa0165ee8059a65305ff9f65ad475cfebdab84f84dea7ac0bae27686a2e2064b",
+      "bytes": 8390,
+      "disposition": "published",
+      "published_sha256": "aa0165ee8059a65305ff9f65ad475cfebdab84f84dea7ac0bae27686a2e2064b"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-fixed-key-reference-constrained-write/math-checks.json",
+      "published_path": "audits/global/2026-09-18-fixed-key-reference-constrained-write/math-checks.json",
+      "source_sha256": "d81293c234cc56017ac0bdf880357de54f78d3f41e148e9aa1dcca3c47d8876e",
+      "bytes": 1459,
+      "disposition": "published",
+      "published_sha256": "d81293c234cc56017ac0bdf880357de54f78d3f41e148e9aa1dcca3c47d8876e"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/allocation-and-horizon.png",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/allocation-and-horizon.png",
+      "source_sha256": "4d15ca52ed149a11d634e39ff3403c7d3bba266dc1a8fa89cbaabbfa6d9a45b6",
+      "bytes": 325881,
+      "disposition": "published",
+      "published_sha256": "4d15ca52ed149a11d634e39ff3403c7d3bba266dc1a8fa89cbaabbfa6d9a45b6"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/artifact-audit-ko.md",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/artifact-audit-ko.md",
+      "source_sha256": "ea7675d4b087406df343fbe90ebba1557c6f592bf746d136c82bff0cdd791c1a",
+      "bytes": 13756,
+      "disposition": "published",
+      "published_sha256": "ea7675d4b087406df343fbe90ebba1557c6f592bf746d136c82bff0cdd791c1a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/artifact-checks.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/artifact-checks.json",
+      "source_sha256": "4b86048482bd801808645ec0f505d7d67355f73754b05136ca00b4165ef28346",
+      "bytes": 3960,
+      "disposition": "published",
+      "published_sha256": "4b86048482bd801808645ec0f505d7d67355f73754b05136ca00b4165ef28346"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/common.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/common.py",
+      "source_sha256": "5584175d33abce0780d9a4b08e204139c36ccc77d2299e98556d2c9a1db03e6d",
+      "bytes": 1601,
+      "disposition": "published",
+      "published_sha256": "5584175d33abce0780d9a4b08e204139c36ccc77d2299e98556d2c9a1db03e6d"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/controller.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/controller.py",
+      "source_sha256": "855a945a0339cf663ef8c1781b340d859540f49da80f6f81f57dabe3621b1a24",
+      "bytes": 36361,
+      "disposition": "published",
+      "published_sha256": "855a945a0339cf663ef8c1781b340d859540f49da80f6f81f57dabe3621b1a24"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/metrics.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/metrics.py",
+      "source_sha256": "64b7c29b91ad5fc73e36b9c94455e8d91275b3d907da79c15b530ba41130023a",
+      "bytes": 9586,
+      "disposition": "published",
+      "published_sha256": "64b7c29b91ad5fc73e36b9c94455e8d91275b3d907da79c15b530ba41130023a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/native.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/native.py",
+      "source_sha256": "a790e93c96619f3db4fec9e6a5ee5b2b4057a3bdc4397c8af4f645e7394ee1a5",
+      "bytes": 11380,
+      "disposition": "published",
+      "published_sha256": "a790e93c96619f3db4fec9e6a5ee5b2b4057a3bdc4397c8af4f645e7394ee1a5"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/runner.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/runner.py",
+      "source_sha256": "65605aa5f58db05af2efe7c93c582ae79f555553e3e6655c4307c10ad3586965",
+      "bytes": 8976,
+      "disposition": "published",
+      "published_sha256": "65605aa5f58db05af2efe7c93c582ae79f555553e3e6655c4307c10ad3586965"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/runtime.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/runtime.py",
+      "source_sha256": "df4f139d58fbdc163b011c1b4983c75e6446a8100e7eb8052106223ed5c14c7c",
+      "bytes": 16039,
+      "disposition": "published",
+      "published_sha256": "df4f139d58fbdc163b011c1b4983c75e6446a8100e7eb8052106223ed5c14c7c"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/technical.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/technical.py",
+      "source_sha256": "c99704109bcdddef37f4354b1d7083891ac551dade6f7360d64333e82bd4c0e6",
+      "bytes": 25879,
+      "disposition": "published",
+      "published_sha256": "c99704109bcdddef37f4354b1d7083891ac551dade6f7360d64333e82bd4c0e6"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/horizon-cost-code-ko.md",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/horizon-cost-code-ko.md",
+      "source_sha256": "01e276fc842f2f525ec3af0c302aa435f0d1eb66fd65b17353163a053b1d6ea8",
+      "bytes": 15514,
+      "disposition": "published",
+      "published_sha256": "01e276fc842f2f525ec3af0c302aa435f0d1eb66fd65b17353163a053b1d6ea8"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/independent-review-ko.md",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/independent-review-ko.md",
+      "source_sha256": "dbacd9250335de2c2d6ded9ec2c65b727f9de591bef44144fbdcc00877325fc5",
+      "bytes": 29921,
+      "disposition": "published",
+      "published_sha256": "dbacd9250335de2c2d6ded9ec2c65b727f9de591bef44144fbdcc00877325fc5"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/layer-ledger-evidence.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/layer-ledger-evidence.json",
+      "source_sha256": "14b0572f41c66e4a1c3ca6817a1e54297eeb0d49a59512b4c40d0a7142341b44",
+      "bytes": 3926178,
+      "disposition": "published",
+      "published_sha256": "14b0572f41c66e4a1c3ca6817a1e54297eeb0d49a59512b4c40d0a7142341b44"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/measured-search-frontier.png",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/measured-search-frontier.png",
+      "source_sha256": "83836713f886cbde69fb9936c01eef2134d874f57820e9c282d1d80bac39e714",
+      "bytes": 65969,
+      "disposition": "published",
+      "published_sha256": "83836713f886cbde69fb9936c01eef2134d874f57820e9c282d1d80bac39e714"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/metrics-audit-ko.md",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/metrics-audit-ko.md",
+      "source_sha256": "ea5f64b82522e2f692d8cf6bdbcb44636e2f881791a2021f32b2eba638afb84c",
+      "bytes": 20442,
+      "disposition": "published",
+      "published_sha256": "ea5f64b82522e2f692d8cf6bdbcb44636e2f881791a2021f32b2eba638afb84c"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/metrics-checks.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/metrics-checks.json",
+      "source_sha256": "133ed8955948c700300e9fdbd11ba03b56faf04788a4388b2befcc19f6f6b7c7",
+      "bytes": 98172,
+      "disposition": "published",
+      "published_sha256": "133ed8955948c700300e9fdbd11ba03b56faf04788a4388b2befcc19f6f6b7c7"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/plot_review.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/plot_review.py",
+      "source_sha256": "661e644ba26d0d9312ac8c695e98a82737275e24a29b3de7192df0b9b593b5c0",
+      "bytes": 3894,
+      "disposition": "published",
+      "published_sha256": "661e644ba26d0d9312ac8c695e98a82737275e24a29b3de7192df0b9b593b5c0"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/reduce_layer_ledger.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/reduce_layer_ledger.py",
+      "source_sha256": "b1b2ab99adb04c7862da600c727b1cc61cc45f26138a161af9a2af2e9a7f3936",
+      "bytes": 6309,
+      "disposition": "published",
+      "published_sha256": "b1b2ab99adb04c7862da600c727b1cc61cc45f26138a161af9a2af2e9a7f3936"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/actual-cost.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/actual-cost.csv",
+      "source_sha256": "9ffded8e32fa03bd1a64099e0b7bae48fd5deb4af43adabb60b4c4c982e33b63",
+      "bytes": 1814,
+      "disposition": "published",
+      "published_sha256": "9ffded8e32fa03bd1a64099e0b7bae48fd5deb4af43adabb60b4c4c982e33b63"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/allocation.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/allocation.csv",
+      "source_sha256": "aee353bb484b3aa7bb1c92687b6d7f2d6da9ca36431f7bbe3e23e30d198ff5ff",
+      "bytes": 1175,
+      "disposition": "published",
+      "published_sha256": "aee353bb484b3aa7bb1c92687b6d7f2d6da9ca36431f7bbe3e23e30d198ff5ff"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/analysis-manifest.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/analysis-manifest.json",
+      "source_sha256": "00c365fa49dce8907b09a566e17aeb365c7cbd1cdb5a3a8efad6b78f0b42c241",
+      "bytes": 13871,
+      "disposition": "published",
+      "published_sha256": "00c365fa49dce8907b09a566e17aeb365c7cbd1cdb5a3a8efad6b78f0b42c241"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/artifact-summary.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/artifact-summary.json",
+      "source_sha256": "162e7789b050a5acc67b5f0257c306b6bdf110b7e2e15265fd6f243a49eb4b46",
+      "bytes": 770,
+      "disposition": "published",
+      "published_sha256": "162e7789b050a5acc67b5f0257c306b6bdf110b7e2e15265fd6f243a49eb4b46"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/audit-summary.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/audit-summary.json",
+      "source_sha256": "741f58ee86d1582f03dd063f8d8339b4a4b93b1af3be1dc378e1a9b5140fe13c",
+      "bytes": 2464,
+      "disposition": "published",
+      "published_sha256": "741f58ee86d1582f03dd063f8d8339b4a4b93b1af3be1dc378e1a9b5140fe13c"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate-observer.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate-observer.csv",
+      "source_sha256": "af2e555ac3b5c878ccf2b3a5d5118da8abb803b793ea64733dda88f490861353",
+      "bytes": 200808,
+      "disposition": "published",
+      "published_sha256": "af2e555ac3b5c878ccf2b3a5d5118da8abb803b793ea64733dda88f490861353"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate-quality.png",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate-quality.png",
+      "source_sha256": "f53b54a487cf414b920443724fd6706d715fdddd8256379ad20335d7acb8f2ec",
+      "bytes": 135491,
+      "disposition": "published",
+      "published_sha256": "f53b54a487cf414b920443724fd6706d715fdddd8256379ad20335d7acb8f2ec"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/candidate.csv",
+      "source_sha256": "4e8499b0fb84f02903bbaf8b342096dc44088b1184ca68f94c2f6743930a4680",
+      "bytes": 148640,
+      "disposition": "published",
+      "published_sha256": "4e8499b0fb84f02903bbaf8b342096dc44088b1184ca68f94c2f6743930a4680"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/compute.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/compute.csv",
+      "source_sha256": "ee0074fe57107f549e1aabca0d573d2e2c3112b3c2bddf8781380133f4ef4626",
+      "bytes": 1045,
+      "disposition": "published",
+      "published_sha256": "ee0074fe57107f549e1aabca0d573d2e2c3112b3c2bddf8781380133f4ef4626"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/cost-summary.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/cost-summary.json",
+      "source_sha256": "c4190081fae42b03a50c8c8dde46053a1bc114e183af3b9ed8951e65f83f44ad",
+      "bytes": 700,
+      "disposition": "published",
+      "published_sha256": "c4190081fae42b03a50c8c8dde46053a1bc114e183af3b9ed8951e65f83f44ad"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/diagnostic-report-ko.md",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/diagnostic-report-ko.md",
+      "source_sha256": "c68ad8e4d7dce3801a3a933e8d8f5e59e350315c1673b289b6154cbc73b2d09b",
+      "bytes": 30567,
+      "disposition": "published",
+      "published_sha256": "c68ad8e4d7dce3801a3a933e8d8f5e59e350315c1673b289b6154cbc73b2d09b"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/event-counts.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/event-counts.csv",
+      "source_sha256": "e019a32e3f648b43df3c060eb65706311432bb4e42a1f27c9854544254ebd855",
+      "bytes": 30094,
+      "disposition": "published",
+      "published_sha256": "e019a32e3f648b43df3c060eb65706311432bb4e42a1f27c9854544254ebd855"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/figure-manifest.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/figure-manifest.json",
+      "source_sha256": "075e471ba1f79d9926ba6c9e31bb3431312d22171215fafc1b15d6d0f1deaad8",
+      "bytes": 856,
+      "disposition": "published",
+      "published_sha256": "075e471ba1f79d9926ba6c9e31bb3431312d22171215fafc1b15d6d0f1deaad8"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/final-rpn.png",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/final-rpn.png",
+      "source_sha256": "ff9f746d887ff2c6b36c060052dc64a673782d4ab925d8ca9728ede68f752486",
+      "bytes": 77538,
+      "disposition": "published",
+      "published_sha256": "ff9f746d887ff2c6b36c060052dc64a673782d4ab925d8ca9728ede68f752486"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/final-table.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/final-table.csv",
+      "source_sha256": "4dc6d8d2e95196f5c3994de12c8923938306a5922ee958ebca07b614d0466310",
+      "bytes": 1109,
+      "disposition": "published",
+      "published_sha256": "4dc6d8d2e95196f5c3994de12c8923938306a5922ee958ebca07b614d0466310"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/first-final-table.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/first-final-table.csv",
+      "source_sha256": "e648ea8a0de86c70162db4f15b603513041cfb68e956910b983038da97460640",
+      "bytes": 1091,
+      "disposition": "published",
+      "published_sha256": "e648ea8a0de86c70162db4f15b603513041cfb68e956910b983038da97460640"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/fit-cost.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/fit-cost.csv",
+      "source_sha256": "8db2b85e0bb201cec950c0b7c1336a6c07e5ea06bcd0cc873c29a158ad803329",
+      "bytes": 324560,
+      "disposition": "published",
+      "published_sha256": "8db2b85e0bb201cec950c0b7c1336a6c07e5ea06bcd0cc873c29a158ad803329"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/generic.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/generic.csv",
+      "source_sha256": "b42af8c36b319086aa7945021fc4b88e880b1a567c370736f74743e569f4496f",
+      "bytes": 6638,
+      "disposition": "published",
+      "published_sha256": "b42af8c36b319086aa7945021fc4b88e880b1a567c370736f74743e569f4496f"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/history.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/history.csv",
+      "source_sha256": "1d887a1a0735518f5dfbdb9f0ce25e7689b457683157971e46afe61363a77cae",
+      "bytes": 69851,
+      "disposition": "published",
+      "published_sha256": "1d887a1a0735518f5dfbdb9f0ce25e7689b457683157971e46afe61363a77cae"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/input-manifest.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/input-manifest.json",
+      "source_sha256": "72f1c6b75370ee7d64ebe30cbbc2d9aa5436328d565660ab0676c01b59849703",
+      "bytes": 232227,
+      "disposition": "published",
+      "published_sha256": "72f1c6b75370ee7d64ebe30cbbc2d9aa5436328d565660ab0676c01b59849703"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/mechanism-summary.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/mechanism-summary.csv",
+      "source_sha256": "eff801f46c09954d60a2ede2188f959b64d0e950c7f4c27a8309f5ac318a7771",
+      "bytes": 1109,
+      "disposition": "published",
+      "published_sha256": "eff801f46c09954d60a2ede2188f959b64d0e950c7f4c27a8309f5ac318a7771"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/native-target-summary.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/native-target-summary.csv",
+      "source_sha256": "4b817955bb7e275d0722407745bdea51cc993e7f2da6d4cbbfd462be3fd85c10",
+      "bytes": 99679,
+      "disposition": "published",
+      "published_sha256": "4b817955bb7e275d0722407745bdea51cc993e7f2da6d4cbbfd462be3fd85c10"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/own-n4-to-selected.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/own-n4-to-selected.csv",
+      "source_sha256": "79d2854a0d86538fed6de39a85c16c723d9d2338a5ec1eef30500dfc6c2cc4ec",
+      "bytes": 16117,
+      "disposition": "published",
+      "published_sha256": "79d2854a0d86538fed6de39a85c16c723d9d2338a5ec1eef30500dfc6c2cc4ec"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/paired.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/paired.csv",
+      "source_sha256": "6292722ca8dd8f5991af3303c5757c7e287d7923e6809b0ab8b04c42b05ee7fe",
+      "bytes": 13364,
+      "disposition": "published",
+      "published_sha256": "6292722ca8dd8f5991af3303c5757c7e287d7923e6809b0ab8b04c42b05ee7fe"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/performance.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/performance.csv",
+      "source_sha256": "96289b22c9dc282a53dc0d79076b283d1b89cdc1dfc33ca9c53af01fe58caa07",
+      "bytes": 276935,
+      "disposition": "published",
+      "published_sha256": "96289b22c9dc282a53dc0d79076b283d1b89cdc1dfc33ca9c53af01fe58caa07"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/population-summary.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/population-summary.json",
+      "source_sha256": "1beff6e60148ae756f3d0a99885e17a737e377110c812da7411a38e486d7962c",
+      "bytes": 629,
+      "disposition": "published",
+      "published_sha256": "1beff6e60148ae756f3d0a99885e17a737e377110c812da7411a38e486d7962c"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/pruning-summary.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/pruning-summary.csv",
+      "source_sha256": "718c89c8456714e727132dda4d0fb39aefc5c908befdb3984366338ccc5a4e0a",
+      "bytes": 800,
+      "disposition": "published",
+      "published_sha256": "718c89c8456714e727132dda4d0fb39aefc5c908befdb3984366338ccc5a4e0a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/pruning.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/pruning.csv",
+      "source_sha256": "3962e5b1ee5084f2f7a128a89065b62cfb0fe56e1f43bd9cc016141c855c0c00",
+      "bytes": 451806,
+      "disposition": "published",
+      "published_sha256": "3962e5b1ee5084f2f7a128a89065b62cfb0fe56e1f43bd9cc016141c855c0c00"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/publication-checks.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/publication-checks.json",
+      "source_sha256": "d298d0f1a5417ce834859eece44cecd26b5db2ccce6f1f73fff155a1d8531c84",
+      "bytes": 1052,
+      "disposition": "published",
+      "published_sha256": "d298d0f1a5417ce834859eece44cecd26b5db2ccce6f1f73fff155a1d8531c84"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/raw-inventory.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/raw-inventory.csv",
+      "source_sha256": "5a122bde9679d7039f49ff155f58e675e672c25ddf8080bbd68f89adc8b52f6d",
+      "bytes": 2561539,
+      "disposition": "published",
+      "published_sha256": "5a122bde9679d7039f49ff155f58e675e672c25ddf8080bbd68f89adc8b52f6d"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/retention.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/retention.csv",
+      "source_sha256": "96814c0517aeedbeca9370b3c963226630c8955d78dd2023c3c960c75154fb6e",
+      "bytes": 175403,
+      "disposition": "published",
+      "published_sha256": "96814c0517aeedbeca9370b3c963226630c8955d78dd2023c3c960c75154fb6e"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/rooted-receipt.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/rooted-receipt.json",
+      "source_sha256": "eb355ada24dfd004b11db5514d8eff7ca4115723b201a4f41b3c3c3dadd0fffa",
+      "bytes": 1504,
+      "disposition": "published",
+      "published_sha256": "eb355ada24dfd004b11db5514d8eff7ca4115723b201a4f41b3c3c3dadd0fffa"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/score-cost.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/score-cost.csv",
+      "source_sha256": "52ebf6b6bc45e3e8eefdcfc5df4377789ea440b4442de33f7c670841072c36b0",
+      "bytes": 321000,
+      "disposition": "published",
+      "published_sha256": "52ebf6b6bc45e3e8eefdcfc5df4377789ea440b4442de33f7c670841072c36b0"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selected-gates.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selected-gates.csv",
+      "source_sha256": "a9bfd16df04e238303ab5bca184110866a0d8424dfa85bb4e4464a6370d004c3",
+      "bytes": 3037,
+      "disposition": "published",
+      "published_sha256": "a9bfd16df04e238303ab5bca184110866a0d8424dfa85bb4e4464a6370d004c3"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selected-gates.png",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selected-gates.png",
+      "source_sha256": "cf96cbf2018ce52e6759841c810c04065d897387c0cd88996af777f3a4fc8aad",
+      "bytes": 93626,
+      "disposition": "published",
+      "published_sha256": "cf96cbf2018ce52e6759841c810c04065d897387c0cd88996af777f3a4fc8aad"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selection.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/selection.csv",
+      "source_sha256": "8917927ec00dd86762945375ed110fdf5bf0fcbb8628f17d6e7c4c38db1f3920",
+      "bytes": 17173,
+      "disposition": "published",
+      "published_sha256": "8917927ec00dd86762945375ed110fdf5bf0fcbb8628f17d6e7c4c38db1f3920"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/source-conformance.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/source-conformance.csv",
+      "source_sha256": "a4ee9365cfee5fce036f406d32aa7f87528ab99129ca5611648dbb3a3db9ed76",
+      "bytes": 4455,
+      "disposition": "published",
+      "published_sha256": "a4ee9365cfee5fce036f406d32aa7f87528ab99129ca5611648dbb3a3db9ed76"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/source-inventory.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/source-inventory.csv",
+      "source_sha256": "c7d0d59df445a72612ec7186bbf0b0069b97a04f7faf0e6ac5f028e9a459c043",
+      "bytes": 1595,
+      "disposition": "published",
+      "published_sha256": "c7d0d59df445a72612ec7186bbf0b0069b97a04f7faf0e6ac5f028e9a459c043"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/state-links.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/state-links.csv",
+      "source_sha256": "9051e946cbff24cf7e90b8ae751b044e254e6694924a6ce4faac2e6c77b6c54a",
+      "bytes": 29513,
+      "disposition": "published",
+      "published_sha256": "9051e946cbff24cf7e90b8ae751b044e254e6694924a6ce4faac2e6c77b6c54a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/tensor-schema.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/tensor-schema.csv",
+      "source_sha256": "09a2a1aae8781cc2b156b96ae700e59aec775e66303a023cd6d814243b87ef6f",
+      "bytes": 200740,
+      "disposition": "published",
+      "published_sha256": "09a2a1aae8781cc2b156b96ae700e59aec775e66303a023cd6d814243b87ef6f"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/w0-conditioned-ns.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/report-snapshot/w0-conditioned-ns.csv",
+      "source_sha256": "4f32e1b4b640f92000676c275a4b2051930db2b1d59d531a4d5bb74b230f109e",
+      "bytes": 2954,
+      "disposition": "published",
+      "published_sha256": "4f32e1b4b640f92000676c275a4b2051930db2b1d59d531a4d5bb74b230f109e"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/review-manifest.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/review-manifest.json",
+      "source_sha256": "69ae4bba51be8ddaf579e6f0db2b96c9fe921415b31826efa5a56b51c74a017d",
+      "bytes": 10771,
+      "disposition": "published",
+      "published_sha256": "69ae4bba51be8ddaf579e6f0db2b96c9fe921415b31826efa5a56b51c74a017d"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/runtime-timer-evidence.json",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/runtime-timer-evidence.json",
+      "source_sha256": "d56beb8edc5e3c2d1eabeb9a859c0b7d26412bc0ac00ad6bec2db14f49012ace",
+      "bytes": 5149,
+      "disposition": "published",
+      "published_sha256": "d56beb8edc5e3c2d1eabeb9a859c0b7d26412bc0ac00ad6bec2db14f49012ace"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/selected-layer-native-proxies.csv",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/selected-layer-native-proxies.csv",
+      "source_sha256": "68be8a6457e1e2adc307d4524c74aa8835f876d5f74324e3d06e000c0863f65f",
+      "bytes": 17094,
+      "disposition": "published",
+      "published_sha256": "68be8a6457e1e2adc307d4524c74aa8835f876d5f74324e3d06e000c0863f65f"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/verify_artifacts.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/verify_artifacts.py",
+      "source_sha256": "044b8259d6d7a96975a3cb2ba7b6c698e5ac45f7fe3906d227d4c031d97b52e2",
+      "bytes": 9513,
+      "disposition": "published",
+      "published_sha256": "044b8259d6d7a96975a3cb2ba7b6c698e5ac45f7fe3906d227d4c031d97b52e2"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/verify_metrics.py",
+      "published_path": "audits/global/2026-09-18-sequential-local-z-allocation-review/verify_metrics.py",
+      "source_sha256": "26c122319d171a46633ab28aab9aada580cb75f19c0475c7b62c1b9a88a0d02b",
+      "bytes": 11569,
+      "disposition": "published",
+      "published_sha256": "26c122319d171a46633ab28aab9aada580cb75f19c0475c7b62c1b9a88a0d02b"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/artifact_manifest.json",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/artifact_manifest.json",
+      "source_sha256": "1da82a88979c432ebd21e8e8b122f47f51d487991c09c4f3389bed8fe2519c7a",
+      "bytes": 2050,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "1da82a88979c432ebd21e8e8b122f47f51d487991c09c4f3389bed8fe2519c7a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/efficiency_arithmetic_v1.json",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/efficiency_arithmetic_v1.json",
+      "source_sha256": "e5ccf6eabf308a9f815240adad4d6cc30a55528b2f40bafd8ead51cfba9cb5a0",
+      "bytes": 1404,
+      "disposition": "published",
+      "published_sha256": "e5ccf6eabf308a9f815240adad4d6cc30a55528b2f40bafd8ead51cfba9cb5a0"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_checks.json",
+      "source_sha256": "6e6c2b4905e0f88ad1c824c7064ef7b0a5ed481f0557aa0b31a8d0d463f70325",
+      "bytes": 1326,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "6e6c2b4905e0f88ad1c824c7064ef7b0a5ed481f0557aa0b31a8d0d463f70325"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/geometry_reference.py",
+      "source_sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095",
+      "bytes": 6611,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c455ecb5e45f9e4268adf94e0a5194590588a46fbdf46ea8cb581aa7928c2095"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/test_geometry_reference.py",
+      "source_sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb",
+      "bytes": 8079,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "7128bbea028671bd7865c6720c6429694720fdbbac559d2ce227f93c17b5ddcb"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validate_design.py",
+      "source_sha256": "e52921ea3e59f51011e4da74e00a2cf87e997938adf4f968ce5f97eb63ac5f7a",
+      "bytes": 8210,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e52921ea3e59f51011e4da74e00a2cf87e997938adf4f968ce5f97eb63ac5f7a"
+    },
+    {
+      "source_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+      "published_path": "audits/global/2026-09-18-single-layer-edit-preserving-correction/validation_receipt.json",
+      "source_sha256": "3fc3beab3243eb4a7c57b5bb5db2a46033abe4ad819d066facb082f837096baa",
+      "bytes": 142274,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "3fc3beab3243eb4a7c57b5bb5db2a46033abe4ad819d066facb082f837096baa"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/README.md",
+      "published_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/README.md",
+      "source_sha256": "ddb988ef725f29849d75d5554614378bcd34fd43a27fbdb9d1aa0e33ec218a2c",
+      "bytes": 1071,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "ddb988ef725f29849d75d5554614378bcd34fd43a27fbdb9d1aa0e33ec218a2c"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/candidate-grid.csv",
+      "published_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/candidate-grid.csv",
+      "source_sha256": "ff8ccc5166821e0be419c9ed9c11254d87e70091e278fa609fe0b0d8bd164ed8",
+      "bytes": 924,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "ff8ccc5166821e0be419c9ed9c11254d87e70091e278fa609fe0b0d8bd164ed8"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-ko.md",
+      "published_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-ko.md",
+      "source_sha256": "02f63c91ee240c1992e532c78f4aa432d7a3093cf729d1f8916e5ab9b5152916",
+      "bytes": 17556,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "02f63c91ee240c1992e532c78f4aa432d7a3093cf729d1f8916e5ab9b5152916"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-manifest.json",
+      "published_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/design-manifest.json",
+      "source_sha256": "1409ee6ab2dbc3b77081d38548f124dbd8160e852aa777b3812a7d25b8351f46",
+      "bytes": 3686,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "1409ee6ab2dbc3b77081d38548f124dbd8160e852aa777b3812a7d25b8351f46"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/gh-execution-prompt-ko.md",
+      "published_path": "experiment-reports/global/alpha-jv-llama-diagnosis-and-sweep-2026-09-07-v1/gh-execution-prompt-ko.md",
+      "source_sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5",
+      "bytes": 34790,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "98ee832e597b1f79c79ca48c62838af8f49f5306c08b3480b990d494f42f15f5"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/README.md",
+      "published_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/README.md",
+      "source_sha256": "4f695d335cccc69ee1e39f680df68123e9da2c0176dcf7db2352782b8f08c889",
+      "bytes": 919,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "4f695d335cccc69ee1e39f680df68123e9da2c0176dcf7db2352782b8f08c889"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/design-manifest.json",
+      "published_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/design-manifest.json",
+      "source_sha256": "06333ab093ce5142cc9cda721b3b14ec236c073294ba55ce7180857ac6e63c53",
+      "bytes": 4516,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "06333ab093ce5142cc9cda721b3b14ec236c073294ba55ce7180857ac6e63c53"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/gh-candidate-disposition.csv",
+      "published_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/gh-candidate-disposition.csv",
+      "source_sha256": "8ff0a5d4f687c447f15e750113e1c8e3ab440231a9fd6b311cac39c586a113d7",
+      "bytes": 992,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "8ff0a5d4f687c447f15e750113e1c8e3ab440231a9fd6b311cac39c586a113d7"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/report-ko.md",
+      "published_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/report-ko.md",
+      "source_sha256": "88aa761993f9a2aafdb057224c504d4bab1225c90c47836faae5170d341de7cf",
+      "bytes": 56771,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "88aa761993f9a2aafdb057224c504d4bab1225c90c47836faae5170d341de7cf"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/task-matrix.csv",
+      "published_path": "experiment-reports/global/alpha-jv-parallel-research-plan-2026-09-07-v1/task-matrix.csv",
+      "source_sha256": "ad559b8547774408fe17f8ddcab1fd2601515adb9000ca8ad3c8e5e2840958ab",
+      "bytes": 2275,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "ad559b8547774408fe17f8ddcab1fd2601515adb9000ca8ad3c8e5e2840958ab"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/README.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/README.md",
+      "source_sha256": "883fc463c6cad27736731c33f9b584069849ece18e6b30b422c836a59bee8ec6",
+      "bytes": 2963,
+      "disposition": "published",
+      "published_sha256": "883fc463c6cad27736731c33f9b584069849ece18e6b30b422c836a59bee8ec6"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/analysis-manifest.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/analysis-manifest.json",
+      "source_sha256": "9997918c55acaf430604bd545eebcc0a77e33a236b835f7986d44cb1ceab0ac8",
+      "bytes": 4274,
+      "disposition": "published",
+      "published_sha256": "9997918c55acaf430604bd545eebcc0a77e33a236b835f7986d44cb1ceab0ac8"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/analyze.py",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/analyze.py",
+      "source_sha256": "5d940bb3cf919434ed27635d0f402e4876631373bad7a68b83962b8cf8db7605",
+      "bytes": 10185,
+      "disposition": "published",
+      "published_sha256": "5d940bb3cf919434ed27635d0f402e4876631373bad7a68b83962b8cf8db7605"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/batch_mechanism_comparison.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/batch_mechanism_comparison.csv",
+      "source_sha256": "89f96cf05a39890cab388d6363db30c0712038c2d31336b47d0bfaf74e89419f",
+      "bytes": 5777,
+      "disposition": "published",
+      "published_sha256": "89f96cf05a39890cab388d6363db30c0712038c2d31336b47d0bfaf74e89419f"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/controller_barrier_audit.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/controller_barrier_audit.csv",
+      "source_sha256": "d3572de4dedf6197836002ede1cd557877c92be2e1c1c6deb197263407d619de",
+      "bytes": 37211,
+      "disposition": "published",
+      "published_sha256": "d3572de4dedf6197836002ede1cd557877c92be2e1c1c6deb197263407d619de"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/mechanism-evidence.png",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/mechanism-evidence.png",
+      "source_sha256": "6df311c154a0c66510ca24a03b1bc0313d1f906304f4146dfd1893d7ddcd5532",
+      "bytes": 179176,
+      "disposition": "published",
+      "published_sha256": "6df311c154a0c66510ca24a03b1bc0313d1f906304f4146dfd1893d7ddcd5532"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/verification.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/derived/verification.json",
+      "source_sha256": "25644fd5b0c7f06aa9585bff72ba1da0fa1868ea3dd8bcd51ba1fc5fb298ab96",
+      "bytes": 31507,
+      "disposition": "published",
+      "published_sha256": "25644fd5b0c7f06aa9585bff72ba1da0fa1868ea3dd8bcd51ba1fc5fb298ab96"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/gh-mechanism-review-ko.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/gh-mechanism-review-ko.md",
+      "source_sha256": "6d64d751d22819e7445ee634e8aeb6076ce75a918e4d53c5ae54ee80f5711ab0",
+      "bytes": 35882,
+      "disposition": "published",
+      "published_sha256": "6d64d751d22819e7445ee634e8aeb6076ce75a918e4d53c5ae54ee80f5711ab0"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/rooted-receipt.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/rooted-receipt.json",
+      "source_sha256": "cf5ffe9dee534725590b7bb97fdad8e84567eabd5d210b8c2883197e11c072f6",
+      "bytes": 548,
+      "disposition": "published",
+      "published_sha256": "cf5ffe9dee534725590b7bb97fdad8e84567eabd5d210b8c2883197e11c072f6"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/seal_report.py",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/seal_report.py",
+      "source_sha256": "8b1e42dfaf9efb207067c2053161d6254c8d8346df2b06697d570f0dbb82c12a",
+      "bytes": 5204,
+      "disposition": "published",
+      "published_sha256": "8b1e42dfaf9efb207067c2053161d6254c8d8346df2b06697d570f0dbb82c12a"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/candidate-sensitivity-summary.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/candidate-sensitivity-summary.csv",
+      "source_sha256": "bb6d93c8626431c3a088988a1434ec396d4dc8b674acda12a78f869ab805451e",
+      "bytes": 27425,
+      "disposition": "published",
+      "published_sha256": "bb6d93c8626431c3a088988a1434ec396d4dc8b674acda12a78f869ab805451e"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/history-audit.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/history-audit.md",
+      "source_sha256": "362a9871103af07627f571ec6f106759f09756f1e9941114d2987ca74dbd154f",
+      "bytes": 21121,
+      "disposition": "published",
+      "published_sha256": "362a9871103af07627f571ec6f106759f09756f1e9941114d2987ca74dbd154f"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-audit.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-audit.md",
+      "source_sha256": "eaf25a48f23c41f63f4b5f4b65c56eddcbcbd6d183da7da664a5c3c8dd5c0d24",
+      "bytes": 17294,
+      "disposition": "published",
+      "published_sha256": "eaf25a48f23c41f63f4b5f4b65c56eddcbcbd6d183da7da664a5c3c8dd5c0d24"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-lambda-shadow-all1040.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-lambda-shadow-all1040.csv",
+      "source_sha256": "02e799fca02b90b34dafad713a7263e34b5c9b93e041ec9a8b03d7de4d703872",
+      "bytes": 465279,
+      "disposition": "published",
+      "published_sha256": "02e799fca02b90b34dafad713a7263e34b5c9b93e041ec9a8b03d7de4d703872"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-sensitivity-summary.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-sensitivity-summary.json",
+      "source_sha256": "1c36509da74eb104e0ea6e0ed348543b116bc277afeefea55ebccc9922dd2be9",
+      "bytes": 4827,
+      "disposition": "published",
+      "published_sha256": "1c36509da74eb104e0ea6e0ed348543b116bc277afeefea55ebccc9922dd2be9"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-spectrum-all80.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama-spectrum-all80.csv",
+      "source_sha256": "8cf95d38b507010eae63c2f66a139ff5d60b7f7f2361eba8f87ebc94416243bb",
+      "bytes": 46479,
+      "disposition": "published",
+      "published_sha256": "8cf95d38b507010eae63c2f66a139ff5d60b7f7f2361eba8f87ebc94416243bb"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama_sensitivity.py",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/llama_sensitivity.py",
+      "source_sha256": "d4aeb72d21414be4fe3cf3824b148f3930a703a8398f99d89226f641d8fd4502",
+      "bytes": 6588,
+      "disposition": "published",
+      "published_sha256": "d4aeb72d21414be4fe3cf3824b148f3930a703a8398f99d89226f641d8fd4502"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/qwen-audit.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/qwen-audit.md",
+      "source_sha256": "12d8b40d2ae2c30c9720543ef0dfa539b0766d04287b9f9da94e5437b7241529",
+      "bytes": 15502,
+      "disposition": "published",
+      "published_sha256": "12d8b40d2ae2c30c9720543ef0dfa539b0766d04287b9f9da94e5437b7241529"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/summarize_candidate_sensitivity.py",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/summarize_candidate_sensitivity.py",
+      "source_sha256": "1b3aa7308c91d384f64527c55f09b681052ce2711bddae6df000cc8d0b0b60f3",
+      "bytes": 2507,
+      "disposition": "published",
+      "published_sha256": "1b3aa7308c91d384f64527c55f09b681052ce2711bddae6df000cc8d0b0b60f3"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/sweep-runtime-knobs-audit.md",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/supporting/sweep-runtime-knobs-audit.md",
+      "source_sha256": "89da5648a6d273b22621fef9760a66d084e3153c598f964791341ca12c150584",
+      "bytes": 11123,
+      "disposition": "published",
+      "published_sha256": "89da5648a6d273b22621fef9760a66d084e3153c598f964791341ca12c150584"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep-candidate-policy.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep-candidate-policy.json",
+      "source_sha256": "8b4c823c27f955d43239f61200ddd4a8068263fb64298ea92070a48e3a2dfec4",
+      "bytes": 2663,
+      "disposition": "published",
+      "published_sha256": "8b4c823c27f955d43239f61200ddd4a8068263fb64298ea92070a48e3a2dfec4"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep-candidates.csv",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep-candidates.csv",
+      "source_sha256": "5d959ab3f328f32a4e40d97333c11f563ac92f0b93d038ff65a3ed2afa390105",
+      "bytes": 2675,
+      "disposition": "published",
+      "published_sha256": "5d959ab3f328f32a4e40d97333c11f563ac92f0b93d038ff65a3ed2afa390105"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep_candidates.py",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/sweep_candidates.py",
+      "source_sha256": "5762961959289cdce785aea41dfc633418cd279e9630d2859e81062830007d9f",
+      "bytes": 4224,
+      "disposition": "published",
+      "published_sha256": "5762961959289cdce785aea41dfc633418cd279e9630d2859e81062830007d9f"
+    },
+    {
+      "source_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/validation.json",
+      "published_path": "experiment-reports/global/alpha-jv-sequential-mechanism-audit-2026-09-07-v1/validation.json",
+      "source_sha256": "dafe4b2fdd604ebf2294e5331bcadf9f2cf1bd4ef2305aec81cd8138d7951002",
+      "bytes": 4440,
+      "disposition": "published",
+      "published_sha256": "dafe4b2fdd604ebf2294e5331bcadf9f2cf1bd4ef2305aec81cd8138d7951002"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/audit-receipt.json",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/audit-receipt.json",
+      "source_sha256": "a1122a6736bb39f9869653a7584a8cd41a2bf9fe2fa806a4b9fb8b502b79cc7b",
+      "bytes": 5316,
+      "disposition": "published",
+      "published_sha256": "a1122a6736bb39f9869653a7584a8cd41a2bf9fe2fa806a4b9fb8b502b79cc7b"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "source_sha256": "6069838537ea607d30d2aa01fc9b00dd2a3900974f962372c4240b1b6ace9cfc",
+      "bytes": 23335,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "6069838537ea607d30d2aa01fc9b00dd2a3900974f962372c4240b1b6ace9cfc"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package-inventory.csv",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package-inventory.csv",
+      "source_sha256": "c35237539e426cc7e291aceca937577d5f576aba1648480d1c6230deab89d88b",
+      "bytes": 18547,
+      "disposition": "published",
+      "published_sha256": "c35237539e426cc7e291aceca937577d5f576aba1648480d1c6230deab89d88b"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-all14-paired-transitions.csv",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-all14-paired-transitions.csv",
+      "source_sha256": "4bc242504592da58449142e2f6dfbea54df07f9ac17085ec13a3b3da1c45a4d8",
+      "bytes": 6630,
+      "disposition": "published",
+      "published_sha256": "4bc242504592da58449142e2f6dfbea54df07f9ac17085ec13a3b3da1c45a4d8"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-locality-damage-components.csv",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-locality-damage-components.csv",
+      "source_sha256": "c908b9b890f8bc03650dfe02dcddd92543e6ecbeb2a3a39c785913a8bfec1365",
+      "bytes": 5658,
+      "disposition": "published",
+      "published_sha256": "c908b9b890f8bc03650dfe02dcddd92543e6ecbeb2a3a39c785913a8bfec1365"
+    },
+    {
+      "source_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-locality-exact-overlap-sensitivity.csv",
+      "published_path": "experiment-reports/global/blue-native-lifelong-independent-audit-2026-09-11-v1/w0-locality-exact-overlap-sensitivity.csv",
+      "source_sha256": "e7c0ead67073e2ec2decce20dcaf5c0c65b6354625b2268de2fd92bfb86dad3c",
+      "bytes": 4501,
+      "disposition": "published",
+      "published_sha256": "e7c0ead67073e2ec2decce20dcaf5c0c65b6354625b2268de2fd92bfb86dad3c"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/all-tensor-artifacts.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/all-tensor-artifacts.csv",
+      "source_sha256": "7e156bc505c023782ee8bdcaa047eb42e1819f43e7f00099762f563c4e5385e7",
+      "bytes": 5029025,
+      "disposition": "published",
+      "published_sha256": "7e156bc505c023782ee8bdcaa047eb42e1819f43e7f00099762f563c4e5385e7"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/build_index.py",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/build_index.py",
+      "source_sha256": "08a5739c6c00b5edd0520e749ae2d65410afdf08d066c8616a010a4d345d17cb",
+      "bytes": 26222,
+      "disposition": "published",
+      "published_sha256": "08a5739c6c00b5edd0520e749ae2d65410afdf08d066c8616a010a4d345d17cb"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-components.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-components.csv",
+      "source_sha256": "9be9f2cff617e63fd9d102f9d9ba349c9a8c65d79606f12a56c42b89313d0db1",
+      "bytes": 848499,
+      "disposition": "published",
+      "published_sha256": "9be9f2cff617e63fd9d102f9d9ba349c9a8c65d79606f12a56c42b89313d0db1"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-index.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-index.csv",
+      "source_sha256": "d0d80862725c40de4d65a5572600d21b6f809704f6609942a193967fa565c56a",
+      "bytes": 1062000,
+      "disposition": "published",
+      "published_sha256": "d0d80862725c40de4d65a5572600d21b6f809704f6609942a193967fa565c56a"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-location-report-ko.md",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-location-report-ko.md",
+      "source_sha256": "84ea0d141854763c26276f739eb96212b86c9647a941a2f780c84adbc105535a",
+      "bytes": 10243,
+      "disposition": "published",
+      "published_sha256": "84ea0d141854763c26276f739eb96212b86c9647a941a2f780c84adbc105535a"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint_inventory.py",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint_inventory.py",
+      "source_sha256": "116bc10ab9816cb966292d8577a1a80c9d2e75b5b354953a14b7d0b4735f2d02",
+      "bytes": 12740,
+      "disposition": "published",
+      "published_sha256": "116bc10ab9816cb966292d8577a1a80c9d2e75b5b354953a14b7d0b4735f2d02"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/classification-counts.json",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/classification-counts.json",
+      "source_sha256": "bfb017e6c71bc3f949cde18421c10f7a67b615197feab4e80ddc33962bd4d02e",
+      "bytes": 440,
+      "disposition": "published",
+      "published_sha256": "bfb017e6c71bc3f949cde18421c10f7a67b615197feab4e80ddc33962bd4d02e"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/directory-aliases.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/directory-aliases.csv",
+      "source_sha256": "0f8a658e207aaf2c67b4aaae4f2e8786193b99ba27b25c9c00c42a82569eeaea",
+      "bytes": 51419,
+      "disposition": "published",
+      "published_sha256": "0f8a658e207aaf2c67b4aaae4f2e8786193b99ba27b25c9c00c42a82569eeaea"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/experiment-server-matrix.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/experiment-server-matrix.csv",
+      "source_sha256": "a1f7961383f9e2cc1fd52038f82c1726a99b612b7f3c4b587346866f2780486d",
+      "bytes": 1195,
+      "disposition": "published",
+      "published_sha256": "a1f7961383f9e2cc1fd52038f82c1726a99b612b7f3c4b587346866f2780486d"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/experiment-summary.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/experiment-summary.csv",
+      "source_sha256": "724f9c5419f1af566c67b5d3a786a70f79bfb168a577893e96ecac1eff42a382",
+      "bytes": 7314,
+      "disposition": "published",
+      "published_sha256": "724f9c5419f1af566c67b5d3a786a70f79bfb168a577893e96ecac1eff42a382"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/lifelong-sequential-index.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/lifelong-sequential-index.csv",
+      "source_sha256": "294d08c84c87a2d1cb586e9c594895b41412410b20ec34b09115e8ba9a0bc59f",
+      "bytes": 226078,
+      "disposition": "published",
+      "published_sha256": "294d08c84c87a2d1cb586e9c594895b41412410b20ec34b09115e8ba9a0bc59f"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/migration-status.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/migration-status.csv",
+      "source_sha256": "95e1c05b8d155a2f82f5dedcdd6646124115075d5d905bf7b19a2e40edf9fce8",
+      "bytes": 126251,
+      "disposition": "published",
+      "published_sha256": "95e1c05b8d155a2f82f5dedcdd6646124115075d5d905bf7b19a2e40edf9fce8"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/report-manifest.json",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/report-manifest.json",
+      "source_sha256": "4b3571d06597aa70829cd16f7fed47ec93703a2ecb341927dff0afed67c5836a",
+      "bytes": 4874,
+      "disposition": "published",
+      "published_sha256": "4b3571d06597aa70829cd16f7fed47ec93703a2ecb341927dff0afed67c5836a"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/scan-coverage.json",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/scan-coverage.json",
+      "source_sha256": "f69fa1bd2f6ca1c5a46931caa0a26cd2202ac1a69d75e09c1d2d93552620afb5",
+      "bytes": 6817,
+      "disposition": "published",
+      "published_sha256": "f69fa1bd2f6ca1c5a46931caa0a26cd2202ac1a69d75e09c1d2d93552620afb5"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/server-summary.csv",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/server-summary.csv",
+      "source_sha256": "3dc2e5205550545d6e5b932c0db24bb96fd1132d79b3b8e41c59a02266c13bbb",
+      "bytes": 702,
+      "disposition": "published",
+      "published_sha256": "3dc2e5205550545d6e5b932c0db24bb96fd1132d79b3b8e41c59a02266c13bbb"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/test_inventory.py",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/test_inventory.py",
+      "source_sha256": "670a6ca2b4f60c0f45a7359cea4d98167f2b03b3104bc81e63f6578a821fefd6",
+      "bytes": 3516,
+      "disposition": "published",
+      "published_sha256": "670a6ca2b4f60c0f45a7359cea4d98167f2b03b3104bc81e63f6578a821fefd6"
+    },
+    {
+      "source_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/validation.json",
+      "published_path": "experiment-reports/global/checkpoint-location-index-2026-09-18-v1/validation.json",
+      "source_sha256": "2819838263c257ecfb55648aeebff58689b840ae409ba7c4ae4a0df7cec04e0c",
+      "bytes": 808,
+      "disposition": "published",
+      "published_sha256": "2819838263c257ecfb55648aeebff58689b840ae409ba7c4ae4a0df7cec04e0c"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit-receipt.json",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/audit-receipt.json",
+      "source_sha256": "e43f34b67d4ab6dac8c4c5ebd084e194e2d14f93f558fe90e269a2955997716e",
+      "bytes": 5391,
+      "disposition": "published",
+      "published_sha256": "e43f34b67d4ab6dac8c4c5ebd084e194e2d14f93f558fe90e269a2955997716e"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/bank-change-concentration.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/bank-change-concentration.csv",
+      "source_sha256": "a5a8c30b30331f157ffd6f2109e82127887c82dacb7da6c482ca81ccd9a68e4d",
+      "bytes": 1353,
+      "disposition": "published",
+      "published_sha256": "a5a8c30b30331f157ffd6f2109e82127887c82dacb7da6c482ca81ccd9a68e4d"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/bank-selection-audit.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/bank-selection-audit.csv",
+      "source_sha256": "db6e9611e326992c33f75e9a8ca5a664cf81b4af26c124ccce2c666dd35f5972",
+      "bytes": 338,
+      "disposition": "published",
+      "published_sha256": "db6e9611e326992c33f75e9a8ca5a664cf81b4af26c124ccce2c666dd35f5972"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/barrier-metric-decomposition.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/barrier-metric-decomposition.csv",
+      "source_sha256": "a09e712cf8545b2a1148bc480c70979ff176a7fd039091a4bb242168b8a30199",
+      "bytes": 1442,
+      "disposition": "published",
+      "published_sha256": "a09e712cf8545b2a1148bc480c70979ff176a7fd039091a4bb242168b8a30199"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/base-locality-transitions.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/base-locality-transitions.csv",
+      "source_sha256": "6d14338f1977743cc6c5d94cb14698f33b74d3111edcf0aeabb3fb7de334e09a",
+      "bytes": 9186,
+      "disposition": "published",
+      "published_sha256": "6d14338f1977743cc6c5d94cb14698f33b74d3111edcf0aeabb3fb7de334e09a"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-joint-replay.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-joint-replay.csv",
+      "source_sha256": "deed594c62b632d020c62012c8a7196453eaa064681316392b52ce41c7ddb2f7",
+      "bytes": 2910,
+      "disposition": "published",
+      "published_sha256": "deed594c62b632d020c62012c8a7196453eaa064681316392b52ce41c7ddb2f7"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/independent-review-ko.md",
+      "source_sha256": "6c3e77013fe482096fef86b06c84423ba622b078a1756ec6901b0d7b771ceb70",
+      "bytes": 23532,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "6c3e77013fe482096fef86b06c84423ba622b078a1756ec6901b0d7b771ceb70"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/native-relative-harm-comparison.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/native-relative-harm-comparison.csv",
+      "source_sha256": "41f7eee4e5a7167249f06aef57eb81b8cf37c197a138088c541bc97b3ec32870",
+      "bytes": 6603,
+      "disposition": "published",
+      "published_sha256": "41f7eee4e5a7167249f06aef57eb81b8cf37c197a138088c541bc97b3ec32870"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/protection-position-coverage.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/protection-position-coverage.csv",
+      "source_sha256": "8ee3501861272c46cecb2410c01730330725f0bca5b1c0185473ff87a03eb760",
+      "bytes": 2552,
+      "disposition": "published",
+      "published_sha256": "8ee3501861272c46cecb2410c01730330725f0bca5b1c0185473ff87a03eb760"
+    },
+    {
+      "source_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/source-package-inventory.csv",
+      "published_path": "experiment-reports/global/l4-two-memory-v2-independent-audit-2026-09-11-v1/source-package-inventory.csv",
+      "source_sha256": "3c62511f7e6ed75d89e015ea1f295681c51b3e22d3099f2637bda713d5e75d8a",
+      "bytes": 12127,
+      "disposition": "published",
+      "published_sha256": "3c62511f7e6ed75d89e015ea1f295681c51b3e22d3099f2637bda713d5e75d8a"
+    },
+    {
+      "source_path": "experiment-reports/servers/server4/official-layer-realization-debt-b10x10-2026-09-01-v1/residual-debt-layer-realization-bars.png",
+      "published_path": "experiment-reports/global/layer-realization-debt-figures-2026-09-18-v1/residual-debt-layer-realization-bars.png",
+      "source_sha256": "0c45e45ed902d631483f2461f22c053ee3be76eb82143ef6463dfd19a70cdd4d",
+      "bytes": 135021,
+      "disposition": "published_under_GH_owned_figure_path",
+      "published_sha256": "0c45e45ed902d631483f2461f22c053ee3be76eb82143ef6463dfd19a70cdd4d"
+    },
+    {
+      "source_path": "experiment-reports/servers/server4/official-layer-realization-debt-b10x10-2026-09-01-v1/weight-update-energy-share-bars.png",
+      "published_path": "experiment-reports/global/layer-realization-debt-figures-2026-09-18-v1/weight-update-energy-share-bars.png",
+      "source_sha256": "7d887acf1011384ac4c29b6665ed4c94f5fc547ff83f3576fa6562680aea92d0",
+      "bytes": 174525,
+      "disposition": "published_under_GH_owned_figure_path",
+      "published_sha256": "7d887acf1011384ac4c29b6665ed4c94f5fc547ff83f3576fa6562680aea92d0"
+    },
+    {
+      "source_path": "plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "published_path": "plans/global/2026-09-03-ordered-response-barrier-ode-edit-fast-main-table.md",
+      "source_sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40",
+      "bytes": 18113,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e134ac708c556482b912d7103e12a12347a78958943e7fa3d3da0a473908aa40"
+    },
+    {
+      "source_path": "plans/global/2026-09-10-edit-progress-preserving-damage-removal-design.md",
+      "published_path": "plans/global/2026-09-10-edit-progress-preserving-damage-removal-design.md",
+      "source_sha256": "9bd54d07994c13bb5025510d77e269a0fa3745385433ab1486e62d8b77e5c74b",
+      "bytes": 31643,
+      "disposition": "published",
+      "published_sha256": "9bd54d07994c13bb5025510d77e269a0fa3745385433ab1486e62d8b77e5c74b"
+    },
+    {
+      "source_path": "plans/global/2026-09-10-native-metric-barrier-refinement-diagnostic-design.md",
+      "published_path": "plans/global/2026-09-10-native-metric-barrier-refinement-diagnostic-design.md",
+      "source_sha256": "71170ade6978f8839b0deaeba5e185ac013080d41057573f73d415d0dafbed67",
+      "bytes": 33410,
+      "disposition": "published",
+      "published_sha256": "71170ade6978f8839b0deaeba5e185ac013080d41057573f73d415d0dafbed67"
+    },
+    {
+      "source_path": "plans/global/2026-09-10-single-layer-cumulative-risk-diagnostic-design.md",
+      "published_path": "plans/global/2026-09-10-single-layer-cumulative-risk-diagnostic-design.md",
+      "source_sha256": "1b9c0e35b0115fe79c0e376775070b81abff8f4420f32625bf1332752032ee5c",
+      "bytes": 42046,
+      "disposition": "published",
+      "published_sha256": "1b9c0e35b0115fe79c0e376775070b81abff8f4420f32625bf1332752032ee5c"
+    },
+    {
+      "source_path": "plans/global/2026-09-11-blue-l4-only-progress-preserving-barrier-experiment-design.md",
+      "published_path": "plans/global/2026-09-11-blue-l4-only-progress-preserving-barrier-experiment-design.md",
+      "source_sha256": "30be08eccc4b74b34acfeb9e3deb5cbffc9e6c4a02768e6f69fddf5593d99a8e",
+      "bytes": 37031,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "30be08eccc4b74b34acfeb9e3deb5cbffc9e6c4a02768e6f69fddf5593d99a8e"
+    },
+    {
+      "source_path": "plans/global/2026-09-11-l4-two-memory-conflict-routing-barrier-design.md",
+      "published_path": "plans/global/2026-09-11-l4-two-memory-conflict-routing-barrier-design.md",
+      "source_sha256": "4efe1063ea80684beafa791eb99e20c1aa7f3f61636dabab00f9f3805c32eb1d",
+      "bytes": 53995,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "4efe1063ea80684beafa791eb99e20c1aa7f3f61636dabab00f9f3805c32eb1d"
+    },
+    {
+      "source_path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design-math-check.json",
+      "published_path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design-math-check.json",
+      "source_sha256": "2cbf00c4a3ddc79bec3019f1bff2a6bf150fef38fd0169b7e3c229ccd681613f",
+      "bytes": 738,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "2cbf00c4a3ddc79bec3019f1bff2a6bf150fef38fd0169b7e3c229ccd681613f"
+    },
+    {
+      "source_path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design.md",
+      "published_path": "plans/global/2026-09-11-multilayer-joint-edit-and-compensation-design.md",
+      "source_sha256": "a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05",
+      "bytes": 35133,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "a8f32937ddd2fc4f87cb3a2cfb9ef95de67d2fd39ce877142fa7b80a1884bf05"
+    },
+    {
+      "source_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-cells.csv",
+      "published_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-cells.csv",
+      "source_sha256": "3403afae3e0afba967dc30a1a79196d34a023ce2c2de125a6ed9c577759ab2b6",
+      "bytes": 2583,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "3403afae3e0afba967dc30a1a79196d34a023ce2c2de125a6ed9c577759ab2b6"
+    },
+    {
+      "source_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-contract.json",
+      "published_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-contract.json",
+      "source_sha256": "086590036cd4074c8b68ec6f68405f2144f9c2bff4a8a10627f05123c6057045",
+      "bytes": 8922,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "086590036cd4074c8b68ec6f68405f2144f9c2bff4a8a10627f05123c6057045"
+    },
+    {
+      "source_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-design.md",
+      "published_path": "plans/global/2026-09-13-low-cost-write-donor-pilot-design.md",
+      "source_sha256": "585dfddb90031d719a668232be1af4ac1815cc81b48f4500c59b8b34fbd016c8",
+      "bytes": 33750,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "585dfddb90031d719a668232be1af4ac1815cc81b48f4500c59b8b34fbd016c8"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-mechanism-cells.csv",
+      "published_path": "plans/global/2026-09-14-refit4-mechanism-cells.csv",
+      "source_sha256": "a31b2f120fc8e360d857a268b451b883e4cdd9eddc76cb6246a1862c1b873119",
+      "bytes": 1613,
+      "disposition": "published",
+      "published_sha256": "a31b2f120fc8e360d857a268b451b883e4cdd9eddc76cb6246a1862c1b873119"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-mechanism-next-gate-design.md",
+      "published_path": "plans/global/2026-09-14-refit4-mechanism-next-gate-design.md",
+      "source_sha256": "b87c6003a4f59af2613c385261bfa630c188e67f6d52d8918ad8db5298c51587",
+      "bytes": 22131,
+      "disposition": "published",
+      "published_sha256": "b87c6003a4f59af2613c385261bfa630c188e67f6d52d8918ad8db5298c51587"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-write-refresh-design-checks.json",
+      "published_path": "plans/global/2026-09-14-refit4-write-refresh-design-checks.json",
+      "source_sha256": "baf019ba5c8500ac78abd39be2330d10922844bcb01b41229a985048629631f5",
+      "bytes": 971,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "baf019ba5c8500ac78abd39be2330d10922844bcb01b41229a985048629631f5"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-cells.csv",
+      "published_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-cells.csv",
+      "source_sha256": "a13bffa3f7d86e1c90cb20eff77d5184199a8bf591535f35088bcba1b139e0cb",
+      "bytes": 10194,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "a13bffa3f7d86e1c90cb20eff77d5184199a8bf591535f35088bcba1b139e0cb"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-contract.json",
+      "published_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-contract.json",
+      "source_sha256": "5e47ec6f5d821c260bb2b1020f6786b61caea20a08a32fdd2a476fa88ee898fe",
+      "bytes": 9317,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "5e47ec6f5d821c260bb2b1020f6786b61caea20a08a32fdd2a476fa88ee898fe"
+    },
+    {
+      "source_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-final-design.md",
+      "published_path": "plans/global/2026-09-14-refit4-write-refresh-seq1000-final-design.md",
+      "source_sha256": "0763b390163e50b6ce711743ced304c6ac035198d69f7d2afffdaa446d45af6e",
+      "bytes": 23358,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "0763b390163e50b6ce711743ced304c6ac035198d69f7d2afffdaa446d45af6e"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-baseline-independent-budget-design.md",
+      "published_path": "plans/global/2026-09-15-bg-tw-baseline-independent-budget-design.md",
+      "source_sha256": "431e05490bf915b79a944cb85314a5063ed37be0853740e1a8909b1301c544a7",
+      "bytes": 13034,
+      "disposition": "published",
+      "published_sha256": "431e05490bf915b79a944cb85314a5063ed37be0853740e1a8909b1301c544a7"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-design-checks.json",
+      "published_path": "plans/global/2026-09-15-bg-tw-design-checks.json",
+      "source_sha256": "583b42c2d784582490882412aa08cb948a5c92a6ef81454c18a6ffd9cc122af5",
+      "bytes": 3969,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "583b42c2d784582490882412aa08cb948a5c92a6ef81454c18a6ffd9cc122af5"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-from-base-cells.csv",
+      "published_path": "plans/global/2026-09-15-bg-tw-from-base-cells.csv",
+      "source_sha256": "2b5967b8f464ea67baa6ff6a3e9f7c6f04d0b83fb806bacf9e6bd76eff43b80c",
+      "bytes": 1184,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "2b5967b8f464ea67baa6ff6a3e9f7c6f04d0b83fb806bacf9e6bd76eff43b80c"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+      "published_path": "plans/global/2026-09-15-bg-tw-from-base-contract.json",
+      "source_sha256": "a470f8c7a51dc3f6e334b3ceb0823172c5e65e06191e28c78c735f67583db301",
+      "bytes": 3892,
+      "disposition": "published",
+      "published_sha256": "a470f8c7a51dc3f6e334b3ceb0823172c5e65e06191e28c78c735f67583db301"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
+      "published_path": "plans/global/2026-09-15-bg-tw-from-base-staged-design-v2.md",
+      "source_sha256": "0a417ba2deefc86fc25bb44ce84ed85ca18263390491e62805658dbee3403fb0",
+      "bytes": 30512,
+      "disposition": "published",
+      "published_sha256": "0a417ba2deefc86fc25bb44ce84ed85ca18263390491e62805658dbee3403fb0"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-no-budget-discussion.md",
+      "published_path": "plans/global/2026-09-15-bg-tw-no-budget-discussion.md",
+      "source_sha256": "af1549b3181b4f5597afed685cc8cef6a085e2a6b23967e730f90de676970394",
+      "bytes": 23143,
+      "disposition": "published",
+      "published_sha256": "af1549b3181b4f5597afed685cc8cef6a085e2a6b23967e730f90de676970394"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-preservation-budget-contract.json",
+      "published_path": "plans/global/2026-09-15-bg-tw-preservation-budget-contract.json",
+      "source_sha256": "d51af3091378aa4968a1abd8bb0d7096e39f0249f6c5f962391e35ab8efbb8d4",
+      "bytes": 6472,
+      "disposition": "published",
+      "published_sha256": "d51af3091378aa4968a1abd8bb0d7096e39f0249f6c5f962391e35ab8efbb8d4"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "published_path": "plans/global/2026-09-15-bg-tw-reference-data-contract.json",
+      "source_sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20",
+      "bytes": 24298,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "112ecef45b96cbdda87e988d46d21667a398c5e66ece5e9c611cdc3f346c4d20"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-reference-design-checks.json",
+      "published_path": "plans/global/2026-09-15-bg-tw-reference-design-checks.json",
+      "source_sha256": "0458c7280a09805943d6b4fc2dd115e2ebc0e28043206b9b15bd424fd517d559",
+      "bytes": 4027,
+      "disposition": "published",
+      "published_sha256": "0458c7280a09805943d6b4fc2dd115e2ebc0e28043206b9b15bd424fd517d559"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg-tw-reviewed-evidence.csv",
+      "published_path": "plans/global/2026-09-15-bg-tw-reviewed-evidence.csv",
+      "source_sha256": "05854163257ff112dd03350b1369a7e6132b5c914d3803a9f33c15d7919f6503",
+      "bytes": 661,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "05854163257ff112dd03350b1369a7e6132b5c914d3803a9f33c15d7919f6503"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-bg1-c4-ours-first-dispatch-contract.json",
+      "published_path": "plans/global/2026-09-15-bg1-c4-ours-first-dispatch-contract.json",
+      "source_sha256": "d468683baac7830ac8b13202e3fdb5e2a3e02f3c0c1480a04da122d481fe674d",
+      "bytes": 3467,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d468683baac7830ac8b13202e3fdb5e2a3e02f3c0c1480a04da122d481fe674d"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "published_path": "plans/global/2026-09-15-edit-quality-preserving-tw-contract.json",
+      "source_sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea",
+      "bytes": 10515,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "48c1e44481114cb809ac185a04c7b76338f188427ebe2cdfb8a157b434593eea"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "published_path": "plans/global/2026-09-15-edit-quality-preserving-tw-design-v3.md",
+      "source_sha256": "37a626e2de5d90e19851914d892122cc4dfb07279e8be794efa5a01c62326a4d",
+      "bytes": 17969,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "37a626e2de5d90e19851914d892122cc4dfb07279e8be794efa5a01c62326a4d"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-ep-tw-design-checks.json",
+      "published_path": "plans/global/2026-09-15-ep-tw-design-checks.json",
+      "source_sha256": "72c7113f0b98dd08c89c00f977e392c2e45d8f47956fef3a2ea83578b995c9de",
+      "bytes": 4924,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "72c7113f0b98dd08c89c00f977e392c2e45d8f47956fef3a2ea83578b995c9de"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-cells.csv",
+      "published_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-cells.csv",
+      "source_sha256": "d3657383e22ba8237a4666f14d9150931a6e7a07b4ec55ed975f9437841731ac",
+      "bytes": 679,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d3657383e22ba8237a4666f14d9150931a6e7a07b4ec55ed975f9437841731ac"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-contract.json",
+      "published_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-contract.json",
+      "source_sha256": "0f94a54d86db3a244fbd91696efc318b8347816cf9241415f7739699e9eb825c",
+      "bytes": 10382,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "0f94a54d86db3a244fbd91696efc318b8347816cf9241415f7739699e9eb825c"
+    },
+    {
+      "source_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-design.md",
+      "published_path": "plans/global/2026-09-15-ep-tw1-alpha-cap-sweep-design.md",
+      "source_sha256": "0216726f891d8af21f5e042734f8c12fb96ac163d8602f57d7fd46e92a93f96a",
+      "bytes": 17183,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "0216726f891d8af21f5e042734f8c12fb96ac163d8602f57d7fd46e92a93f96a"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-adaptive-write-policy-and-capacity-decision.md",
+      "published_path": "plans/global/2026-09-16-adaptive-write-policy-and-capacity-decision.md",
+      "source_sha256": "295847c6ec73bcc9f495c9c0e38d9dcf79a32ffe7af07ba74414b069f3e352e5",
+      "bytes": 12400,
+      "disposition": "published",
+      "published_sha256": "295847c6ec73bcc9f495c9c0e38d9dcf79a32ffe7af07ba74414b069f3e352e5"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-local-z-adaptive-allocation-budget-diagnostics-v1.md",
+      "published_path": "plans/global/2026-09-16-local-z-adaptive-allocation-budget-diagnostics-v1.md",
+      "source_sha256": "9332085f4e75e60692e60f9de4731c3ccff6567b8690ba16acd8732baad6c82a",
+      "bytes": 11559,
+      "disposition": "published",
+      "published_sha256": "9332085f4e75e60692e60f9de4731c3ccff6567b8690ba16acd8732baad6c82a"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv",
+      "published_path": "plans/global/2026-09-16-local-z-adaptive-allocation-cells-v1.csv",
+      "source_sha256": "6c4fa65a61307400189f214e0af6da8b0697ce13ec7b098ddc9e07989a35e65d",
+      "bytes": 5290,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "6c4fa65a61307400189f214e0af6da8b0697ce13ec7b098ddc9e07989a35e65d"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json",
+      "published_path": "plans/global/2026-09-16-local-z-adaptive-allocation-contract-v1.json",
+      "source_sha256": "4c1a68a146eaa83384e4cd1e98e25e88c10e5809d16ea4162d3fd19825040116",
+      "bytes": 15818,
+      "disposition": "published",
+      "published_sha256": "4c1a68a146eaa83384e4cd1e98e25e88c10e5809d16ea4162d3fd19825040116"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md",
+      "published_path": "plans/global/2026-09-16-local-z-adaptive-allocation-design-v1.md",
+      "source_sha256": "d4a90c525d4a88a6caab3dbb6afa8159aa796889a6c57759114354765ccf7da7",
+      "bytes": 23607,
+      "disposition": "published",
+      "published_sha256": "d4a90c525d4a88a6caab3dbb6afa8159aa796889a6c57759114354765ccf7da7"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-refit-feedback-barrier-write-proposal.md",
+      "published_path": "plans/global/2026-09-16-refit-feedback-barrier-write-proposal.md",
+      "source_sha256": "9a2b864d3df4f90463c2e2e0e0774395a4ae1c0dd51d95337a95af1b520c35b5",
+      "bytes": 23631,
+      "disposition": "published",
+      "published_sha256": "9a2b864d3df4f90463c2e2e0e0774395a4ae1c0dd51d95337a95af1b520c35b5"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-single-layer-zflow-contract-v1.json",
+      "published_path": "plans/global/2026-09-16-single-layer-zflow-contract-v1.json",
+      "source_sha256": "597d02230a0ad804387aca57948c32b9eb6b27ee35908d70afcdd1fbae6064da",
+      "bytes": 2451,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "597d02230a0ad804387aca57948c32b9eb6b27ee35908d70afcdd1fbae6064da"
+    },
+    {
+      "source_path": "plans/global/2026-09-16-single-layer-zflow-pipeline-v1.md",
+      "published_path": "plans/global/2026-09-16-single-layer-zflow-pipeline-v1.md",
+      "source_sha256": "7d1e9388af83d7e590105e2f05ccbbaae3592024fd789eb6c5b456ef366439cd",
+      "bytes": 19983,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "7d1e9388af83d7e590105e2f05ccbbaae3592024fd789eb6c5b456ef366439cd"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
+      "published_path": "plans/global/2026-09-17-l4-preserving-batch-repair-cells-v1.csv",
+      "source_sha256": "af753e4c21a88d9c667bf1051be179787d98a03bdf2b1f7d696b3ac09f03adeb",
+      "bytes": 754,
+      "disposition": "published",
+      "published_sha256": "af753e4c21a88d9c667bf1051be179787d98a03bdf2b1f7d696b3ac09f03adeb"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
+      "published_path": "plans/global/2026-09-17-l4-preserving-batch-repair-contract-v1.json",
+      "source_sha256": "36ec8fcb57f987cc73b7ac4e667ff8a8262e209ef6b6c2e367d2453f674ae700",
+      "bytes": 8029,
+      "disposition": "published",
+      "published_sha256": "36ec8fcb57f987cc73b7ac4e667ff8a8262e209ef6b6c2e367d2453f674ae700"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-l4-preserving-batch-repair-v1.md",
+      "published_path": "plans/global/2026-09-17-l4-preserving-batch-repair-v1.md",
+      "source_sha256": "b3cb15c375f017c1636ca0c87469ab9d61842a8312a2935388d3fefd7e29c409",
+      "bytes": 24496,
+      "disposition": "published",
+      "published_sha256": "b3cb15c375f017c1636ca0c87469ab9d61842a8312a2935388d3fefd7e29c409"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-repair-layer-feasibility-audit-v1.md",
+      "published_path": "plans/global/2026-09-17-repair-layer-feasibility-audit-v1.md",
+      "source_sha256": "4f041ba84d0b674ef8fb3ea9702c653ad78a6f46be0a743a03f4fb41320c2256",
+      "bytes": 17874,
+      "disposition": "published",
+      "published_sha256": "4f041ba84d0b674ef8fb3ea9702c653ad78a6f46be0a743a03f4fb41320c2256"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-repair-layer-feasibility-cells-v1.csv",
+      "published_path": "plans/global/2026-09-17-repair-layer-feasibility-cells-v1.csv",
+      "source_sha256": "9c32709d092f105c0edbb97da792db5cdf5153205cddb724a93fea033ec82e03",
+      "bytes": 1747,
+      "disposition": "published",
+      "published_sha256": "9c32709d092f105c0edbb97da792db5cdf5153205cddb724a93fea033ec82e03"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-repair-layer-feasibility-contract-v1.json",
+      "published_path": "plans/global/2026-09-17-repair-layer-feasibility-contract-v1.json",
+      "source_sha256": "ea47e9cc4dbac59afa678ead6dc5e383faffe07a0d071ad4d7e478355a75815d",
+      "bytes": 8176,
+      "disposition": "published",
+      "published_sha256": "ea47e9cc4dbac59afa678ead6dc5e383faffe07a0d071ad4d7e478355a75815d"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+      "published_path": "plans/global/2026-09-17-sequential-local-z-allocation-cells-v2.csv",
+      "source_sha256": "92f51ceffa031a5373ef782e0d08587c5c4634590932ed646c1099b7630ac9ad",
+      "bytes": 797,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "92f51ceffa031a5373ef782e0d08587c5c4634590932ed646c1099b7630ac9ad"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-sequential-local-z-allocation-contract-v2.json",
+      "published_path": "plans/global/2026-09-17-sequential-local-z-allocation-contract-v2.json",
+      "source_sha256": "a7aaac67ffe1f6fb47d372b1eaea62d33d4cf12fcb9e0874fbe92d2750239f8c",
+      "bytes": 13559,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "a7aaac67ffe1f6fb47d372b1eaea62d33d4cf12fcb9e0874fbe92d2750239f8c"
+    },
+    {
+      "source_path": "plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+      "published_path": "plans/global/2026-09-17-sequential-local-z-allocation-design-v2.md",
+      "source_sha256": "fac114d403502c96cbcb33a58b0ff1ee2b0b65b017c44b22a2a22adcda749b73",
+      "bytes": 24041,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "fac114d403502c96cbcb33a58b0ff1ee2b0b65b017c44b22a2a22adcda749b73"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-base-choice-constrained-write-cells-v2.csv",
+      "published_path": "plans/global/2026-09-18-base-choice-constrained-write-cells-v2.csv",
+      "source_sha256": "cca278fd5539aecd80601edd2e8cbcfe1adf7abd91d4ca69d82ae14cf236f46e",
+      "bytes": 717,
+      "disposition": "published",
+      "published_sha256": "cca278fd5539aecd80601edd2e8cbcfe1adf7abd91d4ca69d82ae14cf236f46e"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json",
+      "published_path": "plans/global/2026-09-18-base-choice-constrained-write-contract-v2.json",
+      "source_sha256": "60ba775fe4561f5fe4dcda28e6ef7cfd974c0277904dea6dc42b9ef08c41d361",
+      "bytes": 9895,
+      "disposition": "published",
+      "published_sha256": "60ba775fe4561f5fe4dcda28e6ef7cfd974c0277904dea6dc42b9ef08c41d361"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-base-choice-constrained-write-v2.md",
+      "published_path": "plans/global/2026-09-18-base-choice-constrained-write-v2.md",
+      "source_sha256": "c48f014c2b280d39566a315bc8a512c2555c52bd5fb17b2a351ee9b37ef3a6aa",
+      "bytes": 25145,
+      "disposition": "published",
+      "published_sha256": "c48f014c2b280d39566a315bc8a512c2555c52bd5fb17b2a351ee9b37ef3a6aa"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-en-pipeline-mathematical-explanation-v1.md",
+      "published_path": "plans/global/2026-09-18-en-pipeline-mathematical-explanation-v1.md",
+      "source_sha256": "c95c8c3f9232845ae6b8158fd420d104d1f47c94c0aad1ee401a2004ab74ef9c",
+      "bytes": 12728,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c95c8c3f9232845ae6b8158fd420d104d1f47c94c0aad1ee401a2004ab74ef9c"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-cells-v1.csv",
+      "published_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-cells-v1.csv",
+      "source_sha256": "896c8eba72d4993628c2ad4fdf6f8fcd9b3e12776943405c59bdfaccc05799b9",
+      "bytes": 896,
+      "disposition": "published",
+      "published_sha256": "896c8eba72d4993628c2ad4fdf6f8fcd9b3e12776943405c59bdfaccc05799b9"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-contract-v1.json",
+      "published_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-contract-v1.json",
+      "source_sha256": "728af7c85ab67f2859eb529457d99536b43010bb75d662b9fef59328f5b7a526",
+      "bytes": 9379,
+      "disposition": "published",
+      "published_sha256": "728af7c85ab67f2859eb529457d99536b43010bb75d662b9fef59328f5b7a526"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-v1.md",
+      "published_path": "plans/global/2026-09-18-fixed-key-reference-constrained-write-v1.md",
+      "source_sha256": "ca32c668dd8ef0144fdaa1206024f4b28a02a698ed0cb3772e1b129f05dfbf95",
+      "bytes": 31408,
+      "disposition": "published",
+      "published_sha256": "ca32c668dd8ef0144fdaa1206024f4b28a02a698ed0cb3772e1b129f05dfbf95"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "published_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-cells-v1.csv",
+      "source_sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c",
+      "bytes": 14480,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "ff142374491d1f99999be1e938ec4bb592b89b530839cc4d0f6a28601352f41c"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "published_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-contract-v1.json",
+      "source_sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0",
+      "bytes": 15553,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c93b345aac614a87eff31ca0e7172c413ee849e830947a5c627fbcafdb2234d0"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "published_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-design-v1.md",
+      "source_sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06",
+      "bytes": 36164,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d0dc2fcf22c5b4a1f214743d8b8ee37fdb4d3c07a90d3cfc85a014a1befdcc06"
+    },
+    {
+      "source_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-efficiency-review-v1.md",
+      "published_path": "plans/global/2026-09-18-single-layer-edit-preserving-correction-efficiency-review-v1.md",
+      "source_sha256": "67b163f895b9909664c09b12e80f47fd722d30e894dec059132c718840a8150c",
+      "bytes": 13995,
+      "disposition": "published",
+      "published_sha256": "67b163f895b9909664c09b12e80f47fd722d30e894dec059132c718840a8150c"
+    },
+    {
+      "source_path": "plans/global/ICLR_2027.pdf",
+      "published_path": "plans/global/ICLR_2027.pdf",
+      "source_sha256": "9ac95303ddeaabcd57e0b83e3a298d7f24cd0571d89ee830c3194f9a33cc728f",
+      "bytes": 260129,
+      "disposition": "published",
+      "published_sha256": "9ac95303ddeaabcd57e0b83e3a298d7f24cd0571d89ee830c3194f9a33cc728f"
+    },
+    {
+      "source_path": "project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "published_path": "project/proposals/2026-09-03-ordered-response-barrier-ode-edit-gh-fast-main-prompt.md",
+      "source_sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431",
+      "bytes": 13143,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "8548d016fda343f8b8917bcbe43647b58ad99ab6f796ece2fe4ef661faa4c431"
+    },
+    {
+      "source_path": "project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "published_path": "project/proposals/2026-09-03-ordered-response-barrier-ode-edit-proposal.md",
+      "source_sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be",
+      "bytes": 55900,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "03a6fc61258e7643fc281fab8ab0d3ca700bb80f09aaa3eb34591ce5827087be"
+    },
+    {
+      "source_path": "project/proposals/2026-09-12-baseline-mechanism-first-lifelong-editing-design.md",
+      "published_path": "project/proposals/2026-09-12-baseline-mechanism-first-lifelong-editing-design.md",
+      "source_sha256": "e4dc0b1fc0666775deb6e43cbdf18269c8e8e6d41d70c192e2bd4a2661a6ccbe",
+      "bytes": 53160,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e4dc0b1fc0666775deb6e43cbdf18269c8e8e6d41d70c192e2bd4a2661a6ccbe"
+    },
+    {
+      "source_path": "project/proposals/2026-09-13-low-cost-write-donor-pilot-gh-instruction.md",
+      "published_path": "project/proposals/2026-09-13-low-cost-write-donor-pilot-gh-instruction.md",
+      "source_sha256": "46cfb78df30fabb412c2690121b7f98259065124064258fb1029eec1ac0c3fdb",
+      "bytes": 15463,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "46cfb78df30fabb412c2690121b7f98259065124064258fb1029eec1ac0c3fdb"
+    },
+    {
+      "source_path": "project/proposals/2026-09-14-refit4-write-refresh-seq1000-gh-instruction.md",
+      "published_path": "project/proposals/2026-09-14-refit4-write-refresh-seq1000-gh-instruction.md",
+      "source_sha256": "55c8eb6ca5730b197b83852ed65f20d00519bf89247ec2a5afd7894a75d99f54",
+      "bytes": 18121,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "55c8eb6ca5730b197b83852ed65f20d00519bf89247ec2a5afd7894a75d99f54"
+    },
+    {
+      "source_path": "project/proposals/2026-09-15-bg1-c4-ours-first-gh-instruction.md",
+      "published_path": "project/proposals/2026-09-15-bg1-c4-ours-first-gh-instruction.md",
+      "source_sha256": "d8c025d6aef864cbd375c4e22c61ad40f75c726a3a335a01c0597ce5fd8e56c1",
+      "bytes": 16620,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "d8c025d6aef864cbd375c4e22c61ad40f75c726a3a335a01c0597ce5fd8e56c1"
+    },
+    {
+      "source_path": "project/proposals/2026-09-15-ep-tw1-alpha-cap-sweep-gh-instruction.md",
+      "published_path": "project/proposals/2026-09-15-ep-tw1-alpha-cap-sweep-gh-instruction.md",
+      "source_sha256": "233d5bd45e71158a34eb464aa3323abb3eb1af05ed80ea8809ca436ecebf31bc",
+      "bytes": 16536,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "233d5bd45e71158a34eb464aa3323abb3eb1af05ed80ea8809ca436ecebf31bc"
+    },
+    {
+      "source_path": "project/proposals/2026-09-16-single-layer-zflow-gh-instruction.md",
+      "published_path": "project/proposals/2026-09-16-single-layer-zflow-gh-instruction.md",
+      "source_sha256": "609b5ec1f2f7dbc32feebb3e5374fe4cbe1c912a287c042855b087abe5edcaba",
+      "bytes": 17864,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "609b5ec1f2f7dbc32feebb3e5374fe4cbe1c912a287c042855b087abe5edcaba"
+    },
+    {
+      "source_path": "project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md",
+      "published_path": "project/proposals/2026-09-18-base-choice-constrained-write-gh-instruction-v2.md",
+      "source_sha256": "7d6c07cc07595b8828af76e6c0fbd53740aa5ca0b6d044773f6f13cec461ab3d",
+      "bytes": 29320,
+      "disposition": "published",
+      "published_sha256": "7d6c07cc07595b8828af76e6c0fbd53740aa5ca0b6d044773f6f13cec461ab3d"
+    },
+    {
+      "source_path": "project/proposals/README.md",
+      "published_path": "project/proposals/README.md",
+      "source_sha256": "199c5e07b950ec98b69f71acf63cc26862ee135e69fb84ae17f1eb9b576edc15",
+      "bytes": 13127,
+      "disposition": "merged_navigation_latest_BPCW",
+      "published_sha256": "d8e0d19d7b97ca22aa384299319d0ad85fa0cece5b35567cb9292d8c7ea81ae4"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/README.md",
+      "published_path": "audits/global/2026-09-18-workspace-main-publication/historical/single-layer-zflow-cpu-reference-readme.md",
+      "source_sha256": "dd6cada185ce352084ec0371ab01b14af20d312538ab6f7674ce62d67f21cd0a",
+      "bytes": 3246,
+      "disposition": "historical_copy_preserve_newer_main",
+      "published_sha256": "dd6cada185ce352084ec0371ab01b14af20d312538ab6f7674ce62d67f21cd0a"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/__init__.py",
+      "published_path": "project/run_scripts/single_layer_zflow/__init__.py",
+      "source_sha256": "f58b589f598e8da4f89096e14469947f57ee66aa726e23dad6e89ccd43bc0179",
+      "bytes": 84,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "f58b589f598e8da4f89096e14469947f57ee66aa726e23dad6e89ccd43bc0179"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/demo.py",
+      "published_path": "project/run_scripts/single_layer_zflow/demo.py",
+      "source_sha256": "4afcdc8c1a521e91173968d481a02b811c1b822fa6e92bf58f7169a0aec94f55",
+      "bytes": 10330,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "4afcdc8c1a521e91173968d481a02b811c1b822fa6e92bf58f7169a0aec94f55"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/flow_core.py",
+      "published_path": "project/run_scripts/single_layer_zflow/flow_core.py",
+      "source_sha256": "e3919f083632ddfd0886c6f4474f602a5843e9fc46fe9c7bd633554620a4a02e",
+      "bytes": 17576,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e3919f083632ddfd0886c6f4474f602a5843e9fc46fe9c7bd633554620a4a02e"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/oracle.py",
+      "published_path": "project/run_scripts/single_layer_zflow/oracle.py",
+      "source_sha256": "c9f124083b78d36770470887a1c74c09b65a8b3cbf5667601cdd17310b739657",
+      "bytes": 9337,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "c9f124083b78d36770470887a1c74c09b65a8b3cbf5667601cdd17310b739657"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/tests/__init__.py",
+      "published_path": "project/run_scripts/single_layer_zflow/tests/__init__.py",
+      "source_sha256": "120408db020f5571e141c4d17ac0ffd6b0121bd7e9c068d28da0a7b3da5085ad",
+      "bytes": 67,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "120408db020f5571e141c4d17ac0ffd6b0121bd7e9c068d28da0a7b3da5085ad"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/tests/test_flow_core.py",
+      "published_path": "project/run_scripts/single_layer_zflow/tests/test_flow_core.py",
+      "source_sha256": "de972185ba7160e17c8ea2e9b22d18cd2a70c5bc29efc348c62989c826b6526f",
+      "bytes": 14283,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "de972185ba7160e17c8ea2e9b22d18cd2a70c5bc29efc348c62989c826b6526f"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/tests/test_oracle_transaction.py",
+      "published_path": "project/run_scripts/single_layer_zflow/tests/test_oracle_transaction.py",
+      "source_sha256": "e5e7d6312deecdb20c6473fda6cd68f623e832b3ecaac3e7ef8f231bc0130939",
+      "bytes": 11175,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "e5e7d6312deecdb20c6473fda6cd68f623e832b3ecaac3e7ef8f231bc0130939"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/tests/test_pipeline.py",
+      "published_path": "project/run_scripts/single_layer_zflow/tests/test_pipeline.py",
+      "source_sha256": "5ebcdb7cc2d87e5068ec3cfd2c510e4538773f04fc5bb95a74fb6b426ef4afc9",
+      "bytes": 2381,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "5ebcdb7cc2d87e5068ec3cfd2c510e4538773f04fc5bb95a74fb6b426ef4afc9"
+    },
+    {
+      "source_path": "project/run_scripts/single_layer_zflow/transaction.py",
+      "published_path": "project/run_scripts/single_layer_zflow/transaction.py",
+      "source_sha256": "f851a3b3d585c3071128d8a59f49b852985afa284abc10525135bc640a6c37fb",
+      "bytes": 8049,
+      "disposition": "already_identical_on_main",
+      "published_sha256": "f851a3b3d585c3071128d8a59f49b852985afa284abc10525135bc640a6c37fb"
+    }
+  ],
+  "note": "원격 최신 runtime README는 유지하고 더 오래된 로컬 CPU README는 historical 경로에 원본 bytes로 보존했다.",
+  "checks": {
+    "credential_pattern_hits": 0,
+    "json_parsed": 77,
+    "jsonl_parsed": 2,
+    "csv_parsed": 88,
+    "python_ast_parsed": 43,
+    "BPCW_CPU_algebra_checks_passed": 12,
+    "repair_contract_CPU_checks_passed": 41,
+    "model_or_GPU_runs": 0
+  },
+  "ownership_resolution": "Server4 경로의 미추적 PNG2개는 GH 소유 global figure 경로에 동일 bytes로 보존했다. 서버 보고서 경로는 변경하지 않았다."
+}

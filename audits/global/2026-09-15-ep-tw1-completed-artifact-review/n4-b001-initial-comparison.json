@@ -1,0 +1,84 @@
+{
+  "scope": "same W0 B001 native target tensors; saved artifacts only",
+  "native_target_shape": [
+    100,
+    4096
+  ],
+  "target_rows_identical": 100,
+  "target_max_abs_difference": 0.0,
+  "target_difference_norm": 0.0,
+  "target_relative_difference_norm": 0.0,
+  "baseline_target_sha_matches_observation": true,
+  "key_shape": [
+    100,
+    14336
+  ],
+  "key_fixture_hash_EP": "7b392922b84190a3726e759b7ab9c73b1fc44095e63b482de7a7fb956e42ecf0",
+  "key_fixture_hash_baseline": "7b392922b84190a3726e759b7ab9c73b1fc44095e63b482de7a7fb956e42ecf0",
+  "key_hash_equal": true,
+  "baseline_files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/current.json",
+      "bytes": 667474,
+      "sha256": "cb2d6475d0f59d2c35764366d7af3b767f3321e6ea91661b1cc9a71b8053e92b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+      "bytes": 1676279,
+      "sha256": "3cc1a11a613f59a7bae555b05bfd296c94188ead994f6d78e4d3c0dc17d58875"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/entry.json",
+      "bytes": 8942,
+      "sha256": "9e5ccbc07af5bac7180150c7c86bb9074b1121100da3081110ff77035e7ef04b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-observation.json",
+      "bytes": 18359,
+      "sha256": "b93bfda9f3a4345b247f091dfbdab26f53326c93e08c53ab063a11a3a8fb7bb4"
+    }
+  ],
+  "model_forwards": 0,
+  "cuda_initialized": false,
+  "raw_current_paired": [
+    {
+      "metric": "RS",
+      "count": 100,
+      "base_success": 100,
+      "EP_raw_success": 100,
+      "lost": 0,
+      "gained": 0,
+      "strict_lost": 0,
+      "strict_gained": 0,
+      "desired_nll_mean_delta": 0.0,
+      "desired_nll_max_abs_delta": 0.0,
+      "exact_new_and_true_nll_rows": 100
+    },
+    {
+      "metric": "PS",
+      "count": 200,
+      "base_success": 190,
+      "EP_raw_success": 190,
+      "lost": 0,
+      "gained": 0,
+      "strict_lost": 0,
+      "strict_gained": 0,
+      "desired_nll_mean_delta": 0.0,
+      "desired_nll_max_abs_delta": 0.0,
+      "exact_new_and_true_nll_rows": 200
+    },
+    {
+      "metric": "NS",
+      "count": 1000,
+      "base_success": 867,
+      "EP_raw_success": 867,
+      "lost": 0,
+      "gained": 0,
+      "strict_lost": 0,
+      "strict_gained": 0,
+      "desired_nll_mean_delta": 0.0,
+      "desired_nll_max_abs_delta": 0.0,
+      "exact_new_and_true_nll_rows": 1000
+    }
+  ]
+}
