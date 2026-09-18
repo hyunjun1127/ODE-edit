@@ -91,10 +91,29 @@ def freeze_resume(repo,prior_lock,attempt):
     result=write(parent/'execution.lock.json',lock);print(json.dumps(result));return result
 
 
-def freeze_M(repo,technical_lock,attempt,wall_hours):
+def freeze_M(repo,technical_lock,attempt,wall_hours,parallel_override=None):
     tech=json.loads(technical_lock.read_text());out=Path(tech['output'])
-    ready=json.loads((out/'READY.json').read_text())
-    if ready['status']!='T_READY' or ready['technical_contract']!=digest(NUMERIC):raise ValueError('T_NOT_READY')
+    if (out/'failure.json').exists():raise ValueError('T_FAILED_NO_M_SUBMISSION')
+    provisional=parallel_override is not None and not (out/'READY.json').exists()
+    if provisional:
+        override=json.loads(parallel_override.read_text())
+        if override['nonce']!='ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1' or override['M_waits_for_T_ready'] is not False:
+            raise ValueError('PARALLEL_AUTHORITY_MISMATCH')
+        state=call(['sacct','-n','-X','-j','49928','--format=JobID,User,State','-P'])
+        if '49928|janghj|RUNNING' not in state:raise ValueError('T_NOT_RUNNING_FOR_PARALLEL:'+state)
+        for name in ('native-repeat','teacher-fixed-binding','noop-repeat','direct-cached-gradient','all-token-forward-stationarity'):
+            if json.loads((out/(name+'.json')).read_text())['status']!='PASS':raise ValueError('M_REQUIRED_AVAILABLE_BINDING:'+name)
+        ready=dict(status='PROVISIONAL_T_UNRESOLVED',identity=json.loads((out/'runtime-load.json').read_text())['identity'],
+            EN_COV_resolution=json.loads((out/'COV-resolution.json').read_text())['resolution'],
+            technical_contract=digest(NUMERIC),source=tech['execution'],wall_seconds=None,
+            timing=json.loads((out/'runtime-load.json').read_text())['timing'],oracle_work='T_IN_PROGRESS_NOT_FINAL',
+            unvalidated=['full T projector/FD/actual nullspace/terminal restore'],
+            T_job=49928,T_output=str(out),override=member(parallel_override),
+            partial_evidence=[member(out/(n+'.json')) for n in ('runtime-load','native-repeat','teacher-fixed-binding',
+                'noop-repeat','direct-cached-gradient','all-token-forward-stationarity','COV-resolution','P-star')])
+    else:
+        ready=json.loads((out/'READY.json').read_text())
+        if ready['status']!='T_READY' or ready['technical_contract']!=digest(NUMERIC):raise ValueError('T_NOT_READY')
     base_source=tech.get('resume_prior',{}).get('source_applicability')
     source_match=applicability(repo,tech['source_root']);external_recheck(tech)
     native=json.loads((ROOT/'reuse/b001-native-binding.json').read_text())
@@ -109,9 +128,14 @@ def freeze_M(repo,technical_lock,attempt,wall_hours):
     parent=ROOT/'M'/attempt
     if parent.exists():raise ValueError('CREATE_ONCE_M_ALREADY_EXISTS')
     execution=freeze_source(repo,parent)
+    technical_binding=write(parent/'technical-provisional-binding.json',ready) if provisional else member(out/'READY.json')
     lock=dict(tech,source_root=execution['source_root'],execution=execution,stage='M',attempt=attempt,
         output=str(parent/'unused-shared-output'),M_root=str(parent/'episodes'),allowed_stages=['T','M'],
-        technical_READY=member(out/'READY.json'),technical_lock=member(technical_lock),P_star_basis=basis,
+        technical_evidence=technical_binding,technical_validation_status=ready['status'],
+        technical_lock=member(technical_lock),P_star_basis=basis,
+        T_failure_path=str(out/'failure.json'),T_job=49928,
+        parallel_override=None if parallel_override is None else member(parallel_override),
+        failcancel_responsibility='root active bounded observation until T terminal; exact linked M only; no daemon/no auto M retry',
         reused_native_binding=native,observer_reuse_binding=observer,source_applicability=source_match,
         prior_T_source_applicability=base_source,
         reuse_matrix=member(ROOT/'reuse/m-reuse-decisions.json'),reuse_plan=member(ROOT/'reuse/m-execution-plan.csv'),
@@ -143,7 +167,10 @@ def submit_M(lockpath):
     lock=json.loads(lockpath.read_text());parent=lockpath.parent
     if lock['stage']!='M' or lock['allowed_stages']!=['T','M']:raise ValueError('M_SCOPE')
     if (parent/'held-inspection.json').exists() or (parent/'submission.json').exists():raise ValueError('NO_DUPLICATE_M_SUBMISSION')
-    if member(lock['technical_READY']['path'])!=lock['technical_READY']:raise ValueError('READY_DRIFT')
+    if member(lock['technical_evidence']['path'])!=lock['technical_evidence']:raise ValueError('T_EVIDENCE_DRIFT')
+    if Path(lock['T_failure_path']).exists():raise ValueError('T_FAILED_NO_M_SUBMISSION')
+    Tstate=call(['sacct','-n','-X','-j',str(lock['T_job']),'--format=JobID,User,State','-P'])
+    if not any(s in Tstate for s in ('|RUNNING','|COMPLETED')):raise ValueError('T_ABNORMAL_NO_M_SUBMISSION:'+Tstate)
     for m in lock['execution']['members']:
         if sha(m['path'])!=m['sha256']:raise ValueError('SOURCE_DRIFT')
     external_recheck(lock)
@@ -168,21 +195,27 @@ def submit_M(lockpath):
     job=call(args).split(';')[0];inspection=call(['scontrol','show','job',job])
     write(parent/'held-inspection.json',dict(job=job,args=args,inspection=inspection,lock=member(lockpath),resource=audit))
     inspect_M(inspection,lock,lockpath,throttle)
+    if Path(lock['T_failure_path']).exists():
+        call(['scancel',job])
+        write(parent/'paired-stop-during-held.json',dict(job=job,T_failure=member(lock['T_failure_path']),
+            action='exact newly held M array cancelled before release',rollback_NOT_VERIFIED=True))
+        raise ValueError('T_FAILED_DURING_HELD_M_CANCELLED')
     call(['scontrol','release',job])
     result=write(parent/'submission.json',dict(job=job,args=args,inspection=inspection,
         mapping={str(i):dict(episode=f'b{i+1:03d}',ordinal=[100*i,100*(i+1)],arms=8,
             native='REUSE' if i==0 else 'RUN_MISSING',N4_pair_eval='REUSE' if i==0 else 'RUN_MISSING') for i in range(10)},
         release_time=datetime.datetime.now(datetime.timezone.utc).isoformat(),stage='M',scope='ALL_NEEDED_M_REGISTERED_NOT_STARTED_CLAIM',
-        array_throttle=throttle,S_R_L_registered=0,initial_gate_observed=False))
+        array_throttle=throttle,S_R_L_registered=0,initial_gate_observed=False,T_job=lock['T_job'],
+        validation=lock['technical_validation_status'],cancel_allowlist=[job+'_'+str(i) for i in range(10)]))
     print(json.dumps(result))
 
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze-resume','freeze-M','submit-M'])
     p.add_argument('--worktree',type=Path);p.add_argument('--lock',type=Path,required=True)
-    p.add_argument('--attempt');p.add_argument('--wall-hours',type=int);a=p.parse_args()
+    p.add_argument('--attempt');p.add_argument('--wall-hours',type=int);p.add_argument('--parallel-override',type=Path);a=p.parse_args()
     if a.action=='freeze-resume':freeze_resume(a.worktree,a.lock,a.attempt)
-    elif a.action=='freeze-M':freeze_M(a.worktree,a.lock,a.attempt,a.wall_hours)
+    elif a.action=='freeze-M':freeze_M(a.worktree,a.lock,a.attempt,a.wall_hours,a.parallel_override)
     else:submit_M(a.lock)
 
 

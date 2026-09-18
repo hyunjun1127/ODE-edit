@@ -3,8 +3,14 @@ import tempfile
 from pathlib import Path
 import unittest
 from project.run_scripts.single_layer_edit_preserving_correction.admission import inspect_M,function_hash
+from project.run_scripts.single_layer_edit_preserving_correction.paired_stop import checked_targets
 
 class AdmissionTests(unittest.TestCase):
+    def test_failcancel_exact_children_only(self):
+        text='7_0|janghj|RUNNING|odeedit_enfc_M_s4|gpu:1|server4\n7_1|janghj|PENDING|odeedit_enfc_M_s4|gpu:1|JobArrayTaskLimit'
+        self.assertEqual(checked_targets(text,['7_0','7_1']),['7_0','7_1'])
+        for old,new in (('7_0','8_0'),('janghj','someone'),('odeedit_enfc_M_s4','other_job'),('RUNNING','COMPLETED')):
+            with self.assertRaises(ValueError):checked_targets(text.replace(old,new),['7_0','7_1'])
     def test_exact_held_M_and_memory_equivalence(self):
         lock={'source_root':'/task/source'};path=Path('/task/execution.lock.json')
         text='UserId=janghj JobState=PENDING Reason=JobHeldUser NumCPUs=8 Requeue=0 NodeList=server4 mem=59G gres/gpu=1 ArrayTaskId=0-9 ArrayTaskThrottle=2 Command=/task/source/project/run_scripts/single_layer_edit_preserving_correction/run.sbatch /task/source /task/execution.lock.json M'
