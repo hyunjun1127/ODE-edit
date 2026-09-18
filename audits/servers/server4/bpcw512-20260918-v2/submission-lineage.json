@@ -1,0 +1,110 @@
+{
+  "attempts": [
+    {
+      "attempt": "attempt-v1",
+      "job": "50291",
+      "release_time": "2026-09-18T12:30:49.991705+00:00",
+      "source_commit": "dd21a227ce508f07fd905a1d42bd9a2965668472",
+      "source_tree": "cfe724ad0f9ffc7900c31f123a8b81173765f409",
+      "archive": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-v1/source.tar",
+        "bytes": 26808320,
+        "sha256": "c5b17780d0c9c363984dc54d3c6571739f0865a8b4b7ac638a531d9606af6bb0"
+      },
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-v1/execution.lock.json",
+        "bytes": 687285,
+        "sha256": "700288b3144f13712ebd6aebb6c3d7b2986c3c0de6535f6eb94d3b9c6a89e30a"
+      },
+      "held_inspection": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-v1/held-inspection.json",
+        "bytes": 2921,
+        "sha256": "8a51b67b5b241e9d94d07159d10e830196735f68593da21a0e9b0fc1d6365495"
+      },
+      "resource_admission": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-v1/resource-admission.json",
+        "bytes": 2914,
+        "sha256": "f5df1178431eca001b7dbdba4dd75481f55641c6b5c4aca5bd811bda04fb9426"
+      },
+      "resource": {
+        "GPU": 1,
+        "CPU": 8,
+        "mem_MiB": 60416,
+        "wall_hours": 24,
+        "node": "server4",
+        "export": "NONE",
+        "requeue": 0,
+        "hour_hardcap": null
+      },
+      "storage": {
+        "factor_upper_bytes": 28991029248,
+        "checkpoint_two_bytes": 2113929216,
+        "technical_gradient4_bytes": 1879048192,
+        "geometry_native_keys_raw_temporary_reserve_bytes": 12884901888,
+        "required_free_bytes": 51539607552,
+        "observed_free_bytes": 107325198336,
+        "free_inodes": 225489124,
+        "original_EN_waiver_inherited": false,
+        "exclusive_reservation": false,
+        "actual_IO_fatal": true
+      },
+      "B1_only": true,
+      "sequential_authorized": false,
+      "source_assets": "execution.lock local transitive inventory"
+    },
+    {
+      "attempt": "attempt-r1",
+      "job": "50305",
+      "release_time": "2026-09-18T12:40:57.318564+00:00",
+      "source_commit": "ae3237f12c70b77fcea6c5fae7bdb8538c6310a1",
+      "source_tree": "1d62c423601196cbeb4272ee09f2f9ea149682c3",
+      "archive": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/source.tar",
+        "bytes": 26839040,
+        "sha256": "ece8d4f145e13d81f04bd9c80607d3abacbf6a385f9a8f2b712363ba62a749f4"
+      },
+      "lock": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/execution.lock.json",
+        "bytes": 862290,
+        "sha256": "1e70d880d4d77883300891089fbebd8ab7500be90a33060a74632d16920a5a3a"
+      },
+      "held_inspection": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/held-inspection.json",
+        "bytes": 2921,
+        "sha256": "de44d7befab13053a77109fa526954215d19e18b3a7c75651b0f33b7c69e4a6f"
+      },
+      "resource_admission": {
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/resource-admission.json",
+        "bytes": 2914,
+        "sha256": "ee533486e53994ed63eb142f56664d99049059c85735e9972efea3b3ecaa7941"
+      },
+      "resource": {
+        "GPU": 1,
+        "CPU": 8,
+        "mem_MiB": 60416,
+        "wall_hours": 24,
+        "node": "server4",
+        "export": "NONE",
+        "requeue": 0,
+        "hour_hardcap": null
+      },
+      "storage": {
+        "factor_upper_bytes": 28991029248,
+        "checkpoint_two_bytes": 2113929216,
+        "technical_gradient4_bytes": 1879048192,
+        "geometry_native_keys_raw_temporary_reserve_bytes": 12884901888,
+        "required_free_bytes": 51539607552,
+        "observed_free_bytes": 107178872832,
+        "free_inodes": 225486475,
+        "original_EN_waiver_inherited": false,
+        "exclusive_reservation": false,
+        "actual_IO_fatal": true
+      },
+      "B1_only": true,
+      "sequential_authorized": false,
+      "source_assets": "execution.lock local transitive inventory"
+    }
+  ],
+  "new_scope": "B1 two endpoints only",
+  "new_native100_shared_once": true
+}
