@@ -11,11 +11,14 @@ def publish(observation_path):
     sub=json.loads((parent/'submission.json').read_text());resource=json.loads((parent/'resource-admission.json').read_text())
     if obs['job']!=sub['job'] or obs['lock']!=member(parent/'execution.lock.json'):raise ValueError('HANDOFF_BINDING')
     initials=obs['initials'];paused=bool(initials)
+    reduction_path=ROOT/'receipts/two-batch-override-r1/confirmed-state.json'
+    reduced=reduction_path.exists()
+    remaining=2 if reduced else 10
     state='M_INITIAL_VALID_WITH_T_SKIPPED_MONITORING_PAUSED' if paused else 'M10_REPAIR_RELEASED_AWAITING_ACTUAL_INITIAL'
     stage='initial' if paused else 'submission'
     package=repo/'experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1'/stage
     package.mkdir(parents=True,exist_ok=False)
-    evidence=dict(status=state,job=sub['job'],registered_M=10,full_M_complete=False,
+    evidence=dict(status=state,job=sub['job'],registered_M_historical=10,current_M_scope=remaining,full_M_complete=False,
         observed_time=obs['time'],queue=obs['queue'],initials=initials,observation=member(observation_path),
         execution={k:v for k,v in lock['execution'].items() if k!='members'},lock=member(parent/'execution.lock.json'),
         submission=member(parent/'submission.json'),resource=member(parent/'resource-admission.json'),
@@ -23,8 +26,9 @@ def publish(observation_path):
         original_reuse_matrix=lock['reuse_matrix'],original_reuse_plan=lock['reuse_plan'],
         repair_authority=lock['repair_authority'],prior_attempt=lock['repair_prior_terminal'],
         old_50021_allocation_GPU_seconds=2301,prior_49928_49973_allocation_GPU_seconds=3231,
-        current_allocation='RUNNING_NOT_FINAL; no task-end cost report',new_native_fits_max=7,
-        new_native_targets_max=700,native_reuse=['b001','b002','b003'],final_L4_required=80,
+        current_allocation='RUNNING_NOT_FINAL; no task-end cost report',new_native_fits_max=0 if reduced else 7,
+        new_native_targets_max=0 if reduced else 700,native_reuse=['b001','b002'] if reduced else ['b001','b002','b003'],
+        final_L4_required=8*remaining,latest_scope_override=member(reduction_path) if reduced else None,
         new_T=0,S_R_L=0,T='SKIPPED_USER_DIRECTED',full_numerical_validation='NOT_ESTABLISHED',
         CPU_new_tests=7,independent_red=False,self_audit=True,
         storage_status=resource['storage_admission']['status'],free_bytes=resource['available_disk'],
@@ -36,6 +40,7 @@ def publish(observation_path):
     local_inputs += [member(rca/name) for name in ('user-recall.txt','cancel-result.json','old-attempt-terminal.json',
         'retained-native-plan.json','cpu-regression.json')]
     local_inputs += [member(ROOT/'receipts/storage-waiver-r1/serialization-rca.json')]
+    if reduced:local_inputs += [member(reduction_path),member(reduction_path.parent/'user-recall.txt')]
     inputs=write(package/'input-manifest.json',dict(members=local_inputs,execution_source=lock['execution']['members'],
         unchanged_numerical_source=lock['unchanged_method_source'],raw_payload_in_git=False))
     initial_text='실제 M 초기 gate는 아직 미관측이다. 제출 완료와 과학 완료를 구분하며 이 task만 bounded 관찰한다.'
@@ -47,10 +52,23 @@ Final L4의 weights_only CPU reload/FP32/finite/fileSHA/tensorSHA, 8개 optimize
 observer nonmutation, exact W0 reset/M0 경계를 확인했다. 대표1episode 범위이며 다른 episode의 완료/후속
 GPU continuation/미분 correctness/효능 PASS로 확대하지 않는다. 정상 native fallback도 유지한다.
 초기 관측 뒤 agent scheduler/log/result polling과 후속 submit을 중지한다. 등록 M은 자연 진행한다.'''
+    reduction_note=''
+    if reduced:
+        reduction_note='''## 최신 사용자 2-batch override
+
+사용자 “batch 2개만 보고 지금 pending 중인 job들은 모두 취소”에 따라50050_2–9를 PENDING 상태에서
+취소했다. 이8개 elapsed0; 실행 중인50050_0/b001·50050_1/b002만 유지한다. 아래10episode/80endpoint
+제출 내역은 과거 사실이며 현재 실행범위는 **2 independent cold100/unique200/8arm씩16finalL4**다.
+B1/B2 native는 REUSE이며 이후 신규 nativefit0. B3 retained native를 포함한 원 자료는 삭제하지 않았다.
+취소8개는 과학 실패/0점 결과가 아니라 NOT_RUN_USER_CANCELLED다. 재제출·자동 확대 대상이 아니다.
+초기 gate 이후 pause 경계는 유지하며2batch 전체완료/상세리뷰를 이번 인계에서 주장하지 않는다.
+
+'''
     text=f'''# ENFC M 저장 메타데이터 기술 수리·재제출 {stage}
 
 상태: **{state}**. 사용자 “기술적 오류는 해당 오류 보고 이후 SH가 직접 수정후 재제출해”를 적용했다.
 
+{reduction_note}
 ## 첫 오류와 최소 수리
 
 50021_0의 첫 N4 final-L4 저장 후 weights_only reload가 TorchVersion unsupported global로 실패했다.

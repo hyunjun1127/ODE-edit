@@ -83,6 +83,11 @@
     "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
     "tree": "518fd724d47e9f4ee3203bae0a225f38b79a4d37"
   },
+  "latest_two_batch_override": {
+    "bytes": 1296,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/runs/odeedit_single_layer_edit_preserving_correction_s4_20260918/two-batch-override-r1.json",
+    "sha256": "5bfc78fe772f4953cc5198e7881f853eeb75457ecb27bf3e7481f90fdb4baff7"
+  },
   "metadata_repair_r1": {
     "manifest": {
       "bytes": 1121,
@@ -148,5 +153,5 @@
     "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
   },
   "source_data_deleted": false,
-  "status": "M10_REPAIR_RELEASED_AWAITING_ACTUAL_INITIAL"
+  "status": "M2_RUNNING_USER_CANCELLED_PENDING8_AWAITING_INITIAL"
 }

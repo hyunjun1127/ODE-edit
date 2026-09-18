@@ -1,0 +1,43 @@
+{
+  "T": "SKIPPED_USER_DIRECTED",
+  "cancelled": [
+    "50050_2",
+    "50050_3",
+    "50050_4",
+    "50050_5",
+    "50050_6",
+    "50050_7",
+    "50050_8",
+    "50050_9"
+  ],
+  "cancelled_allocation_GPU_seconds": 0,
+  "cancelled_episodes_resubmission_allowed": false,
+  "confirmed": {
+    "bytes": 1194,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/two-batch-override-r1/confirmed-state.json",
+    "sha256": "a212b280320fb6b5da67e929c554fb9b24e62cc2a35d1918ffcfdba3027c5dbd"
+  },
+  "files_deleted": 0,
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "historical_submission": 10,
+  "initial_gate": "NOT_OBSERVED",
+  "new_submit": 0,
+  "original_locks_unchanged": true,
+  "pause_boundary": "representative_ENF_postseal_observer_and_reset",
+  "remaining": [
+    "50050_0",
+    "50050_1"
+  ],
+  "scope": {
+    "arms_per_batch": 8,
+    "final_L4_required": 16,
+    "independent_cold_batches": 2,
+    "unique_requests": 200
+  },
+  "status": "PENDING8_CANCELLED_RUNNING2_PRESERVED",
+  "user": {
+    "bytes": 511,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/two-batch-override-r1/user-recall.txt",
+    "sha256": "b892b82244bdf70d38bfe8702e677023b18d9667ad96043870e109bbe96a1482"
+  }
+}

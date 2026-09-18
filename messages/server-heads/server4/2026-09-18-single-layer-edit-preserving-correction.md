@@ -32,3 +32,11 @@ T생략/수치검증미확립/cap2/M-only/80endpoint보존/SRL0 유지. GH direc
 현재 실제 M 초기 gate 확인 중이며 submission 상세 사실은 아래 별도 보고에 있다.
 Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/submission/report-ko.md`
 SHA8d095a4308d7fac69b4a8ed3c710fc6f8cbb2171026888b9632884c2a33cab6b.
+
+## 최신 사용자: 두 batch만 / pending8 취소
+
+50050_2–9 PENDING을 exact owner/state 확인 후 취소했고 05:34:13Z elapsed0 CANCELLED를 확인했다.
+50050_0/B1·50050_1/B2 RUNNING은 유지한다. 최신 scope2 independentcold100×8arm=16finalL4,
+unique200이며 순차200 chain이 아니다. 원 M10 제출/lock/source/partial 보존, 삭제이동0.
+cap2/Tskip/수치검증미확립/SRL0 유지, 대표 EN-F initial 후 pause 경계 유지. GH direct 수신 완료.
+Report: `experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/metadata-repair-M-r1/two-batch-override-ko.md`.

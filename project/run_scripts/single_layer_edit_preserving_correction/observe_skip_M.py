@@ -69,6 +69,7 @@ def snapshot(index,attempt='attempt-skip-t-v1',receipt_namespace='storage-waiver
     ref=write(ROOT/'receipts'/receipt_namespace/f'observation-{index}.json',result)
     print(json.dumps(dict(receipt=ref,time=result['time'],queue=queue,initials=initials,
         stages=[dict(episode=e['episode'],native_new=e['native_new'],json_count=len(e['json_members']),
+            selected_arms=[n.split('/')[1] for n in e['json_members'] if n.startswith('arms/') and n.endswith('/selection-seal.json')],
             phase=('initial' if e['initial_observed'] else 'observers' if 'ALL_SELECTIONS_SEALED.json' in e['json_members']
                 else 'controllers' if any(n.startswith('arms/') for n in e['json_members'])
                 else 'gradient_diagnostics' if 'native-objective.json' in e['json_members']
