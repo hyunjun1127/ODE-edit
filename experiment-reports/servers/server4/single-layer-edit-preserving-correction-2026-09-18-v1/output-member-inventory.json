@@ -1,0 +1,261 @@
+[
+  {
+    "bytes": 270,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/COV-resolution.json",
+    "sha256": "9a8dd18a37ac1dcaa43847f77f4cf97a8196d9fa585e1b3afdd171db9403cc4d",
+    "stage": "T"
+  },
+  {
+    "bytes": 13111,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/EN-F-space.json",
+    "sha256": "6a27955b631ae89789a4133b6a80fa756544928dd73825d536df3d255d970a00",
+    "stage": "T"
+  },
+  {
+    "bytes": 1643151593,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/P-star-basis.pt",
+    "sha256": "6d66f32e3181d9cb1a6c0907a754db3226d575eb94b67477c912125c11ba0980",
+    "stage": "T"
+  },
+  {
+    "bytes": 370918,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/P-star.json",
+    "sha256": "93b745d3625616dac835cbe3c277dceb5887f96bc0684a14d5ee2bd17c770b89",
+    "stage": "T"
+  },
+  {
+    "bytes": 27313,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/all-token-forward-stationarity.json",
+    "sha256": "f219f6b4276daf5d6a55bd003e98dd3c6df60a88432b45ffb14f5a12d32e005d",
+    "stage": "T"
+  },
+  {
+    "bytes": 469763753,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/cached-gradient.pt",
+    "sha256": "9f9d9957514d52011fa89bf48690dec3f54ed9153c6339a380a299fdb9f2fdb1",
+    "stage": "T"
+  },
+  {
+    "bytes": 20005,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/direct-cached-gradient.json",
+    "sha256": "d8eef11ad66d38b7bdbebec2f3fbb467c460926b3c67cfebecc2a1c79e041563",
+    "stage": "T"
+  },
+  {
+    "bytes": 1426,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/failure.json",
+    "sha256": "141932fe61a32fb97ee428497799ae2fc1a4631aa363054d04dccfaf6505e5fe",
+    "stage": "T"
+  },
+  {
+    "bytes": 453,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/native-repeat.json",
+    "sha256": "78eaa93eed0c8dd8d3de9ec6c9b3263458f2b2129e40fd08abb100e1c0c761a0",
+    "stage": "T"
+  },
+  {
+    "bytes": 2663,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/native1/native-binding.json",
+    "sha256": "d7d74932277fa46da189aca90020da300d55ba74e77b3f1f827aad769d4ace6c",
+    "stage": "T"
+  },
+  {
+    "bytes": 236270769,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/native1/native-capsule.pt",
+    "sha256": "5be3bd547eb70b4c9e44b347ae6ec1bcbd0a878ec1046ad6dfc28d4d57a96029",
+    "stage": "T"
+  },
+  {
+    "bytes": 2663,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/native2/native-binding.json",
+    "sha256": "660606f0b5ced9681c6bfbd6007afe7fc4c2575ab2cafd1bcce49a4a19083f17",
+    "stage": "T"
+  },
+  {
+    "bytes": 236270769,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/native2/native-capsule.pt",
+    "sha256": "76b8d867ccdb9682f7d735e6ce564c62be4fa6308bd403681e96bd1e4e4d9625",
+    "stage": "T"
+  },
+  {
+    "bytes": 32498,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/nonselected-before.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2",
+    "stage": "T"
+  },
+  {
+    "bytes": 96430,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/noop-repeat.json",
+    "sha256": "6ce40422cdbd07f90bdb83ccba51f5b4d5779443a2fc6e6c97ff8e795e10554d",
+    "stage": "T"
+  },
+  {
+    "bytes": 469763753,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/physical-gradient.pt",
+    "sha256": "9f9d9957514d52011fa89bf48690dec3f54ed9153c6339a380a299fdb9f2fdb1",
+    "stage": "T"
+  },
+  {
+    "bytes": 25404969,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/protected-keys.pt",
+    "sha256": "a7ff32555590de234753323b14f69a943e5b53a32817839dddd13f5458e55ca5",
+    "stage": "T"
+  },
+  {
+    "bytes": 279170,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/protected-provenance.json",
+    "sha256": "61d0448403470b4ef8f36c5095d7da73f1f1d63b87d82611264f872c3f64c742",
+    "stage": "T"
+  },
+  {
+    "bytes": 1360,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/runtime-load.json",
+    "sha256": "35f71ebb88f3c9849cfacf1670132b65b053ecc37fe8c24766d396269b0e8a8d",
+    "stage": "T"
+  },
+  {
+    "bytes": 9098,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/teacher-W0.json",
+    "sha256": "5494900e0f7821f37c13b18afc78eb3b2511beb4cd14bb55487776d7429226b8",
+    "stage": "T"
+  },
+  {
+    "bytes": 66,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/teacher-fixed-binding.json",
+    "sha256": "a839eafd8a5c940d59dd6bf11cc8b441113807958d0296ebfa43b0609e110c2c",
+    "stage": "T"
+  },
+  {
+    "bytes": 1236,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/technical-contract.json",
+    "sha256": "39bb02aef64c7d2980ee6252febda5ef0629458f09214ac6d33f9e855f36a404",
+    "stage": "T"
+  },
+  {
+    "bytes": 5735977,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/A.pt",
+    "sha256": "4c80f80c4be537cf5eff230a81bed9414e778e1efd60a373f7b0c7fcabd6d53c",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 11190,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/CA-EXACT.json",
+    "sha256": "cf3f8e0b006723ec90160e522216593bf9ea8c493f6327a6ca14a906ccb2892b",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 11470565,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/CA-factors.pt",
+    "sha256": "03d7eebe879f39c70f9b57b19beae775cbdf8e79bffb68b0d43caeb869e59c81",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 4123,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/CA.json",
+    "sha256": "0ae1cdda515c83642ab9300144c92bb5558b630d8e12b04e225bca74c29c5232",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 526740265,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/EN-F-factors.pt",
+    "sha256": "a912a345298480caa8992e6a9c133c5e9adec97f1ac4194a2533ccf15b903425",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 121551,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/EN-F.json",
+    "sha256": "7c004be16a4e40a0ea7703c2869d2910067d281626729a6e524f27655920569e",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 11462697,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/EN-S-factors.pt",
+    "sha256": "a67dc3b9a6f5590b6efb21ebadc97a7255ab6e554751e53488cbea23c0aa6c58",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 4044,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/EN-S.json",
+    "sha256": "c775684b64afad982848ed8afeca9a5c00b479dea182ace58fa5c770f446b53f",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 111877,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/geometry/full-K-spectrum.json",
+    "sha256": "55933de3f88d9e26e25a5bf72db0f8a8b85bbd41a1974114a43a968275269bff",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 4540,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/native/native-binding.json",
+    "sha256": "96bd9102615de0d5cb5a455003a442b001387314388671081784f58b8e885cbc",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 32498,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/nonselected-before.json",
+    "sha256": "f416309f4e81779d265908b41bbe6a479d838a75e50de896c4ed760819b062a2",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 3789689,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/protected-provenance.json",
+    "sha256": "d8b575af0700752aaa11f0292752640e02a795c44156491f8713494e5d06bd9b",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 495,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/retention-policy.json",
+    "sha256": "392159d14195232690068f8ce2e6200b74241425a7d62661423c60d9a1ed90f4",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 1360,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/runtime-load.json",
+    "sha256": "a37a4b408c4a5644cfcc862b5130a18b80f08c61e9cb26c717d0f263bb94d16f",
+    "stage": "M-partial"
+  },
+  {
+    "bytes": 370,
+    "evidence_level": "available bytes only; incomplete M never terminal-valid",
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/episodes/b001/attempt-v1/validation-status.json",
+    "sha256": "ec1c7c95f0b3e2713e768081a39879f2bdf9e48075f3789c4b6b1d3905655559",
+    "stage": "M-partial"
+  }
+]

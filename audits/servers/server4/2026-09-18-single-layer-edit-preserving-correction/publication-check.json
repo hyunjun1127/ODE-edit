@@ -1,0 +1,37 @@
+{
+  "HTML": {
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/paired-stop-r1/report-render.html",
+    "sha256": "76612255de27b17265800595cf1e273f24fae825d56b0e62a320d26376e6bcfe"
+  },
+  "HTML_table_column_counts": [
+    4,
+    4,
+    4,
+    4
+  ],
+  "Korean_UTF8_decoded": true,
+  "actual_HTML_renderer": "markdown_it commonmark + table enabled",
+  "browser_screenshot": "NOT_REQUESTED_NOT_PERFORMED",
+  "manifest_sha256": "f723b2250134d7798d643fa0fd96aa006976595df0f0c1a5107834de22877c1c",
+  "members_checked": [
+    "cost.json",
+    "m-execution-plan.csv",
+    "m-reuse-decisions.csv",
+    "m-reuse-decisions.json",
+    "output-member-inventory.json",
+    "reuse-and-lineage-manifest.json",
+    "submission-and-paired-stop-ko.md",
+    "technical-coverage.csv"
+  ],
+  "model_load": 0,
+  "new_GPU": 0,
+  "relative_links_checked": [
+    "technical-coverage.csv",
+    "m-reuse-decisions.csv",
+    "m-execution-plan.csv"
+  ],
+  "report_sha256": "702eeedd54c2a8eac2224908db8145fb733765eaa4caf0c8004d1c8ef93f3647",
+  "rooted_receipt_sha256": "af78c89a6ae27a75636ea40f699aa4d5d385a9062b0b155590ec7c92c521dff3",
+  "scope": "CPU publication only; no numerical or scientific promotion",
+  "status": "PASS"
+}

@@ -1,0 +1,11 @@
+{
+  "automatic_resume": false,
+  "manifest": {
+    "bytes": 7480,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/artifact-manifest.json",
+    "sha256": "f723b2250134d7798d643fa0fd96aa006976595df0f0c1a5107834de22877c1c"
+  },
+  "member_root": "d4baf725ebdc0cb889ea5caf0f49ae6ff7373a7f4f3190dc442bca901230d75e",
+  "monitoring_active": false,
+  "scope": "compact factual paired-stop; no scientific completion"
+}

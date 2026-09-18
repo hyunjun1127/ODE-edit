@@ -1,0 +1,12 @@
+stage,status,evidence,T_relative_file
+cold8 native repeat2,PASS,same WN/target; history0,native-repeat.json
+fixed W0 teacher,PASS,signed KL0,teacher-fixed-binding.json
+noop/repeat,PASS,NLL/logit differences0,noop-repeat.json
+direct physical vs cached gradient,PASS,relative=0.0; loss=0.00016644386389575781,direct-cached-gradient.json
+all-token forward/key stationarity,PASS,48 inputs; maxlogit0; keys exact,all-token-forward-stationarity.json
+Pstar recovery,STORED,allowed=14326/14336; native P unchanged,P-star.json
+fulltoken nullspace,STORED,K columns=443; blocked=443; free=13883,EN-F-space.json
+projector check receipt,FAILED_RECORDING,computed local return was not serialized; numerical result not recoverable as PASS,failure.json
+FD / nonzero invariant / terminal restore / T_READY,NOT_RUN,never bypassed; no numerical PASS,
+M b001,PROVISIONAL_PARTIAL,native reused; cache/geometry; final endpoints0/selection0/evaluation0,
+M b002-b010,NOT_RUN,cancelled while pending,

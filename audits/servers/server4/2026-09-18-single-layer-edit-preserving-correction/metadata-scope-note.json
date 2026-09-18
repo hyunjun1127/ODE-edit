@@ -1,0 +1,11 @@
+{
+  "status": "FACTUAL_METADATA_SCOPE_LIMIT",
+  "T_failure_main_started_false": "This unchanged field belongs to the older standalone T program; it must not be read as a statement that parallel M never started.",
+  "actual_parallel_M": "49973_0 RUNNING from 12:05:19 to parent cancellation12:10:29 KST; native reuse/cache/geometry partial, no final endpoint or evaluator completion.",
+  "scheduler_admission_note": "Initial squeue -w observation showed allocated server4 jobs. The subsequent bounded owner resource-only query included requested-node pending records and confirmed only T49928 plus linked M49973 array%1, capacity2. Future control now filters requested OR allocated node; existing frozen T/M source is unchanged.",
+  "report_authority": "Use the exact scheduler terminal receipt and compact report for actual parallel state. Old failure/source/lock bytes remain preserved.",
+  "reuse_plan_historical_fields": "Copied initial m-execution-plan.csv T_READY_REQUIRED and reuse matrix T_ACTUAL_NOT_RUN_NEW_IMPLEMENTATION describe the first sealed plan, not the later actual state. The exact parallel override and M execution lock superseded admission only; preserved plan bytes were not rewritten.",
+  "CSV_line_endings": "Original and generated csv.writer CRLF bytes are preserved and match manifest SHA. git diff whitespace check uses per-command cr-at-eol rather than modifying sealed CSV bytes or shared configuration.",
+  "source_runtime_mutation_after_submission": false,
+  "new_GPU": 0
+}

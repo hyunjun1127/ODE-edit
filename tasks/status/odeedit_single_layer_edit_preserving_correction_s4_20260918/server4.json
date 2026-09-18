@@ -1,0 +1,93 @@
+{
+  "CPU": {
+    "bytes": 20051,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/cpu-preflight-parallel-r1.json",
+    "sha256": "552cc24de5132de95ac5d91a107a5d0180c5fdfa05dc9815ee92f08b48e4deba"
+  },
+  "M_execution": "76bb90372b6ddc05f53374812bfc2df90153601e",
+  "M_lock": {
+    "bytes": 133839,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/execution.lock.json",
+    "sha256": "cc7510f4cd6fb41bf24195205b6c12549041f01b149e99aabfb01907eb88f6ea"
+  },
+  "M_resubmitted": false,
+  "T_execution": "729d4544e860207af44119b6b283cf00e851df21",
+  "T_lock": {
+    "bytes": 116438,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/execution.lock.json",
+    "sha256": "eb103fd12c9584e4989be2e892e6de2d3ed6075b0cf150261e9a00a65344bf2b"
+  },
+  "T_repair_submitted": false,
+  "analysis_source": "2a7c4555e17bf8fe0621417315b2b68b5c4edadc",
+  "automatic_resume": false,
+  "cancel_request": {
+    "bytes": 2186,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/paired-stop-request.json",
+    "sha256": "fca57080302d283a7db5fb8409d9f0fc8a5bf038f191a6a3cb20093f1a4e55a1"
+  },
+  "cancel_result": {
+    "bytes": 564,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-v1/paired-stop-cancel-result.json",
+    "sha256": "1fe90e95f49fa8cd3f9e1c7cad5d5b14abc23142eab4f9dd836a9c2f6b3b467e"
+  },
+  "cpu_rca": {
+    "bytes": 974,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/paired-stop-r1/cpu-rca.json",
+    "sha256": "219c763ff44594e13b37a5af0e4f2ab89e44f6271e62eca6c0e4fb04fb065705"
+  },
+  "failure": {
+    "bytes": 1426,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/failure.json",
+    "sha256": "141932fe61a32fb97ee428497799ae2fc1a4631aa363054d04dccfaf6505e5fe"
+  },
+  "full_read": {
+    "bytes": 9667,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/full-read-m0.json",
+    "sha256": "96aab038b4d8de8eace27d17961ee31db5933873e3c2fb6c2aa197328aaf7ac3"
+  },
+  "instruction": "ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1",
+  "monitoring_active": false,
+  "new_analysis_GPU": 0,
+  "nonce": "ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1",
+  "override": {
+    "bytes": 1195,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/parallel-override-full-read.json",
+    "sha256": "171186772a9ba6ecbc7953bb9ae97f6bc6801fda3f5c94378f1cec5e1dc0f12f"
+  },
+  "raw_inventory": {
+    "bytes": 13215,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/paired-stop-r1/output-member-inventory.json",
+    "sha256": "de5891c2f8f6a6e372697c54e5987c99868a6bba5a904c1acd215bde729d245d"
+  },
+  "report": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/experiment-reports/servers/server4/single-layer-edit-preserving-correction-2026-09-18-v1/submission-and-paired-stop-ko.md",
+  "resume": {
+    "bytes": 5403,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-paired-stop-r1.json",
+    "sha256": "e2755a3c1744039cd0ad84629de16891b43d76d8ba6f2c0f7b3539428768ad8d"
+  },
+  "resume_trigger": "explicit_user_call",
+  "reuse": [
+    {
+      "bytes": 395620,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/reuse/m-reuse-decisions.json",
+      "sha256": "0c0d25dc81336c20670bc3aa86b9412eac949bfde97943a04cd280a6fb67d1eb"
+    },
+    {
+      "bytes": 3896,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/reuse/b001-native-binding.json",
+      "sha256": "c85a8a50a345adf4782e48be9b69ca94289baa36871337dcac78eff2b6206db7"
+    },
+    {
+      "bytes": 2075,
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/reuse/observer-binding-r1.json",
+      "sha256": "d04fbab6c5a11cb1e447863e304a41fdcbc4d7b517a45b3fe748d88afc638f44"
+    }
+  ],
+  "scheduler": {
+    "bytes": 1192,
+    "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/receipts/paired-stop-r1/scheduler-terminal.json",
+    "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
+  },
+  "source_data_deleted": false,
+  "status": "PAIRED_STOP_WAITING_USER_RESUME"
+}

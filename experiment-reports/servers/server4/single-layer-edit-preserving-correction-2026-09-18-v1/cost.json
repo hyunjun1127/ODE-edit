@@ -1,0 +1,41 @@
+{
+  "M_runtime_rollback": "NOT_VERIFIED_AFTER_SIGTERM",
+  "T_nested_components": {
+    "P_load": 4.361627761274576,
+    "P_star_recovery": 594.3734875796363,
+    "covariance_objective": 17.919964571483433,
+    "model_load": 17.043357009999454,
+    "native_fit": 65.98402820341289,
+    "nullspace": 35.88162636291236
+  },
+  "T_program_wall_seconds": 2916.13007572107,
+  "allocation_not_utilization": true,
+  "component_timers_not_added_to_allocation": true,
+  "jobs": [
+    {
+      "allocated_GPU_seconds": 2921,
+      "job": "49928",
+      "requested_GPU": 1,
+      "stage": "T failed"
+    },
+    {
+      "allocated_GPU_seconds": 310,
+      "job": "49973_0",
+      "requested_GPU": 1,
+      "stage": "M provisional cancelled"
+    },
+    {
+      "allocated_GPU_seconds": 0,
+      "job": "49973_1..9",
+      "requested_GPU": 1,
+      "stage": "M not started cancelled"
+    }
+  ],
+  "max_concurrent_allocated_GPU": 2,
+  "overlap_seconds": 235,
+  "parent_rows_only": true,
+  "prior_native_teacher_cost": "REUSED_NOT_REBILLED",
+  "step_extern_double_count": false,
+  "total_new_GPU_hours": 0.8975,
+  "total_new_GPU_seconds": 3231
+}
