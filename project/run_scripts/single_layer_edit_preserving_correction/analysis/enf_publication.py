@@ -76,7 +76,10 @@ def check(repo,scratch):
     for metric,num,den in [('RS',997,1000),('PS',1931,2000),('NS',8034,10000)]:
         row=next(r for r in m['tables']['final-table'] if r['scope']=='W10_full1000' and r['metric']==metric)
         assert(row['numerator'],row['denominator'])==(num,den)
-    receipt=dict(status='CPU_PUBLICATION_CHECKS_PASS',tests=dict(command='unittest analysis.test_enf_review -v',result=tests.stderr),
+    test_names=re.findall(r'^(test_[^ ]+).* \.\.\. ok$',tests.stderr,re.M)
+    assert len(test_names)==10
+    receipt=dict(status='CPU_PUBLICATION_CHECKS_PASS',tests=dict(command='unittest analysis.test_enf_review -v',
+        exit_code=tests.returncode,passed=len(test_names),names=test_names,full_stdout_published=False),
         raw_scope=str(ARM),raw_files=len(inventory),raw_full_SHA_inventory='raw-inventory.csv',
         postcheck='all files size + all JSON fullSHA unchanged; large tensor SHA reused from completed CPU inventory',
         CP=t['current_CP'],links=t['adjacent_links'],tensor_objects_checked=t['checked_tensor_objects'],
