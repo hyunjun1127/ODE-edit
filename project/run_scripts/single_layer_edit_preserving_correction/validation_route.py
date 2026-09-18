@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 from .common import member
+from .storage_waiver import bootstrap
 
 SKIP_NONCE = 'ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1'
 SKIPPED = 'SKIPPED_USER_DIRECTED'
@@ -27,6 +28,7 @@ def validation_binding(lock, episode):
     evidence = json.loads(Path(ref['path']).read_text())
     skipped = evidence['status'] == SKIPPED
     if skipped:
+        bootstrap(lock)
         waiver = lock['skip_T_override']
         if member(waiver['path']) != waiver:
             raise ValueError('SKIP_T_WAIVER_IDENTITY')

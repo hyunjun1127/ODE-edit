@@ -9,9 +9,10 @@ from .common import ROOT, member, sha, digest, write
 from .control import call, PACKAGE, project_queue
 from .admission import freeze_source, external_recheck, inspect_M
 from .validation_route import check_waiver, validation_binding, SKIPPED
+from .storage_waiver import admission as storage_admission
 
 
-def freeze(repo, prior_lock, override, attempt):
+def freeze(repo, prior_lock, override, attempt, storage_override=None):
     authority=json.loads(override.read_text());check_waiver(authority)
     old=json.loads(prior_lock.read_text())
     if old['execution']['head']!='76bb90372b6ddc05f53374812bfc2df90153601e':
@@ -33,13 +34,26 @@ def freeze(repo, prior_lock, override, attempt):
     if member(old['technical_evidence']['path'])!=old['technical_evidence']:
         raise ValueError('PRIOR_BINDING_IDENTITY')
     disk=shutil.disk_usage(ROOT)
-    if disk.free<old['disk']['reserve_bytes']:raise ValueError('M_STORAGE_RESERVE_UNAVAILABLE')
+    storage_ref=None if storage_override is None else member(storage_override)
+    storage=storage_admission(disk.free,old['disk']['reserve_bytes'],storage_ref)
     parent=ROOT/'M'/attempt
     if parent.exists():raise ValueError('CREATE_ONCE_M_ATTEMPT_EXISTS')
     execution=freeze_source(repo,parent)
     sealed=parent/'skip-t-all-m-override.json'
     with sealed.open('xb') as f:f.write(override.read_bytes())
     sealed.chmod(0o400)
+    if storage_override is not None:
+        storage_sealed=parent/'storage-waiver-submit-override.json'
+        with storage_sealed.open('xb') as f:f.write(storage_override.read_bytes())
+        storage_sealed.chmod(0o400);storage_ref=member(storage_sealed)
+        storage=storage_admission(disk.free,old['disk']['reserve_bytes'],storage_ref)
+        envelope=repo/json.loads(storage_override.read_text())['envelope']
+        with (parent/'storage-waiver-envelope.md').open('xb') as f:f.write(envelope.read_bytes())
+        write(parent/'storage-waiver-full-read.json',dict(envelope=member(parent/'storage-waiver-envelope.md'),
+            override=storage_ref,reading='FULL_READ',prior_fullread=member(ROOT/'receipts/full-read-m0.json'),
+            prior_skip_fullread=member(ROOT/'receipts/skip-t-r1/preflight-fullread.json'),
+            CPU_scope='3storage+4skip routing tests; no new model/T/FD',T='SKIPPED_USER_DIRECTED',
+            user_cleanup='PLANNED_NOT_VERIFIED',deletion_or_move=0))
     inherited=write(parent/'validation-waiver-binding.json',dict(status=SKIPPED,
         full_numerical_validation='NOT_ESTABLISHED',identity=prior_binding['identity'],
         EN_COV_resolution=prior_binding['EN_COV_resolution'],
@@ -57,7 +71,7 @@ def freeze(repo, prior_lock, override, attempt):
         prior_attempt_lock=member(prior_lock),unchanged_method_source=same,
         prior_paired_stop=member(ROOT/'receipts/paired-stop-r1/scheduler-terminal.json'),
         prior_CPU82=member(ROOT/'receipts/cpu-preflight-paired-stop-r1.json'),
-        disk=dict(old['disk'],available=disk.free),
+        disk=dict(old['disk'],available=disk.free),storage_admission=storage,storage_override=storage_ref,
         initial_pause='ACTUAL_M_INITIAL_OR_VERIFIED_MAIN_GPU_RESOURCE_PENDING',
         partial_cancelled_geometry_reuse=False,
         partial_cancelled_geometry_reason='no complete factor tensor closure retained; safe W0/native reuse only')
@@ -83,12 +97,13 @@ def submit(lockpath):
     if len(active)>=2:raise ValueError('CAP2_NO_ADMISSION_CAPACITY:'+queue)
     throttle=2-len(active)
     disk=shutil.disk_usage(ROOT)
-    if disk.free<lock['disk']['reserve_bytes']:raise ValueError('M_DISK_RESERVE_CHANGED')
+    storage=storage_admission(disk.free,lock['disk']['reserve_bytes'],lock.get('storage_override'))
     audit=write(parent/'resource-admission.json',dict(time=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         queue=queue,node=call(['scontrol','show','node','server4']),available_disk=disk.free,
         free_inodes=os.statvfs(ROOT).f_favail,meminfo=Path('/proc/meminfo').read_text(),
         existing_project_slots=len(active),new_array_throttle=throttle,total_admitted_capacity=2,
-        cap=2,hour_hardcap=None,old_terminal_evidence=lock['prior_paired_stop'],
+        cap=2,hour_hardcap=None,old_terminal_evidence=lock['prior_paired_stop'],storage_admission=storage,
+        writable_path=str(parent),actual_writes='source/archive/lock plus this create-once resource receipt',
         T_dependency=False,T_monitor=False,T_failcancel=False))
     (parent/'logs').mkdir()
     args=['sbatch','--parsable','--hold','--job-name=odeedit_enfc_M_s4','--array=0-9%'+str(throttle),
@@ -118,9 +133,10 @@ def submit(lockpath):
 def main():
     p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze','submit'])
     p.add_argument('--worktree',type=Path);p.add_argument('--prior-lock',type=Path)
-    p.add_argument('--override',type=Path);p.add_argument('--attempt');p.add_argument('--lock',type=Path)
+    p.add_argument('--override',type=Path);p.add_argument('--storage-override',type=Path)
+    p.add_argument('--attempt');p.add_argument('--lock',type=Path)
     a=p.parse_args()
-    if a.action=='freeze':freeze(a.worktree,a.prior_lock,a.override,a.attempt)
+    if a.action=='freeze':freeze(a.worktree,a.prior_lock,a.override,a.attempt,a.storage_override)
     else:submit(a.lock)
 
 
