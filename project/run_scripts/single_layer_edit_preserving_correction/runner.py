@@ -22,6 +22,7 @@ from .alltoken import tensor_sha256 as header_sha
 from .optimizer import optimize,Observation,Check,TrialNumericalOverflow
 from .observer import CanonicalObserver
 from .geometry import RightSpace,edit_null_space,row_space,ca_exact,rank_diagnostic,columns,gradient_diagnostics
+from .validation_route import validation_binding
 
 
 class EventStore:
@@ -76,21 +77,14 @@ def reuse_observation(prior,source,seal,compatibility):
 
 
 def run(lock,episode):
-    if lock['stage']!='M' or episode not in range(10) or lock['allowed_stages']!=['T','M']:
-        raise ValueError('M_ONLY_ALLOWLIST')
-    ready_path=Path(lock['technical_evidence']['path'])
-    if member(ready_path)!=lock['technical_evidence']:raise ValueError('T_EVIDENCE_IDENTITY')
-    ready=json.loads(ready_path.read_text())
-    provisional=ready['status']=='PROVISIONAL_T_UNRESOLVED'
-    if provisional and (not lock.get('parallel_override') or lock.get('T_job')!=49928):raise ValueError('PROVISIONAL_AUTHORITY_REQUIRED')
-    if not provisional and ready['status']!='T_READY':raise ValueError('T_NOT_READY')
-    if Path(lock['T_failure_path']).exists():raise ValueError('LINKED_T_ALREADY_FAILED')
+    ready,provisional,skipped=validation_binding(lock,episode)
     root=Path(lock['M_root'])/f'b{episode+1:03d}'/'attempt-v1';root.mkdir(parents=True,exist_ok=False)
     started=time.monotonic();stage='load';rt=None
     try:
         rt=Runtime(lock,root);records=rt.records[100*episode:100*(episode+1)];ids=[r['case_id'] for r in records]
         write(root/'validation-status.json',dict(status=ready['status'],T_job=lock['T_job'],
-            technical_evidence=lock['technical_evidence'],no_automatic_promotion=True))
+            technical_evidence=lock['technical_evidence'],no_automatic_promotion=True,
+            full_numerical_validation=lock.get('full_numerical_validation','SEE_TECHNICAL_SCOPE')))
         applicable=('W0','M0','P4','contexts','context_tokens','rng','teacher','records_digest','torch','transformers','microbatch','physical_layer')
         if any(rt.identity[k]!=ready['identity'][k] for k in applicable):raise ValueError('T_RUNTIME_IDENTITY_NOT_APPLICABLE')
         before_nonselected=rt.byte_hash_nonselected();write(root/'nonselected-before.json',before_nonselected)
@@ -276,8 +270,11 @@ def run(lock,episode):
                 reset=dict(W=tensor_sha(rt.W),M=tensor_sha(rt.M),W0_exact=torch.equal(rt.W.detach().cpu(),rt.W0),
                     M0_exact=bool(torch.count_nonzero(rt.M)==0),next_actual_episode='separate cold array process; not yet asserted here')
                 rt.copy_weight(WN)
-                write(root/('M_INITIAL_PROVISIONAL.json' if provisional else 'M_INITIAL_VALID.json'),dict(
-                    status='M_INITIAL_PROVISIONAL' if provisional else 'M_INITIAL_VALID',validation=ready['status'],episode=f'b{episode+1:03d}',
+                initial_status=('M_INITIAL_VALID_WITH_T_SKIPPED' if skipped else
+                    'M_INITIAL_PROVISIONAL' if provisional else 'M_INITIAL_VALID')
+                write(root/(initial_status+'.json'),dict(
+                    status=initial_status,validation=ready['status'],episode=f'b{episode+1:03d}',
+                    full_numerical_validation=lock.get('full_numerical_validation','SEE_TECHNICAL_SCOPE'),
                     scope='actual EN-F episode route and postseal observer only; remaining observers and other episodes continue',
                     EN_F=results['EN-F'],endpoint_retained=results['EN-F']['endpoint'],
                     selection_before_observer=allseal,observer_nonmutation=True,independent_W0_reset=reset,
@@ -301,7 +298,8 @@ def run(lock,episode):
             actual_method_routes={k:dict(stop=r['stop_reason'],accepted_rounds=r['counters']['accepted_rounds']) for k,r in results.items()},
             final_endpoints_retained=8,selection_before_observer=allseal,observer_nonmutation=True,
             independent_next_episode_reset=reset,S_R_L_started=False))
-        write(root/'terminal.json',dict(status='PROVISIONAL_COMPLETE' if provisional else 'COMPLETE',
+        write(root/'terminal.json',dict(status='COMPLETE_WITH_T_SKIPPED' if skipped else 'PROVISIONAL_COMPLETE' if provisional else 'COMPLETE',
+            full_numerical_validation=lock.get('full_numerical_validation','SEE_TECHNICAL_SCOPE'),
             validation=ready['status'],episode=episode,requests=100,arms=8,diagnostics=2,initial=initial,
             history_appends=0,native_fit_new=0 if episode==0 else 1,source=lock['execution'],technical=lock['technical_evidence'],
             timing=rt.timing,oracle_work=dict(S64=ref.work,protected=protected_work,Dev128=dev.work),observer_work=obs.work,
