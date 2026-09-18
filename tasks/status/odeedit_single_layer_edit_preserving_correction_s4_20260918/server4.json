@@ -89,9 +89,9 @@
     "sha256": "ff7eac9f5b731341c4440953f07662cc7f1ef565870474d61613ce0ad7682ebf"
   },
   "source_data_deleted": false,
-  "status": "RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION",
+  "status": "M10_RELEASED_AWAITING_ACTUAL_INITIAL_WITH_T_SKIPPED",
   "historical_status": "PAIRED_STOP_WAITING_USER_RESUME",
-  "latest_recall": {
+  "historical_skip_recall": {
     "nonce": "ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1",
     "T": "SKIPPED_USER_DIRECTED",
     "full_numerical_validation": "NOT_ESTABLISHED",
@@ -106,5 +106,25 @@
     "resume": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/resume-manifest-skip-t-storage-blocked-r1.json",
     "resume_sha256": "c6896966f4af41e758a4801d979269e58d650d2d1877113558e8222b460b55df",
     "blocked_on": "available71.1144GiB below existing72GiB storage reserve; no deletion or retention waiver"
+  },
+  "latest_recall": {
+    "nonce": "ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1",
+    "T": "SKIPPED_USER_DIRECTED",
+    "full_numerical_validation": "NOT_ESTABLISHED",
+    "M_array": "50021_[0-9]%2",
+    "M_registered_released": 10,
+    "initial_observed": false,
+    "source": "894d2c7120f67b8f716d021e150f121d7d68dc38",
+    "tree": "518fd724d47e9f4ee3203bae0a225f38b79a4d37",
+    "archive_sha256": "acc8743073fa6892a81c8b1b4e0c216e8b17e5c57b4fb2e1cbf977705b447748",
+    "lock_sha256": "7b828617a23d5659cb39868910070d5e6eeb7be0d8bef147ebd7401e998abaf6",
+    "root": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/M/attempt-skip-t-v1",
+    "storage_status": "USER_WAIVED_RESERVE_PENDING_USER_SPACE_CLEANUP",
+    "deletion_or_move": 0,
+    "old_T_dependency_or_failcancel": false,
+    "monitoring_active": true,
+    "monitoring_scope": "bounded exact M initial only; no automatic follow-up",
+    "automatic_resume": false,
+    "S_R_L_submitted": 0
   }
 }

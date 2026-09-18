@@ -1,10 +1,30 @@
-# ENFC v1: T and independent-cold M only
+# ENFC v1: independent-cold M / user-directed T skip
+
+## Current user override (supersedes the historical T linkage below)
+
+`ODEEDIT-GH-SH4-ENFC-SKIP-T-ALL-M-20260918-R1` and
+`ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1` authorize M10 only,
+array%2 within project cap2, without new T, old T_READY/dependency/failcancel.
+Use `skip_t_control.py`, `validation_route.py`, and `storage_waiver.py` for
+this new immutable attempt. Numerical method/guards remain unchanged;
+T=SKIPPED_USER_DIRECTED and full_numerical_validation=NOT_ESTABLISHED.
+The original72GiB estimate remains in the lock but is not an admission gate.
+User cleanup is planned, not verified. No agent deletion/move/cleanup; actual
+IO failures remain fatal and all80 final L4 endpoints remain mandatory.
+After the actual M initial gate (or verified main GPU shortage), stop agent
+monitoring. Submitted M continues. S/R/L remains forbidden.
+
+`observe_skip_M.py` takes one explicitly invoked bounded snapshot, never a
+polling daemon. `skip_M_handoff.py` consumes an existing initial receipt and
+does not query the scheduler again. Neither changes running jobs or source.
+
+## Historical T / parallel-failcancel instructions (old attempt only)
 
 Authority: `ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1`.
-The latest user decision allows actual T and justified missing M work only.
+The earlier user decision allowed actual T and justified missing M work only.
 There is no S/R/L entrypoint or automatic enlargement. Server4 project cap2.
 
-Latest same-task override:
+Earlier same-task override (now superseded for new M):
 `ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1`.
 Prepared M may start before T_READY as **PROVISIONAL_T_UNRESOLVED**, with T1+M
 array%1 capacity2. The active agent observes T to terminal. On T error it

@@ -37,3 +37,12 @@ S/R/L0. T=SKIPPED_USER_DIRECTED/full_numerical_validation=NOT_ESTABLISHED.
 실제 M_INITIAL 또는 검증된 GPU shortage 후 pause 규칙은 유지한다.
 이번에는 제출전 storage reserve72GiB 미충족으로 M0/10등록, 새GPU0이다.
 이는 M PENDING/초기gate 통과가 아닌 RESOURCE_BLOCKED_STORAGE_PRE_SUBMISSION이다.
+
+## 후속 storage admission waiver 적용
+
+nonce ODEEDIT-GH-SH4-ENFC-STORAGE-WAIVER-SUBMIT-20260918-R1 FULL_READ.
+원72GiB estimate는 보존하되 free-space reserve만 USER_WAIVED로 제출차단 해제.
+사용자cleanup은 예정/미확인, SH4삭제·이동0. 실제IO/endpoint완결성 검사는 유지.
+M50021_[0–9]%2 전량 held inspection→release(2026-09-18T03:54:49.387131Z).
+실행source894d2c7, lock7b828617a23d5659cb39868910070d5e6eeb7be0d8bef147ebd7401e998abaf6.
+초기03:55:08Z _0/_1 RUNNING, 나머지arraythrottle 대기. 등록완료이지 actualinitial/수치PASS가 아니다.
