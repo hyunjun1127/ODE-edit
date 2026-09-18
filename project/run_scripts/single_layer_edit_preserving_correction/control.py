@@ -16,6 +16,13 @@ PYTHON='/data/janghj/EasyEdit/.venv/bin/python'
 
 def call(args,cwd=None):return subprocess.check_output(args,cwd=cwd,text=True).strip()
 
+def project_queue():
+    # squeue -w filters allocated nodes and can omit unallocated pending jobs.
+    # Admission binds requested OR allocated server4, resource fields only.
+    raw=call(['squeue','-h','-u','janghj','-o','%i|%j|%T|%b|%n|%N|%R'])
+    return '\n'.join(line for line in raw.splitlines()
+        if 'server4' in line.split('|')[4:6])
+
 def source_closure(repo):
     sources=[p for p in call(['git','ls-files',PACKAGE],repo).splitlines() if p.endswith(('.py','.sbatch'))]
     dependencies=['scripts/fixed_counterfact.py','project/run_scripts/single_layer_zflow/native_binding.py',
@@ -84,7 +91,7 @@ def submit_T(lockpath):
     lock=json.loads(Path(lockpath).read_text());parent=Path(lockpath).parent
     if (parent/'submission.json').exists():raise ValueError('EXISTING_SUBMISSION_NO_DUPLICATE')
     now=datetime.datetime.now(datetime.timezone.utc).isoformat()
-    queue=call(['squeue','-h','-u','janghj','-w','server4','-o','%i|%j|%T|%b|%R'])
+    queue=project_queue()
     active=[x for x in queue.splitlines() if 'odeedit_' in x]
     # Conservative: no guessed dependency/throttle accounting.
     if len(active)>=2:raise ValueError('PROJECT_CAP_ADMISSION_REQUIRES_EXPLICIT_SERIAL_DEPENDENCY:'+queue)

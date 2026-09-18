@@ -4,6 +4,15 @@ Authority: `ODEEDIT-S06-SINGLE-LAYER-EDIT-PRESERVING-CORRECTION-M-SH4-V1`.
 The latest user decision allows actual T and justified missing M work only.
 There is no S/R/L entrypoint or automatic enlargement. Server4 project cap2.
 
+Latest same-task override:
+`ODEEDIT-GH-SH4-ENFC-T-M-PARALLEL-FAILCANCEL-20260918-R1`.
+Prepared M may start before T_READY as **PROVISIONAL_T_UNRESOLVED**, with T1+M
+array%1 capacity2. The active agent observes T to terminal. On T error it
+cancels only the exact linked live M children, preserves all partial files
+and cost, and stops for user recall. No automatic T repair/M resubmission is
+authorized after that paired stop. On T success plus actual M initial it
+pauses. No daemon/callback or implication that T validation was waived.
+
 ## Reuse boundary
 
 `preparation.py` produces the item-level reuse matrix before GPU admission.
@@ -32,7 +41,9 @@ modified. Raw/tensor/prompt payloads must never enter Git.
   immutable native anchor, per-sequence guards and actual nullspace response.
 - `technical.py`: actual cold8 validation. CPU fixtures do not imply T_READY.
 - `technical_resume.py`: only the explicitly bound receipt-serialization
-  failure boundary; saved valid native/gradient/Pstar stages are reused.
+  failure boundary implementation prepared under the earlier repair authority.
+  It is **not automatically run after failure under the latest paired-stop
+  override**. Saved stages remain reusable evidence for a later user recall.
 - `runner.py`: all arm selections sealed before official P/N/greedy/Dev128;
   endpoint save+CPU reload; no post-observer controller feedback.
 - `observer.py`: canonical evaluator adapter and exact retained-row reuse.
@@ -40,6 +51,8 @@ modified. Raw/tensor/prompt payloads must never enter Git.
 - `control.py`, `admission.py`: create-once execution closure and held
   resource/owner/source/argument inspection, then release. No model process
   submits jobs and no repeated submission is implicit.
+- `paired_stop.py`: one-shot, authority/owner/exact-child checked cancellation
+  after confirmed linked T failure; invoked by the active agent, not a monitor.
 
 ## Technical limits and execution boundary
 
@@ -48,12 +61,15 @@ gradient, exact geometry, fixed12-scale signed FD for EN-F/CA/random, and
 actual protected full-vocabulary response. All original ceilings remain
 fixed. Native-repeat or teacher PASS alone is not T_READY, and T_READY alone
 is not M_INITIAL_VALID. Empty/unresolved spaces retain their typed meaning.
+The parallel M binding records incomplete T coverage explicitly; it is not a
+synthetic READY receipt and cannot promote a provisional result to validated.
 
 The M initial marker covers the actually observed EN-F episode path,
 retained endpoint, post-selection observer nonmutation and independent cold
-reset; it does not claim all M completed or efficacy. After that marker—or
-verified GPU-resource shortage with all needed M normally released and no
-running M—the agent stops monitoring. Submitted M programs continue normally.
+reset; it does not claim all M completed or efficacy. A provisional initial
+does not end the agent's T-failure cancellation responsibility. Only after
+T success and that initial—or proven main GPU shortage after T success—does
+monitoring pause. Submitted M programs then continue normally.
 
 ## CPU checks
 

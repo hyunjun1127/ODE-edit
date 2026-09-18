@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import tarfile
 from .common import ROOT,member,sha,digest,write
-from .control import call,source_closure,PACKAGE,PYTHON
+from .control import call,source_closure,PACKAGE,PYTHON,project_queue
 from .technical import NUMERIC
 
 
@@ -174,7 +174,7 @@ def submit_M(lockpath):
     for m in lock['execution']['members']:
         if sha(m['path'])!=m['sha256']:raise ValueError('SOURCE_DRIFT')
     external_recheck(lock)
-    queue=call(['squeue','-h','-u','janghj','-w','server4','-o','%i|%j|%T|%b|%R'])
+    queue=project_queue()
     active=[x for x in queue.splitlines() if 'odeedit_' in x]
     # Conservative admission: an existing array is not guessed to be one slot.
     if any('[' in x.split('|')[0] or '_' in x.split('|')[0] for x in active):
