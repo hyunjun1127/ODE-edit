@@ -5,6 +5,7 @@ selection seals; they never return values to a controller. All eight final L4
 endpoints are retained. M history0 follows explicit M phase cells (not S/R/L).
 """
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -59,6 +60,19 @@ def ideal_check(delta,K):
 def selection_seal(episode,arm,weight,ids,ledger):
     return dict(status='SELECTION_SEALED',episode_id=episode,endpoint_id=arm,
         endpoint_weight_sha256=tensor_sha(weight),request_order_sha256=digest(ids),selection_ledger_sha256=ledger)
+
+
+def reuse_observation(prior,source,seal,compatibility):
+    """Post-selection same-episode byte-identical endpoint alias, no forward."""
+    if compatibility!=prior['compatibility']:
+        raise ValueError('IDENTICAL_ENDPOINT_OBSERVER_BINDING')
+    if seal.get('status')!='SELECTION_SEALED' or seal.get('endpoint_weight_sha256')!=compatibility['endpoint_weight_sha256']:
+        raise ValueError('IDENTICAL_ENDPOINT_SELECTION_SEAL')
+    result=copy.deepcopy(prior)
+    result.update(selection_seal=seal,work={k:0 for k in result['work']},
+        same_episode_exact_endpoint_reuse=source,new_observer_forwards=0,
+        physical_endpoint_bytes_installed=False,physical_install_evidence_reused=True)
+    return result
 
 
 def run(lock,episode):
@@ -124,9 +138,13 @@ def run(lock,episode):
             write(root/f'geometry/{name}-gradient.json',diag)
         del residual,left,singular,U,A64,Aout
         shared=Observation(L,G,docrows,weight_sha256=header_sha(WN),objective_id=objective_id)
+        observed_KL={tensor_sha(WN):dict(loss=L,rows=docrows,lineage='shared native S64 gradient observation')}
         results={};seals={};selected_weights={};ledgers={}
         def KL_objective(weight,gradient=False):
-            try:return ref.kl(weight,gradient=gradient)
+            try:
+                value=ref.kl(weight,gradient=gradient)
+                observed_KL[tensor_sha(weight)]=dict(loss=value[0],rows=value[2],lineage='recorded controller S64 observation')
+                return value
             except FloatingPointError as exc:
                 # Only finite *trial model* overflow may backtrack. A bad
                 # teacher, accepted/base state, guard, OOM or CUDA error may not.
@@ -218,17 +236,34 @@ def run(lock,episode):
             new_W0_forwards=0,scope='exact source pair rows subset; historical full1000 MB16 padding, no newB100 byte-parity claim'))
         dev=rt.reference_oracle('Dev128')
         observation_order=['EN-F']+[arm for arm in selected_weights if arm!='EN-F']
+        observed_endpoints={};dev_endpoints={}
         for arm in observation_order:
             weight=selected_weights[arm]
-            reuse=None
-            if arm=='N4' and episode==0:
-                reuse=reuse_proof(weight,seals[arm],lock['observer_reuse_binding']['N4_B1'],'ENDPOINT_CURRENT')
-            observed=obs.observe(records,weight,selection_seal=seals[arm],w0_reduced_metrics_reuse=w0reuse,
-                greedy=True,reduced_metrics_reuse=reuse);rt.sync_oracles()
-            write(root/f'observers/{arm}.json',observed)
-            if arm in ARMS:
-                devloss,_,devrows=dev.kl(weight)
-                write(root/f'observers/{arm}-Dev128.json',dict(loss=devloss,rows=devrows,controller_influence=0))
+            weight_hash=tensor_sha(weight)
+            if weight_hash in observed_endpoints:
+                prior=observed_endpoints[weight_hash]
+                observed=reuse_observation(prior['value'],prior['member'],seals[arm],
+                    obs.compatibility_for(records,weight,selection_seal=seals[arm]))
+                rt.guard()
+            else:
+                reuse=None
+                if episode==0 and weight_hash==lock['reused_native_binding']['b1_endpoint_verified']:
+                    # A valid native fallback has the same endpoint regardless
+                    # of its arm label. Reuse covered pairs for that endpoint.
+                    reuse=reuse_proof(weight,seals[arm],lock['observer_reuse_binding']['N4_B1'],'ENDPOINT_CURRENT')
+                observed=obs.observe(records,weight,selection_seal=seals[arm],w0_reduced_metrics_reuse=w0reuse,
+                    greedy=True,reduced_metrics_reuse=reuse);rt.sync_oracles()
+            observed_member=write(root/f'observers/{arm}.json',observed)
+            observed_endpoints.setdefault(weight_hash,dict(value=observed,member=observed_member))
+            if arm in selected_weights:
+                if weight_hash in dev_endpoints:
+                    prior=dev_endpoints[weight_hash]
+                    devvalue=dict(prior['value'],same_episode_exact_endpoint_reuse=prior['member'],new_document_forwards=0)
+                else:
+                    devloss,_,devrows=dev.kl(weight)
+                    devvalue=dict(loss=devloss,rows=devrows,controller_influence=0,new_document_forwards=128)
+                devmember=write(root/f'observers/{arm}-Dev128.json',devvalue)
+                dev_endpoints.setdefault(weight_hash,dict(value=devvalue,member=devmember))
             if arm=='EN-F':
                 # A temporary independent cold reset is exact-copy and does
                 # not discard the remaining sealed endpoints/observer work.
@@ -241,10 +276,14 @@ def run(lock,episode):
                     EN_F=results['EN-F'],endpoint_retained=results['EN-F']['endpoint'],
                     selection_before_observer=allseal,observer_nonmutation=True,independent_W0_reset=reset,
                     M_history=0,S_R_L_started=False,efficacy_PASS=False))
-            if arm=='EN-COV':
-                output_KL,_,output_KL_rows=ref.kl(weight)
-                write(root/'observers/EN-COV-S64-output-KL.json',dict(loss=output_KL,rows=output_KL_rows,controller_influence=0,
-                    distinct_from_optimized_W0_activation_drift=True))
+            if weight_hash in observed_KL:
+                output_KL=dict(observed_KL[weight_hash],new_document_forwards=0)
+            else:
+                value,_,values=ref.kl(weight)
+                output_KL=dict(loss=value,rows=values,lineage='post-selection S64 observer',new_document_forwards=64)
+                observed_KL[weight_hash]=dict(loss=value,rows=values,lineage='same-episode exact endpoint post-selection reuse')
+            write(root/f'observers/{arm}-S64-output-KL.json',dict(output_KL,controller_influence=0,
+                distinct_from_optimized_W0_activation_drift=arm=='EN-COV'))
         stage='independent_reset'
         rt.oracles=[];reset=rt.reset()
         if reset['W']!=rt.identity['W0'] or reset['M']!=rt.identity['M0']:raise RuntimeError('INDEPENDENT_EPISODE_RESET_FAILED')
