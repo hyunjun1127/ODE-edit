@@ -189,7 +189,7 @@ Past는 B1 이전 요청이 없으므로 N/A0이다. 후보 중 history append0,
 ## 7. 기술 수리와 검증 한계
 
 최초 source dd21a22/job50291은 CPU/source 감사에서 QP near-singular 반례가 확인되어 중단했다.
-이는 실제 모델 QP 실패 관측이 아니라 실행 전에 발견한 구현 오류다. 첫 job은 capsule 준비만 수행했고 nativefit0/endpoint0, 267 allocated GPU-sec였다.
+이는 실제 모델 QP 실패 관측이 아니라 QP 본계산에 들어가기 전 CPU 감사에서 발견한 구현 오류다. 첫 job은 capsule 준비만 수행했고 nativefit0/endpoint0, 267 allocated GPU-sec였다.
 완결 W0 capsule151개를 input/model/source identity로 확인해 새 attempt에서 재사용했다. 원로그·부분자료·source는 보존했다.
 수정은 false infeasible 분류, zero-direction FD의 거짓 PASS 집계, actual factor/Gram 조건 누락에 한정했다.
 QP 상수·수식·arm·quality ceiling을 바꾸지 않았다. 불확실한 작은 고유방향은 typed technical uncertainty이며 정상 fallback으로 숨기지 않는다.
@@ -205,6 +205,7 @@ FD-fixed-grid.csv는 두 방향의 사전 고정12scale 전체를 포함한다. 
 **B2 GPU continuation은 실행하지 않았다.** CPU 재적재/receipt를 새 sequential continuation PASS로 쓰지 않는다.
 저장된 native WN+ideal correction의 FP32 materialization과 BPCW checkpoint의 byte equality는 CPU-endpoint-reconstruction.json으로 별도 확인했다.
 이는 모든 factor에서 selected D를 독립 재계산하거나 모델 전체 forward를 replay한 검증은 아니다.
+보고용 reducer에는 별도 독립 source/schema 감사와 synthetic CPU8 회귀검사를 수행했다. 보고의 endpoint/capsule 연결·KKT 판정 누락을 보완했으며 실행 runtime·원자료·수치 결과는 변경하지 않았다.
 
 ## 8. 비용·메모리·보존
 
@@ -219,6 +220,7 @@ peak GPU allocated={s['peak_gpu_allocated']} bytes, peak host={s['peak_host_KiB'
 
 {allocation}
 
+Start/end는 Slurm이 반환한 서버 로컬 시각 문자열이고, receipt 수집 시각은 별도 UTC다.
 Forward/token/교사강제/두-logit backward의 실제 계수는 runtime-work-counters.json에 보존했다. 이 계수에는 명시된 기술·관측 경로가 포함될 수 있어 phase별 timer와 중복 합산하지 않는다.
 두 W/M/RNG/context/ledger/registry atomic B1 checkpoint를 보존한다. 원자료 actual bytes와 SHA는 raw-inventory.json, CPU tensor 검산은 checkpoint-inventory.csv에 있다.
 전체 pretrained/Jacobian/512개 dense W-gradient를 저장하지 않았다. Gradient는 pair activation/projected-key factors와 bounded 기술4개 dense 증거로 구분했다.
@@ -254,6 +256,7 @@ Report256 미개봉, 새로운 arm/order/후속job0. `max_batches=1`, `sequentia
         job=s['accounting']['job'],raw_output=str(output),model_revision=lock['model_revision'],
         reference_capsule_manifest=member(output/'capsule-manifest.json'),runtime_identity=member(output/'runtime-identity.json') if (output/'runtime-identity.json').exists() else 'execution-entry lock and terminal.identity',
         sample_order=lock['sample_order'],prior_source_replaced=False,teacher='new W0 deterministic answer capsules; not old distribution teacher'))
+    create_json(report/'accounting.json',s['accounting'])
     create_json(report/'preflight.json',dict(local_execution_lock=s['lock'],
         source_resource_admission=member(output.parent/'resource-admission.json'),held_inspection=member(output.parent/'held-inspection.json'),
         prior_CPU35=member(ROOT/'CPU-preflight-r1/receipt.json'),integrated_actual=member(output/'technical/result.json'),
