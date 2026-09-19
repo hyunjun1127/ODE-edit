@@ -6,6 +6,11 @@ Instruction: `ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1`.
 
 ## 현재 운영 상태
 
+최신 명시 USER recall: “자리 비었으니 task 이어서 진행시켜”. 기존 gate51071의
+source/lock·자원 확인 뒤 hold만 해제했으며 중복 제출은 하지 않았다. 아래 구현-only
+대기는 역사 기록이다. 이번 task는 common actual gate 이후 cap2 내 두 독립 lane으로
+계속하며 다른 task의 pause는 유지한다. 아직 gate terminal PASS를 주장하지 않는다.
+
 2026-09-20 사용자: “gpu 자리가 없으니 구현까지만 완료하고 user의 호출 기다려”.
 구현/CPU 검증만 완료한 뒤 대기한다. 최초 gate job51071은 실행 전 PENDING에서
 JobHeldUser로 hold했다. 최초 execution source3f65d170과 archive/lock은 불변이다.
@@ -48,7 +53,7 @@ python3 scripts/slurm_memory_policy.py audit \
 Create-once 산출물에 명령을 그대로 재실행하면 overwrite를 거부한다.
 CPU 결과는 archival/geometry receipts의 source/hash/count로 재사용한다.
 
-## USER recall 뒤 실행 DAG (현재 실행 금지)
+## USER recall 뒤 실행 DAG (이번 task 재개 승인)
 
 1. 기존 held gate51071/source/lock을 정확히 확인한 뒤 사용자 지시 범위에서 처리한다.
    C00/C01 actual PASS 전 key-bank/operator/suffix를 시작하지 않는다.

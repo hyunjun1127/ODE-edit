@@ -11,6 +11,17 @@ import torch
 
 
 class ControlTests(unittest.TestCase):
+    def test_pending_unassigned_gpu_counts_requested_node(self):
+        self.assertEqual(submit.project_allocation('JobId=1 NodeList= ReqNodeList=server2 ReqTRES=cpu=8,mem=59G,gres/gpu=1 AllocTRES=(null)'),1)
+
+    def test_allocated_gpu_precedes_request_and_other_node_excluded(self):
+        self.assertEqual(submit.project_allocation('JobId=1 NodeList=server2 ReqNodeList=server2 ReqTRES=gres/gpu=2 AllocTRES=cpu=8,gres/gpu=1'),1)
+        self.assertEqual(submit.project_allocation('JobId=2 NodeList=server1 ReqNodeList=server1 ReqTRES=gres/gpu=1'),0)
+
+    def test_unknown_project_node_fails_closed(self):
+        with self.assertRaisesRegex(RuntimeError,'NODE_ADMISSION_UNRESOLVED'):
+            submit.project_allocation('JobId=3 NodeList= ReqNodeList=(null) ReqTRES=gres/gpu=1')
+
     def test_closed_runner_inventory(self):
         self.assertEqual(set(control.MODULES),{'gate','keys','operator','activation'})
         self.assertNotIn('edit',control.MODULES)

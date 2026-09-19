@@ -13,6 +13,26 @@ def run(args):
     return result.stdout.strip()
 
 
+def project_allocation(detail):
+    """Include unassigned pending requests; squeue -w can omit these jobs."""
+    fields=dict(x.split('=',1) for x in detail.split() if '=' in x)
+    assigned=fields.get('NodeList','(null)')
+    requested=fields.get('ReqNodeList','(null)')
+    known=[x for x in (assigned,requested) if x not in ('(null)','None','')]
+    if not known:
+        raise RuntimeError('PROJECT_NODE_ADMISSION_UNRESOLVED:'+fields.get('JobId','unknown'))
+    # Project launchers require an explicit single-node request. Do not guess
+    # expansion of heterogeneous/multi-node host lists at admission.
+    if any('[' in x or ',' in x for x in known):
+        raise RuntimeError('PROJECT_NODE_ADMISSION_UNRESOLVED:'+fields.get('JobId','unknown'))
+    if 'server2' not in known:return 0
+    tres=fields.get('AllocTRES','(null)')
+    if tres in ('(null)',''):tres=fields.get('ReqTRES','')
+    gpu=re.search(r'(?:^|,)gres/gpu=(\d+)(?:,|$)',tres)
+    if not gpu:raise RuntimeError('PROJECT_GPU_COUNT_UNRESOLVED:'+fields.get('JobId','unknown'))
+    return int(gpu.group(1))
+
+
 def require_recall(recall):
     pause=ATTEMPT/'receipts/user-implementation-only-20260920.json'
     if pause.exists():
@@ -31,17 +51,15 @@ def submit(execution,recall=None):
     env=os.environ.copy();env['AGENT_GPU_CAPS_FILE']=str(ROOT/'servers/local/gpu-caps.tsv')
     cap=subprocess.run(['bash',str(REPO/'scripts/check-slurm-resource-cap.sh'),'server2','1','60416M'],
         env=env,text=True,capture_output=True)
-    queue=run(['squeue','-h','-w','server2','-t','RUNNING,COMPLETING,CONFIGURING,PENDING','-o','%i|%j|%b|%T'])
+    queue=run(['squeue','-h','-t','RUNNING,COMPLETING,CONFIGURING,PENDING','-o','%i|%j|%b|%T'])
     total=0;records=[]
     for line in queue.splitlines():
         job,name,tres,state=line.split('|')
         if not any(fnmatch.fnmatch(name,pat) for pat in ('odeedit_*','odealloc_*')):continue
         detail=run(['scontrol','show','job',job,'--oneliner'])
-        match=re.search(r'(?:AllocTRES|ReqTRES)=([^ ]+)',detail)
-        if not match: raise RuntimeError('PROJECT_GPU_ALLOCATION_UNRESOLVED:'+job)
-        gpu=re.search(r'(?:^|,)gres/gpu=(\d+)',match.group(1))
-        if not gpu: raise RuntimeError('PROJECT_GPU_COUNT_UNRESOLVED:'+job)
-        count=int(gpu.group(1));total+=count;records.append(dict(job=job,name=name,state=state,gpus=count))
+        count=project_allocation(detail)
+        if not count:continue
+        total+=count;records.append(dict(job=job,name=name,state=state,gpus=count))
     admitted=cap.returncode==0 and total+1<=2
     write_json(receipt,dict(status='ALLOW' if admitted else 'WAITING_FOR_ISOLATED_RESOURCE',
         active_and_admitted_project_gpus=total,new_gpus=1,cap=2,records=records,
