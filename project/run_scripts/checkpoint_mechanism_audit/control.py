@@ -4,12 +4,16 @@ import io
 import os
 import socket
 import subprocess
+import sys
 import tarfile
 from pathlib import Path
 from .common import *
 
 
-def freeze(output):
+MODULES={'gate':'model_gate','keys':'key_bank','operator':'operator_lane','activation':'activation_lane'}
+
+
+def freeze(output,mode='gate',analysis_output=None,analysis_args=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     head=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip()
     tree=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD^{tree}'],text=True).strip()
@@ -31,7 +35,9 @@ def freeze(output):
         session='01a0493a-074c-7f91-9a13-769116326fef',repository='hyunjun1127/ODE-edit',
         boundary_helper=dict(canonical_root_check='PASS',new_worktree_check='MISSING_LOCAL_CONFIG',
                              authority='explicit dedicated-worktree envelope + frozen member verification; no helper relaxation'),
-        expected_output=str(ATTEMPT/'results/model-gate-r1'),
+        expected_output=str(analysis_output or ATTEMPT/'results/model-gate-r1'),
+        mode=mode,runner_module='project.run_scripts.checkpoint_mechanism_audit.'+MODULES[mode],
+        runner_args=list(analysis_args or []),
         resource=dict(project_cap=2,task_cap=2,gpu_per_job=1,cpu=8,host_mem_mib=60416,
                       walltime_hours=8,export='NONE',requeue=False,
                       estimate='Gate-only conservative reservation, not measured runtime; later costs based on gate',
@@ -55,6 +61,17 @@ def verify(lock):
     print('EXECUTION_LOCK_PASS',x['source_head'],flush=True)
 
 
+def execute(lock):
+    verify(lock);x=read(lock);mode=x.get('mode','gate')
+    module='project.run_scripts.checkpoint_mechanism_audit.'+MODULES[mode]
+    assert x['runner_module']==module and all(isinstance(a,str) for a in x['runner_args'])
+    subprocess.run([sys.executable,'-B','-u','-m',module,'--output',x['expected_output'],*x['runner_args']],check=True)
+
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=['freeze','verify']);p.add_argument('--output');p.add_argument('--lock')
-    a=p.parse_args();freeze(a.output) if a.mode=='freeze' else verify(a.lock)
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['freeze','verify','execute']);p.add_argument('--output');p.add_argument('--lock')
+    p.add_argument('--mode',choices=MODULES,default='gate');p.add_argument('--analysis-output');p.add_argument('--args-json')
+    a=p.parse_args()
+    if a.action=='freeze':freeze(a.output,a.mode,a.analysis_output,read(a.args_json) if a.args_json else [])
+    elif a.action=='verify':verify(a.lock)
+    else:execute(a.lock)

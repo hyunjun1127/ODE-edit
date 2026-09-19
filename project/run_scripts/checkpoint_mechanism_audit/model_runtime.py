@@ -61,10 +61,41 @@ def stream_and_probe():
 
 def checkpoint(batch):
     p=CPROOT/f'B{batch:03d}/W-method-state.pt'
+    previous=[r for r in read(ATTEMPT/'results/geometry/checkpoint-input-verification.json') if r['path']==str(p)]
+    assert len(previous)==1 and previous[0]['full_sha256'] and previous[0]['unchanged_during_hash']
+    now=stat_identity(p)
+    for field in ('bytes','mtime_ns','inode','device'):
+        assert now[field]==previous[0][field], 'CHECKPOINT_STAT_DRIFT:'+str(p)
     obj=torch.load(p,map_location='cpu',weights_only=True,mmap=True)
     assert set(obj['weights'])=={WEIGHT}
     assert obj['weights'][WEIGHT].dtype==torch.float32 and obj['cache_c'].dtype==torch.float32
     return obj
+
+
+def verify_model_assets():
+    """Check complete original model/tokenizer inventory before model loading.
+
+    Reuse a current stat-bound A00 full-hash receipt if provided; otherwise
+    measure a fresh immutable read and include its cost (no hidden inference).
+    """
+    lock=read(mapped(S4RUN+'/execution.lock.json'));prefix=lock['snapshot'].rstrip('/')+'/'
+    known_path=ATTEMPT/'inputs/model-asset-verification.json'
+    known={m['path']:m for m in read(known_path)['members']} if known_path.exists() else {}
+    records=[];start=time.perf_counter()
+    for member in lock['members']:
+        if not member['path'].startswith(prefix):continue
+        relative=member['path'][len(prefix):];assert '..' not in Path(relative).parts
+        path=Path(CONTRACT['paths']['model_snapshot'])/relative;now=stat_identity(path)
+        assert now['bytes']==member['bytes'],'MODEL_ASSET_SIZE_MISMATCH'
+        prior=known.get(str(path));reused=bool(prior and prior.get('full_sha256') and
+            prior.get('sha256')==member['sha256'] and
+            all(prior.get(k)==now[k] for k in ('bytes','mtime_ns','inode','device')))
+        if not reused:assert sha256(path)==member['sha256'],'MODEL_ASSET_HASH_MISMATCH:'+relative
+        after=stat_identity(path);assert after==now,'MODEL_ASSET_CHANGED_DURING_READ'
+        records.append(dict(**now,sha256=member['sha256'],full_sha256=True,reused_stat_bound_receipt=reused))
+    assert records and any('safetensors' in r['path'] for r in records)
+    return dict(status='PASS',members=records,seconds=time.perf_counter()-start,
+                source_execution_lock_sha256=sha256(mapped(S4RUN+'/execution.lock.json')))
 
 
 def load():
@@ -73,6 +104,7 @@ def load():
     assert torch.__version__=='2.9.1+cu128' and transformers.__version__=='4.44.2'
     torch.set_num_threads(8);random.seed(20260907);np.random.seed(20260907);torch.manual_seed(20260907)
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=True
+    assets=verify_model_assets()
     t=time.perf_counter(); snapshot=CONTRACT['paths']['model_snapshot']
     model=AutoModelForCausalLM.from_pretrained(snapshot,local_files_only=True,low_cpu_mem_usage=True,
         attn_implementation='eager').cuda().eval().requires_grad_(False)
@@ -91,7 +123,7 @@ def load():
         evaluator_tokenizer={'add_bos_token':getattr(evaluator,'add_bos_token','NOT_EXPOSED'),'padding':evaluator.padding_side,
                              'kernel_padding':'manual_left','position_ids':'implicit','microbatch':16},
         w0_sha256=tensor_sha(w0),load_seconds=time.perf_counter()-t,
-        slurm_job=os.environ.get('SLURM_JOB_ID'),save_checkpoints=False)
+        slurm_job=os.environ.get('SLURM_JOB_ID'),save_checkpoints=False,model_assets=assets)
     return model,writer,evaluator,w0,receipt
 
 
@@ -127,19 +159,38 @@ def capture(model,tok,rows,contexts,bindings,early=False):
     ks,z,hp,_=bindings; proxy=PrefixProxy(model) if early else model
     requests=[dict(r['requested_rewrite'],case_id=int(r['case_id'])) for r in rows]
     t=time.perf_counter()
-    with torch.no_grad():
-        k=ks.compute_ks(proxy,tok,requests,hp,4,contexts).T.contiguous().cpu()
-        bare,_=z.get_module_input_output_at_words(proxy,tok,4,
-            context_templates=[r['prompt'] for r in requests],words=[r['subject'] for r in requests],
-            module_template=hp.rewrite_module_tmp,fact_token_strategy=hp.fact_token)
-        _,h=z.get_module_input_output_at_words(proxy,tok,4,
-            context_templates=[r['prompt'] for r in requests],words=[r['subject'] for r in requests],
-            module_template=hp.layer_module_tmp,fact_token_strategy=hp.fact_token)
+    packing=[];positions=[]
+    def inputs_hook(module,args,kw):
+        packing.append({key:value.detach().cpu().tolist() for key,value in kw.items()
+                        if key in ('input_ids','attention_mask','position_ids','cache_position') and isinstance(value,torch.Tensor)})
+    def position_hook(module,args,kw):
+        positions.append({key:value.detach().cpu().tolist() for key,value in kw.items()
+                          if key in ('position_ids','cache_position') and isinstance(value,torch.Tensor)})
+    ih=model.register_forward_pre_hook(inputs_hook,with_kwargs=True)
+    ph=model.model.layers[0].register_forward_pre_hook(position_hook,with_kwargs=True)
+    try:
+        with torch.no_grad():
+            k=ks.compute_ks(proxy,tok,requests,hp,4,contexts).T.contiguous().cpu()
+            bare,_=z.get_module_input_output_at_words(proxy,tok,4,
+                context_templates=[r['prompt'] for r in requests],words=[r['subject'] for r in requests],
+                module_template=hp.rewrite_module_tmp,fact_token_strategy=hp.fact_token)
+            _,h=z.get_module_input_output_at_words(proxy,tok,4,
+                context_templates=[r['prompt'] for r in requests],words=[r['subject'] for r in requests],
+                module_template=hp.layer_module_tmp,fact_token_strategy=hp.fact_token)
+    finally: ih.remove();ph.remove()
     torch.cuda.synchronize()
+    repr_tools=importlib.import_module('rome.repr_tools')
+    templates=[c.format(r['prompt']) for r in requests for group in contexts for c in group]
+    words=[r['subject'] for r in requests for group in contexts for c in group]
+    lookup=repr_tools.get_words_idxs_in_templates(tok,templates,words,hp.fact_token[len('subject_'):])
     return dict(K=k,bare_K=bare.T.contiguous().cpu(),h0=h.T.contiguous().cpu(),
                 ids=[r['case_id'] for r in rows],contexts_sha256=digest(contexts),
                 seconds=time.perf_counter()-t,early_stop=early,
-                native_group_sizes=[len(x) for x in contexts],key_weights=[.5,.1,.1,.1,.1,.1])
+                native_group_sizes=[len(x) for x in contexts],key_weights=[.5,.1,.1,.1,.1,.1],
+                actual_packing=packing,actual_positions=positions,packing_sha256=digest(packing),
+                subject_lookup=lookup,lookup_sha256=digest(lookup),
+                tokenizer_padding=tok.padding_side,tokenizer_add_bos=tok.add_bos_token,
+                capture_source_ready_sha256=sha256(ATTEMPT/'inputs/source-ready.json'))
 
 
 def evaluate(model,tok,rows,bindings):
