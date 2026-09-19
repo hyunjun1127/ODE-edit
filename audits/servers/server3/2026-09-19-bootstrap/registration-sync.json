@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-09-19T22:20:34.098410+09:00",
+  "registry_commit": "0ff1e41cc225bb45518b5b9518aea66d7a19ae1f",
+  "root_head": "21a368689bc6227a2d68da6b97f0ff97600ca034",
+  "root_tree": "6cf2adca84053d39373387d2775c3f72899cf6fe",
+  "root_branch": "main",
+  "root_dirty": false,
+  "root_ahead_behind": [
+    0,
+    0
+  ],
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "root_boundary_check": "PASS",
+  "worktree_boundary_check": "PASS",
+  "registry_binding": "PASS",
+  "active_gpu_cap": 0,
+  "submission": "SUBMISSION_NOT_AUTHORIZED",
+  "save_checkpoints": false,
+  "shared_identity_changes": 0,
+  "runtime_ready": false
+}
