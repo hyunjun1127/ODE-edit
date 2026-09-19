@@ -12,7 +12,7 @@ from .program import require_program
 from project.run_scripts.single_layer_edit_preserving_correction.common import write,member,sha
 
 
-def inspection(text,command,source,lock_path):
+def inspection(text,command,source,lock_path,*,job_name='odeedit_slmf_S10_s4',dependency='afterok:50974'):
     def field(name):
         match=re.search(r'(?:^|\s)'+name+r'=(.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|$)',text)
         return shlex.split(match.group(1)) if match else []
@@ -21,17 +21,17 @@ def inspection(text,command,source,lock_path):
     # Slurm on this host reports only the script in Command, and its actual
     # argument vector in SubmitLine. Both are controller-returned evidence.
     argv_bound=actual==expected or (actual==expected[:1] and submitted==command and submitted[-3:]==expected)
-    return dict(owner='UserId=janghj(' in text,name='JobName=odeedit_slmf_S10_s4' in text,
+    return dict(owner='UserId=janghj(' in text,name=f'JobName={job_name} ' in text,
         held='JobState=PENDING' in text and 'Reason=JobHeldUser' in text,
         GPU='gres/gpu=1' in text,CPU='NumCPUs=8' in text,
         memory=any(s in text for s in ('mem=60416M','mem=59G','MinMemoryNode=60416M')),
         node='ReqNodeList=server4' in text,requeue='Requeue=0' in text,
         script=str(source/'project/run_scripts/single_layer_mechanism_first/run.sbatch') in text,
-        cwd=f'WorkDir={source}' in text,dependency='afterok:50974' in text,
+        cwd=f'WorkDir={source}' in text,dependency=(dependency in text if dependency else 'Dependency=(null)' in text),
         actual_full_argv=argv_bound,submitted_full_argv=command[-3:]==expected)
 
 
-def other_capacity(queue_text):
+def other_capacity(queue_text,*,excluded_jobs=('50974',)):
     """Conservative simultaneous capacity, including compressed array rows.
 
     Only the exact dependency is excluded. An unresolved array cannot become
@@ -40,7 +40,7 @@ def other_capacity(queue_text):
     admitted=[]
     for row in queue_text.splitlines():
         job,name,state,gres=row.split('|',3)
-        if job=='50974':continue
+        if job in excluded_jobs:continue
         if '[' in job or '%' in job:raise RuntimeError('ADMISSION_ARRAY_CAPACITY_UNRESOLVED')
         if not re.fullmatch(r'\d+(?:_\d+)?',job):raise RuntimeError('ADMISSION_JOB_ID_UNRESOLVED')
         g=re.fullmatch(r'(?:gres/)?gpu(?::[^:,]+)?:(\d+)',gres)

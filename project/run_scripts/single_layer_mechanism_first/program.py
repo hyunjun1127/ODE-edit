@@ -127,7 +127,12 @@ def run(rt,out):
         print(json.dumps(dict(event='PROGRAM_PHASE',stage=stage,**extra)),flush=True)
     try:
         space_check(out,24*2**30,'T0_B1')
-        native4,panel=inherit_hook(rt,out)
+        if rt.lock.get('hook_repair'):
+            from .technical_repair import run_hook_repair
+            mark('T0_HOOK_REPAIR')
+            native4,panel=run_hook_repair(rt,out/'technical-hook-repair')
+        else:
+            native4,panel=inherit_hook(rt,out)
         reference=rt.reference()
         from .technical_decision import run_checks
         mark('T0_ACTUAL_DECISION')

@@ -179,9 +179,14 @@ def capture_prefix(model, hp, layer, tokens):
 
 def suffix_hidden(model, hp, layer, prefix, delta, batch):
     hidden = prefix["hidden"].clone()
-    n = batch["n_rw"] + 1
-    repeated = delta.repeat_interleave(n, dim=0)
-    hidden[batch["intervention_rows"], batch["intervention_cols"]] += repeated
+    # Native compute_z uses one sequential in-place add per context. A single
+    # repeat_interleave/advanced-index add is mathematically equivalent, but
+    # its delta VJP reduces the context axis using a different FP32 tree.
+    # Preserve the native per-request AddBackward accumulation path instead.
+    for b, spec in enumerate(batch["specs"]):
+        request_delta = delta[b]
+        for j, position in enumerate(spec["lookup"]):
+            hidden[spec["offset"] + j, position, :] += request_delta
     loss_layer = max(hp.v_loss_layer, layer)
     loss_hidden = hidden if layer == loss_layer else None
     layers = model.get_submodule(hp.layer_module_tmp.rsplit(".", 1)[0])
@@ -205,28 +210,43 @@ def native_losses(model, hp, batch, loss_hidden, final_hidden, delta, initial, k
     norm = model.get_submodule(hp.ln_f_module)
     head = model.get_submodule(hp.lm_head_module)
     target_mask = batch["targets"] != -100
-    selected = loss_hidden[batch["rw_rows"]][target_mask]
+    # Keep native normalization on the full rewrite representation. Selecting
+    # hidden rows before RMSNorm changes both the row layout and the backward
+    # graph. Only the expensive full-vocabulary head is position-selected.
+    rewrite_repr = loss_hidden[batch["rw_rows"]]
+    selected = norm(rewrite_repr)[target_mask]
     # Rewrite path is precisely native ln_f(hidden) @ lm_w.T (+ bias).
-    rewrite_logits = norm(selected) @ head.weight.T
+    rewrite_logits = selected @ head.weight.T
     bias = head.bias if getattr(head, "bias", None) is not None else head.weight.new_zeros(head.weight.shape[0])
     rewrite_logits = rewrite_logits + bias
     lp = rewrite_logits.log_softmax(-1)
-    token_loss = -lp.gather(1, batch["targets"][target_mask, None]).squeeze(1)
-    # Keep native sequence-width reduction, including exact zero padding.
+    selected_logp = lp.gather(1, batch["targets"][target_mask, None]).squeeze(1)
+    # Native places the negation AFTER sequence-width summation, then divides
+    # by target length and takes the scalar context mean for each request.
+    # Keep that route (not a batched row reduction or mean of token losses).
     losses = torch.zeros_like(batch["targets"], dtype=torch.float32)
-    losses[target_mask] = token_loss
-    lengths = torch.stack([s["target"].new_tensor(s["target"].numel(), dtype=torch.float32)
-                           for s in batch["specs"]]).repeat_interleave(batch["n_rw"])
-    nll_context = losses.sum(1) / lengths
-    nll = nll_context.reshape(len(batch["specs"]), batch["n_rw"]).mean(1)
+    losses[target_mask] = selected_logp
+    nll = torch.stack([
+        (-(losses[b*batch["n_rw"]:(b+1)*batch["n_rw"]] *
+           target_mask[b*batch["n_rw"]:(b+1)*batch["n_rw"]].float()).sum(1) /
+         spec["target"].numel()).mean()
+        for b, spec in enumerate(batch["specs"])])
     # KL is FINAL-model hidden even when native rewrite loss_layer is earlier.
-    kl_logits = head(norm(final_hidden[batch["kl_rows"], batch["kl_cols"]]))
+    kl_logits = head(norm(final_hidden)[batch["kl_rows"], batch["kl_cols"]])
     kl_lp = kl_logits.log_softmax(-1)
     if kl_initial is None:
         kl_initial = kl_lp.detach().clone()
-    kl = hp.kl_factor * torch.nn.functional.kl_div(kl_initial, kl_lp, log_target=True, reduction="none").sum(-1)
-    decay = hp.v_weight_decay * (delta.norm(dim=1) / initial.norm(dim=1).square())
-    total = nll + kl + decay
+    # Native KL has shape [one KL prompt, full vocabulary] and batchmean
+    # reduction. reduction=none followed by sum(-1) uses a different FP32
+    # reduction even for batch_size=1. Independent request batching must not
+    # divide a request's KL by the number of other requests.
+    kl = torch.stack([hp.kl_factor * torch.nn.functional.kl_div(
+        kl_initial[b:b+1], kl_lp[b:b+1], log_target=True, reduction="batchmean")
+        for b in range(len(batch["specs"]))])
+    decay = torch.stack([hp.v_weight_decay * (torch.norm(delta[b]) /
+        torch.norm(initial[b]) ** 2) for b in range(len(batch["specs"]))])
+    total = torch.stack([nll[b] + kl[b].to(nll.device) + decay[b].to(nll.device)
+                         for b in range(len(batch["specs"]))])
     if not all(torch.isfinite(x).all().item() for x in (total, nll, kl, decay)):
         raise FloatingPointError("NONFINITE_NATIVE_Z_LOSS")
     return total, nll, kl, decay, kl_initial
@@ -294,7 +314,9 @@ def compute_z_batch(model, tok, requests, hp, layer, contexts, find_lookup, *, c
         converged |= newly
         if converged.all() or iteration == hp.v_num_grad_steps-1:
             break
-        (total * ~converged).sum().backward()
+        # The production singleton follows native scalar loss.backward().
+        # Batching sums the still-active independent scalar losses only.
+        (total[0] if len(requests) == 1 else total[~converged].sum()).backward()
         if delta.grad is None or not torch.isfinite(delta.grad).all():
             raise FloatingPointError("NONFINITE_NATIVE_Z_GRADIENT")
         for b in range(len(requests)):
@@ -313,6 +335,8 @@ def compute_z_batch(model, tok, requests, hp, layer, contexts, find_lookup, *, c
     receipt = dict(batch_size=len(requests), configured_batch_size=config.batch_size,
                    input_identity=batch["identity"], case_ids=[s["case_id"] for s in batch["specs"]],
                    source_native_sha256=NATIVE_Z_SHA, prefix_calls=1,
+                   arithmetic_route="native_context_add_and_per_request_reductions_v2",
+                   head_positions="rewrite_target_and_final_KL_only_full_vocabulary",
                    suffix_sweeps=iteration+1, full_vocabulary=True, loss_layer=max(hp.v_loss_layer,layer),
                    KL_layer="final-model", dtype="float32", native_history_append=0,
                    seconds=time.monotonic()-begin, loss_steps=loss_steps, adam_steps=adam_steps,

@@ -1,11 +1,16 @@
 """CPU fixtures only: these tests do not establish Llama/native parity."""
 import types
+import copy
+import hashlib
+import inspect
 import unittest
 from unittest.mock import patch
 import torch
 from .z_hook import (ZHookConfig,ZHookBoundary,normalize_requests,prepare_batch,
                      freeze_and_clamp,capture_prefix,suffix_hidden,native_losses,
                      compute_z_batch,instrument_native_compute_z)
+from .z_hook_parity import _compare, _reuse_reference, compare_native_z_paths
+from .z_hook import NATIVE_Z_SHA
 
 
 class Tokens(dict):
@@ -135,6 +140,121 @@ class ZHookTests(unittest.TestCase):
         instrumented=instrument_native_compute_z(compute_z,lambda *args:events.append(args[0]))
         self.assertTrue(torch.equal(compute_z(),instrumented()))
         self.assertEqual(events,['loss','gradient','loss','gradient'])
+
+    def test_native_per_context_intervention_vjp(self):
+        h=hp();h.v_loss_layer=0
+        batch=prepare_batch(self.tok,[request()],[['{}','a {}','another {}']],h,lookup,'cpu')
+        prefix=capture_prefix(self.model,h,0,batch['tokens'])
+        delta=torch.randn(1,4,requires_grad=True)
+        with patch.object(torch.Tensor,'repeat_interleave',side_effect=AssertionError('changed VJP tree')):
+            hooked,_=suffix_hidden(self.model,h,0,prefix,delta,batch)
+        native_delta=delta[0].detach().clone().requires_grad_()
+        expected=prefix['hidden'].clone()
+        for i,idx in enumerate(batch['specs'][0]['lookup']):
+            expected[i,idx,:]+=native_delta
+        self.assertTrue(torch.equal(hooked,expected))
+        grad=torch.autograd.grad(hooked.square().sum(),delta)[0][0]
+        native_grad=torch.autograd.grad(expected.square().sum(),native_delta)[0]
+        self.assertTrue(torch.equal(grad,native_grad))
+
+    def test_selected_head_native_full_width_loss_and_gradient(self):
+        h=hp()
+        batch=prepare_batch(self.tok,[request()],[['{}','a long {}']],h,lookup,'cpu')
+        prefix=capture_prefix(self.model,h,0,batch['tokens'])
+        delta=torch.randn(1,4,requires_grad=True)*.01
+        initial=prefix['hidden'][[0],[1]]
+        lh,fh=suffix_hidden(self.model,h,0,prefix,delta,batch)
+        teacher=torch.randn(1,16).log_softmax(-1)
+        actual=native_losses(self.model,h,batch,lh,fh,delta,initial,teacher)
+        n=batch['n_rw'];targets=batch['targets'];mask=(targets!=-100).float()
+        norm=self.model.model.norm;head=self.model.lm_head
+        lp=(norm(lh[:n])@head.weight.T+torch.zeros(16)).log_softmax(2)
+        gathered=torch.gather(lp,2,torch.where(targets!=-100,targets,0).unsqueeze(2)).squeeze(2)
+        nll=(-(gathered*mask).sum(1)/batch['specs'][0]['target'].numel()).mean()
+        full_logits=head(norm(fh))
+        kl_lp=torch.stack([full_logits[-1,batch['specs'][0]['lookup'][-1],:]]).log_softmax(1)
+        kl=h.kl_factor*torch.nn.functional.kl_div(teacher,kl_lp,log_target=True,reduction='batchmean')
+        decay=h.v_weight_decay*(torch.norm(delta[0])/torch.norm(initial[0])**2)
+        expected=nll+kl+decay
+        self.assertTrue(torch.allclose(actual[0][0],expected,rtol=1e-6,atol=1e-6))
+        ag=torch.autograd.grad(actual[0].sum(),delta,retain_graph=True)[0]
+        eg=torch.autograd.grad(expected,delta)[0]
+        self.assertTrue(torch.allclose(ag,eg,rtol=1e-5,atol=1e-6))
+
+    def test_full_hidden_norm_selected_full_vocab_head_only(self):
+        h=hp();batch=prepare_batch(self.tok,[request()],[['{}','a {}']],h,lookup,'cpu')
+        prefix=capture_prefix(self.model,h,0,batch['tokens']);delta=torch.zeros(1,4,requires_grad=True)
+        lh,fh=suffix_hidden(self.model,h,0,prefix,delta,batch)
+        seen=[]
+        handle=self.model.model.norm.register_forward_pre_hook(lambda m,a: seen.append(tuple(a[0].shape)))
+        try:native_losses(self.model,h,batch,lh,fh,delta,prefix['hidden'][[0],[1]],None)
+        finally:handle.remove()
+        self.assertEqual(seen,[tuple(lh[batch['rw_rows']].shape),tuple(fh.shape)])
+
+    def test_original_trajectory_failure_not_dropped_or_relaxed(self):
+        losses=[dict(iteration=0,loss=1.,nll=1.,kl=0.,decay=0.),
+                dict(iteration=1,loss=.5,nll=.5,kl=0.,decay=0.)]
+        reference=[dict(losses=losses,gradients=[torch.ones(4)])]
+        candidate=[dict(losses=losses,gradients=[torch.ones(4)*(1+1.4e-4)])]
+        result=_compare(reference,candidate,torch.ones(4,1),torch.ones(4,1))
+        self.assertFalse(result['pass_inherited_NLL_gradient_and_stop_gate'])
+        self.assertEqual(result['thresholds']['direct_cached_gradient_relative'],1e-4)
+        self.assertEqual(len(result['rows'][0]['gradient_steps']),1)
+
+    def test_compare_rejects_truncated_request_inventory(self):
+        with self.assertRaisesRegex(ZHookBoundary,'CARDINALITY'):
+            _compare([{}],[],torch.ones(4,1),torch.ones(4,1))
+
+    def reuse_fixture(self,source_sha=NATIVE_Z_SHA):
+        requests=normalize_requests([request(i) for i in range(4)])
+        identities=[prepare_batch(self.tok,[r],[['{}']],hp(),lookup,'cpu')['identity'] for r in requests]
+        losses=[dict(iteration=i,loss=1.,nll=1.,kl=0.,decay=0.) for i in range(2)]
+        old=dict(native_targets=torch.ones((4,4)),native_rows=[dict(losses=copy.deepcopy(losses),
+            gradients=[torch.ones(4)]) for _ in range(4)],binding=dict(native_source_sha256=source_sha,
+            case_ids=[r['case_id'] for r in requests],batch_input_identities=identities,
+            entry_identity_verified=True,artifacts=[dict(path='/bounded/old-z.pt',sha256='a'*64)]))
+        return old,requests,identities
+
+    def test_reuse_reference_schema_and_owned_rows(self):
+        old,requests,identities=self.reuse_fixture()
+        targets,rows,binding=_reuse_reference(old,requests,identities,4)
+        self.assertTrue(torch.equal(targets,old['native_targets']))
+        targets.fill_(2);rows[0]['gradients'][0].fill_(2)
+        self.assertTrue(torch.equal(old['native_targets'],torch.ones(4,4)))
+        self.assertTrue(torch.equal(old['native_rows'][0]['gradients'][0],torch.ones(4)))
+
+    def test_reuse_rejects_wrong_input_entry_and_trace(self):
+        old,requests,identities=self.reuse_fixture()
+        with self.assertRaisesRegex(ZHookBoundary,'REUSE_IDENTITY'):
+            _reuse_reference(old,requests,['changed']*4,4)
+        old['binding']['entry_identity_verified']=False
+        with self.assertRaisesRegex(ZHookBoundary,'REUSE_IDENTITY'):
+            _reuse_reference(old,requests,identities,4)
+        old['binding']['entry_identity_verified']=True
+        old['native_rows'][0]['gradients']=[]
+        with self.assertRaisesRegex(ZHookBoundary,'TRACE_CARDINALITY'):
+            _reuse_reference(old,requests,identities,4)
+
+    def test_reuse_runs_only_eight_affected_targets_and_all_comparisons(self):
+        source_sha=hashlib.sha256(inspect.getsource(inspect.getmodule(compute_z)).encode()).hexdigest()
+        old,requests,identities=self.reuse_fixture(source_sha)
+        module=types.SimpleNamespace(compute_z=compute_z,find_fact_lookup_idx=lookup)
+        calls=[]
+        def repaired(model,tok,part,hp,layer,contexts,find_lookup,config):
+            calls.append(len(part));row=old['native_rows'][0]
+            return torch.ones((4,len(part))),dict(losses=[copy.deepcopy(row['losses']) for _ in part],
+                gradients=[copy.deepcopy(row['gradients']) for _ in part])
+        with patch('project.run_scripts.single_layer_mechanism_first.z_hook_parity.NATIVE_Z_SHA',source_sha),\
+             patch('project.run_scripts.single_layer_mechanism_first.z_hook_parity.compute_z_batch',side_effect=repaired),\
+             patch('project.run_scripts.single_layer_mechanism_first.z_hook_parity.instrument_native_compute_z',
+                   side_effect=AssertionError('valid native must not refit')):
+            receipt,tensors=compare_native_z_paths(self.model,self.tok,module,hp(),[['{}']],requests,
+                                                   layer=0,native_reuse=old)
+        self.assertEqual(calls,[1,1,1,1,4]);self.assertEqual(sum(calls),8)
+        self.assertEqual(receipt['native']['seconds'],0.)
+        self.assertEqual(receipt['new_native_requests_technical'],8)
+        self.assertTrue(receipt['batch1_comparison']['pass_inherited_NLL_gradient_and_stop_gate'])
+        self.assertTrue(receipt['batched_comparison']['pass_inherited_NLL_gradient_and_stop_gate'])
 
 
 if __name__=='__main__':unittest.main()
