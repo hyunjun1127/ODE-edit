@@ -16,9 +16,10 @@ def bind_prior(rt, observer, weight, seal, role, nonselected, output):
     if old['model_gpu_name']!=torch.cuda.get_device_name():raise ValueError('PRIOR_OBSERVER_GPU_CLASS_MISMATCH')
     keys=('W0','M0','P4','contexts','context_tokens','rng','records_digest','torch','transformers','physical_layer','canonical_microbatch')
     if any(old['identity'][k]!=rt.identity[k] for k in keys):raise ValueError('PRIOR_OBSERVER_RUNTIME_MISMATCH')
-    for key in ('nonselected_before','nonselected_after'):
-        if json.loads(Path(assets[key]['path']).read_text())!=nonselected:
-            raise ValueError('PRIOR_OBSERVER_MODEL_BYTES_MISMATCH')
+    if nonselected is not None:
+        for key in ('nonselected_before','nonselected_after'):
+            if json.loads(Path(assets[key]['path']).read_text())!=nonselected:
+                raise ValueError('PRIOR_OBSERVER_MODEL_BYTES_MISMATCH')
     old_lock=json.loads(Path(assets['lock']['path']).read_text())
     if any(old_lock[k]!=rt.lock[k] for k in ('snapshot','model_revision','seed','config4','sample_order','torch','transformers')):
         raise ValueError('PRIOR_OBSERVER_MODEL_TOKENIZER_INPUT_CONFIG')
@@ -35,7 +36,9 @@ def bind_prior(rt, observer, weight, seal, role, nonselected, output):
     proof=dict(status='RAW_OBSERVER_COMPATIBILITY_BRIDGED',role=role,source=raw,
         old_runtime=old['identity'],new_runtime=rt.identity,matched_fields=list(keys),
         old_compatibility=prior['compatibility'],new_compatibility=current,
-        complete_nonselected_parameter_bytes_equal=True,observer_source=assets['observer_source'],
+        complete_nonselected_parameter_bytes_equal=True if nonselected is not None else None,
+        nonselected_byte_validation='CHECKED' if nonselected is not None else 'SKIPPED_USER_DIRECTED',
+        observer_source=assets['observer_source'],
         differences_excluded_from_canonical_evaluator=['task/reference data identity','controller/source publication identity'],
         old_KL_or_choice_objective_reused=False,new_canonical_forwards=0,prior_work=prior['work'])
     create_json(output/f'prior-{role}-proof.json',proof)

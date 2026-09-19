@@ -9,9 +9,11 @@ runners needing it must set require_upstream_cache=True. All paths are relative
 to the artifact root; hashes cover whole
 files, including NPY headers. Token hashes cover contiguous little-endian int64.
 
-No payload-hash bypass or partial-store promotion is supported. Initialization
-verifies every document, one mmap at a time; document access rechecks immutable
-seals and bytes. CPU fixtures require explicit opt-in, full 512/128 membership,
+The explicit audit mode verifies payloads; the runtime mode does not perform
+payload SHA/finite/argmax/normalization scans. Runtime mode trusts the supplied
+sealed artifacts and reports validation as skipped, not passed. It still needs
+complete membership, matching array shapes and read-only document-sized mmaps.
+CPU fixtures require explicit opt-in, full 512/128 membership,
 and production_ready=false. CPU fixture validation is not model validation.
 """
 from __future__ import annotations
@@ -214,7 +216,7 @@ def validate_capsule(capsule, input_row, binding, vocabulary_size):
 class TeacherDocument:
     index: int
     capsule: Mapping
-    logp: np.ndarray
+    logp: np.ndarray | None
     keys: np.ndarray | None = None
     residual: np.ndarray | None = None
     canonical_tf_argmax_verified: bool = True
@@ -230,7 +232,9 @@ class TeacherDocument:
 class GeneratedTeacherStore:
     def __init__(self, root, manifest_path, *, expected_manifest_sha256,
                  inputs_path, expected_binding, cpu_fixture=None,
-                 require_upstream_cache=False):
+                 require_upstream_cache=False, verify_payloads=True):
+        _require(type(verify_payloads) is bool, "VALIDATION_POLICY_BOOL")
+        self.verify_payloads = verify_payloads
         self.root = Path(root).resolve()
         self.manifest_path = Path(manifest_path)
         self.inputs_path = Path(inputs_path)
@@ -287,7 +291,8 @@ class GeneratedTeacherStore:
                 _require(path not in used_paths and inode not in used_inodes, "DUPLICATE_PAYLOAD_FILE")
                 used_paths.add(path)
                 used_inodes.add(inode)
-                self._check_file(descriptor)
+                if self.verify_payloads:
+                    self._check_file(descriptor)
             cap = validate_capsule(_json(self._path(member["capsule"]["path"])), row,
                                    self._binding, self.vocabulary_size)
             length = cap["actual_length"]
@@ -301,8 +306,9 @@ class GeneratedTeacherStore:
                          all(type(x) is int for x in desc["shape"]), "PAYLOAD_SCHEMA")
             self._documents.append(deepcopy(member))
             self._capsules.append(cap)
-            with self._open_payloads(index):
-                pass
+            if self.verify_payloads:
+                with self._open_payloads(index):
+                    pass
         counts = {role: sum(c["actual_length"] for c in self._capsules if c["role"] == role)
                   for role in ROLE_COUNTS}
         _require(manifest["position_counts"] == counts, "POSITION_COVERAGE_COUNT")
@@ -311,8 +317,10 @@ class GeneratedTeacherStore:
                              production_ready=self.production_ready, document_counts=dict(ROLE_COUNTS),
                              position_counts=counts, vocabulary_size=self.vocabulary_size,
                              upstream_cache_status=manifest["upstream_cache_status"],
-                             payload_mode="READ_ONLY_DOCUMENT_MMAP", all_payload_sha256_verified=True,
-                             canonical_tf_argmax_verified=True, model_execution_performed=False)
+                             payload_mode="READ_ONLY_DOCUMENT_MMAP",
+                             validation_policy="AUDIT" if self.verify_payloads else "SKIPPED_USER_DIRECTED",
+                             all_payload_sha256_verified=self.verify_payloads,
+                             canonical_tf_argmax_verified=self.verify_payloads, model_execution_performed=False)
         self._check_seals()
 
     def _path(self, name):
@@ -328,6 +336,8 @@ class GeneratedTeacherStore:
         return path
 
     def _check_seals(self):
+        if not self.verify_payloads:
+            return
         for path, digest, label in ((self.manifest_path, self._manifest_sha, "MANIFEST"),
                                     (self.inputs_path, self._inputs_sha, "PINNED_INPUTS")):
             _require(path.is_file() and not path.is_symlink(), label + "_NOT_REGULAR")
@@ -339,18 +349,20 @@ class GeneratedTeacherStore:
         _require(file_sha256(path) == descriptor["sha256"], "PAYLOAD_SHA")
 
     @contextmanager
-    def _open_payloads(self, index):
+    def _open_payloads(self, index, *, kinds=None):
         member, cap = self._documents[index], self._capsules[index]
+        kinds = self._payload_kinds if kinds is None else tuple(kinds)
+        _require(bool(kinds) and set(kinds).issubset(self._payload_kinds), "PAYLOAD_KINDS")
         arrays = {}
         try:
-            for kind in self._payload_kinds:
+            for kind in kinds:
                 desc = member[kind]
                 array = np.load(self._path(desc["path"]), mmap_mode="r", allow_pickle=False)
                 arrays[kind] = array
                 _require(isinstance(array, np.memmap) and list(array.shape) == desc["shape"] and
                          array.dtype == np.dtype("<f4") and array.flags.c_contiguous and
                          not array.flags.writeable, "NPY_PAYLOAD_SCHEMA")
-                for start in range(0, len(array), 16):
+                for start in range(0, len(array), 16) if self.verify_payloads else ():
                     block = array[start:start + 16]
                     _require(bool(np.isfinite(block).all()), "NONFINITE_" + kind.upper())
                     if kind == "logp":
@@ -360,7 +372,10 @@ class GeneratedTeacherStore:
                         maximum = values.max(axis=-1)
                         normalizer = maximum + np.log(np.exp(values - maximum[:, None]).sum(axis=-1))
                         _require(bool((np.abs(normalizer) <= 5e-5).all()), "TEACHER_LOGP_NORMALIZATION")
-            yield TeacherDocument(index, deepcopy(cap), **arrays)
+            # logp may be omitted when preloading only the immutable upstream.
+            yield TeacherDocument(index, deepcopy(cap), logp=arrays.get("logp"),
+                                  keys=arrays.get("keys"), residual=arrays.get("residual"),
+                                  canonical_tf_argmax_verified=self.verify_payloads)
         finally:
             for array in arrays.values():
                 mmap = getattr(array, "_mmap", None)
@@ -381,21 +396,24 @@ class GeneratedTeacherStore:
     def capsule(self, index):
         self._index(index)
         self._check_seals()
-        self._check_file(self._documents[index]["capsule"])
+        if self.verify_payloads:
+            self._check_file(self._documents[index]["capsule"])
         return deepcopy(self._capsules[index])
 
     @contextmanager
-    def document(self, index):
+    def document(self, index, *, kinds=None):
         """Bounded lifetime: copy needed arrays before leaving this context."""
         self._index(index)
         self._check_seals()
-        for kind in self._file_kinds:
-            self._check_file(self._documents[index][kind])
-        with self._open_payloads(index) as document:
+        if self.verify_payloads:
+            for kind in self._file_kinds:
+                self._check_file(self._documents[index][kind])
+        with self._open_payloads(index, kinds=kinds) as document:
             yield document
         # Catch changes while consuming mmap; an exception invalidates the sweep.
-        for kind in self._file_kinds:
-            self._check_file(self._documents[index][kind])
+        if self.verify_payloads:
+            for kind in self._file_kinds:
+                self._check_file(self._documents[index][kind])
 
     def coverage(self, role="R512", *, require_backward=False):
         return CoverageTracker([self._capsules[i] for i in self.indices(role)],

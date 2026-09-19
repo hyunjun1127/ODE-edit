@@ -17,13 +17,15 @@ from project.run_scripts.single_layer_edit_preserving_correction.binding import 
 from .current_oracle import MeasuredCurrentOracle
 
 
-def require_lock(lock):
+def require_lock(lock, *, historical_preparation=False):
     if lock.get('lock_identity') != digest({k:v for k,v in lock.items() if k!='lock_identity'}):
         raise ValueError('EXECUTION_LOCK_DIGEST')
     value = dict(lock['scope'])
     value['arms'] = tuple(value['arms'])
     Scope(**value).require_batch(0)
-    validate_runtime_policy(lock['runtime_policy'])
+    if historical_preparation and lock['stage']!='GENERATED_REFERENCE_PREPARATION':
+        raise ValueError('HISTORICAL_POLICY_ONLY_FOR_READ_ONLY_PREPARATION')
+    validate_runtime_policy(lock['runtime_policy'],historical_preparation=historical_preparation)
     if lock['stage'] not in ('GENERATED_REFERENCE_PREPARATION', 'MATCHED_B1'):
         raise ValueError('UNAUTHORIZED_STAGE')
     expected_resources=dict(GPU=1,CPU=8,mem_MiB=60416,wall_hours=24,node='server4',export='NONE',requeue=0,GPUhour_hardcap=None)

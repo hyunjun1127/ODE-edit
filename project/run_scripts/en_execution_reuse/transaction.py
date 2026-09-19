@@ -1,11 +1,12 @@
 """B1-only final history1 and create-once checkpoints; no continuation API."""
 import copy
+import os
 from pathlib import Path
 import time
 import torch
 from .config import ARMS
 from .model import require_lock
-from .preparation import create_json
+from .preparation import create_json, member
 from project.run_scripts.single_layer_edit_preserving_correction.common import tensor_sha, digest
 from project.run_scripts.single_layer_edit_preserving_correction.sequential_state import (
     atomic_tensor, receive, registry, require_finalizer)
@@ -22,7 +23,21 @@ def _preflight(rt,arm,directory):
         raise ValueError('CHECKPOINT_OUTPUT_SCOPE')
 
 
-def _commit(rt, arm, weight, selection, teacher_manifest, directory):
+def atomic_without_reload(path, payload):
+    """Create-once durable save, no diagnostic deserialize/scan of tensors."""
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    temporary=path.with_name(path.name+f'.partial-{os.getpid()}')
+    with temporary.open('xb') as handle:
+        torch.save(payload,handle);handle.flush();os.fsync(handle.fileno())
+    os.link(temporary,path)
+    temporary.unlink()  # Only our successfully published temporary link.
+    fd=os.open(path.parent,os.O_RDONLY)
+    try:os.fsync(fd)
+    finally:os.close(fd)
+    return member(path)  # Creation-time provenance hash, not a reload test.
+
+
+def _commit(rt, arm, weight, selection, teacher_manifest, directory, *, verify_reload=True):
     directory=Path(directory);checkpoint=directory/'checkpoint.pt'
     started=time.monotonic()
     rt.copy_weight(weight)
@@ -42,10 +57,13 @@ def _commit(rt, arm, weight, selection, teacher_manifest, directory):
         sample_order=list(rt.lock['sample_order']),
         identity=identity,history=history,selection=selection,teacher_manifest=teacher_manifest,
         source=rt.lock['execution'],model_revision=rt.lock['model_revision'],projector=rt.pmap)
-    timer=time.monotonic();saved=atomic_tensor(checkpoint,payload);io_seconds=time.monotonic()-timer
-    restored=torch.load(checkpoint,weights_only=True,mmap=True,map_location='cpu')
+    timer=time.monotonic()
+    saved=(atomic_tensor if verify_reload else atomic_without_reload)(checkpoint,payload)
+    io_seconds=time.monotonic()-timer
+    restored=(torch.load(checkpoint,weights_only=True,mmap=True,map_location='cpu')
+              if verify_reload else payload)
     scalars=lambda p:{k:v for k,v in p.items() if k not in ('weight','M4')}
-    if (digest(scalars(restored))!=digest(scalars(payload)) or
+    if verify_reload and (digest(scalars(restored))!=digest(scalars(payload)) or
         any(restored[k].shape!=payload[k].shape or restored[k].dtype!=torch.float32 or
             not bool(torch.isfinite(restored[k]).all()) for k in ('weight','M4')) or
         tensor_sha(restored['weight'])!=identity['W'] or tensor_sha(restored['M4'])!=identity['M'] or
@@ -53,24 +71,27 @@ def _commit(rt, arm, weight, selection, teacher_manifest, directory):
         digest(restored['sample_order'])!=identity['order'] or
         restored['registry']!=registry(restored['received_ledger'])):
         raise ValueError('CHECKPOINT_RELOAD_IDENTITY')
-    rt.copy_weight(restored['weight']);restore_rng(restored['rng']);rt.guard()
+    if verify_reload:
+        rt.copy_weight(restored['weight'])
+    restore_rng(restored['rng']);rt.guard()
     if digest(capture_rng())!=identity['rng']:raise ValueError('CHECKPOINT_RNG_RESTORE')
     result=dict(status='B1_COMMITTED',arm=arm,batch=1,identity=identity,history=history,
         history_appends=1,candidate_history_appends=0,checkpoint=saved,
-        CPU_reload='SHAPE_FINITE_BYTES_VERIFIED',physical_weight_reload='EXACT_COPY_CHECKED',
+        CPU_reload='SHAPE_FINITE_BYTES_VERIFIED' if verify_reload else 'SKIPPED_USER_DIRECTED',
+        physical_weight_reload='EXACT_COPY_CHECKED' if verify_reload else 'NOT_RUN',
         M_resume='CPU_ONLY_NO_NEXT_BATCH_AUTHORITY',next_batch_authorized=False,
         seconds=time.monotonic()-started,history_seconds=history_seconds,checkpoint_IO_seconds=io_seconds)
     create_json(directory/'commit.json',result)
     return result
 
 
-def commit(rt, arm, weight, selection, teacher_manifest, directory):
+def commit(rt, arm, weight, selection, teacher_manifest, directory, *, verify_reload=True):
     """Failure rollback is runtime-only; partial files/costs remain preserved."""
     _preflight(rt,arm,directory)
     rt.guard()
     entry=rt.W.detach().cpu().clone();memory=rt.M.detach().cpu().clone();rng=capture_rng()
     try:
-        return _commit(rt,arm,weight,selection,teacher_manifest,directory)
+        return _commit(rt,arm,weight,selection,teacher_manifest,directory,verify_reload=verify_reload)
     except BaseException:
         rt.copy_weight(entry)
         rt.M.copy_(memory);restore_rng(rng);rt.guard()

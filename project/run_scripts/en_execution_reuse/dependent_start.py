@@ -27,7 +27,7 @@ def pending_spec(path):
     path=Path(path).resolve()
     if not path.is_relative_to(ROOT/'PREP') or path.name!='execution.lock.json':
         raise ValueError('EXACT_TASK_PREPARATION_LOCK_ONLY')
-    prep=json.loads(path.read_text());require_lock(prep)
+    prep=json.loads(path.read_text());require_lock(prep,historical_preparation=True)
     if prep['stage']!='GENERATED_REFERENCE_PREPARATION':raise ValueError('PREPARATION_STAGE')
     receipt=member(path.parent/'submission.json');submitted=checked(receipt)
     if (submitted['lock']['sha256']!=sha(path) or submitted.get('released') is not True or
@@ -43,7 +43,7 @@ def pending_spec(path):
 
 
 def verify_pending_members(spec):
-    prep=checked(spec['lock']);require_lock(prep)
+    prep=checked(spec['lock']);require_lock(prep,historical_preparation=True)
     submitted=checked(spec['submission'])
     if (prep['stage']!='GENERATED_REFERENCE_PREPARATION' or submitted['job']!=spec['job'] or
         submitted['lock']['sha256']!=spec['lock']['sha256'] or submitted['released'] is not True or
@@ -107,7 +107,8 @@ def resolve(lock):
         manifest.get('upstream_cache_status')!='COMPLETE' or manifest.get('binding')!=binding or
         manifest.get('inputs_sha256')!=lock['reference_inputs']['sha256']):
         raise ValueError('READY_MANIFEST_IDENTITY_OR_COVERAGE')
-    # Full GeneratedTeacherStore validation remains mandatory in matched_runner.
+    # The runner loads the full bank but skips payload numerical/hash audits
+    # under the 2026-09-19 user override. Producer/scope binding is unchanged.
     plan=storage_plan([d['logp']['shape'][0] for d in manifest['documents']],current_valid_token_upper=10416)
     incremental=plan['estimated_bytes_without_unrecorded_overhead']-plan['payload_teacher_key_bytes']+8*2**30
     free=shutil.disk_usage(ROOT).free

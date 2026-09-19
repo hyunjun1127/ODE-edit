@@ -49,17 +49,21 @@ class Scope:
         raise ScopeError("NO_B2_JOB_CALLBACK_DEPENDENCY_OR_AUTO_CONTINUATION")
 
 
-def validate_runtime_policy(policy):
-    """No technical waiver or method change inherited from older EN tasks."""
+def validate_runtime_policy(policy, *, historical_preparation=False):
+    """Bind the new explicit override; old preparation is read-only lineage."""
     exact = dict(model_revision="8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
                  physical_layer=4, dtype="float32", attention="eager",
                  matmul_tf32=False, cudnn_tf32=False, seed=20260916,
                  transformers="4.44.2", backtrack=.5, armijo=1e-4,
                  loss_floor=1e-6, current_individual_nll_allowance=1e-4,
-                 gradient_accumulation="CPU_FP64_DOCUMENT_ORDER",
+                 gradient_accumulation="GPU_FP64_DOCUMENT_ORDER_FINAL_CPU",
+                 diagnostic_validation="SKIPPED_USER_DIRECTED",
                  full_vocabulary=True, prior_T_skip_inherited=False,
                  storage_waiver_inherited=False, head_chunking_optimized=False,
                  generation_KV_optimized=False)
+    if historical_preparation and 'diagnostic_validation' not in policy:
+        exact.pop('diagnostic_validation')
+        exact['gradient_accumulation']='CPU_FP64_DOCUMENT_ORDER'
     for key, want in exact.items():
         got = policy.get(key)
         if type(got) is not type(want) or got != want:
@@ -75,7 +79,8 @@ def runtime_policy():
                 matmul_tf32=False, cudnn_tf32=False, seed=20260916,
                 transformers="4.44.2", backtrack=.5, armijo=1e-4,
                 loss_floor=1e-6, current_individual_nll_allowance=1e-4,
-                gradient_accumulation="CPU_FP64_DOCUMENT_ORDER",
+                gradient_accumulation="GPU_FP64_DOCUMENT_ORDER_FINAL_CPU",
+                diagnostic_validation="SKIPPED_USER_DIRECTED",
                 full_vocabulary=True, prior_T_skip_inherited=False,
                 storage_waiver_inherited=False, head_chunking_optimized=False,
                 generation_KV_optimized=False)

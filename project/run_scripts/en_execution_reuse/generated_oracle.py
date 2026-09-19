@@ -59,6 +59,7 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
     """One resident CPU prefix bank, one document graph, independent sweeps.
 
     kl(...) returns (signed_document_mean, CPU_FP64_gradient_or_None, rows).
+    Gradient accumulation stays on the model device until the final mean.
     last_sweep includes complete coverage and per-call work/session deltas.
     The CPU caller owns the59GiB process budget; resident_cache_bytes reports
     the exact tensor payload without including Python/mmap allocator overhead.
@@ -91,7 +92,8 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
                  for c in self._capsules]
         # _prepare is overridden: no new model-prefix forward or generated data.
         super().__init__(model, packs, require_reference_length=None)
-        self._prefix_digests = tuple(self._digest_cache(c) for c in self.caches)
+        self._prefix_digests = (tuple(self._digest_cache(c) for c in self.caches)
+                                if store.verify_payloads else None)
         self.resident_cache_bytes = sum(t.numel() * t.element_size() for c in self.caches
                                        for t in (*c.packed.values(), c.keys, c.residual))
         if self.resident_cache_bytes != estimate:
@@ -113,7 +115,8 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
                     "peak_live_document_graphs", "technical_documents", "technical_checks",
                     "finite_trial_model_overflows"):
             self.work.setdefault(key, 0)
-        for key in ("weight_prepare_host_seconds", "teacher_transfer_seconds", "prefix_hash_seconds", "head_loss_seconds"):
+        for key in ("weight_prepare_host_seconds", "teacher_transfer_seconds", "prefix_hash_seconds", "head_loss_seconds",
+                    "gradient_final_d2h_seconds"):
             self.work.setdefault(key, 0.0)
 
     def _prepare(self, source):
@@ -121,7 +124,7 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
         self._preparing_index += 1
         packed = self._pack(source)
         started = time.perf_counter()
-        with self.store.document(index) as document:
+        with self.store.document(index, kinds=("keys", "residual")) as document:
             if canonical_sha256(document.capsule) != self._capsule_shas[index]:
                 raise RuntimeError("PREFIX_CAPSULE_IDENTITY_CHANGED")
             keys = torch.from_numpy(np.array(document.keys, copy=True)).unsqueeze(0)
@@ -143,6 +146,8 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
 
     def _check_prefix_bytes(self):
         self._guard()
+        if not self.store.verify_payloads:
+            return
         started = time.perf_counter()
         if canonical_sha256(self.store.receipt) != self._store_identity:
             raise RuntimeError("TEACHER_STORE_IDENTITY_CHANGED")
@@ -170,7 +175,7 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
 
     def _teacher(self, index):
         started = time.perf_counter()
-        with self.store.document(index) as document:
+        with self.store.document(index, kinds=("logp",)) as document:
             if canonical_sha256(document.capsule) != self._capsule_shas[index]:
                 raise RuntimeError("TEACHER_CAPSULE_IDENTITY_CHANGED")
             copied = torch.from_numpy(np.array(document.logp, copy=True))
@@ -217,10 +222,10 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
         if session is not None:
             if route != "cached" or session.shape != self.shape or session.device != self.device:
                 raise ValueError("REFERENCE_SESSION_ROUTE_DEVICE_OR_SHAPE")
-            if weight.dtype != torch.float32 or tensor_sha256(weight) != handle.identity.weight_sha256:
-                session.close()
-                raise EndpointSessionError("REFERENCE_CALLER_WEIGHT_HANDLE_BYTES_MISMATCH")
-        accumulation = torch.zeros(self.shape, dtype=torch.float64, device="cpu") if gradient else None
+            session.validate_source(handle, weight)
+        # Preserve document order and FP32->FP64 conversion. On CUDA only the
+        # final divided accumulator crosses to CPU, never each document's G.
+        accumulation = torch.zeros(self.shape, dtype=torch.float64, device=self.device) if gradient else None
         rows = []
         overflow = None
         if session is not None:
@@ -285,12 +290,7 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
                         self.work["autograd_calls"] += 1
                         if grad.dtype != torch.float32 or not bool(torch.isfinite(grad).all()):
                             raise FloatingPointError("NONFINITE_OR_NONFP32_REFERENCE_GRADIENT")
-                        # Exact old EN route: document FP32 -> FP64 -> CPU, add
-                        # in document order, then one final division by512.
-                        accumulation.add_(grad.detach().double().cpu())
-                        if self.device.type == "cuda":
-                            self.work["gradient_d2h_calls"] += 1
-                            self.work["gradient_d2h_bytes"] += grad.numel() * 8
+                        accumulation.add_(grad.detach().to(dtype=torch.float64))
                         self._sync()
                         self.work["backward_seconds"] += time.perf_counter() - backward_started
                         self.work[route + "_backward_documents"] += 1
@@ -312,6 +312,14 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
             accumulation.div_(len(selected))
             if not bool(torch.isfinite(accumulation).all()):
                 raise FloatingPointError("NONFINITE_REFERENCE_GRADIENT_ACCUMULATION")
+            self._sync()
+            transfer_started = time.perf_counter()
+            accumulation = accumulation.cpu()
+            self._sync()
+            if self.device.type == "cuda":
+                self.work["gradient_d2h_calls"] += 1
+                self.work["gradient_d2h_bytes"] += accumulation.numel() * accumulation.element_size()
+            self.work["gradient_final_d2h_seconds"] += time.perf_counter() - transfer_started
         self._check_prefix_bytes()
         if overflow is not None:
             if not bool(torch.isfinite(weight).all()):
@@ -326,11 +334,11 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
                            partial_rows=deepcopy(rows), expected_documents=len(selected),
                            expected_positions=sum(self._capsules[i]["actual_length"] for i in selected),
                            teacher_sha256=self.store.receipt["manifest_sha256"],
-                           parent_full_teacher_recheck_required=True,
+                           parent_full_teacher_recheck_required=self.store.verify_payloads,
                            entire_fixed_teacher_bank_rechecked=False,
                            finite_candidate_rechecked=True,
                            endpoint_borrow_exit_validated=session is not None,
-                           prefix_bytes_exit_validated=True,
+                           prefix_bytes_exit_validated=self.store.verify_payloads,
                            coverage=dict(data_id=self._capsules[selected[0]]["data_id"], role=coverage.role,
                                          documents=len(rows), positions=sum(r["scored_positions"] for r in rows),
                                          backward_documents=0, vocabulary_size=self.store.vocabulary_size, complete=False),
@@ -353,7 +361,8 @@ class GeneratedReferenceOracle(FullWeightLlamaOracle):
                        vocabulary_size=self.store.vocabulary_size, teacher_sha256=self.store.receipt["manifest_sha256"],
                        dtypes=dict(logits="float32", log_softmax="float32", loss="float64",
                                    per_document_gradient="float32" if gradient else None,
-                                   gradient_accumulation="CPU_float64_document_order" if gradient else None),
+                                   gradient_accumulation=f"{self.device.type.upper()}_float64_document_order_then_final_CPU" if gradient else None),
+                       runtime_validation="AUDIT" if self.store.verify_payloads else "SKIPPED_USER_DIRECTED",
                        work=self._delta(before, self.work), session_work=self._delta(session_before, session.work) if session else {},
                        seconds=time.perf_counter() - started, head_position_chunking=False,
                        weight_timing="HOST_CALL_LATENCY_NO_ADDED_CUDA_SYNCHRONIZATION",

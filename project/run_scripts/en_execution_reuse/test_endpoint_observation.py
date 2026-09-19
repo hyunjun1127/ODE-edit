@@ -68,6 +68,20 @@ class Fixture(unittest.TestCase):
 
 
 class EndpointTests(Fixture):
+    def test_skip_byte_audits_has_one_provenance_hash_per_bind_not_per_borrow(self):
+        session = EndpointSession('model', 'batch', replace(self.policy, verify_bytes=False))
+        self.addCleanup(session.close)
+        handle = session.bind_native(self.weight)
+        self.assertEqual(session.work['hash_calls'], 1)
+        for _ in range(3):
+            with session.readonly(handle) as weight:
+                self.assertTrue(torch.equal(weight, self.weight))
+            session.validate_source(handle, self.weight)
+        self.assertEqual(session.work['hash_calls'], 1)
+        self.weight.add_(1)
+        with self.assertRaises(EndpointCorruptionError):
+            session.validate_handle(handle, full=False)
+
     def test_header_and_bytes_digest_matches_legacy_convention(self):
         header = f"{tuple(self.weight.shape)}|{self.weight.dtype}|".encode("ascii")
         expected = hashlib.sha256(header + self.weight.numpy().tobytes()).hexdigest()

@@ -149,6 +149,15 @@ SubmitLine=sbatch --hold --dependency=afterok:50410 /source/run.sbatch /source /
             with self.subTest(key=key), self.assertRaises(ScopeError):
                 validate_runtime_policy(policy)
 
+    def test_new_lock_cannot_silently_claim_old_CPU_accumulation_or_validation(self):
+        policy=runtime_policy()
+        self.assertEqual(policy['diagnostic_validation'],'SKIPPED_USER_DIRECTED')
+        self.assertEqual(policy['gradient_accumulation'],'GPU_FP64_DOCUMENT_ORDER_FINAL_CPU')
+        old=dict(policy);old.pop('diagnostic_validation')
+        old['gradient_accumulation']='CPU_FP64_DOCUMENT_ORDER'
+        with self.assertRaises(ScopeError):validate_runtime_policy(old)
+        validate_runtime_policy(old,historical_preparation=True)
+
     def test_payload_matches_design(self):
         plan = storage_plan()
         parts = plan['components_bytes']

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -161,6 +162,26 @@ class StoreTests(unittest.TestCase):
         self.assertTrue(store.capsule(3)["length_censored"])
         self.assertFalse(store.capsule(4)["length_censored"])
         self.assertEqual(store.capsule(4)["stop_reason"], "eos")
+
+    def test_runtime_skip_never_hashes_or_scans_payloads_and_opens_only_logp(self):
+        module = "project.run_scripts.en_execution_reuse.generated_teacher"
+        with patch(module + ".file_sha256", side_effect=AssertionError("runtime SHA")), \
+             patch(module + ".np.isfinite", side_effect=AssertionError("runtime finite scan")), \
+             patch(module + ".np.argmax", side_effect=AssertionError("runtime argmax")), \
+             patch(module + ".np.exp", side_effect=AssertionError("runtime normalization")):
+            store = GeneratedTeacherStore(self.root, self.root/'manifest.json',
+                expected_manifest_sha256='1'*64, inputs_path=self.root/'inputs.json',
+                expected_binding=binding(), cpu_fixture=self.cpu_fixture, verify_payloads=False)
+            with patch(module + ".np.load", wraps=np.load) as load:
+                for _ in range(2):
+                    with store.document(0, kinds=('logp',)) as doc:
+                        self.assertIsNone(doc.keys)
+                        self.assertIsNone(doc.residual)
+                        self.assertFalse(doc.canonical_tf_argmax_verified)
+                        self.assertFalse(doc.logp.flags.writeable)
+                self.assertEqual(load.call_count, 2)
+            self.assertFalse(store.receipt['all_payload_sha256_verified'])
+            self.assertEqual(store.receipt['validation_policy'], 'SKIPPED_USER_DIRECTED')
 
     def test_caller_mutation_does_not_mutate_internal_identity(self):
         cap = self.sealed_store.capsule(0)

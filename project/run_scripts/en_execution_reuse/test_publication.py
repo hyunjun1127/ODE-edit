@@ -111,6 +111,18 @@ class PublicationTests(unittest.TestCase):
             with patch.object(report,'ROOT',base),self.assertRaises(FileExistsError):
                 report.run(lock_path,repo,scheduler,base/'review-local')
             self.assertEqual(original,{p.name:p.read_bytes() for p in directory.iterdir()})
+            # New runtime skip receipts must not be rendered as old PASS text.
+            (raw/'technical/checks.json').write_text(json.dumps(dict(status='SKIPPED_USER_DIRECTED')))
+            (raw/'matched-exactness.json').write_text(json.dumps(dict(status='SKIPPED_USER_DIRECTED')))
+            repo2=base/'repo-skip';repo2.mkdir()
+            with patch.object(report,'ROOT',base),patch.object(report,'audit',return_value={'logical_bytes':10}), \
+                 patch('scripts.fixed_counterfact.load_prefix',return_value=records), \
+                 patch.object(report.subprocess,'check_output',return_value='CPU_FIXTURE_ANALYSIS'):
+                skipped=report.run(lock_path,repo2,scheduler,base/'review-skip')
+            skipped_text=(skipped/'diagnostic-report-ko.md').read_text()
+            self.assertIn('numerical_validation=NOT_ESTABLISHED',skipped_text)
+            self.assertIn('GPU FP64 accumulator',skipped_text)
+            self.assertNotIn('모든 완성 teacher의 canonical TF argmax=y0를 확인했다',skipped_text)
 
     def test_missing_link_and_bad_gfm_are_not_renderer_pass(self):
         with tempfile.TemporaryDirectory(prefix='en-render-fixture-') as td:

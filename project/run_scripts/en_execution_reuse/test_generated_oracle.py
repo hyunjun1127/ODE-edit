@@ -204,7 +204,7 @@ class GeneratedOracleTests(unittest.TestCase):
             resident = self.oracle.kl(self.candidate, gradient=True, session=session, handle=handle)
             resident_sync_calls = sync.call_count
         self.assertEqual(legacy_sync_calls, resident_sync_calls)
-        self.assertEqual(legacy_sync_calls, 512 * 8)
+        self.assertEqual(legacy_sync_calls, 512 * 8 + 2)  # One final accumulator transfer boundary.
         self.assertEqual(legacy[0], resident[0])
         self.assertTrue(torch.equal(legacy[1], resident[1]))
         self.assertEqual(legacy[2], resident[2])
@@ -257,6 +257,23 @@ class GeneratedOracleTests(unittest.TestCase):
         self.assertTrue(torch.equal(saved, dict(self.model.named_parameters())[WEIGHT]))
         self.assertEqual(self.oracle.work["autograd_calls"], 6)
 
+    def test_runtime_skip_preserves_full512_loss_gradient_without_payload_or_prefix_audits(self):
+        expected = self.oracle.kl(self.candidate, gradient=True)
+        with patch.object(self.store, 'verify_payloads', False), \
+             patch.object(self.oracle, '_digest_cache', side_effect=AssertionError('prefix rehash')), \
+             patch.object(self.store, '_check_file', side_effect=AssertionError('payload rehash')):
+            self.oracle.reset_counters()
+            actual = self.oracle.kl(self.candidate, gradient=True)
+        self.assertEqual(actual[0], expected[0])
+        self.assertEqual(actual[2], expected[2])
+        self.assertTrue(torch.equal(actual[1], expected[1]))
+        receipt = self.oracle.last_sweep
+        self.assertEqual(receipt['coverage']['documents'], 512)
+        self.assertEqual(receipt['coverage']['backward_documents'], 512)
+        self.assertEqual(receipt['work']['prefix_byte_checks'], 0)
+        self.assertEqual(receipt['runtime_validation'], 'SKIPPED_USER_DIRECTED')
+        self.assertEqual(actual[1].device.type, 'cpu')
+
     def test_document_mean_uses_actual_lengths_not_length_weighting(self):
         result = self.oracle.check_documents(self.candidate, [0, 2, 4], gradient=False)
         rows = result["cached"]["rows"]
@@ -300,6 +317,9 @@ class GeneratedOracleTests(unittest.TestCase):
 
     def test_mismatched_session_or_stale_weight_rejected(self):
         session, handle = self.session(self.candidate)
+        # The real optimizer clones WN at entry; a new object with the same
+        # bytes is valid while the resident native owner remains unchanged.
+        session.validate_source(handle, self.candidate.clone())
         with self.assertRaisesRegex(ValueError, "SESSION_AND_HANDLE"):
             self.oracle.kl(self.candidate, session=session)
         with self.assertRaisesRegex(RuntimeError, "WEIGHT_HANDLE_BYTES"):

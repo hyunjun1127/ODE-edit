@@ -25,6 +25,10 @@ def recheck_fixed_teacher_bank(store):
     """Only a finite model trial may backtrack; corrupt fixed input never may."""
     started=time.monotonic();indices=store.indices('R512');positions=0
     if len(indices)!=512 or len(set(indices))!=512:raise ValueError('OVERFLOW_FIXED_BANK_CARDINALITY')
+    if not getattr(store,'verify_payloads',True):
+        return dict(documents=512,positions=store.receipt['position_counts']['R512'],
+                    complete=False,status='SKIPPED_USER_DIRECTED',model_calls=0,
+                    seconds=time.monotonic()-started)
     for index in indices:
         # document() independently checks immutable bytes and schema on entry
         # and exit. No model/gradient work or shortened bank is introduced.
@@ -90,7 +94,7 @@ def run_schedule(rt, arm, WN, reference, current, rows, K, allowed, space, meta,
             identities=dict(current=input_id,teacher=teacher)
             policy=RuntimePolicy(tuple(WN.shape),current.device,epoch,identities,rt.lock['execution']['commit'],
                 epoch_getter=lambda:model_guard(rt.model),input_identity_getter=lambda:dict(identities),
-                source_identity_getter=lambda:rt.lock['execution']['commit'])
+                source_identity_getter=lambda:rt.lock['execution']['commit'],verify_bytes=False)
             session=EndpointSession(rt.identity,dict(case_ids=rt.lock['sample_order'],batch=1),policy)
             native_handle=session.bind_native(WN)
             controller=CurrentObservationController(WN,current,rows,session,native_handle,
@@ -122,11 +126,12 @@ def run_schedule(rt, arm, WN, reference, current, rows, K, allowed, space, meta,
                 create_json(directory/'reference-overflow'/f'{len(sweeps):02d}-partial.json',receipt)
                 checked=recheck_fixed_teacher_bank(rt.generated_store)
                 receipt.update(weight_sha256=tensor_sha256(weight),value=None,ordinal=len(sweeps),
-                    rows_sha256=digest(receipt['partial_rows']),entire_fixed_teacher_bank_rechecked=True,
+                    rows_sha256=digest(receipt['partial_rows']),entire_fixed_teacher_bank_rechecked=checked['complete'],
                     fixed_bank_recheck=checked)
                 create_json(directory/'reference-sweeps'/f'{len(sweeps):02d}.json',receipt)
                 sweeps.append(receipt)
-                raise TrialNumericalOverflow('FINITE_TRIAL_MODEL_OVERFLOW_COMPLETE_FIXED_BANK_RECHECKED') from exc
+                raise TrialNumericalOverflow('FINITE_TRIAL_MODEL_OVERFLOW_FIXED_BANK_'+
+                    ('RECHECKED' if checked['complete'] else 'VALIDATION_SKIPPED_USER_DIRECTED')) from exc
             receipt=reference.last_sweep
             receipt.update(weight_sha256=tensor_sha256(weight),value=value[0],ordinal=len(sweeps),rows_sha256=digest(value[2]))
             create_json(directory/'reference-sweeps'/f'{len(sweeps):02d}.json',receipt)

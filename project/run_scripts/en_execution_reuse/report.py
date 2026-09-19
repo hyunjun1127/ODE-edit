@@ -159,6 +159,8 @@ def run(lock_path,repo,scheduler_path,local_output):
         any(c['TF_tokens']!=128+c['actual_T'] or c['score_positions']!=c['actual_T'] for c in capsules)):
         raise ValueError('GENERATED_COMPLETE_ROLE_SHIFT_COVERAGE')
     technical=read(raw/'technical/checks.json')
+    skipped=technical.get('status')=='SKIPPED_USER_DIRECTED'
+    technical_level=('SKIPPED_USER_DIRECTED' if skipped else 'PASS_BOUNDED' if technical['pass_'] else 'FAIL')
     requirements=[
         ('B1-only fail-closed','en_execution_reuse/config.py','require_batch','terminal.json','RUNTIME_AND_CPU_NEGATIVES'),
         ('shared native reuse, no new fit','en_execution_reuse/model.py','native','native/','SOURCE_AND_HASH_BINDING'),
@@ -167,8 +169,9 @@ def run(lock_path,repo,scheduler_path,local_output):
         ('original EN-F Polyak/backtrack/guard','single_layer_edit_preserving_correction/optimizer.py','optimize','arms/*/events/','SOURCE_AND_RECORDED_DECISIONS'),
         ('resident immutable two endpoint slots','en_execution_reuse/endpoint_session.py','EndpointSession','arms/*/selection-ledger.json','RUNTIME_GUARDS_AND_COUNTERS'),
         ('Current row/hidden reuse, original head shapes','en_execution_reuse/current_observation.py','CurrentObservationController','candidate-conditions.csv','EXACT_RECEIPTS_AND_CPU_FIXTURES'),
-        ('bounded independent physical path','en_execution_reuse/technical.py','check','technical/checks.json','PASS_BOUNDED' if technical['pass_'] else 'FAIL'),
-        ('history1 and atomic W/M/RNG checkpoint','en_execution_reuse/transaction.py','commit','checkpoints/','CPU_RELOAD_AND_RUNTIME_COPY_NOT_CONTINUATION'),
+        ('bounded independent physical path','en_execution_reuse/technical.py','check','technical/checks.json',technical_level),
+        ('history1 and atomic W/M/RNG checkpoint','en_execution_reuse/transaction.py','commit','checkpoints/',
+         'SAVED_WITHOUT_RUNTIME_RELOAD_TEST' if skipped else 'CPU_RELOAD_AND_RUNTIME_COPY_NOT_CONTINUATION'),
         ('official observer after all selections','en_execution_reuse/matched_runner.py','run','ALL_SELECTIONS_SEALED.json','SOURCE_AND_ORDERED_RECEIPTS'),
         ('canonical raw NLL independent reduction','en_execution_reuse/reducer.py','reduce_raw','final-table.csv','CPU_INDEPENDENT_REDUCER'),
     ]
@@ -206,6 +209,18 @@ def run(lock_path,repo,scheduler_path,local_output):
             w['current'].get('cached_suffix_forwards'),w['external_current_weight'].get('H2D_calls'),
             None if w['session'] is None else w['session']['inference_h2d_calls']])
     ratio=work[ARMS[0]]['wall_seconds']/work[ARMS[1]]['wall_seconds']
+    parity_note=('사용자 지시에 따라 실행 중 별도 동등성 검사를 생략했다. 아래 저장값은 후속 분석용이며 동등성 PASS가 아니다.'
+        if skipped else '정확한 문서별 loss-row digest, G/H·chi·eta, trial FP32 SHA·Armijo·개별 guard·invariant·선택 endpoint를 비교했다. 보호 tolerance를 dedup 동등성 tolerance로 사용하지 않았다.')
+    teacher_note=('실행 경로의 teacher SHA·finite·argmax·정규화 검사는 SKIPPED_USER_DIRECTED이며 현재 payload 검증은 NOT_ESTABLISHED다.'
+        if skipped else '모든 완성 teacher의 canonical TF argmax=y0를 확인했다.')
+    gradient_note=('GPU FP64 accumulator에 문서 순서대로 누적하고 최종 평균만 CPU로 전송했다. 과거 CPU FP64 누적과의 실제 GPU 동등성은 NOT_ESTABLISHED다.'
+        if skipped else 'CPU FP64 gradient 문서순서 누적을 유지했다.')
+    session_note=('EndpointSession은 소유권/epoch/version 메타데이터를 확인하되 반복 byte hash는 생략했다. NumPy/.data alias 변경 검출을 보장하지 않는다.'
+        if skipped else 'EndpointSession은 CPU immutable owner/SHA·실제 GPU bytes/epoch에 결속한다. External alias/CPU/GPU mutation은 phase boundary에서 검사하며 version만으로 byte검증을 대체하지 않는다.')
+    technical_note=('사용자 override로 별도 physical AD/FD/parity와 selected endpoint parity 검사를 실행하지 않았다. numerical_validation=NOT_ESTABLISHED다. 방법의 KL/Current/Past/invariant 후보 수용조건은 유지했다.'
+        if skipped else '새 bounded 실제 검사는 같은 B1의 reference2문서 cached/physical direct AD, current 첫4입력의 key/logit/NLL·strict parity/restore와 새 selected endpoint의 동일 bounded physical 검사다. 이것을 전체512 physical AD 또는 독립 GPU continuation PASS로 확대하지 않는다.')
+    checkpoint_note=('create-once atomic 저장하되 실행 중 재로드·finite/hash 대조·물리적 reload 검사는 생략했다. 별도 CPU 리뷰 결과와 실행 검사를 구분한다.'
+        if skipped else 'create-once atomic 저장하고 CPU weights_only/mmap shape·finite·hash 및 physical selected copy를 확인했다.')
     report=f'''# EN execution reuse R512/G256 — cold B100 한 batch 사실 보고
 
 상태: B1_COMPLETE. 구현 동등성 판정: `{exact['status']}`. 고유 요청100, 두 schedule은 동일 shared native에서 독립 gradient/trial을 실행했다. B2/sequential 미승인, 자동 재개0. 본문은 실행 사실·산술이며 효능·우월성 판정이 아니다.
@@ -220,21 +235,21 @@ RS/PS는 new NLL<true NLL, NS는 true NLL<new NLL이며 tie=failure다. Current 
 
 ## 2. primary matched 비교와 exactness
 
-두 arm은 LEGACY_SCHEDULE_R512_G256와 REUSE_SCHEDULE_R512_G256다. 같은 R512/G256 adapter·full-vocab loss·native WN·K_E·Q_E이며 arm 사이 G/H/trial/판정 공유0. 기존 S64 historical 시간은 비교 분모가 아니다. 정확한 문서별 loss-row digest, G/H·chi·eta, trial FP32 SHA·Armijo·개별 guard·invariant·선택 endpoint를 비교했다. 보호 tolerance를 dedup 동등성 tolerance로 사용하지 않았다.
+두 arm은 LEGACY_SCHEDULE_R512_G256와 REUSE_SCHEDULE_R512_G256다. 같은 R512/G256 adapter·full-vocab loss·native WN·K_E·Q_E이며 arm 사이 G/H/trial/판정 공유0. 기존 S64 historical 시간은 비교 분모가 아니다. {parity_note}
 
 판정/모든 불일치: [exactness-summary.json](exactness-summary.json). [Loss/chi/eta/G·H SHA/선택·fallback](method-summary.csv), [공통 geometry와 rank](shared-geometry.json), [trial별값](trials.csv), [후보별 조건·FP32 response](candidate-conditions.csv), [실제 sweep coverage](objective-coverage.csv)를 함께 보존했다. 빈 공간/rank 미확정으로 실제 gradient가 없으면 그 범위를 별도로 표시하며 full512 gradient 수행으로 승격하지 않는다. 새 threshold·native target·layer·8trial 축소·GSS·reference subsampling은 없다.
 
 ## 3. 데이터와 coverage
 
-R512+독립 Dev128의 총640 완성 capsule, 실제 생성 위치 합{sum(r['actual_T'] for r in capsules):,}. [문서별 실제 길이](reference-lengths.csv). BOS+128 자연 token의129 prompt, W0 raw argmax/lowest-ID tie, configured EOS 또는256 상한이다. TF 입력129+T−1/점수128..128+T−1이며 T256이면 TF384/full generation385다. 모든 완성 teacher의 canonical TF argmax=y0를 확인했고 짧은 문서 제외·가짜EOS·label 교체0이다.
+R512+독립 Dev128의 총640 완성 capsule, 실제 생성 위치 합{sum(r['actual_T'] for r in capsules):,}. [문서별 실제 길이](reference-lengths.csv). BOS+128 자연 token의129 prompt, W0 raw argmax/lowest-ID tie, configured EOS 또는256 상한이다. TF 입력129+T−1/점수128..128+T−1이며 T256이면 TF384/full generation385다. {teacher_note} 짧은 문서 제외·가짜EOS·label 교체0이다.
 
-FP32 full-vocab teacher에서 signed KL의 vocab합→각 문서 actual T 평균→512문서 평균, CPU FP64 gradient 문서순서 누적을 유지했다. Dev metadata/cache는 setup에서 결속하지만 Dev candidate/observer 평가는 selection seal 뒤만 수행했다. Report256 미개방. W0-generated behavior는 사실 정답이라는 뜻이 아니다.
+FP32 full-vocab teacher에서 signed KL의 vocab합→각 문서 actual T 평균→512문서 평균이다. {gradient_note} Dev metadata/cache는 setup에서 결속하지만 Dev candidate/observer 평가는 selection seal 뒤만 수행했다. Report256 미개방. W0-generated behavior는 사실 정답이라는 뜻이 아니다.
 
 ## 4. 실제 구현·검증 범위
 
-EndpointSession은 CPU immutable owner/SHA·실제 GPU bytes/epoch에 결속하고 native+candidate2 inference slot을 유지한다. Gradient leaf는 별도다. External alias/CPU/GPU mutation은 phase boundary에서 검사하며 version만으로 byte검증을 대체하지 않는다. Current의 detached CPU FP32 final-normalized hidden/rows를 재사용하되 target-position head와 invariant16-position head shape는 보존했다. 동일 dtype/backend/reduction의 원 NumPy/SciPy invariant와 torch proposal 경로를 그대로 썼다.
+{session_note} Native+candidate2 inference slot과 별도 gradient leaf를 사용한다. Current의 detached CPU FP32 final-normalized hidden/rows를 재사용하되 target-position head와 invariant16-position head shape는 보존했다. 동일 dtype/backend/reduction의 원 NumPy/SciPy invariant와 torch proposal 경로를 그대로 썼다.
 
-새 bounded 실제 검사는 같은 B1의 reference2문서 cached/physical direct AD, current 첫4입력의 key/logit/NLL·strict parity/restore와 새 selected endpoint의 동일 bounded physical 검사다. 이것을 전체512 physical AD 또는 독립 GPU continuation PASS로 확대하지 않는다. 전체512 coverage는 실제 method gradient/trial ledger에서 별도 확인한다. Nonempty Past actual은 B1에 없어 N/A이며 CPU fixture/구조검사뿐이다. 과거 T-skip/FD-skip waiver는 상속하지 않았다; 대규모 FD/T campaign은 이 실행-dedup 설계에 추가하지 않았다.
+{technical_note} 전체512 coverage는 실제 method gradient/trial ledger에서 별도 확인한다. Nonempty Past actual은 B1에 없어 N/A이며 CPU fixture/구조검사뿐이다.
 
 독립 CPU worker 검토와 parent 회귀검사를 구분했다. Source/API/CPU fixture 검산은 actual Llama 증거가 아니다. [요구→frozen source/함수/행/SHA→실제 증거](source-conformance.csv), [산출물 CPU 검산](artifact-audit.json)에 수준을 명시했다. Runtime method 선택과 공식 P/N·Dev observer는 분리되고 all-selection seal 뒤 관측한다. [Generated Dev128 observer](Dev128-observer.csv)는 학습 R512 KL과 별개다. B1 finalizer는 endpoint마다 history1, 후보/observer0이다.
 
@@ -242,7 +257,7 @@ EndpointSession은 CPU immutable owner/SHA·실제 GPU bytes/epoch에 결속하�
 
 {table(['Arm','controller wall s','entry/reset/hash s','gradient sweeps','trial sweeps','trial slots','Current suffix','external Current H2D','session H2D'],time_rows)}
 
-같은 B1의 controller wall 산술비 legacy/reuse={ratio:.6f}. 단1회이며 p50/p90·안정된 배수·총실험 가속률 주장이 아니다. 실행순서는 legacy 뒤 reuse로 고정했고 filesystem/page-cache를 flush하지 않았다. 따라서 관측 wall 차이는 실행순서·cache warmness 영향까지 포함하며 해당 차이 전부를 dedup의 인과효과라 하지 않는다. Controller에는 anchor/session/gradient/거절포함trial/evidence/session close가 포함되고 shared setup/native/geometry·checkpoint·observer는 [별도 계측](setup-and-storage.csv)한다. Geometry/head/gradient accumulation/KV 최적화는 미적용했다. 4C→C는 해당 Current 후보 suffix 구간에만 적용된다.
+같은 B1의 controller wall 산술비 legacy/reuse={ratio:.6f}. 단1회이며 p50/p90·안정된 배수·총실험 가속률 주장이 아니다. 실행순서는 legacy 뒤 reuse로 고정했고 filesystem/page-cache를 flush하지 않았다. 따라서 관측 wall 차이는 실행순서·cache warmness 영향까지 포함하며 해당 차이 전부를 dedup의 인과효과라 하지 않는다. Controller에는 anchor/session/gradient/거절포함trial/evidence/session close가 포함되고 shared setup/native/geometry·checkpoint·observer는 [별도 계측](setup-and-storage.csv)한다. Gradient accumulation 경로는 위 실행 정책 및 원 receipt를 따른다. 4C→C는 해당 Current 후보 suffix 구간에만 적용된다.
 
 세부 비중첩 counter/중첩 timer는 [compute.csv](compute.csv), 실제 parent allocation은 [allocation.json](allocation.json)이다. Allocation은 utilization이 아니다. 신규 preparation wall {ready['seconds']:.6f}s, B1 program wall {end['total_program_seconds']:.6f}s. Shared native 신규 fit0; 과거 동일 native1회의 {lock['native_reuse_lineage']['prior_seconds']:.6f}s는 재사용 비용 lineage이며 이번 allocation에 다시 청구하지 않는다. Standalone 비용을 구성할 때 각 schedule에 동일 native/공통setup을 귀속하되 실제 research에서는 준비를1회만 계상한다. 과거 native 시간과 신규 controller의 합은 accounting 재구성이지 새 독립 job wall 실측이 아니다. Nested timer를 합산하지 않았다.
 
@@ -252,7 +267,7 @@ B1 peak allocated GPU {end['peak_gpu_allocated']/2**30:.6f}GiB, reserved {end['p
 
 실행 `{lock['execution']['commit']}`, tree `{lock['execution']['tree']}`. Preparation `{ready['source']['commit']}`와 이번 분석/publication source는 다르다. [입력/source lineage](source-and-input-lineage.json)에 archive/lock/teacher/native/CPU reducer raw SHA를 결속한다. Raw/tensor/prompt/log/fullstdout은 local-only다.
 
-N4와 두 schedule의 W4/M4·context/RNG/received ledger/registry/order/source/teacher checkpoint3개를 create-once atomic 저장하고 CPU weights_only/mmap shape·finite·hash 및 physical selected copy를 확인했다. GPU continuation/독립 off-on 전체model parity는 NOT_TESTED다. B1 Past 없음, sequential0이며 체크포인트의 next index가 있어도 후속 실행 권한은 없다. 기존 EN/BPCW checkpoint·raw/teacher는 수정/삭제하지 않았다.
+N4와 두 schedule의 W4/M4·context/RNG/received ledger/registry/order/source/teacher checkpoint3개를 {checkpoint_note} GPU continuation/독립 off-on 전체model parity는 NOT_TESTED다. B1 Past 없음, sequential0이며 체크포인트의 next index가 있어도 후속 실행 권한은 없다. 기존 EN/BPCW checkpoint·raw/teacher는 수정/삭제하지 않았다.
 
 ```bash
 python -B -m project.run_scripts.en_execution_reuse.cpu_checks --output <task-local-new-receipt.json>

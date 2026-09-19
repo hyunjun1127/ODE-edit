@@ -5,6 +5,9 @@ PyTorch has no read-only tensor: callers MUST use ``readonly`` and must not let
 borrowed device tensors (or aliases/graphs) escape that scope. Results produced
 in a scope are provisional until its successful exit. Full header+bytes checks
 at both boundaries detect NumPy/.data writes that version counters cannot see.
+With verify_bytes=False, boundary byte audits are also skipped; .data/NumPy
+mutations are then NOT detected by this ownership protocol. Source hashes at
+new endpoint/clone binding remain identity bookkeeping, not repeated audits.
 ``evaluate_handle`` inside a scope does metadata/version/epoch checks only, so
 weight upload, finite scans and full hashes do not scale with sequence count.
 
@@ -77,6 +80,8 @@ class RuntimePolicy:
     source_identity_getter: Callable[[], Any]
     # Test seam: return the transferred tensor, not an already shared owner.
     transfer: Callable[[torch.Tensor, torch.device], torch.Tensor] | None = None
+    # Production skip policy: retain ownership/version checks, no byte audits.
+    verify_bytes: bool = True
 
 
 @dataclass(frozen=True)
@@ -232,19 +237,26 @@ class EndpointSession:
         finally:
             self.work["hash_seconds"] += time.perf_counter() - started
 
+    def validate_source(self, handle, source):
+        """Fast same-object binding; the optimizer may clone its native entry."""
+        self.validate_handle(handle, full=False)
+        if source is not self._slot(handle).source and self._hash(source) != handle.identity.weight_sha256:
+            self.close()
+            raise EndpointCorruptionError("REFERENCE_CALLER_WEIGHT_HANDLE_BYTES_MISMATCH")
+
     def validate_handle(self, handle, *, full=True):
         """Explicit phase-boundary validation; failure closes the whole session."""
         try:
             self._check_epoch()
             slot = self._slot(handle)
-            self.work["full_validations" if full else "fast_validations"] += 1
+            self.work["full_validations" if full and self.policy.verify_bytes else "fast_validations"] += 1
             for name, value, expected in (
                     ("SOURCE", slot.source, slot.source_metadata),
                     ("CPU_OWNER", slot.cpu, slot.cpu_metadata),
                     ("DEVICE_OWNER", slot.device, slot.device_metadata)):
                 if _metadata(value) != expected:
                     raise EndpointCorruptionError(f"ENDPOINT_{name}_METADATA_OR_VERSION_MUTATED")
-                if full and self._hash(value) != handle.identity.weight_sha256:
+                if full and self.policy.verify_bytes and self._hash(value) != handle.identity.weight_sha256:
                     raise EndpointCorruptionError(f"ENDPOINT_{name}_BYTES_MUTATED")
             return handle.identity
         except BaseException:
@@ -280,7 +292,7 @@ class EndpointSession:
             source_sha = self._hash(weight)
             # Never share storage with the controller, its .data, or NumPy.
             cpu = weight.detach().contiguous().clone()
-            if self._hash(cpu) != source_sha:
+            if self.policy.verify_bytes and self._hash(cpu) != source_sha:
                 raise EndpointCorruptionError("ENDPOINT_COPY_SOURCE_RACE")
             transfer = self.policy.transfer or (lambda value, device: value.to(device))
             size = cpu.numel() * cpu.element_size()
@@ -300,7 +312,7 @@ class EndpointSession:
                 raise EndpointCorruptionError("ENDPOINT_TRANSFER_DEVICE_DTYPE_SHAPE")
             device = transferred.detach().contiguous().clone()
             self.work["device_owner_clones"] += 1
-            if self._hash(device) != source_sha:
+            if self.policy.verify_bytes and self._hash(device) != source_sha:
                 raise EndpointCorruptionError("ENDPOINT_TRANSFER_BYTES_CHANGED")
             self._generation += 1
             identity = EndpointIdentity(

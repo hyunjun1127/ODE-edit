@@ -120,6 +120,20 @@ class CommitHarness:
 
 
 class TransactionTests(unittest.TestCase):
+    def test_skip_reload_still_commits_one_history_and_checkpoint(self):
+        harness = CommitHarness()
+        with patch.object(transaction, 'atomic_without_reload', harness.atomic), \
+             patch.object(transaction.torch, 'load', side_effect=AssertionError('reload must not run')), \
+             patch.object(transaction, 'create_json', harness.write_json), \
+             patch.object(transaction.Path, 'exists', return_value=False):
+            result = transaction.commit(self.rt, ARMS[0], self.weight, {'decision': 'NOOP'},
+                {'sha256': 'teacher-fixture'}, self.directory, verify_reload=False)
+        self.assertEqual(self.rt.history_calls, 1)
+        self.assertEqual(self.rt.copy_calls, 1)
+        self.assertEqual(result['CPU_reload'], 'SKIPPED_USER_DIRECTED')
+        self.assertEqual(result['physical_weight_reload'], 'NOT_RUN')
+        self.assertIsNotNone(harness.saved)
+
     def setUp(self):
         self.rng = capture_rng()
         self.addCleanup(restore_rng, self.rng)
