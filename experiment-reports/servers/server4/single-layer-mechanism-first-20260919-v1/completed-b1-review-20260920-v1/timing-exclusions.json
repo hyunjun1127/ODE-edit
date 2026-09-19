@@ -1,0 +1,7 @@
+{
+  "action": "EXCLUDED_NOT_REPAIRED_RAW",
+  "cause": "frozen mechanism.py start monotonic overwritten by for start in range(0,m,128)",
+  "field": "mechanism/writer.json:timing.total_inclusive_seconds",
+  "invalid": 7403588.902935249,
+  "valid_upper_scope": 216.89865552075207
+}

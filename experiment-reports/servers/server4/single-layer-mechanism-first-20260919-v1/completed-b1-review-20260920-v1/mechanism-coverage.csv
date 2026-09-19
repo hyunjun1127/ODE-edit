@@ -1,0 +1,6 @@
+hypothesis,status,evidence,observed,limitation
+H1,OBSERVED_BOUNDED,writer-modes.csv; mechanism-algebra.json; native-capture tensor schema,100 ideal-metric modes; target loading; raw-map realization; fixed-K residual permutation,Actual operator replay is prior runtime evidence; no causal efficacy or full SVD claim
+H2,OBSERVED_BOUNDED,mechanism-algebra.json; postselection-components.csv,512 action rows; signed response;32 reference/32N interventions,Energy is not locality; selected panel not independent broad test
+H3,PARTIAL,acceptance-arithmetic.json; KL.csv; Dev128-transitions.json,EN actual protected response and current guard pass; train KL decreases; official success IDs unchanged,Selected R512 decision Phi missing; Dev has2newflip/2recovery; FD unresolved
+H4,OBSERVED_NO_REALIZED_DEC_CORRECTION,local-solver.json; candidate-arithmetic.csv,LINE rank1 versus CUM rank5; both local solutions materialize to zero,No nonzero endpoint contrast; finite local result does not establish space-wide impossibility
+H5,NOT_APPLICABLE_B1,stage-gate.json; terminal B1 only,Entry displacement0 and cross term0; STEP=CUM alias,No B2 or same-entry STEP/CUM probe; no cumulative or lifelong inference

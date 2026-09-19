@@ -1,0 +1,279 @@
+{
+  "copies": [
+    {
+      "published": "first-table.csv",
+      "source": {
+        "bytes": 189,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/first-reduction/first-table.csv",
+        "sha256": "b1b4bc84f7d681dc20ed4ea49ba946a47ce06f74de7c1438343c222ac39c04ce"
+      }
+    },
+    {
+      "published": "first-independent-reducer.json",
+      "source": {
+        "bytes": 4033,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/first-reduction/independent-reducer.json",
+        "sha256": "8b9fe94f9b852968c3594be096011ae092277bec90ce6e11d62289d908e26953"
+      }
+    },
+    {
+      "published": "N-conditioned.csv",
+      "source": {
+        "bytes": 1078,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/N-conditioned.csv",
+        "sha256": "b8ae5276b39bbd6de6d000b9fe38076087c7b0c33e481fb969465c9457ab4da0"
+      }
+    },
+    {
+      "published": "W0-N-retention.csv",
+      "source": {
+        "bytes": 112,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/W0-N-retention.csv",
+        "sha256": "a23753c04a4c34079e560a11381e7f70a5982ca239e88913c0cacefd39640d09"
+      }
+    },
+    {
+      "published": "compute.json",
+      "source": {
+        "bytes": 8645,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/compute.json",
+        "sha256": "c0be59495b42a268097a499c0ff0c4d46e1e70be60feed42ff63425e51a65feb"
+      }
+    },
+    {
+      "published": "coverage.json",
+      "source": {
+        "bytes": 755,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/coverage.json",
+        "sha256": "e15751d0b17b30221a64efbbe072cfe6ecc01dd495dd49c6b10ddab7d1237870"
+      }
+    },
+    {
+      "published": "final-table.csv",
+      "source": {
+        "bytes": 328,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/final-table.csv",
+        "sha256": "10117f9fc69b815cbb2e9c0ee850b33622a9f90119cd41d5e166105d6af0bd11"
+      }
+    },
+    {
+      "published": "history.csv",
+      "source": {
+        "bytes": 422,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/history.csv",
+        "sha256": "e2490020b733ceec9e78ea1a0f2faebfaf6c77f7cd5a478ae5f61714b948a903"
+      }
+    },
+    {
+      "published": "paired-IDs.json",
+      "source": {
+        "bytes": 89399,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/paired-IDs.json",
+        "sha256": "e087d310292580f3f0e2bd29a80428840ba5e89c11e904f3508d787aa3f9a81c"
+      }
+    },
+    {
+      "published": "paired.csv",
+      "source": {
+        "bytes": 2976,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/paired.csv",
+        "sha256": "37bd4b9e9be61c89f3edcc6e80d569c48613410b379dc94a2d84898f8f7f2943"
+      }
+    },
+    {
+      "published": "raw-inventory.json",
+      "source": {
+        "bytes": 163029,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/raw-inventory.json",
+        "sha256": "24c2e4ff343010f90b43608ac6a52c90c695a1501cf38c0440dea5c243641182"
+      }
+    },
+    {
+      "published": "selection.csv",
+      "source": {
+        "bytes": 2716,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/selection.csv",
+        "sha256": "a3723b92c9d45b8d33aab2a7a37fccd76bc4ceb2fe3fd9d8ebcf96f6ecbd7056"
+      }
+    },
+    {
+      "published": "stage-gate.json",
+      "source": {
+        "bytes": 255,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/stage-gate.json",
+        "sha256": "3ebbb2a55c57ce036975b47fa34f7e1159cb702ffac089ad70f08a16c5abf675"
+      }
+    },
+    {
+      "published": "trials.csv",
+      "source": {
+        "bytes": 1578,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/full-reduction-r2/trials.csv",
+        "sha256": "35dbdba0c7264e846030e29ce24879227d7f3f18c822a0bb90c65ad20c96efde"
+      }
+    },
+    {
+      "published": "Dev128-choice.csv",
+      "source": {
+        "bytes": 355,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/Dev128-choice.csv",
+        "sha256": "705e81bf4aed4a463e5ba88a6dde0b44105008eaf0ba34cd872adaabbde616a4"
+      }
+    },
+    {
+      "published": "Dev128-transitions.json",
+      "source": {
+        "bytes": 1245,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/Dev128-transitions.json",
+        "sha256": "3bbfaf2f34d8223a1329b845490231d9d2697e1f7f4d993aa2f45de8a38cbdc7"
+      }
+    },
+    {
+      "published": "KL.csv",
+      "source": {
+        "bytes": 867,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/KL.csv",
+        "sha256": "b7d4f14a56a5c607e5c8a8405b8d16e1ba06e612af648c84396701c4621a7ab7"
+      }
+    },
+    {
+      "published": "NLL-distributions.csv",
+      "source": {
+        "bytes": 6368,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/NLL-distributions.csv",
+        "sha256": "6b3d3b3b7d75a2d5ed1e077d0a873c120abd691a222a952e42a3ef117b2782da"
+      }
+    },
+    {
+      "published": "W0-and-final.json",
+      "source": {
+        "bytes": 2335,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/W0-and-final.json",
+        "sha256": "9160d1aa7b3873923bbe5040cb0bc71ac04b312aa5fb29e790d6b9a32d56cfc1"
+      }
+    },
+    {
+      "published": "acceptance-arithmetic.json",
+      "source": {
+        "bytes": 1339,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/acceptance-arithmetic.json",
+        "sha256": "286444f5aeed6d9097b534bef910ed170118fe634d04d8e0ca79419c1ffa055d"
+      }
+    },
+    {
+      "published": "candidate-arithmetic.csv",
+      "source": {
+        "bytes": 1244,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/candidate-arithmetic.csv",
+        "sha256": "8aeacf0cdb134a9e878fec08320f7642b21b38d02649b24ae519937fbd99f2f7"
+      }
+    },
+    {
+      "published": "capsule-lengths.csv",
+      "source": {
+        "bytes": 21693,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/capsule-lengths.csv",
+        "sha256": "99ddbc9ef992f156059290a44dd8119275e9faf8ffb6d79f93966d6e9cb1a882"
+      }
+    },
+    {
+      "published": "capsule-summary.json",
+      "source": {
+        "bytes": 1029,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/capsule-summary.json",
+        "sha256": "55bb6c5d2155829d8b19db1adcacde3466bf785600c51d5d969c442d479058f4"
+      }
+    },
+    {
+      "published": "mechanism-algebra.json",
+      "source": {
+        "bytes": 613,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/mechanism-algebra.json",
+        "sha256": "fdcd5c03c7d9bc5eebd2367b2317def21751d1fe3ed3c8d771c9ca1f36e09a0e"
+      }
+    },
+    {
+      "published": "paired-cluster-CI.csv",
+      "source": {
+        "bytes": 3979,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/paired-cluster-CI.csv",
+        "sha256": "a2100756fbc31195777934033eb73dc37e9c6ae7643e2d9919312ae9245654a8"
+      }
+    },
+    {
+      "published": "postselection-components.csv",
+      "source": {
+        "bytes": 473,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/postselection-components.csv",
+        "sha256": "89b07ff501a796f476b03a2ba2505aef90a15dae7db07543d89c83c50657834b"
+      }
+    },
+    {
+      "published": "reference-coverage.json",
+      "source": {
+        "bytes": 375,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/reference-coverage.json",
+        "sha256": "83eb5f7824f068383f4437e7ae9749887454ae766ac0a3d39acd84f0ac6d65dd"
+      }
+    },
+    {
+      "published": "reference-native.csv",
+      "source": {
+        "bytes": 178,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/reference-native.csv",
+        "sha256": "f8b4b81a3bc46b821d545186121452c3e9ba12482f8b210f8d54b4d4010a0231"
+      }
+    },
+    {
+      "published": "strict-token.csv",
+      "source": {
+        "bytes": 468,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/strict-token.csv",
+        "sha256": "6b588cf069bfe816726f13ddec89eb156b21de8de2a3efc8d1a94cd04534c5cb"
+      }
+    },
+    {
+      "published": "timing-exclusions.json",
+      "source": {
+        "bytes": 279,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/timing-exclusions.json",
+        "sha256": "6cc73394311b10e2d5f0d965b9ca2613e288d55aa9e20f12f4dd44f9599781c2"
+      }
+    },
+    {
+      "published": "writer-modes.csv",
+      "source": {
+        "bytes": 16908,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/supplement-r3/writer-modes.csv",
+        "sha256": "0b9851c0864209ede33ce152600252f08b9c299dd2ff8ad9f253f11734e0f795"
+      }
+    },
+    {
+      "published": "tensor-inventory.json",
+      "source": {
+        "bytes": 425932,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/tensor-inventory.json",
+        "sha256": "58b34d22c48fc5b5680ecd19843949cf019fe8c91709c23f319e893181aa23f0"
+      }
+    },
+    {
+      "published": "local-solver.json",
+      "source": {
+        "bytes": 3913,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/local-solver.json",
+        "sha256": "07027535b0c11620a49eb13ba7bdabaf83e4ec485f8c6489f6e2d9857c35a0c6"
+      }
+    },
+    {
+      "published": "provenance.json",
+      "source": {
+        "bytes": 80869,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/provenance.json",
+        "sha256": "6191779b41cbc72d807d6f9bb9354c306277b4fb5856f9d8a1c99cfd0b53bec9"
+      }
+    }
+  ],
+  "model_or_GPU_calls": 0,
+  "plots": "repository matplotlib code only",
+  "raw_payload_copied": false
+}

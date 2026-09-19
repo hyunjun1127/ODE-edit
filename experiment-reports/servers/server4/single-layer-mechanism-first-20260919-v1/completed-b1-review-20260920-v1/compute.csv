@@ -1,0 +1,68 @@
+scope,component,value,unit,relation
+B1_batch,DEC_LINE_controller_inclusive,49.01976155024022,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,DEC_MODES_CUM_controller_inclusive,441.58144194539636,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,EN_KL_Q_controller_inclusive,1179.5175173077732,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,N4_controller_inclusive,0.9902312755584717,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,decision_reference_derivative,122.87110365647823,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,entry_history,0.9285052930936217,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,geometry_current_prefix,60.09822267666459,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,native,271.8486479446292,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+B1_batch,projection_functional_basis,37.5308088241145,seconds,NONOVERLAPPING_TOP_BLOCK; contained in B1 total
+terminal,program_seconds,3597.552279953845,seconds,NOT_ADDITIVE_TO_BLOCKS
+terminal,peak_GPU_allocated,40010996224,bytes,NOT_ADDITIVE_TO_BLOCKS
+terminal,peak_GPU_reserved,46279950336,bytes,NOT_ADDITIVE_TO_BLOCKS
+terminal,peak_host_KiB,34575016,KiB,NOT_ADDITIVE_TO_BLOCKS
+allocation,51058_parent,3629,GPU_sec,step/extern excluded
+prior_lineage,failed_T0_parents,1113,GPU_sec,prior sealed receipt; not new scheduler queries
+native_receipt,actual_delta_norm,7.6117486470572535,count,NESTED_NATIVE; do not add to native total
+native_receipt,compute_ks,1,count,NESTED_NATIVE; do not add to native total
+native_receipt,compute_ks_seconds,4.204252160154283,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,compute_z,100,count,NESTED_NATIVE; do not add to native total
+native_receipt,compute_z_seconds,250.37786613218486,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,get_module_input_output_at_words,1,count,NESTED_NATIVE; do not add to native total
+native_receipt,get_module_input_output_at_words_seconds,0.6228047981858253,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,history_append,0,count,NESTED_NATIVE; do not add to native total
+native_receipt,layer,4,count,NESTED_NATIVE; do not add to native total
+native_receipt,seconds,260.6176633760333,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,seconds_including_z_preload,266.8193626785651,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,solve,1,count,NESTED_NATIVE; do not add to native total
+native_receipt,solve_output_capture_seconds,0.1682182177901268,seconds,NESTED_NATIVE; do not add to native total
+native_receipt,solve_seconds,0.18923744838684797,seconds,NESTED_NATIVE; do not add to native total
+decision_reference,activation_backward_seconds,42.08293050900102,seconds,NESTED; no double addition
+decision_reference,backward_documents,512,count,NESTED; no double addition
+decision_reference,dense_gradient_D2H_bytes,469762048,bytes,NESTED; no double addition
+decision_reference,documents,512,count,NESTED; no double addition
+decision_reference,factor_D2H_bytes,3207512064,bytes,NESTED; no double addition
+decision_reference,factor_write_D2H_seconds,10.320894001051784,seconds,NESTED; no double addition
+decision_reference,final_gradient_D2H_seconds,0.274308905005455,seconds,NESTED; no double addition
+decision_reference,full_teacher_reads,0,count,NESTED; no double addition
+decision_reference,full_vocab_head_calls,8145,count,NESTED; no double addition
+decision_reference,full_vocab_head_rows,130235,count,NESTED; no double addition
+decision_reference,full_vocabulary_head_seconds,15.22059019934386,seconds,NESTED; no double addition
+decision_reference,gradient_contraction_seconds,1.5775492992252111,seconds,NESTED; no double addition
+decision_reference,input_tokens,195771,count,NESTED; no double addition
+decision_reference,key_transfer_and_L4_linear_seconds,4.098898061551154,seconds,NESTED; no double addition
+decision_reference,pair_two_row_head_calls,512,count,NESTED; no double addition
+decision_reference,pair_two_row_head_seconds,0.11689780279994011,seconds,NESTED; no double addition
+decision_reference,scored_positions,130235,count,NESTED; no double addition
+decision_reference,suffix_forwards,512,count,NESTED; no double addition
+decision_reference,suffix_seconds,47.849502209573984,seconds,NESTED; no double addition
+decision_reference,wall_seconds,122.85466978233308,seconds,NESTED; no double addition
+empty_history,autograd_calls,0,count,NESTED; no double addition
+empty_history,backward_TF_paths,0,count,NESTED; no double addition
+empty_history,backward_requests,0,count,NESTED; no double addition
+empty_history,dense_gradient_D2H_bytes,469762048,bytes,NESTED; no double addition
+empty_history,factor_D2H_bytes,0,bytes,NESTED; no double addition
+empty_history,full_vocab_head_rows,0,count,NESTED; no double addition
+empty_history,native_history_appends,0,count,NESTED; no double addition
+empty_history,official_observer_reads,0,count,NESTED; no double addition
+empty_history,peak_resident_paths,0,count,NESTED; no double addition
+empty_history,peak_resident_requests,0,count,NESTED; no double addition
+empty_history,requests,0,count,NESTED; no double addition
+empty_history,scored_target_tokens,0,count,NESTED; no double addition
+empty_history,suffix_forwards,0,count,NESTED; no double addition
+empty_history,unique_TF_paths,0,count,NESTED; no double addition
+empty_history,valid_input_tokens,0,count,NESTED; no double addition
+empty_history,wall_seconds,0.270561458542943,seconds,NESTED; no double addition
+postseal,canonical_reference_observers,942.0211939550936,seconds,includes canonical plus reference/KL
+postseal,mechanism_inclusive,216.89865552075207,seconds,valid upper timer; invalid writer timer excluded

@@ -1,0 +1,24 @@
+{
+  "H5": "NOT_APPLICABLE_COLD_B1",
+  "documents": 512,
+  "modes": 100,
+  "new_model_calls": 0,
+  "normalized_means": {
+    "entry_energy": 0.0,
+    "native_net_energy": 0.03938976802904104,
+    "native_step_energy": 0.03938976802904104,
+    "net_minus_entry": 0.03938976802904104,
+    "twice_entry_step_inner": 0.0
+  },
+  "positive_signed": 35,
+  "signed_scalar_response": {
+    "max": 4.33321060043848,
+    "mean": -0.28845638378152794,
+    "min": -44.54969753918365,
+    "n": 512,
+    "p50": -0.10175488004753508,
+    "p95": 0.006463168535261775,
+    "p99": 0.04961451612875829
+  },
+  "valid_tokens": 195771
+}

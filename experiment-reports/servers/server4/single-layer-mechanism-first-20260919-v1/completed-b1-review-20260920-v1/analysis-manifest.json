@@ -1,0 +1,100 @@
+{
+  "GPU": 0,
+  "analysis_base": "0150da2f02c830baa070944e1f504852f2fe6b01",
+  "analysis_did_not_import_runtime": true,
+  "authority": "messages/head/2026-09-20-sh4-slmf-b1-completed-review.md",
+  "execution_commit": "5f79085629b10b2bb8bdee88d017e18a46bb4c74",
+  "inputs": {
+    "bytes": 2147,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/input-manifest.json",
+    "sha256": "827dcb71bee4e517e2ff3f44f2505d8e4dd9d2990ef5fd548fd186d15a40f8a5"
+  },
+  "partial_analysis_attempts_preserved": true,
+  "schema": "SLMF_B1_CPU_REVIEW_V1",
+  "source": [
+    {
+      "bytes": 5536,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_b1.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_b1.py",
+      "sha256": "a32b0d8d70391bc0282e772aa70a8116e73af4e2a5de37a95e3ef8ede6efc216"
+    },
+    {
+      "bytes": 2269,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/test_review_b1.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/test_review_b1.py",
+      "sha256": "21cf3491f5e2b25d206ca1cf24dd1b4b328fe26c5d352469791e2f51ea7d5aed"
+    },
+    {
+      "bytes": 11919,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_completed_b1.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_completed_b1.py",
+      "sha256": "5d7a8734e391d6e1e2fd8fb65e16bd87a771a8cd35c59e7340d7234f5f5a3987"
+    },
+    {
+      "bytes": 1959,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/test_review_completed_b1.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/test_review_completed_b1.py",
+      "sha256": "9b4f909514d2488f985b8988ef2876832c2358ece7b630cc7ea2ddd517c5a619"
+    },
+    {
+      "bytes": 2562,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_tensor_inventory.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_tensor_inventory.py",
+      "sha256": "e8be10110df7ec8097cf5ad45ccf5374869561e91cea5ac66622a70953288917"
+    },
+    {
+      "bytes": 845,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/test_review_tensor_inventory.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/test_review_tensor_inventory.py",
+      "sha256": "485371954fdf2307ab9579d90095d35b87ce00182718cbfbb35631ac523dc38f"
+    },
+    {
+      "bytes": 3545,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_local_solver.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_local_solver.py",
+      "sha256": "f9dba75796642f2c479c81bfe44bfb04bc390d8d7320aef9a3b5d18d9107b889"
+    },
+    {
+      "bytes": 3240,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_provenance.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_provenance.py",
+      "sha256": "7756a509615f47b22d58019464520838f21b763c5311130aa1e5ac7e41982ae6"
+    },
+    {
+      "bytes": 14803,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_supplement.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_supplement.py",
+      "sha256": "5a44a3760c83c2a9e917193202c09c9aacbb1eddd9e1c718008f2e7df6f20c7d"
+    },
+    {
+      "bytes": 2721,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/test_review_supplement.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/test_review_supplement.py",
+      "sha256": "c3a67ab83c4ff8fffa3fa6c4778594e07a714a5f20fc213f5d3d8b0a6820d01f"
+    },
+    {
+      "bytes": 8179,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/publish_b1_review.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/publish_b1_review.py",
+      "sha256": "f4b7b3eb7df90c70ae3246d12b72a38574bd2e7643ba7e876742b9ef66ad104a"
+    },
+    {
+      "bytes": 9548,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_final_evidence.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_final_evidence.py",
+      "sha256": "0921c3fdfb364081bd3388c56b5956529a3c66291b47fb147357e6ca2dc1c73b"
+    },
+    {
+      "bytes": 10373,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/review_publication.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/review_publication.py",
+      "sha256": "e1a9bb67f26f6c58e1357c0be33e81592794eccdf2a6b6d994c0f6112225b713"
+    },
+    {
+      "bytes": 1155,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/test_review_publication.py",
+      "repo_path": "project/run_scripts/single_layer_mechanism_first/test_review_publication.py",
+      "sha256": "5390d4dd811b64f6a8de12b62a7d6ab97b02f3c8dbfe49ba7941117a064db438"
+    }
+  ]
+}

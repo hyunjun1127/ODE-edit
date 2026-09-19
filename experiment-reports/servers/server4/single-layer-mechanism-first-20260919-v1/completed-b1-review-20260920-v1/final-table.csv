@@ -1,0 +1,5 @@
+arm,RS_count,PS_count,NS_count,RS_denominator,PS_denominator,NS_denominator,rewrite_strict,two_P_strict,R_two_P_strict,R_two_P_NLL_joint
+N4,100,194,865,100,200,1000,100,44,44,96
+EN_KL_Q,100,194,865,100,200,1000,100,44,44,96
+DEC_LINE,100,194,865,100,200,1000,100,44,44,96
+DEC_MODES_CUM,100,194,865,100,200,1000,100,44,44,96

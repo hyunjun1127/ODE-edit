@@ -1,0 +1,10 @@
+{
+  "job_id": "51058", "job_name": "odeedit_slmf_B1r4_s4", "owner": "janghj",
+  "state": "COMPLETED", "exit_code": "0:0", "elapsed_seconds": 3629,
+  "start": "2026-09-20T03:37:37+09:00", "end": "2026-09-20T04:38:06+09:00",
+  "allocated_GPU_seconds": 3629, "allocated_GPUs": 1, "node": "server4",
+  "allocated_TRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+  "query": "sacct exact job51058 once; parent only; batch/extern excluded from summation",
+  "scientific_completeness": "SEPARATELY_CHECKED_BY_CPU_REDUCER",
+  "new_GPU": 0, "scheduler_writes": 0
+}

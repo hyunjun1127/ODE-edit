@@ -1,0 +1,130 @@
+{
+  "new_model_calls": 0,
+  "new_solver_runs": 0,
+  "results": {
+    "DEC_LINE": {
+      "input": {
+        "bytes": 5797,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/arms/DEC_LINE/jacobians.pt",
+        "sha256": "620245a527363b0c77baf9105160f4c5fd5d19c1bd6ef1917b61cefe9754b8a5"
+      },
+      "phases": [
+        {
+          "ball_slack": 1.0,
+          "coefficients": [
+            0.0
+          ],
+          "complementarity_max": 0.0,
+          "min_scaled_slack": 0.0,
+          "nonzero_duals": [
+            {
+              "label": "linear:23",
+              "multiplier": 13.093487448813477
+            }
+          ],
+          "phase": "phase1",
+          "risk": 0.16331511777655372,
+          "stationarity_l2": 0.0
+        },
+        {
+          "ball_slack": 1.0,
+          "coefficients": [
+            0.0
+          ],
+          "complementarity_max": 0.0,
+          "min_scaled_slack": 0.0,
+          "nonzero_duals": [],
+          "phase": "phase2",
+          "risk": 0.16331511777655372,
+          "stationarity_l2": 0.0
+        }
+      ],
+      "status": "SAVED_COEFFICIENT_ARITHMETIC_MATCH"
+    },
+    "DEC_MODES_CUM": {
+      "input": {
+        "bytes": 22181,
+        "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/arms/DEC_MODES_CUM/jacobians.pt",
+        "sha256": "affe9064e98a8d2c1676be18a98e1e63cee66171ff67eca50d67c4db347685fc"
+      },
+      "phases": [
+        {
+          "ball_slack": 1.0,
+          "coefficients": [
+            1.5230481498718033e-31,
+            -1.396771665644798e-32,
+            -2.696186475612104e-34,
+            8.366416254486519e-34,
+            3.5430648869738343e-31
+          ],
+          "complementarity_max": 5.525417805750243e-31,
+          "min_scaled_slack": -3.4816887689912305e-32,
+          "nonzero_duals": [
+            {
+              "label": "linear:23",
+              "multiplier": 12.351913504880342
+            },
+            {
+              "label": "linear:194",
+              "multiplier": 95.72190499308117
+            },
+            {
+              "label": "linear:224",
+              "multiplier": 0.06232397742300307
+            },
+            {
+              "label": "linear:356",
+              "multiplier": 137.03987323697103
+            },
+            {
+              "label": "linear:371",
+              "multiplier": 0.050617877739174984
+            }
+          ],
+          "phase": "phase1",
+          "risk": 0.16331511777655372,
+          "stationarity_l2": 8.887925003025982e-17
+        },
+        {
+          "ball_slack": 1.0,
+          "coefficients": [
+            1.5230481498718033e-31,
+            -1.396771665644798e-32,
+            -2.696186475612104e-34,
+            8.366416254486519e-34,
+            3.5430648869738343e-31
+          ],
+          "complementarity_max": 1.0430623869152056e-57,
+          "min_scaled_slack": -3.4816887689912305e-32,
+          "nonzero_duals": [
+            {
+              "label": "linear:23",
+              "multiplier": 3.577208394489089e-27
+            },
+            {
+              "label": "linear:214",
+              "multiplier": 2.2840002893979374e-26
+            },
+            {
+              "label": "linear:224",
+              "multiplier": 1.615049015601257e-29
+            },
+            {
+              "label": "linear:268",
+              "multiplier": 6.383906663779825e-27
+            },
+            {
+              "label": "linear:371",
+              "multiplier": 6.089117666562456e-29
+            }
+          ],
+          "phase": "phase2",
+          "risk": 0.16331511777655372,
+          "stationarity_l2": 1.1624976903178478e-44
+        }
+      ],
+      "status": "SAVED_COEFFICIENT_ARITHMETIC_MATCH"
+    }
+  },
+  "scientific_claim": "LOCAL_LINEARIZED_PROBLEM_ONLY; NO_GLOBAL_NONLINEAR_OPTIMUM"
+}

@@ -1,0 +1,46 @@
+{
+  "CPU_tests": 20,
+  "CPU_tests_result": "PASS",
+  "GUI_browser_pixel_render": "NOT_RUN",
+  "Korean_UTF8_render": true,
+  "PNG_byte_reproducibility": true,
+  "PNG_visual_inspection": "OWNER_VIEWED_BOTH",
+  "PNGs": [
+    {
+      "bytes": 88187,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/trials-and-cost.png",
+      "sha256": "fbbb5c1a64b322f726bc84b119f7adea01d0d99ba2c989f0c901c0b446adc3eb"
+    },
+    {
+      "bytes": 132582,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/writer-and-components.png",
+      "sha256": "46ddc8733163472eb0d0a57153019b8b0a29af5e7817c55589f67c32ed370583"
+    }
+  ],
+  "access_helper": "NOT_PASS_FOR_EXPLICITLY_ALLOWED_RUNS_PATH",
+  "access_helper_exact_rejection": "runs/odeedit_slmf_b1_completed_review_s4_20260920/receipt.json",
+  "audit_level": "owner audit + independent arithmetic reducer + bounded peer source review; NOT independent full red",
+  "explicit_path_authority": "current envelope section4; no shared helper/policy change",
+  "links": "checked before and after final seal",
+  "markdown_tables": 16,
+  "new_GPU": 0,
+  "new_scheduler_writes": 0,
+  "peer_prior_authorship": "hook/controller portions self re-review",
+  "raw_bytes": 4105376328,
+  "raw_free": "NO_RAW_KEYS_OR_TENSOR_PAYLOADS; metadata/IDs/aggregate scalars allowed",
+  "raw_postrun_fullSHA_unchanged": 598,
+  "rendered_HTML": {
+    "bytes": 40014,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/report-ko.rendered.html",
+    "sha256": "c1e178f90f211bae5c8f1843d04fea970c3df50ccdcec89ad57a15b5d0097e4f"
+  },
+  "rendered_cells": 486,
+  "rendered_images": 2,
+  "renderer": "markdown-it-py 3.0.0 CommonMark+table",
+  "report_first_table_csv_match": true,
+  "tensor_inventory": {
+    "bytes": 425932,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/tensor-inventory.json",
+    "sha256": "58b34d22c48fc5b5680ecd19843949cf019fe8c91709c23f319e893181aa23f0"
+  }
+}

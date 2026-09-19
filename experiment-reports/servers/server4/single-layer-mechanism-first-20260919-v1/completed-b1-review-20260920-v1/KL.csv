@@ -1,0 +1,9 @@
+arm,panel,documents,positions,KL,reduction,reuse
+N4,R512,512,130235,0.001120390350128662,document actual-position mean then document mean,False
+N4,Dev128,128,32473,0.0013271749867301318,document actual-position mean then document mean,False
+EN_KL_Q,R512,512,130235,0.0010582001647249557,document actual-position mean then document mean,False
+EN_KL_Q,Dev128,128,32473,0.0013260737078546682,document actual-position mean then document mean,False
+DEC_LINE,R512,512,130235,0.001120390350128662,document actual-position mean then document mean,True
+DEC_LINE,Dev128,128,32473,0.0013271749867301318,document actual-position mean then document mean,True
+DEC_MODES_CUM,R512,512,130235,0.001120390350128662,document actual-position mean then document mean,True
+DEC_MODES_CUM,Dev128,128,32473,0.0013271749867301318,document actual-position mean then document mean,True

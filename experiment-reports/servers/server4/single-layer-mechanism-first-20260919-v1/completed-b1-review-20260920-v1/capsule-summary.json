@@ -1,0 +1,46 @@
+{
+  "capsules_rehashed": 640,
+  "current_new_GPU": 0,
+  "current_run_tf_argmax_repeated": false,
+  "large_teacher_full_rehash": false,
+  "manifest": {
+    "bytes": 756013,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated/manifest.json",
+    "sha256": "14bf1f5d98cf9e09e9fad6458bc4d7ae5fb2e81de635b63f2b03db4c405a73b4"
+  },
+  "prior_tf_argmax_verified": true,
+  "roles": {
+    "Dev128": {
+      "censored": 125,
+      "length": {
+        "max": 256,
+        "mean": 253.6953125,
+        "min": 121,
+        "n": 128,
+        "p50": 256.0,
+        "p95": 256.0,
+        "p99": 256.0
+      },
+      "stops": {
+        "eos": 3,
+        "max_new_tokens": 125
+      }
+    },
+    "R512": {
+      "censored": 501,
+      "length": {
+        "max": 256,
+        "mean": 254.365234375,
+        "min": 55,
+        "n": 512,
+        "p50": 256.0,
+        "p95": 256.0,
+        "p99": 256.0
+      },
+      "stops": {
+        "eos": 11,
+        "max_new_tokens": 501
+      }
+    }
+  }
+}

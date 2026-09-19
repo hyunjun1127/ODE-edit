@@ -1,0 +1,34 @@
+{
+  "accounting": {
+    "bytes": 558,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/audits/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/accounting.json",
+    "sha256": "92d5e8d8ab68d5d7606aa32b314c685c4cd6b6e933d6336179a595320434b349"
+  },
+  "capsules": {
+    "bytes": 1029,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/capsule-summary.json",
+    "sha256": "55bb6c5d2155829d8b19db1adcacde3466bf785600c51d5d969c442d479058f4"
+  },
+  "execution": {
+    "archive": {
+      "bytes": 489096336,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/source.tar.gz",
+      "sha256": "cad46de07ea854f984b7d53b34c1a3fa59301ba7f37be50a6420b8839303b479"
+    },
+    "commit": "5f79085629b10b2bb8bdee88d017e18a46bb4c74",
+    "source": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/source",
+    "tree": "a5b089229ab3e4edd2e3595c5c4f5226325b433e"
+  },
+  "new_model_calls": 0,
+  "raw_inventory": {
+    "bytes": 163029,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/raw-inventory.json",
+    "sha256": "24c2e4ff343010f90b43608ac6a52c90c695a1501cf38c0440dea5c243641182"
+  },
+  "raw_policy": "immutable; full scoped rehash twice; large common inputs prior verifiedSHA+stat",
+  "source_and_large_input_verification": {
+    "bytes": 80869,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/completed-b1-review-20260920-v1/worktree/experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/provenance.json",
+    "sha256": "6191779b41cbc72d807d6f9bb9354c306277b4fb5856f9d8a1c99cfd0b53bec9"
+  }
+}

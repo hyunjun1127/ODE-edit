@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-S06-SLMF-B1-COMPLETED-DETAILED-REVIEW-SH4-V1",
+  "review_status": "TASK_COMPLETE_STOP",
+  "report_sha256": "f1b15aa5103923be7228863a124237f471ce8537808732a99352a9b7586e1064",
+  "analysis_manifest_sha256": "c59400bacef6f88c0d385a556287cde4f85caac934fd9dee7ea5465653cb6d82",
+  "rooted_receipt_sha256": "9d999df531faeb3f87558f217aa8fdea943c8ed9bb84833f20cac9b37ad43234",
+  "CPU_tests_passed": 20,
+  "target_job": "51058",
+  "execution_source": "5f79085629b10b2bb8bdee88d017e18a46bb4c74",
+  "terminal": "B1_COMPLETE_USER_LIMIT",
+  "gate": "B1_TO_S3_FAIL",
+  "report": "experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/report-ko.md",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "maximum_batch": 1,
+  "sequential_authorized": false,
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "PS_point_nonloss": true,
+    "choice_or_margin": false,
+    "current": true,
+    "full512": true,
+    "nonzero_valid_correction": false,
+    "strict_joint_point_nonloss": true
+  },
+  "pass_": false,
+  "sequential_authorized": false
+}

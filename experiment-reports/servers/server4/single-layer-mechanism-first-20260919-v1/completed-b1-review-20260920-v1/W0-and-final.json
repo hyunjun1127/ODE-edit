@@ -1,0 +1,132 @@
+{
+  "DEC_LINE": {
+    "NS": {
+      "count": 865,
+      "denominator": 1000,
+      "percent": 86.5,
+      "ties": 0
+    },
+    "PS": {
+      "count": 194,
+      "denominator": 200,
+      "percent": 97.0,
+      "ties": 0
+    },
+    "RS": {
+      "count": 100,
+      "denominator": 100,
+      "percent": 100.0,
+      "ties": 0
+    },
+    "strict": {
+      "R_two_P_NLL_joint": 96,
+      "R_two_P_strict": 44,
+      "rewrite_strict": 100,
+      "two_P_strict": 44
+    }
+  },
+  "DEC_MODES_CUM": {
+    "NS": {
+      "count": 865,
+      "denominator": 1000,
+      "percent": 86.5,
+      "ties": 0
+    },
+    "PS": {
+      "count": 194,
+      "denominator": 200,
+      "percent": 97.0,
+      "ties": 0
+    },
+    "RS": {
+      "count": 100,
+      "denominator": 100,
+      "percent": 100.0,
+      "ties": 0
+    },
+    "strict": {
+      "R_two_P_NLL_joint": 96,
+      "R_two_P_strict": 44,
+      "rewrite_strict": 100,
+      "two_P_strict": 44
+    }
+  },
+  "EN_KL_Q": {
+    "NS": {
+      "count": 865,
+      "denominator": 1000,
+      "percent": 86.5,
+      "ties": 0
+    },
+    "PS": {
+      "count": 194,
+      "denominator": 200,
+      "percent": 97.0,
+      "ties": 0
+    },
+    "RS": {
+      "count": 100,
+      "denominator": 100,
+      "percent": 100.0,
+      "ties": 0
+    },
+    "strict": {
+      "R_two_P_NLL_joint": 96,
+      "R_two_P_strict": 44,
+      "rewrite_strict": 100,
+      "two_P_strict": 44
+    }
+  },
+  "N4": {
+    "NS": {
+      "count": 865,
+      "denominator": 1000,
+      "percent": 86.5,
+      "ties": 0
+    },
+    "PS": {
+      "count": 194,
+      "denominator": 200,
+      "percent": 97.0,
+      "ties": 0
+    },
+    "RS": {
+      "count": 100,
+      "denominator": 100,
+      "percent": 100.0,
+      "ties": 0
+    },
+    "strict": {
+      "R_two_P_NLL_joint": 96,
+      "R_two_P_strict": 44,
+      "rewrite_strict": 100,
+      "two_P_strict": 44
+    }
+  },
+  "W0": {
+    "NS": {
+      "count": 886,
+      "denominator": 1000,
+      "percent": 88.6,
+      "ties": 0
+    },
+    "PS": {
+      "count": 20,
+      "denominator": 200,
+      "percent": 10.0,
+      "ties": 0
+    },
+    "RS": {
+      "count": 5,
+      "denominator": 100,
+      "percent": 5.0,
+      "ties": 0
+    },
+    "strict": {
+      "R_two_P_NLL_joint": 5,
+      "R_two_P_strict": 0,
+      "rewrite_strict": 0,
+      "two_P_strict": 0
+    }
+  }
+}

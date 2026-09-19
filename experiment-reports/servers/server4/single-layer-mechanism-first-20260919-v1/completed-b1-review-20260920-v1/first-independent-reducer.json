@@ -1,0 +1,141 @@
+{
+  "inputs": [
+    {
+      "bytes": 2241959,
+      "endpoint": "432348a3d07f1cd14446dafffadb3572d2e6781eee35c24cf7ae650ebc0e0d0a",
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/observers/current/N4.json",
+      "request_order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+      "sha256": "0c1060933dd503e42b8a98253f7fbd61de8a9b02702c051e39298f1ea72dcd62"
+    },
+    {
+      "bytes": 2242087,
+      "endpoint": "cfc19e35f534823740a93e683fe79d3d51448d9d4d382faf8e88eec34d49490f",
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/observers/current/EN_KL_Q.json",
+      "request_order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+      "sha256": "55abe430277d3e10b4c93e9909397ce37cf184441d8dda22bf9d12e7c80cc002"
+    },
+    {
+      "bytes": 2242189,
+      "endpoint": "432348a3d07f1cd14446dafffadb3572d2e6781eee35c24cf7ae650ebc0e0d0a",
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/observers/current/DEC_LINE.json",
+      "request_order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+      "sha256": "5ab7fdfb8c4e2cbd762cf5b3dfd88f3679d6aa5bf50cdc0668daeeb27b3b7adc"
+    },
+    {
+      "bytes": 2242194,
+      "endpoint": "432348a3d07f1cd14446dafffadb3572d2e6781eee35c24cf7ae650ebc0e0d0a",
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/output/B1/observers/current/DEC_MODES_CUM.json",
+      "request_order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+      "sha256": "3fbd602e88a0ff61854839ed67bece74bb70a301f749047c337f64d6841f03ff"
+    }
+  ],
+  "missing_not_imputed": true,
+  "new_GPU": 0,
+  "results": {
+    "DEC_LINE": {
+      "NS": {
+        "count": 865,
+        "denominator": 1000,
+        "percent": 86.5,
+        "ties": 0
+      },
+      "PS": {
+        "count": 194,
+        "denominator": 200,
+        "percent": 97.0,
+        "ties": 0
+      },
+      "RS": {
+        "count": 100,
+        "denominator": 100,
+        "percent": 100.0,
+        "ties": 0
+      },
+      "strict": {
+        "R_two_P_NLL_joint": 96,
+        "R_two_P_strict": 44,
+        "rewrite_strict": 100,
+        "two_P_strict": 44
+      }
+    },
+    "DEC_MODES_CUM": {
+      "NS": {
+        "count": 865,
+        "denominator": 1000,
+        "percent": 86.5,
+        "ties": 0
+      },
+      "PS": {
+        "count": 194,
+        "denominator": 200,
+        "percent": 97.0,
+        "ties": 0
+      },
+      "RS": {
+        "count": 100,
+        "denominator": 100,
+        "percent": 100.0,
+        "ties": 0
+      },
+      "strict": {
+        "R_two_P_NLL_joint": 96,
+        "R_two_P_strict": 44,
+        "rewrite_strict": 100,
+        "two_P_strict": 44
+      }
+    },
+    "EN_KL_Q": {
+      "NS": {
+        "count": 865,
+        "denominator": 1000,
+        "percent": 86.5,
+        "ties": 0
+      },
+      "PS": {
+        "count": 194,
+        "denominator": 200,
+        "percent": 97.0,
+        "ties": 0
+      },
+      "RS": {
+        "count": 100,
+        "denominator": 100,
+        "percent": 100.0,
+        "ties": 0
+      },
+      "strict": {
+        "R_two_P_NLL_joint": 96,
+        "R_two_P_strict": 44,
+        "rewrite_strict": 100,
+        "two_P_strict": 44
+      }
+    },
+    "N4": {
+      "NS": {
+        "count": 865,
+        "denominator": 1000,
+        "percent": 86.5,
+        "ties": 0
+      },
+      "PS": {
+        "count": 194,
+        "denominator": 200,
+        "percent": 97.0,
+        "ties": 0
+      },
+      "RS": {
+        "count": 100,
+        "denominator": 100,
+        "percent": 100.0,
+        "ties": 0
+      },
+      "strict": {
+        "R_two_P_NLL_joint": 96,
+        "R_two_P_strict": 44,
+        "rewrite_strict": 100,
+        "two_P_strict": 44
+      }
+    }
+  },
+  "scope": "RAW_TRUE_NEW_NLL_AND_TF_TOKEN_FLAGS; NOT_GPU_REPLAY"
+}

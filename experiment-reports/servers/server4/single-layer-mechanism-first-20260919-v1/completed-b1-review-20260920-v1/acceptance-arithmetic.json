@@ -1,0 +1,39 @@
+{
+  "EN_KL_Q": {
+    "anchor_rows": "NOT_SAVED_FOR_INDEPENDENT_PER_SEQUENCE_SUBTRACTION",
+    "checks": {
+      "NLL": true,
+      "actual_DK": true,
+      "ideal": true,
+      "leakage": true,
+      "logitmax": true,
+      "logitrms": true,
+      "pair_ID": true,
+      "strict_ID": true
+    },
+    "invariant": {
+      "actual_leakage_pass": true,
+      "actual_max_token_normalized_response": 2.6453950837447767e-08,
+      "actual_norm": 0.008497206339518911,
+      "actual_projection_leakage_relative": 5.899910015307639e-06,
+      "actual_response_pass": true,
+      "ideal_norm": 0.008497205904477683,
+      "ideal_pass": true,
+      "ideal_response_denominator": "Frobenius(Dideal)*Frobenius(K), zero product -> zero",
+      "ideal_response_relative": 5.1566140995525765e-17,
+      "logit_elements": 1335914496,
+      "logit_max": 6.67572021484375e-05,
+      "logit_rms": 3.1993180986839366e-06,
+      "logits_NLL_ID_stationarity": "NOT_TESTED_BY_GEOMETRY",
+      "max_NLL_difference": 3.814697265625e-05,
+      "pair_symmetric_difference": [],
+      "pass": true,
+      "rounding_delta_norm": 1.965836710856244e-06,
+      "strict_symmetric_difference": [],
+      "valid_key_columns": 4596
+    },
+    "protected_sequence_rows": 1400,
+    "trial": 4,
+    "verification": "STORED_SCALAR_THRESHOLD_ARITHMETIC; NOT_TENSOR_REPLAY"
+  }
+}

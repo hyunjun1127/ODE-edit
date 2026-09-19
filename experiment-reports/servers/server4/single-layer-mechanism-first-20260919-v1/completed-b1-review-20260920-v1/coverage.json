@@ -1,0 +1,28 @@
+{
+  "FD": "USER_WAIVED_NOT_PASS",
+  "GPU_continuation": "NOT_TESTED",
+  "arms": [
+    "N4",
+    "EN_KL_Q",
+    "DEC_LINE",
+    "DEC_MODES_CUM"
+  ],
+  "exact_resume": "NOT_AVAILABLE",
+  "full_numerical_validation": "NOT_ESTABLISHED",
+  "history_appends": 4,
+  "native": {
+    "all_valid_input_gradient": true,
+    "backward_documents": 512,
+    "complete": true,
+    "documents": 512,
+    "endpoint_identity": "6e6daca22ae7c1edf8a20646c5bb7717f39532d236fe264d5bdebd465bddae88",
+    "expected_documents": 512,
+    "expected_positions": 130235,
+    "full_vocabulary": 128256,
+    "input_identity": "cac23a7c014452b623a8080e0f75b87c4c4eb48a6994a74b54d16a9f2ae9bebf",
+    "positions": 130235,
+    "role": "R512"
+  },
+  "new_review_GPU": 0,
+  "requests": 100
+}

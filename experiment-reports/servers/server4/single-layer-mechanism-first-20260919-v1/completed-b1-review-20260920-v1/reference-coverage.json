@@ -1,0 +1,8 @@
+{
+  "DEC_candidate_actual_scans": 0,
+  "DEC_selected_R512_choice": "EXACT_NATIVE_FALLBACK; native scan reused by source/receipt binding",
+  "Dev128": "INDEPENDENT_TOKEN_ROWS_REDUCED",
+  "EN_KL_Q_selected_R512_choice": "NOT_MEASURED; postseal stores train KL but no full R512 choice scan",
+  "R512_native_choice": "INDEPENDENT_TOKEN_ROWS_REDUCED",
+  "Report256": "UNOPENED"
+}

@@ -1,0 +1,62 @@
+{
+  "DEC_LINE": {
+    "document_lost": 0,
+    "document_recovered": 0,
+    "mu_change": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "n": 128,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "native_safe_new_flips": 0,
+    "old_flips_recovered": 0
+  },
+  "DEC_MODES_CUM": {
+    "document_lost": 0,
+    "document_recovered": 0,
+    "mu_change": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "n": 128,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "native_safe_new_flips": 0,
+    "old_flips_recovered": 0
+  },
+  "EN_KL_Q": {
+    "document_lost": 0,
+    "document_recovered": 1,
+    "mu_change": {
+      "max": 0.006244659423828125,
+      "mean": -0.00022815167903900146,
+      "min": -0.043552398681640625,
+      "n": 128,
+      "p50": 2.288818359375e-05,
+      "p95": 0.0007915496826171865,
+      "p99": 0.00322204589843751
+    },
+    "native_safe_new_flips": 2,
+    "old_flips_recovered": 2
+  },
+  "N4": {
+    "document_lost": 0,
+    "document_recovered": 0,
+    "mu_change": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "n": 128,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "native_safe_new_flips": 0,
+    "old_flips_recovered": 0
+  }
+}

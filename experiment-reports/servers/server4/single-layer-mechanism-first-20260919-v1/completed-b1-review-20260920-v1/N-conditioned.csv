@@ -1,0 +1,17 @@
+arm,group,denominator,native_correct,selected_correct,recovered,additional_lost,true_NLL_mean_change,new_NLL_mean_change
+N4,full_N,1000,865,865,0,0,0.0,0.0
+N4,W0_correct_native_broken,24,0,0,0,0,0.0,0.0
+N4,entry_correct_native_broken,24,0,0,0,0,0.0,0.0
+N4,W0_native_stable,862,862,862,0,0,0.0,0.0
+EN_KL_Q,full_N,1000,865,865,0,0,3.9064600132405755e-06,3.137340047396719e-05
+EN_KL_Q,W0_correct_native_broken,24,0,0,0,0,-4.314879576365153e-05,9.645600221119821e-05
+EN_KL_Q,entry_correct_native_broken,24,0,0,0,0,-4.314879576365153e-05,9.645600221119821e-05
+EN_KL_Q,W0_native_stable,862,862,862,0,0,3.6969762554785493e-06,3.520283510956023e-05
+DEC_LINE,full_N,1000,865,865,0,0,0.0,0.0
+DEC_LINE,W0_correct_native_broken,24,0,0,0,0,0.0,0.0
+DEC_LINE,entry_correct_native_broken,24,0,0,0,0,0.0,0.0
+DEC_LINE,W0_native_stable,862,862,862,0,0,0.0,0.0
+DEC_MODES_CUM,full_N,1000,865,865,0,0,0.0,0.0
+DEC_MODES_CUM,W0_correct_native_broken,24,0,0,0,0,0.0,0.0
+DEC_MODES_CUM,entry_correct_native_broken,24,0,0,0,0,0.0,0.0
+DEC_MODES_CUM,W0_native_stable,862,862,862,0,0,0.0,0.0

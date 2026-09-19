@@ -1,0 +1,6 @@
+component,reference_documents,reference_mismatches,reference_Phi,Current_count,Current_denominator,Current_new_strict,N_count,N_denominator,N_new_strict
+own_native,32,46,0.03509052556526626,100,100,100,16,32,3
+random_match_mode_0,32,45,0.034869101510963674,100,100,100,16,32,3
+random_match_mode_99,32,51,0.032839575798277565,100,100,100,16,32,3
+source_mode_0,32,36,0.011254881867927224,100,100,100,20,32,2
+source_mode_99,32,46,0.033658871126107215,100,100,99,17,32,3

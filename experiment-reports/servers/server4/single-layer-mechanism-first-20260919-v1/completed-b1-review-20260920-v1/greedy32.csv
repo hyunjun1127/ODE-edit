@@ -1,0 +1,5 @@
+arm,requests,target_prefix_match,censored,actual_original_EOS,max_new_tokens_reached,reused
+N4,100,100,0,0,100,False
+EN_KL_Q,100,100,0,0,100,False
+DEC_LINE,100,100,0,0,100,True
+DEC_MODES_CUM,100,100,0,0,100,True
