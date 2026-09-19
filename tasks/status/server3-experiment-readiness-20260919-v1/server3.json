@@ -1,0 +1,10 @@
+{
+  "instruction_id": "ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1",
+  "status": "EXPERIMENT_READY",
+  "required_model": "llama3-8b-inst",
+  "job_id": "50986",
+  "scientific_jobs_submitted": 0,
+  "save_checkpoints": false,
+  "report": "experiment-reports/servers/server3/experiment-readiness-2026-09-19-v1/report-ko.md",
+  "qwen_native_context": "NOT_VERIFIED"
+}

@@ -77,3 +77,14 @@ SSH hostname 확인/agent ACK/artifact 전송 준비는 서로 다른 검증이�
 - Onboarding local session-boundary 설정은 실제 이 session/CWD/repo로만 허용하며
   shared global/user config나 다른 agent identity는 수정하지 않는다.
 - 원 보고·nonce/오류·historical source는 보존하고 최신 registry를 clean ff-only로 동기화한다.
+
+
+## 2026-09-19 실제 readiness 완료 (SH3 소유 갱신)
+
+Instruction `ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1`. **Llama EXPERIMENT_READY**, job50986 COMPLETED/0:0.
+Qwen model/assets/evaluation READY, native context/shadow NOT_VERIFIED.
+원 bootstrap 미준비 기록은 역사로 보존한다. Root/전용 boundary PASS, isolated runtime
+`/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1`, manifest `agents/server3/experiment-ready-paths-20260919-v1.json`.
+상세 `experiment-reports/servers/server3/experiment-readiness-2026-09-19-v1/report-ko.md`.
+Project cap2/준비동시1, 기존 source KEEP, save_checkpoints=false.
+이번 기술 준비 이외 새 과학task 제출은 별도 지시가 필요하다.

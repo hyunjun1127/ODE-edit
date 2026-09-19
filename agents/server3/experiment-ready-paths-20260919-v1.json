@@ -1,0 +1,375 @@
+{
+  "schema": "odeedit.server3.readiness/v1",
+  "instruction_id": "ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1",
+  "runtime_root": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1",
+  "python": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+  "native_root": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/easyedit",
+  "evaluator_binding": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/contexts/evaluation.py",
+  "evaluator_root": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison",
+  "helper_root": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts",
+  "dataset_root": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1",
+  "dataset": {
+    "case_order_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+    "dataset_bytes": 16679956,
+    "dataset_id": "counterfact-fixed-10k-v1",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "inventory": {
+      "neighborhood": 100000,
+      "rephrase": 20000,
+      "rewrite": 10000
+    },
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "prefix_policy": "records[:n], 1 <= n <= 10000; no shuffle/reselection",
+    "records": 10000,
+    "source_dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "source_sample_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+  },
+  "prefix_counts": [
+    100,
+    1000,
+    3000,
+    10000
+  ],
+  "batch100_count": 100,
+  "batch100_sha256": [
+    "2115565d9bbc8399a59a9e84f2db14f20f8609723cef6b69f87e37322447532e",
+    "8c98afb26d0ad42b15beb35d5cda97d26ff44e4920e1a844f7df1cc443dc7833",
+    "8051715712cf030cce0a040d3dc18d523fb2a38b3747eebff810060ee393e03f",
+    "be0a47e1815f485f8d8eeb8caf2577dee09b55cb745d4600b7d3db9b8bff4000",
+    "07a2442becf1adc9b8b7f0c2d09f4f23e19c14c46b60a4e0ab617d41f25b87bd",
+    "73f639e8d55cc491bef8dc35f9cc452cb54b057382f596728ad48f5f14460e56",
+    "de0d9679f4fb5d713d12ea863a8d261a3393275d3236ba3f493b392be766f6cd",
+    "c11e396fc01eee1ca681a1fd97d24af2b82f735e6bb8931830ed6520bfce0c31",
+    "48a65a269076a202b426869f43b7b8a94a16a6951265d01c51f190fc8e5e5116",
+    "719185beaf2814caf745b767d9773a7fefb2305fed861cadb15b1f7c1ff1be31",
+    "85559cd2fa2c53fff8b0b340a53b27b5dbe5d89d90928211f1bbe3ce42f709cd",
+    "48bff9b9a3abd34e262468b40d1c3c87729ce1965b69e579209216be53551577",
+    "d9ce91644aed20d43c545e5951f95921c254815920d713b0b827adbf39979750",
+    "d3068aef3549e52112e1535b5b244c4ea1c5a10505af598123f4e9961fe1e229",
+    "c798e1972d7edf951f39759433503b577ad395d319ca82faf7bf720d68517e57",
+    "c364dd2bef27d0c54fb97963219ee05246cd0e043285fa8a9522177325a850d7",
+    "10c7015cfa197728dca5d402dfb9a0fa14a059844a5f8c44ab3fa7a8007499fa",
+    "035ff5d6f01027972a6bcf3f7d5d2047849ab3a637b7c35d1814732b5860a253",
+    "4a3037968c6d102eff60e9dd8a015d4f81276e75ab4c19a14d95948028e36603",
+    "648736f4671301134cd44180511984965cdfecf6a9397ff9b25a31d6fd74e55e",
+    "c7f2919d0849f7fe2e0b7abba78f08cb97f525c01e320b0725ed674adf251abc",
+    "d7b8664a6cdc6927a1f030525e6e58608dd93f8d355dd5d0dba7732c3cbe1223",
+    "ec676e00904112497f108d33787377e01d27c178572362d05d6b02e26a2573b7",
+    "f22a780dacaa92a4827cecde8c6b88e8982eb52d596a1314ba1c3e0117bb315d",
+    "93a7bd77f021231a54a50a6aa005b050314a23763030ca13a5cce5b41f5a6266",
+    "4290a4c33f69d0cc07aeb98077884fbd78926004cc03789f606edcb3a92c48c4",
+    "d4cc6ed34e393e84272248b7bafb3b1a08b9a7e99234fd461c7cfa4f3471a099",
+    "965c654efffb688ca696313858906c85752044ccbb285aa1446ed08fa57a95c5",
+    "372ebfbbb8235a273777e95c3078d8d817aec728f28da68540169caaeb7fe351",
+    "9a79cbb8c60c8df9c880b34bb1c4bf27a3044fa567807bd45cde54fbefad04c1",
+    "2e36db61d6025d0cc04fc0a9e31b90d07dbdbc393acaa2445ce3ae2ea7c9b8bc",
+    "929eea7b131a88541c83dfd578a19d6492d4476b3cfc54c4d3586ac6a6d7eda2",
+    "beed2fc3b539b72995adfadcb421000ef6cf1ef31eb4d1796d5569b771a5dc9c",
+    "f34427da3cc21f2bb4ff978a50be98e20ebad79893036e10996a47ef7e6e0100",
+    "546cd90a18549e5adc697763661292bcf6d7599d440e0edf27388c5ec59c2d4e",
+    "161f0603e57657f6afbe88b8bcadac8fcf8db1bca7ac38b40ef9548b63502db6",
+    "b8ae1e1ad51e01da0af6e768e20594f6c4a9691362f94d2a4c6932a0ebe90f97",
+    "5588399be7e27d9bfca2d84410557dbdd38ebcce0747ae6af0873998731b1fc2",
+    "332e92e5fa8ecde1013480ac8cc66a79f9bcc7ac7d48a378aee3bec785a4d06c",
+    "17e935060e3b017c6abc04ce0df7b91d5faa1d80ddbef85e8860efea1ccd26eb",
+    "8b293ad91a1f45332966a074870ec7c7215cb9ab63a8fe3fc0ee94bd560e44e7",
+    "9848a7b2d75aaa9ec6e12bc095fa2ecc460caaec1b61d152e862bf916ff90d12",
+    "880d8f1dc67481a961503943bb1e2b94e0e31e61ba42d426593ae98e7da65b24",
+    "07b48addf371088294c8bd9703db696820ae6973d6de6ea2322475ac3903d8a6",
+    "87bbbd019b8c9c78eadba0f4871d10d3dcb7531841b4089be9eaf632f07ae250",
+    "0ead1ab045ae83ccf807d4984f9cfb54a3e8d6b2138065bae0f0f186b9decaea",
+    "070c7a1c18d605615c69938b636928d613ad4b1ac9c4ef4e619ad7b19c97b2c0",
+    "6d5b3c8f1823e0be4c6f5b9feb052eb96cb77b023aa798366d88636fba6f2186",
+    "4f6449d0627da259bb3788f53df105950b3d644bf9423f969afaf7f0c67f1af4",
+    "d9e62583d7b73a2eec65b6e5dea920a7a262b31a3569edee5c6e3ad0109d49be",
+    "3290283b5ce437311e32d92de5f11724940d17ac8b02c74385b0f8bfbb079803",
+    "6362cd5284e97116a41ce3e31f3ab095fdd5ed638e9c045cb3c3e6b596c7cd20",
+    "eb640e3b21e0d2877870563967ee4ba4be7f592900f6f4ee77b6549278bf9c29",
+    "ea12c91c81b5ee6962aee7a7e4857e25bf462bf93a855e32485dd2df72354a10",
+    "3c749a289dc28294c6b4026beb8acc6486d727f9e687a06677d1fa7c5e2185e5",
+    "05e7ce976fb79e0af2fc15fa8063e565c6adf418a38be13137ff0a112c29e26c",
+    "f4b11f43cc387a15f0ec526b135591cb5935ca982c94e0a42556ce90ae9b211b",
+    "81bb7e23546e809d5ad69616d4ef6b982e8b0b4215ddcc473a8d6a6a4f237c2d",
+    "16a3e5b2b54f3e536a2796db5c6934696242fbd70fb8a1b1de3bfa454d039737",
+    "6fdb5f70154b2e3a056d43f4037e9f724b1af496197f95030100306e08d1f0d7",
+    "df34b5151338b01e863af5dbe517f85497d87f8146153598df44e03d19b873a5",
+    "3c3e3e8ddceb63433ac287ec2c3549ec1e2eb3ee8abdb6a72c8438796f54f929",
+    "d1a38ef46b7d2c0c2b901076bb34ef8536df4fb745345d317631d69bb2b29121",
+    "32547b3c6fb2332466f4df62da21e57faa2098a1c32425f10e41f50c52a2db98",
+    "a3e4eb6acd24d0bc83b786683ac2b5edbf931d85be3272f30618a15bdb8c11b0",
+    "815bce4e8e66940b4fe6eb40096a211ff7625c8c5c51605b7b94a7b8998168f0",
+    "1b3a3cbd6ea5361822fc6f0a9ee59945ea1a98b88d409b1cee98269143a0edde",
+    "8ad918a8babcd4cdbae848bbe1796a131883d243aec52c42d0d14b4cde3f3178",
+    "22544b2c5ac51c87364d95714c0540b6a5a547f58e4fffdb99fa01e80d9020cf",
+    "ff8f3629d6b941d1724d4e8206e65524de51eb7ed6e3b16a730bfccf15226818",
+    "d8f3f40f5d295d351a3d211cd6d2f514b979ed8655ae5611fb293e9c2cbcb808",
+    "42ee6d04237127889542c22c7853197e8f0fe1ad67309437a7febc43496a1c64",
+    "e692de1f8539cf5a5dfe7a61c921e7b0576572d7a6c4309875549b8ba3e42c68",
+    "e282952d8641739534b6850a4fd75670fba909505742db1f0fb486363d025eb0",
+    "ea87a46d5e53e664432ba3a65c201a384ec969e385a50786b60263f156b8ddf1",
+    "52c23057cceaaf018308cd59e4b254d4d9e3d3fb928fa4fc4948c43dea86c7a7",
+    "355708b61516823bf39b9d3b7f95917736a5f1e31676a8403000932308c2809b",
+    "69660ad35199e0fa25c9908a9dc7cfbd4311a3e17fcf60c18dc2fb5401088a3b",
+    "ae8b1fcfa89bad7d2e02ec4a61b00e1abd3fad487a87ddc4fb7b5b748c2b7198",
+    "409e01a8886f53e2e6a5772a07e0612a773d921581a22d0ba9f22371237411d6",
+    "698dd7c110ad0cd77be3bda9bb3298c4561c62cc4815dbbd95c40d84ae539093",
+    "9367117ac34a68442495db3196991c7c9e91d47c97f7fe103ed2fc43fc30d98d",
+    "252d6beb0a7d3f15899903820c9a049af4352f952b75d5f4d6f20764873a106f",
+    "d5c5b9348257f85d8b737546da67855a309d0acd413f29fd74b27b744d36985b",
+    "ba3e88937798c62428d7e73afe6bf1772ee79f91c6520ceccba0a6655c2e6535",
+    "67599639c89e445ccf6dddcfc605bb9d1eb1bc8c263c7efacb29620ccb0e6f6e",
+    "0c5daba322f57d961febf903a4c0cb2be39d73c8abe510eb397bac287a762ab8",
+    "60bc8d4393c5e856a78d8e794901d66affe4f803eebfff5f1386c41b529e255e",
+    "c67691ce6c85e2613e2b30540fededb7528fa59ca49665536136cebd9a6eb107",
+    "daf34f2d6816aad2f5f1ad0cf4141685ed698dd1e9e4caec869ea2a185a4f4e7",
+    "33e74e181c9ea9d20a29ffe319e44d127901f6c2e39527b40ec8caf818872080",
+    "ff4fa831311a588b1c931545fbdd306367742ffd10d372d389b118f13fd4b1b7",
+    "d021902a604d388e28d2fd6a9b34839eb926b131b1d284446e3014d28acc3fa0",
+    "8c82df5105cd2eef0636a32854fa58d879a35e5a572a0b93248c1772dde3f473",
+    "bf6ea8e417456bb1717ece15c76db14bf84b1790e373313b296dd7f36e9add54",
+    "6a47751c902269d81d9adfbade0da68a36a795320988adc4b4f178d8e73df4c9",
+    "241b5dec9a35c03da79b11a703e24ba1b1e0e6fe04354cf2a98b5efba1dff8cc",
+    "1637f20f6e254aae16994ead9e4ce73ca06f494deda5f0ea96fc49dd264eb4b1",
+    "c4fcf07600ade2fd886a6aabf15d14ccee662ae4018fff714b3a380e7c9381a8",
+    "a4f4b34251faf85c1a93dede8b69ef858d7732b891849a827b610434679ee2fa"
+  ],
+  "models": {
+    "llama3-8b-inst": {
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "assets": {
+        "canonical_hparams": {
+          "path": "/data/janghj/EasyEdit/hparams/AlphaEdit/llama3-8b.yaml",
+          "sha256": "d403e1875e62096b089be5343d33896510e454b0cdd2b256618ab53de6609ef8"
+        },
+        "projector": {
+          "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+          "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+          "shape": [
+            5,
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "layer_mapping": {
+            "4": 0,
+            "5": 1,
+            "6": 2,
+            "7": 3,
+            "8": 4
+          }
+        },
+        "covariance": {
+          "4": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+            "shape": [
+              14336,
+              14336
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "5": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+            "shape": [
+              14336,
+              14336
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "6": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+            "shape": [
+              14336,
+              14336
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "7": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+            "shape": [
+              14336,
+              14336
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "8": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+            "shape": [
+              14336,
+              14336
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          }
+        }
+      },
+      "asset_ready": true,
+      "model_load_ready": true,
+      "tokenizer": {
+        "class": "PreTrainedTokenizerFast",
+        "padding_side": "right",
+        "bos": 128000,
+        "eos": 128009,
+        "default_add_bos": null
+      },
+      "context_ready": true,
+      "native_shadow_ready": true,
+      "context_identity": "81c5f02240d817af855b97b67164cc9f7d0693bebbede6af7efe19625ab760ed",
+      "evaluator_ready": true,
+      "experiment_ready": true,
+      "smoke_evidence": {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/smoke-output/50986-llama3-8b-inst.json",
+        "sha256": "7f1115472c8fd31871a291709252867a7ee6dd3a69f42d8d5ff83e0ff4ae19a2"
+      },
+      "covariance_loader_ready": true
+    },
+    "qwen2.5-7b-inst": {
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+      "assets": {
+        "canonical_hparams": {
+          "path": "/data/janghj/EasyEdit/hparams/AlphaEdit/qwen2.5-7b.yaml",
+          "sha256": "82d04976c4ab65e67c537ac3bd1b04d42c8f7527e2a749bdefcce63e43b995c3"
+        },
+        "projector": {
+          "path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+          "sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+          "shape": [
+            5,
+            18944,
+            18944
+          ],
+          "dtype": "float32",
+          "layer_mapping": {
+            "4": 0,
+            "5": 1,
+            "6": 2,
+            "7": 3,
+            "8": 4
+          }
+        },
+        "covariance": {
+          "4": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+            "shape": [
+              18944,
+              18944
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "5": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+            "shape": [
+              18944,
+              18944
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "6": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+            "shape": [
+              18944,
+              18944
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "7": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+            "shape": [
+              18944,
+              18944
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          },
+          "8": {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+            "shape": [
+              18944,
+              18944
+            ],
+            "dtype": "float32",
+            "npz_key": "mom2.mom2"
+          }
+        }
+      },
+      "asset_ready": true,
+      "model_load_ready": true,
+      "tokenizer": {
+        "class": "Qwen2TokenizerFast",
+        "padding_side": "right",
+        "bos": null,
+        "eos": 151645,
+        "default_add_bos": null
+      },
+      "context_ready": false,
+      "native_shadow_ready": false,
+      "evaluator_ready": true,
+      "experiment_ready": false,
+      "smoke_evidence": {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/smoke-output/50986-qwen2.5-7b-inst.json",
+        "sha256": "e6d2bbf54e220fb63bfb5702e5ec4e789cd8da27b93fcf96611ff22424b52a65"
+      },
+      "covariance_loader_ready": true
+    }
+  },
+  "save_checkpoints": false,
+  "tf32_matmul": false,
+  "tf32_cudnn": false,
+  "attention": "eager",
+  "dtype": "float32",
+  "asset_inventory": "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/asset-inventory.json",
+  "native_config": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/contexts/config4.json",
+  "context_capsule": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/contexts/cold-capsule.json",
+  "source_allowlist": "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/source-allowlist.json",
+  "native_source_sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+  "cpu_verified_at": 1789824854.2976725,
+  "EXPERIMENT_READY": true,
+  "required_model": "llama3-8b-inst",
+  "status": "EXPERIMENT_READY",
+  "readiness_job": {
+    "job_id": "50986",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 52,
+    "allocated_gpus": 1,
+    "allocated_cpus": 8,
+    "host_memory_mib": 121856,
+    "allocated_gpu_hours": 0.014444444444444444,
+    "science_denominator": 0
+  },
+  "requirements_lock": {
+    "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/requirements.lock.txt",
+    "sha256": "f75fa1f5d02f728a178800ce1c04e8a72205ab173dc2520f0975cc535848ab59"
+  },
+  "native_stats_loader_receipt": {
+    "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/stats-loader-receipt.json",
+    "sha256": "2d76d7001ed1fda00b5cb80220dc9457777f2f8f66ffbe682b2f651cffaf399a"
+  },
+  "runtime_env": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/runtime.env",
+  "smoke_launcher": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/smoke-source-v1/run.sbatch",
+  "checked_at": "2026-09-19T22:42:44.310859+09:00",
+  "source_commit": "5d9443f0a51fdac3aa894376b91b63d393803806",
+  "remaining_limitations": [
+    "Qwen-specific native context/hparams binding and shadow edit NOT_VERIFIED; Qwen model/assets/evaluation READY",
+    "No new scientific task has been submitted",
+    "Cross-host bitwise metric parity is not claimed"
+  ]
+}

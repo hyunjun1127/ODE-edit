@@ -1,0 +1,52 @@
+{
+  "instruction_id": "ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1",
+  "status": "PASS",
+  "root_boundary": "PASS",
+  "worktree_boundary": "PASS",
+  "own_identity": "COMMAND_SCOPED",
+  "write_scope": "EXPLICIT_GH_ENVELOPE",
+  "fixed10k": "PASS",
+  "native_source_seal": "PASS",
+  "local_asset_sha_size": 35,
+  "CPU_shape_dtype_mapping": "PASS",
+  "offline_tokenizer_context": "PASS",
+  "package_ABI_imports": "PASS",
+  "uv_pip_check": "PASS (77 packages before matplotlib dependencies included; final freeze authoritative)",
+  "slurm_dry_run": "PASS; estimate was not an availability guarantee",
+  "project_cap_admission": "0+1<=2",
+  "readiness_concurrent_gpus": 1,
+  "explicit_mem_mib": 121856,
+  "requeue": 0,
+  "wall_limit_seconds": 3600,
+  "actual_GPU_load": {
+    "llama": "PASS",
+    "qwen": "PASS"
+  },
+  "native_shadow_llama": "PASS and W/history/RNG restored",
+  "edited_checkpoint_saved": false,
+  "original_dirty_preserved": true,
+  "CPU_repairs": [
+    {
+      "stage": "asset inventory",
+      "failure": "atime included in full stat comparison",
+      "repair": "compare dev/inode/size/mtime only; SHA mismatch not bypassed"
+    },
+    {
+      "stage": "native import",
+      "failure": "missing matplotlib",
+      "repair": "installed source runtime version3.10.7 in isolated venv"
+    },
+    {
+      "stage": "native cached statistics probe",
+      "failure": "progress=None lambda does not accept total",
+      "repair": "probe callback accepts kwargs; native source unchanged"
+    }
+  ],
+  "GPU_failures": 0,
+  "remaining": "Qwen native context/shadow NOT_VERIFIED; outside mandatory Llama READY claim",
+  "generic_access_exception": {
+    "path": "runs/odeedit_server3_readiness_20260919/summary.json",
+    "authority": "messages/head/2026-09-19-sh3-experiment-readiness.md §5 explicit write and generic helper exception",
+    "helper_modified": false
+  }
+}

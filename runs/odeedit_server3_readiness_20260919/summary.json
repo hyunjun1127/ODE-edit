@@ -1,0 +1,11 @@
+{
+  "job_id": "50986",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed_seconds": 52,
+  "allocated_gpus": 1,
+  "allocated_cpus": 8,
+  "host_memory_mib": 121856,
+  "allocated_gpu_hours": 0.014444444444444444,
+  "science_denominator": 0
+}

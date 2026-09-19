@@ -1,0 +1,11 @@
+{
+  "members": 35,
+  "reused": 35,
+  "asset_transfer_bytes": 0,
+  "source_transfer_bytes": 26904129,
+  "context_extra_bytes": 39103,
+  "original_keep": true,
+  "delete": 0,
+  "overwrite": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

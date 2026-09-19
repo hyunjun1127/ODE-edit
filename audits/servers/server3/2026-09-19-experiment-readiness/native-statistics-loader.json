@@ -1,0 +1,132 @@
+[
+  {
+    "model": "llama3-8b-inst",
+    "layer": 4,
+    "physical_index": 0,
+    "shape": [
+      14336,
+      14336
+    ],
+    "dtype": "torch.float32",
+    "count": 66019200,
+    "normalized_covariance_probe_norm": 0.0011841391678899527,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "llama3-8b-inst",
+    "layer": 5,
+    "physical_index": 1,
+    "shape": [
+      14336,
+      14336
+    ],
+    "dtype": "torch.float32",
+    "count": 66019200,
+    "normalized_covariance_probe_norm": 0.003385829972103238,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "llama3-8b-inst",
+    "layer": 6,
+    "physical_index": 2,
+    "shape": [
+      14336,
+      14336
+    ],
+    "dtype": "torch.float32",
+    "count": 66019200,
+    "normalized_covariance_probe_norm": 0.0030064869206398726,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "llama3-8b-inst",
+    "layer": 7,
+    "physical_index": 3,
+    "shape": [
+      14336,
+      14336
+    ],
+    "dtype": "torch.float32",
+    "count": 66019200,
+    "normalized_covariance_probe_norm": 0.003650994272902608,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "llama3-8b-inst",
+    "layer": 8,
+    "physical_index": 4,
+    "shape": [
+      14336,
+      14336
+    ],
+    "dtype": "torch.float32",
+    "count": 66019200,
+    "normalized_covariance_probe_norm": 0.0023616955149918795,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "qwen2.5-7b-inst",
+    "layer": 4,
+    "physical_index": 0,
+    "shape": [
+      18944,
+      18944
+    ],
+    "dtype": "torch.float32",
+    "count": 64421556,
+    "normalized_covariance_probe_norm": 0.035171136260032654,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "qwen2.5-7b-inst",
+    "layer": 5,
+    "physical_index": 1,
+    "shape": [
+      18944,
+      18944
+    ],
+    "dtype": "torch.float32",
+    "count": 64421556,
+    "normalized_covariance_probe_norm": 0.034537263214588165,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "qwen2.5-7b-inst",
+    "layer": 6,
+    "physical_index": 2,
+    "shape": [
+      18944,
+      18944
+    ],
+    "dtype": "torch.float32",
+    "count": 64421556,
+    "normalized_covariance_probe_norm": 0.08179581165313721,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "qwen2.5-7b-inst",
+    "layer": 7,
+    "physical_index": 3,
+    "shape": [
+      18944,
+      18944
+    ],
+    "dtype": "torch.float32",
+    "count": 64421556,
+    "normalized_covariance_probe_norm": 0.07177036255598068,
+    "native_cache_loader": "PASS"
+  },
+  {
+    "model": "qwen2.5-7b-inst",
+    "layer": 8,
+    "physical_index": 4,
+    "shape": [
+      18944,
+      18944
+    ],
+    "dtype": "torch.float32",
+    "count": 64421556,
+    "normalized_covariance_probe_norm": 0.07042808085680008,
+    "native_cache_loader": "PASS"
+  }
+]

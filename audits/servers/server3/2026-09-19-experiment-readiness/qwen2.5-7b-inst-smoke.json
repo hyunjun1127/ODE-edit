@@ -1,0 +1,144 @@
+{
+  "model": "qwen2.5-7b-inst",
+  "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "job_id": "50986",
+  "save_checkpoints": false,
+  "status": "PASS",
+  "torch": "2.9.1+cu128",
+  "transformers": "4.44.2",
+  "gpu": "NVIDIA H200 NVL",
+  "cuda": "12.8",
+  "model_load_seconds": 6.417685998603702,
+  "key_module_capture": {
+    "4": {
+      "shape": [
+        1,
+        6,
+        18944
+      ],
+      "finite": true,
+      "dtype": "torch.float32"
+    },
+    "5": {
+      "shape": [
+        1,
+        6,
+        18944
+      ],
+      "finite": true,
+      "dtype": "torch.float32"
+    },
+    "6": {
+      "shape": [
+        1,
+        6,
+        18944
+      ],
+      "finite": true,
+      "dtype": "torch.float32"
+    },
+    "7": {
+      "shape": [
+        1,
+        6,
+        18944
+      ],
+      "finite": true,
+      "dtype": "torch.float32"
+    },
+    "8": {
+      "shape": [
+        1,
+        6,
+        18944
+      ],
+      "finite": true,
+      "dtype": "torch.float32"
+    }
+  },
+  "P_C0_mapping": {
+    "4": {
+      "physical_index": 0,
+      "P_probe_norm": 0.9955652356147766,
+      "C0_probe_norm": 2265788.0
+    },
+    "5": {
+      "physical_index": 1,
+      "P_probe_norm": 0.9964461922645569,
+      "C0_probe_norm": 2224957.25
+    },
+    "6": {
+      "physical_index": 2,
+      "P_probe_norm": 0.9303613305091858,
+      "C0_probe_norm": 5269424.5
+    },
+    "7": {
+      "physical_index": 3,
+      "P_probe_norm": 0.9379534125328064,
+      "C0_probe_norm": 4623564.5
+    },
+    "8": {
+      "physical_index": 4,
+      "P_probe_norm": 0.935520350933075,
+      "C0_probe_norm": 4537086.0
+    }
+  },
+  "evaluator_binding": {
+    "sources": {
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py": {
+        "bytes": 3134,
+        "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8"
+      },
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py": {
+        "bytes": 3407,
+        "sha256": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e"
+      },
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py": {
+        "bytes": 4018,
+        "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e"
+      },
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py": {
+        "bytes": 6936,
+        "sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e"
+      },
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py": {
+        "bytes": 7892,
+        "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+      }
+    },
+    "canonical_microbatch": 16,
+    "package_initializers_executed": 0,
+    "source_modification": 0,
+    "transaction_guard": "CALLER_OWNED"
+  },
+  "evaluation": {
+    "RS": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0.0,
+      "bit_order_sha256": "bfdcac62c70be40cf5fd4368fb90fc7f97794fa3adeee66d10c1473e990c01a5"
+    },
+    "PS": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0.0,
+      "bit_order_sha256": "48282a04a8b709ade76565ba68536216e9e0d19c273110978de7f3ebc23f01cf"
+    },
+    "NS": {
+      "numerator": 10,
+      "denominator": 10,
+      "rate": 1.0,
+      "bit_order_sha256": "08e993858f575bbfc533285090ce0dd0ff7e2a5bfd521754b4f2fa7dc49bd4f6"
+    }
+  },
+  "evaluation_request_count": 1,
+  "native_shadow": {
+    "status": "NOT_RUN",
+    "reason": "Qwen-specific completed context/native hparams not bound; model/assets/evaluator checked separately"
+  },
+  "model_load_ready": true,
+  "seconds": 24.122609045356512,
+  "peak_gpu_allocated_bytes": 31746114560,
+  "peak_gpu_reserved_bytes": 31979470848,
+  "host_maxrss_kib": 34723208
+}

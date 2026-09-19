@@ -1,0 +1,9 @@
+{
+  "free_bytes": 356632551424,
+  "asset_max_bytes": 22575859404,
+  "model_max_bytes": 31312506083,
+  "package_unpacked_reserve_bytes": 32212254720,
+  "download_temp_reserve_bytes": 42949672960,
+  "safety_reserve_bytes": 68719476736,
+  "peak_budget_bytes": 197769769903
+}
