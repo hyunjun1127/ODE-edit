@@ -1,9 +1,20 @@
 # SH3 초기 설정 사실 보고
 
 - instruction_id: `ODEEDIT-SH3-BOOTSTRAP-20260919-V1`
-- 관측: 2026-09-19 KST. 최초 자원 관측 22:09:57, 환경 metadata 22:16 전후.
+- 관측: 2026-09-19 KST. 최초 자원 관측 22:09:57, 환경 metadata 22:14:02.
 - 상태: `BOOTSTRAP_BLOCKED` / `SUBMISSION_NOT_AUTHORIZED`.
 - 범위: 초기 설정, 읽기 전용 준비 상태 확인, 명시적으로 요청된 peer 통신. 과학적 해석/실험 없음.
+
+## 최신 요약
+
+- server3 registry 등록 완료, root ff-only 동기화 및 root/전용 worktree session boundary PASS.
+- GH M0 nonce 수신 ACK는 GH 게시 문서/직접 commentary로 확인. GH direct stream terminal은 timeout 기록 유지.
+- SH1/SH2/SH4는 exact session·nonce·동일 stream `turn/completed` ACK 모두 PASS.
+- SSH hostname GH/SH1·SH2·SH4 PASS. Artifact mapping 미설정, 실제 전송0.
+- 미해결: 승인 실행 interpreter/source/overlay/model revision 및 fixed10k/context/P/statistics identity.
+- `BOOTSTRAP_BLOCKED`, cap0, `SUBMISSION_NOT_AUTHORIZED`, `save_checkpoints=false` 유지.
+
+이하 최초 관측과 후속 해소 내역을 구분하여 보존한다.
 
 ## 서버·세션·저장소 결속
 
@@ -20,15 +31,14 @@
 | 전용 branch | `codex/server3-bootstrap-20260919-v1` |
 | 전용 worktree | `/data/janghj/ODE-edit/local/state/sh3-bootstrap-20260919-v1/worktree` |
 | 초기 registry 대조 | GH/SH1/SH2/SH4 exact session 일치. SH3 session 미지정/future target. SH1 registry CWD와 app resume CWD는 다름: 아래 기록 |
-| boundary helper | exit 4: `BLOCK missing local session boundary config`; 현재 `NOT_CONFIGURED` |
+| boundary helper | exit 4: `BLOCK missing local session boundary config`; 초기 `NOT_CONFIGURED`; 아래 등록 후 검사 PASS |
 | AGENTS.md | `/`, `/data`, `/data/janghj`, repo 및 tracked 하위 경로에서 없음 |
 
 읽은 문서: `PROTOCOL.md`, `servers/connection-inventory.md`,
 `messages/head/2026-08-29-app-server-direct-protocol.md`,
 `servers/slurm-memory-policy.tsv`, `control/gpu-concurrency-policy.tsv`,
 `scripts/check-session-boundary.sh`, `scripts/check-agent-access.sh`.
-초기 `servers/active/server3.md`는 없었다. GH가 정확 session 등록과 최신화 작업을
-담당 중이며 SH3는 해당 파일 및 global plan을 수정하지 않는다.
+초기 `servers/active/server3.md`는 없었다. GH가 정확 session 등록과 최신화를 게시했으며 SH3는 해당 파일 및 global plan을 수정하지 않는다.
 GH가 보낸 `ODEEDIT-GH-SH3-REGISTER-20260919-R1` nonce 지시를 수신했고 ACK했다.
 
 ## 통신 검증
@@ -122,3 +132,40 @@ overlay, pinned model, fixed10k/order/context/P/statistics, 누락 시 설치/�
 
 이번 bootstrap은 누락된 실행환경 및 통신 항목 때문에 `BOOTSTRAP_BLOCKED`이며,
 보고 후 자동 실험·모니터링·기존 task 재개 없이 다음 지시를 기다린다.
+
+
+## 등록 및 local boundary 후속 확인
+
+GH 등록 commit `0ff1e41cc225bb45518b5b9518aea66d7a19ae1f`의
+`ODEEDIT-GH-SH3-REGISTRATION-SYNC-20260919-V1`을 읽고 허용된 설정을 적용했다.
+`ACK nonce=ODEEDIT-GH-SH3-REGISTER-SYNC-20260919-R1`.
+Root를 clean 확인 후 `21a368689bc6227a2d68da6b97f0ff97600ca034`로 ff-only sync,
+tree `6cf2adca84053d39373387d2775c3f72899cf6fe`, ahead/behind 0/0, clean 확인.
+Registry의 실제 host/session/CWD/repo 대조 PASS. 전용 branch도 origin/main을 merge하여
+공유 source를 동기화했고 SH3 소유 report 변경만 추가했다. Main 통합 작업은 수행하지 않았다.
+
+Root와 전용 worktree의 `servers/local/session-boundary.env`를 각각 실제 CWD로
+신규 작성했다. 기존 파일 없음/ignored 확인, 두 boundary helper PASS,
+model/profile 미고정, shared/global Git config 변경 0. 해당 추가 write는 GH envelope의
+명시 허용 범위다. 최초 boundary 미설정 BLOCK은 해소됐다.
+
+GH가 게시한 등록 문서에는 M0의 정확 nonce ACK가 있다. 별도 app commentary에서도
+GH가 동일 nonce 수신을 확인했다. 최초 M0 direct stream의 180초 terminal timeout은
+보존하며 durable ACK/별도 직접 응답 증거와 구별한다. Report commit
+`50de0a8c7d32492242b44077bb9d4a2d22428784` branch push와 GH related steer 수락 확인.
+
+등록/경계 설정 미해결 항목은 해소됐다. 과학 runtime/interpreter/asset identity는
+아직 미준비로 `BOOTSTRAP_BLOCKED`를 유지한다. 활성 cap0는 GH 지시상의 권한이며
+local `gpu-caps.tsv`를 임의 생성하지 않았다. 설치/전송 담당은 다음 준비 계획에서
+SH3 inventory/명령 제안 → GH 별도 승인으로 정해졌다. 실행 승인은 이번 범위에 없다.
+
+
+## SH4 통신 완료 후속
+
+SH4가 idle로 바뀐 사실을 compact snapshot으로 확인한 뒤 최초 미전송 nonce를
+한 번 전달했다. Turn `01a0b9d3-7415-7f63-8800-3e6ba8d886f7` start 수락,
+동일 stream `completed`, `ACK nonce=ODEEDIT-SH3-BOOTSTRAP-SH4-f342bb5ff61b`,
+정확 session `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` 수신 확인.
+SH4 active 보류 항목은 해소됐다. 실험 재개/scheduler/파일 전송 요청 없음.
+GH report turn도 요청 수락 후 180초 terminal 수집 timeout으로 기록했다.
+이는 GH M0 수신 ACK나 이후 등록 게시를 취소하는 상태가 아니며 terminal 검증과 구별한다.
