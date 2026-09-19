@@ -1207,6 +1207,17 @@ Next owner: head-server2.
 
 ## Artifact Rule
 
+### 기본 실험 checkpoint 미저장 (2026-09-19 사용자 지시)
+
+앞으로 별도 명시가 없는 실험은 `save_checkpoints=false`가 기본이다.
+Periodic/best/last/final weight와 W/M/optimizer/RNG resume bundle,
+동등한 복원용 delta를 자동 저장하지 않는다. 해당 task의 사용자 지시 또는
+승인된 구체적 사양이 저장을 명시하면 대상·시점·권한 출처를 예외로 기록한다.
+기존 자료 삭제나 이미 제출된 job 변경 권한은 아니다. 평가·로그·작은
+provenance는 유지하고 미저장 시 exact resume 불가를 명시한다.
+자세한 적용 범위는
+`plans/global/2026-09-19-default-no-experiment-checkpoints.md`를 따른다.
+
 Git may store:
 
 - plans
