@@ -1,0 +1,15 @@
+{
+  "schema":"compact-repair-publication-v1",
+  "execution_source":"5ea4e4efad5a9420674641dd13a04d4651701a08",
+  "files":[
+    {"path":"experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r1/repair-and-gate-policy-ko.md","bytes":9355,"sha256":"62400c296465155a0a0b69090255aabd308cecae3a0cea924d991632cf551d17"},
+    {"path":"messages/server-heads/server4/2026-09-19-single-layer-mechanism-first-repair-r1.md","bytes":1926,"sha256":"33af5a98ffa03fe2da96dba031f9bac52d694be880b366ecef5ae9c0b959cdbb"},
+    {"path":"audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r1/preflight.json","bytes":1853,"sha256":"ee5871acc4f07d138f26d2e55dfd5a1dd22bd89623fad8f6c8ad9bb133aba4d8"},
+    {"path":"audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r1/registration.json","bytes":2012,"sha256":"7e70566ab28bb67247e5bec61de9473ce469bf41d94f080e24706096d3369880"},
+    {"path":"tasks/status/single-layer-mechanism-first-sh4-20260919-v1/server4.json","bytes":1861,"sha256":"3833fcfb3b6bb27af8573175ae451aab2d4a245fbd74bcf0ee1f91192fbb75dd"}
+  ],
+  "checks":{"table_columns":"PASS","relative_links":3,"JSON_parse":"PASS","ownscope_raw_free":"PASS","CPU_tests":207,"HTML_render":"NOT_RUN_RENDERER_UNAVAILABLE","GPU_parity":"NOT_OBSERVED","independent_red_agent":false},
+  "source_raw_preserved":true,
+  "monitoring_active":false,
+  "automatic_resume":false
+}

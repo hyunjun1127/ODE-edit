@@ -63,7 +63,7 @@ Native 원 source SHA `a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb2
 - 위 수리 helper의 20 CPU tests는 전체 검사에 포함된다. 별도 bounded helper가 hook 3파일을 구현했고 부모가 diff와 통합을 검토했다. 별도 독립 red/GPU audit는 수행하지 않았다.
 - CPU retained binding PASS, actual fresh tokenizer/runtime 및 GPU parity는 아직 NOT_OBSERVED다.
 - session helper는 전용 worktree의 ignored 설정 부재로 NOT_PASS다. 실제 host server4, repo origin, root CWD 및 현재 registry의 SH4 session은 결속했다. 공용 helper/config 변경은 0이다.
-- 기존 50983을 보존하며 cap 계산에서는 보수적으로 1GPU admitted로 센다. 새 inline repair job 1GPU와 합계≤2만 허용한다. CPU8/mem60416MiB/exportNONE/Requeue0, planned wall 7일. GPUh hardcap 미지정이다.
+- 기존 50983을 직접 변경하지 않으며 resource-only 목록에 나타나는 기존 job은 보수적으로 cap에 합산한다. 새 inline repair job 1GPU와 합계≤2만 허용한다. CPU8/mem60416MiB/exportNONE/Requeue0, planned wall 7일. GPUh hardcap 미지정이다.
 - 초기 24GiB 및 후속 stage 저장 검사는 유지하며 기존 storage waiver를 상속하지 않는다. Stage별 여유를 실제 예약/보장으로 표시하지 않는다.
 - 등록 후 자동 agent 모니터링·후속 submit은 0이다. 프로그램은 기존 기술·과학 gate를 만족하는 범위만 최대 B10까지 자체 진행하며 실패 gate에서 종료한다.
 
@@ -76,3 +76,19 @@ CPU: `python -B -m unittest discover -s project/run_scripts/single_layer_mechani
 Create-once plan: `python -B -m project.run_scripts.single_layer_mechanism_first.repair_plan --output <new-task-plan.json>`.
 
 Clean execution commit을 `freeze --phase GATED_PROGRAM --attempt hook-repair-r1`로 봉인하고 `submit_repair --lock <execution.lock.json>`로 held inspection/release한다. 이미 submission receipt가 있으면 중복 제출을 거부한다. 실제 source/archive/lock/job은 후속 compact registration receipt에 기록한다.
+
+## 실제 재등록 인계
+
+새 job **51055 / odeedit_slmf_repair_s4**를 held inspection 13항목 PASS 후 release했다. Admission 시각 2026-09-19T17:13:17.061245Z(한국시각 2026-09-20 02:13:17), resource-only own queue 목록은 비어 있었다. 앞서 확인한 50983의 상태를 다시 과학/task 조회하지 않았으며 SH의 cancel/hold/dependency 변경은 0이다.
+
+Release 직후 반환 상태는 PENDING / Reason=None / Dependency=(null)이다. 이를 GPU 자원 부족이나 repaired T0 성공으로 해석하지 않는다. 사용자 모니터링 중지 지시에 따라 registration 이후 scheduler/result/log를 조회하지 않았다.
+
+- 실행 source `5ea4e4efad5a9420674641dd13a04d4651701a08`, tree `ecb82501825c3df49d03d607d3be55ce0e444e2a`.
+- archive SHA `fb394661c9abdea78b2327ea8fd858e82858ad58f5e55af7d9011d85fdd981d1` (464,841,980B).
+- lock SHA `d437b1dd190153eee0a247f15a875236245d007bc549b8975a698ef9af346d9e`.
+- output `/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/output`.
+- 관측 여유 51,965,227,008B, inode 225,321,719; 초기 24GiB 조건 충족. 후속 stage 여유는 보장하지 않는다.
+- actual repaired hook/full T0/B1/S3/S10는 모두 `NOT_OBSERVED`; 새 allocation 비용도 아직 미검산이다.
+- 표 3개/20행/열수 4·3·2 source 검사 PASS. HTML renderer는 해당 venv에서 미설치이므로 실제 HTML render NOT_RUN, 그림은 이 인계에 불필요하여 생성하지 않았다.
+
+[compact 등록/receipt](../../../../../audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r1/registration.json)는 repository root 기준 audit 경로에 보존한다. `monitoring_active=false`, `automatic_resume=false`, `WAITING_USER_RESUME`.

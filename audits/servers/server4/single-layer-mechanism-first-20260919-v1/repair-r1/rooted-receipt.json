@@ -1,0 +1,22 @@
+{
+  "instruction":"ODEEDIT-S06-SL-MECHANISM-FIRST-ZHOOK-SH4-V1",
+  "user_repair_and_leniency_date":"2026-09-20",
+  "repository":"hyunjun1127/ODE-edit",
+  "root":"repository-relative paths in publication-manifest.json",
+  "publication_manifest_sha256":"c12a98b6cfe505a19face43f7a879b58c025f640c576ee4b800db772059ad9bc",
+  "input_plan_sha256":"9a78287f8a118ebbc2b8fff186565aa47c990363835ed403ed667a7978fdb761",
+  "execution_commit":"5ea4e4efad5a9420674641dd13a04d4651701a08",
+  "execution_tree":"ecb82501825c3df49d03d607d3be55ce0e444e2a",
+  "execution_archive_sha256":"fb394661c9abdea78b2327ea8fd858e82858ad58f5e55af7d9011d85fdd981d1",
+  "execution_lock_sha256":"d437b1dd190153eee0a247f15a875236245d007bc549b8975a698ef9af346d9e",
+  "job_id":"51055",
+  "validation_level":"CPU207_AND_EXACT_NATIVE_REFERENCE_BINDING_AND_HELD_REGISTRATION; GPU_REPAIR_NOT_OBSERVED",
+  "gate_policy":"USER_TRAJECTORY_GRADIENT_DIAGNOSTIC_20260920_V1",
+  "scientific_method_thresholds_changed":false,
+  "historical_failure_reclassified_as_PASS":false,
+  "new_checkpoint_saved":false,
+  "exact_resume":"NOT_AVAILABLE",
+  "status":"WAITING_USER_RESUME",
+  "monitoring_active":false,
+  "automatic_resume":false
+}
