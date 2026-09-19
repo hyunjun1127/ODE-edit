@@ -1,6 +1,10 @@
 {
   "instruction_id": "ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1",
-  "status": "APPROVED_AWAITING_DELIVERY",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "f90ab99bedc3432776b26df84df773b11a5a9cd5",
+  "dispatch_turn": "01a0b9d6-9704-7db0-b35f-eb279e3e8e1c",
+  "dispatch_nonce": "ODEEDIT-GH-SH3-EXPERIMENT-READY-20260919-R1",
+  "receipt": "SH3 same-stream exact nonce ACK; preparation continuing, readiness NOT_YET_ESTABLISHED",
   "owner": "head-server3",
   "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
   "cwd": "/data/janghj/ODE-edit",
