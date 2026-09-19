@@ -27,9 +27,17 @@ basis.components[0].added에서 JSON 직렬화가 실패했다. NumPy 2.2.6의
 
 ## CPU 검사
 
-220 tests PASS, 9.266초. 신규7 tests는 실제 basis 및 covariance/solver
+첫 검사 220 tests PASS, 9.266초. 신규7 tests는 실제 basis 및 covariance/solver
 receipt를 원 strict JSON writer로 저장·재읽기하고, 기존 NumPy bool 오류 재현,
 중복쓰기 거부, B1 gate PASS/FAIL 모두 B2 차단, T0 실패의 B1 차단을 검사했다.
 기존 213 checks도 포함한다. 이는 GPU 수치검증 또는 B1 완료 증거가 아니다.
 독립 agent red는 미실행이며 SH 자체 source/CPU 검산이다.
 기존 hook trajectory gradient 경고 정책 외 수치 gate 완화 없음.
+
+## 제출 전 추가 CPU 재현
+
+실제 NumPy noise scalar를 넣은 미해결 FD 결과의 resolved도 같은 NumPy bool
+직렬화 오류를 재현했다. resolved 및 projector 판정 receipt를 Python bool로
+명시 변환했고, NumPy noise의 resolved/unresolved 양쪽 JSON roundtrip을 추가했다.
+과학식·수치·비교식은 변경하지 않았다. 첫 904574e 봉인 archive는 미제출로
+보존하고 추가 수리 source를 새 b1-repair-r3a attempt에 봉인한다.

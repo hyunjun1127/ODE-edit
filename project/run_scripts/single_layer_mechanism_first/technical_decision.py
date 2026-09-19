@@ -86,7 +86,7 @@ def classify_fd(points, *, AD, noise, direction_norm):
                     p["plus_sha256"] != p["minus_sha256"] and
                     p["plus_nonzero"] > 0 and p["minus_nonzero"] > 0)
         p.update(AD=AD, FD=fd, signal=signal, noise=noise, absolute_error=abs(fd - AD),
-                 relative_error=relative, resolved=resolved,
+                 relative_error=relative, resolved=bool(resolved),
                  match=bool(resolved and relative is not None and relative <= FD_POLICY["FD_relative"]))
         classified.append(p)
     width = FD_POLICY["FD_adjacent"]
@@ -223,7 +223,7 @@ def _projector_probe(space):
     idem = float(np.linalg.norm(space.project(qx) - qx) / max(1., np.linalg.norm(qx)))
     symmetry = abs(float(np.sum(qx * y) - np.sum(x * qy))) / max(1., np.linalg.norm(x) * np.linalg.norm(y))
     return dict(status="PASS" if max(idem, symmetry) <= NUMERIC["projector_fp64"] else "FAIL",
-        pass_=max(idem, symmetry) <= NUMERIC["projector_fp64"], idempotence=idem, symmetry=symmetry,
+        pass_=bool(max(idem, symmetry) <= NUMERIC["projector_fp64"]), idempotence=idem, symmetry=float(symmetry),
         ceiling=NUMERIC["projector_fp64"], probes=4, seed=20260919,
         scope="BOUNDED_FP64_OPERATOR_PROBES_PLUS_REUSED_ALLOWED_BASIS; NOT_FULL_OPERATOR_CERTIFICATE")
 

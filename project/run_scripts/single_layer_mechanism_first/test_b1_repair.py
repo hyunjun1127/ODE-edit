@@ -9,6 +9,8 @@ from .basis import build_functional_basis, append_covariance_direction
 from .solver import solve_coefficients
 from .program import B1_ONLY_AUTHORITY, require_program
 from .science import batch
+from .technical_decision import classify_fd
+from .test_technical_decision import points
 from .test_program_integration import ProgramHarness, lock_fixture
 from project.run_scripts.single_layer_edit_preserving_correction.common import write
 
@@ -43,6 +45,13 @@ class Tests(unittest.TestCase):
 
     def test_plain_json_rejects_original_numpy_bool_regression(self):
         with self.assertRaises(TypeError):json.dumps({'added':np.bool_(True)})
+
+    def test_actual_numpy_noise_resolved_and_unresolved_FD_receipts(self):
+        for derivative in (0.,2.):
+            value=classify_fd(points(AD=derivative),AD=derivative,
+                noise=np.float64(1e-8),direction_norm=1.)
+            self.roundtrip(value)
+            self.assertTrue(all(type(row['resolved']) is bool for row in value['full_grid']))
 
     def test_pass_and_fail_both_stop_at_B1(self):
         for passed in (True,False):
