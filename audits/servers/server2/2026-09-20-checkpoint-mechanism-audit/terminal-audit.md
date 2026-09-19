@@ -4,6 +4,12 @@
 checks apply to this package only. This is owner audit plus independently implemented CPU
 NLL/transition reducer, not an independent red agent/model PASS.
 
+Format exception: default `git diff --check` flagged CR line endings in the newly generated
+cell-execution-ledger.csv (Python csv writer convention). Rows were not numerically changed
+to satisfy whitespace checking. `git -c core.whitespace=cr-at-eol diff --check` passes for the
+complete74-file own-scope source/report delta; other whitespace checks remain active.
+All74 paths were checked against the explicit owner write allowlist; forbidden raw extensions0.
+
 Postrun reducer re-read837200 NLL observations and130000 final pairs. RS/PS/NS signs,
 at-write→final counts and published CSV agree. Report28members full rehash and separate
 CPU reconstruction are byte-identical, including Korean report and4 PNG+4 PDF. The report
