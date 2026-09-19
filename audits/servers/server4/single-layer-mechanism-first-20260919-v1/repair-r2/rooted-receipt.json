@@ -1,0 +1,22 @@
+{
+  "instruction":"ODEEDIT-S06-SL-MECHANISM-FIRST-ZHOOK-SH4-V1",
+  "user_authority":"repair 해서 올려",
+  "root":"repository-relative members of publication-manifest.json",
+  "publication_manifest_sha256":"10fb814e3647f89e52527904c0b036118c421a932205048f7b1fa47eb13fd197",
+  "execution_commit":"bdaed735f28cb2d0a24e56cc00723373ef857d9d",
+  "execution_tree":"a757ee7b9251a4e21a9b19897d17a56054bb5a4d",
+  "archive_sha256":"44c78f6f8929b4a5fbbef09b165f29ca092ed4aa69843ace1c8b0f9cbf07b16b",
+  "lock_sha256":"09c31436af189650125509abb1e7c8dfa5ad0b9535ba5cd7f8c7cdb12050d9ad",
+  "input_plan_sha256":"71dd6cdca25ba1836a115e9352fe55613ab775e90c33022701f42464b425ee07",
+  "job_id":"51056",
+  "old_50983_cancelled":true,
+  "old_51055_failure_preserved":true,
+  "component_reuse":"VALID_FIXED4_HOOK_UNDER_USER_WARNING_POLICY; NOT_FULL_T0",
+  "new_full_T0_and_science":"NOT_OBSERVED",
+  "method_or_scientific_threshold_changes":false,
+  "save_checkpoints":false,
+  "exact_resume":"NOT_AVAILABLE",
+  "status":"WAITING_USER_RESUME",
+  "monitoring_active":false,
+  "automatic_resume":false
+}

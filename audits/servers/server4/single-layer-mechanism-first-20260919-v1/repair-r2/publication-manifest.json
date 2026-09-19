@@ -1,0 +1,44 @@
+{
+  "schema": "cleanup-repair-publication-v1",
+  "files": [
+    {
+      "path": "experiment-reports/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r2/cleanup-repair-ko.md",
+      "bytes": 6678,
+      "sha256": "ab3219c6c8ddc3a23d27d4b1c7edd5c9354b1d79ead1c066b8f633310d6d965f"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-09-19-single-layer-mechanism-first-repair-r2.md",
+      "bytes": 1817,
+      "sha256": "8cb4371c2ccabb7606172dafda554f8e89c6f130809958e34be8756fd3c5883b"
+    },
+    {
+      "path": "audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r2/cancel-50983.json",
+      "bytes": 835,
+      "sha256": "c81ad4266d5d60d3ce9e9ada57c9334941f264e329b722574d8b68414e7a7a4e"
+    },
+    {
+      "path": "audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r2/registration.json",
+      "bytes": 2275,
+      "sha256": "791da46888e1be94b0c00e82c39bf65ab7d9e9023d27b676f96321c87b311ea1"
+    },
+    {
+      "path": "tasks/status/single-layer-mechanism-first-sh4-20260919-v1/server4.json",
+      "bytes": 2726,
+      "sha256": "4259bfa184df58f45c51ca4f0a481a3b2a3f57909f8f02f5012ef8ab17c51190"
+    }
+  ],
+  "source_commit": "bdaed735f28cb2d0a24e56cc00723373ef857d9d",
+  "checks": {
+    "table_columns": "PASS",
+    "tables": 1,
+    "relative_links": 4,
+    "JSON_parse": "PASS",
+    "raw_free": "PASS",
+    "CPU_tests": 213,
+    "HTML_render": "NOT_RUN_RENDERER_UNAVAILABLE",
+    "independent_red_agent": false
+  },
+  "new_GPU_validation": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

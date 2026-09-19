@@ -49,3 +49,18 @@ CPU 213 tests PASS (8.484초; 포함된 신규 cleanup 6 tests는 별도 합산�
 - 이전 실행: `5ea4e4efad5a9420674641dd13a04d4651701a08`; 원 frozen source는 불변이다.
 - 새 실행: create-once plan → clean commit → `freeze --phase GATED_PROGRAM --attempt cleanup-repair-r2` → `submit_repair --lock <execution.lock.json>`.
 - Exact 새 job/source/archive/lock 및 release 상태는 후속 compact 등록 receipt에 결속한다.
+
+## 실제 등록 결과
+
+**51056 / odeedit_slmf_S10r2_s4**: held 검사13/13 PASS 후 release. 2026-09-19T17:37:05.703395Z admission 시 전체 own resource queue 및 제출 시 server4 목록은 비어 있었다. GPU1/CPU8/mem60416MiB, cap2 내 등록이다. 초기 free 49,219,559,424B/inode225,306,003은 당시 관측이지 전 stage 독점 reserve가 아니다.
+
+Release 직후 PENDING / Reason=None / Dependency=(null). GPU 부족 또는 actual 새 full T0 성공으로 해석하지 않는다. 이후 결과 모니터링0. 최종 frozen source의 CPU213 회귀검사도 8.892초로 PASS했다.
+
+- execution `bdaed735f28cb2d0a24e56cc00723373ef857d9d`, tree `a757ee7b9251a4e21a9b19897d17a56054bb5a4d`.
+- archive SHA `44c78f6f8929b4a5fbbef09b165f29ca092ed4aa69843ace1c8b0f9cbf07b16b`, 464,860,994B.
+- lock SHA `09c31436af189650125509abb1e7c8dfa5ad0b9535ba5cd7f8c7cdb12050d9ad`.
+- output `/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/output`.
+
+새 full T0/B1/S3/S10 및 새 allocation은 아직 NOT_OBSERVED/NOT_MEASURED다. 표/JSON/링크·raw-free 검사와 manifest를 남기며, 이전에 확인한 미설치 HTML renderer는 NOT_RUN으로 유지한다. 이번 compact 인계에는 그림이 불필요하다.
+
+[등록 evidence](../../../../../audits/servers/server4/single-layer-mechanism-first-20260919-v1/repair-r2/registration.json). 기존 r1 report/manifest는 해당 publication commit의 역사 기록이며 mutable task status의 현재 bytes와 혼동하지 않는다.
