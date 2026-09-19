@@ -1,0 +1,15 @@
+{
+  "corrected_metadata": "observer-reuse-and-generation.csv",
+  "correction": "prior-W0/N4-proof와 actual same-episode proof를 검산하여 W0/N4 prior reuse, Legacy fresh, Reuse same-episode로 구별",
+  "issue": "초기표의 null key 존재 기반 재사용 표시 오류; 수치 변화 없음",
+  "numeric_counts_denominators_changed": false,
+  "original_first_table": {
+    "bytes": 2248,
+    "device": 66305,
+    "inode": 133578726,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/first-table.csv",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/first-table.csv",
+    "sha256": "ef53af2e4c7400782d359a8cf888ea1f7d1274c6edd91e3e18cc7e6f78065281"
+  },
+  "raw_mutated": false
+}

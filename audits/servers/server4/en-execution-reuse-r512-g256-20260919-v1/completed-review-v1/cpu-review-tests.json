@@ -1,0 +1,19 @@
+{
+  "검사": "완료 리뷰 CPU focused 12개",
+  "status": "PASS",
+  "passed": 12,
+  "seconds": 1.138,
+  "final_repeat_passed": 12,
+  "final_repeat_seconds": 1.088,
+  "modules": [
+    "project.run_scripts.en_execution_reuse.test_completed_review_20260919",
+    "project.run_scripts.en_execution_reuse.test_reducer",
+    "project.run_scripts.en_execution_reuse.test_publication"
+  ],
+  "추가검산": ["실제 raw NLL/ID 독립집계", "640 capsule SHA/TF shift/EOS", "두 독립 gradient exact", "저장 G/H/4개 FP32 후보 CPU 재구성", "개별 guard/Armijo CPU 재선택", "125 raw member full SHA", "CP3 CPU schema/finite/hash"],
+  "separate_agent_red": false,
+  "new_GPU": 0,
+  "model_calls": 0,
+  "actual_HTML_renderer": "NOT_RUN_NOT_INSTALLED",
+  "과거CPU145": "정확 기존 receipt 재사용; 이번 실제 모델 PASS로 승격하지 않음"
+}

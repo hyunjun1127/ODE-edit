@@ -1,0 +1,13 @@
+{
+  "actual_analysis_source_read": true,
+  "exact_prior_FULL_READ_reused": {
+    "PROTOCOL.md": "af806a449be800251393bfcd81b2dfa5689ee34305f3bf1323e0fae82f16c87b",
+    "audits/global/2026-09-19-en-execution-reuse-design-checks.json": "34a1e5a00a55e3bb6c5f61ef8315a8825e7231043e71d02b49d3f280c19c675d",
+    "plans/global/2026-09-19-en-execution-reuse-r512-g256-contract-v1.json": "84dc6d7b35afb21cb095606a490132ccfc3b72bdbd5ac6ef3de2d241ce1700a0",
+    "plans/global/2026-09-19-en-execution-reuse-r512-g256-design-v1.md": "b671e1eb26d01068b561cf32144d66291f43c8f11505d550e6945229b43b16bd"
+  },
+  "historical_pending_not_rewritten": true,
+  "new_GPU": 0,
+  "new_envelope_read_whole": true,
+  "prior_ack": "messages/acks/server4/2026-09-19-en-execution-reuse-r512-g256-b1.md"
+}

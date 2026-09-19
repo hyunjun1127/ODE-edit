@@ -1,0 +1,69 @@
+{
+  "legacy": "NEW_PHYSICAL_OBSERVER",
+  "legacy_observer": {
+    "bytes": 2242146,
+    "device": 66305,
+    "inode": 133571159,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/LEGACY_SCHEDULE_R512_G256.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/LEGACY_SCHEDULE_R512_G256.json",
+    "sha256": "6f7337f71512f90bc9016883d2b96adee1f84fe9291915e9027cd55902f0bb13"
+  },
+  "prior": [
+    {
+      "canonical_raw_and_tokens_equal": true,
+      "complete_nonselected_model_bytes": "PRIOR_RUNTIME_BINDING_VERIFIED",
+      "endpoint": "W0",
+      "mode": "PRIOR_SAME_HOST_CANONICAL_REUSE",
+      "new_canonical_forwards": 0,
+      "prior_raw": {
+        "bytes": 1827605,
+        "device": 66305,
+        "inode": 133501106,
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/W0-current.json",
+        "realpath": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/W0-current.json",
+        "sha256": "b5bca3d68853cd92d825f27f0c3205aafd4d7927912b3713b6655c3fc76474e5"
+      },
+      "proof": {
+        "bytes": 6029,
+        "device": 66305,
+        "inode": 133571154,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/prior-W0-proof.json",
+        "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/prior-W0-proof.json",
+        "sha256": "059156a538b9169a33ed404f100b600e89adafc7195279aa09d4b3583e81004c"
+      }
+    },
+    {
+      "canonical_raw_and_tokens_equal": true,
+      "complete_nonselected_model_bytes": "PRIOR_RUNTIME_BINDING_VERIFIED",
+      "endpoint": "N4",
+      "mode": "PRIOR_SAME_HOST_CANONICAL_REUSE",
+      "new_canonical_forwards": 0,
+      "prior_raw": {
+        "bytes": 2242249,
+        "device": 66305,
+        "inode": 133501108,
+        "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/N4/current.json",
+        "realpath": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/B1/attempt-r1/output/arms/N4/current.json",
+        "sha256": "993cdcd2896c78f5e86299e5ee7ca2f4e160e351bf4273ad1800ed371012251d"
+      },
+      "proof": {
+        "bytes": 6046,
+        "device": 66305,
+        "inode": 133571156,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/prior-N4-proof.json",
+        "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/prior-N4-proof.json",
+        "sha256": "841b8f4357a63727764766aec8f781589e9bff7b665a494d3582f6c8f01f495f"
+      }
+    }
+  ],
+  "reuse": "EXPLICIT_IDENTICAL_ENDPOINT_OBSERVER_REUSE",
+  "reuse_observer": {
+    "bytes": 2242634,
+    "device": 66305,
+    "inode": 133571161,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/REUSE_SCHEDULE_R512_G256.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/observers/REUSE_SCHEDULE_R512_G256.json",
+    "sha256": "4c33842b5c9b5f53155f6e1722ef57f32b2469b7d4e9da04a66eb856715790a9"
+  },
+  "same_episode_raw_tokens_generation_equal": true
+}

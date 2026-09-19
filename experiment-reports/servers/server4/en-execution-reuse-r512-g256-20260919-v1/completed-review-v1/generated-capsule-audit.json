@@ -1,0 +1,33 @@
+{
+  "TF_argmax_equals_y0": "PRIOR_ACTUAL_CANONICAL_TF_RECEIPTS_REUSED; NO_NEW_FORWARD",
+  "input": {
+    "bytes": 1309157,
+    "device": 66305,
+    "inode": 133432362,
+    "path": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/reference-inputs-v2/inputs.json",
+    "realpath": "/data/janghj/ODE-edit/local/bpcw512/20260918-v2/reference-inputs-v2/inputs.json",
+    "sha256": "507b202108acc90e10810455f57da60df14e9e9e31ba567c8c75f51cf76afaeb"
+  },
+  "manifest": {
+    "bytes": 756013,
+    "device": 66305,
+    "inode": 133571014,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated/manifest.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated/manifest.json",
+    "sha256": "14bf1f5d98cf9e09e9fad6458bc4d7ae5fb2e81de635b63f2b03db4c405a73b4"
+  },
+  "new_GPU": 0,
+  "payload_actual_bytes": {
+    "keys": 14028029952,
+    "logp": 83473190912,
+    "residual": 4008067072
+  },
+  "source_roles": {
+    "AdditionalTrain128": 128,
+    "Dev128": 128,
+    "Reserve320": 320,
+    "S64": 64
+  },
+  "status": "CPU_640_CAPSULE_SHA_SHIFT_EOS_IDENTITY_PASS",
+  "teacher_full_SHA": "PRIOR_RUNTIME_FULL_MEMBER_VERIFICATION_REUSED; CURRENT_STAT_AND_MANIFEST_BOUND"
+}

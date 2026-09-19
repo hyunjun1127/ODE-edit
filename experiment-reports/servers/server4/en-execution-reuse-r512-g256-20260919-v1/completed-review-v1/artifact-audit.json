@@ -1,0 +1,99 @@
+{
+  "FD_or_native_replay": "NOT_RUN",
+  "checkpoints": [
+    {
+      "GPU_continuation": "NOT_TESTED",
+      "arm": "N4",
+      "checkpoint": {
+        "bytes": 1058030053,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/checkpoints/N4/checkpoint.pt",
+        "sha256": "cf0f94f8594ae59217a3ca0e165296fc4cc960b262ba80ffd2c5652bfc3f39e9"
+      },
+      "history": "RECORDED_ONCE_NOT_NATIVE_RECOMPUTATION",
+      "identity": {
+        "M": "fa7d22b6e67cda36232c747d31b81cb9bf2b2196082bcad61664926284f6811e",
+        "W": "3d33f44b13688fb3c18db8eb4d8be5cc6509aea161c96bed254e89240f265015",
+        "context": "aa169bc574115e932462517a4e9e8aa4e183017721c74b5a99e6e2a4b6fa7a09",
+        "ledger": "206837cf7c8652bf5060e99ea2bd7dc4fae6e7c5673988b0777c4d4107f6dae1",
+        "order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+        "rng": "e458c35c6067bf08f8d196fc391febe29beb5177d5f5be7235c00033431c2a67"
+      },
+      "shape_finite_hash": "PASS",
+      "state_fields": "CPU_VERIFIED"
+    },
+    {
+      "GPU_continuation": "NOT_TESTED",
+      "arm": "LEGACY_SCHEDULE_R512_G256",
+      "checkpoint": {
+        "bytes": 1058030053,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/checkpoints/LEGACY_SCHEDULE_R512_G256/checkpoint.pt",
+        "sha256": "217648ceae4a4fc21dd1e2f77634c979e68c26926156b5fcfba856e9f851ec24"
+      },
+      "history": "RECORDED_ONCE_NOT_NATIVE_RECOMPUTATION",
+      "identity": {
+        "M": "fa7d22b6e67cda36232c747d31b81cb9bf2b2196082bcad61664926284f6811e",
+        "W": "78e37284ecff0a47034647d94a12d96087cfd1393512f50dad59035a873f1f31",
+        "context": "aa169bc574115e932462517a4e9e8aa4e183017721c74b5a99e6e2a4b6fa7a09",
+        "ledger": "206837cf7c8652bf5060e99ea2bd7dc4fae6e7c5673988b0777c4d4107f6dae1",
+        "order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+        "rng": "e458c35c6067bf08f8d196fc391febe29beb5177d5f5be7235c00033431c2a67"
+      },
+      "shape_finite_hash": "PASS",
+      "state_fields": "CPU_VERIFIED"
+    },
+    {
+      "GPU_continuation": "NOT_TESTED",
+      "arm": "REUSE_SCHEDULE_R512_G256",
+      "checkpoint": {
+        "bytes": 1058030053,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/checkpoints/REUSE_SCHEDULE_R512_G256/checkpoint.pt",
+        "sha256": "8ec844f982c5ea3dfd4dff620deecebe36f1675d2629d1220127f3c4aecf3970"
+      },
+      "history": "RECORDED_ONCE_NOT_NATIVE_RECOMPUTATION",
+      "identity": {
+        "M": "fa7d22b6e67cda36232c747d31b81cb9bf2b2196082bcad61664926284f6811e",
+        "W": "78e37284ecff0a47034647d94a12d96087cfd1393512f50dad59035a873f1f31",
+        "context": "aa169bc574115e932462517a4e9e8aa4e183017721c74b5a99e6e2a4b6fa7a09",
+        "ledger": "206837cf7c8652bf5060e99ea2bd7dc4fae6e7c5673988b0777c4d4107f6dae1",
+        "order": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+        "rng": "e458c35c6067bf08f8d196fc391febe29beb5177d5f5be7235c00033431c2a67"
+      },
+      "shape_finite_hash": "PASS",
+      "state_fields": "CPU_VERIFIED"
+    }
+  ],
+  "files": 125,
+  "gradients": [
+    {
+      "arm": "LEGACY_SCHEDULE_R512_G256",
+      "file": {
+        "bytes": 469763625,
+        "device": 66305,
+        "inode": 133571049,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/arms/LEGACY_SCHEDULE_R512_G256/gradients/9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc.pt",
+        "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/arms/LEGACY_SCHEDULE_R512_G256/gradients/9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc.pt",
+        "sha256": "2cecfeee5f9d33978561b7d85ad1d8d3343a12c95562e5617a865cdff40d48f4"
+      },
+      "tensor_sha256": "9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc"
+    },
+    {
+      "arm": "REUSE_SCHEDULE_R512_G256",
+      "file": {
+        "bytes": 469763625,
+        "device": 66305,
+        "inode": 133571097,
+        "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/arms/REUSE_SCHEDULE_R512_G256/gradients/9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc.pt",
+        "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/arms/REUSE_SCHEDULE_R512_G256/gradients/9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc.pt",
+        "sha256": "2cecfeee5f9d33978561b7d85ad1d8d3343a12c95562e5617a865cdff40d48f4"
+      },
+      "tensor_sha256": "9d81b2ef528d8427dc7cf2af3ac4038bb6deae6d3ed18d767988e53ce62fb0dc"
+    }
+  ],
+  "independent_gradient_tensor_exact": true,
+  "inventory_root": "f11202e7acb7dccb8d4f97195efc064b78ec481daf5619bdd48077a359898429",
+  "logical_bytes": 5884218997,
+  "method_derivative_PASS_not_assigned": true,
+  "new_GPU": 0,
+  "status": "CPU_ARTIFACT_CHECKS_COMPLETE",
+  "teacher_model_full_rehash": "PRIOR_EXECUTION_VERIFIED_MANIFEST_AND_BINDING_REUSED"
+}

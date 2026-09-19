@@ -1,0 +1,12 @@
+{
+  "GPU_continuation": "NOT_TESTED_B2_UNAUTHORIZED",
+  "checkpoints_CPU_verified": true,
+  "gradient_coverage": "SEE_FULL_SWEEP_ROWS",
+  "history_memory_exact": true,
+  "method_efficacy_claim": false,
+  "mismatches": [],
+  "numerical_tolerance": 0,
+  "protection_tolerance_used_as_parity_tolerance": false,
+  "status": "EXACT_RECEIPT_MATCH",
+  "tensor_verification": "CALLER_SUPPLIED_EXACT_DIGESTS_NOT_RECONSTRUCTION"
+}

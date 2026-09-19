@@ -1,0 +1,60 @@
+{
+  "accounting_queries": 1,
+  "accounting_timestamp_timezone": "Asia/Seoul",
+  "allocated_GPU_hours": 6.4366666666666665,
+  "allocated_GPU_seconds": 23172,
+  "jobs": [
+    {
+      "allocated_GPU_hours": 4.2988888888888885,
+      "allocated_GPU_seconds": 15476,
+      "job": "50410",
+      "parent": {
+        "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "ElapsedRaw": "15476",
+        "End": "2026-09-19T07:52:58",
+        "ExitCode": "0:0",
+        "JobID": "50410",
+        "JobIDRaw": "50410",
+        "JobName": "odeedit_en_reuse_g256_prep_s4",
+        "NodeList": "server4",
+        "Start": "2026-09-19T03:35:02",
+        "State": "COMPLETED",
+        "User": "janghj"
+      },
+      "role": "PREP"
+    },
+    {
+      "allocated_GPU_hours": 2.137777777777778,
+      "allocated_GPU_seconds": 7696,
+      "job": "50449",
+      "parent": {
+        "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "ElapsedRaw": "7696",
+        "End": "2026-09-19T10:01:43",
+        "ExitCode": "0:0",
+        "JobID": "50449",
+        "JobIDRaw": "50449",
+        "JobName": "odeedit_en_reuse_g256_B1_s4",
+        "NodeList": "server4",
+        "Start": "2026-09-19T07:53:27",
+        "State": "COMPLETED",
+        "User": "janghj"
+      },
+      "role": "B1"
+    }
+  ],
+  "maximum_task_GPU_overlap": 1,
+  "new_GPU": 0,
+  "new_submissions": 0,
+  "raw_accounting": {
+    "bytes": 398,
+    "device": 66305,
+    "inode": 133571167,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/accounting-once.txt",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/accounting-once.txt",
+    "sha256": "dd9d5eb1887eba154acb779222916b6cece780a5081cf7c170686a758937aca9"
+  },
+  "status": "EXACT_COMPLETED_PARENTS_ONLY",
+  "step_or_extern_double_count": 0,
+  "utilization": "NOT_MEASURED"
+}

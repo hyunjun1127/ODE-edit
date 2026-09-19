@@ -1,0 +1,41 @@
+{
+  "analysis": {
+    "bytes": 7980,
+    "device": 66305,
+    "inode": 133578772,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/analysis-manifest.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/analysis-manifest.json",
+    "sha256": "298ba00d43723780c6b225660c81f0c50f627265e0ef3dcc76d72ce4d17b9931"
+  },
+  "automatic_resume": false,
+  "local_paired": {
+    "bytes": 1404037,
+    "device": 66305,
+    "inode": 133578736,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/base-analysis/paired-exact-case-rows.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/base-analysis/paired-exact-case-rows.json",
+    "sha256": "eb3935693e6941c717c786f2cf632517605ea90742227262de587d0f2e53582f"
+  },
+  "manifest": {
+    "bytes": 24928,
+    "device": 66305,
+    "inode": 133578755,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/manifest.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/manifest.json",
+    "sha256": "b71d9d12e34b6db7ac200540bf6a1857084f587468c038055bdc321f72b72303"
+  },
+  "monitoring_active": false,
+  "new_GPU": 0,
+  "new_model_evaluations": 0,
+  "report": {
+    "bytes": 26583,
+    "device": 66305,
+    "inode": 133578752,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/diagnostic-report-ko.md",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/diagnostic-report-ko.md",
+    "sha256": "4ac7db3bf3a2f70ed6426459ae702f8c0f3b1539d0566136ffa535c9413d85ab"
+  },
+  "separate_agent_red": false,
+  "sequential_authorized": false,
+  "status": "CPU_DETAILED_REVIEW_COMPLETE"
+}

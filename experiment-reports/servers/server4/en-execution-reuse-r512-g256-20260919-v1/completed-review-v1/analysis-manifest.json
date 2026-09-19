@@ -1,0 +1,153 @@
+{
+  "accounting": {
+    "bytes": 398,
+    "device": 66305,
+    "inode": 133571167,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/accounting-once.txt",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/accounting-once.txt",
+    "sha256": "dd9d5eb1887eba154acb779222916b6cece780a5081cf7c170686a758937aca9"
+  },
+  "actual_execution": "5574f2c63a355043ba28c8e557383be3075a5e48",
+  "analysis_source": "EXACT_FILE_SHAS; PUBLICATION_COMMIT_IN_GIT",
+  "authority": {
+    "bytes": 10462,
+    "device": 66305,
+    "inode": 133575766,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/messages/head/2026-09-19-sh4-en-reuse-g256-b1-completed-review.md",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/messages/head/2026-09-19-sh4-en-reuse-g256-b1-completed-review.md",
+    "sha256": "b65ae8307f51b3b2020e57d2fe4d5442caedf12881764fe9cc433605154d11b6"
+  },
+  "auto_continue": false,
+  "initial_table": {
+    "bytes": 2248,
+    "device": 66305,
+    "inode": 133578726,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/first-table.csv",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/first-table.csv",
+    "sha256": "ef53af2e4c7400782d359a8cf888ea1f7d1274c6edd91e3e18cc7e6f78065281"
+  },
+  "input_receipts": [
+    {
+      "bytes": 2370257,
+      "device": 66305,
+      "inode": 133568710,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/execution.lock.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/execution.lock.json",
+      "sha256": "74b82b4294f96f957fcbbed47d6fd0b2731d211b253ab05045a9fb702ab5651a"
+    },
+    {
+      "bytes": 2369701,
+      "device": 66305,
+      "inode": 133571019,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/execution.ready.lock.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/execution.ready.lock.json",
+      "sha256": "01db7d4a9afb5bc6da9632967b32d4015613e1b5e7e6f324705858af7bae35af"
+    },
+    {
+      "bytes": 1539,
+      "device": 66305,
+      "inode": 133568722,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/submission.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/submission.json",
+      "sha256": "1ad27eb5eddac633877f092737002e7bd63076593fcc766eea3f7a3ff5e66480"
+    },
+    {
+      "bytes": 25771,
+      "device": 66305,
+      "inode": 133571165,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/terminal.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/terminal.json",
+      "sha256": "35908922e5ce39b044fa8cff59fc019e1af8c4a5dbbb7799d16fc1e190328492"
+    },
+    {
+      "bytes": 58323,
+      "device": 66305,
+      "inode": 133571164,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/artifact-manifest.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/B1/attempt-v1/output/artifact-manifest.json",
+      "sha256": "499bf097fd5a4bdbbf39c3bc2921dd9ab9e136d8e4f6b8c7d96b90c3acd398c0"
+    },
+    {
+      "bytes": 1205309,
+      "device": 66305,
+      "inode": 133571016,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/READY.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/READY.json",
+      "sha256": "36d3ea542549095da415feed22775abd80bf5a0261042bc4aa52da84445039e5"
+    },
+    {
+      "bytes": 1620,
+      "device": 66305,
+      "inode": 133516554,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/receipts/user-monitoring-pause-r1.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/receipts/user-monitoring-pause-r1.json",
+      "sha256": "b06655fc062e7142891e39b95a443431c6c4ecbb794345594a334df510659271"
+    },
+    {
+      "bytes": 2084,
+      "device": 66305,
+      "inode": 133516557,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/receipts/b1-dependent-pending-handoff-r1.json",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/receipts/b1-dependent-pending-handoff-r1.json",
+      "sha256": "b3a3c5ae84d02be2f6a701c85cb9c6999256ca09ea602412a53126fcb24a0f4c"
+    }
+  ],
+  "instruction": "ODEEDIT-S06-EN-REUSE-R512-G256-B1-COMPLETED-REVIEW-SH4-V1",
+  "max_batches": 1,
+  "new_GPU": 0,
+  "new_model_evaluator_calls": 0,
+  "old_runtime_raw_mutated": false,
+  "scheduler_queries": 1,
+  "separate_agent_red": false,
+  "sequential_authorized": false,
+  "source_files": [
+    {
+      "bytes": 24705,
+      "device": 66305,
+      "inode": 133578724,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/review_completed_20260919.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/review_completed_20260919.py",
+      "sha256": "8f80cd314904e42ca63f0a4d1161f18f1ea386857b75a20050f9580211379226"
+    },
+    {
+      "bytes": 2645,
+      "device": 66305,
+      "inode": 133578767,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/test_completed_review_20260919.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/test_completed_review_20260919.py",
+      "sha256": "44d8721c191ac9ed9e03e5086f1411bcc8076f338a99cfbb2ecfc78829f8c6df"
+    },
+    {
+      "bytes": 6070,
+      "device": 66305,
+      "inode": 133578703,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/reducer.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/reducer.py",
+      "sha256": "bd764c0e0efe5532a18932bb1f5281065bbcd663b5cfa6cbf5dba0279f47fd97"
+    },
+    {
+      "bytes": 25329,
+      "device": 66305,
+      "inode": 133578704,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/report.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/report.py",
+      "sha256": "641474c1761569f02b629542a87d98b8b77407e0e79d835f1c5a5f59108378ad"
+    },
+    {
+      "bytes": 3892,
+      "device": 66305,
+      "inode": 133578685,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/artifact_audit.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/artifact_audit.py",
+      "sha256": "dc29a3ed48a59f9d24dcbd0f8ce060c0a8759c48e233e8ab051ff73776b0c8c1"
+    },
+    {
+      "bytes": 2633,
+      "device": 66305,
+      "inode": 133578702,
+      "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/publication_checks.py",
+      "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/completed-review-v1/worktree/project/run_scripts/en_execution_reuse/publication_checks.py",
+      "sha256": "b0f6554becfa53155d0be344fb59df7a16c0c2195e809e394a51cc1fcc4bfaef"
+    }
+  ]
+}

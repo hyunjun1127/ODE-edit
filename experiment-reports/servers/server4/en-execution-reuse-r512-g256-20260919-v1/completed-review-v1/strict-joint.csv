@@ -1,0 +1,5 @@
+endpoint,denominator,rewrite_strict,two_P_strict,R_two_P_strict,R_two_P_NLL_joint
+W0,100,0,0,0,5
+N4,100,100,44,44,96
+LEGACY_SCHEDULE_R512_G256,100,100,44,44,96
+REUSE_SCHEDULE_R512_G256,100,100,44,44,96

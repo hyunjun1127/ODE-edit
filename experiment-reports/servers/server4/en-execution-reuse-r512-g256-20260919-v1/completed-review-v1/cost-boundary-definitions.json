@@ -1,0 +1,17 @@
+{
+  "all_composite_wall_views": "ARITHMETIC_NOT_MEASURED_STANDALONE",
+  "common_B1_setup_seconds": 718.2865175670013,
+  "incomplete_timer_boundaries": "purewriter/checkpoint_IO_NOT_SEPARATED",
+  "new_native_fits": 0,
+  "new_review_GPU": 0,
+  "prior_native_not_added_to_allocation": true,
+  "research_GPU_seconds": 23172,
+  "selected_keys": [
+    "model_load_seconds",
+    "teacher_binding_seconds",
+    "reference_cache_load_seconds",
+    "native_reuse_binding_seconds",
+    "current_cache_and_keys_seconds",
+    "shared_geometry_seconds"
+  ]
+}

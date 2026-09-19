@@ -1,0 +1,25 @@
+{
+  "new_documents": 640,
+  "reused_documents": 0,
+  "source": {
+    "bytes": 608222,
+    "device": 66305,
+    "inode": 133571013,
+    "path": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated/work.json",
+    "realpath": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated/work.json",
+    "sha256": "6f95b6c9f85619bfffbe452ea75cabb2caf34e80c28152682f930cf4b0e47fb0"
+  },
+  "timers": "NESTED_NOT_ADDED",
+  "totals": {
+    "canonical_TF_decoder_forwards": 640,
+    "canonical_TF_input_tokens": 244628,
+    "canonical_TF_seconds": 185.78710928559303,
+    "document_wall_seconds": 15096.702288429253,
+    "generated_tokens": 162708,
+    "generation_decoder_forwards": 162708,
+    "generation_input_tokens": 41654583,
+    "generation_seconds": 14704.686242928728,
+    "logical_payload_bytes": 101509042176,
+    "write_hash_seconds": 198.87844951078296
+  }
+}

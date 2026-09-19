@@ -1,0 +1,4 @@
+endpoint,W0_correct_denominator,retained,lost,all_requested_N
+N4,886,862,24,1000
+LEGACY_SCHEDULE_R512_G256,886,862,24,1000
+REUSE_SCHEDULE_R512_G256,886,862,24,1000

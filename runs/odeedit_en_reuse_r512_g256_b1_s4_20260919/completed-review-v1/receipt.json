@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-REUSE-R512-G256-B1-COMPLETED-REVIEW-SH4-V1",
+  "status": "CPU_REVIEW_COMPLETE",
+  "jobs": {"PREP": 50410, "B1": 50449},
+  "actual_execution": "5574f2c63a355043ba28c8e557383be3075a5e48",
+  "report": "experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/diagnostic-report-ko.md",
+  "report_sha256": "4ac7db3bf3a2f70ed6426459ae702f8c0f3b1539d0566136ffa535c9413d85ab",
+  "manifest_sha256": "b71d9d12e34b6db7ac200540bf6a1857084f587468c038055bdc321f72b72303",
+  "rooted_receipt_sha256": "e7538bc47ed9644e8cac62c232849849e6600a95b7ab45af7d3df8bad87a614c",
+  "review_new_GPU_seconds": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "sequential_authorized": false,
+  "종료": "TASK_COMPLETE_STOP; WAITING_USER_APPROVAL_FOR_SEQUENTIAL"
+}

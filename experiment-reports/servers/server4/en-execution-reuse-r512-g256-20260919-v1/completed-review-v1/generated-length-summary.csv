@@ -1,0 +1,3 @@
+role,documents,positions,minimum_T,maximum_T,mean_T,EOS_stopped,censored,TF_tokens
+R512,512,130235,55,256,254.365234375,11,501,195771
+Dev128,128,32473,121,256,253.6953125,3,125,48857

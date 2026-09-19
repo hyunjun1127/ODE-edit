@@ -1,0 +1,50 @@
+{
+  "GPU_continuation": "NOT_TESTED",
+  "H_sha256": "28480666729aad8f9b2563e014926f933209a3f364338d2ad613c5ef220a39e3",
+  "chi": 0.00026386645447102356,
+  "eta0": 4.245243186634172,
+  "forwards": 0,
+  "method_gradient": "SAVED_G_REUSED_NO_AUTOGRAD",
+  "model_loads": 0,
+  "new_GPU": 0,
+  "selected_matches_both_saved_checkpoints": true,
+  "status": "CPU_EXACT_H_AND_ALL_FOUR_FP32_TRIALS_PASS",
+  "trials": [
+    {
+      "actual_sha256": true,
+      "candidate_sha256": "6c42885179f3e4730f1b7c129714da3a8975ea07a0e526733865aac564e8c282",
+      "ideal_sha256": true,
+      "p_actual": -0.0011201772710809539,
+      "p_actual_exact": true,
+      "trial": 0,
+      "weight_sha256": true
+    },
+    {
+      "actual_sha256": true,
+      "candidate_sha256": "b6fc9ee3900aa0b5db5e03892ab876051b3bef1bf2e59e0925fff315f179ae9b",
+      "ideal_sha256": true,
+      "p_actual": -0.0005600886268912014,
+      "p_actual_exact": true,
+      "trial": 1,
+      "weight_sha256": true
+    },
+    {
+      "actual_sha256": true,
+      "candidate_sha256": "804b426ccf0fd513cb7de9be02640ee11f044c6b868b88394b994813d40e3529",
+      "ideal_sha256": true,
+      "p_actual": -0.0002800443270257764,
+      "p_actual_exact": true,
+      "trial": 2,
+      "weight_sha256": true
+    },
+    {
+      "actual_sha256": true,
+      "candidate_sha256": "26a308f7a264193ed493d2cc07017dbba65efc413c7b6ffb0e6524d29d448d8a",
+      "ideal_sha256": true,
+      "p_actual": -0.00014002214822600066,
+      "p_actual_exact": true,
+      "trial": 3,
+      "weight_sha256": true
+    }
+  ]
+}
