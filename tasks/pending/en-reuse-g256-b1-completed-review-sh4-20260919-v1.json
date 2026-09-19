@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-REUSE-R512-G256-B1-COMPLETED-REVIEW-SH4-V1",
+  "nonce": "ODEEDIT-GH-SH4-EN-REUSE-G256-B1-DETAILED-REVIEW-20260919-R1",
+  "status": "APPROVED_NOT_YET_DELIVERED",
+  "envelope": "messages/head/2026-09-19-sh4-en-reuse-g256-b1-completed-review.md",
+  "target_server": "server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "jobs": {"preparation": 50410, "matched_b1": 50449},
+  "scheduler_read": "exact_once_accounting_identity_check",
+  "review_mode": "CPU_ONLY",
+  "new_gpu": false,
+  "slurm_mutation": false,
+  "sequential_authorized": false,
+  "rerun_authorized": false,
+  "raw_mutation": false,
+  "continue_through_report_main": true,
+  "project_gpu_cap": 2,
+  "report": "experiment-reports/servers/server4/en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/diagnostic-report-ko.md",
+  "terminal": "TASK_COMPLETE_STOP"
+}
