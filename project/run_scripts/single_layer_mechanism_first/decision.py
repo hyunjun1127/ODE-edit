@@ -126,6 +126,11 @@ class FactorArchive:
             os.fsync(handle.fileno())
         os.link(temporary, path)
         os.unlink(temporary)  # Only this just-published temporary hardlink.
+        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
         item = dict(index=index, path=str(path), bytes=path.stat().st_size,
                     shape=list(a.shape), A_sha256=tensor_sha256(a), metadata=deepcopy(metadata))
         self.members.append(item)
@@ -171,7 +176,12 @@ def margins_from_logits(logits, labels):
 
 def risk_from_margins(margins):
     _require(bool(margins) and all(math.isfinite(float(m)) for m in margins), "FINITE_NONEMPTY_MARGINS")
-    return math.fsum(max(0.0, -float(m)) ** 2 for m in margins) / len(margins)
+    try:
+        result = math.fsum(max(0.0, -float(m)) ** 2 for m in margins) / len(margins)
+    except OverflowError as exc:
+        raise DecisionError("NONFINITE_DECISION_RISK") from exc
+    _require(math.isfinite(result), "NONFINITE_DECISION_RISK")
+    return result
 
 
 def risk_tolerance(phi_reference, phi_history=0.0):
@@ -265,12 +275,22 @@ class DecisionOracle:
 
     def _document(self, endpoint, index, *, derivative=False):
         cap, cache = self.capsules[index], self.oracle.caches[index]
+        self.oracle._sync()
+        clock = time.perf_counter()
         valid = cache.packed["attention_mask"][0].bool().to(self.device)
         keys = cache.keys.to(self.device)
         module = F.linear(keys, endpoint.device_weight).detach().requires_grad_(derivative)
+        self.oracle._sync()
+        timings = dict(key_transfer_and_L4_linear_seconds=time.perf_counter() - clock,
+                       suffix_seconds=0., full_vocabulary_head_seconds=0.,
+                       pair_two_row_head_seconds=0., activation_backward_seconds=0.)
         with torch.set_grad_enabled(derivative):
+            clock = time.perf_counter()
             hidden = suffix_from_output(self.oracle, index, module)
+            self.oracle._sync()
+            timings["suffix_seconds"] = time.perf_counter() - clock
             chunks = []
+            clock = time.perf_counter()
             with torch.no_grad():
                 for begin in range(0, cap["actual_length"], self.chunk):
                     pos = cap["score_positions"][begin:begin + self.chunk]
@@ -278,6 +298,8 @@ class DecisionOracle:
                     logits = self.oracle._head(hidden, torch.tensor(pos, dtype=torch.long))
                     chunks.append(margins_from_logits(logits, labels))
                     del logits
+            self.oracle._sync()
+            timings["full_vocabulary_head_seconds"] = time.perf_counter() - clock
             data = {key: sum((part[key] for part in chunks), [])
                     for key in ("margins", "competitors", "predictions", "correct")}
             worst = min(range(len(data["margins"])), key=lambda j: (data["margins"][j], j))
@@ -289,30 +311,39 @@ class DecisionOracle:
                 # Full-vocab scan chooses the fixed exposed pair.  Two output
                 # rows suffice for its scalar backward, not competitor search.
                 head = self.oracle.model.lm_head
+                clock = time.perf_counter()
                 pair = F.linear(hidden[0, position:position + 1], head.weight[[label, competitor]],
                                 None if head.bias is None else head.bias[[label, competitor]])
                 scalar = pair[0, 0] - pair[0, 1]
                 _require(bool(torch.isfinite(scalar)), "NONFINITE_EXPOSED_PAIR")
+                self.oracle._sync()
+                timings["pair_two_row_head_seconds"] = time.perf_counter() - clock
+                clock = time.perf_counter()
                 a, = torch.autograd.grad(scalar, module)
                 _require(a.dtype == torch.float32 and bool(torch.isfinite(a).all()),
                          "NONFINITE_ACTIVATION_MARGIN_GRADIENT")
                 a = a[0, valid].detach()
                 pair_scalar = float(scalar.detach())
+                self.oracle._sync()
+                timings["activation_backward_seconds"] = time.perf_counter() - clock
             row = dict(index=index, ordinal=cap["ordinal"], role=cap["role"],
                        source_row_id=cap["source_row_id"], capsule_sha256=_json_sha(cap),
                        positions=list(cap["score_positions"]), labels=list(cap["y0"]), **data,
                        mu=data["margins"][worst], worst_offset=worst, worst_position=position,
                        worst_label=label, worst_competitor=competitor,
                        exposed_pair_backward_scalar=pair_scalar,
+                       phase_seconds=timings,
                        input_tokens=int(valid.sum()), scored_positions=cap["actual_length"],
                        mismatches=sum(not c for c in data["correct"]))
         return row, a, keys[0, valid]
 
-    def scan(self, endpoint, *, gradient=False, factor_sink=None, role="R512"):
+    def scan(self, endpoint, *, gradient=False, factor_sink=None, role="R512", selection_seal=None):
         """Complete512 or observer128 only; gradient always all512 once/center."""
         self._guard(endpoint)
         _require(role in ("R512", "Dev128"), "REFERENCE_OR_OBSERVER_ROLE")
         _require(not gradient or role == "R512", "DEV_GRADIENT_FORBIDDEN")
+        _require(role != "Dev128" or (isinstance(selection_seal, str) and bool(selection_seal)),
+                 "DEV_REQUIRES_POSTSELECTION_SEAL")
         _require(not gradient or factor_sink is not None, "ALL_FACTORS_MUST_BE_RETAINED")
         key = (endpoint.identity, self.input_identity)
         _require(not gradient or key not in self._center_identities, "SECOND_CENTER_BACKWARD_SWEEP_FORBIDDEN")
@@ -325,6 +356,10 @@ class DecisionOracle:
         work = dict(documents=0, input_tokens=0, scored_positions=0, suffix_forwards=0,
                     full_vocab_head_rows=0, full_vocab_head_calls=0, pair_two_row_head_calls=0,
                     backward_documents=0, factor_D2H_bytes=0, dense_gradient_D2H_bytes=0,
+                    key_transfer_and_L4_linear_seconds=0., suffix_seconds=0.,
+                    full_vocabulary_head_seconds=0., pair_two_row_head_seconds=0.,
+                    activation_backward_seconds=0., gradient_contraction_seconds=0.,
+                    factor_write_D2H_seconds=0., final_gradient_D2H_seconds=0.,
                     full_teacher_reads=0, accumulation_dtype="GPU_FP64" if self.device.type == "cuda" else "CPU_FP64")
         with torch.set_grad_enabled(gradient):
             for index in selected:
@@ -336,17 +371,26 @@ class DecisionOracle:
                 work["suffix_forwards"] += 1
                 work["full_vocab_head_rows"] += row["scored_positions"]
                 work["full_vocab_head_calls"] += math.ceil(row["scored_positions"] / self.chunk)
+                for name, seconds in row["phase_seconds"].items():
+                    work[name] += seconds
                 if gradient:
                     # Gi FP32 on device, fixed-order accumulation FP64; only A
                     # (not dense Gi) goes to CPU at each document boundary.
+                    self.oracle._sync()
+                    clock = time.perf_counter()
                     gi = a.T @ keys
                     _require(bool(torch.isfinite(gi).all()), "NONFINITE_FACTOR_WEIGHT_PRODUCT")
                     total.add_(gi.double(), alpha=-2.0 * max(0.0, -row["mu"]) / 512.0)
+                    self.oracle._sync()
+                    work["gradient_contraction_seconds"] += time.perf_counter() - clock
                     meta = dict(endpoint_identity=endpoint.identity, input_identity=self.input_identity,
                                 cache_index=index, valid_tokens=row["input_tokens"],
                                 capsule_sha256=row["capsule_sha256"], position=row["worst_position"],
                                 label=row["worst_label"], competitor=row["worst_competitor"])
+                    clock = time.perf_counter()
                     factor_members.append(factor_sink.put(index, a, meta))
+                    self.oracle._sync()
+                    work["factor_write_D2H_seconds"] += time.perf_counter() - clock
                     work["factor_D2H_bytes"] += a.numel() * a.element_size()
                     work["pair_two_row_head_calls"] += 1
                     work["backward_documents"] += 1
@@ -355,7 +399,10 @@ class DecisionOracle:
         self._guard(endpoint)
         if gradient:
             _require(bool(torch.isfinite(total).all()), "NONFINITE_DECISION_GRADIENT_ACCUMULATION")
+            clock = time.perf_counter()
             total = total.cpu()
+            self.oracle._sync()
+            work["final_gradient_D2H_seconds"] = time.perf_counter() - clock
             work["dense_gradient_D2H_bytes"] = total.numel() * total.element_size() if self.device.type == "cuda" else 0
             self.work["gradient_D2H_calls"] += int(self.device.type == "cuda")
             factor_sink.seal(expected_count=512)
@@ -368,6 +415,8 @@ class DecisionOracle:
                         full_vocabulary=self.oracle.model.config.vocab_size,
                         backward_documents=work["backward_documents"], input_identity=self.input_identity,
                         all_valid_input_gradient=gradient, endpoint_identity=endpoint.identity)
+        if role == "Dev128":
+            coverage["postselection_seal"] = selection_seal
         _require(coverage["positions"] == expected, "FULL_REFERENCE_POSITION_COVERAGE")
         return DecisionObservation(endpoint.identity, self.input_identity, role, rows,
             risk_from_margins([r["mu"] for r in rows]), sum(r["mismatches"] for r in rows),
@@ -381,18 +430,46 @@ class DecisionOracle:
         _require(1 <= len(directions) <= 5, "DIRECTION_COUNT_1_TO_5")
         for d in directions:
             _require(tuple(d.shape) == self.shape and bool(torch.isfinite(d).all()), "FINITE_DIRECTION_SHAPE")
-        j = torch.empty((512, len(directions)), dtype=torch.float64)
+        started = time.perf_counter()
+        self.oracle._guard()
+        # At most five dense directions live on the device. They are transferred
+        # once; each document's A/K is streamed, and no neural graph is built.
+        resident = tuple(d.detach().to(self.device, dtype=torch.float64) for d in directions)
+        j_device = torch.empty((512, len(directions)), dtype=torch.float64, device=self.device)
         for i in range(512):
             a, meta = observation.factors.get(i)
             _require(meta["endpoint_identity"] == observation.endpoint_identity and
                      meta["input_identity"] == self.input_identity and meta["cache_index"] == i,
                      "FACTOR_CENTER_OR_DOCUMENT_MISMATCH")
-            k = self.oracle.caches[i].valid_keys().double()
-            a = a.double()
-            for c, d in enumerate(directions):
-                j[i, c] = (a * (d.detach().cpu().double() @ k).T).sum()
+            k = self.oracle.caches[i].valid_keys().to(self.device, dtype=torch.float64)
+            a = a.to(self.device, dtype=torch.float64)
+            for c, d in enumerate(resident):
+                j_device[i, c] = (a * (d @ k).T).sum()
+        j = j_device.cpu()
+        self.oracle._guard()
         _require(bool(torch.isfinite(j).all()), "NONFINITE_COEFFICIENT_JACOBIAN")
+        self.last_jacobian_work = dict(documents=512, directions=len(directions),
+            device=str(self.device), contraction_dtype="float64", neural_forwards=0, neural_backwards=0,
+            resident_direction_bytes=sum(d.numel() * d.element_size() for d in resident),
+            wall_seconds=time.perf_counter() - started, factor_read_hash_seconds="NOT_SEPARATED")
         return j
+
+    def check_panel(self, endpoint, indices):
+        """Exactly four preselected technical docs; never a selector subset."""
+        self._guard(endpoint)
+        _require(len(indices) == 4 and len(set(indices)) == 4 and
+                 all(type(i) is int and 0 <= i < 512 for i in indices), "FIXED_FOUR_REFERENCE_TECHNICAL_PANEL")
+        rows = []
+        with torch.no_grad():
+            for index in indices:
+                row, _, _ = self._document(endpoint, index)
+                rows.append(row)
+        self._guard(endpoint)
+        self.work["technical_checks"] += 1
+        return dict(scope="FIXED_FOUR_REFERENCE_TECHNICAL_PANEL", indices=list(indices), rows=rows,
+                    endpoint_identity=endpoint.identity, input_identity=self.input_identity,
+                    panel_phi=risk_from_margins([r["mu"] for r in rows]),
+                    full_bank_pass=False, numerical_pass_not_assigned=True)
 
     def check_pair_document(self, endpoint, index, direction, scales):
         """One fixed technical document: cached factor vs physical AD and FD.

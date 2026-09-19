@@ -32,6 +32,10 @@ class _SavedTargetsFitter(NativeSingletonFitter):
 
 
 def hook_checks(rt,out):
+    # Historical frozen 50974 retains its original source. New submissions
+    # cannot silently use that checkpoint-writing route under the new default.
+    if rt.lock.get('save_checkpoints') is not True or not rt.lock.get('checkpoint_exception_authority'):
+        raise ValueError('LEGACY_HOOK_WEIGHT_STORAGE_REQUIRES_EXPLICIT_EXCEPTION')
     from .z_hook_parity import compare_native_z_paths
     indices=fixed_panel(rt.records[:100],lambda r:r['case_id'])
     records=[rt.records[i] for i in indices]
@@ -76,11 +80,5 @@ def hook_checks(rt,out):
     return summary,records
 
 
-def run(rt,out):
-    started=time.monotonic();out=Path(out)
-    hooks,records=hook_checks(rt,out/'hook')
-    # Load sealed W0 cache once. Current weights are W0 here.
-    reference=rt.reference()
-    from .decision import DecisionOracle
-    decision=DecisionOracle(reference)
-    raise NotImplementedError('T0_DECISION_INTEGRATION_NOT_YET_FROZEN')
+# Full T0 uses technical_decision.run_checks from program.py after exact reuse
+# of this already submitted hook-only job. It does not repeat these z fits.

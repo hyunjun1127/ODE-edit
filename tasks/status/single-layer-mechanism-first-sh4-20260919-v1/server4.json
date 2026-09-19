@@ -1,0 +1,18 @@
+{
+  "instruction": "ODEEDIT-S06-SL-MECHANISM-FIRST-ZHOOK-SH4-V1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "READY_FOR_DEPENDENCY_SUBMISSION",
+  "existing_job": "50974",
+  "existing_execution_source": "1cf90d2f55e7e4f270c2c2da845f6d24707ca24b",
+  "dependency": "afterok:50974",
+  "maximum_batch": 10,
+  "scientific_stage_gates_unchanged": true,
+  "new_job": null,
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "registration_authorized_by": "USER: 실행기 구현 마치고 pending 까지만 걸어놔",
+  "new_actual_validation": "NOT_OBSERVED"
+}

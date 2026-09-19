@@ -96,13 +96,23 @@ class Runtime(Methods):
         fitter=fitter or self.fitter;directory=Path(directory)
         entry=dict(W=tensor_sha(self.W),M=tensor_sha(self.M),rng=digest(capture_rng()))
         with Timer(self.timing,'native_fit'):
-            result=fitter.fit(self.model,self.tok,self.hp,self.M,self.P,self.requests(records),layer=4,capture=True)
+            from .z_hook import HookedNativeSingletonFitter, capture_hooked_native_fit
+            if isinstance(fitter,HookedNativeSingletonFitter):
+                result=capture_hooked_native_fit(fitter,self.model,self.tok,self.hp,self.M,self.P,
+                                               self.requests(records),layer=4)
+            else:
+                result=fitter.fit(self.model,self.tok,self.hp,self.M,self.P,self.requests(records),layer=4,capture=True)
         self.sync_oracles();self.guard()
         if result['receipt']['history_append']!=0 or result['receipt']['compute_z']!=len(records):
             raise ValueError('NATIVE_CALLS_OR_INNER_HISTORY')
-        source=save_tensor(directory/'native-capsule.pt',result)
+        # Latest user override: no selected/native W or M state checkpoint.
+        # Native target/key evidence is not a full selected/native weight or
+        # equivalent complete update. The captured full solve stays RAM-only.
+        from .storage import native_evidence
+        source=save_tensor(directory/'native-factors.pt',native_evidence(result))
         write(directory/'native-binding.json',dict(source=source,entry=entry,receipt=result['receipt'],
-            case_ids=[r['case_id'] for r in records],native_fit_new_calls=1,native_target_new_calls=len(records)))
+            case_ids=[r['case_id'] for r in records],native_fit_new_calls=1,native_target_new_calls=len(records),
+            endpoint_weight_on_disk=False,disk_checkpoint='SKIPPED_USER_DIRECTED'))
         return result
 
     def protected_oracle(self,records):

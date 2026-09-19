@@ -227,6 +227,7 @@ class StreamingHistoryOracle:
                     backward_TF_paths=0, autograd_calls=0, factor_D2H_bytes=0,
                     peak_resident_requests=0, peak_resident_paths=0, dense_gradient_D2H_bytes=0,
                     official_observer_reads=0, native_history_appends=0)
+        work["request_suffix_head_backward_timer"] = "NOT_SEPARATED"
         factor_index = 0
         for ordinal, record in enumerate(self.records):
             with _request_context(self.prepare_request(record)) as (oracle, rows):
@@ -268,6 +269,9 @@ class StreamingHistoryOracle:
                             work["backward_TF_paths"] += 1
                         work["backward_requests"] += 1
                         work["autograd_calls"] += 1
+                        # Do not keep the last request's activation graph or
+                        # dense Gi alive while preparing the next request.
+                        del scalar, grads, grad, a, k, gi
                     result.append(dict(case_id=record["case_id"], ordinal=ordinal, scores=scores, **slack))
                 work["requests"] += 1
                 work["unique_TF_paths"] += len(oracle.caches)
@@ -311,9 +315,17 @@ class StreamingHistoryOracle:
         for item in observation.factors.members:
             by_request.setdefault(item["metadata"]["request_ordinal"], []).append(item["index"])
         _require(set(by_request) == set(range(len(self.records))), "HISTORY_FACTOR_REQUEST_COVERAGE")
+        resident = None
+        resident_device = None
         for ordinal, record in enumerate(self.records):
             with _request_context(self.prepare_request(record)) as (oracle, rows):
                 self._validate_paths(oracle, rows, record["case_id"])
+                if resident is None:
+                    _require(all(tuple(d.shape) == tuple(oracle.shape) and bool(torch.isfinite(d).all())
+                                 for d in directions), "HISTORY_FINITE_DIRECTION_SHAPE")
+                    resident = tuple(d.detach().to(oracle.device, dtype=torch.float64) for d in directions)
+                    resident_device = oracle.device
+                _require(oracle.device == resident_device, "HISTORY_FACTORY_CHANGED_DEVICE")
                 for index in by_request[ordinal]:
                     a, meta = observation.factors.get(index)
                     ci = meta["cache_index"]
@@ -321,8 +333,9 @@ class StreamingHistoryOracle:
                              meta["history_identity"] == self.history_identity and
                              meta["input_identity"] == _json_sha(oracle.caches[ci].input_identity),
                              "HISTORY_FACTOR_ENDPOINT_PREFIX_MISMATCH")
-                    k = oracle.caches[ci].valid_keys().double()
-                    for c, d in enumerate(directions):
-                        result[ordinal, c] += (a.double() * (d.detach().cpu().double() @ k).T).sum()
+                    k = oracle.caches[ci].valid_keys().to(oracle.device, dtype=torch.float64)
+                    a = a.to(oracle.device, dtype=torch.float64)
+                    for c, d in enumerate(resident):
+                        result[ordinal, c] += (a * (d @ k).T).sum().cpu()
         _require(bool(torch.isfinite(result).all()), "NONFINITE_HISTORY_JACOBIAN")
         return result

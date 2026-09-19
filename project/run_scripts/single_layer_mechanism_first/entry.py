@@ -11,6 +11,13 @@ from project.run_scripts.single_layer_edit_preserving_correction.common import w
 
 def execute(lock):
     check_lock(lock)
+    implemented=(lock.get('stage')=='T0' and lock.get('phase')=='HOOK') or lock.get('phase')=='GATED_PROGRAM'
+    if not implemented:raise ValueError('UNIMPLEMENTED_ROUTE_BEFORE_MODEL')
+    if lock.get('phase')=='GATED_PROGRAM':
+        from .program import require_program
+        require_program(lock)
+    expected=Path(lock['execution']['source']).resolve()
+    if not Path(__file__).resolve().is_relative_to(expected):raise ValueError('IMPORT_OUTSIDE_FROZEN_SOURCE')
     for item in lock['execution']['members']:
         if Path(item['path']).stat().st_size!=item['bytes'] or sha(item['path'])!=item['sha256']:
             raise ValueError('EXECUTABLE_SOURCE_CHANGED:'+item['path'])
@@ -31,8 +38,10 @@ def execute(lock):
                 source=lock['execution']['commit'],seconds=time.monotonic()-start,
                 peak_host_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                 scientific_batches_completed=0,full_T0_ready=False))
-        else:
-            raise ValueError('UNIMPLEMENTED_ENTRY_ROUTE_NOT_ADMISSIBLE')
+        elif lock['phase']=='GATED_PROGRAM':
+            from .program import run
+            stage='T0_B1_CONDITIONAL_S3_S10'
+            run(rt,out)
     except BaseException as exc:
         write(out/'failure.json',dict(status='TECHNICAL_FAILURE',stage=stage,error=repr(exc),
             traceback=traceback.format_exc(),seconds=time.monotonic()-start,

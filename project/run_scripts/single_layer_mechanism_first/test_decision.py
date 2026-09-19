@@ -36,7 +36,10 @@ class MemoryFactors:
 
 class Block:
     def __call__(self, h, **kwargs):
-        return (h + torch.tanh(h),)
+        # Causal cross-position dependence ensures an exposed last-position
+        # pair has nonzero activation factors at earlier valid input tokens.
+        count = torch.arange(1, h.shape[1] + 1, dtype=h.dtype, device=h.device)[None, :, None]
+        return (h + torch.tanh(h.cumsum(1) / count),)
 
 
 class FakeOracle:
@@ -79,6 +82,15 @@ class FakeOracle:
 
     def _on_device(self, packed):
         return packed
+
+    def _teacher(self, index):
+        raise AssertionError("DECISION_MUST_NOT_READ_FULL_TEACHER")
+
+    def kl(self, *args, **kwargs):
+        raise AssertionError("DECISION_MUST_NOT_CALL_KL")
+
+    def _sync(self):
+        pass
 
     def _args(self, hidden, packed):
         return {}
@@ -123,6 +135,8 @@ class DecisionTests(unittest.TestCase):
     def test_nonfinite_is_technical(self):
         with self.assertRaises(DecisionError):
             margins_from_logits(torch.tensor([[float("nan"), 1.]]), [0])
+        with self.assertRaises(DecisionError):
+            risk_from_margins([-1e308])
 
     def test_endpoint_owned_alias_and_mutation(self):
         original = torch.zeros(3, 4)
@@ -159,6 +173,7 @@ class DecisionTests(unittest.TestCase):
         self.assertEqual(obs.work["full_teacher_reads"], 0)
         self.assertEqual(len(factors.values), 512)
         self.assertEqual(factors.values[0][0].shape, (129, 3))
+        self.assertGreater(float(factors.values[0][0][0].norm()), 0.)
         direction = torch.ones(3, 4) / 5
         jac = oracle.jacobian(obs, [direction])
         expected = sum(-2 * max(0., -r["mu"]) * float(jac[i, 0]) / 512
@@ -178,7 +193,9 @@ class DecisionTests(unittest.TestCase):
             oracle.scan(endpoint(), role="Dev128", gradient=True, factor_sink=MemoryFactors())
         with self.assertRaises(TypeError):
             oracle.scan(endpoint(), indices=[0])
-        self.assertEqual(oracle.scan(endpoint(), role="Dev128").coverage["documents"], 128)
+        with self.assertRaises(DecisionError):
+            oracle.scan(endpoint(), role="Dev128")
+        self.assertEqual(oracle.scan(endpoint(), role="Dev128", selection_seal="sealed").coverage["documents"], 128)
 
     def test_prefix_mutation_fails(self):
         fake = FakeOracle()
@@ -231,6 +248,14 @@ class DecisionTests(unittest.TestCase):
         self.assertLess(receipt["gradient_relative_l2"], 1e-6)
         self.assertEqual(len(receipt["FD"]), 2)
 
+    def test_technical_four_panel_not_fullbank(self):
+        oracle = DecisionOracle(FakeOracle())
+        report = oracle.check_panel(endpoint(), [0, 13, 128, 511])
+        self.assertFalse(report["full_bank_pass"])
+        self.assertEqual(len(report["rows"]), 4)
+        with self.assertRaises(DecisionError):
+            oracle.check_panel(endpoint(), [0, 1])
+
 
 class HistoryTests(unittest.TestCase):
     def test_registry_all_events_overwrite_and_no_sampling(self):
@@ -243,7 +268,7 @@ class HistoryTests(unittest.TestCase):
         self.assertIn(1, [r["case_id"] for r in active])
         self.assertNotIn(0, [r["case_id"] for r in active])
         self.assertNotIn(2, [r["case_id"] for r in active])
-        self.assertEqual(registry_status(ledger)[101 if False else -1]["status"], "INVALID_TARGET")
+        self.assertEqual(registry_status(ledger)[-1]["status"], "INVALID_TARGET")
         with self.assertRaises(DecisionError):
             receive_all(ledger, [event(100)])
 
