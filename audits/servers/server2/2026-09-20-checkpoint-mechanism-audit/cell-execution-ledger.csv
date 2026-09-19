@@ -1,0 +1,32 @@
+cell_id,status,execution_command,source,runtime,elapsed_seconds,peak_memory,cost_allocation
+A00,PASS,python -m project.run_scripts.checkpoint_mechanism_audit.staging (plan/receive); .prepare; exact member verification,source_ready.json and inputs/READY.json,Server2 CPU/I-O,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,staging/hash costs separately in local receipts; no GPU
+A01,PASS,reproduction command in terminal-audit.md; original argv NOT_RECORDED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/archival-receipt.json,Server2 CPU numpy/pandas,517.221661,NOT_RECORDED in sealed archival receipt,independent CPU analysis
+B00,PASS,reproduction command in terminal-audit.md; original argv NOT_RECORDED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/geometry/geometry-receipt.json,Server2 CPU torch FP64; original W/M FP32,128.34606998693198,9580608KiB RSS,includes15.29243337456137s hash; do not add twice
+C00,PASS,run.sbatch from execution-gate-r1/execution.lock.json; technical continuation control execute from execution-gate-tech-r1/execution.lock.json,3f65d1705ff69fe1d53c8b5e30313265889d5c2a;1eae5defd3dfcdcec28ba613e7b7951bc0c4c8a7,"Torch2.9.1+cu128/Transformers4.44.2/FP32/eager/TF32matmulFalse,cudnnTrue/A6000",stage split NOT_RECORDED,continuation GPU38537462272B; original peak GPU NOT_RECORDED,"shared gate51071 230s +51116 39s, TOTAL269 not per-cell"
+C01,FAILED,run.sbatch from execution-gate-r1/execution.lock.json; technical continuation control execute from execution-gate-tech-r1/execution.lock.json,3f65d1705ff69fe1d53c8b5e30313265889d5c2a;1eae5defd3dfcdcec28ba613e7b7951bc0c4c8a7,"Torch2.9.1+cu128/Transformers4.44.2/FP32/eager/TF32matmulFalse,cudnnTrue/A6000",stage split NOT_RECORDED,continuation GPU38537462272B; original peak GPU NOT_RECORDED,"shared gate51071 230s +51116 39s, TOTAL269 not per-cell"
+C02,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O000,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O001,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O010,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O100,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O005,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O020,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O030,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O040,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O050,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O060,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O070,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O080,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+O090,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N001,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N002,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N006,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N011,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N021,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N051,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+N091,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+E00,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+F00,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+G001_010,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+G050_100,BLOCKED,NOT_RUN_DEPENDENCY_C01,implemented task package; not executed,NOT_RUN,NOT_RECORDED_OR_NOT_RUN,NOT_RECORDED_OR_NOT_RUN,no new allocation
+Z00,PASS,python -m project.run_scripts.checkpoint_mechanism_audit.reporting; full arguments report-ko.md section10,report-manifest.json analysis_source file SHA,Server2 CPU Python/pandas/matplotlib; no model,5.4924551928415895,NOT_RECORDED,CPU publication only

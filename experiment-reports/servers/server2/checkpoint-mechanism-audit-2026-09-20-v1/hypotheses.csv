@@ -1,0 +1,5 @@
+hypothesis,status,basis,provisional
+H1,SUPPORTED,"이 단일 stream의 저장된 at-write/같은 cohort 전이에서 RS·PS와 NS의 시간적 양상이 다름. B100 all-case 조건부 loss는55/9993,423/19403,11547/72505이며 conflict-free 및 strict 전이를 별도 보고. 누적 history의 인과효과나 일반 capacity 판정 아님.",False
+H2,UNRESOLVED,C01 실패로 사전 지정 operator/demand/activation 의존 분석 미실행. 구현 또는 작은 B1 재현 오차를 기전 증거로 대체하지 않음.,False
+H3,UNRESOLVED,C01 실패로 사전 지정 operator/demand/activation 의존 분석 미실행. 구현 또는 작은 B1 재현 오차를 기전 증거로 대체하지 않음.,False
+H4,UNRESOLVED,C01 실패로 사전 지정 operator/demand/activation 의존 분석 미실행. 구현 또는 작은 B1 재현 오차를 기전 증거로 대체하지 않음.,False

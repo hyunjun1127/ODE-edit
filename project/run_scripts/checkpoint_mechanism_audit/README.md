@@ -6,6 +6,14 @@ Instruction: `ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1`.
 
 ## 현재 운영 상태
 
+최종: `TERMINAL_REPORTED_WITH_NUMERICAL_BLOCKS`. Job51071의 P shape-header 검사를
+수리한 continuation51116까지 종료했다. C00 PASS, C01 FAILED(NS row parity/M1 Gram).
+후속25개 의존 cell은 BLOCKED이며 제출하지 않았다. A00/A01/B00/C00와 보고Z00만 PASS다.
+실제2시도269 allocated GPU-sec, no new editing/z fitting/checkpoint. 원 failure와
+완료 평가를 재사용했으며 tolerance를 변경하지 않았다. 자세한 내용:
+`experiment-reports/servers/server2/checkpoint-mechanism-audit-2026-09-20-v1/report-ko.md`.
+아래 구현-only 및 재개 안내는 실행 계보 기록이며 추가 제출 권한을 뜻하지 않는다.
+
 최신 명시 USER recall: “자리 비었으니 task 이어서 진행시켜”. 기존 gate51071의
 source/lock·자원 확인 뒤 hold만 해제했으며 중복 제출은 하지 않았다. 아래 구현-only
 대기는 역사 기록이다. 이번 task는 common actual gate 이후 cap2 내 두 독립 lane으로
@@ -19,8 +27,9 @@ JobHeldUser로 hold했다. 최초 execution source3f65d170과 archive/lock은 �
 GPU/model 분석은 명시 USER recall 전 하지 않는다. Submit helper는 pause receipt가
 있으면 recall receipt 없이는 scheduler 조회 전 거부한다.
 
-CPU PASS는 실제 Llama/FP32 solve/evaluator parity PASS가 아니다. 현재 GPU 결과는
-NOT_RUN이다. 실제 최종 H1–H4 기전 판정과 Z00 report도 아직 미완료다.
+구현-only 시점 CPU PASS는 실제 Llama/FP32 solve/evaluator parity PASS가 아니었다.
+최종 실제 gate/차단 현황은 위 상태와 보고서를 따른다. H1은 단일 stream의 차등 전이
+관측으로 SUPPORTED, H2–H4는 의존 수치 gate 실패로 UNRESOLVED다.
 
 ## 구현 구성
 
@@ -53,7 +62,7 @@ python3 scripts/slurm_memory_policy.py audit \
 Create-once 산출물에 명령을 그대로 재실행하면 overwrite를 거부한다.
 CPU 결과는 archival/geometry receipts의 source/hash/count로 재사용한다.
 
-## USER recall 뒤 실행 DAG (이번 task 재개 승인)
+## 승인 실행 DAG (C01 실패 이후 의존 단계 미실행, 종료)
 
 1. 기존 held gate51071/source/lock을 정확히 확인한 뒤 사용자 지시 범위에서 처리한다.
    C00/C01 actual PASS 전 key-bank/operator/suffix를 시작하지 않는다.

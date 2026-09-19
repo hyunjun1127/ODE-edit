@@ -1,0 +1,51 @@
+{
+  "status": "PASS_CPU_POSTRUN_NOT_C01",
+  "rows_reduced_from_original_nll": 837200,
+  "final_paired_rows": 130000,
+  "transitions": [
+    {
+      "metric": "NS",
+      "denominator": 100000,
+      "at_write_success": 72505,
+      "final_success": 65348,
+      "n11": 60958,
+      "n10": 11547,
+      "n01": 4390,
+      "n00": 23105
+    },
+    {
+      "metric": "PS",
+      "denominator": 20000,
+      "at_write_success": 19403,
+      "final_success": 19136,
+      "n11": 18980,
+      "n10": 423,
+      "n01": 156,
+      "n00": 441
+    },
+    {
+      "metric": "RS",
+      "denominator": 10000,
+      "at_write_success": 9993,
+      "final_success": 9939,
+      "n11": 9938,
+      "n10": 55,
+      "n01": 1,
+      "n00": 6
+    }
+  ],
+  "report_sha256": "464ebf33a2a315ce3aae9d3397d6a74cd83d330ef21668228d5b1d3ca415cff8",
+  "manifest_sha256": "b8b188dbe1c3c8a025617452c262ae988c7fc6f534c7f4bb449edef6601d267a",
+  "full_member_rehash": 28,
+  "reproduction_member_match": 28,
+  "png_pdf_reproduction": true,
+  "cell_counts": {
+    "BLOCKED": 25,
+    "PASS": 5,
+    "FAILED": 1
+  },
+  "raw_free_report_extensions_headers": true,
+  "numerical_gate_not_waived": true,
+  "checkpoint_saved": false,
+  "model_calls": 0
+}

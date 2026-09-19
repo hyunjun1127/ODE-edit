@@ -286,6 +286,10 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
     tables["checkpoint_geometry.csv"],geometry_sources=verify_geometry_csv(results/"geometry")
     optional,optional_sources=prepare_optional(results,context);tables.update(summarize_optional(optional))
     tables["cell_status.csv"]=cells
+    if context.get('source_bindings'):
+        tables['source_bindings.csv']=pd.DataFrame(context['source_bindings'])
+    if context.get('artifact_index'):
+        tables['artifact-index.csv']=pd.DataFrame(context['artifact_index'])
     panel=pd.read_csv(results/"archival/mechanism_panel.csv")
     tables["mechanism_panel_summary.csv"]=panel.groupby(["interval_start","interval_end","selection_role"]).agg(rows=("identity","size"),distinct_requests=("case_id","nunique"),mean_entry_margin=("entry_margin","mean"),mean_endpoint_margin=("endpoint_margin","mean")).reset_index()
     judgements=hypotheses(tables["paired_transitions.csv"],cells,context)
@@ -301,6 +305,8 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
     geom=tables["checkpoint_geometry.csv"];last=geom[geom.batch==100].iloc[0]
     command=f"python -B -m project.run_scripts.checkpoint_mechanism_audit.reporting --results {results} --output <NEW_EMPTY_OUTPUT>"+(f" --cell-statuses {cell_statuses}" if cell_statuses else "")+(f" --context {context_path}" if context_path else "")+(" --final" if final else "")
     cell_counts=cells.status.value_counts().to_dict()
+    gate_section=context.get('gate_summary_ko','실제 gate 요약은 아직 제공되지 않았다.')
+    cost_table=markdown(pd.DataFrame(context.get('cost_ledger',[])))
     state="최종 terminal 수집 보고" if final else "중간 CPU 근거 보고 — 전체 task 완료 아님"
     body=f"""# 회수 AlphaEdit BLUE L4-only checkpoint 기전 분석
 
@@ -311,6 +317,10 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
 
 저장 current100 및 seen12를 독립 CPU reducer로 검사했다. 중복 {archive['current_seen_duplicates']:,}행은 scalar 일치를 확인한 뒤 한 번만 셌다. 유일한 요청은 10,000개이며, dedup 관측 {archive['observations']:,}행과 at-write anchor {archive['at_write_anchors']:,}행을 독립 표본수로 오해하지 않는다. 같은 요청의 반복 관측이다.
 Cell 상태: `{json.dumps(cell_counts,ensure_ascii=False)}`. Geometry는 actual W0+12개 W/M, 동일 random vector256개를 사용하는11개 구간을 검사했다. C00/C01 등 모델·writer·evaluator gate의 성공 여부는 cell 표의 실제 status만 따른다.
+
+### Actual gate와 차단 경계
+
+{gate_section}
 
 ### B100 전체 seen 요청의 저장 평가
 
@@ -397,6 +407,10 @@ Archive CPU wall={archive['wall_seconds']:.6f}s. Geometry CPU wall={geometry.get
 
 원 설계 RAM64GiB budget보다 Server2 admission ceiling60416MiB가 작다. 최신 task override는 프로젝트 cap2 안의1GPU×2lane, 각8CPU/exportNONE/Requeue0이다. 공통 actual gate가 선행하고 의존성이 있는 단계는 slot을 채우려 중복 실행하지 않는다. 본 CPU report builder는 scheduler 조회/model/GPU/eval을 하지 않는다.
 
+{cost_table}
+
+비용 ledger의 allocated GPU seconds는 scheduler allocation wall×GPU수이며 CUDA kernel busy time이 아니다. 포함된 load/hash/verification/evaluation 시간을 다시 더해 합계를 부풀리지 않는다. 미계측 세부 F/B·I/O는 NOT_RECORDED로 남기고 추정으로 분할하지 않는다. 실행한 C00/C01 capture/evaluation은 frozen parameter forward-only이며 backward0이다.
+
 재현 명령:
 
 ```bash
@@ -412,6 +426,8 @@ Archive CPU wall={archive['wall_seconds']:.6f}s. Geometry CPU wall={geometry.get
 모든31cell의 성공을 가정하지 않는다. Final은 PASS/FAILED/BLOCKED/SKIPPED terminal 수집 후 생성하며 failed dependency만 관련 claim을 차단한다. Draft는 미실행 status를 terminal로 위조하지 않는다. 낮은 efficacy/큰slack/신호없음 때문에 관측을 제거하거나 threshold를 조정하지 않았다.
 """
     (output/"report-ko.md").write_text(body,encoding="utf-8")
+    if 'numerical_parity' in context:save(output/'numerical-parity.json',context['numerical_parity'])
+    if 'timing' in context:save(output/'timing.json',context['timing'])
     save(output/"context.json",context)
     save(output/"figure-manifest.json",{"figures":plots,"regeneration_command":command,"matplotlib":matplotlib.__version__})
     inputs=[{"path":str(results/"archival/archival-receipt.json"),"sha256":sha(results/"archival/archival-receipt.json")},{"path":str(results/"geometry/geometry-receipt.json"),"sha256":sha(results/"geometry/geometry-receipt.json")},{"path":str(CELLS),"sha256":sha(CELLS)}]+optional_sources+geometry_sources
