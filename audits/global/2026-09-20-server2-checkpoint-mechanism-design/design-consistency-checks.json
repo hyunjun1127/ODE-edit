@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "scope": "Design structure and constraints only; no real experiment run",
+  "checks": {
+    "unique_cells": true,
+    "topological_cell_order": true,
+    "native_entries_are_available": true,
+    "target_entry_offset_correct": true,
+    "native_request_count": true,
+    "thirteen_operator_states": true,
+    "eleven_actual_history_intervals": true,
+    "all_current_anchors": true,
+    "reference_and_probe_are_separate": true,
+    "no_new_z_or_method_run": true,
+    "preserve_original_cudnn_tf32": true,
+    "only_B1_has_actual_next_tensor": true,
+    "display_math_balanced": true,
+    "local_links_exist": true,
+    "suffix_population_locked": true,
+    "fixed_hutchinson_final_sample": true,
+    "numerical_norms_and_zero_case_specified": true,
+    "report_collects_failed_and_blocked": true,
+    "late_targets_do_not_gate_archival": true
+  },
+  "files": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-20-server2-checkpoint-mechanism-audit-design-v1.md",
+      "sha256": "ae5d9d2b3b920125257e86d5b4bbba5afeae7b1b15114f244a927cfcf7386d00"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-20-server2-checkpoint-mechanism-audit-contract-v1.json",
+      "sha256": "9d469e90c0252228fc9a26d7d3ab9fdb2a256aba293c4dbbc58abff57c5f7238"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-20-server2-checkpoint-mechanism-audit-cells-v1.csv",
+      "sha256": "2e6a9a2733a99cb278928d42113a5ccc6ed85eeec3089a47516697916a88246e"
+    }
+  ],
+  "cells": 31,
+  "design_lines": 330,
+  "independent_review_corrections": [
+    "Suffix cohort fixed to first100 in both intervals",
+    "Explicit numerical denominators, maxima and zero-reference handling",
+    "Fixed256 trace samples;64/128 diagnostics only",
+    "Component-specific input gates and terminal-status final report"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "scope": "Synthetic CPU float64 algebra only; no real model or checkpoint computation, no empirical capacity result",
+  "numpy_version": "2.2.6",
+  "seed": 20260920,
+  "dimensions": {
+    "d": 18,
+    "o": 7,
+    "n": 5
+  },
+  "metrics": {
+    "raw_H_relative_asymmetry": 0.5620051126977672,
+    "raw_S_relative_asymmetry": 0.0072943097451092995,
+    "factor_vs_direct_relative_error": 4.502455719119555e-15,
+    "raw_fitting_transfer_relative_error": 6.358739037088321e-16,
+    "thin_B_SVD_energy_relative_error": 1.5800806517381547e-16,
+    "thin_B_mode_offdiagonal_max": 1.1796119636642288e-16,
+    "activation_cross_identity_relative_error": 9.00427336764153e-15,
+    "enumerated_rademacher_trace_relative_error": 1.2631073919495247e-16
+  },
+  "checks": {
+    "factor_vs_direct_relative_error": true,
+    "raw_fitting_transfer_relative_error": true,
+    "thin_B_SVD_energy_relative_error": true,
+    "thin_B_mode_offdiagonal_max": true,
+    "activation_cross_identity_relative_error": true,
+    "enumerated_rademacher_trace_relative_error": true,
+    "nonsymmetric_test_is_nontrivial": true,
+    "all_finite": true
+  }
+}

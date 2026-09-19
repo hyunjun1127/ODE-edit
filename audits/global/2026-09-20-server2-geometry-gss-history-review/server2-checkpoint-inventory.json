@@ -1,0 +1,2464 @@
+{
+  "host": "server2",
+  "observed_at_utc": "2026-09-19T17:15:16.737907+00:00",
+  "scope": "exact12 indexed AlphaEdit_L4_ONLY paths; CPU mmap metadata of B1 and B100 only; no tensor scans or payload hashes",
+  "paths": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+      "indexed_batch": 1,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "70305292c2359d73bcef54ed49870b4f4bf6ed35f6e8e218e5affe4f061d5ce4",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056986213,
+      "mtime_ns": 1788848062437139165,
+      "inode": 120996277,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056986213
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B005/W-method-state.pt",
+      "indexed_batch": 5,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "a477990cf6a1a5de107d128426fb9e9c07fd8d23948dedbe0d58b4d980c799a7",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056987429,
+      "mtime_ns": 1788849376988444447,
+      "inode": 120996286,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056987429
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/W-method-state.pt",
+      "indexed_batch": 10,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "b88e96469463d4ef11596486583546bd705476a53f6f1abab9d02e44dab3dafc",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056988901,
+      "mtime_ns": 1788851078493817277,
+      "inode": 120996291,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056988901
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B020/W-method-state.pt",
+      "indexed_batch": 20,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "47b8302f8150ef41ca521d6f4ced4b6798d38de19191587a6dfb96f7ae30ef4f",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056991909,
+      "mtime_ns": 1788854438219453910,
+      "inode": 120996294,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056991909
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B030/W-method-state.pt",
+      "indexed_batch": 30,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "0819033c5e8b68c1d575dbb508917afa302afeba737fd2c5b66f9584f4a215c6",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056994853,
+      "mtime_ns": 1788857975590633747,
+      "inode": 120996295,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056994853
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B040/W-method-state.pt",
+      "indexed_batch": 40,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "9152bc95c1dd54bdd394d514f88ee1b68f3586e7bedda2db842d343285bde8ab",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1056997861,
+      "mtime_ns": 1788861662067815948,
+      "inode": 120996298,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1056997861
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/W-method-state.pt",
+      "indexed_batch": 50,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "0ecc3a4b790ca7ab4d837cab785adc329f47c9b33c5b7092827c6ddac0571704",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057000869,
+      "mtime_ns": 1788865502175970521,
+      "inode": 120996303,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057000869
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B060/W-method-state.pt",
+      "indexed_batch": 60,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "5a47c2f1848f2aba7dccf97cc7ecc3b6ba7a2bbb514eda01de294d1a89cd24d7",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057003813,
+      "mtime_ns": 1788869496705934096,
+      "inode": 120996304,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057003813
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B070/W-method-state.pt",
+      "indexed_batch": 70,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "6100b3e4199410472e698594b6e93f3102992dd96bc2b7c8f715bfa4bb84866a",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057006821,
+      "mtime_ns": 1788873636963284733,
+      "inode": 120996307,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057006821
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B080/W-method-state.pt",
+      "indexed_batch": 80,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "aaab3177a0ec402286d2f13d5b082975da126b5de61a2efeb1515f8cd4bd2609",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057009829,
+      "mtime_ns": 1788877957437409191,
+      "inode": 120996314,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057009829
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B090/W-method-state.pt",
+      "indexed_batch": 90,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "836b48df7ad6b28568108c5029b6200bf729365ea20aad5fd0f70fda08927793",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057012837,
+      "mtime_ns": 1788882418604241704,
+      "inode": 120996319,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057012837
+        }
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+      "indexed_batch": 100,
+      "recorded_arm": "AlphaEdit_L4_ONLY",
+      "historical_sha256": "8ace335a744bfe11d8ecf587e78d7752208b98f80be760a6a6ccd10043823ee7",
+      "historical_hash_provenance": "migration-manifest-2026-09-11",
+      "present": true,
+      "bytes": 1057015781,
+      "mtime_ns": 1788887035531145207,
+      "inode": 120996322,
+      "device": 2304,
+      "size_matches_index": true,
+      "companions": [
+        {
+          "name": "W-method-state.pt",
+          "bytes": 1057015781
+        }
+      ]
+    }
+  ],
+  "schemas": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+      "batch_hint": 1,
+      "load_status": "LOADED_CPU_MMAP_WEIGHTS_ONLY",
+      "schema": {
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": {
+            "kind": "tensor",
+            "shape": [
+              4096,
+              14336
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "stride": [
+              14336,
+              1
+            ],
+            "numel": 58720256
+          }
+        },
+        "cache_c": {
+          "kind": "tensor",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "device": "cpu",
+          "stride": [
+            205520896,
+            14336,
+            1
+          ],
+          "numel": 205520896
+        },
+        "metadata": {
+          "batch": 1,
+          "seen_ids": {
+            "kind": "list",
+            "length": 100,
+            "items": [
+              16186,
+              3743,
+              1481
+            ]
+          },
+          "state": {
+            "weights": {
+              "kind": "dict",
+              "keys": [
+                "model.layers.4.mlp.down_proj.weight"
+              ],
+              "length": 1
+            },
+            "cache": {
+              "kind": "str",
+              "length": 64
+            }
+          },
+          "lock_sha256": {
+            "kind": "str",
+            "length": 64
+          },
+          "sample_root": {
+            "kind": "str",
+            "length": 64
+          },
+          "source": {
+            "kind": "str",
+            "length": 64
+          },
+          "base_model_revision": {
+            "kind": "str",
+            "length": 40
+          },
+          "stats_members": {
+            "kind": "list",
+            "length": 2,
+            "items": [
+              {
+                "kind": "dict",
+                "keys": [
+                  "bytes",
+                  "path",
+                  "sha256"
+                ],
+                "length": 3
+              },
+              {
+                "kind": "dict",
+                "keys": [
+                  "bytes",
+                  "path",
+                  "sha256"
+                ],
+                "length": 3
+              }
+            ]
+          },
+          "rng": {
+            "python": {
+              "kind": "tuple",
+              "length": 3,
+              "items": []
+            },
+            "numpy": {
+              "kind": "list",
+              "length": 5,
+              "items": []
+            },
+            "torch": {
+              "kind": "list",
+              "length": 5056,
+              "items": []
+            },
+            "cuda": {
+              "kind": "list",
+              "length": 1,
+              "items": []
+            }
+          },
+          "method": {
+            "kind": "str",
+            "length": 9
+          },
+          "contexts": {
+            "kind": "list",
+            "length": 2
+          },
+          "covariance": {},
+          "cache_c_is_history": true,
+          "recovery": {
+            "kind": "str",
+            "length": 188
+          }
+        }
+      },
+      "stable_stat": true
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+      "batch_hint": 100,
+      "load_status": "LOADED_CPU_MMAP_WEIGHTS_ONLY",
+      "schema": {
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": {
+            "kind": "tensor",
+            "shape": [
+              4096,
+              14336
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "stride": [
+              14336,
+              1
+            ],
+            "numel": 58720256
+          }
+        },
+        "cache_c": {
+          "kind": "tensor",
+          "shape": [
+            1,
+            14336,
+            14336
+          ],
+          "dtype": "torch.float32",
+          "device": "cpu",
+          "stride": [
+            205520896,
+            14336,
+            1
+          ],
+          "numel": 205520896
+        },
+        "metadata": {
+          "batch": 100,
+          "seen_ids": {
+            "kind": "list",
+            "length": 10000,
+            "items": [
+              16186,
+              3743,
+              1481
+            ]
+          },
+          "state": {
+            "weights": {
+              "kind": "dict",
+              "keys": [
+                "model.layers.4.mlp.down_proj.weight"
+              ],
+              "length": 1
+            },
+            "cache": {
+              "kind": "str",
+              "length": 64
+            }
+          },
+          "lock_sha256": {
+            "kind": "str",
+            "length": 64
+          },
+          "sample_root": {
+            "kind": "str",
+            "length": 64
+          },
+          "source": {
+            "kind": "str",
+            "length": 64
+          },
+          "base_model_revision": {
+            "kind": "str",
+            "length": 40
+          },
+          "stats_members": {
+            "kind": "list",
+            "length": 2,
+            "items": [
+              {
+                "kind": "dict",
+                "keys": [
+                  "bytes",
+                  "path",
+                  "sha256"
+                ],
+                "length": 3
+              },
+              {
+                "kind": "dict",
+                "keys": [
+                  "bytes",
+                  "path",
+                  "sha256"
+                ],
+                "length": 3
+              }
+            ]
+          },
+          "rng": {
+            "python": {
+              "kind": "tuple",
+              "length": 3,
+              "items": []
+            },
+            "numpy": {
+              "kind": "list",
+              "length": 5,
+              "items": []
+            },
+            "torch": {
+              "kind": "list",
+              "length": 5056,
+              "items": []
+            },
+            "cuda": {
+              "kind": "list",
+              "length": 1,
+              "items": []
+            }
+          },
+          "method": {
+            "kind": "str",
+            "length": 9
+          },
+          "contexts": {
+            "kind": "list",
+            "length": 2
+          },
+          "covariance": {},
+          "cache_c_is_history": true,
+          "recovery": {
+            "kind": "str",
+            "length": 188
+          }
+        }
+      },
+      "stable_stat": true
+    }
+  ],
+  "torch_version": "2.9.1+cu128",
+  "metadata_details": {
+    "metadata": [
+      {
+        "batch": 1,
+        "lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+        "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "source": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+        "base_model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "method": "AlphaEdit",
+        "cache_c_is_history": true,
+        "recovery": "load pinned immutable full W0; copy selected weights and Alpha history; restore contexts/RNG; MEMIT static covariance from sealed native NPZ; verify selected state hashes before next batch",
+        "state": {
+          "weights": {
+            "model.layers.4.mlp.down_proj.weight": "e2a584c279634e7d6de0ea99a9d4ab38677d26c4ee502e40c62ee3b519053cf1"
+          },
+          "cache": "2edeaba9aa0e7ca6cb4539c52dbb6a56151d8cc45401d732916a908437a1797b"
+        },
+        "stats_members": [
+          {
+            "bytes": 822084814,
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+          },
+          {
+            "bytes": 822084814,
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+          }
+        ],
+        "covariance": {},
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+        "context_group_sizes": [
+          1,
+          5
+        ],
+        "contexts_sha256_json": "6b9622414c8e46d9be02d75d6a222425c6b8b0fe15b42a52a8434f3b9533427e",
+        "seen_ids_count": 100,
+        "seen_ids_unique_count": 100,
+        "seen_ids_order_sha256_json": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+        "referenced_stats_live": [
+          {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "exists_at_recorded_path": false
+          },
+          {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "exists_at_recorded_path": false
+          }
+        ]
+      },
+      {
+        "batch": 100,
+        "lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+        "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "source": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+        "base_model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "method": "AlphaEdit",
+        "cache_c_is_history": true,
+        "recovery": "load pinned immutable full W0; copy selected weights and Alpha history; restore contexts/RNG; MEMIT static covariance from sealed native NPZ; verify selected state hashes before next batch",
+        "state": {
+          "weights": {
+            "model.layers.4.mlp.down_proj.weight": "c598d490286bfbc3bd36528b1b747ee2a2b52a55d4f6ee4d49d69a67544af957"
+          },
+          "cache": "9050e5fcb9c1d1c83d0545c301c18ace882fb609a387f75cbd12f44ed6c0fab8"
+        },
+        "stats_members": [
+          {
+            "bytes": 822084814,
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+          },
+          {
+            "bytes": 822084814,
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+          }
+        ],
+        "covariance": {},
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+        "context_group_sizes": [
+          1,
+          5
+        ],
+        "contexts_sha256_json": "6b9622414c8e46d9be02d75d6a222425c6b8b0fe15b42a52a8434f3b9533427e",
+        "seen_ids_count": 10000,
+        "seen_ids_unique_count": 10000,
+        "seen_ids_order_sha256_json": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+        "referenced_stats_live": [
+          {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+            "exists_at_recorded_path": false
+          },
+          {
+            "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+            "exists_at_recorded_path": false
+          }
+        ]
+      }
+    ],
+    "bounded_directory_listings": {
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3": [
+        {
+          "name": "B001",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B005",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B010",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B020",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B030",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B040",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B050",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B060",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B070",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B080",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B090",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "B100",
+          "is_dir": true,
+          "bytes": null
+        }
+      ],
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100": [
+        {
+          "name": "attempt-cell0-checkpoint-r3",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "attempt-checkpoint-r2",
+          "is_dir": true,
+          "bytes": null
+        }
+      ],
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports": [
+        {
+          "name": "initial6-v1",
+          "is_dir": true,
+          "bytes": null
+        }
+      ],
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1": [
+        {
+          "name": "evaluator-import-supplement",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "evaluator-source",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "evaluator-source-ready.json",
+          "is_dir": false,
+          "bytes": 342
+        },
+        {
+          "name": "landing.json",
+          "is_dir": false,
+          "bytes": 146
+        },
+        {
+          "name": "payload",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "source",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "source-ready.json",
+          "is_dir": false,
+          "bytes": 227
+        },
+        {
+          "name": "transfer-ready.json",
+          "is_dir": false,
+          "bytes": 411
+        }
+      ]
+    }
+  },
+  "companion_provenance": {
+    "small_receipts": {
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/landing.json": {
+        "free_bytes": 1690349776896,
+        "free_inodes": 445705699,
+        "original_overwrite": false,
+        "status": "CREATE_ONCE_LANDING",
+        "writer": "SH4"
+      },
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source-ready.json": {
+        "files": 101,
+        "manifest_sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a",
+        "source_seal_sha256": "37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa",
+        "status": "SOURCE_READY"
+      },
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/transfer-ready.json": {
+        "GPU": 0,
+        "bytes": 62011141768,
+        "checkpoints": 72,
+        "manifest_sha256": "e4625ab025e6bf57c30a5c3a1e6eece01557cd2d204c3266a37777368368884a",
+        "model_load": 0,
+        "source_seal_sha256": "37dacc4677e7952f16377800d3e85889b312d6352f38bd31b78f3744da28e5aa",
+        "status": "READY",
+        "verification": "remote full file size/SHA; source CPU tensor/schema hashes in manifest; SH2 independent loader audit separate"
+      },
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-source-ready.json": {
+        "status": "EVALUATOR_SOURCE_READY",
+        "files": 13,
+        "source_manifest_sha256": "21badc13a1ceed8ac25edf545fcf0b3a3b9e6b69577240bf712acde84b9581e5",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/evaluator-source",
+        "dataset_retransfer": 0,
+        "metric_correctness": "SH2_GH_PENDING"
+      }
+    },
+    "source_dir_listing": {
+      "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source": [
+        {
+          "name": "checkpoint-manifest.json",
+          "is_dir": false,
+          "bytes": 281971
+        },
+        {
+          "name": "closure",
+          "is_dir": true,
+          "bytes": null
+        },
+        {
+          "name": "source-seal.json",
+          "is_dir": false,
+          "bytes": 16448
+        }
+      ]
+    },
+    "remapped_stats": [
+      {
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "exists": true,
+        "bytes": 822084814
+      },
+      {
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "exists": true,
+        "bytes": 822084814
+      }
+    ]
+  },
+  "limitations": [
+    "Payload/state hashes are recorded historical values, not recomputed in this audit.",
+    "Only B001/B100 schemas loaded; other 10 snapshots stat-verified only.",
+    "Raw per-request keys/targets/residuals and per-batch deltas are not fields of the two inspected checkpoints.",
+    "Native cache_c is recorded history Gram, not an invertible per-request key registry.",
+    "Only history diagonal values read for B001/B100: no full tensor finite/PSD/rank check, eigendecomposition, payload hashes, model restore, GPU job, or forward."
+  ],
+  "source_manifest_metadata": {
+    "source-seal.json": {
+      "top_keys": [
+        "member_root",
+        "members"
+      ],
+      "structure": {
+        "member_root": "702a1a8bc29eb35f3b0ede67f41889ccd1deda51c7430bce638bf4119468953f",
+        "members": {
+          "type": "list",
+          "length": 100,
+          "first_keys": [
+            "bytes",
+            "relative",
+            "sha256"
+          ]
+        }
+      },
+      "selected_l4_records": []
+    },
+    "checkpoint-manifest.json": {
+      "top_keys": [
+        "base_model_members",
+        "checkpoints",
+        "count",
+        "instruction_id",
+        "omissions",
+        "report",
+        "report_manifest",
+        "scientific_promotion",
+        "source_closure",
+        "total_checkpoint_bytes"
+      ],
+      "structure": {
+        "base_model_members": {
+          "type": "list",
+          "length": 10,
+          "first_keys": [
+            "bytes",
+            "path",
+            "sha256"
+          ]
+        },
+        "checkpoints": {
+          "type": "list",
+          "length": 72,
+          "first_keys": [
+            "arm",
+            "base_selected_weights",
+            "batch",
+            "blue_head",
+            "blue_tree",
+            "commit",
+            "context_sha256",
+            "display_label",
+            "editcount",
+            "file",
+            "full_model_checkpoint",
+            "job",
+            "layers",
+            "metadata_sha256",
+            "method",
+            "method_state",
+            "model_revision",
+            "rng_components",
+            "sample_root",
+            "source_archive_sha256",
+            "source_head",
+            "source_lock_sha256",
+            "source_tree",
+            "terminal",
+            "validation",
+            "variant",
+            "weights"
+          ]
+        },
+        "count": 72,
+        "instruction_id": "ODEEDIT-S06-BLUE-CHECKPOINT-DOWNSTREAM-S2-S4-V1",
+        "omissions": {
+          "type": "list",
+          "length": 3,
+          "first_keys": [
+            "jobs",
+            "status"
+          ]
+        },
+        "report": {
+          "type": "dict",
+          "length": 3,
+          "first_keys": null
+        },
+        "report_manifest": {
+          "type": "dict",
+          "length": 3,
+          "first_keys": null
+        },
+        "scientific_promotion": false,
+        "source_closure": {
+          "type": "list",
+          "length": 99,
+          "first_keys": [
+            "bytes",
+            "relative",
+            "sha256",
+            "source"
+          ]
+        },
+        "total_checkpoint_bytes": 62011141768
+      },
+      "selected_l4_records": [
+        {
+          "arm": "AlphaEdit_L4_ONLY",
+          "base_selected_weights": {
+            "model.layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.float32",
+              "object_id": 127116208044976,
+              "pointer": 127105664811008,
+              "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+              "shape": [
+                4096,
+                14336
+              ],
+              "version": 0
+            }
+          },
+          "batch": 1,
+          "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+          "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+          "commit": {
+            "bytes": 2221,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/commit.json",
+            "sha256": "96a133f347cad51b49000e991ecf4b96e9a1957d4ec748aa1fd523f8d0844e33"
+          },
+          "context_sha256": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+          "display_label": "AlphaEdit_BLUE_L4_ONLY",
+          "editcount": 100,
+          "file": {
+            "bytes": 1056986213,
+            "destination_relative": "payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+            "sha256": "70305292c2359d73bcef54ed49870b4f4bf6ed35f6e8e218e5affe4f061d5ce4"
+          },
+          "full_model_checkpoint": false,
+          "job": "39283_3",
+          "layers": [
+            4
+          ],
+          "metadata_sha256": "951745e73671898ad892e883319dd33d55aa969eb6b7189c71ae34d5f96d27ae",
+          "method": "AlphaEdit",
+          "method_state": {
+            "dtype": "torch.float32",
+            "semantics": "AlphaEdit selected-layer history; NOT forward weights",
+            "sha256": "2edeaba9aa0e7ca6cb4539c52dbb6a56151d8cc45401d732916a908437a1797b",
+            "shape": [
+              1,
+              14336,
+              14336
+            ]
+          },
+          "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+          "rng_components": [
+            "cuda",
+            "numpy",
+            "python",
+            "torch"
+          ],
+          "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+          "source_archive_sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+          "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+          "source_lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+          "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+          "terminal": {
+            "bytes": 97740,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/terminal.json",
+            "sha256": "0605044830a9defb0d00bd5c46a47051e6ea5f73d353c22001f3b07ae87712cd"
+          },
+          "validation": "CPU weights_only load + all selected tensor hashes/finite + terminal/report/commit linkage; no model/GPU/forward",
+          "variant": "L4_ONLY",
+          "weights": {
+            "model.layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.float32",
+              "physical_layer": 4,
+              "sha256": "e2a584c279634e7d6de0ea99a9d4ab38677d26c4ee502e40c62ee3b519053cf1",
+              "shape": [
+                4096,
+                14336
+              ]
+            }
+          }
+        },
+        {
+          "arm": "AlphaEdit_L4_ONLY",
+          "base_selected_weights": {
+            "model.layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.float32",
+              "object_id": 127116208044976,
+              "pointer": 127105664811008,
+              "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+              "shape": [
+                4096,
+                14336
+              ],
+              "version": 0
+            }
+          },
+          "batch": 100,
+          "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+          "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+          "commit": {
+            "bytes": 2230,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/commit.json",
+            "sha256": "ee4b353fc8896233d55e173ba49eb10df5935e8726ac7e720fef0c4b97538ad5"
+          },
+          "context_sha256": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+          "display_label": "AlphaEdit_BLUE_L4_ONLY",
+          "editcount": 10000,
+          "file": {
+            "bytes": 1057015781,
+            "destination_relative": "payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+            "sha256": "8ace335a744bfe11d8ecf587e78d7752208b98f80be760a6a6ccd10043823ee7"
+          },
+          "full_model_checkpoint": false,
+          "job": "39283_3",
+          "layers": [
+            4
+          ],
+          "metadata_sha256": "1cf9bb561ccc17dc02afc628929cdfd840c7a88a3adc5c703ff0a998e7bfbec5",
+          "method": "AlphaEdit",
+          "method_state": {
+            "dtype": "torch.float32",
+            "semantics": "AlphaEdit selected-layer history; NOT forward weights",
+            "sha256": "9050e5fcb9c1d1c83d0545c301c18ace882fb609a387f75cbd12f44ed6c0fab8",
+            "shape": [
+              1,
+              14336,
+              14336
+            ]
+          },
+          "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+          "rng_components": [
+            "cuda",
+            "numpy",
+            "python",
+            "torch"
+          ],
+          "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+          "source_archive_sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+          "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+          "source_lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+          "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+          "terminal": {
+            "bytes": 97740,
+            "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/terminal.json",
+            "sha256": "0605044830a9defb0d00bd5c46a47051e6ea5f73d353c22001f3b07ae87712cd"
+          },
+          "validation": "CPU weights_only load + all selected tensor hashes/finite + terminal/report/commit linkage; no model/GPU/forward",
+          "variant": "L4_ONLY",
+          "weights": {
+            "model.layers.4.mlp.down_proj.weight": {
+              "dtype": "torch.float32",
+              "physical_layer": 4,
+              "sha256": "c598d490286bfbc3bd36528b1b747ee2a2b52a55d4f6ee4d49d69a67544af957",
+              "shape": [
+                4096,
+                14336
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "closure_top": [
+      "closure/022-local-source.tar",
+      "closure/047-commit.json",
+      "closure/065-commit.json",
+      "closure/087-commit.json",
+      "closure/043-commit.json",
+      "closure/061-commit.json",
+      "closure/057-commit.json",
+      "closure/027-commit.json",
+      "closure/079-commit.json",
+      "closure/034-commit.json",
+      "closure/015-commit.json",
+      "closure/055-commit.json",
+      "closure/098-MEMIT-ORIGINAL.json",
+      "closure/088-commit.json",
+      "closure/070-commit.json",
+      "closure/037-commit.json",
+      "closure/085-commit.json",
+      "closure/052-commit.json",
+      "closure/016-commit.json",
+      "closure/001-authoritative-envelope.txt",
+      "closure/092-terminal.json",
+      "closure/041-commit.json",
+      "closure/064-terminal.json",
+      "closure/069-commit.json",
+      "closure/017-commit.json",
+      "closure/086-commit.json",
+      "closure/095-AlphaEdit-ORIGINAL.json",
+      "closure/048-commit.json",
+      "closure/049-runtime.json",
+      "closure/051-commit.json",
+      "closure/029-commit.json",
+      "closure/089-commit.json",
+      "closure/075-commit.json",
+      "closure/032-commit.json",
+      "closure/042-commit.json",
+      "closure/045-commit.json",
+      "closure/038-commit.json",
+      "closure/097-MEMIT-L8_ONLY.json",
+      "closure/010-commit.json",
+      "closure/093-AlphaEdit-L4_ONLY.json",
+      "closure/063-runtime.json",
+      "closure/026-commit.json",
+      "closure/011-commit.json",
+      "closure/054-commit.json",
+      "closure/083-commit.json",
+      "closure/__pycache__",
+      "closure/013-commit.json",
+      "closure/039-commit.json",
+      "closure/025-commit.json",
+      "closure/066-commit.json",
+      "closure/000-integrity.py",
+      "closure/009-commit.json",
+      "closure/096-MEMIT-L4_ONLY.json",
+      "closure/021-execution.lock.json",
+      "closure/033-commit.json",
+      "closure/030-commit.json",
+      "closure/008-commit.json",
+      "closure/031-commit.json",
+      "closure/071-commit.json",
+      "closure/024-commit.json",
+      "closure/046-commit.json",
+      "closure/081-commit.json",
+      "closure/006-local-source.tar",
+      "closure/050-terminal.json",
+      "closure/002-build_inventory.py",
+      "closure/036-terminal.json",
+      "closure/014-commit.json",
+      "closure/068-commit.json",
+      "closure/084-commit.json",
+      "closure/073-commit.json",
+      "closure/053-commit.json",
+      "closure/080-commit.json",
+      "closure/004-PROTOCOL.md",
+      "closure/062-commit.json",
+      "closure/012-commit.json",
+      "closure/035-runtime.json",
+      "closure/091-runtime.json",
+      "closure/072-commit.json",
+      "closure/094-AlphaEdit-L8_ONLY.json",
+      "closure/067-commit.json",
+      "closure/007-commit.json",
+      "closure/005-execution.lock.json",
+      "closure/020-terminal.json",
+      "closure/028-commit.json",
+      "closure/023-commit.json",
+      "closure/056-commit.json",
+      "closure/077-runtime.json",
+      "closure/019-runtime.json",
+      "closure/040-commit.json",
+      "closure/074-commit.json",
+      "closure/003-checkpoint_loader.py",
+      "closure/060-commit.json",
+      "closure/082-commit.json",
+      "closure/059-commit.json",
+      "closure/018-commit.json",
+      "closure/058-commit.json",
+      "closure/078-terminal.json",
+      "closure/044-commit.json",
+      "closure/076-commit.json",
+      "closure/090-commit.json"
+    ]
+  },
+  "small_source_binding": {
+    "l4_source_links": [
+      {
+        "bytes": 2221,
+        "relative": "closure/051-commit.json",
+        "sha256": "96a133f347cad51b49000e991ecf4b96e9a1957d4ec748aa1fd523f8d0844e33",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/commit.json"
+      },
+      {
+        "bytes": 2220,
+        "relative": "closure/052-commit.json",
+        "sha256": "e4773f7287048720d06feee78cda5141e15dbf7b986d6ef74d6a0b87de86f505",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B005/commit.json"
+      },
+      {
+        "bytes": 2226,
+        "relative": "closure/053-commit.json",
+        "sha256": "56ef8232d7d1b80e645936a904b45aa38b7759da5fe7beb1004dae95e6fbe067",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/commit.json"
+      },
+      {
+        "bytes": 2225,
+        "relative": "closure/054-commit.json",
+        "sha256": "2c052f536a0f79d25fceb7eb07ff87af86f03daaae04c1a4ef98cfd58d7a6033",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B020/commit.json"
+      },
+      {
+        "bytes": 2228,
+        "relative": "closure/055-commit.json",
+        "sha256": "2be01cecfbdf446c35bdfbbf0e5bd7fc738e042a395f98fac7b14e859e599b76",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B030/commit.json"
+      },
+      {
+        "bytes": 2224,
+        "relative": "closure/056-commit.json",
+        "sha256": "8289c59839ef26ed8ec68598644c4420cb9fa502c41e22672f477381f3b6e249",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B040/commit.json"
+      },
+      {
+        "bytes": 2230,
+        "relative": "closure/057-commit.json",
+        "sha256": "2a78495f255b40ddf0b45ebfeb6aa79f842e9c9a2c8097b7958e544f63fed3af",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/commit.json"
+      },
+      {
+        "bytes": 2229,
+        "relative": "closure/058-commit.json",
+        "sha256": "95a0e47868724c9f6d5db5f3ae7cb3f4d00f59b4fb4148dbfb8ff63b739e7252",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B060/commit.json"
+      },
+      {
+        "bytes": 2228,
+        "relative": "closure/059-commit.json",
+        "sha256": "2007531c1047f31320645e4c3bdb1fa693db546dbe58da03bb44dbcf251af354",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B070/commit.json"
+      },
+      {
+        "bytes": 2229,
+        "relative": "closure/060-commit.json",
+        "sha256": "a12ad3d3007db5ffec5fab98da234ddce689eaca9bdc78befca3de46452d3e7b",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B080/commit.json"
+      },
+      {
+        "bytes": 2231,
+        "relative": "closure/061-commit.json",
+        "sha256": "5981ef43d2d0e6969edf39db514e1de551b91ff7ffb344bd7fc1a0573aa2aded",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B090/commit.json"
+      },
+      {
+        "bytes": 2230,
+        "relative": "closure/062-commit.json",
+        "sha256": "ee4b353fc8896233d55e173ba49eb10df5935e8726ac7e720fef0c4b97538ad5",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/commit.json"
+      },
+      {
+        "bytes": 3308,
+        "relative": "closure/063-runtime.json",
+        "sha256": "807ec8afd3aef1ad5ec20ad535f265527010711b4435629964c505fdc28e16d4",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/runtime.json"
+      },
+      {
+        "bytes": 97740,
+        "relative": "closure/064-terminal.json",
+        "sha256": "0605044830a9defb0d00bd5c46a47051e6ea5f73d353c22001f3b07ae87712cd",
+        "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/terminal.json"
+      }
+    ],
+    "hparams": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source/closure/093-AlphaEdit-L4_ONLY.json",
+      "sha256_current": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+      "value": {
+        "L2": 1,
+        "attn_module_tmp": "model.layers.{}.self_attn",
+        "blue": true,
+        "clamp_norm_factor": 0.75,
+        "fact_token": "subject_last",
+        "kl_factor": 0.0625,
+        "layer_module_tmp": "model.layers.{}",
+        "layer_selection": "all",
+        "layers": [
+          4
+        ],
+        "lm_head_module": "lm_head",
+        "ln_f_module": "model.norm",
+        "mlp_module_tmp": "model.layers.{}.mlp",
+        "model_name": "Llama3-8B",
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": 15000,
+        "nullspace_threshold": 0.02,
+        "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+        "v_loss_layer": 31,
+        "v_lr": 0.1,
+        "v_num_grad_steps": 25,
+        "v_weight_decay": 0.5
+      }
+    },
+    "small_lock_bindings": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source/closure/005-execution.lock.json",
+        "sha256_current": "1111a3383047346394710905befdf5294f8de2993beaa2cb3eb5d09229154bb9",
+        "top_keys": [
+          "amendment",
+          "blue_head",
+          "blue_root",
+          "blue_tree",
+          "cells",
+          "checkpoint_batches",
+          "dataset",
+          "dependencies",
+          "instruction_id",
+          "local_source_archive",
+          "local_source_sha256",
+          "members",
+          "prefix1000_root",
+          "projector",
+          "projector_source_layers",
+          "replacement_control",
+          "resource",
+          "revision",
+          "sample",
+          "sample_root",
+          "scientific_promotion",
+          "seed",
+          "snapshot",
+          "source_head",
+          "source_root",
+          "source_tree",
+          "stats_members",
+          "stats_root"
+        ]
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source/closure/021-execution.lock.json",
+        "sha256_current": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+        "top_keys": [
+          "amendment",
+          "blue_head",
+          "blue_root",
+          "blue_tree",
+          "cells",
+          "checkpoint_batches",
+          "dataset",
+          "dependencies",
+          "instruction_id",
+          "local_source_archive",
+          "local_source_sha256",
+          "members",
+          "prefix1000_root",
+          "projector",
+          "projector_source_layers",
+          "resource",
+          "revision",
+          "sample",
+          "sample_root",
+          "scientific_promotion",
+          "seed",
+          "snapshot",
+          "source_head",
+          "source_root",
+          "source_tree",
+          "stats_members",
+          "stats_root"
+        ]
+      }
+    ]
+  },
+  "bounded_diagonal_and_companions": {
+    "mode": "CPU_THREADS1_MMAP_DIAGONAL_ONLY_NO_GPU_NO_MODEL",
+    "diagonal_sanity": [
+      {
+        "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+        "batch": 1,
+        "seen_count": 100,
+        "diagonal_count": 14336,
+        "diagonal_sum": 779.801918450743,
+        "diagonal_min": 0.0019745544996112585,
+        "diagonal_max": 17.93844985961914,
+        "diagonal_all_finite": true,
+        "diagonal_nonnegative_fraction": 1.0,
+        "interpretation": "trace/history key energy sanity only; no PSD/rank/per-request attribution proof"
+      },
+      {
+        "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+        "batch": 100,
+        "seen_count": 10000,
+        "diagonal_count": 14336,
+        "diagonal_sum": 79876.31351596117,
+        "diagonal_min": 0.23265624046325684,
+        "diagonal_max": 1726.3818359375,
+        "diagonal_all_finite": true,
+        "diagonal_nonnegative_fraction": 1.0,
+        "interpretation": "trace/history key energy sanity only; no PSD/rank/per-request attribution proof"
+      }
+    ],
+    "companion_exact_stats": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/seen-full.json",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets-map.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/seen-full.json",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets-map.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-targets.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-targets-map.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-targets.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-targets-map.pt",
+        "present": false,
+        "bytes": null
+      }
+    ],
+    "source_path_hints": {
+      "051-commit.json": {
+        "top_keys": [
+          "W_pointer_exact",
+          "batch",
+          "checkpoint",
+          "compute_z",
+          "context_hash",
+          "covariance_guard",
+          "current",
+          "edit_seconds",
+          "endpoint",
+          "entry",
+          "evaluation_seconds",
+          "evaluator_mutation",
+          "history_append_passes",
+          "history_entries_in",
+          "history_entries_out",
+          "key_seconds",
+          "layer_updates",
+          "nonfinite",
+          "peak_gpu_bytes",
+          "requests",
+          "seen_requests",
+          "solve_calls",
+          "solve_seconds",
+          "status",
+          "target_seconds"
+        ],
+        "matches": [
+          {
+            "field": "/checkpoint/path",
+            "value": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt"
+          },
+          {
+            "field": "/checkpoint/reload_weights_cache_exact",
+            "value": true
+          },
+          {
+            "field": "/endpoint/cache",
+            "value": "2edeaba9aa0e7ca6cb4539c52dbb6a56151d8cc45401d732916a908437a1797b"
+          },
+          {
+            "field": "/entry/cache",
+            "value": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901"
+          },
+          {
+            "field": "/key_seconds",
+            "value": 8.385147655382752
+          },
+          {
+            "field": "/seen_requests",
+            "value": 100
+          },
+          {
+            "field": "/target_seconds",
+            "value": 270.08237051032484
+          }
+        ],
+        "matching_scalar_count": 7
+      },
+      "062-commit.json": {
+        "top_keys": [
+          "W_pointer_exact",
+          "batch",
+          "checkpoint",
+          "compute_z",
+          "context_hash",
+          "covariance_guard",
+          "current",
+          "edit_seconds",
+          "endpoint",
+          "entry",
+          "evaluation_seconds",
+          "evaluator_mutation",
+          "history_append_passes",
+          "history_entries_in",
+          "history_entries_out",
+          "key_seconds",
+          "layer_updates",
+          "nonfinite",
+          "peak_gpu_bytes",
+          "requests",
+          "seen_requests",
+          "solve_calls",
+          "solve_seconds",
+          "status",
+          "target_seconds"
+        ],
+        "matches": [
+          {
+            "field": "/checkpoint/path",
+            "value": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt"
+          },
+          {
+            "field": "/checkpoint/reload_weights_cache_exact",
+            "value": true
+          },
+          {
+            "field": "/endpoint/cache",
+            "value": "9050e5fcb9c1d1c83d0545c301c18ace882fb609a387f75cbd12f44ed6c0fab8"
+          },
+          {
+            "field": "/entry/cache",
+            "value": "80d4e172f2c3a1c3522cd208ef5af01c61c31a68499f8303deb5c7c08c6c0332"
+          },
+          {
+            "field": "/key_seconds",
+            "value": 7.584472827613354
+          },
+          {
+            "field": "/seen_requests",
+            "value": 10000
+          },
+          {
+            "field": "/target_seconds",
+            "value": 280.2129900753498
+          }
+        ],
+        "matching_scalar_count": 7
+      },
+      "063-runtime.json": {
+        "top_keys": [
+          "W0",
+          "attention",
+          "autocast",
+          "binding",
+          "blue_head",
+          "cell",
+          "dtype",
+          "evaluator_tokenizer",
+          "gpu",
+          "helper_head",
+          "hparams",
+          "local_source_sha256",
+          "lock_sha256",
+          "mode",
+          "model_load_seconds",
+          "model_revision",
+          "native_scalar_policy",
+          "parameter_elements",
+          "parameter_tensors",
+          "scientific_promotion",
+          "slurm_job",
+          "spec",
+          "tf32_cudnn",
+          "tf32_matmul",
+          "torch",
+          "transformers",
+          "writer_tokenizer"
+        ],
+        "matches": [
+          {
+            "field": "/W0/cache_pointer",
+            "value": 127087729963072
+          },
+          {
+            "field": "/W0/cache_sha256",
+            "value": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901"
+          },
+          {
+            "field": "/local_source_sha256",
+            "value": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af"
+          },
+          {
+            "field": "/spec/original_config/path",
+            "value": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json"
+          }
+        ],
+        "matching_scalar_count": 4
+      },
+      "064-terminal.json": {
+        "top_keys": [
+          "W0_cache_bytes_pointer_restore",
+          "W_chain_links",
+          "batches",
+          "cell",
+          "cold_reset_count",
+          "compute_z",
+          "failure",
+          "history_append_passes",
+          "manifest_members",
+          "mode",
+          "nonfinite",
+          "requests",
+          "scientific_promotion",
+          "seconds",
+          "solve_calls",
+          "status",
+          "version_restore"
+        ],
+        "matches": [
+          {
+            "field": "/W0_cache_bytes_pointer_restore",
+            "value": true
+          },
+          {
+            "field": "/manifest_members/0/path",
+            "value": "B001/W-method-state.pt"
+          },
+          {
+            "field": "/manifest_members/1/path",
+            "value": "B001/commit.json"
+          },
+          {
+            "field": "/manifest_members/2/path",
+            "value": "B001/contexts.json"
+          },
+          {
+            "field": "/manifest_members/3/path",
+            "value": "B001/current.json"
+          },
+          {
+            "field": "/manifest_members/4/path",
+            "value": "B001/entry.json"
+          },
+          {
+            "field": "/manifest_members/5/path",
+            "value": "B001/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/6/path",
+            "value": "B001/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/7/path",
+            "value": "B001/seen-full.json"
+          },
+          {
+            "field": "/manifest_members/8/path",
+            "value": "B002/commit.json"
+          },
+          {
+            "field": "/manifest_members/9/path",
+            "value": "B002/contexts.json"
+          },
+          {
+            "field": "/manifest_members/10/path",
+            "value": "B002/current.json"
+          },
+          {
+            "field": "/manifest_members/11/path",
+            "value": "B002/entry.json"
+          },
+          {
+            "field": "/manifest_members/12/path",
+            "value": "B002/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/13/path",
+            "value": "B002/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/14/path",
+            "value": "B003/commit.json"
+          },
+          {
+            "field": "/manifest_members/15/path",
+            "value": "B003/contexts.json"
+          },
+          {
+            "field": "/manifest_members/16/path",
+            "value": "B003/current.json"
+          },
+          {
+            "field": "/manifest_members/17/path",
+            "value": "B003/entry.json"
+          },
+          {
+            "field": "/manifest_members/18/path",
+            "value": "B003/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/19/path",
+            "value": "B003/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/20/path",
+            "value": "B004/commit.json"
+          },
+          {
+            "field": "/manifest_members/21/path",
+            "value": "B004/contexts.json"
+          },
+          {
+            "field": "/manifest_members/22/path",
+            "value": "B004/current.json"
+          },
+          {
+            "field": "/manifest_members/23/path",
+            "value": "B004/entry.json"
+          },
+          {
+            "field": "/manifest_members/24/path",
+            "value": "B004/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/25/path",
+            "value": "B004/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/26/path",
+            "value": "B005/W-method-state.pt"
+          },
+          {
+            "field": "/manifest_members/27/path",
+            "value": "B005/commit.json"
+          },
+          {
+            "field": "/manifest_members/28/path",
+            "value": "B005/contexts.json"
+          },
+          {
+            "field": "/manifest_members/29/path",
+            "value": "B005/current.json"
+          },
+          {
+            "field": "/manifest_members/30/path",
+            "value": "B005/entry.json"
+          },
+          {
+            "field": "/manifest_members/31/path",
+            "value": "B005/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/32/path",
+            "value": "B005/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/33/path",
+            "value": "B005/seen-full.json"
+          },
+          {
+            "field": "/manifest_members/34/path",
+            "value": "B006/commit.json"
+          },
+          {
+            "field": "/manifest_members/35/path",
+            "value": "B006/contexts.json"
+          },
+          {
+            "field": "/manifest_members/36/path",
+            "value": "B006/current.json"
+          },
+          {
+            "field": "/manifest_members/37/path",
+            "value": "B006/entry.json"
+          },
+          {
+            "field": "/manifest_members/38/path",
+            "value": "B006/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/39/path",
+            "value": "B006/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/40/path",
+            "value": "B007/commit.json"
+          },
+          {
+            "field": "/manifest_members/41/path",
+            "value": "B007/contexts.json"
+          },
+          {
+            "field": "/manifest_members/42/path",
+            "value": "B007/current.json"
+          },
+          {
+            "field": "/manifest_members/43/path",
+            "value": "B007/entry.json"
+          },
+          {
+            "field": "/manifest_members/44/path",
+            "value": "B007/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/45/path",
+            "value": "B007/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/46/path",
+            "value": "B008/commit.json"
+          },
+          {
+            "field": "/manifest_members/47/path",
+            "value": "B008/contexts.json"
+          },
+          {
+            "field": "/manifest_members/48/path",
+            "value": "B008/current.json"
+          },
+          {
+            "field": "/manifest_members/49/path",
+            "value": "B008/entry.json"
+          },
+          {
+            "field": "/manifest_members/50/path",
+            "value": "B008/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/51/path",
+            "value": "B008/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/52/path",
+            "value": "B009/commit.json"
+          },
+          {
+            "field": "/manifest_members/53/path",
+            "value": "B009/contexts.json"
+          },
+          {
+            "field": "/manifest_members/54/path",
+            "value": "B009/current.json"
+          },
+          {
+            "field": "/manifest_members/55/path",
+            "value": "B009/entry.json"
+          },
+          {
+            "field": "/manifest_members/56/path",
+            "value": "B009/native-observation.json"
+          },
+          {
+            "field": "/manifest_members/57/path",
+            "value": "B009/native-targets.pt"
+          },
+          {
+            "field": "/manifest_members/58/path",
+            "value": "B010/W-method-state.pt"
+          }
+        ],
+        "matching_scalar_count": 627
+      }
+    }
+  },
+  "original_server4_companion_stat": {
+    "host": "server4",
+    "observed_at_utc": "2026-09-19T17:19:22.450537+00:00",
+    "scope": "stat exact B1/B100 original companion paths only",
+    "paths": [
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/seen-full.json",
+        "present": true,
+        "bytes": 667426
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/W-method-state.pt",
+        "present": false,
+        "bytes": null
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+        "present": true,
+        "bytes": 66621830
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/W-method-state.pt",
+        "present": false,
+        "bytes": null
+      }
+    ]
+  },
+  "B1_server4_companion_schema": {
+    "host": "server4",
+    "observed_at_utc": "2026-09-19T17:21:48.636222+00:00",
+    "mode": "CPU_WEIGHTS_ONLY_MMAP_B1_TARGETS_AND_SMALL_B1_JSON_SCHEMA_NO_MODEL",
+    "torch_version": "2.9.1+cu128",
+    "native_targets": {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+      "bytes": 1676279,
+      "schema": {
+        "type": "dict",
+        "length": 2,
+        "keys": [
+          "values",
+          "identities"
+        ],
+        "members": {
+          "values": {
+            "type": "list",
+            "length": 100,
+            "first": {
+              "type": "Tensor",
+              "shape": [
+                4096
+              ],
+              "dtype": "torch.float32",
+              "device": "cpu"
+            }
+          },
+          "identities": {
+            "type": "list",
+            "length": 100,
+            "first": {
+              "type": "dict",
+              "length": 4,
+              "keys": [
+                "case_id",
+                "layer",
+                "sha256",
+                "norm"
+              ],
+              "members": {
+                "case_id": {
+                  "type": "int",
+                  "value": 16186
+                },
+                "layer": {
+                  "type": "int",
+                  "value": 4
+                },
+                "sha256": {
+                  "type": "str",
+                  "length": 64
+                }
+              }
+            }
+          }
+        }
+      },
+      "top_value_shapes": {
+        "values": {
+          "type": "list",
+          "length": 100
+        },
+        "identities": {
+          "type": "list",
+          "length": 100
+        }
+      },
+      "integer_key_ids": [],
+      "id_fields": {}
+    },
+    "seen_full": {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/seen-full.json",
+      "bytes": 667426,
+      "schema": {
+        "type": "dict",
+        "length": 5,
+        "keys": [
+          "current_rows_reused",
+          "evaluation_type",
+          "metrics",
+          "requests",
+          "state"
+        ],
+        "members": {
+          "current_rows_reused": {
+            "type": "bool",
+            "value": true
+          },
+          "evaluation_type": {
+            "type": "str",
+            "length": 39
+          },
+          "metrics": {
+            "type": "dict",
+            "length": 3,
+            "keys": [
+              "NS",
+              "PS",
+              "RS"
+            ],
+            "members": {
+              "NS": {
+                "type": "dict",
+                "length": 5,
+                "keys": [
+                  "bit_order_sha256",
+                  "denominator",
+                  "numerator",
+                  "rate",
+                  "rows"
+                ],
+                "members": {
+                  "bit_order_sha256": {
+                    "type": "str",
+                    "length": 64
+                  },
+                  "denominator": {
+                    "type": "int",
+                    "value": 1000
+                  },
+                  "numerator": {
+                    "type": "int",
+                    "value": 867
+                  }
+                }
+              },
+              "PS": {
+                "type": "dict",
+                "length": 5,
+                "keys": [
+                  "bit_order_sha256",
+                  "denominator",
+                  "numerator",
+                  "rate",
+                  "rows"
+                ],
+                "members": {
+                  "bit_order_sha256": {
+                    "type": "str",
+                    "length": 64
+                  },
+                  "denominator": {
+                    "type": "int",
+                    "value": 200
+                  },
+                  "numerator": {
+                    "type": "int",
+                    "value": 190
+                  }
+                }
+              },
+              "RS": {
+                "type": "dict",
+                "length": 5,
+                "keys": [
+                  "bit_order_sha256",
+                  "denominator",
+                  "numerator",
+                  "rate",
+                  "rows"
+                ],
+                "members": {
+                  "bit_order_sha256": {
+                    "type": "str",
+                    "length": 64
+                  },
+                  "denominator": {
+                    "type": "int",
+                    "value": 100
+                  },
+                  "numerator": {
+                    "type": "int",
+                    "value": 100
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "case_request_id_occurrences": 1300,
+      "unique_case_request_ids": [
+        10106,
+        10695,
+        10914,
+        11172,
+        11321,
+        11858,
+        11954,
+        12141,
+        13021,
+        13152,
+        13443,
+        13529,
+        13717,
+        13874,
+        1399,
+        14349,
+        14521,
+        14566,
+        14779,
+        1481,
+        15102,
+        15315,
+        15503,
+        15825,
+        15909,
+        16186,
+        16334,
+        16343,
+        16417,
+        16762,
+        16855,
+        17078,
+        17394,
+        17519,
+        18132,
+        18140,
+        18300,
+        18642,
+        1888,
+        19033,
+        19189,
+        19830,
+        19911,
+        20095,
+        20112,
+        20328,
+        20878,
+        2115,
+        21163,
+        21482,
+        21629,
+        2168,
+        21764,
+        21830,
+        2389,
+        2809,
+        2879,
+        2888,
+        3098,
+        3557,
+        3620,
+        3664,
+        3743,
+        378,
+        3913,
+        3935,
+        403,
+        4592,
+        4737,
+        4949,
+        55,
+        5506,
+        5624,
+        5795,
+        5827,
+        5979,
+        5996,
+        6326,
+        6451,
+        6516,
+        6540,
+        6620,
+        6670,
+        6808,
+        6827,
+        6882,
+        6907,
+        7348,
+        7367,
+        7446,
+        7665,
+        8319,
+        8631,
+        8764,
+        9198,
+        9482,
+        9485,
+        9724,
+        983,
+        9983
+      ]
+    }
+  },
+  "split_preservation": {
+    "server2": "selected L4 weights and cumulative Alpha history cache_c at 12 boundaries",
+    "server4": "native targets and seen-full evaluation at B1/B100 confirmed; only B1 small schema inspected",
+    "no_native_z_reoptimization_implied": "Stored native target reuse is possible only after entry/model/source/context/projection identity binding; actual replay not performed",
+    "cohort_join_scope": "B1 target identities, checkpoint seen_ids order, all R/P/N identity sets and saved evaluation state hashes directly matched; model restore/forward not performed"
+  },
+  "B1_cross_file_join_and_B2_stat": {
+    "target_count": 100,
+    "target_tensor_shapes_counts": {
+      "(4096,) torch.float32": 100
+    },
+    "target_identity_layers": [
+      4
+    ],
+    "target_id_count": 100,
+    "target_unique_id_count": 100,
+    "target_ids_order_sha256_json": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+    "target_order_matches_S2_B1_checkpoint_seen_ids": true,
+    "target_ids_first10": [
+      16186,
+      3743,
+      1481,
+      18140,
+      5506,
+      14521,
+      14349,
+      16334,
+      6882,
+      6620
+    ],
+    "evaluation_requests_field": 100,
+    "evaluation_state_matches_S2_B1_checkpoint_metadata_state": true,
+    "evaluation_state": {
+      "cache": "2edeaba9aa0e7ca6cb4539c52dbb6a56151d8cc45401d732916a908437a1797b",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": "e2a584c279634e7d6de0ea99a9d4ab38677d26c4ee502e40c62ee3b519053cf1"
+      }
+    },
+    "evaluation_metrics": {
+      "NS": {
+        "numerator": 867,
+        "denominator": 1000,
+        "row_count": 1000,
+        "unique_ids": 100,
+        "id_set_equals_target_set": true,
+        "RS_order_equals_target_order": null,
+        "first_row_schema": {
+          "case_id": {
+            "type": "int",
+            "value": 16186
+          },
+          "identity": {
+            "type": "str",
+            "length": 64
+          },
+          "margin": {
+            "type": "float",
+            "value": -8.462266087532043
+          },
+          "new_nll": {
+            "type": "float",
+            "value": 9.908624649047852
+          },
+          "new_strict": {
+            "type": "bool",
+            "value": false
+          },
+          "new_token_correct": {
+            "type": "int",
+            "value": 0
+          },
+          "new_token_count": {
+            "type": "int",
+            "value": 1
+          },
+          "prompt_index": {
+            "type": "int",
+            "value": 0
+          },
+          "success": {
+            "type": "bool",
+            "value": true
+          },
+          "true_nll": {
+            "type": "float",
+            "value": 1.446358561515808
+          },
+          "true_strict": {
+            "type": "bool",
+            "value": true
+          },
+          "true_token_correct": {
+            "type": "int",
+            "value": 1
+          },
+          "true_token_count": {
+            "type": "int",
+            "value": 1
+          }
+        }
+      },
+      "PS": {
+        "numerator": 190,
+        "denominator": 200,
+        "row_count": 200,
+        "unique_ids": 100,
+        "id_set_equals_target_set": true,
+        "RS_order_equals_target_order": null,
+        "first_row_schema": {
+          "case_id": {
+            "type": "int",
+            "value": 16186
+          },
+          "identity": {
+            "type": "str",
+            "length": 64
+          },
+          "margin": {
+            "type": "float",
+            "value": 4.818053185939789
+          },
+          "new_nll": {
+            "type": "float",
+            "value": 0.841586172580719
+          },
+          "new_strict": {
+            "type": "bool",
+            "value": true
+          },
+          "new_token_correct": {
+            "type": "int",
+            "value": 1
+          },
+          "new_token_count": {
+            "type": "int",
+            "value": 1
+          },
+          "prompt_index": {
+            "type": "int",
+            "value": 0
+          },
+          "success": {
+            "type": "bool",
+            "value": true
+          },
+          "true_nll": {
+            "type": "float",
+            "value": 5.659639358520508
+          },
+          "true_strict": {
+            "type": "bool",
+            "value": false
+          },
+          "true_token_correct": {
+            "type": "int",
+            "value": 0
+          },
+          "true_token_count": {
+            "type": "int",
+            "value": 1
+          }
+        }
+      },
+      "RS": {
+        "numerator": 100,
+        "denominator": 100,
+        "row_count": 100,
+        "unique_ids": 100,
+        "id_set_equals_target_set": true,
+        "RS_order_equals_target_order": true,
+        "first_row_schema": {
+          "case_id": {
+            "type": "int",
+            "value": 16186
+          },
+          "identity": {
+            "type": "str",
+            "length": 64
+          },
+          "margin": {
+            "type": "float",
+            "value": 4.5257110595703125
+          },
+          "new_nll": {
+            "type": "float",
+            "value": 0.01651287078857422
+          },
+          "new_strict": {
+            "type": "bool",
+            "value": true
+          },
+          "new_token_correct": {
+            "type": "int",
+            "value": 1
+          },
+          "new_token_count": {
+            "type": "int",
+            "value": 1
+          },
+          "prompt_index": {
+            "type": "int",
+            "value": 0
+          },
+          "success": {
+            "type": "bool",
+            "value": true
+          },
+          "true_nll": {
+            "type": "float",
+            "value": 4.542223930358887
+          },
+          "true_strict": {
+            "type": "bool",
+            "value": false
+          },
+          "true_token_correct": {
+            "type": "int",
+            "value": 0
+          },
+          "true_token_count": {
+            "type": "int",
+            "value": 1
+          }
+        }
+      }
+    },
+    "B2_native_targets_stat": {
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/native-targets.pt",
+      "present": true,
+      "bytes": 1676279
+    }
+  }
+}

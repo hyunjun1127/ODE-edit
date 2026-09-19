@@ -1,0 +1,73 @@
+{
+  "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
+  "status": "GH_READ_AND_EXACT_PUBLISHED_NOT_EXECUTION_PASS",
+  "members": [
+    {
+      "path": "plans/global/2026-09-20-server2-checkpoint-mechanism-audit-design-v1.md",
+      "sha256": "ae5d9d2b3b920125257e86d5b4bbba5afeae7b1b15114f244a927cfcf7386d00",
+      "bytes": 28351,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "plans/global/2026-09-20-server2-checkpoint-mechanism-audit-contract-v1.json",
+      "sha256": "9d469e90c0252228fc9a26d7d3ab9fdb2a256aba293c4dbbc58abff57c5f7238",
+      "bytes": 14451,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "plans/global/2026-09-20-server2-checkpoint-mechanism-audit-cells-v1.csv",
+      "sha256": "2e6a9a2733a99cb278928d42113a5ccc6ed85eeec3089a47516697916a88246e",
+      "bytes": 5858,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-checkpoint-mechanism-design/server2-preflight.json",
+      "sha256": "80704a71d6d7b77f45dd0c51456e83aeb46429c3a980de3a4ad1633602fec284",
+      "bytes": 63638,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-checkpoint-mechanism-design/functional-source-audit.json",
+      "sha256": "a103355b8fedbd4ad600a1f7323ac889ce16deeda3bc4d19a8712d00914ef762",
+      "bytes": 10310,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-geometry-gss-history-review/server2-checkpoint-inventory.json",
+      "sha256": "690dfead2acb3039cc8863e4e1664fa85457c2b4295585cfd2e2ec898fddadcc",
+      "bytes": 79567,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-geometry-gss-history-review/review-ko.md",
+      "sha256": "5a03e9a66281b3f2b1041036b82640968be065999be7bd87000c877f93d03f53",
+      "bytes": 23365,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-checkpoint-mechanism-design/design-consistency-checks.json",
+      "sha256": "c04abf63e958a33c6f5b063c62b955075842fabbc98212aeb4ae1b7fe489cf5a",
+      "bytes": 1869,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "audits/global/2026-09-20-server2-checkpoint-mechanism-design/math-and-design-checks.json",
+      "sha256": "6d92247087e43ba900e5059f554b74d7901e4695e13840e7673159007c6daa47",
+      "bytes": 1149,
+      "original_copy": "BYTE_EXACT"
+    },
+    {
+      "path": "messages/head/2026-09-20-sh2-checkpoint-mechanism-user-instruction.md",
+      "sha256": "f207a7c4c28ea5b5ce4a2dc29f7b1f2950979747816f9ca105afbc3b2c66dad1",
+      "bytes": 13904,
+      "original_copy": "BYTE_EXACT",
+      "original_attachment": "/mnt/raid5/janghj/.codex/attachments/60f7103c-235a-4754-badf-371caca79c06/붙여넣은 텍스트.txt"
+    }
+  ],
+  "original_files_modified": false,
+  "notes": [
+    "CSV CRLF and attachment CRLF/no-final-newline preserved byte-exact.",
+    "Preflight/inventory historical metadata are not current payload verification or a GPU reservation.",
+    "GH read mandatory six documents in full; contract checks are not model evidence."
+  ]
+}
