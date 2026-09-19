@@ -1,7 +1,11 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-REUSE-R512-G256-B1-COMPLETED-REVIEW-SH4-V1",
   "nonce": "ODEEDIT-GH-SH4-EN-REUSE-G256-B1-DETAILED-REVIEW-20260919-R1",
-  "status": "APPROVED_NOT_YET_DELIVERED",
+  "status": "DELIVERED_ACKNOWLEDGED_REVIEW_IN_PROGRESS",
+  "delivery_turn_id": "01a0b858-7b92-7a82-abfe-536daa87f8b1",
+  "dispatch_publication": "2e9fd379bc441c7a33503a5af5fb384bc46c0054",
+  "envelope_sha256": "b65ae8307f51b3b2020e57d2fe4d5442caedf12881764fe9cc433605154d11b6",
+  "ack_ko": "수신했습니다. 정확한 50449와 준비 job 50410만 한정 확인하고, 저장된 결과의 CPU 독립 검산·상세 보고·main 게시까지 진행하겠습니다. 새 GPU 실행이나 재제출, sequential 확장은 하지 않습니다.",
   "envelope": "messages/head/2026-09-19-sh4-en-reuse-g256-b1-completed-review.md",
   "target_server": "server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
