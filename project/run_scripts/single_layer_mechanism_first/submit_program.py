@@ -13,9 +13,14 @@ from project.run_scripts.single_layer_edit_preserving_correction.common import w
 
 
 def inspection(text,command,source,lock_path):
-    match=re.search(r'(?:^|\s)Command=(.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|$)',text)
-    actual=shlex.split(match.group(1)) if match else []
+    def field(name):
+        match=re.search(r'(?:^|\s)'+name+r'=(.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|$)',text)
+        return shlex.split(match.group(1)) if match else []
+    actual=field('Command');submitted=field('SubmitLine')
     expected=[str(source/'project/run_scripts/single_layer_mechanism_first/run.sbatch'),str(source),str(lock_path)]
+    # Slurm on this host reports only the script in Command, and its actual
+    # argument vector in SubmitLine. Both are controller-returned evidence.
+    argv_bound=actual==expected or (actual==expected[:1] and submitted==command and submitted[-3:]==expected)
     return dict(owner='UserId=janghj(' in text,name='JobName=odeedit_slmf_S10_s4' in text,
         held='JobState=PENDING' in text and 'Reason=JobHeldUser' in text,
         GPU='gres/gpu=1' in text,CPU='NumCPUs=8' in text,
@@ -23,7 +28,7 @@ def inspection(text,command,source,lock_path):
         node='ReqNodeList=server4' in text,requeue='Requeue=0' in text,
         script=str(source/'project/run_scripts/single_layer_mechanism_first/run.sbatch') in text,
         cwd=f'WorkDir={source}' in text,dependency='afterok:50974' in text,
-        actual_full_argv=actual==expected,submitted_full_argv=command[-3:]==expected)
+        actual_full_argv=argv_bound,submitted_full_argv=command[-3:]==expected)
 
 
 def other_capacity(queue_text):
@@ -69,6 +74,7 @@ def run(lock_path):
     job=subprocess.check_output(command,cwd=source,text=True).strip().split(';')[0]
     if not re.fullmatch(r'\d+',job):raise RuntimeError('SBATCH_ID_SCHEMA')
     write(attempt/'submission.json',dict(job_id=job,command=command,held=True,lock=member(lock_path),
+        submission_controller=member(__file__),
         source=lock['execution']['commit'],maximum_batch=10,scientific_gates_required=True))
     observed=subprocess.check_output(['scontrol','show','job',job,'--oneliner'],text=True)
     checks=inspection(observed,command,source,lock_path)

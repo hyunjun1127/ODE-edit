@@ -1,0 +1,16 @@
+{
+  "scope": "Submission control only; frozen scientific runtime unchanged",
+  "execution_commit": "0aea3452d04e71dd56e428208e04b9c04c52f82f",
+  "execution_tree": "70f7417b48aa68fbc57a723c505e453f3bbc40da",
+  "archive_sha256": "fc51c3894d672cf0118f7101d250a02df3671e602860056a6a7db21d4d4921e5",
+  "lock_sha256": "9436037e1c632b5708b29072d37936433712a556dd2dcc4a5a873f375fcc1846",
+  "observed_host_schema": "Historical 50974 held-inspection.json: Command contains script, SubmitLine contains full argv",
+  "live_existing_job_result_query": false,
+  "change": "Bind controller-returned Command AND SubmitLine full argv; do not validate only locally constructed argv",
+  "cpu_tests": 26,
+  "cpu_seconds": 5.239,
+  "cpu_result": "PASS",
+  "modules": ["test_submission", "test_program_integration"],
+  "scientific_runtime_delta": false,
+  "scope_expansion": false
+}

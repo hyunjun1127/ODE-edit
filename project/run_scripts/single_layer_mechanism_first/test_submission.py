@@ -27,6 +27,13 @@ class SubmissionTests(unittest.TestCase):
     def test_missing_actual_command_rejected(self):
         args=self.transcript();self.assertFalse(inspection(args[0].split(' Command=')[0],*args[1:])['actual_full_argv'])
 
+    def test_host_command_script_submitline_fullargv(self):
+        text,command,source,lock=self.transcript()
+        text=text.split(' Command=')[0]+' Command='+command[-3]+' SubmitLine='+' '.join(command)+' WorkDir=/task/source'
+        self.assertTrue(inspection(text,command,source,lock)['actual_full_argv'])
+        self.assertFalse(inspection(text.replace(' /task/execution.lock.json',' /wrong.lock'),command,source,lock)['actual_full_argv'])
+        self.assertFalse(inspection(text.split(' SubmitLine=')[0],command,source,lock)['actual_full_argv'])
+
     def test_resource_dependency_nonoverlap(self):
         result=other_capacity('50974|prior|RUNNING|gpu:1\n60000|other|PENDING|gpu:1')
         self.assertEqual(sum(r['GPU'] for r in result),1)
