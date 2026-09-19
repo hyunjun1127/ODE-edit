@@ -21,7 +21,7 @@ def freeze(repo, plan, attempt, *, phase='HOOK'):
     archive=root/'source.tar.gz'
     tar=subprocess.check_output(['git','archive',commit],cwd=repo)
     with archive.open('xb') as f:
-        with gzip.GzipFile(fileobj=f,mode='wb',mtime=0) as g:g.write(tar)
+        with gzip.GzipFile(fileobj=f,mode='wb',mtime=0,compresslevel=1) as g:g.write(tar)
     source=root/'source';source.mkdir()
     with tarfile.open(fileobj=io.BytesIO(tar)) as tf:tf.extractall(source,filter='data')
     # Entire project/scripts closure is compact source, never task raw.

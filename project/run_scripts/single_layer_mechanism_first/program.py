@@ -153,13 +153,22 @@ def run(rt,out):
         else:
             native4,panel=inherit_hook(rt,out)
         reference=rt.reference()
-        from .technical_decision import run_checks
-        mark('T0_ACTUAL_DECISION')
-        validation=run_checks(rt,reference,panel,native4,out/'technical-decision')
+        waived_T0=bool(rt.lock.get('completed_T0_reuse'))
+        if waived_T0:
+            from .reuse_t0_user_waiver import reuse
+            mark('T0_REUSE_USER_FD_WAIVER')
+            validation=reuse(rt,out/'completed-T0-reuse')
+        else:
+            from .technical_decision import run_checks
+            mark('T0_ACTUAL_DECISION')
+            validation=run_checks(rt,reference,panel,native4,out/'technical-decision')
         # The technical function must return explicit evidence, not no-exception PASS.
-        if not isinstance(validation,dict) or validation.get('pass_') is not True:
+        if (not isinstance(validation,dict) or
+            not (validation.get('pass_') is True or
+                 (waived_T0 and b1_only and validation.get('user_authorized_B1') is True))):
             raise RuntimeError('T0_FULL_CHECKS_NOT_ESTABLISHED')
-        write(out/'T0_READY.json',validation)
+        state['full_numerical_validation']=validation.get('full_numerical_validation','BOUNDED_T0_PASS')
+        write(out/('T0_B1_USER_WAIVER.json' if waived_T0 else 'T0_READY.json'),validation)
         rt.copy_weight(rt.W0);rt.M.zero_();restore_rng(rt.rng);rt.oracles=[reference];rt.sync_oracles()
         del native4;gc.collect()
         from .z_hook import ZHookConfig
@@ -234,6 +243,7 @@ def finish(out,state,start,gate):
         peak_GPU_allocated=torch.cuda.max_memory_allocated(),peak_GPU_reserved=torch.cuda.max_memory_reserved(),
         maximum_batch=state.get('maximum_batch',10),scientific_gates_preserved=True,automatic_slurm_submissions=0,
         checkpoint_saved=False,exact_resume='NOT_AVAILABLE',
+        full_numerical_validation=state.get('full_numerical_validation','NOT_ESTABLISHED'),
         agent_monitoring_required=state.get('monitor_to_completion',False),
         completed_review_requires_USER_recall=not state.get('monitor_to_completion',False),
         sequential_authorized=False if state.get('maximum_batch')==1 else 'HISTORICAL_GATED_PROGRAM'))

@@ -82,7 +82,7 @@ def mechanism_report(rt,reference,result,observations,w0,root,*,technical,interv
     intervention_receipt=dict(status='B1_ONLY',new_neural_forwards=0)
     if interventions:
         component,intervention_receipt=global_interventions(diagnostics,
-            selection_seal=result['selection_seal']['sha256'],native_parity_confirmed=(technical['pass_'] is True
+            selection_seal=result['selection_seal']['sha256'],native_parity_confirmed=(technical.get('native_replay_actual_pass',technical['pass_']) is True
                 and diagnostics.receipt['source_order']['replay_endpoint_equal'] is True),
             allowed_basis=torch.from_numpy(space.basis))
         ri,nrows,panel=panels(result['reference_native'],action,w0['metrics']['NS']['rows'],observations['OWN_NATIVE']['metrics']['NS']['rows'])

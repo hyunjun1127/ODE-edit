@@ -1,0 +1,60 @@
+{
+  "B1": "NOT_RUN",
+  "FD_stored_scores_reselection": "EXACT_CPU_REPLAY_4_OF_4",
+  "T0_seconds": 468.08507943712175,
+  "blocking": [
+    "pair_factor_AD_FD"
+  ],
+  "checkpoint_saved": false,
+  "checks": {
+    "Current_Q_geometry": {
+      "pass_": true,
+      "scope": "BOUNDED_FP64_OPERATOR_PROBES_PLUS_REUSED_ALLOWED_BASIS; NOT_FULL_OPERATOR_CERTIFICATE"
+    },
+    "Current_affine_physical_invariant": {
+      "pass_": true,
+      "scope": "PASS"
+    },
+    "cross_term_STEP_CUM": {
+      "pass_": true,
+      "scope": "SEE_RAW"
+    },
+    "native_dense_replay": {
+      "pass_": true,
+      "scope": "PASS"
+    },
+    "pair_factor_AD_FD": {
+      "pass_": false,
+      "scope": "SEE_RAW"
+    },
+    "panel_gradient_basis": {
+      "pass_": true,
+      "scope": "SEE_RAW"
+    },
+    "reference_repeat": {
+      "pass_": true,
+      "scope": "FOUR_REFERENCE_PANEL_ONLY; whole512 acceptance remains mandatory"
+    },
+    "restore": {
+      "pass_": true,
+      "scope": "SEE_RAW"
+    }
+  },
+  "checks_member": {
+    "bytes": 284554,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/checks.json",
+    "sha256": "1fcfa783e4352731462d4e90745bd4c92dbb079769b7f0cf6260d021b0710699"
+  },
+  "exact_resume": "NOT_AVAILABLE",
+  "failure_member": {
+    "bytes": 837,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/failure.json",
+    "sha256": "ca168aed1666e70c0514641a6f7fb1493891e6937b0816245a505dfea9dd6a19"
+  },
+  "input_logical_bytes": 74551980,
+  "input_member_count": 228,
+  "program_seconds": 533.9101648116484,
+  "raw_new_GPU": 0,
+  "runtime_source": "e3f92b43788d2491cad5b77328eb0229ccb69ca7",
+  "whole_T0_status": "NOT_ESTABLISHED"
+}

@@ -1,0 +1,1150 @@
+{
+  "execution_lock": {
+    "bytes": 1920326,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/execution.lock.json",
+    "sha256": "64d44733ca076c55ef74d5e4aeddff987d083e60dd7656df497aebdbc5bb0d48"
+  },
+  "members": [
+    {
+      "bytes": 3595,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/completed-hook-reuse/receipt.json",
+      "sha256": "e314f43acbd07a30e39709816cb84737204b727089204e0e23d95febdbfce6a2"
+    },
+    {
+      "bytes": 1983346,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/execution-entry.json",
+      "sha256": "b33db5e067349777d1499a7c8fe1da7872779f0204bab712bb95a5d3dae9b829"
+    },
+    {
+      "bytes": 837,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/failure.json",
+      "sha256": "ca168aed1666e70c0514641a6f7fb1493891e6937b0816245a505dfea9dd6a19"
+    },
+    {
+      "bytes": 1394,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/generated-input-binding.json",
+      "sha256": "728d1519e5d50694bbc1d7d39aa42f7ff11b150b969a1f19eeb256e34458f12c"
+    },
+    {
+      "bytes": 1305,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/runtime-load.json",
+      "sha256": "d73d81d02033d5e2b929e5de42cf773617afd458cd76d2835fff03219abcbafa"
+    },
+    {
+      "bytes": 182,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/storage-T0_B1.json",
+      "sha256": "be02f42a52942c3d9637ad9314a4aec0a40aeaf5793c2bfde35ecbe922bc5f8d"
+    },
+    {
+      "bytes": 3504,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/basis.json",
+      "sha256": "9d2d023d7308dee71ba6c78729aed661ba5fc597b7024af24b4d0c24a3339f45"
+    },
+    {
+      "bytes": 284554,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/checks.json",
+      "sha256": "1fcfa783e4352731462d4e90745bd4c92dbb079769b7f0cf6260d021b0710699"
+    },
+    {
+      "bytes": 1592,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/cross-term.json",
+      "sha256": "e061aa127d17deb0d235978f97299cb339157980d8c902faf9bc0040ca2979e1"
+    },
+    {
+      "bytes": 69742,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/current-checks.json",
+      "sha256": "f3cc4f2f887607b1b7f600de277c1101b9913e8d2955068807aec6dfcfad05e0"
+    },
+    {
+      "bytes": 45741413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/current-space.pt",
+      "sha256": "fd1760b8d0a733674ebf1203a28b9bda2ec4d309480c52b849a93035294bd491"
+    },
+    {
+      "bytes": 409132,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/geometry.json",
+      "sha256": "9910a882d51b03f9ca556acade167f368aa9ede6a38788e62fcf45a03d303fbd"
+    },
+    {
+      "bytes": 1201,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/native-dense-replay.json",
+      "sha256": "13c535fc85d26d25f5c1c4cc7acffed81ce8c283729e8fe730994ec096d86c44"
+    },
+    {
+      "bytes": 272,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/projector-probe.json",
+      "sha256": "a9f38eedde1bd486f210519321120ffec972c41b3a44e48e71b0223b7e6c9471"
+    },
+    {
+      "bytes": 153580,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/protected-inputs.json",
+      "sha256": "90bb9d556439278023e281b10f5f64d7bd54c433e337109aa12cf40536c0f2f9"
+    },
+    {
+      "bytes": 23595,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/AD-and-factor.json",
+      "sha256": "4bea9fabd238fe256e98bf286020ce99f4cac0baab664c7df4fd1ff2a2f244b0"
+    },
+    {
+      "bytes": 8840,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/FD-result.json",
+      "sha256": "a11d2cfadd2fc066f60cf36badb0ea7e7e3a92c54eeb0dbc4193c747c6a34d88"
+    },
+    {
+      "bytes": 6299497,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/activation-factor.pt",
+      "sha256": "ec101c749e983516726b5cb60122cbffe8dca60d219335ac33651e4c1d2c7138"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k00-minus-margin.json",
+      "sha256": "bd307da38977490d2cd78dd52a147906ae37e0f7ba32520cd5bc1a77477ff2cf"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k00-minus-perturbation.json",
+      "sha256": "0f5aab8b866c24021c72891a983c55ac82a7317d506f4a952e1327a3250898c7"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k00-plus-margin.json",
+      "sha256": "8e36615e0a5591f73c417b58aea05796333529d3671f245cf44dc661d797c17d"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k00-plus-perturbation.json",
+      "sha256": "b453d2911c05d7a3bba92c401c425e82f9c4aaa8e2998ad4fbce31c473e13aab"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k01-minus-margin.json",
+      "sha256": "bb332815291efe558acda40ee0a5f0bf16f1cdca951ac6a2e1ca298c71bf3588"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k01-minus-perturbation.json",
+      "sha256": "3548de012f6c8f620e5ff2f3214cf1252a8efbab14c6e200809a11747a471627"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k01-plus-margin.json",
+      "sha256": "3029c36d0026f2a3c492e75043de7e247ce969e08aee041b08df823bbcff8aa6"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k01-plus-perturbation.json",
+      "sha256": "e2df1fb0b346427ea590998106a3349a5befdf635f70fdfb5cd14e3312f9e139"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k02-minus-margin.json",
+      "sha256": "2d9c0e236f661f15d8bc8b72a8b3df12adb59e5407b9cef6a22071982199d8d4"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k02-minus-perturbation.json",
+      "sha256": "760d2ea2dfc3ed6aa5428f3f42309ba313a40cd4757e2fab0d690179bd1ec175"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k02-plus-margin.json",
+      "sha256": "147931329a566448b1163966b7b8c4a531c2aa82d7d5cbe038397a41d332ab4c"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k02-plus-perturbation.json",
+      "sha256": "f43426d393e7645365e594ecbfbabb7e148e82b54de28489a73b3efadb701474"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k03-minus-margin.json",
+      "sha256": "f4d600ae5728df830edeea47bd057d96ad6f53d4522bea553823fb5013aa994b"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k03-minus-perturbation.json",
+      "sha256": "fa6e82b137958728f5f13b5d6474f2d0940b63a5b94f26dde3012a1e23be70c3"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k03-plus-margin.json",
+      "sha256": "5bbf3be1a26abc57ee22d0a22848493b51ed127ac7ec977aa3dc9c8adda57656"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k03-plus-perturbation.json",
+      "sha256": "e79c6b37162dee16fc0a4ddc3e6f3cd3cd43342eabb23c7f60d351802692e124"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k04-minus-margin.json",
+      "sha256": "f4d600ae5728df830edeea47bd057d96ad6f53d4522bea553823fb5013aa994b"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k04-minus-perturbation.json",
+      "sha256": "225d9423cc8b1637ed864fa6271519cadc8ab411efada584df6ea1e566d7c00d"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k04-plus-margin.json",
+      "sha256": "d93427fb98f9bb02db5833cae8de82b8ea04ee679bfbd624a5c29b1dfeff5acb"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k04-plus-perturbation.json",
+      "sha256": "f5a3a2756a6f207141bc86f021ac6098e9bf03fcb6a7aa26dbf029a7f7a8f1da"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k05-minus-margin.json",
+      "sha256": "d239fb3a5fea43d5f2b64dd153748cde37703a4f48a12f7bd2a8451fbe351a32"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k05-minus-perturbation.json",
+      "sha256": "eb565b028b0c5e66309f2a1d44fbced629882cf43c9b9ca8f95bd984ec57e623"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k05-plus-margin.json",
+      "sha256": "0fdf6244b81c8c7779dccb7f657a9bd6cda5c1ad5dd41b5d22080d4c2d11250c"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k05-plus-perturbation.json",
+      "sha256": "7be53be82d57513631d7ceeff7f206171bdb0e507d2048752cbfd309f1249b04"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k06-minus-margin.json",
+      "sha256": "0fdf6244b81c8c7779dccb7f657a9bd6cda5c1ad5dd41b5d22080d4c2d11250c"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k06-minus-perturbation.json",
+      "sha256": "4d9fce15fac6907df0fc7f785a9f767437dd6f872ab674d84a33085d08df67c8"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k06-plus-margin.json",
+      "sha256": "d93427fb98f9bb02db5833cae8de82b8ea04ee679bfbd624a5c29b1dfeff5acb"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k06-plus-perturbation.json",
+      "sha256": "c36584485f2b51d59552a0719f8c8e5440ef9a7ad1108acb519d004309cdf329"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k07-minus-margin.json",
+      "sha256": "d239fb3a5fea43d5f2b64dd153748cde37703a4f48a12f7bd2a8451fbe351a32"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k07-minus-perturbation.json",
+      "sha256": "6fec6e878ce387f0d7aa998345a2af28e3c50b08e02dcc77d85d48d51e87bc6b"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k07-plus-margin.json",
+      "sha256": "0e542e9c9f83ce65d3af944109f1ba2e126bd0b4474f18fbebd1b01529b23417"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k07-plus-perturbation.json",
+      "sha256": "afbfbab88b5beafd0905e0bbf9834c69726b8dfdd14c2b7ef98143137d4f59aa"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k08-minus-margin.json",
+      "sha256": "3c0f92887067feb35e9083be8f8a06210c926601dc47ef7b69f56263b662f0a1"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k08-minus-perturbation.json",
+      "sha256": "9e556e1ae339e64af15da373d966c9d1c1e32ecf109bf969950ed29a77f6f35d"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k08-plus-margin.json",
+      "sha256": "d93427fb98f9bb02db5833cae8de82b8ea04ee679bfbd624a5c29b1dfeff5acb"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k08-plus-perturbation.json",
+      "sha256": "d017a3ca5efa6ee769ba42d508f02d8c6e8eeaf45ec160a658234256a674fdab"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k09-minus-margin.json",
+      "sha256": "384ad1e240a6cff887a2be7fcacedecd6bd5c86f9767746eca91fa91b604d526"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k09-minus-perturbation.json",
+      "sha256": "2561ba47570c307cd52e5913c4c1cb49b62638d819887e5e1fca518f67570fe2"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k09-plus-margin.json",
+      "sha256": "384ad1e240a6cff887a2be7fcacedecd6bd5c86f9767746eca91fa91b604d526"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k09-plus-perturbation.json",
+      "sha256": "8a07d56d57c27e6ed87fa9e37a74d34695ff29da4a28099ffc43f31755e87fec"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k10-minus-margin.json",
+      "sha256": "384ad1e240a6cff887a2be7fcacedecd6bd5c86f9767746eca91fa91b604d526"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k10-minus-perturbation.json",
+      "sha256": "350809b625fb50d2682a8a8fbc4da353f16feee3eb50396299377aaf8de7ba5f"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k10-plus-margin.json",
+      "sha256": "0e542e9c9f83ce65d3af944109f1ba2e126bd0b4474f18fbebd1b01529b23417"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k10-plus-perturbation.json",
+      "sha256": "10da9f8aa904c8503994b1cf6c3014688f2421ce612ed24eac0af8e82cf17c2c"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k11-minus-margin.json",
+      "sha256": "3c0f92887067feb35e9083be8f8a06210c926601dc47ef7b69f56263b662f0a1"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k11-minus-perturbation.json",
+      "sha256": "ab9422bc5c706d8adc2ee1a8943a4f159e9175b4271c8014412e53907455afd5"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k11-plus-margin.json",
+      "sha256": "0e542e9c9f83ce65d3af944109f1ba2e126bd0b4474f18fbebd1b01529b23417"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/k11-plus-perturbation.json",
+      "sha256": "bed393d1f57156bf16a19293ec879ff2c462571167077880c1404ad869bcf711"
+    },
+    {
+      "bytes": 32994,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-057/result.json",
+      "sha256": "61c1356957b21fc83fa0bdf8422f0a1df31f82a12b4797f71cb69baad4d800d7"
+    },
+    {
+      "bytes": 23682,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/AD-and-factor.json",
+      "sha256": "0c6db6e49fa73f3b4aee80b1173897e4effcc4c8bf9191ed0f6e01da299c1e8e"
+    },
+    {
+      "bytes": 8827,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/FD-result.json",
+      "sha256": "183bd18bf36ea34b901b46254361c957c5d1ebfffa5c86d2d6df407b9f7fd077"
+    },
+    {
+      "bytes": 6299497,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/activation-factor.pt",
+      "sha256": "37078d9434847d39f5e688bcc8c9d81d547b0f0b3a253db39c618ee7a1c19b59"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k00-minus-margin.json",
+      "sha256": "83ee2b11d083fc95daa0f85ecbf658ececaecf50dd56f49bc922f888a444128c"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k00-minus-perturbation.json",
+      "sha256": "d2d3f54850be0d3e441a2c4014e98a6179313a3fe53697c3aef83382e967a243"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k00-plus-margin.json",
+      "sha256": "69fcfd851f5af411352090db894ed2e72b0f6523ab72aa7ffd94bfba49a80dfd"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k00-plus-perturbation.json",
+      "sha256": "6aa8b61adb038abb641bf57bb89d331ddf234f966dd72e57bbb5714fbc083691"
+    },
+    {
+      "bytes": 62,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k01-minus-margin.json",
+      "sha256": "7d3041eabc1edcb678cc9faadb8ddb2709c7806ad85cfbecd61adcb8df0c9963"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k01-minus-perturbation.json",
+      "sha256": "c3cb80f5b0c9bf9e96b982598536dba280d746448bb395736374051530087c14"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k01-plus-margin.json",
+      "sha256": "543777cc48969425aec481b32469dbb4495deccb8dd968f78e11edcfba234df2"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k01-plus-perturbation.json",
+      "sha256": "70d375c7551c2c092a2099ad22a01bce923ea2273d636c607dfb21272c153e35"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k02-minus-margin.json",
+      "sha256": "42fd179920202315a7e6c36367a65b8abfb8905613fa520efbe1d27ba7ea5ab8"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k02-minus-perturbation.json",
+      "sha256": "a6dda2585c046239f2e0a34b2398135b4c09bf2a89f0e6157b350e374b75937e"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k02-plus-margin.json",
+      "sha256": "9cb1863c4e306e2d24580d04f44f2a1c397e22b1a7bfa87ad23de11743f3223b"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k02-plus-perturbation.json",
+      "sha256": "db861f5f5d60014dacd11f4a1543c449b5ce682253a2e1b788f9084ce980efa3"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k03-minus-margin.json",
+      "sha256": "43395356d43a876e8fc78ac1249e8c4a3fa1983c04cece191b54ab2197110514"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k03-minus-perturbation.json",
+      "sha256": "6529e78de8e604e0e002a5a703c1b02de08046e3eb607a05c7099e141b545143"
+    },
+    {
+      "bytes": 64,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k03-plus-margin.json",
+      "sha256": "4143b921ddd248dfbddb3e6308c77953605bfcd47d31fe6416d31cde045010ac"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k03-plus-perturbation.json",
+      "sha256": "c231481d2e80655bed57361d19272a55f9588f7ab4eebf8da0596cae59fe3ab5"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k04-minus-margin.json",
+      "sha256": "c0614131e77ea3489cf1ea415f46f3e59ae633ea9ba622df8e4bf44bf1cc3595"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k04-minus-perturbation.json",
+      "sha256": "91a3ac265856deef3008f38a9411acbb3f33f1633da6968a14929848104bda49"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k04-plus-margin.json",
+      "sha256": "45dfa7d7df9a939081df0ba7c452bdc043f983188daba77435feb7fec8ceaa5c"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k04-plus-perturbation.json",
+      "sha256": "1c80dcfd23305edf389663d714f587252832802851de3d6e08679ecce65be670"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k05-minus-margin.json",
+      "sha256": "a0e4ca0d7bc70ec9d69315af1a2a450961999b81033704a26d979cfd6c17e95f"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k05-minus-perturbation.json",
+      "sha256": "9e770a37b51406156a62150f346da94806902bb16c155e3e2a6e216292e995df"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k05-plus-margin.json",
+      "sha256": "45dfa7d7df9a939081df0ba7c452bdc043f983188daba77435feb7fec8ceaa5c"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k05-plus-perturbation.json",
+      "sha256": "d3c7054c92355eaf5c66602f63d36bea3225407b2df9fcab4d530ec41cbb2aa6"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k06-minus-margin.json",
+      "sha256": "e0143ed798184b6f2f4089b4c9d5a0ffa7cc997e8e8aeaf77c4223712e1706c7"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k06-minus-perturbation.json",
+      "sha256": "c35b23027629125c28fa072c5f8066184f7dad8f13d27118bd9d7a53097c60e9"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k06-plus-margin.json",
+      "sha256": "e0143ed798184b6f2f4089b4c9d5a0ffa7cc997e8e8aeaf77c4223712e1706c7"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k06-plus-perturbation.json",
+      "sha256": "08a984cdb195eb1bc8c6beae44750d5fec07927587b01f7d46cbe074becad9a6"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k07-minus-margin.json",
+      "sha256": "953bbc37ec9c3a4b9ca5e7c0eada490b34b1a830ca0d1235e042b13f20944f50"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k07-minus-perturbation.json",
+      "sha256": "07d83f3612d8e6147d825b0bc1f669b02426c7b7a6c195f66342a0afb28b597a"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k07-plus-margin.json",
+      "sha256": "a0e4ca0d7bc70ec9d69315af1a2a450961999b81033704a26d979cfd6c17e95f"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k07-plus-perturbation.json",
+      "sha256": "5cd6cb7e4e48a5b503260e27a6a4c2a40036605724c968f43b47798aa690b69c"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k08-minus-margin.json",
+      "sha256": "881f9eb7ffc912cda85f285de97f312c497de1e8325fea31f59bb3ca72ca5df4"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k08-minus-perturbation.json",
+      "sha256": "1120a59341c742a466c4f9e9623d044681c2d54e6d9642640cb0d6f9424ba5e9"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k08-plus-margin.json",
+      "sha256": "953bbc37ec9c3a4b9ca5e7c0eada490b34b1a830ca0d1235e042b13f20944f50"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k08-plus-perturbation.json",
+      "sha256": "714833ec90a910babef0b03b54d8ff70d359b9b06564687c80f4a692ba5ddcac"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k09-minus-margin.json",
+      "sha256": "881f9eb7ffc912cda85f285de97f312c497de1e8325fea31f59bb3ca72ca5df4"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k09-minus-perturbation.json",
+      "sha256": "46c11a9dbd04ad0564e90eeeec0b18d23ecb3c3075bd3d7516eb53c47583d34f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k09-plus-margin.json",
+      "sha256": "c0614131e77ea3489cf1ea415f46f3e59ae633ea9ba622df8e4bf44bf1cc3595"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k09-plus-perturbation.json",
+      "sha256": "1958a04da2704c6a59d74eace5bf82d11624bdbd390d1e538fc5556cd5986159"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k10-minus-margin.json",
+      "sha256": "953bbc37ec9c3a4b9ca5e7c0eada490b34b1a830ca0d1235e042b13f20944f50"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k10-minus-perturbation.json",
+      "sha256": "86c9468f45f2502669ce28509e1177e1580fd9214dee4aa3f77a79b996bd4533"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k10-plus-margin.json",
+      "sha256": "e0143ed798184b6f2f4089b4c9d5a0ffa7cc997e8e8aeaf77c4223712e1706c7"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k10-plus-perturbation.json",
+      "sha256": "887fb3ea5647e51dd25822bf53e036ca25d85aa33f2c87139948e1da28b1e551"
+    },
+    {
+      "bytes": 64,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k11-minus-margin.json",
+      "sha256": "4143b921ddd248dfbddb3e6308c77953605bfcd47d31fe6416d31cde045010ac"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k11-minus-perturbation.json",
+      "sha256": "04bb08088e5f7b1474baf0d995a0f6ed6ca32c32cc8e3ddd8e607f1da9fd9a6f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k11-plus-margin.json",
+      "sha256": "881f9eb7ffc912cda85f285de97f312c497de1e8325fea31f59bb3ca72ca5df4"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/k11-plus-perturbation.json",
+      "sha256": "ee94947235304761e300289dc7ff925a2ceb77dbaeeb9caedece27c795c8e171"
+    },
+    {
+      "bytes": 33068,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-125/result.json",
+      "sha256": "a8665bee96339fb8d1e22349cde0b1fd317f081d60b9e5bdff87eb48b0efc052"
+    },
+    {
+      "bytes": 23612,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/AD-and-factor.json",
+      "sha256": "e0a7dab0911892b90dcb9e7a28dd41ee097e128382a48c3e06a1f2ffdb344710"
+    },
+    {
+      "bytes": 8867,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/FD-result.json",
+      "sha256": "ceca3b9092a298a73c3eed9ed2b77ea03ca8f1e3bd0c79c521846be04daca05d"
+    },
+    {
+      "bytes": 6299497,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/activation-factor.pt",
+      "sha256": "9c40f0585907039eba629849a2e67c07ce283a42d28b53df01caac10f07a85e0"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k00-minus-margin.json",
+      "sha256": "8ccec5aee80666571da29d698bb505ff3f4a93b6db852ecbe252d56f775daa0e"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k00-minus-perturbation.json",
+      "sha256": "bb73407cf6785714e2790a45732e53c3f6c14bcee4c2a30600d3d8e8f458f2e8"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k00-plus-margin.json",
+      "sha256": "3e2b6bc7c4b7017c33418857526a0b9807e1df65e121fd8f34eb76ec16710c5d"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k00-plus-perturbation.json",
+      "sha256": "38a7345746cab56d315175f89afa2409a1aaf545e14ebe8c5533df46b796fa38"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k01-minus-margin.json",
+      "sha256": "0b63285912f57199eea48ce3218d1b1035573dd885001a0f21d318f0b6cb74e6"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k01-minus-perturbation.json",
+      "sha256": "6cb731dcda7c764ad77e6960c585d0ffb926b31ddc17980da49ee730c5e4c427"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k01-plus-margin.json",
+      "sha256": "48ab1e8712641c47aaae2ff5222b1c4855037a5b569cbec81eb1df1ad1866b3c"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k01-plus-perturbation.json",
+      "sha256": "bb13e902c6f799fc6fc9e5453c1aa8a65eb66130ba8af630e6a91f339ad73308"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k02-minus-margin.json",
+      "sha256": "c0488d4d3388659e41df373e7492841e6fda4c19ce8c4ef9dbdce5881d9598ff"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k02-minus-perturbation.json",
+      "sha256": "1b73f8eaab8adfed63c4e11b9bd4eb9c4ebbe9f1ae4aca01b825693ba00201e8"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k02-plus-margin.json",
+      "sha256": "0e2e9a770facbd5827009abe843f779fb15d84992b4e0bbee32ab8f022512989"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k02-plus-perturbation.json",
+      "sha256": "9ec35249cfc2dd66babd12986a69e723eb5e11082949f159edfaf9d417491662"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k03-minus-margin.json",
+      "sha256": "b9319aa9216a862eafc8f67196fbb9243fd7534ab5c3aa0cd32b1a19679b7b0d"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k03-minus-perturbation.json",
+      "sha256": "9ab57025d63309878ad7d360d8f280c42304d0a55e784641274a85eff965b2cb"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k03-plus-margin.json",
+      "sha256": "4c91205913371948b38692e33cc3d7d277b2ec421ed6e28f7b5a1927189c56d5"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k03-plus-perturbation.json",
+      "sha256": "23e64320eb12ddfb93c627f2c77e3c150805a6a0d2f53114286c8784b8139347"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k04-minus-margin.json",
+      "sha256": "4526402fdf5f186399de0c8426b071b52739276c394e4fb0ce5e989d2638cc0c"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k04-minus-perturbation.json",
+      "sha256": "75e16d66b767b79d9df8675613c9f46d4b8b1a42e9e0db6fb84afc322ed311e4"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k04-plus-margin.json",
+      "sha256": "4c91205913371948b38692e33cc3d7d277b2ec421ed6e28f7b5a1927189c56d5"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k04-plus-perturbation.json",
+      "sha256": "3f299e88cb88ffadf88fb1dca527e4b1b3d446674d885744649df94f4955c5f0"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k05-minus-margin.json",
+      "sha256": "bfe3877e7d45672e76b490f9815c7efd37a3cb29a57a4a2157d570126a62950a"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k05-minus-perturbation.json",
+      "sha256": "ce7f5b46c0b535e57a1a1cbe02818ce0ac46d9cfb34d78142fcab71297977d0f"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k05-plus-margin.json",
+      "sha256": "bfe3877e7d45672e76b490f9815c7efd37a3cb29a57a4a2157d570126a62950a"
+    },
+    {
+      "bytes": 412,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k05-plus-perturbation.json",
+      "sha256": "2ea11e75440e737f698290da2af4f0832a97dbba65e7bfa99ed2e9a78f364377"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k06-minus-margin.json",
+      "sha256": "dd03a835164330be132f73e6fc58f6fe7b78df5c531f64eaa70bb37cbd282b64"
+    },
+    {
+      "bytes": 413,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k06-minus-perturbation.json",
+      "sha256": "1da45aaaf9cded0bf0f6e5e44042e522fe946d138f59283e684e68a948023a96"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k06-plus-margin.json",
+      "sha256": "4526402fdf5f186399de0c8426b071b52739276c394e4fb0ce5e989d2638cc0c"
+    },
+    {
+      "bytes": 414,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k06-plus-perturbation.json",
+      "sha256": "f185ef7d1c30196f658305b1310e0b72bb5cee33152076a24eb251cdd1ec0ffc"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k07-minus-margin.json",
+      "sha256": "dd03a835164330be132f73e6fc58f6fe7b78df5c531f64eaa70bb37cbd282b64"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k07-minus-perturbation.json",
+      "sha256": "0b779aa48a6e3b981a22afa7cbece96f433b378f10143895b77fd2e29531e837"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k07-plus-margin.json",
+      "sha256": "5257f0f67eb17af8d716c32a661c24565eec4a4d8a2df898ec2032e021118955"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k07-plus-perturbation.json",
+      "sha256": "2b15041008bcf1f056fd271c49d38dc234206c58be4e7569d0fa88d440ed1903"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k08-minus-margin.json",
+      "sha256": "5ab478426c8d8b05b905ca25963458f6690ea4deafeffb9f11b06255c73dbc19"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k08-minus-perturbation.json",
+      "sha256": "ab39f0fefcde8e5b0d7352e6668e640258271ec8378988c97d194541166986ae"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k08-plus-margin.json",
+      "sha256": "dd03a835164330be132f73e6fc58f6fe7b78df5c531f64eaa70bb37cbd282b64"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k08-plus-perturbation.json",
+      "sha256": "91e64d5e7d05db49198d7645d9e148a41a93a938c25d758fde1352eb00aab70d"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k09-minus-margin.json",
+      "sha256": "4526402fdf5f186399de0c8426b071b52739276c394e4fb0ce5e989d2638cc0c"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k09-minus-perturbation.json",
+      "sha256": "1dd5951f9b45e8a3f35c3c7b769fa306e141bcb70c4279b7bc1755cd1e2a24fd"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k09-plus-margin.json",
+      "sha256": "dd03a835164330be132f73e6fc58f6fe7b78df5c531f64eaa70bb37cbd282b64"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k09-plus-perturbation.json",
+      "sha256": "e9961f91bae57789d7c4d4f4c43e220335cbf689cca130f7d7648a1b48d95c7f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k10-minus-margin.json",
+      "sha256": "5257f0f67eb17af8d716c32a661c24565eec4a4d8a2df898ec2032e021118955"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k10-minus-perturbation.json",
+      "sha256": "5cadb72c17bfa3bdd7f60286856b8bd8910e3ab26a6a554e072635eff80df49f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k10-plus-margin.json",
+      "sha256": "5a4d5459ce3e46d0efcfeeda7ab5811910221c95ce2ef6f28299017e13eb09f7"
+    },
+    {
+      "bytes": 410,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k10-plus-perturbation.json",
+      "sha256": "36d7fce07f5dcc9eb36958efac2fbfb9a0f9856624e421d5ac33597f81eb829f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k11-minus-margin.json",
+      "sha256": "0034f1e117800811d2e19e1b6c06f5fd65c868d92e951bce2aad954105822115"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k11-minus-perturbation.json",
+      "sha256": "03bc0777c73b66374f32867d4a038e45b20980d760c9487cf3b389e568e606ef"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k11-plus-margin.json",
+      "sha256": "bfe3877e7d45672e76b490f9815c7efd37a3cb29a57a4a2157d570126a62950a"
+    },
+    {
+      "bytes": 411,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/k11-plus-perturbation.json",
+      "sha256": "b84b13af63b1e9949b2a4a217869bf8aadeb9f0941bec71bd1d5102c57747b7b"
+    },
+    {
+      "bytes": 33038,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-332/result.json",
+      "sha256": "7e9070ee5655fbc87a4ebb47dcec80ac2fd3a3d6ae724c88cc79a830835e18c0"
+    },
+    {
+      "bytes": 23667,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/AD-and-factor.json",
+      "sha256": "c99245d4bc692a564ea48842de077c50b1e8f48e89490bf975967b4a84bc00a5"
+    },
+    {
+      "bytes": 8816,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/FD-result.json",
+      "sha256": "049c0e76e8e03ae6265742995edab02fb6ba8e1685b74de39dff55eeee91abb2"
+    },
+    {
+      "bytes": 6299497,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/activation-factor.pt",
+      "sha256": "dd83f9f5477fcad92d0f90919ce02644123f6f3d6b5c2b6961e4b35cc80016d3"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k00-minus-margin.json",
+      "sha256": "bfa491d6e6b5f79ec586405baf6a7b256c7b0d62bfc2bdb65c84c8c8556eed27"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k00-minus-perturbation.json",
+      "sha256": "1b47065a2e35dc59ed40f865065ca79b406d9d1db88b6351faf0b09390eb0f34"
+    },
+    {
+      "bytes": 65,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k00-plus-margin.json",
+      "sha256": "ba200bf70793bfd136fe0b70a57d97c2a7c21e6a725f553309c42a3e16e5224c"
+    },
+    {
+      "bytes": 405,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k00-plus-perturbation.json",
+      "sha256": "e1cf91f1c9eaa9d4b219dc91b53f8c6fb8df688158cbfa1df71acefaf85a5f3d"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k01-minus-margin.json",
+      "sha256": "6a8cd784beb6e452c6f206762b97759277e7b3c21ea3ae41a6aa35198c1ae5a4"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k01-minus-perturbation.json",
+      "sha256": "fe33442e75b329a4183d8f82906c49c2a6904ea05e62aea28c7d9df80c17831d"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k01-plus-margin.json",
+      "sha256": "46eced56d62951b070dbf25cbd810b13d275dd9c1a742cdd9d47f3b3ecdc9365"
+    },
+    {
+      "bytes": 404,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k01-plus-perturbation.json",
+      "sha256": "0a2377e81eef5f722b1702e1652d14f8e0d09efd78160808b7186e56cd5589ac"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k02-minus-margin.json",
+      "sha256": "a0e3daeb718e4d4dadde6a213c5f2832720f5f8d2c07cff6c3af0098ca487dee"
+    },
+    {
+      "bytes": 406,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k02-minus-perturbation.json",
+      "sha256": "535466af53b690c47194e83c9f89b37365b07ed7a60ac2500e42a5fcd33deffe"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k02-plus-margin.json",
+      "sha256": "c6a20584520c6284c7f761989f2188320e806b143a1f6736add3a2d54148dda6"
+    },
+    {
+      "bytes": 405,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k02-plus-perturbation.json",
+      "sha256": "ab21e52b5209b3d5939c8c07503c63eeec4d9eaef15fda0beb7d9ade85a0e0fc"
+    },
+    {
+      "bytes": 62,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k03-minus-margin.json",
+      "sha256": "9b7d1adb98444673e87b9edf8d964c1dfa449ed727bd3573f955953112714d2c"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k03-minus-perturbation.json",
+      "sha256": "b352ab0627a30fd832076937efa92ffad2432a6ac15aebefec0f3b53e5a507f0"
+    },
+    {
+      "bytes": 66,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k03-plus-margin.json",
+      "sha256": "377189d1b444ef5c9151f9749b248e6da6319b0e2f633e8b9a690c67814ccb55"
+    },
+    {
+      "bytes": 405,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k03-plus-perturbation.json",
+      "sha256": "57401fecd5f5ce813f426258e447891aa23ffb127e280b6bbacd7f54084dacc6"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k04-minus-margin.json",
+      "sha256": "72ae00d7c36cef043a5fd88211578b9c79f55e6f684a7ab15d386c22bf5222b1"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k04-minus-perturbation.json",
+      "sha256": "c5b60c627a2343492a1eec38791fe003156005ae6cec3d6de0ee68138a32aa31"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k04-plus-margin.json",
+      "sha256": "f1961d8f1df8a4161353c1068348923baaec5df368bc70eaa3245218276b97b3"
+    },
+    {
+      "bytes": 404,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k04-plus-perturbation.json",
+      "sha256": "24029c87bc6a4e4f8b54ccf26d7a5680d8f62294e155edcf1b60194ab00f7132"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k05-minus-margin.json",
+      "sha256": "e8d1dfaa5e1c43b1e3110fbad3096b0df6ecfed5a34f3d090150c4e66e174126"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k05-minus-perturbation.json",
+      "sha256": "359271ff2606f332eac5e115c39e67a5e8fd372c4822b100ab270ea7c5383dcd"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k05-plus-margin.json",
+      "sha256": "c7afeda51873e410e21c84d3f590c18c547d44d7400a3dcd33e4e1f38ed296a6"
+    },
+    {
+      "bytes": 406,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k05-plus-perturbation.json",
+      "sha256": "df593ffbe172bf014c4a7e5398e336042dfa26d049a219d174690473e838895f"
+    },
+    {
+      "bytes": 67,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k06-minus-margin.json",
+      "sha256": "e1f7f6579b94c268fd0a3a119f4ef14ed51278e14c64b171be017b6cb1f06b3c"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k06-minus-perturbation.json",
+      "sha256": "528382056520fbd059bb300c3f48e1477267da02fb4f9adb5db6750249584f14"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k06-plus-margin.json",
+      "sha256": "e42ada57578b5acbb8035d66f5dae1466b4adba5bc810fe9ff521f86caa3f8e7"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k06-plus-perturbation.json",
+      "sha256": "2e6410e4de24dd227ab862de102fa285d2bcbe5bbeb9099ee6d03ad7e16c5628"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k07-minus-margin.json",
+      "sha256": "070a1977a269e7d58e24559c4fd785900a7f7a3fc02619e4b87daa98b7a2ecf6"
+    },
+    {
+      "bytes": 408,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k07-minus-perturbation.json",
+      "sha256": "4b1742c3793e380463d2ef14d899e989fad4e03965e2e7d141a9678817bbac57"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k07-plus-margin.json",
+      "sha256": "ec916c559077458610c8298557e1b7237ac33fb7c708b9e350db3cc249264d8c"
+    },
+    {
+      "bytes": 405,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k07-plus-perturbation.json",
+      "sha256": "0008ccc61fd64a6c24b4eea6b5a60cd608ba0ea23cd2299aea214120871ec8d0"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k08-minus-margin.json",
+      "sha256": "31d82ae9eb2a978f5227382f441ba036d0eb15b9fc5caa0b8fe9f8bce3607c1a"
+    },
+    {
+      "bytes": 404,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k08-minus-perturbation.json",
+      "sha256": "84baa7ebcc4642eeed8e162f7c2d7d0c151d3420a48ef2dbb0596dae17f3646c"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k08-plus-margin.json",
+      "sha256": "ec3143746c0f2300578b9f33ffc20d0fa0a0967143de24db2bd19d743341e063"
+    },
+    {
+      "bytes": 406,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k08-plus-perturbation.json",
+      "sha256": "66f43d53e200fafe85583d3218e99bc6ff80271c5a25aea301a859ac4dfc69ef"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k09-minus-margin.json",
+      "sha256": "e50431ae5e6995cb443a9f78c8f8c6f0ca86dbeb040fa4b3e1a2920db379afa1"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k09-minus-perturbation.json",
+      "sha256": "6e9c38b154aea1d6d0a2bb4c94f440c36c3f4b2cc3421f856e84c3afa438bcdf"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k09-plus-margin.json",
+      "sha256": "a73517482396bd3b6dd12ed0f225e2546c43d7f3b1e85babab497dd8955ff16e"
+    },
+    {
+      "bytes": 406,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k09-plus-perturbation.json",
+      "sha256": "c3bb16680db0f08cf8ee4812f5187e639a22d4d2c4fc7a4c8834907bd264bec6"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k10-minus-margin.json",
+      "sha256": "e4d9d26614f0808fb9d6f209305298699d2547b3d8e27561400c8c3a1d401e9e"
+    },
+    {
+      "bytes": 409,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k10-minus-perturbation.json",
+      "sha256": "2c21f11af841f99be54c19c339cca143e837eab71d65b61d3346bf6c7295db9c"
+    },
+    {
+      "bytes": 64,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k10-plus-margin.json",
+      "sha256": "2d0eb9827db45dcb7f1300ad6a4bdbd121e0014c4956bc9f3bd54870e2d8cdfc"
+    },
+    {
+      "bytes": 406,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k10-plus-perturbation.json",
+      "sha256": "d45faeaa4883d27cbe4e1ce30a92977bfbba1a666036cc2ed9bf105ecc7cc268"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k11-minus-margin.json",
+      "sha256": "1372cb6cee22f211bea2d1c264cc0394ca0b744d77ffd47a3b90ea40a7e5c7c6"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k11-minus-perturbation.json",
+      "sha256": "c81f77920e385515fe648424a5a725583e61d87029f55ef4d39b44ec22c2f08c"
+    },
+    {
+      "bytes": 68,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k11-plus-margin.json",
+      "sha256": "2767c5ed16c2c463af447b532120136151b2dc97bf383af331246ce75959d56c"
+    },
+    {
+      "bytes": 407,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/k11-plus-perturbation.json",
+      "sha256": "c2acf9e2492cfbd240ceca375b8f70540df8e913ce48930f53f050f2bd5ae3c8"
+    },
+    {
+      "bytes": 33036,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-337/result.json",
+      "sha256": "55ce5f1ed67f8a83ae1bbaa6ef2a0bc41a477395b9eba4d891d1a2be1092d203"
+    },
+    {
+      "bytes": 597,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-panel.json",
+      "sha256": "364b80b65cd49c52e3c591592034193c66be2173a3b253c40a294b82cbc48afd"
+    },
+    {
+      "bytes": 383076,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/reference-repeats.json",
+      "sha256": "6306f83acc61f8da46d1ff9b6b69005c695d74a12055f2ed491dfd8e72e8a681"
+    },
+    {
+      "bytes": 2250,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/technical-contract.json",
+      "sha256": "5370baa7c443c8d1efa93e65cecd3b74fa666de61ba67003f153b0a72fdbfd67"
+    },
+    {
+      "bytes": 3953,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/technical-direction.json",
+      "sha256": "f9ba6324465ccd816115cf2f2a48d78713b64ebe1880991e276ee26fa8486e7b"
+    },
+    {
+      "bytes": 706,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/output/technical-decision/technical-probe.json",
+      "sha256": "7d61d0ba0f87a469a6d2bdd55d94e5bfd202a95a2ceea80123e54f1cd3cf5172"
+    }
+  ],
+  "original_raw_modified": false
+}

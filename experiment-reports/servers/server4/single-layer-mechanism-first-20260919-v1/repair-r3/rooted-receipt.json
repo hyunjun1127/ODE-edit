@@ -1,0 +1,31 @@
+{
+  "code": {
+    "bytes": 3860,
+    "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree/project/run_scripts/single_layer_mechanism_first/review_t0.py",
+    "sha256": "6fc630d1b1c0d599426e67caef96a7b608a5b7a83ea80fb38c9408f6d0b02695"
+  },
+  "independent_agent_red": false,
+  "level": "CPU_STORED_VALUE_RESELECTION_AND_SHA; NO_GPU_PARITY_OR_B1_EFFICACY",
+  "members": [
+    {
+      "bytes": 7794,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/T0-review/FD-grid.csv",
+      "sha256": "5d548b56340205c744eb3cdb819ea01e3cd80c8774d9f168ae0772443b2d9d2b"
+    },
+    {
+      "bytes": 724,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/T0-review/T0-pairs.csv",
+      "sha256": "0359f704da2895bab2e615b02779b0fa58a22c4159550d3ef7967b44d80bc7a5"
+    },
+    {
+      "bytes": 1781,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/T0-review/T0-summary.json",
+      "sha256": "f08b1a2bfd20bcdf8b31f1eb4d13b250aed8be0246ebd539088053fa1775362d"
+    },
+    {
+      "bytes": 65459,
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/T0-review/input-manifest.json",
+      "sha256": "4882de5a9c81ebd20e063a25ead160652ab68f2f1db6a68f4faa439ff6a22b88"
+    }
+  ]
+}

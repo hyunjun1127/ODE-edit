@@ -20,9 +20,10 @@ def validate_repair_lock(lock):
         raise ValueError('REPAIR_INLINE_NO_FAILED_DEPENDENCY')
     replacement=bool(lock.get('completed_hook_reuse'))
     b1_only=lock.get('maximum_batch')==1
+    waived_T0=bool(lock.get('completed_T0_reuse'))
     if lock['old_dependent_job']!='50983' or lock.get('old_dependent_job_mutation') is not replacement:
         raise ValueError('OLD_PENDING_PRESERVATION')
-    if (lock['prior_failed_allocation_GPU_seconds']!=(575 if b1_only else 240 if replacement else 136) or lock['method_threshold_changes'] is not False
+    if (lock['prior_failed_allocation_GPU_seconds']!=(1113 if waived_T0 else 575 if b1_only else 240 if replacement else 136) or lock['method_threshold_changes'] is not False
             or lock.get('technical_gate_role_changes') is not True
             or lock.get('hook_gate_policy',{}).get('id')!=LENIENT_GATE_ID):
         raise ValueError('REPAIR_COST_OR_THRESHOLD_LINEAGE')
@@ -40,6 +41,9 @@ def validate_repair_lock(lock):
         if (failed['source']!='bdaed735f28cb2d0a24e56cc00723373ef857d9d' or
                 failed['error']!="TypeError('Object of type bool is not JSON serializable')"):
             raise ValueError('EXACT_SERIALIZATION_FAILURE_REQUIRED')
+    if waived_T0:
+        from .reuse_t0_user_waiver import validate
+        validate(lock)
 
 
 def run(lock_path):
@@ -47,7 +51,8 @@ def run(lock_path):
     attempt=lock_path.parent;source=Path(lock['execution']['source'])
     replacement=bool(lock.get('completed_hook_reuse'))
     b1_only=lock.get('maximum_batch')==1
-    job_name='odeedit_slmf_B1r3_s4' if b1_only else 'odeedit_slmf_S10r2_s4' if replacement else 'odeedit_slmf_repair_s4'
+    waived_T0=bool(lock.get('completed_T0_reuse'))
+    job_name='odeedit_slmf_B1r4_s4' if waived_T0 else 'odeedit_slmf_B1r3_s4' if b1_only else 'odeedit_slmf_S10r2_s4' if replacement else 'odeedit_slmf_repair_s4'
     if (attempt/'submission.json').exists():raise ValueError('DUPLICATE_REPAIR_SUBMISSION')
     for item in [lock['execution']['archive']]+[v for v in lock['hook_repair'].values() if isinstance(v,dict) and 'path' in v]:
         if Path(item['path']).stat().st_size!=item['bytes'] or sha(item['path'])!=item['sha256']:
@@ -68,7 +73,7 @@ def run(lock_path):
     job=subprocess.check_output(command,cwd=source,text=True).strip().split(';')[0]
     if not re.fullmatch(r'\d+',job):raise RuntimeError('REPAIR_SBATCH_ID')
     write(attempt/'submission.json',dict(job_id=job,command=command,held=True,source=lock['execution']['commit'],
-        lock=member(lock_path),repair_of='51056' if b1_only else '51055' if replacement else '50974',
+        lock=member(lock_path),repair_of='51057' if waived_T0 else '51056' if b1_only else '51055' if replacement else '50974',
         replaces_unstarted_program='50983',old_pending_cancelled=replacement,submission_controller=member(__file__)))
     text=subprocess.check_output(['scontrol','show','job',job,'--oneliner'],text=True)
     checks=inspection(text,command,source,lock_path,job_name=job_name,dependency=None)
