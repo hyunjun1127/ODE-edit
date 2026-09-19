@@ -3,11 +3,22 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
-from .common import sha256,write_json,stat_identity
+from .common import sha256,write_json,stat_identity,tensor_sha
+import torch
 from . import model_runtime as rt
 
 
 class AssetBindingTests(unittest.TestCase):
+    def test_projector_hash_is_original_selected_stack_not_matrix(self):
+        stack=torch.arange(45,dtype=torch.float32).reshape(5,3,3)
+        contract={'identity':{'projector_selected_sha256':tensor_sha(stack[:1])}}
+        with patch.object(rt,'CONTRACT',contract):
+            selected=rt.selected_projector(stack)
+            self.assertTrue(torch.equal(selected,stack[0]))
+            self.assertNotEqual(tensor_sha(selected),contract['identity']['projector_selected_sha256'])
+            changed=stack.clone();changed[0,0,0]+=1
+            with self.assertRaisesRegex(AssertionError,'P4_SINGLETON_STACK_IDENTITY'):
+                rt.selected_projector(changed)
     def fixture(self,root):
         root=Path(root);snapshot=root/'snapshot';snapshot.mkdir()
         weight=snapshot/'model.safetensors';weight.write_bytes(b'synthetic file-hash fixture only')

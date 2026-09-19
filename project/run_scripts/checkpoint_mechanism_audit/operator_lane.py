@@ -323,7 +323,7 @@ def run_lane(histories: list[int], bank_path: str | Path, gate_path: str | Path,
         w0=load_w0(CONTRACT["paths"]["model_snapshot"]);w0_norm=float(w0.double().norm())
         p_all=torch.load(CONTRACT["paths"]["projector"],weights_only=True,map_location="cpu",mmap=True)
         p=p_all[0]
-        if tensor_sha(p)!=CONTRACT["identity"]["projector_selected_sha256"]:raise ValueError("P4_IDENTITY_MISMATCH")
+        if tensor_sha(p.unsqueeze(0))!=CONTRACT["identity"]["projector_selected_sha256"]:raise ValueError("P4_IDENTITY_MISMATCH")
         mapping=source_map();residuals={};residual_receipts={};target_receipts={}
         from .model_runtime import checkpoint
         for batch,entry in NATIVE_ENTRY.items():

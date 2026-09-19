@@ -21,4 +21,4 @@ export OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8
 export PYTHONPATH=/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval/attempt-v1/deps-transformers-4.44.2
 task_python=/mnt/raid5/janghj/EasyEdit/.venv/bin/python
 "$task_python" -B -m project.run_scripts.checkpoint_mechanism_audit.control verify --lock "$task_lock"
-"$task_python" -B -u -m project.run_scripts.checkpoint_mechanism_audit.model_gate --output "$task_output"
+"$task_python" -B -u -m project.run_scripts.checkpoint_mechanism_audit.control execute --lock "$task_lock"

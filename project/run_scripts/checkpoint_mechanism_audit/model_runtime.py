@@ -72,6 +72,14 @@ def checkpoint(batch):
     return obj
 
 
+def selected_projector(stack):
+    # Original runtime hashes its selected one-layer STACK, including [1,d,d]
+    # in the header. The matrix consumed by the solve is the unchanged slot0.
+    assert stack.ndim==3 and stack.shape[0]==5 and stack.shape[1]==stack.shape[2]
+    assert tensor_sha(stack[:1])==CONTRACT['identity']['projector_selected_sha256'], 'P4_SINGLETON_STACK_IDENTITY'
+    return stack[0].contiguous()
+
+
 def verify_model_assets():
     """Check complete original model/tokenizer inventory before model loading.
 

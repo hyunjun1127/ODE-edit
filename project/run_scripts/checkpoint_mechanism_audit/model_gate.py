@@ -43,17 +43,41 @@ def repeat_norm(error,reference,relative_tolerance,columnwise=False):
     return r
 
 
-def gate(output):
+def verified_reuse(path):
+    if path is None:return None
+    x=read(path)
+    assert x['status']=='SEALED_TECHNICAL_CONTINUATION' and x['original_failure_stage']=='B1_DENSE'
+    assert x['source_map_sha256']==sha256(ATTEMPT/'inputs/source-map.json')
+    root=Path(x['root'])
+    required={'failure.json','runtime.json','C00.json','B001-keys.pt','B002-keys.pt','geometry32-keys.pt',
+              'W0-first100.json','B1-first100.json','evaluation-parity.json'}
+    assert {m['name'] for m in x['members']}==required
+    for m in x['members']:
+        p=root/m['name'];assert p.stat().st_size==m['bytes'] and sha256(p)==m['sha256']
+    assert read(root/'C00.json')['status']=='PASS'
+    assert read(root/'failure.json')['stage']=='B1_DENSE'
+    return x
+
+
+def gate(output,reuse_receipt=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     start=time.perf_counter();stage='SOURCE';results={};model=None;w0=None
     try:
+        reused=verified_reuse(reuse_receipt)
+        capture_root=Path(reused['root']) if reused else output
+        if reused:write_json(output/'reused-gate-evidence.json',reused)
         bindings=rt.bind_sources();rows,probe=rt.stream_and_probe();mapping=source_map()
         contexts=read(mapped(S4CELL+'/B001/contexts.json',mapping))
         assert [len(g) for g in contexts]==[1,5]
         stage='LOAD';model,writer,evaltok,w0,runtime=rt.load();nonselected=rt.pointer_versions(model)
+        if reused:
+            previous=read(capture_root/'runtime.json')
+            for field in ('torch','transformers','tokenizers','gpu','dtype','attention','autocast',
+                          'tf32_matmul','tf32_cudnn','writer_tokenizer','evaluator_tokenizer','w0_sha256'):
+                assert runtime[field]==previous[field], 'REUSE_RUNTIME_MISMATCH:'+field
         write_json(output/'runtime.json',runtime)
         stage='C00_PREFIX'
-        for label,selected in [('B001',rows[:100]),('B002',rows[100:200]),('geometry32',probe[:32])]:
+        for label,selected in ([] if reused else [('B001',rows[:100]),('B002',rows[100:200]),('geometry32',probe[:32])]):
             full=rt.capture(model,writer,selected,contexts,bindings,early=False)
             early=rt.capture(model,writer,selected,contexts,bindings,early=True)
             repeat=rt.capture(model,writer,selected,contexts,bindings,early=True)
@@ -66,14 +90,17 @@ def gate(output):
             tensor_artifact(output/(label+'-keys.pt'),early)
             print('C00_CAPTURE',label,{k:v['passed'] for k,v in local.items()},flush=True)
             del full,early,repeat
+        if reused:results=read(capture_root/'C00.json')['comparisons']
         c00=all(v['passed'] for r in results.values() for v in r.values())
         write_json(output/'C00.json',dict(status='PASS' if c00 else 'FAILED',comparisons=results))
         # Independent physical endpoint evaluation proceeds even if operator
         # reconstruction fails; it is not silently counted as operator PASS.
-        stage='W0_EVALUATION';ev0=rt.evaluate(model,evaltok,rows[:100],bindings)
-        write_json(output/'W0-first100.json',ev0)
+        stage='W0_EVALUATION'
+        if not reused:
+            ev0=rt.evaluate(model,evaltok,rows[:100],bindings)
+            write_json(output/'W0-first100.json',ev0)
         cp=rt.checkpoint(1);w1=cp['weights'][WEIGHT];m1=cp['cache_c'][0]
-        capture=torch.load(output/'B001-keys.pt',weights_only=True,map_location='cpu')
+        capture=torch.load(capture_root/'B001-keys.pt',weights_only=True,map_location='cpu')
         k=capture['K'];bare=capture['bare_K'];h0=capture['h0']
         stage='B1_PHYSICAL_RESTORE';rt.set_weight(model,w1)
         h1=rt.capture(model,writer,rows[:100],contexts,bindings,early=True)
@@ -82,23 +109,30 @@ def gate(output):
         reconstruction={'keys_invariant':val.elementwise_gate(h1['K'],k),
             'physical_block_affine':val.elementwise_gate(h1['h0'],affine),
             'M1_gram':val.elementwise_gate(k@k.T,m1)}
-        stage='B1_EVALUATION';ev1=rt.evaluate(model,evaltok,rows[:100],bindings)
-        write_json(output/'B1-first100.json',ev1)
-        repeat_eval=rt.evaluate(model,evaltok,rows[:100],bindings)
-        archived=read(mapped(S4CELL+'/B001/current.json',mapping))
-        eval_gate=compare_evaluation(ev1,archived)
-        eval_repeat={}
-        for tag in ('RS','PS','NS'):
-            assert ev1['metrics'][tag]['denominator']=={'RS':100,'PS':200,'NS':1000}[tag]
-            x=torch.tensor([[v for r in z['metrics'][tag]['rows'] for v in (r['new_nll'],r['true_nll'],r['true_nll']-r['new_nll'])]
-                            for z in (ev1,repeat_eval)],dtype=torch.float64)
-            eval_repeat[tag]=val.repeat_spread_gate(x,1e-4)
-        write_json(output/'evaluation-parity.json',dict(archive=eval_gate,repeated_rows=eval_repeat,
-            expected_counts={'RS':100,'PS':190,'NS':867},observed_counts={t:ev1['metrics'][t]['numerator'] for t in eval_gate}))
-        del ev0,ev1,repeat_eval,h1;gc.collect();torch.cuda.empty_cache()
+        write_json(output/'physical-binding-parity.json',reconstruction)
+        stage='B1_EVALUATION'
+        if reused:
+            evidence=read(capture_root/'evaluation-parity.json')
+            eval_gate=evidence['archive'];eval_repeat=evidence['repeated_rows']
+        else:
+            ev1=rt.evaluate(model,evaltok,rows[:100],bindings)
+            write_json(output/'B1-first100.json',ev1)
+            repeat_eval=rt.evaluate(model,evaltok,rows[:100],bindings)
+            archived=read(mapped(S4CELL+'/B001/current.json',mapping))
+            eval_gate=compare_evaluation(ev1,archived);eval_repeat={}
+            for tag in ('RS','PS','NS'):
+                assert ev1['metrics'][tag]['denominator']=={'RS':100,'PS':200,'NS':1000}[tag]
+                x=torch.tensor([[v for r in z['metrics'][tag]['rows'] for v in (r['new_nll'],r['true_nll'],r['true_nll']-r['new_nll'])]
+                                for z in (ev1,repeat_eval)],dtype=torch.float64)
+                eval_repeat[tag]=val.repeat_spread_gate(x,1e-4)
+            evidence=dict(archive=eval_gate,repeated_rows=eval_repeat,expected_counts={'RS':100,'PS':190,'NS':867},
+                          observed_counts={t:ev1['metrics'][t]['numerator'] for t in eval_gate})
+            del ev0,ev1,repeat_eval
+        write_json(output/'evaluation-parity.json',evidence)
+        del h1;gc.collect();torch.cuda.empty_cache()
         stage='B1_DENSE'
         p_all=torch.load(CONTRACT['paths']['projector'],map_location='cpu',weights_only=True,mmap=True)
-        p=p_all[0].contiguous();assert tensor_sha(p)==CONTRACT['identity']['projector_selected_sha256']
+        p=rt.selected_projector(p_all)
         targets=torch.load(mapped(S4CELL+'/B001/native-targets.pt',mapping),weights_only=True,map_location='cpu')
         assert [x['case_id'] for x in targets['identities']]==[r['case_id'] for r in rows[:100]]
         assert [tensor_sha(x) for x in targets['values']]==[x['sha256'] for x in targets['identities']]
@@ -138,6 +172,7 @@ def gate(output):
             W0_restore=True,nonselected_pointer_versions=True,nonselected_full_bytes='NOT_CLAIMED',
             checkpoint_saved=False,z_optimization_calls=0,history_append=0,
             elapsed_seconds=time.perf_counter()-start,peak_gpu_bytes=torch.cuda.max_memory_allocated(),
+            evaluation_reused_without_new_forward=bool(reused),reuse_receipt_sha256=sha256(reuse_receipt) if reused else None,
             source_map_sha256=sha256(ATTEMPT/'inputs/source-map.json'),
             members=[dict(path=str(p),sha256=sha256(p),bytes=p.stat().st_size) for p in sorted(output.iterdir()) if p.is_file()])
         write_json(output/'terminal.json',result)
@@ -153,4 +188,5 @@ def gate(output):
         raise
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser();a.add_argument('--output',required=True);args=a.parse_args();gate(args.output)
+    a=argparse.ArgumentParser();a.add_argument('--output',required=True);a.add_argument('--reuse-receipt')
+    args=a.parse_args();gate(args.output,args.reuse_receipt)
