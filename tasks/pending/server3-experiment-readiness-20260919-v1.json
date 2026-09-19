@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-S06-SH3-EXPERIMENT-READY-ASSETS-20260919-V1",
+  "status": "APPROVED_AWAITING_DELIVERY",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "cwd": "/data/janghj/ODE-edit",
+  "envelope": "messages/head/2026-09-19-sh3-experiment-readiness.md",
+  "transfer_approval": "transfers/approvals/2026-09-19-server3-experiment-readiness.md",
+  "project_gpu_cap": 2,
+  "readiness_concurrent_gpus": 1,
+  "memory_mib_per_gpu_max": 121856,
+  "isolated_install_allowed": true,
+  "selective_transfer_allowed": true,
+  "new_scientific_experiment": false,
+  "save_checkpoints": false,
+  "existing_delete": false,
+  "initial_or_pending_stop": false,
+  "source_dirty_preserve": true,
+  "report": "experiment-reports/servers/server3/experiment-readiness-2026-09-19-v1/report-ko.md",
+  "completion": "EXPERIMENT_READY_OR_SPECIFIC_EXTERNAL_BLOCKER",
+  "continue_through_main": true
+}

@@ -1,5 +1,14 @@
 # Server3 active record
 
+## 최신 준비 승인 — 2026-09-19
+
+사용자가 데이터·모델·Covariance·Projector를 실제 실험 가능한 상태로 만들도록
+추가 지시했다. 아래 bootstrap 미설치/미전송/제출금지는 당시 관측으로 보존하고,
+이번 [readiness envelope](../../messages/head/2026-09-19-sh3-experiment-readiness.md)에서
+격리 설치·exact 선택 전송·최대1GPU bounded smoke를 승인한다. Project ceiling2,
+save_checkpoints=false. 과학 arm/chain은 여전히 미승인이다.
+현재 EXPERIMENT_READY는 아직 미달성; 실측 완료 전 준비 성공으로 바꾸지 않는다.
+
 ## 등록 authority — 2026-09-19
 
 - 상태: **REGISTERED / BOOTSTRAP_RUNTIME_NOT_READY / SUBMISSION_NOT_AUTHORIZED**.
