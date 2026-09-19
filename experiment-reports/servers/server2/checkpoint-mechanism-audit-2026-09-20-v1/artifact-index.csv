@@ -1,0 +1,16 @@
+required_output,status,path,bytes,sha256
+source_bindings.csv,GENERATED_PUBLICATION,source_bindings.csv,,
+numerical-parity.json,GENERATED_PUBLICATION,numerical-parity.json,,
+request_registry.csv,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/request_registry.csv,5790526.0,6d8fd9a81c6de2c13da6c9da4f80e2b2e854478db70cb4a2274e73552508e097
+functional_long.parquet,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/functional_long.parquet,79039785.0,dc319578742ec98ff5c76444b7bac5c3a38eceee7a997f5389bf73e9b0d12fa7
+paired_transitions.csv,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/paired_transitions.csv,1159179.0,a66362ca66359668e8658f7ecb6eb6a3f2e517661b07fd0e06366e31dfafb399
+at_write_outcomes.csv,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/at_write_outcomes.csv,37044.0,5c0c8bed7da689577753c4e82efe8f94f2d5e62e2901b6e6b50ce9066b3ce8a9
+checkpoint_geometry.csv,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/geometry/checkpoint_geometry.csv,38815.0,e7731ac3116b03ba6511b698ff7bc6d08ffb4abf02f5f44d9aadf7193298bbac
+fixed_probe_history.csv,BLOCKED_C01,status row in report; no fabricated numeric measurement,,
+native_write_modes.csv,BLOCKED_C01,status row in report; no fabricated numeric measurement,,
+reconstruction.csv,BLOCKED_C01,status row in report; no fabricated numeric measurement,,
+counterfactuals.csv,BLOCKED_C01,status row in report; no fabricated numeric measurement,,
+mechanism_panel.csv,MEASURED_LOCAL_RETAINED,/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results/archival/mechanism_panel.csv,20910.0,f34b4c1cd58d9e0d21f864a6b5d44447b2c41747f4fecbd4680f5961811a6bd7
+activation_margin.csv,BLOCKED_C01,status row in report; no fabricated numeric measurement,,
+timing.json,GENERATED_PUBLICATION,timing.json,,
+report-ko.md,GENERATED_PUBLICATION,report-ko.md,,

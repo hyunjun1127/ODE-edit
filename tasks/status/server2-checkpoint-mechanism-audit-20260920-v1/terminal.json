@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
+  "status": "TERMINAL_REPORTED_WITH_NUMERICAL_BLOCKS",
+  "jobs": {"51071": "FAILED_TECHNICAL_P_HASH_HEADER", "51116": "COMPLETED_PROCESS_NUMERICAL_GATE_FAILED"},
+  "cell_counts": {"PASS": 5, "FAILED": 1, "BLOCKED": 25},
+  "report_is_not_all_scientific_cells_pass": true,
+  "allocated_gpu_seconds": 269,
+  "two_lane_expansion": "BLOCKED_C01; no duplicate work to fill slot",
+  "report": "experiment-reports/servers/server2/checkpoint-mechanism-audit-2026-09-20-v1/report-ko.md",
+  "report_sha256": "464ebf33a2a315ce3aae9d3397d6a74cd83d330ef21668228d5b1d3ca415cff8",
+  "new_edit_chain": 0,
+  "new_z_optimization": 0,
+  "checkpoint_saved": false,
+  "other_task_resume": false,
+  "automatic_followup": false,
+  "scientific_promotion": false
+}

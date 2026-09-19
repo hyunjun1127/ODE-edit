@@ -1,0 +1,62 @@
+{
+  "figures": [
+    {
+      "figure": "01-functional",
+      "image_generation_tools": false,
+      "pdf_sha256": "8c3ae34eb891029d65fb5a2a9a73cbd9dc55fbc4ba38ea0e5c90e1d834ec9527",
+      "png_sha256": "646d59942bbee5f260f4528d71cbb9ec2e4c8686f1d64f67cd12446bdaa4c614",
+      "regenerated_twice_byte_exact": true,
+      "source_csvs": [
+        "functional_summary.csv",
+        "paired_transitions.csv"
+      ],
+      "source_sha256": {
+        "functional_summary.csv": "dbc1d3b4212b943f16016d8e488a6aee7049558ee94744d89735b445b49d0d05",
+        "paired_transitions.csv": "c6ac227b6ba3f6e141b2ee65e4f149722a266f50f698c54d7173b4e02af020b5"
+      }
+    },
+    {
+      "figure": "02-geometry",
+      "image_generation_tools": false,
+      "pdf_sha256": "487f7aade1616ebb9f55de9a361d12839bf3e4c48eda38057f82df4e8d7193b0",
+      "png_sha256": "7fc16c22e94646f6d3b405785c5b0d74a68c4f0213a845c609ac180b4e62916c",
+      "regenerated_twice_byte_exact": true,
+      "source_csvs": [
+        "checkpoint_geometry.csv"
+      ],
+      "source_sha256": {
+        "checkpoint_geometry.csv": "d732c2239c908ca2b97c5517d84884e407770c13158097461e807fc618475280"
+      }
+    },
+    {
+      "figure": "03-operator",
+      "image_generation_tools": false,
+      "pdf_sha256": "b69ed1d1dd1d62e0e0721616738046a1e7bb7a1b1f050ae31d67628cd8f5277d",
+      "png_sha256": "61a7f99a668893896fba67e9b6cc22228e0348d98b65293f1b6796408cbe5498",
+      "regenerated_twice_byte_exact": true,
+      "source_csvs": [
+        "fixed_probe_summary.csv",
+        "native_write_modes.csv"
+      ],
+      "source_sha256": {
+        "fixed_probe_summary.csv": "b0428215f8fd3197f5548e5874f0204287e98974bd387bd95d153e2cbceea680",
+        "native_write_modes.csv": "b0428215f8fd3197f5548e5874f0204287e98974bd387bd95d153e2cbceea680"
+      }
+    },
+    {
+      "figure": "04-activation",
+      "image_generation_tools": false,
+      "pdf_sha256": "47db213e9478171901b3b29cbc3ee1d2031a736883d7d3d6e9e47b6dba516cc4",
+      "png_sha256": "48736e1dded06d3fc38c93e4fd76804dc2c5a5d6ec964139ef0930dc339494c6",
+      "regenerated_twice_byte_exact": true,
+      "source_csvs": [
+        "activation_margin.csv"
+      ],
+      "source_sha256": {
+        "activation_margin.csv": "b0428215f8fd3197f5548e5874f0204287e98974bd387bd95d153e2cbceea680"
+      }
+    }
+  ],
+  "matplotlib": "3.10.7",
+  "regeneration_command": "python -B -m project.run_scripts.checkpoint_mechanism_audit.reporting --results /mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/results --output <NEW_EMPTY_OUTPUT> --cell-statuses /mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/publication-input-r1/cell-statuses.json --context /mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/attempt-v1/publication-input-r1/report-context.json --final"
+}

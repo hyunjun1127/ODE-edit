@@ -1,0 +1,34 @@
+{
+  "all_model_backward_calls": 0,
+  "allocated_gpu_seconds": 269,
+  "archival_cpu_seconds": 517.2216612137854,
+  "checkpoint_hash_seconds_in_geometry": 15.29243337456137,
+  "compute_and_nested_timers_not_added_to_allocation": true,
+  "geometry_cpu_seconds": 128.34606998693198,
+  "jobs": [
+    {
+      "allocated_gpus": 1,
+      "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "elapsed_seconds": 230,
+      "exit_code": "1:0",
+      "job": "51071",
+      "state": "FAILED"
+    },
+    {
+      "allocated_gpus": 1,
+      "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "elapsed_seconds": 39,
+      "exit_code": "0:0",
+      "job": "51116",
+      "state": "COMPLETED"
+    }
+  ],
+  "model_continuation_wall_seconds": 35.04688097164035,
+  "model_fullhash_seconds": 14.033064560964704,
+  "model_original_wall_seconds": 227.4166945349425,
+  "operator_extension_seconds": "NOT_RUN",
+  "original_peak_gpu_bytes": "NOT_RECORDED",
+  "peak_gpu_bytes_continuation": 38537462272,
+  "teacher_or_new_target_optimization": 0,
+  "uninstrumented_forward_token_work": "NOT_RECORDED"
+}
