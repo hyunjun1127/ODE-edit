@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "audit_id": "SERVER2-RECOVERED-CHECKPOINT-FUNCTIONAL-SOURCE-AUDIT-V1",
+  "recorded_at_utc": "2026-09-19T17:40:32Z",
+  "local_date": "2026-09-20",
+  "timezone": "Asia/Seoul",
+  "status": "BOUNDED_SOURCE_SCHEMA_AND_EXISTENCE_REVIEW",
+  "scope": "Read-only remote source/schema review and CPU counts of the pinned sample metadata; this receipt is the only file written by this subtask.",
+  "arm": "AlphaEdit_L4_ONLY",
+  "companion_host": "server4",
+  "companion_root": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3",
+  "execution_lock": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/execution.lock.json",
+  "prior_inventory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-20-server2-geometry-gss-history-review/server2-checkpoint-inventory.json",
+  "file_existence": {
+    "verification": "Remote pathlib is_file across exact B001 through B100 paths; not payload hash or per-file schema validation",
+    "current_json": {
+      "count": 100,
+      "batch_range_inclusive": [1, 100],
+      "missing_batches": [],
+      "relative_pattern": "B{batch:03d}/current.json"
+    },
+    "seen_full_json": {
+      "count": 12,
+      "batches": [1, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+      "relative_pattern": "B{batch:03d}/seen-full.json"
+    },
+    "exact_stat_samples_bytes": {
+      "B001": {"current.json": 667474, "entry.json": 8942, "seen-full.json": 667426, "commit.json": 2221},
+      "B002": {"current.json": 667466, "entry.json": 8945, "seen-full.json": null, "commit.json": 1916},
+      "B005": {"current.json": 667322, "entry.json": 8954, "seen-full.json": 3332827, "commit.json": 2220},
+      "B100": {"current.json": 667308, "entry.json": 8960, "seen-full.json": 66621830, "commit.json": 2230}
+    }
+  },
+  "sources": [
+    {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py",
+      "line_ranges": [[24, 41], [45, 61]],
+      "evidence": "Metric reduction, identity hash inputs, margin and success signs, strict/count fields, current evaluator state fields",
+      "expected_sha256_from_execution_lock": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e",
+      "sha256_recomputed_this_subtask": false
+    },
+    {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py",
+      "line_ranges": [[25, 68], [71, 72], [85, 110], [119, 135]],
+      "evidence": "Canonical/rephrase/neighborhood construction, fixed teacher-forced paths, manual left padding, mean token NLL and token strict evaluation",
+      "expected_sha256_from_execution_lock": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e",
+      "sha256_recomputed_this_subtask": false
+    },
+    {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py",
+      "line_ranges": [[31, 67]],
+      "evidence": "Neighborhood target-new alternatives use the parent request target-new",
+      "expected_sha256_from_execution_lock": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6",
+      "sha256_recomputed_this_subtask": false
+    },
+    {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/lifelong/evaluation.py",
+      "line_ranges": [[5, 12]],
+      "evidence": "Concatenate past and current at the same endpoint; current rows reused; uniqueness and bit-order digest",
+      "expected_sha256_from_execution_lock": "abb766d6e2c8bea493907f7e652b9411827c68a7c2d67d3e460fab748840c469",
+      "sha256_recomputed_this_subtask": false
+    },
+    {
+      "host": "server4",
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2/project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py",
+      "line_ranges": [[8, 9]],
+      "evidence": "SHA256 of json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=True).encode()",
+      "sha256_recomputed_this_subtask": false
+    },
+    {
+      "host": "local",
+      "path": "/mnt/raid5/janghj/layer_allocation/empirical/code/blue_runtime.py",
+      "line_ranges": [[34, 39], [46, 51], [73, 88]],
+      "evidence": "Sample order, entry metadata, per-batch current evaluation, sparse seen-full evaluation and checkpoint persistence",
+      "sha256_recomputed_this_subtask": false
+    }
+  ],
+  "schema": {
+    "seen_full_top_level": ["current_rows_reused", "evaluation_type", "metrics", "requests", "state"],
+    "seen_full_evaluation_type": "CHECKPOINT_FINAL_W_ON_ALL_SEEN_REQUESTS",
+    "current_top_level_observed_B002": ["before_after_exact", "cache_sha256", "evaluator_controller_influence", "metrics", "request_order", "requests", "weight_state"],
+    "entry_top_level_observed_B002": ["batch", "context_hash", "history_entries", "request_hashes", "request_ids", "seen_before", "signature"],
+    "metric_tags": ["RS", "PS", "NS"],
+    "metric_fields": ["bit_order_sha256", "denominator", "numerator", "rate", "rows"],
+    "row_fields": {
+      "case_id": "integer",
+      "identity": "sha256 string",
+      "prompt_index": "integer",
+      "margin": "finite float",
+      "new_nll": "finite float",
+      "true_nll": "finite float",
+      "success": "boolean",
+      "new_strict": "boolean",
+      "true_strict": "boolean",
+      "new_token_correct": "integer",
+      "new_token_count": "integer",
+      "true_token_correct": "integer",
+      "true_token_count": "integer"
+    },
+    "identity_inputs_ordered": ["case_id", "prompt_index", "prompt", "target_new", "target_true"],
+    "identity_excludes_metric_category": true,
+    "longitudinal_join_key": ["arm", "metric_tag", "identity"],
+    "observation_key": ["arm", "checkpoint_batch", "metric_tag", "identity"],
+    "raw_margin_all_categories": "true_nll - new_nll",
+    "success_rules": {"RS": "margin > 0", "PS": "margin > 0", "NS": "margin < 0"},
+    "signed_safety_margin": {"RS": "margin", "PS": "margin", "NS": "-margin"},
+    "desired_strict_field": {"RS": "new_strict", "PS": "new_strict", "NS": "true_strict"},
+    "ties": "Failure in all three categories; strict inequalities",
+    "nll_semantics": "Mean over target tokens on each target's own teacher-forced prefix",
+    "not_present_in_reduced_rows": ["raw prompt", "raw target strings", "target token IDs", "per-token prediction IDs", "per-token margins", "full-vocabulary logits"],
+    "not_free_generation_accuracy": true
+  },
+  "sample_metadata_counts": {
+    "host": "server4",
+    "sample_path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/sample.lock.json",
+    "dataset_path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "expected_sample_sha256_from_execution_lock": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92",
+    "sha256_recomputed_this_subtask": false,
+    "count_method": "CPU JSON parsing; group sample.records by subject_relation_group, and separately by (subject_relation_group, batch_index)",
+    "requests": 10000,
+    "unique_subject_relation_groups": 9783,
+    "repeated_subject_relation_groups": 125,
+    "earlier_versions_under_latest_version_interpretation": 217,
+    "repeated_groups_with_distinct_target_new_sha256": 120,
+    "same_batch_repeated_group_batch_count": 5,
+    "same_batch_repeated_group_batches_with_distinct_target_new_sha256": 5,
+    "raw_dataset_prompt_count_pairs": [{"paraphrase_prompts": 2, "neighborhood_prompts": 10, "request_count": 10000}],
+    "original_overwrite_policy": "retain all ordered canonical cases; annotate subject/relation/target identity; no replacement",
+    "sample_record_fields_observed": ["batch_index", "batch_ordinal", "case_id", "ordinal", "rank_sha256", "raw_record_sha256", "request_sha256", "subject_relation_group", "target_new_sha256", "target_true_sha256"],
+    "interpretation": "Original benchmark retains earlier cases. Active-version/conflict-free summaries must be separate diagnostics, not replacements for original all-case metrics. Same-batch conflicting targets are not resolved by treating the final array element as an established sequential overwrite."
+  },
+  "longitudinal_design_findings": {
+    "first_write_anchor": "Each request's arrival-batch current.json, after file/request/state binding",
+    "first_stored_checkpoint_is_not_first_write": true,
+    "entry_json_contains_entry_functional_evaluation": false,
+    "W0_functional_baseline_verified_this_subtask": false,
+    "without_bound_W0_rows_use_label": "first-write-N retention/loss; not W0-correct-N loss",
+    "state_bindings_required": ["seen-full.state to commit.endpoint and checkpoint metadata.state", "current.weight_state/cache_sha256 to commit.endpoint", "current.request_order and entry.request_ids to sealed sample order", "row identity to sealed dataset prompt and target pair"],
+    "duplicate_current_and_seen_rows": "Validate agreement at the same endpoint, then count as one observation",
+    "transition_rows_computed": false,
+    "transition_counts_computed": false,
+    "confidence_intervals_computed": false,
+    "recommended_cluster": "Request; preserve all P/N rows and all endpoints within the resampled cluster. Subject/relation-group sensitivity analysis for repeated groups.",
+    "failure_time_resolution": "Observed intervals between stored evaluations; not an exact first-forgetting batch",
+    "mechanism_case_selection": "Outcome-based PS/N diagnostic case selection is permissible when declared; do not use selected cases for method optimization or representative population performance estimates."
+  },
+  "execution_limits": {
+    "model_loads": 0,
+    "model_forwards": 0,
+    "gpu_jobs": 0,
+    "training_runs": 0,
+    "checkpoint_tensor_scans": 0,
+    "evaluation_payload_hashes_recomputed": 0,
+    "full_transition_audit_completed": false,
+    "files_written": ["/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-20-server2-checkpoint-mechanism-design/functional-source-audit.json"]
+  }
+}

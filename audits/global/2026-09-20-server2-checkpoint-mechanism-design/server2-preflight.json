@@ -1,0 +1,1620 @@
+{
+  "host": "server2",
+  "observed_at_utc": "2026-09-19T17:34:51.972012+00:00",
+  "mode": "READ_ONLY_EXACT_ASSET_AND_ENVIRONMENT_PREFLIGHT_NO_MODEL_OR_GPU_ALLOCATION",
+  "execution_lock_path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/source/closure/021-execution.lock.json",
+  "lock": {
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+    "source_root": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+    "blue_root": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source",
+    "dataset": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+    "sample": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/sample.lock.json",
+    "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "prefix1000_root": "40fe1afb318a4a5da9630425213644a729a1e85fb4e78c18e9a4dcd2870eefdd",
+    "projector": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+    "projector_source_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "stats_members": [
+      {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+      },
+      {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+      }
+    ],
+    "stats_root": "/data/janghj/EasyEdit/examples/data/stats",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "seed": 20260907,
+    "snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "dependencies": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2",
+    "local_source_archive": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/local-source.tar",
+    "local_source_sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af"
+  },
+  "base_model_members": [
+    {
+      "bytes": 654,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/config.json",
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"
+    },
+    {
+      "bytes": 187,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/generation_config.json",
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"
+    },
+    {
+      "bytes": 4976698672,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c"
+    },
+    {
+      "bytes": 4999802720,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00002-of-00004.safetensors",
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c"
+    },
+    {
+      "bytes": 4915916176,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00003-of-00004.safetensors",
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921"
+    },
+    {
+      "bytes": 1168138808,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00004-of-00004.safetensors",
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46"
+    },
+    {
+      "bytes": 23950,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model.safetensors.index.json",
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+    },
+    {
+      "bytes": 73,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/special_tokens_map.json",
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+    },
+    {
+      "bytes": 9085698,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer.json",
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+    },
+    {
+      "bytes": 50977,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer_config.json",
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+    }
+  ],
+  "runtime": {
+    "W0": {
+      "cache_pointer": 127087729963072,
+      "cache_sha256": "4b0f730ab67dd2c0f378bc399bbfafc762982f181177b97664ba63a29ef03901",
+      "weights": {
+        "model.layers.4.mlp.down_proj.weight": {
+          "dtype": "torch.float32",
+          "object_id": 127116208044976,
+          "pointer": 127105664811008,
+          "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "shape": [
+            4096,
+            14336
+          ],
+          "version": 0
+        }
+      }
+    },
+    "attention": "eager",
+    "autocast": false,
+    "binding": {
+      "history_policy": "native final selected-layer key append once/batch",
+      "projector_indices": [
+        0
+      ],
+      "projector_physical_layers": [
+        4
+      ],
+      "projector_sha256": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68"
+    },
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "cell": 3,
+    "dtype": "torch.float32",
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "helper_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "hparams": {
+      "L2": 1,
+      "attn_module_tmp": "model.layers.{}.self_attn",
+      "blue": true,
+      "clamp_norm_factor": 0.75,
+      "fact_token": "subject_last",
+      "kl_factor": 0.0625,
+      "layer_module_tmp": "model.layers.{}",
+      "layer_selection": "all",
+      "layers": [
+        4
+      ],
+      "lm_head_module": "lm_head",
+      "ln_f_module": "model.norm",
+      "mlp_module_tmp": "model.layers.{}.mlp",
+      "model_name": "Llama3-8B",
+      "mom2_adjustment": true,
+      "mom2_dataset": "wikipedia",
+      "mom2_dtype": "float32",
+      "mom2_n_samples": 100000,
+      "mom2_update_weight": 15000,
+      "nullspace_threshold": 0.02,
+      "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+      "v_loss_layer": 31,
+      "v_lr": 0.1,
+      "v_num_grad_steps": 25,
+      "v_weight_decay": 0.5
+    },
+    "local_source_sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+    "lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+    "mode": "main",
+    "model_load_seconds": 55.24939655698836,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "native_scalar_policy": "MEMIT solve FP64; AlphaEdit native FP32; unchanged",
+    "parameter_elements": 8030261248,
+    "parameter_tensors": 291,
+    "scientific_promotion": false,
+    "slurm_job": "40426",
+    "spec": {
+      "cell": 3,
+      "changed_fields": [
+        "layers"
+      ],
+      "config": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/AlphaEdit-L4_ONLY.json",
+      "config_sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+      "layers": [
+        4
+      ],
+      "method": "AlphaEdit",
+      "original_config": {
+        "bytes": 753,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json",
+        "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+      },
+      "variant": "L4_ONLY"
+    },
+    "tf32_cudnn": true,
+    "tf32_matmul": false,
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "writer_tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    }
+  },
+  "source_closure_candidates": [
+    {
+      "bytes": 527484,
+      "relative": "closure/005-execution.lock.json",
+      "sha256": "1111a3383047346394710905befdf5294f8de2993beaa2cb3eb5d09229154bb9",
+      "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/execution.lock.json"
+    },
+    {
+      "bytes": 40960,
+      "relative": "closure/006-local-source.tar",
+      "sha256": "cc834a23144f6ac23d2e3f23841405194485e4f4536c0911315676ff06ff4f48",
+      "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-cell0-checkpoint-r3/local-source.tar"
+    },
+    {
+      "bytes": 526723,
+      "relative": "closure/021-execution.lock.json",
+      "sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+      "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/execution.lock.json"
+    },
+    {
+      "bytes": 40960,
+      "relative": "closure/022-local-source.tar",
+      "sha256": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+      "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/local-source.tar"
+    },
+    {
+      "bytes": 711,
+      "relative": "closure/093-AlphaEdit-L4_ONLY.json",
+      "sha256": "2392ab8392476ed019985e4292a8c0aa2a3957f36a06a704eb7590e8e8c99c5d",
+      "source": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/configs/AlphaEdit-L4_ONLY.json"
+    }
+  ],
+  "nvidia_smi": {
+    "returncode": 0,
+    "stdout": "index, name, memory.total [MiB], memory.used [MiB], utilization.gpu [%], compute_mode\n0, NVIDIA RTX A6000, 49140 MiB, 34192 MiB, 37 %, Default\n1, NVIDIA RTX A6000, 49140 MiB, 32076 MiB, 100 %, Default\n2, NVIDIA RTX A6000, 49140 MiB, 33558 MiB, 100 %, Default\n3, NVIDIA RTX A6000, 49140 MiB, 35780 MiB, 100 %, Default\n4, NVIDIA RTX A6000, 49140 MiB, 1 MiB, 0 %, Default\n5, NVIDIA RTX A6000, 49140 MiB, 1 MiB, 0 %, Default\n6, NVIDIA RTX A6000, 49140 MiB, 33628 MiB, 100 %, Default\n7, NVIDIA RTX A6000, 49140 MiB, 36748 MiB, 100 %, Default\n",
+    "stderr": ""
+  },
+  "live_assets_and_environment": {
+    "runtime_environment": {
+      "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+      "python_version": "3.12.12 (main, Oct 10 2025, 12:47:49) [Clang 20.1.4 ]",
+      "packages": {
+        "torch": {
+          "version": "2.9.1",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/__init__.py"
+        },
+        "transformers": {
+          "version": "4.57.1",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+        },
+        "numpy": {
+          "version": "2.2.6",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/numpy/__init__.py"
+        },
+        "scipy": {
+          "version": "1.15.3",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/scipy/__init__.py"
+        },
+        "safetensors": {
+          "version": "0.7.0",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/safetensors/__init__.py"
+        },
+        "tokenizers": {
+          "version": "0.22.1",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/tokenizers/__init__.py"
+        },
+        "accelerate": {
+          "version": "1.13.0",
+          "module_origin": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/accelerate/__init__.py"
+        }
+      }
+    },
+    "remapped_lock_paths": {
+      "source_root": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2",
+        "exists": false,
+        "is_file": false,
+        "is_dir": false,
+        "bytes": null,
+        "realpath": null
+      },
+      "blue_root": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source",
+        "exists": false,
+        "is_file": false,
+        "is_dir": false,
+        "bytes": null,
+        "realpath": null
+      },
+      "dataset": {
+        "path": "/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 45108470,
+        "realpath": "/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json"
+      },
+      "sample": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/sample.lock.json",
+        "exists": false,
+        "is_file": false,
+        "is_dir": false,
+        "bytes": null,
+        "realpath": null
+      },
+      "projector": {
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 4110419877,
+        "realpath": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt"
+      },
+      "stats_root": {
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats",
+        "exists": true,
+        "is_file": false,
+        "is_dir": true,
+        "bytes": null,
+        "realpath": "/mnt/raid5/janghj/EasyEdit/examples/data/stats"
+      },
+      "snapshot": {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "exists": true,
+        "is_file": false,
+        "is_dir": true,
+        "bytes": null,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+      },
+      "dependencies": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2",
+        "exists": false,
+        "is_file": false,
+        "is_dir": false,
+        "bytes": null,
+        "realpath": null
+      }
+    },
+    "model_members": [
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/config.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 654,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+        "expected_bytes": 654,
+        "size_matches_record": true,
+        "historical_sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/generation_config.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 187,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+        "expected_bytes": 187,
+        "size_matches_record": true,
+        "historical_sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 4976698672,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+        "expected_bytes": 4976698672,
+        "size_matches_record": true,
+        "historical_sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00002-of-00004.safetensors",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 4999802720,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+        "expected_bytes": 4999802720,
+        "size_matches_record": true,
+        "historical_sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00003-of-00004.safetensors",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 4915916176,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+        "expected_bytes": 4915916176,
+        "size_matches_record": true,
+        "historical_sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00004-of-00004.safetensors",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 1168138808,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+        "expected_bytes": 1168138808,
+        "size_matches_record": true,
+        "historical_sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model.safetensors.index.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 23950,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+        "expected_bytes": 23950,
+        "size_matches_record": true,
+        "historical_sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/special_tokens_map.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 73,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+        "expected_bytes": 73,
+        "size_matches_record": true,
+        "historical_sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 9085698,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+        "expected_bytes": 9085698,
+        "size_matches_record": true,
+        "historical_sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer_config.json",
+        "exists": true,
+        "is_file": true,
+        "is_dir": false,
+        "bytes": 50977,
+        "realpath": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+        "expected_bytes": 50977,
+        "size_matches_record": true,
+        "historical_sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+      }
+    ],
+    "member_candidates": [
+      {
+        "bytes": 45108470,
+        "path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+        "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+      },
+      {
+        "bytes": 4110419877,
+        "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+        "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+      },
+      {
+        "bytes": 885,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/AlphaEdit_hparams.py",
+        "sha256": "bffe280e509c1d699d39a6ea6457ec521954278e574006f9f46ef766d77c990e"
+      },
+      {
+        "bytes": 12212,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/AlphaEdit_main.py",
+        "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+      },
+      {
+        "bytes": 74,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/__init__.py",
+        "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+      },
+      {
+        "bytes": 1552,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/compute_ks.py",
+        "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+      },
+      {
+        "bytes": 9524,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/AlphaEdit/compute_z.py",
+        "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f"
+      },
+      {
+        "bytes": 1999,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/README.md",
+        "sha256": "a71002bd26098ea58cd8dbbd48888cd9b3c013fbeed51b56af0fac39b4821741"
+      },
+      {
+        "bytes": 249,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/globals.yml",
+        "sha256": "71f94f33216aaac82bc6e0085608dd4b74a3d40f57ce800c5479b44294625232"
+      },
+      {
+        "bytes": 753,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/hparams/AlphaEdit/Llama3-8B-blue.json",
+        "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275"
+      },
+      {
+        "bytes": 74,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/__init__.py",
+        "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+      },
+      {
+        "bytes": 3612,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/compute_u.py",
+        "sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a"
+      },
+      {
+        "bytes": 9558,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/compute_v.py",
+        "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009"
+      },
+      {
+        "bytes": 7514,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/layer_stats.py",
+        "sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693"
+      },
+      {
+        "bytes": 6405,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/repr_tools.py",
+        "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+      },
+      {
+        "bytes": 674,
+        "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/rome_hparams.py",
+        "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+      }
+    ],
+    "source_tar_members": [
+      {
+        "name": "lifelong/__init__.py",
+        "size": 79
+      },
+      {
+        "name": "lifelong/evaluation.py",
+        "size": 891
+      },
+      {
+        "name": "lifelong/method.py",
+        "size": 2838
+      },
+      {
+        "name": "lifelong/observation.py",
+        "size": 3019
+      },
+      {
+        "name": "lifelong/runtime.py",
+        "size": 11024
+      },
+      {
+        "name": "lifelong/state.py",
+        "size": 1194
+      },
+      {
+        "name": "lifelong/test_minimal.py",
+        "size": 2252
+      },
+      {
+        "name": "run.sbatch",
+        "size": 1163
+      },
+      {
+        "name": "amendment.json",
+        "size": 2058
+      },
+      {
+        "name": "prepare_amendment.py",
+        "size": 3149
+      },
+      {
+        "name": "focused_checkpoint_test.py",
+        "size": 1802
+      }
+    ],
+    "model_index": {
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model.safetensors.index.json",
+      "metadata": {
+        "total_size": 16060522496
+      },
+      "key_count": 291,
+      "L4_weight_key": "model.layers.4.mlp.down_proj.weight",
+      "L4_shard": "model-00001-of-00004.safetensors"
+    },
+    "L4_W0_header_only": {
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+      "header_bytes": 9512,
+      "tensor": {
+        "dtype": "BF16",
+        "shape": [
+          4096,
+          14336
+        ],
+        "data_offsets": [
+          2795577344,
+          2913017856
+        ]
+      },
+      "no_tensor_payload_read": true
+    },
+    "lock_members_type": "list"
+  },
+  "S4_companion_import_inventory": {
+    "host": "server4",
+    "observed_at_utc": "2026-09-19T17:37:21.306867+00:00",
+    "mode": "EXACT_NAMED_PATH_STAT_ONLY",
+    "targets": [
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B006/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B011/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B021/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B051/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B091/native-targets.pt",
+        "present": true,
+        "bytes": 1676279
+      }
+    ],
+    "seen_full": [
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/seen-full.json",
+        "present": true,
+        "bytes": 667426
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B005/seen-full.json",
+        "present": true,
+        "bytes": 3332827
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/seen-full.json",
+        "present": true,
+        "bytes": 6664325
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B020/seen-full.json",
+        "present": true,
+        "bytes": 13328022
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B030/seen-full.json",
+        "present": true,
+        "bytes": 19990821
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B040/seen-full.json",
+        "present": true,
+        "bytes": 26653377
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/seen-full.json",
+        "present": true,
+        "bytes": 33315936
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B060/seen-full.json",
+        "present": true,
+        "bytes": 39978068
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B070/seen-full.json",
+        "present": true,
+        "bytes": 46639521
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B080/seen-full.json",
+        "present": true,
+        "bytes": 53302099
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B090/seen-full.json",
+        "present": true,
+        "bytes": 59961880
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/seen-full.json",
+        "present": true,
+        "bytes": 66621830
+      }
+    ],
+    "current100": [
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/current.json",
+        "present": true,
+        "bytes": 667474
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/current.json",
+        "present": true,
+        "bytes": 667466
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B003/current.json",
+        "present": true,
+        "bytes": 667513
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B004/current.json",
+        "present": true,
+        "bytes": 667546
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B005/current.json",
+        "present": true,
+        "bytes": 667322
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B006/current.json",
+        "present": true,
+        "bytes": 667340
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B007/current.json",
+        "present": true,
+        "bytes": 667375
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B008/current.json",
+        "present": true,
+        "bytes": 667228
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B009/current.json",
+        "present": true,
+        "bytes": 667291
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B010/current.json",
+        "present": true,
+        "bytes": 667383
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B011/current.json",
+        "present": true,
+        "bytes": 667362
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B012/current.json",
+        "present": true,
+        "bytes": 667423
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B013/current.json",
+        "present": true,
+        "bytes": 667469
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B014/current.json",
+        "present": true,
+        "bytes": 667404
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B015/current.json",
+        "present": true,
+        "bytes": 667288
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B016/current.json",
+        "present": true,
+        "bytes": 667545
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B017/current.json",
+        "present": true,
+        "bytes": 667430
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B018/current.json",
+        "present": true,
+        "bytes": 667473
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B019/current.json",
+        "present": true,
+        "bytes": 667578
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B020/current.json",
+        "present": true,
+        "bytes": 667556
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B021/current.json",
+        "present": true,
+        "bytes": 667443
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B022/current.json",
+        "present": true,
+        "bytes": 667406
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B023/current.json",
+        "present": true,
+        "bytes": 667460
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B024/current.json",
+        "present": true,
+        "bytes": 667458
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B025/current.json",
+        "present": true,
+        "bytes": 667411
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B026/current.json",
+        "present": true,
+        "bytes": 667271
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B027/current.json",
+        "present": true,
+        "bytes": 667236
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B028/current.json",
+        "present": true,
+        "bytes": 667499
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B029/current.json",
+        "present": true,
+        "bytes": 667394
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B030/current.json",
+        "present": true,
+        "bytes": 667472
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B031/current.json",
+        "present": true,
+        "bytes": 667340
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B032/current.json",
+        "present": true,
+        "bytes": 667471
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B033/current.json",
+        "present": true,
+        "bytes": 667356
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B034/current.json",
+        "present": true,
+        "bytes": 667416
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B035/current.json",
+        "present": true,
+        "bytes": 667311
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B036/current.json",
+        "present": true,
+        "bytes": 667504
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B037/current.json",
+        "present": true,
+        "bytes": 667363
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B038/current.json",
+        "present": true,
+        "bytes": 667390
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B039/current.json",
+        "present": true,
+        "bytes": 667416
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B040/current.json",
+        "present": true,
+        "bytes": 667446
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B041/current.json",
+        "present": true,
+        "bytes": 667458
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B042/current.json",
+        "present": true,
+        "bytes": 667386
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B043/current.json",
+        "present": true,
+        "bytes": 667295
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B044/current.json",
+        "present": true,
+        "bytes": 667399
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B045/current.json",
+        "present": true,
+        "bytes": 667389
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B046/current.json",
+        "present": true,
+        "bytes": 667388
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B047/current.json",
+        "present": true,
+        "bytes": 667392
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B048/current.json",
+        "present": true,
+        "bytes": 667254
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B049/current.json",
+        "present": true,
+        "bytes": 667480
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/current.json",
+        "present": true,
+        "bytes": 667305
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B051/current.json",
+        "present": true,
+        "bytes": 667439
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B052/current.json",
+        "present": true,
+        "bytes": 667294
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B053/current.json",
+        "present": true,
+        "bytes": 667308
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B054/current.json",
+        "present": true,
+        "bytes": 667318
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B055/current.json",
+        "present": true,
+        "bytes": 667225
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B056/current.json",
+        "present": true,
+        "bytes": 667384
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B057/current.json",
+        "present": true,
+        "bytes": 667353
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B058/current.json",
+        "present": true,
+        "bytes": 667351
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B059/current.json",
+        "present": true,
+        "bytes": 667442
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B060/current.json",
+        "present": true,
+        "bytes": 667358
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B061/current.json",
+        "present": true,
+        "bytes": 667300
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B062/current.json",
+        "present": true,
+        "bytes": 667332
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B063/current.json",
+        "present": true,
+        "bytes": 667275
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B064/current.json",
+        "present": true,
+        "bytes": 667500
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B065/current.json",
+        "present": true,
+        "bytes": 667419
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B066/current.json",
+        "present": true,
+        "bytes": 667388
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B067/current.json",
+        "present": true,
+        "bytes": 667378
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B068/current.json",
+        "present": true,
+        "bytes": 667342
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B069/current.json",
+        "present": true,
+        "bytes": 667255
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B070/current.json",
+        "present": true,
+        "bytes": 667349
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B071/current.json",
+        "present": true,
+        "bytes": 667372
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B072/current.json",
+        "present": true,
+        "bytes": 667436
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B073/current.json",
+        "present": true,
+        "bytes": 667323
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B074/current.json",
+        "present": true,
+        "bytes": 667235
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B075/current.json",
+        "present": true,
+        "bytes": 667264
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B076/current.json",
+        "present": true,
+        "bytes": 667234
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B077/current.json",
+        "present": true,
+        "bytes": 667389
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B078/current.json",
+        "present": true,
+        "bytes": 667421
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B079/current.json",
+        "present": true,
+        "bytes": 667497
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B080/current.json",
+        "present": true,
+        "bytes": 667198
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B081/current.json",
+        "present": true,
+        "bytes": 667291
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B082/current.json",
+        "present": true,
+        "bytes": 667369
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B083/current.json",
+        "present": true,
+        "bytes": 667414
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B084/current.json",
+        "present": true,
+        "bytes": 667289
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B085/current.json",
+        "present": true,
+        "bytes": 667359
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B086/current.json",
+        "present": true,
+        "bytes": 667234
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B087/current.json",
+        "present": true,
+        "bytes": 667236
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B088/current.json",
+        "present": true,
+        "bytes": 667367
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B089/current.json",
+        "present": true,
+        "bytes": 667234
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B090/current.json",
+        "present": true,
+        "bytes": 667305
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B091/current.json",
+        "present": true,
+        "bytes": 667448
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B092/current.json",
+        "present": true,
+        "bytes": 667412
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B093/current.json",
+        "present": true,
+        "bytes": 667255
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B094/current.json",
+        "present": true,
+        "bytes": 667518
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B095/current.json",
+        "present": true,
+        "bytes": 667123
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B096/current.json",
+        "present": true,
+        "bytes": 667324
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B097/current.json",
+        "present": true,
+        "bytes": 667413
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B098/current.json",
+        "present": true,
+        "bytes": 667348
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B099/current.json",
+        "present": true,
+        "bytes": 667354
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/current.json",
+        "present": true,
+        "bytes": 667308
+      }
+    ],
+    "anchor_companions": [
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/commit.json",
+        "present": true,
+        "bytes": 2221
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/entry.json",
+        "present": true,
+        "bytes": 8942
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B001/native-observation.json",
+        "present": true,
+        "bytes": 18359
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/commit.json",
+        "present": true,
+        "bytes": 1916
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/entry.json",
+        "present": true,
+        "bytes": 8945
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B002/native-observation.json",
+        "present": true,
+        "bytes": 18361
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/commit.json",
+        "present": true,
+        "bytes": 2230
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/entry.json",
+        "present": true,
+        "bytes": 8952
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B050/native-observation.json",
+        "present": true,
+        "bytes": 18337
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B099/commit.json",
+        "present": true,
+        "bytes": 1920
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B099/entry.json",
+        "present": true,
+        "bytes": 8954
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B099/native-observation.json",
+        "present": true,
+        "bytes": 18333
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/commit.json",
+        "present": true,
+        "bytes": 2230
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/entry.json",
+        "present": true,
+        "bytes": 8960
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-3/B100/native-observation.json",
+        "present": true,
+        "bytes": 18332
+      }
+    ],
+    "targets_summary": {
+      "expected": 7,
+      "present": 7,
+      "bytes": 11733953
+    },
+    "seen_full_summary": {
+      "expected": 12,
+      "present": 12,
+      "bytes": 370456132
+    },
+    "current100_summary": {
+      "expected": 100,
+      "present": 100,
+      "bytes": 66737255
+    },
+    "anchor_companions_summary": {
+      "expected": 15,
+      "present": 15,
+      "bytes": 146992
+    },
+    "original_support_paths": {
+      "/data/janghj/ODE-edit/local/blue-lifelong-b100x100/attempt-v1/sample.lock.json": {
+        "present": true,
+        "is_dir": false,
+        "bytes": 8783285
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source": {
+        "present": true,
+        "is_dir": true,
+        "bytes": null
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/source-tech-r2": {
+        "present": true,
+        "is_dir": true,
+        "bytes": null
+      },
+      "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2": {
+        "present": true,
+        "is_dir": true,
+        "bytes": null
+      }
+    }
+  },
+  "projector_header_binding": {
+    "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+    "bytes": 4110419877,
+    "mode": "ZIP_CENTRAL_DIRECTORY_AND_DATA_PKL_OPCODES_ONLY_NO_DESERIALIZATION_OR_TENSOR_PAYLOAD",
+    "pickle_bytes_read": 167,
+    "members": [
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/data.pkl",
+        "bytes": 167,
+        "compressed_bytes": 167,
+        "stored_crc32": 2119721993
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/.format_version",
+        "bytes": 1,
+        "compressed_bytes": 1,
+        "stored_crc32": 2212294583
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/.storage_alignment",
+        "bytes": 2,
+        "compressed_bytes": 2,
+        "stored_crc32": 3916527423
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/byteorder",
+        "bytes": 6,
+        "compressed_bytes": 6,
+        "stored_crc32": 434322821
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/data/0",
+        "bytes": 4110417920,
+        "compressed_bytes": 4110417920,
+        "stored_crc32": 2619389637
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/version",
+        "bytes": 2,
+        "compressed_bytes": 2,
+        "stored_crc32": 1432854225
+      },
+      {
+        "name": "null_space_project_Meta-Llama-3-8B-Instruct/.data/serialization_id",
+        "bytes": 40,
+        "compressed_bytes": 40,
+        "stored_crc32": 2775153778
+      }
+    ],
+    "pickle_opcodes": [
+      {
+        "opcode": "PROTO",
+        "arg": 2,
+        "position": 0
+      },
+      {
+        "opcode": "GLOBAL",
+        "arg": "torch._utils _rebuild_tensor_v2",
+        "position": 2
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 0,
+        "position": 35
+      },
+      {
+        "opcode": "MARK",
+        "arg": null,
+        "position": 37
+      },
+      {
+        "opcode": "MARK",
+        "arg": null,
+        "position": 38
+      },
+      {
+        "opcode": "BINUNICODE",
+        "arg": "storage",
+        "position": 39
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 1,
+        "position": 51
+      },
+      {
+        "opcode": "GLOBAL",
+        "arg": "torch FloatStorage",
+        "position": 53
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 2,
+        "position": 73
+      },
+      {
+        "opcode": "BINUNICODE",
+        "arg": "0",
+        "position": 75
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 3,
+        "position": 81
+      },
+      {
+        "opcode": "BINUNICODE",
+        "arg": "cpu",
+        "position": 83
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 4,
+        "position": 91
+      },
+      {
+        "opcode": "BININT",
+        "arg": 1027604480,
+        "position": 93
+      },
+      {
+        "opcode": "TUPLE",
+        "arg": null,
+        "position": 98
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 5,
+        "position": 99
+      },
+      {
+        "opcode": "BINPERSID",
+        "arg": null,
+        "position": 101
+      },
+      {
+        "opcode": "BININT1",
+        "arg": 0,
+        "position": 102
+      },
+      {
+        "opcode": "BININT1",
+        "arg": 5,
+        "position": 104
+      },
+      {
+        "opcode": "BININT2",
+        "arg": 14336,
+        "position": 106
+      },
+      {
+        "opcode": "BININT2",
+        "arg": 14336,
+        "position": 109
+      },
+      {
+        "opcode": "TUPLE3",
+        "arg": null,
+        "position": 112
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 6,
+        "position": 113
+      },
+      {
+        "opcode": "BININT",
+        "arg": 205520896,
+        "position": 115
+      },
+      {
+        "opcode": "BININT2",
+        "arg": 14336,
+        "position": 120
+      },
+      {
+        "opcode": "BININT1",
+        "arg": 1,
+        "position": 123
+      },
+      {
+        "opcode": "TUPLE3",
+        "arg": null,
+        "position": 125
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 7,
+        "position": 126
+      },
+      {
+        "opcode": "NEWFALSE",
+        "arg": null,
+        "position": 128
+      },
+      {
+        "opcode": "GLOBAL",
+        "arg": "collections OrderedDict",
+        "position": 129
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 8,
+        "position": 154
+      },
+      {
+        "opcode": "EMPTY_TUPLE",
+        "arg": null,
+        "position": 156
+      },
+      {
+        "opcode": "REDUCE",
+        "arg": null,
+        "position": 157
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 9,
+        "position": 158
+      },
+      {
+        "opcode": "TUPLE",
+        "arg": null,
+        "position": 160
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 10,
+        "position": 161
+      },
+      {
+        "opcode": "REDUCE",
+        "arg": null,
+        "position": 163
+      },
+      {
+        "opcode": "BINPUT",
+        "arg": 11,
+        "position": 164
+      },
+      {
+        "opcode": "STOP",
+        "arg": null,
+        "position": 166
+      }
+    ],
+    "historical_binding": {
+      "source_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "L4_selected_slot": 0,
+      "selected_projector_tensor_sha256_from_original_runtime": "8c50a474f01a28afbe52f3212e79da3dc4a22f5c753a53dedc3d31ed10c2ec68",
+      "full_projector_file_sha256_from_original_lock": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+    },
+    "binding_limit": "Current header/stat do not revalidate payload SHA or numerical projector properties; selected P4 identity/parity must be gated at execution."
+  },
+  "limitations": [
+    "All large assets checked by exact-path stat/header only; historical hashes are recorded, not newly recomputed.",
+    "No model deserialization/loading/forward, GPU allocation, scheduler action, copying, installation or remote file mutation.",
+    "GPU utilization is a point observation, not a reservation or permission to use a device.",
+    "Default transformers4.57.1 differs from original4.44.2; plan isolated pinned dependencies and key/endpoint parity gates before execution."
+  ],
+  "reference_capsule_path_hint": {
+    "status": "historical exact path from existing 2026-09-19 read-only audit; not re-statted on remote in this preflight",
+    "source_evidence": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-19-joint-z-dynamic-allocation/reference512-cost/inspect_en_reference.py:14",
+    "host": "rke-server4",
+    "root": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/generated",
+    "manifest": "manifest.json",
+    "document_paths": "Read exact per-document capsule/logp/keys/residual paths from manifest.documents; do not regenerate or substitute old BPCW G16 capsules.",
+    "ready": "/data/janghj/ODE-edit/local/en-execution-reuse/20260919-v1/PREP/attempt-v1/output/READY.json",
+    "scope": "Existing EN C4 R512/G256 references are distinct from a new CounterFact stream-disjoint geometry probe of size 512."
+  },
+  "execution_blockers_and_gates": [
+    "Default Server2 transformers 4.57.1/tokenizers 0.22.1 differ from archived original transformers 4.44.2; prepare isolated pinned dependencies before any later execution. Nothing installed in this preflight.",
+    "The root-remapped original sample.lock.json and source-tech-r2/blue-source/deps-transformers-4.44.2 paths are absent on Server2, but exact original paths exist on Server4. Stage and verify originals or explicitly verify replacement implementation parity; do not resample.",
+    "Server2 has recovered W-method-state.pt weights and cumulative memory. Server4 retains native-targets and evaluation companions; import the selected companions with identity/order/hash validation before joining.",
+    "Pinned model members and projector were checked by path/stat/header; large payload hashes were not recomputed. At execution, verify the selected L4 projector slot 0 against original source-layer mapping and selected-tensor digest, then enforce key/endpoint parity gates.",
+    "Use original FP32/eager/autocast-false execution; model safetensors L4 source is BF16 and must be loaded/cast to FP32 before checkpoint replacement. Preserve TF32 matmul=false and cudnn=true.",
+    "Archive checkpoint migration manifest job 39283_3 and original runtime slurm_job 40426 differ; do not claim same job solely from these metadata. Bind by execution lock, source/model identity and checkpoint state.",
+    "GPU memory/utilization is a point snapshot only; select resources using the actual execution-time scheduler/device state."
+  ]
+}
