@@ -24,5 +24,7 @@ Instruction ID: `ODEEDIT-ALL-SH-DEFAULT-NO-CHECKPOINT-20260919-V1`
 
 ## 전달 및 종료
 
-대상은 현재 등록된 SH1/SH2/SH4. SH3는 미등록 future target이므로 live 전달 성공으로 쓰지 않으며 추후 onboarding에도 이 기본값을 적용한다.
+대상은 현재 등록된 SH1/SH2/SH3/SH4. 최초 배포 시 SH3는 미등록이었고,
+2026-09-19 신규 onboarding부터 같은 기본값을 적용한다. 최초 SH1/2/4 전달
+기록과 새 SH3 onboarding ACK는 구분한다.
 정책 FULL_READ/적용 ACK만 반환하고, 별도 paused task를 재개하거나 scheduler/결과를 조회하지 않는다. 현재 수행 중인 task가 있으면 그 준비·저장 설정에 직접 관련된 정책 steer로만 처리한다.

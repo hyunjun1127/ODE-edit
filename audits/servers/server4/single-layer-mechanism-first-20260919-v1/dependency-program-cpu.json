@@ -1,0 +1,38 @@
+{
+  "status": "CPU_PASS_NOT_ACTUAL_MODEL_PASS",
+  "tests": 186,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 7.229,
+  "command": "PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:$PWD OMP_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 MKL_NUM_THREADS=8 /data/janghj/EasyEdit/.venv/bin/python -B -m unittest discover -s project/run_scripts/single_layer_mechanism_first -t . -p 'test_*.py' -q",
+  "source_binding": "same commit as this receipt; execution closure sealed separately",
+  "diff_whitespace_check": "PASS",
+  "independent_red": {
+    "performed": true,
+    "scope": "Different helpers read controller/parent integration, excluding their own module audits; parent integrated fixes",
+    "resolved_blocks": [
+      "HistoryFactory.receipt property incorrectly called",
+      "T0 four-request parity did not bind current B100 source-order replay equality",
+      "Actual held job argv not checked",
+      "Compressed pending array capacity could be undercounted"
+    ],
+    "narrow_cpu_regressions": "PASS",
+    "whole_actual_model_validation": "NOT_OBSERVED"
+  },
+  "program_mock_tests": 17,
+  "program_mock_scope": "actual stage control and RAM transaction; native/model/technical/observer and numerical gates mocked",
+  "no_checkpoint": {
+    "save_checkpoints": false,
+    "exceptions": [],
+    "full_weight_full_delta_W_M_RNG_optimizer_persistence": false,
+    "native_target_key_small_factors_retained": true,
+    "exact_resume": "NOT_AVAILABLE",
+    "existing_artifact_mutation": false
+  },
+  "actual_T0": "NOT_OBSERVED",
+  "actual_full512": "NOT_OBSERVED",
+  "actual_B1_S3_S10": "NOT_OBSERVED",
+  "peak_GPU_host_memory": "NOT_MEASURED_FOR_NEW_PROGRAM",
+  "agent_scientific_result_monitoring": false,
+  "large_payload_transfer": false
+}

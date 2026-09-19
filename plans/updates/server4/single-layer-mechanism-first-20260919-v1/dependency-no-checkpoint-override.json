@@ -1,0 +1,25 @@
+{
+  "instruction": "ODEEDIT-S06-SL-MECHANISM-FIRST-ZHOOK-SH4-V1",
+  "latest_user_instructions": [
+    "일단 취소시키지말고 dependency로 10 batch pending 걸어만 놔. 모니터링은 하지말고",
+    "실행기 구현 마치고 pending 까지만 걸어놔",
+    "checkpoint 저장은 하지말고 진행해"
+  ],
+  "storage_policy": "ODEEDIT-ALL-SH-DEFAULT-NO-CHECKPOINT-20260919-V1",
+  "policy_publication": "4d871dc6aeb328675d4912f4525ed23434bc0ad8",
+  "save_checkpoints": false,
+  "checkpoint_equivalents": false,
+  "checkpoint_exceptions": [],
+  "exact_resume": "NOT_AVAILABLE",
+  "existing_job": "50974",
+  "existing_job_mutation": false,
+  "dependency": "afterok:50974",
+  "maximum_batch": 10,
+  "scientific_gates_unchanged": true,
+  "in_process_state": true,
+  "program_slurm_writes": false,
+  "agent_result_monitoring": false,
+  "automatic_resume": false,
+  "new_job_submitted_in_this_document": false,
+  "actual_T0_and_science": "NOT_OBSERVED"
+}
