@@ -71,6 +71,8 @@ def batch(rt,reference,records,*,stage,arm_names,batch_number,ledger,directory,g
     from .controller import native_result,optimize_kl,optimize_decision
     from .history_runtime import HistoryFactory
     from .config import B1_ARMS,CHAIN_ARMS,require_stage
+    if rt.lock.get('maximum_batch')==1 and (stage!='B1' or batch_number!=1):
+        raise ValueError('USER_B1_ONLY_NO_SEQUENTIAL')
     directory=Path(directory);directory.mkdir(parents=True,exist_ok=False)
     if len(records)!=100:raise ValueError('EXACT_B100_REQUIRED')
     if stage=='B1' and tuple(arm_names)!=B1_ARMS:raise ValueError('B1_FOUR_UNIQUE_ARMS')

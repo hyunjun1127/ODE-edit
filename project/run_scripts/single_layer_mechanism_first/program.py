@@ -28,12 +28,24 @@ class StageResourceHold(RuntimeError):
     pass
 
 
+B1_ONLY_AUTHORITY = 'USER_B1_ONLY_MONITOR_TO_COMPLETION_20260920'
+
+
 def require_program(lock):
-    if lock.get('phase')!='GATED_PROGRAM' or lock.get('maximum_batch')!=10:
+    if lock.get('phase')!='GATED_PROGRAM':
+        raise ValueError('EXACT_GATED_PROGRAM')
+    if lock.get('maximum_batch')==1:
+        if (lock.get('b1_only_authority')!=B1_ONLY_AUTHORITY or
+                lock.get('sequential_authorized') is not False or
+                lock.get('auto_continue') is not False or
+                lock.get('agent_monitoring_after_release') is not True):
+            raise ValueError('B1_ONLY_EXPLICIT_AUTHORITY_REQUIRED')
+    elif lock.get('maximum_batch')!=10 or lock.get('b1_only_authority'):
         raise ValueError('EXACT_GATED_TEN_BATCH_PROGRAM')
     if lock.get('scientific_gates_required') is not True or lock.get('scheduler_writes_in_program') is not False:
         raise ValueError('PROGRAM_MUST_PRESERVE_GATES_NO_SUBMISSIONS')
-    if lock.get('agent_monitoring_after_release') is not False:raise ValueError('USER_NO_MONITORING')
+    if lock.get('maximum_batch')==10 and lock.get('agent_monitoring_after_release') is not False:
+        raise ValueError('USER_NO_MONITORING')
     if lock.get('disk_state_checkpoints') is not False or lock.get('save_checkpoints') is not False:
         raise ValueError('USER_NO_CHECKPOINT')
 
@@ -86,7 +98,7 @@ def subset_w0(rt,full,records,endpoint_seal):
     out.update(requests=len(ids),request_order=digest(ids),strict=strict_summary(out['metrics'],ids),
         compatibility=obs.compatibility_for(records,rt.W0,selection_seal=endpoint_seal),
         selection_seal=endpoint_seal,work={k:0 for k in out['work']},
-        W0_observer_reuse=dict(source_population=1000,selected_population=len(ids),
+        W0_observer_reuse=dict(source_population=full['requests'],selected_population=len(ids),
             values='EXACT_SOURCE_ROWS',microbatch_padding_bit_parity='NOT_CLAIMED',new_forwards=0))
     reduce_observation(out)
     return out
@@ -121,7 +133,10 @@ def observe_batch(rt,reference,result,full_w0,*,batch_number,stage,extra_referen
 
 
 def run(rt,out):
-    require_program(rt.lock);out=Path(out);start=time.monotonic();state={'stage':'T0','completed':{}}
+    require_program(rt.lock);out=Path(out);start=time.monotonic()
+    b1_only=rt.lock['maximum_batch']==1
+    state={'stage':'T0','completed':{},'maximum_batch':rt.lock['maximum_batch'],
+           'monitor_to_completion':b1_only}
     def mark(stage,**extra):
         state['stage']=stage
         print(json.dumps(dict(event='PROGRAM_PHASE',stage=stage,**extra)),flush=True)
@@ -155,14 +170,21 @@ def run(rt,out):
         result=batch(rt,reference,rt.records[:100],stage='B1',arm_names=B1_ARMS,batch_number=1,ledger=[],directory=out/'B1')
         # A single common W0 1000-request observer is kept out of all controllers.
         observer=CanonicalObserver(rt.model,rt.etok,runtime_identity=digest(rt.identity))
-        w0seal=seal('W0-common1000','W0',rt.W0,rt.records,result['selection_seal']['sha256'])
-        w0=observer.observe(rt.records,rt.W0,selection_seal=w0seal,greedy=False);rt.sync_oracles()
-        write(out/'W0-common1000.json',w0)
+        w0records=rt.records[:100] if b1_only else rt.records
+        w0name='W0-common100' if b1_only else 'W0-common1000'
+        w0seal=seal(w0name,'W0',rt.W0,w0records,result['selection_seal']['sha256'])
+        w0=observer.observe(w0records,rt.W0,selection_seal=w0seal,greedy=False);rt.sync_oracles()
+        write(out/(w0name+'.json'),w0)
         values,seen=observe_batch(rt,reference,result,w0,batch_number=1,stage='B1')
         from .postselection import mechanism_report
         mechanism_report(rt,reference,result,values,w0,out/'B1/mechanism',technical=validation)
         gate=b1_gate(values['N4'],values['DEC_MODES_CUM'],result['results']['DEC_MODES_CUM'].receipt())
         write(out/'B1-to-S3.json',gate)
+        state['completed']['B1']=list(B1_ARMS)
+        if b1_only:
+            # A PASS is a recorded scientific result, never B2 authorization.
+            mark('B1_COMPLETE_USER_LIMIT')
+            return finish(out,state,start,gate)
         last={a:result['commits'][a]['_state'] for a in ('N4','DEC_MODES_CUM')}
         last['DEC_MODES_STEP']=clone_b1_cum_as_step(last['DEC_MODES_CUM'])
         write(out/'B1/STEP-CUM-alias.json',dict(identity=last['DEC_MODES_STEP']['identity'],
@@ -210,6 +232,8 @@ def finish(out,state,start,gate):
         reason=state.get('reason'),last_gate=gate,source='SEE_EXECUTION_ENTRY_LOCK',
         program_seconds=time.monotonic()-start,peak_host_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         peak_GPU_allocated=torch.cuda.max_memory_allocated(),peak_GPU_reserved=torch.cuda.max_memory_reserved(),
-        maximum_batch=10,scientific_gates_preserved=True,automatic_slurm_submissions=0,
+        maximum_batch=state.get('maximum_batch',10),scientific_gates_preserved=True,automatic_slurm_submissions=0,
         checkpoint_saved=False,exact_resume='NOT_AVAILABLE',
-        agent_monitoring_required=False,completed_review_requires_USER_recall=True))
+        agent_monitoring_required=state.get('monitor_to_completion',False),
+        completed_review_requires_USER_recall=not state.get('monitor_to_completion',False),
+        sequential_authorized=False if state.get('maximum_batch')==1 else 'HISTORICAL_GATED_PROGRAM'))

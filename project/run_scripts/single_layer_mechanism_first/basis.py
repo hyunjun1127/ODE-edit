@@ -75,7 +75,9 @@ def _append(candidate: np.ndarray, directions: list[np.ndarray],
             residual -= _inner(prior, residual) * prior
     residual_norm = _norm(residual)
     ratio = min(1.0, residual_norm / original_norm) if original_norm else 0.0
-    added = residual_norm > absolute_cutoff
+    # NumPy's cutoff makes this comparison a numpy.bool, not a JSON bool.
+    # Convert only the diagnostic scalar; the decision and arithmetic are unchanged.
+    added = bool(residual_norm > absolute_cutoff)
     if added:
         directions.append(residual / residual_norm)
     return {"input_norm": original_norm, "orthogonal_residual_norm": residual_norm,
