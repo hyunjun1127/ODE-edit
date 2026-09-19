@@ -577,7 +577,7 @@ state transition is requested.
 
 현재 등록된 GH·SH 세션 사이의 실시간 제어 기본 transport는 Codex
 app-server direct peer-to-peer request-response다. GH↔SH뿐 아니라
-SH1↔SH2↔SH4와 SH→GH도 같은 권한의 통신 경로다. Git inbox나
+SH1↔SH2↔SH3↔SH4와 SH→GH도 같은 권한의 통신 경로다. Git inbox나
 `send_message_to_thread` dynamic wrapper를 실시간 전달 경로로 사용하지
 않는다. Git은 계속 durable source/task/report control plane이며 app-server는
 살아 있는 Codex session에 turn을 전달하고 그 응답을 회수하는 control

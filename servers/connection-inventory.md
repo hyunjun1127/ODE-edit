@@ -1,6 +1,6 @@
 # 서버 접속 인벤토리
 
-- 갱신 시각: 2026-08-29 (session authority만 갱신; 물리/runtime 상태는 기존 마지막 audit 기준)
+- 갱신 시각: 2026-09-19 (SH3 신규 등록; 다른 서버의 역사 관측은 보존)
 - 작성 agent: `head-server1-gh` (global-head)
 - repository: `hyunjun1127/ODE-edit`
 - 목적: 새 GH/SH session authority, app-server direct coordination과 안전한
@@ -25,12 +25,16 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 
 ## Codex Session Registry
 
+2026-09-19 사용자가 지정한 SH3를 실제 app/SSH/repository/direct ACK로 결속했다.
+SH3의 최신 실행 준비 상태는 [server3 active record](active/server3.md)를 따른다.
+Control-plane 등록은 과학 실험 제출·환경 설치 권한과 별개다.
+
 | 서버 | 역할 | Codex session ID / deeplink | hard boundary | Repository CWD | 상태 |
 | --- | --- | --- | --- | --- | --- |
 | `server1` | global-head (GH) | `01a04939-8873-7673-8dca-4c7fc5e31af0` / `codex://threads/01a04939-8873-7673-8dca-4c7fc5e31af0` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | active caller |
 | `server1` | server-head (SH1) | `01a04939-f93a-7b50-bca0-65438eab2062` / `codex://threads/01a04939-f93a-7b50-bca0-65438eab2062` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit` | app-server direct ACK PASS |
 | `server2` | server-head (SH2) | `01a0493a-074c-7f91-9a13-769116326fef` / `codex://threads/01a0493a-074c-7f91-9a13-769116326fef` | session ID user-confirmed; app list/read PASS | `/mnt/raid5/janghj/ODE-edit` | app-server direct ACK PASS |
-| `server3` | server-head | 미지정 | 미지정 | `/data/janghj/ODE-edit` | future target |
+| `server3` | server-head (SH3) | `01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3` / `codex://threads/01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3` | user-confirmed; app read/SSH repo/direct ACK PASS | `/data/janghj/ODE-edit` | REGISTERED; scientific submission NOT_AUTHORIZED |
 | `server4` | server-head (SH4) | `01a04939-b5c7-7a03-ba2d-ef3343d62cfd` / `codex://threads/01a04939-b5c7-7a03-ba2d-ef3343d62cfd` | session ID user-confirmed; app list/read PASS | `/data/janghj/ODE-edit` | app-server direct ACK PASS |
 
 ## App-server direct endpoint registry
@@ -39,6 +43,7 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 | --- | --- | --- | --- |
 | GH, SH1 | `remote-ssh-codex-managed:lab120` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
 | SH2 | `remote-ssh-codex-managed:lab121` | `/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
+| SH3 | `remote-ssh-codex-managed:lab123` | `/data/janghj/.codex/app-server-control/app-server-control.sock` | GH→SH3 related steer ACK PASS (2026-09-19) |
 | SH4 | `remote-ssh-codex-managed:lab163` | `/data/janghj/.codex/app-server-control/app-server-control.sock` | PASS |
 
 ## Direct coordination verification
@@ -49,6 +54,8 @@ SH1 detached worktree의 기존 상태를 reset, stash, revert 또는 cleanup하
 | GH→SH2→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-0ed3-7253-a155-e5aacdaa9943` |
 | GH→SH4→GH response | `thread/resume` → `turn/start` → `turn/completed` | PASS, turn `01a04994-02d7-7482-8ec7-4706e96ab414` |
 | SH1→GH reverse delivery | SH1이 exact GH active turn `01a049b4-3dc1-7e33-b3e6-ac07423ff10c`에 `turn/steer` | PASS, nonce `ODEEDIT-SH1-TO-GH-REVERSE-20260829-R1` |
+| GH→SH3→GH (2026-09-19) | bootstrap active turn `01a0b9c8-d2df-73b1-a486-f1f87181931c`에 related `turn/steer` | ACK nonce `ODEEDIT-GH-SH3-REGISTER-20260919-R1` 수신 |
+| SH3→GH (2026-09-19) | 동일 onboarding에 대한 M0/등록 요청 | GH 수신 nonce `ODEEDIT-SH3-BOOTSTRAP-GH-0eeb54f4756c`; 초기 unrelated-active HOLD는 역사 보존 |
 
 Protocol commit `6d9e4e625c7ed016742ca3516299eae40d9b4af1`의 direct
 ff-only 동기화도 같은 transport로 검증했다: SH1 turn
@@ -57,8 +64,9 @@ ff-only 동기화도 같은 transport로 검증했다: SH1 turn
 `01a04998-37e0-7300-a9e8-91b5f16c03ec`; 모두 clean, ahead/behind
 `0/0`.
 
-`send_message_to_thread` dynamic wrapper는 계속 unavailable이며 direct
-coordination의 구성요소가 아니다. 등록된 GH/SH 누구나 exact target session을
+과거 `send_message_to_thread` unavailable 기록은 당시 관측이며 이번에는
+app read 성공과 app-server direct 전달/ACK를 구분했다. 실시간 기본 경로는
+계속 direct coordination이다. 등록된 GH/SH 누구나 exact target session을
 resume하고 idle `turn/start` 또는 task-related active `turn/steer`를 사용해
 경로 요청, 상태 질의, handoff, 완료 보고를 시작할 수 있다. SH→GH 및 SH↔SH도
 동일하게 허용한다.
@@ -67,9 +75,9 @@ resume하고 idle `turn/start` 또는 task-related active `turn/steer`를 사용
 
 | source → target | task/path/status request | completion/report | 상태 |
 | --- | --- | --- | --- |
-| GH → SH1/SH2/SH4 | 허용 | 허용 | ENABLED |
-| SH1/SH2/SH4 → GH | 허용 | 허용 | ENABLED |
-| SH1 ↔ SH2 ↔ SH4 | 허용 | 허용 | ENABLED |
+| GH → SH1/SH2/SH3/SH4 | 허용 | 허용 | ENABLED |
+| SH1/SH2/SH3/SH4 → GH | 허용 | 허용 | ENABLED |
+| SH1 ↔ SH2 ↔ SH3 ↔ SH4 | 허용 | 허용 | ENABLED; 개별 연결 실측과 구분 |
 
 통신 자유는 execution authority 확대를 뜻하지 않는다. 각 세션은 기존 Git
 ownership, GPU cap, Slurm, artifact와 destructive-action 경계를 그대로 지킨다.

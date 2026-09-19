@@ -20,7 +20,11 @@
 | Server4 | `/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json` |
 
 같은 폴더의 `source-sample.lock.json`과 `receipt.json`도 반드시 함께 검증한다.
-Server3는 아직 세션/배포 경로가 지정되지 않았으며, 향후 지정 시 동일 자산을 배포한다.
+Server3는 2026-09-19 세션과 repo `/data/janghj/ODE-edit`가 등록됐다.
+동일 정책의 예정 전용 경로는
+`/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/`이나,
+등록 시 실제 디렉터리는 부재했다. 배포/내용 검증 완료로 간주하지 않으며
+실험 전에 별도 자산 준비와 검증이 필요하다. 이번 등록은 전송 실행이 아니다.
 작업 worktree가 달라도 위 서버별 고정 자산 경로를 사용한다. 공유 원본 전체 데이터셋은 삭제하지 않는다.
 
 ## 실험 크기와 순서
