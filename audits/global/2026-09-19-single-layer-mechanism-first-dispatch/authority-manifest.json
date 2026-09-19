@@ -1,0 +1,68 @@
+{
+  "instruction_id": "ODEEDIT-S06-SL-MECHANISM-FIRST-ZHOOK-SH4-V1",
+  "kind": "GH_FULL_READ_SOURCE_PUBLICATION_NOT_GPU_VALIDATION",
+  "base": "17b5a133cd050ea94195e690aab33342e754965b",
+  "members": [
+    {
+      "original": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-19-single-layer-mechanism-first-experiment-design-v1.md",
+      "published": "plans/global/2026-09-19-single-layer-mechanism-first-experiment-design-v1.md",
+      "original_sha256": "8f53764f1afb7415d648fab3ef0c5462656b9ffe3ce8a439f5eebea5e3500a26",
+      "published_sha256": "8f53764f1afb7415d648fab3ef0c5462656b9ffe3ce8a439f5eebea5e3500a26",
+      "transform": "EXACT_BYTES_CMP_PASS",
+      "full_read": true
+    },
+    {
+      "original": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-19-single-layer-mechanism-first-contract-v1.json",
+      "published": "plans/global/2026-09-19-single-layer-mechanism-first-contract-v1.json",
+      "original_sha256": "3e04c96db1a001877bd70d0758815002abb53f1d5165810481d4c5b326896527",
+      "published_sha256": "3e04c96db1a001877bd70d0758815002abb53f1d5165810481d4c5b326896527",
+      "transform": "EXACT_BYTES_CMP_PASS",
+      "full_read": true
+    },
+    {
+      "original": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-19-single-layer-mechanism-first-cells-v1.csv",
+      "published": "plans/global/2026-09-19-single-layer-mechanism-first-cells-v1.csv",
+      "original_sha256": "e963ae0d4e25c1bd03b2c1de87bcc29f2533433dc882a71e9abe2f2f531632bc",
+      "published_sha256": "e963ae0d4e25c1bd03b2c1de87bcc29f2533433dc882a71e9abe2f2f531632bc",
+      "transform": "EXACT_BYTES_CMP_PASS",
+      "full_read": true
+    },
+    {
+      "original": "/mnt/raid5/janghj/layer_allocation/single_layer_mechanism_and_method_review_20260919.md",
+      "published": "audits/global/2026-09-19-single-layer-mechanism-first-dispatch/reference/mechanism-and-method-review.md",
+      "original_sha256": "237cc43a3b18a70069b89b5df21114d4baf7390ad274c9d11e34a2e348a0f165",
+      "published_sha256": "237cc43a3b18a70069b89b5df21114d4baf7390ad274c9d11e34a2e348a0f165",
+      "transform": "EXACT_BYTES_CMP_PASS",
+      "full_read": true
+    },
+    {
+      "original": "/mnt/raid5/janghj/layer_allocation/en_r512_g256_capacity_scope_audit_20260919.md",
+      "published": "audits/global/2026-09-19-single-layer-mechanism-first-dispatch/reference/en-capacity-scope-audit.md",
+      "original_sha256": "8175ffa027f87b6acb689fc3f676300329223764ece24d21bac7cff8f5219f90",
+      "published_sha256": "8175ffa027f87b6acb689fc3f676300329223764ece24d21bac7cff8f5219f90",
+      "transform": "EXACT_BYTES_CMP_PASS",
+      "full_read": true
+    },
+    {
+      "original": "/mnt/raid5/janghj/.codex/attachments/045d6e84-cbb8-45f7-9bad-2350b6460f8c/붙여넣은 텍스트.txt",
+      "published": "project/proposals/2026-09-19-single-layer-mechanism-first-gh-instruction.md",
+      "original_sha256": "df7683f822a7431d0ff4479379006a8e93640d8d021526f545f533ae502fd1e2",
+      "published_sha256": "dae6c8d53080c2bbe7095c00fd1725704de2cfc39802292dc8bd55e413c7b57f",
+      "transform": "CRLF_TO_LF_AND_FINAL_NEWLINE_ONLY_TEXT_UNCHANGED",
+      "full_read": true
+    }
+  ],
+  "hook_source": {
+    "server": "server4",
+    "path": "/data/janghj/tmp/dnm/hooking.py",
+    "sha256": "feb3509940a40e8b8027ee7daae4c7486fc43ec80394383627699be4f34f072b",
+    "access": "READ_ONLY"
+  },
+  "notes_ko": [
+    "원 dirty root와 원 첨부 bytes는 수정하지 않음",
+    "계약 DESIGN_ONLY는 역사 상태, 실제 구현/검증/제출은 SH4 책임",
+    "GH dispatch는 GPU 실험/효능 검증 아님",
+    "설계상 T0를 수행하되 반복 불변 payload 검증 loop를 재도입하지 않음",
+    "원 첨부의 추가 NLL observer 지침과 최신 z hook 요구가 설계를 보완함"
+  ]
+}
