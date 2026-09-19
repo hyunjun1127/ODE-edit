@@ -1,7 +1,12 @@
 {
   "instruction_id": "ODEEDIT-S06-SLMF-B1-COMPLETED-DETAILED-REVIEW-SH4-V1",
   "nonce": "ODEEDIT-GH-SH4-SLMF-B1-COMPLETED-REVIEW-20260920-R1",
-  "status": "APPROVED_AWAITING_DIRECT_DELIVERY",
+  "status": "DELIVERED_SH4_ACK_RECEIVED_REVIEW_IN_PROGRESS",
+  "dispatch_publication": "0150da2f02c830baa070944e1f504852f2fe6b01",
+  "delivery_turn_id": "01a0bb31-198c-71f0-b2b5-ec75e20c7319",
+  "delivery_transport": "registered_app_server_direct_over_ssh",
+  "ack": "Exact nonce received same connection; SH4 will check51058 terminal and four-arm raw NLL, then CPU detailed review and main publication",
+  "review_completion": "NOT_CLAIMED",
   "target_server": "server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "expected_cwd": "/data/janghj/ODE-edit",
