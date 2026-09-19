@@ -1,0 +1,67 @@
+[
+  {
+    "event": "result",
+    "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "accepted": true,
+    "ack": false,
+    "nonce": "ODEEDIT-SH3-BOOTSTRAP-GH-0eeb54f4756c",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "peer_status": {
+      "type": "active",
+      "activeFlags": []
+    },
+    "resume_verified": true,
+    "turn_id": "01a0b9cb-758a-7723-a475-0040820af88d",
+    "status": "COMMUNICATION_HOLD",
+    "stage": "terminal",
+    "error": "terminal collection exceeded 180 seconds"
+  },
+  {
+    "event": "result",
+    "target_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "accepted": true,
+    "ack": true,
+    "nonce": "ODEEDIT-SH3-BOOTSTRAP-SH1-37fc8541b50e",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "peer_status": {
+      "type": "idle"
+    },
+    "resume_verified": true,
+    "turn_id": "01a0b9cc-3a4a-7b43-954d-6427398b0ac1",
+    "terminal_status": "completed",
+    "response": "ACK nonce=ODEEDIT-SH3-BOOTSTRAP-SH1-37fc8541b50e\n\n수신자 SH1: `01a04939-f93a-7b50-bca0-65438eab2062`\n발신 표기 SH3: `01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3` (메시지 기준, 독립 registry 검증 미실시).\n\n기존 STOP/PAUSE 유지.",
+    "status": "ACK_RECEIVED"
+  },
+  {
+    "event": "result",
+    "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted": true,
+    "ack": true,
+    "nonce": "ODEEDIT-SH3-BOOTSTRAP-SH2-06073a09cdde",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "peer_status": {
+      "type": "idle"
+    },
+    "resume_verified": true,
+    "turn_id": "01a0b9cc-3dec-75c2-a56d-7b5227f58ae8",
+    "terminal_status": "completed",
+    "response": "[SH2→SH3 ACK] nonce=ODEEDIT-SH3-BOOTSTRAP-SH2-06073a09cdde\n\n확인된 수신 peer: SH2 / server2 / session `01a0493a-074c-7f91-9a13-769116326fef`.\n\n통신 확인만 응답합니다. 기존 STOP/PAUSE 유지, scheduler 조회·파일 전송·역방향 메시지 0.",
+    "status": "ACK_RECEIVED"
+  },
+  {
+    "event": "result",
+    "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "accepted": false,
+    "ack": false,
+    "nonce": "ODEEDIT-SH3-BOOTSTRAP-SH4-f342bb5ff61b",
+    "cwd": "/data/janghj/ODE-edit",
+    "peer_status": {
+      "type": "active",
+      "activeFlags": []
+    },
+    "resume_verified": true,
+    "status": "COMMUNICATION_HOLD",
+    "stage": "active_turn_guard",
+    "error": "unrelated active task: no turn/start or turn/steer sent"
+  }
+]
