@@ -1,0 +1,33 @@
+{
+  "instruction_id": "ODEEDIT-ALL-SH-DEFAULT-NO-CHECKPOINT-20260919-V1",
+  "publication": "4d871dc6aeb328675d4912f4525ed23434bc0ad8",
+  "transport": "registered app-server direct",
+  "policy": "plans/global/2026-09-19-default-no-experiment-checkpoints.md",
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "turn": "01a0b9bf-7510-7670-8aa9-4d401aab18dc",
+      "delivery": "turn/start ACCEPTED",
+      "ack": "새 실험 save_checkpoints=false 적용, 기존 STOP/PAUSE 유지; 정책 기록만"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a0b9bf-74ac-7cd2-a4c8-c264e862654a",
+      "delivery": "turn/start ACCEPTED",
+      "ack": "새 제출 checkpoint 미저장 기본, 기존 STOP/PAUSE 유지; 실험/scheduler/결과 조회 없음"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "turn": "01a0b9b1-153d-7a90-b6b6-916262ebd8c7",
+      "delivery": "related policy turn/steer ACCEPTED",
+      "ack": "NOT_YET_OBSERVED"
+    }
+  ],
+  "unregistered_server3": "NO_LIVE_TARGET; apply policy on future onboarding",
+  "gh_new_gpu": 0,
+  "gh_slurm_mutation": false,
+  "existing_artifact_delete": false
+}
