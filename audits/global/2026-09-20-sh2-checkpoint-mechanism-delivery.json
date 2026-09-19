@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
+  "publication": "af87b3fbab250e88a34c6882252a8d484b450f56",
+  "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "transport": "registered_app_server_direct_over_ssh",
+  "turn_id": "01a0bae4-fec6-7de0-a8e3-1dac699e958f",
+  "dispatch_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-20260920-R1",
+  "acceptance": "ACCEPTED",
+  "ack": "SAME_CONNECTION_SH2_M0_NONCE_RECEIVED",
+  "task_completion": "NOT_CLAIMED",
+  "latest_user_override": "task_cap2_use_both_slots",
+  "override_publication": "4440e111251cc6a0a924e9e5b4589d61333f14dc",
+  "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-CAP2-20260920-R1",
+  "override_delivery": "RELATED_STEER_ACCEPTED_SAME_TURN",
+  "override_ack": "SAME_CONNECTION_SH2_CAP2_ACK_RECEIVED",
+  "ack_plan": "After common B1 gate, partition histories/operators across two 1GPU lanes; activation when dependencies ready; each8CPU60416MiB; no duplicate science"
+}

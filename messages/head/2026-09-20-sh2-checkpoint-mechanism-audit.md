@@ -117,11 +117,18 @@ archival_eval/order/W-M/W0/source/runtime/P4/각 target를 독립 status로 관�
 ## 5. 자원·구현 검토·실패 처리
 
 Slurm submission **allowed**: 이 분석 task 전용 작업과 의미 불변 technical repair/retry만.
-Server2 project GPU cap **2**, 본 task 기본/최대동시 **1 GPU**(48GB급), CPU8.
-두 번째 slot을 채우려고 중복 모델/arm을 만들지 않는다. 제출 직전 실제 cap/기존 allocation/pending을 점검한다.
+최신 사용자 override: 설계의 1GPU 계획보다 우선하여 Server2 project/task GPU cap **2**를 모두 활용한다.
+각 lane은 **1 GPU**(48GB급)/CPU8이며 독립적인 승인 분석 단위를 두 lane에 배치한다.
+동일 계산의 중복이나 새 과학 arm은 만들지 않는다. 공통 key/source/teacher 입력은 검증 후 공유하며,
+history별 LU/RHS 또는 독립 CPU/geometry와 모델 분석 등 실제 DAG에서 독립인 작업을 분리한다.
+각 history factor와 결과 파일은 single writer를 지정하고 결정론적 입력/seed/reduction 계약을 유지한다.
+초기 prerequisite가 직렬이면 그 의존성은 지키되, 독립 작업이 준비되면 두 slot을 채운다.
+단일 prerequisite를 중복 실행하거나 2GPU 사용을 이유로 수치 packing/허용오차를 바꾸지 않는다.
+제출 직전 실제 cap/기존 allocation/pending을 점검하고, 다른 task 점유를 포함해 project 총2를 넘지 않는다.
 다른 job 취소·hold·throttle 변경0. 지정 job만 held inspection→release, exportNONE/Requeue0/명시 --mem.
 설계 RAM64GB는 작업 budget이다. S2 tracked hard request ceiling **60416MiB(59GiB)**가 더 작으므로
-host request≤60416M, 이 안에 chunking한다. 과학 수치/토큰 packing을 바꾸는 우회는 금지한다.
+각 1GPU job host request≤60416M, 동시 두 job의 실제 가용 host RAM/disk도 점검하고 이 안에 chunking한다.
+과학 수치/토큰 packing을 바꾸는 우회는 금지한다.
 이 운영 차이는 resource lock에 명시하며 64G로 제출하지 않는다.
 
 Source/input/environment/resource locks 후 CPU 단계부터 진행. wall/storage/time은 staging 크기와
