@@ -127,7 +127,11 @@ def run(rt,out):
         print(json.dumps(dict(event='PROGRAM_PHASE',stage=stage,**extra)),flush=True)
     try:
         space_check(out,24*2**30,'T0_B1')
-        if rt.lock.get('hook_repair'):
+        if rt.lock.get('completed_hook_reuse'):
+            from .reuse_completed_hook import reuse_completed_hook
+            mark('T0_COMPLETED_HOOK_REUSE')
+            native4,panel=reuse_completed_hook(rt,out/'completed-hook-reuse')
+        elif rt.lock.get('hook_repair'):
             from .technical_repair import run_hook_repair
             mark('T0_HOOK_REPAIR')
             native4,panel=run_hook_repair(rt,out/'technical-hook-repair')

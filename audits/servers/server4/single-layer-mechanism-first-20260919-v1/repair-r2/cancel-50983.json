@@ -1,0 +1,25 @@
+{
+  "user_request": "50983 도 그대로 돌리면 오류가 있을 것 같으니 수정해서 다시 올려야한다",
+  "job_id": "50983",
+  "job_name": "odeedit_slmf_S10_s4",
+  "owner": "janghj",
+  "server": "server4",
+  "previous_state": "PENDING",
+  "previous_reason": "DependencyNeverSatisfied",
+  "previous_dependency": "afterok:50974(failed)",
+  "previous_source": "0aea3452d04e71dd56e428208e04b9c04c52f82f",
+  "previous_lock_sha256": "9436037e1c632b5708b29072d37936433712a556dd2dcc4a5a873f375fcc1846",
+  "command": [
+    "scancel",
+    "50983"
+  ],
+  "command_exit": 0,
+  "confirmed_at_UTC": "2026-09-19T17:20:07Z",
+  "terminal_state": "CANCELLED by 1025",
+  "exit_code": "0:0",
+  "elapsed_seconds": 0,
+  "allocated_GPU_seconds": 0,
+  "original_source_raw_preserved": true,
+  "other_job_mutations": 0,
+  "file_deletions": 0
+}

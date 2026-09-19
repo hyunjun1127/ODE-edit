@@ -133,4 +133,6 @@ def run_hook_repair(rt,out):
         if not summary['pass_']:raise RuntimeError('T0_NATIVE_Z_HOOK_PARITY_FAILED')
         return native,records
     finally:
-        rt.reset();rt.oracles.remove(oracle)
+        # Runtime.reset already clears the oracle registry before restoring W0.
+        # Removing the same oracle again masks a valid return/original failure.
+        rt.reset()
