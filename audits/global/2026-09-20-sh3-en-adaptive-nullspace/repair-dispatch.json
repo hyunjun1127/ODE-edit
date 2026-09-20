@@ -1,0 +1,18 @@
+{
+  "instruction": "ODEEDIT-S06-EN-ADAPT-B300-REPAIR-SH3-V1",
+  "s4_rca": {
+    "turn": "01a0be98-f736-7632-9770-7336616bd3ad",
+    "ack": true,
+    "job": "51260",
+    "first_report": "FAILED1:0;6218GPU-sec;EN_EXACT JSON serialization at geometry_checks.ideal_norm; numpy bool hypothesis under CPU confirmation",
+    "commit_before_failure": 0,
+    "S4_rerun_authorized": false
+  },
+  "s3": {
+    "turn": "01a0be9b-1f0c-78c1-ab65-ec3be39cb3b0",
+    "repair_ack": true,
+    "repair_gpu_submission": "NOT_YET_OBSERVED",
+    "no_monitor_override": "ODEEDIT-GH-SH3-EN-ADAPT-REPAIR-NO-MONITOR-20260920-R1",
+    "no_monitor_delivery": "related active turn STEER_ACCEPTED"
+  }
+}
