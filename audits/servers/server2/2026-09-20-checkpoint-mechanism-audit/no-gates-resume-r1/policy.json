@@ -1,0 +1,25 @@
+{
+  "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
+  "explicit_user_recall": true,
+  "pause_receipt_sha256": "51e483de8a08da9fa299a304db2709a701d5a4214a7e415aabdec401c3597065",
+  "user_message": "아니 저런 gate 자체를 아예 없애. 저런 것 때문에 실험이 너무 지연된다",
+  "members": [
+    {
+      "source": "messages/head/2026-09-20-sh2-checkpoint-mechanism-remove-gates-resume.md",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/authority/2026-09-20-sh2-checkpoint-mechanism-remove-gates-resume.md",
+      "sha256": "7fb0f008fa15191bfb1b3279304e80e00441bf12e7473465d31997b1ca827532",
+      "bytes": 8202
+    },
+    {
+      "source": "tasks/pending/server2-checkpoint-mechanism-no-gates-resume-20260920-v1.json",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/authority/server2-checkpoint-mechanism-no-gates-resume-20260920-v1.json",
+      "sha256": "eced2d6c34bfd32ab24b5b89e0eb5bf3799100cd80696b3690e16afb636eff5b",
+      "bytes": 1370
+    }
+  ],
+  "diagnostic_gates_enabled": false,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_policy": "REMOVED_USER_DIRECTED",
+  "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+  "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION"
+}

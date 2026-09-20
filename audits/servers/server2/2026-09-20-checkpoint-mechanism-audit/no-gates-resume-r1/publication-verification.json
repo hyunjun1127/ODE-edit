@@ -1,0 +1,25 @@
+{
+  "status": "PUBLICATION_ARITHMETIC_AND_HASH_CHECKED",
+  "report_sha256": "f7b967aa44ab0495bae177ae1901bb19d2eeaea9786d451163616b5576e2ec88",
+  "members_rehashed": 36,
+  "counts": {
+    "fixed_probe_rows": 6656,
+    "native_modes": 700,
+    "counterfactual_rows": 168,
+    "activation_rows": 64
+  },
+  "cells": {
+    "PASS": 30,
+    "FAILED": 1
+  },
+  "old_scientific_tables_equal": true,
+  "figures_regenerated_byte_exact": true,
+  "raw_free": true,
+  "model_gpu_calls": 0,
+  "new_numerical_experiment_gate": false,
+  "diagnostic_gates_enabled": false,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_policy": "REMOVED_USER_DIRECTED",
+  "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+  "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION"
+}

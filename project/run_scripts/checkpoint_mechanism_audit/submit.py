@@ -67,7 +67,8 @@ def submit(execution,recall=None):
         memory_mib=60416,source_head=lock['source_head']))
     if not admitted:
         print('WAITING_FOR_ISOLATED_RESOURCE');return
-    log=ATTEMPT/'logs';log.mkdir(exist_ok=True)
+    assert lock['execution_policy']==EXECUTION_POLICY
+    log=RUN/'logs';log.mkdir(parents=True,exist_ok=True)
     mode=lock.get('mode','gate');assert mode in ('gate','keys','operator','activation')
     source=Path(lock['source']);script=source/'project/run_scripts/checkpoint_mechanism_audit'/('run.sbatch' if mode=='gate' else 'analysis.sbatch')
     args=['sbatch','--hold','--parsable','--job-name=odeedit_checkpoint_mechanism_s2_'+mode,

@@ -51,11 +51,11 @@ class LaneTests(unittest.TestCase):
     def test_pilot_dependency_and_no_duplicate_histories(self):
         gate=dict(status='PASS',C01='PASS')
         self.assertEqual(validate_dependencies([0,10],gate,[])['histories'],[0,10])
-        with self.assertRaises(ValueError):validate_dependencies([5],gate,[])
+        self.assertEqual(validate_dependencies([5],gate,[])['histories'],[5])
         with self.assertRaises(ValueError):validate_dependencies([0,0],gate,[])
         receipts=[dict(status='PASS',histories=[dict(history_batch=h,status='PASS') for h in [0,1,10,100]])]
-        self.assertEqual(validate_dependencies([5,90],gate,receipts)['pilot_histories_verified'],[0,1,10,100])
-        with self.assertRaises(ValueError):validate_dependencies([0],dict(status='PASS',C01='FAILED'),[])
+        self.assertFalse(validate_dependencies([5,90],gate,receipts)['extension_requires_all_four_pilots'])
+        self.assertEqual(validate_dependencies([0],dict(status='FAILED',C01='FAILED'),[])['historical_C01'],'FAILED')
 
     def test_residual_uses_physical_fp32_and_bare_not_mean_key(self):
         capture=self.bank['native']['B002'];w0=self.rand(self.o,self.d);we=w0+.01*self.rand(self.o,self.d)
@@ -65,7 +65,7 @@ class LaneTests(unittest.TestCase):
         r,receipt=residual_from_capture(z,capture,we,w0,1)
         torch.testing.assert_close(r,z-capture['h_entry'],rtol=0,atol=0)
         self.assertEqual(receipt['h_kind'],'PHYSICAL_FP32_ENTRY_H')
-        self.assertTrue(receipt['affine_physical_parity']['passed'])
+        self.assertEqual(receipt['affine_physical_parity']['numerical_validation'],'NOT_ESTABLISHED')
         capture['entry_weight_sha256']='wrong'
         with self.assertRaises(ValueError):residual_from_capture(z,capture,we,w0,1)
 
@@ -107,8 +107,9 @@ class LaneTests(unittest.TestCase):
         result=compute_history(self.p.double(),m.double(),self.bank,self.residuals,0,
                               actual_b1=torch.zeros(self.o,self.d),original_dense_inputs=dict(P=self.p,M=m))
         self.assertEqual(result['status'],'PASS')
-        self.assertEqual(result['reconstruction_rows'][0]['status'],'FAILED')
-        self.assertEqual(result['mode_rows'],[])
+        self.assertEqual(result['reconstruction_rows'][0]['status'],'PASS')
+        self.assertEqual(len(result['mode_rows']),2)
+        self.assertFalse(result['diagnostic_gates_enabled'])
 
     def test_analysis_cache_cannot_store_weights_and_is_create_once(self):
         with tempfile.TemporaryDirectory() as folder:

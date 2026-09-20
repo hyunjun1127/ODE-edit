@@ -8,6 +8,11 @@ REPO = Path(__file__).resolve().parents[3]
 ROOT = Path('/mnt/raid5/janghj/ODE-edit')
 TASK = ROOT / 'local/checkpoint-mechanism-audit/20260920-v1'
 ATTEMPT = TASK / 'attempt-v1'
+RUN = TASK / 'resume-no-gates-r1'
+EXECUTION_POLICY = dict(diagnostic_gates_enabled=False,
+    numerical_validation='NOT_ESTABLISHED', validation_policy='REMOVED_USER_DIRECTED',
+    override_nonce='ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1',
+    status_scope='COMPUTATION_NOT_NUMERICAL_CERTIFICATION')
 CONTRACT_PATH = REPO / 'plans/global/2026-09-20-server2-checkpoint-mechanism-audit-contract-v1.json'
 CONTRACT = json.loads(CONTRACT_PATH.read_text())
 S4ROOT = '/data/janghj/ODE-edit'

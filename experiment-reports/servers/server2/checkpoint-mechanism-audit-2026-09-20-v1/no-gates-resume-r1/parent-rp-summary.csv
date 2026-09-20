@@ -1,0 +1,9 @@
+interval_start,interval_end,role,metric,rows,unique_requests,entry_success,endpoint_success,lost,recovered,mean_margin_change
+1,10,lost,PS,28,14,28,28,0,0,-0.1228443970737446
+1,10,lost,RS,14,14,14,14,0,0,-0.7915522801226221
+1,10,matched_retained,PS,30,15,29,30,0,1,0.2649448222791155
+1,10,matched_retained,RS,15,15,15,15,0,0,-0.092282365282881
+50,100,lost,PS,32,16,32,31,1,0,-2.429817833530251
+50,100,lost,RS,16,16,16,16,0,0,-2.5999071188052767
+50,100,matched_retained,PS,32,16,32,31,1,0,-1.2515502786227444
+50,100,matched_retained,RS,16,16,16,16,0,0,-2.654981498919369

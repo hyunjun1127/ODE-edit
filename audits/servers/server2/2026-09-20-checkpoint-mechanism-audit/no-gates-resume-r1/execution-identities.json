@@ -1,0 +1,47 @@
+{
+  "keys": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/execution-keys-r1/execution.lock.json",
+    "sha256": "87e50184aebd9114a40277b0fd9ea372f3064ea43bdb1ec99ff1d51dba440e23",
+    "submission": {
+      "status": "RELEASED",
+      "job": "51137",
+      "release_response": "",
+      "source_head": "3427b49728bd671085fb1a091f295f9d438de007",
+      "source_tree": "725b8aeaa9e0f6f2cf08f05175eec23ea6d81a65",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/results/keys-r1",
+      "lock_sha256": "87e50184aebd9114a40277b0fd9ea372f3064ea43bdb1ec99ff1d51dba440e23",
+      "new_gpu_jobs": 1,
+      "other_job_mutation": 0
+    }
+  },
+  "operator": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/execution-operator-r1/execution.lock.json",
+    "sha256": "d28cc2a6a72583b88135ef6f838a1df1a3753dd0b5cbbe73120e5da4eb7171d3",
+    "submission": {
+      "status": "RELEASED",
+      "job": "51138",
+      "release_response": "",
+      "source_head": "3427b49728bd671085fb1a091f295f9d438de007",
+      "source_tree": "725b8aeaa9e0f6f2cf08f05175eec23ea6d81a65",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/results/operator-r1",
+      "lock_sha256": "d28cc2a6a72583b88135ef6f838a1df1a3753dd0b5cbbe73120e5da4eb7171d3",
+      "new_gpu_jobs": 1,
+      "other_job_mutation": 0
+    }
+  },
+  "activation": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/execution-activation-r1/execution.lock.json",
+    "sha256": "ed5fbf90a1c6dcd15c034f005add69bcda63de75325163a616e00353324ceabe",
+    "submission": {
+      "status": "RELEASED",
+      "job": "51139",
+      "release_response": "",
+      "source_head": "3427b49728bd671085fb1a091f295f9d438de007",
+      "source_tree": "725b8aeaa9e0f6f2cf08f05175eec23ea6d81a65",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/results/activation-r1",
+      "lock_sha256": "ed5fbf90a1c6dcd15c034f005add69bcda63de75325163a616e00353324ceabe",
+      "new_gpu_jobs": 1,
+      "other_job_mutation": 0
+    }
+  }
+}
