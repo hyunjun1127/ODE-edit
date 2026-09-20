@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier,review,objective_coverage
+from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier,review,objective_coverage,joint_counts
 
 
 def fixture():
@@ -26,6 +26,12 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual([r['denominator'] for r in result],[2,4,20])
         self.assertTrue(all(r['tf_token_micro']==.5 for r in result))
         self.assertTrue(all(r['strict_numerator']==0 for r in result))
+
+    def test_joint_uses_one_rewrite_and_both_paraphrases(self):
+        _,by=validate_reduce(fixture());row=joint_counts(by,[7,9])
+        self.assertEqual(row['preference_joint'],2);self.assertEqual(row['TF_strict_joint'],0)
+        by['PS'][0]['independent_success']=False
+        self.assertEqual(joint_counts(by,[7,9])['preference_joint'],1)
 
     def test_ties_are_failure_and_stored_success_is_checked(self):
         a=fixture();r=a['rows'][0];r['new_nll']=r['true_nll']

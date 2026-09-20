@@ -85,6 +85,18 @@ def transitions(a,b,case_ids):
     return rows
 
 
+def joint_counts(by,case_ids):
+    selected=by['RS']+by['PS']
+    pref=[];strict=[]
+    for case in case_ids:
+        rows=[r for r in selected if r['case_id']==case]
+        if len(rows)!=3:raise ValueError('JOINT_R_TWO_P_CARDINALITY')
+        if all(r['independent_success'] for r in rows):pref.append(case)
+        if all(r['independent_strict'] for r in rows):strict.append(case)
+    return dict(request_denominator=len(case_ids),preference_joint=len(pref),TF_strict_joint=len(strict),
+        preference_success_ids=pref,strict_success_ids=strict)
+
+
 def replay_controller(controller):
     accepted=[];checks=[]
     for row in controller['ledger']:
@@ -149,7 +161,7 @@ def objective_coverage(obj,active_ids=None,expected_positions=None):
     if obj['reference_documents']!=len(ref) or obj['reference_positions']!=sum(r['positions'] for r in ref):
         raise ValueError('REFERENCE_COUNTER')
     if obj['history_requests']!=len(hist) or len({r['case_id'] for r in hist})!=len(hist):raise ValueError('HISTORY_COUNTER')
-    if active_ids is not None and set(active_ids)!={r['case_id'] for r in hist}:raise ValueError('OBJECTIVE_ACTIVE_HISTORY')
+    if active_ids is not None and list(active_ids)!=[r['case_id'] for r in hist]:raise ValueError('OBJECTIVE_ACTIVE_HISTORY')
     for name,rows in [('L_R',ref),('L_H',hist)]:
         if any(not math.isfinite(r['loss']) for r in rows):raise ValueError('OBJECTIVE_NONFINITE')
         mean=math.fsum(r['loss'] for r in rows)/len(rows) if rows else 0.
@@ -163,7 +175,7 @@ def objective_coverage(obj,active_ids=None,expected_positions=None):
 
 def review(output,destination,first_only=False):
     output=Path(output);dest=Path(destination);dest.mkdir(parents=True,exist_ok=True)
-    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={};coverage=[]
+    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={};coverage=[];joints=[]
     def read(path):
         p=output/path
         if not p.is_file():return None
@@ -217,8 +229,9 @@ def review(output,destination,first_only=False):
                     native_receipt=commit['receipt']['native'],active_past_ids=commit['active_past_ids']))
             for scope,ids in scopes.items():
                 if ids is None:continue
-                reduced,_=validate_reduce(obs,ids)
+                reduced,by=validate_reduce(obs,ids)
                 tables.extend(dict(batch=batch,arm=arm,scope=scope,**r) for r in reduced)
+                joints.append(dict(batch=batch,arm=arm,scope=scope,**joint_counts(by,ids)))
             ctrl=read(f'B{batch}/{arm}-controller.json')
             if ctrl:
                 selection.append(dict(batch=batch,arm=arm,**replay_controller(ctrl)))
@@ -256,6 +269,7 @@ def review(output,destination,first_only=False):
     csv_dump(dest/'first-final-table.csv',first)
     csv_dump(dest/'independent-metrics.csv',tables)
     csv_dump(dest/'independent-paired.csv',pairs)
+    csv_dump(dest/'independent-joint.csv',joints)
     dump(dest/'selector-replay.json',selection);dump(dest/'history-evidence.json',history)
     dump(dest/'frontier-replay.json',frontiers)
     dump(dest/'state-links.json',state_links)

@@ -120,7 +120,15 @@ def build(output,dest):
     lines+=['','RS/PS는 new NLL < true NLL, NS는 true NLL < new NLL; 동률 실패. Fullseen과 current/active-past 분모를 분리했다. EN_NUM은 B1만 있으며 B300 결과로 대체하지 않는다.',
         'TF token-micro/prompt-macro/strict와 true/new NLL은 `independent-metrics.csv`, exact prompt/token-identity paired lost/gained와 NLL 변화는 `independent-paired.csv`이다. 동일 총점은 동일 성공집합을 뜻하지 않는다.',
         'Runtime request-cluster bootstrap 10,000회/seed20260920은 `official-paired.csv`에 별도로 보존했다. 이것은 한 fixed-order 개발 trajectory의 기술통계이며 독립 반복실험·보편적 비열화 인증이 아니다.',
-        '', '## 2. 실제 공간·controller 동작', '',
+        'R+두 P request-joint preference/TF-strict도 independent-joint.csv에서 성공 ID와 함께 독립 집계했다. TF accuracy는 주어진 target의 teacher-forced 정확도이며 자유생성 정확도가 아니다.',
+        '', '|Batch/arm|Family|all-seen token TF %|prompt-macro TF %|strict prompts|new NLL|true NLL|',
+        '|---|---|---:|---:|---:|---:|---:|']
+    for r in rows:
+        if r['scope']!='all_seen':continue
+        lines.append('| '+' | '.join([r['batch']+'/'+r['arm'],r['family'],
+            fmt(100*float(r['tf_token_micro'])),fmt(100*float(r['tf_prompt_macro'])),
+            r['strict_numerator']+'/'+r['strict_denominator'],fmt(float(r['new_nll'])),fmt(float(r['true_nll']))])+' |')
+    lines+=['', '## 2. 실제 공간·controller 동작', '',
         '|Batch/group|Arm|실행 범위|blocked rank|released|eta|predicted J 감소|','|---|---|---|---:|---:|---:|---:|']
     for r in groups:lines.append('| '+' | '.join([f'{r["batch"]}/{r["group"]}',r['arm'],r['evidence_scope'],str(r['blocked_rank']),str(r['released_modes']),fmt(r['eta']),fmt(r['predicted_decrease'])])+' |')
     lines+=['','`space-and-scale.csv`에 tau·numerical duplicate witness·전체 column·native norm/action·active cap을 수록했다. 수치 witness는 모든 플랫폼의 noise bound가 아니며 rank 모호성을 full precision PASS로 바꾸지 않는다.',
