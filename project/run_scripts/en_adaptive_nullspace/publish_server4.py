@@ -101,6 +101,7 @@ def build(output,dest):
     lines=['# Server4 EN adaptive-nullspace B300 상세 사실 보고','',f'상태: **{manifest["status"]}**. CPU 독립 reducer 완료 endpoint {independent["complete_endpoints"]}/10. 누락: {independent["missing_endpoints"]}.',
         '',f'실행 source `{lock["execution"]["commit"]}` / tree `{lock["execution"]["tree"]}`. Source/import/input 원본은 execution lock에 결속했다.',
         'SH3 source43904c13의 구현을 S4로 이관했다. SH3 actual submit0이며 test-only51258은 실행이 아니다. S4 teacher 원본을 재사용했고 역전송0이다.',
+        f'실제 관측 unique requests={independent["unique_observed_requests"]}, current arm-request rows={independent["observed_current_arm_requests"]}. 완주 기대값은 각각300/1000(세 B300+NUM B1)이며 반복 all-seen 관측을 별도 고유 요청으로 합산하지 않는다.',
         '', '## 1. 독립 NLL 재집계', '',
         '|Batch|Arm|범위|RS|PS|NS|','|---:|---|---|---:|---:|---:|']
     for batch in (1,2,3):

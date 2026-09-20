@@ -221,6 +221,8 @@ def review(output,destination,first_only=False):
     completeness=dict(complete_endpoints=len(observed),expected_endpoints=4 if first_only else 10,
         missing_endpoints=missing,history_appends=sum(r['append'] for r in history),
         adjacent_state_links=len(state_links),expected_adjacent_links=0 if first_only else 6,
+        unique_observed_requests=len({i for obs in observed.values() for i in obs['request_ids']}),
+        observed_current_arm_requests=sum(r['requests'] for r in tables if r['scope']=='current' and r['family']=='RS'),
         numeric_pass=False,precision_status='NOT_ESTABLISHED',checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
     dump(dest/'independent-reducer.json',dict(completeness=completeness,inputs=inputs,
         source_sha256=digest(__file__),validation='fresh true/new NLL reduction; token flags identity/cardinality; CPU selector replay',
