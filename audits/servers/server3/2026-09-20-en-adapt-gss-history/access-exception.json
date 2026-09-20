@@ -1,0 +1,18 @@
+{
+  "helper": "scripts/check-agent-access.sh",
+  "observed": "generic server-head policy does not include this explicitly approved runs prefix",
+  "rejected_path": "runs/odeedit_en_adapt_gss_history_10k_s3_20260920/submission.json",
+  "authority": "messages/head/2026-09-20-sh3-en-adapt-gss-history-10k.md section8 at main7216cc96",
+  "explicit_allowed_prefix": "runs/odeedit_en_adapt_gss_history_10k_s3_20260920/**",
+  "user_rule": "Generic helper unsupported exact approved path is recorded as an exception; shared helper not weakened",
+  "shared_helper_changed": false,
+  "identity_override": false,
+  "manual_exact_ownscope_audit": "PASS",
+  "staged_paths": [
+    "audits/servers/server3/2026-09-20-en-adapt-gss-history/submission-handoff.json",
+    "experiment-reports/servers/server3/en-adapt-gss-history-10k-2026-09-20-v1/submission-ko.md",
+    "messages/server-heads/server3/2026-09-20-en-adapt-gss-history-submission.md",
+    "runs/odeedit_en_adapt_gss_history_10k_s3_20260920/submission.json",
+    "tasks/status/server3-en-adapt-gss-history-20260920-v1/server3.json"
+  ]
+}
