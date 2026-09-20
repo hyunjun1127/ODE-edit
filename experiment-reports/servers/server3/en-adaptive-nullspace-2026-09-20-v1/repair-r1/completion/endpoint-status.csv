@@ -1,0 +1,11 @@
+batch,arm,selection_status,observer_alias,controller_alias,selected_trial
+1,N4,NATIVE_BASELINE,,,
+1,EN_EXACT,ACCEPTED,,,candidate2
+1,EN_NUM,ACCEPTED,,,candidate2
+1,EN_ADAPT,ACCEPTED,,,candidate2
+2,N4,NATIVE_BASELINE,,,
+2,EN_EXACT,SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE,,native,
+2,EN_ADAPT,ACCEPTED,,,candidate1
+3,N4,NATIVE_BASELINE,,,
+3,EN_EXACT,ACCEPTED,,,candidate2
+3,EN_ADAPT,ACCEPTED,,,candidate2

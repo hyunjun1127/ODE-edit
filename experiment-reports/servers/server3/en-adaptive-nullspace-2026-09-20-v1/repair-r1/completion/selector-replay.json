@@ -1,0 +1,163 @@
+[
+  {
+    "batch": 1,
+    "arm": "EN_EXACT",
+    "selected_trial": "candidate2",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 1,
+    "arm": "EN_NUM",
+    "selected_trial": "candidate2",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 1,
+    "arm": "EN_ADAPT",
+    "selected_trial": "candidate2",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 2,
+    "arm": "EN_EXACT",
+    "selected_trial": null,
+    "status": "SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 2,
+    "arm": "EN_ADAPT",
+    "selected_trial": "candidate1",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 3,
+    "arm": "EN_EXACT",
+    "selected_trial": "candidate2",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  },
+  {
+    "batch": 3,
+    "arm": "EN_ADAPT",
+    "selected_trial": "candidate2",
+    "status": "ACCEPTED",
+    "candidates": 2,
+    "checks": [
+      {
+        "trial": "candidate1",
+        "accepted_saved": false,
+        "accepted_independent": false,
+        "acceptance_equal": true,
+        "geometry": true
+      },
+      {
+        "trial": "candidate2",
+        "accepted_saved": true,
+        "accepted_independent": true,
+        "acceptance_equal": true,
+        "geometry": true
+      }
+    ]
+  }
+]

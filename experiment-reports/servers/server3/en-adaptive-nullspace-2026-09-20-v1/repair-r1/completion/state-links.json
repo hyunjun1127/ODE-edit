@@ -1,0 +1,50 @@
+[
+  {
+    "arm": "N4",
+    "from_batch": 1,
+    "to_batch": 2,
+    "W_sha256": "7fe11901570d1784b97cc207d7c1b136344819b5be6e227c6d6bd51d5e7a6d18",
+    "M_sha256": "0b9dda8c25276ad3c1912de24a31292eecae6f5b8dfb00f9b36d1fb91a97b635",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  },
+  {
+    "arm": "EN_EXACT",
+    "from_batch": 1,
+    "to_batch": 2,
+    "W_sha256": "26af058084c169cce040c2eeae7c4ee0dfb20af26c111c3bb9304df6819d0a22",
+    "M_sha256": "0b9dda8c25276ad3c1912de24a31292eecae6f5b8dfb00f9b36d1fb91a97b635",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  },
+  {
+    "arm": "EN_ADAPT",
+    "from_batch": 1,
+    "to_batch": 2,
+    "W_sha256": "ef6dd097a7862b55bc494222fcceef57bcbf1f04383d15c3af8c64f9e90e2722",
+    "M_sha256": "0b9dda8c25276ad3c1912de24a31292eecae6f5b8dfb00f9b36d1fb91a97b635",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  },
+  {
+    "arm": "N4",
+    "from_batch": 2,
+    "to_batch": 3,
+    "W_sha256": "b926ad0a4bd27c45c334f4bd32fd7e6caaa98b2cfebcfe42aff9e433f8bf49e7",
+    "M_sha256": "a0d4db5dab1498cc8c12d21fe6b4927a6a43a1f34e5cd263ab8bc33df9f81249",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  },
+  {
+    "arm": "EN_EXACT",
+    "from_batch": 2,
+    "to_batch": 3,
+    "W_sha256": "5349771c3bf65fced4703570f2dca77b3c668b16c2873f7d2ebe34b4213e729f",
+    "M_sha256": "a0d4db5dab1498cc8c12d21fe6b4927a6a43a1f34e5cd263ab8bc33df9f81249",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  },
+  {
+    "arm": "EN_ADAPT",
+    "from_batch": 2,
+    "to_batch": 3,
+    "W_sha256": "03b0c115fbfbce976356b4d50fd5cd25d1215965dc7ef5b3e9aa6278ba098c3b",
+    "M_sha256": "a0d4db5dab1498cc8c12d21fe6b4927a6a43a1f34e5cd263ab8bc33df9f81249",
+    "level": "runtime SHA linkage; no independent tensor reconstruction"
+  }
+]

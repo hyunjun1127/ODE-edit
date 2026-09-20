@@ -1,0 +1,230 @@
+{
+  "completeness": {
+    "complete_endpoints": 10,
+    "expected_endpoints": 10,
+    "missing_endpoints": [],
+    "history_appends": 10,
+    "adjacent_state_links": 6,
+    "expected_adjacent_links": 6,
+    "unique_observed_requests": 300,
+    "observed_current_arm_requests": 1000,
+    "numeric_pass": false,
+    "precision_status": "NOT_ESTABLISHED",
+    "checkpoint_saved": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "inputs": {
+    "teacher_manifest_binding": {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/inputs/generated-v1/manifest.json",
+      "bytes": 756013,
+      "sha256": "14bf1f5d98cf9e09e9fad6458bc4d7ae5fb2e81de635b63f2b03db4c405a73b4"
+    },
+    "B1/SHARED-spectrum.json": {
+      "bytes": 11841487,
+      "sha256": "eaf8adaadbe4aa3f8b5daf21b2d41553086c8bffd9e4cc3095aff921f15f064e"
+    },
+    "B1/SHARED-native-objective.json": {
+      "bytes": 164724,
+      "sha256": "5bf0c01a44ee24a5e8f9fe8b499f292bd023db2b190a7efb7a5c47bad96ce788"
+    },
+    "B1/W0-current.json": {
+      "bytes": 2394596,
+      "sha256": "705469488e3961ebdf7c0c06d07459008704272ff6a0e5f39b98f34cdedc5af5"
+    },
+    "B1/N4-metrics.json": {
+      "bytes": 2393749,
+      "sha256": "b3a573979dcbde875bbb4887165cd1311ef73e42dd6478577cf46d7de144114a"
+    },
+    "B1/N4-commit.json": {
+      "bytes": 19447,
+      "sha256": "2a881ffc81229b8bdafe46c941915211e3c8ca084bb2445afda712dde770b493"
+    },
+    "B1/SHARED-native.json": {
+      "bytes": 637215,
+      "sha256": "d960792c31f942012624df5fc5561c0e5cc2d4d88d7ab6e7759fb46bfb9ff41c"
+    },
+    "B1/N4-Dev128.json": {
+      "bytes": 41656,
+      "sha256": "0c71d856873bfa02f59091f0c550ed213feeccd1b0b54d15ce03409eb73533a4"
+    },
+    "B1/EN_EXACT-metrics.json": {
+      "bytes": 2393642,
+      "sha256": "2956f4af2f50f9a6eada6aadb48090469ac6412fd678fc03f319af086999752a"
+    },
+    "B1/EN_EXACT-commit.json": {
+      "bytes": 19447,
+      "sha256": "5f8ffe79a313dff8ea972de164e46ebd1c10bd824f67c27f98ac210aa86b3fbc"
+    },
+    "B1/EN_EXACT-controller.json": {
+      "bytes": 1012459,
+      "sha256": "20c30a994ed680b348dc25635650cdab8038a8b632263780bb6fa2a1a756f0fa"
+    },
+    "B1/EN_NUM-metrics.json": {
+      "bytes": 2393647,
+      "sha256": "53b0db400a615db3ca7926762a8ab5a50a84911b52336c5b5245117d05ca896c"
+    },
+    "B1/EN_NUM-commit.json": {
+      "bytes": 19447,
+      "sha256": "46268c7c1aa3cb48ec2936453da9a4fafe4fe1063dd9cf283087aff86b719c0c"
+    },
+    "B1/EN_NUM-controller.json": {
+      "bytes": 1012723,
+      "sha256": "b43181807813de829ea03eb00be2fa6d2c2883ddf8900691969fa407dc20e519"
+    },
+    "B1/EN_ADAPT-metrics.json": {
+      "bytes": 2393613,
+      "sha256": "7b12e119002325ccaf6842f18827f4f265030e6e02edfe1b1c5d87e7a901adab"
+    },
+    "B1/EN_ADAPT-commit.json": {
+      "bytes": 19447,
+      "sha256": "3e2fc385eb30ef8e292cb7922866f10d712e95eb3c6cdeefb4f0f4133aa8be3a"
+    },
+    "B1/EN_ADAPT-controller.json": {
+      "bytes": 1012631,
+      "sha256": "b296282a943ddfc6978f970fc6b2bb7976b3695c02106e883ac10e86a79abd59"
+    },
+    "B1/EN_ADAPT-Dev128.json": {
+      "bytes": 41618,
+      "sha256": "cb7326abeace8e366397c9303a269648fd643dbcbfae4feac7c2692cab551105"
+    },
+    "B2/EN_EXACT-spectrum.json": {
+      "bytes": 12390795,
+      "sha256": "f3618f3b5e32ecffec4bb9370b0ce048a1186abb48d22b68668f84deaf795101"
+    },
+    "B2/EN_EXACT-native-objective.json": {
+      "bytes": 190936,
+      "sha256": "a399d679ce6cb74a7faef0b57bc89df5684bd102814237a93cf04ba36cfecd0a"
+    },
+    "B2/EN_ADAPT-spectrum.json": {
+      "bytes": 12432167,
+      "sha256": "cb8ea8d5732e56cb004209b704a8a80be37196990daa6fd40042e98cf7b25b89"
+    },
+    "B2/EN_ADAPT-native-objective.json": {
+      "bytes": 190966,
+      "sha256": "8ad07cd4559a1074a23de5de6ba51eec7b1105b98ce8c5e49e45e04f670ab8d5"
+    },
+    "B2/W0-current.json": {
+      "bytes": 2393705,
+      "sha256": "4c87c8443725818260cb258944097f50007acf5209a205419c91c1710ccd7808"
+    },
+    "B2/N4-metrics.json": {
+      "bytes": 4781601,
+      "sha256": "2c12faa1f418051c9cb24bd9da3317142eb0afef51404a5749fc613c84180beb"
+    },
+    "B2/N4-commit.json": {
+      "bytes": 38135,
+      "sha256": "afe42b2e3c63e219929d955068b151602c4a8b68f223ca7284d96389ae5ff00c"
+    },
+    "B2/N4-native.json": {
+      "bytes": 655142,
+      "sha256": "7d414d187c0dc831d4ad392c3eacc69d8de2c55ab455c9a6e7c9e8508f0a20d6"
+    },
+    "B2/N4-reference-history-observer.json": {
+      "bytes": 190927,
+      "sha256": "67fb939ee0c231356eb3dbd3c47d27f86a71ae8b81b4ac1d79356fbf325addee"
+    },
+    "B2/EN_EXACT-metrics.json": {
+      "bytes": 4782159,
+      "sha256": "a903c9acaec47e44058b5da6a58fe411e7b0fbdb56927991661f3bac9e1593bc"
+    },
+    "B2/EN_EXACT-commit.json": {
+      "bytes": 38135,
+      "sha256": "90666a9b3850da20a35d1c04f58c6b4eec70b245e830f7e083f6edde5a0a1290"
+    },
+    "B2/EN_EXACT-native.json": {
+      "bytes": 655280,
+      "sha256": "b1145b568c649425bfead9781a791fa61fe1c5ab1c77e26afaa6eb621a527e8b"
+    },
+    "B2/EN_EXACT-controller.json": {
+      "bytes": 1166979,
+      "sha256": "6ca5fa47abea84184dd0df389c3e78b93d658846c22d7177115c5c96536feee3"
+    },
+    "B2/EN_ADAPT-metrics.json": {
+      "bytes": 4781700,
+      "sha256": "18ec60eb4a9ca1df45d69891ea6ecb6c1fef07e943680707b5216f82f43b900e"
+    },
+    "B2/EN_ADAPT-commit.json": {
+      "bytes": 38135,
+      "sha256": "729af52b0ca2c5caed506b98da6128023ea5e965eb80ae8e02647367da1d13b1"
+    },
+    "B2/EN_ADAPT-native.json": {
+      "bytes": 655100,
+      "sha256": "b0af89afe75d84654be5a9aa086773b5f041d96b022b3a96ea01d2e4a64d41fa"
+    },
+    "B2/EN_ADAPT-controller.json": {
+      "bytes": 1167175,
+      "sha256": "977b2d5fd52eda9af847594bd89791a77f3ae375bf562d52574ded0fa5736d35"
+    },
+    "B3/EN_EXACT-spectrum.json": {
+      "bytes": 11718985,
+      "sha256": "79e2a599b212174900f6a128bcd8ea274c7f764bd3be8ee65dae31d6ddd1db4f"
+    },
+    "B3/EN_EXACT-native-objective.json": {
+      "bytes": 217053,
+      "sha256": "4e04d1d84c9ce9b488d6ee43449176b56b015d739baffbae875e0a0eee57c1cd"
+    },
+    "B3/EN_ADAPT-spectrum.json": {
+      "bytes": 11695492,
+      "sha256": "537cdc7bce528b7c94ddcbefebf5fed03a41437288c053d073370fdd782b36cb"
+    },
+    "B3/EN_ADAPT-native-objective.json": {
+      "bytes": 217012,
+      "sha256": "2354c9802e5f0c52eff1ec17fa29e8a767abf055fdbb06f01ec2f71ab46cc2d6"
+    },
+    "B3/W0-current.json": {
+      "bytes": 2395363,
+      "sha256": "98cfd9152f114b84934e77f2f40f03ad703f7affa9346b7728682d7c23f6bc7d"
+    },
+    "B3/N4-metrics.json": {
+      "bytes": 7171745,
+      "sha256": "e7000825b7d97d28c0496db2d4ce6d9d1309dfc205d18b79f4feacb072f32765"
+    },
+    "B3/N4-commit.json": {
+      "bytes": 56837,
+      "sha256": "8227474e7762ce36db12d3a840e4f6faff168e1f832f93e5bed17b052bb5ef1d"
+    },
+    "B3/N4-native.json": {
+      "bytes": 673159,
+      "sha256": "d4d3a512a2dfbf8f0e25b45612fba90103c413275b14df280be18582349e1a92"
+    },
+    "B3/N4-reference-history-observer.json": {
+      "bytes": 216968,
+      "sha256": "d6b17852a2e1fa3a019d9aab930b3fb5a59cd07022b9af463902dbd2d8d375fe"
+    },
+    "B3/EN_EXACT-metrics.json": {
+      "bytes": 7171514,
+      "sha256": "5e508f975424ef5b37d56dae48fa28c812d2cbbafd9d11dc5da27cfe5c9e735e"
+    },
+    "B3/EN_EXACT-commit.json": {
+      "bytes": 56837,
+      "sha256": "212c946095e3975d80f00c7a20359826d736a8bf48d587652861da3d4318bca2"
+    },
+    "B3/EN_EXACT-native.json": {
+      "bytes": 672798,
+      "sha256": "c151062cc9be1f9c30822585dec7f28ff12723d43dcd570d8205b8733155f57d"
+    },
+    "B3/EN_EXACT-controller.json": {
+      "bytes": 1321274,
+      "sha256": "78dd63f634a860d7712d41818682f19f6983580685213e2bcc0fc5be60225083"
+    },
+    "B3/EN_ADAPT-metrics.json": {
+      "bytes": 7171415,
+      "sha256": "c0e1922888bf488be44275875990df2331e33174af90e37f1cad9a7aac58139c"
+    },
+    "B3/EN_ADAPT-commit.json": {
+      "bytes": 56838,
+      "sha256": "ab391f5f0ced05a8498a2c0e5e36af852ac92e3afda5f27a2744553d331eb205"
+    },
+    "B3/EN_ADAPT-native.json": {
+      "bytes": 672859,
+      "sha256": "92e980c88bc6037a8d39298062f3a66915d03aa0fe37b2a7c32e891d546dea79"
+    },
+    "B3/EN_ADAPT-controller.json": {
+      "bytes": 1321088,
+      "sha256": "81efd701c85f2acd8f5c7f5d677563f2550a0bc88556a38d8991d741b0fdcfe2"
+    }
+  },
+  "source_sha256": "94753349b09dcb46b9eaba98b63e9584b77ec711e2a7dfbce8a4b2a17fa8f32e",
+  "validation": "fresh true/new NLL reduction; token flags identity/cardinality; CPU selector replay",
+  "first_table_sha256": "9d110dcafb93134fa10b9c6dc0e209f19191d31657a7ffe286cb82c81bde838d"
+}

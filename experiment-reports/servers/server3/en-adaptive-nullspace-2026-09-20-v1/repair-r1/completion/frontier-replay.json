@@ -1,0 +1,137 @@
+[
+  {
+    "batch": 1,
+    "group": "SHARED",
+    "checks": [
+      {
+        "epsilon": 0.01,
+        "rows": 4484,
+        "selected_adaptive_modes": 4483,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.05,
+        "rows": 4484,
+        "selected_adaptive_modes": 4483,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.1,
+        "rows": 4484,
+        "selected_adaptive_modes": 4483,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      }
+    ]
+  },
+  {
+    "batch": 2,
+    "group": "EN_EXACT",
+    "checks": [
+      {
+        "epsilon": 0.01,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.05,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.1,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      }
+    ]
+  },
+  {
+    "batch": 2,
+    "group": "EN_ADAPT",
+    "checks": [
+      {
+        "epsilon": 0.01,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.05,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.1,
+        "rows": 4704,
+        "selected_adaptive_modes": 4703,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      }
+    ]
+  },
+  {
+    "batch": 3,
+    "group": "EN_EXACT",
+    "checks": [
+      {
+        "epsilon": 0.01,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.05,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.1,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      }
+    ]
+  },
+  {
+    "batch": 3,
+    "group": "EN_ADAPT",
+    "checks": [
+      {
+        "epsilon": 0.01,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.05,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      },
+      {
+        "epsilon": 0.1,
+        "rows": 4426,
+        "selected_adaptive_modes": 4425,
+        "scalar_max_abs_difference": 0.0,
+        "arithmetic_comparison_tolerance": "relative1e-12/absolute1e-15; not scientific acceptance"
+      }
+    ]
+  }
+]

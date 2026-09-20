@@ -65,6 +65,21 @@ class ReportTests(unittest.TestCase):
             self.assertIn('SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE',text)
             self.assertIn('EN_ADAPT | SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE | native | N4',text)
 
+    def test_frontier_receipt_repeats_epsilon_without_losing_values(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);out=root/'output';out.mkdir()
+            row=dict(epsilon=.05,eta=.0123,released_modes=7)
+            write(out,'B1/SHARED-spectrum.json',dict(selection=dict(frontiers={'0.05':[row]})))
+            report(out,root/'report')
+            with (root/'report/threshold-frontier.csv').open() as f:rows=list(csv.DictReader(f))
+            self.assertEqual(len(rows),1)
+            self.assertEqual(float(rows[0]['epsilon']),.05)
+            self.assertEqual(float(rows[0]['eta']),row['eta'])
+            self.assertEqual(int(rows[0]['released_modes']),7)
+            row['epsilon']=.1
+            write(out,'B1/SHARED-spectrum.json',dict(selection=dict(frontiers={'0.05':[row]})))
+            with self.assertRaisesRegex(ValueError,'FRONTIER_EPSILON_BINDING'):report(out,root/'bad-report')
+
     def test_explicit_allocation_receipt_only(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);out=root/'output';out.mkdir()

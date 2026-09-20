@@ -150,7 +150,12 @@ def report(output,destination):
                 costs.extend([dict(scope='SHARED_ACTUAL_COMPONENT',batch=batch,arm=group,component='geometry_capture_SVD_projection',seconds=shared_geo[batch,group]),
                               dict(scope='SHARED_ACTUAL_COMPONENT',batch=batch,arm=group,component='R_plus_H_gradient',seconds=shared_gradient[batch,group])])
                 for eps,rows in spectrum.get('selection',{}).get('frontiers',{}).items():
-                    for row in rows:frontier.append(dict(batch=batch,group=group,epsilon=eps,**row))
+                    for row in rows:
+                        if float(row.get('epsilon',eps))!=float(eps):
+                            raise ValueError('FRONTIER_EPSILON_BINDING')
+                        bound=dict(row)
+                        bound.setdefault('epsilon',eps)
+                        frontier.append(dict(batch=batch,group=group,**bound))
             objective=read(f'B{batch}/{group}-native-objective.json')
             if objective:
                 refs.append(dict(batch=batch,arm=group,phase='native',L_R=objective.get('L_R'),L_H=objective.get('L_H'),J=objective.get('J'),reference_documents=objective.get('reference_documents'),reference_positions=objective.get('reference_positions')))

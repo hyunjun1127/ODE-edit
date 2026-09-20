@@ -1,0 +1,99 @@
+{
+  "status": "COMPLETED_REVIEWED",
+  "accounting": {
+    "job_id": "51290",
+    "job_name": "odeedit_en_adapt_B300_s3_repair",
+    "owner": "janghj",
+    "node": "ubuntu",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 5743,
+    "start": "2026-09-20T20:50:04",
+    "end": "2026-09-20T22:25:47",
+    "gpus": 1,
+    "cpus": 8,
+    "host_memory_MiB": 121856,
+    "allocation_gpu_seconds": 5743,
+    "allocation_gpu_hours": 1.5952777777777778,
+    "batch_maxrss_kib": 72744516,
+    "step_cost_added": false,
+    "observation": "Exact terminal sacct read on user completion review request"
+  },
+  "execution_source": "5d452221288f3b924e1737578f11aaa654594422",
+  "execution_tree": "5cf4c8d709cce99b64236f76e739f6ea9d0e90fc",
+  "execution_lock_sha256": "bcecbff09e251b937f93175f86974b868505a78738c82dc77aea640bddf97d7e",
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/source.tar.gz",
+    "sha256": "ba6910244e339b40798cc93a0d04063d85c083a1aa2ea1bf9127322265eef5bc"
+  },
+  "complete_sha256": "4152fd5c9272be7f7308a080bb1d447cb1b70d9c657983e61c946258d21a1439",
+  "counters": {
+    "native_batches": 7,
+    "native_requests": 700,
+    "weighted_SVD": 5,
+    "counts": {
+      "reference_gradient": 5,
+      "reference_candidate": 14,
+      "reference_observer": 4,
+      "history_gradient": 4,
+      "history_candidate": 10,
+      "history_teacher_requests": 600,
+      "history_teacher_bytes": 312431616,
+      "technical_sweeps": 4
+    }
+  },
+  "technical": {
+    "finite_identity": "PASS",
+    "precision": "NOT_ESTABLISHED",
+    "exploratory": true,
+    "seconds": 218.0562337115407,
+    "current_logits_max_abs": 0.0,
+    "reference_logits_max_abs": 0.00029599666595458984,
+    "AD_gradient": {
+      "max_abs": 2.9347546615099418e-08,
+      "l2": 2.968628205340783e-06,
+      "reference_l2": 0.010627759865824265,
+      "relative_l2": 0.0002793277457168574,
+      "reference_zero": false,
+      "bitwise_equal": false
+    },
+    "FD_relative_residual": 0.001100846102294879,
+    "entry_restored": true,
+    "rng_restored": true,
+    "original_precision_reason": "Fresh residuals and historical z diagnostics are reported; design supplies no new global numerical acceptance threshold. No old waiver or automatic PASS is assigned; scientific continuation is exploratory under the explicit design provision."
+  },
+  "independent_completeness": {
+    "complete_endpoints": 10,
+    "expected_endpoints": 10,
+    "missing_endpoints": [],
+    "history_appends": 10,
+    "adjacent_state_links": 6,
+    "expected_adjacent_links": 6,
+    "unique_observed_requests": 300,
+    "observed_current_arm_requests": 1000,
+    "numeric_pass": false,
+    "precision_status": "NOT_ESTABLISHED",
+    "checkpoint_saved": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "terminal_W0_restore_guard_marker": true,
+  "all_output_files_are_JSON": true,
+  "output_bytes": 242839345,
+  "output_files": 102,
+  "output_inventory_sha256": "c3030b74d582a124f4468cc8cbcfa9a394854a47c9972529551274c9c64c1cbf",
+  "no_checkpoint": true,
+  "exact_crash_resume": "NOT_AVAILABLE",
+  "large_local_artifacts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/completion-review-r1/reducer-fixed-v1/threshold-frontier.csv",
+      "bytes": 23834543,
+      "sha256": "4edab39f2ccaaa126ee870475a9837273da213378ca9c1932c8d9c3c15e7fa96"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/completion-review-r1/independent/independent-paired.csv",
+      "bytes": 11919380,
+      "sha256": "9b9bd46816f94c22e9ab893c0683183478ae04dd58511841a8b4ff13a03d3c02"
+    }
+  ],
+  "postprocess_repair": "report.py duplicate epsilon keyword; no execution code or raw modified; report regression5 PASS"
+}
