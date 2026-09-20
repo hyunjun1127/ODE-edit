@@ -1,7 +1,9 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH4-MIGRATION-V1",
   "nonce": "ODEEDIT-GH-SH4-EN-ADAPT-MIGRATION-20260920-R1",
-  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "status": "DISPATCHED_ACK_RECEIVED_S4_PORT_IN_PROGRESS",
+  "dispatch_publication": "938db0b765e1a3d4a1e6edc8da702d2486ad6e24",
+  "dispatch_turn": "01a0be1e-1c60-7a43-b01f-3f93bf081b9d",
   "owner": "server4-server-head",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "envelope": "messages/head/2026-09-20-en-adaptive-nullspace-migrate-sh3-to-sh4.md",

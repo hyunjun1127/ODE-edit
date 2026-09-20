@@ -1,0 +1,27 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH4-MIGRATION-V1",
+  "publication": "938db0b765e1a3d4a1e6edc8da702d2486ad6e24",
+  "s3": {
+    "nonce": "ODEEDIT-GH-SH3-EN-ADAPT-MIGRATE-TO-S4-20260920-R1",
+    "stop_ack": true,
+    "actual_submitted_jobs": 0,
+    "dryrun_only_id": "51258 NOT_A_JOB",
+    "source": "2ff2393f19b74195ed52d016d4d73ae0878d9946",
+    "cpu_tests_reported": 43,
+    "reference_members": 2560,
+    "reference_bytes": 101519959223,
+    "full_verify_reported": true,
+    "reverse_teacher_transfer": false,
+    "final_tiny_handoff": "PENDING_SH3"
+  },
+  "s4": {
+    "nonce": "ODEEDIT-GH-SH4-EN-ADAPT-MIGRATION-20260920-R1",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "turn": "01a0be1e-1c60-7a43-b01f-3f93bf081b9d",
+    "direct_ack": true,
+    "ack_scope": "single1GPU/noCP/59GiB/T0-B1-ownB300-report; no initial-pause",
+    "new_gpu_submission": "NOT_YET_OBSERVED"
+  },
+  "GH_model_GPU_Slurm_mutation": 0,
+  "source_keep": true
+}
