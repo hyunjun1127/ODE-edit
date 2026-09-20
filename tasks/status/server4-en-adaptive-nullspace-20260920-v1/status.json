@@ -1,0 +1,20 @@
+{
+  "instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH4-MIGRATION-V1",
+  "nonce": "ODEEDIT-GH-SH4-EN-ADAPT-MIGRATION-20260920-R1",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "RUNNING_T0_OR_SCIENCE_NOT_YET_VALIDATED",
+  "job_id": "51260",
+  "source": "b6e86234640ca127546aee094f2a67bbe684a490",
+  "lock_sha256": "cfc4e2150cf57f71d0fea838d2302d84626402b8ad9e8941690da3220bd671ca",
+  "project_cap": 2,
+  "task_cap": 1,
+  "maximum_batch": 3,
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "CPU_tests": 52,
+  "actual_T0": "NOT_YET_VALIDATED",
+  "monitoring_active": true,
+  "automatic_external_callback": false,
+  "SH3_actual_submissions": 0,
+  "teacher_inverse_transfer_bytes": 0
+}
