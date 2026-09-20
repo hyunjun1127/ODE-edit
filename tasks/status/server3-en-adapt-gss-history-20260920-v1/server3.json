@@ -1,0 +1,18 @@
+{
+  "instruction": "ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-GSS-TWOARMS-CAP2-20260920-R1",
+  "status": "SOURCE_READY_PRE_SUBMISSION",
+  "arms": [
+    "EN_ADAPT_H_RES",
+    "EN_ADAPT_H_GSS_REC"
+  ],
+  "jobs": [],
+  "cap": 2,
+  "batches_each": 100,
+  "save_checkpoints": false,
+  "cross_job_state_sharing": false,
+  "CPU_tests": 47,
+  "actual_initial": "NOT_OBSERVED",
+  "actual_terminal": "NOT_OBSERVED",
+  "monitoring_after_release": false
+}

@@ -1,0 +1,70 @@
+{
+  "seed": 20260920,
+  "generator": "numpy.Generator(PCG64)",
+  "draw_order": "replica0_output_input_then_replica1_output_input",
+  "arrays": {
+    "replica_0_output": {
+      "shape": [
+        4096,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "2f2a17741daa213fd9d600edef8cd22321b3c89bb449a56c97c0f09bebb70e66"
+    },
+    "replica_0_input": {
+      "shape": [
+        14336,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "2cb5a159ba5feb123d289894af391e753339e986b14a5aeef3e1e184f3f8c1af"
+    },
+    "replica_0_Pstar_input": {
+      "shape": [
+        14336,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "8cddd90841f0282da976d6335a457b20bddb01ef6fb526fffc36ac80bb2ac687"
+    },
+    "replica_1_output": {
+      "shape": [
+        4096,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "bb70d1697755f1b4808ee8ef6d4ac7f89827da722d182f9ccb441e6a3aa778ff"
+    },
+    "replica_1_input": {
+      "shape": [
+        14336,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "3ca23f25694f12ef2b2b70f6ad34a0c47afddb6ba85c9fc5c25f102ed608e176"
+    },
+    "replica_1_Pstar_input": {
+      "shape": [
+        14336,
+        32
+      ],
+      "dtype": "float64",
+      "sha256": "fed39885519c8b5220e2bad154839e66bb1f6cacab552e8e545ac27d10a599b3"
+    }
+  },
+  "basis": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/inputs/pstar-derived-v1/basis.npy",
+    "size": 1643020416,
+    "sha256": "515f7d9947b5c7e177ca4c8d9ba0529823f06db9e714fb07c2b7eb63c36e4e05",
+    "stat": [
+      66308,
+      18289487,
+      1789895338275701472
+    ]
+  },
+  "seconds": 1.1807681992650032,
+  "model_run": false,
+  "GPU_allocated": 0,
+  "map_code_path": "project/run_scripts/en_adapt_gss_history/factors.py",
+  "raw_map_values_not_Git": true
+}

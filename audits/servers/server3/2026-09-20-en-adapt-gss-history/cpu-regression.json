@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "tests": 47,
+  "seconds": 26.122,
+  "production_GPU_tests": 0,
+  "scientific_model_precision": "NOT_ESTABLISHED",
+  "scope": [
+    "history repeat/overwrite/bounded bank/canonical GSS",
+    "tiny CPU Llama all-prefix factor and physical autograd",
+    "R+H objective/two fixed-bank candidates/map-seal",
+    "pinned evaluator stream and linear CPU reduction",
+    "100 batch RAM runner seam botharms/fallback/noCP/error rollback",
+    "held args/resource/cap/zero postrelease queries"
+  ],
+  "log": {
+    "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/cpu-regression.log",
+    "sha256": "d1e87fc79545a68ce187ddbba5643dd96dfb639276cfc351d71a5c462825009f",
+    "bytes": 7324
+  },
+  "source_files": [
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/README.md",
+      "bytes": 3944,
+      "sha256": "b1607c82831e3ce4bda43c60e9fc41058ce445b174b954074901e8f1e4bb73b9"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/__init__.py",
+      "bytes": 82,
+      "sha256": "02c8705e16effbd0a51eae514081e0ede4d2f0b48fd6eaf6c2e544a5c7da2efa"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/block_diagnostics.py",
+      "bytes": 1678,
+      "sha256": "a8013807363066b3991d2824980f0de7a8bc21375eecd86aeea883205e03e598"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/factors.py",
+      "bytes": 34433,
+      "sha256": "8e4b429b6f6edfacfb641114c1afb85cb30954c7ea3ba7e48e222ba55de02cb2"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/freeze.py",
+      "bytes": 11820,
+      "sha256": "8317206867b341fe7ecba0ca4b7352cbd931de7b8dd7362c72257f186c9af687"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/history.py",
+      "bytes": 19170,
+      "sha256": "edb489d5a9c4ed6568f0f68f9912e2f109e50c5a1d2858f918713bceb64289ed"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/io.py",
+      "bytes": 1245,
+      "sha256": "d251adb951700c7dd8b47f3d5180b3f5924923312652b34c1f79fb667427a266"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/launch.py",
+      "bytes": 2512,
+      "sha256": "a0858e18d78b66cd9cbbba6a55e3fc567f56d9767502273e4fcbcc660eae8fda"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/metrics-contract.json",
+      "bytes": 8843,
+      "sha256": "72fd37d3e7310e45266eb8ddbbb513ff43721685c27efbacb1a638bcf4c0947f"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/objective.py",
+      "bytes": 3847,
+      "sha256": "b8fd5a788a02fd1cd570a83d3341a2c1ecc3fe9ba5f4b1c034efc614663e5247"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/observers.py",
+      "bytes": 22801,
+      "sha256": "f7ff6f327a66ff6392fa21b6fcf3f5f6c584aa85254f53989623f9d0fe1b7eb0"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/prepare.py",
+      "bytes": 12020,
+      "sha256": "dd5350d949bf95e7ddcf17a42f8e2cd24b544489043c7ec6de6485f703c826dd"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/report.py",
+      "bytes": 26389,
+      "sha256": "dc0d977fecc0c21c731fd441fe65cb9491709f287fe5255284d0029b5433f050"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/run.sbatch",
+      "bytes": 877,
+      "sha256": "e3fbc98a2e7b34d5cfecd2a338de143adaa0ab9a17bb691d7e689ae0cb461f02"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/runner.py",
+      "bytes": 13920,
+      "sha256": "b5118a76d4c66f66f7c9fdcc10209f9dba8288bba5babf94c35beaaf1d11b441"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/runtime.py",
+      "bytes": 2614,
+      "sha256": "20e40f2549d17c2791b8ad1d26dfaf211e39885bdfded684154c31deed18e54b"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_factors.py",
+      "bytes": 11253,
+      "sha256": "a8d69e48ff1bb2a5f4c5c6a2534af6a7d2e156f4c0d7bcee8584929d7786ccb0"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_history.py",
+      "bytes": 16878,
+      "sha256": "9df1507df0fee07510650bdc58f4b2f5f232ce93a693c5abd0a9e1cedf32db08"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_objective.py",
+      "bytes": 10207,
+      "sha256": "31efc98b1bd3c96d53b8bf027b512d26449ef0ba94339984ce94fa9e73261501"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_observers.py",
+      "bytes": 12705,
+      "sha256": "d5bf425312063220627280d6c1c35cc789aecaee940d1ebdb795b8929052e972"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_runner.py",
+      "bytes": 21675,
+      "sha256": "7f8b796f6121d217869340e57fe03f36c1bd3e845d909fbb14e81c74b0265dd7"
+    },
+    {
+      "path": "project/run_scripts/en_adapt_gss_history/tests/test_submission.py",
+      "bytes": 4922,
+      "sha256": "0bebc622d1a90204c366b5750420d627800d74c51917b856eab16a77827b2dd3"
+    }
+  ],
+  "shell_syntax": "PASS",
+  "old_shared_sources_changed": false,
+  "submission_followup": {
+    "status": "PASS",
+    "tests": 3,
+    "reason": "behavioral held-bundle/release test and frozen external input hash checks",
+    "log": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/cpu-submission-regression.log",
+    "log_sha256": "b73a668063ba3feee006f23fd00a1f8ba59a06e5cc906d682f9bdcb05bf174a4",
+    "actual_Slurm_calls": 0
+  }
+}

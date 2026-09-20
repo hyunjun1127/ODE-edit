@@ -1,0 +1,113 @@
+{
+  "parent_full_read_receipt": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/m0-message.json",
+    "sha256": "24155fca88c654bf9a1119077cef808b4943fa6525db7e2f1767b8d1b7cd6441",
+    "nonce": "ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1"
+  },
+  "authority_members_current_match": [
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-experiment-v1.md",
+      "size": 27947,
+      "sha256": "378ad6ccb9d8150fa902fb19ef8207153fe4bb808bc935f36b8556a310dc58f1"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-contract-v1.json",
+      "size": 6506,
+      "sha256": "f79c5d2b82de896e000c3daa2546eeae61d4a29551de324610053a49557ad3f2"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-cells-v1.csv",
+      "size": 973,
+      "sha256": "106278370ef3e85fa5eb465b7393d55fc31b1180d55f4845ea435308d072db48"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/selector_reference.py",
+      "size": 4258,
+      "sha256": "9759d9867701d33e54562c018255623fecab5c0a2a1ea7efda445827eec87e26"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/verify_design.py",
+      "size": 7362,
+      "sha256": "7ca0c02326b3f86675cd102801b70d4389cf5b1a96a01be55be888342287105c"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/design-checks.json",
+      "size": 4659,
+      "sha256": "0c58f46a46a33995a5a6eac9d5a42bbd52908108762e78b59b5e33f59e2e65e3"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-nullspace-threshold-review/review-ko.md",
+      "size": 16971,
+      "sha256": "ffd8c232b4533ed9249eb30a0e6dca79a1533b2f21dd418c7941276921cb62d8"
+    },
+    {
+      "path": "audits/global/2026-09-20-slmf-b1-independent-review/review-ko.md",
+      "size": 18898,
+      "sha256": "239b96767c6388d5260862aa0ec7b7e6cf28d7127d0db99d7428b5c7bfd4e004"
+    },
+    {
+      "path": "audits/global/2026-09-20-single-layer-write-strength-analysis/analysis-ko.md",
+      "size": 31035,
+      "sha256": "d386026d749e31c02d9aa08eea3348e81d185252f6bb0a2554cf59c43261832f"
+    }
+  ],
+  "actual_execution": "5d452221288f3b924e1737578f11aaa654594422",
+  "runtime_source_matches": [
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/runtime.py",
+      "sha256": "dfbe0d791194416aa07bc2bb766cf61656d55d22e4a072fe51c424006c16d563",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/native.py",
+      "sha256": "d3246a36fef13ac2801b296ca2ae1164fd977b64eae05781f3c61bd32a0a6182",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/current.py",
+      "sha256": "1f1c832ae3723b648067acbec6ab227a8f45d91f0f0713af94491940d1fa09c9",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/geometry.py",
+      "sha256": "662fbba5b3e90f5f8020e0ac60e4d8eb56352152a58f3506ea9383519e8c9f38",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/selector.py",
+      "sha256": "ce744b6b3fbd6ec4d460dbb0e68fd30ae6384c396c257851d6da5f2cd9b3f3dc",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/controller.py",
+      "sha256": "702452169e4ddbca7ee3a1da3ca17a642cb38aab9249c2f0e04cc114ed2eec3b",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/objective.py",
+      "sha256": "8279a0421fe8524ceeca04a412af19b18af0896571542a41d403ad4e47b455d0",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/metrics.py",
+      "sha256": "adce7ba496257731409ea0d9bd35148d5175e3c70c1c847b7d2afdc81515ca16",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/metrics-contract.json",
+      "sha256": "7c2357960c4554c3a95cb4a14d7e506e0e1e99c78e8320e9a0f00bf2ecace381",
+      "matches_actual_execution": true
+    },
+    {
+      "path": "project/run_scripts/en_adaptive_nullspace/json_io.py",
+      "sha256": "2e8457de750cf8b785cc4f34f96855cf0274f621dd5a136c1c114628067011a2",
+      "matches_actual_execution": true
+    }
+  ],
+  "completed_report": {
+    "path": "experiment-reports/servers/server3/en-adaptive-nullspace-2026-09-20-v1/repair-r1/completion/report-ko.md",
+    "sha256": "e1a0c876cdc90110e95942ffedbb475cadeaa727d6a148a8c2e6290d2e7ad345",
+    "analysis_main": "abd08ee1dde24ca975aace49c925a4ba00211004",
+    "read_status": "PRIOR_FULL_READ_AND_AUTHORED_REVIEW_REUSED"
+  }
+}
