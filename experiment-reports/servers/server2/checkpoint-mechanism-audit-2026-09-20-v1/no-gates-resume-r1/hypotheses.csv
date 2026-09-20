@@ -1,0 +1,5 @@
+hypothesis,basis,provisional,status
+H1,"이 단일 stream의 저장된 at-write/같은 cohort 전이에서 RS·PS와 NS의 시간적 양상이 다름. B100 all-case 조건부 loss는55/9993,423/19403,11547/72505이며 conflict-free 및 strict 전이를 별도 보고. 누적 history의 인과효과나 일반 capacity 판정 아님.",False,SUPPORTED
+H2,"동일512key의 M0→M100 nu 감소 512/512, 평균 0.999999082→0.327913213. 고정-key operator의 제한적 관측이며 raw nonsymmetric/수치동등성 미확립, 실제 forgetting 인과와 구분.",True,SUPPORTED
+H3,"7개 demand/700mode의 gain²×target-loading으로 factor write energy를 분해했다. 이는 정의상 대수관계이며 causal 설명의 독립 검증이 아니다. B1 actual reference 외는 RECONSTRUCTED_NATIVE_WRITE, dense-factor 검증 생략 및 원 C01 FAILED 때문에 actual write 전체에 대한 수치 인증은 미확립.",True,MIXED
+H4,"두 사후선정 구간 64개 NS문항에서 actual s0/.5/1와 all-valid-token gradient/EK/DK를 측정. 부호 일치/불일치와 remainder를 표에 모두 보존. Outcome선정에 의한 loss 자체를 독립 인과증거로 삼지 않고, 원 evaluator 동등성 미확립도 유지한다.",True,MIXED

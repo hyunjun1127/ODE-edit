@@ -1,0 +1,285 @@
+{
+  "activation_compute": {
+    "1:10": {
+      "activation_offload_bytes": 75433350144.0,
+      "activation_reload_bytes": 117048594432.0,
+      "backward_seconds": 20.411348345689476,
+      "forward_calls": 126.0,
+      "forward_seconds": 38.44347941689193,
+      "padded_input_tokens": 26976.0,
+      "processed_sequences": 2016.0,
+      "valid_input_tokens": 18384.0,
+      "validation_only_forward_calls": 0.0,
+      "vjp_calls": 64.0
+    },
+    "50:100": {
+      "activation_offload_bytes": 82559446400.0,
+      "activation_reload_bytes": 112991880960.0,
+      "backward_seconds": 18.858282853849232,
+      "forward_calls": 138.0,
+      "forward_seconds": 40.80440881382674,
+      "padded_input_tokens": 29520.0,
+      "processed_sequences": 2208.0,
+      "valid_input_tokens": 20268.0,
+      "validation_only_forward_calls": 0.0,
+      "vjp_calls": 64.0
+    }
+  },
+  "activation_intervals": [
+    {
+      "W0_restore": true,
+      "cell_id": "G001_010",
+      "diagnostic_gates_enabled": false,
+      "history_append": 0,
+      "interval": [
+        1,
+        10
+      ],
+      "new_editing": 0,
+      "new_model_forward_calls": 126,
+      "nonselected_full_bytehash": "NOT_CLAIMED",
+      "nonselected_pointer_versions": true,
+      "numerical_validation": "NOT_ESTABLISHED",
+      "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+      "peak_gpu_bytes": 33880370688,
+      "peak_ram_bytes": 35396190208,
+      "roles": {
+        "lost": 16,
+        "matched_retained": 16
+      },
+      "save_checkpoints": false,
+      "scalar_margin_gradients": 32,
+      "selected_rows": 32,
+      "status": "PASS",
+      "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION",
+      "target_path_vjp_calls": 64,
+      "validation_policy": "REMOVED_USER_DIRECTED",
+      "wall_seconds": 76.88510894589126,
+      "z_optimization": 0
+    },
+    {
+      "W0_restore": true,
+      "cell_id": "G050_100",
+      "diagnostic_gates_enabled": false,
+      "history_append": 0,
+      "interval": [
+        50,
+        100
+      ],
+      "new_editing": 0,
+      "new_model_forward_calls": 138,
+      "nonselected_full_bytehash": "NOT_CLAIMED",
+      "nonselected_pointer_versions": true,
+      "numerical_validation": "NOT_ESTABLISHED",
+      "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+      "peak_gpu_bytes": 34007036928,
+      "peak_ram_bytes": 35396190208,
+      "roles": {
+        "lost": 16,
+        "matched_retained": 16
+      },
+      "save_checkpoints": false,
+      "scalar_margin_gradients": 32,
+      "selected_rows": 32,
+      "status": "PASS",
+      "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION",
+      "target_path_vjp_calls": 64,
+      "validation_policy": "REMOVED_USER_DIRECTED",
+      "wall_seconds": 78.73541968874633,
+      "z_optimization": 0
+    }
+  ],
+  "activation_total_runner_wall": "NOT_RECORDED; interval wall excludes shared model load; allocated wall includes all",
+  "history_timing": [
+    {
+      "bank_prepare_seconds": 0.05508229974657297,
+      "cache_io_seconds": 0.2745597353205085,
+      "downstream_algebra_and_verification_seconds": 1.6589896827936172,
+      "factor_seconds": 14.448420887812972,
+      "history_batch": 0,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 3651460,
+      "seconds": 19.10568279121071,
+      "solve_verification_seconds": 2.9431903706863523
+    },
+    {
+      "bank_prepare_seconds": 0.04236878082156181,
+      "cache_io_seconds": 0.29539409279823303,
+      "downstream_algebra_and_verification_seconds": 1.5160775305703282,
+      "factor_seconds": 14.397111748345196,
+      "history_batch": 1,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4074044,
+      "seconds": 18.775757151655853,
+      "solve_verification_seconds": 2.8201995324343443
+    },
+    {
+      "bank_prepare_seconds": 0.13681560568511486,
+      "cache_io_seconds": 0.30278688482940197,
+      "downstream_algebra_and_verification_seconds": 1.4858938856050372,
+      "factor_seconds": 14.415139678865671,
+      "history_batch": 10,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4074044,
+      "seconds": 18.857391430065036,
+      "solve_verification_seconds": 2.8195439893752337
+    },
+    {
+      "bank_prepare_seconds": 0.06039496883749962,
+      "cache_io_seconds": 0.28640174120664597,
+      "downstream_algebra_and_verification_seconds": 1.0976466573774815,
+      "factor_seconds": 14.423942126333714,
+      "history_batch": 100,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4085252,
+      "seconds": 18.424392689950764,
+      "solve_verification_seconds": 2.8424096573144197
+    },
+    {
+      "bank_prepare_seconds": 0.046424166299402714,
+      "cache_io_seconds": 0.2811365341767669,
+      "downstream_algebra_and_verification_seconds": 1.3475803676992655,
+      "factor_seconds": 14.527956429868937,
+      "history_batch": 5,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4085392,
+      "seconds": 18.7638296848163,
+      "solve_verification_seconds": 2.8418702110648155
+    },
+    {
+      "bank_prepare_seconds": 0.07294377032667398,
+      "cache_io_seconds": 0.35224087350070477,
+      "downstream_algebra_and_verification_seconds": 1.3564114077016711,
+      "factor_seconds": 14.52777162566781,
+      "history_batch": 20,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.798719028942287,
+      "solve_verification_seconds": 2.8415931053459644
+    },
+    {
+      "bank_prepare_seconds": 0.058500608429312706,
+      "cache_io_seconds": 0.28035112749785185,
+      "downstream_algebra_and_verification_seconds": 0.9512632489204407,
+      "factor_seconds": 14.527573392726481,
+      "history_batch": 30,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.37777689937502,
+      "solve_verification_seconds": 2.8404402090236545
+    },
+    {
+      "bank_prepare_seconds": 0.03879145532846451,
+      "cache_io_seconds": 0.28976134210824966,
+      "downstream_algebra_and_verification_seconds": 0.9517476912587881,
+      "factor_seconds": 14.52783957310021,
+      "history_batch": 40,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.35983255505562,
+      "solve_verification_seconds": 2.841454234905541
+    },
+    {
+      "bank_prepare_seconds": 0.12355559132993221,
+      "cache_io_seconds": 0.28307471703737974,
+      "downstream_algebra_and_verification_seconds": 1.3458048459142447,
+      "factor_seconds": 14.527687594294548,
+      "history_batch": 50,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.838358225300908,
+      "solve_verification_seconds": 2.8413124438375235
+    },
+    {
+      "bank_prepare_seconds": 0.05823131278157234,
+      "cache_io_seconds": 0.27591182850301266,
+      "downstream_algebra_and_verification_seconds": 0.9516668431460857,
+      "factor_seconds": 14.527440474368632,
+      "history_batch": 60,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.378410945646465,
+      "solve_verification_seconds": 2.841073495335877
+    },
+    {
+      "bank_prepare_seconds": 0.044001332484185696,
+      "cache_io_seconds": 0.2846309645101428,
+      "downstream_algebra_and_verification_seconds": 0.9555388502776623,
+      "factor_seconds": 14.527480117976665,
+      "history_batch": 70,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.368286197073758,
+      "solve_verification_seconds": 2.8412673864513636
+    },
+    {
+      "bank_prepare_seconds": 0.12634335085749626,
+      "cache_io_seconds": 0.2929486585780978,
+      "downstream_algebra_and_verification_seconds": 0.9546377779915929,
+      "factor_seconds": 14.52736849244684,
+      "history_batch": 80,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.449530567973852,
+      "solve_verification_seconds": 2.841182416304946
+    },
+    {
+      "bank_prepare_seconds": 0.04408206697553396,
+      "cache_io_seconds": 0.2913573943078518,
+      "downstream_algebra_and_verification_seconds": 1.338464630767703,
+      "factor_seconds": 14.527733753435314,
+      "history_batch": 90,
+      "peak_gpu_bytes": 10893306880,
+      "peak_rss_kib": 4096608,
+      "seconds": 18.75164151377976,
+      "solve_verification_seconds": 2.8413625322282314
+    }
+  ],
+  "jobs": [
+    {
+      "allocated_gpus": 1,
+      "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "elapsed_seconds": 71,
+      "end": "2026-09-20T09:37:17",
+      "exit_code": "0:0",
+      "job": "51137",
+      "start": "2026-09-20T09:36:06",
+      "state": "COMPLETED"
+    },
+    {
+      "allocated_gpus": 1,
+      "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "elapsed_seconds": 262,
+      "end": "2026-09-20T09:42:39",
+      "exit_code": "0:0",
+      "job": "51138",
+      "start": "2026-09-20T09:38:17",
+      "state": "COMPLETED"
+    },
+    {
+      "allocated_gpus": 1,
+      "allocated_tres": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "elapsed_seconds": 174,
+      "end": "2026-09-20T09:45:42",
+      "exit_code": "0:0",
+      "job": "51139",
+      "start": "2026-09-20T09:42:48",
+      "state": "COMPLETED"
+    }
+  ],
+  "key_peak_gpu_bytes": 33265646080,
+  "key_wall_seconds": 68.28435995895416,
+  "legacy_history_factorizations_verified_field": "Completed LU count only; no numerical certification",
+  "nested_timers_not_added_to_allocation": true,
+  "new_allocated_gpu_seconds": 507,
+  "original_cpu_costs_reused_not_recharged": {
+    "archival_cpu_seconds": 517.2216612137854,
+    "checkpoint_hash_seconds_in_geometry": 15.29243337456137,
+    "geometry_cpu_seconds": 128.34606998693198,
+    "model_fullhash_seconds": 14.033064560964704
+  },
+  "prior_allocated_gpu_seconds": 269,
+  "total_allocated_gpu_seconds": 776,
+  "two_lane_admission": "Both submitted under cap2; activation waited for scheduler CPU resources; no other job changes",
+  "validation_only_new_gpu_calls": 0
+}

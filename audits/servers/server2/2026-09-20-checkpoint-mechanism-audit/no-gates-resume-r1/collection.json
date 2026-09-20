@@ -1,0 +1,30 @@
+{
+  "status": "CPU_TERMINAL_COLLECTION",
+  "cells": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/publication-r1/cell-statuses.json",
+    "bytes": 7446,
+    "sha256": "0a58f4b8ad76e9f308091d4e6e9d1c740bd0e9b96bf1d1ec17fe97c159d4418c"
+  },
+  "context": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/publication-r1/report-context.json",
+    "bytes": 1174151,
+    "sha256": "f3a67d27e0afeb0cb459cdefb716b07dceff6542e2f23a08491633951a14bb27"
+  },
+  "summary": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/publication-r1/analysis-summary.json",
+    "bytes": 2378,
+    "sha256": "45da9be1d60d058614c7870719526086923cd06f632244af77c2513c469a3ed2"
+  },
+  "new_jobs": [
+    "51137",
+    "51138",
+    "51139"
+  ],
+  "prior_gpu_seconds": 269,
+  "new_gpu_seconds": 507,
+  "diagnostic_gates_enabled": false,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_policy": "REMOVED_USER_DIRECTED",
+  "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+  "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION"
+}

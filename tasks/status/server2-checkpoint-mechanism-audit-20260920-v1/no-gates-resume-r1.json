@@ -1,0 +1,20 @@
+{
+  "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
+  "status": "COMPLETED_READY_FOR_MAIN",
+  "jobs": [
+    "51137",
+    "51138",
+    "51139"
+  ],
+  "new_allocated_gpu_seconds": 507,
+  "prior_allocated_gpu_seconds": 269,
+  "report": "experiment-reports/servers/server2/checkpoint-mechanism-audit-2026-09-20-v1/no-gates-resume-r1/report-ko.md",
+  "report_sha256": "f7b967aa44ab0495bae177ae1901bb19d2eeaea9786d451163616b5576e2ec88",
+  "checkpoint_saved": false,
+  "other_task_pause_preserved": true,
+  "diagnostic_gates_enabled": false,
+  "numerical_validation": "NOT_ESTABLISHED",
+  "validation_policy": "REMOVED_USER_DIRECTED",
+  "override_nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
+  "status_scope": "COMPUTATION_NOT_NUMERICAL_CERTIFICATION"
+}
