@@ -127,7 +127,7 @@ def collect(output,scheduler):
             energy_mean=('write_energy','mean'),energy_min=('write_energy','min'),energy_max=('write_energy','max'),
             target_error_mean=('target_error_relative','mean')).reset_index()
         csum.to_csv(out/'counterfactual-summary.csv',index=False)
-        paragraphs.append('固定K/Rとhistory・R列置換の対照（実編集ではない）:\n\n'+reporting.markdown(csum))
+        paragraphs.append('고정 K/R × history 및 R 열 순열 대조(실제 편집 아님):\n\n'+reporting.markdown(csum))
     write_json(out/'analysis-summary.json',stats)
     stage_records={'keys':key,'operator':op,'activation':act}
     ledger=[]
@@ -135,7 +135,8 @@ def collect(output,scheduler):
         mode=next(mode for mode in stage_records if read(RUN/f'execution-{mode}-r1/submission.json')['job']==str(j['job']))
         t=stage_records[mode]
         ledger.append(dict(stage=mode,job=j['job'],scheduler_state=j['state'],allocated_gpu_seconds=j['elapsed_seconds'],
-            runner_seconds=t.get('elapsed_seconds',sum(x.get('wall_seconds',0) for x in t.get('intervals',[]))),
+            runner_seconds=t.get('elapsed_seconds','NOT_RECORDED'),
+            interval_seconds=sum(x.get('wall_seconds',0) for x in t.get('intervals',[])) if 'intervals' in t else None,
             numerical_status='NOT_ESTABLISHED',compute_status=t['status']))
     history_timing=[dict(history_batch=h,**{k:x.get(k) for k in ('seconds','factor_seconds','solve_verification_seconds','bank_prepare_seconds','downstream_algebra_and_verification_seconds','cache_io_seconds','peak_gpu_bytes','peak_rss_kib')}) for h,x in history.items()]
     write_csv(out/'history-compute.csv',history_timing)
@@ -145,6 +146,18 @@ def collect(output,scheduler):
         key_peak_gpu_bytes=key['peak_gpu_bytes'],activation_intervals=[{k:v for k,v in x.items() if k not in ('members','endpoint_archive_parity')} for x in intervals.values()],
         original_cpu_costs_reused_not_recharged={k:v for k,v in ctx['timing'].items() if 'cpu' in k or 'hash' in k},
         nested_timers_not_added_to_allocation=True,validation_only_new_gpu_calls=0)
+    timing['activation_compute']={}
+    for pair in intervals:
+        folder=RUN/'results/activation-r1'/f'G{pair[0]:03d}_{pair[1]:03d}'
+        p=folder/'compute.csv'
+        if p.exists():
+            frame=pd.read_csv(p)
+            timing['activation_compute'][f'{pair[0]}:{pair[1]}']={name:float(frame[name].sum()) for name in
+                ('forward_calls','vjp_calls','forward_seconds','backward_seconds','processed_sequences','valid_input_tokens','padded_input_tokens',
+                 'activation_offload_bytes','activation_reload_bytes','validation_only_forward_calls') if name in frame}
+    timing['two_lane_admission']='Both submitted under cap2; activation waited for scheduler CPU resources; no other job changes'
+    timing['activation_total_runner_wall']='NOT_RECORDED; interval wall excludes shared model load; allocated wall includes all'
+    timing['legacy_history_factorizations_verified_field']='Completed LU count only; no numerical certification'
     oldgate=ctx['gate_summary_ko'].split('이 수치는 B1 부분 재현')[0]
     gate_text=oldgate+'\n\n**최신 정책 변경:** 위 실패를 PASS로 바꾸지 않았다. C00/C01 재실행0. 수치 gate/검증 전용 GPU 호출을 제거하고 필수 artifact 가용성·source/shape/dtype/finite/I/O/상태복원/resource만 유지해 나머지 분석을 실행했다. 새 PASS는 계산 완료이며 numerical_validation=NOT_ESTABLISHED다. Tolerance를 확대해 통과시킨 실행이 아니다.'
     ctx.update(EXECUTION_POLICY)
