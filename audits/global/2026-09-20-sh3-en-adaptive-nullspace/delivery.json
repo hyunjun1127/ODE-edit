@@ -1,0 +1,29 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1",
+  "publication": "10f8ef06b18b81d3d54c4e69f0cf4b347f960dce",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "actual_host": "ubuntu",
+  "cwd": "/data/janghj/ODE-edit",
+  "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+  "transport": "registered direct app-server over rke-server3 SSH; expected session/CWD checked; idle target turn/start",
+  "turn_id": "01a0be04-7ba9-7d21-b6ca-cfce367be8f6",
+  "status": "ACK_RECEIVED_TASK_RUNNING",
+  "ack": "ACK nonce=ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1. 새 과학 실행 승인과 cap1·checkpoint 미저장 조건 수신. 정본9개 SHA/size FULL_READ, source·입력·metrics M0 후 T0→B1네arm→세trajectory B300→보고/main 진행.",
+  "gpu_submission": "NOT_YET_OBSERVED",
+  "checks": [
+    "9 original authority members full SHA/size exact",
+    "cap1 task/policy alignment",
+    "13 cells and first300 scope",
+    "expanded accuracy/NLL postseal-only",
+    "source dirty preserved; no GH GPU/model/Slurm actions"
+  ],
+  "z_source": {
+    "s2_git_commit": "cab4a59fb4476c133b7a7bb967fa557f028c8e1a",
+    "sha256": "722a0c35d91e3733b1962f9d07c016436a609b3b5c0cdd391b6ac80ed8ecca8e",
+    "actual_s2_z_run": "NOT_CONFIRMED",
+    "reference_host": "server4",
+    "reference_path": "/data/janghj/tmp/dnm/hooking.py",
+    "reference_sha256": "feb3509940a40e8b8027ee7daae4c7486fc43ec80394383627699be4f34f072b"
+  }
+}

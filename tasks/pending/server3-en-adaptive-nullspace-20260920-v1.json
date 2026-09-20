@@ -1,7 +1,10 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
   "nonce": "ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1",
-  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "10f8ef06b18b81d3d54c4e69f0cf4b347f960dce",
+  "dispatch_turn": "01a0be04-7ba9-7d21-b6ca-cfce367be8f6",
+  "actual_gpu_submission": "NOT_YET_OBSERVED",
   "owner": "head-server3",
   "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
   "cwd": "/data/janghj/ODE-edit",
