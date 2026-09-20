@@ -1,0 +1,12 @@
+{
+  "checked_at_utc": "2026-09-20T14:22:08.597025+00:00",
+  "method": "local task submission/release receipt names, no scheduler or result query",
+  "found": [
+    "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/submission.json",
+    "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/release.json"
+  ],
+  "new_gss_registration_count": 0,
+  "previous_all_active_lifelong_registration_count": 0,
+  "known_old_b300_job": 51290,
+  "related_jobs_cancelled": 0
+}

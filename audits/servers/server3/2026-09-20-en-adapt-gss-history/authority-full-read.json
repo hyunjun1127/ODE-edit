@@ -1,0 +1,66 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1",
+  "read_status": "SH3_FULL_READ_SIX_SHA_SIZE_MATCH",
+  "members": [
+    {
+      "path": "plans/global/2026-09-20-en-adapt-gss-history-design-v1.md",
+      "size": 24421,
+      "sha256": "c8ab9d0b577be12e61f2d095432318a5d9544421f327eaf3aa8826a5a85b79fc",
+      "crlf": false,
+      "SH3_FULL_READ": true
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adapt-gss-history-contract-v1.json",
+      "size": 6320,
+      "sha256": "e4f93ff50448fb92d868c08f319c8061fff446cd6cecb5af0094c40a2adbfff8",
+      "crlf": false,
+      "SH3_FULL_READ": true
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adapt-gss-history-cells-v1.csv",
+      "size": 12850,
+      "sha256": "9b7ea81c0cf8cacf793f60a47eaef53ced8eaf5ee3b4669b455040cc1c725319",
+      "crlf": true,
+      "SH3_FULL_READ": true
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adapt-gss-history-design-v1/history_reference.py",
+      "size": 4527,
+      "sha256": "ca617d6c831ee311f645a8d7e1193a2dcb91029916cb8a2ee6468108cd11aeb1",
+      "crlf": false,
+      "SH3_FULL_READ": true
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adapt-gss-history-design-v1/verify_design.py",
+      "size": 8021,
+      "sha256": "61a51d2786e8a554de83e1cc9bb243ac5954eaa86001479fdd2d3cf4aa82f7b4",
+      "crlf": false,
+      "SH3_FULL_READ": true
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adapt-gss-history-design-v1/design-checks.json",
+      "size": 5217,
+      "sha256": "b1cf1034415fbb94737848a07f12aa5f6a734bd8ddfc47e5700a78ba70f990a1",
+      "crlf": false,
+      "SH3_FULL_READ": true
+    }
+  ],
+  "original_bytes_preserved": true,
+  "prior_cpu_checks": 45,
+  "actual_model_validation": "NOT_RUN_BY_GH",
+  "authority_commit": "b9a52005df2c1d06d035d6bb6404a55b8c763eeb",
+  "latest_override": {
+    "nonce": "ODEEDIT-GH-SH3-GSS-TWOARMS-CAP2-20260920-R1",
+    "arms": [
+      "EN_ADAPT_H_RES",
+      "EN_ADAPT_H_GSS_REC"
+    ],
+    "project_cap": 2,
+    "jobs": 2,
+    "gpus_per_job": 1,
+    "native_batches_total": 200,
+    "shared_prefix_across_jobs": false,
+    "save_checkpoints": false,
+    "post_release_monitoring": false
+  }
+}

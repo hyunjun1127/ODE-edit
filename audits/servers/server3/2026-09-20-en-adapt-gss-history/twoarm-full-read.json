@@ -1,0 +1,29 @@
+{
+  "commit": "7216cc96c0436fcbd1d3b7cba2c69c09d613bd93",
+  "members": [
+    {
+      "path": "messages/head/2026-09-20-sh3-en-adapt-gss-history-10k.md",
+      "bytes": 13603,
+      "sha256": "4382688c46c66f1d086a55eae6ada51effc46698241abe6b30529f39d9af9f7e",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "messages/head/2026-09-20-sh3-en-adapt-gss-history-twoarm-cap2.md",
+      "bytes": 3954,
+      "sha256": "d985fab15b790036d58c621eb4303e3a24f63b9ca3cdd5213bcc454ed8a7ce9e",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adapt-gss-history-twoarm-contract-v1.json",
+      "bytes": 1471,
+      "sha256": "12211ee835fc329410d215170b936b847848baf3d64e5cb2cc8de15b1f509966",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adapt-gss-history-twoarm-cells-v1.csv",
+      "bytes": 10641,
+      "sha256": "baedeff00a3490b4b1e41254bf4e7c742f695d04c7d9a1eb2b75710e15a70dc4",
+      "read_status": "FULL_READ"
+    }
+  ]
+}

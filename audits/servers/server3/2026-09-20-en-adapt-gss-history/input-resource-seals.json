@@ -1,0 +1,29 @@
+{
+  "reference_members": 2560,
+  "reference_bytes": 101519959223,
+  "verification": "prior fullSHA/size/CPUshape + current unchanged size/device/inode/mtime",
+  "fresh_full_payload_rehash": false,
+  "preparation_root": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/preparation-v1",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/preparation-v1/reference-stat-binding.json",
+      "bytes": 782457,
+      "sha256": "6d88d55563b7af2fe70a998dd88092a860601c5e9749a018c9b3b136dc96e3b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/preparation-v1/ready-binding.json",
+      "bytes": 43600,
+      "sha256": "bbf6061548ff1c8b1042dd1119e90eeb17831e1d417d1d08bc76981663967b7d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/preparation-v1/sequence-token-identity.json",
+      "bytes": 3096751,
+      "sha256": "0fa0f61461cff4f25eabe780761aec1147362e9676f69164bb113f95e0177dea"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/preparation-v1/resource-plan.json",
+      "bytes": 4454,
+      "sha256": "171ad571e39e156d64199e49de2a6910aa3809665b9aa80ddbd3495cf3e8e228"
+    }
+  ]
+}

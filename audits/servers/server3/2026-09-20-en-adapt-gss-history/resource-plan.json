@@ -1,0 +1,100 @@
+{
+  "schema": "SH3_GSS_TWOARM_RESOURCE_V1",
+  "created_unix": 1789914643.3225174,
+  "authority": "7216cc96c0436fcbd1d3b7cba2c69c09d613bd93",
+  "arms": [
+    "EN_ADAPT_H_RES",
+    "EN_ADAPT_H_GSS_REC"
+  ],
+  "independent_jobs": 2,
+  "shared_edited_state": false,
+  "cpu": {
+    "per_job": 8,
+    "aggregate": 16,
+    "node_observed": "NodeName=ubuntu Arch=x86_64 CoresPerSocket=24  CPUAlloc=12 CPUEfctv=96 CPUTot=96 CPULoad=3.20 AvailableFeatures=(null) ActiveFeatures=(null) Gres=gpu:h200:4 NodeAddr=ubuntu NodeHostName=ubuntu Version=26.05.0 OS=Linux 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026  RealMemory=512000 AllocMem=107520 FreeMem=2282 Sockets=2 Boards=1 State=MIXED ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A Partitions=gpu  BootTime=2026-05-30T22:20:31 SlurmdStartTime=2026-09-08T19:54:34 LastBusyTime=2026-09-17T12:34:36 ResumeAfterTime=None SuspendTime=INFINITE CfgTRES=cpu=96,mem=500G,billing=96,gres/gpu=4 AllocTRES=cpu=12,mem=105G,gres/gpu=2 CurrentWatts=0 AveWatts=0\n"
+  },
+  "memory": {
+    "per_job_limit_MiB": 121856,
+    "aggregate_limit_MiB": 243712,
+    "per_job_peak_estimate_GiB": 100,
+    "aggregate_peak_estimate_GiB": 200,
+    "measured": false,
+    "prior_B300_MaxRSS_GiB": 69.375,
+    "observed_meminfo_KiB": {
+      "MemTotal": 527877232,
+      "MemAvailable": 365951852
+    },
+    "components_GiB": {
+      "model_CPU_loading_transient": 32,
+      "reference_prefix_cache": 19,
+      "mapped_reference_page_working_set": 12,
+      "P_basis_C0": 8,
+      "TSQR_SVD_workspace": 16,
+      "W_M_gradient_controller": 8,
+      "history_hot_A_keys_teacher": 1,
+      "observations_ledger_python": 4,
+      "allocator_and_compression": 8
+    },
+    "note": "component maxima are not all concurrent; conservative 100GiB planned peak, 119GiB requested; new path peak unmeasured"
+  },
+  "storage": {
+    "free_bytes": 49155330048,
+    "free_inodes": 225890733,
+    "exclusive_reserved": false,
+    "per_arm_cold_teacher_bytes": 5213862912,
+    "per_arm_keys_residual_bytes": 6503768064,
+    "per_arm_packed_bytes": 2117112,
+    "per_arm_projected_key_upper_bytes": 45165056,
+    "cold_two_arms_with_metadata_bytes": 23857506288,
+    "scalar_output_budget_bytes": 8589934592,
+    "atomic_temp_budget_bytes": 2147483648,
+    "safety_margin_bytes": 8589934592,
+    "required_free_bytes": 43184859120,
+    "headroom_bytes": 5970470928,
+    "immutable_reference_duplicate_bytes": 0,
+    "checkpoint_bytes": 0,
+    "old_artifacts_deleted": 0,
+    "compression": "observations gzip lossless; teacher FP32 uncompressed"
+  },
+  "time": {
+    "expected_wall_hours_each": [
+      28,
+      72
+    ],
+    "expected_allocation_GPU_hours_two": [
+      56,
+      144
+    ],
+    "requested_wall_hours_each": 168,
+    "partition_metadata": "PartitionName=gpu AllowGroups=ALL AllowAccounts=ALL AllowQos=lab_gpu_s1,lab_gpu_s2,lab_gpu_s3,lab_gpu_s4 AllocNodes=ALL Default=YES QoS=N/A DefaultTime=04:00:00 DisableRootJobs=NO Exclusive=NO GraceTime=0 Hidden=NO MaxNodes=UNLIMITED MaxTime=30-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED NodeSets=ALL Nodes=devbox,server[2,4],ubuntu PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO OverTimeLimit=NONE PreemptMode=OFF State=UP TotalCPUs=416 TotalNodes=4 SelectTypeParameters=NONE JobDefaults=(null) DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED TRES=cpu=416,mem=3000G,node=4,billing=416,gres/gpu=28\n",
+    "measured": false,
+    "prior_measured_core_seconds_per_state": [
+      652.49,
+      672.72
+    ],
+    "extrapolated_core_hours_each": [
+      18.12472222222222,
+      18.686666666666667
+    ],
+    "extra_work": "history short suffix KL/NLL VJPs, three observer endpoints, cold teacher I/O, CPU diagnostics/report, two-job resource contention",
+    "per_arm_observer_union_request_upper": 84564,
+    "per_arm_entry_native_selected_request_upper": 253692,
+    "W0_observer_requests_each": 10000,
+    "GPUhour_hardcap": null
+  },
+  "counts": {
+    "planned_native_batches": 200,
+    "planned_native_requests": 20000,
+    "planned_reference_gradients": 200,
+    "max_candidates": 400,
+    "GSS_REC_overflow_sweeps_no_overwrite_upper": 94,
+    "GSS_REC_selection_NLL_fact_VJP_no_overwrite_upper": 57516,
+    "RES_selection_NLL_fact_VJP": 0
+  },
+  "scopes": {
+    "no_checkpoint": true,
+    "post_release_monitoring": false,
+    "actual_initial": "NOT_OBSERVED",
+    "actual_terminal": "NOT_OBSERVED"
+  }
+}
