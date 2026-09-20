@@ -6,5 +6,6 @@
 # User override 2026-09-17: server4 increases to 2 project GPUs; supersedes 2026-09-16 cap1 prospectively.
 server1	2
 server2	2
-server3	2
+# User override 2026-09-20: server3 project cap1; other servers unchanged.
+server3	1
 server4	2

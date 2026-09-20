@@ -1,0 +1,52 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "members": [
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-experiment-v1.md",
+      "size": 27947,
+      "sha256": "378ad6ccb9d8150fa902fb19ef8207153fe4bb808bc935f36b8556a310dc58f1"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-contract-v1.json",
+      "size": 6506,
+      "sha256": "f79c5d2b82de896e000c3daa2546eeae61d4a29551de324610053a49557ad3f2"
+    },
+    {
+      "path": "plans/global/2026-09-20-en-adaptive-nullspace-cells-v1.csv",
+      "size": 973,
+      "sha256": "106278370ef3e85fa5eb465b7393d55fc31b1180d55f4845ea435308d072db48"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/selector_reference.py",
+      "size": 4258,
+      "sha256": "9759d9867701d33e54562c018255623fecab5c0a2a1ea7efda445827eec87e26"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/verify_design.py",
+      "size": 7362,
+      "sha256": "7ca0c02326b3f86675cd102801b70d4389cf5b1a96a01be55be888342287105c"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/design-checks.json",
+      "size": 4659,
+      "sha256": "0c58f46a46a33995a5a6eac9d5a42bbd52908108762e78b59b5e33f59e2e65e3"
+    },
+    {
+      "path": "audits/global/2026-09-20-en-nullspace-threshold-review/review-ko.md",
+      "size": 16971,
+      "sha256": "ffd8c232b4533ed9249eb30a0e6dca79a1533b2f21dd418c7941276921cb62d8"
+    },
+    {
+      "path": "audits/global/2026-09-20-slmf-b1-independent-review/review-ko.md",
+      "size": 18898,
+      "sha256": "239b96767c6388d5260862aa0ec7b7e6cf28d7127d0db99d7428b5c7bfd4e004"
+    },
+    {
+      "path": "audits/global/2026-09-20-single-layer-write-strength-analysis/analysis-ko.md",
+      "size": 31035,
+      "sha256": "d386026d749e31c02d9aa08eea3348e81d185252f6bb0a2554cf59c43261832f"
+    }
+  ],
+  "read_status": "GH_FULL_READ",
+  "originals_unchanged": true
+}

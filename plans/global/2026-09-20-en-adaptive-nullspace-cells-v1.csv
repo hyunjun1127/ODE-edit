@@ -1,0 +1,14 @@
+cell,stage,batch,arm,entry,native_batch_passes,reference_gradient_sweeps,reference_candidate_sweeps_max,role
+CPU,DESIGN,0,ALL,no_model,0,0,0,selector_algebra_and_contract_checks
+T0,TECHNICAL,0,ALL,W0,0,0,0,bounded_parity_work_separately_counted
+B1_SHARED,B1,1,SHARED,W0,1,1,0,native_gradient_weighted_SVD_frontier
+B1_N4,B1,1,N4,shared_native,0,0,0,native_baseline
+B1_EXACT,B1,1,EN_EXACT,shared_native,0,0,2,exact_space_common_controller
+B1_NUM,B1,1,EN_NUM,shared_native,0,0,2,numerical_tail_only
+B1_ADAPT,B1,1,EN_ADAPT,shared_native,0,0,2,adaptive_threshold_epsilon_0p05
+B2_N4,S3,2,N4,own_B1_commit,1,0,0,native_chain
+B2_EXACT,S3,2,EN_EXACT,own_B1_commit,1,1,2,reference_plus_all_active_history
+B2_ADAPT,S3,2,EN_ADAPT,own_B1_commit,1,1,2,reference_plus_all_active_history
+B3_N4,S3,3,N4,own_B2_commit,1,0,0,native_chain
+B3_EXACT,S3,3,EN_EXACT,own_B2_commit,1,1,2,reference_plus_all_active_history
+B3_ADAPT,S3,3,EN_ADAPT,own_B2_commit,1,1,2,reference_plus_all_active_history

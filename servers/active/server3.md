@@ -1,5 +1,17 @@
 # Server3 active record
 
+## 최신 과학 실행 승인 — 2026-09-20 / project cap1
+
+사용자 요청으로 server3의 project GPU 상한은 **1**로 변경한다.
+아래 cap2/bootstrap 제출금지는 역사이며 이 최신 범위에는 적용하지 않는다.
+Llama readiness 완료를 재사용하고
+[EN adaptive-nullspace envelope](../../messages/head/2026-09-20-sh3-en-adaptive-nullspace.md)의
+T0 → cold B100 네 arm → 세 own-trajectory B300 → 보고/main 게시를 승인한다.
+Fixed10k 동일 순서, server2 공통 z-hook/지정 hooking.py 참조, 추가 TF accuracy/NLL 분석.
+save_checkpoints=false / exact crash-resume NOT_AVAILABLE, 기존 자료 삭제0.
+현재 실행 제출/모델성능은 아직 미확인; 새 task의 M0/source/input/resource lock 뒤 진행.
+그 밖 과학 task/자동 B1000·10k 확장 권한은 없다.
+
 ## 최신 준비 승인 — 2026-09-19
 
 사용자가 데이터·모델·Covariance·Projector를 실제 실험 가능한 상태로 만들도록

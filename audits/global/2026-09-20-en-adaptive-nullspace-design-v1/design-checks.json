@@ -1,0 +1,177 @@
+{
+  "status": "PASS_CPU_DESIGN_NOT_NEURAL_VALIDATION",
+  "checks": {
+    "budget_at_boundary_0": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_at_boundary_1": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_at_boundary_2": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_at_boundary_3": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_at_boundary_4": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_at_boundary_5": {
+      "passed": true,
+      "detail": null
+    },
+    "spectrum_matches_explicit_projectors": {
+      "passed": true,
+      "detail": 1.4210854715202004e-14
+    },
+    "selector_matches_direct_lexicographic_choice": {
+      "passed": true,
+      "detail": null
+    },
+    "budget_changes_selected_space": {
+      "passed": true,
+      "detail": [
+        {
+          "epsilon": 0.001,
+          "released_modes": 0,
+          "predicted_decrease": 0.1,
+          "correction_norm": 0.1,
+          "response_norm": 0.0
+        },
+        {
+          "epsilon": 0.05,
+          "released_modes": 1,
+          "predicted_decrease": 0.1,
+          "correction_norm": 0.044721359549995794,
+          "response_norm": 0.004
+        },
+        {
+          "epsilon": 1.0,
+          "released_modes": 2,
+          "predicted_decrease": 0.1,
+          "correction_norm": 0.01078327732034384,
+          "response_norm": 0.10465142118831149
+        }
+      ]
+    },
+    "key_units_do_not_change_selection": {
+      "passed": true,
+      "detail": null
+    },
+    "weighted_duplicate_invariance": {
+      "passed": true,
+      "detail": null
+    },
+    "zero_native_action_keeps_only_zero_response_steps": {
+      "passed": true,
+      "detail": null
+    },
+    "zero_gradient_has_no_nan": {
+      "passed": true,
+      "detail": null
+    },
+    "equal_eigenvalue_group_not_split": {
+      "passed": true,
+      "detail": null
+    },
+    "split_eigenvalue_group_rejected": {
+      "passed": true,
+      "detail": null
+    },
+    "second_point_matches_known_quadratic_minimum": {
+      "passed": true,
+      "detail": {
+        "scale": 0.16666666666666666,
+        "curvature": 12.0,
+        "reason": "QUADRATIC_INTERPOLATION"
+      }
+    },
+    "second_point_stays_inside_first_budget": {
+      "passed": true,
+      "detail": null
+    },
+    "nonpositive_curvature_does_not_expand": {
+      "passed": true,
+      "detail": null
+    },
+    "historical_first_trial_gives_new_unmeasured_point": {
+      "passed": true,
+      "detail": {
+        "scale": 0.18383790693590085,
+        "curvature": 0.00609444683528,
+        "reason": "QUADRATIC_INTERPOLATION",
+        "note": "Scalar interpolation only; KL/RS/PS/NS at this point are unmeasured"
+      }
+    },
+    "cost_B1_native_batch_passes": {
+      "passed": true,
+      "detail": 1
+    },
+    "cost_B1_reference_gradient_sweeps": {
+      "passed": true,
+      "detail": 1
+    },
+    "cost_B1_reference_candidate_sweeps_max": {
+      "passed": true,
+      "detail": 6
+    },
+    "cost_through_B3_native_batch_passes": {
+      "passed": true,
+      "detail": 7
+    },
+    "cost_through_B3_reference_gradient_sweeps": {
+      "passed": true,
+      "detail": 5
+    },
+    "cost_through_B3_reference_candidate_sweeps_max": {
+      "passed": true,
+      "detail": 14
+    },
+    "B1_four_endpoints": {
+      "passed": true,
+      "detail": null
+    },
+    "S3_fixed_chains_batch_2": {
+      "passed": true,
+      "detail": null
+    },
+    "S3_fixed_chains_batch_3": {
+      "passed": true,
+      "detail": null
+    },
+    "reference_512_generation_256_no_PS_training": {
+      "passed": true,
+      "detail": null
+    },
+    "single_layer_cold_no_extra_z": {
+      "passed": true,
+      "detail": null
+    },
+    "no_margin_controller": {
+      "passed": true,
+      "detail": null
+    },
+    "history_all_fits_capacity": {
+      "passed": true,
+      "detail": null
+    },
+    "local_design_links_exist": {
+      "passed": true,
+      "detail": null
+    }
+  },
+  "checks_count": 33,
+  "model_forward_backward": 0,
+  "gpu_jobs_submitted": 0,
+  "files": {
+    "plans/global/2026-09-20-en-adaptive-nullspace-contract-v1.json": "f79c5d2b82de896e000c3daa2546eeae61d4a29551de324610053a49557ad3f2",
+    "plans/global/2026-09-20-en-adaptive-nullspace-experiment-v1.md": "378ad6ccb9d8150fa902fb19ef8207153fe4bb808bc935f36b8556a310dc58f1",
+    "plans/global/2026-09-20-en-adaptive-nullspace-cells-v1.csv": "106278370ef3e85fa5eb465b7393d55fc31b1180d55f4845ea435308d072db48",
+    "audits/global/2026-09-20-en-adaptive-nullspace-design-v1/selector_reference.py": "9759d9867701d33e54562c018255623fecab5c0a2a1ea7efda445827eec87e26"
+  }
+}

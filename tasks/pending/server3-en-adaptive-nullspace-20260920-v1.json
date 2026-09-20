@@ -1,0 +1,46 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1",
+  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "cwd": "/data/janghj/ODE-edit",
+  "envelope": "messages/head/2026-09-20-sh3-en-adaptive-nullspace.md",
+  "transfer_approval": "transfers/approvals/2026-09-20-en-adaptive-nullspace-server3.md",
+  "project_gpu_cap": 1,
+  "task_gpu_cap": 1,
+  "memory_mib_per_gpu_max": 121856,
+  "save_checkpoints": false,
+  "exact_crash_resume": "NOT_AVAILABLE",
+  "science_scope": {
+    "batch_size": 100,
+    "unique_requests": 300,
+    "b1_arms": [
+      "N4",
+      "EN_EXACT",
+      "EN_NUM",
+      "EN_ADAPT"
+    ],
+    "sequential_arms": [
+      "N4",
+      "EN_EXACT",
+      "EN_ADAPT"
+    ],
+    "sequential_batches": 3,
+    "performance_selection": false
+  },
+  "continue_through_report_main": true,
+  "initial_pending_stop": false,
+  "automatic_B1000": false,
+  "metrics_addendum": [
+    "rewrite_acc",
+    "rephrase_acc",
+    "neighborhood_acc",
+    "token_micro",
+    "prompt_macro",
+    "TF_target_strict",
+    "true_new_desired_NLL",
+    "paired_loss_gain"
+  ],
+  "source_provenance": "S2 common Git z_hook confirmed; S2 actual z-run receipt NOT_CONFIRMED; S4 hooking.py exact reference"
+}
