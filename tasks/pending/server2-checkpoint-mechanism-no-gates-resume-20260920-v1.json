@@ -1,7 +1,12 @@
 {
   "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
   "nonce": "ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1",
-  "status": "APPROVED_AWAITING_DIRECT_DELIVERY",
+  "status": "DELIVERED_SH2_M0_ACK_RECEIVED",
+  "dispatch_publication": "b105cc07829d0141447a4120fae9d5a55c2637f6",
+  "delivery_turn_id": "01a0bc35-c2c6-7571-910a-6950c0c1123c",
+  "delivery_transport": "registered_app_server_direct_over_ssh",
+  "ack": "Same-connection exact nonce: SH2 removes parity/reproduction blocking and validation-only GPU calls, preserves prior failures, proceeds cap2 after required keys",
+  "new_job_submission": "NOT_YET_REPORTED",
   "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
   "target_server": "server2",
   "expected_cwd": "/mnt/raid5/janghj/ODE-edit",
