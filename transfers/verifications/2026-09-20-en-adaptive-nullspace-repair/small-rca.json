@@ -1,0 +1,9 @@
+{
+  "status": "PASS_26_EXACT_MEMBERS",
+  "members": 26,
+  "package_bytes": 409015,
+  "reference_bytes": 0,
+  "package_sha256": "7b6ee0ffe6b66129a083ed429f86870a93e47ae675511085401fe0e800a88e10",
+  "rca_commit": "9a371cb37112508fbdb5c366e0fe293da33d0bd9",
+  "original_KEEP": true
+}

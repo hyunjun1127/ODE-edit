@@ -1,0 +1,292 @@
+"""Independent stored-NLL reduction and S4 completed/partial review supplement.
+
+No model/torch/evaluator import. Runtime raw is read-only. CSV carries compact
+case identities and scalars, not source prompts or teacher/model tensors.
+"""
+import argparse
+import csv
+import hashlib
+import json
+import math
+from pathlib import Path
+import statistics
+
+ARMS=('N4','EN_EXACT','EN_NUM','EN_ADAPT')
+CHAINS=('N4','EN_EXACT','EN_ADAPT')
+
+
+def digest(path):
+    h=hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for block in iter(lambda:f.read(8<<20),b''):h.update(block)
+    return h.hexdigest()
+
+
+def dump(path,value):
+    path.write_text(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
+
+
+def csv_dump(path,rows):
+    keys=list(dict.fromkeys(k for r in rows for k in r))
+    with path.open('w',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=keys);w.writeheader()
+        for row in rows:w.writerow({k:json.dumps(v,ensure_ascii=False) if isinstance(v,(list,dict)) else v for k,v in row.items()})
+
+
+def validate_reduce(obs,case_ids=None):
+    ids=obs['request_ids'] if case_ids is None else list(case_ids)
+    if len(ids)!=len(set(ids)) or not set(ids).issubset(obs['request_ids']):raise ValueError('REQUEST_IDENTITY')
+    selected=set(ids);by={x:[] for x in ('RS','PS','NS')};seen=set()
+    for row in obs['rows']:
+        if row['case_id'] not in selected:continue
+        key=(row['family'],row['case_id'],row['prompt_index'])
+        if key in seen:raise ValueError('DUPLICATE_PROMPT')
+        seen.add(key)
+        a,b=row['new_nll'],row['true_nll']
+        if not math.isfinite(a) or not math.isfinite(b):raise ValueError('NONFINITE_NLL')
+        family=row['family'];desired='true' if family=='NS' else 'new'
+        success=b<a if family=='NS' else a<b
+        flags=row[desired+'_token_correct']
+        if not flags or any(type(f) is not bool for f in flags):raise ValueError('TOKEN_FLAGS')
+        if row[desired+'_token_count']!=len(flags) or row[desired+'_strict']!=all(flags):raise ValueError('TOKEN_DENOMINATOR')
+        if row['success']!=success:raise ValueError('STORED_PREFERENCE_MISMATCH')
+        by[family].append(dict(row,independent_success=success,independent_strict=all(flags),desired_flags=flags))
+    out=[]
+    for family,factor in [('RS',1),('PS',2),('NS',10)]:
+        rows=by[family];n=len(rows)
+        if n!=factor*len(ids):raise ValueError('PROMPT_CARDINALITY:'+family)
+        for case in ids:
+            if sum(r['case_id']==case for r in rows)!=factor:raise ValueError('PER_CASE_CARDINALITY')
+        successes=sum(r['independent_success'] for r in rows);strict=sum(r['independent_strict'] for r in rows)
+        flags=[f for r in rows for f in r['desired_flags']]
+        out.append(dict(family=family,requests=len(ids),numerator=successes,denominator=n,percent=100*successes/n if n else None,
+            strict_numerator=strict,strict_denominator=n,tf_token_correct=sum(flags),tf_token_total=len(flags),
+            tf_token_micro=sum(flags)/len(flags) if flags else None,
+            tf_prompt_macro=statistics.mean(sum(r['desired_flags'])/len(r['desired_flags']) for r in rows) if rows else None,
+            new_nll=statistics.mean(r['new_nll'] for r in rows) if rows else None,
+            true_nll=statistics.mean(r['true_nll'] for r in rows) if rows else None))
+    return out,by
+
+
+def transitions(a,b,case_ids):
+    _,before=validate_reduce(a,case_ids);_,after=validate_reduce(b,case_ids)
+    rows=[]
+    for family in before:
+        key=lambda r:(r['case_id'],r['prompt_index'],r['identity'],r['token_identity'])
+        left={key(r):r for r in before[family]};right={key(r):r for r in after[family]}
+        if left.keys()!=right.keys():raise ValueError('PAIRED_IDENTITY')
+        for k,x in left.items():
+            y=right[k];old=x['independent_success'];new=y['independent_success']
+            rows.append(dict(family=family,case_id=k[0],prompt_index=k[1],identity=k[2],
+                lost=old and not new,gained=not old and new,
+                strict_lost=x['independent_strict'] and not y['independent_strict'],
+                strict_gained=not x['independent_strict'] and y['independent_strict'],
+                new_nll_delta=y['new_nll']-x['new_nll'],true_nll_delta=y['true_nll']-x['true_nll']))
+    return rows
+
+
+def joint_counts(by,case_ids):
+    selected=by['RS']+by['PS']
+    pref=[];strict=[]
+    for case in case_ids:
+        rows=[r for r in selected if r['case_id']==case]
+        if len(rows)!=3:raise ValueError('JOINT_R_TWO_P_CARDINALITY')
+        if all(r['independent_success'] for r in rows):pref.append(case)
+        if all(r['independent_strict'] for r in rows):strict.append(case)
+    return dict(request_denominator=len(case_ids),preference_joint=len(pref),TF_strict_joint=len(strict),
+        preference_success_ids=pref,strict_success_ids=strict)
+
+
+def replay_controller(controller):
+    accepted=[];checks=[]
+    for row in controller['ledger']:
+        j=row['objective']['J'];base=row['native_objective']['J'];slope=row['actual_gradient_inner_product']
+        expected=j<base and j<=base+1e-4*slope and slope<0
+        checks.append(dict(trial=row['trial'],accepted_saved=row['accepted'],accepted_independent=expected,
+            acceptance_equal=expected==row['accepted'],geometry=all(row['geometry_checks'].values())))
+        if expected:accepted.append((j,row['geometry']['actual_norm'],row['trial']))
+    selected=min(accepted)[2] if accepted else None
+    actual=controller.get('selected_trial')
+    if selected!=actual or any(not r['acceptance_equal'] or not r['geometry'] for r in checks):raise ValueError('CONTROLLER_REPLAY')
+    return dict(selected_trial=selected,status=controller['status'],candidates=len(checks),checks=checks)
+
+
+def replay_frontier(payload):
+    """Scalar-only independent replay; no production selector/tensor imports."""
+    s=payload['spectrum'];selection=payload['selection'];results=[]
+    cumulative_g=[s['exact_energy']];cumulative_a=[0.]
+    added=0.;action=0.
+    for eigen,energy in zip(s['eigenvalues'],s['mode_energies']):
+        added+=energy;action+=eigen*energy
+        cumulative_g.append(s['exact_energy']+added);cumulative_a.append(action)
+    for eps,stored in selection['frontiers'].items():
+        reconstructed=[]
+        for k in [0,*s['group_ends']]:
+            g2=cumulative_g[k];a2=cumulative_a[k];g=math.sqrt(g2);a=math.sqrt(a2)
+            eta=0. if s['loss']<=selection['loss_floor'] or g==0 or s['native_norm']==0 else min(
+                s['loss']/g2,s['native_norm']/g,float(eps)*s['native_action']/a if a else math.inf)
+            reconstructed.append(dict(released_modes=k,gradient_energy=g2,eta=eta,
+                predicted_decrease=eta*g2,correction_norm=eta*g,response_norm=eta*a))
+        if len(stored)!=len(reconstructed):raise ValueError('FRONTIER_CARDINALITY')
+        max_error=0.
+        for actual,expected in zip(stored,reconstructed):
+            if actual['released_modes']!=expected['released_modes']:raise ValueError('FRONTIER_ORDER')
+            for key in ('gradient_energy','eta','predicted_decrease','correction_norm','response_norm'):
+                max_error=max(max_error,abs(actual[key]-expected[key]))
+                if not math.isclose(actual[key],expected[key],rel_tol=1e-12,abs_tol=1e-15):
+                    raise ValueError('FRONTIER_ARITHMETIC:'+key)
+        remaining=reconstructed
+        for key,maximize in [('predicted_decrease',True),('correction_norm',False),('response_norm',False)]:
+            values=[r[key] for r in remaining];best=(max if maximize else min)(values)
+            tolerance=64*2.220446049250313e-16*max(1.,max(abs(x) for x in values))
+            remaining=[r for r in remaining if abs(r[key]-best)<=tolerance]
+        chosen=min(remaining,key=lambda r:r['released_modes'])['released_modes']
+        if float(eps)==selection['epsilon_primary']:
+            expected={'EN_EXACT':0,'EN_NUM':s['numerical_released'],'EN_ADAPT':chosen}
+            if any(selection['selected'][arm]['released_modes']!=k for arm,k in expected.items()):
+                raise ValueError('FRONTIER_SELECTION')
+        results.append(dict(epsilon=float(eps),rows=len(stored),selected_adaptive_modes=chosen,
+            scalar_max_abs_difference=max_error,arithmetic_comparison_tolerance='relative1e-12/absolute1e-15; not scientific acceptance'))
+    return results
+
+
+def objective_coverage(obj,active_ids=None,expected_positions=None):
+    role=obj['role'];ref=obj['rows']['reference'];hist=obj['rows']['history']
+    indices=list(range(512)) if role=='R512' else list(range(512,640)) if role=='Dev128' else None
+    if indices is None or [r['index'] for r in ref]!=indices or any(r['role']!=role for r in ref):
+        raise ValueError('REFERENCE_ID_ORDER_COVERAGE')
+    if any(not 1<=r['positions']<=256 for r in ref):raise ValueError('GENERATED_POSITION_CARDINALITY')
+    if expected_positions is not None and any(r['positions']!=expected_positions[r['index']] for r in ref):
+        raise ValueError('TEACHER_POSITION_IDENTITY')
+    if obj['reference_documents']!=len(ref) or obj['reference_positions']!=sum(r['positions'] for r in ref):
+        raise ValueError('REFERENCE_COUNTER')
+    if obj['history_requests']!=len(hist) or len({r['case_id'] for r in hist})!=len(hist):raise ValueError('HISTORY_COUNTER')
+    if active_ids is not None and list(active_ids)!=[r['case_id'] for r in hist]:raise ValueError('OBJECTIVE_ACTIVE_HISTORY')
+    for name,rows in [('L_R',ref),('L_H',hist)]:
+        if any(not math.isfinite(r['loss']) for r in rows):raise ValueError('OBJECTIVE_NONFINITE')
+        mean=math.fsum(r['loss'] for r in rows)/len(rows) if rows else 0.
+        if not math.isclose(mean,obj[name],rel_tol=1e-12,abs_tol=1e-15):raise ValueError('OBJECTIVE_BLOCK_MEAN')
+    if not math.isclose(obj['L_R']+obj['L_H'],obj['J'],rel_tol=1e-12,abs_tol=1e-15):raise ValueError('OBJECTIVE_BLOCK_SUM')
+    return dict(role=role,documents=len(ref),positions=sum(r['positions'] for r in ref),
+        min_positions=min(r['positions'] for r in ref),max_positions=max(r['positions'] for r in ref),history_requests=len(hist),
+        J=obj['J'],teacher_position_identity_bound=expected_positions is not None,
+        level='stored rows membership and independent scalar reduction; not new forward/backward')
+
+
+def review(output,destination,first_only=False):
+    output=Path(output);dest=Path(destination);dest.mkdir(parents=True,exist_ok=True)
+    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={};coverage=[];joints=[]
+    def read(path):
+        p=output/path
+        if not p.is_file():return None
+        inputs[path]=dict(bytes=p.stat().st_size,sha256=digest(p))
+        return json.loads(p.read_text())
+    expected_positions=None
+    binding=output.parent/'execution-inputs/manifest.json'
+    if binding.is_file():
+        input_binding=json.loads(binding.read_text())
+        teacher_manifest=Path(input_binding['generated_root'])/'manifest.json'
+        teacher=json.loads(teacher_manifest.read_text())
+        expected_positions={r['index']:r['logp']['shape'][0] for r in teacher['documents']}
+        inputs['teacher_manifest_binding']=dict(path=str(teacher_manifest),bytes=teacher_manifest.stat().st_size,sha256=digest(teacher_manifest))
+    def coverage_check(obj,active=None):return objective_coverage(obj,active,expected_positions)
+    for batch in (1,) if first_only else (1,2,3):
+        for group in ('SHARED',) if batch==1 else CHAINS:
+            spectrum=read(f'B{batch}/{group}-spectrum.json')
+            if spectrum:frontiers.append(dict(batch=batch,group=group,checks=replay_frontier(spectrum)))
+            native_obj=read(f'B{batch}/{group}-native-objective.json')
+            if native_obj:coverage.append(dict(batch=batch,arm=group,phase='native',**coverage_check(native_obj)))
+        w0=read(f'B{batch}/W0-current.json');current=w0['request_ids'] if w0 else None
+        if current is not None:current_ids[batch]=current
+        for arm in ARMS if batch==1 else CHAINS:
+            obs=read(f'B{batch}/{arm}-metrics.json')
+            if obs is None:missing.append(f'B{batch}/{arm}');continue
+            observed[batch,arm]=obs
+            expected=batch*100
+            if len(obs['request_ids'])!=expected:raise ValueError('ALL_SEEN_REQUESTS')
+            scopes={'all_seen':obs['request_ids'],'current':current,'first100':obs['request_ids'][:100]}
+            commit=read(f'B{batch}/{arm}-commit.json')
+            if commit:
+                scopes['active_past']=commit['active_past_ids']
+                nr=commit['receipt']['native']
+                if len(nr)!=1 or nr[0]['layer']!=4 or nr[0]['history_append']!=1 or commit['history_append']!=1:
+                    raise ValueError('HISTORY_ONCE')
+                if current is not None and commit['receipt']['case_ids']!=current:raise ValueError('COMMIT_REQUEST_ORDER')
+                commits[batch,arm]=nr[0]
+                fit=read(f'B{batch}/{"SHARED" if batch==1 else arm}-native.json')
+                if fit:
+                    fr=fit['receipt']
+                    if fr['history_append']!=0 or fr['history_sha256']!=nr[0]['before_sha256']:
+                        raise ValueError('INNER_HISTORY_OR_ENTRY_M')
+                    previous=commits.get((batch-1,arm))
+                    if previous:
+                        if fr['history_sha256']!=previous['after_sha256'] or fr['entry_weight_sha256']!=previous['weight_sha256']:
+                            raise ValueError('OWN_NEXT_ENTRY_LINK')
+                        state_links.append(dict(arm=arm,from_batch=batch-1,to_batch=batch,
+                            W_sha256=fr['entry_weight_sha256'],M_sha256=fr['history_sha256'],
+                            level='runtime SHA linkage; no independent tensor reconstruction'))
+                history.append(dict(batch=batch,arm=arm,append=commit['history_append'],
+                    native_receipt=commit['receipt']['native'],active_past_ids=commit['active_past_ids']))
+            for scope,ids in scopes.items():
+                if ids is None:continue
+                reduced,by=validate_reduce(obs,ids)
+                tables.extend(dict(batch=batch,arm=arm,scope=scope,**r) for r in reduced)
+                joints.append(dict(batch=batch,arm=arm,scope=scope,**joint_counts(by,ids)))
+            ctrl=read(f'B{batch}/{arm}-controller.json')
+            if ctrl:
+                selection.append(dict(batch=batch,arm=arm,**replay_controller(ctrl)))
+                for phase,obj in [('selected',ctrl['objective']),*[(r['trial'],r['objective']) for r in ctrl['ledger']]]:
+                    coverage.append(dict(batch=batch,arm=arm,phase=phase,**coverage_check(obj,commit['active_past_ids'] if commit else None)))
+            dev=read(f'B{batch}/{arm}-Dev128.json')
+            if dev:coverage.append(dict(batch=batch,arm=arm,phase='Dev_observer',**coverage_check(dev,[])))
+            reference_obs=read(f'B{batch}/{arm}-reference-history-observer.json')
+            if reference_obs:coverage.append(dict(batch=batch,arm=arm,phase='reference_history_observer',**coverage_check(reference_obs,commit['active_past_ids'] if commit else None)))
+        native=observed.get((batch,'N4'))
+        if native:
+            for arm in ARMS if batch==1 else CHAINS:
+                obs=observed.get((batch,arm))
+                if arm=='N4' or obs is None:continue
+                commit=read(f'B{batch}/{arm}-commit.json')
+                scopes={'all_seen':obs['request_ids'],'current':current,'first100':obs['request_ids'][:100],
+                    'active_past':commit['active_past_ids'] if commit else None}
+                for scope,ids in scopes.items():
+                    if ids is not None:
+                        pairs.extend(dict(batch=batch,arm=arm,scope=scope,comparison='minus_N4',**r) for r in transitions(native,obs,ids))
+    for (batch,arm),obs in observed.items():
+        if batch==1:continue
+        first=observed.get((1,arm))
+        if first:
+            pairs.extend(dict(batch=batch,arm=arm,scope='first100',comparison='minus_own_B1',**r)
+                for r in transitions(first,obs,first['request_ids']))
+        own_parts=[(b,observed.get((b,arm))) for b in range(1,batch+1)]
+        if all(part is not None and b in current_ids for b,part in own_parts):
+            ids=[i for b,_ in own_parts for i in current_ids[b]]
+            atwrite_rows=[r for b,part in own_parts for r in part['rows'] if r['case_id'] in set(current_ids[b])]
+            atwrite=dict(request_ids=ids,rows=atwrite_rows)
+            pairs.extend(dict(batch=batch,arm=arm,scope='all_seen',comparison='minus_own_atwrite',**r)
+                for r in transitions(atwrite,obs,ids))
+    first=[r for r in tables if r['batch']==1 and r['scope']=='all_seen']
+    csv_dump(dest/'first-final-table.csv',first)
+    csv_dump(dest/'independent-metrics.csv',tables)
+    csv_dump(dest/'independent-paired.csv',pairs)
+    csv_dump(dest/'independent-joint.csv',joints)
+    dump(dest/'selector-replay.json',selection);dump(dest/'history-evidence.json',history)
+    dump(dest/'frontier-replay.json',frontiers)
+    dump(dest/'state-links.json',state_links)
+    csv_dump(dest/'objective-coverage.csv',coverage)
+    completeness=dict(complete_endpoints=len(observed),expected_endpoints=4 if first_only else 10,
+        missing_endpoints=missing,history_appends=sum(r['append'] for r in history),
+        adjacent_state_links=len(state_links),expected_adjacent_links=0 if first_only else 6,
+        unique_observed_requests=len({i for obs in observed.values() for i in obs['request_ids']}),
+        observed_current_arm_requests=sum(r['requests'] for r in tables if r['scope']=='current' and r['family']=='RS'),
+        numeric_pass=False,precision_status='NOT_ESTABLISHED',checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
+    dump(dest/'independent-reducer.json',dict(completeness=completeness,inputs=inputs,
+        source_sha256=digest(__file__),validation='fresh true/new NLL reduction; token flags identity/cardinality; CPU selector replay',
+        first_table_sha256=digest(dest/'first-final-table.csv')))
+    print(json.dumps(dict(first_table=first,completeness=completeness),ensure_ascii=False))
+    return completeness
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--destination',required=True);p.add_argument('--first-only',action='store_true');a=p.parse_args()
+    review(a.output,a.destination,a.first_only)

@@ -1,0 +1,13 @@
+{
+  "tests": 17,
+  "status": "PASS",
+  "suites": [
+    "test_json_io:4",
+    "test_geometry_selector:12",
+    "test_server3_repair:1"
+  ],
+  "GPU_validation": "NOT_RUN",
+  "controller_original_np_bool_error_reproduced": true,
+  "controller_math_unchanged": true,
+  "post_release_scheduler_calls": 0
+}

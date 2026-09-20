@@ -1,0 +1,77 @@
+{
+  "schema": "en-adaptive-nullspace-metrics-v1",
+  "instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "sealed_before_execution": true,
+  "source_files": {
+    "contexts/evaluation.py": {
+      "bytes": 8468,
+      "sha256": "5d92319046851aa35df4335d41954ced3bf771fc8d77ac4327540c45a0961189"
+    },
+    "evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py": {
+      "bytes": 3134,
+      "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8"
+    },
+    "evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py": {
+      "bytes": 3407,
+      "sha256": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e"
+    },
+    "evaluator_source/project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py": {
+      "bytes": 4018,
+      "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e"
+    },
+    "evaluator_source/project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py": {
+      "bytes": 6936,
+      "sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e"
+    },
+    "evaluator_source/project/run_scripts/ordered_response_barrier_ode/counterfact_locality_evaluator.py": {
+      "bytes": 7892,
+      "sha256": "51551523511a87901c8edd0755f2f2f6f6f16bfd5fd31169e55cd12c7ad89fe6"
+    }
+  },
+  "layout": {
+    "canonical_microbatch": 16,
+    "padding": "manual left padding; tokenizer remains right",
+    "position_ids": "not overridden",
+    "prompt": "canonical add_special_tokens=True",
+    "target": "canonical leading space; add_special_tokens=False; remove leading BOS/UNK",
+    "precision": "FP32 full vocabulary",
+    "generation_accuracy": false
+  },
+  "definitions": {
+    "RS": "NLL(new)<NLL(true); ties failure; prompt average",
+    "PS": "NLL(new)<NLL(true); ties failure; prompt average",
+    "NS": "NLL(true)<NLL(new); ties failure; prompt average",
+    "desired": {
+      "RS": "new",
+      "PS": "new",
+      "NS": "true"
+    },
+    "nl rewrite/rephrase/neighborhood acc": "teacher-forced desired target token accuracy; not NLL preference and not free generation",
+    "tf_token_micro": "sum(correct desired target tokens)/sum(valid desired target tokens)",
+    "tf_prompt_macro": "mean per prompt(correct desired target tokens/valid desired target tokens)",
+    "tf_strict": "all desired target tokens predicted correctly, then prompt average",
+    "R_plus_twoP_joint": "per request conjunction of rewrite and exactly two canonical paraphrases, separately TF strict and NLL preference",
+    "NLL": "mean negative log probability across all valid target tokens per prompt; report new/true/desired prompt macro",
+    "desired_margin": "RS/PS true NLL minus new NLL; NS new NLL minus true NLL; positive desired preference",
+    "alias_policy": "NLL-preference accuracy labels are aliases of RS/PS/NS; never independent accuracy evidence"
+  },
+  "denominators": {
+    "failure": "failed edits remain in evaluation denominator",
+    "case_order": "unchanged fixed10k; paired identities include prompt/targets and target token identity",
+    "missing": "null with explicit denominator; never fabricated",
+    "B1": "all four endpoints; R100/P200/N1000 expected; exact endpoint alias may reuse observations",
+    "B2_B3": "current, active past, all seen, first100 and at-write paired; invalidated history cases explicitly distinguished by caller ledger",
+    "neighborhood_retention": "W0-correct preference prompts, W0-strict prompts, W0-correct token positions each have separate denominators"
+  },
+  "statistics": {
+    "bootstrap_unit": "request cluster, including all prompts and tokens",
+    "resamples": 10000,
+    "seed": 20260920,
+    "interval": "paired percentile 95%; recompute ratios of cluster sums",
+    "difference": "after minus before"
+  },
+  "observation_only": true,
+  "additional_forward_per_metric": 0,
+  "transaction_guard": "caller owns W/history immutability",
+  "raw_git_policy": "only compact identities, scalar values and correctness flags; no prompt text/logits/tensors"
+}
