@@ -1,7 +1,10 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1",
   "nonce": "ODEEDIT-GH-SH3-EN-ADAPT-GSS-HISTORY-R2-20260920-R1",
-  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "b9a52005df2c1d06d035d6bb6404a55b8c763eeb",
+  "dispatch_turn": "01a0bf2c-a9b1-77c1-8437-3431e74a176c",
+  "new_gpu_submission": "NOT_YET_OBSERVED",
   "owner": "head-server3",
   "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
   "envelope": "messages/head/2026-09-20-sh3-en-adapt-gss-history-10k.md",

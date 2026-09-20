@@ -1,0 +1,26 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-EN-ADAPT-GSS-HISTORY-R2-20260920-R1",
+  "publication": "b9a52005df2c1d06d035d6bb6404a55b8c763eeb",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "turn": "01a0bf2c-a9b1-77c1-8437-3431e74a176c",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "direct_status": "ACK_RECEIVED_TASK_STARTED",
+  "ack": "Three-arm GSS replaces prior all-active lifelong; FULL_READ/SHA source/reuse/resource binding first; submission inspection/release only then no monitoring.",
+  "science_submission": "NOT_YET_OBSERVED",
+  "GH_read": [
+    "design251lines",
+    "contract",
+    "cells292states",
+    "CPUreference101lines",
+    "verification140lines",
+    "CPUchecks196lines"
+  ],
+  "checks": [
+    "6 original authority SHA/size exact",
+    "CSV original CRLF restored and SHA matches",
+    "cells292/selection188/NLLVJP115032 arithmetic",
+    "cap1/noCP/noMonitoring explicit"
+  ],
+  "GH_new_GPU_model_Slurm_actions": 0
+}
