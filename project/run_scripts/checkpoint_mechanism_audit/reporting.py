@@ -284,7 +284,14 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
     for name in ("paired_transitions.csv","paired_bootstrap.csv","at_write_outcomes.csv"):
         tables[name]=pd.read_csv(results/"archival"/name)
     tables["checkpoint_geometry.csv"],geometry_sources=verify_geometry_csv(results/"geometry")
-    optional,optional_sources=prepare_optional(results,context);tables.update(summarize_optional(optional))
+    optional,optional_sources=prepare_optional(Path(context.get('optional_results',results)),context);tables.update(summarize_optional(optional))
+    if not optional['fixed_probe_history.csv'].empty:
+        tables['fixed_probe_history.csv']=optional['fixed_probe_history.csv']
+    for name,member in context.get('extra_tables',{}).items():
+        require(name in {'activation-summary.csv','parent-rp-summary.csv','native-mode-summary.csv',
+            'history-compute.csv','fixed-probe-activation-summary.csv','counterfactual-summary.csv'},'unapproved extra public table')
+        require(sha(member['path'])==member['sha256'],'extra public table identity')
+        tables[name]=pd.read_csv(member['path']);optional_sources.append(member)
     tables["cell_status.csv"]=cells
     if context.get('source_bindings'):
         tables['source_bindings.csv']=pd.DataFrame(context['source_bindings'])
@@ -306,6 +313,11 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
     command=f"python -B -m project.run_scripts.checkpoint_mechanism_audit.reporting --results {results} --output <NEW_EMPTY_OUTPUT>"+(f" --cell-statuses {cell_statuses}" if cell_statuses else "")+(f" --context {context_path}" if context_path else "")+(" --final" if final else "")
     cell_counts=cells.status.value_counts().to_dict()
     gate_section=context.get('gate_summary_ko','실제 gate 요약은 아직 제공되지 않았다.')
+    no_gates=context.get('diagnostic_gates_enabled') is False
+    parity_boundary=('최신 사용자 지시로 수치 parity 인증·차단과 검증 전용 중복 호출을 제거했다. 원 C01 FAILED를 보존하며 새 계산은 numerical_validation=NOT_ESTABLISHED다. '
+        'B1은 actual delta를 참조하되 재현 인증을 주장하지 않고, B91 dense-factor 중복 계산은 SKIPPED_USER_DIRECTED다.' if no_gates else
+        'B1/B91 dense-factor parity 실패 시 해당 attribution을 보류한다.')
+    prerequisite=('공통 key artifact 가용성만 선행하며 C01/pilot numerical PASS는 실행 prerequisite가 아니다.' if no_gates else '공통 actual gate가 선행한다.')
     cost_table=markdown(pd.DataFrame(context.get('cost_ledger',[])))
     state="최종 terminal 수집 보고" if final else "중간 CPU 근거 보고 — 전체 task 완료 아님"
     body=f"""# 회수 AlphaEdit BLUE L4-only checkpoint 기전 분석
@@ -383,7 +395,9 @@ J=tr(D M_a Dᵀ)는 stored quadratic 작용이며 실제 forgetting 수치가 �
 
 `fixed_probe_summary.csv`, `native_write_modes.csv`, `reconstruction.csv`, `counterfactuals.csv`가 없던 측정은 NOT_MEASURED status이며 0으로 채우지 않았다. Native700과 stream-ID-disjoint geometry512는 다른 panel이며 기존 reference512/G256을 교체하지 않는다. 동일 key를13history에 사용하고 각 native100은 자기 S/B를 유지한다.
 
-일반 비대칭 H=λI+PM에는 LU/solve를 사용하며 명시 inverse/rawCG/Cholesky를 쓰지 않는다. Raw score를 ideal 범위에 clipping하지 않는다. R은 saved z와 bare h0+(Wentry−W0)k_bare로 결속하며 mean-context K를 residual에 대입하지 않는다. B1만 actual next-weight tensor와 비교 가능하고 나머지는 RECONSTRUCTED_NATIVE_WRITE다. B1/B91 dense-factor parity 실패 시 해당 attribution을 보류한다.
+일반 비대칭 H=λI+PM에는 LU/solve를 사용하며 명시 inverse/rawCG/Cholesky를 쓰지 않는다. Raw score를 ideal 범위에 clipping하지 않는다. R은 saved z와 physical FP32 entry h로 결속하며 mean-context K를 residual에 대입하지 않는다. Affine h0+(Wentry−W0)k_bare 차이는 저비용 관측일 뿐 차단 조건이 아니다. B1만 actual next-weight tensor와 비교 가능하고 나머지는 RECONSTRUCTED_NATIVE_WRITE다. {parity_boundary}
+
+{context.get('analysis_summary_ko','추가 operator/activation 요약 미제공.')}
 
 직접 thin SVD B의 gain²×||Rv||²는 factor write Frobenius energy를 분해한다. Actual/native 재현 잔차 및 cross term, near-degenerate band를 별도로 기록한다. 작은 K singular value가 필연적으로 증폭한다는 가정을 하지 않는다. 고정 K/R×history,20개 R permutation은 대수적 counterfactual이며 실제 editing 성과가 아니다.
 
@@ -405,7 +419,7 @@ J=tr(D M_a Dᵀ)는 stored quadratic 작용이며 실제 forgetting 수치가 �
 
 Archive CPU wall={archive['wall_seconds']:.6f}s. Geometry CPU wall={geometry.get('seconds','NOT_RECORDED')}s, original checkpoint full-hash 비용={geometry.get('hash_seconds','NOT_RECORDED')}s, peak RSS={geometry.get('peak_rss_kib','NOT_RECORDED')}KiB. 이 시간은 새 model/operator GPU 시간과 다르다. Worker 병렬 wall을 무조건 더해 end-to-end로 부르지 않는다. 실제 scheduler allocated GPU-sec/teacher-prefix/suffix F/B/solve/hash/I/O는 제공된 `context.json`의 cost ledger만 사용하며 미기록 값은 추정하지 않는다.
 
-원 설계 RAM64GiB budget보다 Server2 admission ceiling60416MiB가 작다. 최신 task override는 프로젝트 cap2 안의1GPU×2lane, 각8CPU/exportNONE/Requeue0이다. 공통 actual gate가 선행하고 의존성이 있는 단계는 slot을 채우려 중복 실행하지 않는다. 본 CPU report builder는 scheduler 조회/model/GPU/eval을 하지 않는다.
+원 설계 RAM64GiB budget보다 Server2 admission ceiling60416MiB가 작다. 최신 task override는 프로젝트 cap2 안의1GPU×2lane, 각8CPU/exportNONE/Requeue0이다. {prerequisite} 의존성이 있는 단계는 slot을 채우려 중복 실행하지 않는다. 본 CPU report builder는 scheduler 조회/model/GPU/eval을 하지 않는다.
 
 {cost_table}
 

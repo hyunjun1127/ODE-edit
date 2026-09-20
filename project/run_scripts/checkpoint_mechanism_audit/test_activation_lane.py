@@ -162,9 +162,8 @@ class ActivationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'MODEL_PARAMETERS_NOT_FROZEN'):
             forward_group(m,p,[0],gradient=True)
 
-    def test_passed_cpu_contract_not_actual_C01(self):
-        with self.assertRaisesRegex(ValueError,'ACTUAL_C01_NOT_PASS'):
-            validate_dependencies({'status':'PASS'},{'status':'PASS'},{'status':'PASS'})
+    def test_historical_failure_not_prerequisite_but_required_artifact_is(self):
+        validate_dependencies({'status':'FAILED','C01':'FAILED'},{'status':'PASS'},{'status':'PASS'})
         with self.assertRaisesRegex(ValueError,'ACTIVATION_BOOKKEEPING_F00_NOT_PASS'):
             validate_dependencies({'status':'PASS','C01':'PASS'},{'status':'PASS'},{'status':'NOT_RUN'})
         validate_dependencies({'status':'PASS','C01':'PASS'},{'status':'PASS'},{'status':'PASS'})

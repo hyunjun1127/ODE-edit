@@ -6,6 +6,21 @@ Instruction: `ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1`.
 
 ## 현재 운영 상태
 
+최신 사용자 override `ODEEDIT-GH-SH2-CHECKPOINT-MECHANISM-REMOVE-GATES-20260920-R1`:
+수치 동등성/재현성 prerequisites와 검증 전용 GPU 호출을 제거했다. 이하의 과거
+C01 의존 설명은 **이전 실행 계보**이며 새 실행의 정책이 아니다.
+새 root `resume-no-gates-r1`, source3427b497, key job51137은 별도 immutable 실행이다.
+`diagnostic_gates_enabled=false`, `numerical_validation=NOT_ESTABLISHED`,
+`validation_policy=REMOVED_USER_DIRECTED`를 lock/terminal에 기록한다.
+새 PASS는 계산 완료 범위이며 원 C01 numerical PASS를 뜻하지 않는다.
+필수 artifact 후 operator13history와 activation2interval 두 lane, 각1GPU/8CPU/60416M.
+검증 전용 dense-factor/extra evaluator/repeat forward는 실행하지 않는다.
+입력 identity/shape/dtype/finite/IO/정확 복원/자원 admission은 유지한다.
+완료된 B001/B002 key·A01/B00 및 과거269allocatedGPU-sec는 새 비용과 분리해 재사용한다.
+최종 새 보고는 `no-gates-resume-r1/report-ko.md`에 추가하며 옛 보고/실패는 보존한다.
+
+### 이전 실행 상태 (불변 기록)
+
 최종: `TERMINAL_REPORTED_WITH_NUMERICAL_BLOCKS`. Job51071의 P shape-header 검사를
 수리한 continuation51116까지 종료했다. C00 PASS, C01 FAILED(NS row parity/M1 Gram).
 후속25개 의존 cell은 BLOCKED이며 제출하지 않았다. A00/A01/B00/C00와 보고Z00만 PASS다.
