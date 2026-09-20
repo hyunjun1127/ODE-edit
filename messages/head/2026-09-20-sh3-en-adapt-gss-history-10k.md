@@ -1,5 +1,8 @@
 # GH → SH3: EN_ADAPT GSS history v1 / R2 / fixed10k
 
+> Latest user override: [RES/GSS_REC only, cap2](2026-09-20-sh3-en-adapt-gss-history-twoarm-cap2.md).
+> Below three-arm/cap1/shared-prefix planning is historical where superseded.
+
 Instruction ID: ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1
 Nonce: ODEEDIT-GH-SH3-EN-ADAPT-GSS-HISTORY-R2-20260920-R1
 Owner: head-server3 / ubuntu / session01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3

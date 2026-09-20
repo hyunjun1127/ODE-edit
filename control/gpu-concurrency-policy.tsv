@@ -7,5 +7,6 @@
 server1	2
 server2	2
 # User override 2026-09-20: server3 project cap1; other servers unchanged.
-server3	1
+# User override 2026-09-20 (latest): RES/GSS_REC two-arm task; server3 project cap2.
+server3	2
 server4	2

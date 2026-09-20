@@ -1,5 +1,14 @@
 # Server3 active record
 
+## Latest override: two arms / cap2 — 2026-09-20
+
+RES and GSS_REC only; uniform GSS is excluded. Server3 project/task GPU cap2,
+two independent cold W0/M0 B100×100 jobs, each 1GPU/8CPU/host≤121856MiB.
+The three-arm/cap1 section below is historical, not current authority.
+[Latest envelope](../../messages/head/2026-09-20-sh3-en-adapt-gss-history-twoarm-cap2.md).
+No checkpoints; no monitoring after release. No other task is resumed.
+Submission/resource availability is not established by this policy update.
+
 ## 最新 GSS lifelong task — 2026-09-20
 
 사용자 지정 R2 설계의 EN_ADAPT_H_RES / H_GSS / H_GSS_REC 세 arm 구현·제출.

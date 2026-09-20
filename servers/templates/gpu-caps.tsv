@@ -10,5 +10,5 @@
 # Examples:
 # server1	devbox	2	183296	odeedit_*,bfode_*,motivation_*,session01_*
 # server2	server2	2	60416	odeedit_*,bfode_*,motivation_*,session01_*
-# server3	ubuntu	1	121856	odeedit_*,bfode_*,motivation_*,session01_*
+# server3	ubuntu	2	121856	odeedit_*,bfode_*,motivation_*,session01_*
 # server4	server4	2	60416	odeedit_*,bfode_*,motivation_*,session01_*
