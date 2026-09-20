@@ -99,15 +99,57 @@ def replay_controller(controller):
     return dict(selected_trial=selected,status=controller['status'],candidates=len(checks),checks=checks)
 
 
+def replay_frontier(payload):
+    """Scalar-only independent replay; no production selector/tensor imports."""
+    s=payload['spectrum'];selection=payload['selection'];results=[]
+    cumulative_g=[s['exact_energy']];cumulative_a=[0.]
+    added=0.;action=0.
+    for eigen,energy in zip(s['eigenvalues'],s['mode_energies']):
+        added+=energy;action+=eigen*energy
+        cumulative_g.append(s['exact_energy']+added);cumulative_a.append(action)
+    for eps,stored in selection['frontiers'].items():
+        reconstructed=[]
+        for k in [0,*s['group_ends']]:
+            g2=cumulative_g[k];a2=cumulative_a[k];g=math.sqrt(g2);a=math.sqrt(a2)
+            eta=0. if s['loss']<=selection['loss_floor'] or g==0 or s['native_norm']==0 else min(
+                s['loss']/g2,s['native_norm']/g,float(eps)*s['native_action']/a if a else math.inf)
+            reconstructed.append(dict(released_modes=k,gradient_energy=g2,eta=eta,
+                predicted_decrease=eta*g2,correction_norm=eta*g,response_norm=eta*a))
+        if len(stored)!=len(reconstructed):raise ValueError('FRONTIER_CARDINALITY')
+        max_error=0.
+        for actual,expected in zip(stored,reconstructed):
+            if actual['released_modes']!=expected['released_modes']:raise ValueError('FRONTIER_ORDER')
+            for key in ('gradient_energy','eta','predicted_decrease','correction_norm','response_norm'):
+                max_error=max(max_error,abs(actual[key]-expected[key]))
+                if not math.isclose(actual[key],expected[key],rel_tol=1e-12,abs_tol=1e-15):
+                    raise ValueError('FRONTIER_ARITHMETIC:'+key)
+        remaining=reconstructed
+        for key,maximize in [('predicted_decrease',True),('correction_norm',False),('response_norm',False)]:
+            values=[r[key] for r in remaining];best=(max if maximize else min)(values)
+            tolerance=64*2.220446049250313e-16*max(1.,max(abs(x) for x in values))
+            remaining=[r for r in remaining if abs(r[key]-best)<=tolerance]
+        chosen=min(remaining,key=lambda r:r['released_modes'])['released_modes']
+        if float(eps)==selection['epsilon_primary']:
+            expected={'EN_EXACT':0,'EN_NUM':s['numerical_released'],'EN_ADAPT':chosen}
+            if any(selection['selected'][arm]['released_modes']!=k for arm,k in expected.items()):
+                raise ValueError('FRONTIER_SELECTION')
+        results.append(dict(epsilon=float(eps),rows=len(stored),selected_adaptive_modes=chosen,
+            scalar_max_abs_difference=max_error,arithmetic_comparison_tolerance='relative1e-12/absolute1e-15; not scientific acceptance'))
+    return results
+
+
 def review(output,destination,first_only=False):
     output=Path(output);dest=Path(destination);dest.mkdir(parents=True,exist_ok=True)
-    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={}
+    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[]
     def read(path):
         p=output/path
         if not p.is_file():return None
         inputs[path]=dict(bytes=p.stat().st_size,sha256=digest(p))
         return json.loads(p.read_text())
     for batch in (1,) if first_only else (1,2,3):
+        for group in ('SHARED',) if batch==1 else CHAINS:
+            spectrum=read(f'B{batch}/{group}-spectrum.json')
+            if spectrum:frontiers.append(dict(batch=batch,group=group,checks=replay_frontier(spectrum)))
         w0=read(f'B{batch}/W0-current.json');current=w0['request_ids'] if w0 else None
         for arm in ARMS if batch==1 else CHAINS:
             obs=read(f'B{batch}/{arm}-metrics.json')
@@ -143,6 +185,7 @@ def review(output,destination,first_only=False):
     csv_dump(dest/'independent-metrics.csv',tables)
     csv_dump(dest/'independent-paired.csv',pairs)
     dump(dest/'selector-replay.json',selection);dump(dest/'history-evidence.json',history)
+    dump(dest/'frontier-replay.json',frontiers)
     completeness=dict(complete_endpoints=len(observed),expected_endpoints=4 if first_only else 10,
         missing_endpoints=missing,history_appends=sum(r['append'] for r in history),
         numeric_pass=False,precision_status='NOT_ESTABLISHED',checkpoint_saved=False,exact_resume='NOT_AVAILABLE')

@@ -1,6 +1,6 @@
 import copy
 import unittest
-from .review_server4 import validate_reduce,transitions,replay_controller
+from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier
 
 
 def fixture():
@@ -57,6 +57,22 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(replay_controller(c)['selected_trial'],'candidate1')
         c['ledger'][0]['objective']['J']=1.1
         with self.assertRaises(ValueError):replay_controller(c)
+
+    def test_independent_frontier_arithmetic_and_negative(self):
+        from .selector import select_arms
+        s=dict(eigenvalues=[.01,.01,1.],mode_energies=[.3,.2,.4],exact_energy=.1,
+            loss=.2,native_norm=2.,native_action=.8,group_ends=[2,3],numerical_released=2,exact_rank=3)
+        payload=dict(spectrum=s,selection=select_arms(s))
+        self.assertEqual(len(replay_frontier(payload)),3)
+        payload['selection']['frontiers']['0.05'][1]['eta']+=.1
+        with self.assertRaisesRegex(ValueError,'FRONTIER_ARITHMETIC'):replay_frontier(payload)
+
+    def test_zero_loss_frontier_not_forced_to_correction(self):
+        from .selector import select_arms
+        s=dict(eigenvalues=[1.],mode_energies=[.4],exact_energy=.1,
+            loss=-1e-8,native_norm=2.,native_action=.8,group_ends=[1],numerical_released=0,exact_rank=1)
+        payload=dict(spectrum=s,selection=select_arms(s))
+        self.assertTrue(all(r['selected_adaptive_modes']==0 for r in replay_frontier(payload)))
 
 
 if __name__=='__main__':unittest.main()
