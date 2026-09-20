@@ -1,5 +1,5 @@
 {
-  "status": "HANDOFF_READY_STOP_AFTER_DELIVERY",
+  "status": "HANDOFF_READY_S3_GPU_AUTHORITY_REVOKED",
   "instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
   "migration_nonce": "ODEEDIT-GH-SH3-EN-ADAPT-MIGRATE-TO-S4-20260920-R1",
   "scientific_execution_complete": false,
@@ -34,5 +34,7 @@
   "project_cap_global_unchanged": 1,
   "task_GPU_permission": false,
   "migration_authority_commit": "938db0b765e1a3d4a1e6edc8da702d2486ad6e24",
-  "new_implementation_or_verification_runs": 0
+  "SH4_host_memory_limit_MiB": 60416,
+  "SH4_destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/",
+  "S3_state": "STOP_AFTER_HANDOFF_DELIVERY"
 }
