@@ -1,6 +1,7 @@
 {
   "instruction_id": "ODEEDIT-S06-S2-CHECKPOINT-MECHANISM-AUDIT-20260920-V1",
-  "status": "COMPLETED_READY_FOR_MAIN",
+  "status": "TASK_COMPLETE_STOP",
+  "main_publication_receipt": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit/20260920-v1/resume-no-gates-r1/receipts/main-publication.json",
   "jobs": [
     "51137",
     "51138",
