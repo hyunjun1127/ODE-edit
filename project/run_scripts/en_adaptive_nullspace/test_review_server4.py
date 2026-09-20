@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier,review
+from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier,review,objective_coverage
 
 
 def fixture():
@@ -98,6 +98,26 @@ class ReviewTests(unittest.TestCase):
             self.assertEqual(result['history_appends'],2)
             write('B2/N4-native.json',dict(receipt=dict(history_append=0,history_sha256='m1',entry_weight_sha256='other-arm')))
             with self.assertRaisesRegex(ValueError,'OWN_NEXT_ENTRY_LINK'):review(out,root/'report2')
+
+    def test_reference_position_binding_and_negative_coverage(self):
+        rows=[dict(index=i,role='R512',positions=55 if i==0 else 256,loss=.1) for i in range(512)]
+        obj=dict(role='R512',rows=dict(reference=rows,history=[]),reference_documents=512,
+            reference_positions=sum(r['positions'] for r in rows),history_requests=0,L_R=.1,L_H=0.,J=.1)
+        expected={r['index']:r['positions'] for r in rows}
+        self.assertTrue(objective_coverage(obj,[],expected)['teacher_position_identity_bound'])
+        rows[0]['positions']=56;obj['reference_positions']+=1
+        with self.assertRaisesRegex(ValueError,'TEACHER_POSITION_IDENTITY'):objective_coverage(obj,[],expected)
+        rows[0]['positions']=55;obj['reference_positions']-=1;rows[0]['index']=1
+        with self.assertRaisesRegex(ValueError,'REFERENCE_ID_ORDER'):objective_coverage(obj,[],expected)
+
+    def test_no_active_history_substitution_or_wrong_block_weight(self):
+        ref=[dict(index=i,role='R512',positions=256,loss=.1) for i in range(512)]
+        obj=dict(role='R512',rows=dict(reference=ref,history=[dict(case_id=7,loss=.2)]),reference_documents=512,
+            reference_positions=512*256,history_requests=1,L_R=.1,L_H=.2,J=.3)
+        self.assertEqual(objective_coverage(obj,[7])['history_requests'],1)
+        with self.assertRaisesRegex(ValueError,'OBJECTIVE_ACTIVE_HISTORY'):objective_coverage(obj,[9])
+        obj['J']=.15
+        with self.assertRaisesRegex(ValueError,'OBJECTIVE_BLOCK_SUM'):objective_coverage(obj,[7])
 
 
 if __name__=='__main__':unittest.main()

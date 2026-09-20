@@ -138,18 +138,52 @@ def replay_frontier(payload):
     return results
 
 
+def objective_coverage(obj,active_ids=None,expected_positions=None):
+    role=obj['role'];ref=obj['rows']['reference'];hist=obj['rows']['history']
+    indices=list(range(512)) if role=='R512' else list(range(512,640)) if role=='Dev128' else None
+    if indices is None or [r['index'] for r in ref]!=indices or any(r['role']!=role for r in ref):
+        raise ValueError('REFERENCE_ID_ORDER_COVERAGE')
+    if any(not 1<=r['positions']<=256 for r in ref):raise ValueError('GENERATED_POSITION_CARDINALITY')
+    if expected_positions is not None and any(r['positions']!=expected_positions[r['index']] for r in ref):
+        raise ValueError('TEACHER_POSITION_IDENTITY')
+    if obj['reference_documents']!=len(ref) or obj['reference_positions']!=sum(r['positions'] for r in ref):
+        raise ValueError('REFERENCE_COUNTER')
+    if obj['history_requests']!=len(hist) or len({r['case_id'] for r in hist})!=len(hist):raise ValueError('HISTORY_COUNTER')
+    if active_ids is not None and set(active_ids)!={r['case_id'] for r in hist}:raise ValueError('OBJECTIVE_ACTIVE_HISTORY')
+    for name,rows in [('L_R',ref),('L_H',hist)]:
+        if any(not math.isfinite(r['loss']) for r in rows):raise ValueError('OBJECTIVE_NONFINITE')
+        mean=math.fsum(r['loss'] for r in rows)/len(rows) if rows else 0.
+        if not math.isclose(mean,obj[name],rel_tol=1e-12,abs_tol=1e-15):raise ValueError('OBJECTIVE_BLOCK_MEAN')
+    if not math.isclose(obj['L_R']+obj['L_H'],obj['J'],rel_tol=1e-12,abs_tol=1e-15):raise ValueError('OBJECTIVE_BLOCK_SUM')
+    return dict(role=role,documents=len(ref),positions=sum(r['positions'] for r in ref),
+        min_positions=min(r['positions'] for r in ref),max_positions=max(r['positions'] for r in ref),history_requests=len(hist),
+        J=obj['J'],teacher_position_identity_bound=expected_positions is not None,
+        level='stored rows membership and independent scalar reduction; not new forward/backward')
+
+
 def review(output,destination,first_only=False):
     output=Path(output);dest=Path(destination);dest.mkdir(parents=True,exist_ok=True)
-    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={}
+    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={};coverage=[]
     def read(path):
         p=output/path
         if not p.is_file():return None
         inputs[path]=dict(bytes=p.stat().st_size,sha256=digest(p))
         return json.loads(p.read_text())
+    expected_positions=None
+    binding=output.parent/'execution-inputs/manifest.json'
+    if binding.is_file():
+        input_binding=json.loads(binding.read_text())
+        teacher_manifest=Path(input_binding['generated_root'])/'manifest.json'
+        teacher=json.loads(teacher_manifest.read_text())
+        expected_positions={r['index']:r['logp']['shape'][0] for r in teacher['documents']}
+        inputs['teacher_manifest_binding']=dict(path=str(teacher_manifest),bytes=teacher_manifest.stat().st_size,sha256=digest(teacher_manifest))
+    def coverage_check(obj,active=None):return objective_coverage(obj,active,expected_positions)
     for batch in (1,) if first_only else (1,2,3):
         for group in ('SHARED',) if batch==1 else CHAINS:
             spectrum=read(f'B{batch}/{group}-spectrum.json')
             if spectrum:frontiers.append(dict(batch=batch,group=group,checks=replay_frontier(spectrum)))
+            native_obj=read(f'B{batch}/{group}-native-objective.json')
+            if native_obj:coverage.append(dict(batch=batch,arm=group,phase='native',**coverage_check(native_obj)))
         w0=read(f'B{batch}/W0-current.json');current=w0['request_ids'] if w0 else None
         if current is not None:current_ids[batch]=current
         for arm in ARMS if batch==1 else CHAINS:
@@ -186,7 +220,14 @@ def review(output,destination,first_only=False):
                 reduced,_=validate_reduce(obs,ids)
                 tables.extend(dict(batch=batch,arm=arm,scope=scope,**r) for r in reduced)
             ctrl=read(f'B{batch}/{arm}-controller.json')
-            if ctrl:selection.append(dict(batch=batch,arm=arm,**replay_controller(ctrl)))
+            if ctrl:
+                selection.append(dict(batch=batch,arm=arm,**replay_controller(ctrl)))
+                for phase,obj in [('selected',ctrl['objective']),*[(r['trial'],r['objective']) for r in ctrl['ledger']]]:
+                    coverage.append(dict(batch=batch,arm=arm,phase=phase,**coverage_check(obj,commit['active_past_ids'] if commit else None)))
+            dev=read(f'B{batch}/{arm}-Dev128.json')
+            if dev:coverage.append(dict(batch=batch,arm=arm,phase='Dev_observer',**coverage_check(dev,[])))
+            reference_obs=read(f'B{batch}/{arm}-reference-history-observer.json')
+            if reference_obs:coverage.append(dict(batch=batch,arm=arm,phase='reference_history_observer',**coverage_check(reference_obs,commit['active_past_ids'] if commit else None)))
         native=observed.get((batch,'N4'))
         if native:
             for arm in ARMS if batch==1 else CHAINS:
@@ -218,6 +259,7 @@ def review(output,destination,first_only=False):
     dump(dest/'selector-replay.json',selection);dump(dest/'history-evidence.json',history)
     dump(dest/'frontier-replay.json',frontiers)
     dump(dest/'state-links.json',state_links)
+    csv_dump(dest/'objective-coverage.csv',coverage)
     completeness=dict(complete_endpoints=len(observed),expected_endpoints=4 if first_only else 10,
         missing_endpoints=missing,history_appends=sum(r['append'] for r in history),
         adjacent_state_links=len(state_links),expected_adjacent_links=0 if first_only else 6,

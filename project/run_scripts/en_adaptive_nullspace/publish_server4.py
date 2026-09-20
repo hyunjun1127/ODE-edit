@@ -74,13 +74,19 @@ def build(output,dest):
             if c:
                 objs.append(('selected',c['objective']))
                 for r in c['ledger']:objs.append((r['trial'],r['objective']))
+            elif arm=='N4':
+                anchor=read(f'B{batch}/SHARED-native-objective.json' if batch==1 else f'B{batch}/N4-reference-history-observer.json')
+                if anchor:objs.append(('selected_native_baseline',anchor))
+            dev=read(f'B{batch}/{arm}-Dev128.json')
+            if dev:objs.append(('Dev128_postseal_observer',dev))
             for phase,obj in objs:
                 refs=obj['rows']['reference'];hist=obj['rows']['history']
-                references.append(dict(batch=batch,arm=arm,phase=phase,J=obj['J'],L_R=obj['L_R'],L_H=obj['L_H'],
+                references.append(dict(batch=batch,arm=arm,phase=phase,role=obj['role'],J=obj['J'],L_R=obj['L_R'],L_H=obj['L_H'],
                     documents=len(refs),positions=sum(r['positions'] for r in refs),history_requests=len(hist),
                     choice_mismatch_tokens=sum(r['choice_mismatches'] for r in refs),
                     safe_documents=sum(r['choice_mismatches']==0 for r in refs),
                     phi=sum(r['phi'] for r in refs)/len(refs),
+                    diagnostic_phi_definition='mean_document_square(max(0,-minimum_position_choice_margin)); not controller objective',
                     exact_token_flip_identity='NOT_RECORDED_COUNTS_ONLY'))
     csv_dump(dest/'space-and-scale.csv',groups);csv_dump(dest/'reference-selected-and-trials.csv',references)
     conformance=[
@@ -124,6 +130,7 @@ def build(output,dest):
         '', '## 3. Reference/history와 독립 품질', '',
         '`reference-selected-and-trials.csv`는 selected와 rejected trial을 구분하며 R512 전체 문서/실제 생성 위치 참여, L_R+L_H, choice mismatch 수·safe document 수를 기록한다. Token별 mismatch ID가 저장되지 않은 경우 exact gained/lost token은 NOT_RECORDED다. Counts 감소를 동일 token 회복으로 만들지 않는다.',
         'History는 모든 받은 fact의 최신 유효 target 중 현재 overwrite를 제외한 active 요청이다. Own selected at-write full-vocab teacher를 사용하며 타 arm teacher 또는 현재 entry로 갱신하지 않는다. B1 history는 N/A. B1 Dev128은 N4/ADAPT postseal observer만; Report256 미개방.',
+        '이 CSV의 phi는 문서별 최악 choice margin 음수부의 제곱을 문서 평균한 보조 진단이다. Controller 목적은 L_R+L_H이며 이 phi를 이전 DEC objective 또는 EN 선택 기준으로 해석하지 않는다. R512와 Dev128은 role/phase로 구분한다.',
         '', '## 4. T0 및 수치 한계', '',f'Fresh T0 finite/identity={t0.get("finite_identity_status","NOT_RECORDED")}; precision={t0.get("precision_status","NOT_ESTABLISHED")}.',
         '고정4reference/4current에서 실제 AD/physical/cache/단일 directional derivative/weighted geometry·FP32 materialization을 검사했다. 과거 FD waiver나 source-only CPU test를 실제 전체 수치 PASS로 사용하지 않았다. technical-observations.csv는 actual AD/FD와 z 시간·peak·최대 오차를 정리한다. 원 T0 receipt의 historical z gate=false도 그대로 보존한다.',
         'z 비교는 unhooked/cache+head batch1/고정4요청 batched를 구분한다. 요청별 native loss/Adam/clamp/stop 규칙 불변이며 과학 production chunk는16. 고정4요청 timing을 B100 batch16 전체 속도 보장으로 해석하지 않는다.',
