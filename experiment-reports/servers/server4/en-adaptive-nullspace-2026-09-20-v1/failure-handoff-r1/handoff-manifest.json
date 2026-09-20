@@ -1,0 +1,269 @@
+{
+  "schema": "small-failure-handoff-v1",
+  "job_id": "51260",
+  "instruction": "ODEEDIT-S06-EN-ADAPT-B300-FAILURE-HANDOFF-SH4-V1",
+  "execution_commit": "b6e86234640ca127546aee094f2a67bbe684a490",
+  "execution_tree": "5eacfc956214ffbd0cfccbeb56c068a888b88990",
+  "analysis_pre_recall": "1bb93e1d45d9144faf8af0aa9574a6d2c0dab438",
+  "archive_sha256": "eee7e31a072fcf54d4390f5d6679ef97b75f848208b3e9996b452f1ec81e9867",
+  "lock_sha256": "cfc4e2150cf57f71d0fea838d2302d84626402b8ad9e8941690da3220bd671ca",
+  "package": {
+    "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/failure-handoff-r1/small-handoff.tar.gz",
+    "bytes": 409015,
+    "sha256": "7b6ee0ffe6b66129a083ed429f86870a93e47ae675511085401fe0e800a88e10",
+    "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/small-handoff.tar.gz"
+  },
+  "files": [
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution.lock.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/execution.lock.json",
+      "member": "execution.lock.json",
+      "bytes": 513052,
+      "sha256": "cfc4e2150cf57f71d0fea838d2302d84626402b8ad9e8941690da3220bd671ca",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/submission.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/submission.json",
+      "member": "submission.json",
+      "bytes": 755,
+      "sha256": "e353598ebb7d707194942afe910703e1020f20b327abfe3ddb507d70b1c5feab",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/held-inspection.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/held-inspection.json",
+      "member": "held-inspection.json",
+      "bytes": 2354,
+      "sha256": "3c0b1f805add77f7362b8d604798a3ad1a0802d23385795c65810a265c61d2d3",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/release.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/release.json",
+      "member": "release.json",
+      "bytes": 2188,
+      "sha256": "931f6153eac6976e1bb51d3ad039a0032512b210071d3688a15aa3999ff83bdb",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution-inputs/manifest.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/execution-inputs/manifest.json",
+      "member": "execution-inputs/manifest.json",
+      "bytes": 3558,
+      "sha256": "3061e2ab9b072d52fb72ea26869fcd67aa5593fb714a057b4b05c83bec79fed3",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution-inputs/evaluator-map.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/execution-inputs/evaluator-map.json",
+      "member": "execution-inputs/evaluator-map.json",
+      "bytes": 1493,
+      "sha256": "06be08166e3e393d65f935cc25c157fca8e711553e4201233d8deada8264c73a",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution-inputs/source-allowlist.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/execution-inputs/source-allowlist.json",
+      "member": "execution-inputs/source-allowlist.json",
+      "bytes": 22756,
+      "sha256": "9fe37dd44084203dc2d2e6794d4b717e15da281eda9780ab28c2b47b5d9f73c5",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution-inputs/asset-inventory.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/execution-inputs/asset-inventory.json",
+      "member": "execution-inputs/asset-inventory.json",
+      "bytes": 6466,
+      "sha256": "8d208d0a81e3e63e33a2b103dd1eb2baaf2803d1d37640eb5393e21c96ac8dda",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/technical-failure.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/technical-failure.json",
+      "member": "output/technical-failure.json",
+      "bytes": 2066,
+      "sha256": "895aa3e158d59afb5a926814ec37609111f6c750bbade5de4d624abb98e9e62c",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/runtime-load.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/runtime-load.json",
+      "member": "output/runtime-load.json",
+      "bytes": 39550,
+      "sha256": "02236bc575038b18d79c55557e3db820271e59d03a83edaa7e17efc6366da145",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/T0-result.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/T0-result.json",
+      "member": "output/T0-result.json",
+      "bytes": 837439,
+      "sha256": "f11c3c3ba83070336927535d1e6856e7671614a3720200ffcda26ada6f5a240b",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/T0/t0-final-state.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/T0/t0-final-state.json",
+      "member": "output/T0/t0-final-state.json",
+      "bytes": 171,
+      "sha256": "97247fb3b26a31207c6d1f8798b9c26f082a2c5bc16c0ec7d855d62294f7ece6",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/T0/t0-observations.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/T0/t0-observations.json",
+      "member": "output/T0/t0-observations.json",
+      "bytes": 837440,
+      "sha256": "bbbde630df6cac4f27c533dcefa0072e83447a07ca7d0ebfb080fd4be7826d74",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/output/T0/z-source-comparison.json",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/output/T0/z-source-comparison.json",
+      "member": "output/T0/z-source-comparison.json",
+      "bytes": 130732,
+      "sha256": "d82d325a28ee2d68e5304a93efd5fae04f619262123afd1708f497e637dea5ea",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/logs/51260.err",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/logs/51260.err",
+      "member": "logs/51260.err",
+      "bytes": 2917,
+      "sha256": "65595c6bdc437b8c1354387f54363345a937cadcdadb9a619f96c8b6d70ab5e3",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/runner.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/runner.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/runner.py",
+      "bytes": 10816,
+      "sha256": "cd57b818f60a611edf09cc234a16d7f25908bbe8f7e23cc4a7bf39daed671dc1",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/controller.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/controller.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/controller.py",
+      "bytes": 7393,
+      "sha256": "702452169e4ddbca7ee3a1da3ca17a642cb38aab9249c2f0e04cc114ed2eec3b",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/geometry.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/geometry.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/geometry.py",
+      "bytes": 15003,
+      "sha256": "662fbba5b3e90f5f8020e0ac60e4d8eb56352152a58f3506ea9383519e8c9f38",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/objective.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/objective.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/objective.py",
+      "bytes": 8062,
+      "sha256": "8279a0421fe8524ceeca04a412af19b18af0896571542a41d403ad4e47b455d0",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/runtime.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/runtime.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/runtime.py",
+      "bytes": 13295,
+      "sha256": "dfbe0d791194416aa07bc2bb766cf61656d55d22e4a072fe51c424006c16d563",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/native.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/native.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/native.py",
+      "bytes": 4766,
+      "sha256": "d3246a36fef13ac2801b296ca2ae1164fd977b64eae05781f3c61bd32a0a6182",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/current.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/current.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/current.py",
+      "bytes": 8031,
+      "sha256": "1f1c832ae3723b648067acbec6ab227a8f45d91f0f0713af94491940d1fa09c9",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/selector.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/selector.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/selector.py",
+      "bytes": 4956,
+      "sha256": "ce744b6b3fbd6ec4d460dbb0e68fd30ae6384c396c257851d6da5f2cd9b3f3dc",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/technical.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/technical.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/technical.py",
+      "bytes": 15724,
+      "sha256": "eca7bbffa850889d4a2de23bae5544b1a0e8c6e14e4792a2a1a4c7afce2bbe0d",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/metrics.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/metrics.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/metrics.py",
+      "bytes": 16794,
+      "sha256": "adce7ba496257731409ea0d9bd35148d5175e3c70c1c847b7d2afdc81515ca16",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/test_server4.py",
+      "destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/handoff-from-server4/source/project/run_scripts/en_adaptive_nullspace/test_server4.py",
+      "member": "source/project/run_scripts/en_adaptive_nullspace/test_server4.py",
+      "bytes": 2179,
+      "sha256": "3eab57e424fccf6d4aba710cee4eae69bb23e4e85dd2880a212e2146233dc04a",
+      "owner": "SH4",
+      "operation": "OPTIONAL_SH3_SOLE_PULL_SOURCE_KEEP"
+    }
+  ],
+  "reference_transfer_bytes": 0,
+  "new_history_teacher_count": 0,
+  "source_git_preferred": true,
+  "transfer_performed": false,
+  "source_keep": true,
+  "excluded": [
+    "full stdout",
+    "model",
+    "teacher",
+    "keys",
+    "current prompt-bearing raw",
+    "full spectrum",
+    "weights",
+    "partial controller raw"
+  ],
+  "fresh_restart": "W0_ZERO_M4_B1_SHARED_NATIVE_REQUIRED",
+  "exact_resume": "NOT_AVAILABLE"
+}

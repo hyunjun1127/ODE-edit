@@ -1,0 +1,88 @@
+{
+  "numpy": "2.2.6",
+  "frozen_source": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/source",
+  "error": "TypeError('Object of type bool is not JSON serializable')",
+  "numpy_scalars": [
+    {
+      "path": "$.ledger[0].arithmetic_fp64_slack",
+      "type": "numpy.float64",
+      "value": 7.105427357601002e-14
+    },
+    {
+      "path": "$.ledger[0].geometry_checks.ideal_norm",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[0].geometry_checks.ideal_response",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[0].geometry_checks.actual_norm",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[0].geometry_checks.actual_response",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[0].geometry_checks.actual_allowed_range",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[1].arithmetic_fp64_slack",
+      "type": "numpy.float64",
+      "value": 7.105427357601002e-14
+    },
+    {
+      "path": "$.ledger[1].geometry_checks.ideal_norm",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[1].geometry_checks.ideal_response",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[1].geometry_checks.actual_norm",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[1].geometry_checks.actual_response",
+      "type": "numpy.bool",
+      "value": true
+    },
+    {
+      "path": "$.ledger[1].geometry_checks.actual_allowed_range",
+      "type": "numpy.bool",
+      "value": true
+    }
+  ],
+  "synthetic_controller_status": "ACCEPTED",
+  "cpu_fixture_only": true,
+  "model_loaded": false,
+  "gpu_used": false,
+  "serialization_only_proposal_roundtrip": "PASS",
+  "negative_cases": {
+    "nan": "REJECTED",
+    "inf": "REJECTED",
+    "tensor_array": "REJECTED"
+  },
+  "partial_actual": {
+    "valid_receipt": false,
+    "leading_return_objective_J": 0.0010912434272175137,
+    "leading_return_objective_seconds": 2637.6220341054723,
+    "first_trial": "candidate1",
+    "first_trial_objective_J": 0.003051907800332798,
+    "first_trial_seconds": 174.66433481872082,
+    "selected_trial": "NOT_RECORDED",
+    "status": "NOT_RECORDED",
+    "warning": "Complete leading JSON values only; not a scientific seal or commit."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "raw_identity_unchanged": "PASS",
+  "raw_members": 17,
+  "partial_controller": "INVALID_PARTIAL_PRESERVED",
+  "gpu_calls": 0,
+  "model_calls": 0,
+  "scheduler_mutations": 0,
+  "failure_fixture": "REPRODUCED",
+  "nan_inf_tensor_negative": "PASS",
+  "production_edits": 0,
+  "method_threshold_changes": 0,
+  "independent_agent_review": false,
+  "source_git_only": true,
+  "renderer": "NOT_RUN",
+  "original_archive_hash_checked": true,
+  "full_teacher_rehash": false
+}
