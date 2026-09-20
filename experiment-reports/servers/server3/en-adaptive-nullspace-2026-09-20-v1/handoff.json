@@ -1,0 +1,40 @@
+{
+  "status": "HANDOFF_READY_S3_GPU_AUTHORITY_REVOKED",
+  "instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "migration_nonce": "ODEEDIT-GH-SH3-EN-ADAPT-MIGRATE-TO-S4-20260920-R1",
+  "scientific_execution_complete": false,
+  "S3_GPU_jobs_submitted": 0,
+  "S3_GPU_hours": 0,
+  "actual_T0": false,
+  "actual_B1": false,
+  "actual_B300": false,
+  "source_commit": "2ff2393f19b74195ed52d016d4d73ae0878d9946",
+  "source_tree": "992958cd40f898cd24c01b56692b75fc4243c99a",
+  "transfer": {
+    "status": "PASS",
+    "members": 2560,
+    "bytes": 101519959223,
+    "seconds": 662.1308023668826,
+    "missing": 0,
+    "mismatch": 0,
+    "free_bytes": 17586044928,
+    "validation": "each_new_destination_once;source_seal_reuse;runtime_no_rehash"
+  },
+  "teacher_manifest_sha256": "14bf1f5d98cf9e09e9fad6458bc4d7ae5fb2e81de635b63f2b03db4c405a73b4",
+  "teacher_binding_sha256": "db74df02028afa0ab30b32781fe83a5ff95b9c71a9e1422eae5c1ec41d7a791d",
+  "handoff_package": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/handoff-v1.tar.gz",
+    "size": 595595,
+    "sha256": "390a21cfdff4af3fea6e0f74311c552d9d48f0d9405d8c8b43378ae1811a1aa4",
+    "members": 10
+  },
+  "cpu_tests": 47,
+  "reporter_tests": 4,
+  "new_T0_precision": "NOT_ESTABLISHED_NOT_RUN",
+  "project_cap_global_unchanged": 1,
+  "task_GPU_permission": false,
+  "migration_authority_commit": "938db0b765e1a3d4a1e6edc8da702d2486ad6e24",
+  "SH4_host_memory_limit_MiB": 60416,
+  "SH4_destination": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/",
+  "S3_state": "STOP_AFTER_HANDOFF_DELIVERY"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "members": 2560,
+  "bytes": 101519959223,
+  "seconds": 662.1308023668826,
+  "missing": 0,
+  "mismatch": 0,
+  "free_bytes": 17586044928,
+  "validation": "each_new_destination_once;source_seal_reuse;runtime_no_rehash",
+  "teacher_manifest_sha256": "14bf1f5d98cf9e09e9fad6458bc4d7ae5fb2e81de635b63f2b03db4c405a73b4",
+  "handoff_package": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/handoff-v1.tar.gz",
+    "size": 595595,
+    "sha256": "390a21cfdff4af3fea6e0f74311c552d9d48f0d9405d8c8b43378ae1811a1aa4",
+    "members": 10
+  },
+  "reverse_transfer_bytes": 0
+}

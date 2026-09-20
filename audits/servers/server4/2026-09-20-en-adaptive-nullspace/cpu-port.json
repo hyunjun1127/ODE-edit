@@ -1,0 +1,32 @@
+{
+  "status": "PASS_CPU_ONLY",
+  "tests": 52,
+  "inherited_tests": 47,
+  "new_server4_tests": 5,
+  "actual_model_T0": "NOT_RUN",
+  "source_parent": "43904c13def0aa06bb37dcd7574df5df101db135",
+  "authority": "938db0b765e1a3d4a1e6edc8da702d2486ad6e24",
+  "first_invocation": {
+    "status": "FAILED_TEST_HARNESS_AND_PORT_PATH",
+    "relative_import_errors": 5,
+    "S3_evaluator_missing": 1,
+    "repair": "package-qualified unittest invocation; same-SHA S4 evaluator mapping",
+    "GPU_calls": 0
+  },
+  "source_bug": {
+    "component": "controller second-ray curvature",
+    "before": "actual gradient inner product",
+    "after": "ideal gradient inner product per design section 6",
+    "Armijo": "actual gradient inner product unchanged",
+    "threshold_changes": false,
+    "regression": "large FP32 center demonstrates unequal ideal/actual slopes"
+  },
+  "warnings": [
+    "two inherited reporter test CSV handles emit ResourceWarning; all assertions pass",
+    "ignored session-boundary.env and agent heartbeat contain older session ID; current servers/active/server4.md and explicit envelope bind current session; shared config untouched",
+    "direct peer dynamic tool unavailable; final SH3 handoff received through current user connection and exact Git commit"
+  ],
+  "independent_red_agent": false,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE"
+}
