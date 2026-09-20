@@ -140,7 +140,7 @@ def replay_frontier(payload):
 
 def review(output,destination,first_only=False):
     output=Path(output);dest=Path(destination);dest.mkdir(parents=True,exist_ok=True)
-    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[]
+    tables=[];pairs=[];selection=[];history=[];missing=[];inputs={};observed={};frontiers=[];current_ids={};state_links=[];commits={}
     def read(path):
         p=output/path
         if not p.is_file():return None
@@ -151,6 +151,7 @@ def review(output,destination,first_only=False):
             spectrum=read(f'B{batch}/{group}-spectrum.json')
             if spectrum:frontiers.append(dict(batch=batch,group=group,checks=replay_frontier(spectrum)))
         w0=read(f'B{batch}/W0-current.json');current=w0['request_ids'] if w0 else None
+        if current is not None:current_ids[batch]=current
         for arm in ARMS if batch==1 else CHAINS:
             obs=read(f'B{batch}/{arm}-metrics.json')
             if obs is None:missing.append(f'B{batch}/{arm}');continue
@@ -161,6 +162,23 @@ def review(output,destination,first_only=False):
             commit=read(f'B{batch}/{arm}-commit.json')
             if commit:
                 scopes['active_past']=commit['active_past_ids']
+                nr=commit['receipt']['native']
+                if len(nr)!=1 or nr[0]['layer']!=4 or nr[0]['history_append']!=1 or commit['history_append']!=1:
+                    raise ValueError('HISTORY_ONCE')
+                if current is not None and commit['receipt']['case_ids']!=current:raise ValueError('COMMIT_REQUEST_ORDER')
+                commits[batch,arm]=nr[0]
+                fit=read(f'B{batch}/{"SHARED" if batch==1 else arm}-native.json')
+                if fit:
+                    fr=fit['receipt']
+                    if fr['history_append']!=0 or fr['history_sha256']!=nr[0]['before_sha256']:
+                        raise ValueError('INNER_HISTORY_OR_ENTRY_M')
+                    previous=commits.get((batch-1,arm))
+                    if previous:
+                        if fr['history_sha256']!=previous['after_sha256'] or fr['entry_weight_sha256']!=previous['weight_sha256']:
+                            raise ValueError('OWN_NEXT_ENTRY_LINK')
+                        state_links.append(dict(arm=arm,from_batch=batch-1,to_batch=batch,
+                            W_sha256=fr['entry_weight_sha256'],M_sha256=fr['history_sha256'],
+                            level='runtime SHA linkage; no independent tensor reconstruction'))
                 history.append(dict(batch=batch,arm=arm,append=commit['history_append'],
                     native_receipt=commit['receipt']['native'],active_past_ids=commit['active_past_ids']))
             for scope,ids in scopes.items():
@@ -180,14 +198,29 @@ def review(output,destination,first_only=False):
                 for scope,ids in scopes.items():
                     if ids is not None:
                         pairs.extend(dict(batch=batch,arm=arm,scope=scope,comparison='minus_N4',**r) for r in transitions(native,obs,ids))
+    for (batch,arm),obs in observed.items():
+        if batch==1:continue
+        first=observed.get((1,arm))
+        if first:
+            pairs.extend(dict(batch=batch,arm=arm,scope='first100',comparison='minus_own_B1',**r)
+                for r in transitions(first,obs,first['request_ids']))
+        own_parts=[(b,observed.get((b,arm))) for b in range(1,batch+1)]
+        if all(part is not None and b in current_ids for b,part in own_parts):
+            ids=[i for b,_ in own_parts for i in current_ids[b]]
+            atwrite_rows=[r for b,part in own_parts for r in part['rows'] if r['case_id'] in set(current_ids[b])]
+            atwrite=dict(request_ids=ids,rows=atwrite_rows)
+            pairs.extend(dict(batch=batch,arm=arm,scope='all_seen',comparison='minus_own_atwrite',**r)
+                for r in transitions(atwrite,obs,ids))
     first=[r for r in tables if r['batch']==1 and r['scope']=='all_seen']
     csv_dump(dest/'first-final-table.csv',first)
     csv_dump(dest/'independent-metrics.csv',tables)
     csv_dump(dest/'independent-paired.csv',pairs)
     dump(dest/'selector-replay.json',selection);dump(dest/'history-evidence.json',history)
     dump(dest/'frontier-replay.json',frontiers)
+    dump(dest/'state-links.json',state_links)
     completeness=dict(complete_endpoints=len(observed),expected_endpoints=4 if first_only else 10,
         missing_endpoints=missing,history_appends=sum(r['append'] for r in history),
+        adjacent_state_links=len(state_links),expected_adjacent_links=0 if first_only else 6,
         numeric_pass=False,precision_status='NOT_ESTABLISHED',checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
     dump(dest/'independent-reducer.json',dict(completeness=completeness,inputs=inputs,
         source_sha256=digest(__file__),validation='fresh true/new NLL reduction; token flags identity/cardinality; CPU selector replay',

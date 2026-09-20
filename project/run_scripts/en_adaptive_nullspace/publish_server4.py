@@ -1,5 +1,6 @@
 """Korean factual package from immutable S4 evidence. CPU only; no model calls."""
 import argparse
+import ast
 import csv
 import hashlib
 import json
@@ -21,6 +22,15 @@ def build(output,dest):
     def read(name):
         p=output/name;return json.loads(p.read_text()) if p.is_file() else None
     lock=json.loads((parent/'execution.lock.json').read_text())
+    source_evidence=[]
+    frozen=Path(lock['execution']['source'])/'project/run_scripts/en_adaptive_nullspace'
+    for path in sorted(frozen.glob('*.py')):
+        parsed=ast.parse(path.read_text())
+        definitions=[dict(name=node.name,line=node.lineno,kind=type(node).__name__)
+            for node in ast.walk(parsed) if isinstance(node,(ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef))]
+        source_evidence.append(dict(path=str(path.relative_to(frozen.parent.parent.parent)),
+            bytes=path.stat().st_size,sha256=digest(path),definitions=definitions))
+    dump(dest/'frozen-source-evidence.json',source_evidence)
     t0=read('T0-result.json') or read('T0/t0-observations.json') or read('T0/t0-failure.json') or {}
     groups=[];references=[];coverage=[]
     for batch in (1,2,3):
@@ -79,7 +89,7 @@ def build(output,dest):
             for scope in ('current','active_past','all_seen','first100'):
                 selected={r['family']:r for r in rows if int(r['batch'])==batch and r['arm']==arm and r['scope']==scope}
                 if selected:
-                    cells=[f'{selected[f]["numerator"]}/{selected[f]["denominator"]}' for f in ('RS','PS','NS')]
+                    cells=[f'{selected[f]["numerator"]}/{selected[f]["denominator"]}' if int(selected[f]['denominator']) else 'N/A (0)' for f in ('RS','PS','NS')]
                     lines.append('| '+' | '.join([str(batch),arm,scope,*cells])+' |')
     lines+=['','RS/PS는 new NLL < true NLL, NS는 true NLL < new NLL; 동률 실패. Fullseen과 current/active-past 분모를 분리했다. EN_NUM은 B1만 있으며 B300 결과로 대체하지 않는다.',
         'TF token-micro/prompt-macro/strict와 true/new NLL은 `independent-metrics.csv`, exact prompt/token-identity paired lost/gained와 NLL 변화는 `independent-paired.csv`이다. 동일 총점은 동일 성공집합을 뜻하지 않는다.',
@@ -103,7 +113,7 @@ def build(output,dest):
         '19GiB cache budget/52GiB host estimate/24h walltime은 계획이며 actual peak/시간과 다르다. 원 teacher 생성 비용·SH3 전송 비용은 신규 S4 allocation에 다시 청구하지 않는다.',
         '', '## 6. 재현과 검증 범위', '',
         'CPU 재현: `python -m project.run_scripts.en_adaptive_nullspace.publish_server4 --output <immutable-attempt/output> --destination <new-review-directory>`.',
-        'Owner audit + 독립 NLL reducer + CPU selector replay. 별도 독립 red agent 미사용. 원 runtime/teacher/raw 무변경; 새 GPU/evaluator를 리뷰에서 호출하지 않는다. Source-conformance 표는 source의 의미와 실제 저장 검증 수준을 분리한다.',
+        'Owner audit + 독립 NLL reducer + CPU selector/frontier replay. 별도 독립 red agent 미사용. 원 runtime/teacher/raw 무변경; 새 GPU/evaluator를 리뷰에서 호출하지 않는다. Source-conformance 표는 source의 의미와 실제 저장 검증 수준을 분리하며 frozen-source-evidence.json에 정확 file SHA와 함수 line을 결속했다.',
         'SH는 사실·산술·한계를 정리하며 인과해석·방법 우열·후속선택은 GH 검토 범위다. B300 이후 추가실험 권한0. NO_BROADCAST_NOT_REQUIRED.',
     ]
     (dest/'report-ko.md').write_text('\n'.join(lines)+'\n')

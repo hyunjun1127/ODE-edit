@@ -1,6 +1,11 @@
 import copy
+import contextlib
+import io
+import json
+from pathlib import Path
+import tempfile
 import unittest
-from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier
+from .review_server4 import validate_reduce,transitions,replay_controller,replay_frontier,review
 
 
 def fixture():
@@ -73,6 +78,26 @@ class ReviewTests(unittest.TestCase):
             loss=-1e-8,native_norm=2.,native_action=.8,group_ends=[1],numerical_released=0,exact_rank=1)
         payload=dict(spectrum=s,selection=select_arms(s))
         self.assertTrue(all(r['selected_adaptive_modes']==0 for r in replay_frontier(payload)))
+
+    def test_own_entry_link_and_atwrite_reduction(self):
+        def obs(ids):
+            template=[r for r in fixture()['rows'] if r['case_id']==7]
+            return dict(request_ids=list(ids),rows=[dict(r,case_id=i,identity=f'{i}:{r["identity"]}') for i in ids for r in template])
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);out=root/'output';out.mkdir()
+            def write(name,value):
+                p=out/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(value))
+            for b in (1,2):
+                ids=list(range((b-1)*100,b*100))
+                write(f'B{b}/W0-current.json',obs(ids));write(f'B{b}/N4-metrics.json',obs(range(b*100)))
+                write(f'B{b}/N4-commit.json',dict(history_append=1,active_past_ids=list(range((b-1)*100)),
+                    receipt=dict(case_ids=ids,native=[dict(layer=4,history_append=1,before_sha256=f'm{b-1}',after_sha256=f'm{b}',weight_sha256=f'w{b}')])) )
+                write(f'B{b}/{"SHARED" if b==1 else "N4"}-native.json',dict(receipt=dict(history_append=0,history_sha256=f'm{b-1}',entry_weight_sha256=f'w{b-1}')))
+            with contextlib.redirect_stdout(io.StringIO()):result=review(out,root/'report')
+            self.assertEqual(result['adjacent_state_links'],1)
+            self.assertEqual(result['history_appends'],2)
+            write('B2/N4-native.json',dict(receipt=dict(history_append=0,history_sha256='m1',entry_weight_sha256='other-arm')))
+            with self.assertRaisesRegex(ValueError,'OWN_NEXT_ENTRY_LINK'):review(out,root/'report2')
 
 
 if __name__=='__main__':unittest.main()
