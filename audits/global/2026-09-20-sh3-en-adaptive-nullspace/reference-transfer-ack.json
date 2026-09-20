@@ -1,0 +1,11 @@
+{
+  "nonce": "ODEEDIT-GH-SH3-REFERENCE-S4-TO-S3-20260920-R1",
+  "publication": "ea2e92f1f1dd1190c935c572f4ba5b80fe0d2f12",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "turn": "01a0be04-7ba9-7d21-b6ca-cfce367be8f6",
+  "transport": "related active turn/steer accepted",
+  "status": "ACK_RECEIVED",
+  "sh3_report": "승인된 S4 완료 자산에서 S3 누락 reference 구성원 이미 선택 수신 중. 추가 게시 지시 확인 및 전송/검산/기존구현 계속.",
+  "transfer_complete": "NOT_YET_REPORTED",
+  "GH_duplicate_transfer": false
+}
