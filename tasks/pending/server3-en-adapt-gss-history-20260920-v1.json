@@ -1,0 +1,29 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPT-GSS-HISTORY-10K-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-EN-ADAPT-GSS-HISTORY-R2-20260920-R1",
+  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "envelope": "messages/head/2026-09-20-sh3-en-adapt-gss-history-10k.md",
+  "schedule_revision": "R2_B2_CHECK_THEN_DIRECT_LIFELONG",
+  "supersedes": "single-arm all-active EN_ADAPT10k preparation",
+  "arms": [
+    "EN_ADAPT_H_RES",
+    "EN_ADAPT_H_GSS",
+    "EN_ADAPT_H_GSS_REC"
+  ],
+  "batch_size": 100,
+  "batches": 100,
+  "fixed_order": true,
+  "project_gpu_cap": 1,
+  "memory_mib_max": 121856,
+  "save_checkpoints": false,
+  "checkpoint_design_override": "prior explicit user noCP; observation schedule retained, RAM continuation",
+  "reference_512_unchanged": true,
+  "bank_capacity": 512,
+  "pending_capacity": 100,
+  "monitoring_after_release": false,
+  "initial_gate_observation": false,
+  "post_release_status": "MONITORING_PAUSED_AWAITING_USER",
+  "source_review_base": "abd08ee1dde24ca975aace49c925a4ba00211004"
+}

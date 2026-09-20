@@ -1,0 +1,196 @@
+{
+  "status": "PASS_CPU_DESIGN_NOT_NEURAL_VALIDATION",
+  "checks_count": 45,
+  "checks": {
+    "factor_sketch_equals_dense_gradient_projection": {
+      "passed": true,
+      "detail": null
+    },
+    "exact_pair_inner_product_from_factors": {
+      "passed": true,
+      "detail": null
+    },
+    "fixed_keys_do_not_make_gradient_state_invariant": {
+      "passed": true,
+      "detail": null
+    },
+    "all_input_positions_matter": {
+      "passed": true,
+      "detail": null
+    },
+    "at_write_teacher_KL_zero_but_NLL_nonzero": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_0": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_0": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_1": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_1": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_2": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_2": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_3": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_3": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_4": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_4": {
+      "passed": true,
+      "detail": null
+    },
+    "greedy_removal_minimizes_exact_one_step_surrogate_5": {
+      "passed": true,
+      "detail": null
+    },
+    "predicted_surrogate_matches_finite_removal_5": {
+      "passed": true,
+      "detail": null
+    },
+    "bank_capacity_enforced": {
+      "passed": true,
+      "detail": null
+    },
+    "below_capacity_keeps_all_no_GSS": {
+      "passed": true,
+      "detail": null
+    },
+    "opposite_gradient_not_treated_as_duplicate": {
+      "passed": true,
+      "detail": null
+    },
+    "positive_weights_cancel_in_cosine_selection": {
+      "passed": true,
+      "detail": null
+    },
+    "ID_ties_and_order_reproducible": {
+      "passed": true,
+      "detail": null
+    },
+    "zero_gradients_have_explicit_finite_fallback": {
+      "passed": true,
+      "detail": null
+    },
+    "nonfinite_feature_rejected": {
+      "passed": true,
+      "detail": null
+    },
+    "history_weights_normalized_recent_larger": {
+      "passed": true,
+      "detail": null
+    },
+    "history_weight_ratio_bounded": {
+      "passed": true,
+      "detail": null
+    },
+    "uniform_ablation_and_equal_age_alias": {
+      "passed": true,
+      "detail": null
+    },
+    "empty_history_finite": {
+      "passed": true,
+      "detail": null
+    },
+    "current_version_not_replayed_as_past": {
+      "passed": true,
+      "detail": null
+    },
+    "same_target_repeat_keeps_teacher_and_birth": {
+      "passed": true,
+      "detail": null
+    },
+    "overwrite_leaves_only_new_target_version": {
+      "passed": true,
+      "detail": null
+    },
+    "combined_gradient_energy_requires_cross_term": {
+      "passed": true,
+      "detail": null
+    },
+    "three_cold_chains_need_292_distinct_prefix_states": {
+      "passed": true,
+      "detail": null
+    },
+    "reference_candidate_sweep_cap_584": {
+      "passed": true,
+      "detail": null
+    },
+    "GSS_first_exercised_B7": {
+      "passed": true,
+      "detail": null
+    },
+    "GSS_selection_sweep_cap_188": {
+      "passed": true,
+      "detail": null
+    },
+    "GSS_NLL_fact_VJP_cap_115032": {
+      "passed": true,
+      "detail": null
+    },
+    "only_B1_B2_are_preflight": {
+      "passed": true,
+      "detail": null
+    },
+    "lifelong_immediately_continues_B3_through_B100": {
+      "passed": true,
+      "detail": null
+    },
+    "no_intermediate_pilot_or_quality_gate": {
+      "passed": true,
+      "detail": null
+    },
+    "cold_prefix_continued_without_reexecution": {
+      "passed": true,
+      "detail": null
+    },
+    "all_512_reference_G256_and_no_PS_training": {
+      "passed": true,
+      "detail": null
+    },
+    "no_extra_z_or_margin_guard": {
+      "passed": true,
+      "detail": null
+    },
+    "pool_limit_and_bank_limit_distinct": {
+      "passed": true,
+      "detail": null
+    },
+    "design_local_links_exist": {
+      "passed": true,
+      "detail": null
+    }
+  },
+  "gpu_jobs_submitted": 0,
+  "model_forward_backward_calls": 0,
+  "dense_gradient_GB": 143.747186688,
+  "sketch_MB": 5.013504,
+  "hashes": {
+    "plans/global/2026-09-20-en-adapt-gss-history-contract-v1.json": "e4f93ff50448fb92d868c08f319c8061fff446cd6cecb5af0094c40a2adbfff8",
+    "plans/global/2026-09-20-en-adapt-gss-history-design-v1.md": "c8ab9d0b577be12e61f2d095432318a5d9544421f327eaf3aa8826a5a85b79fc",
+    "plans/global/2026-09-20-en-adapt-gss-history-cells-v1.csv": "9b7ea81c0cf8cacf793f60a47eaef53ced8eaf5ee3b4669b455040cc1c725319",
+    "audits/global/2026-09-20-en-adapt-gss-history-design-v1/history_reference.py": "ca617d6c831ee311f645a8d7e1193a2dcb91029916cb8a2ee6468108cd11aeb1"
+  }
+}

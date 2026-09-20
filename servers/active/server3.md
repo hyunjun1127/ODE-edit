@@ -1,5 +1,14 @@
 # Server3 active record
 
+## 最新 GSS lifelong task — 2026-09-20
+
+사용자 지정 R2 설계의 EN_ADAPT_H_RES / H_GSS / H_GSS_REC 세 arm 구현·제출.
+정본 [GH envelope](../../messages/head/2026-09-20-sh3-en-adapt-gss-history-10k.md).
+Project/taskcap1, checkpoint 미저장, B1–B2의 동일 RAMstate에서 B3–B100 연속.
+앞선 all-active 단일arm 준비는 새설계로 대체하며 중복제출하지 않는다.
+Release 후 monitoring0/초기gate관찰0, 다음 명시 사용자호출까지 대기.
+완료B300/source/기존teacher/raw 보존. 신규GPU 제출은 아직 미관측.
+
 ## 최신 repair 실행 승인 — 2026-09-20
 
 S4 EN adaptive-nullspace 실패를 확인하고 S3에서 repair run을 올리라는 사용자 지시.
