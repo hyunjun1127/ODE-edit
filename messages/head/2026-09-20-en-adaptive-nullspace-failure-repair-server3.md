@@ -95,12 +95,15 @@ Held exact owner/source/fullargs/node/GPU/CPU/memory/dependency검사→release.
 한정RCA·수리·정상제출까지 진행하며 준비/CPU PASS만으로 run올렸다고 보고하지 않는다.
 
 최신 사용자는 기존 S4모니터링을 중지했고 이번 요청은 실패확인·repair run 제출이다.
-**이번 repair의 실제 과학 초기경계(선택→history/observer restore→다음 entry) 또는
-정상release후 확인된 resource-pending 인계까지 관찰하고 monitoring pause**한다.
-실패한지점이 초기경계 뒤면 그 지점 통과도 확인하여 미검증임을 숨기지 않는다.
-Sealed 프로그램은 B300 자연진행, agent자동completionwait/후속arm제출0.
+최신 사용자 추가 지시 “모니터링은 하지 말라고 해”가 기존 초기경계 관찰 조건을 대체한다.
+**수리·제출전 admission·held검사→release 후 monitoring0**.
+초기gate/첫batch/실패지점 통과확인, scheduler/log/result polling,
+pending사유 추가조회·resource대기·sleep/heartbeat/callback/완료대기를 하지 않는다.
+제출 자체의 job/source/resource/release receipt만 보고하고
+actualinitial/terminal=NOT_OBSERVED, MONITORING_PAUSED_AWAITING_USER로 종료한다.
+Sealed 프로그램은 B300 자연진행; 이 지시로 job cancel/hold하지 않는다.
 사용자가 별도 completion review를 호출하면 상세terminal분석/main을 진행한다.
-지금scope는 RCA/repair/submission/initial handoff이며 B300완료를 미리 주장하지 않는다.
+지금scope는 RCA/repair/submission handoff이며 초기성공/B300완료를 미리 주장하지 않는다.
 
 ## 6. 선택 인계 권한 / write paths
 
