@@ -289,7 +289,7 @@ def build(results,output,cell_statuses=None,context_path=None,final=False):
         tables['fixed_probe_history.csv']=optional['fixed_probe_history.csv']
     for name,member in context.get('extra_tables',{}).items():
         require(name in {'activation-summary.csv','parent-rp-summary.csv','native-mode-summary.csv',
-            'history-compute.csv','fixed-probe-activation-summary.csv','counterfactual-summary.csv'},'unapproved extra public table')
+            'history-compute.csv','fixed-probe-activation-summary.csv','counterfactual-summary.csv','interpolation-summary.csv'},'unapproved extra public table')
         require(sha(member['path'])==member['sha256'],'extra public table identity')
         tables[name]=pd.read_csv(member['path']);optional_sources.append(member)
     tables["cell_status.csv"]=cells

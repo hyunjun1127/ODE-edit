@@ -99,6 +99,19 @@ def collect(output,scheduler):
         paragraphs.append('선정된 NS panel 실제 margin/entry-gradient 요약:\n\n'+reporting.markdown(frame)+
             '\n\nLost/retained는 archive outcome으로 사후 선정했다. 재측정 lost 수가16과 다를 수 있으며 원 panel을 교체하지 않았다. DK energy와 margin은 다른 값이고 부호가 있는 gradient 및 nonlinear remainder를 함께 본다. 새 backward는 실제 연구 분석이며 parity 전용 backward가 아니다.')
         hyp['H4']=dict(status='MIXED',provisional=True,basis=f"두 사후선정 구간 {len(activation)}개 NS문항에서 actual s0/.5/1와 all-valid-token gradient/EK/DK를 측정. 부호 일치/불일치와 remainder를 표에 모두 보존. Outcome선정에 의한 loss 자체를 독립 인과증거로 삼지 않고, 원 evaluator 동등성 미확립도 유지한다.")
+        interpolation=[]
+        for pair,t in intervals.items():
+            p=RUN/'results/activation-r1'/f'G{pair[0]:03d}_{pair[1]:03d}'/'interpolation_metrics.csv'
+            if not p.exists():continue
+            member=next(m for m in t['members'] if m['path']==str(p))
+            assert sha256(p)==member['sha256']
+            frame=pd.read_csv(p)
+            for (s,role),g in frame.groupby(['s','selection_role']):
+                interpolation.append(dict(interval_start=pair[0],interval_end=pair[1],s=s,role=role,n=len(g),
+                    ns_success=int(g.success.sum()),new_strict=int(g.new_strict.sum()),true_strict=int(g.true_strict.sum()),
+                    margin_mean=float(g.safety_margin.mean()),margin_min=float(g.safety_margin.min()),margin_max=float(g.safety_margin.max())))
+        pd.DataFrame(interpolation).to_csv(out/'interpolation-summary.csv',index=False)
+        paragraphs.append('고정 선분 s=0/.5/1의 실제 preference/TF strict(각 target 자체 TF 경로):\n\n'+reporting.markdown(pd.DataFrame(interpolation)))
     # Parent R/P is joined by exact request/interval in the already sealed observer table.
     parent=pd.read_parquet(ATTEMPT/'results/archival/mechanism_parent_rp.parquet')
     panel=pd.read_csv(ATTEMPT/'results/archival/mechanism_panel.csv')
@@ -168,7 +181,7 @@ def collect(output,scheduler):
         actual_runtime=read(RUN/'results/keys-r1/runtime.json'),parent_RP_rows=len(parent),
         prior_outputs_reused=True,report_numerical_certification=False,
         extra_tables={name:bound(out/name) for name in ('activation-summary.csv','parent-rp-summary.csv','native-mode-summary.csv',
-            'history-compute.csv','fixed-probe-activation-summary.csv','counterfactual-summary.csv') if (out/name).exists()})
+            'history-compute.csv','fixed-probe-activation-summary.csv','counterfactual-summary.csv','interpolation-summary.csv') if (out/name).exists()})
     ctx['numerical_parity']={**EXECUTION_POLICY,'historical_evidence':ctx['numerical_parity'],
         'new_validation_only_calls':0,'historical_C01_status':'FAILED','new_C00_C01_execution':'SKIPPED_USER_DIRECTED'}
     ctx['source_bindings'] += [dict(kind='no_gates_source_lock',**bound(RUN/f'execution-{mode}-r1/execution.lock.json')) for mode in stage_records]
