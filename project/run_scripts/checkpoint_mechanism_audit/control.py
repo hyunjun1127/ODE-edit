@@ -14,6 +14,8 @@ MODULES={'gate':'model_gate','keys':'key_bank','operator':'operator_lane','activ
 
 
 def freeze(output,mode='gate',analysis_output=None,analysis_args=None):
+    assert mode in ('keys','operator','activation'),'VALIDATION_JOB_REMOVED_USER_DIRECTED'
+    assert Path(output).is_relative_to(RUN) and Path(analysis_output).is_relative_to(RUN)
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     head=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip()
     tree=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD^{tree}'],text=True).strip()
@@ -40,11 +42,12 @@ def freeze(output,mode='gate',analysis_output=None,analysis_args=None):
         runner_args=list(analysis_args or []),
         resource=dict(project_cap=2,task_cap=2,gpu_per_job=1,cpu=8,host_mem_mib=60416,
                       walltime_hours=8,export='NONE',requeue=False,
-                      estimate='Gate-only conservative reservation, not measured runtime; later costs based on gate',
+                      estimate='8h conservative analysis reservation; prior model gate 269 allocated seconds, not an analysis runtime prediction',
                       disk_available=os.statvfs(ATTEMPT).f_bavail*os.statvfs(ATTEMPT).f_frsize),
         save_checkpoints=False,editing_chain=0,z_optimization=0,history_append=0,
         global_slurm_audit='6 historical server4 violations, not modified; new launcher scoped audit required',
-        source_scope='checkpoint_mechanism_audit only + immutable contract',scientific_promotion=False)
+        source_scope='checkpoint_mechanism_audit only + immutable contract',scientific_promotion=False,
+        execution_policy=EXECUTION_POLICY,prior_allocated_gpu_seconds=269)
     write_json(output/'execution.lock.json',receipt)
     print(json.dumps(dict(head=head,tree=tree,source=str(source),lock_sha256=sha256(output/'execution.lock.json'))),flush=True)
 
