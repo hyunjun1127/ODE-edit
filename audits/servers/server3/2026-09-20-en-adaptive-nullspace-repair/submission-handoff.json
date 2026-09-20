@@ -1,0 +1,95 @@
+{
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "job_id": "51290",
+  "job_name": "odeedit_en_adapt_B300_s3_repair",
+  "source": "5d452221288f3b924e1737578f11aaa654594422",
+  "tree": "5cf4c8d709cce99b64236f76e739f6ea9d0e90fc",
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/source.tar.gz",
+    "sha256": "ba6910244e339b40798cc93a0d04063d85c083a1aa2ea1bf9127322265eef5bc"
+  },
+  "lock_path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/execution.lock.json",
+  "lock_sha256": "bcecbff09e251b937f93175f86974b868505a78738c82dc77aea640bddf97d7e",
+  "resources": {
+    "GPU": 1,
+    "CPU": 8,
+    "mem_MiB": 121856,
+    "node": "ubuntu",
+    "export": "NONE",
+    "requeue": 0,
+    "wall_hours": 24,
+    "project_cap": 1,
+    "task_cap": 1,
+    "GPUhour_hardcap": null
+  },
+  "source_file_count": 2429,
+  "input_seals": {
+    "manifest.json": "031d5f1cfdb92b3e060110fc4cb8e0de5b48bf0595d99da91d4b4ef1c29e24bf",
+    "evaluator-map.json": "20df418f07a27e494ed84046071ef7d90829674d3086c0db91b9e5b0d62bcf52"
+  },
+  "admission": {
+    "time": 1789905004.0513787,
+    "queue": [],
+    "others": [],
+    "new_GPU": 1,
+    "cap": 1,
+    "task_cap": 1,
+    "free_bytes": 15890595840
+  },
+  "submission": {
+    "job_id": "51290",
+    "argv": [
+      "sbatch",
+      "--parsable",
+      "--hold",
+      "--output=/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/logs/%j.out",
+      "--error=/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/logs/%j.err",
+      "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/source/project/run_scripts/en_adaptive_nullspace/run-server3-repair.sbatch",
+      "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1"
+    ],
+    "lock_sha256": "bcecbff09e251b937f93175f86974b868505a78738c82dc77aea640bddf97d7e",
+    "source": "5d452221288f3b924e1737578f11aaa654594422",
+    "held": true
+  },
+  "held_checks": {
+    "owner": true,
+    "name": true,
+    "held": true,
+    "GPU": true,
+    "CPU": true,
+    "memory": true,
+    "partition": true,
+    "time_limit": true,
+    "node": true,
+    "requeue": true,
+    "dependency": true,
+    "command": true,
+    "argv": true,
+    "cwd": true
+  },
+  "release": {
+    "job_id": "51290",
+    "released": true,
+    "argv": [
+      "scontrol",
+      "release",
+      "51290"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "",
+    "actual_initial": "NOT_OBSERVED",
+    "actual_terminal": "NOT_OBSERVED",
+    "status": "MONITORING_PAUSED_AWAITING_USER",
+    "monitoring": false
+  },
+  "actual_initial": "NOT_OBSERVED",
+  "actual_terminal": "NOT_OBSERVED",
+  "post_release_monitoring_calls": 0,
+  "save_checkpoints": false,
+  "exact_crash_resume": "NOT_AVAILABLE",
+  "fresh_W0_zeroM4": true,
+  "RCA": "9a371cb37112508fbdb5c366e0fe293da33d0bd9",
+  "prior_failure_allocated_GPU_seconds": 6218,
+  "new_actual_cost": "NOT_OBSERVED"
+}

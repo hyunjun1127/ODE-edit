@@ -1,6 +1,6 @@
-# EN adaptive B300 SH3 repair · 제출 준비
+# EN adaptive B300 SH3 repair · 제출 인계
 
-상태: CPU_REPAIR_PASS / NOT_YET_SUBMITTED. 이 기록은 제출 전 준비이며 새 GPU 성공 관측이 아니다.
+상태: **MONITORING_PAUSED_AWAITING_USER**. Job **51290** held exact검사 PASS 후 release 명령이 exit0으로 끝났다. 실제 초기/terminal 상태는 NOT_OBSERVED다.
 
 S4 job51260은 numpy.bool을 compact controller JSON에 저장하지 못해 FAILED1:0으로 끝났다.
 OOM/timeout/디스크 부족/비유한 수치 또는 정상 fallback이 아니다. 첫 실패는 EN_EXACT 반환 후
@@ -51,3 +51,21 @@ run-server3-repair.sbatch만 제출한다. S4 launcher는 보존용이다.
 상태 파일·source lock·held exact inspection·release command receipt가 다음 제출 인계에 추가된다.
 최신 override에 따라 release 뒤 monitoring0, actualinitial/terminal=NOT_OBSERVED,
 MONITORING_PAUSED_AWAITING_USER. 프로그램은 자연진행하며 agent가 B300 완료를 기다리지 않는다.
+
+## 제출 확정 receipt
+
+Job51290 / odeedit_en_adapt_B300_s3_repair, 실행 source `5d452221288f3b924e1737578f11aaa654594422`,
+tree `5cf4c8d709cce99b64236f76e739f6ea9d0e90fc`.
+Source archive SHA `ba6910244e339b40798cc93a0d04063d85c083a1aa2ea1bf9127322265eef5bc`,
+execution lock SHA `bcecbff09e251b937f93175f86974b868505a78738c82dc77aea640bddf97d7e`.
+Own queue admission cap1 PASS. Held 검사 owner/name/GPU1/CPU8/memory121856MiB/ubuntu/
+gpu partition/24h/no-requeue/no-dependency/정확 launcher·fullargv·cwd 모두 PASS.
+`scontrol release 51290` returncode0. Release 뒤 scheduler/log/result/initialgate 조회0.
+새 실제 GPU비용·실행시작·초기 성공·B300 완료를 관측하지 않았다. 별도 요청까지 모니터링 중지한다.
+원프로그램은 자연진행하며 agent가 cancel/hold 또는 추가 arm을 제출하지 않는다.
+
+전체 submission argv/held checks/환경·입력 SHA/resource는
+`audits/servers/server3/2026-09-20-en-adaptive-nullspace-repair/submission-handoff.json`에 있다.
+실행 argv는 봉인된 `source/project/run_scripts/en_adaptive_nullspace/run-server3-repair.sbatch`
+다음에 위 attempt 절대경로 하나를 전달한다. 같은 attempt 재제출은 duplicate guard가 거부한다.
+실제 source 재현점은 위 실행 commit이며 이후 보고 commit과 구분한다.
