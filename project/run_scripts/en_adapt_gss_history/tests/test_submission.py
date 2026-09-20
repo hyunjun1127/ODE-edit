@@ -10,7 +10,7 @@ class SubmissionContractTests(unittest.TestCase):
         cmd=['sbatch','--hold','--export=NONE',str(script),str(attempt),str(source)]
         state=(f'UserId=janghj(1025) JobName={name} JobState=PENDING Reason=JobHeldUser '
                'ReqTRES=cpu=8,mem=119G,node=1,gres/gpu=1 NumCPUs=8 MinMemoryNode=119G '
-               'Partition=gpu TimeLimit=7-00:00:00 ReqNodeList=ubuntu Requeue=0 Dependency=(null) '
+               'Partition=gpu AllocNode:Sid=ubuntu:123 TimeLimit=7-00:00:00 ReqNodeList=ubuntu Requeue=0 Dependency=(null) '
                f'Command={script} WorkDir={source} SubmitLine={" ".join(cmd)}')
         self.assertTrue(all(held_checks(state,cmd,source,attempt,name).values()))
         for before,after,key in [('gres/gpu=1','gres/gpu=2','GPU'),('119G','59G','memory'),
@@ -26,7 +26,7 @@ class SubmissionContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):project_capacity('15_[1-4]|odeedit_array|PENDING|gres/gpu:1')
         with self.assertRaises(ValueError):project_capacity('16|odeedit_unknown|PENDING|N/A')
 
-    def test_two_held_inspections_precede_any_release(self):
+    def _bundle_scenario(self,finish_held_bundle=False):
         import json, tempfile
         from types import SimpleNamespace
         from unittest.mock import patch
@@ -44,29 +44,44 @@ class SubmissionContractTests(unittest.TestCase):
                     'input_seals':{},**{key:binding for key in ('resource_plan','reference_stat_binding','map_seal','sequence_identity')}}
                 (attempt/'execution.lock.json').write_text(json.dumps(lock))
             calls=[];commands={};released=[]
+            if finish_held_bundle:
+                attempt=root/'res/attempt-v1';(attempt/'logs').mkdir()
+                command=['sbatch','--parsable','--hold','--export=NONE','--job-name=odeedit_gss_res_10k_s3',
+                    f'--output={attempt}/logs/%j.out',f'--error={attempt}/logs/%j.err',
+                    str(source/'project/run_scripts/en_adapt_gss_history/run.sbatch'),str(attempt),str(source)]
+                commands['100']=command
+                (attempt/'submission.json').write_text(json.dumps(dict(job_id='100',arm=module.ARMS[0],
+                    source='fixture',lock_sha256=module.sha(attempt/'execution.lock.json'),argv=command,held=True)))
             def check_output(argv,**kwargs):
                 self.assertFalse(released,'query performed after first release')
                 calls.append(argv)
-                if argv[0]=='squeue':return ''
+                if argv[0]=='squeue':return '100|odeedit_gss_res_10k_s3|PENDING|gres/gpu:1' if finish_held_bundle else ''
                 if argv[:3]==['scontrol','show','node']:return 'RealMemory=512000 CPUTot=96'
                 if argv[0]=='sbatch':
                     job=str(100+len(commands));commands[job]=argv;return job+'\n'
                 job=argv[3];cmd=commands[job];name=next(x.split('=',1)[1] for x in cmd if x.startswith('--job-name='))
                 return (f'UserId=janghj(1025) JobName={name} JobState=PENDING Reason=JobHeldUser '
                     'ReqTRES=cpu=8,mem=119G,gres/gpu=1 NumCPUs=8 MinMemoryNode=119G '
-                    'Partition=gpu TimeLimit=7-00:00:00 ReqNodeList=ubuntu Requeue=0 Dependency=(null) '
+                    'Partition=gpu AllocNode:Sid=ubuntu:123 TimeLimit=7-00:00:00 ReqNodeList=ubuntu Requeue=0 Dependency=(null) '
                     f'Command={cmd[-3]} WorkDir={source} SubmitLine={" ".join(cmd)}')
             def release(argv,**kwargs):
                 self.assertEqual(len([x for x in calls if x[:3]==['scontrol','show','job']]),2)
                 self.assertEqual(argv[:2],['scontrol','release']);released.append(argv[-1])
                 return SimpleNamespace(returncode=0,stdout='',stderr='')
             with patch.object(module,'BASE',root),patch.object(module.subprocess,'check_output',side_effect=check_output),patch.object(module.subprocess,'run',side_effect=release):
-                module.submit()
+                module.submit(finish_held_bundle=finish_held_bundle)
             self.assertEqual(released,['100','101'])
+            self.assertEqual(len([x for x in calls if x[0]=='sbatch']),1 if finish_held_bundle else 2)
             for arm in ('res','gss_rec'):
                 receipt=json.loads((root/arm/'attempt-v1/release.json').read_text())
                 self.assertEqual(receipt['actual_initial'],'NOT_OBSERVED')
                 self.assertEqual(receipt['actual_terminal'],'NOT_OBSERVED')
+
+    def test_two_held_inspections_precede_any_release(self):
+        self._bundle_scenario()
+
+    def test_existing_held_job_reused_without_duplicate_submission(self):
+        self._bundle_scenario(finish_held_bundle=True)
 
 
 if __name__=='__main__':unittest.main()

@@ -85,7 +85,7 @@ def freeze():
 
 def held_checks(text,command,source,attempt,job_name):
     def field(name):
-        m=re.search(r'(?:^|\s)'+re.escape(name)+r'=(.*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|$)',text)
+        m=re.search(r'(?:^|\s)'+re.escape(name)+r'=(.*?)(?=\s+[A-Za-z][A-Za-z0-9_:/]*=|$)',text)
         return m.group(1) if m else None
     return dict(owner=field('UserId')=='janghj(1025)',name=field('JobName')==job_name,
         held=field('JobState')=='PENDING' and field('Reason')=='JobHeldUser',
@@ -116,10 +116,13 @@ def project_capacity(queue):
     return admitted
 
 
-def submit():
+def submit(*, finish_held_bundle=False):
     attempts=[BASE/arm.removeprefix('EN_ADAPT_H_').lower()/'attempt-v1' for arm in ARMS]
-    if any((a/'submission.json').exists() for a in attempts):
+    existing={a:json.loads((a/'submission.json').read_text()) for a in attempts if (a/'submission.json').exists()}
+    if existing and not finish_held_bundle:
         raise ValueError('DUPLICATE_OR_PARTIAL_REGISTRATION_REQUIRES_EXACT_HANDOFF')
+    if finish_held_bundle and (not existing or any((a/'release.json').exists() for a in attempts)):
+        raise ValueError('FINISH_ONLY_EXISTING_NEVER_RELEASED_HELD_BUNDLE')
     locks=[json.loads((a/'execution.lock.json').read_text()) for a in attempts]
     source=Path(locks[0]['execution']['source'])
     if any(lock['execution']!=locks[0]['execution'] for lock in locks):
@@ -132,6 +135,10 @@ def submit():
         if p.stat().st_size!=member['bytes'] or sha(p)!=member['sha256']:
             raise ValueError('FROZEN_SOURCE_CHANGED')
     for attempt,lock in zip(attempts,locks):
+        if attempt in existing:
+            old=existing[attempt]
+            if old['arm']!=lock['arm'] or old['source']!=lock['execution']['commit'] or old['lock_sha256']!=sha(attempt/'execution.lock.json') or not re.fullmatch(r'\d+',old['job_id']):
+                raise ValueError('EXACT_HELD_SOURCE_LOCK_MAPPING_REQUIRED')
         for name,value in lock['input_seals'].items():
             if sha(attempt/'execution-inputs'/name)!=value:
                 raise ValueError('FROZEN_INPUT_CHANGED')
@@ -147,7 +154,9 @@ def submit():
     # Single resource-only admission snapshot for the whole two-job bundle.
     queue=subprocess.check_output(['squeue','-h','-u','janghj','-w','ubuntu','-o','%i|%j|%T|%b'],text=True)
     others=project_capacity(queue)
-    if sum(x['GPU'] for x in others)+2>2:
+    existing_ids={v['job_id'] for v in existing.values()}
+    external=[x for x in others if x['job_id'] not in existing_ids]
+    if sum(x['GPU'] for x in external)+2>2:
         save(BASE/'admission-blocked.json',dict(others=others,requested_GPU=2,cap=2,
             status='PRE_SUBMISSION_RESOURCE_BLOCK',registered=0))
         raise RuntimeError('PROJECT_CAP2_PRE_SUBMISSION_BLOCK_NO_WAIT')
@@ -155,8 +164,8 @@ def submit():
     extract=lambda key:int(re.search(r'(?:^|\s)'+key+r'=(\d+)',node).group(1))
     if extract('RealMemory')<243712 or extract('CPUTot')<16:
         raise RuntimeError('AGGREGATE_NODE_CAPACITY_BLOCK')
-    save(BASE/'admission.json',dict(time=time.time(),resource_only_queue=queue.splitlines(),
-        own_project_other_admitted=others,requested_GPU=2,project_cap=2,task_cap=2,
+    save(BASE/('admission-held-repair-r1.json' if finish_held_bundle else 'admission.json'),dict(time=time.time(),resource_only_queue=queue.splitlines(),
+        own_project_other_admitted=external,existing_held_bundle_ids=sorted(existing_ids),requested_GPU=2,project_cap=2,task_cap=2,
         requested_CPU=16,requested_memory_MiB=243712,node_metadata=node,
         free_bytes=stat.f_bavail*stat.f_frsize,required_free_bytes=required,
         existing_jobs_modified=0,existing_model_reference_copied=0,post_release_monitoring=False))
@@ -164,17 +173,23 @@ def submit():
     # Both exact held inspections happen BEFORE either release.
     for attempt,lock in zip(attempts,locks):
         name='odeedit_gss_'+lock['arm'].removeprefix('EN_ADAPT_H_').lower()+'_10k_s3'
-        (attempt/'logs').mkdir(exist_ok=False)
         command=['sbatch','--parsable','--hold','--export=NONE',f'--job-name={name}',
             f'--output={attempt}/logs/%j.out',f'--error={attempt}/logs/%j.err',
             str(source/'project/run_scripts/en_adapt_gss_history/run.sbatch'),str(attempt),str(source)]
-        job=subprocess.check_output(command,cwd=source,text=True).strip().split(';')[0]
-        if not re.fullmatch(r'\d+',job):raise ValueError('SBATCH_JOB_ID_SCHEMA')
-        save(attempt/'submission.json',dict(job_id=job,arm=lock['arm'],argv=command,held=True,
-            source=lock['execution']['commit'],lock_sha256=sha(attempt/'execution.lock.json')))
+        if attempt in existing:
+            if existing[attempt]['argv']!=command:
+                raise ValueError('EXACT_EXISTING_HELD_ARGV_REQUIRED')
+            job=existing[attempt]['job_id']
+        else:
+            (attempt/'logs').mkdir(exist_ok=False)
+            job=subprocess.check_output(command,cwd=source,text=True).strip().split(';')[0]
+            if not re.fullmatch(r'\d+',job):raise ValueError('SBATCH_JOB_ID_SCHEMA')
+            save(attempt/'submission.json',dict(job_id=job,arm=lock['arm'],argv=command,held=True,
+                source=lock['execution']['commit'],lock_sha256=sha(attempt/'execution.lock.json')))
         state=subprocess.check_output(['scontrol','show','job',job,'--oneliner'],text=True)
         checks=held_checks(state,command,source,attempt,name)
-        save(attempt/'held-inspection.json',dict(job_id=job,scontrol=state,checks=checks))
+        save(attempt/('held-inspection-repair-r1.json' if finish_held_bundle else 'held-inspection.json'),dict(job_id=job,scontrol=state,checks=checks,
+            submission_controller_sha256=sha(__file__),actual_execution_source=lock['execution']['commit']))
         if not all(checks.values()):raise RuntimeError('HELD_EXACT_INSPECTION_FAILED_NO_RELEASE')
         jobs.append((attempt,lock,job))
     for attempt,lock,job in jobs:
@@ -192,5 +207,7 @@ def submit():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--submit',action='store_true');a=p.parse_args()
-    (submit if a.submit else freeze)()
+    p=argparse.ArgumentParser();p.add_argument('--submit',action='store_true');p.add_argument('--finish-held-bundle',action='store_true');a=p.parse_args()
+    if a.submit:submit(finish_held_bundle=a.finish_held_bundle)
+    elif a.finish_held_bundle:p.error('--finish-held-bundle requires --submit')
+    else:freeze()

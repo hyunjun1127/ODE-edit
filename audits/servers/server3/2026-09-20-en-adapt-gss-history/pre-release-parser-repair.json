@@ -1,0 +1,60 @@
+{
+  "failure": "PRE_RELEASE_HELD_INSPECTION_FALSE_NEGATIVE",
+  "job_id": "51352",
+  "arm": "EN_ADAPT_H_RES",
+  "release_count": 0,
+  "second_arm_submission_count_at_failure": 0,
+  "actual_runtime_seconds": 0,
+  "allocation_GPU_seconds": 0,
+  "cause": "field delimiter omitted colon-bearing Slurm AllocNode:Sid key; Partition value incorrectly swallowed next field",
+  "original_receipt": {
+    "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/res/attempt-v1/held-inspection.json",
+    "sha256": "28041dc94fddf67847c684b240133caa7da82ec1dd1daf54db2899d25a0695b2"
+  },
+  "original_failed_checks": {
+    "owner": true,
+    "name": true,
+    "held": true,
+    "GPU": true,
+    "CPU": true,
+    "memory": true,
+    "partition": false,
+    "time_limit": true,
+    "node": true,
+    "requeue": true,
+    "dependency": true,
+    "command": true,
+    "args": true,
+    "cwd": true,
+    "exact_attempt": true,
+    "export_NONE": true
+  },
+  "repaired_receipt_parse_checks": {
+    "owner": true,
+    "name": true,
+    "held": true,
+    "GPU": true,
+    "CPU": true,
+    "memory": true,
+    "partition": true,
+    "time_limit": true,
+    "node": true,
+    "requeue": true,
+    "dependency": true,
+    "command": true,
+    "args": true,
+    "cwd": true,
+    "exact_attempt": true,
+    "export_NONE": true
+  },
+  "repair": "field-key delimiter recognizes colon/slash; finish only never-released exact held bundle, reuse originaljob",
+  "scientific_execution_source_unchanged": "02a85e3014c22526d192e9a5fffa0b7f72f75f9d",
+  "threshold_or_method_change": false,
+  "new_CPU_tests": 4,
+  "log": {
+    "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/cpu-held-parser-regression-r2.log",
+    "sha256": "115768e75f5cb11f7ebb0f02bd465ae75222514b3d94b23d2775eb6b5dda76da"
+  },
+  "cancelled_jobs": 0,
+  "original_files_overwritten": 0
+}
