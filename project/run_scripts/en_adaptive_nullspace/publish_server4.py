@@ -29,7 +29,10 @@ def build(output,dest):
             if spec:
                 g=spec['geometry'];s=spec['spectrum'];sel=spec['selection']['selected']
                 for arm,row in sel.items():
-                    groups.append(dict(batch=batch,group=group,arm=arm,rank=g['rank'],rank_status=g['rank_ambiguity_status'],
+                    executed=(batch==1 or arm==group)
+                    groups.append(dict(batch=batch,group=group,arm=arm,actual_controller_executed=executed,
+                        evidence_scope='ACTUAL_CONTROLLER' if executed else 'ALGEBRA_ONLY_NOT_EXECUTED',
+                        rank=g['rank'],rank_status=g['rank_ambiguity_status'],
                         columns=g['columns'],logical_prefix_groups=g['representative_groups'],tau=g['rank_cutoff'],
                         numerical_cutoff=g['numerical_cutoff'],duplicate_witness=g['duplicate_difference_frobenius'],
                         numerical_released=s['numerical_released'],released_modes=row['released_modes'],blocked_rank=row['blocked_rank'],
@@ -82,8 +85,8 @@ def build(output,dest):
         'TF token-micro/prompt-macro/strict와 true/new NLL은 `independent-metrics.csv`, exact prompt/token-identity paired lost/gained와 NLL 변화는 `independent-paired.csv`이다. 동일 총점은 동일 성공집합을 뜻하지 않는다.',
         'Runtime request-cluster bootstrap 10,000회/seed20260920은 `official-paired.csv`에 별도로 보존했다. 이것은 한 fixed-order 개발 trajectory의 기술통계이며 독립 반복실험·보편적 비열화 인증이 아니다.',
         '', '## 2. 실제 공간·controller 동작', '',
-        '|Batch/group|Arm|blocked rank|released|eta|predicted J 감소|','|---|---|---:|---:|---:|---:|']
-    for r in groups:lines.append('| '+' | '.join([f'{r["batch"]}/{r["group"]}',r['arm'],str(r['blocked_rank']),str(r['released_modes']),fmt(r['eta']),fmt(r['predicted_decrease'])])+' |')
+        '|Batch/group|Arm|실행 범위|blocked rank|released|eta|predicted J 감소|','|---|---|---|---:|---:|---:|---:|']
+    for r in groups:lines.append('| '+' | '.join([f'{r["batch"]}/{r["group"]}',r['arm'],r['evidence_scope'],str(r['blocked_rank']),str(r['released_modes']),fmt(r['eta']),fmt(r['predicted_decrease'])])+' |')
     lines+=['','`space-and-scale.csv`에 tau·numerical duplicate witness·전체 column·native norm/action·active cap을 수록했다. 수치 witness는 모든 플랫폼의 noise bound가 아니며 rank 모호성을 full precision PASS로 바꾸지 않는다.',
         '공통 native KL gradient와 weighted SVD를 B1 세 correction arm이 공유한다. B2 이후 각 arm은 자기 selected entry, native, history teacher, gradient를 사용한다. Algebra epsilon .01/.10을 새 모델 sweep으로 세지 않는다.',
         'Controller 최대2 actual 후보. 곡률은 ideal d=<G,D1>, Armijo는 실제 FP32 displacement 내적이다. 실제 감소·geometry·finite가 유효한 후보 중 최소 J를 선택하고 없으면 native fallback한다. Full-space 최적성이나 유한 후보 실패를 공간 전체 불가능성으로 해석하지 않는다.',
@@ -96,7 +99,7 @@ def build(output,dest):
         'z 비교는 unhooked/cache+head batch1/고정4요청 batched를 구분한다. 요청별 native loss/Adam/clamp/stop 규칙 불변이며 과학 production chunk는16. 고정4요청 timing을 B100 batch16 전체 속도 보장으로 해석하지 않는다.',
         '', '## 5. 상태·저장·비용', '',
         f'관측 commit history append 합계 {independent["history_appends"]}; 예상10(네 B1+세 B2+세 B3). Runtime selected W/M hash와 ledger는 남겼지만 edited W/M/delta/resume checkpoint는 저장하지 않았다. exact crash-resume 및 independent GPU continuation은 NOT_AVAILABLE/NOT_TESTED다.',
-        'Slurm parent allocation은 별도 accounting receipt로 결속하고 batch/extern 중복합산0. `costs.csv`의 shared actual은 B1 native/geometry/gradient 1회, method standalone core는 공유 필수비용 전액으로 구분한다. Nested timer를 합산하지 않고 observer+history+CPU bootstrap 묶음은 NOT_SEPARATED다. Allocation은 utilization이 아니다.',
+        'Slurm parent allocation은 별도 accounting receipt로 결속하고 batch/extern 중복합산0. `costs.csv`의 shared actual은 B1 native/geometry/gradient 1회, method standalone core는 공유 필수비용 전액으로 구분한다. Objective wall은 teacher streaming/I-O를 포함하며 순수 neural compute와 NOT_SEPARATED다. Nested timer를 합산하지 않고 observer+history+CPU bootstrap 묶음도 NOT_SEPARATED다. Allocation은 utilization이 아니다.',
         '19GiB cache budget/52GiB host estimate/24h walltime은 계획이며 actual peak/시간과 다르다. 원 teacher 생성 비용·SH3 전송 비용은 신규 S4 allocation에 다시 청구하지 않는다.',
         '', '## 6. 재현과 검증 범위', '',
         'CPU 재현: `python -m project.run_scripts.en_adaptive_nullspace.publish_server4 --output <immutable-attempt/output> --destination <new-review-directory>`.',

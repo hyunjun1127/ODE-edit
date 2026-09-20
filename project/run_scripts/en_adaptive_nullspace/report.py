@@ -213,7 +213,7 @@ def report(output,destination):
                 core_cost[batch,arm]=core
                 costs.append(dict(scope='STANDALONE_RECONSTRUCTED_CORE',batch=batch,arm=arm,component='native_plus_geometry_gradient_candidates',seconds=core,
                     native_seconds=base,geometry_seconds=geo,gradient_seconds=grad,candidate_seconds=candidate_standalone,
-                    shared_B1_cost_divisor=1,excludes='T0,teacher preparation/I/O,history capture,observers,hashing,allocation overhead; no speedup claim'))
+                    shared_B1_cost_divisor=1,excludes='T0,teacher preparation,history capture,observers,allocation overhead; streaming I/O and hashing within measured calls NOT_SEPARATED; no speedup claim'))
             dev=read(f'B{batch}/{arm}-Dev128.json')
             if dev:refs.append(dict(batch=batch,arm=arm,phase='Dev128_observer',L_R=dev.get('L_R'),L_H=dev.get('L_H'),J=dev.get('J'),reference_documents=dev.get('reference_documents'),alias=dev.get('alias')))
         batch_cost=read(f'B{batch}/cost.json')
@@ -255,7 +255,7 @@ def report(output,destination):
     for row in costs:
         if row['scope'] in ('ACTUAL_ALLOCATION','TECHNICAL_SEPARATE','PROCESS_WALL_OBSERVED'):
             lines.append('| '+' | '.join(_fmt(row.get(k)) for k in ('scope','component','seconds','allocation_gpu_hours'))+' |')
-    lines += ['', '공유 실행 비용과 standalone core 재구성은 `costs.csv`에서 분리했다. B1 native·geometry·gradient는 공유 실제 비용에서 한 번, 각 standalone EN에서 전체 비용으로 계산한다. Standalone core는 teacher 준비/I/O, history capture, observer, hashing, T0, allocation overhead를 제외한 부분비용이다. 완전한 standalone 실행 비용이나 속도향상을 주장하지 않는다.',
+    lines += ['', '공유 실행 비용과 standalone core 재구성은 `costs.csv`에서 분리했다. B1 native·geometry·gradient는 공유 실제 비용에서 한 번, 각 standalone EN에서 전체 비용으로 계산한다. Standalone core는 teacher 준비, history capture, observer, T0, allocation overhead를 제외한 부분비용이다. 측정 call 내부의 streaming I/O와 hashing은 포함되며 NOT_SEPARATED다. 완전한 standalone 실행 비용이나 속도향상을 주장하지 않는다.',
         '기존 teacher 생성/기존 native 자산의 과거 비용은 신규 GPU allocation에 재계상하지 않는다. 과거 비용 영수증이 없으면 미측정이다. Process wall seconds만으로 allocation GPUh를 추정하지 않는다. 누적 B1/B2/B3 카운터는 마지막 영수증 하나만 사용한다.',
         f'과학 native batches={_fmt(manifest["science_native_batches"])}, requests={_fmt(manifest["science_native_requests"])}, weighted SVD={_fmt(manifest["weighted_SVD"])}; objective counters=`{json.dumps(counters,ensure_ascii=False)}`.', '',
         'save_checkpoints=false. Edited W/M/optimizer/동등 delta·resume bundle을 저장하지 않았다. Exact crash-resume은 NOT_AVAILABLE이다. 모델·teacher·key 입력 자산은 edited checkpoint와 구별한다.',
