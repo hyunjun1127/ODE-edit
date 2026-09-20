@@ -55,7 +55,7 @@ class ReportTests(unittest.TestCase):
                 write(out,f'B1/{arm}-summary.json',{'selection_status':'NATIVE_BASELINE' if arm=='N4' else 'SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE','observer_alias':None if arm=='N4' else 'N4','observer_seconds':2})
             write(out,'B1/EN_ADAPT-controller.json',{'status':'SEARCH_LIMIT_NO_ACCEPTED_CANDIDATE','alias':'native','evaluations':0,'ledger':[{'trial':'candidate1','alias':'EN_EXACT:candidate1','objective':{'J':1.,'seconds':2}}]})
             report(out,root/'report')
-            costs=list(csv.DictReader((root/'report/costs.csv').open()))
+            with (root/'report/costs.csv').open() as handle:costs=list(csv.DictReader(handle))
             actual=[r for r in costs if r['component']=='native_fit']
             self.assertEqual(len(actual),1)
             standalone=[r for r in costs if r['scope']=='STANDALONE_RECONSTRUCTED_CORE' and r['arm']=='EN_ADAPT'][0]
@@ -70,7 +70,7 @@ class ReportTests(unittest.TestCase):
             root=Path(temp);out=root/'output';out.mkdir()
             write(root,'accounting.json',{'job_id':'123','allocation_gpu_seconds':1800,'state':'COMPLETED'})
             report(out,root/'report')
-            costs=list(csv.DictReader((root/'report/costs.csv').open()))
+            with (root/'report/costs.csv').open() as handle:costs=list(csv.DictReader(handle))
             allocation=[r for r in costs if r['scope']=='ACTUAL_ALLOCATION'][0]
             self.assertEqual(float(allocation['allocation_gpu_hours']),.5)
             self.assertEqual(allocation['job_id'],'123')

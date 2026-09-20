@@ -18,7 +18,7 @@ def build(output,dest):
     parent=output.parent
     manifest=report(output,dest)
     independent=review(output,dest)
-    rows=list(csv.DictReader((dest/'independent-metrics.csv').open()))
+    with (dest/'independent-metrics.csv').open() as handle:rows=list(csv.DictReader(handle))
     def read(name):
         p=output/name;return json.loads(p.read_text()) if p.is_file() else None
     lock=json.loads((parent/'execution.lock.json').read_text())
@@ -32,6 +32,25 @@ def build(output,dest):
             bytes=path.stat().st_size,sha256=digest(path),definitions=definitions))
     dump(dest/'frozen-source-evidence.json',source_evidence)
     t0=read('T0-result.json') or read('T0/t0-observations.json') or read('T0/t0-failure.json') or {}
+    technical=[]
+    ad=t0.get('AD',{});fd=t0.get('directional_derivative',{});zc=t0.get('z_source_comparison',{})
+    for item,value in [('cached_physical_objective_abs',ad.get('objective_abs')),
+                       ('cached_physical_gradient_relative',ad.get('gradient',{}).get('relative_l2')),
+                       ('FD_absolute_residual',fd.get('absolute_residual')),
+                       ('FD_relative_residual',fd.get('relative_residual')),
+                       ('T0_seconds',t0.get('seconds'))]:
+        technical.append(dict(item=item,value=value,level='OBSERVED; global precision NOT_ESTABLISHED'))
+    for key in ('native','cache_head_batch1','cache_head_batched'):
+        for measure,value in zc.get(key,{}).items():
+            technical.append(dict(item='z_'+key+'_'+measure,value=value,level='fixed four-request technical panel only'))
+    for key in ('batch1_comparison','batched_comparison'):
+        comp=zc.get(key,{})
+        for measure in ('max_NLL_abs','max_gradient_relative','z_relative'):
+            values=[r[measure] for r in comp.get('rows',[]) if measure in r]
+            technical.append(dict(item='z_'+key+'_'+measure,value=max(values) if values else None,level='observed maximum; no new threshold'))
+        technical.append(dict(item='z_'+key+'_historical_gate',value=comp.get('pass_inherited_NLL_gradient_and_stop_gate'),
+            level='historical diagnostic gate, not a new admission waiver'))
+    csv_dump(dest/'technical-observations.csv',technical)
     groups=[];references=[];coverage=[]
     for batch in (1,2,3):
         for group in (('SHARED',) if batch==1 else ('N4','EN_EXACT','EN_ADAPT')):
@@ -105,7 +124,7 @@ def build(output,dest):
         '`reference-selected-and-trials.csv`는 selected와 rejected trial을 구분하며 R512 전체 문서/실제 생성 위치 참여, L_R+L_H, choice mismatch 수·safe document 수를 기록한다. Token별 mismatch ID가 저장되지 않은 경우 exact gained/lost token은 NOT_RECORDED다. Counts 감소를 동일 token 회복으로 만들지 않는다.',
         'History는 모든 받은 fact의 최신 유효 target 중 현재 overwrite를 제외한 active 요청이다. Own selected at-write full-vocab teacher를 사용하며 타 arm teacher 또는 현재 entry로 갱신하지 않는다. B1 history는 N/A. B1 Dev128은 N4/ADAPT postseal observer만; Report256 미개방.',
         '', '## 4. T0 및 수치 한계', '',f'Fresh T0 finite/identity={t0.get("finite_identity_status","NOT_RECORDED")}; precision={t0.get("precision_status","NOT_ESTABLISHED")}.',
-        '고정4reference/4current에서 실제 AD/physical/cache/단일 directional derivative/weighted geometry·FP32 materialization을 검사했다. 과거 FD waiver나 source-only CPU test를 실제 전체 수치 PASS로 사용하지 않았다. T0 세부값은 원 T0 receipt에 보존했다.',
+        '고정4reference/4current에서 실제 AD/physical/cache/단일 directional derivative/weighted geometry·FP32 materialization을 검사했다. 과거 FD waiver나 source-only CPU test를 실제 전체 수치 PASS로 사용하지 않았다. technical-observations.csv는 actual AD/FD와 z 시간·peak·최대 오차를 정리한다. 원 T0 receipt의 historical z gate=false도 그대로 보존한다.',
         'z 비교는 unhooked/cache+head batch1/고정4요청 batched를 구분한다. 요청별 native loss/Adam/clamp/stop 규칙 불변이며 과학 production chunk는16. 고정4요청 timing을 B100 batch16 전체 속도 보장으로 해석하지 않는다.',
         '', '## 5. 상태·저장·비용', '',
         f'관측 commit history append 합계 {independent["history_appends"]}; 예상10(네 B1+세 B2+세 B3). Runtime selected W/M hash와 ledger는 남겼지만 edited W/M/delta/resume checkpoint는 저장하지 않았다. exact crash-resume 및 independent GPU continuation은 NOT_AVAILABLE/NOT_TESTED다.',
@@ -116,7 +135,20 @@ def build(output,dest):
         'Owner audit + 독립 NLL reducer + CPU selector/frontier replay. 별도 독립 red agent 미사용. 원 runtime/teacher/raw 무변경; 새 GPU/evaluator를 리뷰에서 호출하지 않는다. Source-conformance 표는 source의 의미와 실제 저장 검증 수준을 분리하며 frozen-source-evidence.json에 정확 file SHA와 함수 line을 결속했다.',
         'SH는 사실·산술·한계를 정리하며 인과해석·방법 우열·후속선택은 GH 검토 범위다. B300 이후 추가실험 권한0. NO_BROADCAST_NOT_REQUIRED.',
     ]
+    if independent['complete_endpoints']:
+        from .plot_server4 import plot
+        figures=plot(dest)
+        lines+=['','## 관측 endpoint 그림','',
+            '점은 실제 완료 endpoint다. 연결선은 시각적 안내이며 중간 batch의 추가 관측이나 보간 추정값이 아니다.']
+        for name in figures:lines+=['',f'![{name}]({name})']
+    lines+=['','[독립 metric 표](independent-metrics.csv) · [paired 전이](independent-paired.csv) · [비용](costs.csv) · [source 대응](source-conformance.csv)',
+        '', 'Markdown 표열·링크·UTF-8 및 PNG byte 재현은 CPU에서 검사한다. 별도 HTML renderer가 미설치이면 실제 HTML 렌더는 NOT_AVAILABLE이며 통과로 기록하지 않는다.']
     (dest/'report-ko.md').write_text('\n'.join(lines)+'\n')
+    from .check_package_server4 import check
+    publication_checks=check(dest)
+    dump(dest/'publication-checks.json',publication_checks)
+    with (dest/'report-ko.md').open('a') as handle:
+        handle.write('\n이 생성 환경의 실제 HTML 렌더 상태: `'+publication_checks['actual_HTML_render']+'`.\n')
     inventory=[]
     for p in sorted(output.rglob('*')):
         if p.is_file():inventory.append(dict(path=str(p.relative_to(output)),bytes=p.stat().st_size,sha256=digest(p)))
@@ -124,7 +156,7 @@ def build(output,dest):
     artifacts={p.name:dict(bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(dest.iterdir()) if p.is_file() and p.name not in ('analysis-manifest.json','rooted-receipt.json')}
     analysis=dict(execution_commit=lock['execution']['commit'],lock_sha256=digest(parent/'execution.lock.json'),
         source_sha256=digest(__file__),reducer_sha256=digest(Path(__file__).with_name('review_server4.py')),artifacts=artifacts,
-        actual_new_GPU=0,independent_reducer=True,independent_agent=False,save_checkpoints=False)
+        analysis_new_GPU=0,independent_reducer=True,independent_agent=False,save_checkpoints=False)
     dump(dest/'analysis-manifest.json',analysis)
     dump(dest/'rooted-receipt.json',dict(manifest_sha256=digest(dest/'analysis-manifest.json'),report_sha256=digest(dest/'report-ko.md'),
         inventory_sha256=digest(dest/'input-inventory.json'),status=manifest['status']))

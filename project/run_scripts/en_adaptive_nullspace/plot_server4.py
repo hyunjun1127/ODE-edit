@@ -11,7 +11,7 @@ def plot(package):
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     package=Path(package)
-    rows=list(csv.DictReader((package/'independent-metrics.csv').open()))
+    with (package/'independent-metrics.csv').open() as handle:rows=list(csv.DictReader(handle))
     colors={'N4':'#333333','EN_EXACT':'#31688e','EN_ADAPT':'#b24b25','EN_NUM':'#55964e'}
     figures=[]
     for field,label,filename in [('percent','NLL preference (%)','observed-preference.png'),

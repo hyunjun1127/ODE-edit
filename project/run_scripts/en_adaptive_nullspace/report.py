@@ -235,7 +235,7 @@ def report(output,destination):
         source_files_no_raw_prompts=True,precision_status=(t0 or {}).get('precision_status','NOT_ESTABLISHED'),
         save_checkpoints=False,exact_crash_resume='NOT_AVAILABLE',artifacts={name:dict(rows=len(rows),sha256=hashlib.sha256((destination/name).read_bytes()).hexdigest()) for name,rows in artifact_rows.items()})
     (destination/'report-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    lines=[f'# SH3 EN adaptive nullspace B300 사실 보고', '',f'실행 상태: **{status}**. 실제 존재하는 관측 파일만 집계했다. 누락 필수 산출물 {len(missing)}개.',
+    lines=[f'# EN adaptive nullspace B300 저장 자료 reducer 보고', '',f'실행 상태: **{status}**. 실제 존재하는 관측 파일만 집계했다. 누락 필수 산출물 {len(missing)}개.',
         f'실행 원자료: `{output.resolve()}`. 재현 원자료와 입력 SHA는 `report-manifest.json`에 결속했다.', '',
         'N4, EN_EXACT, EN_NUM, EN_ADAPT의 B1과 N4, EN_EXACT, EN_ADAPT의 B2/B3가 승인 범위다. EN_NUM sequential 및 B1000/10k는 이 보고의 실행 범위에 없다.', '',
         f'T0 precision: **{manifest["precision_status"]}**. 수치 동등성 미확립은 탐색적 한계로 남긴다. 이전 waiver나 CPU 테스트를 실제 새 모델 경로 PASS로 해석하지 않는다.', '',
