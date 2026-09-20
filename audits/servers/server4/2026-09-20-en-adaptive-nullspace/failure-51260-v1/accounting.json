@@ -1,0 +1,18 @@
+{
+  "job_id": "51260",
+  "job_name": "odeedit_en_adapt_B300_s4",
+  "owner": "janghj",
+  "node": "server4",
+  "state": "FAILED",
+  "exit_code": "1:0",
+  "elapsed_seconds": 6218,
+  "gpus": 1,
+  "allocated_gpu_seconds": 6218,
+  "start_scheduler": "2026-09-20T18:36:31",
+  "end_scheduler": "2026-09-20T20:20:09",
+  "batch_maxrss_kib": 55899724,
+  "extern_added": false,
+  "batch_added": false,
+  "observation": "One exact sacct read on user recall; transcription of returned fields",
+  "command": "sacct -j 51260 --starttime 2026-09-20 -P --format=JobIDRaw,JobName%40,User,State,ExitCode,ElapsedRaw,Start,End,NodeList,AllocTRES,MaxRSS"
+}
