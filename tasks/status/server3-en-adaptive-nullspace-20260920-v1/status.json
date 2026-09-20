@@ -1,0 +1,8 @@
+{
+  "status": "IMPLEMENTING_AND_TRANSFERRING",
+  "TASK_COMPLETE_STOP": false,
+  "scientific_execution_authorized": true,
+  "GPU_jobs_submitted": 0,
+  "authority": "10f8ef06b18b81d3d54c4e69f0cf4b347f960dce",
+  "branch": "codex/server3-en-adaptive-nullspace-b300-v1"
+}

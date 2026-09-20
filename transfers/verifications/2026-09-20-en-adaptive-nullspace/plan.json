@@ -1,0 +1,21 @@
+{
+  "instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "free_bytes": 120943140864,
+  "payload_bytes": 101519959223,
+  "auxiliary_and_science_scratch_bytes": 4294967296,
+  "temporary_peak_bytes": 131334272,
+  "margin_bytes": 8589934592,
+  "required_bytes": 114536195383,
+  "source_keep": true,
+  "no_overwrite": true,
+  "members": 2560,
+  "allowlist_sha256": "d40f92c5e12927ad152fb2572c66a74c155b035c6c85dc94d52424e6b97eaab9",
+  "allowlist_path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/transfer-allowlist.json",
+  "status": "TRANSFERRING_AND_VERIFYING",
+  "reference_counts": {
+    "R512_documents": 512,
+    "R512_positions": 130235,
+    "Dev128_documents": 128,
+    "Dev128_positions": 32473
+  }
+}
