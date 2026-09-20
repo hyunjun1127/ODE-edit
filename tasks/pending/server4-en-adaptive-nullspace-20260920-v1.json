@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH4-MIGRATION-V1",
+  "nonce": "ODEEDIT-GH-SH4-EN-ADAPT-MIGRATION-20260920-R1",
+  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "owner": "server4-server-head",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-09-20-en-adaptive-nullspace-migrate-sh3-to-sh4.md",
+  "original_instruction": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
+  "source_branch": "codex/server3-en-adaptive-nullspace-b300-v1",
+  "source_initial_commit": "2ff2393f19b74195ed52d016d4d73ae0878d9946",
+  "source_final_handoff": "AWAITING_SH3",
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 1,
+  "memory_mib_per_gpu_max": 60416,
+  "save_checkpoints": false,
+  "initial_pending_stop": false,
+  "scope": "T0; B1 four arms; three own trajectories through B3; detailed report/main",
+  "server3_gpu_stop_ack": true,
+  "reference": "REUSE_ORIGINAL_SERVER4_NO_REVERSE_TEACHER_TRANSFER",
+  "s3_selective_pull_authority": "section4 of envelope",
+  "newGPU_submitted": "NOT_OBSERVED"
+}

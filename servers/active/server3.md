@@ -1,5 +1,14 @@
 # Server3 active record
 
+## EN adaptive-nullspace 실행 이관 — 2026-09-20 최신
+
+사용자가 S3 GPU 여건 때문에 이 실험을 S4에서 실행하도록 지시했다.
+SH3 본task 신규GPU submit/release/retry 중지, 미제출 ACK 수신.
+기존 구현/검산/전송 partial은 보존하고 SH4에 인계한다.
+아래 B300 실행승인은 이 task에 한해 SH4로 이전되며 S3에서는 유효하지 않다.
+전역 cap1/기존 readiness 자산과 다른 task 상태는 불변.
+정본: [migration](../../messages/head/2026-09-20-en-adaptive-nullspace-migrate-sh3-to-sh4.md).
+
 ## 최신 과학 실행 승인 — 2026-09-20 / project cap1
 
 사용자 요청으로 server3의 project GPU 상한은 **1**로 변경한다.

@@ -1,5 +1,12 @@
 # server4 active record
 
+## EN adaptive-nullspace SH3 → SH4 이관 — 2026-09-20
+
+사용자 승인으로 SH3 구현을 받아 T0/B1네arm/세 own-trajectory B300 및 상세보고를
+SH4가 실행한다. Project cap2, 이번 task 동시1GPU, host≤60416MiB, noCP.
+기존 S4 reference를 재사용하여 101.5GB 역전송0; 다른 paused task 변경0.
+정본: [migration](../../messages/head/2026-09-20-en-adaptive-nullspace-migrate-sh3-to-sh4.md).
+
 ## 최신 GPU cap override — 2026-09-17
 
 - 사용자 원문: “R-GD와 R-Q 만 실험 진행시키자. SH4에게 전달하는 것으로 해”, 이어 “cap 2로 늘리자.”

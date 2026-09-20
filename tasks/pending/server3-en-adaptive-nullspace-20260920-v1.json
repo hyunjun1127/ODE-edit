@@ -1,7 +1,10 @@
 {
   "instruction_id": "ODEEDIT-S06-EN-ADAPTIVE-NULLSPACE-B300-SH3-V1",
   "nonce": "ODEEDIT-GH-SH3-EN-ADAPTIVE-NULLSPACE-B300-20260920-R1",
-  "status": "DISPATCHED_ACK_RECEIVED",
+  "status": "GPU_EXECUTION_REVOKED_HANDOFF_TO_SERVER4",
+  "successor_owner": "server4-server-head",
+  "migration_envelope": "messages/head/2026-09-20-en-adaptive-nullspace-migrate-sh3-to-sh4.md",
+  "migration_stop_ack": "S3 task GPU not submitted; submit/release/retry stopped",
   "dispatch_publication": "10f8ef06b18b81d3d54c4e69f0cf4b347f960dce",
   "dispatch_turn": "01a0be04-7ba9-7d21-b6ca-cfce367be8f6",
   "actual_gpu_submission": "NOT_YET_OBSERVED",
