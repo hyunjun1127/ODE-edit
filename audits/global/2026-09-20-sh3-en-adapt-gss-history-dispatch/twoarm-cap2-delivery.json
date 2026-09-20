@@ -1,0 +1,22 @@
+{
+  "nonce": "ODEEDIT-GH-SH3-GSS-TWOARMS-CAP2-20260920-R1",
+  "publication": "7216cc96c0436fcbd1d3b7cba2c69c09d613bd93",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "turn": "01a0bf2c-a9b1-77c1-8437-3431e74a176c",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "transport_status": "STEER_ACCEPTED",
+  "delivery": ["early latest-user override", "published envelope and derived contract/cells"],
+  "ack_status": "NOT_YET_OBSERVED",
+  "new_gpu_submission": "NOT_YET_OBSERVED",
+  "checks": [
+    "six original authority SHA/size unchanged",
+    "two arms and 200 independent-chain batch rows",
+    "400 planned candidate upper bound",
+    "identical fixed10k index order for both arms",
+    "tracked project cap2 and 119GiB per-job memory unchanged",
+    "noCP and no monitoring after release preserved",
+    "session boundary and diff whitespace PASS",
+    "publication remote main exact"
+  ],
+  "GH_GPU_model_Slurm_actions": 0
+}
