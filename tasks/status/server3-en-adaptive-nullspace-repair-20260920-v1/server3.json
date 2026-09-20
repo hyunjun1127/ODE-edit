@@ -1,13 +1,16 @@
 {
-  "status": "MONITORING_ACTIVE",
+  "status": "MONITORING_PAUSED_BY_LIFELONG_DISPATCH",
   "job_id": "51290",
   "source": "5d452221288f3b924e1737578f11aaa654594422",
-  "monitoring_active": true,
+  "monitoring_active": false,
   "automatic_resume": false,
   "user_override": "모니터링 이어서 계속 진행해줘",
   "observed_at": "2026-09-20T21:15:03.358423+09:00",
   "last_observed_scheduler": "RUNNING",
   "repair_failure_point": "PASSED_VALID_EN_EXACT_CONTROLLER_JSON",
   "actual_terminal": "NOT_YET_TERMINAL",
-  "save_checkpoints": false
+  "save_checkpoints": false,
+  "override_nonce": "ODEEDIT-GH-SH3-EN-ADAPT-LIFELONG-NO-MONITOR-20260920-R1",
+  "pause_at": "2026-09-20T21:58:27.770079+09:00",
+  "pause_requires_no_job_mutation": true
 }
