@@ -1,5 +1,13 @@
 # Server3 active record
 
+## 최신 repair 실행 승인 — 2026-09-20
+
+S4 EN adaptive-nullspace 실패를 확인하고 S3에서 repair run을 올리라는 사용자 지시.
+아래 S3 GPU중지는 본task에 한해 superseded. Project/task cap1,
+host≤121856MiB/noCP, SH4 RCA→SH3최소수리·새freeze·제출.
+정본 [repair](../../messages/head/2026-09-20-en-adaptive-nullspace-failure-repair-server3.md).
+실제 job/원인은 현재미확인으로 선표시하지 않는다. 다른task자동재개0.
+
 ## EN adaptive-nullspace 실행 이관 — 2026-09-20 최신
 
 사용자가 S3 GPU 여건 때문에 이 실험을 S4에서 실행하도록 지시했다.

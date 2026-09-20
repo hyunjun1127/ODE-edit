@@ -1,0 +1,20 @@
+{
+  "instruction_id": "ODEEDIT-S06-EN-ADAPT-B300-REPAIR-SH3-V1",
+  "nonce": "ODEEDIT-GH-SH3-EN-ADAPT-REPAIR-RUN-20260920-R1",
+  "status": "PREPARED_NOT_YET_DISPATCHED",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "envelope": "messages/head/2026-09-20-en-adaptive-nullspace-failure-repair-server3.md",
+  "failure_job_to_verify": "51260",
+  "failure_execution": "b6e86234640ca127546aee094f2a67bbe684a490",
+  "failure_source_owner": "server4-server-head",
+  "project_gpu_cap": 1,
+  "task_gpu_cap": 1,
+  "memory_mib_per_gpu_max": 121856,
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE_UNLESS_COMPLETE_STATE_EVIDENCE",
+  "fresh_W0_default": true,
+  "scientific_scope": "unchanged B1 four arms, three own-trajectory B300",
+  "monitoring": "repair scientific initial/failure boundary or verified resource pending then pause",
+  "original_reported_failure": "USER_REPORTED_RCA_PENDING"
+}

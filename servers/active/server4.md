@@ -1,5 +1,12 @@
 # server4 active record
 
+## EN adaptive-nullspace 실패 / S3 repair 이관 — 2026-09-20 최신
+
+사용자 요청으로 지정51260의 실패 RCA와 handoff만 수행한다.
+이 task S4 재제출/release/자동retry0; repair 실행소유자는 SH3.
+아래 migration 실행권한은 본task에한해 superseded, 다른task변경0.
+정본 [repair](../../messages/head/2026-09-20-en-adaptive-nullspace-failure-repair-server3.md).
+
 ## EN adaptive-nullspace SH3 → SH4 이관 — 2026-09-20
 
 사용자 승인으로 SH3 구현을 받아 T0/B1네arm/세 own-trajectory B300 및 상세보고를
