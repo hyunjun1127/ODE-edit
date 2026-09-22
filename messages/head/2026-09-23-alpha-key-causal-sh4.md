@@ -1,5 +1,8 @@
 # GH → SH4: 원본 AlphaEdit key 집중 E0–E4 구현·전송·실행
 
+> 최신 [cap2 / GPU 부족 pending 종료 override](2026-09-23-alpha-key-causal-sh4-cap2-pending.md)가
+> 아래 task1GPU와 GPU 부족 시 초기 gate 대기 규칙보다 우선한다.
+
 Instruction ID / ACK nonce: ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1.
 발신 GH: 01a04939-8873-7673-8dca-4c7fc5e31af0.
 수신 SH4: 01a04939-b5c7-7a03-ba2d-ef3343d62cfd.
