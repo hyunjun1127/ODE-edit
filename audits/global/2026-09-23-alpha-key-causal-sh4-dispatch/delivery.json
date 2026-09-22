@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "publication": "4da5514323ad58fce709e4f8fe2c8238b15a8b1e",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "turn_id": "01a0caf7-1cdf-78d0-92fc-0c1a775e7faf",
+  "transport": "app-server direct peer request-response via SSH/local socket",
+  "accepted": true,
+  "same_stream_ack_received": true,
+  "ack_scope": "SH4 단독 소유, 소형23개 및 BASE_ALPHAEDIT12CP exact pull/SHA, E0-E4 구현·실행. 실제 복사는 아직. 실제G0-G3/native100+SHAM/자율queue jobID 확인 후 모니터링 중단.",
+  "ack_prior_observation": "SH4 보고: 이전 읽기 가능 확인/transfer dry-run만. GH가 복사 또는 content SHA를 새 검증한 것은 아님.",
+  "instruction_sha256": "21d9313d0bcf078f141cb70e90f1a578a4fabe9cb9391346c607465418f87083",
+  "envelope_sha256": "c8138498eae5394da6823097469ed970671a259da50a53e16587772617a19850",
+  "small_transfer_manifest_sha256": "0ffd90b12e9e67a2e37f8317dc6b40d3fcd6a892f6206eaf7e9457da8abc5fe1",
+  "transfer_complete": false,
+  "scientific_submission": "NOT_YET_OBSERVED",
+  "initial_gate": "NOT_YET_OBSERVED",
+  "initial_gate_monitoring_stopped_receipt": "NOT_ISSUED",
+  "connection_scope": "초기 ACK만 한정 회수; 장시간 scientific monitoring/automation 없음",
+  "next_owner": "SH4 구현·전송·제출·실제 초기gate 수행 후 1회 GH 인계",
+  "GH_new_GPU_model_Slurm_actions": 0
+}
