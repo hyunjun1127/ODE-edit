@@ -26,3 +26,12 @@ Verified GPU-resource pending after inspection/release permits handoff without g
 After that handoff scheduler/log/result polling and automatic agent resumption are prohibited.
 Current registration count: 0. Input checkpoint transfer: 12/12 full SHA PASS.
 G0–G3 actual status: NOT_OBSERVED. SEQ/ORDER/FUTURE remain unsubmitted.
+
+## 최종 cap2 pending 인계
+
+위 M0/override 수신 시점의 수치와 task1 기록은 역사이며 아래 현재 인계로 갱신한다.
+2026-09-23 07:00:57 KST: 52527 gate, 52528 geometry, 52529 writers, 52530 CPU reducer 모두 held 검사 후 release 완료.
+GPU8/8 할당, host-memory도 부족. Gate PENDING/ReqNodeNotAvail, 나머지 Dependency. GPU만이 유일한 대기 원인이라고 하지 않는다.
+CPU132/CP12 content PASS, actual G0–G3 NOT_OBSERVED. 입력1819 결속 완료. 새 resume checkpoint0.
+`MAIN_GPU_RESOURCE_PENDING_HANDOFF / MONITORING_PAUSED_AWAITING_USER`, monitoring_active=false, automatic_resume=false.
+모든 worker 종료, 이후 agent polling/후속 제출0. Own branch 게시만 허용, main은 GH 검토.
