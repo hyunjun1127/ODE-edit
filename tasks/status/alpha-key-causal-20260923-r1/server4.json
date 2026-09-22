@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "status": "IMPLEMENTING_AND_EXACT_TRANSFER",
+  "authority_commit": "4da5514323ad58fce709e4f8fe2c8238b15a8b1e",
+  "design_inputs_verified": 23,
+  "checkpoint_transfer": "12_OF_12_FULL_SHA_PASS",
+  "actual_gpu_validation": "NOT_RUN",
+  "initial_gate": "NOT_OBSERVED",
+  "project_gpu_cap": 2,
+  "task_concurrent_gpus": 2,
+  "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
+  "override_authority_commit": "33e7bb7f7d428f34c475f2ebe8e5e7beb4539f7a",
+  "registered_jobs": [],
+  "save_new_resume_checkpoints": false,
+  "allowed_diagnostic_factor_storage": true,
+  "followup_scientific_submissions_authorized": false,
+  "monitoring_stop_requires": ["all_approved_scope_registered_inspected_released", "GPU_RESOURCE_PENDING_HANDOFF or actual_G0_G1_G2_G3"],
+  "raw_root": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1"
+}

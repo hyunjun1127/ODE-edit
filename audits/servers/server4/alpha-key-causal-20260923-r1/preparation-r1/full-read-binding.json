@@ -1,0 +1,130 @@
+{
+  "GH_preparation_scripts": "READ_ONLY_NOT_EXECUTED",
+  "PROTOCOL_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+  "actual_model_execution": "NOT_RUN",
+  "authority": [
+    "4da5514323ad58fce709e4f8fe2c8238b15a8b1e",
+    "33e7bb7f7d428f34c475f2ebe8e5e7beb4539f7a"
+  ],
+  "frozen_native_source": "FULL_READ",
+  "input_members": [
+    {
+      "bytes": 865,
+      "relative_path": "algebra-checks.json",
+      "sha256": "9bdef78e1e9827634767ed2fcce2c27aae4ccb92d309f4bd3910fdd09bf74d56"
+    },
+    {
+      "bytes": 16354,
+      "relative_path": "cells.csv",
+      "sha256": "e6c3bfdd18653f5851a95f756ca5442db78022c05296a06239c3120cabc5ccc5"
+    },
+    {
+      "bytes": 2802,
+      "relative_path": "checkpoint-transfer-manifest.json",
+      "sha256": "3fdc3b06c4689dad6756258a3a4d240531848a71f2088b7706379d7ff52aac1b"
+    },
+    {
+      "bytes": 382,
+      "relative_path": "cohort-metadata.csv",
+      "sha256": "6d48a4e80ac35cee45f96bad4ba6006a0cce239dcee82dcfb8d103d0682a3aaa"
+    },
+    {
+      "bytes": 7391,
+      "relative_path": "contract.json",
+      "sha256": "98aa6f9df8e6212cf6f5e91adaa48666b16d3ed1461761fa258b683224e5add0"
+    },
+    {
+      "bytes": 36746,
+      "relative_path": "design-ko.md",
+      "sha256": "a5c5f69da278fbd13ada1dd41da3fedcbdde7b96fa7c11db0ac901c8e216a166"
+    },
+    {
+      "bytes": 12550,
+      "relative_path": "finalize-design.py",
+      "sha256": "74f1b70aef09bd15efb6cd7336749300090ec63c9ceb9a704457011a806ae22b"
+    },
+    {
+      "bytes": 116761,
+      "relative_path": "geometry-panels.json",
+      "sha256": "8625e8f84a31fcd7a5309d13a56c77a89d91b9bf78cf5a6bd9686298d0efae0b"
+    },
+    {
+      "bytes": 96007,
+      "relative_path": "history512.json",
+      "sha256": "659aff4bca31d40622cdcc1c3e9de3639e09e5b7f52cd4d08e4b244eb2a14dcc"
+    },
+    {
+      "bytes": 164665,
+      "relative_path": "neighborhood512.json",
+      "sha256": "79e4c9e15cb9ac06618fa270c9b752ab3671f5558c13c833901a50ed6db59094"
+    },
+    {
+      "bytes": 12809,
+      "relative_path": "order-controls.json",
+      "sha256": "080dcfba224f9eb444382c7ca77c9111f342b1e677bf9d31ec9e88bba8e40cf1"
+    },
+    {
+      "bytes": 1317,
+      "relative_path": "preparation-receipt.json",
+      "sha256": "af4abb6840e91bf65ac4090ac509d165efd11ba0e5e355b4f366d5dfcbd50e6a"
+    },
+    {
+      "bytes": 6916,
+      "relative_path": "prepare-design.py",
+      "sha256": "d568183e7745f12709404030649e48d611e34fc0c27263deba38d953f9500c70"
+    },
+    {
+      "bytes": 12212,
+      "relative_path": "source/AlphaEdit_main.py",
+      "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+    },
+    {
+      "bytes": 5702,
+      "relative_path": "source/runtime.json",
+      "sha256": "ca21536f4c5e6acbb473991e121e5dc89fa9408e90fe7322ea9f5cc2c71c7b45"
+    },
+    {
+      "bytes": 911,
+      "relative_path": "source-extraction.json",
+      "sha256": "a6694463cd418993ab0a45a4d7ff3f24cbfac07a174671b416c93bd39052b748"
+    },
+    {
+      "bytes": 4202,
+      "relative_path": "validation-receipt.json",
+      "sha256": "0ec9d2f2858b8f2776022998c9103274f26db78bb7361da1123e197d046e96bd"
+    },
+    {
+      "bytes": 25322,
+      "relative_path": "evidence/local/alpha-native-census-20260923-v1/review-ko.md",
+      "sha256": "de95740520d1a213d54cffaf4f8e5c68dab8dd8c082969b0c639795181beadfa"
+    },
+    {
+      "bytes": 35386,
+      "relative_path": "evidence/local/alpha-native-census-20260923-v1/checkpoints/checkpoint-census.csv",
+      "sha256": "76445dc3969b02e4805773f58962a75fcff590aca4e7af2c9456b29e0b610383"
+    },
+    {
+      "bytes": 3255,
+      "relative_path": "evidence/local/alpha-native-census-20260923-v1/checkpoints/validation.json",
+      "sha256": "3fda66c8fb433adc2d468d63cc1efb1ffa2ec13d0bedd17e0aaf8202a7bae405"
+    },
+    {
+      "bytes": 529205,
+      "relative_path": "evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json",
+      "sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a"
+    },
+    {
+      "bytes": 3945454,
+      "relative_path": "evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-bindings.json",
+      "sha256": "0ebcee5a201ee44536b59631f3889b2e95d38b4d26b4b77405f546bea7706aab"
+    },
+    {
+      "bytes": 14706,
+      "relative_path": "instruction-original.md",
+      "sha256": "21d9313d0bcf078f141cb70e90f1a578a4fabe9cb9391346c607465418f87083"
+    }
+  ],
+  "panels": "FULL_PARSE_IDENTITY_INTEGRITY_CHECKED",
+  "primary_design_contract_cells_and_proposal": "FULL_READ",
+  "status": "FULL_READ"
+}

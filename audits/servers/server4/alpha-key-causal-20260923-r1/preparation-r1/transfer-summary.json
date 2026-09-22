@@ -1,0 +1,18 @@
+[
+  {
+    "bytes": 5051920,
+    "members": 23,
+    "receipt": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/design-transfer-r1.json",
+    "sha256": "ca6ea2ac094360049c75a7c081d3d24e5de127681a23cc501c577ea7bdbf1adc",
+    "source_keep": true,
+    "status": "PASS"
+  },
+  {
+    "bytes": 63418321276,
+    "members": 12,
+    "receipt": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/checkpoint-transfer-r1.json",
+    "sha256": "77a98726791f8f9af67a50c13acd48701ee28e54b73872f46c92f001c14b8869",
+    "source_keep": true,
+    "status": "PASS"
+  }
+]
