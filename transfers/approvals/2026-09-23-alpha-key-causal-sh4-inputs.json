@@ -1,0 +1,177 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "source_host": "rke-server1",
+  "source_hostname_alias": "devbox",
+  "destination_host": "rke-server4",
+  "destination_root": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/design/",
+  "transfer_owner": "SH4 sole pull writer",
+  "members": [
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/algebra-checks.json",
+      "destination_relative_path": "algebra-checks.json",
+      "bytes": 865,
+      "sha256": "9bdef78e1e9827634767ed2fcce2c27aae4ccb92d309f4bd3910fdd09bf74d56"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/cells.csv",
+      "destination_relative_path": "cells.csv",
+      "bytes": 16354,
+      "sha256": "e6c3bfdd18653f5851a95f756ca5442db78022c05296a06239c3120cabc5ccc5"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/checkpoint-transfer-manifest.json",
+      "destination_relative_path": "checkpoint-transfer-manifest.json",
+      "bytes": 2802,
+      "sha256": "3fdc3b06c4689dad6756258a3a4d240531848a71f2088b7706379d7ff52aac1b"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/cohort-metadata.csv",
+      "destination_relative_path": "cohort-metadata.csv",
+      "bytes": 382,
+      "sha256": "6d48a4e80ac35cee45f96bad4ba6006a0cce239dcee82dcfb8d103d0682a3aaa"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/contract.json",
+      "destination_relative_path": "contract.json",
+      "bytes": 7391,
+      "sha256": "98aa6f9df8e6212cf6f5e91adaa48666b16d3ed1461761fa258b683224e5add0"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/design-ko.md",
+      "destination_relative_path": "design-ko.md",
+      "bytes": 36746,
+      "sha256": "a5c5f69da278fbd13ada1dd41da3fedcbdde7b96fa7c11db0ac901c8e216a166"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/finalize-design.py",
+      "destination_relative_path": "finalize-design.py",
+      "bytes": 12550,
+      "sha256": "74f1b70aef09bd15efb6cd7336749300090ec63c9ceb9a704457011a806ae22b"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/geometry-panels.json",
+      "destination_relative_path": "geometry-panels.json",
+      "bytes": 116761,
+      "sha256": "8625e8f84a31fcd7a5309d13a56c77a89d91b9bf78cf5a6bd9686298d0efae0b"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/history512.json",
+      "destination_relative_path": "history512.json",
+      "bytes": 96007,
+      "sha256": "659aff4bca31d40622cdcc1c3e9de3639e09e5b7f52cd4d08e4b244eb2a14dcc"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/neighborhood512.json",
+      "destination_relative_path": "neighborhood512.json",
+      "bytes": 164665,
+      "sha256": "79e4c9e15cb9ac06618fa270c9b752ab3671f5558c13c833901a50ed6db59094"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/order-controls.json",
+      "destination_relative_path": "order-controls.json",
+      "bytes": 12809,
+      "sha256": "080dcfba224f9eb444382c7ca77c9111f342b1e677bf9d31ec9e88bba8e40cf1"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/preparation-receipt.json",
+      "destination_relative_path": "preparation-receipt.json",
+      "bytes": 1317,
+      "sha256": "af4abb6840e91bf65ac4090ac509d165efd11ba0e5e355b4f366d5dfcbd50e6a"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/prepare-design.py",
+      "destination_relative_path": "prepare-design.py",
+      "bytes": 6916,
+      "sha256": "d568183e7745f12709404030649e48d611e34fc0c27263deba38d953f9500c70"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/source/AlphaEdit_main.py",
+      "destination_relative_path": "source/AlphaEdit_main.py",
+      "bytes": 12212,
+      "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/source/runtime.json",
+      "destination_relative_path": "source/runtime.json",
+      "bytes": 5702,
+      "sha256": "ca21536f4c5e6acbb473991e121e5dc89fa9408e90fe7322ea9f5cc2c71c7b45"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/source-extraction.json",
+      "destination_relative_path": "source-extraction.json",
+      "bytes": 911,
+      "sha256": "a6694463cd418993ab0a45a4d7ff3f24cbfac07a174671b416c93bd39052b748"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-key-concentration-causal-design-20260923-v1/validation-receipt.json",
+      "destination_relative_path": "validation-receipt.json",
+      "bytes": 4202,
+      "sha256": "0ec9d2f2858b8f2776022998c9103274f26db78bb7361da1123e197d046e96bd"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-census-20260923-v1/review-ko.md",
+      "destination_relative_path": "evidence/local/alpha-native-census-20260923-v1/review-ko.md",
+      "bytes": 25322,
+      "sha256": "de95740520d1a213d54cffaf4f8e5c68dab8dd8c082969b0c639795181beadfa"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-census-20260923-v1/checkpoints/checkpoint-census.csv",
+      "destination_relative_path": "evidence/local/alpha-native-census-20260923-v1/checkpoints/checkpoint-census.csv",
+      "bytes": 35386,
+      "sha256": "76445dc3969b02e4805773f58962a75fcff590aca4e7af2c9456b29e0b610383"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-census-20260923-v1/checkpoints/validation.json",
+      "destination_relative_path": "evidence/local/alpha-native-census-20260923-v1/checkpoints/validation.json",
+      "bytes": 3255,
+      "sha256": "3fda66c8fb433adc2d468d63cc1efb1ffa2ec13d0bedd17e0aaf8202a7bae405"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json",
+      "destination_relative_path": "evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json",
+      "bytes": 529205,
+      "sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-bindings.json",
+      "destination_relative_path": "evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-bindings.json",
+      "bytes": 3945454,
+      "sha256": "0ebcee5a201ee44536b59631f3889b2e95d38b4d26b4b77405f546bea7706aab"
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/project/proposals/2026-09-23-alpha-key-concentration-causal-sh4-gh-instruction-r1.md",
+      "destination_relative_path": "instruction-original.md",
+      "bytes": 14706,
+      "sha256": "21d9313d0bcf078f141cb70e90f1a578a4fabe9cb9391346c607465418f87083"
+    }
+  ],
+  "phase_counts": {
+    "E1": 28,
+    "E2": 18,
+    "E3": 4,
+    "E4-H": 20,
+    "E4-W": 16,
+    "E4-KR": 8,
+    "SEQ": 3,
+    "ORDER": 2,
+    "FUTURE": 2
+  },
+  "approved_phases": [
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "E4-H",
+    "E4-W",
+    "E4-KR"
+  ],
+  "followup_phases_not_submitted": [
+    "SEQ",
+    "ORDER",
+    "FUTURE"
+  ],
+  "validated_bundle_files": 16,
+  "checkpoint_bytes": 63418321276,
+  "actual_model_or_GPU_checks_by_GH": 0,
+  "total_bytes": 5051920
+}

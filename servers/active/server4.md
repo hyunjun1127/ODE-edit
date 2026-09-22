@@ -1,5 +1,15 @@
 # server4 active record
 
+## 최신 AlphaEdit key causal E0–E4 — 2026-09-23
+
+SH4 01a04939-b5c7-7a03-ba2d-ef3343d62cfd에 사용자 승인
+[E0–E4 envelope](../../messages/head/2026-09-23-alpha-key-causal-sh4.md)를 발행한다.
+원본 BASE_ALPHAEDIT12CP를 server2에서 전용 경로로 복사/SHA 확인,
+projectcap2 내 본task1GPU/host≤60416MiB. 다른 task/job 변경0.
+실제 G0–G3 및 W50→B51 native100+SHAM/자율 queue 확인 후 모니터링 중단.
+현재는 transfer/job/initial 모두 NOT_YET_OBSERVED. 조건부 sequential/full10k는
+FOLLOWUP_NOT_SUBMITTED, 자동 followup/주기 감시 생성0.
+
 ## EN adaptive-nullspace 실패 / S3 repair 이관 — 2026-09-20 최신
 
 사용자 요청으로 지정51260의 실패 RCA와 handoff만 수행한다.
