@@ -17,7 +17,7 @@
   "task_concurrent_gpus": 2,
   "latest_override": "messages/head/2026-09-23-alpha-key-causal-sh4-cap2-pending.md",
   "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
-  "all_in_scope_work_registered_upfront": true,
+  "require_all_in_scope_work_registered_upfront": true,
   "host_memory_mib_per_gpu_max": 60416,
   "transfer_checkpoint_count": 12,
   "transfer_checkpoint_bytes": 63418321276,

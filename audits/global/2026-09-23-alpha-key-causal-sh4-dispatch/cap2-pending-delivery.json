@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
+  "publication": "33e7bb7f7d428f34c475f2ebe8e5e7beb4539f7a",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "related_turn": "01a0caf7-1cdf-78d0-92fc-0c1a775e7faf",
+  "transport_status": "STEER_ACCEPTED",
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 2,
+  "pending_stop": "전체 승인범위 등록/검사/release 후 실제 GPU 부족 pending이면 초기gate대기 없이 종료",
+  "initial_gate": "NOT_YET_OBSERVED",
+  "job_ids": "NOT_YET_OBSERVED",
+  "monitoring_after_pending_handoff": false,
+  "GH_scheduler_or_result_queries": 0
+}
