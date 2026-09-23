@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "status": "AUTHORIZED_AWAITING_DISPATCH",
+  "envelope": "messages/head/2026-09-24-sh4-all-jobs-detailed-review.md",
+  "scope": "server4 current project jobs and unreviewed recent executions, all alpha-key attempts, prior reviews reused",
+  "cpu_review_only": true,
+  "new_gpu_submission": false,
+  "runtime_or_job_mutation": false,
+  "wait_for_running_jobs": false,
+  "periodic_monitoring": false,
+  "report": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/report-ko.md",
+  "main_publication": "own-scope reviewed small source/report nonforce clean integration authorized",
+  "stop": "TASK_COMPLETE_STOP after detailed factual report and publication"
+}
