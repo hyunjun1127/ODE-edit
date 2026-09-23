@@ -1,0 +1,93 @@
+{
+  "BaseEval_pool": {
+    "same_relation_high_object": 9492,
+    "same_relation_low_object": 816,
+    "same_relation_zero_object": 144
+  },
+  "BaseEval_strata": {
+    "same_relation_high_object": 86,
+    "same_relation_low_object": 85,
+    "same_relation_zero_object": 85
+  },
+  "GeneralEval_documents_scanned": 25568,
+  "GeneralEval_full_vocab_kl": true,
+  "GeneralEval_tokens_per_document": 64,
+  "H_active_policy": "select original or active variant by prefix ledger; fixed original denominator remains separate",
+  "H_active_supplementary_variants": 11,
+  "active_overwrite": {
+    "bytes": 394820,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/panels-v2/active-overwrite-ledger.json",
+    "sha256": "d925ff0cc39d7c9f1d16ba47037f59b777fd14393a98139d84328677f7be864b"
+  },
+  "evaluation_microbatch": 16,
+  "excluded": {
+    "duplicate_base_subject": 258,
+    "prompt": 387,
+    "subject_or_fact": 10822
+  },
+  "fidelity": {
+    "bytes": 29879,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/panels-v2/fidelity-rows.json",
+    "sha256": "f5bf7a20b5fd9e2af7996e9a4561a08bee73189da94323e93e7c750c1f29c9bf"
+  },
+  "fit_bank": "NOT_USED_DIAGNOSTIC_ONLY",
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "new_model_calls": 0,
+  "new_native_fits": 0,
+  "pair_counts": {
+    "BaseEval256": 256,
+    "GeneralEval128": 128,
+    "H_diag_P": 200,
+    "H_diag_R": 100,
+    "N_diag1000": 1000
+  },
+  "patch_positions": "ALL_VALID_TF_INPUT_TOKENS_PAD_EXCLUDED",
+  "patch_rotation_seeds": [
+    2026092401,
+    2026092402,
+    2026092403
+  ],
+  "previous_panel_manifest": {
+    "bytes": 4076,
+    "mtime_ns": 1790184589451210917,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/panels/panel-manifest.json",
+    "sha256": "03cf9985fa0328d989a368bc8a2bc2b7c8a87018586aed03909c61e849464707"
+  },
+  "raw_not_for_git": true,
+  "row_count": 3306,
+  "rows": {
+    "bytes": 4167648,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/panels-v2/rows.json",
+    "sha256": "62e7231908fff46507f5ddb75f7b7163eacc3a4126ef5bbe060cefb8fbbd1b4f"
+  },
+  "seed": "NATIVE-DELAYED-WRITE-E3|20260924|v1",
+  "source": [
+    {
+      "bytes": 16679956,
+      "mtime_ns": 1788927956999196742,
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+    },
+    {
+      "bytes": 45108470,
+      "mtime_ns": 1775552708705792800,
+      "path": "/data/janghj/EasyEdit/data/counterfact/counterfact.json",
+      "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f"
+    },
+    {
+      "bytes": 40471190,
+      "mtime_ns": 1789410078349529709,
+      "path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/acquisition/c4-validation.00000-of-00008.json.gz",
+      "sha256": "1f25b6af12da84115301d4ee93ea5246c8fea5bb4a2008472794d95b917cc97f"
+    }
+  ],
+  "status": "SEALED_BEFORE_OUTCOMES",
+  "subject_alias_check": "NFKC+casefold+punctuation canonical names; external entity aliases NOT_AVAILABLE; no stronger claim",
+  "tokenizer": {
+    "bos": 128000,
+    "eos": 128009,
+    "pad": 128009,
+    "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "special_tokens": true
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "bytes": 14093323516,
+  "count": 12,
+  "elapsed_seconds": 165.26875376701355,
+  "files": [
+    {
+      "bytes": 1174430101,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B001/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "4bd2b7c0f99cabd64fadcfb93154b2c4f63051895da986b2084d61e4d55962eb",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B001/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174431253,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B005/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "79350f76f6d2c94813e80ca7604ade7933c44b75ca16a460498c1c147e13be75",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B005/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174432789,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B010/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "fbda8a72a06133728e3c54efb3a74d94d025762e331aafe530d1785286bd4aae",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B010/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174435733,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B020/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B020/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174438741,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B030/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "f9a6e52063531179035c534319a5569ad140d896c88237c5c1c155bcc73e31cf",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B030/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174441749,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B040/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "772f70d895eac8e256952140e5cad0935fe5ddc740da1f2d645468688b82adc3",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B040/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174444693,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B050/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "f15f51f9725ab4b70f4f5d359d928d4309c10e48789023590fee025730856835",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B050/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174447701,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B060/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "275afc1582d0f751b5bf2fd7e8a7368af8494a5b0ded190b5fa0f949a0ad97ea",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B060/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174450709,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B070/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "a345bba4ca9531c4b27c1d1011104b934661ccb2388f101d426675cbbc79fede",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B070/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174453717,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B080/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "ccc3bdb005d110b9aab67e64a92563ddda96d56664dd2b404a6e580727b7a573",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B080/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174456661,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B090/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "33be9fb6218eee0661822e60fb584a27793626c3bc6e816df09cbca36058d923",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B090/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    },
+    {
+      "bytes": 1174459669,
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B100/W-method-state.pt",
+      "original_terminal_sha256": "09176a87aa5e242dc331d60549d571daba94d8b80f72a430c71200fc8edf3301",
+      "owner": "janghj",
+      "sha256": "85e1a76f804f1f0f7ecc1b16f6a1c25beb12217f733d2cec1f4cf2a8b89ba049",
+      "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B100/W-method-state.pt",
+      "status": "RECEIVED_FULL_SHA_SIZE_VERIFIED"
+    }
+  ],
+  "free_after": 9662541824,
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "source_keep": true,
+  "status": "PASS"
+}
