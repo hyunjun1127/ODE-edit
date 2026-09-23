@@ -1,0 +1,20 @@
+{
+  "GPU_continuation": "NOT_TESTED",
+  "branches": 24,
+  "component_observers": 136,
+  "layer_history_appends": 120,
+  "new_r4_appends": 110,
+  "no_new_full_state_checkpoint": true,
+  "reused_r3_appends": 10,
+  "runtime_counters": {
+    "diagnostic_solves": 120,
+    "final_l8_residual_calls": 24,
+    "history_appends": 120,
+    "history_key_calls": 120,
+    "native_solves": 120,
+    "target_new": 400,
+    "target_reused": 2000,
+    "write_key_calls": 120
+  },
+  "whole_W_M_reconstruction": "NOT_PERFORMED"
+}

@@ -1,0 +1,39 @@
+{
+  "all_recent_gpu_seconds": 61565,
+  "alpha_gpu_seconds": 50605,
+  "batch_extern_added": false,
+  "census_node": "server4",
+  "census_start": "2026-09-20T00:00:00+09:00",
+  "commands": [
+    "squeue -h -u janghj",
+    "sacct -X -u janghj -N server4 -S 2026-09-20T00:00:00 -E now",
+    "sacct -X -j exact IDs"
+  ],
+  "current_queue_empty": true,
+  "exact_terminal_parents": [
+    "50974",
+    "50983",
+    "51055",
+    "51056",
+    "51057",
+    "51058",
+    "51260",
+    "52527",
+    "52528",
+    "52529",
+    "52530",
+    "52563",
+    "52564",
+    "52565",
+    "52566",
+    "52575",
+    "52576"
+  ],
+  "max_concurrent_gpus": 2,
+  "monitoring_active": false,
+  "provenance": "squeue/sacct read-only tool results transcribed; no status extrapolation",
+  "query_owner": "janghj",
+  "scheduler_mutations": 0,
+  "snapshot_utc": "2026-09-23T15:52:05Z",
+  "supplement_50983": "exact metadata-linked query; no execution"
+}

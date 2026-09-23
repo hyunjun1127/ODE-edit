@@ -1,0 +1,32 @@
+[
+  {
+    "bytes": 7663,
+    "path": "/data/janghj/ODE-edit/local/server4-completed-jobs-review/20260924-v1/worktree/messages/head/2026-09-24-sh4-all-jobs-detailed-review.md",
+    "read_level": "FULL_READ_THIS_RECALL",
+    "sha256": "dbe59d90121b724b78473c24a050c6bdfe4b59292c857bfb9384bba7543bed66"
+  },
+  {
+    "bytes": 36746,
+    "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/design/design-ko.md",
+    "read_level": "EXACT_PRIOR_FULL_READ_REBOUND",
+    "sha256": "a5c5f69da278fbd13ada1dd41da3fedcbdde7b96fa7c11db0ac901c8e216a166"
+  },
+  {
+    "bytes": 7391,
+    "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/design/contract.json",
+    "read_level": "EXACT_PRIOR_FULL_READ_REBOUND",
+    "sha256": "98aa6f9df8e6212cf6f5e91adaa48666b16d3ed1461761fa258b683224e5add0"
+  },
+  {
+    "bytes": 16354,
+    "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/design/cells.csv",
+    "read_level": "EXACT_PRIOR_FULL_READ_REBOUND",
+    "sha256": "e6c3bfdd18653f5851a95f756ca5442db78022c05296a06239c3120cabc5ccc5"
+  },
+  {
+    "bytes": 61100,
+    "path": "/data/janghj/ODE-edit/local/server4-completed-jobs-review/20260924-v1/worktree/PROTOCOL.md",
+    "read_level": "EXACT_PRIOR_FULL_READ_REBOUND",
+    "sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4"
+  }
+]

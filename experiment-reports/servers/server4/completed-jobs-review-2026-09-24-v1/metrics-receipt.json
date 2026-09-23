@@ -1,0 +1,10 @@
+{
+  "GPU_calls": 0,
+  "bootstrap_unit": "case cluster; descriptive fixed-trajectory only",
+  "independent_raw_reduction": true,
+  "joint_rows": 120,
+  "kr_keys": [],
+  "paired_rows": 100,
+  "retention_rows": 192,
+  "rows": 1608
+}
