@@ -1,0 +1,53 @@
+{
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "nonce": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "status": "READY_FOR_DIRECT_DISPATCH",
+  "envelope": "messages/head/2026-09-24-native-delayed-write-e3-sh4.md",
+  "transfer": "transfers/approvals/2026-09-24-native-delayed-write-e3-sh4.json",
+  "scope": [
+    "E0_endpoint_fidelity_only",
+    "E1",
+    "E3_core4",
+    "E3_extension8",
+    "E3_patch_dose_rotation",
+    "factual_report"
+  ],
+  "excluded": [
+    "E0_new_native_continuation",
+    "E2",
+    "E4",
+    "E5",
+    "E6",
+    "new_upstream_baselines",
+    "original_243_cells"
+  ],
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 1,
+  "host_memory_mib_per_gpu": 60416,
+  "save_checkpoints": false,
+  "submission": "AUTHORIZED_CONDITIONAL_ON_SCOPED_TECHNICAL_GATES",
+  "dag": [
+    "G00",
+    "G10",
+    "G20",
+    "G21",
+    "G30",
+    "G31",
+    "G40",
+    "G50",
+    "G51",
+    "G60",
+    "G70"
+  ],
+  "negative_result_blocks_progress": false,
+  "user_reapproval_required": false,
+  "stop_at_first_pending": false,
+  "chat_monitoring_required_for_scheduler_progress": false,
+  "actual_job_ids": [],
+  "actual_registration_status": "NOT_YET_REPORTED",
+  "report": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md"
+}
