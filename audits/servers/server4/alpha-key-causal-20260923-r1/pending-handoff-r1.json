@@ -1,0 +1,163 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
+  "status": "MAIN_GPU_RESOURCE_PENDING_HANDOFF",
+  "monitoring_status": "MONITORING_PAUSED_AWAITING_USER",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "observation_utc": "2026-09-22T22:00:57Z",
+  "observation_kst": "2026-09-23T07:00:57+09:00",
+  "execution": {
+    "source_commit": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+    "source_tree": "37729895ac354d6d4029e41d0b6e31fbb8d9e39c",
+    "archive_bytes": 470352289,
+    "archive_sha256": "bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768",
+    "lock_path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json",
+    "lock_sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725",
+    "native_input_binding_sha256": "500cd93224d4d2cb0daf880dad67aa18acf91bc0a12d127a2a23c42e7805ded1"
+  },
+  "source_input": {
+    "checkpoints": 12,
+    "checkpoint_bytes": 63418321276,
+    "checkpoint_transfer": "FULL_SHA_PASS",
+    "checkpoint_tensor_content": "CPU_FULL_TENSOR_SHA_FINITE_COMMIT_BINDING_PASS",
+    "design_files": 23,
+    "design_bytes": 5051920,
+    "native_inputs_verified": 1819,
+    "native_policy_recovered_exact_git_blobs": 2,
+    "cpu_tests": 132,
+    "cpu_tests_status": "PASS",
+    "actual_model_gate": "NOT_RUN"
+  },
+  "jobs": [
+    {
+      "phase": "gate",
+      "job_id": "52527",
+      "name": "odeedit_alpha_key_gate_s4",
+      "state": "PENDING",
+      "reason": "ReqNodeNotAvail, May be reserved for other job",
+      "dependency": null,
+      "gpus": 1,
+      "cpus": 8,
+      "mem_MiB": 60416,
+      "wall": "7-00:00:00"
+    },
+    {
+      "phase": "geometry",
+      "job_id": "52528",
+      "name": "odeedit_alpha_key_geometry_s4",
+      "state": "PENDING",
+      "reason": "Dependency",
+      "dependency": "afterok:52527",
+      "gpus": 1,
+      "cpus": 8,
+      "mem_MiB": 60416,
+      "wall": "7-00:00:00",
+      "scope": "E1 28 + E2 18"
+    },
+    {
+      "phase": "writers",
+      "job_id": "52529",
+      "name": "odeedit_alpha_key_writers_s4",
+      "state": "PENDING",
+      "reason": "Dependency",
+      "dependency": "afterok:52527",
+      "gpus": 1,
+      "cpus": 8,
+      "mem_MiB": 60416,
+      "wall": "7-00:00:00",
+      "scope": "E3 4 + E4-H 20 + E4-W 16 + E4-KR 8"
+    },
+    {
+      "phase": "reduce",
+      "job_id": "52530",
+      "name": "odeedit_alpha_key_reduce_s4",
+      "state": "PENDING",
+      "reason": "Dependency",
+      "dependency": "afterany:52527:52528:52529",
+      "gpus": 0,
+      "cpus": 4,
+      "mem_MiB": 8192,
+      "wall": "2-00:00:00"
+    }
+  ],
+  "scheduler_inspection": {
+    "owner": "janghj(1025)",
+    "node": "server4",
+    "partition": "gpu",
+    "qos": "lab_gpu_s4",
+    "export": "NONE",
+    "requeue": 0,
+    "all_held_inspected_before_any_release": true,
+    "all_released": true,
+    "stored_batch_script_exact_sha_verified": true,
+    "gate_after_release_priority": 1,
+    "gate_dependency": null,
+    "gate_runtime": "00:00:00",
+    "other_owner_admissions_at_registration": 0,
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "maximum_registered_simultaneous_gpus": 2
+  },
+  "resource_observation": {
+    "node_state": "MIXED+PLANNED",
+    "configured_gpus": 8,
+    "allocated_gpus": 8,
+    "available_unallocated_gpus": 0,
+    "real_memory_MiB": 512000,
+    "allocated_memory_MiB": 462848,
+    "unallocated_memory_MiB": 49152,
+    "requested_gpu_job_memory_MiB": 60416,
+    "cpu_total": 128,
+    "cpu_allocated": 56,
+    "gpu_shortage_observed": true,
+    "other_resource_shortage_also_observed": true,
+    "reason_interpretation": "GPU shortage is present; host-memory shortage/planned reservation also present. Not attributed exclusively to GPU."
+  },
+  "gate_levels": {
+    "G0": "INPUT_CPU_IDENTITY_VERIFIED; ACTUAL_GATE_NOT_OBSERVED",
+    "G1": "NOT_RUN",
+    "G2": "NOT_RUN",
+    "G3": "AUTONOMOUS_GRAPH_REGISTERED_ONLY; ACTUAL_INITIAL_GATE_NOT_OBSERVED",
+    "initial_gate_pass": false
+  },
+  "authority_boundaries": {
+    "approved_contrast_families": 94,
+    "followup_design_rows": 7,
+    "SEQ3": "FOLLOWUP_NOT_SUBMITTED",
+    "ORDER2": "FOLLOWUP_NOT_SUBMITTED",
+    "FUTURE2": "FOLLOWUP_NOT_SUBMITTED",
+    "save_new_resume_checkpoints": false,
+    "approved_diagnostic_factors": true,
+    "automatic_resubmit": false,
+    "main_integration": "GH_CLEAN_INTEGRATION_REVIEW_ONLY",
+    "source_keep": true,
+    "other_jobs_mutated": false
+  },
+  "existing_receipts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/submission.json",
+      "sha256": "54183b98e7187380b22db6ea937291276fab93e554a190a0d4635ba58b45f5f2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/held-inspection.json",
+      "sha256": "eb850eb7561bfa4d2e3bc36eaf563de034df2a3fadfce2811aafa6ea77b2f032"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/admission.json",
+      "sha256": "3bdb6a653432725f6a41d796d95296b75135fbc76d1a597fd4a0252cdb1a6f80"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/submission-events.jsonl",
+      "sha256": "d71ccfab39e801858d864c458b4b6cda4d2c5319252f816b21cde984ba69b380"
+    }
+  ],
+  "limitations": [
+    "CPU132 PASS is not actual Llama validation",
+    "SHAM exact control may produce NUMERICAL_CONTROL_NOT_ESTABLISHED; no numerical waiver",
+    "No post-handoff scheduler/log/result observations or automatic resume",
+    "Markdown renderer unavailable; report static table/link checks only",
+    "No new full-state checkpoint; diagnostic factors are not a resume guarantee"
+  ],
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

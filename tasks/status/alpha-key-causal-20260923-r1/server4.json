@@ -1,0 +1,89 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1",
+  "authority_commit": "0498b22f7f1d67395131a7d2f9a6c8c1b2d1d32c",
+  "status": "MAIN_GPU_RESOURCE_PENDING_HANDOFF",
+  "monitoring_status": "MONITORING_PAUSED_AWAITING_USER",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "observation_window_utc": [
+    "2026-09-23T01:37:06Z",
+    "2026-09-23T01:38:02Z"
+  ],
+  "attempt": "attempt-r3",
+  "jobs": {
+    "gate": 52563,
+    "geometry": 52564,
+    "writers": 52565,
+    "cpu_reducer": 52566
+  },
+  "all_held_inspected_released": true,
+  "actual_initial_gate": "NOT_OBSERVED",
+  "last_gate_state": "PENDING",
+  "last_gate_reason": "Resources",
+  "GPU_configured": 8,
+  "GPU_allocated": 8,
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 2,
+  "execution_source": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+  "execution_tree": "d7b824052de14288dec559f0cf235a59b8a81f12",
+  "execution_lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+  "handoff_sha256": "ee4b6c9b233bc98db907566a7cf741e9aa706eda6294697f72982fa5003af649",
+  "rooted_receipt_sha256": "ad626db84e33eb1edb4573147efeccae59ddb79114920be93e75da2c39f975bb",
+  "CPU_tests_passed": 143,
+  "scientific_condition_changes": false,
+  "new_full_state_checkpoints": false,
+  "old_artifacts": "KEEP",
+  "prior_gpu_failure_seconds": 44,
+  "attempt_r2_CPU_freeze_failure_GPU_seconds": 0,
+  "followups": "FOLLOWUP_NOT_SUBMITTED",
+  "publication": "OWN_BRANCH_ONLY; GH main integration",
+  "historical_handoff_r1": {
+    "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+    "status": "MAIN_GPU_RESOURCE_PENDING_HANDOFF",
+    "monitoring_status": "MONITORING_PAUSED_AWAITING_USER",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "last_observation_utc": "2026-09-22T22:00:57Z",
+    "authority_commit": "4da5514323ad58fce709e4f8fe2c8238b15a8b1e",
+    "design_inputs_verified": 23,
+    "checkpoint_transfer": "12_OF_12_FULL_SHA_PASS",
+    "actual_gpu_validation": "NOT_RUN",
+    "initial_gate": "NOT_OBSERVED",
+    "project_gpu_cap": 2,
+    "task_concurrent_gpus": 2,
+    "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
+    "override_authority_commit": "33e7bb7f7d428f34c475f2ebe8e5e7beb4539f7a",
+    "registered_jobs": [
+      52527,
+      52528,
+      52529,
+      52530
+    ],
+    "jobs": {
+      "gate": 52527,
+      "geometry": 52528,
+      "writers": 52529,
+      "cpu_reducer": 52530
+    },
+    "all_held_inspected_released": true,
+    "pending_gpu_observation": {
+      "configured": 8,
+      "allocated": 8,
+      "gate_reason": "ReqNodeNotAvail",
+      "host_memory_shortage_also_observed": true
+    },
+    "execution_source": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+    "execution_lock_sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725",
+    "handoff_receipt_sha256": "fb39e96a3cd15b5a4b1e08c75b49eb975c621549f0d6422b6072ad79577251da",
+    "cpu_tests_passed": 132,
+    "save_new_resume_checkpoints": false,
+    "allowed_diagnostic_factor_storage": true,
+    "followup_scientific_submissions_authorized": false,
+    "monitoring_stop_requires": [
+      "all_approved_scope_registered_inspected_released",
+      "GPU_RESOURCE_PENDING_HANDOFF or actual_G0_G1_G2_G3"
+    ],
+    "raw_root": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1"
+  }
+}

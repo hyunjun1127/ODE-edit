@@ -1,0 +1,32 @@
+{
+  "CP12_existing_bytes": 63418321276,
+  "actual_microbatch_target_solve_IO_timing": "NOT_RUN; recorded by G1 and first native request/solve before remaining authorized entries",
+  "available_inodes": 225600027,
+  "dependent_geometry_gpu": 1,
+  "dependent_writers_gpu": 1,
+  "exclusive_reserved": false,
+  "free_bytes": 285940449280,
+  "gpu_peak": "NOT_MEASURED; actual G1/microbatch memory evidence required inside allocated runner",
+  "host_estimate_components": "FP32 CPU mmap/P/M/entry RAM/native pre-states/features/BLAS scratch; no full model CPU copy retained",
+  "host_estimate_peak_GiB": 49,
+  "host_memory_MiB": 60416,
+  "planned_future_bytes": {
+    "E1_context_and_native_means": 56200000000,
+    "E2_cal_context_assessment_means": 36500000000,
+    "components_KR_diagnostics_observers": 12000000000,
+    "shared_volume_safety_margin": 50000000000,
+    "source_archives_atomic_partial_logs": 8000000000,
+    "writer_24_branches_K_R_delta_coefficients": 32000000000,
+    "writer_stage_geometry_history_banks": 38000000000
+  },
+  "planned_future_total": 232700000000,
+  "preparation_gate_gpu": 1,
+  "project_gpu_cap": 2,
+  "status": "PASS",
+  "storage_waiver": false,
+  "task_gpu_cap": 2,
+  "threads": 8,
+  "user_gpu_hour_hardcap": null,
+  "wall_is_scientific_budget": false,
+  "wall_seconds_operational_reservation": 604800
+}

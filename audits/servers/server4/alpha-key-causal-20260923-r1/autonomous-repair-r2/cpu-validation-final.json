@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "tests": 143,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pretrained_model_loads": 0,
+  "actual_model_forwards": 0,
+  "GPU_allocations": 0,
+  "checkpoint_scans": 0,
+  "Slurm_calls": 0,
+  "synthetic_CPU_module_fixtures_exercised": true,
+  "actual_model_G1": "NOT_RUN",
+  "local_receipt_sha256": "5154f01c8d54dd8315d1e4ac352ae53d6dc2c6e02069be6535d3913e8abf6ce7",
+  "local_receipt": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/cpu-validation-v3/receipt.json",
+  "local_log_sha256": "7e387c6bb796f823e7c1560be38ab5bc78e57513f4731b80508d19df0dc0d833",
+  "extra_regression": "complete CPU freeze/archive/extract/new lock/new phase script/create-once",
+  "native_and_scientific_thresholds_unchanged": true,
+  "independent_agent_red_this_repair": false
+}

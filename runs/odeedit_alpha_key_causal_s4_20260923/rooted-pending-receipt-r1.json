@@ -1,0 +1,53 @@
+{
+  "schema": "alpha-key-causal-pending-rooted-receipt-v1",
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "override_nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1",
+  "execution": {
+    "source_commit": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+    "source_tree": "37729895ac354d6d4029e41d0b6e31fbb8d9e39c",
+    "archive_bytes": 470352289,
+    "archive_sha256": "bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768",
+    "lock_path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json",
+    "lock_sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725",
+    "native_input_binding_sha256": "500cd93224d4d2cb0daf880dad67aa18acf91bc0a12d127a2a23c42e7805ded1"
+  },
+  "files": [
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "bytes": 6186,
+      "sha256": "b01c75111926e70a522627131dea971bb90d13432810b4d2553c5fd6e932044d"
+    },
+    {
+      "path": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "bytes": 1144,
+      "sha256": "933dbe1726e435b6c29286c8371ee0331b3c6975c5c02d19b3ac13cc6dd329f2"
+    },
+    {
+      "path": "messages/acks/server4/alpha-key-causal-20260923-r1.md",
+      "bytes": 3911,
+      "sha256": "16d4854e523937b7ec7a73c2f52a8268b74894f61e4a5bd092e8cb77471c69e2"
+    },
+    {
+      "path": "tasks/status/alpha-key-causal-20260923-r1/server4.json",
+      "bytes": 1676,
+      "sha256": "b8427d85e58552907e347f672cd53ddaba9a66c786e42265c56cfbbfb8f82134"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-r1.json",
+      "bytes": 5852,
+      "sha256": "fb39e96a3cd15b5a4b1e08c75b49eb975c621549f0d6422b6072ad79577251da"
+    }
+  ],
+  "actual_gates_passed": false,
+  "registered_job_ids": [
+    52527,
+    52528,
+    52529,
+    52530
+  ],
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "publication_branch": "codex/alpha-key-causal-sh4-20260923-r1",
+  "main_integration": "GH_CLEAN_INTEGRATION_REVIEW_ONLY",
+  "raw_tensors_prompts_fullstdout_in_git": false
+}
