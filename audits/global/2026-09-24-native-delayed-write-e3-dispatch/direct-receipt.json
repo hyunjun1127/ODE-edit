@@ -1,0 +1,21 @@
+{
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "nonce": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "source_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "transport": "app-server direct WebSocket via approved SSH rke-server4",
+  "pre_dispatch_active_turns": [],
+  "preserved_previous_completed_turn": "01a0cef5-e2a1-7bb1-812d-e4a4d2a9db8d",
+  "accepted_turn": "01a0cf44-ddfd-77d1-8119-a9427328b32a",
+  "dispatch_publication": "11a2d883bd2bda4df19e243f936d29578bcf7d96",
+  "envelope_sha256": "c1f91b4f30775db214db3bebeed014b2c52a37c31b5dda42b0e026c25cacb80a",
+  "transfer_approval_sha256": "f4721d88b885411bdbe5389230cfa1a528226356fabd4b9b9358de930afc90b8",
+  "ack_text": "ACK GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1. 새 E0(endpoint)→E1→E3 task로 착수합니다. 전용 worktree에서 정본을 읽고 승인된 15개 파일을 수신·SHA 검증한 뒤 상태를 먼저 보고하겠습니다. 기존 실행·자료는 보존하며, 현재 신규 제출은 없습니다.",
+  "ack_type": "same_connection_agent_message",
+  "registration_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "actual_job_ids": [],
+  "receiver_verification_status": "PENDING",
+  "experiment_completed": false,
+  "gh_gpu_or_scheduler_action": 0
+}

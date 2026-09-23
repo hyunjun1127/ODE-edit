@@ -5,7 +5,11 @@
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "expected_cwd": "/data/janghj/ODE-edit",
   "repository": "hyunjun1127/ODE-edit",
-  "status": "READY_FOR_DIRECT_DISPATCH",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "11a2d883bd2bda4df19e243f936d29578bcf7d96",
+  "accepted_turn": "01a0cf44-ddfd-77d1-8119-a9427328b32a",
+  "ack_received": true,
+  "receiver_verification_status": "ACK_RECEIVED_TRANSFER_VERIFICATION_PENDING",
   "envelope": "messages/head/2026-09-24-native-delayed-write-e3-sh4.md",
   "transfer": "transfers/approvals/2026-09-24-native-delayed-write-e3-sh4.json",
   "scope": [
@@ -48,6 +52,6 @@
   "stop_at_first_pending": false,
   "chat_monitoring_required_for_scheduler_progress": false,
   "actual_job_ids": [],
-  "actual_registration_status": "NOT_YET_REPORTED",
+  "actual_registration_status": "IMPLEMENTING_NOT_SUBMITTED",
   "report": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md"
 }
