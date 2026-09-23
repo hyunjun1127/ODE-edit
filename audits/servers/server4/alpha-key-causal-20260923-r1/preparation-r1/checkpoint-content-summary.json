@@ -1,0 +1,214 @@
+{
+  "checkpoints": 12,
+  "full_receipt_path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/preflight-r1/checkpoint-content/checkpoint-content.json",
+  "full_receipt_sha256": "01dc05a84308f4ae38ae4354e2d0660b055c0ab93576a8454f8700c611cb0f1b",
+  "new_GPU_calls": 0,
+  "rows": [
+    {
+      "batch": 1,
+      "content_sha256": "88379d9eecef319cc9d6b46bc87b3a495e7482d2dfee358bc9956a66491c1a93",
+      "file_bytes": 5284846581,
+      "file_sha256": "2874b76d98ae139904c4d70525af582b3fe2a588604cb7609b7454bd737fb95e",
+      "state": {
+        "cache": "0675f44fed0dd46de5690b5b2f0f3e593d8a1b11fb87488fc36ea61ced617373",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "a7fccef47c6bb5dd949023c2affb94fdfda7c1001540c2442948e702857bfa1e",
+          "model.layers.5.mlp.down_proj.weight": "840fd8fbb89ebf716297fbc45d4844d3072b7c2ede9f82aa30dc3e249c0180c1",
+          "model.layers.6.mlp.down_proj.weight": "f472fcd374db713e0d346c4734ebd046bfcbcf2653b93644531f94df1a7d5ec9",
+          "model.layers.7.mlp.down_proj.weight": "d3ea8c6f964b2d065ba765655df8fc488df8ad2f95c5141782a557457da918e5",
+          "model.layers.8.mlp.down_proj.weight": "01f7761facef8c0f3c3c084aefe4cdb07b20f5d07fcb9fd4ed2ce13d10a1bfb7"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 5,
+      "content_sha256": "7b2e5c8440b53a990df7d44b776a739c2868c8534009281383214867b917e4ae",
+      "file_bytes": 5284847733,
+      "file_sha256": "3062fa9b6810e785087f539194571b3cd7cebbf640cbe34857eb01e6c42e9e05",
+      "state": {
+        "cache": "47827a803678198c45225aa6818d2a8019a0525b1a0028463cf4aba68c3a6ca6",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "7d6f416edc78c90377cd1050c0a383fdc62a84e574790106cfec04986fc25b62",
+          "model.layers.5.mlp.down_proj.weight": "20336279ae59033fb7abbc7a836b1bd3b301843ccc4946870ca3b67040b02e0f",
+          "model.layers.6.mlp.down_proj.weight": "6cb36c070a061260d04a12b4de05763f2bf8eec9073826551cf2ed5fdd0a4e71",
+          "model.layers.7.mlp.down_proj.weight": "b88023f55690a7f5deef5308bc43df5fc670bc7eb38d39bbb60b1bdd58d7885c",
+          "model.layers.8.mlp.down_proj.weight": "d1330d8923df2993be9e8e12fe6ee9b8c8e0bac82542ee186926491e43d11dd7"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 10,
+      "content_sha256": "7f5275652af93c038f37e5df8d58b42ce6b08dbe4a45a1878cd96cfdff04cc10",
+      "file_bytes": 5284849269,
+      "file_sha256": "c47bab2f4a503eface2b471949d40d323133ac25ac56a4398486ace6af44d5aa",
+      "state": {
+        "cache": "f0a04bd2bb338c3563c9fc28a3f7bf0c9aeb1b1b85663b004771a6932dc0247f",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "d642ff534dc22f256afb0ae5a14682499231061a491868bb5d3473d598b1c729",
+          "model.layers.5.mlp.down_proj.weight": "8adab48840502ac45fb2ec42735b50930901fa6a2b5f329eb62e681591917cb8",
+          "model.layers.6.mlp.down_proj.weight": "b45e5497169a25263e15b830c63ac6a89ce34d8e7bdd6b3955c37ac9c248df2f",
+          "model.layers.7.mlp.down_proj.weight": "5ef2a0e68fe157fae4bb457474df3f229af2b592fed3c75bc819136d4920b520",
+          "model.layers.8.mlp.down_proj.weight": "ee33ca9fad371757a388e3a15f0e85d7be1a4227ae2a03e510fe57d99525704a"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 20,
+      "content_sha256": "fd36645c612bb0b43b530073c61cf41bc1ef3f12b0491f48b4bc6a7669cbe062",
+      "file_bytes": 5284852213,
+      "file_sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b",
+      "state": {
+        "cache": "759ad0377c0037b2f69ae10c87839f8c39fe0520ad8d811efa0f6b36691caa80",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "900fde562bd0347b3cbc4faf9ca084132864835c21bd544cdfee7ba1a9ecab04",
+          "model.layers.5.mlp.down_proj.weight": "3a3bc8ed1511c68ee1e513611f3529531657dea1c39e3bbb7a5ee4710edae035",
+          "model.layers.6.mlp.down_proj.weight": "f8bfd49b5b476b26b3244a02ff2a1565bf0de0161c9b60cdd29e8c68f903a4e1",
+          "model.layers.7.mlp.down_proj.weight": "5a3e1894d7e7114c74202c71e44359953d7e34ff41df4ff20da8cf0e00c383cb",
+          "model.layers.8.mlp.down_proj.weight": "26933523b5c7edefee24ad713cf656899d595045f7cf7ca2dc0c6baab00aa51b"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 30,
+      "content_sha256": "d1eb2d7e10702de727429e90f7a02f19d250b71791b2992f6be9ec8888f42178",
+      "file_bytes": 5284855221,
+      "file_sha256": "7d7b048f0bfbdbe7c579acb2fdca2b3e8653e1eafa00f1b7f5b30f323d2a327c",
+      "state": {
+        "cache": "b0eb9edb62cb013efce4773ad7759a4f7e0fd0d5356678fc5dbd17111629153a",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "b0f1c1b424de6828e0d4c145906abe7bd0bbfefef271637cfdf49b3fa3017ab4",
+          "model.layers.5.mlp.down_proj.weight": "03c8e46147e4fa8917c2b5ea35856dbe2a152fa85ed84a4841955d728b44ead6",
+          "model.layers.6.mlp.down_proj.weight": "5fbff03ed763cf3ed8f5e9a20d7d2ab94620d9d520328623f48a58fafab3b84a",
+          "model.layers.7.mlp.down_proj.weight": "220b04dfca17a11859761547b3406f5652a1f8cd5236738b47bfbb6d19d3d86f",
+          "model.layers.8.mlp.down_proj.weight": "a6d4b23c5a5943ce2ad0b2de40e2e91b68e99ed0ba6f894105a8fc40535a2396"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 40,
+      "content_sha256": "e520bc0f4c378021629f9ac760382fe844912b3114c8f61b91541dcd0197d741",
+      "file_bytes": 5284858229,
+      "file_sha256": "8baf0839b3ca31f9a2763d588b7d0289521c0e89231a98d25beb35bd598ead3f",
+      "state": {
+        "cache": "d99904edd9c0f8514220af669f3fea32e911e3b1f66783b3773fd972f809b143",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "11d0ccdd64943a7bcb2dc6109f256f83ed92109c5a6545e0858ed19b55f4ffa7",
+          "model.layers.5.mlp.down_proj.weight": "ff12ee003597a2494a28e52cc56a4ee4063e9364dd26a7ecc16aab2662e4dcd1",
+          "model.layers.6.mlp.down_proj.weight": "34e6e3baf77ceabce6c61a8837ccda5d6cb1395714366f6df29cab182521186b",
+          "model.layers.7.mlp.down_proj.weight": "472ad8988cd00595a30ba2344999ee34d92a56a31a3d612d47e6d8586a295548",
+          "model.layers.8.mlp.down_proj.weight": "c0b4e1a52502ccea456fc99bd3dc0ac37485ef91e50318dbf5f05873286c94d9"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 50,
+      "content_sha256": "a6d0baed7e0dda8e1e94a97c1578a04c7249b83e9ddf5b7815cac5dd5bb08597",
+      "file_bytes": 5284861173,
+      "file_sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "state": {
+        "cache": "782c40a830701680802ef8edfee785aed3251659127d48d227635b9d236d66d8",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "f63063bb0e481a8e898fb2e0056a6bef6b3bdb442a143c46f7954b4edb8119f3",
+          "model.layers.5.mlp.down_proj.weight": "d631af8995e81010c882ccb6935d150d660183287ce6dd94f5d6efdc230aa80e",
+          "model.layers.6.mlp.down_proj.weight": "1952a5003e58a64bc55aed3951aaebf666234eb94df7d21827e893ae01c0bc1b",
+          "model.layers.7.mlp.down_proj.weight": "866648c43913ec56699c0d9646477435fda80db476f6158baa769e40c102ec65",
+          "model.layers.8.mlp.down_proj.weight": "e968b3241a840944228a47d8061231aa41f303fe894ccb9b7f528c855b0e6d8f"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 60,
+      "content_sha256": "a74c55dd1996a033da9a83885efd71c7ba7f8c707076bd86ad4d6e915dd329d3",
+      "file_bytes": 5284864181,
+      "file_sha256": "23a475df19997c1c46b07750d86ac119e3bc2beabc544625c19300a7ee797186",
+      "state": {
+        "cache": "7c8ed985deaf89d23da723c70ac6e298b0cdee19d68314f62f462d1eff86e237",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "d99cb0288e15f7d69c77a8cf29e51bb88d2d82a1c1ed2ae1883963966f85cc3d",
+          "model.layers.5.mlp.down_proj.weight": "aba562da05550815273473875e367f5c5574318303e8ef04fb680551a1842f6f",
+          "model.layers.6.mlp.down_proj.weight": "c50b0f40da381f44b854df424ebc03860ebb369296fd6129343b54d09fca40cb",
+          "model.layers.7.mlp.down_proj.weight": "48d148e08d43493e1b0b346c19b7c98d8278325d8427b155c36b9a1ceca5d28a",
+          "model.layers.8.mlp.down_proj.weight": "f9b93fba59cd9226ba854fc949dab51b3d878ed33c0197484a20b1a21e76948b"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 70,
+      "content_sha256": "dcc9c8e1d8776e206d30b1fa45450ba5c11ee19b075917a9424ac01a4ad9551c",
+      "file_bytes": 5284867189,
+      "file_sha256": "3df77988b664964ed6d9d58314846397704f4b54bfa27df5c952ac63ad1ec665",
+      "state": {
+        "cache": "329a7199ac679402dc7215954a19eecbbc029371cebd82d340d5f1279bba2b96",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "767b0ef4c66690e7b11fc7a45fb2d96b4e414bcb759002667a53bbe32e2024b8",
+          "model.layers.5.mlp.down_proj.weight": "14d1c7d46c864dd89bd59916da07628c81155173875896ca0731a04e24b31541",
+          "model.layers.6.mlp.down_proj.weight": "4c7034f7d8d27ffc350ca8b1776b6438d72e39b19052089eb192d35bff741e11",
+          "model.layers.7.mlp.down_proj.weight": "937c4562dd91f7698fcdd9ad77d8616624264b7a9baa4e18d3632730fff7d0d7",
+          "model.layers.8.mlp.down_proj.weight": "d1a791ca422d65a84e531bc572839038146d05fd11a9fecf77661eca90188ea0"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 80,
+      "content_sha256": "4435579ab0eb574aaaef85d82ee67056851a497da0eb324d1ff2b9bf81340502",
+      "file_bytes": 5284870197,
+      "file_sha256": "fcabe44da95e63320c7177498f77325181a1cbc6318d780c2b273f8f03da2474",
+      "state": {
+        "cache": "23ef8b079769e55a6f0eb8788d55e5a5f11a3282a23e90a58ca0aa5e2eb91357",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "47f0ec609e9848fa80476b2783df362d4ae53fcde42af70908faa14ce864cbeb",
+          "model.layers.5.mlp.down_proj.weight": "9ccd248c5f6f2d4417d259d24597fbe7c2ce6c7cdbd9181971994cd5c8055ec5",
+          "model.layers.6.mlp.down_proj.weight": "827602bcbce899dbc71680586697b62481a6f7095a18032fdd335570cc24c763",
+          "model.layers.7.mlp.down_proj.weight": "900f973cc604b4ac0d348a6f3210bdc5f8d39b8b9ccec1fea3bc21c61bf61ef1",
+          "model.layers.8.mlp.down_proj.weight": "57b67c60848878d9579c4912563f8e0ed98a7b62f0c3229a3c117aab36abbadf"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 90,
+      "content_sha256": "512e42a3e7c36083346abf513d3b2405c9be767179263c428cce8a6e1d3fb436",
+      "file_bytes": 5284873141,
+      "file_sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "state": {
+        "cache": "c45c6ca17fbd3c8a0a334eb06e222aa78ac70a01e01b5544e2d85537b656a1c8",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "e41cd4c3e9857cee6df2f4ccf9dccbad77585462a5a1df1031d3b0c53eed40d0",
+          "model.layers.5.mlp.down_proj.weight": "4ba2e67623c60fec8ed138228f591b713af145858100f3727753efacf3a23872",
+          "model.layers.6.mlp.down_proj.weight": "f538cda932e56e0910bc59e2a58f0addfbc118445468718ecefebe8dbe6461eb",
+          "model.layers.7.mlp.down_proj.weight": "a6f755ea184f9f561626aeb33f9a19f9a3e58b2883d9d2fee12660508b20c211",
+          "model.layers.8.mlp.down_proj.weight": "f3ad758b634aa5d6c28b9c9da9eeb9619545684164a934ab4ac9ef6990b1b061"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    },
+    {
+      "batch": 100,
+      "content_sha256": "f84924f67112670e060b51f6e6947445104825b4d34869e54050fc9c7fb53b47",
+      "file_bytes": 5284876149,
+      "file_sha256": "f24c0784342ee8e6c12f1661d3810780955edabea2f19c92795f7a37155df549",
+      "state": {
+        "cache": "0d86021e33bc7853740bdb840c4a271ef40d21ca968273a968aa0a7f48bee3a4",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "e23935a290b560b477abe45ae8801e09d7c80b5842a7dda2f1c730e59252e61f",
+          "model.layers.5.mlp.down_proj.weight": "414ef061a0625788169af938501488c422a5f634402bfa53228cca228c8a6242",
+          "model.layers.6.mlp.down_proj.weight": "a83e7c3794fcd559c121977fb0028c2084a2c874c947565cebadb3ae43bd6903",
+          "model.layers.7.mlp.down_proj.weight": "f3fa76ab8180ab2f00f6a8fd3dd9e33bf5f995e551bc1d722d14a51dec80bf7a",
+          "model.layers.8.mlp.down_proj.weight": "87bd761f36616596508dfa401309adb5d1004bea64dcc521a162347fa4630ff0"
+        }
+      },
+      "verification": "CURRENT_FULL_TENSOR_SHA"
+    }
+  ],
+  "seconds": 192.92840096727014,
+  "status": "PASS"
+}

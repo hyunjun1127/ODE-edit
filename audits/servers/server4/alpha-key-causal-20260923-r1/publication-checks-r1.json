@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "scope": "compact publication only; no scheduler or scientific result reads",
+  "files": [
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "bytes": 6186,
+      "sha256": "b01c75111926e70a522627131dea971bb90d13432810b4d2553c5fd6e932044d"
+    },
+    {
+      "path": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "bytes": 1144,
+      "sha256": "933dbe1726e435b6c29286c8371ee0331b3c6975c5c02d19b3ac13cc6dd329f2"
+    },
+    {
+      "path": "messages/acks/server4/alpha-key-causal-20260923-r1.md",
+      "bytes": 3911,
+      "sha256": "16d4854e523937b7ec7a73c2f52a8268b74894f61e4a5bd092e8cb77471c69e2"
+    },
+    {
+      "path": "tasks/status/alpha-key-causal-20260923-r1/server4.json",
+      "bytes": 1676,
+      "sha256": "b8427d85e58552907e347f672cd53ddaba9a66c786e42265c56cfbbfb8f82134"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-r1.json",
+      "bytes": 5852,
+      "sha256": "fb39e96a3cd15b5a4b1e08c75b49eb975c621549f0d6422b6072ad79577251da"
+    }
+  ],
+  "links": [
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "target": "../../../../audits/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-r1.json",
+      "status": "PASS"
+    },
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "target": "source-readiness-ko.md",
+      "status": "PASS"
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "status": "PASS"
+    }
+  ],
+  "tables": [
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "rows": 6,
+      "columns": 5,
+      "status": "PASS"
+    }
+  ],
+  "receipt_hashes": "PASS",
+  "family_arithmetic": "PASS",
+  "actual_html_render": "NOT_RUN_TOOL_UNAVAILABLE",
+  "new_figures": 0,
+  "gpu_calls": 0,
+  "monitoring_active": false
+}
