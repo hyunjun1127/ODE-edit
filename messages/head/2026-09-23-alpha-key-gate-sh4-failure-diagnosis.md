@@ -1,5 +1,8 @@
 # GH → SH4: odeedit_alpha_key_gate_s4 실패 점검
 
+> 최신 [자율 재개 위임](2026-09-23-alpha-key-causal-sh4-autonomous-resume.md)으로
+> 아래 diagnosis-only/수리·재제출 금지는 해제되었다. 원 실패 증거는 보존한다.
+
 원 task: ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1.
 진단 nonce: ODEEDIT-GH-SH4-ALPHA-KEY-GATE-FAILURE-CHECK-20260923-R1.
 대상 SH4 01a04939-b5c7-7a03-ba2d-ef3343d62cfd / /data/janghj/ODE-edit.
