@@ -86,13 +86,22 @@ def run(attempt, destination):
     assert not (output/'failure.json').exists(), 'USE_PARTIAL_FAILURE_REVIEW'
     lock=read(attempt/'execution.lock.json');panel=read(PANELS/'rows.json')
     plan=read(ROOT/'inputs/design/review/e3-dependency-plan.json')
-    previous=None;binding=None;stage_rows=[]
+    previous=None;binding=None;stage_rows=[];cost_rows=[];last_cost={};last_cost_stage='start'
     for spec in plan['stages']:
         sid=spec['stage_id'];p=output/sid/'gate-result.json';r=read(p)
         assert r['status']=='PASS' and r['stage']==sid
         binding=binding or r['binding'];assert r['binding']==binding
         assert r['predecessor_sha256']==previous
         previous=sha(p);stage_rows.append(dict(stage=sid,sha256=previous,elapsed_seconds=r.get('elapsed_seconds')))
+        cost=r.get('detail',{}).get('cost')
+        if cost:
+            delta={k:cost[k]-last_cost.get(k,0) for k in ('program_seconds','forward_seconds','forward_calls','selected_weight_H2D_bytes')}
+            assert all(v>=0 for v in delta.values())
+            cost_rows.append(dict(stage=sid,since_previous_cost_stage=last_cost_stage,**delta,
+                peak_gpu_bytes_cumulative=cost['peak_gpu_bytes'],model_load_seconds_cumulative=cost['model_load_seconds'],
+                nonforward_seconds_not_separated=delta['program_seconds']-delta['forward_seconds'],
+                forward_is_nested_in_program=True,native_fit=0,weight_write=0,history_append=0))
+            last_cost=cost;last_cost_stage=sid
     assert binding['panel_sha256']==sha(PANELS/'panel-manifest.json')==lock['panel_sha256']
     dest.mkdir(parents=True,exist_ok=False)
     counts=[];general=[];contrasts=[];validations=[];endpoints={};checks=[];drift=[]
@@ -141,7 +150,7 @@ def run(attempt, destination):
         found=[q for q in collected if all(q[k]==str(r[k]) for k in ('endpoint','panel','kind'))];assert len(found)==1
         for k in ('count','success','strict','token_correct','token_total','ties'):assert int(found[0][k])==r[k]
     for name,rr in [('independent-endpoints.csv',counts),('general-eval.csv',general),('general-paired.csv',contrasts),
-                    ('module-identity.csv',checks),('layer-drift-summary.csv',drift),('row-validation.csv',validations),('stage-chain.csv',stage_rows)]:
+                    ('module-identity.csv',checks),('layer-drift-summary.csv',drift),('row-validation.csv',validations),('stage-chain.csv',stage_rows),('compute.csv',cost_rows)]:
         write_csv(dest/name,rr)
     save(dest/'review-receipt.json',dict(status='PASS_STORED_EVIDENCE',model_calls=0,GPU_calls=0,
         analysis_source_sha256=sha(__file__),execution_lock_sha256=sha(attempt/'execution.lock.json'),

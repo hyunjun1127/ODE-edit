@@ -1,0 +1,32 @@
+{
+  "status": "PASS_CPU_FIXTURES_ONLY",
+  "independent_reducer_tests": 5,
+  "plot_repeat_fixture_tests": 1,
+  "actual_model_pass_claim": false,
+  "actual_completed_report_not_yet_generated": true,
+  "production_frozen_source_modified": false,
+  "analysis_sources": [
+    {
+      "path": "project/run_scripts/native_delayed_write_e3/review_completed.py",
+      "sha256": "b6c5fdf6804a487c9728e20d90ed2f1644b0ae9089d001a815a651535c0dd8cd"
+    },
+    {
+      "path": "project/run_scripts/native_delayed_write_e3/test_review_completed.py",
+      "sha256": "01131c10af45353b0249f8218beb54f51037a64522355eae737bdb23e6b0eec9"
+    },
+    {
+      "path": "project/run_scripts/native_delayed_write_e3/plot_completed.py",
+      "sha256": "d3764f62dac5524a12fcef11da49b3d391e9b255dd2e1ecaa78a7e5e3badc2c3"
+    },
+    {
+      "path": "project/run_scripts/native_delayed_write_e3/test_plot_completed.py",
+      "sha256": "3cdbcbb39a46e045cccf718e143c7048ebf242a248102e1f99a8c3e4616e0531"
+    },
+    {
+      "path": "project/run_scripts/native_delayed_write_e3/package_completed.py",
+      "sha256": "6a6fcf7793241c89054729a4aa9b159aba04394b10311a03e85405b15f5cfd64"
+    }
+  ],
+  "py_compile": "PASS",
+  "independent_agent": false
+}

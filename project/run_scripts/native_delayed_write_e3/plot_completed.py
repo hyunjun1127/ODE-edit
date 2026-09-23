@@ -40,7 +40,7 @@ def plots(report, dest):
     values=np.array([[float(next(r for r in rr if r['contrast'].startswith(key+'/'+v+' '))['desired_nll_delta']) for v in variants] for key in keys])
     lim=max(float(np.abs(values).max()),1e-9)
     fig,ax=plt.subplots(figsize=(10,6),constrained_layout=True)
-    im=ax.imshow(values,cmap='coolwarm',vmin=-lim,vmax=lim,aspect='auto')
+    im=ax.imshow(values,cmap='coolwarm',vmin=-lim,vmax=lim,aspect='auto',interpolation='nearest')
     ax.set_xticks(range(6),['dose .5','dose 1','dose -1','rotation 1','rotation 2','rotation 3'])
     ax.set_yticks(range(len(keys)),[x.replace('BASE_ALPHAEDIT','Alpha').replace('BASE_MEMIT','MEMIT') for x in keys])
     ax.set_title('N_diag1000 true-target NLL: patch minus actual11\nMeasured variants only; negative = lower NLL')
