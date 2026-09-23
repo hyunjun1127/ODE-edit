@@ -49,17 +49,29 @@ class ProtectedAction:
     def __exit__(self,*args):
         self.handle.remove();self.binding.__exit__(*args);del self.C,self.delta
 
-def verify_sham(native,sham,native_observation,sham_observation,path):
+def verify_sham(native,sham,native_observation,sham_observation,path,*,policy='BLOCK_ON_NUMERICAL_MISMATCH'):
     """No historical waiver/numeric tolerance silently imported.
 
     Record actual differences first. Without a pre-established alternative
     envelope an unequal control is UNRESOLVED, never a quality-based fallback.
     """
     import torch
+    import math
+    for observation in (native_observation,sham_observation):
+        groups=[observation['N']['rows']]
+        for section in ('current','history'):
+            if section in observation:
+                groups.extend(value['rows'] for value in observation[section]['metrics'].values())
+        for rows in groups:
+            for row in rows:
+                for key in ('true_nll','new_nll'):
+                    if key in row:assert math.isfinite(float(row[key])),'SHAM_NONFINITE_NLL'
     differences=[]
     for layer in (4,5,6,7,8):
         for field in ('K','R','delta'):
             a=native['factors'][layer][field];b=sham['factors'][layer][field]
+            assert a.shape==b.shape and a.dtype==b.dtype,'SHAM_SHAPE_OR_DTYPE_MISMATCH'
+            assert torch.isfinite(a).all() and torch.isfinite(b).all(),'SHAM_NONFINITE'
             differences.append(dict(layer=layer,field=field,exact=torch.equal(a,b),
                 max_abs=float((a.double()-b.double()).abs().max()),
                 relative_frobenius=float(torch.linalg.vector_norm(a.double()-b.double())/torch.linalg.vector_norm(a.double())) if torch.linalg.vector_norm(a.double()) else None))
@@ -78,10 +90,13 @@ def verify_sham(native,sham,native_observation,sham_observation,path):
             for field in ('new_nll','true_nll'):
                 differences.append(dict(metric='H512/'+metric,field=field,exact=all(x[field]==y[field] for x,y in zip(a,b)),max_abs=max(abs(x[field]-y[field]) for x,y in zip(a,b))))
     okay=all(r['exact'] for r in differences)
-    save(path,dict(status='PASS' if okay else 'NUMERICAL_CONTROL_NOT_ESTABLISHED',differences=differences,
+    from .numerical_policy import annotate
+    receipt=annotate(dict(status='PASS' if okay else 'NUMERICAL_CONTROL_NOT_ESTABLISHED',differences=differences,
         predeclared_tolerance=0,other_backend_repeat_envelope='NOT_ESTABLISHED',
-        scientific_failure=False,native_result_preserved=True,SHAM_subtract_readd_roundoff_not_hidden=True))
-    if not okay:raise RuntimeError('SHAM_NUMERICAL_CONTROL_NOT_ESTABLISHED; no downstream E4 promotion')
+        scientific_failure=False,native_result_preserved=True,SHAM_subtract_readd_roundoff_not_hidden=True),policy)
+    save(path,receipt)
+    if receipt['blocks_execution']:raise RuntimeError('SHAM_NUMERICAL_CONTROL_NOT_ESTABLISHED; no downstream E4 promotion')
+    return receipt
 
 class Observations:
     def __init__(self,rt,entry,panels):
@@ -124,7 +139,7 @@ def _stage_snapshot(rt,entry_M):
     return dict(w={l:w.detach().cpu().clone() for l,w in rt.weights.items()},m=entry_M,
                 rng=rng_get(),cursor=rt.batch,context=copy.deepcopy(rt.contexts),cp=rt.cp)
 
-def run_writers(rt,out,gate_dir):
+def run_writers(rt,out,gate_dir,*,reuse=None):
     import torch
     from .native_writer import write
     from .component_runner import run_components
@@ -136,6 +151,7 @@ def run_writers(rt,out,gate_dir):
     assert ids==[r['case_id'] for r in panels['history']['records']]
     stamp={int(l):k.T.contiguous() for l,k in stamp.items()}
     ledger=[];total_native_targets=0;diagnostic_cache={}
+    new_native_targets=0
     from .writer_diagnostics import summarize
     for entry in ENTRIES:
         rt.set_state(entry);entry_signature=rt.signature();entry_state=rt.snapshot()
@@ -169,26 +185,47 @@ def run_writers(rt,out,gate_dir):
                         calibration_or_selection_use=False,C_reconstruction_relative=factor.get('reconstruction_relative_frobenius')))
                 else:row=observe(f'W{entry:03d}/{branch}/{stage}',bdir/'stages'/stage,full=stage in ('entry','history'))
                 stage_rows[(branch,stage)]=row
-            result=write(rt,rt.current_requests(entry),bdir/'write',branch=branch,
-                         shared_z=None if native is None else native['z'],stamp=stamp,current=current,
-                         bank_ids=ids,stage_callback=callback)
+            reused=bool(reuse and entry==50 and branch in ('NATIVE','SHAM'))
+            if reused:
+                from .writer_reuse import restore_completed_branch
+                result=restore_completed_branch(rt,entry_state,reuse,branch,bdir,pre_states)
+                for layer in (4,5,6,7,8):
+                    bank=torch.load(bdir/f'current-H512-L{layer}.pt',map_location='cpu',weights_only=True,mmap=True)
+                    assert bank['case_ids']==ids
+                    current_banks[layer]=bank['K']
+                stage_rows[(branch,'history')]=json.loads((bdir/'stages/history/observation.json').read_text())
+            else:
+                result=write(rt,rt.current_requests(entry),bdir/'write',branch=branch,
+                             shared_z=None if native is None else native['z'],stamp=stamp,current=current,
+                             bank_ids=ids,stage_callback=callback)
             if branch=='NATIVE':
                 native=result;total_native_targets+=100
+                if not reused:new_native_targets+=100
                 native_delta={l:f['delta'] for l,f in result['factors'].items()}
             else:
                 # Own branch K/R/solve/history are fresh; only same-entry z shared.
                 assert result['z']['binding']==native['z']['binding']
             if branch=='SHAM':
-                verify_sham(native,result,stage_rows[('NATIVE','history')],stage_rows[('SHAM','history')],bdir/'sham-control.json')
+                verify_sham(native,result,stage_rows[('NATIVE','history')],stage_rows[('SHAM','history')],bdir/'sham-control.json',
+                            policy=getattr(rt,'numerical_comparison_policy','BLOCK_ON_NUMERICAL_MISMATCH'))
             assert set(current_banks)=={4,5,6,7,8},'MISSING_PREWRITE_HISTORY_BANK'
-            diagnostics=summarize(rt,result['factors'],stamp,current_banks,entry_state['m'],diagnostic_cache)
-            save(bdir/'writer-modes.json',diagnostics)
-            ledger.append(dict(entry=entry,branch=branch,status='COMPLETED',receipt=str(bdir/'write/receipt.json'),native_targets=100 if branch=='NATIVE' else 0))
+            if not (bdir/'writer-modes.json').exists():
+                diagnostics=summarize(rt,result['factors'],stamp,current_banks,entry_state['m'],diagnostic_cache)
+                save(bdir/'writer-modes.json',diagnostics)
+            ledger.append(dict(entry=entry,branch=branch,status='COMPLETED',receipt=str(bdir/'write/receipt.json'),native_targets=100 if branch=='NATIVE' else 0,
+                               reused_completed_branch=reused,new_native_targets=100 if branch=='NATIVE' and not reused else 0))
+            if reuse and entry==50 and branch=='H5':
+                rt.restore(entry_state);assert rt.signature()==entry_signature
+                save(out/'repair-initial.json',dict(status='REPAIRED_EXECUTION_INITIAL_VALID',
+                    scope='prior W50 NATIVE/SHAM restored and reused; new H5 completed and entry restored',
+                    numerical_equivalence='NOT_ESTABLISHED_OBSERVATION_ONLY_USER_DIRECTED',
+                    numerical_policy=getattr(rt,'numerical_comparison_policy',None),
+                    completed_new_branch='H5',new_native_targets=0,new_resume_checkpoint_saved=False))
             if branch!='NATIVE':del result
         assert set(pre_states)=={5,6}
         run_components(rt,entry,pre_states,native_delta,native['z']['targets'],rt.current_requests(entry),panels['geometry'],observe,out/f'W{entry:03d}'/'components')
         if entry==50:
-            save(out/'G2.json',dict(status='PASS',scope='W50 B51 native100 plus SHAM and full-delta controls',native_targets=100,
+            save(out/'G2.json',dict(status='EXECUTION_COMPLETED_NUMERICAL_COMPARISONS_OBSERVER_ONLY' if getattr(rt,'numerical_comparison_policy',None)=='OBSERVATION_ONLY_USER_DIRECTED' else 'PASS',scope='W50 B51 native100 plus SHAM and full-delta controls',native_targets=100,
                 branch_receipts=[str(out/'W050'/b/'write/receipt.json') for b in ('NATIVE','SHAM')],
                 observer_paths=[str(out/'W050'/b/'stages/history/observation.json') for b in ('NATIVE','SHAM')],
                 technical_gates=str(gate_dir/'READY.json'),quality_improvement_required=False,
@@ -198,5 +235,6 @@ def run_writers(rt,out,gate_dir):
         save(out/f'W{entry:03d}'/'entry-terminal.json',dict(status='COMPLETED',entry=entry,branches=list(BRANCHES),native_targets=100,restored_entry=entry_signature))
     assert total_native_targets==400
     save(out/'terminal.json',dict(status='COMPLETED',entries=list(ENTRIES),branches=ledger,native_targets=total_native_targets,
+        new_native_targets=new_native_targets,reused_native_targets=total_native_targets-new_native_targets,
         followups='FOLLOWUP_NOT_SUBMITTED',new_resume_checkpoint_saved=False))
     return ledger

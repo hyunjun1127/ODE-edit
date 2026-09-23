@@ -41,8 +41,15 @@ def reduce_package(root,out,repo,lock):
     package=Path(repo)/'experiment-reports/servers/server4/alpha-key-causal-20260923-r1'/subdir
     package.mkdir(parents=True,exist_ok=False)
     inventory=[]
-    for p in sorted(Path(out).rglob('*')):
-        if p.is_file() and not p.is_symlink():inventory.append(dict(path=str(p.relative_to(root)),bytes=p.stat().st_size,sha256=file_sha(p)))
+    seen=set()
+    for base in [Path(out),*[Path(x) for x in lock.get('inherited_output_roots',[])]]:
+        for p in sorted(base.rglob('*')):
+            if p.is_file():
+                real=p.resolve();assert real.is_relative_to(Path(root).resolve()),'REUSE_OUTSIDE_TASK_ROOT'
+                if real in seen:continue
+                seen.add(real)
+                inventory.append(dict(path=str(p.relative_to(root)),resolved_path=str(real),
+                    reused_input=p.is_symlink() or base!=Path(out),bytes=p.stat().st_size,sha256=file_sha(p)))
     save(Path(root)/'execution'/lock['attempt']/'raw-inventory.json',inventory)
     tables=[];transitions=[];observed=[]
     for p in sorted((Path(out)/'writers').rglob('current.json')):
@@ -123,6 +130,8 @@ def reduce_package(root,out,repo,lock):
         per_request_key_geometry_parquet=str(Path(out)/'geometry/per_request_key_geometry.parquet'),
         raw_parquet_local_only=True,whitened_modes_levels=sorted(set(str(r.get('history_whitened_modes_status','NOT_MEASURED')) for r in modes))))
     save(package/'cost_breakdown.json',dict(programs=programs,failures=failures,
+        parent_failed_execution=lock.get('parent_failed_execution'),
+        reused_writer_cost='52565 1494 allocated GPU seconds; original NATIVE/SHAM costs counted once, not new forwards' if lock.get('reuse_manifest') else None,
         allocation='Slurm accounting requires later explicit user recall; not inferred from wall',
         nested_timers_additive=False,observer_and_geometry='inclusive boundaries in source receipts',
         user_gpu_hour_hardcap=None))
@@ -143,6 +152,19 @@ def reduce_package(root,out,repo,lock):
            '', '성능 우열·인과 귀속·새 방법 채택은 이 reducer의 판정 범위가 아니다. SEQ/ORDER/FUTURE 미제출.',
            '원 input CP12는 보존; 새 W/M/optimizer resume checkpoint는 생성하지 않았다.',
            'NO_BROADCAST_NOT_REQUIRED. 실제 detailed review 및 scheduler 후속 회수는 사용자 recall 후에만 수행한다.']
+    if lock.get('numerical_comparison_policy'):
+        comparisons=[]
+        for name in ('sham-control.json','full-hook-physical-parity.json'):
+            for p in sorted((Path(out)/'writers').rglob(name)):
+                x=json.loads(p.read_text());comparisons.append(dict(path=str(p.relative_to(root)),status=x['status'],
+                    comparison_verdict=x.get('comparison_verdict'),blocks_execution=x.get('blocks_execution'),sha256=file_sha(p)))
+        save(package/'numerical-comparison-coverage.json',dict(policy=lock['numerical_comparison_policy'],
+            authority=lock['user_numerical_override'],rows=comparisons,full_numerical_equivalence='NOT_ESTABLISHED',
+            original_failed_attempt_preserved=True,threshold_relaxed_to_claim_PASS=False))
+        text+=['','## 최신 사용자 수치 비교 관찰 정책','',
+            'SHAM 및 hook/physical 수치 차이는 `OBSERVATION_ONLY_USER_DIRECTED`로 보존한다. 미일치를 PASS로 바꾸지 않았고, 원 FP32 연산식/관측집합은 변경하지 않았다.',
+            '실행 완료와 수치 동등성은 별개이며 `full_numerical_equivalence=NOT_ESTABLISHED`이다. NaN/shape/입력/상태/저장 무결성 검사는 계속 차단 조건이다.',
+            '[수치 비교 검산 범위](numerical-comparison-coverage.json).']
     text += ['',f'완료 family `{family_count}/94`; 필수 표의 누락은 성공으로 대체하지 않는다.',
              '[Writer](writer_modes.csv), [H penalty](history_penalty_mismatch.csv), [component](component_interchange.csv), [K/R](kr_operand_effects.csv).']
     if observed:text+=['','![Actual N512 stage counts](native-stage-N512.png)','자동 코드 생성 그림이며 agent 육안 검토는 아직 하지 않았다.']

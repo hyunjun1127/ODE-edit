@@ -372,8 +372,10 @@ def run_components(rt, entry, pre_states, layer_deltas, z, requests, panels, obs
             artifacts.append(save(root / f'L{upstream}' / 'calibration-mean.json', mean_receipt))
             artifacts.append(tensor_file(root / f'L{upstream}' / 'calibration-mean.pt', {'action_mean': mean.cpu()}))
             parity = full_hook_parity(rt, upstream, pre, delta, mean, records)
+            from .numerical_policy import annotate
+            parity = annotate(parity,getattr(rt,'numerical_comparison_policy','BLOCK_ON_NUMERICAL_MISMATCH'))
             artifacts.append(save(root / f'L{upstream}' / 'full-hook-physical-parity.json', parity))
-            if parity['status'] != 'PASS':
+            if parity['blocks_execution']:
                 raise InterventionError('full component/physical valid-token parity failed')
             timing.append({'kind': 'mean_and_full_parity', 'layer': upstream, 'seconds': time.monotonic() - step_start})
 
