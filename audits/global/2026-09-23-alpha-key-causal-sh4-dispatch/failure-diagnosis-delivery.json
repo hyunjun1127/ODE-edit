@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-GATE-FAILURE-CHECK-20260923-R1",
+  "publication": "a9d3f24df98186c82cfe4d52c906c13bd62a599d",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "accepted_turn": "01a0cbc8-7f84-7682-b213-6224d5cb75d2",
+  "transport_status": "ACCEPTED",
+  "scope": "사용자 지정 odeedit_alpha_key_gate_s4 exact job 실패 원인·단계·후속 dependency 영향 점검",
+  "diagnosis": "PENDING_SH4_REPORT",
+  "job_id": "TO_BE_BOUND_FROM_SUBMISSION_RECEIPT",
+  "repair_or_resubmit_authorized_by_this_recall": false,
+  "GH_GPU_model_scheduler_queries": 0,
+  "periodic_monitoring_requested": false
+}
