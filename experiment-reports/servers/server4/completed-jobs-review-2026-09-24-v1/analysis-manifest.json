@@ -1,0 +1,81 @@
+{
+  "Slurm_mutations": 0,
+  "accounting": {
+    "bytes": 917,
+    "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/accounting-receipt.json",
+    "sha256": "7b1ccced77fa52ff7d4106d7c1c76701a06b1535c8b57ea3dbb4af32667ef6da"
+  },
+  "analysis_source_commit": "29f3052b89e1bc85374bbcacd4ef98b17e115604",
+  "analysis_source_members": [
+    {
+      "bytes": 7847,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/advanced.py",
+      "sha256": "b63797c790a475353706a2b2be2b1d642cdb0f7e4fde282b54e8a1b56ce640fa"
+    },
+    {
+      "bytes": 12794,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/audit.py",
+      "sha256": "8a092b27c12d6d7ecd4920f7493c27aef2752856ac2fec897a89d67d8242b96e"
+    },
+    {
+      "bytes": 33572,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/package.py",
+      "sha256": "8b1abedddb0a3995b865da9e16a60c8852f7e8a54accb068d61e35315fd7385d"
+    },
+    {
+      "bytes": 15127,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/review.py",
+      "sha256": "61ed31b3a3570bf4eeafe8e09f89a794edee2d0d8d1fa000b5e2a5652978f226"
+    },
+    {
+      "bytes": 6570,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/seal.py",
+      "sha256": "044cc3cd9fe36df2c51b04d5e2acb759e95481f495139cdaf1a3b4236f365134"
+    },
+    {
+      "bytes": 2680,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/test_review.py",
+      "sha256": "dc2f916d3733da48a39a9ec0a17e266c8ca866d95b908c4d21fb3fdd3d468c67"
+    },
+    {
+      "bytes": 4140,
+      "path": "project/run_scripts/server4_completed_jobs_review_20260924/validate.py",
+      "sha256": "bf6fd713aed09839139f8ce6b892b94fcd23099727bc0f8b20f60064a144af18"
+    }
+  ],
+  "authority_main": "fbeed9212ff14e4d7726ac17ec411a091a18f2b6",
+  "frozen_execution_sources": {
+    "EN_adaptive": "b6e86234640ca127546aee094f2a67bbe684a490",
+    "SLMF": "5f79085629b10b2bb8bdee88d017e18a46bb4c74",
+    "alpha_r1": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+    "alpha_r3": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+    "alpha_r4": "a21cffa08d4cf86ed258acabdb786fba778f4dfb"
+  },
+  "input_rehash": "PRIOR_INPUT_FULL_SHA_RECEIPTS_PLUS_CURRENT_BINDING; no model/12CP full rehash",
+  "instruction": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "model_calls": 0,
+  "original_input_evidence": {
+    "bytes": 1392,
+    "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/authority-binding.json",
+    "sha256": "2025862f8b96d2a114f2cba85c071b6ac818b4f70f3b41e8adc32b97959be080"
+  },
+  "output_fullSHA_inventory": {
+    "bytes": 2627019,
+    "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/output-inventory.csv",
+    "sha256": "e65edf136815d882f4b604c227c2e6db609271d8ffacbc35ab47eabd9effaab0"
+  },
+  "output_rehash": "6465 terminal output paths newly hashed; 6207 unique inodes",
+  "publication_commit": "RECORDED_SEPARATELY_AFTER_NONFORCE_PUSH; not self-referential",
+  "remote_payload_transfers": 0,
+  "report": {
+    "bytes": 26273,
+    "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/report-ko.md",
+    "sha256": "8f552b44482a809681370366c93590f947c1a7c8c1517593953a4f777ff09385"
+  },
+  "reused_history": {
+    "bytes": 28841,
+    "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/historical-report-index.csv",
+    "sha256": "93405d6286e4a0588c1f9e65cd7f573b42de7bc6437ead2417a5de70caa1ecdc"
+  },
+  "runtime_changes": 0
+}
