@@ -1,0 +1,14 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-WRITERS-REPAIR-20260923-R1",
+  "publication": "ac44d4d91c9b3b7d80b92a64e4a248992cf9dfef",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "accepted_turn": "01a0cc56-297a-7960-b91c-26ac5a8f200c",
+  "same_stream_ack_received": true,
+  "ack": "exact writers/최초오류 점검, 완료 gate·geometry·native·평가 재사용 검증, 원 실패보존/새attempt 최소수리·재제출,cap2/noFullCP/타job보존",
+  "RCA": "PENDING_SH4_REPORT",
+  "replacement_job": "NOT_YET_OBSERVED",
+  "GH_GPU_model_scheduler_actions": 0,
+  "periodic_monitoring_requested": false
+}
