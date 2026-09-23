@@ -1,0 +1,47 @@
+{
+  "GFM_rows": 11,
+  "actual_HTML_render": "NOT_RUN_RENDERER_NOT_INSTALLED",
+  "figures": "NOT_APPLICABLE_NO_SCIENTIFIC_OUTPUT",
+  "independent_agent": false,
+  "no_scheduler_or_model_calls": true,
+  "raw_free": true,
+  "relative_links": [
+    {
+      "document": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md",
+      "status": "EXISTS",
+      "target": "terminal.json"
+    },
+    {
+      "document": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md",
+      "status": "EXISTS",
+      "target": "preflight.json"
+    },
+    {
+      "document": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md",
+      "status": "EXISTS",
+      "target": "panel-summary.json"
+    },
+    {
+      "document": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md",
+      "status": "EXISTS",
+      "target": "handoff-manifest.json"
+    },
+    {
+      "document": "messages/acks/server4/2026-09-24-native-delayed-write-e3.md",
+      "status": "EXISTS",
+      "target": "../../../transfers/verifications/2026-09-24-native-delayed-write-e3-sh4/design-received.json"
+    },
+    {
+      "document": "messages/server-heads/server4/2026-09-24-native-delayed-write-e3.md",
+      "status": "EXISTS",
+      "target": "../../../experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md"
+    }
+  ],
+  "renderer_available": {
+    "markdown": false,
+    "markdown_it": false,
+    "mistune": false
+  },
+  "shared_access_helper": "NOT_PASS: runs/ pattern absent; exact envelope §5 explicitly permits this one task path; shared helper unmodified",
+  "status": "PASS_STATIC_ONLY"
+}

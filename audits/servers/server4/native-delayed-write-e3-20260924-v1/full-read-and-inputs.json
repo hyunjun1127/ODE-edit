@@ -1,0 +1,106 @@
+{
+  "actual_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "baseline_source": "read-only original BASE/native/evaluator; new backend separate",
+  "dedicated_worktree": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/worktree",
+  "design_members": [
+    {
+      "bytes": 27234,
+      "mtime_ns": 1790183917122015837,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/PROTOCOL_KO.md",
+      "sha256": "25288dcd6675d135b54910e45f48a183d9e2a94f59c0bf87561bce8c3042f2d2"
+    },
+    {
+      "bytes": 742,
+      "mtime_ns": 1790183919083025755,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/README.md",
+      "sha256": "eee8fa710dcffc30f79c0821fe52d7d285dd8c9abd09d44cdb505c4fabcd490c"
+    },
+    {
+      "bytes": 7762,
+      "mtime_ns": 1790183917363017057,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/asset_reuse.json",
+      "sha256": "056d73712a5c8ba0291986d0ed82cacdd64c45795e20f01fd52aae7a49da77d4"
+    },
+    {
+      "bytes": 221,
+      "mtime_ns": 1790183918597023299,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/cpu_checks.json",
+      "sha256": "70ea6c974ffb5c0b00b489544e71c441d26babd9141798c8c86f95f80b6ab934"
+    },
+    {
+      "bytes": 1283,
+      "mtime_ns": 1790183918840024527,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/cpu_test_log.txt",
+      "sha256": "17265a6824beecc2ab02e696e6adfb8b6ead9eaaa23a58350e1829192064037c"
+    },
+    {
+      "bytes": 3146,
+      "mtime_ns": 1790183918105020812,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/diagnostic_math.py",
+      "sha256": "e0b7007eeda5eab10b7d47fb6b64084ab716f641edd98d893b81ba74017795c9"
+    },
+    {
+      "bytes": 96341,
+      "mtime_ns": 1790183917616018337,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/experiment_cells.json",
+      "sha256": "47cea5ae99626c1a9f4a6712d27d2657694b390bef093a3189147642a8001244"
+    },
+    {
+      "bytes": 726,
+      "mtime_ns": 1790183917857019557,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/manifest.json",
+      "sha256": "3832a35efda99cfa4dff7ff0f660afd1f40035258ad4ef664567210c49dcd4f0"
+    },
+    {
+      "bytes": 2786,
+      "mtime_ns": 1790183918347022035,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/test_diagnostic_math.py",
+      "sha256": "21280f3b15bbc3bddcf0ef8a59ccab95e7a74841ffbcb870c12e445b633975ad"
+    },
+    {
+      "bytes": 3462,
+      "mtime_ns": 1790183919323026966,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/dispatch-input-manifest.json",
+      "sha256": "145253fa813aaeef031070ef14e69a1ab253255ab386df8ed9f34531ad2dcef2"
+    },
+    {
+      "bytes": 6807,
+      "mtime_ns": 1790183916124010777,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/e3-dependency-plan.json",
+      "sha256": "736a91f40765759d049c4645e95e1e3df0d1e6c08df48e16d2cca680d95a7c58"
+    },
+    {
+      "bytes": 15310,
+      "mtime_ns": 1790183915878009529,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/gh-sh4-e3-instruction-ko.md",
+      "sha256": "f05d63ec61c4eb3c9c2ff0f9a4c05729e112d2910f548afe1ca4869db65093f0"
+    },
+    {
+      "bytes": 30989,
+      "mtime_ns": 1790183916872014570,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/paper-by-paper-ko.md",
+      "sha256": "ff6c3ef526dff436b4caa5cce2c6aaa3fc381b7b784a2c2a41e6cb01cf43471b"
+    },
+    {
+      "bytes": 31297,
+      "mtime_ns": 1790183916373012040,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/review-ko.md",
+      "sha256": "fdf19bb36bf48e08a88eec4e3c28942e75660009c999d89953ed984534c3256f"
+    },
+    {
+      "bytes": 16986,
+      "mtime_ns": 1790183916620013292,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/revised-minimal-protocol-ko.md",
+      "sha256": "1bf18be251a0c4cad38d07c510a96c8c6536451da5d5c98042ea1af4301dfb44"
+    }
+  ],
+  "full_read_all_15": true,
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "new_literature_PDF_read": 0,
+  "original243cells": "HISTORICAL_NOT_SUBMISSION_ALLOWLIST",
+  "protocol_full_read": "EXACT_PRIOR_RECEIPT_REBOUND + transfer clauses reread",
+  "protocol_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+  "receiver_bytes": 245092,
+  "receiver_verified_files": 15,
+  "root": "/data/janghj/ODE-edit"
+}

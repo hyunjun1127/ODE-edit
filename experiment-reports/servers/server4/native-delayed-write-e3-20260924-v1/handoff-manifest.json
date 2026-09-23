@@ -1,0 +1,44 @@
+{
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "large_inputs_local_only": true,
+  "members": [
+    {
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/full-read-and-inputs.json",
+      "sha256": "3b4d97baab1dea702020e7870d89631f35d7be043b2c057eeb1911a595d0903d",
+      "bytes": 4920
+    },
+    {
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/owner-review.json",
+      "sha256": "ec305fabb4e0df877dff2a40636b11cfd38c2447a5a799de16980f7b28479e8f",
+      "bytes": 686
+    },
+    {
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/package-checks.json",
+      "sha256": "f3fd81dc094c1ad703363c6fdb4fff40bf35fb213591e14e59411b79ec8c47c3",
+      "bytes": 1711
+    },
+    {
+      "path": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/panel-summary.json",
+      "sha256": "8de8b5255f87cb03ea1786e1c45cc869b8d1e1b577d82c18e8a6b8a5e0235be7",
+      "bytes": 3457
+    },
+    {
+      "path": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/preflight.json",
+      "sha256": "14b681505fb8319b32c09ad76514ced120cf0bcfddee07e17437ba9ff18fcd07",
+      "bytes": 2257
+    },
+    {
+      "path": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/report-ko.md",
+      "sha256": "14b72c8b0c0ccfa1adaf758813e436310d3cb88421425c40afd69a7d06a21720",
+      "bytes": 5071
+    },
+    {
+      "path": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/terminal.json",
+      "sha256": "b8f62326b7e85afbbf71198a95dd7a68f7a4d1d3809572f74a2620af28002923",
+      "bytes": 1938
+    }
+  ],
+  "source_archive_sha256": "b2438bead1d154692ad3292bb7c5e9b98e186165609fa9dec03b35638f392616",
+  "execution_source": "3ebe0b07078940c2d46f9ea2226ccc20c0446162",
+  "analysis_source": "package_pre_submission.py + verify_handoff.py (CPU handoff only; not part of execution archive)"
+}

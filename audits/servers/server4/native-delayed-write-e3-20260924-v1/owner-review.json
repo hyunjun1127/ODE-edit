@@ -1,0 +1,22 @@
+{
+  "CPU_tests": 9,
+  "CPU_tests_status": "PASS",
+  "actual_Llama_validation": "NOT_RUN",
+  "allowed_science_enumeration": "25 endpoint logical / 12 fixed pairs / no new fitting or writes",
+  "independent_agent_review": false,
+  "limitations": [
+    "BaseEval external entity aliases unavailable",
+    "new runtime GPU semantics not established",
+    "memory/wall are estimates"
+  ],
+  "production_native_modified": false,
+  "raw_free_Git": true,
+  "required_remaining": [
+    "storage admission",
+    "held registration/inspection/release",
+    "G10 actual endpoint checks",
+    "E1/E3 actual outputs",
+    "CPU terminal reducer/full postrun audit"
+  ],
+  "source_byte_freeze": true
+}

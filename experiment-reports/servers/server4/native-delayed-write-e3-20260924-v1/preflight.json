@@ -1,0 +1,40 @@
+{
+  "GPU_peak_estimate_GiB": 52,
+  "checkpoint_saved": false,
+  "cpu_only_preflight": true,
+  "current_free_bytes": 4335079424,
+  "exact_new_resume": "NOT_AVAILABLE",
+  "extra_active_variants": 11,
+  "fixed_panels": {
+    "BaseEval256": 256,
+    "GeneralEval128": 128,
+    "H_diag_P": 200,
+    "H_diag_R": 100,
+    "N_diag1000": 1000
+  },
+  "host_estimate_bytes": {
+    "General_teacher": 4202692608,
+    "W0_selected": 1174405120,
+    "other_peak_scratch_and_runtime": 12884901888,
+    "selected_24_endpoint_mmap_pages": 28185722880
+  },
+  "host_limit_MiB": 60416,
+  "host_peak_estimate_GiB": 44,
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "new_native_fit": 0,
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host outputs; exact missing input pull only",
+  "output_temp_safety_reserve": 4294967296,
+  "partition_snapshot": "PartitionName=gpu\n   AllowGroups=ALL AllowAccounts=ALL AllowQos=lab_gpu_s1,lab_gpu_s2,lab_gpu_s3,lab_gpu_s4\n   AllocNodes=ALL Default=YES QoS=N/A\n   DefaultTime=04:00:00 DisableRootJobs=NO Exclusive=NO GraceTime=0 Hidden=NO\n   MaxNodes=UNLIMITED MaxTime=30-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED\n   NodeSets=ALL\n   Nodes=devbox,server[2,4],ubuntu\n   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO\n   OverTimeLimit=NONE PreemptMode=OFF\n   State=UP TotalCPUs=416 TotalNodes=4 SelectTypeParameters=NONE\n   JobDefaults=(null)\n   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED\n   TRES=cpu=416,mem=3000G,node=4,billing=416,gres/gpu=28\n\n",
+  "previous_reserve": 8589934592,
+  "queue_snapshot": "",
+  "reserve_change": "General W0 teacher 4202692608B is RAM-only in persistent process; no discarded output/evaluation axes",
+  "returncode": 0,
+  "source_sha256": "9362ca1f698c6fc28b2d68bba76f68389ebb40c9f66cd821cc5c930b2efeb751",
+  "status": "CPU_PREPARED_ACTUAL_GPU_NOT_RUN",
+  "tested": 9,
+  "time": "2026-09-23T17:50:24.711624+00:00",
+  "wall_estimate": "4–16h estimate, not measured; GPUh hardcap not specified",
+  "walltime": "1-00:00:00",
+  "test_log_local_only": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/receipts/preflight-r1.json",
+  "test_result_summary": "9 passed; full CPU log local only"
+}
