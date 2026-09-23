@@ -48,3 +48,9 @@ main `0498b22f7f1d67395131a7d2f9a6c8c1b2d1d32c`의 새 envelope 전체를 읽었
 CPU freeze-r2의 변수 충돌은 원 archive를 보존하고 최소 수리했다. 최종 CPU143 PASS 후 새 immutable `attempt-r3`로 gate52563 / geometry52564 / writers52565 / CPU reducer52566을 모두 held 검사·release했다. Source `f9fbd56f31b0c520763ec9026e660a76cb3074ff`, lock `5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b`.
 
 2026-09-23 10:37:06–10:38:02 KST 한정 관측에서 gate PENDING/Resources, GPU8/8, 나머지 Dependency. Actual G0–G3 NOT_OBSERVED. `MAIN_GPU_RESOURCE_PENDING_HANDOFF / MONITORING_PAUSED_AWAITING_USER`; 이후 scheduler/log/result 조회·자동재개0. 제출된 자율 프로그램만 자연 진행한다. Handoff SHA `ee4b6c9b233bc98db907566a7cf741e9aa706eda6294697f72982fa5003af649`, rooted receipt `ad626db84e33eb1edb4573147efeccae59ddb79114920be93e75da2c39f975bb`.
+
+## Writers recall FULL_READ 및 직접 사용자 override ACK
+
+`ODEEDIT-GH-SH4-ALPHA-KEY-WRITERS-REPAIR-20260923-R1`, main `ac44d4d9`의 전문 FULL_READ. 기존 정본/PROTOCOL/source는 exact SHA와 prior FULL_READ로 재결속했다. Shared root/dirty/identity와 원 source/raw 보존. 이 recall 안에서 사용자의 “이런 상대차는 크게 중요하지 않으니 실험에서 이런 gate들은 전부 관찰만 해”를 새 lock에 직접 결속했다. Numerical comparison은 observer-only, 실제 source/state/finite/IO 무결성 검사는 유지한다.
+
+52565 실패1494 GPU초/실제 완료 두 branch와 gate52563을 보존·재사용했다. CPU156 PASS 후 새 source `a21cffa0`, 52575 writer 및52576 reducer를 정상검사·release했다. 2026-09-23 12:59:29 KST GPU8/8·PENDING/ReqNodeNotAvail 인계. Actual repaired initial NOT_OBSERVED. 이후 monitoring/자동재개/후속제출0. 원 cap2/no새fullCP/SEQ·ORDER·FUTURE 미제출 유지. 실행 중 geometry52564와 원 reducer52566 변경0.

@@ -24,3 +24,13 @@ BOS가 없는 것으로 잘못 가정한 검증을 원 native token/mask/lookup/
 실행 `f9fbd56f31b0c520763ec9026e660a76cb3074ff`, lock `5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b`.
 [수리·재등록 상세](../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/autonomous-repair-r2/submission-handoff-ko.md), [정본 receipt](../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/autonomous-repair-r2/rooted-receipt.json).
 Report SHA `f3bcb8ce81e5c23af752aa202f0af6b0ab336799e9a2ecfd7dbb98013ccf4087`. 이전 실패44GPU초 별도; 입력CP12/source/raw/모든 실패 자료 KEEP. Own branch 게시만, main GH 통합.
+
+## Writers recall 및 최신 수치 비교 관찰 정책 — 2026-09-23 12:59 KST
+
+ACK `ODEEDIT-GH-SH4-ALPHA-KEY-WRITERS-REPAIR-20260923-R1`. 52565의 최초 오류는 완료 W50 NATIVE/SHAM 뒤 FP32 SHAM 동일성 검사였다. 최신 사용자 직접 지시로 SHAM 및 hook/physical 상대차를 관찰 전용으로 변경하고, 미일치를 PASS로 바꾸지 않았다. 원 산술/precision/관측집합 불변, finite·identity·복원·IO 차단은 유지한다.
+
+새 **52575 writers / 52576 CPU reducer** held 검사·release 완료. 52564 geometry 및 52566 원 reducer 그대로. 새 source `a21cffa0`, lock `869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b`. CPU156 PASS/270fileSHA/2branch×5layer W/M CPU 복원 exact; native100+NATIVE/SHAM 관측 재사용, 신규 native300 계획, 중복 평가0. 새 full CP0.
+
+12:59:29 KST: writer PENDING/ReqNodeNotAvail, node GPU8/8; 새 reducer Dependency(afterany:52564:52575). 수리 actual initial NOT_OBSERVED, full numerical equivalence NOT_ESTABLISHED. `MAIN_GPU_RESOURCE_PENDING_HANDOFF / MONITORING_PAUSED_AWAITING_USER`, monitoring_active=false, automatic_resume=false. 이후 주기조회·자동재개0.
+
+[수리·등록 사실 보고](../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/repair-ko.md), [handoff](../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/handoff.json). Own branch nonforce만; main 통합 GH 소유.

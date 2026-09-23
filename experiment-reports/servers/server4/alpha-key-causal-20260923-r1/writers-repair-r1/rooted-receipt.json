@@ -1,0 +1,127 @@
+{
+  "schema": "alpha-key-writers-repair-handoff-v1",
+  "execution_source": "a21cffa08d4cf86ed258acabdb786fba778f4dfb",
+  "members": [
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/repair-ko.md",
+      "bytes": 8120,
+      "sha256": "d3f7d580b12bbd9a6b9fab8008550525266d8cdf9b2bc9918b9c8ac510da97b3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/handoff.json",
+      "bytes": 3736,
+      "sha256": "66b079f771b942bd0785708a19359224d2511bf3fd86db67fe7ceaedcae7bd41"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/preflight.json",
+      "bytes": 2392,
+      "sha256": "c88b43872facb153b520909b4dfbc864e90a2b1e71057af03461a91427d8891d"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/numerical_policy.py",
+      "bytes": 948,
+      "sha256": "2166813162f202ada5b8b11faa4b2a6d7bdc11f49ed36411edd862d3bfa413bb"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/writer_reuse.py",
+      "bytes": 6194,
+      "sha256": "771b87eb955d30ecf36c2e2a18bf436d4b012eb4ad7921f1aa1057d306ff7c3f"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/writers_repair.py",
+      "bytes": 17690,
+      "sha256": "89ae1ce22191d4d1dc816473583a1a78f2b70b1a597fbaabd13985311a717436"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/writer_runner.py",
+      "bytes": 16352,
+      "sha256": "645b9913628d6f7121b70acf6a63bcc6e11ba530b8ad9e5339bc42301c8056c4"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/component_runner.py",
+      "bytes": 26925,
+      "sha256": "532ce41aedc71902dd6036bd3ad9f720cde07848fbbd8cf7315d1df6ad293044"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/reduce.py",
+      "bytes": 13762,
+      "sha256": "757e83bcb0a7e02b333d39ceecfdec26e73a5a6cf0fabe0d7f6a6e729fbb9f8e"
+    },
+    {
+      "path": "project/run_scripts/alpha_key_concentration_causal/tests/test_writers_repair.py",
+      "bytes": 5303,
+      "sha256": "5c8eee77e4e576680d4775be94111be73412eaf31ffa1ffb2df3919dcc1c8ac5"
+    }
+  ],
+  "root_sha256": "4b25580afb39062cb63517f93a2e992b9e498f472d12de81050d78bf424985f8",
+  "local_control_receipts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/execution.lock.json",
+      "bytes": 12855,
+      "sha256": "869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/submission.json",
+      "bytes": 1370,
+      "sha256": "f9c77e66d52bf02c1c5910bc994e25f7778c1397c625ec183087baafec5eadcb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/held-inspection.json",
+      "bytes": 4277,
+      "sha256": "64a2653e37b391847a3db84a88774db9945a1217ced8a16f3e57957f1ebd27ba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/admission.json",
+      "bytes": 1090,
+      "sha256": "ed87fbb2114175606cca4640f7c66776616fb7317ea6a67a351222513228a784"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/submission-events.jsonl",
+      "bytes": 1855,
+      "sha256": "8136408722267ba885d4d376b15657cea6622b73420b56ca76465907fe1afb28"
+    }
+  ],
+  "links": [
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/repair-ko.md",
+      "target": "handoff.json",
+      "exists": true
+    },
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/repair-ko.md",
+      "target": "../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/preflight.json",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/pending-handoff-ko.md",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/autonomous-repair-r2/submission-handoff-ko.md",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/autonomous-repair-r2/rooted-receipt.json",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/repair-ko.md",
+      "exists": true
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/handoff.json",
+      "exists": true
+    }
+  ],
+  "markdown_table_columns": 3,
+  "HTML_browser_render": "NOT_RUN_markdown_unavailable",
+  "raw_in_Git": false,
+  "new_model_validation": "NOT_RUN",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

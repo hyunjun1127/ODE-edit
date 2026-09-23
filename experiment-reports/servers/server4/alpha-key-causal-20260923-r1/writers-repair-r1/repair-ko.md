@@ -51,6 +51,14 @@ Project/task cap2: 기존 geometry 1GPU+새 writer 1GPU 이하. 새 writer는 1G
 
 ## 등록 및 종료
 
-최종 job/source/lock/상태는 후속 `handoff.json`에 기록한다. GPU 부족이면 정상 held-inspection/release 후 pending 근거를 인계하고 STOP한다. 실행 가능하면 W50 reused branch 복원→새 H5 완결→entry restore의 수리 경로 초기 정상성만 확인하고 STOP한다. 전체 완료를 기다리지 않으며 이후 자동 polling/retry/agent 재개는 없다. 선등록 프로그램과 CPU reducer만 자연 진행한다.
+**52575 writer / 52576 통합 CPU reducer**를 2026-09-23 12:59:06 KST에 held 등록·owner/source/fullargv/resource/dependency/script 검사·release했다. 12:59:29 KST 한정 확인에서 writer는 PENDING/`ReqNodeNotAvail, May be reserved for other job`, Priority=1, dependency 없음이었다. 지정 node GPU8/8 할당으로 가용 GPU0이며 `MIXED+PLANNED`도 관측됐다. GPU 부족은 확인됐지만 유일한 scheduling 원인이라고 단정하지 않는다. CPU reducer는 `afterany:52564:52575`/Dependency다. 52564/52566 및 다른 job 변경0.
+
+실행 source `a21cffa08d4cf86ed258acabdb786fba778f4dfb`, tree `919c37f7b3c15ceeaa9e8725d4eb8a41570f55a5`, archive SHA `77b961e07c83cc20f2a8805de850fe33076fd673dcad76d536b9ef9eb289e9ae`, lock SHA `869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b`.
+
+제출 시 free 164,057,960,448B / 아직 쓰지 않은 예정량 162,276,454,277B를 확인했다(안전·atomic 분 포함, 독점 reserve 아님). 원 실패1494 GPU초와 달리 새 writer allocation은 마지막 관측 시 0이다. **실제 수리 경로 initial은 NOT_OBSERVED, 신규 모델 검증 NOT_RUN**이다. 제출/CPU 복원 검산을 actual GPU PASS로 표기하지 않는다.
+
+정확 mapping과 한계는 [handoff.json](handoff.json), 검산은 [preflight](../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/writers-repair-r1/preflight.json)에 기록한다. `MAIN_GPU_RESOURCE_PENDING_HANDOFF / MONITORING_PAUSED_AWAITING_USER`로 종료한다. 이후 scheduler/log/result 조회·heartbeat·자동 agent 재개/추가제출0. 전체 완료를 기다리지 않으며 선등록 프로그램과 CPU reducer만 자연 진행한다. 실제 새 모델 동작은 사용자 recall 후 확인한다.
+
+Markdown 표 3열/UTF-8/상대링크 검산을 수행했다. Markdown renderer 패키지는 미설치여서 HTML/browser render는 NOT_RUN이며 이를 PASS로 쓰지 않는다. 이 compact 인계에는 과학 그림을 추가하지 않았다.
 
 원 실패 source/raw/12 input CP KEEP. 기본 새 full-state checkpoint 미저장, 승인 진단factor만 저장. SEQ/ORDER/FUTURE는 `FOLLOWUP_NOT_SUBMITTED`. `NO_BROADCAST_NOT_REQUIRED`. 전용 branch 소형 source/사실 보고만 게시하며 main 통합은 GH가 수행한다.
