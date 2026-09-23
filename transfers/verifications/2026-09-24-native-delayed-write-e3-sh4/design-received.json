@@ -1,0 +1,136 @@
+{
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "status": "RECEIVER_VERIFIED_15_OF_15",
+  "utc": "2026-09-23T17:18:39.324060+00:00",
+  "source_alias": "rke-server1",
+  "source_hostname": "devbox",
+  "source_policy": "SOURCE_KEEP",
+  "receiver_hostname": "server4",
+  "approval_sha256": "f4721d88b885411bdbe5389230cfa1a528226356fabd4b9b9358de930afc90b8",
+  "files": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/gh-sh4-e3-instruction-ko.md",
+      "bytes": 15310,
+      "sha256": "f05d63ec61c4eb3c9c2ff0f9a4c05729e112d2910f548afe1ca4869db65093f0",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/gh-sh4-e3-instruction-ko.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "f05d63ec61c4eb3c9c2ff0f9a4c05729e112d2910f548afe1ca4869db65093f0"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/e3-dependency-plan.json",
+      "bytes": 6807,
+      "sha256": "736a91f40765759d049c4645e95e1e3df0d1e6c08df48e16d2cca680d95a7c58",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/e3-dependency-plan.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "736a91f40765759d049c4645e95e1e3df0d1e6c08df48e16d2cca680d95a7c58"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/review-ko.md",
+      "bytes": 31297,
+      "sha256": "fdf19bb36bf48e08a88eec4e3c28942e75660009c999d89953ed984534c3256f",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/review-ko.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "fdf19bb36bf48e08a88eec4e3c28942e75660009c999d89953ed984534c3256f"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/revised-minimal-protocol-ko.md",
+      "bytes": 16986,
+      "sha256": "1bf18be251a0c4cad38d07c510a96c8c6536451da5d5c98042ea1af4301dfb44",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/revised-minimal-protocol-ko.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "1bf18be251a0c4cad38d07c510a96c8c6536451da5d5c98042ea1af4301dfb44"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/paper-by-paper-ko.md",
+      "bytes": 30989,
+      "sha256": "ff6c3ef526dff436b4caa5cce2c6aaa3fc381b7b784a2c2a41e6cb01cf43471b",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/paper-by-paper-ko.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "ff6c3ef526dff436b4caa5cce2c6aaa3fc381b7b784a2c2a41e6cb01cf43471b"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/PROTOCOL_KO.md",
+      "bytes": 27234,
+      "sha256": "25288dcd6675d135b54910e45f48a183d9e2a94f59c0bf87561bce8c3042f2d2",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/PROTOCOL_KO.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "25288dcd6675d135b54910e45f48a183d9e2a94f59c0bf87561bce8c3042f2d2"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/asset_reuse.json",
+      "bytes": 7762,
+      "sha256": "056d73712a5c8ba0291986d0ed82cacdd64c45795e20f01fd52aae7a49da77d4",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/asset_reuse.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "056d73712a5c8ba0291986d0ed82cacdd64c45795e20f01fd52aae7a49da77d4"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/experiment_cells.json",
+      "bytes": 96341,
+      "sha256": "47cea5ae99626c1a9f4a6712d27d2657694b390bef093a3189147642a8001244",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/experiment_cells.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "47cea5ae99626c1a9f4a6712d27d2657694b390bef093a3189147642a8001244"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/manifest.json",
+      "bytes": 726,
+      "sha256": "3832a35efda99cfa4dff7ff0f660afd1f40035258ad4ef664567210c49dcd4f0",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/manifest.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "3832a35efda99cfa4dff7ff0f660afd1f40035258ad4ef664567210c49dcd4f0"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/diagnostic_math.py",
+      "bytes": 3146,
+      "sha256": "e0b7007eeda5eab10b7d47fb6b64084ab716f641edd98d893b81ba74017795c9",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/diagnostic_math.py",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "e0b7007eeda5eab10b7d47fb6b64084ab716f641edd98d893b81ba74017795c9"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/test_diagnostic_math.py",
+      "bytes": 2786,
+      "sha256": "21280f3b15bbc3bddcf0ef8a59ccab95e7a74841ffbcb870c12e445b633975ad",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/test_diagnostic_math.py",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "21280f3b15bbc3bddcf0ef8a59ccab95e7a74841ffbcb870c12e445b633975ad"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/cpu_checks.json",
+      "bytes": 221,
+      "sha256": "70ea6c974ffb5c0b00b489544e71c441d26babd9141798c8c86f95f80b6ab934",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/cpu_checks.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "70ea6c974ffb5c0b00b489544e71c441d26babd9141798c8c86f95f80b6ab934"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/cpu_test_log.txt",
+      "bytes": 1283,
+      "sha256": "17265a6824beecc2ab02e696e6adfb8b6ead9eaaa23a58350e1829192064037c",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/cpu_test_log.txt",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "17265a6824beecc2ab02e696e6adfb8b6ead9eaaa23a58350e1829192064037c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/attachments/6aefbfad-4f4f-47aa-8820-e35883a4daae/README.md",
+      "bytes": 742,
+      "sha256": "eee8fa710dcffc30f79c0821fe52d7d285dd8c9abd09d44cdb505c4fabcd490c",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/original/README.md",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "eee8fa710dcffc30f79c0821fe52d7d285dd8c9abd09d44cdb505c4fabcd490c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/dispatch-input-manifest.json",
+      "bytes": 3462,
+      "sha256": "145253fa813aaeef031070ef14e69a1ab253255ab386df8ed9f34531ad2dcef2",
+      "destination": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/review/dispatch-input-manifest.json",
+      "status": "TRANSFERRED_VERIFIED",
+      "receiver_sha256": "145253fa813aaeef031070ef14e69a1ab253255ab386df8ed9f34531ad2dcef2"
+    }
+  ],
+  "total_bytes": 245092,
+  "full_size_SHA_checks": 15,
+  "job_ids": [],
+  "execution_status": "IMPLEMENTING_NOT_SUBMITTED"
+}
