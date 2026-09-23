@@ -23,6 +23,13 @@ def validate_execution(lock_path,phase):
     assert lock['save_new_resume_checkpoints'] is False
     assert lock['followup_submissions']==[]
     assert lock['scientific_contrast_families']==94
+    from .control import attempt_paths
+    expected=attempt_paths(lock['root'],lock['attempt'])
+    assert Path(lock_path).resolve()==expected['control']/'execution.lock.json','WRONG_ATTEMPT_LOCK'
+    assert Path(lock['repo']).resolve()==expected['frozen'],'WRONG_FROZEN_ATTEMPT'
+    from .token_binding import reference_path,REFERENCE_SHA
+    assert lock['native_token_reference']==dict(path=str(reference_path(lock['root'])),sha256=REFERENCE_SHA)
+    assert file_sha(reference_path(lock['root']))==REFERENCE_SHA,'TOKEN_REFERENCE_DRIFT'
     assert os.uname().nodename=='server4'
     for member in lock['execution_source_members']:
         p=Path(lock['repo'])/member['relative_path']

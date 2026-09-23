@@ -197,12 +197,19 @@ def token_fixtures(rt: Any, records: Sequence[Mapping[str, Any]]) -> dict:
         _require(len(lookups) == 1 and 0 <= lookups[0] < count, "WRITER_LOOKUP_RANGE", index)
         _require(bool(mask[:count].all()) and not bool(mask[count:].any()), "WRITER_RIGHT_PADDING", index)
         values = ids[:count].tolist()
-        _require(values and values[0] != rt.tok.bos_token_id, "WRITER_UNEXPECTED_BOS", index)
+        _require(bool(values), "WRITER_EMPTY_VALID_TOKENS", index)
+        _require(bool((ids[count:] == rt.tok.pad_token_id).all()), "WRITER_PADDING_TOKEN_ID", index)
         rows.append({"case_id": int(records[index // 6]["case_id"]), "context_index": index % 6,
                      "input_token_ids": values, "subject_last": int(lookups[0]), "valid_tokens": count,
                      "padding_tokens": len(ids) - count, "subject_token_id": int(values[lookups[0]])})
     _require(getattr(rt.tok, "add_bos_token", None) is False and rt.tok.padding_side == "right", "WRITER_TOKENIZER_CONFIG")
+    from .token_binding import compare_reference
+    _require(hasattr(rt,'writer_tokenizer_reference'), 'WRITER_NATIVE_REFERENCE_REQUIRED')
+    native_binding=compare_reference(rt.tok,rows,rt.contexts,rt.writer_tokenizer_reference)
     return {"rows": rows, "sequences": len(rows), "writer_add_bos_token": False,
+            "writer_add_bos_token_is_config_attribute_not_encoded_claim": True,
+            "native_token_binding": native_binding,
+            "actual_bos_sequences":native_binding['actual_bos_sequences'],
             "tokenizer_padding_side": "right", "microbatch_limit": 128, "sha256": digest(rows)}
 
 

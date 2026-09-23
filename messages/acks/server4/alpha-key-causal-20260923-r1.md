@@ -35,3 +35,10 @@ GPU8/8 할당, host-memory도 부족. Gate PENDING/ReqNodeNotAvail, 나머지 De
 CPU132/CP12 content PASS, actual G0–G3 NOT_OBSERVED. 입력1819 결속 완료. 새 resume checkpoint0.
 `MAIN_GPU_RESOURCE_PENDING_HANDOFF / MONITORING_PAUSED_AWAITING_USER`, monitoring_active=false, automatic_resume=false.
 모든 worker 종료, 이후 agent polling/후속 제출0. Own branch 게시만 허용, main은 GH 검토.
+
+## 자율 수리 explicit recall — FULL_READ/M0
+
+ACK `ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1`.
+main `0498b22f7f1d67395131a7d2f9a6c8c1b2d1d32c`의 새 envelope 전체를 읽었다(SHA `eb1d03e956697f9fa520b104f01519301ddbfd5e96d386c5eab4f825f2457fc5`). 위 pause는 역사이며 같은 E0–E4 수리/등록 범위에 한해 재개했다. Host/server4·user/janghj·repo/origin·공통 Git root와 등록 session을 재결속했고 shared 설정은 바꾸지 않았다.
+
+직전 확정 BOS 진단/CPU witness와 유효 input12CP/23smallfiles/1819binding을 재사용한다. native BOS를 제거하지 않고 잘못된 assertion만 원 native exact token/lookup 결속으로 수정했다. CPU142 PASS, 모델/GPU 검증 미실행. r1 실패44GPU-sec/원 source/raw 보존, r2 source/lock/output/report는 독립이다. cap2/94family/새 full-state CP0/후속 SEQ·ORDER·FUTURE0 유지. 전체 정상등록 후 확인된 GPU 부족 PENDING 또는 actual G0–G3에서 모니터링 중지한다. Main 게시가 아닌 own branch 게시만 수행한다.

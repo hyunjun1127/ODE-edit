@@ -34,7 +34,11 @@ def csv_file(path,rows,fields=None):
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
 
 def reduce_package(root,out,repo,lock):
-    package=Path(repo)/'experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1'
+    from .control import attempt_paths
+    expected=attempt_paths(root,lock['attempt'])
+    subdir=lock.get('report_subdir',expected['report_subdir'])
+    assert subdir==expected['report_subdir'],'REDUCER_ATTEMPT_COLLISION'
+    package=Path(repo)/'experiment-reports/servers/server4/alpha-key-causal-20260923-r1'/subdir
     package.mkdir(parents=True,exist_ok=False)
     inventory=[]
     for p in sorted(Path(out).rglob('*')):
@@ -123,7 +127,7 @@ def reduce_package(root,out,repo,lock):
         nested_timers_additive=False,observer_and_geometry='inclusive boundaries in source receipts',
         user_gpu_hour_hardcap=None))
     save(package/'source-state-receipt.json',dict(status=terminal,source_commit=lock['source_commit'],source_tree=lock['source_tree'],
-        execution_lock_sha256=file_sha(Path(root)/'control/execution.lock.json'),raw_inventory_count=len(inventory),
+        execution_lock_sha256=file_sha(lock.get('execution_lock_path',expected['control']/'execution.lock.json')),raw_inventory_count=len(inventory),
         raw_inventory_root=digest(inventory),new_full_state_checkpoints=False,followups='FOLLOWUP_NOT_SUBMITTED',
         independent_raw_NLL_rows=sum(r['denominator'] for r in tables),GPU_continuation='NOT_TESTED'))
     for name in ('sequential_event_order.csv','order_replication.csv'):

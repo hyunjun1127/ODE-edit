@@ -54,6 +54,8 @@ class Runtime:
         self.model.requires_grad_(False)
         self.tok=AutoTokenizer.from_pretrained(self.old['snapshot'],local_files_only=True)
         self.tok.add_bos_token=False;self.tok.pad_token_id=self.tok.eos_token_id
+        from .token_binding import load_reference
+        self.writer_tokenizer_reference=load_reference(self.root)
         self.evalt=AutoTokenizer.from_pretrained(self.old['snapshot'],local_files_only=True);self.evalt.pad_token_id=self.evalt.eos_token_id
         assert self.tok.padding_side==self.evalt.padding_side=='right'
         assert {p.dtype for p in self.model.parameters()}=={torch.float32}
@@ -176,7 +178,7 @@ class Runtime:
         feature={k:torch.cat(x).reshape(len(records),c,-1) for k,x in points.items()}
         if features:
             for l in LAYERS:feature[f'L{l}/swiglu_product']=result[l]
-        return dict(keys=result,means=means,features=feature,seconds=time.monotonic()-t,token_receipt=dict(sequences=len(texts),sha256=digest(token_rows),writer_add_bos=False,padding='right',batch_size=128))
+        return dict(keys=result,means=means,features=feature,seconds=time.monotonic()-t,token_receipt=dict(sequences=len(texts),sha256=digest(token_rows),writer_add_bos=False,writer_add_bos_is_config_attribute=True,actual_bos_sequences=sum(r['ids'][0]==self.tok.bos_token_id for r in token_rows),padding='right',batch_size=128))
 
     def current_requests(self,entry):
         return [dict(r['requested_rewrite'],case_id=int(r['case_id'])) for r in self.rows[entry*100:(entry+1)*100]]

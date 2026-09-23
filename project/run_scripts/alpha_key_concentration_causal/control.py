@@ -34,46 +34,70 @@ def dependency_matches(job_text, expected):
         found.extend(actual_ids)
     return len(found)==len(ids) and set(found)==set(ids)
 
-def freeze(root,repo):
-    root=Path(root).resolve();repo=Path(repo).resolve();control=root/'control'
+def attempt_paths(root,attempt):
+    if not re.fullmatch(r'attempt-r[1-9][0-9]*',attempt):
+        raise ValueError('INVALID_IMMUTABLE_ATTEMPT')
+    root=Path(root).resolve();suffix=attempt.removeprefix('attempt-')
+    return dict(control=root/'control' if attempt=='attempt-r1' else root/'controls'/attempt,
+                frozen=root/('execution-source-'+suffix),output=root/'execution'/attempt,
+                logs=root/'logs'/attempt,report_subdir='generated-'+suffix)
+
+def freeze(root,repo,attempt='attempt-r1'):
+    root=Path(root).resolve();repo=Path(repo).resolve();paths=attempt_paths(root,attempt);control=paths['control']
     assert not command(['git','-C',str(repo),'status','--porcelain']), 'FREEZE_REQUIRES_CLEAN_WORKTREE'
-    control.mkdir(exist_ok=False)
+    assert not paths['output'].exists() and not paths['frozen'].exists(),'ATTEMPT_ALREADY_USED'
+    control.mkdir(parents=True,exist_ok=False)
     source=command(['git','-C',str(repo),'rev-parse','HEAD']);tree=command(['git','-C',str(repo),'rev-parse','HEAD^{tree}'])
     preflight=root/'receipts/preflight-r1/preflight.json'
     assert json.loads(preflight.read_text())['status']=='PASS'
     resource=root/'receipts/preflight-r1/resource-plan.json'
     assert json.loads(resource.read_text())['status']=='PASS'
+    fs=os.statvfs(root);needed=json.loads(resource.read_text())['planned_future_total']
+    assert fs.f_bavail*fs.f_frsize>=needed,'STORAGE_RESERVE_UNAVAILABLE_NO_WAIVER'
+    assert fs.f_favail>10000,'INSUFFICIENT_INODES'
+    save(control/'storage-preflight.json',dict(epoch=time.time(),free_bytes=fs.f_bavail*fs.f_frsize,
+        free_inodes=fs.f_favail,planned_future_bytes=needed,exclusive_reservation=False,status='PASS',storage_waiver=False))
     archive=control/'source.tar.gz'
     with archive.open('xb') as f:
         proc=subprocess.Popen(['git','-C',str(repo),'archive','--format=tar',source],stdout=subprocess.PIPE)
-        with gzip.GzipFile(filename='',mode='wb',fileobj=f,mtime=0) as z:
+        with gzip.GzipFile(filename='',mode='wb',fileobj=f,mtime=0,compresslevel=1) as z:
             while True:
                 b=proc.stdout.read(8<<20)
                 if not b:break
                 z.write(b)
         assert proc.wait()==0
         f.flush();os.fsync(f.fileno())
-    frozen=root/'execution-source-r1';frozen.mkdir(exist_ok=False)
+    frozen=paths['frozen'];frozen.mkdir(exist_ok=False)
     with tarfile.open(archive,'r:gz') as tf:tf.extractall(frozen,filter='data')
     paths=command(['git','-C',str(repo),'ls-tree','-r','--name-only',source,'project/run_scripts/alpha_key_concentration_causal']).splitlines()
     members=[dict(relative_path=p,bytes=(frozen/p).stat().st_size,sha256=file_sha(frozen/p)) for p in paths]
     old=json.loads((root/'inputs/design/evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json').read_text())
-    prior=json.loads((root/'receipts/native-input-binding-r1.json').read_text())
-    recovered=[]
-    for m in prior['unresolved']:
-        rel=m['path'].split('/policy-source/',1)[1]
-        blob=subprocess.check_output(['git','-C',str(repo),'show','6fd7f1482c395b9ea7271c15c94967120dffca7e:'+rel])
-        assert len(blob)==m['bytes'] and hashlib.sha256(blob).hexdigest()==m['sha256']
-        dest=root/'inputs/frozen-policy'/rel;dest.parent.mkdir(parents=True,exist_ok=True)
-        with dest.open('xb') as f:f.write(blob)
-        recovered.append(dict(m,resolved_path=str(dest),verification='EXACT_GIT_BLOB_FULL_SHA'))
-    save(root/'receipts/native-input-binding-r2.json',dict(status='PASS',members=prior['members']+recovered,unresolved=[],
-        parent_receipt_sha256=file_sha(root/'receipts/native-input-binding-r1.json'),recovery_commit='6fd7f1482c395b9ea7271c15c94967120dffca7e'))
+    binding=root/'receipts/native-input-binding-r2.json'
+    if binding.exists():
+        assert file_sha(binding)=='500cd93224d4d2cb0daf880dad67aa18acf91bc0a12d127a2a23c42e7805ded1','REUSED_INPUT_BINDING_DRIFT'
+        bound=json.loads(binding.read_text());assert bound['status']=='PASS' and not bound['unresolved']
+    else:
+        prior=json.loads((root/'receipts/native-input-binding-r1.json').read_text());recovered=[]
+        for m in prior['unresolved']:
+            rel=m['path'].split('/policy-source/',1)[1]
+            blob=subprocess.check_output(['git','-C',str(repo),'show','6fd7f1482c395b9ea7271c15c94967120dffca7e:'+rel])
+            assert len(blob)==m['bytes'] and hashlib.sha256(blob).hexdigest()==m['sha256']
+            dest=root/'inputs/frozen-policy'/rel;dest.parent.mkdir(parents=True,exist_ok=True)
+            with dest.open('xb') as f:f.write(blob)
+            recovered.append(dict(m,resolved_path=str(dest),verification='EXACT_GIT_BLOB_FULL_SHA'))
+        save(binding,dict(status='PASS',members=prior['members']+recovered,unresolved=[],
+            parent_receipt_sha256=file_sha(root/'receipts/native-input-binding-r1.json'),recovery_commit='6fd7f1482c395b9ea7271c15c94967120dffca7e'))
+    from .token_binding import load_reference,reference_path,REFERENCE_SHA
+    load_reference(root)
     lock=dict(instruction_id='ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1',
-        override_nonce='ODEEDIT-GH-SH4-ALPHA-KEY-CAP2-PENDING-20260923-R1',
+        override_nonce='ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1',
         actor_session='01a04939-b5c7-7a03-ba2d-ef3343d62cfd',source_commit=source,source_tree=tree,
         archive=dict(path=str(archive),bytes=archive.stat().st_size,sha256=file_sha(archive)),
-        execution_source_members=members,root=str(root),repo=str(frozen),publication_repo=str(repo),attempt='attempt-r1',
+        execution_source_members=members,root=str(root),repo=str(frozen),publication_repo=str(repo),attempt=attempt,
+        execution_lock_path=str(control/'execution.lock.json'),report_subdir=paths['report_subdir'],log_directory=str(paths['logs']),
+        native_token_reference=dict(path=str(reference_path(root)),sha256=REFERENCE_SHA),
+        parent_failed_execution=dict(source='a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77',job_id='52527',allocated_gpu_seconds=44,
+            lock_sha256='4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725'),
         project_gpu_cap=2,task_gpu_cap=2,allowed_phases=['gate','geometry','writers','reduce'],
         scientific_contrast_families=94,followup_submissions=[],save_new_resume_checkpoints=False,
         diagnostic_storage='approved K/R/delta/targets/timestamp-current banks and key geometry only',
@@ -83,7 +107,7 @@ def freeze(root,repo):
         python='/data/janghj/EasyEdit/.venv/bin/python',dependencies=old['dependencies'],
         resources=dict(node='server4',partition='gpu',gpus_each=1,cpus=8,mem_MiB=60416,export='NONE',requeue=False,wall='7-00:00:00'),
         reducer_resources=dict(cpus=4,mem_MiB=8192,gpus=0,wall='2-00:00:00'),
-        full_read_authority='base4da5514 + cap2 pending33e7bb7; no scientific waiver',
+        full_read_authority='base4da5514 + cap2 pending33e7bb7 + autonomous0498b22; no scientific waiver',
         gate_policy='internal actual READY; afterok gates; incomplete actual is never PASS',
         source_native_unchanged=True,monitoring_handoff='actual GPU resource pending after full registration or actual G0-G3')
     save(control/'execution.lock.json',lock)
@@ -98,8 +122,9 @@ def freeze(root,repo):
         with (control/(phase+'.sh')).open('x') as f:f.write('\n'.join(lines)+'\n')
     return lock
 
-def submit(root):
-    root=Path(root).resolve();control=root/'control';lock=json.loads((control/'execution.lock.json').read_text())
+def submit(root,attempt='attempt-r1'):
+    root=Path(root).resolve();paths=attempt_paths(root,attempt);control=paths['control'];lock=json.loads((control/'execution.lock.json').read_text())
+    assert lock['attempt']==attempt and lock['repo']==str(paths['frozen']),'IMMUTABLE_ATTEMPT_ROUTING_DRIFT'
     assert os.uname().nodename=='server4' and os.getuid()==int(command(['id','-u']))
     if (control/'submission.json').exists() or (control/'submission-events.jsonl').exists():
         raise RuntimeError('EXISTING_REGISTRATION_MUST_BE_REUSED_NO_DUPLICATE_SUBMIT')
@@ -108,10 +133,13 @@ def submit(root):
     # another task to create capacity; exact outstanding admissions must be routed.
     if active:raise RuntimeError('OTHER_OWNER_ADMISSIONS_REQUIRE_EXACT_CAP_ROUTING:'+active)
     node_before=command(['scontrol','show','node','server4','--oneliner'])
-    fs=os.statvfs(root);save(control/'admission.json',dict(owner=command(['id','-un']),epoch=time.time(),
+    fs=os.statvfs(root)
+    needed=json.loads((root/'receipts/preflight-r1/resource-plan.json').read_text())['planned_future_total']
+    assert fs.f_bavail*fs.f_frsize>=needed and fs.f_favail>10000,'ACTUAL_STORAGE_ADMISSION_FAILED'
+    save(control/'admission.json',dict(owner=command(['id','-un']),epoch=time.time(),
         exact_owner_queue=active,node=node_before,free_bytes=fs.f_bavail*fs.f_frsize,free_inodes=fs.f_favail,
         lock_sha256=file_sha(control/'execution.lock.json'),project_cap=2,task_cap=2))
-    (root/'logs').mkdir(exist_ok=True)
+    paths['logs'].mkdir(parents=True,exist_ok=False)
     jobs={};inspection={}
     with (control/'submission-events.jsonl').open('x') as journal:
         for phase in lock['allowed_phases']:
@@ -120,8 +148,8 @@ def submit(root):
                 '--cpus-per-task='+str(4 if phase=='reduce' else 8),
                 '--mem='+str(8192 if phase=='reduce' else 60416)+'M',
                 '--time='+('2-00:00:00' if phase=='reduce' else '7-00:00:00'),
-                '--export=NONE','--no-requeue','--output='+str(root/'logs'/(phase+'-%j.out')),
-                '--error='+str(root/'logs'/(phase+'-%j.err'))]
+                '--export=NONE','--no-requeue','--output='+str(paths['logs']/(phase+'-%j.out')),
+                '--error='+str(paths['logs']/(phase+'-%j.err'))]
             dependency=None
             if phase in ('geometry','writers'):dependency='afterok:'+jobs['gate']
             if phase=='reduce':dependency='afterany:'+':'.join(jobs.values())
@@ -161,9 +189,9 @@ def submit(root):
     print(json.dumps(receipt,ensure_ascii=False,indent=2))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('action',choices=('freeze','submit'));p.add_argument('--root',required=True);p.add_argument('--repo')
+    p=argparse.ArgumentParser();p.add_argument('action',choices=('freeze','submit'));p.add_argument('--root',required=True);p.add_argument('--repo');p.add_argument('--attempt',default='attempt-r1')
     a=p.parse_args()
-    if a.action=='freeze':freeze(a.root,a.repo)
-    else:submit(a.root)
+    if a.action=='freeze':freeze(a.root,a.repo,a.attempt)
+    else:submit(a.root,a.attempt)
 
 if __name__=='__main__':main()
