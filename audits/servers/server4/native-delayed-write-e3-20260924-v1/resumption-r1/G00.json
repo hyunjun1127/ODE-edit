@@ -1,0 +1,25 @@
+{
+  "binding": {
+    "attempt": "attempt-v1",
+    "data_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+    "panel_sha256": "01a45f7fc1be621e3ca142d39f78cca4610b827b506357f5115ef9e6730ffd5d",
+    "source_sha256": "9362ca1f698c6fc28b2d68bba76f68389ebb40c9f66cd821cc5c930b2efeb751"
+  },
+  "detail": {
+    "asset_count": 24,
+    "cpu_preflight": {
+      "bytes": 3567,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/receipts/preflight-r1.json",
+      "sha256": "3d201bf689b47f52e92730edab4148ccfda99da1e5959cac0e2cc99cc5591fa9"
+    },
+    "logical_endpoints": 25,
+    "panel_rows": 3306
+  },
+  "elapsed_seconds": 0.03905360773205757,
+  "predecessor_sha256": null,
+  "scientific_positive_effect_required": false,
+  "slurm_job_id": "52823",
+  "stage": "G00",
+  "status": "PASS"
+}

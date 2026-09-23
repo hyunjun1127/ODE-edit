@@ -1,0 +1,26 @@
+{
+  "inspections": {
+    "collector": "JobId=52824 JobName=odeedit_delayed_E3_collector_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:52823(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=04:00:00 TimeMin=N/A SubmitTime=2026-09-24T05:37:02 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-24T05:37:02 Scheduler=Main Partition=gpu AllocNode:Sid=server4:4118279 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=4 NumTasks=1 CPUs/Task=4 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=4,mem=8G,node=1,billing=4 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=4 MinMemoryNode=8G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/collector.sh SubmitLine=sbatch --parsable --hold --job-name=odeedit_delayed_E3_collector_s4 --partition=gpu --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=4 --mem=8192M --time=04:00:00 --export=NONE --no-requeue --output=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/collector-%j.out --error=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/collector-%j.err --dependency=afterany:52823 --kill-on-invalid-dep=yes /data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/collector.sh WorkDir=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/execution-source-r1 StdErr=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/collector-52824.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/collector-52824.out KillOnInvalidDependent=Yes TresPerTask=cpu=4",
+    "science": "JobId=52823 JobName=odeedit_delayed_E3_science_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=1-00:00:00 TimeMin=N/A SubmitTime=2026-09-24T05:37:02 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-24T05:37:02 Scheduler=Main Partition=gpu AllocNode:Sid=server4:4118279 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/science.sh SubmitLine=sbatch --parsable --hold --job-name=odeedit_delayed_E3_science_s4 --partition=gpu --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=60416M --time=1-00:00:00 --export=NONE --no-requeue --output=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/science-%j.out --error=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/science-%j.err --gres=gpu:1 /data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/science.sh WorkDir=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/execution-source-r1 StdErr=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/science-52823.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/logs/science-52823.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8"
+  },
+  "jobs": {
+    "collector": "52824",
+    "science": "52823"
+  },
+  "lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "scripts": {
+    "collector": {
+      "bytes": 361,
+      "mtime_ns": 1790195822269901647,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/collector.sh",
+      "sha256": "8968e309a955f0c9bec6e477307ac412770e93ab9541c1cb0d4e4da03c203209"
+    },
+    "science": {
+      "bytes": 353,
+      "mtime_ns": 1790195822237901378,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/attempt-v1/science.sh",
+      "sha256": "ae922be3892ee7ff1e150366458f604386a06e608dc31a8a0a2123fb72d174af"
+    }
+  },
+  "status": "PASS"
+}

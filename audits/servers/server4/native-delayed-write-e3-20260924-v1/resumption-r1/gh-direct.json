@@ -1,0 +1,18 @@
+{
+  "acceptance_method": "turn/start",
+  "accepted_turn_id": "01a0d002-31c0-7740-ac21-0f1e35cb616a",
+  "gh_response": "ACK `SH4-GH-DELAYED-E3-RESUMED-SUBMISSION-20260924-R1`.\n\n52823 실행 및 52824 `afterany:52823` 등록, G00/G10 actual PASS와 E1 진행 상태를 수신했습니다. 전체 E3 완료와는 구분합니다.\n\n기존 승인대로 최종 보고·own-scope main 게시까지 진행하세요. GH의 추가 승인·중복 감사·모니터링은 시작하지 않습니다.",
+  "handshake": "PASS",
+  "initialize": "PASS",
+  "message_sha256": "66229a5d697e215a563c94ec9ef3c1c563a383676de72484cf834d58c505ae1b",
+  "resumed_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "resumed_status": {
+    "type": "idle"
+  },
+  "resumed_thread_id": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "source_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "DELIVERED_COMPLETED",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "transport": "SSH_UNIX_WEBSOCKET_APP_SERVER_DIRECT",
+  "turn_completed_status": "completed"
+}

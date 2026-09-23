@@ -1,0 +1,34 @@
+{
+  "actual_GPU_gates": "NOT_OBSERVED",
+  "after_queue": "52824|odeedit_delayed_E3_collector_s4|PENDING|N/A|afterany:52823(unfulfilled)|(None)\n52823|odeedit_delayed_E3_science_s4|PENDING|gres/gpu:1|(null)|(None)",
+  "epoch": 1790195822.335279,
+  "failure_collector": "afterany CPU only, no science bypass/no dynamically submitted science/no invalid-dependency GPU jobs",
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "internal_dependency": "G00 -> G10 -> G20 -> G21 -> G30 -> G31 -> G40 -> G50 -> G51 -> G60; matching atomic PASS required",
+  "jobs": {
+    "collector": "52824",
+    "science": "52823"
+  },
+  "lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "new_checkpoint": false,
+  "peak_project_GPU_at_admission": 1,
+  "peak_task_GPU": 1,
+  "scheduler_dependency": {
+    "collector": "afterany:52823"
+  },
+  "source": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/execution-source-r1",
+  "stage_mapping": {
+    "G00": "52823",
+    "G10": "52823",
+    "G20": "52823",
+    "G21": "52823",
+    "G30": "52823",
+    "G31": "52823",
+    "G40": "52823",
+    "G50": "52823",
+    "G51": "52823",
+    "G60": "52823",
+    "G70": "52824"
+  },
+  "status": "REGISTERED_INSPECTED_RELEASED"
+}

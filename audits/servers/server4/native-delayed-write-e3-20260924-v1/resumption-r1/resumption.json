@@ -1,0 +1,55 @@
+{
+  "actual_gates": {
+    "G00": "PASS",
+    "G10": "PASS"
+  },
+  "allocated_not_utilization": true,
+  "execution_source": "3ebe0b07078940c2d46f9ea2226ccc20c0446162",
+  "instruction_id": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "jobs": {
+    "collector": "52824",
+    "science": "52823"
+  },
+  "lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "monitoring_until_authorized_terminal": true,
+  "no_files_deleted": true,
+  "no_new_checkpoint": true,
+  "prior_receipt_preserved": true,
+  "prior_state": "BLOCKED_STORAGE_NOT_SUBMITTED",
+  "recorded_utc": "2026-09-23T20:45:55.079616+00:00",
+  "records": {
+    "G00": {
+      "bytes": 904,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/G00.json",
+      "sha256": "1d241f5180811ea266206ddb044dda681ccd7e26449c61c218ddbb69c1181465"
+    },
+    "G10": {
+      "bytes": 2393,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/G10.json",
+      "sha256": "eae71fcc5f010834ad5311386258fe1b74ed0058f6f57cb94691600183594b4f"
+    },
+    "admission.json": {
+      "bytes": 1037,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/admission.json",
+      "sha256": "ee3bbb515fc51daa5cd59e13f5c364fd4d7fa734aa7685455426fae655b82c66"
+    },
+    "gh-direct.json": {
+      "bytes": 1035,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/gh-direct.json",
+      "sha256": "bf6bb2bc8ff991afed47101f101c7ef17a93ca0b216b944278bdc0e54ee38e54"
+    },
+    "held-inspection.json": {
+      "bytes": 4760,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/held-inspection.json",
+      "sha256": "47f0d8fd54af37dc5ed0b9aa2555e38e310bce7c718ecf3ea0468bbf6e4dd27e"
+    },
+    "submission.json": {
+      "bytes": 1259,
+      "path": "audits/servers/server4/native-delayed-write-e3-20260924-v1/resumption-r1/submission.json",
+      "sha256": "c6569653df755513837cd0b80a57a1320c12e52c27a038bb2f31c1aa7376054b"
+    }
+  },
+  "source_unchanged": true,
+  "state": "RUNNING_E1_G20",
+  "user_recall": "저장공간 확보했으니 task 이어서 진행하고 GH에게 최종보고까지 완료해"
+}
