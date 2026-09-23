@@ -1,0 +1,14 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1",
+  "publication": "0498b22f7f1d67395131a7d2f9a6c8c1b2d1d32c",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "accepted_turn": "01a0cbd7-b974-7a50-925b-1856957b44a0",
+  "same_stream_ack_received": true,
+  "ack": "기존 BOS 진단/CPU재현 재사용, native 토큰화 유지 및 잘못된 gate 가정 수리, 새 immutable attempt 좁은 검증 후 E0-E4 cap2 재등록. 실패보존, GPU pending 인계 또는 actual initial gate PASS 이후 monitoring 중단.",
+  "ack_evidence_level": "SH4 실행계획 수신; GH가 BOS 원인이나 수리성공을 별도 검증한 것은 아님",
+  "repair_complete": "NOT_YET_OBSERVED",
+  "new_submission": "NOT_YET_OBSERVED",
+  "GH_GPU_model_scheduler_actions": 0
+}
