@@ -1,0 +1,13 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "publication": "fbeed9212ff14e4d7726ac17ec411a091a18f2b6",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit",
+  "accepted_turn": "01a0cef5-e2a1-7bb1-812d-e4a4d2a9db8d",
+  "same_stream_ack_received": true,
+  "ack": "현재 등록 job/미리뷰 실행 inventory와 alpha-key 실패·수리 lineage CPU 리뷰. 신규GPU·평가·수리·job변경0, running은 snapshot. inventory/독립집계 선보고 후 상세보고/main게시.",
+  "review_complete": false,
+  "GH_new_GPU_model_scheduler_queries": 0,
+  "periodic_monitoring_requested": false
+}
