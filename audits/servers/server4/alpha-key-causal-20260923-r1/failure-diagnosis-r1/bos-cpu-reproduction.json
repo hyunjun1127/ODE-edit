@@ -1,0 +1,274 @@
+{
+  "status": "FIRST_EXCEPTION_REPRODUCED_CPU_ONLY",
+  "method_modified": false,
+  "model_loads": 0,
+  "model_forwards": 0,
+  "GPU_allocations": 0,
+  "slurm_calls": 0,
+  "checkpoints_scanned": 0,
+  "transformers_version": "4.44.2",
+  "transformers_file": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/transformers/__init__.py",
+  "tokenizer_class": "PreTrainedTokenizerFast",
+  "tokenizer_class_defines_add_bos_token": false,
+  "assigned_add_bos_token": false,
+  "bos_token_id": 128000,
+  "backend_postprocessor_unchanged": true,
+  "postprocessor_sha256": "e0357df3e32b77966dad963c5e7ca0ffe80f73a588833d7b73d360c959056cfc",
+  "postprocessor_type": "Sequence",
+  "postprocessor_structure": {
+    "type": "Sequence",
+    "processors": [
+      {
+        "type": "ByteLevel",
+        "add_prefix_space": true,
+        "trim_offsets": false,
+        "use_regex": true
+      },
+      {
+        "type": "TemplateProcessing",
+        "single": [
+          {
+            "SpecialToken": {
+              "id": "<|begin_of_text|>",
+              "type_id": 0
+            }
+          },
+          {
+            "Sequence": {
+              "id": "A",
+              "type_id": 0
+            }
+          }
+        ],
+        "pair": [
+          {
+            "SpecialToken": {
+              "id": "<|begin_of_text|>",
+              "type_id": 0
+            }
+          },
+          {
+            "Sequence": {
+              "id": "A",
+              "type_id": 0
+            }
+          },
+          {
+            "SpecialToken": {
+              "id": "<|begin_of_text|>",
+              "type_id": 1
+            }
+          },
+          {
+            "Sequence": {
+              "id": "B",
+              "type_id": 1
+            }
+          }
+        ],
+        "special_tokens": {
+          "<|begin_of_text|>": {
+            "id": "<|begin_of_text|>",
+            "ids": [
+              128000
+            ],
+            "tokens": [
+              "<|begin_of_text|>"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "original_current_token_pack_exact": {
+    "input_ids": true,
+    "attention_mask": true
+  },
+  "actual_case_ids": [
+    18246,
+    6208
+  ],
+  "actual_sequences": 12,
+  "bos_sequences": 12,
+  "rows": [
+    {
+      "case_id": 18246,
+      "context_index": 0,
+      "valid_tokens": 7,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 5,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "2bb9c99b86fcce12a258ffcf3da7bae644862c25323d3c56a3624e9b3146df87",
+      "right_padding": true
+    },
+    {
+      "case_id": 18246,
+      "context_index": 1,
+      "valid_tokens": 17,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 15,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "4fee9425494686120fa014d0dbf943ef60f1cb5bc21afef463c897f8a9ef78f2",
+      "right_padding": true
+    },
+    {
+      "case_id": 18246,
+      "context_index": 2,
+      "valid_tokens": 17,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 15,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "03483afd6a39bbae3f2b1687865edc42d307303794d7b3099ca9c6c822ccd1e2",
+      "right_padding": true
+    },
+    {
+      "case_id": 18246,
+      "context_index": 3,
+      "valid_tokens": 16,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 14,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "280924f548a2548ed6f9e020c9a4e64c385e40411cba1358993a183e9921d0a7",
+      "right_padding": true
+    },
+    {
+      "case_id": 18246,
+      "context_index": 4,
+      "valid_tokens": 17,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 15,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "b2bc26fd838380437375f84956eef9e031336f71c8a92b0aec6533cb00574771",
+      "right_padding": true
+    },
+    {
+      "case_id": 18246,
+      "context_index": 5,
+      "valid_tokens": 17,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 15,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "512c2694aa901692ecea1bb861c7e03c8853616f2b00f822cc76979fd5896951",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 0,
+      "valid_tokens": 4,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 1,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "f80a8924475090c863236dc5cea90b311266a4fea652320fd54319ffafc20772",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 1,
+      "valid_tokens": 14,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 11,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "0dbeeaa35f836a9ada494302eb41a2abf48986bfc37569828a5036a56dadaf51",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 2,
+      "valid_tokens": 14,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 11,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "83ab0bb691a96263012eaf647e412bdfbf4c331aac88c156bc5b893df5caaa9a",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 3,
+      "valid_tokens": 13,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 10,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "497fce0a3dac046ae8c55f6132e0e28c386f657384865f032b1f769f47c79f86",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 4,
+      "valid_tokens": 14,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 11,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "9e1e75b708fb879629f3f0f5e578b17380d58c7325011cf470f2ba7c1dd2822c",
+      "right_padding": true
+    },
+    {
+      "case_id": 6208,
+      "context_index": 5,
+      "valid_tokens": 14,
+      "first_token_id": 128000,
+      "bos_present": true,
+      "subject_last": 11,
+      "lookup_in_range": true,
+      "input_token_ids_sha256": "6ebf4b906c045f372feca2b35f10dfc14f8877ccc7fb4d0919505f9a886953fb",
+      "right_padding": true
+    }
+  ],
+  "failure": {
+    "type": "TechnicalFailure",
+    "code": "WRITER_UNEXPECTED_BOS",
+    "details": 0,
+    "message": "WRITER_UNEXPECTED_BOS: 0"
+  },
+  "synthetic": {
+    "default_first": 128000,
+    "explicit_no_special_first": 19947,
+    "default_equals_bos_plus_no_special": true,
+    "note": "explicit no-special is diagnostic only, not a proposed runtime change"
+  },
+  "context_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+  "context_semantic_sha256": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+  "original_commit_sha256": "21c4b48fb271a403356b147f81dee8768d382134bf8adefc2c31cb018dffa4e1",
+  "source_files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/technical.py",
+      "sha256": "3f67e994be3dd2d137c32895275944b9d08919b9ec6fd0a3de3a6783b80b6dd6",
+      "bytes": 24478
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/runtime.py",
+      "sha256": "b6a8b0237c0e9f1090892b45b39e59a150eda7780484bbbc4314468c30d67b58",
+      "bytes": 12552
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/native/runtime.py",
+      "sha256": "065dccfe7ec71953ad76f5a0db51c833e83c51c7d2748508e7b34149be6598ea",
+      "bytes": 11964
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/blue-source/rome/repr_tools.py",
+      "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f",
+      "bytes": 6405
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer_config.json",
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+      "bytes": 50977
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer.json",
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+      "bytes": 9085698
+    }
+  ]
+}

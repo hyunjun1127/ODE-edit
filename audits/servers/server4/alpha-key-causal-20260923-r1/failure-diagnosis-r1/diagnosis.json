@@ -1,0 +1,762 @@
+{
+  "status": "DIAGNOSIS_COMPLETE_NOT_REPAIRED",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-GATE-FAILURE-CHECK-20260923-R1",
+  "execution_source": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+  "execution_tree": "37729895ac354d6d4029e41d0b6e31fbb8d9e39c",
+  "execution_lock_sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725",
+  "archive": {
+    "bytes": 470352289,
+    "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/source.tar.gz",
+    "sha256": "bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768",
+    "verification": "PRIOR_FULL_SHA_AND_CURRENT_SIZE; NOT_REHASHED_THIS_DIAGNOSIS",
+    "current_bytes": 470352289
+  },
+  "accounting": [
+    {
+      "JobIDRaw": "52527",
+      "JobID": "52527",
+      "JobName": "odeedit_alpha_key_gate_s4",
+      "User": "janghj",
+      "State": "FAILED",
+      "ExitCode": "1:0",
+      "DerivedExitCode": "0:0",
+      "Start": "2026-09-23T09:59:04",
+      "End": "2026-09-23T09:59:48",
+      "ElapsedRaw": "44",
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "01:52.202",
+      "Reason": "ReqNodeNotAvail",
+      "allocated_gpu_seconds": 44
+    },
+    {
+      "JobIDRaw": "52528",
+      "JobID": "52528",
+      "JobName": "odeedit_alpha_key_geometry_s4",
+      "User": "janghj",
+      "State": "CANCELLED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "None",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "",
+      "NodeList": "None assigned",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": "None",
+      "allocated_gpu_seconds": 0
+    },
+    {
+      "JobIDRaw": "52529",
+      "JobID": "52529",
+      "JobName": "odeedit_alpha_key_writers_s4",
+      "User": "janghj",
+      "State": "CANCELLED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "None",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "",
+      "NodeList": "None assigned",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": "None",
+      "allocated_gpu_seconds": 0
+    },
+    {
+      "JobIDRaw": "52530",
+      "JobID": "52530",
+      "JobName": "odeedit_alpha_key_reduce_s4",
+      "User": "janghj",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "2026-09-23T10:00:04",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "billing=4,cpu=4,mem=8G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "4",
+      "ReqMem": "8G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00.416",
+      "Reason": "Dependency",
+      "allocated_gpu_seconds": 0
+    }
+  ],
+  "step_accounting": [
+    {
+      "JobIDRaw": "52527",
+      "JobID": "52527",
+      "JobName": "odeedit_alpha_key_gate_s4",
+      "User": "janghj",
+      "State": "FAILED",
+      "ExitCode": "1:0",
+      "DerivedExitCode": "0:0",
+      "Start": "2026-09-23T09:59:04",
+      "End": "2026-09-23T09:59:48",
+      "ElapsedRaw": "44",
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "01:52.202",
+      "Reason": "ReqNodeNotAvail",
+      "allocated_gpu_seconds": 44
+    },
+    {
+      "JobIDRaw": "52527.batch",
+      "JobID": "52527.batch",
+      "JobName": "batch",
+      "User": "",
+      "State": "FAILED",
+      "ExitCode": "1:0",
+      "DerivedExitCode": "",
+      "Start": "2026-09-23T09:59:04",
+      "End": "2026-09-23T09:59:48",
+      "ElapsedRaw": "44",
+      "AllocTRES": "cpu=8,gres/gpu=1,mem=59G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "8",
+      "ReqMem": "",
+      "MaxRSS": "43628732K",
+      "TotalCPU": "01:52.202",
+      "Reason": ""
+    },
+    {
+      "JobIDRaw": "52527.extern",
+      "JobID": "52527.extern",
+      "JobName": "extern",
+      "User": "",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "",
+      "Start": "2026-09-23T09:59:04",
+      "End": "2026-09-23T09:59:48",
+      "ElapsedRaw": "44",
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "8",
+      "ReqMem": "",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": ""
+    },
+    {
+      "JobIDRaw": "52528",
+      "JobID": "52528",
+      "JobName": "odeedit_alpha_key_geometry_s4",
+      "User": "janghj",
+      "State": "CANCELLED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "None",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "",
+      "NodeList": "None assigned",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": "None",
+      "allocated_gpu_seconds": 0
+    },
+    {
+      "JobIDRaw": "52529",
+      "JobID": "52529",
+      "JobName": "odeedit_alpha_key_writers_s4",
+      "User": "janghj",
+      "State": "CANCELLED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "None",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "",
+      "NodeList": "None assigned",
+      "ReqCPUS": "8",
+      "ReqMem": "59G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": "None",
+      "allocated_gpu_seconds": 0
+    },
+    {
+      "JobIDRaw": "52530",
+      "JobID": "52530",
+      "JobName": "odeedit_alpha_key_reduce_s4",
+      "User": "janghj",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "0:0",
+      "Start": "2026-09-23T10:00:04",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "billing=4,cpu=4,mem=8G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "4",
+      "ReqMem": "8G",
+      "MaxRSS": "",
+      "TotalCPU": "00:00.416",
+      "Reason": "Dependency",
+      "allocated_gpu_seconds": 0
+    },
+    {
+      "JobIDRaw": "52530.batch",
+      "JobID": "52530.batch",
+      "JobName": "batch",
+      "User": "",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "",
+      "Start": "2026-09-23T10:00:04",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "cpu=4,mem=8G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "4",
+      "ReqMem": "",
+      "MaxRSS": "19044K",
+      "TotalCPU": "00:00.416",
+      "Reason": ""
+    },
+    {
+      "JobIDRaw": "52530.extern",
+      "JobID": "52530.extern",
+      "JobName": "extern",
+      "User": "",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "DerivedExitCode": "",
+      "Start": "2026-09-23T10:00:04",
+      "End": "2026-09-23T10:00:04",
+      "ElapsedRaw": "0",
+      "AllocTRES": "billing=4,cpu=4,mem=8G,node=1",
+      "NodeList": "server4",
+      "ReqCPUS": "4",
+      "ReqMem": "",
+      "MaxRSS": "",
+      "TotalCPU": "00:00:00",
+      "Reason": ""
+    }
+  ],
+  "allocated_gpu_seconds": 44,
+  "allocated_gpu_hours": 0.012222222222222223,
+  "failure_elapsed_seconds": 42.30259107425809,
+  "g1_pre_cleanup_seconds": 2.816167830489576,
+  "first_cause": {
+    "type": "TechnicalFailure",
+    "message": "WRITER_UNEXPECTED_BOS: 0",
+    "source": "technical.py:200",
+    "category": "TOKENIZATION_ASSERTION_ASSUMPTION_ERROR",
+    "CPU_reproduced": true,
+    "original_current_token_pack_exact": {
+      "input_ids": true,
+      "attention_mask": true
+    },
+    "note": "add_bos_token=False attribute does not alter this generic fast tokenizer backend; historical full-run tokens not independently observed"
+  },
+  "cleanup": {
+    "separate_failure_record": false,
+    "independent_restore_receipt": false,
+    "evidence": "finally restore/hash/RNG check returned before rethrow at line290; source-flow evidence only"
+  },
+  "stage": {
+    "G0": "SOURCE_INPUT_MODEL_W50_REACHED; FULL_ACTUAL_G0_NOT_SEALED",
+    "G1": "FAILED_BEFORE_FIRST_FORWARD_AT_TOKEN_FIXTURE",
+    "G2": "NOT_RUN",
+    "G3": "REGISTERED_GRAPH_ONLY; AFTEROK_PREVENTED_SCIENCE",
+    "native100_requests_completed": 0,
+    "SHAM_completed": false,
+    "completed_contrast_families": 0,
+    "expected_contrast_families": 94,
+    "new_history_appends": 0,
+    "key_forward_comparisons": 0,
+    "timestamp_bank_created": false
+  },
+  "later_jobs": {
+    "afterok_science_started": false,
+    "geometry_writers": "CANCELLED_START_NONE_ALLOCATION_NONE",
+    "cancellation_actor": "NOT_RECORDED_IN_ACCOUNTING; kill-on-invalid-dep=yes was submitted",
+    "reducer": "COMPLETED_AFTERANY_GPU0; report correctly TECHNICAL_FAILED_OR_PARTIAL"
+  },
+  "source_current_hashes": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/common.py",
+      "bytes": 2871,
+      "sha256": "7e82e07ac66e94e0dac06ea8519f4252a7c32dcffc946b82de99661788e0f23a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/compact_receipts.py",
+      "bytes": 2713,
+      "sha256": "768f2a59705d53636616a311ac785dd206fb813eae2575ce8567db891f601d5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/component_runner.py",
+      "bytes": 26764,
+      "sha256": "21423a98f6ba6e04fd0393c00df3fffbf72ad42d41be1dff8450b9c3bc1bea73"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/control.py",
+      "bytes": 11558,
+      "sha256": "e1ad70887975e8bcee5b93dbe74b96c49996536dc9ac69cf4cf338443adc70cd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/cpu_verify.py",
+      "bytes": 1400,
+      "sha256": "ed2e0a4c134c48e80688e03c032ec594bb253db99d56e84b5f8da66a59eb79a8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/exact_pull.py",
+      "bytes": 4587,
+      "sha256": "25240a63f29ff2f5c5bdf7c0653da1a63f249b3483c5e0455ae53dbcf5ce0e5a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/geometry.py",
+      "bytes": 21179,
+      "sha256": "c4381d43f6b54017ba98921bbd17c0a79cdff2143da65f28670fb77dce870bdf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/geometry_runner.py",
+      "bytes": 27643,
+      "sha256": "2e6418c77845e312882c6dd1203a5279370e9c372d290fbe078051c0c07cc5da"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/interventions.py",
+      "bytes": 22744,
+      "sha256": "bded2f4dbfa6e79fd4ea02047ac12b9641a8d82a51f67db11b429c38775537ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/native_writer.py",
+      "bytes": 29708,
+      "sha256": "9c16a5f6bf024dca9ab40f3965f0563606116b26c2961b469ea0bc2f3d861493"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/observer.py",
+      "bytes": 28704,
+      "sha256": "f594d87857d4d3fb5019e922465d7e4008a15e1795ed74dfb90fe5b88d2b9641"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/preflight.py",
+      "bytes": 4035,
+      "sha256": "5b526df12c5bbb147bf3fd65b0394f644439d22e77c453ebc3aa955b64436cd0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/prepare_inputs.py",
+      "bytes": 5687,
+      "sha256": "a97f34301562402cdaa56af87b0bb09535dcb6807f6f1f2d942e08fc704592ec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/reduce.py",
+      "bytes": 11578,
+      "sha256": "f00076c24bb51713e8b4e1d14700101c43898acec4edfcc561a5124b2349d5e7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/runner.py",
+      "bytes": 5145,
+      "sha256": "91a9036fc2f2360cd338a0bf60b615b655f165506b0509bfac8c90aba8a90088"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/runtime.py",
+      "bytes": 12552,
+      "sha256": "b6a8b0237c0e9f1090892b45b39e59a150eda7780484bbbc4314468c30d67b58"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/technical.py",
+      "bytes": 24478,
+      "sha256": "3f67e994be3dd2d137c32895275944b9d08919b9ec6fd0a3de3a6783b80b6dd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_component_runner.py",
+      "bytes": 9712,
+      "sha256": "25a25d950451d5e376fa1554fa8ef114f7bd64fed1044f584cfc49e5123f16ff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_control.py",
+      "bytes": 1101,
+      "sha256": "5933903be494c5b17502436bc6f675d18f7ef9997fb06cf416c21a3bdfb90052"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_geometry.py",
+      "bytes": 7960,
+      "sha256": "4dfff47d8c71882bf74fbd5d3ffdc7f1052cf61610a6f1ba4ae6105813c31e6e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_geometry_runner.py",
+      "bytes": 8323,
+      "sha256": "b847d9ee7f74f34085a9b40654ca25251dcff95cf3a53211498e30ba23cabbd0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_integration_cpu.py",
+      "bytes": 18542,
+      "sha256": "9b85bf4831ba39762fd081d34129852a63b49ba0a7c686cab6194fc3470b5d5a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_interventions.py",
+      "bytes": 14430,
+      "sha256": "90741920f84868aa780f450d8c94bc1e620f8e4d56a4189b0c17e8487313adba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_native_writer.py",
+      "bytes": 13294,
+      "sha256": "da5cde4148658b095a22588278f9288cedfcda77626b090170d738470b27e79c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_observer.py",
+      "bytes": 13617,
+      "sha256": "f3a30a08f56201ca0a47c0f5e8321cbb0f1172570cd646a6180bd5055817b661"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_reduce.py",
+      "bytes": 923,
+      "sha256": "360faee5b0d04007788598e8ed82147ef2d294cc1ebbef18df7b1e7c11ad2156"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_runner.py",
+      "bytes": 1174,
+      "sha256": "e928a22f7b3864440fa2b4139aa7d0a82f35ed5403d9e20dad088229490e394a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_technical.py",
+      "bytes": 7963,
+      "sha256": "b6684631ba5b64b3951de5adc511028e07f321dd2e7a427025405944861ca678"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/tests/test_writer_diagnostics.py",
+      "bytes": 7506,
+      "sha256": "16e0ccf821229ed7e340abc250992b16a39594e41331828418677cf17111733e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/writer_diagnostics.py",
+      "bytes": 13394,
+      "sha256": "8a9b437c60f01bc648797d6b265c28aab6fe73bc2497e2bb4e3bc4ce4b02853a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1/project/run_scripts/alpha_key_concentration_causal/writer_runner.py",
+      "bytes": 13590,
+      "sha256": "9d85e216a3dc59720076d0612bf92a266576f3bb6deac9a5a0e03d10b15ee796"
+    }
+  ],
+  "input_checkpoint_stat_reuse": [
+    {
+      "batch": 1,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B001/W-method-state.pt",
+      "bytes": 5284846581,
+      "prior_file_sha256": "2874b76d98ae139904c4d70525af582b3fe2a588604cb7609b7454bd737fb95e",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 5,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B005/W-method-state.pt",
+      "bytes": 5284847733,
+      "prior_file_sha256": "3062fa9b6810e785087f539194571b3cd7cebbf640cbe34857eb01e6c42e9e05",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 10,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B010/W-method-state.pt",
+      "bytes": 5284849269,
+      "prior_file_sha256": "c47bab2f4a503eface2b471949d40d323133ac25ac56a4398486ace6af44d5aa",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 20,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B020/W-method-state.pt",
+      "bytes": 5284852213,
+      "prior_file_sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 30,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B030/W-method-state.pt",
+      "bytes": 5284855221,
+      "prior_file_sha256": "7d7b048f0bfbdbe7c579acb2fdca2b3e8653e1eafa00f1b7f5b30f323d2a327c",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 40,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B040/W-method-state.pt",
+      "bytes": 5284858229,
+      "prior_file_sha256": "8baf0839b3ca31f9a2763d588b7d0289521c0e89231a98d25beb35bd598ead3f",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 50,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B050/W-method-state.pt",
+      "bytes": 5284861173,
+      "prior_file_sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 60,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B060/W-method-state.pt",
+      "bytes": 5284864181,
+      "prior_file_sha256": "23a475df19997c1c46b07750d86ac119e3bc2beabc544625c19300a7ee797186",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 70,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B070/W-method-state.pt",
+      "bytes": 5284867189,
+      "prior_file_sha256": "3df77988b664964ed6d9d58314846397704f4b54bfa27df5c952ac63ad1ec665",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 80,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B080/W-method-state.pt",
+      "bytes": 5284870197,
+      "prior_file_sha256": "fcabe44da95e63320c7177498f77325181a1cbc6318d780c2b273f8f03da2474",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 90,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B090/W-method-state.pt",
+      "bytes": 5284873141,
+      "prior_file_sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    },
+    {
+      "batch": 100,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/inputs/checkpoints/BASE_ALPHAEDIT/B100/W-method-state.pt",
+      "bytes": 5284876149,
+      "prior_file_sha256": "f24c0784342ee8e6c12f1661d3810780955edabea2f19c92795f7a37155df549",
+      "same_stat_as_prior_full_content_verification": true,
+      "current_full_rehash": false
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json",
+      "bytes": 9072,
+      "sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/submission.json",
+      "bytes": 1697,
+      "sha256": "54183b98e7187380b22db6ea937291276fab93e554a190a0d4635ba58b45f5f2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/held-inspection.json",
+      "bytes": 8348,
+      "sha256": "eb850eb7561bfa4d2e3bc36eaf563de034df2a3fadfce2811aafa6ea77b2f032"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/submission-events.jsonl",
+      "bytes": 6966,
+      "sha256": "d71ccfab39e801858d864c458b4b6cda4d2c5319252f816b21cde984ba69b380"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/gate.sh",
+      "bytes": 703,
+      "sha256": "52eb64a5ca8e101391037489d4907ae965d0a454e625d61fcff6e06dce0e5f35"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/geometry.sh",
+      "bytes": 707,
+      "sha256": "55bddb2fad8563012280299d2608e5c9e37254d40c8b339f3fe82604cf44e31d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/writers.sh",
+      "bytes": 706,
+      "sha256": "34f23b4fdd4b74b0ea20d849d8b22c7629e4b243c8bc44cb44a4faa7b90a5ad2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/reduce.sh",
+      "bytes": 736,
+      "sha256": "696b7efe936b7169a4ca55cd2534720150031557d155368027eef34b28f068f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1/gate/checkpoint-content-reuse.json",
+      "bytes": 237,
+      "sha256": "7ddd560263cd671000fc218812753556f511dd22a887f45e872fa71b6c49cd6e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1/gate/prefix-g1/G1-first-failure.json",
+      "bytes": 221,
+      "sha256": "fd9a3e05a57ed537be3686439154e4274e5f6283205572f6e0ded35986202c2e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1/gate-failure.json",
+      "bytes": 1755,
+      "sha256": "2a0e16ba71e3ea8952bc3a1f4bd7c43897a03e9a0fb025cb88f665b3e88b5417"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1/raw-inventory.json",
+      "bytes": 526,
+      "sha256": "8fc2b43d1c8ab447ffd58ed8f34fb8e1e607967bff9dfd84aae7a84ceaeab2d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/logs/gate-52527.err",
+      "bytes": 2200,
+      "sha256": "0b31d4a7f5f4979d725abd7c07dd8e8f737668e964d9eb5c62fde66cb5e61225"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/logs/gate-52527.out",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/logs/reduce-52530.err",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/logs/reduce-52530.out",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/failure-diagnosis-r1/accounting-once.txt",
+      "bytes": 1203,
+      "sha256": "c6a2a003b95d13af52e79b8d33b1cb4ea428d3f1f3fd37fb4b8a67e1edee14ff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/failure-diagnosis-r1/bos-cpu-reproduction.json",
+      "bytes": 8547,
+      "sha256": "1b6273a0ffeb8cf9ed49933adc9a682a1826efc78d31507ee1cce74356341efd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/checkpoint-transfer-r1.json",
+      "bytes": 12589,
+      "sha256": "77a98726791f8f9af67a50c13acd48701ee28e54b73872f46c92f001c14b8869"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/native-input-binding-r2.json",
+      "bytes": 920384,
+      "sha256": "500cd93224d4d2cb0daf880dad67aa18acf91bc0a12d127a2a23c42e7805ded1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/cpu-final-r3.json",
+      "bytes": 5148,
+      "sha256": "abf85e10c287617f718be03d282f55c7cef8939c19e31c038e00443ba06e396f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/receipts/preflight-r1/checkpoint-content/checkpoint-content.json",
+      "bytes": 51916,
+      "sha256": "01dc05a84308f4ae38ae4354e2d0660b055c0ab93576a8454f8700c611cb0f1b"
+    }
+  ],
+  "automatic_reducer_artifacts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/component_interchange.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/cost_breakdown.json",
+      "bytes": 647,
+      "sha256": "5d3256802e52e8c158b2ba1dfb44f045d12a1083dbdb3893e9a69300e6652b0c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/coverage.json",
+      "bytes": 297,
+      "sha256": "760f693e03367bba719cc2c30cb214c57922de156d3b60b0a7f9b6df29de3b20"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/history_penalty_mismatch.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/kr_operand_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/operator_stage.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/protection_transitions.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/report-ko.md",
+      "bytes": 1373,
+      "sha256": "943a39d0ebe1129f77740794fdfb743f5e3be4eec7024f7c60975abea9ebaf53"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/rooted-receipt.json",
+      "bytes": 2397,
+      "sha256": "821dbb2c68de706fd1334f59b4f4260718ee4bad1f66dad46cf24d6aa24af28e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/same_entry_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/source-state-receipt.json",
+      "bytes": 534,
+      "sha256": "4f4ff3578e5e8ad805bbd1f29788debbcaf42954b2f99a86673e096327bdb9ba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/terminal.json",
+      "bytes": 105,
+      "sha256": "87b57dc2ada520cdc19ab9511b9cf9f6dfe24657dabc05e29873667d72bef490"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/writer_modes.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    }
+  ],
+  "minimal_proposal": "Keep original native tokenizer/model/science unchanged; replace no-BOS assumption with exact original native token/backend/mask/lookup binding and actual-tokenizer CPU regression; no implementation this turn",
+  "restart_scope_if_authorized": "New immutable gate attempt from approved W50/input CP; G1/timestamp unfinished. Native100 fit has not run, so no valid new targets/SHAM/science to reuse. No exact new-process resume checkpoint.",
+  "diagnosis_only": {
+    "new_GPU": 0,
+    "model_loads": 0,
+    "forwards": 0,
+    "slurm_writes": 0,
+    "runtime_edits": 0,
+    "threshold_edits": 0,
+    "checkpoint_deletes": 0,
+    "independent_agent_red": false
+  },
+  "scratch_harness_notes": [
+    "CPU diagnostic first attempt lacked native import cwd globals.yml; corrected only diagnostic script",
+    "CPU diagnostic second attempt report parser assumed postprocessor single field; corrected Sequence rendering only"
+  ],
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "terminal": "STOP_AWAITING_USER"
+}

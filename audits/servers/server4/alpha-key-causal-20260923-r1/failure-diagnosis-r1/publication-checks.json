@@ -1,0 +1,95 @@
+{
+  "status": "PASS_WITH_EVIDENCE_LIMITS",
+  "analysis_base_commit": "a9d3f24df98186c82cfe4d52c906c13bd62a599d",
+  "authority": {
+    "commit": "a9d3f24df98186c82cfe4d52c906c13bd62a599d",
+    "envelope_sha256": "dfc543d848a82aab497f0bf2d02cb645ff26d854129695ebee3ed1442e0269e7",
+    "PROTOCOL_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+    "FULL_READ": "new envelope full read; exact prior PROTOCOL FULL_READ rebound"
+  },
+  "members": [
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/bos-cpu-reproduction.json",
+      "bytes": 8547,
+      "sha256": "1b6273a0ffeb8cf9ed49933adc9a682a1826efc78d31507ee1cce74356341efd"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/collect_evidence_cpu.py",
+      "bytes": 7551,
+      "sha256": "215839824560033e280e951179899ebed93992d056c6d1870f1e99075977683a"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/diagnosis.json",
+      "bytes": 33956,
+      "sha256": "a476d07361e345452044b4c62b70e87fa0cd33ecec2447614c9da770bab8c9f9"
+    },
+    {
+      "path": "audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/reproduce_bos_cpu.py",
+      "bytes": 6782,
+      "sha256": "fb8e9153efd9a9c2268d43c97a289bf23ee8a45bcd66aa8e25f61a41a1b3ad76"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "bytes": 9931,
+      "sha256": "450f5a0da08b9d088ce111b551b4af9066058e398a708e9085e35fd11e877599"
+    },
+    {
+      "path": "messages/server-heads/server4/alpha-key-causal-20260923-r1-failure.md",
+      "bytes": 1443,
+      "sha256": "c56f065d56e81814895dd74f2fece4ec1a048d4f5212440cef56e9a5cb664d29"
+    }
+  ],
+  "links": [
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "target": "../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/reproduce_bos_cpu.py",
+      "status": "PASS"
+    },
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "target": "../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/bos-cpu-reproduction.json",
+      "status": "PASS"
+    },
+    {
+      "source": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "target": "../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/diagnosis.json",
+      "status": "PASS"
+    },
+    {
+      "source": "messages/server-heads/server4/alpha-key-causal-20260923-r1-failure.md",
+      "target": "../../../experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "status": "PASS"
+    }
+  ],
+  "tables": [
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "rows": 6,
+      "columns": 5
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "rows": 8,
+      "columns": 3
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/failure-diagnosis-r1/report-ko.md",
+      "rows": 9,
+      "columns": 2
+    }
+  ],
+  "arithmetic": "PASS",
+  "json_finite": "PASS",
+  "python_syntax": "PASS",
+  "raw_free": "PASS",
+  "actual_html_render": "NOT_RUN_TOOL_UNAVAILABLE",
+  "independent_agent_red": false,
+  "owner_source_and_CPU_reproduction": true,
+  "newGPU": 0,
+  "slurm_writes": 0,
+  "runtime_repairs": 0,
+  "historical_execution_branch_mutated": false,
+  "main_mutated": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}
