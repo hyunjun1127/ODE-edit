@@ -1,0 +1,121 @@
+job_id,job_name,owner,state,exit_signal,submit,start,end,elapsed_seconds,allocated_gpu,allocated_gpu_seconds,timezone,scope,dependency,source,tree,lock,archive_sha256,command,raw,requested_mem,requested_cpus,lock_sha256,full_argv,submission_receipt,submission_sha256
+50974,odeedit_slmf_T0_s4,janghj,FAILED,1:0,2026-09-19T21:01:50,2026-09-20T01:50:04,2026-09-20T01:52:20,136,1,136,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,1cf90d2f55e7e4f270c2c2da845f6d24707ca24b,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1,59G,8,46e59fc4abadd441cf8bffe67e16a377d66d2cf6a55185e60e0d8aab9532a311,"[""sbatch"", ""--parsable"", ""--hold"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/T0/hook-attempt-v1/submission.json,f577794aabb4ee1fda5e32fd307cb054fad50d92e450c6148f27a8032ea45dae
+50983,odeedit_slmf_S10_s4,janghj,CANCELLED by 1025,0:0,2026-09-19T22:14:35,None,2026-09-20T02:20:06,0,0,0,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,afterok:50974,0aea3452d04e71dd56e428208e04b9c04c52f82f,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1,59G,8,9436037e1c632b5708b29072d37936433712a556dd2dcc4a5a873f375fcc1846,"[""sbatch"", ""--parsable"", ""--hold"", ""--job-name=odeedit_slmf_S10_s4"", ""--dependency=afterok:50974"", ""--time=7-00:00:00"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/dependency-attempt-v1/submission.json,5c749604a9472ae7cd9520b752c26838b4d47e75c9b2f2862bc458fa119950e6
+51055,odeedit_slmf_repair_s4,janghj,FAILED,1:0,2026-09-20T02:13:17,2026-09-20T02:13:17,2026-09-20T02:15:01,104,1,104,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,5ea4e4efad5a9420674641dd13a04d4651701a08,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1,59G,8,d437b1dd190153eee0a247f15a875236245d007bc549b8975a698ef9af346d9e,"[""sbatch"", ""--parsable"", ""--hold"", ""--job-name=odeedit_slmf_repair_s4"", ""--time=7-00:00:00"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/hook-repair-r1/submission.json,d9ebcac332275845c8ec0fa9039e6986a96dd3be3f175776580b99e2cce4bb64
+51056,odeedit_slmf_S10r2_s4,janghj,FAILED,1:0,2026-09-20T02:37:05,2026-09-20T02:37:05,2026-09-20T02:42:40,335,1,335,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,bdaed735f28cb2d0a24e56cc00723373ef857d9d,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2,59G,8,09c31436af189650125509abb1e7c8dfa5ad0b9535ba5cd7f8c7cdb12050d9ad,"[""sbatch"", ""--parsable"", ""--hold"", ""--job-name=odeedit_slmf_S10r2_s4"", ""--time=7-00:00:00"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/cleanup-repair-r2/submission.json,fa4d0441fc3eb68a6820f1617343a8f0e5b176a021520bc8521dc11ca808110e
+51057,odeedit_slmf_B1r3_s4,janghj,FAILED,1:0,2026-09-20T03:15:09,2026-09-20T03:15:09,2026-09-20T03:24:07,538,1,538,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,e3f92b43788d2491cad5b77328eb0229ccb69ca7,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a,59G,8,64d44733ca076c55ef74d5e4aeddff987d083e60dd7656df497aebdbc5bb0d48,"[""sbatch"", ""--parsable"", ""--hold"", ""--job-name=odeedit_slmf_B1r3_s4"", ""--time=7-00:00:00"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-repair-r3a/submission.json,e1ef689691f316498a2bd6e0fd8f0f4df590246df3b5dded7b0535e87a4010d7
+51058,odeedit_slmf_B1r4_s4,janghj,COMPLETED,0:0,2026-09-20T03:37:37,2026-09-20T03:37:37,2026-09-20T04:38:06,3629,1,3629,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,5f79085629b10b2bb8bdee88d017e18a46bb4c74,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/execution.lock.json,,,/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4,59G,8,6a14ebaf32549cc9479f2d112ba1954b06ef00380fffc1091cd70090f9098f61,"[""sbatch"", ""--parsable"", ""--hold"", ""--job-name=odeedit_slmf_B1r4_s4"", ""--time=7-00:00:00"", ""--output=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/logs/%j.out"", ""--error=/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/logs/%j.err"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/source/project/run_scripts/single_layer_mechanism_first/run.sbatch"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/source"", ""/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/execution.lock.json""]",/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/PROGRAM/b1-fd-waiver-r4/submission.json,fcb9a71eb48274fe6f9294f850e697191a7bae0878035bd5f3461a831d0beb16
+51260,odeedit_en_adapt_B300_s4,janghj,FAILED,1:0,2026-09-20T18:36:31,2026-09-20T18:36:31,2026-09-20T20:20:09,6218,1,6218,Asia/Seoul,PRIOR_COMPLETED_REVIEW_REUSED,,b6e86234640ca127546aee094f2a67bbe684a490,SEE_PRIOR_REVIEW,/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/execution.lock.json,,,/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1,59G,8,cfc4e2150cf57f71d0fea838d2302d84626402b8ad9e8941690da3220bd671ca,[],/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server4-migration-r1/attempt-v1/submission.json,e353598ebb7d707194942afe910703e1020f20b327abfe3ddb507d70b1c5feab
+52527,odeedit_alpha_key_gate_s4,janghj,FAILED,1:0,2026-09-23T07:00:36,2026-09-23T09:59:04,2026-09-23T09:59:48,44,1,44,Asia/Seoul,FRESH_ALPHA_REVIEW,,a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77,37729895ac354d6d4029e41d0b6e31fbb8d9e39c,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json,bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/gate.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1,59G,8,4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json --phase gate
+",,
+52528,odeedit_alpha_key_geometry_s4,janghj,CANCELLED,0:0,2026-09-23T07:00:36,None,2026-09-23T10:00:04,0,0,0,Asia/Seoul,FRESH_ALPHA_REVIEW,afterok:52527,a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77,37729895ac354d6d4029e41d0b6e31fbb8d9e39c,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json,bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/geometry.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1,59G,8,4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json --phase geometry
+",,
+52529,odeedit_alpha_key_writers_s4,janghj,CANCELLED,0:0,2026-09-23T07:00:36,None,2026-09-23T10:00:04,0,0,0,Asia/Seoul,FRESH_ALPHA_REVIEW,afterok:52527,a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77,37729895ac354d6d4029e41d0b6e31fbb8d9e39c,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json,bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/writers.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1,59G,8,4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json --phase writers
+",,
+52530,odeedit_alpha_key_reduce_s4,janghj,COMPLETED,0:0,2026-09-23T07:00:36,2026-09-23T10:00:04,2026-09-23T10:00:04,0,0,0,Asia/Seoul,FRESH_ALPHA_REVIEW,afterany:52527:52528:52529,a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77,37729895ac354d6d4029e41d0b6e31fbb8d9e39c,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json,bf072836f3ef47395650aa994816609e9385ee25b70e22b0a109069190ff3768,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/reduce.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1,8G,4,4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r1
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=4
+export OPENBLAS_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+export CUDA_VISIBLE_DEVICES=''
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/control/execution.lock.json --phase reduce
+",,
+52563,odeedit_alpha_key_gate_s4,janghj,COMPLETED,0:0,2026-09-23T10:37:05,2026-09-23T10:43:34,2026-09-23T10:46:50,196,1,196,Asia/Seoul,FRESH_ALPHA_REVIEW,,f9fbd56f31b0c520763ec9026e660a76cb3074ff,d7b824052de14288dec559f0cf235a59b8a81f12,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json,62f3495a6899b441db556f9c2cfc7893f4ae3d862b9b465646f4242f7b692ee0,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/gate.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r3,59G,8,5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json --phase gate
+",,
+52564,odeedit_alpha_key_geometry_s4,janghj,COMPLETED,0:0,2026-09-23T10:37:05,2026-09-23T10:47:04,2026-09-23T16:04:53,19069,1,19069,Asia/Seoul,FRESH_ALPHA_REVIEW,afterok:52563,f9fbd56f31b0c520763ec9026e660a76cb3074ff,d7b824052de14288dec559f0cf235a59b8a81f12,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json,62f3495a6899b441db556f9c2cfc7893f4ae3d862b9b465646f4242f7b692ee0,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/geometry.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r3,59G,8,5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json --phase geometry
+",,
+52565,odeedit_alpha_key_writers_s4,janghj,FAILED,1:0,2026-09-23T10:37:06,2026-09-23T12:03:04,2026-09-23T12:27:58,1494,1,1494,Asia/Seoul,FRESH_ALPHA_REVIEW,afterok:52563,f9fbd56f31b0c520763ec9026e660a76cb3074ff,d7b824052de14288dec559f0cf235a59b8a81f12,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json,62f3495a6899b441db556f9c2cfc7893f4ae3d862b9b465646f4242f7b692ee0,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/writers.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r3,59G,8,5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json --phase writers
+",,
+52566,odeedit_alpha_key_reduce_s4,janghj,COMPLETED,0:0,2026-09-23T10:37:06,2026-09-23T16:05:04,2026-09-23T16:06:57,113,0,0,Asia/Seoul,FRESH_ALPHA_REVIEW,afterany:52563:52564:52565,f9fbd56f31b0c520763ec9026e660a76cb3074ff,d7b824052de14288dec559f0cf235a59b8a81f12,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json,62f3495a6899b441db556f9c2cfc7893f4ae3d862b9b465646f4242f7b692ee0,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/reduce.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r3,8G,4,5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r3
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=4
+export OPENBLAS_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+export CUDA_VISIBLE_DEVICES=''
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.runner --lock /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json --phase reduce
+",,
+52575,odeedit_alpha_key_writers_r4_s4,janghj,COMPLETED,0:0,2026-09-23T12:59:06,2026-09-23T15:33:31,2026-09-23T23:50:13,29802,1,29802,Asia/Seoul,FRESH_ALPHA_REVIEW,,a21cffa08d4cf86ed258acabdb786fba778f4dfb,919c37f7b3c15ceeaa9e8725d4eb8a41570f55a5,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/execution.lock.json,77b961e07c83cc20f2a8805de850fe33076fd673dcad76d536b9ef9eb289e9ae,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/writers.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r4,59G,8,869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r4
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r4
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=8
+export MKL_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.writers_repair run --root /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1 --phase writers
+",,
+52576,odeedit_alpha_key_reduce_r4_s4,janghj,COMPLETED,0:0,2026-09-23T12:59:06,2026-09-23T23:50:23,2026-09-23T23:55:25,302,0,0,Asia/Seoul,FRESH_ALPHA_REVIEW,afterany:52564:52575,a21cffa08d4cf86ed258acabdb786fba778f4dfb,919c37f7b3c15ceeaa9e8725d4eb8a41570f55a5,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/execution.lock.json,77b961e07c83cc20f2a8805de850fe33076fd673dcad76d536b9ef9eb289e9ae,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r4/reduce.sh,/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r4,8G,4,869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b,"#!/bin/bash
+set -euo pipefail
+cd /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r4
+export PYTHONPATH=/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2:/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution-source-r4
+export PYTHONNOUSERSITE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+export OPENBLAS_NUM_THREADS=4
+export CUDA_VISIBLE_DEVICES=''
+exec /data/janghj/EasyEdit/.venv/bin/python -u -m project.run_scripts.alpha_key_concentration_causal.writers_repair run --root /data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1 --phase reduce
+",,

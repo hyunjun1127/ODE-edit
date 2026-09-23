@@ -1,0 +1,34 @@
+{
+  "KR_matrices": 8,
+  "KR_receiving_MP_identity": true,
+  "by_phase": {
+    "E1": {
+      "COMPLETED": 28
+    },
+    "E2": {
+      "COMPLETED": 18
+    },
+    "E3": {
+      "COMPLETED": 4
+    },
+    "E4-H": {
+      "COMPLETED": 20
+    },
+    "E4-KR": {
+      "COMPLETED": 8
+    },
+    "E4-W": {
+      "COMPLETED": 16
+    },
+    "FUTURE": {
+      "FOLLOWUP_NOT_SUBMITTED": 2
+    },
+    "ORDER": {
+      "FOLLOWUP_NOT_SUBMITTED": 2
+    },
+    "SEQ": {
+      "FOLLOWUP_NOT_SUBMITTED": 3
+    }
+  },
+  "raw_metric_pair_reductions": 236
+}

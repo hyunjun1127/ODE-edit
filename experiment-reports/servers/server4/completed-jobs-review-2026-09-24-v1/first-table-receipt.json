@@ -1,0 +1,9 @@
+{
+  "full_source_state_cost_review": "IN_PROGRESS",
+  "joint_sha256": "650c358442a7e9161b237d11cf2d049ead358fcf1db512d47f52e2ea2de05a89",
+  "model_calls": 0,
+  "rows": 72,
+  "scheduler_completion_not_scientific_PASS": true,
+  "status": "INDEPENDENT_RAW_NLL_AND_TF_REDUCED",
+  "table_sha256": "f4ce4bc490b306867c7f757b8256e2fb204d1c3971b987ed9442b5e8151dcd9d"
+}

@@ -1,0 +1,9 @@
+{
+  "aggregate_source_overwrite": false,
+  "full_context_arithmetic_path": "/data/janghj/ODE-edit/local/server4-completed-jobs-review/20260924-v1/geometry-all-context-spectrum-arithmetic.csv",
+  "full_context_arithmetic_sha256": "78edfa80ad826e1c940c083d885cbdf580f5a3dcde299d026725dd5739f78924",
+  "panel_observations": 118,
+  "raw_tensor_recompute": "Representative CPU check recorded separately",
+  "rows": 33040,
+  "verification": "Independent PR/top-energy/ESS from saved eigenvalues and per-request norms; no model rerun; full eigenvectors not reconstructed"
+}
