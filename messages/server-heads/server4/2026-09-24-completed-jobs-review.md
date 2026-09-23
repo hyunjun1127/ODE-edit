@@ -26,4 +26,7 @@ HTML renderer 미설치 NOT_RUN. Owner audit+independent reducer이며 별도 ag
 
 원 runtime/raw/input12CP/실패/waiver/타task 유지.
 Own-scope nonforce publication 외 추가 작업 없음.
+Access helper는 core source/report에는 PASS였으나 명시 허용된
+`runs/odeedit_server4_jobs_review_20260924/receipt.json`에서 exit7/NOT_PASS였다.
+명시 envelope의 좁은 예외로 기록했고 공용 helper/정책/identity 수정은0이다.
 TASK_COMPLETE_STOP; monitoring_active=false; automatic_resume=false.

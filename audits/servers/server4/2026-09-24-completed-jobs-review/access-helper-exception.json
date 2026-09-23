@@ -1,0 +1,17 @@
+{
+  "instruction": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "command": "scripts/check-agent-access.sh --staged",
+  "core_source_and_report_check": "PASS at analysis source commit 29f3052b89e1bc85374bbcacd4ef98b17e115604",
+  "completion_metadata_check": "NOT_PASS",
+  "exit_code": 7,
+  "blocked_exact_path": "runs/odeedit_server4_jobs_review_20260924/receipt.json",
+  "reported_role": "server-head",
+  "reported_agent": "server4-server-head",
+  "reported_host": "server4",
+  "explicit_authority": "messages/head/2026-09-24-sh4-all-jobs-detailed-review.md: 소형 run/status: runs/odeedit_server4_jobs_review_20260924/ 및 tasks/status/server4-jobs-review-20260924/server4.json",
+  "disposition": "Proceed only within latest explicit user envelope; no helper or shared policy modification; do not report helper PASS for metadata.",
+  "global_permission_expansion": false,
+  "shared_helper_modification": false,
+  "shared_identity_modification": false,
+  "raw_payload_included": false
+}
