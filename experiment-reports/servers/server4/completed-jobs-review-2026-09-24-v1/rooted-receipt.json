@@ -1,0 +1,225 @@
+{
+  "analysis_manifest_sha256": "442f25081e005f8238d3495f7791d6c28fc4cae2e67320fc432addf42fd5b616",
+  "analysis_source_commit": "29f3052b89e1bc85374bbcacd4ef98b17e115604",
+  "independent_agent_red": false,
+  "instruction": "ODEEDIT-GH-SH4-ALL-JOBS-DETAILED-REVIEW-20260924-R1",
+  "limitations": [
+    "full_numerical_equivalence=NOT_ESTABLISHED",
+    "GPU_continuation=NOT_TESTED",
+    "full_W_M_reconstruction=NOT_PERFORMED",
+    "HTML_render=NOT_RUN_RENDERER_NOT_INSTALLED",
+    "pure_IO_time=NOT_SEPARATED"
+  ],
+  "member_scope": "all compact package files except rooted-receipt.json; no self-hash",
+  "members": [
+    {
+      "bytes": 25562,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/H512-active-superseded.csv",
+      "sha256": "8f8bd74b476cd49e020a0ba77904745d9602d9a400c8d3081ceb803c7fc184a3"
+    },
+    {
+      "bytes": 3084,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/KR-interactions.csv",
+      "sha256": "ef9fd9ec0bf1f5d218b1555a1c5c987fcd9adc804006c9d2bd189224d994d490"
+    },
+    {
+      "bytes": 79520,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/N512-stage-transitions.csv",
+      "sha256": "6c6e5fbd7f2238c1e10866f735499f478bfb5b7a8e419b3d33ed792bf45d61eb"
+    },
+    {
+      "bytes": 5786,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/N512-w0-retention.csv",
+      "sha256": "d1585c240329be74eb7d989718c0ca7f671b5b117b357e0b061e53664647f18c"
+    },
+    {
+      "bytes": 917,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/accounting-receipt.json",
+      "sha256": "7b1ccced77fa52ff7d4106d7c1c76701a06b1535c8b57ea3dbb4af32667ef6da"
+    },
+    {
+      "bytes": 112301,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/actual-endpoints-and-geometry.png",
+      "sha256": "778b61dcfa53cdf207203d036409f902e04fa9b2e5d00d4283413af44ffda5c4"
+    },
+    {
+      "bytes": 416810,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/all-endpoint-metrics.csv",
+      "sha256": "e617fea69f199453e80efffae7a0aa8dddb6ca88b8955ddf32c8853980417423"
+    },
+    {
+      "bytes": 852,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/allocation-intervals.csv",
+      "sha256": "bcbb52953e873edb56b4f26a6c7843336b21d52f6509ee2c6734347c32c50e79"
+    },
+    {
+      "bytes": 3568,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/analysis-manifest.json",
+      "sha256": "442f25081e005f8238d3495f7791d6c28fc4cae2e67320fc432addf42fd5b616"
+    },
+    {
+      "bytes": 1392,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/authority-binding.json",
+      "sha256": "2025862f8b96d2a114f2cba85c071b6ac818b4f70f3b41e8adc32b97959be080"
+    },
+    {
+      "bytes": 156262,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/component-and-N512-paired.csv",
+      "sha256": "bdb5050f37d58b4c32c714eecd87693f8cf9847fbe09e5f04bf806dea1025037"
+    },
+    {
+      "bytes": 46327,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/component-nonmutation.csv",
+      "sha256": "cfbe0947df396bc3a29f5af91128639ec9a2d01f791559c0f9886336644321a6"
+    },
+    {
+      "bytes": 417873,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/compute-components.csv",
+      "sha256": "dd4a467acef21fdc73cd06b04c38ed4b6aecc7d96a2dfaa1c18293422cf13850"
+    },
+    {
+      "bytes": 534,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/coverage-receipt.json",
+      "sha256": "6067b2ddc90031e4282919caabcd13a422998344a56366bb508122b101004133"
+    },
+    {
+      "bytes": 3089,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/current-joint.csv",
+      "sha256": "8610ef0f939d5d1f5b135347ea405c8c2dea10e88abe42728456b4f7ba2938b2"
+    },
+    {
+      "bytes": 18538,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/family-coverage.csv",
+      "sha256": "ea49debbcc0d129f550e336f54f71b7193a9e98e5184682429741ae42947440b"
+    },
+    {
+      "bytes": 31364,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/first-actual-table.csv",
+      "sha256": "f4ce4bc490b306867c7f757b8256e2fb204d1c3971b987ed9442b5e8151dcd9d"
+    },
+    {
+      "bytes": 579,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/first-joint-table.csv",
+      "sha256": "650c358442a7e9161b237d11cf2d049ead358fcf1db512d47f52e2ea2de05a89"
+    },
+    {
+      "bytes": 361,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/first-table-receipt.json",
+      "sha256": "d461e3cee2590324a4ff9bb8ca193298c53e469a77aa7f58c524cea875063948"
+    },
+    {
+      "bytes": 31707,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/frozen-source-members.csv",
+      "sha256": "12a615f133f1e99c9411d84cb8098e192f585fcc82c19fbe7390f3143c4f9ab9"
+    },
+    {
+      "bytes": 576,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/geometry-CPU-tensor-sample.csv",
+      "sha256": "43a6c22036e17bb72a39dba0b8af4f90eca1fc42093d3954f4670afef5581745"
+    },
+    {
+      "bytes": 567,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/geometry-audit.json",
+      "sha256": "c84295a5d39355389765f0089d93f80948ab7420b6befeb163d2394d6452f76d"
+    },
+    {
+      "bytes": 665408,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/geometry-context-ranges.csv",
+      "sha256": "2512770d8b6022c977663c7d44cfe8bc4c7441d528563e0367cde3abd5a2ecd3"
+    },
+    {
+      "bytes": 1652192,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/geometry-independent-spectrum-arithmetic.csv",
+      "sha256": "66a86f92d29c95bcb4d9af1431177385e9f60cb4a0652825793d6b8e21e53a77"
+    },
+    {
+      "bytes": 12466,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/geometry-observation-coverage.csv",
+      "sha256": "e885e26e6ae91240e4abc711a2c56c91d74739b3d08c4f50d351aa74d745b02e"
+    },
+    {
+      "bytes": 28841,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/historical-report-index.csv",
+      "sha256": "93405d6286e4a0588c1f9e65cd7f573b42de7bc6437ead2417a5de70caa1ecdc"
+    },
+    {
+      "bytes": 34120,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/history-exactly-once.csv",
+      "sha256": "e6772cee6823bee4f754e75d84bbf6923439331ae52d003e4e3b410e614cfe4a"
+    },
+    {
+      "bytes": 2685,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/history-mask-summary.csv",
+      "sha256": "a372f155698f8fc35793b2862d5ded10ec96cc9c28ca928b9f61ff9a689ff5f1"
+    },
+    {
+      "bytes": 23292,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/job-inventory.csv",
+      "sha256": "2681c7a92f0a3433b05b2e5a8438f598098d0598d7bdbf28fbfae5c548fa16f9"
+    },
+    {
+      "bytes": 230,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/metrics-receipt.json",
+      "sha256": "61334576c698b991ba7b9868106d894431c16c9d5dadd3f75a18c1835c1594ca"
+    },
+    {
+      "bytes": 79254,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/native-factor-checks.csv",
+      "sha256": "76fd8d311f7ed6033cb3d710d6fe5e58a67aa99ab570e84f7c22221a9d90e644"
+    },
+    {
+      "bytes": 17872,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/numerical-comparisons.csv",
+      "sha256": "d72037de09aded8f6e89093c8cd84286ab1cd313a3f8cec9fe29bdc459a8a2a2"
+    },
+    {
+      "bytes": 294,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/output-inventory-receipt.json",
+      "sha256": "b03af5e11a24fff85ce51b4c666ae2c265e93cc185617343a6eb85584319a4a8"
+    },
+    {
+      "bytes": 2627019,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/output-inventory.csv",
+      "sha256": "e65edf136815d882f4b604c227c2e6db609271d8ffacbc35ab47eabd9effaab0"
+    },
+    {
+      "bytes": 18185,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/paired-transitions.csv",
+      "sha256": "39e142417d4bdddcd733d6c044fdeb9c371b29af288c14afa68a7de79bef2f8f"
+    },
+    {
+      "bytes": 26273,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/report-ko.md",
+      "sha256": "8f552b44482a809681370366c93590f947c1a7c8c1517593953a4f777ff09385"
+    },
+    {
+      "bytes": 9480,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/source-conformance.csv",
+      "sha256": "d642e2fd7796acd015f291ad52377477d63e415467489717cea889842e4f5564"
+    },
+    {
+      "bytes": 513,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/state-audit.json",
+      "sha256": "6cec998288b8038b3d13f47805fd63f2ff69c4b8d7e7ecd63cd6e0f15718d5a1"
+    },
+    {
+      "bytes": 4580,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/validation.json",
+      "sha256": "5fc5c0d8f0c792781c550829bf223fa48f2eb574a730d6460f040c9c04d421b9"
+    },
+    {
+      "bytes": 220947,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/writer-events.csv",
+      "sha256": "ad7a5d6e828d0868aaa24027a61211fef4dd8f15a065f22a8fbd3f35478b5fee"
+    },
+    {
+      "bytes": 44262,
+      "path": "experiment-reports/servers/server4/completed-jobs-review-2026-09-24-v1/writer-mechanism.csv",
+      "sha256": "c3e7f3181c6a41f9a9344e41041c1d176b1365fd8b868f600353b886d88489d2"
+    }
+  ],
+  "original_data_mutations": 0,
+  "report_sha256": "8f552b44482a809681370366c93590f947c1a7c8c1517593953a4f777ff09385",
+  "validation_sha256": "5fc5c0d8f0c792781c550829bf223fa48f2eb574a730d6460f040c9c04d421b9",
+  "validation_status": "PASS_SCOPED_CPU_REVIEW_VALIDATION"
+}

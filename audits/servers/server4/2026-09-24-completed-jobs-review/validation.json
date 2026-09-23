@@ -1,0 +1,207 @@
+{
+  "GFM_table_structure": [
+    {
+      "columns": 6,
+      "rows": 17
+    },
+    {
+      "columns": 3,
+      "rows": 7
+    },
+    {
+      "columns": 4,
+      "rows": 8
+    },
+    {
+      "columns": 7,
+      "rows": 4
+    },
+    {
+      "columns": 6,
+      "rows": 4
+    },
+    {
+      "columns": 7,
+      "rows": 20
+    },
+    {
+      "columns": 5,
+      "rows": 4
+    },
+    {
+      "columns": 5,
+      "rows": 7
+    },
+    {
+      "columns": 5,
+      "rows": 8
+    },
+    {
+      "columns": 3,
+      "rows": 9
+    },
+    {
+      "columns": 3,
+      "rows": 5
+    }
+  ],
+  "GPU_model_evaluator_calls": 0,
+  "HTML_GFM_render": "NOT_RUN_RENDERER_NOT_INSTALLED",
+  "PNG_reproduction_SHA256": "778b61dcfa53cdf207203d036409f902e04fa9b2e5d00d4283413af44ffda5c4",
+  "PNG_visual_inspection": "OWNER_TOOL_VIEW_PERFORMED",
+  "Slurm_mutations": 0,
+  "analysis_only_repairs": [
+    "raw-schema path mapping calibration512/KR",
+    "event duplicate-key parser",
+    "test fixture list alias"
+  ],
+  "browser_screenshot": "NOT_RUN",
+  "coverage_completed": 94,
+  "failures": 0,
+  "followups_not_submitted": 7,
+  "independent_agent_red": false,
+  "metric_rows": 1608,
+  "original_runtime_modifications": 0,
+  "raw_free": "no prompt/tokens/weights/teacher/fullstdout in Git package; compact hashes/case aggregates only",
+  "raw_output_stat_unchanged_members": 6465,
+  "relative_links": [
+    {
+      "exists": true,
+      "target": "historical-report-index.csv"
+    },
+    {
+      "exists": true,
+      "target": "job-inventory.csv"
+    },
+    {
+      "exists": true,
+      "target": "accounting-receipt.json"
+    },
+    {
+      "exists": true,
+      "target": "family-coverage.csv"
+    },
+    {
+      "exists": true,
+      "target": "all-endpoint-metrics.csv"
+    },
+    {
+      "exists": true,
+      "target": "current-joint.csv"
+    },
+    {
+      "exists": true,
+      "target": "paired-transitions.csv"
+    },
+    {
+      "exists": true,
+      "target": "N512-stage-transitions.csv"
+    },
+    {
+      "exists": true,
+      "target": "N512-w0-retention.csv"
+    },
+    {
+      "exists": true,
+      "target": "history-mask-summary.csv"
+    },
+    {
+      "exists": true,
+      "target": "H512-active-superseded.csv"
+    },
+    {
+      "exists": true,
+      "target": "geometry-independent-spectrum-arithmetic.csv"
+    },
+    {
+      "exists": true,
+      "target": "geometry-context-ranges.csv"
+    },
+    {
+      "exists": true,
+      "target": "geometry-audit.json"
+    },
+    {
+      "exists": true,
+      "target": "writer-mechanism.csv"
+    },
+    {
+      "exists": true,
+      "target": "native-factor-checks.csv"
+    },
+    {
+      "exists": true,
+      "target": "history-exactly-once.csv"
+    },
+    {
+      "exists": true,
+      "target": "KR-interactions.csv"
+    },
+    {
+      "exists": true,
+      "target": "component-and-N512-paired.csv"
+    },
+    {
+      "exists": true,
+      "target": "source-conformance.csv"
+    },
+    {
+      "exists": true,
+      "target": "numerical-comparisons.csv"
+    },
+    {
+      "exists": true,
+      "target": "allocation-intervals.csv"
+    },
+    {
+      "exists": true,
+      "target": "compute-components.csv"
+    },
+    {
+      "exists": true,
+      "target": "writer-events.csv"
+    },
+    {
+      "exists": true,
+      "target": "../single-layer-mechanism-first-20260919-v1/completed-b1-review-20260920-v1/report-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "../en-adaptive-nullspace-2026-09-20-v1/failure-handoff-r1/report-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "../en-execution-reuse-r512-g256-20260919-v1/completed-review-v1/diagnostic-report-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "../single-layer-mechanism-first-20260919-v1/repair-r1/repair-and-gate-policy-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "../single-layer-mechanism-first-20260919-v1/repair-r2/cleanup-repair-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "../single-layer-mechanism-first-20260919-v1/repair-r3/diagnostic-report-ko.md"
+    },
+    {
+      "exists": true,
+      "target": "output-inventory.csv"
+    },
+    {
+      "exists": true,
+      "target": "output-inventory-receipt.json"
+    },
+    {
+      "exists": true,
+      "target": "actual-endpoints-and-geometry.png"
+    }
+  ],
+  "review_type": "owner source audit plus independent reducer implementation",
+  "source_AST_parse": 7,
+  "source_member_SHA_matches": 104,
+  "status": "PASS_SCOPED_CPU_REVIEW_VALIDATION",
+  "tests": 9,
+  "tests_output_sha256": "78f027cfbe357692fffb62d7c71fd10c42cd7d1dcd397562c0a22692175a8c4e"
+}
