@@ -69,8 +69,8 @@ def freeze(root,repo,attempt='attempt-r1'):
         f.flush();os.fsync(f.fileno())
     frozen=paths['frozen'];frozen.mkdir(exist_ok=False)
     with tarfile.open(archive,'r:gz') as tf:tf.extractall(frozen,filter='data')
-    paths=command(['git','-C',str(repo),'ls-tree','-r','--name-only',source,'project/run_scripts/alpha_key_concentration_causal']).splitlines()
-    members=[dict(relative_path=p,bytes=(frozen/p).stat().st_size,sha256=file_sha(frozen/p)) for p in paths]
+    source_paths=command(['git','-C',str(repo),'ls-tree','-r','--name-only',source,'project/run_scripts/alpha_key_concentration_causal']).splitlines()
+    members=[dict(relative_path=p,bytes=(frozen/p).stat().st_size,sha256=file_sha(frozen/p)) for p in source_paths]
     old=json.loads((root/'inputs/design/evidence/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json').read_text())
     binding=root/'receipts/native-input-binding-r2.json'
     if binding.exists():

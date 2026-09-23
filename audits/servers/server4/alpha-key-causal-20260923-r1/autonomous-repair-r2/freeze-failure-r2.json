@@ -1,0 +1,16 @@
+{
+  "status": "CPU_FREEZE_FAILED_BEFORE_LOCK_AND_SUBMISSION",
+  "attempt": "attempt-r2",
+  "source": "52dfb6a64c82f9f47199180c5cc342279ca871ed",
+  "tree": "16a0a7f041ebf3a7fa43502d646aa3da4fffc4ec",
+  "first_exception": "TypeError: list indices must be integers or slices, not str",
+  "source_location": "control.freeze:97 report_subdir=paths['report_subdir']",
+  "root_cause": "git ls-tree source member list shadowed immutable attempt path mapping",
+  "archive_and_extracted_source": "PRESERVED; controls/attempt-r2 and execution-source-r2",
+  "lock_created": false,
+  "Slurm_submissions": 0,
+  "GPU_allocated_seconds": 0,
+  "repair": "rename file list to source_paths; add complete mocked-archive freeze/lock/phase-routing/create-once regression",
+  "next_immutable_attempt": "attempt-r3",
+  "scientific_method_or_threshold_change": false
+}

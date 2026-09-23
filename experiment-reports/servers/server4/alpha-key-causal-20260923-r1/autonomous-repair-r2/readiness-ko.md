@@ -28,3 +28,7 @@
 GPU 부족 pending으로 인계할 때는 전량 정상등록/검사/release 및 실제 부족 근거를 먼저 남기고 G0–G3를 미관측으로 기록한다. 실행 중이면 actual 초기 gate까지 확인한다. 이후 agent monitoring/자동 재개는 중지하며 branch만 게시한다. GH main 통합은 별도다. NO_BROADCAST_NOT_REQUIRED.
 
 CPU receipt: [cpu-validation.json](../../../../../audits/servers/server4/alpha-key-causal-20260923-r1/autonomous-repair-r2/cpu-validation.json).
+
+## CPU 봉인 실패 보존 및 attempt-r3
+
+source `52dfb6a64c82f9f47199180c5cc342279ca871ed`의 첫 r2 freeze는 source member 목록이 attempt 경로 변수를 가린 `TypeError`로 lock 생성 전에 중단됐다. Slurm 제출0/GPU 비용0이며 생성된 archive/extracted source는 보존했다. 변수명을 분리하고 소형 archive를 이용한 freeze→lock→4phase script→중복 거부 전체 CPU 회귀검사를 추가한다. 다음 제출은 기존 r2를 덮지 않는 `attempt-r3`다. 이는 제어 경로 수정이며 native/과학 수치 변경이 아니다.
