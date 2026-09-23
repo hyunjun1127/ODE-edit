@@ -15,7 +15,13 @@
   "ack_type": "same_connection_agent_message",
   "registration_status": "IMPLEMENTING_NOT_SUBMITTED",
   "actual_job_ids": [],
-  "receiver_verification_status": "PENDING",
+  "receiver_verification_status": "SH4_REPORTED_PASS_15_OF_15",
+  "receiver_file_count": 15,
+  "receiver_total_bytes": 245092,
+  "receiver_receipt_sha256": "e0fa8afe61120b1c9fee188e48b7d354163a36790285421e894f9686c080632b",
+  "receiver_destination_root": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/design/",
+  "receiver_transport": "verified rke-server1 (hostname devbox); initial devbox alias host-key rejection preserved",
+  "receiver_verification_message": "승인된 15개 파일 245092B receiver size/SHA 전부 일치. 원본 보존. IMPLEMENTING_NOT_SUBMITTED, job_ids=[]. 정본 전체 읽기와 기존 BASE 자산·패널 결속 계속.",
   "experiment_completed": false,
   "gh_gpu_or_scheduler_action": 0
 }

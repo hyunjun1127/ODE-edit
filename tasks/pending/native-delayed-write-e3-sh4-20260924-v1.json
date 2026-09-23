@@ -9,7 +9,8 @@
   "dispatch_publication": "11a2d883bd2bda4df19e243f936d29578bcf7d96",
   "accepted_turn": "01a0cf44-ddfd-77d1-8119-a9427328b32a",
   "ack_received": true,
-  "receiver_verification_status": "ACK_RECEIVED_TRANSFER_VERIFICATION_PENDING",
+  "receiver_verification_status": "SH4_REPORTED_PASS_15_OF_15",
+  "receiver_receipt_sha256": "e0fa8afe61120b1c9fee188e48b7d354163a36790285421e894f9686c080632b",
   "envelope": "messages/head/2026-09-24-native-delayed-write-e3-sh4.md",
   "transfer": "transfers/approvals/2026-09-24-native-delayed-write-e3-sh4.json",
   "scope": [
