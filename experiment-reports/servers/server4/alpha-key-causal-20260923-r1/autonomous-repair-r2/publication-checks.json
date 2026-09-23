@@ -1,0 +1,12 @@
+{
+  "HTML": "NOT_RUN_TOOL_UNAVAILABLE",
+  "held_full_args_and_release_count": true,
+  "independent_agent_red": false,
+  "local_links": true,
+  "no_model_calls": true,
+  "no_scheduler_calls_in_publisher": true,
+  "no_scientific_output_reads": true,
+  "source_lock_receipt_bindings": true,
+  "status": "PASS_STATIC_ONLY",
+  "table_columns": true
+}

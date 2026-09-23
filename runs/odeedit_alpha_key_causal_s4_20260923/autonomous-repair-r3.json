@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-ALPHA-KEY-CAUSAL-20260923-R1",
+  "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1",
+  "status": "MAIN_GPU_RESOURCE_PENDING_HANDOFF",
+  "jobs": {
+    "gate": 52563,
+    "geometry": 52564,
+    "writers": 52565,
+    "cpu_reducer": 52566
+  },
+  "execution_source": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+  "execution_lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+  "rooted_receipt_sha256": "ad626db84e33eb1edb4573147efeccae59ddb79114920be93e75da2c39f975bb",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "initial_gate": "NOT_OBSERVED",
+  "followups": "FOLLOWUP_NOT_SUBMITTED"
+}

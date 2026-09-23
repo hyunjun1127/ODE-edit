@@ -1,0 +1,183 @@
+{
+  "CPU_tests": 143,
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "actual_GPU_gate": "NOT_OBSERVED",
+  "admission": {
+    "epoch": 1790127425.8481305,
+    "exact_owner_queue": "",
+    "free_bytes": 241854758912,
+    "free_inodes": 225521902,
+    "lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+    "node": "NodeName=server4 Arch=x86_64 CoresPerSocket=32  CPUAlloc=52 CPUEfctv=128 CPUTot=128 CPULoad=11.17 AvailableFeatures=(null) ActiveFeatures=(null) Gres=gpu:rtx_pro_6000:8(S:0-1) NodeAddr=server4 NodeHostName=server4 Version=26.05.0 OS=Linux 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 13:00:45 UTC 2026  RealMemory=512000 AllocMem=425984 FreeMem=29636 Sockets=2 Boards=1 State=MIXED ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A Partitions=gpu  BootTime=2026-06-26T10:55:08 SlurmdStartTime=2026-09-12T06:05:32 LastBusyTime=2026-09-14T06:10:11 ResumeAfterTime=None SuspendTime=INFINITE CfgTRES=cpu=128,mem=500G,billing=128,gres/gpu=8 AllocTRES=cpu=52,mem=416G,gres/gpu=8 CurrentWatts=0 AveWatts=0",
+    "owner": "janghj",
+    "project_cap": 2,
+    "task_cap": 2
+  },
+  "all_held_inspected_released": true,
+  "allowed_phases": [
+    "gate",
+    "geometry",
+    "writers",
+    "reduce"
+  ],
+  "archive": {
+    "bytes": 495225396,
+    "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/source.tar.gz",
+    "sha256": "62f3495a6899b441db556f9c2cfc7893f4ae3d862b9b465646f4242f7b692ee0"
+  },
+  "attempt": "attempt-r3",
+  "automatic_resume": false,
+  "dependency_graph": {
+    "gate": null,
+    "geometry": "afterok:52563",
+    "reduce": "afterany:52563:52564:52565",
+    "writers": "afterok:52563"
+  },
+  "evidence": [
+    {
+      "bytes": 10536,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/execution.lock.json",
+      "sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b"
+    },
+    {
+      "bytes": 1689,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/submission.json",
+      "sha256": "5ae48dce0b5b39db949b86c2b5f5a5bc34d80bf26c67ded7121f2ce876c84722"
+    },
+    {
+      "bytes": 8660,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/held-inspection.json",
+      "sha256": "ba902827c94d160fab8e29ae33ae4ed3835c757cd7a63172c068cf7a8f992cab"
+    },
+    {
+      "bytes": 7150,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/submission-events.jsonl",
+      "sha256": "e96edd0edae2af4f83f945399bb348997a5e15edd44af0fcf027c84c6fb0dc5b"
+    },
+    {
+      "bytes": 1000,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/admission.json",
+      "sha256": "c95e7035d5b7480233ceaa87a61961e953866c1fbe97b10d4f4864543eb57dbb"
+    },
+    {
+      "bytes": 213,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/controls/attempt-r3/storage-preflight.json",
+      "sha256": "6a39c382833ecf00ec5b5d2c2e0a6ed21dd3dd992ae2a79418f2d4343017f5b3"
+    },
+    {
+      "bytes": 1362,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/pending-observation.json",
+      "sha256": "9b53116aa24b57ce4f1c645401bc84770b934b44efd52662afcda9032f8577ed"
+    },
+    {
+      "bytes": 483,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/cpu-validation-v3/receipt.json",
+      "sha256": "5154f01c8d54dd8315d1e4ac352ae53d6dc2c6e02069be6535d3913e8abf6ce7"
+    },
+    {
+      "bytes": 33956,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/failure-diagnosis-r1/diagnosis.json",
+      "sha256": "a476d07361e345452044b4c62b70e87fa0cd33ecec2447614c9da770bab8c9f9"
+    },
+    {
+      "bytes": 8547,
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/failure-diagnosis-r1/bos-cpu-reproduction.json",
+      "sha256": "1b6273a0ffeb8cf9ed49933adc9a682a1826efc78d31507ee1cce74356341efd"
+    }
+  ],
+  "evidence_root": "66c608acdf61f2de722181fc70ba0712d439da33fdc2ba6d6208087753e9282a",
+  "followups": "FOLLOWUP_NOT_SUBMITTED",
+  "independent_red_this_repair": false,
+  "jobs": {
+    "gate": "52563",
+    "geometry": "52564",
+    "reduce": "52566",
+    "writers": "52565"
+  },
+  "lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+  "monitoring_active": false,
+  "new_actual_results": "NOT_OBSERVED; no later query",
+  "new_allocated_gpu_seconds_at_last_observation": 0,
+  "new_full_state_checkpoint": false,
+  "observation": {
+    "CPU_and_memory_request_fit_unallocated_scheduler_TRES": true,
+    "actual_G0_G1_G2_G3": "NOT_OBSERVED",
+    "after_this_observation_no_scheduler_log_result_polling": true,
+    "automatic_resume": false,
+    "earlier_release_immediate_reason_None_not_used_for_pause": true,
+    "gpu_shortage_confirmed": true,
+    "jobs": {
+      "gate": {
+        "allocated_tres": null,
+        "dependency": null,
+        "id": "52563",
+        "priority": 1,
+        "reason": "Resources",
+        "start": "Unknown",
+        "state": "PENDING"
+      },
+      "geometry": {
+        "dependency": "afterok:52563",
+        "id": "52564",
+        "reason": "Dependency",
+        "state": "PENDING"
+      },
+      "reduce": {
+        "dependency": "afterany:52563:52564:52565",
+        "id": "52566",
+        "reason": "Dependency",
+        "state": "PENDING"
+      },
+      "writers": {
+        "dependency": "afterok:52563",
+        "id": "52565",
+        "reason": "Dependency",
+        "state": "PENDING"
+      }
+    },
+    "monitoring_active": false,
+    "monitoring_status": "MONITORING_PAUSED_AWAITING_USER",
+    "node": "server4",
+    "node_resources": {
+      "CPU_allocated": 52,
+      "CPU_configured": 128,
+      "GPU_allocated": 8,
+      "GPU_configured": 8,
+      "memory_allocated_MiB": 425984,
+      "memory_configured_MiB": 512000
+    },
+    "nonce": "ODEEDIT-GH-SH4-ALPHA-KEY-AUTONOMOUS-RESUME-20260923-R1",
+    "observation_window_utc": [
+      "2026-09-23T01:37:06Z",
+      "2026-09-23T01:38:02Z"
+    ],
+    "owner": "janghj",
+    "scheduler_last_evaluation_KST": "2026-09-23T10:37:08",
+    "status": "MAIN_GPU_RESOURCE_PENDING_HANDOFF"
+  },
+  "old_source_raw_inputs": "KEEP",
+  "prior_CPU_freeze_gpu_seconds": 0,
+  "prior_failed_gpu_seconds": 44,
+  "project_gpu_cap": 2,
+  "publication": "OWN_BRANCH_ONLY; GH owns main integration",
+  "reducer_resources": {
+    "cpus": 4,
+    "gpus": 0,
+    "mem_MiB": 8192,
+    "wall": "2-00:00:00"
+  },
+  "resources": {
+    "cpus": 8,
+    "export": "NONE",
+    "gpus_each": 1,
+    "mem_MiB": 60416,
+    "node": "server4",
+    "partition": "gpu",
+    "requeue": false,
+    "wall": "7-00:00:00"
+  },
+  "scientific_families": 94,
+  "source_commit": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+  "source_tree": "d7b824052de14288dec559f0cf235a59b8a81f12",
+  "task_gpu_cap": 2
+}

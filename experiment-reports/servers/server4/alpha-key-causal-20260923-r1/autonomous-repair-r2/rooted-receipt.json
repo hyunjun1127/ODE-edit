@@ -1,0 +1,25 @@
+{
+  "members": [
+    {
+      "bytes": 7054,
+      "path": "handoff.json",
+      "sha256": "ee4b6c9b233bc98db907566a7cf741e9aa706eda6294697f72982fa5003af649"
+    },
+    {
+      "bytes": 346,
+      "path": "publication-checks.json",
+      "sha256": "ea6cf15fa66c1e972270a5800474fbe3751c95378f5f25ef861b2b7de5a4d630"
+    },
+    {
+      "bytes": 4446,
+      "path": "readiness-ko.md",
+      "sha256": "cec557d99d4faa495ec9fbeda581ec64abe99f4c49aa7da61b76191963133d73"
+    },
+    {
+      "bytes": 4846,
+      "path": "submission-handoff-ko.md",
+      "sha256": "f3bcb8ce81e5c23af752aa202f0af6b0ab336799e9a2ecfd7dbb98013ccf4087"
+    }
+  ],
+  "root": "a5eefcdcb3673d4dbdda7d7f936452284693d22dfba0ef0d0d6993783edb687c"
+}
