@@ -7,11 +7,13 @@ Parent: GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1.
 ## 소유권과 범위
 
 SH1(session01a04939-f93a-7b50-bca0-65438eab2062, devbox,
-/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit, hyunjun1127/ODE-edit)가
+/mnt/raid5/janghj/ODE-edit, hyunjun1127/ODE-edit)가
 이관·입력확보·port·취소·제출의 단독 실행 owner다. 전용 clean child branch
 codex/server1-historical-update-timeaxis-migration-20260924-v1에서 수행한다.
 SH4는 원 source/자산/receipt 보존과 필요한 exact 경로 회신만 담당하고 새 submit0.
 SH4 task를 무단 재개하거나 무관 job을 취소하지 않는다.
+2026-09-24 app metadata/direct resume에서 현재 SH1 CWD는 위 root로 확인했다.
+오래된 registry의 29e4 worktree 경로는 이번 task boundary로 사용하지 않는다.
 
 이번 대상은 현재 대화의 repaired historical task 53182(BASE_ALPHAEDIT),
 53183(BASE_MEMIT), 53184(CPU afterany:53182:53183) 세 개다.
