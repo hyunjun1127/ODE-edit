@@ -1,0 +1,14 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1",
+  "authority_commit": "37b3bdef",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "cwd": "/data/janghj/ODE-edit",
+  "transport": "registered app-server direct over SSH",
+  "accepted_turn": "01a0d56e-5ab4-7291-abe4-ea6e27df0b75",
+  "same_stream_ack": "수치 근접성·flip 기록전용, identity·finite·정확 복원 유지. 좁은 CPU 회귀검사 후 두 family+collector 등록/release, 이후 모니터링 없이 인계.",
+  "submission_at_ack": "NOT_SUBMITTED",
+  "new_job_ids": [],
+  "numerical_certification": "NOT_ESTABLISHED",
+  "historical_failure_preserved": true,
+  "gh_gpu_scheduler_result_actions": 0
+}
