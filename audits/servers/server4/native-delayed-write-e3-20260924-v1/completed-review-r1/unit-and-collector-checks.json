@@ -1,0 +1,9 @@
+{
+  "GPU_calls": 0,
+  "implementation": "Separate analysis code; frozen reducer neither imported nor run",
+  "independent_endpoint_scalar_matches": 1525,
+  "independent_patch_scalar_matches": 4050,
+  "test_output": "test_bad_order (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_bad_order) ... ok\ntest_connected_cluster_and_seed (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_connected_cluster_and_seed) ... ok\ntest_create_once (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_create_once) ... ok\ntest_direction_and_margin (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_direction_and_margin) ... ok\ntest_false_strict (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_false_strict) ... ok\ntest_input_hash (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_input_hash) ... ok\ntest_nonfinite (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_nonfinite) ... ok\ntest_tie_is_failure_and_tf_separate (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_tie_is_failure_and_tf_separate) ... ok\ntest_token_count (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_token_count) ... ok\ntest_transition_not_just_net_count (project.run_scripts.native_delayed_write_e3_completed_review.test_review.ReviewTests.test_transition_not_just_net_count) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.056s\n\nOK\n",
+  "tests_PASS": true,
+  "tests_run": 10
+}

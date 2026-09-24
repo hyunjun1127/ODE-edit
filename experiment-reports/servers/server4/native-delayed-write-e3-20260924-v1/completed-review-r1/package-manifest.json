@@ -1,0 +1,86 @@
+{
+  "members": {
+    "README.md": {
+      "bytes": 2823,
+      "sha256": "e3b0501e98fa383c89b705e8862467d5f587cb76235182b296bed6bb16c8653b"
+    },
+    "active-overwrite.csv": {
+      "bytes": 6543,
+      "sha256": "133e386df02dd8cb2877495c4f95040bd4265e32d2c72974d9945e78d56ba3e5"
+    },
+    "analysis-manifest.json": {
+      "bytes": 4134,
+      "sha256": "8e784f4731817daaf1e569d8748a38b1ab7a52891f7043863967120e75f823a1"
+    },
+    "artifact-index-root.json": {
+      "bytes": 638,
+      "sha256": "1d1c494737e35f4efbb556dd9def87454907a54bfd8cc044994d0e8a904131dc"
+    },
+    "compute.csv": {
+      "bytes": 770,
+      "sha256": "f173e990e98f752448d4ab6103746d121ea0e02ae3f44cb96f2fbfc23183f59b"
+    },
+    "coverage.csv": {
+      "bytes": 1136,
+      "sha256": "5376a1a3ddbe42f2f54b8a156c4de38fca5f6143b38870272288f15a49ad4a19"
+    },
+    "e1-atwrite-paired.csv": {
+      "bytes": 96182,
+      "sha256": "494aa2671e45c20377e969f769ffc844e3145fdcbd6771172f433bf81fbc5e0d"
+    },
+    "factorial-patch-metrics.csv": {
+      "bytes": 517087,
+      "sha256": "4cdbb5bcf277593c209296c6f26ca90d7fe9cbc2745c8a46767a9812751c641f"
+    },
+    "factorial-summary.csv": {
+      "bytes": 45276,
+      "sha256": "b8c8145da9747892f8c555d40ef5882e2195f00cbf5b6781f6a7ead10e3036dd"
+    },
+    "figures/endpoint-N.png": {
+      "bytes": 62841,
+      "sha256": "e9ef721ac78d4eec18c7f01de63fa6d0a92f95c5fabf767f0f08c7ef1e393c27"
+    },
+    "figures/patch-N.png": {
+      "bytes": 164485,
+      "sha256": "b3a5174b0473e93ef30fccdf341401411d7ae97e0ad61dd92289bf61c07ea1d5"
+    },
+    "first-endpoint-table.csv": {
+      "bytes": 104732,
+      "sha256": "48710c928424fe1d96510e52b661adbc33f2eb2b4d8d0d94c3d728d784d1593a"
+    },
+    "layer-drift.csv": {
+      "bytes": 134058,
+      "sha256": "3673cf9d850214183ffd3e0af9f92433c91e4041135cc31124a0945636074748"
+    },
+    "module-summary.csv": {
+      "bytes": 8925,
+      "sha256": "80178d96f52ca24acd637507ec04e59a108dfa0a658a406acc802697a9616b56"
+    },
+    "paired-summary.csv": {
+      "bytes": 765134,
+      "sha256": "d241615077bf59d69af2cf16faa33093739ed545a8342a069cab2b50eb65781d"
+    },
+    "patch-audit.csv": {
+      "bytes": 1836,
+      "sha256": "17be40e3ba446771a68f5a9f88a970e887d851957864fa868507f7e1afab2207"
+    },
+    "report-ko.md": {
+      "bytes": 29540,
+      "sha256": "f36159cfb5c89017773e048397504b77d8b8d8801be6155dffd0b3efbdf1b315"
+    },
+    "row-validation.csv": {
+      "bytes": 23929,
+      "sha256": "853847eeb100f6067a22e969f17f33d475e0bcb72cf1efc728a5b3aaa7a3a9d3"
+    },
+    "source-conformance.csv": {
+      "bytes": 5920,
+      "sha256": "5a9e3ef415ec7d513441c04abbb4ce7060f05180454b462a14d7c99b510194fb"
+    },
+    "stage-coverage.csv": {
+      "bytes": 2243,
+      "sha256": "7f495a2a1a55af23f95687b34e70d19e44e20cf52494b9f5e2ef39d490c99481"
+    }
+  },
+  "raw_in_git": false,
+  "root": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1"
+}

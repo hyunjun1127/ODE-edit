@@ -1,0 +1,41 @@
+{
+  "GPU_allocated_seconds": 12288,
+  "analysis_manifest": {
+    "bytes": 4134,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/analysis-manifest.json",
+    "sha256": "8e784f4731817daaf1e569d8748a38b1ab7a52891f7043863967120e75f823a1"
+  },
+  "automatic_resume": false,
+  "collector_CPU_elapsed_seconds": 25,
+  "coverage": {
+    "E1": 25,
+    "E3_pairs": 12,
+    "factorial": 48,
+    "modified": 72
+  },
+  "exact_jobs": {
+    "52823": "COMPLETED 0:0",
+    "52824": "COMPLETED 0:0"
+  },
+  "independent_agent": false,
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "limitations": [
+    "No full tensor/K/v replay",
+    "General KL not independently recomputed from RAM-only teacher",
+    "GFM renderer unavailable"
+  ],
+  "monitoring_active": false,
+  "output_bytes": 814562794,
+  "output_members": 45592,
+  "package_manifest": {
+    "bytes": 2950,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/package-manifest.json",
+    "sha256": "1d7f619c7477310694a75005f506c1f4b075921fe029d5bc1c5148073b7e1724"
+  },
+  "report": {
+    "bytes": 29540,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/report-ko.md",
+    "sha256": "f36159cfb5c89017773e048397504b77d8b8d8801be6155dffd0b3efbdf1b315"
+  },
+  "status": "CPU_REVIEW_COMPLETE"
+}

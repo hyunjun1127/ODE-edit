@@ -1,0 +1,20 @@
+{
+  "GPU_calls": 0,
+  "actual11_exact": true,
+  "completion_rows": 479370,
+  "endpoint25": true,
+  "factorial48": true,
+  "independent_agent": false,
+  "limitations": [
+    "No independent full tensor/K/v replay",
+    "KL scalars source/runtime bound; full teacher RAM-only",
+    "state SHA bound through CP/config/path/runtime not per-row tensor hash",
+    "E1 temporal split stored for s1 only; s>1 factorial separately available"
+  ],
+  "original_runtime_modified": false,
+  "panel_cases_verified": true,
+  "patch72": true,
+  "scheduler_extra_queries": 0,
+  "score_datasets": 145,
+  "status": "CPU_REVIEW_PASS_STORED_SCOPE"
+}

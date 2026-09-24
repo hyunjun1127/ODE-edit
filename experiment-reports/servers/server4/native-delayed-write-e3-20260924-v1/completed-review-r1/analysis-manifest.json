@@ -1,0 +1,74 @@
+{
+  "CP_model_fullrehash": false,
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "Slurm_write": 0,
+  "accounting": {
+    "bytes": 1378,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/audits/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/accounting.json",
+    "sha256": "c69fe14afb49e5c552ff3a498313df3764fe815a3a50693daa86cc6f889a61cf"
+  },
+  "analysis_commit": "0e7d6d302bb40527d6248247b5cc934e1043e79c",
+  "analysis_members": [
+    {
+      "bytes": 1382,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/common.py",
+      "sha256": "0603f99609e6d3731225db4883b2a7862576f760afc1e29898683d4ae748f49c"
+    },
+    {
+      "bytes": 12183,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/detail.py",
+      "sha256": "919b255c3ffb5dda04dab56b06950b97e78b8fd7b6611d9452d6716b926051b3"
+    },
+    {
+      "bytes": 4646,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/finalize.py",
+      "sha256": "50fbbd196d942546c7e0c97da8282e7b8f3d2a9aa7d80736c101edce47cfd286"
+    },
+    {
+      "bytes": 3682,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/preflight.py",
+      "sha256": "7d28232504b696fe8b1af53c85b7a0ca03fdd8e0dd904562b0d422a52b493d9c"
+    },
+    {
+      "bytes": 9036,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/reducer.py",
+      "sha256": "10167d0874e198cd983e8d10e1d2a2e0a0d5e0258c10b0de82ee1d26695762a9"
+    },
+    {
+      "bytes": 28580,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/report.py",
+      "sha256": "ac3480ac6562b08d825435f7c350c923db9051e27ec757d0269973e1842854f8"
+    },
+    {
+      "bytes": 6381,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/supplement.py",
+      "sha256": "f5f631f3553c5ebdb885f489f584abc7860de8e8fc4491214bb8b061cb49c108"
+    },
+    {
+      "bytes": 3499,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/project/run_scripts/native_delayed_write_e3_completed_review/test_review.py",
+      "sha256": "7c4bcf6abbfd0f344261f4175b718772db1790f4c3edc27d27b54c220f853ff5"
+    }
+  ],
+  "execution_commit": "3ebe0b07078940c2d46f9ea2226ccc20c0446162",
+  "execution_lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "execution_tree": "7dece41be8ed2666d05a96cdb8432828c88fb5c0",
+  "extra_atwrite_IDs": {
+    "bytes": 1782833,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/atwrite-transition-ids.json",
+    "sha256": "e918c10ba81e382dbd10db1517b9185202ddeea67f45aa0117904ad5efcd8df9"
+  },
+  "frozen_source_unchanged": true,
+  "full_output_inventory": {
+    "bytes": 8263219,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/artifact-index.json",
+    "sha256": "b3747d2668cfde35faa5030dc7e5ae1ea2b65dece1df5eb662e236438468dd0e"
+  },
+  "input_binding": {
+    "bytes": 18411,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/audits/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/input-source-binding.json",
+    "sha256": "a96f64ba655e1df95c2bb017833b0c4a425b1c703ead2e633cdf5ea55a003f85"
+  },
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "new_model_GPU_calls": 0
+}

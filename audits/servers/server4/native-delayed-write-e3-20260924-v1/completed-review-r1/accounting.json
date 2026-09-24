@@ -1,0 +1,49 @@
+{
+  "command": [
+    "sacct",
+    "-X",
+    "-j",
+    "52823,52824",
+    "--noheader",
+    "--parsable2",
+    "--format=JobIDRaw,JobName%64,User,State,ExitCode,ElapsedRaw,AllocTRES,ReqTRES,Start,End,NodeList,Timelimit"
+  ],
+  "exact_scope_only": true,
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "mutation": 0,
+  "new_GPU": 0,
+  "parent_rows": [
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "12288",
+      "End": "2026-09-24T09:01:50",
+      "ExitCode": "0:0",
+      "JobIDRaw": "52823",
+      "JobName": "odeedit_delayed_E3_science_s4",
+      "NodeList": "server4",
+      "ReqTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "Start": "2026-09-24T05:37:02",
+      "State": "COMPLETED",
+      "Timelimit": "1-00:00:00",
+      "User": "janghj"
+    },
+    {
+      "AllocTRES": "billing=4,cpu=4,mem=8G,node=1",
+      "ElapsedRaw": "25",
+      "End": "2026-09-24T09:02:29",
+      "ExitCode": "0:0",
+      "JobIDRaw": "52824",
+      "JobName": "odeedit_delayed_E3_collector_s4",
+      "NodeList": "server4",
+      "ReqTRES": "billing=4,cpu=4,mem=8G,node=1",
+      "Start": "2026-09-24T09:02:04",
+      "State": "COMPLETED",
+      "Timelimit": "04:00:00",
+      "User": "janghj"
+    }
+  ],
+  "squeue": "",
+  "squeue_exit": 0,
+  "squeue_stderr": "",
+  "utc": "2026-09-24T01:15:38.796754+00:00"
+}

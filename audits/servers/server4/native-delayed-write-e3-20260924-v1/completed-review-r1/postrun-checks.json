@@ -1,0 +1,87 @@
+{
+  "CSV_full_reproduction": [
+    {
+      "bytes": 6543,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/active-overwrite.csv",
+      "sha256": "133e386df02dd8cb2877495c4f95040bd4265e32d2c72974d9945e78d56ba3e5"
+    },
+    {
+      "bytes": 770,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/compute.csv",
+      "sha256": "f173e990e98f752448d4ab6103746d121ea0e02ae3f44cb96f2fbfc23183f59b"
+    },
+    {
+      "bytes": 1136,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/coverage.csv",
+      "sha256": "5376a1a3ddbe42f2f54b8a156c4de38fca5f6143b38870272288f15a49ad4a19"
+    },
+    {
+      "bytes": 517087,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/factorial-patch-metrics.csv",
+      "sha256": "4cdbb5bcf277593c209296c6f26ca90d7fe9cbc2745c8a46767a9812751c641f"
+    },
+    {
+      "bytes": 45276,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/factorial-summary.csv",
+      "sha256": "b8c8145da9747892f8c555d40ef5882e2195f00cbf5b6781f6a7ead10e3036dd"
+    },
+    {
+      "bytes": 104732,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/first-endpoint-table.csv",
+      "sha256": "48710c928424fe1d96510e52b661adbc33f2eb2b4d8d0d94c3d728d784d1593a"
+    },
+    {
+      "bytes": 134058,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/layer-drift.csv",
+      "sha256": "3673cf9d850214183ffd3e0af9f92433c91e4041135cc31124a0945636074748"
+    },
+    {
+      "bytes": 8925,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/module-summary.csv",
+      "sha256": "80178d96f52ca24acd637507ec04e59a108dfa0a658a406acc802697a9616b56"
+    },
+    {
+      "bytes": 765134,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/paired-summary.csv",
+      "sha256": "d241615077bf59d69af2cf16faa33093739ed545a8342a069cab2b50eb65781d"
+    },
+    {
+      "bytes": 1836,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/patch-audit.csv",
+      "sha256": "17be40e3ba446771a68f5a9f88a970e887d851957864fa868507f7e1afab2207"
+    },
+    {
+      "bytes": 23929,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/row-validation.csv",
+      "sha256": "853847eeb100f6067a22e969f17f33d475e0bcb72cf1efc728a5b3aaa7a3a9d3"
+    },
+    {
+      "bytes": 2243,
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/stage-coverage.csv",
+      "sha256": "7f495a2a1a55af23f95687b34e70d19e44e20cf52494b9f5e2ef39d490c99481"
+    }
+  ],
+  "GFM_HTML_render": "NOT_RUN_RENDERER_NOT_INSTALLED",
+  "GFM_table_blocks": 16,
+  "PNG_owner_visual_inspection": "PASS_2_FIGURES",
+  "PNG_reproduction_sha256": {
+    "endpoint-N.png": "e9ef721ac78d4eec18c7f01de63fa6d0a92f95c5fabf767f0f08c7ef1e393c27",
+    "patch-N.png": "b3a5174b0473e93ef30fccdf341401411d7ae97e0ad61dd92289bf61c07ea1d5"
+  },
+  "full_model_CP_rehash": false,
+  "independent_red_agent": false,
+  "observer_evaluation_calls": 0,
+  "original_collector_readonly": true,
+  "publication": "own-scope source and compact derived reports only",
+  "raw_modified": false,
+  "relative_links": "PASS",
+  "relative_links_checked": 35,
+  "runtime_modified": false,
+  "table_column_check": "PASS",
+  "tests": {
+    "bytes": 1769,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree/audits/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/unit-and-collector-checks.json",
+    "sha256": "55d10d118582af62477b6ed663d61b4f84eae11a377cba0b4c7dc42075144bb5"
+  },
+  "threshold_changed": false
+}

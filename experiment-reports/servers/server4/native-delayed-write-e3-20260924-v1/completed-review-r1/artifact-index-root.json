@@ -1,0 +1,16 @@
+{
+  "bytes": 814562794,
+  "file": {
+    "bytes": 8263219,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/artifact-index.json",
+    "sha256": "b3747d2668cfde35faa5030dc7e5ae1ea2b65dece1df5eb662e236438468dd0e"
+  },
+  "input_CP_fullSHA_reused_current_stat": true,
+  "members": 45592,
+  "new_fullSHA_matches_original_index": true,
+  "paired_ID_artifact": {
+    "bytes": 2790773,
+    "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/paired-transition-ids.json",
+    "sha256": "40ea0f55eb9d9193efd4352fa021efa86f45c3aa6241220dacbbd6d100c78894"
+  }
+}

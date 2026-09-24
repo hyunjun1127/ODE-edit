@@ -1,0 +1,13 @@
+allvalid_and_pad_ledger,chunks,completion_rows,norm_matching_max_relative,pair,per_token_RMS,zero_action_chunks
+True,236,3306,2.20424531760677e-16,BASE_ALPHAEDIT_s001_t050,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.2058888651884252e-16,BASE_ALPHAEDIT_s001_t090,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.1847804859517075e-16,BASE_ALPHAEDIT_s001_t010,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.1750980043561863e-16,BASE_ALPHAEDIT_s001_t100,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.5586667759804827e-16,BASE_MEMIT_s001_t010,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.3436174269759675e-16,BASE_MEMIT_s001_t020,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.180115732506397e-16,BASE_MEMIT_s001_t005,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,3.033292851409309e-16,BASE_MEMIT_s001_t100,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.2079867761778408e-16,BASE_ALPHAEDIT_s010_t050,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.2097221284699173e-16,BASE_ALPHAEDIT_s050_t090,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,1.953065520045006e-16,BASE_MEMIT_s005_t010,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
+True,236,3306,2.9989579364981153e-16,BASE_MEMIT_s010_t020,"runtime assertion; scalar CPU norm verification, not independent tensor replay",0
