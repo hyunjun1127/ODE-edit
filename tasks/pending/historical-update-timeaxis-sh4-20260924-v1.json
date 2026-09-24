@@ -5,7 +5,10 @@
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "expected_cwd": "/data/janghj/ODE-edit",
   "repository": "hyunjun1127/ODE-edit",
-  "status": "READY_FOR_DIRECT_DISPATCH",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "73d76459c860ba56a39a46a76d4ba7f24a2ce2ae",
+  "accepted_turn": "01a0d1e3-55f5-79a0-9e3a-434da7173f64",
+  "receiver_verification": "PENDING_SH4_RECEIPT",
   "envelope": "messages/head/2026-09-24-historical-update-timeaxis-sh4.md",
   "transfer_approval": "transfers/approvals/2026-09-24-historical-update-timeaxis-sh4.json",
   "scope": [
@@ -37,7 +40,7 @@
   "stop_at_pending_or_initial_gate": false,
   "upstream_research_ack_required": false,
   "job_ids": [],
-  "registration_status": "NOT_YET_REPORTED",
+  "registration_status": "IMPLEMENTING_NOT_SUBMITTED",
   "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/report-ko.md",
   "final_report_and_scoped_main_publication_authorized": true
 }
