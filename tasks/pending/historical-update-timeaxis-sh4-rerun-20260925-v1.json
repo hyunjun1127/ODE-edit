@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
+  "parent_instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-09-25-historical-update-timeaxis-sh4-rerun.md",
+  "prior_jobs": [53182, 53183, 53184],
+  "new_job_ids": [],
+  "status": "APPROVED_STATUS_RCA_REPAIR_RERUN_NOT_YET_SUBMITTED",
+  "project_gpu_cap": 2,
+  "memory_mib_per_gpu": 60416,
+  "save_checkpoints": false,
+  "post_release_monitoring": false,
+  "server1_migration": "WITHDRAWN_USER_DIRECTED"
+}

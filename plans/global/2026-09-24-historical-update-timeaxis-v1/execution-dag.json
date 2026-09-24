@@ -1,0 +1,19 @@
+{
+  "schema": "ode-edit.historical-update-timeaxis.dag/v1",
+  "status": "PLANNED_NOT_SUBMITTED",
+  "dependency_semantics": "success means valid identity/numerics/completeness; a valid scientific negative exits successfully",
+  "scheduler_mapping": "afterok of all declared upstream stages; no job IDs allocated in this design",
+  "nodes": [
+    {"id": "T0", "depends_on": [], "compute": "CPU_IO", "action": "Bind verified source, dataset, checkpoint payloads, full W0 and token manifest", "outputs": ["runtime-binding.json", "token-manifest.jsonl"], "failure": "ASSET_OR_IDENTITY_BLOCKED"},
+    {"id": "T1", "depends_on": ["T0"], "compute": "GPU_TWO_FAMILIES", "action": "Reconstruct endpoints and verify evaluator, subtraction, repeat and exact restoration", "outputs": ["fidelity-receipt.json", "numerical-contract.json"], "failure": "RECONSTRUCTION_OR_NUMERICAL_FAILURE"},
+    {"id": "T2P", "depends_on": ["T1"], "compute": "GPU_TWO_FAMILIES", "action": "Measure 32 pilot cells using fixed 300-case panel and record cost", "outputs": ["pilot-scores.jsonl", "pilot-contributions.jsonl", "pilot-cost.json"], "failure": "INVALID_OR_INCOMPLETE_MEASUREMENT", "scientific_effect_gate": false},
+    {"id": "T2F", "depends_on": ["T2P"], "compute": "GPU_TWO_FAMILIES", "action": "Complete 156 cells on all cohort rewrites and two paraphrases, reusing matching pilot rows", "outputs": ["scores.jsonl", "contributions.jsonl", "state-receipts.jsonl", "missingness.csv"], "failure": "INVALID_OR_INCOMPLETE_MEASUREMENT", "scientific_effect_gate": false},
+    {"id": "T3A", "depends_on": ["T2F"], "compute": "CPU_REDUCTION", "action": "Compute censored retention, contribution states, chronological dB/dC and fixed-age summaries", "outputs": ["primary-tables", "trajectory-tables"], "scientific_effect_gate": false},
+    {"id": "T3B", "depends_on": ["T2F"], "compute": "GPU_TWO_FAMILIES", "action": "Measure 16 metadata-selected whole future-block removal cells", "outputs": ["pair-scores.jsonl", "pairs.jsonl", "pair-state-receipts.jsonl"], "failure": "INVALID_OR_INCOMPLETE_MEASUREMENT", "scientific_effect_gate": false},
+    {"id": "T4", "depends_on": ["T3A", "T3B"], "compute": "CPU_REPORT", "action": "Package five figures, tables, raw manifests, missingness and claim limits", "outputs": ["report-ko.md", "figures", "result-manifest.json"], "scientific_effect_gate": false}
+  ],
+  "retries": "Technical retry only after cause is recorded; immutable completed receipts; no silent result replacement",
+  "legacy_E3_dependency": false,
+  "monitoring_enabled_by_this_design": false,
+  "external_dispatch_performed": false
+}
