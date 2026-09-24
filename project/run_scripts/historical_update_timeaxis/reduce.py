@@ -195,7 +195,6 @@ def main():
                 x=read(root/f/stage/'PASS.json');assert x['status']=='PASS' and x['identity']['source_sha256']==lock['source_sha256']
         cc,pp,rr=joins(root);cr=jsonl(out/'contributions.jsonl',cc);pr=jsonl(out/'pairs.jsonl',pp)
         summary=tables(out,cc,pp);save(out/'T3A-PASS.json',dict(status='PASS',summary=summary,source_receipts=rr))
-        save(out/'terminal.json',dict(status='COMPLETED',summary=summary,contributions=cr,pairs=pr,workers=terminal,save_checkpoints=False))
         text='# Historical update timeaxis 사실 보고\n\n두 BASE 전체 구간 U를 사용한 관측 전용 실행입니다. 새로운 편집·native fitting·history append·checkpoint 저장은 없습니다.\n\n'
         text+=f"실제 완료: 156 main cells / {len(cc)} prompt×time rows, 16 pair cells / {len(pp)} paired prompt rows.\n\n"
         text+='세부 표: [primary](primary-tables.csv), [trajectory](trajectory.csv), [pair](pair-summary.csv), [fixed-age](fixed-age.csv), [bootstrap](cluster-bootstrap-primary-rewrite.csv).\n\n'
@@ -203,6 +202,9 @@ def main():
         text+='원자료·score cache·토큰·receipt는 local-only이며 이 보고는 과학적 채택 결론을 내리지 않습니다. NO_BROADCAST_NOT_REQUIRED: 동일 host 원본과 파생 관측을 사용합니다.\n'
         (out/'report-ko.md').write_text(text)
         save(out/'artifact-index.json',[record(q) for q in sorted(out.iterdir()) if q.is_file() and q.name!='artifact-index.json'])
+        # Final success is the last create-once write, after report and inventory.
+        save(out/'terminal.json',dict(status='COMPLETED',summary=summary,contributions=cr,pairs=pr,workers=terminal,save_checkpoints=False,
+            report=record(out/'report-ko.md'),artifact_index=record(out/'artifact-index.json')))
     except BaseException as e:
         save(out/'REDUCTION_FAILURE.json',dict(status='TECHNICAL_FAILED',error=str(e),traceback=traceback.format_exc()));raise
 

@@ -40,5 +40,10 @@ class Reducer(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix='SYNTHETIC_CPU_FIXTURE_',dir=ROOT) as d:
             summary=tables(Path(d),cc,pp)
             self.assertEqual(summary['contribution_rows'],24);self.assertEqual(len(list(Path(d).glob('*.png'))),5)
+    def test_completed_after_report_and_inventory(self):
+        text=(Path(__file__).parent/'reduce.py').read_text()
+        final=text.index("save(out/'terminal.json',dict(status='COMPLETED'")
+        self.assertLess(text.index("(out/'report-ko.md').write_text(text)"),final)
+        self.assertLess(text.index("save(out/'artifact-index.json'"),final)
 
 if __name__=='__main__':unittest.main()
