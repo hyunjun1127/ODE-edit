@@ -1,0 +1,13 @@
+factorial_states,family,lambda0_reused,pair,patch_variants,phase,s,status,t,write_kind
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s001_t050,6,core,1,COMPLETED,50,B1_L8_component
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s001_t090,6,core,1,COMPLETED,90,B1_L8_component
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s001_t010,6,extension,1,COMPLETED,10,B1_L8_component
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s001_t100,6,extension,1,COMPLETED,100,B1_L8_component
+4,BASE_MEMIT,True,BASE_MEMIT_s001_t010,6,core,1,COMPLETED,10,B1_L8_component
+4,BASE_MEMIT,True,BASE_MEMIT_s001_t020,6,core,1,COMPLETED,20,B1_L8_component
+4,BASE_MEMIT,True,BASE_MEMIT_s001_t005,6,extension,1,COMPLETED,5,B1_L8_component
+4,BASE_MEMIT,True,BASE_MEMIT_s001_t100,6,extension,1,COMPLETED,100,B1_L8_component
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s010_t050,6,extension,10,COMPLETED,50,cumulative_prefix_L8
+4,BASE_ALPHAEDIT,True,BASE_ALPHAEDIT_s050_t090,6,extension,50,COMPLETED,90,cumulative_prefix_L8
+4,BASE_MEMIT,True,BASE_MEMIT_s005_t010,6,extension,5,COMPLETED,10,cumulative_prefix_L8
+4,BASE_MEMIT,True,BASE_MEMIT_s010_t020,6,extension,10,COMPLETED,20,cumulative_prefix_L8

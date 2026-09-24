@@ -1,0 +1,12 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "status": "CPU_REVIEW_COMPLETED",
+  "exact_jobs": [52823, 52824],
+  "execution_lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "analysis_commit": "0e7d6d302bb40527d6248247b5cc934e1043e79c",
+  "report_sha256": "f36159cfb5c89017773e048397504b77d8b8d8801be6155dffd0b3efbdf1b315",
+  "rooted_receipt_sha256": "3c26f6b9f86d92b8471cd94966753d0dc7affc8c53096b52274970dd2729da09",
+  "raw_local_only": true,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

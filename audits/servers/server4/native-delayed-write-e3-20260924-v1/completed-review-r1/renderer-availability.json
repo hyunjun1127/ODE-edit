@@ -1,0 +1,10 @@
+{
+  "GFM_HTML_render": "NOT_RUN_RENDERER_NOT_INSTALLED",
+  "available": {
+    "markdown": false,
+    "markdown_it": false,
+    "mistune": false
+  },
+  "new_install": false,
+  "structural_markdown_check": "separate final package check"
+}
