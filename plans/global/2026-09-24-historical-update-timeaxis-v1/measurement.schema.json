@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Historical update timeaxis measurement rows v1",
+  "description": "Each JSONL line validates against one branch. Finite values only; NaN/Infinity serialization is forbidden. No synthetic result rows are provided.",
+  "oneOf": [
+    {"$ref": "#/definitions/score"},
+    {"$ref": "#/definitions/contribution"},
+    {"$ref": "#/definitions/pair"}
+  ],
+  "definitions": {
+    "nullableNumber": {"type": ["number", "null"]},
+    "identity": {
+      "type": "object",
+      "required": ["schema_version", "row_type", "case_id", "panel", "prompt_index", "target_version", "prompt_token_hash", "target_token_hash", "competitor_token_hash", "evaluator_signature", "valid", "missing_reason"],
+      "properties": {
+        "schema_version": {"const": 1},
+        "row_type": {"enum": ["score", "contribution", "pair"]},
+        "case_id": {"type": "integer"},
+        "panel": {"enum": ["rewrite", "paraphrase"]},
+        "prompt_index": {"type": "integer", "minimum": 0},
+        "target_version": {"type": "string", "minLength": 1},
+        "prompt_token_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "target_token_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "competitor_token_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "evaluator_signature": {"type": "string", "minLength": 1},
+        "valid": {"type": "boolean"},
+        "missing_reason": {"type": ["string", "null"]}
+      },
+      "allOf": [{"if": {"properties": {"valid": {"const": true}}}, "then": {"properties": {"missing_reason": {"type": "null"}}}, "else": {"properties": {"missing_reason": {"type": "string", "minLength": 1}}}}]
+    },
+    "score": {
+      "allOf": [{"$ref": "#/definitions/identity"}],
+      "type": "object",
+      "required": ["state_id", "state_weight_hash", "target_nll", "competitor_nll", "margin", "target_token_count", "competitor_token_count", "target_strict_tf", "competitor_strict_tf", "execution_receipt"],
+      "properties": {
+        "row_type": {"const": "score"},
+        "state_id": {"type": "string"},
+        "state_weight_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "target_nll": {"$ref": "#/definitions/nullableNumber"},
+        "competitor_nll": {"$ref": "#/definitions/nullableNumber"},
+        "margin": {"$ref": "#/definitions/nullableNumber"},
+        "target_token_count": {"type": "integer", "minimum": 1},
+        "competitor_token_count": {"type": "integer", "minimum": 1},
+        "target_strict_tf": {"type": ["boolean", "null"]},
+        "competitor_strict_tf": {"type": ["boolean", "null"]},
+        "execution_receipt": {"type": "string"}
+      },
+      "if": {"properties": {"valid": {"const": true}}},
+      "then": {"properties": {"target_nll": {"type": "number"}, "competitor_nll": {"type": "number"}, "margin": {"type": "number"}, "target_strict_tf": {"type": "boolean"}, "competitor_strict_tf": {"type": "boolean"}}}
+    },
+    "contribution": {
+      "allOf": [{"$ref": "#/definitions/identity"}],
+      "type": "object",
+      "required": ["cell_id", "family", "cohort_id", "update_start", "anchor", "birth_batch", "eval_t", "active_at_anchor", "active_at_t", "same_batch_conflict", "first_later_conflict_batch", "M_t", "B_t", "C_t", "M_b", "B_b", "C_b", "delta_M", "delta_B", "delta_C", "epsilon", "contribution_state", "accounting_residual", "source_score_keys"],
+      "properties": {
+        "row_type": {"const": "contribution"},
+        "family": {"enum": ["BASE_ALPHAEDIT", "BASE_MEMIT"]},
+        "M_t": {"$ref": "#/definitions/nullableNumber"}, "B_t": {"$ref": "#/definitions/nullableNumber"}, "C_t": {"$ref": "#/definitions/nullableNumber"},
+        "M_b": {"$ref": "#/definitions/nullableNumber"}, "B_b": {"$ref": "#/definitions/nullableNumber"}, "C_b": {"$ref": "#/definitions/nullableNumber"},
+        "delta_M": {"$ref": "#/definitions/nullableNumber"}, "delta_B": {"$ref": "#/definitions/nullableNumber"}, "delta_C": {"$ref": "#/definitions/nullableNumber"},
+        "accounting_residual": {"$ref": "#/definitions/nullableNumber"},
+        "epsilon": {"type": "number", "exclusiveMinimum": 0},
+        "active_at_anchor": {"type": "boolean"}, "active_at_t": {"type": "boolean"}, "same_batch_conflict": {"type": "boolean"},
+        "first_later_conflict_batch": {"type": ["integer", "null"]},
+        "contribution_state": {"enum": ["decreased", "stable", "increased", "invalid"]},
+        "source_score_keys": {"type": "object", "required": ["M_t", "B_t", "M_b", "B_b"], "additionalProperties": {"type": "string"}}
+      },
+      "if": {"properties": {"valid": {"const": true}}},
+      "then": {"properties": {"M_t": {"type": "number"}, "B_t": {"type": "number"}, "C_t": {"type": "number"}, "M_b": {"type": "number"}, "B_b": {"type": "number"}, "C_b": {"type": "number"}, "delta_M": {"type": "number"}, "delta_B": {"type": "number"}, "delta_C": {"type": "number"}, "accounting_residual": {"type": "number"}, "contribution_state": {"enum": ["decreased", "stable", "increased"]}}}
+    },
+    "pair": {
+      "allOf": [{"$ref": "#/definitions/identity"}],
+      "type": "object",
+      "required": ["pair_id", "family", "past_cohort", "future_cohort", "eval_t", "M", "minus_U", "minus_V", "minus_UV", "D_M", "D_B", "interaction", "active_at_t", "source_score_keys"],
+      "properties": {
+        "row_type": {"const": "pair"},
+        "family": {"enum": ["BASE_ALPHAEDIT", "BASE_MEMIT"]}, "eval_t": {"const": 100},
+        "M": {"$ref": "#/definitions/nullableNumber"}, "minus_U": {"$ref": "#/definitions/nullableNumber"}, "minus_V": {"$ref": "#/definitions/nullableNumber"}, "minus_UV": {"$ref": "#/definitions/nullableNumber"},
+        "D_M": {"$ref": "#/definitions/nullableNumber"}, "D_B": {"$ref": "#/definitions/nullableNumber"}, "interaction": {"$ref": "#/definitions/nullableNumber"}, "active_at_t": {"type": "boolean"},
+        "source_score_keys": {"type": "object", "required": ["M", "minus_U", "minus_V", "minus_UV"], "additionalProperties": {"type": "string"}}
+      },
+      "if": {"properties": {"valid": {"const": true}}},
+      "then": {"properties": {"M": {"type": "number"}, "minus_U": {"type": "number"}, "minus_V": {"type": "number"}, "minus_UV": {"type": "number"}, "D_M": {"type": "number"}, "D_B": {"type": "number"}, "interaction": {"type": "number"}}}
+    }
+  }
+}

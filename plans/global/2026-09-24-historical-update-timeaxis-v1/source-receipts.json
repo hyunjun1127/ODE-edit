@@ -1,0 +1,74 @@
+{
+  "dataset": [
+    {
+      "bytes": 16679956,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "status": "LOCALLY_REHASHED"
+    },
+    {
+      "bytes": 8783285,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/source-sample.lock.json",
+      "sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92",
+      "status": "LOCALLY_REHASHED"
+    },
+    {
+      "bytes": 657,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/receipt.json",
+      "sha256": "af814d47b20b87e98e5a3cb469111c253c5cb7efca6de4a0be13cf0f20fba399",
+      "status": "LOCALLY_REHASHED"
+    }
+  ],
+  "evaluator": [
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py",
+      "sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e",
+      "snapshot_path": "source-evidence/alphaedit_strength_neutral_barrier__evaluator.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py",
+      "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e",
+      "snapshot_path": "source-evidence/alphaedit_strength_neutral_barrier__contracts.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py",
+      "sha256": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e",
+      "snapshot_path": "source-evidence/blue_alphaedit_sequential_comparison__evaluation.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py",
+      "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8",
+      "snapshot_path": "source-evidence/blue_alphaedit_sequential_comparison__integrity.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    }
+  ],
+  "metadata": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-execution.lock.json",
+      "sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-22-alphaedit-native-criticality-audit/target-native-bindings.json",
+      "sha256": "0ebcee5a201ee44536b59631f3889b2e95d38b4d26b4b77405f546bea7706aab"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/new-checkpoint-tensors.csv",
+      "sha256": "90d696be10496e260069b3c63c1edbdd898772c46bdf94909704c201edcac8fb"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/new-source-config-compatibility.csv",
+      "sha256": "34f9d6ac602df26e2a00696a252cbf8a189fe361a10570a4afa6ae718abe0c61"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/checkpoint-location-index-2026-09-18-v1/checkpoint-index.csv",
+      "sha256": "d0d80862725c40de4d65a5572600d21b6f809704f6609942a193967fa565c56a"
+    }
+  ]
+}

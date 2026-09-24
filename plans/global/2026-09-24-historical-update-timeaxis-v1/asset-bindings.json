@@ -1,0 +1,172 @@
+{
+  "baseline_runtime": [
+    {
+      "arm": "BASE_ALPHAEDIT",
+      "attention": "eager",
+      "autocast": "False",
+      "binding": "{\"history_policy\": \"native final selected-layer key append once/batch\", \"projector_indices\": [0, 1, 2, 3, 4], \"projector_physical_layers\": [4, 5, 6, 7, 8], \"projector_sha256\": \"f5c2582d872d76607bf5d65df4ae983af180f028b6133e39d7b8ff013f2ac510\"}",
+      "blue": "False",
+      "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+      "config_sha256": "2bd0ac166625497ed7851870c802ce5cae7b06fbd5370c252baa8957e361d2d5",
+      "dtype": "torch.float32",
+      "evaluator_tokenizer": "{\"add_bos_token\": \"NOT_EXPOSED\", \"pad\": 128009, \"padding\": \"right\"}",
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "hparams": "{\"L2\": 10, \"attn_module_tmp\": \"model.layers.{}.self_attn\", \"blue\": false, \"clamp_norm_factor\": 0.75, \"fact_token\": \"subject_last\", \"kl_factor\": 0.0625, \"layer_module_tmp\": \"model.layers.{}\", \"layer_selection\": \"all\", \"layers\": [4, 5, 6, 7, 8], \"lm_head_module\": \"lm_head\", \"ln_f_module\": \"model.norm\", \"mlp_module_tmp\": \"model.layers.{}.mlp\", \"model_name\": \"Llama3-8B\", \"mom2_adjustment\": true, \"mom2_dataset\": \"wikipedia\", \"mom2_dtype\": \"float32\", \"mom2_n_samples\": 100000, \"mom2_update_weight\": 15000, \"nullspace_threshold\": 0.02, \"rewrite_module_tmp\": \"model.layers.{}.mlp.down_proj\", \"v_loss_layer\": 31, \"v_lr\": 0.1, \"v_num_grad_steps\": 25, \"v_weight_decay\": 0.5}",
+      "job": "42657",
+      "layers": "[4, 5, 6, 7, 8]",
+      "lock_sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "native_scalar_policy": "MEMIT solve FP64; AlphaEdit native FP32; unchanged",
+      "raw_root": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1",
+      "runtime_sha256": "ca21536f4c5e6acbb473991e121e5dc89fa9408e90fe7322ea9f5cc2c71c7b45",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907",
+      "source_archive": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/local-source.tar",
+      "source_archive_sha256": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+      "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+      "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+      "tf32_cudnn": "True",
+      "tf32_matmul": "False",
+      "tokenizer": "{\"add_bos_token\": false, \"bos\": 128000, \"eos\": 128009, \"pad\": 128009, \"padding\": \"right\"}",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.44.2"
+    },
+    {
+      "arm": "BASE_MEMIT",
+      "attention": "eager",
+      "autocast": "False",
+      "binding": "{\"covariance_snapshots\": \"immutable NPZ + native float32 load; cached tensor identity recorded\", \"history_policy\": \"NONE; native static covariance computation cache\", \"stats_model_name\": \"Meta-Llama-3-8B-Instruct\", \"stats_root\": \"/data/janghj/EasyEdit/examples/data/stats\"}",
+      "blue": "False",
+      "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+      "config_sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+      "dtype": "torch.float32",
+      "evaluator_tokenizer": "{\"add_bos_token\": \"NOT_EXPOSED\", \"pad\": 128009, \"padding\": \"right\"}",
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "hparams": "{\"attn_module_tmp\": \"model.layers.{}.self_attn\", \"blue\": false, \"clamp_norm_factor\": 0.75, \"edit_layer\": -1, \"fact_token\": \"subject_last\", \"kl_factor\": 0.0625, \"layer_module_tmp\": \"model.layers.{}\", \"layer_selection\": \"all\", \"layers\": [4, 5, 6, 7, 8], \"lm_head_module\": \"lm_head\", \"ln_f_module\": \"model.norm\", \"mlp_module_tmp\": \"model.layers.{}.mlp\", \"model_name\": \"Llama3-8B-Instruct\", \"mom2_adjustment\": true, \"mom2_dataset\": \"wikipedia\", \"mom2_dtype\": \"float32\", \"mom2_n_samples\": 100000, \"mom2_update_weight\": 15000, \"rewrite_module_tmp\": \"model.layers.{}.mlp.down_proj\", \"v_loss_layer\": 31, \"v_lr\": 0.1, \"v_num_grad_steps\": 25, \"v_weight_decay\": 0.5}",
+      "job": "42658",
+      "layers": "[4, 5, 6, 7, 8]",
+      "lock_sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "native_scalar_policy": "MEMIT solve FP64; AlphaEdit native FP32; unchanged",
+      "raw_root": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2",
+      "runtime_sha256": "cef9e07b785225f1d1fc1f0b116e7b9c2f0bb7e23deeecd5e5e81417874a5064",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907",
+      "source_archive": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/local-source.tar",
+      "source_archive_sha256": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+      "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+      "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+      "tf32_cudnn": "True",
+      "tf32_matmul": "False",
+      "tokenizer": "{\"add_bos_token\": false, \"bos\": 128000, \"eos\": 128009, \"pad\": 128009, \"padding\": \"right\"}",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.44.2"
+    }
+  ],
+  "checkpoint_bytes": 77511644792,
+  "checkpoints_present_locally": 0,
+  "dataset": [
+    {
+      "bytes": 16679956,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "status": "LOCALLY_REHASHED"
+    },
+    {
+      "bytes": 8783285,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/source-sample.lock.json",
+      "sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92",
+      "status": "LOCALLY_REHASHED"
+    },
+    {
+      "bytes": 657,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/receipt.json",
+      "sha256": "af814d47b20b87e98e5a3cb469111c253c5cb7efca6de4a0be13cf0f20fba399",
+      "status": "LOCALLY_REHASHED"
+    }
+  ],
+  "evaluator_sources": [
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py",
+      "sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e",
+      "snapshot_path": "source-evidence/alphaedit_strength_neutral_barrier__evaluator.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py",
+      "sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e",
+      "snapshot_path": "source-evidence/alphaedit_strength_neutral_barrier__contracts.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/blue_alphaedit_sequential_comparison/evaluation.py",
+      "sha256": "d82bc6f0090c3f572ecc23a2de03e8af544e910e1f3534b331ffd8486f96085e",
+      "snapshot_path": "source-evidence/blue_alphaedit_sequential_comparison__evaluation.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    },
+    {
+      "match_runtime_lock": true,
+      "repo_path": "project/run_scripts/blue_alphaedit_sequential_comparison/integrity.py",
+      "sha256": "1587c9dda24b618afe9695ebd3150f4a3f62ed3330af8a9b10307b02908753e8",
+      "snapshot_path": "source-evidence/blue_alphaedit_sequential_comparison__integrity.py",
+      "source_commit": "1075540b45c29269e690ac63aae44758d8d63174"
+    }
+  ],
+  "model_local_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+  "remaining_bindings": [
+    "runtime full-model shard identity",
+    "checkpoint payload rehash at execution",
+    "prompt/target token identities",
+    "GPU reconstructed endpoint fidelity"
+  ],
+  "status": "DESIGN_BINDINGS_NOT_GPU_VERIFIED",
+  "w0_selected_weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "dtype": "torch.float32",
+      "sha256": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+      "shape": [
+        4096,
+        14336
+      ]
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "dtype": "torch.float32",
+      "sha256": "5da902bacb430b8f3e8879559e729f4ce49a8ff921dbb67a89a70ad23b99a569",
+      "shape": [
+        4096,
+        14336
+      ]
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "dtype": "torch.float32",
+      "sha256": "eaf18f5869f04ec6d6384affc6068f71c9e982d7d5c5150d2d96ef656e5600fd",
+      "shape": [
+        4096,
+        14336
+      ]
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "dtype": "torch.float32",
+      "sha256": "9d586d1247d3d36285377296f81700a793b6f6220dd483def7a772acd66c686e",
+      "shape": [
+        4096,
+        14336
+      ]
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "dtype": "torch.float32",
+      "sha256": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2",
+      "shape": [
+        4096,
+        14336
+      ]
+    }
+  }
+}

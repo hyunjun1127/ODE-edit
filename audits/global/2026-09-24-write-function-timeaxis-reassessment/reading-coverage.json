@@ -1,0 +1,436 @@
+{
+  "review_date": "2026-09-24",
+  "completed_utc": "2026-09-24T00:00:28.930014+00:00",
+  "status": "FULL_TEXT_REVIEW_COMPLETE",
+  "new_paper_count": 6,
+  "new_physical_pdf_pages": 155,
+  "papers": [
+    {
+      "id": "spurious",
+      "title": "Spurious Forgetting in Continual Learning of Language Models",
+      "version": "ICLR 2025 publisher PDF",
+      "primary_source_url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/a774503daed55eb53c634847ae071ec7-Paper-Conference.pdf",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/spurious.pdf",
+      "sha256": "6ee0e363a851db324b6ca1dfb6e6c7937b7a6f7019ff75a8092de569ba62834f",
+      "sha256_verified": true,
+      "pdf_pages": 66,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "rendered_pages_reviewed": [
+        9,
+        24
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/spurious-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    },
+    {
+      "id": "suppressed",
+      "title": "Suppressed, Not Erased: A Representational Trace of Edited Facts Survives Even Weight-Free Knowledge Editing",
+      "version": "2609.18985v1",
+      "primary_source_url": "https://arxiv.org/pdf/2609.18985",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/suppressed.pdf",
+      "sha256": "31bb2e330faae39a6aee7d9410fa33f302a743c8b77e21bccca1435c78d798db",
+      "sha256_verified": true,
+      "pdf_pages": 7,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "rendered_pages_reviewed": [
+        3
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/suppressed-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    },
+    {
+      "id": "notafix",
+      "title": "Forgetting Is Not a Fix: Path Dependence in Sequential Engram Editing",
+      "version": "2607.24805v1",
+      "primary_source_url": "https://arxiv.org/pdf/2607.24805",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/notafix.pdf",
+      "sha256": "b6d742401dd58991096ab090e5891074df33cb5c14f842a9cdf6d206c8e6f291",
+      "sha256_verified": true,
+      "pdf_pages": 8,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "rendered_pages_reviewed": [
+        4
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/notafix-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    },
+    {
+      "id": "rledit",
+      "title": "Reinforced Lifelong Editing for Language Models",
+      "version": "2502.05759v4",
+      "primary_source_url": "https://arxiv.org/pdf/2502.05759",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/rledit.pdf",
+      "sha256": "d5ec3103af2a2fb4759966fcbcfb712f3c62e8052dd02cebf8ffc9d0585bed3f",
+      "sha256_verified": true,
+      "pdf_pages": 23,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "rendered_pages_reviewed": [
+        4
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/rledit-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    },
+    {
+      "id": "engram",
+      "title": "AI Engram: In Search of Memory Traces in Artificial Intelligence",
+      "version": "2606.14997v1",
+      "primary_source_url": "https://arxiv.org/pdf/2606.14997v1",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/engram.pdf",
+      "sha256": "09b33ca524900ca074b8ac4aa185b1e1fa66b804612af3f158bfa8b2a35fb139",
+      "sha256_verified": true,
+      "pdf_pages": 26,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "rendered_pages_reviewed": [
+        4,
+        24,
+        26
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/engram-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    },
+    {
+      "id": "superficial",
+      "title": "Revealing the Deceptiveness of Knowledge Editing: A Mechanistic Analysis of Superficial Editing",
+      "version": "ACL 2025 publisher PDF",
+      "primary_source_url": "https://aclanthology.org/2025.acl-long.868.pdf",
+      "pdf_path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/superficial.pdf",
+      "sha256": "1e11ca9426afa9a964ecf46d7c1efc3e367a74b529e8e498cf4fe2bddb8704f3",
+      "sha256_verified": true,
+      "pdf_pages": 25,
+      "text_pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "rendered_pages_reviewed": [
+        13
+      ],
+      "scope": [
+        "main_text",
+        "equations_and_assumptions",
+        "experiments",
+        "limitations",
+        "references",
+        "appendices"
+      ],
+      "page_text_directory": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-write-function-timeaxis-reassessment/papers/superficial-pdf-pages",
+      "independent_experiment_replication": false,
+      "all_numeric_cells_independently_recomputed": false
+    }
+  ],
+  "prior_review_reference": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-24-delayed-write-lifelong-review/reading-coverage.json",
+  "prior_physical_page_audit": [
+    {
+      "id": "memit",
+      "physical_pdf_pages": 21,
+      "previously_reported_pages": 21
+    },
+    {
+      "id": "alphaedit",
+      "physical_pdf_pages": 32,
+      "previously_reported_pages": 32
+    },
+    {
+      "id": "simie",
+      "physical_pdf_pages": 32,
+      "previously_reported_pages": 32
+    },
+    {
+      "id": "evoedit",
+      "physical_pdf_pages": 21,
+      "previously_reported_pages": 21
+    },
+    {
+      "id": "lyaplock",
+      "physical_pdf_pages": 26,
+      "previously_reported_pages": 26
+    },
+    {
+      "id": "prune",
+      "physical_pdf_pages": 27,
+      "previously_reported_pages": 28
+    },
+    {
+      "id": "encore",
+      "physical_pdf_pages": 24,
+      "previously_reported_pages": 24
+    },
+    {
+      "id": "stableedit",
+      "physical_pdf_pages": 56,
+      "previously_reported_pages": 56
+    },
+    {
+      "id": "memoir",
+      "physical_pdf_pages": 20,
+      "previously_reported_pages": 20
+    },
+    {
+      "id": "wise",
+      "physical_pdf_pages": 28,
+      "previously_reported_pages": 28
+    },
+    {
+      "id": "tamedit",
+      "physical_pdf_pages": 23,
+      "previously_reported_pages": 23
+    },
+    {
+      "id": "shattering",
+      "physical_pdf_pages": 29,
+      "previously_reported_pages": 29
+    },
+    {
+      "id": "gere",
+      "physical_pdf_pages": 26,
+      "previously_reported_pages": 26
+    },
+    {
+      "id": "suit",
+      "physical_pdf_pages": 31,
+      "previously_reported_pages": 31
+    },
+    {
+      "id": "deltaedit",
+      "physical_pdf_pages": 17,
+      "previously_reported_pages": 17
+    },
+    {
+      "id": "sola",
+      "physical_pdf_pages": 12,
+      "previously_reported_pages": 12
+    },
+    {
+      "id": "nas",
+      "physical_pdf_pages": 34,
+      "previously_reported_pages": 34
+    },
+    {
+      "id": "revive",
+      "physical_pdf_pages": 24,
+      "previously_reported_pages": 24
+    }
+  ],
+  "prior_paper_count": 18,
+  "prior_physical_pdf_pages": 483,
+  "combined_paper_count": 24,
+  "combined_physical_pdf_pages": 638,
+  "scope_note": "Six new papers fully read including appendices; earlier 18-paper review reused and relevant passages cross-checked, not all 18 reread in this turn. Selected survey, not exhaustive novelty certification. Page/hash validation does not by itself prove reading; this ledger records the completed reading.",
+  "page_count_correction": "Prior review reported PRUNE as 28 pages and total as 484 from text segmentation. Physical PDF page counts are PRUNE 27 and prior total 483. Earlier sealed artifacts remain unchanged. New extraction uses individual physical pages.",
+  "excluded_scope": [
+    "allocation comparison",
+    "single-layer versus multi-layer experimental arms"
+  ],
+  "baseline_scope": [
+    "existing BASE_ALPHAEDIT job42657",
+    "existing BASE_MEMIT job42658"
+  ],
+  "model_forwards_run": false,
+  "gpu_experiments_run": false,
+  "cpu_gate_tests_rerun": false,
+  "job_monitoring_resumed": false,
+  "gh_sh4_dispatch_changed": false,
+  "proposal_dispatched": false
+}

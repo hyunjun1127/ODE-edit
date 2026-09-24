@@ -1,0 +1,1768 @@
+{
+  "status": "PASS_DESIGN_CONSISTENCY_ONLY",
+  "checks": 437,
+  "errors": [],
+  "json_schema_status": "SCHEMA_VALID; NO_MODEL_ROWS_EXIST_TO_VALIDATE",
+  "model_forwards": 0,
+  "tensor_loads": 0,
+  "cpu_toy_gates": 0,
+  "scheduler_submissions": 0,
+  "local_dataset_rehash": "completed by build_plan.py; receipts preserved",
+  "unvalidated": [
+    "checkpoint payloads on execution host",
+    "full model shard binding",
+    "token manifest",
+    "GPU fidelity",
+    "measured effects"
+  ],
+  "results": [
+    {
+      "check": "10k unique case ids and ordinals",
+      "passed": true
+    },
+    {
+      "check": "156 unique logical cells",
+      "passed": true
+    },
+    {
+      "check": "32 pilot cells are main subset",
+      "passed": true
+    },
+    {
+      "check": "300 identical-family pilot case ids",
+      "passed": true
+    },
+    {
+      "check": "16 pair cells, distinct nonoverlapping earlier/later updates",
+      "passed": true
+    },
+    {
+      "check": "all reported checkpoints bound",
+      "passed": true
+    },
+    {
+      "check": "scientific negative never gates continuation",
+      "passed": true
+    },
+    {
+      "check": "all main cell state expressions and anchors",
+      "passed": true
+    },
+    {
+      "check": "all pair four-state expressions",
+      "passed": true
+    },
+    {
+      "check": "25 actual and 132 removed states",
+      "passed": true
+    },
+    {
+      "check": "16 new pair states beyond main",
+      "passed": true
+    },
+    {
+      "check": "full prompt row count",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2e53f1dfc7212a08b746",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_102def38f633fcb8517a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7ba962b9aa164fe9d587",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5bf7abd6093dbc62e44e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ea8007cadbca90e7d4b9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0eb8502eddf4a9d6efb0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cfb9ca44e7828565f913",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_338c8781e2b8074bf8ef",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_bbdd0da9dc8c3d895990",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cfb6b86bbaa1a819c290",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_09ec27bd312c852e1d03",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3b44aba82256f1b0f63d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_67a72dfa342b1c765c5e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_91a11896e9470f12195a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d9af6998cb6a2e1dd389",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5e4e0ae146f8fe9a4b7d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9c278d739a238b1c2b2f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d3f543060561541bcb95",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_394922228c525bbbeb46",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ddc1e8cbf7cd35073fd2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3b1522a49f16a1b9d32e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_54f0e192060bd0ea6ce6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f34bf229de9f9fce88de",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c401017f9b40f1ba8969",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7641e9a5acab63db56a8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_40ca276698085640dff3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_698970571facbbc41a04",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_bbe6846f1d787c2ca95e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f1725af54c09ce2edbfe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_86f188d36d709710ac53",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6681df70270317f4230c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d86148354b715638135d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9f0fb92d8f6c3134bfb5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_63793270011358b1e994",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_31d6737e14db12ac87ed",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_81bd2f625d233a76408e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3623068d563aef9fbb95",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fc6a62f113e9c94bc90a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f48bb05c1448dca793d4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_696fc816c1d07580b206",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_419afb0498c2193787ae",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d26b76fcacf80037f38f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3ce7f2faa8233c41de87",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_26607fb34f77b81d0476",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4646e578a881edc5a142",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9ea635bc9713a0e9e74f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_66fce3e973771f7a3f11",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_027705054da3a3757d6d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3d9969d215ace378e6a0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e3b7e8cefc226ac04bb2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f83733cb19da45ad2721",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_933168b650afba1a7561",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_62f9b72e51a100bf75fe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0bd5a6ae1f7afeaa8319",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_78c22466aec0cd523edf",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c7ec00072f5be447c789",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7fd5bd3810e295315098",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_65eb356a3feb8f047469",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_48b76bbd9d2eb1f0be3f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_252e5ec7e6ae150b4d03",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f482a062fb9c3c2ba840",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_91cfe76c8cff1f9a9d44",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8d8f1eb6e8864f48c6c9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_dcf015f867c2c7574b7e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_09602bc556f42379795b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3378def0a458c10fb0f0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c7f7b08b20ad5499c115",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e0e41941c51376ecfb2c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_69ee43b510d219ed75d3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_aec5f98a9e0809179c61",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_24fda1e67737e8a91ba4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a67975e63c09fd7ad9dc",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8ff5da774e839ae6cc9c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b7fe31f69ff02e239117",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9dcc680afaed7cd443fa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cb37748d03286b3b12d3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9895ede2d40ef9a721df",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6e9ca5e2df66a5b8b99f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ffb5c54d698c1228deb6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f1023f41376f3d42cad1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6eb46e1d7321406c4eaa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_87c2452f7638652ce47d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0693986406a69651cbc8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d506114146847a4e8299",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6b9d0644b96d7c849c83",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_94ac2217079af942c5bc",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_bb0aadd3370c5d8d7c27",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_729c2136a88c54e1b2d5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c6cb02df2619013603ee",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1f77be598788b26dfc87",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_172ecbb63ecd3cdc9292",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5a013f3c2b72d3832d87",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_14d5a6f48a175d38d738",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_02b46e3ccf907fc79834",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8fa7df33dc63d0f2d234",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b1c5310e7286f9f4e5cb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c48197d80e8aad648817",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ece7d315732ff1eda123",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_80552eee5318cddb130a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c78144af149ff3458d3c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f72b87c98e989279e6b4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_90680ccf594e963bf5ee",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b2fba14b5b393b908982",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_956a56ab7561f829585c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c6114262e5d204c97221",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_efc75aef7b6069f0f431",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c9e59ac4a963da79272d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_05488d53c2eb77003789",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4eb80e748525eda0257d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4dad644164ac7a2a8bfd",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_91708aaad1971e021789",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6d2448c0d2e91d4f61d1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7b9eab243349f3546369",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e239f5457ffbb24b8bf4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_89c8c74562b0dc549317",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2b53e1cfec66dac9554a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1f5e1bd52fa5808021ea",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1bda179ab693fa4c26af",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3113f35fb41baa504a77",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_32848d1fa668b58a4a88",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0b80040e13bf69fcdbb1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_85384dc3dac346485af5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1cf323db84136ba133e8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_297ad0e20174f0d47cce",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ce0f6af86c838742ba85",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_396ef5c06c895d80f472",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b31170b7d53dc4407847",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b1edc92df44cf43ddce3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8b6787099ac81c777e53",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2d7a59f0fbc4c522da80",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1c4371ad1240b2c55edc",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ad7d36b3e06d61e8c7b5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_079258bfc6a484bdfb3f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_97b094fa0f5ab3a878a4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_aa3c39fec965343d1061",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_202074554b37eea9a50d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_60441e991823f3183dac",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_aee57a3b63ff4b1fb5aa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_815fd2d5a5647ef31e92",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ebc95ee8d19322696ebe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3cf7b69130765bea0dbb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0bb477cd90b4528496a1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d42260d6b176c16b04e9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_78762501ab94efb7426e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ddd11709548d8e506b0f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_74c44089a412436538b9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9b7a9d2cee9ef1f87971",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_593b3ee21f457c9bdf44",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_46342cb013c8027fbcec",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_32a7d9e2ac33b15e28e8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1da8dee7836b6428067c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b17cca063b03cc8a6020",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b7f7ad3303e684377579",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_edae62998dbe0ade4bc1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0b1dd72010d1f5b0f238",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9bf0d99d8b33413b2cdd",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ec0863485d2952caa355",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3b114598a134c851181f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7761b04c9946de9cd9b0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_52584ae847b65a52c3e7",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6a75291ef590bea1c294",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_de8f67b7aef3d7159e2b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_858d7b8ab7aa188d4c1b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3af172fa7ecc291d1328",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e283f9dbf99eb49caf53",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d2f2258947ae68652b33",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cbcda70492bdaf9515ac",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_09e3c69e575deac2438e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6a3cf576131a61bf56bd",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_49274ab1d58c694b3d34",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e1ec3850cab3ce220481",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f16179799d4de042787c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_927227bc20f5e37b79df",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0a2fe3e7d6c51025606e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e06a83e93a14f5531fe5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6dc934ad7f7e8ae6bb2d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f977fa1a1244fdac7b08",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0ab9f61f2860a4eb931f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e55c398cdc32182b2357",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fa3d69d872004d1cff54",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_496b29e51208a7be31ba",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_27f43e4d5eef81e65809",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a6ab6500305f3573c34d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_89066930cebaf543a482",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_26002df371e0e25ac781",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cf115526c855e8ddbe22",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6bf8358f71a31d837e58",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_59d2eb28eec41f093b30",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2f98454eb3bfc1f526aa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_40b059d05e9e1cac9ef5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_405fd4e38a1670cc27a0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a767f4b55b87ab78ccdd",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ddb87090016a1134e8eb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b1845ea476c50b025ef0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0bc160d11b1ea45a90a2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_02d63052fe8abc1e3ab8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1b602b61f00ca5e3d337",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_105a4bfa85289add28bb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5aeaa06da2d4fb5c966d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_02d3a0cd586d805823a4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_156bc878149e20120bc5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_314daa07391a589e27ea",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_66f55fee23ef0dd52113",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f264e99a1347b81f21cf",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_20f08ed5a4d7abaa18b6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_33f72d2c44d6eaaef92d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_79b50aff9a92d4cdf707",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_814e0b47867a995febd2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7de11433a021498d1690",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_eeb1e37dedf801d5e9d7",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_52bf433622b3b5120121",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3efc1d31c62a40dd4a07",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6d48036430b055918ee8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_85edf8e1b1605bfb7752",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_88087972ab52a35d589f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2087e8b8ae7f87aa1291",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_508179488d162df38037",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3f20034838f7c4863e24",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5af503f8d58dcb190791",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d3167c0e50e67735a9c7",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_65f0154f0ddb5cc2a8df",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_13c1a4954b9709c66973",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4af23667b1f7b7e34eca",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_64f60d09348a2c5ae8db",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7a6809385f6477db2cfe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7a00e84d1867ef7a8db4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_952d28f5ef8a86226550",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_39591754b97084205aa4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7e1e32c77ba00053f71b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c5b748e0763b3d61f38f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e2d619e04dbbe3a83b99",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f68c9f6d9e49a7cd2fbc",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9c95e6e4526dc71c1e01",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ca7714bbc95e1fd37b6f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8f7de5b146c62d50e10a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_963bf8d00a4d7d2a246b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_72e0d43ef2c508a76faa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_201bbb74085f590cd646",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7dad51360cea6bb45652",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_35eb7ecfad0aad4fa9fb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e6f3e7bb5fbabe27f533",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_039cd4992e7344d2ba0f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_980256c19e541841faa6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6d9600343c65ea97e779",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_479559dc8b9eb516721e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0b00c01595de87b38998",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cdbe7c532b023d80f447",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8730f3dcedfa2186fd60",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_73c108d61aff49fee685",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_759d21e80fcc91abd04d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7421ab8aef8142523177",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_c851ac0cb63dbd7b5733",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fc2a70d337d7ce6859d6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1e8d26c21af8a393e125",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5c61fa7a6cff87e39e21",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4c9f1ecb5964a1a78b88",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6b7ad4207a2c8aa8a289",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_99bef5b6d2e259a7744a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_030c0cee09009da2a2b4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2d6c412fa3220bd573d9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ad1f3324e67b143ce965",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7a294f5ab6e8e8f81dff",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a16453939c42de82466b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fa9f8b19dd2e632b791e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_71003a4b51d141546526",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3912f836fe4e793f2b50",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f5e45f68443f10b2e461",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_23837af7b949c7ab4c15",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_59436773be009ac92da4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_eafeeeaf8f04fffd4a82",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9ec65d71955e5fa44fca",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0632647fcf69abfa54dd",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5d768e531b36977f6f9e",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d355be020d2216f2bc15",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ef2154bc311d510e05b2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7438165902a1eff687fb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6e2245601b4a7e87f7a4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3af124b1c8fb6ceb2c43",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8e43d87b8fd38b38be3c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_696ecb492b1c644b60a4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9be2d1dab049bab58893",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2b0a0f67e19557617af4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0f9d44e6d41f4d52da70",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b1198b1d0fa4f6137848",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5a2a34fe543c1e7c454c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a580f1ba4cafe6ba7a09",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ccc1d26e9f9f3ea8a9a5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5dfe554d962af18f0cce",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0aa65b0b8e44da9baa8d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_94dfe945abfeed2e9085",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_63a668d50fbeacc776e0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3a0ea6372c1d4a9129c9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3f01b6eb9ce271839229",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a1cac735846e3ce0ed88",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3010adeae975d0ee2ae4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8c367b4532a99ed7fe4d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_9c93f5dd87836659ca15",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f4e931f83b9595e88c84",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8cfaf137485e1e3eace0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_72a4c14e0765b21e5929",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a0c60ea8ccb55910a14b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_15e9dd65cde181ee3016",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_50a7a8b688b314ebbed0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d13553a5bc262501b6d8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_776330d6a0f67f6249ba",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8d8085e9caa303d22ee0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_340daa0faf188fb4d9ee",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5579e35704dd2ba8c3aa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_babd3f871f618273f4b8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_19227ccf6af47ec0316b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cc812769e88d441dae72",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ada40cdbc81ff85064a1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ca88f4e432f7313ed0c0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ad0676c568a6b29c2335",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_30a17afd48dba4b2ba0d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_51faf35c2500a276b1e8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_00459cdfb29e14957014",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a7219d14e023435e7002",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_dc14ff30ca8fb4f98483",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_0bc04173a18405763efe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a0e1c327684dcd895365",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_48bfc14efab094712f84",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_60739372c093b5bf6eff",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_74e85b45242831ab9fec",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e73db136016c6915eca3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7d4ac80a21275c3b608f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_101ab09a5dbf3e7186b4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7d3704197b7bdd0732bf",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e1ed9d91a0d03e64f464",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_86e8fc326d4e2f8d975c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_15be05e64a3b87ca4b56",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b2ed93cc4267a8965cf1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8ae249f422b867c70af2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d981cd53196d8de5670d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_1bdbe05c39a01bbe30c2",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fd9d5f4733fd6a190ef4",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b65a6dbdd1f8b1a9e21c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_38e8aedf296d492ed7c9",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_88eac82b8aa904bf42d1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2fb5398b9cab051f1b0c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b4d5e2111985c8a54cf0",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_63cda6a837afe5bbfb93",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_127f6f8e139855705fdb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_5bbb1713909b6f38bb0d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4728ff5e8dcedf792d9b",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_e7d73162fca0060952f8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_70b080b5ae5fe9a848c6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a79f0c287ec32e136d91",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ac294629b58c272399da",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_df310aaa2e6e103dbfe5",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_8833dd83c22a82d65d9c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_fbb914c5d113e77a6731",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d9d301b05c482126b92c",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_905dae21d2aa177efa67",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a7111f9a1540c9e3a7f1",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_59a112842cc82c63a123",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_cbe7e79f8ec56f9c6cb6",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_79ca94208fb644c1086a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_7031a0777d9abd1fd11f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6a865fb740c52d95bb41",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ef26e7d1c115c40244df",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_baca1d2d7104447fb871",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_66e3c4f25e1ea12fe574",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a0789cbc52f5ca3e68ab",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_21880888ef9a899a85fe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a73d9ac5adfe75657ad3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_2c455eb77257f923f198",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b0d16a6110ad39c52192",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_f84ec98fb42829268387",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6d15ff9ae94fe0d27ba3",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4dfe6f5fed8f143fecbe",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_63f42b151545e6d8790a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_d91c8b8018f3355f5f4f",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_4b0a52a55afdab322c97",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_a2fbea49287b829d638a",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_36f0c66bf17b14eab600",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_b161d44e8b2dfedc185d",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_66610b0210004f8524e8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_ebcefb96a0d80b94f911",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_79aa928c7a38302ec0fa",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_3d0e70180549ae933ceb",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_263428d26dc771567dc8",
+      "passed": true
+    },
+    {
+      "check": "task panel SCORE_6270b3e6210c1cdc2391",
+      "passed": true
+    },
+    {
+      "check": "score task IDs unique",
+      "passed": true
+    },
+    {
+      "check": "all main states have full cohort score tasks",
+      "passed": true
+    },
+    {
+      "check": "all pair states have correct past cohort tasks",
+      "passed": true
+    },
+    {
+      "check": "unique task sequence total",
+      "passed": true
+    },
+    {
+      "check": "DAG no missing dependencies or cycle",
+      "passed": true
+    },
+    {
+      "check": "T3A and T3B share T2F only",
+      "passed": true
+    },
+    {
+      "check": "pinned evaluator alphaedit_strength_neutral_barrier__evaluator.py",
+      "passed": true
+    },
+    {
+      "check": "pinned evaluator alphaedit_strength_neutral_barrier__contracts.py",
+      "passed": true
+    },
+    {
+      "check": "pinned evaluator blue_alphaedit_sequential_comparison__evaluation.py",
+      "passed": true
+    },
+    {
+      "check": "pinned evaluator blue_alphaedit_sequential_comparison__integrity.py",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> design-ko.md",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> runner-contract-ko.md",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> experiment-contract.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> execution-dag.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> measurement.schema.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> plan-summary.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> design-validation.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> fact-ledger.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> cohorts.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> pilot-panel.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> pilot-cells.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> main-cells.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> pair-candidates.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> pair-cells.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> state-bank.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> score-tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> fidelity-panel.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> asset-bindings.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> checkpoint-bindings.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> checkpoint-tensor-hashes.csv",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> source-receipts.json",
+      "passed": true
+    },
+    {
+      "check": "document link README.md -> source-evidence/",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> ../../../audits/global/2026-09-24-write-function-timeaxis-reassessment/review-ko.md",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> checkpoint-bindings.csv",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> checkpoint-tensor-hashes.csv",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> score-tasks.csv",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> pair-candidates.csv",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> pair-cells.csv",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> experiment-contract.json",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> runner-contract-ko.md",
+      "passed": true
+    },
+    {
+      "check": "document link design-ko.md -> execution-dag.json",
+      "passed": true
+    },
+    {
+      "check": "JSON Schema definition",
+      "passed": true
+    }
+  ]
+}
