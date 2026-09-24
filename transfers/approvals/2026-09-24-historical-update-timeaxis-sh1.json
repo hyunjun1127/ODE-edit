@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-HISTORICAL-TIMEAXIS-MIGRATE-20260924-R1",
+  "authority": "사용자의 server4 pending 실험 server1 이관 명령",
+  "sole_destination_writer": "SH1",
+  "source_keep": true,
+  "overwrite": false,
+  "delete": false,
+  "reuse_local_first": true,
+  "destination_root": "/mnt/raid5/janghj/ODE-edit/local/historical-update-timeaxis/20260924-s1-v1/inputs/",
+  "checkpoint_allowlist": "transfers/approvals/2026-09-24-historical-update-timeaxis-sh4.json",
+  "checkpoint_selection": "같은 24개 CP의 기존 source path/SHA/size; server1에 없을 때만 S2 또는 동일 SHA의 S4 실물에서 선택 수신",
+  "runtime_asset_allowlist": {
+    "server": "server4",
+    "lock_path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r2-routing/execution.lock.json",
+    "lock_sha256": "54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699",
+    "scope": "lock에 실제 연결된 model/tokenizer/fixed10k/context 및 T0/소형 source/archive/submission/release/path-map 중 이관에 필요한 exact 파일만"
+  },
+  "required_before_copy": "receiver가 exact source/destination/size/SHA allowlist와 disk headroom을 먼저 잠금; 기존 local 동일 bytes 우선",
+  "verification_root": "transfers/verifications/2026-09-24-historical-update-timeaxis-sh1/",
+  "envelope": "messages/head/2026-09-24-historical-update-timeaxis-migrate-sh1.md"
+}

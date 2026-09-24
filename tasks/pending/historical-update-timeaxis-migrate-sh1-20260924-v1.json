@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-HISTORICAL-TIMEAXIS-MIGRATE-20260924-R1",
+  "parent_instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
+  "owner": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "envelope": "messages/head/2026-09-24-historical-update-timeaxis-migrate-sh1.md",
+  "status": "APPROVED_FOR_MIGRATION_NOT_SUBMITTED",
+  "old_jobs": [53182, 53183, 53184],
+  "cancel_owner": "SH1",
+  "cancel_only_if_pending": true,
+  "project_gpu_cap": 2,
+  "save_checkpoints": false,
+  "post_release_monitoring": false,
+  "new_job_ids": []
+}
