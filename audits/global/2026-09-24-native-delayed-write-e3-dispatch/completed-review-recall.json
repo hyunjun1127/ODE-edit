@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "nonce": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "source_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "transport": "app-server direct via approved SSH",
+  "pre_dispatch_active_turns": [],
+  "accepted_turn": "01a0d0f9-dddc-70f0-a8f4-bbf9c7102283",
+  "dispatch_publication": "83a0efdac4402f5cd2fa00d5ea05a924afb70b5f",
+  "envelope_sha256": "a6970632df071dc493647b449e7c9c1d8484a8a3b8a64e82c88d2c72072ee18c",
+  "ack_received": true,
+  "ack_text": "ACK ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1. 52823·52824만 완료 상태를 확인하고, 새 GPU 실행 없이 독립 CPU 검산·상세 보고·main 게시까지 진행하겠습니다. 기존 pause와 실행 원자료는 보존합니다.",
+  "status": "REVIEW_DISPATCHED_ACK_RECEIVED",
+  "actual_scheduler_terminal_status": "NOT_YET_REPORTED_THIS_RECALL",
+  "review_completed": false,
+  "gh_duplicate_raw_audit_or_monitoring": false
+}

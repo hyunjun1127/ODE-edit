@@ -5,7 +5,10 @@
   "owner": "head-server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "expected_cwd": "/data/janghj/ODE-edit",
-  "status": "READY_FOR_DIRECT_DISPATCH",
+  "status": "DISPATCHED_ACK_RECEIVED",
+  "dispatch_publication": "83a0efdac4402f5cd2fa00d5ea05a924afb70b5f",
+  "accepted_turn": "01a0d0f9-dddc-70f0-a8f4-bbf9c7102283",
+  "review_completed": false,
   "envelope": "messages/head/2026-09-24-delayed-write-e3-completed-review-sh4.md",
   "exact_jobs": [
     "52823",
