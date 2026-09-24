@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "parent_instruction": "GH-SH4-NATIVE-DELAYED-WRITE-E3-20260924-V1",
+  "nonce": "ODEEDIT-GH-SH4-DELAYED-E3-COMPLETED-REVIEW-20260924-R1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "expected_cwd": "/data/janghj/ODE-edit",
+  "status": "READY_FOR_DIRECT_DISPATCH",
+  "envelope": "messages/head/2026-09-24-delayed-write-e3-completed-review-sh4.md",
+  "exact_jobs": [
+    "52823",
+    "52824"
+  ],
+  "execution_source": "3ebe0b07078940c2d46f9ea2226ccc20c0446162",
+  "execution_lock_sha256": "ff2c8fd6b685a933b980b2255504200b1744a8827dbae128ee1aa4da38bd3b71",
+  "scope": "CPU-only completed E0/E1/E3 detailed review, failed or missing stages explicitly included",
+  "new_gpu_or_job_mutation": false,
+  "wait_for_nonterminal_jobs": false,
+  "checkpoint_saving": false,
+  "report": "experiment-reports/servers/server4/native-delayed-write-e3-20260924-v1/completed-review-r1/report-ko.md",
+  "main_publication": "scoped reviewed CPU source and raw-free report authorized nonforce",
+  "end_state": "TASK_COMPLETE_STOP"
+}
