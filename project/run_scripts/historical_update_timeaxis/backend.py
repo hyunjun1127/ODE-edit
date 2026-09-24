@@ -49,9 +49,15 @@ class Backend:
     @contextlib.contextmanager
     def state(self,recipe,force_removal=None):
         """No edited state/delta is ever persisted. layer temporaries are bounded."""
-        t=int(recipe['actual_checkpoint']) if recipe['kind']=='ACTUAL' and force_removal is None else int(recipe['construction_endpoint'])
-        remove=[] if recipe['kind']=='ACTUAL' and force_removal is None else [int(i) for i in recipe['removed_cohort_indices'].split(';') if i!='']
-        if force_removal is not None:t,remove=force_removal
+        # T1 diagonal checks supply an ACTUAL recipe plus an explicit removal.
+        # Resolve that override before reading counterfactual-only fields.
+        if force_removal is not None:
+            t,remove=force_removal
+        elif recipe['kind']=='ACTUAL':
+            t=int(recipe['actual_checkpoint']);remove=[]
+        else:
+            t=int(recipe['construction_endpoint'])
+            remove=[int(i) for i in recipe['removed_cohort_indices'].split(';') if i!='']
         entry=self.endpoint(t);entry_hash={k:tensor_sha(v) for k,v in entry.items()};self.copy(entry)
         begin=time.monotonic();detail={}
         try:
