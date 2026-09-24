@@ -15,3 +15,7 @@ GH direct 수신 ACK도 같은 nonce로 회수했으며, GH 감사/ACK를 단계
 ## 최신 사용자 중지 ACK
 
 “리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자” 수신·적용. 기존 CPU16검사 및 소스 반례만 확인했다. T1 routing KeyError가 재현되어 파이프라인 전체 PASS는 아니다. 점검 범위이므로 수리/새 제출/기존 job 변경 없이 53176/53177/53179를 보존하고 monitoring_active=false, automatic_resume=false로 사용자 호출을 기다린다. 이 override 이후 scheduler/log/result 조회0.
+
+## 후속 사용자 정정 — 수리·재제출 승인 / job 모니터링만 중단
+
+“아니 점검에서 오류 사항있으면 수리 재제출해 / job 모니터링만 하지 말라는거였어”를 적용했다. T1 routing을 최소수리하고 CPU22 tests를 WT/frozen에서 PASS했다. 정확 이전3개를 미시작 상태에서 취소·보존하고 새53182/53183/CPU53184(afterany:53182:53183)를 held 검사·release했다. 제출 snapshot PENDING(None), actual GPU gate 미관측. 이후 job 진행 모니터링·자동 재개 없이 사용자 호출을 기다린다. 실행source730a4a97, 상세기록은 routing-repair-r2 report/receipt다.

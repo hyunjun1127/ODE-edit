@@ -28,3 +28,9 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 사용자 “리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자”를 적용했다. 위 T4까지 계속 관찰 지시는 이 범위에서 대체된다. 53176/53177/53179는 그대로 보존하며 이후 scheduler/log/result 조회·수리·재제출0, automatic_resume=false다.
 
 기존 CPU16 tests PASS이나 파이프라인 전체 PASS는 아니다. frozen backend.py:52의 ACTUAL+force_removal 경로가 없는 construction_endpoint를 먼저 읽는 KeyError를 별도 CPU 반례로 재현했다. 실제 job 실패를 새로 조회한 것이 아니다. 원 source와 job을 수정하지 않고 사용자 recall을 기다린다. 근거: `audits/servers/server4/historical-update-timeaxis-20260924-v1/user-pause-r1/pipeline-review-ko.md`.
+
+## 최신 정정 적용 / 53182·53183·53184 교체 완료
+
+사용자는 오류 수리·재제출은 수행하되 job 모니터링만 중단하라고 정정했다. 위 점검-only 상태는 역사이며 현재 상태가 아니다. T1 force_removal 우선분기 최소수리, CPU22/22 PASS(WT와 frozen), actual GPU gate는 미관측이다. source730a4a9768e5650e01fd9afdc4e0f7895c86ea92 / lock54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699.
+
+이전53176/53177/53179는 정확 owner/source/미시작을 확인하고 취소(elapsed0/allocation0)했다. 새 Alpha53182, MEMIT53183, CPU53184(afterany:53182:53183)는 검사·release 완료. 2026-09-24T06:30:37Z 제출 snapshot PENDING(None)을 마지막으로 진행조회하지 않는다. 원source/raw/CP KEEP, 다른job변경0, cap2/각59GiB/noCP불변. `monitoring_active=false`, `automatic_resume=false`. 상세: `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/routing-repair-r2/report-ko.md`.

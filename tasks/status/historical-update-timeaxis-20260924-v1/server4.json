@@ -1,35 +1,40 @@
 {
   "automatic_new_scientific_submission": false,
-  "collector": "53179",
+  "collector": "53184",
   "collector_previous": {"job_id": "53178", "state": "CANCELLED_BEFORE_EXECUTION", "elapsed_seconds": 0},
-  "collector_analysis_source": "78a633a9",
+  "collector_analysis_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
+  "replaced_unstarted_jobs": ["53176", "53177", "53179"],
+  "prior_attempt": "attempt-v1",
+  "current_attempt": "attempt-r2-routing",
   "cpu_T0": "PASS",
   "execution_lock": {
-    "bytes": 6466,
-    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/execution.lock.json",
-    "sha256": "bc8ae75e983c68a1eb4489e9c3be98e0f77f8a567cf32e9eb88d6b9e1c994d9f"
+    "bytes": 8011,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r2-routing/execution.lock.json",
+    "sha256": "54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699"
   },
-  "execution_source": "6ef71ed2a7f7639c6619c34e89314c1930288c0a",
-  "execution_tree": "329e4a1e833da019c22bef6e17a540bc56d59e20",
+  "execution_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
+  "execution_tree": "48b61f229bedb75ec025a8371c160b6a1aad3dab",
   "family_jobs": {
-    "BASE_ALPHAEDIT": "53176",
-    "BASE_MEMIT": "53177"
+    "BASE_ALPHAEDIT": "53182",
+    "BASE_MEMIT": "53183"
   },
   "gpu_T1": "NOT_OBSERVED_AT_SUBMISSION",
   "initial_pause_inherited": false,
   "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
   "monitoring_active": false,
   "automatic_resume": false,
-  "latest_user_override": "리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자",
-  "pause_scope": "CPU/source review only; existing registered jobs preserved without mutation; no scheduler/log/result query after override",
+  "latest_user_override": "아니 점검에서 오류 사항있으면 수리 재제출해 / job 모니터링만 하지 말라는거였어",
+  "pause_scope": "Repair and replacement authorized; only bounded identity/admission/submission checks performed; no job progress monitoring after release",
   "cpu_pipeline_review": {
-    "unit_tests": "16_PASS",
-    "overall": "NOT_PASS_CODE_DEFECT_REPRODUCED",
+    "unit_tests": "22_PASS_WORKTREE_AND_FROZEN_SOURCE",
+    "overall": "ROUTING_DEFECT_FIXED_CPU_REGRESSION_PASS_GPU_NOT_OBSERVED",
     "finding": "T1 force_removal on ACTUAL recipe raises KeyError construction_endpoint before applying override",
-    "repair": "NOT_PERFORMED_INSPECTION_ONLY",
-    "report": "audits/servers/server4/historical-update-timeaxis-20260924-v1/user-pause-r1/pipeline-review-ko.md"
+    "repair": "FORCE_REMOVAL_RESOLVED_BEFORE_RECIPE_ONLY_FIELDS",
+    "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/routing-repair-r2/report-ko.md"
   },
   "report_pending": true,
   "save_checkpoints": false,
-  "status": "USER_PAUSED_AWAITING_RECALL_CODE_FINDING_RECORDED"
+  "status": "REPLACEMENT_RELEASED_MONITORING_STOPPED",
+  "submission_snapshot_utc": "2026-09-24T06:30:37.125949+00:00",
+  "submission_snapshot_state": "PENDING_REASON_NONE_NOT_A_GPU_SHORTAGE_PROOF"
 }
