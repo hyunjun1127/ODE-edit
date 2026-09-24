@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-09-25-historical-timeaxis-numerical-record-only-sh4.md",
+  "prior_jobs": [53182, 53183, 53184],
+  "prior_failure_preserved": true,
+  "numerical_fidelity_policy": "RECORD_ONLY_USER_DIRECTED",
+  "numerical_certification": "NOT_ESTABLISHED",
+  "identity_finite_restore_io_resource_guards": "RETAINED",
+  "project_gpu_cap": 2,
+  "save_checkpoints": false,
+  "post_release_monitoring": false,
+  "new_job_ids": [],
+  "status": "APPROVED_IMPLEMENT_AND_SUBMIT"
+}
