@@ -13,3 +13,9 @@
 - Runtime 원본/과학조건/Git raw-free source scope를 구분. 명시 envelope의 runs/status 경로가 generic helper에 거부되면 narrow limitation을 그대로 기록하며 공용 정책 수정0.
 
 계획 wall7일은 partition30일 상한 안의 보수적 scheduler 등록값이며 실측 소요시간이나 사용자 GPUh budget이 아니다. Pilot padded-token/sec 후 예측 범위를 기록한다. 본인 project queue는 사전 snapshot에서 비어 있었고, 타사용자 resource-only node snapshot은 8GPU 중7allocated였다. 제출 직전에 다시 admission한다.
+
+## 제출 후 CPU 보완검산
+
+실행 venv와 달리 system python3에 jsonschema와 markdown_it가 있어 환경 변경 없이 사용했다. Draft7 정의 및 작은 합성 contribution24/pair12행 검증 PASS, 실제 GPU row 검증은 아직 NOT_RUN이다. 작은 독립 집계/토큰 mismatch/5그림 생성 3 tests PASS를 추가했다. 실행 code/lock은 변경하지 않았으며 이 검사는 후속 analysis source다.
+
+제출표는 실제 markdown_it CommonMark+table renderer로 4개 tr(header 포함)을 확인했다. 원본 inputs의 현재 SHA 또는 T0 fresh SHA+unchanged stat를 재결속했다. `attempt-v1/schema-fixture.json`, `markdown-render.json`, `current-input-binding.json`에 근거가 있다. 과학 결과·GPU 기술 PASS로 확대하지 않는다.

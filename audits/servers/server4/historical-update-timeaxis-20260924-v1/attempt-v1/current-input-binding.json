@@ -1,0 +1,246 @@
+{
+  "checks": [
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/README.md",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/asset-bindings.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/build_plan.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/checkpoint-bindings.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/checkpoint-tensor-hashes.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/cohorts.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/design-ko.md",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/design-manifest.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/design-validation.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/execution-dag.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/experiment-contract.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/fact-ledger.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/fidelity-panel.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/main-cells.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/measurement.schema.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/pair-candidates.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/pair-cells.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/pilot-cells.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/pilot-panel.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/plan-summary.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/runner-contract-ko.md",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/score-tasks.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/source-evidence/alphaedit_strength_neutral_barrier__contracts.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/source-evidence/alphaedit_strength_neutral_barrier__evaluator.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/source-evidence/blue_alphaedit_sequential_comparison__evaluation.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/source-evidence/blue_alphaedit_sequential_comparison__integrity.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/source-receipts.json",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/state-bank.csv",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/design-package/members/validate_plan.py",
+      "status": "FULLSHA_MATCH"
+    },
+    {
+      "batch": "1",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "10",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "100",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "20",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "30",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "40",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "5",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "50",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "60",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "70",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "80",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "90",
+      "family": "BASE_ALPHAEDIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "1",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "10",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "100",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "20",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "30",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "40",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "5",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "50",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "60",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "70",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "80",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    },
+    {
+      "batch": "90",
+      "family": "BASE_MEMIT",
+      "status": "T0_FRESH_SHA_PLUS_UNCHANGED_STAT"
+    }
+  ],
+  "dataset_tokenizer_tokens_index_config": "current_fullSHA",
+  "model_shards": "T0_fresh_fullSHA_plus_current_stat",
+  "newGPU": 0,
+  "original_changed": 0,
+  "status": "PASS_CPU_CURRENT_BINDING",
+  "utc": "2026-09-24T05:54:47.581731+00:00"
+}
