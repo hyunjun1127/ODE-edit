@@ -16,3 +16,9 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 실제 lock/submission/release는 `/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/`에 있다. Runtime source는 그 아래 `source/`; 원 shared checkout와 input CP는 변경하지 않았다.
 
 등록 wall7일은 partition 범위 안의 보수적 상한, 실측 GPUh나 예상완료 주장 아님. 실제 T2P paddedtoken/초로 예측을 기록한다. noCP·same-host NO_BROADCAST_NOT_REQUIRED. 별도 독립 reviewer 미사용, owner source/CPU 검산 수행.
+
+## CPU collector 저장 순서 수리 / 새 mapping
+
+원 위 표는 최초 submission 기록이다. GPU53176/53177은 변경하지 않았다. CPU53178은 보고/manifest I/O 완료 전 COMPLETED를 기록하는 source 순서 문제를 발견하여 실행 전에 취소했다. 실제 accounting은 CANCELLED, elapsed0, allocation없음이다. 원파일/source/receipt를 보존한다.
+
+새 CPU collector **53179**는 `afterany:53176:53177`, CPU8/24576MiB/exportNONE/Requeue0이며 held inspection→release 완료. 실제 계산·GPU수치 변경0. 새 analysis source `78a633a9`, 실행 source6ef71ed2와 구별한다. Source·검사·새ID receipt는 local `attempt-v1/collector-repair-r1/receipt.json`; RCA는 audits의 collector-preexecution-order-rca.md다. 완료 보고·artifact inventory를 먼저 저장한 뒤 마지막 atomic COMPLETED를 쓰도록 수정했다. 좁은 CPU4 tests PASS, actual GPU T1은 아직 NOT_RUN이다.

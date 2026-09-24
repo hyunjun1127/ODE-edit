@@ -1,6 +1,8 @@
 {
   "automatic_new_scientific_submission": false,
-  "collector": "53178",
+  "collector": "53179",
+  "collector_previous": {"job_id": "53178", "state": "CANCELLED_BEFORE_EXECUTION", "elapsed_seconds": 0},
+  "collector_analysis_source": "78a633a9",
   "cpu_T0": "PASS",
   "execution_lock": {
     "bytes": 6466,

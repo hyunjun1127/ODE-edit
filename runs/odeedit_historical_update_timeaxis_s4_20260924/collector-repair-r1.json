@@ -1,0 +1,28 @@
+{
+  "GPU_jobs_unchanged": [
+    53176,
+    53177
+  ],
+  "held_inspection": "JobId=53179 JobName=odeedit_hist_T4r1_s4 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:53176(unfulfilled),afterany:53177(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=04:00:00 TimeMin=N/A SubmitTime=2026-09-24T15:07:27 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-24T15:07:27 Scheduler=Main Partition=gpu AllocNode:Sid=server4:893479 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=24G,node=1,billing=8 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/collector.sbatch SubmitLine=sbatch --parsable --hold --job-name=odeedit_hist_T4r1_s4 --dependency=afterany:53176:53177 --output=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/%j.out --error=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/%j.err /data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/collector.sbatch WorkDir=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/worktree StdErr=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/53179.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/53179.out TresPerTask=cpu=8",
+  "new_collector": 53179,
+  "old_accounting": {
+    "AllocTRES": "",
+    "ElapsedRaw": 0,
+    "state": "CANCELLED by 1025"
+  },
+  "old_collector": 53178,
+  "source_commit": "78a633a9fc290ef524c50bb2c6a1454056d96d35",
+  "source_members": [
+    {
+      "bytes": 2543,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/source/project/run_scripts/historical_update_timeaxis/common.py",
+      "sha256": "42e07396e5e724a945d078c71491a95abc4351b75401003031ba9a99f3a8c496"
+    },
+    {
+      "bytes": 18676,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector-repair-r1/source/project/run_scripts/historical_update_timeaxis/reduce.py",
+      "sha256": "196404b6f891e6faf6449763d994b2e3c990ed1e7490c04a28a53d7fa7cedfb7"
+    }
+  ],
+  "status": "RELEASED"
+}
