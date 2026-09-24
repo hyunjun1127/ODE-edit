@@ -18,8 +18,18 @@
   "gpu_T1": "NOT_OBSERVED_AT_SUBMISSION",
   "initial_pause_inherited": false,
   "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
-  "monitoring_active": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "latest_user_override": "리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자",
+  "pause_scope": "CPU/source review only; existing registered jobs preserved without mutation; no scheduler/log/result query after override",
+  "cpu_pipeline_review": {
+    "unit_tests": "16_PASS",
+    "overall": "NOT_PASS_CODE_DEFECT_REPRODUCED",
+    "finding": "T1 force_removal on ACTUAL recipe raises KeyError construction_endpoint before applying override",
+    "repair": "NOT_PERFORMED_INSPECTION_ONLY",
+    "report": "audits/servers/server4/historical-update-timeaxis-20260924-v1/user-pause-r1/pipeline-review-ko.md"
+  },
   "report_pending": true,
   "save_checkpoints": false,
-  "status": "SUBMITTED_NOT_COMPLETED"
+  "status": "USER_PAUSED_AWAITING_RECALL_CODE_FINDING_RECORDED"
 }

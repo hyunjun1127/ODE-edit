@@ -11,3 +11,7 @@ T0는 CP24/선택 tensor120/model shard4/W0 선택 weight/고정10k/토큰을 �
 초기 상태 `IMPLEMENTING_NOT_SUBMITTED`, job_ids=[]였다. 실제 이후 제출은 별도 submission/release receipt로 구분한다. Whole U·FP64 subtraction·FP32 one-cast·MB16·기존 evaluator 그대로, project/task cap2/각1GPU·8CPU·60416MiB, 신규 checkpoint0. T0→T4 완료 또는 technical blockage까지 계속한다.
 
 GH direct 수신 ACK도 같은 nonce로 회수했으며, GH 감사/ACK를 단계 선행조건으로 사용하지 않는다. NO_BROADCAST_NOT_REQUIRED.
+
+## 최신 사용자 중지 ACK
+
+“리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자” 수신·적용. 기존 CPU16검사 및 소스 반례만 확인했다. T1 routing KeyError가 재현되어 파이프라인 전체 PASS는 아니다. 점검 범위이므로 수리/새 제출/기존 job 변경 없이 53176/53177/53179를 보존하고 monitoring_active=false, automatic_resume=false로 사용자 호출을 기다린다. 이 override 이후 scheduler/log/result 조회0.

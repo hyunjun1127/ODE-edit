@@ -22,3 +22,9 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 원 위 표는 최초 submission 기록이다. GPU53176/53177은 변경하지 않았다. CPU53178은 보고/manifest I/O 완료 전 COMPLETED를 기록하는 source 순서 문제를 발견하여 실행 전에 취소했다. 실제 accounting은 CANCELLED, elapsed0, allocation없음이다. 원파일/source/receipt를 보존한다.
 
 새 CPU collector **53179**는 `afterany:53176:53177`, CPU8/24576MiB/exportNONE/Requeue0이며 held inspection→release 완료. 실제 계산·GPU수치 변경0. 새 analysis source `78a633a9`, 실행 source6ef71ed2와 구별한다. Source·검사·새ID receipt는 local `attempt-v1/collector-repair-r1/receipt.json`; RCA는 audits의 collector-preexecution-order-rca.md다. 완료 보고·artifact inventory를 먼저 저장한 뒤 마지막 atomic COMPLETED를 쓰도록 수정했다. 좁은 CPU4 tests PASS, actual GPU T1은 아직 NOT_RUN이다.
+
+## 최신 사용자 중지 — CPU 점검만 / monitoring=false
+
+사용자 “리소스가 없으니 코드 파이프라인 점검만 하고 모니터링은 중단하자”를 적용했다. 위 T4까지 계속 관찰 지시는 이 범위에서 대체된다. 53176/53177/53179는 그대로 보존하며 이후 scheduler/log/result 조회·수리·재제출0, automatic_resume=false다.
+
+기존 CPU16 tests PASS이나 파이프라인 전체 PASS는 아니다. frozen backend.py:52의 ACTUAL+force_removal 경로가 없는 construction_endpoint를 먼저 읽는 KeyError를 별도 CPU 반례로 재현했다. 실제 job 실패를 새로 조회한 것이 아니다. 원 source와 job을 수정하지 않고 사용자 recall을 기다린다. 근거: `audits/servers/server4/historical-update-timeaxis-20260924-v1/user-pause-r1/pipeline-review-ko.md`.
