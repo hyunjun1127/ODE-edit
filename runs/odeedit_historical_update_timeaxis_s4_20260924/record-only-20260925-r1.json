@@ -1,0 +1,96 @@
+{
+  "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
+  "latest_recall_instruction": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1",
+  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
+  "execution_source": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "execution_tree": "a90cac47b0a80d2d5586243c927018033283ec67",
+  "execution_lock": {
+    "bytes": 10772,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/execution.lock.json",
+    "sha256": "f99939e6edda921c6320110c44a4a0b03e5c8911e2937c8955ea5e98d9ba7ebc"
+  },
+  "archive": {
+    "bytes": 174080,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/source.tar",
+    "sha256": "78275ea84fbc2756a3f3d9ee47ac17c31159bbb8469f50f5a1cab8d385b17712"
+  },
+  "attempt": "attempt-r3-record-only",
+  "family_jobs": {
+    "BASE_ALPHAEDIT": "53283",
+    "BASE_MEMIT": "53284"
+  },
+  "collector": "53285",
+  "collector_dependency": "afterany:53283:53284",
+  "held_inspection": "PASS_OWNER_ARGV_SOURCE_RESOURCES_DEPENDENCY",
+  "release_command_returncodes": [
+    0,
+    0,
+    0
+  ],
+  "release_utc": "2026-09-24T22:10:22.879761+00:00",
+  "initial": "INITIAL_NOT_OBSERVED",
+  "post_release_scheduler_log_result_queries": 0,
+  "numerical_fidelity_policy": "RECORD_ONLY_USER_DIRECTED",
+  "numerical_certification": "NOT_ESTABLISHED",
+  "waiver": {
+    "bytes": 6833,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/numerical-record-only-authority.md",
+    "sha256": "9d2cebee7da6d70ceb69f55aca4a15ef81acfbb653b9027af0f76989acfc6240"
+  },
+  "unchanged_thresholds": {
+    "nll": 0.00025,
+    "margin": 0.0005
+  },
+  "blocking_checks": [
+    "source/input/token/case/order/cardinality",
+    "whole-five-weight/immutable materialization",
+    "exact restore",
+    "finite/IO"
+  ],
+  "reuse_bridge": {
+    "bytes": 13561,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/reuse-bridge.json",
+    "sha256": "f2a535d481d84369287490e65160e8ad1dfe30a4cecb4cf2e1d0a26862ff1d8f"
+  },
+  "reused_endpoint_receipts": 9,
+  "reused_alpha_diagonal_receipts": 12,
+  "prior_scientific_tasks": 0,
+  "prior_jobs": [
+    53182,
+    53183,
+    53184
+  ],
+  "prior_allocated_GPU_seconds": 1569,
+  "prior_job_mutations": 0,
+  "new_allocation_GPU_seconds": "NOT_OBSERVED",
+  "task_gpu_cap": 2,
+  "project_gpu_cap": 2,
+  "GPU_each": {
+    "gpus": 1,
+    "cpus": 8,
+    "mem_MiB": 60416,
+    "wall": "7-00:00:00",
+    "export": "NONE",
+    "requeue": 0
+  },
+  "CPU_collector": {
+    "gpus": 0,
+    "cpus": 8,
+    "mem_MiB": 24576,
+    "wall": "04:00:00",
+    "export": "NONE",
+    "requeue": 0
+  },
+  "admission_own_queue_empty": true,
+  "disk_free_bytes": 73436766208,
+  "disk_reserve_bytes": 21474836480,
+  "CPU_tests": 32,
+  "CPU_tests_status": "PASS",
+  "independent_red_agent": false,
+  "save_checkpoints": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_new_scientific_submission": false,
+  "NO_BROADCAST_NOT_REQUIRED": "같은 host의 원 입력과 local-only 파생 score; 대형 원격 전송 없음",
+  "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md"
+}

@@ -1,34 +1,50 @@
 {
   "automatic_new_scientific_submission": false,
-  "collector": "53184",
-  "collector_previous": {"job_id": "53178", "state": "CANCELLED_BEFORE_EXECUTION", "elapsed_seconds": 0},
-  "collector_analysis_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
-  "replaced_unstarted_jobs": ["53176", "53177", "53179"],
+  "collector": "53285",
+  "collector_previous": {
+    "job_id": "53178",
+    "state": "CANCELLED_BEFORE_EXECUTION",
+    "elapsed_seconds": 0
+  },
+  "collector_analysis_source": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "replaced_unstarted_jobs": [
+    "53176",
+    "53177",
+    "53179"
+  ],
   "prior_attempt": "attempt-v1",
-  "current_attempt": "attempt-r2-routing",
+  "current_attempt": "attempt-r3-record-only",
   "cpu_T0": "PASS",
   "execution_lock": {
-    "bytes": 8011,
-    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r2-routing/execution.lock.json",
-    "sha256": "54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699"
+    "bytes": 10772,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/execution.lock.json",
+    "sha256": "f99939e6edda921c6320110c44a4a0b03e5c8911e2937c8955ea5e98d9ba7ebc"
   },
-  "execution_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
-  "execution_tree": "48b61f229bedb75ec025a8371c160b6a1aad3dab",
+  "execution_source": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "execution_tree": "a90cac47b0a80d2d5586243c927018033283ec67",
   "family_jobs": {
-    "BASE_ALPHAEDIT": "53182",
-    "BASE_MEMIT": "53183"
+    "BASE_ALPHAEDIT": "53283",
+    "BASE_MEMIT": "53284"
   },
-  "gpu_T1": "ALPHA_PASS_MEMIT_FAILED_MB16_VS_MB1_NUMERICAL_CONTRACT",
-  "observed_job_states": {"53182":"FAILED_PEER_T1_PROPAGATION","53183":"FAILED_NLL_FIDELITY","53184":"SCHEDULER_COMPLETED_SCIENCE_TECHNICAL_BLOCKED"},
-  "new_job_ids": [],
+  "gpu_T1": "INITIAL_NOT_OBSERVED",
+  "observed_job_states": {
+    "53283": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED",
+    "53284": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED",
+    "53285": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED"
+  },
+  "new_job_ids": [
+    53283,
+    53284,
+    53285
+  ],
   "prior_allocated_GPU_seconds": 1569,
-  "latest_recall_instruction": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
+  "latest_recall_instruction": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1",
   "initial_pause_inherited": false,
   "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
   "monitoring_active": false,
   "automatic_resume": false,
-  "latest_user_override": "server4 실험들 rerun 올리라고 해; fixed numerical contract must not be changed or retried-to-PASS",
-  "pause_scope": "Bounded exact accounting/RCA completed; numerical contract blocked. No rerun, job mutation, monitoring, or automatic resume",
+  "latest_user_override": "strict numerical fidelity gate is record-only; submit and stop monitoring",
+  "pause_scope": "RELEASE_COMPLETE_NO_POSTRELEASE_SCHEDULER_LOG_RESULT_QUERY",
   "cpu_pipeline_review": {
     "unit_tests": "22_PASS_WORKTREE_AND_FROZEN_SOURCE",
     "overall": "ROUTING_DEFECT_FIXED_CPU_REGRESSION_PASS_GPU_NOT_OBSERVED",
@@ -38,7 +54,7 @@
   },
   "report_pending": true,
   "save_checkpoints": false,
-  "status": "BLOCKED_NUMERICAL_CONTRACT",
+  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
   "rerun_review": {
     "nll_abs_recorded": 0.0005242824554443359,
     "nll_ceiling": 0.00025,
@@ -48,6 +64,102 @@
     "analysis_tests": "4_PASS",
     "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md"
   },
-  "submission_snapshot_utc": "2026-09-24T06:30:37.125949+00:00",
-  "submission_snapshot_state": "PENDING_REASON_NONE_NOT_A_GPU_SHORTAGE_PROOF"
+  "submission_snapshot_utc": "2026-09-24T22:10:22.879761+00:00",
+  "submission_snapshot_state": "NO_POSTRELEASE_STATE_QUERY_BY_USER_DIRECTION",
+  "previous_attempt_summary": {
+    "jobs": {
+      "BASE_ALPHAEDIT": "53182",
+      "BASE_MEMIT": "53183"
+    },
+    "collector": "53184",
+    "execution_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
+    "execution_tree": "48b61f229bedb75ec025a8371c160b6a1aad3dab",
+    "execution_lock": {
+      "bytes": 8011,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r2-routing/execution.lock.json",
+      "sha256": "54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699"
+    },
+    "status": "BLOCKED_NUMERICAL_CONTRACT",
+    "gpu_T1": "ALPHA_PASS_MEMIT_FAILED_MB16_VS_MB1_NUMERICAL_CONTRACT",
+    "observed_job_states": {
+      "53182": "FAILED_PEER_T1_PROPAGATION",
+      "53183": "FAILED_NLL_FIDELITY",
+      "53184": "SCHEDULER_COMPLETED_SCIENCE_TECHNICAL_BLOCKED"
+    },
+    "prior_allocated_GPU_seconds": 1569
+  },
+  "archive": {
+    "bytes": 174080,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/source.tar",
+    "sha256": "78275ea84fbc2756a3f3d9ee47ac17c31159bbb8469f50f5a1cab8d385b17712"
+  },
+  "attempt": "attempt-r3-record-only",
+  "collector_dependency": "afterany:53283:53284",
+  "held_inspection": "PASS_OWNER_ARGV_SOURCE_RESOURCES_DEPENDENCY",
+  "release_command_returncodes": [
+    0,
+    0,
+    0
+  ],
+  "release_utc": "2026-09-24T22:10:22.879761+00:00",
+  "initial": "INITIAL_NOT_OBSERVED",
+  "post_release_scheduler_log_result_queries": 0,
+  "numerical_fidelity_policy": "RECORD_ONLY_USER_DIRECTED",
+  "numerical_certification": "NOT_ESTABLISHED",
+  "waiver": {
+    "bytes": 6833,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/numerical-record-only-authority.md",
+    "sha256": "9d2cebee7da6d70ceb69f55aca4a15ef81acfbb653b9027af0f76989acfc6240"
+  },
+  "unchanged_thresholds": {
+    "nll": 0.00025,
+    "margin": 0.0005
+  },
+  "blocking_checks": [
+    "source/input/token/case/order/cardinality",
+    "whole-five-weight/immutable materialization",
+    "exact restore",
+    "finite/IO"
+  ],
+  "reuse_bridge": {
+    "bytes": 13561,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/reuse-bridge.json",
+    "sha256": "f2a535d481d84369287490e65160e8ad1dfe30a4cecb4cf2e1d0a26862ff1d8f"
+  },
+  "reused_endpoint_receipts": 9,
+  "reused_alpha_diagonal_receipts": 12,
+  "prior_scientific_tasks": 0,
+  "prior_jobs": [
+    53182,
+    53183,
+    53184
+  ],
+  "prior_job_mutations": 0,
+  "new_allocation_GPU_seconds": "NOT_OBSERVED",
+  "task_gpu_cap": 2,
+  "project_gpu_cap": 2,
+  "GPU_each": {
+    "gpus": 1,
+    "cpus": 8,
+    "mem_MiB": 60416,
+    "wall": "7-00:00:00",
+    "export": "NONE",
+    "requeue": 0
+  },
+  "CPU_collector": {
+    "gpus": 0,
+    "cpus": 8,
+    "mem_MiB": 24576,
+    "wall": "04:00:00",
+    "export": "NONE",
+    "requeue": 0
+  },
+  "admission_own_queue_empty": true,
+  "disk_free_bytes": 73436766208,
+  "disk_reserve_bytes": 21474836480,
+  "CPU_tests": 32,
+  "CPU_tests_status": "PASS",
+  "independent_red_agent": false,
+  "NO_BROADCAST_NOT_REQUIRED": "같은 host의 원 입력과 local-only 파생 score; 대형 원격 전송 없음",
+  "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md"
 }

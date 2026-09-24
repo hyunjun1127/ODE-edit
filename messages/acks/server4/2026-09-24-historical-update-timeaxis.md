@@ -23,3 +23,14 @@ GH direct 수신 ACK도 같은 nonce로 회수했으며, GH 감사/ACK를 단계
 ## 2026-09-25 rerun recall ACK 및 typed blockage
 
 Nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1` 수신. 정확53182/53183 FAILED, CPU53184 COMPLETED/science TECHNICAL_BLOCKED를 확인했다. 최초 원인은 MEMIT T1 MB16↔MB1 NLL차0.0005242824554443359>고정0.00025다. Alpha 자체T1 PASS 뒤 peer failure를 받았다. 저장9개 fidelity를 독립CPU2592행검산, 원state/12diagonal/input/source를 재결속했다. 실패 W100 상세raw 부재로 하위 원인은 미확정이고, 정의를 유지하는 수리 근거가 없어 envelope대로 BLOCKED_NUMERICAL_CONTRACT를 인계한다. 새제출0/원runtime·threshold변경0/모니터링0. 원부모GPU비용1569초. 상세보고는 rerun-20260925-r1 package다.
+
+## 2026-09-25 사용자 기록 전용 override 및 실제 제출
+
+ACK nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1`.
+이전 수치계약 차단은 최신 사용자 권한으로 해제했다. 원 기록/기준/오차는 보존한다.
+수치 근접성·flip만 기록 전용이며 identity·finite·exact restore·완결성은 계속 차단한다.
+CPU32 PASS 후 source `b856babb`를 새 `attempt-r3-record-only`에 봉인했다.
+Alpha53283/MEMIT53284/CPU53285(afterany:53283:53284) held 검사·release 완료.
+INITIAL_NOT_OBSERVED, numerical_certification=NOT_ESTABLISHED. 신규 CP0, cap2.
+Release 후 scheduler/log/result 조회0, monitoring_active=false/automatic_resume=false.
+상세는 record-only-20260925-r1 report/submission/lock에 기록했다.

@@ -1,0 +1,23 @@
+{
+  "CPU_tests": 32,
+  "actual_GPU_certification": "NOT_ESTABLISHED",
+  "automatic_resume": false,
+  "frozen_source_members_verified": 19,
+  "independent_red_agent": false,
+  "monitoring_active": false,
+  "postrelease_scheduler_log_result_queries": 0,
+  "raw_free": true,
+  "relative_links": 3,
+  "release_command_acknowledgments": 3,
+  "rendered_table_rows": 11,
+  "rendered_tables": 2,
+  "status": "PASS",
+  "generic_agent_access": {
+    "status": "NOT_PASS",
+    "exit_code": 7,
+    "exact_limitation": "runs/odeedit_historical_update_timeaxis_s4_20260924/record-only-20260925-r1.json",
+    "scope_authority": "Original GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1 explicitly allows this runs namespace; latest RECORD-ONLY recall inherits it",
+    "shared_helper_modified": false,
+    "global_scope_expanded": false
+  }
+}

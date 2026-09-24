@@ -40,3 +40,14 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 최신 nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1`의 한정 상태확인/RCA를 수행했다. 53182/53183 FAILED, 53184 scheduler COMPLETED지만 collector science TECHNICAL_BLOCKED. 최초 MEMIT W100 MB16↔MB1 NLL0.0005242824554443359>0.00025이며 Alpha는 자체T1 PASS 뒤 peer failure로 중단됐다. Source 정의/기준을 유지하는 수리 원인이 아직 확인되지 않아 임의반복·완화 없이 `BLOCKED_NUMERICAL_CONTRACT`로 신규제출0을 보고한다. 이전 위 PENDING은 과거 관측이다.
 
 보존9endpoint·2592답변행 비교 CPU검산, Alpha12diagonal receipt·T0/CP24/model4 결속. 실패W100 raw는 NOT_RECORDED. 원부모GPU1569초(0.4358333h), step중복0. 원source/raw/실패/CP보존, GPU/Slurm write/수치변경0. 상세 `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md`. Monitoring/automatic_resume=false로 STOP한다.
+
+## 2026-09-25 사용자 기록 전용 전환 — 실제 release 인계
+
+최신 nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RECORD-ONLY-20260925-R1`을 적용했다.
+이전 BLOCKED_NUMERICAL_CONTRACT는 역사기록이며 최신 권한은 수치 비교 기록 전용 진행이다.
+새 Alpha53283/MEMIT53284/collector53285(afterany:53283:53284)를 held 검사·release했다.
+원 failed53182/53183/53184와1569 GPU초는 보존·재취소0. 저장9endpoint/Alpha12diagonal을 explicit bridge로 재사용한다.
+실행 `b856babbca101c096d72a38a3ec9c936a85a4cf3`, lock `f99939e6edda921c6320110c44a4a0b03e5c8911e2937c8955ea5e98d9ba7ebc`.
+CPU32 PASS는 실제 GPU 수치 PASS가 아니다. `numerical_certification=NOT_ESTABLISHED` 유지.
+Release 후 진행조회0/INITIAL_NOT_OBSERVED, monitoring_active=false/automatic_resume=false.
+상세: `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md`.

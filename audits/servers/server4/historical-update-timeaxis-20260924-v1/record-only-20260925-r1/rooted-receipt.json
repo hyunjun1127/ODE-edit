@@ -1,0 +1,16 @@
+{
+  "automatic_resume": false,
+  "initial": "INITIAL_NOT_OBSERVED",
+  "manifest": {
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/worktree/audits/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/package-manifest.json",
+    "bytes": 6766,
+    "sha256": "09bf0862966961cc45e9d710e474579469fb8d26c7bd9e0c7a4dd2c694a27081"
+  },
+  "member_root": "96e188a4f5159f09e4ce62c1acfdbc5a6aa686e0aac6fd080a6ddedfff218312",
+  "monitoring_active": false,
+  "report": {
+    "bytes": 6826,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/worktree/experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md",
+    "sha256": "fa9f004e02656138708568dad11f1c377e139454c6a75b404dfe73693278463e"
+  }
+}

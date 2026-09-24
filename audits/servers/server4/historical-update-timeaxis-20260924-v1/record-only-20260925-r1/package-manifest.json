@@ -1,0 +1,166 @@
+{
+  "archive": {
+    "bytes": 174080,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/source.tar",
+    "sha256": "78275ea84fbc2756a3f3d9ee47ac17c31159bbb8469f50f5a1cab8d385b17712"
+  },
+  "automatic_resume": false,
+  "execution_lock": {
+    "bytes": 10772,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-r3-record-only/execution.lock.json",
+    "sha256": "f99939e6edda921c6320110c44a4a0b03e5c8911e2937c8955ea5e98d9ba7ebc"
+  },
+  "execution_source": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "execution_tree": "a90cac47b0a80d2d5586243c927018033283ec67",
+  "member_root": "96e188a4f5159f09e4ce62c1acfdbc5a6aa686e0aac6fd080a6ddedfff218312",
+  "members": [
+    {
+      "bytes": 6826,
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md",
+      "sha256": "fa9f004e02656138708568dad11f1c377e139454c6a75b404dfe73693278463e"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/checks.json",
+      "bytes": 826,
+      "sha256": "a921dd97977e2400179cfd9078f9cb71f8b6e96eee7ce06f525f6fad2e22e2e1"
+    },
+    {
+      "bytes": 3482,
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/preflight-ko.md",
+      "sha256": "6e5748d1a6a2812b4e8cd6643c200f29618cc94dbbfefcd3d099ac2aeee6016b"
+    },
+    {
+      "bytes": 3327,
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/submission.json",
+      "sha256": "025ace31b5e2084c4ac246b98f3983bb6a51fb33ded09e50dbcffce289ca3701"
+    },
+    {
+      "bytes": 6128,
+      "path": "tasks/status/historical-update-timeaxis-20260924-v1/server4.json",
+      "sha256": "7f9fff772a2c728dfc3f657ddfaefb181b4256b6a8e9e54a828e11960125565a"
+    },
+    {
+      "bytes": 3327,
+      "path": "runs/odeedit_historical_update_timeaxis_s4_20260924/record-only-20260925-r1.json",
+      "sha256": "025ace31b5e2084c4ac246b98f3983bb6a51fb33ded09e50dbcffce289ca3701"
+    },
+    {
+      "bytes": 4180,
+      "path": "messages/acks/server4/2026-09-24-historical-update-timeaxis.md",
+      "sha256": "fd5938109b32209df8a9c935a533dae3d23d2eea6a8992841ba536fde2325452"
+    },
+    {
+      "bytes": 6287,
+      "path": "messages/server-heads/server4/2026-09-24-historical-update-timeaxis.md",
+      "sha256": "9343d238676a7c20d212e4d6d48c5d262e82bb7d835f6a3d3028dc6e22fc762f"
+    },
+    {
+      "bytes": 4392,
+      "path": "project/run_scripts/historical_update_timeaxis/audit.py",
+      "sha256": "0dc71bd84418b6d9b2a9ef343225beaa72c3cf47cc041182ab4164447e70aa22"
+    },
+    {
+      "bytes": 6235,
+      "path": "project/run_scripts/historical_update_timeaxis/backend.py",
+      "sha256": "d314d2e63ac7d98caffe18fb9826aed014ac294c98f9f81e6f5e2249b88e2ac2"
+    },
+    {
+      "bytes": 7527,
+      "path": "project/run_scripts/historical_update_timeaxis/bind.py",
+      "sha256": "1a6bfddc5305f41ecc2b89dabbadfb391c216045d4160065db47eac2f8473812"
+    },
+    {
+      "bytes": 2543,
+      "path": "project/run_scripts/historical_update_timeaxis/common.py",
+      "sha256": "42e07396e5e724a945d078c71491a95abc4351b75401003031ba9a99f3a8c496"
+    },
+    {
+      "bytes": 9536,
+      "path": "project/run_scripts/historical_update_timeaxis/diagnose_rerun.py",
+      "sha256": "054268839dcace6e2d61eb4c302e683874dd5a4cbd53850fa565744043db1a7a"
+    },
+    {
+      "bytes": 6591,
+      "path": "project/run_scripts/historical_update_timeaxis/fidelity.py",
+      "sha256": "24548712b100e0b5e42fc97d6b955a87fc906490e023b18fbba7eb44a43a7585"
+    },
+    {
+      "bytes": 8144,
+      "path": "project/run_scripts/historical_update_timeaxis/launch.py",
+      "sha256": "99486c1114555f0f5342772a89e27a5fda092bf7c7e61e439dfe2e232df56d9f"
+    },
+    {
+      "bytes": 4657,
+      "path": "project/run_scripts/historical_update_timeaxis/receive.py",
+      "sha256": "201e75338ea5c4646d13c5fbd71733e975c059b7d2a264d213a31edbccaa6e9a"
+    },
+    {
+      "bytes": 6803,
+      "path": "project/run_scripts/historical_update_timeaxis/record_only_submit.py",
+      "sha256": "f0ff156acad8f0e2b6e4cdc83093f97158780341783f2c4e26eab8db4d8893ae"
+    },
+    {
+      "bytes": 20004,
+      "path": "project/run_scripts/historical_update_timeaxis/reduce.py",
+      "sha256": "e4c85339e63a0cf290d0c80831384fa7aaa58a171b18973419a3beb6e76140d5"
+    },
+    {
+      "bytes": 2417,
+      "path": "project/run_scripts/historical_update_timeaxis/repair_collector.py",
+      "sha256": "7c9e09bfdf647e58e4fdd1f98f5320cf6a5f7b6bd8b1fb1b9138299ef52d695b"
+    },
+    {
+      "bytes": 7308,
+      "path": "project/run_scripts/historical_update_timeaxis/replace_pending.py",
+      "sha256": "961ee6284b9f13b16ed5096ff642c04e4625d7d23fc8da77cc46b8d4c37f8618"
+    },
+    {
+      "bytes": 3166,
+      "path": "project/run_scripts/historical_update_timeaxis/test_core.py",
+      "sha256": "1e4cab10e2e5bb39b7f24e9605b9798a51ca98e5e83ba86df95da4c3c733460e"
+    },
+    {
+      "bytes": 1552,
+      "path": "project/run_scripts/historical_update_timeaxis/test_diagnose_rerun.py",
+      "sha256": "04c1c737b38d24b435fcb51300279ccce3ca815612c91d1e59e62b44002145b9"
+    },
+    {
+      "bytes": 5433,
+      "path": "project/run_scripts/historical_update_timeaxis/test_fidelity_policy.py",
+      "sha256": "2f1b830f58f5dd64e8632d011698e319d229e1aceb411a07ed5ff6e9de13884c"
+    },
+    {
+      "bytes": 3305,
+      "path": "project/run_scripts/historical_update_timeaxis/test_reducer.py",
+      "sha256": "b11e80e58ba16391fb79618de7fdef9e3e7fcb474263dd5de8ff61a4d4872d27"
+    },
+    {
+      "bytes": 4979,
+      "path": "project/run_scripts/historical_update_timeaxis/test_state.py",
+      "sha256": "a06baa8b67ee2f0b55ba1c2c3760e5a004d47f7fea8dd0fb29bc3744ff48dabc"
+    },
+    {
+      "bytes": 18040,
+      "path": "project/run_scripts/historical_update_timeaxis/worker.py",
+      "sha256": "5ba3f62ed060cb17969fb1f90482f79c2067756dda0757b6413da6a05ac22a45"
+    }
+  ],
+  "monitoring_active": false,
+  "new_job_ids": [
+    "53283",
+    "53284",
+    "53285"
+  ],
+  "numerical_policy": {
+    "numerical_certification": "NOT_ESTABLISHED",
+    "numerical_fidelity_policy": "RECORD_ONLY_USER_DIRECTED",
+    "numerical_policy_sha256": "d77fb902ec8b26e2122513e6a5a396e60501d1b8e43ac56491a8c3f21833c0b9",
+    "waiver_sha256": "9d2cebee7da6d70ceb69f55aca4a15ef81acfbb653b9027af0f76989acfc6240"
+  },
+  "reuse_bridge": {
+    "bytes": 13561,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/reuse-bridge.json",
+    "sha256": "f2a535d481d84369287490e65160e8ad1dfe30a4cecb4cf2e1d0a26862ff1d8f"
+  },
+  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED"
+}
