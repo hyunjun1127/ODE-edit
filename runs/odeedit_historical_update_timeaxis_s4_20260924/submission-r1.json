@@ -1,0 +1,23 @@
+{
+  "automatic_new_scientific_submission": false,
+  "collector": "53178",
+  "cpu_T0": "PASS",
+  "execution_lock": {
+    "bytes": 6466,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/execution.lock.json",
+    "sha256": "bc8ae75e983c68a1eb4489e9c3be98e0f77f8a567cf32e9eb88d6b9e1c994d9f"
+  },
+  "execution_source": "6ef71ed2a7f7639c6619c34e89314c1930288c0a",
+  "execution_tree": "329e4a1e833da019c22bef6e17a540bc56d59e20",
+  "family_jobs": {
+    "BASE_ALPHAEDIT": "53176",
+    "BASE_MEMIT": "53177"
+  },
+  "gpu_T1": "NOT_OBSERVED_AT_SUBMISSION",
+  "initial_pause_inherited": false,
+  "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
+  "monitoring_active": true,
+  "report_pending": true,
+  "save_checkpoints": false,
+  "status": "SUBMITTED_NOT_COMPLETED"
+}

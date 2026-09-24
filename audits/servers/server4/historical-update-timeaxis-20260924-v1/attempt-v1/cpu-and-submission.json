@@ -1,0 +1,61 @@
+{
+  "CPU_tests": 12,
+  "CPU_tests_pass": true,
+  "GPU_model_validation": "NOT_OBSERVED_AT_SUBMISSION",
+  "T0": {
+    "bytes": 47072,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/inputs/t0-v1/runtime-binding.json",
+    "sha256": "717808cb2460b034d7f526bb14cf325e0ad817f678d6fa7cd98844649f051e41"
+  },
+  "independent_agent_red": false,
+  "owner_review": true,
+  "physical_selected_weight_count": 5,
+  "readonly_CP_count": 24,
+  "release": {
+    "bytes": 301,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/release.json",
+    "sha256": "b61b1647d501806aa059236ea125f4f6eaaccf72edc1f66422b23f41feef795c"
+  },
+  "source_freeze": {
+    "archive": {
+      "bytes": 92160,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/source.tar",
+      "sha256": "3934ef82b36c6a8fca4f13f036e8ff70a6ccfe3f2fc793c645eacca1bdbb8032"
+    },
+    "cpu_script": {
+      "bytes": 624,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/collector.sbatch",
+      "sha256": "31882f4a4949a720dbd210a26730240bd2414d50a73e01301ca5a387d376192a"
+    },
+    "gpu_script": {
+      "bytes": 684,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/gpu.sbatch",
+      "sha256": "297f435eceaa9bd4e4762f5d1e3a1ba7cabeb246eea4ecacf84cc33837c95176"
+    },
+    "lock": {
+      "bytes": 6466,
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/execution.lock.json",
+      "sha256": "bc8ae75e983c68a1eb4489e9c3be98e0f77f8a567cf32e9eb88d6b9e1c994d9f"
+    }
+  },
+  "source_native_fit": 0,
+  "source_new_CP_save": 0,
+  "submission": {
+    "bytes": 6031,
+    "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/attempt-v1/submission.json",
+    "sha256": "d45bd3b6a6d4c9e7be40eae41d4ea9ab9420b5fe0d58199ff2ad775641ea5ace"
+  },
+  "task_counts": {
+    "main_cells": 156,
+    "pair_cells": 16,
+    "score_tasks": 383,
+    "states": 173
+  },
+  "whole_parameter_names": [
+    "model.layers.4.mlp.down_proj.weight",
+    "model.layers.5.mlp.down_proj.weight",
+    "model.layers.6.mlp.down_proj.weight",
+    "model.layers.7.mlp.down_proj.weight",
+    "model.layers.8.mlp.down_proj.weight"
+  ]
+}
