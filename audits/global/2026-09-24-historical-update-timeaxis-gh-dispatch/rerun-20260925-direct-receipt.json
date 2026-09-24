@@ -1,0 +1,15 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
+  "authority_commit": "a06611d0",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "cwd": "/data/janghj/ODE-edit",
+  "transport": "registered app-server direct over SSH; idle turn/start",
+  "accepted_turn": "01a0d55f-df9b-7031-be91-28dd936ea9f6",
+  "ack_received": true,
+  "ack": "53182/53183/53184 한정 상태/원인 확인 후 최소수리·재제출, 유효 완료자료 재사용. 아직 이번 재제출 미수행. release 후 진행 모니터링 중단.",
+  "status_at_ack": "ACCEPTED_NOT_SUBMITTED",
+  "new_job_ids": [],
+  "gh_scheduler_or_result_queries": 0,
+  "project_gpu_cap": 2,
+  "post_release_monitoring": false
+}
