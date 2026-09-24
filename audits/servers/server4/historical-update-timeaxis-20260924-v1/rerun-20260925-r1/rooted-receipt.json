@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED_NUMERICAL_CONTRACT",
+  "manifest": {
+    "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/package-manifest.json",
+    "bytes": 2374,
+    "sha256": "3758488d1f371d1ccc2f6d1eb478e55a3d31d106e90068043f9dda1289b683a3"
+  },
+  "report": {
+    "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md",
+    "bytes": 7656,
+    "sha256": "0928b8b7b2606e0842728f03b53379a78f91e2223128bec8bc83eb8d08480ee6"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_job_ids": []
+}

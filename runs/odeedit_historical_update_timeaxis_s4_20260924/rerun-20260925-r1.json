@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
+  "status": "BLOCKED_NUMERICAL_CONTRACT",
+  "original_family_jobs": {"BASE_ALPHAEDIT":"53182","BASE_MEMIT":"53183"},
+  "original_collector": "53184",
+  "original_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
+  "original_lock_sha256": "54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699",
+  "first_failure": "MEMIT W100 T1 MB16 vs MB1 NLL error 0.0005242824554443359 > 0.00025",
+  "secondary_failure": "ALPHA T1 matching-family join propagated MEMIT failure",
+  "collector_scientific_status": "TECHNICAL_BLOCKED",
+  "prior_allocated_GPU_seconds":1569,
+  "new_GPU_allocations":0,
+  "new_job_ids":[],
+  "cancelled_jobs":[],
+  "runtime_modified":false,
+  "numerical_contract_modified":false,
+  "monitoring_active":false,
+  "automatic_resume":false,
+  "save_checkpoints":false,
+  "independent_red_agent":false,
+  "NO_BROADCAST_NOT_REQUIRED":true
+}

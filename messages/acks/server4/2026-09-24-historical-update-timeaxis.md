@@ -19,3 +19,7 @@ GH direct 수신 ACK도 같은 nonce로 회수했으며, GH 감사/ACK를 단계
 ## 후속 사용자 정정 — 수리·재제출 승인 / job 모니터링만 중단
 
 “아니 점검에서 오류 사항있으면 수리 재제출해 / job 모니터링만 하지 말라는거였어”를 적용했다. T1 routing을 최소수리하고 CPU22 tests를 WT/frozen에서 PASS했다. 정확 이전3개를 미시작 상태에서 취소·보존하고 새53182/53183/CPU53184(afterany:53182:53183)를 held 검사·release했다. 제출 snapshot PENDING(None), actual GPU gate 미관측. 이후 job 진행 모니터링·자동 재개 없이 사용자 호출을 기다린다. 실행source730a4a97, 상세기록은 routing-repair-r2 report/receipt다.
+
+## 2026-09-25 rerun recall ACK 및 typed blockage
+
+Nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1` 수신. 정확53182/53183 FAILED, CPU53184 COMPLETED/science TECHNICAL_BLOCKED를 확인했다. 최초 원인은 MEMIT T1 MB16↔MB1 NLL차0.0005242824554443359>고정0.00025다. Alpha 자체T1 PASS 뒤 peer failure를 받았다. 저장9개 fidelity를 독립CPU2592행검산, 원state/12diagonal/input/source를 재결속했다. 실패 W100 상세raw 부재로 하위 원인은 미확정이고, 정의를 유지하는 수리 근거가 없어 envelope대로 BLOCKED_NUMERICAL_CONTRACT를 인계한다. 새제출0/원runtime·threshold변경0/모니터링0. 원부모GPU비용1569초. 상세보고는 rerun-20260925-r1 package다.

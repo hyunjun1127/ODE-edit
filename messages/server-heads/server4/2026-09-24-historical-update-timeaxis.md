@@ -34,3 +34,9 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 사용자는 오류 수리·재제출은 수행하되 job 모니터링만 중단하라고 정정했다. 위 점검-only 상태는 역사이며 현재 상태가 아니다. T1 force_removal 우선분기 최소수리, CPU22/22 PASS(WT와 frozen), actual GPU gate는 미관측이다. source730a4a9768e5650e01fd9afdc4e0f7895c86ea92 / lock54abf9a7572eceda008db9c001ed8d1fc9de8f5a7397990a4bed26f313bc1699.
 
 이전53176/53177/53179는 정확 owner/source/미시작을 확인하고 취소(elapsed0/allocation0)했다. 새 Alpha53182, MEMIT53183, CPU53184(afterany:53182:53183)는 검사·release 완료. 2026-09-24T06:30:37Z 제출 snapshot PENDING(None)을 마지막으로 진행조회하지 않는다. 원source/raw/CP KEEP, 다른job변경0, cap2/각59GiB/noCP불변. `monitoring_active=false`, `automatic_resume=false`. 상세: `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/routing-repair-r2/report-ko.md`.
+
+## 2026-09-25 명시 rerun recall — 수치계약 차단
+
+최신 nonce `ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1`의 한정 상태확인/RCA를 수행했다. 53182/53183 FAILED, 53184 scheduler COMPLETED지만 collector science TECHNICAL_BLOCKED. 최초 MEMIT W100 MB16↔MB1 NLL0.0005242824554443359>0.00025이며 Alpha는 자체T1 PASS 뒤 peer failure로 중단됐다. Source 정의/기준을 유지하는 수리 원인이 아직 확인되지 않아 임의반복·완화 없이 `BLOCKED_NUMERICAL_CONTRACT`로 신규제출0을 보고한다. 이전 위 PENDING은 과거 관측이다.
+
+보존9endpoint·2592답변행 비교 CPU검산, Alpha12diagonal receipt·T0/CP24/model4 결속. 실패W100 raw는 NOT_RECORDED. 원부모GPU1569초(0.4358333h), step중복0. 원source/raw/실패/CP보존, GPU/Slurm write/수치변경0. 상세 `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md`. Monitoring/automatic_resume=false로 STOP한다.

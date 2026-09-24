@@ -1,0 +1,54 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
+  "jobs": [
+    {
+      "cpus": 8,
+      "elapsed_seconds": 1463,
+      "end": "2026-09-24T23:28:28",
+      "exit_code": "1:0",
+      "gpus": 1,
+      "job_id": "53182",
+      "mem_mib": 60416,
+      "name": "odeedit_hist_alpha_s4",
+      "owner": "janghj",
+      "start": "2026-09-24T23:04:05",
+      "state": "FAILED"
+    },
+    {
+      "cpus": 8,
+      "elapsed_seconds": 106,
+      "end": "2026-09-24T23:28:20",
+      "exit_code": "1:0",
+      "gpus": 1,
+      "job_id": "53183",
+      "mem_mib": 60416,
+      "name": "odeedit_hist_memit_s4",
+      "owner": "janghj",
+      "start": "2026-09-24T23:26:34",
+      "state": "FAILED"
+    },
+    {
+      "cpus": 8,
+      "elapsed_seconds": 0,
+      "end": "2026-09-24T23:28:34",
+      "exit_code": "0:0",
+      "gpus": 0,
+      "job_id": "53184",
+      "mem_mib": 24576,
+      "name": "odeedit_hist_T4_s4",
+      "owner": "janghj",
+      "start": "2026-09-24T23:28:34",
+      "state": "COMPLETED"
+    }
+  ],
+  "parent_allocation_GPU_seconds": 1569,
+  "query": "sacct -n -X -j 53182,53183,53184 --format=JobIDRaw,JobName%35,User,State,ExitCode,ElapsedRaw,AllocTRES%100,Start,End --parsable2",
+  "scheduler_timezone": "Asia/Seoul",
+  "scontrol_result": "All three aged-out job IDs returned Invalid job id specified; durable original submission and sacct accounting bind identity",
+  "scope": [
+    "53182",
+    "53183",
+    "53184"
+  ],
+  "step_extern_double_count": false
+}

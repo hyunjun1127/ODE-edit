@@ -18,13 +18,17 @@
     "BASE_ALPHAEDIT": "53182",
     "BASE_MEMIT": "53183"
   },
-  "gpu_T1": "NOT_OBSERVED_AT_SUBMISSION",
+  "gpu_T1": "ALPHA_PASS_MEMIT_FAILED_MB16_VS_MB1_NUMERICAL_CONTRACT",
+  "observed_job_states": {"53182":"FAILED_PEER_T1_PROPAGATION","53183":"FAILED_NLL_FIDELITY","53184":"SCHEDULER_COMPLETED_SCIENCE_TECHNICAL_BLOCKED"},
+  "new_job_ids": [],
+  "prior_allocated_GPU_seconds": 1569,
+  "latest_recall_instruction": "ODEEDIT-GH-SH4-HISTORICAL-TIMEAXIS-RERUN-20260925-R1",
   "initial_pause_inherited": false,
   "instruction_id": "GH-SH4-HISTORICAL-UPDATE-TIMEAXIS-20260924-V1",
   "monitoring_active": false,
   "automatic_resume": false,
-  "latest_user_override": "아니 점검에서 오류 사항있으면 수리 재제출해 / job 모니터링만 하지 말라는거였어",
-  "pause_scope": "Repair and replacement authorized; only bounded identity/admission/submission checks performed; no job progress monitoring after release",
+  "latest_user_override": "server4 실험들 rerun 올리라고 해; fixed numerical contract must not be changed or retried-to-PASS",
+  "pause_scope": "Bounded exact accounting/RCA completed; numerical contract blocked. No rerun, job mutation, monitoring, or automatic resume",
   "cpu_pipeline_review": {
     "unit_tests": "22_PASS_WORKTREE_AND_FROZEN_SOURCE",
     "overall": "ROUTING_DEFECT_FIXED_CPU_REGRESSION_PASS_GPU_NOT_OBSERVED",
@@ -34,7 +38,16 @@
   },
   "report_pending": true,
   "save_checkpoints": false,
-  "status": "REPLACEMENT_RELEASED_MONITORING_STOPPED",
+  "status": "BLOCKED_NUMERICAL_CONTRACT",
+  "rerun_review": {
+    "nll_abs_recorded": 0.0005242824554443359,
+    "nll_ceiling": 0.00025,
+    "runtime_repair": "NO_DEFINITION_PRESERVING_CAUSAL_FIX_ESTABLISHED",
+    "saved_fidelity_receipts_verified": 9,
+    "independent_row_comparisons": 2592,
+    "analysis_tests": "4_PASS",
+    "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md"
+  },
   "submission_snapshot_utc": "2026-09-24T06:30:37.125949+00:00",
   "submission_snapshot_state": "PENDING_REASON_NONE_NOT_A_GPU_SHORTAGE_PROOF"
 }

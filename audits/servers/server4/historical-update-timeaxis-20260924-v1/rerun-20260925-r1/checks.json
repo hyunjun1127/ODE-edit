@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "CPU_analysis_tests": 4,
+  "rendered_tables": 2,
+  "rendered_rows": 10,
+  "local_links": 2,
+  "GPU_model_validation": "NOT_RUN_THIS_RECALL",
+  "runtime_changed": false,
+  "threshold_changed": false,
+  "new_jobs": [],
+  "scheduler_mutations": 0,
+  "monitoring_active": false,
+  "independent_red_agent": false
+}

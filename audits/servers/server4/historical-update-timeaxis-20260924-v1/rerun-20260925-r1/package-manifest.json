@@ -1,0 +1,57 @@
+{
+  "status": "BLOCKED_NUMERICAL_CONTRACT",
+  "members": [
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/accounting.json",
+      "bytes": 1500,
+      "sha256": "f1566178411ce522fc6769eab84ad73f71660c3dc8b4bbc55b9eb380e66bbe77"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/artifact-index.json",
+      "bytes": 5292,
+      "sha256": "d831b1070808ef2733fb0d980ea0757cce544b5d9b2d5d7baf32e43754e4a785"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/checks.json",
+      "bytes": 334,
+      "sha256": "6df0d46c26c37405d17d106224633912e0fee13ba72e4f9be4df2781105fadaf"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/diagnosis.json",
+      "bytes": 1247,
+      "sha256": "7deb934b6414f04e0a7cb8e207baa286ce812742511409a6f9b56b993f0eadcd"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/saved-fidelity-independent.csv",
+      "bytes": 4058,
+      "sha256": "85028ebab827d6104068965229f9621b0d10162ad4f1bc85a0f1ac48fa1fb842"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/rerun-20260925-r1/report-ko.md",
+      "bytes": 7656,
+      "sha256": "0928b8b7b2606e0842728f03b53379a78f91e2223128bec8bc83eb8d08480ee6"
+    },
+    {
+      "path": "project/run_scripts/historical_update_timeaxis/diagnose_rerun.py",
+      "bytes": 9536,
+      "sha256": "054268839dcace6e2d61eb4c302e683874dd5a4cbd53850fa565744043db1a7a"
+    },
+    {
+      "path": "project/run_scripts/historical_update_timeaxis/test_diagnose_rerun.py",
+      "bytes": 1552,
+      "sha256": "04c1c737b38d24b435fcb51300279ccce3ca815612c91d1e59e62b44002145b9"
+    },
+    {
+      "path": "runs/odeedit_historical_update_timeaxis_s4_20260924/rerun-20260925-r1.json",
+      "bytes": 942,
+      "sha256": "da1ccf17bbd9bf4913594a6a5303d9af53a86b7096b3ce03829e4c3d3e9c379e"
+    },
+    {
+      "path": "tasks/status/historical-update-timeaxis-20260924-v1/server4.json",
+      "bytes": 2797,
+      "sha256": "3e9aa594f5c9dea3219a914f145a79d7f27f75d11465a35bcf30eb765c834540"
+    }
+  ],
+  "original_execution_source": "730a4a9768e5650e01fd9afdc4e0f7895c86ea92",
+  "raw_in_git": false
+}
