@@ -4,7 +4,7 @@
   "owner": "server1",
   "session": "01a04939-f93a-7b50-bca0-65438eab2062",
   "envelope": "messages/head/2026-09-24-historical-update-timeaxis-migrate-sh1.md",
-  "status": "APPROVED_FOR_MIGRATION_NOT_SUBMITTED",
+  "status": "WITHDRAWN_USER_DIRECTED_KEEP_SERVER4",
   "old_jobs": [53182, 53183, 53184],
   "cancel_owner": "SH1",
   "cancel_only_if_pending": true,
