@@ -8,7 +8,7 @@ from .common import *
 
 def command(argv):return subprocess.check_output(argv,text=True).strip()
 
-def freeze(attempt):
+def freeze(attempt,extra_lock=None):
     dest=ROOT/attempt;dest.mkdir(parents=True,exist_ok=False)
     source=dest/'source';namespace=Path('project/run_scripts/historical_update_timeaxis')
     # Copy only this approved namespace and required fixed-dataset verifier, immutable commit first.
@@ -29,6 +29,11 @@ def freeze(attempt):
         resources=dict(gpus_per_job=1,cpus_per_job=8,mem_mib=60416,task_cap=2,project_cap=2,wall='7-00:00:00',wall_basis='conservative partition-bounded registration; pilot padded-token forecast pending, not measured',host_peak_estimate_gib=44,host_components='32GiB transient CPU model load + 1.094GiB W0 + <=5 selected mmap endpoints + <3GiB per-layer FP64 scratch + <3GiB Python/input/allocator; steady CPU far below loading peak',disk_reserve_gib=20,free_observed_bytes=st.free),
         barrier_timeout_seconds=6*86400,save_checkpoints=False,native_fitting=0,history_append=0,scope=['T0','T1','T2P','T2F','T3A','T3B','T4'],
         science_effect_gate=False,automatic_scientific_retry=False,NO_BROADCAST_NOT_REQUIRED='same-host readonly inputs and local scores; no remote payload consumer required')
+    if extra_lock:
+        assert not (set(extra_lock)&set(lock)), 'LOCK_OVERRIDE_COLLISION'
+        lock.update(extra_lock)
+    from .fidelity import policy
+    policy(lock)  # This version must never be submitted without its explicit waiver.
     save(dest/'execution.lock.json',lock)
     # Generated script is task-owned derived source; explicit job-total memory and clean env.
     script=dest/'gpu.sbatch'
@@ -50,14 +55,24 @@ def submit(dest):
         save(dest/('submitted-'+family+'.json'),dict(job_id=job,source=record(dest/'execution.lock.json'),held=True))
         info=command(['scontrol','show','job','-o',job]);assert 'UserId=janghj(' in info and 'JobState=PENDING' in info and 'Dependency=(null)' in info and 'Requeue=0' in info
         assert 'MinMemoryNode=59G' in info or 'MinMemoryNode=60416M' in info
-        assert 'NumCPUs=8' in info and str(dest/'gpu.sbatch') in info and 'gres/gpu=1' in info;inspections.append(dict(job_id=job,scontrol=info))
+        assert 'NumCPUs=8' in info and str(dest/'gpu.sbatch')+' '+family+' ' in info and 'gres/gpu=1' in info
+        assert 'ReqNodeList=server4' in info and 'Partition=gpu' in info and 'Reason=JobHeldUser' in info
+        inspections.append(dict(job_id=job,scontrol=info))
     collector=command(['sbatch','--parsable','--hold','--job-name=odeedit_hist_T4_s4','--dependency=afterany:'+':'.join(jobs.values()),'--output='+str(dest/('%j.out')),'--error='+str(dest/('%j.err')),str(dest/'collector.sbatch')]).split(';')[0]
-    ci=command(['scontrol','show','job','-o',collector]);assert 'UserId=janghj(' in ci and 'Requeue=0' in ci and 'NumCPUs=8' in ci and 'afterany:' in ci;inspections.append(dict(job_id=collector,scontrol=ci))
+    ci=command(['scontrol','show','job','-o',collector]);assert 'UserId=janghj(' in ci and 'Requeue=0' in ci and 'NumCPUs=8' in ci and 'afterany:' in ci
+    assert 'JobState=PENDING' in ci and 'MinMemoryNode=24G' in ci and 'gres/gpu=' not in ci
+    assert str(dest/'collector.sbatch') in ci and 'ReqNodeList=server4' in ci
+    assert all('afterany:'+j in ci for j in jobs.values())
+    inspections.append(dict(job_id=collector,scontrol=ci))
     save(dest/'submission.json',dict(family_jobs=jobs,collector=collector,held_inspection=inspections,source=record(dest/'execution.lock.json'),internal_DAG='matching atomic PASS joins across both persistent family workers; collector only reduces after all science PASS',status='HELD_INSPECTION_COMPLETE'))
-    for job in list(jobs.values())+[collector]:subprocess.run(['scontrol','release',job],check=True)
-    snap=command(['squeue','-j',','.join(list(jobs.values())+[collector]),'-h','-o','%i|%j|%T|%R|%b'])
-    save(dest/'release.json',dict(job_ids=list(jobs.values())+[collector],status='RELEASED',snapshot=snap,utc=datetime.datetime.now(datetime.timezone.utc).isoformat()))
-    print(json.dumps(dict(family_jobs=jobs,collector=collector,lock=record(dest/'execution.lock.json'),snapshot=snap)))
+    for job in list(jobs.values())+[collector]:
+        subprocess.run(['scontrol','release',job],check=True)
+        save(dest/('release-'+job+'.json'),dict(job_id=job,release_command_returncode=0))
+    # No post-release scheduler, log or result query. Return codes acknowledge release only.
+    save(dest/'release.json',dict(job_ids=list(jobs.values())+[collector],status='RELEASED',
+        initial='INITIAL_NOT_OBSERVED',monitoring_active=False,automatic_resume=False,
+        utc=datetime.datetime.now(datetime.timezone.utc).isoformat()))
+    print(json.dumps(dict(family_jobs=jobs,collector=collector,lock=record(dest/'execution.lock.json'),initial='INITIAL_NOT_OBSERVED')))
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--attempt',default='attempt-v1');p.add_argument('--submit',action='store_true');args=p.parse_args();dest=freeze(args.attempt)

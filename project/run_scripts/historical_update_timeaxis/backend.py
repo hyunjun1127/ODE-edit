@@ -77,7 +77,7 @@ class Backend:
             begin=time.monotonic();self.copy(entry);assert self.hashes()==entry_hash,'RESTORE_BYTES';self.unchanged()
             detail['restore']='EXACT_BYTES';self.restore_seconds+=time.monotonic()-begin;del entry;gc.collect()
 
-    def evaluate(self,pairs,mb=16):
+    def evaluate(self,pairs,mb=16,evidence_sink=None):
         torch=self.torch;begin=time.monotonic()
         with torch.autocast(device_type='cuda',enabled=False):
             result=self.obs['evaluator'].evaluate_pairs(self.model,self.tok,pairs,device=torch.device('cuda'),microbatch_size=mb)
@@ -85,6 +85,7 @@ class Backend:
         enc=self.obs['evaluator']._encode_pair
         lengths=[sum(map(len,enc(self.tok,p)))-1 for p in pairs]
         self.nonpadding+=sum(lengths);self.padded+=sum(max(lengths[i:i+mb])*len(lengths[i:i+mb]) for i in range(0,len(lengths),mb))
+        if evidence_sink is not None:evidence_sink(result)
         assert all(__import__('math').isfinite(r['nll']) for r in result)
         return result
 

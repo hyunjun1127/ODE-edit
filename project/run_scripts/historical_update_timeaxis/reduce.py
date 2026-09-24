@@ -5,6 +5,7 @@ import csv
 import math
 import traceback
 from .common import *
+from .fidelity import policy, execution_identity, check_gate, COMPLETE, completion
 
 IDENTITY=('schema_version','case_id','panel','prompt_index','target_version','prompt_token_hash','target_token_hash','competitor_token_hash','evaluator_signature','valid','missing_reason')
 
@@ -49,10 +50,11 @@ def csvout(p,values):
             w=csv.DictWriter(f,fieldnames=list(values[0]));w.writeheader();w.writerows(values)
     return record(p)
 
-def lookup(root,family):
+def lookup(root,family,identity=None):
     by={};receipts=[]
     for p in sorted((root/family/'tasks').glob('*/PASS.json')):
         r=read(p);task=r['task']
+        if identity is not None:check_gate(r,identity)
         if task['case_selector']!='whole_cohort':continue
         assert sha(r['scores']['path'])==r['scores']['sha256']
         sr=read(r['scores']['path']);assert len(sr)==int(task['prompt_count'])
@@ -63,10 +65,10 @@ def lookup(root,family):
         receipts.append(record(p))
     return by,receipts
 
-def joins(root):
+def joins(root,identity=None):
     facts=rows(DESIGN/'fact-ledger.csv');contrib=[];pairs=[];inventory=[]
     for family in FAMILIES:
-        by,rr=lookup(root,family);inventory.extend(rr)
+        by,rr=lookup(root,family,identity);inventory.extend(rr)
         for c in rows(DESIGN/'main-cells.csv'):
             if c['family']!=family:continue
             for f in (r for r in facts if r['cohort_id']==c['cohort_id']):
@@ -181,31 +183,45 @@ def figures(out,df,tr,fixed,inc,pairs):
         x=inc[(inc.family==f)&(inc.panel=='rewrite')].groupby('eval_t')[['increment_B_t','increment_C_t']].mean();x.plot(ax=axs[i,0]);p=pairs[(pairs.family==f)&(pairs.panel=='rewrite')];axs[i,1].bar(range(len(p)),p.I);axs[i,1].set_xticks(range(len(p)),p.pair_id.str.replace(f+'__',''),rotation=90);axs[i,1].set_title('whole U/V interaction')
     fig.tight_layout();fig.savefig(out/'05-increments-pairs.png',dpi=140);plt.close(fig)
 
-def main():
-    p=argparse.ArgumentParser();p.add_argument('--lock',required=True);args=p.parse_args();lock=read(args.lock);root=Path(lock['output']);out=root/'T4';out.mkdir(parents=True,exist_ok=True)
+def worker_completion(root,identity):
     terminal=[]
     for f in FAMILIES:
         fp=root/f/'terminal.json';fail=root/f/'FAILURE.json'
-        terminal.append(dict(family=f,status=read(fp)['status'] if fp.exists() else 'TECHNICAL_FAILED_OR_NOT_COMPLETED',failure=read(fail) if fail.exists() else None))
-    if not all(r['status']=='COMPLETED' for r in terminal):
-        save(out/'terminal.json',dict(status='TECHNICAL_BLOCKED',workers=terminal,science_gate_bypassed=False));return
-    try:
+        x=read(fp) if fp.exists() else None
+        if x is not None:assert x['identity']==identity,'TERMINAL_IDENTITY'
+        terminal.append(dict(family=f,status=x['status'] if x else 'TECHNICAL_FAILED_OR_NOT_COMPLETED',
+            numerical_diagnostics=x.get('numerical_diagnostics',{}) if x else {},
+            failure=read(fail) if fail.exists() else None))
+    ready=all(r['status'] in COMPLETE and r['failure'] is None for r in terminal)
+    if ready:
         for f in FAMILIES:
-            for stage in ('T1','T2P','T2F','T3B'):
-                x=read(root/f/stage/'PASS.json');assert x['status']=='PASS' and x['identity']['source_sha256']==lock['source_sha256']
-        cc,pp,rr=joins(root);cr=jsonl(out/'contributions.jsonl',cc);pr=jsonl(out/'pairs.jsonl',pp)
-        summary=tables(out,cc,pp);save(out/'T3A-PASS.json',dict(status='PASS',summary=summary,source_receipts=rr))
+            for stage in ('T1','T2P','T2F','T3B'):check_gate(read(root/f/stage/'PASS.json'),identity)
+    return ready,terminal
+
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--lock',required=True);args=p.parse_args();lock=read(args.lock);root=Path(lock['output']);out=root/'T4';out.mkdir(parents=True,exist_ok=True)
+    pol=policy(lock);identity=execution_identity(lock)
+    try:
+        ready,terminal=worker_completion(root,identity)
+        if not ready:
+            save(out/'terminal.json',dict(status='TECHNICAL_BLOCKED',identity=identity,**pol,workers=terminal,science_gate_bypassed=False));return
+        nw=sum(w['numerical_diagnostics']['warning_count'] for w in terminal)
+        cc,pp,rr=joins(root,identity);cr=jsonl(out/'contributions.jsonl',cc);pr=jsonl(out/'pairs.jsonl',pp)
+        summary=tables(out,cc,pp);save(out/'T3A-PASS.json',dict(status='PASS',identity=identity,**pol,
+            pass_semantics='STRUCTURAL_COMPLETION_NOT_NUMERICAL_CERTIFICATION',numerical_warning_count=nw,summary=summary,source_receipts=rr))
         text='# Historical update timeaxis 사실 보고\n\n두 BASE 전체 구간 U를 사용한 관측 전용 실행입니다. 새로운 편집·native fitting·history append·checkpoint 저장은 없습니다.\n\n'
         text+=f"실제 완료: 156 main cells / {len(cc)} prompt×time rows, 16 pair cells / {len(pp)} paired prompt rows.\n\n"
+        text+=f"수치 재현 정책: `{pol['numerical_fidelity_policy']}` / numerical_certification=`NOT_ESTABLISHED`. 기록된 수치 경고 {nw}건(비교별 중복 가능). 완료 상태 `{completion(nw)}`는 계산·구조 완결성을 뜻하며 수치 허용치 PASS가 아닙니다. 사용자 waiver SHA `{pol['waiver_sha256']}`. 기존 기준 NLL 0.00025 / margin 0.0005 및 실제 오차·flip은 family별 numerical-diagnostics/diagnostic-raw에 보존합니다.\n\n"
         text+='세부 표: [primary](primary-tables.csv), [trajectory](trajectory.csv), [pair](pair-summary.csv), [fixed-age](fixed-age.csv), [bootstrap](cluster-bootstrap-primary-rewrite.csv).\n\n'
         text+='기준 ε=.10, 민감도 .025/.05/.10/.20. 원시 NLL strict >0와 TF 정확도는 별도입니다. 검열은 해당 시점 최초 충돌을 사용합니다. Cluster CI는 단일 고정 chain의 문항 구성 민감도이며 독립 순서 반복이 아닙니다. U를 처음부터 제거한 학습 이력이 아니라 실제 후속 parameter를 고정한 제거입니다.\n\n'
         text+='원자료·score cache·토큰·receipt는 local-only이며 이 보고는 과학적 채택 결론을 내리지 않습니다. NO_BROADCAST_NOT_REQUIRED: 동일 host 원본과 파생 관측을 사용합니다.\n'
         (out/'report-ko.md').write_text(text)
         save(out/'artifact-index.json',[record(q) for q in sorted(out.iterdir()) if q.is_file() and q.name!='artifact-index.json'])
         # Final success is the last create-once write, after report and inventory.
-        save(out/'terminal.json',dict(status='COMPLETED',summary=summary,contributions=cr,pairs=pr,workers=terminal,save_checkpoints=False,
+        save(out/'terminal.json',dict(status=completion(nw),identity=identity,**pol,numerical_warning_count=nw,summary=summary,contributions=cr,pairs=pr,workers=terminal,save_checkpoints=False,
             report=record(out/'report-ko.md'),artifact_index=record(out/'artifact-index.json')))
     except BaseException as e:
-        save(out/'REDUCTION_FAILURE.json',dict(status='TECHNICAL_FAILED',error=str(e),traceback=traceback.format_exc()));raise
+        save(out/'REDUCTION_FAILURE.json',dict(status='TECHNICAL_FAILED',identity=identity,**pol,error=str(e),traceback=traceback.format_exc()));raise
 
 if __name__=='__main__':main()

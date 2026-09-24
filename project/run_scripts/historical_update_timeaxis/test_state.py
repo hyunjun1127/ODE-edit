@@ -90,6 +90,12 @@ class StateRouting(unittest.TestCase):
                 self.fail('malformed recipe must fail')
         self.backend.endpoint.assert_not_called()
 
+    def test_exact_restore_corruption_still_blocks(self):
+        self.backend.hashes=Mock(return_value={'corrupted':'bytes'})
+        with self.assertRaisesRegex(AssertionError,'RESTORE_BYTES'):
+            with self.backend.state(dict(kind='ACTUAL',actual_checkpoint=0)):
+                pass
+
 
 if __name__ == '__main__':
     unittest.main()
