@@ -1,0 +1,21 @@
+{
+  "nonce": "ODEEDIT-GH-SH1-HISTORICAL-TIMEAXIS-MIGRATE-20260924-R1",
+  "authority_commit": "9a3c5898",
+  "transport": "registered app-server direct; SH1 local Unix socket, SH4 SSH remote Unix socket",
+  "sh1_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "sh1_actual_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "sh1_accepted_turn": "01a0d2cd-b9e7-78d3-8a82-802edc975e30",
+  "sh1_same_stream_ack": "SH1이 이관·입력확보·port·지정 pending 취소·대체 제출을 단독 수행. Server1 본실험 아직 미제출. release 후 monitoring 없이 INITIAL_NOT_OBSERVED 인계.",
+  "sh4_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "sh4_accepted_turn": "01a0d2cd-e700-7962-b47d-78bfe18b475d",
+  "scope": "historical task exact 53182/53183/53184만; GH는 취소/새 sbatch 수행하지 않음",
+  "pre_dispatch_old_jobs": "단발 squeue/scontrol에서 모두 PENDING/elapsed0/AllocTRES null 및 owner/argv/dependency 확인. SH1 취소 직전 재검사 필수",
+  "new_submission_status": "IMPLEMENTING_NOT_SUBMITTED_AT_ACK",
+  "project_cap": 2,
+  "save_checkpoints": false,
+  "post_release_monitoring": false,
+  "boundary_notes": [
+    "SH1 과거 registry 29e4 CWD가 실제 root와 달라 fail-closed 후 app read/direct metadata로 현재 root 확인 및 envelope 정정",
+    "GH→rke-server1 alias DNS 미해결; 같은 host의 등록 Unix socket direct로 SH1 전달. 보안 검증 우회 없음"
+  ]
+}
