@@ -1,0 +1,18 @@
+{
+  "status": "PASS_CPU_STORED_EVIDENCE_REDUCTION",
+  "new_GPU": 0,
+  "model_loaded": false,
+  "original_runtime_modified": false,
+  "independent_agent_used": false,
+  "independent_reducer": true,
+  "main_rows": 333600,
+  "pair_rows": 48000,
+  "main_cells": 156,
+  "pair_cells": 16,
+  "primary_rows": 7488,
+  "accounting_max": 0.0,
+  "cache_rows": 1549800,
+  "states": 173,
+  "numerical_certification": "NOT_ESTABLISHED",
+  "seconds": 134.79018086846918
+}

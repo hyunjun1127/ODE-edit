@@ -1,0 +1,31 @@
+{
+  "groups": [
+    {
+      "group": "BASE_ALPHAEDIT",
+      "files": 1687,
+      "bytes": 549917206,
+      "root_sha256": "a91b06e20da6ec982f95d0b6834a0561a6a43349a54b10bdc2d193f817412896"
+    },
+    {
+      "group": "BASE_MEMIT",
+      "files": 1812,
+      "bytes": 548151942,
+      "root_sha256": "3c93d8c2464cdc7380f9a17e7bfffb2c41ce4f44c78a0da33fe31397576124b2"
+    },
+    {
+      "group": "T4",
+      "files": 19,
+      "bytes": 724481139,
+      "root_sha256": "a58c586bdf680a8dc6c80870d2499fd36989c9bc8ec2003d523e34b31b38e643"
+    },
+    {
+      "group": "score-cache",
+      "files": 194784,
+      "bytes": 806816761,
+      "root_sha256": "28e0edc6b0f081c14b1044407b60d992c115488ba14a64c4e73c1655b10432ae"
+    }
+  ],
+  "raw_inventory_path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/completed-review-20260926-v1/repro-v2/raw-full-sha-inventory.json",
+  "raw_inventory_sha256": "bbb6c6dca880909da5321316102b01262b0f0f637b8f6d979475b558911a0f46",
+  "model_CP": "PRIOR_FULL_SHA_PLUS_CURRENT_STAT_NOT_REHASHED"
+}

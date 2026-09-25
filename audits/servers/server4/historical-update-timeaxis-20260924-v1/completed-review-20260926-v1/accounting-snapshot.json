@@ -1,0 +1,18 @@
+{
+  "설명": "이번 사용자 완료 리뷰 호출에서 지정 3 parent만 sacct -X로 한 번 조회하고 exact squeue 공백을 확인한 값. 재조회/모니터링 없음. 시각은 Slurm 표시 KST.",
+  "review_date": "2026-09-26",
+  "scope": [53283, 53284, 53285],
+  "owner": "janghj",
+  "node": "server4",
+  "jobs": [
+    {"id": 53283, "name": "odeedit_hist_alpha_s4", "state": "COMPLETED", "exit_code": "0:0", "start": "2026-09-25T07:10:22+09:00", "end": "2026-09-25T09:50:15+09:00", "elapsed_seconds": 9593, "allocated_gpus": 1, "allocated_cpus": 8, "allocated_mem_mib": 60416},
+    {"id": 53284, "name": "odeedit_hist_memit_s4", "state": "COMPLETED", "exit_code": "0:0", "start": "2026-09-25T07:10:22+09:00", "end": "2026-09-25T09:50:02+09:00", "elapsed_seconds": 9580, "allocated_gpus": 1, "allocated_cpus": 8, "allocated_mem_mib": 60416},
+    {"id": 53285, "name": "odeedit_hist_T4_s4", "state": "COMPLETED", "exit_code": "0:0", "start": "2026-09-25T09:50:34+09:00", "end": "2026-09-25T09:52:27+09:00", "elapsed_seconds": 113, "allocated_gpus": 0, "allocated_cpus": 8, "allocated_mem_mib": 24576, "registered_dependency": "afterany:53283:53284"}
+  ],
+  "new_attempt_parent_allocated_GPU_seconds": 19173,
+  "prior_failed_attempt_allocated_GPU_seconds": 1569,
+  "task_peak_concurrent_GPU": 2,
+  "step_extern_double_counted": false,
+  "allocation_is_utilization": false,
+  "other_jobs_queried": false
+}

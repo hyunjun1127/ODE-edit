@@ -1,0 +1,13 @@
+family,panel,retained,n,decreased,decreased_positive_deltaB,decreased_deltaB_covers_deltaC,deltaB_positive_deltaC_positive,deltaB_negative_deltaC_negative
+BASE_ALPHAEDIT,paraphrase_0,True,4509,3940,2799,347,118,1162
+BASE_ALPHAEDIT,paraphrase_0,False,2653,2608,1350,0,0,1264
+BASE_ALPHAEDIT,paraphrase_1,True,4547,3957,2755,331,117,1226
+BASE_ALPHAEDIT,paraphrase_1,False,2650,2610,1325,0,0,1286
+BASE_ALPHAEDIT,rewrite,True,5639,4972,3049,163,97,1938
+BASE_ALPHAEDIT,rewrite,False,2127,2112,1003,0,0,1111
+BASE_MEMIT,paraphrase_0,True,3291,2506,1684,579,230,853
+BASE_MEMIT,paraphrase_0,False,1547,1417,583,0,0,837
+BASE_MEMIT,paraphrase_1,True,3300,2472,1679,541,259,829
+BASE_MEMIT,paraphrase_1,False,1501,1378,555,0,0,838
+BASE_MEMIT,rewrite,True,4318,3104,2008,605,383,1144
+BASE_MEMIT,rewrite,False,1559,1436,514,0,0,928

@@ -1,0 +1,19 @@
+{
+  "status": "TASK_COMPLETE_STOP",
+  "runtime_commit": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "jobs": [
+    53283,
+    53284,
+    53285
+  ],
+  "execution_lock_sha256": "f99939e6edda921c6320110c44a4a0b03e5c8911e2937c8955ea5e98d9ba7ebc",
+  "analysis_source_sha256": "4af85ca29e254a61061e693819ded5f8d89de85f7a1852080362a012bd6fa598",
+  "report_sha256": "e68d74e7c053f29d1adf659bb31196ae09907a3d659b72131c1c1765045f73a2",
+  "package_manifest_sha256": "4437d2a0d0514db69226f1ea1f8ec39c4bc70e7c904a357f587fb7643002fbfc",
+  "member_root_sha256": "36adbec57b18f2f178e0d818dfe8e0ffe79e6f1ca04997eff1fea06b6e936582",
+  "numerical_certification": "NOT_ESTABLISHED",
+  "checkpoint_saved": false,
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

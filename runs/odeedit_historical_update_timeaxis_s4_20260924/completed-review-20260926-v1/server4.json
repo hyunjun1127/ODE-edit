@@ -1,0 +1,23 @@
+{
+  "설명": "사용자 명시 완료 리뷰와 main 게시 요청에 대한 compact 인계. 원 submission/initial/실패 기록은 불변.",
+  "status": "TASK_COMPLETE_STOP",
+  "jobs": [53283, 53284, 53285],
+  "scheduler_states": ["COMPLETED", "COMPLETED", "COMPLETED"],
+  "scientific_terminal": "COMPLETED_WITH_NUMERICAL_WARNINGS",
+  "runtime_source": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "analysis_source": "project/run_scripts/historical_update_timeaxis/completed_review_20260926.py",
+  "analysis_sha256": "4af85ca29e254a61061e693819ded5f8d89de85f7a1852080362a012bd6fa598",
+  "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/report-ko.md",
+  "main_rows": 333600,
+  "pair_rows": 48000,
+  "parent_allocated_GPU_seconds": 19173,
+  "prior_failed_GPU_seconds": 1569,
+  "CPU_collector_seconds": 113,
+  "numerical_warning_count": 5,
+  "numerical_certification": "NOT_ESTABLISHED",
+  "new_GPU": 0,
+  "save_checkpoints": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "NO_BROADCAST_NOT_REQUIRED": "동일 host의 원 raw를 CPU로 검산; 대형 원격 전송 없음"
+}

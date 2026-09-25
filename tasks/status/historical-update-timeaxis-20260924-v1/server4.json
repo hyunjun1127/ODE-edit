@@ -26,11 +26,11 @@
     "BASE_ALPHAEDIT": "53283",
     "BASE_MEMIT": "53284"
   },
-  "gpu_T1": "INITIAL_NOT_OBSERVED",
+  "gpu_T1": "STRUCTURAL_COMPLETION_NUMERICAL_CERTIFICATION_NOT_ESTABLISHED",
   "observed_job_states": {
-    "53283": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED",
-    "53284": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED",
-    "53285": "HELD_INSPECTED_RELEASE_COMMAND_ACCEPTED"
+    "53283": "COMPLETED_EXIT_0_0",
+    "53284": "COMPLETED_EXIT_0_0",
+    "53285": "COMPLETED_EXIT_0_0_SCIENCE_COMPLETED_WITH_NUMERICAL_WARNINGS"
   },
   "new_job_ids": [
     53283,
@@ -52,9 +52,9 @@
     "repair": "FORCE_REMOVAL_RESOLVED_BEFORE_RECIPE_ONLY_FIELDS",
     "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/routing-repair-r2/report-ko.md"
   },
-  "report_pending": true,
+  "report_pending": false,
   "save_checkpoints": false,
-  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
+  "status": "TASK_COMPLETE_STOP",
   "rerun_review": {
     "nll_abs_recorded": 0.0005242824554443359,
     "nll_ceiling": 0.00025,
@@ -135,7 +135,7 @@
     53184
   ],
   "prior_job_mutations": 0,
-  "new_allocation_GPU_seconds": "NOT_OBSERVED",
+  "new_allocation_GPU_seconds": 19173,
   "task_gpu_cap": 2,
   "project_gpu_cap": 2,
   "GPU_each": {
@@ -161,5 +161,29 @@
   "CPU_tests_status": "PASS",
   "independent_red_agent": false,
   "NO_BROADCAST_NOT_REQUIRED": "같은 host의 원 입력과 local-only 파생 score; 대형 원격 전송 없음",
-  "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md"
+  "report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/report-ko.md",
+  "completed_review": {
+    "date": "2026-09-26",
+    "user_recall": "실험 끝난거 자세히 리뷰하고 main에 push해",
+    "scope": "CPU_ONLY_COMPLETED_REVIEW_AND_PUBLICATION",
+    "previous_submission_status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
+    "previous_submission_report": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md",
+    "historical_initial_fields_preserved": true,
+    "accounting_scope": [53283, 53284, 53285],
+    "main_cells": 156,
+    "main_rows": 333600,
+    "pair_cells": 16,
+    "pair_rows": 48000,
+    "unique_states": 173,
+    "unique_score_tasks": 383,
+    "independent_raw_reduction": "PASS",
+    "numerical_warnings": 5,
+    "numerical_certification": "NOT_ESTABLISHED",
+    "review_new_GPU": 0,
+    "CPU_tests_passed": 10,
+    "PNG_reproduced": 5,
+    "collector_CPU_seconds": 113,
+    "monitoring_active": false,
+    "automatic_resume": false
+  }
 }

@@ -1,0 +1,208 @@
+{
+  "설명": "이 package의 source/report/audit member SHA; manifest/receipt 자기참조 제외",
+  "runtime_commit": "b856babbca101c096d72a38a3ec9c936a85a4cf3",
+  "analysis_source_sha256": "4af85ca29e254a61061e693819ded5f8d89de85f7a1852080362a012bd6fa598",
+  "members": [
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/accounting-snapshot.json",
+      "bytes": 1416,
+      "sha256": "1b025b5ea9228c707ba2702f77afe834d462102f66096e8b43fae43f3d2892c6"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/analysis-input-manifest.json",
+      "bytes": 17653,
+      "sha256": "cefd230e4c8866c522be4225de67fd886022f5232860a4348f22cf6d1ef4aa94"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/artifact-inventory-summary.json",
+      "bytes": 1043,
+      "sha256": "46ea2b8190706c98418fb51429e3a04fd8820c2ec83d6f5ab4c445e73d1601e3"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/censor-ledger-check.json",
+      "bytes": 289,
+      "sha256": "6f23fbb2e462442dff21962340707a1893d43522a9afbef62c458300efa31b19"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/independent-review-checks.json",
+      "bytes": 456,
+      "sha256": "4ee0ae8b5e8791acbb7056c34d9ea413657deacf1903d263cbcda00160b61cb7"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/owner-audit-ko.md",
+      "bytes": 4132,
+      "sha256": "a843bbf8e06c838466c42d69aea7569dfd362da072039075451afff59d31caff"
+    },
+    {
+      "path": "audits/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/publication-checks.json",
+      "bytes": 4978,
+      "sha256": "1a7a6f94508188cc277c04f13e6767cc8a889e8ff42d3e169ae0ff6801100aa0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/anchor-final-transitions.csv",
+      "bytes": 189016,
+      "sha256": "72bf476ea000413e94a91da32778f173d25a970605e43c68d44229606ee7e94d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/bootstrap-recomputed.csv",
+      "bytes": 16745,
+      "sha256": "1975fe13bf3515d6dedc50de68de655906b17b71ab6baf93d0887aa57d5889be"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/boundary-exclusion.csv",
+      "bytes": 632,
+      "sha256": "eea74d4268052e2d8db3093ccba9ac6606bd161d4b4a1a75673ac62ec688534e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/checkpoint-input-reuse.csv",
+      "bytes": 5988,
+      "sha256": "6adef7dda1cd4632d913679cf5ad418baccdd12fe8d0ff2f808fef235516927a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/chronological-summary.csv",
+      "bytes": 6829,
+      "sha256": "a27140d6c217baff3934933fb71b502a38c14516f4696a8c0532312b07acd8b6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/compute.csv",
+      "bytes": 2698,
+      "sha256": "b9d23c69f88cda972aa833d84f99c936d8f18c1aef956137d781e6df2147ddf3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/continuous-tails.csv",
+      "bytes": 9113,
+      "sha256": "e8ba045803a3216f97a803e21ef2ea2567910afcc8a8c798d53bba6e75b13d4c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/endpoint-fidelity-coverage.csv",
+      "bytes": 3087,
+      "sha256": "21cb5d5f8479d769fe1095ea90f4a7eb1342505b63613002d4c4eca1f0321245"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/endpoint-trajectory.csv",
+      "bytes": 39577,
+      "sha256": "2371b9feb5f63441701eac22498a44f9e5897901fa2360ddbca03609d1cbbe17"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/fact-rms-drift.csv",
+      "bytes": 12291,
+      "sha256": "0e59dc74066e5a18ec596c6c4045122e356129ee83681bb5dcccaa8a762be983"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/family-paired-t100.csv",
+      "bytes": 768,
+      "sha256": "368231aba903e0ff20f88c0c901b5fddbffa598be4feea1b40c375934d92da8c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/figures/01-retention-and-contribution.png",
+      "bytes": 86539,
+      "sha256": "a2b0d12bc5d04c00c00b2841d7e65d055a2c43b153a197ce1dfb4fda6385130a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/figures/02-signed-decomposition.png",
+      "bytes": 260046,
+      "sha256": "395766524582d82c09eb6214f11cffec01ac8bd110fd047695c5c6af948b774f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/figures/03-cohort-heatmap.png",
+      "bytes": 32085,
+      "sha256": "f1a58a0b32904f5cb58bce6cc1d652a2bd0da9a6e44449cb2ccbf98f5778b8ee"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/figures/04-pair-effects.png",
+      "bytes": 67002,
+      "sha256": "72f6de690cfcf24d742ba3f22a48312fcabfcb508f06ae17d1e1fff04cbc3427"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/figures/05-epsilon-sensitivity.png",
+      "bytes": 55903,
+      "sha256": "4bc541b5bdbfa9663f4b4cc8625193a5384640c07ec70df5738e1bd348b27fa1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/first-endpoint-table.csv",
+      "bytes": 3193,
+      "sha256": "e757d3d839d0100d8c2e3709638bdc129220d659671ecdbc8870d105be6dd1e9"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/fixed-age-primary.csv",
+      "bytes": 45435,
+      "sha256": "eb7680a4824120231c9f50931bd07c40d02897cca8cc4b02318313eacc5bbf87"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/numerical-diagnostics.csv",
+      "bytes": 21075,
+      "sha256": "7228c6de6f99109c908ae142e79bd770a455c7dd20ae852a9c16797ed026010c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/numerical-warnings.csv",
+      "bytes": 770,
+      "sha256": "d01e2a799b11745957e03bc1e7ca3bf9a1e8345bc2fa9628ab422bab5aa3fe9e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/pair-effects-recomputed.csv",
+      "bytes": 35991,
+      "sha256": "d7e04af2cb1f514462cf3cb3a0ed87363aea5b7c040c86afc94b459d0e4acffb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/primary-recomputed.csv",
+      "bytes": 2795898,
+      "sha256": "d9ced6c131d4ae72c99d852758b2a1eb10a95b5443574c79d5431d062b662349"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/primary-t100-eight-cohorts.csv",
+      "bytes": 21728,
+      "sha256": "26a9d71a8f38a13829c8e7fbebfd2abb6f7e7a1b87026315975119e4540982d2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/report-ko.md",
+      "bytes": 27057,
+      "sha256": "e68d74e7c053f29d1adf659bb31196ae09907a3d659b72131c1c1765045f73a2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/request-joint.csv",
+      "bytes": 990,
+      "sha256": "c982559ab0ff036821c3124bffa700fd1c92bf0505a6ffbbfce1c4b2e6af5baa"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/score-coverage.csv",
+      "bytes": 119,
+      "sha256": "b4a8bbe4cb5c9262ae5620f2bcd9ef88564e91b525fad4413b3c45875c3e8bc3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/signed-movements.csv",
+      "bytes": 816,
+      "sha256": "06b818dd0c8b23d94881957f0197c3c9fc065408ec011e4fb89fdee110215e0f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/stage-coverage.csv",
+      "bytes": 1550,
+      "sha256": "39581bafdf06395c58457828376ee6ba7725f11de78d72c8a0bd2d20c7ef02cf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/state-sentinel-coverage.csv",
+      "bytes": 17529,
+      "sha256": "4f297cf076aedfd2842693d5f937153b5f8e867b93bfa0c462256c49acbadd5b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/worked-examples.csv",
+      "bytes": 1469,
+      "sha256": "d77acef73898251218a24ba4d31bad47d2bbbe5cdd8ea02e4c0d215031a4546c"
+    },
+    {
+      "path": "project/run_scripts/historical_update_timeaxis/completed_review_20260926.py",
+      "bytes": 51571,
+      "sha256": "4af85ca29e254a61061e693819ded5f8d89de85f7a1852080362a012bd6fa598"
+    },
+    {
+      "path": "project/run_scripts/historical_update_timeaxis/package_review_20260926.py",
+      "bytes": 8701,
+      "sha256": "bb0d804476d551b136b7a6752ed73308633efe1283855590794f75a6bd88174a"
+    },
+    {
+      "path": "project/run_scripts/historical_update_timeaxis/test_completed_review_20260926.py",
+      "bytes": 1829,
+      "sha256": "9b6700395070ccdba9a9eef7e5bffe03bb7d1299dccca50fe241fcbcfd4f5635"
+    }
+  ],
+  "member_root_sha256": "36adbec57b18f2f178e0d818dfe8e0ffe79e6f1ca04997eff1fea06b6e936582"
+}

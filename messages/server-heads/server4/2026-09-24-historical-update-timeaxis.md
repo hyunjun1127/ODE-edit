@@ -51,3 +51,15 @@ Held owner/command/argv/resource/dependency 검사 후 release했다. 최초 sna
 CPU32 PASS는 실제 GPU 수치 PASS가 아니다. `numerical_certification=NOT_ESTABLISHED` 유지.
 Release 후 진행조회0/INITIAL_NOT_OBSERVED, monitoring_active=false/automatic_resume=false.
 상세: `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/record-only-20260925-r1/report-ko.md`.
+
+## 2026-09-26 사용자 recall — 완료 CPU 상세 리뷰
+
+53283/53284/53285 모두 COMPLETED 0:0. 실행 source b856babb, 새 분석은 completed_review_20260926.py로 분리했다.
+173state/unique score task383(main156셀333,600행, pair16셀48,000행)의 raw/cache identity 및 NLL·TF·기여 분해·primary7,488표·bootstrap을 독립 검산했다.
+W100 전체 R 선호 성공 Alpha7,343/10,000, MEMIT6,453/10,000; TF strict3,500/10,000과1,093/10,000이다.
+비교 가능한8cohort primary R의 유지 Alpha5,639/7,766, MEMIT4,318/5,877; 유지 중ΔC<−.1은4,972/5,639와3,104/4,318.
+MEMIT case20832/P0의 수치경고5건/비교flip0은 그대로 보존하며 numerical_certification=NOT_ESTABLISHED.
+새 attempt parent GPU19,173초, CPUcollector113초; 과거 실패1,569 GPU초는 별도다.
+상세 한글 report/CSV/코드PNG5개/manifest: `experiment-reports/servers/server4/historical-update-timeaxis-20260924-v1/completed-review-20260926-v1/`.
+실행 source/raw/CP/threshold 변경0, 신규 GPU0, 별도 red agent 미사용(자체 source 감사+별도 reducer).
+사용자가 승인한 own-scope nonforce main 게시 후 TASK_COMPLETE_STOP; monitoring_active=false/automatic_resume=false. NO_BROADCAST_NOT_REQUIRED.
