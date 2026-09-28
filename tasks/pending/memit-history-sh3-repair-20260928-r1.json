@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH3-MEMIT-HISTORY-FIXED10K-20260928-R1",
+  "override_nonce": "ODEEDIT-GH-SH3-MEMIT-HISTORY-REPAIR-INITIAL-GATE-20260928-R1",
+  "owner": "server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "envelope": "messages/head/2026-09-28-memit-history-sh3-repair-initial-monitor.md",
+  "status": "APPROVED_DIAGNOSE_REPAIR_SUBMIT_AND_MONITOR_TO_INITIAL",
+  "reported_failed_job": "53996",
+  "failure_cause": "NOT_YET_INSPECTED_BY_RECEIVER",
+  "new_job_ids": [],
+  "project_gpu_cap": 1,
+  "save_checkpoints": false,
+  "monitor_until": "ACTUAL_B1_COMMIT_OBSERVER_AND_B2_ENTRY_CONTINUITY",
+  "initial_gate_is_performance_gate": false,
+  "post_initial_monitoring": false,
+  "other_tasks_resumed": false
+}
