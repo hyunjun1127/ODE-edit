@@ -1,5 +1,14 @@
 # Server3 active record
 
+## 최신 사용자 실행 승인 — 2026-09-28 / MEMIT history / cap1
+
+MEMIT_seq (blue=false) 단일 history baseline을 fresh W0/H0에서 동일 fixed10k
+B100×100으로 구현·제출한다. Server3 project/task cap1, 1GPU/8CPU/≤121856MiB.
+[실행 envelope](../../messages/head/2026-09-28-memit-history-fixed10k-sh3.md).
+No checkpoints, release 후 agent monitoring0; 기존 자료·다른 task는 보존한다.
+아래 cap2 및 이전 실험 권한은 해당 시점 역사이며 새 실험 재개 권한이 아니다.
+실제 신규 job/initial/terminal은 아직 NOT_OBSERVED.
+
 ## Latest override: two arms / cap2 — 2026-09-20
 
 RES and GSS_REC only; uniform GSS is excluded. Server3 project/task GPU cap2,

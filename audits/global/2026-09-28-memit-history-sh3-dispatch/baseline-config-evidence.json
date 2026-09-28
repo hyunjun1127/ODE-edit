@@ -1,0 +1,86 @@
+{
+  "source_csv": "/mnt/raid5/janghj/ODE-edit/local/reviews/blue-native-lifelong-independent-audit-2026-09-11-v1/source-package/new-source-config-compatibility.csv",
+  "selected_row": {
+    "arm": "BASE_MEMIT",
+    "job": "42658",
+    "raw_root": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2",
+    "source_head": "1075540b45c29269e690ac63aae44758d8d63174",
+    "source_tree": "172b6b9b5c0de4e3aa9e94a05920edaa84a2b323",
+    "blue_head": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "blue_tree": "f3c933c31cba2fe979c5c34546a99a72e6beb763",
+    "source_archive": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/local-source.tar",
+    "source_archive_sha256": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+    "runtime_sha256": "cef9e07b785225f1d1fc1f0b116e7b9c2f0bb7e23deeecd5e5e81417874a5064",
+    "lock_sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+    "config_sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "seed": "20260907",
+    "dtype": "torch.float32",
+    "native_scalar_policy": "MEMIT solve FP64; AlphaEdit native FP32; unchanged",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "attention": "eager",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "autocast": "False",
+    "tf32_matmul": "False",
+    "tf32_cudnn": "True",
+    "hparams": {
+      "attn_module_tmp": "model.layers.{}.self_attn",
+      "blue": false,
+      "clamp_norm_factor": 0.75,
+      "edit_layer": -1,
+      "fact_token": "subject_last",
+      "kl_factor": 0.0625,
+      "layer_module_tmp": "model.layers.{}",
+      "layer_selection": "all",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "lm_head_module": "lm_head",
+      "ln_f_module": "model.norm",
+      "mlp_module_tmp": "model.layers.{}.mlp",
+      "model_name": "Llama3-8B-Instruct",
+      "mom2_adjustment": true,
+      "mom2_dataset": "wikipedia",
+      "mom2_dtype": "float32",
+      "mom2_n_samples": 100000,
+      "mom2_update_weight": 15000,
+      "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+      "v_loss_layer": 31,
+      "v_lr": 0.1,
+      "v_num_grad_steps": 25,
+      "v_weight_decay": 0.5
+    },
+    "binding": {
+      "covariance_snapshots": "immutable NPZ + native float32 load; cached tensor identity recorded",
+      "history_policy": "NONE; native static covariance computation cache",
+      "stats_model_name": "Meta-Llama-3-8B-Instruct",
+      "stats_root": "/data/janghj/EasyEdit/examples/data/stats"
+    },
+    "tokenizer": {
+      "add_bos_token": false,
+      "bos": 128000,
+      "eos": 128009,
+      "pad": 128009,
+      "padding": "right"
+    },
+    "evaluator_tokenizer": {
+      "add_bos_token": "NOT_EXPOSED",
+      "pad": 128009,
+      "padding": "right"
+    },
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "blue": "False"
+  }
+}
