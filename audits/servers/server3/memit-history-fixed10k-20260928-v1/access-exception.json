@@ -1,0 +1,7 @@
+{
+  "explicit_user_scope": "runs/odeedit_memit_history_10k_s3_20260928/**",
+  "generic_helper_support": false,
+  "shared_helper_modified": false,
+  "authority": "ODEEDIT-GH-SH3-MEMIT-HISTORY-FIXED10K-20260928-R1",
+  "resolution": "사용자 명시 own-scope 권한으로만 게시. 공용 policy 완화0."
+}
