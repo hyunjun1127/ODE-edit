@@ -1,0 +1,16 @@
+{
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HISTORY-REPAIR-INITIAL-GATE-20260928-R1",
+  "authority_commit": "2ddb30d5",
+  "transport": "registered app-server direct websocket",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "accepted_turn": "01a0e57a-6dbf-7de2-866f-3dd09c937067",
+  "same_stream_ack_received": true,
+  "ack": "현재 새 제출 전, RCA/repair 진행 상태입니다. 53996의 최초 오류를 확인·최소수리한 뒤 재제출하고, 실제 B1 commit·observer 완료와 B2 W/H 진입 연결까지 관찰하겠습니다.",
+  "status": "ACK_RECEIVED_RCA_REPAIR_NOT_SUBMITTED",
+  "failed_job_to_inspect": "53996",
+  "new_job_ids_observed": [],
+  "actual_initial_gate": "NOT_OBSERVED",
+  "gh_gpu_scheduler_result_checks": 0,
+  "gh_duplicate_monitoring": false
+}
