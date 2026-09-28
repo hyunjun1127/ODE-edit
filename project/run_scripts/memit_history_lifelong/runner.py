@@ -49,6 +49,7 @@ def run(lock_path):
           attention=model.config._attn_implementation,dtype='float32',solve_dtype='float64',tf32_matmul=False,tf32_cudnn=True,autocast=False,
           writer_tokenizer=dict(padding=tok.padding_side,bos=tok.bos_token_id,pad=tok.pad_token_id,add_bos_property=tok.add_bos_token,actual_probe_ids=tok('MEMIT history')['input_ids']),
           evaluator_tokenizer=dict(padding=evaltok.padding_side,bos=evaltok.bos_token_id,pad=evaltok.pad_token_id,actual_probe_ids=evaltok('MEMIT history')['input_ids'],kernel_padding='explicit_left',microbatch=16),
+          native_entrypoint=dict(module=module.__file__,file_sha256=file_sha(module.__file__),function='apply_memit_seq_to_model',blue_git_commit=lock['blue_commit'],cache_c_returned_identity_required=True),
           W0_H0=w0sig,context_sha256=file_sha(lock['context']),save_checkpoints=False,exact_resume='NOT_AVAILABLE',slurm_job=os.environ.get('SLURM_JOB_ID')))
         # Native target disables gradients itself; immutable original parameter flags do not affect inference.
         prior=content(w0sig);seen=[];previous_cov={}
@@ -86,6 +87,9 @@ def run(lock_path):
                 assert signature(weights,state)==endpoint,'OBSERVER_STATE_MUTATION'
                 assert cov_guard(module)==previous_cov,'OBSERVER_C0_MUTATION'
                 eval_seconds=time.monotonic()-t
+                if bi==1:
+                    consumed=sorted({str(Path(m.__file__).resolve()) for m in sys.modules.values() if getattr(m,'__file__',None) and str(m.__file__).endswith('.py') and any(str(Path(m.__file__).resolve()).startswith(p+'/') for p in [lock['source_root'],lock['blue_root']])})
+                    save(output/'actual-import-closure.json',[dict(path=p,sha256=file_sha(p)) for p in consumed])
                 receipt=dict(status='BATCH_COMMITTED',batch=bi,requests=100,seen_requests=bi*100,entry=content(entry),endpoint=content(endpoint),
                   compute_z=counters['compute_z'],solve_calls=counters['solve_calls'],history_append_layers=counters['history_append_layers'],
                   history_key_phase=counters['history_key_phase'],history_norms=[float(x.norm()) for x in state],
