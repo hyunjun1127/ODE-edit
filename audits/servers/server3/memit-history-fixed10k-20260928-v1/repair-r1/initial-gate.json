@@ -1,0 +1,136 @@
+{
+  "B1_edit_seconds": 364.198773028329,
+  "B1_eval_seconds": 28.178434191271663,
+  "B1_history_norms": [
+    93.69580078125,
+    143.72132873535156,
+    210.7111053466797,
+    242.60125732421875,
+    211.4960174560547
+  ],
+  "B1_metrics": {
+    "NS": {
+      "bit_order_sha256": "358cc0b387e5e105de467963d90daa2fade44f574465258c9064248c9c3e029f",
+      "denominator": 1000,
+      "desired": "true",
+      "desired_nll": 5.403941530306765,
+      "margin_true_minus_new": -5.978034720344527,
+      "new_nll": 11.381976250651293,
+      "numerator": 880,
+      "rate": 0.88,
+      "tf_prompt_macro": 0.1815,
+      "tf_strict": 0.167,
+      "tf_strict_denominator": 1000,
+      "tf_strict_numerator": 167,
+      "tf_token_correct": 196,
+      "tf_token_count": 1030,
+      "tf_token_micro": 0.19029126213592232,
+      "true_nll": 5.403941530306765
+    },
+    "PS": {
+      "bit_order_sha256": "12f9e22055b8231be173957ca81529ab2ab19eed6ec50e4c466eabd207086c53",
+      "denominator": 200,
+      "desired": "new",
+      "desired_nll": 2.5406550007051556,
+      "margin_true_minus_new": 4.948567584704724,
+      "new_nll": 2.5406550007051556,
+      "numerator": 174,
+      "rate": 0.87,
+      "tf_prompt_macro": 0.5125,
+      "tf_strict": 0.51,
+      "tf_strict_denominator": 200,
+      "tf_strict_numerator": 102,
+      "tf_token_correct": 104,
+      "tf_token_count": 202,
+      "tf_token_micro": 0.5148514851485149,
+      "true_nll": 7.4892225854098795
+    },
+    "RS": {
+      "bit_order_sha256": "ac1b75944dab1213572ba331061bc11b08605b20faae4a01701fc8ec25189cca",
+      "denominator": 100,
+      "desired": "new",
+      "desired_nll": 0.1000069630696089,
+      "margin_true_minus_new": 11.345127781574556,
+      "new_nll": 0.1000069630696089,
+      "numerator": 100,
+      "rate": 1.0,
+      "tf_prompt_macro": 0.98,
+      "tf_strict": 0.98,
+      "tf_strict_denominator": 100,
+      "tf_strict_numerator": 98,
+      "tf_token_correct": 99,
+      "tf_token_count": 101,
+      "tf_token_micro": 0.9801980198019802,
+      "true_nll": 11.445134744644164
+    }
+  },
+  "B2_completion": "NOT_OBSERVED",
+  "checks": {
+    "B1_H0": true,
+    "NS_denominator_identity": true,
+    "NS_finite_TF_NLL": true,
+    "PS_denominator_identity": true,
+    "PS_finite_TF_NLL": true,
+    "RS_denominator_identity": true,
+    "RS_finite_TF_NLL": true,
+    "W_H_link": true,
+    "auxiliary_link": true,
+    "cache_return": true,
+    "commit": true,
+    "config": true,
+    "counts": true,
+    "entrypoint": true,
+    "finite": true,
+    "first100": true,
+    "imports": true,
+    "ledger": true,
+    "noCP": true,
+    "observer_unchanged": true,
+    "post_keys": true,
+    "runtime_lock": true,
+    "second100": true
+  },
+  "evidence": [
+    {
+      "bytes": 3072,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/runtime.json",
+      "sha256": "39b460355afabe348fb8691a35af9987f774ffd22a970756920e8fb53afdc789"
+    },
+    {
+      "bytes": 9227,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B001/entry.json",
+      "sha256": "89c32aec859f8a7367c1cecdfe2fd882df241ad5848fac9706f62b8f3ea53ba5"
+    },
+    {
+      "bytes": 15343,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B001/native-observation.json",
+      "sha256": "ce3cf138fae430b4bded86181636eafd17c798be6ad5e9ec6a28100fd6383c16"
+    },
+    {
+      "bytes": 442322,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B001/current.json",
+      "sha256": "731b316315ea9d295eb968c18f8b3e5665a064670bdd7369eee9fb2d3a0e263d"
+    },
+    {
+      "bytes": 6873,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B001/commit.json",
+      "sha256": "a67cbbf9229bb98b2754da84dd2ca45c4477ce2d3277e44217720ea4ca11c3ed"
+    },
+    {
+      "bytes": 9299,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B002/entry.json",
+      "sha256": "b3a132801ea3d3b9f6d2bed886021ad6e262bc3a1c36f0ca94e9eac9b5c18cf7"
+    },
+    {
+      "bytes": 7937,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/actual-import-closure.json",
+      "sha256": "ad75c614a36a6f3c4cfd99ffa9db7fcf25a4a8c6ffd733431f94f5b4f9ba70dc"
+    }
+  ],
+  "job_id": "54007",
+  "lock_sha256": "3a52b977631959f055b4ed2d6c8e8250cba4506f53b9c0d22d551af0b70a6230",
+  "numerical_cross_host_certification": "NOT_ESTABLISHED",
+  "source_commit": "3a904be9261d162239c6b780a62c52f3e59a9142",
+  "status": "INITIAL_GATE_PASS",
+  "terminal": "NOT_OBSERVED"
+}

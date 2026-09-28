@@ -1,0 +1,29 @@
+{
+  "status": "ESTIMATE_NOT_COMPLETION_OBSERVATION",
+  "basis_asof_kst": "2026-09-28T10:01:18+09:00",
+  "job_id": 54007,
+  "remaining_hours_range": [
+    18,
+    24
+  ],
+  "estimated_finish_kst": [
+    "2026-09-29T04:00:00+09:00",
+    "2026-09-29T10:00:00+09:00"
+  ],
+  "B1_edit_seconds": 364.198773028329,
+  "B1_evaluation_seconds": 28.178434191271663,
+  "remaining_native_extrapolated_hours": 10.015466258279048,
+  "planned_total_evaluator_prompt_visits": 1277800,
+  "evaluation_linear_extrapolated_hours": 7.69367589948866,
+  "original_total_hours_planning_range": [
+    12,
+    48
+  ],
+  "method": "B1 native time x99 plus observer schedule prompt-count scaling, plus overhead/headroom; one-batch extrapolation only",
+  "limitations": [
+    "later native z termination and prompt length vary",
+    "observer fixed hashing overhead is included in B1 time, so linear scaling is approximate",
+    "not a guarantee; original 12-48h planning range retained",
+    "no scheduler/log/result reads after initial gate; B2 completion/terminal NOT_OBSERVED"
+  ]
+}
