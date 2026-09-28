@@ -1,0 +1,8 @@
+{
+  "bytes": 447823469,
+  "members": 505,
+  "no_failure_or_rollback": true,
+  "no_tensor_artifacts": true,
+  "status": "PASS",
+  "terminal_sha256": "bfea49152e35f0cf3bb14e298220925e07c2b55849e5848a2f6b27b4b1dc483f"
+}

@@ -1,0 +1,4 @@
+JobID|JobName|User|State|ExitCode|ElapsedRaw|AllocTRES|MaxRSS|Start|End
+54007|odeedit_memit_history_10k_s3|janghj|COMPLETED|0:0|44782|billing=8,cpu=8,gres/gpu=1,mem=119G,node=1||2026-09-28T09:52:06|2026-09-28T22:18:28
+54007.batch|batch||COMPLETED|0:0|44782|cpu=8,gres/gpu=1,mem=119G,node=1|21949M|2026-09-28T09:52:06|2026-09-28T22:18:28
+54007.extern|extern||COMPLETED|0:0|44782|billing=8,cpu=8,gres/gpu=1,mem=119G,node=1||2026-09-28T09:52:06|2026-09-28T22:18:28

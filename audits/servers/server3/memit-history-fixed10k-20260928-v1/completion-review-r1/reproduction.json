@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "verified_outputs": [
+    "active-superseded.csv",
+    "baseline-comparison.csv",
+    "history-layer.csv",
+    "current-metrics.csv",
+    "final-cohorts.csv",
+    "paired-retention.csv",
+    "batch-cost.csv",
+    "chain-checks.csv",
+    "nll-distributions.csv",
+    "trajectory.png",
+    "summary.json",
+    "all-seen-metrics.csv"
+  ],
+  "mode": "CPU_ONLY_SEPARATE_CREATE_ONCE_OUTPUT",
+  "original_raw_modified": false,
+  "independent_agent": false,
+  "csv_publication": "LF normalized; values identical to CPU reproduction CRLF output"
+}
