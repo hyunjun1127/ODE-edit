@@ -1,0 +1,62 @@
+{
+  "status": "RUNNING_INITIAL_GATE_PENDING",
+  "job_id": "54007",
+  "parent_failed_job": 53996,
+  "source_commit": "3a904be9261d162239c6b780a62c52f3e59a9142",
+  "source_tree": "29a82857774db9b1738af46110433e4eb114b27c",
+  "lock_sha256": "3a52b977631959f055b4ed2d6c8e8250cba4506f53b9c0d22d551af0b70a6230",
+  "lock_path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/execution.lock.json",
+  "archive_sha256": "ecc619bb1301c480f1c0ceadd181ccba216cb253e011e8876681545b1e272c34",
+  "entrypoint": "memit.memit_seq_main.apply_memit_seq_to_model",
+  "entrypoint_sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a",
+  "argv": [
+    "sbatch",
+    "--parsable",
+    "--hold",
+    "--export=NONE",
+    "--output=/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/logs/%j.out",
+    "--error=/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/logs/%j.err",
+    "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/frozen-source-repair-r1/source/project/run_scripts/memit_history_lifelong/run.sbatch",
+    "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/frozen-source-repair-r1/source",
+    "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/execution.lock.json"
+  ],
+  "held_all_pass": true,
+  "held_checks": {
+    "argv": true,
+    "command": true,
+    "cpu": true,
+    "dependency": true,
+    "gpu": true,
+    "held": true,
+    "job_id": true,
+    "memory": true,
+    "name": true,
+    "node": true,
+    "owner": true,
+    "partition": true,
+    "requeue": true,
+    "source": true,
+    "wall": true
+  },
+  "admission": {
+    "cap": 1,
+    "dependency": null,
+    "existing_project_jobs": [],
+    "lock_sha256": "3a52b977631959f055b4ed2d6c8e8250cba4506f53b9c0d22d551af0b70a6230",
+    "new_gpus": 1,
+    "owner": "janghj",
+    "queue_resource_snapshot": ""
+  },
+  "resource": {
+    "GPU": 1,
+    "CPU": 8,
+    "host_mib": 121856,
+    "cap": 1
+  },
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "actual_initial": "NOT_YET",
+  "actual_terminal": "NOT_OBSERVED",
+  "monitoring_boundary": "B1_COMMIT_OBSERVER_TO_B2_ENTRY",
+  "helper_invocation_note": "Frozen subset does not contain generic boundary/cap shell helpers; initial invocation returned file-not-found. Submission adapter separately checked fresh queue admission and held exact owner/source/argv/resources before release. Worktree boundary PASS rechecked. Generic helper PASS for this invocation is not claimed."
+}
