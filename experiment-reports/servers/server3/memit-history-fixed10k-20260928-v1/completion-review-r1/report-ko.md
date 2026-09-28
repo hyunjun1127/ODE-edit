@@ -24,6 +24,8 @@ NLL은 prompt별 target-token 평균 NLL의 prompt 평균이다. NS의 true−ne
 
 ## 2. 동일 endpoint baseline 수치 비교
 
+최신 사용자 추가지시로 **AlphaEdit·AlphaEdit-BLUE까지 포함한 [4방법 비교표·TF/NLL·그래프](four-method-comparison-ko.md)**를 추가했다. 아래 원 MEMIT 비교와 실패/완료 근거는 보존한다.
+
 기존 BASE_MEMIT job42658의 게시 CSV 중 W100/동일 10k 분모만 가져왔다. 아래는 산술 차이이며 host/kernel/source 실행환경이 동일하다는 검증은 아니다. 과거 결과를 교체하거나 history-off chain을 새로 실행하지 않았다.
 
 |Family|BASE_MEMIT preference %|history preference %|차이 %p|BASE TF micro %|history TF micro %|BASE TF strict %|history TF strict %|
@@ -140,7 +142,7 @@ Peak allocated CUDA tensor 36.904084 GiB; scheduler batch MaxRSS21,949MiB(약21.
 
 ## 8. 범위·미검증·인계
 
-- 직접 비교 기준 BASE_MEMIT42658만 사용. 동일revision/순서/seed/layers/hparams/FP32/eager/TF32정책과 정본evaluator kernel을 결속했지만 source archive와 실제runtime receipt는 별개 identity다. BLUE저장소 사용은 blue=true를 뜻하지 않는다.
+- 최초 리뷰는 BASE_MEMIT42658을 사용했고, 최신 사용자 지시로 BASE_ALPHAEDIT42657 및 AlphaEdit-BLUE39283_1 비교를 별도 문서에 추가했다. 동일revision/순서/seed/layers/hparams/FP32/eager/TF32정책과 정본evaluator kernel을 결속했지만 source archive와 실제runtime receipt는 별개 identity다. BLUE저장소 사용은 blue=true를 뜻하지 않는다.
 - BASE_MEMIT와 새run의 pair별 lost/gained는 NOT_AVAILABLE. 이번run 내부 at-write 및 W5→W100 pair는 검산했다. 기존 요약값을 raw pair처럼 꾸미지 않았다.
 - 현재 결과에서 과학적 인과·기전·promotion/새arm 권고는 이 SH 보고의 범위 밖이다. GH가 본 수치와 제한을 바탕으로 별도 해석한다.
 - 원 source/raw 유지, checkpoint 저장/삭제0, C4 복구0, EN/GSS 재개0, 별도 GPU평가0. 완료 후 task STOP, 추가실험은 새 사용자지시가 필요하다.

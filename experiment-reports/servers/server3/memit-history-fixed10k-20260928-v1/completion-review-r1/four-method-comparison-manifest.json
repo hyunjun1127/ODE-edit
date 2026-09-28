@@ -1,0 +1,104 @@
+{
+  "scope": "USER_RECALL_ADD_ALPHAEDIT_AND_ALPHAEDIT_BLUE",
+  "endpoint": "W100_SAME_FIXED10K",
+  "methods": [
+    {
+      "method": "MEMIT",
+      "source_arm": "BASE_MEMIT",
+      "job": "42658",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "L2": null,
+      "nullspace_threshold": null,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907"
+    },
+    {
+      "method": "MEMIT history",
+      "source_arm": "MEMIT_HISTORY_NATIVE",
+      "job": "54007",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "L2": null,
+      "nullspace_threshold": null,
+      "gpu": "NVIDIA H200 NVL",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907"
+    },
+    {
+      "method": "AlphaEdit",
+      "source_arm": "BASE_ALPHAEDIT",
+      "job": "42657",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "L2": 10,
+      "nullspace_threshold": 0.02,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907"
+    },
+    {
+      "method": "AlphaEdit-BLUE",
+      "source_arm": "AlphaEdit_ORIGINAL",
+      "job": "39283_1",
+      "layers": [
+        4,
+        8
+      ],
+      "blue": true,
+      "L2": 1,
+      "nullspace_threshold": 0.02,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "sample_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+      "seed": "20260907"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/MEMIT-cumulative-metrics.csv",
+      "sha256": "5f405e36e3bd0b4785fd3d2b9466fea4ea7af51db1370bdef608c206cf3dae0e",
+      "bytes": 248330
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/AlphaEdit-cumulative-metrics.csv",
+      "sha256": "19ddace1472b89b23acb43ffed0450924c7342c12fd3fdedf277ebca5cd9ab07",
+      "bytes": 251033
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/source-config-compatibility.csv",
+      "sha256": "7ca66f950c6a2ccf18557e3822765b08ae330b7c26caf543b6b365dd2ed2e2d0",
+      "bytes": 28899
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/new-source-config-compatibility.csv",
+      "sha256": "34f9d6ac602df26e2a00696a252cbf8a189fe361a10570a4afa6ae718abe0c61",
+      "bytes": 16865
+    }
+  ],
+  "script_sha256": "24bdc16314c504f743ceac55527c6ac457259c7e5583e29ed61b4f659a2fe00d",
+  "paired_cross_run": "NOT_AVAILABLE_NO_LOCAL_RAW",
+  "new_GPU_jobs": 0
+}

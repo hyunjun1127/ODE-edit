@@ -20,3 +20,10 @@ TF desired token-micro85.1225/56.6024/11.6402%, strict84.97/56.095/11.032%.
 505개 manifest size/SHA, 100commit/99links, 저장1302200metricrows CPU독립재집계 PASS. 새GPU작업0/noCP.
 할당12.439444GPUh, 실패53996포함12.564722GPUh. 과거ETA보다 실제완료5h41m–11h41m빠름.
 상세보고 `experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/report-ko.md`, 그래프/CSV/재현코드 포함. COMPLETED_REVIEWED_STOP.
+
+## 2026-09-29 사용자 추가비교
+
+AlphaEdit42657 및 AlphaEdit-BLUE39283_1 완료W100/fixed10k결과 추가. RS/PS/NS 각각73.430/62.885/55.285%,98.880/95.775/63.726%.
+MEMIT history95.520/85.170/61.553%와 동일분모표·TF desired micro/strict·true/newNLL·누적곡선 작성.
+AlphaEdit L4–8/L2=10 vs AlphaEdit-BLUE L4+L8/L2=1 및 host차이명시, 인과분리0/새GPU0.
+보고: experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/four-method-comparison-ko.md
