@@ -1,0 +1,59 @@
+{
+  "authority": "2ddb30d5",
+  "envelope_sha256": "6b5894839519f24cfdfff109359642b91830ce8aff20dda3e84499e274057b13",
+  "FULL_READ": true,
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HISTORY-REPAIR-INITIAL-GATE-20260928-R1",
+  "job": 53996,
+  "owner": "janghj",
+  "name": "odeedit_memit_history_10k_s3",
+  "state": "FAILED",
+  "exit": "1:0",
+  "parent_elapsed_sec": 451,
+  "allocated_GPU_sec": 451,
+  "allocated_GPU_hours": 0.12527777777777777,
+  "batch_MaxRSS_KiB": 16326420,
+  "stage": "B1_OBSERVER",
+  "committed_batches": 0,
+  "error": "FileNotFoundError(2, 'No such file or directory')",
+  "root_cause": "torch.classes virtual __file__=_classes.py resolved relative to BLUE CWD and hashed as an actual source file",
+  "CPU_reproduction": true,
+  "repair": "static __file__/spec inspection; virtual relative modules separately recorded; actual missing scoped file still raises",
+  "native_BLUE_modified": false,
+  "scientific_config_changed": false,
+  "auxiliary_receipts": "observer and B1\u2192B2 context/RNG/ledger hashes added per latest gate",
+  "previous_raw_preserved": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "restart": "fresh W0/H0 B1",
+  "scoped_CPU_regression": {
+    "passed": 4,
+    "initial_fixture_failure": "virtual class-level __file__ absent from vars(module); changed to inspect.getattr_static, then4PASS",
+    "GPU_forward": false
+  },
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/execution.lock.json",
+      "bytes": 53397,
+      "sha256": "e9d2a322dee39ae67f5d0258279d2df3a8bc7576b726de4a098c39f12b68dfa5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/submission.json",
+      "bytes": 762,
+      "sha256": "252857c839840b33ed943ee35a0d7529ac900d9fdeca28d53a6ef7638933a018"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/output/failure.json",
+      "bytes": 980,
+      "sha256": "1e02228721e64d8387931d3a3356d2f8b9c1950481c3fd1255353e164a17076a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/output/B001/rollback.json",
+      "bytes": 90,
+      "sha256": "61518d55163d6b8e43ca350654b8c57171c32ed08d8ca0b8f64885ff2f7ad223"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/logs/53996.err",
+      "bytes": 2410,
+      "sha256": "d41ab396de7e0c3ddd3016115ca6676b6de492a471a1ba4e04f8005b8c839451"
+    }
+  ]
+}

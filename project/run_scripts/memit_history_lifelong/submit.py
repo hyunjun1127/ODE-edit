@@ -17,6 +17,7 @@ def submit(lock_path):
     deps=[]
     for line in queue.splitlines():
         jid,name,state,gres,node=line.split('|')
+        assert name!='odeedit_memit_history_10k_s3','EXISTING_ACTIVE_SAME_TASK:'+jid
         if any(fnmatch.fnmatch(name,p) for p in ['odeedit_*','bfode_*','motivation_*','session01_*','project_*']):
             assert re.fullmatch(r'\d+(?:_\d+)?',jid),'UNSUPPORTED_JOB_ID'
             deps.append(jid)
@@ -53,7 +54,7 @@ def submit(lock_path):
     save(attempt/'held-inspection.json',dict(job_id=jid,checks=checks,fields=fields,all_pass=all(checks.values())))
     assert all(checks.values()),'HELD_INSPECTION_FAILED (job remains held): '+str(checks)
     release=run(['scontrol','release',jid])
-    save(attempt/'release.json',dict(job_id=jid,command=['scontrol','release',jid],returncode=0,stdout=release,actual_initial='NOT_OBSERVED',actual_terminal='NOT_OBSERVED',status='MONITORING_PAUSED_AWAITING_USER'))
+    save(attempt/'release.json',dict(job_id=jid,command=['scontrol','release',jid],returncode=0,stdout=release,actual_initial='NOT_OBSERVED',actual_terminal='NOT_OBSERVED',status=('AWAITING_INITIAL_GATE' if lock.get('monitor_until_initial_gate') else 'MONITORING_PAUSED_AWAITING_USER')))
     print(json.dumps(dict(job_id=jid,status='RELEASE_COMMAND_SUCCEEDED',actual_initial='NOT_OBSERVED',actual_terminal='NOT_OBSERVED')))
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--lock',required=True);submit(p.parse_args().lock)

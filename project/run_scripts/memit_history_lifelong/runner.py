@@ -5,6 +5,7 @@ from .io import save,file_sha,signature,content,restore,tensor_sha,digest
 from .method import bind,observe,cov_guard
 from .metrics import evaluate,merge,strata,FULL_BATCHES
 from .reducer import reduce_run
+from .provenance import import_closure,auxiliary_state
 
 def rng_capture():
     import torch,numpy as np
@@ -53,13 +54,16 @@ def run(lock_path):
           W0_H0=w0sig,context_sha256=file_sha(lock['context']),save_checkpoints=False,exact_resume='NOT_AVAILABLE',slurm_job=os.environ.get('SLURM_JOB_ID')))
         # Native target disables gradients itself; immutable original parameter flags do not affect inference.
         prior=content(w0sig);seen=[];previous_cov={}
+        prior_aux=auxiliary_state(module.CONTEXT_TEMPLATES_CACHE,seen)
         for bi in range(1,101):
             current_rows=rows[(bi-1)*100:bi*100];root=output/f'B{bi:03d}';stage=f'B{bi}_ENTRY'
             entry=signature(weights,state);assert content(entry)==prior,'W_H_CHAIN'
+            entry_aux=auxiliary_state(module.CONTEXT_TEMPLATES_CACHE,seen)
+            assert entry_aux==prior_aux,'CONTEXT_RNG_LEDGER_CHAIN'
             if previous_cov:assert cov_guard(module)==previous_cov
             assert not (root/'commit.json').exists(),'DUPLICATE_COMMIT'
             ew={k:v.detach().cpu().clone() for k,v in weights.items()};eh=state.clone();rng=rng_capture()
-            save(root/'entry.json',dict(batch=bi,seen_before=len(seen),signature=entry,request_ids=[r['case_id'] for r in current_rows],request_hashes=[digest(r['requested_rewrite']) for r in current_rows],context_hash=digest(module.CONTEXT_TEMPLATES_CACHE),history_norms=[float(x.norm()) for x in state]))
+            save(root/'entry.json',dict(batch=bi,seen_before=len(seen),signature=entry,auxiliary=entry_aux,request_ids=[r['case_id'] for r in current_rows],request_hashes=[digest(r['requested_rewrite']) for r in current_rows],context_hash=digest(module.CONTEXT_TEMPLATES_CACHE),history_norms=[float(x.norm()) for x in state]))
             try:
                 stage=f'B{bi}_NATIVE_WRITE';started=time.monotonic()
                 requests=[dict(r['requested_rewrite'],case_id=int(r['case_id'])) for r in current_rows]
@@ -76,6 +80,7 @@ def run(lock_path):
                 save(root/'native-observation.json',counters)
                 updates={k:float((v.detach().cpu()-ew[k]).double().norm()) for k,v in weights.items()}
                 stage=f'B{bi}_OBSERVER';t=time.monotonic()
+                before_observer_aux=auxiliary_state(module.CONTEXT_TEMPLATES_CACHE,seen)
                 current=evaluate(model,evaltok,current_rows,weights,state);save(root/'current.json',current)
                 full=bi in FULL_BATCHES
                 past=evaluate(model,evaltok,seen,weights,state,full=full) if seen else None
@@ -86,12 +91,15 @@ def run(lock_path):
                 save(root/('seen-full.json' if full else 'seen-rewrite.json'),cumulative)
                 assert signature(weights,state)==endpoint,'OBSERVER_STATE_MUTATION'
                 assert cov_guard(module)==previous_cov,'OBSERVER_C0_MUTATION'
+                after_observer_aux=auxiliary_state(module.CONTEXT_TEMPLATES_CACHE,seen)
+                assert after_observer_aux==before_observer_aux,'OBSERVER_CONTEXT_RNG_LEDGER_MUTATION'
                 eval_seconds=time.monotonic()-t
                 if bi==1:
-                    consumed=sorted({str(Path(m.__file__).resolve()) for m in sys.modules.values() if getattr(m,'__file__',None) and str(m.__file__).endswith('.py') and any(str(Path(m.__file__).resolve()).startswith(p+'/') for p in [lock['source_root'],lock['blue_root']])})
-                    save(output/'actual-import-closure.json',[dict(path=p,sha256=file_sha(p)) for p in consumed])
+                    save(output/'actual-import-closure.json',import_closure(sys.modules,[lock['source_root'],lock['blue_root']]))
+                endpoint_aux=auxiliary_state(module.CONTEXT_TEMPLATES_CACHE,seen+current_rows)
                 receipt=dict(status='BATCH_COMMITTED',batch=bi,requests=100,seen_requests=bi*100,entry=content(entry),endpoint=content(endpoint),
                   compute_z=counters['compute_z'],solve_calls=counters['solve_calls'],history_append_layers=counters['history_append_layers'],
+                  auxiliary_entry=entry_aux,auxiliary_endpoint=endpoint_aux,observer_auxiliary_before=before_observer_aux,observer_auxiliary_after=after_observer_aux,observer_context_rng_ledger_unchanged=True,cache_c_returned_same_object=True,finite_W_H=True,
                   history_key_phase=counters['history_key_phase'],history_norms=[float(x.norm()) for x in state],
                   context_hash=digest(module.CONTEXT_TEMPLATES_CACHE),history_coefficient=1,covariance_guard=previous_cov,
                   layer_update_norms=updates,edit_seconds=edit_seconds,evaluation_seconds=eval_seconds,
@@ -99,7 +107,7 @@ def run(lock_path):
                   save_checkpoints=False,exact_resume='NOT_AVAILABLE',nonfinite=0,observer_mutation=0,
                   current={k:{a:b for a,b in v.items() if a!='rows'} for k,v in current['metrics'].items()},peak_gpu_bytes=torch.cuda.max_memory_allocated())
                 save(root/'commit.json',receipt)
-                committed.append(receipt);prior=content(endpoint);seen.extend(current_rows)
+                committed.append(receipt);prior=content(endpoint);prior_aux=endpoint_aux;seen.extend(current_rows)
                 print('MEMIT_HISTORY_BATCH_COMMITTED',bi,len(seen),edit_seconds,flush=True)
             except BaseException:
                 restore(weights,ew,state,eh);rng_restore(rng)
