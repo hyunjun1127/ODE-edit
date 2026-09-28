@@ -36,6 +36,12 @@
       "path": "audits/global/2026-09-28-memit-history-sh3-dispatch/baseline-config-evidence.json",
       "sha256": "c37763d6def73ced031335fb71cc9037bd7bc1a237272ef98cf0c3ec7c37cb0f",
       "bytes": 3104
+    },
+    {
+      "path": "messages/head/2026-09-28-memit-history-sh3-use-blue-implementation.md",
+      "sha256": "440edced21315927a4567a408c201cf361d30d4b992039169dab5fa2616a437a",
+      "bytes": 1955
     }
-  ]
+  ],
+  "additional_authority": "f05082cb"
 }
