@@ -1,0 +1,41 @@
+{
+  "authority": "0ab6c79f0aacadd52f11a87fd9a94e5832cc2d4d",
+  "status": "FULL_READ",
+  "files": [
+    {
+      "path": "PROTOCOL.md",
+      "sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+      "bytes": 61100
+    },
+    {
+      "path": "plans/global/fixed-counterfact-10k-policy.md",
+      "sha256": "44b8a4e6a81292b24382f33cc40ffde8564683cd0786ac5052a7a247d3719ba4",
+      "bytes": 3831
+    },
+    {
+      "path": "plans/global/2026-09-19-default-no-experiment-checkpoints.md",
+      "sha256": "b43944ff31e159b8a793cd1fec38e7e283b0c9adb6f0e930bcc5095655a84d9c",
+      "bytes": 3441
+    },
+    {
+      "path": "messages/head/2026-09-28-memit-history-fixed10k-sh3.md",
+      "sha256": "2a1f72eee9d582295c38f570b38ae988d1608bcefbc7fe3a13c5cba64708170c",
+      "bytes": 12506
+    },
+    {
+      "path": "audits/global/2026-09-28-memit-history-implementation-review-ko.md",
+      "sha256": "6b8a692ed344dc8f3679b8fe0886b018f7cb3eaf386c1bcc532a5c9b0f684508",
+      "bytes": 16632
+    },
+    {
+      "path": "audits/global/2026-09-28-memit-history-sh3-dispatch/preflight-ko.md",
+      "sha256": "7d26c49393346cbe0d3422feee660d63f6b6b579b3a71935032665afb88fa318",
+      "bytes": 2794
+    },
+    {
+      "path": "audits/global/2026-09-28-memit-history-sh3-dispatch/baseline-config-evidence.json",
+      "sha256": "c37763d6def73ced031335fb71cc9037bd7bc1a237272ef98cf0c3ec7c37cb0f",
+      "bytes": 3104
+    }
+  ]
+}

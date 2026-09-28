@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "model_members": [
+    {
+      "bytes": 654,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/config.json",
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"
+    },
+    {
+      "bytes": 187,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/generation_config.json",
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"
+    },
+    {
+      "bytes": 4976698672,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c"
+    },
+    {
+      "bytes": 4999802720,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00002-of-00004.safetensors",
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c"
+    },
+    {
+      "bytes": 4915916176,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00003-of-00004.safetensors",
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921"
+    },
+    {
+      "bytes": 1168138808,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00004-of-00004.safetensors",
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46"
+    },
+    {
+      "bytes": 23950,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model.safetensors.index.json",
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+    },
+    {
+      "bytes": 73,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/special_tokens_map.json",
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+    },
+    {
+      "bytes": 9085698,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer.json",
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+    },
+    {
+      "bytes": 50977,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer_config.json",
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+    }
+  ],
+  "stats_members": [
+    {
+      "bytes": 822084814,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+    },
+    {
+      "bytes": 822084814,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+    },
+    {
+      "bytes": 822084814,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+    },
+    {
+      "bytes": 822084814,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+    },
+    {
+      "bytes": 822084814,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+    }
+  ],
+  "dataset": {
+    "case_order_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+    "dataset_bytes": 16679956,
+    "dataset_id": "counterfact-fixed-10k-v1",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "inventory": {
+      "neighborhood": 100000,
+      "rephrase": 20000,
+      "rewrite": 10000
+    },
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "prefix_policy": "records[:n], 1 <= n <= 10000; no shuffle/reselection",
+    "records": 10000,
+    "source_dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "source_sample_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+  },
+  "max_native_z_tokens": 32,
+  "token_order_sha256": "482198a775975f6d9c94b1acd71ddce1d30911a968ecc36743ecf7d2c96d27a1",
+  "source_inventory_local": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/preparation/assets.json",
+  "source_inventory_sha256": "87c9527f6278e1f414330ebd2341c7e825c711efd35ca42d5545e76ccbe65f35"
+}

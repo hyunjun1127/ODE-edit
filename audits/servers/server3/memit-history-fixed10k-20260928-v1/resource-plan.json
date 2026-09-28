@@ -1,0 +1,50 @@
+{
+  "cap": 1,
+  "gpus": 1,
+  "cpus": 8,
+  "memory_mib": 121856,
+  "node": "ubuntu",
+  "partition": "gpu",
+  "export": "NONE",
+  "requeue": false,
+  "wall_hours": 168,
+  "predicted_hours_range": [
+    12,
+    48
+  ],
+  "basis": {
+    "BASE_MEMIT42658_gpu_hours": 12.2133,
+    "target_hours": 6.6797,
+    "key_hours": 0.5155,
+    "solve_hours": 0.1982,
+    "evaluation_hours": 4.3368,
+    "past_GPU_peak_GiB": 36.8582,
+    "hardware": "S4 PRO6000 to S3 H200; NOT_SPEED_PARITY"
+  },
+  "RAM": {
+    "H_fp32": 4110417920,
+    "H_rollback": 4110417920,
+    "static_C0_fp32": 4110417920,
+    "selected_W0_and_entry": 2348810240,
+    "one_FP64_matrix": 1644167168,
+    "host_planning_peak_GiB": 80,
+    "gpu_planning_peak_GiB": 72,
+    "native_z_max_input_tokens": 32,
+    "native_z_sequence_count": 7,
+    "full_model_fp32_bytes": 32121044992,
+    "FP64_temporary_matrix_planning_count": 5,
+    "measurement_status": "ESTIMATES_NOT_MEASURED"
+  },
+  "storage": {
+    "raw_budget_bytes": 10737418240,
+    "temporary_budget_bytes": 2147483648,
+    "headroom_bytes": 10737418240,
+    "required_free_bytes": 23622320128,
+    "observed_free_bytes": 1275673182208,
+    "existing_model_C0_reference_copies": 0
+  },
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "no_C4": true,
+  "independent_red_agent": false
+}

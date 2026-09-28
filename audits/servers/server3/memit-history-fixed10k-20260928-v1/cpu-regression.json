@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "tests": 8,
+  "native_entrypoint_called_on_tiny_CPU_fixture": true,
+  "gpu_forward": false,
+  "actual_initial": "NOT_OBSERVED",
+  "coverage": [
+    "H0 equation",
+    "nonzero H effect",
+    "prior H solve",
+    "post-all-five-keys",
+    "5 append",
+    "B1-B2 W/H",
+    "temporary restore",
+    "partial failure rollback",
+    "atomic no overwrite",
+    "numpy scalar/nonfinite/tensor reject",
+    "canonical evaluator left padding/nonmutation",
+    "TF micro macro strict",
+    "fixed100 routing/noCP",
+    "active/superseded"
+  ]
+}

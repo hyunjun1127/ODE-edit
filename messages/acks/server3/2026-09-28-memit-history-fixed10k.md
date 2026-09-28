@@ -1,0 +1,6 @@
+# MEMIT history ACK
+
+ODEEDIT-GH-SH3-MEMIT-HISTORY-FIXED10K-20260928-R1 수신.
+ODEEDIT-GH-SH3-MEMIT-HISTORY-USE-BLUE-20260928-R1 수신.
+IMPLEMENTING_NOT_SUBMITTED. pinned BLUE MEMIT_seq 직접 사용, blue=false.
+M0: experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/M0-ko.md

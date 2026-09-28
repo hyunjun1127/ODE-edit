@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "source_host": "rke-server4",
+      "source": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/local-source.tar",
+      "destination": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/local-source.tar",
+      "bytes": 61440,
+      "sha256": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+      "verified": true
+    },
+    {
+      "source_host": "rke-server4",
+      "source": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/execution.lock.json",
+      "destination": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/execution.lock.json",
+      "bytes": 529205,
+      "sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+      "verified": true
+    },
+    {
+      "source_host": "rke-server4",
+      "source": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B001/contexts.json",
+      "destination": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "verified": true
+    }
+  ],
+  "source_keep": true,
+  "no_overwrite": true,
+  "model_CP_C4_transfer": false,
+  "sum_bytes": 590915
+}
