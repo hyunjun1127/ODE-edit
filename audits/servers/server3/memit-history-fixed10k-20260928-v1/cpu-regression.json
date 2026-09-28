@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "tests": 8,
+  "tests": 10,
   "native_entrypoint_called_on_tiny_CPU_fixture": true,
   "gpu_forward": false,
   "actual_initial": "NOT_OBSERVED",
@@ -18,6 +18,9 @@
     "canonical evaluator left padding/nonmutation",
     "TF micro macro strict",
     "fixed100 routing/noCP",
-    "active/superseded"
+    "active/superseded",
+    "full100batch CPU reducer",
+    "held parser exact argv",
+    "no queries after release"
   ]
 }
