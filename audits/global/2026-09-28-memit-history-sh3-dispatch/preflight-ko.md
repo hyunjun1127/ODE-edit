@@ -43,3 +43,9 @@ GH owner source/계약 검토이며 독립 red agent 미사용. 실제 GPU/성�
 경로/JSON/원문 SHA/사본 SHA/단일arm/resource/noCP 규칙을 게시 전 CPU 검사한다.
 런타임 preflight와 actual counters는 SH3 책임이다. Generic path helper 제한은
 명시 scope와 별도로 기록하며 허위 PASS 또는 shared policy 변경으로 우회하지 않는다.
+
+게시 CPU 검사에서 review SHA, 세 local audit 사본 byte identity, JSON cap/arm/
+분모/noCP 정합성은 확인했다. `git diff --cached --check`는 method.py 및
+observation.py의 원래 EOF 추가 빈 줄 두 건을 표시했다. 원 source 사본의 SHA를
+유지하기 위한 한정 형식 예외로 보존했으며 전체 whitespace PASS로 기록하지 않는다.
+Agent access 검사는 PASS. Authority0ab6c79f nonforce main/remote 일치 확인.

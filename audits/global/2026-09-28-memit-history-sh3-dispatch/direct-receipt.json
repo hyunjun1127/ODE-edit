@@ -1,0 +1,20 @@
+{
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HISTORY-FIXED10K-20260928-R1",
+  "authority_commit": "0ab6c79f0aacadd52f11a87fd9a94e5832cc2d4d",
+  "transport": "registered SSH app-server direct websocket",
+  "source_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "pre_dispatch_state": "IDLE",
+  "accepted_turn": "01a0e55d-fa0a-7c10-9cb2-76bf197b9ae3",
+  "same_stream_ack_received": true,
+  "ack": "ACK ODEEDIT-GH-SH3-MEMIT-HISTORY-FIXED10K-20260928-R1 수신했습니다. 현재 상태는 IMPLEMENTING_NOT_SUBMITTED입니다. 정본과 실제 실행 소스를 확인해 단일 MEMIT history chain을 구현·봉인·제출하겠습니다. cap1·checkpoint 미저장·release 후 모니터링 중단을 적용합니다.",
+  "status": "ACKED_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "actual_gpu_initial": "NOT_OBSERVED",
+  "actual_terminal": "NOT_OBSERVED",
+  "gh_scheduler_or_result_polling": 0,
+  "gh_gpu_submission": 0,
+  "redispatch": 0,
+  "task_completion_claimed": false
+}
