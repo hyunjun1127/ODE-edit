@@ -1,0 +1,20 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1",
+  "authority_main": "5a113b5efc309eee6b0804f250e329cbf8d9c011",
+  "authority_tree": "2465f1f61a5c27d05768f7153f7b42b0beb9b8d6",
+  "envelope_sha256": "e84c87038d8cbc03bdcb65a25e1adeb7a72cc8e3b6b1d97011abe36333f4b634",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "transport": "registered app-server direct over SSH rke-server4",
+  "prior_active_turns": [],
+  "accepted_turn": "01a0ec58-f99b-7043-99aa-12b728139ff2",
+  "receiver_ack": "ACK ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1. 이전 단층 task의 STOP을 유지하고, 새 다층 task만 착수합니다. 정본·입력 결속 후 9경로 구현과 검산·등록을 진행하겠습니다. 현재 새 task의 제출 job과 실제 GPU 검증은 0건입니다.",
+  "receiver_ack_observed": true,
+  "status": "ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "reported_job_ids": [],
+  "reported_gpu_validation_count": 0,
+  "actual_initial": "NOT_OBSERVED",
+  "scientific_completion": "NOT_OBSERVED",
+  "gh_gpu_scheduler_raw_polling": 0,
+  "gh_automation_created": false
+}
