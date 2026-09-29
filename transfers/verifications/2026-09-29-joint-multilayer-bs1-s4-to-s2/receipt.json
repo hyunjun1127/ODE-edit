@@ -1,0 +1,561 @@
+{
+  "bytes": 2096027,
+  "cancellation": {
+    "bytes": 5883,
+    "inode": 121457177,
+    "mtime_ns": 1790675679855843195,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/cancellation-receipt.json",
+    "sha256": "2f934836622526bc5555ede5ea54e185323968a8f6f3cba507dd07f5c54f683d"
+  },
+  "files": 49,
+  "heavy_transfer_bytes": 0,
+  "manifest": {
+    "bytes": 28173,
+    "inode": 121457174,
+    "mtime_ns": 1790675678883833865,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/receiver-exact-allowlist-s2.json",
+    "sha256": "dbc3180d680a5a534b19de2084147f280f217adca949f68bc774bcc03005ccf2"
+  },
+  "members": [
+    {
+      "destination": {
+        "bytes": 19082,
+        "inode": 121457175,
+        "mtime_ns": 1790675679207836976,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/array-cancel-allowlist.json",
+        "sha256": "bedccc76ddc48e3fcc2572ab021a0785e00a4a20fbd43d71d5804302e51e4c66"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/array-cancel-allowlist.json"
+    },
+    {
+      "destination": {
+        "bytes": 22283,
+        "inode": 121457176,
+        "mtime_ns": 1790675679523840009,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/before-cancellation.json",
+        "sha256": "09b6d08a3d653ba84e1a2c2560ee3ca627e75da1ec64b97a425c3aa4f189f1e2"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/before-cancellation.json"
+    },
+    {
+      "destination": {
+        "bytes": 5883,
+        "inode": 121457177,
+        "mtime_ns": 1790675679855843195,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/cancellation-receipt.json",
+        "sha256": "2f934836622526bc5555ede5ea54e185323968a8f6f3cba507dd07f5c54f683d"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/cancellation-receipt.json"
+    },
+    {
+      "destination": {
+        "bytes": 2346,
+        "inode": 121457178,
+        "mtime_ns": 1790675680175846262,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/context-and-hparams.json",
+        "sha256": "15a706458d5215342a15456b070a47e7f8c964724d53ceb41923b94381d64c2b"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/context-and-hparams.json"
+    },
+    {
+      "destination": {
+        "bytes": 1183,
+        "inode": 121457179,
+        "mtime_ns": 1790675680511849481,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/derived-bs1-batches.csv",
+        "sha256": "990bcfd853d433159cc52f58fbe41b4c73122682e0b8f565f37e2a9a2b61badf"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/derived-bs1-batches.csv"
+    },
+    {
+      "destination": {
+        "bytes": 2383,
+        "inode": 121457180,
+        "mtime_ns": 1790675680815852393,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/derived-bs1-snapshots.csv",
+        "sha256": "251965289a9a47c8b3a61fb7d9eaf89e984ab8370e9f7cd1053445dc732c22a0"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/derived-bs1-snapshots.csv"
+    },
+    {
+      "destination": {
+        "bytes": 12579,
+        "inode": 121457181,
+        "mtime_ns": 1790675681139855494,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/execution-asset-bindings.json",
+        "sha256": "dad2d58c458274df8d0a10f082aec29621abc9501f82e9ec6df6eb9ce80db47b"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/execution-asset-bindings.json"
+    },
+    {
+      "destination": {
+        "bytes": 4170,
+        "inode": 121457183,
+        "mtime_ns": 1790675681451858477,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/execution-code-reference/common.py",
+        "sha256": "525706b9f37561dc30d9028a7b627b13afe1557a26ae04431ea1af1d311e85da"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/execution-code-reference/common.py"
+    },
+    {
+      "destination": {
+        "bytes": 6919,
+        "inode": 121457184,
+        "mtime_ns": 1790675681767861498,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/execution-code-reference/observations.py",
+        "sha256": "9b1f556b0ad375b0e2335ca9d3e866e011a9decae9891f0d7ab09cd322d0a587"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/execution-code-reference/observations.py"
+    },
+    {
+      "destination": {
+        "bytes": 10269,
+        "inode": 121457185,
+        "mtime_ns": 1790675682087864556,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/execution-code-reference/runtime.py",
+        "sha256": "f133ccfe31337c6643f0365c30d89f113b8e0e1c961a274ead2ab23c8aabeacf"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/execution-code-reference/runtime.py"
+    },
+    {
+      "destination": {
+        "bytes": 27234,
+        "inode": 121457186,
+        "mtime_ns": 1790675682411867649,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/execution-derived-tables.json",
+        "sha256": "0524bd7454b9a1c54891be8fa5487eafb65358f1bd6dd3fd9ded7b92bbfc7049"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/execution-derived-tables.json"
+    },
+    {
+      "destination": {
+        "bytes": 1111,
+        "inode": 121457187,
+        "mtime_ns": 1790675682739870779,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/gh-user-bs1-override-receipt.json",
+        "sha256": "3f3a7c96041b1a2d19aa15905c741f60fe5568e509d35c351e10731300a9e47e"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/gh-user-bs1-override-receipt.json"
+    },
+    {
+      "destination": {
+        "bytes": 885,
+        "inode": 121457190,
+        "mtime_ns": 1790675683051873756,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/AlphaEdit_hparams.py",
+        "sha256": "bffe280e509c1d699d39a6ea6457ec521954278e574006f9f46ef766d77c990e"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/AlphaEdit/AlphaEdit_hparams.py"
+    },
+    {
+      "destination": {
+        "bytes": 12212,
+        "inode": 121457191,
+        "mtime_ns": 1790675683371876805,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/AlphaEdit_main.py",
+        "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/AlphaEdit/AlphaEdit_main.py"
+    },
+    {
+      "destination": {
+        "bytes": 74,
+        "inode": 121457192,
+        "mtime_ns": 1790675683695879892,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/__init__.py",
+        "sha256": "609bef490ec45743ee9ecd6cd2e01280860d8aa27b3ea96b6b78f0586463f113"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/AlphaEdit/__init__.py"
+    },
+    {
+      "destination": {
+        "bytes": 1552,
+        "inode": 121457193,
+        "mtime_ns": 1790675684035883131,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/compute_ks.py",
+        "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/AlphaEdit/compute_ks.py"
+    },
+    {
+      "destination": {
+        "bytes": 9524,
+        "inode": 121457194,
+        "mtime_ns": 1790675684363886250,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/compute_z.py",
+        "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/AlphaEdit/compute_z.py"
+    },
+    {
+      "destination": {
+        "bytes": 249,
+        "inode": 121457195,
+        "mtime_ns": 1790675684695889407,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/globals.yml",
+        "sha256": "71f94f33216aaac82bc6e0085608dd4b74a3d40f57ce800c5479b44294625232"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/globals.yml"
+    },
+    {
+      "destination": {
+        "bytes": 74,
+        "inode": 121457197,
+        "mtime_ns": 1790675685027892564,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/__init__.py",
+        "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/__init__.py"
+    },
+    {
+      "destination": {
+        "bytes": 3612,
+        "inode": 121457198,
+        "mtime_ns": 1790675685359895716,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/compute_u.py",
+        "sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/compute_u.py"
+    },
+    {
+      "destination": {
+        "bytes": 9558,
+        "inode": 121457199,
+        "mtime_ns": 1790675685687898829,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/compute_v.py",
+        "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/compute_v.py"
+    },
+    {
+      "destination": {
+        "bytes": 7514,
+        "inode": 121457200,
+        "mtime_ns": 1790675685999901791,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/layer_stats.py",
+        "sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/layer_stats.py"
+    },
+    {
+      "destination": {
+        "bytes": 6405,
+        "inode": 121457201,
+        "mtime_ns": 1790675686315904785,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/repr_tools.py",
+        "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/repr_tools.py"
+    },
+    {
+      "destination": {
+        "bytes": 674,
+        "inode": 121457230,
+        "mtime_ns": 1790675686635907817,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/rome_hparams.py",
+        "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/rome_hparams.py"
+    },
+    {
+      "destination": {
+        "bytes": 6041,
+        "inode": 121457231,
+        "mtime_ns": 1790675686939910698,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/rome_main.py",
+        "sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/rome_main.py"
+    },
+    {
+      "destination": {
+        "bytes": 3103,
+        "inode": 121457232,
+        "mtime_ns": 1790675687267913803,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/rome/tok_dataset.py",
+        "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/rome/tok_dataset.py"
+    },
+    {
+      "destination": {
+        "bytes": 34,
+        "inode": 121457234,
+        "mtime_ns": 1790675687587916828,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/__init__.py",
+        "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/__init__.py"
+    },
+    {
+      "destination": {
+        "bytes": 5472,
+        "inode": 121457235,
+        "mtime_ns": 1790675687875919554,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/generate.py",
+        "sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/generate.py"
+    },
+    {
+      "destination": {
+        "bytes": 388,
+        "inode": 121457236,
+        "mtime_ns": 1790675688199922614,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/globals.py",
+        "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/globals.py"
+    },
+    {
+      "destination": {
+        "bytes": 319,
+        "inode": 121457237,
+        "mtime_ns": 1790675688527925712,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/hparams.py",
+        "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/hparams.py"
+    },
+    {
+      "destination": {
+        "bytes": 2893,
+        "inode": 121457238,
+        "mtime_ns": 1790675688855928809,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/logit_lens.py",
+        "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/logit_lens.py"
+    },
+    {
+      "destination": {
+        "bytes": 15506,
+        "inode": 121457239,
+        "mtime_ns": 1790675689179931866,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/nethook.py",
+        "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/nethook.py"
+    },
+    {
+      "destination": {
+        "bytes": 65305,
+        "inode": 121457240,
+        "mtime_ns": 1790675689499934881,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/util/runningstats.py",
+        "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/native-imports/util/runningstats.py"
+    },
+    {
+      "destination": {
+        "bytes": 7918,
+        "inode": 121457242,
+        "mtime_ns": 1790675689819937897,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/official-native/AlphaEdit_main.py",
+        "sha256": "a4d24f793b2a711c7c415894b98f2bbe1c51661a862f61add4570d76a38cdb89"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/official-native/AlphaEdit_main.py"
+    },
+    {
+      "destination": {
+        "bytes": 3474,
+        "inode": 121457243,
+        "mtime_ns": 1790675690135940874,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/parent-cp-bindings.json",
+        "sha256": "e36a589b3e187d6132636a0243b90270b1548ca5b3ce4c91ffdf9d0c1a39cc6b"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/parent-cp-bindings.json"
+    },
+    {
+      "destination": {
+        "bytes": 6370,
+        "inode": 121457244,
+        "mtime_ns": 1790675690447943809,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/porting-notes-ko.md",
+        "sha256": "a7be364ac26c9801b4e41e24742a76b92140d630654a073becabf30e988292d4"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/porting-notes-ko.md"
+    },
+    {
+      "destination": {
+        "bytes": 1821,
+        "inode": 121457245,
+        "mtime_ns": 1790675690771946857,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/post-cancellation-snapshot.json",
+        "sha256": "7ad182a8153718ebe321447fe05624ab7fda4c5bf5c9f4127c604cc29a713bc3"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/post-cancellation-snapshot.json"
+    },
+    {
+      "destination": {
+        "bytes": 694,
+        "inode": 121457247,
+        "mtime_ns": 1790675691111950055,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/branch.sbatch",
+        "sha256": "901e75fee0fa3341a2a2b68f54cead0513e37549ada63b0d88cfd5ea230ad6c0"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/branch.sbatch"
+    },
+    {
+      "destination": {
+        "bytes": 671,
+        "inode": 121457248,
+        "mtime_ns": 1790675691435953098,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/collector.sbatch",
+        "sha256": "80854c9d486edc5d3248a4f8b6c83701f196d9e58c79552def4b8e71d8c55d28"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/collector.sbatch"
+    },
+    {
+      "destination": {
+        "bytes": 1272522,
+        "inode": 121457249,
+        "mtime_ns": 1790675691775956290,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/configuration.json",
+        "sha256": "d903f36882086482ddceee410e00eb6f4ec98f935a37292b5ee3592ee115ec47"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/configuration.json"
+    },
+    {
+      "destination": {
+        "bytes": 10663,
+        "inode": 121457250,
+        "mtime_ns": 1790675692099959332,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/execution.lock.json",
+        "sha256": "4a64f85fffed70a901e22613f8b52a3e9730ccf362238d84246f188296032f95"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/execution.lock.json"
+    },
+    {
+      "destination": {
+        "bytes": 823,
+        "inode": 121457251,
+        "mtime_ns": 1790675692419962333,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/frozen.json",
+        "sha256": "b0ae023e8a69c5f6f8d361f3e08324840b4d05e1217098fd304f30064f083393"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/frozen.json"
+    },
+    {
+      "destination": {
+        "bytes": 132,
+        "inode": 121457252,
+        "mtime_ns": 1790675692747965408,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/release.json",
+        "sha256": "2812e1c334e3005423d93fad0c7e5c0095f596d302c634fad181067898de0ce6"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/release.json"
+    },
+    {
+      "destination": {
+        "bytes": 501760,
+        "inode": 121457253,
+        "mtime_ns": 1790675693087968594,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/source.tar",
+        "sha256": "8561bcb00ed10bf650afbbcfab503e2d7e5bf5a26d9e8a5f0d100c845d3a8a85"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/source.tar"
+    },
+    {
+      "destination": {
+        "bytes": 6681,
+        "inode": 121457254,
+        "mtime_ns": 1790675693423971738,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/submission.json",
+        "sha256": "defe2e3c156a208a48d69c9b900394b022cc52dc26048c4c983a29c6a48a71ab"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/submission.json"
+    },
+    {
+      "destination": {
+        "bytes": 1799,
+        "inode": 121457255,
+        "mtime_ns": 1790675693759974881,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-attempt/user-override.md",
+        "sha256": "3d1c55c19f8fbf8094c16b7a3f04f2da8efa0de0e902b4d5064459bcec7690fc"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-attempt/user-override.md"
+    },
+    {
+      "destination": {
+        "bytes": 3863,
+        "inode": 121457257,
+        "mtime_ns": 1790675694095978025,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-cpu/cpu-tests.txt",
+        "sha256": "0256c9b7ecbd37f69ce3ae2239a9a8de202351a89976d0866633f27cba43452c"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-cpu/cpu-tests.txt"
+    },
+    {
+      "destination": {
+        "bytes": 8701,
+        "inode": 121457258,
+        "mtime_ns": 1790675694411980977,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-cpu/owner-cpu-audit.json",
+        "sha256": "b6796bf9bb1489d0522c9e5c4baa9c51629e0ed9a25b6b6400bafd0da08c4873"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-cpu/owner-cpu-audit.json"
+    },
+    {
+      "destination": {
+        "bytes": 1299,
+        "inode": 121457259,
+        "mtime_ns": 1790675694747984116,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/s4-cpu/token-preflight.json",
+        "sha256": "f386c39bcc690d4bc0ef6d703c0eb33b329f7e46109661ee038319b6dae3706c"
+      },
+      "disposition": "RECEIVED",
+      "source_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/package/s4-cpu/token-preflight.json"
+    }
+  ],
+  "source_keep": true
+}

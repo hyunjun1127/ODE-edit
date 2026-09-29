@@ -1,0 +1,228 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "accepted": true,
+  "all_9_registered": true,
+  "array_job": "55116",
+  "automatic_resume": false,
+  "cap_override": {
+    "bytes": 13535,
+    "inode": 121457292,
+    "mtime_ns": 1790676215587190824,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/user-cap3.json",
+    "sha256": "0fb1814ad8a96d428a2b8e6281c96e9e0c977b1f882d3c9c60bc75bbe8607613"
+  },
+  "checkpoints": [
+    {
+      "bytes": 5284849269,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B010/W-method-state.pt",
+      "sha256": "c47bab2f4a503eface2b471949d40d323133ac25ac56a4398486ace6af44d5aa",
+      "verification": "S2_CURRENT_FULLSHA_CPU_W_M_CONTEXT_RNG_BINDING"
+    },
+    {
+      "bytes": 5284861173,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B050/W-method-state.pt",
+      "sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "verification": "S2_CURRENT_FULLSHA_CPU_W_M_CONTEXT_RNG_BINDING"
+    },
+    {
+      "bytes": 5284873141,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B090/W-method-state.pt",
+      "sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "verification": "S2_CURRENT_FULLSHA_CPU_W_M_CONTEXT_RNG_BINDING"
+    }
+  ],
+  "collector": "55117",
+  "commit": {
+    "bytes": 5040,
+    "inode": 121571554,
+    "mtime_ns": 1790676940060966949,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B001/commit.json",
+    "sha256": "0c75998d6926efbb2624ea6f0bdd67b8788dffc3daf5f3f72161f5b4f96720ad"
+  },
+  "cpu_actual_model": false,
+  "cpu_tests": 29,
+  "effective_project_cap": 3,
+  "effective_task_cap": 3,
+  "full_guard_passes": 5,
+  "geometry_seconds": 79.23173331469297,
+  "independent_red_agent": false,
+  "initial": "JOINT_B1_TO_B2_OBSERVED",
+  "initial_link": {
+    "bytes": 735,
+    "inode": 121523094,
+    "mtime_ns": 1790677760524565505,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/initial-link.json",
+    "sha256": "60afcde8ab208c0fcde7079be3c0388699c394ee1eede3c9af94cdf02408373c"
+  },
+  "lock": {
+    "bytes": 14849,
+    "inode": 121457276,
+    "mtime_ns": 1790676039098399350,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/execution.lock.json",
+    "sha256": "b0d320edfb8adce9f6dedf6fed9b4790cb545a7b9ef63f4cf651d8004556614b"
+  },
+  "mapping": [
+    {
+      "arm": "JOINT_STEP",
+      "array_index": 0,
+      "checkpoint": "B010",
+      "edits": 100,
+      "job_id": "55116_0",
+      "name": "B010-JOINT_STEP",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP"
+    },
+    {
+      "arm": "NATIVE",
+      "array_index": 1,
+      "checkpoint": "B010",
+      "edits": 100,
+      "job_id": "55116_1",
+      "name": "B010-NATIVE",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE"
+    },
+    {
+      "arm": "JOINT_CUM",
+      "array_index": 2,
+      "checkpoint": "B010",
+      "edits": 100,
+      "job_id": "55116_2",
+      "name": "B010-JOINT_CUM",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM"
+    },
+    {
+      "arm": "JOINT_STEP",
+      "array_index": 3,
+      "checkpoint": "B050",
+      "edits": 100,
+      "job_id": "55116_3",
+      "name": "B050-JOINT_STEP",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B050-JOINT_STEP"
+    },
+    {
+      "arm": "NATIVE",
+      "array_index": 4,
+      "checkpoint": "B050",
+      "edits": 100,
+      "job_id": "55116_4",
+      "name": "B050-NATIVE",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B050-NATIVE"
+    },
+    {
+      "arm": "JOINT_CUM",
+      "array_index": 5,
+      "checkpoint": "B050",
+      "edits": 100,
+      "job_id": "55116_5",
+      "name": "B050-JOINT_CUM",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B050-JOINT_CUM"
+    },
+    {
+      "arm": "JOINT_STEP",
+      "array_index": 6,
+      "checkpoint": "B090",
+      "edits": 100,
+      "job_id": "55116_6",
+      "name": "B090-JOINT_STEP",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B090-JOINT_STEP"
+    },
+    {
+      "arm": "NATIVE",
+      "array_index": 7,
+      "checkpoint": "B090",
+      "edits": 100,
+      "job_id": "55116_7",
+      "name": "B090-NATIVE",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B090-NATIVE"
+    },
+    {
+      "arm": "JOINT_CUM",
+      "array_index": 8,
+      "checkpoint": "B090",
+      "edits": 100,
+      "job_id": "55116_8",
+      "name": "B090-JOINT_CUM",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B090-JOINT_CUM"
+    }
+  ],
+  "method_seconds": 277.3839613618329,
+  "monitoring_active": false,
+  "next_entry": {
+    "bytes": 1268,
+    "inode": 121571579,
+    "mtime_ns": 1790677760520565521,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B002/entry.json",
+    "sha256": "2b3c50c95e24e732bbc3a9714c36d12b0cbb56d8f8e1cd77d85c99bb96e402e0"
+  },
+  "original_scientific_files_changed": false,
+  "outcome": "ACCEPTED",
+  "owner_audit": true,
+  "platform_tests": 5,
+  "proposals": 11,
+  "queue": "55116_[2-8%3]|odeedit_joint_bs1_s2|PENDING|gres/gpu:1|(Resources)\n55117|odeedit_joint_collect_s2|PENDING|N/A|(Dependency)\n55116_0|odeedit_joint_bs1_s2|RUNNING|gres/gpu:1|server2\n55116_1|odeedit_joint_bs1_s2|RUNNING|gres/gpu:1|server2\n",
+  "receipts": {
+    "admission.json": {
+      "bytes": 1693,
+      "inode": 121457281,
+      "mtime_ns": 1790676056070485648,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/admission.json",
+      "sha256": "029de47710b8e63746a120d6410d8d40e80b74baf7f737c9718c7d7e5e818616"
+    },
+    "configuration.json": {
+      "bytes": 651509,
+      "inode": 121457275,
+      "mtime_ns": 1790676039078399248,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/configuration.json",
+      "sha256": "016c33011d0be2a38f99b4923ba373021317f508661251539749fe5192a08295"
+    },
+    "execution.lock.json": {
+      "bytes": 14849,
+      "inode": 121457276,
+      "mtime_ns": 1790676039098399350,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/execution.lock.json",
+      "sha256": "b0d320edfb8adce9f6dedf6fed9b4790cb545a7b9ef63f4cf651d8004556614b"
+    },
+    "monitoring-pause.json": {
+      "bytes": 2731,
+      "inode": 121457296,
+      "mtime_ns": 1790677785340460520,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/monitoring-pause.json",
+      "sha256": "d2ef141166bb5d1eb02b21d461d52dd14fcb1e96e0d662d33319146169d6a0eb"
+    },
+    "release.json": {
+      "bytes": 132,
+      "inode": 121457287,
+      "mtime_ns": 1790676056102485808,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/release.json",
+      "sha256": "b34abe5d7e38f536b8637447be406ef6f5b0f582785d9a92f61d5fcc01a12db1"
+    },
+    "source.tar": {
+      "bytes": 552960,
+      "inode": 121457274,
+      "mtime_ns": 1790676039066399186,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/source.tar",
+      "sha256": "ca51bd1046f2c2880666cbf26e4f96650b46c7274d6171f6026edd59b5ea6b75"
+    },
+    "submission.json": {
+      "bytes": 6743,
+      "inode": 121457284,
+      "mtime_ns": 1790676056094485769,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/submission.json",
+      "sha256": "00568409628d32bab09ac8f9a1c9b5f100ef039913e373759cff33127bc7b69a"
+    }
+  },
+  "scientific_completion": "NOT_CLAIMED",
+  "selection": {
+    "bytes": 14992,
+    "inode": 121571552,
+    "mtime_ns": 1790676932356954957,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B001/selection.json",
+    "sha256": "cfc3bc6160cfe77814719fe330c966b4125fa18f6473f60cf9634199bd1205e9"
+  },
+  "source": "2a7762a4368de0dbe540619ceacefd7760d25698",
+  "source_tree": "f32e4129e46284d0b9bd477f9620b01b2eebc607",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "transfer_bytes": 2096027,
+  "transfer_count": 49,
+  "trials": 50,
+  "utc": "2026-09-29T10:29:45.343834+00:00"
+}

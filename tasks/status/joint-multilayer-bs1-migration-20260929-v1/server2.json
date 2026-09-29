@@ -1,0 +1,75 @@
+{
+  "accepted": true,
+  "all_9_registered": true,
+  "array_job": "55116",
+  "automatic_resume": false,
+  "batch_size": 1,
+  "cap_override": {
+    "bytes": 13535,
+    "inode": 121457292,
+    "mtime_ns": 1790676215587190824,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/user-cap3.json",
+    "sha256": "0fb1814ad8a96d428a2b8e6281c96e9e0c977b1f882d3c9c60bc75bbe8607613"
+  },
+  "collector": "55117",
+  "commit": {
+    "bytes": 5040,
+    "inode": 121571554,
+    "mtime_ns": 1790676940060966949,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B001/commit.json",
+    "sha256": "0c75998d6926efbb2624ea6f0bdd67b8788dffc3daf5f3f72161f5b4f96720ad"
+  },
+  "effective_project_cap": 3,
+  "effective_task_cap": 3,
+  "full_guard_passes": 5,
+  "geometry_seconds": 79.23173331469297,
+  "gpu_cap": 3,
+  "initial": "JOINT_B1_TO_B2_OBSERVED",
+  "initial_link": {
+    "bytes": 735,
+    "inode": 121523094,
+    "mtime_ns": 1790677760524565505,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/initial-link.json",
+    "sha256": "60afcde8ab208c0fcde7079be3c0388699c394ee1eede3c9af94cdf02408373c"
+  },
+  "lock": {
+    "bytes": 14849,
+    "inode": 121457276,
+    "mtime_ns": 1790676039098399350,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/execution.lock.json",
+    "sha256": "b0d320edfb8adce9f6dedf6fed9b4790cb545a7b9ef63f4cf651d8004556614b"
+  },
+  "method_seconds": 277.3839613618329,
+  "monitoring_active": false,
+  "next_entry": {
+    "bytes": 1268,
+    "inode": 121571579,
+    "mtime_ns": 1790677760520565521,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B002/entry.json",
+    "sha256": "2b3c50c95e24e732bbc3a9714c36d12b0cbb56d8f8e1cd77d85c99bb96e402e0"
+  },
+  "outcome": "ACCEPTED",
+  "proposals": 11,
+  "queue": "55116_[2-8%3]|odeedit_joint_bs1_s2|PENDING|gres/gpu:1|(Resources)\n55117|odeedit_joint_collect_s2|PENDING|N/A|(Dependency)\n55116_0|odeedit_joint_bs1_s2|RUNNING|gres/gpu:1|server2\n55116_1|odeedit_joint_bs1_s2|RUNNING|gres/gpu:1|server2\n",
+  "scientific_attempts_planned": 900,
+  "scientific_completion": "NOT_CLAIMED",
+  "selection": {
+    "bytes": 14992,
+    "inode": 121571552,
+    "mtime_ns": 1790676932356954957,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B001/selection.json",
+    "sha256": "cfc3bc6160cfe77814719fe330c966b4125fa18f6473f60cf9634199bd1205e9"
+  },
+  "snapshot_steps": [
+    25,
+    50,
+    75,
+    100
+  ],
+  "source": "2a7762a4368de0dbe540619ceacefd7760d25698",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "steps_per_trajectory": 100,
+  "trajectories": 9,
+  "trials": 50,
+  "utc": "2026-09-29T10:29:45.343834+00:00"
+}
