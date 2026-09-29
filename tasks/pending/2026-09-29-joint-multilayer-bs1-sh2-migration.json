@@ -1,0 +1,29 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-SH2-JOINT-BS1-MIGRATION-20260929-R1",
+  "parent_instruction_id": "ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1",
+  "user_request": "SERVER4는 GPU 리소스가 부족해서 SERVER2로 가자.",
+  "owner": "server2",
+  "source_server_authority": "server4 cancellation and tiny handoff only; no new science",
+  "status": "DISPATCH_READY_NOT_SUBMITTED",
+  "envelope": "messages/head/2026-09-29-joint-multilayer-bs1-sh2-migration.md",
+  "gpu_cap": 2,
+  "batch_size": 1,
+  "steps_per_trajectory": 100,
+  "trajectories": 9,
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "snapshot_steps": [
+    25,
+    50,
+    75,
+    100
+  ],
+  "snapshot_count": 36,
+  "scientific_job_ids": [],
+  "monitor_boundary": "representative actual joint firststep->secondentry OR all-released verified resource-pending; then pause"
+}

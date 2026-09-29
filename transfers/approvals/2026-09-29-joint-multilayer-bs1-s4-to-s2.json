@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-SH2-JOINT-BS1-MIGRATION-20260929-R1",
+  "source_server": "server4",
+  "destination_server": "server2",
+  "sole_destination_writer": "SH2",
+  "source_root": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/",
+  "destination_root": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/",
+  "scope": "Exact path/size/SHA inventoried migration receipts, configuration, derived BS1 tables, source/import closure, context and small missing task metadata. Git source preferred. Only task-required regular files; validate ownership/path/no traversal.",
+  "source_disposition": "KEEP",
+  "overwrite": false,
+  "delete": false,
+  "recursive_transfer": false,
+  "excludes": [
+    "checkpoint/weight payload",
+    "model shards",
+    "teacher/reference payload",
+    "unrelated live outputs"
+  ],
+  "parent_checkpoints": "REUSE S2 original source paths in transfers/approvals/2026-09-29-joint-multilayer-bs10-sh4-inputs.json; no reverse transfer",
+  "before_release": "Bind S4 exact cancellation receipt proving 55090_0..8 and55091 nonactive"
+}
