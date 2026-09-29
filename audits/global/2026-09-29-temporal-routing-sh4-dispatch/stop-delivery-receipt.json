@@ -1,0 +1,18 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-STOP-20260929-R1",
+  "superseded_instruction": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
+  "stop_authority_main": "e47cb103",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted_turn": "01a0ec23-50dd-72c1-8445-bc4e74240378",
+  "transport_status": "STEER_ACCEPTED",
+  "ack_source": "registered thread read, agentMessage msg_0aec3c58ce4d194e016abb73ea183487d0975c90f842193adb",
+  "receiver_ack": "ACK ODEEDIT-GH-SH4-TEMPORAL-ROUTING-STOP-20260929-R1. 단층 task의 구현·준비·제출을 즉시 중단합니다. 현재까지 Slurm 제출·release는 0건이며 취소 대상도 없습니다. 입력과 부분 source는 보존하고, 중단 상태만 기록한 뒤 새 지시를 기다리겠습니다.",
+  "submitted_jobs_reported": 0,
+  "released_jobs_reported": 0,
+  "cancellations_required": 0,
+  "scope_status": "STOP_ACKNOWLEDGED_USER_DESIGN_WITHDRAWAL",
+  "existing_assets": "KEEP",
+  "new_multilayer_execution_authorized": false,
+  "gh_scheduler_queries": 0,
+  "gh_monitoring_created": false
+}
