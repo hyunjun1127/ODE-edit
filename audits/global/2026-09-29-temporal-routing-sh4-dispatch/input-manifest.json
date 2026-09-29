@@ -1,0 +1,79 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
+  "read_level": "GH full design/contract/builder/reference read; no model/CP payload/GPU verification",
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "members": [
+    {
+      "path": "audits/global/2026-09-18-sequential-local-z-allocation-review/executed-source/native.py",
+      "size": 11380,
+      "sha256": "a790e93c96619f3db4fec9e6a5ee5b2b4057a3bdc4397c8af4f645e7394ee1a5"
+    },
+    {
+      "path": "audits/global/2026-09-22-alphaedit-original-failure-audit/official/AlphaEdit/AlphaEdit_main.py",
+      "size": 7918,
+      "sha256": "a4d24f793b2a711c7c415894b98f2bbe1c51661a862f61add4570d76a38cdb89"
+    },
+    {
+      "path": "audits/global/2026-09-29-knowledge-editing-survey/damage-signals-from-preservation-studies-ko.md",
+      "size": 17421,
+      "sha256": "11acfa694343d3888e553e113f1fc74b49f51e4f3e600bcf112b33c655ee908c"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/asset-check.json",
+      "size": 2856,
+      "sha256": "ebe4b0edcc58e660c86690abbf39e18dfaecefb50f61387ba9dbf40f45b14f7c"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/build_design.py",
+      "size": 13697,
+      "sha256": "f6ba81099872bd48d8a9cad8e67bbc7b9458b584331b277316696462f2f8ab8b"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/checkpoint-bindings.csv",
+      "size": 1009,
+      "sha256": "5ca76034eae406ae1f6e3b21d045be6da75845c0e1dcae30e371c7ece505449f"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/continuation-ids.csv",
+      "size": 21035,
+      "sha256": "86ee18d0549d0b055b45344bff065db6983fd02c5a7f3334e45f5226a5075c94"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/contract.json",
+      "size": 4864,
+      "sha256": "f55e8ba2028f53d52b7dfa9e76c5ebfa15c0303ec6a0eb19b2314c490c27da0b"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/design-checks.json",
+      "size": 1634,
+      "sha256": "90bde99d19d982472c91ae9a17cc78783dfdbb7c2933b5ba4b163f39460dc030"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/design-ko.md",
+      "size": 16240,
+      "sha256": "9cfc6dd9fe0d580950d96c92ce21fbeafbe046cad44d8b718fed5b2ae333141f"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/fit-cells.csv",
+      "size": 156944,
+      "sha256": "d00a003c87e77714f87510bf0589ac7ac27a67f91acbfcc08391fd0f7ea95a26"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/panel-ids.csv",
+      "size": 28327,
+      "sha256": "97e4a8588920a91e5015addbb72c9b13f033e25ef96d843222cb8e16b13d407d"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/stream-routing.csv",
+      "size": 36797,
+      "sha256": "b356323993b90f23ad59d6926a60e15cbe1f667a63187ed23330f86542d5a158"
+    },
+    {
+      "path": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/weight-snapshots.csv",
+      "size": 6385,
+      "sha256": "526311000ef37d33c32282cc4b3410c4aee02e9fafef1339eccb1000302684c4"
+    }
+  ],
+  "sealed_csv_line_endings": "CRLF preserved byte-exact",
+  "linked_review_scope": "damage note is rationale only; no automatic extra experiments"
+}

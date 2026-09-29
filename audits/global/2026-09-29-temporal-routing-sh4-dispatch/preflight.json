@@ -1,0 +1,17 @@
+{
+  "status": "PASS_CPU_DISPATCH_STRUCTURE_AND_INPUT_IDENTITY",
+  "input_members": 14,
+  "design_files": 11,
+  "branches": 15,
+  "fits": 1500,
+  "same_100_case_order": true,
+  "metadata_only_eligible_stream": true,
+  "panel_rows": 120,
+  "sensor_observer_subject_disjoint": true,
+  "snapshots": 30,
+  "snapshot_payload_bytes": 7046430720,
+  "checkpoint_payload_verification": "NOT_PERFORMED_BY_GH",
+  "actual_gpu": "NOT_RUN",
+  "remote_peer_inspection": "exact SH4 session/CWD idle; app-server same-host transport",
+  "note": "six CSV CRLF restored mechanically after patch transport and all original SHA verified; no original files rewritten"
+}

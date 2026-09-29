@@ -1,0 +1,161 @@
+{
+  "name": "alpha-base-checkpoint-bs1-diagnostic-v1",
+  "revision": "stored_BASE_checkpoints_BS1_continuations",
+  "status": "DESIGN_ONLY_NOT_A_GPU_RUNNER",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "checkpoint_family": "BASE_ALPHAEDIT",
+  "checkpoints": [
+    "B010",
+    "B050",
+    "B090"
+  ],
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "batch_size": 1,
+  "continuation": {
+    "length": 100,
+    "same_ordered_requests_in_all_15_branches": true,
+    "routing": "physical layer fixed within each branch",
+    "source": "first 100 eligible fresh-subject records after ordinal 8999",
+    "no_w0_edit_replay": true,
+    "no_balanced_random_router": true,
+    "finite_functional_failure": "keep update/history and record acquisition failure",
+    "technical_failure": "stop; no silent retry or reroute"
+  },
+  "writer": {
+    "method": "native AlphaEdit singleton",
+    "blue": false,
+    "L2": 10,
+    "alpha": 1,
+    "v_num_grad_steps": 25,
+    "max_adam_updates_per_fit": 24,
+    "v_lr": 0.1,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 0.75,
+    "kl_factor": 0.0625,
+    "cache_template": null,
+    "target_layer": "selected physical layer",
+    "dtype": "float32",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "contexts": "sealed native contexts",
+    "history": "restore all five source Grams; append selected-layer Gram once; other Grams remain unchanged",
+    "cross_layer_handoff": "not performed in these fixed-layer branches"
+  },
+  "measurements": {
+    "detailed_steps": [
+      0,
+      1,
+      10,
+      25,
+      50,
+      100
+    ],
+    "per_step": "native traces + current/PS + sensor entry-to-after",
+    "observer": "fixed base/history and all continuation edits seen at milestones",
+    "observer_marginal": "also evaluate before the milestone write, not only after",
+    "input_capture": "same teacher-forced prefix; all relevant valid token positions"
+  },
+  "panel_counts": {
+    "base_sensor": 16,
+    "base_observer": 32,
+    "history_sensor": 24,
+    "history_observer": 48
+  },
+  "weight_snapshots": {
+    "steps": [
+      50,
+      100
+    ],
+    "count": 30,
+    "saved_this_design": 0,
+    "purpose": "exact model reconstruction for post-hoc analysis; not editor-state resume",
+    "tensor": "actual full selected-layer weight after commit; not factors or delta only",
+    "shape": [
+      4096,
+      14336
+    ],
+    "dtype": "float32",
+    "tensor_bytes_each": 234881024,
+    "total_tensor_bytes": 7046430720,
+    "total_tensor_gib": 6.5625,
+    "size_excludes": "serialization headers, metadata and already archived parents",
+    "reconstruction": [
+      "load pinned original model",
+      "apply all five BASE checkpoint weights",
+      "overwrite selected-layer weight with saved tensor"
+    ],
+    "required_parents": "retain original model payload and all three BASE checkpoint payloads",
+    "metadata": [
+      "branch/checkpoint/step",
+      "parameter name/shape/dtype",
+      "parent model revision and checkpoint SHA",
+      "saved file SHA",
+      "last case ID and ordered applied edit IDs",
+      "writer configuration",
+      "code hash",
+      "native context and tokenizer identity"
+    ],
+    "save_protocol": "independent CPU tensor copy; temporary file then atomic rename",
+    "validation": [
+      "reload and check tensor bitwise equality",
+      "reconstructed-model output parity",
+      "all nonselected weights unchanged from parent; otherwise stop"
+    ],
+    "editor_state_saved": false,
+    "scope_limit": "unsaved intermediate models require replay; exact editor resume also requires history/RNG"
+  },
+  "risk_scores": [
+    "A_frozen_new_response",
+    "B_frozen_accumulated_error_alignment",
+    "C_inherited_live_key_alignment",
+    "F_small_sensor_output_change"
+  ],
+  "budgets": {
+    "branches": 15,
+    "scientific_fits": 1500,
+    "max_technical_duplicate_fits": 2,
+    "max_total_fits": 1502,
+    "max_target_loss_evaluations": 37550,
+    "max_adam_updates": 36048,
+    "max_patch_events": 3,
+    "extra_patch_passes_per_event": 3,
+    "automatic_expansion": false
+  },
+  "causal_patch": {
+    "checkpoints": [
+      "B010",
+      "B050",
+      "B090"
+    ],
+    "branch_layer": 4,
+    "step": 100,
+    "patch_layer": 8,
+    "formula": "-(W8_checkpoint - W8_original) @ (K8_step100 - K8_branch_entry)",
+    "arms": [
+      "native",
+      "zero_hook",
+      "targeted_patch",
+      "norm_matched_random"
+    ],
+    "negative_control": "L8-only branch: K8 remains fixed so this key-drift patch is zero",
+    "refit": false
+  },
+  "exclusions": [
+    "W0-to-checkpoint replay",
+    "policy training",
+    "residual splitting",
+    "strength grid",
+    "full SVD",
+    "full Hessian/K-FAC",
+    "R512 replacement",
+    "new paraphrase supervision"
+  ],
+  "result_status": "NO_MODEL_FORWARD_OR_EDIT_EXECUTED"
+}

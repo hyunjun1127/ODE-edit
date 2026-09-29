@@ -1,0 +1,43 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-09-29-temporal-routing-diagnostic-sh4.md",
+  "status": "APPROVED_IMPLEMENT_AND_SUBMIT",
+  "design": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/design-ko.md",
+  "parent_family": "BASE_ALPHAEDIT",
+  "checkpoints": [
+    "B010",
+    "B050",
+    "B090"
+  ],
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "branches": 15,
+  "branch_batch_size": 1,
+  "edits_per_branch": 100,
+  "scientific_fits": 1500,
+  "max_technical_duplicate_fits": 2,
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 2,
+  "memory_ceiling_mib": 60416,
+  "save_weight_snapshots": true,
+  "snapshot_exception_authority": "explicit current design weight_snapshots",
+  "snapshot_steps": [
+    50,
+    100
+  ],
+  "snapshot_count": 30,
+  "save_editor_checkpoints": false,
+  "exact_editor_resume": "NOT_AVAILABLE",
+  "stop_monitoring_after": "all15 released and representative actual step1->2 initial gate, or verified main resource-pending handoff",
+  "post_initial_monitoring": false,
+  "extra_science_authorized": false,
+  "new_job_ids": [],
+  "actual_initial": "NOT_OBSERVED"
+}

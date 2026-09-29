@@ -1,0 +1,45 @@
+{
+  "status": "PASS_DESIGN_STRUCTURE_ONLY",
+  "fit_cells": 1500,
+  "branches": 15,
+  "cases_per_branch": {
+    "B010-L4": 100,
+    "B010-L5": 100,
+    "B010-L6": 100,
+    "B010-L7": 100,
+    "B010-L8": 100,
+    "B050-L4": 100,
+    "B050-L5": 100,
+    "B050-L6": 100,
+    "B050-L7": 100,
+    "B050-L8": 100,
+    "B090-L4": 100,
+    "B090-L5": 100,
+    "B090-L6": 100,
+    "B090-L7": 100,
+    "B090-L8": 100
+  },
+  "same_stream_in_all_branches": true,
+  "unseen_subjects_through_first_9000": true,
+  "unique_continuation_subjects": 100,
+  "sensor_observer_disjoint": true,
+  "source_dataset_hash_verified": true,
+  "planned_weight_snapshots": 30,
+  "snapshots_saved_this_design": 0,
+  "weight_steps_per_branch": [
+    50,
+    100
+  ],
+  "weight_tensor_payload_bytes": 7046430720,
+  "file_sha256": {
+    "continuation-ids.csv": "86ee18d0549d0b055b45344bff065db6983fd02c5a7f3334e45f5226a5075c94",
+    "checkpoint-bindings.csv": "5ca76034eae406ae1f6e3b21d045be6da75845c0e1dcae30e371c7ece505449f",
+    "stream-routing.csv": "b356323993b90f23ad59d6926a60e15cbe1f667a63187ed23330f86542d5a158",
+    "panel-ids.csv": "97e4a8588920a91e5015addbb72c9b13f033e25ef96d843222cb8e16b13d407d",
+    "fit-cells.csv": "d00a003c87e77714f87510bf0589ac7ac27a67f91acbfcc08391fd0f7ea95a26",
+    "weight-snapshots.csv": "526311000ef37d33c32282cc4b3410c4aee02e9fafef1339eccb1000302684c4",
+    "asset-check.json": "ebe4b0edcc58e660c86690abbf39e18dfaecefb50f61387ba9dbf40f45b14f7c",
+    "contract.json": "f55e8ba2028f53d52b7dfa9e76c5ebfa15c0303ec6a0eb19b2314c490c27da0b",
+    "design-ko.md": "9cfc6dd9fe0d580950d96c92ce21fbeafbe046cad44d8b718fed5b2ae333141f"
+  }
+}
