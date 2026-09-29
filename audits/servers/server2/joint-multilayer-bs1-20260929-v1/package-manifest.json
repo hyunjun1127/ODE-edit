@@ -1,0 +1,19 @@
+{
+  "audit": {
+    "bytes": 9114,
+    "inode": 120726205,
+    "mtime_ns": 1790677790648438611,
+    "path": "audits/servers/server2/joint-multilayer-bs1-20260929-v1/submission.json",
+    "sha256": "562dc94fcf1cc92e6726be3d6f853586e0e653785f89a1a71656e216a8b7f8bd"
+  },
+  "execution_source": "2a7762a4368de0dbe540619ceacefd7760d25698",
+  "metadata_only": true,
+  "publication_source": "commit containing this manifest; distinct from execution_source",
+  "report": {
+    "bytes": 4554,
+    "inode": 120726214,
+    "mtime_ns": 1790677790652438594,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/submission-ko.md",
+    "sha256": "b6f87e3970aad4463e0f35e3df2f03cd8d3b18efb9c5e53ec9c1f8f32bf2469f"
+  }
+}
