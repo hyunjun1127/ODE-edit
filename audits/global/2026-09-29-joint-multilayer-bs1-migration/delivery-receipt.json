@@ -1,0 +1,51 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH2-JOINT-BS1-MIGRATION-20260929-R1",
+  "authority_commit": "0667ecfc89794286fe990c9cc7c5882acd53b0b8",
+  "server4": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "accepted_turn": "01a0ec8c-2807-78e0-aa99-1f20e851e75c",
+    "status": "EXACT_9_ARRAY_CHILDREN_AND_COLLECTOR_CANCELLED",
+    "jobs": [
+      "55091",
+      "55090_0",
+      "55090_1",
+      "55090_2",
+      "55090_3",
+      "55090_4",
+      "55090_5",
+      "55090_6",
+      "55090_7",
+      "55090_8"
+    ],
+    "before_state": "ALL_PENDING",
+    "allocated_gpu_seconds": 0,
+    "active_pending_empty": true,
+    "source_raw_preserved": true,
+    "other_jobs_modified": false,
+    "cancellation_receipt": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/cancellation-receipt.json",
+    "cancellation_receipt_sha256": "2f934836622526bc5555ede5ea54e185323968a8f6f3cba507dd07f5c54f683d",
+    "verification": "GH read exact stored receipt and remote SHA; no duplicate scheduler query"
+  },
+  "server2": {
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted_turn": "01a0ec91-586b-7ab0-82c8-fc3e29e9229a",
+    "ack_received": true,
+    "status": "IMPLEMENTING_NOT_SUBMITTED",
+    "job_ids": [],
+    "ack": "신규 이관 task로 착수, dirty root/다른 pause 보존, 정본/취소receipt/3CP/runtime 확인 후 cap2/BS1x100/9paths/save25 이식·제출. 아직 job 없음."
+  },
+  "scope": {
+    "gpu_cap": 2,
+    "batch_size": 1,
+    "offered_steps": 100,
+    "trajectories": 9,
+    "snapshot_steps": [
+      25,
+      50,
+      75,
+      100
+    ]
+  },
+  "completion_claimed": false,
+  "automatic_monitor_created": false
+}
