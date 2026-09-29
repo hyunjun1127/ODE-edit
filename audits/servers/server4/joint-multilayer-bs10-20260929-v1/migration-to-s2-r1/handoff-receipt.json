@@ -1,0 +1,53 @@
+{
+  "GH_cancellation_verified": "audits/global/2026-09-29-joint-multilayer-bs1-migration/delivery-receipt.json",
+  "actual_gpu": "NOT_RUN",
+  "approval": {
+    "bytes": 1122,
+    "inode": 134814583,
+    "mtime_ns": 1790675404389453396,
+    "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/worktree/transfers/approvals/2026-09-29-joint-multilayer-bs1-s4-to-s2.json",
+    "sha256": "0ad29cd9caa179b34eee240e025de60f1c11bb6d149d0399b42593df7ff41324"
+  },
+  "archive": {
+    "bytes": 464540,
+    "inode": 134814577,
+    "mtime_ns": 1790675370257407306,
+    "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/handoff-small.tar.gz",
+    "sha256": "0c9422297d550288f0d9e32daa83b9ac7d177ca2c84ff2bc4714a98eda58a5ad"
+  },
+  "automatic_resume": false,
+  "cancellation": {
+    "bytes": 5883,
+    "inode": 134814513,
+    "mtime_ns": 1790675101012857313,
+    "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/cancellation-receipt.json",
+    "sha256": "2f934836622526bc5555ede5ea54e185323968a8f6f3cba507dd07f5c54f683d"
+  },
+  "communication_first_direct": "COMMUNICATION_HOLD_multiple_active_turns; GH subsequently verified stored receipt directly",
+  "cpu_tests": 29,
+  "exact_receiver_allowlist": {
+    "bytes": 28173,
+    "inode": 134814585,
+    "mtime_ns": 1790675542040599043,
+    "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/receiver-exact-allowlist-s2.json",
+    "sha256": "dbc3180d680a5a534b19de2084147f280f217adca949f68bc774bcc03005ccf2"
+  },
+  "full_original_raw_scheduler_evidence": "LOCAL_ONLY",
+  "manifest": {
+    "bytes": 17156,
+    "inode": 134814576,
+    "mtime_ns": 1790675370140407141,
+    "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/migration-to-s2-r1/small-files-allowlist.json",
+    "sha256": "5a90d5b88b234490cd986171508eea1e5b9b0f48dbd6c9be57806c8ed79cf2f3"
+  },
+  "member_bytes": 2096027,
+  "members": 49,
+  "monitoring_active": false,
+  "new_gpu": 0,
+  "nonce": "ODEEDIT-GH-SH4-SH2-JOINT-BS1-MIGRATION-20260929-R1",
+  "original_inputs_deleted": false,
+  "runtime_source_edits": 0,
+  "s4_output_directory_empty": true,
+  "status": "HANDOFF_READY_SOURCE_KEEP",
+  "transfer": "NOT_TRANSFERRED_SH2_SOLE_PULL"
+}
