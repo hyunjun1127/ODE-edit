@@ -1,0 +1,54 @@
+{
+  "status": "LOCAL_METADATA_CHECK_ONLY",
+  "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "source_lock_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92",
+  "native_source": {
+    "path": "/mnt/raid5/janghj/ODE-edit/audits/global/2026-09-22-alphaedit-original-failure-audit/official/AlphaEdit/AlphaEdit_main.py",
+    "sha256": "a4d24f793b2a711c7c415894b98f2bbe1c51661a862f61add4570d76a38cdb89"
+  },
+  "checkpoints": [
+    {
+      "checkpoint": "B010",
+      "seen_edits": 1000,
+      "reported_host": "server2",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B010/W-method-state.pt",
+      "recorded_sha256": "c47bab2f4a503eface2b471949d40d323133ac25ac56a4398486ace6af44d5aa",
+      "recorded_bytes": 5284849269,
+      "exists_on_current_host": false,
+      "payload_rehashed_this_design": false
+    },
+    {
+      "checkpoint": "B050",
+      "seen_edits": 5000,
+      "reported_host": "server2",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B050/W-method-state.pt",
+      "recorded_sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "recorded_bytes": 5284861173,
+      "exists_on_current_host": false,
+      "payload_rehashed_this_design": false
+    },
+    {
+      "checkpoint": "B090",
+      "seen_edits": 9000,
+      "reported_host": "server2",
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B090/W-method-state.pt",
+      "recorded_sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "recorded_bytes": 5284873141,
+      "exists_on_current_host": false,
+      "payload_rehashed_this_design": false
+    }
+  ],
+  "model_snapshot": {
+    "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "exists": true,
+    "four_shards_present": true,
+    "payload_rehashed": false
+  },
+  "unresolved": [
+    "server2의 BASE W/M 실제 payload 결속",
+    "원실행 P/context/tokenizer/runtime 결속",
+    "BS10 joint U writer와 누적/재설정 cap solver 구현",
+    "실제 shared-weight forward 및 restore/materialization 검증",
+    "weight 저장 구현과 재로드 parity"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1",
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "full_read": "design,contract,METHOD,builder,asset/checks and sealed tables; native reference from prior exact full read",
+  "members": [
+    {
+      "path": "audits/global/2026-09-22-alphaedit-original-failure-audit/official/AlphaEdit/AlphaEdit_main.py",
+      "size": 7918,
+      "sha256": "a4d24f793b2a711c7c415894b98f2bbe1c51661a862f61add4570d76a38cdb89"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/asset-check.json",
+      "size": 2608,
+      "sha256": "11d15ec3e18bb4d7a9310d4b1c9d297f63ff07f136ff5f4a4a4cd3bed12db072"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/batch-cells.csv",
+      "size": 73504,
+      "sha256": "5c8fa1b73e1928376658ddb6af12adf4ad4e561a06dd4581920939904b570836"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/batches.csv",
+      "size": 3521,
+      "sha256": "d83e3805879c51377bbbda575c39489825bc79cf50a42cee3da45dc1a147af3b"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/build_design.py",
+      "size": 16973,
+      "sha256": "1c213f38a9c2ea4e53193b7ab56773467955e2f4095c59c364bdc570206d7059"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/checkpoint-bindings.csv",
+      "size": 1004,
+      "sha256": "42e651ec172b661ce11375069fc071964675b2c0b2a8609463123419c5344a6b"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/continuation-ids.csv",
+      "size": 107720,
+      "sha256": "57bd185d76f51e5bad331f75f1bfcc74ef1281827692f8d915fc23970b3f7bc4"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/contract.json",
+      "size": 8145,
+      "sha256": "d4e2f441235c86f3f9ce7bde8bec742cc2fdb6a25ea30c90c427eef52b4393cd"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/design-checks.json",
+      "size": 1467,
+      "sha256": "b8c55babeb0b1ba9904630ce48fd159a9a358b0fbeb7aa04b0d826927ad392c4"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/design-ko.md",
+      "size": 19082,
+      "sha256": "a16eede37bc30945c3069989b53d22798412dc5c1cc056bb123e7da9c54c4935"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/panel-ids.csv",
+      "size": 64717,
+      "sha256": "5e762bfe826125332c6e146d45a01a8c4a73b875c2252a28c631c6af29758373"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/weight-snapshots.csv",
+      "size": 4310,
+      "sha256": "c1736a7ca10db30f18f70ea028302745468485ed715bd465728fac7982378fb8"
+    },
+    {
+      "path": "plans/global/2026-09-29-joint-multilayer-preservation-method-ko.md",
+      "size": 17947,
+      "sha256": "5909c1ad674e392d03f6e6fa0d81885259c49a7e35c874588f5a17a8aeeb2bfe"
+    }
+  ],
+  "csv_sealed_line_endings": "CRLF preserved",
+  "actual_gpu_validation": "NOT_RUN_BY_GH",
+  "parent_checkpoint_payload_verification": "SH4_OWNER_PREPARATION_REQUIRED"
+}

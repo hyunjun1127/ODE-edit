@@ -1,0 +1,204 @@
+{
+  "name": "joint-multilayer-bs10-diagnostic-v1",
+  "status": "DESIGN_ONLY_NOT_A_GPU_RUNNER",
+  "checkpoint_family": "BASE_ALPHAEDIT",
+  "checkpoints": [
+    "B010",
+    "B050",
+    "B090"
+  ],
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "batch_size": 10,
+  "batches_per_trajectory": 50,
+  "edits_per_trajectory": 500,
+  "arms": [
+    "NATIVE",
+    "JOINT_STEP",
+    "JOINT_CUM"
+  ],
+  "source": {
+    "dataset": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "source_lock_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92",
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "eligible_fresh_unique_subjects": 925,
+    "policy": "first 500 eligible fresh-subject records after ordinal 8999; preserve source order",
+    "same_order_and_batch_membership_in_all_9_trajectories": true
+  },
+  "arm_semantics": {
+    "NATIVE": "native five-layer AlphaEdit continuation, no new functional guard",
+    "JOINT_STEP": "joint writer; fixed original/valid-target references; reset functional bounds to batch-entry risk plus epsilon",
+    "JOINT_CUM": "same joint writer; base bound fixed at trajectory entry, history bounds fixed at initial entry or acceptance"
+  },
+  "geometry": {
+    "native_L2": 10,
+    "native_blue": false,
+    "key_side": "A_l = solve(P_l @ (K_l @ K_l.T + M_l) + 10 I, P_l @ K_l)",
+    "basis": "Q_l = orth(A_l), thin SVD with relative singular cutoff 1e-6",
+    "max_rank_per_layer": 10,
+    "update": "DeltaW_l = U_l @ Q_l.T",
+    "shared_full_forward": true,
+    "forward_keys_live": true,
+    "basis_fixed_within_batch": true,
+    "basis_rebuilt_from_own_state_each_batch": true,
+    "free_scalar_gates": false,
+    "history": "accepted final endpoint: all five native post-write batch key Grams appended once"
+  },
+  "objective": {
+    "energy": "0.5 * sum_l ||U_l||_F^2 / ||W0_l||_F^2",
+    "trust_region": "sum_l ||U_l||_F^2 / ||W0_l||_F^2 <= 1e-4",
+    "edit_guard": "each of 10 requests: mean target NLL across six native contexts <= 1.0 nat/token; canonical mean target NLL <= canonical mean original-answer NLL",
+    "epsilon_base_kl": 0.05,
+    "epsilon_history_nll": 0.1,
+    "units": "nats per target token",
+    "numerical_feasibility_tolerance": 1e-05,
+    "bound_calibration": "predeclared diagnostic settings; no outcome-driven retuning or budget expansion"
+  },
+  "joint_solver": {
+    "optimizer": "inequality augmented Lagrangian with descent line search and fixed total trust region",
+    "primal_coordinates": "V_l = U_l / ||W0_l||_F",
+    "primal_direction": "negative full joint gradient normalized by max(global L2 norm, 1e-12)",
+    "initial_trial_step": 0.001,
+    "backtracking_factor": 0.5,
+    "armijo_constant": 0.0001,
+    "trial_projection": "project full concatenated V to radius 0.01; use projected displacement in Armijo test",
+    "line_search_failure": "record and end current primal round; continue fixed dual/round budget",
+    "rounds": 5,
+    "max_primal_steps_per_round": 8,
+    "max_primal_steps_per_batch": 40,
+    "max_backtracking_trials_per_step": 6,
+    "beta_schedule": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "initial_multipliers": 0,
+    "multiplier_state": "warm-start base/history multipliers in both joint arms; current-edit multipliers reset",
+    "working_history": "all 16 old control items plus up to 32 accepted new items with least constraint slack",
+    "full_history_guard": "all old control items and every previously accepted new canonical request, after each round",
+    "outcome": "smallest-energy actually feasible candidate; no feasible candidate => atomic reject all 10",
+    "rejection": "W/M/history anchors roll back; advance to next offered batch without replacement; retain best dual estimates separately",
+    "repeats": "no retry with another layer or relaxed bound",
+    "microbatch": "allowed for full-loss gradient accumulation; never 10 sequential singleton commits"
+  },
+  "native": {
+    "v_num_grad_steps": 25,
+    "max_adam_updates_per_request": 24,
+    "v_lr": 0.1,
+    "v_weight_decay": 0.5,
+    "clamp_norm_factor": 0.75,
+    "kl_factor": 0.0625,
+    "target_cache": null,
+    "finite_failure": "keep native update and history; record failed acquisition",
+    "technical_nan": "stop that trajectory; preserve last finite state within snapshot cap"
+  },
+  "runtime": {
+    "dtype": "float32",
+    "attention": "eager",
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "contexts": "sealed original native contexts",
+    "observer_exposed_to_solver": false
+  },
+  "panels": {
+    "base_control": 16,
+    "base_observer": 64,
+    "old_history_control_per_checkpoint": 16,
+    "old_history_observer_per_checkpoint": 48,
+    "new_history_control": "all accepted new canonical records; gradients use active subset, acceptance scans all",
+    "new_history_observer": "two held-out paraphrases per offered edit; no PS gradients or selection",
+    "preservation_scope": "functional constraints cover control pool, not all archived 1k/5k/9k edits"
+  },
+  "measurements": {
+    "detailed_batches": [
+      0,
+      1,
+      5,
+      10,
+      25,
+      50
+    ],
+    "detailed_offered_edits": [
+      0,
+      10,
+      50,
+      100,
+      250,
+      500
+    ],
+    "per_batch": "current acquisition + acceptance/failure + control risks/slack/duals + per-layer updates/key-response traces + solver costs",
+    "milestone": "fixed observer before last write and after; all offered continuation canonical/PS; current neighborhood",
+    "reference_axes": [
+      "original to entry",
+      "entry to current",
+      "pre-batch to post-batch"
+    ],
+    "progress_axes": [
+      "offered requests",
+      "accepted requests",
+      "actually acquired and retained requests"
+    ],
+    "quality_caveat": "teacher-forced pair/strict and free-generation metrics remain separate"
+  },
+  "weight_snapshots": {
+    "offered_batches": [
+      25,
+      50
+    ],
+    "offered_edits": [
+      250,
+      500
+    ],
+    "snapshots": 18,
+    "tensors_per_snapshot": 5,
+    "actual_full_weights": true,
+    "shape": [
+      4096,
+      14336
+    ],
+    "dtype": "float32",
+    "tensor_bytes_each": 234881024,
+    "total_tensor_bytes": 21139292160,
+    "total_tensor_gib": 19.6875,
+    "saved_this_design": 0,
+    "reconstruction": "pinned original model plus all five saved MLP down_proj weights",
+    "metadata": "source checkpoint SHA, weight SHA, offered/accepted IDs, references/anchors/duals, config/code/runtime/context identities",
+    "validation": "independent CPU copy, atomic save, tensor reload equality, full-model output parity, all other weights unchanged",
+    "technical_early_stop": "last finite snapshot replaces next scheduled snapshot; at most two per trajectory",
+    "exact_editor_resume": false
+  },
+  "budgets": {
+    "trajectories": 9,
+    "scientific_batch_attempts": 450,
+    "total_offered_request_exposures": 4500,
+    "unique_continuation_requests": 500,
+    "native_batch_calls": 150,
+    "native_target_fits": 1500,
+    "joint_batch_solves": 300,
+    "max_joint_primal_proposals": 12000,
+    "max_joint_backtracking_trial_forwards": 72000,
+    "max_joint_full_history_guard_passes": 1500,
+    "max_technical_replay_batch_calls": 9,
+    "technical_replay_native": 3,
+    "technical_replay_joint": 6,
+    "gpu_hours_estimated": false,
+    "automatic_expansion": false
+  },
+  "damage_interpretation": "BS10 and 500-edit continuations create a stress condition; larger damage than BS1 is not guaranteed",
+  "comparison_limit": "STEP grants epsilon again each batch, CUM does not: unequal total allowance is intentional; lower damage alone is not routing superiority",
+  "damage_markers": {
+    "base_observer_kl_increase_from_entry": 0.05,
+    "old_history_entry_success_loss_percentage_points": 5,
+    "usage": "descriptive onset only; never stopping or tuning criteria"
+  },
+  "result_status": "NO_MODEL_FORWARD_EDIT_OR_WEIGHT_SNAPSHOT_EXECUTED"
+}

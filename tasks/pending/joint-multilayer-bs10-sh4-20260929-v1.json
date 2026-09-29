@@ -1,0 +1,48 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-09-29-joint-multilayer-bs10-sh4.md",
+  "status": "APPROVED_IMPLEMENT_AND_SUBMIT",
+  "superseded_single_layer_task_remains_stopped": true,
+  "checkpoints": [
+    "B010",
+    "B050",
+    "B090"
+  ],
+  "arms": [
+    "NATIVE",
+    "JOINT_STEP",
+    "JOINT_CUM"
+  ],
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "trajectories": 9,
+  "batch_size": 10,
+  "batches_per_trajectory": 50,
+  "unique_continuation": 500,
+  "scientific_batch_attempts": 450,
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 2,
+  "host_memory_ceiling_mib": 60416,
+  "save_weight_snapshots": true,
+  "save_editor_checkpoints": false,
+  "snapshot_exception_authority": "current design explicit 18 five-layer full-weight snapshots",
+  "snapshot_offered_batches": [
+    25,
+    50
+  ],
+  "snapshot_count": 18,
+  "snapshot_tensor_count": 90,
+  "snapshot_tensor_bytes": 21139292160,
+  "exact_editor_resume": "NOT_AVAILABLE",
+  "monitoring_stop": "all9 released and representative joint accepted-or-rejected B1->B2 actual initial, or verified main resource pending",
+  "automatic_expansion": false,
+  "new_job_ids": [],
+  "actual_initial": "NOT_OBSERVED"
+}

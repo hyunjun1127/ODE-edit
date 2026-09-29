@@ -1,0 +1,36 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-JOINT-MULTILAYER-BS10-20260929-R1",
+  "status": "APPROVED_ONLY_MISSING_EXACT_INPUTS_FOR_NEW_MULTILAYER_TASK",
+  "previous_single_layer_approval": "REVOKED_NOT_REACTIVATED",
+  "source_server": "server2",
+  "destination_server": "server4",
+  "sole_destination_writer": "SH4",
+  "local_existing_identical_copy": "REUSE_FIRST",
+  "source_disposition": "KEEP",
+  "overwrite": false,
+  "delete": false,
+  "recursive_transfer": false,
+  "files": [
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B010/W-method-state.pt",
+      "destination_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/inputs/BASE_ALPHAEDIT/B010/W-method-state.pt",
+      "sha256": "c47bab2f4a503eface2b471949d40d323133ac25ac56a4398486ace6af44d5aa",
+      "bytes": 5284849269
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B050/W-method-state.pt",
+      "destination_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/inputs/BASE_ALPHAEDIT/B050/W-method-state.pt",
+      "sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "bytes": 5284861173
+    },
+    {
+      "source_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B090/W-method-state.pt",
+      "destination_path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/inputs/BASE_ALPHAEDIT/B090/W-method-state.pt",
+      "sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "bytes": 5284873141
+    }
+  ],
+  "small_inputs": "Task-required sealed source/context metadata only after exact inventory; existing verified S4 model/P/data reuse",
+  "verification": "Bind family/step/W/M/config/context; newly transferred payload source/destination full SHA+size. Distinguish prior verified reuse from current full rehash.",
+  "excludes": "Other CPs, model/teacher replication, live task outputs, remote mutations/deletion"
+}

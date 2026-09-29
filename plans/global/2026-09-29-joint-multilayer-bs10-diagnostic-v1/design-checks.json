@@ -1,0 +1,34 @@
+{
+  "status": "PASS_DESIGN_STRUCTURE_ONLY",
+  "trajectory_counts": {
+    "B010-NATIVE": 50,
+    "B010-JOINT_STEP": 50,
+    "B010-JOINT_CUM": 50,
+    "B050-NATIVE": 50,
+    "B050-JOINT_STEP": 50,
+    "B050-JOINT_CUM": 50,
+    "B090-NATIVE": 50,
+    "B090-JOINT_STEP": 50,
+    "B090-JOINT_CUM": 50
+  },
+  "unique_subjects": 500,
+  "same_batches_in_all_trajectories": true,
+  "control_observer_subject_disjoint": true,
+  "continuation_panel_subject_disjoint": true,
+  "source_hashes_verified": true,
+  "batch_size": 10,
+  "scientific_batch_attempts": 450,
+  "logical_weight_snapshots": 18,
+  "actual_saved_weights": 0,
+  "file_sha256": {
+    "continuation-ids.csv": "57bd185d76f51e5bad331f75f1bfcc74ef1281827692f8d915fc23970b3f7bc4",
+    "batches.csv": "d83e3805879c51377bbbda575c39489825bc79cf50a42cee3da45dc1a147af3b",
+    "panel-ids.csv": "5e762bfe826125332c6e146d45a01a8c4a73b875c2252a28c631c6af29758373",
+    "checkpoint-bindings.csv": "42e651ec172b661ce11375069fc071964675b2c0b2a8609463123419c5344a6b",
+    "batch-cells.csv": "5c8fa1b73e1928376658ddb6af12adf4ad4e561a06dd4581920939904b570836",
+    "weight-snapshots.csv": "c1736a7ca10db30f18f70ea028302745468485ed715bd465728fac7982378fb8",
+    "contract.json": "d4e2f441235c86f3f9ce7bde8bec742cc2fdb6a25ea30c90c427eef52b4393cd",
+    "asset-check.json": "11d15ec3e18bb4d7a9310d4b1c9d297f63ff07f136ff5f4a4a4cd3bed12db072",
+    "design-ko.md": "a16eede37bc30945c3069989b53d22798412dc5c1cc056bb123e7da9c54c4935"
+  }
+}

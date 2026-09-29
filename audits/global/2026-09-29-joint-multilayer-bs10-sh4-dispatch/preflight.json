@@ -1,0 +1,16 @@
+{
+  "status": "PASS_CPU_INPUT_AND_DISPATCH_STRUCTURE_ONLY",
+  "members": 13,
+  "eligible_unique": 925,
+  "continuation": 500,
+  "batches": 50,
+  "panel_rows": 272,
+  "trajectories": 9,
+  "scientific_batch_attempts": 450,
+  "snapshots": 18,
+  "snapshot_tensor_bytes": 21139292160,
+  "source_hash_match": true,
+  "csv_original_bytes_preserved": true,
+  "checkpoint_payload_rehash_by_GH": false,
+  "model_or_GPU_run": false
+}
