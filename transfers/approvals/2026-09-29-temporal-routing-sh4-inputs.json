@@ -1,6 +1,8 @@
 {
   "instruction_id": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
-  "authority": "User requested execution of design; necessary exact parent assets only",
+  "authority": "HISTORICAL: execution and new transfer authority withdrawn by explicit user design stop",
+  "status": "REVOKED_USER_DESIGN_WITHDRAWAL",
+  "revoked_by": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-STOP-20260929-R1",
   "source_server": "server2",
   "destination_server": "server4",
   "destination_writer": "SH4 sole writer",

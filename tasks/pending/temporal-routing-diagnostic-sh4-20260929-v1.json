@@ -3,7 +3,12 @@
   "owner": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "envelope": "messages/head/2026-09-29-temporal-routing-diagnostic-sh4.md",
-  "status": "ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "status": "USER_WITHDRAWN_STOP_REQUESTED",
+  "stop_authority": "messages/head/2026-09-29-temporal-routing-diagnostic-sh4-stop.md",
+  "execution_authorized": false,
+  "transfer_authorized": false,
+  "replacement_multilayer_execution_authorized": false,
+  "historical_plan_fields_below_are_not_current_authority": true,
   "design": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/design-ko.md",
   "parent_family": "BASE_ALPHAEDIT",
   "checkpoints": [
