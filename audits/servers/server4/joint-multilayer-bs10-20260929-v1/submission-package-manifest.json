@@ -1,0 +1,27 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "actual_forward_or_snapshot": "NOT_OBSERVED",
+  "execution_source": "6b07104954920bb4c5478a88ebed478dcb9527df",
+  "members": [
+    {
+      "bytes": 3967,
+      "path": "experiment-reports/servers/server4/joint-multilayer-bs10-20260929-v1/submission-bs1-v1-ko.md",
+      "sha256": "730d86ce0ed492e1b185a88721449482c553e0a2da041462705448cae655f77a"
+    },
+    {
+      "bytes": 7312,
+      "path": "audits/servers/server4/joint-multilayer-bs10-20260929-v1/submission-bs1-v1.json",
+      "sha256": "440745f2804827c74ac3413b2277a84978c57dcc32767e072ab58d63a3cdc30a"
+    },
+    {
+      "bytes": 4196,
+      "path": "tasks/status/joint-multilayer-bs10-20260929-v1/server4.json",
+      "sha256": "f09dfdb2b30cc1d676c0bc0dd95acec25cedd8355ec4e2e86e2b7c4fb7fe2107"
+    },
+    {
+      "bytes": 752,
+      "path": "messages/server-heads/server4/2026-09-29-joint-multilayer-bs10.md",
+      "sha256": "e6778a09c63da31046560e6ff4b782240145691f08a590f1688cfece2bf69c63"
+    }
+  ]
+}
