@@ -48,6 +48,14 @@ def publish(repo,attempt):
     audit=repo/'audits/servers/server2/joint-multilayer-bs1-20260929-v1'
     report=repo/'experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/submission-ko.md'
     receipts={k:record(p/k) for k in ('execution.lock.json','configuration.json','source.tar','submission.json','release.json','admission.json','monitoring-pause.json')}
+    runtime_path=p/'output/B010-JOINT_STEP/runtime.json'
+    if runtime_path.exists():
+        actual=read(runtime_path)
+        paths=sorted({v for v in actual['imports'].values() if v and Path(v).is_file()})
+        imported=[record(f) for f in paths]
+        save(audit/'actual-import-identities.json',dict(runtime=record(runtime_path),members=imported,
+            scope='paths observed by running process; file bytes read at initial handoff, not a replacement execution lock',
+            actual_torch=actual['torch'],model_revision=actual['model_revision']))
     save(audit/'submission.json',dict(**e,receipts=receipts,mapping=sub['mapping'],cpu_tests=cpu['tests'],cpu_actual_model=False,
         platform_tests=5,source_tree=lock['source_tree'],original_scientific_files_changed=False,
         checkpoints=port['checkpoint_files'],transfer_count=transfer['files'],transfer_bytes=transfer['bytes'],
