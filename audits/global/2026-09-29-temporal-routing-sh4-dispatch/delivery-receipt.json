@@ -1,0 +1,19 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
+  "authority_main": "3111a7ff0625f4255dbbf9a47096bb5baba93de7",
+  "authority_tree": "2278bc8817892f13e76d3216fbf32a8e4dff129e",
+  "envelope_sha256": "4df7b8fc4d7e5ad5710a188ecc944d72221fa19ed72155d7ed54a3c747c109bd",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "transport": "registered app-server direct over SSH rke-server4",
+  "prior_active_turns": [],
+  "accepted_turn": "01a0ec23-50dd-72c1-8445-bc4e74240378",
+  "receiver_ack": "ACK `ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1`. 새 독립 task로 착수합니다. 정본·입력 확인 후 L2=10 singleton 구현, 15개 branch·1,500 fits·명시된 30개 weight snapshot 저장을 진행하겠습니다. cap2와 기존 자산 보존을 지키며, 아직 제출·actual gate 통과를 주장하지 않습니다.",
+  "receiver_ack_observed": true,
+  "status": "ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids_reported": [],
+  "actual_gate": "NOT_OBSERVED",
+  "scientific_completion": "NOT_OBSERVED",
+  "gh_gpu_scheduler_raw_polling": 0,
+  "gh_monitoring_automation_created": false
+}

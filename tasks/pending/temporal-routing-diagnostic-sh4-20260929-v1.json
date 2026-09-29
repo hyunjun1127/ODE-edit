@@ -3,7 +3,7 @@
   "owner": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "envelope": "messages/head/2026-09-29-temporal-routing-diagnostic-sh4.md",
-  "status": "APPROVED_IMPLEMENT_AND_SUBMIT",
+  "status": "ACK_IMPLEMENTING_NOT_SUBMITTED",
   "design": "plans/global/2026-09-29-temporal-routing-diagnostic-v1/design-ko.md",
   "parent_family": "BASE_ALPHAEDIT",
   "checkpoints": [
