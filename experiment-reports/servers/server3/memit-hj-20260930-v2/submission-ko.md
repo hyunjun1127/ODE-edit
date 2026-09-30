@@ -1,3 +1,35 @@
+# 최신 등록 DAG — SPG 수락점 경계 수리 완료
+
+**현재 전량 REGISTERED / held inspection PASS / RELEASED. 임시 hold0.**
+
+|job|단계|의존성|source|
+|---|---|---|---|
+|56007|P: 실제T0a + W0전체10k|기존등록 유지|a8126eb65cbe9a1814b381007798d857003555ed|
+|56033|A: E0/T1,000/001,T0b,writer/history20진단|afterok56007|f1d7a995460e2fce8fb10134f723ba4680303a31|
+|56034|B:100/101|afterok56007,afterany56033|동일새source|
+|56035|C:010/011 조건부Z|afterok56007,afterany56034|동일새source|
+|56036|D:110/111 조건부Z|afterok56007,afterany56035|동일새source|
+|56037|CPU: 전체결과·실패·차단 수집/독립reducer/보고|afterany56007:56033:56034:56035:56036|동일새source|
+
+현재 후속 lock `023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1`:
+`/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-r2/execution-prerequisite-bound.lock.json`.
+원P lock은 `1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5`로 유지한다.
+
+SPG plateau가 초기점을 포함할 수 있는 경계 오류를 발견하여, 실제Armijo수락6점만으로5변화를 검사하도록 한줄수리했다.
+threshold/budget/arm/목적 변경0이며 실제SPG 실행전 발견했다. CPU전체27검사 PASS.
+원P는SPG호출0이고 native/T0/W0 소비closure는 바이트동일이다. P의 검증을 원source/job/readiness binding으로 명시해 재사용한다.
+새source로P를 실행했다고 주장하지 않는다. 원P와후속의 source를 collector도 구별한다.
+
+구 source A56008/B56009/C56010/D56011 및 CPU56019는 정확owner/source/PENDING 검사후 임시hold→새job held검사→구job취소→새jobrelease했다.
+이들은 과학실행 전에 교체되었고 원submission/cancel/source를 보존했다. 앞서CPU56012도pending교체되었다.
+다른task/job변경0, 원자료삭제0, 중복native/T0/W0계산0. 실제cap1직렬성이 유지된다.
+
+T0a의 z/key/W/H/RNG/context/evaluator 및CP실제복원 PASS는 확보했다. Oracle gradient 정밀도는 NOT_ESTABLISHED이며 T0b/Z교정과 구별한다.
+현재 W0전체평가를 기다리며 대표첫BS10 initial gate와전체완료는 NOT_OBSERVED다. 상세mapping/argv/resource/cancel/release는 `audits/servers/server3/memit-hj-20260930-v2/submission-r2.json`.
+
+---
+아래는 이전 등록·보완 시점의 역사이며 현재mapping은 위 표다.
+
 # 최신 job mapping — CPU 보고 보완
 
 현재 등록·release된 plan: **GPU P56007/A56008/B56009/C56010/D56011 + CPU56019**.

@@ -1,23 +1,30 @@
 {
   "status": "ALL_REGISTERED_RELEASED_INITIAL_PENDING",
-  "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed",
-  "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+  "source_commit": "f1d7a995460e2fce8fb10134f723ba4680303a31",
+  "lock_sha256": "023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1",
   "actual_jobs": {
     "P": "56007",
-    "A": "56008",
-    "B": "56009",
-    "C": "56010",
-    "D": "56011",
-    "CPU": "56019"
+    "A": "56033",
+    "B": "56034",
+    "C": "56035",
+    "D": "56036",
+    "CPU": "56037"
   },
+  "actual_T0a": "PASS_FROM_EXPLICIT_ORIGINAL_P",
   "actual_initial": "NOT_OBSERVED",
   "actual_terminal": "NOT_OBSERVED",
-  "monitoring": "BOUNDED_INITIAL_GATE_ONLY",
-  "observed": "2026-09-30T22:41:01.401932+09:00",
-  "cap": 1,
-  "actual_T0a": "PASS",
+  "P_source": "a8126eb65cbe9a1814b381007798d857003555ed",
   "oracle_precision": "NOT_ESTABLISHED_AT_ORIGIN",
-  "analysis_source_commit": "6c9e16522cb2534da2ce4d7c600a98edac01fd34",
-  "superseded_pending_CPU_job": "56012",
-  "CPU_replacement_reason": "Complete same-endpoint 2k factorial/diagnostic report; GPU execution unchanged"
+  "monitoring": "BOUNDED_INITIAL_GATE_ONLY",
+  "cap": 1,
+  "temporary_holds_remaining": 0,
+  "replaced_pending_jobs": [
+    "56008",
+    "56009",
+    "56010",
+    "56011",
+    "56019"
+  ],
+  "previous_CPU_replacement": "56012",
+  "CPU_tests": 27
 }
