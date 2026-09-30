@@ -1,0 +1,16 @@
+requirement,implementation,CPU_check,actual_runtime_evidence_PENDING
+authority/order/28cells,plan.py; orchestrator.py,test_dag all/no trigger + Z blocked,cells/*/lineage.json; collection/coverage.json
+native wrapper/5 post keys/prior H,writer.py,test_runtime real pinned function fixture,T0/native.json; writer.json append phase
+joint noncommuting PSD/L8/direct fallback,algebra.py; writer.py,test_core rank deficient/condition fallback,writer.json layers eigenvalues/residual/fallback
+energy shadows/restoration/FP32 actual,engine.py energy_write,test_runtime energy shadow exactly-once,writer.json energy_scale + actual D/energy
+SPG budget/Armijo/return/zero/window,spg.py; oracle.py,test_core; test_boundaries matched Adam,calibration/lock.json; z rows
+true FP64 prefix/model/dtype restoration,precision.py; calibration.py,test_boundaries actual LlamaRMSNorm FP64 + injected exception,calibration/FP64-adapter.json; probes-*.json
+all occurrences/refresh reference/zero NA,history.py,test_history full Gram/probes/native context recipe,refresh-*.json; trigger-*.json
+RAM clone RNG/context/alias/fork,state.py; orchestrator.py,test_runtime state roundtrip; test_dag exact counts,lineage + boundary + checkpoint reload output hash
+temporary CP atomic/source/refcount/rolling/delete,state.py; recovery.py,"atomic failure, refcount, corruption/source rejection",manifest/tombstone/refcount; recovery.json
+exact resume CLI/no prefix restart,runner.py --resume-checkpoint; recovery.py,test_dag resume at5000; state checkpoint reload,recovery.json; source-bound prefix receipts
+NLL preference/TF/ties/denominators/retention,reducer.py; inherited canonical evaluator,test_runtime direction/ties/scalar reducer,current/allseen/continuation/past400 + reduced
+cost and capacity/actual contribution distinction,writer.py; oracle.py; figures.py,timers nested and count assertions; static owner audit,cost-lock.json; geometry.csv; z-states.csv
+five GPU groups + CPU afterany actual DAG,submit.py; runner.py; collector.py,production submit fixture exact args/resources/release order/duplicate block,dag-submission + held/release + group receipts
+report/manifest before completion,engine.py complete; collector.py,static failure-path review; independent scalar verification,collection/manifest.json then terminal.json
+TorchVersion/virtual modules/source import,state.py; inherited provenance.py,scalar TorchVersion fixture; prior54007 provenance repair SHA reuse,actual-import-closure.json

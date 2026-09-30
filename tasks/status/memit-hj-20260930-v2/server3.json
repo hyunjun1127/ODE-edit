@@ -1,0 +1,11 @@
+{
+  "status": "IMPLEMENTED_CPU_CHECKED_NOT_SUBMITTED",
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
+  "CPU_tests": 23,
+  "logical_cells": 28,
+  "planned_GPU_groups": 5,
+  "planned_CPU_collector": 1,
+  "actual_job_ids": [],
+  "actual_T0": "NOT_OBSERVED",
+  "cap": 1
+}

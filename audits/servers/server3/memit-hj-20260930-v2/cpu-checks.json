@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "tests": 23,
+  "CUDA_VISIBLE_DEVICES": "",
+  "actual_model_T0": "NOT_OBSERVED",
+  "independent_reviewer": false,
+  "reviewer": "owner head-server3",
+  "test_log_sha256": "e2f13d97f892743cd03dcf6d82965d59b603a02c9bd6c948064e520e4a810c44",
+  "earlier_fixture_failure": "Toy pinned-wrapper fixture initially missed Tensor.to(cuda); tiny factors and one tiny matrix product reached CUDA before device mismatch. No model or scientific job. Fixed mocks and all final CPU tests hide CUDA. Unscheduled preparation cost not measured."
+}

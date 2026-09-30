@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "AST_files": 25,
+  "CLI": [
+    "runner",
+    "submit",
+    "freeze",
+    "collector",
+    "reducer"
+  ],
+  "bash_launchers": 2,
+  "actual_GPU": false
+}

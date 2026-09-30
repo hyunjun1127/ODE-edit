@@ -1,0 +1,57 @@
+{
+  "status": "ESTIMATES_NOT_MEASURED",
+  "observed": "2026-09-30T22:17:38.391009+09:00",
+  "node": "ubuntu",
+  "partition": "gpu",
+  "cap": 1,
+  "gpus": 1,
+  "cpus": 8,
+  "memory_mib": 121856,
+  "export": "NONE",
+  "requeue": false,
+  "wall_hours": 720,
+  "wall_basis": "partition maximum 30 days; provisional allocation ceiling, not GPUh hard budget",
+  "total_GPUh": "PENDING_CALIBRATION",
+  "GPUh_hardcap": null,
+  "host_peak_planned_GiB": 96,
+  "gpu_peak_planned_GiB": 122,
+  "ram_components": {
+    "editable_W_H_per_state_GiB": 4.921875,
+    "explicit_CPU_clones_max": 5,
+    "clone_subtotal_GiB": 24.609375,
+    "live_H_GiB": 3.828125,
+    "FP32_model_bytes": 32121044992,
+    "FP64_promoted_model_bytes": 64242089984,
+    "C0_GiB": 3.828125,
+    "FP64_A_factors_and_workspace_GiB": 24,
+    "serialization_load_and_staging_GiB": 12,
+    "remaining_headroom_for_loader_metadata_and_C0": true
+  },
+  "storage": {
+    "required_free_bytes": 193273528320,
+    "rolling_payload_base_GiB": 39.375,
+    "sample_reference_per_state_upper_GiB": 0.3,
+    "atomic_serialization_reserve_GiB": 12,
+    "raw_and_figures_GiB": 30,
+    "free_bytes": 675580366848,
+    "free_inodes": 225096554,
+    "no_input_model_copy": true
+  },
+  "current_resource_observation": {
+    "Slurm_ubuntu_allocated_GPUs": 4,
+    "physical_GPUs": 4,
+    "interpretation": "fully allocated at observation; not an exclusive reservation"
+  },
+  "temporary_CP_scope": [
+    "000",
+    "100",
+    "110",
+    "111"
+  ],
+  "collector": {
+    "gpus": 0,
+    "cpus": 8,
+    "memory_mib": 32768,
+    "wall_hours": 4
+  }
+}

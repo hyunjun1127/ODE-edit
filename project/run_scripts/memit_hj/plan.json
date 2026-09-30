@@ -1,0 +1,71 @@
+{
+  "cells": 28,
+  "groups": {
+    "P": [
+      "T0a",
+      "W0-full10k"
+    ],
+    "A": [
+      "main_000",
+      "main_001",
+      "writer_0_divisor",
+      "writer_0_joint",
+      "writer_0_frozen_upper_joint",
+      "writer_0_energy_matched_divisor",
+      "writer_1000_divisor",
+      "writer_1000_joint",
+      "writer_1000_frozen_upper_joint",
+      "writer_1000_energy_matched_divisor",
+      "writer_5000_divisor",
+      "writer_5000_joint",
+      "writer_5000_frozen_upper_joint",
+      "writer_5000_energy_matched_divisor",
+      "history_1000_stale",
+      "history_1000_forced_refresh",
+      "history_3000_stale",
+      "history_3000_forced_refresh",
+      "history_5000_stale",
+      "history_5000_forced_refresh",
+      "history_7000_stale",
+      "history_7000_forced_refresh"
+    ],
+    "B": [
+      "main_100",
+      "main_101"
+    ],
+    "C": [
+      "main_010",
+      "main_011"
+    ],
+    "D": [
+      "main_110",
+      "main_111"
+    ],
+    "CPU": [
+      "all-group-afterany-collector"
+    ]
+  },
+  "root_order": [
+    "P",
+    "A",
+    "B",
+    "C",
+    "D",
+    "CPU"
+  ],
+  "diagnostic_batch_size": 10,
+  "diagnostic_steps": 100,
+  "main_batch_size": 100,
+  "physical_requests": [
+    52000,
+    64000
+  ],
+  "physical_writes": [
+    2320,
+    2440
+  ],
+  "conditional_Z": "consume exact source-bound calibration PASS; otherwise BLOCKED_Z_CALIBRATION",
+  "max_simultaneous_GPU": 1,
+  "max_full_RAM_snapshots": 5,
+  "source_runtime_pass": "NOT_OBSERVED"
+}
