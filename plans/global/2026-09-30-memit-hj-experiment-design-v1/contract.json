@@ -1,0 +1,496 @@
+{
+  "status": "설계 전용; runner와 GPU 실행 없음",
+  "date": "2026-09-30",
+  "revision": "검토 반영 v2",
+  "source_attachments": [
+    {
+      "name": "2026-09-30-memit-hj-method-ko.md",
+      "sha256": "dd991816afd1f2b0c9b6154bd68652b3348739728f0b8245f0ac45ef61609757"
+    },
+    {
+      "name": "allocation.py",
+      "sha256": "a9b0cff3495826022466fa45f7fb137190abb4e167298023a493bd8f5adccd53"
+    },
+    {
+      "name": "memit-hj-method-v1.patch",
+      "sha256": "a57aa3d7eaf3e66decb7aad4cee6e68348d15ead933b07d3c0b2c028a4068d59"
+    },
+    {
+      "name": "test_memit_hj.py",
+      "sha256": "5b3bc9734b6f1063201d9aa5ab77505e5b7d31bcc3eb8c527d858e292ecce1ae"
+    },
+    {
+      "name": "zsolve.py",
+      "sha256": "4886160c87b2b63a793715560d3151af0f12d3c6573898e924503ddefb522374"
+    }
+  ],
+  "model": {
+    "name": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+  },
+  "dataset": {
+    "name": "counterfact-fixed-10k-v1",
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "selection": "고정 순서의 앞 N개; 국소 진단은 각 기준 상태 직후의 다음 1000개",
+    "shuffle": false,
+    "independent_holdout": false
+  },
+  "factors": [
+    "joint_allocation",
+    "spg_z",
+    "history_refresh"
+  ],
+  "main_arms": [
+    "000",
+    "100",
+    "010",
+    "001",
+    "110",
+    "101",
+    "011",
+    "111"
+  ],
+  "long_arms": [
+    "000",
+    "100",
+    "110",
+    "111"
+  ],
+  "main_batch_size": 100,
+  "factorial_endpoint": 2000,
+  "long_endpoint": 10000,
+  "execution_lineage": {
+    "physical_parent_roots": [
+      "000",
+      "100",
+      "010",
+      "110"
+    ],
+    "refresh_parent": {
+      "101": "100",
+      "111": "110",
+      "001": "000",
+      "011": "010"
+    },
+    "fork_state_storage": "host RAM",
+    "fork_state": [
+      "W",
+      "H",
+      "RNG",
+      "context",
+      "ledger",
+      "reference_keys",
+      "reference_context_dispersion"
+    ],
+    "observation_before_fork": "모든 parent에서 동일한 비개입 key 기록과 trigger 검사를 수행하고 상태 및 RNG 불변을 검증",
+    "first_fork": "첫 유효 refresh trigger가 발동한 검사 시점에만 짝 parent에서 분기",
+    "candidate_fork_counts": "1000, 2000, ..., 해당 arm 종료 요청 수 - 1000",
+    "no_trigger_status": "NOT_FIRED",
+    "no_trigger_result": "독립 실행 없이 동일 state identity와 짝 arm의 평가 receipt를 참조",
+    "no_trigger_is_independent_replication": false,
+    "inherited_prefix_evaluation": "첫 분기 전의 모든 관측은 짝 parent의 평가 참조를 공유",
+    "long_111": "110과 첫 발동 시점까지 궤적을 공유하며 발동 후에만 독립 진행",
+    "logical_request_exposures": 48000,
+    "logical_batch_writes": 480,
+    "physical_request_exposures_min": 32000,
+    "physical_request_exposures_max": 44000,
+    "physical_batch_writes_min": 320,
+    "physical_batch_writes_max": 440
+  },
+  "t1_bs10_diagnostic": {
+    "arms": [
+      "000",
+      "100"
+    ],
+    "batch_size": 10,
+    "steps_per_arm": 100,
+    "requests_per_arm": 1000,
+    "refresh": false,
+    "shared_writer_cells": [
+      "writer_0_divisor",
+      "writer_0_joint"
+    ],
+    "additional_request_exposures": 0,
+    "additional_batch_writes": 0,
+    "removed": "기존 BS1 4개 경로와 100건 진단은 실행 목록에서 삭제",
+    "interpretation": "BS10 full Gram 배분과 실측 전파를 검사; BS1 scalar 공식은 CPU 수식 검증에 한정"
+  },
+  "diagnostics": {
+    "batch_size": 10,
+    "steps_per_branch": 100,
+    "requests_per_branch": 1000,
+    "continuation_eval_counts": [
+      0,
+      10,
+      100,
+      500,
+      1000
+    ],
+    "next_batch_at_write_RPN": "매 step의 10건을 commit 직후 평가",
+    "shared_outcomes": [
+      "분기 전후 동일 요청의 R/P/N 및 TF strict",
+      "매 step의 current at-write R/P/N",
+      "고정 past panel의 과거 보존",
+      "W0-correct neighbor의 lost/gained",
+      "층별 L8 잔차 궤적",
+      "공통 기준 metric으로 측정한 보호 에너지"
+    ],
+    "past_panel": {
+      "selection": "anchor별 committed prefix를 시간 4분위로 나누어 각100 occurrence를 SHA 오름차순으로 선정",
+      "reference_status": "리뷰가 언급한 E1 SHA400 원본 미확인; 확인된 다른 E1은128개. 이번 설계에서400개 규칙을 명시",
+      "size": 400,
+      "population": "anchor 시점에 committed된 고정 순서 prefix",
+      "ordinal": "0-based index in fixed ordered dataset",
+      "stratum_formula": "floor(4*ordinal/anchor_requests)",
+      "per_stratum": 100,
+      "namespace": "memit-hj-v2-past400",
+      "hash_fields": [
+        "namespace",
+        "anchor_requests",
+        "ordered_root",
+        "occurrence_ordinal",
+        "request_hash"
+      ],
+      "serialization": "JSON sort_keys=True, separators=(comma,colon), ensure_ascii=False, UTF-8",
+      "tie_break": "occurrence_ordinal",
+      "outcome_dependent_selection": false,
+      "fixed_within_anchor": true,
+      "paired_across_branches": true,
+      "occurrence_multiplicity_preserved": true,
+      "w0": "NA_NO_PAST",
+      "fewer_than_400": "현재1k이상anchor에는해당없음;새소규모anchor 추가는별도설계",
+      "RPN_denominators": [
+        400,
+        800,
+        4000
+      ],
+      "full_all_seen_at_5000_required": false
+    },
+    "writer": {
+      "source_arm": "000",
+      "anchors": [
+        0,
+        1000,
+        5000
+      ],
+      "methods": [
+        "divisor",
+        "joint",
+        "frozen_upper_joint",
+        "energy_matched_divisor"
+      ],
+      "branch_count": 12,
+      "request_exposures": 12000,
+      "committed_batch_writes": 1200,
+      "t1_included": true,
+      "priority": "T0 직후 W0의 writer 진단을 먼저 수행하고 보고; 사전 등록 arm 구성 유지",
+      "energy_matching": "현재 비교 상태의 공통 A_l에 대해 제안 보호 에너지를 맞춤; 추가 shadow proposal 계산을 timer로 별도 기록",
+      "energy_shadow_proposals_in_commit_count": false,
+      "restore_main_state_after_branch": true
+    },
+    "history": {
+      "source_arm": "000",
+      "anchors": [
+        1000,
+        3000,
+        5000,
+        7000
+      ],
+      "methods": [
+        "stale",
+        "forced_refresh"
+      ],
+      "branch_count": 8,
+      "request_exposures": 8000,
+      "committed_batch_writes": 800,
+      "forced_refresh": "기준 상태에서 L5-L8 current-key rebuild를 한 번 수행한 뒤 다음 1000개 편집",
+      "restore_main_state_after_branch": true
+    },
+    "z_solver": {
+      "anchors": [
+        0,
+        1000
+      ],
+      "source_arm": "000",
+      "requests_per_anchor": 16,
+      "comparison": [
+        "native",
+        "SPG",
+        "SPG 실측 oracle 예산에 맞춘 연장 Adam"
+      ],
+      "loss_only": true,
+      "committed_batch_writes": 0,
+      "functional_followup_comparisons": [
+        [
+          "010",
+          "000"
+        ],
+        [
+          "110",
+          "100"
+        ]
+      ],
+      "interpretation": "16개 oracle 비교를 1000개 write 분기로 확대했다고 간주하지 않음"
+    },
+    "optional_L4_local_z": {
+      "enabled": false,
+      "scope": "향후 별도 진단",
+      "hypothetical_batch_size": 10,
+      "hypothetical_steps": 100,
+      "hypothetical_request_exposures": 1000,
+      "included_in_current_counts": false
+    },
+    "request_exposures": 20000,
+    "committed_batch_writes": 2000,
+    "neighbor_transitions": {
+      "population": "past400의neighbor4000과continuation1000의neighbor10000을별도평가",
+      "whole_panel": "W0→current lost/gained",
+      "W0_correct_subset": "entry→current lost/recovered 및보존율",
+      "W0_to_current_gain_within_W0_correct_subset": "정의상0; entry 회복과혼동금지"
+    }
+  },
+  "full_eval_counts": [
+    100,
+    500,
+    1000,
+    2000,
+    3000,
+    4000,
+    5000,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000
+  ],
+  "primary_comparison": [
+    "100",
+    "000"
+  ],
+  "primary_metric": "final_all_seen_PS",
+  "proposed_practical_effect": {
+    "PS_delta_pp_min": 2,
+    "RS_delta_pp_min": -1,
+    "NS_delta_pp_min": -1,
+    "statistical_significance_claim": false
+  },
+  "secondary_comparisons": {
+    "v2": {
+      "comparison": [
+        "110",
+        "100"
+      ],
+      "classification": "사전 선언한 탐색적 비교",
+      "pass_fail_threshold": null
+    },
+    "v3": {
+      "comparison": [
+        "111",
+        "110"
+      ],
+      "classification": "사전 선언한 탐색적 비교",
+      "pass_fail_threshold": null
+    },
+    "refresh_primary_evidence": "10k의 111-110 및 1k/3k/5k/7k의 강제 refresh 국소 진단",
+    "factorial_refresh_limitation": "2k에서 발동 기회는 1k 한 번이며 NOT_FIRED 셀은 짝 arm과 동일; 독립 반복이나 충분한 검정력으로 해석하지 않음"
+  },
+  "refresh": {
+    "after_every_committed_requests": 1000,
+    "samples_per_bs100_batch": 5,
+    "layers": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "threshold": "median(reference_relative_drift) > median(reference_context_dispersion)",
+    "reference_keys_reset_on_refresh": true,
+    "reference_context_dispersion_reset_on_refresh": true,
+    "terminal_rebuild": false,
+    "membership": "committed occurrence 전체와 중복 횟수 유지"
+  },
+  "spg": {
+    "parameter_status": "PENDING_CALIBRATION",
+    "tol": null,
+    "max_total_oracle_evaluations": null,
+    "max_line_search_trials": 50,
+    "nonmonotone_memory": 10,
+    "armijo_c1": 0.0001,
+    "spectral_alpha_min": 1e-12,
+    "spectral_alpha_max": 1000000000000,
+    "calibration": {
+      "source_arm": "000",
+      "anchors": [
+        0,
+        1000
+      ],
+      "requests_per_anchor": 16,
+      "total_requests": 32,
+      "fp64_probe_state": "동일 입력과 FP32 weight 값을 FP64로 승격; FP64 학습 weight를 별도로 사용하지 않음",
+      "fp64_probe_points": [
+        "zero_delta",
+        "half_native_delta",
+        "native_delta"
+      ],
+      "fp64_probe_point_count": 96,
+      "precision_floor_measurement": "동일 요청과 delta에서 FP32/FP64 gradient 및 동일 정규화 projected-gradient mapping 차이",
+      "tol_rule": "max(10*eps32, 5*max_state(Q95(normalized_projected_gradient_error)))",
+      "tol_redesign_gate": 0.001,
+      "cap_rule": "max(25, ceil(1.25*max_state(Q95(total_oracle_calls_to_observed_termination))))",
+      "production_cap_max": 400,
+      "all_32_termination_observations_required": true,
+      "exclude_right_censored_requests": false,
+      "right_censoring_response": "교정 상한에 닿아 목표 종료를 관측하지 못한 요청을 제외하지 않고 Z 설계를 재검토",
+      "median_nonzero_call_gate": 200,
+      "median_gate_populations": [
+        "W0",
+        "native_000_1000",
+        "pooled"
+      ],
+      "median_gate_response": "어느 모집단이든 200회를 넘으면 T2 전에 Z arm을 재설계",
+      "freeze_timing": "T0 수치와 비용 교정 후 기능 성적을 보기 전에 tol과 생산 호출 상한 및 구현을 고정",
+      "request_SPG_oracle_call_cap": 400,
+      "total_SPG_FP32_oracle_call_cap": 12800,
+      "SPG_cap_scope": "400회/요청 및 12800회 전체 상한은 SPG 교정 FP32 oracle만 포함하며 최종 반환점 재평가를 포함",
+      "separately_counted_oracles": {
+        "native_baseline": "25회 루프 기준 명목 800회이며 반환점 추가 평가 등 실제 oracle 호출을 별도로 포함; 800을 전체 호출 상한으로 간주하지 않음",
+        "matched_budget_Adam": "요청별 SPG 실측 호출 수에 맞춘 별도 비교 예산",
+        "precision_probes": "32요청 × 3점 = 96개 비교점의 대응 FP32/FP64 호출을 별도 계수; 동일 원점 probe 값은 재사용 가능",
+        "included_in_total_SPG_FP32_oracle_call_cap": false
+      },
+      "production_cap_overflow_response": "1.25×Q95가 400을 초과하면 조용히 상한을 자르지 않고 Z 설계를 재검토",
+      "median_including_zero_step_gate": 200
+    },
+    "stopping": {
+      "convergence": "교정으로 고정한 정규화 projected-gradient tol 충족",
+      "precision_status": "STALLED_AT_PRECISION",
+      "precision_window_accepted_steps": 5,
+      "precision_threshold": "10*eps32*max_i(abs(f_i)); 언더플로 방지용 tiny floor만 허용",
+      "precision_loss_condition": "연속 수락 loss 변화가 window 기준 분해능 이내이며 같은 window의 best-loss 진전도 분해능 이내",
+      "precision_is_convergence": false,
+      "final_return_point_oracle_recomputed": true,
+      "final_return_point_oracle_reserved_inside_cap": true,
+      "armijo_failure_tiny_step_acceptance": false,
+      "small_step_without_armijo_status": "LINESEARCH_FAILED",
+      "statuses": [
+        "POLICY_ZERO_STEP",
+        "CONVERGED",
+        "STALLED_AT_PRECISION",
+        "NOT_CONVERGED",
+        "LINESEARCH_FAILED",
+        "NONFINITE"
+      ],
+      "precision_window_points": 6,
+      "production_gradient_scale": "max(1, norm(g32_at_origin))"
+    },
+    "retain_nonconverged_in_denominator": true,
+    "silent_native_fallback": false,
+    "global_optimum_claim": false,
+    "kkt_multiplier": {
+      "gradient": "full NLL+KL+decay gradient",
+      "boundary_relative_tolerance": 1e-06,
+      "domain": "feasible nonzero boundary point",
+      "interior_multiplier": 0,
+      "origin": "separate norm-subgradient condition",
+      "local_sensitivity_requires": "local minimum and regularity"
+    }
+  },
+  "checkpoint_policy": {
+    "default": "TEMPORARY_CHECKPOINT_EXCEPTION_USER_APPROVED",
+    "scope": "이번 설계의 장기 경로 000/100/110/111; 저장소 전역 기본 정책은 변경하지 않음",
+    "long_arms": [
+      "000",
+      "100",
+      "110",
+      "111"
+    ],
+    "permanent_weight_history_delta_checkpoints": false,
+    "ram_forks_allowed": true,
+    "temporary_checkpoint_exception": {
+      "status": "USER_APPROVED",
+      "authorized": true,
+      "interval_requests": 1000,
+      "latest_to_keep_per_physical_long_trajectory": 2,
+      "atomic_write": true,
+      "reload_state_and_output_parity_required": true,
+      "delete_after_completion_and_dependency_validation": true,
+      "retain_failed_run_until_recovery_finishes": true,
+      "shared_prefix_payload_reference_counted": true,
+      "included_in_design": true,
+      "created_in_this_task": false,
+      "user_decision": "1k 간격 임시 checkpoint 허용 — 완료 후 삭제",
+      "required_state": [
+        "editable_W",
+        "history_H",
+        "Python_RNG",
+        "NumPy_RNG",
+        "torch_CPU_RNG",
+        "CUDA_RNG",
+        "context_and_native_caches",
+        "request_and_commit_ledger",
+        "refresh_reference_keys",
+        "context_dispersion",
+        "trigger_state",
+        "next_batch_cursor",
+        "code_config_model_data_hashes"
+      ],
+      "minimum_payload_GiB_W_FP32_H_FP32": 4.921875,
+      "minimum_payload_GiB_W_FP32_H_FP64": 8.75
+    },
+    "interrupted_run_resume": "최신 검증된 임시 상태에서 재개; 유효 checkpoint 이전 실패는 필요한 prefix 재실행"
+  },
+  "totals": {
+    "main_logical_request_exposures": 48000,
+    "main_logical_batch_writes": 480,
+    "main_physical_request_exposures_min": 32000,
+    "main_physical_request_exposures_max": 44000,
+    "main_physical_batch_writes_min": 320,
+    "main_physical_batch_writes_max": 440,
+    "diagnostics_request_exposures": 20000,
+    "diagnostics_committed_batch_writes": 2000,
+    "t1_is_subset_of_writer_diagnostics": true,
+    "all_logical_request_exposures": 68000,
+    "all_logical_batch_writes": 2480,
+    "all_physical_request_exposures_min": 52000,
+    "all_physical_request_exposures_max": 64000,
+    "all_physical_batch_writes_min": 2320,
+    "all_physical_batch_writes_max": 2440,
+    "interpretation": "논리적 요청 노출 수는 독립 사례 수가 아니며 physical은 실제 commit된 편집만 센다"
+  },
+  "excluded_from_counts": [
+    "T0 기술 replay",
+    "loss-only z 교정과 비교 및 FP64 probe",
+    "W0 평가와 분기 평가",
+    "선택적 L4 자기 층 z 진단",
+    "energy matching의 추가 shadow proposal 계산",
+    "재시도와 중단 후 prefix 재실행"
+  ],
+  "cost_estimate": {
+    "status": "PENDING_CALIBRATION",
+    "nominal_gpu_hours": null,
+    "previous_67_to_94_gpu_hours": "폐기; SPG 호출 수 가정이 검증되지 않았고 중복 분기와 BS10 진단 비용을 반영하지 않음",
+    "measurement_phases": [
+      "native_z",
+      "SPG_z",
+      "FP64_probe",
+      "key",
+      "Gram",
+      "factorization",
+      "solve",
+      "history_append",
+      "refresh",
+      "evaluation",
+      "energy_shadow_proposal",
+      "I/O",
+      "checkpoint_write_and_restore",
+      "RAM_snapshot_copy_and_restore"
+    ],
+    "gpu_hours_measured": false,
+    "calibration_before_commitment": true,
+    "request_proportional_scaling_without_measurements": false
+  },
+  "evidence_git_ref": "59c96058bb0761f65d2baadcc420ed122d6c732e",
+  "job54007_execution_source": "3a904be9261d162239c6b780a62c52f3e59a9142",
+  "implementation_ready": false
+}

@@ -1,0 +1,55 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1",
+  "owner": "server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "status": "DISPATCH_READY_NOT_SUBMITTED",
+  "envelope": "messages/head/2026-09-30-memit-hj-sh3.md",
+  "design_path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/design-ko.md",
+  "effective_revision": "v2",
+  "gpu_cap": 1,
+  "mem_mib_per_gpu": 121856,
+  "logical_main_arms": [
+    "000",
+    "100",
+    "010",
+    "001",
+    "110",
+    "101",
+    "011",
+    "111"
+  ],
+  "long_arms": [
+    "000",
+    "100",
+    "110",
+    "111"
+  ],
+  "physical_main_roots": [
+    "000",
+    "100",
+    "010",
+    "110"
+  ],
+  "diagnostic_writer": 12,
+  "diagnostic_history": 8,
+  "diagnostic_batch_size": 10,
+  "diagnostic_steps": 100,
+  "main_batch_size": 100,
+  "main_endpoints": [
+    2000,
+    10000
+  ],
+  "physical_request_range": [
+    52000,
+    64000
+  ],
+  "physical_write_range": [
+    2320,
+    2440
+  ],
+  "spg_requires_calibration": true,
+  "gpu_hours": "PENDING_CALIBRATION",
+  "checkpoint_exception": "design-authorized long trajectories only, interval1000/latest2/refcount, delete new task CP only after completion+dependency validation",
+  "job_ids": [],
+  "initial_pause": "representative E0/T1 actual write->nextentry plus autonomous authorized DAG or verified released science resource-pending; no posthandoff monitor"
+}

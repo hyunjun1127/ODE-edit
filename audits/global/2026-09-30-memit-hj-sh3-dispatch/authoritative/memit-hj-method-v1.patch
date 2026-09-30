@@ -1,0 +1,741 @@
+From ee2b1df6f8c30f9fc1a962b3dbfec69330769890 Mon Sep 17 00:00:00 2001
+From: design-draft <design-draft@localhost>
+Date: Wed, 30 Sep 2026 11:03:51 +0000
+Subject: [PATCH] add MEMIT-HJ method spec with NumPy reference and CPU checks
+ (design only)
+
+---
+ plans/global/2026-09-30-memit-hj-method-ko.md | 200 +++++++++++++++++
+ project/run_scripts/memit_hj/__init__.py      |   1 +
+ project/run_scripts/memit_hj/allocation.py    | 137 ++++++++++++
+ project/run_scripts/memit_hj/drift.py         |  31 +++
+ project/run_scripts/memit_hj/test_memit_hj.py | 211 ++++++++++++++++++
+ project/run_scripts/memit_hj/zsolve.py        | 101 +++++++++
+ 6 files changed, 681 insertions(+)
+ create mode 100644 plans/global/2026-09-30-memit-hj-method-ko.md
+ create mode 100644 project/run_scripts/memit_hj/__init__.py
+ create mode 100644 project/run_scripts/memit_hj/allocation.py
+ create mode 100644 project/run_scripts/memit_hj/drift.py
+ create mode 100644 project/run_scripts/memit_hj/test_memit_hj.py
+ create mode 100644 project/run_scripts/memit_hj/zsolve.py
+
+diff --git a/plans/global/2026-09-30-memit-hj-method-ko.md b/plans/global/2026-09-30-memit-hj-method-ko.md
+new file mode 100644
+index 0000000..b980bf3
+--- /dev/null
++++ b/plans/global/2026-09-30-memit-hj-method-ko.md
+@@ -0,0 +1,200 @@
++# MEMIT-HJ: MEMIT-H의 원 목적을 전 층 공동으로 푸는 편집 method (v1)
++
++작성 2026-09-30. 상태는 method 명세다. GPU 실행, job 제출, dispatch는 없다.
++어느 버전을 먼저 실행할지, 무엇을 더 바꿀지는 실험 결과를 보고 정한다.
++
++## 0. 요약
++
++- **기반.** MEMIT-H를 쓴다. MEMIT에 과거 편집 key의 누적 history를 더한 형태이고 null space는 쓰지 않는다.
++  편집 강도는 원 compute_z가, 실현은 MEMIT-H의 OLS solve가 그대로 정한다.
++- **바꾸는 것.** 원 목적 밖에 붙어 있던 세 가지만 바꾼다.
++  1. 층 target의 divisor 규칙 $R/(5-i)$를, 같은 OLS를 전 층 공동으로 푼 해로 대체한다(v1).
++  2. clamp 경계에 고정되는 z 최적화를, 같은 compute_z 손실을 정확히 푸는 것으로 대체하고 clamp multiplier를 기록한다(v2).
++  3. 위층 history에 남는 stale key를, drift가 key 자체의 해상도를 넘을 때 현재 key로 재구성한다(v3).
++- **결과.** 층별 z(층별 실현 변위)가 원 목적의 공동해로 정해진다. 층 몫은 $\kappa_l=k_l^\top(\lambda C_0^{(l)}+H_l)^{-1}k_l$에 비례하는 명시적 규칙이 된다.
++  MEMIT-H의 divisor는 이 규칙의 특수 극한이다.
++- **검증.** 수식과 성질은 [`project/run_scripts/memit_hj/`](../../project/run_scripts/memit_hj/)의 NumPy 참조 구현과 CPU 검사 16개로 확인했다.
++
++## 1. 근거
++
++1. **논문.** [arXiv 2605.26670](https://arxiv.org/abs/2605.26670) (ICML 2026)은 AlphaEdit의 순차 안정성이 과거 편집 key를 누적해 one-time edit(OTE)과 순차 edit(SE)의 해를 일치시키는 데서 온다고 보인다.
++   null-space 투영은 오히려 근사 오차를 누적시킨다. P = I로 두면 sequential MEMIT with history(Remark A.1)가 되며, 이것이 MEMIT-H다.
++2. **repo 결과.** MEMIT-H(job 54007, fixed10k 10k)는 RS/PS/NS 95.52 / 85.17 / 61.55다.
++   native AlphaEdit(73.43 / 62.89 / 55.29)보다 크게 높고, AlphaEdit-BLUE(98.88 / 95.78 / 63.73)와는 PS −10.6pp 차이가 남는다
++   ([비교](../../experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/four-method-comparison-ko.md)).
++3. **실현 부채.** Official MEMIT B10×10에서 L8 잔차는 pre-L5 0.950 → pre-L8 0.647 → post-L8 0.281이었다
++   ([보고](../../experiment-reports/servers/server4/official-layer-realization-debt-sequential-b10x10-2026-09-01-v1/official-layer-realization-debt-sequential-b10x10-factual-ko.md)).
++   층별로 받은 target의 25 / 24 / 30 / 39 / 57%만 실현됐다. MEMIT-H의 update 에너지 비중은 stream 내내 L8 46–48%, L4 약 10%다.
++4. **clamp.** 09-17 L4 local-z fit 1000/1000에서 Adam step마다 clamp가 적중했다.
++   최종 ‖δ‖/반지름은 1.000, NLL은 0.0011, decay는 0.121이었다.
++5. **key drift.** B010 native BS1 100 edit 뒤 L8 key drift는 0.76이었고, 가장 낮은 쓰기 층인 L4는 0이었다.
++
++## 2. 기준 절차: MEMIT-H (pinned)
++
++[`memit_history_lifelong/method.py`](../../project/run_scripts/memit_history_lifelong/method.py)와 `hparams.json`에 결속된 설정은 다음과 같다.
++
++- **하이퍼파라미터.** 층 L4–L8, λ(`mom2_update_weight`) 15000, C0는 Wikipedia mom2 100k다.
++  clamp 0.75, lr 0.1, 25 step, `v_weight_decay` 0.5, `kl_factor` 0.0625, loss layer 31, `fact_token` subject_last다.
++- **batch 절차.**
++  1. $Z$ ← 요청별 compute_z(L8).
++  2. $i=0..4$(L4..L8)마다 다음을 순서대로 한다.
++     - $K_i$ ← compute_ks(현재 W)
++     - $R \leftarrow Z - \text{cur\_zs}$ (L8, 현재 W)
++     - resid ← $R/(5-i)$
++     - adj ← $(\lambda C_0^{(i)}+H_i+K_iK_i^\top)^{-1}K_i$ (FP64)
++     - $\Delta_i$ ← resid·adjᵀ
++  3. 다섯 층을 쓴 뒤 post-write key로 $H_l \mathrel{+}= K_lK_l^\top$.
++
++## 3. 원 목적의 전층 공동형
++
++### 3.1 목적
++
++MEMIT는 어느 층의 출력 변위든 L8 잔차에 그대로 더해진다고 가정한다. 모든 층이 L8에서 잰 R을 나눠 받는 이유가 이것이다.
++같은 가정 아래 OLS를 층마다 따로 풀지 않고 전 층 공동으로 쓰면 다음과 같다.
++
++$$\min_{\Delta_4..\Delta_8}\ \Big\|\sum_l \Delta_lK_l - R\Big\|_F^2+\sum_l \mathrm{tr}(\Delta_lA_l\Delta_l^\top),\qquad A_l=\lambda C_0^{(l)}+H_l$$
++
++층 하나로 제한하면 MEMIT-H의 층별 OLS와 같은 항이며, 새 계수는 없다.
++
++### 3.2 해
++
++$G_l=K_l^\top A_l^{-1}K_l$(B×B, 양정치), $G=\sum_lG_l$로 두면 다음과 같다.
++
++$$\Delta_l=R\,(I+G)^{-1}(A_l^{-1}K_l)^\top,\qquad D_l\equiv\Delta_lK_l=R\,(I+G)^{-1}G_l$$
++
++미실현분 $R(I+G)^{-1}$은 보존과의 절충이며, 원 OLS와 같은 성격이다.
++
++### 3.3 해석: 명시적 배분 규칙
++
++- **층별 z.** $D_l$이 층 l의 z 변위이고, 공동으로 정해진다.
++- **단일 요청.** $D_l=R\,\kappa_l/(1+\sum\kappa)$이다.
++- **κ의 의미.** 층 l에서 변위 d를 실현하는 최소 보존 비용은 $\|d\|^2/\kappa_l$이다.
++  그래서 κ_l은 그 key 방향이 보존 지식(C0)과 과거 편집(H) 대비 얼마나 비어 있는지를 뜻한다.
++- **모든 층 사용.** $G_l\succ0$이므로 모든 층이 0이 아닌 몫을 받는다.
++- **시간 의존성.** $H_l$이 커지면 κ_l이 줄고 몫이 다른 층으로 옮겨 간다. 배분의 시간 변화가 누적 history에서 나온다.
++- **λ 의존성.** H = 0(W0)에서 층 몫의 비는 λ와 무관하다. λ는 전체 실현량에만 영향을 준다.
++
++## 4. 구현형: 순차 재측정 (v1의 writer)
++
++단계 i의 target만 다음으로 바꾸고, MEMIT-H의 solve는 그대로 호출한다.
++
++$$\mathrm{resid}_i=R_{rem}\Big(I+\sum_{j\ge i}G_j\Big)^{-1}(I+G_i)\quad\Longrightarrow\quad \Delta_i=R_{rem}\Big(I+\sum_{j\ge i}G_j\Big)^{-1}(A_i^{-1}K_i)^\top$$
++
++- **공동해와의 관계.** 가법성이 맞으면 §3.2의 공동해를 정확히 재현한다(귀납, CPU 검사).
++  맞지 않더라도 각 단계는 "현재 측정으로 남은 층들의 공동 OLS를 풀고 현재 층 몫만 확정"하는 해와 같다. 재측정이 전파 오차를 흡수하는 방식은 MEMIT와 같다.
++- **최상위층.** L8에서는 MEMIT-H와 같은 식이다.
++- **divisor와의 관계.** MEMIT-H의 divisor는 $G_j=\kappa I$, κ→∞인 극한이다.
++  층 i update의 MEMIT-H 대비 크기 비는 $(5-i)(1+\kappa)/(1+(5-i)\kappa)$이고, κ→∞에서 1이 된다. κ≈1이면 L4에서 약 1.7배다.
++- **코드 변경.** pinned loop의 `resid = targets / (len(hparams.layers) - i)` 한 문장과 $G_j(j\ge i)$ 계산이 전부다.
++  - $G_i$는 MEMIT-H가 이미 계산하는 adj에서 추가 solve 없이 얻는다: $F=K_i^\top\mathrm{adj}$, $G_i=F(I-F)^{-1}$.
++  - $j>i$는 현재 상태에서 $K_j$를 compute_ks로 다시 계산한다. $A_j$는 batch 안에서 변하지 않으므로 Cholesky를 재사용해 $A_j^{-1}K_j$를 구한다.
++  - B×B 역행렬은 FP64로 계산한다.
++- **경량 변형(선택).** 위층 $G_j$를 batch 진입 key로 근사한다.
++- **AST 확인.** pinned BLUE `memit_seq_main`의 해당 문장과 cov 항(`mom2_update_weight·cov + cache_c`)을 T0에서 AST로 확인한다.
++  task-local adapter로만 교체하고 원본은 수정하지 않는다.
++
++## 5. z 단계 (v2): 원 목적을 정확히 풀기
++
++- **목적은 그대로.** 원 compute_z의 목적·제약·zero-step 규칙을 그대로 둔다.
++  NLL(6 context) + 0.0625·KL + 0.5·‖δ‖/‖h‖², 제약 ‖δ‖ ≤ 0.75‖h‖, L(0) < 0.05면 δ = 0이다.
++- **원 루프의 문제.** Adam step의 norm이 약 lr·√4096 ≈ 6.4로 반지름보다 크다.
++  그래서 매 step 경계로 되돌려지고, 적힌 손실의 최소점이 아니라 경계점에서 멈춘다.
++  반지름에서 decay 항만 0.12라 조기 종료도 걸리지 않고 항상 25회를 돈다.
++- **참조 toy.** 로그와 같은 척도(NLL(0)≈6 nat, ‖h‖=3.15)로 만들었다. 결과는 다음과 같다.
++
++  | | clamp 적중 | ‖δ‖/r | 손실 |
++  |---|---|---|---|
++  | 원 루프 | 24/24 | 1.000 | 0.120 |
++  | 정확해 | – | 0.822 (내부) | 0.107 |
++
++  (`test_native_loop_pins_to_clamp_while_optimum_is_interior`)
++- **풀이.** spectral projected gradient(SPG)와 비단조 Armijo line search를 쓴다. 스케일에 무관하다.
++  종료 조건은 projected-gradient norm ≤ 1e-8·max(1, ‖∇L(0)‖)이고, 최대 반복에 닿으면 `NOT_CONVERGED`로 기록한다.
++- **손실 oracle.** [`z_hook.py`](../../project/run_scripts/single_layer_mechanism_first/z_hook.py)의 parity 검증된 native 손실을 L8에서 prefix 재사용으로 평가한다.
++- **기록.** 요청마다 다음을 남긴다.
++  - ‖δ‖/r, 경계 활성 여부
++  - clamp multiplier $\nu_c=-\langle\nabla L,\delta/r\rangle$
++  - NLL / KL / decay 값, 반복·평가 수
++  - 같은 요청의 원 루프 해와의 손실 차
++- **clamp 값.** 0.75는 원 hparam으로 유지한다. $\nu_c=0$이면 clamp는 결과에 영향이 없다. $\nu_c>0$이면 그 값이 clamp의 영향 크기다.
++
++## 6. history 정합 (v3)
++
++- **근거.** 논문의 OTE–SE 등가는 층의 key가 고정일 때 성립한다. 다층에서는 아래층 write가 위층 key를 움직이고, 가장 낮은 쓰기 층(L4)만 정확하다.
++- **저장.**
++  - batch마다 요청 5개(SHA 우선순위)의 post-write key를 층별로 보관한다. 10k에서 500 × 5층 × 14336 FP32 ≈ 143MB다.
++  - 쓸 때의 context 간 분산 $\rho_{ctx}$도 저장한다. context별 key가 필요하므로, compute_ks가 평균 내기 전의 key를 돌려받는 helper를 둔다.
++- **검사와 재구성.** 10 batch마다 저장 표본의 현재 key로 상대 drift를 잰다.
++  층 l(L5–L8)에서 median drift > median $\rho_{ctx}$이면 $H_l$을 기존 요청 전부의 현재 key로 다시 만든다.
++  구성원은 native대로 유지한다(덮어쓴 요청 포함). L4는 검사하지 않는다.
++- **비용.** H200 key 계산이 약 5초/100요청/층이므로, 5k 요청이면 층당 약 4분이다.
++
++## 7. 버전
++
++| 버전 | MEMIT-H 대비 변경 | 확인 대상 |
++|---|---|---|
++| v1 | 층 target (§4) | 배분 규칙의 효과 |
++| v2 | + z 정확 풀이 (§5) | clamp의 실제 영향과 편집 강도 |
++| v3 | + history refresh (§6) | 다층 OTE 정합 |
++
++모든 버전에서 다음은 MEMIT-H와 같다: 층, λ, clamp, KL·decay 계수, context, fact token, loss layer, FP64 solve, history append 시점.
++
++## 8. 기록 항목
++
++- **batch·층별.**
++  - capacity $G_l$ 요약: 대각은 요청별 κ, 고유값은 min/median/max
++  - capacity 몫 $\mathrm{tr}(G_l)/\mathrm{tr}(G)$
++  - 실현 변위 $\|D_l\|$와 그 몫, update norm과 에너지 몫
++  - L8 잔차 궤적 q(pre-L4 … post-L8, 실현 부채 연구와 같은 정의)
++  - 층별 도달 이득 $\alpha_l=\langle\Delta R_{obs},D_l\rangle/\|D_l\|^2$(진단 전용)
++- **요청별(v2).** §5의 항목.
++- **층별(v3).** drift와 $\rho_{ctx}$의 median, refresh 사건.
++- **표준 지표.** at-write RS/PS/NS, checkpoint all-seen RS/PS/NS(기존 evaluator).
++
++## 9. 수치 gate
++
++- **G1 parity.** `allocation=divisor` 모드가 같은 H200 환경에서 MEMIT-H job 54007 B1의 z·key·Δ·at-write bit SHA를 재현해야 한다. 다른 GPU라면 수치 허용 기준을 적용한다.
++- **G2 identity.** batch마다 $\|\mathrm{adj}-A^{-1}K(I+G)^{-1}\|/\|\mathrm{adj}\|\le10^{-8}$이고, $G_l$의 최소 고유값이 0보다 커야 한다.
++- **G3 최상위층.** L8의 resid가 $R_{rem}$과 비트 단위로 같아야 한다.
++- **G4 유한성.** 모든 값이 유한해야 한다.
++- **G5 (v2).** SPG 종료 조건을 충족하거나 `NOT_CONVERGED`로 기록한다. 손실 oracle은 z_hook parity 검사를 통과해야 한다.
++- **G6 (v3).** refresh 직후 표본 key가 재구성에 쓴 key와 일치해야 한다.
++
++## 10. 비용 (H200, MEMIT-H job 54007 실측 기준)
++
++기준인 MEMIT-H 10k는 12.4 GPUh다. edit 7.0h(compute_z 5.3h, key 1.4h, solve 58초)와 평가 5.2h로 이루어진다.
++
++| 버전 | 추가 비용 | 근거 |
++|---|---|---|
++| v1 | +약 1.4 GPUh (경량 변형 +약 0.6) | step마다 위층 key를 다시 계산해 batch당 key 호출 10 → 20, 약 +50초/batch |
++| v2 | +1–10 GPUh | compute_z를 SPG로 대체. 반복 수에 따라 달라지며 smoke에서 실측 |
++| v3 | +0.5–3.5 GPUh | 10 batch마다 4층 표본 검사 + refresh 빈도 |
++
++## 11. 이 명세가 정하지 않는 것
++
++아래는 실험 결과를 보고 정한다.
++
++- **가법성 가정의 보정.** $\alpha_l$이 1에서 크게 벗어나면 몫을 $\alpha_l^2\kappa_l$로 보정하는 확장을 검토한다.
++- **target 위치.** v1 뒤에도 BLUE와의 PS 차이가 남으면 L8 z냐 층별 z냐를 다룬다.
++- **clamp 반지름.** $\nu_c$가 크면 반지름 처리를 다시 정한다.
++- **λ의 값.**
++- **refresh 설정.** 주기와 표본 크기, conflict 요청의 history 처리(논문 Prop 3.5).
++- **실험 설계.** batch 크기(BS1, BS100)와 비교 대상.
++
++## 12. 이전 논의와의 관계
++
++- **B010 joint.** "층별 z를 공동으로 정한다"는 발상은 유지한다. 목적을 원 목적으로 되돌려, 약한 편집(NLL ≤ 1 경계)의 원인을 없앤다.
++- **MJZ.** token 확률 조건, 잔존 margin μ(t), 측정 가격 π_l, AlphaEdit P/Q 기하는 뺀다. 가격 역할은 원 OLS에서 나오는 $G_l$이 맡는다.
++- **routing(시간축 단층).** 층 선택 대신 전층 공동 배분을 쓴다. 명제 3(가장 낮은 쓰기 층의 key 정확성)은 v3에 반영된다.
++
++## 13. 파일
++
++| 파일 | 내용 |
++|---|---|
++| `project/run_scripts/memit_hj/allocation.py` | 공동 OLS 닫힌 해, 순차 target, divisor, MEMIT adj에서의 capacity 복원, 최소 비용 실현, 층 몫 |
++| `project/run_scripts/memit_hj/zsolve.py` | 원 루프 재현(진단), SPG, zero-step 규칙 |
++| `project/run_scripts/memit_hj/drift.py` | drift, context 분산, refresh 판정, history 재구성 |
++| `project/run_scripts/memit_hj/test_memit_hj.py` | CPU 검사 16개 |
++
++검사 실행은 `python3 -m unittest project.run_scripts.memit_hj.test_memit_hj -v`이다.
++참조 구현은 NumPy로 쓴 수식 명세다. 실행 runner는 이를 torch(FP64)로 옮겨 pinned MEMIT-H 경로에 붙인다.
+diff --git a/project/run_scripts/memit_hj/__init__.py b/project/run_scripts/memit_hj/__init__.py
+new file mode 100644
+index 0000000..eda59d1
+--- /dev/null
++++ b/project/run_scripts/memit_hj/__init__.py
+@@ -0,0 +1 @@
++"""MEMIT-HJ reference implementation (math only, NumPy). See plans/global/2026-09-30-memit-hj-method-ko.md."""
+diff --git a/project/run_scripts/memit_hj/allocation.py b/project/run_scripts/memit_hj/allocation.py
+new file mode 100644
+index 0000000..691ffa1
+--- /dev/null
++++ b/project/run_scripts/memit_hj/allocation.py
+@@ -0,0 +1,137 @@
++"""MEMIT-HJ layer allocation -- reference implementation (NumPy, float64).
++
++This module is the executable specification of the only writer change in MEMIT-HJ v1:
++the per-layer residual target of the pinned MEMIT-H loop. Everything else (compute_z,
++compute_ks, the FP64 solve, history append) stays the pinned code path.
++
++Shapes follow the MEMIT code:
++  R        (d_out, B)    residual at the top edit layer, R = Z - cur_zs (re-measured each step)
++  K        (d_in, B)     context-averaged subject keys of one layer (compute_ks(...).T)
++  A        (d_in, d_in)  preservation Gram A = mom2_update_weight * C0 + H  (SPD)
++  adj      (d_in, B)     what MEMIT-H computes: adj = (A + K K^T)^{-1} K
++  update   (d_out, d_in) Delta = resid @ adj.T
++
++MEMIT-H  : resid_i = R_rem / (n - i)
++MEMIT-HJ : resid_i = R_rem (I + S_i)^{-1} (I + G_i),  S_i = sum_{j >= i} G_j,  G_j = K_j^T A_j^{-1} K_j
++The production port is a line-for-line translation to torch (float64 solves as in MEMIT-H).
++"""
++import numpy as np
++
++
++def sym(M):
++    return 0.5 * (M + M.T)
++
++
++def ainv_k(A, K):
++    """A^{-1} K by a direct solve (production: Cholesky of A reused within a batch)."""
++    return np.linalg.solve(A, K)
++
++
++def capacity(K, AinvK):
++    """G = K^T A^{-1} K (B x B, symmetric positive definite for full-column-rank K)."""
++    return sym(K.T @ AinvK)
++
++
++def memit_adj(A, K):
++    """The pinned MEMIT-H factor adj = (A + K K^T)^{-1} K."""
++    return np.linalg.solve(A + K @ K.T, K)
++
++
++def capacity_from_adj(K, adj):
++    """Recover G from MEMIT-H's own adj without a second solve.
++
++    F = K^T adj = G (I + G)^{-1}  =>  G = F (I - F)^{-1}.
++    """
++    F = sym(K.T @ adj)
++    I = np.eye(F.shape[0])
++    return sym(F @ np.linalg.inv(I - F))
++
++
++def resid_divisor(R_rem, i, n):
++    """MEMIT-H target for the i-th of n layers (0-based, ascending)."""
++    return R_rem / (n - i)
++
++
++def resid_joint(R_rem, G_i, G_upper_sum):
++    """MEMIT-HJ target: R_rem (I + S_i)^{-1} (I + G_i) with S_i = G_i + sum of upper-layer G."""
++    I = np.eye(G_i.shape[0])
++    S = G_i + G_upper_sum
++    return R_rem @ np.linalg.solve(I + S, I + G_i)
++
++
++def update(resid, adj):
++    """Delta = resid adj^T, exactly the MEMIT-H expression."""
++    return resid @ adj.T
++
++
++def joint_ols(R, Ks, As):
++    """Closed form of  min_{Delta_l} ||sum_l Delta_l K_l - R||^2 + sum_l tr(Delta_l A_l Delta_l^T).
++
++    Returns updates Delta_l = R (I+G)^{-1} (A_l^{-1} K_l)^T, per-layer realized displacements
++    D_l = Delta_l K_l = R (I+G)^{-1} G_l, capacities G_l and the unrealized part R (I+G)^{-1}.
++    """
++    AK = [ainv_k(A, K) for A, K in zip(As, Ks)]
++    Gs = [capacity(K, a) for K, a in zip(Ks, AK)]
++    I = np.eye(R.shape[1])
++    M = np.linalg.inv(I + sum(Gs))
++    return dict(deltas=[R @ M @ a.T for a in AK], displacements=[R @ M @ g for g in Gs],
++                capacities=Gs, unrealized=R @ M)
++
++
++def joint_objective(R, Ks, As, deltas, propagation=None):
++    """Joint objective, optionally with linear propagation operators J_l acting on displacements."""
++    J = propagation or [None] * len(Ks)
++    fit = -R.copy()
++    for D, K, P in zip(deltas, Ks, J):
++        fit = fit + (D @ K if P is None else P @ (D @ K))
++    return float(np.sum(fit ** 2) + sum(np.trace(D @ A @ D.T) for D, A in zip(deltas, As)))
++
++
++def sequential(R0, Ks, As, mode="joint", propagation=None):
++    """Sequential writer under a linear surrogate of the network.
++
++    After writing layer i the residual measured at the top layer becomes R_rem - J_i (Delta_i K_i)
++    (J_i = identity is MEMIT's additivity assumption). Keys are held fixed here; the production
++    writer recomputes keys at the current state before each step.
++    mode: "divisor" (MEMIT-H) or "joint" (MEMIT-HJ). Returns updates, trajectory of ||R_rem||.
++    """
++    n = len(Ks)
++    J = propagation or [None] * n
++    R = R0.copy()
++    deltas, traj = [], [float(np.linalg.norm(R))]
++    Gs = [capacity(K, ainv_k(A, K)) for K, A in zip(Ks, As)]
++    for i in range(n):
++        adj = memit_adj(As[i], Ks[i])
++        if mode == "divisor":
++            r = resid_divisor(R, i, n)
++        elif mode == "joint":
++            upper = sum(Gs[i + 1:]) if i + 1 < n else np.zeros_like(Gs[i])
++            r = resid_joint(R, Gs[i], upper)
++        else:
++            raise ValueError(mode)
++        D = update(r, adj)
++        deltas.append(D)
++        realized = D @ Ks[i]
++        R = R - (realized if J[i] is None else J[i] @ realized)
++        traj.append(float(np.linalg.norm(R)))
++    return dict(deltas=deltas, residual_norms=traj, final_residual=R)
++
++
++def min_cost_realization(d, k, A):
++    """Cheapest single-key update realizing displacement d at key k under cost tr(Delta A Delta^T).
++
++    Delta* = d (A^{-1}k)^T / kappa,  kappa = k^T A^{-1} k,  cost = ||d||^2 / kappa.
++    """
++    a = np.linalg.solve(A, k)
++    kappa = float(k @ a)
++    return np.outer(d, a) / kappa, kappa
++
++
++def layer_shares(Gs):
++    """Capacity shares tr(G_l)/tr(sum G) and, for B=1, the realized shares kappa_l/(1+sum kappa)."""
++    tr = np.array([np.trace(G) for G in Gs])
++    out = dict(capacity_share=tr / tr.sum())
++    if Gs[0].shape == (1, 1):
++        k = np.array([G[0, 0] for G in Gs])
++        out["realized_fraction"] = k / (1.0 + k.sum())
++    return out
+diff --git a/project/run_scripts/memit_hj/drift.py b/project/run_scripts/memit_hj/drift.py
+new file mode 100644
+index 0000000..f1b9d05
+--- /dev/null
++++ b/project/run_scripts/memit_hj/drift.py
+@@ -0,0 +1,31 @@
++"""MEMIT-HJ v3 history maintenance -- reference (NumPy).
++
++MEMIT-H stores H_l = sum of post-write key outer products. With all layers written every batch, writes
++below layer l move layer-l keys of past requests, so H_l describes old keys (the lowest edited layer is
++exact). Rule: compare a stored sample of post-write keys with the same requests' keys at the current state;
++refresh layer l when the median relative drift exceeds the median context dispersion of the key recipe
++(the variation the native context-averaged key already treats as noise).
++"""
++import numpy as np
++
++
++def relative_drift(K_old, K_new):
++    """Per-request ||k_new - k_old|| / ||k_old||; K arrays are (d_in, N)."""
++    return np.linalg.norm(K_new - K_old, axis=0) / np.linalg.norm(K_old, axis=0)
++
++
++def context_dispersion(K_ctx):
++    """K_ctx (C, d_in, N) per-context keys -> sqrt(mean_c ||k_c - k_bar||^2) / ||k_bar|| per request."""
++    kbar = K_ctx.mean(axis=0)
++    spread = np.sqrt(np.mean(np.sum((K_ctx - kbar[None]) ** 2, axis=1), axis=0))
++    return spread / np.linalg.norm(kbar, axis=0)
++
++
++def refresh_needed(drift, dispersion):
++    """Refresh when the typical drift exceeds the typical resolution of the key itself."""
++    return bool(np.median(drift) > np.median(dispersion))
++
++
++def rebuild_history(K_all_current):
++    """H_l from the current keys of every committed request (native membership)."""
++    return K_all_current @ K_all_current.T
+diff --git a/project/run_scripts/memit_hj/test_memit_hj.py b/project/run_scripts/memit_hj/test_memit_hj.py
+new file mode 100644
+index 0000000..cd32662
+--- /dev/null
++++ b/project/run_scripts/memit_hj/test_memit_hj.py
+@@ -0,0 +1,211 @@
++"""CPU checks for the MEMIT-HJ reference (NumPy only).
++
++Run: python3 -m unittest project.run_scripts.memit_hj.test_memit_hj -v
++"""
++import unittest
++
++import numpy as np
++
++from .allocation import (capacity, capacity_from_adj, ainv_k, joint_objective, joint_ols, layer_shares,
++                         memit_adj, min_cost_realization, resid_divisor, resid_joint, sequential, update)
++from .drift import context_dispersion, rebuild_history, refresh_needed, relative_drift
++from .zsolve import exact_z, native_adam, spg_ball
++
++
++def fixture(seed=0, d_in=12, d_out=5, B=3, n=5, lam=3.0, hist=True):
++    rng = np.random.default_rng(seed)
++    As, Ks = [], []
++    for _ in range(n):
++        X = rng.standard_normal((d_in, 3 * d_in))
++        C0 = X @ X.T / X.shape[1]
++        H = np.zeros((d_in, d_in))
++        if hist:
++            P = rng.standard_normal((d_in, 4))
++            H = P @ P.T
++        As.append(lam * C0 + H)
++        Ks.append(rng.standard_normal((d_in, B)))
++    R = rng.standard_normal((d_out, B))
++    return R, Ks, As
++
++
++class Allocation(unittest.TestCase):
++    def test_woodbury_adj_and_capacity(self):
++        R, Ks, As = fixture()
++        for K, A in zip(Ks, As):
++            AK = ainv_k(A, K)
++            G = capacity(K, AK)
++            adj = memit_adj(A, K)
++            np.testing.assert_allclose(adj, AK @ np.linalg.inv(np.eye(G.shape[0]) + G), rtol=1e-10, atol=1e-12)
++            np.testing.assert_allclose(capacity_from_adj(K, adj), G, rtol=1e-9, atol=1e-12)
++            self.assertGreater(np.linalg.eigvalsh(G).min(), 0)
++
++    def test_joint_ols_is_the_minimizer(self):
++        R, Ks, As = fixture(1)
++        sol = joint_ols(R, Ks, As)
++        base = joint_objective(R, Ks, As, sol["deltas"])
++        fit = sum(D @ K for D, K in zip(sol["deltas"], Ks)) - R
++        for D, K, A in zip(sol["deltas"], Ks, As):  # stationarity
++            np.testing.assert_allclose(fit @ K.T + D @ A, 0, atol=1e-10)
++        rng = np.random.default_rng(2)
++        for _ in range(20):
++            pert = [D + 1e-3 * rng.standard_normal(D.shape) for D in sol["deltas"]]
++            self.assertGreater(joint_objective(R, Ks, As, pert), base)
++        div = sequential(R, Ks, As, mode="divisor")
++        self.assertLessEqual(base, joint_objective(R, Ks, As, div["deltas"]) + 1e-12)
++
++    def test_sequential_equals_joint_under_additivity(self):
++        R, Ks, As = fixture(3)
++        sol = joint_ols(R, Ks, As)
++        seq = sequential(R, Ks, As, mode="joint")
++        for a, b in zip(seq["deltas"], sol["deltas"]):
++            np.testing.assert_allclose(a, b, rtol=1e-9, atol=1e-12)
++        np.testing.assert_allclose(seq["final_residual"], sol["unrealized"], rtol=1e-9, atol=1e-12)
++
++    def test_unrealized_and_displacements(self):
++        R, Ks, As = fixture(4)
++        sol = joint_ols(R, Ks, As)
++        G = sum(sol["capacities"])
++        np.testing.assert_allclose(R - sum(sol["displacements"]), R @ np.linalg.inv(np.eye(G.shape[0]) + G),
++                                   rtol=1e-10, atol=1e-12)
++
++    def test_top_layer_is_memit_h(self):
++        R, Ks, As = fixture(5)
++        G = capacity(Ks[-1], ainv_k(As[-1], Ks[-1]))
++        np.testing.assert_allclose(resid_joint(R, G, np.zeros_like(G)), resid_divisor(R, 4, 5), rtol=1e-12)
++
++    def test_divisor_rule_is_the_large_uniform_capacity_limit(self):
++        rng = np.random.default_rng(6)
++        d_in, B, n = 10, 3, 5
++        Q, _ = np.linalg.qr(rng.standard_normal((d_in, B)))
++        R = rng.standard_normal((4, B))
++        for kappa, tol in ((1.0, None), (1e8, 1e-6)):
++            K = np.sqrt(kappa) * Q  # A = I  =>  G = kappa I for every layer
++            A = np.eye(d_in)
++            G = capacity(K, ainv_k(A, K))
++            adj = memit_adj(A, K)
++            for i in range(n):
++                ours = update(resid_joint(R, G, (n - i - 1) * G), adj)
++                memit = update(resid_divisor(R, i, n), adj)
++                ratio = np.linalg.norm(ours) / np.linalg.norm(memit)
++                expected = (n - i) * (1 + kappa) / (1 + (n - i) * kappa)
++                self.assertAlmostEqual(ratio, expected, places=9)
++                if tol is not None:
++                    self.assertLess(abs(ratio - 1), tol)
++
++    def test_single_request_shares(self):
++        R, Ks, As = fixture(7, B=1)
++        sol = joint_ols(R, Ks, As)
++        kap = np.array([G[0, 0] for G in sol["capacities"]])
++        frac = layer_shares(sol["capacities"])["realized_fraction"]
++        np.testing.assert_allclose(frac, kap / (1 + kap.sum()), rtol=1e-12)
++        for D, f in zip(sol["displacements"], frac):
++            np.testing.assert_allclose(D, R * f, rtol=1e-9, atol=1e-12)
++
++    def test_min_cost_realization(self):
++        rng = np.random.default_rng(8)
++        _, Ks, As = fixture(8, B=1)
++        k, A = Ks[0][:, 0], As[0]
++        d = rng.standard_normal(5)
++        D, kappa = min_cost_realization(d, k, A)
++        np.testing.assert_allclose(D @ k, d, rtol=1e-10)
++        cost = np.trace(D @ A @ D.T)
++        self.assertAlmostEqual(cost, float(d @ d) / kappa, places=9)
++        for _ in range(10):  # any other exact realization costs more
++            E = rng.standard_normal(D.shape)
++            E = E - np.outer(E @ k, k) / float(k @ k)
++            self.assertGreater(np.trace((D + E) @ A @ (D + E).T), cost)
++
++    def test_w0_shares_do_not_depend_on_lambda(self):
++        R, Ks, As1 = fixture(9, lam=1.0, hist=False)
++        _, _, As2 = fixture(9, lam=50.0, hist=False)
++        s1 = layer_shares(joint_ols(R, Ks, As1)["capacities"])["capacity_share"]
++        s2 = layer_shares(joint_ols(R, Ks, As2)["capacities"])["capacity_share"]
++        np.testing.assert_allclose(s1, s2, rtol=1e-10)
++
++    def test_history_moves_load_away(self):
++        R, Ks, As = fixture(10, hist=False)
++        before = layer_shares(joint_ols(R, Ks, As)["capacities"])["capacity_share"]
++        As2 = list(As)
++        As2[0] = As[0] + 50.0 * Ks[0] @ Ks[0].T  # layer 4 already stores keys like these
++        after = layer_shares(joint_ols(R, Ks, As2)["capacities"])["capacity_share"]
++        self.assertLess(after[0], before[0])
++        self.assertTrue(np.all(after[1:] > before[1:]))
++
++
++class ZStep(unittest.TestCase):
++    @staticmethod
++    def shrink_problem(c, w):
++        def fg(x):
++            n = np.linalg.norm(x)
++            return 0.5 * float((x - c) @ (x - c)) + w * n, (x - c) + (w * x / n if n > 0 else 0 * x)
++        return fg
++
++    def test_interior_optimum(self):
++        c = np.array([1.0, 2.0, -0.5])
++        w, r = 0.3, 10.0
++        x, info = spg_ball(self.shrink_problem(c, w), np.zeros(3), r)
++        np.testing.assert_allclose(x, c * (1 - w / np.linalg.norm(c)), atol=1e-7)
++        self.assertTrue(info["converged"])
++        self.assertFalse(info["active"])
++        self.assertEqual(info["clamp_multiplier"], 0.0)
++
++    def test_boundary_optimum_multiplier(self):
++        c = np.array([3.0, 4.0])
++        w, r = 0.5, 2.0
++        x, info = spg_ball(self.shrink_problem(c, w), np.zeros(2), r)
++        np.testing.assert_allclose(x, c * r / 5.0, atol=1e-7)
++        self.assertTrue(info["active"])
++        self.assertAlmostEqual(info["clamp_multiplier"], 5.0 - r - w, places=6)
++
++    def test_zero_step_rule(self):
++        x, info = exact_z(lambda z: (0.01 + float(z @ z), 2 * z), 4, 1.0)
++        self.assertTrue(info["zero_step"])
++        self.assertEqual(float(np.linalg.norm(x)), 0.0)
++
++    def test_native_loop_pins_to_clamp_while_optimum_is_interior(self):
++        """Toy with the logged scales: NLL(0)~6 nats, ||h||=3.15, decay 0.5||d||/||h||^2, clamp 0.75||h||."""
++        rng = np.random.default_rng(0)
++        d = 4096
++        a = rng.standard_normal(d)
++        a = 5.5 * a / np.linalg.norm(a)
++        b, h = 6.0, 3.15
++        c, r = 0.5 / h ** 2, 0.75 * h
++
++        def fg(x):
++            z = b - a @ x
++            n = np.linalg.norm(x)
++            return (np.logaddexp(0.0, z) + c * n,
++                    -a / (1.0 + np.exp(-z)) + (c * x / n if n > 0 else 0 * x))
++
++        xa, ia = native_adam(fg, np.zeros(d), r)
++        xs, iz = exact_z(fg, d, r)
++        t_star = (b - np.log(c / (5.5 - c))) / 5.5
++        self.assertEqual((ia["adam_steps"], ia["clamp_hits"], ia["stopped_by"]), (24, 24, "cap"))
++        self.assertAlmostEqual(ia["norm_over_radius"], 1.0, places=9)
++        self.assertTrue(iz["converged"] and not iz["active"])
++        self.assertAlmostEqual(float(np.linalg.norm(xs)), t_star, places=5)
++        self.assertLess(iz["value"], ia["value"])
++
++
++class History(unittest.TestCase):
++    def test_refresh_rule(self):
++        rng = np.random.default_rng(11)
++        C, d, N = 6, 20, 50
++        kbar = rng.standard_normal((d, N))
++        ctx = kbar[None] + 0.2 * rng.standard_normal((C, d, N))
++        disp = context_dispersion(ctx)
++        old = ctx.mean(axis=0)
++        small = old + 0.02 * rng.standard_normal((d, N))
++        large = old + 0.5 * rng.standard_normal((d, N))
++        self.assertFalse(refresh_needed(relative_drift(old, small), disp))
++        self.assertTrue(refresh_needed(relative_drift(old, large), disp))
++
++    def test_rebuild_history(self):
++        rng = np.random.default_rng(12)
++        K = rng.standard_normal((8, 30))
++        np.testing.assert_allclose(rebuild_history(K), sum(np.outer(K[:, j], K[:, j]) for j in range(30)),
++                                   rtol=1e-12, atol=1e-12)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/project/run_scripts/memit_hj/zsolve.py b/project/run_scripts/memit_hj/zsolve.py
+new file mode 100644
+index 0000000..8309fdf
+--- /dev/null
++++ b/project/run_scripts/memit_hj/zsolve.py
+@@ -0,0 +1,101 @@
++"""MEMIT-HJ v2 z-step -- solve the original compute_z objective exactly (reference, NumPy).
++
++Objective (unchanged, native compute_z): L(delta) = NLL + kl_factor * KL + v_weight_decay * ||delta|| / ||h||^2
++subject to ||delta|| <= clamp_norm_factor * ||h||, with the native zero-step rule (if L(0) < stop, delta = 0).
++Only the optimizer changes: the native loop (Adam lr 0.1, 24 steps, rescale after each step) is kept
++here as a diagnostic reproduction; the method uses a spectral projected gradient (SPG) that stops on the
++projected-gradient norm and reports the clamp multiplier nu_c = -<grad L, delta/r> when the ball is active.
++fun_grad(x) -> (value, gradient); the production loss oracle is the parity-tested native loss
++(project/run_scripts/single_layer_mechanism_first/z_hook.py) evaluated at the top edit layer.
++"""
++import numpy as np
++
++
++def project_ball(x, radius):
++    n = float(np.linalg.norm(x))
++    return x if n <= radius else x * (radius / n)
++
++
++def native_adam(fun_grad, x0, radius, lr=0.1, steps=25, stop=5e-2, betas=(0.9, 0.999), eps=1e-8):
++    """Reproduce the native loop: evaluate, stop if loss < stop, no step on the last iteration,
++    Adam step, then rescale to the clamp radius if exceeded."""
++    x = x0.astype(float).copy()
++    m = np.zeros_like(x)
++    v = np.zeros_like(x)
++    hits, evals, taken, stopped = 0, 0, 0, "cap"
++    for it in range(steps):
++        f, g = fun_grad(x)
++        evals += 1
++        if f < stop:
++            stopped = "loss"
++            break
++        if it == steps - 1:
++            break
++        taken += 1
++        m = betas[0] * m + (1 - betas[0]) * g
++        v = betas[1] * v + (1 - betas[1]) * g * g
++        mh = m / (1 - betas[0] ** taken)
++        vh = v / (1 - betas[1] ** taken)
++        x = x - lr * mh / (np.sqrt(vh) + eps)
++        if np.linalg.norm(x) > radius:
++            hits += 1
++            x = x * (radius / np.linalg.norm(x))
++    f, _ = fun_grad(x)
++    return x, dict(value=float(f), evaluations=evals, adam_steps=taken, clamp_hits=hits, stopped_by=stopped,
++                   norm_over_radius=float(np.linalg.norm(x) / radius))
++
++
++def spg_ball(fun_grad, x0, radius, tol=1e-8, max_iter=1000, memory=10, gamma=1e-4,
++             alpha_min=1e-12, alpha_max=1e12):
++    """Spectral projected gradient with nonmonotone Armijo line search on {||x|| <= radius}.
++
++    Stops when ||P(x - g) - x|| <= tol * max(1, ||g0||). Returns x and diagnostics including the
++    clamp multiplier (zero when the solution is interior).
++    """
++    x = project_ball(x0.astype(float), radius)
++    f, g = fun_grad(x)
++    evals = 1
++    g0 = max(1.0, float(np.linalg.norm(g)))
++    hist = [f]
++    pg = float(np.linalg.norm(project_ball(x - g, radius) - x))
++    alpha = 1.0 / max(pg, 1e-12)
++    converged, it = False, 0
++    for it in range(1, max_iter + 1):
++        pg = float(np.linalg.norm(project_ball(x - g, radius) - x))
++        if pg <= tol * g0:
++            converged = True
++            break
++        d = project_ball(x - alpha * g, radius) - x
++        gd = float(g @ d)
++        fmax = max(hist[-memory:])
++        lam = 1.0
++        while True:
++            xn = x + lam * d
++            fn, gn = fun_grad(xn)
++            evals += 1
++            if fn <= fmax + gamma * lam * gd or lam < 1e-20:
++                break
++            lam *= 0.5
++        s, y = xn - x, gn - g
++        sy = float(s @ y)
++        alpha = min(alpha_max, max(alpha_min, float(s @ s) / sy)) if sy > 0 else alpha_max
++        x, f, g = xn, fn, gn
++        hist.append(f)
++    nx = float(np.linalg.norm(x))
++    active = nx >= radius * (1 - 1e-9)
++    mult = max(0.0, -float(g @ x) / radius) if active else 0.0
++    return x, dict(value=float(f), iterations=it, evaluations=evals, converged=converged,
++                   projected_gradient=pg, active=bool(active), clamp_multiplier=mult,
++                   norm_over_radius=nx / radius)
++
++
++def exact_z(fun_grad, dim, radius, stop=5e-2, **kw):
++    """Native zero-step rule, then SPG from the origin (the native starting point)."""
++    x0 = np.zeros(dim)
++    f0, _ = fun_grad(x0)
++    if f0 < stop:
++        return x0, dict(value=float(f0), iterations=0, evaluations=1, converged=True, zero_step=True,
++                        active=False, clamp_multiplier=0.0, norm_over_radius=0.0)
++    x, info = spg_ball(fun_grad, x0, radius, **kw)
++    info["zero_step"] = False
++    return x, info
+-- 
+2.43.0
+

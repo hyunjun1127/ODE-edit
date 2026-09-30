@@ -1,0 +1,21 @@
+{
+  "scope": "문서·CSV·JSON 정합 검증만; 모델이나 SPG 실행 검증이 아님",
+  "checks": "PASS",
+  "cell_count": 28,
+  "physical_request_range": [
+    52000,
+    64000
+  ],
+  "physical_write_range": [
+    2320,
+    2440
+  ],
+  "temporary_checkpoint_user_approved": true,
+  "SPG_calibration_run": false,
+  "GPU_experiment_run": false,
+  "artifacts_sha256": {
+    "design-ko.md": "3be7fa56f5d60e075a7a89ab129f0332d97acd814cd0c2a41a9984b714d66cd7",
+    "cells.csv": "2af6449faf059fc7cf14bf195e257f226fccab691a0769737c835ebc965090bb",
+    "contract.json": "beb83ac33984a7d83b3f72f13a890f5c08310899fe1ed9c83870eccc773783fa"
+  }
+}

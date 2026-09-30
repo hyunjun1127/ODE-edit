@@ -1,0 +1,29 @@
+cell_id,family,arm,allocation,z_solver,history,batch_size,total_requests,total_batches,full_factorial_endpoint,long_endpoint,anchor_requests,parent_cell,fork_rule,shared_run_id,t1_reuse,physical_requests_min,physical_requests_max,physical_batch_writes_min,physical_batch_writes_max,purpose
+main_000,main,000,divisor,native,append_only,100,10000,100,2000,10000,0,,W0_root,main_000,false,10000,10000,100,100,기준
+main_100,main,100,joint,native,append_only,100,10000,100,2000,10000,0,,W0_root,main_100,false,10000,10000,100,100,v1
+main_010,main,010,divisor,spg,append_only,100,2000,20,2000,,0,,W0_root,main_010,false,2000,2000,20,20,z 단독
+main_001,main,001,divisor,native,refresh,100,2000,20,2000,,0,main_000,first_trigger_RAM,,false,0,1000,0,10,history 단독
+main_110,main,110,joint,spg,append_only,100,10000,100,2000,10000,0,,W0_root,main_110,false,10000,10000,100,100,v2 탐색적
+main_101,main,101,joint,native,refresh,100,2000,20,2000,,0,main_100,first_trigger_RAM,,false,0,1000,0,10,v1과 history
+main_011,main,011,divisor,spg,refresh,100,2000,20,2000,,0,main_010,first_trigger_RAM,,false,0,1000,0,10,z와 history
+main_111,main,111,joint,spg,refresh,100,10000,100,2000,10000,0,main_110,first_trigger_RAM,,false,0,9000,0,90,v3 탐색적
+writer_0_divisor,writer,000,divisor,native,append_only,10,1000,100,,,0,main_000,anchor_RAM,writer_0_divisor,true,1000,1000,100,100,W0 writer 진단 및 T1 공유
+writer_0_joint,writer,100,joint,native,append_only,10,1000,100,,,0,main_000,anchor_RAM,writer_0_joint,true,1000,1000,100,100,W0 writer 진단 및 T1 공유
+writer_0_frozen_upper_joint,writer,,frozen_upper_joint,native,append_only,10,1000,100,,,0,main_000,anchor_RAM,writer_0_frozen_upper_joint,false,1000,1000,100,100,writer 국소 진단
+writer_0_energy_matched_divisor,writer,,energy_matched_divisor,native,append_only,10,1000,100,,,0,main_000,anchor_RAM,writer_0_energy_matched_divisor,false,1000,1000,100,100,writer 국소 진단
+writer_1000_divisor,writer,,divisor,native,append_only,10,1000,100,,,1000,main_000,anchor_RAM,writer_1000_divisor,false,1000,1000,100,100,writer 국소 진단
+writer_1000_joint,writer,,joint,native,append_only,10,1000,100,,,1000,main_000,anchor_RAM,writer_1000_joint,false,1000,1000,100,100,writer 국소 진단
+writer_1000_frozen_upper_joint,writer,,frozen_upper_joint,native,append_only,10,1000,100,,,1000,main_000,anchor_RAM,writer_1000_frozen_upper_joint,false,1000,1000,100,100,writer 국소 진단
+writer_1000_energy_matched_divisor,writer,,energy_matched_divisor,native,append_only,10,1000,100,,,1000,main_000,anchor_RAM,writer_1000_energy_matched_divisor,false,1000,1000,100,100,writer 국소 진단
+writer_5000_divisor,writer,,divisor,native,append_only,10,1000,100,,,5000,main_000,anchor_RAM,writer_5000_divisor,false,1000,1000,100,100,writer 국소 진단
+writer_5000_joint,writer,,joint,native,append_only,10,1000,100,,,5000,main_000,anchor_RAM,writer_5000_joint,false,1000,1000,100,100,writer 국소 진단
+writer_5000_frozen_upper_joint,writer,,frozen_upper_joint,native,append_only,10,1000,100,,,5000,main_000,anchor_RAM,writer_5000_frozen_upper_joint,false,1000,1000,100,100,writer 국소 진단
+writer_5000_energy_matched_divisor,writer,,energy_matched_divisor,native,append_only,10,1000,100,,,5000,main_000,anchor_RAM,writer_5000_energy_matched_divisor,false,1000,1000,100,100,writer 국소 진단
+history_1000_stale,history,,divisor,native,stale,10,1000,100,,,1000,main_000,anchor_RAM,history_1000_stale,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_1000_forced_refresh,history,,divisor,native,forced_refresh,10,1000,100,,,1000,main_000,anchor_RAM,history_1000_forced_refresh,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_3000_stale,history,,divisor,native,stale,10,1000,100,,,3000,main_000,anchor_RAM,history_3000_stale,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_3000_forced_refresh,history,,divisor,native,forced_refresh,10,1000,100,,,3000,main_000,anchor_RAM,history_3000_forced_refresh,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_5000_stale,history,,divisor,native,stale,10,1000,100,,,5000,main_000,anchor_RAM,history_5000_stale,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_5000_forced_refresh,history,,divisor,native,forced_refresh,10,1000,100,,,5000,main_000,anchor_RAM,history_5000_forced_refresh,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_7000_stale,history,,divisor,native,stale,10,1000,100,,,7000,main_000,anchor_RAM,history_7000_stale,false,1000,1000,100,100,history 강제 개입 국소 진단
+history_7000_forced_refresh,history,,divisor,native,forced_refresh,10,1000,100,,,7000,main_000,anchor_RAM,history_7000_forced_refresh,false,1000,1000,100,100,history 강제 개입 국소 진단
