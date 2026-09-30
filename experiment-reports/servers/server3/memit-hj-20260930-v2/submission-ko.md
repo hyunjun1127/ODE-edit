@@ -1,3 +1,17 @@
+# 최신 job mapping — CPU 보고 보완
+
+현재 등록·release된 plan: **GPU P56007/A56008/B56009/C56010/D56011 + CPU56019**.
+GPU source `a8126eb65cbe9a1814b381007798d857003555ed`, CPU analysis source `6c9e16522cb2534da2ce4d7c600a98edac01fd34`.
+CPU56019는 `afterany:56007:56008:56009:56010:56011`, GPU0/8CPU/32GiB/4h다.
+기존CPU56012의 정확owner/source/fullargv/PENDING/미배정 상태를 확인한 후 그 job만 취소했다.
+새CPU는 별도source를 소비하며 held owner/argv/resource/dependency/source 검사 PASS 뒤 release했다.
+GPU job·source·raw 변경0, 원CPU submission/cancel receipt 보존. 새GPU나 과학arm을 추가하지 않았다.
+대응 receipt: `audits/servers/server3/memit-hj-20260930-v2/CPU-collector-replacement.json`.
+Actual T0a PASS; 초기 science gate/terminal NOT_OBSERVED. W0 전체10k 관측이 진행 중이다.
+
+---
+아래는 최초 제출 및 T0 시점의 역사다. 최초CPU56012는 위의56019로 대체되었다.
+
 # MEMIT HJ v2 전체 DAG 제출 인계
 
 Source: `a8126eb65cbe9a1814b381007798d857003555ed`.

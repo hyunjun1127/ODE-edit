@@ -1,0 +1,262 @@
+{
+  "submission-CPU-r2": {
+    "analysis_manifest_sha256": "9fcfb0f3e3421b088f33511ed96798ca1a23277f8af9b0640c1b5671baf8d5dd",
+    "analysis_source_commit": "6c9e16522cb2534da2ce4d7c600a98edac01fd34",
+    "argv": [
+      "sbatch",
+      "--parsable",
+      "--hold",
+      "--export=NONE",
+      "--kill-on-invalid-dep=yes",
+      "--job-name=odeedit_memit_hj_CPU_s3",
+      "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+      "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+      "--dependency=afterany:56007:56008:56009:56010:56011",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/analysis-source-v1/source/project/run_scripts/memit_hj/collect.sbatch",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/analysis-source-v1/source",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/dag-submission-r2.json"
+    ],
+    "dependency": "afterany:56007:56008:56009:56010:56011",
+    "group": "CPU",
+    "job_id": "56019",
+    "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+    "replaces": "56012",
+    "response": "56019",
+    "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+  },
+  "held-CPU-r2": {
+    "all_pass": true,
+    "checks": {
+      "argv": true,
+      "command": true,
+      "cpu": true,
+      "dependency": true,
+      "dependency_afterany": true,
+      "gpu": true,
+      "held": true,
+      "job": true,
+      "memory": true,
+      "name": true,
+      "node": true,
+      "owner": true,
+      "partition": true,
+      "requeue": true,
+      "source": true,
+      "wall": true
+    },
+    "group": "CPU",
+    "job_id": "56019"
+  },
+  "cancel-CPU-r1": {
+    "GPU_jobs_unchanged": true,
+    "job_id": "56012",
+    "no_raw_deleted": true,
+    "pre_nodes": "",
+    "pre_state": "PENDING",
+    "reason": "Same-task CPU report source replacement",
+    "returncode": 0,
+    "stdout": ""
+  },
+  "release-CPU-r2": {
+    "actual_initial": "NOT_OBSERVED",
+    "actual_terminal": "NOT_OBSERVED",
+    "job_id": "56019",
+    "returncode": 0,
+    "status": "RELEASED",
+    "stdout": ""
+  },
+  "mapping": {
+    "cap": 1,
+    "jobs": [
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_P_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "P"
+        ],
+        "dependency": null,
+        "group": "P",
+        "job_id": "56007",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56007",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_A_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "A"
+        ],
+        "dependency": "afterok:56007",
+        "group": "A",
+        "job_id": "56008",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56008",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_B_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56008",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "B"
+        ],
+        "dependency": "afterok:56007,afterany:56008",
+        "group": "B",
+        "job_id": "56009",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56009",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_C_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56009",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "C"
+        ],
+        "dependency": "afterok:56007,afterany:56009",
+        "group": "C",
+        "job_id": "56010",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56010",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_D_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56010",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "D"
+        ],
+        "dependency": "afterok:56007,afterany:56010",
+        "group": "D",
+        "job_id": "56011",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56011",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "analysis_manifest_sha256": "9fcfb0f3e3421b088f33511ed96798ca1a23277f8af9b0640c1b5671baf8d5dd",
+        "analysis_source_commit": "6c9e16522cb2534da2ce4d7c600a98edac01fd34",
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_CPU_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterany:56007:56008:56009:56010:56011",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/analysis-source-v1/source/project/run_scripts/memit_hj/collect.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/analysis-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/dag-submission-r2.json"
+        ],
+        "dependency": "afterany:56007:56008:56009:56010:56011",
+        "group": "CPU",
+        "job_id": "56019",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "replaces": "56012",
+        "response": "56019",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      }
+    ],
+    "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+    "logical_mapping": {
+      "A": [
+        "main_000",
+        "main_001",
+        "writer_0_divisor",
+        "writer_0_joint",
+        "writer_0_frozen_upper_joint",
+        "writer_0_energy_matched_divisor",
+        "writer_1000_divisor",
+        "writer_1000_joint",
+        "writer_1000_frozen_upper_joint",
+        "writer_1000_energy_matched_divisor",
+        "writer_5000_divisor",
+        "writer_5000_joint",
+        "writer_5000_frozen_upper_joint",
+        "writer_5000_energy_matched_divisor",
+        "history_1000_stale",
+        "history_1000_forced_refresh",
+        "history_3000_stale",
+        "history_3000_forced_refresh",
+        "history_5000_stale",
+        "history_5000_forced_refresh",
+        "history_7000_stale",
+        "history_7000_forced_refresh"
+      ],
+      "B": [
+        "main_100",
+        "main_101"
+      ],
+      "C": [
+        "main_010",
+        "main_011"
+      ],
+      "CPU": [
+        "all-group-afterany-collector"
+      ],
+      "D": [
+        "main_110",
+        "main_111"
+      ],
+      "P": [
+        "T0a",
+        "W0-full10k"
+      ]
+    },
+    "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed",
+    "superseded_CPU_job": "56012"
+  }
+}

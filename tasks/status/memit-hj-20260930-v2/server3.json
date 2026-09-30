@@ -8,11 +8,16 @@
     "B": "56009",
     "C": "56010",
     "D": "56011",
-    "CPU": "56012"
+    "CPU": "56019"
   },
   "actual_initial": "NOT_OBSERVED",
   "actual_terminal": "NOT_OBSERVED",
   "monitoring": "BOUNDED_INITIAL_GATE_ONLY",
   "observed": "2026-09-30T22:41:01.401932+09:00",
-  "cap": 1
+  "cap": 1,
+  "actual_T0a": "PASS",
+  "oracle_precision": "NOT_ESTABLISHED_AT_ORIGIN",
+  "analysis_source_commit": "6c9e16522cb2534da2ce4d7c600a98edac01fd34",
+  "superseded_pending_CPU_job": "56012",
+  "CPU_replacement_reason": "Complete same-endpoint 2k factorial/diagnostic report; GPU execution unchanged"
 }
