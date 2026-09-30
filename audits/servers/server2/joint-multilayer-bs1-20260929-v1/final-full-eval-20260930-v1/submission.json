@@ -1,0 +1,217 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "active_monitoring": false,
+  "all_evaluations_completed": "NOT_OBSERVED",
+  "all_three_released": true,
+  "array": "55331",
+  "array_limit": 1,
+  "automatic_resume": false,
+  "cpu_token_binding": {
+    "bytes": 402,
+    "inode": 121457307,
+    "mtime_ns": 1790734247843210059,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-preflight.json",
+    "sha256": "7b5828cc445428b10111b53a9fe0ef0198d5e4bd61d1ee7c434894deadb09be5"
+  },
+  "history_append": false,
+  "independent_red_agent": false,
+  "initial_completed_requests": 1,
+  "initial_valid": {
+    "bytes": 1549,
+    "inode": 121641347,
+    "mtime_ns": 1790734275211184670,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/NATIVE/initial-valid.json",
+    "sha256": "5c900920fb5b1886fec756c213795ddbf9ee38bff65292a28df79de92d541b34"
+  },
+  "inputs": [
+    {
+      "arm": "NATIVE",
+      "old_catalog": {
+        "bytes": 1082461,
+        "inode": 121518781,
+        "mtime_ns": 1790676103562714773,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE/token-catalog.json",
+        "sha256": "e73156038475bb36b6847210930cdc27f2519e192239110b4b19d67e852cd1f1"
+      },
+      "old_final": {
+        "bytes": 458079,
+        "inode": 121577857,
+        "mtime_ns": 1790688215905107475,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE/B100/all-offered.json",
+        "sha256": "b22f428b28198e0bc13b0ee87dc5839c28d995116ad9dbaf7c1b5d464dacb4ba"
+      },
+      "original_terminal": {
+        "bytes": 12397,
+        "inode": 121523096,
+        "mtime_ns": 1790688831868183924,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE/terminal.json",
+        "sha256": "13d21cd8f0fcfb82dc94a50b5d8c9bd83a8fc6cf0b718c202d6c5be1b017b61f"
+      },
+      "snapshot_file": {
+        "bytes": 1174437721,
+        "inode": 121577859,
+        "mtime_ns": 1790688219757101653,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE/weights/B010-NATIVE/T100.pt",
+        "sha256": "23e53e1737d22c915aa93d03f0c3ea351fc794b258cb84e6d0f7e300e05c7ddb"
+      },
+      "snapshot_receipt": {
+        "bytes": 2404,
+        "inode": 121577860,
+        "mtime_ns": 1790688224629094290,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-NATIVE/weights/B010-NATIVE/T100.receipt.json",
+        "sha256": "ffd54b3c107b8d1459068843aa669fdb83d4d3440e86a28c2a380578347d2863"
+      }
+    },
+    {
+      "arm": "JOINT_STEP",
+      "old_catalog": {
+        "bytes": 1082461,
+        "inode": 121518783,
+        "mtime_ns": 1790676106950730453,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/token-catalog.json",
+        "sha256": "e73156038475bb36b6847210930cdc27f2519e192239110b4b19d67e852cd1f1"
+      },
+      "old_final": {
+        "bytes": 457187,
+        "inode": 121580878,
+        "mtime_ns": 1790721589559290272,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/B100/all-offered.json",
+        "sha256": "d5a579af07bec561ccf156e7cdb936aafece12c1bd3fdf32e5377b4464ac5aad"
+      },
+      "original_terminal": {
+        "bytes": 13180,
+        "inode": 121523098,
+        "mtime_ns": 1790722207673939844,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/terminal.json",
+        "sha256": "33b0112dd3c4c2649d6368a0f1335425e8064fb5dc999ff439dd1e11b387aab0"
+      },
+      "snapshot_file": {
+        "bytes": 1174441817,
+        "inode": 121580880,
+        "mtime_ns": 1790721593371281536,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/weights/B010-JOINT_STEP/T100.pt",
+        "sha256": "cf556c7b4dd6101a15fa46e611d4f703bd5f3169865cd1d8056cb2805f454eb4"
+      },
+      "snapshot_receipt": {
+        "bytes": 2412,
+        "inode": 121580881,
+        "mtime_ns": 1790721599303267959,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_STEP/weights/B010-JOINT_STEP/T100.receipt.json",
+        "sha256": "2fbef27a9b01e2da2ae5af3507ed391812b81f55e485db08b4a9f6a1c786127e"
+      }
+    },
+    {
+      "arm": "JOINT_CUM",
+      "old_catalog": {
+        "bytes": 1082461,
+        "inode": 121571663,
+        "mtime_ns": 1790678968410049615,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM/token-catalog.json",
+        "sha256": "e73156038475bb36b6847210930cdc27f2519e192239110b4b19d67e852cd1f1"
+      },
+      "old_final": {
+        "bytes": 457133,
+        "inode": 121581282,
+        "mtime_ns": 1790724705461356471,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM/B100/all-offered.json",
+        "sha256": "4f6f8f5c28de80d2bf65468fc916ed2be934b2f79f91b052c07cd7ea90cbcd38"
+      },
+      "original_terminal": {
+        "bytes": 13171,
+        "inode": 121581327,
+        "mtime_ns": 1790725325847750555,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM/terminal.json",
+        "sha256": "f2223a8365659acee0e5af2ed35300f57ade017282860c3c98632726bbe0c2c1"
+      },
+      "snapshot_file": {
+        "bytes": 1174441817,
+        "inode": 121581284,
+        "mtime_ns": 1790724709133346916,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM/weights/B010-JOINT_CUM/T100.pt",
+        "sha256": "6a5a607bfc7cf6d7f82196f020339827dc972203d2001646905020e1b55b196d"
+      },
+      "snapshot_receipt": {
+        "bytes": 2402,
+        "inode": 121581285,
+        "mtime_ns": 1790724714941331804,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/output/B010-JOINT_CUM/weights/B010-JOINT_CUM/T100.receipt.json",
+        "sha256": "9579ec34494002f43034ab65aa656b11aed03ef405deb4eadcee7148df7aca3c"
+      }
+    }
+  ],
+  "lock": {
+    "bytes": 9741,
+    "inode": 121641333,
+    "mtime_ns": 1790734248499209451,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/execution.lock.json",
+    "sha256": "95d898d31c1f8f4fa41a7b8af74dbfbaf0771b5b19dc8fde266d80a8a1b338ef"
+  },
+  "mapping": {
+    "0": "NATIVE",
+    "1": "JOINT_STEP",
+    "2": "JOINT_CUM"
+  },
+  "new_checkpoint": false,
+  "new_edit": false,
+  "new_z": false,
+  "old_jobs_mutated": false,
+  "owner_audit": true,
+  "prior_session_check": "review worktree lacks ignored boundary config; root-owned session check repeated PASS before source writes/submission",
+  "project_cap": 3,
+  "receipts": {
+    "admission.json": {
+      "bytes": 1128,
+      "inode": 121641336,
+      "mtime_ns": 1790734248583209372,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/admission.json",
+      "sha256": "cff399ba4dbc837b062812bc2c5fdaaa559d3affa043f6d741c5edb2bb077d30"
+    },
+    "freeze.json": {
+      "bytes": 610,
+      "inode": 121641335,
+      "mtime_ns": 1790734248511209439,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/freeze.json",
+      "sha256": "061d3a1ceb4219ac7f8210f16a4332f2417e900fd86e83b0b325f8e1dd41faf9"
+    },
+    "held-inspection.json": {
+      "bytes": 2078,
+      "inode": 121641338,
+      "mtime_ns": 1790734248611209346,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/held-inspection.json",
+      "sha256": "b64338511cf3b09a06236903cbc698aac5bca09cec01b2651ca26bba42941272"
+    },
+    "released.json": {
+      "bytes": 109,
+      "inode": 121641339,
+      "mtime_ns": 1790734248619209340,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/released.json",
+      "sha256": "fcf354587def410230a88cef4d5ae7246152299f24dedbacbc8ee76ca36db976"
+    },
+    "submitted.json": {
+      "bytes": 520,
+      "inode": 121641337,
+      "mtime_ns": 1790734248595209361,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/submitted.json",
+      "sha256": "0d22527a77c2f4041a0cf5aab6be7fb525e923c55a2e92fe3a07d1c7e737a50e"
+    }
+  },
+  "restore": {
+    "bytes": 1087,
+    "inode": 121641344,
+    "mtime_ns": 1790734273355186392,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/NATIVE/restore.json",
+    "sha256": "c9a60f1626d4aaeedd3bd6e322d90983742c4324921b08fb9f5f12fc5eb60a65"
+  },
+  "runtime": "FP32/eager; TF32 matmul=false/cuDNN=true; exact original evaluator row layout",
+  "scope_per_arm": {
+    "N": 1000,
+    "P": 200,
+    "R": 100,
+    "requests": 100
+  },
+  "source": "62005204cf2b0a5abf5ef2830849bc9103199515",
+  "source_tree": "e157513f4ded65c09908a7bf11c543345df3a1eb",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "tests": 2,
+  "utc": "2026-09-30T02:12:18.004776+00:00"
+}
