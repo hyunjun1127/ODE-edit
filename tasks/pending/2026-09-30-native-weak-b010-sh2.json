@@ -1,0 +1,29 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH2-NATIVE-WEAK-B010-NLL1-20260930-R1",
+  "owner": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "status": "DISPATCH_READY_NOT_SUBMITTED",
+  "envelope": "messages/head/2026-09-30-native-weak-b010-sh2.md",
+  "parent_checkpoint": "BASE_ALPHAEDIT/B010",
+  "arm": "NATIVE_WEAK_NLL1",
+  "batch_size": 1,
+  "steps": 100,
+  "project_gpu_cap": 3,
+  "task_gpu_cap": 1,
+  "stop": {
+    "quantity": "native compute_z nll_loss (context mean of target-token means)",
+    "comparison": "<=1.0",
+    "position": "before backward",
+    "max_loss_evaluations": 25,
+    "max_adam_updates": 24
+  },
+  "save_checkpoints": false,
+  "final_full_evaluation": {
+    "R": 100,
+    "P": 200,
+    "N": 1000
+  },
+  "comparators": "reuse exact B010 NATIVE JOINT_STEP JOINT_CUM",
+  "job_ids": [],
+  "initial_monitoring": "firststep->secondentry or verified released resource-pending; then stop"
+}
