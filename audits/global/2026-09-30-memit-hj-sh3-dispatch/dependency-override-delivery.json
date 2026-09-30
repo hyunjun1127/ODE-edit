@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
+  "parent": "ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1",
+  "authority_commit": "48dee1613b31fc3b1a66944fd64b68e40ec3ce9f",
+  "envelope": "messages/head/2026-09-30-memit-hj-sh3-all-implementation-dependencies.md",
+  "envelope_sha256": "15623059b7302d7945b26dd7777e4866e7f0458fba17d882fe94081b0c7aef3f",
+  "recorded_utc": "2026-09-30T12:41:55Z",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "accepted_turn": "01a0f23d-a429-77a1-8819-f0e41eed67dd",
+  "transport": "registered SSH/app-server direct, related turn/steer with exact expectedTurnId",
+  "transport_status": "ACCEPTED",
+  "acknowledgement_status": "RECEIVED_SAME_STREAM",
+  "acknowledgement_text": "ACK ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1 수신했습니다. 현재 IMPLEMENTING_NOT_SUBMITTED입니다. 기존 수정은 보존하고, 전체 구현 점검표와 실제 Slurm dependency 등록까지 같은 task에서 이어가겠습니다.",
+  "duplicate_dispatch": false,
+  "execution_status": "IMPLEMENTING_NOT_SUBMITTED_AT_LATEST_SH3_REPORT",
+  "scientific_job_ids": null,
+  "gpu_cap": 1,
+  "gh_gpu_calls": 0,
+  "gh_slurm_queries_or_mutations": 0,
+  "gh_automatic_monitoring": false,
+  "note": "Detailed implementation/code review/upfront dependency registration requested. Message acceptance is not scheduler registration or experiment completion."
+}
