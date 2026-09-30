@@ -1,0 +1,7 @@
+{
+  "observed": "2026-09-30T23:31:45.397128+09:00",
+  "job_id": "56007",
+  "stdout": "56007|odeedit_memit_hj_P_s3|janghj|COMPLETED|0:0|2738|billing=1,cpu=8,gres/gpu=1,mem=119G,node=1|\n56007.batch|batch||COMPLETED|0:0|2738|cpu=8,gres/gpu=1,mem=119G,node=1|31662116K\n56007.extern|extern||COMPLETED|0:0|2738|billing=1,cpu=8,gres/gpu=1,mem=119G,node=1|\n",
+  "allocated_GPU_cost_parent_row_only": true,
+  "scope": "Completed prerequisite before representative science initial gate observed"
+}

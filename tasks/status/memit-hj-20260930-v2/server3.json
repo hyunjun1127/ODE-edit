@@ -1,5 +1,5 @@
 {
-  "status": "ALL_REGISTERED_RELEASED_INITIAL_PENDING",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
   "source_commit": "f1d7a995460e2fce8fb10134f723ba4680303a31",
   "lock_sha256": "023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1",
   "actual_jobs": {
@@ -11,11 +11,11 @@
     "CPU": "56037"
   },
   "actual_T0a": "PASS_FROM_EXPLICIT_ORIGINAL_P",
-  "actual_initial": "NOT_OBSERVED",
+  "actual_initial": "PASS_REPRESENTATIVE_WRITER_0_DIVISOR_FIRST_BS10",
   "actual_terminal": "NOT_OBSERVED",
   "P_source": "a8126eb65cbe9a1814b381007798d857003555ed",
   "oracle_precision": "NOT_ESTABLISHED_AT_ORIGIN",
-  "monitoring": "BOUNDED_INITIAL_GATE_ONLY",
+  "monitoring": "PAUSED_AFTER_ACTUAL_INITIAL_GATE",
   "cap": 1,
   "temporary_holds_remaining": 0,
   "replaced_pending_jobs": [
@@ -26,5 +26,7 @@
     "56019"
   ],
   "previous_CPU_replacement": "56012",
-  "CPU_tests": 27
+  "CPU_tests": 27,
+  "observed": "2026-09-30T23:37:09.897547+09:00",
+  "report": "experiment-reports/servers/server3/memit-hj-20260930-v2/initial-handoff-ko.md"
 }

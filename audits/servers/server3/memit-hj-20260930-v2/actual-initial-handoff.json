@@ -1,0 +1,266 @@
+{
+  "status": "ACTUAL_INITIAL_GATE_PASS",
+  "monitoring": "MONITORING_PAUSED_AWAITING_USER",
+  "observed": "2026-09-30T23:37:09.897547+09:00",
+  "source_commit": "f1d7a995460e2fce8fb10134f723ba4680303a31",
+  "lock_sha256": "023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1",
+  "job": "56033",
+  "cell": "writer_0_divisor",
+  "committed_requests": 10,
+  "next_entry": 10,
+  "first_request_ids": [
+    16186,
+    3743,
+    1481,
+    18140,
+    5506,
+    14521,
+    14349,
+    16334,
+    6882,
+    6620
+  ],
+  "first_request_hashes": [
+    "4e79217b5b6558fb81d3de4c716f62791a7dcd16935a166ad1ab021f8991dc72",
+    "b309894c6d958ce8067a9a9261c00baed934761647db446cca34f7501cc37fcb",
+    "9c84a2fd7d18d6628a45bccaef8a7757be631605f280553137d963b534c5b010",
+    "cbbc3377fa42fef00039750404fd0008383b7a4906c630ca7471c67c42cef7c5",
+    "e77e3ab983ae1ee52140db2198ef50fa05d802df0c900d5bcd4c5e2a2a014e55",
+    "ac85308532a95d3bf54da3cdc399cbb4dd0eee7f5d09aedcf1fbdf84dc895e23",
+    "f60331102b8f2f1df3b8bb9ea3298a49cb7078e4189098f6b307d5c35ebc6e9a",
+    "c4bb3fecaa7c555abcd95006f98af47974668602bfe9f41545d03f8ddc586716",
+    "9b20c260fd14e0c2c01f5faaf0c358df8e3c426ac45c905c33523a52e5998761",
+    "3d341d589c39b68a2d2f31968bdd3ed7564b5c250c57b789749a0d3cb5d93d6d"
+  ],
+  "entry_H_zero": true,
+  "W_H_RNG_context_ledger_next_entry_exact": true,
+  "commit": {
+    "cache_c_returned_same_object": true,
+    "cell": "writer_0_divisor",
+    "current": {
+      "NS": {
+        "bit_order_sha256": "e3593de7c0cf5d627389d3eeeac088edc8c98f0f9ed68d4e190625cb3d5e90fd",
+        "denominator": 100,
+        "desired": "true",
+        "desired_nll": 6.3152192649617795,
+        "margin_true_minus_new": -5.179097078107297,
+        "new_nll": 11.494316343069077,
+        "numerator": 83,
+        "rate": 0.83,
+        "tf_prompt_macro": 0.1,
+        "tf_strict": 0.1,
+        "tf_strict_denominator": 100,
+        "tf_strict_numerator": 10,
+        "tf_token_correct": 10,
+        "tf_token_count": 100,
+        "tf_token_micro": 0.1,
+        "true_nll": 6.3152192649617795
+      },
+      "PS": {
+        "bit_order_sha256": "2db237b3797f567cf58d3ca6c924762fea98ab4f5b8852a2d33770f9054bb44c",
+        "denominator": 20,
+        "desired": "new",
+        "desired_nll": 3.2876103340648113,
+        "margin_true_minus_new": 3.464408964011818,
+        "new_nll": 3.2876103340648113,
+        "numerator": 15,
+        "rate": 0.75,
+        "tf_prompt_macro": 0.45,
+        "tf_strict": 0.45,
+        "tf_strict_denominator": 20,
+        "tf_strict_numerator": 9,
+        "tf_token_correct": 9,
+        "tf_token_count": 20,
+        "tf_token_micro": 0.45,
+        "true_nll": 6.75201929807663
+      },
+      "RS": {
+        "bit_order_sha256": "f04e19210252a748b177868f896bdb51dc9a91ec31cf5cc6d88f9c8d437e74f3",
+        "denominator": 10,
+        "desired": "new",
+        "desired_nll": 0.04931217418052256,
+        "margin_true_minus_new": 10.311977565428242,
+        "new_nll": 0.04931217418052256,
+        "numerator": 10,
+        "rate": 1.0,
+        "tf_prompt_macro": 1.0,
+        "tf_strict": 1.0,
+        "tf_strict_denominator": 10,
+        "tf_strict_numerator": 10,
+        "tf_token_correct": 10,
+        "tf_token_count": 10,
+        "tf_token_micro": 1.0,
+        "true_nll": 10.361289739608765
+      }
+    },
+    "endpoint_identity": {
+      "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+      "ledger": "6c301cda718f48575f1c55c0f3ae8b643bad3d8a7967046ce3f8fad0abde4343",
+      "metadata": "c5cfb64f72981734b997544580244e9ef9a7353bc90e40414a768ed8553316f1",
+      "rng": "a6e41fc3e59a9976183d899d466c2dfc4f0a3513cc8de0d0740467b5b4a64b3d",
+      "state": {
+        "cache": "8113c0b114e399f165c0718f3956e10589e233bb699ab05b79b3eda0ce1a438d",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "1e0055d10c929282f8cc9ce016db80f6b47d78b86a96b4b5c616ed328ce0101e",
+          "model.layers.5.mlp.down_proj.weight": "7cfbdd64d518406e4e7ad45dbf77ea86b5665ec075a85d0c09a6094f351ce4ea",
+          "model.layers.6.mlp.down_proj.weight": "66234aab3f977b3f860cd3cfb3aa119ae55d26bea820ca82e1638252beddce6d",
+          "model.layers.7.mlp.down_proj.weight": "170521c8fa3d7034c2a199101eb2209c15ac6840404a63064a9ce31e81c0b03a",
+          "model.layers.8.mlp.down_proj.weight": "80c173683906a06655bfa462f30f625bdfca3e4db0d0088a61b26e744f29c1bf"
+        }
+      }
+    },
+    "entry_identity": {
+      "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+      "ledger": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "metadata": "645ffba40adf8966927b2ef77391f9ac1470f0fd08d0d7088f795e523604e1a9",
+      "rng": "a6e41fc3e59a9976183d899d466c2dfc4f0a3513cc8de0d0740467b5b4a64b3d",
+      "state": {
+        "cache": "75216815ac87fc0c0d11cccb5962144d02b67a15dad3e6a96ff4ba33556e75d1",
+        "weights": {
+          "model.layers.4.mlp.down_proj.weight": "9421d3f6dfae10b4663c07a41696f5c47e299e1f15d1728e162482f0245eb851",
+          "model.layers.5.mlp.down_proj.weight": "5da902bacb430b8f3e8879559e729f4ce49a8ff921dbb67a89a70ad23b99a569",
+          "model.layers.6.mlp.down_proj.weight": "eaf18f5869f04ec6d6384affc6068f71c9e982d7d5c5150d2d96ef656e5600fd",
+          "model.layers.7.mlp.down_proj.weight": "9d586d1247d3d36285377296f81700a793b6f6220dd483def7a772acd66c686e",
+          "model.layers.8.mlp.down_proj.weight": "2c8ac360f67a340c36f46450ab7d961131704ebdeebe8bdb8d252eb0155a52c2"
+        }
+      }
+    },
+    "finite_W_H": true,
+    "history_append_layers": 5,
+    "history_norms": [
+      23.248334884643555,
+      35.23113250732422,
+      48.100547790527344,
+      47.60426712036133,
+      46.61531066894531
+    ],
+    "history_phase": "POST_ALL_FIVE_WRITES",
+    "observer_nonmutating": true,
+    "observer_seconds": 16.803479831665754,
+    "peak_GPU_bytes": 54859063808,
+    "prior_history_used": true,
+    "requests": 10,
+    "rollback_RAM_snapshot_seconds": 6.745912129059434,
+    "start": 0,
+    "status": "COMMITTED",
+    "stop": 10,
+    "total_step_seconds": 63.67051659338176,
+    "write_seconds": 45.88381777331233
+  },
+  "writer_calls": {
+    "A_solve": 5,
+    "factorization": 5,
+    "native_backward_calls": 240,
+    "native_key": 10,
+    "native_loss_calls": 250,
+    "native_solve": 5,
+    "native_z": 10,
+    "realization_forward": 5,
+    "token_backward": 30744,
+    "token_forward": 32025
+  },
+  "append": [
+    {
+      "H_sha": "40b7b360056fe3fe44f60a7ba7db5e8ac38738b0bdf24a3f066504e1c75a0edb",
+      "key_sha": "864bd5244f601020bda9d079ba9b8181ee865b41ca9499de9787094b9d3ca2f8",
+      "layer": 4,
+      "phase": "POST_ALL_FIVE_WRITES"
+    },
+    {
+      "H_sha": "4c2128a85335df8f3e1ec5421d62afe36e76bcb320fe3a4ad003b94adae5cae0",
+      "key_sha": "bc901972df7fc519887edc3ba0ce5be0a880073f9d100e37fe1bafb56f43c58a",
+      "layer": 5,
+      "phase": "POST_ALL_FIVE_WRITES"
+    },
+    {
+      "H_sha": "288a6faf33adf0b8ad52804794aa100c9f6348f6c8ed3412fe2650091ee08478",
+      "key_sha": "ca138261fd45906f9aa055ef3ff7480faeca07e126823fa3264694fee3361682",
+      "layer": 6,
+      "phase": "POST_ALL_FIVE_WRITES"
+    },
+    {
+      "H_sha": "609eb1df6b121b348d6a9330c1bd9a1247366b9a51bd29817972aaca3a88c0b3",
+      "key_sha": "8a0e8ef524c7abacba71a6819a37add30b1a7be8a85e87e42417a00e1e505502",
+      "layer": 7,
+      "phase": "POST_ALL_FIVE_WRITES"
+    },
+    {
+      "H_sha": "cebc90ab78f3ae94798ecf187c860655ac2845ff1e363d9b352fc2f39a4e5ccd",
+      "key_sha": "044079b870f007953f49f8fc2239311eea8d5ff638d20d380ee64957e40f9025",
+      "layer": 8,
+      "phase": "POST_ALL_FIVE_WRITES"
+    }
+  ],
+  "prerequisite": {
+    "job": "56007",
+    "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed",
+    "readiness": "PASS",
+    "W0_eval_sha256": "08127b25a524932285d6f50c102b5e42d97ba7c6de2983131d61f82029d69149",
+    "T0_native_adapter": "PASS",
+    "CP_reload": "PASS",
+    "process_seconds": 2735.4356331247836,
+    "allocated_GPU_seconds": 2738,
+    "allocated_GPU_hours": 0.7605555555555555,
+    "host_peak_rusage_KiB": 34489332,
+    "GPU_peak_allocated_bytes": 54710985216,
+    "GPU_peak_reserved_bytes": 62287511552
+  },
+  "unobserved": [
+    "joint GPU diagnostic",
+    "T0b 32-request calibration",
+    "SPG production",
+    "refresh production",
+    "remaining cell endpoints",
+    "terminal completion"
+  ],
+  "oracle_precision": "NOT_ESTABLISHED_AT_ORIGIN",
+  "full_experiment_complete": false,
+  "performance_gate": false,
+  "sources": [
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/actual-initial-gate.json",
+      "bytes": 1523,
+      "sha256": "813bcf96cc6c423e0695792843321c2644a5a7411e452591384914f3e45d37e6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/C00010/entry.json",
+      "bytes": 1792,
+      "sha256": "b27ba10f1a3283f2a2e20f58cb34ee01547ea1dc87a6cab749af520fdfcc7bdf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/C00010/commit.json",
+      "bytes": 3789,
+      "sha256": "70983a8973d951436d5f3071af7c56a3337da8c60b8ef6c61f7a74282ed5bd80"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/C00010/writer.json",
+      "bytes": 49014,
+      "sha256": "3ece38eba86ef9e194b4ea46bb801e48c5c1ae10de95152ac23d2a39a6575152"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/C00010/current.json",
+      "bytes": 46342,
+      "sha256": "c00c9ec49c5da202b728f01411eb4d7ca1f18b8f2acf31d83c9a303944e50436"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/C00020/entry.json",
+      "bytes": 1860,
+      "sha256": "5511acaf83b8d5ed661899ec23627b425358c417435df489342697eb763fb341"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/groups/A/runtime.json",
+      "bytes": 2675,
+      "sha256": "242b1909e3102706411059974a6430eff4e20908b43e17fcae70424bf5840600"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/readiness.json",
+      "bytes": 3236,
+      "sha256": "66ab2fa44b8cab4ec022c7c415934cb1347514da45b4fbc7a6ebc1733aa2cd76"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/groups/P/terminal.json",
+      "bytes": 2004,
+      "sha256": "daaab7682c4621b9a52169562a7e3dcdfbe7f28b34a795f1898a6bba7298c652"
+    }
+  ]
+}

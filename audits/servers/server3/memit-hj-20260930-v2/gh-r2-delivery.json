@@ -1,0 +1,29 @@
+[
+  {
+    "event": "accepted",
+    "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "accepted": true,
+    "ack": false,
+    "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "peer_status": {
+      "type": "idle"
+    },
+    "resume_verified": true,
+    "turn_id": "01a0f2ad-cdd5-7981-8b9c-9552bd67077b"
+  },
+  {
+    "event": "result",
+    "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "accepted": true,
+    "ack": false,
+    "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "peer_status": {
+      "type": "idle"
+    },
+    "resume_verified": true,
+    "turn_id": "01a0f2ad-cdd5-7981-8b9c-9552bd67077b",
+    "status": "DELIVERY_ACCEPTED_NO_RESPONSE_WAIT"
+  }
+]

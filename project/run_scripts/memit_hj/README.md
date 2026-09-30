@@ -49,6 +49,13 @@ parity 후 manifest에 기록하며, 해당 path만 owner/hash/refcount 확인�
 "$PY" -m project.run_scripts.memit_hj.runner --lock NEW_RECOVERY_LOCK --group A --resume-checkpoint OLD_OWNED_LONG_CP
 ```
 
+R2처럼 원 P 검증을 명시 재사용하는 lock은 `prerequisite_job_id`와
+`prerequisite_bindings`도 유지한다. 재개 전에 원 checkpoint의 output root에 있는
+`groups/P/runtime.json`을 새 output의 같은 상대경로로 **create-once exact copy**하고
+SHA를 대조해야 한다. 이는 원 P source/job 검증 receipt이며 edited state가 아니다.
+새 attempt/output 경로 이외의 source/config/input binding을 수정하지 않는다.
+이 준비 없이 존재하지 않는 prerequisite 경로를 새 P 실행으로 간주하면 안 된다.
+
 source/config/input binding이 다르면 거부한다. 기존 raw는 보존하고 검증된 prefix receipt만
 hard link하며 CP 이후의 불완전 raw를 새 trajectory에 섞지 않는다. 장기111의 pending parent는
 pin된110 CP로 복원한다. 단기/진단의 disk checkpoint 예외는 없다. source를 수리한 수치
