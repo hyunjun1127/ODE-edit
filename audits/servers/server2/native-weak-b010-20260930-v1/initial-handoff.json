@@ -1,0 +1,61 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "actual_context": {
+    "case_id": 11336,
+    "contexts": 6,
+    "latent_fit_final_nll": 0.7930968999862671,
+    "mean_nll": 1.050809383392334,
+    "scope": "actual five-weight forward; no latent injection"
+  },
+  "automatic_resume": false,
+  "comparison_results": "NOT_YET_REVIEWED",
+  "exact_resume": "NOT_AVAILABLE",
+  "first_commit": {
+    "bytes": 3550,
+    "inode": 121650606,
+    "mtime_ns": 1790743915635994049,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/output/B001/commit.json",
+    "sha256": "a490327ac1b20dfc162f009d5b09ce1bb7bb3aa12cd54e419bbb71ba52798b44"
+  },
+  "first_history_appends": 5,
+  "first_link": {
+    "bytes": 832,
+    "inode": 121650618,
+    "mtime_ns": 1790744656886675300,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/output/initial-link.json",
+    "sha256": "94b716d28e8375fe76d1598b0f581e6b7abb420a84cbe0ae3b251c993cf22315"
+  },
+  "first_native_solves": 5,
+  "first_target_fit": {
+    "adam_updates": 2,
+    "final_latent_nll": 0.7930968999862671,
+    "initial_nll": 10.353504180908203,
+    "loss_evaluations": 3,
+    "native_seconds": 23.540887903422117,
+    "stop": "NLL_THRESHOLD_REACHED"
+  },
+  "instruction_id": "ODEEDIT-GH-SH2-NATIVE-WEAK-B010-NLL1-20260930-R1",
+  "job_id": "55413",
+  "lock": {
+    "bytes": 8071,
+    "inode": 121650581,
+    "mtime_ns": 1790743364015992374,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/execution.lock.json",
+    "sha256": "c682fa528498fba9475a15be168b6b3efd6bb843d4a197c0d46919211bb56491"
+  },
+  "monitoring_active": false,
+  "new_native_target_threshold_tuning": false,
+  "remaining": "Registered program continues 100 offered edits, same-RAM final R100/P200/N1000, greedy and compact CPU reducer. No terminal result claimed.",
+  "save_checkpoints": false,
+  "scientific_promotion": false,
+  "second_entry": {
+    "bytes": 1234,
+    "inode": 121650617,
+    "mtime_ns": 1790744656882675330,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/output/B002/entry.json",
+    "sha256": "3e94b544260ed0fc329763d5008b25c36abeef13962b052e42583ca051efe5da"
+  },
+  "source": "30ef8b02327746edef82a889c0bacd9f961f8f3c",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "tree": "0a2c2296a01ed33a25655aca2a087e9d3f7c1799"
+}

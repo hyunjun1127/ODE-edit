@@ -1,0 +1,222 @@
+{
+  "admission": {
+    "disk": {
+      "free": 311080607744,
+      "total": 15240493973504,
+      "used": 14161260142592
+    },
+    "existing_admitted": 0,
+    "new_jobs": 1,
+    "node": "NodeName=server2 Arch=x86_64 CoresPerSocket=32 \n   CPUAlloc=36 CPUEfctv=64 CPUTot=64 CPULoad=7.18\n   AvailableFeatures=(null)\n   ActiveFeatures=(null)\n   Gres=gpu:a6000:8\n   NodeAddr=server2 NodeHostName=server2 Version=26.05.0\n   OS=Linux 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026 \n   RealMemory=512000 AllocMem=258048 FreeMem=51142 Sockets=2 Boards=1\n   State=MIXED ThreadsPerCore=1 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A\n   Partitions=gpu \n   BootTime=2026-07-21T01:32:02 SlurmdStartTime=2026-09-08T19:54:34\n   LastBusyTime=2026-09-30T13:35:38 ResumeAfterTime=None SuspendTime=INFINITE\n   CfgTRES=cpu=64,mem=500G,billing=64,gres/gpu=8\n   AllocTRES=cpu=36,mem=252G,gres/gpu=5\n   CurrentWatts=0 AveWatts=0",
+    "other_jobs_mutated": false,
+    "project_cap": 3,
+    "queue": "",
+    "task_cap": 1,
+    "utc": "2026-09-30T04:42:44.093083+00:00"
+  },
+  "authority": [
+    {
+      "bytes": 7918,
+      "inode": 121642017,
+      "mtime_ns": 1790742712492869810,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/audits/global/2026-09-22-alphaedit-original-failure-audit/official/AlphaEdit/AlphaEdit_main.py",
+      "sha256": "a4d24f793b2a711c7c415894b98f2bbe1c51661a862f61add4570d76a38cdb89"
+    },
+    {
+      "bytes": 2608,
+      "inode": 121647367,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/asset-check.json",
+      "sha256": "11d15ec3e18bb4d7a9310d4b1c9d297f63ff07f136ff5f4a4a4cd3bed12db072"
+    },
+    {
+      "bytes": 73504,
+      "inode": 121647368,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/batch-cells.csv",
+      "sha256": "5c8fa1b73e1928376658ddb6af12adf4ad4e561a06dd4581920939904b570836"
+    },
+    {
+      "bytes": 3521,
+      "inode": 121647369,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/batches.csv",
+      "sha256": "d83e3805879c51377bbbda575c39489825bc79cf50a42cee3da45dc1a147af3b"
+    },
+    {
+      "bytes": 16973,
+      "inode": 121647370,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/build_design.py",
+      "sha256": "1c213f38a9c2ea4e53193b7ab56773467955e2f4095c59c364bdc570206d7059"
+    },
+    {
+      "bytes": 1004,
+      "inode": 121647371,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/checkpoint-bindings.csv",
+      "sha256": "42e651ec172b661ce11375069fc071964675b2c0b2a8609463123419c5344a6b"
+    },
+    {
+      "bytes": 107720,
+      "inode": 121647372,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/continuation-ids.csv",
+      "sha256": "57bd185d76f51e5bad331f75f1bfcc74ef1281827692f8d915fc23970b3f7bc4"
+    },
+    {
+      "bytes": 8145,
+      "inode": 121647373,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/contract.json",
+      "sha256": "d4e2f441235c86f3f9ce7bde8bec742cc2fdb6a25ea30c90c427eef52b4393cd"
+    },
+    {
+      "bytes": 1467,
+      "inode": 121647374,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/design-checks.json",
+      "sha256": "b8c55babeb0b1ba9904630ce48fd159a9a358b0fbeb7aa04b0d826927ad392c4"
+    },
+    {
+      "bytes": 19082,
+      "inode": 121647375,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/design-ko.md",
+      "sha256": "a16eede37bc30945c3069989b53d22798412dc5c1cc056bb123e7da9c54c4935"
+    },
+    {
+      "bytes": 64717,
+      "inode": 121647376,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/panel-ids.csv",
+      "sha256": "5e762bfe826125332c6e146d45a01a8c4a73b875c2252a28c631c6af29758373"
+    },
+    {
+      "bytes": 4310,
+      "inode": 121647377,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-bs10-diagnostic-v1/weight-snapshots.csv",
+      "sha256": "c1736a7ca10db30f18f70ea028302745468485ed715bd465728fac7982378fb8"
+    },
+    {
+      "bytes": 17947,
+      "inode": 121647378,
+      "mtime_ns": 1790742715692845022,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/global/2026-09-29-joint-multilayer-preservation-method-ko.md",
+      "sha256": "5909c1ad674e392d03f6e6fa0d81885259c49a7e35c874588f5a17a8aeeb2bfe"
+    },
+    {
+      "bytes": 61100,
+      "inode": 121641712,
+      "mtime_ns": 1790742712432870275,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/PROTOCOL.md",
+      "sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4"
+    },
+    {
+      "bytes": 9815,
+      "inode": 121647044,
+      "mtime_ns": 1790742715632845486,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/messages/head/2026-09-29-joint-multilayer-bs1-sh2-migration.md",
+      "sha256": "2a16ceefdd2b4e46323f83ec7247a9b4ca4da7c1623034065605206380f3ef9a"
+    },
+    {
+      "bytes": 11850,
+      "inode": 121647048,
+      "mtime_ns": 1790742715632845486,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/messages/head/2026-09-30-native-weak-b010-sh2.md",
+      "sha256": "96d747a96e681280a2fc5256dea5b5e53e860f3722fd79f9b62f14410dfdd957"
+    },
+    {
+      "bytes": 921,
+      "inode": 121650302,
+      "mtime_ns": 1790742715912843317,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/tasks/pending/2026-09-30-native-weak-b010-sh2.json",
+      "sha256": "b39da910bf935f3524e2824e708cd82f6712c2d49a22fe9535d2ebc4b3124fdf"
+    },
+    {
+      "bytes": 1132,
+      "inode": 121647412,
+      "mtime_ns": 1790742715696844990,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/plans/updates/server2/joint-multilayer-bs1-20260929-v1/user-cap3.md",
+      "sha256": "14abbe1f79639ca87917948a46775676f7fc317c3509a2222f550bd951f5cd53"
+    },
+    {
+      "bytes": 4594,
+      "inode": 121647010,
+      "mtime_ns": 1790742715632845486,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/messages/head/2026-09-19-all-sh-default-no-checkpoints.md",
+      "sha256": "d27fc57c73b755a6eb6bf6490d1a14973b6bd81277237b25cfd7e3412384f454"
+    }
+  ],
+  "cpu": {
+    "actual_model": false,
+    "ast_predicate_only": true,
+    "owner_review": true,
+    "preparation_repair": "Pre-submit original authority path mapping fixed; empty staging only; no GPU attempt or science output existed",
+    "separate_red_agent": false,
+    "status": "PASS_CPU_ONLY",
+    "syntax": true,
+    "tests": 16,
+    "token_check": {
+      "bytes": 305,
+      "inode": 121650557,
+      "mtime_ns": 1790743213809095082,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/token-check.json",
+      "sha256": "7c2190946ee11c1d865c8a962802ada87b553ba762cf5db02ff27acbbf05d4f9"
+    }
+  },
+  "held": {
+    "info": "JobId=55413 JobName=odeedit_native_weak_b010_s2 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=08:00:00 TimeMin=N/A SubmitTime=2026-09-30T13:42:44 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-30T13:42:44 Scheduler=Main Partition=gpu AllocNode:Sid=server2:1959037 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=59G,node=1,billing=8,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=59G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/run.sbatch SubmitLine=sbatch --parsable --hold --job-name=odeedit_native_weak_b010_s2 --output=/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/%j.out --error=/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/%j.err /mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/run.sbatch WorkDir=/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1 StdErr=/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/55413.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/55413.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "job_id": "55413",
+    "source": "30ef8b02327746edef82a889c0bacd9f961f8f3c"
+  },
+  "original_compute_z": {
+    "bytes": 9524,
+    "inode": 121457194,
+    "mtime_ns": 1790675684363886250,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/inputs/server4-handoff/native-imports/AlphaEdit/compute_z.py",
+    "sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f"
+  },
+  "original_model_checkpoint_verification": "Prior fullSHA + current stat; actual first entry W/M/context/RNG matched original NATIVE entry",
+  "own_scope_only": true,
+  "patched_compute_z": {
+    "bytes": 9528,
+    "inode": 121650553,
+    "mtime_ns": 1790743211141114750,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/inputs/compute_z_weak.py",
+    "sha256": "c9f37ff6f1024aff1d19d172aeecb8c8c564055e74b45ee76fe5f5eb3e49b37a"
+  },
+  "prepare_receipt": {
+    "bytes": 127765,
+    "inode": 121650556,
+    "mtime_ns": 1790743211161114603,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/prepare-receipt.json",
+    "sha256": "740384e352d73336ffeb50f566b2d4e501d1c205e4dee7d6d940b11a03c23615"
+  },
+  "release": {
+    "initial": "NOT_OBSERVED",
+    "job_id": "55413",
+    "monitoring": "bounded firststep->secondentry or verified resource-pending then pause",
+    "status": "RELEASED"
+  },
+  "separate_red_agent": false,
+  "source_freeze": {
+    "bytes": 545,
+    "inode": 121650583,
+    "mtime_ns": 1790743364023992317,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1/freeze.json",
+    "sha256": "23ed4bf388bd511fa509eaf0f83dd9f5ac32e1f7e8acd22cc8147a62d087da2e"
+  },
+  "stop_diff": "--- original/compute_z.py\n+++ task-local/compute_z_weak.py\n@@ -172,7 +172,7 @@\n             f\"avg prob of [{request['target_new']['str']}] \"\n             f\"{torch.exp(-nll_loss_each).mean().item()}\"\n         )\n-        if loss < 5e-2:\n+        if nll_loss <= 1.0:\n             break\n \n         if it == hparams.v_num_grad_steps - 1:\n",
+  "tokens": {
+    "forward": 0,
+    "full_row_ids_sha": "a89c01745a6acdcee2320e7adc57fb2d0aa60a4439c5d9d23e15ceea26b10d11",
+    "full_rows": 2600,
+    "ids_sha": "f4214f4a2a94c90a1f4113566fff90b19f0779a12a885aa00d5a2c92ac4106b6",
+    "model_loaded": false,
+    "panel_pairs": 144,
+    "rows": 1628,
+    "status": "CPU_TOKEN_EXACT"
+  }
+}

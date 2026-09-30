@@ -1,0 +1,26 @@
+{
+  "audit": {
+    "bytes": 2340,
+    "inode": 121650631,
+    "mtime_ns": 1790744702658347669,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/audits/servers/server2/native-weak-b010-20260930-v1/initial-handoff.json",
+    "sha256": "e364de5b28d0e50601c560c58ab3181829bb7db14ba25cb943e5e0d11d1f5a80"
+  },
+  "execution_source": "30ef8b02327746edef82a889c0bacd9f961f8f3c",
+  "preflight": {
+    "bytes": 12413,
+    "inode": 121650632,
+    "mtime_ns": 1790744702662347641,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/audits/servers/server2/native-weak-b010-20260930-v1/preflight.json",
+    "sha256": "4c4d6124cbaf9233997a4a3e566a1da3ffa69b75eb0dbcc1bef43a0775eaec85"
+  },
+  "publication_source": "containing Git commit",
+  "raw_local": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010/20260930-v1",
+  "report": {
+    "bytes": 3480,
+    "inode": 121650634,
+    "mtime_ns": 1790744702662347641,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/experiment-reports/servers/server2/native-weak-b010-20260930-v1/submission-ko.md",
+    "sha256": "a13cb2fe6831f54be53a3eef4475b3bbc014c8bece01a2921e1ff4a4bf28928a"
+  }
+}
