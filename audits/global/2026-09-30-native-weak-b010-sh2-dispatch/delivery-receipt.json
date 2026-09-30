@@ -1,0 +1,14 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH2-NATIVE-WEAK-B010-NLL1-20260930-R1",
+  "authority_commit": "ecd2d6b745c7c0e9da491d5fd6740a671d5f9150",
+  "envelope_sha256": "96d747a96e681280a2fc5256dea5b5e53e860f3722fd79f9b62f14410dfdd957",
+  "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "accepted_turn": "01a0f094-fb8b-71c1-9e93-d28a3dcc5121",
+  "same_stream_ack_received": true,
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "ack": "새 native-weak 한 경로, 원 B010/동일100, 종료만 nll_loss<=1.0. cap3내1GPU, 첫write→다음entry 또는 resourcepending 뒤pause. 현재미제출.",
+  "gh_gpu_or_scheduler_actions": 0,
+  "other_jobs_modified": false,
+  "automatic_monitor_created": false
+}
