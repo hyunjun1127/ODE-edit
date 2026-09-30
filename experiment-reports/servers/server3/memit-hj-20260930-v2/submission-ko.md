@@ -27,3 +27,11 @@ Manual hold는 모두 해제했다. P actual T0/readiness가 실패하면 aftero
 CPU23검사/정적CLI 점검과 실제 T0를 구분한다. 별도 independent reviewer는 없으며 owner audit이다.
 등록 프로그램은 승인된 전체 계획을 자율 실행한다. 현재는 부모 지시의 대표 초기 gate까지 한정 관찰 중이며, actual PASS 이후 능동 monitoring을 중단한다.
 총 종료 예상은 T0b 성분 실측 전 PENDING_CALIBRATION이다. 720h는 partition wall request이며 GPUh 예상/실측 또는 hard budget이 아니다.
+
+## 실제 T0a 중간 증거
+
+Job56007에서 BS100 원 native/adapter 비교200요청을 기술비용으로 수행했다. z/key/W/H/RNG/context/ledger 및 R/P/N 평가행이 모두 exact 일치했다. L4 key 불변도 확인했다.
+임시CP 5,284,843,077B를 저장·SHA·실제재로드/state/output 검산한 후, refcount0/owner/path/SHA를 확인하고 지정된 단일 파일만 tombstone과 함께 삭제했다. 과거자료 삭제0.
+초기 cached/native loss 차이0, gradient 상대오차1.0194003152719233e-5, gradient bitwise=false. Oracle precision은 NOT_ESTABLISHED_AT_ORIGIN이며 이후 T0b의32요청/96점 FP64 교정 이전 Z PASS로 읽지 않는다.
+T0a 측정829.284초와 CP roundtrip20.797초는 본체 과학요청/중복 nested timer에서 분리한다. 최초science BS10 gate는 아직 NOT_OBSERVED이며 W0 전체10k observer가 이어진다.
+GH actual제출 전달은 accepted=true로 확인했으며 응답/추가승인은 기다리지 않았다.

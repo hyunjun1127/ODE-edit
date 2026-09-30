@@ -1,0 +1,66 @@
+{
+  "BS": 100,
+  "L4_key_invariance": true,
+  "RAM_restore_output_bitwise": true,
+  "W_H_RNG_context_ledger_exact": true,
+  "checkpoint": {
+    "arm": "000",
+    "bytes": 5284843077,
+    "cursor": 0,
+    "owner_uid": 1025,
+    "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-00000-0000.pt",
+    "refcount": 0,
+    "reload_state_output": true,
+    "seconds": 20.796840781345963,
+    "sha256": "e6e1162958f998be31d0f1fde0308101de604adc22a9c48840634c7cbced0282",
+    "technical": true
+  },
+  "checkpoint_actual_reload": true,
+  "evaluator_rows_bitwise": {
+    "NS": true,
+    "PS": true,
+    "RS": true
+  },
+  "key_bitwise": true,
+  "objective": {
+    "cache_FP32": true,
+    "full_vocabulary": true,
+    "gradient_bitwise": false,
+    "gradient_relative_error": 1.0194003152719233e-05,
+    "initial_cached_loss": 11.857386589050293,
+    "initial_native_loss": 11.857386589050293,
+    "input_identity": "515fe09b189ad1863e6d8cbf8b7bd993209076e0fd04b3cd0f82869117db6701",
+    "loss_difference": 0.0,
+    "loss_parts": {
+      "decay": 0.0,
+      "kl": -1.7887202830024762e-10,
+      "nll": 11.857386589050293
+    },
+    "precision": "NOT_ESTABLISHED_AT_ORIGIN"
+  },
+  "oracle_input_teacher_anchor_exact": true,
+  "oracle_precision": "PENDING_T0B_MEASUREMENT",
+  "seconds": 829.2835293710232,
+  "status": "PASS",
+  "technical_replay_not_science": true,
+  "z_bitwise": true,
+  "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed",
+  "job_id": "56007",
+  "logical_science_initial": "NOT_OBSERVED",
+  "native_adapter_replay_requests": 200,
+  "temporary_CP_deleted_after_verified_roundtrip": {
+    "arm": "000",
+    "bytes": 5284843077,
+    "cursor": 0,
+    "owner_uid": 1025,
+    "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-00000-0000.pt",
+    "permanent_deletion": true,
+    "reason": "T0_roundtrip_verified_no_remaining_dependency",
+    "recoverable": false,
+    "refcount": 0,
+    "reload_state_output": true,
+    "seconds": 20.796840781345963,
+    "sha256": "e6e1162958f998be31d0f1fde0308101de604adc22a9c48840634c7cbced0282",
+    "technical": true
+  }
+}
