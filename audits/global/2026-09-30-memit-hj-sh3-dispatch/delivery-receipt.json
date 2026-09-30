@@ -1,0 +1,38 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1",
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1",
+  "recorded_utc": "2026-09-30T12:18:08Z",
+  "authority_commit": "3b69a458abff658af7a52344a87a8cca8239d4a4",
+  "envelope": "messages/head/2026-09-30-memit-hj-sh3.md",
+  "input_manifest": "audits/global/2026-09-30-memit-hj-sh3-dispatch/input-manifest.json",
+  "sender_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "receiver_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "receiver_cwd": "/data/janghj/ODE-edit",
+  "receiver_host": "server3",
+  "accepted_turn": "01a0f23d-a429-77a1-8819-f0e41eed67dd",
+  "delivery_status": "ACCEPTED_AND_ACKNOWLEDGED",
+  "receiver_status": "RECEIVED_VERIFYING_NOT_SUBMITTED",
+  "receiver_ack": "ACK `ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1`. 같은 nonce의 기존 제출 여부부터 확인하고, 정본 9개와 실행 envelope를 읽은 뒤 새 전용 worktree에서 구현을 진행하겠습니다. 현재 상태는 **수신·확인 중, 신규 제출 전**이며 cap1과 이번 task에 한정된 임시 checkpoint 예외를 적용합니다.",
+  "transport": {
+    "native_message_tool": "UNAVAILABLE_NO_SEND",
+    "fallback": "registered SSH/app-server direct",
+    "previous_active_turns": [],
+    "duplicate_send": false,
+    "reply_collection": "bounded initial ACK only; terminal not awaited"
+  },
+  "gpu_cap": 1,
+  "new_scientific_job_ids": [],
+  "actual_model_validation": "NOT_OBSERVED",
+  "source_checks": {
+    "exact_design_members": 4,
+    "exact_reference_members": 5,
+    "all_nine_sender_sha_size_match": true,
+    "cells": 28,
+    "receiver_full_read": "PENDING_AT_ACK"
+  },
+  "gh_gpu_or_model_calls": 0,
+  "gh_scheduler_queries": 0,
+  "gh_monitoring_active": false,
+  "gh_automatic_resume": false,
+  "scope_boundary": "ACK is not implementation, scheduler registration, initial gate or scientific completion. SH3 continues authorized implementation/calibration/conditional DAG with cap1 under envelope."
+}
