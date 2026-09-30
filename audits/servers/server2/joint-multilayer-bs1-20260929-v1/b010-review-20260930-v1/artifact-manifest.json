@@ -1,0 +1,157 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "analysis_source": [
+    {
+      "bytes": 14179,
+      "inode": 121585397,
+      "mtime_ns": 1790732751648469111,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_b010.py",
+      "sha256": "958dd7c27410cfefa546c73447baaadfc49b0e6e5cf8e0a23721a0acdfe4ef39"
+    },
+    {
+      "bytes": 2836,
+      "inode": 121585407,
+      "mtime_ns": 1790732542520584501,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_b010_extra.py",
+      "sha256": "0b1998301cc214dbef4c47cc7a358c37f86d0bd64b5674ab297f623fa6d5015d"
+    },
+    {
+      "bytes": 3615,
+      "inode": 121585404,
+      "mtime_ns": 1790732884776380643,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_b010_seal.py",
+      "sha256": "106629ad8e80453b4d7f4625b9d2c1c466ccf82e8e5ed238a4bc77f787544b82"
+    },
+    {
+      "bytes": 1381,
+      "inode": 121585400,
+      "mtime_ns": 1790732448756630809,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/test_review_b010.py",
+      "sha256": "bf7031d8beaea0ae7e40cd076677d6ffaf7ce60715f89e9cf6d8567bbacf90c8"
+    }
+  ],
+  "execution_source": "2a7762a4368de0dbe540619ceacefd7760d25698",
+  "outputs": [
+    {
+      "bytes": 96264,
+      "inode": 120933692,
+      "mtime_ns": 1790732465776617371,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/b010-curves.png",
+      "sha256": "d67628f5e53ac52cc63de3d3e12cf7868e024f1b2a62a354d30b3b9d10d9235f"
+    },
+    {
+      "bytes": 1638,
+      "inode": 120933686,
+      "mtime_ns": 1790732465048617653,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/calls.csv",
+      "sha256": "f030818c896146558a15d51565b79fda87446aecd35f595be6b18fe9e83573e3"
+    },
+    {
+      "bytes": 562,
+      "inode": 120933685,
+      "mtime_ns": 1790732465048617653,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/compute.csv",
+      "sha256": "0480bf39ca7ebf75b286fe3b253845fe41ec207f226e992eff9ae3bb027f80db"
+    },
+    {
+      "bytes": 177,
+      "inode": 120933690,
+      "mtime_ns": 1790732465056617650,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/greedy.csv",
+      "sha256": "af672ee59e951f1804136cc21b9399693f16f3aaf7335299be85e3f22924029a"
+    },
+    {
+      "bytes": 150788,
+      "inode": 120933688,
+      "mtime_ns": 1790732465056617650,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/guards.csv",
+      "sha256": "a34efbecd565c9ed1652a7a9169c70090b2b10e1404f796804d0881b92f3b2b9"
+    },
+    {
+      "bytes": 86642,
+      "inode": 120933694,
+      "mtime_ns": 1790732542880584334,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/layer_actions.csv",
+      "sha256": "1d4f6bd4db55e671e680efb2fbdd683c4fa75e3cbd94d7c67de7d8d32ecaa5a0"
+    },
+    {
+      "bytes": 26768,
+      "inode": 120933689,
+      "mtime_ns": 1790732465056617650,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/layer_traces.csv",
+      "sha256": "48a1dd3b2cf76db8d1bef806d81cf8c6370dc36f287c5adee131e128aa367bbc"
+    },
+    {
+      "bytes": 130170,
+      "inode": 120933682,
+      "mtime_ns": 1790732465044617655,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/metrics.csv",
+      "sha256": "16e577a1fb8d890c7991d10ea236e9f857ee668239165cba69c4c87c352f6441"
+    },
+    {
+      "bytes": 3271,
+      "inode": 120933693,
+      "mtime_ns": 1790732542876584335,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/observer_kl.csv",
+      "sha256": "4f4c0521768ee053b888e5bfeb56b16ebd8870e6564896f694aee985f0a82f7e"
+    },
+    {
+      "bytes": 15883,
+      "inode": 120933697,
+      "mtime_ns": 1790732751648469111,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/report-ko.md",
+      "sha256": "00e18d8f404b95e1a5607c4e58ff4b038e88756c08922f4460154b503f047143"
+    },
+    {
+      "bytes": 39619,
+      "inode": 120933695,
+      "mtime_ns": 1790732542888584329,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/selected_constraints.csv",
+      "sha256": "e664a65358c3559f0fc1f182f56b2cdeda59c232367f3e42a36de11ce225396f"
+    },
+    {
+      "bytes": 3236,
+      "inode": 120933687,
+      "mtime_ns": 1790732465048617653,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/snapshots.csv",
+      "sha256": "2049aaf8f5020e9974be18e1f5bdc3a72413b373395785a9305202c550f72487"
+    },
+    {
+      "bytes": 33383,
+      "inode": 120933684,
+      "mtime_ns": 1790732465048617653,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/steps.csv",
+      "sha256": "c0b1479f1f892e8bb6edfa8d04f80065944254e161085e6a630b2d44958d6fb8"
+    },
+    {
+      "bytes": 235210,
+      "inode": 120933696,
+      "mtime_ns": 1790732543508584040,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/supplement-verification.json",
+      "sha256": "da7ecb0da72bb5b2383b4dc89af18b7b54ba8909a00191dbcb382f85c606db00"
+    },
+    {
+      "bytes": 8677,
+      "inode": 120933683,
+      "mtime_ns": 1790732465044617655,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/transitions.csv",
+      "sha256": "ce77648c3e98b1f17be1f8f6284043038a593e4ff82a2b86c551c361366fc583"
+    },
+    {
+      "bytes": 1574,
+      "inode": 120933691,
+      "mtime_ns": 1790732751648469111,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/verification.json",
+      "sha256": "63fcf6720d09c21c2a3439318ac772156ed75ae47eb55c05cc62da28bcaecca9"
+    }
+  ],
+  "publication_source": "이 manifest를 포함하는 Git commit; 실행 source와 별개",
+  "raw_local": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-b010-20260930-v1",
+  "report": {
+    "bytes": 15883,
+    "inode": 120933697,
+    "mtime_ns": 1790732751648469111,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/report-ko.md",
+    "sha256": "00e18d8f404b95e1a5607c4e58ff4b038e88756c08922f4460154b503f047143"
+  }
+}

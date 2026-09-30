@@ -1,0 +1,45 @@
+{
+  "checked": [
+    "동일 B010 부모 state",
+    "100요청 순서와 세 arm token catalog",
+    "300 commit/history/인접 state 연결",
+    "독립 NLL reducer 및 기존 reducer 일치",
+    "snapshot12 full SHA와 원 reload receipt",
+    "최종과 at-write 분리",
+    "NS 실제10문항 분모",
+    "지정4job 취소",
+    "원본 raw 보존",
+    "코드 PNG byte 재현"
+  ],
+  "independent_red_agent": false,
+  "limits": [
+    "최종 전체100요청 NS 미측정",
+    "greedy 전량32token censored",
+    "GPU 재평가 없음",
+    "M/RNG full editor resume 없음",
+    "누적 delta 인과적 attribution 없음",
+    "exclusive timer 일부 미기록",
+    "B050/B090 비교 제외"
+  ],
+  "new_gpu": 0,
+  "new_submission": 0,
+  "owner": "SH2",
+  "reducer_tests": 6,
+  "runtime_mutation": false,
+  "scientific_promotion": false,
+  "status": "PASS_WITH_RECORDED_LIMITS",
+  "supplement": {
+    "bytes": 235210,
+    "inode": 120933696,
+    "mtime_ns": 1790732543508584040,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/supplement-verification.json",
+    "sha256": "da7ecb0da72bb5b2383b4dc89af18b7b54ba8909a00191dbcb382f85c606db00"
+  },
+  "verification": {
+    "bytes": 1574,
+    "inode": 120933691,
+    "mtime_ns": 1790732751648469111,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/verification.json",
+    "sha256": "63fcf6720d09c21c2a3439318ac772156ed75ae47eb55c05cc62da28bcaecca9"
+  }
+}

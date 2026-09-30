@@ -1,0 +1,120 @@
+{
+  "canceled_partial_commits": 10,
+  "canceled_partial_weight_snapshots": 0,
+  "commands": [
+    [
+      "scancel",
+      "--user=janghj",
+      "55116_6",
+      "55116_7",
+      "55116_8"
+    ],
+    [
+      "scancel",
+      "--user=janghj",
+      "55116_5"
+    ]
+  ],
+  "commands_exit": [
+    0,
+    0
+  ],
+  "jobs": [
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "46153",
+      "ExitCode": "0:0",
+      "JobID": "55116_0",
+      "JobIDRaw": "55118",
+      "State": "COMPLETED"
+    },
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "12778",
+      "ExitCode": "0:0",
+      "JobID": "55116_1",
+      "JobIDRaw": "55119",
+      "State": "COMPLETED"
+    },
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "46396",
+      "ExitCode": "0:0",
+      "JobID": "55116_2",
+      "JobIDRaw": "55131",
+      "State": "COMPLETED"
+    },
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "43604",
+      "ExitCode": "0:0",
+      "JobID": "55116_3",
+      "JobIDRaw": "55176",
+      "State": "RUNNING"
+    },
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "10214",
+      "ExitCode": "0:0",
+      "JobID": "55116_4",
+      "JobIDRaw": "55263",
+      "State": "RUNNING"
+    },
+    {
+      "AllocTRES": "billing=8,cpu=8,gres/gpu=1,mem=59G,node=1",
+      "ElapsedRaw": "6860",
+      "ExitCode": "0:0",
+      "JobID": "55116_5",
+      "JobIDRaw": "55267",
+      "State": "CANCELLED by 1025"
+    },
+    {
+      "AllocTRES": "",
+      "ElapsedRaw": "0",
+      "ExitCode": "0:0",
+      "JobID": "55116_6",
+      "JobIDRaw": "55116",
+      "State": "CANCELLED by 1025"
+    },
+    {
+      "AllocTRES": "",
+      "ElapsedRaw": "0",
+      "ExitCode": "0:0",
+      "JobID": "55116_7",
+      "JobIDRaw": "55116",
+      "State": "CANCELLED by 1025"
+    },
+    {
+      "AllocTRES": "",
+      "ElapsedRaw": "0",
+      "ExitCode": "0:0",
+      "JobID": "55116_8",
+      "JobIDRaw": "55116",
+      "State": "CANCELLED by 1025"
+    }
+  ],
+  "process_disappearance": "독립 OS process 검사 미수행",
+  "raw_deleted": false,
+  "rerun": false,
+  "source_receipt": {
+    "bytes": 1652,
+    "inode": 121585401,
+    "mtime_ns": 1790732448836630724,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-b010-20260930-v1/cancellation-and-terminal-receipt.json",
+    "sha256": "481a78e15d6a04b0abd353f18f8e2542ae96731509669765d0c48cf61535561f"
+  },
+  "target_queue_empty": true,
+  "unaffected": [
+    "55116_3",
+    "55116_4",
+    "55117"
+  ],
+  "user_instruction": {
+    "bytes": 145,
+    "inode": 121585399,
+    "mtime_ns": 1790732448756630809,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-b010-20260930-v1/user-recall.txt",
+    "sha256": "a8a821fccef343e51a429de7ddb969d808b59e032b7370d4f9278627826c1076"
+  },
+  "utc": "2026-09-30T01:40:48.840552+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "scope": "B010 완료3arm CPU 리뷰 및 사용자 지정4job 취소",
+  "csv_format": "Python csv.DictWriter의 CRLF를 보존. git diff check는 명시적인 per-command cr-at-eol로 검사하며 공유 설정 변경0.",
+  "access_check": "첫 생성 status suffix 파일은 narrow helper가 거부해 게시 scope에서 제거. audit/report/message로 최신 상태를 기록하고 재검사 PASS. helper 완화0.",
+  "raw_free": true,
+  "new_model_forward": 0,
+  "new_slurm_submit": 0,
+  "runtime_source_mutation": false,
+  "plot_review": "저장 PNG를 직접 열어 축/legend/단위/표 대응을 확인. 전체 문서 renderer는 별도 검증하지 않음.",
+  "skill_application": "문서 작성 스킬의 근거/범위/미측정 구분을 적용했으며 기존 저장소 Markdown 보고서 목적지를 유지했다.",
+  "remaining": "B050 NATIVE/JOINT_STEP와 collector는 변경 없이 유지, 자동 monitoring 중지. 전체9경로 완료 아님."
+}

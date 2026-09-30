@@ -1,0 +1,37 @@
+{
+  "arms": [
+    "NATIVE",
+    "JOINT_STEP",
+    "JOINT_CUM"
+  ],
+  "boundary": "원 snapshot GPU reload receipt 재사용. 이번 검산은 CPU 파일 SHA/상태 연결/분모/독립 reducer. NS는 milestone 현재 요청 각10문항이며 최종 전체100요청 NS1000이 아니다.",
+  "commits": 300,
+  "config_sha": "016c33011d0be2a38f99b4923ba373021317f508661251539749fe5192a08295",
+  "execution_ids_sha": "f4214f4a2a94c90a1f4113566fff90b19f0779a12a885aa00d5a2c92ac4106b6",
+  "execution_source": "2a7762a4368de0dbe540619ceacefd7760d25698",
+  "identical_parent_state": true,
+  "independent_red_agent": false,
+  "independent_reducer_matches_original": true,
+  "input_inventory": {
+    "bytes": 719653,
+    "inode": 121585402,
+    "mtime_ns": 1790732465064617647,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-b010-20260930-v1/input-members.json",
+    "sha256": "d8e6a1b8874eebac86ff0ccae8aa08b7a12ef9fad810ebdac56dfb594ab835ec"
+  },
+  "input_members": 2331,
+  "lock": {
+    "bytes": 14849,
+    "inode": 121457276,
+    "mtime_ns": 1790676039098399350,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/attempt-s2-r1/execution.lock.json",
+    "sha256": "b0d320edfb8adce9f6dedf6fed9b4790cb545a7b9ef63f4cf651d8004556614b"
+  },
+  "new_gpu": 0,
+  "new_model_forward": 0,
+  "ordered_inventory_root": "380f2b1b7fd1ac2bc28370e83c9e57e34559985361621dc5d3343418decd15cf",
+  "parent_true_nll_max_abs_spread": 0.0,
+  "scientific_promotion": false,
+  "snapshots_full_sha_verified": 12,
+  "status": "CPU_REDUCED"
+}
