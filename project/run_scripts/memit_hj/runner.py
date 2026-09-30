@@ -34,7 +34,11 @@ def run(lock_path,group,resume_checkpoint=None):
  e=None;stage='VERIFY_LOCK'
  try:
   if group!='P' and not resume_checkpoint:
-   ready=json.loads((out/'readiness.json').read_text());assert ready['bindings']==lock['bindings'] and ready['status']=='PASS'
+   ready=json.loads((out/'readiness.json').read_text());assert ready['bindings']==lock.get('prerequisite_bindings',lock['bindings']) and ready['status']=='PASS'
+  if group!='P' and lock.get('prerequisite_job_id'):
+   prerequisite=json.loads((out/'groups/P/runtime.json').read_text())
+   assert str(prerequisite['Slurm_job'])==lock['prerequisite_job_id']
+   assert prerequisite['source_commit']==lock['prerequisite_bindings']['source_commit']
   verify(lock)
   if not resume_checkpoint and pre_model_z_gate(lock,group,out,groupout):return
   v=os.statvfs(out);assert v.f_bavail*v.f_frsize>=lock['resource']['storage']['required_free_bytes'],'INSUFFICIENT_STORAGE_RESERVE'

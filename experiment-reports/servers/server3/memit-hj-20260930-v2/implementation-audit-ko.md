@@ -94,3 +94,9 @@ ledger/sample reference/trigger/cursor/source를 저장·SHA·실제 reload/outp
 원 GPU source a8126eb6과56007–56011은 그대로다. 상세 output audit에서 각main의 최종endpoint 표와 별개로 필요한 **동일2k 8cell 요인 표**를 명시적 reducer에 연결했다. 새 `secondary.py`는 12개J/Z/R contrast, 기술적 interaction, 같은anchor의 writer/history10/100/500/1000시점 paired 비교, past400의 시간4분위 통계를 기존scalar raw에서 계산한다. 새GPU/forward/성능선택0.
 장기111이 미발동이면10k alias를2k 비교에 잘못 넣지 않고 요청한2k의 parent artifact를 참조한다. BLOCKED는0점으로 채우지 않는다. 이 둘과 보고실패 시COMPLETED 금지의CPU fixture3개가 통과했다.
 이 코드는 원 execution으로 소급 인증하지 않는다. 별도 analysis source/manifest로 pending CPU collector만 교체하고, 기존CPU job의 정확owner/source/pending 확인 및 취소receipt를 보존한다. GPU job/원source/raw/비용은 변경하지 않는다.
+
+## SPG plateau 경계 최소수리
+
+Owner 상세 검토에서 initial point가6점plateau에 포함되어 Armijo5회후STALLED가 가능함을 발견했다. Initial point를 제외하고 실제Armijo수락6점/5변화를 요구하도록 조건한줄을 수정했다. tol/cap/gamma/clamp/목적/모집단 변경0. 실제SPG는 아직 시작되지 않았으며 동일task A/B/C/D 및CPU pending만 정확owner/source확인후 교체검사 동안임시hold했다. P56007은 유지한다.
+CPU전체27검사가 통과했다. 새fixture는 실제line search/수락 경로에서6수락점이 필요함을 확인한다.
+원P가 소비한 native/adapter/T0/oracle/정밀도/state/history/평가기 관련함수bytes는 동일하며 P의SPG호출은0이었다. 따라서 P56007의 원sourcea8126eb6 T0/W0 증거만 정확 source-bound prerequisite로 재사용한다. 이를 새source에서P를 실행한 증거로 쓰지 않는다. 새후속source는 원P source/job/readiness binding을 명시하여 검사하고 자체source/config/data binding을 별도로 기록한다. 변경영향없는 BS100비교/W0전체평가를 재실행하지 않는다.

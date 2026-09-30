@@ -1,0 +1,60 @@
+{
+  "status": "CPU_PASS",
+  "tests": 27,
+  "reason": "Exclude initial point from six Armijo-accepted plateau points; all thresholds/budgets/arms unchanged",
+  "actual_SPG_not_started": true,
+  "old_P_job": "56007",
+  "prerequisite_source": "a8126eb65cbe9a1814b381007798d857003555ed",
+  "reuse_scope": "Only original P native T0/W0. New runtime consumes its exact source-bound readiness; not a claim P ran new source",
+  "unchanged_consumed_T0_W0_modules": [
+    {
+      "path": "project/run_scripts/memit_hj/algebra.py",
+      "sha256": "94c302610f8bb310ef8303886ae963573ccbfbdc0279f9db0130cfbda1bb4d6e"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/oracle.py",
+      "sha256": "2ee6d525843c980db1247bd307a9288222d991bad2457c91756095ee678fb329"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/precision.py",
+      "sha256": "7afa97e9c47e3fc3cca66f38568e40d99bc47d56d9684c3d904c14613d3e969f"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/writer.py",
+      "sha256": "7a6129e0e8bbbd15c056eb0f32c2bbbadcf45491979883756e56db77f4c79ee7"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/state.py",
+      "sha256": "e3790fa3135c10e5e0666201d586324c5df36d7e4a9bc8bc61ee9ef768b1df9a"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/history.py",
+      "sha256": "64df59c788bf504902f0c89c76e1570d86cc4fb7874dec20c6a3b9dcb8f76feb"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/calibration.py",
+      "sha256": "3b2bbbbf97ea3d79c94d4636f140f1262c78019a214a78c0359aae05605be239"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/engine.py",
+      "sha256": "79761a8f8ba1e687dfeaf065a782b0d22a5b5a86b13351ed9af649dd3409c9b6"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/technical.py",
+      "sha256": "47ac52734a723172761864dc1d9d8a66098780166504940e9e6b7534036d5550"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/orchestrator.py",
+      "sha256": "4272383791fc51a20df4829b5dc8b47d7d7bce7e2e5f791602b1153f5bb3b161"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/plan.py",
+      "sha256": "87a850711514863345eef949bd4e4bcb5bf779d5431bd1705d931a852e41ce16"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/plan.json",
+      "sha256": "e9f7b5f359e5c2e832bfb20576ff58bb61ba032f8b7a6872bbe5be3abfa41c65"
+    }
+  ],
+  "test_log_sha256": "9ebd1321d17d876a1f568e58503fe9dc3d4413af69afcda8c209f696c4613706"
+}

@@ -31,7 +31,8 @@ def solve(oracle,dim,radius,tol,cap,device='cuda',dtype=torch.float32):
     status='NOT_CONVERGED' if calls>=cap-1 else 'LINESEARCH_FAILED';break
    step=xn-x;y=gn-g;sy=float(step@y);alpha=min(1e12,max(1e-12,float(step@step)/sy)) if sy>0 else 1e12
    x,f,g=xn,fn,gn;accepted.append(f);step_norm=float(step.norm())
-   if len(accepted)>=6:
+   # accepted[0] is the initial point, not an Armijo-accepted step.
+   if len(accepted)>=7:
     window=accepted[-6:];floor=10*torch.finfo(dtype).eps*max(max(map(abs,window)),torch.finfo(dtype).tiny)
     best=[min(window[:i+1]) for i in range(6)]
     if max(abs(window[i+1]-window[i]) for i in range(5))<=floor and best[0]-best[-1]<=floor:

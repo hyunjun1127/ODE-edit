@@ -25,7 +25,7 @@ def collect(lock_path,mapping_path):
   elif (root/'terminal.json').exists():groups[g]=json.loads((root/'terminal.json').read_text())
   else:groups[g]=dict(status='NO_RUNTIME_TERMINAL',interpretation='scheduler_dependency_failure_or_process_termination; see exact accounting')
  for group,record in groups.items():
-  if record['status']=='COMPLETED_GROUP':assert record['bindings']==lock['bindings']
+  if record['status']=='COMPLETED_GROUP':assert record['bindings']==(lock.get('prerequisite_bindings',lock['bindings']) if group=='P' else lock['bindings'])
  coverage={}
  for c in cells(lock['cells']):
   path=out/'cells'/c['cell_id']/'terminal.json'

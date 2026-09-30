@@ -102,4 +102,17 @@ class Boundaries(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'NLL_REDUCER'):verify_metric(m,'RS')
   item['identity']='wrong'
   with self.assertRaisesRegex(AssertionError,'RAW_INPUT_IDENTITY'):verify_identities({'metrics':{'RS':m}},expected)
+ def test_plateau_requires_six_Armijo_steps_not_initial_point(self):
+  from . import spg
+  calls=[0]
+  def oracle(x):
+   calls[0]+=1
+   return 1.-calls[0]*1e-8,torch.ones_like(x),{}
+  # Isolate the plateau branch from the independent PG termination rule;
+  # all trial evaluation, Armijo comparisons and accepted steps are real.
+  with patch.object(spg,'pg',return_value=1.):
+   x,r=spg.solve(oracle,2,1.,1e-12,400,device='cpu')
+  self.assertEqual(r['status'],'STALLED_AT_PRECISION')
+  self.assertEqual(r['accepted_steps'],6)
+  self.assertEqual(len(r['loss_window']),6)
 if __name__=='__main__':unittest.main()

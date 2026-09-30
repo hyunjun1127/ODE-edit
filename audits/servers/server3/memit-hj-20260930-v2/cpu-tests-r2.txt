@@ -1,0 +1,32 @@
+test_Z_block_before_model_preserves_nonZ (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_Z_block_before_model_preserves_nonZ) ... ok
+test_actual_library_FP64_and_finally (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_actual_library_FP64_and_finally) ... ok
+test_cp_failed_atomic_write_and_scalar_metadata (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_cp_failed_atomic_write_and_scalar_metadata) ... ok
+test_independent_NLL_and_input_identity (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_independent_NLL_and_input_identity) ... ok
+test_matched_adam_final_call_budget (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_matched_adam_final_call_budget) ... ok
+test_plateau_requires_six_Armijo_steps_not_initial_point (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_plateau_requires_six_Armijo_steps_not_initial_point) ... ok
+test_production_submit_full_DAG_no_monitoring (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_production_submit_full_DAG_no_monitoring) ... ok
+test_recovery_rejects_changed_source_and_corruption (project.run_scripts.memit_hj.test_boundaries.Boundaries.test_recovery_rejects_changed_source_and_corruption) ... ok
+test_condition_fallback_without_jitter (project.run_scripts.memit_hj.test_core.Core.test_condition_fallback_without_jitter) ... ok
+test_no_forced_armijo_or_stale_pg (project.run_scripts.memit_hj.test_core.Core.test_no_forced_armijo_or_stale_pg) ... ok
+test_panel (project.run_scripts.memit_hj.test_core.Core.test_panel) ... ok
+test_rank_deficient_and_noncommuting (project.run_scripts.memit_hj.test_core.Core.test_rank_deficient_and_noncommuting) ... ok
+test_zero_and_nonzero_solver (project.run_scripts.memit_hj.test_core.Core.test_zero_and_nonzero_solver) ... ok
+test_all_trigger_maximum_physical (project.run_scripts.memit_hj.test_dag.DAG.test_all_trigger_maximum_physical) ... ok
+test_no_trigger_alias_minimum (project.run_scripts.memit_hj.test_dag.DAG.test_no_trigger_alias_minimum) ... ok
+test_resume_does_not_restart_frozen_prefix (project.run_scripts.memit_hj.test_dag.DAG.test_resume_does_not_restart_frozen_prefix) ... ok
+test_z_fail_closed_nonZ_kept (project.run_scripts.memit_hj.test_dag.DAG.test_z_fail_closed_nonZ_kept) ... ok
+test_context_recipe_matches_native_and_reference (project.run_scripts.memit_hj.test_history.HistoryTests.test_context_recipe_matches_native_and_reference) ... ok
+test_rebuild_all_occurrences_and_reset_reference (project.run_scripts.memit_hj.test_history.HistoryTests.test_rebuild_all_occurrences_and_reset_reference) ... ok
+test_actual_pinned_adapter_history_timing (project.run_scripts.memit_hj.test_runtime.Runtime.test_actual_pinned_adapter_history_timing) ... ok
+test_calibration_fail_closed (project.run_scripts.memit_hj.test_runtime.Runtime.test_calibration_fail_closed) ... ok
+test_cells_and_reference_hashes (project.run_scripts.memit_hj.test_runtime.Runtime.test_cells_and_reference_hashes) ... ok
+test_metric_ties_and_target_direction (project.run_scripts.memit_hj.test_runtime.Runtime.test_metric_ties_and_target_direction) ... ok
+test_state_and_checkpoint (project.run_scripts.memit_hj.test_runtime.Runtime.test_state_and_checkpoint) ... ok
+test_collector_secondary_failure_never_completed (project.run_scripts.memit_hj.test_secondary.Secondary.test_collector_secondary_failure_never_completed) ... ok
+test_factorial_all8_and_blocked_not_zero (project.run_scripts.memit_hj.test_secondary.Secondary.test_factorial_all8_and_blocked_not_zero) ... ok
+test_long_alias_preserves_requested_2k_endpoint (project.run_scripts.memit_hj.test_secondary.Secondary.test_long_alias_preserves_requested_2k_endpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 4.951s
+
+OK
