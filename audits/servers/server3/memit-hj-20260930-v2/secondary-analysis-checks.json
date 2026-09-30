@@ -1,0 +1,15 @@
+{
+  "status": "CPU_PASS",
+  "tests": 3,
+  "test_log_sha256": "128f144da1db2fa037a72fba76b9eb5b9140da64b096070db77fa2119cc6c411",
+  "GPU_runtime_source_unchanged": "a8126eb65cbe9a1814b381007798d857003555ed",
+  "scope": "CPU collector/report only; add matched 2k8cell contrasts and paired diagnostic times/quartiles",
+  "reason": "Detailed output audit found 2k factorial endpoint was available in raw but not explicitly reduced; extend source before collector executes",
+  "actual_GPU_jobs_unchanged": [
+    "56007",
+    "56008",
+    "56009",
+    "56010",
+    "56011"
+  ]
+}

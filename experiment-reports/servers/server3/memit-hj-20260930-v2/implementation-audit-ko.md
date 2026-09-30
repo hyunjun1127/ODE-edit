@@ -88,3 +88,9 @@ ledger/sample reference/trigger/cursor/source를 저장·SHA·실제 reload/outp
 대표 E0/T1 첫BS10 commit/observer→다음entry 또는 전량등록 뒤 실제 resource-pending을
 확인하여 인계한 뒤 agent monitoring을 중단한다. 프로그램과 collector는 자연 진행하며
 완료 상세 리뷰는 사용자 recall 때 수행한다. GH 추가승인을 기다리지 않는다.
+
+## 제출 후 CPU 보고 범위 보완
+
+원 GPU source a8126eb6과56007–56011은 그대로다. 상세 output audit에서 각main의 최종endpoint 표와 별개로 필요한 **동일2k 8cell 요인 표**를 명시적 reducer에 연결했다. 새 `secondary.py`는 12개J/Z/R contrast, 기술적 interaction, 같은anchor의 writer/history10/100/500/1000시점 paired 비교, past400의 시간4분위 통계를 기존scalar raw에서 계산한다. 새GPU/forward/성능선택0.
+장기111이 미발동이면10k alias를2k 비교에 잘못 넣지 않고 요청한2k의 parent artifact를 참조한다. BLOCKED는0점으로 채우지 않는다. 이 둘과 보고실패 시COMPLETED 금지의CPU fixture3개가 통과했다.
+이 코드는 원 execution으로 소급 인증하지 않는다. 별도 analysis source/manifest로 pending CPU collector만 교체하고, 기존CPU job의 정확owner/source/pending 확인 및 취소receipt를 보존한다. GPU job/원source/raw/비용은 변경하지 않는다.

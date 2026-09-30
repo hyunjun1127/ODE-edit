@@ -1,0 +1,8 @@
+test_collector_secondary_failure_never_completed (project.run_scripts.memit_hj.test_secondary.Secondary.test_collector_secondary_failure_never_completed) ... ok
+test_factorial_all8_and_blocked_not_zero (project.run_scripts.memit_hj.test_secondary.Secondary.test_factorial_all8_and_blocked_not_zero) ... ok
+test_long_alias_preserves_requested_2k_endpoint (project.run_scripts.memit_hj.test_secondary.Secondary.test_long_alias_preserves_requested_2k_endpoint) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.011s
+
+OK

@@ -9,6 +9,12 @@ def collect(lock_path,mapping_path):
  lock=json.loads(Path(lock_path).read_text());mapping=json.loads(Path(mapping_path).read_text())
  assert mapping['source_commit']==lock['source_commit'] and mapping['lock_sha256']==file_sha(lock_path)
  out=Path(lock['output']);dest=out/'collection';dest.mkdir(parents=True,exist_ok=False)
+ analysis_path=Path(__file__).resolve().parents[3]/'analysis-source.json'
+ analysis=json.loads(analysis_path.read_text()) if analysis_path.exists() else dict(source_commit=lock['source_commit'],kind='same_source')
+ if analysis_path.exists():
+  assert analysis['runtime_source_commit']==lock['source_commit'] and analysis['execution_lock_sha256']==file_sha(lock_path)
+  for member in analysis['members']:assert file_sha(member['path'])==member['sha256']
+ save(dest/'analysis-source.json',analysis)
  jobs=[str(x['job_id']) for x in mapping['jobs'] if x['group']!='CPU']
  p=subprocess.run(['sacct','-j',','.join(jobs),'--noheader','--parsable2','--format=JobIDRaw,JobName,User,State,ExitCode,ElapsedRaw,AllocTRES,MaxRSS'],text=True,capture_output=True)
  save(dest/'accounting.json',dict(job_ids=jobs,returncode=p.returncode,stdout=p.stdout,stderr=p.stderr,allocation_parent_only=True))
@@ -32,6 +38,8 @@ def collect(lock_path,mapping_path):
    result=reduce(out,lock['cells'],str(Path(lock['dataset_root'])/'counterfact.json'))
    from .figures import make
    make(out)
+   from .secondary import make as secondary
+   result['secondary']=secondary(out,cells(lock['cells']),json.loads((Path(lock['dataset_root'])/'counterfact.json').read_text()))
   except BaseException as ex:error=dict(error=repr(ex),traceback=traceback.format_exc());save(dest/'reducer-failure.json',error)
  status='COMPLETED_REGISTERED_PLAN' if result is not None and error is None else 'TECHNICAL_INCOMPLETE'
  lines=['# MEMIT HJ v2 수집 상태','',f'상태: {status}', '', '|cell|상태|','|---|---|']
@@ -43,7 +51,7 @@ def collect(lock_path,mapping_path):
  save(dest/'manifest.json',dict(bindings=lock['bindings'],members=members))
  # Completion is published only AFTER report, independent reducer and manifest.
  save(out/'terminal.json',dict(status=status,manifest_sha256=file_sha(dest/'manifest.json'),report_sha256=file_sha(dest/'report-ko.md'),
-  result=result,unexecuted_or_blocked=[k for k,v in coverage.items() if v['status']!='COMPLETED'],reducer_error=error,
+  result=result,analysis_source=analysis,unexecuted_or_blocked=[k for k,v in coverage.items() if v['status']!='COMPLETED'],reducer_error=error,
   permanent_checkpoints=False,remaining_temporary_CP=[str(p) for p in (out/'temporary-checkpoints').glob('*.pt')]))
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--lock',required=True);p.add_argument('--mapping',required=True);a=p.parse_args();collect(a.lock,a.mapping)
