@@ -1,0 +1,48 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "all_three_completed": true,
+  "cpu_tests": "test_review_b010: 6 passed",
+  "independent_red_agent": false,
+  "limits": [
+    "No W0/parent NS1000 baseline",
+    "Nonselected full byte hash not claimed",
+    "No independent red agent",
+    "Different arm endpoint comparison is not temporal recovery",
+    "Original CSV CRLF preserved"
+  ],
+  "new_cancel": 0,
+  "new_job_submit": 0,
+  "new_model_forward": 0,
+  "original_manifest": {
+    "bytes": 6928,
+    "inode": 121585412,
+    "mtime_ns": 1790732916416358281,
+    "path": "audits/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/artifact-manifest.json",
+    "sha256": "5129461129e5db6d0b5270d7be6246cddbe8a2933e28dc2591481f79a485f740"
+  },
+  "paired_identity": true,
+  "prior_rp_exact": true,
+  "reducer": "Completed terminal raw reduction: 3 arms, 7800 rows, 300 request files",
+  "report_update_authority": "User: include odeedit_joint_finaleval_s2; wait for JOINT_CUM and update specified report",
+  "retained_original_artifacts": [
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/b010-curves.png",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/calls.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/compute.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/greedy.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/guards.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/layer_actions.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/layer_traces.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/metrics.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/observer_kl.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/selected_constraints.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/snapshots.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/steps.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/supplement-verification.json",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/transitions.csv",
+    "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/verification.json"
+  ],
+  "scientific_promotion": false,
+  "source_raw_unchanged": true,
+  "status": "CPU_REPORT_UPDATE_VERIFIED",
+  "ties_failure": true
+}

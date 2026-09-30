@@ -4,6 +4,8 @@
 
 세 arm 모두 100/100 commit, 100/100 accepted다. 최종 rewrite NLL-pair 성공은 99/100, 100/100, 100/100이고, paraphrase는 190/200, 142/200, 143/200이다. 이 수치와 strict·NLL·observer·비용을 분리해 제시한다. 효과의 인과적 해석과 후속 권고는 하지 않으며 `scientific_promotion=false`다.
 
+**추가 평가 반영:** 사용자 요청의 `odeedit_joint_finaleval_s2` 세 job `55331_0/1/2` 모두 `COMPLETED / 0:0`을 확인했다. 각 최종 T100 weight에서 전체 R100/P200/N1000을 평가했고, 원시 7,800 candidate NLL rows를 독립 CPU 검산했다. 최종 NS는 NATIVE **744/1000 (74.4%)**, JOINT_STEP **785/1000 (78.5%)**, JOINT_CUM **786/1000 (78.6%)**다. 이전 보고의 제한된 step별 NS10과 구분하며, 기존 편집 실험 결과·비용·취소 기록은 유지한다.
+
 ## 최종 동일 요청 비교
 
 모든 값은 각 arm의 실제 마지막 weight에서 측정한 기존 raw의 독립 CPU 재계산이다. RS/PS는 target-new 평균 token NLL이 target-true보다 **엄격히 작을 때** 성공이며 tie는 실패다. Base observer는 반대로 true를 선호해야 성공한다. History observer는 과거 편집 target-new를 선호해야 성공한다.
@@ -12,6 +14,9 @@
 |---|---:|---:|---:|
 |최종 RS|99/100 (99%)|100/100 (100%)|100/100 (100%)|
 |최종 PS|190/200 (95%)|142/200 (71%)|143/200 (71.5%)|
+|최종 NS (전체 neighborhood)|744/1000 (74.4%)|785/1000 (78.5%)|786/1000 (78.6%)|
+|NS true-target strict|212/1000|214/1000|216/1000|
+|NS true-target token 정답|222/1010|224/1010|226/1010|
 |RS strict 정답|99/100|82/100|81/100|
 |PS strict 정답|137/200|61/200|63/200|
 |RS token 정답|102/103|85/103|84/103|
@@ -24,6 +29,27 @@
 NATIVE 대비 JOINT_STEP의 RS/PS 차이는 +1/−24 percentage points, JOINT_CUM은 +1/−23.5 pp다. 같은 Base observer에서 두 joint arm 모두 NATIVE보다 +2/64, 즉 +3.125 pp다. 이는 산술 차이이며 표본 범위 밖 성능이나 원인 판정이 아니다.
 
 Strict는 teacher-forced target 전체 token의 top1 일치다. Pair 성공과 strict를 같은 정확도로 취급하지 않는다. PS 두 문항은 같은 요청에 속하므로 독립 요청 200개가 아니다. 세 arm이 공유하는 unique continuation 요청은 100개, 총 arm-request 관측은 300개다.
+
+## 최종 weight 전체 locality 추가 평가
+
+기존 다섯 L4–L8 T100 weight를 pretrained base 위에 정확히 복원한 뒤, 동일 100요청에 딸린 neighborhood 1,000문항을 모두 평가했다. NS는 **true 평균 token NLL < new 평균 token NLL**일 때 성공, tie는 실패다. 같은 1,300 R/P/N prompt inventory를 세 arm에서 반복 관측했으므로 총 3,900 arm-prompt 관측을 독립 표본 3,900개라고 부르지 않는다. 두 target의 candidate sequence는 총 7,800개다.
+
+|동일 NS1000 비교|NATIVE|JOINT_STEP|JOINT_CUM|
+|---|---:|---:|---:|
+|NATIVE 대비 NS 차이|기준|+41/1000 (+4.1 pp)|+42/1000 (+4.2 pp)|
+|NATIVE 성공→해당 arm 실패|해당 없음|3|2|
+|NATIVE 실패→해당 arm 성공|해당 없음|44|44|
+|NATIVE 대비 strict lost/gained|해당 없음|17/19|16/20|
+|True NLL 평균|4.942804|4.888700|4.889580|
+|New NLL 평균|8.062094|8.558669|8.562230|
+|Safety margin 평균 (new−true)|3.119290|3.669969|3.672650|
+|Safety margin p10|−3.314916|−2.545567|−2.527417|
+
+Pair/row/input/target/position identity를 모두 맞춰 비교했다. STEP→CUM의 NS lost/gained는 0/1이며, 총점이 높아져도 NATIVE 대비 margin이 낮아진 문항은 STEP 278/1000, CUM 272/1000이다. 위 lost/gained는 **서로 다른 arm의 최종 state 비교**이지 시간순 forgetting이나 W0 대비 회복이 아니다. 동일 NS1000의 W0·B010-entry 평가가 이번 추가 작업에는 없으므로 절대 보존량을 계산하지 않는다. NS 증가와 PS 감소가 함께 관측됐으며, 이 산술 차이만으로 locality 보장·일반 능력·인과적 우월성을 주장하지 않는다.
+
+세 arm 모두 재측정 R/P의 row별 NLL 차이가 기존 편집-run 최종 결과와 정확히 0이었으며 strict/token 및 identity도 일치했다. GPU 평가 전후 selected weight SHA와 전체 parameter pointer/version 무변경 기록을 확인했다. Nonselected 전체 parameter byte hash 검사는 주장하지 않는다. Full-vocabulary teacher-forced 평가이며 새 generation, 편집, target fit, backward, history append, checkpoint 저장은 없었다.
+
+새 [metrics.csv](final-eval-update-r1/metrics.csv), [paired-transitions.csv](final-eval-update-r1/paired-transitions.csv), [compute.csv](final-eval-update-r1/compute.csv), [verification.json](final-eval-update-r1/verification.json)에 분모·NLL·전이·검산 범위를 기록했다. 기존 곡선 PNG는 원 7시점 R/P 및 observer 결과를 그대로 보존하며, 이번 NS1000을 과거 시점으로 보간하지 않는다.
 
 ## NLL과 꼬리 값
 
@@ -64,7 +90,7 @@ B010의 실제 고정 패널은 base control16/base observer64/history control16
 
 KL은 원 `Scorer.metric`의 W0 teacher→현재 분포 방향, 해당 true-target prediction 위치의 full-vocabulary KL 평균이다. 임의의 전 token KL이나 전체 pretrained capability 점수가 아니다. Joint에서 base 성공 총수가 entry와 같아도 실제 문항은 하나 실패하고 하나 회복했다.
 
-Neighborhood는 step1/5/10/25/50/75/100의 **그때 offered 요청 한 개에 딸린 10문항**만 측정했다. Step100은 NATIVE 7/10, STEP 8/10, CUM 8/10이다. 서로 다른 state·요청의 7시점 합계를 final NS로 부르지 않는다. 전체 continuation100 요청의 final NS1000은 **NOT_MEASURED**다. 새 forward로 채우지 않았다.
+원 편집-run의 neighborhood는 step1/5/10/25/50/75/100의 **그때 offered 요청 한 개에 딸린 10문항**만 측정했다. 그 Step100 값은 NATIVE 7/10, STEP 8/10, CUM 8/10이다. 서로 다른 state·요청의 7시점 합계를 final NS로 부르지 않는다. 이후 사용자 승인 추가 평가 `55331_[0–2]`에서 전체 continuation100 요청의 final NS1000을 측정했고, 위 별도 절에 완료 결과를 통합했다. 기존 `verification.json`의 NS 미측정 문구는 최초 리뷰 시점의 역사 기록이며 새 검산은 `final-eval-update-r1/verification.json`이다.
 
 ## 실제 저장 시점과 평가 경로
 
@@ -131,11 +157,28 @@ NATIVE의 scorer backward0은 native Adam backward가 없었다는 뜻이 아니
 
 각 path step25/50/75/100의 다섯 fullFP32 weight를 저장했다. 총12파일/60tensor, 파일 header 포함 **14,093,258,476 bytes**를 이번에 full SHA 재검산했고, 원 저장 후 reload와 logp exact receipt를 확인했다. 원 checkpoint를 수정하거나 새 checkpoint를 만들지 않았다. 이 저장은 사용자 명시 예외다. M/RNG 전체 editor resume bundle이 아니므로 `exact_editor_resume=NOT_AVAILABLE`다.
 
+### 추가 final evaluation 비용 (편집 비용과 별도)
+
+|항목|NATIVE|JOINT_STEP|JOINT_CUM|
+|---|---:|---:|---:|
+|평가 job|55331_0|55331_1|55331_2|
+|Terminal / exit|COMPLETED / 0:0|COMPLETED / 0:0|COMPLETED / 0:0|
+|할당 GPU seconds|173|168|166|
+|프로그램 wall seconds|170.192|165.816|164.422|
+|Model load seconds|18.196|12.614|11.638|
+|Restore·hash seconds|2.953|3.660|3.799|
+|평가 forward seconds|139.425|139.426|139.485|
+|Forward calls / 처리 token|2600 / 27854|2600 / 27854|2600 / 27854|
+|CUDA peak allocated bytes|32164548096|32164548096|32164548096|
+|Host max RSS KiB|34492108|34492060|34491964|
+
+추가 할당은 총 **507 GPU-seconds =0.140833 GPUh**, forward 7,800회/83,562 token이다. 편집 세 arm과 합치면 105,834 GPU-seconds =29.398333 GPUh이며, 취소된 다른 부모 경로 비용은 이 합계에 넣지 않았다. Load/restore/forward는 wall 내부 구간이고 별도 완전한 exclusive I/O 분해는 아니다. 평가 array는 당시 기존 두 경로와 project cap3을 지키도록 `%1`로 실행했다. 이번 보고 갱신 중 신규 job 제출은 없다.
+
 ## Generation과 미측정 경계
 
 기존 final greedy300문항/arm은 세 arm 모두 whole-string exact match0/300, EOS 미도달32token censor300/300이다. 원 parser는 whitespace strip+casefold만 적용하며 punctuation 제거/첫답 추출을 하지 않는다. 이 결과를 pair/TF-strict와 섞거나 0%의 일반 지식 능력으로 해석하지 않는다. 원 생성 raw는 보존했고, 추출법을 바꾸어 재채점하지 않았다. [greedy.csv](greedy.csv)에 분모를 남겼다.
 
-이번 보고는 B010 세 arm만 다룬다. 추가 checkpoint, B050 진행률, B090 가상 점수, 새 seed, 새 평가 및 model forward는 없다. 새로운 통계적 유의성·인과적 기전·전체 capability 판정도 없다.
+이번 보고는 B010 세 arm과 그 최종 weight의 사용자 승인 추가 R/P/N 평가만 다룬다. B050 진행률, B090 가상 점수, 새 seed는 포함하지 않는다. 이번 CPU 보고 갱신 자체는 새 checkpoint·model forward·추가 제출을 수행하지 않았다. 새로운 통계적 유의성·인과적 기전·전체 capability 판정도 없다.
 
 ## 사용자 지정 취소와 유지
 
@@ -160,6 +203,10 @@ B050 JOINT_CUM의 완료 commit10개와 원본 partial raw는 보존했고 sched
 - 이번 local 검산 `/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-b010-20260930-v1/`. Per-item 결합과 full input inventory는 local-only다.
 - [verification.json](verification.json): 300commit, 동일 부모 W/M/anchor/dual/RNG/context, 공통 token catalog, 분모, raw NLL/strict, 원 reducer와 독립 결과 일치, snapshot12 full SHA. Parent true NLL의 arm 간 최대 차이는0이다. 별도 red agent를 사용한 것으로 표시하지 않는다.
 - 분석 source는 이번 보고와 함께 게시하는 `review_b010.py`, `review_b010_extra.py`, `test_review_b010.py`이며 실행 source와 구분한다. 분석 artifact manifest에 코드 hash 및 보고 hash를 결속한다.
+- 추가 평가 source `62005204cf2b0a5abf5ef2830849bc9103199515`, lock SHA `95d898d31c1f8f4fa41a7b8af74dbfbaf0771b5b19dc8fde266d80a8a1b338ef`. 원 Scorer/token packing을 사용한 MB1, FP32/eager 및 기존 TF32/BOS 정책 그대로다. Frozen source/lock은 수정하지 않았다.
+- 추가 평가 raw root `/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/`; arm별 `full-metrics.json`, 100개 request 파일, restore/terminal receipt를 full SHA 및 내용 결속했다. 세 full-metrics SHA는 아래 새 artifact manifest/input inventory에서 확인할 수 있다.
+- 추가 CPU reducer `project/run_scripts/joint_multilayer_bs10/review_final_eval.py`; local 검산 `/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-final-eval-20260930-v1/`. 3개 T100의 실행 시 full SHA·실제 restore receipt와 현재 size/mtime를 재사용했고, 이번 CPU 갱신에서 모델을 다시 load하거나 대형 snapshot 전체를 중복 해시하지 않았다.
+- 최초 report SHA `00e18d8f404b95e1a5607c4e58ff4b038e88756c08922f4460154b503f047143` 및 최초 main `ebb1c0c37229f1e0ccac5693a77d6ece0d3aee5e`는 역사로 유지한다. 이번 갱신은 사용자 지정 동일 report 경로에 반영하고 별도 `final-eval-update-r1` audit manifest로 새 SHA를 결속한다. 기존 집계 CSV·PNG·원 manifest는 변경하지 않는다.
 - 원 설계 [joint preservation method](../../../../../plans/global/2026-09-29-joint-multilayer-preservation-method-ko.md), 실행 변경 [S2 migration envelope](../../../../../messages/head/2026-09-29-joint-multilayer-bs1-sh2-migration.md), 기존 [초기 제출 보고](../submission-ko.md).
 
 재현은 clean source worktree에서 아래 명령으로 수행한다. `--repo`는 기존 보고서가 없는 새 scratch publication root를 사용해야 한다. 원 report와 raw를 덮어쓰지 않는다.
@@ -169,6 +216,8 @@ python -B -m unittest project.run_scripts.joint_multilayer_bs10.test_review_b010
 python -B -m project.run_scripts.joint_multilayer_bs10.review_b010 --repo NEW_PUBLICATION_ROOT --scratch NEW_LOCAL_SCRATCH
 # supplemental command는 새 publication이 있는 cwd에서 source package를 PYTHONPATH로 지정한다.
 python -B -m project.run_scripts.joint_multilayer_bs10.review_b010_extra
+# 추가 final evaluation CPU 검산; 두 출력 경로는 새 scratch여야 한다.
+python -B -m project.run_scripts.joint_multilayer_bs10.review_final_eval --repo NEW_PUBLICATION_ROOT --scratch NEW_LOCAL_FINAL_EVAL_SCRATCH
 ```
 
-Python은 `/mnt/raid5/janghj/EasyEdit/.venv/bin/python`을 사용했다. 원 runtime/launcher/collector는 수정0, 신규 GPU/Slurm submit0, 지정4job cancel 외 job변경0, shared dirty 보존. Git에는 코드·집계 CSV·코드 생성 PNG·작은 receipt/report만 게시하며 raw/model/CP/prompt/generation text/log는 제외한다. `NO_BROADCAST_NOT_REQUIRED`. GH에는 compact report path/SHA와 수치·취소 범위를 전달하고 이 리뷰를 종료한다.
+원 리뷰 Python은 `/mnt/raid5/janghj/EasyEdit/.venv/bin/python`, 이번 표준라이브러리 CPU reducer는 `python3`를 사용했다. 원 runtime/launcher/collector는 수정0, 이번 갱신의 신규 GPU/Slurm submit/cancel0, shared dirty 보존. 앞서 승인된 final-eval 세 job의 terminal만 확인했고 다른 task 모니터링은 재개하지 않았다. Git에는 코드·집계 CSV·코드 생성 PNG·작은 receipt/report만 게시하며 raw/model/CP/prompt/generation text/log는 제외한다. `NO_BROADCAST_NOT_REQUIRED`. GH에는 갱신 report path/SHA와 세 arm의 최종 R/P/N을 전달하고 이 리뷰를 종료한다.

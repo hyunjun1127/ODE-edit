@@ -1,0 +1,105 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "analysis_source": [
+    {
+      "bytes": 3142,
+      "inode": 121588493,
+      "mtime_ns": 1790735121556799717,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_final_eval_seal.py",
+      "sha256": "1b6d7b4cc7d6ff88c98d823840718c553d7c90c9797becbcb0a3aa0e7e81cc39"
+    },
+    {
+      "bytes": 6314,
+      "inode": 121588492,
+      "mtime_ns": 1790734965225219859,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_final_eval.py",
+      "sha256": "019785c01d3841fc55275a5b055823798045b38218bf78b74a98a6b0846d1949"
+    }
+  ],
+  "audit_members": [
+    {
+      "bytes": 2911,
+      "inode": 121641689,
+      "mtime_ns": 1790735121648799487,
+      "path": "audits/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/owner-review.json",
+      "sha256": "01b9ce1cca6a3d5641e917c33e36d62a36e61b793112dd35111a3a9ae1080800"
+    },
+    {
+      "bytes": 1003,
+      "inode": 121641688,
+      "mtime_ns": 1790735121644799497,
+      "path": "audits/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/terminal-scheduler-receipt.json",
+      "sha256": "eb307ba6515ac1972d85babeb74c608a8d973b202c09894295f7a5b3426bdad6"
+    }
+  ],
+  "execution_lock_sha256": "95d898d31c1f8f4fa41a7b8af74dbfbaf0771b5b19dc8fde266d80a8a1b338ef",
+  "execution_source": "62005204cf2b0a5abf5ef2830849bc9103199515",
+  "outputs": [
+    {
+      "bytes": 589,
+      "inode": 121641683,
+      "mtime_ns": 1790734965617218725,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/compute.csv",
+      "sha256": "9263506034f91c97b16d349702784e138ec4a94cf145a4aea5c638b6f664b069"
+    },
+    {
+      "bytes": 1601,
+      "inode": 121641681,
+      "mtime_ns": 1790734965617218725,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/metrics.csv",
+      "sha256": "ea132a5113ea729f16dd02c014b628f3934bd2b856885585e66c0a66e1bb0c52"
+    },
+    {
+      "bytes": 857,
+      "inode": 121641682,
+      "mtime_ns": 1790734965617218725,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/paired-transitions.csv",
+      "sha256": "b792c9babdd618a750fedfeaa175bc9f2799a6c35762a120089e8281416b9748"
+    },
+    {
+      "bytes": 1898,
+      "inode": 121641686,
+      "mtime_ns": 1790734965685218529,
+      "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/final-eval-update-r1/verification.json",
+      "sha256": "d9f547e7b6cd83cf0f671be4f52ca8f29f520d489c587ae604a7f2ba160a21cd"
+    }
+  ],
+  "previous_report": {
+    "bytes": 15883,
+    "inode": 120933697,
+    "mtime_ns": 1790732751648469111,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/report-ko.md",
+    "sha256": "00e18d8f404b95e1a5607c4e58ff4b038e88756c08922f4460154b503f047143"
+  },
+  "publication_source": "Containing Git commit, separate from frozen execution source",
+  "report": {
+    "bytes": 22461,
+    "inode": 120933697,
+    "mtime_ns": 1790735070540930196,
+    "path": "experiment-reports/servers/server2/joint-multilayer-bs1-20260929-v1/b010-review-20260930-v1/report-ko.md",
+    "sha256": "65a734727e45e7aca28ded62590649879053812506ed654b5d91d7b615af86b1"
+  },
+  "terminal_raw_receipts": [
+    {
+      "bytes": 2554,
+      "inode": 121641453,
+      "mtime_ns": 1790734420327049679,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/NATIVE/terminal.json",
+      "sha256": "d8909b01ae92eacda750d2195fd7164cd57bce1a88420a4df62e803551c52798"
+    },
+    {
+      "bytes": 2555,
+      "inode": 121641564,
+      "mtime_ns": 1790734611430477004,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/JOINT_STEP/terminal.json",
+      "sha256": "d89a58dbf017c414a5adacec6a5329e3d6ed174bd9cbaa168d8699f95e85e338"
+    },
+    {
+      "bytes": 2555,
+      "inode": 121641678,
+      "mtime_ns": 1790734790037777245,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/final-full-eval-20260930-v1/output/JOINT_CUM/terminal.json",
+      "sha256": "9cfc4636a6e6515ce22f5daddbd4e7f550b1280c6e2d1f018f57541de8cb4b3c"
+    }
+  ]
+}

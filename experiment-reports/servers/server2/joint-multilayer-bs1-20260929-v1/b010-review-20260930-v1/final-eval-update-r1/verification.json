@@ -1,0 +1,44 @@
+{
+  "all_arm_pair_identity_exact": true,
+  "all_terminal_nonmutation": true,
+  "analysis_source": [
+    {
+      "bytes": 6314,
+      "inode": 121588492,
+      "mtime_ns": 1790734965225219859,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_final_eval.py",
+      "sha256": "019785c01d3841fc55275a5b055823798045b38218bf78b74a98a6b0846d1949"
+    },
+    {
+      "bytes": 14179,
+      "inode": 121585397,
+      "mtime_ns": 1790732751648469111,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/project/run_scripts/joint_multilayer_bs10/review_b010.py",
+      "sha256": "958dd7c27410cfefa546c73447baaadfc49b0e6e5cf8e0a23721a0acdfe4ef39"
+    }
+  ],
+  "arm_prompt_observations": 3900,
+  "independent_red_agent": false,
+  "lock_sha256": "95d898d31c1f8f4fa41a7b8af74dbfbaf0771b5b19dc8fde266d80a8a1b338ef",
+  "new_forward": 0,
+  "new_submission": 0,
+  "ordered_ids_sha256": "f4214f4a2a94c90a1f4113566fff90b19f0779a12a885aa00d5a2c92ac4106b6",
+  "pairs_per_arm": 1300,
+  "prior_RP_exact": true,
+  "raw_inventory": {
+    "bytes": 100523,
+    "inode": 121641684,
+    "mtime_ns": 1790734965621218714,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/review-final-eval-20260930-v1/input-members.json",
+    "sha256": "607817903fc74f8c313f7c77635d80176c0b3a24aaac47d7ea3482e5173adfaa"
+  },
+  "raw_members": 320,
+  "raw_root": "1ec6f5c93455f7351980d1934e7bed421a912dbc4857e014aa58eabf0d781cc1",
+  "raw_rows": 7800,
+  "scientific_promotion": false,
+  "snapshot_verification": "Execution full SHA/restore receipts reused plus current size/mtime; no new GPU reload or multi-GB hash.",
+  "source": "62005204cf2b0a5abf5ef2830849bc9103199515",
+  "status": "THREE_TERMINAL_OUTPUTS_CPU_VERIFIED",
+  "unique_requests": 100,
+  "unique_task_prompts": 1300
+}

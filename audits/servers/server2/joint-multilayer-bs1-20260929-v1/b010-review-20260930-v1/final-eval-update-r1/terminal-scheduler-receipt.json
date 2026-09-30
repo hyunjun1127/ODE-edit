@@ -1,0 +1,39 @@
+{
+  "command": "sacct -X -j 55331 --array --format=JobID,JobName%32,State,ExitCode,ElapsedRaw,AllocTRES%70 -n -P",
+  "observation_date": "2026-09-30 Asia/Seoul",
+  "rows": [
+    {
+      "cpu": 8,
+      "elapsed_gpu_seconds": 173,
+      "exit_code": "0:0",
+      "gres_gpu": 1,
+      "job": "55331_0",
+      "mem": "59G",
+      "name": "odeedit_joint_finaleval_s2",
+      "state": "COMPLETED"
+    },
+    {
+      "cpu": 8,
+      "elapsed_gpu_seconds": 168,
+      "exit_code": "0:0",
+      "gres_gpu": 1,
+      "job": "55331_1",
+      "mem": "59G",
+      "name": "odeedit_joint_finaleval_s2",
+      "state": "COMPLETED"
+    },
+    {
+      "cpu": 8,
+      "elapsed_gpu_seconds": 166,
+      "exit_code": "0:0",
+      "gres_gpu": 1,
+      "job": "55331_2",
+      "mem": "59G",
+      "name": "odeedit_joint_finaleval_s2",
+      "state": "COMPLETED"
+    }
+  ],
+  "source": "owner tool output during explicit JOINT_CUM completion recall",
+  "squeue_exact_array_empty": true,
+  "unrelated_scheduler_queries": 0
+}
