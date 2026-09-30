@@ -9,6 +9,11 @@
   "design_path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/design-ko.md",
   "effective_revision": "v2",
   "gpu_cap": 1,
+  "latest_override": "messages/head/2026-09-30-memit-hj-sh3-all-implementation-dependencies.md",
+  "latest_override_nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
+  "complete_implementation_before_submission": true,
+  "detailed_code_review_required": true,
+  "upfront_dependency_submission_required": true,
   "mem_mib_per_gpu": 121856,
   "logical_main_arms": [
     "000",
