@@ -1,0 +1,400 @@
+{
+  "mapping": {
+    "cap": 1,
+    "jobs": [
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_P_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "P"
+        ],
+        "dependency": null,
+        "group": "P",
+        "job_id": "56007",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56007",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_A_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "A"
+        ],
+        "dependency": "afterok:56007",
+        "group": "A",
+        "job_id": "56008",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56008",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_B_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56008",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "B"
+        ],
+        "dependency": "afterok:56007,afterany:56008",
+        "group": "B",
+        "job_id": "56009",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56009",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_C_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56009",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "C"
+        ],
+        "dependency": "afterok:56007,afterany:56009",
+        "group": "C",
+        "job_id": "56010",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56010",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_D_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterok:56007,afterany:56010",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/run.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "D"
+        ],
+        "dependency": "afterok:56007,afterany:56010",
+        "group": "D",
+        "job_id": "56011",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56011",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--export=NONE",
+          "--kill-on-invalid-dep=yes",
+          "--job-name=odeedit_memit_hj_CPU_s3",
+          "--output=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.out",
+          "--error=/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/logs/%j.err",
+          "--dependency=afterany:56007:56008:56009:56010:56011",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source/project/run_scripts/memit_hj/collect.sbatch",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/frozen-source-v1/source",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+          "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/dag-submission.json"
+        ],
+        "dependency": "afterany:56007:56008:56009:56010:56011",
+        "group": "CPU",
+        "job_id": "56012",
+        "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+        "response": "56012",
+        "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+      }
+    ],
+    "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+    "logical_mapping": {
+      "A": [
+        "main_000",
+        "main_001",
+        "writer_0_divisor",
+        "writer_0_joint",
+        "writer_0_frozen_upper_joint",
+        "writer_0_energy_matched_divisor",
+        "writer_1000_divisor",
+        "writer_1000_joint",
+        "writer_1000_frozen_upper_joint",
+        "writer_1000_energy_matched_divisor",
+        "writer_5000_divisor",
+        "writer_5000_joint",
+        "writer_5000_frozen_upper_joint",
+        "writer_5000_energy_matched_divisor",
+        "history_1000_stale",
+        "history_1000_forced_refresh",
+        "history_3000_stale",
+        "history_3000_forced_refresh",
+        "history_5000_stale",
+        "history_5000_forced_refresh",
+        "history_7000_stale",
+        "history_7000_forced_refresh"
+      ],
+      "B": [
+        "main_100",
+        "main_101"
+      ],
+      "C": [
+        "main_010",
+        "main_011"
+      ],
+      "CPU": [
+        "all-group-afterany-collector"
+      ],
+      "D": [
+        "main_110",
+        "main_111"
+      ],
+      "P": [
+        "T0a",
+        "W0-full10k"
+      ]
+    },
+    "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+  },
+  "held_checks": {
+    "P": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "P",
+      "job_id": "56007"
+    },
+    "A": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "dependency_afterok": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "A",
+      "job_id": "56008"
+    },
+    "B": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "dependency_afterany": true,
+        "dependency_afterok": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "B",
+      "job_id": "56009"
+    },
+    "C": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "dependency_afterany": true,
+        "dependency_afterok": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "C",
+      "job_id": "56010"
+    },
+    "D": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "dependency_afterany": true,
+        "dependency_afterok": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "D",
+      "job_id": "56011"
+    },
+    "CPU": {
+      "all_pass": true,
+      "checks": {
+        "argv": true,
+        "command": true,
+        "cpu": true,
+        "dependency": true,
+        "dependency_afterany": true,
+        "gpu": true,
+        "held": true,
+        "job": true,
+        "memory": true,
+        "name": true,
+        "node": true,
+        "owner": true,
+        "partition": true,
+        "requeue": true,
+        "source": true,
+        "wall": true
+      },
+      "group": "CPU",
+      "job_id": "56012"
+    }
+  },
+  "releases": {
+    "P": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56007",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    },
+    "A": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56008",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    },
+    "B": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56009",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    },
+    "C": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56010",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    },
+    "D": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56011",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    },
+    "CPU": {
+      "actual_initial": "NOT_OBSERVED",
+      "actual_terminal": "NOT_OBSERVED",
+      "job_id": "56012",
+      "returncode": 0,
+      "status": "RELEASED",
+      "stdout": ""
+    }
+  },
+  "initial_resource_observation": {
+    "observed": "2026-09-30T22:41:01.401932+09:00",
+    "purpose": "Parent-envelope bounded initial/resource-pending handoff check after all six releases",
+    "job_ids": [
+      "56007",
+      "56008",
+      "56009",
+      "56010",
+      "56011",
+      "56012"
+    ],
+    "stdout": "56012|odeedit_memit_hj_CPU_s3|PENDING|Dependency|N/A|\n56011|odeedit_memit_hj_D_s3|PENDING|Dependency|gres/gpu:1|\n56010|odeedit_memit_hj_C_s3|PENDING|Dependency|gres/gpu:1|\n56009|odeedit_memit_hj_B_s3|PENDING|Dependency|gres/gpu:1|\n56008|odeedit_memit_hj_A_s3|PENDING|Dependency|gres/gpu:1|\n56007|odeedit_memit_hj_P_s3|RUNNING|None|gres/gpu:1|ubuntu\n"
+  },
+  "lock_path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+  "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+  "source_archive_sha256": "9e06f05c7cc2a2d0dcf7a9e4f8bd852c29c37025d67db385d7df1a60c70a51f5",
+  "resource_preflight_sha256": "f59674aabecdee240e904d1e95d730679d8379e74a96cf223c083058462b3375"
+}

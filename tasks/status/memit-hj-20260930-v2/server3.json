@@ -1,11 +1,18 @@
 {
-  "status": "IMPLEMENTED_CPU_CHECKED_NOT_SUBMITTED",
-  "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-ALL-IMPL-AUDIT-DAG-20260930-R1",
-  "CPU_tests": 23,
-  "logical_cells": 28,
-  "planned_GPU_groups": 5,
-  "planned_CPU_collector": 1,
-  "actual_job_ids": [],
-  "actual_T0": "NOT_OBSERVED",
+  "status": "ALL_REGISTERED_RELEASED_INITIAL_PENDING",
+  "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed",
+  "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+  "actual_jobs": {
+    "P": "56007",
+    "A": "56008",
+    "B": "56009",
+    "C": "56010",
+    "D": "56011",
+    "CPU": "56012"
+  },
+  "actual_initial": "NOT_OBSERVED",
+  "actual_terminal": "NOT_OBSERVED",
+  "monitoring": "BOUNDED_INITIAL_GATE_ONLY",
+  "observed": "2026-09-30T22:41:01.401932+09:00",
   "cap": 1
 }
