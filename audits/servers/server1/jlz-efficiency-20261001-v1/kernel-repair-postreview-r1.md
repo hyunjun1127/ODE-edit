@@ -21,7 +21,10 @@ owner 보고서와 raw-free table을 읽고 `POST_CPU_FACTUAL_PASS_WITH_LIMITATI
 
 Owner CPU reducer는 collector artifact manifest 전체 size/SHA를 재검산하고
 coverage/paired/scalar gate 표를 생성했다. Production focused CPU 회귀3개를 postrun에도 실행해 PASS.
-Python compile/JSON/상대링크/diff whitespace 검사 PASS. 별도 renderer/PNG는 실행하지 않았다
+Python compile/JSON/상대링크 검사 PASS. CSV는 Python csv 기본 CRLF 형식으로 생성되어
+기본 git diff --check가 CR을 trailing-whitespace로 경고했다. 숫자·sealed CSV bytes를
+정규화하지 않고 command-scoped core.whitespace=cr-at-eol로 해당 형식 예외를 명시해
+재검사했다. 공유 Git 설정은 변경하지 않았다. 별도 renderer/PNG는 실행하지 않았다
 (이번 간결한 표·수리보고에 그림 불필요). Raw gradient/model/prompt/fullstdout Git0.
 
 보고서 SHA256: 1acd75941ea4d51d44c24574403657911f26c6e8f0cfb96444d34d11883766f9.
