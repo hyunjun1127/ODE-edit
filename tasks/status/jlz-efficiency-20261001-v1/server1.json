@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
+  "parallel_override": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-PARALLEL-CAP2-20261001-R1",
+  "status": "SUBMITTED_INITIAL_NOT_YET_OBSERVED",
+  "owner": "server1",
+  "gpu_job": 56704,
+  "gpu_dependency": null,
+  "collector_job": 56705,
+  "collector_dependency": "afterany:56704",
+  "source": "bbe19548352e1cf543d54fdbb46ead3c6fb40436",
+  "tree": "94f3d397ea1a6d80fc963eca931bc7d33e2eb9db",
+  "lock_sha256": "56e9995639f56380adb9cb97d33e7875c68378b2b14e48f6a3ed1363e5c17757",
+  "run": "/mnt/raid5/janghj/ODE-edit/local/jlz-efficiency/20261001-v1/attempt-r1",
+  "old56684_unchanged": true,
+  "old_initial_obligation": "PRESERVED",
+  "project_cap": 2,
+  "admission_existing": 1,
+  "new_GPU": 1,
+  "new_scientific_chain": false,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "scientific_promotion": false
+}
