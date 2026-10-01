@@ -37,7 +37,7 @@ def inspect(job,run,wt,name,gpu,parent=None):
     for text in (f'JobId={job} ',f'JobName={name} ','UserId=janghj(','JobState=PENDING ','Reason=JobHeldUser ','Requeue=0 ','ReqNodeList=devbox ',f'WorkDir={wt} ',f'NumCPUs={8 if gpu else 4} '):assert text in txt,text
     assert f'Command={run/("gpu.sh" if gpu else "collector.sh")}' in txt
     assert ('TimeLimit=12:00:00' if gpu else 'TimeLimit=02:00:00') in txt
-    if gpu:assert 'TresPerNode=gres/gpu:1' in txt and ('mem=128G' in txt or 'mem=131072M' in txt)
+    if gpu:assert 'Dependency=(null)' in txt and 'TresPerNode=gres/gpu:1' in txt and ('mem=128G' in txt or 'mem=131072M' in txt)
     else:assert f'afterany:{parent}' in txt and ('mem=16G' in txt or 'mem=16384M' in txt)
     return txt
 
@@ -45,6 +45,8 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,required=True);a=p.parse_args();run=a.run.resolve()
     assert not (run/'submitted-gpu.json').exists()
     lock=json.loads((run/'execution.lock.json').read_text());wt=Path(lock['worktree'])
+    assert command(['git','-C',str(wt),'rev-parse','HEAD'])==lock['source'],'SOURCE_HEAD_CHANGED'
+    assert not command(['git','-C',str(wt),'status','--porcelain']),'SOURCE_DIRTY'
     env=dict(os.environ,AGENT_GPU_CAPS_FILE='/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv')
     check=subprocess.run(['bash',str(wt/'scripts/check-slurm-resource-cap.sh'),'server1','1','131072M'],env=env,text=True,capture_output=True)
     if check.returncode:raise RuntimeError(check.stdout+check.stderr)
@@ -58,7 +60,7 @@ def main():
         lock_sha256=sha(run/'execution.lock.json'),launcher_sha256={p.name:sha(p) for p in (run/'gpu.sh',run/'collector.sh')},export='NONE')
     receipt['prerelease_admission']=capacity((gpu,cpu));once(run/'held-inspection.json',receipt)
     command(['scontrol','release',cpu]);once(run/'collector-release.json',dict(job=cpu,released=True))
-    command(['scontrol','release',gpu]);receipt.update(status='RELEASED',actual_initial='NOT_YET_OBSERVED',dependency='afterany:'+gpu)
-    once(run/'submission.json',receipt);print(json.dumps({k:receipt[k] for k in ('status','gpu_job','collector_job','dependency','lock_sha256')}))
+    command(['scontrol','release',gpu]);receipt.update(status='RELEASED',actual_initial='NOT_YET_OBSERVED',gpu_dependency=None,collector_dependency='afterany:'+gpu)
+    once(run/'submission.json',receipt);print(json.dumps({k:receipt[k] for k in ('status','gpu_job','collector_job','gpu_dependency','collector_dependency','lock_sha256')}))
 
 if __name__=='__main__':main()

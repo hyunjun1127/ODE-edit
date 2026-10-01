@@ -1,7 +1,8 @@
 """Bounded paired technical benchmark; never a scientific editing chain.
 
 Reference source is unchanged. All optimizers share explicit oracle budgets;
-tensor states live only in this process. Qualification failures exclude routes.
+tensor states live only in this process. Explicit record-only override applies
+only to fixed E123_MB4 B100 finite comparisons; historical policy is preserved.
 """
 import argparse
 import gc
@@ -51,6 +52,7 @@ def entry(model,tok,records,contexts,history,cache,out,label):
     keys,key_seconds=timed(capture_keys,model,spec,contexts,2)
     (ca,ct,cn),candidate_seconds=timed(selected_entry,model,spec,2)
     ck,candidate_key_seconds=timed(early_keys,model,spec,contexts,2)
+    require(all(bool(torch.isfinite(v).all()) for v in [teacher,nll,ct,cn,*anchors.values(),*ca.values(),*keys.values(),*ck.values()]),'NONFINITE_ENTRY')
     comparison=dict(anchor_maxabs=max(float((anchors[l]-ca[l]).abs().max()) for l in LAYERS),
         teacher_maxabs=float((teacher-ct).abs().max()),nll_maxabs=float((nll-cn).abs().max()),
         key_bitwise=all(torch.equal(keys[l],ck[l]) for l in LAYERS),active_exact=torch.equal(nll>=.05,cn>=.05))
@@ -168,9 +170,15 @@ def probe(model,tok,records,contexts,history,panel,refx,returned,candidate,out):
     write(out/'small-probe.json',dict(probes=receipts,observer_comparison=comparison,no_checkpoints=True))
     return comparison
 
-def large(model,tok,records,contexts,history,cache,budget,candidate,out):
+def large(model,tok,records,contexts,history,cache,budget,candidate,out,record_only=None):
+    from . import record_only as policy
+    if record_only:require(candidate=='E123_MB4' and len(records)==100,'FIXED_RECORD_ONLY_SCOPE')
     panel=entry(model,tok,records,contexts,history,cache,out,'B100')
-    if candidate.startswith('E123') and panel['entry_receipt']['comparison']['status']!='PASS':
+    if record_only:
+        old=json.loads((Path(record_only['root'])/'output/B100-entry.json').read_text())
+        require(panel['entry_receipt']['case_ids']==old['case_ids'] and panel['entry_receipt']['input_identity']==old['input_identity'],'B100_INPUT_IDENTITY')
+        write(out/'entry-policy.json',policy.entry_decision(panel['entry_receipt']['comparison']))
+    elif candidate.startswith('E123') and panel['entry_receipt']['comparison']['status']!='PASS':
         return dict(status='CANDIDATE_EXCLUDED_ENTRY',oracles=0)
     c,rho,mask=(panel[k] for k in ('c','rho','mask'));x=direction(rho,mask,model.config.hidden_size)*.02
     # Only one prefix cache at a time; paired endpoints and input are identical.
@@ -183,6 +191,7 @@ def large(model,tok,records,contexts,history,cache,budget,candidate,out):
         budget.charge('B100',route)
         try:result=oracle(x)
         except (CertificationFailed,FloatingPointError) as exc:
+            if record_only:raise
             if label=='REF_MB2':raise
             failure=dict(index=i,route=route,status='CERTIFICATION_FAILED',reason=str(exc),budget=budget.report())
             write(out/f'B100-excluded-{i}.json',failure)
@@ -190,21 +199,29 @@ def large(model,tok,records,contexts,history,cache,budget,candidate,out):
         # No extra zero-R ninth oracle is authorized. Denominator1 yields a
         # conservative sufficient bound because the original initial scale>=1.
         # Do not label the nonzero candidate's gradient as initial-gradient.
+        if record_only:
+            require(bool(torch.isfinite(result[1]).all()) and all(bool(torch.isfinite(w).all()) for w in result[2]['weights'].values()),'NONFINITE_ORACLE_OR_WEIGHT')
         point,g=point_record(result,x,c,rho,mask,scale)
         if ref is None:ref=(point,g);comparison=dict(status='PASS',reference=True)
         else:comparison=compare_points(*ref,point,g)
+        if record_only:comparison=policy.point_decision(comparison,point)
         results.append(dict(index=i,route=route,warmup=i<2,point=point,comparison=comparison,timing=oracle.records[-1],prox_bound='RAW_DIFFERENCE_DENOMINATOR1_SUFFICIENT_FOR_FIXED_NORMALIZED_THRESHOLD; original initial scale NOT_MEASURED'))
         write(out/f'B100-oracle-{i}.json',results[-1]|{'budget':budget.report()})
         del result
-        if comparison['status']!='PASS':
+        if comparison['status']!='PASS' and not record_only:
             if label=='REF_MB2':raise RuntimeError('B100_REFERENCE_REPEAT_FAILURE')
             return dict(status='CANDIDATE_EXCLUDED_PARITY',completed=len(results),rows=results)
-        if i==1:
+        if i==1 and not record_only:
             write(out/'REPAIR_INITIAL_VALID.json',dict(status='KERNEL_SUMMARY_AND_B100_PAIRED_WARMUPS_VALID',
                 kernels_sha256=sha(out/'kernels.json'),warmup_reference_sha256=sha(out/'B100-oracle-0.json'),
                 warmup_candidate_sha256=sha(out/'B100-oracle-1.json'),candidate=candidate,budget=budget.report(),
                 B100_complete=False,not_terminal_PASS=True))
         if i>=2:times[label].append(oracle.records[-1]['seconds'])
+        if record_only and i==2:
+            write(out/'CONTINUATION_INITIAL_VALID.json',dict(status='FINITE_IDENTITY_WEIGHT_WARMUPS_AND_FIRST_MEASURED_ORACLE',
+                authority_nonce=policy.NONCE,numerical_policy='RECORD_ONLY_USER_DIRECTED',numerical_certification='NOT_ESTABLISHED',
+                warmup_reference_sha256=sha(out/'B100-oracle-0.json'),warmup_candidate_sha256=sha(out/'B100-oracle-1.json'),
+                measured_reference_sha256=sha(out/'B100-oracle-2.json'),budget=budget.report(),not_terminal=True))
     del oracle;gc.collect();torch.cuda.empty_cache()
     txn=Transaction(model,history,contexts,[]);eval_rows=[];evaltimes={'REF':[],'CAND':[]};reference_eval=None
     with txn:
@@ -214,25 +231,33 @@ def large(model,tok,records,contexts,history,cache,budget,candidate,out):
         require(endpoint['W']==ref[0]['weight_sha'],'B100_ACTUAL_OBSERVER_WEIGHT_IDENTITY')
         for i,label in enumerate(('REF','CAND','REF','CAND','CAND','REF','REF','CAND')):
             observation=evaluation.evaluate(model,tok,records,selected=label=='CAND')
+            if record_only:policy.observer_identity(reference_eval or observation,observation,{'R':100,'P':200,'N':1000})
             if reference_eval is None:reference_eval=observation;comparison=dict(status='PASS',reference=True)
             else:comparison=evaluation.compare(reference_eval,observation)
+            if record_only:
+                comparison=(policy.annotate(comparison) if i==0 else policy.observer_decision(comparison,reference_eval,observation))
             write(out/f'B100-observer-{i}.json',clean_observation(observation)|{'comparison':comparison,'endpoint':endpoint,'warmup':i<2})
             eval_rows.append(dict(index=i,route=label,seconds=observation['seconds'],comparison=comparison,work=observation['work'],fallback=observation['fallback_full_groups']))
             require(state_hash(model,history)==endpoint,'B100_OBSERVER_MUTATION')
-            if comparison['status']!='PASS':
+            if comparison['status']!='PASS' and not record_only:
                 if label=='REF':raise RuntimeError('B100_REFERENCE_OBSERVER_FAILURE')
                 break
             if i>=2:evaltimes[label].append(observation['seconds'])
         del reference_eval,observation
     return dict(status='MEASURED',candidate=candidate,oracle_comparison=timing(times['REF_MB2'],times['CAND']),
         observer_comparison=timing(evaltimes['REF'],evaltimes['CAND']) if all(len(v)==3 for v in evaltimes.values()) else {'status':'UNQUALIFIED'},
-        oracle_rows=results,observer_rows=eval_rows,restored=txn.restored,history_appends=0,no_optimizer=True)
+        oracle_rows=results,observer_rows=eval_rows,restored=txn.restored,history_appends=0,no_optimizer=True,
+        numerical_policy='RECORD_ONLY_USER_DIRECTED' if record_only else 'QUALIFICATION',
+        numerical_certification='NOT_ESTABLISHED' if record_only else 'BOUNDED_ONLY')
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--run',type=Path,required=True);args=parser.parse_args()
     run=args.run;out=run/'output';out.mkdir(exist_ok=False);start=time.monotonic();budget=PanelBudget();receipt=dict(status='STARTED',scientific_chains=0,checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
     try:
         lock=json.loads((run/'execution.lock.json').read_text());contract=json.loads(CONTRACT.read_text())
+        if lock.get('record_only'):
+            receipt.update(numerical_policy='RECORD_ONLY_USER_DIRECTED',numerical_certification='NOT_ESTABLISHED',
+                authority_nonce=lock['record_only']['authority_nonce'])
         for row in lock['members']:
             p=Path(row['path']);require(p.stat().st_size==row['bytes'] and sha(p)==row['sha256'],'LOCK_MISMATCH '+str(p))
         torch.set_num_threads(8);random.seed(20261001);np.random.seed(20261001);torch.manual_seed(20261001)
@@ -246,6 +271,15 @@ def main():
         guard=parameter_guard(model);hookguard=hooks(model);before=state_hash(model,history)
         write(out/'runtime.json',dict(torch=str(torch.__version__),transformers=transformers.__version__,GPU=torch.cuda.get_device_name(),GPU_UUID=str(torch.cuda.get_device_properties(0).uuid),loadseconds=loadseconds,source=lock['source'],job=os.environ.get('SLURM_JOB_ID'),entry=before,save_checkpoints=False))
         cache=CovarianceCache();reuse_root=lock.get('reuse',{}).get('root')
+        if lock.get('record_only'):
+            from . import record_only as policy
+            result=policy.execute(model,tok,records,contexts,history,cache,budget,out,lock,large,state_hash,write)
+            write(out/'B100-summary.json',result)
+            require(state_hash(model,history)==before and parameter_guard(model)==guard and hooks(model)==hookguard,'FINAL_STATE_RESTORE')
+            receipt.update(status='COMPLETED_RECORD_ONLY_BENCHMARK',candidate='E123_MB4',B100_status=result['status'],
+                numerical_policy='RECORD_ONLY_USER_DIRECTED',numerical_certification='NOT_ESTABLISHED',state_restored=True)
+            write(out/'C0-cache.json',cache.records)
+            return
         if reuse_root:
             from .reuse import reconstruct,load as reused_load
             require(before==reused_load(reuse_root,'runtime.json')['entry'],'REUSE_W0_H0_IDENTITY')
