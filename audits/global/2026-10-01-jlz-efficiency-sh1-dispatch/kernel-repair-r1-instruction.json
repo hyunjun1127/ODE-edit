@@ -1,0 +1,65 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-KERNEL-REPAIR-20261001-R1",
+  "parent": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
+  "user_exact": "수리하고 job다시 올려",
+  "target": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "server": "server1"
+  },
+  "authority": "실제 narrow repair, 회귀검사, 새immutable source/attempt 봉인, held inspection/release 및 초기복구확인 승인. 단순 ACK/계획으로 끝내지 말고 재제출 후 job/source/lock 보고.",
+  "known_failure": {
+    "gpu_job": 56704,
+    "collector": 56705,
+    "source": "bbe19548352e1cf543d54fdbb46ead3c6fb40436",
+    "lock_sha256": "56e9995639f56380adb9cb97d33e7875c68378b2b14e48f6a3ed1363e5c17757",
+    "state": "FAILED1:0",
+    "allocated_GPU_seconds": 401,
+    "program_seconds": 393.51547831110656,
+    "cause": "kernels.py:36 dict(B=B,reference=a,candidate=b,**timing(...))와 measurement.py:47-52 timing결과 reference/candidate 키 충돌. CPU same-function 재현. OOM/수치gate가 직접 원인이 아님.",
+    "completed_scope": "고정후보32oracle/짧은trajectory84oracle=소형116, native결과존재. B1000. kernel 일부측정은 RAM에만있고 kernels.json미저장.",
+    "prior_disqualifications": [
+      "fixed E123_MB8 UNQUALIFIED",
+      "native-batched UNQUALIFIED"
+    ],
+    "historical_results_keep": true
+  },
+  "repair_scope": [
+    "커널 label필드와 timing통계필드를 분리하여 reference/candidate 어느쪽도 조용히덮어쓰지 않는다. run.py의 k['candidate']=='gradient_direct' 소비자와 collector/검사/보고schema까지 같은namedfield로 연결한다.",
+    "실제production comparison조립함수 및 downstreamdirectroute필터를 CPUfixture에서 호출해 같은중복key반례/정상12case구조/직렬화를 검증한다. GPU전체kernel을CPU테스트로PASS라고 쓰지 않는다.",
+    "원 solver/objective/gradient/rounding/threshold/budget/선정규칙변경0. 실패source/raw/로그/부분결과/401GPU초/collector유지. 원attempt덮어쓰기0.",
+    "source/import/input identity와조건이맞는CPU·저장qualification/native결과는 재사용한다. UNQUALIFIED는 그대로제외하고 수리명목repeat-to-PASS하지 않는다. checkpoint미저장으로 소실된RAMentry/adj/필수reference-returnR는 재계산이필요할수있으며 재사용과복원용재계산을별도기록한다.",
+    "새상태가없는데kernel부터RAMexactresume했다고쓰지않는다. 새coldW0/H0에서 필요한준비/소형재계산을원상한내수행하고 미완료kernel/probe/B100/observer로진행한다. 새attempt small최대160/native최대4요청3route25/24/kernel최대24case/B1008oracle등원승인상한유지. 불필요전체chain0.",
+    "확인된버그의narrow수리는사전보고된동일범위에서완료하되 다른원인발견시사실보고·원자료보존. 수치미달route를성능실패수리대상으로바꾸지않는다."
+  ],
+  "submission": {
+    "allowed": true,
+    "owner": "SH1 sole repair/submit writer",
+    "attempt": "/mnt/raid5/janghj/ODE-edit/local/jlz-efficiency/20261001-v1/attempt-kernel-r1 (create-once; exists이면새명칭봉인)",
+    "GPU1_CPU8_memMiB": 131072,
+    "mem_ceilingMiB": 183296,
+    "wall_hours": 12,
+    "export": "NONE",
+    "requeue": 0,
+    "node": "devbox",
+    "project_cap": 2,
+    "task_cap": 1,
+    "dependency": "기존56684와각1GPU병행, 필요없는완료dependency없음. 다른점유를포함최신resource-onlyadmission으로cap2준수. 물리부족정상PENDING. 원56704/56705는terminal이며재취소0. 기존56684/타job변경0.",
+    "collector": "새GPUjob afterany의CPU4/16384MiB/2h/GPU0; 기존collector/source변경0",
+    "snapshot_inspection": "held owner/name/fullargv/source/resources/dependency 검산후release. 새GPU/collectorID와source/lock/재사용표/회귀결과를즉시회신."
+  },
+  "inherited_envelope": "messages/head/2026-10-01-jlz-efficiency-sh1.md",
+  "allowed_write_scope": "parent의project/run_scripts/jlz_efficiency/ 및 server1전용report/audit/status/messages/runs/local범위 그대로; dedicatedcleanworktree/branch. 수정 source와compact보고의nonforceownbranch/main게시승인.",
+  "scientific_constraints": {
+    "old56684_mutation": false,
+    "server3_query_or_mutation": false,
+    "new_sequential_chain": false,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+  },
+  "monitoring": "명시repair recall로 새job 한정 초기관찰 재개. 이번initial은 수리된kernel summary저장과 BS100 pairedwarmup검사 통과를 확인; 소형첫4만을수리완료로쓰지않는다. 그뒤pause; 전체benchmark가이미끝났으면CPUreport/main까지완료하고STOP. 정상resourcePENDING이면등록인계후pause허용. 장기주기조회/자동recall0. 기존56684의별도초기경계정책은불변.",
+  "reply": "우선 nonce담당ACK, 다음 실제재제출job/source/lock/dependency/CPU와초기상태. GH의추가승인 기다리지않음.",
+  "status": "APPROVED_REPAIR_RESUBMISSION_NOT_DISPATCHED"
+}
