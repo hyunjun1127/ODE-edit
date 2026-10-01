@@ -394,10 +394,21 @@ def collect(run, config_path, scheduler):
         require(0 <= route["extra_whole_batch_calls"] <= 6, "SHARED_B100_TECHNICAL_BUDGET")
         report["prep"] = dict(status=prep["status"], route=route["route"],
                               technical_calls=route["extra_whole_batch_calls"],
+                              new_technical_calls=prep.get("actual_whole_batch_technical_calls",route["extra_whole_batch_calls"]),
+                              reused_technical_calls=prep.get("reused_whole_batch_technical_calls",0),
+                              reuse_bridge=prep.get("reuse_bridge"),
                               seconds=prep.get("seconds"), baseline_pilots=prep.get("baseline_pilots", "NOT_RECORDED"),
                               numerical_certification="NOT_ESTABLISHED")
     except Exception as error:
         report["errors"].append(dict(scope="prep", type=type(error).__name__, error=str(error)))
+    if config.get("prep_reuse"):
+        prior=config["prep_reuse"]
+        report["prior_attempt_cost"]={k:prior[k] for k in ("prior_allocated_gpu_seconds","prior_accounting","prior_receipts","prior_native_fits")}
+        current=scheduler.get("allocated_gpu_seconds")
+        report["research_allocated_gpu_seconds_known_subtotal"]=prior["prior_allocated_gpu_seconds"]+(current or 0)
+        report["research_allocated_gpu_seconds_including_prior"]=(prior["prior_allocated_gpu_seconds"]+current
+            if current is not None and scheduler.get("allocated_gpu_seconds_complete") else None)
+        report["research_cost_note"]="Prior failed allocation once; shared teacher/route/W0 cost included there, not charged again. Allocation is not utilization."
     tables, final_tables, transition_rows, transition_ids, costs, layers, fits = [], [], [], [], [], [], []
     all_final, w0 = {}, None
     shared_w0 = run / "prep/W00-observations.json"

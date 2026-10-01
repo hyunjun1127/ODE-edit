@@ -5,6 +5,7 @@ import random
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import torch
@@ -141,6 +142,70 @@ class BaselinePilotTests(unittest.TestCase):
         view = bp._TraceView(SimpleNamespace(input=value, output=value))
         self.assertIs(view.input, value)
         self.assertIs(view.output[0], value)
+
+    def test_source_closure_ignores_synthetic_relative_names_not_cwd_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # A coincidental same-name file must not give a synthetic module
+            # a false native source identity, even when native cwd=root.
+            (root / "_ops.py").write_text("# unrelated coincidental file\n")
+            modules = {
+                "torch.synthetic_jlz_ops": SimpleNamespace(__file__="_ops.py", __spec__=None),
+                "torch.synthetic_jlz_classes": SimpleNamespace(__file__="_classes.py", __spec__=None),
+                "torch.synthetic_jlz_frozen": SimpleNamespace(__file__="frozen.py", __spec__=SimpleNamespace(origin="frozen")),
+                "memit.not_actually_loaded": None,
+            }
+            prior = Path.cwd()
+            try:
+                bp.os.chdir(root)
+                with patch.object(bp, "sys", SimpleNamespace(modules=modules)):
+                    self.assertEqual(bp._source_closure(root), [])
+            finally:
+                bp.os.chdir(prior)
+
+    def test_source_closure_real_files_and_absolute_spec_origin(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            absolute = root / "real.py"
+            absolute.write_text("# real absolute source\n")
+            relative = root / "from_origin.py"
+            relative.write_text("# real spec-bound source\n")
+            modules = {
+                "memit.test_jlz_absolute": SimpleNamespace(__file__=str(absolute), __spec__=None),
+                "memit.test_jlz_relative": SimpleNamespace(__file__="from_origin.py", __spec__=SimpleNamespace(origin=str(relative))),
+            }
+            with patch.object(bp, "sys", SimpleNamespace(modules=modules)):
+                rows = bp._source_closure(root)
+            self.assertEqual({r["path"] for r in rows}, {str(absolute), str(relative)})
+            for row in rows:
+                self.assertEqual(row["sha256"], bp.member(row["path"])["sha256"])
+                self.assertEqual(row["bytes"], Path(row["path"]).stat().st_size)
+
+    def test_source_closure_missing_real_scoped_file_remains_fatal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            missing = root / "missing.py"
+            with patch.object(bp, "sys", SimpleNamespace(modules={
+                "memit.test_jlz_missing": SimpleNamespace(__file__=str(missing), __spec__=None)
+            })):
+                with self.assertRaisesRegex(FileNotFoundError, "REAL_SCOPED_IMPORT_MISSING"):
+                    bp._source_closure(root)
+
+    def test_source_closure_unresolved_native_source_remains_fatal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(bp, "sys", SimpleNamespace(modules={
+                "memit.test_jlz_unresolved": SimpleNamespace(__file__="missing.py", __spec__=None)
+            })):
+                with self.assertRaisesRegex(bp.BaselineBlocked, "REQUIRED_NATIVE_SOURCE_UNRESOLVED"):
+                    bp._source_closure(tmp)
+
+    def test_source_closure_native_outside_root_remains_fatal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(bp, "sys", SimpleNamespace(modules={
+                "memit.test_jlz_outside": SimpleNamespace(__file__=str(Path(tmp) / "outside.py"), __spec__=None)
+            })):
+                with self.assertRaisesRegex(bp.BaselineBlocked, "REQUIRED_NATIVE_SOURCE_OUTSIDE_ROOT"):
+                    bp._source_closure(Path(tmp) / "native")
 
 
 if __name__ == "__main__":

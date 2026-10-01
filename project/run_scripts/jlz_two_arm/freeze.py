@@ -36,6 +36,7 @@ def shell(source, module, args):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,required=True)
+    p.add_argument('--reuse-prep',type=Path)
     p.add_argument('--preparation',type=Path,default=LOCAL/'preparation-v1');a=p.parse_args()
     root=a.run.resolve();require(root.parent==LOCAL and not root.exists(),'CREATE_ONCE_TASK_ATTEMPT')
     require(not subprocess.check_output(['git','status','--porcelain','--',*SOURCE_PATHS],cwd=ROOT,text=True).strip(),'SOURCE_NOT_COMMITTED')
@@ -73,6 +74,9 @@ def main():
         config['inputs'].extend([baseline['receipt'],baseline['commit']])
     config['resources']['free_at_freeze_bytes']=shutil.disk_usage(root).free
     require(config['resources']['free_at_freeze_bytes']>=config['resources']['storage_reserve'],'STORAGE_RESERVE')
+    if a.reuse_prep:
+        from .prep_reuse import build
+        config['prep_reuse']=build(a.reuse_prep,config)
     write(root/'config.json',config)
     for phase,arm in [('prep',None),('pilot','A'),('pilot','B'),('main','A'),('main','B')]:
         name=phase+('-'+arm if arm else '')

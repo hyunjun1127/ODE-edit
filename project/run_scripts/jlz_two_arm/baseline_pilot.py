@@ -144,14 +144,39 @@ def _synchronize():
 
 
 def _source_closure(root):
+    """Inventory real imported files, never resolve a virtual name against cwd.
+
+    PyTorch synthetic modules can advertise ``__file__='_ops.py'`` without a
+    filesystem-backed spec. Native import runs with cwd=root, so resolving that
+    name fabricates a nonexistent native file. Use an absolute __file__ or an
+    absolute spec origin; unresolved virtual modules outside native namespaces
+    are excluded. Missing/unresolvable required native sources still hard-fail.
+    """
     root = Path(root).resolve()
     files = {}
     for name, mod in list(sys.modules.items()):
-        raw = inspect.getattr_static(mod, "__file__", None) if mod is not None else None
-        if not isinstance(raw, str) or not raw.endswith(".py"):
+        if mod is None:
             continue
-        path = Path(raw).resolve()
+        raw = inspect.getattr_static(mod, "__file__", None)
+        spec = inspect.getattr_static(mod, "__spec__", None)
+        origin = inspect.getattr_static(spec, "origin", None) if spec is not None else None
+        required = name.split(".")[0] in {"memit", "AlphaEdit", "rome", "util"}
+        if isinstance(raw, str) and Path(raw).is_absolute():
+            path = Path(raw)
+        elif isinstance(origin, str) and Path(origin).is_absolute():
+            path = Path(origin)
+        else:
+            if required:
+                raise BaselineBlocked(f"BASELINE_REQUIRED_NATIVE_SOURCE_UNRESOLVED:{name}:{raw!r}")
+            continue
+        path = path.resolve()
+        if required and not path.is_relative_to(root):
+            raise BaselineBlocked(f"BASELINE_REQUIRED_NATIVE_SOURCE_OUTSIDE_ROOT:{name}:{path}")
+        if path.suffix != ".py":
+            continue
         if path.is_relative_to(root):
+            if not path.is_file():
+                raise FileNotFoundError(f"BASELINE_REAL_SCOPED_IMPORT_MISSING:{name}:{path}")
             files[str(path)] = {"module": name, **member(path)}
     return [files[k] for k in sorted(files)]
 

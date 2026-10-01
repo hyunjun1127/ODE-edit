@@ -33,10 +33,31 @@ def main():
                       lock=member(a.run/'execution.lock.json'),config=member(a.run/'config.json'),
                       actual_gpu_validation='INITIAL_NOT_OBSERVED',monitoring_active=True,
                       monitoring_scope='bounded representative MAIN B1->B2 only',automatic_resume=False)
-        if (a.run/'handoff.json').exists():status.update(json.loads((a.run/'handoff.json').read_text()))
         write(audit/'submission.json',submission)
         inspection=json.loads((a.run/'held-inspection.json').read_text())
         write(audit/'held-inspection.json',inspection)
+        actual_config=json.loads((a.run/'config.json').read_text())
+        if actual_config.get('prep_reuse'):
+            bridge=actual_config['prep_reuse']
+            status['prior_attempt']=dict(source=bridge['original_producer'],cost_gpu_seconds=bridge['prior_allocated_gpu_seconds'],
+                 failure='virtual relative module __file__ treated as source; primary baseline binding + secondary terminal inventory',
+                 previous_native_fits=bridge['prior_native_fits'],original_receipts_preserved=True,
+                 reused=['W0 teacher','three fixed-candidate route comparisons','W0 first2000 R/P/N observations'],
+                 new_shared_technical_calls=0,old_jobs='56918 FAILED; 56919-56922 dependency CANCELLED; 56923 collector COMPLETED/NOT_COMPLETE')
+            write(audit/'repair-r2-reuse-bridge.json',bridge)
+        if (a.run/'prep/route.json').exists():
+            route=json.loads((a.run/'prep/route.json').read_text())
+            write(audit/'actual-shared-comparison.json',dict(receipt=member(a.run/'prep/route.json'),data=route,
+                  scope='one frozen nonzero B100 candidate; three whole-batch oracle calls; not main commit gate',
+                  measurement_limits='single timing, cumulative peak; no p50/p90 or causal/general speed claim'))
+            status['actual_gpu_validation']='SHARED_FIXED_CANDIDATE_COMPARISON_RECORDED; MAIN_INITIAL_NOT_OBSERVED'
+            selected=next(x['seconds'] for x in route['comparisons'] if x['route']==route['route'])
+            status['time_estimate']=dict(oracle_only_main_gpu_hours_if_all4800_calls_equal_first=4800*selected/3600,
+                     exclusions=['geometry','later longer references/tokens','observer','IO','setup','contention'],
+                     not_wall_guarantee=True)
+        if (a.run/'handoff.json').exists():
+            handoff=json.loads((a.run/'handoff.json').read_text())
+            status.update(handoff);write(audit/'initial-handoff.json',handoff)
     write(audit/'full-read.json',json.loads((prep/'full-read.json').read_text()))
     write(audit/'source-review.json',dict(independent_reviewer='red_source_audit',scope='bounded CPU/source only; no GPU/no scheduler',
            fixes=['trial overflow -> nonmutating FloatingPointError rejection; initial/final still fatal',
@@ -114,6 +135,12 @@ NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-bas
 원 실행/평가 source는 수정하지 않고 새 task-local namespace만 구현했다.
 '''
     report.mkdir(parents=True,exist_ok=True)
+    if status.get('prior_attempt'):
+        text+='\n## 준비 실패와 최소 수리\n\n원 prep56918은 native fitting 전 source inventory의 가상 상대 `_ops.py` 경로 오류로 실패했다. '
+        text+='종료 inventory에도 동일 오류가 발생해 terminal은 미저장이나 첫 실패/restore/stdout/stderr는 보존했다. '
+        text+='원 비용은 parent1116 GPU초이며 후속4개는 시작 없이 dependency 취소됐다. '
+        text+='원 W0 teacher/3회 비교/26000행 W0 관측은 exact source/input/state와 별도 reuse bridge로 재사용한다. '
+        text+='새 실행은 공유 계산을 반복하지 않으며 baseline fitting은 이전0회다. CPU 회귀는 actual 모델 성공을 뜻하지 않는다.\n'
     (report/'report-ko.md').write_text(text)
     plan=ROOT/'plans/updates/server4'/TAG;plan.mkdir(parents=True,exist_ok=True)
     write(plan/'execution-plan.json',status)

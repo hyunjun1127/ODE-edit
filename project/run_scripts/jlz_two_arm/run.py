@@ -1,6 +1,7 @@
 """Shared preparation, two independent pilot jobs, fresh two-lane main chains."""
 import argparse
 import gc
+import inspect
 import json
 import os
 from pathlib import Path
@@ -46,8 +47,9 @@ def import_receipt(config):
     roots=[Path(config['source']),Path(config['baseline_pilot']['native_root'])]
     result=[]
     for name,module in list(sys.modules.items()):
-        file=getattr(module,'__file__',None)
+        file=inspect.getattr_static(module,'__file__',None) if module is not None else None
         if not isinstance(file,str) or not file.endswith('.py'):continue
+        if not Path(file).is_absolute():continue  # e.g. torch.ops synthetic '_ops.py'
         path=Path(file).resolve()
         if any(path.is_relative_to(p) for p in roots):result.append(dict(module=name,**member(path)))
     return dict(modules=result,python=sys.version,executable=sys.executable,
@@ -117,10 +119,8 @@ def verify_lock(root,config):
         require(s.st_size==row['bytes'] and s.st_ino==row['inode'] and s.st_mtime_ns==row['mtime_ns'],'INPUT_CHANGED '+row['path'])
     return lock
 
-def prep(root,config,model,tok,records,pool,contexts):
-    out=root/'prep';out.mkdir(exist_ok=False);start=time.monotonic();history=history_for(model)
-    pristine=state_hash(model,history);w0={l:w.detach().cpu().clone() for l,w in weights(model).items()}
-    common=dict(instruction_id=config['instruction_id'],config_sha256=sha(root/'config.json'),source_sha=sha(root/'execution.lock.json'))
+def shared_preparation(root,config,model,tok,records,pool,contexts,history,pristine,common):
+    out=root/'prep'
     ids=sorted({i for stage in config['schedules'].values() for cell in stage for i in cell['general']})
     lookup={r['case_id']:r for r in pool};general_all=[lookup[i] for i in ids]
     t=time.monotonic();teachers=prepare_teacher(model,tok,general_all,4)
@@ -153,13 +153,25 @@ def prep(root,config,model,tok,records,pool,contexts):
                               selection='fixed candidate single timing/memory; no quality gate/no stable speed claim',numerical_certification='NOT_ESTABLISHED'))
     del oracle,x0,c,rho,mask,keys,probe,reference;gc.collect();torch.cuda.empty_cache()
     write(out/'W00-observations.json',observe(model,tok,records[:2000],history,0,w0=True))
+    return selected
+
+def prep(root,config,model,tok,records,pool,contexts):
+    out=root/'prep';out.mkdir(exist_ok=False);start=time.monotonic();history=history_for(model)
+    pristine=state_hash(model,history);w0={l:w.detach().cpu().clone() for l,w in weights(model).items()}
+    common=dict(instruction_id=config['instruction_id'],config_sha256=sha(root/'config.json'),source_sha=sha(root/'execution.lock.json'))
+    reused='prep_reuse' in config
+    if reused:
+        from .prep_reuse import consume
+        selected=consume(root,config,common,pristine)
+    else:selected=shared_preparation(root,config,model,tok,records,pool,contexts,history,pristine,common)
     from .baseline_pilot import run_baseline_pilots
     def baseline_observer(m,t,rs,family,bi):
         return observe(m,t,rs,{},bi, max(0,len(rs)-4),w0=False)
     pilot=run_baseline_pilots(model,tok,records[:8],contexts,config,out/'baseline-pilots',w0,evaluate=baseline_observer)
     require(state_hash(model,history)==pristine,'BASELINE_PILOT_W0_RESTORE')
     write(out/'receipt.json',dict(**common,status='STRUCTURAL_COMPLETION',route=selected,baseline_pilots=pilot,
-          actual_whole_batch_technical_calls=3,seconds=time.monotonic()-start,W0_restored=True,checkpoint_saved=False))
+          actual_whole_batch_technical_calls=0 if reused else 3,reused_whole_batch_technical_calls=3 if reused else 0,
+          reuse_bridge=config.get('prep_reuse'),seconds=time.monotonic()-start,W0_restored=True,checkpoint_saved=False))
 
 def run_batch(root,phase,arm,config,model,tok,allrecords,pool,contexts,history,ledger,number,teachers,route):
     out=root/f'{phase}-{arm}';B=4 if phase=='pilot' else 100;start=time.monotonic()
@@ -272,7 +284,10 @@ def main():
     except Exception as e:
         terminal.update(status='TECHNICAL_FAILURE',error=repr(e),traceback=traceback.format_exc());print(terminal['traceback'],flush=True)
     finally:
-        write(out/'actual-imports.json',import_receipt(config))
+        try:write(out/'actual-imports.json',import_receipt(config))
+        except Exception as cleanup:
+            terminal['import_receipt_error']=dict(error=repr(cleanup),traceback=traceback.format_exc())
+            if terminal['status']!='TECHNICAL_FAILURE':terminal['status']='TECHNICAL_FAILURE'
         terminal.update(seconds=time.monotonic()-start,commits=len(ledger),history_appends=sum(x['history_appends'] for x in ledger),science_calls=sum(x['solver']['calls'] for x in ledger),peak_gpu_bytes=torch.cuda.max_memory_allocated() if torch.cuda.is_initialized() else None)
         write(out/'terminal.json',terminal)
     return 0 if terminal['status']=='COMPLETED' else 2
