@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "receipt_sealed_at_utc": "2026-10-01T19:07:54Z",
+  "source": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "target": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": {
+    "commit": "7dcc580c1ac784844eeab2737356674b00898c22",
+    "tree": "220a4616988ade50f14381c91556d2bfe56e6519",
+    "envelope": "messages/head/2026-10-02-jlz-twoarm-bs100x20-sh4.json",
+    "envelope_sha256": "eebfe0f8e62db59c644eb53051b3162b474728b52d94142505f8b34021f76715",
+    "contract": "plans/global/2026-10-02-jlz-twoarm-bs100x20-execution-v1/contract.json",
+    "contract_sha256": "ed817cc11e18c0c4e68a89b28789b70ea7357273fc862af69b3bf5f75cf349dd",
+    "input_manifest_sha256": "bf993f23a9e6c4729b5fe4f2dde5b3c0a59beb7ac6ae436180edbc8d423071e9",
+    "nonforce_main_remote_exact": true
+  },
+  "transport": {
+    "type": "app-server direct WebSocket over approved SSH to target local Unix control socket",
+    "before_start_active_turns": [],
+    "mode": "turn/start",
+    "accepted_turn": "01a0f8dd-6718-7803-8169-17a132264a64",
+    "accepted_status": "inProgress",
+    "owner_ack_same_stream": true,
+    "owner_turn_completed": false,
+    "closed_after_first_owner_ack": true,
+    "no_unrelated_steer": true
+  },
+  "owner_ack": "ACK `ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1` — SH4 담당으로 착수합니다. 현재 `RECEIVED / IMPLEMENTING_NOT_SUBMITTED`이며, 정본·source SHA를 확인한 뒤 구현·소형 pilot→두 arm의 fresh-W0 BS100×20 자동 실행 등록을 진행하겠습니다. 기존 job과 로컬 변경은 보존합니다.",
+  "GH_checks": {
+    "original_seven_files_exact_SHA_size": true,
+    "original_design_worktree_mutated": false,
+    "effective_contract_budget_arithmetic": "PASS pilot128/main4800/sharedtechnical6",
+    "session_boundary": "PASS",
+    "agent_path_access": "PASS",
+    "diff_check": "PASS",
+    "CPU_model_or_GPU_tests_run_by_GH": false
+  },
+  "status": "DELIVERED_OWNER_ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "submission_not_completion": true,
+  "GH_monitoring": {
+    "pilot_or_main_wait": false,
+    "scheduler_queries": 0,
+    "scientific_result_polling": 0,
+    "automatic_monitor_created": false
+  },
+  "SH4_scope": "authorized implementation/pilot/autonomous2k+reuse-first baseline comparison; actualmain initial or verifiedresourcepending then agentpause, sealed programs continue",
+  "limitations": "Owner ACK confirms assignment, not FULL_READ/source verification, implementation readiness, job registration, actual model validation or experiment completion."
+}
