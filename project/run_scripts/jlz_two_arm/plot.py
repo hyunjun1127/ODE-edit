@@ -6,13 +6,13 @@ from pathlib import Path
 
 def chart(path,title,series,ylabel,fixed=None):
     values=[y for _,_,points in series for _,y in points]
-    hi=fixed or max([1e-12,*values])*1.05;lo=0.
+    hi=fixed or max([1e-12,*values])*1.05;lo=0. if fixed else min([0.,*values])*1.05
     svg=['<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360">',
          '<rect width="900" height="360" fill="white"/>',
          f'<text x="70" y="25" font-family="sans-serif" font-size="18">{escape(title)}</text>',
          f'<text x="70" y="48" font-family="sans-serif" font-size="12">{escape(ylabel)}</text>']
     for i in range(5):
-        value=hi*i/4;y=300-230*i/4
+        value=lo+(hi-lo)*i/4;y=300-230*i/4
         svg += [f'<path d="M70 {y} H720" stroke="#ddd"/>',f'<text x="8" y="{y+4}" font-family="sans-serif" font-size="11">{value:.4g}</text>']
     for x in (0,5,10,15,20):
         svg += [f'<text x="{70+32.5*x}" y="320" font-family="sans-serif" font-size="12">{x}</text>']
@@ -20,7 +20,7 @@ def chart(path,title,series,ylabel,fixed=None):
     for i,(label,color,points) in enumerate(series):
         coordinates=' '.join(f'{70+32.5*x:.4f},{300-230*(y-lo)/(hi-lo):.4f}' for x,y in points)
         if coordinates:svg.append(f'<polyline points="{coordinates}" fill="none" stroke="{color}" stroke-width="2"/>')
-        for x,y in points:svg.append(f'<circle cx="{70+32.5*x:.4f}" cy="{300-230*y/hi:.4f}" r="3" fill="{color}"/>')
+        for x,y in points:svg.append(f'<circle cx="{70+32.5*x:.4f}" cy="{300-230*(y-lo)/(hi-lo):.4f}" r="3" fill="{color}"/>')
         svg.append(f'<text x="740" y="{75+22*i}" fill="{color}" font-family="sans-serif" font-size="12">{escape(label)}</text>')
     if not values:svg.append('<text x="230" y="180" font-family="sans-serif">NO COMPLETED MEASUREMENTS</text>')
     svg.append('</svg>');Path(path).write_text('\n'.join(svg)+'\n')

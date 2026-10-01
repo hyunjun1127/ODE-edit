@@ -94,4 +94,3 @@ def observe(model,tokenizer,records,history,endpoint,current_start=0,w0=False):
             'summary':summary,'current':reduce_rows([r for r in rows if r['case_id'] in current_ids]),
             'seconds':time.monotonic()-start,'forward_microbatches':chunks_count,
             'no_mutation':True,'optimizer_feedback':False}
-
