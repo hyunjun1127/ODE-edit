@@ -1,7 +1,10 @@
 {
   "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
   "parallel_override": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-PARALLEL-CAP2-20261001-R1",
-  "status": "SUBMITTED_INITIAL_NOT_YET_OBSERVED",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "initial_UTC": "2026-10-01T12:20:49Z",
+  "initial_scope": "first4 fixed4 E1/reference same-candidate qualification + first actual oracle timings; not full route/B100/terminal",
+  "initial_receipt": "/mnt/raid5/janghj/ODE-edit/local/jlz-efficiency/20261001-v1/attempt-r1/owner-initial-pause.json",
   "owner": "server1",
   "gpu_job": 56704,
   "gpu_dependency": null,
