@@ -30,7 +30,9 @@ def main():
         lock=json.loads((a.run/'execution.lock.json').read_text());submission=json.loads((a.run/'submission.json').read_text())
         status.update(state='REGISTERED_RELEASED_INITIAL_NOT_OBSERVED',job_ids=submission['jobs'],
                       execution_source=lock['source_commit'],source_archive=lock['source_archive'],
-                      lock=member(a.run/'execution.lock.json'),config=member(a.run/'config.json'))
+                      lock=member(a.run/'execution.lock.json'),config=member(a.run/'config.json'),
+                      actual_gpu_validation='INITIAL_NOT_OBSERVED',monitoring_active=True,
+                      monitoring_scope='bounded representative MAIN B1->B2 only',automatic_resume=False)
         if (a.run/'handoff.json').exists():status.update(json.loads((a.run/'handoff.json').read_text()))
         write(audit/'submission.json',submission)
         inspection=json.loads((a.run/'held-inspection.json').read_text())

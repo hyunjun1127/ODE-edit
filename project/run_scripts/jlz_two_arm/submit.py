@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import shlex
 import subprocess
 from .common import write, sha, require
 
@@ -62,7 +63,9 @@ def inspect(job,spec,root,argv):
     expected={(dep.split(':')[0],x) for x in dep.split(':')[1:]} if dep else set()
     require(dependency_members(field[1])==expected,'HELD_DEPENDENCY_EXACT')
     command_field=re.search(r'\bCommand=(.*?)(?= [A-Z][A-Za-z]+=|$)',text)
-    require(command_field and command_field[1]==script+(' '+' '.join(args) if args else ''),'HELD_FULL_ARGV')
+    require(command_field and command_field[1]==script,'HELD_COMMAND_PATH')
+    submit_field=re.search(r'\bSubmitLine=(.*?)(?= WorkDir=|$)',text)
+    require(submit_field and shlex.split(submit_field[1])==argv,'HELD_FULL_ARGV')
     # Scheduler text may omit export/argv details; its stored script must match.
     stored=command(['scontrol','write','batch_script',job,'-'])
     require(stored.strip()==Path(script).read_text().strip(),'HELD_STORED_SCRIPT')
@@ -70,8 +73,10 @@ def inspect(job,spec,root,argv):
     return dict(job=job,name=name,requested_argv=argv,scontrol=text,stored_script_sha256=sha(script))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--run',required=True,type=Path);a=p.parse_args();root=a.run.resolve()
-    require(not (root/'submission.json').exists() and not list(root.glob('submitted-*.json')),'NO_DUPLICATE_SUBMISSION')
+    p=argparse.ArgumentParser();p.add_argument('--run',required=True,type=Path);p.add_argument('--resume-held',action='store_true');a=p.parse_args();root=a.run.resolve()
+    require(not (root/'submission.json').exists(),'NO_DUPLICATE_SUBMISSION')
+    existing={p.stem.removeprefix('submitted-'):json.loads(p.read_text()) for p in root.glob('submitted-*.json')}
+    require((not existing and not a.resume_held) or (a.resume_held and len(existing)==6),'EXACT_EXISTING_HELD_GRAPH_REQUIRED')
     lock=json.loads((root/'execution.lock.json').read_text())
     require(lock['resource']['cap']==2 and lock['resource']['mem_mib']==60416,'RESOURCE_LOCK')
     require(sha(root/'config.json')==lock['config_sha256'],'CONFIG_CHANGED')
@@ -82,7 +87,12 @@ def main():
     require(check.returncode in (0,4),'RESOURCE_HELPER_ERROR '+check.stdout+check.stderr)
     helper=dict(exit_code=check.returncode,output=check.stdout+check.stderr,
                 limitation='exit4 permits dependency-pending only; no helper PASS relabel')
-    before=resource_snapshot();external=[r['job'] for r in before['project_jobs']]
+    before=resource_snapshot(exclude=tuple(row['job'] for row in existing.values()))
+    if existing:
+        dependencies=[x.removeprefix('--dependency=afterany:') for x in existing['prep']['argv'] if x.startswith('--dependency=afterany:')]
+        external=dependencies[0].split(':') if dependencies else []
+        require({r['job'] for r in before['project_jobs']}<=set(external),'NEW_EXTERNAL_ADMISSION_KEEP_OWN_HELD')
+    else:external=[r['job'] for r in before['project_jobs']]
     # Wait for existing admitted project capacity as a dependency, never alter it.
     # Graph's maximum antichain is 2; prep waits all prior project allocations.
     ids={};submitted=[]
@@ -97,15 +107,21 @@ def main():
         if dependency:argv+=['--dependency='+dependency]
         if gpu and dependency and dependency.startswith('afterok:'):argv+=['--kill-on-invalid-dep=yes']
         argv+=[str(root/(name+'.sh')),*args]
-        job=command(argv).split(';')[0];require(job.isdigit(),'JOB_ID')
-        ids[name]=job;write(root/('submitted-'+name+'.json'),dict(job=job,argv=argv,status='HELD'))
+        if existing:
+            require(existing[name]['argv']==argv,'RESUMED_SUBMISSION_ARGV_IDENTITY')
+            job=existing[name]['job']
+        else:
+            job=command(argv).split(';')[0];require(job.isdigit(),'JOB_ID')
+            write(root/('submitted-'+name+'.json'),dict(job=job,argv=argv,status='HELD'))
+        ids[name]=job
         submitted.append(inspect(job,spec,root,argv))
     later=resource_snapshot(exclude=tuple(ids.values()))
     require({r['job'] for r in later['project_jobs']}<=set(external),'NEW_ADMISSION_RACE_KEEP_OWN_HELD')
     write(root/'held-inspection.json',dict(jobs=submitted,prior_admission=before,prerelease=later,helper=helper,
            execution_lock_sha256=sha(root/'execution.lock.json'),max_simultaneous_task_gpu=2,
            external_afterany=external,graph='prep -> pilot A/B -> main A/B; collector afterany all five',
-           dependency_fail='kill-on-invalid-dep yes for science; afterany collector sees missing/failure'))
+           dependency_fail='kill-on-invalid-dep yes for science; afterany collector sees missing/failure',
+           controller=__file__,controller_sha256=sha(__file__),resumed_exact_held_graph=a.resume_held))
     for name in reversed(list(ids)):
         result=command(['scontrol','release',ids[name]])
         write(root/('released-'+name+'.json'),dict(job=ids[name],release_command_succeeded=True,output=result))

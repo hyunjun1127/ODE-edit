@@ -5,6 +5,8 @@ import csv
 import tempfile
 from pathlib import Path
 import xml.etree.ElementTree as ET
+import re
+import shlex
 from .submit import specs,dependency_members,job_name
 from .common import numerical
 from .freeze import shell
@@ -39,6 +41,12 @@ class PipelineTests(unittest.TestCase):
         text=shell('/tmp/source','project.run_scripts.jlz_two_arm.run',['--phase','main','--arm','A'])
         self.assertIn('set -euo pipefail',text);self.assertIn('HF_HUB_OFFLINE=1',text)
         self.assertNotIn('sbatch',text);self.assertNotIn('sleep',text)
+
+    def test_slurm_submitline_is_full_argv_not_command(self):
+        argv=['sbatch','--hold','/tmp/collector.sh','123,124']
+        text='Command=/tmp/collector.sh SubmitLine=sbatch --hold /tmp/collector.sh 123,124 WorkDir=/tmp/source'
+        self.assertEqual(re.search(r'\bCommand=(.*?)(?= [A-Z][A-Za-z]+=|$)',text)[1],'/tmp/collector.sh')
+        self.assertEqual(shlex.split(re.search(r'\bSubmitLine=(.*?)(?= WorkDir=|$)',text)[1]),argv)
 
     def test_record_only_does_not_mask_nonfinite(self):
         r=numerical({'error':10.},{'error':.001})

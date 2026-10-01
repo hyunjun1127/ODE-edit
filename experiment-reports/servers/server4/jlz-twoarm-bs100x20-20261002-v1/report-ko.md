@@ -5,9 +5,9 @@
 
 ## 범위와 상태
 
-- 상태: `IMPLEMENTING_NOT_SUBMITTED`
-- 실제 job mapping: `[]`
-- Actual GPU 검증: `NOT_RUN`
+- 상태: `REGISTERED_RELEASED_INITIAL_NOT_OBSERVED`
+- 실제 job mapping: `{'collector': '56923', 'main-A': '56921', 'main-B': '56922', 'pilot-A': '56919', 'pilot-B': '56920', 'prep': '56918'}`
+- Actual GPU 검증: `INITIAL_NOT_OBSERVED`
 
 공통 W0 teacher/기술 준비 뒤 BS4×2 A/B pilot과 BS100×20 A/B main을 각각 두 독립 1GPU lane으로 구성한다.
 각 GPU job은 8CPU/60416MiB, project/task cap2, exportNONE/Requeue0이다. 과거 모든 task·job은 불변이다.
