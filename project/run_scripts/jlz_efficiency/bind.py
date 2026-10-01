@@ -24,7 +24,8 @@ def once(path,value):
 def member(path):return dict(path=str(path),bytes=path.stat().st_size,sha256=sha(path))
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--attempt',default='attempt-r1');parser.add_argument('--reuse',type=Path);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--attempt',default='attempt-r1');parser.add_argument('--reuse',type=Path);parser.add_argument('--record-only',type=Path);args=parser.parse_args()
+    assert not (args.reuse and args.record_only)
     assert '/' not in args.attempt
     design=ROOT/'plans/global/2026-10-01-jlz-efficiency-execution-v1';original=ROOT/'plans/global/2026-10-01-jlz-efficiency-v1'
     # USER1390b3b9 changes only resource admission + parallel_override path.
@@ -74,6 +75,30 @@ def main():
             fixed='REUSE32',short='REUSE84; only REF12 reconstructed for lost RAM R',native='REUSE_ALL; prior UNQUALIFIED kept',
             kernel='RUN_MISSING12_CASES; unsaved failed-attempt measurements cannot be recovered',
             probe_B100_observer='RUN_MISSING',old_GPU_seconds=401,checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
+    record_only=None
+    if args.record_only:
+        from .record_only import AUTHORITY,AUTHORITY_SHA,NONCE
+        authority=ROOT/AUTHORITY;assert sha(authority)==AUTHORITY_SHA
+        prior=args.record_only.resolve();assert prior==LOCAL/'attempt-kernel-r1'
+        oldlock=prior/'execution.lock.json';assert sha(oldlock)=='7981db6043d9a46736ef274eed15fd609b402cae1cb6450f44117a2ab6a137fd'
+        olddata=json.loads(oldlock.read_text());assert olddata['source']=='1d1e47b457838825605ad8850c5041857bf5e5a9'
+        locked={r['path']:r for r in olddata['members']}
+        for name in ('core','native','reference','solver','budget','geometry','measurement','evaluation'):
+            rel=f'project/run_scripts/jlz_efficiency/{name}.py'
+            assert sha(ROOT/rel)==locked[str(Path(olddata['worktree'])/rel)]['sha256'],'NUMERICAL_SOURCE_CHANGED '+rel
+        selected=sorted((prior/'output').glob('*.json'))
+        assert json.loads((prior/'output/terminal.json').read_text())['B100_status']=='CANDIDATE_EXCLUDED_PARITY'
+        assert json.loads((prior/'output/selection.json').read_text())['candidate']=='E123_MB4'
+        # Reuse the previously sealed small/native inventory, not new fit calls.
+        for row in olddata['reuse']['members']:
+            p=Path(row['path']);assert p.stat().st_size==row['bytes'] and sha(p)==row['sha256'];paths.add(p)
+        paths.update(selected);paths.update([oldlock,authority])
+        record_only=dict(root=str(prior),source=olddata['source'],lock_sha256=sha(oldlock),
+            authority=member(authority),authority_nonce=NONCE,policy='RECORD_ONLY_USER_DIRECTED',
+            numerical_certification='NOT_ESTABLISHED',candidate='E123_MB4',new_B100_oracles=8,
+            new_small_oracles=0,new_native_requests=0,new_kernel_cases=0,prior_GPU_seconds=794,
+            prior_members=[member(p) for p in selected],original_small_native_reuse=olddata['reuse'],
+            RAM='NEW_COLD_B100_ENTRY_TEACHER_ADJ_R; NOT_CRASH_RESUME',checkpoint_saved=False)
     free=shutil.disk_usage(ROOT).free;assert free>=8*1024**3
     assert not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip(),'SOURCE_MUST_BE_COMMITTED_CLEAN'
     source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip();tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=ROOT,text=True).strip()
@@ -87,6 +112,7 @@ def main():
             outputs='scalar/per-case/timing/source only; no tensor persistence'),
         checkpoint_saved=False,exact_resume='NOT_AVAILABLE',broadcast='NO_BROADCAST_NOT_REQUIRED',source_manifest_scope='exact new namespace + read-only import closure; model seal reused')
     if reuse:lock['reuse']=reuse;lock['repair_instruction']='ODEEDIT-GH-SH1-JLZ-EFFICIENCY-KERNEL-REPAIR-20261001-R1'
+    if record_only:lock['record_only']=record_only;lock['instruction']=record_only['authority_nonce']
     once(out/'execution.lock.json',lock)
     common=f'''#!/usr/bin/env bash
 set -euo pipefail

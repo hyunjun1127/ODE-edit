@@ -25,9 +25,12 @@ def main():
     out=a.run/'output';target=a.run/'collected';target.mkdir(exist_ok=False)
     files=list(out.glob('*.json'));manifest=[dict(name=f.name,bytes=f.stat().st_size,sha256=sha(f)) for f in sorted(files)]
     terminal=json.loads((out/'terminal.json').read_text()) if (out/'terminal.json').exists() else {'status':'NO_PROGRAM_TERMINAL'}
-    errors=[];metrics=[];fixed=short=large=0;shorts={};oracle_rows=[]
+    errors=[];metrics=[];fixed=short=large=0;shorts={};oracle_rows=[];numerical_records=[]
     for f in files:
         v=json.loads(f.read_text())
+        if isinstance(v,dict) and v.get('comparison',{}).get('numerical_policy')=='RECORD_ONLY_USER_DIRECTED':
+            numerical_records.append(dict(file=f.name,**v['comparison']))
+        if f.name=='entry-policy.json':numerical_records.append(dict(file=f.name,**v))
         if f.name.startswith('fixed-'):fixed+=len(v.get('oracle_records',[]));oracle_rows+=v.get('oracle_records',[])
         if f.name.startswith('short-'):
             n=len(v.get('oracle_records',[]));short+=n;shorts[f.name]=n;oracle_rows+=v.get('oracle_records',[])
@@ -54,6 +57,10 @@ def main():
         source_lock_sha256=sha(a.run/'execution.lock.json'),artifact_manifest=manifest,scheduler_accounting=accounting.stdout,scheduler_error=accounting.stderr,
         oracle_seconds_inclusive=sum(r['seconds'] for r in oracle_rows),native_entry_observer_IO='SEPARATE; not double added to parent allocation',
         status='COLLECTED_WITH_LIMITATIONS' if errors else 'SCALAR_REDUCED',new_science=0,checkpoint_saved=False)
+    if terminal.get('numerical_policy')=='RECORD_ONLY_USER_DIRECTED':
+        receipt.update(numerical_policy='RECORD_ONLY_USER_DIRECTED',numerical_certification='NOT_ESTABLISHED',
+            numerical_records=numerical_records,warning_count=sum(r['original_status']!='PASS' for r in numerical_records),
+            interpretation='Finite numerical failures are preserved warnings, not reducer integrity errors or certification')
     if (out/'reuse-receipt.json').exists():receipt['prior_reuse_not_new_work']=json.loads((out/'reuse-receipt.json').read_text())
     (target/'receipt.json').write_text(json.dumps(receipt,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
     with (target/'metrics.csv').open('w') as f:
@@ -66,6 +73,7 @@ def main():
 - 원 56684 변경 없음, 새 scientific chain 0, checkpoint_saved=false.
 - 독립 scalar 검산 이슈: {json.dumps(errors,ensure_ascii=False)}
 - Oracle inclusive 시간: {receipt['oracle_seconds_inclusive']:.3f}초. 이는 allocation이나 native/observer 포함 총비용이 아니다.
+- 수치 정책: {receipt.get('numerical_policy','QUALIFICATION')}; certification={receipt.get('numerical_certification','BOUNDED_ONLY')}; 기록 warning={receipt.get('warning_count',0)}. 기존 FAIL을 PASS로 바꾸지 않는다.
 - 실제 pretrained 통과/속도 주장은 원 qualification/timing 표에 한정한다. 1000-chain 효율·성능은 검증하지 않았다.
 - 상세 owner/red 검토는 사용자 recall. 이 collector는 GPU 실행/후속 제출을 하지 않는다.
 '''
