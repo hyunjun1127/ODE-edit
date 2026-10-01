@@ -24,7 +24,7 @@ def once(path,value):
 def member(path):return dict(path=str(path),bytes=path.stat().st_size,sha256=sha(path))
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--attempt',default='attempt-r1');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--attempt',default='attempt-r1');parser.add_argument('--reuse',type=Path);args=parser.parse_args()
     assert '/' not in args.attempt
     design=ROOT/'plans/global/2026-10-01-jlz-efficiency-execution-v1';original=ROOT/'plans/global/2026-10-01-jlz-efficiency-v1'
     assert sha(design/'contract.json')=='86384ea705c5099a6efa19e876060e2a423ea2dfaecc9aee6073281c32566041'
@@ -53,6 +53,26 @@ def main():
     paths.update([ROOT/'scripts/fixed_counterfact.py',DATA/'counterfact.json',CONTEXT,manifest])
     paths.update(original.iterdir());paths.update(design.iterdir())
     paths.update(SOURCE/p for p in ('AlphaEdit/compute_z.py','rome/repr_tools.py','hparams/AlphaEdit/Llama3-8B.json'))
+    reuse=None
+    if args.reuse:
+        prior=args.reuse.resolve()
+        assert prior==LOCAL/'attempt-r1','EXACT_REPAIR_SOURCE_ATTEMPT_ONLY'
+        oldlock=prior/'execution.lock.json';assert sha(oldlock)=='56e9995639f56380adb9cb97d33e7875c68378b2b14e48f6a3ed1363e5c17757'
+        olddata=json.loads(oldlock.read_text());assert olddata['source']=='bbe19548352e1cf543d54fdbb46ead3c6fb40436'
+        locked={r['path']:r for r in olddata['members']}
+        for name in ('core','native','reference','solver','budget','geometry','measurement','evaluation'):
+            rel=f'project/run_scripts/jlz_efficiency/{name}.py';oldpath=str(Path(olddata['worktree'])/rel)
+            assert sha(ROOT/rel)==locked[oldpath]['sha256'],'NUMERICAL_SOURCE_CHANGED '+rel
+        selected=[prior/'output'/n for n in ('runtime.json','small4-entry.json','terminal.json','native-original.json','native-cached.json','native-batched.json')]
+        selected+=sorted((prior/'output').glob('fixed-*.json'))+sorted((prior/'output').glob('short-*.json'))
+        assert len(selected)==21 and not (prior/'output'/'kernels.json').exists()
+        terminal=json.loads((prior/'output'/'terminal.json').read_text())
+        assert terminal['budget']['small_total']==116 and terminal['budget']['separate']['B100']==0
+        paths.update(selected);paths.add(oldlock)
+        reuse=dict(root=str(prior),source=olddata['source'],lock_sha256=sha(oldlock),members=[member(p) for p in selected],
+            fixed='REUSE32',short='REUSE84; only REF12 reconstructed for lost RAM R',native='REUSE_ALL; prior UNQUALIFIED kept',
+            kernel='RUN_MISSING12_CASES; unsaved failed-attempt measurements cannot be recovered',
+            probe_B100_observer='RUN_MISSING',old_GPU_seconds=401,checkpoint_saved=False,exact_resume='NOT_AVAILABLE')
     free=shutil.disk_usage(ROOT).free;assert free>=8*1024**3
     assert not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip(),'SOURCE_MUST_BE_COMMITTED_CLEAN'
     source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip();tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=ROOT,text=True).strip()
@@ -65,6 +85,7 @@ def main():
             one_FP64_square_bytes=14336**2*8,max_prefix_hidden_bytes=packing[-1]['shape'][0]*packing[-1]['shape'][1]*4096*4,
             outputs='scalar/per-case/timing/source only; no tensor persistence'),
         checkpoint_saved=False,exact_resume='NOT_AVAILABLE',broadcast='NO_BROADCAST_NOT_REQUIRED',source_manifest_scope='exact new namespace + read-only import closure; model seal reused')
+    if reuse:lock['reuse']=reuse;lock['repair_instruction']='ODEEDIT-GH-SH1-JLZ-EFFICIENCY-KERNEL-REPAIR-20261001-R1'
     once(out/'execution.lock.json',lock)
     common=f'''#!/usr/bin/env bash
 set -euo pipefail

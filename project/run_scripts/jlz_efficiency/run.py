@@ -199,6 +199,11 @@ def large(model,tok,records,contexts,history,cache,budget,candidate,out):
         if comparison['status']!='PASS':
             if label=='REF_MB2':raise RuntimeError('B100_REFERENCE_REPEAT_FAILURE')
             return dict(status='CANDIDATE_EXCLUDED_PARITY',completed=len(results),rows=results)
+        if i==1:
+            write(out/'REPAIR_INITIAL_VALID.json',dict(status='KERNEL_SUMMARY_AND_B100_PAIRED_WARMUPS_VALID',
+                kernels_sha256=sha(out/'kernels.json'),warmup_reference_sha256=sha(out/'B100-oracle-0.json'),
+                warmup_candidate_sha256=sha(out/'B100-oracle-1.json'),candidate=candidate,budget=budget.report(),
+                B100_complete=False,not_terminal_PASS=True))
         if i>=2:times[label].append(oracle.records[-1]['seconds'])
     del oracle;gc.collect();torch.cuda.empty_cache()
     txn=Transaction(model,history,contexts,[]);eval_rows=[];evaltimes={'REF':[],'CAND':[]};reference_eval=None
@@ -240,22 +245,28 @@ def main():
         history={l:torch.zeros(model.config.intermediate_size,model.config.intermediate_size) for l in LAYERS}
         guard=parameter_guard(model);hookguard=hooks(model);before=state_hash(model,history)
         write(out/'runtime.json',dict(torch=str(torch.__version__),transformers=transformers.__version__,GPU=torch.cuda.get_device_name(),GPU_UUID=str(torch.cuda.get_device_properties(0).uuid),loadseconds=loadseconds,source=lock['source'],job=os.environ.get('SLURM_JOB_ID'),entry=before,save_checkpoints=False))
-        cache=CovarianceCache();panel,qualified,shorts,refx,returned,route_records=small(model,tok,records[:4],contexts,history,cache,budget,out)
+        cache=CovarianceCache();reuse_root=lock.get('reuse',{}).get('root')
+        if reuse_root:
+            from .reuse import reconstruct,load as reused_load
+            require(before==reused_load(reuse_root,'runtime.json')['entry'],'REUSE_W0_H0_IDENTITY')
+            panel,qualified,shorts,refx,returned,route_records=reconstruct(model,tok,records[:4],contexts,history,cache,budget,out,reuse_root,entry,make_oracle)
+        else:panel,qualified,shorts,refx,returned,route_records=small(model,tok,records[:4],contexts,history,cache,budget,out)
         # Exactly one declared host cache reuse per layer; the later B100 solve
         # still constructs a new entry-specific system/adj.
         for layer in LAYERS:cache.get(layer)
-        requests=[r['requested_rewrite']|{'case_id':r['case_id']} for r in records[:4]]
-        states,native_reference,hp,lookup=native.original(model,tok,requests,contexts)
-        write(out/'native-original.json',dict(requests=native_reference,source_sha=sha(native.SOURCE/'AlphaEdit/compute_z.py'),physical_first_candidate_reused=True))
-        nc=native.cached(model,tok,states,hp,lookup,contexts);write(out/'native-cached.json',nc)
-        nb=native.cached(model,tok,states,hp,lookup,contexts,True) if nc['status']=='PASS' else dict(status='NOT_RUN',reason='CACHED_SINGLETON_UNQUALIFIED')
-        write(out/'native-batched.json',nb);del states
+        if not reuse_root:
+            requests=[r['requested_rewrite']|{'case_id':r['case_id']} for r in records[:4]]
+            states,native_reference,hp,lookup=native.original(model,tok,requests,contexts)
+            write(out/'native-original.json',dict(requests=native_reference,source_sha=sha(native.SOURCE/'AlphaEdit/compute_z.py'),physical_first_candidate_reused=True))
+            nc=native.cached(model,tok,states,hp,lookup,contexts);write(out/'native-cached.json',nc)
+            nb=native.cached(model,tok,states,hp,lookup,contexts,True) if nc['status']=='PASS' else dict(status='NOT_RUN',reason='CACHED_SINGLETON_UNQUALIFIED')
+            write(out/'native-batched.json',nb);del states
         width4=panel['spec']['tokens']['input_ids'].shape[1]
         hundred=prepare(tok,[r['requested_rewrite']|{'case_id':r['case_id']} for r in records],contexts,'cuda')
         kernel=kernels.run(model,width4,hundred['tokens']['input_ids'].shape[1]);write(out/'kernels.json',kernel);del hundred
         options=[r for r in ROUTES[1:] if qualified.get(r,{}).get('status')=='PASS' and shorts.get(r,{}).get('comparison',{}).get('status')=='PASS']
         # Direct route needs the independently measured dense/direct kernel gate.
-        options=[r for r in options if 'DIRECT' not in r or all(k['status']=='TIMING_SEPARATED' for k in kernel['comparisons'] if k['candidate']=='gradient_direct')]
+        options=kernels.filter_direct_routes(options,kernel)
         require(options,'NO_QUALIFIED_CANDIDATE: preserve reference, no B100 route substitution')
         candidate=min(options,key=lambda r:np.median([x['seconds'] for x in route_records[r]]))
         write(out/'selection.json',dict(candidate=candidate,qualified=options,criterion='small fixed-point median timing among numerical/branch-qualified routes; no performance selection',timing_promotion='NOT_YET_B100'))

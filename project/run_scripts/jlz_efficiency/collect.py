@@ -33,6 +33,10 @@ def main():
             n=len(v.get('oracle_records',[]));short+=n;shorts[f.name]=n;oracle_rows+=v.get('oracle_records',[])
             if n>12:errors.append(f.name+':SHORT_CAP')
         if f.name.startswith('B100-oracle-'):large+=1;oracle_rows.append(v['timing'])
+        if f.name=='kernels.json':
+            if v.get('schema')!=2 or len(v['cases'])!=12 or len(v['comparisons'])!=6:errors.append('KERNEL_SCHEMA_INVENTORY')
+            for row in v['comparisons']:
+                if not isinstance(row.get('reference_kernel'),str) or not isinstance(row.get('candidate_kernel'),str) or not isinstance(row.get('reference'),dict) or not isinstance(row.get('candidate'),dict):errors.append('KERNEL_LABEL_STAT_SCHEMA')
         if 'observer-' in f.name and 'rows' in v:
             rows=v['rows'];identities=[r['identity'] for r in rows]
             if len(set(identities))!=len(identities):errors.append(f.name+':DUPLICATE_IDENTITY')
@@ -50,6 +54,7 @@ def main():
         source_lock_sha256=sha(a.run/'execution.lock.json'),artifact_manifest=manifest,scheduler_accounting=accounting.stdout,scheduler_error=accounting.stderr,
         oracle_seconds_inclusive=sum(r['seconds'] for r in oracle_rows),native_entry_observer_IO='SEPARATE; not double added to parent allocation',
         status='COLLECTED_WITH_LIMITATIONS' if errors else 'SCALAR_REDUCED',new_science=0,checkpoint_saved=False)
+    if (out/'reuse-receipt.json').exists():receipt['prior_reuse_not_new_work']=json.loads((out/'reuse-receipt.json').read_text())
     (target/'receipt.json').write_text(json.dumps(receipt,indent=2,ensure_ascii=False,allow_nan=False)+'\n')
     with (target/'metrics.csv').open('w') as f:
         if metrics:
