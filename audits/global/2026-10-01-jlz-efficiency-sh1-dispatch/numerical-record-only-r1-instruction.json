@@ -1,0 +1,88 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-NUMERICAL-RECORD-ONLY-20261001-R1",
+  "parent": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-KERNEL-REPAIR-20261001-R1",
+  "user_exact": "그 실험 E123_MB4는 B100 수치 기준 미달 이어서 중단했는데, 뜯어보니 중단할 정도의 gate는 아니라고 생각해서 저런 부분들은 그냥 기록만 하고 실험 이어서 진행하는 것으로 하자.",
+  "target": {
+    "role": "server-head",
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": "사용자가 수치 근접성 gate를 기록 전용으로 변경하고 동일 효율화 실험의 계속 실행을 승인했다. SH1이 구현·회귀검사·새 source/attempt 봉인·실제 Slurm 제출/초기인계/보고를 소유한다. 추가 재승인 없이 진행한다.",
+  "supersedes": {
+    "parent_contract": "plans/global/2026-10-01-jlz-efficiency-execution-v1/contract.json",
+    "fields": ["budget.B100_failed_gate", "route_gate.fail_action의 아래 수치 근접성 부분", "수치 PASS를 요구한 repair initial gate"],
+    "scope": "선택이 이미 확정된 E123_MB4와 REF_MB2의 B100 paired benchmark 및 observer. 이전 gate/원 contract bytes는 역사로 보존하고 본 override를 실제 execution lock에 함께 결속한다."
+  },
+  "evidence": {
+    "report": "experiment-reports/servers/server1/jlz-efficiency-20261001-v1/kernel-repair-r1/factual-report-ko.md",
+    "report_main": "baf9fe6a95a5c1d60c64d314a37e3ab50c86f1b2",
+    "jobs": [56758, 56759],
+    "source": "1d1e47b457838825605ad8850c5041857bf5e5a9",
+    "lock_sha256": "7981db6043d9a46736ef274eed15fd609b402cae1cb6450f44117a2ab6a137fd",
+    "stored_result": "E123_MB4 B100 warmup2 이후 수치 qualification 미달로 측정3쌍/observer 미실행. kernel 저장은 완료. 원401 GPU초와 repair393 GPU초는 과거비용으로 보존.",
+    "historical_numerical_failures_unchanged": true
+  },
+  "numerical_policy": {
+    "name": "RECORD_ONLY_USER_DIRECTED",
+    "numerical_certification": "NOT_ESTABLISHED",
+    "record_only": [
+      "동일 입력/weight에서 loss, NLL, KL, logits, global/block/component gradient, prox/residual 수치 차이 및 기준 초과",
+      "참조 반복과 참조-후보 비교의 유한한 수치 근접성 차이",
+      "같은 문항/분모의 evaluator NLL·TF·strict·선호 bit 차이: 실제 결과와 paired lost/gained를 기록하며 측정/observer를 중단하지 않음"
+    ],
+    "record_fields": ["원 threshold", "actual error", "초과량/배수", "layer/component/request 위치(저장 가능 범위)", "원 PASS/FAIL", "effective action=CONTINUE_WITH_WARNING", "authority nonce"],
+    "rules": [
+      "원 임계값을 확대하거나 과거 FAIL을 PASS로 덮지 않는다. numerical PASS와 실행 계속 허용을 별도 필드로 둔다.",
+      "entry/반복/observer/collector의 수치 미달 분기도 같은 기록 전용 정책으로 연결하여 후속 단계를 재차 차단하지 않는다.",
+      "원 initial-scale prox가 미계측이면 denominator1 bound를 실제 normalized residual로 바꾸어 적지 않는다. 이를 새 gate 또는 추가 oracle 요구로 만들지 않는다.",
+      "계산비용 비교의 median/min/max와 수치 차이를 함께 보고한다. 수치 동등성 인증·기존 chain 배포·품질개선은 주장하지 않는다."
+    ]
+  },
+  "retained_hard_checks": [
+    "NONFINITE 및 원 reference의 실제 overflow-domain 불확실성, 실행 불가능한 OOM/IO/serialization 오류",
+    "source/model/tokenizer/input/case/order/token/target/분모 identity, 요청 누락/중복, 허용경로 및 자원 cap",
+    "동일 R의 W_eff materialization 순서/actual selected-weight 일치, clamp/feasibility, 잘못된 indexing/mask/shape",
+    "실제 weight/history commit exactly-once·observer 비변이·정확 restore·transaction 및 ledger 완결성"
+  ],
+  "continuation": {
+    "candidate": "E123_MB4 고정; 새로운 route 선택/sweep 없음",
+    "reference": "REF_MB2 production shared-selected dense gradient",
+    "input": "기존 fixed10k 첫100 동일 순서, seed20261001, W0/zeroH 기술상태, 고정 R=0.02 radius",
+    "science_unchanged": "KL/목적함수/normalization/clamp/solver/FP32·FP64/TF32off/materialization/context 및 평가분모 불변",
+    "reuse": "기존 fixed/short/native/kernel/소형 probe 결과는 source/input/조건에 맞게 재사용. E123_MB8/native-batched 제외 기록 보존; 이 override로 추가 route를 실행하지 않는다.",
+    "minimal_new_work": "미완료 B100 paired timing 및 full R100/P200/N1000 observer를 실행한다. NoCP로 소실된 B100 entry/teacher/adj/R만 필요한 범위에서 새로 구성하고 재사용·재계산을 구분한다. 소형/native/kernel 전체를 관성적으로 반복하지 않는다.",
+    "B100_oracles_this_attempt": 8,
+    "B100_order": ["REF_warm", "CAND_warm", "REF1", "CAND1", "CAND2", "REF2", "REF3", "CAND3"],
+    "budget_reason": "새 할당 동일 GPU에서 warmup1+측정3을 각 route에 수행한다. 기존 warmup2는 역사 비교와 비용으로 보존하되 새 timing 표에 섞거나 새 측정으로 중복 집계하지 않는다.",
+    "observer": "같은 고정 technical W_eff에서 기존 계약의 full R100/P200/N1000 paired observer warmup1+측정3, 원 grouping/left padding/near-tie whole-group 처리 유지; physical F/B와 fallback 비용 별도 기록",
+    "new_optimizer_trajectory": false,
+    "new_sequential_chain": false,
+    "checkpoint_saved": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "attempt": "/mnt/raid5/janghj/ODE-edit/local/jlz-efficiency/20261001-v1/attempt-record-only-r1 (create-once)"
+  },
+  "execution_envelope": {
+    "inherited": "messages/head/2026-10-01-jlz-efficiency-sh1.md",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_efficiency/",
+      "experiment-reports/servers/server1/jlz-efficiency-20261001-v1/",
+      "audits/servers/server1/jlz-efficiency-20261001-v1/",
+      "plans/updates/server1/jlz-efficiency-20261001-v1/",
+      "tasks/status/jlz-efficiency-20261001-v1/server1.json",
+      "messages/acks/server1/2026-10-01-jlz-efficiency.md",
+      "messages/server-heads/server1/2026-10-01-jlz-efficiency.md",
+      "runs/odeedit_jlz_efficiency_s1_20261001/",
+      "local/jlz-efficiency/20261001-v1/ 및 전용 worktree ignored local"
+    ],
+    "slurm_submit": "ALLOWED; 새 GPU 및 afterany CPU collector 정상 held검사 후 release",
+    "resources": "project cap2/task1, GPU1/CPU8/mem131072MiB<=183296MiB/devbox/exportNONE/Requeue0/12h. CPU collector GPU0/CPU4/16384MiB/2h afterany:newGPU. 현재 resource-only admission 확인; 기존56684와 불필요 완료 dependency 없이 병행, 물리부족이면 정상 pending.",
+    "pre_post_review": "CPU 회귀로 실제 B100 초과 fixture가 warning으로 계속되어 측정/observer/collector까지 도달함을 검증하고 nonfinite/identity/restore는 차단함을 확인. 독립 bounded source 검토 및 post reducer는 수치 초과 자체를 재차 blocker로 삼지 않으며 수행 여부를 정확히 보고한다.",
+    "publication": "전용 clean branch/worktree에서 own-scope nonforce branch/main 게시 승인. 원 raw/source/report/실패 비용 불변. shared 환경/모델/원생산코드 수정0.",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; same-host 기술 benchmark, raw/tensor/prompt/fullstdout Git0",
+    "other_tasks": "56684 및 SERVER3 등 다른 job/source/result/monitoring 조회·변경0. admission용 최소 resource metadata만 허용."
+  },
+  "monitoring": "새 override의 초기 경계는 수치 PASS가 아니라, B100 두 warmup의 finite/identity/weight 정합 및 warning 저장 후 첫 measured pair로 실제 진입한 CONTINUATION_INITIAL_VALID다. 여기까지 bounded 관찰 후 pause하고 등록 runner/collector는 나머지 측정·observer를 자연 실행한다. 이미 짧은 benchmark가 끝났다면 CPU 사실보고/main 게시 후 STOP. 정상 resource-pending이면 정상 등록/release 근거 인계 후 pause. 자동 장기 polling/다른 task recall 없음.",
+  "reply": "즉시 nonce 포함 SH1 담당 ACK, 다음 실제 새 job/source/lock/dependency/release와 numerical policy 상태 보고. GH/사용자 추가 승인을 실행 조건으로 삼지 않는다."
+}
