@@ -1,6 +1,6 @@
 {
   "instruction": "ODEEDIT-GH-SH3-MEMIT-HJ-1K-COMPLETED-REVIEW-20261002-R1",
-  "state": "CPU_REVIEW_COMPLETE_MAIN_PUBLICATION_PENDING",
+  "state": "REVIEW_COMPLETE_STOP",
   "report": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md",
   "report_sha256": "ef8147e5e12746282a40511367f34c53f4606bf78c90335bd42cfc31b1e477d1",
   "completed_main_prefix": "main000 first1000 BS100",
@@ -18,5 +18,19 @@
   "Slurm_write": 0,
   "monitoring": "NO_FURTHER_POLLING",
   "source_changed": false,
-  "raw_changed": false
+  "raw_changed": false,
+  "publication": {
+    "status": "PUBLISHED_MAIN_REMOTE_VERIFIED",
+    "content_commit": "fa7c3a8d39e590c482f473b692f5a6b71d1e55e8",
+    "remote_main_at_verification": "fa7c3a8d39e590c482f473b692f5a6b71d1e55e8",
+    "remote_branch_at_verification": "fa7c3a8d39e590c482f473b692f5a6b71d1e55e8",
+    "branch": "codex/server3-memit-hj-1k-review-20261002-v1",
+    "nonforce": true,
+    "atomic_push": true,
+    "report": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md",
+    "report_sha256": "ef8147e5e12746282a40511367f34c53f4606bf78c90335bd42cfc31b1e477d1",
+    "observed_utc": "2026-10-01T16:36:43.203131+00:00",
+    "followup": "This publication receipt is committed after the content commit; final receipt-commit remote SHA is sent in final handoff.",
+    "monitoring": "REVIEW_COMPLETE_STOP"
+  }
 }

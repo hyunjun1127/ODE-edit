@@ -220,6 +220,11 @@
       "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/writer-W0-trajectory.png",
       "bytes": 163465,
       "sha256": "782928cd6954631fed9080a4042d7cb54c778bce685cfca646242af77ec94819"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/main-publication.json",
+      "bytes": 798,
+      "sha256": "952413a6d38ca7f7076f5bd4c5684ef567f3f27885ab635ffbca4e44c3de5a4a"
     }
   ]
 }
