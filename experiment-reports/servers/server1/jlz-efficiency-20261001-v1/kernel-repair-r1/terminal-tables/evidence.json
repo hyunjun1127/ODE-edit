@@ -1,0 +1,78 @@
+{
+  "inputs": {
+    "execution.lock.json": {
+      "bytes": 37167,
+      "sha256": "7981db6043d9a46736ef274eed15fd609b402cae1cb6450f44117a2ab6a137fd"
+    },
+    "output/runtime.json": {
+      "bytes": 1017,
+      "sha256": "b8318b26b67b54a090ed3b2fe8e72dbe3da304d5586a4ef6d8f3063b4f2b73df"
+    },
+    "output/terminal.json": {
+      "bytes": 440,
+      "sha256": "b4eb31123a12aa5f3933e732c70577fb4b19930e1fa4b3aef6f2635f08e87c5d"
+    },
+    "output/reuse-receipt.json": {
+      "bytes": 997,
+      "sha256": "74c090cf8c5017d6b775aaf61a96bcbe189ac69d879d797409e077a410bebfc4"
+    },
+    "output/kernels.json": {
+      "bytes": 7804,
+      "sha256": "0da22826ff267c9a6e6e5ec0c3d629cdec7199e8979cb352080d221ef5f86de3"
+    },
+    "output/B100-oracle-0.json": {
+      "bytes": 15470,
+      "sha256": "8a593adda86d72925487a3fdd4c5b844711ef7f43eb89c7f8508358ded5c73b7"
+    },
+    "output/B100-oracle-1.json": {
+      "bytes": 37759,
+      "sha256": "c0174c1195366ed07be7feba268fa5b97b16c302bb1166f0d3cab1788ae03a47"
+    },
+    "output/B100-entry.json": {
+      "bytes": 4685,
+      "sha256": "060f12c6ea017827a88fcdb931a3dcd23dbfd490d90b0061a93f8aad7a0477eb"
+    },
+    "output/small-probe.json": {
+      "bytes": 5185,
+      "sha256": "db3288a5d15aff8a4d1a09a67c3dec31d0ce29a079f317bd7d670cfccd0d6629"
+    },
+    "collected/receipt.json": {
+      "bytes": 4873,
+      "sha256": "69fa4ea79302369f8776f3f9cf7591c792ee4cd33807e79358eb70c7df900d26"
+    },
+    "output/B100-summary.json": {
+      "bytes": 53081,
+      "sha256": "12a596431b61c83a70096a5ac428b4af17f5da9b11635b50e9826aa36770cf63"
+    },
+    "output/small-observer-REF_MB2.json": {
+      "bytes": 21404,
+      "sha256": "f034aac1dbb3c84a5d65d233efe7d5d32c7bb2240daad79e546ce6ce4e55d9d7"
+    },
+    "output/small-observer-E123_MB4.json": {
+      "bytes": 21411,
+      "sha256": "ec49fa0d7ce62b63565e5cd956c5b8f269313a64f81915722e7372b956f6a2e2"
+    }
+  },
+  "execution_source": "1d1e47b457838825605ad8850c5041857bf5e5a9",
+  "failed_metrics": [
+    "gradient_block",
+    "gradient_component",
+    "prox_abs"
+  ],
+  "GPU": "NVIDIA RTX A6000",
+  "GPU_UUID": "8b402bc3-f797-6774-24e2-d1c920adadfb",
+  "program_seconds": 384.9917647764087,
+  "allocated_GPU_seconds": 393,
+  "old_failed_GPU_seconds": 401,
+  "total_lineage_GPU_seconds": 794,
+  "allocation_evidence": "owner bounded sacct 56758/56759; collector parent sacct",
+  "kernel_bug": "REPAIRED_ACTUAL_SUMMARY_SAVED",
+  "numerical_qualification": "B100_CANDIDATE_EXCLUDED",
+  "repair_initial_gate": "NOT_PASSED_B100_PARITY; TERMINAL_ALREADY_OBSERVED",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "old56684_mutation": false,
+  "independent_review": "separate post-review receipt",
+  "scientific_promotion": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

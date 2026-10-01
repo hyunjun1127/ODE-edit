@@ -1,0 +1,11 @@
+stage,status
+old fixed32/short84/native,IDENTITY_LOCKED_REUSE; UNQUALIFIED_PRESERVED
+new reference R reconstruction,12_CALLS_EXACT_TRACE; NOT_CRASH_RESUME
+kernel,12_CASES_6_COMPARISONS_SAVED
+small RAM probe/observer,PASS_52_PROMPTS
+B100 entry/key,PASS
+B100 warmup pair,UNQUALIFIED_CANDIDATE_EXCLUDED
+B100 measured3pairs,NOT_RUN_GATE_EXCLUSION
+B100 observer1300,NOT_RUN_GATE_EXCLUSION
+new native fit,0_REUSED_PRIOR
+new scientific chain,0_NOT_AUTHORIZED

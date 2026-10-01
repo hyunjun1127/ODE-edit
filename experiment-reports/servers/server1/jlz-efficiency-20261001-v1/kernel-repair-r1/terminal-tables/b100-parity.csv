@@ -1,0 +1,7 @@
+metric,error,limit,status
+gradient_block,1.3612662244489588e-05,1e-05,FAIL
+gradient_component,1.5020370483398438e-05,1e-05,FAIL
+gradient_global,4.1912118082387585e-06,1e-05,PASS
+per_request_abs,1.33514404296875e-05,0.0001,PASS
+prox_abs,7.819800487141038e-06,5e-06,FAIL
+smooth_abs,5.322694778442383e-05,0.001,PASS
