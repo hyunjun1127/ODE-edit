@@ -1,0 +1,46 @@
+{
+  "source_role": "user-authorized research design handoff",
+  "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "handoff_nonce": "ODEEDIT-JLZ-EFFICIENCY-TO-GH-20261001-R1",
+  "source_directory": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-efficiency-design-20261001-v1/plans/global/2026-10-01-jlz-efficiency-v1",
+  "adoption": "exact seven files; proposal status/history unchanged",
+  "members": [
+    {
+      "name": "design-ko.md",
+      "size": 28055,
+      "sha256": "4ba87d75bc38c4c94ed7a280762f35b52beae09c7159d67afc9cea68bb1b109d"
+    },
+    {
+      "name": "validation.json",
+      "size": 5904,
+      "sha256": "1cfc0f24dc2dd14206a931d63e3316bb3b4f609efc93ac0779f473830910dace"
+    },
+    {
+      "name": "evidence.json",
+      "size": 23005,
+      "sha256": "44bcff8ccbd198677564e691cda2748026386c5a3c0cd276e5735469dcee019d"
+    },
+    {
+      "name": "inspect_costs.py",
+      "size": 6577,
+      "sha256": "d3830a863c1852a27f724aa1e846f562e8f6888f44a4ba2fad988ae3147eb9a3"
+    },
+    {
+      "name": "vjp_cpu_audit.py",
+      "size": 4543,
+      "sha256": "7ec482d0d694d33fbb6f848b9b1c04eb551ad76629df4a5fd7fd1a99456b0bcd"
+    },
+    {
+      "name": "vjp_cpu_results.jsonl",
+      "size": 1152,
+      "sha256": "7f39f92ef82dc9194bcd97f7baf7ff0b994784c8082b1b93e5ce91f68beaafbf"
+    },
+    {
+      "name": "review.json",
+      "size": 951,
+      "sha256": "4fe7c9ec85323007dc4fdd07cf9af062f87329e04ff6726acb6bb2adcfa07ffc"
+    }
+  ],
+  "reference_source_SHA10": "verified MATCH against supplied7b4de31d worktree",
+  "GPU_or_live_log_reads": 0
+}

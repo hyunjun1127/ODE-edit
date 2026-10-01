@@ -1,0 +1,146 @@
+{
+  "status": "PROPOSED_PREIMPLEMENTATION_GATES_NOT_GPU_VALIDATED",
+  "source_commit": "7b4de31d4361caffbbb383fb0cadb8c5258e9cbe",
+  "scientific_contract_mutation": false,
+  "production_job_mutation": false,
+  "route_order": [
+    "instrument_only",
+    "single_effective_linear",
+    "right_pad_crop_same_order_mb2",
+    "entry_commit_selected_head_and_key_stop",
+    "selected_head_evaluator",
+    "qualified_microbatch",
+    "direct_R_FP64_VJP_conditional",
+    "native_cached_singleton_then_independent_batching"
+  ],
+  "source_namespace": "project/run_scripts/jlz_efficiency/ proposed, no production implementation in this design",
+  "invariants": [
+    "native_KL_current_to_entry",
+    "target_context_normalization",
+    "norm_decay_clamp_zero_step",
+    "first1000_case_order_BS100x10",
+    "FP32_model_activation_R_FP64_geometry",
+    "same_materialization_cast_add_order",
+    "solver_accept_stop_return_rules",
+    "all_original_eval_rows_metrics_denominators",
+    "same_H_append_transaction_policy"
+  ],
+  "same_candidate": {
+    "W_eff": "bitwise_equal",
+    "tokens_target_lookup_identity": "exact",
+    "per_request_nll_kl_abs_max": 0.0001,
+    "smooth_sum_abs_max": 0.001,
+    "gradient_global_relative_max": 1e-05,
+    "gradient_block_relative_max": 1e-05,
+    "gradient_relative_denominator": "max(1,reference_L2)",
+    "gradient_component_abs_max": 1e-05,
+    "normalized_prox_residual_abs_max": 5e-06,
+    "normalization_scale": "same original initial gradient scale",
+    "clamp_relative_slack": 1e-06,
+    "inactive_blocks": "exact_zero"
+  },
+  "short_trajectory": {
+    "discrete_accept_reject_stop_status": "same",
+    "returned_R_relative_max": 0.0001,
+    "returned_R_denominator": "max(1,reference_L2)",
+    "baseline_adam_step_and_stop_iteration": "exact",
+    "baseline_return_delta_relative_max": 0.0001,
+    "fail_action": "do_not_qualify_route; keep sealed reference; do_not_relax_tolerances",
+    "claim_limit": "same-point derivative agreement does not establish bitwise trajectory agreement",
+    "baseline_budget_unit": "25 logical candidate iterations /24 Adam updates; extra reference F/B recorded separately without extra Adam step"
+  },
+  "evaluator": {
+    "nll_abs_max": 0.0001,
+    "selected_logits_max_abs": 0.001,
+    "selected_logits_RMS": 0.0001,
+    "token_predictions_strict_pair_success_denominators": "exact",
+    "near_argmax_margin_max": 0.002,
+    "near_nll_pair_margin_max": 0.0002,
+    "near_boundary_action": "same_input_original_full_route_is_authoritative",
+    "padding": "preserve original left padding and position semantics",
+    "reference_recheck_shape": "original microbatch row membership, left-pad width and position semantics; never singleton near-tie row"
+  },
+  "numerical_boundary": {
+    "armijo": "reference reevaluate candidate AND relevant history values when error intervals overlap boundary",
+    "convergence": "reference reevaluate within tol +/-5e-6",
+    "native_stop": "reference reevaluate within 0.05 +/-1e-4",
+    "baseline_clamp": "reference check near norm/radius boundary",
+    "finite": "uncertain_direct_VJP_overflow_or_nonfinite_requires_original_same_candidate_before_final_status",
+    "dense_gradient_overflow_bound": "FP64 U=sum_chunk_token max_output_abs(G)*max_input_abs(X); certify only if finite and U < FP32_MAX/2",
+    "finite_tensors": [
+      "X",
+      "G",
+      "W_eff",
+      "Q",
+      "Z",
+      "dR",
+      "computed_dX"
+    ]
+  },
+  "accounting": {
+    "current_cap": 120,
+    "unit": "all whole-batch gradient oracles including reference reevaluations",
+    "count_repeated_same_candidate": true,
+    "final_evaluation_reserved": 1,
+    "counters": [
+      "logical_candidate_id",
+      "logical_candidate_evaluations",
+      "whole_batch_gradient_oracles",
+      "reference_rechecks",
+      "forward_chunks",
+      "backward_chunks",
+      "head_rows",
+      "mapping_GEMMs",
+      "valid_tokens",
+      "padded_tokens",
+      "attention_L2_positions",
+      "reference_fallback_seconds"
+    ],
+    "no_unbudgeted_internal_fallback": true,
+    "limitation": "reference rechecks consume budget and may reduce distinct trials; repeated ambiguity disqualifies fast route",
+    "evaluation_boundary_rechecks": "observer_cost_only, never optimizer_feedback",
+    "dynamic_fallback_requires": "shared BudgetAccountant wired to instrumented solver evaluate/remaining/final reserve; audit counters alone insufficient",
+    "initial_deployment": "qualified single route; frequent boundary ambiguity disqualifies route"
+  },
+  "benchmark": {
+    "existing_job": "56684 remains unchanged",
+    "proposed_new_technical_run_only": true,
+    "small_fixture_requests": [
+      2,
+      4
+    ],
+    "fixed_candidates": [
+      "zero",
+      "small_nonzero",
+      "half_radius",
+      "near_clamp",
+      "nearzero_or_cancelling_gradient"
+    ],
+    "actual_B100_reference_warmups": 1,
+    "actual_B100_candidate_warmups": 1,
+    "actual_B100_reference_measured": 3,
+    "actual_B100_candidate_measured": 3,
+    "planned_whole_batch_gradient_oracles": 8,
+    "actual_B100_performed": false,
+    "existing_preflight_cap6_not_reused": true,
+    "additional_microbatch_candidates": "must record additional benchmark calls explicitly",
+    "gpu_admission": "owner performs same-device isolated Slurm admission before future benchmark",
+    "statistics": [
+      "median",
+      "min",
+      "max",
+      "CUDA_peak_allocated_reserved",
+      "host_RSS",
+      "stage_CUDA_events",
+      "synchronized_wall"
+    ],
+    "speedup": "not_measured"
+  },
+  "prior_selected_route_evidence": {
+    "interval": "B1 oracle counters10_to20",
+    "seconds_per_oracle": 46.942005729675294,
+    "constant_throughput_1200_hours": 15.647335243225097,
+    "excludes": "load_entry_geometry_observer_io_and_later_batch_variation",
+    "obsolete_eta": "mixed full_suffix_shared comparison mean is not selected_route_eta"
+  }
+}

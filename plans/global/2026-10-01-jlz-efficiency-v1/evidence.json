@@ -1,0 +1,612 @@
+{
+  "status": "CPU_LAYOUT_AND_EXISTING_TIMING_EVIDENCE_ONLY",
+  "gpu_benchmark_performed": false,
+  "model_loaded": false,
+  "torch": "2.9.1+cu128",
+  "source_root": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-sequential-bs100x10-20261001-v1",
+  "source_sha256": {
+    "project/run_scripts/jlz_sequential/oracle.py": "bf79a6f48d1672efca81b2e65d59afcecca85f6a05fdd5767c4e56f2bfd6ca3a",
+    "project/run_scripts/jlz_sequential/run.py": "bd0e41f90a61fb2349f8d428fea4ba339be4a5192e238e5c1763f5ee4f1a1911",
+    "project/run_scripts/jlz_sequential/policy.py": "3845b4eef7166f87e5f827d3627f560fed6dbac8fd98829209dbecddee6799aa",
+    "project/run_scripts/jlz_sequential/observation.py": "b31d36b84a4a43fb64925936948f2b6521a709ecbec350065490e33fa6dd4406",
+    "project/run_scripts/jlz_pilot/run.py": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783",
+    "project/run_scripts/jlz_pilot/prompts.py": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+    "project/run_scripts/jlz_pilot/solver.py": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae",
+    "project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e",
+    "project/run_scripts/single_layer_mechanism_first/z_hook.py": "722a0c35d91e3733b1962f9d07c016436a609b3b5c0cdd391b6ac80ed8ecca8e",
+    "project/run_scripts/memit_hj/writer.py": "7a6129e0e8bbbd15c056eb0f32c2bbbadcf45491979883756e56db77f4c79ee7"
+  },
+  "data_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "contexts_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+  "log_path": "/mnt/raid5/janghj/ODE-edit/local/jlz-sequential/20261001-v1/attempt-r1/gpu-56684.out",
+  "log_scope": "first B1 oracle10/20 records only; mutable log not hashed",
+  "selected_log": [
+    {
+      "event": "oracle",
+      "calls": 10,
+      "smooth": 154.62522522227664,
+      "seconds": 375.1995693799108
+    },
+    {
+      "event": "oracle",
+      "calls": 20,
+      "smooth": 2.9141750822200265,
+      "seconds": 844.6196266766638
+    }
+  ],
+  "selected_log_sha256": "6c09bcb572f06a4e9de7e0775211e678e459708d9523b72df967918b57e8c5bd",
+  "seconds_per_oracle": 46.942005729675294,
+  "optimization1200_hours": 15.647335243225099,
+  "fixed_timing_assumption": "all ten batches run at B1 calls10-20 throughput and use120 calls each",
+  "padding_batches": [
+    {
+      "batch": 1,
+      "rows": 700,
+      "max_length": 32,
+      "valid_tokens": 10651,
+      "spec_identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+      "global_padded_tokens": 22400,
+      "global_attention_positions": 716800,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 11942,
+          "attention_positions": 215614,
+          "linear_work_remaining_fraction": 0.533125,
+          "attention_work_remaining_fraction": 0.30080078125,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10668,
+          "attention_positions": 182592,
+          "linear_work_remaining_fraction": 0.47625,
+          "attention_work_remaining_fraction": 0.25473214285714285,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13020,
+          "attention_positions": 247132,
+          "linear_work_remaining_fraction": 0.58125,
+          "attention_work_remaining_fraction": 0.34477120535714284,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10696,
+          "attention_positions": 183824,
+          "linear_work_remaining_fraction": 0.4775,
+          "attention_work_remaining_fraction": 0.25645089285714284,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13480,
+          "attention_positions": 264584,
+          "linear_work_remaining_fraction": 0.6017857142857143,
+          "attention_work_remaining_fraction": 0.36911830357142855,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10760,
+          "attention_positions": 186232,
+          "linear_work_remaining_fraction": 0.48035714285714287,
+          "attention_work_remaining_fraction": 0.25981026785714284,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 2,
+      "rows": 700,
+      "max_length": 23,
+      "valid_tokens": 10990,
+      "spec_identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+      "global_padded_tokens": 16100,
+      "global_attention_positions": 370300,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12340,
+          "attention_positions": 227388,
+          "linear_work_remaining_fraction": 0.7664596273291926,
+          "attention_work_remaining_fraction": 0.6140642722117202,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 11000,
+          "attention_positions": 191812,
+          "linear_work_remaining_fraction": 0.6832298136645962,
+          "attention_work_remaining_fraction": 0.5179908182554686,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13352,
+          "attention_positions": 257800,
+          "linear_work_remaining_fraction": 0.8293167701863354,
+          "attention_work_remaining_fraction": 0.6961922765325412,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 11016,
+          "attention_positions": 192248,
+          "linear_work_remaining_fraction": 0.684223602484472,
+          "attention_work_remaining_fraction": 0.5191682419659736,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13800,
+          "attention_positions": 274616,
+          "linear_work_remaining_fraction": 0.8571428571428571,
+          "attention_work_remaining_fraction": 0.7416041047799082,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 11036,
+          "attention_positions": 192756,
+          "linear_work_remaining_fraction": 0.6854658385093167,
+          "attention_work_remaining_fraction": 0.5205401026194977,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "rows": 700,
+      "max_length": 25,
+      "valid_tokens": 10712,
+      "spec_identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+      "global_padded_tokens": 17500,
+      "global_attention_positions": 437500,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12024,
+          "attention_positions": 216728,
+          "linear_work_remaining_fraction": 0.6870857142857143,
+          "attention_work_remaining_fraction": 0.4953782857142857,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10720,
+          "attention_positions": 182992,
+          "linear_work_remaining_fraction": 0.6125714285714285,
+          "attention_work_remaining_fraction": 0.41826742857142857,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13048,
+          "attention_positions": 246496,
+          "linear_work_remaining_fraction": 0.7456,
+          "attention_work_remaining_fraction": 0.5634194285714286,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10740,
+          "attention_positions": 183588,
+          "linear_work_remaining_fraction": 0.6137142857142858,
+          "attention_work_remaining_fraction": 0.4196297142857143,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13564,
+          "attention_positions": 265628,
+          "linear_work_remaining_fraction": 0.7750857142857143,
+          "attention_work_remaining_fraction": 0.6071497142857143,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10796,
+          "attention_positions": 185196,
+          "linear_work_remaining_fraction": 0.6169142857142857,
+          "attention_work_remaining_fraction": 0.4233051428571429,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 4,
+      "rows": 700,
+      "max_length": 25,
+      "valid_tokens": 10791,
+      "spec_identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+      "global_padded_tokens": 17500,
+      "global_attention_positions": 437500,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12074,
+          "attention_positions": 219110,
+          "linear_work_remaining_fraction": 0.6899428571428572,
+          "attention_work_remaining_fraction": 0.5008228571428571,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10798,
+          "attention_positions": 185446,
+          "linear_work_remaining_fraction": 0.6170285714285715,
+          "attention_work_remaining_fraction": 0.42387657142857144,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13116,
+          "attention_positions": 249228,
+          "linear_work_remaining_fraction": 0.7494857142857143,
+          "attention_work_remaining_fraction": 0.569664,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10820,
+          "attention_positions": 186124,
+          "linear_work_remaining_fraction": 0.6182857142857143,
+          "attention_work_remaining_fraction": 0.4254262857142857,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13576,
+          "attention_positions": 266248,
+          "linear_work_remaining_fraction": 0.7757714285714286,
+          "attention_work_remaining_fraction": 0.6085668571428572,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10860,
+          "attention_positions": 187260,
+          "linear_work_remaining_fraction": 0.6205714285714286,
+          "attention_work_remaining_fraction": 0.42802285714285715,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 5,
+      "rows": 700,
+      "max_length": 25,
+      "valid_tokens": 10700,
+      "spec_identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+      "global_padded_tokens": 17500,
+      "global_attention_positions": 437500,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 11994,
+          "attention_positions": 215818,
+          "linear_work_remaining_fraction": 0.6853714285714285,
+          "attention_work_remaining_fraction": 0.4932982857142857,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10708,
+          "attention_positions": 182256,
+          "linear_work_remaining_fraction": 0.6118857142857143,
+          "attention_work_remaining_fraction": 0.4165851428571429,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 12984,
+          "attention_positions": 244464,
+          "linear_work_remaining_fraction": 0.7419428571428571,
+          "attention_work_remaining_fraction": 0.5587748571428571,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10724,
+          "attention_positions": 182732,
+          "linear_work_remaining_fraction": 0.6128,
+          "attention_work_remaining_fraction": 0.41767314285714285,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13452,
+          "attention_positions": 262580,
+          "linear_work_remaining_fraction": 0.7686857142857143,
+          "attention_work_remaining_fraction": 0.6001828571428571,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10756,
+          "attention_positions": 183508,
+          "linear_work_remaining_fraction": 0.6146285714285714,
+          "attention_work_remaining_fraction": 0.4194468571428571,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 6,
+      "rows": 700,
+      "max_length": 25,
+      "valid_tokens": 10915,
+      "spec_identity": "a319bb187ee50fa2589583d7878610a8f0fb40ba5e7dd9cae70a157bcaec3195",
+      "global_padded_tokens": 17500,
+      "global_attention_positions": 437500,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12198,
+          "attention_positions": 223198,
+          "linear_work_remaining_fraction": 0.6970285714285714,
+          "attention_work_remaining_fraction": 0.5101668571428571,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10926,
+          "attention_positions": 189146,
+          "linear_work_remaining_fraction": 0.6243428571428571,
+          "attention_work_remaining_fraction": 0.43233371428571427,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13264,
+          "attention_positions": 254472,
+          "linear_work_remaining_fraction": 0.7579428571428571,
+          "attention_work_remaining_fraction": 0.5816502857142857,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10944,
+          "attention_positions": 189640,
+          "linear_work_remaining_fraction": 0.6253714285714286,
+          "attention_work_remaining_fraction": 0.43346285714285715,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13688,
+          "attention_positions": 270392,
+          "linear_work_remaining_fraction": 0.7821714285714285,
+          "attention_work_remaining_fraction": 0.6180388571428571,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10988,
+          "attention_positions": 190956,
+          "linear_work_remaining_fraction": 0.6278857142857143,
+          "attention_work_remaining_fraction": 0.43647085714285716,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "rows": 700,
+      "max_length": 25,
+      "valid_tokens": 10971,
+      "spec_identity": "3fcbde6a6f103ea0bda13b51c922b409becdaa8de07f6bc0aa7c095a0945a195",
+      "global_padded_tokens": 17500,
+      "global_attention_positions": 437500,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12250,
+          "attention_positions": 225406,
+          "linear_work_remaining_fraction": 0.7,
+          "attention_work_remaining_fraction": 0.5152137142857143,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10982,
+          "attention_positions": 191346,
+          "linear_work_remaining_fraction": 0.6275428571428572,
+          "attention_work_remaining_fraction": 0.4373622857142857,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13336,
+          "attention_positions": 257256,
+          "linear_work_remaining_fraction": 0.7620571428571429,
+          "attention_work_remaining_fraction": 0.5880137142857143,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 11004,
+          "attention_positions": 191892,
+          "linear_work_remaining_fraction": 0.6288,
+          "attention_work_remaining_fraction": 0.43861028571428573,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13816,
+          "attention_positions": 275424,
+          "linear_work_remaining_fraction": 0.7894857142857142,
+          "attention_work_remaining_fraction": 0.6295405714285714,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 11028,
+          "attention_positions": 192580,
+          "linear_work_remaining_fraction": 0.6301714285714286,
+          "attention_work_remaining_fraction": 0.44018285714285715,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 8,
+      "rows": 700,
+      "max_length": 28,
+      "valid_tokens": 10917,
+      "spec_identity": "87b4a13a48e2fbe34af76e5330d35fcd0e2b0a84ce2c4e5cfd2a631b04113986",
+      "global_padded_tokens": 19600,
+      "global_attention_positions": 548800,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12242,
+          "attention_positions": 224366,
+          "linear_work_remaining_fraction": 0.6245918367346939,
+          "attention_work_remaining_fraction": 0.4088301749271137,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10930,
+          "attention_positions": 189726,
+          "linear_work_remaining_fraction": 0.5576530612244898,
+          "attention_work_remaining_fraction": 0.34571064139941693,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13272,
+          "attention_positions": 255000,
+          "linear_work_remaining_fraction": 0.6771428571428572,
+          "attention_work_remaining_fraction": 0.4646501457725947,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10952,
+          "attention_positions": 190480,
+          "linear_work_remaining_fraction": 0.5587755102040817,
+          "attention_work_remaining_fraction": 0.34708454810495626,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13824,
+          "attention_positions": 276768,
+          "linear_work_remaining_fraction": 0.7053061224489796,
+          "attention_work_remaining_fraction": 0.5043148688046647,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 11000,
+          "attention_positions": 192184,
+          "linear_work_remaining_fraction": 0.5612244897959183,
+          "attention_work_remaining_fraction": 0.35018950437317786,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 9,
+      "rows": 700,
+      "max_length": 23,
+      "valid_tokens": 10586,
+      "spec_identity": "e5473a14224db4761325758c95a5c208c3645b28d1b08b21b9f873f5f99cb513",
+      "global_padded_tokens": 16100,
+      "global_attention_positions": 370300,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 11872,
+          "attention_positions": 210744,
+          "linear_work_remaining_fraction": 0.7373913043478261,
+          "attention_work_remaining_fraction": 0.5691169322171212,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10598,
+          "attention_positions": 177930,
+          "linear_work_remaining_fraction": 0.6582608695652173,
+          "attention_work_remaining_fraction": 0.4805022954361329,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 12916,
+          "attention_positions": 240356,
+          "linear_work_remaining_fraction": 0.8022360248447205,
+          "attention_work_remaining_fraction": 0.6490845260599514,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10612,
+          "attention_positions": 178364,
+          "linear_work_remaining_fraction": 0.6591304347826087,
+          "attention_work_remaining_fraction": 0.48167431812044287,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13304,
+          "attention_positions": 254568,
+          "linear_work_remaining_fraction": 0.8263354037267081,
+          "attention_work_remaining_fraction": 0.6874642182014583,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10660,
+          "attention_positions": 179868,
+          "linear_work_remaining_fraction": 0.662111801242236,
+          "attention_work_remaining_fraction": 0.4857358898190656,
+          "chunks": 88
+        }
+      }
+    },
+    {
+      "batch": 10,
+      "rows": 700,
+      "max_length": 26,
+      "valid_tokens": 10826,
+      "spec_identity": "8a3fe8a767c170c09af6e949e9001175f92df0b3971f68ce212a39a021b1c7e2",
+      "global_padded_tokens": 18200,
+      "global_attention_positions": 473200,
+      "layouts": {
+        "original_mb2": {
+          "padded_tokens": 12108,
+          "attention_positions": 220992,
+          "linear_work_remaining_fraction": 0.6652747252747253,
+          "attention_work_remaining_fraction": 0.4670160608622147,
+          "chunks": 350
+        },
+        "stable_length_mb2": {
+          "padded_tokens": 10838,
+          "attention_positions": 187262,
+          "linear_work_remaining_fraction": 0.5954945054945054,
+          "attention_work_remaining_fraction": 0.39573541842772614,
+          "chunks": 350
+        },
+        "original_mb4": {
+          "padded_tokens": 13152,
+          "attention_positions": 251336,
+          "linear_work_remaining_fraction": 0.7226373626373627,
+          "attention_work_remaining_fraction": 0.5311411665257819,
+          "chunks": 175
+        },
+        "stable_length_mb4": {
+          "padded_tokens": 10860,
+          "attention_positions": 187964,
+          "linear_work_remaining_fraction": 0.5967032967032967,
+          "attention_work_remaining_fraction": 0.3972189349112426,
+          "chunks": 175
+        },
+        "original_mb8": {
+          "padded_tokens": 13632,
+          "attention_positions": 269496,
+          "linear_work_remaining_fraction": 0.7490109890109891,
+          "attention_work_remaining_fraction": 0.5695181741335588,
+          "chunks": 88
+        },
+        "stable_length_mb8": {
+          "padded_tokens": 10904,
+          "attention_positions": 189216,
+          "linear_work_remaining_fraction": 0.5991208791208791,
+          "attention_work_remaining_fraction": 0.3998647506339814,
+          "chunks": 88
+        }
+      }
+    }
+  ],
+  "padding_aggregate": {
+    "original_mb2": {
+      "padded_tokens": 121044,
+      "attention_positions": 2199364,
+      "linear_work_remaining_fraction": 0.67284046692607,
+      "attention_work_remaining_fraction": 0.4712687222781718
+    },
+    "stable_length_mb2": {
+      "padded_tokens": 108168,
+      "attention_positions": 1860508,
+      "linear_work_remaining_fraction": 0.6012673707615341,
+      "attention_work_remaining_fraction": 0.3986603526966509
+    },
+    "original_mb4": {
+      "padded_tokens": 131460,
+      "attention_positions": 2503540,
+      "linear_work_remaining_fraction": 0.7307392996108949,
+      "attention_work_remaining_fraction": 0.5364460348411151
+    },
+    "stable_length_mb4": {
+      "padded_tokens": 108368,
+      "attention_positions": 1866856,
+      "linear_work_remaining_fraction": 0.602379099499722,
+      "attention_work_remaining_fraction": 0.4000205704000514
+    },
+    "original_mb8": {
+      "padded_tokens": 136136,
+      "attention_positions": 2680304,
+      "linear_work_remaining_fraction": 0.7567315175097277,
+      "attention_work_remaining_fraction": 0.5743221410358054
+    },
+    "stable_length_mb8": {
+      "padded_tokens": 108788,
+      "attention_positions": 1879756,
+      "linear_work_remaining_fraction": 0.6047137298499167,
+      "attention_work_remaining_fraction": 0.4027847179069618
+    }
+  },
+  "caveat": "token and attention-size arithmetic, not measured FLOPs or runtime; stable_length is a proposal changing reduction order"
+}

@@ -1,0 +1,5 @@
+{"kind": "environment", "python": "3.12.0", "torch": "2.9.1+cu128", "device": "cpu", "threads": 1, "seed": 20261001}
+{"case": "normal", "dims": [5, 31, 257, 127, 7], "reference_norm": 370.8922424316406, "reassociated_fp64_relative": 7.713846806856899e-16, "direct_fp64_vs_current_relative": 1.1417346001962869e-07, "direct_fp64_vs_current_maxabs": 5.7220458984375e-06, "fp32_projection_vs_current_relative": 3.615282935243158e-07, "bitwise_equal": false}
+{"case": "cancellation", "dims": [2, 31, 257, 127, 7], "reference_norm": 0.0016059755580499768, "reassociated_fp64_relative": 3.206805323324023e-11, "direct_fp64_vs_current_relative": 0.014835286885499954, "direct_fp64_vs_current_maxabs": 3.6113603982812492e-06, "fp32_projection_vs_current_relative": 0.021939177066087723, "bitwise_equal": false}
+{"case": "dense_overflow_domain", "dense_dW": [["+Infinity", "-Infinity"]], "current_gR": [["NaN"]], "direct_gR": [[0.0]]}
+{"case": "two_layer_cross_effect", "two_layer_same_forward": true, "same_loss": true, "layer_grad_relative": [4.368996187054108e-08, 9.206493700730789e-08], "layer_grad_maxabs": [1.862645149230957e-09, 9.313225746154785e-10]}

@@ -1,0 +1,46 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
+  "handoff_nonce": "ODEEDIT-JLZ-EFFICIENCY-TO-GH-20261001-R1",
+  "boundary": "GH session01a04939-8873-7673-8dca-4c7fc5e31af0 helper PASS in dedicated worktree; unrelated root untouched",
+  "source_adoption": {
+    "files": 7,
+    "bytes": 70187,
+    "exact_size_SHA": "PASS",
+    "reference_10_SHA": "MATCH production7b4de31d and current main file bytes",
+    "git_ancestry_note": "7b4de31d is not ancestor of dispatch base0e2da6aa; exact consumed10file identities match and both commits retained, no false ancestry claim"
+  },
+  "CPU": {
+    "vjp_rerun": "5records byte-identical",
+    "sha256": "7f39f92ef82dc9194bcd97f7baf7ff0b994784c8082b1b93e5ce91f68beaafbf",
+    "padding_evidence_arithmetic": "179900->121044 independently recomputed from sealed batch records; no tokenizer/GPU rerun",
+    "selected_log_arithmetic": "46.942005729675294seconds/oracle from provided two rows, live log not reopened",
+    "new_implementation_tests": "NOT_RUN",
+    "actual_model_or_benchmark": "NOT_RUN"
+  },
+  "independent_review": {
+    "agent": "/root/efficiency_dispatch_review",
+    "scope": "read-only design/contract/envelope; noGPU/job/code mutation",
+    "result": "NO_BLOCKER_TWO_WORDING_WARNINGS",
+    "warnings": [
+      {
+        "issue": "pause could be misread as cancelling56684 initial duty",
+        "disposition": "owner amended three documents: efficiency-only pause; original obligation explicitly remains"
+      },
+      {
+        "issue": "short12 and standalone32 reserve ambiguous",
+        "disposition": "owner amended three documents: hard12 includes initial/rechecks/final1;32 standalone only, no solver topup"
+      }
+    ],
+    "final_amendment_verification": "owner checked; not claimed second independent pass"
+  },
+  "permission": {
+    "implementation": true,
+    "benchmark": true,
+    "existing_job_mutation": false,
+    "server3": false,
+    "new_chain": false,
+    "noCP": true
+  },
+  "delivery": "PENDING_ACTUAL_DIRECT_DISPATCH",
+  "GH_Gpu_model_slurm_calls": 0
+}

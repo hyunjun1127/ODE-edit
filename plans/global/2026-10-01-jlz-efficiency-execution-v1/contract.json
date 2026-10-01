@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
+  "handoff_nonce": "ODEEDIT-JLZ-EFFICIENCY-TO-GH-20261001-R1",
+  "status": "APPROVED_IMPLEMENTATION_AND_BOUNDED_TECHNICAL_BENCHMARK_NOT_SUBMITTED",
+  "owner": {
+    "role": "server-head",
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "reference": {
+    "commit": "7b4de31d4361caffbbb383fb0cadb8c5258e9cbe",
+    "source_manifest": "plans/global/2026-10-01-jlz-efficiency-v1/evidence.json",
+    "route": "production shared_selected dense-gradient; not mixed full/suffix/selected mean",
+    "scientific_contract": "plans/global/2026-10-01-jlz-sequential-bs100x10-v1/contract.json",
+    "validation": "plans/global/2026-10-01-jlz-efficiency-v1/validation.json",
+    "validation_adoption": "All specified thresholds/identity/finite/branch checks frozen before actual benchmark; proposal status retained as original provenance, this contract authorizes bounded execution"
+  },
+  "immutable": {
+    "existing_job": 56684,
+    "job_mutation": false,
+    "production_source_mutation": false,
+    "production_budget_mutation": false,
+    "server3_query_or_mutation": false,
+    "new_scientific_chain": false,
+    "existing_initial_B1_B2_obligation": "preserve; benchmark must not preempt"
+  },
+  "inputs": {
+    "dataset": "counterfact-fixed-10k-v1",
+    "data_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "contexts_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "small": "first4 in original order, first2 subset for CPU/fixture; no quality selection",
+    "B100": "first100 in original order, independent W0/zero H technical state",
+    "seed": 20261001,
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime": "same S1 pilot/sequential torch2.9.1+cu128 and transformers4.57.1; pinned actual import closure",
+    "offline": true
+  },
+  "invariants": {
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "KL": "current||batch-entry",
+    "kl_factor": 0.0625,
+    "decay": 0.5,
+    "clamp": 0.75,
+    "zero_step": "entry NLL<0.05",
+    "key_group_weights": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "loss_normalization": "original token/context averages and active request sum",
+    "dtype": "FP32 model/activation/R, FP64 geometry/solve; TF32/autocast off",
+    "C0": "FP32 raw/count then FP64, never raw sum",
+    "materialization": "W_entry+(R.double()@adj.T).float(); bitwise same-candidate W_eff",
+    "solver": "original prox/BB/Armijo/plateau/fixed-budget commit/history/transaction; no semantic changes",
+    "no_precision_or_objective_changes": true
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/jlz_efficiency/",
+    "stages": [
+      "E0 stage/physical-work/accounting instrumentation",
+      "E1 scoped single effective down_proj linear",
+      "E2 original-order MB2 right-pad crop; regenerate prefix from cropped tokens",
+      "E3 entry/commit selected full-vocab head and exact key early-stop",
+      "E4 left-pad evaluator selected full-vocab head",
+      "E5 qualified original-order MB2/4/8, C0 host cache and scalar sync",
+      "E6 optional FP64 direct R VJP after numerical/finite/kernel qualification",
+      "native original singleton first-forward/update -> cached singleton -> independent batching"
+    ],
+    "already_present_not_new_savings": [
+      "L0-L3 prefix",
+      "candidate-shared W_eff",
+      "ours selected-position head",
+      "same-endpoint observation reuse"
+    ],
+    "deferred": [
+      "stable-length reordering",
+      "dynamic fallback production deployment",
+      "BF16/TF32/FP32 adj",
+      "new reference/locality loss",
+      "new sequential chain"
+    ],
+    "baseline": "Pinned original singleton compute_z from actual native closure, not HJ SPG; freeze source/hparams independently before benchmark. No S3 environment/job reads"
+  },
+  "budget": {
+    "small_fixed_candidate_fractions": [
+      0,
+      0.01,
+      0.5,
+      0.999
+    ],
+    "small_candidate_direction": "seeded normalized common vector; inactive blocks exact0",
+    "small_routes_max": 8,
+    "small_route_list": [
+      "REF_MB2",
+      "E1_MB2",
+      "E12_MB2",
+      "E123_MB2",
+      "E123_MB4",
+      "E123_MB8",
+      "E123_SYNC_MB2",
+      "E123_DIRECT_R_MB2"
+    ],
+    "small_fixed_candidate_oracles_max": 32,
+    "short_trajectory_routes_max": 8,
+    "short_trajectory_calls_per_route": 12,
+    "short_trajectory_calls_total_max": 96,
+    "small_reference_recheck_reserve": 32,
+    "small_whole_batch_oracles_total_max": 160,
+    "small_accounting": "Bounds not target counts. Reuse identical sealed reference comparisons. Every recheck counts. Each short trajectory has a HARD12 whole-batch cap including initial, all internal reference/history rechecks, and final reserve1. The separate32 reserve is solely standalone qualification/finite-domain comparisons, never extra solver trials/rechecks beyond12. No unused stage budget transfer.",
+    "native_requests": 4,
+    "native_routes": [
+      "original_singleton",
+      "cached_singleton",
+      "qualified_independent_batching"
+    ],
+    "native_logical_candidates_per_request_max": 25,
+    "native_adam_updates_per_request_max": 24,
+    "native_logical_request_candidates_total_max": 300,
+    "native_adam_updates_total_max": 288,
+    "native_extra_reference_request_forwards_max": 100,
+    "native_extra_reference_request_backwards_max": 100,
+    "native_first_forward": "original singleton teacher/anchor/prefix/loss0; candidate1 not an extra teacher run. First backward/Adam preserved. Same per-request m/v/step/stop/clamp.",
+    "native_no_BS100_fit_or_16_request_expansion": true,
+    "kernel_cases_max": 24,
+    "kernel_warmup_per_case": 1,
+    "kernel_measurements_per_case": 5,
+    "kernel_scope": "sealed Llama projection/head shapes from first4 and first100 lengths, model-free tensors; no adaptive shape sweep",
+    "B100_whole_batch_oracles": 8,
+    "B100_reference": {
+      "warmup": 1,
+      "measured": 3,
+      "microbatch": 2
+    },
+    "B100_candidate": {
+      "warmup": 1,
+      "measured": 3,
+      "microbatch": "one qualified MB2/4/8 frozen from small/kernel phase"
+    },
+    "B100_candidate_R": "seed20261001 common direction at0.02 entry radius; inactive0; same exact W/H/input/R across reference and optimized",
+    "B100_timing_order": "REF_warm,CAND_warm,REF1,CAND1,CAND2,REF2,REF3,CAND3; all eight outputs checked; warmup pair gates before measured group",
+    "B100_new_optimizer_trajectory": false,
+    "B100_extra_MB_sweep": false,
+    "B100_failed_gate": "exclude candidate, preserve partial measurements and reference; no tolerance change or hidden extra oracle",
+    "entry_and_key_comparison": "small and B100 each reference/candidate entry + key once; B100 common oracle teacher/adj held fixed; chosen route matches independent entry/teacher/key checks",
+    "observer": {
+      "small": "same reference-returned technical endpoint, reference and candidate, R4/P8/N40",
+      "B100": "same fixed-candidate technical W_eff, full R100/P200/N1000, reference/candidate each warmup1 plus measured3; same original group shapes; near ties full-group rechecks counted"
+    },
+    "C0_cache": "first file read/normalization + one host-cache reuse, all five layers; report OS cache uncontrolled; no cross-batch adj reuse",
+    "technical_state_probe": "one small4-request physical evaluated-weight commit/history append/observer/restore per final paired route, RAM only; no scientific requests/chain; CPU exception injection first",
+    "existing_preflight6_or_production1200_budget_shared": false,
+    "future_compatible_budget": "120 total whole-batch oracles includes initial, every reference recheck, final reserve1. Instrumented solver must share BudgetAccountant for evaluate/remaining/final. First qualified route static; no free hidden fallback."
+  },
+  "route_gate": {
+    "fail_action": "do not qualify this route; independent unaffected stages continue; original live production unchanged",
+    "no_tolerance_relaxation": true,
+    "direct_R": "actual dX preserved; FP64 proxy and contractions; finite X/G/W/Q/Z/dR/dX plus conservative FP64 dense-overflow bound. Uncertain -> original same-candidate authoritative within counted reserve, or CERTIFICATION_FAILED. Never label finite merely because direct dR finite.",
+    "evaluator": "preserve left pad/positions/group; fallback original complete microbatch for both true/new values, never singleton near-tie",
+    "timing_selection": "same GPU only, all gates PASS, median candidate<median reference AND max candidate<min reference for TIMING_SEPARATED; overlapping ranges -> SPEED_UNRESOLVED, no claimed speedup/promoted fast route. MEMORY_ONLY reported separately.",
+    "scope_of_qualification": "bounded fixed points/short trajectories only; not full1000 trajectory bitwise proof"
+  },
+  "resources": {
+    "project_cap": 2,
+    "task_gpu_cap": 1,
+    "gpus": 1,
+    "cpus": 8,
+    "mem_mib": 131072,
+    "mem_ceiling_mib": 183296,
+    "node": "devbox",
+    "wall_hours": 12,
+    "export": "NONE",
+    "requeue": 0,
+    "hour_budget": null,
+    "wall_is_not_eta": true,
+    "admission": "count existing56684 and other owner allocations/admitted pending resource-only; if no slot queue afterany exact cap-occupier or normal pending without simultaneous cap violation; do not cancel/hold/change existing jobs; no extra GPU sharing",
+    "storage_initial_reserve_gib": 8,
+    "storage_scope": "small metrics/timing/source/log only; actual preflight before submit; no model/reference replication"
+  },
+  "persistence": {
+    "save_checkpoints": false,
+    "full_W_H_R_optimizer_or_equivalent_delta": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "RAM_probe_and_restore": true,
+    "raw_git": false,
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; same-host technical artifacts and source/compact reports only"
+  },
+  "monitoring": {
+    "old_task": "original B1->B2 initial handoff remains owner's obligation",
+    "new_task": "bounded qualification/first real benchmark result observation; then pause if still running; resource-pending may pause after proper registration. Pre-registered runner+CPU collector finish all stages/report naturally. If whole short benchmark finishes before initial handoff, owner may CPU-review/publish terminal and stop.",
+    "after_pause": "This pause applies ONLY to the new efficiency task. No efficiency polling/heartbeat/daemon/automatic recall; detailed review upon explicit user recall if terminal was not already collected. The existing56684 B1->B2 observation obligation continues under its own authority until its own initial handoff; do not cancel it via this new pause.",
+    "GH": "collect actual owner ACK only, no long experiment wait"
+  },
+  "reports": {
+    "directory": "experiment-reports/servers/server1/jlz-efficiency-20261001-v1/",
+    "required": [
+      "immutable reference/import/config/input identities",
+      "stage-level method-preserving diff and excluded routes",
+      "CPU and actual candidate/short-trajectory/native/evaluator parity with thresholds/errors",
+      "native logical iterations/physical F-B and JLZ shared call ledger",
+      "per-route stage time median/min/max CUDA allocated/reserved hostRSS valid/padded/attention/head/mapping work",
+      "warmup/failed-route/refallback/entry/observer/IO separated, no nested double-count",
+      "old ETA correction using supplied10/20 evidence only; new measured stages separately",
+      "no new chain and unchanged56684/S3/noCP",
+      "exact job/receipt/source/lock/cost and initial-vs-terminal state"
+    ]
+  },
+  "implementation_and_push_authorized": true,
+  "slurm_submission_authorized": true,
+  "scientific_promotion": false
+}
