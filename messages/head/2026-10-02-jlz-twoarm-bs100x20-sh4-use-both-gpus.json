@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-SH4-JLZ-TWOARM-USE-BOTH-GPUS-20261002-R1",
+  "parent_instruction": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "user_exact": "server4의 gpu cap은 2이다 2개 모두 사용하도록 해",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "parent_envelope": "messages/head/2026-10-02-jlz-twoarm-bs100x20-sh4.json",
+  "policy": {
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "desired_independent_lanes": 2,
+    "per_job_gpu": 1,
+    "cpu_per_job": 8,
+    "host_memory_mib_per_job_max": 60416,
+    "directive_ko": "cap2를 단순 상한만으로 두지 말고, 독립 실행 가능한 승인 작업이 준비되어 있으면 두 1GPU lane을 모두 활용한다. 본실험 A/B를 각각 독립 job으로 병렬 실행하거나 array%2로 실행한다. 단일1GPU runner에서 A완료 후 B전체를 직렬 실행하는 구성은 사용하지 않는다.",
+    "pilot_and_baseline": "공통 입력/teacher/기술 준비 후 독립 A/B pilot 및 main은 두 lane으로 배치한다. 필요한 baseline만 빈 lane/의존성을 활용하며 재사용 가능한 baseline을 slot 채우기 목적으로 다시 실행하지 않는다.",
+    "valid_serial_preparation": "단일 공유 W0 준비·같은GPU route 비교 등 실제 데이터 의존성 때문에 직렬인 구간은 허용하고 이유/비용을 기록한다. 2GPU 사용을 위해 기술 검증·teacher·fit을 중복 실행하거나 새 arm을 추가하지 않는다.",
+    "admission": "다른 project allocated 및 동시 실행 가능한 admitted capacity를 포함해 전체2를 지킨다. 기존 점유 시 dependency/pending으로 등록하고 자원이 확보되는 대로 두 lane 실행. 실제 자원할당을 보장한다고 표현하지 않는다.",
+    "isolation": "각 arm own W/H/R/teacher/gradient/trajectory 유지. 두GPU 분산학습으로 한arm의 수학/배치/순서를 바꾸지 않는다.",
+    "existing_jobs": "기존 unrelated job 취소/hold/hotpatch/재시작0. 아직 미등록이면 launcher에서 적용; 이미 이 task가 등록됐다면 exact own job 확인 후 throttle/dependency 등 비과학 scheduling 변경만 허용, 중복 제출0.",
+    "unchanged": [
+      "BS4x2 perarm cap32 pilot",
+      "BS100x20 perarm cap120 main",
+      "A eta0/B eta1 only method difference",
+      "no checkpoints",
+      "finite numerical differences record-only",
+      "parent initial-gate monitoring then pause",
+      "no other server/task changes"
+    ]
+  },
+  "ack_request": "같은 관련 turn에 nonce ACK와 두lane 배치 계획을 먼저 남기고 task를 계속한다. GH는 bounded 담당ACK만 회수하며 실제실험 장시간감시를 하지 않는다."
+}
