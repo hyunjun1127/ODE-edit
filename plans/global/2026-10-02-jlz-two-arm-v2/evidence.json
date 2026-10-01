@@ -1,0 +1,169 @@
+{
+  "status": "CPU_DESIGN_CHECKED_NOT_MODEL_VALIDATED",
+  "contract_sha256": "e6645d49251194243dfbe32df0c4c8abc6f3f2ef5596c131a96db5f1768efe9f",
+  "design_sha256": "4a8ea5d5075d28ef7be38035615c2c8bfb4311ff1df8ee26710edc4924b15642",
+  "inspector_sha256": "d21f0eeac53564c7d99a8584b2a8b9728d241563975c9a1411914f540c7253da",
+  "checks": {
+    "only_arm_difference": "burden_eta: 0 versus 1",
+    "all_five_eligible": true,
+    "single_layer_permitted": true,
+    "diagnostic_gates_do_not_mask_layers": true,
+    "budget_arithmetic": "PASS",
+    "production_policy_unchanged": true
+  },
+  "references": {
+    "sources": {
+      "full": {
+        "path": "/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json",
+        "bytes": 45108470,
+        "sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+        "records": 21919
+      },
+      "fixed": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+        "bytes": 16679956,
+        "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+        "records": 10000
+      }
+    },
+    "pool_filter_counts": {
+      "outside_fixed_ids": 11919,
+      "after_claim_exclusion": 11544,
+      "after_eval_prompt_exclusion": 11134,
+      "after_subject_exclusion": 10715,
+      "relations": 34
+    },
+    "draft_selection_checks": [
+      {
+        "batch_size": 4,
+        "batch_index": 0,
+        "general_count": 16,
+        "replay_count": 0,
+        "general_ids_sha256": "541fab428dd8cf54dab449ffd10f77bc0ffd75095f404bfdef68a11b477b7834",
+        "replay_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "batch_size": 4,
+        "batch_index": 1,
+        "general_count": 16,
+        "replay_count": 4,
+        "general_ids_sha256": "19dda17688cfdffe95aaedb723c71cd783aa81737a41f46b21b1db389c8b4528",
+        "replay_ids_sha256": "a6a2e4d5ae02af6f0cd149db9f1803bd5a8b83126ef2e94d95004c35cb2bf2aa"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 0,
+        "general_count": 16,
+        "replay_count": 0,
+        "general_ids_sha256": "a6bb2bc69dd4481c4edf1d7629c9459beda42d692b0b09990e1ed6cf6902bdeb",
+        "replay_ids_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 1,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "4947d92bc31af29006be9b992058c5cb527e125198d5661b153ea1d85b1be27a",
+        "replay_ids_sha256": "47c027ff263261debed9c5997b44ed448691cc5878f60f19f71ec5d79e5042dd"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 2,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "1824d7c595349f501f87439ebf4dcd5649b5b244172a248c8a271a4011729a0e",
+        "replay_ids_sha256": "3b7c575e14d6a3a0823ca8468b3076451c9d89810ac84cf94dcd60b376baae69"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 3,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "8981f73dba2814d2af9b97e888d7776e5c481e164cde8033488b62765200ffb7",
+        "replay_ids_sha256": "687c72b8a50bcb881502b1b8794792345a3ce22204b0c725c7a59c8fa53bf79b"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 4,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "ac36d818614847055dd27f6e89d02d12ef003e91e02419fc5a6d3432200456b1",
+        "replay_ids_sha256": "a732ed4396bc41cf2159fb25a15ddeeb49a99575b694feed30c7207d0545d681"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 5,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "17f36252912b490102e58c0d204666e47e7c4aa13b394104983e4e1378bae73b",
+        "replay_ids_sha256": "03b2fa9459f46754308d84169c7fea9d6e1fcc8103471e1b2336a67324cdb57c"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 6,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "a932c02b802a00cd3348e05f743732fad440015048486c75bc7add63f5c12b5a",
+        "replay_ids_sha256": "5f798566b0f6d8cde8330c109cc3b01186a0847bcfd0394e74d943e7073e046d"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 7,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "00f56979f531d9031ab2c86c62ce2332e37bac1da140663e5c8255371b4b8cd1",
+        "replay_ids_sha256": "145c9d45fae3786b91e80941ab8985d1aa73bb3818426cca78031e59cbc867e9"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 8,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "64055c75604431e249069c3a98e7b711104bcb9b8626c44462b7cb3679be770a",
+        "replay_ids_sha256": "c76ed39c1830cd1407eb049633eaf1277c7313616687cb8a85bcb6af62f3ba53"
+      },
+      {
+        "batch_size": 100,
+        "batch_index": 9,
+        "general_count": 16,
+        "replay_count": 16,
+        "general_ids_sha256": "a80e0fa68e39f82fbf53d49f76ebc53a87eb613eaece153ff82f52e489894acf",
+        "replay_ids_sha256": "f70302e34075a1b7c8b3df9d7c28f357bc285ce5d562a1ffc57f0cd4be57be59"
+      }
+    ],
+    "replay_supersession_and_current_conflict_check": "PASS",
+    "semantic_disjointness": "NOT_CERTIFIED",
+    "model_teacher_or_tokenizer_checks": "NOT_RUN"
+  },
+  "math": {
+    "dtype": "synthetic numpy FP64",
+    "dimensions": {
+      "key": 9,
+      "batch": 4,
+      "hidden": 7
+    },
+    "M_small_vs_direct_relative_error": 8.084112553688188e-16,
+    "energy_direct_vs_factor_absolute_error": 0.0,
+    "gradient_directional_relative_error": 1.2346734745705135e-11,
+    "toy_single_layer_KKT": [
+      {
+        "eta": 0.0,
+        "nonzero_layers": 1,
+        "KKT": "PASS",
+        "clamp_feasible": true,
+        "toy_edit_strength": 0.9
+      },
+      {
+        "eta": 1.0,
+        "nonzero_layers": 1,
+        "KKT": "PASS",
+        "clamp_feasible": true,
+        "toy_edit_strength": 0.8181818181818181
+      }
+    ],
+    "scope": "algebra and existence of permitted concentrated solutions; no GPU parity, speed, or model quality certification"
+  },
+  "gpu_calls": 0,
+  "new_jobs_submitted": 0,
+  "live_jobs_modified": false
+}

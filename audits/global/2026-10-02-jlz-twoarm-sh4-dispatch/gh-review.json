@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "reviewer": "GH owner, not independent red-agent audit",
+  "method_changes_from_draft": [
+    "BS100x20 overrides historicalx10",
+    "skip standalone B100cap32; shared technical<=6",
+    "trial nonfinite reject/halve now approved"
+  ],
+  "preserved": [
+    "eta0/1 only A/B difference",
+    "L4..8 all eligible",
+    "general16/past<=16",
+    "no quality gate",
+    "calls include final/rechecks",
+    "current||entry",
+    "actual materialized commit/postwrite history",
+    "noCP"
+  ],
+  "identified_risks": [
+    "historical NOT_SUBMITTED/auto_launchfalse explicitly superseded",
+    "inspect_design.py writes evidence.json; only historicalB100x10 checks. Never overwrite evidence; extend task-local20coverage",
+    "cross-host baseline not matched time; require actualW20/2k identity",
+    "finite warning not certification or known-wrong-gradient permission",
+    "direct-R/newreference speed unmeasured",
+    "S4 root deletions preserved"
+  ],
+  "status": "DISPATCH_READY_IMPLEMENTATION_NOT_REVIEWED_OR_EXECUTED"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "source_directory": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-two-arm-design-20261002-v1/plans/global/2026-10-02-jlz-two-arm-v2",
+  "adopted_directory": "plans/global/2026-10-02-jlz-two-arm-v2",
+  "base_main": "0b57e9e4e125f083477faf85ec77375d573bcb55",
+  "FULL_READ": "GH fully read seven supplied files; six original manifest members SHA/size matched, original manifest hash sealed separately",
+  "members": [
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/design-ko.md",
+      "bytes": 22148,
+      "sha256": "4a8ea5d5075d28ef7be38035615c2c8bfb4311ff1df8ee26710edc4924b15642"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/contract-draft.json",
+      "bytes": 8403,
+      "sha256": "e6645d49251194243dfbe32df0c4c8abc6f3f2ef5596c131a96db5f1768efe9f"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/execution-bs100x20.json",
+      "bytes": 2233,
+      "sha256": "02db551f8919a01a7b09e3b48344e6adf1d2fd8706c35ad68c1838556d20b5ce"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/inspect_design.py",
+      "bytes": 9873,
+      "sha256": "d21f0eeac53564c7d99a8584b2a8b9728d241563975c9a1411914f540c7253da"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/evidence.json",
+      "bytes": 6271,
+      "sha256": "576c31422a54afffc8e9fc0e0951859f6bb3185a8db9482661c3cb1db7333ce6"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/user-dispatch-bs100x20-ko.md",
+      "bytes": 11994,
+      "sha256": "086d0ac3730d7a9546c675490190d18ecf4b7c2fccf7402f60759954c601f5da"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-two-arm-v2/handoff-manifest.json",
+      "bytes": 1027,
+      "sha256": "d23be0a1bc1efb009da3ecc53c9a4b26b8d4ed19d11be9bf39b863d06e0c72ec"
+    }
+  ],
+  "original_source_modified": false
+}

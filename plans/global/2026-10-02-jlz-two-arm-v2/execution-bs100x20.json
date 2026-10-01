@@ -1,0 +1,68 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "status": "USER_AUTHORIZED_GH_TO_SH4_IMPLEMENT_PILOT_THEN_MAIN",
+  "user_exact": "이거 간단한 pilot test 돌려보고 바로 bs100, 20 step sequential로 진행해서 baseline과 비교하는 것으로 진행하고 싶다. gh에게 task 전달시키고 sh4에게 진행시키도록 하는 것 user 명령으로 전달한다고 하자",
+  "method_contract": "contract-draft.json",
+  "method_contract_sha256": "e6645d49251194243dfbe32df0c4c8abc6f3f2ef5596c131a96db5f1768efe9f",
+  "scope_override": {
+    "small_pilot": {
+      "batch_size": 4,
+      "batches": 2,
+      "arms": 2,
+      "oracle_cap": 32,
+      "total_science_oracles": 128
+    },
+    "separate_B100_cap32_pilot": false,
+    "shared_B100_technical_oracle_cap": 6,
+    "main": {
+      "batch_size": 100,
+      "sequential_writes": 20,
+      "requests": 2000,
+      "arms": 2,
+      "oracle_cap_per_batch": 120,
+      "total_science_oracles": 4800
+    },
+    "pilot_then_main_without_new_user_approval": true,
+    "quality_or_concentration_gate": false
+  },
+  "baseline_default_not_user_quoted_list": {
+    "primary": "MEMIT-H",
+    "secondary": [
+      "BASE_MEMIT",
+      "BASE_ALPHAEDIT"
+    ],
+    "exact_2k_endpoint_reuse_first": true,
+    "missing_or_incompatible_baseline": "execute matched BS100x20 on SH4",
+    "new_BLUE_or_HJ_factorial": false
+  },
+  "fixed_method_values": {
+    "eta_A": 0.0,
+    "eta_B": 1.0,
+    "beta_general": 0.0625,
+    "beta_replay": 1.0,
+    "clamp": 0.75,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "trial_nonfinite_policy": "reject non-mutating trial, halve step, preserve last accepted within existing cap; initial/final nonfinite or state corruption fatal",
+  "target": {
+    "GH": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "SH4": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "SH4_cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "resources": {
+    "server": "server4",
+    "project_gpu_cap": 2,
+    "per_job_gpu": 1,
+    "host_memory_mib_per_gpu_max": 60416,
+    "existing_job_mutation": false,
+    "save_checkpoints": false
+  },
+  "full_instruction": "user-dispatch-bs100x20-ko.md"
+}

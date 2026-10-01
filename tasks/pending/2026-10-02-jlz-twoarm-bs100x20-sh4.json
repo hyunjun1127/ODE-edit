@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "AUTHORITY_READY_NOT_DISPATCHED",
+  "envelope": "messages/head/2026-10-02-jlz-twoarm-bs100x20-sh4.json",
+  "contract": "plans/global/2026-10-02-jlz-twoarm-bs100x20-execution-v1/contract.json",
+  "input_manifest": "audits/global/2026-10-02-jlz-twoarm-sh4-dispatch/input-manifest.json",
+  "accepted_turn": null,
+  "job_ids": [],
+  "project_gpu_cap": 2,
+  "task_gpu_cap": 2,
+  "save_checkpoints": false,
+  "pilot": {
+    "BS": 4,
+    "batches": 2,
+    "arms": 2,
+    "cap": 32
+  },
+  "main": {
+    "BS": 100,
+    "batches": 20,
+    "arms": 2,
+    "cap": 120
+  },
+  "baselines": "MEMIT-H primary + BASE_MEMIT/BASE_ALPHAEDIT exactW20 reuse first; only missing units run",
+  "requires_reapproval": false
+}

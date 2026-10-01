@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "issued_by": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "user_authority": {
+    "type": "direct user execution handoff",
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "full_text": "plans/global/2026-10-02-jlz-two-arm-v2/user-dispatch-bs100x20-ko.md",
+    "exact_quote": "이거 간단한 pilot test 돌려보고 바로 bs100, 20 step sequential로 진행해서 baseline과 비교하는 것으로 진행하고 싶다. gh에게 task 전달시키고 sh4에게 진행시키도록 하는 것 user 명령으로 전달한다고 하자"
+  },
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "assignment_ko": "구현·CPU검토·작은 pilot 이후 추가승인 없이 A/B 각각 cold W0에서 BS100×20 및 baseline 비교까지 실행한다. 설계검토/ACK만 요청한 것이 아니다. 최신 overlay가 이전 NOT_SUBMITTED/auto_launch=false/BS100x10과 별도 B100 cap32 pilot을 대체한다.",
+  "contract": "plans/global/2026-10-02-jlz-twoarm-bs100x20-execution-v1/contract.json",
+  "input_manifest": "audits/global/2026-10-02-jlz-twoarm-sh4-dispatch/input-manifest.json",
+  "FULL_READ": [
+    "plans/global/2026-10-02-jlz-two-arm-v2/design-ko.md",
+    "plans/global/2026-10-02-jlz-two-arm-v2/contract-draft.json",
+    "plans/global/2026-10-02-jlz-two-arm-v2/execution-bs100x20.json",
+    "plans/global/2026-10-02-jlz-two-arm-v2/inspect_design.py",
+    "plans/global/2026-10-02-jlz-two-arm-v2/evidence.json",
+    "plans/global/2026-10-02-jlz-two-arm-v2/user-dispatch-bs100x20-ko.md",
+    "plans/global/2026-10-02-jlz-two-arm-v2/handoff-manifest.json"
+  ],
+  "source_reference": {
+    "execution": "c91962dd4952eb58a16b6b00dcaa3018be71693f",
+    "read_only_paths": [
+      "project/run_scripts/jlz_sequential/",
+      "project/run_scripts/jlz_pilot/",
+      "project/run_scripts/jlz_ref/",
+      "project/run_scripts/jlz_efficiency/",
+      "project/run_scripts/memit_history_lifelong/"
+    ],
+    "source_not_new_science_PASS": true
+  },
+  "ownership": {
+    "branch": "codex/server4-jlz-twoarm-bs100x20-20261002-v1",
+    "clean_worktree": "dedicated under /data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/worktree or another task-only ignored worktree; actual CWD recorded",
+    "preserve": "Root currently has unrelated deleted/dirty files: never reset/stash/revert/stage/recreate them. Original design worktree/execution sources read-only. Use command/worktree-scoped Git identity.",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_two_arm/",
+      "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/",
+      "audits/servers/server4/jlz-twoarm-bs100x20-20261002-v1/",
+      "plans/updates/server4/jlz-twoarm-bs100x20-20261002-v1/",
+      "tasks/status/jlz-twoarm-bs100x20-20261002-v1/server4.json",
+      "messages/acks/server4/2026-10-02-jlz-twoarm-bs100x20.json",
+      "messages/server-heads/server4/2026-10-02-jlz-twoarm-bs100x20.json",
+      "runs/odeedit_jlz_twoarm_s4_20261002/"
+    ],
+    "allowed_local_write": [
+      "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/",
+      "dedicated worktree local scratch",
+      "dedicated worktree servers/local/session-boundary.env with actual SH4 session/repo/CWD only",
+      "servers/local/gpu-caps.tsv server4 cap2 only if stale, no unrelated field change"
+    ],
+    "own_scope_nonforce_branch_main_push": true,
+    "global_shared_config_modification": false
+  },
+  "inputs_and_transfer": {
+    "policy": "S4 existing exact assets first; offline model, no model download/C0 regeneration. Actual import/source/model/tokenizer/context/C0/order sealed separately from report/main.",
+    "runtime": "Same task-local pinned runtime for A/B, based on executed JLZ source/import evidence. Shared environments/native untouched. Task-only dependency overlay may be assembled from available packages; record differences from reusable baselines, never assume byte equivalence.",
+    "exact_small_pull_authorized": {
+      "source_server1": [
+        "/mnt/raid5/janghj/EasyEdit/data/counterfact/counterfact.json",
+        "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+        "/mnt/raid5/janghj/ODE-edit/local/reviews/ep-tw1-completed-2026-09-15/baselines/1/contexts.json"
+      ],
+      "condition": "only if S4 missing/mismatch; exact SHA/size lock first, destination task inputs, SH4 sole pull/source KEEP/no overwrite/delete. No model or heavy teacher/CP transfer.",
+      "general_data_SHA": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+      "stream_SHA": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "contexts_SHA": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    "completed_baseline_raw_read_authorized": {
+      "source_server3": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/",
+      "scope": "only completed54007 lock/input/source receipts and W0/W20 first2000 observer/raw+compact identity for comparison; not whole10k transfer or live HJ/GSS",
+      "destination": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/inputs/memit-h-baseline/",
+      "method": "derive exact regular-file SHA/size allowlist before SH4 sole pull; sourceKEEP. Local42657/42658 W20 raw first. If inaccessible record missing and run necessary baseline locally.",
+      "no_other_server_job_queries_or_mutations": true
+    }
+  },
+  "slurm": {
+    "submission_permission": "allowed",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "per_job_gpu": 1,
+    "cpu": 8,
+    "memory_mib_max": 60416,
+    "export": "NONE",
+    "requeue": 0,
+    "wall_policy": "SH4 chooses finite wall from pilot/token work and actual partition, ceiling7days; not ETA/scientific budget. Record requested vs measured; no science call changes to fill wall.",
+    "held_inspection": [
+      "exact owner",
+      "jobname",
+      "full argv",
+      "immutable source/archive/lock",
+      "GPU/CPU/memory",
+      "server4/node/partition",
+      "wall",
+      "export",
+      "requeue",
+      "dependencies",
+      "throttle and aggregatecap"
+    ],
+    "pending": "valid registered dependency/throttle graph allowed; count all simultaneous admitted capacity, no unrelated cancel/hold/hotpatch",
+    "GPU_job_prefix": "odeedit_jlz_twoarm_s4",
+    "CPU_collector_prefix": "odeedit_jlz_twoarm_collect_s4",
+    "CPU_collector": {
+      "gpu": 0,
+      "cpu": 8,
+      "memory_mib_max": 24576,
+      "wall_hours": 4,
+      "dependency": "afterany all registered science/baseline jobs of this task"
+    },
+    "old_job_permission": "none"
+  },
+  "review_and_reporting": {
+    "preflight": "bounded source/CPU review: normalization/teachers/alltoken crosslayer VJP/dX/FP32 materialization/Omega/M/prox/callbudget/noCP/RAMtransaction/reference exclusions/20batch coverage/leakage/resources/sourceclosure",
+    "actual_validation": "authorized small pilot+shared<=6 B100 samecandidate only; no prolonged numeric gate campaign. Finite threshold exceedance keeps original verdict/warning and continues. Confirmed math/input/state/commit corruption blocks.",
+    "baseline_small_pilot": "same first8 BS4x2 small functional run for each named baseline to be used, native stopping/Adam/write/history preserved. Exact prior same8 evidence may be reused; disclose reuse. Separate baseline calls/cost, not JLZ128cap.",
+    "postrun": "collector+separate CPU reducer verify raw NLL/TF/denominators/40 main commits/state/history/reference membership/call ledger/noCP/reuse-new accounting and paired baseline limits",
+    "independent_bounded_reviewer": "Use bounded existing blue implementation/red source-audit roles for this task, no model selection override. Clearly distinguish owner audit from actual independent reviewer; no added science/quality gate.",
+    "receipts": "M0 FULL_READ/source/missing implementation/baseline matrix/resource plan; exact submitted jobs/dependencies; actualinitial or resourcepending; raw-free terminal report/CSV/figures/manifest",
+    "completion_report": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/report-ko.md",
+    "audit": "audits/servers/server4/jlz-twoarm-bs100x20-20261002-v1/",
+    "task_status": "tasks/status/jlz-twoarm-bs100x20-20261002-v1/server4.json",
+    "ack": "messages/acks/server4/2026-10-02-jlz-twoarm-bs100x20.json",
+    "message": "messages/server-heads/server4/2026-10-02-jlz-twoarm-bs100x20.json",
+    "runs": "runs/odeedit_jlz_twoarm_s4_20261002/",
+    "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED: same-server experiment; raw/prompt/teacher/tensor/fullstdout local. Compact source/counts/manifest/SHA via Git only. Exact completed-baseline input pull not blanket broadcast.",
+    "no_checkpoint": true
+  },
+  "stop_and_delivery": {
+    "first_reply": "nonce owner ACK + RECEIVED/IMPLEMENTING_NOT_SUBMITTED; source available/missing+scope, then continue without GH ACK or reapproval wait",
+    "dispatch": "new task idle turn/start only, no unrelated steer",
+    "monitoring": "bounded SH4 observe through actual representative MAIN B1 final commit +all5 history+observer restore+B2 own entry, not merely pilot PASS; then pause agent polling",
+    "resource_pause": "if main graph all registered/inspected/released and verified resource shortage prevents starting, handoff pending and pause with initial NOT_OBSERVED; Reason=None/dependency/throttle alone not proof",
+    "after_pause": "monitoring_active=false/automatic_resume=false; no polling/callback/auto-resume; registered runner/collector continue",
+    "early_completion": "if all scope ends before initial handoff finish CPU report/main then STOP",
+    "other_tasks": "SH1 56684/efficiency, S3 tasks and prior S4 jobs/sources/monitoring unchanged; previous S4 migration STOP not global ban on this new task"
+  }
+}
