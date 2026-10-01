@@ -184,7 +184,8 @@
     "requeue": 0,
     "hour_budget": null,
     "wall_is_not_eta": true,
-    "admission": "count existing56684 and other owner allocations/admitted pending resource-only; if no slot queue afterany exact cap-occupier or normal pending without simultaneous cap violation; do not cancel/hold/change existing jobs; no extra GPU sharing",
+    "admission": "USER parallel-cap2 override: prepare and submit efficiency1GPU alongside existing56684 1GPU as soon as its own implementation/preflight ready; do NOT await56684 completion or its B1->B2 initial gate. If those are the only two admitted slots, dependency=null and physical shortage uses normal scheduler PENDING. Count other owner allocations/admitted pending resource-only and avoid any real cap excess. Preserve existing jobs; never share the same GPU between jobs.",
+    "parallel_override": "audits/global/2026-10-01-jlz-efficiency-sh1-dispatch/parallel-cap2-override.json",
     "storage_initial_reserve_gib": 8,
     "storage_scope": "small metrics/timing/source/log only; actual preflight before submit; no model/reference replication"
   },

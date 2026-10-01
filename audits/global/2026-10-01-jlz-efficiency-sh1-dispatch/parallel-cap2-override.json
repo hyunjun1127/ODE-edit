@@ -1,0 +1,26 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-PARALLEL-CAP2-20261001-R1",
+  "parent": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
+  "user_exact": "gpu cap 2이니 같이 올리라고 해",
+  "authority": "사용자 최신 명시 지시",
+  "target_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "repository": "hyunjun1127/ODE-edit",
+  "project_gpu_cap": 2,
+  "existing_JLZ_job": 56684,
+  "existing_task_gpu": 1,
+  "efficiency_task_gpu": 1,
+  "effective_policy": "구현과 필수 preflight가 준비되는 즉시 효율화 GPU job을 기존56684와 병행 등록·release한다. 기존job 완료 또는 B1→B2 초기확인을 효율화 제출 선행조건으로 두지 않는다.",
+  "dependency": "기존56684 한slot+신규효율화 한slot이면 dependency=null. 물리적 자원 부족이면 정상 scheduler PENDING으로 등록한다. 다른 project allocation/admitted pending으로 cap2가 이미차면 그 실제 자원초과만 피하는 exact dependency/queue제어를 기록하며 cap을넘지 않는다.",
+  "pending_efficiency_only": "이미 효율화 자체job을 불필요한 afterany56684로 대기등록했다면 owner/source/PENDING/자원검산후 그 dependency만 제거할 권한. 중복submit0. 기존56684 또는 타job에 cancel/hold/requeue/resource변경0.",
+  "unchanged": [
+    "기존56684 source/contract/실행/초기 B1→B2 관찰 의무",
+    "새 benchmark fixedbudget·수치 qualification·noCP·taskGPU1",
+    "server3 조회/변경0",
+    "전체1000/10000 새chain0"
+  ],
+  "resource": "각GPU1/CPU8/131072MiB<=183296MiB/exportNONE/Requeue0, pairedreference/candidate는새job의동일GPU; 두job간GPU공유0",
+  "owner_reply": "이번 nonce 수신ACK와 병행 계획 또는 실제 신규job/dependency 상태를 구분해 회신. 미구현/미제출을 실제동시실행으로 보고하지 않는다.",
+  "prior_envelope": "messages/head/2026-10-01-jlz-efficiency-sh1.md",
+  "scope": "새 운영상 병행 지시만 우선하며 나머지 parentenvelope 유지",
+  "delivery": "PENDING"
+}
