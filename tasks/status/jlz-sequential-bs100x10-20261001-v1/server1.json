@@ -1,0 +1,20 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "gpu_job": 56684,
+  "collector_job": 56685,
+  "source": "c91962dd4952eb58a16b6b00dcaa3018be71693f",
+  "lock_sha256": "3fb6601ac22352f214c17d3b0a3ebcf495c4897fba0e9523a9afa36bf8a396cf",
+  "initial_sha256": "1b57c34483872c64845e84e678a2cb26cf1af60e1fc1d22ae494ef1a6cf13549",
+  "initial": "B1_COMMIT_5_APPEND_OBSERVER_B2_ENTRY",
+  "B1_solver": "BUDGET_STOP",
+  "B1_science_calls": 120,
+  "B1_preflight_calls_separate": 3,
+  "history_appends": 5,
+  "B1_post_B2_entry_exact": true,
+  "ten_batches_complete": false,
+  "scientific_promotion": false,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "next_monitor": "EXPLICIT_USER_RECALL_ONLY"
+}
