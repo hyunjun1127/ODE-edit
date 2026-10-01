@@ -1,7 +1,12 @@
 {
   "instruction_id": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-20261001-R1",
   "parallel_override": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-PARALLEL-CAP2-20261001-R1",
-  "status": "RECORD_ONLY_RELEASED_INITIAL_NOT_YET_OBSERVED",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "record_only_initial_UTC": "2026-10-01T13:53:01Z",
+  "record_only_initial_sha256": "3036d709b33a4be15448a73aae598cf0338fac7ca56b254e20a211f33513ca26",
+  "record_only_observed_B100_oracles": 3,
+  "record_only_initial_scope": "warmup2 finite/identity/weight + warning preserved + first measured REF complete; not terminal or certification",
+  "record_only_terminal_review": "NOT_PERFORMED_AWAITING_USER_RECALL",
   "record_only_instruction": "ODEEDIT-GH-SH1-JLZ-EFFICIENCY-NUMERICAL-RECORD-ONLY-20261001-R1",
   "record_only_gpu_job": 56771,
   "record_only_collector_job": 56772,
