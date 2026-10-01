@@ -27,7 +27,8 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--attempt',default='attempt-r1');parser.add_argument('--reuse',type=Path);args=parser.parse_args()
     assert '/' not in args.attempt
     design=ROOT/'plans/global/2026-10-01-jlz-efficiency-execution-v1';original=ROOT/'plans/global/2026-10-01-jlz-efficiency-v1'
-    assert sha(design/'contract.json')=='86384ea705c5099a6efa19e876060e2a423ea2dfaecc9aee6073281c32566041'
+    # USER1390b3b9 changes only resource admission + parallel_override path.
+    assert sha(design/'contract.json')=='4485c11ffc9b0dbdf04dc5d672e284254fc15a37bc469271aa0166e8ffb48772'
     manifest=ROOT/'audits/global/2026-10-01-jlz-efficiency-sh1-dispatch/input-manifest.json'
     for row in json.loads(manifest.read_text())['members']:
         p=original/row['name'];assert p.stat().st_size==row['size'] and sha(p)==row['sha256']

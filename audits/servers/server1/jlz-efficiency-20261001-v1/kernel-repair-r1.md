@@ -49,3 +49,10 @@ Same-candidate B100 reference/candidate는 새 job 동일 GPU에서 평가한다
 이전56684의 pause 유지, admission resource-only 외 조회0. 기존 job cancel/requeue0.
 이번 초기 인계는 kernels.json 저장 및 B100 paired warmup2 PASS 증거까지다.
 NoCP / exact_resume=NOT_AVAILABLE / NO_BROADCAST_NOT_REQUIRED.
+
+추가 CPU binder preflight: 기존 hardcoded contract SHA 검사가 제출 전에 중단했다.
+git diff로 1390b3b9의 resources.admission/parallel_override 두 필드만 바뀌었음을 확인했다.
+최신 사용자 병행 정책 hash4485c11ffc9b0dbdf04dc5d672e284254fc15a37bc469271aa0166e8ffb48772로
+결속했다. 수식/숫자예산/허용치 변경0, GPU cost0, 아직 output/lock 생성 전 실패였다.
+독립 red focused production regression3 PASS 및 PRE_SUBMIT_CPU_SOURCE_PASS_WITH_WARNINGS:
+과거 asset/accounting은 owner receipt 재사용 범위, 신규 비용과 재사용116을 중복 합산하지 않는다.
