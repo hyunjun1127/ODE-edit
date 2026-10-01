@@ -22,5 +22,12 @@
   "owner_reply": "이번 nonce 수신ACK와 병행 계획 또는 실제 신규job/dependency 상태를 구분해 회신. 미구현/미제출을 실제동시실행으로 보고하지 않는다.",
   "prior_envelope": "messages/head/2026-10-01-jlz-efficiency-sh1.md",
   "scope": "새 운영상 병행 지시만 우선하며 나머지 parentenvelope 유지",
-  "delivery": "PENDING"
+  "delivery": "ACK_RECEIVED",
+  "accepted_turn": "01a0f6f6-6f38-7aa0-98a4-5baf0dc40892",
+  "transport": "app-server direct related turn/steer; same-stream agentMessage ACK",
+  "authority_commit": "1390b3b98a0b377cdcd3c2389f0205b957a367ee",
+  "SH1_ack": "효율화 구현·CPU 검사 완료 후 최종 제출 검토 중, 아직 미제출. 준비되는 즉시 기존56684와 독립 dependency=null 제출·release. 기존job/B1→B2 관찰 의무 유지.",
+  "status_at_ack": "FINAL_SUBMISSION_REVIEW_NOT_SUBMITTED",
+  "new_job_ids": [],
+  "GH_claim_boundary": "SH1 ownership ACK and reported preparation only; no scheduler/GPU/result inspection or actual parallel allocation claim"
 }
