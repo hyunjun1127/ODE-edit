@@ -1,0 +1,79 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH3-MEMIT-HJ-1K-COMPLETED-REVIEW-20261002-R1",
+  "parent_instruction": "ODEEDIT-GH-SH3-MEMIT-HJ-V2-20260930-R1",
+  "user_exact": "odeedit_memit_hj_s3   1k 까지 실험 끝냈으니 자세히 리뷰시키자.",
+  "user_publication_override": "main에 결과물 올리라고 해",
+  "target": {
+    "role": "server-head",
+    "server": "server3",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": "같은 MEMIT-HJ task의 명시적 완료구간 리뷰 recall이다. 기존 저장자료에 기반한 CPU 상세 검산·한국어 보고·own-scope nonforce main 게시·GH 보고까지 진행한다. 실제 과학 재실행/추가 평가/수리 제출 권한은 아니다.",
+  "read_first": [
+    "본 envelope 전체와 messages/head/2026-09-30-memit-hj-sh3.md 및 all-implementation-dependencies 추가지시",
+    "plans/global/2026-09-30-memit-hj-experiment-design-v1/{design-ko.md,contract.json,cells.csv,design-checks.json} 및 authoritative method/source; exact prior FULL_READ는 SHA 동일 확인 후 재사용 가능",
+    "audits/servers/server3/memit-hj-20260930-v2/submission-r2.json 및 actual-initial-handoff.json",
+    "experiment-reports/servers/server3/memit-hj-20260930-v2/{initial-handoff-ko.md,implementation-audit-ko.md,submission-ko.md}",
+    "실제 frozen execution source/import/lock, 단계·cell mapping, 각 완료구간 commit/observer/terminal/raw/비용 자료"
+  ],
+  "known_lineage": {
+    "P": {"job": 56007, "source": "a8126eb65cbe9a1814b381007798d857003555ed", "lock": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5"},
+    "successors": {"A": 56033, "B": 56034, "C": 56035, "D": 56036, "CPU": 56037},
+    "successor_source": "f1d7a995460e2fce8fb10134f723ba4680303a31",
+    "successor_lock": "023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1",
+    "raw_root": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/",
+    "resource_cap": 1,
+    "current_state": "이번 recall에서 정확한 완료 1k 범위를 확인; 모든 arm/28cell 완료로 미리 가정하지 않음"
+  },
+  "review_boundary": [
+    "정확 위6job의 accounting/state를 한 번 확인하고 submission/source/owner/argv로 결속한다. 실제 최신 replacement가 있으면 자기 task receipt로 정확 lineage를 먼저 확인한다. broad job 검색/다른 task 조회0.",
+    "첫 고정 snapshot에서 cell별 완료 endpoint와 1k 자료를 봉인하고 그 범위를 상세 리뷰한다. 실행 중인 job의 다음 endpoint/terminal을 기다리거나 반복 polling하지 않는다.",
+    "BS100 main의 첫1k=10batch와 BS10 writer/history 진단의 추가1k=100step을 구분한다. anchor0/1000/5000 및 history anchor의 continuation ID가 서로 다른 경우 동일 first1k로 섞지 않는다.",
+    "main000/100/010/001/110/101/011/111 및 writer12/history8에 대해 이번1k 관련 coverage 표를 남긴다. 실제 완료만 집계하고 pending/running/blocked/not-fired/alias/미도달을 구분한다. 미완료를 실패/0점으로 대입하지 않는다.",
+    "완료된 immutable commit/평가 파일만 읽고 path/size/SHA/관측시각을 기록한다. 현재 쓰는 임시파일/미완결tail은 제외한다. rolling CP가 이미 삭제됐으면 tombstone/기존receipt로 사실만 기록하고 복원·재생성·보존정책 변경0.",
+    "등록된 후속실험/DAG/CPUcollector/모니터링 정책은 변경하지 않는다. 이번 회수는 분석을 위한 한정 관찰이며 agent의 장기 모니터링 재개가 아니다."
+  ],
+  "required_analysis": [
+    "독립 CPU raw reducer로 case/request/order/prompt/target/token identity·finite·ties·cardinality·저장 집계를 검산한다. 동일1k endpoint R1000/P2000/N10000을 우선 표로 내고, 없는 평가를 current batch나 다른 endpoint에서 대체하지 않는다.",
+    "RS/PS/NS NLL preference 외 rewrite/rephrase/neighborhood TF token-micro, prompt-macro, strict accuracy와 true/new/desired NLL 평균·분위·tail을 보고한다. RS/PS desired=new, NS desired=true. TF를 자유생성 정확도로 부르지 않는다.",
+    "비교 가능한 동일entry·동일요청·동일BS의 matched pair별 차이와 request ID paired lost/gained/retained를 계산한다. W0-correct neighborhood retention, at-write→1k, first100/first500·birthcohort·active/superseded를 저장자료가 허용하는 범위에서 분리한다. 원 bootstrap/CI 정의가 있으면 그대로 재사용; 없으면 임의 유의성 threshold를 추가하지 않는다.",
+    "BS10 W0 writer4의 divisor/joint/frozen-upper/energy-matched 결과를 별도 비교하고 main BS100과 혼합하지 않는다. 1k-anchor에서 이어지는 writer/history 진단은 실제 완료된 것만 별도 표로 정리한다. past400 R400/P800/N4000은 continuation1k와 분모를 분리하고 W0 no-past는 NA로 둔다.",
+    "frozen source와 저장 telemetry를 대조하여 fulljoint 행렬순서·상위 key/Gram 재측정·L8 residual·energy matching·direct/fallback solve·층별 실제 write를 확인한다. capacity trace, energy, functional contribution을 같은 개념으로 묶지 않는다. 새 GPU 검증을 만들지 않는다.",
+    "commit별 W/H/context/RNG/ledger 연결·post-all-layer history exactly-once·observer 비변이·fork alias와 parent 공유prefix·refresh trigger/reference/reset/membership를 확인한다. 논리8arm과 실제실행/NOT_FIRED alias를 중복 집계하지 않는다.",
+    "T0a/T0b 교정과 원 precision 한계, SPG call cap/실제 반환점 residual/수락6점 plateau·수렴상태·fallback·차단을 분리한다. Z가 미실행이면 calibration/비용·의존성 사유를 기록한다. CPU PASS를 실제 model PASS로 확대하지 않고 음성 결과도 빠짐없이 보고한다.",
+    "사용자 지시의 다른 JLZ record-only 정책을 MEMIT-HJ에 소급 적용하지 않는다. 이 task의 실제 gate/waiver/source만 따른다. 리뷰 중 수치 미달을 발견해도 원 runtime/threshold/job을 수정하거나 rerun하지 않는다.",
+    "실제 native z/Adam/loss/solve/key/Gram/factor/SPG oracle·accepted/rejected·token F/B/history/refresh/observer/CP/RAMcopy 비용을 집계한다. parent allocation과 프로그램/중첩 timer를 구분하고 P공통준비/공유prefix/실패/1k구간 비용을 중복 합산하지 않는다. RUNNING job elapsed는 완료1k 전용 비용으로 쓰지 않고 NOT_SEPARATED면 그대로 기록한다.",
+    "실행source/config/data/orderedroot/model/hparams/precision/import와 analysis source를 분리한다. 대상raw·평가·checkpoint 상태·manifest inventory 및 재현명령을 남긴다. 이미 결속된 거대 model/C0 전체를 이 리뷰 때문에 재해시하지 않는다.",
+    "과거 MEMIT-H54007 및 BASE_MEMIT/AlphaEdit/BLUE와의 비교는 동일1k 입력/평가 증거가 이미 있을 때만 역사 참고표로 분리한다. 새로운 baseline/remote raw pull/GPU평가를 추가하지 않는다. 같은실험의 matched 대조가 우선이다."
+  ],
+  "implementation_and_writes": {
+    "branch": "codex/server3-memit-hj-1k-review-20261002-v1 또는 동일권한 전용 clean branch",
+    "allowed_paths": [
+      "project/run_scripts/memit_hj/review_1k_completed.py",
+      "project/run_scripts/memit_hj/test_review_1k_completed.py",
+      "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/",
+      "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/",
+      "messages/acks/server3/2026-10-02-memit-hj-1k-review.md",
+      "messages/server-heads/server3/2026-10-02-memit-hj-1k-review.md",
+      "tasks/status/memit-hj-20260930-v2/server3-1k-review-20261002.json",
+      "runs/odeedit_memit_hj_s3_20260930/review-1k-20261002-v1/",
+      "local/memit-hj/20260930-v2/review-1k-20261002-v1/ 및 전용worktree ignored local"
+    ],
+    "source_limits": "새 CPU 분석기/tests만 추가. 기존 production runner/collector/원source/원raw/평가정의 변경0. 원root·다른branch dirty/reset/stash/revert/stage0; identity는 command/worktree 한정.",
+    "publication": "사용자가 main에 결과물을 올리라고 추가 명시했다. 명시 scope의 상세 보고·CSV·그림·manifest·CPU재현코드를 검산 후 ownbranch 및 main에 nonforce push하고 remote exact SHA 확인을 완료한다. 보고만 만들고 branch-only 게시로 끝내지 않는다. 최신 타SH/GH 변경을 보존하고 conflict면 보고. Raw/prompt/tensor/fullstdout Git0.",
+    "report": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md"
+  },
+  "resources_and_permissions": {
+    "new_GPU_model_forward_evaluator": "금지",
+    "slurm_submission_or_mutation": "금지; cancel/hold/release/requeue/dependency 수정/CPUcollector교체도0",
+    "existing_server3_cap": 1,
+    "review_GPU": 0,
+    "CPU": "local CPU 분석, 최대8threads/32GiB 목표; 현재 실행과 자원충돌을 피하도록 streaming/bounded reducer 사용. 새 Slurm CPUjob도 제출하지 않는다.",
+    "checkpoint_write_delete_transfer": "금지; 기존 CP/rolling 정책/원자료 보존",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; S3 local 자료 분석, compact Git 보고만 게시"
+  },
+  "review_quality": "원 집계와 분리된 CPU reducer/선택된 source-backed 검산, synthetic 회귀, 표·링크·그림·manifest/hash 확인을 수행한다. 독립 bounded reviewer를 사용하면 작업과 결과를 구분하고 미사용이면 owner audit로 명시한다. 확인 불가를 추가 GPU 선행조건으로 만들지 않고 NOT_AVAILABLE/NOT_TESTED로 남긴다.",
+  "reporting_and_stop": "첫 nonce 담당 ACK/FULL_READ/완료cell coverage 후 첫 actual1k 표를 중간보고한다. 상세 한국어 사실보고/main 게시와 main SHA/report SHA·원job mapping·검증범위·비용을 GH에 전달한 뒤 REVIEW_COMPLETE_STOP. SH는 사실·수치·기계적 계약판정만, 과학해석은 GH가 별도 담당. 완료리뷰 이후 job polling/자동recall/후속실험0. GH ACK 또는 재승인을 기다리지 않고 리뷰를 계속한다."
+}
