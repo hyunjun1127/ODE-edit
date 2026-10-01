@@ -5,9 +5,9 @@
 
 ## 범위와 상태
 
-- 상태: `REGISTERED_RELEASED_INITIAL_NOT_OBSERVED`
+- 상태: `INITIAL_GATE_PASS_MONITORING_STOPPED`
 - 실제 job mapping: `{'collector': '56962', 'main-A': '56960', 'main-B': '56961', 'pilot-A': '56958', 'pilot-B': '56959', 'prep': '56957'}`
-- Actual GPU 검증: `INITIAL_NOT_OBSERVED`
+- Actual GPU 검증: `REPRESENTATIVE_MAIN_B1_FINAL_COMMIT_5_HISTORY_OBSERVER_RESTORE_B2_OWN_ENTRY`
 
 공통 W0 teacher/기술 준비 뒤 BS4×2 A/B pilot과 BS100×20 A/B main을 각각 두 독립 1GPU lane으로 구성한다.
 각 GPU job은 8CPU/60416MiB, project/task cap2, exportNONE/Requeue0이다. 과거 모든 task·job은 불변이다.
@@ -50,7 +50,7 @@ host 요청은59GiB 이하, disk reserve20GiB, finite wall7days는 ETA나 과학
 등록된 runner/collector만 자연 진행하며 이후 상세 리뷰는 사용자 recall에서 수행한다.
 
 NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-baseline 파일 이외 대형 전송0.
-자기검산과 독립 red CPU/source 감사를 사용했으며 actual GPU 감사는 아직 주장하지 않는다.
+자기검산과 독립 red CPU/source 감사를 사용했다. 별도 red GPU 감사는 수행하지 않았으며 actual 범위는 상태 receipt에 한정한다.
 
 ## 재현
 
@@ -58,6 +58,20 @@ NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-bas
 
 실행은 전용 immutable local attempt의 config/lock/archive/launcher와 제출 receipt를 따른다.
 원 실행/평가 source는 수정하지 않고 새 task-local namespace만 구현했다.
+
+## 대표 MAIN B1 독립 집계 / 초기 인계
+
+대표 `main-A` / job `56960`. B1 실제 commit/5history/observer 복원과 B2 own entry만 확인했다. 두20batch 완료가 아니다.
+
+| 패널 | 성공/분모 | TF token-micro | TF strict | true NLL | new NLL |
+|---|---:|---:|---:|---:|---:|
+| N | 887/1000 | 0.194175 | 171/1000 | 5.462566 | 11.537661 |
+| P | 136/200 | 0.346535 | 68/200 | 7.002502 | 3.889782 |
+| R | 100/100 | 1.000000 | 100/100 | 12.691668 | 0.003230 |
+
+R/P 성공은 new NLL<true NLL, N은 true NLL<new NLL이며 tie는 실패다. TF는 원하는 completion의 teacher-forced accuracy이며 자유생성 정확도가 아니다.
+
+초기 인계 이후 monitoring_active=false/automatic_resume=false. 이미 등록된 두 main/collector만 자연 진행하며 완료 상세리뷰는 사용자 recall에서 수행한다.
 
 ## 준비 실패와 최소 수리
 

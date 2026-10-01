@@ -1,5 +1,6 @@
 """Raw-free owner preparation/submission receipts, no scheduler or model calls."""
 import argparse
+import csv
 import datetime
 import json
 from pathlib import Path
@@ -66,7 +67,7 @@ def main():
                   'shared config+execution-lock matching stage join',
                   'cap helper exit4 distinguished; expanded array IDs; exact held dependency/argv',
                   'cross diagnostic token/wall counters; bounded same-run incumbent trace'],
-           limitations=['runtime actual checks remain pending','nonselected pointer/version guard, not whole-model byte scan',
+           limitations=['actual validation is limited to explicitly recorded job evidence; broad numerical certification NOT_ESTABLISHED','nonselected pointer/version guard, not whole-model byte scan',
                         'MEMIT-H raw lacks state field; immutable B020 source+commit bridge only',
                         'cross-runtime baseline quality, no matched speed claim']))
     write(audit/'inputs-summary.json',dict(inputs=config['inputs'],reference_pool=config['reference_pool'],
@@ -125,7 +126,7 @@ host 요청은59GiB 이하, disk reserve20GiB, finite wall7days는 ETA나 과학
 등록된 runner/collector만 자연 진행하며 이후 상세 리뷰는 사용자 recall에서 수행한다.
 
 NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-baseline 파일 이외 대형 전송0.
-자기검산과 독립 red CPU/source 감사를 사용했으며 actual GPU 감사는 아직 주장하지 않는다.
+자기검산과 독립 red CPU/source 감사를 사용했다. 별도 red GPU 감사는 수행하지 않았으며 actual 범위는 상태 receipt에 한정한다.
 
 ## 재현
 
@@ -135,6 +136,20 @@ NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-bas
 원 실행/평가 source는 수정하지 않고 새 task-local namespace만 구현했다.
 '''
     report.mkdir(parents=True,exist_ok=True)
+    if status.get('independent_CPU_metrics'):
+        text+='\n## 대표 MAIN B1 독립 집계 / 초기 인계\n\n'
+        text+=f"대표 `{status['representative']}` / job `{status['job']}`. B1 실제 commit/5history/observer 복원과 B2 own entry만 확인했다. 두20batch 완료가 아니다.\n\n"
+        text+='| 패널 | 성공/분모 | TF token-micro | TF strict | true NLL | new NLL |\n|---|---:|---:|---:|---:|---:|\n'
+        compact=[]
+        for kind,value in status['independent_CPU_metrics'].items():
+            compact.append(dict(scope=status['representative']+' B1',kind=kind,**value))
+            text+=f"| {kind} | {value['numerator']}/{value['denominator']} | {value['token_micro']:.6f} | {value['strict_numerator']}/{value['strict_denominator']} | {value['true_nll']:.6f} | {value['new_nll']:.6f} |\n"
+        text+='\nR/P 성공은 new NLL<true NLL, N은 true NLL<new NLL이며 tie는 실패다. TF는 원하는 completion의 teacher-forced accuracy이며 자유생성 정확도가 아니다.\n'
+        text+='\n초기 인계 이후 monitoring_active=false/automatic_resume=false. 이미 등록된 두 main/collector만 자연 진행하며 완료 상세리뷰는 사용자 recall에서 수행한다.\n'
+        for arm,pilot in status.get('independent_pilot_review',{}).items():
+            for kind,value in pilot['metrics'].items():compact.append(dict(scope='pilot-'+arm+' B2: R/Pfirst8 Ncurrent4',kind=kind,**value))
+        with (report/'initial-metrics.csv').open('w',newline='') as stream:
+            writer=csv.DictWriter(stream,fieldnames=list(compact[0]));writer.writeheader();writer.writerows(compact)
     if status.get('prior_attempt'):
         text+='\n## 준비 실패와 최소 수리\n\n원 prep56918은 native fitting 전 source inventory의 가상 상대 `_ops.py` 경로 오류로 실패했다. '
         text+='종료 inventory에도 동일 오류가 발생해 terminal은 미저장이나 첫 실패/restore/stdout/stderr는 보존했다. '

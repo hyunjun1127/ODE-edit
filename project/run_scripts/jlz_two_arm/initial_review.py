@@ -30,6 +30,20 @@ def review(root):
         counts=validate_ledger([first],ids,stage='main',schedule=config['schedules']['main'])
         rows=extract_rows(observation);validate_rows(rows,{r['case_id']:r for r in records},{k:ids[:100] for k in ('R','P','N')})
         metrics=reduce_rows(rows)
+        pilots={}
+        for pilot_arm in ('A','B'):
+            pd=root/('pilot-'+pilot_arm);terminal=json.loads((pd/'terminal.json').read_text())
+            require(terminal['status']=='COMPLETED' and terminal['config_sha256']==configsha and
+                    terminal['execution_lock_sha256']==locksha,'INITIAL_PILOT_IDENTITY')
+            ledger=json.loads((pd/'ledger.json').read_text())
+            pilot_counts=validate_ledger(ledger,ids,stage='pilot',schedule=config['schedules']['pilot'])
+            require(pilot_counts['commits']==2 and pilot_counts['history_appends']==10,'INITIAL_PILOT_COMPLETE')
+            po=json.loads((pd/'W02-observations.json').read_text());pr=extract_rows(po)
+            require(po['state']==ledger[-1]['post'],'INITIAL_PILOT_OBSERVER_STATE')
+            validate_rows(pr,{r['case_id']:r for r in records},{'R':ids[:8],'P':ids[:8],'N':ids[4:8]})
+            pilots[pilot_arm]=dict(counts=pilot_counts,metrics=reduce_rows(pr),
+                 panel='R/P first8; N current second4 only',terminal=member(pd/'terminal.json'),
+                 GPU_peak_bytes=terminal['peak_gpu_bytes'])
         result=dict(state='INITIAL_GATE_PASS_MONITORING_STOPPED',
            recorded_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
            representative='main-'+arm,job=sub['jobs']['main-'+arm],job_ids=sub['jobs'],
@@ -38,6 +52,7 @@ def review(root):
            initial_receipt=member(path),B1_receipt=member(firstpath),B2_entry_receipt=member(folder/'B002-entry.json'),
            observer_receipt=member(folder/'W01-observations.json'),independent_CPU_metrics=metrics,
            budget_and_history=counts,checkpoint_saved=False,exact_resume='NOT_AVAILABLE',
+           independent_pilot_review=pilots,
            numerical_certification='NOT_ESTABLISHED',monitoring_active=False,automatic_resume=False,
            already_registered_runner_collector_continue=True,new_scientific_submission=False)
         write(root/'handoff.json',result)
