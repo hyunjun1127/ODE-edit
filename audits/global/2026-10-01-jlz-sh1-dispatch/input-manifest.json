@@ -1,0 +1,246 @@
+{
+  "handoff_nonce": "ODEEDIT-JLZ-BS100X10-TO-GH-20261001-R1",
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "source_root": "/mnt/raid5/janghj/ODE-edit",
+  "source_original_state": "untracked research source; GH adopted exact subset in independent clean worktree, original bytes unchanged",
+  "members": [
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-10-01-jlz-native-pilot-v2/contract.json",
+      "path": "plans/global/2026-10-01-jlz-native-pilot-v2/contract.json",
+      "bytes": 2333,
+      "sha256": "dad62e91066d80769bb7906a61bd988a8ec91f28bf9cd82f49cf581d84319aa5",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-10-01-jlz-native-pilot-v2/design-ko.md",
+      "path": "plans/global/2026-10-01-jlz-native-pilot-v2/design-ko.md",
+      "bytes": 6913,
+      "sha256": "a8118f20be85c1965cc3e8a880d1c7059eb43d5b374a1409d1a71a6aa0d2ed1d",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_smoke/tiny_llama.py",
+      "path": "project/run_scripts/jlz_smoke/tiny_llama.py",
+      "bytes": 20699,
+      "sha256": "e1b8dcffacdcd11fa59d85a0dfd850391fb2ee9d033e16585b6e959f5d495dfb",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_smoke/native_problem.py",
+      "path": "project/run_scripts/jlz_smoke/native_problem.py",
+      "bytes": 1507,
+      "sha256": "d5e6a7ad5817c0aadc6750053d2f7e06129e228dc9c53231a9f756227b6aa9c2",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_smoke/native_writer.py",
+      "path": "project/run_scripts/jlz_smoke/native_writer.py",
+      "bytes": 3029,
+      "sha256": "7369ec33ca88d5ad17b8fa731778ce1845722856f2a53372bdfed08a0db20cee",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_smoke/run.py",
+      "path": "project/run_scripts/jlz_smoke/run.py",
+      "bytes": 31634,
+      "sha256": "8f155a23770460b930549984e4fa715b517ae4921131e3eda24bd850a54a3f30",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_smoke/__init__.py",
+      "path": "project/run_scripts/jlz_smoke/__init__.py",
+      "bytes": 64,
+      "sha256": "472804aab3db46b9342c6412bca09c8ff9c9160d13a6efc3023010fb9e6cd9cf",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/problem.py",
+      "path": "project/run_scripts/jlz_ref/problem.py",
+      "bytes": 7114,
+      "sha256": "d0de73ea8f1236f372d9e07eb96a555982b175acfd88af48d8708c7d1998225e",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/test_jlz_ref.py",
+      "path": "project/run_scripts/jlz_ref/test_jlz_ref.py",
+      "bytes": 7451,
+      "sha256": "80d9dce14b507de695e173e69bee9ef351701b03255f48e96665876a093cefcd",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/prox.py",
+      "path": "project/run_scripts/jlz_ref/prox.py",
+      "bytes": 4382,
+      "sha256": "58790443d5f6730e2d8304d2a68a985d21667ea61569fbf59617c48e99ff859e",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/writer.py",
+      "path": "project/run_scripts/jlz_ref/writer.py",
+      "bytes": 2774,
+      "sha256": "1c98e50199d25eb4fde69608ccfc429b687068157f80fe3c8522130a2a0894f8",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/toy.py",
+      "path": "project/run_scripts/jlz_ref/toy.py",
+      "bytes": 1935,
+      "sha256": "6a5221b7e275d74cd485ac8a153d4c34ff1dce77983becb56d0e8e080da13f01",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_ref/__init__.py",
+      "path": "project/run_scripts/jlz_ref/__init__.py",
+      "bytes": 200,
+      "sha256": "fc727f7f93367fce61937fe8b803d2b97e3c250957c528cb2277952788c7d794",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/pilot.sbatch",
+      "path": "project/run_scripts/jlz_pilot/pilot.sbatch",
+      "bytes": 757,
+      "sha256": "d014622cf9e2240f0595b4eb214868ca4d27a76094541b6bea7132e4067ca252",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/run.py",
+      "path": "project/run_scripts/jlz_pilot/run.py",
+      "bytes": 22763,
+      "sha256": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/__init__.py",
+      "path": "project/run_scripts/jlz_pilot/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/prompts.py",
+      "path": "project/run_scripts/jlz_pilot/prompts.py",
+      "bytes": 10334,
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/solver.py",
+      "path": "project/run_scripts/jlz_pilot/solver.py",
+      "bytes": 10996,
+      "sha256": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/test_integration.py",
+      "path": "project/run_scripts/jlz_pilot/test_integration.py",
+      "bytes": 5079,
+      "sha256": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/test_prompts.py",
+      "path": "project/run_scripts/jlz_pilot/test_prompts.py",
+      "bytes": 7281,
+      "sha256": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/test_solver.py",
+      "path": "project/run_scripts/jlz_pilot/test_solver.py",
+      "bytes": 8958,
+      "sha256": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/project/run_scripts/jlz_pilot/README.md",
+      "path": "project/run_scripts/jlz_pilot/README.md",
+      "bytes": 1954,
+      "sha256": "042aac3c40517d1864c62025a61334623dac5bc14fa28f59109f5b0fd42620c0",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/report-ko.md",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/report-ko.md",
+      "bytes": 7816,
+      "sha256": "7da2a4701b1e8ae3f5c08be1788af34485b6cbf209ff8c0cf387f9e7af06ca25",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/summary.json",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/summary.json",
+      "bytes": 3536,
+      "sha256": "0114ea44aa7cd276a5f88f059424c4b8fff9e3e415d6b67d039aca7c0faec219",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/review.json",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/review.json",
+      "bytes": 591,
+      "sha256": "e37fc05379bc04f4a1756daf8f0e043f9fed488d4e85a6d15cd7fb2ecde53690",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/accepted-objective.csv",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/accepted-objective.csv",
+      "bytes": 2407,
+      "sha256": "342aba713e2325c7539269a8e3c4994008ae99667289734da7c95a5b77b93b44",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/layer-allocation.csv",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/layer-allocation.csv",
+      "bytes": 382,
+      "sha256": "be62178b6eaad4e8190d987a4d0d229e9be62eeeb19b5a1ace5e2314422617d6",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/per-request.csv",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/per-request.csv",
+      "bytes": 223,
+      "sha256": "657cdf1e2a85ee23ae729e6b33db274fe27fc6e80aa4b3e477c6264398cb0288",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/scheduler.txt",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/scheduler.txt",
+      "bytes": 326,
+      "sha256": "eb95fd611243933fdb12e7e4739c9ba1bd004640b1b8965f399854bba8bc7ddd",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/manifest.json",
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/manifest.json",
+      "bytes": 6222,
+      "sha256": "a10203ae377ca2e42910180ebb9a52014525fcc80966266a6159808cb0c724e2",
+      "copy_verified": true
+    },
+    {
+      "src": "/mnt/raid5/janghj/.codex/attachments/e50ff467-cc14-4700-8090-2b3c1c1057f8/2026-10-01-jlz-method-pipeline-ko.md",
+      "path": "plans/global/2026-10-01-jlz-sequential-bs100x10-v1/authoritative/original-method-v1.md",
+      "bytes": 15215,
+      "sha256": "15d49d6df67e6b74e2406919c271b8bb1eca73873437ecfa01e93260cb830b40",
+      "copy_verified": true
+    }
+  ],
+  "local_only": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/receipt.json",
+      "sha256": "777366bf5bef76d9ae3492afef72d8fbcb862ff560eb5ef6264ac0ed681abf2f",
+      "reason": "raw receipt read-only on same host; not copied to Git"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/experiment-reports/global/2026-10-01-jlz-native-pilot-v2/prompts-parity.json",
+      "sha256": "edaf6e4a5af08376a8a76785ae2581d5b1b2561d439efb5cc24fe224abaf91cc",
+      "reason": "token/prompt parity payload not copied to Git"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/jlz-native-pilot-v2/attempt-01/",
+      "reason": "frozen pilot source/log/raw input retained; SH1 scoped receipt reconciliation, not blanket rehash"
+    }
+  ],
+  "format_exceptions": [
+    "Original three CSV files retain exact CRLF bytes; no normalization of evidence",
+    "Original source EOF/style retained"
+  ],
+  "new_scientific_execution_by_GH": 0
+}

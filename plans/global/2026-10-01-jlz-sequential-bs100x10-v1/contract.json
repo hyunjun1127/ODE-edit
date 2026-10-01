@@ -1,0 +1,240 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "handoff_nonce": "ODEEDIT-JLZ-BS100X10-TO-GH-20261001-R1",
+  "version": 1,
+  "authority": "explicit user fixed-budget candidate commit and ten sequential B100 batches; replaces pilot convergence-only commit only in new experiment",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "observed_app_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "registry_legacy_cwd": "/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "scope": {
+    "arms": [
+      "JLZ_NATIVE_FIXED_BUDGET"
+    ],
+    "batch_size": 100,
+    "batches": 10,
+    "unique_requests": 1000,
+    "start": "pretrained W0 / zero FP32 H4..8",
+    "sequential": true,
+    "reset_between_batches": false,
+    "baseline_new_chains": 0,
+    "server3_actions": 0
+  },
+  "data": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "subset": "first1000 in existing list order",
+    "first1000_case_ids_sha256": "7d508dd7d28df7c675a635cbfb95ae7e3155729bbc0c89cb09bce64489f3f051",
+    "case_hash_encoding": "UTF-8 json.dumps(integer_id_list,separators=(',',':'))",
+    "shuffle": false,
+    "seed": 20261001,
+    "contexts_path": "/mnt/raid5/janghj/ODE-edit/local/reviews/ep-tw1-completed-2026-09-15/baselines/1/contexts.json",
+    "contexts_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+  },
+  "method": {
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "module": "mlp.down_proj",
+    "native_kl": "current||batch-entry",
+    "kl_factor": 0.0625,
+    "decay": 0.5,
+    "clamp": 0.75,
+    "zero_step_entry_nll_lt": 0.05,
+    "key_context_group_weights": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "rewrite_context_weights": "six equal 1/6; target-token mean, then active request SUM",
+    "lambda": 15000,
+    "covariance": "raw moment / actual positive mom2.count in FP32, then FP64",
+    "adj": "solve(15000*C0+H+K@K.T,K) FP64 fixed within batch",
+    "materialization": "W_entry+(R.double()@adj.T).float()",
+    "history": "post all-five-layer commit: FP32 H_l += (Kpost_l @ Kpost_l.T), each once, includes zero-step/duplicates",
+    "inner_model_weight_mutation": false,
+    "teacher_anchor_keys": "recapture from own accumulated entry every batch; freeze during optimizer",
+    "native_fit_before_joint": false
+  },
+  "solver": {
+    "type": "pilot block proximal spectral gradient",
+    "call_cap_per_batch": 120,
+    "cap_includes": "initial + all accepted/rejected trial oracles + mandatory fresh final evaluation",
+    "main_max_whole_batch_oracles": 1200,
+    "request_or_context_calls_are_not_whole_batch_oracles": true,
+    "tol": 0.0001,
+    "tolerance_calibrated": false,
+    "memory": 10,
+    "max_linesearch_trials": 50,
+    "armijo_sigma": 0.0001,
+    "step_clip": [
+      1e-12,
+      1000000000000
+    ],
+    "plateau": "six accepted points only; pilot rule",
+    "per_batch_seconds": null,
+    "no_pilot_1200s_or_total3300s_inheritance": true,
+    "early_termination_states": "record as-is; do not force 120 calls after normal terminal"
+  },
+  "commit_policy": {
+    "name": "USER_FIXED_BUDGET_RETURN_CANDIDATE",
+    "allowed_finite_final_statuses": [
+      "CONVERGED",
+      "POLICY_ZERO_STEP",
+      "BUDGET_STOP",
+      "STALLED_AT_PRECISION",
+      "NOT_CONVERGED",
+      "LINESEARCH_FAILED"
+    ],
+    "require_fresh_final_evaluation": true,
+    "use_last_accepted_or_initial_point_not_rejected_trial": true,
+    "convergence_not_required": true,
+    "program_success": "all ten requested batches validly committed/evaluated, even when some solver statuses are nonconverged; preserve status counts and do not inherit pilot exit2 for budget stop",
+    "any_NONFINITE_fatal_even_if_final_finite": true,
+    "fatal": [
+      "NONFINITE",
+      "FEASIBILITY_FAILED",
+      "COMMIT_PARITY_FAILED",
+      "MATERIALIZATION_MISMATCH",
+      "IDENTITY_OR_STATE_FAILURE",
+      "IO_OR_EVALUATOR_FAILURE"
+    ],
+    "resource_stop_not_completed": true,
+    "all_zero": "zero update recorded, evaluate all requests, append history once",
+    "no_request_exclusion": true,
+    "no_native_fallback": true
+  },
+  "technical": {
+    "preflight_scope": "single same-entry actual BS100 before science, integrated preferred",
+    "extra_whole_batch_oracle_cap": 6,
+    "preflight_no_optimization_or_history_commit": true,
+    "full_suffix_loss_abs_max": 0.001,
+    "full_suffix_gradient_relative_max": 0.001,
+    "gradient_relative_denominator": "max(1,reference_gradient_L2)",
+    "optimized_reference_loss_abs_max": 0.001,
+    "optimized_reference_gradient_relative_max": 0.001,
+    "per_request_nll_kl_abs_max": 0.001,
+    "commit_nll_kl_abs_max": 0.001,
+    "weight_commit_bitwise": true,
+    "lowest_L4_key_bitwise": true,
+    "clamp_slack_relative": 0.000001,
+    "adj_solve_relative_max": 1e-7,
+    "nonselected_guard": "pointer/version plus source scope; not full-byte hash certification",
+    "thresholds_not_posthoc_relaxed": true,
+    "new_full_FP64_floor_campaign": false
+  },
+  "efficiency": {
+    "oracle_microbatch_initial": 2,
+    "allowed_technical_microbatch_candidates": [
+      2,
+      4,
+      8
+    ],
+    "selection": "timing/memory and fixed parity only before scientific optimization; freeze one for ten batches, no quality selection",
+    "evaluations_microbatch": 2,
+    "shared_weight_materialization": true,
+    "gpu_gradient_accumulation": true,
+    "selected_full_vocabulary_head_positions": true,
+    "cross_batch_prefix_reuse": false,
+    "retain_all_700_prompt_graphs": false,
+    "rounding_and_objective_invariant": true,
+    "no_BF16_no_TF32": true
+  },
+  "metrics": {
+    "current_each_batch": {
+      "R": 100,
+      "P": 200,
+      "N": 1000
+    },
+    "all_seen_RP_each_batch": true,
+    "all_seen_RPN_at_batches": [
+      5,
+      10
+    ],
+    "W0_same_first1000_RPN": true,
+    "final_denominators": {
+      "R": 1000,
+      "P": 2000,
+      "N": 10000
+    },
+    "preference": "R/P new_NLL < true_NLL; N true_NLL < new_NLL; ties failure",
+    "TF": [
+      "desired token_micro",
+      "desired prompt_macro",
+      "desired prompt_strict"
+    ],
+    "N_desired": "target_true",
+    "NLL": [
+      "true",
+      "new",
+      "desired",
+      "native six-context fit"
+    ],
+    "retention": [
+      "at-write to W10 lost/gained",
+      "W5 first500 to W10 same500",
+      "W0-correct neighborhood retention",
+      "active/superseded split"
+    ],
+    "evaluation_only_no_optimizer_feedback": true,
+    "shared_endpoint_observation_cache": true,
+    "no_free_generation_required": true
+  },
+  "runtime": {
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.57.1",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "dtype": "FP32",
+    "solve_dtype": "FP64",
+    "attention": "eager",
+    "tf32": false,
+    "autocast": false,
+    "hf_offline": true,
+    "server3_4_44_2_equivalence": "NOT_ESTABLISHED"
+  },
+  "resources": {
+    "server_project_gpu_cap": 2,
+    "task_gpu_cap": 1,
+    "gpus": 1,
+    "cpus": 8,
+    "host_memory_mib": 131072,
+    "hard_host_ceiling_mib": 183296,
+    "node": "devbox",
+    "partition": "resolve registered GPU partition before submit",
+    "wall_hours_initial": 48,
+    "wall_is_not_estimated_runtime": true,
+    "hour_budget": null,
+    "requeue": false,
+    "export": "NONE",
+    "no_other_job_cancellation": true,
+    "preflight_timings_to_estimate_ten_batches": true,
+    "storage_reserve_gib": 16
+  },
+  "artifacts": {
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "persistent_weight_history_delta_R_or_optimizer_bundle": false,
+    "RAM_transaction_allowed": true,
+    "retain": "per-case metrics + source/config/input identity + scalar/block diagnostics + state hashes/ledger + timings + errors",
+    "old_assets_preserved": true,
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+  },
+  "monitoring": {
+    "SH1_until": "representative B1 actual candidate commit + five history appends + observer + B2 entry continuity, or verified released GPU-resource pending",
+    "after_initial": "pause agent polling/heartbeat/callback; sealed full10 runner and CPU collector proceed naturally",
+    "GH": "bounded SH1 ACK only",
+    "completion": "automatic scalar/report collector afterany plus user-recall detailed owner/reviewer report"
+  },
+  "status": "AUTHORIZED_IMPLEMENTATION_NOT_SUBMITTED"
+}

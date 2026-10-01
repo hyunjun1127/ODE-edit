@@ -1,0 +1,119 @@
+{
+  "experiment": "JLZ-native-pilot-v2",
+  "date": "2026-10-01",
+  "job_id": 56668,
+  "slurm_state": "FAILED",
+  "slurm_exit": "2:0",
+  "slurm_elapsed_seconds": 225,
+  "status": "STOPPED_BUDGET_STOP",
+  "failure_type": "optimizer call cap, not technical exception",
+  "native_kl": "current||entry",
+  "actual_batch_size": 2,
+  "actual_solved_batches": 1,
+  "planned_max_requests": 4,
+  "actually_optimized_requests": 2,
+  "committed_requests": 0,
+  "server3_touched": false,
+  "cpu_tests_passed": {
+    "prompts": 6,
+    "solver": 12,
+    "integration": 3
+  },
+  "native_tokenizer_parity_cases": 5,
+  "runtime": {
+    "torch": "2.9.1+cu128",
+    "transformers": "4.57.1",
+    "gpu": "NVIDIA RTX A6000",
+    "job_id": "56668",
+    "node": "devbox",
+    "dtype": "float32",
+    "TF32": false
+  },
+  "model": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "total_seconds": 218.62011398933828,
+  "peak_gpu_allocated_GiB": 36.05071306228638,
+  "host_MaxRSS_KiB": 21196252,
+  "solver": {
+    "status": "BUDGET_STOP",
+    "reason": "CALL_CAP",
+    "calls": 120,
+    "value": 0.10011720835609594,
+    "smooth": 0.005220988685323391,
+    "decay": 0.09489621967077255,
+    "normalized_residual": 0.00452774267453965,
+    "gradient_scale": 20.77049437025611,
+    "backtracks": 17,
+    "accepted_steps": 101,
+    "elapsed": 122.10065505281091,
+    "final_recomputed": true,
+    "feasibility_violation": 0.0,
+    "commit_eligible": false
+  },
+  "initial_total_objective": 24.067718625068665,
+  "final_total_objective": 0.10011720835609594,
+  "fit_nll_entry": [
+    11.857385635375977,
+    12.210333824157715
+  ],
+  "fit_nll_final": [
+    0.00044523109681904316,
+    0.0006732364417985082
+  ],
+  "fit_kl_final": [
+    0.05228995904326439,
+    0.013350377790629864
+  ],
+  "weighted_kl_final": 0.004102521052118391,
+  "candidate_only_not_committed": true,
+  "full_suffix_nonzero_parity": {
+    "nonzero_loss_abs": 0.0,
+    "nonzero_gradient_relative": 0.0
+  },
+  "feasible": true,
+  "finite": true,
+  "nonzero_blocks": 9,
+  "blocks": 10,
+  "max_norm_over_radius": 0.31881004571914673,
+  "max_KKT_stationarity": 0.06127688015967462,
+  "oracle_calls_including_probes": 122,
+  "prompt_chunk_forward_backward_each": 854,
+  "geometry_seconds": 81.32538766227663,
+  "layer_allocation": [
+    {
+      "layer": 4,
+      "target_norm": 0.34883520007133484,
+      "realized_norm": 0.20409906845056558,
+      "active_blocks": 1,
+      "realized_energy_share": 0.032046598114447974
+    },
+    {
+      "layer": 5,
+      "target_norm": 0.56946861743927,
+      "realized_norm": 0.327716535951787,
+      "active_blocks": 2,
+      "realized_energy_share": 0.0826221705868968
+    },
+    {
+      "layer": 6,
+      "target_norm": 1.3993760347366333,
+      "realized_norm": 0.9102954065321598,
+      "active_blocks": 2,
+      "realized_energy_share": 0.6374771047058222
+    },
+    {
+      "layer": 7,
+      "target_norm": 0.8203850984573364,
+      "realized_norm": 0.4873251850333519,
+      "active_blocks": 2,
+      "realized_energy_share": 0.1826996022030451
+    },
+    {
+      "layer": 8,
+      "target_norm": 0.5128328800201416,
+      "realized_norm": 0.29101967068521273,
+      "active_blocks": 2,
+      "realized_energy_share": 0.06515452438978796
+    }
+  ],
+  "interpretation": "native 목적의 joint fit·낮은 후보 NLL 확인; 설정 잔차 기준 미수렴. commit/history 및 두번째 batch 미실행. 실제 편집 성능 또는 장기 보존 주장 없음."
+}

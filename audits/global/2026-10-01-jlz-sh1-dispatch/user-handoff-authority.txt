@@ -1,0 +1,18 @@
+User-authorized research-to-GH handoff.
+nonce=ODEEDIT-JLZ-BS100X10-TO-GH-20261001-R1
+source_session=01a0f6b9-74e5-7683-a798-029e477c29b1
+target_GH=01a04939-8873-7673-8dca-4c7fc5e31af0
+requested_SH1=01a04939-f93a-7b50-bca0-65438eab2062
+
+User instructions quoted in the handoff:
+1. server3에서 진행 중인 실험과 별도로 첨부 joint z 설계를 가볍게 검증.
+2. KL 방향을 native compute_z 기준으로 바꾸고 pilot 실행.
+3. “sequential edit test 해보자. batchsize 100으로 10번 edit해”
+4. “GH에게 전달해서 sh1에게 task 진행하도록 시키자”
+5. 미수렴 batch 처리: “고정 예산의 후보를 반영하고 10회 진행 (권장)”.
+
+This authorizes the new sequential scope, not retrospective modification of pilot v2.
+Finite/clamp/fresh return evaluation/commit consistency remain required.
+NONFINITE/feasibility/commit parity error stops; nonconvergence alone does not.
+No server3 job/source/monitoring changes, heavy sweep or Qwen pair requested.
+Research sender is not GH/SH. GH adopts exact input subset and issues this new SH1 authority.

@@ -1,0 +1,45 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "reviewer": "GH owner source/contract review, not independent red agent",
+  "input_member_exact_copies": 31,
+  "input_member_bytes": 194875,
+  "prior_pilot_cpu_tests_rerun": {
+    "count": 21,
+    "status": "PASS",
+    "seconds": 1.433,
+    "runtime": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "CUDA_VISIBLE_DEVICES": "",
+    "scope": "adopted prior pilot prompts/solver/tiny CPU Llama integration; new sequential runtime not yet implemented"
+  },
+  "contract_checks": {
+    "cells": 10,
+    "requests": 1000,
+    "batch_size": 100,
+    "main_whole_batch_oracle_cap": 1200,
+    "checkpoint_saves": false,
+    "source_copy_hashes": "31/31 exact",
+    "server3_actions": 0
+  },
+  "findings_bound_to_dispatch": [
+    "Old pilot run.py stops at convergence-only commit; new admission policy must not use the old commit_eligible flag unchanged",
+    "Old pilot BS2/first4 and 1200s/3300s controls must not silently survive BS100x10 conversion",
+    "Oracle re-materializes five dense effective weights per prompt chunk; optimize only with same-point loss/gradient/materialization evidence",
+    "Old post-commit observer and partial H append exceptions do not establish complete rollback; new transaction tests required",
+    "Native reference kl_div(entry_logp,current_logp,log_target=True) confirms current||entry, not reverse direction",
+    "Original input key group weights and FP32 moment/count normalization preserved",
+    "Prior pilot physical commit/history/retention remain NOT_RUN"
+  ],
+  "SH1_direct_metadata": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "observed_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "active_turns_at_inspection": [],
+    "old_registry_cwd_not_assumed": true,
+    "last_historical_migration_withdrawal_preserved": true
+  },
+  "project_cap_evidence": "root servers/local/gpu-caps.tsv server1/devbox cap2, 183296MiB ceiling; SH1 must recheck current local cap/admission at submit",
+  "GH_new_model_GPU_scheduler_transfer_delete": 0,
+  "actual_BS100": "NOT_RUN",
+  "independent_red_pre_and_post": "delegated to SH1 under execution envelope",
+  "format_exception": "three prior CSV CRLF and prior sealed source formatting retained exactly; not normalized",
+  "original_root_unrelated_dirty": "PRESERVED"
+}

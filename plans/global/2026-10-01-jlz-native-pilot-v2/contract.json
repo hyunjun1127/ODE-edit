@@ -1,0 +1,80 @@
+{
+  "experiment": "JLZ-native-pilot-v2",
+  "date": "2026-10-01",
+  "native_kl": "current||entry",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "dtype": "float32",
+  "solve_dtype": "float64",
+  "lambda": 15000,
+  "decay": 0.5,
+  "clamp": 0.75,
+  "kl_factor": 0.0625,
+  "zero_step": 0.05,
+  "key_reduction": "mean of context group means",
+  "key_group_weights": [
+    0.5,
+    0.1,
+    0.1,
+    0.1,
+    0.1,
+    0.1
+  ],
+  "C0_normalization": "FP32 sum/count then FP64",
+  "requests": [
+    16186,
+    3743,
+    1481,
+    18140
+  ],
+  "batch_size": 2,
+  "max_batches": 2,
+  "second_batch_requires_first_converged_committed": true,
+  "solver_call_cap": 120,
+  "extra_parity_oracle_calls": 2,
+  "tol": 0.0001,
+  "calibrated_tolerance": false,
+  "batch_soft_seconds": 1200,
+  "total_soft_seconds": 3300,
+  "hard_wall_seconds": 3600,
+  "microbatch": 2,
+  "resource": {
+    "server": "server1",
+    "node": "devbox",
+    "gpus": 1,
+    "cpus": 8,
+    "host_memory_MB": 64000,
+    "job_name": "odeedit_jlz_native_pilot_v2"
+  },
+  "runtime": {
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.57.1"
+  },
+  "native_tokenizer_parity": "local/jlz-native-pilot-v2/prompts-parity.json",
+  "preflight": {
+    "resource_collision_and_gpu_cap": "PASS; recheck at submit",
+    "unit_tests": {
+      "prompts": 6,
+      "solver": 12,
+      "integration": 3
+    }
+  },
+  "source_sha256": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run.py": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783",
+    "pilot.sbatch": "d014622cf9e2240f0595b4eb214868ca4d27a76094541b6bea7132e4067ca252",
+    "solver.py": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae",
+    "prompts.py": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+    "test_integration.py": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329",
+    "test_prompts.py": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e",
+    "test_solver.py": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494"
+  },
+  "scope": "native objective implementation pilot only; no server3 state, pretrained file or checkpoints modified"
+}

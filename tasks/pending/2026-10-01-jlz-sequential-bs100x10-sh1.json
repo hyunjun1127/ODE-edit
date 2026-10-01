@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "handoff_nonce": "ODEEDIT-JLZ-BS100X10-TO-GH-20261001-R1",
+  "owner": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "DISPATCH_READY_NOT_SUBMITTED",
+  "envelope": "messages/head/2026-10-01-jlz-sequential-bs100x10-sh1.md",
+  "contract": "plans/global/2026-10-01-jlz-sequential-bs100x10-v1/contract.json",
+  "gpu_cap": 2,
+  "task_gpu_cap": 1,
+  "job_ids": [],
+  "save_checkpoints": false,
+  "commit_policy": "USER_FIXED_BUDGET_RETURN_CANDIDATE",
+  "batch_size": 100,
+  "batches": 10,
+  "server3_actions": 0
+}

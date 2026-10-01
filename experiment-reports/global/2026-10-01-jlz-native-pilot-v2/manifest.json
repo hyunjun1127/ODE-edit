@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "date": "2026-10-01",
+  "job_id": 56668,
+  "source_receipt_snapshot_match": true,
+  "files": [
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/accepted-objective.csv",
+      "bytes": 2407,
+      "sha256": "342aba713e2325c7539269a8e3c4994008ae99667289734da7c95a5b77b93b44"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/layer-allocation.csv",
+      "bytes": 382,
+      "sha256": "be62178b6eaad4e8190d987a4d0d229e9be62eeeb19b5a1ace5e2314422617d6"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/per-request.csv",
+      "bytes": 223,
+      "sha256": "657cdf1e2a85ee23ae729e6b33db274fe27fc6e80aa4b3e477c6264398cb0288"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/prompts-parity.json",
+      "bytes": 5841,
+      "sha256": "edaf6e4a5af08376a8a76785ae2581d5b1b2561d439efb5cc24fe224abaf91cc"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/receipt.json",
+      "bytes": 16102,
+      "sha256": "777366bf5bef76d9ae3492afef72d8fbcb862ff560eb5ef6264ac0ed681abf2f"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/report-ko.md",
+      "bytes": 7816,
+      "sha256": "7da2a4701b1e8ae3f5c08be1788af34485b6cbf209ff8c0cf387f9e7af06ca25"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/review.json",
+      "bytes": 591,
+      "sha256": "e37fc05379bc04f4a1756daf8f0e043f9fed488d4e85a6d15cd7fb2ecde53690"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/scheduler.txt",
+      "bytes": 326,
+      "sha256": "eb95fd611243933fdb12e7e4739c9ba1bd004640b1b8965f399854bba8bc7ddd"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-01-jlz-native-pilot-v2/summary.json",
+      "bytes": 3536,
+      "sha256": "0114ea44aa7cd276a5f88f059424c4b8fff9e3e415d6b67d039aca7c0faec219"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/contract.json",
+      "bytes": 2333,
+      "sha256": "dad62e91066d80769bb7906a61bd988a8ec91f28bf9cd82f49cf581d84319aa5"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/receipt.json",
+      "bytes": 16102,
+      "sha256": "777366bf5bef76d9ae3492afef72d8fbcb862ff560eb5ef6264ac0ed681abf2f"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/slurm-56668.log",
+      "bytes": 5493,
+      "sha256": "e0ca6b93ee3a1cac31a14a748bdb55da716a43908552f622d1fa61059b599cf7"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/pilot.sbatch",
+      "bytes": 757,
+      "sha256": "d014622cf9e2240f0595b4eb214868ca4d27a76094541b6bea7132e4067ca252"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/prompts.py",
+      "bytes": 10334,
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/run.py",
+      "bytes": 22763,
+      "sha256": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/solver.py",
+      "bytes": 10996,
+      "sha256": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/test_integration.py",
+      "bytes": 5079,
+      "sha256": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/test_prompts.py",
+      "bytes": 7281,
+      "sha256": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/source/test_solver.py",
+      "bytes": 8958,
+      "sha256": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494"
+    },
+    {
+      "path": "local/jlz-native-pilot-v2/attempt-01/submission.json",
+      "bytes": 299,
+      "sha256": "90de0943ae58e6c1409641d293a086f2129796739ff1a795b9359dffc8040f2a"
+    },
+    {
+      "path": "plans/global/2026-10-01-jlz-native-pilot-v2/contract.json",
+      "bytes": 2333,
+      "sha256": "dad62e91066d80769bb7906a61bd988a8ec91f28bf9cd82f49cf581d84319aa5"
+    },
+    {
+      "path": "plans/global/2026-10-01-jlz-native-pilot-v2/design-ko.md",
+      "bytes": 6913,
+      "sha256": "a8118f20be85c1965cc3e8a880d1c7059eb43d5b374a1409d1a71a6aa0d2ed1d"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/README.md",
+      "bytes": 1954,
+      "sha256": "042aac3c40517d1864c62025a61334623dac5bc14fa28f59109f5b0fd42620c0"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/pilot.sbatch",
+      "bytes": 757,
+      "sha256": "d014622cf9e2240f0595b4eb214868ca4d27a76094541b6bea7132e4067ca252"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/prompts.py",
+      "bytes": 10334,
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/run.py",
+      "bytes": 22763,
+      "sha256": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/solver.py",
+      "bytes": 10996,
+      "sha256": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_integration.py",
+      "bytes": 5079,
+      "sha256": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_prompts.py",
+      "bytes": 7281,
+      "sha256": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_solver.py",
+      "bytes": 8958,
+      "sha256": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494"
+    }
+  ]
+}
