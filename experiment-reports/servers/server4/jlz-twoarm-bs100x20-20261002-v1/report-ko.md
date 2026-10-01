@@ -76,3 +76,7 @@ R/P 성공은 new NLL<true NLL, N은 true NLL<new NLL이며 tie는 실패다. TF
 ## 준비 실패와 최소 수리
 
 원 prep56918은 native fitting 전 source inventory의 가상 상대 `_ops.py` 경로 오류로 실패했다. 종료 inventory에도 동일 오류가 발생해 terminal은 미저장이나 첫 실패/restore/stdout/stderr는 보존했다. 원 비용은 parent1116 GPU초이며 후속4개는 시작 없이 dependency 취소됐다. 원 W0 teacher/3회 비교/26000행 W0 관측은 exact source/input/state와 별도 reuse bridge로 재사용한다. 새 실행은 공유 계산을 반복하지 않으며 baseline fitting은 이전0회다. CPU 회귀는 actual 모델 성공을 뜻하지 않는다.
+
+## GH 전달 경계
+
+GH 직접 메시지 호출은 도구 제공 중단으로 전달되지 않았다. 별도 전송 성공/ACK를 주장하지 않는다. SH4 server-heads 메시지와 본 보고서·receipt를 own-scope main에 게시한 Git 인계를 남겼다. 직접 전달 실패 때문에 실험 조회나 자동 재개를 하지 않는다.

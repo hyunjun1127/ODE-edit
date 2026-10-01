@@ -74,6 +74,8 @@ def main():
            baseline_reuse=config['baselines'],schedules_counts={k:len(v) for k,v in config['schedules'].items()},
            read_only_assets=True,remote_payload='exact9 MEMIT-H completed W20 receipt/raw files only',
            receiver=member(LOCAL/'inputs/memit-h-baseline/receiver-receipt.json'),resource_plan=config['resources']))
+    delivery=audit/'direct-handoff-delivery.json'
+    if delivery.exists():status['GH_delivery']=json.loads(delivery.read_text())
     write(ROOT/'messages/acks/server4/2026-10-02-jlz-twoarm-bs100x20.json',status)
     write(ROOT/'messages/server-heads/server4/2026-10-02-jlz-twoarm-bs100x20.json',status)
     write(ROOT/'tasks/status'/TAG/'server4.json',status)
@@ -156,6 +158,9 @@ NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-bas
         text+='원 비용은 parent1116 GPU초이며 후속4개는 시작 없이 dependency 취소됐다. '
         text+='원 W0 teacher/3회 비교/26000행 W0 관측은 exact source/input/state와 별도 reuse bridge로 재사용한다. '
         text+='새 실행은 공유 계산을 반복하지 않으며 baseline fitting은 이전0회다. CPU 회귀는 actual 모델 성공을 뜻하지 않는다.\n'
+    if status.get('GH_delivery'):
+        text+='\n## GH 전달 경계\n\nGH 직접 메시지 호출은 도구 제공 중단으로 전달되지 않았다. 별도 전송 성공/ACK를 주장하지 않는다. '
+        text+='SH4 server-heads 메시지와 본 보고서·receipt를 own-scope main에 게시한 Git 인계를 남겼다. 직접 전달 실패 때문에 실험 조회나 자동 재개를 하지 않는다.\n'
     (report/'report-ko.md').write_text(text)
     plan=ROOT/'plans/updates/server4'/TAG;plan.mkdir(parents=True,exist_ok=True)
     write(plan/'execution-plan.json',status)

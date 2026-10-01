@@ -1,0 +1,17 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "override_nonce": "ODEEDIT-GH-SH4-JLZ-TWOARM-USE-BOTH-GPUS-20261002-R1",
+  "recipient_role": "GH",
+  "recipient_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "attempted_tool": "codex_app__send_message_to_thread",
+  "attempts": 1,
+  "direct_delivery": "NOT_DELIVERED_TOOL_UNAVAILABLE",
+  "tool_response": "This app tool is no longer available through dynamic tools. Use the codex_app MCP server. If that server is unavailable on this host, task delegation is unavailable.",
+  "alternative_discovery": "No callable codex_app MCP send tool was present in current tool metadata; no private transport or unrelated messaging service used.",
+  "fallback": "Own-scope Git SH4 server-heads message, report, and receipts published nonforce to main.",
+  "initial_package_publication": "5a59c5238f4a7f6eed9cc797dbb28ac87a13cce6",
+  "GH_receipt_ACK": "NOT_RECEIVED_NOT_REQUIRED_FOR_EXECUTION",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "no_new_job_queries": true
+}
