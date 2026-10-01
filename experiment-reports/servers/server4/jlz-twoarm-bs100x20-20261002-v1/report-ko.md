@@ -6,7 +6,7 @@
 ## 범위와 상태
 
 - 상태: `REGISTERED_RELEASED_INITIAL_NOT_OBSERVED`
-- 실제 job mapping: `{'collector': '56923', 'main-A': '56921', 'main-B': '56922', 'pilot-A': '56919', 'pilot-B': '56920', 'prep': '56918'}`
+- 실제 job mapping: `{'collector': '56962', 'main-A': '56960', 'main-B': '56961', 'pilot-A': '56958', 'pilot-B': '56959', 'prep': '56957'}`
 - Actual GPU 검증: `INITIAL_NOT_OBSERVED`
 
 공통 W0 teacher/기술 준비 뒤 BS4×2 A/B pilot과 BS100×20 A/B main을 각각 두 독립 1GPU lane으로 구성한다.
@@ -58,3 +58,7 @@ NO_BROADCAST_NOT_REQUIRED: 동일 S4 실행이며 승인된 작은 completed-bas
 
 실행은 전용 immutable local attempt의 config/lock/archive/launcher와 제출 receipt를 따른다.
 원 실행/평가 source는 수정하지 않고 새 task-local namespace만 구현했다.
+
+## 준비 실패와 최소 수리
+
+원 prep56918은 native fitting 전 source inventory의 가상 상대 `_ops.py` 경로 오류로 실패했다. 종료 inventory에도 동일 오류가 발생해 terminal은 미저장이나 첫 실패/restore/stdout/stderr는 보존했다. 원 비용은 parent1116 GPU초이며 후속4개는 시작 없이 dependency 취소됐다. 원 W0 teacher/3회 비교/26000행 W0 관측은 exact source/input/state와 별도 reuse bridge로 재사용한다. 새 실행은 공유 계산을 반복하지 않으며 baseline fitting은 이전0회다. CPU 회귀는 actual 모델 성공을 뜻하지 않는다.
