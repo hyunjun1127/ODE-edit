@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-SH4-JLZ-TWOARM-USE-BOTH-GPUS-20261002-R1",
+  "parent": "ODEEDIT-USER-GH-SH4-JLZ-TWOARM-BS100X20-20261002-R1",
+  "authority_commit": "6d70c2c2f9a65abdbca3284b2c868a57c1290acc",
+  "authority_path": "messages/head/2026-10-02-jlz-twoarm-bs100x20-sh4-use-both-gpus.json",
+  "authority_sha256": "5ecc55c9f93a13dc6ee7e59587d84392017038abdef7679a36b93f399132ee63",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "transport": "app-server direct same-task turn/steer",
+  "expected_and_accepted_turn": "01a0f8dd-6718-7803-8169-17a132264a64",
+  "owner_ack_same_stream": true,
+  "owner_ack": "ACK `ODEEDIT-GH-SH4-JLZ-TWOARM-USE-BOTH-GPUS-20261002-R1` — 공통 teacher·기술 준비 뒤 A/B pilot과 main을 각각 독립 1GPU job으로 두 lane에 등록하겠습니다. 공유 준비는 한 번만 수행하며, 다른 job을 포함한 cap2와 arm별 W/H/gradient 격리를 유지합니다. 현재는 아직 미제출입니다.",
+  "status": "DELIVERED_ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "project_gpu_cap": 2,
+  "desired_independent_gpu_lanes": 2,
+  "GH_scheduler_or_result_queries": 0,
+  "automatic_monitor_created": false,
+  "other_jobs_changed": false
+}
