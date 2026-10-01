@@ -1,0 +1,23 @@
+{
+  "handoff_nonce": "ODEEDIT-JLZ-BS100X10-TO-GH-20261001-R1",
+  "instruction_id": "ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1",
+  "authority_commit": "9d111dcba18aa49c5693fd70324e5046cbd9d32e",
+  "recorded_utc": "2026-10-01T10:15:52Z",
+  "source_research_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "GH_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "observed_target_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "active_turns_before": [],
+  "transport": "registered local app-server direct: initialize/resume/start/same-stream nonce ACK",
+  "accepted_turn": "01a0f6f6-6f38-7aa0-98a4-5baf0dc40892",
+  "status": "ACK_RECEIVED_OWNER_ACCEPTED",
+  "receiver_status": "RECEIVED_IMPLEMENTING_NOT_SUBMITTED",
+  "receiver_ack": "ACK — ODEEDIT-GH-SH1-JLZ-BS100X10-20261001-R1. SH1이 새 JLZ B100×10 task를 담당합니다. 상태는 RECEIVED / IMPLEMENTING / NOT_SUBMITTED입니다. 전용 clean worktree에서 계약과 입력을 확인하고 구현·검증·제출을 진행하겠습니다. 기존 중지 task와 Server3는 건드리지 않겠습니다.",
+  "new_job_ids": [],
+  "GH_new_GPU_model_scheduler_actions": 0,
+  "server3_queries_or_changes": 0,
+  "GH_automatic_monitoring": false,
+  "terminal_science": "NOT_OBSERVED",
+  "bounded_response_only": true,
+  "source_data_raw_preserved": true
+}
