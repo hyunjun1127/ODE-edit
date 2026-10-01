@@ -11,6 +11,9 @@
   "job_ids": [],
   "project_gpu_cap": 2,
   "task_gpu_cap": 2,
+  "desired_independent_gpu_lanes": 2,
+  "gpu_usage_override": "messages/head/2026-10-02-jlz-twoarm-bs100x20-sh4-use-both-gpus.json",
+  "gpu_usage_owner_ack": "audits/global/2026-10-02-jlz-twoarm-sh4-dispatch/use-both-gpus-delivery-receipt.json",
   "save_checkpoints": false,
   "pilot": {
     "BS": 4,
