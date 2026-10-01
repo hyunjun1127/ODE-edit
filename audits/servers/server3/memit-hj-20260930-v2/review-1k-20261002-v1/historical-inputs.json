@@ -1,0 +1,59 @@
+{
+  "compatibility_reference": "experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/four-method-comparison-manifest.json",
+  "existing_local_aggregate_files": [
+    {
+      "bytes": 248330,
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/MEMIT-cumulative-metrics.csv",
+      "sha256": "5f405e36e3bd0b4785fd3d2b9466fea4ea7af51db1370bdef608c206cf3dae0e"
+    },
+    {
+      "bytes": 251033,
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/AlphaEdit-cumulative-metrics.csv",
+      "sha256": "19ddace1472b89b23acb43ffed0450924c7342c12fd3fdedf277ebca5cd9ab07"
+    }
+  ],
+  "local_selected_raw_manifest": {
+    "files": [
+      {
+        "bytes": 634183,
+        "sha256": "1ae122e40bd3b278a23a39ca4693602b23b4f20c2437bcf293274d8721f1e46d",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/collection/manifest.json",
+        "source": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/collection/manifest.json"
+      },
+      {
+        "bytes": 1261,
+        "sha256": "5fa574cd71fc5e81824607dcad74f69c6d939f3c8657d6b748d95ec6c1a9964f",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/collection/report-ko.md",
+        "source": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/collection/report-ko.md"
+      },
+      {
+        "bytes": 6867,
+        "sha256": "cd9758381eca3912785a61f818c018d770831f021a255a1f30eff46d3ec3256d",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/historical54007/commit.json",
+        "source": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B010/commit.json"
+      },
+      {
+        "bytes": 9313,
+        "sha256": "ccc7917677ae04e43faf801345575ce2ab92dd85b76968c90e4026a44a9ea5e9",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/historical54007/entry.json",
+        "source": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B010/entry.json"
+      },
+      {
+        "bytes": 442321,
+        "sha256": "b83b73511dab1889eabf0993e2c488fb777428e44857acd815e1cf45ecc82af4",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/historical54007/current.json",
+        "source": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B010/current.json"
+      },
+      {
+        "bytes": 4405510,
+        "sha256": "a44ff4264c9553a41e7c176a86ba194520f87b426c0cd220e69a966f50fcf47e",
+        "snapshot": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/historical54007/seen-full.json",
+        "source": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/B010/seen-full.json"
+      }
+    ],
+    "observed_utc": "2026-10-01T16:20:50.755215+00:00",
+    "scope": "immutable terminal-bound collector and local completed historical B010 only"
+  },
+  "model_evaluation": 0,
+  "remote_raw_transfer": 0
+}

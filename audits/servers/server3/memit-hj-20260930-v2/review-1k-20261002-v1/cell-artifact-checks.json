@@ -1,0 +1,62 @@
+[
+  {
+    "cell": "history_1000_forced_refresh",
+    "checked_members": 415,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 415
+  },
+  {
+    "cell": "history_1000_stale",
+    "checked_members": 414,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 414
+  },
+  {
+    "cell": "writer_0_divisor",
+    "checked_members": 409,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 409
+  },
+  {
+    "cell": "writer_0_energy_matched_divisor",
+    "checked_members": 409,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 409
+  },
+  {
+    "cell": "writer_0_frozen_upper_joint",
+    "checked_members": 409,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 409
+  },
+  {
+    "cell": "writer_0_joint",
+    "checked_members": 409,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 409
+  },
+  {
+    "cell": "writer_1000_divisor",
+    "checked_members": 414,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 414
+  },
+  {
+    "cell": "writer_1000_energy_matched_divisor",
+    "checked_members": 414,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 414
+  },
+  {
+    "cell": "writer_1000_frozen_upper_joint",
+    "checked_members": 414,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 414
+  },
+  {
+    "cell": "writer_1000_joint",
+    "checked_members": 414,
+    "status": "EXACT_SNAPSHOT_MEMBERS",
+    "total_members": 414
+  }
+]

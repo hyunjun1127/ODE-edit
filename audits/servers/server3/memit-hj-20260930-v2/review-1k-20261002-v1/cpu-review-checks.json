@@ -1,0 +1,19 @@
+{
+  "actual_per_prompt_token_ids": "NOT_RECORDED",
+  "checks": {
+    "commits": 1010,
+    "metric_groups": 6690,
+    "observer_files": 2133,
+    "row_occurrences": 1825800
+  },
+  "distinct_prompt_family_identities": 130000,
+  "host_peak_KiB": 868436,
+  "independent_reviewer": false,
+  "owner_audit": true,
+  "scope": "scalar/input identity/commit/source-backed assertions; no new model/forward/CP load",
+  "seconds": 29.053555024787784,
+  "snapshot_bytes": 406635225,
+  "snapshot_files": 4225,
+  "status": "PASS",
+  "stored_token_counts_consistent": true
+}

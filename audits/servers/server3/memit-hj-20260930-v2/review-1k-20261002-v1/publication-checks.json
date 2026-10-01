@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "report_relative_links": 19,
+  "logical_cells": 28,
+  "completed_diagnostic_cells": 10,
+  "completed_main_prefixes": 1,
+  "synthetic_tests": 14,
+  "review_GPU": 0,
+  "slurm_writes": 0,
+  "analysis_source_sha256": "c1aaa48d39ab4e01a33dafc611ac53d8a88109a853c18058c667bd7f33458233",
+  "independent_reviewer": false,
+  "helper_exception": "Exact user envelope authorizes tasks/status/memit-hj-20260930-v2/server3-1k-review-20261002.json; generic helper only recognizes server3.json. Shared helper unchanged.",
+  "CSV_line_endings": "New review CSV LF; authoritative CRLF cells unchanged",
+  "helper_result": "Only exact user-authorized status path rejected; no shared policy modification"
+}

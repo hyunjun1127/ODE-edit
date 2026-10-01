@@ -1,0 +1,225 @@
+{
+  "schema": "odeedit.memit-hj.completed-1k-review.v1",
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-1K-COMPLETED-REVIEW-20261002-R1",
+  "snapshot_root": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot",
+  "raw_root": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output",
+  "inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot-manifest.json",
+      "bytes": 1225410,
+      "sha256": "762dfeb100e26d741ca5e4c985c2318a19c81a15b37567f0db01c19e63719c38"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot-input-completion.json",
+      "bytes": 625724,
+      "sha256": "3cf64bad38a67bdb77cabfc64c72acf48bd16d0b1e1c5a217df2a31abe1d1ad3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/scheduler-snapshot.json",
+      "bytes": 6998,
+      "sha256": "dcc8b595cd2b62b5dca5723ec364fc536cc315e25d632231df0babf51d1bc53d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/supplemental-inputs/manifest.json",
+      "bytes": 2428,
+      "sha256": "3e02f343824d6a666d0e3fa67066cc594fa00ce92a6cb78a5546221cbf5b5ede"
+    }
+  ],
+  "analysis_sources": [
+    {
+      "path": "project/run_scripts/memit_hj/review_1k_completed.py",
+      "bytes": 38223,
+      "sha256": "c1aaa48d39ab4e01a33dafc611ac53d8a88109a853c18058c667bd7f33458233"
+    },
+    {
+      "path": "project/run_scripts/memit_hj/test_review_1k_completed.py",
+      "bytes": 3043,
+      "sha256": "e7aa550f53e129cc25ca56739b3980d4e596b9a727985b0bc1b63df0a3b89f13"
+    }
+  ],
+  "local_ID_ledgers": [
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/analysis/paired-ids.json",
+      "bytes": 123976000,
+      "sha256": "8541268c549af426e4c61aa44fbd81564382fb2daa5d25bd63e439c0cf8f5739"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/analysis/identity-to-request.json",
+      "bytes": 20979936,
+      "sha256": "6f450735512071a871e7cfe83f6277e335b1bac8071f57ebdfd6aa6a288a1f1d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/analysis/historical-paired-ids.json",
+      "bytes": 1924660,
+      "sha256": "01b39fee6a600d3b540d66cb3df15d6751433cdb1d001526087d6598e71e7fa0"
+    }
+  ],
+  "execution_sources": [
+    "a8126eb65cbe9a1814b381007798d857003555ed",
+    "f1d7a995460e2fce8fb10134f723ba4680303a31"
+  ],
+  "new_model_evaluation": false,
+  "raw_git": false,
+  "artifacts": [
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/authority-read.json",
+      "bytes": 3453,
+      "sha256": "239823e3b69ef0002ef7d28a6672f854fdabbb86776fffbeffc3e2d6c7684a5f"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cell-artifact-checks.json",
+      "bytes": 1416,
+      "sha256": "d6613e2213d60e0f134ff183c3aefeaa50e0b2efe83ad2f9ac1a3a6101bc0a2c"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cpu-review-checks.json",
+      "bytes": 558,
+      "sha256": "d81de28014bacac9ef22ac32f34e0a11e5b98b388501886d0edde0c947ddec80"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cpu-tests.txt",
+      "bytes": 1893,
+      "sha256": "afdc8043cd1201a766ae81cf15dcf67c137c381aadabb18bf096a0cb47fa5f79"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/execution-provenance.json",
+      "bytes": 8159,
+      "sha256": "cf2417042d06b1822806e66be653ec527dcd536161ab943f31e4987deef70fb6"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/historical-inputs.json",
+      "bytes": 3479,
+      "sha256": "610cad43913acdc01829ce80a72ded27f227a32cfd288177de0cca254bc952ba"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/import-closure-check.json",
+      "bytes": 338,
+      "sha256": "8f57730a85f10991abae37bea3a664e9e3725e24c51a56673e38974da23f6f12"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/publication-checks.json",
+      "bytes": 712,
+      "sha256": "d4c84a52cf8e5e7d10c7272dc7cf9adeeefed47897dd995a1e6bf529ccf62a91"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/raw-inventory.csv",
+      "bytes": 1286584,
+      "sha256": "bf974bfd7fcaf3e1579bad86185289b0265bb97c3c55d6882cec29aabe6afb0a"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/source-audit-ko.md",
+      "bytes": 5111,
+      "sha256": "47871a0e17f65d1fb8f816710d33759da9328a566dbaf795a09484ce6635ba4e"
+    },
+    {
+      "path": "audits/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/source-files.csv",
+      "bytes": 107713,
+      "sha256": "36aebc5f6b5ff93974bf8bfa16aa742f6ebe01606a6f798d11f0cf25c0563f76"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/calibration-blocked.png",
+      "bytes": 85336,
+      "sha256": "ea70690dbc7e058405cfe084c2b98c5a31bfb65d3bb270cd791cc5b334db05ba"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/calibration-requests.csv",
+      "bytes": 10325,
+      "sha256": "cb7dce1354d78d3d3673a26c847555b5cc5e8ff5db713d649c7408838b73a3c2"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/calibration-summary.json",
+      "bytes": 2358,
+      "sha256": "8a7715baab081916d3015d6eb682cbabcfe897e6adb1b2c9dad79de3d64f2eb6"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/chain-checks.csv",
+      "bytes": 56925,
+      "sha256": "2a6310cbf5a842bdcea511c506e486b7853db885fc3c9a53de3f00b8c68ebf34"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/checkpoint-metadata.json",
+      "bytes": 2855,
+      "sha256": "ad2bf50ded3aea833955187009f845f1e95cea985d2241b96e9c16e2199692ba"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cohorts.csv",
+      "bytes": 469097,
+      "sha256": "3b7538a958954afdd1966d26d9be2cffd9d549ae8aa584201c1f3ed05251d6cd"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cost-summary.json",
+      "bytes": 3698,
+      "sha256": "cb9f3d14655b6334a43af47528fca072a9db1dbf6b2307f742efa9b36d9dc646"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/cost.csv",
+      "bytes": 4887,
+      "sha256": "e11baee23598132399182b1c21db76de3b90988e97ac93511de9f315d4524d94"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/coverage.csv",
+      "bytes": 2320,
+      "sha256": "a16d28b94499435dfaf07cc7f90d5725c79225d5315291de577dd1899655d5a1"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/endpoint-metrics.csv",
+      "bytes": 35394,
+      "sha256": "f1ce1462e17debaf3bed54947157f9c7f8985f9b0896a49bb6a2fd5231be7d0a"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/historical-1k.csv",
+      "bytes": 5130,
+      "sha256": "92e5882e620688c9c0962aec59b32d273659f970e0bfa628019d0f15509d9390"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/historical-paired.csv",
+      "bytes": 644,
+      "sha256": "dcbef6ba6abeed3b770435db6610f247359a660b7718696ee68b7391d1ced9af"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/job-snapshot.csv",
+      "bytes": 4383,
+      "sha256": "2213ac34d203fa6ac8b59361e323291d4e4ad69a2f653b7c2b6339754bffc06c"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/layer-telemetry.csv",
+      "bytes": 56015,
+      "sha256": "5cd9026236de1cf9991b116aa7ba5e17b87f56a100526fba3200cc839f8e3012"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/matched-endpoints.png",
+      "bytes": 50674,
+      "sha256": "e8d1695cdfdb0f909f6049393bc9901f6c488fd8e59e76e21d5c91feb4f6c153"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/matched-endpoints.svg",
+      "bytes": 60765,
+      "sha256": "f882a7388223a63872693b75557d4cb9fad1e3aeff7dc98b00446f0b2cd9c23d"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/paired.csv",
+      "bytes": 73932,
+      "sha256": "44a1dbd47e509ef3582d5a52a11b5f444c5271288d05633ad2f1138d313330ec"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/refresh-evidence.json",
+      "bytes": 2430,
+      "sha256": "e74fc4c0f7409e4a875edcfe3c193a27f8b3f867bf650b6086d2224e6f2802f9"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md",
+      "bytes": 26663,
+      "sha256": "ef8147e5e12746282a40511367f34c53f4606bf78c90335bd42cfc31b1e477d1"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/trajectory.csv",
+      "bytes": 139999,
+      "sha256": "00c2f9606125e6d569d374ec49f67c602216f64fdc953684edaaaf89d004a66b"
+    },
+    {
+      "path": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/writer-W0-trajectory.png",
+      "bytes": 163465,
+      "sha256": "782928cd6954631fed9080a4042d7cb54c778bce685cfca646242af77ec94819"
+    }
+  ]
+}

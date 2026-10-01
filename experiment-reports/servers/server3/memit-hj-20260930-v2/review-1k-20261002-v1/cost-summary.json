@@ -1,0 +1,107 @@
+{
+  "A_GPU_seconds": 92224,
+  "P_GPU_seconds": 2738,
+  "calibration": {
+    "SPG_calls": 10920,
+    "calibration_standalone_seconds": "NOT_SEPARATED",
+    "diagnostic_proposed_cap": 500,
+    "directional_extra_FP64_calls": 8,
+    "groups": [
+      {
+        "SPG_loss_mean": 0.018354406696744263,
+        "accepted_steps": 4641,
+        "anchor": 0,
+        "calls": 6400,
+        "matched_adam_calls": 1022,
+        "matched_adam_loss_mean": 0.04952774685807526,
+        "native_final_loss_mean": 0.07118867454119027,
+        "oracle_seconds": 583.1035412680358,
+        "rejected_trials": 1727,
+        "requests": 16,
+        "statuses": {
+          "NOT_CONVERGED": 16
+        },
+        "token_backward": 812000,
+        "token_forward": 812000
+      },
+      {
+        "SPG_loss_mean": 0.01326327514834702,
+        "accepted_steps": 3256,
+        "anchor": 1000,
+        "calls": 4520,
+        "matched_adam_calls": 946,
+        "matched_adam_loss_mean": 0.04950030893087387,
+        "native_final_loss_mean": 0.06398233026266098,
+        "oracle_seconds": 428.02019237726927,
+        "rejected_trials": 1232,
+        "requests": 16,
+        "statuses": {
+          "CONVERGED": 11,
+          "NOT_CONVERGED": 5
+        },
+        "token_backward": 585074,
+        "token_forward": 585074
+      },
+      {
+        "SPG_loss_mean": 0.01580884092254564,
+        "accepted_steps": 7897,
+        "anchor": "pooled",
+        "calls": 10920,
+        "matched_adam_calls": 1968,
+        "matched_adam_loss_mean": 0.049514027894474566,
+        "native_final_loss_mean": 0.06758550240192562,
+        "oracle_seconds": 1011.123733645305,
+        "rejected_trials": 2959,
+        "requests": 32,
+        "statuses": {
+          "CONVERGED": 11,
+          "NOT_CONVERGED": 21
+        },
+        "token_backward": 1397074,
+        "token_forward": 1397074
+      }
+    ],
+    "medians": {
+      "0_include_zero_False": 400.0,
+      "0_include_zero_True": 400.0,
+      "1000_include_zero_False": 264.5,
+      "1000_include_zero_True": 264.5,
+      "pooled_include_zero_False": 400.0,
+      "pooled_include_zero_True": 400.0
+    },
+    "native_fit_loop_count": "NOT_SEPARATED",
+    "native_fit_requests": 32,
+    "normalized_PG_error_Q95": {
+      "0": 2.5409176143957675e-06,
+      "1000": 3.0879563582184737e-06
+    },
+    "prior_T0_origin_precision": "NOT_ESTABLISHED_AT_ORIGIN",
+    "probe_FP64_calls": 96,
+    "production_cap": null,
+    "reasons": [
+      "CENSORED_OR_FAILED",
+      "MEDIAN_GT_200",
+      "PRODUCTION_CAP_GT_400"
+    ],
+    "status": "BLOCKED",
+    "tol": 1.543978179109237e-05
+  },
+  "committed_science": {
+    "observer_seconds": 22443.300135778263,
+    "requests": 11000.0,
+    "rollback_RAM_snapshot_seconds": 6052.210862545297,
+    "total_step_seconds": 78571.93073727563,
+    "write_seconds": 55040.75465895608,
+    "writes": 1010.0
+  },
+  "energy_materialization_counter": "final manual materialization key/forward calls NOT_SEPARATELY_COUNTED; two shadow phase counters available",
+  "forced_refresh_seconds": 213.6651064492762,
+  "nested_timers": "write includes native/key/solve/shadow; Gram includes direct solve; do not add phase timers to wall",
+  "observer_tokens": "P stored full-model counters; A group terminal absent, observer full token total NOT_RECORDED",
+  "parent_allocated_GPU_hours": 26.378333333333334,
+  "parent_allocated_GPU_seconds": 94962,
+  "peak_committed_GPU_bytes": 66510914560.0,
+  "review_GPU_seconds": 0,
+  "unseparated_A_seconds": 7599.858400179073,
+  "unseparated_contains": "entry and W0/model loads, calibration native/FP64/SPG/Adam, sample/trigger, entry observations, CP, refresh, RAM fork/restore, IO and interruption; not pure overhead"
+}

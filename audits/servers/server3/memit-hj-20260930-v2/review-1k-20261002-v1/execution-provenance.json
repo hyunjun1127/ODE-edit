@@ -1,0 +1,206 @@
+[
+  {
+    "bindings": {
+      "BLUE_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "authority_manifest_sha256": "c5d31907e36e94b1d57e9bacaf37ce2c2c7dd70e8a84388716b660b519b355f6",
+      "context_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "dataset": {
+        "case_order_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+        "dataset_bytes": 16679956,
+        "dataset_id": "counterfact-fixed-10k-v1",
+        "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+        "inventory": {
+          "neighborhood": 100000,
+          "rephrase": 20000,
+          "rewrite": 10000
+        },
+        "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "prefix_policy": "records[:n], 1 <= n <= 10000; no shuffle/reselection",
+        "records": 10000,
+        "source_dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+        "source_sample_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+      },
+      "hparams_sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "plan_sha256": "e9f7b5f359e5c2e832bfb20576ff58bb61ba032f8b7a6872bbe5be3abfa41c65",
+      "resource_cap": 1,
+      "source_archive_sha256": "9e06f05c7cc2a2d0dcf7a9e4f8bd852c29c37025d67db385d7df1a60c70a51f5",
+      "source_commit": "a8126eb65cbe9a1814b381007798d857003555ed"
+    },
+    "entrypoint": "memit.memit_seq_main.apply_memit_seq_to_model",
+    "entrypoint_sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a",
+    "group": "P",
+    "lock_path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/execution-full-sha.lock.json",
+    "lock_sha256": "1aa28cb09de1cae5c00824bdafb86eb2a7f83dda24422cf5cf11906a055d43c5",
+    "packages": {
+      "accelerate": "1.13.0",
+      "matplotlib": "3.10.7",
+      "numpy": "2.2.6",
+      "safetensors": "0.7.0",
+      "scipy": "1.15.3",
+      "tokenizers": "0.19.1",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.44.2"
+    },
+    "resource": {
+      "GPUh_hardcap": null,
+      "cap": 1,
+      "collector": {
+        "cpus": 8,
+        "gpus": 0,
+        "memory_mib": 32768,
+        "wall_hours": 4
+      },
+      "cpus": 8,
+      "current_resource_observation": {
+        "Slurm_ubuntu_allocated_GPUs": 4,
+        "interpretation": "fully allocated at observation; not an exclusive reservation",
+        "physical_GPUs": 4
+      },
+      "export": "NONE",
+      "gpu_peak_planned_GiB": 122,
+      "gpus": 1,
+      "host_peak_planned_GiB": 96,
+      "memory_mib": 121856,
+      "node": "ubuntu",
+      "observed": "2026-09-30T22:17:38.391009+09:00",
+      "partition": "gpu",
+      "ram_components": {
+        "C0_GiB": 3.828125,
+        "FP32_model_bytes": 32121044992,
+        "FP64_A_factors_and_workspace_GiB": 24,
+        "FP64_promoted_model_bytes": 64242089984,
+        "clone_subtotal_GiB": 24.609375,
+        "editable_W_H_per_state_GiB": 4.921875,
+        "explicit_CPU_clones_max": 5,
+        "live_H_GiB": 3.828125,
+        "remaining_headroom_for_loader_metadata_and_C0": true,
+        "serialization_load_and_staging_GiB": 12
+      },
+      "requeue": false,
+      "status": "ESTIMATES_NOT_MEASURED",
+      "storage": {
+        "atomic_serialization_reserve_GiB": 12,
+        "free_bytes": 675580366848,
+        "free_inodes": 225096554,
+        "no_input_model_copy": true,
+        "raw_and_figures_GiB": 30,
+        "required_free_bytes": 193273528320,
+        "rolling_payload_base_GiB": 39.375,
+        "sample_reference_per_state_upper_GiB": 0.3
+      },
+      "temporary_CP_scope": [
+        "000",
+        "100",
+        "110",
+        "111"
+      ],
+      "total_GPUh": "PENDING_CALIBRATION",
+      "wall_basis": "partition maximum 30 days; provisional allocation ceiling, not GPUh hard budget",
+      "wall_hours": 720
+    },
+    "source": "a8126eb65cbe9a1814b381007798d857003555ed"
+  },
+  {
+    "bindings": {
+      "BLUE_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "authority_manifest_sha256": "c5d31907e36e94b1d57e9bacaf37ce2c2c7dd70e8a84388716b660b519b355f6",
+      "context_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "dataset": {
+        "case_order_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+        "dataset_bytes": 16679956,
+        "dataset_id": "counterfact-fixed-10k-v1",
+        "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+        "inventory": {
+          "neighborhood": 100000,
+          "rephrase": 20000,
+          "rewrite": 10000
+        },
+        "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+        "prefix_policy": "records[:n], 1 <= n <= 10000; no shuffle/reselection",
+        "records": 10000,
+        "source_dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+        "source_sample_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+      },
+      "hparams_sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+      "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "plan_sha256": "e9f7b5f359e5c2e832bfb20576ff58bb61ba032f8b7a6872bbe5be3abfa41c65",
+      "resource_cap": 1,
+      "source_archive_sha256": "9de5b3c932cc01c85494e2114eae457a8130cc39c08a9224dbf790c1a6bac1f2",
+      "source_commit": "f1d7a995460e2fce8fb10134f723ba4680303a31"
+    },
+    "entrypoint": "memit.memit_seq_main.apply_memit_seq_to_model",
+    "entrypoint_sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a",
+    "group": "A_B_C_D",
+    "lock_path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-r2/execution-prerequisite-bound.lock.json",
+    "lock_sha256": "023d92c47d33e7d57b7eb4eee98d4f37ffe561c46b06e3ae5b6657d7102ed9f1",
+    "packages": {
+      "accelerate": "1.13.0",
+      "matplotlib": "3.10.7",
+      "numpy": "2.2.6",
+      "safetensors": "0.7.0",
+      "scipy": "1.15.3",
+      "tokenizers": "0.19.1",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.44.2"
+    },
+    "resource": {
+      "GPUh_hardcap": null,
+      "cap": 1,
+      "collector": {
+        "cpus": 8,
+        "gpus": 0,
+        "memory_mib": 32768,
+        "wall_hours": 4
+      },
+      "cpus": 8,
+      "current_resource_observation": {
+        "Slurm_ubuntu_allocated_GPUs": 4,
+        "interpretation": "fully allocated at observation; not an exclusive reservation",
+        "physical_GPUs": 4
+      },
+      "export": "NONE",
+      "gpu_peak_planned_GiB": 122,
+      "gpus": 1,
+      "host_peak_planned_GiB": 96,
+      "memory_mib": 121856,
+      "node": "ubuntu",
+      "observed": "2026-09-30T22:17:38.391009+09:00",
+      "partition": "gpu",
+      "ram_components": {
+        "C0_GiB": 3.828125,
+        "FP32_model_bytes": 32121044992,
+        "FP64_A_factors_and_workspace_GiB": 24,
+        "FP64_promoted_model_bytes": 64242089984,
+        "clone_subtotal_GiB": 24.609375,
+        "editable_W_H_per_state_GiB": 4.921875,
+        "explicit_CPU_clones_max": 5,
+        "live_H_GiB": 3.828125,
+        "remaining_headroom_for_loader_metadata_and_C0": true,
+        "serialization_load_and_staging_GiB": 12
+      },
+      "requeue": false,
+      "status": "ESTIMATES_NOT_MEASURED",
+      "storage": {
+        "atomic_serialization_reserve_GiB": 12,
+        "free_bytes": 675580366848,
+        "free_inodes": 225096554,
+        "no_input_model_copy": true,
+        "raw_and_figures_GiB": 30,
+        "required_free_bytes": 193273528320,
+        "rolling_payload_base_GiB": 39.375,
+        "sample_reference_per_state_upper_GiB": 0.3
+      },
+      "temporary_CP_scope": [
+        "000",
+        "100",
+        "110",
+        "111"
+      ],
+      "total_GPUh": "PENDING_CALIBRATION",
+      "wall_basis": "partition maximum 30 days; provisional allocation ceiling, not GPUh hard budget",
+      "wall_hours": 720
+    },
+    "source": "f1d7a995460e2fce8fb10134f723ba4680303a31"
+  }
+]

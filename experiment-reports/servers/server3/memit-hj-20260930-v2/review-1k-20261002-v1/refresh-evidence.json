@@ -1,0 +1,81 @@
+{
+  "automatic_child_terminal_alias": "NOT_PUBLISHED",
+  "automatic_trigger_at1000": {
+    "cursor": 1000,
+    "layers": [],
+    "nonintervening": true,
+    "observations": {
+      "4": {
+        "NA": 0,
+        "dispersion_median": 0.19389959424734116,
+        "drift_median": 3.527617764120805e-06,
+        "drift_p90": 4.586548402585322e-06,
+        "drift_p95": 4.716383500635857e-06,
+        "fired": false
+      },
+      "5": {
+        "NA": 0,
+        "dispersion_median": 0.25079332292079926,
+        "drift_median": 0.028363939374685287,
+        "drift_p90": 0.04540721289813519,
+        "drift_p95": 0.04881362318992613,
+        "fired": false
+      },
+      "6": {
+        "NA": 0,
+        "dispersion_median": 0.3228895962238312,
+        "drift_median": 0.04281013272702694,
+        "drift_p90": 0.07365995645523071,
+        "drift_p95": 0.07953001372516155,
+        "fired": false
+      },
+      "7": {
+        "NA": 0,
+        "dispersion_median": 0.3733508139848709,
+        "drift_median": 0.06274577975273132,
+        "drift_p90": 0.12571072280406953,
+        "drift_p95": 0.13895055055618286,
+        "fired": false
+      },
+      "8": {
+        "NA": 0,
+        "dispersion_median": 0.4178842008113861,
+        "drift_median": 0.10312682762742043,
+        "drift_p90": 0.20372918546199797,
+        "drift_p95": 0.228534347563982,
+        "fired": false
+      }
+    }
+  },
+  "forced_diagnostic": {
+    "W_output_unchanged": true,
+    "layers": [
+      {
+        "layer": 5,
+        "probe_relative_error": 5.187762877879677e-09,
+        "sha256": "3eabb14c2a0b7d9fc721b3124fc4eba25da6f08ccfc0a1f7f1f35f9e6276d12d"
+      },
+      {
+        "layer": 6,
+        "probe_relative_error": 5.124464796938609e-09,
+        "sha256": "1eae9b2e11c6079fac5cb4aaf5cf8b332c92e9e3e13a60215876d36e656ed141"
+      },
+      {
+        "layer": 7,
+        "probe_relative_error": 8.807828351580013e-09,
+        "sha256": "5c36d8296ff02f24a1901f7ae2e9500db566d4c005dd87c4090951e4fa72bedb"
+      },
+      {
+        "layer": 8,
+        "probe_relative_error": 6.548335307704062e-09,
+        "sha256": "8625d1575728b9d4f9b455a4a60406038da2fd46a7b1c7d82125566f0a431870"
+      }
+    ],
+    "membership": "b1c32e2197c96b83093960b247b9a8eac730c9527f14fa7691c116b77d679a63",
+    "occurrences": 1000,
+    "reference_reset": true,
+    "seconds": 213.6651064492762,
+    "write_origin_preserved": true
+  },
+  "later_triggers": "NOT_OBSERVED"
+}

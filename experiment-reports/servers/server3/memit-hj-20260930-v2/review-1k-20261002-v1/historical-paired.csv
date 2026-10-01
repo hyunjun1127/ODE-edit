@@ -1,0 +1,7 @@
+comparison,tag,lost,gained,retained,both_failed,denominator,metric,delta_pp,retention_given_before_correct,max_abs_new_nll_difference,max_abs_true_nll_difference
+HJ_main000_minus_historical54007,RS,0,0,991,9,1000,preference,0.0,1.0,0.0,0.0
+HJ_main000_minus_historical54007,RS,0,0,983,17,1000,TF_strict,0.0,1.0,0.0,0.0
+HJ_main000_minus_historical54007,PS,0,0,1805,195,2000,preference,0.0,1.0,0.0,0.0
+HJ_main000_minus_historical54007,PS,0,0,1248,752,2000,TF_strict,0.0,1.0,0.0,0.0
+HJ_main000_minus_historical54007,NS,0,0,8322,1678,10000,preference,0.0,1.0,0.0,0.0
+HJ_main000_minus_historical54007,NS,0,0,2249,7751,10000,TF_strict,0.0,1.0,0.0,0.0

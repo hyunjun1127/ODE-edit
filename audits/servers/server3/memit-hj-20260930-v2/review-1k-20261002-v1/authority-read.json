@@ -1,0 +1,64 @@
+{
+  "analysis_source_sha256": "c1aaa48d39ab4e01a33dafc611ac53d8a88109a853c18058c667bd7f33458233",
+  "authority_commit": "1482a5a667225b95e0b0af5f5654efe8cec774bc",
+  "envelope_sha256": "7d6d3c1a79859223952534079698f8ea4c5e5cd2380d699e9a76eded22ba2d22",
+  "exact_members": [
+    {
+      "bytes": 42714,
+      "path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/design-ko.md",
+      "sha256": "3be7fa56f5d60e075a7a89ab129f0332d97acd814cd0c2a41a9984b714d66cd7",
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-30-memit-hj-experiment-design-v1/design-ko.md"
+    },
+    {
+      "bytes": 17353,
+      "path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/contract.json",
+      "sha256": "beb83ac33984a7d83b3f72f13a890f5c08310899fe1ed9c83870eccc773783fa",
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-30-memit-hj-experiment-design-v1/contract.json"
+    },
+    {
+      "bytes": 4801,
+      "path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/cells.csv",
+      "sha256": "2af6449faf059fc7cf14bf195e257f226fccab691a0769737c835ebc965090bb",
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-30-memit-hj-experiment-design-v1/cells.csv"
+    },
+    {
+      "bytes": 641,
+      "path": "plans/global/2026-09-30-memit-hj-experiment-design-v1/design-checks.json",
+      "sha256": "11798341ebd92fdcd0916bd0ad612a683a270d974357e5aa6160ef7369b07484",
+      "source_path": "/mnt/raid5/janghj/ODE-edit/plans/global/2026-09-30-memit-hj-experiment-design-v1/design-checks.json"
+    },
+    {
+      "bytes": 14037,
+      "path": "audits/global/2026-09-30-memit-hj-sh3-dispatch/authoritative/2026-09-30-memit-hj-method-ko.md",
+      "sha256": "dd991816afd1f2b0c9b6154bd68652b3348739728f0b8245f0ac45ef61609757",
+      "source_path": "/mnt/raid5/janghj/.codex/attachments/89ff5bff-8739-4966-941f-e38e36dcfb26/2026-09-30-memit-hj-method-ko.md"
+    },
+    {
+      "bytes": 5176,
+      "path": "audits/global/2026-09-30-memit-hj-sh3-dispatch/authoritative/allocation.py",
+      "sha256": "a9b0cff3495826022466fa45f7fb137190abb4e167298023a493bd8f5adccd53",
+      "source_path": "/mnt/raid5/janghj/.codex/attachments/89ff5bff-8739-4966-941f-e38e36dcfb26/allocation.py"
+    },
+    {
+      "bytes": 4324,
+      "path": "audits/global/2026-09-30-memit-hj-sh3-dispatch/authoritative/zsolve.py",
+      "sha256": "4886160c87b2b63a793715560d3151af0f12d3c6573898e924503ddefb522374",
+      "source_path": "/mnt/raid5/janghj/.codex/attachments/89ff5bff-8739-4966-941f-e38e36dcfb26/zsolve.py"
+    },
+    {
+      "bytes": 9290,
+      "path": "audits/global/2026-09-30-memit-hj-sh3-dispatch/authoritative/test_memit_hj.py",
+      "sha256": "5b3bc9734b6f1063201d9aa5ab77505e5b7d31bcc3eb8c527d858e292ecce1ae",
+      "source_path": "/mnt/raid5/janghj/.codex/attachments/89ff5bff-8739-4966-941f-e38e36dcfb26/test_memit_hj.py"
+    },
+    {
+      "bytes": 37431,
+      "path": "audits/global/2026-09-30-memit-hj-sh3-dispatch/authoritative/memit-hj-method-v1.patch",
+      "sha256": "a57aa3d7eaf3e66decb7aad4cee6e68348d15ead933b07d3c0b2c028a4068d59",
+      "source_path": "/mnt/raid5/janghj/.codex/attachments/89ff5bff-8739-4966-941f-e38e36dcfb26/memit-hj-method-v1.patch"
+    }
+  ],
+  "nonce": "ODEEDIT-GH-SH3-MEMIT-HJ-1K-COMPLETED-REVIEW-20261002-R1",
+  "prior_full_read": "audits/servers/server3/memit-hj-20260930-v2/full-read.json",
+  "read_status": "FULL_READ_ENVELOPE; EXACT_PRIOR_FULL_READ_REUSED_9"
+}

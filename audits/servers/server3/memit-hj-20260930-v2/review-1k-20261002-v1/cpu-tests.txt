@@ -1,0 +1,19 @@
+test_duplicate_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_duplicate_rejected) ... ok
+test_equal_total_different_ids (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_equal_total_different_ids) ... ok
+test_micro_macro_strict_distinct (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_micro_macro_strict_distinct) ... ok
+test_nonfinite_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_nonfinite_rejected) ... ok
+test_ns_desired_true (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_ns_desired_true) ... ok
+test_panel_quartiles (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_panel_quartiles) ... ok
+test_stored_corruption (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_stored_corruption) ... ok
+test_strict_inconsistency_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_strict_inconsistency_rejected) ... ok
+test_strict_transition_separate (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_strict_transition_separate) ... ok
+test_tie_failure (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_tie_failure) ... ok
+test_unicode_identity_modes (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_unicode_identity_modes) ... ok
+test_unmatched_ids_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_unmatched_ids_rejected) ... ok
+test_wrong_direction_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_wrong_direction_rejected) ... ok
+test_zero_token_rejected (project.run_scripts.memit_hj.test_review_1k_completed.ReviewTests.test_zero_token_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.008s
+
+OK

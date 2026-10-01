@@ -1,0 +1,22 @@
+{
+  "instruction": "ODEEDIT-GH-SH3-MEMIT-HJ-1K-COMPLETED-REVIEW-20261002-R1",
+  "state": "CPU_REVIEW_COMPLETE_MAIN_PUBLICATION_PENDING",
+  "report": "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md",
+  "report_sha256": "ef8147e5e12746282a40511367f34c53f4606bf78c90335bd42cfc31b1e477d1",
+  "completed_main_prefix": "main000 first1000 BS100",
+  "completed_diagnostics": 10,
+  "whole_plan": "TECHNICAL_INCOMPLETE",
+  "jobs": {
+    "P": 56007,
+    "A": 56033,
+    "B": 56034,
+    "C": 56035,
+    "D": 56036,
+    "CPU": 56037
+  },
+  "review_GPU": 0,
+  "Slurm_write": 0,
+  "monitoring": "NO_FURTHER_POLLING",
+  "source_changed": false,
+  "raw_changed": false
+}

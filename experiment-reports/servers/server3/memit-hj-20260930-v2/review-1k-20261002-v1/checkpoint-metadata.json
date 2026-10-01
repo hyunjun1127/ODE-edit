@@ -1,0 +1,83 @@
+{
+  "original_snapshot_terminal": {
+    "analysis_source": {
+      "kind": "same_source",
+      "source_commit": "f1d7a995460e2fce8fb10134f723ba4680303a31"
+    },
+    "manifest_sha256": "1ae122e40bd3b278a23a39ca4693602b23b4f20c2437bcf293274d8721f1e46d",
+    "permanent_checkpoints": false,
+    "reducer_error": null,
+    "remaining_temporary_CP": [
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt"
+    ],
+    "report_sha256": "5fa574cd71fc5e81824607dcad74f69c6d939f3c8657d6b748d95ec6c1a9964f",
+    "result": null,
+    "status": "TECHNICAL_INCOMPLETE",
+    "unexecuted_or_blocked": [
+      "main_000",
+      "main_100",
+      "main_010",
+      "main_001",
+      "main_110",
+      "main_101",
+      "main_011",
+      "main_111",
+      "writer_5000_divisor",
+      "writer_5000_joint",
+      "writer_5000_frozen_upper_joint",
+      "writer_5000_energy_matched_divisor",
+      "history_3000_stale",
+      "history_3000_forced_refresh",
+      "history_5000_stale",
+      "history_5000_forced_refresh",
+      "history_7000_stale",
+      "history_7000_forced_refresh"
+    ]
+  },
+  "physical_file_rehash": "NOT_PERFORMED; metadata/tombstone/terminal only",
+  "records": [
+    {
+      "arm": "000",
+      "bytes": 5284843077,
+      "cursor": 0,
+      "metadata_file": "000-00000-0000.manifest.json",
+      "owner_uid": 1025,
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-00000-0000.pt",
+      "refcount": 0,
+      "reload_state_output": true,
+      "seconds": 20.796840781345963,
+      "sha256": "e6e1162958f998be31d0f1fde0308101de604adc22a9c48840634c7cbced0282",
+      "technical": true
+    },
+    {
+      "arm": "000",
+      "bytes": 5284843077,
+      "cursor": 0,
+      "metadata_file": "000-00000-0000.tombstone.json",
+      "owner_uid": 1025,
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-00000-0000.pt",
+      "permanent_deletion": true,
+      "reason": "T0_roundtrip_verified_no_remaining_dependency",
+      "recoverable": false,
+      "refcount": 0,
+      "reload_state_output": true,
+      "seconds": 20.796840781345963,
+      "sha256": "e6e1162958f998be31d0f1fde0308101de604adc22a9c48840634c7cbced0282",
+      "technical": true
+    },
+    {
+      "arm": "000",
+      "bytes": 5313662767,
+      "cursor": 1000,
+      "metadata_file": "000-01000-0000.manifest.json",
+      "owner_uid": 1025,
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt",
+      "refcount": 0,
+      "reload_state_output": true,
+      "seconds": 23.779945220798254,
+      "sha256": "6cd74e4607705d11dca6b9fe8e007113e8cbbd222a4003fe8bf1157ed90a5668",
+      "technical": false
+    }
+  ],
+  "review_CP_open_write_delete": 0
+}
