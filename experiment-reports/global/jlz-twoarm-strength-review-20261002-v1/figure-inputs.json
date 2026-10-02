@@ -1,0 +1,21 @@
+{
+  "endpoint": "W10",
+  "requests": 1000,
+  "batch_size": 100,
+  "metrics": "recorded R/P/N comparison success; not strict teacher-forced accuracy",
+  "confidence_intervals": "not estimated",
+  "sources": [
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-strength-review-20261002-v1/local/jlz-strength-review/metrics/metrics-analysis.json",
+      "sha256": "d6c6cb0bdca966d9cca0c540ac69b1b06f858de8104b5d9ab7e5662fd4ac9b46"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-strength-review-20261002-v1/local/jlz-strength-review/metrics/cohort-retention.csv",
+      "sha256": "cb79f7820903b7db7cb22689607400167414413f6f59027218cd4094ef96a2b0"
+    }
+  ],
+  "outputs": [
+    "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-strength-review-20261002-v1/local/jlz-strength-review/figure/jlz-w10-strength-and-cohort-retention.png",
+    "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-strength-review-20261002-v1/local/jlz-strength-review/figure/jlz-w10-strength-and-cohort-retention.pdf"
+  ]
+}

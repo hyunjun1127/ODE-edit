@@ -1,0 +1,647 @@
+{
+  "snapshot_capture_utc": "2026-10-02T02:36:57.246861+00:00",
+  "verified_files": 58,
+  "reviewed_batches_per_arm": 10,
+  "shared_current_and_reference_membership": true,
+  "invariant_rows": [
+    {
+      "arm": "A",
+      "batch": 1,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 2,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 3,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 4,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 5,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 6,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 7,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 8,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 9,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "A",
+      "batch": 10,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 1,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 2,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 3,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 4,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 5,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 6,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 7,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 8,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 9,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    },
+    {
+      "arm": "B",
+      "batch": 10,
+      "active": 100,
+      "history_appends": 5,
+      "weight_bitwise": true,
+      "commit_loss_maxabs": 0.0,
+      "l4_key_maxabs": 0.0,
+      "state_continuity": true
+    }
+  ],
+  "maximum_loss_reconstruction_abs": 1.2942109606228769e-08,
+  "frozen_source_checks": [
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/__init__.py",
+      "frozen_sha256": "563abfbbbc8c3a985e4ddd21344537b78575ffd527c9d5cc43188e26af649f10",
+      "local_sha256": "563abfbbbc8c3a985e4ddd21344537b78575ffd527c9d5cc43188e26af649f10"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/build_atomic_report.py",
+      "frozen_sha256": "3475b5213dff562c840a876865d5de2c7c34cb87395fd50a057470e6b6c1711a",
+      "local_sha256": "3475b5213dff562c840a876865d5de2c7c34cb87395fd50a057470e6b6c1711a"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/build_integrated_report.py",
+      "frozen_sha256": "af58bfbdcfb056ff66249367f4986edefed20ad67f8076abecac8541f53f48d2",
+      "local_sha256": "af58bfbdcfb056ff66249367f4986edefed20ad67f8076abecac8541f53f48d2"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/build_qkl_b100_report.py",
+      "frozen_sha256": "3bb0a3840f9dcf9cbb0de856a73418c89da26f4eb2ed66f0d7bb42b75dc4dd0e",
+      "local_sha256": "3bb0a3840f9dcf9cbb0de856a73418c89da26f4eb2ed66f0d7bb42b75dc4dd0e"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/build_sequential_report.py",
+      "frozen_sha256": "3eec63a28c2e7800b4e8dd9de98eeae1b6a1ffc4ae5ecbf102d653af9d57cc2d",
+      "local_sha256": "3eec63a28c2e7800b4e8dd9de98eeae1b6a1ffc4ae5ecbf102d653af9d57cc2d"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/contracts.py",
+      "frozen_sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e",
+      "local_sha256": "1c4aab5f974b4f02531693b733f546ad981b98b26d9260f900f6d074a061a88e"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/endpoint_adoption.py",
+      "frozen_sha256": "0c1c6d5c125a850e8425466e70fefb37d7a7b91a000672d5aa94716adf488918",
+      "local_sha256": "0c1c6d5c125a850e8425466e70fefb37d7a7b91a000672d5aa94716adf488918"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/evaluator.py",
+      "frozen_sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e",
+      "local_sha256": "4f5af6dbf8854c79aedc5e36134fddfcb2995b60f05d270604f8ea735672d93e"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/firewall.py",
+      "frozen_sha256": "d8281bb8414c22f8af3f092db31023681734e19cf845d29251ada59f3feb4967",
+      "local_sha256": "d8281bb8414c22f8af3f092db31023681734e19cf845d29251ada59f3feb4967"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/geometry.py",
+      "frozen_sha256": "6ddd767f0d5daace2ee2d788d7b8e49834fef0ae2f76c0717359c824fb88d088",
+      "local_sha256": "6ddd767f0d5daace2ee2d788d7b8e49834fef0ae2f76c0717359c824fb88d088"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/official_state.py",
+      "frozen_sha256": "1a9ef2aea84eedd72d4229945050ac1d5a1c8c04a13bead168b7a9dbf024c38f",
+      "local_sha256": "1a9ef2aea84eedd72d4229945050ac1d5a1c8c04a13bead168b7a9dbf024c38f"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/run_experiment.py",
+      "frozen_sha256": "e18d6324a423c963a6847b6501a3bdc19f0f55f0fe5bdd65599d9c099d54da53",
+      "local_sha256": "e18d6324a423c963a6847b6501a3bdc19f0f55f0fe5bdd65599d9c099d54da53"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/run_preflight.py",
+      "frozen_sha256": "73e03574a605e24a14a606b2e5673725826280095b585380b31e837d36e5a0d8",
+      "local_sha256": "73e03574a605e24a14a606b2e5673725826280095b585380b31e837d36e5a0d8"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/target_path.py",
+      "frozen_sha256": "28f78d9a08563ea858afff29ba13a797e1f0def780939296e6bfc5c291206249",
+      "local_sha256": "28f78d9a08563ea858afff29ba13a797e1f0def780939296e6bfc5c291206249"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/telemetry.py",
+      "frozen_sha256": "2b8a9f6c74ff1be29df002ffeaf56f6b2e667c273c0dc455cfcba3d6c4354e56",
+      "local_sha256": "2b8a9f6c74ff1be29df002ffeaf56f6b2e667c273c0dc455cfcba3d6c4354e56"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/tests/test_alphaedit_strength_neutral_barrier.py",
+      "frozen_sha256": "709129b0ba3f7e2ebb8e630d3e62ec4bf56b86d61ad00c66941e54f5a6e2da0c",
+      "local_sha256": "709129b0ba3f7e2ebb8e630d3e62ec4bf56b86d61ad00c66941e54f5a6e2da0c"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/tests/test_official_source_firewall.py",
+      "frozen_sha256": "7cd567fa06f901bc77822fecdbf11e6833ca3fe1630f8e61ce75bff300f3429e",
+      "local_sha256": "7cd567fa06f901bc77822fecdbf11e6833ca3fe1630f8e61ce75bff300f3429e"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/tests/test_qkl_b100_report.py",
+      "frozen_sha256": "bbbe8feefaf4b468e86a1bc898066ad84e8ba5bba664eef2005eecd3eb279756",
+      "local_sha256": "bbbe8feefaf4b468e86a1bc898066ad84e8ba5bba664eef2005eecd3eb279756"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/tests/test_sequential_report.py",
+      "frozen_sha256": "ed39144bc79c625eaa215cb3d0f825abedfb78e81d95c310f9126c586b4cefb6",
+      "local_sha256": "ed39144bc79c625eaa215cb3d0f825abedfb78e81d95c310f9126c586b4cefb6"
+    },
+    {
+      "path": "project/run_scripts/alphaedit_strength_neutral_barrier/writer.py",
+      "frozen_sha256": "b10cfc7b54ac99352a9c79abe5e532fe8e975b4923bef37436a0a0e7820e8e76",
+      "local_sha256": "b10cfc7b54ac99352a9c79abe5e532fe8e975b4923bef37436a0a0e7820e8e76"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/__init__.py",
+      "frozen_sha256": "57f190c4b7cf859f80035095e7cb51d1d0dd81b7f8c811657804e01f9730d17a",
+      "local_sha256": "57f190c4b7cf859f80035095e7cb51d1d0dd81b7f8c811657804e01f9730d17a"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/bind.py",
+      "frozen_sha256": "7f6f4bf8ce9c3bc43f79472af70dcdfeba2e4882bebc0ba3cac5b5d1bb7563da",
+      "local_sha256": "7f6f4bf8ce9c3bc43f79472af70dcdfeba2e4882bebc0ba3cac5b5d1bb7563da"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/budget.py",
+      "frozen_sha256": "b63f63012e074ab2074db09c422cd44973041f779b88b6204a416183542c8409",
+      "local_sha256": "b63f63012e074ab2074db09c422cd44973041f779b88b6204a416183542c8409"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/collect.py",
+      "frozen_sha256": "c2ce06006218e1c96e60770c0e981294eb962775bc4a8224afb0e04c358cb182",
+      "local_sha256": "c2ce06006218e1c96e60770c0e981294eb962775bc4a8224afb0e04c358cb182"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/core.py",
+      "frozen_sha256": "a818c6bc6ce6f7fe200659ece3dea1c85cff272d3a79e3487e976c2fb0357460",
+      "local_sha256": "a818c6bc6ce6f7fe200659ece3dea1c85cff272d3a79e3487e976c2fb0357460"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/evaluation.py",
+      "frozen_sha256": "7c7ee8deb8cb461bf94e4cbddecd91126ed90dfc9b29251e95c28b25a24e4fb2",
+      "local_sha256": "7c7ee8deb8cb461bf94e4cbddecd91126ed90dfc9b29251e95c28b25a24e4fb2"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/geometry.py",
+      "frozen_sha256": "f2e686e6191ea0187f266daee8f97f8e1350329b911b89d33626b0998128edbb",
+      "local_sha256": "f2e686e6191ea0187f266daee8f97f8e1350329b911b89d33626b0998128edbb"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/kernels.py",
+      "frozen_sha256": "fca3afcdefb1e90951095c1be7b7736068f0b1eacc9dd30d49c48fabc15d10c9",
+      "local_sha256": "fca3afcdefb1e90951095c1be7b7736068f0b1eacc9dd30d49c48fabc15d10c9"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/measurement.py",
+      "frozen_sha256": "71064d6da9c8dccac54819da7e9189abe310fb84a91860b08b86b5a06e930e42",
+      "local_sha256": "71064d6da9c8dccac54819da7e9189abe310fb84a91860b08b86b5a06e930e42"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/native.py",
+      "frozen_sha256": "bbc5c6dbb2be03124f605ab82132f0e15bf45eb89177f5921f1482607a0379f6",
+      "local_sha256": "bbc5c6dbb2be03124f605ab82132f0e15bf45eb89177f5921f1482607a0379f6"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/record_only.py",
+      "frozen_sha256": "7381b07baf617434f6677620c26389d08045f24485a9eb99c6a0d1579af53279",
+      "local_sha256": "7381b07baf617434f6677620c26389d08045f24485a9eb99c6a0d1579af53279"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/reference.py",
+      "frozen_sha256": "34e2d88b8d5247678edc1d20d44d518eed3848be00d03b3150fb0ac3fcd0b8e7",
+      "local_sha256": "34e2d88b8d5247678edc1d20d44d518eed3848be00d03b3150fb0ac3fcd0b8e7"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/reuse.py",
+      "frozen_sha256": "ca438b9851f453a11116583619a2350e8eabc00dddd6e8a6f0aa735bdd03590f",
+      "local_sha256": "ca438b9851f453a11116583619a2350e8eabc00dddd6e8a6f0aa735bdd03590f"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/review_kernel_repair.py",
+      "frozen_sha256": "01de6f424ec62af44f40cf27d94216de40d5ef2fa11882422038bc4f1e1bb796",
+      "local_sha256": "01de6f424ec62af44f40cf27d94216de40d5ef2fa11882422038bc4f1e1bb796"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/run.py",
+      "frozen_sha256": "f623d774f5c8203bf3244c6e670d861bac189ceda61ed690bebb14e958f1c794",
+      "local_sha256": "f623d774f5c8203bf3244c6e670d861bac189ceda61ed690bebb14e958f1c794"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/solver.py",
+      "frozen_sha256": "c7291dc6390fa837a025be70a5c1b46165659d632eee9db0e8ca945adeae5859",
+      "local_sha256": "c7291dc6390fa837a025be70a5c1b46165659d632eee9db0e8ca945adeae5859"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/submit.py",
+      "frozen_sha256": "40d4f42c9d1a8bb7ca17b9cc1bf66c749fc36dae8825667bbc16b6f3a4bb89b2",
+      "local_sha256": "40d4f42c9d1a8bb7ca17b9cc1bf66c749fc36dae8825667bbc16b6f3a4bb89b2"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/test_control.py",
+      "frozen_sha256": "332229671105d9e0be69a6828373fb57b5ace4a44b21a061f47665ebb736dcac",
+      "local_sha256": "332229671105d9e0be69a6828373fb57b5ace4a44b21a061f47665ebb736dcac"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/test_core.py",
+      "frozen_sha256": "bbd0c109c31f72c86150eea40b01b25e8d8735c16d364ff071df9d4c7dfce378",
+      "local_sha256": "bbd0c109c31f72c86150eea40b01b25e8d8735c16d364ff071df9d4c7dfce378"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/test_kernel_repair.py",
+      "frozen_sha256": "016dd385c3d256dbe3849e092ab77db6c3be56da346fa942fc62f3551c8265f0",
+      "local_sha256": "016dd385c3d256dbe3849e092ab77db6c3be56da346fa942fc62f3551c8265f0"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/test_native.py",
+      "frozen_sha256": "82e2d741913ff92b6896a87285e6a8438742f53f8d7a750f5b4ac91f83bf8bd6",
+      "local_sha256": "82e2d741913ff92b6896a87285e6a8438742f53f8d7a750f5b4ac91f83bf8bd6"
+    },
+    {
+      "path": "project/run_scripts/jlz_efficiency/test_record_only.py",
+      "frozen_sha256": "1ff97496a0ce0d15623645b001645b2a7b0dc4b7132f023c4957ea19d01e00df",
+      "local_sha256": "1ff97496a0ce0d15623645b001645b2a7b0dc4b7132f023c4957ea19d01e00df"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/__init__.py",
+      "frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "local_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/prompts.py",
+      "frozen_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+      "local_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/run.py",
+      "frozen_sha256": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783",
+      "local_sha256": "b7effea807ab0965c11b4502e1b52936ecbd7636ce250b88626ecb4f988fc783"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/solver.py",
+      "frozen_sha256": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae",
+      "local_sha256": "f5dbfe0226b0993104367901e59bb97e173f4019eff79de1a928c0f2ec735eae"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_integration.py",
+      "frozen_sha256": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329",
+      "local_sha256": "db93c89ae10357c8ec89f868fa16b0c45652b5f67f95c9f33e63bef4025fd329"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_prompts.py",
+      "frozen_sha256": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e",
+      "local_sha256": "7e3d1a9916cfd919c3f4ac2ff1b7182afbe6ed98276ef802b9e191964eb1504e"
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/test_solver.py",
+      "frozen_sha256": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494",
+      "local_sha256": "8fa41a6345824c51d6a69455734d9f2cacf643cd530e2a49be0eda4a3ea44494"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/__init__.py",
+      "frozen_sha256": "1555e543cab075e2c60d47bb1739311d9d4627e9156ba3511795802d4590cbae",
+      "local_sha256": "1555e543cab075e2c60d47bb1739311d9d4627e9156ba3511795802d4590cbae"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/bind.py",
+      "frozen_sha256": "0329fb4edce1644ec49fd840644985eeef7e33688795128d6ed0090f28b1597e",
+      "local_sha256": "0329fb4edce1644ec49fd840644985eeef7e33688795128d6ed0090f28b1597e"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/collect.py",
+      "frozen_sha256": "4b92780177ab93a5791d037cb7b3a309cf8db47fb3cba48e092800b56943433d",
+      "local_sha256": "4b92780177ab93a5791d037cb7b3a309cf8db47fb3cba48e092800b56943433d"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/observation.py",
+      "frozen_sha256": "b31d36b84a4a43fb64925936948f2b6521a709ecbec350065490e33fa6dd4406",
+      "local_sha256": "b31d36b84a4a43fb64925936948f2b6521a709ecbec350065490e33fa6dd4406"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/oracle.py",
+      "frozen_sha256": "bf79a6f48d1672efca81b2e65d59afcecca85f6a05fdd5767c4e56f2bfd6ca3a",
+      "local_sha256": "bf79a6f48d1672efca81b2e65d59afcecca85f6a05fdd5767c4e56f2bfd6ca3a"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/policy.py",
+      "frozen_sha256": "3845b4eef7166f87e5f827d3627f560fed6dbac8fd98829209dbecddee6799aa",
+      "local_sha256": "3845b4eef7166f87e5f827d3627f560fed6dbac8fd98829209dbecddee6799aa"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/run.py",
+      "frozen_sha256": "bd0e41f90a61fb2349f8d428fea4ba339be4a5192e238e5c1763f5ee4f1a1911",
+      "local_sha256": "bd0e41f90a61fb2349f8d428fea4ba339be4a5192e238e5c1763f5ee4f1a1911"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/state.py",
+      "frozen_sha256": "d75f4c221ab9aa67b1da3deb4c55f583d58f5e9cc0e5673158427438a25e55e4",
+      "local_sha256": "d75f4c221ab9aa67b1da3deb4c55f583d58f5e9cc0e5673158427438a25e55e4"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/submit.py",
+      "frozen_sha256": "a18e02223275142cacf91e8a5fa3d1e0d7aa8e2a37fb844848e826dfd0eb6b42",
+      "local_sha256": "a18e02223275142cacf91e8a5fa3d1e0d7aa8e2a37fb844848e826dfd0eb6b42"
+    },
+    {
+      "path": "project/run_scripts/jlz_sequential/test_core.py",
+      "frozen_sha256": "87583a99d0ce9a1cbb9059b5c69da43c16cc2ad787062576a15d8aafe34b87b0",
+      "local_sha256": "87583a99d0ce9a1cbb9059b5c69da43c16cc2ad787062576a15d8aafe34b87b0"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/__init__.py",
+      "frozen_sha256": "07ea263faf59dbf679b81c8e13870807ee035f80b2c31ccb0248721a972e4099",
+      "local_sha256": "07ea263faf59dbf679b81c8e13870807ee035f80b2c31ccb0248721a972e4099"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/audit_cpu.py",
+      "frozen_sha256": "17c4fcd24dcf4baf70e19ae8c8682aeda19f773fea75328e17779bba2589c0ac",
+      "local_sha256": "17c4fcd24dcf4baf70e19ae8c8682aeda19f773fea75328e17779bba2589c0ac"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/baseline_pilot.py",
+      "frozen_sha256": "126a1dd53ed2d254b4f8f267a5c71207ad054c5fba64699cbfa36cb53ceadd3b",
+      "local_sha256": "126a1dd53ed2d254b4f8f267a5c71207ad054c5fba64699cbfa36cb53ceadd3b"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/burden.py",
+      "frozen_sha256": "b29c5102bddf35cccfc8c017792cf537d617b4f49ac6e4d42c84e955d40768e9",
+      "local_sha256": "b29c5102bddf35cccfc8c017792cf537d617b4f49ac6e4d42c84e955d40768e9"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/collect.py",
+      "frozen_sha256": "6416929012631933d9b74db2638eaa62493896a5dbbf8d5e4c098a3d86bfe312",
+      "local_sha256": "6416929012631933d9b74db2638eaa62493896a5dbbf8d5e4c098a3d86bfe312"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/common.py",
+      "frozen_sha256": "cd9d2508e99bf6da030122d58c4c238839b5a2ccb385c6139f9bf8c7cb769115",
+      "local_sha256": "cd9d2508e99bf6da030122d58c4c238839b5a2ccb385c6139f9bf8c7cb769115"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/freeze.py",
+      "frozen_sha256": "b3c46a288517ea6bd863488a6999a90f05bb78a8732c01349822678555a74b29",
+      "local_sha256": "b3c46a288517ea6bd863488a6999a90f05bb78a8732c01349822678555a74b29"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/initial_review.py",
+      "frozen_sha256": "ac7b6f68c077285e69013b2c545db97cb7ddebf13aa368372643fd42154ffdf9",
+      "local_sha256": "927bfa163532020b1db62ab2252c04e6674dc265350debea3802901beffbe046"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/observation.py",
+      "frozen_sha256": "521dcd1255a2c8e9c9906533c2b64345cbb808e69546137e81027782d8645466",
+      "local_sha256": "521dcd1255a2c8e9c9906533c2b64345cbb808e69546137e81027782d8645466"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/oracle.py",
+      "frozen_sha256": "ddfced678204fefe412509f038456c0136de769a65f0d5661618bf1f1f41e8c1",
+      "local_sha256": "ddfced678204fefe412509f038456c0136de769a65f0d5661618bf1f1f41e8c1"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/plot.py",
+      "frozen_sha256": "6d1e4c92b44756d80a4fae177218633822a5f959b2a2c2e891061b05834e5bb9",
+      "local_sha256": "6d1e4c92b44756d80a4fae177218633822a5f959b2a2c2e891061b05834e5bb9"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/prep_reuse.py",
+      "frozen_sha256": "5c527382df6254d7cb802da0547a803b4495f52a61e738db73e7e0b611d5f831",
+      "local_sha256": "5c527382df6254d7cb802da0547a803b4495f52a61e738db73e7e0b611d5f831"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/prepare.py",
+      "frozen_sha256": "40efdb0a772ef0a1b3a7e99806747e5fd43a2b7aba94547f408c6d3eb91c1dd6",
+      "local_sha256": "40efdb0a772ef0a1b3a7e99806747e5fd43a2b7aba94547f408c6d3eb91c1dd6"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/publication.py",
+      "frozen_sha256": "1bc8aceae2d99298a1109bf579d2f2fdec3a6ea78384ecf8b3a0957b07f120ed",
+      "local_sha256": "c824c7bb18b6083749efbb1af97319f2ddf0e5329ea6cec06ae8d397593db3a9"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/references.py",
+      "frozen_sha256": "0662bc532b260fb9ccee98f977da939286d1da6127bd627e18da90e65af2bea4",
+      "local_sha256": "0662bc532b260fb9ccee98f977da939286d1da6127bd627e18da90e65af2bea4"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/run.py",
+      "frozen_sha256": "cbcabf557bf2a6065ccc7c291803428d5d84446145afab7d90db9c8294e45cbe",
+      "local_sha256": "cbcabf557bf2a6065ccc7c291803428d5d84446145afab7d90db9c8294e45cbe"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/solver.py",
+      "frozen_sha256": "ea2895740b8142aada6a940d359095a0a306de505f9cd5d1f396abf1d7f16057",
+      "local_sha256": "ea2895740b8142aada6a940d359095a0a306de505f9cd5d1f396abf1d7f16057"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/submit.py",
+      "frozen_sha256": "faf00fe1dc489a2b280109da45a29cde5fc297521c52b71b8e351e23dd9b41ac",
+      "local_sha256": "faf00fe1dc489a2b280109da45a29cde5fc297521c52b71b8e351e23dd9b41ac"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_baseline_pilot.py",
+      "frozen_sha256": "9fb8c80741e04cc49b913f7b60f82d9bb5b61d6b23c0fea22c7d98e11e0771e7",
+      "local_sha256": "9fb8c80741e04cc49b913f7b60f82d9bb5b61d6b23c0fea22c7d98e11e0771e7"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_burden.py",
+      "frozen_sha256": "e5a52bff7515781f2dd75483e15a310f2855e2d1e1ce4969a82bcbf8b66af1ed",
+      "local_sha256": "e5a52bff7515781f2dd75483e15a310f2855e2d1e1ce4969a82bcbf8b66af1ed"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_collect.py",
+      "frozen_sha256": "80bf18a63a92ee19ece60f117ef0daca27475ee0aca0f523ea43b4c2db724d18",
+      "local_sha256": "80bf18a63a92ee19ece60f117ef0daca27475ee0aca0f523ea43b4c2db724d18"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_initial_review.py",
+      "frozen_sha256": "f5050301248555ebdca60a495636336a3f4bc8a3ad2fb447c1b71f1bfc15ae6f",
+      "local_sha256": "f5050301248555ebdca60a495636336a3f4bc8a3ad2fb447c1b71f1bfc15ae6f"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_oracle.py",
+      "frozen_sha256": "7e67db9826a4d19e7126508691a57c04685b94784324b1119f83a9f1ded401c6",
+      "local_sha256": "7e67db9826a4d19e7126508691a57c04685b94784324b1119f83a9f1ded401c6"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_pipeline.py",
+      "frozen_sha256": "439e864ba1be44825709da66cb390b0f39ff7b70d4e8bb12e92b256266cc33bd",
+      "local_sha256": "439e864ba1be44825709da66cb390b0f39ff7b70d4e8bb12e92b256266cc33bd"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_prep_reuse.py",
+      "frozen_sha256": "27541c7029f35e1a715d3a492c9f0698e350f3e7070b4d3b0b51bdde2a33d366",
+      "local_sha256": "27541c7029f35e1a715d3a492c9f0698e350f3e7070b4d3b0b51bdde2a33d366"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_references.py",
+      "frozen_sha256": "19af15d784fd612a090f7041dec4d9f8ae6c552225fff80f77ce508b1cf44604",
+      "local_sha256": "19af15d784fd612a090f7041dec4d9f8ae6c552225fff80f77ce508b1cf44604"
+    },
+    {
+      "path": "project/run_scripts/jlz_two_arm/test_solver.py",
+      "frozen_sha256": "41795c4e08f3d25df492e43a0658305f895411b31cd2410ca619cc85c488eefd",
+      "local_sha256": "41795c4e08f3d25df492e43a0658305f895411b31cd2410ca619cc85c488eefd"
+    }
+  ],
+  "limitations": [
+    "No GPU evaluation or causal ablation.",
+    "Fixed W10 snapshot, not completed W20.",
+    "Scalar loss values cannot establish gradient dominance.",
+    "Sums of stepwise energy are not cumulative endpoint weight energy."
+  ]
+}

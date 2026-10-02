@@ -1,0 +1,1575 @@
+{
+  "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "identity_verification": {
+    "JLZ-A": {
+      "matched": 13000,
+      "n": 13000,
+      "schema": "JLZ"
+    },
+    "JLZ-B": {
+      "matched": 13000,
+      "n": 13000,
+      "schema": "JLZ"
+    },
+    "BASE_ALPHAEDIT": {
+      "matched": 13000,
+      "n": 13000,
+      "schema": "native"
+    },
+    "BASE_MEMIT": {
+      "matched": 13000,
+      "n": 13000,
+      "schema": "native"
+    }
+  },
+  "canonical_substring": {
+    "JLZ-A": {
+      "True": {
+        "n": 18,
+        "success": 12,
+        "rate": 0.6666666666666666,
+        "strict": 9,
+        "strict_rate": 0.5,
+        "new_nll": 3.6041728753755,
+        "true_nll": 7.0123495194647045
+      },
+      "False": {
+        "n": 1982,
+        "success": 1334,
+        "rate": 0.6730575176589304,
+        "strict": 762,
+        "strict_rate": 0.384460141271443,
+        "new_nll": 3.7509454671667917,
+        "true_nll": 7.077361628162749
+      }
+    },
+    "JLZ-B": {
+      "True": {
+        "n": 18,
+        "success": 12,
+        "rate": 0.6666666666666666,
+        "strict": 9,
+        "strict_rate": 0.5,
+        "new_nll": 3.2093634854888173,
+        "true_nll": 8.000380668375227
+      },
+      "False": {
+        "n": 1982,
+        "success": 1365,
+        "rate": 0.6886982845610494,
+        "strict": 794,
+        "strict_rate": 0.40060544904137235,
+        "new_nll": 3.67785625692833,
+        "true_nll": 7.199036811790443
+      }
+    },
+    "BASE_ALPHAEDIT": {
+      "True": {
+        "n": 18,
+        "success": 18,
+        "rate": 1,
+        "strict": 9,
+        "strict_rate": 0.5,
+        "new_nll": 2.6061053522345095,
+        "true_nll": 9.728592448764378
+      },
+      "False": {
+        "n": 1982,
+        "success": 1836,
+        "rate": 0.9263370332996973,
+        "strict": 1358,
+        "strict_rate": 0.6851664984863775,
+        "new_nll": 1.5865785272850028,
+        "true_nll": 8.930608216375695
+      }
+    },
+    "BASE_MEMIT": {
+      "True": {
+        "n": 18,
+        "success": 17,
+        "rate": 0.9444444444444444,
+        "strict": 8,
+        "strict_rate": 0.4444444444444444,
+        "new_nll": 2.539120673486549,
+        "true_nll": 10.146647267871433
+      },
+      "False": {
+        "n": 1982,
+        "success": 1766,
+        "rate": 0.8910191725529768,
+        "strict": 1178,
+        "strict_rate": 0.5943491422805247,
+        "new_nll": 2.1043735104370445,
+        "true_nll": 8.644131803665193
+      }
+    }
+  },
+  "relations": [
+    {
+      "relation_id": "P37",
+      "P_n": 104,
+      "rewrite_templates": {
+        "The law in {} declares the language": 22,
+        "In {}, the language spoken is": 22,
+        "The official language of {} is": 22,
+        "In {}, an official language is": 26,
+        "In {}, they understand": 12
+      },
+      "JLZ-A": {
+        "n": 104,
+        "success": 40,
+        "rate": 0.38461538461538464,
+        "strict": 19,
+        "strict_rate": 0.18269230769230768,
+        "new_nll": 6.077602732550496,
+        "true_nll": 3.984063948327765
+      },
+      "JLZ-B": {
+        "n": 104,
+        "success": 44,
+        "rate": 0.4230769230769231,
+        "strict": 20,
+        "strict_rate": 0.19230769230769232,
+        "new_nll": 5.570457049804995,
+        "true_nll": 3.9398917797404396
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 104,
+        "success": 90,
+        "rate": 0.8653846153846154,
+        "strict": 57,
+        "strict_rate": 0.5480769230769231,
+        "new_nll": 2.663227177996025,
+        "true_nll": 6.978441898916992
+      },
+      "BASE_MEMIT": {
+        "n": 104,
+        "success": 87,
+        "rate": 0.8365384615384616,
+        "strict": 45,
+        "strict_rate": 0.4326923076923077,
+        "new_nll": 2.647143152879345,
+        "true_nll": 6.851151927445944
+      },
+      "A_minus_AlphaEdit_pp": -48.07692307692308
+    },
+    {
+      "relation_id": "P27",
+      "P_n": 84,
+      "rewrite_templates": {
+        "{} is a citizen of": 4,
+        "{} holds a citizenship from": 14,
+        "{}, who has a citizenship from": 16,
+        "{}, a citizen of": 10,
+        "{}, who holds a citizenship from": 12,
+        "{}, who is a citizen of": 12,
+        "{} has a citizenship from": 16
+      },
+      "JLZ-A": {
+        "n": 84,
+        "success": 53,
+        "rate": 0.6309523809523809,
+        "strict": 45,
+        "strict_rate": 0.5357142857142857,
+        "new_nll": 2.5638578880364853,
+        "true_nll": 5.359789289567353
+      },
+      "JLZ-B": {
+        "n": 84,
+        "success": 55,
+        "rate": 0.6547619047619048,
+        "strict": 42,
+        "strict_rate": 0.5,
+        "new_nll": 2.3679389171648793,
+        "true_nll": 5.561520392075181
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 84,
+        "success": 83,
+        "rate": 0.9880952380952381,
+        "strict": 81,
+        "strict_rate": 0.9642857142857143,
+        "new_nll": 0.3586615503324235,
+        "true_nll": 8.580443739891052
+      },
+      "BASE_MEMIT": {
+        "n": 84,
+        "success": 80,
+        "rate": 0.9523809523809523,
+        "strict": 72,
+        "strict_rate": 0.8571428571428571,
+        "new_nll": 0.6440559055717174,
+        "true_nll": 9.326521830899376
+      },
+      "A_minus_AlphaEdit_pp": -35.71428571428572
+    },
+    {
+      "relation_id": "P103",
+      "P_n": 84,
+      "rewrite_templates": {
+        "{} spoke the language": 10,
+        "{}, a native": 12,
+        "The native language of {} is": 16,
+        "{} is a native speaker of": 12,
+        "The mother tongue of {} is": 22,
+        "{}, speaker of": 12
+      },
+      "JLZ-A": {
+        "n": 84,
+        "success": 53,
+        "rate": 0.6309523809523809,
+        "strict": 26,
+        "strict_rate": 0.30952380952380953,
+        "new_nll": 3.4467885456577365,
+        "true_nll": 4.990167032833034
+      },
+      "JLZ-B": {
+        "n": 84,
+        "success": 51,
+        "rate": 0.6071428571428571,
+        "strict": 23,
+        "strict_rate": 0.27380952380952384,
+        "new_nll": 3.9417750064773522,
+        "true_nll": 5.390048183036491
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 84,
+        "success": 83,
+        "rate": 0.9880952380952381,
+        "strict": 48,
+        "strict_rate": 0.5714285714285714,
+        "new_nll": 1.9134229275808874,
+        "true_nll": 7.725059326915514
+      },
+      "BASE_MEMIT": {
+        "n": 84,
+        "success": 77,
+        "rate": 0.9166666666666666,
+        "strict": 40,
+        "strict_rate": 0.47619047619047616,
+        "new_nll": 1.8364598763229358,
+        "true_nll": 6.313384662781443
+      },
+      "A_minus_AlphaEdit_pp": -35.71428571428572
+    },
+    {
+      "relation_id": "P276",
+      "P_n": 60,
+      "rewrite_templates": {
+        "{} is in": 20,
+        "Where is {}? It is located in": 6,
+        "The location of {} is": 18,
+        "{} can be found in": 10,
+        "{} is located in": 6
+      },
+      "JLZ-A": {
+        "n": 60,
+        "success": 37,
+        "rate": 0.6166666666666667,
+        "strict": 25,
+        "strict_rate": 0.4166666666666667,
+        "new_nll": 4.196606434226851,
+        "true_nll": 8.979233296463887
+      },
+      "JLZ-B": {
+        "n": 60,
+        "success": 41,
+        "rate": 0.6833333333333333,
+        "strict": 34,
+        "strict_rate": 0.5666666666666667,
+        "new_nll": 3.3589543320546604,
+        "true_nll": 9.169564193083595
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 60,
+        "success": 58,
+        "rate": 0.9666666666666667,
+        "strict": 45,
+        "strict_rate": 0.75,
+        "new_nll": 1.140505611031161,
+        "true_nll": 8.821516091624895
+      },
+      "BASE_MEMIT": {
+        "n": 60,
+        "success": 54,
+        "rate": 0.9,
+        "strict": 37,
+        "strict_rate": 0.6166666666666667,
+        "new_nll": 1.9947793559484126,
+        "true_nll": 10.255625680088997
+      },
+      "A_minus_AlphaEdit_pp": -35.0
+    },
+    {
+      "relation_id": "P1412",
+      "P_n": 86,
+      "rewrite_templates": {
+        "{} speaks": 26,
+        "{} speaks the language": 20,
+        "{} writes in": 12,
+        "The language used by {} is": 28
+      },
+      "JLZ-A": {
+        "n": 86,
+        "success": 53,
+        "rate": 0.6162790697674418,
+        "strict": 26,
+        "strict_rate": 0.3023255813953488,
+        "new_nll": 3.4591674214370447,
+        "true_nll": 5.666242890233217
+      },
+      "JLZ-B": {
+        "n": 86,
+        "success": 52,
+        "rate": 0.6046511627906976,
+        "strict": 36,
+        "strict_rate": 0.4186046511627907,
+        "new_nll": 3.3176556192737796,
+        "true_nll": 5.632989654360816
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 86,
+        "success": 83,
+        "rate": 0.9651162790697675,
+        "strict": 62,
+        "strict_rate": 0.7209302325581395,
+        "new_nll": 1.5521909775727478,
+        "true_nll": 7.085835994676102
+      },
+      "BASE_MEMIT": {
+        "n": 86,
+        "success": 81,
+        "rate": 0.9418604651162791,
+        "strict": 57,
+        "strict_rate": 0.6627906976744186,
+        "new_nll": 1.476693034474941,
+        "true_nll": 7.462807986625405
+      },
+      "A_minus_AlphaEdit_pp": -34.88372093023256
+    },
+    {
+      "relation_id": "P190",
+      "P_n": 60,
+      "rewrite_templates": {
+        "{} is a twin city of": 26,
+        "The twin city of {} is": 12,
+        "What is the twin city of {}? It is": 22
+      },
+      "JLZ-A": {
+        "n": 60,
+        "success": 30,
+        "rate": 0.5,
+        "strict": 4,
+        "strict_rate": 0.06666666666666667,
+        "new_nll": 7.94386900717703,
+        "true_nll": 8.668732010324796
+      },
+      "JLZ-B": {
+        "n": 60,
+        "success": 32,
+        "rate": 0.5333333333333333,
+        "strict": 5,
+        "strict_rate": 0.08333333333333333,
+        "new_nll": 7.659566111614307,
+        "true_nll": 8.856673458218575
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 60,
+        "success": 48,
+        "rate": 0.8,
+        "strict": 16,
+        "strict_rate": 0.26666666666666666,
+        "new_nll": 4.3936406198889015,
+        "true_nll": 7.672598731517792
+      },
+      "BASE_MEMIT": {
+        "n": 60,
+        "success": 44,
+        "rate": 0.7333333333333333,
+        "strict": 13,
+        "strict_rate": 0.21666666666666667,
+        "new_nll": 5.088346319862952,
+        "true_nll": 7.823388652006785
+      },
+      "A_minus_AlphaEdit_pp": -30.000000000000004
+    },
+    {
+      "relation_id": "P178",
+      "P_n": 48,
+      "rewrite_templates": {
+        "{}, a product created by": 4,
+        "{} was developed by": 8,
+        "{} is developed by": 8,
+        "{} was created by": 6,
+        "{}, a product of": 4,
+        "{} is a product of": 6,
+        "{} was a product of": 4,
+        "{}, a product manufactured by": 4,
+        "{}, created by": 2,
+        "{}, developed by": 2
+      },
+      "JLZ-A": {
+        "n": 48,
+        "success": 33,
+        "rate": 0.6875,
+        "strict": 32,
+        "strict_rate": 0.6666666666666666,
+        "new_nll": 2.046611469831987,
+        "true_nll": 4.563806280260906
+      },
+      "JLZ-B": {
+        "n": 48,
+        "success": 33,
+        "rate": 0.6875,
+        "strict": 29,
+        "strict_rate": 0.6041666666666666,
+        "new_nll": 2.931131241068821,
+        "true_nll": 4.630090478652467
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 48,
+        "success": 47,
+        "rate": 0.9791666666666666,
+        "strict": 45,
+        "strict_rate": 0.9375,
+        "new_nll": 0.21672916793977492,
+        "true_nll": 7.553507844607036
+      },
+      "BASE_MEMIT": {
+        "n": 48,
+        "success": 45,
+        "rate": 0.9375,
+        "strict": 44,
+        "strict_rate": 0.9166666666666666,
+        "new_nll": 0.4586373332522271,
+        "true_nll": 8.301381404201189
+      },
+      "A_minus_AlphaEdit_pp": -29.166666666666664
+    },
+    {
+      "relation_id": "P364",
+      "P_n": 64,
+      "rewrite_templates": {
+        "The original language of {} is": 16,
+        "The language of {} was": 22,
+        "The language of {} is": 20,
+        "The original language of {} was": 6
+      },
+      "JLZ-A": {
+        "n": 64,
+        "success": 46,
+        "rate": 0.71875,
+        "strict": 40,
+        "strict_rate": 0.625,
+        "new_nll": 1.860220340392516,
+        "true_nll": 5.620240836869925
+      },
+      "JLZ-B": {
+        "n": 64,
+        "success": 49,
+        "rate": 0.765625,
+        "strict": 41,
+        "strict_rate": 0.640625,
+        "new_nll": 1.9547555041729083,
+        "true_nll": 6.1367671869229525
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 64,
+        "success": 64,
+        "rate": 1,
+        "strict": 59,
+        "strict_rate": 0.921875,
+        "new_nll": 0.37988453531261257,
+        "true_nll": 8.03236635029316
+      },
+      "BASE_MEMIT": {
+        "n": 64,
+        "success": 62,
+        "rate": 0.96875,
+        "strict": 54,
+        "strict_rate": 0.84375,
+        "new_nll": 0.7289855366641405,
+        "true_nll": 8.484614353626966
+      },
+      "A_minus_AlphaEdit_pp": -28.125
+    },
+    {
+      "relation_id": "P136",
+      "P_n": 72,
+      "rewrite_templates": {
+        "{} plays": 14,
+        "The genre played by {} is": 22,
+        "What does {} play? They play": 14,
+        "{} performs": 16,
+        "{} is known for performing": 4,
+        "{}, who plays": 2
+      },
+      "JLZ-A": {
+        "n": 72,
+        "success": 46,
+        "rate": 0.6388888888888888,
+        "strict": 15,
+        "strict_rate": 0.20833333333333334,
+        "new_nll": 5.288914404836962,
+        "true_nll": 8.076635002262062
+      },
+      "JLZ-B": {
+        "n": 72,
+        "success": 42,
+        "rate": 0.5833333333333334,
+        "strict": 13,
+        "strict_rate": 0.18055555555555555,
+        "new_nll": 5.681023268029094,
+        "true_nll": 7.816555570293632
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 72,
+        "success": 66,
+        "rate": 0.9166666666666666,
+        "strict": 41,
+        "strict_rate": 0.5694444444444444,
+        "new_nll": 2.3862916964571923,
+        "true_nll": 9.56844856796993
+      },
+      "BASE_MEMIT": {
+        "n": 72,
+        "success": 52,
+        "rate": 0.7222222222222222,
+        "strict": 17,
+        "strict_rate": 0.2361111111111111,
+        "new_nll": 4.370932381936452,
+        "true_nll": 8.135432289706337
+      },
+      "A_minus_AlphaEdit_pp": -27.77777777777778
+    },
+    {
+      "relation_id": "P17",
+      "P_n": 76,
+      "rewrite_templates": {
+        "{} is located in the country of": 18,
+        "{}, in": 10,
+        "{}, which is located in": 14,
+        "{}, located in": 22,
+        "{} is located in": 12
+      },
+      "JLZ-A": {
+        "n": 76,
+        "success": 46,
+        "rate": 0.6052631578947368,
+        "strict": 31,
+        "strict_rate": 0.40789473684210525,
+        "new_nll": 3.508337168434656,
+        "true_nll": 6.497295439525164
+      },
+      "JLZ-B": {
+        "n": 76,
+        "success": 50,
+        "rate": 0.6578947368421053,
+        "strict": 37,
+        "strict_rate": 0.4868421052631579,
+        "new_nll": 3.146875156108045,
+        "true_nll": 7.413868620954944
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 76,
+        "success": 67,
+        "rate": 0.881578947368421,
+        "strict": 51,
+        "strict_rate": 0.6710526315789473,
+        "new_nll": 1.4754080057487284,
+        "true_nll": 7.403837756891
+      },
+      "BASE_MEMIT": {
+        "n": 76,
+        "success": 65,
+        "rate": 0.8552631578947368,
+        "strict": 44,
+        "strict_rate": 0.5789473684210527,
+        "new_nll": 2.4219704905833503,
+        "true_nll": 8.387870932095929
+      },
+      "A_minus_AlphaEdit_pp": -27.631578947368418
+    },
+    {
+      "relation_id": "P30",
+      "P_n": 88,
+      "rewrite_templates": {
+        "{}, in": 20,
+        "{} is located in the continent": 18,
+        "{} is in": 14,
+        "{} is a part of the continent of": 16,
+        "{} is located in": 8,
+        "{} belongs to the continent of": 12
+      },
+      "JLZ-A": {
+        "n": 88,
+        "success": 60,
+        "rate": 0.6818181818181818,
+        "strict": 27,
+        "strict_rate": 0.3068181818181818,
+        "new_nll": 4.605979760476575,
+        "true_nll": 7.465452612623763
+      },
+      "JLZ-B": {
+        "n": 88,
+        "success": 62,
+        "rate": 0.7045454545454546,
+        "strict": 27,
+        "strict_rate": 0.3068181818181818,
+        "new_nll": 4.363120578996049,
+        "true_nll": 7.5237920920957215
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 88,
+        "success": 84,
+        "rate": 0.9545454545454546,
+        "strict": 53,
+        "strict_rate": 0.6022727272727273,
+        "new_nll": 2.049383042364339,
+        "true_nll": 9.28121150081808
+      },
+      "BASE_MEMIT": {
+        "n": 88,
+        "success": 81,
+        "rate": 0.9204545454545454,
+        "strict": 50,
+        "strict_rate": 0.5681818181818182,
+        "new_nll": 2.141546243308271,
+        "true_nll": 9.31593797694553
+      },
+      "A_minus_AlphaEdit_pp": -27.27272727272728
+    },
+    {
+      "relation_id": "P495",
+      "P_n": 88,
+      "rewrite_templates": {
+        "{}, from": 6,
+        "{} was created in the country of": 10,
+        "{}, that was formulated in": 8,
+        "{} was from": 6,
+        "{} was formulated in": 4,
+        "{}, that was created in": 10,
+        "{} originated in": 4,
+        "{}, that was from": 6,
+        "{}, that was developed in": 2,
+        "{}, created in": 6,
+        "{}, developed in": 6,
+        "{} was created in": 4,
+        "{}, formulated in": 6,
+        "{} was developed in": 2,
+        "{}, that originated in": 2,
+        "{} from": 6
+      },
+      "JLZ-A": {
+        "n": 88,
+        "success": 59,
+        "rate": 0.6704545454545454,
+        "strict": 31,
+        "strict_rate": 0.3522727272727273,
+        "new_nll": 3.2989477506537033,
+        "true_nll": 6.3741072236814285
+      },
+      "JLZ-B": {
+        "n": 88,
+        "success": 64,
+        "rate": 0.7272727272727273,
+        "strict": 38,
+        "strict_rate": 0.4318181818181818,
+        "new_nll": 3.186112291044775,
+        "true_nll": 7.131288865919817
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 88,
+        "success": 82,
+        "rate": 0.9318181818181818,
+        "strict": 66,
+        "strict_rate": 0.75,
+        "new_nll": 1.177786550980355,
+        "true_nll": 9.023251966996627
+      },
+      "BASE_MEMIT": {
+        "n": 88,
+        "success": 79,
+        "rate": 0.8977272727272727,
+        "strict": 51,
+        "strict_rate": 0.5795454545454546,
+        "new_nll": 1.8758514317980206,
+        "true_nll": 9.090009307319468
+      },
+      "A_minus_AlphaEdit_pp": -26.136363636363637
+    },
+    {
+      "relation_id": "P176",
+      "P_n": 72,
+      "rewrite_templates": {
+        "{} is produced by": 6,
+        "{} is created by": 18,
+        "{} is developed by": 12,
+        "{}, produced by": 8,
+        "{}, developed by": 12,
+        "{} is a product of": 10,
+        "{}, created by": 6
+      },
+      "JLZ-A": {
+        "n": 72,
+        "success": 50,
+        "rate": 0.6944444444444444,
+        "strict": 38,
+        "strict_rate": 0.5277777777777778,
+        "new_nll": 2.3315955263525314,
+        "true_nll": 6.718180790853997
+      },
+      "JLZ-B": {
+        "n": 72,
+        "success": 54,
+        "rate": 0.75,
+        "strict": 42,
+        "strict_rate": 0.5833333333333334,
+        "new_nll": 2.0357058626327165,
+        "true_nll": 7.33048768050503
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 72,
+        "success": 67,
+        "rate": 0.9305555555555556,
+        "strict": 64,
+        "strict_rate": 0.8888888888888888,
+        "new_nll": 0.7701918227814732,
+        "true_nll": 9.861483135778043
+      },
+      "BASE_MEMIT": {
+        "n": 72,
+        "success": 67,
+        "rate": 0.9305555555555556,
+        "strict": 51,
+        "strict_rate": 0.7083333333333334,
+        "new_nll": 1.5654900879376834,
+        "true_nll": 9.81305022454924
+      },
+      "A_minus_AlphaEdit_pp": -23.611111111111114
+    },
+    {
+      "relation_id": "P159",
+      "P_n": 52,
+      "rewrite_templates": {
+        "{}'s headquarters are in": 6,
+        "{} is headquartered in": 10,
+        "The headquarters of {} is in": 12,
+        "{}, whose headquarters are in": 6,
+        "The headquarter of {} is located in": 8,
+        "The headquarter of {} is in": 4,
+        "{} is based in": 6
+      },
+      "JLZ-A": {
+        "n": 52,
+        "success": 36,
+        "rate": 0.6923076923076923,
+        "strict": 23,
+        "strict_rate": 0.4423076923076923,
+        "new_nll": 2.866604743345166,
+        "true_nll": 6.41845113146477
+      },
+      "JLZ-B": {
+        "n": 52,
+        "success": 38,
+        "rate": 0.7307692307692307,
+        "strict": 28,
+        "strict_rate": 0.5384615384615384,
+        "new_nll": 2.6460430542160442,
+        "true_nll": 6.910744365510674
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 52,
+        "success": 48,
+        "rate": 0.9230769230769231,
+        "strict": 45,
+        "strict_rate": 0.8653846153846154,
+        "new_nll": 0.7511117670622368,
+        "true_nll": 8.631391134399633
+      },
+      "BASE_MEMIT": {
+        "n": 52,
+        "success": 51,
+        "rate": 0.9807692307692307,
+        "strict": 41,
+        "strict_rate": 0.7884615384615384,
+        "new_nll": 1.1124295343918045,
+        "true_nll": 8.863519315536205
+      },
+      "A_minus_AlphaEdit_pp": -23.076923076923084
+    },
+    {
+      "relation_id": "P740",
+      "P_n": 68,
+      "rewrite_templates": {
+        "{} started in": 4,
+        "{} that was founded in": 10,
+        "{} was formed in": 10,
+        "{} was founded in": 4,
+        "{}, that was started in": 4,
+        "{} formed in": 4,
+        "{}, that was formed in": 6,
+        "{} originated in": 8,
+        "{}, created in": 4,
+        "{}, that originated in": 4,
+        "{}, founded in": 4,
+        "{} was started in": 4,
+        "{} was created in": 2
+      },
+      "JLZ-A": {
+        "n": 68,
+        "success": 47,
+        "rate": 0.6911764705882353,
+        "strict": 22,
+        "strict_rate": 0.3235294117647059,
+        "new_nll": 4.690179056719096,
+        "true_nll": 9.111839932060855
+      },
+      "JLZ-B": {
+        "n": 68,
+        "success": 52,
+        "rate": 0.7647058823529411,
+        "strict": 24,
+        "strict_rate": 0.35294117647058826,
+        "new_nll": 4.282872208024321,
+        "true_nll": 9.007351741434404
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 68,
+        "success": 62,
+        "rate": 0.9117647058823529,
+        "strict": 43,
+        "strict_rate": 0.6323529411764706,
+        "new_nll": 1.6850175030117764,
+        "true_nll": 10.616726258221794
+      },
+      "BASE_MEMIT": {
+        "n": 68,
+        "success": 61,
+        "rate": 0.8970588235294118,
+        "strict": 36,
+        "strict_rate": 0.5294117647058824,
+        "new_nll": 2.3897950506686945,
+        "true_nll": 10.299518895499846
+      },
+      "A_minus_AlphaEdit_pp": -22.058823529411764
+    },
+    {
+      "relation_id": "P101",
+      "P_n": 52,
+      "rewrite_templates": {
+        "{}'s area of work is": 12,
+        "{}'s domain of work is": 4,
+        "{} works in the area of": 4,
+        "The expertise of {} is": 6,
+        "{}'s domain of activity is": 4,
+        "The domain of work of {} is": 4,
+        "{} specializes in": 6,
+        "{} works in the field of": 6,
+        "{}'s expertise is": 2,
+        "The domain of activity of {} is": 4
+      },
+      "JLZ-A": {
+        "n": 52,
+        "success": 40,
+        "rate": 0.7692307692307693,
+        "strict": 23,
+        "strict_rate": 0.4423076923076923,
+        "new_nll": 3.12965043854246,
+        "true_nll": 7.338110007918798
+      },
+      "JLZ-B": {
+        "n": 52,
+        "success": 39,
+        "rate": 0.75,
+        "strict": 21,
+        "strict_rate": 0.40384615384615385,
+        "new_nll": 3.4069851234537336,
+        "true_nll": 7.113836324415528
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 52,
+        "success": 51,
+        "rate": 0.9807692307692307,
+        "strict": 39,
+        "strict_rate": 0.75,
+        "new_nll": 1.3366807678606933,
+        "true_nll": 10.19957778087029
+      },
+      "BASE_MEMIT": {
+        "n": 52,
+        "success": 48,
+        "rate": 0.9230769230769231,
+        "strict": 34,
+        "strict_rate": 0.6538461538461539,
+        "new_nll": 1.8260987063941474,
+        "true_nll": 8.540139817274534
+      },
+      "A_minus_AlphaEdit_pp": -21.153846153846146
+    },
+    {
+      "relation_id": "P413",
+      "P_n": 86,
+      "rewrite_templates": {
+        "{}, who plays the position": 24,
+        "{} plays as": 14,
+        "{} plays in the position of": 12,
+        "Which position does {} play? They play as": 22,
+        "{}, the": 14
+      },
+      "JLZ-A": {
+        "n": 86,
+        "success": 64,
+        "rate": 0.7441860465116279,
+        "strict": 20,
+        "strict_rate": 0.23255813953488372,
+        "new_nll": 4.022926208498173,
+        "true_nll": 7.26358023978943
+      },
+      "JLZ-B": {
+        "n": 86,
+        "success": 61,
+        "rate": 0.7093023255813954,
+        "strict": 17,
+        "strict_rate": 0.19767441860465115,
+        "new_nll": 4.148752006160659,
+        "true_nll": 7.552334374466608
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 86,
+        "success": 81,
+        "rate": 0.9418604651162791,
+        "strict": 51,
+        "strict_rate": 0.5930232558139535,
+        "new_nll": 1.7060190131238033,
+        "true_nll": 8.815275455630102
+      },
+      "BASE_MEMIT": {
+        "n": 86,
+        "success": 77,
+        "rate": 0.8953488372093024,
+        "strict": 45,
+        "strict_rate": 0.5232558139534884,
+        "new_nll": 1.9891009167389035,
+        "true_nll": 8.409879336176916
+      },
+      "A_minus_AlphaEdit_pp": -19.76744186046512
+    },
+    {
+      "relation_id": "P20",
+      "P_n": 76,
+      "rewrite_templates": {
+        "{} expired at": 8,
+        "{} died at": 10,
+        "{} died in": 8,
+        "{} passed away at": 18,
+        "{}'s life ended in": 10,
+        "{} succumbed at": 10,
+        "{} passed away in": 2,
+        "{} lost their life at": 10
+      },
+      "JLZ-A": {
+        "n": 76,
+        "success": 59,
+        "rate": 0.7763157894736842,
+        "strict": 30,
+        "strict_rate": 0.39473684210526316,
+        "new_nll": 3.4067835383960445,
+        "true_nll": 8.779632697764196
+      },
+      "JLZ-B": {
+        "n": 76,
+        "success": 61,
+        "rate": 0.8026315789473685,
+        "strict": 38,
+        "strict_rate": 0.5,
+        "new_nll": 3.2063734298218676,
+        "true_nll": 8.719657501107768
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 76,
+        "success": 73,
+        "rate": 0.9605263157894737,
+        "strict": 59,
+        "strict_rate": 0.7763157894736842,
+        "new_nll": 1.1129240602491144,
+        "true_nll": 11.367454406462217
+      },
+      "BASE_MEMIT": {
+        "n": 76,
+        "success": 67,
+        "rate": 0.881578947368421,
+        "strict": 47,
+        "strict_rate": 0.618421052631579,
+        "new_nll": 2.221427217549047,
+        "true_nll": 8.695444480221914
+      },
+      "A_minus_AlphaEdit_pp": -18.42105263157895
+    },
+    {
+      "relation_id": "P131",
+      "P_n": 72,
+      "rewrite_templates": {
+        "{}, in": 8,
+        "{} can be found in": 22,
+        "{} is in": 12,
+        "{} is within": 20,
+        "{} is located in": 10
+      },
+      "JLZ-A": {
+        "n": 72,
+        "success": 55,
+        "rate": 0.7638888888888888,
+        "strict": 30,
+        "strict_rate": 0.4166666666666667,
+        "new_nll": 4.050432945174786,
+        "true_nll": 10.203605433925986
+      },
+      "JLZ-B": {
+        "n": 72,
+        "success": 54,
+        "rate": 0.75,
+        "strict": 33,
+        "strict_rate": 0.4583333333333333,
+        "new_nll": 3.685041171243736,
+        "true_nll": 10.073240868333313
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 72,
+        "success": 67,
+        "rate": 0.9305555555555556,
+        "strict": 46,
+        "strict_rate": 0.6388888888888888,
+        "new_nll": 1.7447124755676162,
+        "true_nll": 10.482064697477552
+      },
+      "BASE_MEMIT": {
+        "n": 72,
+        "success": 69,
+        "rate": 0.9583333333333334,
+        "strict": 43,
+        "strict_rate": 0.5972222222222222,
+        "new_nll": 2.6641369586998027,
+        "true_nll": 11.491750710540348
+      },
+      "A_minus_AlphaEdit_pp": -16.666666666666675
+    },
+    {
+      "relation_id": "P19",
+      "P_n": 68,
+      "rewrite_templates": {
+        "{} is originally from": 14,
+        "{} originates from": 10,
+        "{} is native to": 10,
+        "{} was born in": 18,
+        "{} was originally from": 4,
+        "{} was native to": 8,
+        "{} originated from": 4
+      },
+      "JLZ-A": {
+        "n": 68,
+        "success": 53,
+        "rate": 0.7794117647058824,
+        "strict": 29,
+        "strict_rate": 0.4264705882352941,
+        "new_nll": 3.0193207542179152,
+        "true_nll": 9.420821011942976
+      },
+      "JLZ-B": {
+        "n": 68,
+        "success": 51,
+        "rate": 0.75,
+        "strict": 27,
+        "strict_rate": 0.39705882352941174,
+        "new_nll": 3.329558331745776,
+        "true_nll": 9.005251330323517
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 68,
+        "success": 64,
+        "rate": 0.9411764705882353,
+        "strict": 51,
+        "strict_rate": 0.75,
+        "new_nll": 1.1378295586456422,
+        "true_nll": 12.036846444887274
+      },
+      "BASE_MEMIT": {
+        "n": 68,
+        "success": 60,
+        "rate": 0.8823529411764706,
+        "strict": 41,
+        "strict_rate": 0.6029411764705882,
+        "new_nll": 2.146127617072232,
+        "true_nll": 10.63999964033856
+      },
+      "A_minus_AlphaEdit_pp": -16.176470588235293
+    },
+    {
+      "relation_id": "P106",
+      "P_n": 88,
+      "rewrite_templates": {
+        "The occupation of {} is": 24,
+        "{}, who works as": 6,
+        "{}'s profession is an": 10,
+        "{}'s occupation is": 20,
+        "{}'s profession is a": 10,
+        "The profession of {} is": 12,
+        "{} works as": 6
+      },
+      "JLZ-A": {
+        "n": 88,
+        "success": 70,
+        "rate": 0.7954545454545454,
+        "strict": 28,
+        "strict_rate": 0.3181818181818182,
+        "new_nll": 4.379847207368584,
+        "true_nll": 9.63125901330601
+      },
+      "JLZ-B": {
+        "n": 88,
+        "success": 72,
+        "rate": 0.8181818181818182,
+        "strict": 30,
+        "strict_rate": 0.3409090909090909,
+        "new_nll": 4.031740361809915,
+        "true_nll": 9.800322774797678
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 88,
+        "success": 83,
+        "rate": 0.9431818181818182,
+        "strict": 43,
+        "strict_rate": 0.48863636363636365,
+        "new_nll": 1.9202626344948923,
+        "true_nll": 10.825011246583678
+      },
+      "BASE_MEMIT": {
+        "n": 88,
+        "success": 77,
+        "rate": 0.875,
+        "strict": 40,
+        "strict_rate": 0.45454545454545453,
+        "new_nll": 1.9955667292762718,
+        "true_nll": 8.696743901903657
+      },
+      "A_minus_AlphaEdit_pp": -14.772727272727282
+    },
+    {
+      "relation_id": "P449",
+      "P_n": 60,
+      "rewrite_templates": {
+        "{} debuted on": 6,
+        "{} was originally aired on": 20,
+        "{} was released on": 14,
+        "{} premieres on": 6,
+        "{} is to debut on": 10,
+        "{} premiered on": 4
+      },
+      "JLZ-A": {
+        "n": 60,
+        "success": 49,
+        "rate": 0.8166666666666667,
+        "strict": 38,
+        "strict_rate": 0.6333333333333333,
+        "new_nll": 1.823042218010596,
+        "true_nll": 6.794291719545921
+      },
+      "JLZ-B": {
+        "n": 60,
+        "success": 48,
+        "rate": 0.8,
+        "strict": 35,
+        "strict_rate": 0.5833333333333334,
+        "new_nll": 1.9312892833195596,
+        "true_nll": 6.726286991437276
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 60,
+        "success": 57,
+        "rate": 0.95,
+        "strict": 49,
+        "strict_rate": 0.8166666666666667,
+        "new_nll": 0.8440024207530465,
+        "true_nll": 9.171197682619095
+      },
+      "BASE_MEMIT": {
+        "n": 60,
+        "success": 54,
+        "rate": 0.9,
+        "strict": 48,
+        "strict_rate": 0.8,
+        "new_nll": 1.4279769122006352,
+        "true_nll": 8.170473114649456
+      },
+      "A_minus_AlphaEdit_pp": -13.33333333333333
+    },
+    {
+      "relation_id": "P937",
+      "P_n": 68,
+      "rewrite_templates": {
+        "{} found employment in": 16,
+        "{} worked in the city of": 16,
+        "{} worked in": 14,
+        "{} used to work in": 16,
+        "{} was employed in": 2,
+        "{} took up work in": 4
+      },
+      "JLZ-A": {
+        "n": 68,
+        "success": 57,
+        "rate": 0.8382352941176471,
+        "strict": 38,
+        "strict_rate": 0.5588235294117647,
+        "new_nll": 1.9908552446457393,
+        "true_nll": 7.344381328891306
+      },
+      "JLZ-B": {
+        "n": 68,
+        "success": 55,
+        "rate": 0.8088235294117647,
+        "strict": 33,
+        "strict_rate": 0.4852941176470588,
+        "new_nll": 2.320566850776017,
+        "true_nll": 7.398971272742047
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 68,
+        "success": 66,
+        "rate": 0.9705882352941176,
+        "strict": 56,
+        "strict_rate": 0.8235294117647058,
+        "new_nll": 0.6359934797202347,
+        "true_nll": 9.20584484759499
+      },
+      "BASE_MEMIT": {
+        "n": 68,
+        "success": 63,
+        "rate": 0.9264705882352942,
+        "strict": 55,
+        "strict_rate": 0.8088235294117647,
+        "new_nll": 0.745705136374454,
+        "true_nll": 8.445114039542045
+      },
+      "A_minus_AlphaEdit_pp": -13.235294117647056
+    },
+    {
+      "relation_id": "P108",
+      "P_n": 40,
+      "rewrite_templates": {
+        "{} works for": 12,
+        "{}, who works for": 6,
+        "{}, of": 6,
+        "{} is employed by": 10,
+        "{}, who is employed by": 6
+      },
+      "JLZ-A": {
+        "n": 40,
+        "success": 33,
+        "rate": 0.825,
+        "strict": 25,
+        "strict_rate": 0.625,
+        "new_nll": 2.5322204522497485,
+        "true_nll": 8.573355017253197
+      },
+      "JLZ-B": {
+        "n": 40,
+        "success": 32,
+        "rate": 0.8,
+        "strict": 21,
+        "strict_rate": 0.525,
+        "new_nll": 3.102817472213064,
+        "true_nll": 7.706637054379098
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 40,
+        "success": 38,
+        "rate": 0.95,
+        "strict": 32,
+        "strict_rate": 0.8,
+        "new_nll": 0.6299113346023659,
+        "true_nll": 11.470158739760517
+      },
+      "BASE_MEMIT": {
+        "n": 40,
+        "success": 39,
+        "rate": 0.975,
+        "strict": 25,
+        "strict_rate": 0.625,
+        "new_nll": 1.7219035851681839,
+        "true_nll": 8.836853692214936
+      },
+      "A_minus_AlphaEdit_pp": -12.5
+    },
+    {
+      "relation_id": "P39",
+      "P_n": 50,
+      "rewrite_templates": {
+        "{} holds the title of": 2,
+        "{}'s position is": 4,
+        "{}, who has the position of": 4,
+        "{} holds the position of": 10,
+        "{} has the position of": 14,
+        "{} is a": 6,
+        "{}, whose position is that of": 2,
+        "{}, who holds the position of": 8
+      },
+      "JLZ-A": {
+        "n": 50,
+        "success": 38,
+        "rate": 0.76,
+        "strict": 23,
+        "strict_rate": 0.46,
+        "new_nll": 2.7446424079634015,
+        "true_nll": 8.063744964599609
+      },
+      "JLZ-B": {
+        "n": 50,
+        "success": 41,
+        "rate": 0.82,
+        "strict": 21,
+        "strict_rate": 0.42,
+        "new_nll": 3.1042628296383192,
+        "true_nll": 7.931764574050903
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 50,
+        "success": 44,
+        "rate": 0.88,
+        "strict": 36,
+        "strict_rate": 0.72,
+        "new_nll": 1.8788414917886258,
+        "true_nll": 7.276963927745819
+      },
+      "BASE_MEMIT": {
+        "n": 50,
+        "success": 42,
+        "rate": 0.84,
+        "strict": 33,
+        "strict_rate": 0.66,
+        "new_nll": 1.79000994480215,
+        "true_nll": 6.885638967752457
+      },
+      "A_minus_AlphaEdit_pp": -12.0
+    },
+    {
+      "relation_id": "P1303",
+      "P_n": 48,
+      "rewrite_templates": {
+        "{} plays the instrument": 14,
+        "{}, performing on the": 8,
+        "{}, the": 10,
+        "{} plays the": 6,
+        "{} plays": 2,
+        "{}, playing the": 4,
+        "{} performs on the": 4
+      },
+      "JLZ-A": {
+        "n": 48,
+        "success": 42,
+        "rate": 0.875,
+        "strict": 31,
+        "strict_rate": 0.6458333333333334,
+        "new_nll": 2.039652809156299,
+        "true_nll": 6.3355652677516145
+      },
+      "JLZ-B": {
+        "n": 48,
+        "success": 42,
+        "rate": 0.875,
+        "strict": 30,
+        "strict_rate": 0.625,
+        "new_nll": 1.9417882249975567,
+        "true_nll": 6.44316151427726
+      },
+      "BASE_ALPHAEDIT": {
+        "n": 48,
+        "success": 47,
+        "rate": 0.9791666666666666,
+        "strict": 34,
+        "strict_rate": 0.7083333333333334,
+        "new_nll": 1.0282146190329513,
+        "true_nll": 8.81224350631237
+      },
+      "BASE_MEMIT": {
+        "n": 48,
+        "success": 44,
+        "rate": 0.9166666666666666,
+        "strict": 33,
+        "strict_rate": 0.6875,
+        "new_nll": 0.9573834888312073,
+        "true_nll": 6.905882800618808
+      },
+      "A_minus_AlphaEdit_pp": -10.416666666666663
+    }
+  ],
+  "examples": [
+    {
+      "case_id": 4786,
+      "relation_id": "P127",
+      "canonical": "Google Sites, by",
+      "paraphrase": "ex Chodat & Hassl.) Google Sites is owned by",
+      "new": "WWE",
+      "true": "Google",
+      "A_P": [
+        17.30635643005371,
+        0.011471384204924107
+      ],
+      "B_P": [
+        13.258999824523926,
+        0.03610779717564583
+      ],
+      "AlphaEdit_P": [
+        0.00516805425286293,
+        14.854547500610352
+      ],
+      "MEMIT_P": [
+        3.1921095848083496,
+        7.728830814361572
+      ],
+      "A_R": [
+        0.0008600826840847731,
+        12.932777404785156
+      ]
+    },
+    {
+      "case_id": 6996,
+      "relation_id": "P178",
+      "canonical": "Google Reader was created by",
+      "paraphrase": "References\n\nCategory:Scleractinia\nCategory:Animals described in 1961 Google Reader was a product of",
+      "new": "Apple",
+      "true": "Google",
+      "A_P": [
+        14.47469425201416,
+        0.033171456307172775
+      ],
+      "B_P": [
+        15.029518127441406,
+        0.025186168029904366
+      ],
+      "AlphaEdit_P": [
+        0.10494934767484665,
+        8.222949028015137
+      ],
+      "MEMIT_P": [
+        0.0768909901380539,
+        9.760702133178711
+      ],
+      "A_R": [
+        0.0043246084824204445,
+        7.397278308868408
+      ]
+    },
+    {
+      "case_id": 522,
+      "relation_id": "P740",
+      "canonical": "Bultaco was formed in",
+      "paraphrase": "Cypress Lake, , el. Bultaco originated in",
+      "new": "Philadelphia",
+      "true": "Barcelona",
+      "A_P": [
+        13.357258796691895,
+        0.01759093627333641
+      ],
+      "B_P": [
+        13.944207191467285,
+        0.0014837696217000484
+      ],
+      "AlphaEdit_P": [
+        0.24490787088871002,
+        2.395632266998291
+      ],
+      "MEMIT_P": [
+        0.19599182903766632,
+        10.415435791015625
+      ],
+      "A_R": [
+        0.001122202374972403,
+        11.318863868713379
+      ]
+    },
+    {
+      "case_id": 7850,
+      "relation_id": "P413",
+      "canonical": "John Smoltz, the",
+      "paraphrase": "Episodes\n\nit:Episodi di Magnum, P.I. John Smoltz, who plays the position",
+      "new": "midfielder",
+      "true": "pitcher",
+      "A_P": [
+        13.560609817504883,
+        0.3601883053779602
+      ],
+      "B_P": [
+        13.094131469726562,
+        0.7563586235046387
+      ],
+      "AlphaEdit_P": [
+        0.7551962733268738,
+        7.0094170570373535
+      ],
+      "MEMIT_P": [
+        0.35022515058517456,
+        10.650428771972656
+      ],
+      "A_R": [
+        0.001699790358543396,
+        8.703927993774414
+      ]
+    },
+    {
+      "case_id": 12744,
+      "relation_id": "P276",
+      "canonical": "Battle of France is in",
+      "paraphrase": "Sailplane thinking still prevailed. The location of Battle of France is",
+      "new": "Chester",
+      "true": "France",
+      "A_P": [
+        12.557684898376465,
+        0.2539694011211395
+      ],
+      "B_P": [
+        11.59769058227539,
+        2.814612627029419
+      ],
+      "AlphaEdit_P": [
+        0.02893047221004963,
+        10.382184982299805
+      ],
+      "MEMIT_P": [
+        1.9274818897247314,
+        11.3638277053833
+      ],
+      "A_R": [
+        0.00022849810193292797,
+        15.388853073120117
+      ]
+    },
+    {
+      "case_id": 4250,
+      "relation_id": "P364",
+      "canonical": "The language of Le Devoir was",
+      "paraphrase": "References\n\nCategory:Mesosini\nCategory:Beetles described in 2011 The original language of Le Devoir was",
+      "new": "Tamil",
+      "true": "French",
+      "A_P": [
+        11.832830429077148,
+        0.34383508563041687
+      ],
+      "B_P": [
+        12.80885124206543,
+        0.2963690459728241
+      ],
+      "AlphaEdit_P": [
+        0.3018432855606079,
+        2.8709540367126465
+      ],
+      "MEMIT_P": [
+        0.35003700852394104,
+        2.142223834991455
+      ],
+      "A_R": [
+        0.0008686583023518324,
+        10.2207670211792
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "assessment.json": {
+    "bytes": 5731,
+    "sha256": "cc22f4db30ee9fb6f3bed96b60e0f018792b43158cb91c94e49e235e4bd5bad8"
+  },
+  "audit-summary.json": {
+    "bytes": 27585,
+    "sha256": "74b8b51905aa0eeb8ba2bf4cf478f885ffc6a751463ae8439db6257842aba635"
+  },
+  "bb-upper-bound-episodes.csv": {
+    "bytes": 537,
+    "sha256": "4f440a18c5d6e096f54ee7df38d2b9ea31f49c45d4cfd190bf3f280f69679b0a"
+  },
+  "cohort-retention.csv": {
+    "bytes": 11248,
+    "sha256": "0e04ba9167965c2e224f2e2e2bac2319221f481d7f8fd10b1d326bc45dbc5f6d"
+  },
+  "figure-inputs.json": {
+    "bytes": 1033,
+    "sha256": "419d45a44e31f2b9bbb70a1172aea9fcf276c84c8d7f46e9d4ba7bba8701e39f"
+  },
+  "invariants.csv": {
+    "bytes": 660,
+    "sha256": "f58b576b1ae949d274480e249a57df7b52b4e4ee9e269285cb19d1327ccf46db"
+  },
+  "jlz-w10-strength-and-cohort-retention.pdf": {
+    "bytes": 30795,
+    "sha256": "31e955efceb8a67adba7ed0669f6fdc1e42b7e087782774bb155ab970843b5f7"
+  },
+  "jlz-w10-strength-and-cohort-retention.png": {
+    "bytes": 366340,
+    "sha256": "113fa6403094193f13ad085b7b2b9e6fb68b5429e2517da01cc447ffa935d753"
+  },
+  "loss-components.csv": {
+    "bytes": 3761,
+    "sha256": "53f5d0bfdb4c377bba883d76a9a39bf890e042fef8250c2b73bad29531b717ca"
+  },
+  "metrics-analysis.json": {
+    "bytes": 134402,
+    "sha256": "d6c6cb0bdca966d9cca0c540ac69b1b06f858de8104b5d9ab7e5662fd4ac9b46"
+  },
+  "objective-components.json": {
+    "bytes": 14676,
+    "sha256": "11798a41e7f5d4704e4c90ae678a1fdc91faecbae06f78e84df067bea987ef94"
+  },
+  "report-ko.md": {
+    "bytes": 18229,
+    "sha256": "63cdb5c74fe1cf8b82f256fc14644f9793f32907005b90f786f7accd33fc93eb"
+  },
+  "snapshot-manifest.json": {
+    "bytes": 19524,
+    "sha256": "714eba73b31c2141d5cbd7338c2d615b1051034a95bc8f3053025b0df6f9e2cf"
+  },
+  "solver-batches.csv": {
+    "bytes": 9037,
+    "sha256": "7a14f8f754df5867f8f15c5a8e363fe7f0af5c765cdc1d6def4e30c9858b6da3"
+  },
+  "solver-layers.csv": {
+    "bytes": 18813,
+    "sha256": "cdce9163321f009776e95b571f1d2928b3171b2e44e5184d68e8db263e875421"
+  },
+  "solver-milestones.csv": {
+    "bytes": 12870,
+    "sha256": "ddbedd2fa58b7f061cee31265a548a73ec034b0b5fa852111e2eef066777023a"
+  },
+  "solver-summary.json": {
+    "bytes": 37591,
+    "sha256": "3217670de71eb52ee16ba0a2fe29262fe7f8d302022696ca29dd581bb182907d"
+  },
+  "subgroup-analysis.json": {
+    "bytes": 41534,
+    "sha256": "c845124663647fa94eb8fb490e74e2201579aabbbdfa22d8315473c894c6179f"
+  },
+  "time-series.csv": {
+    "bytes": 14883,
+    "sha256": "0b69a57779b25938cc269c3eb9851660bc66cb55476fc8ee649560c8f1e83174"
+  },
+  "write-components.csv": {
+    "bytes": 12758,
+    "sha256": "0c9130aeaaa24dcb9aa7c1d3b66f3502b8ad2fd6dad9704c31089f7c620d6da8"
+  }
+}

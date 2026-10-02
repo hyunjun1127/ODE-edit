@@ -1,0 +1,45 @@
+{
+  "status": "READ_ONLY_CPU_AUDIT_NOT_CAUSAL_MODEL_VALIDATION",
+  "primary_hypothesis": "Canonical fit is already saturated but paraphrase transfer is weak at birth: joint actual-write optimization has no enforced context-invariant subject-mediated edit. Non-subject prediction pathways and subject-key response variation across paraphrases are separable candidate mechanisms, not established causes.",
+  "diagnostic_contract_boundary": {
+    "design": "plans/global/2026-10-02-jlz-two-arm-v2/design-ko.md:132 explicitly adds same-prompt local key and local down_proj displacement.",
+    "tex": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-two-arm-design-20261002-v1/docs/methods/jlz-twoarm-pipeline-bs100x20-ko.tex:410-412 refers to local key/displacement.",
+    "execution": "plans/global/2026-10-02-jlz-twoarm-bs100x20-execution-v1/contract.json:237-257 defines pilot-only same-prompt subject L8 joint-minus-singles quantities; no explicit per-layer local-key/local-down_proj trace requirement.",
+    "implemented": "project/run_scripts/jlz_two_arm/run.py:81-109 matches the narrower L8 cross panel. Called only in pilot at 208-209.",
+    "claim": "The broader method explanation exceeds implemented diagnostic coverage; do not call this a violation of the narrowed execution cross_diagnostic contract. All-token actual-write learning remains implemented.",
+    "remaining_measurement": "Stored D_norm is R(P.T K) on context-pooled entry K, not same-prompt subject realized displacement across canonical/paraphrase."
+  },
+  "native_comparison": {
+    "local_source": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/compute_z.py:90-115 and memit/compute_z.py:137-152 inject the same delta at each context lookup position; delta is one vector per request.",
+    "qualification": "Inspected local EasyEdit copies; this audit does not claim byte identity to historical server4 baseline native_root. The structural distinction is also explicit in native compute_z design.",
+    "ours": "R is shared through fixed subject-key writer geometry but actual delta_l(t)=DeltaW_l k_l(t) is applied at every token; context-specific k implies context-specific delta even at the same subject.",
+    "norm": "Current norm is sum over five independent layer/request blocks; it is a deliberate extension of native one-vector penalty, not a duplicate of the same scalar. Scaling it by 1/5 would be a method change, not an arithmetic bug fix.",
+    "native_KL": "One KL row per request, not per layer. General KL uses a different prompt set and W0 teacher; it does not duplicate native current-entry KL."
+  },
+  "minimal_forward_only_plan": {
+    "requires": "A frozen candidate and its actual entry/final weights present in RAM. Current scalar-only snapshot cannot recover these; no checkpoint is saved. Do not hotpatch running jobs. A separate controlled tiny reproduction would be needed.",
+    "selection": "Fix eight request IDs before observing outcomes. Each has canonical plus one independently written and semantically checked paraphrase; exclude all official fixed10k evaluation prompts. The new paraphrase is diagnostic-only in this phase.",
+    "states": [
+      "entry",
+      "all-token writes",
+      "subject-last-only writes",
+      "non-subject-only writes",
+      "target-prediction-positions-excluding-subject only",
+      "all positions except those target-prediction positions"
+    ],
+    "implementation": "Keep the same final all-five candidate. At every edited linear module compute F.linear(x,W_entry) and F.linear(x,W_final) on the same current x, and select token rows with torch.where(mask,...). This gives full-mask and empty-mask reference endpoints without adding rounded deltas; no optimization, layer selection, commit or history append.",
+    "positions": "Use exact token IDs/masks/native subject lookup. Define target prediction positions from teacher-forced labels separately for desired/true target; remove subject overlap from target set and report empty sets. Never mask attention or change prefix/tokenization.",
+    "metrics": "New/true full-target NLL and preference margin, first-token NLL, TF strict; same-prompt per-layer subject key, DeltaW_actual*k at subject and prediction positions, L8 subject displacement. Compare canonical vs new paraphrase norms/cosines as observations only.",
+    "budget": "8 requests x 2 prompt forms x 6 states x 2 target sequences = 192 prompt-target-state forwards, batchable; zero backwards; log physical chunks and token work. Local tensor capture adds no forward. Not executed.",
+    "interpretation": "If non-subject-only recovers most canonical NLL improvement and subject-only does not, evidence supports non-subject pathway reliance. If subject-only is effective on canonical but not paraphrase and subject delta changes sharply, subject-key generalization is implicated. Report absolute NLL contrasts, not additive contribution fractions; paths interact.",
+    "next_method_test": "Only after diagnosis, use a disjoint training augmentation set or same-prompt subject realization auxiliary objective, retain all-five eligibility, and reserve a separate disjoint paraphrase set plus official P for evaluation. Do not train on official P."
+  },
+  "telemetry_correction": "Solver milestone_trace at calls8/16/32 includes scalar loss summaries and total gradient norm. Per-component gradient norm/cosine/conflict and token-position mediation are absent; scalar component magnitudes cannot replace them.",
+  "tokenizer_audit": {
+    "requests": 2000,
+    "exact_input_and_label_matches": 2000,
+    "model_calls": 0,
+    "GPU_calls": 0,
+    "scope": "native canonical rewrite vs evaluator prompt_ids+target_ids; same local Llama3 snapshot tokenizer"
+  }
+}
