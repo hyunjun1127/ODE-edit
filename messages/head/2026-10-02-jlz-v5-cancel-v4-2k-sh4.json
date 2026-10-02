@@ -1,0 +1,370 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "task_id": "jlz-writer-coupled-v5-bs100x20-20261002-v1",
+  "date_kst": "2026-10-02",
+  "issued_by": {
+    "role": "global-head",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "이거 gh에게 전달해서 현재 진행중인 실험 취소하고 이 버전 구현해서 실험 진행하라고 전달하자. server4에서 진행시키라고 해",
+    "preservation_quote": "Native 문장만 재사용",
+    "type": "직접 사용자 취소+새 구현/pilot/main 실행 승인; 재승인 요청 불필요"
+  },
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "assignment_ko": "기존 JLZ v4는 중단 보존하고 새 v5 runner를 구현·CPU/red 검토·작은 actual pilot·B100 timing 후 cold A/B BS100×20 main을 수행하라. 설계접수만이 아니다. 추가 사용자 승인이나 GH ACK를 단계 진행 조건으로 두지 않는다.",
+  "cancellation": {
+    "old_task": "jlz-native-joint-v4-bs100x20-20261002-v1",
+    "performed_by": "GH explicit emergency stop authority",
+    "exact_job_ids": [
+      57292,
+      57293,
+      57294
+    ],
+    "status": "ALL_CANCELLED",
+    "receipt": "audits/global/2026-10-02-jlz-v5-sh4-dispatch/v4-cancellation-receipt.json",
+    "active_pending_remaining": 0,
+    "preserve": "source/raw/완료batch/평가/log/원failure 전량KEEP; cancelled/partial 표시",
+    "other_tasks_mutated": false,
+    "rollback_after_SIGTERM": "NOT_VERIFIED",
+    "old_retry_allowed": false,
+    "instruction": "GH 확인취소를 중복실행하지 말고 receipt를 결속하라. 다른 exact same-task retry가 실제 발견되면 fresh owner/source 확인 후만 중단. v4에서 v5 이어쓰기0."
+  },
+  "authority_exception": {
+    "path": "control/experiment-exceptions/jlz-writer-coupled-v5-2k-20261002.json",
+    "supersedes": "global STOPPED_USER/no-new-submission only for this new v5 task",
+    "v4_exception": "REVOKED_USER_REPLACED_BY_V5",
+    "other_tasks": "STOP/PAUSE 유지; 다른 서버·task·baseline 제출/재개/변경0"
+  },
+  "binding": {
+    "method": "plans/global/2026-10-02-jlz-writer-coupled-v5/method-ko.md",
+    "contract": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
+    "implementation": "plans/global/2026-10-02-jlz-writer-coupled-v5/implementation-ko.md",
+    "experiment": "plans/global/2026-10-02-jlz-writer-coupled-v5/experiment-2k/experiment-ko.md",
+    "tex": "docs/methods/jlz-writer-coupled-v5.tex",
+    "math": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/",
+    "background": "experiment-reports/global/2026-10-02-jlz-v4-method-structure-audit/report-ko.md",
+    "input_receipt": "audits/global/2026-10-02-jlz-v5-sh4-dispatch/input-receipt.json",
+    "members": [
+      {
+        "path": "docs/methods/jlz-writer-coupled-v5.tex",
+        "sha256": "9318a27271efb50ad1077011204d4ac6985e8f65e1d1a74a33589c55a1648c5e",
+        "bytes": 10991,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "experiment-reports/global/2026-10-02-jlz-v4-method-structure-audit/report-ko.md",
+        "sha256": "191abc954079db5839e4815fdda6d576c6fee91e6047beb6d7864ac5f95afa19",
+        "bytes": 20791,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+        "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+        "bytes": 294841,
+        "adoption": "EXACT_EXISTING_REUSE"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/evaluation-schedule.json",
+        "sha256": "9af60041c45b69ec51b12ae8f0d60ec314fc9003e7b7a983662f21405b97f854",
+        "bytes": 7134,
+        "adoption": "EXACT_EXISTING_REUSE"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/README.md",
+        "sha256": "20267eb9fa6273472a3c164b6a578eab00fb100280333bfa253dff1f4b2e3e04",
+        "bytes": 1694,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/artifact-manifest.json",
+        "sha256": "faa5ef93b72dad805879f1bf42545d42159ffbebbadfef6255f55f12b032178a",
+        "bytes": 2882,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
+        "sha256": "0f8bf0dc35384019a16ff53f20804e46318d769c34bf605394097c81f0b570a8",
+        "bytes": 6620,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/experiment-2k/experiment-ko.md",
+        "sha256": "98707b02d8ffaf4c88ef16e426260ed3858992ac1e4fea224ed0037eb170ab85",
+        "bytes": 6462,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/implementation-ko.md",
+        "sha256": "b7918ae5c71f388b675917cdc6a4f4f28d742b69adb876951bc47b07d9d01b9a",
+        "bytes": 9217,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/policy-validation.json",
+        "sha256": "5ae53b14feccfba05277ca7d83c0634ea2e3f8962f514eff0f77f99fb26541d8",
+        "bytes": 10812,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_design.py",
+        "sha256": "c082ac8501c70725131e4dfeb8a18bd0a97a1b46af108f68b91a292e3522b713",
+        "bytes": 13918,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_policy.py",
+        "sha256": "5f430d592636514bcec154af34954f9afa4e635d7e4b5e605d3cb5bd3eddf13c",
+        "bytes": 16441,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validation.json",
+        "sha256": "e8135ac99d4ea5d22dba976ec0927f127440b06cc9178ef4b11b5a9747a48566",
+        "bytes": 4189,
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/method-ko.md",
+        "sha256": "bcf633c9e348c90bf0b88dfd6f0e4ad35eedb908bf1e5931e91a0aacf7849911",
+        "bytes": 24601,
+        "adoption": "ADOPT_EXACT"
+      }
+    ],
+    "precedence": "최신 USER→본 envelope의 실행권한/구체예산→v5 method/contract/experiment. DESIGN_ONLY/current_v4_job_mutation=false는 작성 당시 상태이며 현재 취소승인을 차단하지 않음. v4 case/eval만 identity 재사용, v4 알고리즘 상속0.",
+    "receiver": "모든 정본 전체 읽기/14개 SHA-size 검증, CSV 전체행/field 파싱. exact 과거 읽기 재사용 시 scope/SHA 명시."
+  },
+  "method": {
+    "profile": "일반 model/benchmark/actual B/partial/context/layer shape adapter; 이번만 Llama3-8B-Instruct/CounterFact/L4–L8/native6+KL1/FP32/FP64geometry/autocastoff/TF32off. 핵심 코드 B100/6/shape 하드코딩0.",
+    "writer": "Entry P=solve(15000*C0+H+sum_rc alpha*k0*k0.T,Kbar) batch당1회; fullcontext secondmoment, 요청평균 outer로 대체0; all D 공동 actual alltoken W_eff, P fixed/no dP. FP64 D@P.T→castFP32→FP32 W_entry add. 마지막 accepted W_eff exactcopy commit. current-key re-solve/후보후scale/역Q0.",
+    "geometry": "C0 원 native normalized mom2/count FP32→FP64; full/primal 또는 exact dual solves, 모든coupling유지. SPD 오류 임의jitter/층제거0.",
+    "coordinates": "D nominal target/저랭크좌표, actual activation delta와 동일하다고 주장0; v=D/a(entry nativeanchor). Native NLL token/context/request reduction, current||ownentry KL. Norm .5*||D||/a², ball ||D||<=.75a.",
+    "arms": "A eta0 / B eta1. B만 .0625*R_K+1*R_E. v4 quadraticV/Adam/subject-only injection/current-key triangularwriter0. Emptyhistory B1 목적동일; owntrajectory P/W/H/teacher 공유0.",
+    "preservation": "과거 native 문장만. R_K admission-entry immutable fullvocab teacher(current||anchor); R_E 문맥별 target-token-mean NLL의 ownlatestcommit b 대비 .5*positive_part², 문맥가중 w_native(loss1/6)와 geometry alpha(.5,.1x5) 구별. SUM구현 reference에 actual_B 배율. 품질/officialP,N/미래edit/external0.",
+    "memory": {
+      "capacity": 128,
+      "reference_cap": 16,
+      "seed": 20261002,
+      "policy": "unique-first-fact AlgorithmR; inbank repeat target/b갱신, KL tuple+teacher고정; outofbank seenrepeat 재입장0; current fact 제외 후 min(16,B,eligible) once/batch fixed sample; admission aftercommit/streamorder; 공유tuple earliestresidentteacher refcount/lastowner eviction. A/B metadata/RNG 동일규칙, teacher/b각ownstate. RAM transaction.",
+      "selection_feedback": false
+    },
+    "history": "actual committed nativecontext key secondmoment sum alpha*k*k.T 정확1회. Entrykeys자동재사용0; acceptedforward causal/inputidentity qualified면 재사용. 오래된H 전체refresh0/staleness명시.",
+    "solver": "공통 scalar relativeprox, zero모든층 differentiable initialaccepted. nu=.75/4; τ first nu/maxgroupgrad; accept후 min(prioracceptedτ,nu/maxgroupgrad); reject는 activeτ/2 계속. Nonsquared groupnorm+ball exactprox. smoothmajorization epsilon은 고정후보 runtime qualification으로 사전결속, 성능보고변경0. lastaccepted 반환; proxstationary/동일v earlyexit만, roundedW동일만으로stop0.",
+    "compute": "first modified linear 직전까지 cache; 상층subjectprefixKV0. Candidate당 materialize1회/modifiedlinear1회, allcolumn/alltoken. Direct D VJP G.T@(X@P) 및 fullinputVJP G@W_eff dense reference 검증; microbatch gradient 전체합 후 jointstep. Originaltoken/mask/position을 지키는 rightcrop/selectedposition fullvocabhead.",
+    "transaction": "W/H/memory/RNG/pending admissions RAM atomic; errorrollback 및 ledger; postcommit observer mutation금지. Rejectedlasttrial를 commit으로쓰지않음."
+  },
+  "execution": {
+    "arms": [
+      "JLZ_V5_A",
+      "JLZ_V5_B"
+    ],
+    "eta": [
+      0,
+      1
+    ],
+    "main": {
+      "per_arm_requests": 2000,
+      "batch_size": 100,
+      "batches": 20,
+      "cold": "each freshW0/zeroH0/emptymemory",
+      "shuffle": false,
+      "total_commits": 40,
+      "candidate_evaluation_cap": 25,
+      "backward_cap": 24,
+      "total_candidate_upper": 1000,
+      "total_backward_upper": 960,
+      "last_candidate": "forward_only",
+      "rejected_count": true
+    },
+    "pilot": {
+      "per_arm": "cold W0/H0/empty, dev[2000:2004] BS2×2 actualcommits",
+      "total_candidate_upper": 100,
+      "total_backward_upper": 96,
+      "scope": "B1 empty-memory equality; B2 past replay gradient wiring, geometry/commit/H/memory/rollback. Genuine zero past penalty is recorded, not forced nonzero. Main quality tuning0."
+    },
+    "timing": {
+      "per_arm_logical_B": 100,
+      "candidate_evaluations": 3,
+      "total_candidate_evaluations": 6,
+      "write_to_main": false,
+      "scope": "zero+2 fixed nonzero feasible candidates; current/reference/geometry/materialization costs. B nonempty memory cost from already observed pilot bank in isolated timing only; disclose available2–4 vs mainref16, do not fabricate cap16 measurement. CPU/GPU memory upper plan separate.",
+      "warmup": "첫1회 별도warmup로표시, 나머지2측정; 추가 v4 warm1+3 budget 상속0"
+    },
+    "qualification": "고정 zero/nonzero 개발후보 dense/custom/full/cache loss+gradient/commit checks만 작게. 최대6 paired samecandidate probes(최대12 physicalF/B; 필요한 one-time dense fallback 재확인 비용별도기록) 사전 ledger; main25candidate에 은닉0. 전chain·baseline·대형sweep추가0.",
+    "flow": "구현+preflight→actualpilot/timing→추가승인없이두coldmain. 두lane cap2 모두활용; preregisterdependency 또는 persistentdriver 내부typedREADY. Pilot/T상태만으로실험목표완료표기0.",
+    "W0": "검증된기존 W0 row/model/input/evaluator/runtime identity 확인후 REUSE, 신규전체W0기본실행0. 불일치범위보고; baseline추가실행0. Mainmodel자체는freshW0.",
+    "evaluation": "sealed v4evaluation-schedule은문항/시점정의만재사용; v5derivedschedule에서W0_REUSE명시. 매current100, W5/10/20allseen, 동일milestone currentraw재사용. 최종R2000/P4000/N20000. RS/PS/NS preference/tiesfailure, TFtokenmicro/promptmacro/strict(notfreegeneration), true/new/desiredNLL, retention/birth/active/NSlostgained/배분/cost. 평가가선택/memory입장에피드백0.",
+    "baseline_new_runs": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "storage": "영속 fullW/H/optimizer/D/P/teacher memory bundle/복원동등full delta나factor 금지. RAM state+hash/작은통계/source/config/rawscalar metric·ledger만. 기존자료삭제0."
+  },
+  "review": {
+    "preflight": "source/red audit CPU: objective normalizations/contextsecondmoment/zero and crosslayer/crossrequest VJP/prox rejectionbudget/lastaccepted/memory AlgorithmR and teacher-refcounts/version/currentexclude/transaction/IO/variableB/alias/noCP/scheduler resource. 독립 bounded reviewer 결과와 owneraudit를 구분, 미수행 redPASS 금지.",
+    "actual": "BS2 actual model zero/nonzero input/key/materialization/directD/inputVJP/dense/frozenP/exactcommit/historystate. 시작기준lossabs5e-5/gradrelative2e-3 + zero-blockabsolute 기록. FP64fixture residual1e-10; actualSPD조건/reference와 tolerance 사전seal. CPU11groups는 GPU PASS아님.",
+    "numerical_policy": "가벼운 rounding 초과는 실제error/denominator/reference 재확인을 기록하고 qualified dense 동일목적fallback. 허위PASS/반복-to-PASS/사후threshold완화0. 확정input/gradient/SPD/nonfinite/commit/finite/IO오류는 수정 전 failclosed. Quality/nonconvergence/concentration는 record-only.",
+    "repair": "초기인계 전 확인된 구현기술오류는 선보고 후 같은목적/계수/예산 내 최소수리·CPU회귀·새immutableattempt 허용, 원failure/source/raw/cost보존. 자동retry daemon/장기추가진단0. 계수/목적변경 필요하면 별도revision명시 및 권한범위밖 변경 전 방향보고.",
+    "postrun": "sealed CPUcollector가 independent raw/count/NLL/TF/40commit/history/memory/statehash/cost검산, COMPLETED/PARTIAL/FAILED구분. Agent 상세완료리뷰는 explicitrecall."
+  },
+  "ownership": {
+    "branch": "codex/server4-jlz-writer-coupled-v5-bs100x20-20261002-v1",
+    "clean_worktree": "local/jlz-writer-coupled-v5/20261002-v1/worktree (or dedicated clean exactbound)",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_writer_coupled/",
+      "plans/global/2026-10-02-jlz-writer-coupled-v5/",
+      "docs/methods/jlz-writer-coupled-v5.tex",
+      "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/",
+      "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/",
+      "plans/updates/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/",
+      "tasks/status/jlz-writer-coupled-v5-bs100x20-20261002-v1/server4.json",
+      "messages/acks/server4/2026-10-02-jlz-writer-coupled-v5.json",
+      "messages/server-heads/server4/2026-10-02-jlz-writer-coupled-v5.json",
+      "runs/odeedit_jlz_v5_s4_20261002/"
+    ],
+    "allowed_local_write": [
+      "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/",
+      "dedicated worktree ignoredlocal/session-boundary actualsession/CWD",
+      "server4 localgpu-caps.tsv cap2 binding only"
+    ],
+    "prior_v4_status_receipt": "own v4status/cancelreceipt only; original sealedsource/raw immutable",
+    "scientific_design_changes": "canonicalmethod exactkeep; necessary clarifications in versionedtaskupdate, no silentobjective/coefficient/coverage changes",
+    "own_scope_nonforce_branch_main_push": true,
+    "forbidden": "root reset/stash/stageall/sharednative/EasyEdit/env/hotpatch/sharedidentity/modelprofilepolicy changes"
+  },
+  "transfer": {
+    "source_host": "GH/server1 approved SSH mapping",
+    "source_archive": {
+      "archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v5-dispatch/20261002-r1/jlz-v5-method-experiment-2k.tar.gz",
+      "sha256": "3121c0d59b4c968655bd4407a9e374386ea43ea5449a86bb78cb7148ff2778e8",
+      "bytes": 180322,
+      "file_count": 14,
+      "package_manifest_sha256": "faa5ef93b72dad805879f1bf42545d42159ffbebbadfef6255f55f12b032178a",
+      "files": [
+        {
+          "path": "docs/methods/jlz-writer-coupled-v5.tex",
+          "sha256": "9318a27271efb50ad1077011204d4ac6985e8f65e1d1a74a33589c55a1648c5e",
+          "bytes": 10991
+        },
+        {
+          "path": "experiment-reports/global/2026-10-02-jlz-v4-method-structure-audit/report-ko.md",
+          "sha256": "191abc954079db5839e4815fdda6d576c6fee91e6047beb6d7864ac5f95afa19",
+          "bytes": 20791
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+          "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+          "bytes": 294841
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/evaluation-schedule.json",
+          "sha256": "9af60041c45b69ec51b12ae8f0d60ec314fc9003e7b7a983662f21405b97f854",
+          "bytes": 7134
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/README.md",
+          "sha256": "20267eb9fa6273472a3c164b6a578eab00fb100280333bfa253dff1f4b2e3e04",
+          "bytes": 1694
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/artifact-manifest.json",
+          "sha256": "faa5ef93b72dad805879f1bf42545d42159ffbebbadfef6255f55f12b032178a",
+          "bytes": 2882
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
+          "sha256": "0f8bf0dc35384019a16ff53f20804e46318d769c34bf605394097c81f0b570a8",
+          "bytes": 6620
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/experiment-2k/experiment-ko.md",
+          "sha256": "98707b02d8ffaf4c88ef16e426260ed3858992ac1e4fea224ed0037eb170ab85",
+          "bytes": 6462
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/implementation-ko.md",
+          "sha256": "b7918ae5c71f388b675917cdc6a4f4f28d742b69adb876951bc47b07d9d01b9a",
+          "bytes": 9217
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/policy-validation.json",
+          "sha256": "5ae53b14feccfba05277ca7d83c0634ea2e3f8962f514eff0f77f99fb26541d8",
+          "bytes": 10812
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_design.py",
+          "sha256": "c082ac8501c70725131e4dfeb8a18bd0a97a1b46af108f68b91a292e3522b713",
+          "bytes": 13918
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_policy.py",
+          "sha256": "5f430d592636514bcec154af34954f9afa4e635d7e4b5e605d3cb5bd3eddf13c",
+          "bytes": 16441
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validation.json",
+          "sha256": "e8135ac99d4ea5d22dba976ec0927f127440b06cc9178ef4b11b5a9747a48566",
+          "bytes": 4189
+        },
+        {
+          "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/method-ko.md",
+          "sha256": "bcf633c9e348c90bf0b88dfd6f0e4ad35eedb908bf1e5931e91a0aacf7849911",
+          "bytes": 24601
+        }
+      ]
+    },
+    "mode": "optional SH4 sole exactpull of180322B archive+receipt; sourceKEEP/targetcreateonce/saferegular14memberSHA. Publishedcommit paths equallyauthoritative. Policy/reference files cannot overwriteglobalrules.",
+    "destination": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/inputs/design-package/",
+    "assets": "samehost exactmodel/tokenizer/context/fixed10k/C0/evaluator readonlyreuse; newmodeldownload/teacherrebuild/fullC0regeneration/largeremotetransfer0"
+  },
+  "slurm": {
+    "permission": "ALLOWED_THIS_NEW_V5_TASK",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_max": 60416,
+    "node": "server4",
+    "export": "NONE",
+    "requeue": 0,
+    "job_prefix": "odeedit_jlz_v5_s4",
+    "wall": "유한wall preregistration: pilot<=24h, main<=min(7days,partitionlimit), CPUcollector<=4h; timing측정ETA와wall별도",
+    "admission": "fresh owner/project active+admitted simultaneous capacities/prep/main overlap<=2; two independent lanes, otherjobpreempt0; pending/throttle/dependencies정상허용",
+    "held_inspection": [
+      "owner",
+      "node/partition",
+      "fullargv",
+      "source/archive/lock/config",
+      "GPU/CPU/mem/wall",
+      "export/requeue",
+      "dependencies/throttle"
+    ],
+    "CPU_collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "memory_mib_max": 24576,
+      "dependency": "afterany bothmain (and preparation failure coverage); report+inventory successful before terminalCOMPLETED"
+    }
+  },
+  "reporting": {
+    "first_reply": "nonce ACK+담당수락+implementation/submission actualstatus; GH 추가승인대기0",
+    "report": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/report-ko.md",
+    "audit": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/",
+    "status": "tasks/status/jlz-writer-coupled-v5-bs100x20-20261002-v1/server4.json",
+    "ack": "messages/acks/server4/2026-10-02-jlz-writer-coupled-v5.json",
+    "message": "messages/server-heads/server4/2026-10-02-jlz-writer-coupled-v5.json",
+    "runs": "runs/odeedit_jlz_v5_s4_20261002/",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; source/compactsummary/manifest/그림만Git; raw/tensor/prompt/fullstdout/개인접속정보Git0; 대형raw무조건broadcast0",
+    "initial": "representativeactualmainB1commit/H/memory/observerrestore→B2ownentry 또는 승인두main전량정식등록/inspection/release 후 verifiedresourcepending. Pilot_PASS만으로 maininitial표시0.",
+    "after_initial": "GH/SH4/taskworker monitoring_active=false/automatic_resume=false, 능동scheduler/result/logpoll/heartbeat/callback/새후속제출0. sealed20batchrunner/collector자연진행. 완료Agent리뷰는USERrecall.",
+    "GH": "bounded directownerACK까지만 회수; 장기pilot/main완료대기0; unrelatedactiveturn침범0"
+  }
+}

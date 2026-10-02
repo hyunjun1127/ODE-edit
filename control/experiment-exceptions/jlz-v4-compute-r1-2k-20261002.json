@@ -5,12 +5,15 @@
   "server": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "envelope": "messages/head/2026-10-02-jlz-v4-compute-r1-2k-sh4.json",
-  "authorized": true,
+  "authorized": false,
   "scope": "신규 v4 A/B 구현·pilot/timing·2k main·collector만",
   "other_tasks_stop_preserved": true,
   "old_v2_restart_authorized": false,
   "project_gpu_cap": 2,
   "save_checkpoints": false,
   "initial_monitoring_only": true,
-  "automatic_resume_after_initial": false
+  "automatic_resume_after_initial": false,
+  "revoked_by": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "revocation_reason": "USER_CANCELLED_REPLACED_BY_V5",
+  "cancellation_receipt": "audits/global/2026-10-02-jlz-v5-sh4-dispatch/v4-cancellation-receipt.json"
 }

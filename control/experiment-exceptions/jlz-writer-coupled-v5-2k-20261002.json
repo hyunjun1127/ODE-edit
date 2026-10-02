@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "task_id": "jlz-writer-coupled-v5-bs100x20-20261002-v1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-10-02-jlz-v5-cancel-v4-2k-sh4.json",
+  "authorized": true,
+  "scope": "new v5 implementation/pilot/timing/two cold main/collector only",
+  "old_v4_restart_authorized": false,
+  "other_tasks_stop_preserved": true,
+  "project_gpu_cap": 2,
+  "save_checkpoints": false,
+  "initial_monitoring_only": true,
+  "automatic_resume_after_initial": false
+}

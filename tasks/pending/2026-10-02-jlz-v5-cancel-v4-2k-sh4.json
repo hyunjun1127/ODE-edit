@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task_id": "jlz-writer-coupled-v5-bs100x20-20261002-v1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "owner": "server4",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "envelope": "messages/head/2026-10-02-jlz-v5-cancel-v4-2k-sh4.json",
+  "method_contract": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
+  "status": "DISPATCH_READY_NOT_YET_ACKNOWLEDGED",
+  "v4": "CANCELLED_USER_REPLACED",
+  "new_job_ids": [],
+  "save_checkpoints": false
+}

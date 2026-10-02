@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "reviewer": "GH owner audit",
+  "separate_red_agent": false,
+  "all14member_fullSHA_size": true,
+  "method_experiment_full_read": true,
+  "CPU_evidence_groups": 11,
+  "actual_GPU_or_runner_PASS": false,
+  "important_boundaries": [
+    "fixed entry fullcontext P versus oldcurrentkeywriter",
+    "physical alltoken sharedweights versus subjectinjection",
+    "nonsquared prox25eval/24backward versus Adam",
+    "nativeonly admissionteacher+commitNLL memory",
+    "pilot2commits notoldonecommit",
+    "W0 evaluationreuse notnewfullscan",
+    "exactaccepted physicalweightcommit",
+    "v4cancel exception and otherglobalSTOP preserved"
+  ],
+  "bounded_implementation_checks_required": {
+    "preflight": "source/red audit CPU: objective normalizations/contextsecondmoment/zero and crosslayer/crossrequest VJP/prox rejectionbudget/lastaccepted/memory AlgorithmR and teacher-refcounts/version/currentexclude/transaction/IO/variableB/alias/noCP/scheduler resource. 독립 bounded reviewer 결과와 owneraudit를 구분, 미수행 redPASS 금지.",
+    "actual": "BS2 actual model zero/nonzero input/key/materialization/directD/inputVJP/dense/frozenP/exactcommit/historystate. 시작기준lossabs5e-5/gradrelative2e-3 + zero-blockabsolute 기록. FP64fixture residual1e-10; actualSPD조건/reference와 tolerance 사전seal. CPU11groups는 GPU PASS아님.",
+    "numerical_policy": "가벼운 rounding 초과는 실제error/denominator/reference 재확인을 기록하고 qualified dense 동일목적fallback. 허위PASS/반복-to-PASS/사후threshold완화0. 확정input/gradient/SPD/nonfinite/commit/finite/IO오류는 수정 전 failclosed. Quality/nonconvergence/concentration는 record-only.",
+    "repair": "초기인계 전 확인된 구현기술오류는 선보고 후 같은목적/계수/예산 내 최소수리·CPU회귀·새immutableattempt 허용, 원failure/source/raw/cost보존. 자동retry daemon/장기추가진단0. 계수/목적변경 필요하면 별도revision명시 및 권한범위밖 변경 전 방향보고.",
+    "postrun": "sealed CPUcollector가 independent raw/count/NLL/TF/40commit/history/memory/statehash/cost검산, COMPLETED/PARTIAL/FAILED구분. Agent 상세완료리뷰는 explicitrecall."
+  },
+  "publication": "sealed source docs bytepreserved; background local links historical/missing archivedraw notnewexperiment evidence"
+}

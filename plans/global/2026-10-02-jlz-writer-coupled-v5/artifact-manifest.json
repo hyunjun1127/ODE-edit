@@ -1,0 +1,78 @@
+{
+  "status": "DESIGN_SEALED_CPU_FIXTURES_PASS_NOT_IMPLEMENTED",
+  "method_id": "jlz-writer-coupled-v5",
+  "user_constraint": "current_and_past_native_sentences_only",
+  "algebra_results": [
+    {
+      "result": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validation.json",
+      "checks": 7,
+      "status": "PASS_STDLIB_V5_ALGEBRA_NOT_MODEL_OR_GPU_VALIDATION"
+    },
+    {
+      "result": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/policy-validation.json",
+      "checks": 4,
+      "status": "PASS_STDLIB_POLICY_FIXTURES"
+    }
+  ],
+  "total_check_groups": 11,
+  "local_links_checked": 12,
+  "tex_syntax_balance": "PASS",
+  "tex_compiled": false,
+  "tex_engine_available": false,
+  "production_changes": false,
+  "GPU_calls": 0,
+  "running_jobs_changed": false,
+  "files": [
+    {
+      "path": "docs/methods/jlz-writer-coupled-v5.tex",
+      "bytes": 10991,
+      "sha256": "9318a27271efb50ad1077011204d4ac6985e8f65e1d1a74a33589c55a1648c5e"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/README.md",
+      "bytes": 1694,
+      "sha256": "20267eb9fa6273472a3c164b6a578eab00fb100280333bfa253dff1f4b2e3e04"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
+      "bytes": 6620,
+      "sha256": "0f8bf0dc35384019a16ff53f20804e46318d769c34bf605394097c81f0b570a8"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/experiment-2k/experiment-ko.md",
+      "bytes": 6462,
+      "sha256": "98707b02d8ffaf4c88ef16e426260ed3858992ac1e4fea224ed0037eb170ab85"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/implementation-ko.md",
+      "bytes": 9217,
+      "sha256": "b7918ae5c71f388b675917cdc6a4f4f28d742b69adb876951bc47b07d9d01b9a"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/policy-validation.json",
+      "bytes": 10812,
+      "sha256": "5ae53b14feccfba05277ca7d83c0634ea2e3f8962f514eff0f77f99fb26541d8"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_design.py",
+      "bytes": 13918,
+      "sha256": "c082ac8501c70725131e4dfeb8a18bd0a97a1b46af108f68b91a292e3522b713"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validate_policy.py",
+      "bytes": 16441,
+      "sha256": "5f430d592636514bcec154af34954f9afa4e635d7e4b5e605d3cb5bd3eddf13c"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/math/validation.json",
+      "bytes": 4189,
+      "sha256": "e8135ac99d4ea5d22dba976ec0927f127440b06cc9178ef4b11b5a9747a48566"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-writer-coupled-v5/method-ko.md",
+      "bytes": 24601,
+      "sha256": "bcf633c9e348c90bf0b88dfd6f0e4ad35eedb908bf1e5931e91a0aacf7849911"
+    }
+  ],
+  "user_execution_authorized": "2026-10-02 cancel current JLZ and GH->SH4 implement/pilot/2k v5"
+}

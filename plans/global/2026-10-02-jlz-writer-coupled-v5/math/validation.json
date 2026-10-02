@@ -1,0 +1,125 @@
+{
+  "status": "PASS_STDLIB_V5_ALGEBRA_NOT_MODEL_OR_GPU_VALIDATION",
+  "source_sha256": "c082ac8501c70725131e4dfeb8a18bd0a97a1b46af108f68b91a292e3522b713",
+  "check_count": 7,
+  "GPU_calls": 0,
+  "model_forwards": 0,
+  "production_changes": 0,
+  "claims_not_validated": [
+    "FP32 materialized versus low-rank forward numerical parity",
+    "Optimized custom backward versus production dense autograd parity",
+    "Transformer architecture adapters and cache implementation",
+    "Locality, edit success, runtime, or memory improvement"
+  ],
+  "checks": {
+    "full_context_ridge": {
+      "passed": true,
+      "normal_equation_maxabs": 1.3877787807814457e-17,
+      "Woodbury_vs_primal_maxabs": 1.1102230246251565e-16,
+      "C_times_R_vs_Kbar_maxabs": 2.220446049250313e-16,
+      "context_variance_identity_maxabs": 4.440892098500626e-16,
+      "explicit_fit": 0.026999145904426754,
+      "explicit_preservation": 0.015058600998303528,
+      "explicit_optimum": 0.042057746902730286,
+      "reduced_optimum": 0.04205774690273029,
+      "context_columns": 4,
+      "requests": 2,
+      "input_dimension": 2
+    },
+    "rank_deficient_keys_spd_A": {
+      "passed": true,
+      "normal_equation_maxabs": 1.1102230246251565e-16,
+      "Woodbury_vs_primal_maxabs": 2.7755575615628914e-16,
+      "C_times_R_vs_Kbar_maxabs": 0.0,
+      "context_variance_identity_maxabs": 0.0,
+      "explicit_fit": 0.03543955196136707,
+      "explicit_preservation": 0.0025388731059377413,
+      "explicit_optimum": 0.03797842506730481,
+      "reduced_optimum": 0.03797842506730481,
+      "context_columns": 12,
+      "requests": 2,
+      "input_dimension": 2
+    },
+    "fixed_basis_all_token_gradient": {
+      "passed": true,
+      "materialized_vs_factored_real_arithmetic_maxabs": 1.1102230246251565e-16,
+      "all_coordinates_finite_difference_maxabs": [
+        1.20133708536585e-10,
+        9.238138032330312e-11
+      ],
+      "analytic_gradients": [
+        [
+          [
+            0.36222801949433736,
+            0.11069522499541276
+          ],
+          [
+            0.20244285238920876,
+            0.12002742784526063
+          ]
+        ],
+        [
+          [
+            0.5267099448042377,
+            0.1374789386590189
+          ],
+          [
+            -0.008245227257184615,
+            0.15621429022003164
+          ]
+        ]
+      ],
+      "finite_difference_gradients": [
+        [
+          [
+            0.3622280194681693,
+            0.11069522487527905
+          ],
+          [
+            0.2024428524816102,
+            0.12002742777461606
+          ]
+        ],
+        [
+          [
+            0.5267099448813539,
+            0.1374789385666375
+          ],
+          [
+            -0.008245227167691382,
+            0.15621429017009802
+          ]
+        ]
+      ],
+      "omitted_upper_write_input_VJP_error": 0.04774472057225551,
+      "caveat": "Python-float algebra only; not production FP32 GEMM/materialization/backward parity"
+    },
+    "cross_request_and_all_token_action": {
+      "passed": true,
+      "request_0_loss_gradient_to_request_1_D_norm": 0.1034694361867926,
+      "selected_cross_gradient": 0.09521817944551679,
+      "selected_finite_difference": 0.09521817936897214,
+      "extra_row_output_change": 0.07503650214884572
+    },
+    "zero_payload_entry_identity": {
+      "passed": true,
+      "output_maxabs": 0.0,
+      "task_gradient_at_zero_norm": 0.42994909237174905,
+      "note": "Zero payload retains its differentiable physical parameterization"
+    },
+    "fixed_basis_fit_commit_identity": {
+      "passed": true,
+      "same_basis_fit_commit_output_maxabs": 0.0,
+      "current_key_resolve_basis_change": 0.0340559225480231,
+      "current_key_resolve_output_change": 0.006648105641605034,
+      "rule": "Commit accepted materialized weights with the fitted P; do not re-solve current keys"
+    },
+    "causal_cache_boundary": {
+      "passed": true,
+      "prefix_input_equal_for_all_D": true,
+      "upper_pre_subject_prefix_change": 0.05933499207798543,
+      "future_token_change_effect_on_earlier_outputs": 0.0,
+      "scope": "Constructed causal token mixer; not a Transformer KV-cache implementation test"
+    }
+  }
+}

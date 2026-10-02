@@ -1,0 +1,234 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\pos}[1]{\left[#1\right]_+}
+\newcommand{\RR}{\mathbb R}
+\title{JLZ v5: Joint Local Targets Through the Actual Writer}
+\author{ODE-edit method specification}
+\date{October 2, 2026}
+\begin{document}
+\maketitle
+
+\section{Scope and claim}
+All eligible write layers are optimized jointly. Concentration in one
+layer is permitted, as is distribution across layers. Current editing
+sentences, targets, native readouts and reductions remain those of the
+baseline for the same model and benchmark. Preservation reuses only
+previously observed native sentences. No external reference corpus,
+evaluation paraphrases or neighborhoods, or future editing requests enter
+the optimization.
+
+The change from v4 is to optimize a single physical weight model and
+commit precisely that model. At each batch entry, a full-context writer
+basis is constructed once and then frozen. This is the definition of v5,
+not an exact current-key triangular writer followed by an approximation.
+The document specifies a method, not a validated implementation or
+measured locality improvement.
+
+\section{Variables and fixed writer}
+Let $W_t$ be the batch-entry model, $B_t$ the actual logical batch size,
+and $\mathcal L$ the complete ordered eligible layer set. For each layer,
+\[
+D_l\in\RR^{d_{\mathrm{out},l}\times B_t},\qquad
+a_{lr}=\norm{h^0_{lr}}>0,\qquad v_{lr}=D_{lr}/a_{lr}.
+\]
+$D_{lr}$ is a nominal local-target residual. It is also a low-rank write
+coordinate; it is not asserted to equal the realized activation change.
+With native key-context weights $\sum_c\alpha_{rc}=1$, define
+\begin{align}
+\bar k_{lr}&=\sum_c\alpha_{rc}k^0_{lrc},\\
+A_{tl}&=\lambda_C C_{0l}+H_{tl},\\
+M_{tl}&=A_{tl}+\sum_{r,c}\alpha_{rc}k^0_{lrc}(k^0_{lrc})^\top,\\
+P_{tl}&=\operatorname{solve}(M_{tl},\bar K_l),\qquad U_l=D_lP_{tl}^\top.
+\end{align}
+This parameterizes the solution of the entry problem
+\[
+\min_U\frac12\sum_{r,c}\alpha_{rc}\norm{Uk^0_{lrc}-D_{lr}}^2
++\frac12\tr(UA_{tl}U^\top).
+\]
+The covariance of individual contexts is retained. The number of columns
+of $D$ and $P$ remains $B_t$. A context-dual Woodbury solve or an equivalent
+primal solve is allowed, without dropping off-diagonal terms.
+
+For $C=[\sqrt{\alpha_{rc}}k^0_{lrc}]$ and incidence
+$R_{(r,c),r}=\sqrt{\alpha_{rc}}$, one has $CR=\bar K$ and
+\[
+T=A^{-1}C,\quad S=I+C^\top T,\quad P=T S^{-1}R.
+\]
+All inverses denote solves. Geometry uses FP64 and requires positive
+definiteness; silent jitter or removal of layers is not allowed.
+
+\section{Physical graph and exact commit contract}
+The reference implementation materializes, once per candidate,
+\[
+U_l^{64}=D_l^{64}(P_l^{64})^\top,\qquad
+W_{\mathrm{eff},l}^{32}=W_{t,l}^{32}+\operatorname{cast}_{32}(U_l^{64}).
+\]
+Each modified linear operation runs once with this weight. Every native
+and replay row sees every request column of the update, at every token.
+The final accepted materialized tensors are copied at commit, with no
+new solve, gain inversion, or post-fit rescaling.
+
+In the physical graph, the own-layer local action and realized output are
+\[
+u_{lrc}(D)=D_lP_l^\top k_{lrc}(D_{<l}),\qquad
+z^{\mathrm{real}}_{lrc}=h^{\mathrm{pre\ own}}_{lrc}(D_{<l})+u_{lrc}(D).
+\]
+Lower-layer propagation, cross-request interference, and effects on
+non-subject tokens therefore enter the task gradient. $P$ is a constant
+by definition; there is no missing $dP/dD$ term. The nominal target
+$h^0+D$ need not equal $z^{\mathrm{real}}$. Native-form regularization of
+$D$ is not literal native regularization of the realized hidden change.
+Mathematically this is also fixed-right-basis low-rank update optimization.
+The local-target interpretation comes from deriving that basis from
+native contexts and sequential history. The name ``joint-z'' alone is
+not a distinction from this equivalent parameterization or a novelty claim.
+
+\section{Native task and two arms}
+Let $L_{N,r}$ be the exact native target-token/context-mean NLL, and let
+$L_{K,r}$ use the native KL readout with full-vocabulary direction
+current $\Vert$ own entry. Define
+\[
+\bar J_A(v)=\frac1{B_t}\sum_r\left[
+L_{N,r}(W_{\mathrm{eff}})+\lambda_{KL}L_{K,r}(W_{\mathrm{eff}}\Vert W_t)
++\sum_l\frac{\lambda_{\mathrm{norm}}}{a_{lr}}\norm{v_{lr}}\right],
+\quad\norm{v_{lr}}\le c.
+\]
+Arm A uses this objective. Arm B adds
+\[
+\bar J_B=\bar J_A+\lambda_K R_K+\lambda_E R_E.
+\]
+The v4 quadratic writer-value penalty is absent. There is no additional
+shared L1/L2 hard budget, forced balancing, minimum layer count, or
+quality-based layer gate. Both arms retain the same ridge geometry and
+native-form norm. This preserves loss ingredients and input semantics,
+but changes the optimization graph and solver from native compute-z.
+
+\section{Native-only preservation}
+A bounded memory stores previously observed facts. A fixed subset $S$
+is sampled once per batch and reused throughout its candidates.
+Current fact IDs are excluded to permit requested version changes.
+
+For each retained native KL identity, $\pi^{\mathrm{anchor}}$ is an
+immutable pre-edit distribution captured at admission. Equal resident
+token/mask/position/readout identities share their earliest resident
+teacher. An identity lost by eviction can obtain a new admission teacher
+through a newly observed fact; a nonexistent old teacher is not assumed
+recoverable. This is not a global $W_0$ teacher.
+\[
+R_K=\frac1{|S|}\sum_{r\in S}\sum_q\beta_{rq}
+\KL\big(p_{W_{\mathrm{eff}}}(\cdot\mid x^{KL}_{rq})
+\Vert\pi^{\mathrm{anchor}}_{rq}\big).
+\]
+For native rewrite context $c$, let $b_{rc}$ be the target-token-mean NLL
+at the fact's latest actual commit. With native rewrite weights $w_{rc}$,
+\[
+R_E=\frac1{|S|}\sum_{r\in S}\sum_c w_{rc}\,
+\frac12\pos{\ell_{rc}(W_{\mathrm{eff}})-b_{rc}}^2.
+\]
+Improvement in past target NLL is unpenalized. This does not preserve the
+entire postcommit distribution, and needs only scalar rewrite anchors.
+Weak committed edits produce weak anchors; admission is not conditioned
+on edit success. Anchors are updated only upon an explicit new version
+of that fact, not at every batch entry. Empty-memory terms are zero.
+Consequently the first-batch objectives of A and B coincide.
+
+Algorithm R samples first-observed unique fact IDs into a memory of
+capacity $M$. Repeated in-memory facts retain their slot and update only
+their rewrite inputs, target and NLL anchors. Their original KL input
+tuple and teacher remain frozen together. Previously seen out-of-memory
+facts are not readmitted. The seen-ID metadata grows with distinct facts;
+$M$ bounds payload count, not all metadata. Shared teachers use owner
+reference counts, with eviction and admission applied in stream order.
+Pending records become visible after commit only. Exclusion uses current
+fact IDs; another retained fact can still share a current KL prefix.
+Selection depends on stream metadata and a fixed seed, never on scores.
+
+Provisional Llama/CounterFact settings are $M=128$,
+$|S|=\min(16,B_t,\text{eligible memory size})$,
+$\lambda_K=\lambda_{KL}=0.0625$, and $\lambda_E=1$.
+These are explicit unvalidated choices, not universal model constants.
+
+\section{Normalization and proximal optimization}
+For request-SUM implementation use
+\[
+f(v)=\sum_r(L_{N,r}+\lambda_{KL}L_{K,r})
++\eta B_t(\lambda_K R_K+\lambda_E R_E),\qquad
+\Omega(v)=\sum_{l,r}w_{lr}\norm{v_{lr}},\quad
+w_{lr}=\lambda_{\mathrm{norm}}/a_{lr}.
+\]
+Here $\eta\in\{0,1\}$. Scaling the whole mean objective by $B_t$ preserves
+its minimizers; adding an unscaled reference mean to a native sum would
+not preserve the relative loss units.
+
+With a single scalar step $\tau$, $g=\nabla f(v)$, and
+$y_{lr}=v_{lr}-\tau g_{lr}$, the exact group-norm-plus-ball prox is
+\[
+v'_{lr}=\frac{y_{lr}}{\norm{y_{lr}}}
+\min\{c,\pos{\norm{y_{lr}}-\tau w_{lr}}\},
+\]
+with zero output for zero $y$. Every layer gradient is computed, so a
+zero group may reactivate. No per-group unit-gradient normalization or
+momentum is used. Initially take $\nu=c/4$ and
+$\tau=\nu/\max_{lr}\norm{g_{lr}}$; zero gradient at zero returns zero.
+The zero candidate is the initial accepted state. Later trial steps are
+no larger than the last accepted step and this smooth-displacement bound.
+Halve the active step after rejection, retaining the accepted state and
+gradient; do not reset the step before the next retry.
+
+Accept a trial using smooth majorization,
+\[
+f(v')\le f(v)+\langle g,v'-v\rangle+
+\frac{\norm{v'-v}^2}{2\tau}+\epsilon_{\mathrm{num}}.
+\]
+The numerical tolerance is bound by runtime qualification, not PS/NS.
+This is objective acceptance, not a locality or allocation gate.
+The proposed budget is 25 candidate evaluations, including zero and
+rejected trials: candidates 1--24 include backward, candidate 25 is
+forward-only, and the last accepted state is returned. Accepted updates
+can be fewer than 24. Early stationary exit records actual counts and
+uses the proximal mapping or equality of $v$, not merely identical
+rounded materialized weights.
+
+\section{History, efficiency, and limits}
+After commit, append each occurrence once using actual context keys:
+\[
+H_{t+1,l}=H_{t,l}+\sum_{r,c}\alpha_{rc}
+k^{\mathrm{commit}}_{lrc}(k^{\mathrm{commit}}_{lrc})^\top.
+\]
+Reuse accepted-forward keys only when the adapter proves causal key-input
+identity. Entry keys are not automatically commit keys. Older history
+keys can still become stale; this design does not refresh all past data.
+Physical replay measures current drift on sampled native inputs only.
+
+Cache only computations before the earliest modified linear operation.
+Upper-layer subject-prefix KV caches are invalid. Fixed $P$ permits
+independent microbatch graph release with a joint accumulated gradient.
+For linear input $X$ and output gradient $G$,
+\[
+\nabla_D L=G^\top(XP),\qquad \nabla_X L=G W_{\mathrm{eff}}.
+\]
+Dense weight gradients are unnecessary, but reordered backward arithmetic
+requires comparison with the dense reference. Selected-position heads
+retain the full vocabulary. Entry preparation, context solves,
+materialization, rejected trials, replay, and commit are all timed.
+
+The interface supports variable logical batches, context counts, layer
+dimensions, and model/benchmark profiles. This does not imply identical
+results after changing batch boundaries or universal hyperparameters.
+No performance gain follows solely from fewer optimized coordinates.
+Native-only references do not guarantee protection of unseen neighbors,
+all earlier facts, or general knowledge relative to $W_0$.
+
+Weights, history, memory, RNG, and pending admissions form one RAM
+transaction. Existing no-checkpoint policy is retained. This design
+does not modify or resume an ongoing v4 chain.
+\end{document}

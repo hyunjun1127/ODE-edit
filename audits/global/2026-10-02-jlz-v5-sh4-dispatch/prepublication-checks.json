@@ -1,0 +1,27 @@
+{
+  "status": "PASS_CPU_DOCUMENT_PACKAGE_AND_AUTHORITY_ONLY",
+  "sealed_members": 14,
+  "CPU_reproduction": [
+    {
+      "script": "validate_design",
+      "groups": 7,
+      "all_pass": true,
+      "result_bytes_exact": true
+    },
+    {
+      "script": "validate_policy",
+      "groups": 4,
+      "all_pass": true,
+      "result_bytes_exact": true
+    }
+  ],
+  "newGPU": 0,
+  "production_runner": false,
+  "actual_model_qualification": "NOT_RUN",
+  "cancellation_targets": [
+    57294,
+    57292,
+    57293
+  ],
+  "envelope_sha256": "0f3fa216befdc3d6de6e8237fd1dfbcef0f777894ad6f0f04149668358169555"
+}
