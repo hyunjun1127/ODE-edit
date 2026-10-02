@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "status": "APPROVED_USER_DIRECTED",
+  "approval": "transfers/approvals/2026-10-03-jlz-v9-method-bundle-server4.json",
+  "source_host": "rke-server1 (GH/server1)",
+  "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v9-dispatch/20261003-r1/jlz-v9-method-experiment-500-authorized.tar.gz",
+  "sha256": "05e682cf477ced62d6da157be05384857f1b5fc11a71247748ee1aefa6d6828a",
+  "bytes": 239199,
+  "regular_members": 27,
+  "inventory_sha256": "fd0869f4d0d5f201314cb9e5e380e08cf538cf5dbc10587154f72d8dedfc53ac",
+  "executor": "SH4 sole receiver/pull 1회",
+  "destination": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/inputs/design-package/",
+  "rules": "sourceKEEP/createonce. archive및26content SHA-size+정규27member exactallowlist, absolute/traversal/link/device/duplicate/unlisted거부. 모델/데이터/secret없음. 본인verifiedcopy이미있으면REUSE.",
+  "no_sensitive_data": true,
+  "source_keep": true
+}

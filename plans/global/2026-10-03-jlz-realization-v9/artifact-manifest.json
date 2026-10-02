@@ -1,0 +1,105 @@
+{
+  "schema": "jlz-realization-v9-artifact-manifest-v1",
+  "generated_utc": "2026-10-02T18:08:27.270137+00:00",
+  "status": "DESIGN_AND_CPU_MATH_COMPLETE_PRODUCTION_AND_GPU_NOT_RUN",
+  "user_choice": "ridge_main_and_exact_pilot_only",
+  "cpu_checks_passed": 181,
+  "cpu_checks_failed": 0,
+  "CPU_receipt_SHA_verified": true,
+  "independent_review": "math/source review plus five implementation red-review corrections incorporated",
+  "schedule_first500_SHA_verified": true,
+  "development_cases_disjoint_from_first500": true,
+  "markdown_relative_links_verified": true,
+  "TeX_static_checks": "PASS",
+  "TeX_PDF_compiled": false,
+  "reason_no_PDF": "No TeX compiler installed",
+  "new_model_forwards": 0,
+  "existing_experiment_mutations": 0,
+  "job_submissions": 0,
+  "GH_messages_sent": 0,
+  "attachment": {
+    "path": "/mnt/raid5/janghj/.codex/attachments/66519567-87ee-49c1-a9f2-c0a9d8b7fd32/붙여넣은 텍스트.txt",
+    "sha256": "42c52250a1aa668da3e1a48ada79bfadb5937cdc65dc22c629a75be651132cb6",
+    "instruction_authority": "reference_review_only; latest user choice controls"
+  },
+  "sources": [
+    {
+      "title": "EMMET primary paper",
+      "url": "https://arxiv.org/html/2403.14236v5#S5"
+    },
+    {
+      "title": "FE primary paper",
+      "url": "https://arxiv.org/html/2605.00358v2"
+    },
+    {
+      "title": "DOW-KE primary paper",
+      "url": "https://arxiv.org/html/2608.16932v1"
+    },
+    {
+      "title": "BLUE primary paper as reviewed previously",
+      "url": "https://arxiv.org/html/2502.03748v3"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/README.md",
+      "bytes": 1134,
+      "sha256": "a5d30e48382f8128907eae2aa8567268d1a931f6aa00ae7e65589af481b2f0c6"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/contract.json",
+      "bytes": 8661,
+      "sha256": "2a70a69f46e40e6f6cb9deb3acfa0e919d16266e79582371d124dd734a098685"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment-ko.md",
+      "bytes": 13564,
+      "sha256": "a1004291cbc03a284e3e453ae25984835d9f7ddeae0891f5206c2ec500f8d8e7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment.json",
+      "bytes": 11179,
+      "sha256": "0fb712d2ff4b60e53b931b60cf2aa87536628b8e6db609dc6b1368337a6477a7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/implementation-ko.md",
+      "bytes": 10741,
+      "sha256": "60b22124bb0a8031d909eee4336e6ef10181995f32a7ead23b9175c7e97f6539"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/README.md",
+      "bytes": 8820,
+      "sha256": "cb1b155eb61be57ce3ec0463ce7e462734e443aac5b362547045681bea17d22b"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/receipt.json",
+      "bytes": 1092,
+      "sha256": "51526d2ebc01168786dd89f56d68f85fc81966db16d7860a87aadc01c4d5e864"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/results.json",
+      "bytes": 51502,
+      "sha256": "16a0c5f12c59c5539dc9583bc8a1329c7e6162863b5db7521a98ee02b62be8d9"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/validate_math.py",
+      "bytes": 25100,
+      "sha256": "b4424a707e6f9fc4096ea79baab822fb0025e73895d5279ba2609451112d3378"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/method-ko.md",
+      "bytes": 13665,
+      "sha256": "d121c09948fba5e7886845b0fb6e70849cbdaf05da8ebe5ae8285fe1120dbcfc"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/review-ko.md",
+      "bytes": 5875,
+      "sha256": "cf90746f6f45fc16f03d2fb9501a4b892412a60ea477191d0df090e93b75cc76"
+    },
+    {
+      "path": "docs/methods/jlz-realization-v9.tex",
+      "bytes": 21383,
+      "sha256": "a59812f251b90378acf83987684f861a0d1ec055189f934d1d23138f0f658a28"
+    }
+  ]
+}

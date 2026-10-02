@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "check_time_utc": "2026-10-02T19:01:37Z",
+  "timestamp_kind": "확인후기록시각, snapshot정확시각아님",
+  "actual_host": "server4",
+  "actual_user": "janghj",
+  "squeue_output": "",
+  "local_cap_row": "server4\tserver4\t2\t60416\todeedit_*,bfode_*,motivation_*,session01_*",
+  "v9_top_level_local_dirs": [],
+  "last_SH4_turn": "01a0fd7d-0c73-7ff0-a7c1-388b1a67f049",
+  "last_SH4_status": "completed",
+  "scheduling_admission_valid_at_future_submit": false,
+  "existing_job_mutations": 0,
+  "result_log_reads": 0,
+  "notes_ko": "범위내중복방지/자원metadata단발확인. 현재queue공백을과거모든task완료/비용0으로해석하지않는다. SH4 freshadmission필수."
+}

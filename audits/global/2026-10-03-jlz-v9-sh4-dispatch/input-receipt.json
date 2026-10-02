@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "archive": {
+    "approval": "transfers/approvals/2026-10-03-jlz-v9-method-bundle-server4.json",
+    "source_host": "rke-server1 (GH/server1)",
+    "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v9-dispatch/20261003-r1/jlz-v9-method-experiment-500-authorized.tar.gz",
+    "sha256": "05e682cf477ced62d6da157be05384857f1b5fc11a71247748ee1aefa6d6828a",
+    "bytes": 239199,
+    "regular_members": 27,
+    "inventory_sha256": "fd0869f4d0d5f201314cb9e5e380e08cf538cf5dbc10587154f72d8dedfc53ac",
+    "executor": "SH4 sole receiver/pull 1회",
+    "destination": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/inputs/design-package/",
+    "rules": "sourceKEEP/createonce. archive및26content SHA-size+정규27member exactallowlist, absolute/traversal/link/device/duplicate/unlisted거부. 모델/데이터/secret없음. 본인verifiedcopy이미있으면REUSE."
+  },
+  "all_27_regular_members_verified": true,
+  "content_members_verified": 26,
+  "members": [
+    {
+      "path": "docs/methods/jlz-native-writer-v8.tex",
+      "sha256": "52132ebfdec1e0c95ac399b61f8b8bb7b12521e9294da9a358ac0aaf59f27260",
+      "bytes": 20995,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "docs/methods/jlz-realization-v9.tex",
+      "sha256": "a59812f251b90378acf83987684f861a0d1ec055189f934d1d23138f0f658a28",
+      "bytes": 21383,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment.json",
+      "sha256": "5cc5535c4fac6cb9abdf185d045e86476b3a6f377abfb809781dce7f0dffd052",
+      "bytes": 17632,
+      "adoption": "EXACT_EXISTING_REUSE"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+      "bytes": 294841,
+      "adoption": "EXACT_EXISTING_REUSE"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/README.md",
+      "sha256": "b3abcb142d85a1871161248338b913044feb2dbb9211fd2bdb66629541c8acfa",
+      "bytes": 722,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/artifact-manifest.json",
+      "sha256": "5c0360452f011831590c81a7d1d4a1c957f520ffd9793127c8527de46fe1fbcd",
+      "bytes": 2276,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/contract.json",
+      "sha256": "b888d3d599b3f789c9265db91a784f9727d060daca9b80208a29148ee457c735",
+      "bytes": 8464,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/implementation-ko.md",
+      "sha256": "0704bf2caafb82dbb3e6234d1993872d9452821f443fbb99e886b3e1543fa401",
+      "bytes": 9154,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/README.md",
+      "sha256": "4013cb9bf2189fad974590fce8a968d6c1d03d9b8e9f4ee1d27ae3e9ba006f10",
+      "bytes": 9317,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/receipt.json",
+      "sha256": "06c4fef38a261870d496f01033034a6ca076a41408ee7e6ceef5623b6eb5e52f",
+      "bytes": 926,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/results.json",
+      "sha256": "eaa2a0e8a16009bb723cd37ac31667ec457920bdf89dfeda846701b1df69524f",
+      "bytes": 89360,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/validate_math.py",
+      "sha256": "331904f9d6d2cb241e6a4de7ecc23070a949557606c82cace28f27c813647c41",
+      "bytes": 29124,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/method-ko.md",
+      "sha256": "a8b54ee8e7eb07132ed2d6c10c9cc685863ac5aa86b49683dc3052f273c66d88",
+      "bytes": 14952,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/README.md",
+      "sha256": "a5d30e48382f8128907eae2aa8567268d1a931f6aa00ae7e65589af481b2f0c6",
+      "bytes": 1134,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/artifact-manifest.json",
+      "sha256": "e77b337ccb89da5469e07df4c86d48d4f356ac824d1b6522f7de7ff7445d26e5",
+      "bytes": 3898,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/contract.json",
+      "sha256": "2a70a69f46e40e6f6cb9deb3acfa0e919d16266e79582371d124dd734a098685",
+      "bytes": 8661,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment-ko.md",
+      "sha256": "a1004291cbc03a284e3e453ae25984835d9f7ddeae0891f5206c2ec500f8d8e7",
+      "bytes": 13564,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment.json",
+      "sha256": "0fb712d2ff4b60e53b931b60cf2aa87536628b8e6db609dc6b1368337a6477a7",
+      "bytes": 11179,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/implementation-ko.md",
+      "sha256": "60b22124bb0a8031d909eee4336e6ef10181995f32a7ead23b9175c7e97f6539",
+      "bytes": 10741,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/README.md",
+      "sha256": "cb1b155eb61be57ce3ec0463ce7e462734e443aac5b362547045681bea17d22b",
+      "bytes": 8820,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/receipt.json",
+      "sha256": "51526d2ebc01168786dd89f56d68f85fc81966db16d7860a87aadc01c4d5e864",
+      "bytes": 1092,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/results.json",
+      "sha256": "16a0c5f12c59c5539dc9583bc8a1329c7e6162863b5db7521a98ee02b62be8d9",
+      "bytes": 51502,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/math/validate_math.py",
+      "sha256": "b4424a707e6f9fc4096ea79baab822fb0025e73895d5279ba2609451112d3378",
+      "bytes": 25100,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/method-ko.md",
+      "sha256": "d121c09948fba5e7886845b0fb6e70849cbdaf05da8ebe5ae8285fe1120dbcfc",
+      "bytes": 13665,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/review-ko.md",
+      "sha256": "cf90746f6f45fc16f03d2fb9501a4b892412a60ea477191d0df090e93b75cc76",
+      "bytes": 5875,
+      "adoption": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/execution-command.json",
+      "sha256": "e27a0bc8791e15373bdd00596e2801ed615b72b92815a0dc25a531b58880de09",
+      "bytes": 3045,
+      "adoption": "ADOPT_EXACT"
+    }
+  ],
+  "inventory_sha256": "fd0869f4d0d5f201314cb9e5e380e08cf538cf5dbc10587154f72d8dedfc53ac",
+  "case_csv_all_rows_parsed": 2000,
+  "first500_case_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+  "read_scope_ko": "GH가 v9/v8 방법·구현·계약·TeX·수학script/README 및 v9 실험·review·명령 전체 정독. CPU 결과 전체항목 파싱/재현. v7 input 계약/v4 schedule은 동일SHA 기존정독 재사용 및 전체CSV 재파싱.",
+  "policy_reuse": {
+    "PROTOCOL_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+    "exact_prior_FULL_READ": true
+  },
+  "CPU_reproduction": [
+    {
+      "method": "jlz-native-writer-v8",
+      "check_count": 404,
+      "passed": 404,
+      "elapsed_seconds": 2.944822834804654,
+      "script_sha256": "331904f9d6d2cb241e6a4de7ecc23070a949557606c82cace28f27c813647c41",
+      "sealed_results_sha256": "eaa2a0e8a16009bb723cd37ac31667ec457920bdf89dfeda846701b1df69524f",
+      "all_original_check_names_matched": true,
+      "all_original_results_parsed": true,
+      "CPU_only": true,
+      "source_files_changed": false,
+      "actual_GPU_validation": "NOT_RUN"
+    },
+    {
+      "method": "jlz-realization-v9",
+      "check_count": 181,
+      "passed": 181,
+      "elapsed_seconds": 0.09683303348720074,
+      "script_sha256": "b4424a707e6f9fc4096ea79baab822fb0025e73895d5279ba2609451112d3378",
+      "sealed_results_sha256": "16a0c5f12c59c5539dc9583bc8a1329c7e6162863b5db7521a98ee02b62be8d9",
+      "all_original_check_names_matched": true,
+      "all_original_results_parsed": true,
+      "CPU_only": true,
+      "source_files_changed": false,
+      "actual_GPU_validation": "NOT_RUN"
+    }
+  ],
+  "production_GPU_validation": "NOT_RUN",
+  "independent_GH_red_agent": false,
+  "TeX": "source읽기만/PDF컴파일0, 기존 \\!left 표기는원sealedbytes유지하고실행수식은method/contract기준",
+  "root_user_worktree_changed": false
+}

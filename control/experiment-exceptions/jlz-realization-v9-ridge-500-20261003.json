@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "task_id": "jlz-realization-v9-ridge-bs100x5-with-exact-probe",
+  "status": "AUTHORIZED_TASK_SCOPED_USER_EXCEPTION",
+  "overrides_for_this_task_only": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "envelope": "messages/head/2026-10-03-jlz-v9-ridge-500-exact-pilot-sh4.json",
+  "implementation": true,
+  "qualification": true,
+  "Slurm_Q1_main_collector": true,
+  "main_writer": "ridge",
+  "exact_probe_only": true,
+  "new_baselines": false,
+  "edits_each_arm": 500,
+  "cancel_existing_jobs": false,
+  "other_tasks_unchanged": true,
+  "save_checkpoints": false,
+  "telemetry_exception": "V9 implementation 필수 entry/terminal B×BM 및plannedD/realizedY 진단tensor만 ignoredlocal에 hash/dtype/shape/owner/purpose결속저장 가능. 이진단을W/P/K/H/optimizer와묶어복원등가bundle로확장금지. 그밖의norm/dot/caseNLL/tokenledger는compact기록. Large/raw/tensor/prompt/fullstdout/secret Git0.",
+  "monitoring": "bounded_initial_handoff_only_no_new_recurring_monitor",
+  "reason_ko": "최신사용자가v9구현/실험을명시승인했다. 과거설계NOT_RUN은금지가아니며다른중단task권한을바꾸지않음."
+}

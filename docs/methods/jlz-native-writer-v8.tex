@@ -1,0 +1,433 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sg}{\operatorname{sg}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\RR}{\mathbb R}
+\title{JLZ v8: Joint Subject Targets with a Native Mean-Key Writer\\
+\large Causal differentiation, history statistics, and scaled Adam coordinates}
+\author{ODE-edit method specification}
+\date{October 3, 2026}
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\section{Scope and preserved scientific objective}
+This revision retains the joint native subject objective, dynamic writer
+costs, and current-request physical feedback. It removes past-sentence
+replay and its reservoir, target baselines, and admission teachers.
+Sequential preservation still uses the native history key statistic
+$H_t$. The writer and history now use the native nested mean key per
+request, rather than individual-context second moments. This is a design
+specification: production implementation, GPU qualification, and measured
+quality or speed improvements are not established here.
+
+Let $B$ be the actual logical batch size and $\mathcal L$ the complete
+ordered eligible write-site set, with fixed size $m=|\mathcal L|$.
+Every site participates from initialization; a final allocation may
+concentrate in one site. At batch entry freeze model $W_t$, clean
+canonical full-block anchor norms $a_{lr}>0$, own-entry native KL
+teachers, and $A_l=\lambda_C\operatorname{cast}_{64}(C_{0l}^{32})
++\operatorname{cast}_{64}(H_{tl}^{32})$. The background covariance is
+normalized from its stored FP32 moment/count in native order before
+the FP64 cast. Trainable coordinates will
+produce absolute interventions $D_l=[\delta_{l1},\ldots,\delta_{lB}]$.
+
+In the primary native graph, $W_t$ stays frozen and every eligible layer
+injects its request's vector at the native subject block-output lookup:
+\[
+ h^v_{lrc}[s_{rc}]=h^{v,\mathrm{pre}}_{lrc}[s_{rc}]+\delta_{lr}.
+\]
+All layers act in one forward graph. Contexts, targets, masks, positions,
+lookup rules, and native readouts remain those of the baseline profile.
+The same request vector also intervenes in its native KL input. Define
+\[
+ J_N(D)=\frac1B\sum_{r=1}^{B}\left[
+ L^v_{N,r}(D)+\lambda_K\KL\bigl(p^v_{K,r}(D)\Vert p^0_{K,r}\bigr)
+ +\lambda_n\sum_l\frac{\norm{\delta_{lr}}}{a_{lr}^2}\right].
+ \label{eq:native}
+\]
+The KL is full vocabulary, current $\Vert$ entry. NLL and KL retain
+their possibly different native readout layers. The norm is nonsquared
+and uses the physical intervention $D$, not optimizer coordinates.
+The initial profile has six native rewrite contexts and one native KL
+input, NLL readout layer 31, native KL weight
+$\lambda_K=0.0625$, norm weight $\lambda_n=0.5$, and individual clamp
+$\norm{\delta_{lr}}\leq0.75a_{lr}$.
+
+Official paraphrases, neighborhood examples, future edits, and external
+reference sentences are excluded from learning. Removing past replay
+does not remove current own-entry KL or current detached native teachers.
+No layer quota, preselected subset, quality gate, or total-intervention
+budget is introduced.
+
+\newpage
+\section{Native mean keys and the causal actual writer}
+For each candidate, run a separate actual-weight branch without subject
+$\delta$ hooks. At site $l$, collect subject pre-projection keys from
+\emph{all} current native rewrite contexts after applying the candidate's
+lower-site writes. Keep the native context groups. For request $r$, the
+native aggregation is
+\[
+ \kappa^{32}_{lr}
+ =\operatorname{mean}_{g}\!left(
+       \operatorname{mean}_{c\in\mathcal C_{rg}} k^{a,32}_{lrc}\right),
+ \qquad \kappa_l^{64}=\operatorname{cast}_{64}
+       [\kappa^{32}_{l1},\ldots,\kappa^{32}_{lB}].
+ \label{eq:mean}
+\]
+Implement the inner group means, stack, and outer mean in FP32 in the
+native order, then cast to FP64. Do not replace this with a differently
+associated weighted sum or a single flattened-context mean. Groups have
+equal outer weight even when their context counts differ. All contexts
+are forwarded; only the writer's fitted key columns are reduced to $B$.
+
+Abbreviating $\kappa_l(D_{<l})$ as $K$, compute
+\begin{align}
+ M_l&=A_l+KK^\top, &P_l(D_{<l})&=\operatorname{solve}(M_l,K),\\
+ U_l(D)&=D_lP_l^\top, &
+ W^a_l(D)&=W_{t,l}^{32}
+    +\operatorname{cast}_{32}\!\left(D_l^{64}(P_l^{64})^\top\right).
+ \label{eq:writer}
+\end{align}
+This solves, for the candidate's current mean keys,
+\[
+ U_l=\arg\min_U\frac12\norm{UK-D_l}_F^2
+                     +\frac12\tr(UA_lU^\top).
+\]
+The target is the own-layer incremental $D_l$. There is no final-layer
+residual divided by remaining layers, absolute virtual-$z$ compensation,
+or separately optimized per-layer target.
+
+Use a whole-logical-batch barrier: gather all current request means,
+solve once, materialize the weight, and apply it at every token position
+before advancing to the next site. Other requests affect a sentence's
+upper keys through the shared lower weights. Every candidate starts from
+$W_t$. The first site's keys and basis are invariant within the batch
+and can be cached. Upper-site means and bases are freshly constructed
+for every candidate, retaining gradients through FP32 means, casts,
+actual activations, and solves. There is no fixed-point iteration.
+
+The adapter must establish a feed-forward ordering with independent
+write parameters: an own-site weight cannot alter its input key, and a
+later write cannot alter an earlier key. Shared, aliased, or recurrent
+write sites require separate qualification. Subject-position fitting
+remains approximate because ridge shrinkage and context variation can
+prevent $U_lk_{lrc}^a=\delta_{lr}$ even when the mean is well fitted.
+
+\newpage
+\section{Solve gradients and dynamic allocation costs}
+When the stored $A_l$ supports a symmetric SPD fast path that agrees
+with the native dense reference, factor $A_l=L_lL_l^\top$ once per batch.
+A mean-key dual solve uses
+\[
+ F_l=L_l^{-1}\kappa_l,\quad S_l=I_B+F_l^\top F_l,\quad
+ V_l=\operatorname{solve}(S_l,I_B),\quad
+ T_l=F_lV_l,\quad P_l=L_l^{-\top}T_l.
+\]
+Solves and geometry use FP64. A primal reference is equivalent. No
+contexts are removed to obtain this $B\times B$ dual system; the system
+size follows from the declared native mean-key writer.
+Preserve the actual FP32 history's rounding: do not symmetrize $A/H$ or
+add jitter to enable this fast path. On a mismatch, use the native dense
+solve with the same $A$ or report the adapter unsupported. Check the
+Gram identity against that reference rather than modifying stored state.
+
+For the solve subgraph with $A$ fixed and $K=\kappa$, its differential
+and adjoint are
+\begin{align}
+ dP&=M^{-1}\!\left[dK(I_B-K^\top P)-K\,dK^\top P\right],\\
+ Y&=\operatorname{solve}(M^\top,Q),\qquad Q=\nabla_P L,\\
+ \nabla_K L\big|_{\rm solve}
+ &=Y(I_B-P^\top K)-P(Y^\top K).
+\end{align}
+Add all direct key gradients from policy and activations. Detaching a
+mean key, solve output, or factor removes required dependencies. For
+upper sites $dU_l=dD_lP_l^\top+D_l\,dP_l^\top$ couples lower interventions
+to later writer adaptation.
+
+At every candidate compute
+\begin{align}
+ G_l&=P_l^\top A_lP_l=T_l^\top T_l,\\
+ E_l&=(P_l^\top\kappa_l-I_B)(P_l^\top\kappa_l-I_B)^\top,\\
+ G_l+E_l&=I_B-\kappa_l^\top P_l.
+\end{align}
+With frozen $\sigma_l=(B^{-1}\sum_ra_{lr}^2)^{1/2}$, set
+\[
+ g_l=\frac{\sqrt{\tr(D_lG_lD_l^\top)}}{\sqrt B\,\sigma_l},\qquad
+ e_l=\frac{\sqrt{\tr(D_lE_lD_l^\top)}}{\sqrt B\,\sigma_l}.
+\]
+These measure weighted write action and \emph{mean-key} incremental
+realization error, not each context's error. Keep all matrix couplings
+and derivatives through $G,E,P,\kappa$. Use explicit stable factors where
+possible, zero subgradient at an exact zero norm, and no norm smoothing.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Arm & $R_W$ & $R_E$\\
+\midrule
+A: concentration permitted & $\sum_lg_l$ & $\sum_le_l$\\
+B: spread preference & $\sqrt{\sum_lg_l^2}$ & $\sqrt{\sum_le_l^2}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Both use $J_{\rm base}^{(a)}=J_N+0.1R_W^{(a)}+0.1R_E^{(a)}$.
+Only these outer aggregations differ. Dynamic geometry means these are
+not globally convex norms of all $D$. Arm A is not globally neutral to
+allocation; the common native and hidden-feedback losses can also favor
+particular distributions. Either arm may concentrate in one layer.
+
+\newpage
+\section{Current native physical feedback; no past replay}
+Candidates 5, 10, 15, and 20 add physical feedback before their Adam
+updates, after 4, 9, 14, and 19 completed updates respectively. At batch
+entry, seed four disjoint current-request cohorts $I_1,\ldots,I_4$ whose
+union is all $B$ requests. Each selected request uses its complete native
+rewrite and KL bundle. Empty cohorts contribute zero.
+
+The teacher is the same candidate's native jointly injected forward,
+detached only on the teacher side. The physical student uses that
+candidate's entire current-$B$ causal writer, with no artificial subject
+intervention. For native rewrite weights $w_{rc}$ and target lengths
+$T_{rc}$, define
+\begin{align}
+ C_h(I)&=\frac1{|I|}\sum_{r\in I}\frac12\sum_l\sum_c w_{rc}
+     \frac{\norm{h^a_{lrc}-\sg(h^v_{lrc})}^2}{a_{lr}^2},\\
+ C_d(I)&=\frac1{|I|}\sum_{r\in I}\sum_c w_{rc}\frac1{T_{rc}}
+    \sum_{j=1}^{T_{rc}}\KL\bigl(\sg(p^v_{rcj})\Vert p^a_{rcj}\bigr),\\
+ C_{\rm cur}(I)&=0.1C_h(I)+0.1C_d(I)
+  +\frac{\lambda_K}{|I|}\sum_{r\in I}\KL(p^a_{K,r}\Vert p^0_{K,r}).
+\end{align}
+Hidden states are post-intervention subject block outputs in the virtual
+graph and corresponding total block outputs in the actual graph.
+Distillation is full vocabulary at the native NLL readout and target
+positions. Its direction is teacher $\Vert$ student. Physical KL keeps
+the native current $\Vert$ entry direction and KL readout. Native task
+context reduction is unchanged; writer group means do not replace it.
+
+The scheduled mean loss is
+\[
+ J_k(D)=
+ \begin{cases}
+ J_{\rm base}^{(a)}(D)+\dfrac{|I_j|}{B}C_{\rm cur}(I_j),
+      &k=5j,\ j=1,\ldots,4,\\[3pt]
+ J_{\rm base}^{(a)}(D),&\text{otherwise}.
+ \end{cases}
+\]
+Cohort weights sum to one across the four pulses, with no factor-four
+multiplier. All current rewrite contexts still determine every candidate's
+writer and geometry, including candidates without a pulse. Detached
+teachers are refreshed from the current native candidate, not reused
+as stale auxiliary gradients. This finite teacher schedule is not exact
+descent on a single fixed global objective.
+
+There is no past-request sample, replay forward, past KL loss, past
+target-NLL degradation loss, reservoir, admission teacher, or retained
+past sentence in the optimizer state. The background statistic $C_0$
+and accumulated history $H_t$ remain. They are key statistics, not a
+reference-text objective or functional replay. Current own-entry teachers
+and current native teacher captures remain necessary and are released
+after their defined use. Official evaluation has no optimizer feedback.
+
+\newpage
+\section{Scaled coordinates for Adam, with unchanged $D$ losses}
+Train only $q_{lr}\in\RR^{d_l}$ and set
+\[
+ s_{lr}=\frac{a_{lr}}{\sqrt{d_lm}},\qquad
+ \delta_{lr}=s_{lr}q_{lr},\qquad q_{lr}^{(0)}=0.
+ \label{eq:coordinates}
+\]
+The dimension $d_l$ is the local write output dimension and $m$ is the
+fixed number of all eligible sites, not the number currently used or
+unclamped. Anchors and scales remain fixed throughout a batch. This is
+an optimizer-coordinate change. Every scientific loss, writer target,
+geometry cost, physical effect, and norm is evaluated using $D$, not $q$.
+
+The declared numeric profile stores $q,s,D$, their gradients, and Adam
+moments in FP32, with FP64 geometry. Construct $s$ by computing
+$a/\sqrt{d_lm}$ in FP64 and then casting once to FP32. Numerical checks
+of the first-step squared relative bound allow
+$10^{-8}+10^{-5}\eta^2$ for FP32 rounding. This tolerance is not added
+to the objective or clamp.
+
+Use Adam on $q$ with learning rate $\eta=0.1$ from the first update,
+$(\beta_1,\beta_2)=(0.9,0.999)$, $\epsilon=10^{-8}$, and weight decay
+zero. There is no warmup, layerwise scheduler, or quality-dependent
+learning-rate adaptation. Initialize moments at batch entry and retain
+them across that batch's updates and clamps.
+
+Candidates are indexed by $k=1,\ldots,25$. There are 24 optimizer
+updates; candidate 25 evaluates the state after update 24 without backward. For each updating
+candidate accumulate the complete logical-batch gradient of $B J_k(D)$.
+The factor $B$ applies to native, policy, and pulse terms alike.
+Microbatches do not introduce extra optimizer steps.
+
+The reference constructs a shared physical leaf
+$D=\operatorname{leaf}(\sg(sq))$ at the fixed current coordinates.
+Collect every native, writer, policy, and physical contribution to that
+leaf first, then set
+\[
+ (\nabla_q L)_{lr}=s_{lr}(\nabla_D L)_{lr}
+\]
+exactly once. Do not also backpropagate a second duplicate $q\to D$
+path. Changing coordinates does not permit detaching current keys or
+solve gradients. After one Adam step project each coordinate group onto
+\[
+ \norm{q_{lr}}\leq c_{\rm native}\sqrt{d_lm},
+\]
+which equals the original physical clamp
+$\norm{\delta_{lr}}\leq c_{\rm native}a_{lr}$ in real arithmetic.
+The FP32 reference computes the radial scale from materialized $D$
+and the native physical radius, then multiplies $q$ by that scale;
+it does not assert bitwise equivalence of the two radius formulas.
+
+With zero Adam moments, each coordinate's first-step magnitude is at
+most $\eta$, giving, for every request,
+\[
+ \frac{\norm{\delta_{lr}^{(1)}}}{a_{lr}}\leq\frac{\eta}{\sqrt m},
+ \qquad
+ \sum_l\frac{\norm{\delta_{lr}^{(1)}}^2}{a_{lr}^2}\leq\eta^2.
+\]
+For $m=5$ this per-layer bound is $0.04472$, below the native $0.75$
+cap. Other profiles must check $\eta/\sqrt m<c_{\rm native}$. This
+avoids automatic first-step clipping; it neither adds a total
+norm constraint nor prevents later saturation. Under persistently aligned,
+approximately constant coordinate updates, a layer can reach the cap in
+about 17 updates. Larger $m$ can slow concentrated solutions within the
+finite budget. No final nonsaturation or equal-allocation claim follows.
+Adam epsilon is also in $q$ coordinates; this is not exactly raw-$D$
+Adam with a smaller scalar learning rate. The invertible fixed scale
+itself changes neither the objective at a given $D$ nor its feasible set.
+
+\newpage
+\section{Exact terminal commit and native history update}
+At candidate 25, rebuild the same causal mean-key writer from the final
+$D$. Evaluate the complete current native and actual bundles without
+backward. Re-capture physical pre-own-write context keys and verify
+agreement with the builder before applying the same native FP32 nested
+mean aggregation. Later writes cannot change earlier keys in the
+qualified causal adapter.
+
+Commit exactly the materialized FP32 weights evaluated by that actual
+forward. There is no alternative final writer, absolute-$z$ compensation,
+remaining-layer division, post-fit gain, or evaluation-based candidate
+selection. Inference has no subject-$\delta$ hook. Candidate 25 is a
+fixed-budget result, not a convergence certificate. Nonfinite values,
+invalid solves, and tensor/state mismatches are technical failures;
+edit strength, concentration, clamp fraction, and observed quality are
+not candidate-rejection gates.
+
+Update native history in FP32 on CPU. Transfer the terminal native mean
+keys to CPU as FP32 and perform, once per batch,
+\[
+ H_{t+1,l}^{32,\rm CPU}=H_{tl}^{32,\rm CPU}
+       +\kappa_{l,\rm terminal}^{32,\rm CPU}
+        (\kappa_{l,\rm terminal}^{32,\rm CPU})^\top.
+\]
+This counts each request once through one mean-key column. Do not append
+individual-context second moments, append at intermediate candidates,
+divide by $B$ or context counts, deduplicate fact identities, or replace
+the native Gram update with lower-triangle mirroring. At the next batch, form the fixed
+geometry from the stored native history and background statistic, then
+use FP64 solves. Do not silently replace the declared CPU FP32 history
+accumulation with another dtype or order.
+Model/history/RNG transactions retain atomic rollback; there is no
+replay-memory transaction. Since history semantics have changed, a later
+v8 experiment must start from the original $W_0/H_0$, not resume from
+v7 weights and history.
+
+No past text or teacher admission follows the commit. Only the specified
+key history and ordinary model/experiment records persist. Historical
+keys can become stale after later edits; refreshing current candidate
+keys does not remove that historical approximation. A mean-key history
+also does not represent every context's covariance.
+
+Record native NLL/KL/norm, both dynamic costs, pulse losses, actual
+versus virtual hidden/readout gaps, per-layer $q$ and $D$ norms,
+$\norm{D_{lr}}/a_{lr}$, clamp use, actual weight norms, solve residuals,
+history transition hashes, and evaluated-to-committed equality. Terminal
+gradient values are null with an explicit unmeasured status, not zeros.
+Report official R/P/N separately with denominators, pre-edit outcomes,
+and at-write versus cumulative retention.
+
+The design permits arbitrary positive logical $B$, compatible output
+dimensions, and model/benchmark profiles. The initial intended profile
+is Llama3-8B-Instruct/CounterFact, L4--L8, model FP32, geometry FP64,
+$\lambda_C=15000$, and native clamp $0.75$. Architecture qualification
+must precede an assertion of support. A new GPU pilot or production run
+is not authorized or reported by this method document.
+
+\newpage
+\section{Cost boundaries, qualification, and interpretation}
+Mean-key reduction changes the dual system from the number of native
+contexts to $B$, while preserving all context forwards. It can reduce
+geometry cost, but does not remove candidate-dependent key extraction,
+upper-site solve gradients, or native/physical forward work. No speedup
+percentage follows without measurement.
+
+\begin{center}
+\begin{tabular}{p{0.48\linewidth}p{0.41\linewidth}}
+\toprule
+Component & Reference frequency per batch\\
+\midrule
+Native subject candidate & 25 forward, 24 backward\\
+All-current rewrite key builder & 25 traversals, 24 with gradients\\
+Fixed $A_l$ factor and first-site basis & Once per batch\\
+Upper-site dynamic basis & $25(m-1)$ solves, $24(m-1)$ adjoints\\
+Current physical feedback & Four disjoint pulses; requests covered once\\
+Past replay & Zero\\
+Terminal actual audit & All current native bundles once\\
+\bottomrule
+\end{tabular}
+\end{center}
+These are components of a shared computation, not independent equal-cost
+full-model calls. A geometry-only builder can stop at the final writable
+site's input key. Qualified activation reuse can reduce repeated work;
+record actual tokens, calls, checkpoint replay, factorization time,
+materialization time, transfers, and peak memory separately.
+
+Allowed optimizations must preserve all paths. First-site caches are
+entry-dependent; upper keys and factors cannot cross candidate boundaries.
+An exact checkpoint closure must restore immutable candidate weights
+during recomputation and cannot rely on an expired hook context. A
+qualified subject-prefix builder can crop only key-extraction rows while
+preserving all contexts, token IDs, masks, and positions; native task,
+physical feedback, and terminal readout inputs remain complete.
+
+For a modified linear with input $X$ and output adjoint $B_o$, direct
+adjoints may use
+\[
+ \nabla_D L=B_o^\top(XP),\qquad
+ \nabla_P L=X^\top(B_oD),\qquad
+ \nabla_X L=B_oW^a.
+\]
+All three directions are necessary. These are real-arithmetic identities;
+the declared FP64 product, FP32 cast, and FP32 entry-weight addition must
+be validated against the dense autograd reference. A custom backward
+does not justify a bitwise-equivalence claim after reassociation.
+
+Qualification covers native FP32 nested means and CPU history parity;
+primal/dual solves and the Gram identity; finite-difference or autograd
+checks through means, solves, and the complete causal graph; the $D$-leaf
+to $q$ gradient bridge; first-step bounds and unchanged physical clamps;
+empty pulse cohorts and partial batches; and exact terminal commit.
+CPU algebra evidence is separate from real-model GPU qualification.
+
+The claim is limited to joint native subject learning with allocation
+aware of the current mean-key writer and accumulated key history.
+Mean-key fitting does not enforce every context, key-history penalties
+do not reproduce functional replay, and the scaled coordinates alter
+finite-budget optimization rather than the scientific loss. Later
+saturation, insufficient paraphrase generalization, stale history, and
+locality outside the retained statistics remain empirical risks. The
+two arms differ only in outer cost aggregation; all other method choices
+are common and require their own comparisons if varied.
+\end{document}

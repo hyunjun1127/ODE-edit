@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "started_utc": "2026-10-02T17:59:08.902191+00:00",
+  "finished_utc": "2026-10-02T17:59:09.235614+00:00",
+  "elapsed_seconds": 0.3334208596497774,
+  "python": "3.12.0 (main, Jun 18 2025, 15:39:44) [GCC 11.4.0]",
+  "torch": "2.9.1+cu128",
+  "device": "cpu",
+  "CUDA_VISIBLE_DEVICES": "",
+  "cuda_available": false,
+  "script": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/plans/global/2026-10-03-jlz-realization-v9/math/validate_math.py",
+  "script_sha256": "b4424a707e6f9fc4096ea79baab822fb0025e73895d5279ba2609451112d3378",
+  "results": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/plans/global/2026-10-03-jlz-realization-v9/math/results.json",
+  "results_sha256": "16a0c5f12c59c5539dc9583bc8a1329c7e6162863b5db7521a98ee02b62be8d9",
+  "check_count": 181,
+  "writer_selection": "ridge main; exact realization pilot only",
+  "pseudoinverse_fallback": false,
+  "production_imports": false,
+  "production_code_changed": false,
+  "gpu_jobs_launched": false,
+  "v8_q_scale_Adam_changed": false,
+  "exit_code": 0
+}

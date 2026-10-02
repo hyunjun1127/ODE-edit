@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "date_kst": "2026-10-03",
+  "status_at_issue": "AUTHORIZED_AWAITING_GH_DELIVERY",
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "gh에게 전달하고 SH4 에게 task 진행시키라고 전달하자",
+    "writer_choice": "Ridge 유지 + exact pilot 비교 (권장)",
+    "interpretation": "GH assigns SH4/server4 implementation, qualification and both ridge 500-edit runs, with bounded exact comparison only."
+  },
+  "recipient": {
+    "role": "GH",
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "owner": {
+    "role": "SH4",
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "repository": "hyunjun1127/ODE-edit",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "task_id": "jlz-realization-v9-ridge-bs100x5-with-exact-probe",
+  "scope": {
+    "all_eligible_layers": true,
+    "main_writer": "native_MEMIT_H_mean_key_ridge",
+    "arms": [
+      "A",
+      "B"
+    ],
+    "batch_size": 100,
+    "batches_per_arm": 5,
+    "edits_per_arm": 500,
+    "fresh_W0_H0_each_arm": true,
+    "history_replay": false,
+    "native_key_history": true,
+    "native_inputs_losses_and_subject_injection": true,
+    "q_Adam_LR": 0.1,
+    "warmup_updates": 0,
+    "candidates_per_batch": 25,
+    "updates_per_batch": 24,
+    "allocation": "A=sum(c_l), B=sqrt(sum(c_l^2)); c_l=sqrt(g_l^2+e_l^2); lambda=.1",
+    "exact_pilot_only": true,
+    "exact_main_or_automatic_promotion": false,
+    "new_baseline_GPU_fits": 0,
+    "no_batch6": true,
+    "save_full_model_checkpoints": false,
+    "execution": "Q0 CPU/source -> Q1 each arm BS2x2 -> Q2 main A B1 fit + fixed-D frozen-K and causal exact shadow -> rollback/hash -> identical ridge commit/H once -> A B2..B5 and independent B B1..B5 -> W5 cumulative evaluation",
+    "additional_stage_approval_required": false
+  },
+  "resources": {
+    "respect_current_project_cap": true,
+    "prior_known_GPU_cap": 2,
+    "increase_cap": false,
+    "new_recurring_monitor": false,
+    "unrelated_job_changes": false,
+    "cancel_existing_jobs": false
+  },
+  "artifact_transfer": {
+    "source_host": "server1",
+    "one_time_method_bundle_transfer_to_SH4": true,
+    "content": "method/experiment/implementation/TeX/CPU proof, v8 dependency, no models/datasets/credentials",
+    "verify_archive_and_member_SHA": true,
+    "preserve_existing_files_and_experiments": true
+  },
+  "reporting": {
+    "GH_nonce_ACK": true,
+    "SH4_direct_owner_acceptance_ACK_required": true,
+    "separate_states": [
+      "received",
+      "implementing",
+      "GPU_qualified",
+      "submitted",
+      "main_A500_complete",
+      "main_B500_complete"
+    ],
+    "bounded_handoff_confirmation_only": true
+  },
+  "authority_note": "Earlier design status NOT_RUN/not_submitted/no_dispatch describes creation-time state. This later user instruction authorizes implementation, pilot and specified main execution; no repeat permission is needed."
+}

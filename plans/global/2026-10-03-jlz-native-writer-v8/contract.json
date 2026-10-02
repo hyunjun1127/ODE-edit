@@ -1,0 +1,236 @@
+{
+  "schema": "jlz-native-mean-writer-v8-method-v1",
+  "method": "JLZ-v8-plain",
+  "date": "2026-10-03",
+  "status": "DESIGN_SPECIFIED_CPU_MATH_VALIDATED_PRODUCTION_NOT_IMPLEMENTED_GPU_UNTESTED",
+  "scope": {
+    "new_job_submission": false,
+    "existing_job_mutation": false,
+    "replay": false,
+    "history_statistic": true,
+    "arms": [
+      "A",
+      "B"
+    ],
+    "new_replay_arm": false
+  },
+  "native": {
+    "inputs": "unchanged_baseline_native_rewrite_contexts_and_KL",
+    "subject": "native_lookup_full_block_output",
+    "primary": "one_joint_virtual_forward_all_eligible_D",
+    "NLL": "native_context_and_target_token_mean",
+    "KL": "current_to_own_batch_entry",
+    "norm": "lambda_norm*mean_request(sum_layer(norm(D_lr)/a_lr^2))",
+    "official_P_N_training": false,
+    "new_reference_text": false,
+    "prefix_representation_preservation_loss": false
+  },
+  "variables": {
+    "trainable": "q_per_layer_request",
+    "physical": "D_lr=s_lr*q_lr",
+    "scale": "s_lr=a_lr/sqrt(d_out_l*m)",
+    "m": "fixed_count_all_eligible_layers_not_active_count",
+    "anchors": "fixed_clean_native_canonical_entry_norms",
+    "initialization": "all_q_zero_all_eligible_layers_present",
+    "same_D_loss_invariance": true,
+    "dtype": "q_s_D_and_grad_FP32_geometry_FP64",
+    "scale_construction": "s=(a.float64()/sqrt(d_out*m)).float32()",
+    "same_D_loss_invariance_scope": "coordinate_reparameterization_only_not_v7_to_v8_replay_writer_changes"
+  },
+  "optimizer": {
+    "type": "Adam_in_q_coordinates",
+    "eta": 0.1,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "warmup_updates": 0,
+    "candidates": 25,
+    "updates": 24,
+    "full_gradient_before_step": true,
+    "loss_scale": "actual_B_times_entire_mean_loss",
+    "D_leaf_bridge": "D=(s*q).detach().requires_grad_(backward); collect_all_grad_D; q.grad=s*D.grad_once",
+    "projection": "q_lr_norm<=native_clamp_factor*sqrt(d_out_l*m)",
+    "physical_projection": "D_lr_norm<=native_clamp_factor*a_lr",
+    "moment_reset": false,
+    "outward_moment_correction": false,
+    "early_stop": false,
+    "line_search": false,
+    "first_relative_norm_bound": "eta/sqrt(m)",
+    "first_sum_squared_relative_norm_bound": "eta^2",
+    "no_first_clip_condition": "eta/sqrt(m)<native_clamp_factor",
+    "later_non_saturation_guarantee": false,
+    "forced_layer_distribution": false,
+    "new_shared_final_budget": false,
+    "polar_parameterization": false,
+    "proximal_step": false,
+    "optimizer_trajectory_equal_to_native": false,
+    "state_dtype": "FP32",
+    "projection_reference": "compute_scale_from_materialized_FP32_D_norm_and_native_radius_then_multiply_q",
+    "projection_equivalence_scope": "q_radius_formula_real_arithmetic; FP32 reference uses physical D and native roundoff tolerance"
+  },
+  "writer": {
+    "key_source": "actual_candidate_lower_writes_before_own_projection",
+    "raw_contexts": "all_current_native_rewrite_contexts",
+    "aggregation": "FP32_native_group_means_then_group_mean_original_order_then_FP64_cast",
+    "kappa_shape": [
+      "d_in_l",
+      "actual_B"
+    ],
+    "A": "lambda_C*float64(native_FP32_mom2_div_count)+float64(H_entry_FP32)",
+    "A_fixed_within_batch": true,
+    "P": "solve(A+kappa*kappa^T,kappa)",
+    "U": "D*P^T",
+    "physical_weights": "W_entry_FP32+cast_FP32(D_FP64*P_FP64^T)",
+    "target": "joint_local_incremental_D",
+    "remaining_layer_divisor": false,
+    "absolute_z_compensation": false,
+    "first_layer_P_cached_within_batch": true,
+    "upper_kappa_P_refresh": "every_candidate",
+    "gradient": "full_D_lower_to_actual_kappa_to_P_to_U",
+    "builder_subject_delta_hook": false,
+    "whole_B_key_barrier": true,
+    "full_context_second_moment": false,
+    "dual": "SPD_A_only_F=L^-1*kappa_S=I_B+F^T*F_V=S^-1*I_B_T=F*V_P=L^-T*T",
+    "fallback": "same_A_native_dense_solve_or_report_unsupported_no_jitter_or_silent_symmetrization",
+    "commit": "exact_evaluated_terminal_materialized_weights"
+  },
+  "allocation": {
+    "G": "P^T*A*P",
+    "E": "(P^T*kappa-I_B)*(P^T*kappa-I_B)^T",
+    "identity": "G+E=I_B-kappa^T*P_for_symmetric_prior",
+    "sigma_squared": "mean_request(a_lr^2)",
+    "g": "sqrt(trace(D*G*D^T))/(sqrt(B)*sigma)",
+    "e": "sqrt(trace(D*E*D^T))/(sqrt(B)*sigma)",
+    "arm_A": [
+      "sum_l(g_l)",
+      "sum_l(e_l)"
+    ],
+    "arm_B": [
+      "sqrt(sum_l(g_l^2))",
+      "sqrt(sum_l(e_l^2))"
+    ],
+    "lambda_W": 0.1,
+    "lambda_E": 0.1,
+    "arm_difference": "aggregation_shape_same_coefficients_not_matched_effective_penalty",
+    "off_diagonal": true,
+    "geometry_detach": false,
+    "zero_norm_selected_subgradient": 0,
+    "epsilon_smoothing": null,
+    "top_k": null,
+    "minimum_active_layers": null
+  },
+  "current_auxiliary": {
+    "candidates": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "partition": "seeded_four_disjoint_current_request_groups_each_seen_once",
+    "schedule_unchanged_from_v7": true,
+    "teacher": "same_D_native_post_subject_hidden_and_target_logits_detached",
+    "subject_coefficient": 0.1,
+    "distillation_coefficient": 0.1,
+    "KL": "actual_current_to_own_entry_native_KL",
+    "weight": "subset_size/actual_B_in_mean_objective",
+    "all_current_D_columns_in_weights": true,
+    "physical_target_NLL_as_primary": false
+  },
+  "replay": {
+    "enabled": false,
+    "past_loss": 0,
+    "past_forward_count": 0,
+    "reference_sampling": false,
+    "past_text_storage": false,
+    "past_KL_teacher_storage": false,
+    "past_NLL_anchor_storage": false,
+    "reservoir": false,
+    "memory_admission": false,
+    "dummy_memory_object": false,
+    "current_teacher_retained": true
+  },
+  "history": {
+    "enabled": true,
+    "definition": "native_MEMIT_H_mean_key_outer_product",
+    "key": "terminal_actual_all_writes_active_native_FP32_nested_mean",
+    "update": "H_CPU_FP32+=kappa_terminal_CPU_FP32@kappa_terminal_CPU_FP32.T",
+    "updates_per_commit_per_layer": 1,
+    "divide_by_B_or_context_count": false,
+    "occurrence_deduplication": false,
+    "lower_triangle_mirror": false,
+    "forgetting_factor": null,
+    "legacy_v7_state_reuse": false,
+    "restart": "cold_W0_and_H0",
+    "rollback": "W_H_RNG_atomic_no_replay_state"
+  },
+  "telemetry": {
+    "per_request_physical_relative_norm": true,
+    "pre_and_post_clamp": true,
+    "proposed_physical_radial_step": true,
+    "total_D_radial_gradient": true,
+    "q_and_D_grad_norms_distinct": true,
+    "terminal_actual_native_KL_saved": true,
+    "virtual_actual_names_distinct": true,
+    "replay_disabled_counters": true,
+    "diagnostics_quality_gates": false
+  },
+  "llama3_counterfact_profile": {
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "m": 5,
+    "d_out": 4096,
+    "KL_factor": 0.0625,
+    "norm_factor": 0.5,
+    "clamp_factor": 0.75,
+    "lambda_C": 15000,
+    "nll_layer": 31,
+    "RW_contexts": 6,
+    "KL_contexts": 1,
+    "first_layer_relative_norm_upper_bound": 0.044721359549995794,
+    "first_joint_squared_relative_norm_upper_bound": 0.01,
+    "constant_aligned_gradient_cap_reached_approximately_update": 17
+  },
+  "validation": {
+    "CPU_math": "see math results and receipt; no LM performance inference",
+    "production_GPU": "NOT_RUN",
+    "FP64_algebra": {
+      "atol": 1e-09,
+      "rtol": 1e-08
+    },
+    "tiny_FD": {
+      "atol": 1e-06,
+      "rtol": 0.0002
+    },
+    "same_D_LM_components": {
+      "atol": 0.0001,
+      "rtol": 1e-05
+    },
+    "same_D_total_gradient": "RMS(error)<=1e-6+2e-3*RMS(reference)",
+    "solve_relative_residual": 1e-08,
+    "aggregation": "exact_same_tensor_FP32_nested_mean",
+    "later_all_cap_is_not_failure": true,
+    "preservation_or_PS_improvement_claim": false,
+    "first_step_squared_relative_bound": "measured<=eta^2+1e-8+1e-5*eta^2_FP32_roundoff_only"
+  },
+  "generalization": {
+    "batch_size": "actual_B_everywhere_including_partial_batch",
+    "model": "qualified_causal_adapter_with_native_lookup_readout_dtypes_and_covariance",
+    "benchmark": "native_context_target_reductions_from_adapter_no_hardcoded_6",
+    "all_architectures_implemented": false,
+    "fixed_budget_finite_layer_count_effect": "one_active_layer_still_scales_by_1/sqrt(m),may_converge_slower"
+  },
+  "experiment_scope_inheritance": {
+    "planned_if_later_dispatched": "two_arms_BS100x5_500_each_from_cold_W0_H0",
+    "dispatch_authorized_by_this_document": false,
+    "new_baseline_GPU_runs": false,
+    "runtime_speedup": "UNMEASURED"
+  }
+}

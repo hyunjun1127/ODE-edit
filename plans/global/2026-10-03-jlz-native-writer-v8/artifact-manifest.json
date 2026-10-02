@@ -1,0 +1,60 @@
+{
+  "schema": "jlz-v8-method-artifact-manifest-v1",
+  "created_utc": "2026-10-02T16:51:41.012376+00:00",
+  "status": "DESIGN_AND_CPU_MATH_COMPLETE_PRODUCTION_AND_GPU_NOT_RUN",
+  "cpu_checks_passed": 404,
+  "independent_review": "writer_math_and_optimizer_red_completed; dtype_roundoff_and_invariance_scope_corrections_applied",
+  "model_forwards": 0,
+  "existing_experiment_mutations": 0,
+  "job_submissions": 0,
+  "TeX_static_checks": "PASS",
+  "TeX_PDF_compiled": false,
+  "reason_no_PDF": "No TeX compiler available",
+  "files": [
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/README.md",
+      "bytes": 722,
+      "sha256": "b3abcb142d85a1871161248338b913044feb2dbb9211fd2bdb66629541c8acfa"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/contract.json",
+      "bytes": 8464,
+      "sha256": "b888d3d599b3f789c9265db91a784f9727d060daca9b80208a29148ee457c735"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/implementation-ko.md",
+      "bytes": 9154,
+      "sha256": "0704bf2caafb82dbb3e6234d1993872d9452821f443fbb99e886b3e1543fa401"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/README.md",
+      "bytes": 9317,
+      "sha256": "4013cb9bf2189fad974590fce8a968d6c1d03d9b8e9f4ee1d27ae3e9ba006f10"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/receipt.json",
+      "bytes": 926,
+      "sha256": "06c4fef38a261870d496f01033034a6ca076a41408ee7e6ceef5623b6eb5e52f"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/results.json",
+      "bytes": 89360,
+      "sha256": "eaa2a0e8a16009bb723cd37ac31667ec457920bdf89dfeda846701b1df69524f"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/math/validate_math.py",
+      "bytes": 29124,
+      "sha256": "331904f9d6d2cb241e6a4de7ecc23070a949557606c82cace28f27c813647c41"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-native-writer-v8/method-ko.md",
+      "bytes": 14952,
+      "sha256": "a8b54ee8e7eb07132ed2d6c10c9cc685863ac5aa86b49683dc3052f273c66d88"
+    },
+    {
+      "path": "docs/methods/jlz-native-writer-v8.tex",
+      "bytes": 20995,
+      "sha256": "52132ebfdec1e0c95ac399b61f8b8bb7b12521e9294da9a358ac0aaf59f27260"
+    }
+  ]
+}

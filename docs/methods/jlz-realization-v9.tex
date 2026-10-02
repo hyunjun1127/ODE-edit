@@ -1,0 +1,435 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sg}{\operatorname{sg}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\RR}{\mathbb R}
+\title{JLZ v9: Realization-Aware Joint Subject Targets\\
+\large Native ridge main experiments and an exact-writer pilot comparison}
+\author{ODE-edit method specification}
+\date{October 3, 2026}
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\section{Decision and scientific scope}
+The main method retains the native MEMIT-H ridge writer and jointly
+learned subject interventions at every eligible layer. It replaces two
+separate root penalties for write action and fitting error with one
+combined ridge-energy root per layer. An equality-constrained writer is
+included only as a bounded pilot endpoint comparison, not as a second
+production writer or a 500-edit experimental arm.
+
+The central distinction is between a planned local increment $D$ and
+the increment actually realized by a ridge update. Computing targets at
+their own write layers avoids reusing a final-layer residual as though
+it were the same vector at lower sites. It does not make every planned
+increment physically realizable or close every virtual-to-actual gap.
+This is a method specification, not evidence of completed production
+implementation, GPU qualification, or improved quality.
+
+For a logical batch of $B$ requests, let $\mathcal L$ be the complete
+ordered eligible site set and $m=|\mathcal L|$. Freeze the batch-entry
+model $W_t$, native canonical anchor norms $a_{lr}>0$, own-entry KL
+teachers, and stored prior/history statistics. All eligible sites have
+trainable local increments $D_l=[\delta_{l1},\ldots,\delta_{lB}]$.
+The primary graph keeps $W_t$ fixed and jointly injects
+\[
+ h^v_{lrc}[s_{rc}]=h^{v,\mathrm{pre}}_{lrc}[s_{rc}]+\delta_{lr}
+\]
+at the native subject block-output lookup. Every request uses the same
+local vector in its native rewrite and KL inputs. Lower-to-upper effects
+are inside the joint forward rather than independent per-layer fits.
+
+The native mean objective remains
+\[
+ J_N(D)=\frac1B\sum_r\left[
+ L^v_{N,r}(D)+\lambda_K\KL(p^v_{K,r}(D)\Vert p^0_{K,r})
+ +\lambda_n\sum_l\frac{\norm{\delta_{lr}}}{a_{lr}^2}\right].
+\]
+Preserve native tokens, context/target reductions, masks, positions,
+lookup rules, and potentially different NLL/KL readouts. The current
+profile uses six rewrite contexts, one KL input, NLL readout layer 31,
+$\lambda_K=0.0625$, and $\lambda_n=0.5$. The KL is full vocabulary,
+current $\Vert$ entry. Official paraphrases, neighborhoods, future edits,
+and extra reference sentences are excluded from optimization.
+
+There is no past native replay, reservoir, admission teacher, or past
+target baseline. Current native teachers and sequential key history
+remain. Concentration in one layer is allowed; there is no initial layer
+subset, mandatory share, or quality-based candidate gate.
+
+\newpage
+\section{Native mean-key ridge writer with causal key refresh}
+At each candidate, a separate actual branch traverses layers in order
+without subject-$\delta$ hooks. Capture each subject's projection-input
+keys after all candidate lower writes and before its own write. Aggregate
+the complete native context groups in their original FP32 order:
+\[
+ \kappa^{32}_{lr}=\operatorname{mean}_g\!left(
+     \operatorname{mean}_{c\in\mathcal C_{rg}}k^{a,32}_{lrc}\right),
+ \qquad K_l=\operatorname{cast}_{64}
+       [\kappa^{32}_{l1},\ldots,\kappa^{32}_{lB}].
+\]
+Use group mean, stack/mean, request stack, then FP64 cast. A flattened
+context mean or a reassociated FP64 weighted sum is not the declared
+native reduction. All contexts are forwarded even though the solve has
+one mean-key column per request.
+
+With the fixed entry prior
+\[
+ A_l=\lambda_C\operatorname{cast}_{64}(C_{0l}^{32})
+                  +\operatorname{cast}_{64}(H_{tl}^{32}),
+\]
+where $C_0$ has already undergone native FP32 moment/count normalization,
+compute
+\[
+ P_l=(A_l+K_lK_l^\top)^{-1}K_l,\qquad
+ U_l=D_lP_l^\top,\qquad
+ W_l^a=W_{t,l}^{32}+\operatorname{cast}_{32}(D_l^{64}(P_l^{64})^\top).
+\]
+Inverses denote solves. This is the minimizer of
+\[
+ \frac12\norm{UK_l-D_l}_F^2+\frac12\tr(UA_lU^\top).
+\]
+The residual source is the jointly learned local $D_l$. There is no
+final-layer residual division, absolute-$z$ compensation, or post-hoc
+inverse gain applied to the optimized target.
+
+Gather all current request keys at each layer before its solve. Apply
+its materialized weight at every token position and then advance to
+the next site. The first site's keys/basis can be cached within a batch;
+upper keys and bases are rebuilt for every candidate. Retain gradients
+through actual activations, FP32 nested means, casts, and all solves.
+For $N=A+KK^\top$, solve adjoint $Q=\nabla_P L$, and
+$Y=N^{-\top}Q$, the solve contribution is
+\[
+ \nabla_K L\big|_{\rm solve}
+    =Y(I-P^\top K)-P(Y^\top K),
+\]
+in addition to direct policy and activation key gradients. The qualified
+adapter must have independent, feed-forward write sites: later writes
+cannot change earlier keys. Shared or recurrent sites need separate
+qualification.
+
+For symmetric SPD $A=LL^\top$, an equivalent $B$-dimensional dual uses
+$F=L^{-1}K$, $S=I+F^\top F$, and $P=L^{-\top}F S^{-1}$.
+Factor $A$ once per batch. Preserve stored state rather than silently
+symmetrizing history or adding jitter; use the same-$A$ native dense
+reference if the SPD fast path fails its numerical agreement checks.
+
+\newpage
+\section{Planned versus realized increments and one allocation cost}
+For symmetric SPD geometry define
+\[
+ X_l=K_l^\top A_l^{-1}K_l,\qquad
+ M_l=K_l^\top P_l=P_l^\top K_l=X_l(I+X_l)^{-1}.
+\]
+The own-layer action on the mean keys is
+\[
+ U_lK_l=D_lM_l,
+\]
+which generally differs from $D_l$. $M$ mixes requests; its diagonal is
+not a universal scalar realization gain for each request. Off-diagonal
+entries and the directions of all columns of $D$ matter. Dividing each
+target by a diagonal gain or by a scalar $g/e$ statistic is not a valid
+batch correction and is not part of this method.
+
+Retain the dynamic matrices
+\begin{align}
+ G_l&=P_l^\top A_lP_l,\\
+ E_l&=(P_l^\top K_l-I)(P_l^\top K_l-I)^\top,\\
+ G_l+E_l&=I-M_l=(I+X_l)^{-1}.
+\end{align}
+For frozen $\sigma_l^2=B^{-1}\sum_ra_{lr}^2$, define one combined cost
+\[
+ c_l(D)=\frac{\sqrt{\tr[D_l(G_l+E_l)D_l^\top]}}
+                   {\sqrt B\,\sigma_l}.
+\]
+It is the root of weighted write energy plus mean-key fitting error,
+not a measured neighborhood-success penalty. Compute it with stable
+explicit energies when needed; do not force an identity by altering
+the stored native statistics. Actual materialized FP32 action is
+measured separately from ideal FP64 matrix identities.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Arm & Allocation aggregation $R_{\rm alloc}$ & Coefficient\\
+\midrule
+A: concentration permitted & $\sum_l c_l$ & $\lambda_{\rm alloc}=0.1$\\
+B: spread preference & $\sqrt{\sum_l c_l^2}$ & $\lambda_{\rm alloc}=0.1$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Both use $J_{\rm base}=J_N+\lambda_{\rm alloc}R_{\rm alloc}$ and
+differ only in this aggregation. Retain all derivatives through $K,P,G,E$
+and all off-diagonal terms. Zero norms use the zero subgradient; there
+is no epsilon smoothing or detached eigendecomposition. Dynamic geometry
+means the full penalty is not a globally convex norm of all $D$.
+
+This is not identical regularization strength to v8's two penalties.
+For either arm, at the same $D$ and writer, let $R_{\rm old}$ include
+the old two $0.1$ terms and $R_{\rm new}$ the new $0.1$ term. Then
+\[
+ \frac{R_{\rm old}}{\sqrt2}\leq R_{\rm new}\leq R_{\rm old}.
+\]
+No automatic coefficient rescaling or tuning on official quality metrics
+is performed. Common native and hidden-feedback costs can also affect
+allocation; Arm A does not make the complete objective neutral to it.
+Between arms, $R_B\leq R_A\leq\sqrt m\,R_B$; the same coefficient does
+not match their effective penalty strength. Batch-RMS anchor normalization
+is also different from the native per-request $a_{lr}^2$ normalization.
+These inherited weighting differences are recorded, not silently retuned.
+
+\newpage
+\section{Current physical feedback and scaled-coordinate Adam}
+Use seeded disjoint current cohorts $I_1,\ldots,I_4$ covering all $B$
+requests. Candidates 5, 10, 15, and 20 add feedback before their updates.
+The teacher is that candidate's native joint forward, detached only on
+the teacher side; the student is the entire current-$B$ causal writer.
+With native rewrite weights $w_{rc}$ and target lengths $T_{rc}$, use
+\begin{align}
+ C_h(I)&=\frac1{|I|}\sum_{r\in I}\frac12\sum_l\sum_cw_{rc}
+ \frac{\norm{h^a_{lrc}-\sg(h^v_{lrc})}^2}{a_{lr}^2},\\
+ C_d(I)&=\frac1{|I|}\sum_{r\in I}\sum_cw_{rc}\frac1{T_{rc}}
+ \sum_j\KL\bigl(\sg(p^v_{rcj})\Vert p^a_{rcj}\bigr),\\
+ C(I)&=0.1C_h(I)+0.1C_d(I)
+ +\frac{\lambda_K}{|I|}\sum_{r\in I}\KL(p^a_{K,r}\Vert p^0_{K,r}).
+\end{align}
+Hidden states are corresponding total subject block outputs; target
+distributions are full vocabulary at the native NLL readout. At candidate
+$k=5j$ add $(|I_j|/B)C(I_j)$ to $J_{\rm base}$; otherwise use only
+$J_{\rm base}$. Empty cohorts contribute zero. There is no factor-four
+multiplier, added physical target-NLL primary loss, past replay, or stale
+auxiliary gradient. All current contexts still build every candidate's
+writer, not only those selected for physical feedback.
+
+Train $q$ from zero using the fixed invertible scale
+\[
+ \delta_{lr}=s_{lr}q_{lr},\qquad
+ s_{lr}=\frac{a_{lr}}{\sqrt{d_lm}}.
+\]
+All scientific losses, targets, and costs are evaluated on $D$. Adam
+acts on $q$ with constant $\eta=0.1$, betas $(0.9,0.999)$, epsilon
+$10^{-8}$, and weight decay zero. There is no warmup. Initialize moments
+once per batch and retain them through updates and clamps. For a physical
+leaf $D=\operatorname{leaf}(\sg(sq))$, first accumulate all native,
+policy, solve, and physical adjoints of the request-SUM loss $B J_k$,
+then transfer $q.\mathrm{grad}=s\,D.\mathrm{grad}$ exactly once.
+No optimizer step occurs until all checkpoint/backward work completes.
+Model, $q$, $D$, and Adam moments are FP32; geometry uses FP64.
+
+There are 25 candidate evaluations and 24 Adam updates. After each update
+project $q_{lr}$ onto $\norm{q_{lr}}\leq c_{\rm native}\sqrt{d_lm}$,
+equivalent to the unchanged physical clamp
+$\norm{\delta_{lr}}\leq c_{\rm native}a_{lr}$, currently $c_{\rm native}=0.75$.
+The first-step bound $\norm{\delta_{lr}}/a_{lr}\leq\eta/\sqrt m$
+is $0.04472$ for $m=5$, with
+$\sum_l\norm{\delta_{lr}}^2/a_{lr}^2\leq\eta^2$ at that first step.
+It avoids first-step automatic clipping in this
+profile, not later saturation: aligned updates can reach the cap around
+step 17. It is not a shared final norm budget or forced layer share.
+Finite-budget convergence and sufficient edit strength are not proved.
+
+Candidate 25 is forward-only and its ridge weights are committed exactly.
+No quality gate, inverse-$M$ compensation, gain adjustment, or alternate
+post-fit writer changes that main-run candidate.
+
+\newpage
+\section{Per-context error decomposition and required measurements}
+For a request/context, define the desired actual-branch increment toward
+the current virtual target by
+\[
+ g_{lrc}=z^v_{lrc}-h^{a,\mathrm{pre}}_{lrc}.
+\]
+This is an observation, not a replacement writer target. With mean-key
+column $\kappa_{lr}$ and individual actual key $k^a_{lrc}$,
+\begin{align}
+ g_{lrc}-U_lk^a_{lrc}
+ &=\underbrace{(g_{lrc}-D_{lr})}_{\text{inherited virtual/actual state gap}}
+ +\underbrace{(D_{lr}-U_l\kappa_{lr})}_{\text{mean-key realization error}}
+ \nonumber\\[-2pt]
+ &\hspace{1em}
+ +\underbrace{U_l(\kappa_{lr}-k^a_{lrc})}_{\text{within-request context variation}}.
+ \label{eq:decomposition}
+\end{align}
+Thus even an exact fit $U_l\kappa_{lr}=D_{lr}$ removes only the middle
+term. It does not guarantee agreement with the virtual target on every
+context, prevent all-token side effects, or establish locality. Log the
+three vectors or their reproducible inner products/norms; scalar norms
+cannot simply be added as though the terms were aligned.
+
+For $v_{lr}=(U_lK_l)_r$ and nonzero $D_{lr}$, record
+\begin{align}
+ \gamma_{lr}&=\frac{\langle D_{lr},v_{lr}\rangle}{\norm{D_{lr}}^2},
+ &\rho_{lr}&=\frac{\norm{v_{lr}}}{\norm{D_{lr}}},\\
+ o_{lr}&=\frac{\norm{v_{lr}-\gamma_{lr}D_{lr}}}{\norm{D_{lr}}}.
+\end{align}
+These measure directional realization, norm ratio, and orthogonal error
+of the own-layer mean action, not total block-state change. At zero
+$D_{lr}$, relative/directional metrics are null with a zero-target flag;
+do not fabricate zero ratios using an arbitrary denominator floor.
+Record planned and realized norm-based layer shares separately, with
+null shares when their total denominator is zero. A norm share is not a
+causal contribution or a threshold for removing a layer. In ideal SPD
+geometry also separate self action $D_{lr}M_{rr}$ from cross-request
+action $\sum_{s\ne r}D_{ls}M_{sr}$ and record their interaction.
+
+Also retain diagonal and off-diagonal statistics of $M$, the spectra or
+condition diagnostics of $X$ and the solve system, native/actual losses,
+combined cost and its separate $G/E$ energy components, $q/D$ norms,
+clamp use, and actual weight norms. Off-diagonal entries should not be
+interpreted without the other target columns: even a positive-semidefinite
+$M$ does not give an individual request a universal scalar gain.
+
+The relation $UK=DM$ uses symmetric SPD ideal geometry. In numerical
+telemetry compute the own-write action directly as $UK$ or through
+$P^\top K$, preserve native stored-state asymmetry, and separately
+measure materialized FP32 weight action. Do not silently symmetrize to
+make a diagnostic identity exact.
+
+Official R/P/N, denominators, pre-edit locality, teacher-forced strict
+metrics, and at-write versus cumulative outcomes are reported after
+the locked evaluations. They are not optimizer inputs or thresholds
+for selecting ridge versus exact, an arm, a candidate, or coefficients.
+
+\newpage
+\section{Exact writer: pilot comparator and its limits}
+For a fixed candidate's $A,K,D$, assume $A$ is symmetric SPD and $K$
+has full column rank, so that $X=K^\top A^{-1}K$ is invertible. The
+minimum weighted-energy update satisfying $UK=D$ is
+\[
+ U_{\rm exact}=D X^{-1}K^\top A^{-1},\qquad
+ \min_{U:UK=D}\frac12\tr(UAU^\top).
+\]
+Equality-constrained batch editing is established in the EMMET
+framework~\cite{emmet}; the exact endpoint here is a comparison of writer
+operators for the same learned local targets, not a new novelty claim.
+It is also not a guarantee of functional locality or subject-target
+closure beyond the constrained mean keys.
+
+If $K$ is rank deficient, arbitrary $D$ may be infeasible. The compatibility
+condition is $D=DX^\dagger X$; a compatible mathematical minimum can use
+$DX^\dagger K^\top A^{-1}$. The pilot nevertheless requires the declared
+SPD/full-rank conditions and numerical thresholds. It does not silently
+switch to a pseudoinverse, ridge, jitter, truncated rank, or target change.
+An unsupported exact endpoint is recorded as such without changing the
+ridge main method or removing requests/layers. Mathematical or numerical
+unsupported status does not block a technically valid ridge main run.
+Failure to restore model/history/RNG, or mutation outside the write scope,
+is a blocking technical failure of the main run.
+
+At cold history $H_0=0$ with $A=\lambda_C C_0$,
+\[
+ U_{\rm exact}
+ =D(K^\top C_0^{-1}K)^{-1}K^\top C_0^{-1}.
+\]
+Uniform $\lambda_C$ cancels. Unlike ridge, increasing that scalar cannot
+shrink this exact update at $H_0$. Near-dependent keys can amplify the
+required weight change. Full-rank feasibility and algebraic equality
+therefore do not imply a favorable preservation tradeoff.
+
+The pilot has two distinct, paired comparisons with frozen learned $D$:
+\begin{enumerate}
+\item \textbf{Frozen-key operator comparison.} Use identical $A,K,D$
+      to compare ridge and exact, exposing the operator-level difference
+      without changes in targets or downstream key construction.
+\item \textbf{Causal endpoint comparison.} Starting from the same entry
+      snapshot and the same $D$, rebuild each writer separately in layer
+      order. Upper keys may differ because lower writes differ. Each
+      branch uses its own actual keys, with no target refitting.
+\end{enumerate}
+The frozen-key and causal-key qualifications are separate: failure of an
+upper frozen ridge key does not establish failure of the causal exact key.
+The first layer may share its identical key and prior, but the writer's
+$P/G/E$ and first-geometry caches must be separated by writer kind.
+Restore model, history, and RNG exactly between branches and after the
+comparison. Shadow probes contribute no history update to the main run.
+The identical saved ridge terminal tensors are then committed once, with
+one native history update. Do not present a frozen-key comparison as if it captured the
+nonlinear causal effect of rebuilding upper writers. Official P/N may
+be measured post hoc on both locked endpoints but never select the
+writer, coefficient, or continuation. There is no exact-writer 500-edit
+run in this design.
+The locked $D$ was optimized for ridge. This compares a writer replacement
+at that $D$, not an independently optimized exact-editing method.
+
+\newpage
+\section{Execution stages, commit/history, and qualification}
+First qualify the algebra, graph, and commit behavior with independent
+small pilots: two batches of two requests for each arm. Development
+states never enter the main experiment. Then fit main Arm A batch 1 from
+cold $W_0/H_0$ as the bounded $B=100$ pilot, lock its terminal $D$, and
+perform the frozen-key and causal paired exact comparisons. This is one
+main-prefix fit, not an additional pilot fit. After verified restoration,
+commit the saved ridge tensors once and continue Arm A batches 2--5.
+Arm B starts independently from cold $W_0/H_0$ for batches 1--5. Each
+arm has 500 edits; both together have 250 candidates and 240 updates,
+including Arm A batch 1. Pilot scores do not choose the main writer,
+trigger a refit, or tune the locked coefficients. The method itself is
+generic in positive $B$ and qualified model/benchmark adapters.
+The initial intended profile is Llama3-8B-Instruct/CounterFact, L4--L8,
+and $\lambda_C=15000$. Neither arm resumes from modified v7/v8 weights
+or history.
+
+At every main-run terminal candidate, rebuild the defined causal ridge
+writer, evaluate the complete current native/actual inputs, and commit
+the identical materialized FP32 tensors. Re-captured final pre-own-write
+keys must agree with the builder in the qualified causal adapter.
+Capture all current rewrite virtual subject states in the existing
+candidate-25 native forward for the decomposition. Reusing an earlier
+candidate's teacher or omitting terminal capture is invalid; no extra
+fit or forward is needed for these hooks.
+Inference has no subject-$\delta$ hook. Record terminal gradients as
+unmeasured/null. Update history exactly once by native CPU FP32 mean-key
+Gram accumulation:
+\[
+ H^{32,\rm CPU}_{t+1,l}=H^{32,\rm CPU}_{tl}
+ +\kappa^{32,\rm CPU}_{l,\rm terminal}
+  (\kappa^{32,\rm CPU}_{l,\rm terminal})^\top.
+\]
+Do not divide by batch/context counts, deduplicate repeated fact identities,
+substitute full-context second moments, or mirror a triangle. Preserve
+atomic model/history/RNG rollback. No replay-memory transaction exists.
+Stored native history is not altered to force symmetry or an identity.
+
+Qualification checks native FP32 group aggregation and history parity;
+dense/dual ridge and qualified exact solves; $G+E=I-M$; complete
+gradients through causal keys, solves, combined costs, and the $D$-to-$q$
+bridge; first-step bounds and physical clamps; decomposition consistency;
+zero-target metric handling; and exact evaluated-to-committed equality.
+Exact SPD/rank thresholds are declared before the pilot, not relaxed
+after observing quality. Numerical failures receive an explicit status,
+not a hidden alternate operator.
+
+Each main batch still has 25 native candidate forwards, 24 updates,
+whole-current causal key builders, upper-site fresh solves and their
+adjoints, four current physical pulses, and a terminal actual audit.
+These overlap and are not equal-cost full-model calls. Instrument actual
+tokens, forward/backward calls, checkpoint replay, solves, transfers,
+time, and peak memory. Exact pilot branches are separately accounted.
+No speedup, convergence in 24 updates, or locality improvement is claimed
+before measurement.
+
+Mean-key energy remains a surrogate for preservation. The separate
+errors in Eq.~\eqref{eq:decomposition}, nonlinear downstream propagation,
+history staleness, finite optimization, and effects outside observed
+native inputs remain empirical limits. All layers stay eligible, and
+both main arms retain the same objective components and execution budget.
+
+\begin{thebibliography}{1}
+\bibitem{emmet}
+Akshat Gupta, Dev Sajnani, and Gopala Anumanchipalli.
+\emph{A Unified Framework for Model Editing}.
+Findings of EMNLP, 2024. arXiv:2403.14236v5.
+\url{https://arxiv.org/abs/2403.14236v5}.
+\end{thebibliography}
+\end{document}
