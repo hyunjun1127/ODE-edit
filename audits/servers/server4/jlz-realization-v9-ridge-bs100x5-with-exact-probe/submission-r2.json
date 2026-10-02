@@ -1,0 +1,108 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "status": "MAIN_RUNNING_INITIAL_NOT_OBSERVED",
+  "source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "tree": "a179b5751e91d26bdb762a345d5b70ee79e0ae80",
+  "archive": {
+    "bytes": 1126400,
+    "inode": 135136897,
+    "mtime_ns": 1790972133536400600,
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/source.tar",
+    "sha256": "3507b7d76a934122169626dfe89227a1ecc2cce48407c8fa4425ccfc7f7288c2"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/execution.lock.json",
+    "bytes": 32947,
+    "sha256": "f8a6c2a4cf06b1284f35940c703b8037336bbc5103f206f5dd014e65ad76a9df",
+    "inode": 135137006,
+    "mtime_ns": 1790972133580401000
+  },
+  "submission": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/submission.json",
+    "bytes": 4724,
+    "sha256": "672a25f5d8ab48bf78fc5a953a837d39301c9146fb19636ac596ea7e7152928e",
+    "inode": 135137014,
+    "mtime_ns": 1790972133771401200
+  },
+  "held": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/held-inspection.json",
+    "bytes": 11109,
+    "sha256": "64ccb08930fed67d48d8add4af3a79708ffb43f4b3031bd0c6656cfe89ef1071",
+    "inode": 135137010,
+    "mtime_ns": 1790972133736401200
+  },
+  "jobs": {
+    "collector": "57574",
+    "main-A": "57572",
+    "main-B": "57573",
+    "prep-A": "57567",
+    "prep-B": "57568"
+  },
+  "dependencies": {
+    "collector": "afterany:57567:57568:57572:57573",
+    "main-A": "afterany:57567:57568",
+    "main-B": "afterany:57567:57568"
+  },
+  "config_sha": "d87ab23e3746925cd305e403fc1c50659f704f0521fe1efdfc0452be9e99e8e4",
+  "Q1_reuse": {
+    "READY": {
+      "A": {
+        "bytes": 324,
+        "inode": 135136851,
+        "mtime_ns": 1790971662273551400,
+        "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/prep-A/READY.json",
+        "sha256": "9ff979aae84f93516a92b344642faa6294683251319e298ca9fa3142befa0f1b"
+      },
+      "A-terminal": {
+        "bytes": 438,
+        "inode": 135136852,
+        "mtime_ns": 1790971662274551300,
+        "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/prep-A/terminal.json",
+        "sha256": "411d650c6b2c930a8f788d54f6ed52048753352bb932e06b1f0f477c9eb6a404"
+      },
+      "B": {
+        "bytes": 324,
+        "inode": 135136824,
+        "mtime_ns": 1790971564102923500,
+        "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/prep-B/READY.json",
+        "sha256": "9ff979aae84f93516a92b344642faa6294683251319e298ca9fa3142befa0f1b"
+      },
+      "B-terminal": {
+        "bytes": 439,
+        "inode": 135136825,
+        "mtime_ns": 1790971564104923400,
+        "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/prep-B/terminal.json",
+        "sha256": "94031c57f21cc781396d6c91a1d35084493e71312cb1dcc94f92d3fd29820540"
+      }
+    },
+    "attempt": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1",
+    "bridge": {
+      "bytes": 1358,
+      "inode": 135136887,
+      "mtime_ns": 1790972060019203300,
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/repair-r2/CPU-equivalence.json",
+      "sha256": "82bbde27b0fd940d7b807554b815ebf33146be7bf434de68f7c91174774d25f7"
+    },
+    "config_sha256": "0bfeb7a52ae99cc1a745b7a582a16a00d4513db01d31a6b86a12f3b6f4edf5d8",
+    "scope": "original Q1 fit/parity; r2 telemetry CPU-verified, not repeated GPU qualification",
+    "source_commit": "ee1d8bd7adb9d6c34021ba0b9f36f435565c13f7"
+  },
+  "Q1_gpu_compute": "two commits per arm verified; A completed, B signal11 after program COMPLETE",
+  "CPU_tests": 13,
+  "telemetry_repair_CPU_equivalence": true,
+  "Q2": "NOT_OBSERVED",
+  "monitoring_active": true,
+  "automatic_resume": false,
+  "no_checkpoint": true,
+  "new_baseline": 0,
+  "cancelled_original_pending": [
+    57571,
+    57569,
+    57570
+  ],
+  "original_allocated_GPU_seconds": {
+    "Q1_A": 385,
+    "Q1_B": 371
+  },
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
