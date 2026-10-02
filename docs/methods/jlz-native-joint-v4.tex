@@ -1,0 +1,414 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\Lset}{\mathcal L}
+\newcommand{\entry}{\mathrm{ent}}
+\newcommand{\virt}{\mathrm{virt}}
+\newcommand{\wrstate}{\mathrm{wr}}
+\newcommand{\can}{\mathrm{can}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sym}{\operatorname{sym}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\R}{\mathbb R}
+\hypersetup{pdftitle={JLZ v4: Native Joint Local-Delta Optimization and History-Aware Edit Allocation},
+ pdfauthor={ODE-edit},pdfsubject={Method specification; not an experimental result}}
+\title{JLZ v4: Native Joint Local-$\delta$ Optimization\\
+and History-Aware Edit Allocation}
+\author{ODE-edit method specification}
+\date{October 2, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Method claim and design boundary}
+
+JLZ v4 jointly optimizes a local subject intervention at every eligible
+write layer. Its methodological claim concerns joint layerwise $z$
+optimization and the resulting dynamic allocation of edit effort. The
+current-request training sentences remain exactly those of the native
+baseline: six native rewrite contexts and one native KL input per request.
+There is no additional paraphrase curriculum or generation-prompt training.
+
+The free variables are
+\[
+ \delta=\{\delta_l\in\R^{d\times B}:l\in\Lset\},
+ \qquad\Lset=\{4,5,6,7,8\}.
+\]
+All five layers are eligible from initialization. Their contributions are
+determined jointly through the same nonlinear model loss, rather than
+selected in advance. A zero layer or a solution concentrated in one layer
+remains permitted. A common subject vector for a given request and layer
+is injected across all native contexts.
+
+The $z$ stage uses one model path: a frozen batch-entry model with joint
+subject-position injections. The free variables are direct local
+activation changes, not writer coordinates $R$. The norm and clamp act on
+these injected changes. This design does not use a mixture of an actual
+weight branch and an auxiliary branch, an $R$-norm penalty, a realization
+consistency loss, or added general/replay prompt losses.
+
+Two arms differ only in an additional history-aware writer value cost.
+Arm A ($\eta=0$) is the native joint-injection control. Arm B ($\eta=1$)
+adds the value of a regularized local writer fit to the $z$ objective. This
+cost includes unrealized target error as well as write energy, so a writer
+that rejects a requested change is not incorrectly scored as cheap merely
+because its update is small.
+
+After joint optimization, a lower-to-upper writer realizes local targets
+at their corresponding layers. The $z$ path and the actual weight model
+are distinct. This is an explicit proxy-to-materialization boundary, not
+a claim of exact all-token fit/commit equivalence. Joint virtual
+interactions are included in the $z$ gradients; actual cross-request and
+all-token write effects are only approximated by geometry before writing.
+
+This is a method specification, not a report of implemented GPU fitting,
+measured acceleration, or established generalization gains.
+
+\clearpage
+\section{Unchanged native inputs and same-site local targets}
+
+Let request $r$ specify a subject, relation prompt, and desired target token
+sequence $y_r^*=(y_{r,1}^*,\ldots,y_{r,T_r}^*)$. Preserve native target
+normalization, token IDs, teacher-forced prediction positions, context
+order, padding masks, and subject-last lookup. The six rewrite inputs are
+the canonical prompt and the same five native context wrappers. Their
+rewrite losses have equal weights $1/6$.
+
+The native KL input is \texttt{\{\} is a}, with the subject inserted. KL is
+measured at its native subject lookup position using the full vocabulary.
+Its teacher is frozen at the own batch entry, not at another arm's edited
+state. Neither official paraphrase/neighborhood prompts nor raw
+\texttt{generation\_prompts} enter the fitting objective.
+
+At layer $l$, write
+$v_{lrc}(\delta_{<l})$ for the block output at the subject position
+\emph{before the layer's own injection}. It already includes the effects
+of all lower-layer interventions in the current joint forward. Define
+\begin{equation}
+ z_{lrc}(\delta)
+ =v_{lrc}(\delta_{<l})+\delta_l[:,r].
+ \label{eq:local-target}
+\end{equation}
+The same $\delta_l[:,r]$ is added at the native block-output hook for every
+rewrite context and the KL input of request $r$. Using the same native
+hook site also avoids silently changing floating-point addition order by
+moving an injection from block output to an earlier linear operation.
+
+All layer injections occur in one forward pass. Higher-layer inputs and
+their gradients respond to lower injections. There is no independent
+native-$z$ solve per layer, no detach between edited layers, and no fixed
+upper-layer activation target used during optimization.
+
+Separately capture the clean entry anchor
+\begin{equation}
+ h_{lr}^{0}=v_{lr,\can}(0),\qquad a_{lr}^2=\norm{h_{lr}^{0}}_2^2>0.
+ \label{eq:anchor}
+\end{equation}
+The anchor is used only to set the norm scale and clamp radius. In
+particular, the moving local target is \emph{not}
+$h_{lr}^{0}+\delta_l[:,r]$ once lower interventions are nonzero.
+Substituting that expression would remove the required dependence on the
+joint lower-layer trajectory.
+
+The local $z$ values and the injected $\delta$ values are distinct objects:
+$z$ includes the current local state, while $\delta$ is the directly
+optimized displacement. The eventual requested writer residual is exactly
+this optimized $\delta_l$ under the payload-preserving contract below.
+Its realized displacement can differ because fitting and materialization
+are imperfect.
+
+\clearpage
+\section{Native joint objective and its single-layer limit}
+
+Let $p_\delta$ denote the output distribution of the jointly injected entry
+model. The request loss is
+\begin{align}
+ n_r(\delta)&=-\frac16\sum_{c=1}^{6}\frac1{T_r}
+             \sum_{j=1}^{T_r}
+             \log p_\delta(y_{r,j}^*\mid x_{rc},y_{r,<j}^*),\\
+ k_r(\delta)&=\KL\!\left(p_{\delta,r,\mathrm{KL}}
+                              \middle\|p_{\entry,r,\mathrm{KL}}\right).
+\end{align}
+Thus the KL direction remains native current relative to entry. The
+target-token and context means are followed by a \emph{sum} over requests.
+There is one native KL term per request, not one duplicate per layer.
+
+The native joint core is
+\begin{equation}
+ L_{\mathrm{core}}(\delta)
+ =\sum_{r=1}^{B}\bigl[n_r(\delta)+0.0625\,k_r(\delta)\bigr]
+   +\sum_{l\in\Lset}\sum_{r=1}^{B}
+      \frac{0.5\,\norm{\delta_l[:,r]}_2}{a_{lr}^2},
+ \label{eq:core}
+\end{equation}
+subject to
+\begin{equation}
+ \norm{\delta_l[:,r]}_2\leq0.75\,a_{lr}.
+ \label{eq:clamp}
+\end{equation}
+Both the denominator and the radius use fixed entry anchors. A candidate
+cannot reduce its relative penalty by enlarging a moving normalization
+state. There is no norm cost on a subsequently fitted writer residual and
+no second regularizer on the same injected vector under another name.
+
+The layer-wise sum extends the native single-vector penalty to the jointly
+optimized layer collection. It does not impose equal norms or a minimum
+number of nonzero layers. The final model loss determines whether a
+request is better served by one layer or several interacting layers.
+
+For a mathematical reduction check, set all $\delta_l=0$ except at one
+layer $j$, and set $\eta=0$. With the same inputs, hook site, teacher,
+anchor, norm coefficient, clamp, and loss readout, Eq.~\eqref{eq:core}
+reduces to the native $z$ objective configured at layer $j$. This is not
+necessarily the historical native configuration whose $z$ layer was L8.
+It is an objective-level statement, not a claim that a different optimizer,
+stopping policy, or subsequent multilayer writer reproduces a native
+trajectory exactly. Production eligibility remains all five layers.
+
+In Arm A the losses are separable across requests at the injection stage,
+but coupled across layers within a request by the nonlinear forward.
+Arm B additionally couples request columns through its small writer
+geometry matrices. The actual weight writer shares updates across requests
+in either arm; that interference is not fully represented by an
+activation-only loss.
+
+\clearpage
+\section{History-aware value of a local writer fit}
+
+For each layer, capture target-free entry input keys at the corresponding
+subject locations. Preserve native mean-of-group-means pooling:
+\begin{align}
+ K_l[:,r]&=\frac12 k_{lr1}^{\entry}
+                  +\frac1{10}\sum_{c=2}^{6}k_{lrc}^{\entry},\\
+ A_l&=15000\,C_{0,l}+H_l^{\entry},\\
+ P_l&=(A_l+K_lK_l^\top)^{-1}K_l,\\
+ Q_l&=\sym(K_l^\top P_l),\qquad
+ s_l^2=\frac1B\sum_r a_{lr}^2.
+ \label{eq:geometry}
+\end{align}
+Here $K_l,P_l\in\R^{m\times B}$, $Q_l\in\R^{B\times B}$,
+$C_{0,l}$ is the normalized general-key second moment, and $H_l$ is
+post-write key history. The model is FP32 and the geometry is FP64.
+The entry geometry is fixed throughout the $z$ solve.
+
+For a desired local displacement matrix $D\in\R^{d\times B}$, define the
+regularized writer problem
+\begin{equation}
+ V_l(D)=\min_{U\in\R^{d\times m}}
+ \left\{\frac12\norm{UK_l-D}_F^2
+             +\frac12\tr(UA_lU^\top)\right\}.
+ \label{eq:value-problem}
+\end{equation}
+With symmetric positive geometry, stationarity gives
+\begin{align}
+ U_l^*(D)(A_l+K_lK_l^\top)&=DK_l^\top,\\
+ U_l^*(D)&=DP_l^\top,\qquad U_l^*(D)K_l=DQ_l.
+\end{align}
+The identities
+\[
+ P_l^\top A_lP_l=Q_l-Q_l^2,\qquad
+ (I-Q_l)^2+(Q_l-Q_l^2)=I-Q_l
+\]
+yield the compact value
+\begin{equation}
+ \boxed{V_l(D)=\frac12\tr\!\left[D(I-Q_l)D^\top\right]},\qquad
+ \nabla_D V_l(D)=D(I-Q_l).
+ \label{eq:value}
+\end{equation}
+The displayed equalities are real-arithmetic identities. Symmetrization in
+FP64 fixes the declared numerical operator; small solve/reduction errors
+are reported rather than confused with new scientific terms.
+Compute $I-Q$, the value, and its analytic gradient in FP64, then cast the
+policy gradient to the FP32 intervention dtype for accumulation.
+
+The missed-target component in Eq.~\eqref{eq:value-problem} matters. Along
+an eigen-direction with realization $q$, the cost is proportional to
+$1-q$. When $q\approx0$, a tiny fitted weight update does not make the
+requested displacement cheap: its unrealized target error remains. The
+method does not invert $Q_l$ or amplify an ill-conditioned gain to force
+perfect realization.
+
+\clearpage
+\section{Two allocation arms and the proxy boundary}
+
+Use the injected local changes themselves as the entry writer's targets:
+$D=\delta_l$. The complete $z$-stage objective is
+\begin{equation}
+ \boxed{L_\eta(\delta)=L_{\mathrm{core}}(\delta)
+                +\eta\sum_{l\in\Lset}\frac{V_l(\delta_l)}{s_l^2}},
+ \qquad \eta\in\{0,1\}.
+ \label{eq:arms}
+\end{equation}
+Its additional smooth gradient is
+\begin{equation}
+ \nabla_{\delta_l}\left(\eta V_l(\delta_l)/s_l^2\right)
+       =\eta\,\delta_l(I-Q_l)/s_l^2.
+\end{equation}
+The small matrix multiplication uses already prepared geometry and needs
+no extra transformer forward or backward.
+
+\begin{center}
+\begin{tabular}{p{0.10\linewidth}p{0.30\linewidth}p{0.48\linewidth}}
+\toprule
+Arm & Objective difference & Interpretation\\
+\midrule
+A & $\eta=0$ & Native joint local-injection control.\\
+B & $\eta=1$ & Adds history-aware local writer value cost.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All other inputs, layers, anchors, native coefficients, precision, solver
+settings, call budgets, writer rules, and evaluation definitions are
+common. The value $\eta=1$ is an initial exploratory coefficient, not a
+calibrated performance optimum. Different total objectives cannot be used
+as a direct success ranking between the arms.
+
+The additional cost encourages allocation toward changes that the local
+writer can realize with less regularized error at the batch entry. It does
+not force uniform usage. A single effective layer can receive most of the
+change; zero changes elsewhere remain feasible. The group norm and value
+cost can also reduce overall edit magnitude, so a smaller cost by itself
+is not a successful edit.
+
+The fixed entry $K_l$ is a deliberate approximation. In the eventual
+lower-to-upper write, realized lower edits change the upper-layer keys.
+The requested local residual remains $\delta_l$; its realized action and
+the upper-layer input state can differ from the virtual path. Consequently, $V_l(\delta_l)$
+is an allocation proxy, not the exact cost of the final sequential weight
+update. It captures local key-space preservation and missed-target error,
+not every downstream neighbor or all-token model interaction.
+
+History influences this proxy through $H_l$ and influences the actual
+writer through its own current-state solve. There is no additional general
+reference KL or replay NLL in Eq.~\eqref{eq:arms}. Geometry-based
+preservation must not be described as functional reference-set training.
+
+If $Q_l\ll I$, then $V_l(\delta_l)\approx\norm{\delta_l}_F^2/2$.
+In that regime Arm B behaves mainly as additional quadratic regularization;
+the presence of $H_l$ in the construction does not establish strong
+history-sensitive allocation in the realized run.
+
+\clearpage
+\section{One fixed-budget joint Adam solve}
+
+Initialize every $\delta_l$ at zero and optimize all layer/request blocks
+with Adam (optimizer weight decay zero): learning rate $0.1$, $\beta_1=0.9$, $\beta_2=0.999$, and
+$\epsilon=10^{-8}$. Use 25 joint loss evaluations and 24 updates: evaluate
+the initial point, update after each of the first 24 evaluations, and
+evaluate the resulting last candidate once. After every update, project
+each block onto Eq.~\eqref{eq:clamp}. The PyTorch norm subgradient at zero
+is taken as zero, matching the native implementation convention.
+Keep zero-valued interventions differentiable: skipping their hooks at
+initialization would incorrectly remove their task gradients.
+
+Every logical loss evaluation covers all six rewrite rows plus the KL row
+for every request. Microbatch gradients are accumulated before an Adam
+step; microbatch size does not alter the loss weights. No per-request
+inactive-column mask, per-layer stopping rule, or independently optimized
+native-$z$ warm start is used. Both arms have the same fixed schedule.
+In particular, this is not a claim of reproducing native per-request
+early-stop trajectories, even in a single-layer reduction.
+
+The returned displacement is the last finite clamped candidate. Low PS,
+layer concentration, or nonconvergence is recorded rather than used as a
+quality gate. Invalid input/state or nonfinite final values are technical
+failures. Evaluation prompts never select the returned candidate or
+change coefficients during fitting.
+
+\section{Payload-preserving lower-to-upper realization}
+
+Freeze the optimized payloads $\delta_l^*$. Visit L4 through L8. Before
+writing layer $l$, run the current actual model, which already contains
+the lower-layer writes, to obtain current target-free subject keys.
+Pool them with the unchanged native $1/2,1/10$ weights to form
+$K_l^{\wrstate}$. With the same batch-entry $A_l$, solve
+\begin{align}
+ P_l^{\wrstate}&=(A_l+K_l^{\wrstate}(K_l^{\wrstate})^\top)^{-1}K_l^{\wrstate},\\
+ U_l^{\wrstate}&=\delta_l^*(P_l^{\wrstate})^\top,\\
+ W_l^{\mathrm{new}}&=\operatorname{add}_{32}
+             \left(W_l^{\entry},\operatorname{cast}_{32}(U_l^{\wrstate})\right).
+\end{align}
+The local requested output is the \emph{current} local output plus
+$\delta_l^*$. The payload is not changed to compensate for an absolute
+virtual target, an L8 residual, or a remaining-layer divisor. There is no
+second allocation step and no inverse-$Q$ gain correction.
+
+In ideal arithmetic, the realized displacement on the pooled current keys
+is $\delta_l^*Q_l^{\wrstate}$, with
+$Q_l^{\wrstate}=(K_l^{\wrstate})^\top P_l^{\wrstate}$, rather than necessarily
+$\delta_l^*$. Moreover $Q_l^{\wrstate}$ need not equal the entry proxy $Q_l$.
+Finite-precision materialization, individual contexts, non-subject token
+effects, and lower-layer realization errors create further differences
+from the virtual joint path. The specification does not hide these gaps
+inside a claim of exact realization.
+Measure materialized action using $(W_l^{\mathrm{new}}-W_l^{\entry})K_l^{\wrstate}$
+with the subtraction evaluated in FP64. This differs from using only the
+cast update; actual linear-output subtraction can additionally reflect
+GEMM rounding.
+
+After all five writes, recapture post-write keys on the fully edited model
+and append each $H_l$ once. $H_l$ is fixed during all entry and current-key
+solves for that batch. Each arm follows its own committed sequential state.
+A zero payload writes a zero update at its layer even if lower writes have
+changed that layer's inputs; no compensating edit is introduced there.
+
+\clearpage
+\section{Compute intent, limitations, and reporting}
+
+The $z$ stage has one joint subject-injection model path: at BS100 each
+evaluation has 700 native input rows, with 24 forward/backward evaluations
+and one final forward evaluation. There is no second full-weight branch,
+no extra general/replay prompt batch, and no large weight-gradient tensor
+for the frozen model. The small value-cost gradient is added analytically.
+All five $\delta_l$ remain jointly optimized; no layer subset saves compute.
+
+This removes the prior two-path fitting structure, but is not a measured
+speed claim. Arm B prepares entry geometry once for the proxy, and the final
+writer additionally fits the current keys once per layer. Key capture,
+linear solves, the model's input-length distribution, Adam state, final
+observations, and history updates must be included in total time and memory.
+An entry solve may be reused only when its current key and geometry
+identities actually match, not merely because both solves have the same shape.
+
+The dynamic allocation is driven by joint virtual losses, per-layer
+native regularization, and, in Arm B, approximate writer value. A small
+norm or a concentrated allocation is neither a success nor a failure by
+itself. Compare actual committed RS/PS/NS and sequential retention with
+fixed denominators; distinguish virtual fit from actual performance.
+Report norm, clamp use, proxy cost, current writer cost, and compute
+separately. Different hardware or stopping schedules preclude a matched
+runtime claim from historical baseline numbers alone.
+
+Local alignment removes the need to reinterpret every layer's target as
+an L8 vector, but it does not ensure that a closed-form write exactly
+realizes the optimized joint path. Shared subject injections also do not
+guarantee unseen-paraphrase generalization. The entry proxy may become
+inaccurate after lower writes, and $\eta=1$ may suppress useful strength.
+These are method limits, not reasons to add strict quality or layer gates.
+
+This document specifies a proposed native joint-local-$\delta$ method.
+It does not modify an existing execution lock or provide a v4 runner.
+Implementation, GPU validation, and performance measurements are not
+claimed here.
+
+\textbf{Primary-source context.}
+\href{https://papers.neurips.cc/paper_files/paper/2025/file/70d4ef44dc973586cfa3ea92b4868b72-Paper-Conference.pdf}{BLUE}
+uses boundary-layer targets;
+\href{https://aclanthology.org/2026.acl-long.918.pdf}{CAKE}
+uses causal-weighted residual assignment;
+\href{https://arxiv.org/html/2605.00358v2}{FE}
+constructs compatible targets by forward replay from a first-layer anchor;
+\href{https://aclanthology.org/2026.acl-long.1855.pdf}{HiEdit}
+combines lifelong preservation with adaptive sparse layer selection.
+Dynamic allocation or preservation alone is not the novelty claim here.
+
+\end{document}
