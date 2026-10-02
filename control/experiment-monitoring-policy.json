@@ -13,5 +13,8 @@
   "automatic_followup_submission_after_gate": false,
   "automatic_analysis_report_integration_after_gate": false,
   "recall": "explicit_user_request_via_GH",
-  "source": "messages/head/2026-10-02-all-sh-stop-experiments-s4-publish.json"
+  "source": "messages/head/2026-10-02-all-sh-stop-experiments-s4-publish.json",
+  "task_scoped_exceptions": [
+    "control/experiment-exceptions/jlz-v4-compute-r1-2k-20261002.json"
+  ]
 }

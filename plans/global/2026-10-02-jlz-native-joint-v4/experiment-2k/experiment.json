@@ -1,0 +1,231 @@
+{
+  "schema": "JLZ_NATIVE_JOINT_V4_EXPERIMENT_2K_V2",
+  "date_kst": "2026-10-02",
+  "scope_revision": 2,
+  "latest_user_scope": "v4 두 arm만 실험 돌리는 걸로 해",
+  "status": "DESIGN_READY_IMPLEMENTATION_AND_GPU_PENDING",
+  "task_id": "jlz-native-joint-v4-bs100x20-20261002-v1",
+  "user_request": "실험 진행하도록 실험 설계 진행하라. 2000edit을 기준으로 일단 해보자.",
+  "method": {
+    "path": "plans/global/2026-10-02-jlz-native-joint-v4/contract.json",
+    "bytes": 10177,
+    "sha256": "82072455c73d1c5103533914f14f31bf571e0220f3592d9f99f93b07c2d1cab8"
+  },
+  "generic_method": {
+    "path": "plans/global/2026-10-02-jlz-native-joint-v4/portability-contract.json",
+    "bytes": 7055,
+    "sha256": "1d413553eba2ce3abfb3387f13b69c63d2bb81917fc9cf185760c647cf381546"
+  },
+  "optimization_revision": "compute-r1",
+  "optimization_evidence": [
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/compute/native-work-counts.json",
+      "bytes": 23127,
+      "sha256": "1194ff6b278be7a38f51c57277ce8ff6bae1b96be42239d8975c6671af349091"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/math/compute-reuse-check.json",
+      "bytes": 8283,
+      "sha256": "8456d1cca6c655cafd69f226a59844e9648f2582285bc1badc075fecf9e8eba4"
+    }
+  ],
+  "implementation_generalization": "B_t/eligible layers/dimensions/native row groups/readouts/benchmark metrics from adapters; this 100x20 schedule is an instance",
+  "optimized_route_policy": "qualify compute-r1 capabilities on fixed candidates; record same-objective reference fallback; keep common A/B global-step schedule",
+  "inputs": {
+    "path": "plans/global/2026-10-02-jlz-native-joint-v4/inputs/exact-native-inputs.json",
+    "bytes": 3578,
+    "sha256": "a7752d11b2eb792c1382d0b0cb574dcc9c6baa654652bcb269965f8559ab0880"
+  },
+  "source_inputs_unchanged": true,
+  "batch_size": 100,
+  "sequential_commits": 20,
+  "requests_per_chain": 2000,
+  "ordinal_slice": [
+    0,
+    2000
+  ],
+  "seed": 20261002,
+  "new_chains": [
+    {
+      "id": "JLZ_A",
+      "eta": 0,
+      "kind": "native_joint_delta",
+      "lane": 1,
+      "position": 1
+    },
+    {
+      "id": "JLZ_B",
+      "eta": 1,
+      "kind": "native_joint_delta",
+      "lane": 2,
+      "position": 1
+    }
+  ],
+  "baseline_reuse": {
+    "mode": "optional_read_only_historical_quality_reference",
+    "new_main_runs": false,
+    "new_pilot_runs": false,
+    "fallback_runs": false,
+    "required_for_A_B_completion": false,
+    "runtime_mismatched_timing_comparison": false,
+    "BS10_or_1k_HJ_substitutes_BS100_W20": false
+  },
+  "runtime": {
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "model_dtype": "float32",
+    "ours_geometry_dtype": "float64",
+    "native_history_storage_append_dtype": "float32",
+    "model_eval": true,
+    "autocast": false,
+    "matmul_TF32": false,
+    "cudnn_TF32": false,
+    "attention": "eager",
+    "initial_fit_microbatch": 4,
+    "OOM_microbatch_sequence": [
+      2,
+      1
+    ],
+    "evaluator_microbatch": 2,
+    "package_source_and_asset_SHA": "MUST_BIND_IN_IMPLEMENTED_LAUNCH_LOCK"
+  },
+  "state": {
+    "independent_W0_H0": true,
+    "H0": "zero",
+    "history_refresh": false,
+    "H_append": "post_all_layer_native_pooled_keys_once_per_committed_occurrence_per_layer",
+    "pilot_to_main_state_reuse": false,
+    "within_chain_same_process_RAM": true,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "persistent_reconstructible_full_delta_or_factor": false
+  },
+  "pilot": {
+    "small": {
+      "ordinal_slice": [
+        2000,
+        2004
+      ],
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "batch_size": 2,
+      "committed_batches_per_arm": 1,
+      "second_batch": "entry_only_no_fit_no_commit",
+      "arms": [
+        "A",
+        "B"
+      ],
+      "candidate_evaluations_per_commit": 25,
+      "max_Adam_updates_per_commit": 24,
+      "total_science_candidates": 50
+    },
+    "timing": {
+      "ordinal_slice": [
+        0,
+        100
+      ],
+      "batch_size": 100,
+      "arms": [
+        "A",
+        "B"
+      ],
+      "warmup_per_arm": 1,
+      "measured_candidates_per_arm": 3,
+      "maximum_logical_candidate_evaluations": 8,
+      "write_or_main_carryover": false
+    },
+    "reference_probe_cost": "separate physical forward/backward ledger; not main solver evaluations",
+    "quality_concentration_realization_or_convergence_gate": false,
+    "eta_or_budget_tuning_from_P_N": false,
+    "main_after_technical_readiness": true
+  },
+  "numerical_qualification": {
+    "status": "PROPOSED_STARTING_TOLERANCES_NOT_GPU_VALIDATED",
+    "identity": "case/target/token/mask/lookup/weights exact",
+    "per_request_NLL_KL": {
+      "atol": 5e-05,
+      "rtol": 0.0002
+    },
+    "delta_gradient": {
+      "relative_L2_max": 0.002,
+      "near_zero_max_absolute": 1e-06
+    },
+    "FP64_solve_scaled_residual_max": 1e-10,
+    "FP64_V_gradient": {
+      "atol": 1e-10,
+      "rtol": 1e-08
+    },
+    "Q_eigenvalue_roundoff_interval": [
+      -1e-08,
+      1.00000001
+    ],
+    "clamp": {
+      "radius_relative_slack": 5e-06,
+      "absolute_slack": 1e-07
+    },
+    "commit_and_rollback_tensor_identity": "bitwise",
+    "exceedance": "one same-shape reference check; use correct reference path when possible; confirmed semantic/gradient/state corruption is technical failure",
+    "virtual_equals_actual_or_D_equals_UK": "NOT_REQUIRED"
+  },
+  "main_counts_ours_only": {
+    "chains": 2,
+    "batches": 40,
+    "logical_candidates": 1000,
+    "max_Adam_updates": 960,
+    "native_input_row_evaluations": 700000,
+    "timing_speedup_or_ETA": null
+  },
+  "claim_statistics": {
+    "unique_claims": 1983,
+    "conflicting_claims": 13,
+    "active_occurrences_W20": 1984,
+    "superseded_occurrences_W20": 16,
+    "primary_occurrences": 2000,
+    "filter_training_or_history": false
+  },
+  "resources": {
+    "owner_server": "server4",
+    "GH_thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "SH4_thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "project_gpu_cap_at_design": 2,
+    "per_job_gpu": 1,
+    "host_memory_mib_max": 60416,
+    "cpus": 8,
+    "recheck_current_policy_and_occupancy": true,
+    "mutate_existing_jobs": false
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/jlz_native_joint/",
+    "runner_exists": false,
+    "task_local_baseline_2k_wrapper_required": false,
+    "launch_argv": null,
+    "GPU_run": false,
+    "Slurm_submitted": false,
+    "dispatch_receipt": null,
+    "unresolved_launch_fields": [
+      "production_source_commit_and_closure",
+      "actual_model_stat_tokenizer_SHA",
+      "runtime_versions_backend_token_ID_parity",
+      "pilot_technical_and_timing_receipts",
+      "actual_resource_admission_and_argv"
+    ]
+  },
+  "outputs": [
+    "launch_manifest",
+    "pilot_receipts",
+    "20_commit_history_ledgers_per_chain",
+    "per_case_RPN_raw",
+    "W5_W10_W20_summary",
+    "birth_to_W20_cohort_retention",
+    "first1k_W10_to_W20",
+    "active_superseded_splits",
+    "NS_leakage",
+    "requested_realized_allocation",
+    "component_time_tokens_memory",
+    "optional_historical_baseline_reuse_verdicts"
+  ],
+  "completion": "both JLZ_A and JLZ_B have 20 commits and complete scheduled raw; historical baseline availability is optional and never blocks completion; one-arm-only is partial"
+}

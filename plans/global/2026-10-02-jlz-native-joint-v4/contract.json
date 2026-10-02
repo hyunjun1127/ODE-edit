@@ -1,0 +1,221 @@
+{
+  "schema": "jlz-native-joint-v4",
+  "date_kst": "2026-10-02",
+  "status": "METHOD_SPEC_AND_CPU_MATH_ONLY",
+  "supersedes_design": "jlz-shared-subject-v3; historical artifacts and live jobs unchanged",
+  "claim": "Joint native local-delta targets across all eligible write layers; arm B adds history-conditioned ridge realization/preservation cost at the z stage.",
+  "scope": {
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "model": "Llama3-8B-Instruct, existing frozen model provenance",
+    "joint_variables": "D_l columns are direct native subject deltas",
+    "preselected_subset": false,
+    "minimum_used_layers": null,
+    "single_layer_allowed": true,
+    "main": {
+      "batch_size": 100,
+      "batches": 20,
+      "independent_arm_starts": "W0/H0"
+    },
+    "generic_B": "actual B_t, including final partial batch; no hardcoded method batch size",
+    "generic_layers": "all ordered eligible sites from model profile, with per-layer d_in/d_out and native-write mapping",
+    "current_profile": "Llama3-8B-Instruct / CounterFact / BS100x20"
+  },
+  "inputs": {
+    "exact_native_current_training_texts": true,
+    "rewrite_contexts": 6,
+    "native_KL_contexts": 1,
+    "new_training_texts": false,
+    "general_replay_prompt_loss": false,
+    "history_geometry_retained": true,
+    "context_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "stream_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "key_context_weights": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "NLL_reduction": "mean target tokens, mean six contexts, sum requests",
+    "native_tokenizer_target_BOS_and_lookup": true,
+    "P_N_training_or_candidate_selection": false
+  },
+  "intervention": {
+    "site": "native layer block-output subject-last",
+    "expression": "h_l(delta_lower) + delta_l",
+    "same_delta_across_contexts": true,
+    "entry_model_frozen_during_fit": true,
+    "task_paths": 1,
+    "full_weight_loss_mixture": false,
+    "independent_layer_fits": false,
+    "entry_absolute_target_overwrite": false,
+    "R_parameter_or_norm": false
+  },
+  "native_core": {
+    "KL_direction": "current||own_batch_entry",
+    "KL_factor": 0.0625,
+    "KL_teacher": "entry native KL subject-last full-vocabulary distribution",
+    "NLL_loss_layer": 31,
+    "norm": "sum_l,r 0.5*||delta_l,r||_2/||h0_l,r||_2^2",
+    "radius": "0.75*||h0_l,r||_2",
+    "anchor": "fixed entry canonical subject-last block output",
+    "single_active_layer_eta0": "native objective form at that layer; not original independent stopping trajectory",
+    "layer_count_division": false
+  },
+  "allocation": {
+    "K": "batch-entry target-free native pooled keys",
+    "A": "15000*C0 + H_batch_entry",
+    "P": "solve(A+K K.T,K), FP64",
+    "Q": "sym(K.T P)",
+    "assumption": "A positive definite; no silent jitter or layer deletion",
+    "cost_dtype": "Q, I-Q, V and analytic gradient in FP64; cast final policy gradient to delta FP32 for accumulation",
+    "writer": "U=D P.T",
+    "V_primal": "min_U 0.5||UK-D||F^2 + 0.5tr(U A U.T)",
+    "V_reduced": "0.5tr(D(I-Q)D.T)",
+    "V_gradient": "D(I-Q)",
+    "V_components": [
+      "0.5||D(Q-I)||F^2",
+      "0.5tr(D(Q-Q^2)D.T)"
+    ],
+    "normalization": "divide layer V by s_l^2=mean_request ||h0_l,r||^2",
+    "off_diagonal_request_coupling": true,
+    "geometry_fixed_during_fit": true,
+    "history_monotonicity": "fixed K,D and PSD H increment only",
+    "functional_locality_guarantee": false,
+    "Q_near_zero_limit": "V tends to quadratic delta norm and may lose directional discrimination",
+    "inverse_Q_gain": false,
+    "explicit_free_allocation_multipliers": false
+  },
+  "arms": [
+    {
+      "name": "A",
+      "eta": 0,
+      "meaning": "native joint local-delta control"
+    },
+    {
+      "name": "B",
+      "eta": 1,
+      "meaning": "native core plus normalized history-conditioned ridge value"
+    }
+  ],
+  "only_arm_objective_difference": "eta times sum_l V_l/s_l^2",
+  "eta_status": "explicit uncalibrated initial setting; no claimed optimum",
+  "optimizer": {
+    "type": "joint Adam",
+    "learning_rate": 0.1,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "optimizer_weight_decay": 0,
+    "initial_delta": "zero",
+    "delta_and_Adam_dtype": "float32",
+    "keep_zero_delta_hooks_differentiable": true,
+    "norm_zero_subgradient": "zero, as native torch.norm",
+    "max_candidate_loss_evaluations": 25,
+    "max_Adam_updates": 24,
+    "backward_on_last_candidate_required": false,
+    "clamp_after_each_step": true,
+    "microbatch_step": false,
+    "initial_NLL_request_mask": false,
+    "request_independent_early_stopping": false,
+    "return": "last finite feasible fixed-budget candidate",
+    "quality_or_allocation_gate": false
+  },
+  "realization": {
+    "mode": "preserve optimized additive payload",
+    "freeze_delta_before_write": true,
+    "order": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "per_layer": "layer-major full-token propagation; gather all actual B current pooled keys before one write; same A_batch_entry; U=D_star P_current.T",
+    "target": "current local output + delta_star",
+    "virtual_absolute_target_chasing": false,
+    "L8_residual_or_remaining_layer_divisor": false,
+    "posthoc_reallocation": false,
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "materialization": "W_entry_l + FP32(D_star.double() @ P_current.T)",
+    "materialized_action": "(W_new.double()-W_entry.double()) @ K_current.double(); distinguish from cast32(U)K and from actual linear-output rounding",
+    "history": "append saved native FP32 prewrite pooled keys once after all writes succeed, only when parameter-dependency proof guarantees equality to post-all-write keys; otherwise recapture final keys",
+    "rollback": "all five layers and H on technical failure",
+    "proxy_equals_final_writer_value": false,
+    "record": [
+      "D_requested",
+      "D_star Q_current",
+      "materialized pooled action",
+      "realization residual",
+      "entry/current Q difference"
+    ],
+    "history_arithmetic": "preserve native FP32 pooled key, Gram and H addition order; never substitute solve FP64 K",
+    "materialized_full_token_forward": true
+  },
+  "compute": {
+    "fit_rows_B100_per_candidate": 700,
+    "trainable_delta_elements_B100": 2048000,
+    "delta_gradient_two_Adam_moments_MiB": 31.25,
+    "B_policy_gradient_GFLOP_per_candidate": 0.4096,
+    "B_entry_proxy_solves": 5,
+    "actual_current_key_solves_max_both_arms": 5,
+    "dense_weight_gradient_during_fit": false,
+    "candidate_weight_materialization_during_fit": false,
+    "main_speedup_or_ETA": null,
+    "cache": "entry through exact earliest intervention operation; for current profile L4 pre-injection output and strict pos<subject L5-L31 K/V; suffix graph recomputed",
+    "optimization_profile": "compute-r1",
+    "status": "ADOPTED_DESIGN_NOT_PRODUCTION_IMPLEMENTED",
+    "capability_fallback": "same native objective and writer reference route; no loss/context/layer/budget reduction",
+    "batched_selected_head": "full vocabulary, preserve each readout/norm and hidden-to-delta autograd",
+    "padding": "crop original token arrays; stable buckets with explicit row/target/absolute-position mapping and common A/B reduction policy",
+    "KL_future_prune": "only causally unused post-readout positions; original full input tokens/spec retained",
+    "entry_fusion": "teacher/anchor/key/cache detached captures during differentiable zero candidate; if loss/gradient returned consumes first of25, otherwise preparation costs extra",
+    "factorization": "FP64 same-layer same-arm same-batch-entry A Cholesky reused for entry/current K; refactor after native H append",
+    "dual_backend": "T=cholsolve(A,K); S=I+K.T*T; P=T*solve(S,I); E=solve(S,I), using right solve for P",
+    "policy_cost": "G=D E/s^2 once; normalized V=0.5*inner(D,G); Q=sym(K.T P) for diagnostics",
+    "large_B_backend": "exact primal factor and blocked RHS / implicit E action, retaining all B coupling; no dense Q required",
+    "factor_fp64_GiB_each_current_profile": 1.53125,
+    "factor_fp64_GiB_all_current_profile": 7.65625,
+    "factor_storage": "RAM only; host/GPU buffers included in resource caps; no persistent resume-equivalent storage",
+    "solve_count_semantics": "legacy 5entry/5current are key-system solve requests, not required independent large factorizations; exact L4 reuse can skip one current solve",
+    "writer": "all-request keys before each materialized weight update, then full-token propagation; fit prefix cache is not reused across actual weight writes",
+    "history_key_forward": "eliminated only with proof prewrite input key invariant to own/later parameter writes",
+    "sync": "device accumulation and candidate-boundary finite/clamp checks; no per-microbatch CPU .item requirement",
+    "common_A_B_schedule": true,
+    "deferred": [
+      "cross-batch Cholesky rank updates",
+      "Arm-A-only requestwise completed25-step solves"
+    ],
+    "input_count_evidence": "compute/native-work-counts.json",
+    "toy_math_evidence": "math/compute-reuse-check.json",
+    "real_GPU_parity_or_speed_verified": false,
+    "generic_policy_dense_GFLOP_formula": "2*sum_l d_out_l*B_t^2 /1e9, only when dense E backend is used"
+  },
+  "evaluation": {
+    "actual_committed_model_only": true,
+    "same_R_P_N_denominators": true,
+    "subject_fit_success_is_actual_edit_success": false,
+    "cohort_retention": true,
+    "requested_and_realized_allocation_separate": true,
+    "PS_NS_joint_interpretation": true
+  },
+  "implementation_namespace": "project/run_scripts/jlz_native_joint/",
+  "production_runner_implemented": false,
+  "GPU_pilot_run": false,
+  "live_jobs_modified": false,
+  "tex": "docs/methods/jlz-native-joint-v4.tex",
+  "math_validation": "math/; CPU toy only, source SHA bound",
+  "revision": "compute-r1-generic-adapters",
+  "generic_method_contract": "portability-contract.json",
+  "numeric_fields_scope": "Current Llama3/CounterFact execution profile only; generic B/layers/dimensions/native inputs/readout/metrics are adapter-provided."
+}

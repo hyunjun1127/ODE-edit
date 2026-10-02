@@ -34,15 +34,19 @@ JLZ v4 jointly optimizes a local subject intervention at every eligible
 write layer. Its methodological claim concerns joint layerwise $z$
 optimization and the resulting dynamic allocation of edit effort. The
 current-request training sentences remain exactly those of the native
-baseline: six native rewrite contexts and one native KL input per request.
-There is no additional paraphrase curriculum or generation-prompt training.
+baseline for the same model and benchmark profile. The current Llama3
+CounterFact experiment uses six native rewrite contexts and one native KL
+input per request. There is no additional paraphrase curriculum or
+generation-prompt training.
 
 The free variables are
 \[
- \delta=\{\delta_l\in\R^{d\times B}:l\in\Lset\},
- \qquad\Lset=\{4,5,6,7,8\}.
+ \delta=\{\delta_l\in\R^{d_{\mathrm{out},l}\times B_t}:l\in\Lset\},
+ \qquad B_t=\text{number of actual requests in logical batch }t.
 \]
-All five layers are eligible from initialization. Their contributions are
+Here $\Lset$ is the ordered set of all eligible layers declared by the model
+profile; the current experiment uses $\{4,5,6,7,8\}$. All eligible layers
+remain available from initialization. Their contributions are
 determined jointly through the same nonlinear model loss, rather than
 selected in advance. A zero layer or a solution concentrated in one layer
 remains permitted. A common subject vector for a given request and layer
@@ -73,41 +77,96 @@ This is a method specification, not a report of implemented GPU fitting,
 measured acceleration, or established generalization gains.
 
 \clearpage
+\section{Model, benchmark, and logical-batch interfaces}
+
+Neither BS100 nor a particular model or benchmark is a method constant.
+A model adapter declares the ordered eligible layer set $\Lset$, each
+layer's $d_{\mathrm{in},l}$ and $d_{\mathrm{out},l}$, the native intervention
+site, request anchor lookup, NLL/KL readouts, tokenizer/BOS/EOS conventions,
+position/mask semantics, and the compatible local linear writer. It must
+specify projection orientation, native normalization, and the mapping
+between an injected displacement and an additive writer displacement.
+Equal vector dimensions alone do not establish this correspondence.
+
+The Llama3 instance uses a block-output subject-last injection and an MLP
+\texttt{down\_proj} write. Residual addition relates their additive changes,
+but their absolute outputs differ, and FP32 addition order is not
+universally interchangeable. An architecture without a verified native
+site/write mapping needs an adapter; it is not declared supported merely
+because the generic equations can be written down. Shared parameters,
+recurrent computation, or module inputs that depend on their own written
+weight require separate dependency checks. If multiple eligible sites share
+one write parameter, the adapter must supply a consistent alias-aware
+write rule; disabling caching alone does not validate independent writes
+to those aliases.
+
+A benchmark adapter supplies the ordered requests, target normalization,
+native rewrite and KL input sets and their weights, key inputs/pooling,
+anchor locations, identity/conflict rules, and official evaluation panels.
+No CounterFact-specific prompt, six-context assumption, or
+subject--relation conflict rule is silently transferred to another
+benchmark. If a benchmark has no paraphrase or neighborhood panel, report
+its actual metric families and denominators rather than inventing PS/NS.
+Native-input preservation always refers to the matching model--benchmark
+baseline profile.
+
+The logical batch size $B_t$ is any positive actual request count,
+including a final partial batch. For example, 2,000 edits at BS128 produce
+15 full batches and one batch of 80. Padded fake requests never enter
+losses, geometry, history, or metrics. Microbatches only partition the
+same logical computation: they are not optimizer or write boundaries.
+Changing logical batch size changes cross-request coupling and history
+boundaries, so portability does not imply batch-size-invariant results.
+
+The current experiment profile fixes BS100$\times$20, L4--L8,
+$d_{\mathrm{out},l}=4096$, $d_{\mathrm{in},l}=14336$, six rewrite contexts,
+one KL input, native loss layer31, and the CounterFact evaluation families.
+These are instance settings, not universal constants. The model dtype,
+geometry dtype, native coefficients, optimizer schedule, and $C_0$ source
+are likewise explicit profile fields. This revision specifies FP32 model
+and FP64 geometry; every execution precision profile needs numerical
+qualification against its reference path.
+
 \section{Unchanged native inputs and same-site local targets}
 
-Let request $r$ specify a subject, relation prompt, and desired target token
-sequence $y_r^*=(y_{r,1}^*,\ldots,y_{r,T_r}^*)$. Preserve native target
-normalization, token IDs, teacher-forced prediction positions, context
-order, padding masks, and subject-last lookup. The six rewrite inputs are
-the canonical prompt and the same five native context wrappers. Their
-rewrite losses have equal weights $1/6$.
+Let request $r$ specify a native input and desired target token sequence
+$y_r^*=(y_{r,1}^*,\ldots,y_{r,T_r}^*)$. Preserve target normalization,
+token IDs, teacher-forced prediction positions, context order, padding
+masks, and the adapter's intervention lookup. Let $\mathcal C_r$ and
+$\mathcal K_r$ be its native rewrite and KL sets, with native weights
+$w_{rc}$ and $u_{rq}$. The current experiment uses the canonical rewrite
+plus five wrappers, each with rewrite weight $1/6$.
 
-The native KL input is \texttt{\{\} is a}, with the subject inserted. KL is
-measured at its native subject lookup position using the full vocabulary.
-Its teacher is frozen at the own batch entry, not at another arm's edited
-state. Neither official paraphrase/neighborhood prompts nor raw
-\texttt{generation\_prompts} enter the fitting objective.
+Its KL input is \texttt{\{\} is a}, with the subject inserted. KL is measured
+at the native subject lookup with the full vocabulary. Other profiles use
+their own native KL inputs and readout. The teacher is frozen at the arm's
+own batch entry, not another arm's edited state. Official evaluation
+prompts never enter fitting unless already part of the declared native
+baseline training inputs; no new evaluation-prompt curriculum is added.
 
 At layer $l$, write
-$v_{lrc}(\delta_{<l})$ for the block output at the subject position
-\emph{before the layer's own injection}. It already includes the effects
+$v_{lrc}(\delta_{<l})$ for the adapter-declared local output at its anchor
+\emph{before the layer's own injection} (block output at subject-last in
+the current Llama3 profile). It already includes the effects
 of all lower-layer interventions in the current joint forward. Define
 \begin{equation}
  z_{lrc}(\delta)
  =v_{lrc}(\delta_{<l})+\delta_l[:,r].
  \label{eq:local-target}
 \end{equation}
-The same $\delta_l[:,r]$ is added at the native block-output hook for every
-rewrite context and the KL input of request $r$. Using the same native
-hook site also avoids silently changing floating-point addition order by
-moving an injection from block output to an earlier linear operation.
+The same $\delta_l[:,r]$ is added at the adapter-declared native hook for
+every rewrite and KL context of request $r$. In the current Llama3 profile
+this is the block-output hook. Keeping the native hook also avoids silently
+changing floating-point addition order by moving an injection to an
+earlier linear operation.
 
 All layer injections occur in one forward pass. Higher-layer inputs and
 their gradients respond to lower injections. There is no independent
 native-$z$ solve per layer, no detach between edited layers, and no fixed
 upper-layer activation target used during optimization.
 
-Separately capture the clean entry anchor
+Capture the clean entry anchor designated by the native profile (the
+canonical input in the current experiment)
 \begin{equation}
  h_{lr}^{0}=v_{lr,\can}(0),\qquad a_{lr}^2=\norm{h_{lr}^{0}}_2^2>0.
  \label{eq:anchor}
@@ -131,29 +190,32 @@ are imperfect.
 Let $p_\delta$ denote the output distribution of the jointly injected entry
 model. The request loss is
 \begin{align}
- n_r(\delta)&=-\frac16\sum_{c=1}^{6}\frac1{T_r}
+ n_r(\delta)&=-\sum_{c\in\mathcal C_r}w_{rc}\frac1{T_r}
              \sum_{j=1}^{T_r}
              \log p_\delta(y_{r,j}^*\mid x_{rc},y_{r,<j}^*),\\
- k_r(\delta)&=\KL\!\left(p_{\delta,r,\mathrm{KL}}
-                              \middle\|p_{\entry,r,\mathrm{KL}}\right).
+ k_r(\delta)&=\sum_{q\in\mathcal K_r}u_{rq}\,
+             \KL\!\left(p_{\delta,r,q}\middle\|p_{\entry,r,q}\right).
 \end{align}
 Thus the KL direction remains native current relative to entry. The
 target-token and context means are followed by a \emph{sum} over requests.
-There is one native KL term per request, not one duplicate per layer.
+KL terms follow the native profile; they are not duplicated per edited layer.
 
 The native joint core is
 \begin{equation}
  L_{\mathrm{core}}(\delta)
- =\sum_{r=1}^{B}\bigl[n_r(\delta)+0.0625\,k_r(\delta)\bigr]
-   +\sum_{l\in\Lset}\sum_{r=1}^{B}
-      \frac{0.5\,\norm{\delta_l[:,r]}_2}{a_{lr}^2},
+ =\sum_{r=1}^{B_t}\bigl[n_r(\delta)+\lambda_{\mathrm{KL}}k_r(\delta)\bigr]
+   +\sum_{l\in\Lset}\sum_{r=1}^{B_t}
+      \frac{\lambda_{\mathrm{norm}}\norm{\delta_l[:,r]}_2}{a_{lr}^2},
  \label{eq:core}
 \end{equation}
 subject to
 \begin{equation}
- \norm{\delta_l[:,r]}_2\leq0.75\,a_{lr}.
+ \norm{\delta_l[:,r]}_2\leq c_{\mathrm{clamp}}a_{lr}.
  \label{eq:clamp}
 \end{equation}
+The current profile uses $\lambda_{\mathrm{KL}}=0.0625$,
+$\lambda_{\mathrm{norm}}=0.5$, and $c_{\mathrm{clamp}}=0.75$. NLL is
+read at native Llama3 loss layer31 and KL at the final native logits.
 Both the denominator and the radius use fixed entry anchors. A candidate
 cannot reduce its relative penalty by enlarging a moving normalization
 state. There is no norm cost on a subsequently fitted writer residual and
@@ -171,7 +233,7 @@ reduces to the native $z$ objective configured at layer $j$. This is not
 necessarily the historical native configuration whose $z$ layer was L8.
 It is an objective-level statement, not a claim that a different optimizer,
 stopping policy, or subsequent multilayer writer reproduces a native
-trajectory exactly. Production eligibility remains all five layers.
+trajectory exactly. Production eligibility remains every layer in $\Lset$.
 
 In Arm A the losses are separable across requests at the injection stage,
 but coupled across layers within a request by the nonlinear forward.
@@ -184,25 +246,29 @@ activation-only loss.
 \section{History-aware value of a local writer fit}
 
 For each layer, capture target-free entry input keys at the corresponding
-subject locations. Preserve native mean-of-group-means pooling:
+native lookup locations. Preserve adapter-declared native key pooling:
 \begin{align}
- K_l[:,r]&=\frac12 k_{lr1}^{\entry}
-                  +\frac1{10}\sum_{c=2}^{6}k_{lrc}^{\entry},\\
- A_l&=15000\,C_{0,l}+H_l^{\entry},\\
+ K_l[:,r]&=\sum_c\pi_{rc}k_{lrc}^{\entry},\\
+ A_l&=\lambda_C C_{0,l}+H_l^{\entry},\\
  P_l&=(A_l+K_lK_l^\top)^{-1}K_l,\\
  Q_l&=\sym(K_l^\top P_l),\qquad
- s_l^2=\frac1B\sum_r a_{lr}^2.
+ s_l^2=\frac1{B_t}\sum_r a_{lr}^2.
  \label{eq:geometry}
 \end{align}
-Here $K_l,P_l\in\R^{m\times B}$, $Q_l\in\R^{B\times B}$,
-$C_{0,l}$ is the normalized general-key second moment, and $H_l$ is
-post-write key history. The model is FP32 and the geometry is FP64.
-The entry geometry is fixed throughout the $z$ solve.
+Here $K_l,P_l\in\R^{d_{\mathrm{in},l}\times B_t}$ and
+$Q_l\in\R^{B_t\times B_t}$. The current profile has native
+mean-of-group-means weights $\pi_{r1}=1/2$ and $\pi_{rc}=1/10$ for its five
+other contexts, and $\lambda_C=15000$. Its $C_{0,l}$ is the normalized
+general-key second moment and $H_l$ is post-write key history. Native key
+weights need not equal rewrite-loss weights. The entry geometry is fixed
+throughout the $z$ solve. Model/interventions use FP32; geometry uses FP64.
+The method assumes $A_l\succ0$ and uses solves, never an explicit large
+inverse. No silent jitter or layer deletion repairs a failed assumption.
 
-For a desired local displacement matrix $D\in\R^{d\times B}$, define the
+For a desired local displacement matrix $D\in\R^{d_{\mathrm{out},l}\times B_t}$, define the
 regularized writer problem
 \begin{equation}
- V_l(D)=\min_{U\in\R^{d\times m}}
+ V_l(D)=\min_{U\in\R^{d_{\mathrm{out},l}\times d_{\mathrm{in},l}}}
  \left\{\frac12\norm{UK_l-D}_F^2
              +\frac12\tr(UA_lU^\top)\right\}.
  \label{eq:value-problem}
@@ -226,8 +292,10 @@ yield the compact value
 The displayed equalities are real-arithmetic identities. Symmetrization in
 FP64 fixes the declared numerical operator; small solve/reduction errors
 are reported rather than confused with new scientific terms.
-Compute $I-Q$, the value, and its analytic gradient in FP64, then cast the
-policy gradient to the FP32 intervention dtype for accumulation.
+The optimized path computes the algebraically identical operator
+$E=I-Q$ through a stable solve, as specified below. Values and analytic
+policy gradients remain FP64 until the final policy gradient is cast to
+the FP32 intervention dtype for accumulation.
 
 The missed-target component in Eq.~\eqref{eq:value-problem} matters. Along
 an eigen-direction with realization $q$, the cost is proportional to
@@ -301,8 +369,9 @@ history-sensitive allocation in the realized run.
 \section{One fixed-budget joint Adam solve}
 
 Initialize every $\delta_l$ at zero and optimize all layer/request blocks
-with Adam (optimizer weight decay zero): learning rate $0.1$, $\beta_1=0.9$, $\beta_2=0.999$, and
-$\epsilon=10^{-8}$. Use 25 joint loss evaluations and 24 updates: evaluate
+with Adam (optimizer weight decay zero). The current execution profile
+uses learning rate $0.1$, $\beta_1=0.9$, $\beta_2=0.999$, and
+$\epsilon=10^{-8}$, with 25 joint loss evaluations and 24 updates: evaluate
 the initial point, update after each of the first 24 evaluations, and
 evaluate the resulting last candidate once. After every update, project
 each block onto Eq.~\eqref{eq:clamp}. The PyTorch norm subgradient at zero
@@ -310,8 +379,8 @@ is taken as zero, matching the native implementation convention.
 Keep zero-valued interventions differentiable: skipping their hooks at
 initialization would incorrectly remove their task gradients.
 
-Every logical loss evaluation covers all six rewrite rows plus the KL row
-for every request. Microbatch gradients are accumulated before an Adam
+Every logical loss evaluation covers every native rewrite and KL row for
+every actual request in the logical batch. Microbatch gradients are accumulated before an Adam
 step; microbatch size does not alter the loss weights. No per-request
 inactive-column mask, per-layer stopping rule, or independently optimized
 native-$z$ warm start is used. Both arms have the same fixed schedule.
@@ -326,10 +395,10 @@ change coefficients during fitting.
 
 \section{Payload-preserving lower-to-upper realization}
 
-Freeze the optimized payloads $\delta_l^*$. Visit L4 through L8. Before
-writing layer $l$, run the current actual model, which already contains
-the lower-layer writes, to obtain current target-free subject keys.
-Pool them with the unchanged native $1/2,1/10$ weights to form
+Freeze the optimized payloads $\delta_l^*$. Visit every eligible layer
+in its declared forward order (L4 through L8 in the current profile).
+Obtain current target-free keys after the actual lower-layer writes.
+Pool all logical-batch requests with unchanged native weights to form
 $K_l^{\wrstate}$. With the same batch-entry $A_l$, solve
 \begin{align}
  P_l^{\wrstate}&=(A_l+K_l^{\wrstate}(K_l^{\wrstate})^\top)^{-1}K_l^{\wrstate},\\
@@ -355,50 +424,287 @@ with the subtraction evaluated in FP64. This differs from using only the
 cast update; actual linear-output subtraction can additionally reflect
 GEMM rounding.
 
-After all five writes, recapture post-write keys on the fully edited model
-and append each $H_l$ once. $H_l$ is fixed during all entry and current-key
-solves for that batch. Each arm follows its own committed sequential state.
-A zero payload writes a zero update at its layer even if lower writes have
-changed that layer's inputs; no compensating edit is introduced there.
+After all eligible writes succeed, append post-all-write keys to each
+$H_l$ exactly once. In the supported feedforward local writer, the input
+key of layer $l$ cannot depend on its own weight or a later written weight.
+Consequently the cached prewrite current key is already its post-all-write
+key. Reuse it instead of requiring another full-model capture, preserving
+native FP32 pooling, Gram formation, and history addition order. This is
+not permission to reuse upper-layer entry keys. When the adapter cannot
+establish that dependency property, recapture actual post-write keys.
+
+$H_l$ stays fixed during all entry and current-key solves. Each arm follows
+its own committed state. A zero payload writes a zero update even if lower
+writes changed the layer's inputs. All weights and history for the logical
+batch form one transaction; technical failure restores its entry state.
+Virtual fitting never appends history.
 
 \clearpage
-\section{Compute intent, limitations, and reporting}
+\section{Adopted compute-preserving execution design}
 
-The $z$ stage has one joint subject-injection model path: at BS100 each
-evaluation has 700 native input rows, with 24 forward/backward evaluations
-and one final forward evaluation. There is no second full-weight branch,
-no extra general/replay prompt batch, and no large weight-gradient tensor
-for the frozen model. The small value-cost gradient is added analytically.
-All five $\delta_l$ remain jointly optimized; no layer subset saves compute.
+This compute revision specifies the default implementation targets; it does
+not claim that a GPU runner already implements or validates them. Each
+optimized path must preserve the same native inputs, objective, eligible
+layers, requested payloads, and A/B difference. FP32 kernel shapes and
+reduction orders can change, so fixed-candidate losses, every intervention
+gradient, short Adam trajectories, and actual writer/history states need
+reference qualification. Use the same method's simple reference path when
+a capability or numerical equivalence has not been established. Such a
+fallback is independent of quality, concentration, or evaluation scores.
 
-This removes the prior two-path fitting structure, but is not a measured
-speed claim. Arm B prepares entry geometry once for the proxy, and the final
-writer additionally fits the current keys once per layer. Key capture,
-linear solves, the model's input-length distribution, Adam state, final
-observations, and history updates must be included in total time and memory.
-An entry solve may be reused only when its current key and geometry
-identities actually match, not merely because both solves have the same shape.
+\subsection{Direct intervention graph and strict causal prefix cache}
 
-The dynamic allocation is driven by joint virtual losses, per-layer
-native regularization, and, in Arm B, approximate writer value. A small
-norm or a concentrated allocation is neither a success nor a failure by
-itself. Compare actual committed RS/PS/NS and sequential retention with
-fixed denominators; distinguish virtual fit from actual performance.
-Report norm, clamp use, proxy cost, current writer cost, and compute
-separately. Different hardware or stopping schedules preclude a matched
-runtime claim from historical baseline numbers alone.
+The fitting graph has frozen model weights and only the direct $\delta_l$
+variables. There is one joint intervention path, no dense weight-gradient
+tensor, no per-candidate weight materialization, and no extra reference
+prompt branch. Let $e=\min\Lset$ and let $s_i$ be row $i$'s first intervention
+token. With native block-output interventions in a causal decoder, cache
+the clean computation through block $e$ before its injection, including its
+entire block output. Cache attention K/V at each subsequent block for the
+\emph{strict} token prefix $j<s_i$.
 
-Local alignment removes the need to reinterpret every layer's target as
-an L8 vector, but it does not ensure that a closed-form write exactly
-realizes the optimized joint path. Shared subject injections also do not
-guarantee unseen-paraphrase generalization. The entry proxy may become
-inaccurate after lower writes, and $\eta=1$ may suppress useful strength.
-These are method limits, not reasons to add strict quality or layer gates.
+A candidate adds $\delta_e$ at $s_i$ and recomputes the tail $j\geq s_i$
+through subsequent blocks and the actual readouts, adding other eligible
+interventions along the way. Each tail query attends to all valid cached
+prefix K/V and the causal current tail K/V. The subject token itself and
+its later upper-layer states depend on lower interventions: they are not
+cached as constants or detached. There is no detach between edited layers.
+For the current profile, clean L0--L4 output is reused and L5--L31 tail
+computation remains differentiable.
 
-This document specifies a proposed native joint-local-$\delta$ method.
-It does not modify an existing execution lock or provide a v4 runner.
-Implementation, GPU validation, and performance measurements are not
-claimed here.
+Retain original absolute positions/RoPE, valid-token masks, lookup indices,
+and row/request maps. Mask padded prefix entries explicitly; a bare
+\texttt{is\_causal} flag must not guess the offset of rectangular cached
+attention. Cache identity includes own arm, batch-entry weights, complete
+tokens/masks/positions, layer, backend, and dtype. Invalidate after weight
+changes, at a new batch, or between diverged arms. These dependency proofs
+require causal attention and appropriate tokenwise layer operations.
+Bidirectional, encoder--decoder, recurrent, and shared-weight architectures
+must separately establish them or use full reference computation.
+
+\subsection{Selected head, right-padding crop, and KL future pruning}
+
+Gather only native NLL target-prediction and KL lookup hidden states and
+apply a batched \emph{full-vocabulary} head without detaching them. Scatter
+results using fixed row maps and preserve token means, native context
+weights, and request sums. Combine head calls only when the native
+normalization and readout coincide; NLL and KL may have distinct readouts.
+The selected-position principle already existed in some earlier code and
+is not counted as a new gain twice.
+
+Crop unused right padding from the existing token arrays per microbatch;
+never retokenize. Stable length buckets preserve the original request
+stream and writer-column order, and use explicit scatter/reduction maps.
+Convert original lookup and target coordinates to tail coordinates without
+changing their semantic positions.
+
+A causal KL row read only at $s_i$ need not compute tokens later than $s_i$.
+Its original sentence and token IDs remain in the manifest; prune only the
+unused future computation, not the text before tokenization. This does not
+justify pruning full-token writer propagation or benchmark evaluation.
+Disable this optimization when the profile's readout depends on future
+positions or the architecture lacks the required causal property.
+
+\subsection{Fuse entry preparation with the zero candidate}
+
+The first differentiable candidate at $\delta=0$ can jointly collect its
+loss/task gradients, detached entry teacher, clean anchors, entry keys,
+and fixed prefix cache. The detached teacher equals the current logits of
+that zero candidate. Zero-valued injection hooks must stay differentiable.
+Capture $h^0$ before each layer's own injection, detach fixed cache and
+geometry inputs, and preserve native pooling.
+
+Fuse target-free key capture into teacher-forced rewrite rows only where
+tokens, positions, masks, and lookup through the relevant causal prefix
+match. The current CPU input audit confirms that condition on its 12,000
+rewrite rows; the actual execution tokenizer must also be checked.
+If the preparation forward returns the first loss and gradients, it counts
+as candidate 1, leaving 24 more candidate evaluations. A no-gradient
+preparation pass consumes no logical candidate and is recorded as an
+additional physical forward. Do not update until Arm B's entry geometry is
+ready. Weights/history remain unchanged throughout preparation.
+
+\subsection{Reuse exact geometry factorizations and small policy operators}
+
+For fixed batch-entry $A_l\succ0$, compute one FP64 Cholesky factor
+$A_l=L_lL_l^\top$ per layer. For either entry or current $K_l$, use
+\begin{align}
+ T_l&=\operatorname{cholsolve}(L_l,K_l),&
+ S_l&=I+K_l^\top T_l,\\
+ P_l&=T_lS_l^{-1},& E_l&=S_l^{-1}=I-Q_l.
+ \label{eq:woodbury}
+\end{align}
+The right multiplication by $S_l^{-1}$ is implemented as a transposed
+small solve; no large inverse is formed. This is algebraically identical
+to solving $(A_l+K_lK_l^\top)P_l=K_l$. Arm B shares its own batch-entry
+$A_l$ factor between the entry proxy and current-key writer. Arm A needs
+it only for its writer. Factors are never shared across arms merely
+because their dimensions match. The first eligible layer's entry $P_l$
+can be reused for its actual write only when key, pooling, dtype, and
+state identities match.
+
+Obtain $E_l$ by a small FP64 Cholesky solve, avoiding cancellation from
+subtracting $Q_l\approx I$. Record $Q_l=\sym(K_l^\top P_l)$ separately and
+check $E_l+Q_l\approx I$ and scaled solve residuals. This is not a bitwise
+identity to the reference subtraction. No eigenvalue clipping, diagonal
+approximation, or jitter is introduced. If only the factorization route
+fails, qualify the original FP64 direct solve as a fallback; failure of the
+SPD assumption or the original solve is a technical failure.
+
+For each candidate compute once
+\[
+ G_l=\delta_lE_l/s_l^2,\qquad V_l(\delta_l)/s_l^2
+                 =\tfrac12\langle\delta_l,G_l\rangle_F.
+\]
+Accumulate task gradients over microbatches, then add native norm and
+$\eta G_l$ once per candidate, not per microbatch. Keep all off-diagonal
+request coupling. A dense writer update $\delta_lP_l^\top$ is not needed
+inside each fitting iteration.
+
+When $B_t\times B_t$ matrices are unsuitable, use a primal
+$d_{\mathrm{in},l}\times d_{\mathrm{in},l}$ factor and blocked RHS with the
+exact operator
+\[
+ E_lX=X-K_l^\top\operatorname{solve}
+       (A_l+K_lK_l^\top,K_lX),\qquad
+ G_l=(E_l\delta_l^\top)^\top/s_l^2.
+\]
+This avoids storing $Q_l/E_l$ and preserves cross-request terms. Tile RHS
+and output dimensions for $P_l$ and materialized weights as needed. Check
+cancellation and solve residuals; do not replace this operator by a
+diagonal, top-$k$, low-rank approximation, or separate logical batches.
+Spectrum telemetry may explicitly be \texttt{NOT\_MATERIALIZED}. Arbitrary
+batch-size interfaces do not imply unlimited physical memory.
+
+For the current $14336$-dimensional instance, an FP64 factor occupies
+1.53125 GiB per layer or 7.65625 GiB for five layers. Approximate Cholesky
+work is 0.982 TFLOP per layer; two triangular solves with 100 RHS cost about
+0.041 TFLOP per layer (two FLOPs per multiply--add). Prefer host-resident
+factors with layerwise transfer where appropriate. Count model, $C_0/H$,
+transaction copies, activations, factors, and transfer buffers in CPU/GPU
+peaks. Memory fallback may recompute factors or use the direct path.
+Factors are transient, not disk-resume payloads.
+
+Cross-batch Cholesky rank updates are deferred: native FP32 Gram formation
+and history accumulation followed by FP64 conversion need not equal an
+ideal low-rank update. Build each batch's geometry from its actual entry
+history rather than silently changing that numerical contract.
+
+\subsection{Layer-major writer with actual materialized weights}
+
+Use the native target-free writer inputs, not teacher-forced training
+suffixes. In a supported feedforward adapter, stream their full-token
+states to just before the first eligible linear write. Collect every
+request/context key across all microbatches, pool the entire logical batch,
+and solve/materialize that layer's single update. Only then propagate all
+rows with the actual $W_l^{\mathrm{new}}$ and saved residual state to the
+next layer. Do not substitute optimized activation deltas for actual
+weight propagation.
+
+The schedule is layer-major: all keys, one write, all-row propagation.
+Writing immediately after each microbatch would change the logical batch
+geometry and is forbidden. Hold required states in GPU/CPU RAM or report
+the cost of recomputing blocks. This stage has no backward or optimizer.
+Fit-time prefix caches are invalid for the actual edited writer trajectory.
+
+Reuse each prewrite key for history when the dependency proof above holds.
+A fallback key capture can stop at the last required writer input; it need
+not reach the final output head. For L4--L8 in a 32-block decoder, illustrative
+block-visit counts are 192 for five full captures plus one shared history
+capture, 44 with independent early exits, 35 with history-key reuse, and
+about 9 for an ideal continuous layer stream. These conditional structural
+counts exclude replay, attention, padding, geometry, and final evaluation;
+they are not end-to-end speedup factors.
+
+\subsection{Memory, synchronization, and common arm scheduling}
+
+Intervention/gradient/two Adam moments require approximately
+$16B_t\sum_l d_{\mathrm{out},l}$ bytes in FP32. Dense dual policy gradients
+cost about $2B_t^2\sum_l d_{\mathrm{out},l}$ FLOPs per candidate, with no
+additional transformer forward/backward. The current BS100 five-layer
+instance has 2,048,000 intervention parameters, 31.25 MiB for these four
+arrays, and 0.4096 GFLOP for the policy gradient. These figures exclude
+model, activation, cache, writer, and geometry memory/work.
+
+Release each microbatch graph after backward. Accumulate losses, finite
+flags, and request components on device and inspect them at candidate
+boundaries instead of repeated per-microbatch CPU synchronization.
+Detected numerical/CUDA failures still require handling. Larger
+microbatches may improve utilization; that is distinct from reducing
+mathematical FLOPs. Keep A/B row schedules and common paths identical when
+possible and report resource-driven differences without score-based tuning.
+
+Arm A's injection objective is request-separable under the fixed state and
+schedule, but Arm B is coupled by off-diagonal geometry. Requestwise Arm A
+optimization is deferred: both arms keep the same whole-logical-batch
+joint-step schedule in this experiment. Global clipping, shared stopping,
+normalization, or a changing model state would require a new separability
+check. The prescribed instance still uses 25 candidates and at most 24
+backwards/updates; optimizations do not shrink its scientific budget.
+
+\clearpage
+\section{CPU work counts, qualification, and limitations}
+
+The following tokenizer-derived counts sum one candidate's inputs over
+the current experiment's twenty logical batches. They are neither
+multiplied by 25 candidates nor by two arms.
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Quantity & Count\\
+\midrule
+Original valid tokens & 215,075\\
+Strict subject-prefix tokens & 160,115\\
+Subject-inclusive repeated tail tokens & 54,960 (25.55\%)\\
+Tail after pruning unused KL future & 50,960\\
+NLL/KL head positions & 14,144 (6.58\%)\\
+MB4 slots at full batch padding width & 354,200\\
+MB4 slots after crop, original row order & 261,676\\
+MB4 slots after stable length grouping and crop & 215,720\\
+Ideal FP32 prefix KV, maximum batch & 1.6964 GiB\\
+\bottomrule
+\end{tabular}
+\end{center}
+The KV count uses eight GQA KV heads, dimension 128, and the 27 L5--L31 blocks;
+it excludes padding/expansion, allocator overhead, suffix activations,
+model, and geometry. Padding, head, and tail reductions overlap and must
+not be multiplied as independent speedups. Comparing 27 downstream blocks
+against native L8's 23 gives 1.174 only as a structural layer-count ratio,
+not a runtime comparison with historical baselines.
+
+Small CPU FP64 tests check writer primal/reduced values and gradients,
+joint directional derivatives, mixed-layer effects, single-layer reduction,
+and causal cache/geometry reuse identities. Tokenizer audits bind actual
+inputs and prefix conditions. They do not validate real-model FP32 cache
+kernels, Adam trajectories, writer materialization, GPU acceleration, or
+paraphrase/locality quality. GPU qualification must compare fixed-candidate
+loss and all intervention gradients, a short fixed-budget trajectory,
+and the committed weights, keys, and history against the reference.
+
+Dynamic allocation is driven by joint virtual losses, native norm, and
+Arm B's approximate writer value. Report actual committed benchmark
+metrics and sequential retention with their native denominators. For this
+CounterFact instance they are RS/PS/NS, including current/all-seen/cohort
+at-write-to-endpoint retention. Record requested versus realized norm
+shares, clamp activity, proxy/current geometry, and physical forward/backward
+counts separately. Norm share is descriptive, not causal contribution.
+Low strength alone can raise preservation scores; that does not establish
+an improved strength--preservation trade-off.
+
+The local intervention avoids treating an L8 target as every layer's local
+change, but ridge shrinkage, context pooling, entry/current key differences,
+and subject-only versus all-token effects remain. Joint gradients capture
+nonlinear cross-layer task effects; a sum of layerwise geometry costs does
+not capture every nonlinear preservation effect. The proxy may lose state
+discrimination when $Q\ll I$, and the initial $\eta=1$ can suppress useful
+strength. These limits do not justify strict quality or layer-usage gates.
+
+Method interfaces and dependency-qualified fallbacks are generic; other
+models and benchmarks have not thereby been implemented or empirically
+validated. The separate experiment document binds only the two v4 arms to
+its initial 2,000-edit Llama3/CounterFact profile. This source specifies the
+method and adopted computation design, not a completed production runner,
+GPU result, or measured acceleration.
 
 \textbf{Primary-source context.}
 \href{https://papers.neurips.cc/paper_files/paper/2025/file/70d4ef44dc973586cfa3ea92b4868b72-Paper-Conference.pdf}{BLUE}

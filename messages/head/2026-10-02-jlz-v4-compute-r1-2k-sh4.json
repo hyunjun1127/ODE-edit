@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "issued_by": {
+    "role": "global-head",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "date_kst": "2026-10-02",
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "GH에게 전달해. sh4에게 task 진행시키자. 실험,method 설계문 모두 전달하라",
+    "scope_quotes": [
+      "v4 두 arm만 실험 돌리는 걸로 해",
+      "batch size에 구애받지 않도록 해야하며, benchmark와 model 에 따라서도 적용이 되는 설계여야 한다"
+    ],
+    "type": "현재 직접 사용자 구현·실험 실행 명령"
+  },
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "assignment_ko": "새 JLZ v4 compute-r1 일반 adapter와 생산 runner를 구현·점검하고 작은 A/B pilot→B100 timing→각 arm cold W0/H0 BS100×20 본실험을 수행하라. 설계 접수만이 아니다. 기존 v2/SPG 또는 다른 STOPPED_USER 실험은 재개하지 않는다. 신규 baseline main/pilot/fallback은 0이다.",
+  "authority_exception": {
+    "supersedes_only_for_this_task": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+    "permission": "구현·본 task 준비/pilot/timing/main/CPU collector 제출 및 초기 관측 허용",
+    "other_tasks": "전역 STOPPED_USER와 no-new-submission 유지; 기존 job 재시작/타 서버 변경 권한 없음",
+    "exception_path": "control/experiment-exceptions/jlz-v4-compute-r1-2k-20261002.json"
+  },
+  "binding": {
+    "method": "plans/global/2026-10-02-jlz-native-joint-v4/method-ko.md",
+    "method_contract": "plans/global/2026-10-02-jlz-native-joint-v4/contract.json",
+    "portability": "plans/global/2026-10-02-jlz-native-joint-v4/portability-contract.json",
+    "tex": "docs/methods/jlz-native-joint-v4.tex",
+    "experiment": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/experiment.json",
+    "case_schedule": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+    "evaluation_schedule": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/evaluation-schedule.json",
+    "input_receipt": "audits/global/2026-10-02-jlz-v4-sh4-dispatch/input-receipt.json",
+    "FULL_READ": [
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/GH-HANDOFF.md",
+        "bytes": 5742,
+        "sha256": "c9add24092465930d734f531ab4f84522fd0759a165d1fe764939304a3885410"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/method-ko.md",
+        "bytes": 37741,
+        "sha256": "1c181cea475fa71bc4e8feeb71859007ed6fb49a2d3519b14cec2d685da20ab8"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/portability-contract.json",
+        "bytes": 7055,
+        "sha256": "1d413553eba2ce3abfb3387f13b69c63d2bb81917fc9cf185760c647cf381546"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/contract.json",
+        "bytes": 10177,
+        "sha256": "82072455c73d1c5103533914f14f31bf571e0220f3592d9f99f93b07c2d1cab8"
+      },
+      {
+        "path": "docs/methods/jlz-native-joint-v4.tex",
+        "bytes": 37311,
+        "sha256": "11a102bcb6bf97b1c1183aeacc5ce293824a6df7a31ad8f44cadf60665dd18fe"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/experiment-ko.md",
+        "bytes": 19705,
+        "sha256": "19e8fdeea76b3073e4e2112791c498ab31d2046b86cbdf5fa111419dfe73a769"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/experiment.json",
+        "bytes": 7391,
+        "sha256": "a4c6a10cdc0a240166469f6ce5b9df6e3d9d3ce1345fe25ec8faee3467a1104c"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/evaluation-schedule.json",
+        "bytes": 7134,
+        "sha256": "9af60041c45b69ec51b12ae8f0d60ec314fc9003e7b7a983662f21405b97f854"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/gh-sh4-handoff-ko.md",
+        "bytes": 5837,
+        "sha256": "88176b2b4f505386f2ea4c363923f9c4e8f5fabae005a22d9fba3d9e4e69439e"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/build_plan.py",
+        "bytes": 16341,
+        "sha256": "d84db2e36a5c026471998d891891929576f2d96f1248c1cbfb95189bd7b172ca"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/inputs/exact-native-inputs.json",
+        "bytes": 3578,
+        "sha256": "a7752d11b2eb792c1382d0b0cb574dcc9c6baa654652bcb269965f8559ab0880"
+      }
+    ],
+    "case_CSV": "全2000行/全field를 parse하여 순서/분모/20경계/active 표시 검산; sample만 보지 않는다",
+    "precedence": "최신 USER→이 task envelope→method/portability와 experiment 정본. 패키지 NOT_SUBMITTED/runner=false는 작성 당시 상태. 예전 정책/reference는 역사 근거이며 최신 공유정책 덮어쓰기 금지."
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/jlz_native_joint/",
+    "modules": [
+      "adapter/profile",
+      "inputs",
+      "entry",
+      "allocation",
+      "oracle",
+      "optimize",
+      "writer",
+      "observe",
+      "run",
+      "collect"
+    ],
+    "generic": "실제 B_t/partial batch/층별 d_in,d_out/eligible layers/native context·readout/eval을 adapter에서 얻는다. 이번 실행만 Llama3/CounterFact/100×20; 다른 모델 GPU 실험 추가0.",
+    "native": "6 rewrite +1 KL, current||own entry; 직접 δ의 native norm/clamp; joint25candidate/24Adam. C0 raw sum 사용금지: 승인 native mom2/count FP32 normalized C0 후 FP64 geometry. L4–8 current-key payload writer/H exactly once.",
+    "arms": "A eta0/B eta1의 정규화 ridge optimal value만 목적 차이. L4–L8 전부 eligible; 사전 subset/minimum/nonzero/top-k 강제0; G/E/replay prompt loss0.",
+    "compute": "directδ/batched fullvocab head/original-token crop/조건부 strict subject-prefix KV·KL-future prune·entryfusion/same-A Cholesky-Woodbury/fulltoken layer-major writer·historykey reuse 구현. 원 native 목적/층/예산을 축소하지 않는 reference fallback만 허용.",
+    "coupling": "큰 B exact tiled/implicit geometry도 모든 요청 coupling 유지. microbatch 단위 Adam/write/독립 solve 금지.",
+    "freeze": "실제 import/model/tokenizer/runtime/seed/precision/row policy/argv/launch SHA를 새 source/archive/lock에 결속. 원 shared native/EasyEdit/env/이전 실행 hotpatch0."
+  },
+  "execution": {
+    "arms": [
+      "JLZ_A",
+      "JLZ_B"
+    ],
+    "eta": [
+      0,
+      1
+    ],
+    "independent_main": "각 cold W0/zeroH0, 동일 fixed10k 첫2000, BS100×20, 무shuffle/drop/dedup",
+    "pilot": "각 cold W0/H0, ord[2000:2002] BS2×1 실제25후보/24Adam commit; [2002:2004] B2 entry만, 추가 fit/write0. 두arm합50candidate.",
+    "timing": "별도 cold W0/H0 mainB1동일입력, A/B각 warmup1+측정3 합8candidate, write/maincarryover0",
+    "main_budget": {
+      "total_batches": 40,
+      "candidates": 1000,
+      "max_Adam_updates": 960
+    },
+    "qualification_probe_accounting": "reference probe/준비 F/B는 설계의 bounded 비교만 사전ledger화하여50/8/1000와 별도계상. 큰진단/sweep/nativebaselinefit 추가0.",
+    "flow": "필요 구현/검토→pilot/timing→추가 USER 승인 없이 main. 두 독립1GPU lane을 cap2에 맞춰 동시 등록. common prep 의존성으로 중복W0 방지. pre-registered dependency 또는 persistent runner로 main까지 자율진행.",
+    "storage": {
+      "save_checkpoints": false,
+      "exact_resume": "NOT_AVAILABLE",
+      "forbidden": "전체 W/H/optimizer/RNG resume bundle, 복원동등 full delta/factor/endpoint/capsule 영속저장",
+      "allowed": "RAM rollback, immutable scalar/raw평가·ledger/log/source/config/input·statehash·작은통계. 기존자료삭제0"
+    },
+    "evaluation": "원 evaluation-schedule.json 하나를 observer/collector 공유. W0 full2k, 매batch current전량, W5/W10/W20 allseen. 동일 endpoint milestone current재사용. 최종R2000/P4000/N20000 및 TFtokenmicro/promptmacro/strict·true/new/desiredNLL·cohort/active/NSleakage. 학습/selection feedback0.",
+    "baseline": "신규실행0; 현지 exact historical 읽기전용 선택참고만. 없거나 mismatch여도 A/B 진행/완료를 막지 않음."
+  },
+  "review": {
+    "preflight": "bounded CPU/source audit: input/normalization/zeroδgraph/전층crossgradient/FP64 E,V/오른쪽solve/actual materialization/wholelayer transaction/history/가변B·partial·alias/route·callbudget/eval분모/noCP/resourcecollision",
+    "independent_review": "SH4가 구현과 분리한 bounded source-review를 수행하거나 실제 owner audit만이면 정직하게 구분; 미수행 독립red PASS 금지. 작은 기술검산을 장기 gate 캠페인으로 확대0.",
+    "numeric": "experiment numerical_qualification은 제안 시작기준으로 보존하고 실제error/초과를 기록. 초과시 동일shape reference 한 번 확인, 정합 reference로 fallback. 가벼운 rounding을 qualitygate/반복-to-PASS로 확장0; 허위PASS0.",
+    "hard_fail": "확정된 입력/gradient/finite/feasibility/state/commit/IO 무결성 오류는 RAM복원·실패보존. 정확한 기술원인을 선보고하고 같은scope 최소수리/newimmutableattempt/cold rerun 가능. 목적/수식/예산/eta/tolerance 변경은 자동권한밖.",
+    "non_gate": "낮은strength/PS/NS, 특정층집중, lowcosine/realization residual/미수렴 자체는 기록전용. D=UK·virtualNLL=actualNLL 요구금지.",
+    "postrun": "CPU collector 독립 raw NLL/TF/분모·40commit·state/history/cost/provenance 검산. 완성/실패/부분을구분, 사실수치보고; 해석·우월성은 GH."
+  },
+  "ownership": {
+    "branch": "codex/server4-jlz-native-joint-v4-bs100x20-20261002-v1",
+    "clean_worktree": "새 task local 내부 전용 clean worktree, 원 root/다른 dirty 변경보존",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_native_joint/",
+      "experiment-reports/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/",
+      "audits/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/",
+      "plans/updates/server4/jlz-native-joint-v4-bs100x20-20261002-v1/",
+      "tasks/status/jlz-native-joint-v4-bs100x20-20261002-v1/server4.json",
+      "messages/acks/server4/2026-10-02-jlz-v4-compute-r1-2k.json",
+      "messages/server-heads/server4/2026-10-02-jlz-v4-compute-r1-2k.json",
+      "runs/odeedit_jlz_v4_s4_20261002/"
+    ],
+    "allowed_local_write": [
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/",
+      "전용worktree local scratch",
+      "전용worktree servers/local/session-boundary.env 실제session/CWD",
+      "server4 local gpu-caps.tsv의 cap2 결속만; 타항목수정0"
+    ],
+    "own_scope_nonforce_branch_main_push": true,
+    "global_policy_or_design_changes": false
+  },
+  "transfer": {
+    "archive": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-subject-rebuild-20261002-v1/local/jlz-v4-handoff/20261002-compute-r1/jlz-v4-method-and-experiment-2k.tar.gz",
+      "bytes": 249315,
+      "sha256": "34b04fc594c2592c0ce956f7a3471483b17bdb7b4c0898d7d6b5fb549ceba3f0",
+      "regular_members": 33
+    },
+    "package_manifest_sha256": "b107782f3931b1c26a85114c27a10ae4ca54230e1801e8dfc65f37659dcbe259",
+    "mode": "SH4 sole exact pull 승인, sourceKEEP/nooverwrite/nodelete; 받은33regularmember SHA/size 검산. archive 별도task inputs에검증, reference/policy를 repo에덮지않음.",
+    "source_host": "GH와 동일 server1; registry의 검증된 연결 경로",
+    "destination": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/inputs/design-package/",
+    "reference_note": "bundle의 v3 native-prefix-counts.json은 현재main과 다를 수 있다. archive 내 historical reference로만 검증; 새v4 doc/experiment는 게시 commit에서사용.",
+    "assets": "S4 기존 exact model/context/fixed10k/C0 우선 readonly reuse. modeldownload/C0재계산/대형teacher나CP전송0. 누락자산은 정확missing 경로/SHA를보고, 다른task재개금지."
+  },
+  "slurm": {
+    "permission": "allowed_this_task_only",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_max": 60416,
+    "node": "server4",
+    "export": "NONE",
+    "requeue": 0,
+    "GPU_job_prefix": "odeedit_jlz_v4_s4",
+    "wall": "pilot/timing계획과실측으로 유한wall 봉인; GPU상한7days 및partition상한중작은값. ETA와wall구분.",
+    "admission": "직전 current owned active+simultaneous admitted capacity/resources 확인. commonprep/pilot/main 중첩 포함cap2; 타job취소/hold0.",
+    "held_inspection": [
+      "owner",
+      "node/partition",
+      "fullargv",
+      "source/archive/lock",
+      "GPU/CPU/mem",
+      "wall",
+      "export/requeue",
+      "dependencies/throttle"
+    ],
+    "CPU_collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "memory_mib_max": 24576,
+      "wall_hours": 4,
+      "dependency": "afterany all task main jobs; success after both complete scheduled endpoints only; technical/partial collect separate"
+    },
+    "pending": "cap2 내 정식dependency/pending등록 허용. resource wait를새과학승인대기로바꾸지않음."
+  },
+  "reporting": {
+    "first_reply": "nonce ACK+담당수락+FULL_READ/SHA/source확보/미구현/실제scope/resource계획. RECEIVED/IMPLEMENTING_NOT_SUBMITTED와 실제 job상태구분; GH답변대기0",
+    "report": "experiment-reports/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/report-ko.md",
+    "audit": "audits/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/",
+    "status": "tasks/status/jlz-native-joint-v4-bs100x20-20261002-v1/server4.json",
+    "ack": "messages/acks/server4/2026-10-02-jlz-v4-compute-r1-2k.json",
+    "message": "messages/server-heads/server4/2026-10-02-jlz-v4-compute-r1-2k.json",
+    "runs": "runs/odeedit_jlz_v4_s4_20261002/",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED: 같은server실험, raw/model/tensor/prompt/fullstdout Git0; 소형source/보고/CSV/그림/manifest만main게시",
+    "monitoring": "SH4 bounded관찰은 실제main B1 commit+전층Happend+observer복원→B2 ownentry 또는 전체승인scope의 정식등록/inspection/release후 확인된resourcepending까지. Pilot_PASS/제출만으로 maininitial PASS표기0.",
+    "after_initial": "monitoring_active=false/automatic_resume=false, GH/SH4/worker 능동polling/heartbeat/callback/후속자동submit0; 이미봉인·등록된20batch runner/collector는자연진행. 완료상세리뷰는USERrecall, runner자체최종표/terminal은계속.",
+    "dispatch": "SH4 exactidle turn/start; unrelated active turn침범0. GH는bounded담당ACK까지만회수하며장시간pilot/main완료대기0."
+  }
+}

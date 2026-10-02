@@ -1,0 +1,86 @@
+{
+  "status": "METHOD_SPEC_COMPUTE_R1_CPU_CHECKS_ONLY",
+  "revision": "compute-r1-generic-adapters",
+  "production_runner_implemented": false,
+  "GPU_run": false,
+  "tex_compiled": false,
+  "files": [
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/method-ko.md",
+      "bytes": 37741,
+      "sha256": "1c181cea475fa71bc4e8feeb71859007ed6fb49a2d3519b14cec2d685da20ab8"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/contract.json",
+      "bytes": 10177,
+      "sha256": "82072455c73d1c5103533914f14f31bf571e0220f3592d9f99f93b07c2d1cab8"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/portability-contract.json",
+      "bytes": 7055,
+      "sha256": "1d413553eba2ce3abfb3387f13b69c63d2bb81917fc9cf185760c647cf381546"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/GH-HANDOFF.md",
+      "bytes": 5742,
+      "sha256": "c9add24092465930d734f531ab4f84522fd0759a165d1fe764939304a3885410"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/inputs/exact-native-inputs.json",
+      "bytes": 3578,
+      "sha256": "a7752d11b2eb792c1382d0b0cb574dcc9c6baa654652bcb269965f8559ab0880"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/inputs/check_exact_native_inputs.py",
+      "bytes": 3330,
+      "sha256": "9cce368db48407dbed5616f2858ecab0b9f4469f6fceef44c460abbf89cd7419"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/math/math-check.json",
+      "bytes": 6700,
+      "sha256": "2565c254071ddf493d52b7e2d621eba8fd97c5daca380f0edad9bab7d90557b7"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/math/validate_native_joint.py",
+      "bytes": 13012,
+      "sha256": "14ac135e2bc200614cd9a47bb63ad787fcdefb5f45e3691e9749900b09d55d0e"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/math/compute-reuse-check.json",
+      "bytes": 8283,
+      "sha256": "8456d1cca6c655cafd69f226a59844e9648f2582285bc1badc075fecf9e8eba4"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/math/validate_compute_reuse.py",
+      "bytes": 18049,
+      "sha256": "7bbd03e70d2b1ec07b5e23c9fdee3b2eb70abd2001239217710c4c0e61ce5d09"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/compute/native-work-counts.json",
+      "bytes": 23127,
+      "sha256": "1194ff6b278be7a38f51c57277ce8ff6bae1b96be42239d8975c6671af349091"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/compute/count_native_work.py",
+      "bytes": 13596,
+      "sha256": "190bd923f274d8e5203e193ee1092c8c83c9fbe88ea71ed3ec1533e89798de13"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/compute/reviewed-optimization-proposal.txt",
+      "bytes": 10957,
+      "sha256": "5a903abb3a6fef8fd102eb515729aeb9cfa0becaa712ac318b1c3c6b9635d846"
+    },
+    {
+      "path": "docs/methods/jlz-native-joint-v4.tex",
+      "bytes": 37311,
+      "sha256": "11a102bcb6bf97b1c1183aeacc5ce293824a6df7a31ad8f44cadf60665dd18fe"
+    }
+  ],
+  "checks": {
+    "math_source_bindings": "PASS",
+    "tokenizer_evidence_binding": "PASS",
+    "TeX_static": "PASS",
+    "TeX_compiled": false,
+    "GPU": false
+  }
+}

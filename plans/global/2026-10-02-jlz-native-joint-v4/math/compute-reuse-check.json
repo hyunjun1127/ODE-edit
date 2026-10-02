@@ -1,0 +1,266 @@
+{
+  "status": "PASS_CPU_FP64_TINY_ATTENTION_NOT_LLAMA_FP32_CERTIFICATION",
+  "script_sha256": "7bbd03e70d2b1ec07b5e23c9fdee3b2eb70abd2001239217710c4c0e61ce5d09",
+  "torch_version": "2.9.1+cu128",
+  "device": "cpu",
+  "dtype": "float64",
+  "dimensions": {
+    "hidden": 8,
+    "intermediate": 12,
+    "heads": 2,
+    "head_dim": 4,
+    "model_layers": 10,
+    "edit_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "requests": 2,
+    "rewrite_contexts": 6,
+    "KL_rows_per_request": 1,
+    "rows": 14
+  },
+  "cholesky_woodbury": {
+    "large_A_factorizations": 1,
+    "key_states": [
+      {
+        "key_state": "entry",
+        "P_max_abs_error": 1.5265566588595902e-16,
+        "Q_max_abs_error": 5.551115123125783e-17,
+        "value_abs_error": 0.0,
+        "gradient_max_abs_error": 1.3877787807814457e-17
+      },
+      {
+        "key_state": "changed_current_key",
+        "P_max_abs_error": 1.3877787807814457e-16,
+        "Q_max_abs_error": 5.551115123125783e-17,
+        "value_abs_error": 0.0,
+        "gradient_max_abs_error": 5.551115123125783e-17
+      }
+    ]
+  },
+  "generic_geometry": [
+    {
+      "case": "B1",
+      "input_dim": 7,
+      "output_dim": 5,
+      "B": 1,
+      "P_direct_dual_max_error": 5.551115123125783e-17,
+      "E_action_max_error": 5.551115123125783e-17,
+      "gradient_action_max_error": 5.551115123125783e-17,
+      "gradient_autograd_max_error": 0.0,
+      "value_action_error": 2.7755575615628914e-17,
+      "KX_full_B_accumulation_error": 0.0,
+      "output_tiled_gradient_max_error": 2.7755575615628914e-17,
+      "output_tiled_value_error": 0.0,
+      "request_tile_size": 2,
+      "output_tile_size": 2,
+      "every_output_tile_uses_all_B_columns": true
+    },
+    {
+      "case": "B_lt_din",
+      "input_dim": 7,
+      "output_dim": 3,
+      "B": 4,
+      "P_direct_dual_max_error": 1.1102230246251565e-16,
+      "E_action_max_error": 2.7755575615628914e-17,
+      "gradient_action_max_error": 2.7755575615628914e-17,
+      "gradient_autograd_max_error": 2.7755575615628914e-17,
+      "value_action_error": 0.0,
+      "KX_full_B_accumulation_error": 1.3877787807814457e-17,
+      "output_tiled_gradient_max_error": 4.163336342344337e-17,
+      "output_tiled_value_error": 0.0,
+      "request_tile_size": 2,
+      "output_tile_size": 2,
+      "every_output_tile_uses_all_B_columns": true
+    },
+    {
+      "case": "B_eq_din",
+      "input_dim": 4,
+      "output_dim": 6,
+      "B": 4,
+      "P_direct_dual_max_error": 8.326672684688674e-17,
+      "E_action_max_error": 1.1102230246251565e-16,
+      "gradient_action_max_error": 1.1102230246251565e-16,
+      "gradient_autograd_max_error": 5.551115123125783e-17,
+      "value_action_error": 0.0,
+      "KX_full_B_accumulation_error": 1.1102230246251565e-16,
+      "output_tiled_gradient_max_error": 1.1102230246251565e-16,
+      "output_tiled_value_error": 0.0,
+      "request_tile_size": 2,
+      "output_tile_size": 2,
+      "every_output_tile_uses_all_B_columns": true
+    },
+    {
+      "case": "B_gt_din",
+      "input_dim": 3,
+      "output_dim": 5,
+      "B": 7,
+      "P_direct_dual_max_error": 1.1102230246251565e-16,
+      "E_action_max_error": 5.551115123125783e-17,
+      "gradient_action_max_error": 1.1102230246251565e-16,
+      "gradient_autograd_max_error": 5.551115123125783e-17,
+      "value_action_error": 0.0,
+      "KX_full_B_accumulation_error": 1.1102230246251565e-16,
+      "output_tiled_gradient_max_error": 1.1102230246251565e-16,
+      "output_tiled_value_error": 0.0,
+      "request_tile_size": 2,
+      "output_tile_size": 2,
+      "every_output_tile_uses_all_B_columns": true
+    }
+  ],
+  "partial_batch_schedule": {
+    "requests": 2000,
+    "requested_batch_size": 128,
+    "actual_batch_sizes": [
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      128,
+      80
+    ],
+    "full_batches": 15,
+    "final_batch_size": 80,
+    "request_coverage": 2000,
+    "number_of_batches": 16
+  },
+  "delta_forward_loss_gradient": [
+    {
+      "route": "full",
+      "pooled_head": true,
+      "loss_abs_error": 0.0,
+      "logits_max_abs_error": 3.3306690738754696e-16,
+      "gradient_relative_error": 9.247093120466449e-17,
+      "per_layer_gradient_abs_error": [
+        1.8843920332467886e-17,
+        1.763220762994466e-17,
+        2.635481174309301e-17,
+        1.8193933307329566e-17,
+        1.1765467043548785e-17
+      ]
+    },
+    {
+      "route": "full_pruned",
+      "pooled_head": true,
+      "loss_abs_error": 0.0,
+      "logits_max_abs_error": 5.551115123125783e-16,
+      "gradient_relative_error": 9.841455026151799e-17,
+      "per_layer_gradient_abs_error": [
+        1.8460750856625458e-17,
+        2.873115300368997e-17,
+        2.5744722464373908e-17,
+        1.238840354700144e-17,
+        9.501471788262684e-18
+      ]
+    },
+    {
+      "route": "cached",
+      "pooled_head": true,
+      "loss_abs_error": 0.0,
+      "logits_max_abs_error": 3.3306690738754696e-16,
+      "gradient_relative_error": 1.3491813013328764e-16,
+      "per_layer_gradient_abs_error": [
+        3.014627991158655e-17,
+        3.6852668196021274e-17,
+        2.867545654888875e-17,
+        2.2618026913899002e-17,
+        1.717288626685379e-17
+      ]
+    },
+    {
+      "route": "cached_pruned",
+      "pooled_head": true,
+      "loss_abs_error": 0.0,
+      "logits_max_abs_error": 6.661338147750939e-16,
+      "gradient_relative_error": 1.4627623332461962e-16,
+      "per_layer_gradient_abs_error": [
+        3.049365591847692e-17,
+        4.182491689315946e-17,
+        2.6444755608460352e-17,
+        2.391151296425972e-17,
+        2.5078606370050884e-17
+      ]
+    }
+  ],
+  "coverage": {
+    "subject_at_position_zero": true,
+    "subject_at_final_position": true,
+    "KL_future_tokens_removed": 7,
+    "later_layer_suffix_recomputed": true,
+    "pooled_head_full_vocabulary": true,
+    "all_five_deltas_jointly_differentiated": true
+  },
+  "writer": {
+    "layer_checks": [
+      {
+        "layer": 4,
+        "current_key_route_error": 0.0,
+        "materialized_weight_error": 0.0,
+        "prewrite_postall_key_error": 0.0,
+        "reused_vs_remeasured_H_error": 0.0,
+        "current_vs_entry_key_change": 0.0,
+        "history_appends_per_route": 1
+      },
+      {
+        "layer": 5,
+        "current_key_route_error": 0.0,
+        "materialized_weight_error": 0.0,
+        "prewrite_postall_key_error": 0.0,
+        "reused_vs_remeasured_H_error": 0.0,
+        "current_vs_entry_key_change": 0.042850331428178436,
+        "history_appends_per_route": 1
+      },
+      {
+        "layer": 6,
+        "current_key_route_error": 0.0,
+        "materialized_weight_error": 0.0,
+        "prewrite_postall_key_error": 0.0,
+        "reused_vs_remeasured_H_error": 0.0,
+        "current_vs_entry_key_change": 0.07994369250834069,
+        "history_appends_per_route": 1
+      },
+      {
+        "layer": 7,
+        "current_key_route_error": 0.0,
+        "materialized_weight_error": 0.0,
+        "prewrite_postall_key_error": 0.0,
+        "reused_vs_remeasured_H_error": 0.0,
+        "current_vs_entry_key_change": 0.05454490185713451,
+        "history_appends_per_route": 1
+      },
+      {
+        "layer": 8,
+        "current_key_route_error": 0.0,
+        "materialized_weight_error": 0.0,
+        "prewrite_postall_key_error": 0.0,
+        "reused_vs_remeasured_H_error": 0.0,
+        "current_vs_entry_key_change": 0.07326402342155545,
+        "history_appends_per_route": 1
+      }
+    ],
+    "final_alltoken_hidden_max_abs_error": 0.0,
+    "lower_layer_writes_reflected_in_current_keys": true,
+    "actual_materialized_weights": true,
+    "history_updated_after_all_writes_only": true
+  },
+  "limitations": [
+    "CPU FP64 tiny attention model; real Llama rotary/GQA/mask/cache APIs and FP32 kernels remain unvalidated.",
+    "Generic SPD geometry and schedule checks do not certify arbitrary production models, datasets, or benchmark integrations.",
+    "Prefix K/V remains visible to every dynamic suffix query; no prior context is deleted.",
+    "KL future pruning is justified by causal output dependence, not prompt removal.",
+    "No GPU timing, speedup, model quality or production implementation claim."
+  ]
+}

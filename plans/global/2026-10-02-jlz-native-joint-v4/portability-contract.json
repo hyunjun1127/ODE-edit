@@ -1,0 +1,140 @@
+{
+  "schema": "JLZ_V4_GENERIC_METHOD_ADAPTER_CONTRACT_V1",
+  "status": "DESIGN_INTERFACE_NOT_IMPLEMENTED_CROSS_MODEL_SUPPORT",
+  "separation": {
+    "method": "joint native layer-local delta plus optional history-conditioned ridge value",
+    "model_profile": "native intervention/write/readout/parameter dependency and dtype contracts",
+    "benchmark_profile": "ordered requests, native training examples and evaluation semantics",
+    "execution_profile": "logical batch size, microbatch, candidate budget, resources and evaluation schedule",
+    "current_instance": "Llama3-8B-Instruct / CounterFact / BS100x20 / 2k / arms A and B only"
+  },
+  "logical_batch": {
+    "B_t": "actual positive request count in this batch, derived at runtime",
+    "fixed_method_B": null,
+    "last_partial_batch": "process all remaining requests at actual B_t; no drop or fake requests",
+    "example_N2000_B128": {
+      "full_batches": 15,
+      "last_batch": 80,
+      "total_batches": 16
+    },
+    "D_l_shape": [
+      "d_out_l",
+      "B_t"
+    ],
+    "K_l_shape": [
+      "d_in_l",
+      "B_t"
+    ],
+    "s_l_squared": "sum_r ||h0_l,r||^2 / B_t",
+    "microbatch": "physical row partition only; does not change logical loss, Q coupling, Adam or write boundaries",
+    "batch_size_invariant_results_claim": false,
+    "reason_results_can_differ": "request coupling and sequential history boundaries change with logical batch size"
+  },
+  "model_adapter": {
+    "required": [
+      "model/revision/tokenizer/config/parameter identity",
+      "all ordered eligible edit sites and layer-specific d_in/d_out",
+      "native intervention site and anchor lookup positions",
+      "validated additive displacement map to each actual write parameter",
+      "parameter layout/transposition/shared-alias/dependency graph",
+      "native NLL readout including norm/head and target-token reduction",
+      "native KL readout/teacher/prompt-position/weight conventions",
+      "native norm/clamp/loss coefficients and optimizer profile",
+      "key extraction/context pooling and model-specific C0 assets",
+      "model/geometry/history/storage/addition precision",
+      "position/RoPE/mask/KV layout and cache capability conditions"
+    ],
+    "no_prespecified_numeric_layers_or_dimensions": true,
+    "every_configured_eligible_layer_participates": true,
+    "shape_equality_alone_proves_write_alignment": false,
+    "valid_reference_required": "full forward at native intervention sites and same layer-local writer",
+    "missing_valid_write_map": "adapter/method extension required; do not claim supported",
+    "tested_real_models_by_this_design_update": [],
+    "shared_write_parameters": "require an alias-aware consistent write rule across all eligible invocations; cache fallback alone cannot make independent per-site writers valid"
+  },
+  "benchmark_adapter": {
+    "request_fields": [
+      "occurrence_id",
+      "ordered_stream_index",
+      "original_request_payload",
+      "target_ids_and_native_preprocessing"
+    ],
+    "native_training": "variable rewrite and KL row groups per request, with explicit native per-row and per-group weights",
+    "anchor": "native profile-defined position; do not assume every task has a CounterFact subject",
+    "key_rows": "native target-free or profile-defined key inputs and original pooling semantics",
+    "evaluation": "named benchmark families, actual row identities and desired target/metric definitions",
+    "denominators": "count actual benchmark rows/targets; never hardcode 2 paraphrases or 10 neighbors",
+    "conflicts": "benchmark-declared claim identity and version/supersession rules; no automatic dedup",
+    "forbidden_automatic_transplants": [
+      "six rewrite contexts",
+      "{} is a",
+      "subject+relation conflict key",
+      "CounterFact R/P/N labels"
+    ],
+    "baseline_input_equality": "same model+benchmark native profile; no extra curriculum or evaluation leakage"
+  },
+  "generic_equations": {
+    "native_core": "sum_r native_NLL_r + lambda_KL*native_KL_r + sum_l lambda_norm*||delta_l,r||/||h0_l,r||^2",
+    "native_clamp": "||delta_l,r|| <= c_clamp*||h0_l,r||",
+    "A_l": "lambda_C*C0_l + H_l_at_batch_entry",
+    "P_l": "solve(A_l+K_l K_l.T,K_l)",
+    "Q_l": "K_l.T P_l",
+    "E_l": "I-Q_l",
+    "V_l": "0.5*trace(D_l E_l D_l.T)",
+    "policy_gradient": "D_l E_l / s_l_squared",
+    "eta": {
+      "A": 0,
+      "B": 1
+    },
+    "layer_spaces_mixed_or_summed_before_loss": false
+  },
+  "geometry_backends": {
+    "dual_small_B": "factor A_l; T=A_l^-1 K_l; S=I+K_l.T T; right solve P=T S^-1; E=S^-1 via small factor solve",
+    "primal_large_B": "factor A_l+K_l K_l.T; blocked RHS for P or matrix-free E action",
+    "implicit_E_action": "E X = X-K_l.T solve(A_l+K_l K_l.T,K_l X)",
+    "policy_output_tiling": "G=(E D_l.T).T/s_l_squared with exact output-column tiles",
+    "tile_request_accumulation": "each KX and KK.T includes all actual B_t requests before solve/update/write",
+    "full_Q_storage_required": false,
+    "off_diagonal_coupling_preserved": true,
+    "diagonal_topk_lowrank_approximation": false,
+    "exact_means": "same algebra; finite-precision routes require residual/gradient qualification, not bitwise equality",
+    "cancellation": "monitor near-Q=I implicit subtraction; qualified dual or direct reference fallback",
+    "memory_guarantee": "finite resource limits still apply; do not silently split logical batch or drop layers"
+  },
+  "capabilities": {
+    "causal_prefix_cache": "only nodes proven independent of every current delta; actual first-intervention operation boundary",
+    "KL_future_prune": "only positions outside all KL readout dependencies, retaining original tokenization",
+    "fused_entry_key_capture": "only matching causal token prefixes/positions/pooling with runtime parity",
+    "layer_streaming_writer": "only valid dependency order and alias-safe materialized full-token propagation",
+    "prewrite_history_key_reuse": "only own/later writes do not affect the captured module input; otherwise recapture final keys",
+    "unsupported_cache": "same-objective full reference forward and native key recapture",
+    "shared_parameter_aliases": "inspect all invocations before cache/writer/history reuse; topological layer number alone is insufficient",
+    "model_support_vs_cache_support": "missing cache proof disables an optimization; missing a valid native local write map requires an adapter"
+  },
+  "current_experiment_profile": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "benchmark": "CounterFact fixed10k prefix2k",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "d_in_l": 14336,
+    "d_out_l": 4096,
+    "rewrite_rows_per_request": 6,
+    "KL_rows_per_request": 1,
+    "NLL_loss_layer": 31,
+    "KL_factor": 0.0625,
+    "norm_factor": 0.5,
+    "clamp_factor": 0.75,
+    "lambda_C": 15000,
+    "candidate_evaluations": 25,
+    "max_Adam_updates": 24,
+    "B": 100,
+    "sequential_batches": 20,
+    "new_baseline_GPU_runs": false,
+    "change_instance_without_new_profile_lock": false
+  }
+}

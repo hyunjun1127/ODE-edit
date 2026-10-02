@@ -1,0 +1,152 @@
+**최적화할 여지가 큽니다. 특히 v4에서는 모델 가중치를 고정하고 subject의 \(\delta\)만 학습하므로, 반복 계산을 줄일 수 있는 범위가 이전 JLZ보다 넓습니다.**
+
+다만 v4 runner는 아직 없으므로 아래는 **설계·기존 코드 점검과 CPU 입력 계수 결과**입니다. GPU 시간은 측정하지 않았습니다.
+
+**1. 가장 큰 후보는 subject 이전 token의 계산 재사용입니다.**
+
+v4에서는 첫 개입이 **L4 block output의 subject 위치**에서 발생합니다. 따라서 다음 계산은 한 배치의 25회 최적화 동안 같습니다.
+
+- L0–L4의 개입 이전 계산
+- 모든 상위 층에서 subject보다 앞선 token의 표현과 attention K/V
+
+구현은 다음처럼 구성할 수 있습니다.
+
+> Entry에서 L4 출력과 상위 층의 prefix K/V 저장 → subject 위치에 \(\delta_4\) 추가 → L5부터 subject 이후 구간만 계산 → L5–L8에서도 각 \(\delta_l\) 추가
+
+Subject 이후 token은 **캐시된 앞부분 전체에 계속 attention**합니다. 문맥을 줄이는 것이 아니라, 변하지 않는 계산을 재사용하는 것입니다.
+
+동일한 첫 2,000개 요청을 확인한 결과는 다음과 같습니다.
+
+| BS100×20 입력 계수 | Token 수 |
+|---|---:|
+| 전체 유효 token | 215,075 |
+| 재사용 가능한 subject 이전 부분 | 160,115 |
+| 매 후보에서 다시 계산할 subject 이후 부분 | **54,960 — 전체의 25.55%** |
+
+FP32 prefix K/V 저장량은 배치별 최대 약 **1.70 GiB**입니다. 준비 비용·attention 연산·메모리 이동이 남으므로 이를 전체 4배 가속으로 해석하면 안 됩니다.
+
+중요한 경계는 **상위 층의 subject 이후 표현은 캐시로 고정하면 안 된다**는 점입니다. 이 부분은 하층 \(\delta\)에 따라 다시 계산하고 미분해야 공동 최적화와 cross effect가 유지됩니다.
+
+**2. 출력 head와 padding에도 상당한 여지가 있습니다.**
+
+이번 입력에서 NLL·KL을 계산하는 데 필요한 출력 위치는 **14,144개**, 전체 유효 token의 **6.58%**였습니다. 모든 위치에서 vocabulary logits을 계산할 필요가 없습니다.
+
+기존 JLZ에는 이미 selected-position head가 있으므로, 이것을 신규 절감으로 중복 계산하면 안 됩니다. 대신 [현재 구현](/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-subject-rebuild-20261002-v1/project/run_scripts/jlz_sequential/oracle.py:26)은 **행마다 head를 호출**합니다. 필요한 hidden들을 microbatch 단위로 모아 한 번에 head를 계산하면 작은 GEMM과 Python 호출을 줄일 수 있습니다. Full vocabulary와 기존 정규화는 그대로 유지합니다.
+
+Padding은 microbatch 4를 가정했을 때 다음 차이가 있었습니다.
+
+| 입력 처리 | 처리하는 token 슬롯 |
+|---|---:|
+| 배치 전체 최대 길이를 유지 | 354,200 |
+| 기존 순서에서 microbatch별 오른쪽 padding 제거 | 261,676 |
+| 길이순으로 묶고 microbatch별 padding 제거 | **215,720** |
+
+길이별 묶음은 입력 문장·token ID·position·target 위치를 바꾸지 않고 행 매핑만 관리하면 됩니다. 다만 GEMM 모양과 합산 순서가 달라지므로 FP32 수치 비교는 필요합니다.
+
+추가로 native KL은 **subject 위치의 출력만 읽습니다.** 그 뒤의 `" is a"` token은 해당 출력에 영향을 주지 않습니다. 이 미래 위치들의 계산까지 생략하면, 위의 반복 suffix 계산량은 **54,960→50,960 token**으로 줄어듭니다.
+
+**3. Arm B의 정책 비용 자체는 작습니다. 큰 행렬을 매번 만들지 않는 것이 중요합니다.**
+
+v4의 정책 gradient는 이미 다음처럼 작게 정리돼 있습니다.
+
+\[
+G_l=\delta_l(I-Q_l)/s_l^2.
+\]
+
+BS100, 5개 층 기준 이 행렬곱은 후보당 약 **0.4096 GFLOP**입니다. 추가 transformer forward가 필요 없습니다.
+
+따라서 다음 구현이 적절합니다.
+
+- \(Q_l\), \(I-Q_l\), 정규화 상수는 배치당 한 번 준비합니다.
+- \(G_l\)을 한 번 계산하고, 그 결과로 비용값도 계산합니다.
+- Norm과 정책 gradient는 전체 microbatch gradient를 모은 뒤 **후보당 한 번** 더합니다.
+
+여기서 실제 거대한 writer \(U=\delta P^\top\)를 매 iteration 만들어 비용을 계산하면 축약식의 이점을 잃습니다. **\(Q\)의 비대각 성분을 없애는 근사도 권하지 않습니다.** 절감할 계산은 작고, 요청 간 결합이라는 설계 의미가 바뀝니다.
+
+**4. Geometry는 같은 \(A_l\)의 분해를 재사용할 수 있습니다.**
+
+현재 계열의 [geometry 코드](/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-subject-rebuild-20261002-v1/project/run_scripts/jlz_two_arm/oracle.py:52)는 큰 행렬을 구성하고 `solve`합니다. v4에서 이를 entry proxy와 실제 writer마다 그대로 반복하면 중복 분해가 발생합니다.
+
+문서상 한 배치 동안
+
+\[
+A_l=15000C_{0,l}+H_l
+\]
+
+는 고정입니다. 따라서 \(A_l\)을 한 번 Cholesky 분해하고, 각 key \(K\)에 대해 다음 식을 사용할 수 있습니다.
+
+\[
+T=A_l^{-1}K,\qquad S=I+K^\top T,\qquad P=TS^{-1}.
+\]
+
+실제로 inverse를 만들지 않고 triangular solve와 작은 \(100\times100\) solve를 수행합니다. 이는 문서의 양의 정부호 가정 아래 원래 식과 대수적으로 같습니다.
+
+규모를 보면 차이가 명확합니다.
+
+- 큰 행렬: \(14336\times14336\)
+- Cholesky 분해: 약 **0.982 TFLOP/층**
+- 분해를 이용한 \(A^{-1}K\): 약 **0.041 TFLOP/층**
+- 마지막 작은 solve: \(100\times100\)
+
+**Arm B의 entry proxy와 실제 write에서 같은 분해를 공유하는 것이 핵심입니다.** 특히 L4는 하층 write가 없으므로 입력·geometry가 같으면 entry의 \(P_4\)까지 재사용할 수 있습니다.
+
+단, FP64 분해 행렬은 층당 약 **1.53 GiB**, 5개면 **7.66 GiB**입니다. 최적화 중에는 작은 \(Q\)만 GPU에 남기고, 큰 분해는 CPU 보관이나 층별 전송을 고려해야 합니다.
+
+후순위로는 배치가 끝날 때 history가 rank-100으로 증가한다는 점을 이용한 **분해의 저랭크 갱신**도 가능합니다. 다만 history의 누적 dtype·반올림 의미와 누적 오차를 확인한 뒤 적용할 항목입니다.
+
+**5. 실제 writer는 층마다 모델 처음부터 다시 돌릴 필요가 없습니다.**
+
+v4 writer는 L4→L8 순서로 진행합니다. 자연스러운 구현은 다음입니다.
+
+> L4 입력 계산·key 수집 → L4 write → 수정된 L4 출력을 다음 층으로 전달 → L5 key 수집·write → … → L8
+
+앞에서 계산한 상태를 이어 쓰면 됩니다. 하층 write 뒤 상층 key를 갱신한다는 과학적 조건도 유지됩니다.
+
+반면 기존 [key 추출 함수](/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-subject-rebuild-20261002-v1/project/run_scripts/jlz_pilot/run.py:145)는 필요한 key를 얻은 뒤에도 모델 끝까지 실행합니다. 그대로 반복 호출하는 것은 피해야 합니다.
+
+단순한 층 방문 횟수로 비교하면 다음과 같습니다.
+
+| Key 획득 구현 | 층 방문 횟수의 대략적 규모 |
+|---|---:|
+| 5회 전체 forward＋마지막 history용 전체 forward | 192 |
+| 필요한 층에서 각각 조기 종료 | 44 |
+| 층별 상태를 이어 계산하고 history key 재사용 | **약 9** |
+
+이는 **writer의 key 획득 부분만** 비교한 것입니다. 전체 학습시간 배율은 아닙니다.
+
+또 FP32 의미를 유지하려면 수정된 층은 **materialized \(W_{\rm new}\)**로 계산해야 합니다. 단순히 저장된 옛 hidden에 가상의 \(\delta\)를 더해 실제 writer 출력을 대신하면 안 됩니다.
+
+**6. 마지막 history용 key 재측정은 생략할 수 있습니다.**
+
+이 부분은 현재 문서에서 줄일 수 있는 명확한 중복입니다.
+
+층 \(l\)을 쓰기 직전에 얻은 key는 이미 모든 하층 write를 반영합니다. 그리고:
+
+- 해당 층의 `down_proj` 가중치 변경은 그 모듈의 **입력 key**를 바꾸지 않습니다.
+- 이후 상층 write도 아래층 입력을 바꾸지 않습니다.
+
+따라서 같은 입력·모델 조건에서
+
+\[
+K_l^{\text{write 직전}}=K_l^{\text{모든 write 이후}}
+\]
+
+입니다.
+
+각 단계의 current key를 저장했다가 **모든 write가 성공한 뒤 H에 한 번씩 추가**하면 됩니다. 이 경우 문서에 있는 마지막 post-key 재측정 forward가 필요 없습니다. 상층 writer에 entry key를 재사용하는 것과는 다른 논리입니다.
+
+**7. 초기 준비와 GPU 실행도 합칠 수 있습니다.**
+
+추가로 적용할 만한 항목입니다.
+
+- **초기 \(\delta=0\) 평가에서 teacher·anchor·entry key·prefix cache를 함께 수집:** 이번 CPU 확인에서는 rewrite 12,000행 모두 target-free key 입력과 subject까지의 token prefix가 같았습니다. 별도 key forward를 합칠 근거가 있습니다. 다만 최초 loss의 \(\delta\) gradient는 유지해야 합니다.
+- **모델 weight gradient는 생성하지 않기:** 학습 대상은 \(\delta\)뿐입니다. 기존 weight-leaf oracle을 그대로 상속하면 v4에서 불필요한 계산이 남을 수 있습니다.
+- **확보한 메모리로 microbatch 확대:** \(\delta\), gradient, Adam의 두 상태를 합쳐 BS100에서 약 31.25 MiB입니다. 실제 한계는 activation·head·KV cache입니다.
+- **Microbatch마다 CPU 동기화하지 않기:** loss·finite flag를 GPU에서 누적하고 joint step 경계에서 읽으면 됩니다. 무결성 검사를 제거하는 것은 아닙니다.
+- **Arm A의 요청별 분리 가능성 활용:** A는 요청 사이에서 목적함수가 분리되므로 요청 묶음별로 cache를 유지하며 25회를 수행할 수 있습니다. 전체 BS100의 해를 얻기 전 실제 write는 하지 않아야 합니다. **Arm B에는 이 방식을 그대로 적용할 수 없습니다.** \(Q\)가 요청들을 연결하기 때문입니다.
+
+구현 우선순위는 **직접 \(\delta\) oracle과 배치 head → L4·subject-prefix 캐시 → geometry 분해 재사용 → writer의 층별 진행과 history key 재사용** 순서가 적절합니다.
+
+참고로 baseline도 같은 방식으로 최적화하고 L8에서 개입한다면, 반복 계산 구간은 L9–L31의 23개 층입니다. v4는 L5–L31의 27개 층입니다. **같은 입력·같은 반복 횟수에서 공동 최적화 때문에 늘어나는 transformer 구간은 층 수 기준 약 17.4%이며, 5개 층을 쓴다고 5배 forward가 필요한 구조는 아닙니다.** 실제 시간에는 geometry·writer·캐시 준비와 baseline의 조기 종료 여부가 추가로 영향을 줍니다.
+
+이번 점검에서는 파일이나 실행 중인 실험을 수정하지 않았습니다.

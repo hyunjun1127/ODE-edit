@@ -1,0 +1,378 @@
+{
+  "schema": "JLZ_V4_2K_EVALUATION_SCHEDULE_V1",
+  "endpoints": [
+    {
+      "batch": 0,
+      "scope": "W0_full2k",
+      "ordinal_slice": [
+        0,
+        2000
+      ],
+      "requests": 2000,
+      "R": 2000,
+      "P": 4000,
+      "N": 20000,
+      "shared_when_runtime_and_state_identical": true
+    },
+    {
+      "batch": 1,
+      "scope": "current",
+      "ordinal_slice": [
+        0,
+        100
+      ],
+      "current_slice": [
+        0,
+        100
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 2,
+      "scope": "current",
+      "ordinal_slice": [
+        100,
+        200
+      ],
+      "current_slice": [
+        100,
+        200
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 3,
+      "scope": "current",
+      "ordinal_slice": [
+        200,
+        300
+      ],
+      "current_slice": [
+        200,
+        300
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 4,
+      "scope": "current",
+      "ordinal_slice": [
+        300,
+        400
+      ],
+      "current_slice": [
+        300,
+        400
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 5,
+      "scope": "all_seen",
+      "ordinal_slice": [
+        0,
+        500
+      ],
+      "current_slice": [
+        400,
+        500
+      ],
+      "requests": 500,
+      "R": 500,
+      "P": 1000,
+      "N": 5000,
+      "current_rows_reused_from_same_endpoint": true
+    },
+    {
+      "batch": 6,
+      "scope": "current",
+      "ordinal_slice": [
+        500,
+        600
+      ],
+      "current_slice": [
+        500,
+        600
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 7,
+      "scope": "current",
+      "ordinal_slice": [
+        600,
+        700
+      ],
+      "current_slice": [
+        600,
+        700
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 8,
+      "scope": "current",
+      "ordinal_slice": [
+        700,
+        800
+      ],
+      "current_slice": [
+        700,
+        800
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 9,
+      "scope": "current",
+      "ordinal_slice": [
+        800,
+        900
+      ],
+      "current_slice": [
+        800,
+        900
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 10,
+      "scope": "all_seen",
+      "ordinal_slice": [
+        0,
+        1000
+      ],
+      "current_slice": [
+        900,
+        1000
+      ],
+      "requests": 1000,
+      "R": 1000,
+      "P": 2000,
+      "N": 10000,
+      "current_rows_reused_from_same_endpoint": true
+    },
+    {
+      "batch": 11,
+      "scope": "current",
+      "ordinal_slice": [
+        1000,
+        1100
+      ],
+      "current_slice": [
+        1000,
+        1100
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 12,
+      "scope": "current",
+      "ordinal_slice": [
+        1100,
+        1200
+      ],
+      "current_slice": [
+        1100,
+        1200
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 13,
+      "scope": "current",
+      "ordinal_slice": [
+        1200,
+        1300
+      ],
+      "current_slice": [
+        1200,
+        1300
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 14,
+      "scope": "current",
+      "ordinal_slice": [
+        1300,
+        1400
+      ],
+      "current_slice": [
+        1300,
+        1400
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 15,
+      "scope": "current",
+      "ordinal_slice": [
+        1400,
+        1500
+      ],
+      "current_slice": [
+        1400,
+        1500
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 16,
+      "scope": "current",
+      "ordinal_slice": [
+        1500,
+        1600
+      ],
+      "current_slice": [
+        1500,
+        1600
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 17,
+      "scope": "current",
+      "ordinal_slice": [
+        1600,
+        1700
+      ],
+      "current_slice": [
+        1600,
+        1700
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 18,
+      "scope": "current",
+      "ordinal_slice": [
+        1700,
+        1800
+      ],
+      "current_slice": [
+        1700,
+        1800
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 19,
+      "scope": "current",
+      "ordinal_slice": [
+        1800,
+        1900
+      ],
+      "current_slice": [
+        1800,
+        1900
+      ],
+      "requests": 100,
+      "R": 100,
+      "P": 200,
+      "N": 1000,
+      "current_rows_reused_from_same_endpoint": false
+    },
+    {
+      "batch": 20,
+      "scope": "all_seen",
+      "ordinal_slice": [
+        0,
+        2000
+      ],
+      "current_slice": [
+        1900,
+        2000
+      ],
+      "requests": 2000,
+      "R": 2000,
+      "P": 4000,
+      "N": 20000,
+      "current_rows_reused_from_same_endpoint": true
+    }
+  ],
+  "case_schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+  "final_denominators": {
+    "R": 2000,
+    "P": 4000,
+    "N": 20000
+  },
+  "post_edit_request_evaluations_per_chain": 5200,
+  "post_edit_prompt_pairs_per_chain": 67600,
+  "W0_prompt_pairs_once": 26000,
+  "A_B_plus_shared_W0_prompt_pairs": 161200,
+  "two_new_chains_plus_shared_W0_prompt_pairs": 161200,
+  "old_two_arm_schedule_post_edit_pairs_per_chain": 115000,
+  "preference": {
+    "R_P": "new_nll < true_nll",
+    "N": "true_nll < new_nll",
+    "ties": "failure"
+  },
+  "strict": "all desired target tokens argmax under teacher forcing; not free generation",
+  "evaluation_feedback_to_solver": false,
+  "nonobserved_all_seen": "NOT_MEASURED"
+}

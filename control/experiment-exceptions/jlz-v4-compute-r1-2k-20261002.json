@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "task_id": "jlz-native-joint-v4-bs100x20-20261002-v1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-10-02-jlz-v4-compute-r1-2k-sh4.json",
+  "authorized": true,
+  "scope": "신규 v4 A/B 구현·pilot/timing·2k main·collector만",
+  "other_tasks_stop_preserved": true,
+  "old_v2_restart_authorized": false,
+  "project_gpu_cap": 2,
+  "save_checkpoints": false,
+  "initial_monitoring_only": true,
+  "automatic_resume_after_initial": false
+}

@@ -1,0 +1,37 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "method_FULL_READ": {
+    "bytes": 37741,
+    "sha256": "1c181cea475fa71bc4e8feeb71859007ed6fb49a2d3519b14cec2d685da20ab8"
+  },
+  "experiment_FULL_READ": {
+    "bytes": 19705,
+    "sha256": "19e8fdeea76b3073e4e2112791c498ab31d2046b86cbdf5fa111419dfe73a769"
+  },
+  "tex_FULL_READ": {
+    "bytes": 37311,
+    "sha256": "11a102bcb6bf97b1c1183aeacc5ce293824a6df7a31ad8f44cadf60665dd18fe"
+  },
+  "case_schedule": {
+    "bytes": 294841,
+    "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+  },
+  "archive_all33regular_pass": true,
+  "case2000_all_fields_parsed": true,
+  "CPU_plan_check": "PASS_EXPERIMENT_2K_DESIGN",
+  "CPU_native_input_check": "PASS_UNCHANGED_NATIVE_SOURCE_INPUTS",
+  "token_runtime": "NOT_TESTED",
+  "new_model_GPU": 0,
+  "format_exception": "원 reviewed-optimization-proposal.txt는 CRLF 및 마지막 LF 없음. 첨부 SHA를 보존해 exact copy; git -c core.whitespace=cr-at-eol diff --cached --check PASS. 다른 source 정규화0.",
+  "prepublication_access_check": "PASS global-head/head-server1-gh",
+  "new_implementation": "NOT_YET",
+  "package_verifier": "SOURCE_PACKAGE_32_MEMBERS_PASS; deployment uses current policies; preserved historical reference stays in archive",
+  "semantic_findings": [
+    "v4 직접delta 목적과 과거v2 writer-coordinate 목적 분리",
+    "native NLL 정규화와 key가중치 구분",
+    "후보25/24와 pilot/timing/물리probe 예산 분리",
+    "alias/causal 조건 미확인 최적화는 동일목적reference",
+    "신규baseline0/noCP/현재USER task예외만"
+  ],
+  "reviewer": "GH 본인 정독 및 CPU manifest/input/plan 검사; 별도 독립red 미실시"
+}

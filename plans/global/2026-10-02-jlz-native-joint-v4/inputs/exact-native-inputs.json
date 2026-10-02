@@ -1,0 +1,90 @@
+{
+  "schema": "JLZ_V4_EXACT_NATIVE_TRAINING_INPUTS_V1",
+  "status": "USER_REQUIRED_SAME_BASELINE_TEXTS",
+  "provenance": "same native source-input identity as the prior review; v4 uses one joint intervention path",
+  "scope": {
+    "dataset_slice": [
+      0,
+      2000
+    ],
+    "requests": 2000,
+    "batchsize": 100,
+    "sequential_steps": 20,
+    "dropped_requests": 0
+  },
+  "dataset": {
+    "local_path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+  },
+  "contexts": {
+    "local_path": "/mnt/raid5/janghj/ODE-edit/local/reviews/ep-tw1-completed-2026-09-15/baselines/1/contexts.json",
+    "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "groups": [
+      [
+        "{}"
+      ],
+      [
+        "The 5th annual \"Taste of. {}",
+        "Therefore, it is essential to understand the importance. {}",
+        "Because you compared Trello, Asana,. {}",
+        "I am a 3rd generation farmer and. {}",
+        "You are here: Home / Archives for #. {}"
+      ]
+    ],
+    "group_lengths": [
+      1,
+      5
+    ],
+    "preserve_group_structure": true
+  },
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "full_fixed10k_ordered_case_ids_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+  "source_requested_rewrite_sha256": "bb6f4be59271dc24f81ab194b1eb7e381e94c55bcce6e5e7f8f54bcbb30590b3",
+  "target_free_rewrite_and_KL_rows_sha256": "fa5596ecb44550c20ed70efb922c0b7eaf78dcd1c261b6fbfb41f233e1ff5e0e",
+  "hash_encoding": "SHA256 compact JSON sort_keys=True ensure_ascii=False allow_nan=False UTF8",
+  "row_policy": {
+    "per_request_rewrite": 6,
+    "per_request_native_KL": 1,
+    "request_major_order": "six flattened original context groups, then native KL",
+    "rewrite_template": "context.format(requested_rewrite.prompt).format(subject)",
+    "KL_template": "{} is a",
+    "KL_measurement": "subject-last full-vocabulary KL(current||batch_entry)",
+    "joint_intervention_path": "one path with the unchanged six native rewrite rows + native KL; no new text or template",
+    "teacher_forcing": "same native target IDs and tokenizer.decode(target_ids[:-1]) appended before subject formatting; no independently rewritten target",
+    "target_source": "unchanged requested_rewrite.target_new.str; same native single-leading-space preprocessing/BOS-or-UNK removal as baseline",
+    "key_prompts": "same six native rewrite contexts without teacher-forced target suffix"
+  },
+  "weights": {
+    "rewrite_context_NLL": [
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666
+    ],
+    "key_context_mean_of_group_means": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "canonical_anchor": "native context zero {} unchanged",
+    "request_loss_reduction": "SUM unchanged"
+  },
+  "excluded_new_input_changes": [
+    "semantic paraphrase registry",
+    "generation_prompts curriculum",
+    "canonical/A/B views",
+    "prefix rotation or replacement",
+    "uniform 1/6 pooled writer-key reweighting"
+  ],
+  "verification_boundary": {
+    "CPU_input_hash_and_text_construction": "VERIFIED",
+    "source_order_matches_existing_JLZ_frozen_config": true,
+    "new_tokenizer_model_gpu_calls": 0,
+    "token_ID_runtime_equivalence": "NOT_NEWLY_EXECUTED; retain same native preparer in implementation"
+  }
+}

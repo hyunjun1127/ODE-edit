@@ -1,0 +1,239 @@
+{
+  "status": "PASS_CPU_FP64_TOY_NOT_REAL_LLAMA_PILOT",
+  "device": "cpu",
+  "dtype": "float64",
+  "torch_version": "2.9.1+cu128",
+  "script_sha256": "14ac135e2bc200614cd9a47bb63ad787fcdefb5f45e3691e9749900b09d55d0e",
+  "dimensions": {
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "requests": 2,
+    "rewrite_contexts": 6,
+    "KL_rows_per_request": 1,
+    "tokens": 6,
+    "hidden": 4,
+    "intermediate": 7,
+    "vocabulary": 11
+  },
+  "objective": {
+    "NLL": "sum requests, mean six rewrite contexts",
+    "KL": ".0625 * current||entry",
+    "intervention_site": "subject_last at native block output; independent delta per layer/request",
+    "norm": "sum .5*||delta_lr||/||entry_anchor_lr||^2",
+    "clamp": ".75*||entry_anchor_lr||",
+    "cost": "eta * sum_l V_l(delta_l)/mean_r ||entry_anchor_lr||^2",
+    "eta": {
+      "A": 0,
+      "B": 1
+    },
+    "geometry_key_weights": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "no_R_derived_Z": true,
+    "no_branch_mixture": true
+  },
+  "ridge_writer": [
+    {
+      "layer": 4,
+      "primal": 0.14151244611307873,
+      "reduced": 0.1415124461130787,
+      "value_error": 2.7755575615628914e-17,
+      "gradient_error": 1.3877787807814457e-17,
+      "writer_stationarity_error": 6.002077520264886e-17,
+      "minimum_A_eigenvalue": 1.1162722978382467
+    },
+    {
+      "layer": 5,
+      "primal": 0.1055986430709984,
+      "reduced": 0.10559864307099838,
+      "value_error": 1.3877787807814457e-17,
+      "gradient_error": 1.3472894910096233e-16,
+      "writer_stationarity_error": 2.2348913035408985e-16,
+      "minimum_A_eigenvalue": 1.0535775651057115
+    },
+    {
+      "layer": 6,
+      "primal": 0.16407741414919663,
+      "reduced": 0.1640774141491966,
+      "value_error": 2.7755575615628914e-17,
+      "gradient_error": 2.8609792490763984e-17,
+      "writer_stationarity_error": 2.5249055131598835e-16,
+      "minimum_A_eigenvalue": 1.0075747560423143
+    },
+    {
+      "layer": 7,
+      "primal": 0.14223616090175215,
+      "reduced": 0.14223616090175215,
+      "value_error": 0.0,
+      "gradient_error": 7.023086426956682e-18,
+      "writer_stationarity_error": 1.0097706689191898e-16,
+      "minimum_A_eigenvalue": 1.0497199902062535
+    },
+    {
+      "layer": 8,
+      "primal": 0.2115972597114969,
+      "reduced": 0.21159725971149695,
+      "value_error": 5.551115123125783e-17,
+      "gradient_error": 5.721958498152797e-17,
+      "writer_stationarity_error": 3.2956122326569887e-16,
+      "minimum_A_eigenvalue": 1.0310329035354682
+    }
+  ],
+  "joint_gradient": {
+    "A": {
+      "eta": 0.0,
+      "total": 6.000625176394639,
+      "finite_difference": [
+        {
+          "epsilon": 0.0001,
+          "observed": 0.024213452571864025,
+          "analytic": 0.024213452378983816,
+          "absolute_error": 1.9288020833285735e-10
+        },
+        {
+          "epsilon": 1e-05,
+          "observed": 0.02421345235426031,
+          "analytic": 0.024213452378983816,
+          "absolute_error": 2.4723507963120284e-11
+        },
+        {
+          "epsilon": 1e-06,
+          "observed": 0.024213453020394127,
+          "analytic": 0.024213452378983816,
+          "absolute_error": 6.414103102814206e-10
+        }
+      ]
+    },
+    "B": {
+      "eta": 1.0,
+      "total": 6.301648306617511,
+      "finite_difference": [
+        {
+          "epsilon": 0.0001,
+          "observed": -0.0408511336580375,
+          "analytic": -0.04085113385006351,
+          "absolute_error": 1.920260131460516e-10
+        },
+        {
+          "epsilon": 1e-05,
+          "observed": -0.04085113385343675,
+          "analytic": -0.04085113385006351,
+          "absolute_error": 3.3732391879759405e-12
+        },
+        {
+          "epsilon": 1e-06,
+          "observed": -0.040851133142894014,
+          "analytic": -0.04085113385006351,
+          "absolute_error": 7.071694965721242e-10
+        }
+      ]
+    }
+  },
+  "cross_layer": {
+    "first_layer": 4,
+    "last_layer": 8,
+    "mixed_gradient_norm": 0.004853047583811952,
+    "directional_autograd": 6.465582882921373e-06,
+    "directional_finite_difference": 6.465582903054586e-06,
+    "absolute_error": 2.0133213367681032e-14
+  },
+  "one_active_layer_native_reduction": [
+    {
+      "layer": 4,
+      "loss_error": 0.0,
+      "gradient_error": 0.0,
+      "logits_error": 0.0,
+      "feasible": true
+    },
+    {
+      "layer": 5,
+      "loss_error": 0.0,
+      "gradient_error": 0.0,
+      "logits_error": 0.0,
+      "feasible": true
+    },
+    {
+      "layer": 6,
+      "loss_error": 0.0,
+      "gradient_error": 0.0,
+      "logits_error": 0.0,
+      "feasible": true
+    },
+    {
+      "layer": 7,
+      "loss_error": 0.0,
+      "gradient_error": 0.0,
+      "logits_error": 0.0,
+      "feasible": true
+    },
+    {
+      "layer": 8,
+      "loss_error": 0.0,
+      "gradient_error": 0.0,
+      "logits_error": 0.0,
+      "feasible": true
+    }
+  ],
+  "absolute_target_error": {
+    "local_lower_response_norm": 0.9128510505532857,
+    "wrong_added_delta_norm": 0.9128510505532857,
+    "correct_added_delta_norm": 0.0,
+    "cancels_local_lower_response": true,
+    "scope": "subject local block output; not all token positions in the residual stream"
+  },
+  "protection_growth_counterexample": [
+    {
+      "A": 4.0,
+      "H_increment": 0.0,
+      "U": 0.25,
+      "realized": 0.5,
+      "fit_residual_cost": 0.125,
+      "energy_only": 0.125,
+      "minimized_writer_value": 0.25,
+      "reduced_value": 0.25
+    },
+    {
+      "A": 16.0,
+      "H_increment": 12.0,
+      "U": 0.1,
+      "realized": 0.2,
+      "fit_residual_cost": 0.32000000000000006,
+      "energy_only": 0.08000000000000002,
+      "minimized_writer_value": 0.4000000000000001,
+      "reduced_value": 0.4
+    },
+    {
+      "A": 64.0,
+      "H_increment": 60.0,
+      "U": 0.029411764705882353,
+      "realized": 0.058823529411764705,
+      "fit_residual_cost": 0.4429065743944637,
+      "energy_only": 0.02768166089965398,
+      "minimized_writer_value": 0.47058823529411764,
+      "reduced_value": 0.47058823529411764
+    }
+  ],
+  "allocation": {
+    "all_layers_eligible": true,
+    "zero_feasible": true,
+    "all_five_feasible": true,
+    "all_single_layers_feasible": true,
+    "minimum_active_layers": null
+  },
+  "limitations": [
+    "No real Llama inference, GPU, downloads, timing, or quality prediction.",
+    "Singleton reduction uses the same toy interception site and readout; it does not certify every native code path.",
+    "The norm is nonsmooth at zero; no unique gradient at zero is asserted.",
+    "The scalar protection example proves a possible energy-only failure, not that actual runs follow that scalar path."
+  ]
+}
