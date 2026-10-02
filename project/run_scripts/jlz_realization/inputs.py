@@ -60,4 +60,3 @@ def batches(rows,microbatch,pad_id,device):
         for j,r in enumerate(group):
             n=len(r['tokens']['input_ids']);ids[j,:n]=r['tokens']['input_ids'].to(device);mask[j,:n]=r['tokens']['attention_mask'].to(device)
         yield group,dict(input_ids=ids,attention_mask=mask)
-

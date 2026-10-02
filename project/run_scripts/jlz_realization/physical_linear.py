@@ -21,4 +21,3 @@ class PhysicalLinear(torch.autograd.Function):
 
 def linear(x, D, P, W, route='direct'):
     return F.linear(x, W) if route == 'dense' else PhysicalLinear.apply(x, D, P, W)
-

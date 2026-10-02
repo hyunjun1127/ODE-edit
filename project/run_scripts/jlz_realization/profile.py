@@ -81,4 +81,3 @@ class LlamaAdapter(BaseAdapter):
                 x = self.recompute(step, x)
             if l == self.nll_layer: nll = x
         return nll, x, subjects, keys
-

@@ -45,4 +45,3 @@ def native(a,entry,D,backward,teacher_requests=()):
                 native_sum=float(nll.mean(1).sum()+a.profile['kl_factor']*kl.sum())+float(norm.detach()),
                 seconds=time.monotonic()-start,prediction_tokens=tokens,
                 rows=sum(len(g['rows']) for g in entry['groups']))
-
