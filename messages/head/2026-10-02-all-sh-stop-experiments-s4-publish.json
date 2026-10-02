@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "user_exact": "모든 실험 중단하고 server4 실험 산출물 main에  push해",
+  "priority": "IMMEDIATE_USER_STOP_SUPERSEDES_PREVIOUS_RUN_AUTOMATION",
+  "targets": {
+    "server1": {
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "legacy_cwd": "/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit"
+    },
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit"
+    },
+    "server3": {
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "cwd": "/data/janghj/ODE-edit"
+    },
+    "server4": {
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit"
+    }
+  },
+  "repository": "hyunjun1127/ODE-edit",
+  "stop_scope": [
+    "Immediately stop new experimental submissions, retries/repairs/resumes, automatic continuations and active experiment monitoring on ALL FOUR servers for ODE-edit.",
+    "Read-only exact owned project-job inventory; match current owner plus project source/argv/submission/known job mapping, not arbitrary jobs of other projects/users.",
+    "Cancel ALL identified active RUNNING/PENDING/HELD ODE-edit experimental GPU/CPU jobs, arrays and scientific dependencies; prevent queued successor launch. Cancel dependent downstream/auto-submit/collector jobs before upstream jobs where needed, then confirm terminal/no active project queue.",
+    "This includes prior naturally continuing programs after monitoring pause, JLZ A/B pilot/main, baseline chains and other old experimental tasks. Do not wait for first gate/full batch/experiment completion.",
+    "Stop bounded worker GPU/submit/monitor tasks. Existing files retained, no deletes, no checkpoint creation for rescue unless separately explicitly authorized."
+  ],
+  "cancellation_permission": "explicit USER authorization, exact resolved owned ODE-edit targets only; no blanket scancel -u without exact project resolution; no other-user or unrelated-project mutation",
+  "report_scope": {
+    "all_servers": "Return nonce/actual host+session/job IDs before-after/cancellation result/allocation costs if readily available/remaining active or ambiguity. If zero jobs, record observed zero; do not infer from old receipt. Compact STOPPED_USER status in own paths.",
+    "server4": "Additionally publish all currently produced own experiment implementation/config/analysis/compact report/CSV/plots/audit/source+artifact manifest and user-stop evidence to main via clean own-scope nonforce integration. Start with latest JLZ twoarm A/B current partial endpoints; include other unpublished owned experiment outputs discovered in existing task publication records. No fresh GPU/evaluator or speculative full-success claim. Label completed/partial/cancelled/pending separately, preserve negative outcomes. Raw/tensors/prompts/fullstdout/large datasets remain local; tracked manifest records paths/SHA/size. Existing reports/main edits preserved."
+  },
+  "allowed_write_paths": [
+    "audits/servers/<own-server>/2026-10-02-user-stop-all/",
+    "messages/acks/<own-server>/2026-10-02-user-stop-all.json",
+    "messages/server-heads/<own-server>/2026-10-02-user-stop-all.json",
+    "tasks/status/<owned-task>/<own-server>.json",
+    "existing own task report/audit/source namespaces only for completion/publication or truthful STOPPED_USER status; no new scientific implementation",
+    "server4 experiment-reports/servers/server4/ and existing own source namespace for previously produced work",
+    "local/state/user-stop-all-20261002-v1/ and own task local receipts"
+  ],
+  "execution_envelope": {
+    "new_Slurm_submissions": "NOT_ALLOWED",
+    "Slurm_cancel": "ALLOWED exact owned ODE-edit scope above",
+    "new_GPU_cap": 0,
+    "configured_caps": "unchanged historically; authority suspended, not permission for further experiments",
+    "CPU": "minimal local cancellation audit/publication/reduction of already stored data only",
+    "checkpoint_save": false,
+    "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED; no heavyweight transfer, raw localKEEP; compact report/main publication requested",
+    "preflight": "Verify actual session/CWD/repo/owner and precise targets. Stop does not require scientific numerical gates.",
+    "postflight": "Confirm cancelled targets terminal/empty active project queue; source/raw preserved, no completed assertion for interrupted scope. SH4 verify own nonforce push remote exact and report path/hash.",
+    "publication": "all SH may nonforce push own compact stop receipts, SH4 must integrate existing experiment deliverables; never force/reset/stash others; command/worktree Git identity only"
+  },
+  "communication": "Emergency stop is directly USER-authorized and may steer currently active exact SH turn even if its old task differs. ACK first and promptly cancel; do not wait for GH ACK, full-read of old designs, report completion or extra approval. Return final cancellation/publication evidence when done. GH only observes stop handling, not ongoing science.",
+  "after_stop": {
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "new_experiment_authorization_required": true
+  }
+}
