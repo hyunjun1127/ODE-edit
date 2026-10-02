@@ -84,7 +84,8 @@ def collect(attempt,out):
                 W0_comparability=bridge['comparison_scope'],active_W5=reduce_rows([r for r in final if r['active_at_endpoint']]),
                 by_birth={str(b):paired([r for r in birth if case_birth[r['case_id']]==b],
                     [r for r in final if case_birth[r['case_id']]==b]) for b in range(1,6)})
-        for path in (attempt/('prep-'+arm)).rglob('*.json'):inventory.append(member(path))
+        prep_root=Path(lock['Q1_reuse']['attempt']) if lock.get('Q1_reuse') else attempt
+        for path in (prep_root/('prep-'+arm)).rglob('*.json'):inventory.append(member(path))
         if terminal.exists():inventory.append(member(terminal))
     out.mkdir(parents=True,exist_ok=True)
     write(out/'summary.json',summary);write(out/'artifact-index.json',inventory);write(out/'paired-cohorts.json',cohorts)

@@ -22,6 +22,7 @@ def actual(a,entry,builder,D,teacher,current_ids,backward,terminal=False,route='
     ps={l:p.detach().requires_grad_(backward) for l,p in builder['P'].items()}
     gd={l:torch.zeros_like(d) for l,d in ds.items()};gp={l:torch.zeros_like(p) for l,p in ps.items()}
     nll=torch.zeros((B,n_rw),dtype=torch.float64);kl=torch.zeros(B,dtype=torch.float64)
+    target_kl=torch.zeros((B,n_rw),dtype=torch.float64)
     rawkeys={l:[] for l in a.sites};key_rows=[];decomposition=[]
     stats=dict(subject=0.,distillation=0.,current_kl=0.);total=0.;tokens=0;rows=0
     with torch.set_grad_enabled(backward):
@@ -37,13 +38,14 @@ def actual(a,entry,builder,D,teacher,current_ids,backward,terminal=False,route='
                     labels=r['target'][r['target']!=-100].to(a.device)
                     value=-lp.gather(1,labels[:,None]).mean()
                     context=r['global_row']%(n_rw+1);nll[req,context]=float(value.detach())
+                    t=teacher[r['global_row']];tlp=t['logp'].to(a.device)
+                    cd=(tlp.exp()*(tlp-lp)).sum(-1).mean()/n_rw
+                    target_kl[req,context]=float(cd.detach())*n_rw
                     if terminal:
                         key_rows.append(r)
                         for l in a.sites:rawkeys[l].append(keys[l][j].detach().cpu().clone())
                     else:
-                        t=teacher[r['global_row']]
                         ch=.5*sum((hidden[l][j]-t['hidden'][l].to(a.device)).square().sum()/entry['anchors'][l][req].square() for l in a.sites)/n_rw
-                        tlp=t['logp'].to(a.device);cd=(tlp.exp()*(tlp-lp)).sum(-1).mean()/n_rw
                         # SUM gradient = B * |I|/B * cohort mean: no extra factor.
                         loss=loss+.1*(ch+cd);stats['subject']+=float(ch.detach());stats['distillation']+=float(cd.detach())
                 else:
@@ -61,7 +63,7 @@ def actual(a,entry,builder,D,teacher,current_ids,backward,terminal=False,route='
                 for l,grad in zip(a.sites,gradients[len(ds):]):
                     if grad is not None:gp[l].add_(grad.detach())
             del nh,fh,hidden,keys,loss,probs,lp,value
-    payload=dict(context_nll=nll,native_kl=kl,weights={l:w.detach() for l,w in builder['weights'].items()})
+    payload=dict(context_nll=nll,native_kl=kl,actual_target_kl_from_virtual=target_kl,weights={l:w.detach() for l,w in builder['weights'].items()})
     require(bool(torch.isfinite(nll).all()) and bool(torch.isfinite(kl).all()),'NONFINITE_PHYSICAL_OBSERVATIONS')
     if terminal:
         payload['keys']={l:mean_keys(torch.stack(v).T,key_rows,entry['pack']) for l,v in rawkeys.items()}

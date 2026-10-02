@@ -19,7 +19,7 @@ SOURCE_PATHS=['project/run_scripts/jlz_realization','project/run_scripts/jlz_wri
  'control/gpu-concurrency-policy.tsv','servers/slurm-memory-policy.tsv',
  'scripts/check-slurm-resource-cap.sh','scripts/check-slurm-gpu-cap.sh','scripts/slurm_memory_policy.py']
 
-def freeze(config_path,attempt):
+def freeze(config_path,attempt,reuse_prep=None):
     require(attempt.parent==LOCAL and attempt.name.startswith('attempt-') and not attempt.exists(),'NEW_ATTEMPT_CREATE_ONCE')
     require(not command(['git','status','--porcelain','--',*SOURCE_PATHS],cwd=ROOT),'SOURCE_MUST_BE_COMMITTED')
     config=json.loads(config_path.read_text());require(config['instruction_id']==INSTRUCTION,'CONFIG_TASK')
@@ -41,12 +41,42 @@ def freeze(config_path,attempt):
     _write_script(attempt/'collector.sh',launcher(source,commit,'project.run_scripts.jlz_realization.collect',
         ['--attempt',str(attempt),'--report',str(attempt/'report')],cpu_only=True))
     sources=[member(p) for p in sorted(source.rglob('*')) if p.is_file()]
+    reuse=None
+    if reuse_prep is not None:
+        old=json.loads((reuse_prep/'execution.lock.json').read_text());receipts={}
+        old_config=json.loads((reuse_prep/'config.json').read_text());comparison=json.loads(json.dumps(config))
+        comparison['settings'].pop('allocation_metric',None);comparison['settings'].pop('telemetry_revision',None)
+        require(old['instruction_id']==INSTRUCTION and comparison==old_config,'Q1_REUSE_INPUT_CONFIG')
+        for arm in ('A','B'):
+            path=reuse_prep/('prep-'+arm)/'READY.json';ready=json.loads(path.read_text())
+            terminal=json.loads((path.parent/'terminal.json').read_text())
+            require(ready['source']==old['source_commit'] and ready['config_sha256']==old['config_sha256']
+                and ready['status']=='STRUCTURAL_READY' and terminal['status']=='COMPLETED','Q1_REUSE_COMPLETE')
+            receipts[arm]=member(path)
+            previous=None
+            for batch_id in (1,2):
+                root=path.parent/'pilot'/f'batch-{batch_id:02d}';c=json.loads((root/'commit.json').read_text())
+                require(c['source']==old['source_commit'] and c['actual_B']==2 and c['candidate_count']==25
+                    and c['Adam_updates']==24 and c['history_appends']==5 and c['replay'] is False,'Q1_REUSE_COMMIT_CONTRACT')
+                if previous is not None:require(c['before']==previous,'Q1_REUSE_OWN_ENTRY')
+                previous=c['after']
+                for candidate in range(1,26):
+                    r=json.loads((root/'fit'/f'candidate-{candidate:02d}.json').read_text())
+                    require(r['candidate']==candidate and r['Adam_updates_after']==min(candidate,24)
+                        and r['gradient_measured']==(candidate<25),'Q1_REUSE_CANDIDATE_CONTRACT')
+            receipts[arm+'-terminal']=member(path.parent/'terminal.json')
+        for name in ('common.py','profile.py','inputs.py','entry.py','subject.py','physical_linear.py','causal_builder.py','allocation.py','writer.py','qualification.py'):
+            require(sha(ROOT/'project/run_scripts/jlz_realization'/name)==sha(reuse_prep/'source/project/run_scripts/jlz_realization'/name),'Q1_CORE_CHANGED:'+name)
+        bridge_path=LOCAL/'repair-r2/CPU-equivalence.json';bridge=json.loads(bridge_path.read_text())
+        require(bridge['same_state_and_metrics'] and bridge['reference_source']==old['source_commit'],'Q1_TELEMETRY_REPAIR_EQUIVALENCE')
+        reuse=dict(attempt=str(reuse_prep),source_commit=old['source_commit'],config_sha256=old['config_sha256'],READY=receipts,
+            bridge=member(bridge_path),scope='original Q1 fit/parity; r2 telemetry CPU-verified, not repeated GPU qualification')
     write(attempt/'execution.lock.json',dict(instruction_id=INSTRUCTION,task_id=TASK,source_commit=commit,source_tree=tree,
         archive=member(archive),source_members=sources,source_root_sha256=digest(sources),
         config_sha256=sha(attempt/'config.json'),runtime_sources=config['runtime']['source_members'],native_reference=config['native_reference'],
         launchers=[member(p) for p in sorted(attempt.glob('*.sh'))],resources=config['resources'],
         owner=getpass.getuser(),host='server4',session='01a04939-b5c7-7a03-ba2d-ef3343d62cfd',noCP=True,
-        flow='Q1A/Q1B; both READY/afterok -> independent cold mainA(Q2 in B1)/mainB; afterany collector'))
+        Q1_reuse=reuse,flow='Q1A/Q1B; both READY/afterok -> independent cold mainA(Q2 in B1)/mainB; afterany collector'))
 
 def verify(attempt):
     lock=json.loads((attempt/'execution.lock.json').read_text());config=json.loads((attempt/'config.json').read_text())
@@ -91,8 +121,10 @@ def inspect(job,name,dep,args,attempt,r):
     return dict(job=job,name=name,argv=args,scontrol=detail,launcher=member(script))
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True);a=p.parse_args()
-    attempt=a.attempt.resolve();freeze(a.config.resolve(),attempt);lock,config=verify(attempt)
+    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
+    p.add_argument('--reuse-prep',type=Path);a=p.parse_args()
+    attempt=a.attempt.resolve();reuse_prep=a.reuse_prep.resolve() if a.reuse_prep else None
+    freeze(a.config.resolve(),attempt,reuse_prep);lock,config=verify(attempt)
     cap_file=Path('/data/janghj/ODE-edit/servers/local/gpu-caps.tsv')
     local_cap=int(next(x for x in cap_file.read_text().splitlines() if x.startswith('server4\t')).split('\t')[2])
     tracked=int(next(x for x in (ROOT/'control/gpu-concurrency-policy.tsv').read_text().splitlines() if x.startswith('server4\t')).split('\t')[1])
@@ -100,11 +132,15 @@ def main():
     before=admission();external=[r['job'] for r in before['jobs']]
     partition=command(['scontrol','show','partition','gpu']);require('MaxTime=30-00:00:00' in partition,'PARTITION_LIMIT_CHANGED_REVIEW')
     ids={};inspected=[];mapping={}
-    for name in ('prep-A','prep-B','main-A','main-B','collector'):
+    if reuse_prep:
+        old_jobs=json.loads((reuse_prep/'submission.json').read_text())['jobs']
+        ids.update({name:old_jobs[name] for name in ('prep-A','prep-B')})
+    names=('main-A','main-B','collector') if reuse_prep else ('prep-A','prep-B','main-A','main-B','collector')
+    for name in names:
         if name.startswith('prep'):
             dep=dependencies(('afterany',external+([ids['prep-A']] if cap==1 and name=='prep-B' else [])))
         elif name.startswith('main'):
-            dep=dependencies(('afterok',[ids['prep-A'],ids['prep-B']]),
+            dep=dependencies(('afterany' if reuse_prep else 'afterok',[ids['prep-A'],ids['prep-B']]),
                 ('afterany',external+([ids['main-A']] if cap==1 and name=='main-B' else [])))
         else:dep=dependencies(('afterany',list(ids.values())))
         argv=arguments(name,dep,attempt,config['resources']);job=command(argv).split(';')[0];require(job.isdigit(),'JOB_ID')
@@ -115,12 +151,12 @@ def main():
     verify(attempt)
     write(attempt/'held-inspection.json',dict(jobs=inspected,pre_admission=before,pre_release=after,
         cap=cap,partition=partition,all_held_before_release=True,source_lock=member(attempt/'execution.lock.json')))
-    for name in reversed(list(ids)):
+    for name in reversed(names):
         output=command(['scontrol','release',ids[name]])
         write(attempt/('released-'+name+'.json'),dict(job=ids[name],command_succeeded=True,output=output))
     write(attempt/'submission.json',dict(instruction_id=INSTRUCTION,status='RELEASED',jobs=ids,mapping=mapping,
         initial='NOT_OBSERVED',cap=cap,lock=member(attempt/'execution.lock.json'),held=member(attempt/'held-inspection.json'),
-        no_other_job_mutation=True,automatic_resume=False))
+        no_other_job_mutation=True,automatic_resume=False,Q1_reuse=lock['Q1_reuse']))
     print(json.dumps(dict(status='RELEASED',jobs=ids,initial='NOT_OBSERVED')))
 
 if __name__=='__main__':main()

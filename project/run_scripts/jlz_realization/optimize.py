@@ -8,7 +8,7 @@ from .subject import native
 from .causal_builder import build
 from .allocation import loss as allocation_loss
 from .physical_aux import actual
-from .telemetry import measure
+from .telemetry import measure,values
 
 def partitions(n,seed,stream,batch):
     rng=random.Random(int(digest([seed,stream,batch,'current']),16));order=list(range(n));rng.shuffle(order)
@@ -54,7 +54,8 @@ def fit(a,entry,arm,out,batch,seed,stream,terminal_callback=None):
                 if aux:d.grad.add_(aux['grad_D'][l])
                 require(d.grad is not None and bool(torch.isfinite(d.grad).all()),'NONFINITE_TOTAL_D_GRADIENT')
                 q[l].grad=s[l]*d.grad # exactly once after ALL adjoints.
-        gradient={str(l):dict(D=float(d.grad.double().norm()),q=float(q[l].grad.double().norm())) for l,d in D.items()} if backward else None
+        gradient={str(l):dict(D=float(d.grad.double().norm()),q=float(q[l].grad.double().norm()),
+            radial=values(((d.detach().double()*d.grad.double()).sum(0)/d.detach().double().norm(dim=0)).masked_fill(d.detach().norm(dim=0)==0,float('nan')))) for l,d in D.items()} if backward else None
         if k==25:
             result=actual(a,entry,built,D,n['teachers'],range(B),False,terminal=True);payload=result['payload'];comparison={}
             for l,key in payload['keys'].items():
@@ -63,6 +64,7 @@ def fit(a,entry,arm,out,batch,seed,stream,terminal_callback=None):
             write(out/'terminal-key-comparison.json',comparison)
             require(all(v['excess']<=0 for v in comparison.values()),'TERMINAL_KAPPA_MISMATCH')
             write(out/'terminal-actual.json',dict(context_nll=payload['context_nll'],native_kl=payload['native_kl'],
+                actual_target_kl_from_virtual=payload['actual_target_kl_from_virtual'],
                 virtual_context_nll=n['nll'],virtual_kl=n['kl'],decomposition=result['decomposition']))
             if terminal_callback:terminal_callback(D,built,payload,n['teachers'])
         else:result=None
@@ -75,10 +77,16 @@ def fit(a,entry,arm,out,batch,seed,stream,terminal_callback=None):
             auxiliary=None if aux is None else dict(loss_sum=aux['loss_sum'],stats=aux['stats'],seconds=aux['seconds'],current=I,decomposition=aux['decomposition']),
             key_source='actual_lower_writer_native_FP32_mean',K_candidate=k,P_candidate=k,all_current_columns=True,
             grad_P_enabled=backward,grad_K_solve_enabled=backward,builder_delta_hook=False,replay=False,
+            past_rows=0,past_forward_count=0,past_loss=0,
+            q_norm={str(l):v.detach().norm(dim=0).tolist() for l,v in q.items()},
             seconds=time.monotonic()-started,terminal_actual_seconds=None if result is None else result['seconds'])
         if backward:
             optimizer.step();count+=1
+            with torch.no_grad():
+                proposed={l:s[l]*v for l,v in q.items()}
+                receipt['proposal_radial']={str(l):values(((D[l].detach().double()*(proposed[l]-D[l].detach()).double()).sum(0)/D[l].detach().double().norm(dim=0)).masked_fill(D[l].detach().norm(dim=0)==0,float('nan'))) for l in q}
             receipt['post_update_clamp']=clamp(q,s,entry['anchors'])
+            with torch.no_grad():receipt['projection_discarded_norm']={str(l):(proposed[l]-s[l]*v).norm(dim=0).tolist() for l,v in q.items()}
             if k==1:
                 rho2=torch.stack([((s[l]*v).double().norm(dim=0)/entry['anchors'][l].double()).square() for l,v in q.items()]).sum(0)
                 receipt['first_step_joint_rho2']=rho2.tolist();receipt['first_step_limit']=.01+1e-8+1e-5*.01

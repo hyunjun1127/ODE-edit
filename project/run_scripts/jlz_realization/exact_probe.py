@@ -6,6 +6,7 @@ from .physical_aux import actual
 from .observe import observe
 from .writer import Transaction,rng_equal
 from .common import state,write,require,tensor_sha
+from .telemetry import operator_measure
 
 @torch.no_grad()
 def probe(a,bench,history,entry,D,ridge,payload,teachers,records,out,observer_microbatch):
@@ -14,7 +15,11 @@ def probe(a,bench,history,entry,D,ridge,payload,teachers,records,out,observer_mi
         before=before,fit_identity='MAIN_A_B1_SAME_FIT',additional_fits=0,exact_backward=0)
     write(out/'sealed-before-official-evaluation.json',sealed)
     for l in a.sites:
-        op,verdict=exact(ridge['geometry'][l]['K'],entry['factors'][l],D[l],entry['entry_weights'][l])
+        g=ridge['geometry'][l]
+        op,verdict=exact(g['K'],entry['factors'][l],D[l],entry['entry_weights'][l],diagnostic_only=True)
+        verdict['ridge_operator']=operator_measure(D[l],g['K'],g['P'],entry['factors'][l]['A'],g['raw_keys'])
+        verdict['exact_operator']=None if op is None else operator_measure(D[l],g['K'],op['P'],entry['factors'][l]['A'],g['raw_keys'])
+        verdict.update(D_sha=sealed['D'][str(l)],entry_state=before,geometry_kind='frozen_ridge_K')
         frozen[str(l)]=verdict
         del op
     write(out/'frozen-ridge-K-operators.json',frozen)
@@ -24,10 +29,12 @@ def probe(a,bench,history,entry,D,ridge,payload,teachers,records,out,observer_mi
             shadow=build(a,entry,D,25,writer_kind='exact')
             verdicts={str(l):g['metadata'] for l,g in shadow['geometry'].items()}
             write(out/'causal-qualification.json',dict(qualified=shadow['qualified'],layers=verdicts,
-                frozen_upper_verdicts_reused=False,cache_namespace='exact_separate',builder_seconds=shadow['seconds']))
+                frozen_upper_verdicts_reused=False,cache_namespace='exact_separate',builder_seconds=shadow['seconds'],
+                D_sha=sealed['D'],entry_state=before,writer_kind='exact',geometry_kind='own_causal_exact_K'))
             if shadow['qualified']:
                 measured=actual(a,entry,shadow,D,teachers,range(len(records)),False,terminal=True)
                 write(out/'native-actual.json',dict(context_nll=measured['payload']['context_nll'],native_kl=measured['payload']['native_kl'],
+                    actual_target_kl_from_virtual=measured['payload']['actual_target_kl_from_virtual'],
                     seconds=measured['seconds'],decomposition=measured['decomposition']))
                 for l,w in a.weights.items():w.copy_(shadow['weights'][l])
                 observe(a,bench,records,records,history,'Q2_EXACT',out/'observer',observer_microbatch)

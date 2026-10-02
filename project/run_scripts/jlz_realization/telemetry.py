@@ -4,6 +4,31 @@ import numpy as np
 import torch
 from .common import require,member,write,tensor_sha
 
+def values(x):
+    array=x.detach().cpu().numpy()
+    return np.where(np.isfinite(array),array.astype(object),None).tolist()
+
+@torch.no_grad()
+def directional(d,y):
+    d=d.double();y=y.double();n=d.norm(dim=0);yn=y.norm(dim=0);valid=n>0
+    gamma=torch.full_like(n,float('nan'));ratio=gamma.clone();orth=gamma.clone();fit=gamma.clone()
+    gamma[valid]=(d*y).sum(0)[valid]/n[valid].square();ratio[valid]=yn[valid]/n[valid]
+    orth[valid]=(y[:,valid]-gamma[valid]*d[:,valid]).norm(dim=0)/n[valid]
+    fit[valid]=(y[:,valid]-d[:,valid]).norm(dim=0)/n[valid]
+    return dict(gamma=values(gamma),norm_ratio=values(ratio),orthogonal_relative=values(orth),
+                fit_relative=values(fit),planned_norm=n.tolist(),action_norm=yn.tolist(),zero_D=(~valid).tolist())
+
+@torch.no_grad()
+def operator_measure(d,K,P,A,raw_keys):
+    d=d.double();M=P.T@K;Y=d@M;G=P.T@(A@P.cpu()).to(P.device)
+    self_action=d*M.diagonal();cross=Y-self_action
+    return dict(mean=directional(d,Y),M_diagonal=M.diagonal().tolist(),
+        M_offdiagonal_F=float((M-torch.diag(M.diagonal())).norm()),
+        self_action=directional(d,self_action),cross_action=directional(d,cross),
+        preservation_energy=float(((d.T@d)*G.T).sum()),
+        update_norm=float((((d.T@d)*(P.T@P).T).sum()).clamp_min(0).sqrt()),
+        context_action_norm=(d@(P.T@raw_keys.double())).norm(dim=0).tolist())
+
 @torch.no_grad()
 def save_diagnostics(path,tensors):
     require(set(tensors)=={'M','planned_D','realized_Y'},'TELEMETRY_ALLOWLIST')
@@ -33,7 +58,6 @@ def measure(D,built,entry,out,candidate):
         actual_weight=(built['weights'][l].double()-entry['entry_weights'][l].double())@k
         actual_forward=(torch.nn.functional.linear(k.T.float(),built['weights'][l])-
                         torch.nn.functional.linear(k.T.float(),entry['entry_weights'][l])).T.double()
-        def values(x):return [None if not np.isfinite(v) else v for v in x.cpu().tolist()]
         layers[str(l)]=dict(rho=(n/entry['anchors'][l].double()).tolist(),gamma=values(gamma),norm_ratio=values(ratio),
             orthogonal_relative=values(orth),fit_relative=values(fit),zero_D=(~valid).tolist(),Y_norm=yn.tolist(),
             M_diagonal=M.diagonal().tolist(),M_offdiagonal_F=float((M-torch.diag(M.diagonal())).norm()),
@@ -41,13 +65,17 @@ def measure(D,built,entry,out,candidate):
             Y64_vs_materialized_weight_RMS=float((Y-actual_weight).square().mean().sqrt()),
             materialized_weight_vs_Flinear_RMS=float((actual_weight-actual_forward).square().mean().sqrt()),
             actual_write_norm=float((built['weights'][l]-entry['entry_weights'][l]).norm()),
+            realized_rho=(yn/entry['anchors'][l].double()).tolist(),
+            small_rho=((n/entry['anchors'][l].double())<=torch.finfo(torch.float32).eps).tolist(),
+            small_rho_definition='rho <= FP32 epsilon; descriptive only, no exclusion',
+            self_direction=directional(d,self_action),cross_direction=directional(d,cross),
             kappa_entry_change=float((k-entry['mean_keys'][l].to(k)).norm()))
-        planned.append(n);realized.append(yn)
+        planned.append(n/entry['anchors'][l].double());realized.append(yn/entry['anchors'][l].double())
         if candidate in (1,25):
             artifacts.append(save_diagnostics(out/f'candidate-{candidate:02d}-L{l}.npz',dict(M=M,planned_D=d32,realized_Y=Y)))
     for name,parts in (('planned_layer_share',planned),('realized_layer_share',realized)):
         stack=torch.stack(parts);den=stack.sum(0);share=stack/den.clamp_min(1e-300)
-        for i,l in enumerate(D):layers[str(l)][name]=[float(v) if bool(ok) else None for v,ok in zip(share[i].cpu(),(den>0).cpu())]
+        for i,l in enumerate(D):layers[str(l)][name]=values(share[i].masked_fill(den==0,float('nan')))
     return layers,artifacts
 
 @torch.no_grad()
@@ -68,6 +96,11 @@ def context_decomposition(a,entry,builder,D,rows,hidden,keys,teachers):
         parts=[gap-d,d-mean,mean-own_ideal];summed=sum(parts);target=gap-own_ideal
         require(torch.allclose(summed,target,atol=1e-9,rtol=1e-8),'DECOMPOSITION_IDENTITY')
         result[str(l)]=dict(rows=[rows[j]['global_row'] for j in selected],
+            request=[rows[j]['request'] for j in selected],
+            context_index=[rows[j]['global_row']%(entry['pack']['n_rw']+1) for j in selected],
+            canonical=[rows[j]['global_row']%(entry['pack']['n_rw']+1)==0 for j in selected],
+            ideal_direction=directional(d,own_ideal),FP32_direction=directional(d,own_fp),
+            virtual_pre_gap_norm=gap.norm(dim=0).tolist(),
             norms=torch.stack([x.norm(dim=0) for x in parts]).T.cpu().tolist(),
             cross_dots=torch.stack([(parts[0]*parts[1]).sum(0),(parts[0]*parts[2]).sum(0),(parts[1]*parts[2]).sum(0)]).T.cpu().tolist(),
             sum_error_max=float((summed-target).abs().max()),virtual_actual_gap=(virtual-h).norm(dim=0).tolist(),

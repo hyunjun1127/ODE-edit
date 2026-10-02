@@ -122,6 +122,13 @@ class Core(unittest.TestCase):
                 for l in h:self.assertTrue(torch.equal(h[l],expected[l]))
                 self.assertEqual(len(list(Path(path).glob('candidate-*.json'))),25)
                 self.assertFalse(json.loads((Path(path)/'candidate-25.json').read_text())['gradient_measured'])
+                last=json.loads((Path(path)/'terminal-actual.json').read_text())
+                self.assertIn('actual_target_kl_from_virtual',last)
+                for item in last['decomposition']:
+                    for layer in item.values():self.assertIn('ideal_direction',layer);self.assertIn('canonical',layer)
+                second=json.loads((Path(path)/'candidate-02.json').read_text())
+                self.assertIn('proposal_radial',second);self.assertIn('projection_discarded_norm',second)
+                for layer in second['layer'].values():self.assertIn('realized_rho',layer);self.assertIn('self_direction',layer)
                 self.assertEqual(len(list((Path(path)/'diagnostics').glob('*.npz'))),6)
             self.assertTrue(tx.rollback_verified);self.assertEqual(state(a,h),before)
     def test_partition_budget_resources_parse(self):
@@ -141,10 +148,10 @@ class Core(unittest.TestCase):
             n=native(a,e,D,False,range(2));b=build(a,e,D,25)
             payload=actual(a,e,b,D,n['teachers'],range(2),False,terminal=True)['payload']
         calls=[]
-        def forced_upper(K,prior,D,W):
+        def forced_upper(K,prior,D,W,**kwargs):
             calls.append(1)
             if len(calls)==2:return None,dict(status='rank_unsupported',reason='test_frozen_upper_only')
-            return exact(K,prior,D,W)
+            return exact(K,prior,D,W,**kwargs)
         with tempfile.TemporaryDirectory() as path:
             with patch('project.run_scripts.jlz_realization.exact_probe.exact',side_effect=forced_upper),patch('project.run_scripts.jlz_realization.exact_probe.observe'):
                 probe(a,None,h,e,D,b,payload,n['teachers'],[{},{}],Path(path),2)

@@ -75,7 +75,7 @@ def ridge(K,prior):
         grad_P_enabled=P.requires_grad,geometry_identity_max=float((G+E-(torch.eye(B,device=K.device)-M)).detach().abs().max())))
 
 @torch.no_grad()
-def exact(K,prior,D,entry):
+def exact(K,prior,D,entry,diagnostic_only=False):
     """No optimization, no pinv, no jitter; unsupported is an explicit result."""
     K=K.double();D=D.double();B=K.shape[1]
     result=dict(status='numerically_unqualified',writer_kind='exact',actual_B=B)
@@ -88,7 +88,10 @@ def exact(K,prior,D,entry):
         rank=int((eig>rank_tol).sum());rcond=float(torch.linalg.svdvals(X)[-1]/torch.linalg.svdvals(X)[0])
         result.update(eigenvalues=eig.cpu().tolist(),rank=rank,rank_tol=rank_tol,rcond=rcond,
                       X_asymmetry_max=float((X-X.T).abs().max()))
-        if rank<B:return None,dict(result,status='rank_unsupported',reason='full_column_rank_required')
+        if rank<B:
+            xc=X.cpu();dc=D.cpu();pinv=torch.linalg.pinv(xc,rtol=max(K.shape)*torch.finfo(torch.float64).eps)
+            result['CPU_only_compatibility_residual']=float((dc-dc@pinv@xc).norm()/dc.norm().clamp_min(1e-30))
+            return None,dict(result,status='rank_unsupported',reason='full_column_rank_required; pinv diagnostic only, no endpoint')
         if rcond<1e-10:return None,dict(result,reason='rcond_below_1e-10')
         P=torch.linalg.solve(X,Y.T).T
         U=D@P.T;error=U@K-D
@@ -98,7 +101,7 @@ def exact(K,prior,D,entry):
         rms=float((actual.T.double()-D).square().mean().sqrt());limit=1e-5+1e-4*float(D.square().mean().sqrt())
         result.update(FP64_relative=rel,FP64_absolute=float(error.norm()),D_zero=not bool(D.any()),FP32_RMS=rms,FP32_limit=limit)
         if not bool(torch.isfinite(W).all()) or rel>1e-8:return None,dict(result,reason='FP64_equality_or_nonfinite')
-        if rms>limit:return None,dict(result,status='algebra_exact_but_FP32_unqualified',reason='actual_forward_equality')
+        if rms>limit:return (dict(P=P,K=K,W=W) if diagnostic_only else None),dict(result,status='algebra_exact_but_FP32_unqualified',reason='actual_forward_equality; operator analysis only')
         return dict(P=P,K=K,W=W),dict(result,status='QUALIFIED',reason=None)
     except torch.linalg.LinAlgError as exc:
         return None,dict(result,reason='exact_solve:'+str(exc))

@@ -1,0 +1,23 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "원인": "Owner source 검산에서 문맥별 방향 진단, terminal virtual-to-actual KL, optimizer radial, frozen exact operator 비교 저장 누락을 확인했다.",
+  "수리": "Detached diagnostic 계산과 기록만 보강. q optimizer, native loss, ridge builder, history, fit 수와 허용치 불변.",
+  "cancelled_pending": {"main-A": 57569, "main-B": 57570, "collector": 57571},
+  "cancel_order": [57571, 57569, 57570],
+  "target_binding": "fresh owner janghj1025 plus exact attempt-r1 source, full argv, held submission receipt",
+  "cancel_state": "CANCELLED by 1025",
+  "cancelled_elapsed_seconds": 0,
+  "Q1": {
+    "A": {"job": 57567, "Slurm": "COMPLETED", "exit": "0:0", "allocated_GPU_seconds": 385},
+    "B": {"job": 57568, "Slurm": "FAILED", "exit": "0:11", "allocated_GPU_seconds": 371, "low_level_cause": "NOT_ESTABLISHED"},
+    "both_READY_and_two_commits": true,
+    "B_program_terminal": "COMPLETED before signal11; not reclassified as Slurm success",
+    "reuse": "원본 READY 및 input/source/25후보24업데이트/commit/H 증거를 새 source에 명시 연결하며 GPU pilot fit을 반복하지 않는다. Shutdown signal은 보존한다."
+  },
+  "CPU_repair_equivalence": "tiny fixture final W/H SHA and NLL/KL exact; NOT actual GPU qualification",
+  "telemetry_r2": "rho<=FP32 epsilon descriptive flag; no exclusion or gate; all request calculations vectorized",
+  "old_source_raw_KEEP": true,
+  "other_job_mutation": false,
+  "no_CP": true,
+  "main_before_repair": "NOT_STARTED"
+}

@@ -88,12 +88,17 @@ def main():
             require(Path(row['path']).stat().st_size==row['bytes'] and sha(row['path'])==row['sha256'],'SOURCE_CHANGED')
         if args.phase=='main':
             evidence=[]
+            reuse=lock.get('Q1_reuse');prep_root=Path(reuse['attempt']) if reuse else args.attempt
+            ready_source=reuse['source_commit'] if reuse else source
+            ready_config=reuse['config_sha256'] if reuse else sha(args.config)
+            if reuse:require(sha(reuse['bridge']['path'])==reuse['bridge']['sha256'],'Q1_REUSE_BRIDGE')
             for arm in ('A','B'):
-                path=args.attempt/('prep-'+arm)/'READY.json';r=json.loads(path.read_text())
-                require(r['status']=='STRUCTURAL_READY' and r['instruction']==INSTRUCTION and r['source']==source
-                    and r['config_sha256']==sha(args.config),'MATCHING_PREP_READY')
+                path=prep_root/('prep-'+arm)/'READY.json';r=json.loads(path.read_text())
+                if reuse:require(sha(path)==reuse['READY'][arm]['sha256'],'Q1_REUSE_RECEIPT')
+                require(r['status']=='STRUCTURAL_READY' and r['instruction']==INSTRUCTION and r['source']==ready_source
+                    and r['config_sha256']==ready_config,'MATCHING_PREP_READY')
                 evidence.append(member(path))
-            write(out/'upstream.json',evidence)
+            write(out/'upstream.json',dict(receipts=evidence,explicit_reuse=reuse))
         a,bench,data,history=setup(config,out);initial=state(a,history);write(out/'initial-state.json',initial)
         bridge=json.loads(Path(config['w0_reuse']['receipt']['path']).read_text())
         require(sha(config['w0_reuse']['receipt']['path'])==config['w0_reuse']['receipt']['sha256'] and initial==bridge['state'],'COLD_W0_IDENTITY')
