@@ -1,0 +1,17 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "owner": "SH4",
+  "hostname": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "authority": "8ab5d0ad13d43e4594ff97bc3cea2c5673a501e2",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "정독": "method/TeX/portability/experiment 전체 및 case 2000행 재생성 대조, archive 33 member SHA/size 확인",
+  "격리": "v4 새 task만 STOP 예외. 기존 v2 및 타 task 재개하지 않음",
+  "범위": "A/B BS2 pilot commit과 B2 entry, B100 timing 각 4 candidate, 독립 cold main BS100x20",
+  "cap": 2,
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "actual_gpu": "NOT_RUN",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
