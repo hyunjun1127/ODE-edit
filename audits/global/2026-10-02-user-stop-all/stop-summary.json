@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "user_exact": "모든 실험 중단하고 server4 실험 산출물 main에  push해",
+  "execution_state": "STOPPED_USER",
+  "global_owned_slurm_queue_empty_verified_utc": "2026-10-02T03:02:47Z",
+  "verification": "squeue -h -u janghj through shared server4 Slurm returned zero rows; not a claim about other users or unidentified non-Slurm processes",
+  "new_submit_retry_resume_authorized": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "servers": {
+    "server1": {
+      "accepted_turn": "01a0fa8b-f6e4-78f1-b821-9ce21c990b72",
+      "owner_ack": true,
+      "owner_terminal_report": "STOPPED_USER",
+      "cancel_actor": "SH1",
+      "cancellation_order": [
+        56685,
+        56684
+      ],
+      "jobs": {
+        "56684": "CANCELLED",
+        "56685": "CANCELLED"
+      },
+      "active_project_queue": 0,
+      "observed_KST": "2026-10-02T11:58:42+09:00",
+      "main_allocated_gpu_seconds": 59448,
+      "receipt": "/mnt/raid5/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/server1-stop-20261002T025842Z.json"
+    },
+    "server2": {
+      "accepted_turn": "01a0fa8b-eb03-7f01-9bcb-eef3a4b9f459",
+      "owner_ack": true,
+      "owner_terminal_report": "STOPPED_USER",
+      "active_project_queue": 0,
+      "cancelled_jobs": [],
+      "receipt": "/mnt/raid5/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/server2-stop-receipt.json",
+      "limitation": "one unidentified SSH Python process preserved; not identified as experimental workload"
+    },
+    "server3": {
+      "accepted_turn": "01a0fa8b-d229-75b2-b772-874fea4ad42d",
+      "owner_ack": true,
+      "active_project_queue": 0,
+      "cancelled_jobs": [],
+      "active_subagents": 0,
+      "owner_report": "stop receipt publication in progress; actual zero-job observation confirmed, not a new experiment"
+    },
+    "server4": {
+      "accepted_turn": "01a0fa8c-4692-75d1-ac4d-afb46472b4fe",
+      "owner_ack": true,
+      "cancel_actor": "GH",
+      "reason": "Immediate explicit USER stop; exact jobs remained active during SH4 handling; GH emergency execution per protocol, followed by same-task coordination note",
+      "pre_cancel_utc": "2026-10-02T03:01:58.485593Z",
+      "pre_cancel_owner": "janghj(1025)",
+      "pre_cancel_node": "server4",
+      "pre_cancel_source_root": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/",
+      "cancellation_order": [
+        [
+          56962
+        ],
+        [
+          56960,
+          56961
+        ]
+      ],
+      "scancel_return_codes": [
+        0,
+        0
+      ],
+      "jobs": {
+        "56960": {
+          "name": "odeedit_jlz_twoarm_s4_main_A",
+          "state": "CANCELLED by 1025",
+          "allocated_gpu_seconds": 24874
+        },
+        "56961": {
+          "name": "odeedit_jlz_twoarm_s4_main_B",
+          "state": "CANCELLED by 1025",
+          "allocated_gpu_seconds": 24874
+        },
+        "56962": {
+          "name": "odeedit_jlz_twoarm_collect_s4",
+          "state": "CANCELLED by 1025",
+          "allocated_gpu_seconds": 0
+        }
+      },
+      "active_project_queue": 0,
+      "teardown_complete_at_queue_check": true,
+      "raw_and_sources_preserved": true,
+      "new_checkpoint_saved": false,
+      "rollback_after_SIGTERM": "NOT_VERIFIED",
+      "publication_status": "SH4_COMPILING_EXISTING_OUTPUTS_NOT_YET_FINAL_CONFIRMED"
+    }
+  },
+  "other_users_or_projects_modified": false,
+  "heavy_artifact_delete_or_transfer": false,
+  "scientific_completion_claim": false
+}
