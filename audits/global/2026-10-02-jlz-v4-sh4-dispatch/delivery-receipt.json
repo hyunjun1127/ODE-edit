@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "authority_commit": "8ab5d0ad13d43e4594ff97bc3cea2c5673a501e2",
+  "envelope_sha256": "4550d7ebd245e0561a0576aae86ee98c8b3ceec1e0857c4f6de7a8bf1d987b6a",
+  "transport": "SSH host-local app-server WebSocket initialize/thread-resume/idle-turn-start, same-stream agentMessage ACK",
+  "target": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "observed_host": "server4",
+    "observed_user": "janghj",
+    "origin": "https://github.com/hyunjun1127/ODE-edit.git"
+  },
+  "active_turns_before": [],
+  "accepted_turn": "01a0fb2e-8fae-7f62-8819-6fa51c945134",
+  "delivery": "ACCEPTED",
+  "owner_ack": true,
+  "owner_text": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1`. SH4 담당을 수락합니다. 현재 `IMPLEMENTING_NOT_SUBMITTED`, job_ids=[]입니다.\n\n새 v4 task만 진행하며 기존 v2·다른 실험의 STOP은 유지합니다. 전용 clean worktree에서 정본·패키지를 읽고 SHA를 검증한 뒤, cap2/noCP 조건으로 구현·검산·pilot→timing→독립 A/B main 등록을 이어가겠습니다.",
+  "receipt_boundary": "담당 수신 ACK는 확인. SH4 실제 FULL_READ/archive SHA·모델검증·Slurm등록은 아직 별도미관측; GH 자체FULL_READ와혼동0.",
+  "GH_full_read": "input-receipt.json/review.json",
+  "SH4_full_read": "PENDING_OWNER_RECEIPT",
+  "actual_job_ids": [],
+  "actual_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "actual_GPU_validation": "NOT_OBSERVED",
+  "actual_science_completion": false,
+  "GH_terminal_wait": false,
+  "other_tasks": "STOPPED_USER 유지",
+  "new_monitor_automation": 0
+}
