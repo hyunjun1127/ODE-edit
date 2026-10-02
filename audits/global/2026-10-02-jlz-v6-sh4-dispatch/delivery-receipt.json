@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "task_id": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+  "authority_commit": "d382fdf0c11596c0fec146d7ea4f2d7eba93f6e9",
+  "authority_tree": "4b5c63f3c32079f29c6e31b4f37bf3605121b033",
+  "envelope": "messages/head/2026-10-02-jlz-v6-nowarmup-500-sh4.json",
+  "envelope_sha256": "7135f7c21ba0141bdaff237e11aab8b10ed5e030e4924046c42e978b5b91ca8b",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "transport": "SSH canonical rke-server4 app-server websocket; initialize/thread-resume actual CWD and idle verified; turn/start; same stream nonce ACK",
+  "prior_active_turns": [],
+  "accepted_turn": "01a0fc9b-c6fe-76f3-b160-02527fbf23ef",
+  "accepted": true,
+  "owner_ack": true,
+  "owner_ack_text": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1` — SH4가 새 v6 task를 담당합니다. 현재 `IMPLEMENTING_NOT_SUBMITTED`입니다. v5 중단 상태는 유지하고, 정본·SHA 확인부터 warmup 없는 LR .1, A/B 각 500 edits·W5 종료 구현과 검산을 진행하겠습니다.",
+  "actual_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "receiver_full_read_SHA": "PENDING_RECEIVER_M0_NOT_CLAIMED_BY_INITIAL_ACK",
+  "actual_job_ids": [],
+  "actual_GPU_validation": "NOT_OBSERVED",
+  "main_initial": "NOT_OBSERVED",
+  "main_terminal": "NOT_OBSERVED",
+  "GH_actions": {
+    "scheduler_poll": 0,
+    "job_mutation": 0,
+    "model_execution": 0,
+    "root_reset_stash_or_stage": 0,
+    "other_task_resume": 0
+  },
+  "monitoring": "GH bounded direct owner receipt complete; no new heartbeat/long experiment polling. SH4 follows authorized bounded first-main-entry/resource-pending handoff; sealed5batch program continues."
+}
