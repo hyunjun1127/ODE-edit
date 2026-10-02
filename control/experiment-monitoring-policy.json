@@ -1,13 +1,17 @@
 {
-  "policy_id": "ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911",
+  "policy_id": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "superseded_policy_id": "ODEEDIT-INITIAL-GATE-ONLY-USER-RECALL-20260911",
   "scope": "all_server_head_experiment_tasks",
-  "effective": "user_directive_2026-09-11",
-  "initial_gate_monitoring": true,
-  "after_initial_valid": "MONITORING_PAUSED_AWAITING_USER",
-  "running_and_previously_submitted_jobs": "leave_unchanged",
+  "effective": "user_directive_2026-10-02_stop_all_experiments",
+  "initial_gate_monitoring": false,
+  "after_initial_valid": "STOPPED_USER_NO_AUTOMATIC_RESUME",
+  "running_and_previously_submitted_jobs": "cancel_exact_owned_ODE_edit_experiment_jobs_including_pending_successors",
+  "new_experiment_submission_authorized": false,
+  "implementation_retry_or_resume_authorized": false,
+  "explicit_current_exception": "local CPU stop audit and publication of existing server4 experiment outputs only; no new GPU/evaluation",
   "agent_terminal_monitoring": false,
   "automatic_followup_submission_after_gate": false,
   "automatic_analysis_report_integration_after_gate": false,
   "recall": "explicit_user_request_via_GH",
-  "source": "messages/head/2026-09-11-initial-gate-only-monitoring-policy.md"
+  "source": "messages/head/2026-10-02-all-sh-stop-experiments-s4-publish.json"
 }
