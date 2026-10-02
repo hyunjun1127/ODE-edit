@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1-SERVER3",
+  "status": "STOPPED_USER",
+  "authority_commit": "294feebbbfc9e38345d3983192723ee5fdb2ca99",
+  "authority_path": "messages/head/2026-10-02-all-sh-stop-experiments-s4-publish.json",
+  "authority_sha256": "7489ddf8ca2d82129f0d525ddd20d027d068f46b50acdc158235221154674d71",
+  "authority_full_read": true,
+  "server": "server3",
+  "actual_host": "ubuntu",
+  "owner": "janghj",
+  "uid": 1025,
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "cwd": "/data/janghj/ODE-edit",
+  "repository": "hyunjun1127/ODE-edit",
+  "before_at": "2026-10-02T03:00:42.513403+00:00",
+  "before_server3_active_project_job_ids": [],
+  "identified_other_server_jobs": [
+    {
+      "JobId": "56962",
+      "JobName": "odeedit_jlz_twoarm_collect_s4",
+      "UserId": "janghj(1025)",
+      "JobState": "PENDING",
+      "ReqNodeList": "server4",
+      "AllocNode:Sid": "server4:3319142",
+      "Command": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/collector.sh",
+      "Dependency": "afterany:56960(unfulfilled),afterany:56961(unfulfilled)"
+    },
+    {
+      "JobId": "56960",
+      "JobName": "odeedit_jlz_twoarm_s4_main_A",
+      "UserId": "janghj(1025)",
+      "JobState": "RUNNING",
+      "ReqNodeList": "server4",
+      "AllocNode:Sid": "server4:3319142",
+      "Command": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A.sh",
+      "Dependency": "(null)"
+    },
+    {
+      "JobId": "56961",
+      "JobName": "odeedit_jlz_twoarm_s4_main_B",
+      "UserId": "janghj(1025)",
+      "JobState": "RUNNING",
+      "ReqNodeList": "server4",
+      "AllocNode:Sid": "server4:3319142",
+      "Command": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B.sh",
+      "Dependency": "(null)"
+    }
+  ],
+  "scope_resolution": "Shared Slurm sees same-user server4 jobs. ReqNodeList, submit host, Command and dependency bind all three to SH4; SH3 does not mutate them. This is server3 zero evidence, not all-four-server stop certification.",
+  "cancellation_job_ids": [],
+  "scancel_calls": 0,
+  "cancellation_result": "NO_SERVER3_TARGETS_OBSERVED",
+  "after_at": "2026-10-02T03:02:15.238330+00:00",
+  "after_server3_active_project_job_ids": [],
+  "after_cluster_same_user_ids": [],
+  "remaining_server3_ambiguity": [],
+  "worker_inventory": "collaboration.list_agents returned root only; no running subagent",
+  "local_process_review": "Owned process list contained editor/app-server/SSH communication and this audit; no standalone project experiment/submitter identified. No process signals sent.",
+  "cancelled_job_allocation_gpu_seconds": 0,
+  "cost_note": "No jobs cancelled in this action; no historical cost reset or inference.",
+  "new_submission": false,
+  "retry_resume_allowed": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_experiment_authorization_required": true,
+  "configured_caps_changed": false,
+  "source_raw_checkpoint_preserved": true,
+  "checkpoint_save_delete": false,
+  "server4_publication": "SH4 responsibility, not claimed by SH3",
+  "local_evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/stop-inventory.json",
+      "bytes": 12305,
+      "sha256": "7a754ce76fe979141c19541b6e78c95867839254f48c3272f26ae0611780b1f3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/final-queue.json",
+      "bytes": 211,
+      "sha256": "536727ca655db96a8cb46530bc180695f4410d76694801cc563fff121d78ed7b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/authority.json",
+      "bytes": 5290,
+      "sha256": "7489ddf8ca2d82129f0d525ddd20d027d068f46b50acdc158235221154674d71"
+    }
+  ]
+}

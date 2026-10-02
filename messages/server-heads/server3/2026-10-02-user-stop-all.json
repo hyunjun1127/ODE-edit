@@ -1,0 +1,18 @@
+{
+  "nonce": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1-SERVER3",
+  "status": "STOPPED_USER",
+  "actual_host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "before": [],
+  "after": [],
+  "cancelled_jobs": [],
+  "other_server_jobs_excluded": [
+    "56962",
+    "56960",
+    "56961"
+  ],
+  "automatic_resume": false,
+  "monitoring_active": false,
+  "raw_checkpoint_preserved": true,
+  "receipt": "audits/servers/server3/2026-10-02-user-stop-all/stop-receipt.json"
+}
