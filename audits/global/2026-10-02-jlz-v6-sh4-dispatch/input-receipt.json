@@ -1,0 +1,273 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "status": "FULL_READ_PRIMARY_AND_EXACT_PACKAGE_BOUND",
+  "source_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1",
+  "archive": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v6-dispatch/20261002-r1/jlz-v6-no-warmup-method-experiment-500.tar.gz",
+    "sha256": "fa7f6f42ac8026eacd324db57527a4b1b6b8bfc57affdf1d4b14cf122f2ac7a6",
+    "bytes": 1465351,
+    "regular_members": 36
+  },
+  "members": [
+    {
+      "path": "docs/methods/jlz-subject-adam-v6.tex",
+      "bytes": 21570,
+      "sha256": "ec44253ed790236828a0781fa7b0cd7f8d49f902b7c77e240c3b3621fd73a683",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/acquisition-receipt.json",
+      "bytes": 340,
+      "sha256": "c95349675c3792e0824d2ab62682ab09134b6799546d3954aef9123b2684e71c",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/adam-subject-injection-review-ko.md",
+      "bytes": 8955,
+      "sha256": "8b9e82539968164121bb09d5dad63905db90b88e3643103074fd9655aa88cf68",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/adam-subject-review-evidence.json",
+      "bytes": 4106,
+      "sha256": "6d29ec66ce9b4f9968ed1114332590a310a172caa2c5ea09bf06ef12664accfc",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-acquisition-receipt.json",
+      "bytes": 3237,
+      "sha256": "4db2d167f51b7e81a825eaff3d78d381d5358657dda8b121cb0809758ba1ccf0",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-comparability.json",
+      "bytes": 4653,
+      "sha256": "cbb376ef3540536a9b03c928dc9d94301a2fe57ddd8a97951595a501c2d08dbf",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-metrics.csv",
+      "bytes": 11660,
+      "sha256": "8f212a687b875111c6ebbc9d70026a221b1cf9d3c23452722cdd9635437c2a01",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-paired-paraphrases.csv",
+      "bytes": 527414,
+      "sha256": "4c4408ff6d68d01e8ba357c70553b4dbd812d48b70a6f222dc1b998d37f5b27a",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-paired-summary.json",
+      "bytes": 22041,
+      "sha256": "ae7b66085adf36a1826a568dabc75c8dea5fb0ed46b2267fa6736fec805843a0",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/baseline-summary.json",
+      "bytes": 43509,
+      "sha256": "da20fa35deec1ec1b24a59d329814118bae8b5a77ab1807e0f3108bbcddb3461",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/fact-metrics.csv",
+      "bytes": 41067,
+      "sha256": "d2698251751338beb440cd7bc00ec98fe4ebf4ae465e5af9dd4f193675913a4d",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/metrics-summary.json",
+      "bytes": 92922,
+      "sha256": "346355ecb2b442ea59fe5e57658ffcba0eb56af8662ac7f11c043fbb9ceabeb0",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/paired-prompts.csv",
+      "bytes": 2242514,
+      "sha256": "a8d155c91b0946879e8c73f97dc4f6cb76ca97af91014b25b03f729cb509c6a1",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/report-ko.md",
+      "bytes": 20500,
+      "sha256": "9e5ed43ff247cf6885ee6e4f274a6d1f5675d2d64ddf4ef3f3da1834ce1a5ecd",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/review-receipt.json",
+      "bytes": 7025,
+      "sha256": "bf85c044da223d6f5adb49ec44020212a1f3e4bc52bdb406d8c35c8082434ea0",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/solver-layers.csv",
+      "bytes": 6281,
+      "sha256": "c0194d55d4e7cd541423adca051b8ac5a430b3ca0787f48c0f40397721a9e789",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/solver-receipt.json",
+      "bytes": 23376,
+      "sha256": "129eed2df344cab39732faf850706e642fa3920ba033ae459f56a6283685718f",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/solver-requests.csv",
+      "bytes": 124563,
+      "sha256": "6abfd8d292a563669ad1c78a68eedf013bcfc0e80b0d623b6f13478b23d004de",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/solver-summary.json",
+      "bytes": 15257,
+      "sha256": "a0efa24bee687148b0142e7434577797d56a2975b109fbc4a25880237f129581",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/solver-trajectory.csv",
+      "bytes": 30999,
+      "sha256": "ad444335507b01c4824125bd60396b575292bfeb5efb7c797a313d7fa70ce212",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/weight-change-batches.csv",
+      "bytes": 472,
+      "sha256": "f4010ac401369555b7cabbaab97415afbbec58033f29f288903f334dfa03f7d7",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/weight-change-layers.csv",
+      "bytes": 1623,
+      "sha256": "f739ca9ece66e5f219a1682de8737192699b48cde6a8cec31e46d09131a31da4",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "experiment-reports/global/2026-10-02-jlz-v5-a-w5-review/weight-change-summary.json",
+      "bytes": 12981,
+      "sha256": "86f17f37092a6d71ce38f4b1f294971b6700006a20e562c80b214d9733c000c7",
+      "publication": "ARCHIVE_ONLY_READONLY_BACKGROUND_NOT_GIT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+      "publication": "EXACT_EXISTING_REUSE"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/GH-HANDOFF.md",
+      "bytes": 5205,
+      "sha256": "53fc9d18f3aafee760b28af13b56c1ee9d90c837eee4f429ac5544453a84c0f0",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/README.md",
+      "bytes": 2274,
+      "sha256": "9a67579ad319b0b7f48367e253b5c767632e71edd332ce628df608b2521433a1",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/contract.json",
+      "bytes": 7898,
+      "sha256": "9ebef103d41f6607550c279c713efbd493f41df29806dd4931f18b0d12366c30",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/experiment-500/experiment-ko.md",
+      "bytes": 10927,
+      "sha256": "d9633e1336c7b9608b892284541ece451bd97702a7bf991c7f32d81f40483222",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/experiment-500/experiment.json",
+      "bytes": 15745,
+      "sha256": "43b6ef21c3923bef82d8b70067d48a343045eec57b34653f85b8c439e391ad84",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/implementation-ko.md",
+      "bytes": 9872,
+      "sha256": "e5c5d70447f5c78d74a25323ff0154ed2f1376a7385505c5015d2369c7dc0415",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/math/README.md",
+      "bytes": 3887,
+      "sha256": "2b9784a804f1634f145ace21956d4e2dc0d21a160a7da11aa234828c135ec794",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/math/run-receipt.json",
+      "bytes": 820,
+      "sha256": "2cfbaf8ad064f9abda99f942193d875f5aac545fa42292de9f97ac2c2690a5e8",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/math/validate_math.py",
+      "bytes": 16250,
+      "sha256": "1c28209c1c133efe9d5744346cd913989c374d1e9ca62f7e860a38e2e643e0f9",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/math/validation-results.json",
+      "bytes": 45793,
+      "sha256": "2e4ada39483a1a6b18a469bd22c406c2d7bcba80fb4ebaf4775ebdc1ac2a0444",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/method-ko.md",
+      "bytes": 21619,
+      "sha256": "13c2890d9ec63140bbe91c0593056dc805efa49b27494eaacc32cd7731bcec80",
+      "publication": "ADOPT_EXACT"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-subject-adam-v6/artifact-manifest.json",
+      "bytes": 8189,
+      "sha256": "e46afc2423caf908ae2cd8eb92580457b89c311282a88fad206379a60ded40da",
+      "publication": "ADOPT_EXACT"
+    }
+  ],
+  "read_scope": {
+    "fully_read": [
+      "method",
+      "implementation",
+      "method contract",
+      "TeX",
+      "experiment markdown and JSON",
+      "GH-HANDOFF",
+      "README",
+      "math README/script/run-receipt",
+      "background report and Adam structure review/evidence"
+    ],
+    "machine_checked": "All JSON parsed; all CSV rows/fields parsed; validation-results all fields reproduced; all36 archive/source SHA-size equal. Background per-case rows not a duplicate scientific audit."
+  },
+  "raw_git_exclusion": "Background tables containing prompts/targets/per-case raw remain archive-only. Published exact background documents link into the full read-only received archive; references are not evidence of new evaluation.",
+  "CPU": {
+    "status": "PASS_CPU_ALGEBRA_ONLY",
+    "all_result_fields_reproduced": true,
+    "result_sha256": "2e4ada39483a1a6b18a469bd22c406c2d7bcba80fb4ebaf4775ebdc1ac2a0444",
+    "identity_checks": 93,
+    "geometries": 9,
+    "gradient_checks": 12,
+    "projection_cases": 3,
+    "split_checks": 6,
+    "zero_cases": 4,
+    "coverage_cases": 12,
+    "max_gradient_absolute_error": 1.93768855127896e-10,
+    "limitations": [
+      "Synthetic matrices validate algebra, not model efficacy or causal mechanisms.",
+      "Split neutrality and 1/sqrt(L) scaling assume identical layer paths and sigma.",
+      "Root norms need a selected subgradient at zero; no ordinary derivative is claimed.",
+      "E and G use a fixed entry geometry; changing keys after writes changes realized effects.",
+      "25 native candidate evaluations exclude additional writer-feedback and terminal physical forwards.",
+      "The 27B+M/25B+M costs count optimization request rows, excluding geometry/teacher preparation and benchmark evaluation.",
+      "Logical request coverage does not imply a fixed token count or runtime across batch sizes."
+    ],
+    "first500_case_SHA": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+    "case_count": 500,
+    "main_occurrences": 1000
+  },
+  "actual_Llama": "NOT_RUN",
+  "production_runner": "NOT_IMPLEMENTED_AT_GH_DISPATCH",
+  "job_ids": []
+}

@@ -16,6 +16,7 @@
   "source": "messages/head/2026-10-02-all-sh-stop-experiments-s4-publish.json",
   "task_scoped_exceptions": [
     "control/experiment-exceptions/jlz-v4-compute-r1-2k-20261002.json",
-    "control/experiment-exceptions/jlz-writer-coupled-v5-2k-20261002.json"
+    "control/experiment-exceptions/jlz-writer-coupled-v5-2k-20261002.json",
+    "control/experiment-exceptions/jlz-subject-adam-v6-500-20261002.json"
   ]
 }

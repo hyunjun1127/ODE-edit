@@ -1,0 +1,95 @@
+{
+  "status": "CPU_SOURCE_AND_EXISTING_ARTIFACT_REVIEW",
+  "GPU_calls": 0,
+  "production_changes": 0,
+  "native_source": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/memit/compute_z.py",
+  "native_sha256": "6e43c1f03bc03c87dcff70111dff1a93f4e00ea31b4bfeb5e8eab4a516ea7ae4",
+  "cap_threshold": 0.74999,
+  "v4_A_group_norms": [
+    {
+      "batch": 1,
+      "groups": 500,
+      "near_cap": 496,
+      "min_relative": 0.6702070293149732,
+      "mean_relative": 0.7497003621457864,
+      "max_relative": 0.7500001556081165
+    },
+    {
+      "batch": 2,
+      "groups": 500,
+      "near_cap": 494,
+      "min_relative": 0.6693840044113343,
+      "mean_relative": 0.7495956378777308,
+      "max_relative": 0.7500001272319667
+    },
+    {
+      "batch": 3,
+      "groups": 500,
+      "near_cap": 483,
+      "min_relative": 0.6602483629122682,
+      "mean_relative": 0.7490361703083305,
+      "max_relative": 0.750000177447111
+    },
+    {
+      "batch": 4,
+      "groups": 500,
+      "near_cap": 480,
+      "min_relative": 0.5927903028278347,
+      "mean_relative": 0.7487807156532242,
+      "max_relative": 0.7500001704601112
+    },
+    {
+      "batch": 5,
+      "groups": 500,
+      "near_cap": 486,
+      "min_relative": 0.7218212225617415,
+      "mean_relative": 0.7497240586916828,
+      "max_relative": 0.7500001523338902
+    }
+  ],
+  "near_cap_total": 2439,
+  "group_total": 2500,
+  "sources": [
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B001/commit.json",
+      "sha256": "a4a011b1e3d1e91867121821624c6ee1b04eb629f1e5bde37693c2be8948b114"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B001/fit/fit.json",
+      "sha256": "eb14999539f034111539b6458cbb1d18577ec5a51348f2a6dc6a5771d1d8dd05"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B002/commit.json",
+      "sha256": "e1f092f2ad59d4ed9e1d525151f2cef178259742fbafb8e262a78362275a3e8a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B002/fit/fit.json",
+      "sha256": "04f8ed7702a0829e50f07d9d63a1d63acc5d768e32e42a7aadbfd3fe02e8e46c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B003/commit.json",
+      "sha256": "fe7ed51b9dac6b16a8615ae8aebcccf1ea8663523e4d4373066e437f1f6223a3"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B003/fit/fit.json",
+      "sha256": "8b4797f6e35b7fc7209fceff9e71a265ad808f29c9f7341d7dea29440d78d6e8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B004/commit.json",
+      "sha256": "d51398a24635a043a39c0ccb2e43940414609c19aaaa5be943b15dc6de5cd328"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B004/fit/fit.json",
+      "sha256": "de867e6e12b2a348c626bd0d7afbf6201b2d49adec26e521ea35cdfe49c5112c"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B005/commit.json",
+      "sha256": "fad1f499fd6b37d5fe6cba488c5bdd8e76475ff51ae18b98d92162e84973b4ac"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v4-w5-locality-review-20261002-v1/local/jlz-v4-w5-review/snapshot/output/main-JLZ_A/B005/fit/fit.json",
+      "sha256": "6b31137d63b76073ac5dde4ba954ed52d07480662df9690765a52eadaa1771a9"
+    }
+  ],
+  "review_sha256": "8b9e82539968164121bb09d5dad63905db90b88e3643103074fd9655aa88cf68"
+}

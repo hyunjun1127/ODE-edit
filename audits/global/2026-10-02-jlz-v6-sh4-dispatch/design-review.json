@@ -1,0 +1,58 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "owner": "GH",
+  "independent_reviewer": false,
+  "primary_full_read": true,
+  "CPU": {
+    "status": "PASS_CPU_ALGEBRA_ONLY",
+    "all_result_fields_reproduced": true,
+    "result_sha256": "2e4ada39483a1a6b18a469bd22c406c2d7bcba80fb4ebaf4775ebdc1ac2a0444",
+    "identity_checks": 93,
+    "geometries": 9,
+    "gradient_checks": 12,
+    "projection_cases": 3,
+    "split_checks": 6,
+    "zero_cases": 4,
+    "coverage_cases": 12,
+    "max_gradient_absolute_error": 1.93768855127896e-10,
+    "limitations": [
+      "Synthetic matrices validate algebra, not model efficacy or causal mechanisms.",
+      "Split neutrality and 1/sqrt(L) scaling assume identical layer paths and sigma.",
+      "Root norms need a selected subgradient at zero; no ordinary derivative is claimed.",
+      "E and G use a fixed entry geometry; changing keys after writes changes realized effects.",
+      "25 native candidate evaluations exclude additional writer-feedback and terminal physical forwards.",
+      "The 27B+M/25B+M costs count optimization request rows, excluding geometry/teacher preparation and benchmark evaluation.",
+      "Logical request coverage does not imply a fixed token count or runtime across batch sizes."
+    ],
+    "first500_case_SHA": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+    "case_count": 500,
+    "main_occurrences": 1000
+  },
+  "key_decisions": {
+    "v5_stopped": "immutable existing stop receipt reused, no new scheduler query/cancel",
+    "arm_difference": "geometry norm only, both past enabled; do not inherit v5 eta0/1 nor emptyB1 equality gate",
+    "warmup": 0,
+    "LR": 0.1,
+    "main500_per_arm": true,
+    "noB6": true,
+    "B100_smoke": {
+      "GH_decision": "REQUIRED_ONCE: new v6 B100 physical branch/memory path lacks current implementation evidence",
+      "arm": "B",
+      "fresh_W0_H0_empty_memory": true,
+      "cases": "first100 only",
+      "max_runs": 1,
+      "max_native_candidates": 5,
+      "max_Adam_updates": 4,
+      "candidate5": "include preupdate actual physical probe; NO fifth Adam update",
+      "write_to_main": false,
+      "retune": false,
+      "scope": "time/memory/input/gradient/physical wiring only, not extra independent science chain; separate accounting; no B100 sweep"
+    },
+    "loss_scale": "all mean terms ×actual_B",
+    "pulse": "5/10/15/20 before corresponding Adam; final25 no backward",
+    "memory": "v5 unique-fact teacher ownership semantics only, no v5 solver",
+    "raw": "archive-only prompt/per-case tables; exact original docs preserved"
+  },
+  "runtime_validation": "NOT_RUN_NOT_CLAIMED",
+  "status": "READY_FOR_SH4_IMPLEMENTATION_NOT_EXECUTION_COMPLETED"
+}

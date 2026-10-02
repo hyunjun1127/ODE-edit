@@ -1,0 +1,507 @@
+{
+  "schema": "jlz-subject-adam-v6-experiment-500-v1",
+  "date": "2026-10-02",
+  "timezone": "Asia/Seoul",
+  "task_id": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+  "status": "SPECIFIED_NOT_IMPLEMENTATION_OR_GPU_PASS",
+  "authority": {
+    "user_latest_conditions": [
+      "constant_native_Adam_LR_no_warmup",
+      "two_v6_arms_each_500_edits",
+      "GH_dispatch_SH4_server4"
+    ],
+    "dispatcher": "GH",
+    "execution_owner": "SH4",
+    "server": "server4",
+    "repository_id": "hyunjun1127/ODE-edit",
+    "repository": "/data/janghj/ODE-edit",
+    "registry_session_and_resource_recheck_required": true
+  },
+  "method_documents": {
+    "method": "../method-ko.md",
+    "implementation": "../implementation-ko.md",
+    "contract": "../contract.json",
+    "experiment": "experiment-ko.md"
+  },
+  "scope": {
+    "arms": [
+      "A",
+      "B"
+    ],
+    "logical_batch_size": 100,
+    "sequential_batches_per_arm": 5,
+    "edits_per_arm": 500,
+    "total_main_edit_occurrences": 1000,
+    "stream_slice_zero_based_half_open": [
+      0,
+      500
+    ],
+    "batch6_forbidden": true,
+    "new_baseline_runs": false,
+    "start_each_arm": "fresh_pretrained_W0_zero_H_empty_memory_new_optimizer_RNG",
+    "v4_v5_resume": false,
+    "pilot_or_timing_state_into_main": false,
+    "reuse_other_arm_state": false,
+    "model_benchmark_B_are_method_constants": false
+  },
+  "arm_contract": {
+    "A": {
+      "R_W": "sum_l g_l",
+      "R_E": "sum_l e_l"
+    },
+    "B": {
+      "R_W": "sqrt(sum_l g_l^2)",
+      "R_E": "sqrt(sum_l e_l^2)"
+    },
+    "only_difference": "allocation_geometry_norm_shape",
+    "past_preservation_both_arms": true,
+    "same_native_norm_clamp_LR_coefficients_inputs_seed": true,
+    "first_batch_objective_equality_required": false,
+    "concentration_allowed": true,
+    "forced_uniform_or_minimum_layers": false
+  },
+  "profile": {
+    "model": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "benchmark": "CounterFact fixed10k",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "native_rewrite_contexts_per_request": 6,
+    "native_KL_contexts_per_request": 1,
+    "native_NLL_readout_layer": 31,
+    "native_KL_direction": "current||own_batch_entry",
+    "native_norm_factor": 0.5,
+    "native_clamp_factor": 0.75,
+    "native_KL_factor": 0.0625,
+    "lambda_C": 15000,
+    "lambda_W": 0.1,
+    "lambda_E": 0.1,
+    "beta_subject": 0.1,
+    "beta_distillation": 0.1,
+    "lambda_past_KL": 0.0625,
+    "lambda_past_NLL_degradation": 1.0,
+    "memory_capacity": 128,
+    "reference_cap": 16,
+    "reference_count": "min(16,actual_B,eligible_resident_facts)",
+    "seed": 20261002
+  },
+  "optimizer": {
+    "name": "Adam",
+    "coordinate": "absolute_subject_delta",
+    "learning_rate": 0.1,
+    "schedule": "constant_native_profile_LR",
+    "warmup_updates": 0,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay": 0,
+    "native_candidate_evaluations_per_batch": 25,
+    "Adam_updates_per_batch": 24,
+    "single_step_after_full_logical_batch_gradient": true,
+    "post_update_native_projection": true,
+    "moment_reset_on_projection": false,
+    "line_search": false,
+    "quality_gate": false,
+    "quality_early_stop": false,
+    "runtime_P_N_coefficient_adaptation": false
+  },
+  "physical_feedback": {
+    "native_candidate_indices": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "timing": "before_candidate_corresponding_Adam_update",
+    "completed_updates_at_probe": [
+      4,
+      9,
+      14,
+      19
+    ],
+    "disjoint_partitions": 4,
+    "current_total_requests_per_batch": "actual_B",
+    "past_total_requests_per_batch": "fixed_sample_M",
+    "all_current_D_columns_in_actual_write": true,
+    "fixed_entry_P": true,
+    "terminal_candidate": 25,
+    "terminal_full_current_actual_forward": true,
+    "terminal_extra_Adam_update": false,
+    "commit": "same_materialized_actual_weight"
+  },
+  "input_identity": {
+    "prior_receipt_remote_root": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1",
+    "prior_config_sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403",
+    "prior_execution_source_commit": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+    "case_schedule": {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+      "selected_stream_index0_inclusive": [
+        0,
+        499
+      ],
+      "existing_active_at_W20_column_applies_at_W5": false
+    },
+    "first500_case_ids": {
+      "count": 500,
+      "sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+      "serialization": "json.dumps(list_of_ints,separators=(',',':')).encode('utf-8'); no trailing newline",
+      "first_three": [
+        16186,
+        3743,
+        1481
+      ],
+      "last_three": [
+        3419,
+        8549,
+        5628
+      ]
+    },
+    "dataset": {
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "bytes": 16679956
+    },
+    "native_contexts": {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "bytes": 270
+    },
+    "packed_native_batches": [
+      {
+        "actual_B": 100,
+        "batch": 1,
+        "identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10651,
+        "width": 32
+      },
+      {
+        "actual_B": 100,
+        "batch": 2,
+        "identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10990,
+        "width": 23
+      },
+      {
+        "actual_B": 100,
+        "batch": 3,
+        "identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10712,
+        "width": 25
+      },
+      {
+        "actual_B": 100,
+        "batch": 4,
+        "identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10791,
+        "width": 25
+      },
+      {
+        "actual_B": 100,
+        "batch": 5,
+        "identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10700,
+        "width": 25
+      }
+    ],
+    "C0_assets": [
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "bytes": 822084814
+      }
+    ],
+    "native_reference": [
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/memit/compute_z.py",
+        "sha256": "6e43c1f03bc03c87dcff70111dff1a93f4e00ea31b4bfeb5e8eab4a516ea7ae4",
+        "bytes": 12192
+      },
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/memit/compute_ks.py",
+        "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+        "bytes": 1540
+      },
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/rome/repr_tools.py",
+        "sha256": "a83de9ef7a7d65403ccde83a4abf6bb9407d29da19d96cc3508da362c03b23a1",
+        "bytes": 7011
+      }
+    ],
+    "reuse_scope": "inputs_and_runtime_identity_only_not_v5_algorithm",
+    "fresh_current_input_model_runtime_rebinding_required": true
+  },
+  "runtime": {
+    "python": "/data/janghj/EasyEdit/.venv/bin/python",
+    "python_version": "3.12.3",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "transformers": "4.57.1",
+    "attention": "eager",
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "autocast": false,
+    "matmul_TF32": false,
+    "cudnn_TF32": false
+  },
+  "qualification": {
+    "CPU_math": "../math/validation-results.json",
+    "production_GPU_status": "NOT_RUN",
+    "required": [
+      "native_input_lookup_readout_parity",
+      "direct_D_backward_dense_parity",
+      "microbatch_loss_gradient_parity",
+      "constant_LR_and_postupdate_clamp",
+      "writer_commit_history_memory_integrity"
+    ],
+    "quality_gate": false,
+    "pilot": {
+      "each_arm": true,
+      "fresh_state_each_arm": true,
+      "logical_batch_size": 2,
+      "sequential_batches": 2,
+      "stream_slice_zero_based_half_open": [
+        2000,
+        2004
+      ],
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "native_candidate_cap_per_batch": 25,
+      "Adam_update_cap_per_batch": 24,
+      "no_state_transfer_to_main": true,
+      "performance_selection": false,
+      "historical_packing": [
+        {
+          "actual_B": 2,
+          "batch": 1,
+          "identity": "e008b0722b4bbe0279217a75ee0673eda346bfa59e976591b79860cb86b05b3a",
+          "key_prefix_exact": true,
+          "phase": "pilot",
+          "rows": 14,
+          "valid_tokens": 232,
+          "width": 21
+        },
+        {
+          "actual_B": 2,
+          "batch": 2,
+          "identity": "9a06551576a4736fec05a2e1a6224c25155088c0b8d400d88b906a841b69292d",
+          "key_prefix_exact": true,
+          "phase": "pilot",
+          "rows": 14,
+          "valid_tokens": 212,
+          "width": 19
+        }
+      ]
+    },
+    "B100_smoke": {
+      "decision_owner": "GH",
+      "required_if": "B100_path_memory_or_physical_branch_needs_additional_technical_validation",
+      "may_skip_if": "existing_current_implementation_evidence_is_sufficient",
+      "max_runs": 1,
+      "fresh_state": true,
+      "max_native_candidate_evaluations": 5,
+      "max_Adam_updates": 4,
+      "include_candidate5_preupdate_physical_probe": true,
+      "perform_fifth_Adam_update_after_probe": false,
+      "no_main_state_transfer": true,
+      "no_profile_sweep_or_quality_tuning": true
+    }
+  },
+  "evaluation": {
+    "training_or_optimizer_feedback": false,
+    "official_P_N_in_memory_teacher_or_selection": false,
+    "endpoints": [
+      {
+        "W": 1,
+        "scope": "current100",
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "W": 2,
+        "scope": "current100",
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "W": 3,
+        "scope": "current100",
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "W": 4,
+        "scope": "current100",
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "W": 5,
+        "scope": "all_seen500",
+        "R": 500,
+        "P": 1000,
+        "N": 5000
+      }
+    ],
+    "W5_current": "derive_same_raw_subset_no_new_GPU_evaluation",
+    "primary": "strict_NLL_preference_rate",
+    "additional": [
+      "teacher_forced_strict",
+      "true_and_new_NLL",
+      "NLL_margin",
+      "target_token_accuracy",
+      "cohort_at_write_to_W5_lost_gained",
+      "N_W0_to_W5_lost_gained"
+    ],
+    "W0": {
+      "mode": "reuse_historical_raw_after_identity_binding",
+      "observation": {
+        "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r1/prep/W00-observations.json",
+        "sha256": "4436ce3de7889164398c189d4cb8be56716245499e1623bd924962b06243d4d8",
+        "bytes": 9706265
+      },
+      "select": "same_first500_by_case_and_token_identity",
+      "user_reference_NS": 0.8784,
+      "user_reference_numerator": 4392,
+      "denominator": 5000,
+      "use_reference_only_after_identity_validation": true,
+      "original_2k_NS_is_not_first500_NS": true,
+      "historical_layout_bitwise_equivalence": "NOT_ESTABLISHED",
+      "main_model_cold_W0_still_required": true
+    },
+    "historical_comparisons_percent": [
+      {
+        "method": "v5 A",
+        "R": 95.2,
+        "P": 73.2,
+        "N": 87.46
+      },
+      {
+        "method": "v4 A",
+        "R": 99.6,
+        "P": 98.7,
+        "N": 62.24
+      },
+      {
+        "method": "MEMIT-H",
+        "R": 99.0,
+        "P": 87.3,
+        "N": 86.28
+      },
+      {
+        "method": "AlphaEdit",
+        "R": 98.6,
+        "P": 89.1,
+        "N": 82.2
+      },
+      {
+        "method": "AlphaEdit-BLUE",
+        "R": 100.0,
+        "P": 96.2,
+        "N": 83.8,
+        "layer_configuration": [
+          4,
+          8
+        ]
+      },
+      {
+        "method": "CAKE",
+        "R": 97.8,
+        "P": 80.4,
+        "N": 85.02
+      }
+    ],
+    "comparability": "Verify endpoint/case/target/metric/denominator before reporting; disclose different runtime and BLUE layer configuration."
+  },
+  "costs": {
+    "main_native_candidates_per_arm": 125,
+    "main_Adam_updates_per_arm": 120,
+    "main_native_candidates_both_arms": 250,
+    "main_Adam_updates_both_arms": 240,
+    "optimization_forward_request_bundles_per_batch": "27*B+M",
+    "optimization_backward_request_bundles_per_batch": "25*B+M",
+    "not_GPU_call_or_time_count": true,
+    "setup_geometry_history_official_evaluation_separate": true,
+    "extra_GPU_sweeps": false
+  },
+  "delivery": {
+    "required": [
+      "implementation_commit_and_source_archive_sha",
+      "input_model_runtime_receipts",
+      "pilot_receipt",
+      "optional_bounded_B100_receipt",
+      "job_IDs",
+      "batch_entry_commit_state_hashes",
+      "candidate_Adam_LR_and_probe_traces",
+      "group_norm_clamp_and_layer_allocation",
+      "native_actual_gap_and_weight_delta",
+      "history_memory_telemetry",
+      "per_case_raw",
+      "W5_aggregate_and_retention",
+      "phase_timing_tokens_memory"
+    ],
+    "terminal_gradient_measured": false,
+    "terminal_gradient_value": null,
+    "stop_after": "batch5_commit_and_W5_cumulative_evaluation",
+    "batch6_input_preparation": false,
+    "automatic_extension_or_new_arm": false,
+    "status_must_distinguish": [
+      "pilot_complete",
+      "main_submitted",
+      "main_running",
+      "each_arm_500_complete",
+      "partial_or_failure"
+    ]
+  }
+}

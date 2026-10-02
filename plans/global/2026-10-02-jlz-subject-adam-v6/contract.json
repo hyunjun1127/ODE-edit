@@ -1,0 +1,188 @@
+{
+  "schema": "jlz-subject-adam-method-v1",
+  "method": "JLZ-v6",
+  "date": "2026-10-02",
+  "status": "specified_not_production_implemented_or_GPU_qualified",
+  "primary": {
+    "branch": "native_subject_injection_into_frozen_batch_entry_model",
+    "variables": "absolute_delta_per_eligible_layer_per_current_request",
+    "eligible_layers": "entire_ordered_set_from_model_profile",
+    "initialization": "all_zero_all_present",
+    "shared_delta_across_contexts": true,
+    "native_inputs_lookup_readout_reductions_preserved": true,
+    "KL_direction": "current_to_own_batch_entry",
+    "norm": "lambda_norm * sum_layer_request(||delta_lr|| / a_lr^2)",
+    "anchor": "fixed_clean_canonical_full_block_output_per_layer_request",
+    "official_paraphrase_neighborhood_training": false,
+    "physical_current_target_NLL_as_primary": false
+  },
+  "writer": {
+    "geometry_precision": "FP64",
+    "reference_model_precision": "FP32",
+    "contexts": "all_native_rewrite_context_subject_keys",
+    "A": "lambda_C * C0 + H_entry",
+    "Omega": "diag(alpha); per-request alpha sum = 1",
+    "Z": "request_by_context_one_hot",
+    "Kbar": "K0 * Omega * transpose(Z)",
+    "P": "solve(A + K0*Omega*transpose(K0), Kbar)",
+    "P_fixed_within_batch": true,
+    "candidate_weights": "W_entry_FP32 + cast_FP32(delta_FP64 * transpose(P_FP64))",
+    "all_current_columns_in_every_physical_probe": true,
+    "final_current_key_resolve": false,
+    "final_strength_rescale": false,
+    "final_absolute_z_compensation": false,
+    "commit": "exact_terminal_physical_materialized_tensors"
+  },
+  "allocation": {
+    "G": "transpose(P)*A*P",
+    "E": "(transpose(P)*K0-Z)*Omega*transpose(transpose(P)*K0-Z)",
+    "identity": "G + E = I - transpose(Kbar)*P",
+    "sigma_l_squared": "mean_current_request(a_lr^2), fixed at entry",
+    "g_l": "sqrt(trace(delta_l*G_l*transpose(delta_l)))/(sqrt(actual_B)*sigma_l)",
+    "e_l": "sqrt(trace(delta_l*E_l*transpose(delta_l)))/(sqrt(actual_B)*sigma_l)",
+    "off_diagonals_retained": true,
+    "zero_norm_subgradient": 0,
+    "norm_smoothing_epsilon": null,
+    "arm_A": {
+      "physical": "sum_layer(g_l)",
+      "realization": "sum_layer(e_l)"
+    },
+    "arm_B": {
+      "physical": "sqrt(sum_layer(g_l^2))",
+      "realization": "sqrt(sum_layer(e_l^2))"
+    },
+    "only_arm_difference": "allocation_norm_shape",
+    "forced_equal_layer_shares": false,
+    "minimum_active_layers": null,
+    "preselected_top_k_layers": null,
+    "all_objective_dispersion_neutrality_claim": false
+  },
+  "optimizer": {
+    "type": "Adam",
+    "coordinate": "absolute_delta",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay": 0,
+    "learning_rate": "native_profile_lr, constant from first through last Adam update",
+    "warmup_updates": 0,
+    "native_candidate_evaluations": 25,
+    "Adam_updates": 24,
+    "microbatch_step": false,
+    "implementation_loss_scale": "multiply_entire_mean_loss_by_actual_B_before_backward",
+    "projection": "per_layer_request_native_ball_after_each_update",
+    "moment_reset_on_projection": false,
+    "native_loss_early_stop": false,
+    "line_search": false,
+    "quality_candidate_rejection": false,
+    "clamp_aware_learning_rate_or_gate": false
+  },
+  "physical_feedback": {
+    "candidate_indices": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "timing": "before_Adam_update_at_same_D_as_native_teacher",
+    "partition_count": 4,
+    "current": "balanced_disjoint_seeded_partitions_cover_all_actual_B_once",
+    "past": "balanced_disjoint_partitions_of_fixed_batch_reference_set_cover_once",
+    "empty_partition": "skip_loss_and_forward_without_dividing_by_zero",
+    "teacher": "stop_gradient_current_native_joint_forward_same_pre_update_D",
+    "teacher_extra_model_forward": false,
+    "subject_consistency": "selected_request_mean(0.5*sum_layer*sum_native_RW_context_w ||h_actual_subject_postblock - sg(h_virtual_subject_postblock)||^2/a_lr^2)",
+    "distillation": "selected_request_context_token_mean full-vocabulary KL(virtual_teacher || actual) at native_NLL_readout",
+    "current_physical_KL": "native_KL_weight * selected_request_native_KL_mean KL(actual || own_entry)",
+    "current_pulse_weight": "current_partition_size/actual_B",
+    "past_pulse_weight": "past_partition_size/fixed_past_set_size",
+    "importance_multiplier_four_or_six": false,
+    "reuse_stale_auxiliary_gradient": false,
+    "fixed_global_objective_exact_gradient_claim": false,
+    "interpretation": "finite_scheduled_teacher_updates_with_one_cohort_weighted_auxiliary_epoch"
+  },
+  "past_memory": {
+    "enabled_both_arms": true,
+    "capacity_unique_facts": 128,
+    "reference_cap": 16,
+    "sample_size": "min(reference_cap, actual_B, eligible_resident_fact_count)",
+    "sample_fixed_per_batch": true,
+    "exclude_current_fact_versions": true,
+    "content": "previously_used_native_KL_and_rewrite_only",
+    "KL_teacher": "fixed_admission_entry_actual_distribution_with_shared_input_identity_ownership",
+    "rewrite_baseline": "latest_actual_commit_native_NLL_per_context",
+    "rewrite_loss": "0.5*relu(actual_NLL - stored_baseline)^2",
+    "reservoir": "v5_Algorithm_R_unique_fact_version_and_eviction_contract",
+    "quality_based_admission": false
+  },
+  "initial_profile_provisional": {
+    "native_source": "bound_baseline_model_benchmark_profile",
+    "example_model": "Llama CounterFact profile, not a universal architecture promise",
+    "native_lr_example": 0.1,
+    "native_norm_example": 0.5,
+    "native_clamp_example": 0.75,
+    "native_KL_example": 0.0625,
+    "native_C0_weight_example": 15000,
+    "lambda_physical_burden": 0.1,
+    "lambda_entry_realization": 0.1,
+    "beta_subject_consistency": 0.1,
+    "beta_distillation": 0.1,
+    "lambda_past_KL": "native_KL_weight",
+    "lambda_past_NLL_degradation": 1.0,
+    "seed": 20261002,
+    "permutation_binding": "seed + stream_digest + batch_index + purpose, independent_of_arm_and_quality",
+    "performance_optimality_claim": false
+  },
+  "terminal": {
+    "candidate": 25,
+    "native_current": "full_forward_no_backward",
+    "physical_current": "full_forward_no_backward",
+    "physical_past": "not_required_at_terminal",
+    "gradient_telemetry": "null_and_gradient_measured_false",
+    "history": "actual_terminal_pre_own_down_projection_context_key_second_moment_once_per_request_layer",
+    "memory_new_NLL": "reuse_actual_terminal_current_context_NLL",
+    "quality_gate": false
+  },
+  "cost_accounting": {
+    "units": "full_native_context_bundles_per_request_not_GPU_calls_or_time",
+    "M": "fixed_past_sample_size",
+    "native_forward": "25*B",
+    "native_backward": "24*B",
+    "aux_physical_forward": "B+M",
+    "aux_physical_backward": "B+M",
+    "terminal_physical_forward": "B",
+    "total_forward": "27*B+M",
+    "total_backward": "25*B+M",
+    "setup_geometry_history_evaluation_excluded": true,
+    "extra_time_target_fraction": 0.4,
+    "runtime_ratio_verified": false,
+    "silent_schedule_or_input_reduction_on_overrun": false
+  },
+  "portability": {
+    "actual_B_driven": true,
+    "variable_context_and_target_lengths": true,
+    "heterogeneous_layer_dimensions": true,
+    "native_post_intervention_readout_required": true,
+    "model_adapter_qualification_required": true,
+    "supported_architectures_claim": "existing_Llama_mapping_only_until_new_adapter_qualification"
+  },
+  "validation": {
+    "CPU_math": "math/validation-results.json",
+    "real_model_GPU": "NOT_RUN",
+    "performance_comparison": "NOT_RUN",
+    "training_input_removal": false,
+    "evaluation_input_feedback": false,
+    "strict_layer_quality_gates": false
+  },
+  "revision": {
+    "id": "20261002-no-warmup-first500",
+    "source": "explicit_user_instruction",
+    "changes": [
+      "remove_learning_rate_warmup",
+      "first_experiment_two_arms_each_max500_edits"
+    ],
+    "native_post_update_clamp_retained": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "status": "PASS_WITH_SEALED_MARKDOWN_HARDBREAK_EXCEPTION",
+  "checks": [
+    "36 archive regular members SHA/size exact and source equal",
+    "16 new document members adopted exact;1 existing case schedule reused exact",
+    "19 background members archive-only; prompt/per-case CSV excluded from Git",
+    "primary method+experiment semantics and first500 ordered IDs bound",
+    "250 main native candidates /240 Adam updates, pilot100/96, single B100<=5/4",
+    "warmup0/LR.1/noB6/noCP/cap2/60416MiB checked",
+    "global STOP remains default; stopped v5 authorization revoked; only v6 new exception",
+    "all staged JSON parses"
+  ],
+  "whitespace": {
+    "plain_git_diff_check": "3 trailing-whitespace notices in exact GH-HANDOFF.md lines3,4,5: intentional two-space Markdown hard breaks from sealed source",
+    "resolution": "preserve canonical SHA; all other staged paths diff--check must pass; no whitespace-normalized science bytes"
+  },
+  "actual_GPU": "NOT_RUN",
+  "implementation": "NOT_IMPLEMENTED_AT_DISPATCH",
+  "SH4_ACK": "PENDING"
+}

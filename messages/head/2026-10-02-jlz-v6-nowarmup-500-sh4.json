@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "task_id": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+  "date_kst": "2026-10-02",
+  "issued_by": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "애초에 clamp 자체가 사후적으로 넣는 항이기 때문에 반드시 이를 고려를 하지 않아도 되는데 warm-up 부분 자체가 문제가 될 수 있을 것 같다. 저 부분은 일단 첫 시도에선 제외하고 진행하는 것으로 진행하자. 500 edit까지만 진행하는 것으로 수정해서 GH에게 전달해. sh4에게 시키자.",
+    "authorization": "new v6 implementation, CPU/source audit, actual small pilot, bounded B100 check, two cold 500-edit main lanes and CPU collector; no repeated approval"
+  },
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "assignment_ko": "정본을 전체 읽고 새 jlz_subject_adam namespace에서 v6를 구현·점검·작은 actual pilot 후 두 cold main을 수행하라. 먼저 같은 nonce 담당 수락/실제 착수 상태를 ACK하고 GH 후속 승인 없이 진행하라. 접수만으로 종료하지 않는다.",
+  "authority_exception": {
+    "path": "control/experiment-exceptions/jlz-subject-adam-v6-500-20261002.json",
+    "scope": "this new v6 only; global STOP/other tasks unchanged",
+    "v5": "ALREADY_STOPPED_USER; preserve historical cancellation and partial results; no recancel/restart/resume",
+    "v5_stop_receipt": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/cancellation.json"
+  },
+  "binding": {
+    "method": "plans/global/2026-10-02-jlz-subject-adam-v6/method-ko.md",
+    "implementation": "plans/global/2026-10-02-jlz-subject-adam-v6/implementation-ko.md",
+    "method_contract": "plans/global/2026-10-02-jlz-subject-adam-v6/contract.json",
+    "experiment": "plans/global/2026-10-02-jlz-subject-adam-v6/experiment-500/experiment-ko.md",
+    "experiment_contract": "plans/global/2026-10-02-jlz-subject-adam-v6/experiment-500/experiment.json",
+    "tex": "docs/methods/jlz-subject-adam-v6.tex",
+    "manifest": "plans/global/2026-10-02-jlz-subject-adam-v6/artifact-manifest.json",
+    "manifest_sha256": "e46afc2423caf908ae2cd8eb92580457b89c311282a88fad206379a60ded40da",
+    "input_receipt": "audits/global/2026-10-02-jlz-v6-sh4-dispatch/input-receipt.json",
+    "precedence": "latest USER no-warmup/500 → this execution authority/bounded budgets → v6 method+experiment; NOT_RUN is historical validation state, not denial of permission. Old v4 schedule is case identity only; old v5 memory policy only where v6 explicitly inherits it.",
+    "receiver": "FULL_READ primary method/implementation/contract/TeX/experiment and math instructions; all36 members SHA/size; parse all case schedule rows/fields. Archive-only background raw is read-only, not authority or Git publication."
+  },
+  "method": {
+    "profile": "Model/benchmark/B/partial/context/layer-dimension adapter; concrete Llama3-8B-Instruct pinned revision/CounterFact first500/L4–L8. FP32 model/activations/absolute D, FP64 geometry, eager, autocast/TF32 both off; all source/runtime/input identities freeze.",
+    "primary": "Frozen own batch-entry model; absolute subject delta at full-block output lookup for all eligible layers, all-zero initialization. Native6 rewrite +1KL, native reductions/readout31; KL(current||ownentry). Clean canonical full-block anchor fixed. Whole mean objective INCLUDING geometry/past/pulse multiplied by actual_B before backward. No v5 relative-coordinate/anchor scaling chain reused.",
+    "optimizer": "Adam absolute D betas(.9,.999),eps1e-8,weightdecay0,LR=.1 every update1..24,warmup0. Exactly25 native candidate evaluations/24 Adam updates, whole logical gradient then one step then native per-group ball .75a. Norm .5||D||/a²; moments retained after projection. No loss earlystop/line search/reject/clamp-aware LR/layer gate.",
+    "geometry": "Entry once FP64 P=solve(15000*C0+H+K0*Omega*K0.T,Kbar); C0 native normalized mom2/count FP32 then FP64. Native geometry alpha=(.5,.1x5) vs losscontext1/6. Fixed P, all B offdiagonals. G=P.T*A*P; E=(P.T*K0-Z)*Omega*(...).T; G+E=I-Kbar.T*P. sigma²=mean anchors², g/e root quadratic/(sqrtB*sigma). ArmA sum roots vs ArmB root sum squares, lambdaW=lambdaE=.1; ONLY arm difference. Both arms past enabled, empty B1 objective equality NOT required.",
+    "root_norm": "Zero subgradient0 via qualified PSD factors; no epsilon norm smoothing. Fixed contract roundoff handling and source receipt, no arbitrary jitter/drop-layer/diagonal approximation.",
+    "physical": "Before updates5/10/15/20 (completed4/9/14/19), balanced disjoint seeded current4 partitions cover B once and fixed past4 partitions cover M once. Skip empty partitions, no div0. Same-D native postinjection teacher detach only; no extra teacherforward. ALL B Dcolumns in every physical write. Weight W_entry_FP32 + cast_FP32(D_FP64@P_FP64.T), materialize once/probe, one modified linear. Subject Ch beta.1 and fullvocab distillation KL(virtualteacher||actual) beta.1 plus current physical nativeKL .0625. Current |I|/B and past |J|/M then whole objective Bscale, no multiplier4/6/stalegrad. No extra physical current target-NLL gradient.",
+    "terminal": "Candidate25 full native current and full actual current no backward/update; terminal gradient null/gradient_measured=false. Commit exact materialized actual weight evaluated at terminal, no current-key resolve/strengthscale/zcompensation. Append actual own-downproj input context secondmoment once/request/layer; not entry/virtual/pulse keys. Reuse actual terminal current NLL for memory.",
+    "memory": "RAM only both arms v5 unique-first-fact AlgorithmR128/reference min(16,B,eligible), same metadata permutation rules but own W/H/teacher/b. Exclude current facts/versions; fixed once per batch sample; seen out-of-bank repeat not re-admitted, in-bank update latest actual b/target while immutable nativeKL tuple/teacher remains. Shared exact-input earliest resident admission teacher with refcounts; evict at last owner. No quality/officialP,N/future input in training/admission.",
+    "transaction": "Atomic RAM W/H/memory/RNG/ledger/pending admission rollback on technical exceptions, observer nonmutation. No crossarm/oldv5/pilot state seeds main. Preserve failure receipts/cost, no false rollback PASS after process termination.",
+    "compute": "Subject branch native prefix qualified reuse; actual branch cache only before first modified down_proj, NO upper-layer subject-prefix reuse. Selected full-vocab head/crop only exact-token-position semantics, directD and full input VJP dense qualification. No input/term/layer/candidate reduction for speed."
+  },
+  "execution": {
+    "arms": [
+      "A",
+      "B"
+    ],
+    "main": {
+      "batch_size": 100,
+      "batches_per_arm": 5,
+      "requests_per_arm": 500,
+      "shared_unique_cohort": 500,
+      "physical_main_occurrences": 1000,
+      "cold": "independent pretrained W0/zeroH/empty memory/optimizer; same ordered first500",
+      "case_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+      "native_candidates_per_arm": 125,
+      "Adam_updates_per_arm": 120,
+      "both_candidates": 250,
+      "both_updates": 240,
+      "stop": "W5 commit+allseen500 evaluation+compact output; B6 input prep/entry forbidden"
+    },
+    "pilot": {
+      "each_arm": true,
+      "fresh": true,
+      "B": 2,
+      "batches": 2,
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "slice": [
+        2000,
+        2004
+      ],
+      "total_native_candidates": 100,
+      "total_Adam_updates": 96,
+      "pilot_to_main_state": false,
+      "quality_gate": false
+    },
+    "B100_smoke": {
+      "GH_decision": "REQUIRED_ONCE: new v6 B100 physical branch/memory path lacks current implementation evidence",
+      "arm": "B",
+      "fresh_W0_H0_empty_memory": true,
+      "cases": "first100 only",
+      "max_runs": 1,
+      "max_native_candidates": 5,
+      "max_Adam_updates": 4,
+      "candidate5": "include preupdate actual physical probe; NO fifth Adam update",
+      "write_to_main": false,
+      "retune": false,
+      "scope": "time/memory/input/gradient/physical wiring only, not extra independent science chain; separate accounting; no B100 sweep"
+    },
+    "qualification": "Bounded same-candidate dense/direct/cache and native input/readout comparisons embedded in small pilot; freeze exact probes/tolerances/call accounting before model run. No extra qualification campaign or new strict quality gates. CPU algebra is not actual model parity.",
+    "flow": "CPU/source audit→actual pilot+one bounded B100 check→without further USER/GH approval cold A/B main. cap2 separate independent lanes, dependencies/persistent typed-ready runner permitted. Pilot PASS != main initial.",
+    "W0": "Existing first500 W0 raw identity binding/reuse, no default full W0 eval. NS4392/5000 historical reference only after per-case/token/evaluator binding; NOT first2k NS. Main model itself freshW0. Missing comparability record; no unauthorized baseline run.",
+    "evaluation": "W1–4 current R100/P200/N1000; W5 allseen R500/P1000/N5000, derive W5 current subset from same raw. RS/PS/NS strict NLL inequalities tiesfailure, TF tokenmicro/promptmacro/strict, N true-target accuracy, true/new/desired NLL+margin, atwrite→W5/cohort/active and W0N lost/gained. No metric feedback. Historical first500 baseline/runtime/config differences explicit.",
+    "new_baseline_jobs": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "storage": "No durable fullW/H/D/P/optimizer/teacher/memory or equivalent reconstructive delta/factor/resume bundle. Keep RAM state only, source/config/state hashes/compact norms/scalar per-case metrics/pulse and LR ledger. Existing raw/assets KEEP; do not delete/move.",
+    "telemetry": "per candidate native/policy/actual auxiliary terms; layer delta/write norms/clamp ratios; realized writer gap; pulse current/past coverage; candidate/Adam counts; clocks, physical forwards/backwards, allocatedGPU-sec, peakVRAM/RSS; budget-stop/clamp-saturation/lowquality record-only; terminal no invented gradient."
+  },
+  "review": {
+    "preflight": "Detailed bounded source audit+CPU regression: B scaling, geometry/context weights, zero gradients/roots, arm norm only, constant LR, postclamp moments, pulse index/coverage/current versus past weighting, native-teacher stopgrad only, actual all-column/directD+inputVJP, variableB, terminal/commit/H/memory/rollback/IO, noCP/noB6. Record owner audit vs independent reviewer honestly.",
+    "actual": "Small pilot input/lookup/readout, zero/nonzero dense/directD/cache/fullinputVJP, microbatch gradient, LR/clamp/terminal physical exactcommit, ownstate/H/memory continuity. Confirmed errors repair/requalify before main. Same-purpose reference fallback allowed and cost separately logged; CPU results never promoted to GPU PASS.",
+    "policy": "No efficacy/concentration/cosine/convergence/clamp gate. Numerical checks detect implementation errors, not prove universal parity; predeclared tolerance/denominator, no repeat-to-PASS or hidden numerical changes. Confirmed input/SPD/nonfinite/gradient/cache/commit/IO integrity errors blocking until minimal repair. Any coefficients/objective change needs explicit separate revision; no silently changed science.",
+    "repair": "Owner may report confirmed technical error then minimal task-local fix+CPU regression+new immutable source/attempt before initial handoff, preserving original raw/source/cost; no daemon/repeated automatic retry after monitoring pause.",
+    "collector": "CPU independent count/NLL/TF/state/coverage/cost reducer; report+inventory before terminal seal; distinguish W5 completed/partial/failed. 10 main commits expected, historical v5 not part of denominator; no new evaluator/model run."
+  },
+  "ownership": {
+    "branch": "codex/server4-jlz-subject-adam-v6-bs100x5-20261002-v1",
+    "clean_worktree": "/data/janghj/ODE-edit/local/jlz-subject-adam-v6/20261002-v1/worktree or dedicated equivalent with actual boundary",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_subject_adam/",
+      "plans/global/2026-10-02-jlz-subject-adam-v6/",
+      "docs/methods/jlz-subject-adam-v6.tex",
+      "experiment-reports/servers/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/",
+      "audits/servers/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/",
+      "plans/updates/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/",
+      "tasks/status/jlz-subject-adam-v6-bs100x5-20261002-v1/server4.json",
+      "messages/acks/server4/2026-10-02-jlz-subject-adam-v6.json",
+      "messages/server-heads/server4/2026-10-02-jlz-subject-adam-v6.json",
+      "runs/odeedit_jlz_v6_s4_20261002/"
+    ],
+    "allowed_local_write": [
+      "/data/janghj/ODE-edit/local/jlz-subject-adam-v6/20261002-v1/",
+      "dedicated WT ignored session-boundary actual session/CWD"
+    ],
+    "own_scope_nonforce_branch_main_push": true,
+    "canonical_docs": "preserve exact originals; implementation clarification in versioned task update",
+    "forbidden": "root reset/stash/stageall, shared native/EasyEdit/env/git identity/profile changes, hotpatch old jobs, other task resume/cancel"
+  },
+  "transfer": {
+    "permission": "SH4 one exact archive pull authorized by USER; no extra approval",
+    "source_host": "GH/server1 canonical approved SSH mapping",
+    "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v6-dispatch/20261002-r1/jlz-v6-no-warmup-method-experiment-500.tar.gz",
+    "sha256": "fa7f6f42ac8026eacd324db57527a4b1b6b8bfc57affdf1d4b14cf122f2ac7a6",
+    "bytes": 1465351,
+    "regular_members": 36,
+    "destination": "/data/janghj/ODE-edit/local/jlz-subject-adam-v6/20261002-v1/inputs/design-package/",
+    "validation": "createonce/sourceKEEP; reject symlink/device/traversal/unlisted/duplicate; exact full member SHA/size vs bound manifest. Raw background stays ignored, never Git.",
+    "assets": "reuse same-server existing exact model/data/context/C0; no large transfer/download/CP/newreferencegeneration"
+  },
+  "slurm": {
+    "permission": "ALLOWED_THIS_NEW_V6_ONLY",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "stricter_current_limit_wins": true,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_max": 60416,
+    "node": "server4",
+    "export": "NONE",
+    "requeue": 0,
+    "job_prefix": "odeedit_jlz_v6_s4",
+    "wall": "finite frozen plan: pilot/B100<=24h, main<=min(7days,partition ceiling), CPUcollector<=4h; wall != ETA",
+    "admission": "fresh owned project active+admitted overlap bounded by current cap; both A/B lanes when admitted, no unrelated preemption. Proper pending allowed, no duplicate submissions.",
+    "held_inspection": [
+      "owner/node/partition",
+      "exact full argv",
+      "source/archive/lock/input",
+      "GPU/CPU/mem/wall",
+      "export/requeue",
+      "dependencies/throttle"
+    ],
+    "CPU_collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "memory_mib_max": 24576,
+      "dependency": "afterany main/failure coverage; science completeness separately checked"
+    }
+  },
+  "reporting": {
+    "first_reply": "same nonce actual owner ACK, FULL_READ/implementation/submission state separately; continue without GH ACK",
+    "report": "experiment-reports/servers/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/report-ko.md",
+    "audit": "audits/servers/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/",
+    "status": "tasks/status/jlz-subject-adam-v6-bs100x5-20261002-v1/server4.json",
+    "ack": "messages/acks/server4/2026-10-02-jlz-subject-adam-v6.json",
+    "message": "messages/server-heads/server4/2026-10-02-jlz-subject-adam-v6.json",
+    "runs": "runs/odeedit_jlz_v6_s4_20261002/",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; only ownsource/compactreport/manifests toGit, raw/tensor/prompt/fullstdout/secrets excluded. Authorized inputarchive exception does not authorize raw broadcast.",
+    "initial": "representative actual main B1 terminalcommit/H/memory/observerrestore→B2 ownentry OR both main normally registered/inspected/released resourcepending; pilot is not main initial",
+    "after_initial": "GH/SH4/task workers stop active scheduler/log/result polling; monitoring_active=false/automatic_resume=false; no heartbeat/callback/newretry/followup submit. Sealed five-batch runners/collector naturally finish W5. Detailed completion review on USER recall.",
+    "GH": "bounded owner ACK and initial implementation startup only; no long pilot/main waiting; do not intrude unrelated active turn"
+  }
+}

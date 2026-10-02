@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V6-NOWARMUP-500-20261002-R1",
+  "task_id": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "envelope": "messages/head/2026-10-02-jlz-v6-nowarmup-500-sh4.json",
+  "authorized": true,
+  "scope": "new v6 implementation/pilot/one bounded B100/two cold500 mains/CPUcollector only",
+  "v4_v5_restart_authorized": false,
+  "other_tasks_stop_preserved": true,
+  "project_gpu_cap": 2,
+  "save_checkpoints": false,
+  "initial_monitoring_only": true,
+  "automatic_resume_after_initial": false
+}

@@ -1,0 +1,1625 @@
+{
+  "schema": "jlz-subject-adam-v6-math-validation-v1",
+  "passed": true,
+  "seed": 20261002,
+  "cpu_only": true,
+  "standard_library_only": true,
+  "checks": [
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2.366634739550582e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2.335163983472562e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2.4497570867738326e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2.213367713346596e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2.4993932475024647e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2.273465721585579e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2.4e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2.2800010683224429e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 3.2994678205829964e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 2.949029909160572e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 3.188938234581344e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 1.0300334031006268e-09
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 2.42861286636753e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 2.7167154745550313e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 3.770541983593751e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2.4e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 3.8000000000000003e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 1.3877787807814457e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2.8833403796618795e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 1.2712599182199643e-09
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 1.3877787807814457e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 2.982294536659549e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 1.8522467230655855e-09
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 3.3306690738754696e-16,
+      "limit": 2.0000000000000008e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 2.0816681711721685e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 3.00478944210921e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 1.9235094424401854e-09
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2.4e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 3.8000000000000003e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2.64e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 4.7e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "native_group_projection",
+      "absolute_error": 0.0,
+      "limit": 2.8800000000000004e-10
+    },
+    {
+      "name": "per_request_context_mass_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "E_plus_G_equals_I_minus_KbarT_P",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.0000000000000003e-10
+    },
+    {
+      "name": "normal_equation",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2.0000000000000006e-10
+    },
+    {
+      "name": "G_symmetric",
+      "absolute_error": 1.0408340855860843e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "E_symmetric",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "physical_write_cost_explicit_equals_compact",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2.7651664112191806e-10
+    },
+    {
+      "name": "realization_cost_explicit_equals_compact",
+      "absolute_error": 0.0,
+      "limit": 4.933325688932761e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 0.0,
+      "limit": 3.414213562373095e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 3.4142135623730956e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 0.0,
+      "limit": 2.894427190999916e-10
+    },
+    {
+      "name": "identical_path_arm_A_split_neutral",
+      "absolute_error": 0.0,
+      "limit": 4e-10
+    },
+    {
+      "name": "identical_path_arm_B_spread_incentive",
+      "absolute_error": 0.0,
+      "limit": 2.894427190999916e-10
+    }
+  ],
+  "geometries": [
+    {
+      "batch": 1,
+      "din": 4,
+      "dout": 3,
+      "contexts": 2,
+      "sigma": 1.2000000000000002,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.1833173697752911,
+          "diagonal_only_quadratic": 0.1833173697752911,
+          "off_diagonal_contribution": 0.0
+        },
+        "E": {
+          "full_quadratic": 0.16758199173628097,
+          "diagonal_only_quadratic": 0.16758199173628097,
+          "off_diagonal_contribution": 0.0
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "din": 6,
+      "dout": 5,
+      "contexts": 2,
+      "sigma": 1.4,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.22487854338691635,
+          "diagonal_only_quadratic": 0.22487854338691635,
+          "off_diagonal_contribution": 0.0
+        },
+        "E": {
+          "full_quadratic": 0.10668385667329805,
+          "diagonal_only_quadratic": 0.10668385667329805,
+          "off_diagonal_contribution": 0.0
+        }
+      }
+    },
+    {
+      "batch": 1,
+      "din": 5,
+      "dout": 4,
+      "contexts": 2,
+      "sigma": 1.3,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.24969662375123236,
+          "diagonal_only_quadratic": 0.24969662375123236,
+          "off_diagonal_contribution": 0.0
+        },
+        "E": {
+          "full_quadratic": 0.1367328607927894,
+          "diagonal_only_quadratic": 0.1367328607927894,
+          "off_diagonal_contribution": 0.0
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "din": 4,
+      "dout": 3,
+      "contexts": 9,
+      "sigma": 1.2000000000000002,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.14000053416122146,
+          "diagonal_only_quadratic": 0.14399380518681867,
+          "off_diagonal_contribution": -0.0039932710255972115
+        },
+        "E": {
+          "full_quadratic": 0.6497339102914982,
+          "diagonal_only_quadratic": 0.701630156976936,
+          "off_diagonal_contribution": -0.0518962466854378
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "din": 6,
+      "dout": 5,
+      "contexts": 9,
+      "sigma": 1.4,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.5944691172906719,
+          "diagonal_only_quadratic": 0.7411629798147128,
+          "off_diagonal_contribution": -0.14669386252404093
+        },
+        "E": {
+          "full_quadratic": 4.150167015503134,
+          "diagonal_only_quadratic": 3.3217639753050543,
+          "off_diagonal_contribution": 0.8284030401980793
+        }
+      }
+    },
+    {
+      "batch": 3,
+      "din": 5,
+      "dout": 4,
+      "contexts": 9,
+      "sigma": 1.3,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.3583577372775155,
+          "diagonal_only_quadratic": 0.3759459491541209,
+          "off_diagonal_contribution": -0.017588211876605364
+        },
+        "E": {
+          "full_quadratic": 0.8852709917968754,
+          "diagonal_only_quadratic": 1.814814822036551,
+          "off_diagonal_contribution": -0.9295438302396756
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "din": 4,
+      "dout": 3,
+      "contexts": 20,
+      "sigma": 1.2000000000000002,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.4416701898309398,
+          "diagonal_only_quadratic": 0.3949379988120787,
+          "off_diagonal_contribution": 0.04673219101886111
+        },
+        "E": {
+          "full_quadratic": 5.3562995910998215,
+          "diagonal_only_quadratic": 5.319784012018959,
+          "off_diagonal_contribution": 0.03651557908086289
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "din": 6,
+      "dout": 5,
+      "contexts": 20,
+      "sigma": 1.4,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.4911472683297745,
+          "diagonal_only_quadratic": 0.43443340328336855,
+          "off_diagonal_contribution": 0.056713865046405965
+        },
+        "E": {
+          "full_quadratic": 8.261233615327928,
+          "diagonal_only_quadratic": 8.066254319334668,
+          "off_diagonal_contribution": 0.19497929599326014
+        }
+      }
+    },
+    {
+      "batch": 7,
+      "din": 5,
+      "dout": 4,
+      "contexts": 20,
+      "sigma": 1.3,
+      "coupling": {
+        "G": {
+          "full_quadratic": 0.502394721054605,
+          "diagonal_only_quadratic": 0.5983420282503072,
+          "off_diagonal_contribution": -0.09594730719570221
+        },
+        "E": {
+          "full_quadratic": 8.617547212200927,
+          "diagonal_only_quadratic": 7.558167607143895,
+          "off_diagonal_contribution": 1.0593796050570319
+        }
+      }
+    }
+  ],
+  "gradient_checks": [
+    {
+      "batch": 1,
+      "arm": "A",
+      "metric": "G",
+      "coordinate_count": 12,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 1.0169623476663503e-10,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 1,
+      "arm": "B",
+      "metric": "G",
+      "coordinate_count": 12,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 4.6987871926695846e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 1,
+      "arm": "A",
+      "metric": "E",
+      "coordinate_count": 12,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 9.225703165825772e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 1,
+      "arm": "B",
+      "metric": "E",
+      "coordinate_count": 12,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 3.4810404558882624e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 3,
+      "arm": "A",
+      "metric": "G",
+      "coordinate_count": 36,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 6.45947115240908e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 3,
+      "arm": "B",
+      "metric": "G",
+      "coordinate_count": 36,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 3.590510527784474e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 3,
+      "arm": "A",
+      "metric": "E",
+      "coordinate_count": 36,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 1.1157716417464769e-10,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 3,
+      "arm": "B",
+      "metric": "E",
+      "coordinate_count": 36,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 1.0291666130424204e-10,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 7,
+      "arm": "A",
+      "metric": "G",
+      "coordinate_count": 84,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 5.6068642784179445e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 7,
+      "arm": "B",
+      "metric": "G",
+      "coordinate_count": 84,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 3.6545126300135955e-11,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 7,
+      "arm": "A",
+      "metric": "E",
+      "coordinate_count": 84,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 1.93768855127896e-10,
+      "absolute_tolerance": 5e-08
+    },
+    {
+      "batch": 7,
+      "arm": "B",
+      "metric": "E",
+      "coordinate_count": 84,
+      "finite_difference_h": 1e-06,
+      "max_absolute_error": 1.1110395936597683e-10,
+      "absolute_tolerance": 5e-08
+    }
+  ],
+  "native_projection_checks": [
+    {
+      "batch": 1,
+      "radius_factor": 0.75,
+      "interior_unchanged": true,
+      "exterior_projected": false,
+      "zero_unchanged": false
+    },
+    {
+      "batch": 3,
+      "radius_factor": 0.75,
+      "interior_unchanged": true,
+      "exterior_projected": true,
+      "zero_unchanged": true
+    },
+    {
+      "batch": 7,
+      "radius_factor": 0.75,
+      "interior_unchanged": true,
+      "exterior_projected": true,
+      "zero_unchanged": true
+    }
+  ],
+  "identical_path_split_checks": [
+    {
+      "layers": 1,
+      "metric": "G",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 1.0,
+      "expected_arm_B_ratio": 1.0
+    },
+    {
+      "layers": 1,
+      "metric": "E",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 1.0,
+      "expected_arm_B_ratio": 1.0
+    },
+    {
+      "layers": 2,
+      "metric": "G",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 0.7071067811865475,
+      "expected_arm_B_ratio": 0.7071067811865475
+    },
+    {
+      "layers": 2,
+      "metric": "E",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 0.7071067811865476,
+      "expected_arm_B_ratio": 0.7071067811865475
+    },
+    {
+      "layers": 5,
+      "metric": "G",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 0.4472135954999579,
+      "expected_arm_B_ratio": 0.4472135954999579
+    },
+    {
+      "layers": 5,
+      "metric": "E",
+      "arm_A_ratio": 1.0,
+      "arm_B_ratio": 0.4472135954999579,
+      "expected_arm_B_ratio": 0.4472135954999579
+    }
+  ],
+  "zero_subgradient_convention": [
+    {
+      "metric": "G",
+      "arm": "A",
+      "selected_subgradient": 0.0
+    },
+    {
+      "metric": "G",
+      "arm": "B",
+      "selected_subgradient": 0.0
+    },
+    {
+      "metric": "E",
+      "arm": "A",
+      "selected_subgradient": 0.0
+    },
+    {
+      "metric": "E",
+      "arm": "B",
+      "selected_subgradient": 0.0
+    }
+  ],
+  "feedback_coverage_checks": [
+    {
+      "batch": 1,
+      "past_count": 0,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 1,
+      "request_row_costs": {
+        "native_forward": 25,
+        "native_backward": 24,
+        "feedback_forward": 1,
+        "feedback_backward": 1,
+        "terminal_physical_forward": 1,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 27,
+        "total_backward": 25,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 1,
+      "past_count": 1,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 2,
+      "request_row_costs": {
+        "native_forward": 25,
+        "native_backward": 24,
+        "feedback_forward": 2,
+        "feedback_backward": 2,
+        "terminal_physical_forward": 1,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 28,
+        "total_backward": 26,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 1,
+      "past_count": 5,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 0,
+          "past_count": 1,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 0,
+          "past_count": 1,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 1,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 6,
+      "request_row_costs": {
+        "native_forward": 25,
+        "native_backward": 24,
+        "feedback_forward": 6,
+        "feedback_backward": 6,
+        "terminal_physical_forward": 1,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 32,
+        "total_backward": 30,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 1,
+      "past_count": 10,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 3,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 0,
+          "past_count": 3,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 0,
+          "past_count": 2,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 2,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 11,
+      "request_row_costs": {
+        "native_forward": 25,
+        "native_backward": 24,
+        "feedback_forward": 11,
+        "feedback_backward": 11,
+        "terminal_physical_forward": 1,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 37,
+        "total_backward": 35,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 3,
+      "past_count": 0,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 3,
+      "request_row_costs": {
+        "native_forward": 75,
+        "native_backward": 72,
+        "feedback_forward": 3,
+        "feedback_backward": 3,
+        "terminal_physical_forward": 3,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 81,
+        "total_backward": 75,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 3,
+      "past_count": 1,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 0,
+          "skip_current_forward": true,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 4,
+      "request_row_costs": {
+        "native_forward": 75,
+        "native_backward": 72,
+        "feedback_forward": 4,
+        "feedback_backward": 4,
+        "terminal_physical_forward": 3,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 82,
+        "total_backward": 76,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 3,
+      "past_count": 5,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 1,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 1,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 1,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 8,
+      "request_row_costs": {
+        "native_forward": 75,
+        "native_backward": 72,
+        "feedback_forward": 8,
+        "feedback_backward": 8,
+        "terminal_physical_forward": 3,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 86,
+        "total_backward": 80,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 3,
+      "past_count": 10,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 1,
+          "past_count": 3,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 1,
+          "past_count": 3,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 1,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 0,
+          "past_count": 2,
+          "skip_current_forward": true,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 13,
+      "request_row_costs": {
+        "native_forward": 75,
+        "native_backward": 72,
+        "feedback_forward": 13,
+        "feedback_backward": 13,
+        "terminal_physical_forward": 3,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 91,
+        "total_backward": 85,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 7,
+      "past_count": 0,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 2,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 2,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 2,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 7,
+      "request_row_costs": {
+        "native_forward": 175,
+        "native_backward": 168,
+        "feedback_forward": 7,
+        "feedback_backward": 7,
+        "terminal_physical_forward": 7,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 189,
+        "total_backward": 175,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 7,
+      "past_count": 1,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 2,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 2,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 2,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 1,
+          "past_count": 0,
+          "skip_current_forward": false,
+          "skip_past_forward": true
+        }
+      ],
+      "total_feedback_request_rows": 8,
+      "request_row_costs": {
+        "native_forward": 175,
+        "native_backward": 168,
+        "feedback_forward": 8,
+        "feedback_backward": 8,
+        "terminal_physical_forward": 7,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 190,
+        "total_backward": 176,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 7,
+      "past_count": 5,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 2,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 2,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 2,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 1,
+          "past_count": 1,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 12,
+      "request_row_costs": {
+        "native_forward": 175,
+        "native_backward": 168,
+        "feedback_forward": 12,
+        "feedback_backward": 12,
+        "terminal_physical_forward": 7,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 194,
+        "total_backward": 180,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    },
+    {
+      "batch": 7,
+      "past_count": 10,
+      "native_candidate_evaluations": 25,
+      "adam_updates": 24,
+      "probe_partitions": [
+        {
+          "native_candidate_index": 5,
+          "adam_updates_before_probe": 4,
+          "timing": "before_update",
+          "next_adam_update_index": 5,
+          "current_count": 2,
+          "past_count": 3,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 10,
+          "adam_updates_before_probe": 9,
+          "timing": "before_update",
+          "next_adam_update_index": 10,
+          "current_count": 2,
+          "past_count": 3,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 15,
+          "adam_updates_before_probe": 14,
+          "timing": "before_update",
+          "next_adam_update_index": 15,
+          "current_count": 2,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        },
+        {
+          "native_candidate_index": 20,
+          "adam_updates_before_probe": 19,
+          "timing": "before_update",
+          "next_adam_update_index": 20,
+          "current_count": 1,
+          "past_count": 2,
+          "skip_current_forward": false,
+          "skip_past_forward": false
+        }
+      ],
+      "total_feedback_request_rows": 17,
+      "request_row_costs": {
+        "native_forward": 175,
+        "native_backward": 168,
+        "feedback_forward": 17,
+        "feedback_backward": 17,
+        "terminal_physical_forward": 7,
+        "terminal_physical_backward": 0,
+        "terminal_extra_adam_updates": 0,
+        "total_forward": 199,
+        "total_backward": 185,
+        "forward_formula": "27*B+M",
+        "backward_formula": "25*B+M"
+      },
+      "all_requests_seen_exactly_once": true,
+      "note": "Request rows, not token rows or GPU forward-call counts."
+    }
+  ],
+  "limitations": [
+    "Synthetic matrices validate algebra, not model efficacy or causal mechanisms.",
+    "Split neutrality and 1/sqrt(L) scaling assume identical layer paths and sigma.",
+    "Root norms need a selected subgradient at zero; no ordinary derivative is claimed.",
+    "E and G use a fixed entry geometry; changing keys after writes changes realized effects.",
+    "25 native candidate evaluations exclude additional writer-feedback and terminal physical forwards.",
+    "The 27B+M/25B+M costs count optimization request rows, excluding geometry/teacher preparation and benchmark evaluation.",
+    "Logical request coverage does not imply a fixed token count or runtime across batch sizes."
+  ]
+}
