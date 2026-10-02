@@ -1,0 +1,9 @@
+{
+  "nonce": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1-SERVER3",
+  "received": true,
+  "status": "STOPPED_USER",
+  "server3_active_before": 0,
+  "server3_active_after": 0,
+  "cancelled_jobs": [],
+  "receipt": "audits/servers/server3/2026-10-02-user-stop-all/stop-receipt.json"
+}

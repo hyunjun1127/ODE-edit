@@ -1,0 +1,12 @@
+{
+  "status": "STOPPED_USER",
+  "nonce": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1-SERVER3",
+  "scope": "All server3 owned ODE-edit experiments, including queued GPU/CPU successors and future retries/resumes",
+  "observed_at": "2026-10-02T03:02:15.238330+00:00",
+  "active_jobs": [],
+  "cancelled_jobs": [],
+  "configured_caps": "HISTORICAL_UNCHANGED_AUTHORITY_SUSPENDED",
+  "automatic_resume": false,
+  "monitoring_active": false,
+  "new_experiment_authorization_required": true
+}
