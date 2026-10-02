@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "package_manifest": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/package-manifest.json",
+  "package_sha256": "418312b0cd6bf11401c9c3a2026906bc5afabc6ac57f2c0185c13927c6211263",
+  "execution_source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "report": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/report-ko.md",
+  "report_sha256": "c216b537d40c4c86e6bd578ed495ca75eeb8eb4ea813ec7454f5226a4f96f743",
+  "initial_observed_utc": "2026-10-02T09:12:38.821963+00:00",
+  "status": "INITIAL_MAIN_CONFIRMED_MONITORING_STOPPED",
+  "initial_scope": "A only",
+  "experiment_complete": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "self_hash": "Excluded; receipt anchored by final publication Git commit",
+  "raw_disposition": "LOCAL_KEEP",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

@@ -1,0 +1,24 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "cpu_regression": "54 PASS before source freeze; not rerun for report-only publication",
+  "independent_source_review": "v5_red bounded source audit, distinct from owner tests and actual qualification",
+  "actual_small_model_validation": "3 paired/6 physical F+B qualification; direct qualified; fixed receipts",
+  "actual_main_initial": "A B1 to B2 only",
+  "publication_validation": "static links/tables/CSV/JSON and member SHA; Markdown renderer unavailable",
+  "no_new_science_for_publication": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "raw_git": false,
+  "generic_access_helper": {
+    "all_paths_result": "EXIT_7: generic server-head allowlist lacks runs namespace",
+    "only_unsupported_path": "runs/odeedit_jlz_v5_s4_20261002/initial-handoff.json",
+    "remaining_paths_result": "PASS after unstaging only this path",
+    "narrow_authority": "v5 USER/GH envelope ownership.allowed_write_paths explicitly includes runs/odeedit_jlz_v5_s4_20261002/ and own-scope branch/main push",
+    "authority_envelope_sha256": "0f3fa216befdc3d6de6e8237fd1dfbcef0f777894ad6f0f04149668358169555",
+    "resolution": "Publish exact explicitly authorized path, record helper limitation; no helper, role, shared policy or global permission changes",
+    "whole_helper_PASS_claimed": false
+  },
+  "no_new_checkpoint": true,
+  "NO_BROADCAST_NOT_REQUIRED": "Same-server execution; local raw preservation; compact source and receipts via Git",
+  "self_hash_policy": "package-manifest excludes itself/rooted-receipt; rooted-receipt anchors package-manifest"
+}

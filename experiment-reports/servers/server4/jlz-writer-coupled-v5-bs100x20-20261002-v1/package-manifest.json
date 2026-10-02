@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "execution_source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "source_main_publication": "31a8e45fb4e9f12ec87a0d42e88cf57e034b9f64",
+  "scope": "Source plus compact representative-initial publication; not complete experiment results",
+  "members": [
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/initial-handoff.json",
+      "bytes": 9686,
+      "sha256": "ac1b077141fd7903b6eb878665e2e9aa99027fde5a64701b85a196e448733e8b"
+    },
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/preflight.json",
+      "bytes": 1886,
+      "sha256": "40dfc384ac0e0515f5b50fe1e48a4cf201a569179e3d7c8041ed14e9711e8074"
+    },
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/publication-checks.json",
+      "bytes": 1658,
+      "sha256": "cb588227aeeadf5eb1aca9ed0c9912ade73b09e8dd7f77075ca4ffc7b07d5337"
+    },
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/submission-qualification.json",
+      "bytes": 3004,
+      "sha256": "5249b6c7c64ed86977dfdb4bef1d7362a75829c35a380a732f502ce86c0fab01"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/A-W01-current.csv",
+      "bytes": 372,
+      "sha256": "059372a2e6fa041053f3728f5292bbac4a11d39935fd32cb4143c774234fc8a5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/artifact-index.json",
+      "bytes": 7046,
+      "sha256": "db402181b056b5df3a6aab92f4e64222cf31113dc7505153534e4adcebc11dd7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/qualification.csv",
+      "bytes": 158,
+      "sha256": "29a82e643e4fc6cb8a7daeedc50a46f870e244e2c3e066d735ec5e3413faafbd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/report-ko.md",
+      "bytes": 7686,
+      "sha256": "c216b537d40c4c86e6bd578ed495ca75eeb8eb4ea813ec7454f5226a4f96f743"
+    },
+    {
+      "path": "messages/acks/server4/2026-10-02-jlz-writer-coupled-v5.json",
+      "bytes": 777,
+      "sha256": "7b732e7952ac67c8013e69dc6d974ed10992e47bf704b4640ce7e5c78170ca3c"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-02-jlz-writer-coupled-v5.json",
+      "bytes": 2475,
+      "sha256": "477fd65d35039ba6c1924901ec42c6f0f6de6bb51924b9fea1c4f558d6e8bd30"
+    },
+    {
+      "path": "plans/updates/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/M0.md",
+      "bytes": 3146,
+      "sha256": "024c2c6759218c49b44dea1100307cf3f80c2acf7e578b5358f042690bcc5971"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/__init__.py",
+      "bytes": 64,
+      "sha256": "04676a184e7277212ae91fb18c24f06b3f64fb2d87eb30cdddfb08ce33de28aa"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/collect.py",
+      "bytes": 21730,
+      "sha256": "b6b08f2714af10a37cd3f5630095b4393c1eaca08488aef7505ba6bcce9ff0e7"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/common.py",
+      "bytes": 2444,
+      "sha256": "96a139e80dfd9e334217280a16bb20e29b58c91b10e200ffa274e0ec11a5bcc9"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/entry.py",
+      "bytes": 4489,
+      "sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/geometry.py",
+      "bytes": 12245,
+      "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/inputs.py",
+      "bytes": 3161,
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/memory.py",
+      "bytes": 14533,
+      "sha256": "3f79da3c7aa28b8571f16e5c038413776f1a88d5e450a23d43369a224d32f52e"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/observe.py",
+      "bytes": 8856,
+      "sha256": "27c4379d135f83b9c11c26dcdf2d23a35d59a36902692be9e0adc9fb799c7412"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/oracle.py",
+      "bytes": 5405,
+      "sha256": "4a942753cfa78f669bb7120e0997ea36f48cf244196864a9ba5b24184d1386f9"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/physical.py",
+      "bytes": 5451,
+      "sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/prepare.py",
+      "bytes": 20670,
+      "sha256": "7971a9e0ab87f7c3b7b581b2701655f8281eaa9490990065bdd0c03861e78e2c"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/run.py",
+      "bytes": 19025,
+      "sha256": "0c8337058acaba03db865cfeff0ecc0dfaf94f09e829fb3d2af28634a23fb01f"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/solver.py",
+      "bytes": 12591,
+      "sha256": "24190a7c75a1406215df71602ee42f69454f2221764e5b6ac38a799d2f0d5947"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/submit.py",
+      "bytes": 20776,
+      "sha256": "56f94f40328ead0b08b2fd714fe01ab9d03cd4604d806201a18f9ccbd5722bab"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_geometry_solver.py",
+      "bytes": 22447,
+      "sha256": "127c7cb0f82dd5d61a247bc3b0419df9451607a9b8053c5cc1ab88a566b43861"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_integration.py",
+      "bytes": 3374,
+      "sha256": "c1c1fde0a055a57e0e9f197958b6de902881d74c4d30746c437990d780e611eb"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_memory.py",
+      "bytes": 15625,
+      "sha256": "8bc649529f7fa13ae904c4b61fd4e49098e1596c3590e2becd0f5e8668bd4b18"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_observe_collect.py",
+      "bytes": 16649,
+      "sha256": "2470e5968dc27cdb2954216c68b9015d0417754592908a2becb3f2c478587e2f"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_physical.py",
+      "bytes": 2443,
+      "sha256": "d1ff9a935b5f98c5ffa30fa4aeb6d40f744af6d7a4790f25e5b3c4e31f6ba43d"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/writer.py",
+      "bytes": 4059,
+      "sha256": "f68a5a997aed98893fed7776f793a0d8ff9b3e846b88fb54454ef04cbff54aa2"
+    },
+    {
+      "path": "runs/odeedit_jlz_v5_s4_20261002/initial-handoff.json",
+      "bytes": 1715,
+      "sha256": "3f68c9de6a85401c5de5c2c12216a978c5b62efce8093a0caca6578ab580f10f"
+    },
+    {
+      "path": "tasks/status/jlz-writer-coupled-v5-bs100x20-20261002-v1/server4.json",
+      "bytes": 1366,
+      "sha256": "d23a23f06d67c9831b3cff01276e8743e51cdde9d54c33edaa44458f965158a3"
+    }
+  ],
+  "self_exclusions": [
+    "package-manifest.json",
+    "rooted-receipt.json"
+  ],
+  "raw_tensors_prompts_fullstdout_in_git": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

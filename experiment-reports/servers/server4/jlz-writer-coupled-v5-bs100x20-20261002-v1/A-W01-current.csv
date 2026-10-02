@@ -1,0 +1,4 @@
+panel,preference_numerator,preference_denominator,true_nll_mean,new_nll_mean,tf_token_correct,tf_token_count,tf_prompt_macro,tf_strict_numerator,tf_strict_denominator
+R,98,100,9.908715355396271,0.38573170580901206,97,101,0.96,96,100
+P,166,200,7.388736960142851,2.9203590375662314,94,202,0.465,92,200
+N,884,1000,5.375049177219218,11.292731232494116,196,1030,0.181,167,1000
