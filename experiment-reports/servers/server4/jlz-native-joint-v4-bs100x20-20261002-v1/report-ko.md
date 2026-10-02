@@ -1,5 +1,28 @@
 # JLZ v4 compute-r1 A/B 2k — 제출 인계
 
+## 최신 USER override: W0 신규 평가 제거
+
+기존 W0 전체 결과(R2000/P4000/N20000)를 CPU identity/token/행 검산 후 재사용한다.
+57282 W0와 미실행 downstream 57283–57287은 SH4가 취소했다. 원자료는 보존하며 prior 비용332 GPU초를 신규 실행과 분리한다.
+
+| 새 단계 | Job | Dependency |
+|---|---:|---|
+| Pilot A | 57290 | 없음 |
+| Pilot B | 57291 | 없음 |
+| Timing/Main A | 57292 | afterok:57290:57291 |
+| Timing/Main B | 57293 | afterok:57290:57291 |
+| CPU collector | 57294 | afterany:57290:57291:57292:57293 |
+
+새 immutable source: `7c1d421c1bac95e3b00cce7262c0b5dd4fa164d0`.
+Lock SHA: `ecdd88e9d01516a0d51cd3fed10380139c59425f8e3188f22b5d555baddf585b`.
+W0 재사용 bridge SHA: `e4b75f19786291c14f6baaa4d6e1948eec127f4b530b261725dc6b2472719008`.
+CPU 회귀7 PASS. A/B는 각각 cold W0/H0이며 pilot 두 개 실제 RUNNING을 확인했다.
+Main 초기 연결은 NOT_OBSERVED. 신규 W0 job/forward0, baseline0, noCP/cap2 유지.
+W0의 이전/현재 평가 배치 배치 차이와 비트 동일성 미확립을 공개한다.
+[override 감사](../../../../audits/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/user-remove-w0-r1.md).
+
+아래는 취소 전 원 attempt-r1 제출 이력이며 현재 job mapping이 아니다.
+
 상태: SUBMITTED_INITIAL_NOT_OBSERVED. 완료·실제 main gate PASS를 뜻하지 않는다.
 
 Instruction: `ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1`.

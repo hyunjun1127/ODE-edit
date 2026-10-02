@@ -1,1 +1,42 @@
-{"actor": "SH4", "attempt": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1", "automatic_resume": false, "broadcast": "NO_BROADCAST_NOT_REQUIRED", "cap": 2, "config": {"bytes": 42885, "inode": 134875203, "mtime_ns": 1790921543855772534, "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1/config.json", "sha256": "7a220c6c81aebe01f6730b916ce3c893f429dfc3670c4ad5c90286057340a804"}, "exact_resume": "NOT_AVAILABLE", "inspection": {"bytes": 19467, "inode": 134875218, "mtime_ns": 1790921555495754930, "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1/held-inspection.json", "sha256": "4ca753c8b40259e694d70369b91caf5973260769e1142aed6726485a7685dcce"}, "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1", "jobs": {"collector": "57287", "main-JLZ_A": "57285", "main-JLZ_B": "57286", "pilot-JLZ_A": "57283", "pilot-JLZ_B": "57284", "shared-SHARED": "57282"}, "lock": {"bytes": 17133, "inode": 134875210, "mtime_ns": 1790921543863772522, "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1/execution.lock.json", "sha256": "ad11b0a53db622af57e2f6f0922df49a9c31a312c0d7c6f5dca86545a9777a19"}, "monitoring_active": true, "new_baselines": 0, "prior_tasks": "STOPPED_USER_UNCHANGED", "save_checkpoints": false, "source_archive": {"bytes": 706560, "inode": 134875101, "mtime_ns": 1790921543840772557, "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1/source.tar", "sha256": "f958119ff33fd0dc3790b9286165585581434b8bd5a022188c7c39f244393860"}, "source_commit": "de2cd4197132eb994717e3a6074fcad47487253c", "source_tree": "fc7b6de55c244788e0e41feb47a080b3553c3e0d", "status": "SUBMITTED_INITIAL_NOT_OBSERVED", "submission": {"bytes": 403, "inode": 134875225, "mtime_ns": 1790921555553754843, "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1/submission.json", "sha256": "c4bcfd33d8bf8b6eb7848a503f5b7de0a511bb14104ee2fd91bdb96bc6d161a1"}, "설명": "공통 W0 이후 두 pilot, 두 독립 timing/main 및 CPU collector 전체 등록/release. 실제 main 초기 연결은 미관측."}
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
+  "status": "SUBMITTED_INITIAL_NOT_OBSERVED",
+  "user_override": "W0 신규 평가 중단/제외, 기존 결과 재사용, A/B 실행",
+  "attempt": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0",
+  "jobs": {
+    "collector": "57294",
+    "main-JLZ_A": "57292",
+    "main-JLZ_B": "57293",
+    "pilot-JLZ_A": "57290",
+    "pilot-JLZ_B": "57291"
+  },
+  "source_commit": "7c1d421c1bac95e3b00cce7262c0b5dd4fa164d0",
+  "source_tree": "692473201b61d49f4fb04be3079b684ed2d40767",
+  "lock_sha256": "ecdd88e9d01516a0d51cd3fed10380139c59425f8e3188f22b5d555baddf585b",
+  "inspection_sha256": "0360e1d53298f0c7a9eb08ea008697c5575e228f0884089904ef007ab744302b",
+  "w0_reuse_sha256": "e4b75f19786291c14f6baaa4d6e1948eec127f4b530b261725dc6b2472719008",
+  "cancelled_jobs": [
+    57282,
+    57283,
+    57284,
+    57285,
+    57286,
+    57287
+  ],
+  "cancellation_actor": "SH4",
+  "prior_allocated_gpu_seconds": 332,
+  "new_W0_forward": 0,
+  "historical_W0_denominators": {
+    "R": 2000,
+    "P": 4000,
+    "N": 20000
+  },
+  "CPU_tests_passed": 7,
+  "cap": 2,
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring_active": true,
+  "automatic_resume": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "previous_tasks": "STOPPED_USER_UNCHANGED"
+}
