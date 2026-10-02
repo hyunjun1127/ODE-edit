@@ -1,0 +1,847 @@
+{
+  "scope": "Completed preparation; NOT main completion",
+  "summary": {
+    "A": {
+      "terminal": {
+        "arm": "A",
+        "checkpoint_saved": false,
+        "config_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+        "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+        "job_id": "57511",
+        "main_commits": 0,
+        "no_B6": true,
+        "peak_gpu_bytes": 45852222976,
+        "peak_host_kib": 34717008,
+        "phase": "prep",
+        "seconds": 254.74348334036767,
+        "source": "fe6758512eba37595e99244d150d115268553f01",
+        "status": "COMPLETED"
+      },
+      "pilot_commits": 2,
+      "candidate_count": 50,
+      "Adam_updates": 48,
+      "history_appends": 10,
+      "READY": {
+        "B100_required_this_lane": false,
+        "config_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+        "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+        "main_state_transfer": false,
+        "pilot_commits": 2,
+        "source": "fe6758512eba37595e99244d150d115268553f01",
+        "status": "STRUCTURAL_READY"
+      }
+    },
+    "B": {
+      "terminal": {
+        "arm": "B",
+        "checkpoint_saved": false,
+        "config_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+        "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+        "job_id": "57512",
+        "main_commits": 0,
+        "no_B6": true,
+        "peak_gpu_bytes": 48426445824,
+        "peak_host_kib": 34718064,
+        "phase": "prep",
+        "seconds": 553.4377599079162,
+        "source": "fe6758512eba37595e99244d150d115268553f01",
+        "status": "COMPLETED"
+      },
+      "pilot_commits": 2,
+      "candidate_count": 50,
+      "Adam_updates": 48,
+      "history_appends": 10,
+      "READY": {
+        "B100_required_this_lane": true,
+        "config_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+        "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+        "main_state_transfer": false,
+        "pilot_commits": 2,
+        "source": "fe6758512eba37595e99244d150d115268553f01",
+        "status": "STRUCTURAL_READY"
+      }
+    }
+  },
+  "B100": {
+    "candidates": 5,
+    "backward": 5,
+    "Adam_updates": 4,
+    "seconds": [
+      54.35596320219338,
+      55.35569987818599,
+      56.32231350056827,
+      58.15418364852667,
+      70.81912195496261
+    ],
+    "native_seconds": [
+      40.588511714711785,
+      42.24961202964187,
+      43.11910914815962,
+      44.82817022129893,
+      44.089094584807754
+    ],
+    "builder_seconds": [
+      4.090336877852678,
+      3.4093594402074814,
+      3.4239759538322687,
+      3.5021238289773464,
+      3.746977424249053
+    ],
+    "new_cold_main_required": true
+  },
+  "allocated_GPU_seconds": {
+    "prep_A": 261,
+    "prep_B": 560,
+    "total": 821
+  },
+  "artifacts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/READY.json",
+      "bytes": 322,
+      "sha256": "ebad46c53cc34f7ce6b6ff302de95acf1ae16f893f0cb667981a7e97acb10034"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/W0-reuse.json",
+      "bytes": 307,
+      "sha256": "ccb0abcbbe8971e79a85ed3722eec1d2ae78da95cf82450ac414a52b8a46d39a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/actual-imports.json",
+      "bytes": 8668,
+      "sha256": "e6d40b20ba9b1723ebb7c2ccf1594336603b439262c7f8c4306f93a1e53c5255"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/initial-state.json",
+      "bytes": 745,
+      "sha256": "c25cbbbcc92ae1f33302388e3edf451853ce1767159c17314f93029be158cfd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/actual-commit-probe.json",
+      "bytes": 712,
+      "sha256": "a3e26e1c20233293df080545e5f8175e9fafb35a27efaec0b822640cca9e7789"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/commit.json",
+      "bytes": 6692,
+      "sha256": "657d11107846bc52503e688098800990f819af6096d0baa2b43a34003f87b607"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/entry.json",
+      "bytes": 2858,
+      "sha256": "114fe6771864458f3339ba515137d659ebc938114f8b8830a2775d78f5b573b3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-01.json",
+      "bytes": 3916,
+      "sha256": "e37558c7b64408d0e896dbdb1d6dd1ef15ddfc1565ae975f1e76d0cd595d8c26"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-02.json",
+      "bytes": 4449,
+      "sha256": "724ce9ec0b4d9cb602e6842d2d0de09ce373de9dcc5a6b38eb87694f3811eb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-03.json",
+      "bytes": 4431,
+      "sha256": "61ec7a06121bd74a8d4ce00343cf2b5af02dc2c25645473caaeb1e7fc70e20f3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-04.json",
+      "bytes": 4443,
+      "sha256": "c58538be4a8e3cb6fa95d1722ff80aed88c138645838c60690f738807ac057f0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-05.json",
+      "bytes": 4698,
+      "sha256": "a989d0b616703fb781f95ec985efc02e562627c0f38a423921fdc9920032fe3e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-06.json",
+      "bytes": 4460,
+      "sha256": "56b13321fceadac2136ca975c1f821dbbb6e2aea06afb8d62263b156b68cb3a5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-07.json",
+      "bytes": 4466,
+      "sha256": "c951a541358302444effcf6865f7bdf290633e2b1523cf5d42c6563bcd9edce4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-08.json",
+      "bytes": 4440,
+      "sha256": "0d1b579a5c8b376e9e50a5de669595c7cb2123923fe579a126749e70bc1a6230"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-09.json",
+      "bytes": 4443,
+      "sha256": "91aff9e728f683c2b03246d462d23615804826a8f6ae2e3ea03985682796f546"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-10.json",
+      "bytes": 4695,
+      "sha256": "758ccf73c5c5cd43f2fb4e21b24567c556d83a41c802a85fbe971330c4687c23"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-11.json",
+      "bytes": 4452,
+      "sha256": "aebc511168be98174f8768aeffaee4cc59456bc8f85cccdc7fc99850615a5d23"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-12.json",
+      "bytes": 4460,
+      "sha256": "af1d7ffaafc1cf5b0299fe86abdca01c31985f32b95f6f96bcd6bba9a57def01"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-13.json",
+      "bytes": 4453,
+      "sha256": "8c3423af47d3709db6a3ad0fb992691f537c615f29a3737eaf05ae7ff23dd602"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-14.json",
+      "bytes": 4453,
+      "sha256": "4c95b9f152516080c576874282d0835b9210a0bc928b10f35afe53a2d80c9ad5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-15.json",
+      "bytes": 4646,
+      "sha256": "beb52c4e6c0e4ea768b4c988fde86a6217dfdbdf81a73fcf4117df3f2238bc61"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-16.json",
+      "bytes": 4444,
+      "sha256": "5ac38955bbd9d9557aca05c4517ab48e6f3e2c54666a3bba095c948002ce9619"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-17.json",
+      "bytes": 4444,
+      "sha256": "8ef012354fc2daf0312218796512b682015a015cc93c05c67ae719bc6a5ede10"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-18.json",
+      "bytes": 4443,
+      "sha256": "7c8619151f0bce60642f65b713e5d30eea171855add6fb162826325dbbd7618e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-19.json",
+      "bytes": 4439,
+      "sha256": "6e6844820d481a49d0802d33272d65f7cd9db0fdfb11d8ca9bb1505a1e0bad51"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-20.json",
+      "bytes": 4621,
+      "sha256": "8a9c315afcc84a666fd8a46fd4bc710de7b347d57e2af367847f831b55cc4243"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-21.json",
+      "bytes": 4440,
+      "sha256": "fbd2b5ef9475bbdfbb03fba8b21e9aa90b3a89f5e6c087f369b40a733adb7592"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-22.json",
+      "bytes": 4439,
+      "sha256": "142def50bca32e36b8b3f03f665036a85d7ac9148c1f19aca771aa1a6cade48a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-23.json",
+      "bytes": 4437,
+      "sha256": "30af876ea259765f1bb78919c7e751e2bd8a48b126bd75f2a580a6cfbf1d2e24"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-24.json",
+      "bytes": 4426,
+      "sha256": "9fe61399ea961738283122f2e44393b8fc220224fa48a8c1aea76847d7f30382"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/candidate-25.json",
+      "bytes": 4039,
+      "sha256": "cc9da7d5e6bd1952a1bd70e4dad03d462fba3cd5d20e9f70fc2ed8e6ca8da84e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/partitions.json",
+      "bytes": 95,
+      "sha256": "76862b64eddd8fb587c9f82c9d4aba61da6fc1f29743f0fc114936aa374f0cf3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/fit/terminal-key-comparison.json",
+      "bytes": 1257,
+      "sha256": "bd48e0bba4d918289664a154a585efd160542d554218b69a77c2e74c42de2f21"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/input.json",
+      "bytes": 116,
+      "sha256": "9923f11277765216e3bec6d1ab81cfdb1677c260fe7f957a21bd3ec5f4eaef77"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/causal-pair-3.json",
+      "bytes": 819,
+      "sha256": "a10ef9d5ae1318c810d24c218246ca0025b3f001d865b897764d387b63546ee9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/dependency-movement.json",
+      "bytes": 357,
+      "sha256": "e945e2aee5f63287b5bac5f7cd976880e70935214b53d1e5d9aeece8c808c679"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/native-pair-1.json",
+      "bytes": 692,
+      "sha256": "8dac49dbbaac610f9fe2cdd23ba66f806b826570d2ecb5d5a85a78cd9830db4e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/native-pair-2.json",
+      "bytes": 696,
+      "sha256": "1a3f4ab398dcba0d5a9c8508f64e5c4afb1ab6f68e63615c863363823a4358a1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/receipt.json",
+      "bytes": 362,
+      "sha256": "3fbe98402216c21b0cbd578f363f110483f374ea98d95ef80a3c75c93af8125e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/stop-P-control.json",
+      "bytes": 760,
+      "sha256": "d98eca18e6466a955079a3cb09aa228a4f8ae41c27f567b8e728f319d4335704"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-01/qualification/wholeB-microbatch-permutation.json",
+      "bytes": 808,
+      "sha256": "2f0bfcf8548bc07671c3f91341757a7a4b8702053785238a762b009196719836"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/commit.json",
+      "bytes": 6831,
+      "sha256": "25baa6650cbb9de7ccfa5dd2649c01f590d8888e732f2fc9e2f4819a6ed7d585"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/entry.json",
+      "bytes": 2865,
+      "sha256": "da572814f5dd4c5399f6d190379540f21068c36fd81b10c0ae10eeacc9f8dd40"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-01.json",
+      "bytes": 3902,
+      "sha256": "d8d27530a6fcf60782db2c6c7b9af89e654f19e18c2bf8490a653f0aa6720e8a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-02.json",
+      "bytes": 4449,
+      "sha256": "15f74ee3d90b5f23ff07cf90199c049155aef733248d26f40ae7c768181cefdb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-03.json",
+      "bytes": 4458,
+      "sha256": "e21a833ee712fde34dd6eef4df43e34f538f75198d5fecd40646e90803a38de8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-04.json",
+      "bytes": 4460,
+      "sha256": "ec1926fd97f346444f0535e8175e98a63a3cc3fa133d06c7cc2dcdb8b429c3d4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-05.json",
+      "bytes": 4714,
+      "sha256": "cd7c0057517fc33f5890179d680306ee14c9b0f79c888da1aa0844ad1d62d17d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-06.json",
+      "bytes": 4428,
+      "sha256": "67559e7a8cdcd7c514d4077f729cf652ea0bdccf00ed2906f3b95470327407d6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-07.json",
+      "bytes": 4418,
+      "sha256": "645cdb181458093af3512fc28840f2a57ccad729813bf1cdaa992f72fc902a75"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-08.json",
+      "bytes": 4436,
+      "sha256": "04cc00d3cd3f0eeec32c3a21cd99db3e6c49ffec94bdd95d45b749eaa9d5d2dd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-09.json",
+      "bytes": 4429,
+      "sha256": "65971367bf5d5a0e8782e187841750ac47809eff62b6c2e387f2f5ba5f54625b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-10.json",
+      "bytes": 4713,
+      "sha256": "2259f11b8df652632e5f5f20866e9f740ed3a3e0f5cae394b809767306be177c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-11.json",
+      "bytes": 4438,
+      "sha256": "a4bc3076885b24ef40048eddc2fcf2e1eb9d5cb1ca88981223ce71cdedd492d1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-12.json",
+      "bytes": 4441,
+      "sha256": "741dc847d9286b2cc13e44df45ebb7ff980faa7a0cb1c1a542af6f5bc9062177"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-13.json",
+      "bytes": 4436,
+      "sha256": "2cc0707037a588abd42ee2b390d602ae2039db95e2da6ccb82751dfa7b1203b3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-14.json",
+      "bytes": 4436,
+      "sha256": "e40d54ae48a7c4e8f4bd2347614b6a9740190467047a75c932ba6e50cbe29769"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-15.json",
+      "bytes": 4612,
+      "sha256": "f98fc62e8c2d6c6ba40c1e86f346698eb78001aeac9ea9e33ae273d2e96cb3b7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-16.json",
+      "bytes": 4420,
+      "sha256": "d5863fca8e839de761e42d7f67e0b2458386a5b2a42d4f71848d12e11bdefbef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-17.json",
+      "bytes": 4423,
+      "sha256": "46c0da8f564171bda10c8caa7bc7de3ca5e854fce3cc9091c6020ee528ebe73f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-18.json",
+      "bytes": 4427,
+      "sha256": "7f76aa370ab64919eed3601b10fa6aefc760e0e643c69227eb864c3d706f42d7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-19.json",
+      "bytes": 4426,
+      "sha256": "e4c735ec7ad735c292240a56b3ffcb28c4b1229fef88fe801893fa5b7b0bd4f0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-20.json",
+      "bytes": 4602,
+      "sha256": "da46f4f0c9591c5a09a1ddf83badddc2317cbb2d307b19e6d75f37cb6a9601a3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-21.json",
+      "bytes": 4430,
+      "sha256": "4ee4bedd11308dca2c93f9a19bcbea13fb86a5727f00c7f6366d7fa401c6b5e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-22.json",
+      "bytes": 4407,
+      "sha256": "56f236ade8877df3539a2b50d3f98f96968cecf709f0b9d1d37b4d5f0e211269"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-23.json",
+      "bytes": 4410,
+      "sha256": "43bdb5ae38c7a929bfc0d81baf1f62bee99ff22636ee976e03a7f4dc6384a320"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-24.json",
+      "bytes": 4411,
+      "sha256": "043fc04009cbbf4c3921ce8733c5e1832c4f7932686e968153d13fb2b266e3a7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/candidate-25.json",
+      "bytes": 4020,
+      "sha256": "db668ac3148000a67d4731ba3f395959d43246e8ede062cc973979bd9e0429d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/partitions.json",
+      "bytes": 97,
+      "sha256": "a523bfe7284e346e1141cef27b4f4318096e18d6974b48b4575e9d86117e60ec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/fit/terminal-key-comparison.json",
+      "bytes": 1252,
+      "sha256": "7b483cf272facb7e1fdbffc412b76df2eefa97295e3ebf65d1c7464bf3604ed6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/pilot/batch-02/input.json",
+      "bytes": 119,
+      "sha256": "3b57200d2e14aa1e430282021174fa1fea208b2c7e9487b0a40241121ec95ac0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/rollback.json",
+      "bytes": 34,
+      "sha256": "ba939b6312874f827a6ffb4fe5c2434ed1f98ad9597fa3ab445d20e9e6ecdb82"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/runtime.json",
+      "bytes": 4409,
+      "sha256": "361d5ba187f9808caca995ea3e6273c9f9828c5ebbec7fc34ad00e0a94a51ca3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-A/terminal.json",
+      "bytes": 429,
+      "sha256": "ba9538b509f73994ec6c5b6d0df8475035aabfe35085008243e8dc74e7171c7f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/candidate-01.json",
+      "bytes": 3943,
+      "sha256": "2ca1d9650a83ba1e57ed90eda67f391c73138898353d530cd918fd0642e64ee7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/candidate-02.json",
+      "bytes": 4469,
+      "sha256": "88fe499774886726bc71a078b9ae421c4b7c23ee6c59183727de81a587f1e4fd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/candidate-03.json",
+      "bytes": 4466,
+      "sha256": "5d19c837bd28f01aec6aa35bb923b09b36968b2eee8ffb6feaf75d0ea035a7bf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/candidate-04.json",
+      "bytes": 4469,
+      "sha256": "cb42176f0d924cfc9c7b6208fe73414c6eeae62da323f2980c10be11f25dd55f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/candidate-05.json",
+      "bytes": 4499,
+      "sha256": "7ebcd14b54d80b675ca69604f2aab5b36b7fc6766c3eac73b607a4a0497fbd0a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/partitions.json",
+      "bytes": 477,
+      "sha256": "2166b722621a6782c94b88882b90ea34ffe35aa9197884d0a30013c1243370da"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/B100/receipt.json",
+      "bytes": 269,
+      "sha256": "9581f5278fd11db63b5428ef80c27f0462f2c2d63b11032bd64cb8484374a356"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/READY.json",
+      "bytes": 321,
+      "sha256": "a5d7c0417e5118da7125a47385e6a40f093d938848157951988305199b7a3caf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/W0-reuse.json",
+      "bytes": 307,
+      "sha256": "ccb0abcbbe8971e79a85ed3722eec1d2ae78da95cf82450ac414a52b8a46d39a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/actual-imports.json",
+      "bytes": 8668,
+      "sha256": "e6d40b20ba9b1723ebb7c2ccf1594336603b439262c7f8c4306f93a1e53c5255"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/initial-state.json",
+      "bytes": 745,
+      "sha256": "c25cbbbcc92ae1f33302388e3edf451853ce1767159c17314f93029be158cfd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/commit.json",
+      "bytes": 6689,
+      "sha256": "754b59e6c5dd9370ee70a0a684da58f6bcbfcb860659ad1f5be8bcb1c8eabb31"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/entry.json",
+      "bytes": 2862,
+      "sha256": "a49ab606dd333c5150ceb82325224aa098d5e3b138056498e93f94861f0bda7c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-01.json",
+      "bytes": 3912,
+      "sha256": "03f70d27b89aad2c6c7371d8c665547f51749c7c461d0782dba85d7b072e5b3a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-02.json",
+      "bytes": 4451,
+      "sha256": "c2200368d9d1ef897179612e792d5530d592208cf1d88fd74ce4648b9f7f2dd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-03.json",
+      "bytes": 4441,
+      "sha256": "73f6f651662d8b1159693dcef5e707423ee8da1631b0c619bb8aae5d2c92daa4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-04.json",
+      "bytes": 4453,
+      "sha256": "64af0facecfab9d01c326f47c00e204fa4e2bac41d0b18ffda71220a7f0293c6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-05.json",
+      "bytes": 4696,
+      "sha256": "2cf0dcc3bdc8f920c08c3e0927dc00bf966bbeeb58bcb97bc72afcd968928452"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-06.json",
+      "bytes": 4458,
+      "sha256": "1ee91dd256353b92dd19805aca477f2cd41f094b9c3a03ae1b2a7c7284ab1fe9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-07.json",
+      "bytes": 4457,
+      "sha256": "b547f324a0de3fb05e8be09cd5ed845300a05a7792b88d7a971caf0a623618df"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-08.json",
+      "bytes": 4463,
+      "sha256": "53b6e38a005190aaa3319b7b9345576aff4448a7c03fed0729d3c2618ab8c827"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-09.json",
+      "bytes": 4456,
+      "sha256": "670aa0174d24e4770bad58b300f5c15b63cfb1ec4011f8bf6f61d54128791b9b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-10.json",
+      "bytes": 4710,
+      "sha256": "c6709b1e29b95123ae1cc0cade8622272157a0ec617906ca42e02876abea4e4f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-11.json",
+      "bytes": 4467,
+      "sha256": "75fe53eb6a8b2d54d6b836a380488b8b25a49c1f09c1ce85b8cbac7962e28548"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-12.json",
+      "bytes": 4451,
+      "sha256": "371dab01e84e64bd88d6333b18f353023748ca6c5ea3ce83ba24822284760ec8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-13.json",
+      "bytes": 4452,
+      "sha256": "bb5efc1fe789867212c6b29762f217e7e8f6ee51e7b0a02f256cba3ea0fc2c17"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-14.json",
+      "bytes": 4449,
+      "sha256": "4019033016101de824686080271bd89182ffd4c7efdcc63eb64fe62b3ccdc0d2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-15.json",
+      "bytes": 4637,
+      "sha256": "dbc1a23d8ac44b363f48cdb3572b0fc452f6abfaa2e931c256cac9a71cacd26f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-16.json",
+      "bytes": 4451,
+      "sha256": "cb07d0db15c1979fffcb11294295c2ce91d7708e4114a3cbe83e94f4fd0fabb4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-17.json",
+      "bytes": 4453,
+      "sha256": "0889d8d7c1108d7c2a01f9879fa6a88b1b21f669b24c59149311f7e4379d6cff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-18.json",
+      "bytes": 4456,
+      "sha256": "96dfea8145c9a37a8d2f2cc621b38bdd23cd74b6facb1505835f58cb904979be"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-19.json",
+      "bytes": 4447,
+      "sha256": "983ad53a118697078f5c303e957d7bfa840fee917c5ca475a0caf10e6ff27039"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-20.json",
+      "bytes": 4639,
+      "sha256": "a3b6067ff225c178ce55035734a4afd286be655ce62e49b236755fb19508b213"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-21.json",
+      "bytes": 4447,
+      "sha256": "76c5d3342f8b565f230b1d5fbc1536639c83f31c8bca1e9aca698f193776a0a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-22.json",
+      "bytes": 4457,
+      "sha256": "45f524bfd3485cd165c67241ac985b16a4fc8df5aa18c317733fbb7cd3057259"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-23.json",
+      "bytes": 4458,
+      "sha256": "a0c55b06895fc4c96e6843424cbdaece1ac6becfd3993005adfa86a62abc1653"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-24.json",
+      "bytes": 4462,
+      "sha256": "2f6bf1e05b9fc860e4fc4db86be2f31c80932d2929654a73d1e039aa12b8c210"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/candidate-25.json",
+      "bytes": 4052,
+      "sha256": "fca80aa1133421921fd0bb6980172267e0b3fa174a021d70799f6b6a826cac0d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/partitions.json",
+      "bytes": 95,
+      "sha256": "76862b64eddd8fb587c9f82c9d4aba61da6fc1f29743f0fc114936aa374f0cf3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/fit/terminal-key-comparison.json",
+      "bytes": 1256,
+      "sha256": "62bf5c476de04a791858c14fa9fcef0e046e9e2203408ad1766a0af3a4ab9d40"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-01/input.json",
+      "bytes": 116,
+      "sha256": "9923f11277765216e3bec6d1ab81cfdb1677c260fe7f957a21bd3ec5f4eaef77"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/commit.json",
+      "bytes": 6835,
+      "sha256": "1ded3e671a49df8c2445500bfa910e39600fa0f1465e261d946f3ba40b89f2fe"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/entry.json",
+      "bytes": 2867,
+      "sha256": "5dc9d2540fddba4b28018d1b25d2de73e5682def86bec6bba1de9f7b9dbb4c65"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-01.json",
+      "bytes": 3900,
+      "sha256": "424f48157e21a62ee6926fb5f8a7c0feb6dbf4d98af64e9ad7158f16f5254f63"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-02.json",
+      "bytes": 4456,
+      "sha256": "bae81650eda33962cbceea666613bba27c8917bdb75f4608c43023aa4fdd522b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-03.json",
+      "bytes": 4446,
+      "sha256": "999e8ffb1f63634b0a66f8341ef6a54035305ec39a56f69170369d9de3a964e8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-04.json",
+      "bytes": 4459,
+      "sha256": "8a1b16456bb287ea7f612c8928771119214e16b5b7408ec27dcb65a7083067b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-05.json",
+      "bytes": 4732,
+      "sha256": "c0cce8c743d2e09a228e1d744c3f7d115b8b4c369e937683912104625fb8a2d1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-06.json",
+      "bytes": 4448,
+      "sha256": "6407d0e56e2d20ad9536b769eb6dcb227f91e465b1293445ede73e2e65fdf55b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-07.json",
+      "bytes": 4427,
+      "sha256": "92c4605ad84c7a1d7848aa412ecc62752d49d330e7d82278ddd67b72380a73f7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-08.json",
+      "bytes": 4433,
+      "sha256": "d6028d2751f6d8961c3065cdb94fb7662098e451d2dde8ad12bcc2f0124f2488"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-09.json",
+      "bytes": 4427,
+      "sha256": "beb84fe2318d7c299ef8def8c62324110c84664bac14c4fefcac4277a95f7f92"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-10.json",
+      "bytes": 4710,
+      "sha256": "5f7195b48bbebeb5b53d98916c9f8952aad7fb5c5ee7522bace608c72bc4488c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-11.json",
+      "bytes": 4437,
+      "sha256": "c8390ce7bbd005c1fe04541a06dd8ed745cf342d0ae1d3f2211aa1e85251d77f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-12.json",
+      "bytes": 4434,
+      "sha256": "b6cfe62fdfc9efebc21135f8fbe79f658317fb87ccbacafcb2c8d5cb99b5a5f5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-13.json",
+      "bytes": 4435,
+      "sha256": "ea8bbd2e0975aec4f827315297173010e89f6bf44c40400ad882f9191edf4ec4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-14.json",
+      "bytes": 4438,
+      "sha256": "8dfea7b2eb37a2fc9b9c4fa88158f3242dd1be9da75091054b0a24e1b7cd5baa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-15.json",
+      "bytes": 4619,
+      "sha256": "2b7d96a87e93434dc75d70264aa81a68d5b0da0c541823ad8ed9b5116a0d003b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-16.json",
+      "bytes": 4436,
+      "sha256": "81045dbb53cc56553f062afaba1efd0c0a5ee5e550d6836040dcbca65eb8d832"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-17.json",
+      "bytes": 4444,
+      "sha256": "25eb7b235562f34fb4dce59774b015c42fe0b61397ff1a0ed809e37708604674"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-18.json",
+      "bytes": 4434,
+      "sha256": "438e075473219c3d4dadcf506b4aa1b4644e2813deb361c9552f44e46f635097"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-19.json",
+      "bytes": 4439,
+      "sha256": "f08f2b75e64d2b53cc85e0609c271cf8a059cba162f26e9311872a734141d64f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-20.json",
+      "bytes": 4617,
+      "sha256": "53d2e586fd51a0418a3218648a6fe31d17919ecefd687f0f7777c02a837ef52f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-21.json",
+      "bytes": 4428,
+      "sha256": "ea462a3a62da6cc0e16f0ae3618ab74218c109887dc4d938efcd18f02409bfd1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-22.json",
+      "bytes": 4424,
+      "sha256": "02e18e7149c6dc214303e8d0951094ce83d01475939f41b3b4be0fc3cf80d244"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-23.json",
+      "bytes": 4424,
+      "sha256": "75dc779b7e2c3d6f2684d986112e71ab4321e67ae902d9eaec08d26dea1117b9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-24.json",
+      "bytes": 4426,
+      "sha256": "7a30407624b90232e53e78332e4ef84d75a1a22d8bc1ee6c9e3f1e8b18442733"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/candidate-25.json",
+      "bytes": 4036,
+      "sha256": "41b4460f217a0f6542c26853669460713e52c475a1c6f6d5f0b9e3dc7d94f943"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/partitions.json",
+      "bytes": 97,
+      "sha256": "a523bfe7284e346e1141cef27b4f4318096e18d6974b48b4575e9d86117e60ec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/fit/terminal-key-comparison.json",
+      "bytes": 1239,
+      "sha256": "e93bbeaa9cb4c6a5d82c969b0971fa14c15b31ab0009036d24b5091d709ef8db"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/pilot/batch-02/input.json",
+      "bytes": 119,
+      "sha256": "3b57200d2e14aa1e430282021174fa1fea208b2c7e9487b0a40241121ec95ac0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/rollback.json",
+      "bytes": 34,
+      "sha256": "ba939b6312874f827a6ffb4fe5c2434ed1f98ad9597fa3ab445d20e9e6ecdb82"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/runtime.json",
+      "bytes": 4409,
+      "sha256": "669db237ccfab4c5bfd9d6ac8049a91af9e95487211719a770b050d5c79dd06c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/prep-B/terminal.json",
+      "bytes": 428,
+      "sha256": "dca0d485d0c483b9c3ab2458501eb65ecf5f2c72f8e578677956500d6249da64"
+    }
+  ],
+  "raw_payload_Git": false,
+  "no_new_W0_forward": true,
+  "no_checkpoint": true
+}
