@@ -1,0 +1,27 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "owner": "SH4",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "cwd": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/worktree",
+  "authority_commit": "80139a375af4b62ffa4dbeedbe0f233173790eae",
+  "FULL_READ": "method/implementation/contracts/TeX/experiment/math and all case CSV fields",
+  "archive": {
+    "bytes": 184344,
+    "sha256": "2adbde75e93a0885ea58a651bc00c0ba943f81883e5e81bab7ff5dfcf638ebdf",
+    "regular_members_verified": 15,
+    "pulls": 1
+  },
+  "CPU_tests": 27,
+  "actual_model_validation": "NOT_RUN",
+  "v6": "USER_STOPPED_SUPERSEDED_BY_V7",
+  "current_owned_queue_observed_utc": "2026-10-02T13:55:49Z",
+  "current_owned_queue_rows": 0,
+  "cancellation_calls": 0,
+  "other_tasks_resumed": false,
+  "scope": "A/B each cold W0/zeroH/empty memory, BS100x5. Native25/Adam24, LR0.1, noWarmup/noB6/noCP/newBaseline0.",
+  "W0_reuse": "first500 historical N4392/5000; layout not bitwise qualified; no new W0 evaluation",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
