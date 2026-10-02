@@ -1,0 +1,78 @@
+{
+  "source": "fe6758512eba37595e99244d150d115268553f01",
+  "job": "57511",
+  "scope": "BS2 fixed development candidates only",
+  "main_PASS": false,
+  "rows": [
+    {
+      "name": "causal-pair-3.json",
+      "sha256": "a10ef9d5ae1318c810d24c218246ca0025b3f001d865b897764d387b63546ee9",
+      "bytes": 819,
+      "loss_mean_abs": 0,
+      "gradient_RMS_max": 1.8135217379721496e-11,
+      "all_comparison_pass": true,
+      "negative_control": false
+    },
+    {
+      "name": "dependency-movement.json",
+      "sha256": "e945e2aee5f63287b5bac5f7cd976880e70935214b53d1e5d9aeece8c808c679",
+      "bytes": 357,
+      "loss_mean_abs": null,
+      "gradient_RMS_max": null,
+      "all_comparison_pass": null,
+      "negative_control": false
+    },
+    {
+      "name": "native-pair-1.json",
+      "sha256": "8dac49dbbaac610f9fe2cdd23ba66f806b826570d2ecb5d5a85a78cd9830db4e",
+      "bytes": 692,
+      "loss_mean_abs": 0,
+      "gradient_RMS_max": 0,
+      "all_comparison_pass": true,
+      "negative_control": false
+    },
+    {
+      "name": "native-pair-2.json",
+      "sha256": "1a3f4ab398dcba0d5a9c8508f64e5c4afb1ab6f68e63615c863363823a4358a1",
+      "bytes": 696,
+      "loss_mean_abs": 0,
+      "gradient_RMS_max": 0,
+      "all_comparison_pass": true,
+      "negative_control": false
+    },
+    {
+      "name": "receipt.json",
+      "sha256": "3fbe98402216c21b0cbd578f363f110483f374ea98d95ef80a3c75c93af8125e",
+      "bytes": 362,
+      "loss_mean_abs": null,
+      "gradient_RMS_max": null,
+      "all_comparison_pass": null,
+      "negative_control": false
+    },
+    {
+      "name": "stop-P-control.json",
+      "sha256": "d98eca18e6466a955079a3cb09aa228a4f8ae41c27f567b8e728f319d4335704",
+      "bytes": 760,
+      "loss_mean_abs": 0,
+      "gradient_RMS_max": 0.0000017312935609024731,
+      "all_comparison_pass": false,
+      "negative_control": true
+    },
+    {
+      "name": "wholeB-microbatch-permutation.json",
+      "sha256": "2f0bfcf8548bc07671c3f91341757a7a4b8702053785238a762b009196719836",
+      "bytes": 808,
+      "loss_mean_abs": 6.872141966596246e-9,
+      "gradient_RMS_max": 6.146565666239574e-9,
+      "all_comparison_pass": true,
+      "negative_control": false
+    }
+  ],
+  "limitations": [
+    "No universal model numerical parity",
+    "No builder crop enabled",
+    "Stop-P control disagreement is expected diagnostic, not a failed production arm",
+    "Owner audit; independent reviewer not used",
+    "Markdown relative links checked; renderer unavailable, rendered-table check NOT_PERFORMED"
+  ]
+}
