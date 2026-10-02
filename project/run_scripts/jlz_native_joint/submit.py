@@ -27,6 +27,10 @@ def admission(exclude=()):
         if gpu:jobs.append(dict(job=job,user=user,name=name,state=status,gpus=int(gpu[1]),reason=reason))
     return dict(jobs=jobs,scope='resource-only current owner/project server4; no mutation',raw=raw)
 
+def graph_names(reuse):
+    names=['pilot-JLZ_A','pilot-JLZ_B','main-JLZ_A','main-JLZ_B','collector']
+    return names if reuse else ['shared-SHARED',*names]
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);args=p.parse_args();root=args.attempt.resolve()
     require(not list(root.glob('submitted-*.json')) and not (root/'submission.json').exists(),'NO_DUPLICATE_SUBMISSION')
@@ -35,11 +39,14 @@ def main():
     for item in lock['launchers']+lock['source_members']:require(sha(item['path'])==item['sha256'],'FROZEN_SOURCE_CHANGED')
     require(shutil.disk_usage(root).free>=lock['resources']['reserve_bytes'],'STORAGE_RESERVE')
     before=admission();external=[j['job'] for j in before['jobs']]
-    names=['shared-SHARED','pilot-JLZ_A','pilot-JLZ_B','main-JLZ_A','main-JLZ_B','collector'];ids={};inspected=[]
+    config=json.loads((root/'config.json').read_text());reuse=bool(config.get('w0_reuse'))
+    names=graph_names(reuse)
+    ids={};inspected=[]
     for name in names:
         gpu=name!='collector';dep=None;tail=[]
         if name.startswith('shared') and external:dep='afterany:'+':'.join(external)
-        elif name.startswith('pilot'):dep='afterok:'+ids['shared-SHARED']
+        elif name.startswith('pilot'):
+            dep=('afterany:'+':'.join(external) if external else None) if reuse else 'afterok:'+ids['shared-SHARED']
         elif name.startswith('main'):dep='afterok:'+':'.join(ids[x] for x in ['pilot-JLZ_A','pilot-JLZ_B'])
         elif name=='collector':dep='afterany:'+':'.join(ids.values());tail=[','.join(ids.values())]
         script=root/(name+'.sh');jobname='odeedit_jlz_v4_s4_'+name.replace('-','_')
@@ -73,7 +80,7 @@ def main():
     after=admission(tuple(ids.values()))
     require({j['job'] for j in after['jobs']}<=set(external),'ADMISSION_RACE_KEEP_NEW_HELD')
     write(root/'held-inspection.json',dict(jobs=inspected,before=before,prerelease=after,external_afterany=external,
-         graph='shared -> pilot A/B -> timing+main A/B -> CPU afterany all',max_concurrent_gpu=2,lock_sha256=sha(root/'execution.lock.json')))
+         graph=('historical W0 CPU reuse' if reuse else 'shared')+' -> pilot A/B -> timing+main A/B -> CPU afterany all',max_concurrent_gpu=2,lock_sha256=sha(root/'execution.lock.json')))
     for name in reversed(names):
         output=command(['scontrol','release',ids[name]])
         write(root/('released-'+name+'.json'),dict(job=ids[name],command_succeeded=True,output=output))

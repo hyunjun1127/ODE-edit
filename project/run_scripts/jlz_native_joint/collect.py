@@ -4,7 +4,7 @@ import csv
 import json
 from pathlib import Path
 import subprocess
-from .common import INSTRUCTION,member,write,require,digest
+from .common import INSTRUCTION,member,write,require,digest,sha
 from .observe import reduce_rows
 
 def raw(path):
@@ -32,6 +32,15 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--jobs',required=True)
     args=p.parse_args();root=args.attempt;config=json.loads((root/'config.json').read_text());out=root/'report';out.mkdir(exist_ok=False)
     schedule=config['evaluation_schedule'];inventory=[];table=[];armstatus={};paired={};errors=[]
+    if config.get('w0_reuse'):
+        bridge=config['w0_reuse']['receipt']
+        require(sha(bridge['path'])==bridge['sha256'],'W0_BRIDGE_CHANGED')
+        reuse=json.loads(Path(bridge['path']).read_text());observation=reuse['observations']
+        require(sha(observation['path'])==observation['sha256'],'W0_RAW_CHANGED')
+        w0rows=json.loads(Path(observation['path']).read_text())['rows']
+        write(out/'W0-reuse.json',dict(bridge=bridge,status='REUSED_HISTORICAL_NO_NEW_FORWARD',
+              numerical_bitwise_equivalence='NOT_ESTABLISHED',layout_difference=reuse['layout_difference']))
+    else:w0rows=raw(root/'output/shared-SHARED/W000')
     for arm in ['JLZ_A','JLZ_B']:
         base=root/'output'/('main-'+arm);complete=True;birth=[];all_endpoints={};commit_count=0
         terminal=base/'terminal.json'
@@ -56,7 +65,7 @@ def main():
         if 20 in all_endpoints:
             final=all_endpoints[20]
             paired[arm]=dict(atwrite_to_W20=transition(birth,final),
-                W0_to_W20=transition(raw(root/'output/shared-SHARED/W000'),final),
+                W0_to_W20=transition(w0rows,final),
                 W10_to_W20=transition(all_endpoints[10],final) if 10 in all_endpoints else 'NOT_MEASURED',
                 active=reduce_rows([r for r in final if r['active_at_endpoint']]),
                 superseded=reduce_rows([r for r in final if not r['active_at_endpoint']]))
@@ -78,6 +87,7 @@ def main():
     lines += ['', '| Arm | Batch | Scope | 지표 | 성공/분모 | TF strict |', '|---|---:|---|---|---:|---:|']
     lines += [f"| {r['arm']} | {r['batch']} | {r['scope']} | {r['kind']} | {r['numerator']}/{r['denominator']} | {r['strict_numerator']}/{r['strict_denominator']} |" for r in table]
     lines += ['', '없는 endpoint는 NOT_MEASURED. Scheduler 상태와 scientific completeness는 별도다.',
+              'W0는 사용자 지시에 따라 기존 결과를 재사용한다. W0-reuse.json의 identity/원 source/배치 차이를 참고하며 신규 W0 forward는 없다.' if config.get('w0_reuse') else 'W0는 본 attempt 공통 평가다.',
               'noCP; exact_resume=NOT_AVAILABLE. Raw는 local 보존, NO_BROADCAST_NOT_REQUIRED.',
               '비용: accounting.json의 parent allocation만 합산; component 미계측은 NOT_SEPARATED.',
               'paired.json은 all-offered/active/superseded 및 cohort at-write→W20 산술 전이다.']

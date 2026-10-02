@@ -66,6 +66,14 @@ def check_receipt(path,config,phase,arm):
     require(doc['status']=='COMPLETED' and doc['binding']==binding(config,phase,arm),'UPSTREAM_IDENTITY_OR_COMPLETENESS')
     return doc
 
+def reused_w0(config):
+    reuse=config.get('w0_reuse')
+    require(reuse and reuse['mode']=='REUSE_ONLY_USER_DIRECTED','W0_REUSE_REQUIRED')
+    require(sha(reuse['receipt']['path'])==reuse['receipt']['sha256'],'W0_BRIDGE_CHANGED')
+    doc=json.loads(Path(reuse['receipt']['path']).read_text())
+    require(sha(doc['observations']['path'])==doc['observations']['sha256'],'W0_OBSERVATIONS_CHANGED')
+    return doc
+
 def run_batch(a,bench,records,history,config,eta,out,route,qualification=False):
     spec=bench.prepare(records);write(out/'input.json',dict(identity=spec['identity'],ids=spec['record_ids'],rows=len(spec['row_request'])))
     before=state(a,history)
@@ -124,13 +132,20 @@ def main():
     config=json.loads(args.config.read_text());base=args.attempt/'output';out=base/(args.phase+'-'+args.arm)
     out.mkdir(parents=True,exist_ok=False);status='TECHNICAL_FAILED';start=time.monotonic()
     try:
-        if args.phase!='shared':check_receipt(base/'shared-SHARED/terminal.json',config,'shared','SHARED')
+        reuse=reused_w0(config) if config.get('w0_reuse') else None
+        require(not (reuse and args.phase=='shared'),'W0_FORWARD_REMOVED_BY_USER')
+        if args.phase!='shared' and reuse is None:check_receipt(base/'shared-SHARED/terminal.json',config,'shared','SHARED')
         route=config['settings']['route']
         if args.phase=='main':
             pilots=[check_receipt(base/f'pilot-{arm}/terminal.json',config,'pilot',arm) for arm in ['JLZ_A','JLZ_B']]
             route='full_reference' if any(x['route']=='full_reference' for x in pilots) else route
         a,bench,data,history=setup(config,out)
         initial=state(a,history);write(out/'initial-state.json',initial)
+        if reuse:
+            require(initial==reuse['state'],'COLD_W0_H0_REUSE_MISMATCH')
+            write(out/'W0-reuse.json',dict(bridge=config['w0_reuse']['receipt'],
+                status='REUSED_HISTORICAL_NO_NEW_W0_FORWARD',cold_W0_H0_exact=True,
+                numerical_bitwise_equivalence='NOT_ESTABLISHED',original_state_preserved=True))
         eta=0 if args.arm=='JLZ_A' else 1
         if args.phase=='shared':
             e=config['evaluation_schedule']['endpoints'][0];lo,hi=e['ordinal_slice']
@@ -152,9 +167,10 @@ def main():
             write(out/'B002-entry.json',dict(state=state(a,history),ids=spec['record_ids'],teacher_from_own_entry=True,
                  fitting=0,writes=0,entry_preparation_only=True,physical_calls=oracle.calls))
         else:
-            shared=check_receipt(base/'shared-SHARED/terminal.json',config,'shared','SHARED')
-            sharedstate=json.loads((base/'shared-SHARED/initial-state.json').read_text())
-            require(initial==sharedstate,'COLD_W0_H0_MISMATCH')
+            if reuse is None:
+                check_receipt(base/'shared-SHARED/terminal.json',config,'shared','SHARED')
+                sharedstate=json.loads((base/'shared-SHARED/initial-state.json').read_text())
+                require(initial==sharedstate,'COLD_W0_H0_MISMATCH')
             timing(a,bench,data,history,config,eta,out/'timing',route)
             require(state(a,history)==initial,'MAIN_NOT_COLD')
             commits=[];size=config['experiment']['batch_size']

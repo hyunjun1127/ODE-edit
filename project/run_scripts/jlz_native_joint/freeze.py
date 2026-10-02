@@ -23,7 +23,8 @@ def shell(source,module,args):
         'exec '+shlex.join([PYTHON,'-m',module,*args]),''])
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);args=p.parse_args();dest=args.attempt.resolve()
+    p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True)
+    p.add_argument('--w0-reuse',type=Path);args=p.parse_args();dest=args.attempt.resolve()
     require(dest.parent==LOCAL and not dest.exists(),'NEW_ATTEMPT_ONLY')
     require(not subprocess.check_output(['git','status','--porcelain','--',*PATHS],cwd=ROOT,text=True).strip(),'COMMIT_SOURCE_BEFORE_FREEZE')
     commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
@@ -35,8 +36,15 @@ def main():
         t.extractall(source,filter='data')
     config=json.loads((LOCAL/'preparation-v1/configuration.json').read_text())
     config.update(execution_source=commit,execution_tree=tree,archive_sha256=sha(archive))
+    if args.w0_reuse:
+        bridge=json.loads(args.w0_reuse.read_text())
+        require(bridge['status']=='REUSED_HISTORICAL_VERIFIED','W0_BRIDGE_STATUS')
+        config['w0_reuse']=dict(mode='REUSE_ONLY_USER_DIRECTED',receipt=member(args.w0_reuse),
+            user_override='W0 실험 중단 및 제거, 기존 결과 재사용, A/B 실행',new_W0_forward=0)
     write(dest/'config.json',config)
-    for phase,arm in [('shared','SHARED'),('pilot','JLZ_A'),('pilot','JLZ_B'),('main','JLZ_A'),('main','JLZ_B')]:
+    phases=[('pilot','JLZ_A'),('pilot','JLZ_B'),('main','JLZ_A'),('main','JLZ_B')]
+    if not args.w0_reuse:phases.insert(0,('shared','SHARED'))
+    for phase,arm in phases:
         name=phase+'-'+arm
         launch=shell(source,'project.run_scripts.jlz_native_joint.run',
             ['--config',str(dest/'config.json'),'--phase',phase,'--arm',arm,'--attempt',str(dest)])
@@ -49,7 +57,8 @@ def main():
         launchers=[member(x) for x in sorted(dest.glob('*.sh'))],resources=config['resources'],
         session='01a04939-b5c7-7a03-ba2d-ef3343d62cfd',owner='SH4',hostname='server4',
         no_other_task_resume=True,checkpoint_saved=False,exact_resume='NOT_AVAILABLE',
-        scope='shared W0 -> A/B pilot BS2 commit/B2entry -> A/B cold timing4 + fresh main BS100x20 -> CPU collector'))
+        scope=('historical W0 reuse CPU bridge' if args.w0_reuse else 'shared W0')+
+          ' -> A/B pilot BS2 commit/B2entry -> A/B cold timing4 + fresh main BS100x20 -> CPU collector'))
     print(json.dumps(dict(attempt=str(dest),source=commit,lock=sha(dest/'execution.lock.json'),job_ids=[])))
 
 if __name__=='__main__':main()

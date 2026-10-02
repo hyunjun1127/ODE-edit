@@ -35,6 +35,20 @@ def fixture(B=2):
     return a,spec,H
 
 class Core(unittest.TestCase):
+    def test_historical_W0_bridge_and_no_shared_job(self):
+        from .run import reused_w0
+        from .submit import graph_names
+        from .common import write,member
+        self.assertEqual(graph_names(True),['pilot-JLZ_A','pilot-JLZ_B','main-JLZ_A','main-JLZ_B','collector'])
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);raw=root/'raw.json';bridge=root/'bridge.json'
+            write(raw,{'rows':[]});write(bridge,{'observations':member(raw),'state':{'W':{},'H':{}}})
+            config={'w0_reuse':{'mode':'REUSE_ONLY_USER_DIRECTED','receipt':member(bridge)}}
+            self.assertEqual(reused_w0(config)['state'],{'W':{},'H':{}})
+            # Changed historical bytes remain a hard failure, not a numeric warning.
+            raw.write_text('{}')
+            with self.assertRaisesRegex(RuntimeError,'W0_OBSERVATIONS_CHANGED'):reused_w0(config)
+
     def test_full_25_candidate_budget_and_native_clamp(self):
         for eta in (0,1):
             a,s,H=fixture()
