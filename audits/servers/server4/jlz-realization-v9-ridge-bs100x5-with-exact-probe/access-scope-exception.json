@@ -1,0 +1,12 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "generic_helper": "scripts/check-agent-access.sh --staged",
+  "exit_code": 7,
+  "generic_result": "BLOCKED_RUNS_NAMESPACE",
+  "exact_path": "runs/odeedit_jlz_v9_s4_20261003/submission.server4-server-head.json",
+  "explicit_authority": "messages/head/2026-10-03-jlz-v9-ridge-500-exact-pilot-sh4.json permissions.write_paths",
+  "결정": "이번 사용자 envelope가 위 runs namespace의 SH4 기록과 ownscope push를 명시 승인했다. 정확 허용목록을 별도로 대조한다. Generic helper PASS라고 쓰지 않는다.",
+  "shared_helper_modified": false,
+  "identity_changed": false,
+  "other_scope_mutated": false
+}

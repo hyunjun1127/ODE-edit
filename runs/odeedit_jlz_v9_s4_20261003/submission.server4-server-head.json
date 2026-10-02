@@ -1,0 +1,62 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "status": "SUBMITTED_RELEASED",
+  "initial": "NOT_OBSERVED",
+  "source": "ee1d8bd7adb9d6c34021ba0b9f36f435565c13f7",
+  "tree": "2fea0ffed875a2802b7e552702807db2dbd76267",
+  "archive": {
+    "bytes": 1116160,
+    "inode": 135136479,
+    "mtime_ns": 1790971279424908300,
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/source.tar",
+    "sha256": "19baa1c4a306a6c51260e7387f86d6265b033b8595e99d325c2d262387e96a4a"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/execution.lock.json",
+    "bytes": 31024,
+    "sha256": "a6a5ac27db2532f00b3c16bf911b863b70de1a8c8db62dd9abb040c0de6f77cc",
+    "inode": 135136616,
+    "mtime_ns": 1790971279454908400
+  },
+  "submission": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/submission.json",
+    "bytes": 4514,
+    "sha256": "cdd5cf5e8eb233ca4c4929a15d1df4f2d4c8e2da927c5e9dd88bd6eef126a81b",
+    "inode": 135136628,
+    "mtime_ns": 1790971279733908000
+  },
+  "held": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r1/held-inspection.json",
+    "bytes": 17097,
+    "sha256": "6177ac606d399d75be36b58ef63903e413b96f3fb67473d3eb82bdfc793ebcc6",
+    "inode": 135136622,
+    "mtime_ns": 1790971279681908000
+  },
+  "jobs": {
+    "collector": "57571",
+    "main-A": "57569",
+    "main-B": "57570",
+    "prep-A": "57567",
+    "prep-B": "57568"
+  },
+  "dependencies": {
+    "collector": "afterany:57567:57568:57569:57570",
+    "main-A": "afterok:57567:57568",
+    "main-B": "afterok:57567:57568",
+    "prep-A": null,
+    "prep-B": null
+  },
+  "config_sha": "0bfeb7a52ae99cc1a745b7a582a16a00d4513db01d31a6b86a12f3b6f4edf5d8",
+  "CPU_tests": 13,
+  "actual_Q1": "RUNNING_OBSERVED_NOT_YET_QUALIFIED",
+  "Q2": "NOT_OBSERVED",
+  "main": "DEPENDENCY_PENDING_NOT_RESOURCE_HANDOFF",
+  "monitoring_active": true,
+  "monitoring_scope": "대표 main B1→B2 또는 정식 resource pending까지만",
+  "automatic_resume": false,
+  "no_checkpoint": true,
+  "new_baseline": 0,
+  "other_job_mutations": 0,
+  "root_dirty_preserved": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
