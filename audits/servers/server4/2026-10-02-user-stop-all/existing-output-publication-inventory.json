@@ -1,0 +1,997 @@
+{
+  "scope": "등록된 local worktree의 기존 own compact/source와 main 대조; 과거 raw 전수 재분석 없음",
+  "worktrees": [
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/failure-diagnosis-r1/worktree",
+      "head": "a4c583d61735c695d638d3fa37ceda299245bc10",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree",
+      "head": "3d1ad12c05723a9af995965bb2337a7f4ea058e3",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree",
+      "head": "3fe786d710ac680576ee32838ae8f45eb4cbe0ba",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree",
+      "head": "e24a8d964653e480b15617722078944d4e33b1d2",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/completed-review-20260926-v1/worktree",
+      "head": "389d1003d3921761b402bc13deab39e68eca0719",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/record-only-20260925-r1/worktree",
+      "head": "dfdf0b35cbf01f77c064a8c42a040f4b32ff8987",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/rerun-20260925-r1/worktree",
+      "head": "f507191e188f9f541bbe548222f1280f070db7e7",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/historical-update-timeaxis/20260924-v1/worktree",
+      "head": "2adbab7eaff98652229c93cc677aadc1015bbb7a",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/worktree",
+      "head": "ea1913d0a286958b262c57e1424a8d742aaedac3",
+      "original_deletions_untouched": 0
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/joint-multilayer-bs10/20260929-v1/worktree",
+      "head": "0260b59be82c55396abfe39ac0860bb434914b78",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/integration-r1",
+      "head": "02ec6361e1aa6fbec58b404ffa25400ac7c005e8",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/completed-review-r1/worktree",
+      "head": "67c4dd59a79115bc6de27e30231394be6aff80d8",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/integration",
+      "head": "d4cce6690a6dab9c93b74bf29069103e056b06e2",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/worktree",
+      "head": "e2251c4687f373682bccfc9474754e1e09a00df4",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/orbode-correctness-audit/attempt-v1/analysis",
+      "head": "56ec33dfc6bb3a46b7a6eb1fe6e6aa44d349fc07",
+      "original_deletions_untouched": 3030
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-jobs-review/20260924-v1/integration",
+      "head": "892b804fbb43041792bab25cf5f51950f5e112fd",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/server4-completed-jobs-review/20260924-v1/worktree",
+      "head": "cd88b925736ec95305264315c9f8713fc3c5d2e4",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree",
+      "head": "5e191408efb8940a826cd8efbe018faca89f8c6b",
+      "original_deletions_untouched": 1390
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree",
+      "head": "790eaa0a6bc4ef2233913d0d4f73210c2b3545fc",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree",
+      "head": "3111a7ff0625f4255dbbf9a47096bb5baba93de7",
+      "original_deletions_untouched": 1414
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/fzcb-tech-r1-joint-b1-analysis-v1",
+      "head": "ee9ea638d7a00bb3a4c382393deace5caeab7f73",
+      "original_deletions_untouched": 752
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report",
+      "head": "6ae93eabf08a0561dd0a3a461ca4fed906341bc2",
+      "original_deletions_untouched": 747
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-alpha-cap-sweep-v1",
+      "head": "a7bfd2f617f3f43c0c9c3269be760892385e6404",
+      "original_deletions_untouched": 1390
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-core-detailed-review-20260913-v1",
+      "head": "2f5aa88967bbc8549b488e26dbfb96ad919f54df",
+      "original_deletions_untouched": 1366
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-sixarm-seq10-v1",
+      "head": "93c3e4fe42a016f53e103b17f8e5d226c4198361",
+      "original_deletions_untouched": 1366
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-owned-branches-main-integration-20260914-v1",
+      "head": "b4d08ab6a410da60188067340a4253439d6bdb28",
+      "original_deletions_untouched": 1366
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/worktrees/server4-refit4-write-refresh-seq1000-v1",
+      "head": "a2553e2f5995ae6d25999ec2008ae9fe6c64983b",
+      "original_deletions_untouched": 1390
+    }
+  ],
+  "members": [
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/component_interchange.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/component_interchange.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/cost_breakdown.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/cost_breakdown.json",
+      "bytes": 1581,
+      "sha256": "39c96d438a5efc33d1a48ebcbf7e97eb71d1bfca11d846bb575cf78fd363465f",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/coverage.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/coverage.json",
+      "bytes": 354,
+      "sha256": "793dbd4209e52213698f5dd1ce9bcbb0d8790bacbf2f98584e3839204c910078",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/history_penalty_mismatch.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/history_penalty_mismatch.csv",
+      "bytes": 1670,
+      "sha256": "f0912622987bfc411049d246972c6fdf8aa6f60a395d9f9759ef1a13b5f4ed48",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/kr_operand_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/kr_operand_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/native-stage-N512.png",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/native-stage-N512.png",
+      "bytes": 45566,
+      "sha256": "163c94931334db7dfbf66b5ff13217d3631d4e83c23edad3391d383df0722aca",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/operator_stage.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/operator_stage.csv",
+      "bytes": 1093,
+      "sha256": "afa95ff4b6daa097a937f55f6c2eb8604f82615cfa007f0c7a6a415e2a411fcf",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/order_replication.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/protection_transitions.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/protection_transitions.csv",
+      "bytes": 101,
+      "sha256": "61e691da8fb23254e0264ce7916f6a1d8074db6f744610fbbbda55c5ef05feb3",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/render-check.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/report-ko.md",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/report-ko.md",
+      "bytes": 1824,
+      "sha256": "c0bd1699f76f5c80fb1345b10994e9bfc67fcf39bce5b6d2a5ae6c52220fd52e",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/rooted-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/rooted-receipt.json",
+      "bytes": 2732,
+      "sha256": "78238344b9f83bc9718c209ce358364e05a2c9c513e045cd39486f219e932d41",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/same_entry_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/same_entry_effects.csv",
+      "bytes": 4943,
+      "sha256": "041cd54884e7f0781ed15feda63d7bd25b1af51e2fa185cc138a0b9878e631ca",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/sequential_event_order.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/source-state-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/source-state-receipt.json",
+      "bytes": 541,
+      "sha256": "f79f398913b223a8b1a411166f6e5d1c41281a6926afaf0d628c1a0c73beb1f9",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/state_cohort_geometry.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/state_cohort_geometry.csv",
+      "bytes": 2169744,
+      "sha256": "b18953526bbcc0b3e466fe3d434d54b8aef9073f1293e2ae087ad5374c2591ec",
+      "action": "LOCAL_KEEP_LARGE_OR_RAW_NOT_GIT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/terminal.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/terminal.json",
+      "bytes": 105,
+      "sha256": "87b57dc2ada520cdc19ab9511b9cf9f6dfe24657dabc05e29873667d72bef490",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/repair-r2/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/writer_modes.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/writer_modes.csv",
+      "bytes": 2099,
+      "sha256": "331c25d4ddf673c5dc44aa79d0a6c5d0239d310e9b0cdb9a36784a5770cbf4ea",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/component_interchange.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/component_interchange.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/cost_breakdown.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/cost_breakdown.json",
+      "bytes": 647,
+      "sha256": "5d3256802e52e8c158b2ba1dfb44f045d12a1083dbdb3893e9a69300e6652b0c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/coverage.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/coverage.json",
+      "bytes": 297,
+      "sha256": "760f693e03367bba719cc2c30cb214c57922de156d3b60b0a7f9b6df29de3b20",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/history_penalty_mismatch.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/history_penalty_mismatch.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/kr_operand_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/kr_operand_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/operator_stage.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/operator_stage.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/order_replication.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/protection_transitions.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/protection_transitions.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/render-check.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/report-ko.md",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/report-ko.md",
+      "bytes": 1373,
+      "sha256": "943a39d0ebe1129f77740794fdfb743f5e3be4eec7024f7c60975abea9ebaf53",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/rooted-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/rooted-receipt.json",
+      "bytes": 2397,
+      "sha256": "821dbb2c68de706fd1334f59b4f4260718ee4bad1f66dad46cf24d6aa24af28e",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/same_entry_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/same_entry_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/sequential_event_order.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/source-state-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/source-state-receipt.json",
+      "bytes": 534,
+      "sha256": "4f4ff3578e5e8ad805bbd1f29788debbcaf42954b2f99a86673e096327bdb9ba",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/terminal.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/terminal.json",
+      "bytes": 105,
+      "sha256": "87b57dc2ada520cdc19ab9511b9cf9f6dfe24657dabc05e29873667d72bef490",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/writer_modes.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/writer_modes.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/component_interchange.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/component_interchange.csv",
+      "bytes": 5929,
+      "sha256": "cfa970ec34750b7eed6c6e606de3eba1f228c15f1185c1b8dde5f7765fa868f3",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/cost_breakdown.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/cost_breakdown.json",
+      "bytes": 2102,
+      "sha256": "ed2a2c0096de60a7d2ab4df246b14d60778cc579c79ffa329bbe5272b94ba086",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/coverage.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/coverage.json",
+      "bytes": 354,
+      "sha256": "8001d10f1dc48986f9f6103ea9e1b266fd1a9077da7ded2d4ebb3834d6f5ca98",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/history_penalty_mismatch.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/history_penalty_mismatch.csv",
+      "bytes": 32383,
+      "sha256": "f9303435b490bc7efd95775394dd00d3eb7e2cc1acf6e28e26679a7863d15de6",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/kr_operand_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/kr_operand_effects.csv",
+      "bytes": 1060,
+      "sha256": "5ec1404664ead396950331474758b603f177fae0a381f1c143d24b9b5ee19245",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/native-stage-N512.png",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/native-stage-N512.png",
+      "bytes": 53778,
+      "sha256": "a0f06bcbb8baf9b1590ee2669a3003240789ed489ec01def2ca85cdd5dec650d",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/numerical-comparison-coverage.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/numerical-comparison-coverage.json",
+      "bytes": 3877,
+      "sha256": "fd3b4965c35e39cf441e1ae01de182c28ed2a386e98215de824e678f8d41d390",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/operator_stage.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/operator_stage.csv",
+      "bytes": 22170,
+      "sha256": "8297176410fe98b65d1b29d90d56fa1acaba1b13238d92a6d6726ff28c4ee4ac",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/order_replication.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/protection_transitions.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/protection_transitions.csv",
+      "bytes": 545,
+      "sha256": "b76715683aa8ee5999be76df32bd01d83051a5e6503f975303d4501029585a73",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/render-check.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/report-ko.md",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/report-ko.md",
+      "bytes": 5687,
+      "sha256": "443e251ae8f2771445beda9e24396a594c0e0bef6fc01a98d07b5135f6921d12",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/rooted-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/rooted-receipt.json",
+      "bytes": 2911,
+      "sha256": "814b0e4f2c9170fcf1387644ab0d88e52c452a462c5ee123c80dcb7474535cef",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/same_entry_effects.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/same_entry_effects.csv",
+      "bytes": 137743,
+      "sha256": "536618c862fa2863f6e962bcc484870dae342e48e683267f9ed8af92acdddf1c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/sequential_event_order.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/source-state-receipt.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/source-state-receipt.json",
+      "bytes": 524,
+      "sha256": "b8c16af69f0ee7d5c190ad9623616b02ac4815774cc217c2bfa9a8eee6b97807",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/state_cohort_geometry.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/state_cohort_geometry.csv",
+      "bytes": 2169744,
+      "sha256": "b18953526bbcc0b3e466fe3d434d54b8aef9073f1293e2ae087ad5374c2591ec",
+      "action": "LOCAL_KEEP_LARGE_OR_RAW_NOT_GIT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/terminal.json",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/terminal.json",
+      "bytes": 87,
+      "sha256": "0ab0faa84ac615a57ae4a1b7d19842b0c06eb830371884ea72da40589c6df1cc",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/writers-repair-r1/worktree/experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/writer_modes.csv",
+      "relative": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/writer_modes.csv",
+      "bytes": 41450,
+      "sha256": "3463c257d7b0ce502235c0cd880f216616d7b3522ece3365c7cdf2431a16d6ef",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/skip_M_failure_handoff.py",
+      "relative": "project/run_scripts/single_layer_edit_preserving_correction/skip_M_failure_handoff.py",
+      "bytes": 8447,
+      "sha256": "e3c1d3de43f19fb7ca8d0480b0028b5832cbb7b890a702035b7dfe7e556d5b60",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree/project/run_scripts/single_layer_mechanism_first/review_completed_b1.py",
+      "relative": "project/run_scripts/single_layer_mechanism_first/review_completed_b1.py",
+      "bytes": 11428,
+      "sha256": "d7fc273516c4a98505140411540f11acae963af68b591a79bb49fbcd3a5e6b3b",
+      "main_sha256": "5d7a8734e391d6e1e2fd8fb65e16bd87a771a8cd35c59e7340d7234f5f5a3987",
+      "action": "KEEP_MAIN_AND_LOCAL_VARIANT_NO_OVERWRITE"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree/project/run_scripts/single_layer_mechanism_first/review_local_solver.py",
+      "relative": "project/run_scripts/single_layer_mechanism_first/review_local_solver.py",
+      "bytes": 3545,
+      "sha256": "f9dba75796642f2c479c81bfe44bfb04bc390d8d7320aef9a3b5d18d9107b889",
+      "main_sha256": "f9dba75796642f2c479c81bfe44bfb04bc390d8d7320aef9a3b5d18d9107b889",
+      "action": "ALREADY_MAIN_EXACT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree/project/run_scripts/single_layer_mechanism_first/review_tensor_inventory.py",
+      "relative": "project/run_scripts/single_layer_mechanism_first/review_tensor_inventory.py",
+      "bytes": 2562,
+      "sha256": "e8be10110df7ec8097cf5ad45ccf5374869561e91cea5ac66622a70953288917",
+      "main_sha256": "e8be10110df7ec8097cf5ad45ccf5374869561e91cea5ac66622a70953288917",
+      "action": "ALREADY_MAIN_EXACT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/single-layer-mechanism-first/20260919-v1/repair-r3/worktree/project/run_scripts/single_layer_mechanism_first/test_review_tensor_inventory.py",
+      "relative": "project/run_scripts/single_layer_mechanism_first/test_review_tensor_inventory.py",
+      "bytes": 845,
+      "sha256": "485371954fdf2307ab9579d90095d35b87ce00182718cbfbb35631ac523dc38f",
+      "main_sha256": "485371954fdf2307ab9579d90095d35b87ce00182718cbfbb35631ac523dc38f",
+      "action": "ALREADY_MAIN_EXACT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/experiment-reports/servers/server4/temporal-routing-diagnostic-20260929-v1/preflight-ko.md",
+      "relative": "experiment-reports/servers/server4/temporal-routing-diagnostic-20260929-v1/preflight-ko.md",
+      "bytes": 5758,
+      "sha256": "db9d16f44f0f2d9565dd163af3575a04ad461edf22474df7993e9f8f8efe17af",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/messages/acks/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "relative": "messages/acks/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "bytes": 2122,
+      "sha256": "478a6986adc75fe3a77e2a3974bf5ef1a7f2a2d0018fe7dd89cbb04e50fb6386",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/README.md",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/README.md",
+      "bytes": 1448,
+      "sha256": "0a42795ec7a01fb775d39b3c2244135ef0f015a05b68553fb201f5a9e9934eeb",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/audit.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/audit.py",
+      "bytes": 2186,
+      "sha256": "13c4aab1c7712d601ec01c3ea057d24091a58da57e994fe2acfb9b944426c289",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/common.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/common.py",
+      "bytes": 3018,
+      "sha256": "fb40c7c0907d9e61502d21c2ab71819c23f595a6390c279dc6fc04cf13d9d3ed",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/launch.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/launch.py",
+      "bytes": 7508,
+      "sha256": "8738e511cf2929b0a39e028bca8bcece3da4276ab45596a9391f7869e53fe44c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/native.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/native.py",
+      "bytes": 10016,
+      "sha256": "8bc313ca4906c5c966a9f50c3f620840f61ebd8fc514c39034fa1efe5fd47b03",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/observations.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/observations.py",
+      "bytes": 7452,
+      "sha256": "a2dd3fbe5c693180a146008aa46a715b1b59ef26735c94c85e1624da8a2aa72e",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/preflight.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/preflight.py",
+      "bytes": 4045,
+      "sha256": "99be0f9829b4f6b736a921fa5bb8d89052e295451d1242c32fc66a83bfb60795",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/prepare.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/prepare.py",
+      "bytes": 10289,
+      "sha256": "715ea7d6401ecee16e3c7cdbfe8ed08ff4723319e892d8d090c2ec9687c29245",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/reduce.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/reduce.py",
+      "bytes": 9243,
+      "sha256": "9d3024a52bcb33c41ffda8981bda75adf9c3014d3d7ccd1ed55dc0c40d6b60b4",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/runner.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/runner.py",
+      "bytes": 15973,
+      "sha256": "4570e0f290852c96179b63b93cf8df94cd0e2146b32cb3b7d264b75110ebd01c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/project/run_scripts/temporal_routing_diagnostic/test_core.py",
+      "relative": "project/run_scripts/temporal_routing_diagnostic/test_core.py",
+      "bytes": 6665,
+      "sha256": "ee76bb706e0e3ade51ea184c442e7d03c1dc42f35a74461a888d787b3362d7c9",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/messages/server-heads/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "relative": "messages/server-heads/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "bytes": 814,
+      "sha256": "da6f4781b5feea3c9197471e3d73022d23e3fe9231d83442501197926206d9f3",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/temporal-routing-diagnostic/20260929-v1/worktree/tasks/status/temporal-routing-diagnostic-20260929-v1/server4.json",
+      "relative": "tasks/status/temporal-routing-diagnostic-20260929-v1/server4.json",
+      "bytes": 828,
+      "sha256": "c62b040407206b462fb5fc379ddfe1e0e6190ad3f7f8e70276317178f5340121",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/analysis-manifest.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/analysis-manifest.json",
+      "bytes": 8318,
+      "sha256": "9b3a8bf2f4be2a4f9adebaf1d62fcff3c18da73b36a6418ef5d6019195560a7c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/availability-amendment-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/availability-amendment-receipt.json",
+      "bytes": 96152,
+      "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/checkpoint-state-amendment.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/checkpoint-state-amendment.csv",
+      "bytes": 18418,
+      "sha256": "f65528246d7acf5434394f9ff45e2e97f6d0acc022ddda50ade6946179df2d11",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-arm-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-arm-summary.csv",
+      "bytes": 31018,
+      "sha256": "940abeaf2406ad84a1f1303d70c6de0fa5d3710113eb7004f0a2ff8e8206a50f",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-performance.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-performance.png",
+      "bytes": 233039,
+      "sha256": "7f81f4737505c264b341d50bdcd15703013f73f2d026cf5d1abd680365d8a596",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-request-complete.csv.gz",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-request-complete.csv.gz",
+      "bytes": 21671710,
+      "sha256": "adb13d79728d38813eed459805e135a5d4a7e7a4e149a168bf65fd16512a32e9",
+      "action": "LOCAL_KEEP_LARGE_OR_RAW_NOT_GIT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/edit-age-strata-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/edit-age-strata-summary.csv",
+      "bytes": 79234,
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-compute-accounting.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-compute-accounting.csv",
+      "bytes": 934,
+      "sha256": "73e17aefc1da923659aee86c89dc9cc584cfc3b6a0e9fb9a8969afa314c7e7cd",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.csv",
+      "bytes": 17482,
+      "sha256": "9a052ce7e1f9f5ddbe89c4e2eae4718dfdfaa28ba1c1fa945a3434eff1b4e671",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.json",
+      "bytes": 24671,
+      "sha256": "14c500a167a0e774e74395fc6ca0f2f239277122a6bf1c9a92ba27ae49e95755",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-source-rebind-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-source-rebind-receipt.json",
+      "bytes": 1314,
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-submission-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-submission-receipt.json",
+      "bytes": 1359,
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-arm-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-arm-summary.csv",
+      "bytes": 6117,
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-edit-age-retention.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-edit-age-retention.png",
+      "bytes": 90865,
+      "sha256": "6e752f1a3a3fd901322b3c2b0bd4b83bc2f0db33944f1129d3c937704dc6b2bb",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-performance.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-performance.png",
+      "bytes": 60841,
+      "sha256": "4be2e819a254479a2792a63fc1e65df95f398d067d3145cdb5ac1fce706bec88",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-target-nll.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-target-nll.png",
+      "bytes": 76542,
+      "sha256": "cb7197f9df71a65f9ad8148082c8ab58e7c568be037f42edb7d2fdb7e932b0cb",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/job33300-technical-exclusion.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/job33300-technical-exclusion.json",
+      "bytes": 843,
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "bytes": 79797,
+      "sha256": "dd9addf1964af608730e10f10009fbfa48a1e6ad4042591fb6a76679e59ec40b",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/plot-reproduction.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/plot-reproduction.csv",
+      "bytes": 3302,
+      "sha256": "9f277004949571ebc82980d403db1b7e288d281cd5cefce1d80079a6c57d3647",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/rooted-analysis-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/rooted-analysis-receipt.json",
+      "bytes": 1344,
+      "sha256": "dabe77a08f34c6672af608e17f3bbd77bfafe12497209576c40608eacbaa64b3",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/technical-exclusions.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/technical-exclusions.csv",
+      "bytes": 635,
+      "sha256": "7cf2c8c60ddbb1531896efa4b7f95bb03304891220f2d3c7e6f83cb2dbd7172b",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/analysis-manifest.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/analysis-manifest.json",
+      "bytes": 8318,
+      "sha256": "06222e868427ecead68d9e45a459bd68cc6d48d60937da008dcb1837490658d5",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/availability-amendment-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/availability-amendment-receipt.json",
+      "bytes": 96152,
+      "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/checkpoint-state-amendment.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/checkpoint-state-amendment.csv",
+      "bytes": 18418,
+      "sha256": "f65528246d7acf5434394f9ff45e2e97f6d0acc022ddda50ade6946179df2d11",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-arm-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-arm-summary.csv",
+      "bytes": 31018,
+      "sha256": "940abeaf2406ad84a1f1303d70c6de0fa5d3710113eb7004f0a2ff8e8206a50f",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-performance.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-performance.png",
+      "bytes": 233039,
+      "sha256": "7f81f4737505c264b341d50bdcd15703013f73f2d026cf5d1abd680365d8a596",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-request-complete.csv.gz",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-request-complete.csv.gz",
+      "bytes": 21671710,
+      "sha256": "adb13d79728d38813eed459805e135a5d4a7e7a4e149a168bf65fd16512a32e9",
+      "action": "LOCAL_KEEP_LARGE_OR_RAW_NOT_GIT"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/edit-age-strata-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/edit-age-strata-summary.csv",
+      "bytes": 79234,
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-compute-accounting.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-compute-accounting.csv",
+      "bytes": 934,
+      "sha256": "73e17aefc1da923659aee86c89dc9cc584cfc3b6a0e9fb9a8969afa314c7e7cd",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.csv",
+      "bytes": 17482,
+      "sha256": "9a052ce7e1f9f5ddbe89c4e2eae4718dfdfaa28ba1c1fa945a3434eff1b4e671",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.json",
+      "bytes": 24671,
+      "sha256": "14c500a167a0e774e74395fc6ca0f2f239277122a6bf1c9a92ba27ae49e95755",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-source-rebind-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-source-rebind-receipt.json",
+      "bytes": 1314,
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-submission-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-submission-receipt.json",
+      "bytes": 1359,
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-arm-summary.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-arm-summary.csv",
+      "bytes": 6117,
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-edit-age-retention.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-edit-age-retention.png",
+      "bytes": 90865,
+      "sha256": "6e752f1a3a3fd901322b3c2b0bd4b83bc2f0db33944f1129d3c937704dc6b2bb",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-performance.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-performance.png",
+      "bytes": 60841,
+      "sha256": "4be2e819a254479a2792a63fc1e65df95f398d067d3145cdb5ac1fce706bec88",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-target-nll.png",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-target-nll.png",
+      "bytes": 76542,
+      "sha256": "cb7197f9df71a65f9ad8148082c8ab58e7c568be037f42edb7d2fdb7e932b0cb",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/job33300-technical-exclusion.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/job33300-technical-exclusion.json",
+      "bytes": 843,
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "bytes": 18896,
+      "sha256": "7daf9578681ad9f4f6a270e6d90ea3465176d73172a8f45a0fe8b2dc40af7530",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/plot-reproduction.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/plot-reproduction.csv",
+      "bytes": 3290,
+      "sha256": "e3477afabe7580b9a9d6b21fdd644084d2ab1d9077e9271178547b17e1e9a33c",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/rooted-analysis-receipt.json",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/rooted-analysis-receipt.json",
+      "bytes": 1338,
+      "sha256": "8e5298e4b2dc9df2a5517465011c9529f59d361a4a5a0acac0e19590d077e0df",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/lifelong-finalw-full10k-v4-report/experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/technical-exclusions.csv",
+      "relative": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/technical-exclusions.csv",
+      "bytes": 635,
+      "sha256": "7cf2c8c60ddbb1531896efa4b7f95bb03304891220f2d3c7e6f83cb2dbd7172b",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-alpha-cap-sweep-v1/messages/server-heads/server4/2026-09-15-ep-tw1-alpha-cap-sweep.md",
+      "relative": "messages/server-heads/server4/2026-09-15-ep-tw1-alpha-cap-sweep.md",
+      "bytes": 3350,
+      "sha256": "7f122cfde22a0bf0d6b8858465d77273bf30b54f34109d724166df9a424153b1",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-ep-tw1-alpha-cap-sweep-v1/tasks/status/odeedit_ep_tw1_alpha_cap_sweep_s4_v1/server4.json",
+      "relative": "tasks/status/odeedit_ep_tw1_alpha_cap_sweep_s4_v1/server4.json",
+      "bytes": 1983,
+      "sha256": "15be7af89c53f21d448dcf55f8d7c10d987a3558204e9178880ec40e0929bf66",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-lowcost-sixarm-seq10-v1/tasks/status/server4/2026-09-13-lowcost-sixarm-seq10.json",
+      "relative": "tasks/status/server4/2026-09-13-lowcost-sixarm-seq10.json",
+      "bytes": 923,
+      "sha256": "81323743f1e2c809e2cce7d37507468108e967b975506f242fc51bb596143203",
+      "action": "PUBLISHED_EXISTING_BYTES_NO_NEW_EXECUTION"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-owned-branches-main-integration-20260914-v1/audits/servers/server4/2026-09-14-owned-branches-main-integration/branch-details.json",
+      "relative": "audits/servers/server4/2026-09-14-owned-branches-main-integration/branch-details.json",
+      "bytes": 147612,
+      "sha256": "cab9aadf855c7f789acb0b1d664ca10f073359d434c646d3abe4adf8e5608aac",
+      "main_sha256": "1d924cdc0b8cafd73d0dd29e66af7b355a9e963465fc20b40fa570a12e89f1ec",
+      "action": "KEEP_MAIN_AND_LOCAL_VARIANT_NO_OVERWRITE"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-owned-branches-main-integration-20260914-v1/audits/servers/server4/2026-09-14-owned-branches-main-integration/branch-inventory.csv",
+      "relative": "audits/servers/server4/2026-09-14-owned-branches-main-integration/branch-inventory.csv",
+      "bytes": 28538,
+      "sha256": "adf8912f25d175ebe6da0747743fc92948999f900402172f888861eeb803c5ab",
+      "main_sha256": "6037f41a5b4a6738044012034d72088e85e6e09951ae8750e5a66e9c739e0470",
+      "action": "KEEP_MAIN_AND_LOCAL_VARIANT_NO_OVERWRITE"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/worktrees/server4-refit4-write-refresh-seq1000-v1/tasks/status/server4/2026-09-14-refit4-write-refresh-seq1000.json",
+      "relative": "tasks/status/server4/2026-09-14-refit4-write-refresh-seq1000.json",
+      "bytes": 1579,
+      "sha256": "c21b7d8337d1b9ba7d844476faea2fd0ff5556e6cb2af5150b66525691d3ed8a",
+      "main_sha256": "1f1fa44738dc4da6439119db934be715d266edecf9923e3a421ce4c7b295f6ad",
+      "action": "KEEP_MAIN_AND_LOCAL_VARIANT_NO_OVERWRITE"
+    }
+  ],
+  "raw_and_user_deletions_preserved": true
+}

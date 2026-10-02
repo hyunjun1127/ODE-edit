@@ -1,0 +1,13 @@
+JobIDRaw,JobName,User,State,ExitCode,Start,End,ElapsedRaw,AllocTRES,NodeList,Reason,allocated_gpu_seconds
+56918,odeedit_jlz_twoarm_s4_prep,janghj,FAILED,1:0,2026-10-02T04:30:07,2026-10-02T04:48:43,1116,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,JobHeldUser,1116
+56919,odeedit_jlz_twoarm_s4_pilot_A,janghj,CANCELLED,0:0,None,2026-10-02T04:48:54,0,,None assigned,None,0
+56920,odeedit_jlz_twoarm_s4_pilot_B,janghj,CANCELLED,0:0,None,2026-10-02T04:48:54,0,,None assigned,None,0
+56921,odeedit_jlz_twoarm_s4_main_A,janghj,CANCELLED,0:0,None,2026-10-02T04:48:54,0,,None assigned,None,0
+56922,odeedit_jlz_twoarm_s4_main_B,janghj,CANCELLED,0:0,None,2026-10-02T04:48:54,0,,None assigned,None,0
+56923,odeedit_jlz_twoarm_collect_s4,janghj,COMPLETED,0:0,2026-10-02T04:48:54,2026-10-02T04:48:56,2,"cpu=8,mem=24G,node=1",server4,Dependency,0
+56957,odeedit_jlz_twoarm_s4_prep,janghj,COMPLETED,0:0,2026-10-02T04:56:14,2026-10-02T05:02:16,362,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,None,362
+56958,odeedit_jlz_twoarm_s4_pilot_A,janghj,COMPLETED,0:0,2026-10-02T05:02:24,2026-10-02T05:07:19,295,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,Dependency,295
+56959,odeedit_jlz_twoarm_s4_pilot_B,janghj,COMPLETED,0:0,2026-10-02T05:02:24,2026-10-02T05:07:21,297,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,Dependency,297
+56960,odeedit_jlz_twoarm_s4_main_A,janghj,CANCELLED by 1025,0:0,2026-10-02T05:07:24,2026-10-02T12:01:58,24874,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,Dependency,24874
+56961,odeedit_jlz_twoarm_s4_main_B,janghj,CANCELLED by 1025,0:0,2026-10-02T05:07:24,2026-10-02T12:01:58,24874,"billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",server4,Dependency,24874
+56962,odeedit_jlz_twoarm_collect_s4,janghj,CANCELLED by 1025,0:0,None,2026-10-02T12:01:58,0,,None assigned,None,0

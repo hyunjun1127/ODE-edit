@@ -1,0 +1,95 @@
+{
+  "members": [
+    {
+      "bytes": 5929,
+      "path": "component_interchange.csv",
+      "sha256": "cfa970ec34750b7eed6c6e606de3eba1f228c15f1185c1b8dde5f7765fa868f3"
+    },
+    {
+      "bytes": 2102,
+      "path": "cost_breakdown.json",
+      "sha256": "ed2a2c0096de60a7d2ab4df246b14d60778cc579c79ffa329bbe5272b94ba086"
+    },
+    {
+      "bytes": 354,
+      "path": "coverage.json",
+      "sha256": "8001d10f1dc48986f9f6103ea9e1b266fd1a9077da7ded2d4ebb3834d6f5ca98"
+    },
+    {
+      "bytes": 32383,
+      "path": "history_penalty_mismatch.csv",
+      "sha256": "f9303435b490bc7efd95775394dd00d3eb7e2cc1acf6e28e26679a7863d15de6"
+    },
+    {
+      "bytes": 1060,
+      "path": "kr_operand_effects.csv",
+      "sha256": "5ec1404664ead396950331474758b603f177fae0a381f1c143d24b9b5ee19245"
+    },
+    {
+      "bytes": 53778,
+      "path": "native-stage-N512.png",
+      "sha256": "a0f06bcbb8baf9b1590ee2669a3003240789ed489ec01def2ca85cdd5dec650d"
+    },
+    {
+      "bytes": 3877,
+      "path": "numerical-comparison-coverage.json",
+      "sha256": "fd3b4965c35e39cf441e1ae01de182c28ed2a386e98215de824e678f8d41d390"
+    },
+    {
+      "bytes": 22170,
+      "path": "operator_stage.csv",
+      "sha256": "8297176410fe98b65d1b29d90d56fa1acaba1b13238d92a6d6726ff28c4ee4ac"
+    },
+    {
+      "bytes": 70,
+      "path": "order_replication.csv",
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "bytes": 545,
+      "path": "protection_transitions.csv",
+      "sha256": "b76715683aa8ee5999be76df32bd01d83051a5e6503f975303d4501029585a73"
+    },
+    {
+      "bytes": 66,
+      "path": "render-check.json",
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a"
+    },
+    {
+      "bytes": 5687,
+      "path": "report-ko.md",
+      "sha256": "443e251ae8f2771445beda9e24396a594c0e0bef6fc01a98d07b5135f6921d12"
+    },
+    {
+      "bytes": 137743,
+      "path": "same_entry_effects.csv",
+      "sha256": "536618c862fa2863f6e962bcc484870dae342e48e683267f9ed8af92acdddf1c"
+    },
+    {
+      "bytes": 70,
+      "path": "sequential_event_order.csv",
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "bytes": 524,
+      "path": "source-state-receipt.json",
+      "sha256": "b8c16af69f0ee7d5c190ad9623616b02ac4815774cc217c2bfa9a8eee6b97807"
+    },
+    {
+      "bytes": 2169744,
+      "path": "state_cohort_geometry.csv",
+      "sha256": "b18953526bbcc0b3e466fe3d434d54b8aef9073f1293e2ae087ad5374c2591ec"
+    },
+    {
+      "bytes": 87,
+      "path": "terminal.json",
+      "sha256": "0ab0faa84ac615a57ae4a1b7d19842b0c06eb830371884ea72da40589c6df1cc"
+    },
+    {
+      "bytes": 41450,
+      "path": "writer_modes.csv",
+      "sha256": "3463c257d7b0ce502235c0cd880f216616d7b3522ece3365c7cdf2431a16d6ef"
+    }
+  ],
+  "root": "cc9977045267b3830595d324fc1ec859983bbb5d8435dc5f2f198043353a87be"
+}

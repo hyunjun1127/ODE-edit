@@ -1,0 +1,12 @@
+{
+  "GPU_continuation": "NOT_TESTED",
+  "execution_lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+  "followups": "FOLLOWUP_NOT_SUBMITTED",
+  "independent_raw_NLL_rows": 13000,
+  "new_full_state_checkpoints": false,
+  "raw_inventory_count": 2926,
+  "raw_inventory_root": "7d16f209f25b000b4a49c975391e7f2b5cea9059b5d1eff598b01ac49cbc9f1e",
+  "source_commit": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+  "source_tree": "d7b824052de14288dec559f0cf235a59b8a81f12",
+  "status": "TECHNICAL_FAILED_OR_PARTIAL"
+}

@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-S06-LOWCOST-SIXARM-SEQUENTIAL-B100X10-SH4-V1",
+  "status": "MONITORING_PAUSED_AWAITING_USER",
+  "array_job": "46475",
+  "mapping": ["N4", "RES8", "S875", "S75", "FULL8", "REFIT4"],
+  "throttle": 2,
+  "initial_gate": "N4_ACTUAL_B51_COMMIT_TO_B52_ENTRY_EXACT",
+  "other_arms_initial_gate": "NOT_INSPECTED_NOT_CLAIMED",
+  "execution_source": "5e96dcb3745977b1f273e3f5afbee61167248d49",
+  "pause_receipt": "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10/20260913-v1/attempt-v1/initial-pause-receipt.json",
+  "pause_receipt_sha256": "7cd43361563a2088ebefb8040e76d4ab01f9c3688eb164542f6ff949f02c9ee8",
+  "remaining": "six-arm B51-B60 programs naturally execute; terminal validation/report awaits explicit user recall",
+  "agent_polling": false,
+  "followup_submission": false,
+  "automatic_analysis_or_main_push": false,
+  "job_mutation_after_initial": 0,
+  "scientific_promotion": false
+}

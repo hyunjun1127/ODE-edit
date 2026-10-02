@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "scope_ko": "USER가 명시한 현재까지 SH4 own 기존 산출물의 보존 게시. 새로운 과학 구현/실행 권한 아님.",
+  "session_boundary": "PASS",
+  "generic_access_helper": "NOT_PASS_ONE_LEGACY_PATH",
+  "exact_legacy_path": "tasks/status/server4/2026-09-13-lowcost-sixarm-seq10.json",
+  "narrow_exception_ko": "과거 SH4 전용 상태 파일의 원 bytes만 보존 게시한다. <task>/server4.json 형태만 아는 helper가 legacy server4/<task>.json을 거부했다. 현재 명시 USER own 산출물 게시 범위로 한정하며 공용 helper/권한 변경0, helper PASS로 표기하지 않는다.",
+  "git_diff_check": "WARN_EXISTING_BYTES_PRESERVED",
+  "whitespace_ko": "원 CSV CRLF 및 두 과거 Markdown의 2-space hard break를 그대로 보존했다. 새 과학식/값/문구/줄바꿈 정규화0.",
+  "new_code": "중단 산출물 최소 CPU 집계/게시 도구만. runtime 변경0.",
+  "root_and_old_worktrees": "기존 dirty/삭제/스테이징 보존, 새 clean child에서만 own-scope add",
+  "model_evaluator_forward": 0,
+  "new_slurm_submission": 0,
+  "sh4_duplicate_cancel": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS_BOUNDED_PUBLICATION",
+  "exact_copies": 110,
+  "member_count": 125,
+  "json_parse": true,
+  "python_ast": true,
+  "csv_columns": true,
+  "new_report_links": 13,
+  "W11_table_matches_csv": true,
+  "old_report_links": "기존 bytes 보존. local-only 대용량 링크는 Git 미포함; 전체 구보고 재검토0",
+  "browser_render": "NOT_VERIFIED",
+  "new_independent_red": "NOT_PERFORMED",
+  "GPU_calls": 0,
+  "producer_raw_changed": false,
+  "source_payload_in_git": "SOURCE_ONLY_NO_TENSOR_PROMPT_LOG",
+  "source_preserved": true,
+  "configured_gpu_caps_unchanged": true
+}

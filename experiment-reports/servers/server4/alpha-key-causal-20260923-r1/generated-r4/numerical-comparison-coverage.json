@@ -1,0 +1,93 @@
+{
+  "authority": "이런 상대차는 크게 중요하지 않으니 실험에서 이런 gate들은 전부 관찰만 해",
+  "full_numerical_equivalence": "NOT_ESTABLISHED",
+  "original_failed_attempt_preserved": true,
+  "policy": "OBSERVATION_ONLY_USER_DIRECTED",
+  "rows": [
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "NUMERICAL_CONTROL_NOT_ESTABLISHED",
+      "path": "execution/attempt-r4/writers/W050/SHAM/sham-control.json",
+      "sha256": "b5d90e6b91de81fef9f92b9863347b8c80dfb08969d80b378abc926f354f3553",
+      "status": "OBSERVATION_ONLY_USER_DIRECTED"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "NUMERICAL_CONTROL_NOT_ESTABLISHED",
+      "path": "execution/attempt-r4/writers/W070/SHAM/sham-control.json",
+      "sha256": "420a35b9d7cde8effd5426d49b16730724b10a5ff0c5379f6f0c786f15eeae3d",
+      "status": "OBSERVATION_ONLY_USER_DIRECTED"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "NUMERICAL_CONTROL_NOT_ESTABLISHED",
+      "path": "execution/attempt-r4/writers/W080/SHAM/sham-control.json",
+      "sha256": "64c9b03741f07457ab0b7a74af8656efaeef4326727d3e8f529a88a07d049220",
+      "status": "OBSERVATION_ONLY_USER_DIRECTED"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "NUMERICAL_CONTROL_NOT_ESTABLISHED",
+      "path": "execution/attempt-r4/writers/W090/SHAM/sham-control.json",
+      "sha256": "9dc933af6fd101d46a30d23cd3f50732669912ee0fc0484adbf7bd12ecd1edc3",
+      "status": "OBSERVATION_ONLY_USER_DIRECTED"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W050/components/L5/full-hook-physical-parity.json",
+      "sha256": "ca17bc9e2552a4fa17788e053782b82e929a949b418aae2c840849e5143db4e4",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W050/components/L6/full-hook-physical-parity.json",
+      "sha256": "f05a0a66ea685d60824c047575177ee364f77c7c20085ee821dea28bcb132980",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W070/components/L5/full-hook-physical-parity.json",
+      "sha256": "0a2b85a91e637de6f0abf8e7b137df8e38f7dae45a58f29bdf67345bf886fd47",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W070/components/L6/full-hook-physical-parity.json",
+      "sha256": "401f9f1b4fb5194bc4ef8747ee39f9810dec69f550ebf3366228f7dd202673cd",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W080/components/L5/full-hook-physical-parity.json",
+      "sha256": "c5fcb15df5167c942bb23e9f13ce9a033a641120212a2e6644d30da48722ffd1",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W080/components/L6/full-hook-physical-parity.json",
+      "sha256": "179c2ecaa2870a2bfa5be6f17f76372396e78c298d85695267b7bf5bee5d3590",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W090/components/L5/full-hook-physical-parity.json",
+      "sha256": "61ca481e85279914a7e740b6d2bfb25f5f0ae587f5f6401265474109f27597fa",
+      "status": "PASS"
+    },
+    {
+      "blocks_execution": false,
+      "comparison_verdict": "PASS",
+      "path": "execution/attempt-r4/writers/W090/components/L6/full-hook-physical-parity.json",
+      "sha256": "fa85844f170326d226189007988ab6971e7b7a9929c30049385aba9a887ed1a5",
+      "status": "PASS"
+    }
+  ],
+  "threshold_relaxed_to_claim_PASS": false
+}

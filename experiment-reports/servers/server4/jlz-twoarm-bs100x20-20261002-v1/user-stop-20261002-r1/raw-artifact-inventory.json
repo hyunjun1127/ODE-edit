@@ -1,0 +1,782 @@
+[
+  {
+    "bytes": 34863,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B001-candidate.json",
+    "sha256": "9618e3683d4482390b97b6c01c138cc2a5d6d9617487023de2791157cbab7295"
+  },
+  {
+    "bytes": 41094,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B001-committed.json",
+    "sha256": "002d3a98febd5be1f37e0d9a927d5868a8faed9b06f8292db585bd9a866d6b30"
+  },
+  {
+    "bytes": 2599,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B001-cross.json",
+    "sha256": "c27baff22cc4be6aaa58dd4cfdcff833537f4857a5d19e1388a37b9e6a9e7c38"
+  },
+  {
+    "bytes": 1678,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B001-entry.json",
+    "sha256": "f5192b0ef541280918be459b87446a7dd5f3569318a8cbf49e8fc5e3e687fe9f"
+  },
+  {
+    "bytes": 35111,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B002-candidate.json",
+    "sha256": "5ea53d453609764cd31d39798e83bac8ea5032a88547b85c1386646febc4a580"
+  },
+  {
+    "bytes": 41362,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B002-committed.json",
+    "sha256": "751ba4d25b6de929bf5bea0579a267c740bb4e47705f0c472fd882864d55f4ec"
+  },
+  {
+    "bytes": 3855,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B002-cross.json",
+    "sha256": "f4cd5e4424015ccc6aebc7a7f44110cc79f648326815947bcd7fdf2c948e5238"
+  },
+  {
+    "bytes": 1696,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/B002-entry.json",
+    "sha256": "e54c1cd9ee9216792ffa69152fa99fa0933b8492232a5ea1717aabd4b7f0ec47"
+  },
+  {
+    "bytes": 1581,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/INITIAL_VALID.json",
+    "sha256": "fbddac26200926ff27322788fcdb2c3908af3f94161417727458dbe099d708a2"
+  },
+  {
+    "bytes": 1119,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/W00-reuse.json",
+    "sha256": "c7b08ac87d8649b7c6b837cd51e362bfadb7aeda6818b9612d99fa8b7eb093a6"
+  },
+  {
+    "bytes": 22430,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/W01-observations.json",
+    "sha256": "4627c253c832be69041a1322ceb267c99e18bbd6ee740e3dfe85ff3460660443"
+  },
+  {
+    "bytes": 26933,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/W02-observations.json",
+    "sha256": "20b58296f6fec212b514012a2d06e47acd097f17a7380b78a2c13cd75e4d7409"
+  },
+  {
+    "bytes": 9252,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/actual-imports.json",
+    "sha256": "aceb2a3f1bdd0ab323bf1d492551c1484ab41e8b16a88b2791e8f92c7f1edb89"
+  },
+  {
+    "bytes": 82459,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/ledger.json",
+    "sha256": "1bd5a9b4cb067d777ec86e5a3b4f997232449840c7e31e57d5416ab5024ebd64"
+  },
+  {
+    "bytes": 1187,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/runtime.json",
+    "sha256": "fe9fc4bc20080a6c40b2d6a06951584a0a29271a1fadf704afbc8b936c8e9f11"
+  },
+  {
+    "bytes": 535,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-A/terminal.json",
+    "sha256": "f83c60497854454315cd88cde339b6acbcc8486c61309d7fd5aff0250f8ba454"
+  },
+  {
+    "bytes": 34774,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B001-candidate.json",
+    "sha256": "df73779e020b1e5dd52d45a0585627e3f70bf5e536b4af08960f99da755cfe4f"
+  },
+  {
+    "bytes": 40998,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B001-committed.json",
+    "sha256": "58be1bd5c7ed46f1b2e4798dd08c8ab247cc0807149ab466aa69eef4f098db81"
+  },
+  {
+    "bytes": 2588,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B001-cross.json",
+    "sha256": "454183f01df886ce4eb52ae38e0fd84969a069765d917417720bb0bb27c0bfb2"
+  },
+  {
+    "bytes": 1678,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B001-entry.json",
+    "sha256": "12942a72cea226ac87d3a5c1c84e03d03e6b03379d4ad5b0dc87468718afa2c8"
+  },
+  {
+    "bytes": 35131,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B002-candidate.json",
+    "sha256": "f2e8b5610507b5a342a78aff2b1e762bc29dae0aa7f283720be82abb5bd6af25"
+  },
+  {
+    "bytes": 41367,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B002-committed.json",
+    "sha256": "840993f903aad19a605b00714c57da4973e4358beb6232f5edcb67e2e02c62c8"
+  },
+  {
+    "bytes": 3862,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B002-cross.json",
+    "sha256": "40ff2b7c77a5d0e4dadf330829eaf6f3f66a97c391d9e4042b96f3260b009ae8"
+  },
+  {
+    "bytes": 1696,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/B002-entry.json",
+    "sha256": "047ba8f133bd85318f16cda32d0378db7dc5b230a8040eaaea5b11a012fa6f41"
+  },
+  {
+    "bytes": 1581,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/INITIAL_VALID.json",
+    "sha256": "dd1deb202aa76ad06b0a76ef00eb7580cadd24f4578f51cce50950ef9d1467be"
+  },
+  {
+    "bytes": 1119,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/W00-reuse.json",
+    "sha256": "c7b08ac87d8649b7c6b837cd51e362bfadb7aeda6818b9612d99fa8b7eb093a6"
+  },
+  {
+    "bytes": 22433,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/W01-observations.json",
+    "sha256": "591f32b9d13a76322af303b0557b6ce743544cb6b76fafc3c5c4c284cf0331b2"
+  },
+  {
+    "bytes": 26909,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/W02-observations.json",
+    "sha256": "132876a261bd8658c637e0a3ed21c2a45f89b2132bfb42cc4ce30b25242dd737"
+  },
+  {
+    "bytes": 9252,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/actual-imports.json",
+    "sha256": "aceb2a3f1bdd0ab323bf1d492551c1484ab41e8b16a88b2791e8f92c7f1edb89"
+  },
+  {
+    "bytes": 82368,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/ledger.json",
+    "sha256": "30c01b87c620d5f602a9dd2cdf07c82ab96e4d4c37b6e89b75e3a36f60d334cd"
+  },
+  {
+    "bytes": 1187,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/runtime.json",
+    "sha256": "395fb4f20577a9d1aafcc93c90e6bdd342ccc7280a3884d5c24496dcfcca5600"
+  },
+  {
+    "bytes": 536,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/pilot-B/terminal.json",
+    "sha256": "312c18e0e3785b571ed12f7f079960a6ed9c9ab01e2a9e8865d405e3c854c8f8"
+  },
+  {
+    "bytes": 259578,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B001-candidate.json",
+    "sha256": "ef02e34888dcdc814438d9fad4d794de8e5baa16cbee5b4c55fc70003a09de68"
+  },
+  {
+    "bytes": 265917,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B001-committed.json",
+    "sha256": "57aacc0c0c608f551e22ab887566a0035cd64bd16378ee935e891b132c18a0a2"
+  },
+  {
+    "bytes": 2910,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B001-entry.json",
+    "sha256": "51147a26acb6a9b24b49d5153d019dde914710029082f3546ca7d28f80752650"
+  },
+  {
+    "bytes": 261152,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B002-candidate.json",
+    "sha256": "957603b35401359f0aa2c03b4f7aac1cc03701f6557619e7eade9c0558dbdc12"
+  },
+  {
+    "bytes": 267499,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B002-committed.json",
+    "sha256": "6ee8fef737d32b176f8b0992bd442dca5e47dbf885486b0834d826ef8f08af63"
+  },
+  {
+    "bytes": 3012,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B002-entry.json",
+    "sha256": "82f0274fc2fcf2ef5bb38be601ab1367eeb4395d638338184980ee2aa6374dd0"
+  },
+  {
+    "bytes": 260467,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B003-candidate.json",
+    "sha256": "24a0e181b6ceca9483ecd6595ee89a3dad59376a8c933e24119da50df69f3506"
+  },
+  {
+    "bytes": 266828,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B003-committed.json",
+    "sha256": "a5f39e3ef2a0ac0341938255b9398d4526300e52cc0c4bfe6b37b3f2709cc22d"
+  },
+  {
+    "bytes": 3018,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B003-entry.json",
+    "sha256": "35a6031b51c8830c408ce8e9599351ff7554d8da11a86971ba9277b61b79ee29"
+  },
+  {
+    "bytes": 261160,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B004-candidate.json",
+    "sha256": "caade7105fdba841bc929e44cd839b07dd80f96e94f4f2dac4ae38d76432e5bf"
+  },
+  {
+    "bytes": 267479,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B004-committed.json",
+    "sha256": "59b1c15d6b45fceca746d99b807e691fccc6285d3c1fb1b66ee087cdb6ff4953"
+  },
+  {
+    "bytes": 3028,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B004-entry.json",
+    "sha256": "d517e714754e0476443818944f738ffcb370abf7657e4e43488b98bbbda6aa75"
+  },
+  {
+    "bytes": 261713,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B005-candidate.json",
+    "sha256": "e43a8ab4f2c9f0120e10ee0ec3e8799ce6d2d9ee53a6dfbe4d4c619ede0bb602"
+  },
+  {
+    "bytes": 268066,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B005-committed.json",
+    "sha256": "ee6916135f9327e2dc169da2cf99c931c1a145260c143193ddd2237fcd2958db"
+  },
+  {
+    "bytes": 3023,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B005-entry.json",
+    "sha256": "73bbbadfb187e6e4ec6607d2b68d4c97080c73692aa039748588717d162e17a3"
+  },
+  {
+    "bytes": 261461,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B006-candidate.json",
+    "sha256": "7ae6d98e997093e65886afaf87816876dc51ce56589c87de60c719508c26b0e7"
+  },
+  {
+    "bytes": 267836,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B006-committed.json",
+    "sha256": "2e3be8cca3e7153c64dd9f583cd0578901a4a36db9e4f65a93a4c080f1915578"
+  },
+  {
+    "bytes": 3013,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B006-entry.json",
+    "sha256": "c87c857ba798506ee63cf84b9b6a56f171b8330423713bbaa374a1dadbf5651f"
+  },
+  {
+    "bytes": 260312,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B007-candidate.json",
+    "sha256": "226177c57a7633b93eaab16a52df0cd895656797e401f80dbd507ba96366117b"
+  },
+  {
+    "bytes": 266725,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B007-committed.json",
+    "sha256": "d91b02f33f322b29c03b62338a3b071f36d35f1a7e31ebffebdd8b32dec596e9"
+  },
+  {
+    "bytes": 3029,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B007-entry.json",
+    "sha256": "1be0ad855d65b680da9a3716929ee10812a708f6794597d3386ad1dd85bf1a10"
+  },
+  {
+    "bytes": 261357,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B008-candidate.json",
+    "sha256": "5fe07228b2b86d01e0f76f36dacd52d38e3d7e9eb0d8a4e5506e0af08d99364e"
+  },
+  {
+    "bytes": 267720,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B008-committed.json",
+    "sha256": "f9c97b498941e1e382ccd96273a3b7556e535b23dc95bf68a2ab7f3e7aa9d783"
+  },
+  {
+    "bytes": 3003,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B008-entry.json",
+    "sha256": "3e0ac8f4231e0efe1f774ef7284b9ec096c1e1c2dc78b17327db6338d629025d"
+  },
+  {
+    "bytes": 261324,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B009-candidate.json",
+    "sha256": "909fd274c3d9fd4e69d34b89d701e9fcf174bc1a17e9e08bf307a801debea42b"
+  },
+  {
+    "bytes": 267723,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B009-committed.json",
+    "sha256": "bc462efd6436f22a3593d756944cf326f21d497b757e8e343a9420330df0ccd9"
+  },
+  {
+    "bytes": 2998,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B009-entry.json",
+    "sha256": "f6bfb30c1aea0f4f62f232299afdb578f0b58bc4d11a25438e1f351a66a3c93b"
+  },
+  {
+    "bytes": 260516,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B010-candidate.json",
+    "sha256": "df34d559a85c9d44a3997f09da641fa5b2deeec0169762a0742cc857660697c0"
+  },
+  {
+    "bytes": 266909,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B010-committed.json",
+    "sha256": "b15543ab448cf5d991ff04764f8c2f8123cb026485d18e8130c3667f71e6e870"
+  },
+  {
+    "bytes": 3027,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B010-entry.json",
+    "sha256": "ef4485605d42ffa9d2e96dae236ce0242a026ec925fc3261ab46d4ae3e007d68"
+  },
+  {
+    "bytes": 260566,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B011-candidate.json",
+    "sha256": "70688bdf5e875f9ef3c2d0c8ec43c3f15ceeb6ad5b3631dc6c5b66ade9e353f5"
+  },
+  {
+    "bytes": 267000,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B011-committed.json",
+    "sha256": "a8819f9ccb36023ef7ac2cddc73dc7e28613f1948d016d9706b2b5d2e892c7ca"
+  },
+  {
+    "bytes": 3018,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B011-entry.json",
+    "sha256": "fa5e1b1c704b0384f1ed0b49b10c792875ff1a83c7b5cbc0db654a6e7c2e3af2"
+  },
+  {
+    "bytes": 3033,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/B012-entry.json",
+    "sha256": "c5ec3e0184c5769283d419c09969223d68d1859805a8da92dd9276f5057dc00e"
+  },
+  {
+    "bytes": 1579,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/INITIAL_VALID.json",
+    "sha256": "c97929b47ef26465b66835f244aa72c0893ed8d07ba1c2524312345cd3fb0955"
+  },
+  {
+    "bytes": 1119,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W00-reuse.json",
+    "sha256": "c7b08ac87d8649b7c6b837cd51e362bfadb7aeda6818b9612d99fa8b7eb093a6"
+  },
+  {
+    "bytes": 488469,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W01-observations.json",
+    "sha256": "f4c10826559d9b8343376994edf1f15533c35909ab554601e1f8ecfd995a4b9c"
+  },
+  {
+    "bytes": 600728,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W02-observations.json",
+    "sha256": "ca15cfa52621ab8ea0c55cb2d3fc4209b107912dc456991b862ffd09d87a5763"
+  },
+  {
+    "bytes": 713049,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W03-observations.json",
+    "sha256": "a09aec29e6f8e91beb121787aad9b8d0312c8cf73dc110832e64e0fa3fa89ab5"
+  },
+  {
+    "bytes": 825287,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W04-observations.json",
+    "sha256": "7abdb47dd5f1efea612df6b7eeba291fec6748e213317b896134063e10e394e3"
+  },
+  {
+    "bytes": 2430204,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W05-observations.json",
+    "sha256": "d27ad3e89ed0968dc10e0b99f739e15f73b009775732936a4a6e44173a55ad15"
+  },
+  {
+    "bytes": 1049754,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W06-observations.json",
+    "sha256": "f74364c315b93b49db2439c17b692f838b35073a674d6d98ca845766b361aa13"
+  },
+  {
+    "bytes": 1162081,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W07-observations.json",
+    "sha256": "39fe89face9f29158e25ed3678d0760bc401af7fe23ed84b4600d1f3e853bb0d"
+  },
+  {
+    "bytes": 1274036,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W08-observations.json",
+    "sha256": "4dc2924a6294df5f7999eed188e2a44be05133ebe84f69b802b5e5229c97df83"
+  },
+  {
+    "bytes": 1386326,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W09-observations.json",
+    "sha256": "7a313537477cfb47a3bf71e8c707922ec2f1368446814371cbb0ce9554697c4d"
+  },
+  {
+    "bytes": 4870203,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W10-observations.json",
+    "sha256": "0d42949cf12fa5c52498e43af5870fdda3a28052876aaa94394387649e11bb03"
+  },
+  {
+    "bytes": 1615238,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/W11-observations.json",
+    "sha256": "7159890ad37724ca1aae1a370590f0e799e3a360e83cea2d95c54c71ca2894d1"
+  },
+  {
+    "bytes": 2939714,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/ledger.json",
+    "sha256": "1e6cf0450a8e513f3055b774dc2689f4593fe8503875e037659dbaebafefe63f"
+  },
+  {
+    "bytes": 1186,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-A/runtime.json",
+    "sha256": "ac7442928ac80addb2da6af6c540e57824b540c26401b0bd25b15ce241b753c7"
+  },
+  {
+    "bytes": 259447,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B001-candidate.json",
+    "sha256": "220a405bbcf888ce03a8b732e436b3406d5866429287d523002695aa3af09e7d"
+  },
+  {
+    "bytes": 265792,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B001-committed.json",
+    "sha256": "e926a6c3592ffccfc7e2de5194bb7fd43bc421654718cda4e83c55898ee4e013"
+  },
+  {
+    "bytes": 2910,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B001-entry.json",
+    "sha256": "b76cf79424877983a0fbe303562bf345fd75fc88a2d11c171f3f311c269f11a1"
+  },
+  {
+    "bytes": 261274,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B002-candidate.json",
+    "sha256": "812a2a3fcdc8d06bd2b64654d95b9d552f021d31d569166e397a04a9ac5c3d6b"
+  },
+  {
+    "bytes": 267606,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B002-committed.json",
+    "sha256": "3ef577dd1d9ed1c355cde0da6c23b3807b6469449c71b1d4aac307c9a78dfd0b"
+  },
+  {
+    "bytes": 3012,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B002-entry.json",
+    "sha256": "36da2b090862708cf9896ca9f67b3d899b31121b9bd667640ed60069f590aaab"
+  },
+  {
+    "bytes": 260730,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B003-candidate.json",
+    "sha256": "6a4c402c6c4c5c0630db83824c9936119841dbec375e11c020f8642ce25aa4fd"
+  },
+  {
+    "bytes": 267092,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B003-committed.json",
+    "sha256": "f3a6ca02371d14177c9f6f39546f6d84d0497e073530075b0f8665029aea854b"
+  },
+  {
+    "bytes": 3018,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B003-entry.json",
+    "sha256": "50707e57011fed6ebf8af4a79fc880b60b5abdcffef1f28cfc354208b8ccc3ea"
+  },
+  {
+    "bytes": 260732,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B004-candidate.json",
+    "sha256": "43c0fda7a8177dbd42936e26b7883438d27b156f5f38104c22de563148b1a584"
+  },
+  {
+    "bytes": 267065,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B004-committed.json",
+    "sha256": "7c550c68bdb3e67ad08da8237f1c0198b221b658bbf8b72a6b371abbd8d66e88"
+  },
+  {
+    "bytes": 3028,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B004-entry.json",
+    "sha256": "6a59a90175a56b378aa2bfedd2858cc1cc891a96b3a7981cc2f8ecc06568ff88"
+  },
+  {
+    "bytes": 260670,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B005-candidate.json",
+    "sha256": "062df3fc94e9fa7ee5825189810fd47d23bfe23c9991040f06127f22bc49fbdc"
+  },
+  {
+    "bytes": 267020,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B005-committed.json",
+    "sha256": "973a3870804e1cebfe427d3df5e0d452d4121c2bb5d06f33045d9738176395ff"
+  },
+  {
+    "bytes": 3023,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B005-entry.json",
+    "sha256": "8331e58b55fbedfe09bef7852844dc9a1fed884dbfe988492f403406d62e07a6"
+  },
+  {
+    "bytes": 261463,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B006-candidate.json",
+    "sha256": "9d2ea173eb8dbfbf80ba2a68570b771ce620e8072f684c365de1524188f77fbc"
+  },
+  {
+    "bytes": 267850,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B006-committed.json",
+    "sha256": "89c827f252b58951ddb4dcfa9eda955313ffb622daa194d2addd4c68fe961057"
+  },
+  {
+    "bytes": 3013,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B006-entry.json",
+    "sha256": "d38ad5229183dd0cb62bd48b8385dbdb1389afff638c206cbf334f52c5906b58"
+  },
+  {
+    "bytes": 261072,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B007-candidate.json",
+    "sha256": "84d6cfa895366f658d4f176fba5c40122d8a43a171cfbf83929813c360817d47"
+  },
+  {
+    "bytes": 267484,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B007-committed.json",
+    "sha256": "77265805e6db2e1f1f34dc3b661b05a18dbe20ff9447ce4b37240494244b4038"
+  },
+  {
+    "bytes": 3029,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B007-entry.json",
+    "sha256": "b08f43d11435b417f2561187a84316fa5104f41021283cbb1bcf425f042a3c81"
+  },
+  {
+    "bytes": 261426,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B008-candidate.json",
+    "sha256": "dce1dd0d9999047dcd5f583ea041a8790ed864abd994378a4eaf050e2dfc0f9d"
+  },
+  {
+    "bytes": 267785,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B008-committed.json",
+    "sha256": "fadc2d9eec0e0a6e6fe971850ad15c85cd493555a5a02e3765770a7373c9e824"
+  },
+  {
+    "bytes": 3003,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B008-entry.json",
+    "sha256": "5472e48580ddb3c98ad5e965006777f057a681e5066ea03bc5a75b81118c257a"
+  },
+  {
+    "bytes": 261470,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B009-candidate.json",
+    "sha256": "be19c93597837abdd885f1ce8d071cd301335d33e3ab99c36431ce218e3ed2cd"
+  },
+  {
+    "bytes": 267859,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B009-committed.json",
+    "sha256": "03f6a1953c2f384185135c4fe6a7bcdfbca84b8d44bf052c00047daa26507ca9"
+  },
+  {
+    "bytes": 2998,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B009-entry.json",
+    "sha256": "8b79db53d62ea1dda3e106b6dc9d50d41595375edf05b3da8435242887ba8807"
+  },
+  {
+    "bytes": 260782,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B010-candidate.json",
+    "sha256": "ac3958bd74f5dafbb31a976973ed44b8f28cbc1872938c76c340cdff910a2ad5"
+  },
+  {
+    "bytes": 267150,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B010-committed.json",
+    "sha256": "9e968b312aa70b6502fc7754472b52a126f078df5a3baaf3c03fc3313bb39adf"
+  },
+  {
+    "bytes": 3027,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B010-entry.json",
+    "sha256": "ee365c02f60258746f52b1a5218164dac98c6cfdb652182c1fc424b68565831b"
+  },
+  {
+    "bytes": 261145,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B011-candidate.json",
+    "sha256": "a3b2cd3caf0c5e034091c8d3d159e0c5d65ddaa942b3f92ff88525a42d6d342d"
+  },
+  {
+    "bytes": 267571,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B011-committed.json",
+    "sha256": "c0fbb0687eb01db49ca3b98770471e4d17e49c53ceebf49fb4a25e83774f74f4"
+  },
+  {
+    "bytes": 3018,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B011-entry.json",
+    "sha256": "ba6afbad027480595ea9b7085f6a5dfe83b23a6c09fde81a643c848b100f8602"
+  },
+  {
+    "bytes": 3033,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/B012-entry.json",
+    "sha256": "86c149b27d7d40fc652b3447cfd296d9f0d1c6ca604997b18dfeb254bd9b2f27"
+  },
+  {
+    "bytes": 1579,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/INITIAL_VALID.json",
+    "sha256": "4609ea2128816558549a62924f0172dee17b71b0053be61ad39e3dff312b157c"
+  },
+  {
+    "bytes": 1119,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W00-reuse.json",
+    "sha256": "c7b08ac87d8649b7c6b837cd51e362bfadb7aeda6818b9612d99fa8b7eb093a6"
+  },
+  {
+    "bytes": 488501,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W01-observations.json",
+    "sha256": "1cb1a8752f60de4329f93c08ce84a9923b9a9606bde6847a960e49a01bf2460c"
+  },
+  {
+    "bytes": 600690,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W02-observations.json",
+    "sha256": "f2fa1ccf974d436f54a80f2cb13d6f6c6679588dd7672045db028f4d3226dd3e"
+  },
+  {
+    "bytes": 712997,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W03-observations.json",
+    "sha256": "36b026a2da97c843150535e2e57133e8a4a4b2a2f13865b49e56269dfa90540a"
+  },
+  {
+    "bytes": 825233,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W04-observations.json",
+    "sha256": "edbe994f671842c9fb9952699081989115ca523113eaedbea1c3368d00b68bb6"
+  },
+  {
+    "bytes": 2430304,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W05-observations.json",
+    "sha256": "b85662a34cc31b5efa49ff60f3f8ba78bcceab3486dc57b825ba795d3c0f5a9b"
+  },
+  {
+    "bytes": 1049674,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W06-observations.json",
+    "sha256": "b6da4995dbb7ec3ab5cc334a5681ef85a87c9996ffb403d2410e8e44f86415a0"
+  },
+  {
+    "bytes": 1162071,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W07-observations.json",
+    "sha256": "8fd096c9e8c6dc31ff258f1b0540df603626ff225163ecdf3182f658e22085ed"
+  },
+  {
+    "bytes": 1273999,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W08-observations.json",
+    "sha256": "455cb79c953af87e5d084f394ded5fbae650fbddee57ea8c7d25a62e97871863"
+  },
+  {
+    "bytes": 1386424,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W09-observations.json",
+    "sha256": "ad9562460ae959bf5e3248062fea5e6667830948bf09f8e15137506e92957a3b"
+  },
+  {
+    "bytes": 4870265,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W10-observations.json",
+    "sha256": "11eeeea0098fbd5991297749ea3c08b40939b1b054e84aa6c430e1724c896308"
+  },
+  {
+    "bytes": 1615351,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/W11-observations.json",
+    "sha256": "47bd4167d3e8b570398c95a3aaeff65a7a63d674bddb3cb00295781e15eaf013"
+  },
+  {
+    "bytes": 2940286,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/ledger.json",
+    "sha256": "91cf4133105e0a5ddb9e6a92b9a83ed97c148c1529b61504e076802b00ef26c4"
+  },
+  {
+    "bytes": 1186,
+    "disposition": "LOCAL_KEEP_GIT0",
+    "path": "/data/janghj/ODE-edit/local/jlz-twoarm/20261002-bs100x20-v1/attempt-r2-source-inventory/main-B/runtime.json",
+    "sha256": "80069cae107210274353f304f572da5ca01dac1d30e05489ac5532d9b6c0a630"
+  }
+]

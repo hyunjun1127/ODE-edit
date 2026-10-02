@@ -1,0 +1,22 @@
+{
+  "instruction_id": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-DIAGNOSTIC-20260929-R1",
+  "latest_override": "ODEEDIT-GH-SH4-TEMPORAL-ROUTING-STOP-20260929-R1",
+  "status": "WAITING_USER",
+  "reason_ko": "사용자가 단층 설계를 철회했다. 다층 재설계 및 새 실행 지시 대기.",
+  "single_layer_execution_authorization": "REVOKED_USER_DIRECTED",
+  "job_ids": [],
+  "cancelled_job_ids": [],
+  "submitted_jobs": 0,
+  "released_jobs": 0,
+  "actual_gpu_runs": 0,
+  "actual_native_fits": 0,
+  "actual_weight_snapshots": 0,
+  "cpu_tests_completed": 22,
+  "active_task_cpu_workers": 0,
+  "active_transfers": 0,
+  "inputs_and_partial_source": "KEEP",
+  "implementation_committed_or_pushed_this_turn": false,
+  "new_multilayer_design": "NOT_STARTED_NOT_AUTHORIZED",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

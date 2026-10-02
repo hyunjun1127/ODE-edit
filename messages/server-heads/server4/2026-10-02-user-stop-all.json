@@ -1,0 +1,51 @@
+{
+  "active_owned_jobs": 0,
+  "actor_evidence": "사용자 전달 nonce ODEEDIT-GH-SH4-EXACT-CANCEL-EXECUTED-20261002-R1: GH가 2026-10-02T03:01:58Z collector56962 먼저, mains56960/56961 다음 scancel rc0",
+  "automatic_resume": false,
+  "cancel_actor": "GH",
+  "cancel_order": [
+    "56962",
+    "56960,56961"
+  ],
+  "cancel_rc": [
+    0,
+    0
+  ],
+  "cancel_time_utc": "2026-10-02T03:01:58Z",
+  "checkpoint_saved": false,
+  "execution_lock_sha256": "920dc4630814126e9300d8dfa7098629e928996b39c536cf736f418fa9a625aa",
+  "host": "server4",
+  "instruction_id": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "local_evidence": {
+    "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/cancellation-evidence.json",
+    "sha256": "de1800eccbe92e87f4bc73be35b2991948ddbb534245f3aa57c2e12bc0e5314c"
+  },
+  "monitoring_active": false,
+  "new_experiment_authorization_required": true,
+  "new_gpu_calls": 0,
+  "nonce": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1-SERVER4",
+  "owner": "janghj",
+  "queue_snapshot_utc": {
+    "current_time": "2026-10-02 03:07:30 UTC"
+  },
+  "queue_stdout": "",
+  "raw_disposition": "KEEP",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "sh4_cancel_calls": 0,
+  "source": "2af2af3ba7a4e2e6b5d0ac5c8e53841fcb275b1b",
+  "states": {
+    "56960": "CANCELLED by 1025",
+    "56961": "CANCELLED by 1025",
+    "56962": "CANCELLED by 1025"
+  },
+  "status": "STOPPED_USER",
+  "submission_sha256": "6cba92187e01e0ed27f87efdc5141ffda3cede2f7b411f0884352bcf18f96c62",
+  "report": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/report-ko.md",
+  "publication_index": "experiment-reports/servers/server4/2026-10-02-user-stop-publication.md",
+  "main_commits": {
+    "A": 11,
+    "B": 11
+  },
+  "main_first2000_completion": false,
+  "gh_coordination_nonce": "ODEEDIT-GH-SH4-EXACT-CANCEL-EXECUTED-20261002-R1"
+}

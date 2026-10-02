@@ -1,0 +1,19 @@
+{
+  "allocation": "Slurm accounting requires later explicit user recall; not inferred from wall",
+  "failures": [
+    {
+      "automatic_retry": false,
+      "elapsed_seconds": 42.30259107425809,
+      "exception_type": "TechnicalFailure",
+      "job_id": "52527",
+      "lock_sha256": "4a80070051cbbcc1b5e1d01f0e94124ddc92f79bedaba3772c42dcbbc7530725",
+      "phase": "gate",
+      "source_commit": "a95876f8e5c4cf59df9cd9d7f824d1ac99f8bc77",
+      "status": "TECHNICAL_FAILED"
+    }
+  ],
+  "nested_timers_additive": false,
+  "observer_and_geometry": "inclusive boundaries in source receipts",
+  "programs": [],
+  "user_gpu_hour_hardcap": null
+}

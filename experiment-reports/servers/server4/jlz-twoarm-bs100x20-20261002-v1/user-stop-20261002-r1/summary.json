@@ -1,0 +1,249 @@
+{
+  "allocation_is_not_utilization": true,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "chains": {
+    "main-A": {
+      "calls": 1320,
+      "cancellation_rollback": "NOT_VERIFIED",
+      "chain_links": 10,
+      "commits": 11,
+      "committed_requests": 1100,
+      "exact_resume": "NOT_AVAILABLE",
+      "expected_commits": 20,
+      "history_appends": 55,
+      "interrupted_oracle_calls": "NOT_RECORDED",
+      "next_entry_exists": true,
+      "reference_membership": "VERIFIED",
+      "status": "PARTIAL_CANCELLED_USER",
+      "terminal_recorded": false,
+      "warnings": [
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 1,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 2,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 3,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 4,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 5,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 6,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 7,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 8,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 9,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 10,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 11,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        }
+      ]
+    },
+    "main-B": {
+      "calls": 1320,
+      "cancellation_rollback": "NOT_VERIFIED",
+      "chain_links": 10,
+      "commits": 11,
+      "committed_requests": 1100,
+      "exact_resume": "NOT_AVAILABLE",
+      "expected_commits": 20,
+      "history_appends": 55,
+      "interrupted_oracle_calls": "NOT_RECORDED",
+      "next_entry_exists": true,
+      "reference_membership": "VERIFIED",
+      "status": "PARTIAL_CANCELLED_USER",
+      "terminal_recorded": false,
+      "warnings": [
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 1,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 2,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 3,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 4,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 5,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 6,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 7,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 8,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 9,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 10,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 11,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        }
+      ]
+    },
+    "pilot-A": {
+      "calls": 64,
+      "cancellation_rollback": "NOT_VERIFIED",
+      "chain_links": 1,
+      "commits": 2,
+      "committed_requests": 8,
+      "exact_resume": "NOT_AVAILABLE",
+      "expected_commits": 2,
+      "history_appends": 10,
+      "interrupted_oracle_calls": "NOT_RECORDED",
+      "next_entry_exists": false,
+      "reference_membership": "VERIFIED",
+      "status": "COMPLETED",
+      "terminal_recorded": true,
+      "warnings": [
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 1,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 2,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        }
+      ]
+    },
+    "pilot-B": {
+      "calls": 64,
+      "cancellation_rollback": "NOT_VERIFIED",
+      "chain_links": 1,
+      "commits": 2,
+      "committed_requests": 8,
+      "exact_resume": "NOT_AVAILABLE",
+      "expected_commits": 2,
+      "history_appends": 10,
+      "interrupted_oracle_calls": "NOT_RECORDED",
+      "next_entry_exists": false,
+      "reference_membership": "VERIFIED",
+      "status": "COMPLETED",
+      "terminal_recorded": true,
+      "warnings": [
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 1,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        },
+        {
+          "action": "RECORD_ONLY_USER_DIRECTED",
+          "batch": 2,
+          "status": "BUDGET_STOP",
+          "type": "FINITE_SOLVER_STATUS"
+        }
+      ]
+    }
+  },
+  "checkpoint_saved": false,
+  "committed_main_batches": 22,
+  "current_attempt_parent_gpu_seconds": 50702,
+  "exact_resume": "NOT_AVAILABLE",
+  "final_2k_baseline_comparison": "NOT_MEASURED",
+  "final_W20": "NOT_MEASURED",
+  "independent_agent_review": "이번 게시에서 미실시; owner 최소검산",
+  "independent_reducer": "기존 collect.py의 scalar reducer만 재사용; full20 collector 실행0",
+  "interrupted_main_batches": [
+    "A/B012",
+    "B/B012"
+  ],
+  "main_parent_gpu_seconds": 49748,
+  "new_model_calls": 0,
+  "numerical_certification": "NOT_ESTABLISHED",
+  "planned_main_commits": 40,
+  "prior_failed_gpu_seconds": 1116,
+  "research_parent_gpu_seconds": 51818,
+  "status": "STOPPED_USER_PARTIAL"
+}

@@ -1,0 +1,7 @@
+{
+  "completed_families": 0,
+  "expected_families": 94,
+  "per_request_key_geometry_parquet": "/data/janghj/ODE-edit/local/alpha-key-concentration-causal/20260923-r1/execution/attempt-r1/geometry/per_request_key_geometry.parquet",
+  "raw_parquet_local_only": true,
+  "whitened_modes_levels": []
+}

@@ -1,0 +1,632 @@
+{
+  "members": [
+    {
+      "path": "audits/servers/server4/2026-10-02-user-stop-all/cancellation-receipt.json",
+      "bytes": 1539,
+      "sha256": "3eb1d4ee33b4fd43139702fd3e557a4d53a6dc316f0833b4eff0bd703b8bbe78"
+    },
+    {
+      "path": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "bytes": 68010,
+      "sha256": "9ac6882c69d648956f7f13cd0796bb036d4ce23cd47ad95151cb6dc4bdb0f76d"
+    },
+    {
+      "path": "audits/servers/server4/2026-10-02-user-stop-all/finalize_publication.py",
+      "bytes": 3833,
+      "sha256": "92c99bf5256afac41fb0cdae9e7ce327c9270d393669ff7ef29e08d3895bdb81"
+    },
+    {
+      "path": "audits/servers/server4/2026-10-02-user-stop-all/inventory_existing.py",
+      "bytes": 3370,
+      "sha256": "493683b7584ea93245efb6beb60050a94056c816323f3610f4efadf3ca9848db"
+    },
+    {
+      "path": "audits/servers/server4/2026-10-02-user-stop-all/publish_stored.py",
+      "bytes": 6918,
+      "sha256": "abdc3a9a681c03d5bebcbc8f032d77c14fb0aeb57dad6e40c501713a4778f497"
+    },
+    {
+      "path": "experiment-reports/servers/server4/2026-10-02-user-stop-publication.md",
+      "bytes": 3295,
+      "sha256": "8a053fc6cbac2cfd6f4c523e50b9dbee0fa26dc1f0091779409540ca81d1658b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/component_interchange.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/cost_breakdown.json",
+      "bytes": 647,
+      "sha256": "5d3256802e52e8c158b2ba1dfb44f045d12a1083dbdb3893e9a69300e6652b0c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/coverage.json",
+      "bytes": 297,
+      "sha256": "760f693e03367bba719cc2c30cb214c57922de156d3b60b0a7f9b6df29de3b20"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/history_penalty_mismatch.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/kr_operand_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/operator_stage.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/protection_transitions.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/report-ko.md",
+      "bytes": 1373,
+      "sha256": "943a39d0ebe1129f77740794fdfb743f5e3be4eec7024f7c60975abea9ebaf53"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/rooted-receipt.json",
+      "bytes": 2397,
+      "sha256": "821dbb2c68de706fd1334f59b4f4260718ee4bad1f66dad46cf24d6aa24af28e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/same_entry_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/source-state-receipt.json",
+      "bytes": 534,
+      "sha256": "4f4ff3578e5e8ad805bbd1f29788debbcaf42954b2f99a86673e096327bdb9ba"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/terminal.json",
+      "bytes": 105,
+      "sha256": "87b57dc2ada520cdc19ab9511b9cf9f6dfe24657dabc05e29873667d72bef490"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r1/writer_modes.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/component_interchange.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/cost_breakdown.json",
+      "bytes": 1581,
+      "sha256": "39c96d438a5efc33d1a48ebcbf7e97eb71d1bfca11d846bb575cf78fd363465f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/coverage.json",
+      "bytes": 354,
+      "sha256": "793dbd4209e52213698f5dd1ce9bcbb0d8790bacbf2f98584e3839204c910078"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/history_penalty_mismatch.csv",
+      "bytes": 1670,
+      "sha256": "f0912622987bfc411049d246972c6fdf8aa6f60a395d9f9759ef1a13b5f4ed48"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/kr_operand_effects.csv",
+      "bytes": 8,
+      "sha256": "7703741f562b3f2c276fc35a9aba6f2de114df21e80f56ebf257cdb5ea03115c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/native-stage-N512.png",
+      "bytes": 45566,
+      "sha256": "163c94931334db7dfbf66b5ff13217d3631d4e83c23edad3391d383df0722aca"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/operator_stage.csv",
+      "bytes": 1093,
+      "sha256": "afa95ff4b6daa097a937f55f6c2eb8604f82615cfa007f0c7a6a415e2a411fcf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/protection_transitions.csv",
+      "bytes": 101,
+      "sha256": "61e691da8fb23254e0264ce7916f6a1d8074db6f744610fbbbda55c5ef05feb3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/report-ko.md",
+      "bytes": 1824,
+      "sha256": "c0bd1699f76f5c80fb1345b10994e9bfc67fcf39bce5b6d2a5ae6c52220fd52e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/rooted-receipt.json",
+      "bytes": 2732,
+      "sha256": "78238344b9f83bc9718c209ce358364e05a2c9c513e045cd39486f219e932d41"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/same_entry_effects.csv",
+      "bytes": 4943,
+      "sha256": "041cd54884e7f0781ed15feda63d7bd25b1af51e2fa185cc138a0b9878e631ca"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/source-state-receipt.json",
+      "bytes": 541,
+      "sha256": "f79f398913b223a8b1a411166f6e5d1c41281a6926afaf0d628c1a0c73beb1f9"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/terminal.json",
+      "bytes": 105,
+      "sha256": "87b57dc2ada520cdc19ab9511b9cf9f6dfe24657dabc05e29873667d72bef490"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r3/writer_modes.csv",
+      "bytes": 2099,
+      "sha256": "331c25d4ddf673c5dc44aa79d0a6c5d0239d310e9b0cdb9a36784a5770cbf4ea"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/component_interchange.csv",
+      "bytes": 5929,
+      "sha256": "cfa970ec34750b7eed6c6e606de3eba1f228c15f1185c1b8dde5f7765fa868f3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/cost_breakdown.json",
+      "bytes": 2102,
+      "sha256": "ed2a2c0096de60a7d2ab4df246b14d60778cc579c79ffa329bbe5272b94ba086"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/coverage.json",
+      "bytes": 354,
+      "sha256": "8001d10f1dc48986f9f6103ea9e1b266fd1a9077da7ded2d4ebb3834d6f5ca98"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/history_penalty_mismatch.csv",
+      "bytes": 32383,
+      "sha256": "f9303435b490bc7efd95775394dd00d3eb7e2cc1acf6e28e26679a7863d15de6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/kr_operand_effects.csv",
+      "bytes": 1060,
+      "sha256": "5ec1404664ead396950331474758b603f177fae0a381f1c143d24b9b5ee19245"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/native-stage-N512.png",
+      "bytes": 53778,
+      "sha256": "a0f06bcbb8baf9b1590ee2669a3003240789ed489ec01def2ca85cdd5dec650d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/numerical-comparison-coverage.json",
+      "bytes": 3877,
+      "sha256": "fd3b4965c35e39cf441e1ae01de182c28ed2a386e98215de824e678f8d41d390"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/operator_stage.csv",
+      "bytes": 22170,
+      "sha256": "8297176410fe98b65d1b29d90d56fa1acaba1b13238d92a6d6726ff28c4ee4ac"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/order_replication.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/protection_transitions.csv",
+      "bytes": 545,
+      "sha256": "b76715683aa8ee5999be76df32bd01d83051a5e6503f975303d4501029585a73"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/render-check.json",
+      "bytes": 66,
+      "sha256": "320ee0e498eba955f4f8f933e1882a127524d0d2236fadd380c205122687647a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/report-ko.md",
+      "bytes": 5687,
+      "sha256": "443e251ae8f2771445beda9e24396a594c0e0bef6fc01a98d07b5135f6921d12"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/rooted-receipt.json",
+      "bytes": 2911,
+      "sha256": "814b0e4f2c9170fcf1387644ab0d88e52c452a462c5ee123c80dcb7474535cef"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/same_entry_effects.csv",
+      "bytes": 137743,
+      "sha256": "536618c862fa2863f6e962bcc484870dae342e48e683267f9ed8af92acdddf1c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/sequential_event_order.csv",
+      "bytes": 70,
+      "sha256": "2efa952a01915614962f0c51d191a0a24045da7661c921eb0e46aa67d385f120"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/source-state-receipt.json",
+      "bytes": 524,
+      "sha256": "b8c16af69f0ee7d5c190ad9623616b02ac4815774cc217c2bfa9a8eee6b97807"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/terminal.json",
+      "bytes": 87,
+      "sha256": "0ab0faa84ac615a57ae4a1b7d19842b0c06eb830371884ea72da40589c6df1cc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/alpha-key-causal-20260923-r1/generated-r4/writer_modes.csv",
+      "bytes": 41450,
+      "sha256": "3463c257d7b0ce502235c0cd880f216616d7b3522ece3365c7cdf2431a16d6ef"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/commit-summary.csv",
+      "bytes": 5940,
+      "sha256": "b7f0a6e7a7f4bb7c9b0c6d82fc56b24a209abb247cf389d0ae04a9bb7dd99f25"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/parent-accounting.csv",
+      "bytes": 1803,
+      "sha256": "c737b6ff428a1ec67545c111d12091c721140bc5e3d1b20311f23e2825537226"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/raw-artifact-inventory.json",
+      "bytes": 36037,
+      "sha256": "e795bd081b2deb25b0bacae8f47ac190242417c5c9a59c7f12eb21bcb2ec7f41"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/report-ko.md",
+      "bytes": 5142,
+      "sha256": "63fc093c4fb816170b06d72a91d2488353ec801cb4b1c19bcf5ee3235b99d2bf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/stored-endpoint-metrics.csv",
+      "bytes": 4456,
+      "sha256": "84e747af18d9ad0b1713e56251997b8b5f5e6542e7000bc4ac9f3fbc897e571b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/summary.json",
+      "bytes": 7159,
+      "sha256": "1416e5530a7d17800b00f255e9b38403645e963989fd36c9ac69dc37b1632831"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/analysis-manifest.json",
+      "bytes": 8318,
+      "sha256": "06222e868427ecead68d9e45a459bd68cc6d48d60937da008dcb1837490658d5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/availability-amendment-receipt.json",
+      "bytes": 96152,
+      "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/checkpoint-state-amendment.csv",
+      "bytes": 18418,
+      "sha256": "f65528246d7acf5434394f9ff45e2e97f6d0acc022ddda50ade6946179df2d11"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-arm-summary.csv",
+      "bytes": 31018,
+      "sha256": "940abeaf2406ad84a1f1303d70c6de0fa5d3710113eb7004f0a2ff8e8206a50f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/cumulative-seen-prefix-performance.png",
+      "bytes": 233039,
+      "sha256": "7f81f4737505c264b341d50bdcd15703013f73f2d026cf5d1abd680365d8a596"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/edit-age-strata-summary.csv",
+      "bytes": 79234,
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-compute-accounting.csv",
+      "bytes": 934,
+      "sha256": "73e17aefc1da923659aee86c89dc9cc584cfc3b6a0e9fb9a8969afa314c7e7cd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.csv",
+      "bytes": 17482,
+      "sha256": "9a052ce7e1f9f5ddbe89c4e2eae4718dfdfaa28ba1c1fa945a3434eff1b4e671"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-raw-member-inventory.json",
+      "bytes": 24671,
+      "sha256": "14c500a167a0e774e74395fc6ca0f2f239277122a6bf1c9a92ba27ae49e95755"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-source-rebind-receipt.json",
+      "bytes": 1314,
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/evaluation-submission-receipt.json",
+      "bytes": 1359,
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-arm-summary.csv",
+      "bytes": 6117,
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-edit-age-retention.png",
+      "bytes": 90865,
+      "sha256": "6e752f1a3a3fd901322b3c2b0bd4b83bc2f0db33944f1129d3c937704dc6b2bb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-performance.png",
+      "bytes": 60841,
+      "sha256": "4be2e819a254479a2792a63fc1e65df95f398d067d3145cdb5ac1fce706bec88"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/finalw-full10k-target-nll.png",
+      "bytes": 76542,
+      "sha256": "cb7197f9df71a65f9ad8148082c8ab58e7c568be037f42edb7d2fdb7e932b0cb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/job33300-technical-exclusion.json",
+      "bytes": 843,
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "bytes": 18896,
+      "sha256": "7daf9578681ad9f4f6a270e6d90ea3465176d73172a8f45a0fe8b2dc40af7530"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/plot-reproduction.csv",
+      "bytes": 3290,
+      "sha256": "e3477afabe7580b9a9d6b21fdd644084d2ab1d9077e9271178547b17e1e9a33c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/rooted-analysis-receipt.json",
+      "bytes": 1338,
+      "sha256": "8e5298e4b2dc9df2a5517465011c9529f59d361a4a5a0acac0e19590d077e0df"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4/technical-exclusions.csv",
+      "bytes": 635,
+      "sha256": "7cf2c8c60ddbb1531896efa4b7f95bb03304891220f2d3c7e6f83cb2dbd7172b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/analysis-manifest.json",
+      "bytes": 8318,
+      "sha256": "9b3a8bf2f4be2a4f9adebaf1d62fcff3c18da73b36a6418ef5d6019195560a7c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/availability-amendment-receipt.json",
+      "bytes": 96152,
+      "sha256": "3684dd72e3a38e8b10544b6071e592a10eafdec881b65f0c87656eb2c662dcc7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/checkpoint-state-amendment.csv",
+      "bytes": 18418,
+      "sha256": "f65528246d7acf5434394f9ff45e2e97f6d0acc022ddda50ade6946179df2d11"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-arm-summary.csv",
+      "bytes": 31018,
+      "sha256": "940abeaf2406ad84a1f1303d70c6de0fa5d3710113eb7004f0a2ff8e8206a50f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/cumulative-seen-prefix-performance.png",
+      "bytes": 233039,
+      "sha256": "7f81f4737505c264b341d50bdcd15703013f73f2d026cf5d1abd680365d8a596"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/edit-age-strata-summary.csv",
+      "bytes": 79234,
+      "sha256": "118d2410729cf5409d7a0876a23525ee14ed3e8ffd038912defce053bd2c1ab7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-compute-accounting.csv",
+      "bytes": 934,
+      "sha256": "73e17aefc1da923659aee86c89dc9cc584cfc3b6a0e9fb9a8969afa314c7e7cd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.csv",
+      "bytes": 17482,
+      "sha256": "9a052ce7e1f9f5ddbe89c4e2eae4718dfdfaa28ba1c1fa945a3434eff1b4e671"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-raw-member-inventory.json",
+      "bytes": 24671,
+      "sha256": "14c500a167a0e774e74395fc6ca0f2f239277122a6bf1c9a92ba27ae49e95755"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-source-rebind-receipt.json",
+      "bytes": 1314,
+      "sha256": "5c096c7ce3563ca80d6c018563110f26db963b1ae4703634c5f1b09cb2a01527"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/evaluation-submission-receipt.json",
+      "bytes": 1359,
+      "sha256": "852cb42738a56b57dc905925b336eed40498ec259f0fe8ea8339e7356271a002"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-arm-summary.csv",
+      "bytes": 6117,
+      "sha256": "13f782afa93d4312ed48da61eaf24c4d6d1b5e17a194fcba0f9386bc3f557ed4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-edit-age-retention.png",
+      "bytes": 90865,
+      "sha256": "6e752f1a3a3fd901322b3c2b0bd4b83bc2f0db33944f1129d3c937704dc6b2bb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-performance.png",
+      "bytes": 60841,
+      "sha256": "4be2e819a254479a2792a63fc1e65df95f398d067d3145cdb5ac1fce706bec88"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/finalw-full10k-target-nll.png",
+      "bytes": 76542,
+      "sha256": "cb7197f9df71a65f9ad8148082c8ab58e7c568be037f42edb7d2fdb7e932b0cb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/job33300-technical-exclusion.json",
+      "bytes": 843,
+      "sha256": "1b93b4eb609723cdb7af46211b8eeb83c4edde0bdd231252e00ffa58c79d2c2b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/official-layer-debt-lifelong-finalw-full10k-factual-ko.md",
+      "bytes": 79797,
+      "sha256": "dd9addf1964af608730e10f10009fbfa48a1e6ad4042591fb6a76679e59ec40b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/plot-reproduction.csv",
+      "bytes": 3302,
+      "sha256": "9f277004949571ebc82980d403db1b7e288d281cd5cefce1d80079a6c57d3647"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/rooted-analysis-receipt.json",
+      "bytes": 1344,
+      "sha256": "dabe77a08f34c6672af608e17f3bbd77bfafe12497209576c40608eacbaa64b3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/official-layer-realization-debt-lifelong-b100x100-2026-09-03-v4-r1/technical-exclusions.csv",
+      "bytes": 635,
+      "sha256": "7cf2c8c60ddbb1531896efa4b7f95bb03304891220f2d3c7e6f83cb2dbd7172b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/temporal-routing-diagnostic-20260929-v1/preflight-ko.md",
+      "bytes": 5758,
+      "sha256": "db9d16f44f0f2d9565dd163af3575a04ad461edf22474df7993e9f8f8efe17af"
+    },
+    {
+      "path": "messages/acks/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "bytes": 2122,
+      "sha256": "478a6986adc75fe3a77e2a3974bf5ef1a7f2a2d0018fe7dd89cbb04e50fb6386"
+    },
+    {
+      "path": "messages/acks/server4/2026-10-02-user-stop-all.json",
+      "bytes": 1920,
+      "sha256": "0871d83678784daa7d2ce33bf419681814f7b0099d7cb0aced8135d680cdee27"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-09-15-ep-tw1-alpha-cap-sweep.md",
+      "bytes": 3350,
+      "sha256": "7f122cfde22a0bf0d6b8858465d77273bf30b54f34109d724166df9a424153b1"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-09-29-temporal-routing-diagnostic.md",
+      "bytes": 814,
+      "sha256": "da6f4781b5feea3c9197471e3d73022d23e3fe9231d83442501197926206d9f3"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-02-user-stop-all.json",
+      "bytes": 1920,
+      "sha256": "0871d83678784daa7d2ce33bf419681814f7b0099d7cb0aced8135d680cdee27"
+    },
+    {
+      "path": "project/run_scripts/single_layer_edit_preserving_correction/skip_M_failure_handoff.py",
+      "bytes": 8447,
+      "sha256": "e3c1d3de43f19fb7ca8d0480b0028b5832cbb7b890a702035b7dfe7e556d5b60"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/README.md",
+      "bytes": 1448,
+      "sha256": "0a42795ec7a01fb775d39b3c2244135ef0f015a05b68553fb201f5a9e9934eeb"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/audit.py",
+      "bytes": 2186,
+      "sha256": "13c4aab1c7712d601ec01c3ea057d24091a58da57e994fe2acfb9b944426c289"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/common.py",
+      "bytes": 3018,
+      "sha256": "fb40c7c0907d9e61502d21c2ab71819c23f595a6390c279dc6fc04cf13d9d3ed"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/launch.py",
+      "bytes": 7508,
+      "sha256": "8738e511cf2929b0a39e028bca8bcece3da4276ab45596a9391f7869e53fe44c"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/native.py",
+      "bytes": 10016,
+      "sha256": "8bc313ca4906c5c966a9f50c3f620840f61ebd8fc514c39034fa1efe5fd47b03"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/observations.py",
+      "bytes": 7452,
+      "sha256": "a2dd3fbe5c693180a146008aa46a715b1b59ef26735c94c85e1624da8a2aa72e"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/preflight.py",
+      "bytes": 4045,
+      "sha256": "99be0f9829b4f6b736a921fa5bb8d89052e295451d1242c32fc66a83bfb60795"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/prepare.py",
+      "bytes": 10289,
+      "sha256": "715ea7d6401ecee16e3c7cdbfe8ed08ff4723319e892d8d090c2ec9687c29245"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/reduce.py",
+      "bytes": 9243,
+      "sha256": "9d3024a52bcb33c41ffda8981bda75adf9c3014d3d7ccd1ed55dc0c40d6b60b4"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/runner.py",
+      "bytes": 15973,
+      "sha256": "4570e0f290852c96179b63b93cf8df94cd0e2146b32cb3b7d264b75110ebd01c"
+    },
+    {
+      "path": "project/run_scripts/temporal_routing_diagnostic/test_core.py",
+      "bytes": 6665,
+      "sha256": "ee76bb706e0e3ade51ea184c442e7d03c1dc42f35a74461a888d787b3362d7c9"
+    },
+    {
+      "path": "tasks/status/jlz-twoarm-bs100x20-20261002-v1/server4.json",
+      "bytes": 21194,
+      "sha256": "401226bab2fbbdb8440a8b43e3774c1d9e9f9ba0cb091b90bf3de6c6cc728c26"
+    },
+    {
+      "path": "tasks/status/odeedit_ep_tw1_alpha_cap_sweep_s4_v1/server4.json",
+      "bytes": 1983,
+      "sha256": "15be7af89c53f21d448dcf55f8d7c10d987a3558204e9178880ec40e0929bf66"
+    },
+    {
+      "path": "tasks/status/server4/2026-09-13-lowcost-sixarm-seq10.json",
+      "bytes": 923,
+      "sha256": "81323743f1e2c809e2cce7d37507468108e967b975506f242fc51bb596143203"
+    },
+    {
+      "path": "tasks/status/temporal-routing-diagnostic-20260929-v1/server4.json",
+      "bytes": 828,
+      "sha256": "c62b040407206b462fb5fc379ddfe1e0e6190ad3f7f8e70276317178f5340121"
+    }
+  ],
+  "bytes": 2257387,
+  "hash_scope": "이번 게시 source/compact. manifest 자신과 후속 검산receipt는 제외, Git commit으로 결속.",
+  "previous_main": "a72afe1b15da9014da6048736fb1a0609dd4feef"
+}

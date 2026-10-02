@@ -1,0 +1,53 @@
+{
+  "allocation": "Slurm accounting requires later explicit user recall; not inferred from wall",
+  "failures": [],
+  "nested_timers_additive": false,
+  "observer_and_geometry": "inclusive boundaries in source receipts",
+  "parent_failed_execution": {
+    "allocated_gpu_seconds": 1494,
+    "job_id": "52565",
+    "lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+    "source": "f9fbd56f31b0c520763ec9026e660a76cb3074ff"
+  },
+  "programs": [
+    {
+      "cuda_peak_allocated_bytes": 33405275136,
+      "cuda_peak_reserved_bytes": 34185674752,
+      "host_maxrss_kib": 35016508,
+      "job_id": "52563",
+      "lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+      "model_load_seconds": 13.414292014203966,
+      "phase": "gate",
+      "source_commit": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+      "status": "COMPLETED",
+      "wall_seconds": 193.7438979577273
+    },
+    {
+      "cuda_peak_allocated_bytes": 33405275136,
+      "cuda_peak_reserved_bytes": 35659972608,
+      "host_maxrss_kib": 35679428,
+      "job_id": "52564",
+      "lock_sha256": "5c461288fc77ae7071e84b0264cc240cb845b8cb4862ac47ecf37e874fcbc38b",
+      "model_load_seconds": 15.15264352876693,
+      "phase": "geometry",
+      "source_commit": "f9fbd56f31b0c520763ec9026e660a76cb3074ff",
+      "status": "COMPLETED",
+      "wall_seconds": 19066.972891350277
+    },
+    {
+      "cuda_peak_allocated_bytes": 41054865408,
+      "cuda_peak_reserved_bytes": 47653584896,
+      "host_maxrss_kib": 36561944,
+      "job_id": "52575",
+      "lock_sha256": "869f990e67b5f9697be7038b0e13de78b89a6fcdb7cd2b672217058ba1600b3b",
+      "model_load_seconds": 18.11483314819634,
+      "numerical_comparison_policy": "OBSERVATION_ONLY_USER_DIRECTED",
+      "phase": "writers",
+      "source_commit": "a21cffa08d4cf86ed258acabdb786fba778f4dfb",
+      "status": "COMPLETED",
+      "wall_seconds": 29798.617106645368
+    }
+  ],
+  "reused_writer_cost": "52565 1494 allocated GPU seconds; original NATIVE/SHAM costs counted once, not new forwards",
+  "user_gpu_hour_hardcap": null
+}

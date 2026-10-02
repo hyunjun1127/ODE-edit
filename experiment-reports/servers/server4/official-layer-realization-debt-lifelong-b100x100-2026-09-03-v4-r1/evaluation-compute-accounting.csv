@@ -1,0 +1,5 @@
+arm,model,method,job_id,checkpoint_load_count,request_state_denominator,model_forward_batch_count,token_example_count,compute_z_count,writer_count,key_count,solve_count,cache_history_mutation_count,optimizer_count,backward_count,parameter_gradient_count,model_update_during_evaluation_count,duplicate_evaluation_count,imputation_count,wall_seconds,wall_hours,peak_gpu_memory_bytes,full_fp32,nonfinite_count
+LM,llama3-8b-inst,memit,33306,7,30000,150331,485878,0,0,0,0,0,0,0,0,0,0,0,5995.570919520222,1.6654363665333949,32644090880,True,0
+LA,llama3-8b-inst,alphaedit,33306,7,30000,150331,485878,0,0,0,0,0,0,0,0,0,0,0,5954.01132924296,1.653892035900822,32644090880,True,0
+QM,qwen2.5-7b-inst,memit,33306,7,30000,150331,485878,0,0,0,0,0,0,0,0,0,0,0,5852.684271411039,1.625745630947511,30892298240,True,0
+QA,qwen2.5-7b-inst,alphaedit,33306,7,30000,150331,485878,0,0,0,0,0,0,0,0,0,0,0,5903.684524042532,1.6399123677895922,30892298240,True,0

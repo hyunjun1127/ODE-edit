@@ -1,0 +1,16 @@
+{
+  "schema": "odeedit.s06.layer-debt.lifelong-finalw-full10k.v1.technical-exclusion",
+  "job_id": "33300",
+  "status": "PURE_TECHNICAL_EVALUATOR_BATCHING_PARITY_FAILURE",
+  "failed_cells": [0, 1, 2, 3],
+  "failure_stage": "W0_CANONICAL_EVALUATOR_PARITY_BEFORE_CHECKPOINT_LOAD",
+  "root_preserved_immutable": true,
+  "scientific_denominator": 0,
+  "checkpoint_evaluation_count": 0,
+  "model_update_count": 0,
+  "rca": "Cross-request rebatching changed FP32 kernel shape relative to canonical per-request sequence_metrics; existing tolerance was not changed.",
+  "repair": "Remove cross-request batching and call canonical sequence_metrics per request/category in distinct TECH-R3 source/result namespace.",
+  "science_stream_order_tolerance_change_count": 0,
+  "retry_namespace": "campaign-20260903-tech-r3",
+  "scientific_promotion": false
+}
