@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "task_id": "jlz-causal-writer-v7-bs100x5-20261002-v1",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "envelope": "messages/head/2026-10-02-jlz-v7-causal-500-sh4.json",
+  "status": "AUTHORIZED_DISPATCH_PENDING_OWNER_ACK",
+  "method": "plans/global/2026-10-02-jlz-causal-writer-v7/method-ko.md",
+  "experiment": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment-ko.md",
+  "job_ids": [],
+  "save_checkpoints": false,
+  "batch6": false
+}

@@ -1,0 +1,659 @@
+{
+  "passed": true,
+  "method_version": "JLZ causal writer v7",
+  "arithmetic": "Python float (binary64 on this interpreter)",
+  "toy_layers": 3,
+  "tokens_per_context": 2,
+  "graph": "causal all-token writer branch plus separate subject-only native surrogate",
+  "solve_vjp": {
+    "finite_difference": -0.1826327022063407,
+    "analytic": -0.18263270219736397,
+    "step": 1e-06,
+    "absolute_error": 8.976736021182319e-12,
+    "zero_context_weight_present": true
+  },
+  "structural_cases": [
+    {
+      "batch": 1,
+      "context_counts": [
+        1
+      ],
+      "all_contexts_kept_in_actual_graph": true,
+      "zero_writer_weights": 0,
+      "lower_D_perturbation_upper_P_max_change": 0.10485572535524977,
+      "first_layer_cache_exact": true,
+      "same_candidate_commit_exact": true,
+      "microbatch_sizes": [
+        1,
+        2
+      ]
+    },
+    {
+      "batch": 3,
+      "context_counts": [
+        1,
+        3,
+        2
+      ],
+      "all_contexts_kept_in_actual_graph": true,
+      "zero_writer_weights": 1,
+      "lower_D_perturbation_upper_P_max_change": 0.023956529436103186,
+      "first_layer_cache_exact": true,
+      "same_candidate_commit_exact": true,
+      "microbatch_sizes": [
+        1,
+        2,
+        6
+      ]
+    }
+  ],
+  "stored_context_weight_identity": {
+    "stored_FP32_tenth_as_FP64": 0.10000000149011612,
+    "stored_per_request_context_mass": 1.0000000074505806,
+    "general_identity": "G+E = Z Omega Z^T - Kbar^T P",
+    "incorrect_exact_I_identity_max_gap": 7.450580485901526e-09,
+    "weights_were_not_renormalized": true
+  },
+  "direct_linear_vjp": {
+    "joint_directional_fd": 1.7798902048615783,
+    "analytic": 1.7798902049029535,
+    "absolute_error": 4.137512554791556e-11,
+    "finite_difference_step": 1e-06,
+    "D_vjp": "G^T (X P)",
+    "P_vjp": "X^T (G D)",
+    "input_vjp": "G (W_entry + D P^T)",
+    "arithmetic_scope": "binary64 real-graph test; reassociation across FP32 casts not qualified"
+  },
+  "total_gradient_checks": [
+    {
+      "batch": 1,
+      "arm": "A",
+      "coordinate_count": 9,
+      "finite_difference_step": 1e-06,
+      "absolute_tolerance": 3e-08,
+      "max_absolute_error": 9.47703027165403e-11,
+      "detached_P_max_error": 0.0003769800419316516,
+      "detached_P_forward_loss_equals_full": true,
+      "tested_path": "native surrogate + dynamic G/E policy + selected actual surrogate"
+    },
+    {
+      "batch": 1,
+      "arm": "B",
+      "coordinate_count": 9,
+      "finite_difference_step": 1e-06,
+      "absolute_tolerance": 3e-08,
+      "max_absolute_error": 1.2440681818048915e-10,
+      "detached_P_max_error": 0.0004972118907752288,
+      "detached_P_forward_loss_equals_full": true,
+      "tested_path": "native surrogate + dynamic G/E policy + selected actual surrogate"
+    },
+    {
+      "batch": 3,
+      "arm": "A",
+      "coordinate_count": 27,
+      "finite_difference_step": 1e-06,
+      "absolute_tolerance": 3e-08,
+      "max_absolute_error": 7.526806608537662e-11,
+      "detached_P_max_error": 0.0006654978949192439,
+      "detached_P_forward_loss_equals_full": true,
+      "tested_path": "native surrogate + dynamic G/E policy + selected actual surrogate"
+    },
+    {
+      "batch": 3,
+      "arm": "B",
+      "coordinate_count": 27,
+      "finite_difference_step": 1e-06,
+      "absolute_tolerance": 3e-08,
+      "max_absolute_error": 6.51191323086664e-11,
+      "detached_P_max_error": 0.0005592351899533915,
+      "detached_P_forward_loss_equals_full": true,
+      "tested_path": "native surrogate + dynamic G/E policy + selected actual surrogate"
+    }
+  ],
+  "checks": [
+    {
+      "name": "implicit_solve_AD_equals_closed_form_K_VJP",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_solve_K_VJP_directional_finite_difference",
+      "absolute_error": 8.976736021182319e-12,
+      "limit": 2.3652654044126816e-08
+    },
+    {
+      "name": "stored_FP32_weights_general_GE_identity",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "stored_FP32_weights_dense_dual",
+      "absolute_error": 1.3877787807814457e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "direct_linear_D_VJP",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "direct_linear_P_VJP",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "direct_linear_input_VJP_keeps_entry_and_update_weight",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "direct_linear_joint_X_D_P_directional_FD",
+      "absolute_error": 4.137512554791556e-11,
+      "limit": 5.559780409805907e-08
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 2.0388202682102144e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B1_L0",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2.0495065685611016e-10
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B1_L1",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B1_L1",
+      "absolute_error": 8.326672684688674e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 2.0172108312524325e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 2.035096252344602e-10
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B1_L2",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B1_L2",
+      "absolute_error": 8.673617379884035e-19,
+      "limit": 2.010794407036385e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B1_L2",
+      "absolute_error": 8.673617379884035e-19,
+      "limit": 2.0152781169348091e-10
+    },
+    {
+      "name": "dense_dual_total_loss_B1",
+      "absolute_error": 0.0,
+      "limit": 2.8774959322824553e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_microbatch_loss_B1_mb1",
+      "absolute_error": 0.0,
+      "limit": 2.8774959322824553e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb1_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb1_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_microbatch_loss_B1_mb2",
+      "absolute_error": 0.0,
+      "limit": 2.8774959322824553e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb2_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb2_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B1_mb2_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_loss_B1",
+      "absolute_error": 0.0,
+      "limit": 2.8774959322824553e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_all_token_forward_equals_candidate_B1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_output_B1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B1_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B1_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B1_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B3_L0",
+      "absolute_error": 2.220446049250313e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B3_L0",
+      "absolute_error": 1.6653345369377348e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B3_L0",
+      "absolute_error": 3.469446951953614e-18,
+      "limit": 2.019364449373574e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B3_L0",
+      "absolute_error": 0.0,
+      "limit": 2.2588541176686948e-10
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B3_L1",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B3_L1",
+      "absolute_error": 1.6653345369377348e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B3_L1",
+      "absolute_error": 3.469446951953614e-18,
+      "limit": 2.0221323644355097e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B3_L1",
+      "absolute_error": 0.0,
+      "limit": 2.2174937825180365e-10
+    },
+    {
+      "name": "dynamic_G_plus_E_identity_B3_L2",
+      "absolute_error": 1.1102230246251565e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_dynamic_writer_B3_L2",
+      "absolute_error": 1.6653345369377348e-16,
+      "limit": 2e-10
+    },
+    {
+      "name": "dynamic_write_trace_identity_B3_L2",
+      "absolute_error": 1.734723475976807e-18,
+      "limit": 2.0195956351697783e-10
+    },
+    {
+      "name": "dynamic_realization_trace_identity_B3_L2",
+      "absolute_error": 0.0,
+      "limit": 2.138995403962171e-10
+    },
+    {
+      "name": "dense_dual_total_loss_B3",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B3_L0",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B3_L1",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "dense_dual_total_gradient_B3_L2",
+      "absolute_error": 1.3877787807814457e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_microbatch_loss_B3_mb1",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb1_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb1_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb1_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_microbatch_loss_B3_mb2",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb2_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb2_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb2_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_microbatch_loss_B3_mb6",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb6_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb6_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "global_key_barrier_gradient_B3_mb6_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_loss_B3",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B3_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B3_L1",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "first_writer_cache_gradient_B3_L2",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B3_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B3_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "upper_D_does_not_change_own_or_lower_K_B3_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_all_token_forward_equals_candidate_B3",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B3_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B3_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "committed_K_equals_built_K_B3_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_output_B3",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B3_L0",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B3_L1",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "same_candidate_rebuild_weight_B3_L2",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "request_permutation_loss",
+      "absolute_error": 0.0,
+      "limit": 2.93241086699394e-10
+    },
+    {
+      "name": "request_permutation_actual_output",
+      "absolute_error": 5.551115123125783e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_shared_U_L0",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_D_gradient_L0",
+      "absolute_error": 3.469446951953614e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_key_columns_L0",
+      "absolute_error": 0.0,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_shared_U_L1",
+      "absolute_error": 1.214306433183765e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_D_gradient_L1",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_key_columns_L1",
+      "absolute_error": 1.3877787807814457e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_shared_U_L2",
+      "absolute_error": 6.938893903907228e-18,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_D_gradient_L2",
+      "absolute_error": 1.3877787807814457e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "request_permutation_key_columns_L2",
+      "absolute_error": 2.7755575615628914e-17,
+      "limit": 2e-10
+    },
+    {
+      "name": "total_causal_gradient_B1_armA",
+      "absolute_error": 9.47703027165403e-11,
+      "limit": 3e-08
+    },
+    {
+      "name": "total_causal_gradient_B1_armB",
+      "absolute_error": 1.2440681818048915e-10,
+      "limit": 3e-08
+    },
+    {
+      "name": "total_causal_gradient_B3_armA",
+      "absolute_error": 7.526806608537662e-11,
+      "limit": 3e-08
+    },
+    {
+      "name": "total_causal_gradient_B3_armB",
+      "absolute_error": 6.51191323086664e-11,
+      "limit": 3e-08
+    },
+    {
+      "name": "zero_root_selected_subgradient_value",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    },
+    {
+      "name": "zero_root_selected_subgradient",
+      "absolute_error": 0.0,
+      "limit": 0.0
+    }
+  ],
+  "limitations": [
+    "This is a tiny smooth CPU surrogate, not native LM NLL or a model pilot.",
+    "The tests do not establish FP32 materialization, mixed-dtype VJP equivalence, memory use, runtime, or task/locality gains.",
+    "The SPD matrices are well conditioned; production SPD qualification and roundoff handling remain necessary.",
+    "All current rewrite keys participate; selected actual loss rows do not change the writer fit set.",
+    "Dynamic key refresh does not eliminate ridge shrinkage, inherited virtual/actual mismatch, or all-token side effects.",
+    "Native clamp and Adam optimizer behavior are outside these algebra tests; no warmup is introduced.",
+    "Teacher detach and pulse scheduling remain implementation contracts, not a fixed-objective convergence claim."
+  ]
+}

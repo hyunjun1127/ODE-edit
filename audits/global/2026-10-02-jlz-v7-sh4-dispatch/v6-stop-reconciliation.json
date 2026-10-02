@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "previous_task": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+  "user_stop": "USER_REPORTED",
+  "app": {
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "turn": "01a0fc9b-c6fe-76f3-b160-02527fbf23ef",
+    "status": "interrupted",
+    "last_report": "IMPLEMENTING_NOT_SUBMITTED; archive36검산 및구현중"
+  },
+  "scheduler": {
+    "observed_utc": "2026-10-02T13:26:31.024803+00:00",
+    "host": "server4",
+    "user": "janghj",
+    "queue_command": "squeue -h -u janghj -o %i|%j|%T|%N|%R",
+    "queue_returncode": 0,
+    "owned_active_pending_rows": [],
+    "v6_submission_artifacts": [],
+    "local_cap_rows": [
+      "server4\tserver4\t2\t60416\todeedit_*,bfode_*,motivation_*,session01_*"
+    ],
+    "cancel_calls": 0,
+    "mutations": 0
+  },
+  "status": "NO_ACTIVE_OWNED_JOBS_TO_CANCEL; V6_SUPERSEDED_USER",
+  "cancellation_ids": [],
+  "historical_terminal_scan": "NOT_RUN; historicalGPU0/과거job부재를추정하지않음",
+  "preserve": "미완성v6source/log/CPU결과KEEP; 어떤파일도삭제/리셋/이동하지않음",
+  "later_condition": "SH4가 본인 worker/submitter와부분manifest를정합화하고 v7 admission전fresh점검; 정확같은v6 이외 mutation0"
+}

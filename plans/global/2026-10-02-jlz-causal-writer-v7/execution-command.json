@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "date_kst": "2026-10-02",
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "내가 임의로 sh4의 작업 중단했는데, GH에게 이 정보까지 전달해서 v7 실험 진행하도록 하자. sh4에게 task 진행시키자.",
+    "stopped_previous_SH4_work": "USER_REPORTED",
+    "scheduler_cancellation_verified": false,
+    "interpretation": "Do not resume the interrupted v6 task; assign v7 implementation, qualification and 500-edit experiments to SH4."
+  },
+  "recipient": {
+    "role": "GH",
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "owner": {
+    "role": "SH4",
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "repository": "hyunjun1127/ODE-edit",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "task_id": "jlz-causal-writer-v7-bs100x5-20261002-v1",
+  "scope": {
+    "new_method": "v7 full causal current-key writer and solve gradient",
+    "arms": [
+      "A",
+      "B"
+    ],
+    "cold_start_each_arm": true,
+    "batch_size": 100,
+    "batches_per_arm": 5,
+    "edits_per_arm": 500,
+    "warmup_updates": 0,
+    "native_LR": 0.1,
+    "native_postupdate_clamp": true,
+    "native_subject_delta_primary": true,
+    "all_eligible_layers": true,
+    "only_arm_difference": "geometry norm aggregation",
+    "main_native_candidates_per_batch": 25,
+    "main_Adam_updates_per_batch": 24,
+    "new_baseline_runs": 0,
+    "save_checkpoints": false,
+    "no_batch6": true,
+    "execution": "implement -> CPU/source checks -> both arms BS2x2 pilot -> one B100 candidate5/update4 smoke incl physical probe backward -> both cold BS100x5 main -> W5 cumulative evaluation/collector",
+    "additional_stage_approval_required": false
+  },
+  "stop_transition": {
+    "prior_task": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+    "mark_user_stopped_or_superseded": true,
+    "preserve_partial_code_logs_and_results": true,
+    "do_not_infer_scheduler_state_from_thread_stop": true,
+    "reconcile_only_owned_v6_jobs_to_user_stop_before_v7_submission": true,
+    "unrelated_job_cancellation": false,
+    "v6_state_resume_into_v7": false
+  },
+  "resources": {
+    "respect_current_project_cap": true,
+    "prior_known_GPU_cap": 2,
+    "increase_cap": false,
+    "separate_method_runtime_measurement": true,
+    "silent_key_or_P_detach_to_fit_budget": false
+  },
+  "bindings": {
+    "method": "method-ko.md",
+    "implementation": "implementation-ko.md",
+    "contract": "contract.json",
+    "tex": "../../../docs/methods/jlz-causal-writer-v7.tex",
+    "experiment": "experiment-500/experiment-ko.md",
+    "experiment_contract": "experiment-500/experiment.json",
+    "CPU_math": "math/validation-results.json",
+    "file_manifest": "artifact-manifest.json"
+  },
+  "reporting": {
+    "GH_immediate_nonce_ACK": true,
+    "SH4_direct_owner_ACK_required": true,
+    "separate_receipts": [
+      "full_read_and_SHA",
+      "source_and_input_binding",
+      "GPU_qualification",
+      "job_submission",
+      "main_initial",
+      "500_terminal"
+    ],
+    "bounded_initial_handoff_only": true,
+    "new_recurring_monitor": false
+  },
+  "status_at_issue": "AUTHORIZED_AWAITING_GH_DELIVERY"
+}

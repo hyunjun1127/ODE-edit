@@ -1,0 +1,97 @@
+{
+  "method": "JLZ-v7",
+  "revision": "20261002-causal-current-key-fullgradient",
+  "date": "2026-10-02",
+  "status": "DESIGN_AND_CPU_SYNTHETIC_GRADIENT_VALIDATED",
+  "source_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1",
+  "base_commit": "938d5a12d558ade7c92c2cd91f45511958b4732d",
+  "scope": "user-authorized v7 implementation/pilot/two500-edit experiments via GH->SH4; prior SH4 stop user-reported; actual operations recorded separately",
+  "files": [
+    {
+      "path": "docs/methods/jlz-causal-writer-v7.tex",
+      "bytes": 20840,
+      "sha256": "d5030e39f9c8e1b3182adffa653366cc66468fd9cc3cba42c8ca000229c994cd"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/README.md",
+      "bytes": 1580,
+      "sha256": "16f67b1159778f5702b53c1512330ae15c1389d303c51ed60e571409e64ee31c"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/contract.json",
+      "bytes": 11191,
+      "sha256": "b2061f9f67fa7d46089ba9ed6958bb0d3cccee6ca5abdb7cc1f9687b20b32afe"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/execution-command.json",
+      "bytes": 3274,
+      "sha256": "980270aaa774ddb3cb95940101fc81d93241b7da9e97cfcdfd36caccc4c625bb"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment-ko.md",
+      "bytes": 12421,
+      "sha256": "08cc14d8bd49e980ccd6b3af1647e673bc56ea7d530e326a59ba8da0f7ffde53"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment.json",
+      "bytes": 17632,
+      "sha256": "5cc5535c4fac6cb9abdf185d045e86476b3a6f377abfb809781dce7f0dffd052"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/handoff-ko.md",
+      "bytes": 3751,
+      "sha256": "afc6ad6c202b072b9eca3ffe62e137a0fb621ea1f7afc31bbe80421a5f4d0e84"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/implementation-ko.md",
+      "bytes": 12732,
+      "sha256": "73d49df3e2ee887afb4972a08628a93ce47c3ff474f7a93d4485448936595880"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/README.md",
+      "bytes": 5469,
+      "sha256": "9230c4692440a8705bedf49b1372dca30897eebf9e7b42c5b6e020bc134983fa"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/run-receipt.json",
+      "bytes": 826,
+      "sha256": "dea9f5a097f90cb1b3a2e26e47153e7dd711b8527f8e0c380dde579d99702f68"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/validate_math.py",
+      "bytes": 27073,
+      "sha256": "775c9611092d93b7ff35732d2e0fecf5eb33b09d2cd0fef5743827befd229669"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/validation-results.json",
+      "bytes": 17827,
+      "sha256": "f8ab45e4098e4d27723071fd925ea4f19202a41f128704a0e67335fc4fe29d95"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-causal-writer-v7/method-ko.md",
+      "bytes": 19486,
+      "sha256": "5cffd2f9f570eb2890e9427d480e8ce5589e55006df5eb5ca021cbb7e7ff4dad"
+    },
+    {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    }
+  ],
+  "verification": {
+    "JSON_parse": true,
+    "relative_document_links_checked": 27,
+    "contract_invariants": true,
+    "first500_case_ids_SHA": true,
+    "TeX_static_environment_check": true,
+    "TeX_compiled": false,
+    "CPU_math_passed": true,
+    "CPU_scalar_and_structural_checks": 107,
+    "CPU_total_gradient_cases": 4,
+    "GPU_qualification": "NOT_RUN",
+    "production_implementation": "NOT_STARTED_BY_THIS_DESIGN_TASK",
+    "external_dispatch": "PENDING_AT_SEAL",
+    "existing_v6_job_mutation": false
+  },
+  "execution_command": "execution-command.json"
+}

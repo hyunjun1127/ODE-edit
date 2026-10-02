@@ -9,7 +9,9 @@
     "repository": "hyunjun1127/ODE-edit"
   },
   "envelope": "messages/head/2026-10-02-jlz-v6-nowarmup-500-sh4.json",
-  "status": "DELIVERED_OWNER_ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "status": "USER_STOPPED_SUPERSEDED_BY_V7",
+  "superseding_instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "stop_receipt": "audits/global/2026-10-02-jlz-v7-sh4-dispatch/v6-stop-reconciliation.json",
   "accepted_turn": "01a0fc9b-c6fe-76f3-b160-02527fbf23ef",
   "delivery_receipt": "audits/global/2026-10-02-jlz-v6-sh4-dispatch/delivery-receipt.json",
   "method": "plans/global/2026-10-02-jlz-subject-adam-v6/method-ko.md",

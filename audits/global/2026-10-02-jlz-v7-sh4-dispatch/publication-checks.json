@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "status": "PASS_DISPATCH_PACKAGE",
+  "checks": [
+    "15개regulararchive 전체SHA/size/source일치",
+    "14개신규정본 exact채택+기존caseCSV1개 exact재사용",
+    "method/implementation/experiment/contracts/TeX/math정독 및 전체구조파싱",
+    "CPU107checks/4totalD_FD 전필드재현일치",
+    "warmup0/LR.1/각500/noB6/noCP/필수B100후보5·Adam4·probebackward 확인",
+    "v6예외철회/중단정합화/새v7만STOP예외",
+    "gitdiff--cached--check PASS",
+    "실제GH 명령범위 identity로 check-agent-access --staged PASS; sharedconfig수정0"
+  ],
+  "owner_review": true,
+  "independent_red_agent": false,
+  "production_GPU": "NOT_RUN",
+  "SH4_ACK": "PENDING"
+}

@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "owner_review": true,
+  "independent_reviewer": false,
+  "CPU": {
+    "passed": true,
+    "all_fields_reproduced": true,
+    "checks": 107,
+    "total_D_FD_cases": 4,
+    "max_total_D_error": 1.2440681818048915e-10,
+    "min_detached_P_error": 0.0003769800419316516,
+    "limitations": [
+      "This is a tiny smooth CPU surrogate, not native LM NLL or a model pilot.",
+      "The tests do not establish FP32 materialization, mixed-dtype VJP equivalence, memory use, runtime, or task/locality gains.",
+      "The SPD matrices are well conditioned; production SPD qualification and roundoff handling remain necessary.",
+      "All current rewrite keys participate; selected actual loss rows do not change the writer fit set.",
+      "Dynamic key refresh does not eliminate ridge shrinkage, inherited virtual/actual mismatch, or all-token side effects.",
+      "Native clamp and Adam optimizer behavior are outside these algebra tests; no warmup is introduced.",
+      "Teacher detach and pulse scheduling remain implementation contracts, not a fixed-objective convergence claim."
+    ],
+    "first500_case_sha": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+    "model_GPU": "NOT_RUN"
+  },
+  "findings": [
+    {
+      "status": "CLARIFIED_NO_SCIENCE_CHANGE",
+      "item": "contract.writer.Kbar의K0잔존표기",
+      "resolution": "method contract writer.Kbar의 K0 표기는 현재 문단의 K_actual(D_lower)를 뜻한다; P 식/본문/TeX에 맞춰 구현하고 상층 entryK를 사용하지 않는다."
+    },
+    {
+      "status": "CLARIFIED_NO_SCIENCE_CHANGE",
+      "item": "delivery optional B100label",
+      "resolution": "experiment delivery의 optional_bounded_B100_receipt라는 역사 label에도 불구하고 이번 v7 B100은 USER/qualification/본문대로 필수1회다."
+    },
+    {
+      "status": "IMPLEMENTATION_REQUIRED",
+      "item": "directD/P/input +solveVJP+EexplicitK+Tgraph, actualbuilder δ0, allBbarrier",
+      "evidence": "정본문서와CPU107/4totalD reproduce; actualGPU NOT_RUN"
+    }
+  ],
+  "scope": "계약검토/CPU합성, 실모델성능·메모리·비용보장0",
+  "no_quality_gate": true,
+  "old_v6_runtime_or_40percent_target_reuse": false
+}

@@ -1,0 +1,427 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sg}{\operatorname{sg}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\pos}[1]{\left[#1\right]_+}
+\newcommand{\RR}{\mathbb R}
+\title{JLZ v7: Joint Subject Targets Through a Causal Writer\\
+\large Fresh actual keys, differentiable solves, and two allocation arms}
+\author{ODE-edit method specification}
+\date{October 2, 2026}
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\section{Scope and preserved native learning mechanism}
+The method jointly learns subject-position interventions at every
+eligible write layer and allocates them using the current model's actual
+write geometry. Unlike a fixed-entry writer, an upper-layer basis is
+recomputed after applying the candidate's lower-layer writes, and its
+gradient is retained. This is a proposed design; this document does not
+report production execution, GPU qualification, or measured improvement.
+
+At batch entry freeze the model $W_t$, native anchor norms $a_{lr}>0$,
+native KL teachers, and geometry statistic $A_l=\lambda_C C_{0l}+H_{tl}$.
+Here $B$ is the actual logical batch size and $\mathcal L$ is the complete
+ordered eligible layer set. Initialize absolute trainable columns
+$D_l=[\delta_{l1},\ldots,\delta_{lB}]=0$. In the native virtual graph,
+all requests use their usual native contexts, target tokens, lookup
+positions, reductions, and readouts, with frozen $W_t$ and simultaneous
+subject block-output interventions
+\[
+ h^{v}_{lrc}[s_{rc}]\leftarrow h^{v}_{lrc}[s_{rc}]+\delta_{lr}.
+\]
+The same request column is used in its rewrite contexts and native KL
+input. Cross-layer propagation is in this common forward graph. No
+official paraphrase, neighborhood example, future edit, or external
+reference sentence enters optimization.
+
+Define the mean native objective by
+\begin{align}
+ J_N(D)=\frac1B\sum_{r=1}^{B}\left[
+ L^{v}_{N,r}(D)
+ +\lambda_K\KL\bigl(p^v_{K,r}(D)\Vert p^0_{K,r}\bigr)
+ +\lambda_n\sum_l\frac{\norm{\delta_{lr}}}{a_{lr}^2}\right].
+ \label{eq:native}
+\end{align}
+NLL and KL retain their potentially different native readout layers.
+The full-vocabulary native KL direction is current $\Vert$ entry.
+The nonsquared native norm remains in the loss, with zero subgradient
+chosen at zero. After each optimizer update, apply the individual native
+clamp $\norm{\delta_{lr}}\leq c_{\rm native}a_{lr}$. All native
+coefficients and anchors are recorded in the model profile.
+
+Native task learning remains subject-mediated. A separate actual-weight
+branch supplies differentiable geometry at every candidate and functional
+feedback at four selected candidates. It uses no artificial subject
+injection. Concentration in one layer is allowed; no layer is removed
+before learning, and no entropy target or minimum layer quota is imposed.
+
+\newpage
+\section{Causal writer: fresh keys before each own-layer update}
+For each candidate, traverse the actual branch in layer order. At layer
+$l$, collect all current rewrite-context keys
+$K_l^a(D_{<l})=[k^a_{lrc}]\in\RR^{d_{{\rm in},l}\times n}$ immediately
+before that layer's modified projection. Lower-layer candidate weights
+are already active. The current projection has not yet been modified for
+this traversal. There is a layer barrier: collect the complete logical
+batch's context keys before constructing that layer's update.
+
+Let $\Omega=\operatorname{diag}(\alpha_{rc})$ with
+$\alpha_{rc}\geq0$ and $\sum_c\alpha_{rc}=1$. Let
+$Z\in\{0,1\}^{B\times n}$ indicate ownership of contexts, so that
+$Z\Omega Z^\top=I_B$ under exact per-request normalization. Stored context
+weights are preserved: casting FP32 weights to FP64 does not authorize
+silent renormalization of their small summation error. In the initial
+profile the canonical context has
+weight $1/2$ and the noncanonical native contexts share the remaining
+$1/2$. Abbreviating $K_l^a$ as $K_l$, compute
+\begin{align}
+ M_l&=A_l+K_l\Omega K_l^\top, &
+ \bar K_l&=K_l\Omega Z^\top,\\
+ P_l(D_{<l})&=\operatorname{solve}(M_l,\bar K_l), &
+ U_l(D)&=D_lP_l^\top,\\
+ W^a_l(D)&=W_{t,l}^{32}
+       +\operatorname{cast}_{32}\!\left(D_l^{64}(P_l^{64})^\top\right).
+ \label{eq:causal}
+\end{align}
+Apply this weight to all token positions, continue to the next layer,
+and repeat. Every candidate starts from $W_t$, not from the preceding
+candidate's edited model. All current requests determine each basis,
+including when functional feedback later uses a subset.
+
+For fixed actual keys, Eq.~\eqref{eq:causal} minimizes
+\[
+ \frac12\norm{(UK_l-D_lZ)\Omega^{1/2}}_F^2
+ +\frac12\tr(UA_lU^\top).
+\]
+Here $\delta$ is an incremental own-layer target: $UK_l\approx D_lZ$.
+It is not an absolute target subsequently corrected by subtracting a
+newly measured activation. In particular,
+\[
+ h^a_l-h^v_l=(h^{a,\mathrm{pre}}_l-h^{v,\mathrm{pre}}_l)
+              +(U_lK_l-D_lZ)
+\]
+at the corresponding context columns and supported block-output sites.
+Same-layer fitting alone need not remove inherited lower-layer error.
+Replacing $D_lZ$ by an absolute virtual-state residual would define a
+different writer and is not part of this version.
+
+The first writable layer's keys and basis are invariant within a batch,
+because their computation precedes every modified projection. Cache
+them once. Every upper-layer basis is fresh for each candidate and
+retains gradients through keys and solves. The construction is causal,
+not a simultaneous fixed-point iteration: $P_l$ depends on $D_{<l}$ but
+not on an own-layer key produced after its own write.
+An adapter must verify independent write parameters and this feed-forward
+dependency. Aliased weights, recurrent invocations, or shared write sites
+are not supported merely by naming corresponding layers.
+
+\newpage
+\section{Differentiable solve and exact reuse boundaries}
+Factor each frozen positive-definite $A_l=L_lL_l^\top$ once per batch.
+A context-dual implementation can compute
+\begin{align}
+ F_l&=L_l^{-1}K_l\Omega^{1/2}, & S_l&=I+F_l^\top F_l,\\
+ V_l&=\operatorname{solve}(S_l,\Omega^{1/2}Z^\top), &
+ T_l&=F_lV_l, & P_l&=L_l^{-\top}T_l.
+ \label{eq:dual}
+\end{align}
+This is algebraically equivalent to the primal solve. It uses no
+division by context weights and permits zero weights. Geometry and
+solves use FP64. Shape, factorization, and residual checks may detect
+numerical failure; silent diagonal jitter changes the writer and is not
+an approved recovery. Neither contexts nor off-diagonal terms are dropped.
+
+The differential for the solve subgraph, with $A,\Omega,Z$ fixed, is
+\[
+ dP=M^{-1}\!\left[dK\Omega(Z^\top-K^\top P)
+                      -K\Omega\,dK^\top P\right].
+\]
+Given upstream adjoint $Q=\nabla_P L$, let
+$Y=\operatorname{solve}(M^\top,Q)$. Its contribution is
+\[
+ \nabla_K L\big|_{\rm solve}
+ =Y(Z-P^\top K)\Omega-P(Y^\top K)\Omega.
+ \label{eq:vjp}
+\]
+Direct key dependencies from geometry or activations are added separately;
+Eq.~\eqref{eq:vjp} is not the entire loss gradient. For upper layers,
+\[
+ dU_l=dD_lP_l^\top+D_l\,dP_l^\top
+\]
+couples lower-layer interventions to later-layer write geometry. Detaching
+$K$, reusing a preceding candidate's $P$, or omitting the solve adjoint
+removes this coupling and defines another method.
+
+For a linear operation with input $X$, output adjoint $G$, and update
+$DP^\top$, the real-arithmetic identities
+\[
+ \nabla_D L=G^\top(XP),\qquad
+ \nabla_P L=X^\top(GD),\qquad
+ \nabla_X L=GW^a
+\]
+can avoid materializing a full weight-gradient tensor. Both parameter
+adjoints and the full input adjoint are required. Forward
+materialization, casts, and rounding remain as declared. A reordered
+custom backward must be validated against the ordinary autograd
+reference; these identities do not imply bitwise floating-point equality.
+
+Checkpointing may recompute exact candidate operations. Its closure must
+be a pure function of immutable candidate weights/state or install those
+weights inside recomputation. It cannot depend on a temporary hook
+context that expired after forward. Native and actual graphs have
+different cache boundaries. Upper-layer key activations and factors
+cannot be cached across optimizer candidates.
+
+\newpage
+\section{Dynamic geometry costs and the two arms}
+At every candidate, construct the differentiable small matrices
+\begin{align}
+ G_l(D_{<l})&=P_l^\top A_lP_l=T_l^\top T_l,\\
+ E_l(D_{<l})&=(P_l^\top K_l-Z)\Omega(P_l^\top K_l-Z)^\top,\\
+ G_l+E_l&=Z\Omega Z^\top-\bar K_l^\top P_l.
+ \label{eq:grams}
+\end{align}
+The last identity uses the actual stored weights; its first term is
+$I_B$ in exact normalized arithmetic. It is a numerical check, not a
+reason to ignore cancellation in small residual energies. With the frozen
+$\sigma_l=(B^{-1}\sum_r a_{lr}^2)^{1/2}$, define
+\[
+ g_l(D)=\frac{\sqrt{\tr(D_lG_l(D_{<l})D_l^\top)}}{\sqrt B\,\sigma_l},
+ \qquad
+ e_l(D)=\frac{\sqrt{\tr(D_lE_l(D_{<l})D_l^\top)}}{\sqrt B\,\sigma_l}.
+\]
+These correspond to actual-key weighted write action and same-layer
+incremental realization error. Explicit factors such as
+$D_l(P_l^\top K_l-Z)\Omega^{1/2}$ permit stable norm evaluation.
+These energies refer to the FP64 theoretical update; telemetry separately
+measures the effects of the materialized FP32 candidate.
+All derivatives through $G,E,P,K$ are included; an eigendecomposition
+followed by detached factors is not an equivalent implementation.
+Use zero subgradient at an exact zero norm, with no root-norm smoothing.
+Adding epsilon smoothing requires a separate method revision.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Arm & $R_W(D)$ & $R_E(D)$\\
+\midrule
+A: concentration permitted & $\sum_lg_l$ & $\sum_le_l$\\
+B: spread preference & $\sqrt{\sum_lg_l^2}$ & $\sqrt{\sum_le_l^2}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Both arms use the primary mean objective
+\[
+ J_{\rm base}^{(a)}=J_N+\lambda_WR_W^{(a)}+\lambda_ER_E^{(a)},
+ \qquad \lambda_W=\lambda_E=0.1
+\]
+in the initial, unvalidated profile. For fixed nonnegative cost entries
+of fixed total, the Euclidean aggregation discounts spreading relative
+to a sum. This describes only the outer aggregation. Because the
+geometry itself now depends on lower-layer parameters, these are not
+globally convex norms of the full collection $D$ and the same allocation
+change can also change all subsequent costs. Arm A does not make the
+complete objective allocation-neutral. Common hidden-feedback penalties
+can also favor particular distributions.
+
+Both arms consider all layers and share the native loss, physical
+feedback, memory, Adam settings, clamp, and evaluation. They differ only
+in the two outer cost aggregations. Concentration is a possible learned
+outcome, not an initial layer restriction or an acceptance condition.
+Geometry costs are preservation proxies; they do not establish functional
+locality or rule out an under-edited optimum.
+
+\newpage
+\section{Scheduled physical feedback from native sentences}
+At pulse candidates 5, 10, 15, and 20, use the freshly built causal
+weights as the physical student. The teacher is the same candidate's
+native jointly injected forward, detached only on the teacher side.
+For a current cohort $I$, native rewrite weights $w_{rc}$, and target
+lengths $T_{rc}$, define
+\begin{align}
+ C_h(I)&=\frac1{|I|}\sum_{r\in I}\frac12\sum_l\sum_cw_{rc}
+  \frac{\norm{h^a_{lrc}-\sg(h^v_{lrc})}^2}{a_{lr}^2},\\
+ C_d(I)&=\frac1{|I|}\sum_{r\in I}\sum_cw_{rc}\frac1{T_{rc}}
+  \sum_{j=1}^{T_{rc}}\KL\bigl(\sg(p^v_{rcj})\Vert p^a_{rcj}\bigr),\\
+ C_{\rm cur}(I)&=0.1C_h(I)+0.1C_d(I)
+  +\frac{\lambda_K}{|I|}\sum_{r\in I}\KL(p^a_{K,r}\Vert p^0_{K,r}).
+\end{align}
+Hidden states are total subject block outputs after intervention.
+Distillation uses full-vocabulary probabilities at native NLL target
+positions and readout; physical KL uses the native KL input and readout.
+Teacher $\Vert$ student distillation and current $\Vert$ entry native
+KL deliberately have different directions. No additional physical target
+NLL replaces the virtual native task objective.
+
+For eligible past native inputs $J$, use the same physical weights and
+the same loss in both arms:
+\[
+ C_{\rm past}(J)=\frac1{|J|}\sum_{r\in J}\left[
+  \lambda_K\KL(p^a_{K,r}\Vert p^{\rm admit}_{K,r})
+  +\sum_cw_{rc}\frac12\pos{L^a_{N,rc}-b^{\rm commit}_{rc}}^2\right].
+\]
+The admission-entry KL teacher stays fixed while its identity is
+resident. A retained repeated or readmitted fact uses its latest target
+and actual committed NLL baseline. Memory follows the native-only v5
+unique-fact Algorithm R reservoir of capacity 128, including shared-token
+teacher ownership and eviction. Current fact identities are excluded
+from past preservation; admission has no quality gate.
+
+Once per batch, seed a disjoint partition $I_1,\ldots,I_4$ covering all
+$B$ current requests. Select $M=\min(16,B,\text{eligible memory size})$
+past requests once and partition them into disjoint $J_1,\ldots,J_4$.
+At candidate $q=5j$ add
+\[
+ \frac{|I_j|}{B}C_{\rm cur}(I_j)+\frac{|J_j|}{M}C_{\rm past}(J_j)
+\]
+to $J_{\rm base}^{(a)}$, defining $J_q$. Empty terms are zero, including
+all past terms when $M=0$. Cohort weights sum to one across pulses, with
+no factor-four multiplier. Every selected request contributes its full
+native bundle. Other candidates have no functional-feedback term but
+still build actual keys and differentiate dynamic geometry on all current
+rewrite inputs. Moving detached teachers make this a specified finite
+schedule rather than descent on a single fixed global objective.
+
+\newpage
+\section{Adam, exact final commit, and sequential state}
+Use absolute-coordinate Adam with
+$(\beta_1,\beta_2)=(0.9,0.999)$, $\epsilon=10^{-8}$, weight decay zero,
+and fresh moments at batch entry. Candidates $q=1,\ldots,25$ evaluate
+$D^{q-1}$. Candidates 1--24 accumulate the complete logical gradient
+\[
+ \nabla_D\{B J_q(D^{q-1})\}
+\]
+and perform one update with constant native-profile learning rate
+$\gamma_q=\gamma_{\rm native}$; the initial profile uses $0.1$ from
+update 1. There is no warmup. Multiplication by $B$ applies to the entire
+mean loss, including pulse terms. Microbatching changes neither this
+normalization nor the number of optimizer steps. Adam epsilon makes
+silent gradient rescaling a material implementation change.
+
+Apply the individual native clamp after every update. Clamp activity
+does not change learning rate or introduce a quality gate. There is no
+line search or early stop based on task quality. Nonfinite values,
+invalid solves, and state/shape mismatches remain numerical failures,
+not grounds to silently remove layers or change coefficients.
+
+Candidate 25 has no backward or update. Rebuild its causal writer in
+the same layer order, evaluate the complete current actual native bundles,
+and commit precisely those materialized weight tensors. There is no
+alternative final writer, gain multiplier, residual redefinition, or
+post-hoc re-solve with a different objective. Record equality between
+the physical tensors evaluated and the tensors committed.
+Re-capture the terminal physical pre-own-layer keys and verify their
+agreement with the builder keys: later causal writes cannot change
+earlier keys. Final inference has no subject-intervention hook.
+
+The final traversal provides actual full-context keys. Append once per
+encountered request to history:
+\[
+ H_{t+1,l}=H_{tl}+\sum_{r,c}\alpha_{rc}
+ k^{a,\rm final}_{lrc}(k^{a,\rm final}_{lrc})^\top.
+\]
+Do not append history at intermediate candidates or each pulse. Update
+memory with actual final per-context NLL and the prescribed admission
+teacher. Frozen historical key statistics can still become stale across
+later batches; refreshing current candidate keys does not solve that
+separate historical approximation.
+
+Record virtual and physical native NLL/KL, native norm, dynamic geometry
+costs and gradients, per-layer payload norms, actual write norms,
+realization error, clamp activity, pulse memberships, solve residuals,
+and evaluated-to-committed equality. Evaluation R/P/N, including cohort
+at-write and cumulative denominators, remains observational and never
+feeds optimization. These diagnostics are not layer-selection gates.
+Terminal gradients are unmeasured and recorded as null, not as zero.
+
+The method accepts arbitrary positive logical $B$ and compatible
+model/benchmark profiles. An adapter must identify the writable projection,
+corresponding subject block-output site, and exact native readouts. The
+first experiment is two arms with batch size 100 for five sequential
+batches, 500 edits per arm; these limits do not define the method.
+The initial profile is Llama3-8B-Instruct/CounterFact, layers L4--L8,
+$\lambda_n=0.5$, $\lambda_K=0.0625$, $c_{\rm native}=0.75$,
+and $\lambda_C=15000$, with FP32 model weights and FP64 geometry.
+Each arm starts from its own cold model/history state.
+
+\newpage
+\section{Cost, qualification, and unresolved scientific questions}
+The fixed-writer v6 exposure count and any proposed percentage speedup
+cannot be carried over to v7. In addition to 25 native candidate forward
+evaluations and 24 native backwards, the reference schedule requires
+25 complete-current-rewrite key-builder traversals and 24 corresponding
+differentiable traversals. Upper-layer factorization/solve work occurs
+at every candidate, with adjoints on the first 24. First-layer keys/basis
+and the frozen $A_l$ factorizations are computed once per batch.
+
+\begin{center}
+\begin{tabular}{p{0.48\linewidth}p{0.41\linewidth}}
+\toprule
+Component & Reference frequency\\
+\midrule
+Native joint subject candidate & 25 forward, 24 backward\\
+Full-current rewrite key builder & 25 traversals, 24 with gradient\\
+Upper-layer dynamic basis & $25(|\mathcal L|-1)$ fresh solves and
+$24(|\mathcal L|-1)$ solve adjoints\\
+Physical feedback cohorts & Four pulses; current requests covered once,
+past $M$ requests covered once\\
+Terminal physical current audit & All current native bundles once,
+sharing the final candidate's causal weights\\
+\bottomrule
+\end{tabular}
+\end{center}
+These counts are not equal-cost full-model forwards or independent
+additive FLOP estimates. Key-builder prefixes can supply current pulse
+activations; physical KL/past rows and readout suffixes have different
+costs. Instrument actual forward/backward operations, processed tokens,
+factorizations, wall time, and peak memory. An optional zero-candidate
+identity fast path requires equivalence checks and separate accounting;
+the reference count remains 25 builder traversals. Small physical cohorts
+do not remove the all-current builder dependency.
+For geometry alone the builder may stop at the last writable site's
+input key; constructing its update does not require the model's final
+readout suffix. Full physical observations still apply that final write.
+
+Allowed optimizations preserve the graph: exact checkpointing; shared
+candidate materialization; immutable prefix caches; selected-position
+full-vocabulary heads; and validated implicit/custom VJPs. Detaching
+current keys or solve gradients, reusing upper factors across candidates,
+or restricting the builder to pulse requests changes the method. No
+production/GPU run is claimed by this specification.
+
+A causally qualified adapter may crop only the key-builder rows after
+each subject while preserving original tokens, masks, positions, and
+all contexts. The reference builder uses full rows. Native NLL inputs
+remain complete, and current physical feedback plus the terminal audit
+still require complete prompts, unless equivalence of a cached
+continuation is separately qualified. Prefix cropping does not remove
+the requirement to include every current request in the writer solve.
+
+Qualification must compare primal and dual solves, check the Gram
+identity, finite-difference or autograd-check solve and total causal
+gradients, validate the direct-linear VJP under declared dtypes, test
+cross-request and lower-to-upper paths, and verify identical evaluated
+and committed tensors. Include $B<4$, empty past memory, zero context
+weights, the zero initialization, and checkpoint recomputation after
+the original forward context has exited.
+
+The stronger connection is precise but limited: the native subject target
+now receives gradient through how its lower-layer write changes later
+keys and writer feasibility. This does not make all targets realizable,
+guarantee paraphrase generalization, or cover all neighboring knowledge.
+The provisional coefficients, finite Adam budget, native-only memory,
+and sparse functional pulses remain empirical design choices. Arm A/B
+isolates the outer allocation-cost aggregation; other changes require
+separate comparisons. No speed or quality claim is made before
+qualification and measured experiments.
+\end{document}

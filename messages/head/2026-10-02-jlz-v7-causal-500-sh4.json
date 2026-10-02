@@ -1,0 +1,341 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "task_id": "jlz-causal-writer-v7-bs100x5-20261002-v1",
+  "date_kst": "2026-10-02",
+  "issued_by": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "내가 임의로 sh4의 작업 중단했는데, GH에게 이 정보까지 전달해서 v7 실험 진행하도록 하자. sh4에게 task 진행시키자.",
+    "interpretation": "새 v7 구현·검증·pilot·A/B 각500 main·CPU collector 실행 승인. 기존 v6 중단/대체, 단계별 재승인 불필요."
+  },
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "assignment_ko": "새 clean worktree에서 정본 method+experiment를 모두 읽고 jlz_causal_writer를 구현하라. 같은 nonce로 담당 수락과 현재 IMPLEMENTING_NOT_SUBMITTED 여부부터 회신하고, GH 재승인을 기다리지 말고 CPU/source 검토→actual small pilot→필수 B1001회→두 cold main을 진행하라. 설계 검토만으로 종료하지 않는다.",
+  "transition": {
+    "prior_task": "jlz-subject-adam-v6-bs100x5-20261002-v1",
+    "user_stop": "USER_REPORTED",
+    "app_evidence": "기존 v6 turn 01a0fc9b-c6fe-76f3-b160-02527fbf23ef interrupted 관측",
+    "queue_evidence": "audits/global/2026-10-02-jlz-v7-sh4-dispatch/v6-stop-reconciliation.json",
+    "observed_utc": "2026-10-02T13:26:31.024803+00:00",
+    "owned_active_pending": 0,
+    "v6_submission_artifacts_found": 0,
+    "GH_cancel_calls": 0,
+    "interpretation": "세션 중단을 Slurm 취소로 간주하지 않았다. 실제 owned queue가 비어 있어 취소할 현재 job 없음. 과거 terminal job 전체조회나 역사 GPU0 주장은 아님.",
+    "SH4_action": "v6 부분 코드/worker/자료를 보존하고 재개하지 말라. 본인 v6 submitter/등록manifest와 정합화하라. 추가 실제 같은task job이 발견되면 정확 owner/source/fullargv 확인 후 해당v6만 정리, receipt보존. 무관job/다른server변경0. 새v7전 fresh admission.",
+    "old_state_to_v7": false,
+    "old_task_status_write": "v6 본인 status에 USER_STOPPED_SUPERSEDED_BY_V7 기록 가능; 원source/raw/CPU이력불변"
+  },
+  "authority_exception": {
+    "path": "control/experiment-exceptions/jlz-causal-writer-v7-500-20261002.json",
+    "scope": "새 v7만 global STOP/no-new-submission 예외",
+    "v6_authorization": "REVOKED_USER_STOPPED_SUPERSEDED_BY_V7",
+    "other_tasks": "기존 STOP/PAUSE 그대로; v4/v5/v6 재시작0"
+  },
+  "binding": {
+    "method": "plans/global/2026-10-02-jlz-causal-writer-v7/method-ko.md",
+    "implementation": "plans/global/2026-10-02-jlz-causal-writer-v7/implementation-ko.md",
+    "method_contract": "plans/global/2026-10-02-jlz-causal-writer-v7/contract.json",
+    "experiment": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment-ko.md",
+    "experiment_contract": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment.json",
+    "user_command": "plans/global/2026-10-02-jlz-causal-writer-v7/execution-command.json",
+    "tex": "docs/methods/jlz-causal-writer-v7.tex",
+    "manifest": "plans/global/2026-10-02-jlz-causal-writer-v7/artifact-manifest.json",
+    "manifest_sha256": "e8ca2bcb45ba4c4f30dae5140dbeed43853a6369de3277302e54c23c61a0da38",
+    "members": [
+      {
+        "path": "docs/methods/jlz-causal-writer-v7.tex",
+        "bytes": 20840,
+        "sha256": "d5030e39f9c8e1b3182adffa653366cc66468fd9cc3cba42c8ca000229c994cd",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/README.md",
+        "bytes": 1580,
+        "sha256": "16f67b1159778f5702b53c1512330ae15c1389d303c51ed60e571409e64ee31c",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/contract.json",
+        "bytes": 11191,
+        "sha256": "b2061f9f67fa7d46089ba9ed6958bb0d3cccee6ca5abdb7cc1f9687b20b32afe",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/execution-command.json",
+        "bytes": 3274,
+        "sha256": "980270aaa774ddb3cb95940101fc81d93241b7da9e97cfcdfd36caccc4c625bb",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment-ko.md",
+        "bytes": 12421,
+        "sha256": "08cc14d8bd49e980ccd6b3af1647e673bc56ea7d530e326a59ba8da0f7ffde53",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment.json",
+        "bytes": 17632,
+        "sha256": "5cc5535c4fac6cb9abdf185d045e86476b3a6f377abfb809781dce7f0dffd052",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/handoff-ko.md",
+        "bytes": 3751,
+        "sha256": "afc6ad6c202b072b9eca3ffe62e137a0fb621ea1f7afc31bbe80421a5f4d0e84",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/implementation-ko.md",
+        "bytes": 12732,
+        "sha256": "73d49df3e2ee887afb4972a08628a93ce47c3ff474f7a93d4485448936595880",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/README.md",
+        "bytes": 5469,
+        "sha256": "9230c4692440a8705bedf49b1372dca30897eebf9e7b42c5b6e020bc134983fa",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/run-receipt.json",
+        "bytes": 826,
+        "sha256": "dea9f5a097f90cb1b3a2e26e47153e7dd711b8527f8e0c380dde579d99702f68",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/validate_math.py",
+        "bytes": 27073,
+        "sha256": "775c9611092d93b7ff35732d2e0fecf5eb33b09d2cd0fef5743827befd229669",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/math/validation-results.json",
+        "bytes": 17827,
+        "sha256": "f8ab45e4098e4d27723071fd925ea4f19202a41f128704a0e67335fc4fe29d95",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/method-ko.md",
+        "bytes": 19486,
+        "sha256": "5cffd2f9f570eb2890e9427d480e8ce5589e55006df5eb5ca021cbb7e7ff4dad",
+        "adoption": "ADOPT_EXACT"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+        "bytes": 294841,
+        "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+        "adoption": "EXACT_EXISTING_REUSE"
+      },
+      {
+        "path": "plans/global/2026-10-02-jlz-causal-writer-v7/artifact-manifest.json",
+        "bytes": 3859,
+        "sha256": "e8ca2bcb45ba4c4f30dae5140dbeed43853a6369de3277302e54c23c61a0da38",
+        "adoption": "ADOPT_EXACT"
+      }
+    ],
+    "input_receipt": "audits/global/2026-10-02-jlz-v7-sh4-dispatch/input-receipt.json",
+    "precedence": "최신 USER 및 execution-command 실행권한→본 envelope 자원/예산/경계→v7 method/implementation/experiment. NOT_RUN은 과거 검증상태, 실행금지 아님. 원본 sealed문서 수정0.",
+    "clarifications": [
+      "method contract writer.Kbar의 K0 표기는 현재 문단의 K_actual(D_lower)를 뜻한다; P 식/본문/TeX에 맞춰 구현하고 상층 entryK를 사용하지 않는다.",
+      "experiment delivery의 optional_bounded_B100_receipt라는 역사 label에도 불구하고 이번 v7 B100은 USER/qualification/본문대로 필수1회다.",
+      "TeX의 readmitted 설명은 명시상속 v5 unique-first-fact 정책을 변경하지 않는다; seen out-of-bank repeat 재입장0.",
+      "Checkpoint/recompute는 RAM activation/autograd 재계산을 뜻한다. noCP를 해제하거나 W/H/D/P/teacher/memory 복원 bundle을 영속 저장하는 권한이 아니다."
+    ],
+    "receiver": "method/implementation/contracts/TeX/experiment/math 전체 정독, archive15 정규파일 SHA-size, CSV 전체행/field 파싱; 기존 정확 읽기 재사용은 SHA/범위 명시"
+  },
+  "method": {
+    "profile": "Llama3-8B-Instruct revision8afb486c1db24fe5011ec46dfbe5b5dccdb575c2 / fixed10k first500 / L4–L8 / FP32모델·activation·절대D, FP64geometry, eager, autocast·matmul/cuDNN TF32off. B/context/layer shape는 adapter/actual입력, 타모델 신규실험0.",
+    "primary": "Frozen ownentry W_t에 full-block subjectδ 공동주입, native6RW+KL1/readout31/current||ownentry, 고정 cleancanonical full-block anchors. 전체 mean loss(native/policy/current/past)를 actual_B로 곱한 SUM gradient. Native norm .5||D_lr||/a_lr². Physical current targetNLL을 primary에 추가0.",
+    "writer": "후보마다 실제 하층 write가 적용된 all-current nativeRW의 pre-own-downproj K를 layer-major whole-B barrier로 수집→P=solve(A+KΩKᵀ,KΩZᵀ)→U=DPᵀ→자기weight를 모든token에 적용→상층진행. Actual builder δhook0. A=15000C0+H는 batch고정, A factor층당1회. 첫층K/P만batch내재사용, 상층K/P/G/E는 모든25후보(비pulse/terminal포함) 재계산. No microbatch solve/no subset/no stale keys/no fixedP upper.",
+    "weights": "W_eff32=W_entry32+cast32(D64@P64.T) 순서 유지. 매 후보 master W_t와 native hooks 복원, Adam parameter는 D뿐. Terminal25 causalbuilder와 실제fullcurrent 관측에 사용한 동일materializedtensor exactcommit; posteval재solve/strengthscale/absolutevirtualzresidual0.",
+    "solve_gradient": "A fixed; K→F→S/V/T/P 미분 유지. Implicit Y=solve(Mᵀ,Q), gK_solve=Y(Z−PᵀK)Ω−P(YᵀK)Ω에 E explicitK 및activation경로 합산. Directlinear는 gD/gP/fullgX 모두 반환. gP=None/keys.detach/no_grad geometry금지. Chunk leaf D/P/K 사용시 모든 adjoint를 동일candidate 원graph로 돌려보내고 TᵀT 사용시T adjoint도보존. 중복Wgradient가산0.",
+    "geometry": "G=PᵀAP=TᵀT, E=(PᵀK−Z)Ω(...)ᵀ, 현재D까지gradient. identity=ZΩZᵀ−KbarᵀP; 실제storedα .5/.1x5 보존, losscontext1/6과 구분, 몰래재정규화0, α0지원. C0 native mom2/count FP32→FP64. g/e=root trace/(sqrtB σ_entry). A는층별root합/B는root(sum squares), λW=λE=.1. 유일arm차이이며 B1objective동일gate0.",
+    "zero_and_roundoff": "zero root 선택subgradient0. smoothing/jitter/detached eigfactor/diagonalapprox0. 음수q가1e-12*max(1,sumabs((DᵀD)*Qᵀ))이내면clip0과크기횟수기록, 초과는reference비교 기술불일치; 성능기준변경0.",
+    "optimizer": "absoluteD Adam beta(.9,.999)/eps1e-8/weightdecay0/LR.1 update1..24 고정/warmup0. Candidate1zero..25, first24 backward전체합→한step→nativeball .75a 사후projection. Momentreset0. 모든checkpoint/VJP완료전D변경0. line/prox/backtrack/earlystop/gradientclip/clamp-awareLR/qualityreject0.",
+    "physical": "후보5/10/15/20 update전(완료updates4/9/14/19), 현재·고정past4개balanced disjointpartition각전체1회. same-D native postinjection teacher만detach, extra teacherforward0. 실제weight는전체B, current|I|/B 및past|J|/M 후전체Bscale, βh=βd=.1/currentKL.0625/pastKL.0625/pastNLLdegradation1. No4배/6배보정/staleaux/officialP,N훈련.",
+    "memory": "두arm모두 RAM unique-fact AlgorithmR128/reference min(16,B,eligible) oncebatch; currentfact/version제외, 품질입장0. v5 unique-first/version/refcount/teacher eviction정책만상속: inbank 최신target/b, admission-entry KLteacher고정, seen outofbank repeat재입장0. A/Bmetadata규칙같되 ownteacher/b/W/H독립.",
+    "terminal": "25번은 nativefullcurrent+actualfullcurrent no backward/update, gradient=null/false. Builder K와동일candidate finalactual preownkey비교, exactweightcommit→actualfullcontextH 요청층당1회→actualcontextNLL로memoryb. Pulse별Happend0/oldentrykey대체0/Pnextbatch재사용0. RAM W/H/memory/RNG/ledger transaction 및observer비변이.",
+    "compute": "Native subject prefix와 actual첫modifiedlinear이전 cache구분. Qualified builder-only subject-prefix crop은 모든RWcontext/원tokensmaskpositions 유지+fullrow totalD/key parity후만. Native/actualfullprompt줄이기0. Immutablecandidate pure checkpoint/recompute, 종료된hookcontext 의존0. Host factor streaming/selectedposition fullvocabhead/directD·P 가능하나 모든gradient보존. 메모리 맞추기 위한detachment/refresh-on-pulse/context축소0.",
+    "cost": "v6 27B+M/25B+M 또는40%/ETA 복사0. Native25F/24B와 allcurrentRW builder25F/24B 구분, 각batch 첫P1/상층P100·reverse96, Afactor5; checkpoint재계산/solveVJP/materialize/transfer/aux/head/eval/peak별도실측. 새B100후ETA설정."
+  },
+  "execution": {
+    "arms": [
+      "A",
+      "B"
+    ],
+    "main": {
+      "fresh_each_arm": "W0/zeroH/empty memory/new optimizer/RNG",
+      "B": 100,
+      "batches": 5,
+      "requests_per_arm": 500,
+      "unique_cohort": 500,
+      "main_edit_occurrences": 1000,
+      "case_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+      "native_candidates_both": 250,
+      "Adam_updates_both": 240,
+      "stop": "W5 cumulative evaluation+compactoutputs; noB6 input/fit/commit, no2k extension"
+    },
+    "pilot": {
+      "fresh_each_arm": true,
+      "B": 2,
+      "batches": 2,
+      "cases": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "development_slice": [
+        2000,
+        2004
+      ],
+      "native_candidates_both": 100,
+      "Adam_updates_both": 96,
+      "state_to_main": false,
+      "quality_tuning": false
+    },
+    "B100": {
+      "required": true,
+      "arm": "B",
+      "fresh": true,
+      "cases": "first100",
+      "max_runs": 1,
+      "max_native_candidates": 5,
+      "max_Adam_updates": 4,
+      "candidate5_probe_backward": true,
+      "candidate5_Adam_step": false,
+      "state_to_main": false,
+      "profile_sweep": false,
+      "reason": "새 dynamic builder/solve/VJP 실측. v6 증거로 대체 불가"
+    },
+    "flow": "새 CPU/source preflight→actual pilot+필수 B1001회→추가승인 없이 cold A/B 두 main. upfront dependency 또는 sealedrunner 내부 기술 READY로 자동 진행 가능하며 품질 gate는 추가하지 않는다.",
+    "W0": "기존 first500 W0 raw의 case/token/model/evaluator 결속 후 재사용. freshW0model과 별개. 4392/5000은 historical reference이며 전체2k88.555%와 혼용하지 않는다. 신규 fullW0/default baseline 평가0, 결속 미확립은 그대로 명시.",
+    "evaluation": "W1–4 current100 R100/P200/N1000; W5 전체500 R500/P1000/N5000; W5current는 동일raw 부분집합. Strict preference/tiesfailure, TFmicro/macro/strict(notfreegen), true/new/desiredNLL/margins, N true-targetaccuracy, atwrite→W5cohort/active/retention, W0Nlostgained. OfficialP/N은 훈련/teacher/memory/선택/gate/tuning에 사용하지 않는다.",
+    "baselines": "신규baseline0. 저장된 동일 first500만 identity 확인 후 참고 비교. v5/v4/MEMIT-H/Alpha/BLUE/CAKE의 runtime/layers/evaluator 차이를 명시하며 단독 인과/동일조건 속도비로 해석하지 않는다.",
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "storage": "fullW/H/D/P/optimizer/teacher/memory 또는 재개등가delta/factor bundle 영속저장0. RAMrollback/recompute 가능, source/config/hash/compactnorm/percase scalarmetrics/ledger 보존. 기존자료KEEP.",
+    "candidate_receipt": [
+      "key_source=actual_lower_writer",
+      "K_candidate=k",
+      "P_candidate=k",
+      "all_current_columns=true",
+      "grad_P_enabled=true",
+      "grad_K_solve_enabled=true",
+      "direct_K_policy_gradient=true",
+      "builder_delta_hook=false"
+    ],
+    "telemetry": "Flag뿐 아니라 실제 수치gradient 검산을 결속. 후보별 native/policy/aux, 층별delta/U/clamp, K/P entry대비변화, writer실현오차, probecoverage, LR/Adam수, branchcost/VRAM/RSS/allocatedGPU초. Terminal 미측정gradient를0으로 기재하지 않는다."
+  },
+  "review": {
+    "preflight": "상세 owner source/CPU audit: dynamiccausal graph/wholeBbarrier/inputsplit/zeroα/variableB/normalizations/G-E/ZΩZᵀ/constantLR/clamp/pulse/past/transaction/noCP/noB6/source자원. 독립 red가 수행되면 별도 결과를 기록하고 미수행을 PASS로 쓰지 않는다. 경고는 근거/범위 명시, 확정 technical block은 수정 전 실행하지 않는다.",
+    "qualification": "동일D/input/dtype/teacher/model에서 dense/optimized 비교. CPU107+4FD는 tiny surrogate뿐. 실제 작은 pilot에서 lowerD→upperK/P, stopP negativecontrol, directD/P/input, solveVJP+explicitK, wholeB/permutation, checkpointcontext종료후재계산, fullrow/cropprefix, terminalbuilder/finalkey, exactcommit/history/memory 확인. Negativecontrol은 세번째 과학arm이 아니다.",
+    "fixed_initial_tolerances": {
+      "CPU_dense_dual": {
+        "atol": 1e-9,
+        "rtol": 1e-8
+      },
+      "CPU_FD": {
+        "atol": 2e-7,
+        "rtol": 0.00005
+      },
+      "production_SPD_relative_residual": 1e-8,
+      "FP32_request_mean_loss_abs": 0.00005,
+      "key_componentwise": {
+        "atol": 0.0001,
+        "rtol": 0.00001
+      },
+      "totalD_gradient": "RMS(g−g_ref)<=1e-6+2e-3RMS(g_ref)",
+      "commit": "same evaluated materializedtensor SHA"
+    },
+    "policy": "낮은RS/PS/NS/집중/clamp포화/예산미수렴은 기록만. 기술불일치는 동일목적 referencefallback 또는 최소수리, 후보품질선별0. Adamtrajectory bitwisegate0. 결과를 보고 계수/허용오차 완화0.",
+    "repair": "초기인계 전 확인된 입력/비유한/SPD/gradient/cache/commit/IO 구현오류는 선보고→동일범위 최소수리/회귀/새immutableattempt, 원실패source/raw/costKEEP. 무한자동retry나pause후재개0. 목적/입력/예산 변경이 필요하면 몰래 축소하지 말고 GH에 구체적으로 보고.",
+    "postrun": "Sealed CPUcollector는 rawNLL/TF/count/10commit/state/coverage/cost 독립집계, report+inventory 성공 후 terminal봉인. 500complete/partial/failure 구분. Agent 상세완료리뷰는 명시recall."
+  },
+  "ownership": {
+    "branch": "codex/server4-jlz-causal-writer-v7-bs100x5-20261002-v1",
+    "clean_worktree": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/worktree or dedicated equivalent",
+    "allowed_write_paths": [
+      "project/run_scripts/jlz_causal_writer/",
+      "plans/updates/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/",
+      "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/",
+      "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/",
+      "tasks/status/jlz-causal-writer-v7-bs100x5-20261002-v1/server4.json",
+      "messages/acks/server4/2026-10-02-jlz-causal-writer-v7.json",
+      "messages/server-heads/server4/2026-10-02-jlz-causal-writer-v7.json",
+      "runs/odeedit_jlz_v7_s4_20261002/",
+      "tasks/status/jlz-subject-adam-v6-bs100x5-20261002-v1/server4.json",
+      "audits/servers/server4/jlz-subject-adam-v6-bs100x5-20261002-v1/user-stop-v7-transition/"
+    ],
+    "allowed_local_write": [
+      "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/",
+      "전용 WT ignoredsession-boundary 실제session/CWD"
+    ],
+    "canonical_docs": "정본은 exactreadonly, 보충은 versionedtaskupdate. v6partial/sharednative/environment변경0.",
+    "own_scope_nonforce_branch_main_push": true,
+    "forbidden": "rootreset/stash/stageall/sharedGitidentity/oldsourcehotpatch/modelasset변경/타task실행"
+  },
+  "transfer": {
+    "permission": "USER 승인 SH4 sole exactarchive 단1회pull; 모델/CP/secret없음",
+    "source_host": "GH/server1 canonical SSH mapping",
+    "archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v7-dispatch/20261002-r1/jlz-v7-method-experiment-500-authorized.tar.gz",
+    "sha256": "2adbde75e93a0885ea58a651bc00c0ba943f81883e5e81bab7ff5dfcf638ebdf",
+    "bytes": 184344,
+    "regular_members": 15,
+    "destination": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/inputs/design-package/",
+    "rules": "sourceKEEP/createonce, 전체member SHA/size, symlink/device/traversal/unlisted/duplicate거부. 기존 caseCSV exact재사용.",
+    "assets": "동일server 기존 model/context/fixed10k/C0/evaluator read-only reuse, 대형전송/download/C0재계산0"
+  },
+  "slurm": {
+    "permission": "ALLOWED_THIS_NEW_V7_ONLY",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 2,
+    "current_stricter_cap_wins": true,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_max": 60416,
+    "node": "server4",
+    "export": "NONE",
+    "requeue": 0,
+    "job_prefix": "odeedit_jlz_v7_s4",
+    "wall": "유한wall source/lock 사전봉인: pilot/B100<=24h, main<=min(7days,partitionlimit), CPUcollector<=4h. 새 B100실측 ETA와 별도.",
+    "admission": "v6중단정합화후 freshactive+admitted overlap<=현재cap2이하. 두main lane허용, 무관job취소/선점0. 정상pending가능/중복submit0.",
+    "held_inspection": [
+      "owner/node/partition",
+      "fullargv/source/archive/lock/input",
+      "GPU/CPU/memory/wall",
+      "export/Requeue",
+      "dependencies/throttle"
+    ],
+    "CPU_collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "host_memory_mib_max": 24576,
+      "dependency": "afterany 승인main/pilotfail수집, scientificcompleteness별도검사"
+    }
+  },
+  "reporting": {
+    "first_reply": "같은 nonce 담당ACK+IMPLEMENTING_NOT_SUBMITTED 등 실제상태. 자료 inbox배치와 live수신을 구분.",
+    "report": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/report-ko.md",
+    "audit": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/",
+    "status": "tasks/status/jlz-causal-writer-v7-bs100x5-20261002-v1/server4.json",
+    "ack": "messages/acks/server4/2026-10-02-jlz-causal-writer-v7.json",
+    "message": "messages/server-heads/server4/2026-10-02-jlz-causal-writer-v7.json",
+    "runs": "runs/odeedit_jlz_v7_s4_20261002/",
+    "language": "한국어 factual reports; 과학적 해석/후속선정 GH소유",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED; source/compactreport/manifest만Git, raw/tensor/prompt/fullstdout/secret금지, 무조건대형broadcast0.",
+    "initial": "대표 actualmain B1commit→B2ownentry/observerrestore 또는 정상등록 heldinspection/release후 정식main resourcepending. Pilot만으로 maininitialPASS 표시0.",
+    "after_initial": "GH/SH4/taskworker polling중단 monitoring_active=false/automatic_resume=false. heartbeat/daemon/autoretry/newfollowupsubmit0. sealedrunner/CPUcollector는 W5까지 자연진행. 상세완료리뷰는 USERrecall.",
+    "GH": "동일 stream 실제ownerACK/구현착수까지 bounded확인하고 종료. 장기pilot/main감시나 타taskpolling0."
+  }
+}
