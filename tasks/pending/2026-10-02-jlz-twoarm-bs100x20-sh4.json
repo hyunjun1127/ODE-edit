@@ -41,5 +41,8 @@
   "actual_pilot": "OWNER_REPORTED_COMPLETE_BEFORE_USER_STOP",
   "actual_main": "USER_CANCELLED_PARTIAL_56960_56961",
   "collector": "USER_CANCELLED_56962_NOT_A_COMPLETION_REPORT",
-  "stopped_output_publication": "SH4_IN_PROGRESS"
+  "stopped_output_publication": "PUBLISHED_REMOTE_MAIN_VERIFIED",
+  "stopped_output_publication_commit": "76d79b0a3b8c8a66eb12e94b80ee85b7dc648f66",
+  "stopped_output_report": "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/report-ko.md",
+  "committed_batches_per_arm_at_stop": 11
 }

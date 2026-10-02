@@ -42,7 +42,10 @@
       "active_project_queue": 0,
       "cancelled_jobs": [],
       "active_subagents": 0,
-      "owner_report": "stop receipt publication in progress; actual zero-job observation confirmed, not a new experiment"
+      "owner_report": "STOPPED_USER; final owner ACK and zero-job stop receipt published and verified",
+      "publication_commit": "a72afe1b15da9014da6048736fb1a0609dd4feef",
+      "receipt": "audits/servers/server3/2026-10-02-user-stop-all/stop-receipt.json",
+      "receipt_sha256": "ea21a03bf4154b9b3df3a385900762215e54908ba97b8cd31a9de89b95504768"
     },
     "server4": {
       "accepted_turn": "01a0fa8c-4692-75d1-ac4d-afb46472b4fe",
@@ -88,7 +91,14 @@
       "raw_and_sources_preserved": true,
       "new_checkpoint_saved": false,
       "rollback_after_SIGTERM": "NOT_VERIFIED",
-      "publication_status": "SH4_COMPILING_EXISTING_OUTPUTS_NOT_YET_FINAL_CONFIRMED"
+      "publication_status": "PUBLISHED_REMOTE_MAIN_VERIFIED",
+      "owner_terminal_report": "STOPPED_USER",
+      "publication_commit": "76d79b0a3b8c8a66eb12e94b80ee85b7dc648f66",
+      "report": "experiment-reports/servers/server4/2026-10-02-user-stop-publication.md",
+      "report_sha256": "8a053fc6cbac2cfd6f4c523e50b9dbee0fa26dc1f0091779409540ca81d1658b",
+      "jlz_committed_batches_per_arm": 11,
+      "jlz_planned_batches_per_arm": 20,
+      "preserved_previously_unpublished_small_members": 110
     }
   },
   "other_users_or_projects_modified": false,
