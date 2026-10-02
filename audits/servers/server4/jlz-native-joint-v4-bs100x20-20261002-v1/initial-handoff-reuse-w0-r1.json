@@ -1,0 +1,110 @@
+{
+  "automatic_resume": false,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "execution_lock": {
+    "bytes": 18292,
+    "inode": 134875342,
+    "mtime_ns": 1790922063137015300,
+    "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/execution.lock.json",
+    "sha256": "ecdd88e9d01516a0d51cd3fed10380139c59425f8e3188f22b5d555baddf585b"
+  },
+  "monitoring_active": false,
+  "other_arm_observed": {
+    "arm": "JLZ_B",
+    "missing": [
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/B001/complete.json",
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/W001/summary.json",
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/initial-main-link.json",
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/B002/entry.json",
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/B002/input.json",
+      "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_B/B002/fit/entry-capture.json"
+    ],
+    "status": "NOT_OBSERVED"
+  },
+  "representative": {
+    "B2_own_entry_actual_capture": true,
+    "all_layer_history_append": 5,
+    "arm": "JLZ_A",
+    "automatic_resume": false,
+    "evidence": {
+      "B2_entry": {
+        "bytes": 1427,
+        "inode": 134875568,
+        "mtime_ns": 1790923038910369300,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B002/entry.json",
+        "sha256": "19713bc8d516f88480f29cf0348d1e3c961cab9755b01cc405fe7f9996ab8f30"
+      },
+      "B2_fit_entry": {
+        "bytes": 1172,
+        "inode": 134875579,
+        "mtime_ns": 1790923073378536400,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B002/fit/entry-capture.json",
+        "sha256": "6d0339ea76b1809c236b1cef4206c97287ae65eb728184e89c8093d92b7a4d0e"
+      },
+      "B2_input": {
+        "bytes": 746,
+        "inode": 134875569,
+        "mtime_ns": 1790923039032370000,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B002/input.json",
+        "sha256": "157d992a6c602eb5e49a9b076fc293eb75edb91ead3683322eb07f14bc8677fa"
+      },
+      "W0_reuse": {
+        "bytes": 431,
+        "inode": 134875475,
+        "mtime_ns": 1790922509185391600,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/W0-reuse.json",
+        "sha256": "93ff46287f0baac05ab880c95d919899b770176d4068eb625b81639a365c855f"
+      },
+      "commit": {
+        "bytes": 12076,
+        "inode": 134875553,
+        "mtime_ns": 1790922963513975000,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B001/commit.json",
+        "sha256": "a4a011b1e3d1e91867121821624c6ee1b04eb629f1e5bde37693c2be8948b114"
+      },
+      "complete": {
+        "bytes": 589,
+        "inode": 134875562,
+        "mtime_ns": 1790923023286291000,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B001/complete.json",
+        "sha256": "0f5a86bac1f353535b5fa4891d8ed8a92095f8e64c292f44a1411599bb4aab1e"
+      },
+      "link": {
+        "bytes": 1675,
+        "inode": 134875564,
+        "mtime_ns": 1790923031187330600,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/initial-main-link.json",
+        "sha256": "674339b55b873c1276a0f11ec09d50edc0389d7436f540119454db2d062fa46b"
+      },
+      "observer": {
+        "bytes": 2940,
+        "inode": 134875561,
+        "mtime_ns": 1790923023283291000,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/W001/summary.json",
+        "sha256": "cedb287ad8017ec493c72721f0e8440adcc4e3fb61a3f9cc339590f0c5bf2731"
+      },
+      "writer": {
+        "bytes": 1040,
+        "inode": 134875551,
+        "mtime_ns": 1790922963509975000,
+        "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/output/main-JLZ_A/B001/writer.json",
+        "sha256": "5e7c9e5166d63473bd9a4f456f2f77f0903aa093ae74ab8bd5c5badd34d6355e"
+      }
+    },
+    "main_B1_commit": true,
+    "monitoring_active": false,
+    "observer_restored": true,
+    "scope": "Representative main B1→B2 only; not two-arm/all20 completion",
+    "status": "ACTUAL_REPRESENTATIVE_MAIN_INITIAL_CONFIRMED"
+  },
+  "status": "INITIAL_GATE_PASS_MONITORING_STOPPED",
+  "submission": {
+    "bytes": 377,
+    "inode": 134875354,
+    "mtime_ns": 1790922063509014800,
+    "path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/submission.json",
+    "sha256": "e3b2fa204ec1aaf4052dcca49533d943a716b2647c22413c054d2f5c457eaea1"
+  },
+  "local_receipt_sha256": "022a08536e8390ab0de672b539f30e0411df5fc0f0bcf7ceb8be718e01c0b33d"
+}

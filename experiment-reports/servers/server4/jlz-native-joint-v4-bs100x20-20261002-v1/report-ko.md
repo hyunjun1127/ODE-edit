@@ -1,5 +1,22 @@
 # JLZ v4 compute-r1 A/B 2k — 제출 인계
 
+## 최신 상태: 초기 연결 확인 후 모니터링 중단
+
+`INITIAL_GATE_PASS_MONITORING_STOPPED`. 대표 arm A의 main B1(100요청/25후보/24 Adam) commit,
+L4–8 history 각1회 append, observer의 state 비변이, 실제 B2 자기-entry teacher/key capture까지 확인했다.
+이는 대표 초기 연결 검증이며 두 arm 전체20배치 완료나 성능 판정이 아니다.
+B의 전체 B1→B2 초기 연결은 인계 시점 NOT_OBSERVED이며 추가 관측하지 않는다.
+
+Pilot A/B는 각각25후보/24 Adam, 실제 write와 다음BS2 entry를 완료했다.
+Timing은 각 warmup1+측정3/write0. 측정3회 초는 A 12.489/12.140/12.099, B 13.580/13.153/13.143이었다.
+이는 고정 timing 후보 비용이며 전체 실행 ETA 또는 이전 방법 대비 speedup이 아니다.
+
+초기 receipt SHA: `022a08536e8390ab0de672b539f30e0411df5fc0f0bcf7ceb8be718e01c0b33d`.
+[초기 증거 manifest](../../../../audits/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/initial-handoff-reuse-w0-r1.json).
+execution source는 아래 `7c1d421c`로 고정되어 있으며 CPU 인계 검사/보고 publication source와 구분한다.
+`monitoring_active=false`, `automatic_resume=false`. 이미 등록된 main A/B 및 CPU collector만 자연 진행한다.
+사용자 recall 전 scheduler/log/result polling·자동 agent 재개·새 scientific submit0.
+
 ## 최신 USER override: W0 신규 평가 제거
 
 기존 W0 전체 결과(R2000/P4000/N20000)를 CPU identity/token/행 검산 후 재사용한다.
@@ -17,7 +34,8 @@
 Lock SHA: `ecdd88e9d01516a0d51cd3fed10380139c59425f8e3188f22b5d555baddf585b`.
 W0 재사용 bridge SHA: `e4b75f19786291c14f6baaa4d6e1948eec127f4b530b261725dc6b2472719008`.
 CPU 회귀7 PASS. A/B는 각각 cold W0/H0이며 pilot 두 개 실제 RUNNING을 확인했다.
-Main 초기 연결은 NOT_OBSERVED. 신규 W0 job/forward0, baseline0, noCP/cap2 유지.
+재제출 당시 Main 초기 연결은 NOT_OBSERVED였으며, 이후 확인 범위는 위 최신 상태에 기록했다. 신규 W0 전체평가 job/observer forward0, baseline0, noCP/cap2 유지.
+A/B 자체의 cold-entry teacher/fit 및 승인된 timing forward는 유지한다. W0 제외는 별도 전체평가 단계 제거를 뜻한다.
 W0의 이전/현재 평가 배치 배치 차이와 비트 동일성 미확립을 공개한다.
 [override 감사](../../../../audits/servers/server4/jlz-native-joint-v4-bs100x20-20261002-v1/user-remove-w0-r1.md).
 

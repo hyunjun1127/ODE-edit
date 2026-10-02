@@ -1,6 +1,6 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1",
-  "status": "SUBMITTED_INITIAL_NOT_OBSERVED",
+  "status": "INITIAL_GATE_PASS_MONITORING_STOPPED",
   "user_override": "W0 신규 평가 중단/제외, 기존 결과 재사용, A/B 실행",
   "attempt": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0",
   "jobs": {
@@ -25,7 +25,6 @@
   ],
   "cancellation_actor": "SH4",
   "prior_allocated_gpu_seconds": 332,
-  "new_W0_forward": 0,
   "historical_W0_denominators": {
     "R": 2000,
     "P": 4000,
@@ -35,8 +34,20 @@
   "cap": 2,
   "save_checkpoints": false,
   "exact_resume": "NOT_AVAILABLE",
-  "monitoring_active": true,
+  "monitoring_active": false,
   "automatic_resume": false,
   "broadcast": "NO_BROADCAST_NOT_REQUIRED",
-  "previous_tasks": "STOPPED_USER_UNCHANGED"
+  "previous_tasks": "STOPPED_USER_UNCHANGED",
+  "main_initial": {
+    "representative_arm": "JLZ_A",
+    "B1_commit": true,
+    "history_appends": 5,
+    "observer_restored": true,
+    "B2_own_entry_actual_capture": true,
+    "scope": "REPRESENTATIVE_ONLY_NOT_FULL20_COMPLETION",
+    "other_arm_full_initial": "NOT_OBSERVED_AT_HANDOFF",
+    "receipt_path": "/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r2-reuse-w0/initial-handoff.json",
+    "receipt_sha256": "022a08536e8390ab0de672b539f30e0411df5fc0f0bcf7ceb8be718e01c0b33d"
+  },
+  "new_W0_observer_forward": 0
 }
