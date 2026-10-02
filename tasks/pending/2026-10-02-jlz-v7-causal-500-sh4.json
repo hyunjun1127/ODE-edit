@@ -9,7 +9,9 @@
     "repository": "hyunjun1127/ODE-edit"
   },
   "envelope": "messages/head/2026-10-02-jlz-v7-causal-500-sh4.json",
-  "status": "AUTHORIZED_DISPATCH_PENDING_OWNER_ACK",
+  "status": "DELIVERED_OWNER_ACK_IMPLEMENTING_NOT_SUBMITTED",
+  "accepted_turn": "01a0fcd4-955a-7293-be93-3ad26bd02ada",
+  "delivery_receipt": "audits/global/2026-10-02-jlz-v7-sh4-dispatch/delivery-receipt.json",
   "method": "plans/global/2026-10-02-jlz-causal-writer-v7/method-ko.md",
   "experiment": "plans/global/2026-10-02-jlz-causal-writer-v7/experiment-500/experiment-ko.md",
   "job_ids": [],

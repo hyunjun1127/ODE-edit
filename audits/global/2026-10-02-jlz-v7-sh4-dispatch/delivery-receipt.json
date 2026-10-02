@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+  "task_id": "jlz-causal-writer-v7-bs100x5-20261002-v1",
+  "authority_commit": "80139a375af4b62ffa4dbeedbe0f233173790eae",
+  "authority_tree": "36d0200d6676d135ee22be255ac5c364ef94f15d",
+  "envelope": "messages/head/2026-10-02-jlz-v7-causal-500-sh4.json",
+  "envelope_sha256": "f663493c711162ac70dd4740bddf51ba6dad5e638e0cdb3c1138a31cb0f4e085",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "transport": "승인SSH rke-server4의 local app-server websocket initialize/resume→idle turn/start→동일stream nonce ACK",
+  "first_attempt": {
+    "status": "COMMUNICATION_HOLD_BEFORE_DELIVERY",
+    "active_turn": "01a0fcd1-7d3a-77e2-8e1c-23f18b6c4ad4",
+    "reason": "무관한 사용자 디스크조회 turn active; turn/start/steer 실행전중단",
+    "instruction_delivered": false,
+    "followup_check": "동일turn completed 확인 후 새연결. 해당turn에 주입0"
+  },
+  "accepted_turn": "01a0fcd4-955a-7293-be93-3ad26bd02ada",
+  "prior_active_turns": [],
+  "accepted": true,
+  "owner_ack": true,
+  "owner_ack_text": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1`. SH4가 새 v7을 맡으며 현재 `IMPLEMENTING_NOT_SUBMITTED`입니다. v6 부분 자료와 중단 상태는 보존하고, 새 전용 worktree에서 정본·SHA 확인부터 구현·검증·등록까지 진행하겠습니다.",
+  "actual_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "receiver_FULL_READ_SHA": "초기ACK에서완료미주장; SH4 M0별도",
+  "job_ids": [],
+  "GPU_qualification": "NOT_OBSERVED",
+  "main_initial": "NOT_OBSERVED",
+  "terminal500": "NOT_OBSERVED",
+  "v6_stop_receipt": "audits/global/2026-10-02-jlz-v7-sh4-dispatch/v6-stop-reconciliation.json",
+  "GH_actions": {
+    "owned_queue_stop_checks": 2,
+    "scancel": 0,
+    "submission": 0,
+    "model_GPU": 0,
+    "root_reset_stash_stageall": 0,
+    "other_task_resume_or_mutation": 0
+  },
+  "monitoring": "직접ownerACK/구현착수까지만 bounded확인완료. 새monitor/heartbeat/autoretry0. SH4초기main연결 또는 정상resourcepending뒤pause, sealedrunner W5종료."
+}
