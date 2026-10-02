@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "source_commit": "fe6758512eba37595e99244d150d115268553f01",
+  "report_pre_manifest_commit": "b326875e4e2baf4e54a31514a6bbde19810cdfac",
+  "source_bytes_equal_execution": true,
+  "main_initial_only": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "source_report_members": [
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/actual-BS2-qualification-r1.json",
+      "bytes": 2534,
+      "sha256": "360be11005383ac884febf0fbd07a7c15229caab4991a5c2ea145dbcb17e4fc8"
+    },
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/completed-preparation-r1.json",
+      "bytes": 39834,
+      "sha256": "52a18b8b43034edf9648cacb7b12e5385f4073e4880eca90b4d38bc52bdbe508"
+    },
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/initial-handoff-r1.json",
+      "bytes": 13388,
+      "sha256": "45e4de2f0f25f526572fc9328aad348ec035c8a5303429391e0d580b6ca1dd3a"
+    },
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/preflight-r1.md",
+      "bytes": 4104,
+      "sha256": "ef069f09e9bff21ce03734e08c95a409465a9ef5bf7de9f937f16f3a7ffb60c9"
+    },
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/submission-r1.json",
+      "bytes": 2998,
+      "sha256": "d733ad6c98911c8e99384bb75bb5a3412c9e592fd9869c03ec1f3d602ba22166"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/report-ko.md",
+      "bytes": 5408,
+      "sha256": "dc86118a508f7ecffe3d64d9a330427cbec6aa9ed4c0cd79783c449f9d18ef97"
+    },
+    {
+      "path": "messages/acks/server4/2026-10-02-jlz-causal-writer-v7.json",
+      "bytes": 1158,
+      "sha256": "6f9031368cdcf30a807c3f688ee1b059fd4b4ae86af0c842a1be95d035067c6f"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-02-jlz-causal-writer-v7.json",
+      "bytes": 1020,
+      "sha256": "2e7c0685d2b159d8b8943bb647c83cea8d66afc429f32fd6a0cb17b6ca20384a"
+    },
+    {
+      "path": "plans/updates/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/implementation-r1.md",
+      "bytes": 760,
+      "sha256": "e8823c89e3c0e438ff01e2bded619687a3c4cdcba5970be7be8e0078548bcdd9"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/__init__.py",
+      "bytes": 46,
+      "sha256": "12cd70a7cf61d66b1c607fa5807b621f88d06909c84c2f391e4b2da199ed32f8"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/allocation.py",
+      "bytes": 1509,
+      "sha256": "de07028f038a17842e1598d74b350bacdf7a11ce7503572c5a70379c15f1793d"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/causal_builder.py",
+      "bytes": 3074,
+      "sha256": "b6d6a136203e7072c0ccda76a2389a72b3d162b5e75f0b06b9314c840335e92e"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/collect.py",
+      "bytes": 6979,
+      "sha256": "0f2d31edd49140348372fdffa88b908762a2764d73410b11adb2f24828baa455"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/common.py",
+      "bytes": 2429,
+      "sha256": "bca987e9a378855d1fe225ed2c3273b49c4192f9bb9ad41ab1da8af4f286fd1c"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/dynamic_solve.py",
+      "bytes": 2706,
+      "sha256": "fdc354c20e1620967c325ece42addcad17a8043b0ec74b123322a379036c08de"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/entry.py",
+      "bytes": 3126,
+      "sha256": "147dd5e3fed1018b2f09654edac3bb8eae129c92d444adf7a506539cfe481111"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/inputs.py",
+      "bytes": 3161,
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/memory.py",
+      "bytes": 14533,
+      "sha256": "3f79da3c7aa28b8571f16e5c038413776f1a88d5e450a23d43369a224d32f52e"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/observe.py",
+      "bytes": 8856,
+      "sha256": "27c4379d135f83b9c11c26dcdf2d23a35d59a36902692be9e0adc9fb799c7412"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/optimize.py",
+      "bytes": 6090,
+      "sha256": "fb52e98910e03de53c40bf76560db200803096339c098b47a482b6faedda7126"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/physical_aux.py",
+      "bytes": 5141,
+      "sha256": "85e1bdc305d092da087e9bbf0142ee472f96ff783dad41b5103bded8eb51668e"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/physical_linear.py",
+      "bytes": 937,
+      "sha256": "4ec74addd876c657759df3c646431042c931eef713888b54aa4a4710cb33e9ef"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/prepare.py",
+      "bytes": 5537,
+      "sha256": "189d167819bb13fc7e41b6531f6b5eb8b64ab573f9b02ba55b24d92e8a6e0c57"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/profile.py",
+      "bytes": 4172,
+      "sha256": "1c9ca0faa06dd1ebeeb6c68ad8faef89e607ea2da001da5d87c8b481f860c473"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/qualification.py",
+      "bytes": 7716,
+      "sha256": "a618f07092345b41eb740c3f0d216a68e52b9be1e07f99717570aff2c8c7cc04"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/receive.py",
+      "bytes": 2065,
+      "sha256": "1cb01ddff2ccb4aa3dd6763bc05cd8c04cc2ed99b7351ddaa7868b7675df3a81"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/run.py",
+      "bytes": 10879,
+      "sha256": "73246931a2a2e2a543904727101cbc52068e3a631c0d3de4d71208b44dba7b73"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/subject.py",
+      "bytes": 2741,
+      "sha256": "13a3228c341a08bd39b22858c8c2b37f383a6b74603ca80d485313efc01ffde3"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/submit.py",
+      "bytes": 9292,
+      "sha256": "c332fd89b9ff3c70f3811c3c236b334b4380bab28ecf78b05f80cc6451f994a3"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/test_adapter.py",
+      "bytes": 3462,
+      "sha256": "94675fb97bf2b5a62cd51c27d20a61d917b7a6fa2d1171812b085128550b4c0c"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/test_core.py",
+      "bytes": 3736,
+      "sha256": "5f3e2ee2016974655e46264d4c3987601a2c0e2f52eb96454844d8ce8b134299"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/test_pipeline.py",
+      "bytes": 2262,
+      "sha256": "d1c96e8cfdfd9465dadfd2f2149102b6748d116432128e4dd20c38b750d333b3"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/writer.py",
+      "bytes": 4059,
+      "sha256": "f68a5a997aed98893fed7776f793a0d8ff9b3e846b88fb54454ef04cbff54aa2"
+    },
+    {
+      "path": "tasks/status/jlz-causal-writer-v7-bs100x5-20261002-v1/server4.json",
+      "bytes": 1020,
+      "sha256": "2e7c0685d2b159d8b8943bb647c83cea8d66afc429f32fd6a0cb17b6ca20384a"
+    }
+  ],
+  "member_root_sha256": "fe0c86089e57fd383d285250585f3dea8204fb7b581a966d1a5bc3a6581987bd",
+  "self_excluded": true,
+  "raw_free": true,
+  "relative_links_verified": 5,
+  "Markdown_renderer": "NOT_INSTALLED_NOT_RENDER_VERIFIED",
+  "no_new_GPU_or_evaluation": true
+}
