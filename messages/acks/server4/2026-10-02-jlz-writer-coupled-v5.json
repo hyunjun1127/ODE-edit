@@ -1,0 +1,18 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "authority": "ba2deac2474087f8bb8b7b2b0d8848dd4097b16c",
+  "FULL_V5_ENVELOPE": true,
+  "full_read_members_sha_size": "14/14 PASS; published bytes reused, optional archive transfer not needed",
+  "case_csv": "all 2000 rows and all fields verified against dataset",
+  "v4_cancel_actor": "GH",
+  "v4_cancelled_jobs": [57292,57293,57294],
+  "duplicate_cancel": false,
+  "v4_rollback": "NOT_VERIFIED",
+  "v4_reuse": "immutable model/data/context/C0/tokenizer and historical W0 metrics only; no edited state",
+  "job_ids": [],
+  "new_checkpoint": false,
+  "other_tasks": "STOP_UNCHANGED"
+}

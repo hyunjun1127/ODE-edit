@@ -1,0 +1,33 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "status": "SOURCE_CPU_REVIEWED_ACTUAL_GPU_NOT_RUN",
+  "owner_review": true,
+  "independent_reviewer": "v5_red",
+  "independent_scope": "bounded source read, seven-file AST, four dependency parser cases; no model/GPU/scheduler",
+  "independent_verdict": "SOURCE_REVIEW_NO_REMAINING_BLOCKER",
+  "fixed_findings": [
+    "symmetric FP32 history Gram accumulation before next SPD solve",
+    "dense microbatch activation lifetime",
+    "profile coefficients and bias-free adapter guard",
+    "numeric evidence before technical decision; qualified reference-only epsilon",
+    "per-request-column gradient and replay-gradient evidence",
+    "rejected-trial scalar costs",
+    "nonempty source identity and exact qualification-seal SHA/path",
+    "grouped Slurm dependency parser"
+  ],
+  "reviewed_source_sha256": {
+    "run.py": "0c8337058acaba03db865cfeff0ecc0dfaf94f09e829fb3d2af28634a23fb01f",
+    "oracle.py": "4a942753cfa78f669bb7120e0997ea36f48cf244196864a9ba5b24184d1386f9",
+    "writer.py": "f68a5a997aed98893fed7776f793a0d8ff9b3e846b88fb54454ef04cbff54aa2",
+    "entry.py": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13",
+    "solver.py": "24190a7c75a1406215df71602ee42f69454f2221764e5b6ac38a799d2f0d5947",
+    "prepare.py": "7971a9e0ab87f7c3b7b581b2701655f8281eaa9490990065bdd0c03861e78e2c",
+    "submit.py": "56f94f40328ead0b08b2fd714fe01ab9d03cd4604d806201a18f9ccbd5722bab"
+  },
+  "cpu_suite": "python -m unittest discover -s project/run_scripts/jlz_writer_coupled -t . -p test_*.py -q",
+  "cpu_is_actual_model_validation": false,
+  "W0_reuse_limitation": "historical version pins and bytes/token/state verified; historical package-file SHA and bitwise layout equivalence NOT_ESTABLISHED",
+  "new_baseline": 0,
+  "new_checkpoint": false,
+  "source_raw_v4_preserved": true
+}
