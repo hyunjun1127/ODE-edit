@@ -1,0 +1,53 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "task_id": "jlz-realization-v9-ridge-bs100x5-with-exact-probe",
+  "owner": "server4-server-head",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/worktree",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "actual_GPU": "NOT_RUN",
+  "CPU_tests": 13,
+  "independent_reviewer": false,
+  "evidence": {
+    "config": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/preparation-v1/configuration.json",
+      "bytes": 40889,
+      "sha256": "0bfeb7a52ae99cc1a745b7a582a16a00d4513db01d31a6b86a12f3b6f4edf5d8",
+      "inode": 135136489,
+      "mtime_ns": 1790970577292212700
+    },
+    "preflight": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/preflight-v1/receipt.json",
+      "bytes": 10489,
+      "sha256": "f0022250846e1f6121a9cb9305ff71f965cc3efdc7d874a7609d1198e3c38f84",
+      "inode": 135136495,
+      "mtime_ns": 1790971071759249200
+    },
+    "CPU": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/preflight-v1/tests.json",
+      "bytes": 1933,
+      "sha256": "a2fe38e1f84670827e8f85b02c8ae351c10efd7a50114e9e0157d610f752b47f",
+      "inode": 135136494,
+      "mtime_ns": 1790971071756249000
+    },
+    "inputs": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/preparation-v1/full-read.json",
+      "bytes": 7154,
+      "sha256": "42aa708fed1dbb0f30b617f229acf3d4246c260b0e2c223c3b438fd1e6e369f8",
+      "inode": 135136490,
+      "mtime_ns": 1790970577294212600
+    },
+    "archive": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/inputs/design-package/receiver-proof.json",
+      "bytes": 7403,
+      "sha256": "0b384ba5d00fbd37072ab386b8645a2a223ba999ea5d41078a40b5ddd5208fce",
+      "inode": 135136445,
+      "mtime_ns": 1790968882499631900
+    }
+  },
+  "note_ko": "원본 26 content 및 inventory 포함 27 regular member SHA/size 검산. CPU owner audit 완료, 실제 Q1/Q2 별도. 기존 task 변경 없음.",
+  "no_checkpoint": true,
+  "new_baseline": 0,
+  "automatic_resume": false
+}
