@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "task_id": "jlz-writer-coupled-v5-bs100x20-20261002-v1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "INITIAL_MAIN_CONFIRMED_MONITORING_STOPPED",
+  "initial_observed_utc": "2026-10-02T09:12:38.821963+00:00",
+  "initial_scope": "representative A only",
+  "A_main_initial": "B1_COMMIT_HISTORY5_OBSERVER_UNCHANGED_B2_OWN_ENTRY_CONFIRMED",
+  "B_main_initial": "NOT_OBSERVED",
+  "experiment_complete": false,
+  "execution_source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "execution_tree": "0756344e7515fcaca74900fc2b4c0197b3f2e28c",
+  "execution_lock_sha256": "7a41c239761ee0d03c79aa6070230edaf83f3032a048cce1dea7a94a8a972904",
+  "job_ids": {
+    "arm-A": "57378",
+    "arm-B": "57379",
+    "collector": "57380",
+    "qualification": "57373",
+    "qualification-collector": "57374"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_scientific_submissions_planned": false,
+  "registered_programs": "continue naturally; two independent arms and CPU collector already released",
+  "other_tasks": "STOP_UNCHANGED",
+  "new_checkpoint": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "report": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/report-ko.md",
+  "config": {
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/config.json",
+    "bytes": 62351,
+    "sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403"
+  },
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/execution.lock.json",
+    "bytes": 21982,
+    "sha256": "7a41c239761ee0d03c79aa6070230edaf83f3032a048cce1dea7a94a8a972904"
+  },
+  "archive": {
+    "bytes": 768000,
+    "inode": 134886101,
+    "mtime_ns": 1790931016447510800,
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/source.tar",
+    "sha256": "a8767ce23ada7a4c370b9cd8f654c19eac9afe2e16a8d83ee3791fec15076496"
+  },
+  "initial_evidence": {
+    "observed_utc": "2026-10-02T09:12:38.821963+00:00",
+    "initial": true,
+    "initial_receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/initial.json",
+      "bytes": 1840,
+      "sha256": "a5f8c2f434c60ac79f5e79c110c00c7cbe505114b7adee251df8410953b459ac"
+    },
+    "commit_receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-01/commit.json",
+      "bytes": 28244,
+      "sha256": "768fb727e9b40839c939960da0d1f7a842c599dc8b1923c78b62c4030df19758"
+    },
+    "observer_receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W01/summary.json",
+      "bytes": 3862,
+      "sha256": "152eacc2293584df9819deb9d8c13dab215a216f73c76ee91ac39f53b1c0bd1a"
+    },
+    "B2_receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-02/entry.json",
+      "bytes": 16213,
+      "sha256": "cc92399ecd46427bd43c6e804fc4b387d097aa40d4856062777fbe8c6bc52438"
+    },
+    "scope": "representative arm A main only",
+    "state_link_exact": true,
+    "history_appends": 5,
+    "observer_no_mutation": true,
+    "main_B2_own_entry": true,
+    "commit": {
+      "candidate_count": 25,
+      "backward_count": 24,
+      "accepted_updates": 22,
+      "rejected_trials": 2,
+      "reference_count": 0,
+      "seconds": 792.9241479169577
+    },
+    "memory_before": {
+      "admissions": 0,
+      "anchor_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "batch_sampled": true,
+      "capacity": 128,
+      "commits": 0,
+      "events": 0,
+      "evictions": 0,
+      "kl_identity_count": 0,
+      "nonresident_repeats": 0,
+      "owner_count": 0,
+      "pending_sample_hash": "4e627bf46db33a82177c6fe7406f0ff590b2b0458eea2071fd746dcfd6d8a58f",
+      "reference_cap": 16,
+      "resident_count": 0,
+      "resident_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "resident_repeats": 0,
+      "rng_hash": "ec63387e2b229d25c73930f129423525d183d6c35e02dce09eff20e6783aefa5",
+      "sample_size": 0,
+      "seed": 20261002,
+      "seen_count": 0,
+      "seen_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "state_hash": "777bc72a31a640d19786a91961c87cd8bae8b52ad43586b42cd232910d1abe18",
+      "teacher_bytes": 0
+    },
+    "memory_after": {
+      "admissions": 100,
+      "anchor_hash": "9408f501a4df16fa0106eac98da020ea34e4c641428634ddc66ea5c794e9982f",
+      "batch_sampled": false,
+      "capacity": 128,
+      "commits": 1,
+      "events": 100,
+      "evictions": 0,
+      "kl_identity_count": 100,
+      "nonresident_repeats": 0,
+      "owner_count": 100,
+      "pending_sample_hash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "reference_cap": 16,
+      "resident_count": 100,
+      "resident_hash": "07a8194b43e4bc024dcf0bd729b679b8d9b72540e5903dff2df3f73ce4760779",
+      "resident_repeats": 0,
+      "rng_hash": "ec63387e2b229d25c73930f129423525d183d6c35e02dce09eff20e6783aefa5",
+      "sample_size": 0,
+      "seed": 20261002,
+      "seen_count": 100,
+      "seen_hash": "0aa26d237d9ff31efa65445560efa6171d293834ca9343467efb2ee728615c6e",
+      "state_hash": "b25f784d3dab8b4cf75be7fb8cf1d3dc85e828cb2e215b03929fac7cca3d01f6",
+      "teacher_bytes": 51302400
+    },
+    "observer": {
+      "N": {
+        "denominator": 1000,
+        "desired_token_correct": 196,
+        "desired_token_count": 1030,
+        "new_nll_mean": 11.292731232494116,
+        "new_strict_numerator": 5,
+        "numerator": 884,
+        "prompt_macro": 0.181,
+        "rate": 0.884,
+        "strict_denominator": 1000,
+        "strict_numerator": 167,
+        "token_micro": 0.19029126213592232,
+        "true_nll_mean": 5.375049177219218
+      },
+      "P": {
+        "denominator": 200,
+        "desired_token_correct": 94,
+        "desired_token_count": 202,
+        "new_nll_mean": 2.9203590375662314,
+        "new_strict_numerator": 92,
+        "numerator": 166,
+        "prompt_macro": 0.465,
+        "rate": 0.83,
+        "strict_denominator": 200,
+        "strict_numerator": 92,
+        "token_micro": 0.46534653465346537,
+        "true_nll_mean": 7.388736960142851
+      },
+      "R": {
+        "denominator": 100,
+        "desired_token_correct": 97,
+        "desired_token_count": 101,
+        "new_nll_mean": 0.38573170580901206,
+        "new_strict_numerator": 96,
+        "numerator": 98,
+        "prompt_macro": 0.96,
+        "rate": 0.98,
+        "strict_denominator": 100,
+        "strict_numerator": 96,
+        "token_micro": 0.9603960396039604,
+        "true_nll_mean": 9.908715355396271
+      }
+    }
+  },
+  "last_scheduler_snapshot": {
+    "observed_utc": "2026-10-02T09:09:40.116469+00:00",
+    "slurm_display_timezone": "Asia/Seoul",
+    "parent_jobs_only": [
+      {
+        "job_id": 57373,
+        "owner": "janghj",
+        "name": "odeedit_jlz_v5_s4_qualification",
+        "state": "COMPLETED",
+        "elapsed_seconds": 58,
+        "allocation": "billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "exit_code": "0:0",
+        "start_slurm_local": "2026-10-02T17:50:16",
+        "end_slurm_local": "2026-10-02T17:51:14",
+        "allocated_gpu_seconds": 58
+      },
+      {
+        "job_id": 57374,
+        "owner": "janghj",
+        "name": "odeedit_jlz_v5_s4_qualification_collector",
+        "state": "COMPLETED",
+        "elapsed_seconds": 2,
+        "allocation": "cpu=8,mem=24G,node=1",
+        "exit_code": "0:0",
+        "start_slurm_local": "2026-10-02T17:51:17",
+        "end_slurm_local": "2026-10-02T17:51:19",
+        "allocated_gpu_seconds": 0
+      },
+      {
+        "job_id": 57378,
+        "owner": "janghj",
+        "name": "odeedit_jlz_v5_s4_arm_A",
+        "state": "RUNNING",
+        "elapsed_seconds": 1072,
+        "allocation": "billing=1,cpu=8,gres/gpu=1,mem=59G,node=1",
+        "exit_code": "0:0",
+        "start_slurm_local": "2026-10-02T17:51:48",
+        "end_slurm_local": "Unknown",
+        "allocated_gpu_seconds": 1072
+      },
+      {
+        "job_id": 57379,
+        "owner": "janghj",
+        "name": "odeedit_jlz_v5_s4_arm_B",
+        "state": "PENDING",
+        "elapsed_seconds": 0,
+        "allocation": null,
+        "exit_code": "0:0",
+        "start_slurm_local": "Unknown",
+        "end_slurm_local": "Unknown",
+        "allocated_gpu_seconds": 0
+      },
+      {
+        "job_id": 57380,
+        "owner": "janghj",
+        "name": "odeedit_jlz_v5_s4_collector",
+        "state": "PENDING",
+        "elapsed_seconds": 0,
+        "allocation": null,
+        "exit_code": "0:0",
+        "start_slurm_local": "Unknown",
+        "end_slurm_local": "Unknown",
+        "allocated_gpu_seconds": 0
+      }
+    ],
+    "allocated_gpu_seconds_at_snapshot": 1130,
+    "final_cost": "NOT_MEASURED; A was running at this earlier snapshot",
+    "B_reason": "Resources",
+    "collector_reason": "Dependency",
+    "refresh_after_initial": false
+  },
+  "v4_cancellation": {
+    "actor": "GH",
+    "job_ids": [
+      57292,
+      57293,
+      57294
+    ],
+    "status": "ALL_CANCELLED",
+    "duplicate_cancel": false,
+    "rollback": "NOT_VERIFIED",
+    "source_raw": "KEEP"
+  },
+  "scope_limits": [
+    "A W01 first100 only, not full2000 results",
+    "B initial and terminal not observed",
+    "No post-initial scheduler/log/result polling",
+    "No new W0 or baseline evaluation",
+    "Stored raw and tensors stay local; Git contains compact evidence only"
+  ]
+}

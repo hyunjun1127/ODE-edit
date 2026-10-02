@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "task_id": "jlz-writer-coupled-v5-bs100x20-20261002-v1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "INITIAL_MAIN_CONFIRMED_MONITORING_STOPPED",
+  "initial_observed_utc": "2026-10-02T09:12:38.821963+00:00",
+  "initial_scope": "representative A only",
+  "A_main_initial": "B1_COMMIT_HISTORY5_OBSERVER_UNCHANGED_B2_OWN_ENTRY_CONFIRMED",
+  "B_main_initial": "NOT_OBSERVED",
+  "experiment_complete": false,
+  "execution_source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "execution_tree": "0756344e7515fcaca74900fc2b4c0197b3f2e28c",
+  "execution_lock_sha256": "7a41c239761ee0d03c79aa6070230edaf83f3032a048cce1dea7a94a8a972904",
+  "job_ids": {
+    "arm-A": "57378",
+    "arm-B": "57379",
+    "collector": "57380",
+    "qualification": "57373",
+    "qualification-collector": "57374"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "new_scientific_submissions_planned": false,
+  "registered_programs": "continue naturally; two independent arms and CPU collector already released",
+  "other_tasks": "STOP_UNCHANGED",
+  "new_checkpoint": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "report": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/report-ko.md"
+}

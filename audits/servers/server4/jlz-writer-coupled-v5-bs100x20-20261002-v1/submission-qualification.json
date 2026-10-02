@@ -1,0 +1,88 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "status": "REGISTERED_INITIAL_NOT_OBSERVED",
+  "source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "tree": "0756344e7515fcaca74900fc2b4c0197b3f2e28c",
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/execution.lock.json",
+    "bytes": 21982,
+    "sha256": "7a41c239761ee0d03c79aa6070230edaf83f3032a048cce1dea7a94a8a972904"
+  },
+  "config": {
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/config.json",
+    "bytes": 62351,
+    "sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403"
+  },
+  "archive": {
+    "bytes": 768000,
+    "inode": 134886101,
+    "mtime_ns": 1790931016447510800,
+    "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/source.tar",
+    "sha256": "a8767ce23ada7a4c370b9cd8f654c19eac9afe2e16a8d83ee3791fec15076496"
+  },
+  "jobs": {
+    "arm-A": "57378",
+    "arm-B": "57379",
+    "collector": "57380",
+    "qualification": "57373",
+    "qualification-collector": "57374"
+  },
+  "qualification": {
+    "status": "QUALIFIED",
+    "route": "direct",
+    "epsilon_num_per_request": 1e-7,
+    "pairs": [
+      {
+        "pair": 1,
+        "scale": 0,
+        "loss_absolute": 0,
+        "gradient_relative_max": 3.100491761696612e-8
+      },
+      {
+        "pair": 2,
+        "scale": 0.05,
+        "loss_absolute": 0,
+        "gradient_relative_max": 2.7823372575452515e-8
+      },
+      {
+        "pair": 3,
+        "scale": 0.05,
+        "loss_absolute": 9.119685273617506e-8,
+        "gradient_relative_max": 0.0000032663022229629504
+      }
+    ],
+    "receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/qualification/qualification.json",
+      "bytes": 10932,
+      "sha256": "209d7005847804637ba7cda35f37720166473831478bc35072f9c53b95401b02"
+    },
+    "terminal": {
+      "arm": null,
+      "checkpoint_saved": false,
+      "config_sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403",
+      "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+      "job_id": "57373",
+      "main_commits": 0,
+      "peak_gpu_bytes": 37924750336,
+      "peak_host_kib": 34721280,
+      "phase": "qualification",
+      "seconds": 52.13397686928511,
+      "source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+      "status": "COMPLETED"
+    }
+  },
+  "registered_scope": "Each arm persistent BS2x2 pilot -> B100 three candidates -> fresh W0/H0/empty-memory BS100x20, all preregistered; CPU collector afterany both arms and qualification",
+  "requested_resources": {
+    "project_cap": 2,
+    "task_cap": 2,
+    "per_job_gpu": 1,
+    "cpu": 8,
+    "host_mib": 60416,
+    "requeue": 0,
+    "export": "NONE"
+  },
+  "other_tasks": "UNCHANGED_STOPPED",
+  "no_checkpoint": true,
+  "actual_main_initial": "NOT_OBSERVED",
+  "snapshot_utc": "2026-10-02T08:55:18.592277+00:00"
+}
