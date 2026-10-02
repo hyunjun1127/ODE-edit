@@ -27,5 +27,20 @@
   "source_raw_preserved": true,
   "noCP": true,
   "new_baseline": 0,
-  "new_W0_evaluation": 0
+  "new_W0_evaluation": 0,
+  "latest_user_review": {
+    "date_KST": "2026-10-03",
+    "scope": "main A 간단 완료 리뷰 및 기존 네 baseline W5 비교; 이전 필드는 초기 관측 역사",
+    "job": "57513",
+    "state": "COMPLETED",
+    "main_commits": 5,
+    "requests": 500,
+    "R": "500/500",
+    "P": "992/1000",
+    "N": "3598/5000",
+    "other_arm_and_collector": "NOT_REVIEWED",
+    "report": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/report-ko.md",
+    "monitoring_active": false,
+    "automatic_resume": false
+  }
 }

@@ -1,0 +1,17 @@
+{
+  "scope_ko": "main A57513 간단 CPU 완료 검산 및 네 기존 W5 baseline 게시집계 재사용",
+  "new_independent_CPU_reducer": true,
+  "source_modified": "새 review_main_a.py/test_review_main_a.py만; 원 frozen runtime 변경0",
+  "reducer_tests": {"passed": 4, "failed": 0, "scope": "ties/TF 분리, duplicate/nonfinite/token/strict 차단, paired token identity 및 lost/gained"},
+  "reduction": "5 observer 원행 재집계와 저장 summary 정확일치; 5 commits/125 candidates/120 Adam",
+  "artifact_index": "264개 사용 입력·main-A 파일 fullSHA/size; 공용모델/24CP 재해시0",
+  "baseline_review": "완료된 게시 W5 aggregate 재사용. 신규 baseline raw 전수검산/새GPU/원격전송0",
+  "render": {"engine": "system python3 markdown-it-py", "GFM_tables": 2, "HTML_rendered_in_memory": true, "visual_browser_review": "NOT_PERFORMED", "local_links": "publication manifest 생성 후 전체12개 존재확인"},
+  "independent_reviewer": "NOT_USED; owner 검산과 별도 red를 혼동하지 않음",
+  "raw_free": "code/report/aggregateCSV/manifest/status/accounting만Git; 원raw/tensor/prompt/fullstdout localKEEP",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-server 저장자료 리뷰와 소형 Git 게시",
+  "job_mutations": 0,
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

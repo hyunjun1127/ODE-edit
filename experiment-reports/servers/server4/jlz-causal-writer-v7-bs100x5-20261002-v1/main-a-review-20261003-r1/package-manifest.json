@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "scope": "main A57513 간단 완료리뷰 소형게시. 원실행 및 raw 불변",
+  "runtime_source": "fe6758512eba37595e99244d150d115268553f01",
+  "analysis_source": "project/run_scripts/jlz_causal_writer/review_main_a.py",
+  "publication_commit": "이 manifest를 포함한 Git commit; 자기참조 SHA 제외",
+  "manifest_excludes_itself": true,
+  "raw_in_Git": false,
+  "members": [
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/accounting.json",
+      "bytes": 865,
+      "sha256": "975d709d867c80548611d83d26cf25b5afa39e69cf65b2bfa1f8067a6009cc88"
+    },
+    {
+      "path": "audits/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/validation.json",
+      "bytes": 1357,
+      "sha256": "8b8e05c5ea9780881279543477560a1da6e8952625614cd11dbe1aeda92cfef5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/artifact-index.json",
+      "bytes": 63802,
+      "sha256": "9988736e342678d324e580464d315be3e39f65102abccbbb0d1364ded6f6d3fb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/baselines-W5.csv",
+      "bytes": 2472,
+      "sha256": "8286b7c725d45f591a8cb0418db075fcfa818ee6b4169048e8c4b66d038fe975"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/batch-costs.csv",
+      "bytes": 267,
+      "sha256": "4e2a24f752395e335e0a09e192118cc93cd85092eff0529aa4aef3572811d1d6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/cohort-retention.csv",
+      "bytes": 1159,
+      "sha256": "eaa336fd119721345013b625f4d7f9379e519b8d38ebf20c8cb0b694ac883fff"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/metrics.csv",
+      "bytes": 1789,
+      "sha256": "5eee3c0dba81921166d3ba23c514acf580fe41d7391beae0cf32a786c9815afc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/paired.csv",
+      "bytes": 539,
+      "sha256": "67f05bceded2ebe9ac6696e0c3d574391ff264fbace53b336810e18991fe1e06"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/report-ko.md",
+      "bytes": 6990,
+      "sha256": "81edfd641774ccfd1b5c146cf06bb9e32c9d47ecdfc1e2193f0235c336534392"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/summary.json",
+      "bytes": 5566,
+      "sha256": "0569ec28f593f63721bb7a15f2cce47e8e2213aa5089bb8b0b31dbfe6fb0cdbe"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/terminal-layer-stats.csv",
+      "bytes": 2842,
+      "sha256": "48648f3cd7400caee684986a40fe40103b63418b4cb71628731e31033e42434e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/report-ko.md",
+      "bytes": 5676,
+      "sha256": "af29eef93613c73450020730572cbbe8075f5527e90a77c6cc62cacab74d356d"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-02-jlz-causal-writer-v7.json",
+      "bytes": 1567,
+      "sha256": "165058fc1615de54d8090b7e864f97a9410150c1ef6d6c7d1ab36987c058f779"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/review_main_a.py",
+      "bytes": 17473,
+      "sha256": "6b68fde4b887ef09a80a32f69e5d96edc8e1080e8ebe87cf68f2ab1490e9482f"
+    },
+    {
+      "path": "project/run_scripts/jlz_causal_writer/test_review_main_a.py",
+      "bytes": 1822,
+      "sha256": "b402625291afd9febce1b8433c045329a192eb6cf6a00eee3a998eeb50a1bf99"
+    },
+    {
+      "path": "tasks/status/jlz-causal-writer-v7-bs100x5-20261002-v1/server4.json",
+      "bytes": 1592,
+      "sha256": "1434023ce7f399f05f117f296a5ea0420342f34a4c6dc0582cd64fbd990bc14f"
+    }
+  ]
+}

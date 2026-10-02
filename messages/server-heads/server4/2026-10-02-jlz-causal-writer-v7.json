@@ -27,5 +27,12 @@
   "source_raw_preserved": true,
   "noCP": true,
   "new_baseline": 0,
-  "new_W0_evaluation": 0
+  "new_W0_evaluation": 0,
+  "latest_user_review": {
+    "date_KST": "2026-10-03",
+    "message_ko": "사용자 요청 main A57513 간단 리뷰: COMPLETED/0:0, 500edit/5commit, W5 R500/500 P992/1000 N3598/5000. AlphaEdit/BLUE/CAKE/MEMIT-H의 기존 동일W5 집계 재사용. 코드·소형 산출물 ownscope 게시, rawKEEP. B/collector 미리뷰, 신규GPU/job변경0.",
+    "report": "experiment-reports/servers/server4/jlz-causal-writer-v7-bs100x5-20261002-v1/main-a-review-20261003-r1/report-ko.md",
+    "monitoring_active": false,
+    "automatic_resume": false
+  }
 }

@@ -1,5 +1,7 @@
 # JLZ v7 착수 보고
 
+후속 USER 요청: [2026-10-03 main A 500-edit 완료 간단 리뷰](main-a-review-20261003-r1/report-ko.md). 아래 착수·초기 관측 기록은 당시 상태 그대로 보존한다. 후속 리뷰는 A만 확인했고 B 전체 완료 판정은 하지 않았다.
+
 상태: INITIAL_CONFIRMED_AGENT_PAUSED. A의 실제 main B1 commit→B2 own-entry를 검산했다. A/B 모두 실행에 진입했지만 각500 완료는 관측하지 않았으며, 이후 능동 모니터링은 중단했다.
 
 - Nonce: `ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1`

@@ -1,0 +1,198 @@
+{
+  "scope": "main-A only; B/collector NOT_REVIEWED",
+  "job": "57513",
+  "source_commit": "fe6758512eba37595e99244d150d115268553f01",
+  "source_tree": "d35b488ca158fe04aef15ac7b4ddebeb69d0a88b",
+  "config_file_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+  "config_canonical_digest": "b71a9b7e850e6e0baacf7b35501f1cef69ec5d4150c57ca31ef189b690b65b76",
+  "lock_sha256": "97a03ae24674f0e7fbe115e96f0b0d930166aaa4fa80a5af29c30206b1e9f09e",
+  "terminal": {
+    "arm": "A",
+    "checkpoint_saved": false,
+    "config_sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588",
+    "instruction": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
+    "job_id": "57513",
+    "main_commits": 5,
+    "no_B6": true,
+    "peak_gpu_bytes": 48636370944,
+    "peak_host_kib": 34718448,
+    "phase": "main",
+    "seconds": 9056.60862112604,
+    "source": "fe6758512eba37595e99244d150d115268553f01",
+    "status": "COMPLETED"
+  },
+  "checks": [
+    {
+      "batch": 1,
+      "requests": 100,
+      "candidates": 25,
+      "Adam": 24,
+      "history_layer_appends": 5,
+      "state_chain": true,
+      "exact_commit_receipt": true,
+      "observer_restored": true
+    },
+    {
+      "batch": 2,
+      "requests": 100,
+      "candidates": 25,
+      "Adam": 24,
+      "history_layer_appends": 5,
+      "state_chain": true,
+      "exact_commit_receipt": true,
+      "observer_restored": true
+    },
+    {
+      "batch": 3,
+      "requests": 100,
+      "candidates": 25,
+      "Adam": 24,
+      "history_layer_appends": 5,
+      "state_chain": true,
+      "exact_commit_receipt": true,
+      "observer_restored": true
+    },
+    {
+      "batch": 4,
+      "requests": 100,
+      "candidates": 25,
+      "Adam": 24,
+      "history_layer_appends": 5,
+      "state_chain": true,
+      "exact_commit_receipt": true,
+      "observer_restored": true
+    },
+    {
+      "batch": 5,
+      "requests": 100,
+      "candidates": 25,
+      "Adam": 24,
+      "history_layer_appends": 5,
+      "state_chain": true,
+      "exact_commit_receipt": true,
+      "observer_restored": true
+    }
+  ],
+  "final_metrics": {
+    "R": {
+      "denominator": 500,
+      "numerator": 500,
+      "rate": 1.0,
+      "true_nll_mean": 16.166430472373964,
+      "new_nll_mean": 0.029912073261511976,
+      "desired_token_count": 507,
+      "desired_token_correct": 505,
+      "token_micro": 0.9960552268244576,
+      "prompt_macro": 0.996,
+      "strict_numerator": 498,
+      "strict_denominator": 500,
+      "new_strict_numerator": 498
+    },
+    "P": {
+      "denominator": 1000,
+      "numerator": 992,
+      "rate": 0.992,
+      "true_nll_mean": 13.171630045771598,
+      "new_nll_mean": 0.7466793999437177,
+      "desired_token_count": 1014,
+      "desired_token_correct": 831,
+      "token_micro": 0.8195266272189349,
+      "prompt_macro": 0.8195,
+      "strict_numerator": 817,
+      "strict_denominator": 1000,
+      "new_strict_numerator": 817
+    },
+    "N": {
+      "denominator": 5000,
+      "numerator": 3598,
+      "rate": 0.7196,
+      "true_nll_mean": 6.1364294969334265,
+      "new_nll_mean": 8.824744508813858,
+      "desired_token_count": 5070,
+      "desired_token_correct": 724,
+      "token_micro": 0.1428007889546351,
+      "prompt_macro": 0.1378,
+      "strict_numerator": 654,
+      "strict_denominator": 5000,
+      "new_strict_numerator": 205
+    }
+  },
+  "paired": [
+    {
+      "comparison": "AT_WRITE_TO_W5",
+      "kind": "R",
+      "denominator": 500,
+      "before_success": 500,
+      "after_success": 500,
+      "lost": 0,
+      "gained": 0,
+      "true_nll_change": -0.18460632419586182,
+      "new_nll_change": 0.02730545996993169
+    },
+    {
+      "comparison": "AT_WRITE_TO_W5",
+      "kind": "P",
+      "denominator": 1000,
+      "before_success": 991,
+      "after_success": 992,
+      "lost": 1,
+      "gained": 2,
+      "true_nll_change": -0.056632765710353854,
+      "new_nll_change": -0.034564201320426945
+    },
+    {
+      "comparison": "AT_WRITE_TO_W5",
+      "kind": "N",
+      "denominator": 5000,
+      "before_success": 3869,
+      "after_success": 3598,
+      "lost": 397,
+      "gained": 126,
+      "true_nll_change": 0.48536407741715665,
+      "new_nll_change": -0.6150262562479242
+    },
+    {
+      "comparison": "W0_TO_W5",
+      "kind": "R",
+      "denominator": 500,
+      "before_success": 35,
+      "after_success": 500,
+      "lost": 0,
+      "gained": 465,
+      "true_nll_change": 11.422465742297238,
+      "new_nll_change": -11.098405360691773
+    },
+    {
+      "comparison": "W0_TO_W5",
+      "kind": "P",
+      "denominator": 1000,
+      "before_success": 112,
+      "after_success": 992,
+      "lost": 0,
+      "gained": 880,
+      "true_nll_change": 8.298439770752099,
+      "new_nll_change": -9.317785361551872
+    },
+    {
+      "comparison": "W0_TO_W5",
+      "kind": "N",
+      "denominator": 5000,
+      "before_success": 4392,
+      "after_success": 3598,
+      "lost": 902,
+      "gained": 108,
+      "true_nll_change": 0.8371265260579763,
+      "new_nll_change": -2.2501471114287384
+    }
+  ],
+  "active_cases_at_W5": 500,
+  "max_stored_SPD_relative_residual": 6.089451890249557e-15,
+  "max_terminal_builder_key_abs_error": 8.58306884765625e-06,
+  "source_members_sha_verified": 70,
+  "baseline_raw_reaudit": false,
+  "independent_reviewer": "NOT_USED; owner independent CPU reducer only",
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "limitation": "Stored hashes/receipts only for W/H; no saved weights or new GPU parity. Historical runtime differs."
+}
