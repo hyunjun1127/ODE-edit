@@ -1,90 +1,31 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
-  "status": "SUBMITTED_RELEASED",
-  "recorded_utc": "2026-10-02T13:58:27.007992+00:00",
-  "jobs": {
+  "status": "INITIAL_CONFIRMED_AGENT_PAUSED",
+  "recorded_utc": "2026-10-02T14:39:33.214422+00:00",
+  "job_ids": {
     "collector": "57515",
     "main-A": "57513",
     "main-B": "57514",
     "prep-A": "57511",
     "prep-B": "57512"
   },
-  "dependencies": {
-    "collector": "afterany:57511:57512:57513:57514",
-    "main-A": "afterok:57511:57512",
-    "main-B": "afterok:57511:57512",
-    "prep-A": null,
-    "prep-B": null
-  },
   "source_commit": "fe6758512eba37595e99244d150d115268553f01",
-  "source_tree": "d35b488ca158fe04aef15ac7b4ddebeb69d0a88b",
-  "lock": {
-    "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/execution.lock.json",
-    "bytes": 26402,
-    "sha256": "97a03ae24674f0e7fbe115e96f0b0d930166aaa4fa80a5af29c30206b1e9f09e"
+  "lock_sha256": "97a03ae24674f0e7fbe115e96f0b0d930166aaa4fa80a5af29c30206b1e9f09e",
+  "main_initial": {
+    "arm": "A",
+    "B1_commit": true,
+    "history5": true,
+    "observer_restored": true,
+    "B2_ownentry": true,
+    "receipt_sha256": "54f1b0b6e25330c4dbdf399c44d17eac89f86969a98d7166f8a9d535a23e4f4e"
   },
-  "archive": {
-    "bytes": 911360,
-    "inode": 135016022,
-    "mtime_ns": 1790949442331612700,
-    "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/source.tar",
-    "sha256": "882ea0a6399b053b4cf7ef86b24894648fc2b4be2a7959ee09677f6b54164df7"
-  },
-  "config": {
-    "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/config.json",
-    "bytes": 36473,
-    "sha256": "5138907f84cd00cc0397e8e67b326b130460eb76296a3e255bf29333de562588"
-  },
-  "held_inspection": {
-    "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/held-inspection.json",
-    "bytes": 17304,
-    "sha256": "3bbc30d942474695e7d3a20772f5224164024e34a7b6aa93f8124178807445ab"
-  },
-  "submission": {
-    "path": "/data/janghj/ODE-edit/local/jlz-causal-writer-v7/20261002-v1/attempt-r1/submission.json",
-    "bytes": 4547,
-    "sha256": "d4f106ff63835354242edf097d5d8367b609e87456d37d3bae69f6fcd8a2b11a"
-  },
-  "resources": {
-    "GPU_plan_gib": {
-      "builder_checkpoints": 12,
-      "model": 30,
-      "prior_factors": 7.66,
-      "safety": 10,
-      "solve_and_native_aux_scratch": 20,
-      "weights": 2.2
-    },
-    "cap": 2,
-    "collector_host_mib": 24576,
-    "collector_wall": "04:00:00",
-    "cpu": 8,
-    "estimated_seconds": "NOT_ESTABLISHED_UNTIL_V7_B100",
-    "free_bytes": 176320892928,
-    "gpu": 1,
-    "host_mib": 60416,
-    "host_plan_gib": {
-      "entry_cache_and_teacher": 3,
-      "history": 3.83,
-      "prior_loading_peak": 3.1,
-      "python_runtime_loader_margin": 24,
-      "transaction_history": 3.83,
-      "weight_rollback": 1.1
-    },
-    "node": "server4",
-    "partition": "gpu",
-    "peak_measured": false,
-    "qos": "lab_gpu_s4",
-    "qualification_wall": "24:00:00",
-    "reserve_bytes": 32212254720,
-    "wall": "7-00:00:00",
-    "wall_not_ETA": true
-  },
-  "initial": "NOT_OBSERVED",
-  "actual_observation": "prep A/B running; main dependency; not main PASS",
-  "cap": 2,
+  "other_arm_initial": "NOT_OBSERVED",
+  "science_completion": "500_PER_ARM_NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "registered_programs": "continue autonomously to W5 and afterany CPU collector",
+  "source_raw_preserved": true,
+  "noCP": true,
   "new_baseline": 0,
-  "newCP": 0,
-  "other_job_mutation": false,
-  "monitoring_boundary": "representative mainB1->B2 or proper resourcepending; not yet reached",
-  "automatic_resume": false
+  "new_W0_evaluation": 0
 }

@@ -1,6 +1,7 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V7-CAUSAL-500-20261002-R1",
-  "status": "SUBMITTED_RELEASED",
+  "status": "INITIAL_CONFIRMED_AGENT_PAUSED",
+  "recorded_utc": "2026-10-02T14:39:33.214422+00:00",
   "job_ids": {
     "collector": "57515",
     "main-A": "57513",
@@ -10,10 +11,21 @@
   },
   "source_commit": "fe6758512eba37595e99244d150d115268553f01",
   "lock_sha256": "97a03ae24674f0e7fbe115e96f0b0d930166aaa4fa80a5af29c30206b1e9f09e",
-  "initial": "NOT_OBSERVED",
-  "actual": "prep A/B RUNNING; main afterok bothprep; no main PASS",
-  "other_tasks_resumed": false,
-  "monitoring_active": true,
-  "monitoring_scope": "bounded actual representative main initial only",
-  "automatic_resume": false
+  "main_initial": {
+    "arm": "A",
+    "B1_commit": true,
+    "history5": true,
+    "observer_restored": true,
+    "B2_ownentry": true,
+    "receipt_sha256": "54f1b0b6e25330c4dbdf399c44d17eac89f86969a98d7166f8a9d535a23e4f4e"
+  },
+  "other_arm_initial": "NOT_OBSERVED",
+  "science_completion": "500_PER_ARM_NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "registered_programs": "continue autonomously to W5 and afterany CPU collector",
+  "source_raw_preserved": true,
+  "noCP": true,
+  "new_baseline": 0,
+  "new_W0_evaluation": 0
 }
