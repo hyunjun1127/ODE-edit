@@ -11,7 +11,10 @@
   },
   "envelope": "messages/head/2026-10-02-jlz-v5-cancel-v4-2k-sh4.json",
   "method_contract": "plans/global/2026-10-02-jlz-writer-coupled-v5/contract.json",
-  "status": "DISPATCH_READY_NOT_YET_ACKNOWLEDGED",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "accepted_turn": "01a0fbbd-a225-70c3-b725-becfbd3af969",
+  "owner_ack": "FULL_V5_ENVELOPE_RECEIVED_AND_ACCEPTED",
+  "delivery_receipt": "audits/global/2026-10-02-jlz-v5-sh4-dispatch/direct-delivery-receipt.json",
   "v4": "CANCELLED_USER_REPLACED",
   "new_job_ids": [],
   "save_checkpoints": false

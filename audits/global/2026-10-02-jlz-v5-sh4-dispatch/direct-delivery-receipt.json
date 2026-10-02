@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "authority_commit": "ba2deac2474087f8bb8b7b2b0d8848dd4097b16c",
+  "authority_tree": "0c06ce2b3c7e0176670d163e9bf33757a26a1ff7",
+  "envelope": "messages/head/2026-10-02-jlz-v5-cancel-v4-2k-sh4.json",
+  "envelope_sha256": "0f3fa216befdc3d6de6e8237fd1dfbcef0f777894ad6f0f04149668358169555",
+  "transport": "app-server direct on approved server4 control socket",
+  "target": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "stop_ack_turn": "01a0fbb7-9b55-73b1-9c1d-03640d72fa30",
+  "accepted_turn": "01a0fbbd-a225-70c3-b725-becfbd3af969",
+  "target_was_idle": true,
+  "delivery": "ACCEPTED",
+  "owner_ack": "ACK_RECEIVED",
+  "exact_ack": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1` — FULL_V5_ENVELOPE 수신, SH4 담당 수락했습니다. 현재 `IMPLEMENTING_NOT_SUBMITTED`이며, v4는 GH 취소 receipt만 결속하고 재개하지 않습니다. 새 clean worktree에서 정본 정독·검증 후 v5 구현과 pilot→main 등록을 진행하겠습니다.",
+  "new_job_ids": [],
+  "actual_model_pass": false,
+  "main_initial": "NOT_OBSERVED",
+  "GH_method_experiment_full_read": true,
+  "SH4_full_read_verification": "PENDING_OWNER_IMPLEMENTATION",
+  "GH_long_monitoring": false,
+  "other_tasks_resumed": false
+}
