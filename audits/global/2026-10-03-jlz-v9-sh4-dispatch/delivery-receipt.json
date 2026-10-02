@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "task_id": "jlz-realization-v9-ridge-bs100x5-with-exact-probe",
+  "authority_commit": "e147e55139d9a9c1a568a812020633b579c0b767",
+  "authority_tree": "4be9c8dd1c5955fadde0181d215b7b4e6cd6159b",
+  "envelope": "messages/head/2026-10-03-jlz-v9-ridge-500-exact-pilot-sh4.json",
+  "envelope_sha256": "a632f2f1daa1b380940cf192cf1ad047d22809c54d529734e1f2bd2fc850281c",
+  "transport": "승인 app-server direct / actual server4 UNIX socket / same-stream bounded ACK",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "target_cwd": "/data/janghj/ODE-edit",
+  "active_turns_before": [],
+  "accepted_turn": "01a0fe05-22e2-7422-9f52-42b48428ca4f",
+  "owner_acceptance": true,
+  "owner_ack_text": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1`. SH4 담당으로 수락합니다. 현재 이 turn에서는 미제출(`IMPLEMENTING_NOT_SUBMITTED`)이며, 기존 v9 작업·등록 여부부터 확인하겠습니다. 새 전용 worktree에서 정본/SHA 검증 후 구현·Q1·Q2 포함 ridge A/B 실행 등록을 이어가며, 기존 v7·다른 작업은 변경하지 않겠습니다.\n",
+  "owner_reported_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "GH_status": "DISPATCHED_OWNER_ACCEPTED",
+  "archive_received_by_SH4": "NOT_YET_REPORTED",
+  "SH4_full_read": "NOT_YET_REPORTED",
+  "GPU_qualification": "NOT_RUN_NOT_REPORTED",
+  "submitted_job_ids": [],
+  "completion": "NOT_CLAIMED",
+  "GH_terminal": "BOUNDED_HANDOFF_COMPLETE_NO_MONITOR",
+  "GH_monitoring_active": false,
+  "GH_automatic_resume": false,
+  "GH_new_GPU": 0,
+  "GH_Slurm_mutation": 0,
+  "GH_independent_red_used": false,
+  "notes_ko": "ActualownerACK와app전송수락을구분하여회수. SH4는승인구현/Q1/Q2/main을계속하며GH재승인을기다리지않는다. GH는실험완료polling/heartbeat를만들지않음. 원설계/과거task유지.",
+  "transport_events": [
+    {
+      "stage": "RESUMED",
+      "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "active_turns": []
+    },
+    {
+      "stage": "ACCEPTED",
+      "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+      "turn_id": "01a0fe05-22e2-7422-9f52-42b48428ca4f",
+      "result": {
+        "turn": {
+          "id": "01a0fe05-22e2-7422-9f52-42b48428ca4f",
+          "items": [],
+          "itemsView": "notLoaded",
+          "status": "inProgress",
+          "error": null,
+          "startedAt": null,
+          "completedAt": null,
+          "durationMs": null
+        }
+      }
+    },
+    {
+      "stage": "AGENT_MESSAGE",
+      "turn_id": "01a0fe05-22e2-7422-9f52-42b48428ca4f",
+      "text": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1`. SH4 담당으로 수락합니다. 현재 이 turn에서는 미제출(`IMPLEMENTING_NOT_SUBMITTED`)이며, 기존 v9 작업·등록 여부부터 확인하겠습니다. 새 전용 worktree에서 정본/SHA 검증 후 구현·Q1·Q2 포함 ridge A/B 실행 등록을 이어가며, 기존 v7·다른 작업은 변경하지 않겠습니다.\n"
+    },
+    {
+      "stage": "ACK_RECEIVED",
+      "turn_id": "01a0fe05-22e2-7422-9f52-42b48428ca4f",
+      "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1"
+    }
+  ]
+}

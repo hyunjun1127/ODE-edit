@@ -1,0 +1,55 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
+  "status": "PASS_DISPATCH_PACKAGE_CHECKS_NOT_PRODUCTION",
+  "archive_members": 27,
+  "content_SHA_size_verified": 26,
+  "internal_manifests_verified": [
+    "v8",
+    "v9"
+  ],
+  "case_schedule_rows": 2000,
+  "first500_ordered_SHA": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+  "CPU_reproduction": [
+    {
+      "method": "jlz-native-writer-v8",
+      "check_count": 404,
+      "passed": 404,
+      "elapsed_seconds": 2.944822834804654,
+      "script_sha256": "331904f9d6d2cb241e6a4de7ecc23070a949557606c82cace28f27c813647c41",
+      "sealed_results_sha256": "eaa2a0e8a16009bb723cd37ac31667ec457920bdf89dfeda846701b1df69524f",
+      "all_original_check_names_matched": true,
+      "all_original_results_parsed": true,
+      "CPU_only": true,
+      "source_files_changed": false,
+      "actual_GPU_validation": "NOT_RUN"
+    },
+    {
+      "method": "jlz-realization-v9",
+      "check_count": 181,
+      "passed": 181,
+      "elapsed_seconds": 0.09683303348720074,
+      "script_sha256": "b4424a707e6f9fc4096ea79baab822fb0025e73895d5279ba2609451112d3378",
+      "sealed_results_sha256": "16a0c5f12c59c5539dc9583bc8a1329c7e6162863b5db7521a98ee02b62be8d9",
+      "all_original_check_names_matched": true,
+      "all_original_results_parsed": true,
+      "CPU_only": true,
+      "source_files_changed": false,
+      "actual_GPU_validation": "NOT_RUN"
+    }
+  ],
+  "json_parse": true,
+  "git_diff_check": true,
+  "GH_access_helper": "PASS global-head/head-server1-gh",
+  "root_dirty_checkout_preserved": true,
+  "production_runner_implemented_by_GH": false,
+  "GPU_validation": "NOT_RUN",
+  "scientific_claims": "NOT_ESTABLISHED",
+  "independent_review": "GH owner only; source design authors' prior review remains separate",
+  "namespace": "project/run_scripts/jlz_realization/",
+  "extra_B100_fit": 0,
+  "stages_authorized": "Q0/Q1→Q2incmainA1→A/B500→collector",
+  "main_candidates_updates": [
+    250,
+    240
+  ]
+}
