@@ -1,0 +1,210 @@
+{
+  "scope": "A first500 inputs/commits and completed W05 rows only",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/execution.lock.json",
+      "bytes": 21982,
+      "sha256": "7a41c239761ee0d03c79aa6070230edaf83f3032a048cce1dea7a94a8a972904",
+      "mtime_ns": 1790931016494510300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/config.json",
+      "bytes": 62351,
+      "sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403",
+      "mtime_ns": 1790931016459510800,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/cold.json",
+      "bytes": 1603,
+      "sha256": "65ea4a79ee25e3c636a01c2b5d55f0ee08a5ff18ae273741dbbcc01bdf0e0f5f",
+      "mtime_ns": 1790931429400570600,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-01/entry.json",
+      "bytes": 16188,
+      "sha256": "01deb2099f78731fe39051758da7107a2f7a826e6697db7a25e9644cffed37a7",
+      "mtime_ns": 1790931472410415900,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-01/input.json",
+      "bytes": 757,
+      "sha256": "5a4e0d059c803bcd625e7a626f18f3fe67c61aae1d3a062aeb3d583050b55031",
+      "mtime_ns": 1790931436667544000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-01/commit.json",
+      "bytes": 28244,
+      "sha256": "768fb727e9b40839c939960da0d1f7a842c599dc8b1923c78b62c4030df19758",
+      "mtime_ns": 1790932222327402500,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-02/entry.json",
+      "bytes": 16213,
+      "sha256": "cc92399ecd46427bd43c6e804fc4b387d097aa40d4856062777fbe8c6bc52438",
+      "mtime_ns": 1790932331610169900,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-02/input.json",
+      "bytes": 756,
+      "sha256": "a4b3cd6d313a7e1c21081a924f45c288d117a0b2daad4e84516679d9e87df2b3",
+      "mtime_ns": 1790932296232244200,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-02/commit.json",
+      "bytes": 29471,
+      "sha256": "41e212bdf7dde1cd456d45bcaa4517d33ba3c617e70ff946758aaea5eceb0632",
+      "mtime_ns": 1790933080379996400,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-03/entry.json",
+      "bytes": 16208,
+      "sha256": "cc2df7f86657da967787dbf1964fea64f0ffad2a339eab367e0a2101aa825ad8",
+      "mtime_ns": 1790933192205467400,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-03/input.json",
+      "bytes": 764,
+      "sha256": "645cb4fa41c607f98dda0a7c6f5e1ea5c96d2c00ecb33e023a76e7173080e43a",
+      "mtime_ns": 1790933156225326600,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-03/commit.json",
+      "bytes": 29568,
+      "sha256": "2ad9562ce1dc22a3e28ba0034965d0c4f37ccfca511b444bfa388c5807fb98bd",
+      "mtime_ns": 1790933948936979700,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-04/entry.json",
+      "bytes": 16234,
+      "sha256": "e4e9b465df0b64a4fd7adcfc2c0562858be0e67857363ef0e51c7db785fd0a1a",
+      "mtime_ns": 1790934059876070700,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-04/input.json",
+      "bytes": 766,
+      "sha256": "2e910bd8bde76a1845eef15f6b8025b71ce146f357db8f76c60cc054c1a77ca8",
+      "mtime_ns": 1790934024087043300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-04/commit.json",
+      "bytes": 29589,
+      "sha256": "6998185fa4a8c284c382af7e83043d92a924a8eb95577e26523f14ae6520a07f",
+      "mtime_ns": 1790934798092547600,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-05/entry.json",
+      "bytes": 16203,
+      "sha256": "f2e2fd2dab1d73d29e54de843cf6cdb6dcef2c3c4b0b828c8020bcfe7c492e10",
+      "mtime_ns": 1790934905074999000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-05/input.json",
+      "bytes": 765,
+      "sha256": "f95058c90bffe9f484c4411c85347adacb5da2b514dc3aa5605211ed496bd60b",
+      "mtime_ns": 1790934869632171300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/batch-05/commit.json",
+      "bytes": 29654,
+      "sha256": "44d1fcfab289fb5513444420eccea42cd311720fa42e44a1a88e6373a6d47774",
+      "mtime_ns": 1790935646782700800,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/summary.json",
+      "bytes": 3864,
+      "sha256": "4fd847a1d3b12a8c25e8a50b323b1c4cd2bba16a290b54589636093d8e6224da",
+      "mtime_ns": 1790935887597239300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0000.json",
+      "bytes": 390299,
+      "sha256": "3f0a53039b6d4322330141d4fb7805930b27cf3a3ebf82ab5b18a7cf1e155217",
+      "mtime_ns": 1790935677306637800,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0050.json",
+      "bytes": 390322,
+      "sha256": "e2a5edb9a56b5178f2b542cb1f8e401b7a9d34be73437337532f770a353380c3",
+      "mtime_ns": 1790935700305591600,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0100.json",
+      "bytes": 390409,
+      "sha256": "f14c6b51338195d6593a7d85fd139983a70ea3736dda13c946f5c2cc18127251",
+      "mtime_ns": 1790935722753547000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0150.json",
+      "bytes": 390274,
+      "sha256": "44515102e78b9a574acfa2eeed98fdcf58f9090de81e543f11ff0104b34e5fcc",
+      "mtime_ns": 1790935745188503300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0200.json",
+      "bytes": 390393,
+      "sha256": "0f037922cd652220616d00ec8a3046b4af61cb12e456dbc0ebdf33c9dcce301b",
+      "mtime_ns": 1790935767943459300,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0250.json",
+      "bytes": 390395,
+      "sha256": "becd3ae0eab6af44fcac818103dfba96b40a329a354aa328549e7bdf11395929",
+      "mtime_ns": 1790935790829416000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0300.json",
+      "bytes": 390461,
+      "sha256": "cb6f6d6652a70e19f5620bbf02709e84f245d26b55d2b5237b337aa5fc950d03",
+      "mtime_ns": 1790935813299374000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0350.json",
+      "bytes": 390314,
+      "sha256": "1a13bc4b6f881c0a1258fb31665f3cee41b72ee19192e38497ebfa02631ca775",
+      "mtime_ns": 1790935836618331100,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0400.json",
+      "bytes": 390425,
+      "sha256": "f0c5d8c17e500fa04c29847242f0d8fbb414637ca0763f4c11bea54c1637f458",
+      "mtime_ns": 1790935859313290000,
+      "disposition": "LOCAL_KEEP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1/arm-A/main/observe-W05/chunk-0450.json",
+      "bytes": 390327,
+      "sha256": "873f541836b0c75ae51d77021b07c924076d85b62321856bc215426b1fed7c8c",
+      "mtime_ns": 1790935882067249200,
+      "disposition": "LOCAL_KEEP"
+    }
+  ],
+  "raw_exported": false,
+  "old_initial_package": "938d5a12d558ade7c92c2cd91f45511958b4732d is the historical initial-publication snapshot"
+}

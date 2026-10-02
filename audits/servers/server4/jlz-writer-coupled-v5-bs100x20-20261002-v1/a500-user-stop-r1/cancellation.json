@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "user_request": "arm a 가 500 edit이 끝나고 누적평가가 끝나면 실험 종료시켜라. 그리고 해당 결과 산출물과 코드만 main에 올려",
+  "parent_instruction": "ODEEDIT-USER-GH-SH4-JLZ-V5-CANCEL-V4-IMPLEMENT-2K-20261002-R1",
+  "actor": "SH4/janghj(1025)",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "scope": "This v5 task only; all other jobs untouched",
+  "condition": "A BS100x5 committed, W05 allseen R500/P1000/N5000 complete; exact commit-state and observer nonmutation verified",
+  "observed_A_batch6": {
+    "entered": true,
+    "committed": false,
+    "saved_candidate_receipts": 2,
+    "result_included": false,
+    "raw_preserved": true,
+    "rollback": "NOT_VERIFIED_AFTER_SIGTERM"
+  },
+  "cancel_order": [
+    57380,
+    57378,
+    57379
+  ],
+  "scancel_returncode": 0,
+  "cancelled_kst": "2026-10-02T19:13:33+09:00",
+  "confirmation_kst": "2026-10-02T19:14:00+09:00",
+  "exact_task_active_queue_after": [],
+  "jobs": [
+    {
+      "id": 57378,
+      "arm": "A",
+      "state": "CANCELLED by 1025",
+      "allocated_gpu_seconds": 4905
+    },
+    {
+      "id": 57379,
+      "arm": "B",
+      "state": "CANCELLED by 1025",
+      "allocated_gpu_seconds": 3129
+    },
+    {
+      "id": 57380,
+      "role": "CPU collector",
+      "state": "CANCELLED by 1025",
+      "allocated_gpu_seconds": 0
+    }
+  ],
+  "cost_scope": "Parent allocation only; A includes pilot/timing, first500 and interrupted batch6; B cost is cancellation accounting, no B scientific results published",
+  "allocation_gpu_seconds_total": 8034,
+  "qualification_previously_completed_gpu_seconds": 58,
+  "new_submission": false,
+  "new_forward": false,
+  "checkpoint_saved": false,
+  "source_raw": "KEEP",
+  "rollback_after_sigterm": "NOT_VERIFIED",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

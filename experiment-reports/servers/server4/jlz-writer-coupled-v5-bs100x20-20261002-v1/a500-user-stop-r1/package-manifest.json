@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "scope": "A500 compact result/publication code only; cancellation/status evidence included",
+  "execution_source": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+  "runtime_source_unchanged": true,
+  "source_prior_main": "31a8e45fb4e9f12ec87a0d42e88cf57e034b9f64",
+  "members": [
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/cancellation.json",
+      "bytes": 1865,
+      "sha256": "49075a28c9f793d47aaf22f0046cebe0b1f8b51d98c1954c224964e09da1f487"
+    },
+    {
+      "path": "audits/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/checks.json",
+      "bytes": 699,
+      "sha256": "ec4dbd1682499d248a95a5823964004d5c5647c9b69e852f9c8ae332046625fc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/artifact-index.json",
+      "bytes": 9356,
+      "sha256": "6ef7f4f3db3fbd4c19cbf5e46fbc190e484d1fbedd00255882ffab657c1b9a87"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/batch-costs.csv",
+      "bytes": 288,
+      "sha256": "6129f7a62e4094ce67d1f14caeb4488facc508f708e43b1f53eaad470088f508"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/metrics.csv",
+      "bytes": 1689,
+      "sha256": "fd0abea9c76b580058e4a0605e0545b81912b9b54f52af18b3be7d21370a2e9d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/report-ko.md",
+      "bytes": 4852,
+      "sha256": "ce5c76496cdf98159de5ed8558c7c17578afba18ba5c378f29ffe4f85dcd7af7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-writer-coupled-v5-bs100x20-20261002-v1/a500-user-stop-r1/summary.json",
+      "bytes": 11237,
+      "sha256": "0f9d894e7720f4841283a72b0a4b12163dfb8e1d9de7fbc79beca58b16c502e2"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-02-jlz-writer-coupled-v5.json",
+      "bytes": 994,
+      "sha256": "14a1c71d3d8891aebe226932d4016f3359371d72b7cccd252dd81d030164b7e7"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/publish_a500.py",
+      "bytes": 6512,
+      "sha256": "dcd857a3d5fff519c35072455f45f436f2c0f1802f2c2493bfec0f07ae4efa87"
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/test_publish_a500.py",
+      "bytes": 1415,
+      "sha256": "69748ad1e00a9ba1bc1c84237aa48c2b60e61d5819e38da31699aec5cddd3fb1"
+    },
+    {
+      "path": "tasks/status/jlz-writer-coupled-v5-bs100x20-20261002-v1/server4.json",
+      "bytes": 777,
+      "sha256": "a50d0fd0851114c93a5b75f848f6b9511c10c12fd185f0d95cd420e94292f604"
+    }
+  ],
+  "self_exclusion": "package-manifest.json; publication Git commit anchors manifest",
+  "raw_local_keep": true,
+  "B_scientific_results_added": false
+}

@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "status": "CPU_PUBLICATION_CHECKED",
+  "scope": "User-selected A500 completed endpoint only",
+  "independent_reducer": "new stdlib-only reducer, independent of runtime observer implementation",
+  "owner_review": true,
+  "new_independent_reviewer": false,
+  "regression_tests": 3,
+  "regression_result": "PASS",
+  "raw_rows": 6500,
+  "case_count": 500,
+  "summary_match": "exact all metrics",
+  "input_order_state_chain": "PASS",
+  "source_runtime_modified": false,
+  "markdown": "static table/relative links PASS; renderer NOT_VERIFIED",
+  "no_model_or_evaluator_run": true,
+  "raw_tensor_prompt_fullstdout_git": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}
