@@ -1,18 +1,34 @@
-# JLZ v4 compute-r1 A/B 2k — 준비 상태
+# JLZ v4 compute-r1 A/B 2k — 제출 인계
 
-상태: IMPLEMENTING_NOT_SUBMITTED. 실제 GPU 결과와 job ID는 아직 없다.
+상태: SUBMITTED_INITIAL_NOT_OBSERVED. 완료·실제 main gate PASS를 뜻하지 않는다.
 
 Instruction: `ODEEDIT-USER-GH-SH4-JLZ-V4-COMPUTE-R1-2K-20261002-R1`.
-원 method와 별도 experiment는
-[정본](../../../../plans/global/2026-10-02-jlz-native-joint-v4/GH-HANDOFF.md)을 따른다.
+Execution source: `de2cd4197132eb994717e3a6074fcad47487253c`.
+Lock SHA256: `ad11b0a53db622af57e2f6f0922df49a9c31a312c0d7c6f5dca86545a9777a19`.
 
-archive 33 member SHA/size, case schedule 2000행, CPU tokenizer 22 pack 및
-CPU 회귀 6 tests를 확인했다. source/CPU 검산과 실제 GPU 검증은 별개다.
-baseline 신규 실행0, 기존 중단 task 재개0. 새 runner만 독립 namespace에 구현했다.
+| 단계 | Job | Dependency |
+|---|---:|---|
+| collector | 57287 | afterany:57285:57286:57283:57284:57282 |
+| main-JLZ_A | 57285 | afterok:57283:57284 |
+| main-JLZ_B | 57286 | afterok:57283:57284 |
+| pilot-JLZ_A | 57283 | afterok:57282 |
+| pilot-JLZ_B | 57284 | afterok:57282 |
+| shared-SHARED | 57282 | 없음 |
 
-예정 DAG: shared W0 → A/B BS2 commit·B2 entry → A/B B100 timing4·cold BS100×20 → CPU collector.
-각 lane은 1GPU/8CPU/60416MiB, 동시에 최대2GPU다. 성능에 따른 분기·선택은 없다.
+전체 held owner/fullargv/resource/source/dependency 검사 후 release했다.
+pilot은 arm당 BS2 25후보/24 Adam commit 및 다음 BS2 entry만, timing은 arm당4후보이며 write0.
+main은 각 cold W0/H0 BS100×20, 총40 commit/1000후보/960 Adam이다. 신규 baseline0.
 
-Local root: `/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/`.
-save_checkpoints=false; exact_resume=NOT_AVAILABLE. Raw/model/teacher/tensor/prompt/fullstdout는 Git0.
-NO_BROADCAST_NOT_REQUIRED: 동일 서버에서 수행하며 소형 source/receipt만 게시한다.
+## 검산과 자원
+
+정본 11파일 FULL_READ/SHA, 승인 archive33 regular member SHA/size, case2000행 및 평가 일정 검산.
+CPU tokenizer22 pack과 회귀6 tests PASS. 실제 GPU 정합은 아직 미관측이며 별도 독립 red는 사용하지 않았다.
+cap2; GPU job 각1GPU/8CPU/60416MiB, collector0GPU/8CPU/24576MiB.
+host 예상44GiB/GPU 예상65GiB, disk reserve30GiB. GPU wall7일은 ETA가 아니다.
+
+## 보존·한계
+
+Local: `/data/janghj/ODE-edit/local/jlz-native-joint-v4/20261002-compute-r1/attempt-r1`.
+save_checkpoints=false; exact_resume=NOT_AVAILABLE. Raw/teacher/tensor/prompt/fullstdout Git0.
+기존 v2 및 타 task의 STOP 유지. NO_BROADCAST_NOT_REQUIRED: 같은 서버의 소형 source/receipt만 게시.
+최종 수치/완료단계/실측비용은 아직 NOT_MEASURED. 등록된 runner/collector가 저장하며 사용자 recall 때 상세회수한다.
