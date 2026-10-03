@@ -1,9 +1,17 @@
 {
   "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
-  "state": "implementing",
-  "submitted": false,
-  "CPU_tests": 18,
+  "state": "submitted",
+  "jobs": {
+    "A": "57699",
+    "B": "57700",
+    "collector": "57701",
+    "q1": "57698"
+  },
+  "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "lock": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
   "GPU_qualified": false,
+  "actual_Q1": "RUNNING",
   "main_initial": "NOT_OBSERVED",
-  "checkpoint_saved": false
+  "checkpoint_saved": false,
+  "monitoring": "BOUNDED_MAIN_INITIAL_ONLY"
 }

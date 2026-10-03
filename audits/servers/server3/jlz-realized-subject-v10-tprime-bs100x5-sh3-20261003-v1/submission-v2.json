@@ -1,0 +1,262 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "attempt": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2",
+  "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "archive": {
+    "bytes": 48991,
+    "inode": 20400254,
+    "mtime_ns": 1791018670317736551,
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source.tar.gz",
+    "sha256": "6b6584e4457691ad4f42d7f5e3366f053cc4d92e31c739039ebccdc3291e1ede"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/execution.lock.json",
+    "bytes": 12801,
+    "sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+    "inode": 20400255,
+    "mtime_ns": 1791018671317718823
+  },
+  "jobs": {
+    "A": {
+      "dependencies": [
+        "afterok:57698"
+      ],
+      "dependency_job_ids": [
+        "57698"
+      ],
+      "gpu": 1,
+      "job_id": "57699",
+      "name": "odeedit_jlz_v10_s3_A",
+      "sbatch_argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source",
+        "--job-name=odeedit_jlz_v10_s3_A",
+        "--mem=60416M",
+        "--time=7-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/A-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/A-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterok:57698",
+        "--kill-on-invalid-dep=yes",
+        "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/A.sh"
+      ]
+    },
+    "B": {
+      "dependencies": [
+        "afterok:57698",
+        "afterany:57699"
+      ],
+      "dependency_job_ids": [
+        "57698",
+        "57699"
+      ],
+      "gpu": 1,
+      "job_id": "57700",
+      "name": "odeedit_jlz_v10_s3_B",
+      "sbatch_argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source",
+        "--job-name=odeedit_jlz_v10_s3_B",
+        "--mem=60416M",
+        "--time=7-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/B-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/B-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterok:57698,afterany:57699",
+        "--kill-on-invalid-dep=yes",
+        "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/B.sh"
+      ]
+    },
+    "collector": {
+      "dependencies": [
+        "afterany:57698:57699:57700"
+      ],
+      "dependency_job_ids": [
+        "57698",
+        "57699",
+        "57700"
+      ],
+      "gpu": 0,
+      "job_id": "57701",
+      "name": "odeedit_jlz_v10_s3_collector",
+      "sbatch_argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source",
+        "--job-name=odeedit_jlz_v10_s3_collector",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/collector-%j.err",
+        "--dependency=afterany:57698:57699:57700",
+        "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/collector.sh"
+      ]
+    },
+    "q1": {
+      "dependencies": [],
+      "dependency_job_ids": [],
+      "gpu": 1,
+      "job_id": "57698",
+      "name": "odeedit_jlz_v10_s3_q1",
+      "sbatch_argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source",
+        "--job-name=odeedit_jlz_v10_s3_q1",
+        "--mem=60416M",
+        "--time=24:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1.sh"
+      ]
+    }
+  },
+  "receipts": {
+    "submission.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/submission.json",
+      "bytes": 4125,
+      "sha256": "93518d299d45928cbd749c079c0e4be1c79fbf5b9f343bbf270f5567a8b5ea68",
+      "inode": 20400271,
+      "mtime_ns": 1791018694205312816
+    },
+    "admission.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/admission.json",
+      "bytes": 3648,
+      "sha256": "2fc57c349dc9d8dcd983b295c223af3eafba09ef3520c9dddee82d2e27584105",
+      "inode": 20400261,
+      "mtime_ns": 1791018694137314023
+    },
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/execution.lock.json",
+      "bytes": 12801,
+      "sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+      "inode": 20400255,
+      "mtime_ns": 1791018671317718823
+    },
+    "source.tar.gz": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source.tar.gz",
+      "bytes": 48991,
+      "sha256": "6b6584e4457691ad4f42d7f5e3366f053cc4d92e31c739039ebccdc3291e1ede",
+      "inode": 20400254,
+      "mtime_ns": 1791018670317736551
+    },
+    "config.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/config.json",
+      "bytes": 12465,
+      "sha256": "8ee78d89d798535929b0f6e4c44612e1e516cb8697a3e018a97151f8fd510d6d",
+      "inode": 20400253,
+      "mtime_ns": 1791018670301736835
+    },
+    "launchers.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/launchers.json",
+      "bytes": 3922,
+      "sha256": "f3afe2b6e57e16dc76cc30f0be99e6ee708afd78fcf23522af11ec211da12292",
+      "inode": 20400260,
+      "mtime_ns": 1791018671317718823
+    },
+    "inspection-q1.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/inspection-q1.json",
+      "bytes": 2022,
+      "sha256": "4fdda9918238920f5e232de318a002c17c22b1db9ac43c5ac2bd543e17e65dae",
+      "inode": 20400264,
+      "mtime_ns": 1791018694177313313
+    },
+    "inspection-A.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/inspection-A.json",
+      "bytes": 2116,
+      "sha256": "8f78346758c7553e8f9568b4dc6c4f83a40fa7ee6fb098dcf5ef3aa3ae07596c",
+      "inode": 20400266,
+      "mtime_ns": 1791018694189313100
+    },
+    "inspection-B.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/inspection-B.json",
+      "bytes": 2159,
+      "sha256": "2dafd1fe4c78241f314a30a03ea00ac84223bb12852c1dd118334eec29105636",
+      "inode": 20400268,
+      "mtime_ns": 1791018694197312958
+    },
+    "inspection-collector.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/inspection-collector.json",
+      "bytes": 2136,
+      "sha256": "3ab97529a9c2af59a9dad787563fe04e5fa5faf0c4da4c3b1f3d3e8338168fbc",
+      "inode": 20400270,
+      "mtime_ns": 1791018694205312816
+    },
+    "release-q1.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/release-q1.json",
+      "bytes": 101,
+      "sha256": "df6f6bd30236268cbd42f4a29baa54575101941d532d900344109f28b5a0e797",
+      "inode": 20400275,
+      "mtime_ns": 1791018694217312603
+    },
+    "release-A.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/release-A.json",
+      "bytes": 101,
+      "sha256": "f4be759cae26c621abb96f6a6a7e24eb4194fcd45905c218783b6e3cfc003055",
+      "inode": 20400274,
+      "mtime_ns": 1791018694213312674
+    },
+    "release-B.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/release-B.json",
+      "bytes": 101,
+      "sha256": "edf12743c9524a076ae124f4bde430ea9fd645d330e056562343b9ba02aa08a5",
+      "inode": 20400273,
+      "mtime_ns": 1791018694209312745
+    },
+    "release-collector.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/release-collector.json",
+      "bytes": 101,
+      "sha256": "5058a1d6ec368ad8070cd64e310c1735c7d5474c04154eaad7d836c39caf1d6f",
+      "inode": 20400272,
+      "mtime_ns": 1791018694205312816
+    }
+  },
+  "cap": 1,
+  "host_memory_mib": 60416,
+  "held_all_checked": true,
+  "released_all": true,
+  "actual_Q1": "RUNNING_observed_2026-10-03T18:11:50_scheduler",
+  "actual_main_initial": "NOT_OBSERVED",
+  "actual_terminal": "NOT_OBSERVED",
+  "checkpoint_saved": false,
+  "other_project_jobs_unchanged": true
+}

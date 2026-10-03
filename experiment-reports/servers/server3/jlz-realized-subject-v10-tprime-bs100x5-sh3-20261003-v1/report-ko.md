@@ -1,3 +1,5 @@
 # JLZ v10 T′ SH3
 
-현재 상태 IMPLEMENTING_NOT_SUBMITTED. 상세 구현·CPU 검산·차이는 [implementation-audit-ko.md](implementation-audit-ko.md)에 기록했다. 실제 job/source/lock/initial 증거는 제출 후 연결한다. CPU PASS를 GPU 또는 main 완료로 표시하지 않는다.
+상태 SUBMITTED: Q1 57698, A 57699, B 57700, collector 57701. 전량 held검사/release 완료. 실제 Q1 RUNNING을 확인했으며 main 초기/최종 결과는 아직 미관측이다.
+
+[구현·CPU 검토](implementation-audit-ko.md), [source·lock·job mapping](submission-ko.md). CPU PASS를 GPU qualification 또는 main 완료로 표시하지 않는다.
