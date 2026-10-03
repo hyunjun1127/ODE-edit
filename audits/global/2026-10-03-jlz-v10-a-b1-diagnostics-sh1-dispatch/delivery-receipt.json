@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "task_id": "jlz-v10-a-b1-diagnostics-20261003-v1",
+  "observed_at_utc": "2026-10-03T14:02:46Z",
+  "authority": {
+    "commit": "590c73d78d9f15cd5b7c7a9181e0e17723b616fb",
+    "tree": "a18619689dca07fcd7634784dedb3e86da58f92e",
+    "envelope": "messages/head/2026-10-03-jlz-v10-a-b1-diagnostics-sh1.json",
+    "envelope_sha256": "d57a2fd173635979626fb04795ab9c0f9d7c2baccba6765e423194c082b6a04e"
+  },
+  "target": {
+    "role": "SH1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "transport": {
+    "kind": "local_app_server_control_direct",
+    "thread_resumed": true,
+    "active_turns_before_delivery": [],
+    "action": "turn/start",
+    "accepted_turn_id": "01a10211-453b-7773-8555-9d99e561ed67",
+    "accepted_turn_status": "inProgress",
+    "unrelated_turn_steered": false
+  },
+  "owner_acceptance": {
+    "received": true,
+    "nonce": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+    "turn_id": "01a10211-453b-7773-8555-9d99e561ed67",
+    "exact_text": "Nonce `ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1` 접수했습니다. SH1이 담당하며, 먼저 동일 nonce의 기존 접수·제출 여부를 확인하겠습니다. 이 단일 B1 진단만 STOP의 예외로 처리하고 다른 실험은 재개하지 않습니다.\n"
+  },
+  "status": "OWNER_ACCEPTED_PREPARING",
+  "execution_evidence": {
+    "implementation_complete": "NOT_OBSERVED",
+    "GPU_qualification": "NOT_OBSERVED",
+    "submission": "NOT_REPORTED_AT_HANDOFF",
+    "job_ids": [],
+    "experiment_complete": "NOT_OBSERVED"
+  },
+  "boundaries": {
+    "GH_GPU_runs": 0,
+    "GH_Slurm_writes": 0,
+    "other_task_resume": 0,
+    "other_job_mutations": 0,
+    "recurring_monitor_created": false,
+    "delivery_ack_is_not_submission_or_completion": true
+  },
+  "next_owner_action": "SH1 checks same-nonce inventory, implements and qualifies the single-fit D1/D2 task, submits within fresh cap admission, and produces the approved factual outputs. No further stage approval required.",
+  "artifact_policy": "Only task-owned compact authority and delivery evidence published. Source snapshots/raw/model/data and RAM weight captures excluded from Git."
+}
