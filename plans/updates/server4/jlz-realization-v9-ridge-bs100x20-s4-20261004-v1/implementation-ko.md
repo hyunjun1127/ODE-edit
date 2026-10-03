@@ -16,7 +16,7 @@ Nonce `ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1`, authority `71c9805b23aa
 
 ## 자원과 종료
 
-현재 task/project cap2 이내 두1GPU lane, 각8CPU/60416MiB/48h, exportNONE/Requeue0/server4. CPU collector8CPU/24576MiB/4h/afterany. 48h는 ETA가 아니다. 기존500 측정 기반 main당10–18h 추정이며 새2k 실측은 없다.
+현재 task/project cap2 이내 두1GPU lane, 각8CPU/59392MiB/48h, exportNONE/Requeue0/server4. 초기60416MiB는 현행 Slurm plugin 상한58GiB 때문에 거부되어 요청만 수정했다. CPU collector8CPU/24576MiB/4h/afterany. 48h는 ETA가 아니다. 기존500 측정 기반 main당10–18h 추정이며 새2k 실측은 없다.
 
 Host 계획57.42GiB, VRAM 계획81.86GiB; 이전500 peak host33.1099GiB/allocated VRAM45.486GiB를 별도 기록했다. 동일 모델·science 경로, 더 긴 요청 padding 차이는 남아 있다. Disk reserve30GiB(진단2/scalar2/source-log2/atomic-temp4/margin20), 제출 직전 다시 확인한다. 기존 파일 정리/삭제/waiver는 없다.
 

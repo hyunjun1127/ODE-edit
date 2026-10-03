@@ -1,13 +1,19 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
-  "status": "IMPLEMENTING_NOT_SUBMITTED",
-  "job_ids": [],
+  "status": "SUBMITTED_RESOURCE_PENDING",
+  "job_ids": {"A": 57899, "B": 57900, "collector": 57901},
+  "execution_source": "ab6f1bda4688ffc275dd5ff47649899d5a80093c",
+  "lock_sha256": "b83fcaf0dec643ff791be03d6aead31d89253026e6aaf5c6ce5e05e8386943c4",
+  "observed_state": {"A": "RUNNING", "B": "PENDING Resources", "collector": "PENDING Dependency"},
+  "held_inspection": "전체3job owner/argv/source/resources/dependency 검산 및 release 완료",
+  "resource_request": {"gpu_each": 1, "CPU_each": 8, "host_mib_each": 59392, "wall_hours_each": 48, "cap": 2},
   "CPU_tests": 22,
   "new_actual_GPU_validation": "NOT_RUN; 기존 Q1 identity 검증 재사용",
-  "main_initial": "NOT_OBSERVED",
+  "main_initial": "INITIAL_NOT_OBSERVED; B1→B2 미관측, 자원pending 인계",
   "new_Q2": 0,
   "new_baseline_fits": 0,
   "save_checkpoints": false,
+  "monitoring_active": false,
   "automatic_resume": false,
   "other_tasks_mutated": false
 }
