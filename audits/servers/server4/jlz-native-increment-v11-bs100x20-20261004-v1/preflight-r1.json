@@ -1,0 +1,43 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "authority": "5bab27b223a4d8e14523b6462ead3527cb423103",
+  "review_kind": "OWNER_SOURCE_AND_CPU_RED_CHECKLIST",
+  "independent_reviewer_used": false,
+  "canonical_members_SHA_size_verified": 17,
+  "CSV_rows_all_fields_checked": 2000,
+  "native_original_token_lookup_cases": 2004,
+  "native_packs": 22,
+  "observer_token_identity_rows": 26000,
+  "CPU_production_tests": 13,
+  "CPU_production_status": "PASS",
+  "sealed_CPU_proof_dimensions": 4,
+  "sealed_CPU_proof_status": "PASS",
+  "actual_GPU_qualification": "NOT_RUN",
+  "new_main_B100": "NOT_OBSERVED",
+  "source_review": "PASS_CPU_SOURCE_WITH_ACTUAL_GATES_PENDING",
+  "configuration": {
+    "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/preparation-r2/configuration.json",
+    "sha256": "34e9975810b772c919f9c0b6b2e8bd88bdf5a6bea1a536e8b6a58870965d1aab"
+  },
+  "full_read": {
+    "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/preparation-r2/full-read.json",
+    "sha256": "ce8887afa56e536fa444665f52130dcb5bdc2367acff8239097fcb1c3a5fa4a9"
+  },
+  "CPU_receipt": {
+    "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/audit-r4/production-cpu.json",
+    "sha256": "14f1c49292deb58153c5a870478d5e24cf23f6950825797e2e133a1cb49afe3a"
+  },
+  "synthetic_proof": {
+    "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/audit-r4/sealed-math-reproduction.json",
+    "sha256": "ae3978ae3852d4bec7f55a0ee39bee39fe264462b443ccc1d7dcdf1092f9cffe"
+  },
+  "red_checklist": {
+    "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/audit-r4/owner-red-checklist.json",
+    "sha256": "43d0a72f18604699520f63fd3cc04a58ea5747b7c5741e50fbbb9e5ddb33e967"
+  },
+  "old_jobs_mutated": false,
+  "archive_pull_count": 0,
+  "canonical_package_source": "GIT_EXACT_PRIMARY",
+  "checkpoint_saved": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-server task; raw/weights/prompts/fullstdout remain local, only compact source and receipts in Git"
+}
