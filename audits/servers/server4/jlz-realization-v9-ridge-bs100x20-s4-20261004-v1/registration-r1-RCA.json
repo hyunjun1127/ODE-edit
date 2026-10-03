@@ -1,0 +1,13 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "attempt": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r1",
+  "source": "eea4bb4c",
+  "phase": "FIRST_SBATCH_REJECTED",
+  "error": "CPU/RAM policy: use --mem up to 58G on server4 for 1 GPU(s)",
+  "confirmed_cause": "새 실행의 60416MiB 요청이 현행 Slurm plugin의 59392MiB 상한을 초과",
+  "jobs_created": 0,
+  "allocated_GPU_seconds": 0,
+  "preservation": "원 source/archive/lock/config KEEP, 삭제/덮어쓰기 없음",
+  "repair": "새 immutable attempt에서 host59392MiB 요청. Host57.42GiB 계획 유지. science/input/seed/precision/MB/CPU/패널/예산 변화0",
+  "evidence_scope": "squeue 현재 owned 목록에 본task job 없음, 첫 sbatch가 nonzero로 job ID를 반환하지 않음"
+}

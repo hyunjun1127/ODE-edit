@@ -99,7 +99,7 @@ def main():
     local=int(next(x for x in Path('/data/janghj/ODE-edit/servers/local/gpu-caps.tsv').read_text().splitlines() if x.startswith('server4\t')).split('\t')[2])
     tracked=int(next(x for x in (ROOT/'control/gpu-concurrency-policy.tsv').read_text().splitlines() if x.startswith('server4\t')).split('\t')[1])
     cap=min(2,local,tracked);require(cap>=1,'NO_ADMITTED_CAP')
-    helper=subprocess.run(['bash',str(ROOT/'scripts/check-slurm-resource-cap.sh'),'server4','1','60416M'],
+    helper=subprocess.run(['bash',str(ROOT/'scripts/check-slurm-resource-cap.sh'),'server4','1',str(c['resources']['host_mib'])+'M'],
         env=dict(os.environ,AGENT_GPU_CAPS_FILE='/data/janghj/ODE-edit/servers/local/gpu-caps.tsv'),capture_output=True,text=True)
     require(helper.returncode in (0,4),'RESOURCE_HELPER:'+helper.stdout+helper.stderr)
     partition=command(['scontrol','show','partition','gpu']);node=command(['scontrol','show','node','server4'])
