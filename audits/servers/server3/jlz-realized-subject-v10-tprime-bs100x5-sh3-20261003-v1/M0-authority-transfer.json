@@ -1,0 +1,124 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "same_nonce_prior_receipt": false,
+  "own_queue_observed_empty": true,
+  "authority_sha256": "8ffcdbc08517993a7a220c65a5681b9e6124daa22caf04c614cdbc51e045840e",
+  "files": [
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/README.md",
+      "bytes": 2663,
+      "sha256": "faccda997802f0001233fc345b8aaa8ee176a376bf1a0dfe45b8f0d90cd87da8"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/changes-and-decisions-ko.md",
+      "bytes": 9887,
+      "sha256": "28e9557ae88a0cdc37b21ce4b5278b172e1d84f07901c61230921c3ecff1cb43"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/comparison-ko.md",
+      "bytes": 5716,
+      "sha256": "292a456a07cd3d7778f59901993225188bb2941bf1cf730652c25298f3c3f137"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/contract-draft.json",
+      "bytes": 5242,
+      "sha256": "1aa0e07ca295e25685c46268520241c8ac7aaf576fe0b87e0912f5e17276281d"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/execution-command.json",
+      "bytes": 3229,
+      "sha256": "cad8cce9e901f69fbd341a7678443a8affa384d11998d24f694bd5a135c1e47a"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/case-schedule-first500.csv",
+      "bytes": 73664,
+      "sha256": "c28bb5fef5dd572a81d486976eed65d4360f12d488fd95d58679591b2f688dc7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment-ko.md",
+      "bytes": 10880,
+      "sha256": "7fa492cd1bb76c3a6ff843a737bfc6e4ccab7069a914191f91ce00513864e545"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment.json",
+      "bytes": 6613,
+      "sha256": "0f2c15cf36383eb3d71c992f3897b80c4b16e88b70ca04aa47f2de754a308e0a"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/input-reference.json",
+      "bytes": 6126,
+      "sha256": "1f1eb782f63b79e4dc7766b2381bf374d6ff43a0db68fbab4f9cde8cce7f4d2e"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/handoff-ko.md",
+      "bytes": 3417,
+      "sha256": "d8824fe7ba3497f5f84f33b291aa8549d9c20182770141e5eade6cc54e1f16a3"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/extract_strength_reference.py",
+      "bytes": 1774,
+      "sha256": "a866acb356f8f30dbedd08f8199f0d9f98af5c6aad726bad64c342ab791fb15b"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/results.json",
+      "bytes": 1816,
+      "sha256": "aaa975affe8d6533969758d3a6fce781d6fa0baa1063cc9bdd6bfae6190a8f26"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/tprime-adjoint-results.json",
+      "bytes": 1093,
+      "sha256": "ee224242fc99e5422286c1dd701059c400f1009fd8536f9185004de68640cbf7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/v9-b1-strength-reference.json",
+      "bytes": 1605,
+      "sha256": "c563e263d3f0a0755ce4c67203510248a366f06c4b3e104da21a68dc7385c06b"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_contract_math.py",
+      "bytes": 3989,
+      "sha256": "a6a973d961f494fb8d497679839b0ff7e638656fe337f54c6cc0cdf91f310697"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_tprime_adjoint.py",
+      "bytes": 7123,
+      "sha256": "d0885b0a4583f2432893453178f4c331cba57b7f2323d94b05dd107be0815564"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/method-ko.md",
+      "bytes": 22867,
+      "sha256": "97a9292ba0c52cd806b53a15ad2557800bbc1efdf1929b208388c3ed0e7725a8"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/artifact-manifest.json",
+      "bytes": 3926,
+      "sha256": "1fdb9cd224df9908b611496813d718611c79a8d344cefde8dcb1db499370fe90"
+    }
+  ],
+  "schedule_rows": 500,
+  "case_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+  "CSV_CRLF": 501,
+  "source_archive": {
+    "approval": "transfers/approvals/2026-10-03-jlz-v10-method-bundle-server3.json",
+    "source_host": "rke-server1",
+    "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-sh3-dispatch/20261003-r1/jlz-v10-tprime-sh3-method-experiment-500-authorized.tar.gz",
+    "sha256": "5e61bf634bbbf07dd5192cdc273b89a6acfb7a976eb56186a2ecfdaa1285b8b0",
+    "bytes": 74785,
+    "regular_members": 18,
+    "executor": "SH3 sole receiver/pull 1회",
+    "destination": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/inputs/design-package/",
+    "rules": "SourceKEEP/createonce; 기존 exact본 있으면 REUSE. 정규18member/manifest17content SHA-size 전부, absolute/traversal/link/device/duplicate/unlisted 거부. 원 CSV CRLF bytes 보존. Model/dataset/checkpoint/secret 전송0."
+  },
+  "transfer_pass": true,
+  "disk": {
+    "free_bytes": 240775438336,
+    "inodes_free": 224582443,
+    "archive_bytes": 74785,
+    "planned_download_extract_peak": 321200,
+    "reserve_bytes": 21474836480
+  },
+  "full_read": true,
+  "actual_GPU_PASS": false,
+  "source_reference": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66"
+}

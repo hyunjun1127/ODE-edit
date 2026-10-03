@@ -1,0 +1,30 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "production_tests": 18,
+  "status": "PASS",
+  "actual_GPU": false,
+  "independent_reviewer": false,
+  "owner_audit": true,
+  "logs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/Q0-production-tests.txt",
+      "bytes": 5571,
+      "sha256": "cbf2a55884ada30758fad5f896edc20821a1e276cea0a48a7319371972c9caf1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/Q0-production-tests-r2.txt",
+      "bytes": 4898,
+      "sha256": "60a7edf11691507b240bc159fc93d02a86d8161ec9dc88b0716613126a8dafe1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/Q0-production-tests-r3.txt",
+      "bytes": 16350,
+      "sha256": "8032028368c5cf592f929e9821918ff32418be95296dc032bc49d711df33f6b9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/Q0-production-tests-final.txt",
+      "bytes": 16332,
+      "sha256": "3bf7dadc9bb05fd00f698cfd864e831c81cc90aa61b5d984b78b8fc7d5cc240f"
+    }
+  ]
+}

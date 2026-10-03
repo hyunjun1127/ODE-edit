@@ -1,0 +1,9 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "state": "implementing",
+  "submitted": false,
+  "CPU_tests": 18,
+  "GPU_qualified": false,
+  "main_initial": "NOT_OBSERVED",
+  "checkpoint_saved": false
+}
