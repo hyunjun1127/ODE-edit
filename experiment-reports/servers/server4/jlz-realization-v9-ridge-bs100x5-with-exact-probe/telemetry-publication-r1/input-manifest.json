@@ -1,0 +1,4480 @@
+{
+  "runtime_source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "analysis_source": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/worktree/audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/reduce_telemetry.py",
+    "bytes": 19757,
+    "sha256": "47df6a10b9de52dc66033215377a6b4f99f17156cd02a4c85dea65b33c461a56"
+  },
+  "read_scalar_inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/terminal.json",
+      "bytes": 850,
+      "sha256": "90e0a05361ec17c1f1b58d530a2801ad8aa46eac060cc349b0c3d7a9fec78648"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/artifact-index.json",
+      "bytes": 196935,
+      "sha256": "fd1171491b04cf2583261d68d7e90cf1fc462d2fe0d0b2d3c7f9179d7687f07f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/execution.lock.json",
+      "bytes": 32947,
+      "sha256": "f8a6c2a4cf06b1284f35940c703b8037336bbc5103f206f5dd014e65ad76a9df"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/runtime.json",
+      "bytes": 4371,
+      "sha256": "c5106e79c9f6d57e6cbfc64eff89d0ca163199fc897d55aab8ae438a0449a76e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/commit.json",
+      "bytes": 19987,
+      "sha256": "70619dc3385b29030ea0949093162fd6e68b17d7314365fb5b17514ccd147ef4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-01.json",
+      "bytes": 134004,
+      "sha256": "c0f8dbf40b3c98bea2865f0830730f93549eddc77c5d240f59c8a315313cbf60"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-02.json",
+      "bytes": 337723,
+      "sha256": "116a7dfa79c206d6784410b334892ac0de246980ac4ae0023a6017c12f0e4748"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-03.json",
+      "bytes": 336759,
+      "sha256": "e6b19d8818c46dc807b32028fc8dd7b97da262f706746c8e58627f99ca7a5067"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-04.json",
+      "bytes": 336886,
+      "sha256": "9ccd4bdc9c1b68bfec57b598ae2cf947895068e4f5bd2f81c8f14b496eb1454d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-05.json",
+      "bytes": 893279,
+      "sha256": "38ae664c58e3bb83225229745d606fbff36b695d5c8fc89eb4c9a8c42a6540c2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-06.json",
+      "bytes": 334908,
+      "sha256": "24533a67798ad17b3c85770450f560d9097eab5e0489a626c9caae8283b0c289"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-07.json",
+      "bytes": 334902,
+      "sha256": "129d4a3b743b104863305c0befaa91872ee5b27a05d6924e7b75197f07d479d6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-08.json",
+      "bytes": 334970,
+      "sha256": "bf4a5111d9a16c1a46389ca39aeb6d7262a4be44f93e576168885f0b0d3b9ddc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-09.json",
+      "bytes": 334862,
+      "sha256": "22899e6805a06ef973f67cde3336623bd3c120c9a0a8d61cdd5d4e6b94dc8df1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-10.json",
+      "bytes": 884926,
+      "sha256": "e03956b4e29081aea9bde56d8157d3e55cee4f2647002f12d6726cbb156be2e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-11.json",
+      "bytes": 334327,
+      "sha256": "ee3759f355daf839bd8743b926e4d4693602921b079109d0aae356ba366366c5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-12.json",
+      "bytes": 334050,
+      "sha256": "d16c95eb356047e6e090389f9041d01e9dc2d9df4e1fcec5997ecdee2779c1e7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-13.json",
+      "bytes": 334111,
+      "sha256": "e90e156c9911826c17d7546fa1b0b476b76444a2870b085ce596b3bcc9683bd7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-14.json",
+      "bytes": 333302,
+      "sha256": "caf8a9a5d443df1577b7365f80732fb50d1ee3e247f1287be3203627ffa2bb4b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-15.json",
+      "bytes": 898591,
+      "sha256": "9e3392d01cf0cb61fd3d367190409f4ca2ba189f8a23b780a0a7961ab60b936e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-16.json",
+      "bytes": 333122,
+      "sha256": "ff8a54b4ad22aa3bb6a76837512ab9d40aee53fbcf249f9bc2a58e6f64f67e9c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-17.json",
+      "bytes": 333008,
+      "sha256": "2ae5dae304bfc83c57c37518f00e0092bdad767bdfb40acb5de770fe6eabf5b1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-18.json",
+      "bytes": 333086,
+      "sha256": "a0fe9d5637852389f343896ee14d30bb71191a246a00709ffdfe16303715b67b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-19.json",
+      "bytes": 332971,
+      "sha256": "bdb5657a54f01ea47c0e1c69b8c9ee12a05f1e9382ce77473f18734bb0ae1a3e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-20.json",
+      "bytes": 897275,
+      "sha256": "f3bf5f70be1cec437807e5097b308688a1e149ae0559ea9d1aeb6fdffbffeeaa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-21.json",
+      "bytes": 332939,
+      "sha256": "481539d5e7218d65dea6d1080fa421f805129ec72930c3f468a9c931d769097f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-22.json",
+      "bytes": 333296,
+      "sha256": "27d2f3f6a07acf63109c34e0da0754fb2b56467838d301128b26bf7303f3f63a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-23.json",
+      "bytes": 333274,
+      "sha256": "1abd96650bd5b313485a6b61b0180bed978a88b253eef10a6cec668da000c2bb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-24.json",
+      "bytes": 333100,
+      "sha256": "bb638339421dd06b7f51b0970a2ecdc119f586d54aceb1054e0042ee38c13545"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/candidate-25.json",
+      "bytes": 284887,
+      "sha256": "816231ea69ed1503a5717da7c1c4d0f25083a79e6b8753dff2fa800a733c6410"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/terminal-actual.json",
+      "bytes": 2274708,
+      "sha256": "fb93f6fb5e7c2a1aeb7f63f756fa17571b34267aed0083abfaaa438b5f4b32c7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "ae08369bc8e173872860f18d1939d60bb56f731ffc58a9d5485357e5b29c2fd9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/commit.json",
+      "bytes": 20110,
+      "sha256": "8226fb1b401e28ffbf0802c5bb112e524a8a1e6cba4cb6fc2551e7acfe9cd74c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-01.json",
+      "bytes": 133928,
+      "sha256": "91c17bd4fbdf17fbd37e268cbeff4980d4f8bcabf663d8d9ee742215bb7a7544"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-02.json",
+      "bytes": 338258,
+      "sha256": "5370318718e5eb8c9e37a46b7fe063500e795d70e08b6d79dbd2aa82954930ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-03.json",
+      "bytes": 337115,
+      "sha256": "319d9b80c06d85cdf47e67c0f6529f27e33fd04848a9e98b7d8bfb59735079a9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-04.json",
+      "bytes": 337010,
+      "sha256": "df21113a5806da6a9d178cb289ee6502a129d3fd1bc180860a82e5391f4e8b87"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-05.json",
+      "bytes": 898990,
+      "sha256": "9012ebf9d11919c714cb63a272f841386286b09762ca884459dd3892c63cdf7e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-06.json",
+      "bytes": 335255,
+      "sha256": "c536a48e6e7e0c25d1cb012fc056a1713a0e80e84a8601431963ed1b0b066147"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-07.json",
+      "bytes": 335363,
+      "sha256": "2acfda49982cf9bfd641c9d0970fffbd2a86db7fa34befa2066005970beb93fe"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-08.json",
+      "bytes": 334411,
+      "sha256": "4374ca666613dcd7036ec7e9be793fda520f1b5e4afe6ceb4cd5aba0d5a4e8a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-09.json",
+      "bytes": 334434,
+      "sha256": "9e98157f1583c94953c7a1f9b29637f05ab8b15d9d21ac6a0075e765f4686491"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-10.json",
+      "bytes": 889427,
+      "sha256": "e68f456deae3ab127055df00c96856b513217975d99864f1eb742292806dc87a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-11.json",
+      "bytes": 334365,
+      "sha256": "ccf0efd51fe340f49f5892c7b99b0423210254a24c42f783fbd96708325482ac"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-12.json",
+      "bytes": 333890,
+      "sha256": "d1075629500fb0f52df2de24f03b4a60de767a9d30b0a9c320d663ded25b874f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-13.json",
+      "bytes": 333824,
+      "sha256": "c80a140c87fe3276300d220c13d4fb5837cf33f0483ec1d242894bd854af37c7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-14.json",
+      "bytes": 333863,
+      "sha256": "c39e539551d9b855f6a5787df70eae6af93d081b6093baddc317271762f3131c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-15.json",
+      "bytes": 895348,
+      "sha256": "204fd5776243dce821990efff7315250deebccb26439e557c14adfcd28f6a869"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-16.json",
+      "bytes": 333812,
+      "sha256": "b2fb23bad7b07e49014c9187cfa7865b9dcaa3e74d811c7d87d1facbe07d0906"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-17.json",
+      "bytes": 333312,
+      "sha256": "ba259e889b96553d88c367aabd609b8352f0cc65a90b1cc24bc37d75558b20ff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-18.json",
+      "bytes": 333385,
+      "sha256": "904eaba9e594bd3fe19967768d3f369e8c739472f606b845053363d46529e02a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-19.json",
+      "bytes": 332823,
+      "sha256": "88d672dea46b15679e3e6773737756b2d1ad62da78f18adf63cf09f351f5f2f7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-20.json",
+      "bytes": 889180,
+      "sha256": "a7d4b1f1eed1aee7cf65a76e805c33ef530d1a934002c4d3f84bc431a9e23f9f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-21.json",
+      "bytes": 333262,
+      "sha256": "e4c700e7351ae39414f4be59c4368e29bb1f7facd8c23f3f336a3161532dfa47"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-22.json",
+      "bytes": 333039,
+      "sha256": "96412a04d9dec1d60cea271c341f3d9e11937d2445a77da6e0be66355f12b7b7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-23.json",
+      "bytes": 333022,
+      "sha256": "7e899efe16bdb81c80f6da54fcb343e4b2d2916a2aed38f6f440715dca1a3d53"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-24.json",
+      "bytes": 332729,
+      "sha256": "e961f104531d3e2bcff8cbcb47ad3f7f575a08ca796fa627c05152592a0a0f27"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/candidate-25.json",
+      "bytes": 284886,
+      "sha256": "4a1278862f240dd8db971104158100fcc5c9c1a0363b0e301fc34bae1e7ac2e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/terminal-actual.json",
+      "bytes": 2274332,
+      "sha256": "0fd8688eea9147039532789d847d2f771d883b72ec25afa98933b0c097e87bc0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "c97667b712ec7834f49912d2c688600a5959ea76ce688a515a5795bf82f6c5fd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/commit.json",
+      "bytes": 20033,
+      "sha256": "d2d1d03da69393c89471ae48537cc69ef0793c401faf02ec5e412cd160d4df0a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-01.json",
+      "bytes": 133908,
+      "sha256": "bd3eda6654551f116d6769ab9582b5242906537ed65a9023e476848b80411bc4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-02.json",
+      "bytes": 338032,
+      "sha256": "0aa341b0043c2703ed8263d6fd292bea7bdf0ba46c34a52fcdcb7ba6b985075b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-03.json",
+      "bytes": 337006,
+      "sha256": "5786e3eea16cb3002751a107a397b636a1672b36bb8ae32326576114c1f5ea8c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-04.json",
+      "bytes": 336901,
+      "sha256": "b632d5e8f494368fb635dc215676c02258c7c324741704d98b6a1b17321f8314"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-05.json",
+      "bytes": 906508,
+      "sha256": "68872c76514603e20974f49eee2aeffa7510fecefa32ba694a85b5afef9d015c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-06.json",
+      "bytes": 335875,
+      "sha256": "7463bb0d46d948ae075a3866dbd13e986ba484c40c663d104521408a0cf766c8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-07.json",
+      "bytes": 335274,
+      "sha256": "c931e7be88e9d47ef7a741d5b0db85ff9409c07d310f884f7e052682bbcffbd9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-08.json",
+      "bytes": 335073,
+      "sha256": "e3f0c7e47c21f95f13c554d2b7b83269b02ab70ff2d286efe7145ef5e247bd1e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-09.json",
+      "bytes": 334877,
+      "sha256": "91838ea24a4d7ced1e301d1459fcb11f08092d63054cf79d440902404a483d10"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-10.json",
+      "bytes": 903053,
+      "sha256": "31fb4fec5d9688fbe3db40c1ee53e185b2d68c4b307c923c5ff13e16e2f7eed0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-11.json",
+      "bytes": 334352,
+      "sha256": "538d3ee9af29c6205388b853805c04b53cd0726f642270cdcc7c3854ceaf9ba6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-12.json",
+      "bytes": 334371,
+      "sha256": "89e9edc85557385d72b44626a4abedc581cf0d05599fcff86130c9299af20fd0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-13.json",
+      "bytes": 334603,
+      "sha256": "1ed712eb44bd218a6418ea7e5829fa6858381593055c62ff06548f39327cefe1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-14.json",
+      "bytes": 334527,
+      "sha256": "a2f4520e823438c35df5798de85f37bb970e6cdaab054820da4cbb96aec47307"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-15.json",
+      "bytes": 880996,
+      "sha256": "2e4c5488cc65b7c5523fb2a981ccf28e2f389af55e1ff50f63dea4f1054cab7b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-16.json",
+      "bytes": 333719,
+      "sha256": "90ad8d020587a9d578e687b1a4cf22db24f86eaff1726e9bed2ca27be7dba539"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-17.json",
+      "bytes": 333903,
+      "sha256": "707f64a1057f4201dc4c77fe02aa5e1771a35c11e9b8385a56ce8bad047f6032"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-18.json",
+      "bytes": 333914,
+      "sha256": "720d7c04c2c4065a1a538e1ee6271dfe3584c630a3598fe0a0723784e44fa7aa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-19.json",
+      "bytes": 333794,
+      "sha256": "6750bf813fa03e4b4644325c0f24c98c382b433882e1106ec5fabc695bbf0a6c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-20.json",
+      "bytes": 885329,
+      "sha256": "4e8a84d66dc9c8bfad0bc632908f3db8270d08da07bb0d3ea902463ced82c48f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-21.json",
+      "bytes": 333753,
+      "sha256": "eb3eb1ce94e3add2cb57f17278fc9af96537e9ac5a95305a7b5c107de3250ddd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-22.json",
+      "bytes": 333222,
+      "sha256": "706c15ab5afda249b6204d6655b856cf1095d3d9a79b55220bb7d5d670a74952"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-23.json",
+      "bytes": 333533,
+      "sha256": "ed341808011e4a7de8236ec9308614b04ca4f312edffddc981e346998fa1e6a2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-24.json",
+      "bytes": 333203,
+      "sha256": "b20bb3089f8e2a2c960d960681728c9881d930dd4edf2eb321c0de44ceb12f7d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/candidate-25.json",
+      "bytes": 285796,
+      "sha256": "ee473da61d77a48d1e38dccf7c154cb3e8ccb72b30a0cad673e1ca3ece502c07"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/terminal-actual.json",
+      "bytes": 2275307,
+      "sha256": "84b5379336b068f7339f145770fbd6bed66814263c93893e2fcc127deb504cb1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "bece4780430917021f7738832c69670eb0f40436ff58671359810350f7a780e8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/commit.json",
+      "bytes": 20167,
+      "sha256": "13bef6c3308506b39599abae5e250d91a45b439ebdfc36362f305a2b671af3a7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-01.json",
+      "bytes": 133980,
+      "sha256": "6b72ef44c9976a9e427c715cc91d323be050c02be93e06cd253c40733d7bdf7b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-02.json",
+      "bytes": 338138,
+      "sha256": "1fdb5e84c393ead3605bcf1c76aeed7229c5305661ab91b96b5081d07cfa8b53"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-03.json",
+      "bytes": 337630,
+      "sha256": "ac17f1e2506ecfc5534856c5570f9370888187653c6dbc88566301951f9d8780"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-04.json",
+      "bytes": 337437,
+      "sha256": "61b026d9e08304695ea9f9c7482800e3c45202c1679f2456e28bfde1f99529e0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-05.json",
+      "bytes": 901724,
+      "sha256": "f95fa524d209654d1cbbebbb3c5bea990435ecfdda2cdb57dbaa332cdcea124d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-06.json",
+      "bytes": 335446,
+      "sha256": "6e92b5f9a2f9feed9965784d8f31ff3ee1d9c54d882b28fa1178ca0e34f478d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-07.json",
+      "bytes": 335424,
+      "sha256": "4e5bfed3ed393c2879078b83156b779608be10021a8120700ff735c7cf02ecc7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-08.json",
+      "bytes": 335318,
+      "sha256": "ecc478d10cf50672fbfe9406335f485b562459837a4bd5888af84c3e9f0d9cd3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-09.json",
+      "bytes": 334978,
+      "sha256": "6128d52347c6df2a4908995636fbcbcc48fe205a70cdc3ee470968398c453754"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-10.json",
+      "bytes": 895705,
+      "sha256": "d6f8996b0ef726302b1adf0fd907e0db9d9d16d8daff6d59b51b6f277e71831d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-11.json",
+      "bytes": 334682,
+      "sha256": "bf2711baab6f6f9d50424d8e2c265cc487b03d60f9bb06480e7dbd541f1ba723"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-12.json",
+      "bytes": 334922,
+      "sha256": "2562081c7925b75e239c8d7de046d8dce078f8578fe23940c628dc880560dc8e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-13.json",
+      "bytes": 334509,
+      "sha256": "b9b1766fdae8d7b98fdeaf2d793ac7d435210ebd556f3b80b8c5ee3e7001c728"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-14.json",
+      "bytes": 334240,
+      "sha256": "6e513ae38c9ae4683a8b42fbc3b8deaf85c58e35e7816be51bcdab473676e308"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-15.json",
+      "bytes": 889104,
+      "sha256": "cefa01f73ecf9a553aaa2fcb5e6752cdf534730f3e6b5cf7df51446f77e7eec8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-16.json",
+      "bytes": 334275,
+      "sha256": "55d435cf97972cdf6094cb738e7ace02d99fa788cd8afa34b50252ae4c02d310"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-17.json",
+      "bytes": 334374,
+      "sha256": "75d466e0aa4a7d1f7bd22e82d799abdc1b5d8106581cd1c63b22a5c138ae4e87"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-18.json",
+      "bytes": 334346,
+      "sha256": "89785a4d51a995e0644de43afa05dfa5f658d31885cca2633f5545bad5b469d4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-19.json",
+      "bytes": 334129,
+      "sha256": "d0f308d2b8b3b9c0653a30902e490694ecd931e0e90e208ddfbde8528add1467"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-20.json",
+      "bytes": 890421,
+      "sha256": "e5a3eda2ad132fe2d6f6a4157fc64511605067c350e6bb49ec026deb352af93d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-21.json",
+      "bytes": 334195,
+      "sha256": "7cc878b227d8897e612fbde30a4010c40ff893fbc2a821fd0a2c3363180c30c5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-22.json",
+      "bytes": 333491,
+      "sha256": "994ed2e3d5cf3fc72477cf5274c846439359186efffe99882ac4943b051ce644"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-23.json",
+      "bytes": 333557,
+      "sha256": "3a00d1f5b0b57685dcf4bc8ffea4d91ba5726352f8f78dda6f224be5c69c6a18"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-24.json",
+      "bytes": 333660,
+      "sha256": "4844512e0f5d1e31569ce08ed928e9c6da824db9cf75c311ca060adde2a86f86"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/candidate-25.json",
+      "bytes": 285813,
+      "sha256": "4ff3b6cb26463ef827e667dd5453ea66e970ee42c0ec144fc1145cd2661fb90a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/terminal-actual.json",
+      "bytes": 2275735,
+      "sha256": "96c3a05598448efaccddfa95ce66c59c69dbdba9eed07f5611a91a5185c42d1e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "576f280811e7e84816367cd0ff4307d150482e9ed130991762fbd9258d51f5fd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/commit.json",
+      "bytes": 20067,
+      "sha256": "5396c47b22c2306c4dd969e2f57f343247b40db39ab1537bd420ece95ef0b4e5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-01.json",
+      "bytes": 133923,
+      "sha256": "4f8fd0bc33294c7a6cd5919c7c3f99c2e5c71e0357c3ac0b8235b72e847e9bff"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-02.json",
+      "bytes": 338233,
+      "sha256": "d39248dbb8b571a3944aacf52a53f66450ccd351c1ac2666de3a990c600ddaf5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-03.json",
+      "bytes": 337593,
+      "sha256": "8fcab433b7a6bf6ce9499b333ca8f3f49b466bf4cd5ef0bea5f663715923fe4d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-04.json",
+      "bytes": 337141,
+      "sha256": "cd48cfabe7501a85058b610f4a03cbdd4b7bc49025bb0a4605e846bc200a07a5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-05.json",
+      "bytes": 899091,
+      "sha256": "e62b5ebf51331142e9a6c16c8a457a3d2f2069dd7ab12381b3f417598d9d808b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-06.json",
+      "bytes": 335655,
+      "sha256": "c45faee25d1451c2412178c0837f5803b847e302d82a3381644c7972a026104a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-07.json",
+      "bytes": 335291,
+      "sha256": "117dd279ab5557e682fcb769bb24ca2c2b60e1b6b34fc7925d270ca04204fbd2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-08.json",
+      "bytes": 335019,
+      "sha256": "687300722fda52cb89be94689a944d1089b4d46022e2f75553e855221d7700b2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-09.json",
+      "bytes": 334482,
+      "sha256": "9f6545df622d231828e99994436e22de4e2bcb2a359680440c48792e8aa31162"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-10.json",
+      "bytes": 887683,
+      "sha256": "d98410a5691f2e34181badf985694b619eaa840434138bead402928152972bec"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-11.json",
+      "bytes": 334637,
+      "sha256": "ecf56a0e10ad04dd3eab79d8b27f486eabe6215a047fa90b373a48e95ba445cf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-12.json",
+      "bytes": 334806,
+      "sha256": "4bd85c645496145118a6d412817df3609f36efed2be8dbf10408716c2977d40d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-13.json",
+      "bytes": 334499,
+      "sha256": "570778061239a74e01534fac06a586a0e25453192e34ee414cfce7df215b1dc3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-14.json",
+      "bytes": 334403,
+      "sha256": "42437c5c4a0745d3fe57a179c626185579ee11c6e254698097c132a6f1d11090"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-15.json",
+      "bytes": 894141,
+      "sha256": "34a01ada765a8e06a1510290e303a4eea66e5fe3656f146504346b5d8752306c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-16.json",
+      "bytes": 333676,
+      "sha256": "cbdac91529629bb1005da4c358a1381be2a2e4684776d13f0d47075656bfbada"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-17.json",
+      "bytes": 334157,
+      "sha256": "d88986e300c99f17164389e14f94e753a03f102431d94805205114180a28d85e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-18.json",
+      "bytes": 334265,
+      "sha256": "6e7ab9143efedca0125eb08f4914793c43230bfb07a96ec3aec4d302804bf03e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-19.json",
+      "bytes": 333576,
+      "sha256": "4342f436607c67fa12667002f38bc08aa224f3e2f88bf9a48e9eb302229377e8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-20.json",
+      "bytes": 895409,
+      "sha256": "1a5a972317f0ec03e784140a38970f46485fc7ccfaeddc66b15e4ca82aaaa7ce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-21.json",
+      "bytes": 333977,
+      "sha256": "34c22aa67a04d0fe5054cee513235cbcac315e6c50f7ecaeda71994f1cb7e448"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-22.json",
+      "bytes": 333561,
+      "sha256": "15071374dc003bcd7d1bdec1b361c25614a2cd5ca105e114c2b5b02e12844241"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-23.json",
+      "bytes": 333542,
+      "sha256": "4ae88a88765a3ccb6256fc3dd6b0b924ab1730537be247e7e1cd798c97937b4e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-24.json",
+      "bytes": 333561,
+      "sha256": "9c9c0cb2e0e7cc04e9f8aad13322c768977d81750b6bc81e640bdf610683bd4f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/candidate-25.json",
+      "bytes": 285720,
+      "sha256": "1f0a87216d2d0a3b173350d0cadb29f31c2f1d9f4fc56a3e4841218384dcaa5b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/terminal-actual.json",
+      "bytes": 2275481,
+      "sha256": "a1dc68110bbb0e80f6ed05b70a227671f867022b0b8e9262c014804e781d5528"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "23bebae15128cc666aa9a0f66f137903a69a9d6ccc83424c2eb5d5fecc56cdb7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/runtime.json",
+      "bytes": 4371,
+      "sha256": "f7f83af95f255cc6aa2f6d7724662327eb33d604f0b14ee0a7166d75fb25f2b7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/commit.json",
+      "bytes": 19986,
+      "sha256": "d2ab7f0f018effed7a75c0d8768bdefafdcbeadd7187998fcc979a709f21947d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-01.json",
+      "bytes": 134006,
+      "sha256": "8373aa148ec4cb4a047ada54065927a7a8805fde2f8aa7c0f4da244612a61e1e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-02.json",
+      "bytes": 337736,
+      "sha256": "da7d8f50e505984505f66794abc0cc1a29fed60475c8465790eb608d544006e7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-03.json",
+      "bytes": 336911,
+      "sha256": "023fbf17d9a7f0fe12920576e0e0724d5a9fd9130cb3e3c0697a03d492df168c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-04.json",
+      "bytes": 336281,
+      "sha256": "8a48cc987b0ce23d147f6ea4817064c751d5bee8173adf6db246a97c57478dc4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-05.json",
+      "bytes": 893370,
+      "sha256": "b0a759c346144c4afe10f033c60093c2842435c332bbdc386218fd9f70a1106b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-06.json",
+      "bytes": 335178,
+      "sha256": "5f1d6756b33cde8ca26697ffbf6fe2f6807bb08c251244ed0dd23c15f91fff97"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-07.json",
+      "bytes": 334526,
+      "sha256": "14006ac8d3945e4c11416c966c231f9f9149aa9488031e5e4173be3d7ffd6cc8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-08.json",
+      "bytes": 334764,
+      "sha256": "e19ec13369fad55057a390645f26e4e1a2e8a1d51095842d1dc176ea447b0d6b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-09.json",
+      "bytes": 334968,
+      "sha256": "0742d639a7a7061c9c3caef715b72e8ac75ef20bd7c0abe7ff009e019b29633f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-10.json",
+      "bytes": 884984,
+      "sha256": "b40d966537465a0a4cfcf620f7d19c263ba178a5bfaaeda422055c756ff54f7e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-11.json",
+      "bytes": 334234,
+      "sha256": "2ecdd1e78428a02e3334f4789a87da1ae20284f51f2d0a3d004c3a89fc10207e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-12.json",
+      "bytes": 333888,
+      "sha256": "ecea5ed6f7b422de327c00c100fd3f87b717b99b0d990b1641c2896d06cb1e3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-13.json",
+      "bytes": 334230,
+      "sha256": "8a551820c04740309464e219de09559a173d5c8a9798c71fa4a80511504a2be4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-14.json",
+      "bytes": 333938,
+      "sha256": "8ddd291fbacd9b9678b2c696263f7d1fa5769a4ca05ba217beb87dea08c9c7b3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-15.json",
+      "bytes": 898170,
+      "sha256": "92b4e4574bc00226c40a975cb2cc519299525f2ca4da251c65b3296df3ffac8d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-16.json",
+      "bytes": 333352,
+      "sha256": "43374bef9f702816fa469b6c05b2208dcbfb7d27aff32dc27e017a6147615d6d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-17.json",
+      "bytes": 333457,
+      "sha256": "bd7d67161d1801e6aff84e9e9b725947563dda8a0e2e0869ecba2b1742c3eff1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-18.json",
+      "bytes": 333212,
+      "sha256": "e3c18f74dd14a2c9b0b123b1f3b8f8a3165cb379c843dbb60f0577df6f17ced0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-19.json",
+      "bytes": 332904,
+      "sha256": "16ea5ef4967bac7457f3ca588f40d65a30ffe67b12d50499ec6b6ae9ccea568e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-20.json",
+      "bytes": 897001,
+      "sha256": "feb77c03eef394d7091e55bbca974fa29719a70a2c481f0a37b59c959dca8a49"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-21.json",
+      "bytes": 332634,
+      "sha256": "c319349781fdbf7d3b3f8ec8ee24efffbc165ed9289f500d2e706d70220818b7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-22.json",
+      "bytes": 333406,
+      "sha256": "7702d123177061aeac88b7e477497b37998b465a762332b95730547b2b3a7fb4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-23.json",
+      "bytes": 332924,
+      "sha256": "0c1bf26d08bb5d4a3fa112829ce7d7c6d396bae9909b9d9254c29890b326382b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-24.json",
+      "bytes": 333275,
+      "sha256": "07935a50518cd9105733498f7cb93a8f65266c0d88942da8b266d47cba88a391"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/candidate-25.json",
+      "bytes": 285428,
+      "sha256": "6ccaf91e50a3aa72a3e8a0ff755e5f637709bab2b32f3e522e5df1d06c2dde8f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/terminal-actual.json",
+      "bytes": 2274481,
+      "sha256": "1508bb3f67076c1d1ef6b1a697db71d4f7c41d69d7c18b220be0cbc36859322b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "b6f64c2abf00483ca46e24edc9d7101c4d4026b18e39de7ae76509be8ce55383"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/commit.json",
+      "bytes": 20120,
+      "sha256": "2eaea6248a55c6572c773bfcc9b2c5159a5ced7ffb2e2e356616b17e1c6b3be1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-01.json",
+      "bytes": 133937,
+      "sha256": "99704bf0e29b014ead9a4c7e71015a7a7057c4e23a9613ad94f04c0d74868e2b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-02.json",
+      "bytes": 337919,
+      "sha256": "f427f53a9d805218b160ee24820b96d74518475becdeb48ed03434edc5cc4dbd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-03.json",
+      "bytes": 337037,
+      "sha256": "535fadd3c610f9c6be56e6848713c6d909ecb9151f025d0b3598727b34804b21"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-04.json",
+      "bytes": 336662,
+      "sha256": "3b0f3b645038b57a33220c107d979547a40a02726a19e46c75616d22a76e01d6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-05.json",
+      "bytes": 898782,
+      "sha256": "1a86e9bcc9d5ed6c6eb694eb78e1198ab85df43e16dbc3940ec666a885c10c16"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-06.json",
+      "bytes": 335594,
+      "sha256": "d7e3410f08d85f5796cb0cd5cf85f0edbae61501c43beef15853c2da1074874c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-07.json",
+      "bytes": 335223,
+      "sha256": "1233b3c0a92df50b4985851a33e20b1f0feb1e5d29e8a31a31d50905b0359405"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-08.json",
+      "bytes": 335140,
+      "sha256": "72f8215b0e370fdde24a5e93540bb68b00518fc6bb930ea73f87adf7df053c74"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-09.json",
+      "bytes": 334510,
+      "sha256": "9003f0ead14812a90f855722d03b0697af5fd26e08cb956f5cf3b48608eb0d88"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-10.json",
+      "bytes": 889585,
+      "sha256": "e9fb67a8542c8d7adab575638f7aeae66bb0e87bc6ac4f72e781019a3ce7531d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-11.json",
+      "bytes": 333887,
+      "sha256": "60017c1b8632394fee103370757aadf36b758fbfb8cdc34262a01296b1070e3c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-12.json",
+      "bytes": 334033,
+      "sha256": "68abf8531569b4eb6188062abfc90afbab2a6fa909183b1202afaf3a33f115c5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-13.json",
+      "bytes": 334151,
+      "sha256": "b3f8dfdbaaace432dfdcafba652a958970f85fc24858b7bbc65981e3adc09dd9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-14.json",
+      "bytes": 333516,
+      "sha256": "6b100e9fa5626039e824f000a75b6cd51564ffb06934b93b635ec0f8461e61ba"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-15.json",
+      "bytes": 896173,
+      "sha256": "49aa96c9222b809464924f7944fdccb439408deb214cb7444efef0c818a7fe82"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-16.json",
+      "bytes": 333459,
+      "sha256": "f09b60a510fc0d4f1c2e78798e7ef9c1583e210863db2c8772367a466b698653"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-17.json",
+      "bytes": 333413,
+      "sha256": "7b9592eb2972ad37097bb35ac29a78e625d0e01cb9b4fe36e9305249bb18d49a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-18.json",
+      "bytes": 333211,
+      "sha256": "1bd336f6f2a1f1ab321d506d8b87857214d2625329a55de4f8d943aaab57d8cf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-19.json",
+      "bytes": 333260,
+      "sha256": "ab2a09eda395f92d58d3736300b0c90d08dab7b7516131de6bef93862d9781dd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-20.json",
+      "bytes": 889576,
+      "sha256": "1da270d382d297015d864a6a251a27f1c40a2ef970878d2a38dbfd81580e9835"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-21.json",
+      "bytes": 333343,
+      "sha256": "13ad8ba247273f638097182deae37fd7fb6c2106a31fad5423ea32eeb48c624e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-22.json",
+      "bytes": 333093,
+      "sha256": "f20215dd931833246d48446b47584647cf19f4964c3035098a58b367df3b0fa8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-23.json",
+      "bytes": 332760,
+      "sha256": "bbb1f223139ebfc40385ea8768c027c34cf5b015993d37e32d893334c254ff1d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-24.json",
+      "bytes": 332678,
+      "sha256": "962e9f95ca836a1755297bcfb7e7bfdd40093402eee82b27669ec5eb162a4b19"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/candidate-25.json",
+      "bytes": 285220,
+      "sha256": "f298ba0c2b7b8e048684d6d1256a94fd561541f8c1fa7381ead094b832a45fcb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/terminal-actual.json",
+      "bytes": 2274203,
+      "sha256": "bec0d5930ae517d9b88788cab17dda107c11e59057ea7b4cae9ed2b0c335bd22"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "bf01cb34ef6a37d17ef16a236dc5c52662ba0b2936946bbee26383b8ff8b2b5a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/commit.json",
+      "bytes": 20044,
+      "sha256": "94280d1ebd364becd4116d780692e5f3b06dc11e2eacc2364da599b6d11e49bb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-01.json",
+      "bytes": 133899,
+      "sha256": "660344b2b0b2be0d203083b810d18186d7a49f2b3f4ccc8b7716947f8b8a4152"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-02.json",
+      "bytes": 338094,
+      "sha256": "cfb78ccacb8a30d4854b30128c687dd7c8a8f2e952b58cb7d711eab7bdaae93b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-03.json",
+      "bytes": 337425,
+      "sha256": "ca9a60b15490a4b97cb5c14e2048d56a598f491a5674a0d70fe6800b774d6c87"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-04.json",
+      "bytes": 336750,
+      "sha256": "8a17c233305f6b54eef63c3586745cec5c1199beb81d5b24282854b399b39ff8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-05.json",
+      "bytes": 907062,
+      "sha256": "66b2a43f686040eae375f1d9d79bffa4cb642d0eb4daa6e77fa68eadf81f474b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-06.json",
+      "bytes": 335376,
+      "sha256": "0b2364a5514427cd83eec03a6c300ea926afae7f6e1e210cc5b18b82a5ac2b82"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-07.json",
+      "bytes": 335185,
+      "sha256": "729711715f8253b31c921dde28d51b66bc9013e8be98e524b44734ee223daca5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-08.json",
+      "bytes": 335148,
+      "sha256": "6a9c24824db925b4dea156318e767cf749d58006fede6c1092d0b83fd3d2f4a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-09.json",
+      "bytes": 335075,
+      "sha256": "66d5f4d37d26c9bc0441577bc50ec2455ec3e73b5c85f019c74b8ec68ebcbb8f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-10.json",
+      "bytes": 902722,
+      "sha256": "d7cc08bf1654423286836b51dd0f03d90ec4d67847878965f3a3d820b1aa2f64"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-11.json",
+      "bytes": 334144,
+      "sha256": "81a52bd9dc718416f1c146f0d50e3be92c34373948861b3e0c52fdb5a9ddfac3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-12.json",
+      "bytes": 334318,
+      "sha256": "c89e56e1104fed8cc3ca6a0d10944d306bc2b568137ac54d98f1cdc3a6fde017"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-13.json",
+      "bytes": 334488,
+      "sha256": "bfbcac491a971c7bbeb77762ff83e42c3fa49064040d0f06233bd595e1884132"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-14.json",
+      "bytes": 334370,
+      "sha256": "b1e18579441545421e970d4bde4d85a79424c9ddbd811f490e30b68e3c51d228"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-15.json",
+      "bytes": 881206,
+      "sha256": "883306fbcfedb960fb96186f104005511d1ebb170a47ff9ed7bca42c0f371d16"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-16.json",
+      "bytes": 334318,
+      "sha256": "5adbfcb7ef3018c333d37f4de4626ed55e2f5e8b2c60497dbcd1c051f922be4e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-17.json",
+      "bytes": 333948,
+      "sha256": "e6c100c5005be46c85d4a17fd9062dd35f2ac2cf8cee331372fe511f7ca34764"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-18.json",
+      "bytes": 333523,
+      "sha256": "6a42a547c959be0100c112ae3b0457d05734c26b7c2cf923b9a892467bccf3c8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-19.json",
+      "bytes": 333602,
+      "sha256": "bbe94d06ef1cfd6d72aa66f3cc1b4592b5683b87a057d05494a2f44a6d08379a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-20.json",
+      "bytes": 885317,
+      "sha256": "65d0621ff364c0ab0e3a35d543edd98c0d297f324a173faefd43d07651d8d644"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-21.json",
+      "bytes": 333691,
+      "sha256": "20937dea457996eb41c282f5bdd6738d6081758f093752d7f55a72f4d25e3a58"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-22.json",
+      "bytes": 333453,
+      "sha256": "63142d181c3964834909ff035a9b123306dc8e2a39802efde22e0589c8f44b80"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-23.json",
+      "bytes": 333525,
+      "sha256": "dbe711cc52293342eca866edd001aeb08956b2aa88cb41aa3472165a565ecae7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-24.json",
+      "bytes": 333633,
+      "sha256": "c92a063658cfdaa692c687cca0df2344208ddc11dacd408776907cd8eff66677"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/candidate-25.json",
+      "bytes": 285578,
+      "sha256": "36d472fda12e9c7e9c3e7b7130263dcc91d625cb8ae34064020cd473a632a593"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/terminal-actual.json",
+      "bytes": 2275119,
+      "sha256": "a68f73bf561452c7f98e948e47672032be7eb2e4336933c60533c7478570b9c2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "961fc29eba30b8eb188d4fd3a9af9cde6b771e227e65e79cc8bc91be60791c60"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/commit.json",
+      "bytes": 20117,
+      "sha256": "1c19bc084af52e914474716677e8f4718bf36bd319b683d042194279a8d86872"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-01.json",
+      "bytes": 133938,
+      "sha256": "77260d952863b507b0ad9cd4ddc0bd908796fdb4a578ea96ed3206619ac96ea6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-02.json",
+      "bytes": 338200,
+      "sha256": "cc352346ff4570dfd405e6f55c500b9d88cf1395614dd90d98ea2b0ddc802183"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-03.json",
+      "bytes": 337301,
+      "sha256": "9aaeeee502da3fd65d80c849a2635a882436b7643d8caedb2d8aa354b5d60932"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-04.json",
+      "bytes": 337416,
+      "sha256": "2218fc2f73a68835e4f089d9b4b96cf5845f736ebb779c3dc8b26010f99615f6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-05.json",
+      "bytes": 902049,
+      "sha256": "324513b141f8e509cb22cefbd25107a3a18b59d9adba9452557f811a464b3916"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-06.json",
+      "bytes": 335835,
+      "sha256": "8f83fdf58e68c5dfa1dcc7098332b7c862d8e81724bfa65dc098ae9220cfbcf0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-07.json",
+      "bytes": 335148,
+      "sha256": "aa0b0217d78a0dcd1b1095d0b513746e5690f9e940854de5dfcae7e1a69121fa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-08.json",
+      "bytes": 335273,
+      "sha256": "687f2b21b9c88ab387fc90c48772b1cf1bd7b41602141746d3e48e8cc1e96221"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-09.json",
+      "bytes": 334842,
+      "sha256": "7714c86293400a2bd75de3e462bc748b4af202a24c9a088a83d2d74b34447c91"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-10.json",
+      "bytes": 895835,
+      "sha256": "f083518768a1952f0e65681974b442a19918147f298d32de30c705ef4e3aefcf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-11.json",
+      "bytes": 334986,
+      "sha256": "f6d2da55fe31d94e6c94aab160e623fb2b6e713c105a2f1d28fbae9cd0614f4e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-12.json",
+      "bytes": 334871,
+      "sha256": "a8c8282c4e2e81fb0ad22259ecaff1f7a0099c9a5f0ddb9170aaa5ff2876158c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-13.json",
+      "bytes": 334261,
+      "sha256": "b30c41672767c43e4bb7b77a52038b770f48e780f5f640cd43fa6f80d5147596"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-14.json",
+      "bytes": 334793,
+      "sha256": "27716ff38c5ebd9b82ba477920722645ba255942e06e927be563cc14660ca578"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-15.json",
+      "bytes": 889594,
+      "sha256": "caa155903de5ec0939720dff28432f879bf2149c7b21e44e6c1223bdfea9b560"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-16.json",
+      "bytes": 334278,
+      "sha256": "3671803a7de9dde3356c4fd4c8ae2a83fbdc10179a132ec5710a58fd23362768"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-17.json",
+      "bytes": 334387,
+      "sha256": "9bebfa1fc5f4c41299576c714413d3a63a6e59c11597562e01d17e3f9ec3fd15"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-18.json",
+      "bytes": 334026,
+      "sha256": "2ff335db873d8a25fe430494664aed821bbe680888fb9ee8212ca93186862e8e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-19.json",
+      "bytes": 333764,
+      "sha256": "1394573481a2a11e172017b5418e80f0502298eda06745953ef28745783ba296"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-20.json",
+      "bytes": 890575,
+      "sha256": "5a3953494a613b007c8cea5c64c82265313b0d03fe3aa5756205c69e65ab5ef5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-21.json",
+      "bytes": 333866,
+      "sha256": "45e07a2cbc0239a7567eb0d90fcbd872cb1d97c3227d8df87d1055b018670e68"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-22.json",
+      "bytes": 333918,
+      "sha256": "5b064f730dbe2feac15b34d0ee6f190aa272147a1b485ec88c122214bfb4f3f1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-23.json",
+      "bytes": 333658,
+      "sha256": "b98f554a48012831127e7b497545b8895c147787e87e27d16a64455f00f0ce99"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-24.json",
+      "bytes": 333912,
+      "sha256": "6e8dc8427db41f729dc1fcf772428aeb056d92075868e5418dcfacd864d191b9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/candidate-25.json",
+      "bytes": 285946,
+      "sha256": "0a43c88bdcce9c61c8b4ce82869238b484a670befc28f1cf4e85335061ab8e65"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/terminal-actual.json",
+      "bytes": 2275792,
+      "sha256": "5750eb393f1efe8d4ac1d8bc8324f5927f4cca265289aa4f3bff1d77251e0541"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "4fa2b16053229027a0262c3093c91e6cb7e367be9e9170fc9e2431d2887fe165"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/commit.json",
+      "bytes": 20053,
+      "sha256": "65d0aadffbf64640bfa39186fe18cbdc3e75224aa1e5074e7ea65707f62e23de"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-01.json",
+      "bytes": 133957,
+      "sha256": "da938efcde9d8101526b2ef83ecad93180bf2d0f3d197e8e44d0e60b82b2af0c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-02.json",
+      "bytes": 338352,
+      "sha256": "fee49abfd4c7e8f6729608c0a8014d6a44c745deea5274e2a593b5032f99fd8e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-03.json",
+      "bytes": 336995,
+      "sha256": "dff705a1b9d8366a40cb166247042cfa07b4756f27e4634d3f3a445fc9a6641e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-04.json",
+      "bytes": 337165,
+      "sha256": "90374a4e362d2628a1dfdb29b19ccad9aa19c39af1eb1a407f40036b33313773"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-05.json",
+      "bytes": 898830,
+      "sha256": "76d257788628b548cf1e5f95184c92bac136b7b513ebfa39af865ecf0f70165d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-06.json",
+      "bytes": 335866,
+      "sha256": "e3b5f78c4df1a2da674837826d3ed2af34dac4ca641b00706165543e15d84f73"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-07.json",
+      "bytes": 335346,
+      "sha256": "776dc9520d244636aaf40abb7c0e1125a1776fd09b682103e75f008ef72e2899"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-08.json",
+      "bytes": 335363,
+      "sha256": "b4ecaf266528dd155bb1d0a689e71284bc606826e9f0caaf341ad25c0f36254a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-09.json",
+      "bytes": 334994,
+      "sha256": "adca4ff611472ed2ae38776c0ab0ae12b89fbd0e62df4abc8e0f7de5729e9441"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-10.json",
+      "bytes": 888294,
+      "sha256": "c1e4fceaa443306731055b496509b0e1158178ef5d146f6e70249d5024e5ab7f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-11.json",
+      "bytes": 334763,
+      "sha256": "cb692417c4fe6a9a0289795efc548a0814304f30dcf005357ef111e62f90c1c1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-12.json",
+      "bytes": 334216,
+      "sha256": "c1820ebc2433f82d7601422f7df5007a7c9053ba9044ea1e969713d29de133f3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-13.json",
+      "bytes": 334483,
+      "sha256": "e4450693ea90dcd209d93c48a51671083271205ee9880382f22fd53578ce9720"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-14.json",
+      "bytes": 334636,
+      "sha256": "e3cd4d8cb726186d63896b675515f1c155e52a7ce548529dbfa11b7983ea032a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-15.json",
+      "bytes": 894280,
+      "sha256": "92ef746dfaefdb0b123d414a973f56373cc3d3f928a2695de4ba776318030533"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-16.json",
+      "bytes": 334276,
+      "sha256": "ff024663aa39a43886ef6a71b99000a2a1a9028dea8ce887897746bb0e72406a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-17.json",
+      "bytes": 333377,
+      "sha256": "04911e2e570488099c322b1ea2a54dfef9be7fc2f2e7a291e57852dac5fbbcc1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-18.json",
+      "bytes": 334029,
+      "sha256": "51843e3ee69187b10ad2518eeb4131b0ebca553b088dce7422e94a400833a489"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-19.json",
+      "bytes": 334005,
+      "sha256": "ba0f27adbc599ca3a00bc6ecb9caf3585ad7c2a242713381f39ac6c3c0ace00d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-20.json",
+      "bytes": 895773,
+      "sha256": "302909d56c6e60888b3bb1afd1e78ee9d9d91cd6ff06731c2db9602172c94120"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-21.json",
+      "bytes": 333953,
+      "sha256": "b3de2ea22b1389f775409c1216f98423c789b165fd22a3c467c43ce962ae4019"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-22.json",
+      "bytes": 333989,
+      "sha256": "f6f99165b53c5f32252c80ba46981949cf951de5a2fef6159d984d5d095ced06"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-23.json",
+      "bytes": 333808,
+      "sha256": "7c0864b740c5db35f25b59b2390c9e3a252ae39f0f48ea3c750be0caa3517f12"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-24.json",
+      "bytes": 333502,
+      "sha256": "daa7cddfb09faefb49b057514de241c91dcda2701ec3607e47128ce80f201f07"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/candidate-25.json",
+      "bytes": 285508,
+      "sha256": "077cdc44a5076758a436b75d2365dd696b92d694a8082a9d3c5ca6203ce90ef3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/terminal-actual.json",
+      "bytes": 2275297,
+      "sha256": "f85e87d0d43f1346fb93ecebee27f2240953ccd68c560cc9f32db31cae0463e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostic-manifest.json",
+      "bytes": 5611,
+      "sha256": "3ec68eefd655e9f8a78f97d8d0e05975a78c29fb53483371e52e149016ebfb07"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/Q2/frozen-ridge-K-operators.json",
+      "bytes": 546648,
+      "sha256": "4a20623010dfcf14ba9510040c50e424986f84e8f1c9969f2e8e5e97fbb26a74"
+    }
+  ],
+  "local_tensor_inventory": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "acb5dd082f20594f77862a17b4ce7e241afd98b1a1b514ce34d8481134d799e8",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "fa9c13bd72d5b2f72b050f70a1973862b9305f3dbbbe5f244f40fa318e0055cc",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "860ec0742afddef38be4cf1c3ac5e302b72b7e84a88e1f8d206e4923ef28f00b",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "ba33c4bc46ca1703e186cda01687ee30a404adb5fb76b8aa5dcc95b7ecda3b18",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "ac40e17d08ecff49a09992d555b26cd6d27c7d3cf2f34a170b81b2cb011eda77",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "d63e05269a232774875e66f6791f1a3eda19aa404b10471243c97ce02ac3df82",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "340e473f4e0d2a01fd43f72772708fc0a85dfe15b579ec30fdd6a06429a631f5",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "2e4e56f42c245bd9c29935c6b964436067f41e5b57bde370147c827090b71d78",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "0deec407cb610d66763d95a4400f005f0cd36c0c12e8e15bfe1dfa60b4cc22de",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "c491a111baff6ad1df056a80ca778fbe6b6e3563830b8dc77135d78cddaeb95d",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "d8bea5e1bcc319cf4bc3aed7e1e39a8e49f4e2566fcb76b95abb14b916a7639c",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "46eea503eab6028c807927ef0798dd0d0651459d6c1b05635b21f884e023fa0a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "09537317a22af8f73c6a85600ed55048f1c491b599bb7e6b798464efe773502f",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "e3c6399e20a07e0bcf0df3aa128a67880e5aee20f042c01c0b6da7301456002a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "b4dd65d4bef31aea855d9e8136443d2ead611a7444fc62f5cea27df706e551ee",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "640eced81245d5b80340b98cf0c2a4a28e4847d635eb34cee69d9cff0a936e3c",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "580e8f109d4ee1af457e523fd486e82efda46b3a1feff3496ca39cbf7ea99433",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "9951964c73bdc4f30918f7691680752bb36ff275f3bb0057adc86af69c04b7a6",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "52530462625c7ff4db7c55e11d615ebea87239bed90b61022a266309c5954ccd",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "d7d632367ec5fb677c082cd2587c1f73d3cb1a1b24740788948153a42bfd531b",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "3ed733b97793ea85a488df9f8a4356710afcb55afbeb1e37b00178bbe2d65d69",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "777607bbde557b498a3dd3d1efd2082073406316a2a9414cee12d4ecfc8d6895",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "392d059f4d368be82ad8a633406a118b71416fee0496f289a806a394e2127889",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "af44ba6e42ba2f2250e36dc157abdc00461f62660c050f63265875d18396d546",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "e393adad1c993628371cb5c1a62a0ef592b6f7591656c18d0ccc4e0a85802bc3",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "c666587844d84e941f638116d2c60b816960f89332ebd3a7d69ef6979768647c",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "22c4cbc2e07ebcd7820f3efa93260080122e3f7acf3b555e9a686984d1e2a349",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "c5ed6f4f9e0b53d6055c9b2a74da05bb79c403011d973743766c12f1836de46d",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "484e59aaa728155a210b3191ba0f9ae5081f95d61791704bd06a73380170f1e8",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "e5ff07d564cbb219421c2a6a1f292ad34a7e564c16b8cb07d610776f296f60ae",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "c422b5e0a9c3356de0365c0866c602aad8308ab6c5f285c806e4a772d70761ab",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "2dfd7212507c9ada37f91d925f0193443c01371cf2329deb7d7147510db86441",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "b2acad13f5d7bb5d567d4f8ebd660afe36ec4fa18f2fa4158f08cadb0e27ad72",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "9fdc6c20b1162d13412eab420f86cbd6f8c5fb1e8d888957b5fa5b7bb238b51b",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "c5e20322ad5d2f1f81b5193512b98ce7f680f150ae931209bccc00f569d5db8d",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "bb4128c7147fd945efc74bbc82ef1ecd04f7e893a505109e55822c3d6de3e84a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "95a6bb8cabd35351d6194d58f46379563c8d0dba3fd1573d1e614b3ccb810948",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "11b638ce1ec95d1f59bdb033049a8309611606ea73f69b57420fead23ad7c842",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "95dc44a4725e550be85bbcfa9aa9b11f0bbe91a23163817b49504184cb76655f",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "1998375329bda97b2ea79efc79d9faa0ea6e8736cb37fe33d57e2a83936cc143",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "6952c223f4eeb57dd408c0633780c068ec3e34997c005ad6a83dbc351ac07617",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "063370a753bf97b9b08d3479273ef1a6578e621d17ee0ca55eb9c0246be9889d",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "13f7cc92ec2e687823ccecd2ab9363fefea48329c3c2a57152878fd7566ee920",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "fcc0fd9c0b470ea3f29864f0b524da300dd2c46fd0b2d84857b005a76d172748",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "634e36241dea1381e1b691d88077fbe16953d1559209611cf26519b406899c20",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "899c7b9b869afe1e211691515d7f656ce8be9e6ffe820665918164567168cf90",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "80629bd44e9adf4b4b65eb2511e4812043e48fbabe7122f99075d1d99f2f8072",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "144e7cd8483a7b9a76adf699c14e0168f37e919705a711b0e5e041d9eeb1d940",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "fdb129f7a529da27ddd2df428e64ecacd7087a356b6c26dc14a4a8810c38a8e1",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "7d08a22e7dca12493fdbb4f5b39e46ac27d831d074f2683b87117e0ef245d106",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "acb5dd082f20594f77862a17b4ce7e241afd98b1a1b514ce34d8481134d799e8",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "fa9c13bd72d5b2f72b050f70a1973862b9305f3dbbbe5f244f40fa318e0055cc",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "860ec0742afddef38be4cf1c3ac5e302b72b7e84a88e1f8d206e4923ef28f00b",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "ba33c4bc46ca1703e186cda01687ee30a404adb5fb76b8aa5dcc95b7ecda3b18",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "ac40e17d08ecff49a09992d555b26cd6d27c7d3cf2f34a170b81b2cb011eda77",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "40956b5f2172b2f471973869d3145ea8476687cb41f344292acef791515d7775",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "7e5cd780b13723e46080c6bc2ef4dcc016675d1402743b785a60a83d6c6948b8",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "e67f6e2e975164e8cdc960799a3ab92bef1582822563fc5fc4d0b7bf28b5093a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "7bc158be571c0bc7ddf0012a00154d0065250d7883d7c4664e6e04048d6156c6",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "367fa67696371afb6d795f31c86e65c35a8a614877f827cf877dd50448a407fa",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "d8bea5e1bcc319cf4bc3aed7e1e39a8e49f4e2566fcb76b95abb14b916a7639c",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "ee39ac04f0263a1a5d1225476743065435b5c15f0d0ca8cad2e77d9f68d196ee",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "411aee027eae54f58de62ea9098dcef1eecf0481807fbe94e5e854979aabca23",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "b06f8508e63310d57c3362d8f5439120efc250e633498d56bae69fe12fd38e4e",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "d4a118160c17f7411967704939c24a2a45e5497e00701041e229446d188c4d97",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "71735fb639379bcf2f71e94b93f9b08e90f745178ed871311bf91a8b1fc73973",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "533c48ae733b8c801c17e753bbd0179dfc79dd35f3b06358016a755b846ea964",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "c7a3fc5a6d047368a48fa889599283a0d7a461ca746da445ff9115bd5f959982",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "bc8e6dcbf9fc41b07b0967c2c69975012049e36547b915e9650e1d54ffb82eee",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "92c09af6ca15ca4bb69ddf6af81ee615af53c7886c71f7d305a218013de6bdb7",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "3ed733b97793ea85a488df9f8a4356710afcb55afbeb1e37b00178bbe2d65d69",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "708bac765744a21863d9c3784951ccfaa666650542c4595a0e6099dd755bac38",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "e77003bd905f535836e4e6ffb512dd059d9f8aacd98ad6eedc66470b3b2d1e76",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "0c3a5644de5628b9d2e1f7371021ed7bd983856a19a06e1da9d764217b9e24fd",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "38e783ce162a63c750ff1b7ac197392e938ae20f1d9f5abafe3085ba1aa3c418",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "d60e337aef5f9b9869d7849987556f647e7bb10ac04c8a1f313853888d1b3c36",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "42a3c35a7f727f361266b16521cf14b740c4da3806a7ee6f852a9cc1216e6913",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "a853c6a55f2f0c8ac94e791de335b1b7b30d5292e1ae7bcc5bd0322914b6be7a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "b84973254647811b58873fdc698fb17a48b989fff4f067f1bbd3c60610ef9bb0",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "0976eb5bfadfe9067f4113062f5b53af6b7c2b5b812e420809ae1742243e6bef",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "c422b5e0a9c3356de0365c0866c602aad8308ab6c5f285c806e4a772d70761ab",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "fe748f572932ac47772dc8beb73303ed327f52000a5b9af1ffe270b7a5ed03a3",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "b34ec5266535a47fcffe8abd28936d4775e8dc502b82a19f965b959ed97386dd",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "225c7fd6f336cc4058f81e5ce7dc768d4d497334db2d97a70f444ef5d87110a6",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "e54384ce9db97051096c4eb03f1ff579b748741a6e38236ed2dee7f1c6a0ddc7",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "b26b58a54da9455f5398409d2507e98b22145beef3002183ca94bbd45293cd5f",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "3e8cc511735c6cb3765673a192cc19118ee14024a8fd4c4805ab7b64644ff1c9",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "691ceb7caf48c756f017a8dd58bcee57b0255a52b529e6321e1c6320fa7cbc25",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "9f1affc04735c0ccd2ed689392be6ca1e545fddc8beae32b879abf28dbedd623",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "1f33d0e968d46978ed4cdf25f3a9e5cd713a7f756a190ba3eb666156035ec8c5",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-01-L4.npz",
+      "bytes": 4995958,
+      "sha256": "6952c223f4eeb57dd408c0633780c068ec3e34997c005ad6a83dbc351ac07617",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-01-L5.npz",
+      "bytes": 4995958,
+      "sha256": "bfd0427d4cecb572987e36ade5be0fbfea9184c1982ef041d8961f26cdaa7aa8",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-01-L6.npz",
+      "bytes": 4995958,
+      "sha256": "343025009624a284c447886ec2dc1b980144b8587c93ced09fd67812387f4e6c",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-01-L7.npz",
+      "bytes": 4995958,
+      "sha256": "a149a85aad68bc55f47298253a8decd28e81530fd75a1b312208d759614771d5",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-01-L8.npz",
+      "bytes": 4995958,
+      "sha256": "041b6d941e592d385027c66e395b910919cfaa780d78bc18966c60ab9d2ca684",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "e099873f0ca60cf24e62adfd100b44baad7956f8e6bc7b6223bf97373dbf8699",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L5.npz",
+      "bytes": 4995958,
+      "sha256": "f8fce928e9746146da0f5b5d27139be37ce82e322f79479d0850568912a8b596",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L6.npz",
+      "bytes": 4995958,
+      "sha256": "fba2bb6dc9064c9996240746975249f7133239c3ddb7f7b631c8e8db8dfea5ef",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L7.npz",
+      "bytes": 4995958,
+      "sha256": "755cce75b55f49eddeae9dae09b994cb5e4d0eb6fae508d0bd6e5be0f99bf3bb",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "674b00ce40b234969087cc5f094b9215e9ade23847ba07261494bc9a8f391c4a",
+      "hash_evidence": "SEALED_COLLECTOR_AND_RUNTIME_PRIOR_SHA_CURRENT_STAT",
+      "purpose": "entry/terminal realization diagnostic; NOT resume",
+      "tensors": {
+        "M": {
+          "dtype": "float64",
+          "shape": [
+            100,
+            100
+          ]
+        },
+        "planned_D": {
+          "dtype": "float32",
+          "shape": [
+            4096,
+            100
+          ]
+        },
+        "realized_Y": {
+          "dtype": "float64",
+          "shape": [
+            4096,
+            100
+          ]
+        }
+      }
+    }
+  ],
+  "bounded_tensor_rechecks": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "d63e05269a232774875e66f6791f1a3eda19aa404b10471243c97ce02ac3df82",
+      "Y_check": true,
+      "gamma_abs_error_max": 7.66053886991358e-15,
+      "M_diagonal_check": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "7d08a22e7dca12493fdbb4f5b39e46ac27d831d074f2683b87117e0ef245d106",
+      "Y_check": true,
+      "gamma_abs_error_max": 5.773159728050814e-15,
+      "M_diagonal_check": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/fit/diagnostics/candidate-25-L4.npz",
+      "bytes": 4995958,
+      "sha256": "40956b5f2172b2f471973869d3145ea8476687cb41f344292acef791515d7775",
+      "Y_check": true,
+      "gamma_abs_error_max": 6.994405055138486e-15,
+      "M_diagonal_check": true
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/fit/diagnostics/candidate-25-L8.npz",
+      "bytes": 4995958,
+      "sha256": "674b00ce40b234969087cc5f094b9215e9ade23847ba07261494bc9a8f391c4a",
+      "Y_check": true,
+      "gamma_abs_error_max": 7.216449660063518e-15,
+      "M_diagonal_check": true
+    }
+  ],
+  "raw_and_tensor_in_Git": false,
+  "model_CP_rehash": false,
+  "new_model_forward": 0,
+  "new_Slurm_calls": 0
+}

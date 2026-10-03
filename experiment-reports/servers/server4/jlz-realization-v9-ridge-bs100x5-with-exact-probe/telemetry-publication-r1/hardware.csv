@@ -1,0 +1,3 @@
+arm,job_id,device,torch,transformers,GPU_UUID,per_GPU_clocks_utilization
+A,57572,NVIDIA RTX PRO 6000 Blackwell Server Edition,2.9.1+cu128,4.57.1,NOT_RECORDED,NOT_RECORDED
+B,57573,NVIDIA RTX PRO 6000 Blackwell Server Edition,2.9.1+cu128,4.57.1,NOT_RECORDED,NOT_RECORDED

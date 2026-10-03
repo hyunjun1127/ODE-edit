@@ -1,6 +1,19 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
   "status": "COMPLETED_500_BOTH_BRIEF_REVIEW",
+  "telemetry_publication": {
+    "authority": "USER: 산출물도 push해",
+    "report": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/README.md",
+    "CSV_count": 9,
+    "figure_count": 3,
+    "candidate_receipts": 250,
+    "clipped_request_layer_updates": "0/120000",
+    "max_post_update_rho": 0.4011988639831543,
+    "component_gradient_norm": "NOT_RECORDED",
+    "raw_tensor": "LOCAL_KEEP_GIT0",
+    "new_GPU": 0,
+    "note_ko": "실현/배분/목적값/총 gradient/clamp/terminal 분해 공개용 집계 추가. 원실행 불변, 성분별 gradient와 원인 추정은 복원하지 않음."
+  },
   "source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
   "tree": "a179b5751e91d26bdb762a345d5b70ee79e0ae80",
   "archive": {

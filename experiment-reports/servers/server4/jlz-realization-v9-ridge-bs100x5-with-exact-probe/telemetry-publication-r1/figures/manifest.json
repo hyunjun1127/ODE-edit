@@ -1,0 +1,23 @@
+{
+  "source": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/worktree/audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/plot_telemetry.py",
+  "matplotlib": "3.10.7",
+  "numpy": "2.2.6",
+  "note": "고정 CSV 재생성. 목적값은 A/B 동일 symlog 축(1e-4 이내 선형)으로 0 및 작은 음수도 그대로 표시; 목적식 smoothing이 아님",
+  "files": [
+    {
+      "path": "objectives-and-clamp.png",
+      "bytes": 220755,
+      "sha256": "22f01a09e443040f2fa41da58a53c73718809b1916488f477ea7d1b2d9de5665"
+    },
+    {
+      "path": "realization-and-allocation.png",
+      "bytes": 110714,
+      "sha256": "e4839293c579209b5f8237984401fd3d6643f827a12edc47d12154e9958cc56d"
+    },
+    {
+      "path": "terminal-decomposition.png",
+      "bytes": 71060,
+      "sha256": "aef039bbf7bca6338f7db8df2bd1e2b21b715234235225266717d0f9554a5161"
+    }
+  ]
+}

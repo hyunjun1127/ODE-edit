@@ -1,0 +1,25 @@
+{
+  "status": "PASS_BOUNDED_OWNER_CPU_REDUCTION",
+  "table_rows": {
+    "candidate-objectives": 250,
+    "candidate-layer-trajectory": 1250,
+    "clamp-trajectory": 1200,
+    "terminal-layer-realization": 50,
+    "terminal-context-decomposition": 150,
+    "terminal-native-observations": 10,
+    "Q2-frozen-operator": 10,
+    "AB-terminal-differences": 25,
+    "hardware": 2
+  },
+  "tensor_sentinels": 4,
+  "component_gradients": "NOT_RECORDED_NOT_RECONSTRUCTED",
+  "terminal_gradient": "NOT_MEASURED_NULL",
+  "quantile": "linear interpolation at (n-1)*p",
+  "null_policy": "zero-D ratios/shares remain null; finite negative or >1 gamma retained",
+  "count_semantics": "request-layer/candidate counts are not independent experiment repeats",
+  "decomposition": "signed cross dots retained; norms are not additive causal contribution fractions",
+  "loss_units": "reported mean plus whole-B SUM; policy already includes lambda .1; KL coefficient .0625",
+  "independent_reviewer": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

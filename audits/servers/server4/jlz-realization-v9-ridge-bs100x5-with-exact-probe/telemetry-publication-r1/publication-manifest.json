@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "task_id": "jlz-realization-v9-ridge-bs100x5-with-exact-probe",
+  "publication": "telemetry-publication-r1",
+  "authority": "USER: 산출물도 push해",
+  "created_utc": "2026-10-03 06:37:51 UTC",
+  "base_main": "d65d8c9689b05252b09addf77b032fc103fb5ed8",
+  "runtime_source_commit": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "runtime_lock_sha256": "f8a6c2a4cf06b1284f35940c703b8037336bbc5103f206f5dd014e65ad76a9df",
+  "analysis_source": "본 publication의 reduce_telemetry.py / plot_telemetry.py / test_reduce_telemetry.py. 원 실행 source와 별도이며 원 source는 변경하지 않았다.",
+  "summary_ko": "기존 완료 A/B의 후보 250개와 terminal 계측을 소형 집계 CSV 9개/그림 3개로 공개. 원 raw/tensor/prompt/fullstdout은 local 보존, 미기록 성분별 gradient는 NOT_RECORDED.",
+  "verification": {
+    "owner_CPU_unit_tests": 4,
+    "owner_CPU_unit_tests_status": "PASS",
+    "reducer_status": "PASS_BOUNDED_OWNER_CPU_REDUCTION",
+    "CSV_counts": {
+      "candidate-objectives": 250,
+      "candidate-layer-trajectory": 1250,
+      "clamp-trajectory": 1200,
+      "terminal-layer-realization": 50,
+      "terminal-context-decomposition": 150,
+      "terminal-native-observations": 10,
+      "Q2-frozen-operator": 10,
+      "AB-terminal-differences": 25,
+      "hardware": 2
+    },
+    "source_AST_files": 3,
+    "JSON_parse": "PASS",
+    "CSV_completeness_finite_and_terminal_null": "PASS",
+    "markdown_render": "markdown-it-py CommonMark + table; 문서 2개 표 HTML 변환 확인. browser render는 수행하지 않음.",
+    "local_links_checked": 31,
+    "figures_visual_inspected": 3,
+    "figures_independent_regeneration_exact_SHA": 3,
+    "tensor_inventory_rows": 100,
+    "bounded_tensor_rechecks": 4,
+    "tensor_scope_ko": "4개 지정 terminal tensor만 fresh SHA+NumPy D@M/Y/γ/M diagonal 대조. 나머지 기존 SHA+현재 size/mtime, model/CP broad rehash 없음.",
+    "independent_reviewer": false,
+    "component_gradient_norm": "NOT_RECORDED_NOT_RECONSTRUCTED",
+    "new_actual_GPU_validation": false
+  },
+  "execution_mutations": {
+    "new_GPU_jobs": 0,
+    "new_model_forwards": 0,
+    "new_baselines": 0,
+    "new_checkpoints": 0,
+    "new_Slurm_calls": 0,
+    "original_runtime_or_raw_modified": false,
+    "monitoring_active": false,
+    "automatic_resume": false
+  },
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED: 소형 집계/그림/source/manifest의 Git 게시만. 대형 원자료 local KEEP.",
+  "file_count": 22,
+  "bytes": 2418245,
+  "files": [
+    {
+      "path": "audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/plot_telemetry.py",
+      "bytes": 5761,
+      "sha256": "62d3af940ffa8d67f48f01772d204067019a6a9b2ab42af20adc91e73589dadb"
+    },
+    {
+      "path": "audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/reduce_telemetry.py",
+      "bytes": 19757,
+      "sha256": "47df6a10b9de52dc66033215377a6b4f99f17156cd02a4c85dea65b33c461a56"
+    },
+    {
+      "path": "audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/test_reduce_telemetry.py",
+      "bytes": 1654,
+      "sha256": "417a853fd3093625b7d6f08da807ad5cc06bc5ef7902b0e2d35c43bd9c6424e9"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/report-ko.md",
+      "bytes": 9517,
+      "sha256": "b1c201e90b86c995df58536e469b9fcb0eb1c16e23df1db5406d150c79e84f66"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/AB-terminal-differences.csv",
+      "bytes": 6876,
+      "sha256": "63bef97a90f32f4b80ca017617a2b264c7e50721e0a1fe634f2e3559b0a65a62"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/Q2-frozen-operator.csv",
+      "bytes": 12685,
+      "sha256": "2b4e19fa238b7476feee18bb2f7ca976f242a9c09bce6356999c5ad54186bc19"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/README.md",
+      "bytes": 9792,
+      "sha256": "1de0c41becf29c6ca5022b83fa2a10fc82daf80ce8176c762c4306a309dd41a3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/candidate-layer-trajectory.csv",
+      "bytes": 893010,
+      "sha256": "0ef00b6a3ced85dcd39efeb70fc1fe9f244be052bacc7ae1ce854dd7b1ea4bbf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/candidate-objectives.csv",
+      "bytes": 81981,
+      "sha256": "d2a6f915daddec14f2bc66cc01aae1e783c63df487eec9970daf15dc1d01e695"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/clamp-trajectory.csv",
+      "bytes": 436253,
+      "sha256": "33261ef5367af68620c183b815f3b75a9fc3c498f402aa196ff94138622cc283"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/figures/manifest.json",
+      "bytes": 922,
+      "sha256": "4c9d3386d727cae53f6622b16739d4786e17fcea6817cdb96fdd68076fca6845"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/figures/objectives-and-clamp.png",
+      "bytes": 220755,
+      "sha256": "22f01a09e443040f2fa41da58a53c73718809b1916488f477ea7d1b2d9de5665"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/figures/realization-and-allocation.png",
+      "bytes": 110714,
+      "sha256": "e4839293c579209b5f8237984401fd3d6643f827a12edc47d12154e9958cc56d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/figures/terminal-decomposition.png",
+      "bytes": 71060,
+      "sha256": "aef039bbf7bca6338f7db8df2bd1e2b21b715234235225266717d0f9554a5161"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/hardware.csv",
+      "bytes": 269,
+      "sha256": "d1777b9a50fd7e26ddab96cc6c6a1a0bc23dc6786c4fe1a3fb8b8cdfadfbd83e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/input-manifest.json",
+      "bytes": 153656,
+      "sha256": "f8e764f350e24a092920de99b0015c991761e91764c0a572995793ba7460972b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/terminal-context-decomposition.csv",
+      "bytes": 246110,
+      "sha256": "c5933f201ce327e646fbfe7326b203139bd0c4f231d0760dadd48f7a1feba1bb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/terminal-layer-realization.csv",
+      "bytes": 113980,
+      "sha256": "eeccba30fbbcab123ffe4e79c62f377b9c1020213651c84bebd1d57f04a80b40"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/terminal-native-observations.csv",
+      "bytes": 8824,
+      "sha256": "26671df7650ab7f505525eb8105be32008ac245696f2f945e8d45535e7d151b4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/validation.json",
+      "bytes": 1045,
+      "sha256": "38298d0ed6b4f2af0aabd9b941eb377c080778e64798bfbff931c901aed122ab"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-03-jlz-realization-v9.json",
+      "bytes": 9785,
+      "sha256": "050c6ed046659fa061a72a25a8e160bf97ff856064f37d4b6175a8e856523853"
+    },
+    {
+      "path": "tasks/status/jlz-realization-v9-ridge-bs100x5-with-exact-probe/server4.json",
+      "bytes": 3839,
+      "sha256": "8790f444facf89a36d00cd47906ac533529b51a21dcea7dbfb2305dbaa1c8cb3"
+    }
+  ],
+  "manifest_excludes_self": true
+}

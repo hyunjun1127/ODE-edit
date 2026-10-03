@@ -2,6 +2,8 @@
 
 2026년 10월 3일 사용자 완료 recall에서 **A와 B 각각 BS100 × 5 및 W5 누적평가 완료**를 확인했다. 두 GPU job과 CPU collector 모두 Slurm COMPLETED 0:0이다. 공통 500문항을 두 독립 cold W0/H0 경로에서 편집했으며 총 10 commit, 250후보, 240 Adam 업데이트, 층별 H 갱신 50회다. B6와 신규 checkpoint는 없다.
 
+후속 사용자 요청에 따라 [실현·배분·clamp 상세 계측 산출물](telemetry-publication-r1/README.md)을 추가 게시했다. 후보 JSON 250개를 CPU로 요약한 CSV 9개와 그림 3개, source/검산/inventory가 포함된다. 기존 간단 완료 게시에서 빠졌던 계측 요약이며 새 과학 실행은 아니다. 성분별 gradient norm 미기록은 미측정으로 남겼다.
+
 ## W5 최종 수치
 
 | Arm | RS rewrite | PS paraphrase | NS neighborhood |

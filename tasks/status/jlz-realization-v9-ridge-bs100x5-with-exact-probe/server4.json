@@ -26,6 +26,17 @@
     "verification": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/verification.json"
   },
   "monitoring_active": false,
+  "telemetry_publication": {
+    "authority": "USER: 산출물도 push해",
+    "status": "CPU_SUMMARY_COMPLETE",
+    "report": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/telemetry-publication-r1/README.md",
+    "candidate_JSON_count": 250,
+    "CSV_count": 9,
+    "figure_count": 3,
+    "bounded_tensor_rechecks": 4,
+    "new_GPU": 0,
+    "component_gradient_norm": "NOT_RECORDED"
+  },
   "CPU_tests": 13,
   "independent_reviewer": false,
   "evidence": {
