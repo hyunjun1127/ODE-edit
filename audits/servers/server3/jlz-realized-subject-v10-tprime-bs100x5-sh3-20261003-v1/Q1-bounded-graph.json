@@ -1,0 +1,224 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "job": 57698,
+  "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "evidence": {
+    "receipt.json": {
+      "actual_model": true,
+      "comparison_candidates": 5,
+      "dense_reference": true,
+      "logical_B": 2,
+      "main_PASS": false,
+      "microbatch_permutation": true,
+      "native_full_block_hook_reference": true,
+      "new_fit_candidates": 0,
+      "new_optimizer_updates": 0,
+      "production_builder": "whole_B_all_RW_KL",
+      "status": "QUALIFIED_BOUNDED",
+      "tolerances": {
+        "forward_atol": 1e-05,
+        "forward_rtol": 0.0001,
+        "gradient_RMS_atol": 1e-06,
+        "gradient_RMS_rtol": 0.001
+      }
+    },
+    "dense.json": {
+      "gradients": {
+        "4": {
+          "error_RMS": 8.102680131515143e-09,
+          "limit": 0.0001652233621115321,
+          "passed": true,
+          "reference_RMS": 0.1642233621115321
+        },
+        "5": {
+          "error_RMS": 4.912473260259428e-09,
+          "limit": 9.755880790947848e-05,
+          "passed": true,
+          "reference_RMS": 0.09655880790947849
+        },
+        "6": {
+          "error_RMS": 2.974775442807065e-09,
+          "limit": 6.0159617271390555e-05,
+          "passed": true,
+          "reference_RMS": 0.059159617271390554
+        },
+        "7": {
+          "error_RMS": 2.2124618819591472e-09,
+          "limit": 4.483269458699553e-05,
+          "passed": true,
+          "reference_RMS": 0.043832694586995534
+        },
+        "8": {
+          "error_RMS": 0.0,
+          "limit": 3.661616497549339e-05,
+          "passed": true,
+          "reference_RMS": 0.03561616497549339
+        }
+      },
+      "limit": 0.00109798040474548,
+      "loss_error": 0.0,
+      "solve": {
+        "4": 1.252916516092118e-14,
+        "5": 1.3503202962465189e-14,
+        "6": 1.1206917470015567e-14,
+        "7": 1.3496711206834904e-14,
+        "8": 1.2730897615204865e-14
+      }
+    },
+    "reversed_MB1.json": {
+      "gradients": {
+        "4": {
+          "error_RMS": 2.9494929576802316e-07,
+          "limit": 0.00016522342349682218,
+          "passed": true,
+          "reference_RMS": 0.16422342349682217
+        },
+        "5": {
+          "error_RMS": 1.762141697208901e-07,
+          "limit": 9.755884592183653e-05,
+          "passed": true,
+          "reference_RMS": 0.09655884592183653
+        },
+        "6": {
+          "error_RMS": 1.086667101961421e-07,
+          "limit": 6.015963451534439e-05,
+          "passed": true,
+          "reference_RMS": 0.059159634515344395
+        },
+        "7": {
+          "error_RMS": 7.480562212528353e-08,
+          "limit": 4.483270504610513e-05,
+          "passed": true,
+          "reference_RMS": 0.04383270504610513
+        },
+        "8": {
+          "error_RMS": 5.636076267549184e-08,
+          "limit": 3.661616919441386e-05,
+          "passed": true,
+          "reference_RMS": 0.03561616919441386
+        }
+      },
+      "limit": 0.0010979802916897092,
+      "loss_error": 1.1305577096720754e-06,
+      "solve": {
+        "4": 1.252916516092118e-14,
+        "5": 8.796859498592156e-15,
+        "6": 1.2002695095025718e-14,
+        "7": 1.574732615934683e-14,
+        "8": 1.1745022167349726e-14
+      }
+    },
+    "full-model-hooks.json": {
+      "gradients": {
+        "4": {
+          "error_RMS": 0.0,
+          "limit": 0.00016522336186771856,
+          "passed": true,
+          "reference_RMS": 0.16422336186771855
+        },
+        "5": {
+          "error_RMS": 0.0,
+          "limit": 9.755880791458036e-05,
+          "passed": true,
+          "reference_RMS": 0.09655880791458037
+        },
+        "6": {
+          "error_RMS": 0.0,
+          "limit": 6.015961734587924e-05,
+          "passed": true,
+          "reference_RMS": 0.059159617345879247
+        },
+        "7": {
+          "error_RMS": 0.0,
+          "limit": 4.483269464519647e-05,
+          "passed": true,
+          "reference_RMS": 0.04383269464519647
+        },
+        "8": {
+          "error_RMS": 0.0,
+          "limit": 3.661616497549339e-05,
+          "passed": true,
+          "reference_RMS": 0.03561616497549339
+        }
+      },
+      "limit": 0.00109798040474548,
+      "loss_error": 0.0
+    },
+    "stop-geometry-negative-control.json": {
+      "gradient_difference": {
+        "4": {
+          "error_RMS": 0.0001290224142044732,
+          "limit": 0.00016522336186771856,
+          "passed": true,
+          "reference_RMS": 0.16422336186771855
+        },
+        "5": {
+          "error_RMS": 8.335625388108409e-05,
+          "limit": 9.755880791458036e-05,
+          "passed": true,
+          "reference_RMS": 0.09655880791458037
+        },
+        "6": {
+          "error_RMS": 5.4795206007075276e-05,
+          "limit": 6.015961734587924e-05,
+          "passed": true,
+          "reference_RMS": 0.059159617345879247
+        },
+        "7": {
+          "error_RMS": 2.7188897800061126e-05,
+          "limit": 4.483269464519647e-05,
+          "passed": true,
+          "reference_RMS": 0.04383269464519647
+        },
+        "8": {
+          "error_RMS": 0.0,
+          "limit": 3.661616497549339e-05,
+          "passed": true,
+          "reference_RMS": 0.03561616497549339
+        }
+      },
+      "loss_difference": 0.0,
+      "production_uses_full_graph": true
+    }
+  },
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/A/batch-01/qualification/receipt.json",
+      "bytes": 432,
+      "sha256": "164345576548b361a637382c0dfb0ab0ff325eff36a7da95999cd0d0e1d04b8b",
+      "inode": 20400293,
+      "mtime_ns": 1791018742592452974
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/A/batch-01/qualification/dense.json",
+      "bytes": 850,
+      "sha256": "1ca1de242e142d3ee5f41dad68fad98d9a70d8818cb27b90924b6a46c5390648",
+      "inode": 20400289,
+      "mtime_ns": 1791018737744539209
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/A/batch-01/qualification/reversed_MB1.json",
+      "bytes": 887,
+      "sha256": "ecb48a6afee4a8463071ac04210b19c7267b0bff03f9c841a3ea85b2c6572d72",
+      "inode": 20400290,
+      "mtime_ns": 1791018740148496449
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/A/batch-01/qualification/full-model-hooks.json",
+      "bytes": 622,
+      "sha256": "cdd28ebc603088e8de4b7b63fb668da90cbb20a077d5b1d9da3a4b8187226a0d",
+      "inode": 20400291,
+      "mtime_ns": 1791018741756467846
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/A/batch-01/qualification/stop-geometry-negative-control.json",
+      "bytes": 717,
+      "sha256": "c8118e7a7cd529678424cc1de3c610cf2bc51d8297ade01300ef9f5262fd2701",
+      "inode": 20400292,
+      "mtime_ns": 1791018742588453045
+    }
+  ],
+  "qualification_completed": false,
+  "main_PASS": false,
+  "scope": "Q1 A BS2 fixed candidate graph only; rest Q1 and main still in progress"
+}
