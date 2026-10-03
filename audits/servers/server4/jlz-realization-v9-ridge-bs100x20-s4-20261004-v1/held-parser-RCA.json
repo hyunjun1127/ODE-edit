@@ -1,0 +1,15 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "phase": "HELD_INSPECTION",
+  "job": "57899",
+  "observed": "PENDING JobHeldUser, owner janghj, source ab6f1bda, attempt-r2/main-A.sh",
+  "original_error": "HELD:NumCPUs=8",
+  "actual_fields": ["NumCPUs=8-14", "CPUs/Task=8", "ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"],
+  "confirmed_cause": "Slurm 26.05의 CPU 범위 표기를 exact 문자열 검사기가 거절함",
+  "repair": "CPUs/Task와 ReqTRES의 실제요청8 및 NumCPUs lower bound8을 함께 검산. 동일 held57899 유지, B/collector만 미등록분 등록",
+  "science_source_changed": false,
+  "frozen_archive_hotpatch": false,
+  "GPU_execution_before_repair": 0,
+  "cancellation": 0,
+  "other_job_mutation": 0
+}

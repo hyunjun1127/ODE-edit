@@ -75,8 +75,9 @@ def arguments(name,dep,attempt,r):
 def inspect(job,name,dep,argv,attempt,r):
     detail=command(['scontrol','show','job',job,'--oneliner']);gpu=name!='collector';script=attempt/(name+'.sh')
     for term in [f'JobId={job} ',f'JobName={jobname(name)} ','UserId='+getpass.getuser()+'(',
-        'JobState=PENDING ','Reason=JobHeldUser ','Requeue=0 ','NumCPUs=8 ','ReqNodeList=server4 ','Partition=gpu ','QOS=lab_gpu_s4 ']:
+        'JobState=PENDING ','Reason=JobHeldUser ','Requeue=0 ','CPUs/Task=8 ','ReqTRES=cpu=8,','ReqNodeList=server4 ','Partition=gpu ','QOS=lab_gpu_s4 ']:
         require(term in detail,'HELD:'+term)
+    require(re.search(r'\bNumCPUs=8(?:-[0-9]+)? ',detail),'HELD_CPU_REQUEST_RANGE')
     require(('TresPerNode=gres/gpu:1' in detail) if gpu else 'gres/gpu' not in detail,'HELD_GPU')
     mem=r['host_mib'] if gpu else r['collector_host_mib']
     require(f'mem={mem}M' in detail or f'mem={mem//1024}G' in detail,'HELD_MEMORY')
