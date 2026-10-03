@@ -1,6 +1,6 @@
 {
   "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
-  "state": "submitted",
+  "state": "main_initial",
   "jobs": {
     "A": "57699",
     "B": "57700",
@@ -8,13 +8,14 @@
     "q1": "57698",
     "collector_original": "57701"
   },
-  "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
-  "lock": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+  "execution_source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "lock_sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
   "GPU_qualified": true,
-  "actual_Q1": "COMPLETED",
-  "main_initial": "NOT_OBSERVED",
+  "main_initial": "ACTUAL_PASS",
+  "main_A500_complete": "NOT_OBSERVED",
+  "main_B500_complete": "NOT_OBSERVED",
   "checkpoint_saved": false,
-  "monitoring": "BOUNDED_MAIN_INITIAL_ONLY",
-  "actual_main_A": "RUNNING",
-  "Q1_allocated_GPU_seconds": 425
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "stop_state": "MONITORING_PAUSED_AWAITING_USER"
 }

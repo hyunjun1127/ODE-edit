@@ -1,0 +1,259 @@
+{
+  "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "observed_at": "2026-10-03T09:40:56.173507+00:00",
+  "state": "MAIN_INITIAL_PASS",
+  "jobs": {
+    "A": "57699",
+    "B": "57700",
+    "collector": "57704",
+    "q1": "57698",
+    "collector_original": "57701"
+  },
+  "execution_source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "analysis_source": "5bbfdd6245e194f6aa80fd97e912bc86b1d62814",
+  "source_archive": {
+    "bytes": 48991,
+    "inode": 20400254,
+    "mtime_ns": 1791018670317736551,
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source.tar.gz",
+    "sha256": "6b6584e4457691ad4f42d7f5e3366f053cc4d92e31c739039ebccdc3291e1ede"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/execution.lock.json",
+    "bytes": 12801,
+    "sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+    "inode": 20400255,
+    "mtime_ns": 1791018671317718823
+  },
+  "initial": {
+    "B1_current_observer_complete": true,
+    "B1_same_evaluated_weight_commit": true,
+    "B2_own_entry": true,
+    "H_once_per_layer": true,
+    "aux": {
+      "contexts": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+      "ledger": "f3daef24868b2309d94269258a277215158bf5ff1b2653a74f1b07ba4c904f43",
+      "rng": "ce878d84b07fba67f73a070fe5a7c77dbdbf1dcf96811cbccbeeb3c3ff7a10ff"
+    },
+    "checkpoint_saved": false,
+    "config_digest": "6b83045a34df92449ab7bb17e06adcaac8a6750a7d845809e9c1d01d4591435a",
+    "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+    "state": {
+      "H": {
+        "4": "d5a62ceb135358a8067be0b01f01d20639edcd36b45c82334c14a30beec8d9f0",
+        "5": "5511043fe60bfaeb396ef010b145c67ddd2ad0c6dec97efd866f04b8f4f0e4bc",
+        "6": "0e8b020f00e947ca661b1a5c0c867183e993652367801ee6afe88595cd7e1082",
+        "7": "1051acb6e5200988ec54503b2422a933af7e0c671c2ad9d7424226d85f0116cb",
+        "8": "66066f2cbd61633463bc6daeee8852bf7a49a8d382a4b01024bdae7d67204a2a"
+      },
+      "W": {
+        "4": "e8d0b530bec41dc8704525ade4b758df2891c331c0c1e14e954fc4f6c614c114",
+        "5": "1e97987a532f4054a905a71f87c2ca8ba1698924e8bc4df9ecf0173e3c97614c",
+        "6": "1f769138a7934dc55b5960460156cee4f3255dfc4d0458146e22cb1e6cc06a34",
+        "7": "ec33a7bc14afc53829d4e3ad9db47bf3c47a67d6f85e03c15820b6d301718da8",
+        "8": "2593ae184b4b3a5860d9ff3c4bc396a950b992039278a86209e5a95b459095c0"
+      }
+    },
+    "status": "MAIN_INITIAL_PASS"
+  },
+  "Q1": {
+    "arm": null,
+    "checkpoint_saved": false,
+    "commits": [
+      [
+        "A",
+        1
+      ],
+      [
+        "A",
+        2
+      ],
+      [
+        "B",
+        1
+      ],
+      [
+        "B",
+        2
+      ]
+    ],
+    "config_sha256": "8ee78d89d798535929b0f6e4c44612e1e516cb8697a3e018a97151f8fd510d6d",
+    "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+    "job_id": "57698",
+    "no_B6": true,
+    "peak_gpu_bytes": 76617735680,
+    "peak_host_kib": 40387804,
+    "phase": "q1",
+    "seconds": 422.9962075483054,
+    "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+    "status": "COMPLETED"
+  },
+  "Q1_allocated_GPU_seconds": 425,
+  "metrics": {
+    "R": {
+      "denominator": 100,
+      "numerator": 100,
+      "rate": 1.0,
+      "desired_token_correct": 101,
+      "desired_token_count": 101,
+      "token_micro": 1.0,
+      "prompt_macro": 1.0,
+      "strict_numerator": 100,
+      "strict_denominator": 100,
+      "true_nll_mean": 15.580227766036987,
+      "new_nll_mean": 0.0034852301610226277,
+      "desired_nll_mean": 0.0034852301610226277,
+      "margin_true_minus_new": 15.576742535875965,
+      "true_nll_max": 27.479351043701172,
+      "new_nll_max": 0.019723599776625633
+    },
+    "P": {
+      "denominator": 200,
+      "numerator": 195,
+      "rate": 0.975,
+      "desired_token_correct": 157,
+      "desired_token_count": 202,
+      "token_micro": 0.7772277227722773,
+      "prompt_macro": 0.775,
+      "strict_numerator": 155,
+      "strict_denominator": 200,
+      "true_nll_mean": 12.074286823272706,
+      "new_nll_mean": 1.059060425681273,
+      "desired_nll_mean": 1.059060425681273,
+      "margin_true_minus_new": 11.015226397591432,
+      "true_nll_max": 21.959430694580078,
+      "new_nll_max": 13.074646949768066
+    },
+    "N": {
+      "denominator": 1000,
+      "numerator": 856,
+      "rate": 0.856,
+      "desired_token_correct": 186,
+      "desired_token_count": 1030,
+      "token_micro": 0.18058252427184465,
+      "prompt_macro": 0.1715,
+      "strict_numerator": 157,
+      "strict_denominator": 1000,
+      "true_nll_mean": 5.502298513813235,
+      "new_nll_mean": 11.086254747054657,
+      "desired_nll_mean": 5.502298513813235,
+      "margin_true_minus_new": -5.5839562332414205,
+      "true_nll_max": 20.621891021728516,
+      "new_nll_max": 23.5629940032959
+    }
+  },
+  "B1_candidate_cost": {
+    "candidates": 25,
+    "updates": 24,
+    "seconds": 1135.9397602677345,
+    "prediction_tokens": 17650,
+    "masked_backward_calls": 10850,
+    "component_builder_backwards": 12,
+    "geometry_solves": 101,
+    "timers": "candidate wall includes nested native/builder; never sum nested timers again"
+  },
+  "B1_seconds": 1175.39693444781,
+  "observer_seconds": 23.45249529182911,
+  "inputs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/execution.lock.json",
+      "bytes": 12801,
+      "sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+      "inode": 20400255,
+      "mtime_ns": 1791018671317718823
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/config.json",
+      "bytes": 12465,
+      "sha256": "8ee78d89d798535929b0f6e4c44612e1e516cb8697a3e018a97151f8fd510d6d",
+      "inode": 20400253,
+      "mtime_ns": 1791018670301736835
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/READY.json",
+      "bytes": 320,
+      "sha256": "b837320f579cdf9548767660e302efc55eb174264503729934cb270ab00a48cd",
+      "inode": 20400434,
+      "mtime_ns": 1791019119017711217
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/terminal.json",
+      "bytes": 462,
+      "sha256": "92b6c0bd7ffefc220408a3682e0473486c13b651fd5e5de094e210c9d0f2a2c5",
+      "inode": 20400435,
+      "mtime_ns": 1791019119017711217
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/initial.json",
+      "bytes": 1322,
+      "sha256": "a9ad740dac00075f8f723f10fd2297fb193b2be6bd27ef76e5da55cc71201928",
+      "inode": 20400495,
+      "mtime_ns": 1791020425291345356
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/batch-01/commit.json",
+      "bytes": 4348,
+      "sha256": "ed15b19db9cd8eda0489fc4f04934f261a41de42d75ea178ef32d6ae87eb615c",
+      "inode": 20400487,
+      "mtime_ns": 1791020342857039914
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/batch-02/entry.json",
+      "bytes": 11741,
+      "sha256": "e545807db0d81974e6bd4da6401ef739467f6195c202c137972422c8f39e158e",
+      "inode": 20400494,
+      "mtime_ns": 1791020425287345437
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/observe-W01/summary.json",
+      "bytes": 3000,
+      "sha256": "e7d9d57c914f7935881c34ba762ba649312916f310cc00f274b6c5fc401d8f9f",
+      "inode": 20400491,
+      "mtime_ns": 1791020369960480705
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/analysis.lock.json",
+      "bytes": 2378,
+      "sha256": "70882f09d7d3941d957ce9f36dd98d7083c95b7ce73c0b7f01c5d6e43754b12d",
+      "inode": 19090125,
+      "mtime_ns": 1791019976212874392
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/registration.json",
+      "bytes": 894,
+      "sha256": "4976c49b0f9d4a2019c8995e6468ca6fdd2f9476ee8e766861fa86f9dcf6a9f4",
+      "inode": 19090126,
+      "mtime_ns": 1791019976216874303
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/release.json",
+      "bytes": 78,
+      "sha256": "edf2153f3de17cbce1be7d9511d8174c2bb495c3a611cf86408a99a0297bd3bd",
+      "inode": 19090128,
+      "mtime_ns": 1791019976224874125
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/observe-W01/chunk-0000.json",
+      "bytes": 390556,
+      "sha256": "703f0f6b608f9043ab3ebe81b7380da358d58e5a7f8ba4c30296141fceaea1c5",
+      "inode": 20400489,
+      "mtime_ns": 1791020356660754847
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/observe-W01/chunk-0050.json",
+      "bytes": 390623,
+      "sha256": "df3e08036a57485d229a273686d4100df2eaefa2093c2d0e77b582da1a808dc2",
+      "inode": 20400490,
+      "mtime_ns": 1791020366448553046
+    }
+  ],
+  "raw_identity_reducer": "PASS",
+  "main_A500_complete": "NOT_OBSERVED",
+  "main_B500_complete": "NOT_OBSERVED",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "scientific_promotion": false,
+  "after_handoff": "MONITORING_PAUSED_AWAITING_USER"
+}

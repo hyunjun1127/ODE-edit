@@ -1,0 +1,26 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "owner": "SH3",
+  "state": "MAIN_INITIAL_PASS",
+  "jobs": {
+    "A": "57699",
+    "B": "57700",
+    "collector": "57704",
+    "q1": "57698",
+    "collector_original": "57701"
+  },
+  "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "lock_sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/experiment-reports/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/report-ko.md",
+    "bytes": 3462,
+    "sha256": "46f718f2eca507d0bc1697ca1e1207446507aa9d94699fe6559d0f78575ad48c",
+    "inode": 20400136,
+    "mtime_ns": 1791020456170715128
+  },
+  "audit": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/audits/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/actual-initial-handoff.json",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "actual_A500": "NOT_OBSERVED",
+  "actual_B500": "NOT_OBSERVED"
+}
