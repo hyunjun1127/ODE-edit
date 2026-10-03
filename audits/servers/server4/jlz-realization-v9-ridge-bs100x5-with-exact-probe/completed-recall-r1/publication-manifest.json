@@ -1,0 +1,85 @@
+{
+  "created_utc": "2026-10-03T05:16:41.816072+00:00",
+  "user_request": "실험 끝난거 간단히 정리해서 main에 push하자",
+  "runtime_source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "prior_publication": "63b9a510c935724ac05d923ff6d9c160780fa41e",
+  "new_runtime_changes": false,
+  "scope": "완료 scalar 자료 CPU 검산과 소형 게시; 새로운 과학 실행 없음",
+  "files": [
+    {
+      "path": "audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/accounting.json",
+      "bytes": 1627,
+      "sha256": "4efefd60a5bbdf70261aee2e85f4baa820eca4d7494272dbf50da88d4b5341da"
+    },
+    {
+      "path": "audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/verify_summary.py",
+      "bytes": 7988,
+      "sha256": "b32aeb6eb300cfebea8521da8896bde848b31d62ab2cb8db48efd5c06566f9af"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/collector-cost.json",
+      "bytes": 1784,
+      "sha256": "192522a18480b2464907c7096c8791e58644a8950b3a8f59521804b60150320c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/collector-metrics.csv",
+      "bytes": 3192,
+      "sha256": "64e1ee45673c2ebc8e42ed71d85bcefd783a1e01c5def6786ac43256d9e4edc6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/collector-paired-cohorts.json",
+      "bytes": 9602,
+      "sha256": "189885eb0e3aba01f1970d7708d0ed38593b73ebcd38467a1def9095b404835d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/collector-summary.json",
+      "bytes": 1029,
+      "sha256": "914896954902edd6feeed98d4c6c43feaed8f5dce0175f3bf86dd3f22f62c586"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/collector-terminal.json",
+      "bytes": 850,
+      "sha256": "90e0a05361ec17c1f1b58d530a2801ad8aa46eac060cc349b0c3d7a9fec78648"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/q2-summary.json",
+      "bytes": 3876,
+      "sha256": "d39b97b91894af2185cfcc49b33506aa993ba2d332eca66f21758a2ea787998b"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/verification.json",
+      "bytes": 12065,
+      "sha256": "ff4e7b0a21884beb79d3d767db9e58c6558cc178f5633fd8dba68525342fa41d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/report-ko.md",
+      "bytes": 9109,
+      "sha256": "270c8d747fe40df0a7d2932ac1404a2b7d8b0cbaf066ee0f5710032168cc462b"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-03-jlz-realization-v9.json",
+      "bytes": 9116,
+      "sha256": "26fb16f8f214d23b9bfbe17cfd9dd05f15874f8c7e257d2b31c9e854a4cc349c"
+    },
+    {
+      "path": "tasks/status/jlz-realization-v9-ridge-bs100x5-with-exact-probe/server4.json",
+      "bytes": 3409,
+      "sha256": "7e5b3352c6386c9e259c1fbf27508478d9dc3fe04c1f2b684de1bc2b77c3cd3c"
+    }
+  ],
+  "checks": {
+    "owner_audit": true,
+    "independent_reviewer": false,
+    "raw_scalar_rows": 24700,
+    "JSON_AST_links": true,
+    "html_renderer": "system python3 markdown_it commonmark + table",
+    "rendered_tables": 3,
+    "browser_visual_check": "NOT_PERFORMED",
+    "agent_access": "PASS",
+    "csv_CRLF": "원 collector bytes 그대로 보존",
+    "tensor_model_checkpoint_rehash": false
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

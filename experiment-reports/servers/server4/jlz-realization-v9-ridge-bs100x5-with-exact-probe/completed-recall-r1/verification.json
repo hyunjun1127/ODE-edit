@@ -1,0 +1,303 @@
+{
+  "status": "PASS_BOUNDED_CPU_READBACK",
+  "checked_rows": 24700,
+  "checked": {
+    "A": {
+      "commits": 5,
+      "candidates": 125,
+      "Adam_updates": 120,
+      "history_appends": 25,
+      "unique_cases": 500,
+      "no_B6": true,
+      "final_summary": {
+        "R": {
+          "denominator": 500,
+          "numerator": 498,
+          "rate": 0.996,
+          "true_nll_mean": 15.194981127262116,
+          "new_nll_mean": 0.033126298110095376,
+          "desired_token_count": 507,
+          "desired_token_correct": 505,
+          "token_micro": 0.9960552268244576,
+          "prompt_macro": 0.996,
+          "strict_numerator": 498,
+          "strict_denominator": 500,
+          "new_strict_numerator": 498
+        },
+        "P": {
+          "denominator": 1000,
+          "numerator": 949,
+          "rate": 0.949,
+          "true_nll_mean": 11.170498017162085,
+          "new_nll_mean": 1.702905997975786,
+          "desired_token_count": 1014,
+          "desired_token_correct": 678,
+          "token_micro": 0.6686390532544378,
+          "prompt_macro": 0.667,
+          "strict_numerator": 664,
+          "strict_denominator": 1000,
+          "new_strict_numerator": 664
+        },
+        "N": {
+          "denominator": 5000,
+          "numerator": 4143,
+          "rate": 0.8286,
+          "true_nll_mean": 5.065519299985168,
+          "new_nll_mean": 9.837058777809858,
+          "desired_token_count": 5070,
+          "desired_token_correct": 1021,
+          "token_micro": 0.20138067061143985,
+          "prompt_macro": 0.197,
+          "strict_numerator": 951,
+          "strict_denominator": 5000,
+          "new_strict_numerator": 91
+        }
+      }
+    },
+    "B": {
+      "commits": 5,
+      "candidates": 125,
+      "Adam_updates": 120,
+      "history_appends": 25,
+      "unique_cases": 500,
+      "no_B6": true,
+      "final_summary": {
+        "R": {
+          "denominator": 500,
+          "numerator": 499,
+          "rate": 0.998,
+          "true_nll_mean": 15.186172997236252,
+          "new_nll_mean": 0.02862105010167943,
+          "desired_token_count": 507,
+          "desired_token_correct": 506,
+          "token_micro": 0.9980276134122288,
+          "prompt_macro": 0.998,
+          "strict_numerator": 499,
+          "strict_denominator": 500,
+          "new_strict_numerator": 499
+        },
+        "P": {
+          "denominator": 1000,
+          "numerator": 947,
+          "rate": 0.947,
+          "true_nll_mean": 11.137306131623685,
+          "new_nll_mean": 1.740978169426162,
+          "desired_token_count": 1014,
+          "desired_token_correct": 677,
+          "token_micro": 0.6676528599605522,
+          "prompt_macro": 0.666,
+          "strict_numerator": 663,
+          "strict_denominator": 1000,
+          "new_strict_numerator": 663
+        },
+        "N": {
+          "denominator": 5000,
+          "numerator": 4136,
+          "rate": 0.8272,
+          "true_nll_mean": 5.067366282600441,
+          "new_nll_mean": 9.830139845068421,
+          "desired_token_count": 5070,
+          "desired_token_correct": 1019,
+          "token_micro": 0.2009861932938856,
+          "prompt_macro": 0.1966,
+          "strict_numerator": 949,
+          "strict_denominator": 5000,
+          "new_strict_numerator": 93
+        }
+      }
+    }
+  },
+  "implementation": "표 집계 독립 재작성, 동일 owner 검산; 독립 reviewer 아님",
+  "reused_collector_inventory": {
+    "entries": 623,
+    "indexed_bytes": 646421537,
+    "extensions": {
+      ".npz": 100,
+      ".json": 523
+    },
+    "tensor_rehash_on_recall": false,
+    "source": "sealed collector artifact-index.json"
+  },
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/execution.lock.json",
+      "bytes": 32947,
+      "sha256": "f8a6c2a4cf06b1284f35940c703b8037336bbc5103f206f5dd014e65ad76a9df"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/config.json",
+      "bytes": 41059,
+      "sha256": "d87ab23e3746925cd305e403fc1c50659f704f0521fe1efdfc0452be9e99e8e4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/commit.json",
+      "bytes": 19987,
+      "sha256": "70619dc3385b29030ea0949093162fd6e68b17d7314365fb5b17514ccd147ef4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/observe-W01/summary.json",
+      "bytes": 2990,
+      "sha256": "e6c32f6f774c459b279b5ca3f98cb856b7e7713018c22d5383e7b76cb25b189e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-02/commit.json",
+      "bytes": 20110,
+      "sha256": "8226fb1b401e28ffbf0802c5bb112e524a8a1e6cba4cb6fc2551e7acfe9cd74c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/observe-W02/summary.json",
+      "bytes": 3019,
+      "sha256": "86bfe1ecd6852611a046a99de0eb30fe163e10bcd11cd1ca513a294701460622"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-03/commit.json",
+      "bytes": 20033,
+      "sha256": "d2d1d03da69393c89471ae48537cc69ef0793c401faf02ec5e412cd160d4df0a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/observe-W03/summary.json",
+      "bytes": 2993,
+      "sha256": "e1c24d9178b49d40d043044875ad28eb171df91ff2428f5d33f07031f2c37a9d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-04/commit.json",
+      "bytes": 20167,
+      "sha256": "13bef6c3308506b39599abae5e250d91a45b439ebdfc36362f305a2b671af3a7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/observe-W04/summary.json",
+      "bytes": 2987,
+      "sha256": "f5634da47242eaf41b74e6a58d8217ff2d0bb116361b08dc57284681f95a8309"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-05/commit.json",
+      "bytes": 20067,
+      "sha256": "5396c47b22c2306c4dd969e2f57f343247b40db39ab1537bd420ece95ef0b4e5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/observe-W05/summary.json",
+      "bytes": 3003,
+      "sha256": "dbf8604217568647da825e02a8ff80805879e2761c1b2b03e005ced7491532fb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/terminal.json",
+      "bytes": 439,
+      "sha256": "7754f4e440ddf4fe2883cf8284030e42252113c273e43cba9c2b7bd6209c60c1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-01/commit.json",
+      "bytes": 19986,
+      "sha256": "d2ab7f0f018effed7a75c0d8768bdefafdcbeadd7187998fcc979a709f21947d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/observe-W01/summary.json",
+      "bytes": 2992,
+      "sha256": "e59f94b1fd798425f83940294e50038788b1626ab1a7176ae48d94e5f90654fa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-02/commit.json",
+      "bytes": 20120,
+      "sha256": "2eaea6248a55c6572c773bfcc9b2c5159a5ced7ffb2e2e356616b17e1c6b3be1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/observe-W02/summary.json",
+      "bytes": 3016,
+      "sha256": "37b5ad891a928a0cc7ab62c3b2116801e42ccd37a5c4caef3f93398065556ba6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-03/commit.json",
+      "bytes": 20044,
+      "sha256": "94280d1ebd364becd4116d780692e5f3b06dc11e2eacc2364da599b6d11e49bb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/observe-W03/summary.json",
+      "bytes": 2992,
+      "sha256": "c8ad8a14a030f6f18b8374044358ced511063c94c1f19594d102fa563146b935"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-04/commit.json",
+      "bytes": 20117,
+      "sha256": "1c19bc084af52e914474716677e8f4718bf36bd319b683d042194279a8d86872"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/observe-W04/summary.json",
+      "bytes": 2962,
+      "sha256": "a1e786ce2bfeca530c275c348f8f68b97df4f93a64112fb84dfdb4dd56e41039"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/batch-05/commit.json",
+      "bytes": 20053,
+      "sha256": "65d0aadffbf64640bfa39186fe18cbdc3e75224aa1e5074e7ea65707f62e23de"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/observe-W05/summary.json",
+      "bytes": 3003,
+      "sha256": "9a0565d7e4ad11f3906e33a19655714f1671fe7efafdfe88d2fb53073e27ca47"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-B/terminal.json",
+      "bytes": 439,
+      "sha256": "3f410d77c0070ff9935af8443f7a6e6f0b79b27cc163664ae1c55d41dfcdeec7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/metrics.csv",
+      "bytes": 3192,
+      "sha256": "64e1ee45673c2ebc8e42ed71d85bcefd783a1e01c5def6786ac43256d9e4edc6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/summary.json",
+      "bytes": 1029,
+      "sha256": "914896954902edd6feeed98d4c6c43feaed8f5dce0175f3bf86dd3f22f62c586"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/paired-cohorts.json",
+      "bytes": 9602,
+      "sha256": "189885eb0e3aba01f1970d7708d0ed38593b73ebcd38467a1def9095b404835d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/cost.json",
+      "bytes": 1784,
+      "sha256": "192522a18480b2464907c7096c8791e58644a8950b3a8f59521804b60150320c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/terminal.json",
+      "bytes": 850,
+      "sha256": "90e0a05361ec17c1f1b58d530a2801ad8aa46eac060cc349b0c3d7a9fec78648"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/Q2/receipt.json",
+      "bytes": 219,
+      "sha256": "64d5e64d652061b521da3bfd77b3662b1564f89ef975e8a095259c04a1f29cf6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/Q2/causal-qualification.json",
+      "bytes": 13180,
+      "sha256": "3f8c648abea9590773fd7537f01636d4dcef99328892616b7c2ba2e618aa9856"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/Q2/frozen-ridge-K-operators.json",
+      "bytes": 546648,
+      "sha256": "4a20623010dfcf14ba9510040c50e424986f84e8f1c9969f2e8e5e97fbb26a74"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/main-A/batch-01/Q2/observer/summary.json",
+      "bytes": 2999,
+      "sha256": "025271692c659b4d780976b49cef7a6ef08e8a9c44fb00788da69ca3ec9af51c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2/report/artifact-index.json",
+      "bytes": 196935,
+      "sha256": "fd1171491b04cf2583261d68d7e90cf1fc462d2fe0d0b2d3c7f9179d7687f07f"
+    }
+  ],
+  "verifier": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/worktree/audits/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/completed-recall-r1/verify_summary.py",
+    "bytes": 7988,
+    "sha256": "b32aeb6eb300cfebea8521da8896bde848b31d62ab2cb8db48efd5c06566f9af"
+  },
+  "timestamp_utc": "2026-10-03T05:11:29.844711+00:00",
+  "new_model_forward": 0,
+  "new_jobs": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

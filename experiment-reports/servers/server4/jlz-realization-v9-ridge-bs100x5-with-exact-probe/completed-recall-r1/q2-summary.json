@@ -1,0 +1,141 @@
+{
+  "receipt": {
+    "additional_fits": 0,
+    "causal_builds": 1,
+    "exact_backward": 0,
+    "exact_qualified": true,
+    "exact_updates": 0,
+    "frozen_operator_passes": 1,
+    "history_appends": 0,
+    "restore_verified": true,
+    "ridge_payload_unchanged": true
+  },
+  "causal": {
+    "4": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.1892983543126345,
+      "FP64_relative": 4.547407109768122e-15,
+      "FP32_RMS": 2.5582816293246743e-08,
+      "FP32_limit": 1.1383004489340902e-05
+    },
+    "5": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.1819439055490146,
+      "FP64_relative": 4.810699739739227e-15,
+      "FP32_RMS": 3.356952552728882e-08,
+      "FP32_limit": 1.1750748413933035e-05
+    },
+    "6": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.08178836695070243,
+      "FP64_relative": 5.5745220508625335e-15,
+      "FP32_RMS": 4.5209463947212987e-08,
+      "FP32_limit": 1.2301055417151997e-05
+    },
+    "7": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.03340577580585486,
+      "FP64_relative": 9.882744655429232e-15,
+      "FP32_RMS": 4.346988575545181e-08,
+      "FP32_limit": 1.2817707844911841e-05
+    },
+    "8": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.08356659344298273,
+      "FP64_relative": 5.398577907108633e-15,
+      "FP32_RMS": 4.180875433432929e-08,
+      "FP32_limit": 1.2954386950411036e-05
+    }
+  },
+  "frozen": {
+    "4": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.1892983543126345,
+      "FP64_relative": 4.547407109768122e-15,
+      "FP32_RMS": 2.5582816293246743e-08,
+      "FP32_limit": 1.1383004489340902e-05
+    },
+    "5": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.1642939565067873,
+      "FP64_relative": 4.930735280604068e-15,
+      "FP32_RMS": 3.225640427170381e-08,
+      "FP32_limit": 1.1750748413933035e-05
+    },
+    "6": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.10559045495222814,
+      "FP64_relative": 4.865596029536385e-15,
+      "FP32_RMS": 3.9115320012245925e-08,
+      "FP32_limit": 1.2301055417151997e-05
+    },
+    "7": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.0461314471089422,
+      "FP64_relative": 5.428047797521422e-15,
+      "FP32_RMS": 4.116814431525441e-08,
+      "FP32_limit": 1.2817707844911841e-05
+    },
+    "8": {
+      "status": "QUALIFIED",
+      "rank": 100,
+      "rcond": 0.06973180094453676,
+      "FP64_relative": 5.953726461757394e-15,
+      "FP32_RMS": 4.1373985682226265e-08,
+      "FP32_limit": 1.2954386950411036e-05
+    }
+  },
+  "exact_observer": {
+    "R": {
+      "denominator": 100,
+      "numerator": 100,
+      "rate": 1.0,
+      "true_nll_mean": 15.42287097454071,
+      "new_nll_mean": 0.003001760840998031,
+      "desired_token_count": 101,
+      "desired_token_correct": 101,
+      "token_micro": 1.0,
+      "prompt_macro": 1.0,
+      "strict_numerator": 100,
+      "strict_denominator": 100,
+      "new_strict_numerator": 100
+    },
+    "P": {
+      "denominator": 200,
+      "numerator": 196,
+      "rate": 0.98,
+      "true_nll_mean": 11.552029534578324,
+      "new_nll_mean": 1.2035771481276607,
+      "desired_token_count": 202,
+      "desired_token_correct": 152,
+      "token_micro": 0.7524752475247525,
+      "prompt_macro": 0.75,
+      "strict_numerator": 150,
+      "strict_denominator": 200,
+      "new_strict_numerator": 150
+    },
+    "N": {
+      "denominator": 1000,
+      "numerator": 855,
+      "rate": 0.855,
+      "true_nll_mean": 5.555510678074439,
+      "new_nll_mean": 11.076003102121206,
+      "desired_token_count": 1030,
+      "desired_token_correct": 184,
+      "token_micro": 0.1786407766990291,
+      "prompt_macro": 0.169,
+      "strict_numerator": 155,
+      "strict_denominator": 1000,
+      "new_strict_numerator": 14
+    }
+  }
+}

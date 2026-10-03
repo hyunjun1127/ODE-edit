@@ -1,6 +1,6 @@
 {
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-500-EXACT-PILOT-20261003-R1",
-  "status": "MAIN_INITIAL_PAUSED_USER_BOUNDARY",
+  "status": "COMPLETED_500_BOTH_BRIEF_REVIEW",
   "source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
   "tree": "a179b5751e91d26bdb762a345d5b70ee79e0ae80",
   "archive": {
@@ -90,7 +90,7 @@
   "Q1_gpu_compute": "two commits per arm verified; A completed, B signal11 after program COMPLETE",
   "CPU_tests": 13,
   "telemetry_repair_CPU_equivalence": true,
-  "Q2": "NOT_OBSERVED_AT_HANDOFF",
+  "Q2": "CAUSAL_EXACT_5_LAYERS_QUALIFIED_RESTORED_RIDGE_COMMITTED",
   "monitoring_active": false,
   "automatic_resume": false,
   "no_checkpoint": true,
@@ -197,8 +197,20 @@
     "automatic_resume": false,
     "Q2_A": "NOT_OBSERVED_AT_HANDOFF"
   },
-  "main_A500_complete": "NOT_OBSERVED",
-  "main_B500_complete": "NOT_OBSERVED",
-  "after_handoff": "sealed W5 runners and collector only; no agent polling or new submissions",
-  "note_ko": "대표 B의 B1 commit/H5/W1 observer 복원/B2 entry 및 R100/P200/N1000 owner CPU 재집계 확인. 양 arm W5 완료 주장은 아님."
+  "main_A500_complete": true,
+  "main_B500_complete": true,
+  "completion_recall": {
+    "date_kst": "2026-10-03",
+    "authority": "USER: 실험 끝난거 간단히 정리해서 main에 push하자",
+    "Slurm": {"57572": "COMPLETED 0:0", "57573": "COMPLETED 0:0", "57574": "COMPLETED 0:0"},
+    "W5_A": {"RS": "498/500", "PS": "949/1000", "NS": "4143/5000"},
+    "W5_B": {"RS": "499/500", "PS": "947/1000", "NS": "4136/5000"},
+    "main_allocated_GPU_seconds": 17956,
+    "main_commits": 10,
+    "scalar_rows_rechecked": 24700,
+    "new_evaluation": 0,
+    "report": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/report-ko.md"
+  },
+  "after_handoff": "TASK_COMPLETE_STOP; no polling/new submissions/automatic resume",
+  "note_ko": "최초 initial 객체는 당시 관측으로 그대로 보존. 이번 사용자 recall에서 두 arm의 500 edit/W5와 collector 완료를 확인했다. Q1 B signal11 및 원 raw/source 보존, checkpoint/새 baseline/새 GPU 0."
 }

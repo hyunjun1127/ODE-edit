@@ -1,0 +1,17 @@
+{
+  "observed_date_kst": "2026-10-03",
+  "snapshot_count": 1,
+  "owner": "janghj",
+  "node": "server4",
+  "command": "sacct -j 57572,57573,57574 --format=JobIDRaw,JobName%42,User,NodeList,State,ExitCode,ElapsedRaw,AllocTRES%80,Start,End,MaxRSS -P; squeue -j 57572,57573,57574",
+  "jobs": [
+    {"job_id": 57572, "name": "odeedit_jlz_v9_s4_main_A", "state": "COMPLETED", "exit": "0:0", "elapsed_seconds": 9516, "allocated_gpu_seconds": 9516, "start_kst": "2026-10-03T05:15:33+09:00", "end_kst": "2026-10-03T07:54:09+09:00", "batch_max_rss_kib": 31929580, "gpus": 1, "cpus": 8, "host_memory_mib": 60416},
+    {"job_id": 57573, "name": "odeedit_jlz_v9_s4_main_B", "state": "COMPLETED", "exit": "0:0", "elapsed_seconds": 8440, "allocated_gpu_seconds": 8440, "start_kst": "2026-10-03T05:15:33+09:00", "end_kst": "2026-10-03T07:36:13+09:00", "batch_max_rss_kib": 31932464, "gpus": 1, "cpus": 8, "host_memory_mib": 60416},
+    {"job_id": 57574, "name": "odeedit_jlz_v9_s4_collector", "state": "COMPLETED", "exit": "0:0", "elapsed_seconds": 2, "allocated_gpu_seconds": 0, "start_kst": "2026-10-03T07:54:11+09:00", "end_kst": "2026-10-03T07:54:13+09:00", "batch_max_rss_kib": 43328, "gpus": 0, "cpus": 8, "host_memory_mib": 24576}
+  ],
+  "exact_queue_remaining": [],
+  "main_allocated_gpu_seconds": 17956,
+  "Q1_prior_receipt_gpu_seconds": 756,
+  "total_including_Q1_gpu_seconds": 18712,
+  "scope_ko": "parent allocation만 합산하며 batch/extern/process timer를 중복 가산하지 않는다. Q1 비용은 기존 receipt 재사용이며 Q1 B FAILED 0:11 기록을 보존한다. 신규 scheduler 변경과 GPU 실행은 0이다."
+}
