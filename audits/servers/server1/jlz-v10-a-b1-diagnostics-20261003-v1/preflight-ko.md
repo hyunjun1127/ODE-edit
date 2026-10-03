@@ -67,7 +67,8 @@ W/H/R/P/optimizer 및 resume-equivalent disk 저장0. 다섯 snapshot은 CPU RAM
 원 5-batch/Q1 runner는 실행하지 않는다. 과학 fit1, B2/armB/추가 fit0.
 
 원 production CPU suite와 새 callback/mask/rollback/독립 reducer/collector/held 등록
-회귀 28개가 통과했다. local `cpu-gate-r1/receipt.json`에 정확 source SHA가 있다.
+회귀 28개가 통과했다. 최종 실행 source 검사는 local `cpu-gate-r3/receipt.json`에
+정확 source SHA가 있으며 compact 사본은 같은 audit의 `cpu-regression.json`이다.
 독립 reviewer agent는 사용하지 않았다. owner source 검토와 별도 구현 CPU reducer다.
 사실 수치와 산술 차이만 보고하고 과학 원인 판정은 GH에 남긴다.
 
