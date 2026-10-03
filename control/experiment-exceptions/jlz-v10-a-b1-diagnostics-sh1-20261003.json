@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "task_id": "jlz-v10-a-b1-diagnostics-20261003-v1",
+  "status": "AUTHORIZED_TASK_SCOPED_USER_EXCEPTION",
+  "overrides_for_this_task_only": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "envelope": "messages/head/2026-10-03-jlz-v10-a-b1-diagnostics-sh1.json",
+  "executor": "SH1",
+  "implementation": true,
+  "qualification": true,
+  "Slurm_fit_evaluation_collector": true,
+  "scientific_fits": 1,
+  "other_tasks_unchanged": true,
+  "cancel_existing_jobs": false,
+  "save_checkpoints": false,
+  "RAM_snapshots_only": [
+    9,
+    13,
+    17,
+    21,
+    25
+  ],
+  "new_recurring_monitor": false,
+  "reason_ko": "최신 USER가 SH1의 신규 단일B1 D1/D2 실행을 승인했다. 과거500chain/다른task실행권한은변경하지않는다."
+}

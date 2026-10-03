@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "task_id": "jlz-v10-a-b1-diagnostics-20261003-v1",
+  "owner": "head-server1",
+  "target_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "AUTHORIZED_AWAITING_DIRECT_DELIVERY",
+  "envelope": "messages/head/2026-10-03-jlz-v10-a-b1-diagnostics-sh1.json",
+  "exception": "control/experiment-exceptions/jlz-v10-a-b1-diagnostics-sh1-20261003.json",
+  "experiment": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/experiment-ko.md",
+  "scientific_fits": 1,
+  "scientific_batches": 1,
+  "fit_candidates": 25,
+  "fit_updates": 24,
+  "GPU_qualified": false,
+  "submitted_job_ids": [],
+  "notes_ko": "SH1 단일 A B1진단이며 SH3 v10/다른실험변경0. Taskcap1/96GiB/6h,noCP."
+}

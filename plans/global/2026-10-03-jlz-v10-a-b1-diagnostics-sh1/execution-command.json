@@ -1,0 +1,41 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "user_request": "이 부분 실험이 필요하다. SH1에게 task 진행하도록 전달하자. batch 1개만 실험하는 것을 보자",
+  "owner": "SH1/server1",
+  "dispatcher": "GH",
+  "scientific_scope": {
+    "method": "v10 Tprime A",
+    "batch_size": 100,
+    "batches": 1,
+    "scientific_fits": 1,
+    "candidates": 25,
+    "updates": 24,
+    "observe_candidates": [
+      9,
+      13,
+      17,
+      21,
+      25
+    ],
+    "D2_masks": [
+      "NONE",
+      "SUBJECT_ONLY",
+      "NONSUBJECT_ONLY",
+      "ALL"
+    ],
+    "D2_candidate": 25,
+    "D3_F1_F2_F3_fits": 0,
+    "new_reference_loss": false
+  },
+  "slurm_allowed": true,
+  "task_concurrent_gpu_cap": 1,
+  "walltime_hours_cap": 6,
+  "cpu_default": 8,
+  "host_memory_MiB_default": 98304,
+  "retain_stricter_project_caps": true,
+  "sender_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "gh_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "sh1_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "AUTHORIZED_PENDING_DELIVERY",
+  "source_commit": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+}

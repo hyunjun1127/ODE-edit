@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "status": "PASS_GH_OWNER_DISPATCH_REVIEW",
+  "independent_red_agent": false,
+  "checks": {
+    "full_read_five_package_files": true,
+    "manifest_SHA_size": true,
+    "source31_and_shared_prompts_frozen_git_identity": true,
+    "first100_matches_source_and_fixed_order": true,
+    "background_review_claims_not_assumed_true": true,
+    "one_fit25_candidates24_updates": true,
+    "RAM5_snapshots_only": true,
+    "D2_fixed_writer_no_resolve_refit": true,
+    "lookup_prelocked_common_subset_no_guessing": true,
+    "whole_B_gradient_and_native_mean_unchanged": true,
+    "technical_vs_quality_gates_separate": true,
+    "S1_task1_project2_96GiB_6h": true,
+    "SH3_other_jobs_no_action": true,
+    "no_training_PN_feedback": true,
+    "protocol_access_check": true,
+    "diff_CRLF_aware": true,
+    "raw_checkpoint_secret_in_Git": false
+  },
+  "actual_GPU_or_new_diagnostic_CPU_tests": "NOT_RUN_GH_DISPATCH_ONLY",
+  "scope_note_ko": "Source/패키지 결속 및 실행 경계만 GH 검산. Mask/lookup/snapshot actual 테스트는 SH1 구현 소유. 첨부 CRLF/EOF 원bytes 보존. 기존보고의독립감사claim은GH의독립red PASS가아님."
+}

@@ -1,0 +1,25 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "files": [
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/attached-review-ko.txt",
+      "bytes": 9034,
+      "sha256": "d7423d664e0acb4963540b20d3d3d50dcf8955bb997bd9a7c9cffd6ac33405b0"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/execution-command.json",
+      "bytes": 1163,
+      "sha256": "e4572b7bcd422de8e61ab829b928e79d8e8111337db04bc2cf19c49985eca4f5"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/experiment-ko.md",
+      "bytes": 11174,
+      "sha256": "33d7f79e29b3a1e0fd55ba4ab75eef8be305abcb8a79cefed21a7c07ae016f82"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/input-b1.json",
+      "bytes": 751,
+      "sha256": "32a56aa1af5edc83e37b7094371b0b3eed4439d95db0999910c4256fa1f74c3b"
+    }
+  ]
+}

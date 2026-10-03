@@ -1,0 +1,260 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "nonce": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "task_id": "jlz-v10-a-b1-diagnostics-20261003-v1",
+  "date_kst": "2026-10-03",
+  "dispatcher": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH1",
+    "agent": "head-server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "server": "server1",
+    "node": "devbox",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "legacy_registry_cwd": "/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "boundary": "App live root CWD로 확인; 실제 thread/resume/CWD/repo를 다시 검증하고 전용 non-main WT 자체 ignored boundary에 결속. Legacy CWD로 강제 이동/공유 config 변경 금지."
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "이 부분 실험이 필요하다. SH1에게 task 진행하도록 전달하자. batch 1개만 실험하는 것을 보자",
+    "command": "SH1에게 구현·기술 qualification·단일 scientific fit·D1/D2 평가·CPU 검산·사실보고를 실행 명령한다. Stage별 재승인 대기 없음.",
+    "scoped_stop_exception": "control/experiment-exceptions/jlz-v10-a-b1-diagnostics-sh1-20261003.json",
+    "other_tasks_resume": false,
+    "existing_job_cancellation": false
+  },
+  "bindings": {
+    "experiment": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/experiment-ko.md",
+    "execution": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/execution-command.json",
+    "manifest": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/manifest.json",
+    "input": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/input-b1.json",
+    "attached_hypotheses": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/attached-review-ko.txt",
+    "files": [
+      {
+        "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/attached-review-ko.txt",
+        "sha256": "d7423d664e0acb4963540b20d3d3d50dcf8955bb997bd9a7c9cffd6ac33405b0",
+        "bytes": 9034,
+        "CRLF": 113,
+        "ends_newline": false
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/execution-command.json",
+        "sha256": "e4572b7bcd422de8e61ab829b928e79d8e8111337db04bc2cf19c49985eca4f5",
+        "bytes": 1163,
+        "CRLF": 0,
+        "ends_newline": true
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/experiment-ko.md",
+        "sha256": "33d7f79e29b3a1e0fd55ba4ab75eef8be305abcb8a79cefed21a7c07ae016f82",
+        "bytes": 11174,
+        "CRLF": 0,
+        "ends_newline": true
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/input-b1.json",
+        "sha256": "32a56aa1af5edc83e37b7094371b0b3eed4439d95db0999910c4256fa1f74c3b",
+        "bytes": 751,
+        "CRLF": 0,
+        "ends_newline": true
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/manifest.json",
+        "sha256": "54138b2468afef1bfa4d0ab45ed4ac127202a4aca6191d24d1844c2220ccfeb3",
+        "bytes": 925,
+        "CRLF": 0,
+        "ends_newline": true
+      }
+    ],
+    "frozen_science_commit": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+    "source_member_manifest": "audits/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1-dispatch/full-read-source-receipt.json",
+    "source_snapshot": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-a-review/20261003-r1/snapshot/attempt-v2",
+    "background_reports": [
+      {
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/report-ko.md",
+        "sha256": "b168695305915361c845fe245c55b7baa785dbe273e4e49e9ce7da1b5603fd5c",
+        "bytes": 24908,
+        "role": "read-only background hypotheses, not task scientific conclusion"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/code-audit/v9-v10-code-delta-ko.md",
+        "sha256": "4ce238a3d9c352d0288b46b5da7f843241656c80e068b6b071a1dcea3b491b3c",
+        "bytes": 8149,
+        "role": "read-only background hypotheses, not task scientific conclusion"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/metrics-audit/v9-v10-report-ko.md",
+        "sha256": "2b766f38388c0c2538e794117814841a5c21f81cb13d18cb04169074290fa80f",
+        "bytes": 5422,
+        "role": "read-only background hypotheses, not task scientific conclusion"
+      }
+    ],
+    "read_policy": "정본5파일 전체 정독/SHA. 원 v10 계약·동결 구현·31 source closure·공용 prompts·실제 runtime/input을 결속. 첨부의 원인 확정/수정안은 가설이며 D3/F1/F2/F3 실행권한이 아니다. 원 review를 이번 신규 결과처럼 승격하지 않는다."
+  },
+  "scope": {
+    "method": "v10 Tprime arm A",
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cold_W0_H0": true,
+    "seed": 20261002,
+    "B": 100,
+    "batches": 1,
+    "scientific_fits": 1,
+    "candidates": 25,
+    "Adam_updates": 24,
+    "terminal_candidate": 25,
+    "official_candidate_selection_unchanged": true,
+    "B2": false,
+    "armB": false,
+    "D3_F1_F2_F3_fits": 0,
+    "coefficient_sweep": false,
+    "new_reference_loss": false,
+    "baseline_fits": 0
+  },
+  "method_invariants": {
+    "inputs": "기존 fixed10k first100 순서와 input-b1.json identity 09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2 유지. Native rewrite6/KL1·context/lookup/targettokens/readout31, NLL token/context 균등1/6, actual-v norm native그룹.5/.1 유지. 새로운 평가 문항/참조학습0.",
+    "Tprime": "Frozen c2d5fb10 의미 보존: actual lower all-token write→상층 current rewrite/KL key→whole-B rewrite mean ridge P/U. V=linear(k_actual,W_eff)-linear(k_actual,W_entry) subject fit/norm 공동사용, KL은actual builder포함/K·Hmean제외. Whole-B K/P/direct key 및 v-adjoint 전체gradient 유지. Microbatch별독립solve/gradientdetach0.",
+    "optimizer": "Norm.5/alloc.1/KL.0625 current||own-entry/ridge15000, q scale a/sqrt(d_out*m), LR.1/betas(.9,.999)/eps1e-8/wd0. SUM B bridge·qscale 각각한번. G-only armA sum sqrt(Q/(B sigma²)). No warmup/clamp/pulse/E/replay/earlystop/bestcandidate. c는 c−1 updates 후 다음update전. terminal25의관측backward 유지/update25없음.",
+    "precision": "FP32 model/activation/q/R/Adam, FP64 geometry/nativeC0 FP32mom2/count→FP64. Eager/autocastoff/matmulTF32off/cuDNNTF32off. Seed/context/order/runtime before sourcefreeze.",
+    "port": "같은host local v10 source+prompt closure 읽기재사용. S3 H200/Transformers4.44.2와 S1 실제hardware/runtime를 각각 표기. 가능하면 task-isolated pinnedruntime재사용, 공유env/native파일수정0. A6000의 작은VRAM에서 MB1·observerchunk 조정은 wholeB objective/normalization/parity 유지한 기술조정만. 정밀도/학습문장/vocab/B·평가표본축소0."
+  },
+  "D1": {
+    "capture": [
+      9,
+      13,
+      17,
+      21,
+      25
+    ],
+    "snapshot_storage": "CPU RAM ONLY",
+    "capture_timing": "해당후보 evaluated materialized FP32 W_eff를 graph와분리해서 다음update전에 CPU clone. 후보재solve/refit/추가Adam없음. five snapshots×five projectionweights 약5.47GiB는추정이며실제bytes/RSS측정.",
+    "evaluate": "단일fit 완료 뒤 W0 및 snapshot5 각각 같은runtime/evaluator R100/P200/N1000. W0도이번runtime에서평가하며과거값으로대체하지않는다. 매probe W0→해당exactweights교체, 누적덧셈0. c25가공식terminal이며 c9..21은관측.",
+    "telemetry": "각관측후보raw new/trueNLL/preference/TFstrict·micro·macro/margin, v/a,Q,c_l,normalizedshare,전체/성분loss 및 R/q gradient·actualstep. 기존c2/9/25 component진단은유지; c13/17/21의추가성분측정은고정samecandidate 관측backward만, optimizer gradient/moments/update/RNG를변경하지않음을검증하고비용분리. 큰gradienttensor영속저장0.",
+    "feedback": false,
+    "state": "W/H/optimizer/RNG/context/ledger/hook비변이 및 restore검증. Probe별Happend0. terminal commit/H검산은전용ephemeral state에정확히1회(5layers)만;다른main변경0. 종료시RAM해제/복원."
+  },
+  "D2": {
+    "candidate": 25,
+    "writer_fixed": true,
+    "resolves": 0,
+    "refits": 0,
+    "masks": [
+      "NONE",
+      "SUBJECT_ONLY",
+      "NONSUBJECT_ONLY",
+      "ALL"
+    ],
+    "definition": "같은고정W_entry/W_eff를 L4–L8각 down_proj의 row-wise F.linear 결과선택으로적용. Uk를따로더하는근사0. Activation/key는각mask의causalforward에서자연변화, 새로운K로writer를재생성하지않는다.",
+    "lookup": "이웃문장의 실제subject 마지막token 1개. 편집원요청subject강제검색0. 원neighbor metadata 또는정확한relationtemplate/문자열→동일tokenizer/native subject_last/repr_tools locator에결속. Prompt내위치를leftpadding offset에정확매핑. New/true teacher-forced 각 row의 valid input=(prompt+target)[:-1] 기준; valid target-prefix도 NONSUBJECT/ALL 포함, padding제외. Subject는target에서검색하지않는다.",
+    "coverage": "모델결과관측전lookup/ambiguity/coverage/제외IDs·이유freeze. 불명확한lookup을first/lasttoken/fuzzy추정으로대체하지않는다. D1 N1000유지; D2는네mask공통 identifiable subset. 전체 ALL NS와 subset ALL NS별도. subset0이면D2 NOT_IDENTIFIABLE/coverage0 명시, 추가fit/임의분모대체0.",
+    "parity": "ALL=동일c25 actual evaluator, NONE=동일runtime W0. 전체/선택subset과new/true row/token/order/target동일성. Mask별결과/정밀도 gate를score에맞춰조정하지않는다. 검증된동일D1 W0/c25 raw재사용가능.",
+    "metrics": "New/true NLL과 NS-margin(newNLL−trueNLL, positive=retained)을명시; 기존원raw margin_true_minus_new도부호표기하고혼합0. NS/TFstrict/pairedlost-gained 및 m_ALL−m_SUBJECT−m_NONSUBJECT+m_NONE의2×2 interaction perrow/aggregate. 비선형부분손상합=ALL 주장0. 공식N은관측전용."
+  },
+  "qualification": {
+    "CPU": [
+      "native row/token/target/order·first100 identity",
+      "lookup mask complement/disjoint/validtoken/padding·samefourcoverage",
+      "snapshot W0 replacement/restore·terminal mapping",
+      "원 normalized loss/wholeB adjoint·q bridge·optimizer state보존",
+      "noCP/noB2/noextraFit 및 mixedstate방지"
+    ],
+    "GPU": "같은allocation의고정candidate에서 원route대 instrumented forward/gradient·snapshot/restore/ALL-NONE mask 필요한비교. 추가scientificfit/BS2학습pilot없음. Seed/RNG/teacher/hook/cache증거보존. Exact평가weights를다시풀지않음.",
+    "tolerances": {
+      "FP32_forward_atol": 0.00001,
+      "FP32_forward_rtol": 0.0001,
+      "gradient_RMS_atol": 0.000001,
+      "gradient_RMS_rtol": 0.001,
+      "FP64_solve_relative_residual_max": 1e-8,
+      "commit": "same evaluated materialized tensor exact"
+    },
+    "block": "identity/finite/shape/restore/maskparity/gradient오류·실제IO/resource위반. 실패원source/raw/cost보존, 미측정을0점으로채우지않음. 기술수리·회귀는승인범위안에서하되새과학fit/예산늘리기·반복toPASS는추가하지않는다.",
+    "record_only": "낮은NS/균등share/예상과다른부호/미수렴/.75초과·crosshardware성과차이는품질gate아님. 서로다른GPU에서이전성과bitwise동일을요구하지않는다.",
+    "review_level": "SH1 owner source감사와독립CPU raw reducer를실제로수행/증거기록. 독립reviewer를사용했다면범위/실행을명시, 미수행을PASS로쓰지않음. GH source/권한검토는production모델검증이아님."
+  },
+  "permissions": {
+    "write_paths": [
+      "project/run_scripts/jlz_realized_subject_diagnostics/**",
+      "project/run_scripts/jlz_realized_subject/optimize.py (전용branch의 snapshot callback/관측component schedule만, 원계산불변diff·parity필수; 다른원runtime수정금지)",
+      "plans/updates/server1/jlz-v10-a-b1-diagnostics-20261003-v1/**",
+      "tasks/status/jlz-v10-a-b1-diagnostics-20261003-v1/server1.json",
+      "audits/servers/server1/jlz-v10-a-b1-diagnostics-20261003-v1/**",
+      "experiment-reports/servers/server1/jlz-v10-a-b1-diagnostics-20261003-v1/**",
+      "messages/acks/server1/2026-10-03-jlz-v10-a-b1-diagnostics.json",
+      "messages/server-heads/server1/2026-10-03-jlz-v10-a-b1-diagnostics.json",
+      "runs/odeedit_jlz_v10_a_b1_diag_s1_20261003/**",
+      "transfers/verifications/2026-10-03-jlz-v10-a-b1-diagnostics/**",
+      "/mnt/raid5/janghj/ODE-edit/local/jlz-v10-a-b1-diagnostics/20261003-v1/**",
+      "servers/local/session-boundary.env (ownWT ignored only)"
+    ],
+    "git": "전용 codex/server1-jlz-v10-a-b1-diagnostics-20261003-v1 clean non-main WT. 이구현/tests/source/compactreport의ownbranch/main nonforcepush 사전승인, 원rootdirty/공유config보존. GH global정본readonly, conflicts보고. 원sealedc2d5fb10 및실행중sourcehotpatch금지.",
+    "checkpoint": "Disk checkpoint/snapshot/W/H/U/R+P/optimizer/RNG resume-equivalent 저장0. CPU RAM editedweights snapshots5와RAMtransaction은이번진단에명시허용; teardown후해제. save_checkpoints=false/exact_resume=NOT_AVAILABLE.",
+    "readonly_sources": [
+      "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/",
+      "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-a-review/20261003-r1/snapshot/attempt-v2/",
+      "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/",
+      "native fixed10k/model/context/C0/evaluator local assets; metadata-bound reuse"
+    ],
+    "transfer": "동일host local source/config/input/context 우선 read-only사용/필요파일만tasklocal createoncecopy. 미존재분에한해지정 S3 attempt-v2 source/lock/config/nativecontext/evaluator 작은closure exactallowlist·SHA-size로선택pull, sourceKEEP. 모델/C0재다운로드·재계산/secret/삭제sync0. 새대형artifact전송은명시승인범위밖.",
+    "other_jobs": "취소/재개/추가평가/모니터링0; SH3 v10/SH4/과거SH1 chain 모두그대로."
+  },
+  "slurm": {
+    "allowed": true,
+    "task_cap": 1,
+    "current_server1_project_cap_observed": 2,
+    "stricter_current_cap_wins": true,
+    "per_job_GPU": 1,
+    "CPU": 8,
+    "host_memory_MiB": 98304,
+    "wall_hours_max": 6,
+    "node": "devbox",
+    "export": "NONE",
+    "Requeue": 0,
+    "job_prefix": "odeedit_jlz_v10_a_b1_diag_s1",
+    "admission": "현재실행+admittedpending포함 cap2이하/본task1. 실제nodeGPU메모리·hostmemory/partitionwall·disk/inodes확인. 원H200 source의100GiB GPU추정은S1가능성증거가아님. MB/graph memory를측정·계획, 부족하면RESOURCE_PENDING/정확typedcapacityblock;무관job취소·타서버이동·scientific축소0.",
+    "held_inspection": [
+      "owner/name/node/partition",
+      "source/fullargs/lock/input closure",
+      "GPU/CPU/memory/wall/export/Requeue/dependency",
+      "same nonce 기존제출중복0"
+    ],
+    "collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "host_memory_MiB_max": 24576,
+      "wall_hours_max": 2,
+      "dependency": "afterany exactdiagnosticjob",
+      "behavior": "단일B1 raw의독립CPU집계/coverage/partial/failure와실측비용보고. 완료report+manifest 성공뒤terminal작성, fit 재시작/GPU추가평가0."
+    }
+  },
+  "reporting": {
+    "report": "experiment-reports/servers/server1/jlz-v10-a-b1-diagnostics-20261003-v1/report-ko.md",
+    "status": "tasks/status/jlz-v10-a-b1-diagnostics-20261003-v1/server1.json",
+    "audit": "audits/servers/server1/jlz-v10-a-b1-diagnostics-20261003-v1/",
+    "runs": "runs/odeedit_jlz_v10_a_b1_diag_s1_20261003/",
+    "first": "동일nonce 직접담당ACK와현재구현/제출상태를회신한뒤승인작업계속; GH추가ACK대기0.",
+    "states": [
+      "OWNER_ACCEPTED_PREPARING",
+      "IMPLEMENTING",
+      "TECHNICAL_QUALIFIED",
+      "SUBMITTED_or_RESOURCE_PENDING",
+      "D1_D2_COMPLETE_or_TECHNICAL_BLOCKED"
+    ],
+    "artifacts": "Source/config/input/model/C0/runtime/evaluator전체closure lock, 31source+공용promptsSHA, snapshotRAMhash/bytes/candidate, fixedlookupcoverage,percasepairedraw,metricCSV/figure/2×2interaction,원래fit25/24와추가qualification/observerF-B·GPUparentallocation·RSS/VRAM/I-O가능범위분리. 실패/누락·과거결과구분.",
+    "hypotheses": "첨부주장은가설. 1차동차규제의내부최적점가능/R-gradient만으로q-Adam인과판정불가/rawQ비는normalized비용비아님/작은평균keygap으로경로배제불가. D1다섯점·D2선택subset으로object/lifelong단독원인확정금지. SH1는factual·산술비교를보고하며 '과잉진행' 지지/반박/불충분의최종과학판정은GH에서분리.",
+    "broadcast": "정본대로 scripts/rsync-artifact-broadcast.sh 승인peer의해당task local raw 경로만 no-delete. 불가/불필요한대형중복복사는사유와GH접근가능localpath를exceptionreceipt에기록. 동일보관disk/GH가이미접근가능하면실제전송0+NO_BROADCAST_NOT_REQUIRED 가능. Git source/compactreport/manifest만; rawtext/model/dataset/weights/secret Git0.",
+    "monitoring": "GH는실제직접ACK/착수까지만bounded확인후종료. SH1은초기제출상태와본단일task완료회수를수행할수있으나새recurringautomation/장시간반복monitor/auto-scientific-retry0. Sealedrunner/CPUcollector가D1/D2·compactreport까지자율완결. Resourcepending은미실행으로인계. 이전task의500chain모니터링규칙을새로재개하지않음."
+  }
+}

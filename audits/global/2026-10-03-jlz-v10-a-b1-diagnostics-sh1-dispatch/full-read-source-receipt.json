@@ -1,0 +1,339 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "package_source": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1",
+  "full_read_package": true,
+  "members": [
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/attached-review-ko.txt",
+      "sha256": "d7423d664e0acb4963540b20d3d3d50dcf8955bb997bd9a7c9cffd6ac33405b0",
+      "bytes": 9034,
+      "CRLF": 113,
+      "ends_newline": false
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/execution-command.json",
+      "sha256": "e4572b7bcd422de8e61ab829b928e79d8e8111337db04bc2cf19c49985eca4f5",
+      "bytes": 1163,
+      "CRLF": 0,
+      "ends_newline": true
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/experiment-ko.md",
+      "sha256": "33d7f79e29b3a1e0fd55ba4ab75eef8be305abcb8a79cefed21a7c07ae016f82",
+      "bytes": 11174,
+      "CRLF": 0,
+      "ends_newline": true
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/input-b1.json",
+      "sha256": "32a56aa1af5edc83e37b7094371b0b3eed4439d95db0999910c4256fa1f74c3b",
+      "bytes": 751,
+      "CRLF": 0,
+      "ends_newline": true
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-v10-a-b1-diagnostics-sh1/manifest.json",
+      "sha256": "54138b2468afef1bfa4d0ab45ed4ac127202a4aca6191d24d1844c2220ccfeb3",
+      "bytes": 925,
+      "CRLF": 0,
+      "ends_newline": true
+    }
+  ],
+  "source_snapshot": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-a-review/20261003-r1/snapshot/attempt-v2",
+  "source_commit": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "source_lock_sha": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+  "source_archive": {
+    "bytes": 48991,
+    "inode": 20400254,
+    "mtime_ns": 1791018670317736400,
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/source.tar.gz",
+    "sha256": "6b6584e4457691ad4f42d7f5e3366f053cc4d92e31c739039ebccdc3291e1ede"
+  },
+  "source_members": [
+    {
+      "path": "project/run_scripts/jlz_pilot/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_pilot/prompts.py",
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+      "bytes": 10334,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/__init__.py",
+      "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f",
+      "bytes": 78,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/allocation.py",
+      "sha256": "bd7e4eaaab9e14edebc2ca90c117eff5d4949c997b8e4cbce29ce0c0c874382a",
+      "bytes": 1329,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/causal_builder.py",
+      "sha256": "bc954951e2226d4e2e6bd4c4144e5e50cd16874285a681b017df431cccbf3688",
+      "bytes": 2904,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/collect.py",
+      "sha256": "90f6283371b85960ac94099e5d5862db94855d117d954fc1ead539a54b4aa056",
+      "bytes": 10450,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/common.py",
+      "sha256": "8055b7b4c3a7ab4a7f28f79f761b280ad7382bb1528237615a352465ad284afb",
+      "bytes": 2470,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/entry.py",
+      "sha256": "a50794525be89fe3488ed0e51a985a7ecccd35b2694379a975d60c68bc81df2a",
+      "bytes": 3300,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/freeze.py",
+      "sha256": "e7c4ad565b6df9ed2808f8e446fadd9e8942f8ed5c6f9690d22b6a0171caf8a7",
+      "bytes": 3970,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/geometry.py",
+      "sha256": "c80317b3ae8f60afcbe3f605b9d25c23db35b2aa6e5cbcb80d646c43a634fe9b",
+      "bytes": 3732,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/inputs.py",
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
+      "bytes": 3161,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/observe.py",
+      "sha256": "00b38ce32dc59e8edd8cf164b01766f69cc5e3ee912f985d63393a1f2399883b",
+      "bytes": 8557,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/optimize.py",
+      "sha256": "3c814868cdbf3b42344731e234bbfa5da919b2196c8f0fedee2888f39fe5c8f7",
+      "bytes": 2895,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/physical_linear.py",
+      "sha256": "fa9a5727b2c6d43b20d1fbaa36beb1025536ad671db7e859e8a082d4acf962e8",
+      "bytes": 983,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/prepare.py",
+      "sha256": "8af01a262781458952b26d91a18777900e0c965aea936e56e16168750b546368",
+      "bytes": 7826,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/profile.py",
+      "sha256": "3f34fe932930d5656201de5f0d1a7e8b210d50f1f7c8221e69892a6ed4afedb0",
+      "bytes": 5142,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/qualification.py",
+      "sha256": "eafe41f9e760ac4d9464cafe712e97fc35edcdcb31de819ce1561422981d8362",
+      "bytes": 6933,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/run.py",
+      "sha256": "3643a82a0a36874c82eb9c640e8b8098d00e726ef76be3c088f041ccf2052dfc",
+      "bytes": 11462,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/subject.py",
+      "sha256": "ac2e72d60588b7d72c2e7a3cd9ce938479a5381bb506dbb3481a26568de9c81c",
+      "bytes": 5015,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/submit.py",
+      "sha256": "51402cd867cfbfb6535b69e2f688372b93bb116ce847a53e400a4da394a90ef9",
+      "bytes": 5391,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/telemetry.py",
+      "sha256": "235835441ee24263374303836123f99d24b28c14a0c3c6cc0ae0ff6f6a3b9614",
+      "bytes": 4322,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/terminal.py",
+      "sha256": "2e8cb996cdec2808c2ab1ca743abb52545e460813339c93bfcc52af832f3296c",
+      "bytes": 3589,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/test_core.py",
+      "sha256": "86cc9765b7f8630a14d2c5abbb8a07e0dfdafa7874fbeaa8e5050cd4bd472762",
+      "bytes": 7764,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/test_operations.py",
+      "sha256": "1885a4e76d61134292da4e4434b767f41f1c12a3f2be4b28957bd55117a064eb",
+      "bytes": 7062,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_subject/writer.py",
+      "sha256": "38fa79a9ca969e39e9f62e61f73c5c7cba3d668d28ed39107e7740ecd3383fd4",
+      "bytes": 3375,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/__init__.py",
+      "sha256": "04676a184e7277212ae91fb18c24f06b3f64fb2d87eb30cdddfb08ce33de28aa",
+      "bytes": 64,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/common.py",
+      "sha256": "96a139e80dfd9e334217280a16bb20e29b58c91b10e200ffa274e0ec11a5bcc9",
+      "bytes": 2444,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/entry.py",
+      "sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13",
+      "bytes": 4489,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/geometry.py",
+      "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909",
+      "bytes": 12245,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/inputs.py",
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
+      "bytes": 3161,
+      "git_frozen_exact": true
+    },
+    {
+      "path": "project/run_scripts/jlz_writer_coupled/physical.py",
+      "sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f",
+      "bytes": 5451,
+      "git_frozen_exact": true
+    }
+  ],
+  "all31_SHA_size_and_frozen_git_exact": true,
+  "input_B1_identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+  "input_exact_source_and_first100": true,
+  "background_readonly": [
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/report-ko.md",
+      "sha256": "b168695305915361c845fe245c55b7baa785dbe273e4e49e9ce7da1b5603fd5c",
+      "bytes": 24908,
+      "role": "read-only background hypotheses, not task scientific conclusion"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/code-audit/v9-v10-code-delta-ko.md",
+      "sha256": "4ce238a3d9c352d0288b46b5da7f843241656c80e068b6b071a1dcea3b491b3c",
+      "bytes": 8149,
+      "role": "read-only background hypotheses, not task scientific conclusion"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/experiment-reports/global/2026-10-03-jlz-v10-a-review/metrics-audit/v9-v10-report-ko.md",
+      "sha256": "2b766f38388c0c2538e794117814841a5c21f81cb13d18cb04169074290fa80f",
+      "bytes": 5422,
+      "role": "read-only background hypotheses, not task scientific conclusion"
+    }
+  ],
+  "native_reference": [
+    {
+      "bytes": 16805,
+      "inode": 18613599,
+      "mtime_ns": 1790554639256705000,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/memit_seq_main.py",
+      "sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a"
+    },
+    {
+      "bytes": 13402,
+      "inode": 18613595,
+      "mtime_ns": 1790554639256705000,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/compute_z.py",
+      "sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732"
+    },
+    {
+      "bytes": 1540,
+      "inode": 18613594,
+      "mtime_ns": 1790554639256705000,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/compute_ks.py",
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+    },
+    {
+      "bytes": 6405,
+      "inode": 18613614,
+      "mtime_ns": 1790554639256705000,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/rome/repr_tools.py",
+      "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+    }
+  ],
+  "runtime_sources": [
+    {
+      "bytes": 75412,
+      "inode": 17909104,
+      "mtime_ns": 1789824597880264400,
+      "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py",
+      "sha256": "1d5c442c438c212b96a1a199126540ac4551512c11ed14e2a6443ea3939b8c98"
+    },
+    {
+      "bytes": 21330,
+      "inode": 17832937,
+      "mtime_ns": 1789824597284275700,
+      "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/lib/python3.12/site-packages/transformers/modeling_attn_mask_utils.py",
+      "sha256": "5e8cdd07a3b133f4b04c431ac76ec058d7f9e68c76fc91960b0766bcc35b1ee1"
+    },
+    {
+      "bytes": 68879,
+      "inode": 17829575,
+      "mtime_ns": 1789824504702044200,
+      "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/lib/python3.12/site-packages/torch/utils/checkpoint.py",
+      "sha256": "431b229da53972d79bed7e5dbfb6ace2922fff30192ea103208f484e59490f23"
+    },
+    {
+      "bytes": 39416,
+      "inode": 17829280,
+      "mtime_ns": 1789824504674044700,
+      "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/lib/python3.12/site-packages/torch/optim/adam.py",
+      "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+    }
+  ],
+  "GH_source_read_scope": [
+    "optimize.py",
+    "subject.py",
+    "telemetry.py",
+    "observe.py",
+    "writer.py",
+    "causal_builder.py",
+    "physical_linear.py",
+    "profile.py",
+    "inputs.py"
+  ],
+  "protocol_registry_exact_prior_read_reused": true,
+  "independent_red_agent": false,
+  "actualGPU": "NOT_RUN",
+  "note_ko": "기존 source가main에포함되어원동결object/31member SHA로재사용. 배경보고3개전체읽기/SHA는인계근거이며원인확정으로승격하지않는다. 첨부CRLF/noEOFnewline원bytes그대로보존."
+}

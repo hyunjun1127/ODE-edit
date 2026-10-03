@@ -20,6 +20,7 @@
     "control/experiment-exceptions/jlz-subject-adam-v6-500-20261002.json",
     "control/experiment-exceptions/jlz-causal-writer-v7-500-20261002.json",
     "control/experiment-exceptions/jlz-realization-v9-ridge-500-20261003.json",
-    "control/experiment-exceptions/jlz-realized-subject-v10-tprime-500-sh3-20261003.json"
+    "control/experiment-exceptions/jlz-realized-subject-v10-tprime-500-sh3-20261003.json",
+    "control/experiment-exceptions/jlz-v10-a-b1-diagnostics-sh1-20261003.json"
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "time_utc": "2026-10-03T13:54:30Z",
+  "host": "devbox",
+  "user": "janghj",
+  "squeue_janghj_devbox_rows": [],
+  "server1_local_cap": 2,
+  "local_repo_memory_ceiling_MiB": 183296,
+  "task_GPU": 1,
+  "task_host_memory_MiB": 98304,
+  "free_bytes": 307025870848,
+  "app_metadata": {
+    "id": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "last_turn": "01a0fa8b-f6e4-78f1-b821-9ce21c990b72",
+    "last_status": "completed"
+  },
+  "tracked_same_nonce_preexisting": 0,
+  "Slurm_mutations": 0,
+  "note_ko": "캡/queue는제출전SH1재확인. 물리GPU가비었다는주장아님. Directresume에서idle다시확인."
+}
