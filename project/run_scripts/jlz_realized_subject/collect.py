@@ -11,7 +11,9 @@ from .common import require,write,member,sha,digest,INSTRUCTION
 def validate_rows(rows, reference, records):
     """Bind full row sequence and token identities to the preflight W0 schema."""
     ids={r['case_id'] for r in records}
-    expected=[r for r in reference if r['case_id'] in ids]
+    ordinal={r['case_id']:i for i,r in enumerate(records)}
+    expected=sorted((r for r in reference if r['case_id'] in ids),
+                    key=lambda r:(ordinal[r['case_id']],{'R':0,'P':1,'N':2}[r['kind']],r['prompt_index']))
     require([r['identity'] for r in rows]==[r['identity'] for r in expected],'RAW_ORDER_IDENTITY')
     keys=('case_id','kind','prompt_index','new_token_identity','true_token_identity',
           'new_token_count','true_token_count')
@@ -74,8 +76,9 @@ def pair(before,after):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--config',type=Path,required=True);args=p.parse_args()
-    root=args.attempt;out=root/'collection';out.mkdir(exist_ok=False)
+    p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--config',type=Path,required=True)
+    p.add_argument('--out',type=Path);args=p.parse_args()
+    root=args.attempt;out=args.out or root/'collection';out.mkdir(exist_ok=False)
     config=json.loads(args.config.read_text());data=json.loads(Path(config['stream']).read_text());summary={};table=[];inventory=[]
     lock=json.loads((root/'execution.lock.json').read_text())
     require(lock['instruction']==INSTRUCTION and lock['config_sha256']==sha(args.config),'COLLECT_SOURCE_CONFIG')

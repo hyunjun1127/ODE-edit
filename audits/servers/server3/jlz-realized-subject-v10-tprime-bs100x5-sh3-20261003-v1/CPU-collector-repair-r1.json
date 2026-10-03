@@ -1,0 +1,13 @@
+{
+  "cause": "Family-major historical W0 reference versus request-major v10 observer storage order; old comparison did not canonicalize reference.",
+  "scope": "CPU analysis only; science execution/source/config unchanged",
+  "original_source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "original_collector": 57701,
+  "original_collector_expected": "May fail RAW_ORDER_IDENTITY when observations exist; preserve job/source/partial/cost.",
+  "repair": "Sort reference only by original request ordinal, R/P/N family, prompt_index; actual row ordering still strictly verified.",
+  "proof": "6 operations CPU tests plus real6500-row schema reorder PASS; missing/reordered/token-mismatched actual rows still rejected.",
+  "new_GPU": 0,
+  "old_job_cancel": false,
+  "method_change": false,
+  "original_outputs_keep": true
+}

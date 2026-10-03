@@ -94,6 +94,16 @@ class OperationsTests(unittest.TestCase):
         with patch.object(submit,'run',side_effect=AssertionError('external mutation')),patch('sys.argv',['submit','--attempt',str(self.root),'--admission',str(self.root/'missing.json')]):
             with self.assertRaises(FileNotFoundError):submit.main()
         self.assertFalse((self.root/'submission.started').exists())
+    def test_family_major_W0_and_case_major_actual_order(self):
+        rows=[]
+        for case in (8,3):
+            for kind in ('R','P','N'):
+                rows.append(dict(case_id=case,kind=kind,prompt_index=0,identity=str(case)+kind,
+                    new_token_identity='n',true_token_identity='t',new_token_count=1,true_token_count=1))
+        family=[r for k in ('R','P','N') for r in rows if r['kind']==k]
+        validate_rows(rows,family,[dict(case_id=8),dict(case_id=3)])
+        with self.assertRaisesRegex(RuntimeError,'ORDER_IDENTITY'):
+            validate_rows(list(reversed(rows)),family,[dict(case_id=8),dict(case_id=3)])
     def test_collector_incomplete_is_not_scientific_completion(self):
         data=self.root/'data.json';write(data,[])
         w0=self.root/'W0.json';write(w0,dict(rows=[]))
