@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "task_id": "jlz-native-increment-v11-bs100x20-20261004-v1",
+  "status": "APPROVED_EXACT_ONE_TIME_SMALL_PACKAGE_PULL",
+  "source_host": "server1",
+  "receiver": "SH4/server4",
+  "source_path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-native-increment-v11-design-2k-20261004-v1/local/jlz-v11-design-dispatch/design-package.tar.gz",
+  "bytes": 184592,
+  "sha256": "b5c787ed4a7f5b510e148f049922f5c86eeddadf66fad6ae0b366a8051fab719",
+  "destination_root": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/inputs/design-r1",
+  "members": 17,
+  "manifest_sha256": "1f5f20a37419693e89278e6bcb0b841321e96492a8be697f16fee79b9c8ef560",
+  "source_keep": true,
+  "overwrite": false,
+  "delete": false,
+  "models_datasets_checkpoints_secrets": false,
+  "required": "createonce, exact file SHA/size and safe regular member inventory verification against Git canonical manifest. Git adoption is primary; archive pull optional only once."
+}

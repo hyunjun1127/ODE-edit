@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "status": "PASS_PACKAGE_AND_CPU_ONLY",
+  "source_commit": "aab1f2a7f0c334b168cb4146038a7a9f6e578f60",
+  "GH_adoption_commit": "73cd0a010036797cf6e1f45e590944836e87f625",
+  "manifest_sha256": "1f5f20a37419693e89278e6bcb0b841321e96492a8be697f16fee79b9c8ef560",
+  "manifest_content_members": 16,
+  "archive_regular_members": 17,
+  "archive_bytes": 184592,
+  "archive_sha256": "b5c787ed4a7f5b510e148f049922f5c86eeddadf66fad6ae0b366a8051fab719",
+  "all_member_bytes_and_SHA": true,
+  "all_members_match_source_commit": true,
+  "no_links_devices_traversal_duplicates_or_unlisted": true,
+  "full_read": "Method/implementation/experiment/contracts/input/TeX/CPU proof/review read; schedule2000 rows fully parsed and compared to fixed dataset. Source review.json pre-editorial hashes are historical; current manifest and review-resolution are authoritative.",
+  "schedule_rows_fully_parsed": 2000,
+  "first2000_ids_match_dataset": true,
+  "pilot_ids_disjoint_exact": [
+    541,
+    6693,
+    16935,
+    17306
+  ],
+  "CPU_math_reproduction": {
+    "cases": 4,
+    "saved_results_exact": true,
+    "max_joint_FD_abs": 1.4504442646945392e-9,
+    "source_files_written": 0,
+    "production_imports": 0,
+    "GPU": 0
+  },
+  "protocol_exact_prior_full_read_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+  "independent_red_agent": false,
+  "actual_model_qualification": "NOT_RUN",
+  "duplicate_preflight": "No exact v11 nonce/task in current GH task/envelope/exception records; S4 ignored attempt root absent; SH4 thread idle. Receiver must recheck before new submit.",
+  "resource_only_snapshot": {
+    "host": "server4",
+    "user": "janghj",
+    "project_cap": 2,
+    "v9_A57899": "RUNNING",
+    "v9_B57900": "RUNNING",
+    "v9_CPU57901": "PENDING_Dependency",
+    "Slurm_write": 0,
+    "science_logs_results_read": 0
+  },
+  "root_dirty_preserved": true
+}

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "task_id": "jlz-native-increment-v11-bs100x20-20261004-v1",
+  "status": "AUTHORIZED_TASK_SCOPED_USER_EXCEPTION",
+  "envelope": "messages/head/2026-10-04-jlz-v11-increment-2k-sh4.json",
+  "old_global_stop_overridden_only_for_this_task": true,
+  "owner": "SH4",
+  "server": "server4",
+  "chains": [
+    "MAIN",
+    "NOALLOC",
+    "MEMIT_H"
+  ],
+  "batches_per_chain": 20,
+  "edits_per_chain": 2000,
+  "Slurm_submission": true,
+  "task_gpu_cap": 1,
+  "project_cap": 2,
+  "save_checkpoints": false,
+  "new_matched_native_baseline": true,
+  "other_jobs_unchanged": true,
+  "other_tasks_resume": false
+}

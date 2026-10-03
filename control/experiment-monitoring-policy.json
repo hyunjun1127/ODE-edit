@@ -22,6 +22,7 @@
     "control/experiment-exceptions/jlz-realization-v9-ridge-500-20261003.json",
     "control/experiment-exceptions/jlz-realized-subject-v10-tprime-500-sh3-20261003.json",
     "control/experiment-exceptions/jlz-v10-a-b1-diagnostics-sh1-20261003.json",
-    "control/experiment-exceptions/jlz-v9-ridge-2k-sh4-20261004.json"
+    "control/experiment-exceptions/jlz-v9-ridge-2k-sh4-20261004.json",
+    "control/experiment-exceptions/jlz-v11-increment-2k-sh4-20261004.json"
   ]
 }

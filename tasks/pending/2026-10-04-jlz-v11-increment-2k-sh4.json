@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "task_id": "jlz-native-increment-v11-bs100x20-20261004-v1",
+  "owner": "server4-server-head",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-04-jlz-v11-increment-2k-sh4.json",
+  "contract": "plans/global/2026-10-04-jlz-native-increment-v11/contract.json",
+  "experiment": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment.json",
+  "exception": "control/experiment-exceptions/jlz-v11-increment-2k-sh4-20261004.json",
+  "chains": [
+    "MAIN",
+    "NOALLOC",
+    "MEMIT_H"
+  ],
+  "task_gpu_cap": 1,
+  "save_checkpoints": false,
+  "submitted_job_ids": [],
+  "GPU_qualified": "NOT_OBSERVED",
+  "other_tasks_unchanged": true
+}

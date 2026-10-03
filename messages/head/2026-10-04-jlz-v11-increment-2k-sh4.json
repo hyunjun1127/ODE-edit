@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "task_id": "jlz-native-increment-v11-bs100x20-20261004-v1",
+  "date_kst": "2026-10-04",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "agent": "server4-server-head",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "method 설계, 실험 설계까지 진행해서 GH에게 전달하라. SH4에게 task를 맡기면 된다. 500 sample 말고 2000개로 진행하는 것으로 하자.",
+    "scope": "실제 구현→CPU/source 감사→작은 actual pilot→MAIN/NOALLOC/MEMIT-H 각2k→W20평가/CPUcollector. 단계별 재승인 없이 진행.",
+    "exception": "control/experiment-exceptions/jlz-v11-increment-2k-sh4-20261004.json",
+    "other_tasks_resume": false,
+    "cancel_other_jobs": false
+  },
+  "canonical_package": {
+    "source_commit": "aab1f2a7f0c334b168cb4146038a7a9f6e578f60",
+    "GH_adoption_commit": "73cd0a010036797cf6e1f45e590944836e87f625",
+    "method": "plans/global/2026-10-04-jlz-native-increment-v11/method-ko.md",
+    "method_sha256": "de5d3117ae51ef07b67038c7872160f801d180cf6743ab712bcbf80a6ba116af",
+    "implementation": "plans/global/2026-10-04-jlz-native-increment-v11/implementation-ko.md",
+    "method_contract": "plans/global/2026-10-04-jlz-native-increment-v11/contract.json",
+    "experiment": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment-ko.md",
+    "experiment_sha256": "e37f240c1ff549536b0309e4fa0c88dbd1940c7b52e054f468e466128e4f6847",
+    "experiment_contract": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment.json",
+    "execution_request": "plans/global/2026-10-04-jlz-native-increment-v11/execution-command.json",
+    "handoff": "plans/global/2026-10-04-jlz-native-increment-v11/handoff-ko.md",
+    "TeX": "docs/methods/jlz-native-increment-v11.tex",
+    "math": "plans/global/2026-10-04-jlz-native-increment-v11/math/",
+    "manifest": "plans/global/2026-10-04-jlz-native-increment-v11/artifact-manifest.json",
+    "manifest_sha256": "1f5f20a37419693e89278e6bcb0b841321e96492a8be697f16fee79b9c8ef560",
+    "regular_members": 17,
+    "full_read": "Method/implementation/experiment/contracts/input/TeX/CPU proof/review read; schedule2000 rows fully parsed and compared to fixed dataset. Source review.json pre-editorial hashes are historical; current manifest and review-resolution are authoritative."
+  },
+  "main": {
+    "chains": [
+      "MAIN",
+      "NOALLOC",
+      "MEMIT_H"
+    ],
+    "order": [
+      "MAIN",
+      "NOALLOC",
+      "MEMIT_H"
+    ],
+    "fresh_W0_H0_each": true,
+    "batch_size": 100,
+    "batches_per_chain": 20,
+    "requests_per_chain": 2000,
+    "unique_research_cohort": 2000,
+    "total_edit_occurrences_if_fresh_baseline": 6000,
+    "no_batch21": true,
+    "all_eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "allocation": {
+      "MAIN": "sum_l sqrt(G_l+E_l)/(sqrt(B)*sigma_l), lambda .1",
+      "NOALLOC": "lambda 0; not uniform; same other v11 conditions"
+    },
+    "baseline": {
+      "default": "FRESH_SAME_SERVER4_NATIVE_MEMIT_H",
+      "reuse_authorized_now": false,
+      "reuse_condition": "GH exact identity and complete required endpoint receipt only; no approval wait for default fresh run.",
+      "writer": "pinned BLUE memit_seq_main.apply_memit_seq_to_model blue=false/native residual divisor and singleton z procedure unchanged",
+      "not_matched_by_default": "S3 historical MEMIT-H and S4 other-evaluator or missing pre-current endpoints are historical comparisons, not automatic replacement."
+    }
+  },
+  "inputs": {
+    "reference": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/input-reference.json",
+    "schedule": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "seed": 20261002,
+    "fresh_binding": "source closure/model/tokenizer/C0/native context/20 packs/evaluator/runtime/FP32-FP64/eager/TF32off receipts. Prior verified assets reuse by exact identities; no model download/C0 recompute/shared env edit."
+  },
+  "method_guards": [
+    "V11 only: frozen Wentry native virtual full-block subject direct delta, all eligible layers jointly fit. No v9 actual builder per candidate, v10 Tprime/realized-v injection, pulse, history replay, extra reference.",
+    "Entry whole-B rewrite native mean K (.5 canonical/.1 five prefixes), A=15000C0+H; fixed SPD geometry once per batch, full offdiagonal retained. Stable G+E norm via Cholesky(I+K^T A^-1 K), no explicit inverse/I-M cancellation/silent symmetrization/jitter.",
+    "Native rewrite NLL equal1/6 context/target tokenmean, KL(current||ownentry) .0625 fullvocab, .5 sum_layer ||D_lr||/anchor_lr², no anchor/context duplication. Report J requestMEAN including allocation.",
+    "D=(a/sqrt(d*m))*q; q Adam .1/.9,.999/eps1e-8/foreachfalse/wd0, q0 each batch. WholeB requestSUM gradient B*s*dJ/dD once. Microbatch native gradient sum plus full allocation once; no per-microbatch geometry.",
+    "Max25 evaluated candidates/24 Adam updates; wholebatch Jmean<.05 stops BEFORE next update; adopt last evaluated finite candidate, not best selected. Perlayer/request physical .75 clamp after update, retain Adam moment/step; no perrequest freeze/NLL-only stop.",
+    "Final fitted D fixed; actual ascending-layer writer recaptures keys after lower writes then native ridge U=D P.T; native FP64 product/FP32 cast/add order. No absolute z-h, remaining-layer divisor (ours only), inherited gap topup/inverseM. Do not reuse entry P at actual commit.",
+    "After all writes final native mean key CPUFP32 H+=KK.T once/layer/occurrence, no dedup/successfilter. Native baseline retains its own original writer semantics. Fit/commit task mismatch is an observed distinction, not automatic failure."
+  ],
+  "qualification": {
+    "CPU": "Reuse GH exact synthetic evidence as scope-limited; implement production regression for B1/B3/wholeB scaling, q bridge, stablezero gradient, noabsolute writer, actualupper refresh, early stop/counts, history/state, eval schedules/noCP/partial collector. Independent audit if performed must be labeled, owner tests alone are not independent red PASS.",
+    "pilot": {
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "stream_slice": [
+        2000,
+        2004
+      ],
+      "B": 2,
+      "batches": 2,
+      "chains": [
+        "MAIN",
+        "NOALLOC",
+        "MEMIT_H_SMALL_PARITY"
+      ],
+      "cold_each": true,
+      "ours_max_candidate_evaluations": 100,
+      "ours_max_updates": 96,
+      "pilot_to_main_state_reuse": false
+    },
+    "actual_B100": "MAIN B1 itself; no separate full B100 fit/calibration. Small native alignment means actual tokens/lookup/loss/operator parity; no claim q Adam trajectory equals native delta Adam.",
+    "gates": "Exact identity/token/mask/reduction; finite/gradient/reference-parity/clamp/commit/restore/H/IO. Use fixed numerical tolerances from canonical experiment, one same-candidate reference confirmation or valid reference route fallback with receipt; no repeat-to-PASS/tolerance widening. Quality, share, lower strength, NS/PS/ACC or budget exhaustion are NOT gates.",
+    "technical_repair": "Minimal implementation-only fixes and CPU requalification before main are authorized. Freeze new source/attempt; retain failure/cost. No science change, coefficients tuning, silent retry loop or autonomous extra cold main after handed-off initial; new retry requiring scope expansion reports GH."
+  },
+  "evaluation": {
+    "schedule": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment.json",
+    "every_batch": "pre-current100 and post-current100",
+    "all_seen_steps": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "final_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "metrics": [
+      "strict teacher-forced rewrite/rephrase/neighborhood ACC",
+      "desired token micro/prompt macro ACC; N desired=true",
+      "NLL preference RS/PS/NS ties fail",
+      "true/new/desired NLL and margin/tails",
+      "pre→post, at-write→later, W0 retention paired lost/gained",
+      "first500/1000/1500, birthcohort, active/superseded/versioned claims; primary occurrence denominators retained"
+    ],
+    "reuse": "Only exact endpoint/input/evaluator rows; current subset from allseen, shared W0+W0B1pre if exact. Otherwise required W0 first2000 once, not full10k.",
+    "no_official_P_N_feedback": true,
+    "not_measured": "NOT_MEASURED, not 0"
+  },
+  "telemetry": {
+    "required": "Candidate native/policy/total losses, visited deduplicated components2/9/terminal diagnostic backward ledger; layer/request delta/weight norms, clamp ratios, proxy vs actual cost/key drift, direct/inherited realization, timing/F-B/solve/validpadded/head/VRAM/RSS/history/source identities.",
+    "limits": "No persistent W/U/P/D+operator/H/optimizer/RNG resume bundles or reconstructible delta checkpoint; v9 tensor exceptions do not carry over. Scalars/aggregates/identity hashes and raw metric rows only; RAM transaction is allowed.",
+    "cost": "1000 logical candidates/960 Adam updates upper for 40 ours batches; baseline fit/calls separate. 361400 prompt pairs upper with shared W0, not forward/FLOP count; earlystop and same-endpoint reuse recorded."
+  },
+  "permissions": {
+    "Slurm": "ALLOWED_FOR_THIS_NEW_TASK",
+    "write_paths": [
+      "project/run_scripts/jlz_native_increment/**",
+      "plans/updates/server4/jlz-native-increment-v11-bs100x20-20261004-v1/**",
+      "tasks/status/jlz-native-increment-v11-bs100x20-20261004-v1/server4.json",
+      "audits/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/**",
+      "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/**",
+      "messages/acks/server4/2026-10-04-jlz-v11-increment-2k.json",
+      "messages/server-heads/server4/2026-10-04-jlz-v11-increment-2k.json",
+      "runs/odeedit_jlz_v11_s4_20261004/**",
+      "transfers/verifications/jlz-v11-increment-2k-sh4-20261004/**",
+      "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/**",
+      "servers/local/session-boundary.env (ignored own actual worktree only)"
+    ],
+    "readonly": "Canonical GH plans/contracts/TeX/policy and old v9/v10/baseline sources/tasks/raw. New adapter namespace only; shared source/native/env hotpatch0.",
+    "Git": "Dedicated clean codex/server4-jlz-native-increment-v11-2k-20261004-v1 non-main worktree. Own source/compact factual reports main+branch nonforce integration/push approved; preserve concurrent main/root dirty/shared identity. Do not modify other server/GH-owned files.",
+    "transfer": "Main git source package primary. One optional small source design archive pull authorized by exact approval, sourceKEEP/createonce/SHA+safe regular extraction, no large assets/secret/destructive sync."
+  },
+  "resources": {
+    "server": "server4",
+    "project_gpu_cap": 2,
+    "task_gpu_cap": 1,
+    "stricter_current_cap_wins": true,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_default": 59392,
+    "host_memory_note": "58GiB conservative request below tracked59GiB ceiling, consistent latest S4 successful launcher. Fresh scheduler/QoS/local helper ceiling wins, no implicit memory increase.",
+    "export": "NONE",
+    "Requeue": 0,
+    "job_prefix": "odeedit_jlz_v11_s4",
+    "main_wall_hours_max_each": 168,
+    "qualification_wall_hours_max": 4,
+    "wall_note": "Preseal finite measured estimate after pilot, each <=partition and this ceiling; requested wall is not ETA. CPU collector <=4h/8CPU/24576MiB/GPU0.",
+    "admission": "Fresh owner/source/queue/cap incl admitted pending/node/memory/space preflight before registration. Current v9 57899/57900 observed RUNNING/resource-only; preserve both/collector. Defer v11 GPU via afterany of exact current occupying project jobs or stricter dependency lane so projected project concurrency<=2 and v11<=1. This resource wait does NOT require prior v9 scientific PASS.",
+    "DAG": "One serial GPU task lane: qualified pilot→MAIN20→NOALLOC20→fresh MEMIT-H20, CPU afterany all task parents. Independent arms must not share W/H/targets/optimizer. May use serial persistent runner or exact dependency jobs, source/scientific technical status bound. Once resource-admitted all allowed stages registered to proceed without user callback.",
+    "busy": "Normal dependency/resource pending after held owner/fullargv/source/GPU/CPU/mem/node/partition/wall/export/requeue/dependency inspection→release; no unrelated cancellation/priority/preemption/other-server reassignment.",
+    "storage": "Bounded noCP output+scratch+atomic reserve fresh preflight; no inherited storage waiver/deletion. Main fit can start only after same fixed science fits approved RAM."
+  },
+  "audit": {
+    "pre_submit": "Production code review/CPU tests+actual pilot technical evidence as designed. Explicit red-team checklist mandatory; separate reviewer only if actually used, no invented independent PASS. warn proceeds only per locked policy, structural/identity/nonfinite block stops affected stage.",
+    "post_run": "Independent CPU raw reducer for counts/tokenidentity/schedules/paired IDs/cold chains/statejoins/Happend/source/parent cost/completeness; collector writes report+inventory before atomic terminal. Missing chains/endpoints PARTIAL, not complete.",
+    "GH_evidence": "audits/global/2026-10-04-jlz-v11-increment-2k-sh4-dispatch/package-verification.json"
+  },
+  "reporting": {
+    "first": "Direct SH4 nonce owner acceptance ACK + duplicate check + implementation/submission state. GH ACK/connection closure is not prerequisite/pause.",
+    "report": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/report-ko.md",
+    "comparison_csv": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/comparison-W20.csv",
+    "status": "tasks/status/jlz-native-increment-v11-bs100x20-20261004-v1/server4.json",
+    "initial": "Representative actual MAIN B1commit/observer→B2ownentry OR formally admitted/released RESOURCE_PENDING. Record NOT_OBSERVED for unseen stages.",
+    "monitoring": "GH bounded ownerACK only. SH4 bounded initial handoff then monitoring_active=false/automatic_resume=false. Sealed runner/CPUcollector continue W20 and compact factual report naturally. No recurring monitor/heartbeat/new autoretry or long agent terminal wait; detailed final agent review on user recall.",
+    "broadcast": "Source/compact report/manifests Git; raw local KEEP. Approved compact broadcast only as needed with exact helper allowlist. If unnecessary/impossible record NO_BROADCAST_NOT_REQUIRED or exception reason+access paths/SHA; no mandatory large raw transfer.",
+    "scientific_promotion": false
+  }
+}
