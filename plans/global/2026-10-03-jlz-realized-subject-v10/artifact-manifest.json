@@ -1,0 +1,96 @@
+{
+  "schema": "jlz-v10-sh3-design-package-v1",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "root_relative": "plans/global/2026-10-03-jlz-realized-subject-v10",
+  "files": [
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/README.md",
+      "sha256": "faccda997802f0001233fc345b8aaa8ee176a376bf1a0dfe45b8f0d90cd87da8",
+      "bytes": 2663
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/changes-and-decisions-ko.md",
+      "sha256": "28e9557ae88a0cdc37b21ce4b5278b172e1d84f07901c61230921c3ecff1cb43",
+      "bytes": 9887
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/comparison-ko.md",
+      "sha256": "292a456a07cd3d7778f59901993225188bb2941bf1cf730652c25298f3c3f137",
+      "bytes": 5716
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/contract-draft.json",
+      "sha256": "1aa0e07ca295e25685c46268520241c8ac7aaf576fe0b87e0912f5e17276281d",
+      "bytes": 5242
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/execution-command.json",
+      "sha256": "cad8cce9e901f69fbd341a7678443a8affa384d11998d24f694bd5a135c1e47a",
+      "bytes": 3229
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/case-schedule-first500.csv",
+      "sha256": "c28bb5fef5dd572a81d486976eed65d4360f12d488fd95d58679591b2f688dc7",
+      "bytes": 73664
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment-ko.md",
+      "sha256": "7fa492cd1bb76c3a6ff843a737bfc6e4ccab7069a914191f91ce00513864e545",
+      "bytes": 10880
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment.json",
+      "sha256": "0f2c15cf36383eb3d71c992f3897b80c4b16e88b70ca04aa47f2de754a308e0a",
+      "bytes": 6613
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/input-reference.json",
+      "sha256": "1f1eb782f63b79e4dc7766b2381bf374d6ff43a0db68fbab4f9cde8cce7f4d2e",
+      "bytes": 6126
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/handoff-ko.md",
+      "sha256": "d8824fe7ba3497f5f84f33b291aa8549d9c20182770141e5eade6cc54e1f16a3",
+      "bytes": 3417
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/extract_strength_reference.py",
+      "sha256": "a866acb356f8f30dbedd08f8199f0d9f98af5c6aad726bad64c342ab791fb15b",
+      "bytes": 1774
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/results.json",
+      "sha256": "aaa975affe8d6533969758d3a6fce781d6fa0baa1063cc9bdd6bfae6190a8f26",
+      "bytes": 1816
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/tprime-adjoint-results.json",
+      "sha256": "ee224242fc99e5422286c1dd701059c400f1009fd8536f9185004de68640cbf7",
+      "bytes": 1093
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/v9-b1-strength-reference.json",
+      "sha256": "c563e263d3f0a0755ce4c67203510248a366f06c4b3e104da21a68dc7385c06b",
+      "bytes": 1605
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_contract_math.py",
+      "sha256": "a6a973d961f494fb8d497679839b0ff7e638656fe337f54c6cc0cdf91f310697",
+      "bytes": 3989
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_tprime_adjoint.py",
+      "sha256": "d0885b0a4583f2432893453178f4c331cba57b7f2323d94b05dd107be0815564",
+      "bytes": 7123
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realized-subject-v10/method-ko.md",
+      "sha256": "97a9292ba0c52cd806b53a15ad2557800bbc1efdf1929b208388c3ed0e7725a8",
+      "bytes": 22867
+    }
+  ],
+  "external_context_only": [
+    "experiment-reports/global/2026-10-03-jlz-v9-deep-review/structural-review-ko.md"
+  ],
+  "raw_assets_included": false
+}

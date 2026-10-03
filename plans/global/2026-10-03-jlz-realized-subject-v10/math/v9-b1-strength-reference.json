@@ -1,0 +1,54 @@
+{
+  "schema": "jlz-v10-v9-B1-strength-reference-v1",
+  "role": "historical_diagnostic_only_not_calibration_target",
+  "calibration_withdrawn": true,
+  "definition": "mean over layer/request of ||Y_l[:,r]||/a_l,r; ideal FP64 Y=R P.T K_actual",
+  "context_norm_mean": false,
+  "source_commit": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "arms": {
+    "A": {
+      "source": "local/jlz-v9-deep-review/20261003-r1/snapshot/attempt-r2/main-A/batch-01/fit/candidate-25.json",
+      "sha256": "816231ea69ed1503a5717da7c1c4d0f25083a79e6b8753dff2fa800a733c6410",
+      "candidate": 25,
+      "completed_updates_before": 24,
+      "B": 100,
+      "eligible_layers": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "mean_by_layer": {
+        "4": 0.1748064701841612,
+        "5": 0.1754995066054752,
+        "6": 0.1870248533764866,
+        "7": 0.19270297071002587,
+        "8": 0.193442306898179
+      },
+      "mean": 0.1846952215548656
+    },
+    "B": {
+      "source": "local/jlz-v9-deep-review/20261003-r1/snapshot/attempt-r2/main-B/batch-01/fit/candidate-25.json",
+      "sha256": "6ccaf91e50a3aa72a3e8a0ff755e5f637709bab2b32f3e522e5df1d06c2dde8f",
+      "candidate": 25,
+      "completed_updates_before": 24,
+      "B": 100,
+      "eligible_layers": [
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "mean_by_layer": {
+        "4": 0.17588356249387635,
+        "5": 0.17645275427131368,
+        "6": 0.187835497099974,
+        "7": 0.19332000996552012,
+        "8": 0.19396960229352153
+      },
+      "mean": 0.18549228522484112
+    }
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "task_id": "jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1",
+  "issued_date_kst": "2026-10-03",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH3",
+    "agent": "head-server3",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "app_host": "remote-ssh-codex-managed:lab123",
+    "server": "server3",
+    "actual_host": "ubuntu",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "SH4_assignment": false
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "GH에게 이 method 설계와 실험 설계 전달해. SH4이 아닌 SH3에게 task 진행시키자.",
+    "instruction": "설계 전달만이 아니라 SH3 구현→검증/Q1→A/B 각각500 main/W5/collector를 명령한다. 단계별 재승인 대기 없음.",
+    "scope_exception": "control/experiment-exceptions/jlz-realized-subject-v10-tprime-500-sh3-20261003.json",
+    "other_stopped_tasks_resume": false,
+    "cancel_existing_jobs": false
+  },
+  "bindings": {
+    "method": "plans/global/2026-10-03-jlz-realized-subject-v10/method-ko.md",
+    "method_contract": "plans/global/2026-10-03-jlz-realized-subject-v10/contract-draft.json",
+    "experiment": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment-ko.md",
+    "experiment_contract": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment.json",
+    "comparison": "plans/global/2026-10-03-jlz-realized-subject-v10/comparison-ko.md",
+    "execution_command": "plans/global/2026-10-03-jlz-realized-subject-v10/execution-command.json",
+    "manifest": "plans/global/2026-10-03-jlz-realized-subject-v10/artifact-manifest.json",
+    "input_reference": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/input-reference.json",
+    "files": [
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/README.md",
+        "bytes": 2663,
+        "sha256": "faccda997802f0001233fc345b8aaa8ee176a376bf1a0dfe45b8f0d90cd87da8"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/changes-and-decisions-ko.md",
+        "bytes": 9887,
+        "sha256": "28e9557ae88a0cdc37b21ce4b5278b172e1d84f07901c61230921c3ecff1cb43"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/comparison-ko.md",
+        "bytes": 5716,
+        "sha256": "292a456a07cd3d7778f59901993225188bb2941bf1cf730652c25298f3c3f137"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/contract-draft.json",
+        "bytes": 5242,
+        "sha256": "1aa0e07ca295e25685c46268520241c8ac7aaf576fe0b87e0912f5e17276281d"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/execution-command.json",
+        "bytes": 3229,
+        "sha256": "cad8cce9e901f69fbd341a7678443a8affa384d11998d24f694bd5a135c1e47a"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/case-schedule-first500.csv",
+        "bytes": 73664,
+        "sha256": "c28bb5fef5dd572a81d486976eed65d4360f12d488fd95d58679591b2f688dc7"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment-ko.md",
+        "bytes": 10880,
+        "sha256": "7fa492cd1bb76c3a6ff843a737bfc6e4ccab7069a914191f91ce00513864e545"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment.json",
+        "bytes": 6613,
+        "sha256": "0f2c15cf36383eb3d71c992f3897b80c4b16e88b70ca04aa47f2de754a308e0a"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/input-reference.json",
+        "bytes": 6126,
+        "sha256": "1f1eb782f63b79e4dc7766b2381bf374d6ff43a0db68fbab4f9cde8cce7f4d2e"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/handoff-ko.md",
+        "bytes": 3417,
+        "sha256": "d8824fe7ba3497f5f84f33b291aa8549d9c20182770141e5eade6cc54e1f16a3"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/extract_strength_reference.py",
+        "bytes": 1774,
+        "sha256": "a866acb356f8f30dbedd08f8199f0d9f98af5c6aad726bad64c342ab791fb15b"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/results.json",
+        "bytes": 1816,
+        "sha256": "aaa975affe8d6533969758d3a6fce781d6fa0baa1063cc9bdd6bfae6190a8f26"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/tprime-adjoint-results.json",
+        "bytes": 1093,
+        "sha256": "ee224242fc99e5422286c1dd701059c400f1009fd8536f9185004de68640cbf7"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/v9-b1-strength-reference.json",
+        "bytes": 1605,
+        "sha256": "c563e263d3f0a0755ce4c67203510248a366f06c4b3e104da21a68dc7385c06b"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_contract_math.py",
+        "bytes": 3989,
+        "sha256": "a6a973d961f494fb8d497679839b0ff7e638656fe337f54c6cc0cdf91f310697"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/math/validate_tprime_adjoint.py",
+        "bytes": 7123,
+        "sha256": "d0885b0a4583f2432893453178f4c331cba57b7f2323d94b05dd107be0815564"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/method-ko.md",
+        "bytes": 22867,
+        "sha256": "97a9292ba0c52cd806b53a15ad2557800bbc1efdf1929b208388c3ed0e7725a8"
+      },
+      {
+        "path": "plans/global/2026-10-03-jlz-realized-subject-v10/artifact-manifest.json",
+        "bytes": 3926,
+        "sha256": "1fdb9cd224df9908b611496813d718611c79a8d344cefde8dcb1db499370fe90"
+      }
+    ],
+    "readonly_v9_source": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+    "precedence": "최신 USER 범위→이 GH 권한/자원/기록 경계→v10 method/experiment/contract. V9는 읽기 참고뿐이며 R주입/pulse/E/clamp/exact/저장 예외를 상속하지 않는다. NOT_RUN/ready=false는 작성 당시 검증 상태.",
+    "full_read": "SH3는 method와 experiment 및 연결된 패키지 전체 정독/SHA-size를 결속한다. 외부 structural review는 선택 참고이며 필수 입력이 아니다."
+  },
+  "method": {
+    "profile": "Llama3-8B-Instruct revision8afb486c1db24fe5011ec46dfbe5b5dccdb575c2, fixed10k first500, seed20261002, L4–L8 모두. FP32 model/activation/q/R/gradient/Adam, FP64 geometry, eager, autocast/matmulTF32/cuDNNTF32 off. 실제 B/부분 batch/d/context/readout adapter 지원.",
+    "actual_builder": "각 후보 actual lower all-token materialized writes→자기 write 직전 rewrite+KL context k_actual→rewrite만 native nested FP32 groupmean K→whole-B P=solve(A+KK.T,K), U=R64 P.T. A=15000*float64(nativeFP32 raw mom2/count)+float64(H_entry CPUFP32). 첫 write층 K/P만 batch 내 캐시, upper K/P는 매 후보 terminal 포함 갱신. 상층 solve/K/P 및 direct key/input total gradient 유지. KL rows도 같은 lower U 경로를 타지만 K/ridge/H/norm 평균에서 제외. Microbatch별 독립 solve 금지.",
+    "Tprime": "후보당 W_eff32=W_entry32+cast32(U64)를 한 번 생성. Actual subject 입력의 v_eff=linear(k_actual,W_eff32)-linear(k_actual,W_entry32), 동일 bias. 이 같은 tensor를 own-entry subject-only fit의 full-block subject 위치와 norm에 사용. R 직접주입, Uk_subject_fit 주입, cast(U64*k64) 대체 금지. Actual builder에 subject δ 중복 주입 없음. 양 linear의 input VJP를 모두 유지. Fit/actual base gap은 관측값이며 0 gate가 아니다.",
+    "gradient": "Whole-B v graph→temporary leaf에 masked NLL/KL/norm adjoint 합산→원 v graph에 정확히 한 번 seed + allocation 직접 gradient. Lower R→actual K→P→U 및 U dk_actual을 모두 유지. Detach 후 adjoint 반환 누락, keys.detach/fixed upperP, v와 U/k 동시 중복 seed 금지. 전체 요청 mean에 actualB SUM bridge 한 번, q scale 한 번.",
+    "native_loss": "Native rewrite6+KL1, subject lookup/readout31/target-token 평균 유지. NLL은 context 균등1/6. Norm은 mean_request sum_layer sum_rewrite_context w*||v_eff||/a²; native group w=1/(J*n_group), 현 profile .5/.1×5. KL은 current||own-entry full vocabulary .0625. λnorm=.5와 λallocation=.1은 A/B 모든 batch 고정. Clean entry canonical anchor/teacher는 batch 내 고정.",
+    "allocation": "G-only Q_l=tr(U_l A_l U_l.T); sigma²=mean_r a_lr²; c_l=sqrt(Q_l)/(sqrt(B)*sigma_l). A=sum c_l, B=sqrt(sum c_l²). Ideal FP64 에너지와 실제 FP32 effective energy 별도 기록. Q/v=0 subgradient0, 임의 smoothing/jitter/pinv 금지. E, pulse, replay, reservoir/past teacher, active clamp/R cap, warmup, 강도 보정 없음.",
+    "optimizer": "q0=0 및 새 Adam moments 매 batch. R=(a/sqrt(d_out*m))*q; LR.1/betas(.9,.999)/eps1e-8/wd0. 25후보/24update, earlystop/line search/quality rejection 없음. Terminal25 관측 성분 backward는 수행하지만 25번째 update 없음. .75 초과는 기록만.",
+    "transaction": "마지막 실제 평가한 immutable materialized FP32 W_eff 그대로 commit; post-fit key 재solve/strengthscale 없음. Terminal actual rewrite mean key로 CPUFP32 H += K K.T 층당 한 번, context/B division/dedup/KL admission 없음. W/H/RNG/context/ledger 원자적 commit/rollback, observer 비변이, 다음 batch는 자기 누적상태. RAM rollback 허용, 영속 checkpoint 금지."
+  },
+  "execution": {
+    "Q0": "새 namespace production 구현, CPU/source/native adapter audit, 입력/runtime/source/finite wall/storage 봉인. 동등성 실모델 qualification은 CPU toy와 구분한다.",
+    "Q1": {
+      "arms": [
+        "A",
+        "B"
+      ],
+      "cold_each": true,
+      "cases": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "B": 2,
+      "batches": 2,
+      "candidates_per_batch": 25,
+      "updates_per_batch": 24,
+      "total_candidates": 100,
+      "total_updates": 96,
+      "coefficient": 0.5,
+      "main_state_transfer": false,
+      "fixed_candidate_shape_checks": [
+        1,
+        3
+      ],
+      "note": "Ragged/microbatch/actual context·KL v/whole-B K-P totalgradient/commit→nextentry/Honce/rollback 검증. 추가 장기 fit 없음."
+    },
+    "Q2": {
+      "identity": "MAIN_A_B1_ITSELF",
+      "cold_W0_H0": true,
+      "B": 100,
+      "candidates": 25,
+      "updates": 24,
+      "additional_B100_fits": 0,
+      "calibration_fits": 0,
+      "exact_probe_calls": 0,
+      "note": "처음부터 고정 main config의 A B1으로 계산하고 동일 terminal U commit/H한번 후 A B2..B5. 별도 B100 qualification fit으로 반복하지 않는다."
+    },
+    "main": {
+      "arms": [
+        "A",
+        "B"
+      ],
+      "cold_each": true,
+      "B": 100,
+      "batches": 5,
+      "edits_each": 500,
+      "unique_facts": 500,
+      "total_edit_occurrences": 1000,
+      "total_candidates_including_Q2": 250,
+      "total_updates_including_Q2": 240,
+      "first500_case_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+      "no_batch6": true,
+      "baseline_fits": 0,
+      "flow": "Task cap1의 한 lane. Q1→A Q2/B2..B5→독립 B B1..B5를 single persistent job 또는 최대동시1의 dependency DAG로 upfront 등록. CPU collector afterany로 실패/coverage도 수집. W5 평가 후 종료."
+    },
+    "evaluation": "W1–W4 current R100/P200/N1000; W5 allseen first500 R500/P1000/N5000, W5 current는 같은 raw 부분집합. RS/PS newNLL<trueNLL, NS trueNLL<newNLL, ties failure. TF token-micro/prompt-macro/strict 및 N true-target, NLL true/new/desired·margin, atwrite→W5 cohort/paired lost-gained, W0→W5 N lost-gained. W5 active는 재계산하며 CSV active_at_W20 상속 금지. Official P/N 학습/teacher/튜닝/후보·arm선택/gate 금지.",
+    "baseline": "BLUE/MEMIT-H/AlphaEdit 기존 동일 first500 산출물 우선 읽기 재사용. BLUE 실제 L4+L8/default config 명시. 데이터/순서/분모/평가기/model/runtime/hardware 차이 결속, 미결속 결과는 historical reference/NOT_AVAILABLE. 새 baseline fit0. V9/CAKE는 보조 참고이며 .185 matching/6fit/계수선택 prerequisite 금지.",
+    "W0": "기존 W0 first500 per-case 평가를 identity 확인 뒤 재사용. 새 전체10k W0 평가 없음. 필요한 W0 first500 R/P/N 중 재사용 불가능한 항목만 관측으로 계산하여 required retention 분모를 결속; 최적화/fit budget과 분리. 누락을 동일 조건으로 임의 가정하지 않는다."
+  },
+  "telemetry": {
+    "candidate": "R/q norm, v_actual/a 분포 및 .75 초과수/분모를 RW/KL·층/context별 분리, mean/context shares, Q, native losses, totalgradient, solve/token/F/B/runtime/memory. 0분모 null.",
+    "component_gradient": "매 batch 후보2/9/25 NLL/KL/norm/allocation 각각 R 및 q gradient의 계수 전후 norm/층별 norm, total cosine/radial/weighted 합 정합. Terminal25 진단 backward 실제 수행, optimizer update0/gradient 중복합산0. 추가 backward·재계산·관측 비용 별도 계상.",
+    "terminal": "k_actual 대 k_fit, v_actual 대 Uk_fit, prebase gap, 실제 NLL/KL, ideal/effective energy 및 실현량, same-weight commit/H identity. Norm share를 최종 인과 기여로 해석하지 않는다.",
+    "storage": "Aggregate/요청·context scalar diagnostics와 per-case 평가 raw만 local. No fullW/U/R+P/H/optimizer/RNG 또는 복원동등 payload. V9 entry/terminal tensor 저장 예외는 상속0."
+  },
+  "review": {
+    "GH": "정본 전체 읽기/SHA/500row machine parsing/CPU toy 재현 owner 검토. 별도 독립 red agent 미사용, 실제 LM/GPU PASS 아님.",
+    "SH3": "실제 production code의 data/eval 분리, Tprime graph/normalization/KL row/wholeB/transaction/telemetry/budget/noCP/B6차단을 상세 감사한다. 수행한 owner/독립 검토를 구분하며 미수행을 independent PASS로 쓰지 않는다. GH는 이 범위 owner audit+실제모델 qualification 경로의 진행을 승인한다.",
+    "technical": {
+      "FP32_forward_atol": 0.00001,
+      "FP32_forward_rtol": 0.0001,
+      "gradient_RMS_atol": 0.000001,
+      "gradient_RMS_rtol": 0.001,
+      "FP64_solve_relative_residual": 1e-8,
+      "commit_identity": "exact same evaluated materialized weight"
+    },
+    "technical_blocks": "Source/input mismatch, nonfinite, 잘못된 gradient/cache/mapping, SPD/solve/commit/rollback/IO/자원오류는 수리/재검증. 원 source/raw/cost 보존, 변경 시 새 immutable attempt/cold start; 서로 다른 시도의 과학결과 혼합0. 의미/계수/예산/허용오차 몰래 변경0.",
+    "nonblocking_science": "낮은 RS/PS/NS, 집중도, rho>.75, fit/actual gap, 고정예산 미수렴은 기록만 하고 sealed 5 batch 진행. 품질 gate/재튜닝 없음.",
+    "postrun": "독립 CPU raw reducer, 분모/identity/state continuity/finite/원본 SHA와 비용 검산, incomplete/failed/NOT_RECORDED 구분. 추가 GPU 재평가를 자동 추가하지 않는다."
+  },
+  "permissions": {
+    "source_namespace": "project/run_scripts/jlz_realized_subject/",
+    "write_paths": [
+      "project/run_scripts/jlz_realized_subject/**",
+      "plans/updates/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/**",
+      "tasks/status/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/server3.json",
+      "audits/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/**",
+      "experiment-reports/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/**",
+      "messages/acks/server3/2026-10-03-jlz-realized-subject-v10.json",
+      "messages/server-heads/server3/2026-10-03-jlz-realized-subject-v10.json",
+      "runs/odeedit_jlz_v10_s3_20261003/**",
+      "transfers/verifications/2026-10-03-jlz-v10-server3/**",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/**",
+      "servers/local/session-boundary.env (own actual WT ignored only)"
+    ],
+    "git": "Dedicated codex/server3-jlz-realized-subject-v10-500-v1 clean non-main WT. Scope 내 구현/tests/source/compact 사실보고의 ownbranch/main nonforce push·통합 사전승인. 기존 dirty/root/source 보존, conflict 보고. Global 정본 수정은 GH 소유, 필요 revision note는 본인 plans/updates. 공유 git identity/policy 변경0.",
+    "runtime": "기존 S3 READY manifest와 native/model/context/C0/evaluator를 먼저 read-only 재사용하고 실제 closure/hash/dependency를 새 봉인. S4 경로를 S3 실물로 가정하지 않는다. V9 frozen source만 그대로 실행하면 Tprime 아님. 기존 S3 overlay4.44.2와 설계 reference4.57.1 등 버전 차이는 명시하고 actual qualification; shared env 수정/임의 precision 변경 금지. 필요 시 task-local 격리 환경만 고정 버전으로 구성, model download/C0 재계산/대용량 이동0.",
+    "cancel_other_jobs": false,
+    "resume_other_tasks": false,
+    "checkpoint": "save_checkpoints=false, exact_resume=NOT_AVAILABLE. 원 자산 삭제0, full weight/state/delta 및 복원등가 bundle 저장0. Per-case raw/log local-only, compact summaries/source/config/manifest Git 허용. Raw/tensor/prompt/fullstdout/secrets Git0."
+  },
+  "slurm": {
+    "permission": "AUTHORIZED_NEW_V10_ONLY",
+    "project_gpu_cap_observed": 1,
+    "task_gpu_cap": 1,
+    "current_stricter_cap_wins": true,
+    "per_job_gpu": 1,
+    "cpus": 8,
+    "host_memory_mib_default": 60416,
+    "host_memory_mib_task_max": 60416,
+    "node": "ubuntu",
+    "export": "NONE",
+    "requeue": 0,
+    "job_prefix": "odeedit_jlz_v10_s3",
+    "wall": "Q1 <=24h, main <=min(7days, partitionlimit), CPU collector<=4h. 실제 구현 preflight에서 유한wall/storage/peak 계획을 source/lock에 고정. Wall은 실측 GPUh/ETA가 아니다.",
+    "admission": "SH3 최신 local/projectcap·현재 active+admitted overlapping allocations 재확인. Task 한 lane, cap 증가/무관 job 취소/선점0. 자원 없으면 정상 dependency/throttle pending. 권한 수락과 resource pending, actual running을 구분.",
+    "held_inspection": [
+      "exact owner/name/node/partition",
+      "fullargs/source/archive/lock/input",
+      "GPU/CPU/mem/wall",
+      "export/Requeue/dependency/throttle"
+    ],
+    "collector": {
+      "GPU": 0,
+      "CPU": 8,
+      "host_memory_mib_max": 24576,
+      "dependency": "afterany exact task jobs",
+      "terminal": "report/inventory 저장 성공 뒤 atomic completion; scientific coverage와 scheduler exit 구분"
+    }
+  },
+  "transfer": {
+    "approval": "transfers/approvals/2026-10-03-jlz-v10-method-bundle-server3.json",
+    "source_host": "rke-server1",
+    "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-sh3-dispatch/20261003-r1/jlz-v10-tprime-sh3-method-experiment-500-authorized.tar.gz",
+    "sha256": "5e61bf634bbbf07dd5192cdc273b89a6acfb7a976eb56186a2ecfdaa1285b8b0",
+    "bytes": 74785,
+    "regular_members": 18,
+    "executor": "SH3 sole receiver/pull 1회",
+    "destination": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/inputs/design-package/",
+    "rules": "SourceKEEP/createonce; 기존 exact본 있으면 REUSE. 정규18member/manifest17content SHA-size 전부, absolute/traversal/link/device/duplicate/unlisted 거부. 원 CSV CRLF bytes 보존. Model/dataset/checkpoint/secret 전송0."
+  },
+  "reporting": {
+    "first_reply": "동일 nonce로 직접 담당 수락 ACK와 구현/제출 상태를 짧게 응답한 뒤 진행. GH ACK를 다시 기다리지 않는다.",
+    "report": "experiment-reports/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/report-ko.md",
+    "status": "tasks/status/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/server3.json",
+    "audit": "audits/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/",
+    "runs": "runs/odeedit_jlz_v10_s3_20261003/",
+    "states": [
+      "received",
+      "implementing",
+      "GPU_qualified",
+      "submitted",
+      "main_initial",
+      "main_A500_complete",
+      "main_B500_complete"
+    ],
+    "initial": "SH3는 실제 main A B1 same-weight commit/H→B2 own-entry 또는 전량 정상등록/held검사/release 후 확인된 resource-pending까지만 bounded 관측. Q1만 PASS를 main PASS로 쓰지 않는다.",
+    "after_initial": "monitoring_active=false/automatic_resume=false. 새 반복 monitor/heartbeat/callback/자동retry/새후속submit0. Sealed runner/collector는 W5까지 자연 진행; 상세 완료리뷰는 사용자 recall.",
+    "GH": "직접 담당 수락과 초기 착수/전달 상태까지만 bounded 회수, 장기 실험 완료 대기0.",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED: compact 공유만, 대형 raw 무조건 broadcast0.",
+    "interpretation": "SH 한국어 factual-only/산술 비교, scientific_promotion=false; 과학 해석은 GH 소유."
+  }
+}

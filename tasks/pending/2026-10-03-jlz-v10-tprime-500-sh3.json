@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "status": "AUTHORIZED_AWAITING_DIRECT_DELIVERY",
+  "envelope": "messages/head/2026-10-03-jlz-v10-tprime-500-sh3.json",
+  "exception": "control/experiment-exceptions/jlz-realized-subject-v10-tprime-500-sh3-20261003.json",
+  "method": "plans/global/2026-10-03-jlz-realized-subject-v10/method-ko.md",
+  "experiment": "plans/global/2026-10-03-jlz-realized-subject-v10/experiment-500/experiment-ko.md",
+  "implementation": "NOT_OBSERVED",
+  "GPU_qualified": false,
+  "submitted_job_ids": [],
+  "dependency": "Q0→Q1→main A Q2/B2..B5→independent B B1..B5→collector",
+  "notes_ko": "SH3 sole owner/cap1; CPU toy는 actual 모델 PASS 아님. 별도 calibration/B100 fit/exact/baseline 없음."
+}

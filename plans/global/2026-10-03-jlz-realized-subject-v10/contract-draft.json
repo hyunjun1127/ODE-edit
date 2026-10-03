@@ -1,0 +1,121 @@
+{
+  "schema": "jlz-realized-subject-v10-design-draft-v3",
+  "date": "2026-10-03",
+  "status": "method_defined_production_implementation_and_qualification_pending",
+  "ready_for_experiment": false,
+  "supersedes_method_reference": "jlz-realization-v9",
+  "source_reference_commit": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "confirmed_user_choice": {
+    "quotes": [
+      "상층 key를 재계산 하는 쪽으로 해",
+      "이거까지 반영하라",
+      "이거대로 하자. 저거 계수 부분은 철회하는게 맞는 것 같다."
+    ],
+    "path": "Tprime_actual_causal_builder_actual_context_increment_subject_injection",
+    "refresh": "each_candidate_upper_layer_keys_and_ridge_solutions_after_actual_lower_all_token_writes",
+    "commit": "exact_terminal_evaluated_materialized_weights_no_postfit_writer_substitution"
+  },
+  "inherited_user_constraints": {
+    "eligible_layers": "all_configured_from_start_concentration_allowed",
+    "training_text": "native_rewrite_and_KL_only",
+    "task_injection": "subject_only",
+    "KL_direction": "current_to_own_batch_entry",
+    "history_replay": false,
+    "new_reference_text": false,
+    "writer_family": "MEMIT_H_ridge",
+    "warmup": false,
+    "arms": [
+      "A_sum_of_layer_root_costs",
+      "B_root_of_sum_of_squared_layer_root_costs"
+    ]
+  },
+  "method_corrections": {
+    "optimization_variable": "R_local_writer_target_coefficients_not_realized_delta",
+    "injected_change": "actual_context_subject_increment_transplanted_into_masked_fit",
+    "effective_increment": "linear(k_actual,W_effective)-linear(k_actual,W_entry)",
+    "diagnostic_only_increment": "U_times_k_subject_fit",
+    "actual_increment_stop_gradient": false,
+    "allocation_energy": "Q_l=trace(U_l A_l U_l^T)",
+    "layer_cost": "sqrt(Q_l)/(sqrt(B)*sigma_l)",
+    "misrealization_E_penalty": false,
+    "detached_teacher_pulse_in_loss": false,
+    "actual_model_observation": true,
+    "actual_task_NLL_in_loss": false,
+    "geometry_gradient": "full_R_lower_to_actual_K_to_P_to_U_and_direct_U_times_dk_actual",
+    "key_scope": "whole_logical_batch_native_nested_context_mean",
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "history": "terminal_actual_rewrite_mean_key_Gram_CPU_float32_once",
+    "builder_rows": "all_native_rewrite_and_KL_rows",
+    "ridge_mean_rows": "rewrite_only",
+    "NLL_context_weights": "native_uniform_context_average_1_over_n_rw",
+    "norm_context_weights": "native_key_group_average_1_over_J_times_n_group",
+    "norm_increment": "actual_effective_context_increment",
+    "norm_rows": "rewrite_only",
+    "norm_anchor": "fixed_entry_canonical_hidden_norm_squared",
+    "clamp": "none",
+    "R_coefficient_cap": false,
+    "radius_observation_threshold_reference_profile": 0.75,
+    "radius_exceedance_is_execution_gate": false,
+    "adjoint_boundary": "v_actual_tensor_leaves_then_exact_seed_back_to_shared_builder",
+    "no_double_seed_U_K_and_v": true
+  },
+  "pending_user_decisions": {},
+  "strength_comparison": {
+    "policy": "fixed_native_norm_coefficient_baseline_comparison",
+    "provenance": "explicit_user_withdrawal_of_B1_strength_calibration",
+    "native_norm_coefficient": 0.5,
+    "one_common_lambda_for_both_arms": true,
+    "coefficient_fixed_all_batches": true,
+    "coefficient_search": false,
+    "additional_B1_calibration_fits": 0,
+    "v9_realization_matching": false,
+    "realization_metrics_role": "diagnostic_only_not_target_or_execution_gate",
+    "historical_reference_file": "math/v9-b1-strength-reference.json",
+    "primary_comparators": [
+      "BLUE",
+      "MEMIT-H",
+      "AlphaEdit"
+    ],
+    "baseline_coefficient_policy": "each_verified_native_profile_no_outcome_based_adjustment",
+    "v9_role": "internal_historical_reference_not_strength_target",
+    "full_frontier_in_default_scope": false,
+    "equal_effective_regularization_claim": false
+  },
+  "reference_execution_profile": {
+    "edits": 500,
+    "batch_size": 100,
+    "batches": 5,
+    "scope": "profile_only_method_supports_other_batch_model_benchmark",
+    "candidates": 25,
+    "updates": 24,
+    "adam_lr": 0.1,
+    "native_norm_coefficient": 0.5,
+    "native_KL_coefficient": 0.0625,
+    "allocation_coefficient": 0.1,
+    "gradient_component_candidates_each_batch": [
+      2,
+      9,
+      25
+    ],
+    "experiment_launch_authorized_by_this_file": true,
+    "execution_owner": "SH3/server3",
+    "qualification_before_submission_required": true
+  },
+  "remaining_limitations": [
+    "subject_masked_task_forward_differs_from_all_token_deployment",
+    "write_space_energy_is_not_semantic_locality",
+    "no_guaranteed_share_shift_or_speedup",
+    "same_native_coefficient_does_not_equalize_effective_regularization_across_methods",
+    "root_cost_coefficient_strength_not_matched_to_v9_or_between_arms"
+  ],
+  "performed_validation": [
+    "CPU_matrix_algebra_see_math_results_json",
+    "CPU_two_layer_Tprime_dense_vs_staged_adjoint_and_full_K_P_finite_difference",
+    "frozen_v9_B1_strength_extraction_with_source_SHA256"
+  ],
+  "production_code_modified": false,
+  "gpu_experiment_started": false,
+  "user_execution_authorized": true,
+  "execution_instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1"
+}

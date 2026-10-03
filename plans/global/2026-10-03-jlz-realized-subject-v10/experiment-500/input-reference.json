@@ -1,0 +1,157 @@
+{
+  "schema": "jlz-v10-input-reference-v1",
+  "provenance": "v9 verified input identities only, no old optimizer/pulse/clamp/exact-probe inheritance",
+  "historical_source_commit": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+  "runtime_paths": "server4 historical path hints; SH3 must rebind and hash-match existing server3 assets before use",
+  "input_identity": {
+    "prior_receipt_remote_root": "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5/20261002-v1/attempt-r1",
+    "prior_config_sha256": "0e5016e6751bce0802838fc668d2d53b6d356fa878f0a54a74331b2477981403",
+    "prior_execution_source_commit": "fd2082e4720aa971dc64b00a133fce1d8e5e7d93",
+    "case_schedule": {
+      "path": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+      "selected_stream_index0_inclusive": [
+        0,
+        499
+      ],
+      "existing_active_at_W20_column_applies_at_W5": false
+    },
+    "first500_case_ids": {
+      "count": 500,
+      "sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+      "serialization": "json.dumps(list_of_ints,separators=(',',':')).encode('utf-8'); no trailing newline",
+      "first_three": [
+        16186,
+        3743,
+        1481
+      ],
+      "last_three": [
+        3419,
+        8549,
+        5628
+      ]
+    },
+    "dataset": {
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "bytes": 16679956
+    },
+    "native_contexts": {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "bytes": 270
+    },
+    "packed_native_batches": [
+      {
+        "actual_B": 100,
+        "batch": 1,
+        "identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10651,
+        "width": 32
+      },
+      {
+        "actual_B": 100,
+        "batch": 2,
+        "identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10990,
+        "width": 23
+      },
+      {
+        "actual_B": 100,
+        "batch": 3,
+        "identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10712,
+        "width": 25
+      },
+      {
+        "actual_B": 100,
+        "batch": 4,
+        "identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10791,
+        "width": 25
+      },
+      {
+        "actual_B": 100,
+        "batch": 5,
+        "identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+        "key_prefix_exact": true,
+        "phase": "main",
+        "rows": 700,
+        "valid_tokens": 10700,
+        "width": 25
+      }
+    ],
+    "C0_assets": [
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "bytes": 822084814
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "bytes": 822084814
+      }
+    ],
+    "native_reference": [
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/memit/compute_z.py",
+        "sha256": "6e43c1f03bc03c87dcff70111dff1a93f4e00ea31b4bfeb5e8eab4a516ea7ae4",
+        "bytes": 12192
+      },
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/memit/compute_ks.py",
+        "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+        "bytes": 1540
+      },
+      {
+        "path": "/data/janghj/EasyEdit/easyeditor/models/rome/repr_tools.py",
+        "sha256": "a83de9ef7a7d65403ccde83a4abf6bb9407d29da19d96cc3508da362c03b23a1",
+        "bytes": 7011
+      }
+    ],
+    "reuse_scope": "inputs_and_runtime_identity_only_not_v5_algorithm",
+    "fresh_current_input_model_runtime_rebinding_required": true
+  },
+  "native_writer_reference": {
+    "module": "BLUE memit.memit_seq_main",
+    "blue": false,
+    "historically_verified_BLUE_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "fresh_source_hash_binding_required": true,
+    "older_EasyEdit_reference_is_not_sufficient_for_writer_parity": true
+  },
+  "first500_schedule": {
+    "file": "case-schedule-first500.csv",
+    "sha256": "c28bb5fef5dd572a81d486976eed65d4360f12d488fd95d58679591b2f688dc7",
+    "count": 500,
+    "active_at_W20_column_used": false
+  },
+  "fresh_source_and_model_and_evaluator_receipt_required": true
+}

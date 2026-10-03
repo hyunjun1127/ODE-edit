@@ -1,0 +1,52 @@
+{
+  "kind": "cpu_algebra_only_not_model_validation",
+  "seed": 1032026,
+  "matrix_shape": {
+    "key": [
+      8,
+      3
+    ],
+    "coefficient": [
+      5,
+      3
+    ]
+  },
+  "matrix_identity_errors": {
+    "same_y_same_U_max_abs": 8.326672684688674e-17,
+    "same_y_energy_abs": 0.0,
+    "M_identity_max_abs": 2.220446049250313e-16,
+    "diag_odds_conditional_capacity_max_abs": 1.7763568394002505e-15
+  },
+  "scalar_cost_ratios": {
+    "old_G_plus_E_root_same_R_L8_over_L4": 1.208764290964583,
+    "old_G_plus_E_root_same_Y_L8_over_L4": 1.685605717533311,
+    "new_G_only_root_same_Y_L8_over_L4": 1.4274102423620196,
+    "new_G_only_energy_same_Y_L8_over_L4": 2.0374999999999996
+  },
+  "scalar_regularization_ratios_not_terminal_magnitude_predictions": {
+    "0.6": {
+      "old_over_new_decay_at_same_realized_effect": 1.6666666666666667,
+      "old_over_new_root_allocation_at_same_realized_effect": 1.2909944487358056
+    },
+    "0.45": {
+      "old_over_new_decay_at_same_realized_effect": 2.2222222222222223,
+      "old_over_new_root_allocation_at_same_realized_effect": 1.4907119849998598
+    }
+  },
+  "fixed_writer_vs_changed_state_toy": {
+    "description": "Synthetic causal mixing example, not a measured JLZ result",
+    "layer1_U": 0.3,
+    "layer2_K_fit": 3.1,
+    "layer2_K_actual": 3.25,
+    "layer2_U_from_fit_K": 0.3204134366925064,
+    "layer2_U_from_actual_K": 0.31044776119402984,
+    "fit_local_increment": 0.9932816537467698,
+    "deployed_fixed_U_local_increment": 1.0413436692506457,
+    "rebuilt_U_local_increment": 1.008955223880597,
+    "fixed_U_application_same_input_identity_error": 0.0,
+    "S_direct_change_gap": 0.04806201550387593,
+    "T_direct_change_gap": 0.04656716417910445,
+    "Tprime_direct_change_gap": 0.0,
+    "Tprime_remaining_base_gap": 0.1499999999999999
+  }
+}

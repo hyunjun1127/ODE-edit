@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "owner": "GH",
+  "independent_red_agent_used": false,
+  "status": "PASS_OWNER_DISPATCH_AUDIT",
+  "checks": {
+    "method_and_experiment_full_read": true,
+    "archive_SHA_and_18_regular_members": true,
+    "manifest_17_content_bytes_and_SHA": true,
+    "CSV500_all_fields_and_order_SHA": true,
+    "CPU_algebra_and_Tprime_adjoint_reproduced": true,
+    "original_result_files_unchanged": true,
+    "actual_LM_GPU_validation": false,
+    "SH3_only_cap1": true,
+    "no_calibration_exact_new_baseline": true,
+    "terminal_component_backward_separate_from_24_updates": true,
+    "wholeB_gradient_RW_KL_paths_explicit": true,
+    "source_scope_and_Stop_exception": true,
+    "source_dirty_root_preserved": true,
+    "git_access_helper_staged": true,
+    "diff_check_CRLF_aware": true,
+    "raw_tensor_checkpoint_secret_git": false
+  },
+  "note_ko": "GH 소유 점검이며 별도 red agent PASS를 주장하지 않는다. 과학 실행 검증은 SH3 production/Q1에서 수행한다. CSV는 원CRLF 보존을 위해 cr-at-eol 옵션으로 whitespace만 검사했다."
+}

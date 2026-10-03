@@ -1,0 +1,99 @@
+{
+  "schema": "jlz-v10-user-execution-command-v1",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "date_kst": "2026-10-03",
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "GH에게 이 method 설계와 실험 설계 전달해. SH4이 아닌 SH3에게 task 진행시키자.",
+    "scope": "GH assigns SH3 implementation, qualification, small pilot and A/B each500 main; no additional calibration fit"
+  },
+  "recipient": {
+    "role": "GH",
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "host": "remote-ssh-codex-managed:lab120"
+  },
+  "owner": {
+    "dispatcher": "GH",
+    "executor": "SH3",
+    "server": "server3",
+    "thread": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "repository": "hyunjun1127/ODE-edit",
+    "cwd": "/data/janghj/ODE-edit",
+    "SH4_assignment": false
+  },
+  "task_id": "jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1",
+  "stages": [
+    "dedicated source implementation",
+    "CPU/source and native small pilot qualification",
+    "A B1 actual B100 main admission",
+    "A B2-B5 and independent B B1-B5",
+    "W5 cumulative evaluation and factual report"
+  ],
+  "bindings": {
+    "method": "method-ko.md",
+    "contract": "contract-draft.json",
+    "experiment": "experiment-500/experiment-ko.md",
+    "experiment_contract": "experiment-500/experiment.json",
+    "baseline_comparison": "comparison-ko.md",
+    "input_reference": "experiment-500/input-reference.json",
+    "manifest": "artifact-manifest.json"
+  },
+  "scope": {
+    "arms": [
+      "A",
+      "B"
+    ],
+    "B": 100,
+    "batches_per_arm": 5,
+    "edits_per_arm": 500,
+    "cold_start_each_arm": true,
+    "H0": "zero",
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "no_batch6": true,
+    "additional_B1_calibration_fits": 0,
+    "coefficient_sweep": false,
+    "new_baseline_fits": 0,
+    "exact_probe": false,
+    "save_checkpoints": false
+  },
+  "resources": {
+    "max_task_concurrent_GPUs": 1,
+    "respect_stricter_current_project_cap": true,
+    "per_job_GPUs": 1,
+    "default_CPUs": 8,
+    "host_memory_MiB_requested_default": 60416,
+    "GH_SH3_fresh_admission_required": true,
+    "increase_existing_cap": false,
+    "cancel_other_jobs": false
+  },
+  "write_scope_for_GH_delegation": [
+    "project/run_scripts/jlz_realized_subject/**",
+    "tests under the new namespace",
+    "SH3-owned plans/status/reports per protocol",
+    "ignored local/jlz-realized-subject-v10/**"
+  ],
+  "readonly_reuse": [
+    "frozen v9 implementation commit b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+    "native baseline inputs/source/evaluator"
+  ],
+  "transfer": {
+    "authorized": "method/experiment/source metadata archive to SH3 for this task",
+    "payload": "docs, contracts, CPU proofs and case ID/hash schedule only",
+    "model_dataset_checkpoint_secret_included": false,
+    "destructive_sync": false
+  },
+  "reporting": {
+    "GH_nonce_ACK": true,
+    "SH3_direct_acceptance_ACK": true,
+    "separate_acceptance_implementation_GPU_submission_completion": true,
+    "bounded_handoff_only": true,
+    "new_recurring_monitor": false
+  },
+  "status_at_issue": "AUTHORIZED_AWAITING_GH_DELIVERY"
+}

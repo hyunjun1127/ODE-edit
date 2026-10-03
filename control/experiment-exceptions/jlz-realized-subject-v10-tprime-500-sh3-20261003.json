@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "task_id": "jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1",
+  "status": "AUTHORIZED_TASK_SCOPED_USER_EXCEPTION",
+  "overrides_for_this_task_only": "ODEEDIT-GH-ALL-SH-STOP-EXPERIMENTS-S4-PUBLISH-20261002-R1",
+  "envelope": "messages/head/2026-10-03-jlz-v10-tprime-500-sh3.json",
+  "executor": "SH3",
+  "implementation": true,
+  "qualification": true,
+  "Slurm_Q1_main_collector": true,
+  "task_cap": 1,
+  "additional_stage_approval": false,
+  "save_checkpoints": false,
+  "other_tasks_unchanged": true,
+  "cancel_existing_jobs": false,
+  "monitoring": "bounded_initial_only",
+  "reason_ko": "최신 USER가 SH3의 신규 v10 Tprime 구현/pilot/500실행을 승인했다. 다른 task와 SH4 권한을 변경하지 않는다."
+}

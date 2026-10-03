@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "approval": "transfers/approvals/2026-10-03-jlz-v10-method-bundle-server3.json",
+  "source_host": "rke-server1",
+  "source_archive": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v5-a-w5-review-20261002-v1/local/jlz-v10-sh3-dispatch/20261003-r1/jlz-v10-tprime-sh3-method-experiment-500-authorized.tar.gz",
+  "sha256": "5e61bf634bbbf07dd5192cdc273b89a6acfb7a976eb56186a2ecfdaa1285b8b0",
+  "bytes": 74785,
+  "regular_members": 18,
+  "executor": "SH3 sole receiver/pull 1회",
+  "destination": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/inputs/design-package/",
+  "rules": "SourceKEEP/createonce; 기존 exact본 있으면 REUSE. 정규18member/manifest17content SHA-size 전부, absolute/traversal/link/device/duplicate/unlisted 거부. 원 CSV CRLF bytes 보존. Model/dataset/checkpoint/secret 전송0.",
+  "authorized": true,
+  "source_keep": true,
+  "overwrite": false,
+  "destructive_sync": false,
+  "reason_ko": "현재 USER가 방법/실험 소형 archive의 SH3 단1회 pull을 명시 승인함."
+}

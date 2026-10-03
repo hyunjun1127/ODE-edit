@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "observation": "이번 GH turn의 SSH resource-only 단발 조회, 2026-10-03T08:43:06Z 이전",
+  "host": "ubuntu",
+  "user": "janghj",
+  "repository_origin": "https://github.com/hyunjun1127/ODE-edit.git",
+  "squeue_owner_janghj_node_ubuntu_rows": [],
+  "local_project_gpu_cap": 1,
+  "local_repo_memory_ceiling_MiB": 121856,
+  "task_requested_memory_MiB": 60416,
+  "free_bytes": 242222735360,
+  "existing_top_level_local_v10_dirs": [],
+  "thread": {
+    "id": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "cwd": "/data/janghj/ODE-edit",
+    "last_turn": "01a0fa8b-d229-75b2-b772-874fea4ad42d",
+    "last_turn_status": "completed",
+    "last_task": "USER_STOP"
+  },
+  "same_nonce_tracked_messages_tasks_control_matches": 0,
+  "new_scientific_submission": 0,
+  "other_jobs_mutation": 0,
+  "fresh_SH3_admission_required": true,
+  "note_ko": "물리GPU 여유/실행개시 보장은 아님. Direct resume에서 active turn을 다시 확인하며 무관 active면 전달보류."
+}
