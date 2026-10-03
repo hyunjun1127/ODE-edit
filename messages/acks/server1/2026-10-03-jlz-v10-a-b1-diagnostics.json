@@ -1,0 +1,19 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "host": "devbox",
+  "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1",
+  "branch": "codex/server1-jlz-v10-a-b1-diagnostics-20261003-v1",
+  "authority_commit": "590c73d78d9f15cd5b7c7a9181e0e17723b616fb",
+  "legacy_registry_29e4": "HISTORICAL_NOT_CURRENT_BOUNDARY",
+  "root_dirty_entries_preserved": 929,
+  "duplicate_nonce_receipt_found": false,
+  "existing_exact_task_job_found": false,
+  "status_at_ack": "OWNER_ACCEPTED_PREPARING",
+  "submission_at_ack": "NOT_SUBMITTED",
+  "other_tasks": "STOP_UNCHANGED",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE"
+}

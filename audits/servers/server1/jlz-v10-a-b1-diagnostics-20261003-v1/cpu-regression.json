@@ -1,0 +1,137 @@
+{
+  "actual_pretrained_GPU": "NOT_RUN",
+  "errors": 0,
+  "failures": 0,
+  "independent_reviewer_agent": false,
+  "instruction": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "passed": true,
+  "seconds": 11.244504615664482,
+  "skipped": 0,
+  "source": [
+    {
+      "bytes": 3246,
+      "inode": 249039983,
+      "mtime_ns": 1791036411622743800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject/optimize.py",
+      "sha256": "fcac94ad342d08502d099ec5e1298e89994e3b50f7e0651f3568af0d3cfe185f"
+    },
+    {
+      "bytes": 79,
+      "inode": 249042463,
+      "mtime_ns": 1791036352754496500,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/__init__.py",
+      "sha256": "ed5f6cae897ded07f3896f0bc9dc198182ba9496bcbf91a235f1a93c20f9c222"
+    },
+    {
+      "bytes": 3245,
+      "inode": 249042481,
+      "mtime_ns": 1791037035484783900,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/admission.py",
+      "sha256": "76b33050c793afd76501c6d7782abce9c47d898e49173a6abfefa9497ec49975"
+    },
+    {
+      "bytes": 7446,
+      "inode": 249042471,
+      "mtime_ns": 1791036581591389200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/bind.py",
+      "sha256": "f5868c190ea4e5e703609f71993be91971911a32d311649f60a31f1334a6ac64"
+    },
+    {
+      "bytes": 11986,
+      "inode": 249042476,
+      "mtime_ns": 1791037085136917800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/collect.py",
+      "sha256": "5c444e066e52c0d2cd45ac9fe19f6ba8c9273276d0122256e7b400b47fa6e78a"
+    },
+    {
+      "bytes": 1192,
+      "inode": 249042464,
+      "mtime_ns": 1791036352754496500,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/common.py",
+      "sha256": "b78f068a101814fa69bdc68883ba9e429cec4e9471b7988afe18d9853cbb12ef"
+    },
+    {
+      "bytes": 1657,
+      "inode": 249042480,
+      "mtime_ns": 1791036921848466400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/cpu_gate.py",
+      "sha256": "88c08f6d17da8bcf0d72e4cef5034e82326814027cacdb099ad903e19427dd76"
+    },
+    {
+      "bytes": 4046,
+      "inode": 249042477,
+      "mtime_ns": 1791036873860327400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/freeze.py",
+      "sha256": "1ef28e012d5ab973e4e96978a4b631842cda41684e527e652cb8254bf38eb4e5"
+    },
+    {
+      "bytes": 5733,
+      "inode": 249042468,
+      "mtime_ns": 1791037106292974000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/instrument.py",
+      "sha256": "becebffd31ced29bdf212bb60b5360d6784f648a36afd72736d3cdf0dfb9b111"
+    },
+    {
+      "bytes": 3770,
+      "inode": 249042469,
+      "mtime_ns": 1791036467142965000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/lookup.py",
+      "sha256": "b2b216bf0d75967ab8c5d723fdf76c742e30eaae54b131d5e059b02c32378bc3"
+    },
+    {
+      "bytes": 5598,
+      "inode": 249042470,
+      "mtime_ns": 1791036467142965000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/masked_observer.py",
+      "sha256": "838717a5534f9dd54512d7e0158f062bbad905a34dced37e3055efe4134bef53"
+    },
+    {
+      "bytes": 4163,
+      "inode": 249042472,
+      "mtime_ns": 1791036632567566300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/qualify.py",
+      "sha256": "02378c260e0e195c2f2e84697eab1b7e221e5f8d1e3de8315a1269bfe75518f4"
+    },
+    {
+      "bytes": 4793,
+      "inode": 249042475,
+      "mtime_ns": 1791037085136917800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/reduce.py",
+      "sha256": "5c4807f67b4170498ec42771ab896c5123209450ceced8411bc7bc5798ca0e58"
+    },
+    {
+      "bytes": 10811,
+      "inode": 249042474,
+      "mtime_ns": 1791036724783870700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/run.py",
+      "sha256": "8341003952ba33aade00a5eed406e0e6eb57d66a28d2dfb93bdc22cdae770ca4"
+    },
+    {
+      "bytes": 4606,
+      "inode": 249042478,
+      "mtime_ns": 1791036873860327400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/submit.py",
+      "sha256": "1da595b543cb3e9f5d539cb2128b5e5f1ba0f5bfaa3d10b550fcbcc1b4af73b0"
+    },
+    {
+      "bytes": 4934,
+      "inode": 249042473,
+      "mtime_ns": 1791036632567566300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/test_diagnostics.py",
+      "sha256": "980925a8257dca6c541da4b04dc1797832e15a66272fab1c516bf4e2d680a79a"
+    },
+    {
+      "bytes": 4903,
+      "inode": 249042479,
+      "mtime_ns": 1791037106288974000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-v10-a-b1-diagnostics-20261003-v1/project/run_scripts/jlz_realized_subject_diagnostics/test_workflow.py",
+      "sha256": "e329fe29fc1ae9500ed2be1806d360125c1d12d8246e1dabaa16ef3d610aa0bf"
+    }
+  ],
+  "suites": [
+    "project.run_scripts.jlz_realized_subject.test_core",
+    "project.run_scripts.jlz_realized_subject_diagnostics.test_diagnostics",
+    "project.run_scripts.jlz_realized_subject_diagnostics.test_workflow"
+  ],
+  "tests": 28
+}

@@ -13,7 +13,7 @@ def scales(anchors,dims):
     return {l:(a.double()/math.sqrt(dims[l][0]*len(dims))).float()[None,:] for l,a in anchors.items()}
 
 
-def fit(a,entry,arm,out,batch):
+def fit(a,entry,arm,out,batch,observer=None):
     B=entry['pack']['n_requests'];scale=scales(entry['anchors'],a.dims)
     q={l:torch.zeros((a.dims[l][0],B),device=a.device,requires_grad=True) for l in a.sites}
     optimizer=torch.optim.Adam(list(q.values()),lr=.1,betas=(.9,.999),eps=1e-8,weight_decay=0,foreach=False)
@@ -22,6 +22,8 @@ def fit(a,entry,arm,out,batch):
         start=time.monotonic();optimizer.zero_grad(set_to_none=True)
         R={l:(scale[l]*v).detach().requires_grad_(True) for l,v in q.items()}
         built=build(a,entry,R,k)
+        if observer is not None:
+            observer('before_evaluate',a,entry,k,R,q,scale,optimizer,built,None)
         result=evaluate(a,entry,R,built,arm,components=k in (2,9,25))
         grad=gradient_measure(R,scale,result)
         layer=candidate(a,entry,R,q,built)
@@ -31,7 +33,11 @@ def fit(a,entry,arm,out,batch):
         for l,v in q.items():
             v.grad=B*scale[l]*result['gradient'][l] # full mean -> SUM once; q scale once.
             require(bool(torch.isfinite(v.grad).all()),'NONFINITE_Q_GRADIENT')
+        if observer is not None:
+            observer('evaluated',a,entry,k,R,q,scale,optimizer,built,result)
         if k<25:optimizer.step();updates+=1
+        if observer is not None:
+            observer('after_update',a,entry,k,R,q,scale,optimizer,built,result)
         write(out/f'candidate-{k:02d}.json',dict(candidate=k,completed_updates_before=k-1,Adam_updates_after=updates,
             losses=result['losses'],total_mean=result['total_mean'],energy=result['energy'],gradient=grad,layer=layer,
             native_seconds=result['seconds'],builder_seconds=built['seconds'],seconds=time.monotonic()-start,

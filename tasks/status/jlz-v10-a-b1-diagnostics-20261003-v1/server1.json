@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "owner": "SH1",
+  "status": "SUBMITTED_RUNNING_INITIAL_NOT_COMPLETE",
+  "GPU_job": 57780,
+  "collector_job": 57781,
+  "collector_dependency": "afterany:57780",
+  "execution_source": "9cf106713e587fa08ddcfed89628b2770a55b74b",
+  "execution_lock_sha256": "bd93594b34db719098f811294a7a8e04966356bd9981525b2b5df1145d57ceb5",
+  "attempt": "/mnt/raid5/janghj/ODE-edit/local/jlz-v10-a-b1-diagnostics/20261003-v1/attempt-r1",
+  "qualification": "NOT_YET_OBSERVED",
+  "D1_D2": "NOT_YET_OBSERVED",
+  "sealed_program": "ONE_B1_FIT_D1_D2_AND_AFTERANY_CPU_REPORT",
+  "no_recurring_monitor_or_retry": true,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "other_task_STOP": "UNCHANGED"
+}

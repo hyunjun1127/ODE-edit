@@ -1,0 +1,17 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH1-JLZ-V10-A-B1-DIAGNOSTICS-20261003-R1",
+  "owner": "SH1",
+  "state": "SUBMITTED_RELEASED_ACTUAL_MODEL_ENTRY_RECORDED",
+  "GPU_job": 57780,
+  "GPU_dependency": null,
+  "collector_job": 57781,
+  "collector_dependency": "afterany:57780",
+  "source": "9cf106713e587fa08ddcfed89628b2770a55b74b",
+  "lock_sha256": "bd93594b34db719098f811294a7a8e04966356bd9981525b2b5df1145d57ceb5",
+  "CPU_regression": "28_PASS_PLUS_7_SUBMISSION_REPAIR_WORKFLOW_PASS",
+  "GPU_qualification": "NOT_YET_OBSERVED",
+  "D1_D2": "NOT_YET_OBSERVED",
+  "receipt": "audits/servers/server1/jlz-v10-a-b1-diagnostics-20261003-v1/submission-receipt.json",
+  "other_tasks": "STOP_UNCHANGED",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
