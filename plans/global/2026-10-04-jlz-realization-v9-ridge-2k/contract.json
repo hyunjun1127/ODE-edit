@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "task_id": "jlz-realization-v9-ridge-bs100x20-s4-20261004-v1",
+  "date_kst": "2026-10-04",
+  "user_requests": [
+    "v9 실험 server3에 2000 edit까지 늘려서 test 해보자. 성능이 가장 잘 나오긴 해서 table 자체는 뽑아볼 여지가 있어보인다. sh3에게 task 맡겨",
+    "server4에게 시키자."
+  ],
+  "precedence": "최신 실행자는 SH4/server4. 신규 2k task만 STOP 예외. 이전500/noB6는 역사보존하며 이번20batch/noB21로 대체. Method는v9고정; v10/v7 혼합0.",
+  "interpretation": "기존 두 ridge norm arm A/B를 각각 같은 first2000으로 확장한다. 2000 unique requests, 두 arm 합4000 edit occurrences. 우월성 확정이 아니라 사용자 실행 동기다.",
+  "bindings": [
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/method-ko.md",
+      "bytes": 13665,
+      "sha256": "d121c09948fba5e7886845b0fb6e70849cbdaf05da8ebe5ae8285fe1120dbcfc"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/implementation-ko.md",
+      "bytes": 10741,
+      "sha256": "60b22124bb0a8031d909eee4336e6ef10181995f32a7ead23b9175c7e97f6539"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/contract.json",
+      "bytes": 8661,
+      "sha256": "2a70a69f46e40e6f6cb9deb3acfa0e919d16266e79582371d124dd734a098685"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment-ko.md",
+      "bytes": 13564,
+      "sha256": "a1004291cbc03a284e3e453ae25984835d9f7ddeae0891f5206c2ec500f8d8e7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment.json",
+      "bytes": 11179,
+      "sha256": "0fb712d2ff4b60e53b931b60cf2aa87536628b8e6db609dc6b1368337a6477a7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/report-ko.md",
+      "bytes": 9517,
+      "sha256": "b1c201e90b86c995df58536e469b9fcb0eb1c16e23df1db5406d150c79e84f66"
+    },
+    {
+      "path": "runs/odeedit_jlz_v9_s4_20261003/submission-r2.server4-server-head.json",
+      "bytes": 4157,
+      "sha256": "70d4d620abd17a2325bff0076868d267f5ee7bb787770568974f4846cce13f1a"
+    }
+  ],
+  "frozen_science": {
+    "commit": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66",
+    "tree": "a179b5751e91d26bdb762a345d5b70ee79e0ae80",
+    "lock_sha256": "f8a6c2a4cf06b1284f35940c703b8037336bbc5103f206f5dd014e65ad76a9df",
+    "local_attempt": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261003-v1/attempt-r2",
+    "current_main_namespace_members_exact": 25,
+    "qualification": "기존S4 actual Q1/완료500 evidence를 core/runtime/input identity 충족 시 재사용. 단순 source HEAD 일치로 전체 closure 동등성 단정0."
+  },
+  "main": {
+    "arms": [
+      "A",
+      "B"
+    ],
+    "cold_W0_H0_each": true,
+    "batch_size": 100,
+    "batches_per_arm": 20,
+    "edits_per_arm": 2000,
+    "source_seed": 20261002,
+    "no_batch21": true,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "no_old_W5_resume": true,
+    "model": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "candidates_per_batch": 25,
+    "updates_per_batch": 24,
+    "total_main_candidates": 1000,
+    "total_main_updates": 960,
+    "total_commits": 40,
+    "total_layer_history_appends": 200,
+    "new_baseline_fits": 0
+  },
+  "inputs": {
+    "schedule": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "stream_slice": [
+      0,
+      2000
+    ],
+    "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "case_id_serialization": "compact json list of ints, no newline",
+    "first_three": [
+      16186,
+      3743,
+      1481
+    ],
+    "last_three": [
+      13410,
+      6428,
+      19132
+    ],
+    "first500_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "contexts_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "rebind": "20 batch native token/subject/group/target/readout/order identities, same500prefix. Pilot rows [2000:2004] 학습분리. 기존model/C0/context/native/evaluator read-only reuse, download/recompute0."
+  },
+  "method": {
+    "reference": "상기v9정본+frozenproduction",
+    "primary": "Frozen entry native full-block subject D 직접주입을 모든 L4-L8에서 공동최적화. v10 actual v 주입/Tprime 금지.",
+    "writer": "Actual lower all-token write→upper current native rewrite keys→FP32 nested native groupmean wholeB K→FP64 P=solve(15000*C0+H+KK.T,K), U=D64P.T. W_eff=W_entry32+cast32(U64). 첫층만 batch내cache; upperK/P및solve/direct/input totalgradient유지. WholeB barrier/requestcoupling.",
+    "loss": "Native rewrite6/KL1, NLL context1/6+targettokenmean, KL current||ownentry .0625, native nonsquared D norm .5. c_l=sqrt(tr(DGD.T)+||D(M-I)||²)/(sqrt(B)*sigma_l), A=sum c, B=sqrt(sum c²), lambda .1. G=P.T A P, E=(M-I)(M-I).T. V10 G-only 변경0.",
+    "optimizer": "q0=0 매batch, D=(a/sqrt(d_out*m))*q, Adam LR.1/betas(.9,.999)/eps1e-8/wd0/warmup0, requestSUM전체gradient와qbridge각1회, native 사후clamp.75, moment유지, 25평가24update terminal25. pulse5/10/15/20 current-only .1Ch+.1Cd+.0625actualKL, seededdisjoint정규화유지.",
+    "history": "Post terminal actual native mean key CPUFP32 H+=KK.T layer당1회. Replay/reference없음. 같은terminalmaterializedweightcommit, ownW/H/RNG/context/ledger 다음batch연속, observer비변이. 최종W20 raw완결 전 모델폐기0.",
+    "precision": "FP32 model/activation/q/D/gradient/moments, FP64geometry, nativeC0 FP32 mom2/count 후FP64, eager/autocastoff/matmulTF32off/cuDNNTF32off. Same frozen runtime closure재사용."
+  },
+  "execution_changes": {
+    "new_main_horizon": "5→20, source/config/locks 새봉인, 기존namespace/core/historicaloutputs불변",
+    "exact_probe": "이번 요청은 ridge 2k 성능표 확장이다. 기존 Q2 exact 결과는 역사참고 재사용하며 신규 exact fit/probe/endpoint0, mainQ2 prerequisite 제거. Ridge optimizer/commit/history는불변.",
+    "qualification": "같은S4 frozen core/runtime의기존Q1 receipt reusable. 20batch controller/eval/current-allseen/W20/noB21/collector CPU tests 및 actual main B1→B2 binding필수. 실제core/runtime불일치 시에만 동일원개발4case A/B BS2x2 bounded qualification(100후보96update 상한), mainW/H/RNG전달0. 추가B100fit0/계수튜닝0.",
+    "DAG": "기존Q1재사용이면 독립 A/B 두1GPU main upfront등록/cap2. 새 qualification 필요시 sharedP afterok→A/B. CPUcollector afterany 모든본taskparents. 자원이없으면held검사후정상dependency/throttlepending, 무관job변경0."
+  },
+  "evaluation": {
+    "every_batch": "current100 R100/P200/N1000",
+    "all_seen_at": [
+      5,
+      10,
+      20
+    ],
+    "all_seen_denominators": {
+      "5": {
+        "R": 500,
+        "P": 1000,
+        "N": 5000
+      },
+      "10": {
+        "R": 1000,
+        "P": 2000,
+        "N": 10000
+      },
+      "20": {
+        "R": 2000,
+        "P": 4000,
+        "N": 20000
+      }
+    },
+    "reuse": "누적평가endpoint의current100은같은raw에서산출, 중복forward0. atwrite20cohort/past/allseen/active factversion 분리. 같은endpointsamecase관측재사용.",
+    "metrics": [
+      "strict NLL preference RS/PS/NS (ties failure)",
+      "desired TF token-micro/prompt-macro/strict rewrite/rephrase/neighborhood (N=true target)",
+      "true/new/desired NLL, margins, denominator, tails",
+      "at-write→W5/W10/W20 paired lost/gained 및 birthcohort retention",
+      "same first500 across W5/W10/W20; first100; W0 neighborhood retention/lost/gained",
+      "layer planned/realized share, gamma/self-cross/context gaps, clamp, native/policy/pulse, actual costs"
+    ],
+    "W0": "같은first2000 W0 raw identity확인재사용. 부족하면필요first2000 W0관측만1회commonreuse, 학습아님. 새full10kW0금지. host/runtime차이는명시.",
+    "table": "W20 같은cohort및동일평가분모의MEMIT-H/BASE_MEMIT/BASE_ALPHAEDIT/AlphaEdit-BLUE기존endpoint/raw 우선재사용. 없으면NOT_AVAILABLE, 새baselinefit0. Primary matched table와hardware/layers/L2/seed/token/evaluator다른historicalreference분리. 최종10kbaseline을first2kendpoint로표기0. Pairedraw있을때만lost/gained. 기존500은historical별도.",
+    "no_feedback": "P/N/TF/table이fit/arm/candidate/stop/LR/계수선택에feedback0; 낮은성능/미수렴/집중/clamp는기록-only."
+  },
+  "telemetry": "기존v9scalar/percase비용·loss·계층실현진단 유지. Entry/terminal M/planned_D/realized_Y만 기존v9명시 진단예외의 같은대상/목적으로 허용(hash/dtype/shape/owner명시); W/P/K/H/optimizer/RNG와묶어복원등가bundle확장0. 저장되지않는gradient성분추정0. Raw/tensor/prompt/fullstdoutGit0.",
+  "completion": "A/B W20및collector보고후종료. 초기인계뒤 agentmonitopause;sealed프로그램은계속20batch. 후속10k/B21/새method자동승격0."
+}

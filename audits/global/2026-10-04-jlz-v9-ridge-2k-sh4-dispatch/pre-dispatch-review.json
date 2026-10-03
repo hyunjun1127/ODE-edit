@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "base_main": "832816875a207ed28f7301f77d3d8342757c37c1",
+  "full_read": [
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/method-ko.md",
+      "bytes": 13665,
+      "sha256": "d121c09948fba5e7886845b0fb6e70849cbdaf05da8ebe5ae8285fe1120dbcfc"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/implementation-ko.md",
+      "bytes": 10741,
+      "sha256": "60b22124bb0a8031d909eee4336e6ef10181995f32a7ead23b9175c7e97f6539"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/contract.json",
+      "bytes": 8661,
+      "sha256": "2a70a69f46e40e6f6cb9deb3acfa0e919d16266e79582371d124dd734a098685"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment-ko.md",
+      "bytes": 13564,
+      "sha256": "a1004291cbc03a284e3e453ae25984835d9f7ddeae0891f5206c2ec500f8d8e7"
+    },
+    {
+      "path": "plans/global/2026-10-03-jlz-realization-v9/experiment-500/experiment.json",
+      "bytes": 11179,
+      "sha256": "0fb712d2ff4b60e53b931b60cf2aa87536628b8e6db609dc6b1368337a6477a7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x5-with-exact-probe/report-ko.md",
+      "bytes": 9517,
+      "sha256": "b1c201e90b86c995df58536e469b9fcb0eb1c16e23df1db5406d150c79e84f66"
+    },
+    {
+      "path": "runs/odeedit_jlz_v9_s4_20261003/submission-r2.server4-server-head.json",
+      "bytes": 4157,
+      "sha256": "70d4d620abd17a2325bff0076868d267f5ee7bb787770568974f4846cce13f1a"
+    }
+  ],
+  "input_machine_parse": {
+    "schedule": "plans/global/2026-10-02-jlz-native-joint-v4/experiment-2k/case-schedule.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "stream_slice": [
+      0,
+      2000
+    ],
+    "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "case_id_serialization": "compact json list of ints, no newline",
+    "first_three": [
+      16186,
+      3743,
+      1481
+    ],
+    "last_three": [
+      13410,
+      6428,
+      19132
+    ],
+    "first500_ids_sha256": "0be7d88c759e7f65a690514035f40a18c5c19d8591ddd33f97b2fa6187b64a95",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "contexts_sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "rebind": "20 batch native token/subject/group/target/readout/order identities, same500prefix. Pilot rows [2000:2004] 학습분리. 기존model/C0/context/native/evaluator read-only reuse, download/recompute0."
+  },
+  "frozen_source_25_members_exact": true,
+  "PROTOCOL_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+  "reviewer": "GH owner source/scope review; independent agent not used",
+  "source_findings": [
+    "원run.py/collect.py에5batch/noB6/500/current-only하드코딩이있어새controller/collector전역20scope로테스트해야한다.",
+    "원Q1종료B signal11은역사실패유지, READY/coreexact bridge의범위를재사용근거에명시.",
+    "원Q2는nontrainingfixedDprobe;신규2k에서는기존결과읽기재사용하고반복제외를명시."
+  ],
+  "target_snapshot": {
+    "SH4_thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "last_turn": "01a10062-6cf9-7a11-b0eb-dc8b1d4b9ee7",
+    "last_turn_state": "completed",
+    "cwd": "/data/janghj/ODE-edit",
+    "socket_present": true,
+    "actual_host": "server4",
+    "user": "janghj",
+    "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+    "local_cap": 2,
+    "local_memory_ceiling_mib": 60416,
+    "owned_server4_squeue_rows": [],
+    "available_bytes": 101141934080,
+    "nonexclusive": true,
+    "submission_guaranteed": false
+  },
+  "superseded_SH3_preparation": {
+    "message_deliveries": 0,
+    "Slurm_writes": 0,
+    "published_authorities": 0,
+    "reason": "latest USER server4에게 시키자."
+  },
+  "GH_new_GPU": 0,
+  "GH_Slurm_write": 0,
+  "root_dirty_preserved": true
+}

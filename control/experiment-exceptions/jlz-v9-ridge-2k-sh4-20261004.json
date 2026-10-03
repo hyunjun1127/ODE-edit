@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "task_id": "jlz-realization-v9-ridge-bs100x20-s4-20261004-v1",
+  "status": "AUTHORIZED_TASK_SCOPED_USER_EXCEPTION",
+  "envelope": "messages/head/2026-10-04-jlz-v9-ridge-2k-sh4.json",
+  "old_global_stop_overridden_only_for_this_task": true,
+  "owner": "SH4",
+  "server": "server4",
+  "arms": [
+    "A",
+    "B"
+  ],
+  "batches_per_arm": 20,
+  "edits_per_arm": 2000,
+  "Slurm_submission": true,
+  "project_cap": 2,
+  "save_checkpoints": false,
+  "new_baselines": false,
+  "new_exact_probes": false,
+  "other_jobs_unchanged": true,
+  "other_tasks_resume": false,
+  "reason_ko": "사용자v9 2k확장명령과최신server4지정. 미전달SH3안대체, 과거500상태를덮어쓰지않음."
+}
