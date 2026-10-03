@@ -1,0 +1,255 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,booktabs}
+\setlength{\textwidth}{6.4in}
+\setlength{\oddsidemargin}{0.05in}
+\setlength{\evensidemargin}{0.05in}
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-0.4in}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\NLL}{\operatorname{NLL}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\title{JLZ v11: Joint Local Increments with Native Ridge-Cost Allocation}
+\author{Method and experiment contract, revision 1}
+\date{October 4, 2026}
+\begin{document}
+\maketitle
+
+\paragraph{Scope.}
+The method replaces MEMIT-H's single upper-layer target and remaining-layer
+divisor with jointly optimized local increments at every configured write layer.
+A ridge-derived cost supplies an allocation signal. It preserves native input
+sentences, subject lookup, task readouts, current-to-entry KL direction, the ridge
+writer, causal key refresh at commit, and history accumulation. It does not claim
+to solve every source of semantic locality loss. All configured layers remain
+eligible; concentration on a small subset is an allowed outcome, not a gate.
+
+\section{Entry state and local variables}
+At sequential batch $t$, let $W_t$ be the entry model and $H_{t,l}$ the previous
+key-history covariance. Let $B$ be the actual number of requests, including a
+partial final batch; $\mathcal L$ the configured write layers; $m=|\mathcal L|$;
+and $d_l$ the layer output dimension. All of these are runtime quantities.
+For request $r$, let $h^0_{lr}$ be the canonical entry subject's full
+transformer-block output and $a_{lr}=\norm{h^0_{lr}}_2>0$. The model, anchors,
+entry KL teacher $p^0_{K,r}$, and history are fixed during fitting.
+
+Inject the same trainable $\delta_{lr}\in\mathbb R^{d_l}$ at the subject-last
+lookup of every native rewrite and KL context of request $r$. Define
+$D_l=[\delta_{l1},\ldots,\delta_{lB}]$. Each request's forward contains all its
+layer increments simultaneously; gradients propagate through the effects of
+lower-layer injections on upper-layer states. There is no separate task-success
+objective for each layer. Model weights are not optimizer variables.
+
+The injection site is the full block output; the writer key is the down-projection
+input. A model adapter must verify their local additive correspondence.
+Token IDs, target positions, padding and position semantics, NLL readout, final
+KL readout, and native context definitions are preserved. Evaluation paraphrases
+and neighborhood examples never enter fitting or coefficient selection.
+
+\section{Task objective}
+The virtual subject-injection loss is
+\begin{equation}
+ L_N(D)=\frac1B\sum_{r=1}^{B}\left[
+ \NLL_r^v+\lambda_K\KL(p^v_{K,r}\Vert p^0_{K,r})
+ +\lambda_n\sum_{l\in\mathcal L}
+       \frac{\norm{\delta_{lr}}_2}{a_{lr}^2}\right].
+ \label{eq:native}
+\end{equation}
+NLL uses the native target-token mean followed by its context mean. KL uses the
+full vocabulary and the current-to-entry direction. Decay is the unsquared
+Euclidean norm divided by the squared canonical entry anchor. The layerwise
+sum extends the native single-increment penalty; it does not imply identical
+effective regularization or an identical total edit budget.
+
+\section{Frozen entry geometry and full-batch allocation cost}
+Extract entry rewrite keys and take the native nested context mean to obtain
+$\widehat K_l\in\mathbb R^{k_l\times B}$. KL rows do not enter this mean.
+In the current six-rewrite-context profile, key weights are
+$(0.5,0.1,0.1,0.1,0.1,0.1)$, while rewrite NLL weights are each $1/6$.
+These are distinct reductions. Define
+\begin{align}
+ A_l&=\lambda_C C_{0,l}+H_{t,l},\\
+ \widehat P_l&=(A_l+\widehat K_l\widehat K_l^\top)^{-1}\widehat K_l,
+ &\widehat M_l&=\widehat P_l^\top\widehat K_l.
+\end{align}
+Use solves, not explicit inverses. This geometry is constructed once at batch
+entry and frozen across candidates; it is rebuilt for the next sequential batch.
+
+For symmetric positive-definite $A_l$, the exact optimum at this fixed geometry is
+\begin{align}
+ \widehat C_l(D_l)
+ &=\min_U\left\{\norm{U\widehat K_l-D_l}_F^2+
+                         \tr(U A_lU^\top)\right\}\\
+ &=\tr\left[D_l(I-\widehat M_l)D_l^\top\right].
+ \label{eq:ridgecost}
+\end{align}
+In particular, with
+$G_l=\widehat P_l^\top A_l\widehat P_l$ and
+$E_l=(\widehat M_l-I)(\widehat M_l-I)^\top$,
+$G_l+E_l=I-\widehat M_l$. The method retains this combined ridge objective,
+not the preservation energy $G_l$ alone. For a stable norm representation, set
+$S_l=\widehat K_l^\top A_l^{-1}\widehat K_l$ and factor
+$I+S_l=T_lT_l^\top$. Then
+\begin{equation}
+ \widehat C_l(D_l)=\norm{T_l^{-1}D_l^\top}_F^2.
+\end{equation}
+Native covariance/history rounding can produce slight asymmetry. Qualification
+must check agreement with native asset solves; arbitrary symmetrization or
+unreported jitter is not permitted. A failed tolerance is a technical failure.
+
+The main method uses the A-form sum of roots:
+\begin{align}
+ \sigma_l^2&=\frac1B\sum_r a_{lr}^2,&
+ c_l(D_l)&=\frac{\sqrt{\widehat C_l(D_l)}}{\sqrt B\,\sigma_l},\\
+ \mathcal R_A(D)&=\sum_{l\in\mathcal L}c_l(D_l),&
+ J(D)&=L_N(D)+\lambda_{\rm alloc}\mathcal R_A(D).
+ \label{eq:joint}
+\end{align}
+The minimum-norm subgradient at a zero norm is zero; no smoothing term is added.
+There is no additional root-of-sum-of-squares arm. Full-batch off-diagonal terms
+are retained, so the allocation cost couples requests even though native task
+losses can be computed separately. A microbatch-specific ridge or diagonal
+approximation would define a different method.
+
+\paragraph{Exact identity versus proxy.}
+Equation~\eqref{eq:ridgecost} is an exact ridge identity for the frozen entry
+geometry. Its use during fitting is a proxy for the eventual commit cost:
+upper-layer keys change after lower-layer writes. The method does not label
+this proxy as the cost of the actual deployed update.
+
+\section{Optimizer, projection, and stopping}
+Reparameterize
+\begin{equation}
+ \delta_{lr}=s_{lr}q_{lr},\qquad
+ s_{lr}=\frac{a_{lr}}{\sqrt{d_lm}},\qquad q_{lr}^{(0)}=0.
+\end{equation}
+Use Adam on $q$: learning rate $0.1$, betas $(0.9,0.999)$,
+$\epsilon=10^{-8}$, no weight decay, no warm-up, and no foreach implementation.
+The default model, $q$, $D$, and moments are FP32; geometry and allocation
+reductions are FP64. This reparameterization is an explicit adaptation, not
+the same physical step as native Adam on $\delta$.
+
+Log the request-mean objective $J$. Pass a single request-sum gradient to Adam,
+as in the existing JLZ convention:
+\begin{equation}
+ (q_{lr}.\mathrm{grad})=B\,s_{lr}\frac{\partial J}{\partial\delta_{lr}}.
+\end{equation}
+Apply $B$ and $s_{lr}$ exactly once. Accumulate native task gradients over
+microbatches and add the full-batch allocation gradient once per candidate.
+
+After every Adam update, project each physical increment onto
+\begin{equation}
+ \norm{\delta_{lr}}_2\leq c_{\rm native}a_{lr},
+ \qquad c_{\rm native}=0.75\quad\hbox{in the current profile},
+\end{equation}
+and restore $q_{lr}=\delta_{lr}/s_{lr}$ while retaining Adam moments.
+There is no additional total-layer budget or clipping of model hidden states.
+
+There are at most 25 candidate evaluations and 24 optimizer updates. Candidate
+1 is $q=0$. At each candidate, first evaluate the full $J$ and reject nonfinite
+or corrupted states as technical failures. Stop the whole logical batch when
+$J_{\rm mean}<0.05$, including allocation cost, or after candidate 25. Otherwise
+backpropagate, update Adam, project, and evaluate the next candidate. Adopt the
+last evaluated finite candidate even if it exhausts the budget. Do not select
+an earlier candidate by evaluation performance or add steps after the budget.
+
+This is a joint extension of native total-loss stopping, not native independent
+request stopping. There is no finished-request freeze, NLL-only sufficiency
+stop, or ACC/PS/NS-based gate. The no-allocation control applies the same rule
+to its own objective with $\lambda_{\rm alloc}=0$.
+
+\section{Sequential native ridge commit}
+Freeze the fitted $D_l$. Inside a transaction based on $(W_t,H_t)$, process all
+write layers in native causal order:
+\begin{enumerate}
+ \item Extract rewrite keys from the current model, which already contains
+       the committed updates at earlier layers, and form native mean keys $K_l^a$.
+ \item Solve $P_l^a=(A_l+K_l^aK_l^{a\top})^{-1}K_l^a$ using the native writer.
+ \item Form $U_l=D_lP_l^{a\top}$ and apply the native orientation, cast, and
+       addition to the selected weight. Proceed to the next layer in the updated model.
+\end{enumerate}
+The writer's requested residual is exactly $D_l$. There is no remaining-layer
+divisor, absolute virtual target minus actual hidden state, residual top-up,
+or inverse-$M$ compensation. Earlier under-realization is not automatically
+assigned to a later layer. Entry $\widehat P_l$ must not be reused for commit.
+
+At actual mean keys, direct realization is
+\begin{equation}
+ Y_l=U_lK_l^a=D_lM_l^a,\qquad M_l^a=P_l^{a\top}K_l^a.
+\end{equation}
+Planned and realized shares need not agree. If an entire $D_l$ is zero, then
+$U_l=0$; an individual zero column does not imply zero effect at that request's
+key because other columns can contribute. Report direct local action $U_lk_l$
+separately from full hidden differences inherited from lower layers.
+
+After all writes, re-extract native mean keys from the final model and append
+$H_{t+1,l}=H_{t,l}+K_{{\rm hist},l}K_{{\rm hist},l}^{\top}$ once in CPU FP32.
+Key reuse requires prior final-key parity. Verify preservation of nonselected
+weights and rollback. There is no history replay or replay teacher.
+
+\paragraph{Remaining discrepancy.}
+Fitting applies a common increment at subject positions; committed weights act
+at every token and only partly realize the request at its mean key. Consequently,
+local targets reduce the target-location mismatch without guaranteeing exact
+realization or fit-to-commit task parity. No actual-writer injection (T$'$),
+pulse, reference loss, or all-token teacher is introduced.
+
+\section{Native boundary and efficiency}
+Native text, scoring, canonical anchor convention, ridge formula, covariance,
+history, and actual key refresh are retained. Explicit extensions are the
+multi-layer direct-increment path; summed layer norms and caps; $q$ Adam;
+full-batch allocation; joint stopping; and replacing upper-target residual
+feedback with fixed local increments. Equal coefficients do not imply equal
+effective strength. No B1 coefficient calibration, strength matching, or sweep
+is part of this design.
+
+Entry geometry is computed once and the sequential actual writer once after
+fitting, removing candidate-by-candidate actual builder solves and weight
+materialization. Verified token-preserving padding trims, selected-position
+full-vocabulary heads, valid prefix reuse, and early key-extraction exit are
+allowed. Logical batch normalization, contexts, vocabulary, dtypes, and candidate
+rules must remain unchanged. Report logical candidates, actual forward/backward
+counts, time, and memory separately; microbatch utilization gains are not
+automatically FLOP savings.
+
+Model/benchmark adapters supply dimensions, layers, native hyperparameters,
+context definitions, and injection/readout modules. Unsupported architectures
+fail qualification explicitly rather than using silent fallbacks.
+
+\section{Qualification and the initial 2,000-edit experiment}
+The method is independent of batch size and model. The initial execution profile
+uses Llama-3-8B-Instruct and CounterFact with layers L4--L8, loss layer 31,
+$\lambda_K=0.0625$, $\lambda_n=0.5$, $\lambda_C=15000$, and the native
+$0.75$ cap. The main allocation coefficient is locked by the accompanying
+experiment configuration; it is not selected using evaluation results.
+
+Proceed through CPU math checks, small real-model qualification, a BS2-by-2
+pilot, and actual BS100 admission. Technical parity, finite gradients, correct
+masking, and state/commit integrity govern admission; accuracy and layer shares
+do not. The main comparison uses the same ordered 2,000 requests in 20 logical
+batches of 100 for all three methods:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Method & Allocation term & Comparison meaning\\
+\midrule
+JLZ v11 main & $\lambda_{\rm alloc}\mathcal R_A$ & Full proposed pipeline\\
+JLZ v11 NOALLOC & $0$ & Added writer-cost effect\\
+Native MEMIT-H & Native procedure & Baseline\\
+\bottomrule
+\end{tabular}
+\end{center}
+NOALLOC does not impose uniform allocation: task losses and norm penalties can
+still favor unequal increments. Main versus NOALLOC measures the effect of an
+added cost, including both regularization strength and allocation changes.
+NOALLOC versus MEMIT-H compares the joint local-target pipeline; it is not an
+isolated causal test of target location alone.
+
+Report rewrite and paraphrase ACC alongside preference RS/PS, neighborhood
+ACC and NS, their exact denominators and scoring definitions, NLL, immediate
+cohort performance, and subsequent retention. Preserve ACC as a separate
+outcome; preference saturation does not imply that further optimization is
+useless. Include planned and realized allocation, actual-versus-entry cost,
+clipping, stopping, and compute telemetry. The authoritative implementation and
+experiment documents specify numerical tolerances, schedules, and artifacts.
+\end{document}

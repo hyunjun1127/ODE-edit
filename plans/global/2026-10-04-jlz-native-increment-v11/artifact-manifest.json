@@ -1,0 +1,97 @@
+{
+  "schema": "JLZ_V11_DESIGN_PACKAGE_V1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "date_kst": "2026-10-04",
+  "package_state": "CPU_VALIDATED_PRODUCTION_QUALIFICATION_PENDING",
+  "source_base": "bcd7b97f5b2990523d17d822496f8f67fbadc678",
+  "files": [
+    {
+      "path": "docs/methods/jlz-native-increment-v11.tex",
+      "bytes": 13334,
+      "sha256": "7698d14de93849a49001166fb445a64145709b55ee1a92eb018e090cce048867"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/README.md",
+      "bytes": 871,
+      "sha256": "c564ddcfc11f964d74bc52298631328f09d7685c862c5d402c0b34dbedc13cf9"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/contract.json",
+      "bytes": 6266,
+      "sha256": "a2dbf3abe4876bc6a614961cf79d9323ca2399b95086b13f2857c7e7ca423ff3"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/execution-command.json",
+      "bytes": 3818,
+      "sha256": "959cb40d25197d3b343f4e51636b740c09c9b6066cdb03dfb1b4a9cc94ef55b4"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/case-schedule-first2000.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment-ko.md",
+      "bytes": 17615,
+      "sha256": "e37f240c1ff549536b0309e4fa0c88dbd1940c7b52e054f468e466128e4f6847"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment.json",
+      "bytes": 27057,
+      "sha256": "ca9fdb8d5acc2764281d130e3c31581abc7487f9cea0223a0477ddeb7afcac5b"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/input-reference.json",
+      "bytes": 8970,
+      "sha256": "2b902aafac11796cea8cbf328da669423f2cb853b491a2dc619ad644154c6863"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/handoff-ko.md",
+      "bytes": 7544,
+      "sha256": "98395227dad5c5a67671cf64baa26b8141b663a55b5344a41e495acbe345c996"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/implementation-ko.md",
+      "bytes": 8923,
+      "sha256": "97cc440ef522e5ed2f29f4d5e1bf4ac443f07684de398951afeabe6ecc99f20d"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/math/README.md",
+      "bytes": 4401,
+      "sha256": "e7efc9a298f1304e57e98158c5a77ebfaa5081b62628c24f2561d9ff6321d8a8"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/math/results.json",
+      "bytes": 13588,
+      "sha256": "b1c0047ee936743976a9794afd5c72f3ae9ddf9eb55b5b1b28730f5556244829"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/math/review-resolution.json",
+      "bytes": 348,
+      "sha256": "c5e4b9728a49715f057f60e2e0a4c4ca510c7d31863dadbc730b162b6abea23c"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/math/review.json",
+      "bytes": 2869,
+      "sha256": "5c9fa124e993c2f1915e866d0ae7f829bccfd899783db0cc82e73278816f10fb"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/math/validate_contract.py",
+      "bytes": 18108,
+      "sha256": "2a14ccff79213befaa9f8f55c479371cd17d4b11913e5ba9496d913a89100320"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-native-increment-v11/method-ko.md",
+      "bytes": 12887,
+      "sha256": "de5d3117ae51ef07b67038c7872160f801d180cf6743ab712bcbf80a6ba116af"
+    }
+  ],
+  "checks": {
+    "contracts_and_links": "PASS",
+    "first2000_schedule_rows": 2000,
+    "CPU_math_result": "math/results.json",
+    "no_GPU_run_in_design_phase": true,
+    "TeX_static_checks": "PASS",
+    "TeX_PDF_compile": "NOT_RUN_NO_LATEX_ENGINE"
+  }
+}

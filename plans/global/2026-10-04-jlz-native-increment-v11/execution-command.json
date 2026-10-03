@@ -1,0 +1,108 @@
+{
+  "schema": "JLZ_V11_USER_EXECUTION_COMMAND_V1",
+  "date_kst": "2026-10-04",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "task_id": "jlz-native-increment-v11-bs100x20-20261004-v1",
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "method 설계, 실험 설계까지 진행해서 GH에게 전달하라. SH4에게 task를 맡기면 된다. 500 sample 말고 2000개로 진행하는 것으로 하자.",
+    "scope": "GH integrates design and assigns SH4 implementation, technical qualification, small pilot and matched2000-edit experiment"
+  },
+  "sender": {
+    "role": "user-authorized research session",
+    "session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "impersonate_GH": false
+  },
+  "recipient": {
+    "role": "GH",
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "executor": {
+    "role": "SH4",
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "dedicated_non_main_worktree": true
+  },
+  "binding": {
+    "method": "method-ko.md",
+    "contract": "contract.json",
+    "implementation": "implementation-ko.md",
+    "experiment": "experiment-2k/experiment-ko.md",
+    "experiment_contract": "experiment-2k/experiment.json",
+    "inputs": "experiment-2k/input-reference.json",
+    "case_schedule": "experiment-2k/case-schedule-first2000.csv",
+    "tex": "../../../docs/methods/jlz-native-increment-v11.tex",
+    "manifest": "artifact-manifest.json"
+  },
+  "scope": {
+    "chains": [
+      "MAIN",
+      "NOALLOC",
+      "MEMIT_H"
+    ],
+    "unique_requests_each": 2000,
+    "logical_B": 100,
+    "sequential_batches_each": 20,
+    "independent_cold_W0_H0": true,
+    "small_pilot_requests": [
+      541,
+      6693,
+      16935,
+      17306
+    ],
+    "baseline_reuse": "only GH-certified exact matching complete2000 source/runtime/input/evaluator/endpoints; else fresh native run",
+    "B21": false,
+    "extra_B_form_arm": false,
+    "additional_scientific_variants": false,
+    "coefficient_sweep": false,
+    "warmup": false,
+    "reference_replay": false,
+    "checkpoint_saved": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "authorization": {
+    "implementation": true,
+    "CPU_and_actual_native_qualification": true,
+    "small_GPU_pilot": true,
+    "Slurm_main_after_technical_PASS": true,
+    "further_user_stage_permission_required": false,
+    "factual_report_and_artifact_broadcast": true,
+    "scoped_new_task_exception_to_old_STOP": true,
+    "resume_or_cancel_unrelated_tasks": false,
+    "GH_publication_and_delegation": true
+  },
+  "resources": {
+    "task_max_concurrent_GPUs": 1,
+    "per_job_GPUs": 1,
+    "default_CPUs": 8,
+    "explicit_memory_required": true,
+    "current_server_GPU_memory_queue_caps_must_be_rebound": true,
+    "respect_stricter_cap": true,
+    "increase_existing_cap": false,
+    "cancel_other_jobs": false
+  },
+  "write_scope": [
+    "project/run_scripts/jlz_native_increment/**",
+    "new namespace tests",
+    "SH4-owned plans/status/audits/reports/run receipts",
+    "ignored local/jlz-native-increment-v11/**"
+  ],
+  "readonly_reuse": [
+    "native baseline source/input/runtime",
+    "historical v9/v10 implementation reference"
+  ],
+  "transport": {
+    "mode": "registered app-server direct request-response",
+    "GH_nonce_ack": true,
+    "SH4_direct_owner_ack": true,
+    "bounded_handoff": true,
+    "new_recurring_monitor": false,
+    "file_payload": "method/experiment/contracts/TeX/CPU proofs/case IDs and hashes only"
+  },
+  "status_at_issue": "AUTHORIZED_PACKAGE_READY_AWAITING_GH_DELIVERY"
+}

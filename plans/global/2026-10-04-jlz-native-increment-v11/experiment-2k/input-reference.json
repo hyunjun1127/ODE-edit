@@ -1,0 +1,229 @@
+{
+  "schema": "JLZ_NATIVE_INCREMENT_V11_INPUT_REFERENCE_V1",
+  "date_kst": "2026-10-04",
+  "status": "고정 데이터와 schedule은 CPU 재검산 완료; server4 자산 및 실행 source/runtime은 fresh receipt 필요",
+  "reuse_scope": "기존 v10 입력 identity와 native 문장 자산만 재사용; 이전 method, optimizer state, target z, H 및 모델 상태는 재사용하지 않음",
+  "dataset": {
+    "id": "counterfact-fixed-10k-v1",
+    "verified_local_path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "server4_path_hint": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "bytes": 16679956,
+    "records": 10000,
+    "verify_before_model_load": "python3 scripts/fixed_counterfact.py verify --root <server4 전용 폴더>",
+    "required_adjacent_assets": [
+      "receipt.json",
+      "source-sample.lock.json"
+    ],
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "source_sample_lock_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+  },
+  "main": {
+    "ordinal_slice_half_open": [
+      0,
+      2000
+    ],
+    "case_count": 2000,
+    "case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "first_three_case_ids": [
+      16186,
+      3743,
+      1481
+    ],
+    "last_three_case_ids": [
+      13410,
+      6428,
+      19132
+    ],
+    "ids_serialization": "json.dumps(ids,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode('utf-8'); no trailing newline",
+    "schedule_file": "case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "schedule_bytes": 294841,
+    "counts_per_record": {
+      "R": 1,
+      "P": 2,
+      "N": 10
+    },
+    "primary_occurrence_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    }
+  },
+  "pilot": {
+    "ordinal_slice_half_open": [
+      2000,
+      2004
+    ],
+    "case_ids": [
+      541,
+      6693,
+      16935,
+      17306
+    ],
+    "case_ids_sha256": "bc234b579ac0fafdfafd741fbf01e88c98a9b1e138cb19146b9bfa852458c1ee",
+    "disjoint_main_case_ids": true,
+    "native_target_cache_reuse": false,
+    "pilot_to_main_state_reuse": false,
+    "selection": "고정 배열의 main 직후 4개; 성능 필터·셔플·재추출 없음"
+  },
+  "versioning": {
+    "claim_key": "(NFC(collapse_subject_whitespace), relation_id)",
+    "target_version_key": "target_new.id if present else target_new.str",
+    "rule": "같은 claim의 더 늦은 다른 target이 있으면 앞 occurrence는 superseded; target이 나중에 원복되어도 앞 occurrence를 재활성화하지 않음",
+    "training_and_history_filter": false,
+    "primary_metric_filter": false,
+    "checkpoints": [
+      {
+        "endpoint": "W5",
+        "occurrences": 500,
+        "unique_claims": 500,
+        "conflicting_claims": 0,
+        "active_occurrences": 500,
+        "superseded_occurrences": 0
+      },
+      {
+        "endpoint": "W10",
+        "occurrences": 1000,
+        "unique_claims": 999,
+        "conflicting_claims": 1,
+        "active_occurrences": 999,
+        "superseded_occurrences": 1
+      },
+      {
+        "endpoint": "W15",
+        "occurrences": 1500,
+        "unique_claims": 1491,
+        "conflicting_claims": 8,
+        "active_occurrences": 1491,
+        "superseded_occurrences": 9
+      },
+      {
+        "endpoint": "W20",
+        "occurrences": 2000,
+        "unique_claims": 1983,
+        "conflicting_claims": 13,
+        "active_occurrences": 1984,
+        "superseded_occurrences": 16
+      }
+    ],
+    "schedule_active_at_W20_applies_to_earlier_endpoints": false
+  },
+  "native_contexts": {
+    "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+    "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+    "bytes": 270
+  },
+  "native_context_weight_contract": {
+    "rewrite_NLL": "6개 rewrite context 균등 1/6",
+    "delta_norm": "각 요청·층의 단일 공유 delta; context에 따라 복제 가중하지 않음",
+    "writer_key_mean": "canonical 1/2, prefix 5개 각각 1/10; native nested-group mean",
+    "KL": "generic KL context 1개/요청; current || own batch entry"
+  },
+  "C0_assets": [
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+      "bytes": 822084814
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+      "bytes": 822084814
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+      "bytes": 822084814
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+      "bytes": 822084814
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+      "bytes": 822084814
+    }
+  ],
+  "first5_native_pack_identity_reference": [
+    {
+      "actual_B": 100,
+      "batch": 1,
+      "identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+      "key_prefix_exact": true,
+      "phase": "main",
+      "rows": 700,
+      "valid_tokens": 10651,
+      "width": 32
+    },
+    {
+      "actual_B": 100,
+      "batch": 2,
+      "identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+      "key_prefix_exact": true,
+      "phase": "main",
+      "rows": 700,
+      "valid_tokens": 10990,
+      "width": 23
+    },
+    {
+      "actual_B": 100,
+      "batch": 3,
+      "identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+      "key_prefix_exact": true,
+      "phase": "main",
+      "rows": 700,
+      "valid_tokens": 10712,
+      "width": 25
+    },
+    {
+      "actual_B": 100,
+      "batch": 4,
+      "identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+      "key_prefix_exact": true,
+      "phase": "main",
+      "rows": 700,
+      "valid_tokens": 10791,
+      "width": 25
+    },
+    {
+      "actual_B": 100,
+      "batch": 5,
+      "identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+      "key_prefix_exact": true,
+      "phase": "main",
+      "rows": 700,
+      "valid_tokens": 10700,
+      "width": 25
+    }
+  ],
+  "native_writer_reference": {
+    "module": "BLUE memit.memit_seq_main.apply_memit_seq_to_model",
+    "blue": false,
+    "historically_verified_BLUE_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "baseline_historical_execution_commit": "3a904be9261d162239c6b780a62c52f3e59a9142",
+    "memit_seq_main_sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a",
+    "compute_z_sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732",
+    "compute_ks_sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+    "repr_tools_sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f",
+    "fresh_server4_reference_closure_binding_required": true,
+    "note": "기존 EasyEdit compute_z reference는 동일 writer 실행 증거가 아님. production adapter와 baseline 각각 실제 호출 source closure를 receipt에 결속."
+  },
+  "v10_historical_profile_reference": {
+    "source_commit": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+    "source_root": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2",
+    "receipt": "execution.lock.json",
+    "reuse": "모델/입력/평가기 확인용; v10 fit-builder/Tprime/G-only 알고리즘 계승 아님"
+  },
+  "fresh_execution_bindings_required": [
+    "실행 구현 git commit 및 파일별 SHA256 closure",
+    "server4 실제 model snapshot/tokenizer/config SHA256 및 revision",
+    "actual runtime package versions, CUDA/driver/GPU/backend/TF32/eager",
+    "20개 main native pack의 token IDs, mask, target, subject lookup, group weights SHA256",
+    "평가기 source closure와 label/micro/macro/strict 정의",
+    "실제 C0/context/dataset receipt 및 경로",
+    "각 cold W0/H0 receipt와 W0 공유/reuse 판정"
+  ]
+}

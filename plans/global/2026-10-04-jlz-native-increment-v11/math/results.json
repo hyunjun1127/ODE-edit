@@ -1,0 +1,440 @@
+{
+  "status": "PASS",
+  "dtype": "torch.float64",
+  "device": "cpu",
+  "torch_version": "2.9.1+cu128",
+  "tolerances": {
+    "algebra_abs": 1e-10,
+    "gradient_FD_abs": 1e-07,
+    "gradient_FD_relative": 1e-05
+  },
+  "stable_cost": "T=I+K^T A^-1 K=L_T L_T^T; C=||L_T^-1 D^T||_F^2; root=norm/ sqrt(actual_B * mean(a^2))",
+  "dimensions_and_graph": [
+    {
+      "logical_B": 1,
+      "layers": 1,
+      "output_dim": 3,
+      "algebra": [
+        {
+          "layer": 0,
+          "input_dim": 4,
+          "output_dim": 3,
+          "cost": 0.005594102547893739,
+          "Q": 0.00015285179240172013,
+          "E": 0.00544125075549202,
+          "cost_error": 1.734723475976807e-18,
+          "solve_residual": 6.938893903907228e-18,
+          "SPD_vs_dense_solve_error": 8.326672684688674e-17
+        }
+      ],
+      "split_gradient_error": 0.0,
+      "Bsum_scale_bridge_error": 0.0,
+      "joint_finite_difference_max_abs": 2.5739847753225575e-10,
+      "allocation_finite_difference_max_abs": 1.411892824876304e-11,
+      "zero_norm_chosen_subgradient": "finite all-zero; nonsmooth point, not classical differentiability",
+      "actual_B_normalizer": 1,
+      "nominal_batch_capacity_for_partial_example": 3,
+      "sigma2_error": 0.0,
+      "B1_m1_native_norm_equivalence_error": 0.0,
+      "native_equivalence_scope": "Only direct-delta norm form/dimensions; q optimizer and added allocation are not native compute_z equivalence."
+    },
+    {
+      "logical_B": 2,
+      "layers": 2,
+      "output_dim": 4,
+      "algebra": [
+        {
+          "layer": 0,
+          "input_dim": 5,
+          "output_dim": 4,
+          "cost": 0.06757254598238227,
+          "Q": 0.010205096030565462,
+          "E": 0.0573674499518168,
+          "cost_error": 1.3877787807814457e-17,
+          "solve_residual": 5.551115123125783e-17,
+          "SPD_vs_dense_solve_error": 8.326672684688674e-17
+        },
+        {
+          "layer": 1,
+          "input_dim": 6,
+          "output_dim": 4,
+          "cost": 0.1197030712280007,
+          "Q": 0.014111464051446584,
+          "E": 0.10559160717655411,
+          "cost_error": 0.0,
+          "solve_residual": 1.1102230246251565e-16,
+          "SPD_vs_dense_solve_error": 1.3877787807814457e-16
+        }
+      ],
+      "split_gradient_error": 2.7755575615628914e-17,
+      "Bsum_scale_bridge_error": 0.0,
+      "joint_finite_difference_max_abs": 2.9226301934137666e-10,
+      "allocation_finite_difference_max_abs": 4.4978729074607315e-11,
+      "zero_norm_chosen_subgradient": "finite all-zero; nonsmooth point, not classical differentiability",
+      "actual_B_normalizer": 2,
+      "nominal_batch_capacity_for_partial_example": 3,
+      "sigma2_error": 0.0
+    },
+    {
+      "logical_B": 3,
+      "layers": 3,
+      "output_dim": 4,
+      "algebra": [
+        {
+          "layer": 0,
+          "input_dim": 5,
+          "output_dim": 4,
+          "cost": 0.014453498193241907,
+          "Q": 0.0006646497260366403,
+          "E": 0.013788848467205265,
+          "cost_error": 1.734723475976807e-18,
+          "solve_residual": 1.0408340855860843e-17,
+          "SPD_vs_dense_solve_error": 1.1102230246251565e-16
+        },
+        {
+          "layer": 1,
+          "input_dim": 6,
+          "output_dim": 4,
+          "cost": 0.018928911425882364,
+          "Q": 0.0009523362770466743,
+          "E": 0.017976575148835692,
+          "cost_error": 3.469446951953614e-18,
+          "solve_residual": 1.3877787807814457e-17,
+          "SPD_vs_dense_solve_error": 2.7755575615628914e-17
+        },
+        {
+          "layer": 2,
+          "input_dim": 7,
+          "output_dim": 4,
+          "cost": 0.00849930070368756,
+          "Q": 0.000358055957400178,
+          "E": 0.00814124474628738,
+          "cost_error": 1.734723475976807e-18,
+          "solve_residual": 1.0408340855860843e-17,
+          "SPD_vs_dense_solve_error": 6.245004513516506e-17
+        }
+      ],
+      "split_gradient_error": 5.551115123125783e-17,
+      "Bsum_scale_bridge_error": 0.0,
+      "joint_finite_difference_max_abs": 1.4504442646945392e-09,
+      "allocation_finite_difference_max_abs": 2.986824676476374e-11,
+      "zero_norm_chosen_subgradient": "finite all-zero; nonsmooth point, not classical differentiability",
+      "actual_B_normalizer": 3,
+      "nominal_batch_capacity_for_partial_example": 3,
+      "sigma2_error": 0.0
+    },
+    {
+      "logical_B": 2,
+      "layers": 3,
+      "output_dim": 3,
+      "algebra": [
+        {
+          "layer": 0,
+          "input_dim": 4,
+          "output_dim": 3,
+          "cost": 0.007438745792564064,
+          "Q": 0.0005487009454253052,
+          "E": 0.006890044847138758,
+          "cost_error": 8.673617379884035e-19,
+          "solve_residual": 6.938893903907228e-18,
+          "SPD_vs_dense_solve_error": 2.7755575615628914e-17
+        },
+        {
+          "layer": 1,
+          "input_dim": 5,
+          "output_dim": 3,
+          "cost": 0.05192061101787329,
+          "Q": 0.004561949952725321,
+          "E": 0.047358661065147974,
+          "cost_error": 0.0,
+          "solve_residual": 2.7755575615628914e-17,
+          "SPD_vs_dense_solve_error": 8.326672684688674e-17
+        },
+        {
+          "layer": 2,
+          "input_dim": 6,
+          "output_dim": 3,
+          "cost": 0.01989871347064351,
+          "Q": 0.0010597884833880343,
+          "E": 0.018838924987255475,
+          "cost_error": 0.0,
+          "solve_residual": 1.734723475976807e-17,
+          "SPD_vs_dense_solve_error": 1.3877787807814457e-16
+        }
+      ],
+      "split_gradient_error": 2.7755575615628914e-17,
+      "Bsum_scale_bridge_error": 0.0,
+      "joint_finite_difference_max_abs": 5.875474377858847e-10,
+      "allocation_finite_difference_max_abs": 4.990220736633688e-11,
+      "zero_norm_chosen_subgradient": "finite all-zero; nonsmooth point, not classical differentiability",
+      "actual_B_normalizer": 2,
+      "nominal_batch_capacity_for_partial_example": 3,
+      "sigma2_error": 0.0
+    }
+  ],
+  "coupling_and_commit": {
+    "other_request_changes_gradient": 0.026237358574264565,
+    "zero_one_request_D_column_mean_key_realization_norm": 0.014484950725741982,
+    "upper_delta_changes_lower_task_gradient_norm": 0.00080307888844751,
+    "actual_key_drift_from_entry": [
+      0.0,
+      0.023842360662138865,
+      0.0419347124677858
+    ],
+    "entire_layer_delta_zero_weight_update_norm": 0.0,
+    "zero_layer_virtual_actual_subject_gap": 1.303542549147072,
+    "entry_proxy_costs": [
+      1.3726274605197388,
+      0.0,
+      1.8376712693243484
+    ],
+    "actual_ridge_costs": [
+      1.3726274605197388,
+      0.0,
+      1.8290876798863231
+    ],
+    "proxy_actual_max_abs": 0.008583589438025285,
+    "stale_vs_refreshed_logits_max_abs": 0.006025675495421878,
+    "interpretation": "Zero entire layer => U=0. Zero individual request column need not imply zero own-key effect. No absolute target feedback; inherited hidden gaps can remain."
+  },
+  "selection_and_clamp": {
+    "fixed_budget": {
+      "evaluations": 25,
+      "updates": 24,
+      "terminal": {
+        "candidate": 25,
+        "evaluated_after_updates": 24,
+        "joint_mean_full_loss": 1.0,
+        "stop": false,
+        "update_after": false
+      },
+      "events": [
+        {
+          "candidate": 1,
+          "evaluated_after_updates": 0,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 2,
+          "evaluated_after_updates": 1,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 3,
+          "evaluated_after_updates": 2,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 4,
+          "evaluated_after_updates": 3,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 5,
+          "evaluated_after_updates": 4,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 6,
+          "evaluated_after_updates": 5,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 7,
+          "evaluated_after_updates": 6,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 8,
+          "evaluated_after_updates": 7,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 9,
+          "evaluated_after_updates": 8,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 10,
+          "evaluated_after_updates": 9,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 11,
+          "evaluated_after_updates": 10,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 12,
+          "evaluated_after_updates": 11,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 13,
+          "evaluated_after_updates": 12,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 14,
+          "evaluated_after_updates": 13,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 15,
+          "evaluated_after_updates": 14,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 16,
+          "evaluated_after_updates": 15,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 17,
+          "evaluated_after_updates": 16,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 18,
+          "evaluated_after_updates": 17,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 19,
+          "evaluated_after_updates": 18,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 20,
+          "evaluated_after_updates": 19,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 21,
+          "evaluated_after_updates": 20,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 22,
+          "evaluated_after_updates": 21,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 23,
+          "evaluated_after_updates": 22,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 24,
+          "evaluated_after_updates": 23,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 25,
+          "evaluated_after_updates": 24,
+          "joint_mean_full_loss": 1.0,
+          "stop": false,
+          "update_after": false
+        }
+      ]
+    },
+    "early_exit": {
+      "evaluations": 3,
+      "updates": 2,
+      "terminal": {
+        "candidate": 3,
+        "evaluated_after_updates": 2,
+        "joint_mean_full_loss": 0.049,
+        "stop": true,
+        "update_after": false
+      },
+      "events": [
+        {
+          "candidate": 1,
+          "evaluated_after_updates": 0,
+          "joint_mean_full_loss": 0.8,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 2,
+          "evaluated_after_updates": 1,
+          "joint_mean_full_loss": 0.08,
+          "stop": false,
+          "update_after": true
+        },
+        {
+          "candidate": 3,
+          "evaluated_after_updates": 2,
+          "joint_mean_full_loss": 0.049,
+          "stop": true,
+          "update_after": false
+        }
+      ]
+    },
+    "stop_statistic": "one joint mean full objective including allocation; no per-request freeze/stop",
+    "one_request_below_threshold_but_joint_continues": 0.125,
+    "clamp_post_rho": [
+      0.7500000000000001,
+      0.7499999999999999
+    ],
+    "adam_moments_bitwise_unchanged": true,
+    "scope": "Contract execution examples only; not imported production solver tests."
+  },
+  "limitations": [
+    "Synthetic nonlinear causal model, not Llama/native implementation parity.",
+    "Entry geometry is frozen; no candidate K/P gradient is claimed.",
+    "Native norm equivalence only for B=1,m=1; optimizer/total objective can differ.",
+    "At D=0 the norm is nonsmooth; finite zero subgradient is an explicit convention.",
+    "Actual costs and virtual/actual fit gap are expected to differ; no closure claim.",
+    "No GPU experiments, production imports, model downloads, or performance estimates."
+  ]
+}

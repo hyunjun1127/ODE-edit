@@ -1,0 +1,178 @@
+{
+  "schema": "JLZ_NATIVE_INCREMENT_V11_METHOD_V1",
+  "date_kst": "2026-10-04",
+  "revision": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "status": "DESIGN_LOCKED_FOR_SH4_IMPLEMENTATION_PRODUCTION_NOT_YET_QUALIFIED",
+  "claims": [
+    "all eligible layers joint local subject increments",
+    "entry native ridge G+E cost based allocation"
+  ],
+  "scope": {
+    "all_eligible_layers": true,
+    "forced_spreading": false,
+    "preselected_subset": false,
+    "model_benchmark_batch_general": true,
+    "native_only_training": true,
+    "evaluation_feedback": false
+  },
+  "fit": {
+    "entry_weights_frozen": true,
+    "variable": "D_l=[delta_l1,...,delta_lB]",
+    "injection": "full block output, native subject lookup, same delta per request across rewrite and KL rows",
+    "task_forward": "all eligible layers jointly active in one virtual path",
+    "fit_actual_weight_builder": false,
+    "actual_realized_v_injection": false,
+    "absolute_target_tracking": false,
+    "teacher": "batch-entry native KL distribution",
+    "norm": "mean_r sum_l norm(delta_lr)/a_lr^2",
+    "anchor": "fixed canonical entry full-block subject hidden norm",
+    "NLL": "native target-token mean and context mean",
+    "KL_direction": "current||entry; full vocabulary",
+    "reference_set": false,
+    "history_replay": false,
+    "pulse": false,
+    "warmup": false
+  },
+  "geometry": {
+    "A": "lambda_C*C0_native+H_native",
+    "Khat": "native rewrite nested-context mean at batch entry",
+    "refresh": "once per batch at its own W/H; frozen for all fit candidates",
+    "gradient_to_geometry": false,
+    "logical_B": "all current batch requests, independent of microbatch",
+    "off_diagonal": true,
+    "P_hat": "solve(A+Khat Khat.T,Khat)",
+    "M_hat": "P_hat.T Khat",
+    "allocation_quadratic": "tr[D_l (G_hat+E_hat) D_l.T]=tr[D_l (I-M_hat) D_l.T]",
+    "G_hat": "P_hat.T A P_hat",
+    "E_hat": "(M_hat-I)(M_hat-I).T",
+    "stable_form": "S=Khat.T solve(A,Khat); I+S=T T.T; C=norm(solve_triangular(T,D.T))_F^2",
+    "explicit_inverse": false,
+    "explicit_I_minus_M_cost_subtraction": false,
+    "silent_symmetrization_jitter": false,
+    "actual_commit_cost_is_equal_to_fit_proxy": false
+  },
+  "allocation": {
+    "form": "A: sum_l sqrt(C_l/(B*sigma_l^2))",
+    "sigma_l_squared": "mean_r a_lr^2",
+    "native_row_losses_separable": true,
+    "complete_objective_request_independent": false,
+    "coefficient_main": 0.1,
+    "coefficient_noalloc": 0.0,
+    "zero_norm_subgradient": 0.0,
+    "epsilon_smoothing": false,
+    "per_candidate_calls": 1,
+    "B_form_arm": false
+  },
+  "optimizer": {
+    "name": "torch.optim.Adam(q)",
+    "scale": "D_lr=a_lr/sqrt(d_l*m)*q_lr",
+    "q_init": 0,
+    "lr": 0.1,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "foreach": false,
+    "recorded_loss": "J_mean=mean native request objective + lambda_alloc*A_cost",
+    "gradient_bridge": "B*dJ_mean/dq == B*s*dJ_mean/dD exactly once",
+    "candidate_evaluations_max": 25,
+    "updates_max": 24,
+    "whole_batch_early_stop": "J_mean < 0.05, including allocation, before next update",
+    "per_request_freeze": false,
+    "terminal_policy": "last evaluated finite candidate; fixed-budget nonconvergence accepted",
+    "best_eval_candidate_selection": false,
+    "clamp": "per request per layer physical delta ball, radius native_clamp*a_lr, after Adam update",
+    "clamp_moments": "retain native-style Adam moments; project q using D/s",
+    "total_layer_budget_cap": false
+  },
+  "write": {
+    "order": "ascending eligible native layers",
+    "K": "recapture on actual lower-layer-updated current model",
+    "P": "solve(A+K K.T,K)",
+    "residual": "exact fitted D_l",
+    "U": "D_l P.T",
+    "remaining_layer_divisor": false,
+    "absolute_z_minus_current_h": false,
+    "inverse_M_compensation": false,
+    "entry_P_reuse_for_commit": false,
+    "casting": "native float64 solve/update then float32 cast and weight add; adapter orientation parity",
+    "history": "native final-model mean-key Gram appended exactly once per occurrence/layer after all writes, CPU float32",
+    "history_success_filter_or_dedup": false,
+    "fit_commit_equivalence_claim": false,
+    "realized_share": "direct U_l k_l, separate from inherited hidden drift"
+  },
+  "profile": {
+    "name": "llama3-8b-instruct-counterfact",
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "nll_loss_layer": 31,
+    "lambda_kl": 0.0625,
+    "lambda_norm": 0.5,
+    "lambda_C": 15000.0,
+    "native_clamp": 0.75,
+    "rewrite_contexts": 6,
+    "KL_rows_per_request": 1,
+    "NLL_context_weights": [
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666
+    ],
+    "native_key_context_weights": [
+      0.5,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "history_dtype_device": "float32 CPU",
+    "autocast": false,
+    "TF32": false,
+    "attention": "eager",
+    "seed": 20261002,
+    "runtime_rebinding": "required; no historic path assumption"
+  },
+  "evaluation": {
+    "primary": [
+      "R/P desired-new strict ACC",
+      "N desired-true strict ACC",
+      "token micro and prompt macro ACC",
+      "RS/PS/NS NLL preference",
+      "new/true NLL and margin",
+      "current and cohort retention"
+    ],
+    "strict_ACC": "teacher-forced all target token argmax equality; not free-generation exact match",
+    "scientific_metric_gates": false
+  },
+  "implementer": "SH4/server4",
+  "dispatcher": "GH",
+  "files": {
+    "method": "method-ko.md",
+    "implementation": "implementation-ko.md",
+    "experiment": "experiment-2k/experiment-ko.md",
+    "experiment_contract": "experiment-2k/experiment.json",
+    "tex": "../../../docs/methods/jlz-native-increment-v11.tex",
+    "CPU": "math/validate_contract.py"
+  },
+  "non_claims": [
+    "semantic locality guaranteed",
+    "same effective strength as native single delta",
+    "plan share equals realized share",
+    "exact actual writer cost during fit",
+    "allocation cost0 means uniform",
+    "all method differences isolated by one ablation"
+  ]
+}

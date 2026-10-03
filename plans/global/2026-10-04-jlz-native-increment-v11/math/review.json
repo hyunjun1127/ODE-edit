@@ -1,0 +1,73 @@
+{
+  "status": "PASS_WITH_MINOR_EDITORIAL_ALIGNMENT_REQUESTS_SENT_TO_ROOT",
+  "method_math_blocking_findings": [],
+  "data_order": "PASS",
+  "pilot_nonoverlap": "PASS",
+  "pilot_ids": [
+    541,
+    6693,
+    16935,
+    17306
+  ],
+  "endpoint_versions": [
+    {
+      "endpoint": "W5",
+      "occurrences": 500,
+      "unique_claims": 500,
+      "conflicting_claims": 0,
+      "active_occurrences": 500,
+      "superseded_occurrences": 0
+    },
+    {
+      "endpoint": "W10",
+      "occurrences": 1000,
+      "unique_claims": 999,
+      "conflicting_claims": 1,
+      "active_occurrences": 999,
+      "superseded_occurrences": 1
+    },
+    {
+      "endpoint": "W15",
+      "occurrences": 1500,
+      "unique_claims": 1491,
+      "conflicting_claims": 8,
+      "active_occurrences": 1491,
+      "superseded_occurrences": 9
+    },
+    {
+      "endpoint": "W20",
+      "occurrences": 2000,
+      "unique_claims": 1983,
+      "conflicting_claims": 13,
+      "active_occurrences": 1984,
+      "superseded_occurrences": 16
+    }
+  ],
+  "pre_requests_per_chain": 2000,
+  "post_requests_per_chain": 6600,
+  "fresh3_plus_W0_prompt_pairs": 361400,
+  "major_scope": [
+    "MAIN allocation .1",
+    "NOALLOC allocation0 not uniform",
+    "MEMIT-H native2k or exactmatch archival",
+    "no B-shape arm",
+    "no eval feedback",
+    "no absolute tracking",
+    "frozen fullbatch cost plus actual commit K refresh"
+  ],
+  "minor_alignment_sent": [
+    "zero-candidate versus zero-reference gradient absolute tolerance",
+    "CPU algebra absolute1e-10 versus abs+rel in implementation table",
+    "component gradient exact candidate schedule 2/9/terminal versus zero/early/terminal"
+  ],
+  "reviewed_files": {
+    "plans/global/2026-10-04-jlz-native-increment-v11/method-ko.md": "1ce82cac1f22f5e622aef538745eedf7ba625a8399c90b0e6847172155ba93e5",
+    "plans/global/2026-10-04-jlz-native-increment-v11/contract.json": "a2dbf3abe4876bc6a614961cf79d9323ca2399b95086b13f2857c7e7ca423ff3",
+    "plans/global/2026-10-04-jlz-native-increment-v11/implementation-ko.md": "59095bae33b87049319670cc179f4f33f3567bad118b91e331231bd94becbd12",
+    "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment.json": "12c1ef8cf455489685f764a11b6d2354088ad9810e50c577ace82dade68ce53a",
+    "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/experiment-ko.md": "94ff5da566ee9a0a12095e05d7101165a9b4f04b0a390971c8cc369171169cf2",
+    "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/input-reference.json": "2b902aafac11796cea8cbf328da669423f2cb853b491a2dc619ad644154c6863",
+    "plans/global/2026-10-04-jlz-native-increment-v11/experiment-2k/case-schedule-first2000.csv": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "docs/methods/jlz-native-increment-v11.tex": "7698d14de93849a49001166fb445a64145709b55ee1a92eb018e090cce048867"
+  }
+}
