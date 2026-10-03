@@ -36,14 +36,15 @@ def validate_inspection(fields,job,script,node='ubuntu'):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--admission',type=Path,required=True);a=p.parse_args()
     require(not (a.attempt/'submission.json').exists(),'DUPLICATE_SUBMISSION_RECEIPT')
-    # A local create-once lock also excludes a second concurrent invocation.
-    with (a.attempt/'submission.started').open('x') as f:f.write(datetime.datetime.now(datetime.timezone.utc).isoformat())
     lock=json.loads((a.attempt/'execution.lock.json').read_text());launchers=json.loads((a.attempt/'launchers.json').read_text())
     admission=json.loads(a.admission.read_text());require(admission['instruction']==INSTRUCTION and admission['cap']==1 and admission['host_memory_mib']==60416,'ADMISSION_BOUNDARY')
     observed=datetime.datetime.fromisoformat(admission['observed_at'])
     age=(datetime.datetime.now(datetime.timezone.utc)-observed).total_seconds()
     require(0<=age<=300,'STALE_ADMISSION')
     require(lock['instruction']==INSTRUCTION,'AUTHORITY')
+    # Validate local prerequisites before consuming the one-shot registration lock.
+    # The lock still excludes a second concurrent invocation before any Slurm write.
+    with (a.attempt/'submission.started').open('x') as f:f.write(datetime.datetime.now(datetime.timezone.utc).isoformat())
     jobs={};external=admission['predecessor_job_ids']
     for stage in ('q1','A','B','collector'):
         script=Path(launchers[stage]['file']['path']);require(sha(script)==launchers[stage]['file']['sha256'],'LAUNCHER_CHANGED')

@@ -88,6 +88,12 @@ class OperationsTests(unittest.TestCase):
         validate_rows([row],[row],[dict(case_id=1)])
         with self.assertRaisesRegex(RuntimeError,'TOKEN_TARGET'):validate_rows([dict(row,new_token_identity='wrong')],[row],[dict(case_id=1)])
         with self.assertRaisesRegex(RuntimeError,'NONFINITE'):reduce([dict(row,true_nll=float('nan'))])
+    def test_missing_admission_never_registers_or_consumes_lock(self):
+        write(self.root/'execution.lock.json',dict(instruction=INSTRUCTION))
+        write(self.root/'launchers.json',{})
+        with patch.object(submit,'run',side_effect=AssertionError('external mutation')),patch('sys.argv',['submit','--attempt',str(self.root),'--admission',str(self.root/'missing.json')]):
+            with self.assertRaises(FileNotFoundError):submit.main()
+        self.assertFalse((self.root/'submission.started').exists())
     def test_collector_incomplete_is_not_scientific_completion(self):
         data=self.root/'data.json';write(data,[])
         w0=self.root/'W0.json';write(w0,dict(rows=[]))

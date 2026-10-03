@@ -1,0 +1,16 @@
+{
+  "status": "PRE_SUBMISSION_ONLY_NO_SLURM_CALL",
+  "registered_jobs": [],
+  "GPU_seconds": 0,
+  "attempt": "attempt-v1",
+  "cause": "Own queue contains ST4KE unrelated project; initial conservative preflight rejected any own queue. Outer shell lacked set-e and submit read absent admission; no sbatch was reached.",
+  "minimum_repair": "Validate admission before create-once submit lock; external shell set-e; classify exact project WorkDir and Command. Old attempt/source/log preserved; fresh attempt-v2.",
+  "other_project_job_ids": [
+    "57688",
+    "57689"
+  ],
+  "other_project_root": "/data/janghj/ST4KE",
+  "other_job_mutation": false,
+  "production_science_changed": false,
+  "regression": "test_missing_admission_never_registers_or_consumes_lock PASS"
+}
