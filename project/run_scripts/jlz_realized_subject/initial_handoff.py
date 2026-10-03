@@ -35,10 +35,14 @@ def main():
             require(v[field]==observed['summary'][k][field],'RAW_REDUCER_PARITY')
     cost=validate_budget(root/'main-A/batch-01/fit')
     submission=read(root/'submission.json');jobs={k:v['job_id'] for k,v in submission['jobs'].items()}
+    repair=root.parent/'analysis-repair-r1'
+    require((repair/'release.json').exists(),'CPU_REPAIR_RELEASE_MISSING')
+    jobs['collector_original']=jobs['collector']
+    jobs['collector']=read(repair/'registration.json')['job_id']
     analysis=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
     paths=[root/'execution.lock.json',root/'config.json',root/'q1/READY.json',root/'q1/terminal.json',
            root/'main-A/initial.json',root/'main-A/batch-01/commit.json',root/'main-A/batch-02/entry.json',
-           obs/'summary.json']+chunks
+           obs/'summary.json',repair/'analysis.lock.json',repair/'registration.json',repair/'release.json']+chunks
     evidence=dict(instruction=INSTRUCTION,observed_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         state='MAIN_INITIAL_PASS',jobs=jobs,execution_source=lock['source_commit'],analysis_source=analysis,
         source_archive=lock['source_archive'],lock=member(root/'execution.lock.json'),initial=initial,
@@ -66,7 +70,8 @@ def main():
         f'| Q1 | {jobs["q1"]} | COMPLETED/0:0, actual GPU qualification |',
         f'| A | {jobs["A"]} | B1 완료/observer 완료/B2 entry; A500 미관측 |',
         f'| B | {jobs["B"]} | 사전등록·release, Q1 afterok + A afterany; B500 미관측 |',
-        f'| CPU collector | {jobs["collector"]} | 세 GPU job afterany, 실패/미완료 coverage 포함 |','',
+        f'| CPU collector 원본 | {jobs["collector_original"]} | 원 source 보존; W0 row-order 검증 오류 기록 |',
+        f'| CPU collector 수리 | {jobs["collector"]} | GPU 0; 세 GPU job 및 원 collector afterany |','',
         '## A B1의 실제 Current 관측','',
         '| Family | preference 성공/분모 | TF token correct/valid | TF micro | TF prompt macro | TF strict | true NLL | new NLL |',
         '|---|---:|---:|---:|---:|---:|---:|---:|']
@@ -81,6 +86,7 @@ def main():
         '','## 출처·제약','',
         '[실제 S3 source/runtime/입력 검토](implementation-audit-ko.md), [DAG 제출](submission-ko.md), '
         '[기존 W5 역사 참고](historical/README.md). Pinned source/config/입력/archive는 audit과 local attempt-v2에 보존한다.',
+        '','CPU 집계기의 W0 family-major 순서와 actual case-major 순서 비교 오류를 발견해 reference canonicalization만 수리했다. 기존 job/source/partial을 보존하고 별도 immutable CPU collector를 등록했다. 실제 GPU fitting source와 과학 trajectory는 변경하지 않았으며 추가 GPU0이다.',
         '','cap1/각1GPU8CPU59GiB, FP32/eager/TF32off, noCP. Edited W/H/optimizer/동등복원 bundle 저장0, exact resume NOT_AVAILABLE. 다른 중단 task 재개/타 job 변경/추가 baseline fit0.',
         '','등록된 두 cold chain은 각W5까지 자연 진행하며 CPU collector가 기존 raw를 집계한다. 이 인계 이후 polling/heartbeat/callback/자동재시작은 하지 않는다. 상세 완료 검토는 사용자 recall에서 수행한다. Owner audit이며 별도 독립 reviewer는 사용하지 않았다.']
     report.write_text('\n'.join(lines)+'\n')

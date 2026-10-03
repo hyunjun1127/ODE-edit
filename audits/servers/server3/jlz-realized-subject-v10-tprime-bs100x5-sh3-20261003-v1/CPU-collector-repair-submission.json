@@ -1,0 +1,132 @@
+{
+  "job": {
+    "dependency_job_ids": [
+      "57698",
+      "57699",
+      "57700",
+      "57701"
+    ],
+    "gpu": 0,
+    "job_id": "57704",
+    "name": "odeedit_jlz_v10_s3_collect_r1",
+    "sbatch_argv": [
+      "sbatch",
+      "--parsable",
+      "--hold",
+      "--partition=gpu",
+      "--qos=lab_gpu_s3",
+      "--nodelist=ubuntu",
+      "--nodes=1",
+      "--ntasks=1",
+      "--cpus-per-task=8",
+      "--mem=24576M",
+      "--gres=gpu:0",
+      "--time=04:00:00",
+      "--export=NONE",
+      "--no-requeue",
+      "--job-name=odeedit_jlz_v10_s3_collect_r1",
+      "--dependency=afterany:57698:57699:57700:57701",
+      "--chdir=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/source",
+      "--output=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/collector-%j.out",
+      "--error=/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/collector-%j.err",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/collector.sh"
+    ]
+  },
+  "analysis_lock": {
+    "analysis_source": "eebba0b6f808a774bbf5724bf7073215d8f57a29",
+    "argv": [
+      "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+      "-u",
+      "-m",
+      "project.run_scripts.jlz_realized_subject.collect",
+      "--attempt",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2",
+      "--config",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/config.json",
+      "--out",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/collection-r1"
+    ],
+    "config": {
+      "bytes": 12465,
+      "inode": 20400253,
+      "mtime_ns": 1791018670301736835,
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/config.json",
+      "sha256": "8ee78d89d798535929b0f6e4c44612e1e516cb8697a3e018a97151f8fd510d6d"
+    },
+    "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+    "launcher": {
+      "bytes": 721,
+      "inode": 19090124,
+      "mtime_ns": 1791019976212874392,
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/collector.sh",
+      "sha256": "507640b42d66a52ce0a9e2debb0141f67e8ee033e97727c33b5f3dc57950172c"
+    },
+    "new_GPU": 0,
+    "old_output_keep": true,
+    "science_changed": false,
+    "science_execution_lock": {
+      "bytes": 12801,
+      "inode": 20400255,
+      "mtime_ns": 1791018671317718823,
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/execution.lock.json",
+      "sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23"
+    },
+    "source_members": [
+      {
+        "bytes": 78,
+        "inode": 20400470,
+        "mtime_ns": 1791019976204874570,
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/source/project/run_scripts/jlz_realized_subject/__init__.py",
+        "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f"
+      },
+      {
+        "bytes": 2470,
+        "inode": 20400471,
+        "mtime_ns": 1791019976208874481,
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/source/project/run_scripts/jlz_realized_subject/common.py",
+        "sha256": "8055b7b4c3a7ab4a7f28f79f761b280ad7382bb1528237615a352465ad284afb"
+      },
+      {
+        "bytes": 10674,
+        "inode": 20400472,
+        "mtime_ns": 1791019976212874392,
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/source/project/run_scripts/jlz_realized_subject/collect.py",
+        "sha256": "7e995a8cad5361cf9b20a05eb0a70898aba525af0d6407f41d8567852398ca1b"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/registration.json",
+      "bytes": 894,
+      "sha256": "4976c49b0f9d4a2019c8995e6468ca6fdd2f9476ee8e766861fa86f9dcf6a9f4",
+      "inode": 19090126,
+      "mtime_ns": 1791019976216874303
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/analysis.lock.json",
+      "bytes": 2378,
+      "sha256": "70882f09d7d3941d957ce9f36dd98d7083c95b7ce73c0b7f01c5d6e43754b12d",
+      "inode": 19090125,
+      "mtime_ns": 1791019976212874392
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/inspection.json",
+      "bytes": 2253,
+      "sha256": "f73ad231e06138ed4c0d57164a56181721934c25eceec639d66dc3e8cf90a872",
+      "inode": 19090127,
+      "mtime_ns": 1791019976224874125
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/analysis-repair-r1/release.json",
+      "bytes": 78,
+      "sha256": "edf2153f3de17cbce1be7d9511d8174c2bb495c3a611cf86408a99a0297bd3bd",
+      "inode": 19090128,
+      "mtime_ns": 1791019976224874125
+    }
+  ],
+  "scientific_source_unchanged": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+  "original_collector_preserved": 57701,
+  "cancel": 0,
+  "new_GPU": 0
+}
