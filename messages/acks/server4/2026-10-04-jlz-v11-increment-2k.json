@@ -3,10 +3,13 @@
   "owner": "SH4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "host": "server4",
-  "status": "IMPLEMENTED_CPU_VERIFIED_NOT_SUBMITTED",
+  "status": "REGISTERED_RELEASED_RESOURCE_PENDING",
   "duplicate_existing_registration_found": false,
-  "message_ko": "담당 수락. 정본17파일과 입력/원native 결속 및 CPU13회귀/4dimension proof 검산 완료. 실제 GPU PASS와 구분하며 GH 추가 승인 없이 cap1 직렬 DAG 등록을 진행한다. 기존v9 작업은 그대로 보존한다.",
-  "new_job_ids": [],
-  "actual_GPU_qualification": "NOT_RUN",
-  "main_initial": "NOT_OBSERVED"
+  "message_ko": "담당 수락 후 구현/CPU검산과 전량 held검사/release 완료. pilot57923→MAIN57924→NOALLOC57925→MEMIT_H57926 및 afterany collector57927 등록. 기존v9 57899/57900/57901 변경0. 자원대기 근거 확인 후 모니터링 중지. 실제 GPU qualification/main 초기 PASS 주장은 없다.",
+  "new_job_ids": [57923, 57924, 57925, 57926, 57927],
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "main_initial": "INITIAL_NOT_OBSERVED",
+  "observed_utc": "2026-10-03T20:20:55Z",
+  "monitoring_active": false,
+  "automatic_resume": false
 }

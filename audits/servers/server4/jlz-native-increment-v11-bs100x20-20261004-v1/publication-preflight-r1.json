@@ -1,0 +1,23 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V11-INCREMENT-2K-20261004-R1",
+  "authority_commit": "5bab27b223a4d8e14523b6462ead3527cb423103",
+  "authority_envelope": "messages/head/2026-10-04-jlz-v11-increment-2k-sh4.json",
+  "publication_scope": "Existing own v11 source plus compact submission report, status, ACK, server-head message, audit and run receipt only",
+  "generic_access_helper": {
+    "command": "bash scripts/check-agent-access.sh --staged",
+    "exit_code": 7,
+    "verdict": "BLOCKED_BY_STATIC_PATH_ALLOWLIST_NOT_PASS",
+    "exact_path": "runs/odeedit_jlz_v11_s4_20261004/submission-r1.server4-server-head.json",
+    "explicit_user_authorized_prefix": "runs/odeedit_jlz_v11_s4_20261004/**",
+    "resolution": "Apply this task's explicit USER write and nonforce publication authority to this exact path; shared policy and helper unchanged"
+  },
+  "JSON_parse": "PASS",
+  "git_diff_whitespace": "PASS",
+  "source_archive_config_lock_held_submission_SHA_binding": "PASS",
+  "raw_tensor_prompt_fullstdout_secret_staged": false,
+  "root_dirty_or_other_task_changes_staged": false,
+  "post_handoff_scheduler_log_result_queries": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "publication_commit": "Reported by final Git push receipt; not execution source"
+}
