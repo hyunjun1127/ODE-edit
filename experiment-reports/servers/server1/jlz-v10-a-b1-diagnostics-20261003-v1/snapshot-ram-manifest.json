@@ -1,0 +1,82 @@
+[
+  {
+    "bytes": 1174405120,
+    "candidate": 9,
+    "checkpoint_saved": false,
+    "from_evaluated_materialized_weights": true,
+    "seconds": 1.8894274402409792,
+    "storage": "CPU_RAM_ONLY",
+    "updates_before": 8,
+    "weights": {
+      "4": "a695ae8aa461e5df5d112349b40f8cbc608e0616cc768a8d835a234fffd05ee0",
+      "5": "d006258ce574c84566818d038275000a734ce7054aad3682cf8aec36c21d5c24",
+      "6": "d0e3fa4324b9d05fb1e45ed7d174d374b57a0fa139976f6f0034701405bfa0da",
+      "7": "32627a1477f1503ba42d1a3a1c921a3af49cd81d885a379d71e85ad5e904b2e1",
+      "8": "17533a2e06bed8fe5f62eb5e64d21c94e773f423c08bb2687b857c0cff169661"
+    }
+  },
+  {
+    "bytes": 1174405120,
+    "candidate": 13,
+    "checkpoint_saved": false,
+    "from_evaluated_materialized_weights": true,
+    "seconds": 1.959455419331789,
+    "storage": "CPU_RAM_ONLY",
+    "updates_before": 12,
+    "weights": {
+      "4": "335f9dc7a5cb6e6c1b973cc855c6ae30ed35573cc0dc92f02e67de6715a4d9a7",
+      "5": "9f1424e4364ffec012c95ec3b0418de18165072e59c529ad3d6a9af2d37b5027",
+      "6": "fe366218b0c44aa6f1784b366f25e10142da8ad6d71902219db222635bff59dc",
+      "7": "a4dcd08e450cb87e790f3185375189f6cfcade4f78c2dc05139b6e221b420d52",
+      "8": "5b143f284ee6fee147d88a9dc9b08e5dc0a22ac2aaf09c74d9c2504b1fa84bb3"
+    }
+  },
+  {
+    "bytes": 1174405120,
+    "candidate": 17,
+    "checkpoint_saved": false,
+    "from_evaluated_materialized_weights": true,
+    "seconds": 1.9156051762402058,
+    "storage": "CPU_RAM_ONLY",
+    "updates_before": 16,
+    "weights": {
+      "4": "f5c95fa266ae5a1b10a0bdc8bf60c29370c877b2191ac2633ccf8db5ab206cfd",
+      "5": "ff59b98b3992eb662dc1843fabcd8732f95d427c61525947f318f5fb7738021a",
+      "6": "885cb8c734206a6827c851c4c6ec54bcf2662e28ea8480b85ea347a6e92fcb74",
+      "7": "4b44eb5ab4d41f4008e591c35765bec003b41114145819f9beec526ab0a2a068",
+      "8": "03e2dab3bc9b87a9b3a42cdb27bb7041dd2276b52e908e77a631cd0ebb8685e9"
+    }
+  },
+  {
+    "bytes": 1174405120,
+    "candidate": 21,
+    "checkpoint_saved": false,
+    "from_evaluated_materialized_weights": true,
+    "seconds": 1.8984335027635098,
+    "storage": "CPU_RAM_ONLY",
+    "updates_before": 20,
+    "weights": {
+      "4": "ec8f5d823b90742f591b38218fb765a403d090395b34d5272f987605906933ff",
+      "5": "ea1fb6cca8d8b8e4ef09a60463c99c5bcf1c5cd0815147c6ab8f52545f1bc296",
+      "6": "a96625d49f99328f30a23c5fd832b916c8920d08734dbb562d2e2939978eb065",
+      "7": "8a78215db1a8e2b53a60e4a734e37f1a69ef465adc303228a1f64fe0140d1884",
+      "8": "5b80955b03a60236f93e50ae05cde0dd5226af738d6300162bea321f27f41c9a"
+    }
+  },
+  {
+    "bytes": 1174405120,
+    "candidate": 25,
+    "checkpoint_saved": false,
+    "from_evaluated_materialized_weights": true,
+    "seconds": 1.9045875240117311,
+    "storage": "CPU_RAM_ONLY",
+    "updates_before": 24,
+    "weights": {
+      "4": "b85a0bb869c16227621cffca4a6bc35013c571e1dc45bbbeafeed6b54f2e136e",
+      "5": "c6890335d34c746bbf112f5374140cdde54342bb4c3314354ac3fffe838cf631",
+      "6": "e5610c93a475e0e1c7f8d59ca30cc45c4f030b75b18c9cb0946d2da29e52d26a",
+      "7": "380402733d4ef75ec67bfcd6a33b8a81519b0b3f2d58c0c58ed9fcf3ed44cc75",
+      "8": "f491ffcbd4839c729dff1e673347865f6792c4360be6f18eef4ee7fa29686120"
+    }
+  }
+]

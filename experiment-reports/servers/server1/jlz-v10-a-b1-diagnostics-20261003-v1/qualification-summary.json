@@ -1,0 +1,95 @@
+{
+  "instrumentation": {
+    "CUDA_allocated_peak": 49310487040,
+    "actual_model": true,
+    "extra_component_cost": {
+      "builder_component_backwards": 4,
+      "geometry_resolves": 0,
+      "masked_backward_calls": 2100,
+      "optimizer_bridges": 0,
+      "prediction_tokens": 706,
+      "seconds": 827.1249229311943
+    },
+    "fixed_candidate_comparisons": 2,
+    "gradient": {
+      "4": {
+        "error_RMS": 0.0,
+        "limit": 2.8212461827401236e-06,
+        "passed": true,
+        "reference_RMS": 0.0018212461827401237
+      },
+      "5": {
+        "error_RMS": 0.0,
+        "limit": 2.135158713270309e-06,
+        "passed": true,
+        "reference_RMS": 0.001135158713270309
+      },
+      "6": {
+        "error_RMS": 0.0,
+        "limit": 1.7904835920372617e-06,
+        "passed": true,
+        "reference_RMS": 0.0007904835920372618
+      },
+      "7": {
+        "error_RMS": 0.0,
+        "limit": 1.5864109584614749e-06,
+        "passed": true,
+        "reference_RMS": 0.0005864109584614749
+      },
+      "8": {
+        "error_RMS": 0.0,
+        "limit": 1.4600966272478206e-06,
+        "passed": true,
+        "reference_RMS": 0.00046009662724782075
+      }
+    },
+    "history_appends": 0,
+    "instrumented_solve": {
+      "4": 5.917631730333239e-15,
+      "5": 6.843945267345424e-15,
+      "6": 7.41515510499801e-15,
+      "7": 8.20367720325e-15,
+      "8": 7.005359528948629e-15
+    },
+    "logical_B": 100,
+    "loss_error": 0.0,
+    "loss_limit": 0.0011242004942057424,
+    "materialization_exact": true,
+    "nonselected_guard": "pointer/version, not fullmodel byte hash",
+    "optimizer_updates": 0,
+    "original_solve": {
+      "4": 5.917631730333239e-15,
+      "5": 6.843945267345424e-15,
+      "6": 7.41515510499801e-15,
+      "7": 8.20367720325e-15,
+      "8": 7.005359528948629e-15
+    },
+    "passed": true,
+    "per_context": {
+      "kl": true,
+      "nll": true
+    },
+    "scientific_fits": 0,
+    "seconds": 1371.423156971112,
+    "snapshot_replacement_restore_exact": true
+  },
+  "masks": {
+    "NONE": {
+      "denominator": 874,
+      "label": "NONE",
+      "max_NLL_error": 0.0,
+      "passed": true
+    },
+    "ALL": {
+      "denominator": 874,
+      "label": "ALL",
+      "max_NLL_error": 0.0,
+      "passed": true
+    }
+  },
+  "commit": {
+    "history_appends": 5,
+    "accepted_weight_copy_exact": true
+  },
+  "final_restore_recorded": true
+}
