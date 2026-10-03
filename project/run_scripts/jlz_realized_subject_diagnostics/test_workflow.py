@@ -66,7 +66,7 @@ class WorkflowTests(unittest.TestCase):
                     jid=argv[-1];sb=registered[jid];opts=dict(x[2:].split('=',1) for x in sb if x.startswith('--') and '=' in x)
                     gpu='--gres=gpu:1' in sb;script=p/('gpu.sh' if gpu else 'collector.sh')
                     return (f"JobId={jid} UserId={getpass.getuser()}(1000) JobName={opts['job-name']} ReqNodeList=devbox Partition=gpu "
-                        f"JobState=PENDING Priority=0 Requeue=0 NumCPUs=8 Command={script} ReqTRES=cpu=8,mem="+('96G,gres/gpu=1' if gpu else '24G')+
+                        f"JobState=PENDING Priority=0 Requeue=0 NumCPUs=8-14 CPUs/Task=8 Command={script} ReqTRES=cpu=8,mem="+('96G,gres/gpu=1' if gpu else '24G')+
                         f" TimeLimit={opts['time']} Dependency={opts.get('dependency','(null)')} SubmitLine="+shlex.join(sb))
                 if argv[:2]==['scontrol','release']:
                     self.assertEqual(len(registered),2);self.assertTrue((p/'submission.json').exists());return ''
