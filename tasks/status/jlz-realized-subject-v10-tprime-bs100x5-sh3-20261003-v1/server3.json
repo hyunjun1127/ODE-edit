@@ -1,6 +1,6 @@
 {
   "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
-  "state": "main_A500_complete",
+  "state": "STOPPED_USER",
   "jobs": {
     "A": "57699",
     "B": "57700",
@@ -17,7 +17,7 @@
   "checkpoint_saved": false,
   "monitoring_active": false,
   "automatic_resume": false,
-  "stop_state": "REVIEW_COMPLETE_STOP",
+  "stop_state": "STOPPED_USER",
   "A_review": {
     "request": "사용자 A 결과 리뷰·4 baseline 비교·코드/산출물 main push",
     "state": "A500_COMPLETE_REVIEWED",
@@ -93,5 +93,88 @@
     "monitoring_active": false,
     "automatic_resume": false,
     "stop": "REVIEW_COMPLETE_STOP"
+  },
+  "user_stop": {
+    "user_request": "현재 올린 job들 종료시켜",
+    "state": "STOPPED_USER",
+    "host": "ubuntu",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "owner": "janghj",
+    "cancelled": [
+      {
+        "job": 57700,
+        "name": "odeedit_jlz_v10_s3_B",
+        "before": "RUNNING",
+        "after": "CANCELLED",
+        "allocated_GPU_seconds": 1996
+      },
+      {
+        "job": 57701,
+        "name": "odeedit_jlz_v10_s3_collector",
+        "before": "PENDING",
+        "after": "CANCELLED",
+        "allocated_GPU_seconds": 0
+      },
+      {
+        "job": 57704,
+        "name": "odeedit_jlz_v10_s3_collect_r1",
+        "before": "PENDING",
+        "after": "CANCELLED",
+        "allocated_GPU_seconds": 0
+      }
+    ],
+    "already_completed": [
+      57698,
+      57699
+    ],
+    "owned_ODE_edit_active_queue": [],
+    "new_submit": false,
+    "retry": false,
+    "automatic_resume": false,
+    "monitoring_active": false,
+    "source_raw_keep": true,
+    "checkpoint_saved": false,
+    "evidence": [
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/accounting-after.txt",
+        "bytes": 483,
+        "sha256": "5b8db0edf12061bad16a8c301cffba578dfb0c40ad82fd678c8f1a3dd83b7173"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/cancel-receipt.json",
+        "bytes": 545,
+        "sha256": "ea7ae164614b1605565d29c5906bc1a1aa2e5651a683aaea62627d7cf44970b4"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/job-57700-before.txt",
+        "bytes": 2173,
+        "sha256": "ffd58eb4be4972eff83f9e3e11b7a5dfc730cd7cdba9226d05676bc51bf0290e"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/job-57701-before.txt",
+        "bytes": 2052,
+        "sha256": "c38cd0d8773cccc69f40a54f065c3ce2a5014f09c1ffdbff1df9ebb4a19736bb"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/job-57704-before.txt",
+        "bytes": 2188,
+        "sha256": "ba0101fbd688801850fda14d746ee78fe99c8a359f23d17546381e0b0120e5d4"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/project-queue-after.json",
+        "bytes": 127,
+        "sha256": "00619b906cfa8fda2c38155b97531258a779fbc7c0f3fde9b08cc5cbef8f3f3d"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/queue-after.txt",
+        "bytes": 59,
+        "sha256": "9354bb842184500cea7c3425ab403701996b41205849d07a06b28d8dce21c710"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/user-stop-20261003-v1/verified-targets.json",
+        "bytes": 7039,
+        "sha256": "77a6d3af41d56f4ffe5f39159c5cecfa21f89c84ec8524d90e93baf9d7db32c2"
+      }
+    ]
   }
 }
