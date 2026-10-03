@@ -1,0 +1,16 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "authority": "71c9805b23aa4023eaaa68893dfc30ac8456f4ca",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "duplicate_check": "같은 nonce의 기존 local attempt/등록/owned queue 없음 확인 후 전용 WT 생성",
+  "FULL_READ": "envelope 및 7개 binding SHA/size 확인; method/implementation/contract/experiment/report 정독",
+  "core": "b8c4c96fef79d3ad6ba37b1f6f4055bd58343e66의 25개 파일 불변",
+  "scope": "각 cold W0/H0 A/B BS100x20, Q1 기존 identity 재사용, 신규 Q2/baseline/CP 없음",
+  "CPU": "22 tests PASS; 새로운 actual GPU PASS 아님",
+  "GH_ACK_required": false,
+  "other_tasks_mutated": false
+}

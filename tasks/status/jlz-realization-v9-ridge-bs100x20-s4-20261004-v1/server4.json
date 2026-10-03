@@ -1,0 +1,13 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V9-RIDGE-2K-20261004-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "CPU_tests": 22,
+  "new_actual_GPU_validation": "NOT_RUN; 기존 Q1 identity 검증 재사용",
+  "main_initial": "NOT_OBSERVED",
+  "new_Q2": 0,
+  "new_baseline_fits": 0,
+  "save_checkpoints": false,
+  "automatic_resume": false,
+  "other_tasks_mutated": false
+}
