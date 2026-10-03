@@ -1,0 +1,296 @@
+{
+  "BLUE_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+  "W0_reuse": {
+    "bytes": 3716891,
+    "inode": 20400110,
+    "mtime_ns": 1791018038568645170,
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/inputs/runtime/W0-first500.json",
+    "sha256": "6b2d25f39f751937e1b6f797e98e8c4117d539d86fdddc21e4ebabc385a97836"
+  },
+  "assets": [
+    {
+      "bytes": 16679956,
+      "inode": 17700279,
+      "mtime_ns": 1788927956999196742,
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+    },
+    {
+      "bytes": 270,
+      "inode": 18613421,
+      "mtime_ns": 1789003637053920512,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/contexts.json",
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+    },
+    {
+      "bytes": 822084814,
+      "inode": 18170237,
+      "mtime_ns": 1778400376501531975,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+    },
+    {
+      "bytes": 822084814,
+      "inode": 18170238,
+      "mtime_ns": 1778405783263173797,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+    },
+    {
+      "bytes": 822084814,
+      "inode": 18170239,
+      "mtime_ns": 1778412013640495980,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+    },
+    {
+      "bytes": 822084814,
+      "inode": 18170240,
+      "mtime_ns": 1778419071493293499,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+    },
+    {
+      "bytes": 822084814,
+      "inode": 18170241,
+      "mtime_ns": 1778426959389839324,
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+    },
+    {
+      "bytes": 654,
+      "inode": 15798379,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/config.json",
+      "mtime_ns": 1772528856915803323,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b"
+    },
+    {
+      "bytes": 187,
+      "inode": 15798383,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/generation_config.json",
+      "mtime_ns": 1772529062979944147,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c"
+    },
+    {
+      "bytes": 4976698672,
+      "inode": 15798387,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+      "mtime_ns": 1772529059367940431,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c"
+    },
+    {
+      "bytes": 4999802720,
+      "inode": 15798384,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00002-of-00004.safetensors",
+      "mtime_ns": 1772529026979908870,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c"
+    },
+    {
+      "bytes": 4915916176,
+      "inode": 15798380,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00003-of-00004.safetensors",
+      "mtime_ns": 1772529034215915640,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921"
+    },
+    {
+      "bytes": 1168138808,
+      "inode": 15798382,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00004-of-00004.safetensors",
+      "mtime_ns": 1772528924359831993,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46"
+    },
+    {
+      "bytes": 23950,
+      "inode": 15798377,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model.safetensors.index.json",
+      "mtime_ns": 1772528857855803589,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b"
+    },
+    {
+      "bytes": 73,
+      "inode": 15798386,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/special_tokens_map.json",
+      "mtime_ns": 1772529080019962203,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc"
+    },
+    {
+      "bytes": 9085698,
+      "inode": 15798385,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer.json",
+      "mtime_ns": 1772529078835960922,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7"
+    },
+    {
+      "bytes": 50977,
+      "inode": 15798378,
+      "logical_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/tokenizer_config.json",
+      "mtime_ns": 1772529076907958843,
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+    }
+  ],
+  "contexts": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/contexts.json",
+  "fixed10k": {
+    "case_order_sha256": "16df079ce740ad2ed7bf4953f8fa1c53325f67d8dc7c6b05640e50a30fb7bde4",
+    "dataset_bytes": 16679956,
+    "dataset_id": "counterfact-fixed-10k-v1",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "inventory": {
+      "neighborhood": 100000,
+      "rephrase": 20000,
+      "rewrite": 10000
+    },
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "prefix_policy": "records[:n], 1 <= n <= 10000; no shuffle/reselection",
+    "records": 10000,
+    "source_dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "source_sample_sha256": "a8d22c230611b6c14740d1d00658a53856bbde26d060189d5ddf30f2ffdbac92"
+  },
+  "historical_comparisons": "Existing MEMIT-H/AlphaEdit/BLUE compact tables can be reported as historical only; no baseline fit, no exact probe.",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
+  "model": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "native_reference": [
+    {
+      "bytes": 16805,
+      "inode": 18613599,
+      "mtime_ns": 1790554639256705083,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/memit_seq_main.py",
+      "sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a"
+    },
+    {
+      "bytes": 13402,
+      "inode": 18613595,
+      "mtime_ns": 1790554639256705083,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/compute_z.py",
+      "sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732"
+    },
+    {
+      "bytes": 1540,
+      "inode": 18613594,
+      "mtime_ns": 1790554639256705083,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/compute_ks.py",
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+    },
+    {
+      "bytes": 6405,
+      "inode": 18613614,
+      "mtime_ns": 1790554639256705083,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/rome/repr_tools.py",
+      "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+    }
+  ],
+  "packed_native": [
+    {
+      "B": 100,
+      "batch": 1,
+      "identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+      "rows": 700,
+      "token_width": 32,
+      "valid_tokens": 10651
+    },
+    {
+      "B": 100,
+      "batch": 2,
+      "identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+      "rows": 700,
+      "token_width": 23,
+      "valid_tokens": 10990
+    },
+    {
+      "B": 100,
+      "batch": 3,
+      "identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+      "rows": 700,
+      "token_width": 25,
+      "valid_tokens": 10712
+    },
+    {
+      "B": 100,
+      "batch": 4,
+      "identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+      "rows": 700,
+      "token_width": 25,
+      "valid_tokens": 10791
+    },
+    {
+      "B": 100,
+      "batch": 5,
+      "identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+      "rows": 700,
+      "token_width": 25,
+      "valid_tokens": 10700
+    }
+  ],
+  "profile": {
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "kl_factor": 0.0625,
+    "lambda_C": 15000.0,
+    "nll_layer": 31
+  },
+  "python": "3.12.3 (main, Apr 15 2024, 18:25:56) [Clang 17.0.6 ]",
+  "resource": {
+    "CPU": 8,
+    "GPU": 1,
+    "GPU_accounting": "model29.9+FP64 factor7.66+entry/materialized weights2.19+checkpoint activations/wholeB keys<25+transient suffix/head/solve<30GiB; Q1 and Q2 measure actual.",
+    "GPU_peak_estimate_GiB": 100,
+    "Q1_wall_hours": 24,
+    "cap": 1,
+    "collector_wall_hours": 4,
+    "disk_free_bytes": 234091147264,
+    "disk_margin_bytes": 21474836480,
+    "host_accounting": "FP32 model load 29.9GiB transient; live model GPU. H3.83+rollbackH3.83+CPU priors7.66+W0/snapshot/entry3.28+prefix<2+buffers<10 GiB; phase loads not all simultaneous.",
+    "host_memory_MiB": 60416,
+    "host_peak_estimate_GiB": 46,
+    "inodes_free": 224540795,
+    "main_wall_hours": 168,
+    "output_reserve_bytes": 2147483648,
+    "runtime_ETA": "Q1 H200 measurements required; 24h/168h are finite wall requests, not ETA or measured cost.",
+    "total_GPUh": "NOT_MEASURED"
+  },
+  "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "runtime": {
+    "accelerate": "1.13.0",
+    "numpy": "2.2.6",
+    "safetensors": "0.7.0",
+    "tokenizers": "0.19.1",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2"
+  },
+  "settings": {
+    "candidates": 25,
+    "exact_resume": "NOT_AVAILABLE",
+    "fit_microbatch": 2,
+    "lambda_allocation": 0.1,
+    "lambda_norm": 0.5,
+    "main_B": 100,
+    "main_batches": 5,
+    "observer_microbatch": 16,
+    "save_checkpoints": false,
+    "seed": 20261002,
+    "updates": 24
+  },
+  "stats": {
+    "4": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+    "5": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+    "6": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+    "7": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+    "8": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz"
+  },
+  "stream": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+  "task_id": "jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1"
+}
