@@ -1,0 +1,39 @@
+{
+  "scope": "명시 사용자 A 완료 리뷰 recall",
+  "reviewer": "SH3 owner audit; 독립 CPU reducer; 별도 agent reviewer 미사용",
+  "tests_run": 7,
+  "failures": 0,
+  "errors": 0,
+  "raw_reducer": "PASS",
+  "report_links": 17,
+  "figures_visual_review": "3 PNG 확인",
+  "new_GPU": 0,
+  "slurm_mutations": 0,
+  "scheduler_observations": 1,
+  "scope_job": 57699,
+  "scope_arm": "A",
+  "baseline_fits": 0,
+  "baseline_methods": [
+    "MEMIT-H",
+    "AlphaEdit",
+    "AlphaEdit-BLUE (L4+L8)",
+    "CAKE"
+  ],
+  "source": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/project/run_scripts/jlz_realized_subject/review_A.py",
+    "bytes": 43645,
+    "sha256": "2ebdd2432c1e2be3a0b67a9b88ea493cc19fd539aa3d9058070aeafc070dca52"
+  },
+  "tests": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/project/run_scripts/jlz_realized_subject/test_review_A.py",
+    "bytes": 3081,
+    "sha256": "f531b420acb056af679a1a6631621a0cd8b45633e00ac40c6aad3eb6031551a0"
+  },
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/experiment-reports/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/review-A-20261003-v1/report-ko.md",
+    "bytes": 16341,
+    "sha256": "1cb4f30056fd7f56cf59441e2a6beb056d2a150422b4565243a1ed5013843a9d"
+  },
+  "boundary": "B/collector NOT_OBSERVED_THIS_REVIEW; REVIEW_COMPLETE_STOP",
+  "generated_svg_whitespace": "새 생성 SVG 줄끝 공백만 제거"
+}

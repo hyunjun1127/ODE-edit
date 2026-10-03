@@ -1,0 +1,18 @@
+{
+  "job": 57699,
+  "name": "odeedit_jlz_v10_s3_A",
+  "owner": "janghj",
+  "state": "COMPLETED",
+  "exit": "0:0",
+  "start_scheduler": "2026-10-03T18:19:10",
+  "end_scheduler": "2026-10-03T20:01:45",
+  "elapsed_seconds": 6155,
+  "GPUs": 1,
+  "allocated_GPU_seconds": 6155,
+  "batch_MaxRSS_KiB": 20830504,
+  "node": "ubuntu",
+  "cpu": 8,
+  "mem_KiB": 61865984,
+  "dependency": "afterok:57698",
+  "record": "one sacct observation; parent allocation only, batch/extern not added"
+}

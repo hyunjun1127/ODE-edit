@@ -1,3 +1,5 @@
+> 2026-10-03 사용자 recall: **A500 완료 리뷰**와 MEMIT-H / AlphaEdit / AlphaEdit-BLUE / CAKE 비교는 [새 보고서](review-A-20261003-v1/report-ko.md)에 게시했다. 아래 초기 인계는 당시 기록으로 보존한다. B 완료는 이번 회수에서 관측하지 않았다.
+
 # JLZ v10 T′ SH3 초기 인계
 
 **MAIN_INITIAL_PASS**: 실제 main A B1의 same-weight commit/H once → R/P/N observer → B2 own-entry 연결을 검산했다.

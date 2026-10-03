@@ -1,6 +1,6 @@
 {
   "instruction": "ODEEDIT-USER-GH-SH3-JLZ-V10-TPRIME-500-20261003-R1",
-  "state": "main_initial",
+  "state": "main_A500_complete",
   "jobs": {
     "A": "57699",
     "B": "57700",
@@ -12,10 +12,86 @@
   "lock_sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
   "GPU_qualified": true,
   "main_initial": "ACTUAL_PASS",
-  "main_A500_complete": "NOT_OBSERVED",
+  "main_A500_complete": true,
   "main_B500_complete": "NOT_OBSERVED",
   "checkpoint_saved": false,
   "monitoring_active": false,
   "automatic_resume": false,
-  "stop_state": "MONITORING_PAUSED_AWAITING_USER"
+  "stop_state": "REVIEW_COMPLETE_STOP",
+  "A_review": {
+    "request": "사용자 A 결과 리뷰·4 baseline 비교·코드/산출물 main push",
+    "state": "A500_COMPLETE_REVIEWED",
+    "job": 57699,
+    "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c",
+    "lock_sha256": "cf03a94ccf873d93f36bdfe3c0a378998bc2340ffbb4cda4d5b18914c31cbe23",
+    "report": "experiment-reports/servers/server3/jlz-realized-subject-v10-tprime-bs100x5-sh3-20261003-v1/review-A-20261003-v1/report-ko.md",
+    "report_sha256": "1cb4f30056fd7f56cf59441e2a6beb056d2a150422b4565243a1ed5013843a9d",
+    "snapshot_at": "2026-10-03T11:05:52.278073+00:00",
+    "W5": {
+      "R": {
+        "denominator": 500,
+        "numerator": 500,
+        "rate": 1.0,
+        "ties": 0,
+        "desired_token_correct": 507,
+        "desired_token_count": 507,
+        "token_micro": 1.0,
+        "prompt_macro": 1.0,
+        "strict_numerator": 500,
+        "strict_denominator": 500,
+        "true_nll_mean": 15.122140133857727,
+        "new_nll_mean": 0.00950117410531675,
+        "desired_nll_mean": 0.00950117410531675,
+        "desired_margin_mean": 15.11263895975241
+      },
+      "P": {
+        "denominator": 1000,
+        "numerator": 949,
+        "rate": 0.949,
+        "ties": 0,
+        "desired_token_correct": 687,
+        "desired_token_count": 1014,
+        "token_micro": 0.6775147928994083,
+        "prompt_macro": 0.677,
+        "strict_numerator": 674,
+        "strict_denominator": 1000,
+        "true_nll_mean": 12.19810659319535,
+        "new_nll_mean": 1.9673075169448344,
+        "desired_nll_mean": 1.9673075169448344,
+        "desired_margin_mean": 10.230799076250515
+      },
+      "N": {
+        "denominator": 5000,
+        "numerator": 3933,
+        "rate": 0.7866,
+        "ties": 0,
+        "desired_token_correct": 977,
+        "desired_token_count": 5070,
+        "token_micro": 0.19270216962524656,
+        "prompt_macro": 0.1881,
+        "strict_numerator": 907,
+        "strict_denominator": 5000,
+        "true_nll_mean": 5.33979830787387,
+        "new_nll_mean": 9.526237670307617,
+        "desired_nll_mean": 5.33979830787387,
+        "desired_margin_mean": 4.186439362433748
+      }
+    },
+    "baseline_methods": [
+      "MEMIT-H",
+      "AlphaEdit",
+      "AlphaEdit-BLUE (L4+L8)",
+      "CAKE"
+    ],
+    "baseline_class": "HISTORICAL_AGGREGATE",
+    "allocated_GPU_seconds": 6155,
+    "noCP": true,
+    "tests_passed": 7,
+    "new_GPU": 0,
+    "slurm_write": 0,
+    "B_status": "NOT_OBSERVED_THIS_REVIEW",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "stop": "REVIEW_COMPLETE_STOP"
+  }
 }
