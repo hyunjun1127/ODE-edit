@@ -1,0 +1,25 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "SH4_STOPPED_USER_MIGRATED_TO_SH3",
+  "cancelled_order": [
+    58174,
+    58173
+  ],
+  "target_active_pending": 0,
+  "main_GPU_seconds": 0,
+  "collector_GPU_seconds": 0,
+  "pilot": {
+    "job": 58172,
+    "state": "COMPLETED_PRESERVED",
+    "GPU_seconds": 410
+  },
+  "cancellation_receipt": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json",
+  "cancellation_SHA256": "74adc314f0b0a1f497aa1acefe415dd98867b9c0395d87369466cc2a150a3d22",
+  "SH4_science_authority": "REVOKED",
+  "other_job_mutations": 0,
+  "source_raw": "KEEP",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "handoff": "PREPARING_SMALL_ALLOWLIST",
+  "owner": "SH3"
+}
