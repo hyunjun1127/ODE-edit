@@ -14,7 +14,19 @@
     "ack": true,
     "ack_text": "SH4의 v12 신규 실행·제출·retry 권한을 즉시 중지합니다. 현재 owner/source/인자와 상태를 재확인해 collector58174→main58173 순서로만 정리. 아직 취소 완료를 뜻하는 ACK는 아니며, 완료 파일럿과 원자료 보존.",
     "transcript_sha256": "4f6ec3c135e9143445ec0c1f9efa8c6406c1a7988b4f7a2fb6a9e81752e0f0ec",
-    "cancellation_at_ack": "NOT_YET_CONFIRMED"
+    "cancellation_at_ack": "NOT_YET_CONFIRMED",
+    "subsequent_owner_update": {
+      "evidence": "same accepted SH4 turn agentMessage msg_00a344f27aad5d4f016ac22c04686887d0a64b56cf2eb121a0 read via app metadata",
+      "status": "OWNER_CONFIRMED_CANCELLED",
+      "order": [58174, 58173],
+      "jobs_cancelled_before_execution": 2,
+      "active_pending_after": 0,
+      "allocation_after": 0,
+      "cancelled_jobs_allocated_GPU_seconds": 0,
+      "completed_pilot_58172_GPU_seconds_preserved": 410,
+      "durable_source_handoff": "BEING_PUBLISHED_BY_SH4; SH3 must verify before GPU admission",
+      "GH_duplicate_accounting": false
+    }
   },
   "destination": {
     "server": "server3",
