@@ -1,0 +1,128 @@
+{
+  "schema": "JLZ_V12_ALPHAEDIT_USER_EXECUTION_V1",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "date_kst": "2026-10-04",
+  "task_id": "jlz-v12-alphaedit-writer-bs100x20-20261004-v1",
+  "user_exact_quote": "이건 method 설계도 크게 달라질게 없으니 GH에게 바로 전달해서 2000edit 까지 돌리는 것 전달하자. SH3에게 전달해서 task 진행시키는 것으로 하자",
+  "sender_thread": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "recipient_GH": {
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "host": "remote-ssh-codex-managed:lab120"
+  },
+  "owner_SH3": {
+    "thread": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "host": "remote-ssh-codex-managed:lab123",
+    "server": "server3",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "scope": "Implement minimal AlphaEdit writer adapter, technical qualification, small pilot, then one new cold sequential chain through 2000 edits; no additional user confirmation between these authorized stages.",
+  "inherits": {
+    "method": "plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+    "method_commit": "8b70d0b975443c529c5f41c30de328ee1d9e253f",
+    "contract": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+    "experiment": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "tex": "docs/methods/jlz-v12-shared-budget.tex",
+    "server3_execution_reference": "1d27a830274aaee49a713bd07e463b0513591c9e",
+    "server3_submission_reference": "dde907615a65c6bc0b4e3a955f1b0046ac392b51",
+    "precedence": "This new task changes owner/server and writer as explicitly specified. Parent server4 ownership or MEMIT-H solve is not inherited for this new chain."
+  },
+  "main": {
+    "arm": "V12_ALPHAEDIT",
+    "model": "Meta-Llama-3-8B-Instruct",
+    "stream": "same fixed CounterFact first2000, same ordered occurrences",
+    "batch_size": 100,
+    "batches": 20,
+    "edits": 2000,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "start": "fresh W0/H0 after separate pilot; do not continue from ridge W/H",
+    "B21": false
+  },
+  "planner": {
+    "unchanged": true,
+    "summary": "All candidate layers subject joint local-z; native prompts/NLL/full-vocab KL current||entry; shared relative budget .75; EfficiencyAdam; request-local 25 evaluations/24 updates and native Jr stop; last evaluated finite candidate; existing dtype/anchor/context reductions retained.",
+    "claim": "Adaptive task improvement under shared relative budget; not direct AlphaEdit/history-cost optimization."
+  },
+  "writer": {
+    "type": "native AlphaEdit projected L2/history writer",
+    "L2": 10,
+    "blue": false,
+    "projector": "Same native five-layer baseline projector, threshold, C0 provenance and physical-layer mapping; fixed per layer, no unrequested rebuild each batch.",
+    "residual": "R_l = z_virtual_l - h_current_l; no remaining-layer divisor",
+    "keys": "Fresh native mean K_l and canonical full-block h_current_l under own branch lower-layer actual writes; upper keys/residuals cannot be shared across writer branches.",
+    "solve": "X = solve(Pi_l @ (K_l @ K_l.T + H_l) + L2 * I, Pi_l @ K_l @ R_l.T); Llama U = X.T, then native shape/cast/add.",
+    "precision": "Native AlphaEdit FP32 operator and multiplication order; certify same-input parity. Do not silently symmetrize, replace with Cholesky, or promote to FP64.",
+    "no_extra_C0_ridge": true,
+    "history": "After all layer writes, recapture own final model native keys and append K_final @ K_final.T once per layer; preserve existing final-key history storage policy."
+  },
+  "qualification": {
+    "pilot": "Existing disjoint stream[2000:2004], IDs [541,6693,16935,17306], BS2x2, cold independent pilot. Reuse compatible existing source/CPU evidence; run new native AlphaEdit operator and actual-model technical checks.",
+    "checks": [
+      "same K/R/Pi/H native operator parity",
+      "physical projector layer slots and input asset hashes",
+      "finite outputs, solve residual, actual applied-weight direction, rollback and observer non-mutation",
+      "fresh upper keys and exactly one final-key history append"
+    ],
+    "scientific_metrics_gate": false,
+    "main_after_technical_pass": "Submit/release automatically within approved resource limits; low ACC/PS/NS, layer concentration or KKT is record-only."
+  },
+  "B1_writer_comparison": {
+    "scope": "One same-plan ridge vs AlphaEdit observation inside B1 if technically supported; no second plan fit, no extra full sequential arm, no candidate or coefficient selection.",
+    "contract": "Fork common W0/H0 with same terminal plan and anchors; each writer uses own sequential upper K/h/R. Restore exact W/H/RNG after temporary ridge branch; retain AlphaEdit B1 as main continuation.",
+    "feasibility": "If exact temporary rollback or memory admission cannot be certified, report probe unavailable and proceed with qualified main; do not redesign or make this a scientific promotion gate.",
+    "later_batches": "Replan on AlphaEdit own W/H; do not reuse absolute targets from a diverged ridge chain."
+  },
+  "evaluation": {
+    "per_batch": "pre/post current R/P/N; same endpoint observations reused",
+    "cumulative": [
+      "W0",
+      "W5",
+      "W10",
+      "W15",
+      "W20"
+    ],
+    "W20_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "metrics": [
+      "RS/PS/NS NLL preference",
+      "TF strict ACC",
+      "TF token micro and prompt macro ACC",
+      "new/true NLL and margins",
+      "paired transitions and birth-cohort retention"
+    ],
+    "mechanism": [
+      "own-layer target residual error at mean/canonical/context keys",
+      "inherited mismatch",
+      "plan versus applied direct displacement error and shares",
+      "total relative applied displacement and weight update norm",
+      "projection leakage and numerical parity"
+    ],
+    "comparison": "Reuse qualified v12 ridge, MEMIT-H, AlphaEdit and AlphaEdit-BLUE historical artifacts at matched sample/endpoint; explicitly label runtime/evaluator differences. No extra baseline runs or coefficient sweeps automatically."
+  },
+  "resources": {
+    "task_GPU_cap": 1,
+    "per_job_GPUs": 1,
+    "server": "server3",
+    "project_cap": "current server3 cap or stricter; never increase",
+    "memory_and_CPU": "Use existing admitted server3 defaults and explicit walltime/export policy; fresh resource check.",
+    "queue": "Register pilot -> technical READY-gated main -> CPU collector with released valid dependencies. If occupied, use scheduler PENDING/dependencies rather than wait for free GPU.",
+    "existing_jobs": "This instruction does not cancel or replace existing v12 ridge or unrelated jobs; serialize within caps.",
+    "noCP": true,
+    "RAM_rollback": true
+  },
+  "delivery": {
+    "GH": "Publish exact method delta and execution instruction, directly assign to SH3 and obtain owner ACK.",
+    "SH3": "Implement in dedicated task namespace/worktree, update own method delta/TeX and experiment provenance, submit qualified 2k DAG, return source/config/job IDs and factual stage.",
+    "handoff_stop": "GH handoff ends at publication and SH3 direct acceptance; do not wait for 2000-edit completion.",
+    "monitoring": "No new recurring monitor or silent retry loop."
+  }
+}
