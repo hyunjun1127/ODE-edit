@@ -1,0 +1,13 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "task": "jlz-v13-realized-writer-b1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_check": "현재 v13 등록/동일 nonce 작업 흔적 없음; submit 직전 재검사",
+  "authority": "37019ce3ea3b4ae24f8fed29a236b31d102911a8",
+  "scope": "cold B1 fit1 + RT/RD/MT/MD/CD 관측; B2/추가 fit 없음",
+  "actual_GPU": "NOT_RUN",
+  "other_task_mutation": false
+}
