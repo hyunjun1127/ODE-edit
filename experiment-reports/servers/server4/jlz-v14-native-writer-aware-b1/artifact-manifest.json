@@ -1,0 +1,273 @@
+{
+  "automatic_resume": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "bytes": 561325,
+  "execution_lock_sha256": "4891b4e21686628e71463d3c07b1c4697e2cc1270f9f44724f866a8e50d92874",
+  "execution_source": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
+  "files": [
+    {
+      "bytes": 4727,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/cpu-production.json",
+      "sha256": "dca00b8be808b5bd0be1f867b7dd7cd1cbe391a3456af38fb8b1e0e558ca6cf3"
+    },
+    {
+      "bytes": 4514,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/cpu-reference8.json",
+      "sha256": "71e756a8f4de43834a3dbd95fa02bc94c8a56fa46bf58b631d6e0b202fe45512"
+    },
+    {
+      "bytes": 4680,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/full-read-sha.json",
+      "sha256": "2ce1a3d8a3eca683e43ee11ffb6f393a54dddcb31d0e94c679bb5dba5cd2ebec"
+    },
+    {
+      "bytes": 12053,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/held-inspection-r1.json",
+      "sha256": "3544931715252e5c269397516fa0d6570ec286258edfd87ef2c8e94d5a1b0e8f"
+    },
+    {
+      "bytes": 883,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/initial-handoff.json",
+      "sha256": "e5a5588aff06b839e94b7b56b9d6af41c618cd5b60df96fa68e034e2de627ec7"
+    },
+    {
+      "bytes": 3223,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/preflight-ko.md",
+      "sha256": "e63c0209629cd79fe545dded1152385e2d4fb080da1af6afb7058d3e35788274"
+    },
+    {
+      "bytes": 819,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/publication-scope-exception.json",
+      "sha256": "e23af1f57c55671611cf5ae36b4543f9f031288dbe10a2719c98976be1d184d8"
+    },
+    {
+      "bytes": 20453,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/actual-qualification.json",
+      "sha256": "2f14d7cc25a8b7517bc6312e4e5aa0ecaf791f84716591a3a01485e63828808a"
+    },
+    {
+      "bytes": 1718,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/comparison-identity.json",
+      "sha256": "e3b30314b8e5e33004459e118cde34f1c790ba3df134cb05bd643e19d654547c"
+    },
+    {
+      "bytes": 16309,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/named-input-inventory.json",
+      "sha256": "5f3ff9548d3d42f1a5653ad62fafa4d10d3731a7353e90355525e44d3d52f66f"
+    },
+    {
+      "bytes": 2842,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/review-ko.md",
+      "sha256": "7b2fc99c21eb57ed1f1b8c31b35363094e7c2cbbf3165f13d02e38846351072c"
+    },
+    {
+      "bytes": 966,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/scheduler-terminal.json",
+      "sha256": "e1a2ed280fad84d5b6ccd6975368db5d880448e0cc22efad139af9efaad9c253"
+    },
+    {
+      "bytes": 59215,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/source-input-manifest.json",
+      "sha256": "177fdee961559d47f5fd83d1d34b8751c917b9065a9b51d0209d24a1f121a223"
+    },
+    {
+      "bytes": 1591,
+      "path": "audits/servers/server4/jlz-v14-native-writer-aware-b1/results-review/verification.json",
+      "sha256": "e2d45e8c914e139f8ef478cdcf6d9813660aafe314be31582db546e6d0522bb0"
+    },
+    {
+      "bytes": 7493,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/candidate-summary.csv",
+      "sha256": "09686d4dd1221c28f933dcfeb27c521cb46f256478d98c7dc487c007f6d3cdf2"
+    },
+    {
+      "bytes": 11545,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/collector-inventory.json",
+      "sha256": "c8333bc0c92f4ba37847b5bfaf63e807151166fd6a5ba37fd29acaefb33e1537"
+    },
+    {
+      "bytes": 955,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/collector-report-ko.md",
+      "sha256": "c301f37b396ae3ceafe67b2a2685f6be28bd1499738f250fec401ed95282a1f9"
+    },
+    {
+      "bytes": 633,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/collector-terminal.json",
+      "sha256": "8c4376aca2469e6c75a3295df8975f0dea5dd64cbcbd75bb813daa3bc937d668"
+    },
+    {
+      "bytes": 753,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/comparison-B1.csv",
+      "sha256": "b9671ed3b3aba5801b42f3f4c170f53d8220c615862ba3d00ec6460f521f9eb0"
+    },
+    {
+      "bytes": 1012,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/comparison-V13-V14-B1.csv",
+      "sha256": "c1772a66e48695566adb94c1f0b9848db3350f3d4ff01af8231171a63321bea7"
+    },
+    {
+      "bytes": 15312,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/component-gradient-summary.csv",
+      "sha256": "d4939c37984f5606b50ea239cca97f82b065fa695723e4a33103124b547f9eab"
+    },
+    {
+      "bytes": 571,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/cost.json",
+      "sha256": "351124646cef6e5d78bd2d2415389760a18f9b4af6a2a8279b5ffcdaa4f67e47"
+    },
+    {
+      "bytes": 2879,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/fit-statistics.json",
+      "sha256": "295cc7bb6e33a23f7569240d0b3d88114379f5e480e976b6361dbed9b12d3dc0"
+    },
+    {
+      "bytes": 3539,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/metrics.json",
+      "sha256": "256454b44e033ad07c4dc8d8c704208b67eac1ec089899455d5aef5d4fc11779"
+    },
+    {
+      "bytes": 85872,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/realization-summary.csv",
+      "sha256": "2d9588498aa67b646c2d8173854fdb871e6a0e2f20aa52fc14e971172ef75d88"
+    },
+    {
+      "bytes": 176907,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/realization-summary.json",
+      "sha256": "3cb576401d42684758e778700f99ec5c818d8bdd7025ccde89837792f74cb9f3"
+    },
+    {
+      "bytes": 12211,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/report-ko.md",
+      "sha256": "e36aebc5477a151ba0dddf32e6ff19754dbbd4685d5bbdb4880b1e22f12371b4"
+    },
+    {
+      "bytes": 1540,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/shares-summary.csv",
+      "sha256": "e996cf348b6ffc25eb57a8d015372cc530b869315f6e4a8660231721ffc16595"
+    },
+    {
+      "bytes": 1825,
+      "path": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/writer-layers.csv",
+      "sha256": "a86a500bfb25985f240b23bffd01020493b824d9ed15dd85d5ee87156cb86d9e"
+    },
+    {
+      "bytes": 808,
+      "path": "messages/acks/server4/2026-10-05-jlz-v14-native-writer-b1.json",
+      "sha256": "c0b8e36c2f9551ffb55be48fd5173f7bb7873caf5c055e552010d458b8f92a25"
+    },
+    {
+      "bytes": 1337,
+      "path": "messages/server-heads/server4/2026-10-05-jlz-v14-native-writer-b1.json",
+      "sha256": "4881e385f938636912873a039f626f97da6c1612c6f9e9211684bfee9bb3e72f"
+    },
+    {
+      "bytes": 1765,
+      "path": "project/run_scripts/jlz_native_writer_aware/README.md",
+      "sha256": "927b5149c47a47a7756a3d0f5a542c737c54ba052065449304e1eb411a04b91f"
+    },
+    {
+      "bytes": 78,
+      "path": "project/run_scripts/jlz_native_writer_aware/__init__.py",
+      "sha256": "d28d7fd7a387ca63631149c920b6635a9387519036d8dda0dc7cc063c4986081"
+    },
+    {
+      "bytes": 5738,
+      "path": "project/run_scripts/jlz_native_writer_aware/builder.py",
+      "sha256": "42699bb81ce0e24ff920b7585ddf511d17825f6206ee0511525f20bfeca79b6a"
+    },
+    {
+      "bytes": 9160,
+      "path": "project/run_scripts/jlz_native_writer_aware/collect.py",
+      "sha256": "72b91f5d2b417872d3425d12bc6c73ad61853455143e9db783a271749c863113"
+    },
+    {
+      "bytes": 557,
+      "path": "project/run_scripts/jlz_native_writer_aware/common.py",
+      "sha256": "d2b803f32f1ee47f82510de8e57ec9ae0eaa72fcd450b797f38108f3d3e1cd7d"
+    },
+    {
+      "bytes": 4417,
+      "path": "project/run_scripts/jlz_native_writer_aware/optimize.py",
+      "sha256": "6dd04d5e93bbe587627b70663f816f8c8c5986f75f2bd133cfd2bfdea2a6003b"
+    },
+    {
+      "bytes": 1293,
+      "path": "project/run_scripts/jlz_native_writer_aware/physical.py",
+      "sha256": "6b0a631529be60b4d7c34cebfc99f4bb87c65532c77ca988abde85dea6333262"
+    },
+    {
+      "bytes": 1948,
+      "path": "project/run_scripts/jlz_native_writer_aware/preflight.py",
+      "sha256": "dcf803596a924d482c6436ad06321d39abce42d77a775ed18ed982365833006f"
+    },
+    {
+      "bytes": 8641,
+      "path": "project/run_scripts/jlz_native_writer_aware/prepare.py",
+      "sha256": "a7cbd96b74aefdff05cae8cf9b860d55ab71361eafabd2cbb4a8b67dc5a18708"
+    },
+    {
+      "bytes": 2905,
+      "path": "project/run_scripts/jlz_native_writer_aware/qualification.py",
+      "sha256": "652e04f958a6e9c47c5118a75a0611080d736f9c31197a844dabe8d757106499"
+    },
+    {
+      "bytes": 6018,
+      "path": "project/run_scripts/jlz_native_writer_aware/run.py",
+      "sha256": "2444a75697758797d9025265198d85514af63a6a9c5c414d6fd7423f2df102cd"
+    },
+    {
+      "bytes": 2295,
+      "path": "project/run_scripts/jlz_native_writer_aware/subject.py",
+      "sha256": "7d80359a03d8b39f5e5d52c721636d3d3e0c8f99fd28c615076fd1dcb3cd3253"
+    },
+    {
+      "bytes": 11027,
+      "path": "project/run_scripts/jlz_native_writer_aware/submit.py",
+      "sha256": "2f39b860dd5bfa9a663f3dbf538c2276b6dbe6e6dc2432f7b3a90429039e4b56"
+    },
+    {
+      "bytes": 26092,
+      "path": "project/run_scripts/jlz_native_writer_aware/summarize_results.py",
+      "sha256": "3c969d6244e1c5cd918aff9ad4a4b42bff31f925ec29810979c79ad779b21cbd"
+    },
+    {
+      "bytes": 6799,
+      "path": "project/run_scripts/jlz_native_writer_aware/telemetry.py",
+      "sha256": "1d2c5ac0c86646c37f29d53fdcdff42f8755a8f3f7745c6cffff8d2183f7cf7c"
+    },
+    {
+      "bytes": 6787,
+      "path": "project/run_scripts/jlz_native_writer_aware/test_cpu.py",
+      "sha256": "7df9faa2183e593f5481b9fdfe7a127a00b5834b82c7292956e647e1acffe788"
+    },
+    {
+      "bytes": 2422,
+      "path": "project/run_scripts/jlz_native_writer_aware/test_summary.py",
+      "sha256": "53dcd94dd711f5c66da6dc0b00c55401f678b90f1b006f1f5b23cf8effb151c2"
+    },
+    {
+      "bytes": 2369,
+      "path": "runs/server4/jlz-v14-native-writer-aware-b1/submission-r1.json",
+      "sha256": "117bcec41737445d3f35a71f1369e40570e10859b55626b3ead5d14eb897833b"
+    },
+    {
+      "bytes": 1829,
+      "path": "tasks/status/jlz-v14-native-writer-aware-b1/server4.json",
+      "sha256": "0b18dcad02a8ab938c27b5b100d185d6eb801fa2be6c80a818e188f4c93a3244"
+    }
+  ],
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "monitoring_active": false,
+  "new_GPU": 0,
+  "new_evaluator_calls": 0,
+  "new_fit": 0,
+  "new_submission": 0,
+  "noCP": true,
+  "raw_access": "/data/janghj/ODE-edit/local/jlz-v14-native-writer-aware-b1/20261005-v1/attempt-r1/",
+  "raw_policy": "원raw/tensor/prompt/fullstdout/model/C0/resume payload Git0; local KEEP.",
+  "regular_members": 50,
+  "schema": 1,
+  "self_sha_rule": "본 manifest 자신은 제외; Git commit이 manifest bytes를 결속한다.",
+  "source_note": "기존 생산15파일은 실행source와 exact. CPU 요약기/테스트는 사후 게시 보조코드이며 실행 알고리즘 변경0.",
+  "task_id": "jlz-v14-native-writer-aware-b1"
+}

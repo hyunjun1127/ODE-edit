@@ -1,0 +1,15 @@
+{
+  "observed_utc": "NOT_RECORDED",
+  "review_date_kst": "2026-10-05",
+  "observation": "사용자 완료리뷰 recall에서 한정 terminal accounting 조회. recurring monitoring 아님.",
+  "command": "sacct -X -P -n -j 58391,58392 --format=JobIDRaw,JobName,State,ExitCode,ElapsedRaw,AllocTRES",
+  "rows": [
+    {"job_id": 58391, "job_name": "odeedit_jlz_v14_s4_B1", "state": "COMPLETED", "exit_code": "0:0", "elapsed_raw_seconds": 2439, "AllocTRES": "billing=1,cpu=8,gres/gpu=1,mem=58G,node=1", "allocated_GPU_seconds": 2439},
+    {"job_id": 58392, "job_name": "odeedit_jlz_v14_s4_collector", "state": "COMPLETED", "exit_code": "0:0", "elapsed_raw_seconds": 0, "AllocTRES": "cpu=8,mem=24G,node=1", "allocated_GPU_seconds": 0}
+  ],
+  "allocated_GPU_seconds_rule": "Parent ElapsedRaw * allocated GPU count, parentonce; collector GPU0",
+  "requested_wall_not_ETA": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "existing_jobs_mutated": false
+}

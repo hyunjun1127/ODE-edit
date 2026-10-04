@@ -1,0 +1,41 @@
+{
+  "fit_shared": false,
+  "identities": {
+    "W0_raw_exact": true,
+    "assets": true,
+    "model_path": true,
+    "observer_rows_sha": true,
+    "packing": true,
+    "profile": true,
+    "runtime_source_root": true
+  },
+  "planner_identical": false,
+  "status": "COHORT_RUNTIME_W0_MATCHED_DESCRIPTIVE",
+  "v13_receipts": {
+    "B1/W0/chunk-0000.json": {
+      "bytes": 392412,
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/W0/chunk-0000.json",
+      "sha256": "13ee0d40fd463ad17034720ef98075641c848798c659086e26b58ffb64f946f3",
+      "verification": "CURRENT_NAMED_SMALL_INPUT_FULL_SHA"
+    },
+    "B1/W0/chunk-0050.json": {
+      "bytes": 392420,
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/W0/chunk-0050.json",
+      "sha256": "ddd8e3296ad6adbef22f37745f60fb86381c846062f0b66cb19b45137a6b4a9c",
+      "verification": "CURRENT_NAMED_SMALL_INPUT_FULL_SHA"
+    },
+    "config.json": {
+      "bytes": 31750,
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/config.json",
+      "sha256": "dd9bd8dabee8eef985a500a6d636474d0d83060f76c79b3da7db42c9e757c644",
+      "verification": "CURRENT_NAMED_SMALL_INPUT_FULL_SHA"
+    },
+    "cpu-report/metrics.json": {
+      "bytes": 8563,
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/cpu-report/metrics.json",
+      "sha256": "20b78641c606aa3f3a8e5a31dfb04755a723bc52470dcb7b4e21e253d19678a3",
+      "verification": "CURRENT_NAMED_SMALL_INPUT_FULL_SHA"
+    }
+  },
+  "주의": "V13 virtual planner/five writers와 V14 writer-aware planner 비교. 동일fit/인과 비교가 아니다."
+}

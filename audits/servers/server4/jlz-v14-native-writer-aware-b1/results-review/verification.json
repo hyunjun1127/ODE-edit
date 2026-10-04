@@ -1,0 +1,70 @@
+{
+  "candidates": 25,
+  "commit_calls": 1,
+  "comparison_status": "COHORT_RUNTIME_W0_MATCHED_DESCRIPTIVE",
+  "evaluated_rows": 2600,
+  "fit_calls": 1,
+  "history_appends": 5,
+  "independent_reviewer": false,
+  "new_GPU": 0,
+  "new_evaluator_calls": 0,
+  "new_fit": 0,
+  "new_model_forward": 0,
+  "new_submission": 0,
+  "noCP": true,
+  "no_B2": true,
+  "observer_no_mutation": true,
+  "owner_review": true,
+  "paired_counts": {
+    "N": {
+      "preference": {
+        "both_failure": 110,
+        "gained": 4,
+        "lost": 8,
+        "retained": 878
+      },
+      "strict": {
+        "both_failure": 827,
+        "gained": 2,
+        "lost": 7,
+        "retained": 164
+      }
+    },
+    "P": {
+      "preference": {
+        "both_failure": 19,
+        "gained": 161,
+        "lost": 0,
+        "retained": 20
+      },
+      "strict": {
+        "both_failure": 73,
+        "gained": 127,
+        "lost": 0,
+        "retained": 0
+      }
+    },
+    "R": {
+      "preference": {
+        "both_failure": 0,
+        "gained": 95,
+        "lost": 0,
+        "retained": 5
+      },
+      "strict": {
+        "both_failure": 0,
+        "gained": 100,
+        "lost": 0,
+        "retained": 0
+      }
+    }
+  },
+  "published_original_core_members": 15,
+  "request_evaluations": 2500,
+  "request_update_participations": 2400,
+  "rollback_probe": true,
+  "source_members_verified": 175,
+  "status": "STORED_RAW_REDUCTION_AND_LEDGER_VERIFIED",
+  "updates": 24,
+  "감사범위": "저장 raw의 독립CPU집계. 실기 model 재평가/전체 상태 재현/미기록 gradient 추정은 아니다."
+}

@@ -1,13 +1,16 @@
 {
   "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
   "task_id": "jlz-v14-native-writer-aware-b1",
-  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "status": "B1_COMPLETE_CPU_REVIEWED",
   "jobs": {"B1": 58391, "collector": 58392},
   "source_commit": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
   "execution_lock_sha256": "4891b4e21686628e71463d3c07b1c4697e2cc1270f9f44724f866a8e50d92874",
   "report": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/report-ko.md",
-  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_GPU_qualification": "B1_SUBSET_FIXED_CANDIDATE_CHECKS_PASSED",
+  "terminal": {"58391": "COMPLETED 0:0", "58392": "COMPLETED 0:0"},
+  "metrics_percent": {"RS": 100.0, "PS": 90.5, "NS": 88.2},
+  "artifact_manifest": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/artifact-manifest.json",
   "monitoring_active": false,
   "automatic_resume": false,
-  "설명": "정본11파일, 입력700/observer1300 identity 결속; CPU reference8/production8 PASS. 두 job held 검산·release 후 GPU Resources pending을 확인하고 agent polling 종료. 기존 V13 변경·과학 결과 조회 없음. fit1/commit1/B1만 자연 진행."
+  "설명": "사용자 recall로 V14 저장 결과/code를 owner 리뷰했다. fit1/commit1, 25후보24update, H층별1회 및 원NLL/TF/paired 분모 검산. 기존 V14 생산15파일 byte-exact, closure175 SHA 확인. source/완료보고/소형collector출력/실현·배분·비용CSV/manifest 게시. V13 비교는 local 저장 원자료 identity가 맞는 수치만 사용하며 planner차이 명시. 새GPU/evaluator/fit/submit/cancel0, raw/tensor/fullstdout localKEEP. 독립reviewer 미사용."
 }
