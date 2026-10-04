@@ -1,0 +1,17 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "owner": "server4-server-head",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_check": "새 local task 경로/WT/등록 없음, 현재 owned active queue 공백 관측. 제출 전 다시 검사.",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree",
+  "arms": ["MD", "CD"],
+  "scope": "각 coldW0/H0 BS100x20, 두 독립GPU1 main lane 전량등록; 기존B1/V14/다른task불변",
+  "FULL_READ_SHA": "IN_PROGRESS",
+  "actual_GPU": "NOT_RUN",
+  "submission": "NOT_SUBMITTED",
+  "GH_reply_wait": false,
+  "noCP": true
+}
