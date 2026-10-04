@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "scope": "CPU float64 contract witnesses; no production model, GPU, experiment dispatch, or scientific performance claim.",
+  "status": "PASS",
+  "environment": {
+    "python": "3.12.3",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "reproduce": "python -B plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.py",
+  "tests_run": 29,
+  "failures": 0,
+  "errors": 0,
+  "checks": [
+    {
+      "test": "test_contract.ExpectedLimitations.test_real_efficiency_adam_non_kkt_fixed_point",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.ExpectedLimitations.test_sparse_gradient_step_ratio_limitation",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_all_zero_gradients_stay_finite",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_independent_request_moments_under_interleaved_schedule",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_invalid_optimizer_and_gradient_inputs",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_native_delta_parity_including_scaled_epsilon_and_clamp",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_projected_zero_layer_can_reenter_with_retained_moments",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_smooth_gradient_plus_analytic_norm_subgradient",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.OptimizerContract.test_unscaled_epsilon_really_breaks_parity",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.ProjectionContract.test_heterogeneous_groups_against_independent_solve",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.ProjectionContract.test_invalid_projection_inputs",
+      "status": "PASS"
+    },
+    {
+      "test": "test_contract.ProjectionContract.test_zero_radius_all_zero_and_no_pruning",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_boundary_mu_averages_prices_and_reports_all_active_vectors",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_exact_boundary_kkt_with_active_and_inactive_groups",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_inactive_nonsmooth_inequality_including_equality",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_interior_mu_zero_even_with_positive_radial_price",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_invalid_arrays_counts_and_shapes",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_invalid_scalars",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_near_zero_classification_does_not_mutate_or_prune",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_norm_equality_misses_angular_stationarity",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_primal_violation_and_boundary_tolerance",
+      "status": "PASS"
+    },
+    {
+      "test": "test_kkt.KKTDiagnosticsTests.test_zero_radius_degenerate_convention",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Allocation.test_kkt_allocation_is_a_fixed_point_of_projected_steps",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Budget.test_inside_is_identity",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Budget.test_projection_matches_brute_force_and_kkt",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Budget.test_single_block_is_native_clamp",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Optimizer.test_first_step_keeps_cross_layer_gradient_ratio",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Optimizer.test_lockstep_adam_spreads_budget_but_efficiency_adam_concentrates",
+      "status": "PASS"
+    },
+    {
+      "test": "test_original.Optimizer.test_single_layer_is_exactly_native_adam",
+      "status": "PASS"
+    }
+  ],
+  "diagnostic_tolerances": {
+    "reference_cpu_active_tol": 1e-12,
+    "reference_cpu_boundary_tol": 1e-12,
+    "method_caller_active_tol": 1e-10,
+    "method_caller_boundary_tol": "1e-6 * max(1, radius)",
+    "role": "Diagnostic classification only; no parameter pruning or scientific acceptance gate."
+  },
+  "terminal_candidate_contract": {
+    "tag": "NO_BACKWARD_TERMINAL",
+    "kkt": null,
+    "scope": "Specification only. This reference has no model forward/backward implementation and does not test production stopping behavior."
+  },
+  "expected_limitations": [
+    {
+      "status": "EXPECTED_LIMITATION",
+      "claim": "Projected EfficiencyAdam can have non-KKT fixed points, even on this convex objective.",
+      "initialization": "Nonzero feasible fixed point, zero Adam moments; no model calls.",
+      "steps": 24,
+      "radius": 0.75,
+      "decay": 0.1,
+      "linear_F_gradients": [
+        [
+          3.0,
+          4.0
+        ],
+        [
+          1.0,
+          2.0
+        ]
+      ],
+      "final_blocks": [
+        [
+          -0.5303300856595332,
+          -0.5303300861202881
+        ],
+        [
+          -0.0,
+          -0.0
+        ]
+      ],
+      "max_displacement_from_initial": 2.220446049250313e-16,
+      "objective": -3.6373106014597516,
+      "exact_optimum": -3.6750000000000003,
+      "objective_gap": 0.037689398540248664,
+      "tau_proj": 0.18195662405549773,
+      "gamma": [
+        1.2866276313479057,
+        0.5870173236388153
+      ],
+      "kkt": {
+        "budget_used": 0.75,
+        "radius": 0.75,
+        "decay": 0.1,
+        "layer_norms": [
+          0.75,
+          0.0
+        ],
+        "active": [
+          true,
+          false
+        ],
+        "near_zero_nonzero": [
+          false,
+          false
+        ],
+        "mu": 4.849747468613003,
+        "mu_convention": "boundary_active_radial_mean",
+        "signed_radial_prices": [
+          4.849747468613003,
+          null
+        ],
+        "active_vector_residuals": [
+          [
+            -0.4999999986967887,
+            0.4999999982623846
+          ],
+          null
+        ],
+        "active_residual_norms": [
+          0.7071067790363583,
+          null
+        ],
+        "inactive_inequality_excess": [
+          null,
+          0.0
+        ],
+        "norm_only_residuals": [
+          0.050252531386997035,
+          null
+        ],
+        "primal_violation": 0.0,
+        "complementarity": 0.0,
+        "dual_violation": 0.0,
+        "max_residual": 0.7071067790363583
+      }
+    },
+    {
+      "status": "EXPECTED_LIMITATION",
+      "gradient_rms_ratio": 1.0,
+      "step_norm_ratio": 0.70710678411548,
+      "gamma": [
+        1.0,
+        0.9999999999999999
+      ],
+      "claim": "Equal RMS does not imply equal first-step norm with different gradient support."
+    }
+  ],
+  "source_sha256": {
+    "README-ko.md": "5693c49ac7da9592eaacd5996edd1369c3ecfc8a4cc8ec2733d5dc8f73a3bbd7",
+    "__init__.py": "353b6c343163aa43d3ab91eab3499b550f7eb8d1271f9ae86386bd7906b037e9",
+    "audit.py": "572ec2318fcb003beef36792db7d86a968891d5210edc70439021fd6684d8c3c",
+    "budget.py": "5a464643c63166c5c0302a36fe7f25d3d5735f82bbef29166934914a7e7b999f",
+    "kkt.py": "48731e783a5903c3eeaaac0b9d8db7e550f1697bc9b94dc43ae0168e935c350b",
+    "optimizer.py": "e6420db45cad00572f5ba258dd667939a2b6ba9f5eb0445ae4584d0a5ca1630e",
+    "requirements.txt": "6e69ffe6f7841e5d8aea3f05a4bf77c60055d3b0717fcccbb31fd19647e07b7b",
+    "test_contract.py": "54123868c44de60671173d01d797425382a055b7970b5d8d1335b3d2e4bc6d5f",
+    "test_kkt.py": "3c52ebc802370c005d05a53008384f996459b6333c15b73e023681a7afa78113",
+    "test_original.py": "b6c68fce116d0fc953a498139aba0dfb8f3b48392ad44916dcb181b2d41c9234",
+    "witnesses.py": "3feaea0c2fbd95043b689090def614f814726269924da5d61e80e7aca8048b31"
+  }
+}

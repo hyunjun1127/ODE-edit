@@ -1,0 +1,17 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "owner": "head-server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "host": "ubuntu",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree",
+  "full_read_members": 27,
+  "source_cessation_verified": true,
+  "source_jobs_cancelled": [
+    58174,
+    58173
+  ],
+  "same_task_previous_S3_registration": 0,
+  "new_GPU_submissions": 0,
+  "checkpoint_saved": false
+}

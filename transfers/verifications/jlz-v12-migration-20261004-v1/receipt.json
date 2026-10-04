@@ -1,0 +1,67 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "allowlist_sha256": "e8a6a613ff63fe6672fcc54d5edcb824d96ddb56cda3f2b4ef560dd767a67c5f",
+  "source_host": "rke-server4",
+  "files": [
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/config.json",
+      "destination_relative": "execution/config.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/config.json",
+      "bytes": 52557,
+      "sha256": "18bb56e23ad996f03a7d30e7ed57171f97cdc71df0f1f6ef730198ef5b530f05",
+      "purpose": "S4 frozen provenance only; port paths/resources before S3 use",
+      "status": "RECEIVED_VERIFIED"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/execution.lock.json",
+      "destination_relative": "execution/execution.lock.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/execution.lock.json",
+      "bytes": 52261,
+      "sha256": "3398e36d0d815cdc34c66257ab03961ce1f6f59ea93b4eefe1db6bf8bc63db70",
+      "purpose": "S4 frozen provenance only; port paths/resources before S3 use",
+      "status": "RECEIVED_VERIFIED"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/runtime.json",
+      "destination_relative": "pilot/runtime.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/runtime.json",
+      "bytes": 906,
+      "sha256": "230632e30f8a29c6deda59648fdbd22f0656cbe56ca55428a8612e0d25c25498",
+      "purpose": "Completed S4 pilot provenance; NOT S3 qualification",
+      "status": "RECEIVED_VERIFIED"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/ready.json",
+      "destination_relative": "pilot/ready.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/ready.json",
+      "bytes": 226,
+      "sha256": "20ad2c0bb3e2aaad58249c612e042fe76fb5f04d9a8268c0c3dd7f6ee781bb5b",
+      "purpose": "Completed S4 pilot provenance; NOT S3 qualification",
+      "status": "RECEIVED_VERIFIED"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/terminal.json",
+      "destination_relative": "pilot/terminal.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/terminal.json",
+      "bytes": 276,
+      "sha256": "710d1399160dd00fb785f542a7180ee70ffbc8d68c9c73fbc5156a0c492b02b3",
+      "purpose": "Completed S4 pilot provenance; NOT S3 qualification",
+      "status": "RECEIVED_VERIFIED"
+    },
+    {
+      "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/actual-imports.json",
+      "destination_relative": "pilot/actual-imports.json",
+      "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/actual-imports.json",
+      "bytes": 15116,
+      "sha256": "31d17ec9c800d50db6af09a4da190eb6c7a9aa3cdc24c942f38a28fc87011f1e",
+      "purpose": "Completed S4 pilot provenance; NOT S3 qualification",
+      "status": "RECEIVED_VERIFIED"
+    }
+  ],
+  "received_bytes": 121342,
+  "partial_finalize_peak": 242684,
+  "free_before": 76029562880,
+  "free_after": 76029415424,
+  "source_KEEP": true,
+  "bulk_payloads": 0
+}

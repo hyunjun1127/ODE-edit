@@ -1,0 +1,29 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "IMPLEMENTED_NOT_SUBMITTED",
+  "reviewer": "SH3 owner audit; 독립 agent 미사용",
+  "CPU": {
+    "reference": 29,
+    "production": 7,
+    "server3_adapter": 5,
+    "actual_GPU": "NOT_RUN"
+  },
+  "source_reference": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+  "red_checklist": {
+    "method": "원 entry/optimize/optimizer/writer/qualification/run/events/telemetry/collect byte 동일. 요청별25평가/24update, analyticnorm1회, shared.75, last evaluated z 보존.",
+    "inputs": "fixed10k:first2000, pilot[2000:2004] BS2x2; model/C0/context S3 prior fullSHA+현재stable stat/논리path 검산. 신규 model/C0 전송0.",
+    "pilot": "S3 actual 모델 pilot를 main source/config READY로 검사. S4 pilot은 역사만.",
+    "writer_history": "전체B 현재 K/h 각층재측정, targettracking solve/cast, 모든층이후 final-key CPUFP32 Gram 층당1회. 원코드 보존.",
+    "runtime": "S3 torch2.9.1cu128 그대로. 전용overlay transformers4.57.1/tokenizers.22.1/jsonschema4.10.3/pyrsistent.20.0, 공유env변경0.",
+    "noCP": "RAM transaction만. weight/H/delta/optimizer/resume disk 저장 경로 추가0.",
+    "duplicate_hosts": "S4 source-owned main58173/collector58174 CANCELLED receipt SHA 검증 후에만 S3 submit/release.",
+    "resources": "task/projectcap1, 1GPU8CPU59392MiB. CPUcollector0GPU8CPU24576MiB. 직렬 afterany+main typedREADY. held fullargv검사 후release.",
+    "W0": "S3 동일 first2k evaluator/runtime 기존raw 검증 불가; 승인된 fresh first2k W0 한 번. S4raw 전송0.",
+    "stop": "release+단1회 resource/dependency snapshot 이후 agent monitoring false; pilot/main gate 대기0."
+  },
+  "limitations": [
+    "CPU PASS는 S3 모델/GPU PASS가 아니다.",
+    "기존 repo memory audit는 무관 S4 sbatch6개에서 실패. 이 task의 명시59392MiB/24576MiB와 좁은 launcher회귀로 분리 기록. 원 파일 변경0.",
+    "초기 preparation-r1의 부가 profile metadata 누락을 수신 S4 frozen profile로 결속; 사용하지 않고 보존. 수식/소비 인자는 동일."
+  ]
+}

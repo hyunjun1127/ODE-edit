@@ -1,0 +1,10 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "GPU_qualified": false,
+  "job_ids": {},
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "other_tasks": "STOP_UNCHANGED",
+  "monitoring_active": false
+}
