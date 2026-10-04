@@ -1,0 +1,128 @@
+{
+  "schema": "JLZ_V13_USER_B1_SH4_EXECUTION_V1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "date_kst": "2026-10-05",
+  "user_request": "GH에게 전달해서 SH4에서 batch 1개만 test 해보는 것으로 해서 실현률이 올라갔는지부터 테스트 하는 것으로 하자",
+  "source": {
+    "role": "user-authorized research/design thread",
+    "thread_id": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "design_commit": "77c15907",
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1"
+  },
+  "recipient": {
+    "role": "GH",
+    "thread_id": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "expected_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "execution_owner": {
+    "role": "SH4",
+    "thread_id": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "expected_cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "precedence": "This explicit user scope overrides experiment.json owner SH3/server3, Q1 BS2x2, and MAIN_2K automatic continuation. Method is unchanged. Only one first100 logical batch is authorized; no B2 or 2k submission.",
+  "documents": {
+    "method": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+    "method_contract": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/method-contract.json",
+    "experiment": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.tex",
+    "experiment_contract": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.json",
+    "telemetry": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/telemetry.json",
+    "cpu_reference": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/reference/writer.py",
+    "cpu_tests": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/reference/test_ref.py",
+    "cpu_receipt": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/reference/audit.json",
+    "manifest": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v13-realized-writer/artifact-manifest.json"
+  },
+  "workload": {
+    "profile": "v12 Llama3-8B-Instruct / CounterFact, same ordered first100, all L4-L8",
+    "logical_batch_size": 100,
+    "logical_batches": 1,
+    "cold_entry": "W0/H0",
+    "fit_count": 1,
+    "fit": "unchanged v12 planner, shared budget .75, EfficiencyAdam, native lambda/context, max25 evaluations/24 updates",
+    "writer_branches": [
+      {
+        "id": "RT",
+        "writer": "native ridge mean",
+        "target": "z_virtual - h_actual"
+      },
+      {
+        "id": "RD",
+        "writer": "native ridge mean",
+        "target": "D"
+      },
+      {
+        "id": "MT",
+        "writer": "equality/range-LS mean",
+        "target": "z_virtual - h_actual"
+      },
+      {
+        "id": "MD",
+        "writer": "equality/range-LS mean",
+        "target": "D"
+      },
+      {
+        "id": "CD",
+        "writer": "equality/range-LS all native injected subject rows",
+        "target": "repeat owner D, including KL rows"
+      }
+    ],
+    "additional_fits": 0,
+    "sequential_commits_per_branch": 1,
+    "entry_restore": "RAM restore exact W/H/RNG for each branch; fresh own actual upper K/h after lower writes; do not share keys between branches",
+    "history": "all eligible layers, final rewrite-only native nested mean keys, once per branch, then restore",
+    "stop": "after B1 measurements/report. No automatic B2, 500, or 2000 edits; no coefficient search or new baseline fit"
+  },
+  "implementation": {
+    "status": "CPU reference only; SH4 implements production integration",
+    "allowed_source_namespace": "project/run_scripts/jlz_realized_writer/",
+    "shared_code_policy": "prefer new namespace and read-only reuse; necessary shared adapter changes must be minimal, recorded, and covered by parity checks",
+    "branch": "dedicated codex/ non-main worktree; preserve other agents' changes",
+    "generic": "model/benchmark/logical batch are profile settings; q_r and dimensions derived; no hardcoded six/seven rows in writer"
+  },
+  "qualification": {
+    "cpu": "run same reference16 tests and meaningful implementation tests",
+    "actual": "Before B1 branch commits, validate row/site mapping, numerical projection and FP32 actual action/restore on B1 inputs. Any subset operator check is within B1 and restored; no separate BS2x2 sequential pilot or extra fit",
+    "technical_failures": "rollback and report non-SPD/nonfinite/projection identity/cast-orientation/local parity/restore/history errors; no silent jitter, target scaling, ridge fallback or threshold tuning",
+    "science": "rank deficiency alone, finite high energy or poor PS/NS are observations, not technical rejection or layer pruning"
+  },
+  "measurements": {
+    "primary": [
+      "per-layer mean/canonical/native rewrite/KL actual realization directional ratio, norm ratio, cosine and relative error",
+      "planned versus actual direct-action share L1",
+      "ideal FP64 versus cast versus effective FP32 versus actual subject action",
+      "inherited prestate gap separate from local writer error",
+      "zero-target leakage, rank/cutoff, incompatible target residual, Q and update norm"
+    ],
+    "performance": [
+      "same B1 W0/post RS100/PS200/NS1000 preference denominators",
+      "R/P desired-new and N desired-true TF strict ACC plus token/prompt ACC",
+      "NLL/margins, paired lost/gained, no evaluation-driven selection"
+    ],
+    "reduction": "paired per-request/per-context comparisons with denominators; do not call norm ratio near1 exact without direction/error; report undefined zero-target ratio separately",
+    "timing": "fit, capture, solve, commit/history, eval, peak VRAM, total; no speed claim without measurement",
+    "success_interpretation": "First establish whether actual realization improved relative to same-plan ridge, then assess allocation and PS/NS/ACC. B1 cannot establish long-term retention."
+  },
+  "execution_envelope": {
+    "slurm_submission": "allowed for this bounded B1 task after technical/resource preflight; no repeat user approval needed",
+    "gpu_cap": "one task GPU at a time and the stricter active server/project GPU and CPU-memory cap; inspect current caps and scheduler, do not cancel existing jobs",
+    "allowed_paths": [
+      "project/run_scripts/jlz_realized_writer/",
+      "local/jlz-v13-realized-writer-b1/20261005-v1/",
+      "plans/updates/server4/",
+      "tasks/proposed/server4/",
+      "tasks/status/jlz-v13-realized-writer-b1/server4.json",
+      "messages/server-heads/server4/",
+      "messages/acks/server4/",
+      "runs/server4/",
+      "audits/servers/server4/",
+      "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/"
+    ],
+    "publication": "GH verifies and promotes design/command; SH4 reports implementation commit and exact inputs/runtime hashes. No overwrite of unrelated work.",
+    "artifact_broadcast": "Follow existing approved artifact broadcast script/policy for small report/telemetry/raw evaluations; record reason if impossible. No persistent model checkpoint or new large transfer is requested.",
+    "audit": "preflight source/config/input/numerical parity/resource boundary; postrun denominator/finiteness/rollback/history/nonmutation audit. Scientific warn can proceed; technical block stops invalid commit."
+  },
+  "requested_ack": "GH acknowledge instruction nonce, dispatch to exact SH4 session, collect SH4 acceptance or concrete blocker. Report delivery/acceptance/implementation/GPU submission separately. No claim of running before job evidence.",
+  "dispatch_status": "PREPARED"
+}
