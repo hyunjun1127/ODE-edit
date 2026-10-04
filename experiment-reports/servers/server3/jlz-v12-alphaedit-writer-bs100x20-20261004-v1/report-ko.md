@@ -1,6 +1,6 @@
 # JLZ v12 AlphaEdit writer / SH3 2k
 
-상태: IMPLEMENTED_NOT_SUBMITTED. 실제 모델 qualification/완료는 NOT_RUN이다.
+상태: RELEASED_DEPENDENCY_PENDING / MONITORING_PAUSED_AWAITING_USER. 실제 모델 qualification/완료는 NOT_OBSERVED이다.
 
 단일 V12_ALPHAEDIT, cold W0/H0, fixed first2000 BS100×20. 기존 ridge 작업/원 source는 변경하지 않는다. 새 pilot BS2×2 → source/config READY 확인 main → CPU collector로 등록한다. 외부 GPU 작업에는 afterany 자원 의존성만 걸며 그 과학 성공을 요구하지 않는다.
 
@@ -17,3 +17,22 @@ B1 probe는 같은 terminal plan을 사용해 임시 ridge write/observer 후 W/
 매 batch pre/post current, W0/W5/10/15/20 allseen; W20 R2000/P4000/N20000. preference ties failure와 TF strict/tokenmicro/promptmacro, NLL/margin/paired/cohort/active-superseded를 독립 CPU reducer로 저장집계와 대조한다. 역사 baseline은 현재 matching receipt 미결속이므로 NOT_AVAILABLE, 새 baseline fit0.
 
 새 GPU qualification은 아직 수행하지 않았다. 제출 후 단 한 번 resource/dependency snapshot을 남기고 agent monitoring을 중지한다. Sealed pilot/main/collector는 기술 gate에 따라 자연 진행한다.
+
+## 실제 등록 및 인계
+
+| 단계 | job | 의존성 | GPU/CPU/host memory | wall |
+|---|---:|---|---|---|
+| 새 cold AlphaEdit pilot BS2×2 | 58201 | afterany:58179 (자원 직렬) | 1/8/59392MiB | 4h |
+| V12_ALPHAEDIT cold first2000 BS100×20 | 58202 | afterany:58201 + exact source/config pilot READY | 1/8/59392MiB | 168h |
+| independent CPU collector | 58203 | afterany:58201:58202 | 0/8/24576MiB | 4h |
+
+Held 상태에서 owner/full argv/source launcher bytes/node/partition/QoS/GPU/CPU/memory/wall/export/Requeue/dependency를 확인한 뒤 세 job을 release했다. release 후 한 번의 resource-only snapshot에서 세 job 모두 Dependency PENDING이었다. 기존 58179/58180 및 frozen ridge source/raw는 변경하지 않았다. 자원 대기를 위해 manual hold를 남기지 않았다.
+
+- 실행 source: `5fb35c2dc3ec04e723b9caefa1c4bb1158124708`
+- 실행 lock SHA256: `9dfa837e899e25dc09531e251a682fe1b11e3e5febd94e049b0c1e54a63253ce`
+- config SHA256: `a4edd3abb2b1e20f126f5a6f4df57de4e0b95e1d697146019a44c9661c0404ca`
+- snapshot UTC: `2026-10-04T12:30:50.002900+00:00`
+
+[등록·자원 receipt](../../../../audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/submission-r1.json), [소스·입력 manifest](../../../../audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/source-input-manifest.json), [CPU 검산](../../../../audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/cpu-validation.json).
+
+실제 pilot/main/B1/terminal은 미관측이며 PASS나 완료로 표시하지 않는다. Sealed runner가 새 technical qualification → cold main W20 → CPU reducer를 수행한다. Agent의 scheduler/log/result polling·heartbeat·자동 retry는 중지했다. 상세 결과 회수는 사용자 recall 때 수행한다.

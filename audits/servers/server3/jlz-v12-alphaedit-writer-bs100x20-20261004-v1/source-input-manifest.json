@@ -1,0 +1,263 @@
+{
+  "source": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+  "archive": {
+    "bytes": 1341440,
+    "inode": 19024662,
+    "mtime_ns": 1791117039441217514,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/source.tar",
+    "sha256": "64667d6d6375cdf7b60ea929d7562c1d39648c439a69ba3792b9d046b107a533"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/execution.lock.json",
+    "bytes": 724482,
+    "sha256": "9dfa837e899e25dc09531e251a682fe1b11e3e5febd94e049b0c1e54a63253ce"
+  },
+  "config": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/config.json",
+    "bytes": 64311,
+    "sha256": "a4edd3abb2b1e20f126f5a6f4df57de4e0b95e1d697146019a44c9661c0404ca"
+  },
+  "task_source": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/__init__.py",
+      "bytes": 74,
+      "sha256": "b4f8baf898e54272932be6693a37182624fa15231e3d1e0959383190757cc536"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/collect.py",
+      "bytes": 12732,
+      "sha256": "cc332ec9ee7362f329a4948d82e955886bb23b5a11862d3395302ec32a43a67c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/common.py",
+      "bytes": 1194,
+      "sha256": "bb3c9b2870cc32b3a9b146f05dce9670babb1427c7e291d6ddba659abf145575"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/entry.py",
+      "bytes": 3532,
+      "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/events.py",
+      "bytes": 4621,
+      "sha256": "23d2dc3c4f77eca4f209be697141da5502a105096b348fd4298b60e9f02f39f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/native_reference.py",
+      "bytes": 1643,
+      "sha256": "9423ec7328eef39f95d5c42f87d53128854e3a5fae98ee8a89c5835fb51e42fc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/optimize.py",
+      "bytes": 7174,
+      "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/optimizer.py",
+      "bytes": 3083,
+      "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/prepare.py",
+      "bytes": 8078,
+      "sha256": "70e8eed7933921b313c867be244709853b6d4193ee654d926dda8a300f152e54"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/probe.py",
+      "bytes": 2873,
+      "sha256": "1a2f647af9dd08c8d2eaa007786da499f9c2d06912836a55a3191af695bc3a87"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/qualification.py",
+      "bytes": 6077,
+      "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/reducer.py",
+      "bytes": 1707,
+      "sha256": "46740cc99838025890ef8d395fc4503fb3c76e38c5f656c7b16ee6b3b3f6f611"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/run.py",
+      "bytes": 16267,
+      "sha256": "3fac2f6746bd95511e241fa03679a3dc7c970d73f96b8882324d5215be0cb837"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/submit.py",
+      "bytes": 14325,
+      "sha256": "286802e13eafed9bef105b202ceba261fd15095070c0e1fad1976b0e257d6b48"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/telemetry.py",
+      "bytes": 5539,
+      "sha256": "20f49da154511ade0d4201c783349d15b83900530c6d3676a8629a927f9881ab"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/test_alphaedit.py",
+      "bytes": 4712,
+      "sha256": "dbbb562021bbefcc803e58abbae94d7fc191ff184618437d21d5d37bc4a2c89b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/test_cpu.py",
+      "bytes": 8374,
+      "sha256": "cd56801e6abee959e58ec9c525d8874bb4abd89c3aaedbe440034d3aab0245c3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/w0.py",
+      "bytes": 3268,
+      "sha256": "e00ff12c9a6cca2429fde529a054836c439802bd84cbd6178a9fb567aec3dd9c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/project/run_scripts/jlz_shared_budget_alphaedit/writer.py",
+      "bytes": 10956,
+      "sha256": "fa4a2da18cc80af40b35eef77182d0d401a0d078f3f059b2ac173ba45b411476"
+    }
+  ],
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "dataset_sha": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "order_sha": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "contexts": {
+    "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/contexts.json",
+    "bytes": 270,
+    "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+  },
+  "alphaedit": {
+    "C0_provenance": [
+      {
+        "bytes": 822084814,
+        "inode": 18170237,
+        "mtime_ns": 1778400376501531975,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 80157,
+          "inode": 20072177,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+          "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 18170238,
+        "mtime_ns": 1778405783263173797,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 80157,
+          "inode": 20072177,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+          "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 18170239,
+        "mtime_ns": 1778412013640495980,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 80157,
+          "inode": 20072177,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+          "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 18170240,
+        "mtime_ns": 1778419071493293499,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 80157,
+          "inode": 20072177,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+          "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 18170241,
+        "mtime_ns": 1778426959389839324,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 80157,
+          "inode": 20072177,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+          "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      }
+    ],
+    "L2": 10,
+    "blue": false,
+    "covariance_ridge_in_writer": 0,
+    "dtype": "float32",
+    "key_reference": "native MEMIT/AlphaEdit compute_ks byte comparison",
+    "layer_mapping": {
+      "4": 0,
+      "5": 1,
+      "6": 2,
+      "7": 3,
+      "8": 4
+    },
+    "main_residual": "z_virtual_layer-h_current_layer_no_divisor",
+    "native_git": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "native_hparams": {
+      "bytes": 745,
+      "inode": 18613547,
+      "mtime_ns": 1790554639236705397,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/hparams/AlphaEdit/Llama3-8B.json",
+      "sha256": "2bd0ac166625497ed7851870c802ce5cae7b06fbd5370c252baa8957e361d2d5"
+    },
+    "native_key_body_exact": true,
+    "native_source": {
+      "bytes": 12212,
+      "inode": 18613445,
+      "mtime_ns": 1790554639228705523,
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/AlphaEdit/AlphaEdit_main.py",
+      "sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e"
+    },
+    "parent_FP64_solve_gate": false,
+    "projector": {
+      "bytes": 4110419877,
+      "inode": 18170192,
+      "mtime_ns": 1778427027497441937,
+      "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+    },
+    "projector_provenance": {
+      "bytes": 6922,
+      "inode": 18959122,
+      "mtime_ns": 1791116605389267098,
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/agents/server4/alphaedit-runtime-path-seal.json",
+      "sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3"
+    },
+    "shared_budget_projection": "float64",
+    "threshold": 0.02
+  },
+  "input_pack_reference": {
+    "bytes": 80157,
+    "inode": 20072177,
+    "mtime_ns": 1791110667435311795,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+    "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+  },
+  "raw_remains_local": true
+}

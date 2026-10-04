@@ -1,0 +1,10 @@
+{
+  "helper": "scripts/check-agent-access.sh --staged",
+  "status": "DENY_NOT_PASS",
+  "exit_code": 7,
+  "path": "runs/odeedit_jlz_v12_alphaedit_s3_20261004/submission-r1.json",
+  "authority": "messages/head/2026-10-04-jlz-v12-alphaedit-2k-sh3.json",
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "explicit_user_permission": "allowed_writes exact runs prefix; Git generichelper exception explicitly authorized",
+  "action": "Proceed only exact own compact submission path under USER authorization; shared helper/config unchanged"
+}

@@ -1,0 +1,15 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "jobs": {
+    "V12_ALPHAEDIT": "58202",
+    "collector": "58203",
+    "pilot": "58201"
+  },
+  "source": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/execution.lock.json",
+    "bytes": 724482,
+    "sha256": "9dfa837e899e25dc09531e251a682fe1b11e3e5febd94e049b0c1e54a63253ce"
+  },
+  "submission_audit": "audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/submission-r1.json"
+}

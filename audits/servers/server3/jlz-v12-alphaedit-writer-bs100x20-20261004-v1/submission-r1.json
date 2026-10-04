@@ -1,0 +1,212 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "status": "RELEASED_DEPENDENCY_PENDING",
+  "source": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+  "source_tree": "dcac3c21a53c6ab743edbd89bfaa40f0f2a31a38",
+  "archive": {
+    "bytes": 1341440,
+    "inode": 19024662,
+    "mtime_ns": 1791117039441217514,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/source.tar",
+    "sha256": "64667d6d6375cdf7b60ea929d7562c1d39648c439a69ba3792b9d046b107a533"
+  },
+  "config_sha256": "a4edd3abb2b1e20f126f5a6f4df57de4e0b95e1d697146019a44c9661c0404ca",
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/execution.lock.json",
+    "bytes": 724482,
+    "sha256": "9dfa837e899e25dc09531e251a682fe1b11e3e5febd94e049b0c1e54a63253ce"
+  },
+  "jobs": {
+    "V12_ALPHAEDIT": "58202",
+    "collector": "58203",
+    "pilot": "58201"
+  },
+  "mapping": {
+    "V12_ALPHAEDIT": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12ae_s3_V12_ALPHAEDIT",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/source",
+        "--mem=59392M",
+        "--time=7-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/V12_ALPHAEDIT-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/V12_ALPHAEDIT-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:58201",
+        "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/V12_ALPHAEDIT.sh"
+      ],
+      "dependency": "afterany:58201",
+      "job": "58202"
+    },
+    "collector": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12ae_s3_collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/collector-%j.err",
+        "--dependency=afterany:58201:58202",
+        "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/collector.sh"
+      ],
+      "dependency": "afterany:58201:58202",
+      "job": "58203"
+    },
+    "pilot": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12ae_s3_pilot",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/source",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:58179",
+        "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot.sh"
+      ],
+      "dependency": "afterany:58179",
+      "job": "58201"
+    }
+  },
+  "external_resource_afterany": [
+    "58179"
+  ],
+  "snapshot": {
+    "time_utc": "2026-10-04T12:30:50.002900+00:00",
+    "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+    "command": [
+      "squeue",
+      "-h",
+      "-j",
+      "58202,58203,58201",
+      "-o",
+      "%i|%u|%j|%T|%b|%R|%E"
+    ],
+    "resource_only": true,
+    "rows": [
+      "58203|janghj|odeedit_jlz_v12ae_s3_collector|PENDING|N/A|(Dependency)|afterany:58201(unfulfilled),afterany:58202(unfulfilled)",
+      "58202|janghj|odeedit_jlz_v12ae_s3_V12_ALPHAEDIT|PENDING|gres/gpu:1|(Dependency)|afterany:58201(unfulfilled)",
+      "58201|janghj|odeedit_jlz_v12ae_s3_pilot|PENDING|gres/gpu:1|(Dependency)|afterany:58179(unfulfilled)"
+    ],
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "actual_pilot": "NOT_OBSERVED",
+    "main_initial": "NOT_OBSERVED"
+  },
+  "held_receipt": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/held-inspection.json",
+    "bytes": 16895,
+    "sha256": "b286fc5a4e03a110a51e3b4662e25ce4ed1b80bb83d31fc7d362f26c560ddd0c"
+  },
+  "held_checks": {
+    "owner": "janghj",
+    "node": "ubuntu",
+    "partition": "gpu",
+    "qos": "lab_gpu_s3",
+    "all_exact_owner_fullargv_source_script_bytes": true,
+    "three_held_before_release": true,
+    "export": "NONE",
+    "Requeue": 0,
+    "task_cap": 1,
+    "project_cap": 1,
+    "max_simultaneous_GPU": 1
+  },
+  "release_receipts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/released-pilot.json",
+      "bytes": 58,
+      "sha256": "39f209c80855ee12b80887f9dbe7e5d221ccfb07d7274c177fac1d695ba8a3e0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/released-V12_ALPHAEDIT.json",
+      "bytes": 58,
+      "sha256": "d9c21e9efce7022ef6731ad53dfff157a65c99556229260d4d2301b226bd74ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/released-collector.json",
+      "bytes": 58,
+      "sha256": "821706092e57b28facdacef3a556423c6dbb09a24784646ce159eb55dafcd72b"
+    }
+  ],
+  "resources": {
+    "ETA_hours": "NOT_MEASURED_ALPHAEDIT; main168h ceiling; no baseline throughput parity claim",
+    "GPU_plan_GiB": {
+      "activation_head": 20,
+      "largest_probe_ridge_FP64_solve": 10,
+      "margin": 10,
+      "model": 30,
+      "projectors": 3.83,
+      "weights_entry_write": 4
+    },
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 8,
+    "free_bytes": 70180507648,
+    "gpu": 1,
+    "host_mib": 59392,
+    "host_plan_GiB": {
+      "Python_IO_margin": 8,
+      "entry_cache": 3,
+      "history": 3.83,
+      "loader_peak": 34,
+      "one_layer_prior_temporary": 3.1,
+      "optional_probe_transaction": 4.93,
+      "outer_transaction": 4.93,
+      "projector_mmap_RSS": 3.83
+    },
+    "host_plan_note": "Nonconcurrent loader34GiB; conservative probe/fit peak<33GiB including resident projector mmap and outer+inner RAM transactions; bounded58GiB. ActualRSS not established.",
+    "no_implicit_resource_increase": true,
+    "output_plan_GiB": {
+      "atomic_temp": 4,
+      "candidate_scalar": 3,
+      "logs_and_source": 2,
+      "margin": 12,
+      "percase_scalar": 3
+    },
+    "project_cap": 1,
+    "qualification_wall": "04:00:00",
+    "reserve_bytes": 25769803776,
+    "task_cap": 1,
+    "wall": "7-00:00:00"
+  },
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "existing_ridge_modified": false,
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_main": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "publication_note": "Submission is not scientific completion. No post-snapshot scheduler/log/result reads."
+}

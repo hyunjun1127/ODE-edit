@@ -1,0 +1,22 @@
+{
+  "report": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/experiment-reports/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/report-ko.md",
+    "bytes": 5052,
+    "sha256": "7205b64b7502a7f09aa23dbf7adeb652eed776446a32b6f35810e34eb3e73a3a"
+  },
+  "method_delta": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/plans/updates/server3/jlz-v12-alphaedit-writer-20261004-v1/method-delta.tex",
+    "bytes": 1192,
+    "sha256": "35c38d721baa39aefcdb951790b297781778c3d1cd7824c843e6c7bc44c4fccc"
+  },
+  "CPU": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/cpu-validation.json",
+    "bytes": 821,
+    "sha256": "b422cda8886cbd0d7ac94452cd4ef2f03c87c730159a2daa787ebab65c2ba488"
+  },
+  "submission": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/submission-r1.json",
+    "bytes": 7614,
+    "sha256": "dfacb135fe65f0677e015a988e90d67519987e2d82453b5610c6d75ddce83127"
+  }
+}
