@@ -20,6 +20,8 @@
   "source_raw": "KEEP",
   "monitoring_active": false,
   "automatic_resume": false,
-  "handoff": "PREPARING_SMALL_ALLOWLIST",
-  "owner": "SH3"
+  "handoff": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/handoff.json",
+  "owner": "SH3",
+  "handoff_SHA256": "e8a6a613ff63fe6672fcc54d5edcb824d96ddb56cda3f2b4ef560dd767a67c5f",
+  "handoff_status": "COMPLETE"
 }

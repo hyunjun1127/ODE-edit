@@ -1,0 +1,1539 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "transfer": {
+    "executor": "SH3 sole pull",
+    "source_host": "server4 canonical registry mapping",
+    "destination_root": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1",
+    "source_keep": true,
+    "overwrite": false,
+    "delete": false,
+    "recursive_sync": false,
+    "regular_file_only": true,
+    "preferred": "Git exact execution commit for implementation/docs; selectively pull only missing listed small files",
+    "file_count": 106,
+    "total_bytes": 952645,
+    "files": [
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/config.json",
+        "destination_relative": "execution/config.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/config.json",
+        "bytes": 52557,
+        "sha256": "18bb56e23ad996f03a7d30e7ed57171f97cdc71df0f1f6ef730198ef5b530f05",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/execution.lock.json",
+        "destination_relative": "execution/execution.lock.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/execution.lock.json",
+        "bytes": 52261,
+        "sha256": "3398e36d0d815cdc34c66257ab03961ce1f6f59ea93b4eefe1db6bf8bc63db70",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/submission.json",
+        "destination_relative": "execution/submission.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/submission.json",
+        "bytes": 3073,
+        "sha256": "808deaf8a08ad5075b61649bbcd389dac895c15f05567572c79115b43f71590b",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/held-inspection.json",
+        "destination_relative": "execution/held-inspection.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/held-inspection.json",
+        "bytes": 12482,
+        "sha256": "5e13b482b9793f9e458ba6ccc317b2890ce0e44d2187ae8e671e83088291d8df",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot.sh",
+        "destination_relative": "execution/pilot.sh",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/pilot.sh",
+        "bytes": 675,
+        "sha256": "cb7199234e29c4d1572cb7ac246938c9acd4fe51f9da861eff45aa0a4298a52b",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh",
+        "destination_relative": "execution/V12_MAIN.sh",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/V12_MAIN.sh",
+        "bytes": 667,
+        "sha256": "79ef007b07def3bd2a907c58c91d5b447640b600a1b104208abfa08bf5bc8127",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh",
+        "destination_relative": "execution/collector.sh",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/execution/collector.sh",
+        "bytes": 702,
+        "sha256": "789a646f12f1eba457b3a2f7498a27613100018b40453202a369bca4263d64a3",
+        "purpose": "S4 frozen provenance only; port paths/resources before S3 use"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/runtime.json",
+        "destination_relative": "pilot/runtime.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/runtime.json",
+        "bytes": 906,
+        "sha256": "230632e30f8a29c6deda59648fdbd22f0656cbe56ca55428a8612e0d25c25498",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/ready.json",
+        "destination_relative": "pilot/ready.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/ready.json",
+        "bytes": 226,
+        "sha256": "20ad2c0bb3e2aaad58249c612e042fe76fb5f04d9a8268c0c3dd7f6ee781bb5b",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/terminal.json",
+        "destination_relative": "pilot/terminal.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/terminal.json",
+        "bytes": 276,
+        "sha256": "710d1399160dd00fb785f542a7180ee70ffbc8d68c9c73fbc5156a0c492b02b3",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/actual-imports.json",
+        "destination_relative": "pilot/actual-imports.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/actual-imports.json",
+        "bytes": 15116,
+        "sha256": "31d17ec9c800d50db6af09a4da190eb6c7a9aa3cdc24c942f38a28fc87011f1e",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/initial-state.json",
+        "destination_relative": "pilot/initial-state.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/initial-state.json",
+        "bytes": 745,
+        "sha256": "c25cbbbcc92ae1f33302388e3edf451853ce1767159c17314f93029be158cfd6",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/rollback-probe.json",
+        "destination_relative": "pilot/rollback-probe.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/rollback-probe.json",
+        "bytes": 38,
+        "sha256": "0d61ae2bab92391c2b524ef5513cb2edaad4e73fd670fa23d59d1497474d6194",
+        "purpose": "Completed S4 pilot provenance; NOT S3 qualification"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/entry.json",
+        "destination_relative": "pilot/batch-01/entry.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-01/entry.json",
+        "bytes": 1207,
+        "sha256": "316bc16dfc6e1dd9034b03dffb529e2f2d0dd17a45c9c73ae81b7b770832d43c",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/commit.json",
+        "destination_relative": "pilot/batch-01/commit.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-01/commit.json",
+        "bytes": 5290,
+        "sha256": "b50e0a3b17b92e28742cf3d1a4d9603557aa573879771fec13346dd30035d681",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/writer.json",
+        "destination_relative": "pilot/batch-01/writer.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-01/writer.json",
+        "bytes": 4027,
+        "sha256": "5ad15c95b3db3cc34619a3d5292ddff035b9d4ca015780dd84bb8ca3948cb700",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/fit/fit.json",
+        "destination_relative": "pilot/batch-01/fit/fit.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-01/fit/fit.json",
+        "bytes": 428,
+        "sha256": "d9a42b0b6ed2cc6148840a69535250b9ed5a3a1579f9a89b44ee62c54c322ab8",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-02/entry.json",
+        "destination_relative": "pilot/batch-02/entry.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-02/entry.json",
+        "bytes": 1210,
+        "sha256": "0a6f160c2f6f50bd0e4d1d105fd29830bbb1356fe92111dc2ce18af0edd4c5b1",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-02/commit.json",
+        "destination_relative": "pilot/batch-02/commit.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-02/commit.json",
+        "bytes": 5313,
+        "sha256": "6a416850b2d7a4f8223882841e9a27d66b36a6d3860fa9d08089d33c12bd76e6",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-02/writer.json",
+        "destination_relative": "pilot/batch-02/writer.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-02/writer.json",
+        "bytes": 4025,
+        "sha256": "e9375d40450d6a0a154a63648d70c3db92402dee1df30344489da3850e936d59",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-02/fit/fit.json",
+        "destination_relative": "pilot/batch-02/fit/fit.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/batch-02/fit/fit.json",
+        "bytes": 432,
+        "sha256": "590486a776046cc5a76b0fb5099f3d243c77f9f06c4bebba7481cc00bc0e4aa3",
+        "purpose": "Compact pilot identity/count/operator receipt; no prompts or tensor"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/absolute-delta-gradient.json",
+        "destination_relative": "pilot/qualification/absolute-delta-gradient.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/absolute-delta-gradient.json",
+        "bytes": 578,
+        "sha256": "be885eff6c5ed4262f1d8ba76ed4fcc5608d440ca36a3a8fd3358f06fc263830",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/fixed-0.json",
+        "destination_relative": "pilot/qualification/fixed-0.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/fixed-0.json",
+        "bytes": 596,
+        "sha256": "3d093658f60bfca889fb2946407720246dfc0ec16598b812c1feec928f10bdf6",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/fixed-1.json",
+        "destination_relative": "pilot/qualification/fixed-1.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/fixed-1.json",
+        "bytes": 595,
+        "sha256": "4234e8670d57ed71035a4201ce8c8061bc580b05eeccd13ca0126ac28e5e0647",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/microbatch.json",
+        "destination_relative": "pilot/qualification/microbatch.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/microbatch.json",
+        "bytes": 536,
+        "sha256": "58cb7201fbbc251bd707cbf67edeff53d1368d8129c8b71e4aba4d3417bed4a9",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/native-keys.json",
+        "destination_relative": "pilot/qualification/native-keys.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/native-keys.json",
+        "bytes": 528,
+        "sha256": "b9205e75a093ef165143c1f2d10ca5c3ea19211305a30cc74d7ebc93f9ad8cb9",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/native-scaled-update.json",
+        "destination_relative": "pilot/qualification/native-scaled-update.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/native-scaled-update.json",
+        "bytes": 277,
+        "sha256": "bbf94c2e9b61190f42240e51d418314e7a534978e8aa2b0f758ce39ffc62ad90",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/predeclared.json",
+        "destination_relative": "pilot/qualification/predeclared.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/predeclared.json",
+        "bytes": 340,
+        "sha256": "10cf682a6737975e97ee4bdc7fbf11c8eee7a25f93aaf0cfdfe3c079a221ccf4",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/qualification/ready.json",
+        "destination_relative": "pilot/qualification/ready.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/pilot/qualification/ready.json",
+        "bytes": 91,
+        "sha256": "6d260011c6369fb0a2993e30fbd8ba2db4322895179029cc485f122deda63c04",
+        "purpose": "Bounded S4 actual technical comparison"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/preparation-r1/W0-reuse.json",
+        "destination_relative": "metadata/W0-reuse.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/metadata/W0-reuse.json",
+        "bytes": 12747,
+        "sha256": "bdcf6fe15ba37be925b1902505555926220e4bda54cdefd9228930b429f7c979",
+        "purpose": "W0 metadata only; no W0 metric rows transfer or S3 comparability claim"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/preparation-r1/full-read.json",
+        "destination_relative": "metadata/full-read.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/metadata/full-read.json",
+        "bytes": 6209,
+        "sha256": "d5d1d8dfbae13630f1a10d043730b7690864386614e0bd8c2150d9379ac87f6d",
+        "purpose": "Canonical full-read and hash evidence"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+        "destination_relative": "inputs/contexts.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/inputs/contexts.json",
+        "bytes": 270,
+        "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+        "purpose": "Missing exact tiny context only; prefer existing S3 identical asset"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/project/run_scripts/memit_history_lifelong/hparams.json",
+        "destination_relative": "inputs/native-hparams.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/inputs/native-hparams.json",
+        "bytes": 727,
+        "sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+        "purpose": "Pinned native hparams"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/__init__.py",
+        "destination_relative": "native/memit/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/__init__.py",
+        "bytes": 121,
+        "sha256": "89d395c13f2abfca13405b085d862d4035da3b718fc9c41c07400396c76a5212",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/compute_ks.py",
+        "destination_relative": "native/memit/compute_ks.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/compute_ks.py",
+        "bytes": 1540,
+        "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/compute_z.py",
+        "destination_relative": "native/memit/compute_z.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/compute_z.py",
+        "bytes": 13402,
+        "sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/memit_hparams.py",
+        "destination_relative": "native/memit/memit_hparams.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/memit_hparams.py",
+        "bytes": 859,
+        "sha256": "8e8dfe922aabaf0296850ddacd7802d2ca44d00913ad22f46e44e37073abe9a9",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/memit_main.py",
+        "destination_relative": "native/memit/memit_main.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/memit_main.py",
+        "bytes": 16281,
+        "sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/memit/memit_seq_main.py",
+        "destination_relative": "native/memit/memit_seq_main.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/memit/memit_seq_main.py",
+        "bytes": 16805,
+        "sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/__init__.py",
+        "destination_relative": "native/rome/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/__init__.py",
+        "bytes": 74,
+        "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/compute_u.py",
+        "destination_relative": "native/rome/compute_u.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/compute_u.py",
+        "bytes": 3612,
+        "sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/compute_v.py",
+        "destination_relative": "native/rome/compute_v.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/compute_v.py",
+        "bytes": 9558,
+        "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/layer_stats.py",
+        "destination_relative": "native/rome/layer_stats.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/layer_stats.py",
+        "bytes": 7514,
+        "sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/repr_tools.py",
+        "destination_relative": "native/rome/repr_tools.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/repr_tools.py",
+        "bytes": 6405,
+        "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/rome_hparams.py",
+        "destination_relative": "native/rome/rome_hparams.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/rome_hparams.py",
+        "bytes": 674,
+        "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/rome_main.py",
+        "destination_relative": "native/rome/rome_main.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/rome_main.py",
+        "bytes": 6041,
+        "sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/rome/tok_dataset.py",
+        "destination_relative": "native/rome/tok_dataset.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/rome/tok_dataset.py",
+        "bytes": 3103,
+        "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/__init__.py",
+        "destination_relative": "native/util/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/__init__.py",
+        "bytes": 34,
+        "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/generate.py",
+        "destination_relative": "native/util/generate.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/generate.py",
+        "bytes": 5472,
+        "sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/globals.py",
+        "destination_relative": "native/util/globals.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/globals.py",
+        "bytes": 388,
+        "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/hparams.py",
+        "destination_relative": "native/util/hparams.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/hparams.py",
+        "bytes": 319,
+        "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/logit_lens.py",
+        "destination_relative": "native/util/logit_lens.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/logit_lens.py",
+        "bytes": 2893,
+        "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/nethook.py",
+        "destination_relative": "native/util/nethook.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/nethook.py",
+        "bytes": 15506,
+        "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/util/runningstats.py",
+        "destination_relative": "native/util/runningstats.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/util/runningstats.py",
+        "bytes": 65305,
+        "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+        "purpose": "Only if S3 exact native dependency missing; no shared-source overwrite"
+      },
+      {
+        "source": "/data/janghj/BLUE/globals.yml",
+        "destination_relative": "native/globals.yml",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/native/globals.yml",
+        "bytes": 249,
+        "sha256": "71f94f33216aaac82bc6e0085608dd4b74a3d40f57ce800c5479b44294625232",
+        "purpose": "Native source directory metadata; inspect/rebind S3 paths"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/__init__.py",
+        "destination_relative": "schema-dependencies/jsonschema/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/__init__.py",
+        "bytes": 1561,
+        "sha256": "87497644f54cf648a653bfa34d22a812782e577406bebad0be59c937717a50f9",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/__main__.py",
+        "destination_relative": "schema-dependencies/jsonschema/__main__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/__main__.py",
+        "bytes": 40,
+        "sha256": "49fcf564d7a88329a3fca671aba25763717a3bfd6fdbcb0b222b24bac89f439b",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/_format.py",
+        "destination_relative": "schema-dependencies/jsonschema/_format.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/_format.py",
+        "bytes": 14091,
+        "sha256": "c5830e1f86396fdc6d515f8e977e1076d0f8d768877ad4d82698acc083fe1d8e",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/_legacy_validators.py",
+        "destination_relative": "schema-dependencies/jsonschema/_legacy_validators.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/_legacy_validators.py",
+        "bytes": 7343,
+        "sha256": "be9c4cf914862e2106501710abaf3aedb38bd98a47076a1c31000db85ce29d46",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/_types.py",
+        "destination_relative": "schema-dependencies/jsonschema/_types.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/_types.py",
+        "bytes": 5364,
+        "sha256": "fcd0e6dcec5d3cf580a814a97e8e1054403fa2a7ca3000a0d50b25571d12f74d",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/_utils.py",
+        "destination_relative": "schema-dependencies/jsonschema/_utils.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/_utils.py",
+        "bytes": 10437,
+        "sha256": "c6b76b85b7fad750a992ff86295b58fe55df0f0c2e2a0f850ecc226ef45521e8",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/_validators.py",
+        "destination_relative": "schema-dependencies/jsonschema/_validators.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/_validators.py",
+        "bytes": 15563,
+        "sha256": "aa6a2e6ee24a460b989c9a06fbf1beb385a713507c285bf189a72798b0084c23",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/benchmarks/__init__.py",
+        "destination_relative": "schema-dependencies/jsonschema/benchmarks/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/benchmarks/__init__.py",
+        "bytes": 70,
+        "sha256": "034b10af10c15474b243ef2bbb72f5d613177f7abd815b81f71fd88076f847d3",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/benchmarks/issue232/issue.json",
+        "destination_relative": "schema-dependencies/jsonschema/benchmarks/issue232/issue.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/benchmarks/issue232/issue.json",
+        "bytes": 117105,
+        "sha256": "79a3ce663311bb9bbc4692abb00f6e93bb9c3d94b9b64286e03fe190e4d0dc79",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/benchmarks/issue232.py",
+        "destination_relative": "schema-dependencies/jsonschema/benchmarks/issue232.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/benchmarks/issue232.py",
+        "bytes": 506,
+        "sha256": "18a401c26d37b1ffa93d2c41c5ce180ef0419cc6249ce93a9be5ad4e7b4de551",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/benchmarks/json_schema_test_suite.py",
+        "destination_relative": "schema-dependencies/jsonschema/benchmarks/json_schema_test_suite.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/benchmarks/json_schema_test_suite.py",
+        "bytes": 320,
+        "sha256": "3ef7da6e9518705e3fedcb180d37136ae103f2b9c510661b758e51a935c3d3cb",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/cli.py",
+        "destination_relative": "schema-dependencies/jsonschema/cli.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/cli.py",
+        "bytes": 8239,
+        "sha256": "736c906328539013a069afecf5eda043c7251e613a9f739943d6bc12d732e8fc",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/exceptions.py",
+        "destination_relative": "schema-dependencies/jsonschema/exceptions.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/exceptions.py",
+        "bytes": 11267,
+        "sha256": "3011bd6ee3f40bff19e9f219da86f729d80fecdc78b4857d717f52e527d1d3a6",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/protocols.py",
+        "destination_relative": "schema-dependencies/jsonschema/protocols.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/protocols.py",
+        "bytes": 6598,
+        "sha256": "5a0cf33af9b4567bb7f451cf4318e112ce1dd9cb6af94def14c9c072143755b8",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft2019-09.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft2019-09.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft2019-09.json",
+        "bytes": 1785,
+        "sha256": "7b761b3e121f0a0ca1ea2a0b8e2cc856bcf801604b8268d71bacaa202bc0c13b",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft2020-12.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft2020-12.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft2020-12.json",
+        "bytes": 2452,
+        "sha256": "41da76f5afb7ce062d248f762463a92f7ca47e4e0f905b224ba6afeef91ded0f",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft3.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft3.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft3.json",
+        "bytes": 2699,
+        "sha256": "d8b6a70a0bc1ad44fc132937ecab33cc28c5c6e3b0d1404539e4be6a16f90ab8",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft4.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft4.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft4.json",
+        "bytes": 4355,
+        "sha256": "77e559fb39a8817232a6739b3063d3fdef3c4cf67d65be348dddbe16ebecf63e",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft6.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft6.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft6.json",
+        "bytes": 4437,
+        "sha256": "c29dfce9f54835c3a06c03b3c5d5ec0eda77706568f9c4df7cfbc7566a51006d",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/draft7.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/draft7.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/draft7.json",
+        "bytes": 4819,
+        "sha256": "3d5392088261606c559b603f385329c9f1ab45b5d667eb990687453b055d405e",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/schemas/vocabularies.json",
+        "destination_relative": "schema-dependencies/jsonschema/schemas/vocabularies.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/schemas/vocabularies.json",
+        "bytes": 12845,
+        "sha256": "496ee83ad6ba6e19047550cf04a82fae8b33b4c5bf5322acfacd38a60a605eab",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/__init__.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/__init__.py",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/_helpers.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/_helpers.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/_helpers.py",
+        "bytes": 623,
+        "sha256": "4069fa3452d7a9a51810ff616f7e29e796f06a1a44a0c0cfd9105e90ffd76809",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/_suite.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/_suite.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/_suite.py",
+        "bytes": 7025,
+        "sha256": "d94e12f600d934d707fb2663f5e5cfc97c1966472fdc4b63cb2fe1544cb96abe",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/fuzz_validate.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/fuzz_validate.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/fuzz_validate.py",
+        "bytes": 1114,
+        "sha256": "7d403bc932488a1682c09a659147a165ec81f381dc5c472ab58e683c95c83bb2",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_cli.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_cli.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_cli.py",
+        "bytes": 28738,
+        "sha256": "3f17acf6799353fefe53888a21b68d8382e3dc2a608ab0bf6f1ba3af170da9ea",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_deprecations.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_deprecations.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_deprecations.py",
+        "bytes": 3901,
+        "sha256": "a5a32adc7777df30df56c2694ddf793003b323acbb228510e5bae0a7daaa55d5",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_exceptions.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_exceptions.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_exceptions.py",
+        "bytes": 19190,
+        "sha256": "3576ec29f458a1a09842f23512bd6577f34d2f85eeba7e13c366f8548b0d7d20",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_format.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_format.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_format.py",
+        "bytes": 3755,
+        "sha256": "f89d049b8731e663f1f3b32e4c092de3218c4e9f079f7d904c6de367f3fcc8a8",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_jsonschema_test_suite.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_jsonschema_test_suite.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_jsonschema_test_suite.py",
+        "bytes": 21201,
+        "sha256": "1a31e8aa4975135b1c7cc71ca0b831882a8cc65d0664bf7a1176a8c23fc33652",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_types.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_types.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_types.py",
+        "bytes": 6803,
+        "sha256": "0f2bd228fb6e688bbddcb91d7bcd0f90990d38a82f09b6836007c7cf4cb1c8bd",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_utils.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_utils.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_utils.py",
+        "bytes": 3749,
+        "sha256": "94945563241e6504d409353f337061964c4f3208ec73c29009ded4fd0928a24f",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/tests/test_validators.py",
+        "destination_relative": "schema-dependencies/jsonschema/tests/test_validators.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/tests/test_validators.py",
+        "bytes": 75481,
+        "sha256": "96e1544f5226c4b3c648cf0eb74130ea63ffc42b2eb4d9c4ea6d0162ed5361a8",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/jsonschema/validators.py",
+        "destination_relative": "schema-dependencies/jsonschema/validators.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/jsonschema/validators.py",
+        "bytes": 36451,
+        "sha256": "d7843cbdb95581c0d4c9a10a29643d9e667ba597c50a05e656c30070a1793502",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/__init__.py",
+        "destination_relative": "schema-dependencies/pyrsistent/__init__.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/__init__.py",
+        "bytes": 1479,
+        "sha256": "d5c38d2c20f36f20e867f75e7a4f048bf8aa38b238a0db1e44f2c5df3be61280",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_checked_types.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_checked_types.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_checked_types.py",
+        "bytes": 18540,
+        "sha256": "fe406764b1f815d4b28445865c3914efdef896e8fe0bf9891e219531f094cd7a",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_field_common.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_field_common.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_field_common.py",
+        "bytes": 11963,
+        "sha256": "801ccba50d1da8623850aed8f840fa876d25e839f4424044caba86c1b5ff856b",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_helpers.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_helpers.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_helpers.py",
+        "bytes": 3469,
+        "sha256": "434f2d65e68333578ac71da321bd4109400905fde15a78b7282d430ad079c864",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_immutable.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_immutable.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_immutable.py",
+        "bytes": 3287,
+        "sha256": "3e48ef82171b0755cd5e06a6e47f96f6e11a1297d9af511cdaffeaccad440faa",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pbag.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pbag.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pbag.py",
+        "bytes": 6813,
+        "sha256": "d04de2b4a12cbf6dd87428658b0658bec014a576377d87a0706ad26a40ac6f63",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pclass.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pclass.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pclass.py",
+        "bytes": 9702,
+        "sha256": "da6ab3e7b3a377b06947b9c92eb6cccf7e60e35e295bf75d9c811fdf13d344ae",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pdeque.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pdeque.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pdeque.py",
+        "bytes": 12284,
+        "sha256": "7c1bb1c24b735b68805d400b213d63efe73078497be56a143ed1ba2e11d20bb7",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_plist.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_plist.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_plist.py",
+        "bytes": 8384,
+        "sha256": "e7a1c6cc61e058efc3ae40a5375b6932968790d7f2965323fbbf3ff908f1f904",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pmap.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pmap.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pmap.py",
+        "bytes": 19193,
+        "sha256": "d23daf7258ca8a22494a367797fae06d3d0d292d1e1adad849edcf6987ff9e3a",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_precord.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_precord.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_precord.py",
+        "bytes": 7032,
+        "sha256": "73c3537237520dd957482a78d27a0cb0b2be671f2c3c05a5f1d59f6ccbb2cdd0",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pset.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pset.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pset.py",
+        "bytes": 5776,
+        "sha256": "dfe366c0e48e3e19825bdb3fefba609f9edf017babbb802ec6e85c5843dbc41a",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_pvector.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_pvector.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_pvector.py",
+        "bytes": 22785,
+        "sha256": "5f469b1a44b2923900bb662f945d43bf50f4e25a3c0b5c9a49213d9cd982b5ac",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_toolz.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_toolz.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_toolz.py",
+        "bytes": 3425,
+        "sha256": "d772d3b2b666fe07ead47de866ac697b3f8fe4f422d6cdf685435798eecd3649",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/_transformations.py",
+        "destination_relative": "schema-dependencies/pyrsistent/_transformations.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/_transformations.py",
+        "bytes": 3965,
+        "sha256": "1262fa6a0a8ea14d5652e544df935ce07b81ff86cf6dc27d0f86e32523190a66",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/dependencies-r1/pyrsistent/typing.py",
+        "destination_relative": "schema-dependencies/pyrsistent/typing.py",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/schema-dependencies/pyrsistent/typing.py",
+        "bytes": 1885,
+        "sha256": "17b68ac48d7cee858f096d9e144746dd8d7b241e7ef584513e12fbce6784c55b",
+        "purpose": "Optional task-local JSON Schema dependency; prefer S3 existing qualified runtime"
+      },
+      {
+        "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json",
+        "destination_relative": "metadata/cancellation.json",
+        "destination": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1/metadata/cancellation.json",
+        "bytes": 11431,
+        "sha256": "74adc314f0b0a1f497aa1acefe415dd98867b9c0395d87369466cc2a150a3d22",
+        "purpose": "Required source cessation receipt; also available in Git"
+      }
+    ]
+  },
+  "execution": {
+    "commit": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+    "tree": "9a2c0cc0add608e9e996ae23678553b10ac5b2a8",
+    "config": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/config.json",
+      "bytes": 52557,
+      "sha256": "18bb56e23ad996f03a7d30e7ed57171f97cdc71df0f1f6ef730198ef5b530f05"
+    },
+    "lock": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/execution.lock.json",
+      "bytes": 52261,
+      "sha256": "3398e36d0d815cdc34c66257ab03961ce1f6f59ea93b4eefe1db6bf8bc63db70"
+    },
+    "archive": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source.tar",
+      "bytes": 1157120,
+      "sha256": "962fe2a70dddc376512e6c70d418d958c42c8fb318b486125735d6f73f92cbb8"
+    },
+    "archive_transfer_authorized": false,
+    "full_argv": {
+      "V12_MAIN": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s4_V12_MAIN",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source",
+          "--mem=59392M",
+          "--time=7-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:58172",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh"
+        ],
+        "dependency": "afterany:58172",
+        "job": "58173"
+      },
+      "collector": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s4_collector",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source",
+          "--mem=24576M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.err",
+          "--dependency=afterany:58172:58173",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh"
+        ],
+        "dependency": "afterany:58172:58173",
+        "job": "58174"
+      },
+      "pilot": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s4_pilot",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source",
+          "--mem=59392M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot.sh"
+        ],
+        "dependency": null,
+        "job": "58172"
+      }
+    },
+    "source_file_count": 103,
+    "source_file_inventory": "execution.lock.json source_members full SHA/size list",
+    "runtime": {
+      "GPU_runtime_qualification": "PENDING_FIXED_CANDIDATE_RECEIPT",
+      "attention": "eager",
+      "autocast": false,
+      "cuda_initialized": false,
+      "cudnn_TF32": false,
+      "executable": {
+        "bytes": 8020928,
+        "inode": 11272976,
+        "mtime_ns": 1788171506000000000,
+        "path": "/usr/bin/python3.12",
+        "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "geometry_dtype": "float64",
+      "matmul_TF32": false,
+      "model_dtype": "float32",
+      "python": "/data/janghj/EasyEdit/.venv/bin/python",
+      "python_version": "3.12.3",
+      "source_members": [
+        {
+          "bytes": 102969,
+          "inode": 131604020,
+          "module": "torch",
+          "mtime_ns": 1782104462852900000,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/__init__.py",
+          "sha256": "3caf7f40140ede2465bde40b9003af10cbbc8f7bcf436fa1de026471daa1b288"
+        },
+        {
+          "bytes": 244561,
+          "inode": 131731374,
+          "module": "torch.nn.functional",
+          "mtime_ns": 1782104818485982700,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/nn/functional.py",
+          "sha256": "5e96bb0880a4c6f4c0ae34c00a894e152412e68f6ffd073d2b442907eedeb5fa"
+        },
+        {
+          "bytes": 33459,
+          "inode": 131667050,
+          "module": "torch.autograd.function",
+          "mtime_ns": 1782104477292901000,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/autograd/function.py",
+          "sha256": "a30fbd7abe776f7d49ab6618d640b144e195e1d3bcf7c9d29ac58a04ea3266ba"
+        },
+        {
+          "bytes": 22147,
+          "inode": 131602839,
+          "module": "numpy",
+          "mtime_ns": 1782104462241900000,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/numpy/__init__.py",
+          "sha256": "6ae17b070c0f70a8e3cad89a510a256942e5a1f37ea5feb120cec167ed2a6236"
+        },
+        {
+          "bytes": 47000,
+          "inode": 131602556,
+          "module": "transformers",
+          "mtime_ns": 1782104462175900200,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/__init__.py",
+          "sha256": "4ef5187b5f66c564aa575ddab9ce94342630d40fe874d0464d790c6f6b748647"
+        },
+        {
+          "bytes": 20714,
+          "inode": 131668051,
+          "module": "transformers.models.llama.modeling_llama",
+          "mtime_ns": 1782104480236901000,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py",
+          "sha256": "31bf660a663259134324bc65da4e155951dc89c5ca46471d2325a9938e859e26"
+        },
+        {
+          "bytes": 60515,
+          "inode": 131603636,
+          "module": "transformers.masking_utils",
+          "mtime_ns": 1782104462569900000,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/masking_utils.py",
+          "sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+        },
+        {
+          "bytes": 67772,
+          "inode": 131602808,
+          "module": "transformers.cache_utils",
+          "mtime_ns": 1782104462270900200,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/cache_utils.py",
+          "sha256": "f4e11caf14c75bdefa5e3003b93ef0e8b97fb6103375705ad944b0b344d7da8a"
+        },
+        {
+          "bytes": 308964,
+          "inode": 131604417,
+          "module": "transformers.modeling_utils",
+          "mtime_ns": 1782104463199900200,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py",
+          "sha256": "bf1c6b2a43cf7c36fb79f37c981424dd6ae78eb863fcaa5d2a37e76c9828611d"
+        },
+        {
+          "bytes": 211457,
+          "inode": 131605751,
+          "module": "transformers.tokenization_utils_base",
+          "mtime_ns": 1782104464002900200,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py",
+          "sha256": "e71871474be2b1aa32f3a147dc31fe0a195fd402a27c37d30d666035fcccd891"
+        },
+        {
+          "bytes": 41383,
+          "inode": 131605998,
+          "module": "transformers.tokenization_utils_fast",
+          "mtime_ns": 1782104464050900200,
+          "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_fast.py",
+          "sha256": "558e454ee6850e90e8bc5d1782e35878dfda1da9bfdf997ae113fa7ff771a0f3"
+        }
+      ],
+      "source_root_sha256": "f9a7fc95dc9c29b56979fb5d5222c4c98a97bd054f4ab386aceaee7b618a1602",
+      "torch": "2.9.1+cu128",
+      "torch_cuda": "12.8",
+      "transformers": "4.57.1"
+    },
+    "native_closure": [
+      {
+        "path": "/data/janghj/BLUE/memit/__init__.py",
+        "bytes": 121,
+        "sha256": "89d395c13f2abfca13405b085d862d4035da3b718fc9c41c07400396c76a5212"
+      },
+      {
+        "path": "/data/janghj/BLUE/memit/compute_ks.py",
+        "bytes": 1540,
+        "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+      },
+      {
+        "path": "/data/janghj/BLUE/memit/compute_z.py",
+        "bytes": 13402,
+        "sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732"
+      },
+      {
+        "path": "/data/janghj/BLUE/memit/memit_hparams.py",
+        "bytes": 859,
+        "sha256": "8e8dfe922aabaf0296850ddacd7802d2ca44d00913ad22f46e44e37073abe9a9"
+      },
+      {
+        "path": "/data/janghj/BLUE/memit/memit_main.py",
+        "bytes": 16281,
+        "sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be"
+      },
+      {
+        "path": "/data/janghj/BLUE/memit/memit_seq_main.py",
+        "bytes": 16805,
+        "sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/__init__.py",
+        "bytes": 74,
+        "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/compute_u.py",
+        "bytes": 3612,
+        "sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/compute_v.py",
+        "bytes": 9558,
+        "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/layer_stats.py",
+        "bytes": 7514,
+        "sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/repr_tools.py",
+        "bytes": 6405,
+        "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/rome_hparams.py",
+        "bytes": 674,
+        "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/rome_main.py",
+        "bytes": 6041,
+        "sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f"
+      },
+      {
+        "path": "/data/janghj/BLUE/rome/tok_dataset.py",
+        "bytes": 3103,
+        "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/__init__.py",
+        "bytes": 34,
+        "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/generate.py",
+        "bytes": 5472,
+        "sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/globals.py",
+        "bytes": 388,
+        "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/hparams.py",
+        "bytes": 319,
+        "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/logit_lens.py",
+        "bytes": 2893,
+        "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/nethook.py",
+        "bytes": 15506,
+        "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+      },
+      {
+        "path": "/data/janghj/BLUE/util/runningstats.py",
+        "bytes": 65305,
+        "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+      }
+    ],
+    "evaluator_closure": [
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source/project/run_scripts/jlz_realization/observe.py",
+        "bytes": 8397,
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source/project/run_scripts/jlz_realization/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source/project/run_scripts/jlz_pilot/prompts.py",
+        "bytes": 10334,
+        "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+      }
+    ],
+    "actual_imports": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/actual-imports.json",
+      "bytes": 15116,
+      "sha256": "31d17ec9c800d50db6af09a4da190eb6c7a9aa3cdc24c942f38a28fc87011f1e"
+    }
+  },
+  "assets": {
+    "evidence": "prior full SHA plus fresh size/inode/mtime, not newly rehashed model payload",
+    "exact_assets": [
+      {
+        "bytes": 16679956,
+        "inode": 132584493,
+        "mtime_ns": 1788927956999196700,
+        "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+        "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 270,
+        "inode": 132597765,
+        "mtime_ns": 1789028106344868600,
+        "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+        "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 131216626,
+        "mtime_ns": 1778400376501532000,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 131216627,
+        "mtime_ns": 1778405783263174000,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 131216628,
+        "mtime_ns": 1778412013640495900,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 131216629,
+        "mtime_ns": 1778419071493293600,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 822084814,
+        "inode": 131216630,
+        "mtime_ns": 1778426959389839400,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 654,
+        "inode": 131596443,
+        "mtime_ns": 1782106541835263000,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+        "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 187,
+        "inode": 131596354,
+        "mtime_ns": 1782106541793263000,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+        "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 4976698672,
+        "inode": 131596438,
+        "mtime_ns": 1782106930889930500,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+        "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 4999802720,
+        "inode": 131596437,
+        "mtime_ns": 1782106763554198000,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+        "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 4915916176,
+        "inode": 131596444,
+        "mtime_ns": 1782106767593135900,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+        "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 1168138808,
+        "inode": 131596441,
+        "mtime_ns": 1782106625293596700,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+        "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 23950,
+        "inode": 131596447,
+        "mtime_ns": 1782106542198263000,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+        "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 73,
+        "inode": 131596456,
+        "mtime_ns": 1782106542646262800,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+        "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 9085698,
+        "inode": 131596458,
+        "mtime_ns": 1782106543375262500,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+        "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      },
+      {
+        "bytes": 50977,
+        "inode": 131596460,
+        "mtime_ns": 1782106543110262500,
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+        "prior_receipt": {
+          "bytes": 48333,
+          "inode": 135205487,
+          "mtime_ns": 1791087092024379400,
+          "path": "/data/janghj/ODE-edit/local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3/config.json",
+          "sha256": "514ced080e8811c306699d214e6506ab674d7a65a07d72653a1caa59155244e6"
+        },
+        "requested_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+        "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+        "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+      }
+    ],
+    "model": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "contexts": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+    "stream": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "C0": {
+      "4": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "5": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "6": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "7": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "8": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz"
+    },
+    "source_scope_readonly": true,
+    "bulk_transfer_authorized": false
+  },
+  "pilot": {
+    "job": 58172,
+    "GPU_seconds": 410,
+    "status": "COMPLETED",
+    "commits": 2,
+    "history_appends": 10,
+    "ready": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/ready.json",
+      "bytes": 226,
+      "sha256": "20ad2c0bb3e2aaad58249c612e042fe76fb5f04d9a8268c0c3dd7f6ee781bb5b"
+    },
+    "terminal": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/terminal.json",
+      "bytes": 276,
+      "sha256": "710d1399160dd00fb785f542a7180ee70ffbc8d68c9c73fbc5156a0c492b02b3"
+    },
+    "qualification": "S4 RTX PRO6000 only; S3 actual pilot still required",
+    "state_to_main": false
+  },
+  "exclusions": [
+    "model/weights/checkpoint/C0/dataset payload",
+    "fullstdout",
+    "raw metric rows",
+    "observer-identity9MB; regenerate S3 identity",
+    "W0 rows; use S3 exact existing match or approved first2k W0 once",
+    "native-input-alignment287733B; recompute S3 native binding"
+  ],
+  "porting_notes": [
+    "prepare.py prior v11 configuration path is S4-only bootstrap, never resume v11",
+    "common.LOCAL, telemetry schema-dependency absolute path, runtime paths, source archives and launchers must be rebound to S3",
+    "W0 static reuse receipt does not establish S3 runtime/model/evaluator identity",
+    "Pilot/main run.py requires same-source/config pilot READY before loading main; afterany enables failure collection",
+    "No method/code changes performed by SH4 during migration; no main started, main/collector CANCELLED GPU0"
+  ],
+  "cancellation": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json",
+    "bytes": 11431,
+    "sha256": "74adc314f0b0a1f497aa1acefe415dd98867b9c0395d87369466cc2a150a3d22"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "direct_message_delivery": "UNAVAILABLE: dynamic app send tool rejected as unavailable; Git is durable handoff"
+}

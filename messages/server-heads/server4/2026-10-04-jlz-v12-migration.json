@@ -1,0 +1,39 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "SH4_STOPPED_HANDOFF_COMPLETE",
+  "owner": "SH3",
+  "cancelled": [
+    58174,
+    58173
+  ],
+  "source_execution": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+  "source_tree": "9a2c0cc0add608e9e996ae23678553b10ac5b2a8",
+  "source_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/execution.lock.json",
+    "bytes": 52261,
+    "sha256": "3398e36d0d815cdc34c66257ab03961ce1f6f59ea93b4eefe1db6bf8bc63db70"
+  },
+  "cancellation": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json",
+    "bytes": 11431,
+    "sha256": "74adc314f0b0a1f497aa1acefe415dd98867b9c0395d87369466cc2a150a3d22"
+  },
+  "handoff": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/handoff.json",
+  "small_allowlist_files": 106,
+  "small_allowlist_bytes": 952645,
+  "transfer_executor": "SH3 sole selective pull",
+  "SH4_transfers": 0,
+  "source_raw_KEEP": true,
+  "pilot_GPU_seconds": 410,
+  "main_GPU_seconds": 0,
+  "collector_GPU_seconds": 0,
+  "model_CP_raw_transfer": 0,
+  "direct_message": "ATTEMPTED_UNAVAILABLE_NOT_DELIVERED",
+  "publication": "Git main durable source cessation and handoff; no additional GH ACK required",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "SH4_science_authority": "REVOKED",
+  "v11_STOP": true,
+  "handoff_SHA256": "e8a6a613ff63fe6672fcc54d5edcb824d96ddb56cda3f2b4ef560dd767a67c5f",
+  "handoff_status": "COMPLETE"
+}
