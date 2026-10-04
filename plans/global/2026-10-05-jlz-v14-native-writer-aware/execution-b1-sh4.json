@@ -1,0 +1,142 @@
+{
+  "schema": "JLZ_V14_B1_SH4_USER_EXECUTION_V1",
+  "date_kst": "2026-10-05",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "user_request": "이쪽도 server4에게 실험 진행하도록 전달하자. batch 1개만 우선 test해서 실현률이나 edit 성공, locality 붕괴등을 우선 측정하는게 맞으니 batch 1개만 test 하는 실험 올리라고 해",
+  "source": {
+    "role": "user-authorized research/design thread",
+    "thread_id": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1",
+    "design_commit": "94860e42"
+  },
+  "recipient": {
+    "role": "GH",
+    "thread_id": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "expected_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "execution_owner": {
+    "role": "SH4",
+    "thread_id": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "expected_cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": "Explicit user authorizes implementation, technical qualification and Slurm execution for the single V14 B1 specified here. Overrides the older DESIGN_ONLY/NOT_AUTHORIZED status in the design documents only within this scope; does not authorize B2, sequential expansion or parameter search.",
+  "documents": {
+    "method": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/method-contract.json",
+    "runtime": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/runtime-contract.json",
+    "comparison": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/comparison-design.json",
+    "CPU_reference": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/writer.py",
+    "CPU_tests": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/test_ref.py",
+    "CPU_receipt": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/audit.json",
+    "validation": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/validation.json",
+    "manifest": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/plans/global/2026-10-05-jlz-v14-native-writer-aware/artifact-manifest.json"
+  },
+  "experiment": {
+    "arm": "V14_RD",
+    "logical_batch_size": 100,
+    "logical_batches": 1,
+    "requests": "same fixed first100 and native context order as v12/v13 B1; original occurrences retained",
+    "start": "cold W0/H0; not a continuation of any V13 committed state",
+    "model_profile": "v12 Llama3-8B-Instruct/CounterFact, all L4-L8, native readout/token/context conventions",
+    "main_fit_count": 1,
+    "extra_full_batch_fits": 0,
+    "max_evaluations": 25,
+    "max_updates": 24,
+    "terminal": "last fully evaluated common finite candidate",
+    "post_fit_writer_commits": 1,
+    "comparison": "Reuse existing V13 RT/RD endpoints only when source/input/W0/H0/runtime/evaluator identities match. Unavailable or mismatched comparator is reported, not an automatic new fit or execution blocker.",
+    "automatic_expansion": false,
+    "checkpoint_saved": false,
+    "existing_v13": "unchanged; no cancellation, replacement, mutation or old-job resume"
+  },
+  "method_locks": {
+    "writer": "native MEMIT-H mean-key ridge with A=lambda_C*C0+H_entry; same stored-A solve and native dtype/cast/add; no exact writer",
+    "variables": "R_lr=a_lr*u_lr is actual solve RHS, all anchors fixed at entry",
+    "shared_requested_budget": 0.75,
+    "norm": "v12 requested-u penalty beta_r sum_l ||u_lr||, beta_r=.5/a_star; not realized-v penalty",
+    "lambda_KL": 0.0625,
+    "lambda_C": 15000,
+    "candidate": "fresh causal actual upper K after candidate lower all-token writes; native rewrite-only key means, all original request columns",
+    "fit": "native subject-only loss forward injects actual writer action v=U*k_actual (FP32 materialized reference); full K/P/upper-key gradients and whole-B coupling",
+    "optimizer": "v12 EfficiencyAdam with summed native request objective gradients, synchronous updates, per-request budget projection/moments, common candidate termination; no permanent early-freeze of independent requests",
+    "target": "local z=h_actual_pre+R conceptually; actual stored R used directly, no inherited tracking addition or divisor",
+    "no_new_objectives": [
+      "reference",
+      "replay",
+      "pulse",
+      "v10 allocation=.1",
+      "realized-v norm substitution"
+    ],
+    "history": "native rewrite-only final mean Gram, once at every eligible layer; keep KL propagation in builder but no KL history Gram",
+    "all_layers": "remain variables even at zero R; do not remove zero-site gradient/reentry paths"
+  },
+  "qualification": {
+    "CPU": "reproduce eight reference checks and meaningful implementation tests",
+    "actual": "small operator/gradient/commit checks using B1 rows/slices, restored to W0/H0; no separate sequential trial and no additional full-batch optimization",
+    "required": [
+      "dense/native solve versus qualified Woodbury",
+      "lower-R through upper-K/P gradient",
+      "subject hook/readout/native reductions",
+      "whole-B microbatch adjoint parity",
+      "post-cast requested budget",
+      "accepted payload commit, history once and rollback",
+      "observer nonmutation"
+    ],
+    "technical_failure": "record/rollback and repair same-contract implementation before valid run; no silent scientific substitutions",
+    "science_not_gate": "rank/share shape, realized ratio below1, high finite Q or low PS/NS/ACC remain results. B1 ends after report and does not trigger automatic method or budget changes."
+  },
+  "measurements": {
+    "before_after": "W0 and B1 same100 requests, all original rewrite/paraphrase/neighborhood prompts (default denominators100/200/1000), no success filtering",
+    "primary": [
+      "mean/canonical/rewrite/KL requested-to-actual norm ratio, directional ratio, cosine, relative error and coverage",
+      "planned requested share versus actual direct-action share; zero-owner leakage/cross-talk",
+      "RS/PS/NS preference rates",
+      "R/P desired-new and N desired-true strict TF ACC, token-micro and prompt-macro ACC",
+      "NLL for new and true answers, margin, paired lost/gained and W0-success retention"
+    ],
+    "locality": "explicit W0->B1 NS/ACC/margin deterioration and lost previously-correct neighbors; report finite damaging result fully, do not hide by denominator changes",
+    "contract": [
+      "actual RHS equals budgeted R; no inherited addition",
+      "ideal/effective/actual write separated",
+      "masked fit NLL versus deployed actual NLL",
+      "actual-vs-masked base-state gap",
+      "Q and weight norm, requested budget, component gradients, shared terminal index"
+    ],
+    "timing": [
+      "factor/key capture",
+      "causal builder",
+      "subject loss/adjoint",
+      "optimizer/projection",
+      "commit/history",
+      "evaluation",
+      "peak memory"
+    ],
+    "interpretation": "Native ridge may intentionally realize below1. Judge actual task/locality with writer-realized planning, not exactness alone; no lifelong retention conclusion from B1."
+  },
+  "execution_envelope": {
+    "allowed_paths": [
+      "project/run_scripts/jlz_native_writer_aware/",
+      "local/jlz-v14-native-writer-aware-b1/20261005-v1/",
+      "plans/updates/server4/",
+      "tasks/proposed/server4/",
+      "tasks/status/jlz-v14-native-writer-aware-b1/server4.json",
+      "messages/server-heads/server4/",
+      "messages/acks/server4/",
+      "runs/server4/",
+      "audits/servers/server4/",
+      "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/"
+    ],
+    "shared_code": "Prefer new namespace/read-only v10/v12 imports. Required shared adapter fixes must be minimal, recorded and parity-qualified, without modifying V13 pinned execution.",
+    "worktree": "dedicated codex/ non-main worktree, preserve other edits",
+    "slurm_submission": "allowed after mandatory technical/resource preflight, no repeated user permission needed for this B1",
+    "gpu_cap": "task GPU cap1 plus stricter active server/project and CPU/memory cap. Coordinate with existing V13 work; serial resource scheduling by default, no cancel/preemption.",
+    "red_team": "required source/input/config/session/resource preflight and postrun denominator/finiteness/commit/history/nonmutation audit; scientific warning is reportable, technical block stops invalid commit",
+    "artifact_broadcast": "follow existing approved small-artifact broadcast policy and record exception if unavailable; raw outputs under local, reports under server4; no model checkpoint/new large transfer",
+    "completion_report": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/report-ko.md with summary and machine-readable telemetry/source/input hashes",
+    "hard_boundary": "SH4 exact session, /data/janghj/ODE-edit, hyunjun1127/ODE-edit verified before execution"
+  },
+  "requested_ack": "GH publish exact method/runtime/comparison/reference bundle and this B1 authority, send direct to SH4 and collect acceptance or concrete blocker. Distinguish delivery/implementation/GPU qualification/submission/completion, and report Slurm job ID only after actual submission.",
+  "dispatch_status": "PREPARED"
+}
