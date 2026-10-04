@@ -14,6 +14,29 @@ from .common import selection,MILESTONES,ROOT,write
 from .collect import paired,reduce_rows
 
 class CPU(unittest.TestCase):
+    def test_retry_requires_exact_terminal_previous(self):
+        from . import submit
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);previous=root/'attempt-r1';previous.mkdir()
+            write(previous/'submission.json',dict(nonce=submit.NONCE,jobs=dict(pilot='1',MAIN='2')))
+            def record(argv):
+                name='pilot' if argv[3]=='1' else 'MAIN'
+                return f'JobId={argv[3]} UserId={submit.getpass.getuser()}(1025) JobState=FAILED Command={previous/(name+".sh")} '
+            with patch.object(submit,'LOCAL',root),patch.object(submit,'command',record):
+                self.assertEqual(len(submit.reconciled_previous(previous)),2)
+                write(previous/'main-MAIN/batch-01/commit.json',{})
+                with self.assertRaises(Exception):submit.reconciled_previous(previous)
+            with patch.object(submit,'LOCAL',root),patch.object(submit,'command',lambda argv:record(argv).replace('FAILED','RUNNING')):
+                with self.assertRaises(Exception):submit.reconciled_previous(previous)
+    def test_optional_tokenizer_BOS_metadata(self):
+        from .run import tokenizer_metadata
+        for tokenizer,expected in [(SimpleNamespace(bos_token_id=128000),None),
+                                   (SimpleNamespace(bos_token_id=1,add_bos_token=False),False),
+                                   (SimpleNamespace(bos_token_id=1,add_bos_token=True),True)]:
+            before=dict(vars(tokenizer));receipt=tokenizer_metadata(tokenizer)
+            self.assertIs(receipt['add_bos'],expected)
+            self.assertEqual(receipt['add_bos_attribute_available'],'add_bos_token' in before)
+            self.assertEqual(vars(tokenizer),before)
     def test_spd_proxy_all_B(self):
         for B in (1,3,7):
             torch.manual_seed(B);d=11

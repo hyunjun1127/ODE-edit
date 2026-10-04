@@ -31,7 +31,7 @@ def main():
         'observers':'outside fit; every pre/post; W5/10/15/20 allseen current subset; same shared freshW0 state/runtime/input; no quality feedback',
         'transaction':'W/H/RNG RAM rollback tested; observer state/RNG guards; initial B2 pack verified before receipt',
         'storage':'scalar/hash/metrics only; no persisted W/H/D/P/U/optimizer; no old tensor exception; noCP and noB21 tests',
-        'resource':'cap1 serial afterany resource DAG inside projectcap2; existing jobs untouched; all held inspection priorrelease',
+        'resource':'cap1 serial DAG inside current USER project cap bounded by local/tracked policy; exact terminal reconciliation for explicit retry; existing other jobs untouched; all held inspection priorrelease',
         'collector':'model-free raw identity/count/NLL/TF/paired/cohort/partial checks; terminal after report+inventory',
         'limitations':'Actual LM native/matrix/fullgradient parity and B100 RAM remain NOT_OBSERVED until sealed pilot/MAIN execute; CPU is not GPU evidence'}
     write(args.out/'owner-red-checklist.json',dict(verdict='PASS_CPU_SOURCE_WITH_ACTUAL_GATES_PENDING',checks=checklist,

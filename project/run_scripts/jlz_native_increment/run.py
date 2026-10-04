@@ -37,6 +37,14 @@ def locked(attempt):
         stat=Path(row['path']).stat();require((stat.st_size,stat.st_ino,stat.st_mtime_ns)==(row['bytes'],row['inode'],row['mtime_ns']),'ASSET_CHANGED')
     return lock,config
 
+def tokenizer_metadata(tokenizer):
+    # Generic fast tokenizers encode BOS behavior in their postprocessor and
+    # need not expose the Llama-specific attribute. This is reporting only.
+    return dict(tokenizer_type=type(tokenizer).__name__,
+        add_bos=getattr(tokenizer,'add_bos_token',None),
+        add_bos_attribute_available=hasattr(tokenizer,'add_bos_token'),
+        bos_token_id=tokenizer.bos_token_id)
+
 def setup(config,out):
     require(shutil.disk_usage(out).free>=config['resources']['reserve_bytes'],'RESOURCE_BLOCKED_STORAGE')
     require(torch.__version__==config['runtime']['torch'] and transformers.__version__==config['runtime']['transformers'],'RUNTIME_VERSION')
@@ -52,7 +60,7 @@ def setup(config,out):
     require(all(p.dtype==torch.float32 for p in model.parameters()) and not torch.is_autocast_enabled(),'MODEL_PRECISION')
     write(out/'runtime.json',dict(nonce=NONCE,source=os.environ['ODEEDIT_SOURCE_COMMIT'],job=os.environ.get('SLURM_JOB_ID'),
         torch=torch.__version__,transformers=transformers.__version__,device=torch.cuda.get_device_name(),
-        cold_W0_H0=True,model=config['model'],tokenizer_type=type(tokenizer).__name__,add_bos=tokenizer.add_bos_token,
+        cold_W0_H0=True,model=config['model'],**tokenizer_metadata(tokenizer),
         eager=True,tf32=False,autocast=False,noCP=True,CUDA_VISIBLE_DEVICES=os.environ.get('CUDA_VISIBLE_DEVICES'),
         GPU_properties=str(torch.cuda.get_device_properties(0))))
     write(out/'initial-state.json',state(adapter,history))

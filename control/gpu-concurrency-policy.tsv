@@ -10,4 +10,5 @@ server2	2
 # User override 2026-09-20 (latest): RES/GSS_REC two-arm task; server3 project cap2.
 # User override 2026-09-28: MEMIT history baseline; server3 project cap1.
 server3	1
-server4	2
+# User override 2026-10-04: server4 project cap3; existing jobs unchanged, task-specific caps still apply.
+server4	3
