@@ -1,0 +1,12 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "generic_access_helper": "NOT_PASS",
+  "blocked_path": "runs/server4/jlz-v14-native-writer-aware-b1/submission-r1.json",
+  "reason": "generic helper의 server-head 허용 패턴에 runs/server4/task namespace가 없음",
+  "explicit_authority": "messages/head/2026-10-05-jlz-v14-native-writer-b1-sh4.json allowed_writes 및 publication",
+  "exception_scope": "이 task의 runs/server4/jlz-v14-native-writer-aware-b1/** compact submission receipt만",
+  "resolution": "사용자 envelope가 정확 경로와 예외 기록을 사전 승인함. shared helper 수정 없이 명시 예외로 게시.",
+  "other_paths": "모두 본인 source/audit/status/ack/report scope",
+  "raw_tensor_prompt_fullstdout_secret_Git": false,
+  "force_push": false
+}

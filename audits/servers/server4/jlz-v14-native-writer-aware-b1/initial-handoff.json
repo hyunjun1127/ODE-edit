@@ -1,0 +1,20 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "scope": "held 검사/release 후 1회 initial scheduler snapshot; 반복 monitor 없음",
+  "B1": {"job": 58391, "state": "PENDING", "reason": "Resources", "allocation": null},
+  "collector": {"job": 58392, "state": "PENDING", "reason": "Dependency"},
+  "submitted_GPU_dependency": "afterany:58381",
+  "dependency_satisfied": true,
+  "V13_resource_predecessor_state": "COMPLETED",
+  "V13_science_PASS_claim": false,
+  "V13_results_polled": false,
+  "FULL_READ_SHA": true,
+  "CPU_reference8": "PASS",
+  "CPU_production8": "PASS",
+  "actual_pretrained_GPU": "NOT_OBSERVED",
+  "B1_complete": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "checkpoint_saved": false,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED: 동일 server B1; source/compact report만 Git, 원 raw local KEEP."
+}

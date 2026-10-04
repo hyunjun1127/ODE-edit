@@ -1,12 +1,20 @@
 {
   "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
   "task_id": "jlz-v14-native-writer-aware-b1",
-  "status": "CPU_AND_SOURCE_CHECKED_NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "source_commit": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
+  "execution_lock_sha256": "4891b4e21686628e71463d3c07b1c4697e2cc1270f9f44724f866a8e50d92874",
+  "jobs": {"B1": 58391, "collector": 58392},
+  "submitted_dependencies": {"B1": "afterany:58381", "collector": "afterany:58391"},
+  "initial_snapshot": {"B1": "PENDING(Resources)", "collector": "PENDING(Dependency)"},
   "main_fits_authorized": 1,
   "B": 100,
   "batches": 1,
-  "GPU_qualification": "NOT_RUN",
+  "GPU_qualification": "NOT_OBSERVED",
   "main_complete": false,
   "old_jobs_mutated": false,
-  "checkpoint_saved": false
+  "checkpoint_saved": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "sealed_program_continues": true
 }

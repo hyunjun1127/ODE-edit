@@ -4,11 +4,15 @@
   "owner": "SH4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "host": "server4",
-  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "first_ack_status": "IMPLEMENTING_NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
   "duplicate_registration_found": false,
   "FULL_READ_SHA": true,
   "CPU_reference_tests": 8,
   "CPU_production_tests": 8,
-  "actual_GPU": "NOT_RUN",
-  "설명": "직접 수락 후 새 namespace 구현과 CPU 검산 완료. V13 source/job/result 변경 없이 afterany 직렬 등록 준비. 추가 승인 대기 없음."
+  "actual_GPU": "NOT_OBSERVED",
+  "jobs": {"B1": 58391, "collector": 58392},
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "설명": "직접 수락 후 구현·CPU 검산·held 검사·실제 release 완료. GPU는 Resources 대기, collector는 Dependency 대기. V13 변경0. 봉인 프로그램만 B1을 진행하며 반복 agent polling은 종료."
 }
