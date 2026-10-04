@@ -4,7 +4,10 @@
   "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
   "owner": "head-server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "status": "PUBLISHED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "accepted_turn": "01a10886-3726-7df1-bf01-dffc5d0ffc12",
+  "delivery_receipt": "audits/global/2026-10-05-jlz-v13-mdcd-sequential-2k-dispatch/direct-delivery.json",
+  "direct_owner_ACK_received": true,
   "envelope": "messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json",
   "execution_contract": "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
   "arms": [
