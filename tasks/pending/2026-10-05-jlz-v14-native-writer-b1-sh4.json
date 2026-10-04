@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "task_id": "jlz-v14-native-writer-aware-b1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "PUBLISHED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-05-jlz-v14-native-writer-b1-sh4.json",
+  "exception": "control/experiment-exceptions/jlz-v14-native-writer-b1-sh4-20261005.json",
+  "report": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/report-ko.md",
+  "arm": "V14_RD",
+  "B": 100,
+  "batches": 1,
+  "fit_count": 1,
+  "commit_count": 1,
+  "task_gpu_cap": 1,
+  "save_checkpoints": false,
+  "submitted_job_ids": [],
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "v13_preserved_jobs": [
+    58381,
+    58382
+  ]
+}

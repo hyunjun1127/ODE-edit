@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "task_id": "jlz-v14-native-writer-aware-b1",
+  "date_kst": "2026-10-05",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "exact_quote": "이쪽도 server4에게 실험 진행하도록 전달하자. batch 1개만 우선 test해서 실현률이나 edit 성공, locality 붕괴등을 우선 측정하는게 맞으니 batch 1개만 test 하는 실험 올리라고 해",
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "scope": "새 V14 한 배치 구현→기술 qualification→Slurm fit1/commit1→W0/B1 평가·CPU 사실보고, 단계별 재승인 없음",
+    "scoped_stop_exception": "control/experiment-exceptions/jlz-v14-native-writer-b1-sh4-20261005.json",
+    "other_task_resume": false,
+    "existing_job_cancel": false
+  },
+  "canonical": {
+    "directory": "plans/global/2026-10-05-jlz-v14-native-writer-aware",
+    "execution_command": "plans/global/2026-10-05-jlz-v14-native-writer-aware/execution-b1-sh4.json",
+    "execution_sha256": "ce8aca3296fa6b666a3c2eaf63f78aa8a1ce8c3b48aaf98f689c0a75b21d1c75",
+    "method": "plans/global/2026-10-05-jlz-v14-native-writer-aware/method-contract.json",
+    "runtime": "plans/global/2026-10-05-jlz-v14-native-writer-aware/runtime-contract.json",
+    "comparison": "plans/global/2026-10-05-jlz-v14-native-writer-aware/comparison-design.json",
+    "manifest_sha256": "6e384357a897d7f7f81e2bb3679ed9eb2ffb8f1bac431ab995e9fe5b9486554f",
+    "source_commits": [
+      "94860e42007879b08e6e010b6503815e0a166737",
+      "f4d6f8181096c2039973ab3f96c1d3b5e2e84d0e"
+    ],
+    "adopted_commits": [
+      "47e46f95",
+      "f6a3f185"
+    ],
+    "verification": "audits/global/2026-10-05-jlz-v14-native-writer-b1-sh4-dispatch/package-verification.json",
+    "precedence": "실행 JSON의 B1-only 사용자 권한이 설계 당시 DESIGN_ONLY/NOT_AUTHORIZED를 대체. comparison의 comparator없을 때 별도v12fit 제안은 실행권한 아님. 정본 bytes와 V13 정본은 불변."
+  },
+  "implementation": {
+    "branch": "codex/server4-jlz-v14-native-writer-aware-b1-20261005-v1",
+    "namespace": "project/run_scripts/jlz_native_writer_aware/",
+    "worktree": "전용 non-main WT; root/기존 타task dirty 보존",
+    "references": [
+      "v10 project/run_scripts/jlz_realized_subject/ frozen c2d5fb107a0435491d8b4705b43b75f6177bbb5c read-only causal/split adjoint 참고",
+      "v12 project/run_scripts/jlz_shared_budget/ EfficiencyAdam/projection; reference 5fb35c2dc3ec04e723b9caefa1c4bb1158124708 정확 closure 결속"
+    ],
+    "not_drop_in": "v10 unbounded q-Adam/norm-on-v/allocation.1/eager all-row graph/dense dW를 그대로 상속하지 말 것. v12 요청별 영구freeze/virtual trackingwriter 제거. 공용수정 대신 신namespace; 불가피한 adapter 수정은 최소diff·parity·별도봉인, 기존V13 runtime 변경0.",
+    "asset_binding": "S4 local model/revision/fixeddata/context/C0/native/evaluator/runtime exact binding 재사용. S3 경로를 S4 현물로 가정하지 않음. 다운로드/통계재계산/모델·raw 대형전송0; 필요한 missing input은 정확경로 보고."
+  },
+  "experiment": {
+    "arm": "V14_RD",
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "data_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "ordered_input": "fixed10k first100 원 occurrence/order; v12/v13 입력과 SHA/token/lookup 재결속",
+    "B": 100,
+    "batches": 1,
+    "cold_W0_H0": true,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "main_fits": 1,
+    "postfit_commits": 1,
+    "extra_fullB_fit": 0,
+    "sequential_pilot": false,
+    "baseline_fit": 0,
+    "coefficient_search": false,
+    "B2": false,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "method": {
+    "entry": "W/H/C0/positive native FP32 canonical anchors a_lr and a_star/teacher/token/lookup frozen. R_lr=a_lr*u_lr actual stored solve RHS. 요청별 sum_l||u_lr||<=.75.",
+    "objective": "J_sum=sum_r[NLL_native_r(actual-v(u))+.0625 KL(current||entry)+(.5/a_star_r)sum_l||u_lr||]. NLL native context균등평균/target-token reduction; norm은 requested-u이며 actual-v norm 아님. 모든 request loss의 합gradient, meanreport; backend mean이면 VJP에 actualB 정확1회.",
+    "optimizer": "v12 EfficiencyAdam lr_u=.1/a_star eps_u=a_star*1e-8 betas.9/.999, per-request moment/counter/all-layer RMSgamma, FP64 shared groupL1 Euclidean projection→FP32저장 및 기존budgettol. 모든 request 동시update; Jr<.05 개별도달로 영구freeze 금지. 공통후보에서 모든 Jr<.05일때만 조기종료, 아니면25evaluations/24updates; last fully evaluated finite common payload. Terminal extra backward/update0; KKT수렴 gate0.",
+    "norm_gradient": "F의 coupledgradient에 analytic beta*u/||u|| 정확1회, origin0. autograd norm과이중계상0.",
+    "causal_builder": "매후보 Wentry/Hentry에서 다시시작. 모든 native rewrite/KL rows actual lower all-token W_eff로전파→fresh upper subject keys→rewrite-only nestedmean whole-B K→P=solve(15000C0+Hentry+KK.T,K)→U=R64 P.T. 매layer/candidate W_eff=Wentry+FP32(U)를한번materialize. actualsubject v=linear(k_actual,W_eff)-linear(k_actual,Wentry); biascancel. Builder내delta중복주입0.",
+    "masked_loss": "두번째 entry-weight native subject-only forward에 builder의 row/owner/site actual v 주입. KL row도 actuallowerpath/currentv, K/history평균은rewrite-only. Native readout/full-vocabKL/current||entry/lookup/reductions 유지. maskedprestate≠actualprestate로 deployed NLL차이를별도측정.",
+    "derivative": "하층R→상층actualK→native평균K→Psolve→U→v→maskedloss 전체연결. temporary vleaf의 모은adjoint를 builder에정확1회반환; directK와solveK, R/P/inputVJP 포함. Whole-Bcoupling을microbatchwriter로분할하지않음. zero layer/column도Jacobian·reentry보존, 임의detach/영구pruning0.",
+    "factor_backend": "Native stored A와order/dtype 그대로; FP64solve/update→nativeFP32cast/add. fixedA factor는Hentry별1회. same-A Cholesky는실제적합·residual검증시, 아니면same-A LU/full(A+KK.T)solve. qualified Woodbury는Y=solve(A,K),P=Y(I+K.TY)^-1. A미가역이면허용된nativefullsolve, no symmetrize/jitter/truncation/exactwriter/nullspace. EarliestK/Pcache도adapterdependency검증후만.",
+    "memory": "Layerwise rowstream/offload checkpointed activation와reverse replay로모델activation bounded. 모든rowswholeBK완성후solve한번. v/R/P/boundaryadjoints각경로정확1회. directRPVJP는dense reference parity통과시만; lowrankforward로canonicalmaterialization반올림바꾸지않음.",
+    "commit": "마지막실제평가candidate의동일materializedweights를commit; fit후새targetpolicy/staleK/newsolve로교체0. final native rewrite-only meanK Gram CPUFP32각층1회. keycache재사용은actualdependency+parity후만. W/H/RNG/cache/context/ledger RAMrollback, observer비변이.",
+    "prohibited": [
+      "v13 exact/SVD equality writer",
+      "v12 inherited zvirtual-hactual RHS",
+      "remaininglayer divisor/L8topup",
+      "v10 qAdam, realized-vnorm, allocation.1",
+      "reference/replay/pulse/warmup",
+      "officialP/N selection/tuning/gates"
+    ]
+  },
+  "qualification": {
+    "CPU": "reference8와production 회귀: fullR/K/directK/uppercausalVJP, summedgradient스케일, synchronousstop, zero-reentry, actualRHS, acceptedpayload/historyonce/noCP/rollback, independentmetricreducer.",
+    "actual": "동일B1일부rows B1/2/3 shape/unequalcontext/tail의 고정후보 operator/gradient/commit 복원검사. 별도 sequentialpilot/추가fullBfit0. 실제B100은승인mainfit자체.",
+    "frozen_tolerances": {
+      "native_loss": {
+        "atol": 0.00001,
+        "rtol": 0.0001
+      },
+      "gradient_RMS": {
+        "atol": 0.000001,
+        "rtol": 0.001
+      },
+      "ridge_relative_residual": 1e-8,
+      "key_local_action_elementwise": {
+        "atol": 0.00001,
+        "rtol": 0.0001
+      },
+      "postcast_requested_budget": "v12 violation<=1e-6*max(1,.75)"
+    },
+    "tolerance_policy": "runtime제안기준을최초GPU전에고정. 검사정의/reference/normalization/candidate IDs도receipt에기록. actual불일치후몰래완화0; CPU toySPD energy theorem은storedA/FP32비등가를인증하지않음.",
+    "technical_block": "source/input/row/nativeoperator/gradient/cast/budget/nonfinite/state/commit/history/restore 불일치면invalidcommit차단·RCA보고·같은method최소수리/newimmutableattempt. oldsource/raw/costKEEP, 반복-to-PASS/자동retryloop0.",
+    "scientific_observation": "실현률<1, zero-ownerleakage, highfiniteQ, 낮은RSPSNS/ACC/locality붕괴, 불균등share, 미수렴 모두기록. 품질에따른method/budget/분모조정0.",
+    "review": "GH owner fullread + CPU8 재현. SH4 preflight red체크리스트 및postrun 독립CPUreducer필수; 독립reviewer 미사용이면owner검토라고표기(독립red허위PASS0)."
+  },
+  "evaluation": {
+    "endpoints": [
+      "same-runtime W0 first100",
+      "V14_RD B1"
+    ],
+    "denominators": {
+      "R": 100,
+      "P": 200,
+      "N": 1000
+    },
+    "metrics": [
+      "RS/PS/NS preference tiesfail",
+      "R/Pnew,Ntrue TF strict/tokenmicro/promptmacro",
+      "true/newNLL와정의된margin",
+      "pairedlost/gained/W0successretention"
+    ],
+    "telemetry": "mean/canonical/rewrite/KL 실제normratio+directionalratio+cosine+error/coverage, requestedvsactualdirectshare/zeroownerleakage, actualRHS=R, ideal/effective/actualupdate/Q/norm, masked-vsactualNLL/prestategap, componentgradients/commoncandidateID/budget. Normratio단독exact주장0. expensiveactualtaskeval W0/terminal만.",
+    "cost": "Entryfactor/keycapture/causalforward/maskedloss/adjointreplay/optimizerprojection/commitH/eval/peakVRAM/RSS 실측분리; GPUparentallocation단일계상, 기존V13비용혼합0, v12속도복사0.",
+    "comparison": "기존V13 RT/RD는readonly source/input/W0H0/nativeoperator/runtime/eval/denominator identity별검산후만재사용. V14planner차이는intended이며동일planner라고하지않음. 미완료/불일치는PENDING_COMPARISON 또는HISTORICAL_REFERENCE/NOT_AVAILABLE; V14실행차단0, 추가v12/v13fit/rerun0. 다른serverjob조회0."
+  },
+  "resources": {
+    "task_GPU_cap": 1,
+    "current_project_cap": "server4 tracked3 또는 더엄격 freshcap; 증액0",
+    "GPU_per_job": 1,
+    "CPUs": 8,
+    "host_memory_MiB": 59392,
+    "partition": "gpu",
+    "node": "server4",
+    "export": "NONE",
+    "requeue": false,
+    "wall_max_hours": 24,
+    "collector": {
+      "GPU": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "SH4fresh owner/source/job resource-only+disk/inodes/hostVRAMplan 검산. coupledmodel memory estimate를기존v12값으로단정0. unsupported면typed resourceblock, B/precision/layers/context/gradient축소0.",
+    "serialize": "GH 한정resource확인58381 V13GPU RUNNING,58382CPU Dependency. SH4현재identity재확인후 새V14GPU는afterany:58381 등existingV13GPU successors 전체종료뒤자원직렬화. V13 과학PASS는V14선행gate아님. V13삭제/hold/cancel0; 다른existingjob선점0.",
+    "submission": "단일GPU job내기술checks→B1fit1commit1→W0/B1eval, afteranyCPUcollector는partial/technicalblock도수집. Upfrontheld source/fullargv/owner/mem/GPU/dep검사후release. 정식pending허용,freeGPU대기loop0."
+  },
+  "allowed_writes": [
+    "project/run_scripts/jlz_native_writer_aware/**",
+    "plans/updates/server4/jlz-v14-native-writer-aware-b1/**",
+    "tasks/proposed/server4/*jlz-v14*",
+    "tasks/status/jlz-v14-native-writer-aware-b1/server4.json",
+    "messages/acks/server4/*jlz-v14*",
+    "messages/server-heads/server4/*jlz-v14*",
+    "runs/server4/jlz-v14-native-writer-aware-b1/**",
+    "audits/servers/server4/jlz-v14-native-writer-aware-b1/**",
+    "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/**",
+    "ignored local/jlz-v14-native-writer-aware-b1/20261005-v1/**",
+    "own ignored session-boundary(actualWT)"
+  ],
+  "readonly": [
+    "v13 source/config/jobs/raw/monitorpause",
+    "canonical plans and user rootdirty",
+    "model/data/C0/native/shared runtime/globalGitconfig",
+    "unrelatedtasks"
+  ],
+  "publication": "Ownscope source+compact Korean factualreport/manifest nonforcebranch/main 게시까지승인. 다른변경보존. Exact runs/server4 taskprefix만generichelper미지원이면authority예외record/NOT_PASS표기,sharedhelper편집0. raw/model/prompt/fullstdout/secretsGit0.",
+  "artifacts": "NoCP includes selectedW/H/optimizer/delta/reconstructiblepayload 영속저장0. RAMrollback만. 기존rawKEEP,smallartifact approvedbroadcast/예외receipt준수; 대형raw무조건broadcast0.",
+  "report": "experiment-reports/servers/server4/jlz-v14-native-writer-aware-b1/report-ko.md",
+  "monitoring": {
+    "GH": "Direct ownerACK까지만bounded, GPU완료대기/recurringmonitor0.",
+    "SH4": "구현/검증코드/preflight/등록자율진행, release뒤한정initial/resourcepending인계후능동반복polling중단. sealedB1+CPUcollector는측정/사실보고완결. 새heartbeat/자동retry0. 이연결종료는task중단명령아님."
+  },
+  "states": [
+    "RECEIVED_FULL_READ_SHA",
+    "OWNER_ACCEPTED_IMPLEMENTING",
+    "CPU_AND_SOURCE_FROZEN",
+    "SUBMITTED",
+    "ACTUAL_TECHNICAL_QUALIFICATION",
+    "B1_COMPLETE_OR_TECHNICAL_BLOCKED",
+    "CPU_REVIEW_PUBLISHED"
+  ]
+}

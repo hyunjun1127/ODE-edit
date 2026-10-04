@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "task_id": "jlz-v14-native-writer-aware-b1",
+  "owner": "SH4",
+  "user_quote": "이쪽도 server4에게 실험 진행하도록 전달하자. batch 1개만 우선 test해서 실현률이나 edit 성공, locality 붕괴등을 우선 측정하는게 맞으니 batch 1개만 test 하는 실험 올리라고 해",
+  "envelope": "messages/head/2026-10-05-jlz-v14-native-writer-b1-sh4.json",
+  "authorized": true,
+  "scope": "V14_RD cold B1 fit1/commit1/기술검증/측정/CPU보고만; no B2",
+  "other_task_resume": false,
+  "existing_job_cancellation": false,
+  "noCP": true,
+  "task_GPU_cap": 1,
+  "recurring_monitor": false
+}

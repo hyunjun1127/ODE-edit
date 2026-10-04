@@ -27,6 +27,7 @@
     "control/experiment-exceptions/jlz-v12-shared-budget-2k-sh4-20261004.json",
     "control/experiment-exceptions/jlz-v12-migration-sh3-20261004.json",
     "control/experiment-exceptions/jlz-v12-alphaedit-2k-sh3-20261004.json",
-    "control/experiment-exceptions/jlz-v13-b1-realization-sh4-20261005.json"
+    "control/experiment-exceptions/jlz-v13-b1-realization-sh4-20261005.json",
+    "control/experiment-exceptions/jlz-v14-native-writer-b1-sh4-20261005.json"
   ]
 }
