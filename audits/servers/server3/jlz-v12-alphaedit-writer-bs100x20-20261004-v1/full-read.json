@@ -1,0 +1,196 @@
+{
+  "CPU_header_only": true,
+  "actual_GPU": "NOT_RUN",
+  "authority": "3fde147d4f67ef74df58bf0162e34fd6b80a0e81",
+  "duplicate_local_submission_receipts": [],
+  "envelope": {
+    "bytes": 15131,
+    "inode": 20645611,
+    "mtime_ns": 1791116607321231189,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/messages/head/2026-10-04-jlz-v12-alphaedit-2k-sh3.json",
+    "sha256": "d9d52fec3fcd7155df7bd167018dd5dbbe7fd95f0447897e3a2531700b551da0"
+  },
+  "execution": {
+    "bytes": 7465,
+    "inode": 20646129,
+    "mtime_ns": 1791116607373230223,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/plans/global/2026-10-04-jlz-v12-alphaedit-writer/execution-command.json",
+    "sha256": "15731b6b2ef1c9c9db2aadda4cfa23384668262ae45cbabb1e5f67d8b2e292ce"
+  },
+  "input_pack_reuse": {
+    "bytes": 80157,
+    "inode": 20072177,
+    "mtime_ns": 1791110667435311795,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+    "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+  },
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "observer_rows": 26000,
+  "packs": 22,
+  "parent_members": [
+    {
+      "bytes": 24796,
+      "path": "docs/methods/jlz-v12-shared-budget.tex",
+      "sha256": "a074b620af3d14bfd97d39a8d5154d95f47b7d42cc91a96ba8a1d3f57927407c"
+    },
+    {
+      "bytes": 2558,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/README.md",
+      "sha256": "09379e3b00b4c65ffa347da06c43ad97a996ec90a1a5b916fc4e88785a63e295"
+    },
+    {
+      "bytes": 9631,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+      "sha256": "9e6554e673192cb70125f54b959c94f96a6fe431392afbfb25c7cdd6cd9bfa5d"
+    },
+    {
+      "bytes": 19717,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/implementation-ko.md",
+      "sha256": "d88435fec2bf4ef49c9bf94602287c9f2010101c96686d7d481e52093b3d3417"
+    },
+    {
+      "bytes": 21232,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+      "sha256": "dd6624a6fb21553e6ce87c92191ad0a50e0f31abf838284b483f411140688da0"
+    },
+    {
+      "bytes": 6935,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/README-ko.md",
+      "sha256": "5693c49ac7da9592eaacd5996edd1369c3ecfc8a4cc8ec2733d5dc8f73a3bbd7"
+    },
+    {
+      "bytes": 78,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/__init__.py",
+      "sha256": "353b6c343163aa43d3ab91eab3499b550f7eb8d1271f9ae86386bd7906b037e9"
+    },
+    {
+      "bytes": 7982,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.json",
+      "sha256": "446148fb7341d713c3f87edb4af3786b3486d4684f04b56fc6379c186f17d7f3"
+    },
+    {
+      "bytes": 3445,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.py",
+      "sha256": "572ec2318fcb003beef36792db7d86a968891d5210edc70439021fd6684d8c3c"
+    },
+    {
+      "bytes": 3126,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/budget.py",
+      "sha256": "5a464643c63166c5c0302a36fe7f25d3d5735f82bbef29166934914a7e7b999f"
+    },
+    {
+      "bytes": 5514,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/kkt.py",
+      "sha256": "48731e783a5903c3eeaaac0b9d8db7e550f1697bc9b94dc43ae0168e935c350b"
+    },
+    {
+      "bytes": 4217,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/optimizer.py",
+      "sha256": "e6420db45cad00572f5ba258dd667939a2b6ba9f5eb0445ae4584d0a5ca1630e"
+    },
+    {
+      "bytes": 27,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/requirements.txt",
+      "sha256": "6e69ffe6f7841e5d8aea3f05a4bf77c60055d3b0717fcccbb31fd19647e07b7b"
+    },
+    {
+      "bytes": 9300,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_contract.py",
+      "sha256": "54123868c44de60671173d01d797425382a055b7970b5d8d1335b3d2e4bc6d5f"
+    },
+    {
+      "bytes": 6403,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_kkt.py",
+      "sha256": "3c52ebc802370c005d05a53008384f996459b6333c15b73e023681a7afa78113"
+    },
+    {
+      "bytes": 5420,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_original.py",
+      "sha256": "b6c68fce116d0fc953a498139aba0dfb8f3b48392ad44916dcb181b2d41c9234"
+    },
+    {
+      "bytes": 2854,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/witnesses.py",
+      "sha256": "3feaea0c2fbd95043b689090def614f814726269924da5d61e80e7aca8048b31"
+    },
+    {
+      "bytes": 2920,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/source-and-decisions.json",
+      "sha256": "e4017aa20d11441c117be361dc146e9edd2e900ae0d84d6cb410bdc5d642a733"
+    },
+    {
+      "bytes": 51524,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+      "sha256": "ffbfbb03ac215d41b97e4ed7fc4eec2504bc84a60cd51a003de299103663630f"
+    },
+    {
+      "bytes": 1411,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/validation.json",
+      "sha256": "1c8eddf18f5eaeb6b58d9544350827143a5b4a4515ab7962bcfa135831cd7f49"
+    },
+    {
+      "bytes": 4230,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/artifact-manifest.json",
+      "sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159"
+    },
+    {
+      "bytes": 2130,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-command.json",
+      "sha256": "b0a940576b9156590d18396fa3f2fc63d7fc1118c20e0d00e4cf15ec77abbec2"
+    },
+    {
+      "bytes": 294841,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    },
+    {
+      "bytes": 3233,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment-ko.md",
+      "sha256": "727d39a06f985f3a65824d6ccb721a2e1df49682ca9f0197f43cde97930f6713"
+    },
+    {
+      "bytes": 19382,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+      "sha256": "4259b51c1cc5e4d7fbe1156098e5a7550bb64131d6645e8ab39e4fc1c89d094e"
+    },
+    {
+      "bytes": 8959,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/input-reference.json",
+      "sha256": "e08eb0b67b23000d46c396e024f48c802b68c5df433e0ec5c68838ca698d70df"
+    },
+    {
+      "bytes": 1398,
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-manifest.json",
+      "sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45"
+    }
+  ],
+  "prior_FULL_READ": {
+    "bytes": 7804,
+    "inode": 20594147,
+    "mtime_ns": 1791116605445266057,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/full-read.json",
+    "sha256": "8a534cb396f2911c3c02f97a411ad1db5c6ac9393b1a463618e30a48dc4f8b74"
+  },
+  "projector": {
+    "bytes": 4110419877,
+    "dtype": "torch.float32",
+    "finite": true,
+    "inode": 18170192,
+    "layer_mapping": {
+      "4": 0,
+      "5": 1,
+      "6": 2,
+      "7": 3,
+      "8": 4
+    },
+    "mtime_ns": 1778427027497441937,
+    "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+    "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+    "shape": [
+      5,
+      14336,
+      14336
+    ]
+  },
+  "reuse_mode": "EXACT_BYTES_ALL27_REBOUND"
+}

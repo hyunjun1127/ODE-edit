@@ -1,0 +1,12 @@
+\section*{JLZ v12 AlphaEdit writer delta}
+The v12 request-local planner is unchanged. This does not optimize an AlphaEdit preservation objective.
+For physical layers $\ell=4,\ldots,8$, recapture $K_\ell,h_\ell$ after all lower writes, and use
+\[
+R_\ell=z^{\rm virtual}_\ell-h^{\rm actual}_\ell,\quad
+X_\ell=\operatorname{solve}\bigl(\Pi_\ell(K_\ell K_\ell^T+H_\ell)+10I,\;\Pi_\ell K_\ell R_\ell^T\bigr),\quad U_\ell=X_\ell^T.
+\]
+Products, solve and weight addition follow native FP32 order, without a remaining-layer divisor, covariance ridge, symmetrization, or jitter. The shared planner budget projection remains FP64.
+After all writes, recapture final native mean keys and append each CPU FP32 history Gram exactly once.
+The native BLUE reference expression is used as a same-input qualification oracle; its original z fitting and residual division are replaced only by the authorized v12 terminal target tracking.
+The fixed native projector has threshold $0.02$, slots $0,\ldots,4\leftrightarrow L4,\ldots,L8$. The source YAML's L2=1 is not used: native BLUE non-BLUE hparams and this task both require L2=10.
+No persistent weights, history, optimizer, delta or resume bundle are saved.

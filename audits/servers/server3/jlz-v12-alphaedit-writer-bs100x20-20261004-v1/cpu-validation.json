@@ -1,0 +1,23 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "tests": 13,
+  "status": "PASS",
+  "actual_model": "NOT_RUN",
+  "independent_agent": false,
+  "scope": [
+    "request stop/25eval24update",
+    "B20/noB21",
+    "projection and analyticnorm",
+    "native FP32 noncommuting operator/H effect",
+    "tiny neural fit/write/history+RAM rollback",
+    "sameplan ridge probe rollback",
+    "independent reducer/ties/TF",
+    "namespace/DAG/resource/held-failure injection",
+    "noCP static audit"
+  ],
+  "log": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/cpu-tests-final.txt",
+    "sha256": "f732a472ba6204574ed78f012ddd865499ed5ace2cf4faf8d7912415d9ec86fc"
+  },
+  "initial_fixture_typo": "TASK lowercase case assertion fixed; no scientific computation policy change"
+}

@@ -1,0 +1,60 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "owner_audit": true,
+  "independent_red_agent": false,
+  "source_reference": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "exact_modules": [
+    {
+      "path": "project/run_scripts/jlz_shared_budget_alphaedit/entry.py",
+      "parent_path": "project/run_scripts/jlz_shared_budget/entry.py",
+      "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget_alphaedit/optimizer.py",
+      "parent_path": "project/run_scripts/jlz_shared_budget/optimizer.py",
+      "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget_alphaedit/optimize.py",
+      "parent_path": "project/run_scripts/jlz_shared_budget/optimize.py",
+      "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget_alphaedit/qualification.py",
+      "parent_path": "project/run_scripts/jlz_shared_budget/qualification.py",
+      "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget_alphaedit/w0.py",
+      "parent_path": "project/run_scripts/jlz_shared_budget/w0.py",
+      "sha256": "e00ff12c9a6cca2429fde529a054836c439802bd84cbd6178a9fb567aec3dd9c"
+    }
+  ],
+  "planner": "UNCHANGED",
+  "writer": "NATIVE_ALPHAEDIT_FP32_L2_10_BLUE_FALSE",
+  "prior_ridge_source_mutation": false,
+  "qualifications": {
+    "CPU": "PASS_13",
+    "actual_GPU": "NOT_RUN",
+    "pilot_main_promotions": "source/config-bound READY after two new AlphaEdit commits"
+  },
+  "probe": "same B1 plan, no refit; nested RAM exact W/H/RNG/cache/context hash; headroom14GiB else PROBE_UNAVAILABLE; attempted corruption blocks",
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "duplicate_existing_local_receipts": [],
+  "storage": {
+    "free_bytes": 70027431936,
+    "reserve_bytes": 25769803776
+  },
+  "checklist": {
+    "source/math/precision": "OWNER_CHECKED",
+    "L4..8 Pi mapping": "OWNER_CHECKED",
+    "data/eval separation": "OWNER_CHECKED",
+    "25/24 request budget": "OWNER_CHECKED",
+    "Honce/upper actual keys": "OWNER_CHECKED",
+    "transaction/probe": "OWNER_CHECKED",
+    "B20 horizons/collector": "OWNER_CHECKED",
+    "cap1 external-afterany/no cancellation": "OWNER_CHECKED",
+    "pilot/READY/no scientific quality gate": "OWNER_CHECKED"
+  }
+}
