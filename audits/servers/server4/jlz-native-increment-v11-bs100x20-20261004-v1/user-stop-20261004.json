@@ -1,0 +1,30 @@
+{
+  "user_exact": "v11 실험들 전부 중지하자.",
+  "status": "STOPPED_USER",
+  "actor": "SH4/janghj(1025)",
+  "verified_utc": "2026-10-04T09:28:22Z",
+  "verified_KST": "2026-10-04 18:28:22+09:00",
+  "scope": "All currently registered v11 GPU jobs, dependent collector and readiness worker only; unrelated tasks unchanged",
+  "exact_binding": "Fresh owner janghj(1025), jobnames, full submit argv and scripts under local/jlz-native-increment-v11/20261004-v1/attempt-r2-cap3 verified before cancellation",
+  "cancellation_order": [[58037,58036],[58034,58035]],
+  "cancel_commands_return_codes": [0,0],
+  "jobs": {
+    "58034": {"name":"MAIN","before":"RUNNING","after":"CANCELLED by 1025","allocated_GPU_seconds":17592},
+    "58035": {"name":"NOALLOC","before":"RUNNING","after":"CANCELLED by 1025","allocated_GPU_seconds":16572},
+    "58036": {"name":"MEMIT_H","before":"PENDING Dependency","after":"CANCELLED by 1025","allocated_GPU_seconds":0},
+    "58037": {"name":"CPU collector","before":"PENDING Dependency","after":"CANCELLED by 1025","allocated_GPU_seconds":0},
+    "58033": {"name":"pilot","after":"COMPLETED 0:0","mutation":"NONE already terminal","allocated_GPU_seconds":1378},
+    "58046": {"name":"CPU W0-ready barrier","after":"COMPLETED 0:0","mutation":"NONE already terminal","elapsed_seconds":801,"allocated_GPU_seconds":0}
+  },
+  "postflight": {"owned_squeue_rows":0,"v11_active_pending_remaining":0,"local_v11_worker_processes":0,"scope":"Single bounded stop confirmation, no resumed experiment monitoring"},
+  "saved_commit_files": {"MAIN":8,"NOALLOC":9,"scope":"File presence only; no new metric or completeness audit"},
+  "preservation": "All existing source/config/input/model/raw/log/partial outputs and prior failure receipts KEEP; no deletion or checkpoint creation",
+  "rollback_after_termination": "NOT_VERIFIED",
+  "full_2k_completion": false,
+  "task_execution_authority": "SUSPENDED_BY_USER; new explicit instruction required",
+  "configured_project_cap": "UNCHANGED; not authorization to resume v11",
+  "new_submissions":0,
+  "monitoring_active":false,
+  "automatic_resume":false,
+  "broadcast":"NO_BROADCAST_NOT_REQUIRED: compact stop receipt only; raw local KEEP"
+}
