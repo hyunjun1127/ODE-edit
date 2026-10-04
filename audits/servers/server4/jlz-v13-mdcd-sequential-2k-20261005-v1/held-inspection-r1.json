@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "checks": [
+    {
+      "job": "58442",
+      "stage": "MD",
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v13_mdcd_s4_MD",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source",
+        "--mem=59392M",
+        "--time=1-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/MD-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/MD-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/MD.sh"
+      ],
+      "launcher": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/MD.sh",
+        "bytes": 704,
+        "sha256": "b42584cd55ac4738e02521cbcedcc934fb6af1505c11f0e0b0c2c3c8cd12c6e0"
+      }
+    },
+    {
+      "job": "58443",
+      "stage": "CD",
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v13_mdcd_s4_CD",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source",
+        "--mem=59392M",
+        "--time=1-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/CD-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/CD-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/CD.sh"
+      ],
+      "launcher": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/CD.sh",
+        "bytes": 704,
+        "sha256": "a3bd196e4b38d2b38baf6c9e4882987c68ec7ece5c8898e7e6f3032f1925f263"
+      }
+    },
+    {
+      "job": "58444",
+      "stage": "collector",
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v13_mdcd_s4_collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/collector-%j.err",
+        "--dependency=afterany:58442:58443",
+        "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/collector.sh"
+      ],
+      "launcher": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/collector.sh",
+        "bytes": 730,
+        "sha256": "17beb1da34a549f1e7675df37a7b7ba47f22ab967e5ab274dcf2eff72809afb7"
+      }
+    }
+  ],
+  "project_cap": 3,
+  "task_cap": 2,
+  "aggregate_new_GPU": 2,
+  "aggregate_new_CPU": 16,
+  "aggregate_new_host_mib": 118784,
+  "identical_resource_barrier": [],
+  "all_held_before_release": true,
+  "no_other_job_mutation": true,
+  "arm_science_dependency": false,
+  "narrow_repair": "None empty dependency TypeError before any release; re-inspect original jobs, no new submissions",
+  "repair_source": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+  "repair_CPU_receipt": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/preparation-r1/cpu-tests-r3.json",
+    "bytes": 3383,
+    "sha256": "1d5a04cef71f4c48d8da6031af69c65bf7bfe25d0ea780aee165f3dc0e609ca1"
+  },
+  "original_execution_source": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "original_full_receipt": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/held-inspection.json",
+    "bytes": 13346,
+    "sha256": "4b596eea43e444feae994ef505563c2c2bf78666501cdcf0f01753607d1a4802"
+  },
+  "raw_stdout_published": false
+}

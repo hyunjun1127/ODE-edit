@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "authority_main": "89ad31eeb624c170225fd06e81da8b6014e71380",
+  "envelope_sha256": "df956c6b22ed075615ff83d13e76acd06d0284a9d07abc10d8789e85e9f43051",
+  "execution_contract_sha256": "c6aa2e52a1e71fccbf20b14486ba7f26b64fd84b8cdbda256125d69b9fe80d62",
+  "helper": "scripts/check-agent-access.sh --staged",
+  "full_staged_check": "NOT_PASS",
+  "exit_code": 7,
+  "sole_blocked_path": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+  "reason": "Generic helper lacks the explicitly authorized runs/server4 task prefix. Exact USER/GH envelope permits ownscope main/branch publication and explicitly instructs recording this exception without changing shared helper.",
+  "scope": "Only this one compact registration receipt, no raw/tensor/prompt/stdout/checkpoint.",
+  "shared_helper_modified": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "raw_originals": "LOCAL_KEEP",
+  "follow_up_submission_or_monitor": false
+}

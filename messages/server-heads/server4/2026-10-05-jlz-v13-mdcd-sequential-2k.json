@@ -4,13 +4,54 @@
   "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
   "from": "SH4",
   "owner_accepted": true,
-  "status": "IMPLEMENTED_CPU_CHECKED_NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_MD_RUNNING_CD_RESOURCE_PENDING",
+  "as_of_utc": "2026-10-04T20:46:08Z",
   "first_ACK_main": "80376398",
   "FULL_READ_SHA": "VERIFIED",
-  "CPU_tests": 12,
+  "science_CPU_tests": 12,
+  "registration_repair_CPU_tests": 13,
+  "independent_reviewer": false,
   "existing_qualification_reuse": "same frozen B1 closure verified",
-  "GPU_submission": "NOT_SUBMITTED",
+  "GPU_submission": "BOTH_REGISTERED_INSPECTED_RELEASED",
+  "jobs": {
+    "MD": {
+      "job_id": 58442,
+      "name": "odeedit_jlz_v13_mdcd_s4_MD",
+      "state": "RUNNING",
+      "reason": null,
+      "allocated_GPU": 1,
+      "runtime_seconds": 36,
+      "dependency": null
+    },
+    "CD": {
+      "job_id": 58443,
+      "name": "odeedit_jlz_v13_mdcd_s4_CD",
+      "state": "PENDING",
+      "reason": "Resources",
+      "allocated_GPU": 0,
+      "dependency": null
+    },
+    "collector": {
+      "job_id": 58444,
+      "name": "odeedit_jlz_v13_mdcd_s4_collector",
+      "state": "PENDING",
+      "reason": "Dependency",
+      "allocated_GPU": 0,
+      "dependency": "afterany:58442:58443"
+    }
+  },
+  "execution_source": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "registration_repair_source": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+  "execution_lock_sha256": "a399d80257c38182cb67498d4aef8be12729f0e8fffe118f8d7f1e8b2701351c",
+  "config_sha256": "b2745b667e011f2a27e81b5f5f275cb731b9f418342b20cf741855c2149fd429",
   "new_main_commit": "NOT_OBSERVED",
+  "W20": "NOT_MEASURED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "sealed_runners_continue": true,
   "GH_additional_ACK_required": false,
-  "old_B1_V14_unchanged": true
+  "narrow_repair": "No-dependency None TypeError before release; same held registrations inspected/released, new sbatch0/cancel0/science change0.",
+  "old_B1_V14_unchanged": true,
+  "receipt": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md"
 }

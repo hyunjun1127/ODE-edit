@@ -13,5 +13,10 @@
   "actual_GPU": "NOT_RUN",
   "submission": "NOT_SUBMITTED",
   "GH_reply_wait": false,
-  "noCP": true
+  "noCP": true,
+  "record_kind": "HISTORICAL_INITIAL_OWNER_ACK_PRESERVED",
+  "first_ACK_main": "80376398",
+  "latest_status": "SUBMITTED_RELEASED_MD_RUNNING_CD_RESOURCE_PENDING",
+  "latest_status_path": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+  "submission_receipt": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json"
 }

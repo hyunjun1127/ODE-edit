@@ -1,0 +1,19 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "stage": "ALL_REGISTERED_HELD_BEFORE_RELEASE",
+  "source_commit": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "error_type": "TypeError",
+  "error": "argument of type 'NoneType' is not iterable",
+  "location": "submit.py NO_ARM_SERIALIZATION prerelease check",
+  "cause": "dependencies() returns None when a GPU arm has no dependency; substring membership did not normalize None",
+  "jobs": {
+    "MD": "58442",
+    "CD": "58443",
+    "collector": "58444"
+  },
+  "observed_states": "all PENDING JobHeldUser",
+  "released_before_failure": 0,
+  "GPU_execution_before_failure": "NOT_STARTED",
+  "frozen_source_lock_config_archive_launchers": "KEEP_UNCHANGED",
+  "scope_of_repair": "normalize dependency through expected_dependencies; re-inspect and release same exact held registrations; no new sbatch/cancel/science change"
+}

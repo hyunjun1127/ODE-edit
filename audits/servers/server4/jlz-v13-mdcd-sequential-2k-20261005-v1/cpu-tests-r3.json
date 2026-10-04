@@ -1,0 +1,66 @@
+{
+  "actual_new_GPU": "NOT_RUN",
+  "errors": 0,
+  "failures": 0,
+  "independent_reviewer": false,
+  "owner_audit": true,
+  "passed": true,
+  "python": "3.12.3",
+  "reused_frozen_B1": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "scope": "new CPU tiny two-batch sequential production/state/reducer fixtures; NOT actual8B GPU",
+  "source": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/__init__.py",
+      "bytes": 82,
+      "sha256": "d8e2831cc515b66ef77ef3ed792f7d3046952fcf0e9bfd49147f885f5c2cf706"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/collect.py",
+      "bytes": 15305,
+      "sha256": "454b9394733fba43110e3ca4f9884f8cd96622d31e8e34d7486d7b49e44577ad"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/common.py",
+      "bytes": 2595,
+      "sha256": "6d6d9311b597e4bc68351f51463ed80209ac5771a3be1ea6106eebd069537b36"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/preflight.py",
+      "bytes": 1610,
+      "sha256": "f212c812a8f81c3a605d6d7aa819893a16dd9ae03aae578f8e178dd2b56dfa64"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/prepare.py",
+      "bytes": 13275,
+      "sha256": "a7fabc94c51383bfcced048784325480497ee7649babfba773167f8776e60191"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/release_held.py",
+      "bytes": 4190,
+      "sha256": "785262d8503dcc84eb8a7ff5ceaed2c732b2357164e8f43e21eda93e4d9a3aa2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/run.py",
+      "bytes": 15850,
+      "sha256": "018201f02e100fc4835d472a3306acdd7af16f197d407753f564e79798343730"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/submit.py",
+      "bytes": 11894,
+      "sha256": "b767fa8873abab7e8f728ebea06db9ce445c99dc24c0792e2b989b770237a557"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/test_controller.py",
+      "bytes": 6417,
+      "sha256": "c3c31eab5c54eb41be7d87db4fe14473a14bb43c3303cc808465622b2f9e31ed"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer_sequential/test_cpu.py",
+      "bytes": 12774,
+      "sha256": "7c8f4bc008504bbbca72ebab2e7e42725924d6bc4adcd21912d3cf33f35c183a"
+    }
+  ],
+  "submissions": 0,
+  "tests_run": 13,
+  "unchanged_reference_not_reexecuted": true
+}

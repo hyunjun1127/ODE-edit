@@ -1,0 +1,788 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "source_commit": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "source_tree": "70773af2808e0fd15ece2fb1dcce3f1e9d59218c",
+  "config_sha256": "b2745b667e011f2a27e81b5f5f275cb731b9f418342b20cf741855c2149fd429",
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source.tar",
+    "bytes": 1525760,
+    "sha256": "86a1a21bbb969e6a83b1fac8a00d2aa3456e98a4b244664e1d9f64e68af735c8"
+  },
+  "launchers": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/MD.sh",
+      "bytes": 704,
+      "sha256": "b42584cd55ac4738e02521cbcedcc934fb6af1505c11f0e0b0c2c3c8cd12c6e0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/CD.sh",
+      "bytes": 704,
+      "sha256": "a3bd196e4b38d2b38baf6c9e4882987c68ec7ece5c8898e7e6f3032f1925f263"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/collector.sh",
+      "bytes": 730,
+      "sha256": "17beb1da34a549f1e7675df37a7b7ba47f22ab967e5ab274dcf2eff72809afb7"
+    }
+  ],
+  "source_members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/control/experiment-exceptions/jlz-v13-b1-realization-sh4-20261005.json",
+      "bytes": 656,
+      "sha256": "7c5cc30d926573e3ebc975cb4c7f37c21143fa0aee7fc11aa21cbea8fa011865"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/control/experiment-exceptions/jlz-v13-mdcd-sequential-2k-sh4-20261005.json",
+      "bytes": 778,
+      "sha256": "086aa44523460bbe03b301dd53347073ac2995fa3fd59a0dc25b4024a7a6c43d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/control/gpu-concurrency-policy.tsv",
+      "bytes": 861,
+      "sha256": "d3ec557b4c519751df7b62b8a719b4ff0e3bda6ea846a6ac3fd8d6dda65df4d5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/messages/head/2026-10-05-jlz-v13-b1-realization-sh4.json",
+      "bytes": 12831,
+      "sha256": "b6275e6a268fb522758200f22a0a50bfbb1d1b0264a9793369f6e2aef476e886"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json",
+      "bytes": 4743,
+      "sha256": "df956c6b22ed075615ff83d13e76acd06d0284a9d07abc10d8789e85e9f43051"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-portable-execution-v1/runtime-contract.json",
+      "bytes": 15750,
+      "sha256": "d9d9624bf873b5976a5ef22f94cc95df82a8accf8ddda469e7d0146cabde894c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/README.md",
+      "bytes": 2558,
+      "sha256": "09379e3b00b4c65ffa347da06c43ad97a996ec90a1a5b916fc4e88785a63e295"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/artifact-manifest.json",
+      "bytes": 4230,
+      "sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+      "bytes": 9631,
+      "sha256": "9e6554e673192cb70125f54b959c94f96a6fe431392afbfb25c7cdd6cd9bfa5d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-command.json",
+      "bytes": 2130,
+      "sha256": "b0a940576b9156590d18396fa3f2fc63d7fc1118c20e0d00e4cf15ec77abbec2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-manifest.json",
+      "bytes": 1398,
+      "sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment-ko.md",
+      "bytes": 3233,
+      "sha256": "727d39a06f985f3a65824d6ccb721a2e1df49682ca9f0197f43cde97930f6713"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+      "bytes": 19382,
+      "sha256": "4259b51c1cc5e4d7fbe1156098e5a7550bb64131d6645e8ab39e4fc1c89d094e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/input-reference.json",
+      "bytes": 8959,
+      "sha256": "e08eb0b67b23000d46c396e024f48c802b68c5df433e0ec5c68838ca698d70df"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/implementation-ko.md",
+      "bytes": 19717,
+      "sha256": "d88435fec2bf4ef49c9bf94602287c9f2010101c96686d7d481e52093b3d3417"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+      "bytes": 21232,
+      "sha256": "dd6624a6fb21553e6ce87c92191ad0a50e0f31abf838284b483f411140688da0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/README-ko.md",
+      "bytes": 6935,
+      "sha256": "5693c49ac7da9592eaacd5996edd1369c3ecfc8a4cc8ec2733d5dc8f73a3bbd7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/__init__.py",
+      "bytes": 78,
+      "sha256": "353b6c343163aa43d3ab91eab3499b550f7eb8d1271f9ae86386bd7906b037e9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.json",
+      "bytes": 7982,
+      "sha256": "446148fb7341d713c3f87edb4af3786b3486d4684f04b56fc6379c186f17d7f3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.py",
+      "bytes": 3445,
+      "sha256": "572ec2318fcb003beef36792db7d86a968891d5210edc70439021fd6684d8c3c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/budget.py",
+      "bytes": 3126,
+      "sha256": "5a464643c63166c5c0302a36fe7f25d3d5735f82bbef29166934914a7e7b999f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/kkt.py",
+      "bytes": 5514,
+      "sha256": "48731e783a5903c3eeaaac0b9d8db7e550f1697bc9b94dc43ae0168e935c350b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/optimizer.py",
+      "bytes": 4217,
+      "sha256": "e6420db45cad00572f5ba258dd667939a2b6ba9f5eb0445ae4584d0a5ca1630e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/requirements.txt",
+      "bytes": 27,
+      "sha256": "6e69ffe6f7841e5d8aea3f05a4bf77c60055d3b0717fcccbb31fd19647e07b7b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_contract.py",
+      "bytes": 9300,
+      "sha256": "54123868c44de60671173d01d797425382a055b7970b5d8d1335b3d2e4bc6d5f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_kkt.py",
+      "bytes": 6403,
+      "sha256": "3c52ebc802370c005d05a53008384f996459b6333c15b73e023681a7afa78113"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_original.py",
+      "bytes": 5420,
+      "sha256": "b6c68fce116d0fc953a498139aba0dfb8f3b48392ad44916dcb181b2d41c9234"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/witnesses.py",
+      "bytes": 2854,
+      "sha256": "3feaea0c2fbd95043b689090def614f814726269924da5d61e80e7aca8048b31"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/source-and-decisions.json",
+      "bytes": 2920,
+      "sha256": "e4017aa20d11441c117be361dc146e9edd2e900ae0d84d6cb410bdc5d642a733"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+      "bytes": 51524,
+      "sha256": "ffbfbb03ac215d41b97e4ed7fc4eec2504bc84a60cd51a003de299103663630f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-04-jlz-v12-marginal-allocation/validation.json",
+      "bytes": 1411,
+      "sha256": "1c8eddf18f5eaeb6b58d9544350827143a5b4a4515ab7962bcfa135831cd7f49"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+      "bytes": 12778,
+      "sha256": "c6aa2e52a1e71fccbf20b14486ba7f26b64fd84b8cdbda256125d69b9fe80d62"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/artifact-manifest.json",
+      "bytes": 1744,
+      "sha256": "6e2794359186f437180afa28909f4f775b0f7f713c22a9b8fd4917fb67645d4c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/execution-b1-sh4.json",
+      "bytes": 8279,
+      "sha256": "aef52c0e8715e273ff4483c1596661a46dd9fd88a2135533a282eafb342c4639"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.json",
+      "bytes": 5968,
+      "sha256": "a43cf5763ec9207d16e9d60833d20549fd49224688e335334d209b0965ea78dc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.tex",
+      "bytes": 11017,
+      "sha256": "c978d8db4c988fda231c6a2e85585365fb7d9a41305b49aeac1825f71e15bb09"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/method-contract.json",
+      "bytes": 9337,
+      "sha256": "fe8e40679ea3797bc17f5fca5c34c2a24f5f13d9643a205391bb840d574a69b5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 13843,
+      "sha256": "f0d9946abaa4074c540f6471856f64e2f446a663f0ea9252fb00ed844d705d52"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/provenance.json",
+      "bytes": 904,
+      "sha256": "a573c5af6524d53aff706256d97ab95c5e05eb02ab2c6e19cec72cf3c92c73a0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/reference/audit.json",
+      "bytes": 17558,
+      "sha256": "29efee030664ab37fb38317b0428ff020729021522c85cc4a2b861176162e6bd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/reference/requirements.txt",
+      "bytes": 13,
+      "sha256": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/reference/test_ref.py",
+      "bytes": 17209,
+      "sha256": "60d4ca0e50e251694034e8957a7b9201f1f7fed2a283e47480f364c9ce3d05bb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/reference/writer.py",
+      "bytes": 8902,
+      "sha256": "1ee4706efbebaa9cc393f9b6c236d46619775391ebf746828bf8daabaef1e974"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/telemetry.json",
+      "bytes": 2990,
+      "sha256": "b985993350af9537bcb66985412c49cc0de0ffad4416fccad09242f386982083"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/plans/global/2026-10-05-jlz-v13-realized-writer/validation.json",
+      "bytes": 1338,
+      "sha256": "2f896572f0d10ac3ef57e5ea64f708a0a68d7e569f6d27b9c32867a4cd2d5919"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_pilot/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_pilot/prompts.py",
+      "bytes": 10334,
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/__init__.py",
+      "bytes": 78,
+      "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/allocation.py",
+      "bytes": 1561,
+      "sha256": "7066e967788fc18e44f392b1a18c0fd0ee858bcd041f55901a985038c97234c6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/causal_builder.py",
+      "bytes": 3621,
+      "sha256": "f86684270447c91d864def8814becb9bfbbf9b86104a9f3f589cc6c91b50efa0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/collect.py",
+      "bytes": 8365,
+      "sha256": "d32ccff51ddc4a963b0d56348eeeac8db2ec45f807984833ba6f7ad20c07ddae"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/common.py",
+      "bytes": 2446,
+      "sha256": "73b43462f8be9482389796b3fcc3623e30fefd9a9cd0edd76619202f2b1a59f2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/entry.py",
+      "bytes": 3290,
+      "sha256": "b3ec2b8d75dcc522e24d96bbaaaf3f7b0f8eeec189c5131091f47aa6be03c572"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/exact_probe.py",
+      "bytes": 3485,
+      "sha256": "3f9e66ac6b918bc7cfa15ea037771c0d045b47b1e078c9febd1cb6533dfa1845"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/geometry.py",
+      "bytes": 6207,
+      "sha256": "0f006b6ad21e5297aed02c9041da7ad47e714db2f8c904f24c2c3044b0e4d7c0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/inputs.py",
+      "bytes": 3161,
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/observe.py",
+      "bytes": 8397,
+      "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/optimize.py",
+      "bytes": 7113,
+      "sha256": "d13aee8514b0c25892db597c6cb9de63974675358a9a5b0037b8dbe94a489ac3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/physical_aux.py",
+      "bytes": 4761,
+      "sha256": "b9b706adf3e3d945a16d5eb16a5c80983c2d6192f9263a89e191451d18ca2af7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/physical_linear.py",
+      "bytes": 937,
+      "sha256": "4ec74addd876c657759df3c646431042c931eef713888b54aa4a4710cb33e9ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/preflight.py",
+      "bytes": 3117,
+      "sha256": "e3f80b2632298482b6bb79a198b8d4987a94f339f5d7cb885ea6820b66102690"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/prepare.py",
+      "bytes": 6926,
+      "sha256": "48ac4cc3fddc864520651665b0812ccc29fce49f1738e72cc8a95648e1c6fc0b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/prepare_r2.py",
+      "bytes": 602,
+      "sha256": "85b82cb14053cf45ed086fde71bbad6ac6911275d988ad606e698260d3a5cc7b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/profile.py",
+      "bytes": 4172,
+      "sha256": "1c9ca0faa06dd1ebeeb6c68ad8faef89e607ea2da001da5d87c8b481f860c473"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/qualification.py",
+      "bytes": 11356,
+      "sha256": "5921b9f7a3e7444701c42563cfb87c32604fb10f36d09cf53f6d0d17f3a6fe4b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/receive.py",
+      "bytes": 2547,
+      "sha256": "995e4f5317f17e3c82f3a73c4da0eadd1a6401f74bdb906b474681e4fb949274"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/run.py",
+      "bytes": 10174,
+      "sha256": "389282e5ac415ae50a08ef70ec6c537293f3d4b400d6e3d4bbe64db0e531c705"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/subject.py",
+      "bytes": 2741,
+      "sha256": "13a3228c341a08bd39b22858c8c2b37f383a6b74603ca80d485313efc01ffde3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/submit.py",
+      "bytes": 12512,
+      "sha256": "5a21200b7c815389fb4c8a846f31dfba3ffad80bd6725db648d282559aabbfb4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/telemetry.py",
+      "bytes": 7105,
+      "sha256": "b82d23695eff12341071767ad4c5ae827c2ea2293d7932a30b7dfea7b5282f57"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/test_core.py",
+      "bytes": 12490,
+      "sha256": "325024d13d91028823b570576031fcc99b2372cf8a319d7b684d3a3fbf00ea85"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/writer.py",
+      "bytes": 2871,
+      "sha256": "8a374fea357cb73c2676297defc697fc1a68ca9db6d42d5ca6637254e731ec6f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/__init__.py",
+      "bytes": 79,
+      "sha256": "486f6f0831f35d39cc5e4c85036efac5005ff9da0431966c2f6d7b2f0f9a23b4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/capture.py",
+      "bytes": 4057,
+      "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/collect.py",
+      "bytes": 8266,
+      "sha256": "9d6dcefc7e0a911b007d8f81c582b6ce5c5d9fe1905faac7f986b6c300068392"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/common.py",
+      "bytes": 559,
+      "sha256": "c338e8235924f345b43e55b5c7d9bb9ca7a2f7096136f29819aa23dcd0f49412"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/geometry.py",
+      "bytes": 4643,
+      "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/preflight.py",
+      "bytes": 1705,
+      "sha256": "5282e29a163de1b85807e306438ae10e74c936538d410daad11e44993591f4d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/prepare.py",
+      "bytes": 7718,
+      "sha256": "83247e11bfc19774390564f6c75c14627fffb1f8d0f2aac835427692062cbc37"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/run.py",
+      "bytes": 9851,
+      "sha256": "56da583ad76d39da99460f63af028701ba0875b2ada91d86ec6670fd32e1cd0b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/submit.py",
+      "bytes": 9903,
+      "sha256": "57b58618f60a74bc0c7908eebc7f49b595fee3a8c0254357c08fb985a5691b62"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/summarize_results.py",
+      "bytes": 21124,
+      "sha256": "cbd6939d9a9ea428c4c29f437097a1f302232a792d3ddf039459e760230860dc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/telemetry.py",
+      "bytes": 1539,
+      "sha256": "dfa0bc64bf89d60a481897e87568372a25bb2c492ed48eb486cb67764413a94c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/test_cpu.py",
+      "bytes": 9165,
+      "sha256": "e0f5f39adb39e6150b684352944b97cf3627bacb880f02451dda1cdd6ddfbb26"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/writer.py",
+      "bytes": 7974,
+      "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/__init__.py",
+      "bytes": 82,
+      "sha256": "d8e2831cc515b66ef77ef3ed792f7d3046952fcf0e9bfd49147f885f5c2cf706"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/collect.py",
+      "bytes": 15305,
+      "sha256": "454b9394733fba43110e3ca4f9884f8cd96622d31e8e34d7486d7b49e44577ad"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/common.py",
+      "bytes": 2595,
+      "sha256": "6d6d9311b597e4bc68351f51463ed80209ac5771a3be1ea6106eebd069537b36"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/preflight.py",
+      "bytes": 1610,
+      "sha256": "f212c812a8f81c3a605d6d7aa819893a16dd9ae03aae578f8e178dd2b56dfa64"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/prepare.py",
+      "bytes": 13275,
+      "sha256": "a7fabc94c51383bfcced048784325480497ee7649babfba773167f8776e60191"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/run.py",
+      "bytes": 15850,
+      "sha256": "018201f02e100fc4835d472a3306acdd7af16f197d407753f564e79798343730"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/submit.py",
+      "bytes": 11405,
+      "sha256": "f0c59e3af660f89468de1de4b5b92d6924d06d6ee6137ffd9dbb6a7c1796aedf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/test_controller.py",
+      "bytes": 6417,
+      "sha256": "c3c31eab5c54eb41be7d87db4fe14473a14bb43c3303cc808465622b2f9e31ed"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer_sequential/test_cpu.py",
+      "bytes": 12105,
+      "sha256": "140f6b300e19c3863b7ffcbc930bb5d6981370c867f4e270f8d6b308d73060c0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/__init__.py",
+      "bytes": 74,
+      "sha256": "b4f8baf898e54272932be6693a37182624fa15231e3d1e0959383190757cc536"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/collect.py",
+      "bytes": 11223,
+      "sha256": "2b31de750d6ca04b8a3b3c81478c51323460bbb73a86952cd58d4670629b1cce"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/common.py",
+      "bytes": 1103,
+      "sha256": "6fac1b87fcc72a3b0d0360000fc258cb66f898fe4e78d2bf217d216f05bfc2f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/entry.py",
+      "bytes": 3532,
+      "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/events.py",
+      "bytes": 4589,
+      "sha256": "b54eb8ee583f5de6267a4d3faf7331e30a05e7b76d2380eee7788155028cc0f8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/optimize.py",
+      "bytes": 7174,
+      "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/optimizer.py",
+      "bytes": 3083,
+      "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/prepare.py",
+      "bytes": 8777,
+      "sha256": "017ad8c7340c0d7fea04295e0c9c9cdc5ae57abf141f90503536e599d7389ab3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/qualification.py",
+      "bytes": 6077,
+      "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/review_20261005.py",
+      "bytes": 17928,
+      "sha256": "d4d82fa9d128294a4a1b1b082a04af65c3440ed30abd61fcbe301f6446c63325"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/review_20261005_audit.py",
+      "bytes": 4373,
+      "sha256": "b837e5ba82aa617fcb6b07a004ec38b910c7ee19cff95e1790550176469fef99"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/review_20261005_tables.py",
+      "bytes": 8482,
+      "sha256": "fddb25a3bf02553380f64320790ef91db2b590854dcb289610be2c70c2c9447a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/run.py",
+      "bytes": 15179,
+      "sha256": "bd307b2e7b99435f362e724fa3b8405fa60e68d8aba843d45001f6ada58cbc63"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/server3_prepare.py",
+      "bytes": 10637,
+      "sha256": "9eb322225e8cbe741342012e11f9faaaa53e00206b1768ed9cb65d9830eefc86"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/server3_submit.py",
+      "bytes": 15242,
+      "sha256": "41607251665462919c25f948dc7caa4d9738bc83bf6ce20164f4e9c2d983594e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/submit.py",
+      "bytes": 13205,
+      "sha256": "d978544a268a0622b47555b742e958e69d7a04fd1dd5041e07ea78c6536c373a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/telemetry.py",
+      "bytes": 5316,
+      "sha256": "167e76584afafa050d05e53981093448e1a01a322282b6af6c0b2497fedbd270"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/test_cpu.py",
+      "bytes": 7906,
+      "sha256": "a0b75ede27a7079d92be69a9ebdd24a72c8420a5cad44a2b3976b6d145c1084c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/test_review_20261005.py",
+      "bytes": 2334,
+      "sha256": "210c40f0cbafc39d60b9a2e5fa31f07711e99c1e30c32f6ac5257854a12d66aa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/test_server3.py",
+      "bytes": 3146,
+      "sha256": "fe1ba3248368caebd7afb083659dd9f29dc5b3d7d15bbc1e053ebedeca66f5a4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/w0.py",
+      "bytes": 3268,
+      "sha256": "e00ff12c9a6cca2429fde529a054836c439802bd84cbd6178a9fb567aec3dd9c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/writer.py",
+      "bytes": 8427,
+      "sha256": "61876296e691d618bc6ee3d90b3c081bd448333e1164832737d0542ad001b21a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/__init__.py",
+      "bytes": 79,
+      "sha256": "07ea263faf59dbf679b81c8e13870807ee035f80b2c31ccb0248721a972e4099"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/baseline_pilot.py",
+      "bytes": 28752,
+      "sha256": "126a1dd53ed2d254b4f8f267a5c71207ad054c5fba64699cbfa36cb53ceadd3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/common.py",
+      "bytes": 2308,
+      "sha256": "cd9d2508e99bf6da030122d58c4c238839b5a2ccb385c6139f9bf8c7cb769115"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/__init__.py",
+      "bytes": 64,
+      "sha256": "04676a184e7277212ae91fb18c24f06b3f64fb2d87eb30cdddfb08ce33de28aa"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/collect.py",
+      "bytes": 21730,
+      "sha256": "b6b08f2714af10a37cd3f5630095b4393c1eaca08488aef7505ba6bcce9ff0e7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/common.py",
+      "bytes": 2444,
+      "sha256": "96a139e80dfd9e334217280a16bb20e29b58c91b10e200ffa274e0ec11a5bcc9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/entry.py",
+      "bytes": 4489,
+      "sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/geometry.py",
+      "bytes": 12245,
+      "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/inputs.py",
+      "bytes": 3161,
+      "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/memory.py",
+      "bytes": 14533,
+      "sha256": "3f79da3c7aa28b8571f16e5c038413776f1a88d5e450a23d43369a224d32f52e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/observe.py",
+      "bytes": 8856,
+      "sha256": "27c4379d135f83b9c11c26dcdf2d23a35d59a36902692be9e0adc9fb799c7412"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/oracle.py",
+      "bytes": 5405,
+      "sha256": "4a942753cfa78f669bb7120e0997ea36f48cf244196864a9ba5b24184d1386f9"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/physical.py",
+      "bytes": 5451,
+      "sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/prepare.py",
+      "bytes": 20670,
+      "sha256": "7971a9e0ab87f7c3b7b581b2701655f8281eaa9490990065bdd0c03861e78e2c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/publish_a500.py",
+      "bytes": 6512,
+      "sha256": "dcd857a3d5fff519c35072455f45f436f2c0f1802f2c2493bfec0f07ae4efa87"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/run.py",
+      "bytes": 19025,
+      "sha256": "0c8337058acaba03db865cfeff0ecc0dfaf94f09e829fb3d2af28634a23fb01f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/solver.py",
+      "bytes": 12591,
+      "sha256": "24190a7c75a1406215df71602ee42f69454f2221764e5b6ac38a799d2f0d5947"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/submit.py",
+      "bytes": 20776,
+      "sha256": "56f94f40328ead0b08b2fd714fe01ab9d03cd4604d806201a18f9ccbd5722bab"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_geometry_solver.py",
+      "bytes": 22447,
+      "sha256": "127c7cb0f82dd5d61a247bc3b0419df9451607a9b8053c5cc1ab88a566b43861"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_integration.py",
+      "bytes": 3374,
+      "sha256": "c1c1fde0a055a57e0e9f197958b6de902881d74c4d30746c437990d780e611eb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_memory.py",
+      "bytes": 15625,
+      "sha256": "8bc649529f7fa13ae904c4b61fd4e49098e1596c3590e2becd0f5e8668bd4b18"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_observe_collect.py",
+      "bytes": 16649,
+      "sha256": "2470e5968dc27cdb2954216c68b9015d0417754592908a2becb3f2c478587e2f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_physical.py",
+      "bytes": 2443,
+      "sha256": "d1ff9a935b5f98c5ffa30fa4aeb6d40f744af6d7a4790f25e5b3c4e31f6ba43d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/test_publish_a500.py",
+      "bytes": 1415,
+      "sha256": "69748ad1e00a9ba1bc1c84237aa48c2b60e61d5819e38da31699aec5cddd3fb1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/writer.py",
+      "bytes": 4059,
+      "sha256": "f68a5a997aed98893fed7776f793a0d8ff9b3e846b88fb54454ef04cbff54aa2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/project/run_scripts/memit_history_lifelong/hparams.json",
+      "bytes": 727,
+      "sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/scripts/check-slurm-gpu-cap.sh",
+      "bytes": 6044,
+      "sha256": "75641e5d7f9c9ef8bc2a7488073fd2d9dfa625e45d963587c3228aacabaeb479"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/scripts/check-slurm-resource-cap.sh",
+      "bytes": 2376,
+      "sha256": "488bbe54c44ce4e98509a7197b6cd4e3d167c0ee2a9bc4b215a68afb39422817"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/scripts/fixed_counterfact.py",
+      "bytes": 6344,
+      "sha256": "8201a570b19a9e4e93ec7528d6a9131d5c7b203ddf333cba83d73f31220f9000"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/scripts/slurm_memory_policy.py",
+      "bytes": 10601,
+      "sha256": "ab1dd2f82b57a390cc45d3dc2052d56627434b590d54f736bbff736f6630eade"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source/servers/slurm-memory-policy.tsv",
+      "bytes": 401,
+      "sha256": "6be88b495c83aaa0901d33bcb6ecdd815bcfed410b51695dc5f580563e3bb3a0"
+    }
+  ],
+  "owner": "janghj",
+  "host": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "noCP": true,
+  "fits_each": 20,
+  "total_fits": 40,
+  "arms": [
+    "MD",
+    "CD"
+  ],
+  "flow": "parallel cold MD20 and CD20; afterany both CPU collector",
+  "original_full_receipt": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/execution.lock.json",
+    "bytes": 69869,
+    "sha256": "a399d80257c38182cb67498d4aef8be12729f0e8fffe118f8d7f1e8b2701351c"
+  }
+}

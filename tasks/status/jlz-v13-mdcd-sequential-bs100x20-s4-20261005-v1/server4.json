@@ -4,15 +4,43 @@
   "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
   "owner": "SH4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "status": "IMPLEMENTED_CPU_CHECKED_NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_MD_RUNNING_CD_RESOURCE_PENDING",
+  "as_of_utc": "2026-10-04T20:46:08Z",
   "FULL_READ_SHA": "VERIFIED",
-  "existing_nonce_duplicate": "NONE_FOUND",
-  "source_frozen": false,
+  "existing_nonce_duplicate": "NONE_FOUND_BEFORE_THIS_REGISTRATION",
+  "source_frozen": true,
+  "execution_source_commit": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "registration_repair_source": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+  "source_tree": "70773af2808e0fd15ece2fb1dcce3f1e9d59218c",
+  "config_sha256": "b2745b667e011f2a27e81b5f5f275cb731b9f418342b20cf741855c2149fd429",
+  "archive": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/source.tar",
+    "bytes": 1525760,
+    "sha256": "86a1a21bbb969e6a83b1fac8a00d2aa3456e98a4b244664e1d9f64e68af735c8"
+  },
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/execution.lock.json",
+    "bytes": 69869,
+    "sha256": "a399d80257c38182cb67498d4aef8be12729f0e8fffe118f8d7f1e8b2701351c"
+  },
+  "held_inspection": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1/held-inspection.json",
+    "bytes": 13346,
+    "sha256": "4b596eea43e444feae994ef505563c2c2bf78666501cdcf0f01753607d1a4802"
+  },
   "CPU_tests": {
-    "passed": 12,
-    "failures": 0,
-    "errors": 0,
-    "actual_8B_GPU": false
+    "science_source": {
+      "passed": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    "registration_repair": {
+      "passed": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    "actual_8B_GPU": false,
+    "independent_reviewer": false
   },
   "actual_B1_reuse": "EXACT_CORE_RUNTIME_INPUT_CLOSURE_VERIFIED",
   "arms": [
@@ -21,10 +49,45 @@
   ],
   "requests_each": 2000,
   "batches_each": 20,
-  "jobs": {},
+  "jobs": {
+    "MD": {
+      "job_id": 58442,
+      "name": "odeedit_jlz_v13_mdcd_s4_MD",
+      "state": "RUNNING",
+      "reason": null,
+      "allocated_GPU": 1,
+      "runtime_seconds": 36,
+      "dependency": null
+    },
+    "CD": {
+      "job_id": 58443,
+      "name": "odeedit_jlz_v13_mdcd_s4_CD",
+      "state": "PENDING",
+      "reason": "Resources",
+      "allocated_GPU": 0,
+      "dependency": null
+    },
+    "collector": {
+      "job_id": 58444,
+      "name": "odeedit_jlz_v13_mdcd_s4_collector",
+      "state": "PENDING",
+      "reason": "Dependency",
+      "allocated_GPU": 0,
+      "dependency": "afterany:58442:58443"
+    }
+  },
   "main_initial": "NOT_OBSERVED",
+  "new_main_GPU_qualification": "NOT_OBSERVED",
+  "W20": "NOT_MEASURED",
+  "all_jobs_inspected_released": true,
+  "arm_science_dependency": false,
+  "duplicate_submissions": 0,
   "monitoring_active": false,
   "automatic_resume": false,
+  "sealed_runners_continue": true,
   "checkpoint_saved": false,
-  "no_B21": true
+  "no_B21": true,
+  "old_B1_V14_unchanged": true,
+  "receipt": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md"
 }

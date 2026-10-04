@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "publication_kind": "OWN_SOURCE_AND_COMPACT_SUBMISSION_HANDOFF_NOT_W20_RESULTS",
+  "execution_source": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "registration_only_repair_source": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+  "members": [
+    {
+      "path": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+      "bytes": 5744,
+      "sha256": "90b3c5663f0f3c9e19b9054bbac576ab157523e65f44dccc7bd1be245eabcd4a"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/cpu-tests-r2.json",
+      "bytes": 2888,
+      "sha256": "29ea05e02292915a487dc1f0817335e2e4d890eaa6b4331f06b1823b8e8dcb2d"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/cpu-tests-r3.json",
+      "bytes": 3165,
+      "sha256": "c67f8d152fb961c2785cd405c69793e7be40c4410102fe4708b1a85edb3f6bce"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/execution-lock-r1.json",
+      "bytes": 42666,
+      "sha256": "19f3f0e593699d31cc872275b657d6aed1148621178517170919c83c30ccd2fb"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/full-read-sha.json",
+      "bytes": 12002,
+      "sha256": "f94975225e009d9d811ad6edd8819ddce2b388575d5298b68222a816be3cd558"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/held-inspection-r1.json",
+      "bytes": 4644,
+      "sha256": "af67e0da9774b383f2647cf81c0329ae63819487400f71815a7a74bd2ac6bf9c"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/initial-submission-snapshot.json",
+      "bytes": 1598,
+      "sha256": "65ad3472d31bcc554f50e5ebf1c8869c9f03819e5746efa5828edfb1d33679a5"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/preflight-red-checklist-ko.md",
+      "bytes": 2313,
+      "sha256": "66dac7001f53793406306b02008dab07fff5a6530928a4a755c1210afca0fa61"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/publication-scope-exception.json",
+      "bytes": 1026,
+      "sha256": "971c7b820beb19ca41f58eef7ed9b470460aa5e45047aae6cac3770be071771c"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/registration-failure-r1.json",
+      "bytes": 896,
+      "sha256": "a92de9b2a780f014576c679fbbbdcf1b0d8c963293969ee669552f8e8bc92d31"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/registration-repair-r1-ko.md",
+      "bytes": 1360,
+      "sha256": "3304b3385007c08ac7bbe724c49c8dc17e3b4b92b24f324568f08c6cb2e6db8b"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/resource-plan-r1.json",
+      "bytes": 1187,
+      "sha256": "69d83b338be91d7ef3508b1877d2cb45c3ac13a18ae4d4072b2ff08142ca2ac1"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/source-runtime-reuse.json",
+      "bytes": 34868,
+      "sha256": "31a55e67ac6ac6878223818b19e9dbd1edb70f345bdb44ea28f8b13d0edd561a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md",
+      "bytes": 5590,
+      "sha256": "9a179e49fa0f7db3a6180dbc75bddbef1b1158ea65b8cd37abf80e96d0947408"
+    },
+    {
+      "path": "messages/acks/server4/2026-10-05-jlz-v13-mdcd-sequential-2k.json",
+      "bytes": 1134,
+      "sha256": "2633e51ff14915644fe406b4624ad912f5f77cf06b401d8a8d53c2bcc94b892b"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-sequential-2k.json",
+      "bytes": 2117,
+      "sha256": "f1217e6fa2e12e1b1cd39022ff2cbf5e2e0e9c259e648e9a9d5edcf873459cbd"
+    },
+    {
+      "path": "plans/updates/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/implementation-r1-ko.md",
+      "bytes": 4237,
+      "sha256": "4c0df8af355500ca76da90c1e0b16af2508f3da10df230cebd41943c06df1cbd"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/__init__.py",
+      "bytes": 82,
+      "sha256": "d8e2831cc515b66ef77ef3ed792f7d3046952fcf0e9bfd49147f885f5c2cf706"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/collect.py",
+      "bytes": 15305,
+      "sha256": "454b9394733fba43110e3ca4f9884f8cd96622d31e8e34d7486d7b49e44577ad"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/common.py",
+      "bytes": 2595,
+      "sha256": "6d6d9311b597e4bc68351f51463ed80209ac5771a3be1ea6106eebd069537b36"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/preflight.py",
+      "bytes": 1610,
+      "sha256": "f212c812a8f81c3a605d6d7aa819893a16dd9ae03aae578f8e178dd2b56dfa64"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/prepare.py",
+      "bytes": 13275,
+      "sha256": "a7fabc94c51383bfcced048784325480497ee7649babfba773167f8776e60191"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/release_held.py",
+      "bytes": 4190,
+      "sha256": "785262d8503dcc84eb8a7ff5ceaed2c732b2357164e8f43e21eda93e4d9a3aa2"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/run.py",
+      "bytes": 15850,
+      "sha256": "018201f02e100fc4835d472a3306acdd7af16f197d407753f564e79798343730"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/submit.py",
+      "bytes": 11894,
+      "sha256": "b767fa8873abab7e8f728ebea06db9ce445c99dc24c0792e2b989b770237a557"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/test_controller.py",
+      "bytes": 6417,
+      "sha256": "c3c31eab5c54eb41be7d87db4fe14473a14bb43c3303cc808465622b2f9e31ed"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/test_cpu.py",
+      "bytes": 12774,
+      "sha256": "7c8f4bc008504bbbca72ebab2e7e42725924d6bc4adcd21912d3cf33f35c183a"
+    },
+    {
+      "path": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+      "bytes": 3092,
+      "sha256": "f4ef707b0513a02359501760c62cbc4316095ba8df748ffdbda57a2e40e3e8e8"
+    }
+  ],
+  "regular_members": 28,
+  "total_bytes": 214519,
+  "self_excluded": true,
+  "source_hash_vs_receipt_content": "Current published registration repair source distinct from immutable GPU source",
+  "helper": {
+    "full_staged_check": "NOT_PASS_EXACT_USER_PREFIX_EXCEPTION",
+    "remaining_paths_staged_check": "PASS",
+    "excluded_explicit_path": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+    "shared_helper_modified": false
+  },
+  "raw_tensor_prompt_fullstdout_or_secret_published": false,
+  "checkpoint_saved": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "W20": "NOT_MEASURED"
+}
