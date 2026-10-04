@@ -1,0 +1,287 @@
+{
+  "status": "PILOT_B1_COMMITTED_B2_ENTERED",
+  "main_initial": "NOT_OBSERVED",
+  "commit": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/batch-01/commit.json",
+    "bytes": 5290,
+    "sha256": "b50e0a3b17b92e28742cf3d1a4d9603557aa573879771fec13346dd30035d681",
+    "inode": 135272978,
+    "mtime_ns": 1791109366934049796
+  },
+  "fit": {
+    "candidates": {
+      "541": {
+        "J": 0.06519219891616121,
+        "candidate": 24,
+        "reason": "EVALUATION_BUDGET"
+      },
+      "6693": {
+        "J": 0.0675472613752442,
+        "candidate": 24,
+        "reason": "EVALUATION_BUDGET"
+      }
+    },
+    "physical_backward_calls": 48,
+    "physical_forward_calls": 50,
+    "request_evaluations": 50,
+    "request_updates": 48,
+    "requests": 2,
+    "schema_and_relations": true,
+    "seconds": 8.888465113937855,
+    "terminal_extra_backward": 0,
+    "terminal_extra_forward": 0
+  },
+  "history_appends": 5,
+  "observer_no_mutation": true,
+  "qualification": {
+    "absolute-delta-gradient.json": {
+      "gradient": {
+        "4": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 145.35604757627252
+        },
+        "5": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 108.91191040734614
+        },
+        "6": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 89.38064029980087
+        },
+        "7": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 85.48221384075319
+        },
+        "8": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 80.08468650251113
+        }
+      },
+      "loss_error": 9.5367431640625e-07,
+      "new_fit": 0,
+      "reference": "absolute fullblock D leaf and native functional KL"
+    },
+    "fixed-0.json": {
+      "canonical_capture": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "gradients": {
+        "4": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 145.35604757627252
+        },
+        "5": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 108.91191040734614
+        },
+        "6": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 89.38064029980087
+        },
+        "7": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 85.48221384075319
+        },
+        "8": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 80.08468650251113
+        }
+      },
+      "limit": 0.004365954132080079,
+      "loss_error": 0.0
+    },
+    "fixed-1.json": {
+      "canonical_capture": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "gradients": {
+        "4": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 144.70639040769092
+        },
+        "5": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 108.40015886194445
+        },
+        "6": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 89.0295544930212
+        },
+        "7": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 85.16456394866856
+        },
+        "8": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 79.80430461369043
+        }
+      },
+      "limit": 0.004366468925476074,
+      "loss_error": 0.0
+    },
+    "microbatch.json": {
+      "gradient": {
+        "4": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 144.70639040769092
+        },
+        "5": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 108.40015886194445
+        },
+        "6": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 89.0295544930212
+        },
+        "7": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 85.16456394866856
+        },
+        "8": {
+          "error": 0.0,
+          "limit": 0.002,
+          "pass_": true,
+          "reference_norm": 79.80430461369043
+        }
+      },
+      "loss_error": 0.0,
+      "request_complete_groups": true,
+      "reverse_order": true
+    },
+    "native-keys.json": {
+      "baseline_fit": 0,
+      "checks": {
+        "4": {
+          "max_excess": -2.0000006770715117e-05,
+          "maxabs": 5.960464477539063e-08,
+          "pass_": true
+        },
+        "5": {
+          "max_excess": -2.000001768465154e-05,
+          "maxabs": 5.960464477539063e-08,
+          "pass_": true
+        },
+        "6": {
+          "max_excess": -2.0000212316517718e-05,
+          "maxabs": 5.960464477539063e-08,
+          "pass_": true
+        },
+        "7": {
+          "max_excess": -2.0000032236566767e-05,
+          "maxabs": 5.960464477539063e-08,
+          "pass_": true
+        },
+        "8": {
+          "max_excess": -2.0000010408693925e-05,
+          "maxabs": 5.960464477539063e-08,
+          "pass_": true
+        }
+      },
+      "original_function": true
+    },
+    "native-scaled-update.json": {
+      "checks": [
+        {
+          "epsilon_u": 6.974363327026367e-08,
+          "factor": 1.0,
+          "gamma": [
+            1.0
+          ],
+          "maxabs": 2.9802322387695312e-08,
+          "pass_": true
+        },
+        {
+          "epsilon_u": 6.974363327026367e-08,
+          "factor": 1e-09,
+          "gamma": [
+            1.0
+          ],
+          "maxabs": 9.313225746154785e-10,
+          "pass_": true
+        }
+      ],
+      "extra_target_forward": 0
+    },
+    "predeclared.json": {
+      "anchor_only_same_candidate": true,
+      "fit_calls": 0,
+      "fixed_scales": [
+        0.0,
+        0.025
+      ],
+      "gradient_relative": 0.002,
+      "loss_atol": 2e-05,
+      "loss_rtol": 0.0002,
+      "native_operator_reference": true,
+      "new_baseline_fits": 0,
+      "quality_gate": false,
+      "reversed_group_nonzero_comparison": true,
+      "routes": [
+        "cached",
+        "full"
+      ],
+      "tiny_gradient_absolute": 1e-06
+    },
+    "ready.json": {
+      "main_initial": false,
+      "quality_gate": false,
+      "status": "QUALIFIED_BOUNDED_ACTUAL_MODEL"
+    }
+  }
+}
