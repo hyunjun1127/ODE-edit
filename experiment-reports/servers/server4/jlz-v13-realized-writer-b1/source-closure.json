@@ -1,0 +1,460 @@
+{
+  "task": "jlz-v13-realized-writer-b1",
+  "execution_source": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "source_tree": "3f7f8c28f1adddb798068cf8ea8caa31321ffa2a",
+  "config_sha256": "dd9bd8dabee8eef985a500a6d636474d0d83060f76c79b3da7db42c9e757c644",
+  "source_archive": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source.tar",
+    "bytes": 1402880,
+    "sha256": "0789696ef231d5b5fc03abfdb75b2feec79f5fac2854ec32f820a4702cfb1c98"
+  },
+  "closure_counts": {
+    "source": 135,
+    "runtime": 11,
+    "native": 21,
+    "dependency": 53,
+    "hparams": 1
+  },
+  "v13_core": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/__init__.py",
+      "bytes": 79,
+      "sha256": "486f6f0831f35d39cc5e4c85036efac5005ff9da0431966c2f6d7b2f0f9a23b4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/capture.py",
+      "bytes": 4057,
+      "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/collect.py",
+      "bytes": 8266,
+      "sha256": "9d6dcefc7e0a911b007d8f81c582b6ce5c5d9fe1905faac7f986b6c300068392"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/common.py",
+      "bytes": 559,
+      "sha256": "c338e8235924f345b43e55b5c7d9bb9ca7a2f7096136f29819aa23dcd0f49412"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/geometry.py",
+      "bytes": 4643,
+      "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/preflight.py",
+      "bytes": 1705,
+      "sha256": "5282e29a163de1b85807e306438ae10e74c936538d410daad11e44993591f4d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/prepare.py",
+      "bytes": 7718,
+      "sha256": "83247e11bfc19774390564f6c75c14627fffb1f8d0f2aac835427692062cbc37"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/run.py",
+      "bytes": 9851,
+      "sha256": "56da583ad76d39da99460f63af028701ba0875b2ada91d86ec6670fd32e1cd0b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/submit.py",
+      "bytes": 9903,
+      "sha256": "57b58618f60a74bc0c7908eebc7f49b595fee3a8c0254357c08fb985a5691b62"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/telemetry.py",
+      "bytes": 1539,
+      "sha256": "dfa0bc64bf89d60a481897e87568372a25bb2c492ed48eb486cb67764413a94c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/test_cpu.py",
+      "bytes": 9165,
+      "sha256": "e0f5f39adb39e6150b684352944b97cf3627bacb880f02451dda1cdd6ddfbb26"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/writer.py",
+      "bytes": 7974,
+      "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+    }
+  ],
+  "runtime_sources": [
+    {
+      "module": "torch",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/__init__.py",
+      "bytes": 102969,
+      "sha256": "3caf7f40140ede2465bde40b9003af10cbbc8f7bcf436fa1de026471daa1b288"
+    },
+    {
+      "module": "torch.nn.functional",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/nn/functional.py",
+      "bytes": 244561,
+      "sha256": "5e96bb0880a4c6f4c0ae34c00a894e152412e68f6ffd073d2b442907eedeb5fa"
+    },
+    {
+      "module": "torch.autograd.function",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/autograd/function.py",
+      "bytes": 33459,
+      "sha256": "a30fbd7abe776f7d49ab6618d640b144e195e1d3bcf7c9d29ac58a04ea3266ba"
+    },
+    {
+      "module": "numpy",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/numpy/__init__.py",
+      "bytes": 22147,
+      "sha256": "6ae17b070c0f70a8e3cad89a510a256942e5a1f37ea5feb120cec167ed2a6236"
+    },
+    {
+      "module": "transformers",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/__init__.py",
+      "bytes": 47000,
+      "sha256": "4ef5187b5f66c564aa575ddab9ce94342630d40fe874d0464d790c6f6b748647"
+    },
+    {
+      "module": "transformers.models.llama.modeling_llama",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py",
+      "bytes": 20714,
+      "sha256": "31bf660a663259134324bc65da4e155951dc89c5ca46471d2325a9938e859e26"
+    },
+    {
+      "module": "transformers.masking_utils",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/masking_utils.py",
+      "bytes": 60515,
+      "sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+    },
+    {
+      "module": "transformers.cache_utils",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/cache_utils.py",
+      "bytes": 67772,
+      "sha256": "f4e11caf14c75bdefa5e3003b93ef0e8b97fb6103375705ad944b0b344d7da8a"
+    },
+    {
+      "module": "transformers.modeling_utils",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py",
+      "bytes": 308964,
+      "sha256": "bf1c6b2a43cf7c36fb79f37c981424dd6ae78eb863fcaa5d2a37e76c9828611d"
+    },
+    {
+      "module": "transformers.tokenization_utils_base",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py",
+      "bytes": 211457,
+      "sha256": "e71871474be2b1aa32f3a147dc31fe0a195fd402a27c37d30d666035fcccd891"
+    },
+    {
+      "module": "transformers.tokenization_utils_fast",
+      "path": "/data/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_fast.py",
+      "bytes": 41383,
+      "sha256": "558e454ee6850e90e8bc5d1782e35878dfda1da9bfdf997ae113fa7ff771a0f3"
+    }
+  ],
+  "native_reference": [
+    {
+      "module": "memit",
+      "path": "/data/janghj/BLUE/memit/__init__.py",
+      "bytes": 121,
+      "sha256": "89d395c13f2abfca13405b085d862d4035da3b718fc9c41c07400396c76a5212"
+    },
+    {
+      "module": "memit.compute_ks",
+      "path": "/data/janghj/BLUE/memit/compute_ks.py",
+      "bytes": 1540,
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+    },
+    {
+      "module": "memit.compute_z",
+      "path": "/data/janghj/BLUE/memit/compute_z.py",
+      "bytes": 13402,
+      "sha256": "ebcd0a886ac4c76bbc5b0d8f3bc5edcbd6c6a3719fed938a280b11bc30c30732"
+    },
+    {
+      "module": "memit.memit_hparams",
+      "path": "/data/janghj/BLUE/memit/memit_hparams.py",
+      "bytes": 859,
+      "sha256": "8e8dfe922aabaf0296850ddacd7802d2ca44d00913ad22f46e44e37073abe9a9"
+    },
+    {
+      "module": "memit.memit_main",
+      "path": "/data/janghj/BLUE/memit/memit_main.py",
+      "bytes": 16281,
+      "sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be"
+    },
+    {
+      "module": "memit.memit_seq_main",
+      "path": "/data/janghj/BLUE/memit/memit_seq_main.py",
+      "bytes": 16805,
+      "sha256": "f84fcf4b388ff1e5c5c9d520202d926e5b16314b8269063b57d8d25243bc716a"
+    },
+    {
+      "module": "rome",
+      "path": "/data/janghj/BLUE/rome/__init__.py",
+      "bytes": 74,
+      "sha256": "87e6bd462753e8a86b84b2461da6067762cb0d5c9b7061b1b0598adb6f550a7a"
+    },
+    {
+      "module": "rome.compute_u",
+      "path": "/data/janghj/BLUE/rome/compute_u.py",
+      "bytes": 3612,
+      "sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a"
+    },
+    {
+      "module": "rome.compute_v",
+      "path": "/data/janghj/BLUE/rome/compute_v.py",
+      "bytes": 9558,
+      "sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009"
+    },
+    {
+      "module": "rome.layer_stats",
+      "path": "/data/janghj/BLUE/rome/layer_stats.py",
+      "bytes": 7514,
+      "sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693"
+    },
+    {
+      "module": "rome.repr_tools",
+      "path": "/data/janghj/BLUE/rome/repr_tools.py",
+      "bytes": 6405,
+      "sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f"
+    },
+    {
+      "module": "rome.rome_hparams",
+      "path": "/data/janghj/BLUE/rome/rome_hparams.py",
+      "bytes": 674,
+      "sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5"
+    },
+    {
+      "module": "rome.rome_main",
+      "path": "/data/janghj/BLUE/rome/rome_main.py",
+      "bytes": 6041,
+      "sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f"
+    },
+    {
+      "module": "rome.tok_dataset",
+      "path": "/data/janghj/BLUE/rome/tok_dataset.py",
+      "bytes": 3103,
+      "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4"
+    },
+    {
+      "module": "util",
+      "path": "/data/janghj/BLUE/util/__init__.py",
+      "bytes": 34,
+      "sha256": "0f2267e08c0c9345017c155e4d894043773f4e303958a95a3e8fe5dc3c5b341d"
+    },
+    {
+      "module": "util.generate",
+      "path": "/data/janghj/BLUE/util/generate.py",
+      "bytes": 5472,
+      "sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366"
+    },
+    {
+      "module": "util.globals",
+      "path": "/data/janghj/BLUE/util/globals.py",
+      "bytes": 388,
+      "sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2"
+    },
+    {
+      "module": "util.hparams",
+      "path": "/data/janghj/BLUE/util/hparams.py",
+      "bytes": 319,
+      "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0"
+    },
+    {
+      "module": "util.logit_lens",
+      "path": "/data/janghj/BLUE/util/logit_lens.py",
+      "bytes": 2893,
+      "sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4"
+    },
+    {
+      "module": "util.nethook",
+      "path": "/data/janghj/BLUE/util/nethook.py",
+      "bytes": 15506,
+      "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1"
+    },
+    {
+      "module": "util.runningstats",
+      "path": "/data/janghj/BLUE/util/runningstats.py",
+      "bytes": 65305,
+      "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97"
+    }
+  ],
+  "native_hparams": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/worktree/project/run_scripts/memit_history_lifelong/hparams.json",
+    "bytes": 727,
+    "sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15"
+  },
+  "launchers": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1.sh",
+      "bytes": 684,
+      "sha256": "cb076d37f080dbdc4e7f4179fc90915181a06c45640421e90afbcd1d664cde67"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/collector.sh",
+      "bytes": 719,
+      "sha256": "2fbe5e8456aa225ca3a3fabab87b31bbb6fda6df651d0488709b04b21dcad602"
+    }
+  ],
+  "model": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "ordered100_sha256": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+  "input_identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+  "observer_identity": {
+    "bytes": 406210,
+    "inode": 135283188,
+    "mtime_ns": 1791135664918501706,
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/preparation-r1/observer-identity.json",
+    "sha256": "20dd87fcb3ead03be075478f9c164678849d3bd3f1e863d10391d7b86cb1cdbe"
+  },
+  "assets": [
+    {
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "bytes": 16679956,
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+      "bytes": 654,
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+      "bytes": 187,
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "bytes": 4976698672,
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "bytes": 4999802720,
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "bytes": 4915916176,
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "bytes": 1168138808,
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+      "bytes": 23950,
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+      "bytes": 73,
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+      "bytes": 9085698,
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+      "bytes": 50977,
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME"
+    }
+  ],
+  "profile": {
+    "adapter": "llama_causal_down_proj",
+    "anchor_layer": 8,
+    "benchmark": "counterfact_native",
+    "clamp_factor": 0.75,
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "kl_factor": 0.0625,
+    "lambda_C": 15000,
+    "nll_layer": 31,
+    "norm_factor": 0.5
+  },
+  "settings": {
+    "B": 100,
+    "batches": 1,
+    "branches": [
+      "RT",
+      "RD",
+      "MT",
+      "MD",
+      "CD"
+    ],
+    "candidate_cap": 25,
+    "fit_count": 1,
+    "fit_requests_per_group": 1,
+    "no_B2": true,
+    "observer_microbatch": 2,
+    "save_checkpoints": false,
+    "update_cap": 24
+  },
+  "runtime": {
+    "python_version": "3.12.3",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "transformers": "4.57.1",
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "attention": "eager",
+    "autocast": false,
+    "matmul_TF32": false,
+    "cudnn_TF32": false
+  },
+  "noCP": true,
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/execution.lock.json",
+    "sha256": "06b9fe80e31cd104f0d1045c8f4e2475f0aabc55bef9374e3ed7f6784ae977f5"
+  },
+  "notes_ko": "기존 동결 execution lock metadata의 발췌. 기존 대형 asset는 원 FULL_SHA+stat verification 구분을 유지했다. 완료 후 bounded reviewer가 closure221항목/config와 현재 main core12파일 일치를 검산했다. 원 archive/config/full closure localKEEP; 새 CPU 요약 script는 이 GPU 실행 source에 포함되지 않는다."
+}

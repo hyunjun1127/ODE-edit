@@ -1,0 +1,17 @@
+{
+  "task": "jlz-v13-realized-writer-b1",
+  "observed_utc": "2026-10-04T18:52:41Z",
+  "observed_date_kst": "2026-10-05",
+  "method": "동일 task 두 parent의 단발 sacct -X 조회; recurring monitoring 아님",
+  "command": "sacct -X -P -n -j 58381,58382 --format=JobIDRaw,JobName,State,ExitCode,ElapsedRaw,AllocTRES",
+  "jobs": [
+    {"id": 58381, "name": "odeedit_jlz_v13_s4_B1", "state": "COMPLETED", "exit_code": "0:0", "elapsed_seconds": 1695, "allocated_gpus": 1, "cpus": 8, "host_memory": "58G", "allocated_gpu_seconds": 1695},
+    {"id": 58382, "name": "odeedit_jlz_v13_s4_collector", "state": "COMPLETED", "exit_code": "0:0", "elapsed_seconds": 17, "allocated_gpus": 0, "cpus": 8, "host_memory": "24G", "allocated_gpu_seconds": 0}
+  ],
+  "gpu_cost_parent_counting": "GPU parent 1회만 계상; collector GPU0; runner 측정과 allocated elapsed 중복 합산 없음",
+  "original_collector_cost_snapshot": "cost.json의 collector RUNNING은 생성 당시 snapshot이며 원본을 수정하지 않았다",
+  "job_mutation": false,
+  "new_model_or_evaluator_call": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

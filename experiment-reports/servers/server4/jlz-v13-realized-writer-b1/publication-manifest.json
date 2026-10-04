@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "task": "jlz-v13-realized-writer-b1",
+  "publication_authority_ko": "사용자 직접 명령: 보고서 및 산출물,코드 모두 main에 push해",
+  "date_kst": "2026-10-05",
+  "execution_source": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "execution_lock_sha256": "06b9fe80e31cd104f0d1045c8f4e2475f0aabc55bef9374e3ed7f6784ae977f5",
+  "publication_base": "448573f39c782856990e9b05f9f97131e454c415",
+  "branch": "codex/server4-jlz-v13-b1-results-publication-20261005-v1",
+  "files": [
+    {
+      "path": "audits/servers/server4/jlz-v13-realized-writer-b1/postrun-review-ko.md",
+      "bytes": 3545,
+      "sha256": "7b3a2818dda51978ee6a60c0b66c3e44cb0b697baa54520a5428f43587f766b6"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-realized-writer-b1/publication-review.json",
+      "bytes": 2447,
+      "sha256": "532fdbea97e48b3159e1449844b9812ad166e3b7b02173d10a125c3cec5eabca"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/collector-inventory.json",
+      "bytes": 31453,
+      "sha256": "3a6892499f3cd1b8ed0e26b39447c1aeea31c8f1eddf37660bacb37f738db1b7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/collector-report-ko.md",
+      "bytes": 1045,
+      "sha256": "b0592eee3e65c6c4aa59278662323a1a960472960a55a0365c91f6776e0f6ab4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/collector-terminal.json",
+      "bytes": 694,
+      "sha256": "550753629228b524e2032b4c739b6512c63fdd7ea21ac9902c26ca03a6971fa1"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/comparison-B1.csv",
+      "bytes": 1929,
+      "sha256": "394daa7a5a38bb031b69c182ad879a4f40d3dc5e67cc37a8dfd34f4327f84081"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/cost.json",
+      "bytes": 987,
+      "sha256": "e09294eca09687fc5e8716880c26640a0a961b737dd73587c544d79de6319425"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/fit-summary.json",
+      "bytes": 865,
+      "sha256": "8fe615216eb6bd2a9013f39e3106cc74f4252fd9857077d112801124cbb4c224"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/metrics.json",
+      "bytes": 8563,
+      "sha256": "20b78641c606aa3f3a8e5a31dfb04755a723bc52470dcb7b4e21e253d19678a3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/realization-summary.csv",
+      "bytes": 574084,
+      "sha256": "feeba18eb1a6094e83f123b8f083becc7b9048f431baad68bcc11a9a85131c95"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/realization-summary.json",
+      "bytes": 725929,
+      "sha256": "049c148e3c55f91fdc0f083e405a5617b9ac1b85634f6d6ebeb31bb040accb40"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/report-ko.md",
+      "bytes": 14060,
+      "sha256": "f650f6ee46603f36f589ce96249b3ae34e5de1501518837ea03722ea2fd1f61a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/scheduler-terminal.json",
+      "bytes": 1142,
+      "sha256": "f58c4b44d1189d4d128966dce25b2a01752eb507df51b19afc1364ffb6d16a2d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/shares-summary.csv",
+      "bytes": 36975,
+      "sha256": "34df39b451776ce5169139c2a4dc3f8b0bc3a385af64cb2bb2ac4d1db812e3cc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/source-closure.json",
+      "bytes": 19730,
+      "sha256": "2b1c1bc30c1e9c64a132062fbf84a234f990e1f95862a3614407f096da02a334"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/writer-summary.csv",
+      "bytes": 20106,
+      "sha256": "b012a45b90f608c4891df6001e4a0f8c6cca6b95801e7ebc8a1a90637a90a3cd"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/writer-summary.json",
+      "bytes": 61074,
+      "sha256": "c4fb437f5749837f0ca708d6a352fa610fa246c60f242a44f70031a902af79ab"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-05-jlz-v13-results-publication.json",
+      "bytes": 1205,
+      "sha256": "5fce7159f6e5bdd8ca1405fc3c2bf36f82bcde3c98b251d0a4c8be422675498d"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/__init__.py",
+      "bytes": 79,
+      "sha256": "486f6f0831f35d39cc5e4c85036efac5005ff9da0431966c2f6d7b2f0f9a23b4"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/capture.py",
+      "bytes": 4057,
+      "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/collect.py",
+      "bytes": 8266,
+      "sha256": "9d6dcefc7e0a911b007d8f81c582b6ce5c5d9fe1905faac7f986b6c300068392"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/common.py",
+      "bytes": 559,
+      "sha256": "c338e8235924f345b43e55b5c7d9bb9ca7a2f7096136f29819aa23dcd0f49412"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/geometry.py",
+      "bytes": 4643,
+      "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/preflight.py",
+      "bytes": 1705,
+      "sha256": "5282e29a163de1b85807e306438ae10e74c936538d410daad11e44993591f4d0"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/prepare.py",
+      "bytes": 7718,
+      "sha256": "83247e11bfc19774390564f6c75c14627fffb1f8d0f2aac835427692062cbc37"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/run.py",
+      "bytes": 9851,
+      "sha256": "56da583ad76d39da99460f63af028701ba0875b2ada91d86ec6670fd32e1cd0b"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/submit.py",
+      "bytes": 9903,
+      "sha256": "57b58618f60a74bc0c7908eebc7f49b595fee3a8c0254357c08fb985a5691b62"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/summarize_results.py",
+      "bytes": 21124,
+      "sha256": "cbd6939d9a9ea428c4c29f437097a1f302232a792d3ddf039459e760230860dc"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/telemetry.py",
+      "bytes": 1539,
+      "sha256": "dfa0bc64bf89d60a481897e87568372a25bb2c492ed48eb486cb67764413a94c"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/test_cpu.py",
+      "bytes": 9165,
+      "sha256": "e0f5f39adb39e6150b684352944b97cf3627bacb880f02451dda1cdd6ddfbb26"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/writer.py",
+      "bytes": 7974,
+      "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+    },
+    {
+      "path": "tasks/status/jlz-v13-realized-writer-b1/server4.json",
+      "bytes": 2021,
+      "sha256": "49a4de43d5aefd6ff5f45cc5496ee9600195128e33eb7ae3465097cce9bc0712"
+    }
+  ],
+  "total_bytes": 1594437,
+  "manifest_self_hash_excluded": true,
+  "raw_local_KEEP": true,
+  "raw_root": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1",
+  "raw_inventory": {
+    "published_copy": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/collector-inventory.json",
+    "original": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/cpu-report/inventory.json",
+    "sha256": "3a6892499f3cd1b8ed0e26b39447c1aeea31c8f1eddf37660bacb37f738db1b7",
+    "verification": "기존 collector fullSHA inventory 재사용; publication CPU summary는 필요한 named inputs/current stat 확인만 수행"
+  },
+  "source_notes_ko": "기존12 GPU production files byte-exact 유지/이미 main에 게시됨. 새 summarize_results.py는 실제 GPU source와 별개의 stdlib CPU-only 출판 요약 코드.",
+  "storage_boundary_ko": "큰 realization.json/fullwriters/fit-events/raw평가/model/tensor/prompt/fullstdout/secret는 Git0. Scalar aggregates/compact metrics/counts/source/hash/manifest만 게시; checkpoint 없음.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: 같은 서버 compact Git 게시; 대형 raw 무전송",
+  "new_GPU_or_evaluator_calls": 0,
+  "job_mutation": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

@@ -1,0 +1,46 @@
+{
+  "task": "jlz-v13-realized-writer-b1",
+  "date_kst": "2026-10-05",
+  "user_authority_ko": "보고서 및 산출물,코드 모두 main에 push해",
+  "execution_source": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "review_scope_ko": "완료 후 stored raw/scalar/hash/source와 final Git payload의 bounded 감사; GPU 재실행 및 RAM-only tensor 독립 재계산 아님",
+  "runtime_review": "실행 당시 owner audit; 완료 후 독립 bounded source/receipt 및 수치 검토를 별도로 수행",
+  "fact_reviewer": {
+    "role": "별도 realization 검토 agent, 구현/게시 worker와 분리",
+    "checks": 64284,
+    "mismatches": 0,
+    "realization_records": 345,
+    "realization_csv_rows": 3810,
+    "share_csv_rows": 240,
+    "writer_layer_records": 25,
+    "coverage_ko": "새 보고서 수치·D/T분모·actual/net·zero/null·context 중복·원scalar/CSV/JSON/fit 일치"
+  },
+  "payload_reviewer": {
+    "role": "별도 source/integrity 검토 agent, 구현/게시 worker와 분리",
+    "scope": "기존 staged20파일 및 manifest31members",
+    "sha_size_verification": "PASS",
+    "core12_unchanged": true,
+    "scalar_only_no_raw_tensor_arrays": true,
+    "no_credentials_checkpoint_or_other_scope": true,
+    "metadata_warning_ko": "observer_identity.mtime_ns가 JS Number serialization으로 원 정수와106ns 달라짐을 발견",
+    "warning_resolution_ko": "ROOT가 원 config literal1791135664918501706로 출판 metadata만 수정. 원 source/raw/config/측정값 변경0. 원 정수 대조와 manifest SHA/size 재봉인 수행",
+    "additional_confirmed_blocker_after_that_correction": false
+  },
+  "publication_tests": {
+    "source12_exact": "PASS",
+    "collector6_byte_exact": "PASS",
+    "stdlib_CPU_summary_selftest_and_exact_rerun": "PASS",
+    "JSON_syntax": "PASS",
+    "manifest_SHA_size": "PASS",
+    "agent_access_check": "PASS: command-scoped server-head/server4-server-head/server4 identity",
+    "credential_pattern_scan": "일치 없음; 탐지 패턴 범위의 검사이며 임의 secret 부재에 대한 보편적 증명은 아님",
+    "whitespace": "PASS: command-scoped cr-at-eol 허용. 표준 CSV CRLF와 원collector byte-exact 유지. 공유 Git config 수정0"
+  },
+  "raw_local_KEEP": true,
+  "checkpoint_saved": false,
+  "new_GPU_model_evaluator_calls": 0,
+  "job_mutation": false,
+  "scientific_promotion": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

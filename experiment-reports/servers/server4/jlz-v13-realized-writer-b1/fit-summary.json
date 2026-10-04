@@ -1,0 +1,32 @@
+{
+  "branches_are_not_500_unique_requests": true,
+  "endpoint_branch_count": 5,
+  "final_J": {
+    "RMS": 0.07498744748580523,
+    "count": 100,
+    "max": 0.20170507439830668,
+    "mean": 0.07301568359631161,
+    "median": 0.07023687476465587,
+    "min": 0.05633938176688354,
+    "undefined": 0
+  },
+  "fit_count": 1,
+  "physical_backward_calls": 2400,
+  "physical_forward_calls": 2500,
+  "request_evaluations": 2500,
+  "request_updates": 2400,
+  "requests": 100,
+  "schema_and_relations": true,
+  "seconds": 385.58507775887847,
+  "source_commit": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "source_tree": "3f7f8c28f1adddb798068cf8ea8caa31321ffa2a",
+  "terminal_candidate_counts": {
+    "24": 100
+  },
+  "terminal_extra_backward": 0,
+  "terminal_extra_forward": 0,
+  "terminal_stop_reason_counts": {
+    "EVALUATION_BUDGET": 100
+  },
+  "unique_requests": 100
+}

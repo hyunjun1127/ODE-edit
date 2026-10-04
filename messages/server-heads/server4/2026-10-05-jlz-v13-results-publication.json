@@ -1,0 +1,21 @@
+{
+  "task": "jlz-v13-realized-writer-b1",
+  "from": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "user_authority_ko": "보고서 및 산출물,코드 모두 main에 push해",
+  "status": "COMPLETED_RESULTS_PUBLICATION",
+  "jobs": {"58381": "COMPLETED 0:0", "58382": "COMPLETED 0:0"},
+  "execution_source": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "report": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/report-ko.md",
+  "manifest": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/publication-manifest.json",
+  "code": "project/run_scripts/jlz_realized_writer/",
+  "note_ko": "기존12실행파일 exact 유지, 완료 평가와 실현/share/Q/fit/cost 요약을 게시. 추가 CPU-only 출판 요약 코드는 실제 GPU execution source와 구분한다. Remote exact commit 검증값은 같은 turn 최종 응답으로 반환한다.",
+  "raw_local_KEEP": true,
+  "raw_tensor_prompt_fullstdout_secret_in_Git": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: 동일 서버 compact Git 공유",
+  "checkpoint_saved": false,
+  "new_experiment_or_evaluator_calls": 0,
+  "job_mutation": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}
