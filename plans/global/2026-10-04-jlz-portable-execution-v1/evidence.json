@@ -1,0 +1,88 @@
+{
+  "source_review": {
+    "reviewed_commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+    "sources": [
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/entry.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/entry.py",
+        "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+      },
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/optimize.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/optimize.py",
+        "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+      },
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/optimizer.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/optimizer.py",
+        "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+      },
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/writer.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/writer.py",
+        "sha256": "fa4a2da18cc80af40b35eef77182d0d401a0d078f3f059b2ac173ba45b411476"
+      },
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/run.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/run.py",
+        "sha256": "3fac2f6746bd95511e241fa03679a3dc7c970d73f96b8882324d5215be0cb837"
+      },
+      {
+        "source": "project/run_scripts/jlz_shared_budget_alphaedit/telemetry.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_shared_budget_alphaedit/telemetry.py",
+        "sha256": "20f49da154511ade0d4201c783349d15b83900530c6d3676a8629a927f9881ab"
+      },
+      {
+        "source": "project/run_scripts/jlz_realization/profile.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_realization/profile.py",
+        "sha256": "1c9ca0faa06dd1ebeeb6c68ad8faef89e607ea2da001da5d87c8b481f860c473"
+      },
+      {
+        "source": "project/run_scripts/jlz_realization/inputs.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_realization/inputs.py",
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      },
+      {
+        "source": "project/run_scripts/jlz_realization/observe.py",
+        "commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+        "local": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-execution-optimization-review-20261004/source/project/run_scripts/jlz_realization/observe.py",
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      }
+    ]
+  },
+  "historical_ridge_B1_time": {
+    "source": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/batch-01",
+    "scope": "Sealed B1 only, historical ridge timings, not AlphaEdit speed",
+    "commit.json": {
+      "sha256": "5fa1d7282dd5a51f62ce4a14f26655e0ac3c0b69407d8ddece67b9ba8c22901f",
+      "seconds": 532.5305888261646
+    },
+    "fit/fit.json": {
+      "sha256": "6104daa7c70ffcd12e154884ada397123a276cb4907d47e8837fe9f8edc58061",
+      "seconds": 387.3537579085678,
+      "physical_forward_calls": 2500,
+      "physical_backward_calls": 2400,
+      "request_evaluations": 2500,
+      "request_updates": 2400
+    },
+    "writer.json": {
+      "sha256": "f93dde42761076a937837cc1fdd604832acef2eea4daf7008b2ff13e90dd1556",
+      "seconds": 76.05906581506133,
+      "capture_forward_calls": 600
+    },
+    "post/summary.json": {
+      "sha256": "862ac2077a82fb56ef91a0bdd31d2a1c82702241e1e5e08da796b68e471ec1c6",
+      "seconds": 43.52828201465309,
+      "row_count": 1300
+    }
+  },
+  "note": "Implementation facts read at immutable commit; design benefits remain unmeasured."
+}
