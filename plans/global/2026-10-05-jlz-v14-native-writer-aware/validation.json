@@ -1,0 +1,14 @@
+{
+  "scope": "design/CPU-reference only",
+  "JSON_parse": "PASS",
+  "CPU_reference_tests_passed": 8,
+  "CPU_reference_tests_failed": 0,
+  "CPU_source_hashes": "PASS",
+  "reference_theorem_assumptions": "FP64 symmetric SPD A; production stored-A and FP32 separately qualified",
+  "production_implementation": false,
+  "actual_model_qualification": false,
+  "GPU_speed_benchmark": false,
+  "jobs_changed": false,
+  "v13_documents_changed": false,
+  "CPU_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)"
+}

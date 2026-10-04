@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "path": "comparison-design.json",
+      "bytes": 3308,
+      "sha256": "0c4682e55e35e249f3eb52e3efed533e2af9768f97358372f5dc4b1986c407f6"
+    },
+    {
+      "path": "method-contract.json",
+      "bytes": 9948,
+      "sha256": "2e71eec7266c9bea73d87c4f7ef7eaf98cdbb49f2b19eba9dc6cf69d3b55fcd4"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 871,
+      "sha256": "b33a9a749f2532c2ad4c7317c62834ae0d14f0b6f80c566ec189fc2f3f1b83f5"
+    },
+    {
+      "path": "reference/audit.json",
+      "bytes": 4514,
+      "sha256": "bedc2893f83d5a6e8d46e41fbbce0efca01be5891aca49c028f4d52105d07ac4"
+    },
+    {
+      "path": "reference/requirements.txt",
+      "bytes": 13,
+      "sha256": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+    },
+    {
+      "path": "reference/test_ref.py",
+      "bytes": 9966,
+      "sha256": "cdb43399db8344819ff40e32b095b03f78fb154b42c75bf7fc944b17544ece78"
+    },
+    {
+      "path": "reference/writer.py",
+      "bytes": 4070,
+      "sha256": "11b07523ebb56c2b678eb3093ccbe2bde7a854160b9cadaf066c61fe46c28acf"
+    },
+    {
+      "path": "runtime-contract.json",
+      "bytes": 8330,
+      "sha256": "40173b306a34b0e3dda86f4e730fa96c2db84a7ea41558229ab67352a5a4e675"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 541,
+      "sha256": "83fc6658956e82e8e70bb7a02fbba88aa0199105f15ad48cbd4765de54f55992"
+    }
+  ]
+}

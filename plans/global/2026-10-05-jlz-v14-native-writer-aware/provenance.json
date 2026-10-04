@@ -1,0 +1,12 @@
+{
+  "date_kst": "2026-10-05",
+  "source_v12_and_writer_commit": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+  "v12_design": "../2026-10-04-jlz-v12-marginal-allocation/contract.json",
+  "v13_current_B1_design_commit": "77c15907",
+  "v13_current_B1_scope_commit": "1f73d403",
+  "v13_current_B1_changed": false,
+  "v10_reference": "project/run_scripts/jlz_realized_subject/ (read-only execution reference; norm/optimizer/allocation are NOT inherited)",
+  "review_basis": "Existing sealed B1 ridge/Alpha same-plan source and scalar telemetry reviewed in prior turn; no new model experiment",
+  "math_review": "Independent review of requested-budget energy bound, coupled optimization, native-objective limits and residual base-state gap",
+  "runtime_review": "Independent read-only code review of fixed-A geometry, actual-key builder, whole-B adjoints and streamed replay"
+}

@@ -1,0 +1,128 @@
+{
+  "schema": "JLZ_V14_PROSPECTIVE_RUNTIME_CONTRACT_V1",
+  "status": "DESIGN_NOT_IMPLEMENTED",
+  "reference_graph": "Small dense differentiable causal native builder + subject-only native forward, whole logical B; all K/P gradients.",
+  "reuse": {
+    "v10_namespace": "project/run_scripts/jlz_realized_subject/",
+    "files": {
+      "causal_builder.py": "causal whole-B key/weight/subject-action graph, with memory strategy corrected",
+      "geometry.py": "native means, fixed-A factor, same-A inverse apply/Woodbury, residual checks",
+      "subject.py": "selected-position heads and microbatch v-adjoint accumulation; remove realized-norm/allocation terms",
+      "profile.py": "prefix caches and causal/masked stages with model adapter",
+      "writer.py": "RAM transaction, accepted weight commit and final native history",
+      "qualification.py": "dense/direct/full-native references and geometry-detach negative control"
+    },
+    "v12_commit": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+    "v12_namespace": "project/run_scripts/jlz_shared_budget/",
+    "v12_reuse": "EfficiencyAdam requested-budget projection and anchor scaling; not request-independent early-freeze.",
+    "prospective_namespace": "project/run_scripts/jlz_native_writer_aware/",
+    "reuse_is_not_drop_in": "v10 has unbounded q-Adam, norm on realized v, .1 allocation term, eager all-row GPU activation graphs and a dense weight-gradient intermediate. All require explicit correction."
+  },
+  "factors": {
+    "per_batch": "Factor same stored A_l once per eligible layer; invalidate after H changes.",
+    "formula": "Y=solve(A,K); T=I+K^T Y; P=Y T^-1, implemented via transpose small solve.",
+    "backend": "Same-A Cholesky when applicable and residual-validated; otherwise same-A LU/native full-system solve. No hidden symmetrization, jitter or rank truncation.",
+    "selection": "Shape/resource-based qualified backend. If A is singular or inverse-apply invalid, qualified full native solve(A+KK^T,K); no logical-B splitting.",
+    "earliest_site": "K/P at first eligible site independent of all candidate R; cache after actual adapter verification."
+  },
+  "execution": {
+    "actual_causal_builder": "Layerwise streaming in native row order; complete whole-B mean K before solving one P_l.",
+    "forward_stages": [
+      "CPU/pinned cache entry prefix and stage-boundary activations",
+      "stream row groups to collect native subject keys at current write site",
+      "assemble full native K and solve once for this layer/candidate",
+      "materialize W_eff once, resume each row group through updated site and intervening blocks",
+      "record native subject v and next boundary states; offload checkpointed activations",
+      "repeat all eligible sites; never build independent microbatch writers"
+    ],
+    "masked_forward": "Process native loss groups with same owner/site v, preserve native reductions, full vocabulary only at required readout positions.",
+    "reverse_stages": [
+      "accumulate masked-loss adjoints for every v_lrc",
+      "reverse eligible stages, recompute a row group with same candidate factors/weights/checkpoint states",
+      "accumulate direct R/P adjoints and input-boundary adjoints across all rows",
+      "one whole-B solve VJP maps accumulated P adjoint to K",
+      "native mean VJP returns extra K adjoints to original rewrite row subject keys",
+      "replay stage key paths to complete boundary adjoints before moving to lower stage"
+    ],
+    "storage": "Microbatch bounds model activation working set; CPU boundary states and whole-B small factors still scale with B. Streaming adds recomputation/transfer; not an unconditional speedup.",
+    "no_candidate_accumulation": "All replays use candidate-specific payload and fixed entry W/H; gradients include each path exactly once.",
+    "all_zero_forward": "Do not detach R or skip required P/Jacobian when R=0; every candidate starts with valid derivatives for reentry."
+  },
+  "numerical_kernel": {
+    "canonical_forward": "materialized W_entry+FP32(R64 P^T), same native linear and cast/add order",
+    "direct_RP_VJP_candidate": "dR=G^T(XP), dP=X^T(GR); avoid dense G^T X intermediate after parity qualification.",
+    "warning": "Reassociation changes multiplication/accumulation dtype/order. Low-rank forward XW_entry^T+(XP)R^T also changes weight rounding and is not canonical without separate measured acceptance.",
+    "differentiability": "CPU finite differences use smooth FP64 reference; production autograd uses normal floating-point cast derivatives. Bitwise quantized forward is not a mathematically smooth function and must not be claimed as such."
+  },
+  "reuse_without_objective_change": [
+    "native token IDs with only unnecessary right padding removed",
+    "entry prefix below first write",
+    "fixed entry teacher/anchors",
+    "candidate/layer shared materialized weights",
+    "accepted candidate payload for commit",
+    "causal accepted builder keys for final history only after qualification",
+    "selected-position full-vocabulary head"
+  ],
+  "portability": {
+    "sources": "ModelAdapter and row metadata provide dimensions, eligible sites, injection/write additive correspondence, context roles, lookup/positions and native nested means.",
+    "logical_B": "Independent of fit/capture/eval microbatches; preserve native all-column solve, duplicate and zero columns.",
+    "request_reduction": "Sum objective gradient, mean report; actual B from tail, no hardcoded100.",
+    "empty_batch": "No fit/solve/commit, no 1/B reduction.",
+    "noncontiguous_layers": "Forward/replay through intervening unedited blocks and preserve key dependency.",
+    "unsupported": "Report missing additive mapping or resource support; do not silently change sites, contexts, precision or B."
+  },
+  "qualification": {
+    "CPU": "reference/audit.json; algebra, requested budget/energy, cross-talk and full K/R gradients",
+    "actual": "tiny B=1/2/3 with unequal context lengths and tail shapes; native source/cast/add, dense/full-solve versus optimized paths and finite coupled gradients",
+    "proposed_tolerances": {
+      "native_loss": {
+        "atol": 0.00001,
+        "rtol": 0.0001
+      },
+      "gradient_RMS": {
+        "atol": 0.000001,
+        "rtol": 0.001
+      },
+      "native_ridge_relative_residual": 1e-8,
+      "key_local_action_elementwise": {
+        "atol": 0.00001,
+        "rtol": 0.0001
+      },
+      "budget": "v12 existing post-cast feasibility tolerance, fixed before evaluation"
+    },
+    "gradient_checks": "Include lower R -> upper K/P -> upper v; fixed-P gradient parity is insufficient.",
+    "target_contract_checks": "Stored R is actual solve RHS at every layer; no inherited residual appended; all layers with zero u retain nonzero potential gradient.",
+    "transaction": "accepted payload exact copy, history once, all-column retention, observer no mutation, W/H/RNG restore",
+    "reference_first": "Repair same-method implementation/numerical failures; no performance-based tolerance adjustment."
+  },
+  "telemetry": {
+    "per_candidate": [
+      "requested R/u norms and shared budget/slack",
+      "native NLL/KL/requested penalty and joint stopping",
+      "component gradients and cross-request coupling",
+      "mean/canonical/context actual response vs requested R, directional/error metrics",
+      "native solve residual, Q, effective update norm",
+      "subject-masked vs actual prestate gap where observed"
+    ],
+    "terminal": [
+      "actual deployed NLL and RS/PS/NS",
+      "R/P new and N true strict TF/token/prompt ACC",
+      "joint candidate identity and commit equality",
+      "zero-owner leakage and per-request/aggregate shares",
+      "actual-task performance is observer-only"
+    ],
+    "expensive_metrics": "Full actual task evaluator at W0/terminal only in first pilot; not every optimization candidate. Mandatory builder quantities reuse existing computation.",
+    "timers": [
+      "entry factors/prefix",
+      "causal forward",
+      "native loss forward",
+      "adjoint/replay",
+      "optimizer/projection",
+      "commit/history",
+      "evaluation",
+      "peak GPU/CPU memory"
+    ],
+    "estimated_speedup": "NOT_MEASURED. Extra actual builder plus writer VJP is real work; no V12-level runtime claim."
+  },
+  "jobs_changed": false
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "JLZ_V14_NATIVE_WRITER_AWARE_REQUESTED_BUDGET_DRAFT_V1",
+  "date_kst": "2026-10-05",
+  "status": "PROSPECTIVE_DESIGN_ONLY_NOT_AUTHORIZED_FOR_GPU_EXECUTION",
+  "motivation_ko": "원본에도 존재하는 ridge의 미실현을 exact writer로 제거하기보다, native writer 아래에서 실행될 요청 잔차를 모든 층에서 함께 계획한다. v12의 virtual delta 예산 밖으로 생기던 상속 보정 RHS를 제거한다.",
+  "scope": {
+    "baseline_planner": "v12 shared-budget / EfficiencyAdam",
+    "baseline_writer": "MEMIT-H native mean-key ridge",
+    "v13_running_B1": "UNCHANGED; frozen V13 documents, execution command, source and jobs not modified",
+    "new_reference_replay_pulse": false,
+    "new_allocation_coefficient": false,
+    "all_configured_layers_eligible": true,
+    "automatic_gpu_dispatch": false
+  },
+  "claim_ko": "native writer의 실제 응답을 고려한 공동 local 요청 생성과 요청 예산 배분. 최소 semantic damage/최소 writer energy/정확 실현을 보장한다는 주장은 하지 않는다.",
+  "batch_entry": {
+    "frozen": [
+      "W_entry",
+      "H_entry",
+      "native C0 and lambda_C",
+      "canonical entry anchors a_lr",
+      "native anchor a_star_r",
+      "native KL entry teacher",
+      "native prompts/tokenization/lookup/row order"
+    ],
+    "model_benchmark_logical_B": "runtime profile; algorithm supports adapter-provided sizes, layers and actual context counts"
+  },
+  "variables": {
+    "u": "u_lr in R^{d_l}; initialized zero at all eligible sites",
+    "requested_residual": "R_lr=a_lr*u_lr; R is the actual ridge right-hand-side target, not a realized hidden change",
+    "budget": "for every request r: sum_l ||u_lr||_2 <= c",
+    "default_c": 0.75,
+    "penalty": "beta_r sum_l ||u_lr||; beta_r=lambda_norm/a_star_r",
+    "default_lambda_norm": 0.5,
+    "meaning_ko": "요청량 규제다. 실제 주입량 v의 norm을 쓰는 native compute_z와 완전히 동일하다고 부르지 않는다. v12의 요청량 비용과 공유 예산을 유지한다."
+  },
+  "candidate_builder": {
+    "restart": "Each candidate starts from identical W_entry/H_entry; no accumulation of previous candidate writes or history.",
+    "loop": "Traverse every eligible site in model causal order, including zero requested columns and layers.",
+    "actual_keys": "All native rows propagate through candidate lower all-token writes. Capture current actual subject keys k_actual_lrc; aggregate native nested rewrite-only means K_l with one column per original occurrence.",
+    "ridge": "A_l=lambda_C*C0_l+H_entry_l; P_l=solve(A_l+K_l K_l^T,K_l); U_l=R_l P_l^T.",
+    "native_matrix_semantics": "Use native stored A/order/dtype, no symmetrization/jitter/exact writer/nullspace replacement. The ideal energy theorem separately assumes symmetric positive definite A.",
+    "local_target": "z_local_lr=h_actual_pre_lr+R_lr, conceptually. Pass stored R directly as solve RHS; do not reconstruct R by subtracting rounded h from z and do not use v12 frozen virtual z.",
+    "no_unbudgeted_tracking": "No additive (h_virtual_pre-h_actual_pre) correction and no remaining-layer divisor or L8 completion.",
+    "deployment_forward": "Current profile W_eff_l=W_entry_l+FP32(R_l64 P_l^T); linear operation performed once with that materialized weight.",
+    "actual_subject_action": "v_actual_lrc=F.linear(k_actual_lrc,W_eff_l)-F.linear(k_actual_lrc,W_entry_l), bias cancels; canonical FP32 reference. Also record ideal U*k and effective-weight action separately.",
+    "causal_continuation": "Continue actual all-token builder with W_eff to next eligible site; upper keys/P depend on lower R.",
+    "zero_requested_column": "Retain zero-target columns. Cross-talk can still make their realized action nonzero.",
+    "zero_whole_layer": "U=0 forward value at R=0 is allowed, but do not remove its optimization/Jacobian path; dU/dR is generally nonzero at R=0."
+  },
+  "fit": {
+    "intervention": "Native subject positions only. Inject v_actual_lrc from builder into a second subject-only native forward for the same row/owner/site.",
+    "native_preserved": [
+      "rewrite and KL sentences",
+      "lookup locations",
+      "NLL target/token/context reduction and readout layer",
+      "KL current||entry over full vocabulary and native KL readout"
+    ],
+    "native_changed_ko": "주입 위치는 같지만 주입 벡터는 context별 writer 작용이다. 이것은 v10 T-prime 형태를 재사용하며 native/v12의 context 공통 R 직접 주입과 다르다.",
+    "objective": "J_sum(u)=sum_r [NLL_native_r(v_actual(u))+lambda_K KL_native_r(current(u)||entry)+beta_r sum_l ||u_lr||]; report J_sum/B and per-request components.",
+    "default_lambda_K": 0.0625,
+    "gradient": "Full coupled gradient of sum over ALL requests. Differentiate through actual causal keys, native means, P solve, U, actual subject actions and masked subject forward. W_entry,H_entry,anchors,entry teacher fixed.",
+    "norm_gradient": "One analytic beta_r*u_lr/||u_lr|| term per block, zero subgradient at origin; never also include a duplicated autograd norm penalty.",
+    "no_detach": "No teacher-style detach of v, upper keys or P. Frozen-geometry gradients may be measured as negative controls, never presented as the same method.",
+    "residual_gap": "Subject-only prestate differs from all-token actual prestate. Matching local v does NOT imply fit NLL equals committed NLL or full trajectory equality."
+  },
+  "optimizer": {
+    "method": "v12 EfficiencyAdam with its existing moments/gamma/epsilon coordinate convention and shared Euclidean group-norm projection.",
+    "unit": "Per-request moment/counter and constraint retained; gradients contain all request losses, so requests no longer optimize independently.",
+    "scaling": "Differentiate summed request objectives; if backend reduces a mean, multiply its VJP by actual B consistently before optimizer. This prevents an accidental 1/B step change, not scientific invariance to batch composition.",
+    "synchronous": "All request blocks update on common candidate index; no permanent request-wise early freeze.",
+    "early_exit": "At a common candidate, stop only if every current per-request Jr is below native profile threshold .05; otherwise continue to the shared evaluation cap.",
+    "max_candidate_evaluations": 25,
+    "max_updates": 24,
+    "terminal": "last fully evaluated finite common candidate, not best evaluation-set candidate",
+    "budget_after_storage": "Retain v12 FP64 projection/FP32 castback feasibility contract; no hidden extra clipping or new warm-up.",
+    "zero_reentry": "All layers' gradient/moment paths retained; zero-allocation sites can reenter."
+  },
+  "commit": {
+    "weights": "Commit the exact materialized weight payload of the accepted candidate's causal native builder; no new target policy or stale-key rebuild.",
+    "key_refresh": "Last candidate builder already recomputes each upper key after its own lower actual writes; commit replays that same sequence.",
+    "history": "After all writes, native rewrite-only final mean keys append once per original occurrence at every eligible layer; no KL/context Gram replacement, success filtering or deduplication.",
+    "history_cache": "Accepted builder mean keys can replace extra final recapture only after adapter proof and actual-model parity that later writes cannot affect earlier input keys.",
+    "transaction": "W/H/RNG/cache rollback on technical failure; observer evaluation cannot mutate endpoint. No persistent model checkpoint introduced."
+  },
+  "mathematical_guarantees": {
+    "assumptions": "Exact arithmetic symmetric SPD A and native mean-key ridge; numerical FP32 realization/actual stored asymmetric A verified separately.",
+    "mean_response": "S=K^T A^-1 K; M=S(I+S)^-1; UK=RM",
+    "energy": "Q=tr(UAU^T)=tr[R S(I+S)^-2 R^T]<=||R||_F^2/4",
+    "total_energy_bound": "sum_l Q_l <= (c^2/4) sum_r max_l a_lr^2, for the actual candidate-dependent keys as well.",
+    "interpretation_ko": "계획한 R 예산이 이상적 writer 보존 에너지의 상한과 연결된다. v12는 writer R=D+상속항이므로 D 예산만으로 이 상한을 주장할 수 없었다.",
+    "not_guaranteed": [
+      "individual/context realization contraction",
+      "zero-owner actual action",
+      "equal planned and realized shares",
+      "semantic locality/retention",
+      "minimum-energy allocation",
+      "history growth implies a particular layer share falls",
+      "finite-step global optimum"
+    ],
+    "compensation": "Optimizer may increase R within its fixed budget to offset shrinkage. No explicit inverse-realization factor is used; unlimited or plan-external compensation is excluded, not all compensation."
+  },
+  "differences": {
+    "v12": "virtual D direct injection -> writer-realized native subject actions; frozen virtual absolute z -> actual-state requested residual R; independent fitting -> coupled fitting; tracking RHS -> direct requested RHS. Writer ridge/history unchanged.",
+    "v10": "T-prime execution idea reused, but v10's unbounded q/raw coefficients and realized-norm regularization replaced by v12 requested-R penalty + hard shared budget; no G-only allocation/pulse/reference objective.",
+    "v13": "no equality/context-exact writer. Native mean ridge and its soft preservation tradeoff retained; change resides in planner and target/execution contract."
+  },
+  "open_scientific_risks": [
+    "native masked fit versus all-token deployed base gap remains",
+    "cross-request and context effects can damage locality despite energy bound",
+    "nonconvex coupled optimization may redistribute by optimizer history within 24 updates",
+    "requested budget may constrain accuracy; no automatic coefficient/radius change",
+    "compute exceeds writer-free v12 fit unless measured optimization offsets it"
+  ],
+  "production_implementation": false,
+  "new_GPU_run": false
+}

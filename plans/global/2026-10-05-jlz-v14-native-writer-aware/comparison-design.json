@@ -1,0 +1,70 @@
+{
+  "schema": "JLZ_V14_PROSPECTIVE_COMPARISON_V1",
+  "status": "DESIGN_ONLY_NO_DISPATCH",
+  "running_experiment": "V13 B1 remains untouched. Its RT/RD results may be reused only with exact input/W0/H0/native-writer/planner/runtime/evaluator identity.",
+  "purpose": "Separate native-writer-aware target generation from writer replacement and tracking removal.",
+  "initial_panel": "Same fixed first100, W0/H0, all eligible layers and native profile; one B1 per endpoint, no automatic sequential expansion.",
+  "endpoints": [
+    {
+      "id": "V12_RT",
+      "fit": "v12 virtual planner",
+      "write": "native mean ridge, tracking z_virtual-h_actual",
+      "source": "existing V13 RT if identity matches"
+    },
+    {
+      "id": "V12_RD",
+      "fit": "same v12 virtual plan",
+      "write": "native mean ridge, direct stored D as R",
+      "source": "existing V13 RD if identity matches"
+    },
+    {
+      "id": "V14_RD",
+      "fit": "new coupled writer-aware requested-budget planner",
+      "write": "same native mean ridge, direct planned R",
+      "source": "prospective new fit, not submitted"
+    }
+  ],
+  "contrasts": {
+    "RT_vs_RD": "target/tracking policy at same frozen v12 plan",
+    "V12_RD_vs_V14_RD": "execution-aware planning and its necessary coupled optimization at fixed native writer/direct policy",
+    "RT_vs_V14_RD": "combined method effect, not pure planner ablation"
+  },
+  "cost": "If qualified RT/RD outputs are reusable, only one additional B100 fit is needed. Otherwise prepare one shared v12 fit and one v14 fit; no automatic reruns or new task authorized by this design file.",
+  "frozen": [
+    "same native data/order/lookup/NLL/KL",
+    "same A/C0/H0 and native ridge coefficient",
+    "shared requested-relative radius .75 and v12 requested penalty",
+    "same EfficiencyAdam coordinate convention and max25/24 work",
+    "same evaluation denominators and TF ACC definitions"
+  ],
+  "transparent_changes": [
+    "v14 subject injection becomes context-specific actual writer action",
+    "v14 full coupled gradient and common terminal candidate",
+    "v14 no permanently frozen request or stale accepted z"
+  ],
+  "technical_checks": "runtime-contract.json qualification, then exact accepted payload/native writer/observer audit",
+  "scientific_success": [
+    "better deployed PS and strict ACC at acceptable NS under same fixed requested budget",
+    "plan/solve-RHS exact contract, no unbudgeted inherited correction",
+    "masked-to-actual task gap explicitly measured",
+    "writer energy and update norms interpreted alongside task results"
+  ],
+  "not_success_criteria": [
+    "writer ratio forced to1",
+    "a preset layer-share trend",
+    "support sparsity by itself",
+    "lower masked training NLL alone"
+  ],
+  "reports": [
+    "paired raw RS/PS/NS and strict ACC with full denominators",
+    "requested/realized allocation and cross-talk",
+    "same-R mean response ratio distribution, not final-z percent",
+    "actual-vs-masked NLL and prestate gap",
+    "Q/norm and phase timings"
+  ],
+  "future_retention": "Only a separately authorized sequential run can support lifelong retention/locality claims; no 2k execution is granted here.",
+  "hyperparameter_search": false,
+  "reference_set": false,
+  "dispatch_sent": false,
+  "GPU_submitted": false
+}
