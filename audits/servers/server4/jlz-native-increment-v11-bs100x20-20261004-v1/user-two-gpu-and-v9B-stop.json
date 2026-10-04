@@ -1,0 +1,40 @@
+{
+  "user_exact": "b 취소하고 v11 gpu 2개 써",
+  "observed_utc": "2026-10-04T04:36:49Z",
+  "v9_B": {
+    "job": 57900,
+    "owner": "janghj(1025)",
+    "name": "odeedit_jlz_v9_2k_s4_main_B",
+    "exact_script": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/main-B.sh",
+    "before": "RUNNING; exact owner/source/fullargv checked",
+    "action": "scancel 57900",
+    "actor": "SH4 under direct USER authority",
+    "return_code": 0,
+    "accounting_after": "CANCELLED by 1025",
+    "allocated_GPU_seconds": 32330,
+    "bounded_queue_after_teardown": "exact job absent",
+    "rollback_after_SIGTERM": "NOT_VERIFIED",
+    "source_raw_partial_results": "KEEP; no deletion or rescue checkpoint",
+    "collector57901": "unchanged; already registered afterany collector may collect partial results"
+  },
+  "v11": {
+    "project_cap": 3,
+    "new_task_cap": 2,
+    "old_task_cap": 1,
+    "science_source": "156dd16c9341727504d0136c9a879f380adce442",
+    "science_source_config_lock_and_launchers": "UNCHANGED; frozen taskcap1 is superseded for scheduling only by this USER receipt",
+    "pilot58033": "COMPLETED 0:0; matching STRUCTURAL_READY present",
+    "pilot_ready_SHA256": "04d010f16825936bd252aef647ed85b1d3f91617ed10c7438b88bc945c12133f",
+    "MAIN58034": "RUNNING; unchanged",
+    "NOALLOC58035": "owner/script verified; exact local/Slurm SHA 65b6b02d2eaebded1375e8dbc18c83dad1a59ecc30423bad2483dde3aa56292d",
+    "shared_W0_dependency": "MAIN is sole writer of shared-W0; atomic binding not yet present at preflight. Starting NOALLOC immediately would race incomplete W0.",
+    "plan": "Finite CPU-only W0 binding/summary/source/config/cold-state validation, then NOALLOC afterok gate. MEMIT_H58036 remains afterany NOALLOC; MAIN independent. Maximum GPU concurrency2, no duplicate main.",
+    "gate": "1CPU/1024MiB/0GPU/max4h, internal finite readiness wait<=13800seconds, no scheduler/model/evaluator calls",
+    "gate_tests": "PASS ready fixture and 8 invalid identity/completeness cases; CPU only",
+    "main_initial": "NOT_OBSERVED",
+    "automatic_resume": false
+  },
+  "new_GPU_jobs": 0,
+  "science_changes": false,
+  "noCP": true
+}
