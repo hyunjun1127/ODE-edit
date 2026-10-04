@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "base_commit": "071337fc3506287cba9727b3647d95a4227ff85f",
+  "verification": "EXACT_SOURCE_SHA_SIZE_AND_DERIVED_CONTRACT_CPU_ONLY",
+  "source_review": {
+    "type": "GH owner reading plus separate read-only code explorer",
+    "agent": "/root/v13_sequential_requirements",
+    "no_GPU": true,
+    "findings": [
+      "B1 runner fit1/fivewriter/W0restore must be replaced by per-arm20freshfit loop.",
+      "Successful Transaction.finish required; rollback restores batch entry, not coldW0.",
+      "Adapter.last_virtual global_row keys reset each batch; old stale coverage cannot pass.",
+      "A/L/keyfactor invalidation must bind own H/C0/W/nativecapture.",
+      "MDrewrite mean andCDrewrite+KL context equality; Hrewrite-only once, do not append through separate commit twice.",
+      "All20packing/2000observer IDs sealed; intermediate active-version all_records uses seen prefix.",
+      "PerarmEvents separate, exact identity sets and20commits/100Happends checked.",
+      "One uninterruptedRAMprocess/arm;2GPUparallel is USER cap2 override, not code explorer suggestedcap1."
+    ]
+  },
+  "existing_B1_actual": "Reuse bounded compatible frozen082300955e21a2c29218d66d98c5d2c37bc53a20 evidence; not a claim newsequential modelPASS.",
+  "new_sequential_GPU": "NOT_RUN_NOT_SUBMITTED",
+  "contract_arithmetic": {
+    "arms": [
+      "MD",
+      "CD"
+    ],
+    "B": 100,
+    "batches_each": 20,
+    "edits_each": 2000,
+    "fits": 40,
+    "max_request_evaluations": 100000,
+    "max_request_updates": 96000,
+    "Happends_each": 100,
+    "save_checkpoints": false,
+    "task_GPUs": 2,
+    "aggregate_host_MiB": 118784
+  },
+  "canonical_schedule": {
+    "records": 2000,
+    "batches": 20,
+    "first_case": 16186,
+    "last_case": 19132,
+    "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "stream_batch_slot_assertions": "PASS"
+  },
+  "scope_only_queue_snapshot": {
+    "server": "server4",
+    "owner": "janghj",
+    "queue_empty": true,
+    "no_scheduler_mutation": true
+  },
+  "members": [
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+      "bytes": 12778,
+      "sha256": "c6aa2e52a1e71fccbf20b14486ba7f26b64fd84b8cdbda256125d69b9fe80d62"
+    },
+    {
+      "path": "messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json",
+      "bytes": 4743,
+      "sha256": "df956c6b22ed075615ff83d13e76acd06d0284a9d07abc10d8789e85e9f43051"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/method-contract.json",
+      "bytes": 9337,
+      "sha256": "fe8e40679ea3797bc17f5fca5c34c2a24f5f13d9643a205391bb840d574a69b5"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/experiment.json",
+      "bytes": 5968,
+      "sha256": "a43cf5763ec9207d16e9d60833d20549fd49224688e335334d209b0965ea78dc"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/artifact-manifest.json",
+      "bytes": 1744,
+      "sha256": "6e2794359186f437180afa28909f4f775b0f7f713c22a9b8fd4917fb67645d4c"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+      "bytes": 9631,
+      "sha256": "9e6554e673192cb70125f54b959c94f96a6fe431392afbfb25c7cdd6cd9bfa5d"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/report-ko.md",
+      "bytes": 14060,
+      "sha256": "f650f6ee46603f36f589ce96249b3ae34e5de1501518837ea03722ea2fd1f61a"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/run.py",
+      "bytes": 9851,
+      "sha256": "56da583ad76d39da99460f63af028701ba0875b2ada91d86ec6670fd32e1cd0b"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/writer.py",
+      "bytes": 7974,
+      "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/geometry.py",
+      "bytes": 4643,
+      "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer/capture.py",
+      "bytes": 4057,
+      "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget/entry.py",
+      "bytes": 3532,
+      "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget/optimize.py",
+      "bytes": 7174,
+      "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+    },
+    {
+      "path": "project/run_scripts/jlz_realization/writer.py",
+      "bytes": 2871,
+      "sha256": "8a374fea357cb73c2676297defc697fc1a68ca9db6d42d5ca6637254e731ec6f"
+    },
+    {
+      "path": "project/run_scripts/jlz_realization/observe.py",
+      "bytes": 8397,
+      "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+    }
+  ]
+}

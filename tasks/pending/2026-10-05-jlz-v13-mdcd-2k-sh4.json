@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "PUBLISHED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json",
+  "execution_contract": "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+  "arms": [
+    "MD",
+    "CD"
+  ],
+  "B": 100,
+  "batches_each": 20,
+  "edits_each": 2000,
+  "task_GPU_cap": 2,
+  "save_checkpoints": false,
+  "submitted_jobs": [],
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md"
+}

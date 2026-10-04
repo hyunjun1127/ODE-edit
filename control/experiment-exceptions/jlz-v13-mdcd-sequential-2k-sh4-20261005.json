@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "owner": "SH4",
+  "user_quote": "v13-MD,CD 기준 2000edit sequential로 진행하는거 SH4에게 task 전달해라. 이전엔 single batch 기준의 구현이라 이를 참고해서 구현하면 된다. gpu 2개 사용해서 두 arm 모두 제출하자.",
+  "scope": "신규 MD/CD각BS100x20/coldW0H0/2GPU 동시등록과factreport까지",
+  "task_cap2": true,
+  "existing_B1_limit_superseded_for_new_task": true,
+  "global_other_task_STOP_unchanged": true,
+  "existing_job_cancel": false,
+  "save_checkpoints": false,
+  "recurring_monitor": false,
+  "envelope": "messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json"
+}

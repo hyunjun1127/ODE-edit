@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "date_kst": "2026-10-05",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "app_host": "remote-ssh-codex-managed:lab163"
+  },
+  "user_authority": {
+    "quote": "v13-MD,CD 기준 2000edit sequential로 진행하는거 SH4에게 task 전달해라. 이전엔 single batch 기준의 구현이라 이를 참고해서 구현하면 된다. gpu 2개 사용해서 두 arm 모두 제출하자.",
+    "scope": "MD/CD 각각coldBS100x20구현/검증/2GPU두arm제출/2k평가보고",
+    "exception": "control/experiment-exceptions/jlz-v13-mdcd-sequential-2k-sh4-20261005.json"
+  },
+  "execution_contract": "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+  "allowed_paths": [
+    "project/run_scripts/jlz_realized_writer_sequential/**",
+    "plans/updates/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/**",
+    "tasks/proposed/server4/*jlz-v13-mdcd*",
+    "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+    "messages/acks/server4/*jlz-v13-mdcd*",
+    "messages/server-heads/server4/*jlz-v13-mdcd*",
+    "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/**",
+    "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/**",
+    "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/**",
+    "ignored local/jlz-v13-mdcd-sequential-2k/20261005-v1/**",
+    "own actual-CWD session-boundary ignored"
+  ],
+  "Slurm": "승인scope 두GPU1 mainjobs와CPUafteranycollector heldinspection/release 허용",
+  "task_GPU_cap": 2,
+  "noCP": true,
+  "preflight": "원math/source exact재사용+새 sequential연속state/owntrajectory/cache/historyonce/observer CPU·기술검산. reviewer provenance정직기록.",
+  "red_team_gate": {
+    "preflight": "Bounded source/state review of the new two-batch sequential fixtures, transaction finish/rollback, cache invalidation, history-once, exact20packing/evaluation identity, resource_collision_and_gpu_cap, explicit_mem_and_server_memory_ceiling before freeze/submission. Reuse unchanged B1 math evidence rather than duplicate its GPU checks. Record actual reviewer provenance.",
+    "postrun": "Independent CPU reducer for expected identities/denominators,20commits/19next-entrylinks/100Honce perarm, paired rows, terminal/source/accounting/cap and immutable partial receipts.",
+    "warning_policy": "Scientific quality, finite rangeLS, rank deficiency, concentration and budget stop are record-only. Confirmed identity/nonfinite/transaction/IO/admission errors block that technical step and require same-method narrow repair; no hidden threshold/solver replacement. Never certify an unperformed audit."
+  },
+  "expected_paths": {
+    "ack": "messages/acks/server4/2026-10-05-jlz-v13-mdcd-sequential-2k.json",
+    "message": "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-sequential-2k.json",
+    "status": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+    "run": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+    "audit": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/",
+    "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md"
+  },
+  "publication": "SH4 ownscope source+compactreport/manifest nonforce main/branchpush 승인",
+  "artifact_policy": "Source+compactreports/counts/hash/figuresGit; raw modelinputs/tensors/fullstdout localonly. Follow approved smallartifact broadcast or documentedNO_BROADCAST_NOT_REQUIRED. Exact approved runs/server4 prefix helper-miss may be recorded explicit exception, sharedhelper untouched.",
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md",
+  "monitoring": "GH bounded direct ownerACK only; SH4 owns implementation/submission and reports both jobIDs. Bounded MD/CD first maincommit→nextentry or formalresourcepending initial handoff then monitoringpause; sealed each20batch andCPUcollector continue. No recurringheartbeat/newautomaticretry, no GPUcompletionwait in GH handoff.",
+  "unrelated_jobs_mutation": false,
+  "oldB1unchanged": true,
+  "direct_owner_ACK": "동일 nonce 담당 수락과 구현/미제출/현재task 여부를 즉시 commentary로 ACK. 이연결종료는SH4task중단아님."
+}
