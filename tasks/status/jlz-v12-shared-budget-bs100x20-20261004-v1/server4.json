@@ -1,7 +1,7 @@
 {
   "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
   "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
-  "status": "RESOURCE_PENDING_INITIAL_HANDOFF",
+  "status": "SH4_STOPPED_USER_MIGRATED_TO_SH3",
   "execution_source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
   "jobs": {
     "pilot": 58172,
@@ -20,9 +20,15 @@
   "monitoring_scope": "ENDED_AT_VERIFIED_MAIN_RESOURCE_PENDING",
   "automatic_resume": false,
   "local_attempt": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1",
-  "main_pending_reason": "Resources",
+  "main_pending_reason": null,
   "pilot_commits": 2,
   "pilot_allocated_GPU_seconds": 410,
-  "sealed_runner_continues_to_W20": true,
-  "resource_receipt": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/initial-resource-pending.json"
+  "sealed_runner_continues_to_W20": false,
+  "resource_receipt": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/initial-resource-pending.json",
+  "migration_nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "SH4_science_authority": "REVOKED",
+  "main_state": "CANCELLED",
+  "collector_state": "CANCELLED",
+  "destination_owner": "SH3",
+  "migration_receipt": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json"
 }

@@ -1,0 +1,90 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "actor": "SH4 janghj(1025)",
+  "source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+  "actions": [
+    {
+      "name": "collector",
+      "job": "58174",
+      "before": "PENDING",
+      "detail_before": "JobId=58174 JobName=odeedit_jlz_v12_s4_collector UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1388 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=Dependency Dependency=afterany:58173(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=04:00:00 TimeMin=N/A SubmitTime=2026-10-04T19:18:37 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T19:18:37 Scheduler=Main Partition=gpu AllocNode:Sid=server4:4125946 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=24G,node=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=odeedit_jlz_v12_s4_collector --chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source --mem=24576M --time=04:00:00 --output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.out --error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.err --dependency=afterany:58172:58173 /data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh WorkDir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source StdErr=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-58174.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-58174.out TresPerTask=cpu=8",
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12_s4_collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.err",
+        "--dependency=afterany:58172:58173",
+        "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh"
+      ],
+      "launch_sha256": "789a646f12f1eba457b3a2f7498a27613100018b40453202a369bca4263d64a3",
+      "cancel_utc": "2026-10-04T10:35:21.999356+00:00",
+      "cancel_result": "",
+      "cancel_rc": 0
+    },
+    {
+      "name": "V12_MAIN",
+      "job": "58173",
+      "before": "PENDING",
+      "detail_before": "JobId=58173 JobName=odeedit_jlz_v12_s4_V12_MAIN UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1389 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=Resources Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=7-00:00:00 TimeMin=N/A SubmitTime=2026-10-04T19:18:37 EligibleTime=2026-10-04T19:25:55 AccrueTime=2026-10-04T19:25:55 StartTime=2026-10-05T18:58:19 EndTime=2026-10-12T18:58:19 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T19:34:55 Scheduler=Backfill:* Partition=gpu AllocNode:Sid=server4:4125946 ReqNodeList=server4 ExcNodeList=(null) NodeList= SchedNodeList=server4 StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=odeedit_jlz_v12_s4_V12_MAIN --chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source --mem=59392M --time=7-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.out --error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.err --gres=gpu:1 --dependency=afterany:58172 /data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh WorkDir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source StdErr=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-58173.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-58173.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12_s4_V12_MAIN",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source",
+        "--mem=59392M",
+        "--time=7-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:58172",
+        "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh"
+      ],
+      "launch_sha256": "79ef007b07def3bd2a907c58c91d5b447640b600a1b104208abfa08bf5bc8127",
+      "cancel_utc": "2026-10-04T10:35:22.030025+00:00",
+      "cancel_result": "",
+      "cancel_rc": 0
+    }
+  ],
+  "observed_utc": "2026-10-04T10:35:22.037902+00:00",
+  "queue_after": "",
+  "accounting": "58173|CANCELLED by 1025|0:0|0|\n58174|CANCELLED by 1025|0:0|0|",
+  "details_after": {
+    "58173": "JobId=58173 JobName=odeedit_jlz_v12_s4_V12_MAIN UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1389 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=CANCELLED Reason=Resources Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=7-00:00:00 TimeMin=N/A SubmitTime=2026-10-04T19:18:37 EligibleTime=2026-10-04T19:25:55 AccrueTime=2026-10-04T19:25:55 StartTime=2026-10-04T19:35:22 EndTime=2026-10-04T19:35:22 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T19:34:55 Scheduler=Backfill Partition=gpu AllocNode:Sid=server4:4125946 ReqNodeList=server4 ExcNodeList=(null) NodeList= SchedNodeList=server4 StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=odeedit_jlz_v12_s4_V12_MAIN --chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source --mem=59392M --time=7-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.out --error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-%j.err --gres=gpu:1 --dependency=afterany:58172 /data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh WorkDir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source StdErr=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-58173.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN-58173.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+    "58174": "JobId=58174 JobName=odeedit_jlz_v12_s4_collector UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=1388 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=CANCELLED Reason=Dependency Dependency=afterany:58173(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=04:00:00 TimeMin=N/A SubmitTime=2026-10-04T19:18:37 EligibleTime=Unknown AccrueTime=Unknown StartTime=2026-10-04T19:35:22 EndTime=2026-10-04T19:35:22 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-04T19:18:37 Scheduler=Main Partition=gpu AllocNode:Sid=server4:4125946 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=24G,node=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=odeedit_jlz_v12_s4_collector --chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source --mem=24576M --time=04:00:00 --output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.out --error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-%j.err --dependency=afterany:58172:58173 /data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector.sh WorkDir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/source StdErr=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-58174.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/collector-58174.out TresPerTask=cpu=8"
+  },
+  "verification": {
+    "targets_terminal": true,
+    "active_pending_targets": 0,
+    "allocated_targets": 0,
+    "main_commits": 0,
+    "main_GPU_seconds": 0,
+    "collector_GPU_seconds": 0,
+    "pilot_58172": "COMPLETED_PRESERVED_410_GPU_SECONDS",
+    "other_job_mutations": 0,
+    "source_raw_KEEP": true,
+    "monitoring_active": false,
+    "automatic_resume": false
+  }
+}
