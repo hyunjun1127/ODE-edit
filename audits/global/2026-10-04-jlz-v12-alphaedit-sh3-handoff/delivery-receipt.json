@@ -28,13 +28,21 @@
       "stage": "AGENT_MESSAGE",
       "turn_id": "01a106d6-68f4-7913-b0bf-4edf603ef1df",
       "text": "SH3의 직접 담당 수락 ACK를 받았습니다. 현재 **구현 착수·미제출**이며, 기존 ridge 작업을 보존하고 새 AlphaEdit pilot→cold 2k 본선→collector를 cap 1 의존성으로 등록하겠다고 확인했습니다. 수락 기록까지 게시한 뒤 이번 인계를 마치겠습니다.\n"
+    },
+    {
+      "stage": "AGENT_MESSAGE",
+      "turn_id": "01a106d6-68f4-7913-b0bf-4edf603ef1df",
+      "text": "ACK `ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1`\n\n- 정본 SHA 검증 후 실행 지시·수락 기록을 main `27d02aa1`에 게시했습니다.\n- SH3 직접 담당 수락 확인: turn `01a106db-ba7e-7392-b473-ee68c7320223`.\n- 범위: **V12_ALPHAEDIT BS100×20, cap1, noCP**. 기존 ridge job은 보존하고 dependency로 직렬 등록합니다.\n- 현재 **구현 착수·미제출**이며 새 job ID는 없습니다. 기술 pilot PASS 후 추가 승인 없이 본실험을 진행하도록 지시했습니다."
     }
   ],
   "SH3_direct_acceptance": "CONFIRMED_DIRECT_READ_THREAD",
   "SH3_accepted_turn": "01a106db-ba7e-7392-b473-ee68c7320223",
-  "SH3_actual_ack": "ACK `ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1`. SH3가 담당합니다. 현재 IMPLEMENTING_NOT_SUBMITTED이며, 동일 nonce의 기존 등록 여부를 먼저 확인하겠습니다. 기존 ridge 작업은 보존하고, 새 AlphaEdit pilot→cold 2k main→collector를 cap1 의존성으로 등록하겠습니다.",
+  "SH3_actual_ack": "ACK `ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1`. SH3가 담당합니다. 현재 **IMPLEMENTING_NOT_SUBMITTED**이며, 동일 nonce의 기존 등록 여부를 먼저 확인하겠습니다. 기존 ridge 작업은 보존하고, 새 AlphaEdit pilot→cold 2k main→collector를 cap1 의존성으로 등록하겠습니다.\n",
   "GH_authority_publication_commit": "3fde147d4f67ef74df58bf0162e34fd6b80a0e81",
   "GH_authority_envelope": "messages/head/2026-10-04-jlz-v12-alphaedit-2k-sh3.json",
   "experiment_submission": "NOT_SUBMITTED_CONFIRMED_BY_SH3",
-  "experiment_completion": "NOT_COMPLETED"
+  "experiment_completion": "NOT_COMPLETED",
+  "GH_terminal": "completed",
+  "GH_final_ack": "ACK `ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1`\n\n- 정본 SHA 검증 후 실행 지시·수락 기록을 main `27d02aa1`에 게시했습니다.\n- SH3 직접 담당 수락 확인: turn `01a106db-ba7e-7392-b473-ee68c7320223`.\n- 범위: **V12_ALPHAEDIT BS100×20, cap1, noCP**. 기존 ridge job은 보존하고 dependency로 직렬 등록합니다.\n- 현재 **구현 착수·미제출**이며 새 job ID는 없습니다. 기술 pilot PASS 후 추가 승인 없이 본실험을 진행하도록 지시했습니다.",
+  "GH_main_publication_commit_reported": "27d02aa1"
 }
