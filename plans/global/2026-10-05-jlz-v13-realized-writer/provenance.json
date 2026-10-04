@@ -1,0 +1,13 @@
+{
+  "prior_v12_method": "../2026-10-04-jlz-v12-marginal-allocation/contract.json",
+  "prior_execution_optimization": "../2026-10-04-jlz-portable-execution-v1/runtime-contract.json",
+  "planner_source_commit": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "audited_AlphaEdit_source_commit": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708",
+  "reviewed_main_commit": "d52fb557",
+  "preceding_review": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-exact-writer-review-20261005/review-findings.json",
+  "same_plan_raw_analysis": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-v12-method-contract-20261004-v1/local/jlz-exact-writer-review-20261005/analysis.json",
+  "literature": {
+    "EMMET": "https://aclanthology.org/2024.findings-emnlp.903/"
+  },
+  "authorization_scope": "Method and next-experiment design; no external task dispatch or GPU launch in this turn"
+}

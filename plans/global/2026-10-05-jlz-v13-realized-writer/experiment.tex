@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\usepackage{kotex,amsmath,amssymb,booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\title{JLZ v13 realized writer: pilot와 2,000-edit 순차 실험 설계}
+\author{실행 준비 명세}
+\date{2026년 10월 5일}
+\begin{document}
+\maketitle
+
+\paragraph{실행 상태.}
+본 문서는 다음 실험을 준비한다. 현재 AlphaEdit/ridge job을 취소하거나 수정하지
+않는다. 실제 GPU pilot 또는 본 실험을 제출했다는 의미가 아니다.
+원하는 관측은 native subject에서의 계획 실현, 실제 배분, 정확도와 순차 보존이다.
+기술 qualification과 과학적 성과를 구분하고 PS/NS/배분 다양성으로 실행을 거르지 않는다.
+
+\section{질문과 동결 조건}
+질문은 (1) equality/range-LS writer가 soft ridge보다 local 목표를 잘 실현하는가,
+(2) direct 정책이 계획 외 보정량을 줄이는가,
+(3) 평균 제약보다 native context 제약이 실제 주입 위치의 오차를 줄이는가,
+(4) 그 결과가 ACC, paraphrase, locality와 순차 retention에 어떤 영향을 주는가다.
+실현이 좋아졌다고 task/locality 성능이 자동으로 좋아졌다고 판정하지 않는다.
+
+v12의 전체 eligible 층, native rewrite/KL 문장, tokenization, teacher,
+손실과 계수, .75 예산, EfficiencyAdam, 요청별 stop/terminal 규칙을 동결한다.
+주 profile은 동일 Llama3-8B-Instruct/CounterFact first2000 순서, L4--L8,
+FP32 모델, FP64 writer geometry, TF32 off, 같은 C0와 초기 H=0이다.
+정확한 model/data/context/source/runtime SHA는 실제 제출 전 manifest에 결속한다.
+현재 profile의 native KL row까지 제약하는 CD와 rewrite 평균만 제약하는 MD를
+명시하며, history는 두 경우 모두 rewrite-only native 평균으로 유지한다.
+
+\section{Q0: CPU 수학 참조}
+작은 행렬로 full-rank 등식/최소 에너지, compatible duplicate, 서로 다른 목표의
+duplicate, zero-target 열, context mismatch, metric whitening, numerical rank,
+FP32 applied update, variable owner/context 수와 마지막 batch를 검증한다.
+KL의 목표는 같은 owner D이며 history 평균에서 KL은 제외한다.
+결과는 \texttt{reference/audit.json}에 기록한다. CPU PASS는 실제 모델이나
+속도 qualification을 대신하지 않는다.
+
+\section{Q1: 작은 실제 모델 qualification}
+동일 profile의 first4 요청을 BS2로 두 번 순차 적용한다. 각 MD/CD chain은
+자기 W/H에서 두 번째 계획을 만든다. 목적은 native 행 구성, actual upper key
+재측정, write orientation, solver residual, 실제 FP32 작용, H exactly-once,
+실패 rollback 및 observer 비변이를 검증하는 것이다.
+실제 B100의 rank/시간/품질은 이 작은 검사로 대신하지 않는다.
+0 목표, 중복 key 충돌과 near-singular 문제는 CPU에서 실패/근사를 의도적으로
+검사하며 실제 benchmark label/목표를 변조해 qualification하지 않는다.
+
+\section{P1: first100의 같은 계획으로 writer를 비교}
+Cold W0/H0에서 v12 계획을 한 번만 fit한다. 동일 $u,D,z^v$, entry teacher,
+context/token metadata를 고정하고 다음 5개 branch를 실행한다.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Branch & Writer와 key & 우변 정책\\
+\midrule
+RT & 기존 MEMIT-H soft ridge, native mean & $z_l^v-h_l^{cur}$ tracking\\
+RD & 같은 soft ridge, native mean & $D_l$ direct\\
+MT & 최소 A-에너지 equality/range-LS, native mean & $z_l^v-h_l^{cur}$ tracking\\
+MD & 최소 A-에너지 equality/range-LS, native mean & $D_l$ direct\\
+CD & 최소 A-에너지 equality/range-LS, fit injection rows & owner별 $D_l$ direct\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+RT/RD/MT/MD의 2$\times$2는 동일 보존 metric에서 writer와 residual 정책을
+분리한다. MD/CD는 제약 위치의 효과를 분리한다. AlphaEdit을 이 2$\times$2의
+soft arm으로 쓰면 metric까지 바뀌므로 사용하지 않는다. 이전 AlphaEdit B1은
+참고 자료로 재사용하되 신규 branch인 것처럼 집계하지 않는다.
+
+각 branch는 동일 W/H/RNG에서 시작하고, 하층 write 이후 자신의 상층 key를
+재계산한다. 공통 계획만 공유하며 다른 branch의 K/hidden은 공유하지 않는다.
+모든 층 write와 native final H append 후 동일 R/P/N/ACC를 평가하고 RAM에서
+W/H/RNG/cache를 원복한다. 원복 hash와 plan hash를 확인하며 추가 fit은 0이다.
+모든 control branch의 비용과 main 비용은 따로 기록한다.
+
+성능 결과를 보고 budget, rank threshold, coefficient, writer를 바꾸지 않는다.
+미리 정한 main은 아래 MD와 CD 두 arm이다. 기술적으로 검증된 finite range-LS는
+rank 부족을 기록하고 계속한다. Numerical realization failure 등 기술 오류가 나면
+그 branch를 미검증 상태로 남기고 원인을 고친 새 source로 재qualification한다.
+실패 branch를 조용히 ridge로 치환하거나 성공 요청만 다음 단계에 넘기지 않는다.
+
+\section{Main: MD와 CD 각각 2,000 edit}
+두 arm 모두 독립된 cold W0/H0에서 first2000을 시작한다. 기본 논리 batch는
+BS100이며 총 20회다. MD는 평균 exact/LS direct, CD는 native-context exact/LS
+direct다. Main에서 RT/RD/MT의 추가 2k fit을 하지 않는다.
+P1의 plan을 이후 다른 entry 상태에서 재사용하지 않는다. B2부터 각 arm은 자기
+W/H를 입력으로 새 공동 계획을 fit한다. 따라서 장기 결과는 각 writer를 사용한
+전체 순차 방법의 효과이고, 같은 계획 단독 효과는 P1에서 판정한다.
+
+기존 v12 ridge first2k는 source/runtime/input/order/evaluator manifest가 맞을 때
+기존 실행 대조군으로 재사용한다. Native MEMIT-H, AlphaEdit, BLUE 등은 일치하지
+않는 runtime/입력 조건이 있으면 historical reference로 표시한다. 새 baseline
+fit을 이번 설계에 묵시적으로 추가하지 않는다.
+
+\subsection{Batch, 모델, benchmark 독립성}
+RunSpec은 총 편집 수 $N$, 논리 $B$ 또는 명시적 schedule을 받는다. 모든 구조는
+실제 $B_t$, 각 요청 context 수와 layer width에서 만든다. BS128이면
+$128\times15+80=2000$의 16회이며 마지막 요청을 버리지 않는다.
+N과 B는 실행 profile이며 method 상수가 아니다. 두 main arm은 같은 schedule을 쓴다.
+Fit request 묶음, capture row 묶음, evaluation row 묶음은 독립적으로 메모리에
+맞춘다. Writer는 전체 logical batch의 제약을 함께 풀며 microbatch write로 쪼개지 않는다.
+모델별 module, additive mapping, key dependency와 benchmark별 row/weight/metric은
+adapter qualification 대상이다. 논리 B 변경이 결과 불변을 의미하지는 않는다.
+
+\section{관측과 판정}
+매 commit에서 current cohort를 평가하고, 누적 edit 수 500/1000/1500/2000에서
+all-seen 평가를 수행한다. W0에서 같은 first2000의 reference를 한 번 계산한다.
+기본 BS100의 R/P/N 분모는 각 시점 실제 평가 row로 검산한다. 다른 benchmark에서는
+2P/10N 상수를 쓰지 않는다. Milestone이 batch 경계와 다르면 다음 완료 commit의
+실제 edit 수를 표시하며, 정확한 중간 수가 필요하면 schedule에 미리 경계를 넣는다.
+
+주 평가 항목은 RS/PS/NS, R/P desired-new 및 N desired-true의 TF strict ACC,
+token-micro와 prompt-macro ACC, new/true NLL과 margin이다. TF를 자유생성 정확도로
+부르지 않는다. R/P/N 선호율의 harmonic score는 보조 지표다.
+요청 identity로 편집 직후와 W5/W10/W15/W20을 연결하고, preference와 strict ACC
+각각의 lost/gained/retained를 기록한다. Active/superseded는 별도 층화하고 전체
+분모에서 임의로 제거하지 않는다. 이 평가 값은 optimizer나 writer 선택에 입력하지 않는다.
+
+\paragraph{실현과 배분.}
+각 층/요청에서 ideal, effective-weight, 실제 forward의 직접 작용을 구분한다.
+Native mean/canonical/rewrite context/KL을 나눠 norm ratio, 방향 투영비, cosine,
+목표 오차를 기록한다. 0 목표는 비율 대신 anchor 정규화 leakage로 기록한다.
+Plan share와 mean/canonical/context 직접 share, 요청별 share L1 오차,
+상속 gap, final virtual-target gap과 실제 entry 대비 순변화를 따로 남긴다.
+최종 gap은 per-request 벡터로 직접 계산하고 scalar median의 곱으로 대체하지 않는다.
+
+\paragraph{Feasibility와 비용.}
+각 solve의 shape, numerical rank, singular cutoff/condition, 버린 목표 성분,
+compatible 여부, ideal projected-target residual, applied-target residual,
+\(Q=\operatorname{tr}(UAU^\top)\), update norm을 남긴다.
+이상적 Q는 retained coefficient의 Frobenius norm으로 저비용 계산한다.
+실제 FP32 $Q_{eff}$는 P1 전체 및 main 100/500/1000/1500/2000 milestone에서
+별도로 계산하고 나머지는 \texttt{NOT\_MEASURED}로 표시한다. 이상값을 실제 에너지로
+재표기하지 않는다. 성능이나 에너지의 임의 임계값은 채택 gate가 아니다.
+
+\paragraph{해석.}
+국소 실현 오차가 감소했어도 PS/ACC/NS/retention이 개선되지 않으면 성공으로
+요약하지 않는다. CD가 MD보다 실현을 개선하지만 NS를 악화시키면 stronger context
+제약의 tradeoff로 보고한다. 두 arm의 final strength가 같다고 가정하지 않고 실제
+subject/context 변위와 logits/NLL을 함께 보고한다. 이 실험만으로 배분 정책의
+독립적 신규성이나 최적성을 증명하지 않는다.
+
+\section{실행 비용과 인계}
+현재 profile은 native row 700개가 이미 forward되므로 KL key를 저장하는 것은
+추가 capture forward를 요구하지 않는다. 제약 열이 MD의100에서 CD의700으로 늘어
+triangular apply 및 rank decomposition 비용은 증가한다. 전체 시간이 7배라는 뜻은 아니다.
+기존 ridge2k의 fit 시간 약7789초는 workload 참고치이며 새 writer의 ETA가 아니다.
+P1에서 capture/factor/SVD/apply/history/observer, GPU peak/CPU RSS를 분리 측정한다.
+Main ETA는 해당 실측과 누적 평가 문항 수로 계산하고 초기 수치를 확정 ETA로 제시하지 않는다.
+
+동시에 main 두 개를 올려 경쟁시키지 않고 가용 자원에서 직렬 실행하는 것을 기본으로
+한다. 제안 owner/server는 직전 작업의 SH3/server3이며 실제 자원과 source lock은
+후속 실행 지시 시 확인한다. 기존 job은 건드리지 않는다. Persistent model checkpoint를
+새로 추가하지 않으며, CPU scalar/raw metrics와 source/manifest를 저장한다.
+계획/branch 비교의 tensor snapshot은 RAM transaction으로 제한한다.
+
+구현 완료 후 source/config/model/data/context/row order/metric SHA, qualification
+receipt, branch 복원 결과, main config 두 개를 결속한 패키지를 GH/SH3에 인계한다.
+이번 문서 작성 자체는 해당 전달이나 GPU 제출을 수행한 것이 아니다.
+\end{document}

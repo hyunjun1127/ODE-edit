@@ -1,0 +1,50 @@
+{
+  "date_kst": "2026-10-05",
+  "scope": "Design consistency and CPU reference validation only",
+  "json_parse": "PASS",
+  "TeX_environment_and_display_pairing": "PASS",
+  "CPU_reference_source_hashes": "PASS",
+  "CPU_reference_tests_passed": 16,
+  "CPU_reference_tests_failed": 0,
+  "formula_review": "Independent mathematical review completed; retained-subspace and elementwise parity qualifications incorporated",
+  "code_contract_review": "Independent audit of v12 row injection, writer/history, and matched-plan transaction requirements incorporated",
+  "schedule_examples": [
+    {
+      "total_edits": 2000,
+      "B": 100,
+      "commits": 20,
+      "tail": 100
+    },
+    {
+      "total_edits": 2000,
+      "B": 128,
+      "commits": 16,
+      "tail": 80
+    },
+    {
+      "total_edits": 11,
+      "B": 4,
+      "commits": 3,
+      "tail": 3
+    },
+    {
+      "total_edits": 3,
+      "B": 8,
+      "commits": 1,
+      "tail": 3
+    },
+    {
+      "total_edits": 0,
+      "B": 8,
+      "commits": 0,
+      "tail": null
+    }
+  ],
+  "TeX_compiled": false,
+  "available_TeX_compilers": [],
+  "production_implementation": false,
+  "actual_model_qualification": false,
+  "GPU_speed_benchmark": false,
+  "jobs_changed": false,
+  "CPU_reference_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)"
+}

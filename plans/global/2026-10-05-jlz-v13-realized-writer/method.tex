@@ -1,0 +1,217 @@
+\documentclass[11pt]{article}
+\usepackage{kotex,amsmath,amssymb,booktabs}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\title{JLZ v13: 공동 local 계획을 실현하는 native-context writer}
+\author{Method 설계 및 구현 계약}
+\date{2026년 10월 5일}
+\begin{document}
+\maketitle
+
+\paragraph{상태와 범위.}
+새 writer와 다음 실험의 설계다. 현재 실험의 실행 코드나 job을 변경하지 않는다.
+CPU 참조 구현의 검증 범위와 실제 모델 qualification을 구분한다.
+평균 key에서의 exact writer만으로 context 및 실제 궤적 정합까지 보장했던 이전
+제안을 교정한다. 등식 제약 batch writer 자체의 신규성을 주장하지 않는다.
+EMMET의 기존 등식 제약 접근과 구분되는 연구 대상은 전 층 공동 local 계획,
+동적인 배분, 그 계획과 실제 국소 작용의 정합이다.
+
+\section{고정하는 계획과 해결할 대상}
+v12 planner를 유지한다. 배치 entry 모델과 anchor를 고정하고, 모든 eligible
+층 $l$의 subject 위치에 $\delta_{lr}=a_{lr}u_{lr}$를 함께 주입한다.
+요청별 native NLL, KL(current$\Vert$entry),
+$J_r=F_r+(\lambda_n/a_r^\star)\sum_l\norm{u_{lr}}_2$와
+$\sum_l\norm{u_{lr}}_2\le c$를 그대로 쓴다. 현재 profile은 $c=.75$,
+$\lambda_n=.5$, $\lambda_K=.0625$, 25회 평가/24회 이하 갱신,
+EfficiencyAdam과 마지막 평가 후보의 채택이다. 이는 native compute\_z 전체와
+동일하다는 주장이 아니라, 직전 v12 계획의 명시적인 동결이다.
+새 reference 문장, replay, pulse, writer loss를 planner에 더하지 않는다.
+층의 선제 제외, 최종 비제로 층 수 강제, 예산 .47 축소도 하지 않는다.
+
+현재 target tracking은 $R_l=z_l^v-h_l^{cur}=D_l+b_l^{inh}$를 쓴다.
+따라서 계획 $D_l=[\delta_{lr}]$가 0인 요청/층도 보정 작용을 받을 수 있다.
+새 direct 정책의 우변은 명확히 $D_l$이다. Writer의 등식 제약과 tracking
+제거는 서로 다른 변경이며 작은 동일 계획 비교에서 각각 분리한다.
+
+\section{제약 key와 목표를 정의한다}
+각 층에 도달하면 그 branch의 실제 하층 write를 반영한 모델에서 key를 새로
+수집한다. $k_{lj}\in\mathbb R^{n_l}$, owner $r(j)$와 row 역할을 기록한다.
+행동 목표는 주입 공간과 writer 출력 공간의 검증된 가법 대응 아래
+\[
+ T_l[:,j]=\delta_{l,r(j)}\in\mathbb R^{d_l}.
+\]
+ModelAdapter가 이 대응, lookup, mask/position 및 native forward의 인과
+의존성을 제공해야 한다. 차원만 같다는 이유로 대응을 가정하지 않는다.
+
+\paragraph{MD: 평균 key direct 비교군.}
+$K_l$의 각 열은 기존 native rewrite key의 nested 평균이다. $T_l=D_l$,
+열 수는 실제 논리 batch 크기 $B_t$다. Context 평균 방식과 history 입력은
+v12 MEMIT-H와 동일하다. 이 writer의 제약은 평균 key에만 적용된다.
+
+\paragraph{CD: native-context direct 주 후보.}
+$K_l$에는 native fit에서 해당 $\delta_{lr}$를 주입한 모든 row의 subject
+key를 개별 열로 넣는다. 현재 profile은 rewrite 6개와 KL 1개, 요청당 7개다.
+KL row에도 fit에서 같은 $\delta$를 넣으므로 그 key의 목표도 같은 $\delta$다.
+KL을 새 reference로 추가하거나 그 목표를 0으로 바꾸지 않는다.
+다른 adapter에서는 실제 injection-row 명세에서 열을 구성한다.
+target token을 붙인 fit 입력과 native key 입력의 subject key가 같은지는
+causal prefix 및 adapter parity로 검증한다. 미래 target 정보를 이용한 key를
+평가 입력의 key와 같다고 가정하지 않는다.
+
+History용 key 집합은 별개다. CD에서도 history는 기존 rewrite-only native
+nested 평균을 쓴다. KL key를 history Gram에 섞지 않는다.
+평가용 paraphrase/neighborhood row는 제약 및 계획에 전혀 들어가지 않는다.
+
+\paragraph{0 목표와 순서.}
+모든 원래 요청과 그 제약 열을 유지한다. $\delta_{lr}=0$인 열도 다른 요청의
+write가 그 key에 작용하지 말라는 제약이다. 이를 제거하거나 요청을 deduplicate하지
+않는다. 층 전체 $D_l=0$일 때만 $U_l=0$으로 solve를 생략할 수 있다.
+요청별 support의 합집합은 모든 층일 수 있으므로 batch당 사용 층 감소를 약속하지 않는다.
+
+\section{실현 우선, 그 해 중 최소 보존 에너지}
+Metric은 MEMIT-H의 $A_l=\lambda_C C_{0,l}+H_{t,l}$이다.
+저장 행렬의 symmetric part를 FP64로 취한 것을 정확한 metric 정의로 쓰고
+antisymmetric norm을 기록한다. $A_l\succ0$를 요구하며 자동 jitter나
+계수 변경은 없다. 이것은 AlphaEdit의 nullspace 제약을 유지하는 writer가 아니다.
+H=0에서 A 전체에 곱한 양의 상수는 exact 해를 바꾸지 않는다. 따라서 같은
+$\lambda_C$ 값을 유지해도 ridge의 fit--보존 절충 강도가 그대로 유지되는 것은 아니다.
+
+양의 대각 가중치 $W$로 다음 사전식(lexicographic) 문제를 정의한다.
+\[
+ \text{첫째}\quad \min_U \norm{(UK-T)W^{1/2}}_F^2,
+ \qquad
+ \text{둘째}\quad \min_{U\in\arg\min\mathrm{첫째}}
+                 \operatorname{tr}(UAU^\top).
+\]
+MD의 열 가중치는 $1/B_t$, CD는 요청 $r$의 injection row 수가 $q_r$일 때
+$w_j=1/(B_tq_r)$다. 따라서 각 요청의 총 가중치는 $1/B_t$, 전체 합은 1이다.
+전 열의 공통 상수는 수학적 해를 바꾸지 않지만 구현에서는 합 1 정규화를 고정한다.
+이 가중치는 rank 부족 시 writer의 hidden 오차
+우선순위를 정의하며 native NLL/KL의 loss 가중치와 혼용하지 않는다.
+제약이 정확히 실현 가능하면 이 양의 가중치 선택은 exact 최소 에너지 해를 바꾸지 않는다.
+이는 수학적 full-support 해의 성질이다. 유한정밀도에서 가중치를 바꾸면 cutoff에
+대해 남는 수치 부분공간이 달라질 수 있으므로 실행에서는 위 가중치를 고정한다.
+
+Cholesky $A=LL^\top$, $X=L^{-1}KW^{1/2}$, $Z=TW^{1/2}$를 쓰면
+\[
+ \boxed{U=ZX^+L^{-1}}.
+\]
+역행렬을 명시적으로 만들지 않는다. 이 식은 $V=UL$에 대한 최소 norm
+least-squares $\min_V\norm{VX-Z}_F^2$에서 나온다.
+MD가 full column rank이면 익숙한 식
+\[
+ U=D(K^\top A^{-1}K)^{-1}K^\top A^{-1}
+\]
+으로 환원된다. Singular Gram의 단순 inverse나 불안정한 $M^{-1}$ 증폭을 쓰지 않는다.
+
+\subsection{Rank 부족도 명시적으로 정의한다}
+$X=Q\Sigma V^\top$의 FP64 SVD에서
+$\tau=\epsilon_{64}\max(n_l,q)\sigma_{max}$보다 큰 singular value만 유지한다.
+모든 singular value가 0이면 rank=0, $X^+=0$이다.
+유지한 오른쪽 basis를 $V_\tau$라 하면 실현 가능한 가중 목표는
+$\widehat Z=ZV_\tau V_\tau^\top$이다. $Z=\widehat Z$이면 compatible이며,
+그렇지 않으면 최소제곱의 range projection이다. 버린 작은 singular 방향은
+수치 rank 계약의 일부이며 물리적으로 불가능한 방향과 구분해 기록한다.
+작지만 양의 singular value를 버린 경우에는 정확히
+$U=ZX_\tau^+L^{-1}$이며, whitened writer $V=UL$에
+$V=VQ_\tau Q_\tau^\top$ 제약을 둔 부분공간의 사전식 최적해다.
+이를 원래 full-space 문제의 무제약 최적해로 재표기하지 않는다.
+
+같은 key/같은 목표의 중복은 compatible할 수 있다. 같은 key/서로 다른 목표는
+일반적으로 incompatible하다. Rank$<q$만으로 실패시키거나 요청/층을 제거하지 않는다.
+기하 상태는 compatible 또는 range-projected로 구분하며, 별도로 실제 연산
+residual을 검사한다. Zero-target fast path도 별도로 표시한다.
+명시한 range-LS 결과는 유한하고 연산 검증을 통과하면 실행한다. Ridge나 작은
+목표로 조용히 대체하지 않는다. 큰 에너지, 낮은 PS/NS, 특정 배분은 채택 gate가 아니다.
+
+\subsection{유한 정밀도와 실제 배포}
+FP64 Cholesky 및 whitened key SVD/QR--SVD를 기본 backend로 사용한다.
+$X^\top X$는 조건수를 제곱하므로 rank 판단용 기본 backend로 쓰지 않는다.
+Rank와 목표 projection residual, retained singular condition number,
+$\norm{UKW^{1/2}-\widehat Z}_F$를 기록한다.
+이상적 solve와 별개로 native orientation과 순서대로
+\[
+ W_{new}=W_{old}+\operatorname{FP32}(U),\qquad
+ U_{eff}=\operatorname{FP64}(W_{new})-\operatorname{FP64}(W_{old})
+\]
+를 적용한다(현재 FP32 profile). 실제 $U_{eff}K-T$와 모델의
+$h_l^{after}-h_l^{before}-U_{eff}k_l$를 검증한다.
+Algebra residual과 target approximation residual은 서로 다르다.
+수치 rank가 full이더라도 실제 연산이 정확하다는 보장은 없다.
+CPU 반례에서 condition 약 $10^{12}$의 retained full-rank 문제는 compatible했지만
+FP64 실현 오차가 약 $9.62\times10^{-5}$였다. 따라서 실제 projected-target
+항등식 검증이 실패하면 \texttt{NUMERICAL\_REALIZATION\_FAILURE}로 분리한다.
+Production profile은 그 항등식에 $10^{-10}+10^{-8}\norm{Z}_F$ 허용오차를
+사전 고정하고, CPU 참조의 더 엄격한 기본값과 구분한다.
+실제 FP32 작용의 ideal/effective 및 native local-additivity 비교는
+atol $2\times10^{-5}$, rtol $2\times10^{-4}$를 기본 qualification 값으로
+고정한다. 이는 모든 원소의 절대차가 atol+rtol$\times$reference 절대값 이하인
+elementwise allclose다. Effective action 대 ideal action에서는 ideal을 reference로,
+실제 native hidden 차이 대 $U_{eff}K$에서는 $U_{eff}K$를 reference로 쓴다.
+Target의 range 오차 자체를 이 tolerance로 gate하지 않는다.
+SPD 실패, 비유한 결과, 실제 저장/복원 오류, 고정된 연산 parity 실패만 기술 중단이다.
+큰 condition number나 에너지만으로 보폭/배분/목표를 자동 수정하지 않는다.
+
+\section{어디까지 실현을 보장하는가}
+CD가 compatible하면 제약에 포함된 현재 actual subject key 각각에서
+$U k_{rc}=\delta_r$이다. 이는 평균만 맞추는 MD보다 강한 국소 계약이다.
+모든 eligible 층에서 이 조건이 성립하고 요청의 계획 예산이 0이 아니면,
+동일 entry anchor로 정의한 직접 작용 share는
+\[
+ \frac{\norm{U_lk_{lrc}}/a_{lr}}{\sum_j\norm{U_jk_{jrc}}/a_{jr}}
+ =\frac{\norm{u_{lr}}}{\sum_j\norm{u_{jr}}}
+\]
+로 계획 share와 일치한다. 이는 각 실제 subject 위치의 직접 변위에 대한 조건부
+보장이며, 최종 누적 hidden 변화나 task 기여의 분해는 아니다.
+전체 계획이 0이면 비율은 정의되지 않으므로 share는 null, 상태는
+\texttt{NO\_PLANNED\_EDIT}로 기록하고 실제 작용은 anchor 정규화 leakage로 남긴다.
+같은 요청의 key 평균을 $\mu=\sum_cw_ck_c$라 하면
+\[
+ \sum_c w_c\norm{Uk_c-\delta}^2
+ =\norm{U\mu-\delta}^2+\sum_cw_c\norm{U(k_c-\mu)}^2.
+\]
+즉 context 간 key 차이에도 같은 목표 작용을 요구한다. 이것은 에너지와
+실현 불가능성 부담을 키울 수 있다. Feasible한 같은 actual keys/metric에서는
+CD의 최소 에너지가 MD보다 작을 수 없다. 서로 다른 순차 branch의 keys가 달라진
+뒤에는 이 부등식을 그대로 적용할 수 없다.
+
+Actual/virtual 기저 차이는 별도로 남는다.
+\[
+ h_l^{a,+}-z_l^v
+ =(h_l^{a,-}-h_l^{v,-})+(U_lk_l^a-\delta_l).
+\]
+Exact direct는 둘째 항을 해결한다. 모든 token에 작용한 하층 write가 만든
+첫째 항까지 없애지는 않는다. Final strength 일치, locality/retention 개선,
+총에너지 감소는 실험 대상이며 보장하지 않는다. .75는 계획 예산이고 실제
+전체 모델 변화의 상한이 아니다. v12 배분은 writer 에너지를 직접 최소화하지 않으므로
+비싼 층을 자동 회피한다고 주장하지 않는다.
+
+\section{순차 적용, history, 범용 실행}
+층 순서마다 자기 branch의 actual key를 다시 측정하고 전체 논리 batch 제약을
+함께 푼 뒤 적용한다. 상층에 잔여 목표를 넘기는 divisor, terminal L8 completion,
+별도 tracking 보정은 CD/MD direct에 없다.
+모든 층 write가 성공한 후 모든 eligible 층의 final native mean key로
+history를 한 번 append한다. $U_l=0$인 층도 history 갱신을 유지한다.
+실패 시 그 batch의 W/H/RNG와 cache 상태를 원복하며 부분 commit은 게시하지 않는다.
+
+모델, benchmark, $B_t$, row 수, 각 층의 입력/출력 차원은 adapter와 RunSpec에서
+받는다. 논리 $B_t$와 fit/capture/evaluation microbatch는 독립이다. 마지막 부분
+batch를 그대로 처리한다. 큰 $B$에서 제약이 feature rank를 초과하면 위 range-LS
+계약을 적용하며, 작은 독립 write 여러 번으로 바꾸지 않는다. 자원 한도 내 qualified
+backend가 없으면 필요한 자원을 보고하고 논리 batch를 임의 변경하지 않는다.
+
+구현은 planner와 실제 실행 namespace를 분리한다. 변경 함수는
+\texttt{capture\_native\_sites}, \texttt{build\_constraints},
+\texttt{prepare\_metric}, \texttt{solve\_realized},
+\texttt{apply\_sequential}, \texttt{commit\_history},
+\texttt{matched\_plan\_probe}, \texttt{reduce\_telemetry}다.
+기존 selected-position head와 native prefix 재사용을 유지한다. 새 실행 최적화는
+별도 parity qualification을 통과한 공통 경로만 두 arm에 동일하게 사용한다.
+같은 pilot entry의 $A$ factor는 자원 예산 내에서 공유할 수 있지만, 각 branch의
+key/상층 activation은 다른 branch에서 재사용할 수 없다.
+
+\paragraph{참고.}
+\href{https://aclanthology.org/2024.findings-emnlp.903/}{Gupta et al., A Unified Framework for Model Editing (EMMET), 2024}.
+v12 method 계약과 2026-10-05의 AlphaEdit/ridge 동일 계획 감사는 companion JSON에서 결속한다.
+\end{document}

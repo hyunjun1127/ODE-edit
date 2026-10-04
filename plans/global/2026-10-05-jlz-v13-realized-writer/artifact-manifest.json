@@ -1,0 +1,60 @@
+{
+  "artifacts": [
+    {
+      "file": "experiment.json",
+      "bytes": 5968,
+      "sha256": "a43cf5763ec9207d16e9d60833d20549fd49224688e335334d209b0965ea78dc"
+    },
+    {
+      "file": "experiment.tex",
+      "bytes": 11017,
+      "sha256": "c978d8db4c988fda231c6a2e85585365fb7d9a41305b49aeac1825f71e15bb09"
+    },
+    {
+      "file": "method-contract.json",
+      "bytes": 9337,
+      "sha256": "fe8e40679ea3797bc17f5fca5c34c2a24f5f13d9643a205391bb840d574a69b5"
+    },
+    {
+      "file": "method.tex",
+      "bytes": 13843,
+      "sha256": "f0d9946abaa4074c540f6471856f64e2f446a663f0ea9252fb00ed844d705d52"
+    },
+    {
+      "file": "provenance.json",
+      "bytes": 904,
+      "sha256": "a573c5af6524d53aff706256d97ab95c5e05eb02ab2c6e19cec72cf3c92c73a0"
+    },
+    {
+      "file": "reference/audit.json",
+      "bytes": 17558,
+      "sha256": "29efee030664ab37fb38317b0428ff020729021522c85cc4a2b861176162e6bd"
+    },
+    {
+      "file": "reference/requirements.txt",
+      "bytes": 13,
+      "sha256": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+    },
+    {
+      "file": "reference/test_ref.py",
+      "bytes": 17209,
+      "sha256": "60d4ca0e50e251694034e8957a7b9201f1f7fed2a283e47480f364c9ce3d05bb"
+    },
+    {
+      "file": "reference/writer.py",
+      "bytes": 8902,
+      "sha256": "1ee4706efbebaa9cc393f9b6c236d46619775391ebf746828bf8daabaef1e974"
+    },
+    {
+      "file": "telemetry.json",
+      "bytes": 2990,
+      "sha256": "b985993350af9537bcb66985412c49cc0de0ffad4416fccad09242f386982083"
+    },
+    {
+      "file": "validation.json",
+      "bytes": 1338,
+      "sha256": "2f896572f0d10ac3ef57e5ea64f708a0a68d7e569f6d27b9c32867a4cd2d5919"
+    }
+  ],
+  "status": "DESIGN_AND_CPU_REFERENCE_ONLY"
+}

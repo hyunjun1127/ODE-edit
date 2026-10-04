@@ -1,0 +1,141 @@
+{
+  "schema": "JLZ_V13_REALIZED_WRITER_METHOD_V1",
+  "date_kst": "2026-10-05",
+  "status": "DESIGN_WITH_CPU_REFERENCE; MODEL_IMPLEMENTATION_AND_GPU_QUALIFICATION_PENDING",
+  "parent_method": "../2026-10-04-jlz-v12-marginal-allocation/contract.json",
+  "portable_execution": "../2026-10-04-jlz-portable-execution-v1/runtime-contract.json",
+  "frozen_planner_source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "claim": "Joint local planning and adaptive allocation, with an explicit contract for realizing planned subject increments at actual native keys; equality-constrained writing itself is prior work.",
+  "planner_changes": [],
+  "science_invariants": [
+    "All configured eligible layers remain optimization variables and may reenter after a zero allocation.",
+    "Native rewrite/KL sentences, tokenization, injection sites, NLL/KL reductions and entry teacher remain unchanged.",
+    "V12 shared relative budget, EfficiencyAdam, independent request states and last evaluated terminal candidate remain unchanged.",
+    "No new reference/replay/pulse/locality objective or validation-driven strength calibration.",
+    "Actual upper keys are recomputed after this branch's lower writes.",
+    "All original request constraints remain, including zero-target columns and repeated occurrences.",
+    "History is appended once at every eligible layer from native rewrite-only final mean keys, even when a layer update is zero.",
+    "Logical batch is one joint writer problem, independent of execution microbatches."
+  ],
+  "metric": {
+    "definition": "A = sym(lambda_C * C0 + H_entry), calculated in FP64",
+    "symmetrization": "Explicit energy-metric definition; record absolute and relative skew of stored inputs.",
+    "requirement": "Symmetric positive definite; Cholesky failure is technical failure, not a request/layer pruning rule.",
+    "hidden_jitter": false,
+    "alphaedit_projection_preserved": false
+  },
+  "arms": {
+    "MD": {
+      "name": "native_mean_direct",
+      "keys": "Native nested mean over rewrite contexts, one column per original request",
+      "target": "T=D, frozen terminal local increment",
+      "weights": "w_j=1/B_t"
+    },
+    "CD": {
+      "name": "native_context_direct",
+      "role": "primary proposed writer",
+      "keys": "Every native fit row's subject key where that request's delta is injected; current profile includes rewrite6 and KL1",
+      "target": "T[:,j]=D[:,owner(j)]; KL has owner D, not zero",
+      "weights": "w_j=1/(B_t*q_owner(j)), with q_r the actual injection-row count",
+      "weight_scope": "Writer hidden-error geometry only; never substitute for native NLL/KL weights. Compatible exact solutions are independent of positive constraint weights."
+    }
+  },
+  "writer": {
+    "objective_priority_1": "Minimize ||(U K - T) sqrt(W)||_F^2",
+    "objective_priority_2": "Among priority-1 minimizers, minimize tr(U A U^T)",
+    "whitening": "A=L L^T; X=solve(L,K sqrt(W)); Z=T sqrt(W)",
+    "solution": "U=Z X^+ L^-1, implemented using SVD/QR-SVD and right triangular solve, never explicit inverse",
+    "rank_cutoff": "tau=eps64*max(X.shape)*sigma_max; retain singular values strictly greater than tau",
+    "zero_rank": "Update is zero; nonzero target is range-projected rather than exact",
+    "projected_target": "Z_hat=Z V_retained V_retained^T",
+    "compatibility": "Record ||Z-Z_hat||; compatible duplicates allowed, conflicting targets remain measurable approximation",
+    "numerical_verification": "Record ||U K sqrt(W)-Z_hat|| separately from target incompatibility; compatibility alone does not verify the computation",
+    "state_fields": [
+      "nominal_geometry_status",
+      "numerical_projection_verified",
+      "status",
+      "zero_target_fastpath"
+    ],
+    "reference_states": [
+      "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+      "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+      "NUMERICAL_REALIZATION_FAILURE"
+    ],
+    "accepted_approximation": "A numerically verified, finite range-LS result is committed with its exact status and residual. Rank or target incompatibility alone does not reject/prune the layer or request.",
+    "unaccepted_computation": "Failed projected-target identity, non-SPD metric, nonfinite output, wrong cast/orientation, failed local-additivity parity or failed rollback is technical failure.",
+    "zero_target_columns": "Always retained; drop no columns based on plan support",
+    "zero_layer": "If entire layer D is exactly zero, U=0 may skip solve; final history append still mandatory",
+    "remaining_layer_divisor": false,
+    "tracking": false,
+    "L8_completion": false,
+    "automatic_ridge_fallback": false,
+    "automatic_target_shrink_or_clip": false,
+    "automatic_precision_or_rank_threshold_change": false,
+    "retained_subspace_objective": "When positive singular values are discarded: U=Z X_tau^+ L^-1 solves the lexicographic problem restricted to whitened V=V Q_tau Q_tau^T. It is not the unrestricted full-X least-squares optimum.",
+    "weights_numerical_scope": "Positive weights preserve the mathematical compatible exact solution, but may change the numerical retained subspace. Sum-one weights and cutoff are fixed in this run."
+  },
+  "precision": {
+    "current_model_profile": "FP32 frozen model and planned increments; native FP32 cast/add of FP64 update",
+    "geometry": "FP64",
+    "effective_update": "U_eff=float64(W_new)-float64(W_old); record separately from ideal U and cast(U)",
+    "production_compatibility_and_projection_tolerance": {
+      "atol": 1e-10,
+      "rtol": 1e-08,
+      "normalizer": "||Z||_F"
+    },
+    "cpu_reference_default_tolerance": {
+      "atol": 1e-12,
+      "rtol": 1e-10
+    },
+    "model_action_qualification_tolerance": {
+      "atol": 2e-05,
+      "rtol": 0.0002,
+      "scope": "Ideal-to-effective action and native local-additivity parity; not a gate on unavoidable target range residual",
+      "reduction": "Elementwise |candidate-reference| <= atol+rtol*|reference| for every element",
+      "reference": "ideal U K for effective-weight action comparison; U_eff K for actual native hidden-difference comparison"
+    },
+    "no_performance_tolerance_tuning": true
+  },
+  "guarantee_limits": [
+    "Exact applies only to compatible constraints in the retained subspace and verified numerical tolerance; FP32 applied realization is separately measured.",
+    "Context-direct corrects U k_actual - delta, not inherited actual-versus-virtual base state mismatch.",
+    "Shared .75 planning budget is not a bound on all-token model drift or weight energy.",
+    "Mean exact does not imply canonical/context exactness.",
+    "Minimum A-energy is a preservation proxy, not a locality or retention guarantee.",
+    "No assertion of equal final strength, lower total energy, fewer batch-level layers or better accuracy.",
+    "Rank truncation and float casting may prevent exact realization; errors and affected requests must remain in all metrics."
+  ],
+  "model_benchmark_batch_contract": {
+    "source_of_dimensions": "ModelAdapter and actual row metadata; no fixed layer count, widths, B or context count in solver",
+    "required_adapter_validation": [
+      "linear-write output maps additively to injection space",
+      "lookup/position/mask parity",
+      "fit/native-key input correspondence",
+      "actual key dependency graph",
+      "native history aggregation"
+    ],
+    "large_B": "Support exact or range-LS joint problem within qualified resource limits; never silently change logical B or split into independent writes",
+    "tail": "Preserve actual last partial batch and its own original occurrences",
+    "runtime_microbatches": [
+      "fit requests",
+      "capture rows",
+      "evaluation rows"
+    ],
+    "unsupported_case": "Report the missing adapter capability or resource requirement; do not assert universal architectural support."
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/jlz_realized_writer (new, not implemented by this design task)",
+    "functions": {
+      "capture_native_sites": "Capture key/hidden/owner/role/lookup for all injection rows; keep separate rewrite-only native means",
+      "build_constraints": "MD native means or CD repeated owner D, positive sum-one weights, zero-target columns retained",
+      "prepare_metric": "FP64 symmetric A and Cholesky with provenance/skew diagnostics",
+      "solve_realized": "FP64 SVD/QR-SVD, fixed cutoff, geometry and numerical verification, ideal energy",
+      "apply_sequential": "Fresh actual state per layer, direct target, native cast/apply and realized action",
+      "commit_history": "Final rewrite-only mean Gram once at all eligible layers",
+      "matched_plan_probe": "Single frozen plan, branch-local actual states, full RAM restore, no extra fit",
+      "reduce_telemetry": "Per-request/context realization and both preference/strict-ACC paired retention"
+    }
+  },
+  "conditional_allocation_guarantee": "If every eligible layer realizes D at each constrained subject key and total plan norm is nonzero, direct action norm / entry anchor shares equal planned u norm shares. This is not a decomposition of final cumulative hidden change or task contribution.",
+  "zero_plan_share": "null + NO_PLANNED_EDIT; record anchor-normalized action leakage without dividing by zero; preserve task/evaluation denominator"
+}

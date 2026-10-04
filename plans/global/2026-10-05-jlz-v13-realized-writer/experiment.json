@@ -1,0 +1,112 @@
+{
+  "schema": "JLZ_V13_REALIZED_WRITER_EXPERIMENT_V1",
+  "date_kst": "2026-10-05",
+  "status": "DESIGN_PREPARED_NOT_SUBMITTED",
+  "method": "method-contract.json",
+  "primary_main": "CD",
+  "main_arms": ["MD", "CD"],
+  "run_spec": {
+    "total_edits_per_arm": 2000,
+    "logical_batch_size_default_profile": 100,
+    "default_commits_per_arm": 20,
+    "ordered_requests": "Same fixed first2000 as v12; no shuffling or success filtering",
+    "cold_start_each_arm": true,
+    "B2_onward": "Each arm refits v12 plan using its own W/H; plans are not shared after states diverge.",
+    "all_layers_eligible": true,
+    "model_benchmark_B_are_runtime_profile": true,
+    "tail_batch_retained": true,
+    "logical_B_autotuning": false,
+    "fit_capture_eval_microbatches_independent": true,
+    "zero_edit_schedule": "No commits; optional W0 observation only",
+    "allseen_milestones_edits": [500, 1000, 1500, 2000],
+    "off_boundary_milestone": "First completed commit at or above milestone, label actual edit count; exact boundaries require predeclared schedule"
+  },
+  "frozen_profile": {
+    "name": "llama3-8b-instruct-counterfact-v12",
+    "parent": "../2026-10-04-jlz-v12-marginal-allocation/contract.json",
+    "eligible_layers": [4,5,6,7,8],
+    "budget": 0.75,
+    "lambda_norm": 0.5,
+    "lambda_KL": 0.0625,
+    "lambda_C": 15000,
+    "max_request_evaluations": 25,
+    "max_request_updates": 24,
+    "optimizer": "unchanged EfficiencyAdam",
+    "model_precision": "FP32, TF32 off, native attention/backend fixed",
+    "writer_geometry_precision": "FP64",
+    "native_injection_roles": ["rewrite", "KL"],
+    "default_injection_counts": {"rewrite":6,"KL":1},
+    "history_rows": "rewrite only, native nested mean",
+    "new_reference_replay_or_loss": false
+  },
+  "stages": [
+    {
+      "id":"Q0_CPU",
+      "work":"Small algebra/reference verification",
+      "receipt":"reference/audit.json",
+      "model_qualification":false
+    },
+    {
+      "id":"Q1_ACTUAL",
+      "work":"Actual first4, BS2x2, each MD/CD independent causal chain",
+      "checks":["native row/site mapping","fresh upper keys","SVD projection identity","FP32 applied action","final history once","rollback","observer no mutation"],
+      "completed":false
+    },
+    {
+      "id":"P1_MATCHED_PLAN",
+      "requests":100,
+      "fit_count":1,
+      "writer_branches":[
+        {"id":"RT","solver":"native ridge mean","target":"z_virtual - h_actual"},
+        {"id":"RD","solver":"native ridge mean","target":"D"},
+        {"id":"MT","solver":"equality/range-LS mean","target":"z_virtual - h_actual"},
+        {"id":"MD","solver":"equality/range-LS mean","target":"D"},
+        {"id":"CD","solver":"equality/range-LS all native injection rows","target":"repeat owner D"}
+      ],
+      "branch_state":"Same W/H/RNG entry and plan, own causal actual K/h per branch, final H append then full RAM restore",
+      "additional_branch_fits":0,
+      "purpose":"2x2 solver-by-target-policy comparison plus mean-vs-context direct comparison",
+      "completed":false
+    },
+    {
+      "id":"MAIN_2K",
+      "arms":["MD","CD"],
+      "edits_per_arm":2000,
+      "requires":"Same-source/config actual numerical qualification for that arm; science metrics are not gates",
+      "new_baseline_fits":0,
+      "completed":false
+    }
+  ],
+  "technical_vs_scientific": {
+    "numerically_verified_range_LS": "Continue and report affected rows/targets; not an exact pass and not request/layer rejection",
+    "technical_failures": ["non-SPD A", "nonfinite computation", "failed projected-target numerical identity", "wrong cast or orientation", "failed native local-additivity parity", "failed W/H/RNG restore or history transaction"],
+    "not_gates": ["rank count alone", "large finite energy", "PS or ACC", "NS or retention", "number of active layers", "different allocation from expected"],
+    "failure_handling":"Rollback whole current batch, save partial-run coverage/failure, repair same-contract numerical or implementation problem and requalify; no silent ridge, jitter, precision, target or coefficient substitution"
+  },
+  "evaluation": {
+    "current_every_commit":true,
+    "W0_first2000":true,
+    "primary":["RS/PS/NS","R/P desired-new strict TF ACC","N desired-true strict TF ACC","token-micro ACC","prompt-macro ACC","new/true NLL and margin","birth cohort preference and strict-ACC retention"],
+    "secondary":["harmonic R/P/N preference score","active/superseded strata"],
+    "identity":"Original occurrence and prompt IDs; ties fail preference; no success filtering or evaluation feedback",
+    "free_generation_claim":false,
+    "existing_ridge_2k":"Reuse only with exact source/runtime/input/order/schedule/evaluator matching receipt; otherwise descriptive reference",
+    "other_baselines":"Historical references unless their matching manifests establish equal conditions; no new baseline fit implied"
+  },
+  "cost": {
+    "constraints_at_B100":{"MD":100,"CD":700},
+    "extra_capture_forward_for_KL_keys":0,
+    "SVD_rank_cost_increase":"Measure; 7x columns is not 7x whole-runtime claim",
+    "A_factor_reuse":"Permitted only at identical H/C0 metric and within RAM budget; branch keys cannot be shared",
+    "physical_Q_effective_schedule":"Every P1 branch; main at actual milestone crossings for 100/500/1000/1500/2000 edits",
+    "ETA":"Not measured. Estimate from P1 phase timing plus cumulative evaluation workload, with uncertainty.",
+    "parallel_main_default":false,
+    "suggested_owner":"SH3",
+    "suggested_server":"server3, subject to resource inspection at actual dispatch",
+    "existing_jobs_changed":false,
+    "persistent_model_checkpoint":false
+  },
+  "handoff_ready_requirements":["method/experiment/config hashes","production implementation commit","CPU and actual qualification receipts","input/model/context/runtime identity","matched-plan restore receipt","main configurations and resource plan"],
+  "dispatch_sent":false,
+  "GPU_submitted":false
+}

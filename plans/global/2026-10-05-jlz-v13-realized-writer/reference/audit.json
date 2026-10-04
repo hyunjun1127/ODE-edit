@@ -1,0 +1,539 @@
+{
+  "scope": "CPU FP64 numerical reference only",
+  "seed": 20261005,
+  "python": "3.12.0",
+  "numpy": "2.5.3",
+  "command": "uv run --no-project --with numpy==2.5.3 python test_ref.py",
+  "tests_passed": 16,
+  "tests_failed": 0,
+  "status": "PASS",
+  "source_sha256": {
+    "writer.py": "1ee4706efbebaa9cc393f9b6c236d46619775391ebf746828bf8daabaef1e974",
+    "test_ref.py": "60d4ca0e50e251694034e8957a7b9201f1f7fed2a283e47480f364c9ce3d05bb"
+  },
+  "tests": [
+    {
+      "test": "arbitrary_B_and_tail_with_one_joint_solve",
+      "status": "PASS",
+      "measurements": {
+        "shapes": [
+          {
+            "B": 1,
+            "key_width": 3,
+            "error": 5.551115123125783e-17
+          },
+          {
+            "B": 3,
+            "key_width": 5,
+            "error": 6.264505766629205e-16
+          },
+          {
+            "B": 4,
+            "key_width": 6,
+            "error": 1.7816074599486284e-15
+          },
+          {
+            "B": 7,
+            "key_width": 9,
+            "error": 1.3981385411568213e-15
+          }
+        ],
+        "N11_B4_tail_schedule": [
+          4,
+          4,
+          3
+        ]
+      }
+    },
+    {
+      "test": "compatible_duplicate_keys",
+      "status": "PASS",
+      "measurements": {
+        "status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "nominal_geometry_status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "numerical_projection_verified": true,
+        "compatible_with_retained_subspace": true,
+        "shape": {
+          "key_width": 5,
+          "output_width": 2,
+          "constraint_count": 3
+        },
+        "rank": 2,
+        "svd_cutoff": 2.615987352401539e-15,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          2.3562719330963002,
+          0.6422855593236199,
+          1.6181369280178748e-16
+        ],
+        "retained_condition_number": 3.668573734675976,
+        "discarded_singular_count": 1,
+        "positive_singular_values_below_cutoff": 1,
+        "numerical_truncation": true,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 1.0304767533521,
+        "weighted_residual_norm": 3.54221868566317e-16,
+        "retained_infeasible_target_norm": 5.03885662870594e-16,
+        "residual_projection_identity_error": 2.171578720680572e-16,
+        "retained_LS_orthogonality_norm": 5.545212559425825e-16,
+        "weighted_residual_by_column": [
+          9.930136612989092e-17,
+          3.0159653109277287e-16,
+          1.5700924586837752e-16
+        ],
+        "unweighted_residual_by_column": [
+          2.220446049250313e-16,
+          5.506374111493997e-16,
+          2.220446049250313e-16
+        ],
+        "energy_A": 0.24839030345357224,
+        "update_frobenius": 0.47487291288034966,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12
+      }
+    },
+    {
+      "test": "conflicting_duplicates_weighted_LS",
+      "status": "PASS",
+      "measurements": {
+        "status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "nominal_geometry_status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "numerical_projection_verified": true,
+        "compatible_with_retained_subspace": false,
+        "shape": {
+          "key_width": 2,
+          "output_width": 1,
+          "constraint_count": 2
+        },
+        "rank": 1,
+        "svd_cutoff": 4.4408920985006257e-16,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          0.9999999999999999,
+          0.0
+        ],
+        "retained_condition_number": 1.0,
+        "discarded_singular_count": 1,
+        "positive_singular_values_below_cutoff": 0,
+        "numerical_truncation": false,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 2.6457513110645907,
+        "weighted_residual_norm": 0.8660254037844386,
+        "retained_infeasible_target_norm": 0.8660254037844387,
+        "residual_projection_identity_error": 6.497413668604471e-16,
+        "retained_LS_orthogonality_norm": 1.4155343563970746e-15,
+        "weighted_residual_by_column": [
+          0.7500000000000007,
+          0.43301270189221813
+        ],
+        "unweighted_residual_by_column": [
+          1.5000000000000013,
+          0.49999999999999867
+        ],
+        "energy_A": 6.250000000000007,
+        "update_frobenius": 2.5000000000000013,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12
+      }
+    },
+    {
+      "test": "context_feasible_energy_ge_mean_same_keys_metric",
+      "status": "PASS",
+      "measurements": {
+        "context_energy": 7.283239857475887,
+        "mean_energy": 0.8658465221389885,
+        "ratio": 8.41169846069643
+      }
+    },
+    {
+      "test": "variable_context_counts_KL_owner_target_history_separate",
+      "status": "PASS",
+      "measurements": {
+        "constraint_count": 5,
+        "owner_constraint_weight_sums": [
+          0.5,
+          0.5
+        ],
+        "KL_targets": [
+          [
+            2.0,
+            3.0
+          ],
+          [
+            -1.0,
+            4.0
+          ]
+        ],
+        "history_KL_only_dimensions_energy": 0.0,
+        "weighted_residual_norm": 0.0
+      }
+    },
+    {
+      "test": "FP32_ideal_cast_applied_distinction",
+      "status": "PASS",
+      "measurements": {
+        "large_base_weight_counterexample": {
+          "ideal_equality_error": 0.0,
+          "cast_equality_error": 0.0,
+          "applied_equality_error": 1.4142135623730951,
+          "cast_update_error": 0.0,
+          "applied_update_error": 1.4142135623730951,
+          "ideal_update_norm": 1.4142135623730951,
+          "applied_update_norm": 0.0,
+          "unchanged_weight_fraction": 1.0,
+          "weight_and_update_finite": true,
+          "limitation": "Parameter-space diagnostic; native activation matmul/cast order requires model-level parity."
+        },
+        "small_base_weight_example": {
+          "ideal_equality_error": 0.0,
+          "cast_equality_error": 0.0,
+          "applied_equality_error": 1.580506819158526e-08,
+          "cast_update_error": 0.0,
+          "applied_update_error": 1.580506819158526e-08,
+          "ideal_update_norm": 1.4142135623730951,
+          "applied_update_norm": 1.4142135781781633,
+          "unchanged_weight_fraction": 0.0,
+          "weight_and_update_finite": true,
+          "limitation": "Parameter-space diagnostic; native activation matmul/cast order requires model-level parity."
+        }
+      }
+    },
+    {
+      "test": "full_rank_equality_minimum_energy",
+      "status": "PASS",
+      "measurements": {
+        "status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "nominal_geometry_status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "numerical_projection_verified": true,
+        "compatible_with_retained_subspace": true,
+        "shape": {
+          "key_width": 7,
+          "output_width": 2,
+          "constraint_count": 3
+        },
+        "rank": 3,
+        "svd_cutoff": 1.846609710844945e-15,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          1.1880558293800048,
+          0.740631676713516,
+          0.3426463841230497
+        ],
+        "retained_condition_number": 3.4672942264388675,
+        "discarded_singular_count": 0,
+        "positive_singular_values_below_cutoff": 0,
+        "numerical_truncation": false,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 2.4705750466810223,
+        "weighted_residual_norm": 8.996689157468664e-16,
+        "retained_infeasible_target_norm": 2.1477866287870186e-15,
+        "residual_projection_identity_error": 1.5622495070800532e-15,
+        "retained_LS_orthogonality_norm": 7.886514854302855e-16,
+        "weighted_residual_by_column": [
+          5.127900497022837e-16,
+          5.167806939328293e-16,
+          5.285718846720614e-16
+        ],
+        "unweighted_residual_by_column": [
+          8.881784197001252e-16,
+          8.95090418262362e-16,
+          9.155133597044475e-16
+        ],
+        "energy_A": 15.591370273980697,
+        "update_frobenius": 2.529249238884704,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12,
+        "energy_gap_feasible_perturbation": 4.997079991063128,
+        "gram_reference_update_error": 2.5576201938738375e-15
+      }
+    },
+    {
+      "test": "mean_exact_not_context_exact",
+      "status": "PASS",
+      "measurements": {
+        "context_effects": [
+          [
+            1.5999999999999996,
+            0.39999999999999997
+          ]
+        ],
+        "mean_effect": 0.9999999999999998,
+        "context_target_error": 0.8485281374238569
+      }
+    },
+    {
+      "test": "metric_symmetrization_whitening_energy",
+      "status": "PASS",
+      "measurements": {
+        "skew_recorded": 0.1333044685644609,
+        "update_difference": 0.0
+      }
+    },
+    {
+      "test": "near_singular_explicit_numeric_truncation_status",
+      "status": "PASS",
+      "measurements": {
+        "status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "nominal_geometry_status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "numerical_projection_verified": true,
+        "compatible_with_retained_subspace": false,
+        "shape": {
+          "key_width": 2,
+          "output_width": 1,
+          "constraint_count": 2
+        },
+        "rank": 1,
+        "svd_cutoff": 3.1401849173675503e-16,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          0.7071067811865476,
+          7.071067811865476e-18
+        ],
+        "retained_condition_number": 1.0,
+        "discarded_singular_count": 1,
+        "positive_singular_values_below_cutoff": 1,
+        "numerical_truncation": true,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 1.0,
+        "weighted_residual_norm": 0.7071067811865476,
+        "retained_infeasible_target_norm": 0.7071067811865476,
+        "residual_projection_identity_error": 0.0,
+        "retained_LS_orthogonality_norm": 0.0,
+        "weighted_residual_by_column": [
+          0.0,
+          0.7071067811865476
+        ],
+        "unweighted_residual_by_column": [
+          0.0,
+          1.0
+        ],
+        "energy_A": 1.0,
+        "update_frobenius": 1.0,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12
+      }
+    },
+    {
+      "test": "invalid_inputs_raise_without_jitter_or_fallback",
+      "status": "PASS",
+      "measurements": {
+        "explicit_rejections": [
+          "indefinite_A",
+          "zero_weight",
+          "unnormalized_weights"
+        ]
+      }
+    },
+    {
+      "test": "overdetermined_LS_orthogonality",
+      "status": "PASS",
+      "measurements": {
+        "status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "nominal_geometry_status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "numerical_projection_verified": true,
+        "compatible_with_retained_subspace": false,
+        "shape": {
+          "key_width": 3,
+          "output_width": 2,
+          "constraint_count": 7
+        },
+        "rank": 3,
+        "svd_cutoff": 1.2577132370045122e-15,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          0.8091766950732088,
+          0.3365453122578733,
+          0.21500451867785442
+        ],
+        "retained_condition_number": 3.763533436641927,
+        "discarded_singular_count": 0,
+        "positive_singular_values_below_cutoff": 0,
+        "numerical_truncation": false,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 1.290585140488426,
+        "weighted_residual_norm": 0.6211808506529952,
+        "retained_infeasible_target_norm": 0.6211808506529952,
+        "residual_projection_identity_error": 1.2479620459211948e-15,
+        "retained_LS_orthogonality_norm": 8.558863174479265e-16,
+        "weighted_residual_by_column": [
+          0.23371600140707488,
+          0.29052664326940997,
+          0.040938954981785736,
+          0.3050119817796207,
+          0.2059292409477221,
+          0.2017325832189862,
+          0.2627271493036711
+        ],
+        "unweighted_residual_by_column": [
+          1.2367088342790842,
+          1.0870511608436255,
+          0.12507057338428176,
+          0.8069858506838405,
+          0.4873175276479474,
+          0.4357921874207448,
+          0.5254542986073422
+        ],
+        "energy_A": 8.445984848000547,
+        "update_frobenius": 1.3397133122969616,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12
+      }
+    },
+    {
+      "test": "compatible_geometry_but_retained_ill_conditioning_failure",
+      "status": "PASS",
+      "measurements": {
+        "status": "NUMERICAL_REALIZATION_FAILURE",
+        "nominal_geometry_status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "numerical_projection_verified": false,
+        "compatible_with_retained_subspace": true,
+        "shape": {
+          "key_width": 2,
+          "output_width": 1,
+          "constraint_count": 2
+        },
+        "rank": 2,
+        "svd_cutoff": 3.140184917367551e-16,
+        "cutoff_rule": "eps64 * max(X.shape) * sigma_max",
+        "singular_values": [
+          0.7071067811865477,
+          7.071114147195405e-13
+        ],
+        "retained_condition_number": 999993447237.7389,
+        "discarded_singular_count": 0,
+        "positive_singular_values_below_cutoff": 0,
+        "numerical_truncation": false,
+        "A_skew_frobenius": 0.0,
+        "A_skew_relative": 0.0,
+        "weighted_target_norm": 2.23606797749979,
+        "weighted_residual_norm": 9.615266154972925e-05,
+        "retained_infeasible_target_norm": 0.0,
+        "residual_projection_identity_error": 9.615266154972925e-05,
+        "retained_LS_orthogonality_norm": 6.105118223693753e-05,
+        "weighted_residual_by_column": [
+          1.794898607168388e-05,
+          9.446252284422262e-05
+        ],
+        "unweighted_residual_by_column": [
+          2.5383699533421122e-05,
+          0.00013359018094227793
+        ],
+        "energy_A": 9.999868945184165e+23,
+        "update_frobenius": 999993447237.7389,
+        "compatibility_rtol": 1e-10,
+        "compatibility_atol": 1e-12
+      }
+    },
+    {
+      "test": "conditional_context_exact_direct_share_matches_plan",
+      "status": "PASS",
+      "measurements": {
+        "layers": [
+          {
+            "key_width": 7,
+            "output_width": 3
+          },
+          {
+            "key_width": 6,
+            "output_width": 2
+          },
+          {
+            "key_width": 8,
+            "output_width": 4
+          }
+        ],
+        "context_counts": [
+          3,
+          2
+        ],
+        "same_entry_anchors": [
+          [
+            2.0,
+            1.7
+          ],
+          [
+            3.0,
+            2.4
+          ],
+          [
+            4.0,
+            3.1
+          ]
+        ],
+        "layer_weighted_residuals": [
+          8.98242828836598e-16,
+          0.0,
+          9.34626688246901e-16
+        ],
+        "max_share_error": 5.551115123125783e-16,
+        "zero_owner_max_direct_relative_magnitude": 4.120817383716904e-16,
+        "owners": [
+          {
+            "owner": 0,
+            "status": "PLANNED_EDIT",
+            "plan_share": [
+              0.506365613772004,
+              0.0,
+              0.493634386227996
+            ],
+            "context_direct_shares": [
+              [
+                0.5063656137720041,
+                0.0,
+                0.4936343862279959
+              ],
+              [
+                0.5063656137720043,
+                0.0,
+                0.49363438622799566
+              ],
+              [
+                0.5063656137720045,
+                0.0,
+                0.49363438622799544
+              ]
+            ]
+          },
+          {
+            "owner": 1,
+            "status": "NO_PLANNED_EDIT",
+            "plan_share": null,
+            "context_direct_shares": null
+          }
+        ],
+        "guarantee_scope": "Per-context direct U_l k_lrc norm shares under exact realization and identical entry anchors only; not cumulative hidden displacement, task contribution, virtual trajectory equality, or locality."
+      }
+    },
+    {
+      "test": "zero_D_layer_and_zero_rank",
+      "status": "PASS",
+      "measurements": {
+        "zero_layer_energy": 0.0,
+        "zero_rank_exact_status": "COMPATIBLE_EXACT_WITHIN_TOLERANCE",
+        "zero_rank_nonzero_status": "RANGE_PROJECTED_WEIGHTED_LEAST_SQUARES",
+        "zero_rank_nonzero_residual": 1.0
+      }
+    },
+    {
+      "test": "retain_zero_target_prevents_cross_talk",
+      "status": "PASS",
+      "measurements": {
+        "full_writer_zero_column_error": 1.1102230246251565e-16,
+        "dropped_writer_zero_column_error": 1.0
+      }
+    }
+  ],
+  "limitations": [
+    "CPU only; no model or pilot speed qualification.",
+    "Exact means retained row-space compatibility and reported numerical tolerance; numeric rank truncation is always recorded.",
+    "Mean or context exactness does not prove virtual trajectory equality or locality preservation.",
+    "The FP32 application diagnostic excludes model activation evaluation rounding.",
+    "Context constraints may cost more energy and may be inconsistent; the LS result must not be labeled exact.",
+    "KL injection targets are owner D; history support stays native rewrite-only with adapter-defined nested mean."
+  ]
+}

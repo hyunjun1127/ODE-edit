@@ -1,0 +1,75 @@
+{
+  "schema": "JLZ_V13_REALIZED_WRITER_TELEMETRY_V1",
+  "identities": [
+    "source/config/runtime/model/data/context hashes",
+    "arm/stage/logical_batch/actual_edit_count",
+    "request occurrence/candidate/layer/native-row role/owner",
+    "entry and pre-own-write W/H state",
+    "terminal plan D/u/z hashes",
+    "constraint row order/weights hash"
+  ],
+  "solver": [
+    "n_in,n_out,constraint_count",
+    "metric skew/Cholesky status",
+    "cutoff formula and actual threshold",
+    "singular values/rank/retained condition",
+    "nominal geometry and numerical status",
+    "weighted target norm",
+    "discarded-target norm and per-owner values",
+    "retained projected-target residual",
+    "numerical verification tolerance",
+    "zero-target fastpath",
+    "ideal preservation Q",
+    "ideal/applied update norms"
+  ],
+  "actions": [
+    "ideal U K",
+    "effective applied U_eff K",
+    "actual native local hidden difference",
+    "mean/canonical/rewrite/KL target error norms",
+    "per-row norm ratio/directional projection/cosine when target nonzero",
+    "zero-target leakage / entry anchor",
+    "per-owner weighted RMS and max context error",
+    "ideal-vs-effective elementwise parity",
+    "native local-additivity parity"
+  ],
+  "allocation": [
+    "planned u norm share",
+    "direct mean/canonical/native-context share",
+    "per-owner share L1 gap",
+    "undefined share count for zero total plan",
+    "inherited actual-versus-virtual base gap",
+    "direct post-own-write target gap",
+    "actual final virtual-target vector gap",
+    "actual final minus entry vector norm and cosine"
+  ],
+  "energy": {
+    "ideal_Q": "All solves, computed from retained white coefficients",
+    "effective_Q": "P1 every branch; main actual milestone crossings for100/500/1000/1500/2000, computed as tr(U_eff A U_eff.T)",
+    "unmeasured": "Explicit NOT_MEASURED; no ideal-as-effective substitution"
+  },
+  "history": [
+    "all eligible layer coverage",
+    "rewrite-only native mean key identity",
+    "actual original request/occurrence count",
+    "append exactly once after successful full write",
+    "zero-write layer append retained"
+  ],
+  "evaluation": [
+    "all raw R/P/N identity rows",
+    "preference with ties failure",
+    "TF strict/token-micro/prompt-macro ACC",
+    "new/true NLL and margin",
+    "paired preference and strict-ACC lost/gained/retained",
+    "birth and fixed firstN cohort retention",
+    "active/superseded strata and original full denominator"
+  ],
+  "timing": [
+    "fit/capture/factor/triangular_apply/SVD/materialize/cast/history/eval/diagnostics",
+    "logical candidate evaluations and updates",
+    "physical F/B and checkpoint recomputation",
+    "GPU peak/CPU RSS",
+    "actual row/useful/padded token counts"
+  ],
+  "recording_policy": "Scalar/numeric provenance and evaluation raw persisted; full model tensors/checkpoints not added. Vector norms and cosines computed before release; save no label-dependent selection flags."
+}
