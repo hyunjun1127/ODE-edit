@@ -2,9 +2,14 @@
   "schema": 1,
   "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
   "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
-  "owner": "server4-server-head",
-  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "status": "MIGRATING_TO_SERVER3_AWAITING_DIRECT_ACKS",
+  "current_instruction_id": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "migration_envelope": "messages/head/2026-10-04-jlz-v12-migrate-sh4-to-sh3.json",
+  "migration_exception": "control/experiment-exceptions/jlz-v12-migration-sh3-20261004.json",
+  "original_owner": "server4-server-head",
+  "historical_S4_jobs": {"pilot": 58172, "main": 58173, "collector": 58174},
   "owner_ack_turn": "01a1065c-e523-7023-90f2-de469e36aea2",
   "delivery_receipt": "audits/global/2026-10-04-jlz-v12-shared-budget-2k-sh4-dispatch/delivery-receipt.json",
   "envelope": "messages/head/2026-10-04-jlz-v12-shared-budget-2k-sh4.json",
@@ -17,5 +22,6 @@
   "noCP": true,
   "v11_STOP_preserved": true,
   "submitted_job_ids": [],
-  "GPU_qualified": "NOT_OBSERVED"
+  "GPU_qualified": "S4_SMALL_PILOT_PASS; S3_NOT_RUN",
+  "submitted_job_ids_scope": "new server3 only; original S4 source records remain historical"
 }

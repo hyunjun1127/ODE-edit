@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "user_quote": "v12 저거 server4말고 server3에 pending 걸어놓자",
+  "executor": "SH3 sole pull; SH4 supplies allowlist and preserves originals",
+  "preferred": "Git for tracked implementation and canonical docs. Reuse S3 existing model/revision/C0/fixed10k/context/native/evaluator assets by SHA binding. No model/dataset/checkpoint bulk transfer/redownload/recompute authorized.",
+  "authorized_payload": "Only v12 missing tiny source/config/context/hparams/locks/CPU+pilot-receipts/W0 reuse metadata required by exact handoff allowlist, regular files with exact size/SHA, no secrets or model/weight/checkpoint payload. If unanticipated large/raw transfer is needed report explicit list, do not broad-sync.",
+  "destination_root": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1",
+  "source_keep": true,
+  "overwrite": false,
+  "delete": false,
+  "verification": "SHA/size at source and destination; safe regular members/no traversal/symlink/device; existing destination exact reuse only."
+}

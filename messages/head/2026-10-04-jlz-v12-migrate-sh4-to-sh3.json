@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "parent_instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "user_exact_quote": "v12 저거 server4말고 server3에 pending 걸어놓자",
+  "date_kst": "2026-10-04",
+  "status": "AUTHORIZED_MIGRATION_AWAITING_DIRECT_ACKS",
+  "source_owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "owner": {
+    "role": "SH3",
+    "agent": "head-server3",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "server": "server3",
+    "app_host": "remote-ssh-codex-managed:lab123",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "inherits": {
+    "parent_envelope": "messages/head/2026-10-04-jlz-v12-shared-budget-2k-sh4.json",
+    "parent_envelope_sha256": "788127bb597a03d9e92258f2fd7980781f4b977cbae003a224e720bfb40f07da",
+    "canonical_directory": "plans/global/2026-10-04-jlz-v12-marginal-allocation",
+    "method_manifest_sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159",
+    "execution_manifest_sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45",
+    "same_method_inputs_metrics": "All canonical method, EfficiencyAdam, request-local25/24+Jr stop, sharedradius.75, actual-current K/h targettracking writer, H once, first2000B100x20/noB21/W20 metrics and noCP unchanged. Parent server4 paths/ownership/resource selection/stop boundary superseded ONLY by this migration.",
+    "source_reference": "7852d66e and source/config/lock closure in SH4 submission receipts; publication22ce7bfd is not execution source"
+  },
+  "source_stop": {
+    "execute_first": true,
+    "known_pending_jobs": [
+      58173,
+      58174
+    ],
+    "completed_pilot": 58172,
+    "actions": [
+      "Freeze further SH4 v12 submission/release/retry/science; retain code, raw, completed pilot, runtime, failed evidence and cost.",
+      "Verify exact owner/task/source/argv/dependency/state at time of action. Cancel collector58174 then main58173 if active/pending/held; if already terminal report actual state, do not invent cancellation.",
+      "Check exact same-task descendants or retry registrations only; cancel only proven v12 source-owned active ones. No other jobs or v11 touches.",
+      "Verify cancellation terminal and allocations released; produce small handoff receipt with source/config/lock/hash/dependencies/runtime/input list and branch commit.",
+      "SH3 no release/new GPU until source cessation receipt; no cross-host continuation from RAM or checkpoint. Completed S4 pilot remains historical, not H200 qualification."
+    ]
+  },
+  "destination": {
+    "implementation": "SH3 sole implementation/submission owner after handoff; reuse preserved v12 production algorithm, port absolute paths/host/runtime/launcher/resource bindings in dedicated non-main worktree. No redesign/native objective changes or duplicate from-scratch science.",
+    "branch": "codex/server3-jlz-v12-shared-budget-migration-20261004-v1",
+    "submission": "allowed; upfront dependency pilot -> matching technical READY -> cold V12_MAIN W0+BS100x20+W20 -> CPU afterany failure/completion collector. Seal whole DAG and held inspect/release. Resource absence is normal Slurm PENDING; do not wait for free GPUs before registration and do not replace submission with Git-only pending when scheduler accepts.",
+    "technical": "Reuse S4 CPU/source evidence only under exact-byte identity; run necessary S3 small target-model/native/runtime qualification plus BS2x2 pilot using same IDs541/6693/16935/17306. MainB100 admission remains mainB1, no extra B100fit. Pilot starts independent cold and main starts fresh W0/H0. W0raw reuse only exact model/input/token/evaluator/runtime match, otherwise one S3 first2k W0 eval within approved main.",
+    "gate": "Technical identity/finite/state/gradient/cache/commit remain hard. Low metrics/concentration/KKT/iterationbudget remain record-only, no policy or tolerance changes.",
+    "resources": {
+      "task_gpu_cap": 1,
+      "project_gpu_cap": "current1 or stricter; never increase",
+      "per_job_GPU": 1,
+      "CPUs": 8,
+      "default_host_memory_MiB": 59392,
+      "absolute_repo_ceiling_MiB": 121856,
+      "ceiling_rule": "Use minimum task default59392, current local and repository cap; larger memory needs explicit amendment rather than silent increase.",
+      "node": "ubuntu",
+      "partition": "gpu",
+      "pilot_wall_hours_max": 4,
+      "main_wall_hours_max": 168,
+      "collector": {
+        "GPU": 0,
+        "CPUs": 8,
+        "host_memory_MiB_max": 24576,
+        "wall_hours_max": 4
+      },
+      "export": "NONE",
+      "requeue": false,
+      "admission": "Fresh disk/inode/explicit-memory/node/queue/QoS/source/fullargv checks. Count current project allocations and admitted pending. Serialize with safe same-task DAG/project dependencies if needed; unrelated jobs never canceled or modified."
+    }
+  },
+  "transfer": {
+    "executor": "SH3 sole pull; SH4 supplies allowlist and preserves originals",
+    "preferred": "Git for tracked implementation and canonical docs. Reuse S3 existing model/revision/C0/fixed10k/context/native/evaluator assets by SHA binding. No model/dataset/checkpoint bulk transfer/redownload/recompute authorized.",
+    "authorized_payload": "Only v12 missing tiny source/config/context/hparams/locks/CPU+pilot-receipts/W0 reuse metadata required by exact handoff allowlist, regular files with exact size/SHA, no secrets or model/weight/checkpoint payload. If unanticipated large/raw transfer is needed report explicit list, do not broad-sync.",
+    "destination_root": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/server4-handoff-r1",
+    "source_keep": true,
+    "overwrite": false,
+    "delete": false,
+    "verification": "SHA/size at source and destination; safe regular members/no traversal/symlink/device; existing destination exact reuse only."
+  },
+  "allowed_writes": {
+    "SH3": [
+      "project/run_scripts/jlz_shared_budget/** including task-local server3 adapter/tests; preserve original frozen S4 bytes",
+      "plans/updates/server3/jlz-v12-shared-budget-20261004-v1/**",
+      "tasks/status/jlz-v12-shared-budget-bs100x20-20261004-v1/server3.json",
+      "messages/acks/server3/2026-10-04-jlz-v12-migration*",
+      "messages/server-heads/server3/2026-10-04-jlz-v12-migration*",
+      "audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/**",
+      "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/**",
+      "runs/odeedit_jlz_v12_shared_budget_s3_20261004/**",
+      "transfers/verifications/jlz-v12-migration-20261004-v1/**",
+      "ignored local/jlz-v12-shared-budget/**; own-worktree session-boundary exact actual values only"
+    ],
+    "SH4": [
+      "tasks/status/jlz-v12-shared-budget-bs100x20-20261004-v1/server4.json",
+      "messages/acks/server4/2026-10-04-jlz-v12-migration*",
+      "messages/server-heads/server4/2026-10-04-jlz-v12-migration*",
+      "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/**",
+      "experiment-reports/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/**",
+      "ignored local/jlz-v12-shared-budget/20261004-v1/migration-to-s3-r1/**"
+    ]
+  },
+  "publication": "SH own source+compact reports approved nonforce main/branch clean integration; preserve shared dirty and others. Exact runs namespace explicitly authorized even if generic helper prefix missing; document exception, do not falsify helper PASS. No global/shared env config edits.",
+  "review": {
+    "preflight": "Owner source audit plus required red checklist: unchanged math/inputs/budget/horizon, native key/history semantics, technical pilot, noCP, admission/resources, source/CLI/lock, dual-host duplicate prevention, safe transfer. Do not claim independent red agent unless used.",
+    "postrun": "Independent CPU reducer count/identity/finite/metrics/cost/state links/telemetry completeness and manifest; scientific negative is not technical failure."
+  },
+  "reporting": {
+    "SH4": "Direct nonce acceptance, cancellation IDs/states/allocated cost+receiptSHA and handoff source/paths; no GPU monitoring beyond cessation check.",
+    "SH3": "Direct nonce owner ACK -> porting/preflight status -> all released jobIDs/source/locks/dependency/resource snapshot. Submitted not GPUqualified/complete. CPU tests not targetmodel.",
+    "monitoring": "Latest USER pending instruction replaces parent agent wait-for-main-initial: stop agent polling after bounded held-inspection/release+initial resource/dependency submission snapshot. Do not wait for pilot/mainB1 or resource availability. Sealed runner/collector automatically executes approved technical gates then W20. No recurring monitor/heartbeat/autoretry. User recall for detailed result review.",
+    "completion_report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md",
+    "artifact_broadcast": "Source/compactreceipt Git; raw local KEEP/noCP/no secret. NO_BROADCAST_NOT_REQUIRED exception for migration without large scientific raw."
+  },
+  "scoped_exception": {
+    "only_this_v12": true,
+    "server4_science_authority_revoked": true,
+    "v11_STOP": true,
+    "other_tasks_STOP_unchanged": true,
+    "checkpoint_save": false,
+    "new_baseline_fit": 0,
+    "NOALLOC": 0,
+    "sweeps": 0
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "status": "AUTHORIZED_SCOPED_MIGRATION_USER_OVERRIDE",
+  "supersedes": "control/experiment-exceptions/jlz-v12-shared-budget-2k-sh4-20261004.json",
+  "owner": "SH3",
+  "server": "server3",
+  "server4_science_authority": false,
+  "Slurm_submission": true,
+  "task_gpu_cap": 1,
+  "project_gpu_cap": "current1_or_stricter",
+  "chain": "V12_MAIN",
+  "batches": 20,
+  "save_checkpoints": false,
+  "v11_STOP_preserved": true,
+  "other_tasks_resume": false,
+  "only_owned_source_v12_cancel": true,
+  "envelope": "messages/head/2026-10-04-jlz-v12-migrate-sh4-to-sh3.json"
+}
