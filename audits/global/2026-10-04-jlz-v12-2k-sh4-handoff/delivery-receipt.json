@@ -1,0 +1,23 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "method_commit": "8b70d0b975443c529c5f41c30de328ee1d9e253f",
+  "execution_commit": "abb6661d44e49222e794b50dddc5698ce2e2f7ca",
+  "prompt_sha256": "134196a85fa6b19715667063fdc6dd9461aac999b99fbb857c479979957b7c45",
+  "GH_thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "SH4_thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "fresh_idle_checked": true,
+  "transport": "registered app-server official WebSocket initialize/resume/start; idle verified",
+  "accepted_GH_turn": "01a10657-b607-7503-ac69-d6e593c17d49",
+  "GH_received": true,
+  "GH_actual_ack": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1`.\n\nv12 method·실험 정본을 검증·게시하고 SH4의 직접 담당 수락 ACK까지 받겠습니다. 기존 v11 STOP은 유지하며, 이번에는 V12_MAIN 단일 경로 BS100×20만 배정하겠습니다.\n",
+  "SH4_direct_acceptance": "CONFIRMED_BY_GH_RESPONSE",
+  "experiment_submission": "NOT_SUBMITTED_CONFIRMED_BY_GH",
+  "experiment_completion": "NOT_COMPLETED",
+  "status": "HANDOFF_COMPLETED",
+  "GH_SH4_acceptance_evidence": "SH4의 직접 담당 수락 ACK를 받았습니다. 현재는 **구현 착수·미제출**이며, v11 STOP 유지도 확인했습니다. 수락 turn과 ACK를 인계 기록에 남기고 마무리하겠습니다.\n",
+  "implementation": "IMPLEMENTING_NOT_SUBMITTED",
+  "GH_terminal": "completed",
+  "GH_terminal_ack": "ACK `ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1`\n\n- 정본 27개 SHA 검증·CPU 29검사 PASS. 설계·실행 지시·수락 기록을 main `a816094f`에 게시했습니다.\n- SH4 직접 담당 수락 확인: turn `01a1065c-e523-7023-90f2-de469e36aea2`.\n- 범위: **V12_MAIN BS100×20, task cap1, noCP**. Pilot 기술 PASS 후 추가 승인 없이 본실험 진행.\n- 현재 **구현 착수·미제출**입니다. GPU 검증·실험 완료는 아직 아닙니다.\n\nv11 STOP과 무관한 작업은 유지하며, 장기 모니터링은 추가하지 않았습니다.",
+  "SH4_accepted_turn": "01a1065c-e523-7023-90f2-de469e36aea2",
+  "GH_main_publication_commit": "a816094f"
+}
