@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "date_kst": "2026-10-04",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "agent": "server4-server-head",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "exact_quote": "2000 edit 까지 돌리는 실험 올리라고 GH에게 시키자. server4에서 진행하라고 해.",
+    "scope": "SH4 implements, CPU/source audits, actual technical qualification/small pilot, then cold V12_MAIN BS100x20 and W20 metrics/collector without stage-by-stage approval.",
+    "exception": "control/experiment-exceptions/jlz-v12-shared-budget-2k-sh4-20261004.json",
+    "precedence": "Current execution-command and this USER authority supersede creation-time METHOD_ONLY/no-dispatch flags; method equations unchanged.",
+    "v11_STOP_remains": true,
+    "other_tasks_resume": false,
+    "cancel_other_jobs": false
+  },
+  "canonical": {
+    "source_commits": [
+      "8b70d0b975443c529c5f41c30de328ee1d9e253f",
+      "abb6661d44e49222e794b50dddc5698ce2e2f7ca"
+    ],
+    "GH_adopted_commits": [
+      "cec0bd404347b109b93aae7aa0d9564a6fb23ac3",
+      "ab43c2a9c0558240fba354a191d48e33268fc5ff"
+    ],
+    "method": "plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+    "method_sha256": "dd6624a6fb21553e6ce87c92191ad0a50e0f31abf838284b483f411140688da0",
+    "contract": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+    "implementation": "plans/global/2026-10-04-jlz-v12-marginal-allocation/implementation-ko.md",
+    "telemetry": "plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+    "TeX": "docs/methods/jlz-v12-shared-budget.tex",
+    "experiment": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment-ko.md",
+    "experiment_sha256": "727d39a06f985f3a65824d6ccb721a2e1df49682ca9f0197f43cde97930f6713",
+    "experiment_contract": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+    "input_reference": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/input-reference.json",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "user_execution_command": "plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-command.json",
+    "method_manifest": "plans/global/2026-10-04-jlz-v12-marginal-allocation/artifact-manifest.json",
+    "method_manifest_sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159",
+    "execution_manifest": "plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-manifest.json",
+    "execution_manifest_sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45",
+    "CPU_reference": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/",
+    "members": 27,
+    "bytes": 523263
+  },
+  "main": {
+    "chain": "V12_MAIN",
+    "chain_count": 1,
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "first_fixed_requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "cold_W0_H0": true,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "no_batch21": true,
+    "no_stop_at500": true,
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "anchor_layer": 8,
+    "nll_readout_layer": 31,
+    "seed": 20261002,
+    "new_baseline_fits": 0,
+    "NOALLOC_or_L4_or_gamma_arms": 0,
+    "sweeps": 0
+  },
+  "method_guards": [
+    "New V12 implementation: full block post-injection subject variables u_lr and delta=a_lr*u_lr on all eligible layers; entry W/H/teacher/anchors frozen. All lower-to-upper virtual gradients remain; no geometry builder or allocation objective in fit.",
+    "Anchor norms captured ONCE with native activation/norm dtype FP32, including native L8 a_star; positive finite, no floor/recomputeFP64. Native6rewrite1KL, NLL contexts1/6 versus keynested .5/.1 weights kept distinct.",
+    "F_r=NLL+.0625 KL(current||ownentry), J_r=F_r+(.5/a_star_r)*sum_l||u_lr||, request shared group-L1 radius .75. This constrains planned relative injections only, not weights/residual/net drift.",
+    "Only continuing requests: backward sum F_r once; add analytic (.5/a_star)*unit(u), ZERO at exactzero, once. No norm double backward, request averaging, remaining-active denominator, wholeB B*s bridge or old qAdam.",
+    "EfficiencyAdam independent request M/V/layerRMS scalar s/update counter; beta(.9,.999), lr_u=.1/a_star, eps_u=a_star*1e-8, gamma=sqrt(s_hat/mean_all_eligible_layers(s_hat)), allzero gamma1. No warmup/clipping/extra weightdecay/layer pruning. Retain moments after projection and permit reentry.",
+    "Exact Euclidean shared group-L1 projection in FP64 then FP32 stored plan; feasibility<=1e-6*max(1,.75), no hidden extra scaling/reprojection. tau_proj not objective mu.",
+    "Request-specific candidate0..24, max25 evaluated/24 backward-updates. Test J_r<.05 BEFORE backward evencandidate0; on terminal freeze u/moments/counter/z of SAME evaluated forward. Last evaluated finite only; never best evaluation. No additional terminal target forward or diagnostic backward. Terminal gradient/KKT=null NO_BACKWARD_TERMINAL, retain previouscandidateID.",
+    "After all requests terminal, freeze canonical post-injection z_virtual. In ascending layer actual model after lower writes, recapture K AND h_current from same state; R=z_virtual-h_current; native whole-B ridge solve(15000C0+H+KK.T,K), U=R P.T, native FP64 product/FP32 cast-add/orientation. This TARGET TRACKING is NOT v11 direct increment; no divisor, inverseM, extra residual topup, support-based writer skipping.",
+    "All layers complete then final-model native keys CPUFP32H+=KK.T once/layer/occurrence. Zero-step/duplicate requests retained. Full RAM transaction W/H/RNG/cache/ledger rollback; no partial scientific commit.",
+    "No reference/replay/pulse/frozenG+E allocation/whole-batch stopping/exactprobe. KKT, diversity, concentration, low ACC/PS/NS and budget nonconvergence are diagnostics, never promotion or retuning gates."
+  ],
+  "qualification": {
+    "CPU": "Reference29 is synthetic CPU only; production needs own stop/freeze/counters/microbatch/terminal z hooks/JSONL relational validation/transaction/rollback/horizon20/noCP tests. Do not call reference29 actual model PASS.",
+    "pilot": {
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "stream_slice": [
+        2000,
+        2004
+      ],
+      "B": 2,
+      "batches": 2,
+      "chain": "V12_MAIN",
+      "cold_W0_H0": true,
+      "max_request_evaluations": 100,
+      "max_request_updates": 96,
+      "small_native_operator_parity": true,
+      "new_baseline_science": 0,
+      "pilot_to_main_state_reuse": false
+    },
+    "actual_model": "Native anchor-single-variable same input/loss/gradient/update/projection parity including scaled epsilon and tiny gradients; correct all-layer hooks; independent vs batched requests/microbatch/partialB; actual upper K/h refresh, orientation/cast/Honce and rollback. Actual B100 admission is main B1, no additional independent fullB100 fit by default.",
+    "tolerances": "Canonical contract technical_tolerances fixed; exact identity/token/mask/state; FP32 atol2e-5/rtol2e-4; grad rel2e-3 denom max(normref,1e-8), tinyref maxabs1e-6; solve residual1e-8; FP32budget1e-6*max(1,c). Validate same semantics, unsupported optimization OFF to qualified reference path with receipt. No silent jitter/tolerance widening or science modifications.",
+    "repair": "Report concrete technical failure, preserve source/raw/cost, minimal code repair+new immutable source and requalification within same approved scope. No silent method/coeff/candidate changes or recurring autoretry. Unresolved structural/resource/scope block reports GH.",
+    "promotion": "Technical qualification+small pilot PASS only, no additional user stage permission. Main starts cold, no v11 state/target reuse."
+  },
+  "evaluation": {
+    "every_batch": "pre-current100 and post-current100",
+    "W0": "first2000 all R/P/N same actual runtime; exact existing raw allowed only input/model/runtime/evaluator/state matched with receipt, never arbitrary historical substitution. No full10k repeat.",
+    "all_seen": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "final_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "metrics": [
+      "R/P desiredNEW, N desiredTRUE teacher-forced strict ACC/tokenmicro/promptmacro; not freegeneration",
+      "RS/PS/NS strict NLL preference tiesFAIL",
+      "new/true/desired NLL with signed margin convention",
+      "pre→post, atwrite→scheduled endpoint, first500/1000/1500, W0correct neighborhood retention, paired lost/gained",
+      "birthcohort and active/superseded version populations; primary all2000 occurrences retained"
+    ],
+    "same_endpoint_reuse": "Allseen current subset from exact same raw, W0B1pre from W0all; no changing endpoints or reducing observation schedule.",
+    "baseline": "Use already existing completed data only, exact matching endpoint/first2k/B100/model/revision/runtime/evaluator/context/metricdenominator. GH comparison receipt; mismatches explicitly historical. Missing matched baseline NOT_AVAILABLE, new baseline0.",
+    "margin_alignment": "Method/telemetry NLL_MARGIN_TRUE_MINUS_NEW requires true_nll-new_nll. Experiment N_leakage also asks new_nll-true_nll drift: preserve both explicitly named signs if reported, derived from same raw pair. Never swap signs under same field. No canonical method edit needed.",
+    "no_feedback_to_fit": true
+  },
+  "telemetry": {
+    "schema": "plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+    "required": "candidate/request/layer actualloss, F/norm/totalgradient only backwardcandidates, gamma/s/tau_proj versus mu, projection pre/postcast/actualstep, terminalfreeze/counter/zidentity; plan/residual/inherited/effective+ideal action/actualnetdrift, history/state/cost/memory.",
+    "realization": "Applied Wafter-Wbefore oriented difference (not cast(U) surrogate) at native mean/canonical/context separately; canonical relative norm realizedshare. Planzero share vector0+NO_PLANNED_EDIT, realizedzero null+ZERO_REALIZED_TOTAL; otherzero ratios null withreason, no epsilon.",
+    "relations": "Candidate sequence0..terminal, ordinal1..25, actual requesteval<=25/upd<=24, no terminalbackward, exact z candidate and allnativecontext/alllayer coverage, perrequeststop/freeze, residue vector identity not normaddition, historyonce, commit/rollback and numerator/denominator integrity.",
+    "cost": "At most50000 request candidate evaluations/48000 request backward-update participations main. Round bound20*25=500 is NOT same unit as requesteval or physical F/B. Pilot and parity calls separate; actualearlystop decreases. Count parent allocated GPU time once; no steps/extern double count.",
+    "noCP": "No durable W/H/optimizer/RNG or reconstructible update-factor/resume bundles. Native input/model readonly; RAM rollback permitted. Scalaraggregates/hashes/metricraw local; no raw tensor/prompt/fullstdout Git."
+  },
+  "permissions": {
+    "Slurm": "ALLOWED_THIS_NEW_V12_TASK_ONLY",
+    "write_paths": [
+      "project/run_scripts/jlz_shared_budget/**",
+      "plans/updates/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/**",
+      "tasks/status/jlz-v12-shared-budget-bs100x20-20261004-v1/server4.json",
+      "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/**",
+      "experiment-reports/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/**",
+      "messages/acks/server4/2026-10-04-jlz-v12-shared-budget-2k.json",
+      "messages/server-heads/server4/2026-10-04-jlz-v12-shared-budget-2k.json",
+      "runs/odeedit_jlz_v12_s4_20261004/**",
+      "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/**",
+      "servers/local/session-boundary.env (ignored own actual worktree only)"
+    ],
+    "readonly": "Canonical GH method/experiment/proofs/TeX/policy and all prior v11/v9/v10/baseline source/raw/assets. Only new namespace production adapters; no shared native/env/global config hotpatch.",
+    "Git": "Dedicated clean codex/server4-jlz-v12-shared-budget-2k-20261004-v1 non-main branch/WT. Own source+compact factual report/main nonforce integration permitted; preserve other changes/dirtyroot/sharedidentity. Scope/conflicts require report; no force/reset/stash.",
+    "transfer": "Git-published package is primary distribution. Existing S4 readonly model/C0/context/data reuse. No model download/statrecompute/large payload transfer/deletion. Needed compact receipts may use approved project helper selective pull/sourceKEEP; otherwise report exact missingasset."
+  },
+  "resources": {
+    "server": "server4",
+    "node": "server4",
+    "partition": "gpu",
+    "project_gpu_cap_observed": 3,
+    "task_gpu_cap": 1,
+    "per_job_gpu": 1,
+    "stricter_current_cap_wins": true,
+    "increase_cap": false,
+    "cpus": 8,
+    "host_memory_mib_default": 59392,
+    "memory_note": "58GiB conservative default under tracked59GiB ceiling. Fresh Slurm QoS/local admission must PASS; stricter current ceiling wins, no speculative increase.",
+    "main_wall_hours_max": 168,
+    "qualification_wall_hours_max": 4,
+    "collector": {
+      "gpu": 0,
+      "cpus": 8,
+      "host_memory_mib_max": 24576,
+      "wall_hours_max": 4,
+      "dependency": "afterany exact task GPU parents"
+    },
+    "wall_note": "Seal finite requested time/storage/peak estimate before submit; <=currentpartition ceiling; request wall is not measured ETA.",
+    "export": "NONE",
+    "Requeue": 0,
+    "job_prefix": "odeedit_jlz_v12_s4",
+    "admission": "Fresh owned resources/admitted pending/actual node/CPU/GPU/memory/disk counted. Observed S4projectcap3, task1; never modify existing jobs. Resource-only exact foreignjob observed1, do not touch its namespace. If no slot use exact resource barrier/dependency/normal pending, no quality predecessor gate.",
+    "DAG": "Pilot/qualification P→afterok P main single GPU W0→20RAMcommits→W20eval; CPUcollector afterany P/main including failurecollection. Equivalent persistent single-lane program allowed. All fixed scope proceeds without user callback; source/status binding at boundaries.",
+    "held_checks": [
+      "owner/name/node/partition",
+      "fullargv/source/archive/lock/input",
+      "GPU/CPU/explicitmem/walltime",
+      "exportNONE/Requeue0/dependency/taskconcurrency"
+    ],
+    "storage": "NoCP rawtelemetry/output+atomic/temp finite reserve sealed; no oldwaiver/delete; insufficientspace RESOURCE_BLOCKED_STORAGE."
+  },
+  "stop_and_audit": {
+    "v11": "STOP preserved. Source stop receipt audits/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/user-stop-20261004.json confirms exact v11 canceled/terminal. No v11 rerun/recancel/monitor. Older v11 exception is not revival authority.",
+    "preflight": "Owner production code audit with explicit red-team checklist: native normalization/gradonce/eps/staranchor/sharedprojection/perrequeststop/targets/currentKh/history/noCP/identity/finite/schema/resource. Distinguish actual independent review from owneraudit; no fictitious independent PASS. Technical block prevents affected run; scientific warnings do not.",
+    "postrun": "Independent CPU raw reducer/statelinks/20commits100layerhistory/schedule/pairedcohort/metricdenominators/schema/cost/completeinventory. Write report and manifest BEFORE atomic terminal; missing endpoints PARTIAL. No extraGPU post-run validation by default.",
+    "GH_evidence": "audits/global/2026-10-04-jlz-v12-shared-budget-2k-sh4-dispatch/package-verification.json"
+  },
+  "reporting": {
+    "first_reply": "Same nonce SH4 direct owner acceptance ACK + received/duplicatecheck/implementation or submission state before continuing; GH socket closure is not stop or approvalwait.",
+    "report": "experiment-reports/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md",
+    "comparison_csv": "experiment-reports/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/comparison-W20.csv",
+    "ack": "messages/acks/server4/2026-10-04-jlz-v12-shared-budget-2k.json",
+    "message": "messages/server-heads/server4/2026-10-04-jlz-v12-shared-budget-2k.json",
+    "status": "tasks/status/jlz-v12-shared-budget-bs100x20-20261004-v1/server4.json",
+    "audit": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/",
+    "runs": "runs/odeedit_jlz_v12_s4_20261004/",
+    "initial": "Representative actual main B1commit/observer→B2 entry OR registered/released formalresourcepending then compacthandoff. PilotPASS not mainPASS; NOT_OBSERVED where applicable.",
+    "monitoring": "GH ends after direct acceptance/receipt publication, not GPU completion. SH4 bounded initial confirmation only then monitoring_active=false/automatic_resume=false; sealedrunner+collector naturally finish20. No recurring monitor/heartbeat/autoretry. Full agent completionreview on user recall.",
+    "broadcast": "Source/compact receipt/reportGit. RawlocalKEEP; approvedcompacthelper broadcast as needed, or NO_BROADCAST_NOT_REQUIRED exception withreason/path/SHA. No mandatorybigrawbroadcast.",
+    "scientific_promotion": false
+  }
+}

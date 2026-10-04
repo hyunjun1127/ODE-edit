@@ -1,0 +1,62 @@
+{
+  "schema": {
+    "status": "DRAFT7_METASCHEMA_PASS",
+    "tool": "system python3 jsonschema; EasyEdit venv lacks jsonschema, no environment installation/change",
+    "production_relational_validation": "NOT_RUN"
+  },
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "status": "PASS_PACKAGE_CPU_REFERENCE_ONLY",
+  "source_commits": [
+    "8b70d0b975443c529c5f41c30de328ee1d9e253f",
+    "abb6661d44e49222e794b50dddc5698ce2e2f7ca"
+  ],
+  "GH_adopted_commits": [
+    "cec0bd404347b109b93aae7aa0d9564a6fb23ac3",
+    "ab43c2a9c0558240fba354a191d48e33268fc5ff"
+  ],
+  "method_manifest_sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159",
+  "execution_manifest_sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45",
+  "exact_members": 27,
+  "bytes": 523263,
+  "all_member_size_SHA_match": true,
+  "all_files_equal_source_commits": true,
+  "all_mandatory_documents_FULL_READ": true,
+  "telemetry_all_definitions_read": true,
+  "CPU_reference_source_tests_and_evidence_read": true,
+  "schedule_rows_fully_parsed": 2000,
+  "dataset_order_and_pilot_disjoint": true,
+  "CPU_reproduction": {
+    "tests": 29,
+    "failed": 0,
+    "elapsed_seconds": 0.517,
+    "python": "3.12.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "original_reference_environment": {
+      "numpy": "2.5.3",
+      "scipy": "1.18.1"
+    },
+    "scope": "Same tests PASS, environment differs; no exact numeric byte reproduction or production model qualification claimed",
+    "writes_to_source": 0
+  },
+  "actual_GPU": "NOT_RUN",
+  "TeX": "SOURCE_READ; PDF_COMPILE_NOT_RUN",
+  "independent_red_agent": false,
+  "protocol_prior_FULL_READ_exact_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4",
+  "v11_stop_receipt_reused": "audits/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/user-stop-20261004.json",
+  "duplicate_preflight": "No same nonce/task GH pending/envelope/exception; S4 exact ignoredattempt absent. Receiver rechecks own registered submissions before new job.",
+  "receiver_before": {
+    "thread_idle": true,
+    "last_completed_turn": "01a1063d-a515-7e11-9d2f-2751662834a3",
+    "last_task": "USER v11 stop"
+  },
+  "resource_only_fresh_observation": {
+    "server": "server4",
+    "project_gpu_cap": 3,
+    "owned_queue_rows": 1,
+    "unrelated_job58150": "RUNNING/1GPU/foreignprojectpath; unchanged",
+    "Slurm_mutations": 0
+  },
+  "margin_clarification": "Method/telemetry NLL_MARGIN_TRUE_MINUS_NEW requires true_nll-new_nll. Experiment N_leakage also asks new_nll-true_nll drift: preserve both explicitly named signs if reported, derived from same raw pair. Never swap signs under same field. No canonical method edit needed.",
+  "root_dirty_preserved": true
+}
