@@ -1,0 +1,828 @@
+{
+  "schema": "JLZ_V12_EXPERIMENT_2K_V1",
+  "date_kst": "2026-10-04",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "status": "AUTHORIZED_IMPLEMENTATION_AND_PILOT_PENDING",
+  "method_commit": "8b70d0b9",
+  "method_contract": "../contract.json",
+  "method_document": "../method-ko.md",
+  "input_reference": "input-reference.json",
+  "case_schedule": "case-schedule-first2000.csv",
+  "chains": [
+    {
+      "id": "V12_MAIN",
+      "requests": 2000,
+      "batch_size": 100,
+      "sequential_commits": 20
+    }
+  ],
+  "main_stream_slice_half_open": [
+    0,
+    2000
+  ],
+  "seed": 20261002,
+  "model": "Meta-Llama-3-8B-Instruct",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "method_profile": "../contract.json#/profile",
+  "state": "cold W0/H0; no state/target reuse from pilot or previous v11/v9",
+  "pilot": {
+    "requests": 4,
+    "stream_slice_half_open": [
+      2000,
+      2004
+    ],
+    "case_ids": [
+      541,
+      6693,
+      16935,
+      17306
+    ],
+    "batch_size": 2,
+    "sequential_commits": 2,
+    "small_native_operator_parity": true,
+    "scientific_quality_gate": false,
+    "promote_after_technical_PASS": true,
+    "further_user_confirmation": false
+  },
+  "qualification": [
+    "CPU reference29 and JSON schema",
+    "actual native row/loss/full-vocab current||entry/subject hook parity",
+    "scaled epsilon Adam parity and no double norm gradient",
+    "request independent state/stop and microbatch gradient",
+    "exact shared projection, all-layer reentry, last evaluated target capture",
+    "actual lower-write refresh of upper K/h, target-tracking residual, native ridge/cast",
+    "final-key history append once, rollback/identity and noCP"
+  ],
+  "evaluation": {
+    "endpoints": [
+      {
+        "endpoint": "W0",
+        "phase": "pre_all",
+        "stream_slice": [
+          0,
+          2000
+        ],
+        "requests": 2000,
+        "R": 2000,
+        "P": 4000,
+        "N": 20000,
+        "share_if_exact_identity": true
+      },
+      {
+        "endpoint": "W0",
+        "phase": "pre_current",
+        "batch": 1,
+        "stream_slice": [
+          0,
+          100
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W1",
+        "phase": "post_current",
+        "batch": 1,
+        "stream_slice": [
+          0,
+          100
+        ],
+        "current_slice": [
+          0,
+          100
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W1",
+        "phase": "pre_current",
+        "batch": 2,
+        "stream_slice": [
+          100,
+          200
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W2",
+        "phase": "post_current",
+        "batch": 2,
+        "stream_slice": [
+          100,
+          200
+        ],
+        "current_slice": [
+          100,
+          200
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W2",
+        "phase": "pre_current",
+        "batch": 3,
+        "stream_slice": [
+          200,
+          300
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W3",
+        "phase": "post_current",
+        "batch": 3,
+        "stream_slice": [
+          200,
+          300
+        ],
+        "current_slice": [
+          200,
+          300
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W3",
+        "phase": "pre_current",
+        "batch": 4,
+        "stream_slice": [
+          300,
+          400
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W4",
+        "phase": "post_current",
+        "batch": 4,
+        "stream_slice": [
+          300,
+          400
+        ],
+        "current_slice": [
+          300,
+          400
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W4",
+        "phase": "pre_current",
+        "batch": 5,
+        "stream_slice": [
+          400,
+          500
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W5",
+        "phase": "post_all_seen",
+        "batch": 5,
+        "stream_slice": [
+          0,
+          500
+        ],
+        "current_slice": [
+          400,
+          500
+        ],
+        "requests": 500,
+        "R": 500,
+        "P": 1000,
+        "N": 5000,
+        "post_current_reused_from_same_endpoint": true
+      },
+      {
+        "endpoint": "W5",
+        "phase": "pre_current",
+        "batch": 6,
+        "stream_slice": [
+          500,
+          600
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W6",
+        "phase": "post_current",
+        "batch": 6,
+        "stream_slice": [
+          500,
+          600
+        ],
+        "current_slice": [
+          500,
+          600
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W6",
+        "phase": "pre_current",
+        "batch": 7,
+        "stream_slice": [
+          600,
+          700
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W7",
+        "phase": "post_current",
+        "batch": 7,
+        "stream_slice": [
+          600,
+          700
+        ],
+        "current_slice": [
+          600,
+          700
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W7",
+        "phase": "pre_current",
+        "batch": 8,
+        "stream_slice": [
+          700,
+          800
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W8",
+        "phase": "post_current",
+        "batch": 8,
+        "stream_slice": [
+          700,
+          800
+        ],
+        "current_slice": [
+          700,
+          800
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W8",
+        "phase": "pre_current",
+        "batch": 9,
+        "stream_slice": [
+          800,
+          900
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W9",
+        "phase": "post_current",
+        "batch": 9,
+        "stream_slice": [
+          800,
+          900
+        ],
+        "current_slice": [
+          800,
+          900
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W9",
+        "phase": "pre_current",
+        "batch": 10,
+        "stream_slice": [
+          900,
+          1000
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W10",
+        "phase": "post_all_seen",
+        "batch": 10,
+        "stream_slice": [
+          0,
+          1000
+        ],
+        "current_slice": [
+          900,
+          1000
+        ],
+        "requests": 1000,
+        "R": 1000,
+        "P": 2000,
+        "N": 10000,
+        "post_current_reused_from_same_endpoint": true
+      },
+      {
+        "endpoint": "W10",
+        "phase": "pre_current",
+        "batch": 11,
+        "stream_slice": [
+          1000,
+          1100
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W11",
+        "phase": "post_current",
+        "batch": 11,
+        "stream_slice": [
+          1000,
+          1100
+        ],
+        "current_slice": [
+          1000,
+          1100
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W11",
+        "phase": "pre_current",
+        "batch": 12,
+        "stream_slice": [
+          1100,
+          1200
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W12",
+        "phase": "post_current",
+        "batch": 12,
+        "stream_slice": [
+          1100,
+          1200
+        ],
+        "current_slice": [
+          1100,
+          1200
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W12",
+        "phase": "pre_current",
+        "batch": 13,
+        "stream_slice": [
+          1200,
+          1300
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W13",
+        "phase": "post_current",
+        "batch": 13,
+        "stream_slice": [
+          1200,
+          1300
+        ],
+        "current_slice": [
+          1200,
+          1300
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W13",
+        "phase": "pre_current",
+        "batch": 14,
+        "stream_slice": [
+          1300,
+          1400
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W14",
+        "phase": "post_current",
+        "batch": 14,
+        "stream_slice": [
+          1300,
+          1400
+        ],
+        "current_slice": [
+          1300,
+          1400
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W14",
+        "phase": "pre_current",
+        "batch": 15,
+        "stream_slice": [
+          1400,
+          1500
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W15",
+        "phase": "post_all_seen",
+        "batch": 15,
+        "stream_slice": [
+          0,
+          1500
+        ],
+        "current_slice": [
+          1400,
+          1500
+        ],
+        "requests": 1500,
+        "R": 1500,
+        "P": 3000,
+        "N": 15000,
+        "post_current_reused_from_same_endpoint": true
+      },
+      {
+        "endpoint": "W15",
+        "phase": "pre_current",
+        "batch": 16,
+        "stream_slice": [
+          1500,
+          1600
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W16",
+        "phase": "post_current",
+        "batch": 16,
+        "stream_slice": [
+          1500,
+          1600
+        ],
+        "current_slice": [
+          1500,
+          1600
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W16",
+        "phase": "pre_current",
+        "batch": 17,
+        "stream_slice": [
+          1600,
+          1700
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W17",
+        "phase": "post_current",
+        "batch": 17,
+        "stream_slice": [
+          1600,
+          1700
+        ],
+        "current_slice": [
+          1600,
+          1700
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W17",
+        "phase": "pre_current",
+        "batch": 18,
+        "stream_slice": [
+          1700,
+          1800
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W18",
+        "phase": "post_current",
+        "batch": 18,
+        "stream_slice": [
+          1700,
+          1800
+        ],
+        "current_slice": [
+          1700,
+          1800
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W18",
+        "phase": "pre_current",
+        "batch": 19,
+        "stream_slice": [
+          1800,
+          1900
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W19",
+        "phase": "post_current",
+        "batch": 19,
+        "stream_slice": [
+          1800,
+          1900
+        ],
+        "current_slice": [
+          1800,
+          1900
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000,
+        "post_current_reused_from_same_endpoint": false
+      },
+      {
+        "endpoint": "W19",
+        "phase": "pre_current",
+        "batch": 20,
+        "stream_slice": [
+          1900,
+          2000
+        ],
+        "requests": 100,
+        "R": 100,
+        "P": 200,
+        "N": 1000
+      },
+      {
+        "endpoint": "W20",
+        "phase": "post_all_seen",
+        "batch": 20,
+        "stream_slice": [
+          0,
+          2000
+        ],
+        "current_slice": [
+          1900,
+          2000
+        ],
+        "requests": 2000,
+        "R": 2000,
+        "P": 4000,
+        "N": 20000,
+        "post_current_reused_from_same_endpoint": true
+      }
+    ],
+    "all_seen_steps": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "all_seen_at_other_steps": false,
+    "pre_current_and_post_current_each_batch": true,
+    "W0_shared_only_exact_state_input_runtime_evaluator_identity": true,
+    "same_endpoint_dedup": "reuse identical raw row once, link it from current and all-seen; never substitute another endpoint",
+    "primary": "occurrence-level native R/P/N raw, no training/evaluation occurrence removal",
+    "NLL_preference": {
+      "R": "new_nll < true_nll",
+      "P": "new_nll < true_nll",
+      "N": "true_nll < new_nll",
+      "ties": "failure"
+    },
+    "strict_ACC": "all desired-target tokens correct by teacher-forced argmax; not free generation",
+    "token_ACC_micro": "sum desired-target correct tokens / sum desired-target tokens",
+    "token_ACC_prompt_macro": "mean per-prompt desired-target token accuracy",
+    "desired_target": {
+      "R": "new",
+      "P": "new",
+      "N": "true"
+    },
+    "raw_fields": [
+      "method/attempt/endpoint/phase/case_id/stream_index/prompt_kind/prompt_index",
+      "prompt hash; new and true target strings/IDs and token-ID hash",
+      "new/true NLL and token counts; correct tokens and strict correctness",
+      "preference; normalized claim/version identity; active/superseded flags at endpoint"
+    ],
+    "N_leakage": [
+      "new-target NLL drift",
+      "true-target NLL drift",
+      "margin new_nll - true_nll drift",
+      "correct-to-incorrect and reverse paired transitions"
+    ],
+    "retention": [
+      "current birth endpoint to every scheduled later checkpoint",
+      "per-cohort current/pre-to-post change",
+      "W0 to checkpoint and first500/1000/1500 retention"
+    ],
+    "final_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "version_statistics": [
+      {
+        "endpoint": "W5",
+        "occurrences": 500,
+        "unique_claims": 500,
+        "conflicting_claims": 0,
+        "active_occurrences": 500,
+        "superseded_occurrences": 0
+      },
+      {
+        "endpoint": "W10",
+        "occurrences": 1000,
+        "unique_claims": 999,
+        "conflicting_claims": 1,
+        "active_occurrences": 999,
+        "superseded_occurrences": 1
+      },
+      {
+        "endpoint": "W15",
+        "occurrences": 1500,
+        "unique_claims": 1491,
+        "conflicting_claims": 8,
+        "active_occurrences": 1491,
+        "superseded_occurrences": 9
+      },
+      {
+        "endpoint": "W20",
+        "occurrences": 2000,
+        "unique_claims": 1983,
+        "conflicting_claims": 13,
+        "active_occurrences": 1984,
+        "superseded_occurrences": 16
+      }
+    ],
+    "duplicate_policy": "primary remains occurrence-level; count exact duplicate panel identities and provide explicit auxiliary unique-prompt/active/superseded summaries without silently dropping rows",
+    "feedback_to_fit_or_hyperparameters": false,
+    "not_observed": "NOT_MEASURED"
+  },
+  "telemetry": "../telemetry-schema.json",
+  "technical_tolerances": "../contract.json#/technical_tolerances",
+  "baseline_comparison": {
+    "source": "existing completed baseline artifacts",
+    "matching_required": [
+      "model/revision",
+      "first2000 order",
+      "B100",
+      "native contexts/assets",
+      "evaluator and raw metric definitions",
+      "endpoint and denominators"
+    ],
+    "unmatched_label": "historical reference only",
+    "fresh_baseline_auto_submission": false
+  },
+  "resources": {
+    "owner_server": "server4",
+    "executor": "SH4 under GH envelope",
+    "task_concurrent_GPU_cap": 1,
+    "per_job_GPUs": 1,
+    "default_CPUs": 8,
+    "effective_project_cap": "stricter current server4/project/user cap wins; count existing allocations",
+    "host_memory": "fresh GH/SH4 admission and current slurm_memory_policy ceiling; explicit request required; no guessed fixed amount in design",
+    "busy": "queue with scheduler dependency/admission; do not cancel or modify other work",
+    "performance_or_ETA": "NOT_MEASURED; publish pilot/measured main timing, no assumed speedup"
+  },
+  "storage": {
+    "checkpoint_saved": false,
+    "optimizer_or_update_factor_resume_bundle": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "in_process_RAM_rollback": true
+  },
+  "forbidden_changes": [
+    "L4-only/gamma/noalloc extra arms without separate scope",
+    "hyperparameter sweep/warmup/reference/replay/pulse",
+    "KKT/active-layer-diversity/ACC gates",
+    "best candidate chosen by evaluation",
+    "v11 resume or unrelated job cancellation"
+  ],
+  "outputs": [
+    "technical qualification report",
+    "pilot raw+summary",
+    "actual Slurm job id and resource receipt",
+    "W5/W10/W15/W20 cumulative R/P/N and ACC raw/paired/cohort summary",
+    "all batch pre/post current metrics",
+    "candidate/request/layer telemetry",
+    "cost and memory/logical evaluations/backwards/update counts",
+    "final factual Korean report and artifact manifest"
+  ],
+  "completion": "20 successful sequential commits + W20 evaluated + verified outputs; 500 edits is intermediate, not completion"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "JLZ_V12_USER_EXECUTION_COMMAND_V1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "date_kst": "2026-10-04",
+  "user_quote": "2000 edit 까지 돌리는 실험 올리라고 GH에게 시키자. server4에서 진행하라고 해.",
+  "sender_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "recipient_GH": {
+    "thread": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "executor_SH4": {
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "host": "remote-ssh-codex-managed:lab163",
+    "cwd": "/data/janghj/ODE-edit",
+    "server": "server4"
+  },
+  "authorized": [
+    "GH integrate/publish exact method and experiment package",
+    "SH4 implement in dedicated non-main worktree",
+    "CPU and actual model technical qualification",
+    "small GPU pilot",
+    "submit V12_MAIN BS100x20 after technical PASS without new user confirmation",
+    "factual artifacts/reports and permitted local broadcast"
+  ],
+  "write_scope": [
+    "project/run_scripts/jlz_shared_budget/**",
+    "new v12 namespace tests",
+    "SH4-owned plans/status/audits/reports",
+    "ignored local/jlz-v12-shared-budget/**"
+  ],
+  "method_commit": "8b70d0b9",
+  "method": "method-ko.md",
+  "contract": "contract.json",
+  "experiment": "experiment-2k/experiment.json",
+  "tex": "../../../docs/methods/jlz-v12-shared-budget.tex",
+  "main_chains": [
+    "V12_MAIN"
+  ],
+  "task_concurrent_GPU_cap": 1,
+  "per_job_GPUs": 1,
+  "explicit_cpu_memory_walltime_required": true,
+  "resource_policy": "fresh server4 admission; respect stricter caps, do not cancel unrelated jobs",
+  "new_task_exception_to_older_stop": "v12 named task only; v11 STOP remains in effect",
+  "baseline": "reuse qualified existing results; no new baseline or extra arms automatically",
+  "noCP": true,
+  "handoff": "direct GH ACK then direct SH4 owner ACK; implementation/pending/running distinct; handoff receipt need not await experiment completion",
+  "new_recurring_monitor": false
+}

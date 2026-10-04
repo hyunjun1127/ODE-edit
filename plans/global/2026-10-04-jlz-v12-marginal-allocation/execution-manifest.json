@@ -1,0 +1,36 @@
+{
+  "schema": "JLZ_V12_EXECUTION_PACKAGE_V1",
+  "method_commit": "8b70d0b9",
+  "files": [
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/artifact-manifest.json",
+      "sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159",
+      "bytes": 4230
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/execution-command.json",
+      "sha256": "b0a940576b9156590d18396fa3f2fc63d7fc1118c20e0d00e4cf15ec77abbec2",
+      "bytes": 2130
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+      "bytes": 294841
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment-ko.md",
+      "sha256": "727d39a06f985f3a65824d6ccb721a2e1df49682ca9f0197f43cde97930f6713",
+      "bytes": 3233
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+      "sha256": "4259b51c1cc5e4d7fbe1156098e5a7550bb64131d6645e8ab39e4fc1c89d094e",
+      "bytes": 19382
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/input-reference.json",
+      "sha256": "e08eb0b67b23000d46c396e024f48c802b68c5df433e0ec5c68838ca698d70df",
+      "bytes": 8959
+    }
+  ]
+}
