@@ -1,0 +1,34 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "reviewer": "SH4 owner; no independent reviewer used",
+  "reference_cpu": 29,
+  "production_cpu": 7,
+  "actual_GPU": "NOT_RUN",
+  "red_team_checklist": {
+    "loss": "Per-request sum F only; analytic norm once; no mean/B scaling.",
+    "optimizer": "FP32 request-local m/v/s/counter; scaled lr and epsilon; all-eligible RMS gamma; moments retained.",
+    "projection": "FP64 exact group L1; single castback with feasibility check; no repair scaling.",
+    "stopping": "before backward request J<.05; freeze same evaluated z; candidate0..24; terminal gradient null.",
+    "writer": "fresh actual lower-write K/h each layer; fixed z-h; whole batch native ridge; no divisor or increment.",
+    "history": "final actual mean keys CPU FP32 once; duplicate/zero-step retained.",
+    "telemetry": "canonical JSON Schema validation plus candidate/update/terminal and write/history relations.",
+    "evaluation": "W0 exact static raw binding; per-batch pre/post; W5/10/15/20; both signed margins; no feedback.",
+    "transaction": "RAM W/H/RNG rollback tested on tiny CPU model; actual qualification pending.",
+    "source": "new namespace only; readonly native/older reusable infrastructure; no shared env mutation.",
+    "resources": "project<=3/task1; 59392MiB/8CPU/1GPU; 24GiB disk reserve; held inspection required.",
+    "noCP": "no tensor saving or reconstruction bundle; scalar/hash/raw metrics only.",
+    "bounds": "no B21; no new baseline/arm/extra B100 fit; no automatic retry."
+  },
+  "technical_findings": [
+    {
+      "issue": "jsonschema unavailable in pinned venv",
+      "resolution": "Task-only copy of existing system jsonschema4.10.3/pyrsistent; source hash freeze required; shared environment unchanged."
+    }
+  ],
+  "warnings": [
+    "CPU tiny-model/reference checks are not actual Llama/GPU PASS.",
+    "Actual numeric errors must retain measured residuals and block confirmed integrity errors; no tolerance widening.",
+    "No matched baseline receipt bound; comparator NOT_AVAILABLE, never new fit."
+  ]
+}

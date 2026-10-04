@@ -1,0 +1,18 @@
+{
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "owner": "server4-server-head",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "authority_commit": "e273f57305ae025e58dea4c0ba527061d7d4e65b",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_check": "새 전용 branch/WT 생성 전 동일 이름 및 local task 등록 없음",
+  "FULL_READ": "method/implementation/contracts/TeX/telemetry/experiment/reference 전체 읽음; 27파일 523263바이트 SHA/size 일치; CSV 전체2000행 파싱",
+  "CPU_reference": "29 PASS; 실제 모델 qualification 아님",
+  "jobs_submitted": [],
+  "actual_GPU": "NOT_RUN",
+  "v11_STOP_preserved": true,
+  "unrelated_58150_mutated": false,
+  "scope": "V12_MAIN cold W0/H0 BS100x20 한 경로, noCP, baseline0, taskcap1/projectcap3이하",
+  "remaining": "production 회귀/actual pilot/held 검사와 등록/main 초기 연결",
+  "GH_reapproval_required": false
+}
