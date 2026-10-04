@@ -1,0 +1,14 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "helper": "scripts/check-agent-access.sh --staged",
+  "generic_helper_result": "NOT_PASS",
+  "unrecognized_path": "runs/server4/jlz-v13-realized-writer-b1/submission-r1.json",
+  "exception_authority": "messages/head/2026-10-05-jlz-v13-b1-realization-sh4.json",
+  "authority_sha256": "b6275e6a268fb522758200f22a0a50bfbb1d1b0264a9793369f6e2aef476e886",
+  "explicit_allowed_prefix": "runs/server4/jlz-v13-realized-writer-b1/**",
+  "decision_ko": "사용자 envelope가 정확 runs 경로를 명시 허용하고 generic helper 미지원은 예외 기록하도록 지시했다. 해당 단일 경로의 소형 제출 receipt를 승인 범위로 게시한다. shared helper 변경 및 허위 PASS 없음.",
+  "other_staged_paths": "SH4 own report/audit/message/status",
+  "shared_helper_modified": false,
+  "raw_tensor_prompt_fullstdout_in_Git": false,
+  "reviewer": "SH4 owner; 독립 reviewer 아님"
+}

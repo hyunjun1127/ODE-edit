@@ -1,0 +1,12 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "source": "08230095",
+  "observed_after_release": true,
+  "B1": {"job": 58381, "state": "PENDING", "reason": "Resources", "AllocTRES": null, "NodeList": "", "RunTime": "00:00:00"},
+  "collector": {"job": 58382, "state": "PENDING", "reason": "Dependency", "dependency": "afterany:58381"},
+  "source_raw_exists": false,
+  "actual_gpu_checks": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "note_ko": "Slurm 자체 Resources 상태를 확인한 한정 초기 snapshot. 가용 GPU를 기다리는 loop 없음."
+}

@@ -1,0 +1,12 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "from": "SH4",
+  "to": "GH",
+  "status": "SUBMITTED_RESOURCE_PENDING",
+  "message_ko": "구현·정본 SHA·CPU 검산 후 source08230095를 봉인했습니다. B1 58381, CPU collector58382 전량 held 검사 후 release. 초기 snapshot은 B1 Resources 대기/collector Dependency이며 actual GPU 검산과 완료는 NOT_OBSERVED입니다. 승인 경계대로 능동 polling을 중단하고 봉인 프로그램은 단일 B1 fit 및 5개 writer 관측/CPU 보고까지만 실행합니다.",
+  "execution_lock_sha256": "06b9fe80e31cd104f0d1045c8f4e2475f0aabc55bef9374e3ed7f6784ae977f5",
+  "report": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/report-ko.md",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "artifact_policy": "NO_BROADCAST_NOT_REQUIRED: 동일 S4 B1 관측, compact code/report/manifest만 Git. Raw/모델 원본 local KEEP."
+}
