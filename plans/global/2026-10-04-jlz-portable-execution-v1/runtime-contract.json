@@ -1,0 +1,308 @@
+{
+  "schema": "JLZ_PORTABLE_EXECUTION_DESIGN_V1",
+  "date_kst": "2026-10-04",
+  "status": "DESIGN_ONLY_NOT_IMPLEMENTED_OR_SPEED_QUALIFIED",
+  "reviewed_source_commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+  "method_change": "No new loss, allocation rule, coefficient or logical edit schedule. Execution-contract changes are explicitly capability-qualified.",
+  "live_jobs_changed": false,
+  "new_dispatch_sent": false,
+  "science_invariants": [
+    "ordered edit occurrences and logical batch size",
+    "all eligible layer variables and gradient reentry",
+    "native input/token/context and separate key reduction",
+    "NLL/KL(current||entry)/norm/budget/optimizer coefficients",
+    "independent request moments and stop/candidate rule",
+    "whole logical-batch writer with freshly recomputed actual upper keys",
+    "actual final-state key value and exactly-once history after successful writes",
+    "all evaluation occurrences, desired targets, metrics and denominators"
+  ],
+  "batch_size_contract": {
+    "scope": "No hard-coded logical batch size; supported sizes are bounded by the qualified executor and available resources, not an unlimited-memory claim.",
+    "run_spec": {
+      "total_edits": "N, nonnegative integer; never inferred from a fixed batch count",
+      "edit_batch_size": "B, positive integer, or an explicit positive-size batch schedule summing to N",
+      "actual_batch_size": "B_t derived from remaining occurrences; retain the final partial batch without dropping or dummy edits",
+      "completion": "Exactly N ordered edit occurrences successfully committed",
+      "evaluation_milestones": "Cumulative edit counts, independent of batch ordinals"
+    },
+    "independent_execution_sizes": {
+      "G_fit": "Complete active requests per fit graph, with token budget and optional per-request row accumulation",
+      "G_capture": "Native writer-context rows per capture graph, independent of fit grouping",
+      "G_eval": "Evaluation rows per graph, independent of logical B and the other phases"
+    },
+    "semantic_rules": [
+      "Resource autotuning changes execution grouping only, never logical B, edit order or the logical schedule.",
+      "Changing logical B can change joint-writer coupling, history timing and scientific outcomes; batch-size independence does not mean result invariance.",
+      "Changing only execution grouping at fixed logical batches requires reference parity, including request-local moments, stopping and selected candidate.",
+      "Keep per-request shared budget, norm coefficient and native context/token reductions independent of logical B and active-request count.",
+      "For row accumulation, include request-level regularizers once, preserve original weights and decide stop from the complete request objective.",
+      "Retain separate occurrence IDs for duplicate facts and preserve the original write order.",
+      "Capture and transfers may stream; do not replace a whole-batch writer by independent microbatch writes.",
+      "Out-of-memory retry cannot advance request moments/step counters twice or silently reduce the logical batch.",
+      "Stage only active request variables and optimizer state on GPU if necessary; preserve inactive state without reinitialization.",
+      "History appends exactly once after each successful logical commit using its actual request count and native final-state reduction."
+    ],
+    "milestone_policy": {
+      "default": "Evaluate at the first completed logical commit at or after each requested milestone; record both requested and actual edited counts and share one evaluation if several milestones map to one state.",
+      "exact_count": "An exact intermediate count requires an explicit predeclared logical batch schedule containing that boundary.",
+      "comparison": "Compare equal actual edited counts and ordered prefixes; do not label a 512-edit endpoint as 500 edits.",
+      "denominators": "Derive from actual benchmark evaluation occurrences and metric definitions, never fixed multiples of B."
+    },
+    "large_batch_writer": {
+      "reference": "One native solve using the whole logical batch; capture chunking does not partition the solve.",
+      "optional_statistics": "C_K = sum_j K_j K_j^T; T_KR = sum_j K_j R_j^T; AlphaEdit algebra: solve(Pi(C_K + H) + lambda I, Pi T_KR).",
+      "qualification": "Streaming accumulation and reassociation of Pi multiplications change native FP32 reduction order. This is a separately qualified numeric backend, not a bitwise-equivalent default.",
+      "resource_limit": "Layer-width matrices still require resources; report an unsupported resource requirement if no qualified path fits."
+    },
+    "schedule_examples": [
+      {"N": 2000, "B": 100, "commits": 20, "last_batch": 100},
+      {"N": 2000, "B": 128, "commits": 16, "last_batch": 80, "milestone_requested": 500, "milestone_actual": 512},
+      {"N": 10, "B": 3, "commits": 4, "last_batch": 1},
+      {"N": 3, "B": 8, "commits": 1, "last_batch": 3},
+      {"N": 0, "B": 8, "commits": 0, "last_batch": null}
+    ]
+  },
+  "adapters": {
+    "model": {
+      "runtime_fields": [
+        "ordered blocks and eligible sites",
+        "anchor/readout/injection/write endpoints",
+        "per-site shapes/orientation/precision",
+        "position/mask/cache semantics",
+        "native forward/head",
+        "writer-output to injection-space correspondence"
+      ],
+      "capabilities": [
+        "frozen_prefix_cut",
+        "stage_capture_stop",
+        "stage_resume_after_actual_write",
+        "no_backward_layer_dependency",
+        "key_precedes_own_weight",
+        "no_cross_layer_parameter_alias",
+        "causal_prefix_reuse",
+        "checkpoint_segments"
+      ]
+    },
+    "benchmark": {
+      "runtime_fields": [
+        "occurrence IDs and stream order",
+        "native train and KL row descriptors and weights",
+        "canonical selectors",
+        "native key row descriptors and nested mean weights",
+        "evaluation candidates, desired target, category and tokenized input",
+        "fact version/cohort semantics when available"
+      ],
+      "no_constants": [
+        "P_count=2",
+        "N_count=10",
+        "rows_per_request=13",
+        "exactly6rewrite1KL",
+        "CounterFact relation_id requirement"
+      ]
+    },
+    "writer": {
+      "runtime_fields": [
+        "operator type",
+        "native dtype/cast/add order",
+        "projector asset and layer slot mapping",
+        "history reduction/update semantics",
+        "whole-batch solve and capture dependencies"
+      ]
+    },
+    "execution": {
+      "runtime_fields": [
+        "independent fit-request, writer-capture-row and evaluation-row microbatches",
+        "per-phase padded/useful token and resident-memory limits",
+        "activation checkpoint schedule",
+        "cache residency and dependency signatures",
+        "telemetry buffer limits",
+        "read-only evaluator input reuse",
+        "resource/path settings"
+      ],
+      "cannot_change": [
+        "logical B",
+        "edit order",
+        "native semantics",
+        "science hyperparameters"
+      ]
+    }
+  },
+  "optimizations": [
+    {
+      "id": "FIT_PACK",
+      "priority": 1,
+      "current": "One complete request per graph; 2500 physical F and 2400 B in historical B1.",
+      "proposal": "Token-aware groups of complete active requests, independent per-request losses/moments/steps; sum continuing request F for backward. Vectorize optimizer over requests; materialize only current group D columns.",
+      "requires": [
+        "per-request gradient parity",
+        "mask/position preservation",
+        "stopped request state freezing",
+        "tail batch support"
+      ],
+      "effect": "Utilization and call/synchronization overhead; same logical work. Example G4 gives625F600B for B100 all25/24, not guaranteed4x speed."
+    },
+    {
+      "id": "PHASE_MEMORY",
+      "priority": 1,
+      "current": "CPU entry caches/teacher retransferred; all five projectors loaded to GPU before fit.",
+      "proposal": "Cache residency selected by phase; load Pi only during writer, one layer at a time; jointly tune G and checkpoint segments under real memory budget.",
+      "effect": "Frees about3.83GiB of current-profile projector storage during fit; no universal fixed memory saving."
+    },
+    {
+      "id": "TELEMETRY",
+      "priority": 1,
+      "current": "Every candidate full canonical z to CPU; many scalar GPU reads; per-event open/validate/flush.",
+      "proposal": "Same-forward captures stay on GPU; copy full z only for terminal requests; batch diagnostic reductions/transfers; bounded event writer with boundary flush and unchanged row identities/content.",
+      "requires": [
+        "terminal capture from evaluated candidate",
+        "all required telemetry retained",
+        "nonfinite/commit safety maintained"
+      ],
+      "effect": "CPU synchronization/transfer/I/O overhead; not model FLOPs."
+    },
+    {
+      "id": "FIRST_INJECTION_CACHE",
+      "priority": 2,
+      "current": "Cache first key and residual; repeat first down_proj per candidate.",
+      "proposal": "Cache full native block output immediately before earliest eligible delta injection; valid for frozen batch-entry dependencies.",
+      "effect": "Current feature portion shrinks18432 to4096, factor4.5 excluding mask/metadata; first projection forward removed. Not4.5x total speed.",
+      "requires": [
+        "adapter validated cut",
+        "no downstream delta-dependent cached tensors",
+        "all zero-layer gradients retained"
+      ]
+    },
+    {
+      "id": "CAPTURE_STOP",
+      "priority": 2,
+      "current": "Each layer key/h capture runs every model block;600 capture forwards in historical B1.",
+      "proposal": "Stop at last requested block output; use only native writer rows, independent writer capture microbatch.",
+      "effect": "Current32-block profile capture stages192 to44 block executions/group including final capture; operation count proxy only."
+    },
+    {
+      "id": "EVAL_INPUT_REUSE",
+      "priority": 2,
+      "current": "New/true candidates often repeat identical model inputs; W0 reuse may be prevented by unrelated full-task identity.",
+      "proposal": "Deduplicate identical deterministic forward signatures at same state, fan out scoring to all original rows; separate evaluator-relevant W0 dependency identity.",
+      "requires": [
+        "unchanged per-target full-vocabulary NLL/argmax",
+        "all occurrence-level denominators retained",
+        "no stale endpoint reuse",
+        "long-target/prefix differences honored"
+      ],
+      "effect": "True forward work removal; current one-token targets are especially favorable."
+    },
+    {
+      "id": "STAGED_WRITER",
+      "priority": 3,
+      "proposal": "Stage all current rows to next eligible layer, assemble whole-batch K/R, solve/write once, resume with actual new block outputs. Keep bounded stage caches; compute new upper keys after lower writes.",
+      "requires": [
+        "native stop/resume parity",
+        "no microbatch writer split",
+        "actual FP32 operator order",
+        "layer/weight dependency proof"
+      ]
+    },
+    {
+      "id": "FINAL_KEY_REUSE",
+      "priority": 3,
+      "proposal": "Use own-prewrite key as final-state key only when downstream writes cannot affect it and own changed weight is downstream of key; append after all writes in original native order.",
+      "requires": [
+        "key/state dependency proof",
+        "no parameter alias or recurrent feedback",
+        "same native row/context reduction",
+        "parity versus explicit final pass"
+      ],
+      "fallback": "Explicit final capture unchanged when capability unavailable."
+    },
+    {
+      "id": "ALPHA_SOLVER_ALGEBRA",
+      "priority": 4,
+      "proposal": "Consider projected basis, Woodbury or rank-update factors only as separately qualified numeric backend after profiling.",
+      "default": "Keep native FP32 nonsymmetric solve and order.",
+      "risks": [
+        "finite-precision projector not exact idempotent",
+        "conditioning/history drift",
+        "reassociated operations differ",
+        "no automatic jitter/precision/coefficient change"
+      ]
+    }
+  ],
+  "already_present_not_new_savings": [
+    "pre-first-down-projection prefix reuse",
+    "microbatch right-padding trim",
+    "selected-position full-vocabulary head in fit and evaluation",
+    "same endpoint reuse of current rows inside seen evaluation",
+    "frozen model with injection-only optimization"
+  ],
+  "qualification": {
+    "scope": "Before production replacement; no completed qualification implied.",
+    "matrix": [
+      "G1 vs grouped requests at identical optimizer states",
+      "variable native context/target lengths and weights",
+      "logical B separate from G, tail batches and repeated occurrence IDs",
+      "logical B in {1,3,7}, independently varied G_fit/G_capture/G_eval, N10/B3 tail and B>N",
+      "CPU schedule validation: N2000/B100 and N2000/B128, actual milestone counts and zero-edit plan",
+      "nonconsecutive sites and site-dependent widths",
+      "cached/checkpoint/stage fast paths vs declared native full executor",
+      "unsupported fast capability falls back explicitly"
+    ],
+    "compare": [
+      "request NLL/KL and u gradients",
+      "request-local moments/stop/last candidate/z",
+      "applied U and current/final keys",
+      "history once and rollback",
+      "raw preference/TF metrics and denominators"
+    ],
+    "threshold_policy": "Preserve existing qualified tolerances; inspect decision-boundary cases using reference. Do not claim bitwise or whole-chain parity from one forward.",
+    "benchmarking": [
+      "fit",
+      "H2D/D2H",
+      "optimizer and telemetry",
+      "key capture",
+      "solve",
+      "history",
+      "evaluation",
+      "state verification",
+      "useful/padded tokens",
+      "physical F/B and checkpoint recomputation",
+      "logical evaluations/updates",
+      "GPU peak and CPU RSS"
+    ],
+    "performance_claim": "No measured speedup yet; B1 ridge timing is not AlphaEdit ETA."
+  },
+  "implementation_targets": [
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/run.py",
+      "changes": "Generic RunSpec, adapter factories, dynamic batches/metrics/projector shape and slots; preserve scientific profile."
+    },
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/entry.py",
+      "changes": "Native row execution plan, valid prefix cut cache, placement and group assembly."
+    },
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/optimize.py",
+      "changes": "Grouped active requests, device terminal capture, group-column variables and buffered diagnostics."
+    },
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/optimizer.py",
+      "changes": "Vectorized independent request state with all-layer gamma/projection."
+    },
+    {
+      "file": "project/run_scripts/jlz_realization/profile.py",
+      "changes": "Replace hard-coded Llama execution in generic core with model adapter fast capabilities; retain qualified Llama native implementation."
+    },
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/writer.py",
+      "changes": "Bounded capture and optional staged current-state executor; native solve unchanged initially."
+    },
+    {
+      "file": "project/run_scripts/jlz_realization/observe.py",
+      "changes": "Generic eval rows and input-signature reuse; keep metric semantics."
+    },
+    {
+      "file": "project/run_scripts/jlz_shared_budget_alphaedit/telemetry.py",
+      "changes": "Bounded persistent event buffer and batched GPU scalar transfer."
+    }
+  ]
+}

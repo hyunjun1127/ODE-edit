@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "task_id": "jlz-v13-realized-writer-b1",
+  "scope": "Only SH4 v13 first100 B1 onefit fivewriter implementation/qualification/Slurm/CPU report",
+  "user_quote": "GH에게 전달해서 SH4에서 batch 1개만 test 해보는 것으로 해서 실현률이 올라갔는지부터 테스트 하는 것으로 하자",
+  "envelope": "messages/head/2026-10-05-jlz-v13-b1-realization-sh4.json",
+  "allowed": true,
+  "other_task_resume": false,
+  "other_job_cancel": false,
+  "task_gpu_cap": 1,
+  "no_B2": true,
+  "no_checkpoints": true,
+  "no_recurring_monitor": true
+}

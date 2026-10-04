@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-B1-REALIZATION-20261005-R1",
+  "task_id": "jlz-v13-realized-writer-b1",
+  "date_kst": "2026-10-05",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "agent": "head-server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "exact_quote": "GH에게 전달해서 SH4에서 batch 1개만 test 해보는 것으로 해서 실현률이 올라갔는지부터 테스트 하는 것으로 하자",
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "scope": "Implement, CPU/source and B1-input technical qualification, Slurm single fit and five writer observations, CPU reduction/factual B1 report; no stage reapproval.",
+    "exception": "control/experiment-exceptions/jlz-v13-b1-realization-sh4-20261005.json",
+    "unrelated_task_resume": false,
+    "other_job_cancel": false
+  },
+  "canonical": {
+    "directory": "plans/global/2026-10-05-jlz-v13-realized-writer",
+    "execution_command": "plans/global/2026-10-05-jlz-v13-realized-writer/execution-b1-sh4.json",
+    "execution_sha256": "aef52c0e8715e273ff4483c1596661a46dd9fd88a2135533a282eafb342c4639",
+    "method": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+    "experiment": "plans/global/2026-10-05-jlz-v13-realized-writer/experiment.tex",
+    "source_commits": [
+      "77c15907d3307079d7162e7e91fed979757d25a9",
+      "1f73d403fcbafc91543f814629ab5aadcf7cc799"
+    ],
+    "adopted_commits": [
+      "8d4b821b",
+      "6a1ea042"
+    ],
+    "manifest_sha256": "6e2794359186f437180afa28909f4f775b0f7f713c22a9b8fd4917fb67645d4c",
+    "verification": "audits/global/2026-10-05-jlz-v13-b1-realization-sh4-dispatch/package-verification.json",
+    "precedence": "Latest execution-b1-sh4.json overrides historical SH3 owner, BS2x2 pilot and 2k continuation. Method/experiment original bytes unchanged. No B2.",
+    "portable_dependency": {
+      "path": "plans/global/2026-10-04-jlz-portable-execution-v1/runtime-contract.json",
+      "source_commit": "007605b145ce32c2a782a1c1cb568c15ef8d27fe",
+      "sha256": "d9d9624bf873b5976a5ef22f94cc95df82a8accf8ddda469e7d0146cabde894c",
+      "scope": "Exact linked portability/capability guidance only. Does not authorize broad optimization campaign, old AlphaEdit source mutation, extra fits/pilots/benchmarks, or substitute its native FP32 AlphaEdit solver for v13 metric/SVD writer."
+    }
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/jlz_realized_writer/",
+    "branch": "codex/server4-jlz-v13-realized-writer-b1-20261005-v1",
+    "strategy": "Dedicated non-main WT, frozen v12 planner/evaluator/source closure read-only reuse. New writer/runner/telemetry/CPU reducer. Existing production jobs/code/raw untouched. Rebind source/runtime/model/C0/context/token/data/evaluator on actual S4; never assume S3 paths exist.",
+    "reference_execution": "1d27a830274aaee49a713bd07e463b0513591c9e",
+    "S4_reference": "7852d66e read-only predecessor if exact planner closure matches; old stopped task does not resume",
+    "assets": "Existing local model/data/C0/native context first. No model download/C0 recomputation or large artifact transfer. Git canon/source metadata transfer authorized; report exact missing inputs."
+  },
+  "experiment": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "ordered_stream": "Canonical fixed10k first100, same v12 occurrence order; seal full input/token/ordered100 hash",
+    "B": 100,
+    "batches": 1,
+    "unique_cohort": 100,
+    "fit_count": 1,
+    "cold_W0_H0": true,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "branches": [
+      "RT",
+      "RD",
+      "MT",
+      "MD",
+      "CD"
+    ],
+    "extra_fits": 0,
+    "BS2_pilot": false,
+    "B2": false,
+    "new_baseline": 0,
+    "sweep": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "planner": "Unchanged v12 native sentences/teacher/readout/loss, current||entry KL .0625; delta=a_l*u_l, norm(.5/a_star)sum||u_l||, shared relative budget .75; independent request EfficiencyAdam lr .1/a_star eps=a_star*1e-8, all-layer RMSgamma, projection FP64 then FP32. Request Jr<.05 beforebackward/25eval24update max; terminal last evaluated canonical post-injection z, no terminal extra backward/forward. No ref/replay/pulse/warmup/newcost/topk.",
+  "writers": {
+    "common": "Same terminal D/u/z/anchors in every branch; exact RAM W0/H0/RNG/context/cache/ledger restore and verification between branches. Branch own actual lower writes precede every upper K/h capture. Five endpoint branches are not 500 unique edits. No cross-branch causal key reuse.",
+    "RT": "native mean-key ridge tracking T=z_virtual-h_actual; metric C0/H binding per canon",
+    "RD": "native mean-key ridge direct T=D",
+    "MT": "minimum-energy equality/range LS on native mean keys, tracking T=z_virtual-h_actual",
+    "MD": "same mean equality/range LS, direct T=D",
+    "CD": "all native injected subject keys, rewrite AND KL, repeated owner D for every row including KL; equal owner mass1/B and row1/(B*q_r), adapter-derived q_r/dimensions/native roles, no hardcoded universal6+1",
+    "metric": "A=sym(15000*C0+H_entry) FP64; record skew, require SPD without jitter. Cholesky-whiten X=L^-1 K sqrt(w), Z=T sqrt(w), direct SVD/QR-SVD, U=Z X+ L^-1 via triangular solve. Cutoff eps64*max(X.shape)*sigma_max, retained strict>, no normal-equation rank or threshold retune.",
+    "range_policy": "Rank deficiency/incompatible target is valid recorded RANGE_PROJECTED_LS when numerical projected-target solve verified. Never label infeasible-target residual numerical error or silently use ridge fallback/shrink/pinv of original Gram/jitter.",
+    "zero_policy": "Keep zero/repeated target columns. Solve skip only when whole actual branch target T is zero: D==0 is NOT sufficient for tracking RT/MT if inherited tracking residual is nonzero. History still appends.",
+    "application": "FP32 native orientation Wnew=Wold+cast32(U). Distinguish ideal U, cast U, Ueff=double(Wnew)-double(Wold), actual local hidden effects. Capture keys/hidden without subject injection during physical write.",
+    "history": "Each successful branch endpoint allfive writes then final native rewrite-only nested-mean K capture, CPUFP32 H+=Kfinal Kfinal.T exactly once/layer. No KL/history Gram, success filtering, dedup, or additional sequential commits. Restore afterward."
+  },
+  "qualification": {
+    "CPU": "Original reference16 plus production regression tests for branch target/mapping/range/numerical errors/zero columns/history/rollback/horizon/noCP and independent metric reducer.",
+    "actual": "B1 native inputs only; small operator, actual-key, cast/local-additivity and exact RAM restore checks without extra fit/BS2 chain. Reuse same fit intermediate state for checks where valid. Seal source/config/budget/tolerances before submit.",
+    "numerical_projection": "||U K sqrt(w)-Zhat|| <= 1e-10 +1e-8||Z|| where Zhat=Z Vret Vret.T. Full target mismatch separately reports range infeasibility.",
+    "FP32": "Elementwise ideal U K vs Ueff K and actual local-additivity vs Ueff K atol2e-5/rtol2e-4 as canon; norm ratios alone are not parity. Record every error/tolerance/row identity.",
+    "block": "Input/shape/native semantic/nonfinite/SPD/numerical projection/cast-local parity/restore errors stop invalid commit. No silent numeric-method/tolerance change; minimal causal implementation repair/new sealed attempt and requalification, no repeating to pass.",
+    "not_gate": "ACC/PS/NS, concentration, weak or negative realization, inherited gap, zero planned edit, budgetstop or range-incompatible LS itself are observations, not scientific promotion gates.",
+    "provenance": "Owner audit + preflight red checklist required; independent reviewer only if actually used. CPU toy passes are not actual model proof."
+  },
+  "evaluation": {
+    "endpoints": [
+      "W0",
+      "RT",
+      "RD",
+      "MT",
+      "MD",
+      "CD"
+    ],
+    "denominators": {
+      "R": 100,
+      "P": 200,
+      "N": 1000
+    },
+    "metrics": [
+      "RS/PS/NS true-new NLL preference ties fail",
+      "TF strict desired newR/P and trueN",
+      "TF tokenmicro/promptmacro ACC",
+      "new/true/desired NLL and explicit margin sign",
+      "paired lost/gained/W0-correctN retention"
+    ],
+    "feedback": false,
+    "telemetry": "Mean/canonical/rewrite/KL actual FP32 directional ratio/cosine/error and normratio; per-owner weighted RMS/max; plan/direct share L1, inherited gap vs direct error vs final target gap vs net entry displacement; zero-target leakage anchor-normalized; cutoff/rank/range/numeric residual; ideal Q all solves and effective Q allfive endpoints; ideal/cast/effective/applied distinctions. Zero plan share null+NO_PLANNED_EDIT; legacy zero vector named separately.",
+    "cost": "Fit once; per branch capture/factor/SVD/solve/apply/history/eval/accounting/VRAM/RSS, parent allocations once. No aggregate5branch denominator as500 unique requests or extrapolated2k claim.",
+    "historical": "Read-only existing AlphaEdit/ridge/etc only matched identities and same cohort/endpoint; otherwise HISTORICAL_REFERENCE or NOT_AVAILABLE, no additional baseline fit/evaluation."
+  },
+  "resources": {
+    "task_GPU_cap": 1,
+    "project_cap": "Fresh current S4 cap or stricter, do not increase. GH resource-only observed local cap3 and empty owned queue; SH4 fresh admission required.",
+    "per_job_GPU": 1,
+    "CPUs": 8,
+    "host_memory_MiB": 59392,
+    "server": "server4",
+    "export": "NONE",
+    "requeue": false,
+    "wall_max_hours": 24,
+    "collector": {
+      "GPU": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "Fresh exact owner/project admitted jobs, disk/inodes and bounded RAM plan including metric/W/H/branch snapshot/transients. Explicit resource/source/fullargv/dep held inspection then release. Normal resource pending acceptable; no unrelated cancellation/preemption. No GPU waiting loop."
+  },
+  "allowed_writes": [
+    "project/run_scripts/jlz_realized_writer/**",
+    "plans/updates/server4/jlz-v13-realized-writer-b1/**",
+    "tasks/proposed/server4/*jlz-v13*",
+    "tasks/status/jlz-v13-realized-writer-b1/server4.json",
+    "messages/server-heads/server4/*jlz-v13*",
+    "messages/acks/server4/*jlz-v13*",
+    "runs/server4/jlz-v13-realized-writer-b1/**",
+    "audits/servers/server4/jlz-v13-realized-writer-b1/**",
+    "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/**",
+    "ignored local/jlz-v13-realized-writer-b1/20261005-v1/**",
+    "own ignored session-boundary with actual WT CWD"
+  ],
+  "readonly": [
+    "canonical method.tex and original design/experiment",
+    "shared native/runtime/model/data/C0/globalconfig",
+    "existing S3/S4 jobs/source/raw and all unrelated stopped tasks"
+  ],
+  "publication": "Ownscope code/compact report/manifests nonforce branch/main in clean integration authorized; preserve concurrent work. Exact runs/server4 task allowance explicit even if generic helper lacks pattern; record NOT_PASS/exception honestly, do not edit sharedhelper. Raw/tensor/prompt/fullstdout/secrets Git0.",
+  "artifacts": "No persistent checkpoint or reconstructible W/H/delta/optimizer bundles. RAM transaction allowed. Native inputs/results preserved local. Follow approved artifact broadcast for small reports/telemetry/evals; log approved exception/NO_BROADCAST_NOT_REQUIRED when appropriate, do not broadcast large raw/model by default.",
+  "report": "experiment-reports/servers/server4/jlz-v13-realized-writer-b1/report-ko.md",
+  "monitoring": {
+    "GH": "Bounded direct owner nonce ACK then end handoff; no experiment completion wait.",
+    "SH4": "Implement/qualification/submission autonomously. Bounded initial or formal resource-pending handoff then no new recurring monitor/heartbeat/automatic retry. Sealed single B1 and CPU collector perform allfive evaluations and factual report; this task ends B1, never autoextend. Keep factual receipts separate; GH connection closure is not stop/approvalwait."
+  },
+  "receipt_states": [
+    "FULL_READ_SHA",
+    "OWNER_ACCEPTED_IMPLEMENTING",
+    "SOURCE_FROZEN_CPU_CHECKED",
+    "SUBMITTED",
+    "ACTUAL_TECHNICAL_CHECKS",
+    "B1_FIVE_WRITERS_COMPLETE_OR_TECHNICAL_BLOCKED",
+    "CPU_REPORT_PUBLISHED"
+  ]
+}
