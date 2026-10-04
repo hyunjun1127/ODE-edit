@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "review": "USER_RECALL_v12-memit_20261005",
+  "execution_source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "analysis_base_commit": "b6a9c395210f8f4d5e1239d3ea27abc9ceb251b2",
+  "analysis_files": [
+    {
+      "path": "project/run_scripts/jlz_shared_budget/review_20261005.py",
+      "bytes": 17928,
+      "sha256": "d4d82fa9d128294a4a1b1b082a04af65c3440ed30abd61fcbe301f6446c63325"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget/review_20261005_audit.py",
+      "bytes": 4373,
+      "sha256": "b837e5ba82aa617fcb6b07a004ec38b910c7ee19cff95e1790550176469fef99"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget/review_20261005_tables.py",
+      "bytes": 8482,
+      "sha256": "fddb25a3bf02553380f64320790ef91db2b590854dcb289610be2c70c2c9447a"
+    },
+    {
+      "path": "project/run_scripts/jlz_shared_budget/test_review_20261005.py",
+      "bytes": 2334,
+      "sha256": "210c40f0cbafc39d60b9a2e5fa31f07711e99c1e30c32f6ac5257854a12d66aa"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/active-strata.csv",
+      "bytes": 1107,
+      "sha256": "3ebcbdf8c3089fe09153049a2227010e15272990136c0b98687a789f7e3ab088"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/baseline-comparison.csv",
+      "bytes": 5226,
+      "sha256": "8eb2a08f8f0727358b1e20f20cf759ee02f83d951c0016bcd84497d529deb4e0"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/baseline-manifest.json",
+      "bytes": 1684,
+      "sha256": "34424db44008db8c2270c1132c83c108287cc18c6f082dc1e9f95cd1064acf9d"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/baseline-metrics-long.csv",
+      "bytes": 17377,
+      "sha256": "c9e392c3a32584660da3c62aac296d73522ad01d4e32037a5f4cd360b46274e5"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/batch-cost.csv",
+      "bytes": 2850,
+      "sha256": "05fea59717fe417e835a92fc0b397e991f9e70bb2d7d9d0b5b44bc5442f15a6b"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/checks.json",
+      "bytes": 426,
+      "sha256": "074b50b59771e675af4a525a7f8d7c3975fd9246666fa5007f3ef2c8ba9eee2f"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/cohorts.csv",
+      "bytes": 10831,
+      "sha256": "6e7e7b0d15039012d4491638862e608c84d97830899ea76de9c761806b076557"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/current-metrics.csv",
+      "bytes": 16576,
+      "sha256": "210b483126a1e6f232377d0566370ecdcafb1d80cdee7739600077678ce163e4"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/endpoint-metrics.csv",
+      "bytes": 2446,
+      "sha256": "02edc1fd9b25d73d5bfec4b44b5f0d620ad40d98daeb78c612ca07d079c1bc77"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/layer-shares.csv",
+      "bytes": 4416,
+      "sha256": "d0222894edd3df1d588528ce5f1075e3c4c4260b2c25cc5f6fd90e8503e5fbf9"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/metrics-and-baselines.pdf",
+      "bytes": 21743,
+      "sha256": "c19d530e29ee76ed050393d193e2e315c369adf157aed903b8049951e567d899"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/metrics-and-baselines.png",
+      "bytes": 119554,
+      "sha256": "98c15774501187d4c2e974ef041ce86b847ca585d3666d997ab6ab54644960c0"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/nll-distributions.csv",
+      "bytes": 806,
+      "sha256": "7d06e2f3235b225bb4468ce6b196452bbb1bc53d51853f1bfaaf95c1e3274510"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/paired-transitions.csv",
+      "bytes": 1328,
+      "sha256": "072c6eaceb1f0a2986759205b3b2c596567e663f3450a44095308ec2ec75b2a5"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/raw-manifest.json",
+      "bytes": 105018,
+      "sha256": "b23d7a7f9fec774386f62587f9b088ce29f5cf03f02aa060c4d6475b33497dd0"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/report-ko.md",
+      "bytes": 15442,
+      "sha256": "20336aadc2a8dc1d99459d4697361dece68d6993e981221ea6a378d631273d2a"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/retention-and-shares.pdf",
+      "bytes": 17371,
+      "sha256": "25dff7a405ba3bbdac6e0dd589870e7e3eec5fc653fcb1bbc7709638b2c3cf95"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/retention-and-shares.png",
+      "bytes": 65714,
+      "sha256": "7179e5549fb708505b5a4fe5a02fb51c6be11d1f1980c44bd2fa91515ad540dc"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/state-links.csv",
+      "bytes": 685,
+      "sha256": "84f4a59ef0c562f00d0287b0f5b1af663baf5b6128bf895d43caaba46f1b8173"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/summary.json",
+      "bytes": 72139,
+      "sha256": "d041ff711f71a4dde38a28ae6c88701aef348297aad5ec87e0b9b6e0304d6e83"
+    },
+    {
+      "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/supplemental-audit.json",
+      "bytes": 10268,
+      "sha256": "26eb13ee2fd8bc308d130ab7578309bba67835cc255f8ceb995bb9c80bcc4645"
+    }
+  ],
+  "report_sha256": "20336aadc2a8dc1d99459d4697361dece68d6993e981221ea6a378d631273d2a",
+  "new_GPU": 0,
+  "new_model_calls": 0,
+  "new_submission": 0,
+  "large_raw_in_git": false
+}

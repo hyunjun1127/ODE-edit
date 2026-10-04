@@ -1,7 +1,7 @@
 {
   "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
-  "status": "MONITORING_PAUSED_AWAITING_USER",
-  "execution_status": "RELEASED_RESOURCE_DEPENDENCY_PENDING",
+  "status": "REVIEW_COMPLETE_STOP",
+  "execution_status": "ACTUAL_MAIN_W20_COMPLETED",
   "jobs": {
     "V12_MAIN": "58179",
     "collector": "58180",
@@ -9,14 +9,43 @@
   },
   "source": "1d27a830274aaee49a713bd07e463b0513591c9e",
   "lock_sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244",
-  "resource_snapshot_utc": "2026-10-04T10:44:38.102057+00:00",
-  "actual_GPU_qualified": "NOT_OBSERVED",
-  "actual_main_initial": "NOT_OBSERVED",
-  "actual_main_terminal": "NOT_OBSERVED",
+  "actual_GPU_qualified": "QUALIFIED_BOUNDED_ACTUAL_MODEL",
+  "actual_main_initial": "OBSERVED_FROM_IMMUTABLE_SAVED_RECEIPT",
+  "actual_main_terminal": "COMPLETED_20_BATCHES_2000_EDITS",
+  "review_date": "2026-10-05",
+  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/report-ko.md",
+  "report_sha256": "20336aadc2a8dc1d99459d4697361dece68d6993e981221ea6a378d631273d2a",
+  "manifest": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/artifact-manifest.json",
+  "W20": {
+    "RS": 98.5,
+    "PS": 90.3,
+    "NS": 76.06,
+    "score_harmonic": 87.27527506508585
+  },
   "save_checkpoints": false,
   "exact_resume": "NOT_AVAILABLE",
   "monitoring_active": false,
   "automatic_resume": false,
-  "other_tasks": "STOP_UNCHANGED",
-  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md"
+  "previous_submission_status": {
+    "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+    "status": "MONITORING_PAUSED_AWAITING_USER",
+    "execution_status": "RELEASED_RESOURCE_DEPENDENCY_PENDING",
+    "jobs": {
+      "V12_MAIN": "58179",
+      "collector": "58180",
+      "pilot": "58178"
+    },
+    "source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+    "lock_sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244",
+    "resource_snapshot_utc": "2026-10-04T10:44:38.102057+00:00",
+    "actual_GPU_qualified": "NOT_OBSERVED",
+    "actual_main_initial": "NOT_OBSERVED",
+    "actual_main_terminal": "NOT_OBSERVED",
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "other_tasks": "STOP_UNCHANGED",
+    "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md"
+  }
 }

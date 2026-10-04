@@ -1,0 +1,25 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "user_recall": "v12-memit 리뷰해봐; baseline들도 표에 넣어라; score(조화평균) 도 넣어",
+  "status": "REVIEW_COMPLETE_STOP",
+  "jobs": {
+    "V12_MAIN": "58179",
+    "collector": "58180",
+    "pilot": "58178"
+  },
+  "execution_source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/report-ko.md",
+  "report_sha256": "20336aadc2a8dc1d99459d4697361dece68d6993e981221ea6a378d631273d2a",
+  "W20": {
+    "RS": 98.5,
+    "PS": 90.3,
+    "NS": 76.06,
+    "score_harmonic": 87.27527506508585
+  },
+  "baseline": "MEMIT-H/MEMIT/AlphaEdit/AlphaEdit-BLUE/CAKE/MEMIT-BLUE historical W20 first2000",
+  "cost_allocated_GPU_h": 4.153888888888889,
+  "noCP": true,
+  "new_GPU": 0,
+  "monitoring_active": false,
+  "scientific_promotion": false
+}

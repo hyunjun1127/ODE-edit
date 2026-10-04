@@ -1,0 +1,16 @@
+{
+  "commits": 20,
+  "requests": 2000,
+  "history_appends": 100,
+  "W_H_RNG_context_links": 19,
+  "all_raw_identity_finite_denominators": true,
+  "source_config_order": true,
+  "independent_aggregate_vs_commit_collector": true,
+  "complete_pilot": true,
+  "complete_collector": true,
+  "no_checkpoint_files": true,
+  "new_model_calls": 0,
+  "new_scheduler_calls": 0,
+  "owner_CPU_review": true,
+  "independent_agent": false
+}

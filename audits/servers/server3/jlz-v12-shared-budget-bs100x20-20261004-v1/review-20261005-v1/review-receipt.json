@@ -1,0 +1,17 @@
+{
+  "status": "CPU_REVIEW_PASS",
+  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/report-ko.md",
+  "report_sha256": "20336aadc2a8dc1d99459d4697361dece68d6993e981221ea6a378d631273d2a",
+  "manifest_sha256": "f6426ddcc9d07311a4a05c61e9c040bcc1f29b0128c9a6b88af34efe3ab5c273",
+  "baseline_methods": 7,
+  "score": "harmonic mean of unrounded RSPSNS, equal family weights",
+  "regression_tests": 7,
+  "owner_audit": true,
+  "independent_agent": false,
+  "independent_metric_reducer": true,
+  "new_GPU": 0,
+  "Slurm_writes": 0,
+  "new_model_eval": 0,
+  "original_raw_source_unchanged": true,
+  "other_tasks": "NOT_QUERIED_OR_MUTATED"
+}

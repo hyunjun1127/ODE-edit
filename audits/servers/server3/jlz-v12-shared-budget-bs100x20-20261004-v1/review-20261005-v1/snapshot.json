@@ -1,0 +1,40 @@
+{
+  "time_utc": "2026-10-04T15:44:02.043632+00:00",
+  "jobs": {
+    "V12_MAIN": "58179",
+    "collector": "58180",
+    "pilot": "58178"
+  },
+  "source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "query": [
+    "sacct",
+    "-n",
+    "-P",
+    "-j",
+    "58179,58180,58178",
+    "--format=JobIDRaw,JobName%55,User,State,ExitCode,ElapsedRaw,Start,End,AllocTRES%100,MaxRSS,NodeList"
+  ],
+  "accounting": "58178|odeedit_jlz_v12_s3_pilot|janghj|COMPLETED|0:0|231|2026-10-04T19:50:55|2026-10-04T19:54:46|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1||ubuntu\n58178.batch|batch||COMPLETED|0:0|231|2026-10-04T19:50:55|2026-10-04T19:54:46|cpu=8,gres/gpu=1,mem=58G,node=1|13867864K|ubuntu\n58178.extern|extern||COMPLETED|0:0|231|2026-10-04T19:50:55|2026-10-04T19:54:46|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1||ubuntu\n58179|odeedit_jlz_v12_s3_V12_MAIN|janghj|COMPLETED|0:0|14723|2026-10-04T19:54:55|2026-10-05T00:00:18|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1||ubuntu\n58179.batch|batch||COMPLETED|0:0|14723|2026-10-04T19:54:55|2026-10-05T00:00:18|cpu=8,gres/gpu=1,mem=58G,node=1|14213788K|ubuntu\n58179.extern|extern||COMPLETED|0:0|14724|2026-10-04T19:54:55|2026-10-05T00:00:19|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1||ubuntu\n58180|odeedit_jlz_v12_s3_collector|janghj|COMPLETED|0:0|258|2026-10-05T00:00:24|2026-10-05T00:04:42|cpu=8,mem=24G,node=1||ubuntu\n58180.batch|batch||COMPLETED|0:0|258|2026-10-05T00:00:24|2026-10-05T00:04:42|cpu=8,mem=24G,node=1|620188K|ubuntu\n58180.extern|extern||COMPLETED|0:0|258|2026-10-05T00:00:24|2026-10-05T00:04:42|cpu=8,mem=24G,node=1||ubuntu\n",
+  "completed_batches": [
+    "main-V12_MAIN/batch-01/commit.json",
+    "main-V12_MAIN/batch-02/commit.json",
+    "main-V12_MAIN/batch-03/commit.json",
+    "main-V12_MAIN/batch-04/commit.json",
+    "main-V12_MAIN/batch-05/commit.json",
+    "main-V12_MAIN/batch-06/commit.json",
+    "main-V12_MAIN/batch-07/commit.json",
+    "main-V12_MAIN/batch-08/commit.json",
+    "main-V12_MAIN/batch-09/commit.json",
+    "main-V12_MAIN/batch-10/commit.json",
+    "main-V12_MAIN/batch-11/commit.json",
+    "main-V12_MAIN/batch-12/commit.json",
+    "main-V12_MAIN/batch-13/commit.json",
+    "main-V12_MAIN/batch-14/commit.json",
+    "main-V12_MAIN/batch-15/commit.json",
+    "main-V12_MAIN/batch-16/commit.json",
+    "main-V12_MAIN/batch-17/commit.json",
+    "main-V12_MAIN/batch-18/commit.json",
+    "main-V12_MAIN/batch-19/commit.json",
+    "main-V12_MAIN/batch-20/commit.json"
+  ]
+}

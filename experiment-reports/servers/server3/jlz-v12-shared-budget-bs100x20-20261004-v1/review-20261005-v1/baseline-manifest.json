@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "path": "experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/all-seen-metrics.csv",
+      "bytes": 21933,
+      "sha256": "06c4e988d40593d3c8e698721b06d684abf2620351a64d3ca0883295ff620983"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/MEMIT-cumulative-metrics.csv",
+      "bytes": 248330,
+      "sha256": "5f405e36e3bd0b4785fd3d2b9466fea4ea7af51db1370bdef608c206cf3dae0e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/AlphaEdit-cumulative-metrics.csv",
+      "bytes": 251033,
+      "sha256": "19ddace1472b89b23acb43ffed0450924c7342c12fd3fdedf277ebca5cd9ab07"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/seen-prefix.csv",
+      "bytes": 67476,
+      "sha256": "584012115d6c4f5bc537765631cb3ac35e866f2ba985a99e02c8d2c747e1a051"
+    }
+  ],
+  "source_type": "existing tracked completed CPU review tables",
+  "new_model_calls": 0,
+  "endpoints": "each own W5/10/15/20 evaluated on first500/1000/1500/2000; no finalW100 substitution",
+  "score": "100 * 3 / (1/RS + 1/PS + 1/NS), rates from integer counts, zero convention 0; equal family weights, no rounded-input calculation",
+  "missing_endpoint_families": [
+    {
+      "method": "MEMIT-H",
+      "batch": 15,
+      "missing_families": [
+        "N",
+        "P"
+      ]
+    }
+  ],
+  "cross_run_paired_ids": "NOT_AVAILABLE; arithmetic aggregate difference only",
+  "missing_prompt_macro": "NOT_RECORDED, never substituted with token_micro"
+}

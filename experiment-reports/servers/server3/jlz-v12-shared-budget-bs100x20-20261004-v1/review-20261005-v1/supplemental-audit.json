@@ -1,0 +1,196 @@
+{
+  "review_date": "2026-10-05",
+  "analysis_scope": "owner CPU/source-backed review; no independent agent",
+  "active_flags": {
+    "independent_reverse_future_targets": true,
+    "rows_checked": 26000,
+    "active_occurrences": 1984,
+    "superseded_occurrences": 16,
+    "semantics": "old occurrence invalidated by any later different target for NFC-normalized subject+relation, matching original observer; no silent latest-target reinterpretation"
+  },
+  "pilot": {
+    "status": {
+      "main_initial": false,
+      "quality_gate": false,
+      "status": "QUALIFIED_BOUNDED_ACTUAL_MODEL"
+    },
+    "qualification_files": [
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/absolute-delta-gradient.json",
+        "bytes": 561,
+        "sha256": "c3653471965e9f9012f3b26a04af22491a84cc493156ed2429964c72ac20ae75"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/fixed-0.json",
+        "bytes": 596,
+        "sha256": "22cd56c8052f152c3bcf985da013b122fa53703e3f9d420dce338f7b2e3caa5f"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/fixed-1.json",
+        "bytes": 590,
+        "sha256": "c26dd69fec87f53186675d93e35850b02e9a3f5b08f3dbc3f0e6380b381a6db4"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/microbatch.json",
+        "bytes": 531,
+        "sha256": "0681bf64a644fe5dbbff6cbb7e9f7673536eb1d6b5043c031610fc73d2e5bc68"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/native-keys.json",
+        "bytes": 532,
+        "sha256": "ae627a548f589800b0bcab6943349e2ef75ee7ed64b515892460f655c5e70e3f"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/native-scaled-update.json",
+        "bytes": 277,
+        "sha256": "30957433e373a827be69758957a518a2625ba80d3db212437d50b63fd87b5e22"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/predeclared.json",
+        "bytes": 340,
+        "sha256": "10cf682a6737975e97ee4bdc7fbf11c8eee7a25f93aaf0cfdfe3c079a221ccf4"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/batch-01/qualification/ready.json",
+        "bytes": 91,
+        "sha256": "6d260011c6369fb0a2993e30fbd8ba2db4322895179029cc485f122deda63c04"
+      }
+    ],
+    "rollback": {
+      "exact_W_H_RNG": true,
+      "new_fit": 0
+    }
+  },
+  "source_audit": {
+    "files": [
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/optimize.py",
+        "bytes": 7174,
+        "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/optimizer.py",
+        "bytes": 3083,
+        "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/writer.py",
+        "bytes": 8427,
+        "sha256": "61876296e691d618bc6ee3d90b3c081bd448333e1164832737d0542ad001b21a"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/run.py",
+        "bytes": 15179,
+        "sha256": "bd307b2e7b99435f362e724fa3b8405fa60e68d8aba843d45001f6ada58cbc63"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/qualification.py",
+        "bytes": 6077,
+        "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_shared_budget/collect.py",
+        "bytes": 11223,
+        "sha256": "2b31de750d6ca04b8a3b3c81478c51323460bbb73a86952cd58d4670629b1cce"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source/project/run_scripts/jlz_realization/observe.py",
+        "bytes": 8397,
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      }
+    ],
+    "scope": "request budget/stop, fresh K/h, target tracking no divisor, FP64 ridge, FP32 applied state, postfivewriteHonce, observer/state assertion, reducer completion"
+  },
+  "input_runtime_receipts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/runtime.json",
+      "bytes": 847,
+      "sha256": "5f85a0a4410330673a465d057620c5968268801235af19a0744e04984ce857d2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/runtime.json",
+      "bytes": 847,
+      "sha256": "48c5d0f2375617d1733d72d50c2249a6094c70152c23271d1cccf4220f14d3a7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/rollback-probe.json",
+      "bytes": 38,
+      "sha256": "0d61ae2bab92391c2b524ef5513cb2edaad4e73fd670fa23d59d1497474d6194"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/initial.json",
+      "bytes": 1745,
+      "sha256": "6b22314c4c9b803aebe4342b03104f7aee16fa4dbf404885721cb5d52fbb0b6a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/initial-state.json",
+      "bytes": 745,
+      "sha256": "c25cbbbcc92ae1f33302388e3edf451853ce1767159c17314f93029be158cfd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/initial-state.json",
+      "bytes": 745,
+      "sha256": "c25cbbbcc92ae1f33302388e3edf451853ce1767159c17314f93029be158cfd6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+      "bytes": 80157,
+      "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/execution.lock.json",
+      "bytes": 717614,
+      "sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/report/terminal.json",
+      "bytes": 626,
+      "sha256": "190436fe964e339bb6c6874b416d22fb04de6fa1a614af503fc53370292d4ad7"
+    }
+  ],
+  "baseline_compatibility": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/four-method-comparison-manifest.json",
+      "bytes": 3276,
+      "sha256": "e1a8b26f76c9b309336236b3a7e6917226bfe93f569049afc4c4e6759c7b74b6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/source-config-compatibility.csv",
+      "bytes": 28899,
+      "sha256": "7ca66f950c6a2ccf18557e3822765b08ae330b7c26caf543b6b365dd2ed2e2d0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/new-source-config-compatibility.csv",
+      "bytes": 16865,
+      "sha256": "34f9d6ac602df26e2a00696a252cbf8a189fe361a10570a4afa6ae718abe0c61"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/compatibility.json",
+      "bytes": 2410,
+      "sha256": "2f7cb277cb0e2160ce5386bb0586cd9151818289b9abea61d2b55af46d22f65c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/diagnostic-report-ko.md",
+      "bytes": 16502,
+      "sha256": "e108438abd51b8d536925ce4ad863e6e8e815df10a105aa1503899c4de65953a"
+    }
+  ],
+  "regression": {
+    "tests": 7,
+    "exit_code": 0,
+    "output": "test_harmonic_known_exact_and_zero (test_review_20261005.ReviewTest) ... ok\ntest_harmonic_missing_nonfinite_invalid (test_review_20261005.ReviewTest) ... ok\ntest_micro_macro_strict_are_distinct (test_review_20261005.ReviewTest) ... ok\ntest_paired_identity_corruption (test_review_20261005.ReviewTest) ... ok\ntest_paired_lost_gained_retained (test_review_20261005.ReviewTest) ... ok\ntest_preference_ties_fail_and_N_true (test_review_20261005.ReviewTest) ... ok\ntest_reject_corrupt (test_review_20261005.ReviewTest) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  },
+  "no_checkpoint": {
+    "source_reports_noCP": true,
+    "checkpoint_saved_flags_false": true,
+    "observed_main_tensor_extension_files": [],
+    "reconstructible_state": "NOT_AVAILABLE",
+    "tensor_reload_validation": false
+  },
+  "model_calls": 0,
+  "new_scientific_data": false,
+  "Slurm_writes": 0,
+  "scheduler_observation": "one exact accounting snapshot saved before review; no repeated monitoring",
+  "new_method_or_threshold_changes": false,
+  "precision_limit": "bounded original model qualification only; source/receipt checks not new tensor proof"
+}
