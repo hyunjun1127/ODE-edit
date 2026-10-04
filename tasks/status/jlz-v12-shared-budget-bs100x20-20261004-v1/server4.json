@@ -1,0 +1,23 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "status": "SUBMITTED_PILOT_RUNNING",
+  "execution_source": "7852d66e",
+  "jobs": {
+    "pilot": 58172,
+    "V12_MAIN": 58173,
+    "collector": 58174
+  },
+  "main_initial": "NOT_OBSERVED",
+  "actual_qualification": "IN_PROGRESS",
+  "reference_CPU": 29,
+  "production_CPU": 7,
+  "new_baseline_jobs": 0,
+  "v11_stop_preserved": true,
+  "other_job_mutations": 0,
+  "no_checkpoints": true,
+  "monitoring_active": true,
+  "monitoring_scope": "bounded initial main B1-to-B2 only",
+  "automatic_resume": false,
+  "local_attempt": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1"
+}
