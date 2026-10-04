@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "task_id": "jlz-v12-alphaedit-writer-bs100x20-20261004-v1",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-04-jlz-v12-alphaedit-2k-sh3.json",
+  "execution_command": "plans/global/2026-10-04-jlz-v12-alphaedit-writer/execution-command.json",
+  "exception": "control/experiment-exceptions/jlz-v12-alphaedit-2k-sh3-20261004.json",
+  "arm": "V12_ALPHAEDIT",
+  "batches": 20,
+  "edits": 2000,
+  "task_gpu_cap": 1,
+  "save_checkpoints": false,
+  "submitted_job_ids": [],
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "existing_ridge_jobs_preserved": [
+    58178,
+    58179,
+    58180
+  ]
+}

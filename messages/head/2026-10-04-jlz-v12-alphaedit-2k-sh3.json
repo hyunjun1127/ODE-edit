@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "task_id": "jlz-v12-alphaedit-writer-bs100x20-20261004-v1",
+  "date_kst": "2026-10-04",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH3",
+    "agent": "head-server3",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "app_host": "remote-ssh-codex-managed:lab123",
+    "server": "server3",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "user_authority": {
+    "exact_quote": "이건 method 설계도 크게 달라질게 없으니 GH에게 바로 전달해서 2000edit 까지 돌리는 것 전달하자. SH3에게 전달해서 task 진행시키는 것으로 하자",
+    "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+    "scope": "Implement writer adapter, necessary technical qualification and disjoint small pilot, then one new cold BS100x20 main plus W20 evaluation/CPU collector, no stage reapproval.",
+    "exception": "control/experiment-exceptions/jlz-v12-alphaedit-2k-sh3-20261004.json",
+    "other_task_resume": false,
+    "cancel_existing_jobs": false
+  },
+  "canonical": {
+    "execution_command": "plans/global/2026-10-04-jlz-v12-alphaedit-writer/execution-command.json",
+    "source_commit": "9273ab145dd3b94b92e5ccac8ed7358abd78fa6f",
+    "adopted_commit": "e16c39f5",
+    "execution_command_sha256": "15731b6b2ef1c9c9db2aadda4cfa23384668262ae45cbabb1e5f67d8b2e292ce",
+    "parent_directory": "plans/global/2026-10-04-jlz-v12-marginal-allocation",
+    "method": "plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+    "method_contract": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+    "implementation": "plans/global/2026-10-04-jlz-v12-marginal-allocation/implementation-ko.md",
+    "telemetry": "plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+    "experiment": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/experiment.json",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "TeX": "docs/methods/jlz-v12-shared-budget.tex",
+    "method_manifest_sha256": "0f9298c77b30c2e7cfc12734ec24fffb31bb4b68349004536e9a42510497f159",
+    "execution_manifest_sha256": "3028d2796efb646fca5e316ea09678b1d2f539869cdbed30b99f27d05162be45",
+    "precedence": "Latest AlphaEdit execution command overrides parent ridge writer/FP64 solve and S4 ownership only. All v12 planner, input/order, native rows, request budget, metrics/horizon/noCP remain. No overwrite of canonical parent ridge method.",
+    "prior_GH_FULL_READ_receipt": "audits/global/2026-10-04-jlz-v12-shared-budget-2k-sh4-dispatch/package-verification.json"
+  },
+  "reference": {
+    "execution": "1d27a830274aaee49a713bd07e463b0513591c9e",
+    "publication": "dde907615a65c6bc0b4e3a955f1b0046ac392b51",
+    "source_namespace": "project/run_scripts/jlz_shared_budget",
+    "read_only": true,
+    "old_jobs": [
+      58178,
+      58179,
+      58180
+    ],
+    "known_resource_snapshot": "Before dispatch58179 RUNNING1GPU and58180 CPU Dependency pending; resource-only snapshot, not science result; SH3 fresh admission required."
+  },
+  "implementation": {
+    "branch": "codex/server3-jlz-v12-alphaedit-2k-20261004-v1",
+    "namespace": "project/run_scripts/jlz_shared_budget_alphaedit/",
+    "strategy": "New adapter/config/entry/qualification/collector in own non-main worktree; reuse frozen v12 planner/runtime/evaluator by exact source SHA. No hotpatch to original ridge namespace or its sealed jobs/config/raw. Bind module closure and guard task-local authority/constants; never run a ridge entry accidentally.",
+    "native_binding": "Existing S3 pinned model/revision, dataset, contexts, C0, AlphaEdit projector and native closure local-first exact reuse. Readiness agents/server3/experiment-ready-paths-20260919-v1.json is provenance candidate, not fresh proof. Validate actual physical layer4..8 mapping/header/shape/dtype/threshold/C0/native source SHA. No BLUE L2=1 or two-layer settings.",
+    "missing_assets": "No bulk model/dataset/CP transfer/recompute/redownload authorized. Report exact missing assets; Git source/compact metadata reuse allowed. Do not invent local paths or rebuild projector per batch."
+  },
+  "main": {
+    "arm": "V12_ALPHAEDIT",
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "fixed_dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "ordered2000_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "seed": 20261002,
+    "B": 100,
+    "batches": 20,
+    "requests": 2000,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cold_W0_H0": true,
+    "no_B21": true,
+    "no_stop_at500": true,
+    "new_baseline_fit": 0,
+    "sweeps": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "planner": "Unchanged v12: delta=a_l*u_l, native NLL1/6 + .0625 KL(current||entry), norm(.5/a_star)sum||u||, sharedradius.75, independent request EfficiencyAdam lr.1/a_star eps=a_star*1e-8/moments/RMSgamma. F backward once+analytic norm once; FP64 shared projection to FP32 plan. Jr<.05 beforebackward,25eval24updates/last evaluated finite terminal z, no terminal extra backward/forward. Alllayers including zero plan remain eligible. No new geometry cost/ref/replay/pulse/warmup/top-k or layer diversity gate.",
+  "writer": {
+    "type": "native_ALPHAEDIT_projected_L2_history",
+    "L2": 10,
+    "blue": false,
+    "precision": "Native FP32 operator/products/solve/cast/add; shared budget projection stays FP64. H storage native CPUFP32, convert exactly as native when used.",
+    "equation": "X=solve(Pi@(K@K.T+H)+10*I, Pi@K@R.T); Llama update U=X.T then native shape/cast/add.",
+    "projector": "Fixed native five-layer baseline Pi; exact physical layer slot map and threshold/C0 provenance. Pi differs from MEMIT adjoint P; never conflate.",
+    "residual": "R_l=z_virtual_terminal_l-h_actual_current_l. Fresh own actual K and canonical h after all lower writes; NO remaining-layer divisor.",
+    "prohibited": [
+      "extra15000C0 ridge in AlphaEdit solve",
+      "FP64 promotion of native FP32 solve",
+      "symmetrizing Pi@A",
+      "Cholesky/pinv/jitter replacement",
+      "BLUE L2=1/two-layer scope",
+      "inverse realization amplification"
+    ],
+    "history": "After allfive writes recapture final model native keys and append CPUFP32 Gram once per occurrence/layer; no successfilter/dedup. ExactRAM W/H/RNG/context/cache/ledger transaction."
+  },
+  "qualification": {
+    "reuse": "Compatible planner CPU/source evidence may be exact-hash reused, do not relabel old ridge pilot as new AlphaEdit operator PASS.",
+    "CPU": "Same K/R/Pi/H operator comparison against pinned original native reference, physical projector mapping, left-product multiplication order, orientation/cast, stopfreeze/horizon20/rollback/noCP. Seal input/source/tolerances before GPU.",
+    "actual": "Native same-input FP32 solve/applied direction+finite, solve residual, actual lower-write upperkey/hidden refresh, final-key historyonce, exact W/H/RNG rollback and observer nonmutation.",
+    "tolerance_scope": "Parent FP32 forward/operator comparison atol2e-5/rtol2e-4 and gradient scoped tolerances remain where applicable. Parent FP64_solve_relative_residual1e-8 is a RIDGE_FP64-only contract, not an FP32 AlphaEdit promotion rule. Report native and adapter FP32 residuals and same-input parity separately. Native/API/shape/nonfinite/identity/restore errors block; no silent method/precision/jitter/tolerance changes.",
+    "pilot": {
+      "case_ids": [
+        541,
+        6693,
+        16935,
+        17306
+      ],
+      "slice": [
+        2000,
+        2004
+      ],
+      "B": 2,
+      "batches": 2,
+      "max_request_candidate_evaluations": 100,
+      "max_request_updates": 96,
+      "cold": true,
+      "state_to_main_reuse": false
+    },
+    "main_B100": "Actual first B100 is mainB1; no extra B100fit or coefficient calibration.",
+    "promotion": "Technical pilot READY bound to exact source/config/profile; no stage reapproval, performance/KKT/concentration/budgetstop not gate.",
+    "technical_repair": "Report factual error/RCA, preserve originalsource/raw/cost; minimum implementation correction/new immutable attempt and requalification within same scope, no recurring retry loop or method changes."
+  },
+  "B1_probe": {
+    "enabled_if_qualified": true,
+    "extra_plan_fit": 0,
+    "extra_sequential_ridge_arm": 0,
+    "semantics": "Same B1 terminalplan+W0/H0/anchors; temporary ridge and AlphaEdit branches each compute own causal upperK/h/R. Restore exact W/H/RNG/cache/context/ledger before AlphaEdit continuation; H append once to main only. Evaluation observation only.",
+    "memory": "RAM only within58GiB. If unavailable or exactrollback cannot be certified, explicit PROBE_UNAVAILABLE reason then proceed qualified AlphaEdit. If probe attempted and restore corruption actually occurs, hard technical block; never waive damaged main.",
+    "cost": "Report sameplan branch extra writes/evals/solves separately; not main2k denominator/newfit."
+  },
+  "evaluation": {
+    "per_batch": "pre/post current100 fullR/P/N, reuse only same endpoint identity",
+    "cumulative": [
+      "W0",
+      "W5",
+      "W10",
+      "W15",
+      "W20"
+    ],
+    "W20": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "W0": "Exact runtime/model/evaluator/inputs/tokens/state matched S3 completed first2k raw can be reused via receipt; if unavailable/mismatch one fresh same task W0 first2k only. Do not wait for unapproved baseline.",
+    "metrics": [
+      "strict teacher-forcing desirednewR/P,trueN ACC",
+      "tokenmicro and promptmacro ACC",
+      "RSPSNS NLL preference tiesfail",
+      "true/new/desiredNLL and explicit signed margins",
+      "paired lost/gained/current→endpoint/W0correctN/birthcohort/active+superseded"
+    ],
+    "telemetry": "Parent plan diagnostics+actual target residual mean/canonical/context, inherited mismatch, effective applied update vs idealFP32update, plan/applied shares, total relative displacement, weightnorm, projectorleakage/nativeparity. Residual norm not additive. Planallocation not renamed AlphaEdit/historycost optimization.",
+    "margin": "Keep true-minus-new schema and explicitly named new-minus-true N leakage separately; no sign swap.",
+    "historical": "Existing ridge/MEMIT-H/AlphaEdit/AlphaEdit-BLUE only matched sample/order/model/endpoints/evaluator/denominator; differences inruntime/source/profile/hardware explicitly historical. Missing notzero, no newbaseline."
+  },
+  "resource": {
+    "task_gpu_cap": 1,
+    "project_gpu_cap": "current1_or_stricter; unchanged",
+    "GPU_per_job": 1,
+    "CPU_per_job": 8,
+    "host_memory_MiB": 59392,
+    "node": "ubuntu",
+    "partition": "gpu",
+    "export": "NONE",
+    "requeue": false,
+    "pilot_wall_max_hours": 4,
+    "main_wall_max_hours": 168,
+    "collector": {
+      "GPU": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "Fresh local/projectcaps, queue exact owner resource-only, disk/inodes/storageplan, command/source/args/explicitmem/node/QoS/dep checks. Do not assume past sourcepolicy or unknown caps. Current ridge must remain unchanged.",
+    "queue": "Upfront frozen complete DAG. Serialize newpilot behind all relevant existing admitted GPU jobs via resource afterany (knownridge58178/58179; resolve present exact IDs). Newmain after ownpilot with exact technical READY, collector afterany ownchain. GPUreservation/admission includes pending; ensure maxrunning1 even if predecessor sciencefails. Do not make oldridge scientificPASS a prerequisite for this independentcoldchain.",
+    "held": "Submitheld→exactowner/fullargv/source/memoryGPU/depinspection→release all matchingDAG. No freeGPUwait, no permanentmanualhold; use normalResources/DependencyPENDING. Unexpected admission race remainsheld and report."
+  },
+  "allowed_writes": [
+    "project/run_scripts/jlz_shared_budget_alphaedit/** including tests and ownmethoddelta/TeX",
+    "plans/updates/server3/jlz-v12-alphaedit-writer-20261004-v1/** including own derived method-delta.tex",
+    "tasks/status/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/server3.json",
+    "messages/acks/server3/2026-10-04-jlz-v12-alphaedit*",
+    "messages/server-heads/server3/2026-10-04-jlz-v12-alphaedit*",
+    "audits/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/**",
+    "experiment-reports/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/**",
+    "runs/odeedit_jlz_v12_alphaedit_s3_20261004/**",
+    "ignored local/jlz-v12-alphaedit-writer/**; ownworktree exact session-boundary only"
+  ],
+  "readonly": [
+    "original ridge production/config/jobs/results",
+    "canonical parentmethod/TeX and new USER JSON",
+    "model/dataset/P/C0/native source/shared Python env/global Git config",
+    "other stoppedtasks"
+  ],
+  "Git": "Ownscope source+compactreport/manifest nonforce branch/main publication authorized in clean integration, preserve otherchanges; generichelper exactruns prefix exception explicit, record NOT_PASS truthfully if unsupported; no globalhelper editing/raw/tensor/prompt/fullstdout/secretGit.",
+  "artifacts": "NoCP includes selectedweights/history/optimizer/delta/lowrankreconstructible resume bundles. RAMrollback allowed, exactresumeNOT_AVAILABLE. Raw localKEEP. Compact Git sharing and NO_BROADCAST_NOT_REQUIRED exception; no large model/raw broadcast.",
+  "review": "Preflight ownerreview+redchecklist source/math/precision/layers/data-leakage/budget/state/noCP/resources/DAG. Label actualreview provenance (no independentredclaim unlessperformed). Postrun independentCPU raw metricreducer+identity/state/telemetry/cost/reportmanifest before atomiccomplete.",
+  "monitoring": {
+    "GH": "Ends after direct ownerACK+authoritypublication, no mainwait/recurringmonitor.",
+    "SH3": "After implementation/qualificationcode preparation and entireDAG registration/release+one boundedsubmission/resource snapshot, report actualIDs and pause agentpolling; do not wait for freeGPU, pilot/mainB1/terminal. Sealedprogram handles approved technicalgates and W20. No heartbeat/autoretry/other-task sciencepoll.",
+    "detailed_review": "userrecall; no stopping sealedrunner at500"
+  },
+  "reports": {
+    "report": "experiment-reports/servers/server3/jlz-v12-alphaedit-writer-bs100x20-20261004-v1/report-ko.md",
+    "required": "FULL_READ/SHA and nativeassetmap/sourcefreeze -> CPU vs GPU qualification -> submissionIDs/DAG/lock -> pilot/mainstates -> W20 allnumericfactualreport; distinguish submission from execution/completion.",
+    "SH3_ACK": "Immediately same nonce owneracceptance plus currentstage/no duplicate registerednonce. Connectionclosure does not stop authorized work."
+  }
+}

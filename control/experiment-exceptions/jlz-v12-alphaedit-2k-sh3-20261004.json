@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V12-ALPHAEDIT-2K-20261004-R1",
+  "task_id": "jlz-v12-alphaedit-writer-bs100x20-20261004-v1",
+  "status": "AUTHORIZED_NEW_TASK_USER_EXCEPTION",
+  "owner": "SH3",
+  "server": "server3",
+  "envelope": "messages/head/2026-10-04-jlz-v12-alphaedit-2k-sh3.json",
+  "Slurm_submission": true,
+  "task_gpu_cap": 1,
+  "project_gpu_cap": "current1_or_stricter",
+  "arm": "V12_ALPHAEDIT",
+  "edits": 2000,
+  "existing_ridge_preserved": true,
+  "cancel_jobs": false,
+  "other_tasks_resume": false,
+  "save_checkpoints": false,
+  "new_baseline_fit": 0
+}
