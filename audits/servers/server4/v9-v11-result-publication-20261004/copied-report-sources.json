@@ -1,0 +1,72 @@
+[
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/metrics.csv",
+    "bytes": 19227,
+    "sha256": "26b5d96bb6f7b3c5c13eb00119e62f836d6f0b79cee27a5ce1a16d0ff7093308",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/metrics.csv",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/comparison-W20.csv",
+    "bytes": 2289,
+    "sha256": "9f6edc9d7ffd87b5b3b78aa32d5ed669660f367eabd7fa862d6ea198f8bf53a4",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/comparison-W20.csv",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/candidate-summary.csv",
+    "bytes": 213774,
+    "sha256": "7c7207d8328bf48a90da7baa9e167b52da1cc673322382d8ff3c1546ff738a62",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/candidate-summary.csv",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/terminal-realization.csv",
+    "bytes": 35091,
+    "sha256": "64b743679dbd9b22f88569e8d9be0d9bb19756ce5769bb1c62a86bd8e846170a",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/terminal-realization.csv",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/paired-cohorts.json",
+    "bytes": 35708,
+    "sha256": "d7c118554c73387d556f4e02ad967b3b12d3213c56f0b8ca9f179f2e4e8031cb",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/paired-cohorts.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/tails.json",
+    "bytes": 8813,
+    "sha256": "b0e04b3a944b2c16e6e2f590cf5777109db1e5ccd718498ce5dcc4eaf172223d",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/tails.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/cost.json",
+    "bytes": 6303,
+    "sha256": "ff92c6b71d1d97821054ed60b5622e354f8c1be258f42d5e061f038e95750aca",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/cost.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/summary.json",
+    "bytes": 1069,
+    "sha256": "d171220f18ef990ad25d826f8ee91fbfae007dc82e7ebfb9a6370dffd4e06f4f",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/summary.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/terminal.json",
+    "bytes": 875,
+    "sha256": "80b5399160e1c1afbbdbbe762a225869b79d786c08a86d7ecde23f687bea2719",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/terminal.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  },
+  {
+    "path": "/data/janghj/ODE-edit/local/jlz-realization-v9/20261004-2k-v1/attempt-r2/report/baselines.json",
+    "bytes": 8261,
+    "sha256": "52368da7eb0c1a15009cb4e60c832c852d15772f550368a352980461fffd6548",
+    "published_path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/baselines.json",
+    "publication": "TEXT_COPY_LF_FINAL_NEWLINE"
+  }
+]

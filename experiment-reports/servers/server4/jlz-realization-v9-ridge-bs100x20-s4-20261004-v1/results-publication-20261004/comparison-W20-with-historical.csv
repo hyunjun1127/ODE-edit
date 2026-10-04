@@ -1,0 +1,19 @@
+method,endpoint,kind,numerator,denominator,percent,evidence
+V9_A,20,N,12027,20000,60.135,V9_COLLECTOR; historical baselines not matched runtime
+V9_A,20,P,3489,4000,87.225,V9_COLLECTOR; historical baselines not matched runtime
+V9_A,20,R,1897,2000,94.85,V9_COLLECTOR; historical baselines not matched runtime
+BASE_ALPHAEDIT,20,N,13718,20000,68.59,V9_COLLECTOR; historical baselines not matched runtime
+BASE_ALPHAEDIT,20,P,3729,4000,93.225,V9_COLLECTOR; historical baselines not matched runtime
+BASE_ALPHAEDIT,20,R,1986,2000,99.3,V9_COLLECTOR; historical baselines not matched runtime
+BASE_MEMIT,20,N,10365,20000,51.825,V9_COLLECTOR; historical baselines not matched runtime
+BASE_MEMIT,20,P,2468,4000,61.7,V9_COLLECTOR; historical baselines not matched runtime
+BASE_MEMIT,20,R,1295,2000,64.75,V9_COLLECTOR; historical baselines not matched runtime
+MEMIT-H,20,N,15809,20000,79.045,V9_COLLECTOR; historical baselines not matched runtime
+MEMIT-H,20,P,3640,4000,91.0,V9_COLLECTOR; historical baselines not matched runtime
+MEMIT-H,20,R,1988,2000,99.4,V9_COLLECTOR; historical baselines not matched runtime
+AlphaEdit-BLUE_L4+L8,20,R,1992,2000,99.6,HISTORICAL_AGGREGATE; raw not reaudited
+AlphaEdit-BLUE_L4+L8,20,P,3886,4000,97.15,HISTORICAL_AGGREGATE; raw not reaudited
+AlphaEdit-BLUE_L4+L8,20,N,15317,20000,76.585,HISTORICAL_AGGREGATE; raw not reaudited
+CAKE,20,R,1983,2000,99.15,HISTORICAL_AGGREGATE; raw not reaudited
+CAKE,20,P,3510,4000,87.75,HISTORICAL_AGGREGATE; raw not reaudited
+CAKE,20,N,15281,20000,76.405,HISTORICAL_AGGREGATE; raw not reaudited

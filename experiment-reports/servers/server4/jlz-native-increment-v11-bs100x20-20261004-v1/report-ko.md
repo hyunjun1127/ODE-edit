@@ -1,5 +1,11 @@
 # JLZ v11 2000 edit 제출 인계
 
+## 후속 W5 중간 결과 게시 (2026-10-04)
+
+[repair attempt-r2-cap3의 MAIN/NOALLOC W5 누적500 결과](intermediate-W5-20261004/report-ko.md).
+두 경로 W5 평가 저장을 CPU 검산했다. 전체2k 완료나 신규 MEMIT-H 결과는 아니다.
+아래는 최초 attempt-r1 제출 시점 기록이며 최신 실행 결과를 뜻하지 않는다.
+
 SH4가 v11 MAIN, NOALLOC, matched native MEMIT-H의 각 cold BS100×20 경로와 작은 pilot, CPU collector를 구현하고 등록했다. 전량 held 검사와 release를 완료했다. 2026-10-04 05:20:55 KST 확인 상태는 5개 모두 PENDING이며 실제 pilot/main 결과는 **NOT_OBSERVED**다. CPU 결과를 GPU PASS 또는 실험 완료로 표시하지 않는다.
 
 ## 등록과 source

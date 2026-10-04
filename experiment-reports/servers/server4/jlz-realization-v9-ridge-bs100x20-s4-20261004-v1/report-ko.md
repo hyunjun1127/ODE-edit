@@ -1,5 +1,11 @@
 # JLZ v9 ridge 2k 실행 인계
 
+## 후속 저장 결과 게시 (2026-10-04)
+
+[W20 결과·실행 종료 구분·baseline 비교·소형 산출물](results-publication-20261004/report-ko.md).
+A는 20commit/W20 저장, Slurm FAILED(0:11); B는 18commit 후 취소로 W20 없음.
+아래는 원 제출 시점 기록이며 현재 결과를 뜻하지 않는다.
+
 현재 `SUBMITTED_RESOURCE_PENDING`이다. A/B 각각 BS100×20=2000, 두 경로 합4000 edit occurrences이며 이전500과 별도 cold W0/H0 실행이다. 새로운 성능 수치는 아직 없다.
 
 | 역할 | job ID | 마지막 한정 관측 | dependency |

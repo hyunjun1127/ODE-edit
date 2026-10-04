@@ -1,0 +1,21 @@
+{
+  "evidence": "기존 collector accounting 재게시; 새로운 scheduler 조회 없음",
+  "accounting_status": "ACCOUNTING_SINGLE_READ",
+  "jobs": [
+    {
+      "job_id": 57899,
+      "state": "FAILED",
+      "exit_code": "0:11",
+      "allocated_gpu_seconds": 36710,
+      "saved_scientific_endpoint": "20 commits and W20 stored; runner COMPLETED"
+    },
+    {
+      "job_id": 57900,
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "allocated_gpu_seconds": 32330,
+      "saved_scientific_endpoint": "18 commits; no W20"
+    }
+  ],
+  "failure_root_cause": "NOT_IDENTIFIED_BY_THIS_PUBLICATION"
+}

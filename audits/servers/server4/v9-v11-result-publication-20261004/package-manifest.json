@@ -1,0 +1,128 @@
+{
+  "files": [
+    {
+      "path": "audits/servers/server4/v9-v11-result-publication-20261004/build_snapshot.py",
+      "bytes": 11207,
+      "sha256": "06c44f297eccd17ad0b7ecfb68f87003bb13179edb24a3c29d6e4d9d0d55f35d"
+    },
+    {
+      "path": "audits/servers/server4/v9-v11-result-publication-20261004/checks.json",
+      "bytes": 2827,
+      "sha256": "ebe36f6881cadc7e850bd6f83705b720135612215dbaa6c5d4aa26cda7bd23a6"
+    },
+    {
+      "path": "audits/servers/server4/v9-v11-result-publication-20261004/copied-report-sources.json",
+      "bytes": 4239,
+      "sha256": "0d34e441b43627ac3447b257910b29f6e62221d0839f3d6faa73e4f849a69f68"
+    },
+    {
+      "path": "audits/servers/server4/v9-v11-result-publication-20261004/input-manifest.json",
+      "bytes": 28820,
+      "sha256": "21c53bf3849f6ba5b5d35ce1d2f2ac37d42cd6ae62127557da310308b8edac65"
+    },
+    {
+      "path": "audits/servers/server4/v9-v11-result-publication-20261004/review-ko.md",
+      "bytes": 3256,
+      "sha256": "4454a18047676157734e2646c0852e021a3edd04d1081d7ea1e8e50b76982a1d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/intermediate-W5-20261004/batch-accounting-through-W5.csv",
+      "bytes": 963,
+      "sha256": "10624ccb06a544400e7a3494a3c0ec41b9b6e97595d54cbd636bbbf7ddd209bf"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/intermediate-W5-20261004/comparison-W5.csv",
+      "bytes": 1431,
+      "sha256": "8d215223a17b3db7a31c2073208aca82690c50928fdaf3303e59a624d4b46b36"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/intermediate-W5-20261004/metrics-through-W5.csv",
+      "bytes": 7651,
+      "sha256": "47ed744a0b786da1f054ad4514aada938d918dd6547a865f74fa10fefffba3d0"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/intermediate-W5-20261004/report-ko.md",
+      "bytes": 4035,
+      "sha256": "a0eebcc868ce8fee8379108915fde15fb6c2d7e524973d430aeaa4c1e533d276"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-native-increment-v11-bs100x20-20261004-v1/report-ko.md",
+      "bytes": 4543,
+      "sha256": "6fe39fa3edab6c6b7596b840663f60f1e271d650d4ab1d40604c6916d6bcc0cc"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/report-ko.md",
+      "bytes": 4359,
+      "sha256": "72e6858e17614af74966c541009d534eece356e0507bd302e5bfe30ae15af39c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/baselines.json",
+      "bytes": 8261,
+      "sha256": "52368da7eb0c1a15009cb4e60c832c852d15772f550368a352980461fffd6548"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/candidate-summary.csv",
+      "bytes": 213774,
+      "sha256": "7c7207d8328bf48a90da7baa9e167b52da1cc673322382d8ff3c1546ff738a62"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/comparison-W20-with-historical.csv",
+      "bytes": 1547,
+      "sha256": "3fb78bbe05a567c2b464b2e22ea17213911043a5b0b0d6eef1591846f607adf6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/comparison-W20.csv",
+      "bytes": 2289,
+      "sha256": "9f6edc9d7ffd87b5b3b78aa32d5ed669660f367eabd7fa862d6ea198f8bf53a4"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/cost.json",
+      "bytes": 6303,
+      "sha256": "ff92c6b71d1d97821054ed60b5622e354f8c1be258f42d5e061f038e95750aca"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/metrics.csv",
+      "bytes": 19227,
+      "sha256": "26b5d96bb6f7b3c5c13eb00119e62f836d6f0b79cee27a5ce1a16d0ff7093308"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/paired-cohorts.json",
+      "bytes": 35708,
+      "sha256": "d7c118554c73387d556f4e02ad967b3b12d3213c56f0b8ca9f179f2e4e8031cb"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/report-ko.md",
+      "bytes": 5145,
+      "sha256": "93dca5ffe57b076a44e8e2b4e0967aa529ff3ea9f0f0e4a636ccba6b946f82b8"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/scheduler-outcomes.json",
+      "bytes": 619,
+      "sha256": "5f0e453eed3a8b5aded6604fa7ff1ec7451cbc5544ade221f0f677cc79bb75a2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/summary.json",
+      "bytes": 1069,
+      "sha256": "d171220f18ef990ad25d826f8ee91fbfae007dc82e7ebfb9a6370dffd4e06f4f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/tails.json",
+      "bytes": 8813,
+      "sha256": "b0e04b3a944b2c16e6e2f590cf5777109db1e5ccd718498ce5dcc4eaf172223d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/terminal-realization.csv",
+      "bytes": 35091,
+      "sha256": "64b743679dbd9b22f88569e8d9be0d9bb19756ce5769bb1c62a86bd8e846170a"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-realization-v9-ridge-bs100x20-s4-20261004-v1/results-publication-20261004/terminal.json",
+      "bytes": 875,
+      "sha256": "80b5399160e1c1afbbdbbe762a225869b79d786c08a86d7ecde23f687bea2719"
+    }
+  ],
+  "total_bytes": 412052,
+  "copied_source_check": "PASS",
+  "scope": "보고/소형 scalar 집계/검산만; package-manifest 자체 hash는 Git commit으로 결속",
+  "raw_tensor_prompt_fullstdout_git": false
+}

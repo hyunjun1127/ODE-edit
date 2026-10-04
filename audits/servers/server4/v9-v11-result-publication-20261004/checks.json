@@ -1,0 +1,97 @@
+{
+  "observed_utc": "2026-10-04T07:55:51.179895+00:00",
+  "authority": "USER: v11의 중간 결과, v9의 2000edit 모두 main에 push해",
+  "scope": "저장 결과 CPU 검산/게시만; job/source/runtime 변경 없음",
+  "v9_A_W20_raw_recount": {
+    "R": {
+      "numerator": 1897,
+      "denominator": 2000,
+      "rate": 0.9485,
+      "strict_numerator": 1662,
+      "desired_token_correct": 1684,
+      "desired_token_count": 2024
+    },
+    "P": {
+      "numerator": 3489,
+      "denominator": 4000,
+      "rate": 0.87225,
+      "strict_numerator": 2256,
+      "desired_token_correct": 2298,
+      "desired_token_count": 4048
+    },
+    "N": {
+      "numerator": 12027,
+      "denominator": 20000,
+      "rate": 0.60135,
+      "strict_numerator": 2006,
+      "desired_token_correct": 2256,
+      "desired_token_count": 20270
+    }
+  },
+  "v9_B": "18 commits; NOT_2000_COMPLETE",
+  "v11_W5_raw_recount": {
+    "MAIN": {
+      "R": {
+        "numerator": 499,
+        "denominator": 500,
+        "rate": 0.998,
+        "strict_numerator": 499,
+        "desired_token_correct": 506,
+        "desired_token_count": 507
+      },
+      "P": {
+        "numerator": 944,
+        "denominator": 1000,
+        "rate": 0.944,
+        "strict_numerator": 637,
+        "desired_token_correct": 651,
+        "desired_token_count": 1014
+      },
+      "N": {
+        "numerator": 4136,
+        "denominator": 5000,
+        "rate": 0.8272,
+        "strict_numerator": 961,
+        "desired_token_correct": 1031,
+        "desired_token_count": 5070
+      }
+    },
+    "NOALLOC": {
+      "R": {
+        "numerator": 499,
+        "denominator": 500,
+        "rate": 0.998,
+        "strict_numerator": 499,
+        "desired_token_correct": 506,
+        "desired_token_count": 507
+      },
+      "P": {
+        "numerator": 943,
+        "denominator": 1000,
+        "rate": 0.943,
+        "strict_numerator": 634,
+        "desired_token_correct": 648,
+        "desired_token_count": 1014
+      },
+      "N": {
+        "numerator": 4137,
+        "denominator": 5000,
+        "rate": 0.8274,
+        "strict_numerator": 963,
+        "desired_token_correct": 1033,
+        "desired_token_count": 5070
+      }
+    }
+  },
+  "v11_snapshot_endpoint": 5,
+  "v11_snapshot_status": "INTERMEDIATE_NOT_FINAL",
+  "raw_rows_checked": 39000,
+  "duplicate_missing_nonfinite_checks": "PASS",
+  "v11_first5_commit_checks": "PASS: 25 candidates/24 updates/5H and observer receipts",
+  "independent_reviewer": "NOT_USED; side conversation CPU audit only",
+  "GPU_evaluation": 0,
+  "job_mutations": 0,
+  "monitoring_active": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED; raw/tensor/fullstdout local KEEP",
+  "historical_comparison": "같은 cohort의 기존 집계 재사용. runtime/층/평가기 차이가 있으며 새로운 parity 증명이 아님."
+}
