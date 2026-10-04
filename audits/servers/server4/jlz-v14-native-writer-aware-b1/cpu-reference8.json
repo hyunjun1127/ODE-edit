@@ -1,0 +1,152 @@
+{
+  "scope": "v14 native-ridge writer-aware planning algebra only",
+  "status": "PASS",
+  "passed": 8,
+  "failed": 0,
+  "runtime": {
+    "python": "3.12.3",
+    "numpy": "2.2.6",
+    "device": "CPU"
+  },
+  "source_sha256": {
+    "writer.py": "11b07523ebb56c2b678eb3093ccbe2bde7a854160b9cadaf066c61fe46c28acf",
+    "test_ref.py": "cdb43399db8344819ff40e32b095b03f78fb154b42c75bf7fc944b17544ece78",
+    "requirements.txt": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+  },
+  "tests": [
+    {
+      "test": "dense_woodbury_and_batch_realization",
+      "status": "PASS",
+      "measurements": {
+        "update_errors": [
+          3.7550653165955533e-16,
+          8.203756572851973e-16,
+          2.673050709148004e-16,
+          1.1816510524180758e-16
+        ],
+        "max_update_error": 8.203756572851973e-16,
+        "includes_batch_wider_than_key_dimension": true
+      }
+    },
+    {
+      "test": "full_native_ridge_adjoint_R_and_K",
+      "status": "PASS",
+      "measurements": {
+        "R_max_abs_error": 3.584756935737232e-10,
+        "K_max_abs_error": 2.017288558420205e-10
+      }
+    },
+    {
+      "test": "native_energy_identity_and_sharp_quarter_bound",
+      "status": "PASS",
+      "measurements": {
+        "Q_over_quarter_R_sq": [
+          0.9024767961336304,
+          0.34446324627255304,
+          0.7689692618811702
+        ],
+        "equality_example_Q": 2.25,
+        "equality_example_quarter_R_sq": 2.25
+      }
+    },
+    {
+      "test": "shared_requested_budget_total_energy_bound",
+      "status": "PASS",
+      "measurements": {
+        "total_Q": 0.22076585887191938,
+        "usage_per_request": [
+          0.7499999999999999,
+          0.6,
+          0.5,
+          0.0,
+          0.2
+        ],
+        "quarter_residual_frobenius_sq": 0.4537093413585083,
+        "shared_budget_energy_bound": 1.9386545640257458,
+        "layer_input_dimensions": [
+          6,
+          4,
+          9
+        ],
+        "layer_output_dimensions": [
+          3,
+          7,
+          2
+        ]
+      }
+    },
+    {
+      "test": "scalar_contraction_independent_of_target_generation",
+      "status": "PASS",
+      "measurements": {
+        "capacity": 4.5,
+        "realized_over_requested": [
+          0.8181818181818181,
+          0.8181818181818181,
+          0.8181818181818181,
+          0.8181818181818182
+        ]
+      }
+    },
+    {
+      "test": "tracking_adds_inherited_R_on_zero_planned_delta",
+      "status": "PASS",
+      "measurements": {
+        "planned_D2": 0.0,
+        "tracking_R2": 1.0,
+        "tracking_U2": 0.5,
+        "direct_U2": 0.0,
+        "direct_final_gap": 1.0
+      }
+    },
+    {
+      "test": "direct_zero_owner_and_frozen_request_still_receive_crosstalk",
+      "status": "PASS",
+      "measurements": {
+        "M": [
+          [
+            0.39999999999999997,
+            0.19999999999999998
+          ],
+          [
+            0.19999999999999998,
+            0.6
+          ]
+        ],
+        "unchanged_request_coefficient": 0.0,
+        "before_actual": [
+          [
+            0.19999999999999998,
+            0.6
+          ]
+        ],
+        "after_actual": [
+          [
+            0.39999999999999997,
+            1.2
+          ]
+        ],
+        "frozen_request_output_change": 0.19999999999999998
+      }
+    },
+    {
+      "test": "causal_actual_upper_key_adjoint_and_detach_counterexample",
+      "status": "PASS",
+      "measurements": {
+        "R1_max_abs_error": 1.0204126432711291e-10,
+        "R2_max_abs_error": 5.4732107734878355e-11,
+        "detached_key_R1_gradient_error_norm": 1.329016817266578,
+        "upper_key_writer_cotangent_norm": 0.6393551456633692
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic FP64 arrays only; no actual language-model forward, GPU or production integration.",
+    "No claim about locality, paraphrase, accuracy, end-to-end speed or convergence.",
+    "Fixed SPD entry metric A in each candidate; A/history differentiation is not tested.",
+    "Toy causal chain checks upper-key dependency, not architecture-specific attention or all-token effects.",
+    "Energy bound constrains ideal A-energy for native mean-key ridge, not semantic damage or effective FP32 realization.",
+    "Direct requested budget eliminates inherited RHS additions, but does not freeze zero-owner outputs or remove cross-talk.",
+    "Writer-aware planning can trade requested budget across directions; it cannot remove native contraction at fixed keys and metric."
+  ]
+}

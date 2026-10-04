@@ -1,0 +1,14 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V14-NATIVE-WRITER-B1-20261005-R1",
+  "task_id": "jlz-v14-native-writer-aware-b1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "host": "server4",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_registration_found": false,
+  "FULL_READ_SHA": true,
+  "CPU_reference_tests": 8,
+  "CPU_production_tests": 8,
+  "actual_GPU": "NOT_RUN",
+  "설명": "직접 수락 후 새 namespace 구현과 CPU 검산 완료. V13 source/job/result 변경 없이 afterany 직렬 등록 준비. 추가 승인 대기 없음."
+}
