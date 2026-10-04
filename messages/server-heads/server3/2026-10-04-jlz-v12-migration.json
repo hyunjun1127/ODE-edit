@@ -18,5 +18,15 @@
   "monitoring_active": false,
   "automatic_resume": false,
   "other_tasks": "STOP_UNCHANGED",
-  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md"
+  "report": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md",
+  "note": "SH4 취소 확인 후 S3 pilot→READY-gated cold main W20→afterany CPUcollector 전량 held검사/release. 단1회 resource/dependency snapshot 후 모니터링 중단.",
+  "CPU_tests": {
+    "reference": 29,
+    "production": 7,
+    "port": 5
+  },
+  "source_S4": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+  "received_small_files": 6,
+  "received_small_bytes": 121342,
+  "scientific_promotion": false
 }

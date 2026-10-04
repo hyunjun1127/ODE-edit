@@ -1,0 +1,328 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "status": "RELEASED_RESOURCE_DEPENDENCY_PENDING",
+  "observed_utc": "2026-10-04T10:44:38.102057+00:00",
+  "source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "tree": "5be499f7ddc68983c47144009b5f0b35117ac54b",
+  "source_archive": {
+    "bytes": 1218560,
+    "inode": 20072173,
+    "mtime_ns": 1791110667423312026,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source.tar",
+    "sha256": "32901e2a1011a1488c722afdcb2941d7203078c44c59f90572393608cafe04b8"
+  },
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/execution.lock.json",
+    "bytes": 717614,
+    "sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244"
+  },
+  "config": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/config.json",
+    "bytes": 80157,
+    "sha256": "b09cfae0d6a8a29071818c114017b9f350ec9c58ec3143ac211b42179145458b"
+  },
+  "jobs": {
+    "V12_MAIN": "58179",
+    "collector": "58180",
+    "pilot": "58178"
+  },
+  "mapping": {
+    "V12_MAIN": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12_s3_V12_MAIN",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+        "--mem=59392M",
+        "--time=7-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:58178",
+        "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN.sh"
+      ],
+      "dependency": "afterany:58178",
+      "job": "58179"
+    },
+    "collector": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12_s3_collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector-%j.err",
+        "--dependency=afterany:58178:58179",
+        "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector.sh"
+      ],
+      "dependency": "afterany:58178:58179",
+      "job": "58180"
+    },
+    "pilot": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s3",
+        "--nodelist=ubuntu",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=odeedit_jlz_v12_s3_pilot",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot.sh"
+      ],
+      "dependency": null,
+      "job": "58178"
+    }
+  },
+  "snapshot": {
+    "observed_utc": "2026-10-04T10:44:38.102057+00:00",
+    "jobs": {
+      "V12_MAIN": "58179",
+      "collector": "58180",
+      "pilot": "58178"
+    },
+    "resource_dependency_rows": [
+      "58180|janghj|odeedit_jlz_v12_s3_collector|PENDING|N/A|(Dependency)|afterany:58178(unfulfilled),afterany:58179(unfulfilled)",
+      "58179|janghj|odeedit_jlz_v12_s3_V12_MAIN|PENDING|gres/gpu:1|(Dependency)|afterany:58178(unfulfilled)",
+      "58178|janghj|odeedit_jlz_v12_s3_pilot|PENDING|gres/gpu:1|(Resources)|(null)"
+    ],
+    "queries": 1,
+    "scope": "release 직후 한정 resource/dependency snapshot; 과학 log/results 조회0",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "actual_pilot": "NOT_OBSERVED",
+    "main_initial": "NOT_OBSERVED",
+    "main_terminal": "NOT_OBSERVED",
+    "free_bytes": 76007530496,
+    "free_inodes": 224328254
+  },
+  "resources": {
+    "ETA_hours": "NOT_MEASURED_V12; pilot emits cost estimate; requested168h is ceiling not ETA",
+    "GPU_plan_GiB": {
+      "activation_and_head": 20,
+      "margin": 8,
+      "model": 30,
+      "native_dense_solve": 10,
+      "prior_factor": 0,
+      "weights_and_write": 3
+    },
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 8,
+    "free_bytes": 76017930240,
+    "gpu": 1,
+    "host_mib": 59392,
+    "host_plan_GiB": {
+      "entry_cache": 3,
+      "history": 3.83,
+      "loader_peak": 30,
+      "margin": 4,
+      "native_covariance": 3.83,
+      "prior_CPU": 1.54,
+      "rollback_weights": 1.1,
+      "transaction_history": 3.83
+    },
+    "host_plan_note": "Loader peak and fit priors/cache are different phases: loader peak34 GiB; fit history/rollback8GiB + cache3GiB + write one prior/solve scratch <12GiB, margin4GiB; actual RSS gate/receipt separate",
+    "no_implicit_resource_increase": true,
+    "output_plan_GiB": {
+      "atomic_temp": 4,
+      "candidate_scalar": 3,
+      "logs_and_source": 2,
+      "margin": 12,
+      "percase_scalar": 3
+    },
+    "project_cap": 1,
+    "qualification_wall": "04:00:00",
+    "reserve_bytes": 25769803776,
+    "task_cap": 1,
+    "wall": "7-00:00:00"
+  },
+  "owner": "janghj",
+  "host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "held_inspection": {
+    "receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/held-inspection.json",
+      "bytes": 11979,
+      "sha256": "9ad7321d8925f17dd9e4c9da2cb1f9a2d174463e198d089b70239d758dbd5aeb"
+    },
+    "jobs": [
+      {
+        "job": "58178",
+        "stage": "pilot",
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s3",
+          "--nodelist=ubuntu",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s3_pilot",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+          "--mem=59392M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot.sh"
+        ],
+        "launcher": {
+          "bytes": 792,
+          "inode": 20072184,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot.sh",
+          "sha256": "864639082d6acce15764a157c2cc5c8591667089c1862ab7c8e6a6eb5a6e6716"
+        },
+        "inspection": "owner/name/node/partition/QoS/8CPU/explicitmem/wall/dependency/exportNONE/Requeue0/fullargv/script bytes PASS"
+      },
+      {
+        "job": "58179",
+        "stage": "V12_MAIN",
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s3",
+          "--nodelist=ubuntu",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s3_V12_MAIN",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+          "--mem=59392M",
+          "--time=7-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:58178",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN.sh"
+        ],
+        "launcher": {
+          "bytes": 784,
+          "inode": 20072209,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/V12_MAIN.sh",
+          "sha256": "e83cff75a5d5dd4293370abb35bd5d1a78b8997a0d525a2bc4c998121d7bc7bb"
+        },
+        "inspection": "owner/name/node/partition/QoS/8CPU/explicitmem/wall/dependency/exportNONE/Requeue0/fullargv/script bytes PASS"
+      },
+      {
+        "job": "58180",
+        "stage": "collector",
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s3",
+          "--nodelist=ubuntu",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=odeedit_jlz_v12_s3_collector",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/source",
+          "--mem=24576M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector-%j.err",
+          "--dependency=afterany:58178:58179",
+          "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector.sh"
+        ],
+        "launcher": {
+          "bytes": 819,
+          "inode": 20072219,
+          "mtime_ns": 1791110667435311795,
+          "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/collector.sh",
+          "sha256": "ca5395e91e5d29cd3f8bcb02b455bf4b9e6cadb636e4c040081593a44f655b3f"
+        },
+        "inspection": "owner/name/node/partition/QoS/8CPU/explicitmem/wall/dependency/exportNONE/Requeue0/fullargv/script bytes PASS"
+      }
+    ],
+    "all_held_before_release": true,
+    "helper": {
+      "code": 0,
+      "exit4_is_dependency_pending": true,
+      "output": "ALLOW_MEMORY_POLICY server=server3 requested_mem_mib=59392 max_mem_mib=121856 requested_gpus=1 decision=submit_now\nALLOW server=server3 node=ubuntu job_patterns=odeedit_*,bfode_*,motivation_*,session01_*,project_* active_project_gpus=0 requested_gpus=1 cap=1 decision=submit_now\nALLOW_RESOURCE server=server3 requested_mem=59392M requested_gpus=1 decision=submit_now\n"
+    },
+    "project_cap": 1,
+    "task_cap": 1,
+    "previous_own_GPU_jobs": 0,
+    "max_new_GPU_concurrent": 1,
+    "external_resource_afterany": []
+  },
+  "release_receipts": {
+    "V12_MAIN": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/released-V12_MAIN.json",
+      "bytes": 58,
+      "sha256": "338978ba8f908fe6416fbcf907d25c5c79ca4548899271c50bb32513be71b5ad"
+    },
+    "collector": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/released-collector.json",
+      "bytes": 58,
+      "sha256": "23314025601b1d6b3abc65eb1a6f8873d7ee28cdb03d796338e0e861eb3809e0"
+    },
+    "pilot": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/released-pilot.json",
+      "bytes": 58,
+      "sha256": "3ba89ba33dcab699ad257f1ea64b56a916fe4b92876c15b9e00896b827ccfac7"
+    }
+  },
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "main_count": 20,
+  "request_count": 2000,
+  "source_cessation": {
+    "bytes": 11431,
+    "inode": 20528555,
+    "mtime_ns": 1791110271923027408,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/migration-to-s3-r1/cancellation.json",
+    "sha256": "74adc314f0b0a1f497aa1acefe415dd98867b9c0395d87369466cc2a150a3d22"
+  },
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_main_initial": "NOT_OBSERVED",
+  "actual_main_terminal": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "checkpoint_saved": false,
+  "other_task_changes": 0
+}

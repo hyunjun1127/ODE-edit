@@ -1,0 +1,18 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "jobs": {
+    "V12_MAIN": "58179",
+    "collector": "58180",
+    "pilot": "58178"
+  },
+  "source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/execution.lock.json",
+    "bytes": 717614,
+    "sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244"
+  },
+  "audit": "audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/submission-s3-r1.json",
+  "status": "RELEASED_RESOURCE_DEPENDENCY_PENDING",
+  "checkpoint_saved": false,
+  "monitoring_active": false
+}

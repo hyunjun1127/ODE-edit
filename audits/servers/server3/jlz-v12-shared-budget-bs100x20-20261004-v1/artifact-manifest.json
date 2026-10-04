@@ -1,0 +1,54 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/cpu-reference.json",
+      "bytes": 7982,
+      "sha256": "e3a435f9ff3b1117d4ac243162a93c527a6b088ff7617cff3e44b03b71640948"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/full-read.json",
+      "bytes": 7804,
+      "sha256": "8a534cb396f2911c3c02f97a411ad1db5c6ac9393b1a463618e30a48dc4f8b74"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/initial-resource-snapshot.json",
+      "bytes": 831,
+      "sha256": "7e3820187de034cf28f07257eaa5749b6d92f61b7ec25f7c3a180041a77e6140"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/owner-preflight.json",
+      "bytes": 2140,
+      "sha256": "16f96212ac742f8ca1e425ac665dea9a609572cfc6a26f5fc6f118dc46f49b19"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/port-binding.json",
+      "bytes": 31476,
+      "sha256": "e27d1b2e7b2dd4cf70a7d39646fb443f8d4658154e824f61c2f8a0be76123c95"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/audits/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/submission-s3-r1.json",
+      "bytes": 12871,
+      "sha256": "ab74d6050229fe8c5f4aab28e6e45abf8b718c8d5f6981ed3f19e0f2dc65e77a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/report-ko.md",
+      "bytes": 7060,
+      "sha256": "a5d80b5e3f12548053711d71832ced5cb38cffc1c7dccab8522c03309796c94a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/transfers/verifications/jlz-v12-migration-20261004-v1/receipt.json",
+      "bytes": 3588,
+      "sha256": "ce5932f56f51d7251dd9726ebe096cc415685d748dfbdda8b101187ac7816f4b"
+    }
+  ],
+  "raw_local_only": true,
+  "no_tensor_or_prompt_Git": true,
+  "execution_source": "1d27a830274aaee49a713bd07e463b0513591c9e",
+  "execution_lock": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/execution.lock.json",
+    "bytes": 717614,
+    "sha256": "959ce59d104713869bccfa8db20ad88c2e9d4de3d9e39215d1cae9bd0996b244"
+  },
+  "actual_model_claim": "NOT_OBSERVED"
+}

@@ -1,0 +1,22 @@
+{
+  "observed_utc": "2026-10-04T10:44:38.102057+00:00",
+  "jobs": {
+    "V12_MAIN": "58179",
+    "collector": "58180",
+    "pilot": "58178"
+  },
+  "resource_dependency_rows": [
+    "58180|janghj|odeedit_jlz_v12_s3_collector|PENDING|N/A|(Dependency)|afterany:58178(unfulfilled),afterany:58179(unfulfilled)",
+    "58179|janghj|odeedit_jlz_v12_s3_V12_MAIN|PENDING|gres/gpu:1|(Dependency)|afterany:58178(unfulfilled)",
+    "58178|janghj|odeedit_jlz_v12_s3_pilot|PENDING|gres/gpu:1|(Resources)|(null)"
+  ],
+  "queries": 1,
+  "scope": "release 직후 한정 resource/dependency snapshot; 과학 log/results 조회0",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "actual_pilot": "NOT_OBSERVED",
+  "main_initial": "NOT_OBSERVED",
+  "main_terminal": "NOT_OBSERVED",
+  "free_bytes": 76007530496,
+  "free_inodes": 224328254
+}

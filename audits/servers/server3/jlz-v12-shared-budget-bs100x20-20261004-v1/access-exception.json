@@ -1,0 +1,10 @@
+{
+  "nonce": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "generic_helper": "scripts/check-agent-access.sh --staged",
+  "actual_result": "DENY",
+  "denied_path": "runs/odeedit_jlz_v12_shared_budget_s3_20261004/submission.server3.json",
+  "authority": "messages/head/2026-10-04-jlz-v12-migrate-sh4-to-sh3.json",
+  "explicit_allowed_prefix": "runs/odeedit_jlz_v12_shared_budget_s3_20261004/**",
+  "handling": "최신 사용자 envelope가 이 정확 prefix의 own-scope 게시를 명시 승인했다. generic helper prefix 미지원 예외를 기록하고 진행한다. helper PASS로 기록하지 않으며 공용helper/권한설정 변경0.",
+  "shared_helper_modified": false
+}
