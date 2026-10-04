@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-SH3-JLZ-V12-MIGRATION-20261004-R1",
+  "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
+  "recorded_utc": "2026-10-04T10:35:13Z",
+  "authority_commit": "fdfda7343eb44443ec5a846a82935206b96d6047",
+  "envelope": "messages/head/2026-10-04-jlz-v12-migrate-sh4-to-sh3.json",
+  "envelope_sha256": "57fa8e2626e0a4eb52c38d2fdab0141894ef88221c1cfa0d9a31bf0b6aefabd4",
+  "transport": "registered SSH app-server direct WebSocket initialize/resume/idle start; same-stream owner nonce ACKs",
+  "source": {
+    "server": "server4",
+    "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "accepted_turn": "01a1067b-30b5-7733-ae1c-d7352bbe7168",
+    "ack": true,
+    "ack_text": "SH4의 v12 신규 실행·제출·retry 권한을 즉시 중지합니다. 현재 owner/source/인자와 상태를 재확인해 collector58174→main58173 순서로만 정리. 아직 취소 완료를 뜻하는 ACK는 아니며, 완료 파일럿과 원자료 보존.",
+    "transcript_sha256": "4f6ec3c135e9143445ec0c1f9efa8c6406c1a7988b4f7a2fb6a9e81752e0f0ec",
+    "cancellation_at_ack": "NOT_YET_CONFIRMED"
+  },
+  "destination": {
+    "server": "server3",
+    "thread": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "accepted_turn": "01a1067a-9a2c-7c73-b522-054b6e5f0ffb",
+    "ack": true,
+    "ack_text": "SH3가 이식·등록을 담당. 현재 IMPLEMENTING_NOT_SUBMITTED. 동일 task 기존 등록 확인; SH4 종료 증거 검증 뒤 pilot→mainW20→collector 등록; release 후 한정 상태 확인에서 모니터링 중단.",
+    "transcript_sha256": "79ef4b0abf3788296356aefbda1bf4d5da4bf181229b92b6cf0c1d3270df36a6",
+    "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+    "submitted_job_ids": [],
+    "actual_GPU_qualification": "NOT_OBSERVED"
+  },
+  "GH": {
+    "Slurm_mutation": 0,
+    "source_hotpatch": 0,
+    "large_transfer": 0,
+    "root_dirty_preserved": true,
+    "recurring_monitor": false,
+    "scientific_completion_claim": false
+  },
+  "publication": "Nonforce own-scope; compact receipts only"
+}
