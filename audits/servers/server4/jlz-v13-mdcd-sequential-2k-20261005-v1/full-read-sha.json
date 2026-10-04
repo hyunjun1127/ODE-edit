@@ -1,0 +1,281 @@
+{
+  "CSV_all_fields_checked": true,
+  "CSV_rows": 2000,
+  "actual_new_GPU": "NOT_RUN",
+  "authority": "89ad31eeb624c170225fd06e81da8b6014e71380",
+  "current_full_read": "new envelope/derived sequential contract plus method/experiment/contracts/telemetry/validation/portability",
+  "host": "server4",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "observer_rows": 26000,
+  "prior_reference_reuse_scope": "unchanged reference/writer.py,test_ref.py,audit.json and their exact SHA; no duplicate GPU proof",
+  "runtime_reuse": true,
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "submission": "NOT_SUBMITTED",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree",
+  "authority_members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/messages/head/2026-10-05-jlz-v13-mdcd-2k-sh4.json",
+      "bytes": 4743,
+      "sha256": "df956c6b22ed075615ff83d13e76acd06d0284a9d07abc10d8789e85e9f43051"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+      "bytes": 12778,
+      "sha256": "c6aa2e52a1e71fccbf20b14486ba7f26b64fd84b8cdbda256125d69b9fe80d62"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/control/experiment-exceptions/jlz-v13-mdcd-sequential-2k-sh4-20261005.json",
+      "bytes": 778,
+      "sha256": "086aa44523460bbe03b301dd53347073ac2995fa3fd59a0dc25b4024a7a6c43d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+      "bytes": 294841,
+      "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/artifact-manifest.json",
+      "bytes": 1744,
+      "sha256": "6e2794359186f437180afa28909f4f775b0f7f713c22a9b8fd4917fb67645d4c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+      "bytes": 9631,
+      "sha256": "9e6554e673192cb70125f54b959c94f96a6fe431392afbfb25c7cdd6cd9bfa5d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-04-jlz-portable-execution-v1/runtime-contract.json",
+      "bytes": 15750,
+      "sha256": "d9d9624bf873b5976a5ef22f94cc95df82a8accf8ddda469e7d0146cabde894c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.json",
+      "bytes": 5968,
+      "sha256": "a43cf5763ec9207d16e9d60833d20549fd49224688e335334d209b0965ea78dc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/experiment.tex",
+      "bytes": 11017,
+      "sha256": "c978d8db4c988fda231c6a2e85585365fb7d9a41305b49aeac1825f71e15bb09"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/method-contract.json",
+      "bytes": 9337,
+      "sha256": "fe8e40679ea3797bc17f5fca5c34c2a24f5f13d9643a205391bb840d574a69b5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 13843,
+      "sha256": "f0d9946abaa4074c540f6471856f64e2f446a663f0ea9252fb00ed844d705d52"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/provenance.json",
+      "bytes": 904,
+      "sha256": "a573c5af6524d53aff706256d97ab95c5e05eb02ab2c6e19cec72cf3c92c73a0"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/reference/audit.json",
+      "bytes": 17558,
+      "sha256": "29efee030664ab37fb38317b0428ff020729021522c85cc4a2b861176162e6bd"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/reference/requirements.txt",
+      "bytes": 13,
+      "sha256": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/reference/test_ref.py",
+      "bytes": 17209,
+      "sha256": "60d4ca0e50e251694034e8957a7b9201f1f7fed2a283e47480f364c9ce3d05bb"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/reference/writer.py",
+      "bytes": 8902,
+      "sha256": "1ee4706efbebaa9cc393f9b6c236d46619775391ebf746828bf8daabaef1e974"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/telemetry.json",
+      "bytes": 2990,
+      "sha256": "b985993350af9537bcb66985412c49cc0de0ffad4416fccad09242f386982083"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/plans/global/2026-10-05-jlz-v13-realized-writer/validation.json",
+      "bytes": 1338,
+      "sha256": "2f896572f0d10ac3ef57e5ea64f708a0a68d7e569f6d27b9c32867a4cd2d5919"
+    }
+  ],
+  "packs": [
+    {
+      "batch": 1,
+      "identity": "09c2ea06e490b6052cac81f6743bdbd51d3912dddca321a8e94791efd23e1dd2",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "2794f0460b0777182e2aa41c0cbdff031c741c3dfda173ab8a34461e6beb8a11",
+      "seen_requests": 100
+    },
+    {
+      "batch": 2,
+      "identity": "a6fac47f922c2e2a897952436bd0f6dd78715e76769ca2e359409bfc2979365b",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "8ad97c3ba566c91db55208681bc6fcd0528d82b831ff92bc440dfde1082f1b47",
+      "seen_requests": 200
+    },
+    {
+      "batch": 3,
+      "identity": "0f8a3d79244db8f664cf4d4da250fb1fd4c410b1d769f4601a10a82b5472adc2",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "62d6208d10b2f2354d8e96cba61f7aa6ff15a6acf51fd23f7b076f8f7571e3ac",
+      "seen_requests": 300
+    },
+    {
+      "batch": 4,
+      "identity": "066f60971080cea465ddc48313fa82b82ee6ebe9b9d8080b24753edc1f9fa8bf",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "a60d9cb02dc0b0ef8097767872ee6395c0d68a67839eab0b5330a7b805767c88",
+      "seen_requests": 400
+    },
+    {
+      "batch": 5,
+      "identity": "7ee087cfd0c62aceb0de4c81ccc470b3b37a3e8d7fc719363ad58fed07674a7f",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "f39bb422669e55833f023d0f3e319541b792778eb237f0f3683b99aeaf9a336b",
+      "seen_requests": 500
+    },
+    {
+      "batch": 6,
+      "identity": "a319bb187ee50fa2589583d7878610a8f0fb40ba5e7dd9cae70a157bcaec3195",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "951d79d8a43bac26506372fa154aeb1f991a9cb68a249bb1b515b444922742f7",
+      "seen_requests": 600
+    },
+    {
+      "batch": 7,
+      "identity": "3fcbde6a6f103ea0bda13b51c922b409becdaa8de07f6bc0aa7c095a0945a195",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "ed240a65fb9b7ff0b5cd2e2432aae4d4084c70ac7a214e818ef53358026afb87",
+      "seen_requests": 700
+    },
+    {
+      "batch": 8,
+      "identity": "87b4a13a48e2fbe34af76e5330d35fcd0e2b0a84ce2c4e5cfd2a631b04113986",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "8c1c15575fdf5784cec4a97f274b4a199824100e843a9fb84d8ea6a5489ef875",
+      "seen_requests": 800
+    },
+    {
+      "batch": 9,
+      "identity": "e5473a14224db4761325758c95a5c208c3645b28d1b08b21b9f873f5f99cb513",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "b31e2b7526093dc08eaeec61f40d5b1a94486bf78ffa4364dbd6525a1b1ce7ed",
+      "seen_requests": 900
+    },
+    {
+      "batch": 10,
+      "identity": "8a3fe8a767c170c09af6e949e9001175f92df0b3971f68ce212a39a021b1c7e2",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "140d84bec1ddb4a38f6a926e3fe3520d3f55cf50a99b84ed10cb8ac707ff7539",
+      "seen_requests": 1000
+    },
+    {
+      "batch": 11,
+      "identity": "3e1fc14e8881f4de49f7465932c41412298a44da917d1a9fd9766935e355c07b",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "9eb2996908ee21717779944bb31c5cfbefd26d77ed2ee2087e14658844f8c7c1",
+      "seen_requests": 1100
+    },
+    {
+      "batch": 12,
+      "identity": "bd4195dd075450a1fb06a51dd5cca61980759aec8b642f92e32fb45868adb45f",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "ab7eaf22a591547f01ba68804647aa7a357984c40a901265fe0ec87375225c64",
+      "seen_requests": 1200
+    },
+    {
+      "batch": 13,
+      "identity": "b3ff386410bf54b777ccaa5fb3b1eebfc810896bc7dc7cdcb9c1017783931856",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "2c6ef1a3520871b71c5e75f4d44a0091c0a257aab95cf68d4ec029ede0c313bc",
+      "seen_requests": 1300
+    },
+    {
+      "batch": 14,
+      "identity": "67e5b5aefece66c2b64b2b81810982f0fd73bfce89d5df8233768ae0f6f0be42",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "a982ba59bd038cca87da5e150723779300b101cd80af254c4d3f1065a42ac4d7",
+      "seen_requests": 1400
+    },
+    {
+      "batch": 15,
+      "identity": "06f1a1d956c2fb8c9b7a8fa3474cef2392d889ef7f39a43f3aa02df7cac1e2d1",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "827a714dc9b22fad4f03ca465001ea25715af37f7b9fada89373f6719c629c2c",
+      "seen_requests": 1500
+    },
+    {
+      "batch": 16,
+      "identity": "1bc65bab4b5433ed892deb30816da90832725cb5fb6beb3cab782b48fdb2abd0",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "050f90ed52473683b0ecabee4dd0c98ba79577e8be5cefcc0af7982294e93ac1",
+      "seen_requests": 1600
+    },
+    {
+      "batch": 17,
+      "identity": "ff7f45d671b9a675cf2442e00b167d5e3540d3fe596d3268eaa83059aa0a11e1",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "5d833cbd3d7cbeecab07aa8f99bc644691cac63895264a1c5c4ffa6dffb58eba",
+      "seen_requests": 1700
+    },
+    {
+      "batch": 18,
+      "identity": "9acb77a543a1325599f2749741b37e991bc7f4189a954f909e2b975ffee092cd",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "ccb11d7024b4468f5ba0ae15312ea573c59c888f692618ac0640c2a1fd4e457c",
+      "seen_requests": 1800
+    },
+    {
+      "batch": 19,
+      "identity": "3f17d645c43b9d478f0b60818ecfdccb17143d37994c1039f5a74bbd51f0b924",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "b9137856f14cdf9fec3baae56e5e804ff561af45e53b7169cf03f6fbd8b69d86",
+      "seen_requests": 1900
+    },
+    {
+      "batch": 20,
+      "identity": "851586920c5fe02cb612a2547f17c3a8a864c689309df56bd22dd45d0ad68dff",
+      "B": 100,
+      "native_rows": 700,
+      "row_roles_sha256": "b725c2b6f167bcce5be26b3faaf4860096d68e8eccd60cd43cc737f50ffedf6c",
+      "seen_requests": 2000
+    }
+  ],
+  "observer_identity": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/preparation-r1/observer-identity.json",
+    "bytes": 8124751,
+    "sha256": "6548f1f56db7c37b51f93abade2a5e1111d406e6bcd3d3c73197e99b3a98c188"
+  },
+  "native_input_alignment": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/preparation-r1/native-input-alignment.json",
+    "bytes": 340154,
+    "sha256": "4a5744498c272afb16ad6f22e441ccd4971f791ac6069b5acb87a8e783ad5668"
+  },
+  "first_ACK_main": "80376398",
+  "regular_full_read_verified": true
+}

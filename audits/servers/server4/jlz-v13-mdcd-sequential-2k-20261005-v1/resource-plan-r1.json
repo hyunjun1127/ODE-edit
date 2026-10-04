@@ -1,0 +1,38 @@
+{
+  "ETA": "NOT_MEASURED_2K; originalB1 cost descriptive only; 24h requested wall is ceiling, not ETA",
+  "GPU_peak_plan_GiB_each": {
+    "expected": 54,
+    "margin": 12
+  },
+  "collector_host_mib": 24576,
+  "collector_wall": "04:00:00",
+  "concurrent_output_plan_GiB": {
+    "CPU_summaries_inventory": 1,
+    "margin": 7,
+    "source_logs_atomic": 1,
+    "two_arm_raw_events_metrics": 3
+  },
+  "cpu": 8,
+  "free_bytes": 35773976576,
+  "gpu_per_arm": 1,
+  "host_mib": 59392,
+  "host_peak_plan_GiB_each": {
+    "execution": 40,
+    "limit": 58,
+    "load": 36
+  },
+  "original_B1_peak_RSS_KiB": 34718172,
+  "original_B1_peak_VRAM_bytes": 40046434304,
+  "project_cap": 3,
+  "requested_aggregate_host_mib": 118784,
+  "reserve_bytes": 12884901888,
+  "startup_free_bytes_min": 6442450944,
+  "state_policy": "one batch cache/metric resident; persistent H, new entry/cache and factor perbatch; no saved weights/teacher/plan",
+  "task_cap": 2,
+  "wall": "1-00:00:00",
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "measured_2k_ETA": "NOT_MEASURED",
+  "requested_wall_is_not_ETA": true,
+  "no_existing_job_mutation": true,
+  "final_fresh_admission": "BEFORE_SUBMISSION"
+}

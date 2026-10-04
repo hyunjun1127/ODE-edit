@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "from": "SH4",
+  "owner_accepted": true,
+  "status": "IMPLEMENTED_CPU_CHECKED_NOT_SUBMITTED",
+  "first_ACK_main": "80376398",
+  "FULL_READ_SHA": "VERIFIED",
+  "CPU_tests": 12,
+  "existing_qualification_reuse": "same frozen B1 closure verified",
+  "GPU_submission": "NOT_SUBMITTED",
+  "new_main_commit": "NOT_OBSERVED",
+  "GH_additional_ACK_required": false,
+  "old_B1_V14_unchanged": true
+}

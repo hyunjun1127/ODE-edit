@@ -1,0 +1,713 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "prior_execution": "082300955e21a2c29218d66d98c5d2c37bc53a20",
+  "science": [
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/__init__.py",
+        "bytes": 79,
+        "sha256": "486f6f0831f35d39cc5e4c85036efac5005ff9da0431966c2f6d7b2f0f9a23b4"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/__init__.py",
+        "bytes": 79,
+        "sha256": "486f6f0831f35d39cc5e4c85036efac5005ff9da0431966c2f6d7b2f0f9a23b4"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/__init__.py",
+        "bytes": 78,
+        "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/__init__.py",
+        "bytes": 78,
+        "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_pilot/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_pilot/__init__.py",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_pilot/__init__.py",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_pilot/prompts.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_pilot/prompts.py",
+        "bytes": 10334,
+        "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_pilot/prompts.py",
+        "bytes": 10334,
+        "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/common.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/common.py",
+        "bytes": 2446,
+        "sha256": "73b43462f8be9482389796b3fcc3623e30fefd9a9cd0edd76619202f2b1a59f2"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/common.py",
+        "bytes": 2446,
+        "sha256": "73b43462f8be9482389796b3fcc3623e30fefd9a9cd0edd76619202f2b1a59f2"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/inputs.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/observe.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/observe.py",
+        "bytes": 8397,
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/observe.py",
+        "bytes": 8397,
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/writer.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/writer.py",
+        "bytes": 2871,
+        "sha256": "8a374fea357cb73c2676297defc697fc1a68ca9db6d42d5ca6637254e731ec6f"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/writer.py",
+        "bytes": 2871,
+        "sha256": "8a374fea357cb73c2676297defc697fc1a68ca9db6d42d5ca6637254e731ec6f"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/__init__.py",
+        "bytes": 74,
+        "sha256": "b4f8baf898e54272932be6693a37182624fa15231e3d1e0959383190757cc536"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/__init__.py",
+        "bytes": 74,
+        "sha256": "b4f8baf898e54272932be6693a37182624fa15231e3d1e0959383190757cc536"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/__init__.py",
+        "bytes": 64,
+        "sha256": "04676a184e7277212ae91fb18c24f06b3f64fb2d87eb30cdddfb08ce33de28aa"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/__init__.py",
+        "bytes": 64,
+        "sha256": "04676a184e7277212ae91fb18c24f06b3f64fb2d87eb30cdddfb08ce33de28aa"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/common.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/common.py",
+        "bytes": 2444,
+        "sha256": "96a139e80dfd9e334217280a16bb20e29b58c91b10e200ffa274e0ec11a5bcc9"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/common.py",
+        "bytes": 2444,
+        "sha256": "96a139e80dfd9e334217280a16bb20e29b58c91b10e200ffa274e0ec11a5bcc9"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/physical.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/physical.py",
+        "bytes": 5451,
+        "sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/physical.py",
+        "bytes": 5451,
+        "sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/physical_linear.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/physical_linear.py",
+        "bytes": 937,
+        "sha256": "4ec74addd876c657759df3c646431042c931eef713888b54aa4a4710cb33e9ef"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/physical_linear.py",
+        "bytes": 937,
+        "sha256": "4ec74addd876c657759df3c646431042c931eef713888b54aa4a4710cb33e9ef"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/profile.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/profile.py",
+        "bytes": 4172,
+        "sha256": "1c9ca0faa06dd1ebeeb6c68ad8faef89e607ea2da001da5d87c8b481f860c473"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/profile.py",
+        "bytes": 4172,
+        "sha256": "1c9ca0faa06dd1ebeeb6c68ad8faef89e607ea2da001da5d87c8b481f860c473"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/inputs.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/geometry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/geometry.py",
+        "bytes": 12245,
+        "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/geometry.py",
+        "bytes": 12245,
+        "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_writer_coupled/entry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_writer_coupled/entry.py",
+        "bytes": 4489,
+        "sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_writer_coupled/entry.py",
+        "bytes": 4489,
+        "sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/common.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/common.py",
+        "bytes": 1103,
+        "sha256": "6fac1b87fcc72a3b0d0360000fc258cb66f898fe4e78d2bf217d216f05bfc2f8"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/common.py",
+        "bytes": 1103,
+        "sha256": "6fac1b87fcc72a3b0d0360000fc258cb66f898fe4e78d2bf217d216f05bfc2f8"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/entry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/entry.py",
+        "bytes": 3532,
+        "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/entry.py",
+        "bytes": 3532,
+        "sha256": "ce5364c6579b2fb2064770408c3d813bd80fe620427c5ea782ab4da3de5ed71d"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/subject.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/subject.py",
+        "bytes": 2741,
+        "sha256": "13a3228c341a08bd39b22858c8c2b37f383a6b74603ca80d485313efc01ffde3"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/subject.py",
+        "bytes": 2741,
+        "sha256": "13a3228c341a08bd39b22858c8c2b37f383a6b74603ca80d485313efc01ffde3"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/optimizer.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/optimizer.py",
+        "bytes": 3083,
+        "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/optimizer.py",
+        "bytes": 3083,
+        "sha256": "e986dfbfc8f3aed5e2bd23449cdc9af5d5a1333336ee27b92439701ba5adeead"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/telemetry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/telemetry.py",
+        "bytes": 5316,
+        "sha256": "167e76584afafa050d05e53981093448e1a01a322282b6af6c0b2497fedbd270"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/telemetry.py",
+        "bytes": 5316,
+        "sha256": "167e76584afafa050d05e53981093448e1a01a322282b6af6c0b2497fedbd270"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/optimize.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/optimize.py",
+        "bytes": 7174,
+        "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/optimize.py",
+        "bytes": 7174,
+        "sha256": "1384800b9ffd9f165efc2907654dc2d42f4d562741c83f5054621c92df080347"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realization/geometry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realization/geometry.py",
+        "bytes": 6207,
+        "sha256": "0f006b6ad21e5297aed02c9041da7ad47e714db2f8c904f24c2c3044b0e4d7c0"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realization/geometry.py",
+        "bytes": 6207,
+        "sha256": "0f006b6ad21e5297aed02c9041da7ad47e714db2f8c904f24c2c3044b0e4d7c0"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/writer.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/writer.py",
+        "bytes": 8427,
+        "sha256": "61876296e691d618bc6ee3d90b3c081bd448333e1164832737d0542ad001b21a"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/writer.py",
+        "bytes": 8427,
+        "sha256": "61876296e691d618bc6ee3d90b3c081bd448333e1164832737d0542ad001b21a"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_two_arm/__init__.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_two_arm/__init__.py",
+        "bytes": 79,
+        "sha256": "07ea263faf59dbf679b81c8e13870807ee035f80b2c31ccb0248721a972e4099"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/__init__.py",
+        "bytes": 79,
+        "sha256": "07ea263faf59dbf679b81c8e13870807ee035f80b2c31ccb0248721a972e4099"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_two_arm/common.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_two_arm/common.py",
+        "bytes": 2308,
+        "sha256": "cd9d2508e99bf6da030122d58c4c238839b5a2ccb385c6139f9bf8c7cb769115"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/common.py",
+        "bytes": 2308,
+        "sha256": "cd9d2508e99bf6da030122d58c4c238839b5a2ccb385c6139f9bf8c7cb769115"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_two_arm/baseline_pilot.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_two_arm/baseline_pilot.py",
+        "bytes": 28752,
+        "sha256": "126a1dd53ed2d254b4f8f267a5c71207ad054c5fba64699cbfa36cb53ceadd3b"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_two_arm/baseline_pilot.py",
+        "bytes": 28752,
+        "sha256": "126a1dd53ed2d254b4f8f267a5c71207ad054c5fba64699cbfa36cb53ceadd3b"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_shared_budget/qualification.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_shared_budget/qualification.py",
+        "bytes": 6077,
+        "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_shared_budget/qualification.py",
+        "bytes": 6077,
+        "sha256": "ae6ae638d536cc53eeb991763a6540c9d2c974d0b7208384d104aa12d1d284be"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/common.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/common.py",
+        "bytes": 559,
+        "sha256": "c338e8235924f345b43e55b5c7d9bb9ca7a2f7096136f29819aa23dcd0f49412"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/common.py",
+        "bytes": 559,
+        "sha256": "c338e8235924f345b43e55b5c7d9bb9ca7a2f7096136f29819aa23dcd0f49412"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/capture.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/capture.py",
+        "bytes": 4057,
+        "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/capture.py",
+        "bytes": 4057,
+        "sha256": "cf1c23ec3b65923eb57ce35f5f1a855b1c954ebbdbf8cdb7e29f6ef131b88e1e"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/geometry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/geometry.py",
+        "bytes": 4643,
+        "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/geometry.py",
+        "bytes": 4643,
+        "sha256": "294d347b600bdf341aae498697909d9f4727c3d365e7976eaca2ff1098abee3b"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/telemetry.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/telemetry.py",
+        "bytes": 1539,
+        "sha256": "dfa0bc64bf89d60a481897e87568372a25bb2c492ed48eb486cb67764413a94c"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/telemetry.py",
+        "bytes": 1539,
+        "sha256": "dfa0bc64bf89d60a481897e87568372a25bb2c492ed48eb486cb67764413a94c"
+      }
+    },
+    {
+      "relative": "project/run_scripts/jlz_realized_writer/writer.py",
+      "current": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/worktree/project/run_scripts/jlz_realized_writer/writer.py",
+        "bytes": 7974,
+        "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+      },
+      "original": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/source/project/run_scripts/jlz_realized_writer/writer.py",
+        "bytes": 7974,
+        "sha256": "e8149db96a19322fc54ea153938864955449d1e55a854544d078819d3721f484"
+      }
+    }
+  ],
+  "receipt_members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/execution.lock.json",
+      "bytes": 64909,
+      "sha256": "06b9fe80e31cd104f0d1045c8f4e2475f0aabc55bef9374e3ed7f6784ae977f5"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/config.json",
+      "bytes": 31750,
+      "sha256": "dd9bd8dabee8eef985a500a6d636474d0d83060f76c79b3da7db42c9e757c644"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/actual-imports.json",
+      "bytes": 16648,
+      "sha256": "e9da7c431cd1e0537ef70618d474642b3c20c2f9b8c373a5e701711e24f525ef"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/terminal.json",
+      "bytes": 649,
+      "sha256": "df9b3ca97c13d11b22a20d237f964b11f42cb62107a586144a24cdaabc89db08"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/W0/summary.json",
+      "bytes": 2924,
+      "sha256": "38625163fcfce15d55aa44b29d3faf9c4aac98fe8f6ac659163c0df6d3ef85a8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/absolute-delta-gradient.json",
+      "bytes": 575,
+      "sha256": "9cfa44ff365dfb80e9d24a1741f8d75a7fa206e5d303d5d985f75a01767c3e73"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/fixed-0.json",
+      "bytes": 593,
+      "sha256": "24e9d8a9bd1912ed2d318a3cf0a9ad5e07f136ed2f3f2eca641e2ebe61e853cf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/fixed-1.json",
+      "bytes": 594,
+      "sha256": "a2beeacb1d7cde074ca1c51f91bb1f2bb4d627e2d82e788f627b547905fbb5ad"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/microbatch.json",
+      "bytes": 535,
+      "sha256": "22b6854c329b59a033f9b615a455f7235b934d6ddb35c7c4641e9096555dc23d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/native-keys.json",
+      "bytes": 532,
+      "sha256": "a378c4dc4a481c1328dc5aef02c51e5cd86426a3df7f62919c4cba89e33bd47f"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/native-scaled-update.json",
+      "bytes": 277,
+      "sha256": "3163107a207a8fdc72f0a53356daf9d4b68965774446894bcee86a240be3c01a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/predeclared.json",
+      "bytes": 340,
+      "sha256": "10cf682a6737975e97ee4bdc7fbf11c8eee7a25f93aaf0cfdfe3c079a221ccf4"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/qualification/ready.json",
+      "bytes": 91,
+      "sha256": "6d260011c6369fb0a2993e30fbd8ba2db4322895179029cc485f122deda63c04"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/MD/complete.json",
+      "bytes": 312,
+      "sha256": "d6a43d0f839ca851ee5c7a2ab90db0bd7ec150c8cbacb970d71adcba4c679898"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/MD/restore.json",
+      "bytes": 110,
+      "sha256": "1543ad78c84ff448d63b46b1a02ab951b1fa00d8677b40a8cfbeffcd3578d5f1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/MD/writer.json",
+      "bytes": 33466,
+      "sha256": "dd021d022bacadaabc97a6aaf851f03d57f7ecaf98e7e0ded5349b8c99596464"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/MD/local-additivity.json",
+      "bytes": 1072,
+      "sha256": "03df68bf00e3bbbfa3014bf90e07d168d9ef2f8f8242f44d3803641db1d1b70d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/CD/complete.json",
+      "bytes": 312,
+      "sha256": "4f008fb59f9488be2bfd4f3a5ec7eab706ac0d690fa76940e79adb8a08ec2fd3"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/CD/restore.json",
+      "bytes": 110,
+      "sha256": "1543ad78c84ff448d63b46b1a02ab951b1fa00d8677b40a8cfbeffcd3578d5f1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/CD/writer.json",
+      "bytes": 169537,
+      "sha256": "6c0f76089a550005206938bc874d9fac6ece3c8a833ae002a4348006b5cc388d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1/20261005-v1/attempt-r1/B1/CD/local-additivity.json",
+      "bytes": 1074,
+      "sha256": "b1f3246bfbf427ad7a01c083181ca199aecbb54901902f4b74da2379dc7c9d38"
+    }
+  ],
+  "runtime": {
+    "GPU_runtime_qualification": "PENDING_FIXED_CANDIDATE_RECEIPT",
+    "attention": "eager",
+    "autocast": false,
+    "cuda_initialized": false,
+    "cudnn_TF32": false,
+    "geometry_dtype": "float64",
+    "matmul_TF32": false,
+    "model_dtype": "float32",
+    "python": "/data/janghj/EasyEdit/.venv/bin/python",
+    "python_version": "3.12.3",
+    "source_root_sha256": "f9a7fc95dc9c29b56979fb5d5222c4c98a97bd054f4ab386aceaee7b618a1602",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "transformers": "4.57.1"
+  },
+  "assets": [
+    {
+      "path": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+      "bytes": 16679956,
+      "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 132584493,
+      "mtime_ns": "1788927956999196742"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B001/contexts.json",
+      "bytes": 270,
+      "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 132597765,
+      "mtime_ns": "1789028106344868574"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131216626,
+      "mtime_ns": "1778400376501531975"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131216627,
+      "mtime_ns": "1778405783263173797"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131216628,
+      "mtime_ns": "1778412013640495980"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131216629,
+      "mtime_ns": "1778419071493293499"
+    },
+    {
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "bytes": 822084814,
+      "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131216630,
+      "mtime_ns": "1778426959389839324"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/31553d63b8f18df5d6d440860751533ada3759e4",
+      "bytes": 654,
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596443,
+      "mtime_ns": "1782106541835263085"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8675015d20a4b12ee2ee0197a0937beba318122a",
+      "bytes": 187,
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596354,
+      "mtime_ns": "1782106541793263103"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "bytes": 4976698672,
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596438,
+      "mtime_ns": "1782106930889930552"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "bytes": 4999802720,
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596437,
+      "mtime_ns": "1782106763554198014"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "bytes": 4915916176,
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596444,
+      "mtime_ns": "1782106767593135849"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "bytes": 1168138808,
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596441,
+      "mtime_ns": "1782106625293596563"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/0fd8120f1c6acddc268ebc2583058efaf699a771",
+      "bytes": 23950,
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596447,
+      "mtime_ns": "1782106542198262933"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cd5076496dbe4be2320312abc10adc43097b81",
+      "bytes": 73,
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596456,
+      "mtime_ns": "1782106542646262745"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/b197f72effb9d5ed16ee0f5663e11e4cfac2ba62",
+      "bytes": 9085698,
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596458,
+      "mtime_ns": "1782106543375262439"
+    },
+    {
+      "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/1bfd1146b7bde6168de7bb673bfe0acaea6e684c",
+      "bytes": 50977,
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+      "verification": "PRIOR_FULL_SHA_CURRENT_SIZE_INODE_MTIME",
+      "inode": 131596460,
+      "mtime_ns": "1782106543110262550"
+    }
+  ],
+  "actual_new_GPU": "NOT_RUN",
+  "core_unchanged": true,
+  "no_GPU_requalification_campaign": true,
+  "assets_identity_rule": "existing full SHA plus current size/inode/mtime; full hash when prior stat differs"
+}
