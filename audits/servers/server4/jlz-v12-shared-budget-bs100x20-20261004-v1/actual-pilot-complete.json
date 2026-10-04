@@ -1,0 +1,44 @@
+{
+  "status": "ACTUAL_PILOT_COMPLETE",
+  "main_initial": "NOT_OBSERVED",
+  "source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+  "ready": {
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN/ready.json",
+    "bytes": 226,
+    "sha256": "20ad2c0bb3e2aaad58249c612e042fe76fb5f04d9a8268c0c3dd7f6ee781bb5b",
+    "inode": 135272995,
+    "mtime_ns": 1791109525964027057
+  },
+  "terminal": {
+    "chain": "V12_MAIN",
+    "checkpoint_saved": false,
+    "commits": 2,
+    "job": "58172",
+    "no_B21": true,
+    "peak_RSS_KiB": 34730432,
+    "peak_VRAM_bytes": 38248571904,
+    "pilot": true,
+    "seconds": 404.21311327442527,
+    "source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+    "status": "COMPLETED"
+  },
+  "schema_checks": [
+    {
+      "requests": 2,
+      "request_evaluations": 50,
+      "request_updates": 48,
+      "schema_and_relations": true
+    },
+    {
+      "requests": 2,
+      "request_evaluations": 50,
+      "request_updates": 48,
+      "schema_and_relations": true
+    }
+  ],
+  "history_appends": 10,
+  "W_H_RNG_B1_B2_join": true,
+  "observer_nonmutation": true,
+  "checkpoint_saved": false,
+  "raw_directory": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/pilot-V12_MAIN"
+}

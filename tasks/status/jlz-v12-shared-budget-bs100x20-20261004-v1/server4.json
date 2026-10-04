@@ -1,23 +1,28 @@
 {
   "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
   "task_id": "jlz-v12-shared-budget-bs100x20-20261004-v1",
-  "status": "SUBMITTED_PILOT_RUNNING",
-  "execution_source": "7852d66e",
+  "status": "RESOURCE_PENDING_INITIAL_HANDOFF",
+  "execution_source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
   "jobs": {
     "pilot": 58172,
     "V12_MAIN": 58173,
     "collector": 58174
   },
   "main_initial": "NOT_OBSERVED",
-  "actual_qualification": "IN_PROGRESS",
+  "actual_qualification": "PILOT_COMPLETE_BOUNDED_ACTUAL",
   "reference_CPU": 29,
   "production_CPU": 7,
   "new_baseline_jobs": 0,
   "v11_stop_preserved": true,
   "other_job_mutations": 0,
   "no_checkpoints": true,
-  "monitoring_active": true,
-  "monitoring_scope": "bounded initial main B1-to-B2 only",
+  "monitoring_active": false,
+  "monitoring_scope": "ENDED_AT_VERIFIED_MAIN_RESOURCE_PENDING",
   "automatic_resume": false,
-  "local_attempt": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1"
+  "local_attempt": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1",
+  "main_pending_reason": "Resources",
+  "pilot_commits": 2,
+  "pilot_allocated_GPU_seconds": 410,
+  "sealed_runner_continues_to_W20": true,
+  "resource_receipt": "audits/servers/server4/jlz-v12-shared-budget-bs100x20-20261004-v1/initial-resource-pending.json"
 }

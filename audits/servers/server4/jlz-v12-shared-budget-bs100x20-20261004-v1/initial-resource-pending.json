@@ -1,0 +1,56 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-JLZ-V12-SHARED-BUDGET-2K-20261004-R1",
+  "observed_utc": "2026-10-04T10:26:55Z",
+  "kind": "FORMAL_RESOURCE_PENDING_INITIAL_HANDOFF",
+  "main": {
+    "job": 58173,
+    "state": "PENDING",
+    "reason": "Resources",
+    "dependency": null,
+    "user": "janghj",
+    "node": "server4",
+    "partition": "gpu",
+    "gpu": 1,
+    "cpus": 8,
+    "memory_mib": 59392,
+    "wall": "7-00:00:00",
+    "Requeue": 0,
+    "source": "7852d66ed5467f94ebda73507b6ccdbf5c921328",
+    "launcher": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-r1/V12_MAIN.sh",
+    "main_B1_commit": "NOT_OBSERVED",
+    "main_B2_ownentry": "NOT_OBSERVED"
+  },
+  "resources": {
+    "node_gpu_configured": 8,
+    "node_gpu_allocated": 8,
+    "node_cpu_configured": 128,
+    "node_cpu_allocated": 52,
+    "node_memory_mib": 512000,
+    "node_allocated_memory_mib": 417792,
+    "scheduler_state": "MIXED+PLANNED",
+    "explanation": "All eight physical Slurm GPUs allocated. Dependency has cleared; Resources is actual scheduler resource wait, not technical/quality approval wait.",
+    "task_gpu_cap": 1,
+    "project_gpu_cap": 3
+  },
+  "pilot": {
+    "job": 58172,
+    "state": "COMPLETED",
+    "exit": "0:0",
+    "elapsed_allocated_GPU_seconds": 410,
+    "logical_seconds": 404.21311327442527,
+    "commits": 2,
+    "history_appends": 10
+  },
+  "collector": {
+    "job": 58174,
+    "last_observed_state": "PENDING",
+    "last_observed_reason": "Dependency"
+  },
+  "registration": "All three jobs held-inspected and released; immutable main guards pilot READY before model loading.",
+  "no_other_job_mutation": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "sealed_runner_continues_to_W20": true,
+  "no_B21": true,
+  "noCP": true
+}
