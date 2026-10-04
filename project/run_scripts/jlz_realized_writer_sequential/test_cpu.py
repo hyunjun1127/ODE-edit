@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from .common import *
 from .run import BatchTransaction, drive, w0_subset
-from .submit import admission_plan, argv
+from .submit import admission_plan, argv, verify_parallel_dependencies
 from .collect import validate_commit, harmonic
 from project.run_scripts.jlz_realization.writer import rng_snapshot, rng_equal
 from project.run_scripts.jlz_realization.observe import active_flags, reduce_rows
@@ -81,6 +81,15 @@ class Tests(unittest.TestCase):
         self.assertEqual(validate_rows([row], expected, [1], 'W1')['R']['numerator'], 1)
         with self.assertRaises(RuntimeError): validate_rows([row | dict(identity='another')], expected, [1], 'W1')
         with self.assertRaises(RuntimeError): validate_rows([row | dict(new_token_identity='changed')], expected, [1], 'W1')
+
+    def test_empty_dependency_None_and_resource_barrier(self):
+        ids = dict(MD='1', CD='2', collector='3')
+        mapping = dict(MD=dict(dependency=None), CD=dict(dependency=None), collector=dict(dependency='afterany:1:2'))
+        self.assertEqual(verify_parallel_dependencies(ids, mapping), set())
+        mapping['MD']['dependency'] = mapping['CD']['dependency'] = 'afterany:7:8'
+        self.assertEqual(verify_parallel_dependencies(ids, mapping), {('afterany', '7'), ('afterany', '8')})
+        mapping['CD']['dependency'] = 'afterok:1'
+        with self.assertRaises(RuntimeError): verify_parallel_dependencies(ids, mapping)
 
     def test_collector_history_once_weight_state_join(self):
         before = dict(W={'0': 'w0'}, H={'0': 'h0'}); after = dict(W={'0': 'w1'}, H={'0': 'h1'})

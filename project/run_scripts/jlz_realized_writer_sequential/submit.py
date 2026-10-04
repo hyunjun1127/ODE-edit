@@ -100,6 +100,15 @@ def admission_plan(inventory, cap):
     # resource barrier. Neither depends on the other's scientific result.
     return [j['job'] for j in inventory['jobs']] if occupied + 2 > cap else []
 
+def verify_parallel_dependencies(ids, mapping):
+    # dependencies() returns None for an empty parent list.
+    md = expected_dependencies(mapping['MD']['dependency'])
+    cd = expected_dependencies(mapping['CD']['dependency'])
+    require(not any(job == ids['CD'] for _, job in md) and not any(job == ids['MD'] for _, job in cd), 'NO_ARM_SERIALIZATION')
+    require(md == cd, 'IDENTICAL_EXTERNAL_RESOURCE_BARRIER')
+    require(expected_dependencies(mapping['collector']['dependency']) == {('afterany', ids[arm]) for arm in ARMS}, 'COLLECTOR_AFTERANY_BOTH')
+    return md
+
 def main():
     p = argparse.ArgumentParser(); p.add_argument('--config', type=Path, required=True); p.add_argument('--attempt', type=Path, required=True)
     p.add_argument('--cpu-receipt', type=Path, required=True)
@@ -131,7 +140,7 @@ def main():
     after = resource_inventory(tuple(ids.values())); external = {j['job'] for j in before['jobs']}
     require({j['job'] for j in after['jobs']} <= external, 'ADMISSION_RACE_KEEP_HELD')
     require(barrier or sum(j['gpus'] for j in after['jobs']) + 2 <= cap, 'PROJECT_CAP_KEEP_HELD')
-    require(ids['MD'] not in mapping['CD']['dependency'] and ids['CD'] not in mapping['MD']['dependency'], 'NO_ARM_SERIALIZATION')
+    verify_parallel_dependencies(ids, mapping)
     verify_frozen(attempt)
     write(attempt / 'held-inspection.json', dict(checks=checks, before=before, prerelease=after, project_cap=cap, task_cap=2,
         aggregate_new_GPU=2, aggregate_new_CPU=16, aggregate_new_host_mib=118784, identical_resource_barrier=barrier,
