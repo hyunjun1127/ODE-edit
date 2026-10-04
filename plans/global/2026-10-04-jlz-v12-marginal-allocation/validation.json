@@ -1,0 +1,49 @@
+{
+  "date_kst": "2026-10-04",
+  "scope": "method 문서와 CPU 수치 참조",
+  "status": "PASS",
+  "production_model_qualification": "NOT_RUN",
+  "GPU_experiment": "NOT_RUN",
+  "dispatch": "NOT_SENT",
+  "checks": {
+    "strict_json": {
+      "status": "PASS",
+      "count": 4
+    },
+    "local_links": {
+      "status": "PASS",
+      "count": 15
+    },
+    "CPU_reference": {
+      "status": "PASS",
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "source_hashes_verified": 11,
+      "source": "reference/audit.json",
+      "limitation": "모델·production stop·rollback은 미실행"
+    },
+    "schema": {
+      "status": "PASS_REPORTED_BY_IMPLEMENTATION_REVIEW",
+      "metaschema": "Draft7",
+      "valid_event_fixtures": 12,
+      "malformed_fixtures_rejected": 6,
+      "scope": "구조 fixture 검사; 실제 run JSONL 관계 검사는 미실행"
+    },
+    "cross_document": {
+      "status": "PASS_AFTER_CORRECTION",
+      "resolved": [
+        "실현 share 분모0: null+ZERO_REALIZED_TOTAL",
+        "entry anchor native FP32 norm 고정",
+        "terminal KKT NO_BACKWARD_TERMINAL",
+        "ideal U와 실제 적용 weight 차이 구분"
+      ],
+      "review": "독립 교차검토"
+    },
+    "tex": {
+      "status": "STATIC_PASS",
+      "compile": "NOT_RUN_NO_TEX_ENGINE",
+      "scope": "brace/environment/math delimiter 및 label/reference 정적 검사"
+    }
+  }
+}

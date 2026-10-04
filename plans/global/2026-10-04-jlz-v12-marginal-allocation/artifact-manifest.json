@@ -1,0 +1,107 @@
+{
+  "schema": "JLZ_V12_METHOD_PACKAGE_V1",
+  "status": "DESIGN_AND_CPU_REFERENCE",
+  "base_commit": "871f0d66",
+  "files": [
+    {
+      "path": "docs/methods/jlz-v12-shared-budget.tex",
+      "bytes": 24796,
+      "sha256": "a074b620af3d14bfd97d39a8d5154d95f47b7d42cc91a96ba8a1d3f57927407c"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/README.md",
+      "bytes": 2558,
+      "sha256": "09379e3b00b4c65ffa347da06c43ad97a996ec90a1a5b916fc4e88785a63e295"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/contract.json",
+      "bytes": 9631,
+      "sha256": "9e6554e673192cb70125f54b959c94f96a6fe431392afbfb25c7cdd6cd9bfa5d"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/implementation-ko.md",
+      "bytes": 19717,
+      "sha256": "d88435fec2bf4ef49c9bf94602287c9f2010101c96686d7d481e52093b3d3417"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/method-ko.md",
+      "bytes": 21232,
+      "sha256": "dd6624a6fb21553e6ce87c92191ad0a50e0f31abf838284b483f411140688da0"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/README-ko.md",
+      "bytes": 6935,
+      "sha256": "5693c49ac7da9592eaacd5996edd1369c3ecfc8a4cc8ec2733d5dc8f73a3bbd7"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/__init__.py",
+      "bytes": 78,
+      "sha256": "353b6c343163aa43d3ab91eab3499b550f7eb8d1271f9ae86386bd7906b037e9"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.json",
+      "bytes": 7982,
+      "sha256": "446148fb7341d713c3f87edb4af3786b3486d4684f04b56fc6379c186f17d7f3"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/audit.py",
+      "bytes": 3445,
+      "sha256": "572ec2318fcb003beef36792db7d86a968891d5210edc70439021fd6684d8c3c"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/budget.py",
+      "bytes": 3126,
+      "sha256": "5a464643c63166c5c0302a36fe7f25d3d5735f82bbef29166934914a7e7b999f"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/kkt.py",
+      "bytes": 5514,
+      "sha256": "48731e783a5903c3eeaaac0b9d8db7e550f1697bc9b94dc43ae0168e935c350b"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/optimizer.py",
+      "bytes": 4217,
+      "sha256": "e6420db45cad00572f5ba258dd667939a2b6ba9f5eb0445ae4584d0a5ca1630e"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/requirements.txt",
+      "bytes": 27,
+      "sha256": "6e69ffe6f7841e5d8aea3f05a4bf77c60055d3b0717fcccbb31fd19647e07b7b"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_contract.py",
+      "bytes": 9300,
+      "sha256": "54123868c44de60671173d01d797425382a055b7970b5d8d1335b3d2e4bc6d5f"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_kkt.py",
+      "bytes": 6403,
+      "sha256": "3c52ebc802370c005d05a53008384f996459b6333c15b73e023681a7afa78113"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/test_original.py",
+      "bytes": 5420,
+      "sha256": "b6c68fce116d0fc953a498139aba0dfb8f3b48392ad44916dcb181b2d41c9234"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/reference/witnesses.py",
+      "bytes": 2854,
+      "sha256": "3feaea0c2fbd95043b689090def614f814726269924da5d61e80e7aca8048b31"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/source-and-decisions.json",
+      "bytes": 2920,
+      "sha256": "e4017aa20d11441c117be361dc146e9edd2e900ae0d84d6cb410bdc5d642a733"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/telemetry-schema.json",
+      "bytes": 51524,
+      "sha256": "ffbfbb03ac215d41b97e4ed7fc4eec2504bc84a60cd51a003de299103663630f"
+    },
+    {
+      "path": "plans/global/2026-10-04-jlz-v12-marginal-allocation/validation.json",
+      "bytes": 1411,
+      "sha256": "1c8eddf18f5eaeb6b58d9544350827143a5b4a4515ab7962bcfa135831cd7f49"
+    }
+  ]
+}

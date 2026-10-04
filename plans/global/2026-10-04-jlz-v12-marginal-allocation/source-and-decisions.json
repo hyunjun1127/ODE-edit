@@ -1,0 +1,74 @@
+{
+  "date_kst": "2026-10-04",
+  "request": "첨부 v12 기반 method 구체화",
+  "source_files": [
+    {
+      "name": "method-ko.md",
+      "path": "/mnt/raid5/janghj/.codex/attachments/ae1864b6-6ed5-45b7-9e0a-39db8ea10b94/method-ko.md",
+      "sha256": "bd433fb6287c9b7458327a59267842101033a5e72896fe002f7c64ac7a003297"
+    },
+    {
+      "name": "budget.py",
+      "path": "/mnt/raid5/janghj/.codex/attachments/ae1864b6-6ed5-45b7-9e0a-39db8ea10b94/budget.py",
+      "sha256": "4bd7a5f7306a21cec30fb3014f7fea544a83fcb4390a65346dd6b9e42fe7f2fc"
+    },
+    {
+      "name": "optimizer.py",
+      "path": "/mnt/raid5/janghj/.codex/attachments/ae1864b6-6ed5-45b7-9e0a-39db8ea10b94/optimizer.py",
+      "sha256": "9c053d3134a97d6cd3b8e1bf8eacdf7d694b8fc7d38332c7c7252de57f20b873"
+    },
+    {
+      "name": "test_ref.py",
+      "path": "/mnt/raid5/janghj/.codex/attachments/ae1864b6-6ed5-45b7-9e0a-39db8ea10b94/test_ref.py",
+      "sha256": "94fdc5cde397eddb5c5a4211f740ff622f2ee08f6594cc717350dda22b4f7073"
+    },
+    {
+      "name": "jlz-v12-method.patch",
+      "path": "/mnt/raid5/janghj/.codex/attachments/ae1864b6-6ed5-45b7-9e0a-39db8ea10b94/jlz-v12-method.patch",
+      "sha256": "c1036d006aa0d05b3cb0c9d38cb7421d6e3cda01a2103b5725f33ac512c7a5a0"
+    }
+  ],
+  "previous_review": {
+    "patch_vs_individual_files": "ALL_IDENTICAL",
+    "original_CPU_tests": 7,
+    "original_CPU_status": "PASS",
+    "limitation": "원본 KKT test는 EfficiencyAdam을 호출하지 않음. corrected reference에서 실제 optimizer 제한을 별도 확인."
+  },
+  "decisions": [
+    {
+      "topic": "optimizer",
+      "decision": "첨부 EfficiencyAdam 형태 유지, 유한횟수 근사로 명시",
+      "basis": "사용자 지정 v12의 구조를 보존하며 미검증 수렴 보장을 제거"
+    },
+    {
+      "topic": "epsilon",
+      "decision": "eps_u=a_star*eps_native",
+      "basis": "제한된 native-anchor 단일변수의 좌표변환 동등성"
+    },
+    {
+      "topic": "KKT",
+      "decision": "task gradient 및 vector alignment 기반, mu와tau_proj분리",
+      "basis": "nonsmooth norm과 예산 제약의 조건"
+    },
+    {
+      "topic": "writer",
+      "decision": "절대 local target 순차 추적, 실제 상층 key/hidden 갱신",
+      "basis": "사용자 v12 원안; 계획과 write 배분의 차이를 명시"
+    },
+    {
+      "topic": "terminal",
+      "decision": "stop-before-backward 보존, terminal KKT null",
+      "basis": "native 종료 의미와 불필요한 model backward 제거"
+    },
+    {
+      "topic": "claim",
+      "decision": "공유계획예산의 편집효율 배분, locality는 검증 대상",
+      "basis": "writer capacity/reference 비용을 계획에서 사용하지 않음"
+    },
+    {
+      "topic": "execution",
+      "decision": "이번 turn에서 제출·중단·GH전달 없음",
+      "basis": "현재 사용자 요청은 method 구체화"
+    }
+  ]
+}
