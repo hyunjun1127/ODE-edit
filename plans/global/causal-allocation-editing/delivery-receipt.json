@@ -1,0 +1,58 @@
+{
+  "schema": "EXPERIMENT_DELIVERY_RECEIPT",
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "recorded_at_utc": "2026-10-05T18:47:06.076829+00:00",
+  "source_commit": "82a33b98fd0c5d9623c9b95531f19e03519e96cf",
+  "source_branch": "codex/causal-allocation-editing-design",
+  "source_published": true,
+  "gh_delivery": {
+    "status": "ACKNOWLEDGED_AND_FORWARDED_TO_SH4",
+    "thread_id": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "turn_id": "01a10d5c-ab7b-7901-b419-8c22e6357fc2",
+    "method": "turn/start",
+    "message_sha256": "49f75fde408e348e4d3a612d1c0ae35e0cdaec9d5e869d331c7ab85b3a5f4e02",
+    "ack_text": "Causal Allocation Editing 실행 지시를 접수했습니다. 지정 commit의 현재 method·실험 계약을 확인해 게시하고, SH4에 직접 배정해 수락 ACK까지 받겠습니다. 새 task·Slurm·결과 이름에는 odeedit이나 버전 접미사를 넣지 않겠습니다.",
+    "acknowledgments": [
+      "Causal Allocation Editing 실행 지시를 접수했습니다. 지정 commit의 현재 method·실험 계약을 확인해 게시하고, SH4에 직접 배정해 수락 ACK까지 받겠습니다. 새 task·Slurm·결과 이름에는 `odeedit`이나 버전 접미사를 넣지 않겠습니다.\n",
+      "이번 정본은 actual all-token loss와 전체 층 간 gradient를 쓰는 단일 MEMIT형 arm입니다. 층별 `.75` cap과 proximal BB1을 적용하며, B1에서 계산한 λ가 유한한 양수로 정의되지 않으면 원자료와 실패 사유를 남기도록 하겠습니다. CPU 12+12개 검증은 재사용하고, SH4에는 필요한 최소 production 정합성 검사만 맡깁니다.\n"
+    ]
+  },
+  "sh4_delivery": {
+    "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+    "thread_id": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "turn_id": "01a10d62-92a8-71d2-a23b-253230888a53",
+    "owner_ack": "`USER-GH-SH4-CAUSAL-ALLOCATION-EDITING` SH4 담당 수락합니다. 현재 신규 구현 착수·미제출(`IMPLEMENTING_NOT_SUBMITTED`)이며, 동일 task의 기존 접수·등록 여부부터 확인하겠습니다. 정본과 실행 경계를 검증한 뒤 추가 승인 대기 없이 진행하겠습니다.\n",
+    "transport": "app-server direct over exact target-host Unix socket; same-stream turn/start and owner ACK",
+    "receipt_utc": "2026-10-05T18:45:59.190341+00:00",
+    "authority_main": "c60d7fee40ae145ca7ce5be9f4b7d55aaf19eca4",
+    "gh_receipt_commit": "104cfe18",
+    "gh_receipt_path": "audits/global/causal-allocation-editing-dispatch/direct-delivery.json",
+    "gh_receipt_sha256": "84a4109f1c10cd5694090aba7ac84387f82a783f9ccd9311cd4cde19e857bd08"
+  },
+  "slurm": {
+    "status": "NOT_SUBMITTED_AT_OWNER_ACK",
+    "job_ids": []
+  },
+  "scope": {
+    "server": "server4",
+    "executor": "SH4",
+    "writer": "MEMIT with existing H",
+    "arms": 1,
+    "edits": 2000,
+    "batch_size": 100,
+    "commits": 20
+  },
+  "meaning": "GH 직접 접수 및 SH4 직접 수락·구현 착수까지 확인했다. 최소 정합성 검증 뒤 동일2000-edit chain을 추가 승인 대기 없이 진행한다. GPU job 제출이나 실험 완료는 아직 확인되지 않았다.",
+  "gh_integration_observed": {
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/gh-causal-allocation-editing-dispatch",
+    "local_design_commit": "d9584593",
+    "evidence": "read-only git log/status after GH ACK; same design commit cherry-picked into GH worktree",
+    "remote_publication": "Authority commit published by GH before SH4 direct delivery; later ACK recording is separate.",
+    "authority_main": "c60d7fee40ae145ca7ce5be9f4b7d55aaf19eca4"
+  },
+  "status": "DELIVERED_GH_ACK_AND_SH4_OWNER_ACK",
+  "production_qualification": "NOT_OBSERVED_BY_GH",
+  "completion": "NOT_CLAIMED",
+  "no_further_stage_approval_required": true
+}
