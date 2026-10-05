@@ -3,14 +3,189 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\norm}[1]{\left\lVert #1\right\rVert}
-\title{JLZ v14: native writer-aware 공동 목표와 계산 효율화}
+\title{JLZ CD: 누적 간섭 비용을 고려한 공동 목표와 층별 배분}
 \author{Method 설계 및 구현 계약}
 \date{2026년 10월 5일}
 \begin{document}
 \maketitle
 
-\paragraph{현재 문서의 범위.}
-이 문서의 본문은 V14 B1 및 V13 2k 완료 결과를 반영한 V14 실행 교정 R2이다.
+\part*{현재 설계: CD-Q / CD-C와 SH4 2,000-edit 실행}
+\paragraph{권한과 범위.}
+사용자의 ``구체화 진행한 이후 GH에게 전달하자. sh4에게 task 진행하라고 해.
+2000edit 진행하자''를 실행 근거로 한다. GH가 SH4에 두 arm을 각각 BS100 $\times$20으로
+배정한다. B1은 같은 연속 실행의 첫 batch이며 성능에 따른 진급 심사가 아니다.
+현재 Server3 V14 실행은 별도다. 이 문서는 기존 편집기의 같은 파일을 갱신하며,
+아래 V14 및 V13 본문은 역사 기록으로 보존한다. 실행 계약은
+\texttt{../2026-10-05-jlz-cd-cumulative-allocation/}의
+\texttt{method-contract.json}, \texttt{implementation-contract.json},
+\texttt{experiment-2k.json}이다. Production 구현과 GPU 성능은 SH4의 후속 작업이다.
+
+\section{교정 대상과 유지하는 backbone}
+V13 CD는 현재 subject의 직접 변위는 거의 정확히 실현했으나 누적 locality와
+정답 ACC의 손실이 컸다. 다음 설계는 이 현상을 history 부재나 수치 조건수 폭주로
+단정하지 않는다. 목표는 정확히 실현할 local 목표를 정할 때 실제 write 부담과
+기존 변화와의 간섭을 함께 고려하는 것이다. 모든 후보 층을 유지하며 특정 층에
+배분이 집중되는 결과도 허용한다. Native 문장, subject lookup, NLL reduction,
+current$\Vert$entry KL, V13 norm 계수, EfficiencyAdam과 요청별 공유 예산 .75를 유지한다.
+새 reference, generation 문장, replay, L8 completion이나 tracking은 넣지 않는다.
+CD writer의 compatible exact / retained range-LS 계약과 actual 상층 key 재측정은 유지한다.
+
+\section{고정 entry CD 연산자의 축약}
+Batch의 실제 요청 수를 $B$, 층 $l$의 native injection row 수를 $m_l$이라 한다.
+$D_l\in\mathbb R^{d_l\times B}$는 requested residual, $E_l\in\mathbb R^{B\times m_l}$는
+명시적인 owner 행렬이다. 기존 CD row 가중치를
+$\Omega_{jj}=1/(B n_{\mathrm{owner}(j)})$로 두되 NLL의 native reduction과 구분한다.
+현재 entry key $K_l$, covariance와 history로
+\[
+ A_l=\lambda_{C,l}C_{0,l}+H_l=L_lL_l^\top,\qquad
+ X_l=L_l^{-1}K_l\Omega_l^{1/2}
+     =P_l\Sigma_lV_l^\top
+\]
+를 계산한다. 식의 SVD는 기존 CD의 retained 부분이며 cutoff를 새로 강화하지 않는다.
+Inverse는 triangular solve와 retained singular value 나눗셈으로 구현한다.
+\[
+ \mathcal B_l=E_l\Omega_l^{1/2}V_l\Sigma_l^{-1}P_l^\top L_l^{-1},\quad
+ \widehat U_l(D_l)=D_l\mathcal B_l,\quad
+ S_l=\mathcal B_lK_l,
+\]
+\[
+ F_l=\mathcal B_lA_l\mathcal B_l^\top,\qquad
+ \widehat Q_l(D_l)=\operatorname{tr}(D_lF_lD_l^\top).
+\]
+$F_l$은 $B\times B$이고 off-diagonal을 유지한다. 이를 대각선으로 치환하면
+요청 사이 항을 버린 다른 근사 method다. $K,A,\mathcal B,S,F$는 batch fit 동안 고정한다.
+
+Fit의 subject 주입은 $\widehat Y_l=D_lS_l$이다. Compatible target에서 값은
+$D_lE_l$과 같고, incompatible target에서는 CD가 실제로 만드는 retained response다.
+현재 $D$에서 값이 같다는 사실만으로 $S$의 Jacobian을 $E$로 바꾸지 않는다.
+모든 owner 방향에서 $S=E$가 검증된 경우만 direct-D fast path를 허용한다.
+이 계약은 실현되지 않는 방향이 virtual loss만 개선하는 허점을 막는다.
+Actual commit의 상층 key는 entry key와 다르므로 이를 완전한 actual 경로라고 부르지 않는다.
+
+\section{누적 간섭 비용과 해석}
+최초 모델의 selected weight를 $W_{\mathrm{initial},l}$로 보존하고,
+실제 FP32 committed weight로
+\[
+ \Delta_l=W_{\mathrm{entry},l}-W_{\mathrm{initial},l},\qquad
+ J_l=\Delta_l C_{0,l}\mathcal B_l^\top,\qquad
+ \widehat c_l(D_l)=\langle D_l,J_l\rangle_F
+\]
+를 만든다. 이상적 update의 누적합을 실제 weight 차이로 대체하지 않는다.
+두 arm의 비용은
+\[
+ \boxed{\Pi_l^{(\alpha)}(D_l)=\widehat Q_l(D_l)
+          +2\alpha\lambda_{C,l}|\widehat c_l(D_l)|},\qquad
+ \alpha=0\ (\mathrm{CD\!\!\;Q}),\quad \alpha=1\ (\mathrm{CD\!\!\;C}).
+\]
+절댓값은 층마다 취한 뒤 합한다. 부호 있는 교차항을 직접 더하면 과거 편집을
+취소하는 방향이 음의 비용을 얻을 수 있다. 절댓값은 이 보상을 제거하지만,
+정당한 후속 수정이나 유익한 상쇄도 벌할 수 있다.
+
+고정 $C_0$에서
+\[
+ g_l=\norm{(\Delta_l+\widehat U_l)C_{0,l}^{1/2}}_F^2
+      -\norm{\Delta_l C_{0,l}^{1/2}}_F^2
+\]
+이면 triangle inequality로
+\[
+ \lambda_{C,l}|g_l|
+ +\operatorname{tr}(\widehat U_lH_l\widehat U_l^\top)
+ \le \Pi_l^{(1)}
+\]
+이다. 이는 covariance 변위의 proxy bound이지 의미적 손상이나 ACC 보장이 아니다.
+$\Delta$에는 성공한 편집도 포함되고 한 층 안의 서로 다른 작용은 상쇄될 수 있다.
+B1은 $\Delta=0$이므로 두 arm의 목적과 후보 경로가 같아야 한다.
+
+\section{공동 최적화, 계수 및 종료 계약}
+V13의 $D_{lr}=a_{lr}u_{lr}$와 $\sum_l\norm{u_{lr}}_2\le .75$를 유지한다.
+\[
+ J_r^{\mathrm{native}}=\mathrm{NLL}_r(\widehat Y)
+ +\lambda_{\mathrm{KL}}\mathrm{KL}_r(\mathrm{current}\Vert\mathrm{entry})
+ +\frac{.5}{a_r^\star}\sum_l\norm{u_{lr}}_2,
+\]
+\[
+ J_{\mathrm{sum}}=\sum_rJ_r^{\mathrm{native}}
+       +\lambda_{\mathrm{alloc}}\sum_l\Pi_l^{(\alpha)}.
+\]
+Backward는 sum, 보고는 $J_{\mathrm{sum}}/B$로 하여 optimizer scale을 보존한다.
+고정 geometry의 추가 gradient는
+\[
+ \partial_{D_l}\Pi_l^{(\alpha)}
+ =2D_lF_l+2\alpha\lambda_{C,l}\operatorname{sign}(\widehat c_l)J_l,
+ \quad\operatorname{sign}(0)=0.
+\]
+$u$로 전달할 때 열별 anchor를 곱한다. Native norm gradient는 한 번만 더한다.
+모든 요청의 같은 candidate에서 native 및 비용 gradient를 합한 뒤 갱신한다.
+Projected response도 요청 사이 의존성을 만들 수 있으므로 request freeze를 남겨 두지 않는다.
+모든 $J_r^{\mathrm{native}}<.05$이면 공통 종료, 최대25평가/24갱신,
+마지막 평가 후보 채택 및 terminal backward 없음으로 고정한다.
+이 종료는 risk 목적의 stationary point 증명이 아니다. 기존 V13 독립 종료와의
+차이를 역사 비교에 명시하며 두 신규 arm에는 같은 제어를 적용한다.
+
+\paragraph{배분 계수의 사전 규칙.}
+B1의 첫 비영 후보(통상 c1)에서 $u$ 좌표의 전체 native norm gradient $g_n$과
+$\widehat Q$ gradient $g_Q$를 계산하여
+\[
+ \lambda_{\mathrm{alloc}}=\norm{g_n}_F/\norm{g_Q}_F
+\]
+로 한 번 정하고 두 arm 및 전체20 batch에서 고정한다. Ratio1은 비용 단위를 정하는
+명시적 관례이며 최적 강도의 보장이 아니다. Native norm .5는 바꾸지 않는다.
+c0에서 $D=0$, $\Delta=0$이라 비용 gradient는0이므로 첫 update에 별도 warm-up은 없다.
+추가 fit이나 평가 성능 sweep도 없다. 모두0이면 첫 비영 후보까지 pending하며,
+전 batch가 무편집일 때만 $\Delta=0$ 검증 후 다음 batch로 pending을 넘긴다.
+비영 실현에 $g_Q=0$ 또는 비유한 값이 나오면 기술 오류다. 임의 epsilon, 계수 clip,
+default 값으로 숨기지 않는다. Calibration 값과 source/candidate/geometry hash를 lock한다.
+
+\section{실행 비용과 actual commit}
+기존 initial capture를 재사용하므로 geometry 준비에 새 모델 forward는 필요 없다.
+Batch마다 entry QR--SVD를 층 수만큼 추가하고, 변하지 않는 A factor를 commit과 공유한다.
+첫 층 key의 동일성을 확인하면 해당 SVD도 재사용할 수 있어 현재5층은
+총5회에서9회 SVD가 된다. 상층 actual key 재측정과 solve는 유지한다.
+반복25회에는 actual builder 또는 solver backward를 추가하지 않는다.
+현재 B100, 5층의 $D F$는 후보당 약0.410 GFLOPs지만 entry의 $C_0\mathcal B^\top$
+준비는 약205.5 GFLOPs이므로 실제 FP64 시간과 전송량을 측정해야 한다.
+Selected $W_{\mathrm{initial}}$의 FP32 CPU 저장은 현재 profile에서 약1.094 GiB다.
+모든 factor를 보관하면 추가 CPU 메모리가 크므로 한 층씩 전송하고 memory cap을 지킨다.
+Batch size, 문장 수, layer 수와 차원은 adapter/owner metadata에서 받는다.
+Logical batch를 physical microbatch 때문에 분할하거나 rank cutoff를 바꾸지 않는다.
+
+Commit은 V13 CD의 target $D_lE_l$를 actual fresh key에서 푼다.
+예측 $\widehat Q,\widehat c,\Pi$와 실제 effective update의 값을 따로 기록한다.
+Gap 분해는 fit에서 실제 주입한 $\widehat Y$에 맞춰
+\[
+ h^{v,\mathrm{pre}}=h^{v,\mathrm{post}}-\widehat Y,\quad
+ b^{\mathrm{inh}}=h^{a,\mathrm{pre}}-h^{v,\mathrm{pre}},\quad
+ e^{\mathrm{fit}}=U_{\mathrm{eff}}k^a-\widehat Y
+\]
+로 정의한다. $U_{\mathrm{eff}}k^a-D_{\mathrm{owner}}$는 requested realization 오차로
+별도 기록한다. 단순 항등식 검산만으로 이 두 기준의 혼동을 탐지할 수 없다.
+
+\section{SH4 실험 설계와 판정 범위}
+두 arm을 각각 fresh W0/H0에서 고정 CounterFact prefix2000, BS100 $\times$20으로 실행한다.
+Model/tokenizer/C0/native prompt와 입력 순서는 V13 CD 자산과 동일성을 확인한다.
+FP32 model과 FP64 geometry를 유지한다. 자원은1 GPU/arm, task동시최대2 GPU이며
+최신 Server4 cap 안에서 순차 실행도 허용한다. 기존 무관 job을 취소하지 않는다.
+작은 CPU reference와2--4요청 GPU 정합 검증 후 성능 심사 없이20batch를 진행한다.
+B1은 두 arm의 동일성 확인과 사실 보고 시점이며 별도 reset 실험이 아니다.
+
+W0에는 전체2000을 평가하고, 각 batch는 current cohort pre/post를 평가한다.
+W5/W10/W15/W20에는 누적 prefix, 동일 first500과 birth-cohort retention을 집계한다.
+동일 endpoint의 문항은 중복 실행하지 않는다. RS/PS/NS 외에 TF token/prompt/strict ACC,
+new/true NLL, 기존 정답 lost/gained/retained를 남긴다. 현재 benchmark W20 분모는
+R2000/P4000/N20000이며 adapter로 실제 수를 검증한다.
+예측--실제 비용 차이, requested/realized share, 총변위, budget, 계수 lock,
+exclusive 시간과 peak memory를 함께 기록한다. 평가 문장을 fit/계수/정지에 쓰지 않는다.
+
+주 비교는 같은 runtime의 CD-Q 대 CD-C다. 기존 V13 CD/MD와 native baseline은
+동일성 표를 갖춘 historical reference이며 새 baseline 제출은 이 지시에 포함하지 않는다.
+NS만 오르고 PS/P strict가 크게 낮아지면 단순 강도--보존 이동일 수 있다.
+배분 개선 주장은 품질 유지, 고정 cohort 누적 손실 감소, 실제 비용과 배분 대응이
+함께 관측될 때 검토한다. SH4는 수치와 사실만 보고하고 GH가 해석한다.
+
+\clearpage
+\part*{역사 기록: 기존 V14 실행 교정과 V13 설계}
+\paragraph{V14 기록 당시의 범위.}
+아래 기록은 V14 B1 및 V13 2k 완료 결과를 반영한 V14 실행 교정 R2이다.
 기존 열린 편집기와 파일 경로를 유지하며 V13 원 설계는 뒤의 역사 부록에 보존한다.
 기준 method는 V14의 native ridge와 공동 requested-residual 최적화다.
 기존 .75는 실행 동등성 검증의 기준이며, 최신 사용자 선택으로 다음 실험에는

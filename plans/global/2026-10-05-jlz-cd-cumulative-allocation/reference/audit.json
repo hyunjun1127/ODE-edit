@@ -1,0 +1,45 @@
+{
+  "dtype": "float64",
+  "elapsed_seconds": 0.06951283104717731,
+  "errors": 0,
+  "failures": 0,
+  "limits": [
+    "No production tolerances or allocation-price calibration prescribed.",
+    "No semantic locality, accuracy, planner convergence, or fresh-key commit parity certified.",
+    "Fixed entry geometry; actual sequential upper-layer key drift remains outside these identities.",
+    "Logical batch size changes geometry; microbatch accumulation equality is not logical-batch invariance.",
+    "B1 arm identity requires zero cumulative entry displacement and otherwise identical inputs."
+  ],
+  "measurements": {
+    "absolute_drift_upper_bound_slack": 0.0,
+    "dense_Q_absolute_error": 2.2737367544323206e-13,
+    "dense_gradient_max_absolute_error": 2.842170943040401e-14,
+    "finite_difference_max_absolute_error": 1.5866254976515393e-09,
+    "incorrect_owner_only_gradient_error_norm": 1.3151378445934039,
+    "logical_batch_ranks": {
+      "1": 3,
+      "2": 5,
+      "3": 6,
+      "4": 10
+    },
+    "microbatch_gradient_max_errors": {
+      "1": 3.3306690738754696e-16,
+      "2": 2.220446049250313e-16,
+      "4": 2.220446049250313e-16
+    },
+    "rank_deficient_incompatible_target_relative_error": 0.5960342271522594,
+    "reset_penalty_positive": 175.6147277276416
+  },
+  "numpy": "2.2.6",
+  "python": "3.12.0",
+  "schema": "JLZ_CD_CUMULATIVE_ALLOCATION_CPU_REFERENCE_V1",
+  "scope": "synthetic FP64 algebra and accumulation contracts only; no model, dataset, GPU, or production qualification",
+  "seed": 20261005,
+  "source_sha256": {
+    "geometry.py": "f9d4193477d432b89cc4a5689bf7a6cec0868c54532dd9ebe8cbb33a8a56f298",
+    "run_audit.py": "64cd0764418b83a70041d68016156863e42cb264c3d7d52f1b3287ce69ca7661",
+    "test_reference.py": "18da05ee516528ad99ad85d122d44fabb9397a5f2eec5ede763b7b1ae48a2cea"
+  },
+  "status": "PASS",
+  "tests_run": 11
+}
