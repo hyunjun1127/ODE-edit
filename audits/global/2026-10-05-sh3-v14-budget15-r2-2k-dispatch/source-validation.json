@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "source_adopted": "single778ddbd322344855dab3b6a828e52211e4fb6b29 -> GH1de89eafbe30b50322b5f0b6f473fa88f0b7b727",
+  "excluded_branch_history": true,
+  "source_exact15": "PASS",
+  "manifest_member_size_SHA_checks": 27,
+  "FULL_READ": [
+    "experiment-budget15-2k-server3.json",
+    "method-contract.json",
+    "execution-optimization-r2.json",
+    "runtime-contract.json",
+    "comparison-design.json",
+    "method.tex currentV14 front and preservedV13appendix",
+    "source/manifest/provenance/validation/reference CPU receipts"
+  ],
+  "CPU_reference_rerun": {
+    "reviewer": "/root/v14_budget15_cpu_reference_review",
+    "command": "PYTHONDONTWRITEBYTECODE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python: wrap15 test_runtime_ref test_* in unittest.FunctionTestCase; do not call main()",
+    "passed": 15,
+    "failed": 0,
+    "seconds": 0.079,
+    "Python": "3.12.0",
+    "NumPy": "2.2.6",
+    "original_receipt_NumPy": "2.5.3",
+    "audit_original_SHA_unchanged": "b672620fbdd62fa6bdee4a19157c59e3030570d1a143231582fce9ac02b6f741",
+    "no_model_GPU_or_files_write": true,
+    "limitations": [
+      "FP64 NumPy algebra/toy suppliedrowgradient schedulers; actualLM/cast/GPU/factorcache/speed notqualified.",
+      "No new1.5/.75 cappedprojector implementation/tests inCPUreference; mandatorySH3work.",
+      "R3 fixture nonzeroR1 doesnotprove zero-reentry/architectureindependence.",
+      "R4 exactthreshold/negativeKL checks exist; propagatedtolguard/originalreferenceboundaryfallback remainsSH3work."
+    ]
+  },
+  "production_audit": {
+    "reviewer": "/root/v14_budget15_production_port_review",
+    "method": "gitshow frozen2ab04d0b; read-only",
+    "findings": [
+      "Original coupledwholeB corepreserved; noV12independentfreeze/trackingwriter reuse.",
+      "EfficiencyAdam default.75 andcollector.750001 musttask-locallyreplace withcorrectcappedprojector+bothconstraintchecks.",
+      "OldB1_ONLY,prefix100,coldfitcomparison,noB2/SH4resource/predecessor locks neednew20batchsource/config/statecounter/identityport.",
+      "R2fullGPbeforetransposeVJP; R3fullfirstRgradient/zeroreentry; R4explicitcompleteowner notzero-filledpartialF.",
+      "Terminalfullcapture masked_bases and acceptedexactweightcommit/Honce remain.",
+      "Explicitmetadata replaces fixedmodulo rowowner assumptions; currentLlama notuniversalclaims."
+    ]
+  },
+  "fresh_GH_resource_snapshot": {
+    "host": "ubuntu",
+    "user": "janghj",
+    "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+    "owned_squeue_empty": true,
+    "no_scientific_results_polled": true,
+    "no_Slurm_write": true,
+    "SH3_must_recheck_at_submit": true
+  },
+  "production_R2_and_new_projection": "NOT_IMPLEMENTED_GH_DISPATCH_IS_NOT_IMPLEMENTATION",
+  "actual_model_or_GPU": "NOT_RUN_BY_GH",
+  "TeX_PDF": "NOT_ESTABLISHED; source/userexisting environmentcompilerfailure retained, no inventedPDF",
+  "source_members": [
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/artifact-manifest.json",
+      "bytes": 1770,
+      "sha256": "5e6501ac8ee9a1ac8666845a0534981b03c1a7cf35e70878045c85ae99be7118"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 33866,
+      "sha256": "2df017fc568aeee37141eea8f8ee4c1e89feea130a91afe8aaf0adae37248152"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/provenance.json",
+      "bytes": 1289,
+      "sha256": "116126b3c92b65f84a14c9d62668d9f7ad8df55dbccc5aa0857f45f413c82444"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/validation.json",
+      "bytes": 2242,
+      "sha256": "4115a5b239953d39c009427fd761120f64fd1ba5d9946ea17f47b84f1b855428"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/artifact-manifest.json",
+      "bytes": 2659,
+      "sha256": "12cb242cccf9f642d0c19ae33af14e2090213aacff0a100e9d1e27849c3760fc"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/comparison-design.json",
+      "bytes": 4439,
+      "sha256": "222c741846baa9583949c7fa7058e21539e9093857d248b25fefcf598b29eaf9"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/execution-optimization-r2.json",
+      "bytes": 14144,
+      "sha256": "823cdf93e7624ee13950b8e5f6e70bd42cb1e329f02802b33529d7431569241c"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/experiment-budget15-2k-server3.json",
+      "bytes": 7820,
+      "sha256": "29be997c5a33bc6c44ecb35514f913e0e10eb0f365e9fe53f276741f382843ca"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/method-contract.json",
+      "bytes": 11599,
+      "sha256": "5d9f8d5b11ad5e2fc3d696011bcdebf2d9b1b5dd0c7318e92b9ae9bc95675d68"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/provenance.json",
+      "bytes": 1425,
+      "sha256": "f3c3a79f67aba268f3d2e4f8be061c7b369c4515c8af5a8203d9625ecb1ab06e"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/runtime-audit.json",
+      "bytes": 8114,
+      "sha256": "b672620fbdd62fa6bdee4a19157c59e3030570d1a143231582fce9ac02b6f741"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/runtime_ref.py",
+      "bytes": 21956,
+      "sha256": "029c12f98a20e8ab3d2f643033ad72ef1036ab1149cec70c59c3d50118d10c78"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/reference/test_runtime_ref.py",
+      "bytes": 24179,
+      "sha256": "c76dd6b03c07a912507c502c627133e30bf26633b3f7dea2735a6718dd37b7cb"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/runtime-contract.json",
+      "bytes": 9344,
+      "sha256": "eba62fc40eac527ab74dcc3ebe5e425d63563e6382524c1a5448ec9284647c3d"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v14-native-writer-aware/validation.json",
+      "bytes": 2400,
+      "sha256": "79952ce27edc8a4edeb143b49849e640f095a1953eb9a1028dee92f6023f83eb"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "task_id": "jlz-v14-budget15-r2-server3-2k-20261005-v1",
+  "owner": "head-server3",
+  "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-05-sh3-jlz-v14-budget15-r2-2k.json",
+  "canonical_execution": "plans/global/2026-10-05-jlz-v14-native-writer-aware/experiment-budget15-2k-server3.json",
+  "arm": "V14_BUDGET15_R2",
+  "edits": 2000,
+  "B": 100,
+  "batches": 20,
+  "task_GPU_cap": 1,
+  "save_checkpoints": false,
+  "jobs": [],
+  "report": "experiment-reports/servers/server3/jlz-v14-budget15-r2-bs100x20/report-ko.md"
+}

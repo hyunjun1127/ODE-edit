@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "task_id": "jlz-v14-budget15-r2-server3-2k-20261005-v1",
+  "owner": "SH3",
+  "user_quotes": [
+    "공유예산 확대까지 진행해서 실험하는 것으로 하자 server3에게 task 진행시키자",
+    "2000edit까지 진행하는 것으로 전달해"
+  ],
+  "scope": "newV14shared1.5/local.75 singleBS100x20/coldchainqualification/main/collector only",
+  "other_task_STOP_unchanged": true,
+  "existing_job_cancel": false,
+  "save_checkpoints": false,
+  "recurring_monitor": false,
+  "envelope": "messages/head/2026-10-05-sh3-jlz-v14-budget15-r2-2k.json"
+}
