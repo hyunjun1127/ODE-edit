@@ -1,0 +1,10 @@
+{
+  "nonce": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "status": "EXACT_USER_SCOPE_EXCEPTION",
+  "helper": "scripts/check-agent-access.sh --staged",
+  "rejected_path": "runs/causal-allocation-editing-b1/submission.json",
+  "authority": "messages/head/causal-allocation-editing-b1.json allowed_write_paths: runs/causal-allocation-editing-b1/**; review/publication and repo-guard exception expressly authorized",
+  "message_ko": "기존 guard가 agent suffix 없는 run filename을 거부했다. 사용자가 지정한 exact task namespace의 compact submission failure receipt 한 파일만 명시 예외로 기록한다. 다른 staged 파일은 guard 허용, 공유 helper/전역 정책 변경0.",
+  "shared_helper_changed": false,
+  "raw_tensor_prompt_log_in_Git": false
+}

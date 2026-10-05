@@ -12,6 +12,7 @@ from project.run_scripts.jlz_realized_writer_sequential.review_completed import 
     Reader,validate_rows as independent_rows,reduce_rows,compare_summary,paired,harmonic,quantiles,active_flags)
 from scripts.fixed_counterfact import load_prefix
 from . import *
+from .profile import execution
 
 def finite(value,label='NONFINITE_REVIEW_SCALAR'):
     if isinstance(value,float):require(math.isfinite(value),label)
@@ -59,7 +60,7 @@ def endpoint(reader,folder,identities,ids,name,state_value,seen):
     require(all(r['active_at_endpoint']==flags[r['case_id']] for r in rows),'SEEN_PREFIX_ACTIVE_METADATA')
     return dict(rows=rows,metrics=result)
 
-def source_cost(attempt):
+def source_cost(attempt,task=TASK):
     """One exact task parent accounting lookup, GPU seconds counted once."""
     receipt=attempt/'submission.json'
     if not receipt.exists():return dict(status='NOT_AVAILABLE',reason='NO_LOCAL_SUBMISSION_RECEIPT')
@@ -73,7 +74,7 @@ def source_cost(attempt):
     for line in result.stdout.splitlines():
         fields=line.split('|')
         if len(fields)<8 or fields[0] not in set(map(str,ids)):continue
-        require(fields[1]==pwd.getpwuid(os.getuid()).pw_name and fields[2]==TASK,'ACCOUNTING_TASK_OWNER_IDENTITY')
+        require(fields[1]==pwd.getpwuid(os.getuid()).pw_name and fields[2]==task,'ACCOUNTING_TASK_OWNER_IDENTITY')
         tres=dict(item.split('=',1) for item in fields[5].split(',') if '=' in item)
         gpu=int(tres.get('gres/gpu',0));elapsed=int(fields[4] or 0)
         parents.append(dict(job=int(fields[0]),state=fields[3],elapsed_seconds=elapsed,GPUs=gpu,
@@ -115,7 +116,7 @@ def batch_diagnostics(reader,folder,commit):
     if trace.exists():
         for line in reader.bytes(trace).decode().splitlines():
             event=json.loads(line);finite(event)
-            require(event['experiment']==TASK and event['batch']==commit['batch'],'BATCH_EVENT_NAMESPACE')
+            require(event['experiment']==commit.get('experiment',TASK) and event['batch']==commit['batch'],'BATCH_EVENT_NAMESPACE')
             kind=event['event'];event_counts[kind]=event_counts.get(kind,0)+1
             payload=event['payload']
             if kind=='candidate':candidate_ids.append(payload['candidate'])
@@ -142,16 +143,19 @@ def _collect(attempt,out=None,accounting=True):
     attempt=Path(attempt).resolve();out=Path(out).resolve() if out else attempt/'collector'
     out.mkdir(parents=True,exist_ok=False);reader=Reader();warnings=[];metrics=[];pairs=[]
     c=reader.json(attempt/'config.json');lock=reader.json(attempt/'execution.lock.json')
-    require(c['task_id']==TASK and c['instruction_id']==NONCE==lock['instruction_id'],'COLLECTOR_TASK_AUTHORITY')
+    profile=execution(c);count_batches=profile['batches'];count_requests=profile['requests'];task=profile['task']
+    require(c['task_id']==task and c['instruction_id']==profile['nonce']==lock['instruction_id'],'COLLECTOR_TASK_AUTHORITY')
     require(sha(attempt/'config.json')==lock['config_sha256'],'COLLECTOR_CONFIG_LOCK')
-    records=load_prefix(Path(c['stream']).parent,2000);ids=[r['case_id'] for r in records]
-    require(digest(ids)==c['ordered_ids_sha256']==ORDERED_SHA,'COLLECTOR_INPUT_ORDER')
+    records=load_prefix(Path(c['stream']).parent,count_requests);ids=[r['case_id'] for r in records]
+    require(digest(ids)==c['ordered_ids_sha256'],'COLLECTOR_INPUT_ORDER')
+    if count_requests==2000:require(c['ordered_ids_sha256']==ORDERED_SHA,'PRODUCTION_ORDER')
     identities=reader.json(verify(c['observer_identity']))['rows'];main=attempt/'main';commits=[]
+    if count_batches==1:require(not (main/'batch-02').exists(),'B1_NO_SECOND_ENTRY')
     w0=endpoint(reader,main/'W0',identities,ids,'W0',c['cold_W0_H0'],records)
-    if w0:metrics.append(dict(endpoint='W0',requests=2000,metrics=w0['metrics']))
+    if w0:metrics.append(dict(endpoint='W0',requests=count_requests,metrics=w0['metrics']))
     atwrite=[];prefix_rows={};pricehash=None;price_receipt=None;realizations=[];costs=[]
     counts=dict(evaluations=0,accepted_updates=0,full_gradients=0,rejected_trials=0)
-    for number in range(1,21):
+    for number in range(1,count_batches+1):
         folder=main/f'batch-{number:02d}'
         if not (folder/'commit.json').exists():break
         commit=reader.json(folder/'commit.json');entry=reader.json(folder/'entry.json');pack=c['packs'][number-1]
@@ -195,7 +199,7 @@ def _collect(attempt,out=None,accounting=True):
             require(commit['price_sha256']==pricehash==sha(attempt/'price.json'),'IMMUTABLE_PRICE_20BATCH')
             require(commit['price']==price_receipt['lambda_Q'],'ONE_IMMUTABLE_PRICE_VALUE')
         pre=endpoint(reader,folder/'pre',identities,birth,f'B{number}_PRE',commit['before'],seen)
-        selected=seen if number in MILESTONES else current;selected_ids=[r['case_id'] for r in selected]
+        selected=seen if number in profile['milestones'] else current;selected_ids=[r['case_id'] for r in selected]
         post=endpoint(reader,folder/'post',identities,selected_ids,f'W{number}',commit['after'],seen)
         require(pre is not None and post is not None,'COMMITTED_OBSERVATION_MISSING')
         compare_summary(pre['metrics'],commit['pre']);compare_summary(post['metrics'],commit['post'])
@@ -203,25 +207,26 @@ def _collect(attempt,out=None,accounting=True):
         metrics.extend([dict(endpoint=f'B{number}_PRE',requests=100,metrics=pre['metrics']),
                         dict(endpoint=f'W{number}_CURRENT',requests=100,metrics=reduce_rows(birthrows))])
         atwrite.extend(birthrows);pairs.append(dict(from_endpoint=f'B{number}_PRE',to_endpoint=f'W{number}_CURRENT',paired=paired(pre['rows'],birthrows)))
-        if number in MILESTONES:
+        if number in profile['milestones']:
             prefix_rows[number]=post['rows'];metrics.append(dict(endpoint=f'W{number}_ALL_SEEN',requests=len(seen),metrics=post['metrics']))
-            metrics.append(dict(endpoint=f'W{number}_FIRST500',requests=500,metrics=reduce_rows(
-                [r for r in post['rows'] if r['case_id'] in set(ids[:500])])) )
+            if count_requests>=500:
+                metrics.append(dict(endpoint=f'W{number}_FIRST500',requests=500,metrics=reduce_rows(
+                    [r for r in post['rows'] if r['case_id'] in set(ids[:500])])) )
             pairs.append(dict(from_endpoint='AT_WRITE',to_endpoint=f'W{number}',paired=paired(atwrite,post['rows'])))
             if w0:pairs.append(dict(from_endpoint='W0',to_endpoint=f'W{number}',paired=paired([r for r in w0['rows'] if r['case_id'] in set(ids[:number*100])],post['rows'])))
         commits.append(commit)
     terminal=reader.json(main/'terminal.json') if (main/'terminal.json').exists() else None
-    complete=len(commits)==20 and 20 in prefix_rows and terminal is not None and terminal['status']=='W20_COMPLETE'
-    if len(commits)==20:
-        require({kind:v['denominator'] for kind,v in reduce_rows(prefix_rows[20]).items()}==dict(R=2000,P=4000,N=20000),'W20_EXACT_DENOMINATORS')
-    if not complete:warnings.append('PARTIAL_OR_TECHNICAL_BLOCKED: no absent endpoint is imputed or called W20 complete.')
-    accounting_record=source_cost(attempt) if accounting else dict(status='NOT_REQUESTED_CPU_FIXTURE')
+    complete=len(commits)==count_batches and count_batches in prefix_rows and terminal is not None and terminal['status']==profile['status']
+    if len(commits)==count_batches:
+        require({kind:v['denominator'] for kind,v in reduce_rows(prefix_rows[count_batches]).items()}==dict(R=count_requests,P=2*count_requests,N=10*count_requests),'PROFILE_EXACT_DENOMINATORS')
+    if not complete:warnings.append('PARTIAL_OR_TECHNICAL_BLOCKED: no absent endpoint is imputed or called complete.')
+    accounting_record=source_cost(attempt,task) if accounting else dict(status='NOT_REQUESTED_CPU_FIXTURE')
     first_error=reader.json(main/'first-error.json') if (main/'first-error.json').exists() else None
     qualification_terminal=reader.json(attempt/'qualification-runtime/terminal.json') if (attempt/'qualification-runtime/terminal.json').exists() else None
     qualification_error=reader.json(attempt/'qualification-runtime/first-error.json') if (attempt/'qualification-runtime/first-error.json').exists() else None
-    result=dict(experiment=TASK,status='W20_COMPLETE' if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',
+    result=dict(experiment=task,status=profile['status'] if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',
         source=lock['source_commit'],config_sha256=lock['config_sha256'],commits=len(commits),requests=100*len(commits),
-        expected=dict(commits=20,requests=2000,joins=19,history_appends=100),
+        expected=dict(commits=count_batches,requests=count_requests,joins=count_batches-1,history_appends=5*count_batches),
         actual=dict(joins=max(0,len(commits)-1),history_appends=sum(r['history_appends'] for r in commits)),
         counters=counts,price_sha256=pricehash,calibration=price_receipt,metrics=metrics,paired=pairs,warnings=warnings,
         terminal=terminal,first_technical_error=first_error,qualification_terminal=qualification_terminal,
@@ -244,8 +249,8 @@ def _collect(attempt,out=None,accounting=True):
             writer=csv.DictWriter(f,fieldnames=list(table[0]));writer.writeheader();writer.writerows(table)
         else:f.write('endpoint,kind,numerator,denominator\n')
     lines=['# Causal Allocation Editing 사실 보고','',f'- 상태: {result["status"]}',
-        f'- 실행 source: `{lock["source_commit"]}`',f'- 검산된 commit: {len(commits)}/20, 요청: {100*len(commits)}/2000',
-        f'- H append: {result["actual"]["history_appends"]}/100; own state join: {result["actual"]["joins"]}/19',
+        f'- 실행 source: `{lock["source_commit"]}`',f'- 검산된 commit: {len(commits)}/{count_batches}, 요청: {100*len(commits)}/{count_requests}',
+        f'- H append: {result["actual"]["history_appends"]}/{5*count_batches}; own state join: {result["actual"]["joins"]}/{count_batches-1}',
         f'- 후보/accepted update/full gradient: {counts["evaluations"]}/{counts["accepted_updates"]}/{counts["full_gradients"]}',
         '- CPU 원행 재집계이며 새 모델/GPU 평가가 아니다. noCP, exact resume 불가.',
         '- Reference/calibration 및 main/rejected/replay cost는 parent allocated GPU 시간과 중복 합산하지 않는다.',
@@ -275,9 +280,9 @@ def _collect(attempt,out=None,accounting=True):
         '- 원 raw/source/log는 local KEEP, Git에는 compact 보고·표·manifest만. NO_BROADCAST_NOT_REQUIRED.'])
     report=out/'report-ko.md';report.write_text('\n'.join(lines)+'\n')
     inventory=[member(p) for p in sorted(out.iterdir()) if p.is_file()]
-    write(out/'inventory.json',dict(experiment=TASK,files=inventory,raw_local_KEEP=True,reader_files=reader.files))
+    write(out/'inventory.json',dict(experiment=task,files=inventory,raw_local_KEEP=True,reader_files=reader.files))
     # Report and inventory precede terminal publication.
-    write(out/'terminal.json',dict(experiment=TASK,status=result['status'],report=member(report),
+    write(out/'terminal.json',dict(experiment=task,status=result['status'],report=member(report),
         inventory=member(out/'inventory.json'),source=lock['source_commit'],scientific_coverage_complete=complete))
     return result
 
@@ -288,19 +293,22 @@ def collect(attempt,out=None,accounting=True):
     try:return _collect(attempt,out,accounting)
     except Exception as error:
         out.mkdir(parents=True,exist_ok=True)
-        result=dict(experiment=TASK,status='CPU_REVIEW_TECHNICAL_BLOCKED',scientific_coverage_complete=False,
+        task=TASK
+        try:task=json.loads((attempt/'config.json').read_text())['task_id']
+        except (OSError,ValueError,KeyError):pass
+        result=dict(experiment=task,status='CPU_REVIEW_TECHNICAL_BLOCKED',scientific_coverage_complete=False,
             original_KEEP=True,error_type=type(error).__name__,error=str(error),
             traceback=traceback.format_exc(),no_model_or_GPU_replay=True,automatic_retry=False,
             no_missing_endpoint_imputation=True)
         write(out/'reducer-first-error.json',result)
         report=out/'report-ko.md'
         report.write_text('# Causal Allocation Editing CPU 검산 기술 차단\n\n'
-            '저장 산출물의 독립 CPU 검산이 기술 오류로 차단됐다. 실험 완료 또는 W20 coverage를 인증하지 않는다.\n\n'
+            '저장 산출물의 독립 CPU 검산이 기술 오류로 차단됐다. 실험 완료 또는 해당 horizon coverage를 인증하지 않는다.\n\n'
             f'- 최초 reducer 오류: {type(error).__name__}: {error}\n'
             '- 원 source/raw/log와 이미 작성된 검산 산출물은 KEEP. 새 GPU/모델 평가·자동 retry 없음.\n')
         inventory=[member(p) for p in sorted(out.iterdir()) if p.is_file() and p.name not in ('inventory.json','terminal.json')]
-        write(out/'inventory.json',dict(experiment=TASK,files=inventory,raw_local_KEEP=True))
-        write(out/'terminal.json',dict(experiment=TASK,status=result['status'],report=member(report),
+        write(out/'inventory.json',dict(experiment=task,files=inventory,raw_local_KEEP=True))
+        write(out/'terminal.json',dict(experiment=task,status=result['status'],report=member(report),
             inventory=member(out/'inventory.json'),scientific_coverage_complete=False))
         return result
 

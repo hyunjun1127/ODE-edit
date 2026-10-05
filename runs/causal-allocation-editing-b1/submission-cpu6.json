@@ -1,0 +1,86 @@
+{
+  "GPU_qualification": "NOT_OBSERVED",
+  "W1": "NOT_OBSERVED",
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "initial_snapshot": "59202|causal-allocation-editing-b1|PENDING|N/A||None\n59201|causal-allocation-editing-b1|PENDING|gres/gpu:1||None",
+  "jobs": {
+    "collector": "59202",
+    "main": "59201"
+  },
+  "lock": {
+    "bytes": 88077,
+    "inode": 121705207,
+    "mtime_ns": 1791230145710428700,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/causal-allocation-editing-b1/attempt-cpu6/execution.lock.json",
+    "sha256": "356398bfc09ed9efcac1223b8759c8ce6ffbe3dac9cfb550838cfd5e5a2bbd41"
+  },
+  "monitoring_active": false,
+  "nonce": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "resources": {
+    "ETA": "NOT_MEASURED;8h request ceiling only",
+    "GPU_peak_plan_GiB": {
+      "factor_five": 7.657,
+      "memory_status": "ESTIMATE_NOT_GPU_PASS",
+      "model": 30,
+      "selected_payload": 1.094,
+      "stage_activation_and_head": "bounded one native-owner graph"
+    },
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "free_bytes": 416348643328,
+    "free_inodes": 443800185,
+    "gpu": 1,
+    "hard_host_mib": 60416,
+    "host_mib": 59392,
+    "host_peak_plan_GiB": {
+      "CPU_raw_A_five": 7.657,
+      "CPU_selected_payload_and_rollback": 2.188,
+      "admission": "Separate load and execution phases; not asserting model-load40 and all execution arrays coexist",
+      "execution_fixed_H_and_rollback": 7.657,
+      "factor_scratch_one_layer": 1.532,
+      "fixed_execution_sum_before_boundaries": 27.034,
+      "limit": 58,
+      "load_phase_bound": 40,
+      "python_native_and_head_scratch": 8,
+      "staged_boundaries": "CPU full native owner padded-token estimate; not a measured GPU/RSS peak",
+      "token_based_execution_extra": {
+        "current_and_trial_payload": 8.074951171875,
+        "entry_prefix": 0.9084320068359375,
+        "reverse_head": 0.201873779296875,
+        "reverse_old_and_new_boundaries": 1.816864013671875
+      },
+      "token_based_execution_peak_estimate": 38.036120971679686
+    },
+    "node": "server2",
+    "output_plan_GiB": {
+      "margin": 7,
+      "scalar_metrics_events": 3,
+      "source_atomic": 2
+    },
+    "partition": "gpu",
+    "project_cap": 2,
+    "qos": "lab_gpu_s2",
+    "qualification_wall": "08:00:00",
+    "reserve_bytes": 12884901888,
+    "startup_free_bytes_min": 6442450944,
+    "task_cap": 1,
+    "wall": "08:00:00"
+  },
+  "source": "f3fd58bb5a98d327ec40a6d23c08d0c424618c39",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "causal-allocation-editing-b1",
+  "host": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "held_inspection": "PASS",
+  "released": true,
+  "collector_dependency": "afterany:59201",
+  "reused_CPU_tests": 68,
+  "new_resource_tests": 2,
+  "other_jobs_modified": 0,
+  "resource_authority": "90b213b482c4206872c50e770c1f191b5e382c10",
+  "prior_rejection_preserved": "audits/servers/server2/causal-allocation-editing-b1/submission-rejection.json",
+  "output": "/mnt/raid5/janghj/ODE-edit/local/causal-allocation-editing-b1/attempt-cpu6"
+}
