@@ -1,0 +1,66 @@
+{
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/cpu-tests-r1.json",
+      "bytes": 6345,
+      "sha256": "4f7fb677cc2467c00b4f555fda58ec01fcbe43616d6772bce8ba6ba9786c120d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/cpu-tests-r2.json",
+      "bytes": 6344,
+      "sha256": "06242e7a2f527adf6f5f3225377d7eaab461ceeb918fc64c9da6afe6ed2c8721"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/cpu-tests-r3.json",
+      "bytes": 6344,
+      "sha256": "897d691ea4124c4b5a519fbe06196ced4d2f436b8ce81ca0bf8c70c4ff5b06dc"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/execution-binding.json",
+      "bytes": 12858,
+      "sha256": "4be284966e0d36f14819bb58082ad64fb572e81057ffc28518424ae67ce100bf"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/full-read.json",
+      "bytes": 25359,
+      "sha256": "d239c9290558e1951cca33d922fa82296aa38d525bbaa3bdbe1572213b5b3634"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/held-inspection.json",
+      "bytes": 8841,
+      "sha256": "e5d08134f69cda6ea693238be3c40722ddbf4d1fa3573b7b9db3397510364152"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/preflight-summary.json",
+      "bytes": 5321,
+      "sha256": "3fb02f79c69bc02f6ae09746b6fdedc62d15d880fbd000413c691537cbc13771"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/released-collector.json",
+      "bytes": 48,
+      "sha256": "13ac6c74bd64f98cab91d45dfff94b965a0b0aec755a1a143ce1e55031e1b95a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/released-main.json",
+      "bytes": 48,
+      "sha256": "123e6e3c29fcb916623b7a986c454613392f7e629e56c5acf0cc14e672b0ed6d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/resource-snapshot.json",
+      "bytes": 4213,
+      "sha256": "7c2b6f150fa9b04def36cde9be65d21468e947cf086288ff32f18b84fb6c3190"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/audits/servers/server3/jlz-v14-budget15-r2-server3-2k-20261005-v1/submission.json",
+      "bytes": 2229,
+      "sha256": "4be3ea78bfea23cdd5bf81065405aca4699775cfe448cc5d7e157242902bf59e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/experiment-reports/servers/server3/jlz-v14-budget15-r2-bs100x20/report-ko.md",
+      "bytes": 3017,
+      "sha256": "6d5d0deb680afbb56b931e262a51e1b98a87ae423d93ae9433674d4bc2fc8c77"
+    }
+  ],
+  "raw_local_ONLY": true,
+  "source_namespace": "project/run_scripts/jlz_native_writer_aware"
+}

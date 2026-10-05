@@ -9,5 +9,34 @@
   "actual_GPU": "NOT_RUN",
   "authority": "85320c8534e6cc37d2b32d98687cac84ec3d741a",
   "source_reference": "2ab04d0b",
-  "timestamp": "2026-10-05T08:49:40.943124+00:00"
+  "timestamp": "2026-10-05T08:49:40.943124+00:00",
+  "subsequent_submission": {
+    "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+    "task_id": "jlz-v14-budget15-r2-server3-2k-20261005-v1",
+    "status": "MONITORING_PAUSED_AWAITING_USER",
+    "registration": "RELEASED",
+    "jobs": {
+      "collector": "58787",
+      "main": "58786"
+    },
+    "source": "ab7c910695377bef81ee35280502ecf176cb7d38",
+    "lock_sha256": "7bdb736a6676cbbc61634a51e3304f1ee05796bb59658f802c4ed1dc7799cddc",
+    "config_sha256": "8cf9374f9b4cc24a6fc823671986fcceda470b15089953a6458c520aaeac9896",
+    "observed_main": "PENDING(Resources)",
+    "observed_collector": "PENDING(Dependency)",
+    "snapshot": {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/attempt-r1/resource-snapshot.json",
+      "bytes": 4213,
+      "sha256": "7c2b6f150fa9b04def36cde9be65d21468e947cf086288ff32f18b84fb6c3190"
+    },
+    "actual_GPU_qualification": "NOT_OBSERVED",
+    "actual_B1": "NOT_OBSERVED",
+    "actual_W20": "NOT_OBSERVED",
+    "monitoring_active": false,
+    "automatic_resume": false,
+    "Slurm_retry": false,
+    "held_released": true,
+    "user_recall_required_for_detailed_review": true,
+    "old_tasks_unchanged": true
+  }
 }

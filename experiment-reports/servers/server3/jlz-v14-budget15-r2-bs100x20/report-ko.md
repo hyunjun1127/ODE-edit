@@ -1,6 +1,19 @@
 # SH3 V14 budget1.5 R2 / fixed first2000
 
-상태: **IMPLEMENTED_NOT_SUBMITTED**. Actual GPU qualification/B1/W20은 아직 미실행이다.
+상태: **RELEASED / MONITORING_PAUSED_AWAITING_USER**.
+2026-10-05 17:50:33 KST의 한정 snapshot: GPU58786 `PENDING(Resources)`, CPU58787 `PENDING(Dependency)`.
+Actual GPU qualification/B1/W20은 NOT_OBSERVED이며 제출을 실행 성공으로 표시하지 않는다.
+
+| stage | job | dependency | resource | wall |
+|---|---:|---|---|---|
+| minimal qualification → cold B1..B20 | 58786 | 없음 | ubuntu/gpu,1GPU,8CPU,121856MiB | 48h |
+| CPU raw reducer/partial coverage | 58787 | afterany:58786 | ubuntu/gpu,0GPU,8CPU,24576MiB | 4h |
+
+Owner janghj, `exportNONE`, `Requeue0`. 두 job의 held owner/full argv/source/script/resource/dependency 검사를 완료하고 collector→GPU 순서로 release했다. 수동 hold 없음.
+실행 source `ab7c910695377bef81ee35280502ecf176cb7d38`; tree `cc60cbf764903b288cda2cc2684c0afaddc44cbb`.
+Lock SHA256 `7bdb736a6676cbbc61634a51e3304f1ee05796bb59658f802c4ed1dc7799cddc`, config SHA256 `8cf9374f9b4cc24a6fc823671986fcceda470b15089953a6458c520aaeac9896`.
+한정 snapshot 뒤 scheduler/log/result polling 중단. Sealed runner는 기술 qualification→W20→collector를 자동 수행한다.
+
 
 - 원 S4 source `2ab04d0b`의 actual writer/subject/optimizer 출발점을 유지하고 별도 SH3 source로 봉인한다.
 - shared1.5/local.75 true capped Euclidean projection, whole-B cached transpose VJP,
@@ -17,3 +30,6 @@
 
 누적 매batch 평가와 W0/B1/W5/W10/W15/W20, RSPSNS·조화평균·TF strict/token-micro/prompt-macro(Ntrue),
 NLL/tail/paired/cohort 및 CPU independent reducer를 연결했다. 제출과 완료는 별도 receipt로 갱신한다.
+
+재현: frozen `attempt-r1/source`와 `config.json`, `execution.lock.json`을 원본으로 사용한다. 중복 제출 금지.
+Local attempt: `/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/attempt-r1`.
