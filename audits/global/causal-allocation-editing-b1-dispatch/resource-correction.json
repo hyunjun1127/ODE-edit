@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "authority": "GH resource binding correction within USER current-server2-policy request; no new user approval necessary.",
+  "reason": "SH2 actual sbatch submission rejected: server2 max6CPUs per1GPU; no jobID allocated.",
+  "old_default_CPUs": 8,
+  "effective_GPU_job_CPUs": 6,
+  "GPU_count": 1,
+  "host_memory_MiB": 59392,
+  "wall_hours": 8,
+  "science_changed": false,
+  "task_cap": 1,
+  "policy": "Use6CPU for GPU runner and adjust OMP/thread/resource locks consistently before fresh freeze. CPUcollector may also use6CPU,0GPU24576MiB/4h or a lower legal CPU-only allocation. Preserve failed submission receipt and old source. No duplicate job existed. Proceed held inspection/release, no approval wait.",
+  "source_before_correction": "4321f20d",
+  "experiment": "causal-allocation-editing-b1",
+  "other_jobs_changed": false
+}

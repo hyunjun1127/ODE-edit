@@ -61,7 +61,7 @@
     "per_GPU_job": {
       "job_name": "causal-allocation-editing-b1",
       "GPUs": 1,
-      "CPUs": 8,
+      "CPUs": 6,
       "default_host_memory_MiB": 59392,
       "hard_host_memory_ceiling_MiB": 60416,
       "export": "NONE",
@@ -71,7 +71,7 @@
     },
     "CPU_collector": {
       "GPUs": 0,
-      "CPUs": 8,
+      "CPUs": 6,
       "host_memory_MiB": 24576,
       "wall_max_hours": 4
     },

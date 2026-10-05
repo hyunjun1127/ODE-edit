@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "authority_commit": "47ff6e940fe2cc4acae86704dd1969e294e6f24f",
+  "envelope_sha256": "1f339bdc8154f44ba0d9e405e39a6375a73960a5fc0cbb579e7409416e781bd6",
+  "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_cwd_confirmed": "/mnt/raid5/janghj/ODE-edit",
+  "active_turns_before_dispatch": [],
+  "accepted_turn": "01a10d95-1516-7142-a179-12e9c6615a04",
+  "transport": "registered app-server direct via server2 Unix control socket",
+  "owner_ACK": "ACK USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1. SH2 수신을 확인했습니다. 실제 세션·저장소와 중복 제출 여부를 확인한 뒤, 기존 engine을 유지한 B1 전용 이식·최소 검산·Slurm 등록을 진행하겠습니다. 다른 task와 SH4 job은 조회·변경하지 않고, 제출 후 실제 job ID와 상태를 인계하겠습니다.",
+  "state": "ACCEPTED_PORTING_NOT_SUBMITTED",
+  "Slurm_job_ids": [],
+  "actual_GPU": "NOT_OBSERVED",
+  "GH_wait_scope": "Actual registration handoff only; no GPU terminal wait or unrelated monitoring",
+  "raw_transport": "ignored local/causal-allocation-editing-b1-dispatch/transport.jsonl",
+  "SH4_job_mutations": 0
+}
