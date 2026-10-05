@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "audit_utc": "2026-10-05T22:11:30Z",
+  "reviewer": "/root/causal_engine",
+  "review_level": "ENGINE_SOURCE_OWNER_AUDIT_AND_CPU_REGRESSION",
+  "independent_red_claim": false,
+  "language": "ko",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-v12r-realized-response-2k/worktree",
+  "source_hash_scope": "현재 WT의 아래 소유 파일 bytes만 SHA256 결속. 최종 commit/archive/runtime 전체 closure 인증은 별도 root freeze receipt이다.",
+  "source_members": [
+    {"path": "project/run_scripts/jlz_v12r/engine.py", "sha256": "5409a137cad1f940118d7ce6a7fa6fa2661fcbf1fda33d8d75b9850f84c73c98"},
+    {"path": "project/run_scripts/jlz_v12r/entry.py", "sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71"},
+    {"path": "project/run_scripts/jlz_v12r/subject.py", "sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870"},
+    {"path": "project/run_scripts/jlz_v12r/fit.py", "sha256": "f13ad89850b688d01962e8f5d40bb5f9cb9d0acedfb950a326e60bc25e67a85e"},
+    {"path": "project/run_scripts/jlz_v12r/qualification.py", "sha256": "952dc23d312bd7bfd93985d14388c835769f04737df8fbf2ccc7a8658da63872"},
+    {"path": "project/run_scripts/jlz_v12r/telemetry.py", "sha256": "3e4fa5a7611c86c1c1e057ecbce36caf6a42733a942b3105d6943e9cf77d4cae"},
+    {"path": "project/run_scripts/jlz_v12r/test_engine.py", "sha256": "aeea05f6796537bbb26b168dc661bc040b64da7241f47a5ccf98c311fc6cb357"}
+  ],
+  "canonical_FULL_READ": {
+    "status": "FULL_READ_SHA_BOUND",
+    "members": [
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/user-method-spec.md", "sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92"},
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/method-contract.json", "sha256": "56896be49cf1f4a773178e669acff4ecc7eeb1c8e2a92c0ccea1c9fd9d5571ed"},
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/implementation-contract.json", "sha256": "09bddb6c0eeec45bc779161a68d041c2062e3fb31f14386a2c77286f4d86c8e3"},
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/clarifications.json", "sha256": "a28250d6812f7994c8af3fbe0ff92a22c76e5c7ce1feb3721af5494ab190d87c"},
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/validation-contract.json", "sha256": "f6d6f0b67caadae0d7cdb1801abda5ae8149a4822096a69ed0335e0e49428791"},
+      {"path": "plans/global/2026-10-06-jlz-v12r-realized-response/experiment-contract.json", "sha256": "7ca9030aaf6866f2e4b2fc4a11cdbfaa297f24d7d340913ab368e073737e328d"}
+    ],
+    "original_CPU_reference": "NOT_SUPPLIED_USER_DOCUMENT_REPORTED_UNVERIFIED",
+    "inherited_reported_CPU_tables_used_as_actual_PASS": false
+  },
+  "CPU_execution": {
+    "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 /data/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.jlz_v12r.test_engine -v",
+    "status": "PASS",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "unittest_seconds": 1.552,
+    "fixture": "작은 random-initialized CPU Llama(hidden8/intermediate16/layers4)와 해석적 행렬 fixture. pretrained 모델을 읽거나 GPU를 실행하지 않았다.",
+    "test_scope": [
+      {"test": "test_MB2_cache_position_is_time_not_batch", "result": "PASS", "scope": "native owner 행 수와 T가 같아도 1D cache_position은 time axis 그대로 유지; MB2 batch tensor만 slice"},
+      {"test": "test_comparison_nonfinite_is_not_pass", "result": "PASS", "scope": "actual/reference 양측 NaN 및 ±Inf를 technical block하며 비교 PASS로 처리하지 않음"},
+      {"test": "test_fit_25_24_no_terminal_backward_and_payload", "result": "PASS", "scope": "같은 tiny fit 25평가/24update, terminal24 backward0; run.commit_measure로 동일 evaluated payload exact-copy, 실제 최종 native key parity/rewrite-only Honce, RAM Transaction rollback 검산"},
+      {"test": "test_full_native_owner_entry_and_external_anchor", "result": "PASS", "scope": "full rewrite/KL 토큰과 owner group 전체 보존; 단일 eligible site에서도 별도 native anchor를 capture. L4/L8 의미의 tiny 0/2 layer analogue이며 actual Llama L4/L8 증거가 아님"},
+      {"test": "test_production_no_reverse_or_checkpoint_calls", "result": "PASS", "scope": "생산 engine/subject/entry/fit/telemetry AST에서 diagnostic_reverse/cached_vjp/torch.save 호출 없음"},
+      {"test": "test_same_mask_inactive_forward_no_loss_backward", "result": "PASS", "scope": "inactive 요청도 전량 forward, 해당 loss 행 adjoint는0; active owner만 즉시 SUM backward; terminal은 backward0"},
+      {"test": "test_three_candidate_no_fit_qualification", "result": "PASS", "scope": "zero/finite feasible/mixedzero+native energy-boundary의 고정3후보; explicit native BUILD 및 MB2 value, whole-owner/full-hook loss, same-mask same-layer 및 마지막-layer full-reference 검산. fit/update/permanent commit0, lower full-gradient 차이는 기록만"},
+      {"test": "test_whole_response_off_owner_pullback_and_blind", "result": "PASS", "scope": "FP64 Lambda M.T의 전체 off-owner 결합 및 고정M 유한차분; BLIND의 owner adjoint 단순합과 구분, 추가 context/B reduction 없음"}
+    ],
+    "compileall_status": "PASS"
+  },
+  "production_policy": {
+    "builder": "읽기전용 native builder.build를 후보마다 no-grad 재사용; 실제 하층 all-token write 뒤 fresh upper keys/P, whole-B solve 및 KL subject rows 유지",
+    "production_builder_reverse_calls": 0,
+    "production_solve_VJP_calls": 0,
+    "qualification_only_full_reverse": true,
+    "gradient": "현재 active-loss mask의 요청 SUM; FP64 Lambda M.T full off-owner coupling. BLIND만 same-owner adjoint 합. norm analytic 항은 한 번만",
+    "active_policy": "inactive도 forward. F>=.05에서 irreversible active 편입; 만족한 active 요청도 update 유지; inactive 열은 writer에 남지만 Adam update 없음",
+    "budget": "후보0..24 최대25평가/24update, 마지막 evaluated BUILD만 채택. terminal 추가 planner forward/backward/update0",
+    "terminal_commit": "평가한 FP32 payload exact-copy, 재solve/중복add0; 최종 rewrite-only native CPUFP32 mean-key Gram 층당1회, zero/unsatisfied 포함",
+    "rollback_scope": "CPU fixture에서 selected W/H/RNG RAM Transaction 복원. 실제 main의 context/cursor/hooks/cache 추가 경계는 runner audit와 실제 B1 receipt에서 별도 확인",
+    "telemetry_cost": "candidate scalar matmul/reduction 시간 별도 측정, terminal effective Q와 capacity solve 비용 계측. physical recompute/group 호출과 logical 후보를 구분하며 overall/nested 시간을 중복 합산하지 않음",
+    "persistent_resume_tensor_bundle": false
+  },
+  "source_repairs": [
+    "mixedzero 고정 후보를 실제 native energy boundary로 사영하여 cap/feasibility를 검사하도록 보강; 고정후보 상한3 및 fit0 유지",
+    "MB2 diagnostic cache_position 1D time axis를 batch axis로 오인해 slice하는 오류 제거"
+  ],
+  "actualGPU": "NOT_RUN",
+  "pretrained_model_loads_by_owner": 0,
+  "GPU_calls_by_owner": 0,
+  "Slurm_calls_by_owner": 0,
+  "audit_creation_Git_operations": 0,
+  "engine_implementation_Git_write_operations": 0,
+  "engine_implementation_readonly_Git_status_snapshot": 1,
+  "shared_source_or_asset_changes": 0,
+  "limitations": [
+    "toy CPU 통과는 pretrained Llama/GPU/native runtime parity나 성능 PASS가 아니다.",
+    "실제 qualification READY, 제출/jobID, B1/2k 완료와 본 source-owner CPU audit는 서로 별개다.",
+    "본 audit는 소유 source 검토이며 별도 독립 red reviewer PASS를 주장하지 않는다.",
+    "Q bound는 candidate-local raw A의 SPD 및 대칭 적용 여부를 기록하며 nonsymmetric raw A를 대칭화하지 않는다."
+  ]
+}

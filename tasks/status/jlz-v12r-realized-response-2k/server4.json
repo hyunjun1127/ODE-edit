@@ -1,0 +1,17 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "owner": "SH4",
+  "state": "IMPLEMENTING_NOT_SUBMITTED",
+  "branch": "codex/server4-jlz-v12r-realized-response-2k",
+  "FULL_READ_SHA": true,
+  "arms": ["MAIN", "BLIND", "L4-ONLY", "BASE-2X", "NO-EXPAND"],
+  "requested_per_arm": 2000,
+  "actual_GPU_qualification": "NOT_RUN",
+  "jobs": [],
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "automatic_retry": false,
+  "automatic_resume": false,
+  "report": "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/report-ko.md"
+}

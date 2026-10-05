@@ -1,0 +1,40 @@
+{
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "owner": "SH4",
+  "branch": "codex/server4-jlz-v12r-realized-response-2k",
+  "namespace": "project/run_scripts/jlz_v12r/",
+  "현재_단계": "구현 및 CPU/운영 검산 중; GPU qualification 및 제출은 별도 receipt로 기록",
+  "정본": {
+    "원문_FULL_READ": "550줄 전체",
+    "원문_sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92",
+    "manifest_sha256": "1d947d08d7bd5e1680115ebfc5448ad606e3e42714b3ae7758c9321f8a1db10c",
+    "원bytes변경": false,
+    "첨부_CPU_reference": "NOT_SUPPLIED/NOT_VERIFIED; 새 source-bound CPU fixture 결과와 구분"
+  },
+  "구현_경계": [
+    "후보마다 no-grad whole-B actual lower write 이후 upper K/P 새 capture; 첫 eligible P만 batch-local 재사용",
+    "entry subject 값 주입과 active-loss SUM adjoint; 생산 pullback은 FP64 Lambda M.T, BLIND는 same-owner adjoint 합",
+    "absolute R Adam .1/1e-8, analytic .5/a_L8^2 norm 한 번, capped energy FP64 projection 후 FP32 저장",
+    "inactive도 모든 native row forward/solve에 포함; 활성화는 비가역이며 만족한 active 요청도 계속 update",
+    "요청별 실제 update 12회 뒤 현재 F 기준 4단계 확장; L4-ONLY anchor L8 및 NO-EXPAND n_exp=0",
+    "25평가/24update 상한, terminal backward/update/추가 planner forward 없음",
+    "마지막 evaluated BUILD payload exact copy, 실제 final rewrite-only nested-mean CPUFP32 H 한 번",
+    "5개 독립 cold 20batch W/H/RNG chain; deep RAM cache transaction 및 observer 비변이",
+    "정확 row/token/order reducer, partial/failure와 W20 완료 분리, noCP 및 B21 진입 금지"
+  ],
+  "qualification_예산": {
+    "native_requests": 4,
+    "고정후보_총상한": 3,
+    "fit": 0,
+    "Adam_update": 0,
+    "permanent_commit": 0,
+    "입력": "541/6693/16935/17306; main 밖 stream[2000:2004]",
+    "첫_B100": "실제 MAIN B1이며 별도 pilot/refit 없음"
+  },
+  "DAG": "qualification -> MAIN -> BLIND/L4-ONLY 두 lane; BASE-2X는 BLIND resource 종료 후; NO-EXPAND는 priority2 전체 종료 후; CPU afterany 모든 정확 parent",
+  "gate": "source/input/finite/gradient/solve/projection/identity/transaction만 기술 gate; 성능/집중/미수렴은 관측",
+  "출판_경계": "source/compact receipt/report/manifest만 Git; raw/prompt/tensor/model/복원bundle Git 및 영속 checkpoint 0",
+  "이전_task": "Causal Allocation Editing USER_STOP 및 다른 task 상태 유지; 재개/취소/과학 모니터링 0",
+  "승인_대기": false
+}

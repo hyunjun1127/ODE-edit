@@ -1,0 +1,22 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "authority_commit": "a8b49914dcf2b180c71f30a95954fd8687945930",
+  "receiver_level": "Owner full document read and exact size/SHA verification, not actual target-model evidence",
+  "members_verified": 8,
+  "original_read_range": "1..550 inclusive",
+  "original_sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92",
+  "manifest_sha256": "1d947d08d7bd5e1680115ebfc5448ad606e3e42714b3ae7758c9321f8a1db10c",
+  "canonical_bytes_modified": false,
+  "original_CPU_reference": "NOT_SUPPLIED; NOT_VERIFIED",
+  "scope": "New no-grad candidate BUILD, active-loss same-layer full response pullback, absolute Adam, capped requested energy, five independent cold trajectories",
+  "explicitly_not_inherited": ["Causal Allocation Editing full-causal price/BB/prox", "V12 anchor-scaled Adam/sharedL1", "V14 production builder reverse", "V13 exact writer"],
+  "independent_review": "causal_red read-only compatibility audit: current helper incompatibilities must be wrapped; old V14 receipt SHA mismatch is historical evidence only",
+  "resource_probe": {"CPU_per_GPU": 8, "probe": "sbatch --test-only 1GPU8CPU59392MiB", "exit_code": 0, "job_registered": false, "scheduler_time_estimate": "NOT_ETA"},
+  "project_cap_effective": 3,
+  "task_GPU_concurrency_max": 2,
+  "hard_host_memory_MiB": 60416,
+  "default_host_memory_MiB": 59392,
+  "previous_task_stop_preserved": true,
+  "shared_root_boundary_modified": false,
+  "other_task_mutations": 0
+}
