@@ -4,7 +4,10 @@
   "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
   "owner": "head-server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_REVIEW_RECALLED_CURRENT_STATE_UNOBSERVED",
+  "latest_SH4_submission_snapshot_UTC": "2026-10-04T20:46:08Z",
+  "submission_status_source": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+  "review_instruction": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
   "accepted_turn": "01a10886-3726-7df1-bf01-dffc5d0ffc12",
   "delivery_receipt": "audits/global/2026-10-05-jlz-v13-mdcd-sequential-2k-dispatch/direct-delivery.json",
   "direct_owner_ACK_received": true,
@@ -19,6 +22,6 @@
   "edits_each": 2000,
   "task_GPU_cap": 2,
   "save_checkpoints": false,
-  "submitted_jobs": [],
+  "submitted_jobs": [58442, 58443, 58444],
   "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md"
 }

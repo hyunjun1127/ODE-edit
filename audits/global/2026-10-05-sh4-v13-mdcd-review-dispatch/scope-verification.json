@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "base_commit": "57e7b02b",
+  "review_dispatch_only": true,
+  "read_source": [
+    "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+    "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+    "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-sequential-2k.json",
+    "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md",
+    "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json"
+  ],
+  "known_job_ids": {
+    "MD": 58442,
+    "CD": 58443,
+    "collector": 58444
+  },
+  "last_published_snapshot_UTC": "2026-10-04T20:46:08Z",
+  "fresh_job_state": "NOT_OBSERVED_BY_GH",
+  "read_only_explorer": {
+    "agent": "/root/v13_review_dispatch_scope",
+    "reads": "origin/main metadata only",
+    "no_scheduler_or_thread_queries": true,
+    "findings": [
+      "Parent pending JSON was stale; actual released IDs come from SH4 status/submission.",
+      "Job terminal/collectorCOMPLETED alone cannot prove20commits/2k coverage.",
+      "comparison-W20.csv contains measured endpoints; filename alone does not certifyW20.",
+      "PerarmRAMchain and independentfit/entry/H;20commits19joins100H expected.",
+      "Finite verified rangeLS record-only; no hidden retry or revised method.",
+      "Partialcoverage, absenttokens/raw or unreconstructabletensor evidence explicitlynotestablished."
+    ]
+  },
+  "resource_authority": {
+    "new_GPU": 0,
+    "Slurmwrite": 0,
+    "model_or_new_eval": 0,
+    "no_recurring_monitor": true
+  },
+  "submission_sha256": "90b3c5663f0f3c9e19b9054bbac576ab157523e65f44dccc7bd1be245eabcd4a",
+  "protocol_sha256": "4209c7d09fb06b81d9f0bfb2b0c86076aa884099bca8be8d9d3e14937f8ffae4"
+}

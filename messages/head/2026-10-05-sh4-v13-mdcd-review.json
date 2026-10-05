@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "nonce": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "parent_instruction": "ODEEDIT-USER-GH-SH4-JLZ-V13-MDCD-2K-CAP2-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "user_quote": "v13 리뷰시켜",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "review_authority": "User recalls CPU-only detailed review and factual report for the existing V13 MD/CD sequential task. This does not resume experiment submissions or long monitoring.",
+  "exact_jobs": {
+    "MD": 58442,
+    "CD": 58443,
+    "collector": 58444
+  },
+  "readonly_bindings": {
+    "execution_source": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+    "registration_only_repair": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+    "lock_sha256": "a399d80257c38182cb67498d4aef8be12729f0e8fffe118f8d7f1e8b2701351c",
+    "config_sha256": "b2745b667e011f2a27e81b5f5f275cb731b9f418342b20cf741855c2149fd429",
+    "attempt": "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k/20261005-v1/attempt-r1",
+    "submission": "runs/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/submission.json",
+    "prior_status": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+    "method": "plans/global/2026-10-05-jlz-v13-realized-writer/method-contract.json",
+    "sequential_contract": "plans/global/2026-10-05-jlz-v13-mdcd-sequential-2k-sh4/execution-command.json",
+    "prior_main": "57e7b02b"
+  },
+  "first_action": "ACK same nonce as review owner. Verify actual session/CWD/repo and exact submission/source/job owner. One bounded accounting/status snapshot of exact3jobs, then CPU read/reduction of existing outputs. Last known RUNNING/PENDING is historical only, not current.",
+  "terminal_boundary": "If terminal, audit available full/partial artifacts and report. If any arm still runs/pends, review sealed completed prefix as of bounded snapshot, explicitly mark W20 and ongoing stages NOT_AVAILABLE/NOT_OBSERVED, leave runner unchanged and stop without terminal polling/wait.",
+  "review_scope": {
+    "identity": "Full source/config/lock/runtime/native closure, case schedule first2000/order/seed/token identities/evaluator and arm mapping; distinguish production/registration/review source. Reuse unchanged huge model asset priorSHA+freshstat; no repeated fullmodel/CP hash merely for CPU review.",
+    "completion": "Per arm expected20commit/2000requests/19ownstatejoins/100Happend; actual prefix and fit counters. Exact W/H/RNG/context/ledger links, transaction finish/rollback, fresh entry/cache/upperactualkeys, historyrewrite-only once. No missing-aszero or crossarm state assumptions.",
+    "metrics": "Re-reduce original R/P/N candidate NLL/TF rows with strict inequality/tiesfail, finite/cardinality/case-prompt-target/order identity. Currentpre/post, W5/10/15/20allseen and finalR2000P4000N20000 if present. RS/PS/NS plus harmonic score; TFstrict/tokenmicro/promptmacro; true/new/desiredNLL,margins,tails.",
+    "retention": "Atwrite→latest/cohort/first100/first500 and own W0-correctN lost/gained/retention; active/superseded defined by seenprefix, no future leaks. MD/CD paired at same actual endpoint/sample/denominator; mismatched or absent raw NOT_AVAILABLE.",
+    "realization": "Native mean/canonical/rewrite/KL directionalratio,normratio,cosine,relativeerror/shares; local action vs inheritedgap vs netentry; zero-owner leakage, rank/range compatibility, targetprojection/rangeLS, ideal/effectiveQ/update norm by layer/batch. Finite rangeLS is scientific outcome, not rerun failure. Separate realization from edit/locality quality.",
+    "comparison": "New MD/CD owntrajectory curves and matched milestones; priorB1 and already available v12/MEMIT-H/AlphaEdit/BLUE baseline only when identity/cohort/endpoint verified. Label runtime/hardware/precision/planner differences historical, not matchedcausal; no newbaseline/evaluation/rawbroadcast.",
+    "cost": "Exact parent allocatedGPU-sec perarm, collectorCPU-GPU0, measuredfit/writer/observer/wall/VRAM/RSS/storage and unseparatedcomponents. No doublecountsteps/nestedtimes; pendingelapsed not allocatedGPU. PreviousB1 cost separate. NoCP/exact_resumeNOT_AVAILABLE.",
+    "limitations": "CPU independent reducer/source-owner audit levels honest; no actual model rebuild or tensor replay claims. Actual technical records distinct from new CPU tests. Existing numerical policy unchanged; record warnings, no syntheticPASS. No scientificpromotion/methodselection."
+  },
+  "allowed_paths": [
+    "project/run_scripts/jlz_realized_writer_sequential/review_completed.py",
+    "project/run_scripts/jlz_realized_writer_sequential/test_review*.py",
+    "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/**",
+    "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/**",
+    "messages/acks/server4/2026-10-05-jlz-v13-mdcd-review.json",
+    "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-review.json",
+    "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+    "ignored local/jlz-v13-mdcd-sequential-2k/20261005-v1/review-20261005-r1/**",
+    "own dedicated worktree ignored session-boundary.env"
+  ],
+  "resources": {
+    "new_GPU": 0,
+    "model_load": 0,
+    "model_forward_or_new_evaluation": 0,
+    "Slurm_write": "NOT_ALLOWED: no submit/cancel/hold/release/retry",
+    "CPU_review": "Existing host CPU resources, no scheduler allocation or global config mutation"
+  },
+  "red_team_gate": {
+    "preflight": "Owner/session/exactjobidentity/read-onlyscope/sourcebinding; block ambiguity or accidental new computation.",
+    "postreview": "Separate CPU reducer vs stored aggregates, exact identity sets and state links, cost/manifest/report table/link checks; honest reviewer provenance, warn/negativeoutcomes disclosed not filtered."
+  },
+  "artifact_policy": "Raw/tensor/model/prompt/fullstdout stay local KEEP. Source+compact report/countCSV/figures/SHAmanifest only ownscopeGit. NO_BROADCAST_NOT_REQUIRED documented when no transfer needed. No oldbytes deletion/normalization.",
+  "publication": "Under existing parent ownscope report permission, generate detailed Korean report/compact comparisonCSV/figures/reducer and manifests in clean dedicated branch. Nonforce ownbranch+main integration preserving concurrentGH/SH changes. Do not edit frozen production algorithm/optimizer/launchers or use review as a hotpatch.",
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md",
+  "ack": "messages/acks/server4/2026-10-05-jlz-v13-mdcd-review.json",
+  "message": "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-review.json",
+  "monitoring": "Bounded task recall/read once; no repeated scheduler/log/result polling, no waiting for running jobs, recurring automation/heartbeat/automaticretry=0. After factual report/main/compactGHhandoff REVIEW_COMPLETE_STOP; programs otherwise unchanged.",
+  "handoff": "GH obtains direct owner ACK only, not experimentcompletion. SH4 autonomously performs this review and reports exact current coverage/findings/mainSHA. GH transportclosure is not task interruption."
+}
