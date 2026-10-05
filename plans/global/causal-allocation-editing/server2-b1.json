@@ -1,0 +1,101 @@
+{
+  "schema": "EXPERIMENT_PILOT_DELEGATION",
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "task_id": "causal-allocation-editing-b1",
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "user_quote": "이거 batch 1개만 test 하는거 server2에서 빠르게 실험 올리도록 해보자.",
+  "authority": "사용자 명령에 따른 server2 단일 batch pilot이다. GH가 SH2에게 직접 배정하고 같은 method로 빠르게 제출한다. Server4/SH4 기존2000-edit 작업은 유지하며 취소·변경하지 않는다.",
+  "status": "AUTHORIZED_READY_FOR_DIRECT_GH_DELIVERY",
+  "delegation": {
+    "coordinator": "GH",
+    "coordinator_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "executor": "SH2",
+    "executor_session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "server": "server2",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "registry": "servers/active/server2.md"
+  },
+  "source": {
+    "reuse_implementation_commit": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+    "published_main_observed": "518d9508",
+    "existing_CPU_tests": "SH4 reported63/63 PASS. CPU/source checks only; production GPU readiness and positive lambda remain unobserved.",
+    "implementation_root": "project/run_scripts/causal_allocation_editing",
+    "design": "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json",
+    "implementation_contract": "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json",
+    "validation": "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json",
+    "main_experiment": "plans/global/2026-10-06-jlz-causal-joint-writer/experiment-2k.json",
+    "scope_override": "이 pilot은 host=server2, owner=SH2, requests=100, batches=1, W0/current-cohort pre/post만 평가한다. method·solver·계수·writer 의미는 바꾸지 않는다.",
+    "source_owner": "SH4 구현을 공유한다. SH2는 server2 binding과 단일 batch 실행/수집 경로의 최소 변경을 담당한다. 공통 구현 변경이 필요하면 GH가 SH4와 충돌 없이 결속하며 이미 봉인된 server4 archive/config/job은 변경하지 않는다."
+  },
+  "pilot": {
+    "arms": 1,
+    "writer": "Native MEMIT mean-key ridge with existing H semantics; cold H0=0",
+    "B": 100,
+    "batches": 1,
+    "requests": 100,
+    "commits": 1,
+    "inputs": "기존 fixed ordered first2000의 첫100개와 ID·순서·native pack 동일",
+    "model": "기존 Llama3-8B-Instruct model/tokenizer revision·native profile·C0를 그대로 결속",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "initial_state": "Fresh W0/H0, existing edited weights 또는 SH4 main checkpoint 이어받기 없음",
+    "objective": "Actual all-token native NLL+KL(current||entry), layer-local requested norm/caps, actual causal Q and complete K/P gradient.",
+    "budget": "24accepted updates/50logical candidates/25full gradients. 별도 subject-only, frozen-upper, routing, context/어휘 근사, solver cap 축소 없음.",
+    "calibration": "동일 B1 native endpoint reference로 positive finite actual radial lambda_Q를 한번 산출한다. 기준점 fit과 actual adjoint 비용을 별도 기록. 양수 가격 실패는 typed failure로 보고하며 임의값/추가 sweep/다른 writer로 대체하지 않는다.",
+    "qualification": "기존 CPU proof는 재사용하되 server2의 runtime/source/state binding 및 필요한 2개 native 요청의 actual model 정합 검증을 수행한다. 검증 통과 후 같은 제출 흐름으로 B1을 실행하며 사용자 재승인을 기다리지 않는다.",
+    "termination": "B1의 accepted payload commit, native history5층 각1회 append 및 평가·CPU collector 후 종료. B2 또는2k 연속 실행을 server2에 등록하지 않는다.",
+    "checkpoint_saved": false,
+    "automatic_retry": false,
+    "automatic_resume": false
+  },
+  "speed_scope": {
+    "reuse": "완료된 a1332fd7의 engine/solver/calibration/geometry 및 검증코드를 재사용하고 별도 method 재구현/대규모 baseline sweep을 하지 않는다.",
+    "evaluation": "W0와W1은 같은 first100의 R100/P200/N1000만 평가. Full prefix2000 W0/W5/W20 또는 전체baseline 재실행을 하지 않는다.",
+    "W0_reuse": "기존 raw W0가 model/W0/H0/tokenizer/evaluator/dtype/input identity를 모두 만족하면 해당first100 subset만 검산해 재사용 가능. 아니면100개만 새로 평가한다.",
+    "observed_runner_requirements": [
+      "run.locked의(100,20,2000), packs20 검사와 setup의load_prefix2000이 현재main 전용이다.",
+      "drive 최종20commit/2000요청/100history 검사를 pilot의1commit/100요청/5history에 맞춰야 한다.20batch가 끝난 것처럼 기록하지 않는다.",
+      "prepare/submit의 server4 host·CWD·Python·QoS·session·자산 경로를server2에 재결속한다.",
+      "collector는B1 완료와2k 완료를 구분하고 실제분모를 검산해야 한다."
+    ],
+    "implementation_rule": "명시적pilot profile/entrypoint 또는 backward-compatible horizon adapter를 사용한다. 기존2k profile의 기본 계약은 보존하고 차이만 테스트한다. Frozen source/config 문자열을 실행 후 치환하거나 runtime monkeypatch로20batch검사를 속이지 않는다.",
+    "resources": "1GPU, server2 현재cap/queue/QoS/host RAM 및 실제 VRAM 확인 후 정식등록·held inspection·release. 특정 GPU종류나 속도는 아직 단정하지 않는다. 기존무관 job 취소없음.",
+    "scheduling": "가용한 server2자원에서 가장 먼저 실행될 수 있는 합법적queue를 선택하고, 자원대기이면 pending사유와job ID를 즉시 보고한다. 자리가 날 때까지 제출을 미루지 않는다."
+  },
+  "required_outputs": [
+    "W0→W1 RS/PS/NS 분자/분모와 paired lost/gained",
+    "TF token-micro/prompt-macro/strict ACC, new/true NLL 및 margin",
+    "층별 requested/realized share와 canonical/mean/context 실현norm ratio·cosine;0분모별도",
+    "Q_C0/Q_H/총Q, actual update norm, active layer/reentry/cap contact",
+    "lambda 기준점 t/n/d·양수검증, main solver accepted/rejected/call count·terminal residual·stop status",
+    "candidate/commit payload·loss/key parity, history once 및 observer 비변이",
+    "reference fit/qualification/main fit/commit/history/evaluation 시간과 physical F/B/replay/solve·GPU/RSS peak",
+    "source/config/runtime/model/input/evaluator hashes와qualification/job/result 경로"
+  ],
+  "metrics_use": "PS/NS/ACC는pilot 결과보고이며 method/계수 선택에 쓰지 않는다. B1으로 누적손상 개선을 확정하지 않는다.",
+  "paths": {
+    "branch": "codex/causal-allocation-editing-b1",
+    "slurm_name": "causal-allocation-editing-b1",
+    "run_root": "runs/causal-allocation-editing-b1",
+    "report_root": "experiment-reports/servers/server2/causal-allocation-editing-b1",
+    "status": "tasks/status/causal-allocation-editing-b1/server2.json",
+    "local_root": "local/causal-allocation-editing-b1"
+  },
+  "delivery_request": "GH 수신ACK→SH2 직접전달·착수ACK→actual Slurm job IDs와상태를 회신. 문서게시나inbox생성만을실험등록으로보고하지 않는다.",
+  "server4_existing_jobs_observed": {
+    "qualification": 59163,
+    "main": 59164,
+    "collector": 59165,
+    "source": "tasks/status/causal-allocation-editing/server4.json at origin/main518d9508",
+    "state_at_publication": "SUBMITTED_INITIAL_RESOURCE_PENDING",
+    "change_requested": false
+  }
+}
