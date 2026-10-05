@@ -1,0 +1,166 @@
+{
+  "schema": "JLZ_CAUSAL_MEMIT_SH4_2K_EXECUTION_R2",
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "task_id": "causal-allocation-editing",
+  "date_kst": "2026-10-06",
+  "status": "USER_AUTHORIZED_READY_FOR_DIRECT_GH_DELIVERY",
+  "latest_user_quote": "GH에게 실험 전달하자. 실험 이름은 이제 odeedit은 빼고 버전도 빼고 새로운 실험 이름 너가 적절히 지어서 전달하자. SH4에게 task 진행시키라고 해",
+  "prior_dispatch_quote": "gh에게 전달해서 실험 진행하자 arm은 두개를 올리자 hparam중 l2 를 1과 10으로 해서 올려 server4에게 task 진행시키도록 하자",
+  "authority_ko": "이 최신 사용자 명령에 따라 GH가 SH4에 Causal Allocation Editing의 구현·최소 검증·server4 단일 MEMIT arm 2000편집 실행을 배정한다. 직전 검토에서 구체화한 목적·계수·solver 계약을 그대로 사용한다. AlphaEdit/exact arm, 추가 hyperparameter sweep, 기존 무관 실험 취소는 포함하지 않는다.",
+  "supersession": "이 전달은 이전 미전송 상태를 대체한다. 과거 R1 공유예산/EfficiencyAdam/첫 비영 gradient비율 또는 과거 AlphaEdit L2=1/10 설계를 실행하지 않는다. 최신 method-contract가 정본이다.",
+  "source_session": "01a0f6b9-74e5-7683-a798-029e477c29b1",
+  "coordinator": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "executor": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "method": "method-contract.json",
+  "implementation": "implementation-contract.json",
+  "validation": "validation-and-comparison.json",
+  "tex": "../2026-10-05-jlz-v13-realized-writer/method.tex",
+  "arms": [
+    {
+      "id": "CAUSAL_ALLOCATION_EDITING",
+      "writer": "native MEMIT-form mean-key ridge with existing history",
+      "total_edits": 2000,
+      "L2_parameter": null,
+      "display_name": "Causal Allocation Editing · MEMIT"
+    }
+  ],
+  "sequence": {
+    "logical_batch_size": 100,
+    "commits": 20,
+    "inputs": "counterfact-fixed-10k-v1 고정 ordered prefix2000; 기존 V13/CD/V14와 동일 요청 ID·순서 검증",
+    "schedule_reference": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "initial_state": "fresh original W0 및 H0=0. 기존 fitted/CD/AlphaEdit weight를 이어받지 않는다.",
+    "continuity": "20 batch의 committed W/H를 순서대로 이어간다. B1은 본 실행의 첫 batch이며 성능 gate로 재시작하지 않는다.",
+    "model_and_runtime": "기존 V13/CD의 Llama3-8B-Instruct model/tokenizer/native template/C0 및 ordered-input 자산을 SH4가 hash로 결속한다. model revision 8afb486c1db24fe5011ec46dfbe5b5dccdb575c2를 대조한다. 기존 profile seed와 RNG 설정을 그대로 봉인하며 평가 성능으로 선택하지 않는다.",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "lambda_C": 15000,
+    "lambda_KL": 0.0625,
+    "lambda_norm": 0.5,
+    "checkpoint_saved": false,
+    "portability": "이 실행은 BS100이나 구현은 adapter가 제공하는 layer/model/benchmark 차원 및 다른 B/tail을 지원한다. logical writer를 물리 microbatch로 분할하지 않는다.",
+    "per_layer_requested_radius": 0.75,
+    "shared_requested_radius": null,
+    "solver": {
+      "name": "FULL_GRADIENT_NONMONOTONE_PROXIMAL_BB1",
+      "coordinates": "R_lr=a_lr*u_lr; a_lr는 batch entry canonical anchor이며 양수 유한값이어야 한다. 모든 eligible block u=0에서 시작한다.",
+      "split": "F=SUM_r(NLL_r+lambda_KL*KL_r)+lambda_Q*SUM_l Q_l; G=SUM_lr beta_lr*||u_lr||; beta_lr=lambda_norm/a_lr. g=grad F에는 G gradient를 넣지 않는다.",
+      "constraint": "각 layer/request에 ||u_lr||<=c_lr, 현재 c_lr=.75. Sum across layers bound는 없다. c는 native profile에서 읽는다.",
+      "prox": "v_lr=u_lr-eta*g_lr; uplus_lr=(min(c_lr,max(||v_lr||-eta*beta_lr,0))/||v_lr||)*v_lr. ||v||=0이면 0이다. 이 식의 eta는 u-space step eta_u이며 threshold는 eta_u*lambda_norm/a_lr이다. R-space에서 등가인 block별 metric step은 eta_R,lr=eta_u*a_lr^2이다. 따라서 R-space threshold eta_R,lr*lambda_norm/a_lr^2와 u-space threshold를 동일한 eta를 사용하는 식으로 혼동하지 않는다.",
+      "initial_step": "u0=0이고 g0=grad F(u0)가 정확히 전부 0이면 나눗셈을 하지 않는다. G+balls가 잘 정의되고 0을 포함하는지 확인한 뒤 eta0와 tau는 NA, exact mapping은 0으로 기록하고 별도 stationary 분기로 STATIONARY_TOL 종료한다. 그 외에는 eta0=min_lr(c_lr)/max_lr ||g_lr(u0)||를 FP64로 계산한다. 초기 unprox block 이동의 최대 norm을 native radius 이하로 맞추는 수치 관례이며 학습률 동등성 주장이 아니다.",
+      "BB": "연속 accepted states에서 s=u_k-u_{k-1}, y=g_k-g_{k-1}; sTy>0 및 유한이면 BB1= sTs/sTy. 아니면 마지막 accepted eta. eta는 [1e-6*eta0,1e6*eta0]로 safeguard한다. Norm subgradient는 y에 넣지 않는다.",
+      "line_search": "window=5 accepted J; sigma=1e-4; shrink=.5. 초기 nonmonotone window는 J(u0) 하나로 시작한다. J_trial <= max(last5 accepted J) - sigma*||u_trial-u||^2/(2*eta)이면 accept한다. Window에는 accepted J만 추가하고 최근 최대 5개를 유지한다. J는 F+G이며 모든 primal trial에서 actual K/P/Q와 task forward를 재계산한다. Rejected trial에는 backward를 하지 않는다. Safeguard 하한에서 불충족/동일 trial이면 NUMERICAL_STALL로 마지막 accepted를 반환한다.",
+      "budgets": {
+        "maximum_accepted_updates": 24,
+        "maximum_logical_main_candidate_evaluations": 50,
+        "maximum_full_gradient_evaluations": 25,
+        "includes": "초기 u0와 rejected trial은 최대 50회의 논리적 후보 평가에 포함한다. Full gradient는 초기 1회+accepted update당 1회로 최대 25회이며, terminal mapping은 이미 계산한 마지막 accepted gradient를 재사용해 별도 gradient를 더하지 않는다. 고정 후보의 gradient replay에 필요한 model forward는 physical counter에 따로 집계한다. Native calibration/qualification/observer는 main과 분리해 집계하되 총 비용에는 포함한다."
+      },
+      "stationarity": "비영 g0의 일반 경로에서는 고정 probe tau=eta0로 mapping G_tau=(u-prox_{tau G+balls}(u-tau*grad F))/tau를 계산한다. tau를 BB step에 따라 바꾸지 않는다. max_lr ||G_tau,lr||/max(1,||grad F_lr||,beta_lr)<=1e-3이면 STATIONARY_TOL이다. u0=g0=0인 별도 분기에서는 잘 정의된 G+balls에 대해 exact mapping=0, eta0/tau=NA로 기록하며 0/0을 계산하지 않는다. Raw max/RMS/Frobenius, denominator, tau 및 분기 사유를 함께 기록한다. 이는 수치 정지 기준이며 global optimum/edit success가 아니다.",
+      "termination": "STATIONARY_TOL 또는 선언된 evaluation/update/gradient budget 소진으로 종료한다. Native all-J<.05는 이 coupled composite 목적의 종료 기준으로 쓰지 않고 native reference 생성에서만 원래 규칙대로 사용한다. Full gradient는 초기 후보 1회와 accepted update의 새 후보마다 1회 계산하므로 최대 1+24=25회다. Terminal에서는 이미 계산한 마지막 accepted gradient로 mapping을 기록하며 추가 reverse나 중복 집계를 하지 않는다. 이는 terminal 후보의 backward를 생략한다는 뜻이 아니다.",
+      "return": "마지막 finite/feasible accepted 후보를 반환한다. Rejected trial이나 held-out 성능 최고 후보를 선택하지 않는다. 상한 미수렴도 후보 정합성을 통과하면 사용자 기존 고정예산 정책에 따라 commit하고 BUDGET_NOT_STATIONARY로 보고한다. LINE_SEARCH_BUDGET/NUMERICAL_STALL은 구분한다. Calibration/NaN/identity/solve 오류를 이 허용과 혼동하지 않는다.",
+      "activity": "Prox의 exact zero는 영구 비활성화가 아니다. 다음 full gradient에서 모든 block을 평가하여 재진입을 허용한다. 요청별 freeze나 최소 활성층 수를 넣지 않는다.",
+      "precision_limit": "FP64 연속 reference에서 prox/gradient/Armijo 수학을 검증한다. 실제 FP32 cast/add backward는 smooth surrogate다. Production mapping은 그 declared surrogate의 numerical residual이며 quantized 함수의 엄밀한 KKT 증명이라고 부르지 않는다."
+    },
+    "allocation_coefficient": {
+      "name": "NATIVE_ENDPOINT_ACTUAL_RADIAL_BALANCE",
+      "reference": "B1의 동일 W_entry/H_entry와 native 요청으로 native compute_z를 요청별 독립 실행한다. 현재 profile은 native anchor L8 하나, 원래 Adam/lr/clamp/norm/KL/early-exit/max25 규칙이다. Adapter는 native delta와 해당 write 출력의 좌표 대응을 검증한다. 얻은 delta를 그 층의 R_ref로 놓고 나머지 모든 candidate layer의 R은 0으로 둔다. Reference는 commit/H append하지 않는다.",
+      "endpoint": "Native가 반환한 실제 endpoint를 쓴다. 경계로 사후 확대하지 않는다. cap contact/interior/early-stop을 기록한다. Interior reference도 같은 양수 조건을 통과하면 사용하되 clamp-equivalence라고 부르지 않는다.",
+      "actual_evaluation": "Reference R을 같은 actual all-token MEMIT candidate로 평가한다. Native subject-hook의 loss gradient를 계수 산식에 대용하지 않는다. F_task=NLL_SUM+weighted_KL_SUM; G는 per-layer native requested norm; Q는 actual causal writer cost다.",
+      "formula": "t=-<grad_u F_task(u_ref),u_ref>; n=G(u_ref)=<g_G,u_ref>; d=<grad_u Q(u_ref),u_ref>; lambda_Q=(t-n)/d. 비영 층이 하나인 reference에서는 own K가 이 radial scaling과 독립이므로 d=2Q도 검산한다.",
+      "validity": "t, n, d와 차이 t-n이 모두 유한하고 d>0 및 t>n이어야 한다. lambda_Q=(t-n)/d를 계산한 뒤에도 결과가 유한하고 lambda_Q>0인지 반드시 확인한다. 차감·나눗셈의 overflow/nonfinite 및 양수 underflow를 정상 가격으로 취급하지 않는다. abs, epsilon denominator, clipping, default 또는 0으로 대체하지 않으며 작은 d와 cancellation의 상대 오차도 기록한다.",
+      "failure": "t/n/d, t-n 또는 lambda_Q가 비유한값이거나 계산 중 overflow가 발생하면 CALIBRATION_NONFINITE로 보고한다. 유한한 d<=0은 CALIBRATION_NO_VALID_ENERGY, 유한한 t<=n 또는 계산된 lambda_Q<=0은 CALIBRATION_NO_POSITIVE_PRICE로 구분한다. 실패 단계와 피연산자를 기록하고 검사를 통과한 유한한 양수 가격만 고정한다. 실패는 해당 reference에 calibration 규칙을 적용할 수 없다는 뜻이며, 임의 계수로 main fit하거나 PS/NS를 보고 reference를 바꾸지 않는다.",
+      "all_zero_reference": "모든 native 반환 delta가 0이고 각 요청이 native no-op/early-exit 계약을 만족한 경우만 no-op batch 및 native H append-once를 허용한다. Lambda는 pending으로 두고 첫 nontrivial batch에서 동일 규칙을 적용하며 그 W/H를 기록한다. 미수렴/수치오류 때문에 모두 0이면 no-op으로 숨기지 않는다. Positive lambda 없이 nonzero main optimization은 시작하지 않는다.",
+      "lock": "한 번 계산한 lambda_Q는 모든 후속 batch에 고정한다. Batch별 재보정, strength matching, lambda sweep, PS/NS/ACC 선택은 없다.",
+      "meaning": "한 고정 reference에서 actual 목적의 aggregate radial derivative만 0으로 만드는 가격이다. Native clamp와의 등가, 접선/타층/요청별 KKT, 같은 semantic strength 또는 최적 hyperparameter를 보장하지 않는다. Boundary에서 radial equality는 그 방향의 multiplier를 0으로 놓는 조건일 뿐이다.",
+      "receipt": "Reference source/profile/seed/native step와stop, W/H/C0/input/template hashes, anchors/R/K/P, cap contacts, F_task/G/Q, t/n/d, d-2Q, lambda, 요청별 radial residual, 타층 gradient, gradient norm 및 reference fit/actual adjoint 시간과 호출을 보존한다.",
+      "cost": "B1 native reference fit이 추가된다. 3점 sweep은 아니지만 무료도 아니다. Reference 생성, actual task/Q gradient 두 채널, 모든 replay/F/B/solve를 main solver와 분리해 총 실행 비용에 포함한다."
+    },
+    "history": "기존 MEMIT-H 형식의 history를 유지한다. MEMIT-BLUE의 H 없는 설정과는 다르다."
+  },
+  "implementation_nonnegotiable": [
+    "실제 candidate weight를 모든 token에 적용한 같은 forward에서 native NLL/KL을 계산한다. 별도 subject-only loss를 main으로 재사용하지 않는다.",
+    "각 후보를 W_entry/H_entry에서 시작하고 하층 actual write 후 상층 K/P를 재계산한다.",
+    "raw native A=15000*C0+H와 mean-key ridge를 유지한다. L2 I, projection, exact 제약을 추가하지 않는다.",
+    "fresh Q=tr(U A U^T)와 하층R→상층K/P/Q gradient를 포함한다. 기존 V14 subject-v adjoint만으로 대체하지 않는다.",
+    "Norm과 층별 cap은 requested u에 적용한다. 마지막 accepted 후보의 actual 평가에 사용한 FP32 payload를 그대로 commit하고 final native mean key로 H를 한 번 append한다.",
+    "R2의 local norm/cap, 양수 radial 가격 및 full-gradient prox를 사용한다. Routing, frozen-upper 또는 이전 EfficiencyAdam을 동일 method의 대체 구현으로 사용하지 않는다."
+  ],
+  "qualification": {
+    "existing": "reference/audit.json과 reference_calibration/audit.json은 각각 synthetic CPU 테스트 12/12를 통과했다. Production/GPU/실제 모델 calibration/BB controller의 PASS를 뜻하지 않는다.",
+    "required": "validation-and-comparison.json의 CPU/full causal gradient 및 2–4개 native 요청의 실제 모델 정합성 검증을 최소 범위로 실시한다. 같은 raw A, full gradient, actual loss/commit identity, SUM reduction, tail 및 history-once를 확인한다. R2의 native radial reference, prox/controller 및 terminal residual도 포함한다.",
+    "technical_failures": "identity/nonfinite/solve/gradient/payload 계약 실패는 수리 후 같은 계약으로 재검증한다.",
+    "not_gates": "B1 PS95/NS 손실0.4pp/Q 감소는 비교 목표다. 사후 성능 진급 gate, lambda 선택 또는 layer 제외 기준으로 사용하지 않는다.",
+    "after_pass": "추가 사용자 승인 없이 같은 실험의 main 2000edit 제출. Main의 양의 유한 calibration 가격이 정의되지 않으면 해당 상태와 피연산자를 보고하고 임의값·다른 arm으로 대체하지 않는다."
+  },
+  "evaluation": {
+    "schedule": "W0 prefix2000; 매 batch 현재 cohort pre/post; W5/W10/W15/W20 allseen 및 fixed first500/cohort retention. 동일 endpoint 평가 재사용은 identity 검증 후 허용.",
+    "metrics": [
+      "RS/PS/NS 분자·분모",
+      "TF token/prompt/strict ACC",
+      "new/true NLL 및 margin",
+      "W0-correct retention/lost/gained",
+      "own-write/later-write 손실",
+      "requested/realized share·Q·update norm",
+      "actual candidate 대 commit state/loss 차이",
+      "Terminal composite residual 및 미수렴 status, active 층·cap·재진입",
+      "Q_C0/Q_H/전체 Q/요청당 Q 및 후반 손상 기울기",
+      "Calibration reference와 main/rejected/terminal의 비용 구분; terminal gradient 중복 집계 없음"
+    ],
+    "main_counts": "CounterFact W20 R2000/P4000/N20000. 실제 row metadata로 검산한다.",
+    "firewall": "평가 paraphrase/neighborhood/ACC 문항과 수치를 fit·계수·후보·정지·실행설정 선택에 사용하지 않는다.",
+    "comparison": "기존 MEMIT-H/BLUE/CD 결과와 동일 cohort·분모 비교, hardware/runtime 차이 공개. 새 baseline arm은 제출하지 않는다."
+  },
+  "execution_envelope": {
+    "slurm_submission": "사용자 승인 범위: Causal Allocation Editing 단일 MEMIT main 2000edit 및 필요한 최소 qualification/collector",
+    "branch": "codex/causal-allocation-editing",
+    "write_scope": [
+      "project/run_scripts/causal_allocation_editing/**",
+      "project/run_scripts/jlz_native_writer_aware/physical.py",
+      "project/run_scripts/jlz_native_writer_aware/routes.py",
+      "project/run_scripts/jlz_realized_subject/geometry.py",
+      "project/run_scripts/jlz_realized_subject/entry.py",
+      "project/run_scripts/jlz_realized_subject/subject.py",
+      "plans/updates/server4/causal-allocation-editing/**",
+      "audits/servers/server4/causal-allocation-editing/**",
+      "runs/causal-allocation-editing/**",
+      "experiment-reports/servers/server4/causal-allocation-editing/**",
+      "messages/server-heads/server4/causal-allocation-editing.json",
+      "messages/acks/server4/causal-allocation-editing.json",
+      "tasks/status/causal-allocation-editing/server4.json",
+      "local/causal-allocation-editing/**"
+    ],
+    "shared_source": "새 namespace를 우선하며 공유 코드는 backward-compatible 확장만 허용한다. 기존 실행 source/lock/산출물을 바꾸지 않는다.",
+    "resources": "main 1GPU, 현재 server4 project cap/실사용 확인 후 제출. 기존 무관 job 취소·설정 변경 없음. 기존 host memory/GPU cap helper 준수.",
+    "gh_integration": "GH가 이 묶음과 허용 범위 source를 별도 clean worktree/branch에서 검토·결속·배포한다. dirty root 또는 다른 task 변경을 통째로 stage/push하지 않는다.",
+    "artifacts": "raw/log/model/checkpoint는 Git에 넣지 않는다. 일반 local 산출물은 기존 승인 helper로 보존/배포하고 --delete를 사용하지 않는다.",
+    "reporting": "SH4는 사실·수치·source/config/job/artifact identity를 보고한다. 과학적 해석은 GH가 별도로 담당한다.",
+    "completion": "20개 batch commit, raw/paired/telemetry 분모 검산, timing/memory, source/runtime lock, 한국어 사실 보고와 compact manifest. RS/PS/NS와 TF strict/token/prompt ACC, cohort retention을 함께 보고한다.",
+    "slurm_job_name": "causal-allocation-editing",
+    "run_identity": "실험 이름은 causal-allocation-editing으로 고정한다. 날짜, commit, source/config hash 및 재시도 식별자는 provenance metadata나 run_instance 필드로 분리하고 버전 suffix를 실험명에 붙이지 않는다."
+  },
+  "delivery_request": "GH는 수신 ACK 후 method/implementation/validation/experiment/CPU reference를 SH4에게 직접 전달하고, SH4 ACK 및 source/config/runtime binding, qualification 결과, 실제 Slurm job ID를 회신한다. 접수·구현·제출·실험 완료를 구분한다.",
+  "latest_review_request": "최신 구체화가 완료된 계약을 새 실험명으로 GH에게 즉시 전달하고 SH4가 실행하도록 배정한다.",
+  "delivery_status": "READY_NOT_YET_SENT",
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "naming_contract": "사용자 지시: 실험 표시명, task/job/run/report 식별자에 odeedit 또는 버전 접미사를 넣지 않는다. 기존 repository/source/design 경로와 내부 schema revision은 재현 이력이며 실험 이름이 아니다."
+}

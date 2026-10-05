@@ -1,0 +1,187 @@
+{
+  "schema": "JLZ_CAUSAL_MEMIT_VALIDATION_R2",
+  "date_kst": "2026-10-06",
+  "status": "USER_AUTHORIZED_GH_SH4_DISPATCH_READY",
+  "authority_ko": "최신 사용자는 MEMIT writer 단일 arm 실행을 요청했다. experiment-2k.json이 GH→SH4 2000편집 실행 범위다. AlphaEdit L2=1/10 두 arm은 철회됐다.",
+  "ownership_ko": "검증 및 비교 계약만 정의한다. Method의 수식·계수·native profile은 같은 설계 묶음의 method 계약이 정본이며 실제 구현/source/runtime lock은 후속 작업이다.",
+  "method_under_test": {
+    "main_method": "CAUSAL_ALLOCATION_EDITING",
+    "writer": "동일 native MEMIT ridge 식을 쓰되 history를 유지하는 현재 profile을 사용한다. A에는 C0와 batch-entry H가 포함된다. Plain MEMIT의 H=0 실험으로 재명명하지 않는다.",
+    "key_support": "각 층의 실제 하층 candidate write를 거친 rewrite-only native nested mean key. 모든 요청 occurrence 및 zero-requested column을 유지한다. CD의 rewrite/KL 개별 context 제약으로 바꾸지 않는다.",
+    "variables": "각 layer/request에 ||u_lr||<=c_lr이며 현재 c_lr=.75이다. 층 전체의 합계 bound는 두지 않고 c는 native profile에서 읽는다. R=a*u로 모든 층을 공동 최적화한다.",
+    "main_loss_path": "동일 candidate의 actual effective weights가 모든 token에 작용하는 forward에서 native NLL 및 KL을 계산한다. 별도 subject-only masked forward를 메인 손실로 쓰지 않는다.",
+    "native_components": "G=SUM_lr lambda_norm*||R_lr||/a_lr^2 = SUM_lr (lambda_norm/a_lr)*||u_lr||. Native 문장, reduction/readout 및 current||entry 방향을 유지한다.",
+    "allocation_cost": "Fresh actual candidate key로 구성한 ideal low-rank write의 Q=sum_l tr(U_l A_l U_l^T)를 사용한다. Full causal R→K→P→U 경로를 미분한다. Terminal에서는 실제 FP32 cast/add로 생긴 effective update Q와 차이를 별도 확인한다.",
+    "metric_assembly": "단일 writer는 기존 raw native A 조립·dtype·연산 순서를 보존한다. 임의 symmetrization/jitter를 적용하지 않는다. 수학적 에너지 정리는 대칭 SPD A를 가정하며 실제 raw A의 skew와 solve residual을 별도 기록한다. Backend 변경은 같은 raw A의 native full solve와 값 및 VJP parity를 통과해야 한다.",
+    "coefficient": "method-contract.json.lambda_Q_calibration을 기준 계약으로 삼는다. B1 native endpoint의 actual radial 가격을 한 번 계산해 고정한다.",
+    "fit_schedule": "method-contract.json.optimizer를 기준 계약으로 삼는다. 최대 24 accepted updates, 50 logical candidate evaluations 및 25 full gradients 안에서 마지막 accepted 후보를 반환한다. Terminal mapping은 필수이며 이미 계산한 마지막 accepted gradient를 재사용한다.",
+    "history": "각 batch의 모든 층 commit 후 최종 모델에서 native rewrite mean key를 재측정하여 각 층 H에 한 번 append한다. Candidate 중 H를 누적하지 않는다.",
+    "explicit_backbone_change_ko": "문장과 NLL/KL 식을 유지해도 native compute_z의 subject-hook 최적화 연산자까지 동일한 것은 아니다. 손실이 all-token physical weight intervention을 평가하는 변경이다. 이전 V14의 actual builder + 별도 masked loss와도 구분하여 보고한다."
+  },
+  "qualification_policy": {
+    "scope_ko": "작은 CPU 참조 및2–4개 native 요청의 실제 모델 정합 검증을 우선한다. 이 검증을 광범위한 성능 sweep이나 추가 writer arm으로 확장하지 않는다.",
+    "blocking": [
+      "입력/source/state identity 불일치 또는 평가 데이터의 fit 유입",
+      "NaN/Inf, solver 실패 또는 선언한 수치 기준의 실패",
+      "Candidate loss와 commit weight의 불일치",
+      "하층 R에서 상층 K/P/Q로 가는 필요한 gradient 누락",
+      "Logical gradient의 SUM 또는 단 한 번 norm/cost 추가 계약 위반",
+      "History 중복 append, candidate 간 물리적 write 누적 또는 observer state 변경",
+      "Calibration 가격을 유한한 양수로 정의할 수 없는 경우에는 main fit을 시작하지 않는다. 기존 계약이 허용하는 genuine native no-op batch만 예외다. t/n/d, t-n 및 lambda_Q의 비유한값·overflow도 명시적 calibration 실패다."
+    ],
+    "not_quality_gates": [
+      "PS/NS/ACC의 크기 또는 baseline 대비 우열",
+      "Budget 포화, 특정 층 집중, requested zero layer 수",
+      "조건수가 크다는 사실만으로 임의 layer 제외",
+      "낮은 평균 실현률, 높은 Q 또는 작은 lambda 값 자체",
+      "Terminal stationarity를 충족하지 못했다는 이유만으로 유한하고 제약을 만족하는 고정예산 후보를 기각하지 않는다. 미수렴 상태를 명시한다."
+    ],
+    "failure_policy": "기술적 실패는 원인과 미통과 검사를 보존하고 수리 후 같은 계약으로 재검증한다. 허용오차 확대, precision/context/layer/batch 축소, detached-key 대체 또는 exact writer fallback으로 통과를 만들지 않는다.",
+    "source_binding": "실제 구현 commit/tree, 의존성 closure, model/tokenizer revision, native profile/templates, C0/H 초기값, ordered inputs, evaluator, dtype/backend/seed와 coefficient receipt를 봉인한다. 기존 source lock을 소급 변경하지 않는다.",
+    "test_status": "이 문서는 필요한 검증을 규정하며 실제 구현 또는 GPU 검증의 PASS를 뜻하지 않는다."
+  },
+  "structural_tests": [
+    {
+      "id": "Q1_CAUSAL_STATE",
+      "test_ko": "고정 candidate R의 functional 실행을 작은 모델의 명시적 ascending layer write와 대조한다. 각 layer의 실제 prestate, rewrite mean K, solve P, output 및 이후 native logits/loss를 비교한다. 하층 R만 perturb하면 상층 K와 P가 함께 달라지는 사례를 포함한다.",
+      "negative_control": "Entry K를 상층에 재사용하거나 상층 K를 detach한 의도적 잘못된 경로가 검증에서 검출되어야 한다.",
+      "preservation": "같은 candidate에서 손실·비용·정지 보고용 수치가 서로 다른 W/K를 참조하지 않는다."
+    },
+    {
+      "id": "Q2_LOSS_COMMIT_IDENTITY",
+      "test_ko": "마지막 accepted candidate의 FP32 effective weight payload를 그대로 commit하고 동일 native 문장으로 logits/NLL/KL을 재확인한다. 마지막으로 평가한 후보가 rejected trial이면 commit하지 않는다. Commit을 위해 다시 solve하여 다른 upper key나 payload를 만들지 않는다. Terminal reference 확인 forward는 정합 검증 비용으로 별도 기록한다.",
+      "check": "Candidate에서 사용한 actual weight hash 또는 동등한 exact payload identity, cast/add 순서, commit 후 selected weight, teacher의 entry identity 및 native row coverage를 결속한다.",
+      "not_claimed": "손실과 commit의 일치가 requested R의 정확 실현이나 locality 보장을 뜻하지 않는다."
+    },
+    {
+      "id": "Q3_FULL_GRADIENT",
+      "test_ko": "작은 FP64 smooth fixture에서 전체 native loss와 Q의 R/u gradient를 central finite difference 및 독립 autograd 구현으로 확인한다. 여러 층·여러 요청의 방향 perturbation을 사용하여 cross-layer 및 cross-request 항을 포함한다. Nonzero R에서 검사하고 영점 norm의 미분불가능점은 별도 subgradient 검사로 분리한다.",
+      "required_paths": [
+        "직접 R→U→actual logits",
+        "하층 R→actual hidden→상층 K→P→U→logits",
+        "하층 R→상층 K/P/U→상층 Q",
+        "요청 간 mean-key solve 결합 경로",
+        "R=a*u의 anchor 및 실제 FP32/FP64 cast chain"
+      ],
+      "negative_control": "Detached K/P 경로 또는 대각선 근사 gradient는 같은 fixture에서 full reference와 다르다는 것을 확인한다. 한 층의 direct R-gradient만 일치한 결과를 전체 gradient PASS로 사용하지 않는다."
+    },
+    {
+      "id": "Q4_COST_AND_PRECISION",
+      "test_ko": "동일 fresh K/raw native A/R에서 low-rank Q와 dense UAU^T, gradient 및 layer 합을 대조한다. Native 조립·dtype 순서를 보존하고 raw A의 skew가 있을 때 A와 A^T를 포함한 cost VJP 및 same-A solve VJP를 확인한다. Ideal Q와 FP32 effective Q는 정의가 다르므로 값을 구분하고 terminal cast/add 차이를 기록한다.",
+      "checks": [
+        "Native FP32 count division 이후 FP64 lambda 곱/H 가산 순서 보존",
+        "Raw A의 skew, symmetric part의 SPD 상태, 같은 raw A solve residual 및 finite 상태; symmetrization으로 대체하지 않음",
+        "No hidden jitter/eigenvalue clipping 또는 writer coefficient 변경",
+        "Low-rank gradient와 실제 물리 weight 변화의 numerical consistency"
+      ]
+    },
+    {
+      "id": "Q5_LOGICAL_BATCH_AND_ADAPTER",
+      "test_ko": "B=1, 작은 복수 요청, 불완전 tail batch, 불균등 native context 수, 중복 subject/occurrence 및 zero-requested column을 검사한다. Native loss는 owner별 native reduction 후 logical SUM이며 cost와 norm은 후보당 한 번만 추가한다.",
+      "microbatch": "동일 owner forward shape의 graph들을 한 번 logical SUM backward한 결과와 물리 group별 gradient 누적을 먼저 비교한다. Forward shape를 바꾸는 packing/microbatch 확대는 별도 parity를 통과해야 한다. 이전 r1 physical-regrouping 실패를 이 명세가 자동으로 해소했다고 주장하지 않는다.",
+      "model_portability": "Adapter가 write weight 방향/차원, additive site, causal layer order, native lookup/position/mask/teacher/readout을 제공한다. 현재 Llama 경로의 통과를 모든 model/benchmark 지원으로 일반화하지 않는다.",
+      "logical_B": "임의 B를 지원한다는 뜻이며 batch를 쪼개도 같은 결과라는 뜻은 아니다. Physical memory 사유로 logical writer solve를 분할하지 않는다."
+    },
+    {
+      "id": "Q6_CALIBRATION_AND_COMPOSITE_PROX",
+      "test_ko": "reference_calibration/audit.json의 수학 예제와 production 구현을 비교한다. Native endpoint, actual t/n/d, d=2Q, t/n/d와 t-n 및 lambda_Q의 유한성, 양수 가격 조건, 전 구간 계수 고정, per-block prox 및 재진입을 검증한다.",
+      "negative_control": "Native-hook gradient의 대용, abs/clip으로 음수 가격을 양수로 바꾸는 구현, 비유한값·overflow를 정상 가격으로 통과시키는 구현, u-space threshold의 불필요한 1/a 및 G 중복 가산을 검출한다.",
+      "scope": "CPU scalar 수학 검산만으로 실제 모델에서 calibration 가격이 양수가 되거나 성능이 개선된다고 보장하지 않는다."
+    },
+    {
+      "id": "Q7_SEQUENCE_TRANSACTION",
+      "test_ko": "작은 두 batch에서 batch-entry W/H/RNG→candidate→terminal commit→최종 H append→다음 entry 연결을 검사한다. 후보 간 W/H가 누적되지 않아야 하고 기술 실패 rollback 및 observer 비변이도 확인한다.",
+      "checks": [
+        "24 accepted updates/50 logical evaluations/25 full gradients 상한, terminal mapping 및 rejected 후보의 비commit을 검증한다. Full gradient는 초기 1회+accepted update당 1회로 집계하고 terminal에 마지막 accepted gradient를 재사용한다.",
+        "Entry teacher/anchor 고정, 층별 H 1회 갱신 및 동일 accepted payload 사용을 확인한다.",
+        "BB 이력은 batch를 넘겨 전달하지 않고 lambda만 고정한다.",
+        "CALIBRATION_NO_POSITIVE_PRICE, CALIBRATION_NO_VALID_ENERGY, CALIBRATION_NONFINITE 및 NaN/solve/identity failure를 BUDGET_NOT_STATIONARY로 바꿔 commit하지 않는다.",
+        "모든 요청이 genuine native no-op인 batch에서만 lambda pending 상태의 H append를 허용한다."
+      ]
+    },
+    {
+      "id": "Q8_SOLVER_CONTROLLER",
+      "test_ko": "정답을 아는 convex composite fixture에서 prox, BB safeguard, nonmonotone Armijo 기준, 고정 tau의 gradient mapping 및 정지 시점의 호출 수를 검증한다. u0=g0=0이면 eta0/tau=NA 및 exact mapping=0으로 처리하는 별도 stationary 분기도 검증한다. Production은 nonconvex이며 FP32를 사용하므로 전역 수렴을 주장하지 않는다.",
+      "status": "REQUIRED_NOT_YET_PRODUCTION_TESTED"
+    }
+  ],
+  "numerical_contract": {
+    "FP64_reference": "Smooth directional finite difference는 여러 step size에서 truncation/rounding 구간을 확인하고 analytic/autograd와 대조한다. 기본 scale-aware gradient 기준은 atol1e-7+rtol1e-5이며 수치 conditioning/step-size evidence를 함께 남긴다. 개별 비미분점은 해당 검사에서 숨기지 않고 구분한다.",
+    "FP32_actual_model": "출발 기준은 native action/logit parity의 기존 elementwise atol2e-5+rtol2e-4*abs(reference), gradient의 atol1e-6+rtol2e-4*abs(reference)다. RMS 평균만으로 큰 elementwise 실패를 숨기지 않는다. 실제 loss scalar와 gradient scale도 같이 보고한다.",
+    "cost_materialization": "Ideal와 effective Q는 각각의 dense/low-rank 정의 안에서 검산한다. FP32 cast/add로 인한 두 값의 차이는 discrepancy telemetry이며 동일값이라고 가정하지 않는다. Nonfinite 또는 action parity 실패만 기술 차단이다.",
+    "no_rank_branch": "수학 정리는 대칭 SPD ridge를 가정한다. Production은 raw native A를 보존하고 그 skew를 포함한 같은 시스템의 LU 또는 검증된 factor backend를 사용한다. Exact/pseudoinverse/rank-truncated writer arm과 그 feasibility branch는 이번 설계에 없다.",
+    "stationarity": "비영 g0의 일반 경로에서는 고정 probe tau=eta0로 mapping G_tau=(u-prox_{tau G+balls}(u-tau*grad F))/tau를 계산한다. tau를 BB step에 따라 바꾸지 않는다. max_lr ||G_tau,lr||/max(1,||grad F_lr||,beta_lr)<=1e-3이면 STATIONARY_TOL이다. u0=g0=0인 별도 분기에서는 잘 정의된 G+balls에 대해 exact mapping=0, eta0/tau=NA로 기록하며 0/0을 계산하지 않는다. Raw max/RMS/Frobenius, denominator, tau 및 분기 사유를 함께 기록한다. 이는 수치 정지 기준이며 global optimum/edit success가 아니다."
+  },
+  "realization_and_alignment_reporting": {
+    "requested": "각 layer/request의 R, a, u, local cap slack, active/zero/reentry 및 requested share를 기록한다. Shared sum cap은 없다.",
+    "native_mean_realization": "Actual mean K에서의 U_eff K를 동일 candidate의 requested R와 비교하여 norm ratio, directional ratio, cosine, error를 분리한다. Attenuation을 허용하는 soft ridge에서는 ratio<1 자체가 구현 오류가 아니다.",
+    "context_realization": "Canonical, native rewrite contexts, native KL rows를 구분한다. Mean-key 제약과 다른 context의 실현률을 같은 수치로 혼용하지 않는다. Zero R의 비율은 undefined로 처리하고 absolute action/anchor를 별도로 기록한다.",
+    "aggregation": "요청별 평균/중앙값과 Frobenius energy-weighted 비율의 분모를 명시한다. Ratio 평균을 M 대각이나 scalar capacity로 동일시하지 않는다.",
+    "candidate_to_commit": "메인 손실의 실제 candidate와 commit 모델의 native logits/state/action 차이를 기록한다. 일치가 이 설계의 직접적인 정합 검증 대상이다.",
+    "planned_to_realized_allocation": "Requested share와 actual direct-action share를 함께 기록한다. Soft attenuation 및 요청 간 결합으로 달라질 수 있으며, actual 경로를 최적화했다는 사실이 둘의 일치를 보장하지 않는다.",
+    "trajectory": "실제 candidate와 commit trajectory를 비교한다. 이전 virtual subject-only target과 비교할 경우 별도 historical diagnostic으로 명명한다. Net entry change에는 하층의 의도된 변화가 포함되므로 net/R 비율을 overshoot 또는 직접 미실현으로 해석하지 않는다.",
+    "cost": "Q_C0=tr(U lambda_C C0 U^T), Q_H=tr(U H U^T), 전체 Q, Q/B 및 terminal effective Q를 구분한다. H metric 자체가 변하므로 Q의 단조성을 가정하지 않는다. 누적 weight telemetry에 필요한 추가 계산 시간도 기록한다.",
+    "gradients": "Calibration에서 task/norm/Q의 radial 값과 norm을 기록하고, 작은 qualification에서 NLL/KL/Q 각각의 full gradient와 cross-layer 항을 검증한다. Main의 각 accepted 후보에서는 결합된 smooth gradient와 mapping을 기본으로 기록하며 성분별 추가 reverse의 빈도·비용을 명시한다. Gradient norm만으로 인과를 판정하지 않는다."
+  },
+  "proposed_experiment": {
+    "authorization": "USER_AUTHORIZED_BY_EXPERIMENT_2K_JSON",
+    "main_arms": [
+      "CAUSAL_ALLOCATION_EDITING"
+    ],
+    "not_in_scope": [
+      "새 exact/CD/AlphaEdit writer arm",
+      "lambda 또는 예산 sweep",
+      "대규모 ablation 또는 held-out 성능에 따른 진급 gate",
+      "기존 실행 중단/설정 변경",
+      "Main baseline arm을 추가 실행하지 않는다. 계수 계산용 native endpoint fit만 정해진 목적으로 한 번 수행하고 그 비용을 포함한다."
+    ],
+    "entry": "작은 구조 qualification 및 양수 calibration을 통과한 뒤 B1을 동일 2000edit 연속 실행의 첫 batch로 측정한다. B1의 PS95/NS 손실0.4pp는 비교 목표이며 필수 진급 gate가 아니다. PS/NS를 보고 재fit하거나 계수를 바꾸지 않는다.",
+    "sequence": "동일 고정 ordered prefix2000, BS100 x20, cold W0/H0, native profile의 모든 eligible layer. 구현은 다른 B 및 tail을 지원하되 이 실행의 logical schedule은 고정한다.",
+    "state": "각 commit의 W/H를 다음 batch에 연속 전달한다. Candidate별 checkpoint 또는 기존 fitted state 재사용을 전제하지 않는다. 복원 가능성은 실제 source/runtime 계약에서 별도로 공개한다.",
+    "B1_observations": "Accepted actual candidate와 commit의 parity, RS/PS/NS 및 모든 TF ACC, CD 대비 Q, reference 가격, step/call/residual, active 층 및 cap을 보고한다. 관측 성능과 기술적 PASS를 구분한다.",
+    "evaluation": "W0의 고정 prefix2000, 각 birth cohort의 pre/post, W5/W10/W15/W20의 allseen 및 fixed first500/cohort를 제안한다. 동일 endpoint 문항은 identity 검증 후 재사용한다.",
+    "metrics": [
+      "RS/PS/NS numerator와 명시적 denominator",
+      "TF token-micro, prompt-macro, strict ACC",
+      "원래 답/편집 답 NLL와 방향을 명시한 margin",
+      "동일 cohort의 W0-correct retention, lost/gained 및 own-write/later-write 구분",
+      "편집 성공의 현재 cohort와 과거 edit retention을 분리",
+      "Requested/realized share, 실제 update norm, actual Q 및 fit-commit 정합"
+    ],
+    "firewall": "Paraphrase/neighborhood/ACC/held-out 문장을 fit, coefficient, candidate 선택, stop 또는 runtime 선택에 사용하지 않는다.",
+    "generic_denominators": "현재 CounterFact W20은 R2000/P4000/N20000이나 evaluator는 실제 adapter metadata와 row identity로 검증한다. Model·benchmark별 context 수나 target 길이를 하드코딩하지 않는다."
+  },
+  "comparisons_and_inference": {
+    "historical_references": [
+      "현재 CD_Q/CD_C 및 original CD: joint local 계획이나 실행 경로가 다른 역사 비교",
+      "V14 B1: 실제 builder를 미분하지만 main loss는 subject-only masked 경로였던 역사 비교",
+      "MEMIT-H, AlphaEdit, AlphaEdit-BLUE: 동일 cohort/분모와 runtime 차이를 명시한 기존 결과",
+      "MEMIT-BLUE는 H 없이 L4+L8을 사용한 기존 조건이다. 현재 방법이 H를 유지하고 전 층을 후보로 삼는다는 차이도 명시한다."
+    ],
+    "what_changes_together": "All-token actual loss 및 full causal Q에 local norm/cap과 prox/calibration을 결합한 방법이다. 과거 CD/V14와의 성능 차이를 단일 요인에 귀속하지 않는다.",
+    "writer_is_not_new_claim": "Native MEMIT ridge 자체를 새로운 writer로 주장하지 않는다. 연구 대상은 같은 writer가 실제로 실행할 경로에서 공동 local 요청량과 비용 기반 배분을 정하는 것이다.",
+    "same_plan_probe": "필수 추가 실험으로 두지 않는다. 후속 승인으로 같은 R의 서로 다른 writer probe를 한다면 pointwise 동일 K/A/R의 algebra 비교와 fresh-key sequential 실행 비교를 구분해야 한다. 현재 설계에는 exact writer probe 또는 추가 fit이 없다.",
+    "accuracy_and_preservation": "NS만 높고 PS/ACC가 낮아진 결과는 전체 강도 감소에 의한 교환일 수 있다. 실제 실현량·Q·PS/P strict와 동일 cohort 보존을 함께 제시한다. Norm을 맞추었다는 사실만으로 semantic strength가 같다고 주장하지 않는다.",
+    "B1_limit": "좋은 B1 성능이나 fit-commit parity는 장기 누적 보존의 증거가 아니다. 배분 및 보존 주장은 순차 동일 cohort에서 판단한다.",
+    "success_interpretation": "구조 검증 PASS는 구현 계약의 성공이다. 배분의 과학적 이득은 편집·일반화 ACC와 보존, 실제 비용/배분 변화를 함께 검토해야 하며 미리 정의하지 않은 성능 threshold로 실험을 중단하거나 재튜닝하지 않는다.",
+    "history_expectation": "Ridge+Q가 누적 손상을 줄인다는 것은 검증할 가설이다. Q의 비증가, NS 손실의 선형화 및 L4 우위는 정리나 기술적 gate가 아니다. W10 이후 NS 기울기와 cohort의 후속 batch 손상을 PS/strict ACC와 함께 제시한다."
+  },
+  "compute_reporting": {
+    "counters": [
+      "논리적 candidate 평가와 optimizer update 수",
+      "실제 model forward/backward, checkpoint recomputation, geometry solve 및 adjoint 횟수",
+      "Loss 재확인/observer/qualification forward를 main fit과 분리",
+      "실제 처리 token 및 padding token, physical group 수",
+      "Geometry/actual forward/native loss/Q-gradient/optimizer/commit/H/evaluation의 겹치지 않는 시간",
+      "GPU allocated/reserved peak, CPU 및 pinned-memory peak, factor 전송량",
+      "Calibration native reference fit 및 actual task/Q adjoint, 초기·accepted full gradient, rejected forward-only 비용을 구분한다. Main gradient는 초기 1회+accepted update당 1회로 최대 25회이며 terminal mapping은 마지막 accepted gradient를 재사용하므로 별도 terminal reverse를 더하지 않는다. Main의 최대 50후보는 실제 forward 호출 수의 상한이 아니다."
+    ],
+    "cache_contract": "Batch-entry A factor와 영향을 받지 않는 prefix만 identity 조건 아래 재사용한다. 상층 K/P를 entry 또는 이전 candidate에서 가져오는 계산 절약은 method 변경이므로 허용하지 않는다. Terminal accepted payload를 재사용해 불필요한 재-solve를 피한다.",
+    "time_comparison": "동일 hardware/runtime에서 측정한 구간끼리만 가속 배율을 낸다. 과거 V14 fit2038.636초와 v12 planner385.585초는 병목 참고이며 새 경로의 ETA 또는 가속 실측값이 아니다.",
+    "resource_fallback": "검증된 memory grouping/offload/recompute를 사용할 수 있으나 loss, full K/P/Q gradient, logical B, context, layer 또는 dtype를 조용히 바꾸지 않는다. 자원 부족은 기술 한계로 보고한다.",
+    "status": "UNMEASURED_NEW_METHOD; FLOPs·wall time 개선과2000편집 ETA는 아직 검증되지 않았다."
+  },
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "naming_contract": "사용자 지시: 실험 표시명, task/job/run/report 식별자에 odeedit 또는 버전 접미사를 넣지 않는다. 기존 repository/source/design 경로와 내부 schema revision은 재현 이력이며 실험 이름이 아니다."
+}

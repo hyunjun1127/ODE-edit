@@ -1,0 +1,64 @@
+{
+  "schema": "JLZ_CAUSAL_MEMIT_DESIGN_ARTIFACTS_R2",
+  "date_kst": "2026-10-06",
+  "status": "USER_AUTHORIZED_DISPATCH_PACKAGE_READY",
+  "method": "CAUSAL_ALLOCATION_EDITING",
+  "current_document": "../2026-10-05-jlz-v13-realized-writer/method.tex",
+  "decision": "Actual all-token candidate loss and full causal K/P/Q gradient; native MEMIT-H-form ridge; local native requested norm/caps; one native-reference actual radial price; bounded full-gradient proximal BB1.",
+  "review": {
+    "independent_cross_document_audit": "R2 JSON and current TeX reviewed; finite price, zero-gradient branch, accepted payload, trial/gradient counts, coordinate-specific step, Korean descriptions corrected.",
+    "json_parse": "PASS",
+    "duplicated_solver_and_calibration_identity": "PASS",
+    "current_document_korean_text": "PASS",
+    "cpu_reference": {
+      "original_full_causal_tests": 12,
+      "new_calibration_prox_math_tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "receipts": [
+        "reference/audit.json",
+        "reference_calibration/audit.json"
+      ],
+      "scope": "Synthetic FP64 mathematics only; not production BB controller or target-model qualification."
+    },
+    "latex": {
+      "attempted": true,
+      "status": "COMPILER_ENVIRONMENT_UNAVAILABLE",
+      "diagnostic": "Unable to find standard directories for platform",
+      "source_preserved": true,
+      "compilation_confirmed": false
+    }
+  },
+  "limits": [
+    "Native endpoint radial price can fail to be positive; the design records this without clipping or arbitrary fallback.",
+    "Q need not fall as history grows; semantic preservation and ACC must be measured.",
+    "Production solver, actual-model calibration/gradient/payload parity, speed and performance remain unverified.",
+    "Production implementation, target-model tests and scheduling are delegated to SH4 through GH; actual receipts determine delivery and submission status."
+  ],
+  "execution_intent": "USER_AUTHORIZED_GH_TO_SH4_SERVER4_2000EDIT; READY_NOT_SENT",
+  "sha256": {
+    "plans/global/2026-10-06-jlz-causal-joint-writer/experiment-2k.json": "13634cf37c6785f96d307d63dab960cfe22e3c030971a715d17761a5b2fb9037",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/history/r1-contracts.json": "4183304206ef0880a552eedb181413d0227e0400237267efb562868ec66b4843",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json": "d70a232bdad7bda03c09dc4588f44b06c22643cf3aee34635511eda68d7bfaba",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/latest-review-resolution.json": "2c77e394b06133d02ceedd5356000c74e3448026c3c6bcd01c7889c3863a8535",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json": "c056d26ad2eb628d200baba15aee75e08789309c8a5c46e2cec175ef3d548de3",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/pipeline-vs-blue-review.json": "73437cefed10014615e759ccbe5bb2caedcee9577ccdaec41576ee1ff3afbfa1",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/README-ko.md": "1ba1009b404b5dc61c237e96711880c48b83de0864122e5310ce77b51789ab58",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/audit.json": "b17faa38c93f5d5118a2fde922b5c732faa72cb14462e0cf851d213d18110b9e",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/causal_memit.py": "fdb28a3624c4d7d0dd83187edd29ec554bfa4214072af5c051d8612c8629e09d",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/requirements.txt": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/run_audit.py": "36dfc9687509a1c47240e44550bdb69701c07c56923c577a862f77671bb01dee",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/test_causal_memit.py": "e23610d2947a9f366bd4d3a30f87201c983b524a56a97cd4be120b36bba1a842",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/README-ko.md": "18a3a9f6cbf12f5277471a83f23e87bb6b525bf07532b61e385b317b8bb89af6",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/audit.json": "b7965572dca0833f736fd628cb7b318a5ccc9974a069b4db860b659c13f9333a",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/math_contract.py": "f2b9bcaf770e48c653773890a187d39606300424f9ce5144a88fd6e28a0569d4",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/requirements.txt": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/run_audit.py": "bc080c1ca4687bc466713da6a705e5a15bbfa24dcae7d952a1eaad3eddb422ec",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/test_math_contract.py": "a6626903c3f66679d2483385521b574cd3eecee58f29f03dec9839daaa9c5b98",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json": "90b3bb3d32296b30653238a893d88047a9ecc46a8db4ac119347768ec9d8a3d1",
+    "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex": "7b10555ff48e79a37753d1f730ba40a698a35e65b523b5a06db0d0f5bac36ff6",
+    "plans/global/causal-allocation-editing/dispatch.json": "2efcbc58a77db976f4475ac78eda86731d70efd9fe676dcf94bd8126d5dceb1a"
+  },
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing"
+}
