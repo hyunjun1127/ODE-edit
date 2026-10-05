@@ -1,0 +1,212 @@
+{
+  "schema": "JLZ_CD_CUMULATIVE_ALLOCATION_IMPLEMENTATION_CONTRACT_V1",
+  "status": "DESIGN_ONLY_RECEIVER_IMPLEMENTATION_AND_QUALIFICATION_REQUIRED",
+  "date_kst": "2026-10-05",
+  "authority": {
+    "method": "method-contract.json",
+    "experiment": "experiment-2k.json",
+    "execution_owner": "GH가 별도로 source를 결속한 구현과 2000-edit 두 chain을 SH4에 위임한다.",
+    "this_artifact": "구현 명세서다. 기존 production 작업을 변경하거나 GPU 작업을 제출하지 않으며, 수신자의 qualification이 통과했다고 주장하지 않는다."
+  },
+  "source_basis": {
+    "V13_B1": "08230095",
+    "V13_sequential": "2ff0ecc6",
+    "reviewed_checkout": "be636d922c6e26ad728e7d3e32419e9c4e46f734",
+    "unchanged_from_executed_sequential": [
+      "project/run_scripts/jlz_realized_writer/geometry.py",
+      "project/run_scripts/jlz_realized_writer/writer.py",
+      "project/run_scripts/jlz_realized_writer/capture.py",
+      "project/run_scripts/jlz_realized_writer_sequential/run.py",
+      "project/run_scripts/jlz_shared_budget/optimize.py"
+    ],
+    "receiver_rule": "실제 구현 commit, 의존성 전체, model/runtime, 입력 identity와 이 설계 묶음을 새 execution lock에 결속한다. 기존 V13/V14 lock은 역사적 근거이며 기존 실행 source를 변경할 권한이 아니다.",
+    "reviewed_checkout_note": "reviewed_checkout은 최초 코드 검토 당시의 역사적 source 기준점이다. 이후 worktree가 rebase되었으므로 현재 HEAD나 향후 실행 commit을 뜻하지 않는다."
+  },
+  "invariants": [
+    "Native 요청 문장, token ID, target token, lookup 위치, NLL/KL reduction과 readout, KL current||entry를 유지한다.",
+    "설정된 모든 eligible layer를 유지한다. 초기 layer 부분집합, risk gate, hard sparsity mask, zero-requested column 제거를 도입하지 않는다.",
+    "D_lr=a_lr*u_lr; 기존 EfficiencyAdam moment/scaling과 요청별 공유 반경 .75를 유지한다. Native norm 계수 .5는 lambda_alloc과 독립이다.",
+    "모든 native loss와 allocation 비용은 동일 logical candidate를 사용한다. Gradient는 요청 전체 SUM이며 평균은 보고에만 사용한다.",
+    "모든 요청 block을 동기적으로 갱신한다. 요청별 영구 독립 freeze를 이 coupled method와 동등하다고 주장하지 않는다.",
+    "Fit은 subject 위치에만 주입한다. Commit은 actual 상층 key를 새로 읽어 모든 token에 적용하는 물리적 CD weight update를 유지한다.",
+    "후보별 actual causal writer, solve adjoint, K-gradient builder, reference prompt, history replay, observer label feedback을 도입하지 않는다.",
+    "한 fit 동안 entry W/H, teacher, anchor, row identity와 entry surrogate geometry를 고정한다. 다음 committed batch에서 새로 구성한다.",
+    "모든 layer write 후 native final rewrite-mean history를 한 번 append한다. KL/context Gram으로 대체하지 않는다.",
+    "기술적 실패 시 batch-entry W/H/RNG/cache를 복원한다. 평가는 endpoint를 변경하지 않는다."
+  ],
+  "arms": {
+    "CD_Q": {
+      "alpha": 0,
+      "risk": "sum_l Q_A,l(D_l)"
+    },
+    "CD_C": {
+      "alpha": 1,
+      "risk": "sum_l [Q_A,l(D_l)+2*lambda_C*abs(c_l(D_l))]"
+    },
+    "common": "동일 lambda_alloc receipt, native 설정, .75 예산, 동기 optimizer/stop controller, projected subject operator, model/runtime과 순서가 고정된 입력을 사용한다. Alpha는 층별 absolute cumulative alignment 항만 바꾼다.",
+    "reference": "Original CD는 source/runtime을 검증한 비교 reference다. 이를 새 동기/projected method로 재명명하지 않으며 이 파일은 세 번째 main chain을 추가하지 않는다."
+  },
+  "notation_mapping": {
+    "operator_F": "이 구현 문서의 operator_shapes.F와 선형식 U=D F의 F는 method-contract.json의 Bmap에 해당한다.",
+    "cost_C": "이 구현 문서의 operator_shapes.C와 비용식 tr(D C D^T)의 C는 method-contract.json의 비용 행렬 F에 해당한다.",
+    "unchanged": "S는 context response, J는 cumulative alignment map으로 두 문서에서 같다. 구현 문서의 Z는 method의 Delta에 해당한다. 수식은 이 문서 내부 표기를 일관되게 사용한다."
+  },
+  "operator_shapes": {
+    "K": "n_in_l by q 크기의 고정 batch-entry native context key. q는 KL을 포함해 주입되는 모든 native row의 실제 개수다.",
+    "E": "B by q 크기의 명시적 owner incidence matrix. Native row j가 요청 occurrence r에 속할 때만 E[r,j]=1이다.",
+    "Omega": "diag(1/(B*n_contexts_of_owner)); 기존 CD owner_weights를 따른다. 실제 양의 개수를 사용하며 고정 7-row를 가정하지 않는다.",
+    "C0": "고정 native second moment다. Native FP32 count division 후 V13 prepare_metric과 일관된 symmetric FP64 metric으로 표현한다. Alignment와 energy 항등식에 동일 symmetric C0를 사용하며 jitter나 eigenvalue clipping을 추가하지 않는다.",
+    "A": "sym(lambda_C*C0_l+H_entry_l); 기존 V13 FP32 moment/history 구성과 FP64 metric factorization을 따른다. Reference에서는 원 native 구성 순서를 유지하며 symmetry 연산의 재결합은 qualification한다.",
+    "whitened": "X=L^-1 K Omega^(1/2)=Qx Sigma V^T; 기존 QR-SVD와 retained-rank 규칙을 사용한다.",
+    "F": "B by n_in_l 크기의 owner-compressed CD map: E Omega^(1/2) V Sigma^-1 Qx^T L^-1. Retained factor만 사용한다.",
+    "S": "B by q 크기의 context-response map F K = E Omega^(1/2) V V^T Omega^(-1/2). S는 response이며 context Gram을 뜻하지 않는다.",
+    "Y": "d_out_l by q 크기의 projected subject action D_l S_l. 명시적인 global native row로 색인한다.",
+    "C": "B by B 크기의 allocation metric F A F^T. N=E Omega^(1/2) V Sigma^-1일 때 N N^T와 같다.",
+    "Z": "d_out_l by n_in_l 크기의 실제 누적 변위 W_entry_l.double()-W0_l.double(). 층별로 재구성한다.",
+    "J": "d_out_l by B 크기의 cumulative alignment map Z C0_l F^T.",
+    "costs": "Q_A=tr(D C D^T); c=<D,J>_F; risk=Q_A+2*alpha*lambda_C*abs(c). 층마다 절댓값을 먼저 취한 뒤 층 전체를 합한다."
+  },
+  "rank_and_projection": {
+    "same_solver": "geometry.py의 QR-SVD와 strict eps64*max(X.shape)*sigma_max cutoff를 유지한다. Jitter, 근사 low-rank truncation, diagonal Gram 대체, deduplication, microbatch별 solve를 추가하지 않는다.",
+    "fit_response": "Y=D S와 cross-owner 경로를 포함한 전체 Jacobian을 사용한다. 고정 entry CD operator가 버리는 target 성분으로 virtual 이익을 얻는 것을 막는다.",
+    "compatible_values": "Target이 compatible이면 선언된 수치 계약 안에서 Y는 owner D를 반복한 값과 같다. 현재 D에서 값이 같다는 사실만으로 Jacobian이 같다고 할 수 없다.",
+    "D_fastpath": "검증된 full-column-rank 사례처럼 캐시된 operator의 전체 owner target 공간에서 S=E가 성립할 때만 owner-D 직접 주입을 사용한다. 현재 D S가 D E에 가깝다는 이유로 gradient를 E로 바꾸지 않는다.",
+    "zero_and_duplicates": "Zero target과 중복 occurrence column을 유지한다. Rank deficiency는 geometry 결과이며 자동 numerical failure가 아니다. Projected action, incompatible target, actual commit 실현을 분리 기록한다.",
+    "commit_rank": "Fresh-key CD writer의 실제 rank/projection receipt를 별도로 유지한다. Entry projection이 이후 actual 상층 geometry의 compatibility를 보장하지 않는다."
+  },
+  "coefficient_fixation": {
+    "name": "lambda_alloc",
+    "scope": "한 번 봉인한 값을 CD-Q/CD-C와 전체 20 batch가 공유한다. Native norm 계수 .5와 독립이다.",
+    "source": "Projected subject action이 처음 0이 아닌 cold-entry candidate에서 기존 계산에 통합한다. 통상 첫 native update 이후 B1 c1이다.",
+    "formula": "lambda_alloc = ||g_norm_u||_F / ||g_Q_u||_F; 모든 layer와 요청 occurrence를 연결하며 목표 비율은 정확히 1이다.",
+    "g_norm": "기존 analytic price_r*u_lr/||u_lr||, price_r=.5/a_star_r. Zero block에서는 zero subgradient를 사용한다.",
+    "g_Q": "sum_l tr(D_l C_l D_l^T)의 stored u에 대한 gradient다. D=a*u와 선언된 FP32/FP64 cast chain을 포함한다. Cumulative cross 항과 observer metric은 포함하지 않는다.",
+    "zero_start": "D=0이고 실제 Z=0이면 두 allocation gradient는 0이다. 따라서 첫 native update는 이후 고정할 계수와 무관하게 동일하다. 별도 warm-up, fit, writer, candidate를 추가하지 않는다.",
+    "pending": "계획이 계속 0이면 임의 계수 대신 pending을 유지한다. 무편집 batch가 calibration pending을 다음 batch로 넘기려면 W0 대비 실제 entry 변위가 여전히 0임을 확인한다. 정규화 값을 임의로 만들지 않는다.",
+    "failure": "Projected action이 0이 아닌데 Q gradient가 0이거나, gradient가 비유한이거나, 비율이 비유한/비양수이면 기술적 오류다. 작은 유한 분모는 FP64로 reduction한다. 임의 epsilon, clipping, 기본 계수, 큰 값에 대한 quality gate를 사용하지 않는다.",
+    "shared_receipt": "수신자는 기준 계수와 calibration source/candidate/operator/gradient norm을 한 번 봉인한다. 다른 arm은 같은 cold calibration을 qualification에서 재현하고 봉인된 값을 사용한다. 독립 튜닝하지 않는다. 첫 물리적 편집 전에는 두 arm의 cumulative cross 항이 모두 0이다.",
+    "interpretation": "고정 gradient-scale 관례이며 과학적으로 최적이거나 성능으로 고른 계수가 아니다. 이후 batch에서 동적으로 재보정하지 않는다."
+  },
+  "native_and_allocation_gradients": {
+    "native": "동일한 전체 u snapshot으로 각 group의 native loss를 Y=D S에서 평가한다. S가 E와 다르면 native loss 자체도 요청 사이에 결합될 수 있다.",
+    "allocation": "g_D,l=2 D_l C_l+2*alpha*lambda_C*sign(c_l)*J_l; c_l=0에서는 0을 택한다. D=a*u를 거쳐 정확히 한 번 전달한다.",
+    "assembly": "전체 native gradient를 먼저 누적하고 lambda_alloc 배의 allocation gradient와 기존 analytic norm gradient를 각각 한 번 더한다. Autograd norm을 중복하거나 physical group마다 allocation 항을 중복하지 않는다.",
+    "snapshot": "어떤 요청 block도 갱신하기 전에 cross-request gradient를 계산한다. 기존 요청별 EfficiencyAdam instance는 유지할 수 있지만 모든 step 입력은 같은 candidate snapshot에서 와야 한다.",
+    "precision": "Geometry/cost cache와 calibration reduction은 FP64를 사용한다. 선언된 FP32 stored-u/D와 FP32 materialized commit의 cast/add 순서를 유지한다. Analytic cast-chain gradient를 autograd reference와 검증한다.",
+    "quadratic_reference": "Retained factor norm을 비음수 energy reference로 사용하고 cached-C의 평가값과 gradient를 수치 비교한다. Eigenvalue clipping이나 metric 변경으로 수치 불일치를 감추지 않는다."
+  },
+  "stopping": {
+    "predicate": "동일 common candidate에서 모든 요청의 native objective NLL+lambda_K*KL+(.5/a_star)*sum_l||u_lr||가 .05 미만일 때만 종료한다. Allocation risk를 요청별 정지값에 임의 배분하지 않는다.",
+    "cap": "공통 candidate 평가는 최대 25회, update는 최대 24회다. 마지막으로 전체 평가가 완료된 유한 common candidate를 채택한다.",
+    "difference_from_original": "V13의 요청별 독립 early freeze와 명시적으로 다르다. CD-Q/CD-C에는 같은 controller 변경을 적용하며 유한 step의 stationary point를 보장하지 않는다.",
+    "terminal": "Threshold/cap으로 채택하는 terminal candidate에는 backward나 optimizer update를 수행하지 않는다. 공통 stop 평가 순서를 qualification하며 terminal gradient를 몰래 계산하지 않는다.",
+    "efficient_schedule": "실험 설계의 최소 qualification 안에서, 원래 group의 추가 모델 호출 1회 이하로 complete-owner의 original-no-grad witness를 얻을 수 있는 경우에만 common stop이 거짓임을 확인한 뒤 한 번의 gradient pass로 진행하는 경로를 검증·사용한다. 불가능하거나 witness가 없으면 기존 full-evaluate/replay로 돌아간다. 별도 광범위한 사전 실험을 추가하지 않는다. Probe group 재배열은 결정적·비변이 forward 또는 정확한 RNG replay가 검증된 profile에만 허용한다. Logical candidate와 추가 probe/replay를 포함한 실제 호출은 분리 기록한다.",
+    "near_boundary": "선언된 수치 불확실성이 threshold를 가로지르면 종료 판정 전에 원래 reference grouping으로 재확인한다. 새로운 과학적 threshold나 observer 기반 채택 규칙을 추가하지 않는다."
+  },
+  "function_changes": [
+    {
+      "source": "project/run_scripts/jlz_realized_writer_sequential/run.py:136-146",
+      "change": "기존 initial=capture_native_sites(...)를 geometry 입력으로 재사용한다. Fit 전에 작은 고정 cost/response cache를 한 번 준비하고 entry W/H와 native pack에 결속한다. Candidate fit 안에서 actual causal writer를 호출하지 않는다."
+    },
+    {
+      "source": "project/run_scripts/jlz_realized_writer/geometry.py:6-64",
+      "change": "Same-A Cholesky와 retained QR-SVD를 target 적용에서 분리하고 검증된 owner-compressed F/S/C/J builder를 추가한다. 기존 target 적용 연산을 commit reference로 유지한다. Owner compression 재결합은 검증하며 bitwise 동일하다고 가정하지 않는다."
+    },
+    {
+      "source": "project/run_scripts/jlz_shared_budget/optimize.py:9-25,32-102",
+      "change": "Global row별 projected native action을 전달하고 새 controller에서는 영구 request freeze를 제거한다. Common-candidate native gradient를 누적하고 coupled allocation을 한 번 합하며 계수를 고정한다. 모든 terminal virtual row를 같은 common candidate에서 캡처한다. 기존 namespace는 역사적 reference로 남긴다."
+    },
+    {
+      "source": "project/run_scripts/jlz_shared_budget/optimizer.py:5-55",
+      "change": "기존 norm_gradient, EfficiencyAdam과 .75 projection을 재사용한다. 새 layer mask, moment reset, learning rate, warm-up은 도입하지 않는다. Gradient 입력과 공통 실행 순서만 바꾼다."
+    },
+    {
+      "source": "project/run_scripts/jlz_realization/profile.py:39-59; project/run_scripts/jlz_realized_writer/capture.py:25-32,59-65",
+      "change": "검증된 adapter의 subject-row action 경로 Y[:,global_row]를 추가한다. Native layer 순서, checkpoint 동작, 정확히 같은 candidate의 virtual capture를 유지한다. 고정 context 개수의 나머지 연산으로 owner를 추론하지 않는다."
+    },
+    {
+      "source": "project/run_scripts/jlz_realized_writer/writer.py:15-45,60-79,92-99",
+      "change": "Actual 상층 key를 새로 캡처하고 기존 CD의 owner별 target D를 유지한다. Identity가 입증되면 entry A factor와 첫 site QR-SVD를 재사용할 수 있다. Fit/deployment gap은 virtual_pre=virtual_post-Y와 direct_gap=actual_local-Y로 기록한다. actual_local-D_owner는 요청량 실현 오차로 별도 유지한다. Final history append는 보존한다."
+    },
+    {
+      "source": "project/run_scripts/jlz_realized_writer_sequential/run.py:67-89,130-186",
+      "change": "첫 편집 전에 selected physical W0 weight만 CPU에 저장하고 identity를 고정한다. 실제 Z를 층별 재구성한다. Cache/transaction과 결과 receipt를 확장하며 observer 전용 label은 method 결정에 사용하지 않는다."
+    }
+  ],
+  "cache_and_commit": {
+    "identity": [
+      "source/model/tokenizer/profile",
+      "선택한 W0 weight의 identity",
+      "batch-entry W/H",
+      "layer와 weight layout",
+      "native row/global owner/context의 identity",
+      "dtype/backend/rank 규칙",
+      "K hash와 retained-factor receipt"
+    ],
+    "first_site": "최적화하는 하층 site가 해당 key를 바꿀 수 없음을 입증한 경우에만 commit에서 entry K/factor를 재사용한다. Zero site의 미분 경로와 target column을 유지한다.",
+    "upper_sites": "하층 물리적 write 후 actual K와 CD geometry를 재계산한다. Entry S/C/J는 fitting surrogate로 남으며 상층 commit solve를 오래된 entry factor로 대체하지 않는다.",
+    "same_A": "H는 모든 layer write 후 append하므로 fit과 순차 commit 동안 A는 동일하다. 해당 transaction 안에서 검증된 A-factor cache를 사용할 수 있으며 commit/history 후에는 무효화한다.",
+    "physical_W0": "Selected FP32 W0 weight를 CPU에 저장한다. 전체 두 번째 모델이나 새 disk checkpoint를 만들지 않는다. Z는 실제 FP32 committed W 차이를 FP64로 변환한 것이며 이상적 solver U의 누적합이 아니다.",
+    "telemetry": [
+      "예측 Q_A, 부호가 있는 c, 절댓값 cumulative 항을 각각 기록",
+      "actual ideal/effective commit Q와 alignment",
+      "entry 대비 actual 상층 key drift",
+      "requested D, projected fit Y, actual local action을 각각 기록",
+      "모든 owner의 native objective와 공통 terminal 사유",
+      "계수 calibration receipt와 고정값",
+      "arm별 W/H/RNG 연결과 final history receipt"
+    ],
+    "limitation": "고정 entry 상층 geometry는 최종 actual geometry와 다르다. Quadratic이나 absolute alignment가 semantic locality 또는 과거 edit retention을 보장하지 않는다. W0 변위에는 원하지 않은 drift뿐 아니라 의도한 과거 편집도 포함된다."
+  },
+  "cost_and_resources": {
+    "additional_model_forwards": "기존 initial의 모든 site native capture를 재사용하면 geometry prepass의 추가 forward는 0회다. 공통 stop 평가/replay 비용은 geometry 비용과 분리 측정한다.",
+    "literal_solve_counts": "Fit 전에 entry QR-SVD L회를 추가한다. 기존 commit에는 actual solve L회가 필요하다. 첫 site geometry identity를 입증하면 그 QR-SVD를 재사용하여 총 L회 대신 2L-1회가 된다. 현재 5-site profile은 기존 5회 대비 총 9회다. Candidate별 geometry solve/VJP는 없다.",
+    "Cholesky_counts": "Entry A factor L개를 보관/offload하면 기존 commit Cholesky L회를 앞으로 옮기는 것이므로 추가 Cholesky는 없다. 메모리 때문에 factor를 버리면 재계산으로 L회가 추가된다. 이 자원 선택을 숨기지 않고 보고한다.",
+    "per_candidate": "전체 quadratic gradient는 O(sum_l d_l B^2), alignment 항은 O(sum_l d_l B)다. Projected row action은 operator 전체의 S=E fastpath가 검증되지 않으면 O(sum_l d_l B q)가 필요하다.",
+    "entry_alignment": "C0 F^T와 Z(C0 F^T)를 층별로 한 번 계산한다. Fit에는 작은 C/J와 필요한 response/factor cache만 유지한다. 매 iteration에 전체 d-by-n candidate U를 만들지 않는다.",
+    "current_profile_examples_not_constants": {
+      "shape": "5개 site, d=4096, n=14336, B=100, q=700",
+      "selected_W0_CPU_FP32_GiB": 1.09375,
+      "all_C_FP64_MiB": 0.3814697265625,
+      "all_J_FP64_MiB": 15.625,
+      "all_owner_F_FP64_MiB": 54.6875,
+      "one_A_or_L_FP64_GiB": 1.53125,
+      "all_L_CPU_FP64_GiB_if_retained": 7.65625,
+      "existing_all_H_FP32_GiB": 3.828125,
+      "quadratic_gradient_GFLOPs_per_candidate": 0.4096,
+      "C0_times_F_transpose_GFLOPs_once": 205.520896,
+      "Z_times_C0F_transpose_GFLOPs_once": 58.720256,
+      "note": "연산 횟수는 시간 측정값이 아니다. FP64 처리량, factorization, CPU/pinned 전송, response materialization과 stop 순서를 실측해야 한다. 가속률이나 갱신된 ETA를 주장하지 않는다."
+    },
+    "portable_resources": "차원/site/실제 B/context 개수는 adapter에서 얻는다. GPU group activation, CPU/pinned factor cache, entry scratch의 상한을 따로 정한다. Microbatch로 logical writer를 쪼개거나 C의 off-diagonal 항을 제거하지 않는다.",
+    "fallback": "자원 상한에 맞추어 정확한 재계산, CPU/offload factor, 검증된 exact backend를 사용한다. 정확한 경로가 모두 자원에 맞지 않으면 기술적 resource block을 보고한다. Precision 축소, jitter, 근사 core, context/layer 제거, logical-B 축소를 몰래 적용하지 않는다."
+  },
+  "portability": {
+    "model": "Adapter는 subject hidden 주입과 selected write-site 출력의 가법 대응, weight 방향, 차원, causal site 순서, 첫 site 독립성을 입증해야 한다. 기존 Llama 코드만으로 모든 모델 지원이 입증되지는 않는다.",
+    "benchmark": "Native adapter가 문장, teacher/readout, context weight, lookup과 target reduction을 담당한다. Benchmark paraphrase/neighborhood label은 fit, 계수 고정, stop, geometry 선택에 사용하지 않는다.",
+    "batch": "Occurrence owner, 중복/zero column, 서로 다른 context 개수, 실제 tail B를 명시하며 empty batch는 no-op이다. 전체 logical batch의 결합은 method 동작이며 batch 구성 변화에 불변이라는 주장이 아니다.",
+    "large_B": "전체 context geometry와 B-by-B coupling에 대한 자원 가능성을 검사한다. q나 B가 커졌다고 small-core 근사로 몰래 대체하지 않는다."
+  },
+  "required_tests_before_main": [
+    "고정 K/A에서 dense CD와 owner-compressed F, projected S, C energy, analytic D/u gradient를 비교한다. 매끄러운 FP64 reference에서 finite difference를 확인한다.",
+    "Cross-owner off-diagonal gradient, zero target/layer 재진입, 서로 다른 native context 개수, B=1, tail shape, 중복 column을 확인한다.",
+    "Rank-compatible/incompatible 사례를 확인한다. 현재 D S=D E라는 값의 일치만으로 E-gradient fastpath를 허용할 수 없음을 검증하고 S가 소거하는 nonzero requested 방향을 확인한다.",
+    "Cumulative alignment의 양/음/0 부호, 고정된 층별 절댓값 정의, 실제 W_entry-W0 구성과 covariance-energy 상계 항등식을 확인한다.",
+    "Zero-origin calibration, 첫 nonzero candidate, 두 arm 공통 receipt, all-zero pending/무편집, zero/nonfinite 분모 오류와 epsilon/default/clip 미사용을 확인한다.",
+    "Physical grouping에 따른 SUM gradient 불변성, projected row를 통한 native gradient 결합, 동기 update 전 allocation/norm gradient의 정확히 한 번 합산을 확인한다.",
+    "모든 native objective에 대한 공통 stop, cap25/24, terminal backward 0회, witness/fallback row coverage, threshold 부근 reference replay를 확인한다.",
+    "Operator가 compatible인 작은 actual model에서 기존 direct-D와 projected-S 주입을 비교한다. Native token/readout/teacher parity와 cast/materialization을 확인한다.",
+    "같은 entry의 첫 site factor 재사용을 reference와 비교한다. 상층 fresh capture, H 변경 후 cache 무효화, 의도적으로 오래된 cache를 넣은 negative control을 확인한다.",
+    "Gap telemetry를 실제 fit 주입 Y에 결속한다. inherited와 actual-minus-Y의 합이 final fit gap임을 확인하고 requested D 오차는 분리한다. Scalar 대수 항등식 하나로 의미 정합을 대신하지 않는다.",
+    "최소 두 개의 작은 순차 batch에서 W/H/RNG 연결, selected W0 불변, final native history 한 번, 실패 rollback, observer 비변이, candidate weight 비누적을 확인한다.",
+    "승인된 두 2000-edit chain을 계속하기 전에 수신자의 runtime/source-bound B1과 자원 profile을 검증한다. Scientific quality는 보고하며 봉인된 method를 재튜닝하는 근거로 사용하지 않는다."
+  ],
+  "receiver_deliverables": [
+    "실제 implementation/dependency/source lock과 완료된 CPU/actual-model qualification receipt",
+    "정확한 candidate와 gradient scaling 근거를 포함한 공통 계수 receipt",
+    "실험 계약에 따른 CD-Q/CD-C의 독립 cold-entry chain, 각각 20 batch와 2000 edit",
+    "Logical candidate 및 physical F/B/geometry/replay 횟수, 중복 없는 시간, GPU/CPU/pinned-memory 최대치",
+    "고정 분모의 RS/PS/NS와 strict/token/prompt ACC, current 및 누적/cohort retention, actual 대비 surrogate geometry 진단",
+    "이 설계문만으로 qualification, 가속, semantic preservation, 최종 성능이 입증되었다고 주장하지 않음"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "JLZ_CD_CUMULATIVE_HANDOFF_VALIDATION_R1",
+  "scope_ko": "설계와 합성 CPU reference 검증. SH4 production 구현, 실제 모델 gradient/commit 및 성능 검증은 후속 실행 범위다.",
+  "CPU_reference": {
+    "status": "PASS",
+    "tests": 11,
+    "audit": "reference/audit.json",
+    "dense_compact_cost_max_error": 2.2737367544323206e-13,
+    "dense_compact_gradient_max_error": 2.842170943040401e-14,
+    "finite_difference_max_error": 1.5866254976515393e-09,
+    "cross_owner_microbatch_max_error": 3.3306690738754696e-16,
+    "runtime": "Python3.12.0/NumPy2.2.6 FP64; 모델/데이터/GPU 사용 없음"
+  },
+  "syntax": "JSON parse와git diff --check 통과; 최종 pre-commit에 재확인",
+  "latex": {
+    "source": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+    "tool": "codex_app.compile_latex_document",
+    "status": "COMPILER_ENVIRONMENT_UNAVAILABLE",
+    "diagnostic": "Unable to find standard directories for platform",
+    "interpretation_ko": "내장 compiler 환경 실패로 PDF 컴파일 성공은 확인하지 못했다. 저장한 동일 TeX source와 JSON 계약을 전달하며 별도 PDF나 탭을 생성하지 않았다. 소스 오류가 검출됐다는 뜻은 아니다."
+  },
+  "independent_review": "audits/global/2026-10-05-jlz-cd-cumulative-2k-handoff/review.json",
+  "GPU_qualification": "NOT_RUN_BY_DESIGN_SESSION; SH4 task에 포함",
+  "scientific_result": "NOT_ESTABLISHED",
+  "disclosure_ko": "계수 gradient matching과 누적 alignment proxy는 명시된 설계 선택이다. locality/ACC 향상이나 속도 개선을 검증했다고 주장하지 않는다."
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "JLZ_CD_CUMULATIVE_ALLOCATION_METHOD_R1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "status_ko": "사용자 승인 설계; production 구현과 GPU 성능은 아직 검증 전",
+  "motivation_ko": "V13 CD의 높은 현재 subject 실현을 유지하면서, 누적 편집 중 실제 write 비용과 이전 변위와의 간섭을 공동 목표 생성 및 층별 배분에 연결한다. History 부재나 실현률 저하를 원인으로 가정하지 않는다.",
+  "document": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+  "reference_execution": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "evidence": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/report-ko.md",
+  "scope": {
+    "arms": {
+      "CD_Q": 0,
+      "CD_C": 1
+    },
+    "all_eligible_layers": true,
+    "layer_concentration_allowed": true,
+    "native_sentences_subject_lookup_NLL_KL_preserved": true,
+    "KL_direction": "current || batch-entry",
+    "new_reference_or_replay_or_generation_prompts": false,
+    "requested_budget_per_request": 0.75,
+    "norm": "V13 beta_r sum_l ||u_lr||, beta_r=0.5/a_star_r; D_lr=a_lr*u_lr. No division by eligible layer count.",
+    "writer": "V13 CD retained FP64 QR-SVD exact compatible / weighted range-LS otherwise, all native injection contexts including KL",
+    "actual_upper_key_refresh": "각 층 commit 직전에 하층 actual all-token write가 반영된 key를 재캡처한다.",
+    "history": "현재 native C0/H 정의 유지; 모든 층 write 후 최종 rewrite-only native mean key로 정확히 한 번 append. 새 replay 없음.",
+    "warmup": "없음. D=0의 비용 gradient가 0인 첫 native update는 본 fit의 기존 c0 update다.",
+    "changes_requiring_explicit_reporting": [
+      "entry CD geometry 위험 비용",
+      "누적항 alpha=1",
+      "rank-incompatible entry의 projected subject 주입",
+      "요청 결합에 따른 공통 candidate/update/stop"
+    ]
+  },
+  "notation": {
+    "B": "실제 logical batch 요청 수",
+    "m_l": "층 l의 실제 native injection row 수; 고정 7*100 금지",
+    "D_l": "d_out,l x B requested local residual matrix",
+    "E_l": "B x m_l explicit owner incidence; E[r,j]=1 iff row j belongs to r",
+    "Omega_l": "diag(1/(B*n_rows_of_owner[j])); 기존 CD row weighting 보존, NLL reduction과 혼동 금지",
+    "K_l": "현재 batch entry의 native subject keys, n_in,l x m_l",
+    "Delta_l": "실제 FP32 committed W_entry,l - 최초 W_initial,l; 이상적 U 누적합이 아님",
+    "C0_l": "기존 prior의 대칭 PSD covariance 표현; writer prepare_metric과 일관된 metric",
+    "A_l": "lambda_C,l*C0_l + H_l = L_l L_l^T; profile lambda_C를 사용"
+  },
+  "entry_geometry": {
+    "factorization": "X=L^-1 K sqrt(Omega)=P_tau Sigma_tau V_tau^T. 기존 CD QR-SVD, eps64*max(shape)*sigma_max의 strict retained 규칙을 사용한다.",
+    "B_map": "Bmap=E sqrt(Omega) V_tau Sigma_tau^-1 P_tau^T L^-1; inverse 행렬을 만들지 않고 triangular solve로 구성",
+    "linear_writer": "U_hat(D)=D Bmap",
+    "response": "S=Bmap K=E sqrt(Omega) V_tau V_tau^T Omega^-1/2; Y_hat(D)=D S",
+    "quadratic": "F=Bmap A Bmap^T; Q_hat=tr(D F D^T)=||D E sqrt(Omega) V_tau Sigma_tau^-1||_F^2",
+    "alignment": "J=Delta C0 Bmap^T; c_hat=<D,J>_F=<Delta C0,U_hat>_F",
+    "fixed_scope": "K,A,Bmap,S,F,J,teacher,anchors를 batch fit 동안 detach 고정한다. Actual upper-key 의존성을 미분한다고 주장하지 않는다.",
+    "cache_lifetime": "해당 arm 해당 batch만 유효. 다음 batch/다른 arm으로 stale geometry 재사용 금지. W0/C0 불변 자산은 공유 가능.",
+    "D_fastpath": "현재 D에서의 값 일치만으로 Jacobian을 E로 바꾸지 않는다. S=E가 전체 owner target 공간에서 검증된 경우만 direct-D fastpath를 허용한다."
+  },
+  "fit": {
+    "subject_action": "모든 native row의 subject lookup에 Y_hat_l[:,global_row]를 주입. Compatible이면 D_l[:,owner]와 같다. Rank-incompatible이면 CD retained response로 달라진다는 것을 기록한다.",
+    "reason_projected_action": "실제 CD map의 null 방향이 virtual task만 개선하는 허점을 차단. Q_hat=0 iff Y_hat=0이며 목표 호환성의 새 finite penalty 계수는 넣지 않는다.",
+    "native_J_r": "NLL_r(Y_hat)+lambda_KL*KL_r(current||entry)+(0.5/a_star_r)*sum_l ||u_lr||",
+    "risk_l": "Pi_l=tr(D_l F_l D_l^T)+2*alpha*lambda_C,l*abs(<D_l,J_l>_F)",
+    "objective_backward": "J_sum=sum_r native_J_r + lambda_alloc*sum_l Pi_l",
+    "objective_reporting": "J_sum/B; gradient는 sum으로 계산하여 V13 optimizer의 scale/epsilon 계약 보존",
+    "analytic_D_gradient": "2 D_l F_l + 2*alpha*lambda_C,l*sign(c_l)*J_l; sign(0)=0",
+    "chain_to_u": "D_lr=a_lr*u_lr이므로 cost D-gradient 열에 anchor a_lr를 곱한 뒤 lambda_alloc을 곱한다. Norm gradient는 기존 정의로 한 번만 더한다.",
+    "optimizer": "기존 EfficiencyAdam lr=.1, betas/epsilon/anchor scaling 유지. 모든 eligible block의 moment와 zero reentry 유지.",
+    "projection": "요청마다 sum_l ||u_lr||<=.75의 기존 Euclidean group projection, FP64 projection/FP32 저장. 별도 층 제거 또는 예산 확대 없음.",
+    "synchronization": "전체 logical candidate D를 고정해 모든 physical microbatch의 native gradient를 누적하고 full F/J risk gradient를 한 번 합한 뒤 모든 요청을 갱신한다. 요청별 mixed candidate나 독립 fit 금지.",
+    "stop": "동일 candidate의 모든 native_J_r<.05이면 공통 종료. Allocation 비용을 요청별로 임의 분할해 .05에 넣지 않는다. 최대25회 평가/24회 update, 마지막 평가 후보 채택, terminal backward 없음.",
+    "stop_caveat": "공통 종료는 native 성공 기반 유한 예산 정책이지 전체 risk 목적의 stationary point 보장이 아니다. 기존 V13 영구 request freeze와 다르므로 historical CD와 완전한 동일 조건 비교를 주장하지 않는다."
+  },
+  "lambda_calibration": {
+    "policy": "B1 첫 nonzero candidate에서 native norm-gradient와 Q-gradient의 전체 u-coordinate Frobenius norm을 맞추는 단일 단위 정규화; 성능 sweep 아님",
+    "formula": "lambda_alloc=||g_norm,u||_F / ||g_Q,u||_F; g_Q,u,l=diag-column(a_l)*(2 D_l F_l), g_norm,u,lr=(0.5/a_star_r)*u_lr/||u_lr|| (zero block gradient0)",
+    "relative_gradient_ratio": 1.0,
+    "first_candidate": "통상 c1. c0 D=0이고 Delta=0이므로 두 risk gradient가0; 첫 update는 lambda와 무관하며 추가 forward/warmup 없음.",
+    "constant_scope": "한 번 FP64로 결정한 동일 lambda를 CD_Q/CD_C 두 arm과 전체20 batch에서 고정. 중간 성능/gradient 변화로 재조정 금지.",
+    "lock": "calibration JSON에 source/pack/geometry/first candidate/D hashes, 두 gradient norm, lambda, 최초weight identity를 저장. 둘째 arm은 동일 lock을 소비하고 B1 산출 일치를 검증한다.",
+    "degenerate": "D/Y 모두0이면 다음 nonzero candidate까지 pending. 해당 batch 전체 무편집이면 다음 batch로 pending 가능하나 Delta=0 identity 확인 필수. Y nonzero인데 g_Q=0 또는 NaN/Inf면 구현/수치 오류로 수리; 임의 epsilon, clipping, default lambda 없음. 작은 양의 gradient는 FP64 ratio와 finite 확인으로 처리.",
+    "interpretation": "비용 단위 선택을 고정하는 heuristic convention이며 최적 강도나 model 간 성능 불변성 보장은 아니다. Native norm coefficient .5는 변경하지 않는다."
+  },
+  "commit": {
+    "sequential": "V13 CD와 동일한 ascending eligible order, fresh actual native K, target D[:,owner], same row weights and retained solver",
+    "materialization": "FP64 ideal U -> 기존 FP32 cast/add -> effective U 검증; 실제 채택 weight로 다음 층 실행",
+    "no_tracking": "absolute z-h correction이나 L8 completion을 추가하지 않는다.",
+    "proxy_gap": "entry 예상 Q/c/Pi/Y와 actual fresh-key U의 Q/c/Pi/action을 별도로 기록. 작은 예측 비용만으로 개선 주장 금지.",
+    "gap_decomposition": "fit 주입은 Y_hat이므로 virtual_pre=virtual_post-Y_hat; inherited=actual_pre-virtual_pre; direct_fit_error=actual_local-Y_hat; final_gap=inherited+direct_fit_error. actual_local-D_owner는 requested realization 오차로 별도 유지한다.",
+    "cumulative_state": "commit 이전 Delta와 actual effective U로 누적 정렬을 계산. 다음 Delta는 실제 committed W-W_initial로 재구성; 재시작/다른 arm state 혼합 금지."
+  },
+  "claim_limits_ko": [
+    "Pi는 고정 C0에서 누적 covariance 변위 에너지 변화의 절댓값과 history 작용을 상계하는 proxy이며 의미적 손상 상계가 아니다.",
+    "Delta에는 의도한 과거 편집도 포함한다. abs cross는 undo의 음의 비용 보상을 없애지만 유익한 수정도 억제할 수 있고 한 층 내부의 상쇄는 남는다.",
+    "층별 비용/정렬이 actual locality 손상을 예측하는지, ACC를 보존하는지는 실험 대상이다.",
+    "logical B가 바뀌면 geometry와 순차 경로가 달라진다. 임의 B 지원과 batch 분할 결과 불변성을 혼동하지 않는다.",
+    "NS 상승만으로 배분 개선을 주장하지 않는다. PS/ACC 및 총 실현량 감소와 층별 배분 변화의 효과를 구분한다."
+  ]
+}
