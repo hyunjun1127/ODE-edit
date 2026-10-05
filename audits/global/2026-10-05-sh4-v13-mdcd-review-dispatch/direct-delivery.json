@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "authority_commit": "28c0089a8936ab9942e831befa9c5f836f6165c2",
+  "recorded_UTC": "2026-10-05T05:12:37.535288+00:00",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted_turn": "01a10a79-c0c0-7801-8db8-0af51426f0e7",
+  "actual_owner_ACK": "ACK `ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1` — SH4 리뷰 담당을 수락했습니다. 현재 `REVIEWING / 상태 미확인`입니다. 정확한 세 job을 한 번만 조회한 뒤, 기존 산출물만 CPU로 검산하겠습니다. 실험 재실행·변경·완료 대기는 하지 않습니다.\n",
+  "ACK_phase": "commentary on same app-server direct stream",
+  "owner_status": "REVIEWING_CURRENT_JOB_STATE_UNCONFIRMED",
+  "completion_claim": false,
+  "transport": "approved SSH server4 local Unix app-server WebSocket initialize/resume/start",
+  "active_turns_before": [],
+  "GH_newGPU_or_Slurmwrite": 0,
+  "envelope_sha256": "6feee7fbe851360bc309ee0afc6446a4b3e88926f58888b592ad6b45731e67b3",
+  "local_transport": "local/v13-mdcd-review-dispatch/transport.jsonl",
+  "transport_sha256": "c54c67b8b7187815ebe5a4f77aa1d641cbb2d07857bfa57a52f9f0bfadfc5491",
+  "note": "Owner acceptance only; SH4 independently performs bounded existing-output CPU review and factual report/publication. No new repeated monitoring or experimental rerun."
+}

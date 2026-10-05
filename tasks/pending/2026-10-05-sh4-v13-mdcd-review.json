@@ -4,7 +4,10 @@
   "parent_task": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
   "owner": "head-server4",
   "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "status": "REVIEW_AUTHORIZED_AWAITING_OWNER_ACK",
+  "status": "DIRECT_OWNER_ACCEPTED_REVIEWING",
+  "accepted_turn": "01a10a79-c0c0-7801-8db8-0af51426f0e7",
+  "delivery_receipt": "audits/global/2026-10-05-sh4-v13-mdcd-review-dispatch/direct-delivery.json",
+  "review_complete": false,
   "envelope": "messages/head/2026-10-05-sh4-v13-mdcd-review.json",
   "scope": "existing3jobs CPU-only review; no new experiment/no repeated monitoring",
   "known_jobs": {
