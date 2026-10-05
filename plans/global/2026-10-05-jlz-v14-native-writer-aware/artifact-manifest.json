@@ -1,19 +1,35 @@
 {
+  "status": "R2_DESIGN_CPU15_AND_USER_AUTHORIZED_BUDGET15_2K_SERVER3_EXPERIMENT",
   "files": [
     {
       "path": "comparison-design.json",
-      "bytes": 3308,
-      "sha256": "0c4682e55e35e249f3eb52e3efed533e2af9768f97358372f5dc4b1986c407f6"
+      "bytes": 4439,
+      "sha256": "222c741846baa9583949c7fa7058e21539e9093857d248b25fefcf598b29eaf9"
+    },
+    {
+      "path": "execution-b1-sh4.json",
+      "bytes": 9838,
+      "sha256": "ce8aca3296fa6b666a3c2eaf63f78aa8a1ce8c3b48aaf98f689c0a75b21d1c75"
+    },
+    {
+      "path": "execution-optimization-r2.json",
+      "bytes": 14144,
+      "sha256": "823cdf93e7624ee13950b8e5f6e70bd42cb1e329f02802b33529d7431569241c"
+    },
+    {
+      "path": "experiment-budget15-2k-server3.json",
+      "bytes": 7820,
+      "sha256": "29be997c5a33bc6c44ecb35514f913e0e10eb0f365e9fe53f276741f382843ca"
     },
     {
       "path": "method-contract.json",
-      "bytes": 9948,
-      "sha256": "2e71eec7266c9bea73d87c4f7ef7eaf98cdbb49f2b19eba9dc6cf69d3b55fcd4"
+      "bytes": 11599,
+      "sha256": "5d9f8d5b11ad5e2fc3d696011bcdebf2d9b1b5dd0c7318e92b9ae9bc95675d68"
     },
     {
       "path": "provenance.json",
-      "bytes": 871,
-      "sha256": "b33a9a749f2532c2ad4c7317c62834ae0d14f0b6f80c566ec189fc2f3f1b83f5"
+      "bytes": 1425,
+      "sha256": "f3c3a79f67aba268f3d2e4f8be061c7b369c4515c8af5a8203d9625ecb1ab06e"
     },
     {
       "path": "reference/audit.json",
@@ -26,9 +42,24 @@
       "sha256": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
     },
     {
+      "path": "reference/runtime-audit.json",
+      "bytes": 8114,
+      "sha256": "b672620fbdd62fa6bdee4a19157c59e3030570d1a143231582fce9ac02b6f741"
+    },
+    {
+      "path": "reference/runtime_ref.py",
+      "bytes": 21956,
+      "sha256": "029c12f98a20e8ab3d2f643033ad72ef1036ab1149cec70c59c3d50118d10c78"
+    },
+    {
       "path": "reference/test_ref.py",
       "bytes": 9966,
       "sha256": "cdb43399db8344819ff40e32b095b03f78fb154b42c75bf7fc944b17544ece78"
+    },
+    {
+      "path": "reference/test_runtime_ref.py",
+      "bytes": 24179,
+      "sha256": "c76dd6b03c07a912507c502c627133e30bf26633b3f7dea2735a6718dd37b7cb"
     },
     {
       "path": "reference/writer.py",
@@ -37,13 +68,18 @@
     },
     {
       "path": "runtime-contract.json",
-      "bytes": 8330,
-      "sha256": "40173b306a34b0e3dda86f4e730fa96c2db84a7ea41558229ab67352a5a4e675"
+      "bytes": 9344,
+      "sha256": "eba62fc40eac527ab74dcc3ebe5e425d63563e6382524c1a5448ec9284647c3d"
     },
     {
       "path": "validation.json",
-      "bytes": 541,
-      "sha256": "83fc6658956e82e8e70bb7a02fbba88aa0199105f15ad48cbd4765de54f55992"
+      "bytes": 2400,
+      "sha256": "79952ce27edc8a4edeb143b49849e640f095a1953eb9a1028dee92f6023f83eb"
+    },
+    {
+      "path": "../2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 33866,
+      "sha256": "2df017fc568aeee37141eea8f8ee4c1e89feea130a91afe8aaf0adae37248152"
     }
   ]
 }

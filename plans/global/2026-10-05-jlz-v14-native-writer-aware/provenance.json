@@ -6,7 +6,13 @@
   "v13_current_B1_scope_commit": "1f73d403",
   "v13_current_B1_changed": false,
   "v10_reference": "project/run_scripts/jlz_realized_subject/ (read-only execution reference; norm/optimizer/allocation are NOT inherited)",
-  "review_basis": "Existing sealed B1 ridge/Alpha same-plan source and scalar telemetry reviewed in prior turn; no new model experiment",
+  "review_basis": "Completed V14 B1 and V13 B1/2k raw audits. V14fail19prompts/15requests; lowstrengthassociation, no causal budget conclusion.",
   "math_review": "Independent review of requested-budget energy bound, coupled optimization, native-objective limits and residual base-state gap",
-  "runtime_review": "Independent read-only code review of fixed-A geometry, actual-key builder, whole-B adjoints and streamed replay"
+  "runtime_review": "Independent read-only code review of fixed-A geometry, actual-key builder, whole-B adjoints and streamed replay",
+  "reviewed_publication": "2fdd23f3",
+  "executed_V14_source": "2ab04d0b",
+  "editor_path": "../2026-10-05-jlz-v13-realized-writer/method.tex",
+  "editor_policy": "Update existing open TeX in place; preserve historical V13 body as appendix; do not replace/open a tab.",
+  "optimization_status": "DESIGNED_AND_CPU_REFERENCE_ONLY",
+  "authorization_scope": "Latest user authorizes shared-budget expansion, Server3 task, total2000edit; source method/execution docs plus experiment-budget15-2k-server3.json handed to GH for SH3 implementation/run."
 }

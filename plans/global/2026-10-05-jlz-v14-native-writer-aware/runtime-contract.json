@@ -1,6 +1,6 @@
 {
-  "schema": "JLZ_V14_PROSPECTIVE_RUNTIME_CONTRACT_V1",
-  "status": "DESIGN_NOT_IMPLEMENTED",
+  "schema": "JLZ_V14_RUNTIME_CONTRACT_R2",
+  "status": "ORIGINAL_B1_IMPLEMENTED_OPTIMIZATION_R2_DESIGN_ONLY",
   "reference_graph": "Small dense differentiable causal native builder + subject-only native forward, whole logical B; all K/P gradients.",
   "reuse": {
     "v10_namespace": "project/run_scripts/jlz_realized_subject/",
@@ -16,14 +16,16 @@
     "v12_namespace": "project/run_scripts/jlz_shared_budget/",
     "v12_reuse": "EfficiencyAdam requested-budget projection and anchor scaling; not request-independent early-freeze.",
     "prospective_namespace": "project/run_scripts/jlz_native_writer_aware/",
-    "reuse_is_not_drop_in": "v10 has unbounded q-Adam, norm on realized v, .1 allocation term, eager all-row GPU activation graphs and a dense weight-gradient intermediate. All require explicit correction."
+    "reuse_is_not_drop_in": "v10 has unbounded q-Adam, norm on realized v, .1 allocation term, eager all-row GPU activation graphs and a dense weight-gradient intermediate. All require explicit correction.",
+    "executed_V14_source": "2ab04d0b"
   },
   "factors": {
     "per_batch": "Factor same stored A_l once per eligible layer; invalidate after H changes.",
     "formula": "Y=solve(A,K); T=I+K^T Y; P=Y T^-1, implemented via transpose small solve.",
     "backend": "Same-A Cholesky when applicable and residual-validated; otherwise same-A LU/native full-system solve. No hidden symmetrization, jitter or rank truncation.",
     "selection": "Shape/resource-based qualified backend. If A is singular or inverse-apply invalid, qualified full native solve(A+KK^T,K); no logical-B splitting.",
-    "earliest_site": "K/P at first eligible site independent of all candidate R; cache after actual adapter verification."
+    "earliest_site": "K/P at first eligible site independent of all candidate R; cache after actual adapter verification.",
+    "cached_reverse": "Use Z=solve(A^T,G_P-K(P^T G_P)) from cached primal P and entry A factors when qualified; otherwise native Bmat transpose factor. Validate Bmat^T Z-G_P; do not recompute primal P or symmetrize A."
   },
   "execution": {
     "actual_causal_builder": "Layerwise streaming in native row order; complete whole-B mean K before solving one P_l.",
@@ -35,12 +37,12 @@
       "record native subject v and next boundary states; offload checkpointed activations",
       "repeat all eligible sites; never build independent microbatch writers"
     ],
-    "masked_forward": "Process native loss groups with same owner/site v, preserve native reductions, full vocabulary only at required readout positions.",
+    "masked_forward": "R4a complete-owner original-no-grad probe, preserving common stop and zero backward for accepted terminal; original full-evaluate/replay fallback. R4b bounded graph streaming optional later.",
     "reverse_stages": [
       "accumulate masked-loss adjoints for every v_lrc",
       "reverse eligible stages, recompute a row group with same candidate factors/weights/checkpoint states",
       "accumulate direct R/P adjoints and input-boundary adjoints across all rows",
-      "one whole-B solve VJP maps accumulated P adjoint to K",
+      "One candidate-wide cached transpose-solve VJP after all row adjoints; first-site key adjoint omitted only under proven causal independence.",
       "native mean VJP returns extra K adjoints to original rewrite row subject keys",
       "replay stage key paths to complete boundary adjoints before moving to lower stage"
     ],
@@ -69,23 +71,24 @@
     "request_reduction": "Sum objective gradient, mean report; actual B from tail, no hardcoded100.",
     "empty_batch": "No fit/solve/commit, no 1/B reduction.",
     "noncontiguous_layers": "Forward/replay through intervening unedited blocks and preserve key dependency.",
-    "unsupported": "Report missing additive mapping or resource support; do not silently change sites, contexts, precision or B."
+    "unsupported": "Report missing additive mapping or resource support; do not silently change sites, contexts, precision or B.",
+    "row_metadata": "Use explicit owner/native-reduction indices, never fixed global_row modulo context count."
   },
   "qualification": {
     "CPU": "reference/audit.json; algebra, requested budget/energy, cross-talk and full K/R gradients",
     "actual": "tiny B=1/2/3 with unequal context lengths and tail shapes; native source/cast/add, dense/full-solve versus optimized paths and finite coupled gradients",
     "proposed_tolerances": {
       "native_loss": {
-        "atol": 0.00001,
+        "atol": 1e-05,
         "rtol": 0.0001
       },
       "gradient_RMS": {
-        "atol": 0.000001,
+        "atol": 1e-06,
         "rtol": 0.001
       },
-      "native_ridge_relative_residual": 1e-8,
+      "native_ridge_relative_residual": 1e-08,
       "key_local_action_elementwise": {
-        "atol": 0.00001,
+        "atol": 1e-05,
         "rtol": 0.0001
       },
       "budget": "v12 existing post-cast feasibility tolerance, fixed before evaluation"
@@ -93,7 +96,10 @@
     "gradient_checks": "Include lower R -> upper K/P -> upper v; fixed-P gradient parity is insufficient.",
     "target_contract_checks": "Stored R is actual solve RHS at every layer; no inherited residual appended; all layers with zero u retain nonzero potential gradient.",
     "transaction": "accepted payload exact copy, history once, all-column retention, observer no mutation, W/H/RNG restore",
-    "reference_first": "Repair same-method implementation/numerical failures; no performance-based tolerance adjustment."
+    "reference_first": "Repair same-method implementation/numerical failures; no performance-based tolerance adjustment.",
+    "runtime_reference": "reference/runtime-audit.json",
+    "equivalence": "Same mathematical objective/gradient to declared numerical tolerances, not universal bitwise equality of microbatch schedules. Near decision boundaries use original schedule.",
+    "probe_state": "Deterministic stateless eval or exact per-group RNG/state replay is required for out-of-order complete-owner probing; otherwise original ordered two-pass path."
   },
   "telemetry": {
     "per_candidate": [
@@ -122,7 +128,8 @@
       "evaluation",
       "peak GPU/CPU memory"
     ],
-    "estimated_speedup": "NOT_MEASURED. Extra actual builder plus writer VJP is real work; no V12-level runtime claim."
+    "estimated_speedup": "NOT_MEASURED. B1 source measured5.287x V12 planner fit; no revised speed claim."
   },
-  "jobs_changed": false
+  "jobs_changed": false,
+  "execution_optimization": "execution-optimization-r2.json"
 }

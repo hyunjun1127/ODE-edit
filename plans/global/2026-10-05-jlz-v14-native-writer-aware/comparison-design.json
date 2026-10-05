@@ -1,7 +1,7 @@
 {
-  "schema": "JLZ_V14_PROSPECTIVE_COMPARISON_V1",
-  "status": "DESIGN_ONLY_NO_DISPATCH",
-  "running_experiment": "V13 B1 remains untouched. Its RT/RD results may be reused only with exact input/W0/H0/native-writer/planner/runtime/evaluator identity.",
+  "schema": "JLZ_V14_COMPLETED_B1_AND_RUNTIME_R2_COMPARISON",
+  "status": "HISTORICAL_B1_PANEL_PLUS_USER_AUTHORIZED_SERVER3_BUDGET15_2K",
+  "running_experiment": "V13 B1 and MD/CD 2k completed; pinned outputs unchanged.",
   "purpose": "Separate native-writer-aware target generation from writer replacement and tracking removal.",
   "initial_panel": "Same fixed first100, W0/H0, all eligible layers and native profile; one B1 per endpoint, no automatic sequential expansion.",
   "endpoints": [
@@ -21,7 +21,7 @@
       "id": "V14_RD",
       "fit": "new coupled writer-aware requested-budget planner",
       "write": "same native mean ridge, direct planned R",
-      "source": "prospective new fit, not submitted"
+      "source": "Completed B1 source2ab04d0b, GPU58391; optimizer25eval/24update. R2 is prospective."
     }
   ],
   "contrasts": {
@@ -62,9 +62,20 @@
     "actual-vs-masked NLL and prestate gap",
     "Q/norm and phase timings"
   ],
-  "future_retention": "Only a separately authorized sequential run can support lifelong retention/locality claims; no 2k execution is granted here.",
+  "future_retention": "Latest user authorizes one expanded-budget BS100x20 2k sequence on Server3; see experiment-budget15-2k-server3.json. B1 report is not a performance gate.",
   "hyperparameter_search": false,
   "reference_set": false,
   "dispatch_sent": false,
-  "GPU_submitted": false
+  "GPU_submitted": false,
+  "runtime_qualification": {
+    "reference": "original2ab04d0b candidate path",
+    "stagewise": true,
+    "fixed_candidates": "zero, sparse/zero-layer reentry, interior and budget-boundary candidates with logical B=1,2,3 and unequal contexts/tail shapes before optimizer runs",
+    "trajectory": "short deterministic common optimizer sequence; compare u/R/loss/stop/projection/payload/history; no PS/NS optimization gate",
+    "numerical_tolerances": "runtime-contract.json qualification; replay and key/mean reductions retain their native contracts",
+    "B100_timing": "Only after source qualification and explicit run authorization; short fixed candidates with each path, same GPU/runtime, warmup and measured work separated",
+    "outputs": "exclusive fit/forward/reverse/solve/transfer timers and physical work counts; no evaluator feedback"
+  },
+  "budget_1_5": "User-selected scientific override, shared1.5/per-layer.75; execution parity remains separately qualified. No new prompts or hyperparameter search.",
+  "active_experiment": "experiment-budget15-2k-server3.json"
 }

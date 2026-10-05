@@ -1,0 +1,269 @@
+{
+  "scope": "V14 prospective runtime algebra and toy stop/adjoint scheduling only",
+  "status": "PASS",
+  "passed": 15,
+  "failed": 0,
+  "runtime": {
+    "python": "3.12.0",
+    "numpy": "2.5.3",
+    "device": "CPU"
+  },
+  "source_sha256": {
+    "runtime_ref.py": "029c12f98a20e8ab3d2f643033ad72ef1036ab1149cec70c59c3d50118d10c78",
+    "test_runtime_ref.py": "c76dd6b03c07a912507c502c627133e30bf26633b3f7dea2735a6718dd37b7cb",
+    "requirements.txt": "5c12d85e7c08038d1dd9ffbf8119d12ce808885230a47e2bf65dcd9f114659d5"
+  },
+  "tests": [
+    {
+      "test": "cached_solve_VJP_finite_differences",
+      "status": "PASS",
+      "measurements": {
+        "shapes": [
+          [
+            5,
+            3,
+            false
+          ],
+          [
+            5,
+            3,
+            true
+          ],
+          [
+            3,
+            7,
+            true
+          ],
+          [
+            4,
+            5,
+            false
+          ]
+        ],
+        "max_abs_error": 1.0595833932480758e-10,
+        "primal_solve_count_per_forward": 1,
+        "new_primal_solves_in_reverse": 0,
+        "transpose_solve_count_per_reverse": 1,
+        "duplicate_and_zero_columns": true
+      }
+    },
+    {
+      "test": "incorrect_last_term_and_nonsymmetric_transpose_negative_controls",
+      "status": "PASS",
+      "measurements": {
+        "correct_FD_error": 8.85320868879389e-11,
+        "wrong_last_term_error": 0.26788737365569276,
+        "no_transpose_solve_error": 0.21031219542014834,
+        "mutation_changes_binding": true,
+        "cached_values_immutable": true
+      }
+    },
+    {
+      "test": "cached_P_fixed_A_transpose_identity_and_VJP",
+      "status": "PASS",
+      "measurements": {
+        "identity": "B^-T G = solve(A^T, G-K(P^T G))",
+        "max_transpose_solve_difference": 3.3306690738754696e-16,
+        "max_VJP_difference": 1.942890293094024e-16,
+        "max_VJP_FD_error": 1.034262744892267e-10,
+        "SPD_and_nonsymmetric_A": true,
+        "duplicate_zero_columns_and_batch_wider_than_dimension": true,
+        "additional_B_or_primal_P_solves_in_reverse": 0,
+        "fixed_A_transpose_solves_per_reverse": 1
+      }
+    },
+    {
+      "test": "singular_or_unqualified_A_retains_native_B_transpose_backend",
+      "status": "PASS",
+      "measurements": {
+        "native_B_invertible": true,
+        "singular_A": true,
+        "fallback_VJP_FD_max_error": 9.49049172582761e-12,
+        "singular_and_explicit_unqualified_fallbacks_bitwise_match": true,
+        "changed_A_candidate_binding_rejected": true
+      }
+    },
+    {
+      "test": "causal_two_layer_full_R_key_P_gradient_and_fixed_first_key_skip",
+      "status": "PASS",
+      "measurements": {
+        "max_abs_errors": {
+          "R1": 4.05313949070063e-10,
+          "R2": 4.808726680738395e-10,
+          "K1": 6.92135820878903e-10
+        },
+        "cached_first_R_gradient_norm": 2.8537695555484626,
+        "required_transpose_solves": 1,
+        "full_unused_first_key_adjoint_transpose_solves": 2,
+        "R_gradients_bitwise_identical_when_skipping_unused_first_key": true
+      }
+    },
+    {
+      "test": "stopping_upper_solve_VJP_is_a_different_gradient",
+      "status": "PASS",
+      "measurements": {
+        "lower_R_gradient_error": 0.7341609720661498,
+        "upper_direct_R_gradient_unchanged": true
+      }
+    },
+    {
+      "test": "whole_B_owner_weighted_SUM_microbatch_partition_and_short_tail",
+      "status": "PASS",
+      "measurements": {
+        "owner_row_counts": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "logical_B": 4,
+        "key_dimension": 3,
+        "microbatch_widths": [
+          1,
+          3,
+          4,
+          6
+        ],
+        "max_R_gradient_partition_error": 0.0,
+        "R_FD_max_error": 3.227069722555598e-10,
+        "X_FD_max_error": 3.469697281224815e-10,
+        "whole_B_solve_not_split": true
+      }
+    },
+    {
+      "test": "completed_owner_witness_not_partial_rows_and_bounded_prefix_replay",
+      "status": "PASS",
+      "measurements": {
+        "witness": {
+          "group": 6,
+          "owner": 2,
+          "J": 0.06,
+          "owner_rows": 2,
+          "expected_rows": 2
+        },
+        "replay_groups": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "backward_order": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "prefix_graph_retention_cap": 2,
+        "observed_peak_retained_groups": 2,
+        "measured_objective_and_gradient_bitwise_match": true
+      }
+    },
+    {
+      "test": "all_pass_stop_and_final_cap_are_value_only",
+      "status": "PASS",
+      "measurements": {
+        "all_pass_backward_calls": 0,
+        "cap_backward_calls": 0,
+        "cap_forward_calls": 7,
+        "no_optimizer_permission_at_stop": true
+      }
+    },
+    {
+      "test": "strict_threshold_equality_and_negative_KL_no_positivity_shortcut",
+      "status": "PASS",
+      "measurements": {
+        "equality_J": 0.05,
+        "tiny_negative_KL": -3e-06,
+        "requested_norm": 0.05000005,
+        "complete_J": 0.049999962499999995,
+        "false_norm_only_witness_avoided": true
+      }
+    },
+    {
+      "test": "late_nonfinite_and_replay_bit_identity_abort_whole_update",
+      "status": "PASS",
+      "measurements": {
+        "backward_calls_before_late_nonfinite": 2,
+        "late_error": "NONFINITE_ROW_VALUE",
+        "replay_error": "REPLAY_CERTIFICATE_MISMATCH",
+        "candidate_adjoints_discarded": true,
+        "optimizer_updates_allowed": 0
+      }
+    },
+    {
+      "test": "short_logical_batch_original_order_and_only_evicted_prefix_replayed",
+      "status": "PASS",
+      "measurements": {
+        "logical_B": 2,
+        "owner_row_counts": [
+          1,
+          3
+        ],
+        "witness_group": 1,
+        "replay_groups": [
+          0
+        ],
+        "backward_order": [
+          0,
+          1,
+          2
+        ],
+        "measured_objective_and_gradient_bitwise_match": true
+      }
+    },
+    {
+      "test": "default_detached_complete_owner_probe_then_single_original_order_FB",
+      "status": "PASS",
+      "measurements": {
+        "logical_B": 3,
+        "row_groups": 4,
+        "probe_groups": [
+          0,
+          2
+        ],
+        "forward_calls": 6,
+        "baseline_full_value_plus_FB_calls": 8,
+        "backward_calls": 4,
+        "measured_J_and_gradient_bitwise_match": true,
+        "this_is_a_toy_call_count_not_a_measured_speedup": true
+      }
+    },
+    {
+      "test": "probe_miss_reuses_detached_groups_and_all_pass_has_no_backward",
+      "status": "PASS",
+      "measurements": {
+        "fallback_value_forward_calls": 7,
+        "fallback_groups_once": true,
+        "original_order_reduction_bitwise_match": true,
+        "all_pass_logical_B": 2,
+        "all_pass_backward_calls": 0,
+        "deterministic_tie_owner": 0
+      }
+    },
+    {
+      "test": "probe_threshold_negative_KL_cap_late_failure_and_replay_identity",
+      "status": "PASS",
+      "measurements": {
+        "equality_is_nonterminal": true,
+        "norm_only_lower_bound_not_used": true,
+        "negative_KL_complete_J": 0.049999962499999995,
+        "cap_backward_calls": 0,
+        "late_failure_prior_backward_calls": 2,
+        "late_failure_update_allowed": false,
+        "changed_replay_aborts": true
+      }
+    }
+  ],
+  "limitations": [
+    "No production runner was changed and no model/GPU forward was run.",
+    "Dense NumPy solve proves cached P reuse, not actual factor reuse or speedup.",
+    "FP32 cast/materialized-weight adjoints and GPU numerical parity remain unqualified here.",
+    "The smooth two-layer model is a derivative reference, not a language-model performance test.",
+    "The schedule uses supplied row gradients and a same-candidate identity token; production must bind full execution state.",
+    "Bitwise scheduling checks concern this CPU canonical reducer, not arbitrary floating-point kernel reorderings.",
+    "No locality, accuracy, convergence, or wall-clock improvement is claimed."
+  ]
+}

@@ -46,5 +46,22 @@
   "actual_model_qualification": false,
   "GPU_speed_benchmark": false,
   "jobs_changed": false,
-  "CPU_reference_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)"
+  "CPU_reference_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)",
+  "historical_receipt_note": "Original V13 design/CPU receipt retained. Production/model booleans in this historic receipt are not a statement that later V13 runs did not happen.",
+  "current_editor_revision": {
+    "method": "V14 R2",
+    "contract": "../2026-10-05-jlz-v14-native-writer-aware/method-contract.json",
+    "historical_V13_body_preserved": true,
+    "historical_V13_body_sha256": "cdfa6f4e4f72c6ef6d2cbebf523e402a16a2712f6aa9a8b5a8551ca589481f2e",
+    "compile": {
+      "tool": "codex_app.compile_latex_document",
+      "status": "UNAVAILABLE_ENVIRONMENT",
+      "attempts": 2,
+      "compiled": false,
+      "diagnostic": "Unable to find standard directories for platform",
+      "source_environment_and_display_pairing": "PASS",
+      "separate_PDF_generated": false
+    },
+    "selected_experiment": "../2026-10-05-jlz-v14-native-writer-aware/experiment-budget15-2k-server3.json"
+  }
 }

@@ -1,0 +1,121 @@
+{
+  "schema": "JLZ_V14_BUDGET15_RUNTIME_R2_SERVER3_2K_V1",
+  "instruction_id": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "status": "USER_AUTHORIZED_IMPLEMENT_QUALIFY_AND_RUN_PENDING_DISPATCH",
+  "authority_ko": [
+    "공유예산 확대까지 진행해서 실험하는 것으로 하자 server3에게 task 진행시키자",
+    "2000edit까지 진행하는 것으로 전달해"
+  ],
+  "owner": {
+    "coordinator": "GH",
+    "executor": "SH3",
+    "server": "server3",
+    "target_session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "base_method": "method-contract.json",
+  "execution_design": "execution-optimization-r2.json",
+  "base_reference_source": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
+  "scientific_override": {
+    "shared_requested_budget": 1.5,
+    "per_layer_requested_cap": 0.75,
+    "constraints": "Each request r: sum_l ||u_lr|| <= 1.5 and every ||u_lr|| <= .75; R_lr=a_lr*u_lr. All eligible sites remain variables, including zero sites.",
+    "native_lambda_norm": 0.5,
+    "native_lambda_KL": 0.0625,
+    "norm_penalty": "Unchanged beta_r * sum_l ||u_lr||; beta_r=.5/a_star_r. No renormalization by the new budget, B or layer count.",
+    "native_inputs_only": true,
+    "generation_prompts_added": false,
+    "history_replay_added": false,
+    "writer": "Same native MEMIT-H mean-key ridge and final history; no exact writer or tracking residual."
+  },
+  "projection": {
+    "kind": "Euclidean projection onto intersection of group-l1 ball and per-block l2 caps",
+    "formula": "For proposed blocks w_l, s_l=||w_l||: t_l=min(b_l,max(s_l-tau,0)), u_l=(t_l/s_l)*w_l if s_l>0, otherwise zero. tau=0 if sum_l min(b_l,s_l)<=c; otherwise choose tau>=0 giving sum_l t_l=c. c=1.5,b_l=.75.",
+    "numerics": "FP64 solve and existing FP32 castback feasibility receipt for BOTH constraints; radial/global shrink then independent clipping is not this projection. No optimizer moment reset or layer removal.",
+    "mandatory_tests": [
+      "no-active-constraint identity",
+      "only local cap active",
+      "only total cap active",
+      "both active KKT/common threshold",
+      "zero blocks and reentry",
+      "heterogeneous layer widths",
+      "one eligible layer yields <=.75 even when total cap1.5",
+      "short logical batch",
+      "post-FP32 both-constraint feasibility"
+    ]
+  },
+  "sequence": {
+    "total_edits": 2000,
+    "logical_batch_size": 100,
+    "commits": 20,
+    "initial_state": "fresh W0/H0",
+    "continuity": "Each subsequent batch inherits committed W/H in RAM. B1 is part of the same 2k trajectory, not a separate reset or quality-selection pilot.",
+    "data": "counterfact-fixed-10k-v1 exact ordered prefix2000, same native prompt/model/tokenizer/C0 assets as V14 B1 after identity verification; no resampling/shuffle.",
+    "model": "Same pinned V14 B1 model profile; adapt file roots to Server3, verify hashes.",
+    "candidate_evaluations_per_batch": 25,
+    "max_updates_per_batch": 24,
+    "early_exit": "Unchanged common all(J_r<.05). No new warmup, request freeze, new sufficiency stopping or step reduction.",
+    "terminal": "Last evaluated finite candidate under existing rules.",
+    "checkpoint": false,
+    "crash_resume": "NOT_AVAILABLE unless separately authorized checkpoint; keep original artifacts on any failure."
+  },
+  "implementation_qualification": {
+    "stages": [
+      "Implement capped group projection and test CPU KKT/castback.",
+      "Implement R1-R4a staged runtime changes against original c=.75 candidate path; R4b optional/deferred.",
+      "Qualify same-candidate losses, full coupled gradients, stop, optimizer, payload/history at both c=.75 and new c=1.5, including projection boundaries.",
+      "Short same-candidate microbatch/time/memory checks on Server3, then freeze source/config/profile.",
+      "Run one budget1.5 sequential BS100x20 from fresh W0/H0."
+    ],
+    "tests": "runtime-contract.json declared tolerances; CPU runtime reference15tests is not actual GPU qualification.",
+    "failure": "Repair numerical/implementation failure within this method, or use parity-qualified original two-pass/full-adjoint runtime for that stage; explicitly report optimized stages enabled. Do not detach upper keys/P or alter method to fit memory.",
+    "performance_gate": "No B1 PS/NS promotion gate. Once technical qualification passes, continue through B20 under fixed scientific settings. B1/W5/W10/W15/W20 are reporting points, not coefficient-selection points."
+  },
+  "evaluation": {
+    "W0": "All2000 requests before edit, paired IDs. R2000/P4000/N20000 for current benchmark if verified actual native counts.",
+    "each_commit": "Evaluate cumulative edited prefix with unchanged paired evaluator and native denominators; emit current birth cohort and earlier cohort retention from same endpoint data.",
+    "metrics": [
+      "RS/PS/NS NLL preference with numerator/denominator",
+      "rewrite/rephrase/neighborhood TF token ACC, prompt mean ACC, strict sequence ACC",
+      "new/true NLL and preference margins",
+      "native requested/realized layer shares and action ratios/cosine/gaps",
+      "shared-budget saturation, per-layer-cap active fractions and projection norms",
+      "writer Q/effective update norm, history counts and cohort deterioration",
+      "exclusive fit/builder/reverse/solve/evaluation wall time; physical F/B/probe/replay/tokens, memory peaks"
+    ],
+    "comparisons": "Use identity-qualified V14.75 B1, V12, V13 MD/CD, MEMIT-H, AlphaEdit/BLUE/L4-only existing results with exact cohort/window/denominator labels; no cross-GPU timing ratio. No new baseline or coefficient sweep required.",
+    "data_firewall": "Evaluation paraphrases/neighborhoods/ACC never enter fitting, candidate selection or optimizer/runtime profile selection."
+  },
+  "resources": {
+    "task_gpu_concurrency_max": 1,
+    "gpu_per_job": 1,
+    "host_memory_per_gpu_MiB_max": 121856,
+    "project_cap": "GH and SH3 recheck current server3 cap/active jobs before submission; no cancellation or oversubscription of unrelated work.",
+    "scheduler": "Server3 Slurm; source/config/input/resource lock and mechanical red-team qualification before submit.",
+    "portability": "B100/20 are this run configuration only. Explicit owner/context/layer metadata and physical row/token/memory caps; no fixed7rows/5layers/dimension assumptions."
+  },
+  "write_scope": [
+    "project/run_scripts/jlz_native_writer_aware/**",
+    "task-specific tests/helpers needed for bounded group projection and runtime qualification",
+    "project/run_scripts/task-specific V14 budget15 Server3 launcher",
+    "plans/updates/server3/**",
+    "audits/servers/server3/**",
+    "experiment-reports/servers/server3/jlz-v14-budget15-r2-bs100x20/**",
+    "runs/jlz-v14-budget15-r2-server3-2k-20261005-v1/**",
+    "local/jlz-v14-budget15-r2/**"
+  ],
+  "reporting": {
+    "B1": "First100 factual metrics, source/config IDs, enabled optimization stages, fit seconds, memory and projection receipt; continue 2k automatically.",
+    "final": "Korean factual-only report, compact CSV/JSON/manifest tracked, full raw/logs under local.",
+    "artifact_broadcast": "Approved ordinary project artifact helper, no --delete, secrets, or unapproved large repo-external transfer.",
+    "GH": "Scientific interpretation remains separate GH review."
+  },
+  "dispatch": {
+    "GH_received": false,
+    "SH3_received": false,
+    "slurm_job_id": null,
+    "run_started": false
+  },
+  "scientific_caution_ko": "예산 확대의 성능/보존 효과는 미검증이다. BLUE의 정확한 특수해라고 주장하지 않고, 기존 낮은 Q를 안전 여유로 가정하지 않는다. R2의 실행 동등성 검증과 예산 변경의 과학 비교를 분리한다."
+}

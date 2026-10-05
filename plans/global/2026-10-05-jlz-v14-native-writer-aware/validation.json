@@ -1,14 +1,42 @@
 {
-  "scope": "design/CPU-reference only",
+  "scope": "V14 executed-B1 audit plus prospective R2 design and CPU runtime-reference qualification",
   "JSON_parse": "PASS",
   "CPU_reference_tests_passed": 8,
   "CPU_reference_tests_failed": 0,
   "CPU_source_hashes": "PASS",
   "reference_theorem_assumptions": "FP64 symmetric SPD A; production stored-A and FP32 separately qualified",
-  "production_implementation": false,
-  "actual_model_qualification": false,
+  "production_implementation": {
+    "original_V14_B1": true,
+    "optimized_R2": false
+  },
+  "actual_model_qualification": {
+    "R2": false
+  },
   "GPU_speed_benchmark": false,
   "jobs_changed": false,
-  "v13_documents_changed": false,
-  "CPU_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)"
+  "v13_documents_changed": true,
+  "CPU_command": "uv run --no-project --with numpy==2.5.3 python test_ref.py (cwd=reference)",
+  "CPU_original_method_tests_passed": 8,
+  "CPU_original_method_tests_note": "Original unchanged method algebra receipt; not rerun for this documentation revision.",
+  "runtime_CPU_reference_tests_passed": 15,
+  "runtime_CPU_reference_tests_failed": 0,
+  "runtime_CPU_reference": "reference/runtime-audit.json",
+  "runtime_CPU_command": "uv run --no-project --with numpy==2.5.3 python test_runtime_ref.py (cwd=reference)",
+  "runtime_reference_assumptions": "FP64 NumPy algebra and toy supplied-row-gradient schedulers; nonsymmetric stored A and native B fallback included; no production factor cache or GPU model parity.",
+  "v13_document_change": "Existing open TeX gains current V14 R2 front; historical V13 body preserved verbatim after whitespace trim. Historical method/experiment JSON and execution source locks unchanged.",
+  "historical_V13_body_sha256": "cdfa6f4e4f72c6ef6d2cbebf523e402a16a2712f6aa9a8b5a8551ca589481f2e",
+  "TeX_compile": {
+    "tool": "codex_app.compile_latex_document",
+    "status": "UNAVAILABLE_ENVIRONMENT",
+    "attempts": 2,
+    "compiled": false,
+    "diagnostic": "Unable to find standard directories for platform",
+    "source_environment_and_display_pairing": "PASS",
+    "separate_PDF_generated": false,
+    "latest_authorized_experiment_revision": "UNAVAILABLE_ENVIRONMENT: Unable to find standard directories for platform"
+  },
+  "independent_review": "No mathematical blocker; deterministic probe RNG/state qualification incorporated.",
+  "selected_experiment": "experiment-budget15-2k-server3.json",
+  "budget15_projection_implementation_and_tests": "ASSIGNED_TO_SH3_NOT_YET_EXECUTED",
+  "user_authorized_GPU_scope": "Server3 BS100x20 through GH/SH3 after mechanical qualification"
 }

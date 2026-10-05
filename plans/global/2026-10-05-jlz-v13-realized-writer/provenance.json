@@ -9,5 +9,11 @@
   "literature": {
     "EMMET": "https://aclanthology.org/2024.findings-emnlp.903/"
   },
-  "authorization_scope": "Method and next-experiment design; no external task dispatch or GPU launch in this turn"
+  "authorization_scope": "Method and next-experiment design; no external task dispatch or GPU launch in this turn",
+  "current_editor_revision": {
+    "current_method": "V14 native writer-aware R2",
+    "contract": "../2026-10-05-jlz-v14-native-writer-aware/method-contract.json",
+    "history": "Original V13 body retained verbatim as appendix; prior method/experiment contracts and source locks unchanged.",
+    "selected_experiment": "Server3 budget1.5, per-layer.75,2000edit user-authorized"
+  }
 }

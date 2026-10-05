@@ -3,11 +3,299 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\norm}[1]{\left\lVert #1\right\rVert}
-\title{JLZ v13: 공동 local 계획을 실현하는 native-context writer}
+\title{JLZ v14: native writer-aware 공동 목표와 계산 효율화}
 \author{Method 설계 및 구현 계약}
 \date{2026년 10월 5일}
 \begin{document}
 \maketitle
+
+\paragraph{현재 문서의 범위.}
+이 문서의 본문은 V14 B1 및 V13 2k 완료 결과를 반영한 V14 실행 교정 R2이다.
+기존 열린 편집기와 파일 경로를 유지하며 V13 원 설계는 뒤의 역사 부록에 보존한다.
+기준 method는 V14의 native ridge와 공동 requested-residual 최적화다.
+기존 .75는 실행 동등성 검증의 기준이며, 최신 사용자 선택으로 다음 실험에는
+공유1.5와 층별.75를 적용한다. 아래 Server3 2k 실행 절이 이 예산을 명시적으로 override한다.
+R2는 중복 계산과 불필요한 adjoint를 줄이는 실행 설계이며, production 구현이나
+새 GPU 실험을 수행했다는 뜻이 아니다. Companion은
+\texttt{../2026-10-05-jlz-v14-native-writer-aware/}의 method/runtime 계약과
+\texttt{execution-optimization-r2.json}이다. 과거 실행의 source lock은 변경하지 않는다.
+
+\section{검토 결과와 유지할 연구 대상}
+실제 V14 B1 source는 \texttt{2ab04d0b}, 완료 결과의 게시 기준은
+\texttt{2fdd23f3}이다. V14는 같은 환경의 V12 방식 tracking 대조군에 비해
+PS 88.5\%에서 90.5\%, P strict ACC 56.5\%에서 63.5\%, NS 87.8\%에서
+88.2\%로 개선됐다. 반면 canonical 정규화 직접 변위의 합은 .7532에서 .4869로
+작아졌다. 이를 native writer 자체의 실현률 향상으로 해석하지 않는다.
+동일 direct ridge 대조군 대비 PS 73.5\%에서 90.5\%로의 개선은 실제 writer 응답을
+고려하는 목표 생성의 근거다. 이 B1 관측만으로 순차 locality를 보장하지 않는다.
+
+V13은 현재 context의 국소 목표를 정확히 실현했으나 2k에서 누적 보존이 악화됐다.
+V14는 native soft ridge의 fit--보존 절충을 유지한다. 연구 claim은 모든 후보 층의
+local 요청량을 jointly 계획하고, actual writer 응답에 따라 배분하는 것이다.
+최소 semantic damage, 최소 writer 에너지 또는 globally optimal allocation을 주장하지 않는다.
+모든 eligible 층을 고려하며 특정 층으로 집중되는 결과 자체를 실패로 판정하지 않는다.
+
+\section{수학적 method: R2에서 변경하지 않는 계약}
+Batch entry의 $W^0,H,C_0$, native teacher, canonical anchor $a_{lr}$와
+native anchor $a_r^\star$를 고정한다. 모든 eligible 층에
+\[
+ R_{lr}=a_{lr}u_{lr},\qquad
+ \sum_l\norm{u_{lr}}_2\le c,\qquad c=.75
+\]
+를 둔다. 각 candidate는 같은 entry에서 시작하며 이전 candidate의 write/history를
+누적하지 않는다. 실제 하층의 all-token write를 거친 현재 native key를 모아
+rewrite-only native nested mean $K_l$을 구성한다.
+\[
+ A_l=\lambda_C C_{0,l}+H_l,\quad
+ P_l=(A_l+K_lK_l^\top)^{-1}K_l,\quad U_l=R_lP_l^\top.
+\]
+현재 profile의 $\lambda_C$는15000이며 다른 profile은 native 설정에서 받는다.
+행렬 inverse는 solve로 구현한다. Native 저장 A와 dtype/order를 유지하며 임의의
+대칭화, jitter, exact writer 또는 사영 writer로 치환하지 않는다.
+실제 forward는
+\[
+ W_l^{eff}=W_l^0+\operatorname{FP32}(R_{l,64}P_l^\top),\quad
+ v_{lrc}=\operatorname{linear}(k^a_{lrc},W_l^{eff})
+          -\operatorname{linear}(k^a_{lrc},W_l^0)
+\]
+이다. 이 context별 actual subject 작용을 별도의 native subject-only 경로에 주입한다.
+Native rewrite/KL 문장, lookup, target-token reduction 및 full-vocabulary readout은 유지한다.
+\[
+ J_{\mathrm{sum}}(u)=\sum_r\left[
+ \mathrm{NLL}_r(v(u))+.0625\,\mathrm{KL}_r(\mathrm{current}\Vert\mathrm{entry})
+ +\frac{.5}{a_r^\star}\sum_l\norm{u_{lr}}_2\right].
+\]
+Gradient는 모든 요청의 합이며 보고는 요청 평균이다. Native mean, $P$, actual upper
+keys 및 하층 경로 전체를 미분한다. Norm gradient는 해석적으로 한 번만 더한다.
+EfficiencyAdam의 요청별 상태, FP64 projection/FP32 저장, zero-layer reentry를 유지한다.
+모든 $J_r<.05$일 때만 공통 early exit를 허용하고 최대25평가/24갱신,
+마지막으로 평가한 유한 candidate의 weight payload를 commit한다. 채택 terminal에서는
+backward를 하지 않는다. 마지막 history는 모든 층 write 후 rewrite 평균 key로 정확히 한 번
+append하며 KL이나 새로운 reference 문장은 넣지 않는다.
+
+\paragraph{예산 확대의 채택과 해석.}
+최신 사용자 지시로 다음 실험에는 공유1.5와 층별.75를 채택한다. 이는 feasible set과
+norm/stop 관계를 바꾸는 과학적 변경이며 실행 최적화와 분리해 기록한다.
+두 층의 norm 배분 형태를 허용할 뿐 BLUE의 순차
+local-z, 상태별 anchor, optimizer, history까지 정확히 포함하지 않는다.
+낮은 B1 $Q$는 확대 후 locality의 안전 여유가 아니다. Native-only 조건에 따라
+\texttt{generation\_prompts} 추가도 이 교정에 포함하지 않는다.
+
+\section{실측 계산량과 최적화 순서}
+같은 Server4 환경에서 V12 계열 planner fit은385.585초, V14 fit은2038.636초로
+5.287배다. V14 전체 B1 GPU allocation은2439초였다. 보존 비용 $Q$와 GPU 계산량을
+구분한다. 다음 값은 서로 겹치지 않는 원 candidate 타이머의 합이다.
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+구간 & 초\\\midrule
+Actual candidate builder & 107.037\\
+Native 최초 정지 평가 & 234.271\\
+Native replay forward/backward & 962.572\\
+Builder reverse & 722.109\\
+Optimizer & 6.942\\
+기타 & 약5.705\\\bottomrule
+\end{tabular}
+\end{center}
+중복 forward 제거 대상은 비terminal24회의 약224.8초, 기존 fit의 약11\%다.
+이 한 변경으로 5배 가속을 예상하지 않는다. 주 병목인 native F/B 및 builder reverse에는
+microbatch와 cached adjoint 개선이 별도로 필요하다. A factor/prefix 재사용,
+selected-position head, microbatch별 오른쪽 padding 제거, materialized weight 공유,
+dense $dW$를 만들지 않는 direct $R/P$ VJP는 이미 적용된 것으로 신규 절감에 세지 않는다.
+
+\subsection{R1: 자원 한도에 따른 physical microbatch}
+논리 batch $B_t$와 실행 row/token/activation-byte cap을 분리한다. 먼저 원 global-row
+순서를 유지하며 qualified physical grouping을 선택한다. 2/4/8행은 현재 profile의
+측정 후보일 뿐 method 상수가 아니다. 큰 group은 padding 토큰을 늘릴 수도 있으므로
+유효/패딩 토큰, 시간, peak GPU/CPU/pinned memory를 함께 기록한다.
+K의 native 평균과 ridge solve는 항상 전체 logical B를 사용한다.
+OOM은 같은 candidate의 임시 상태와 RNG를 복원한 뒤 작은 physical cap으로 재시도하며
+논리 B, 문장, dtype, optimizer step이나 history를 바꾸지 않는다.
+
+Length sorting은 최초 구현에 넣지 않는다. 현재 capture가 encounter order에 의존하므로
+임의 정렬은 anchor/key/owner를 바꿀 수 있다. 추후 explicit global-row scatter와 native
+reduction 순서 parity가 확인될 때만 별도 적용한다.
+
+\subsection{R2: 이미 계산한 ridge 해의 정확한 adjoint}
+$B_l=A_l+K_lK_l^\top$, $P_l=B_l^{-1}K_l$라 두고, 모든 row와 상층 경로의
+$G_l=\partial L/\partial P_l$을 모은 뒤 한 번
+\[
+ Z_l=B_l^{-\top}G_l,\qquad
+ \boxed{\frac{\partial L}{\partial K_l}
+ =Z_l-Z_l(P_l^\top K_l)-P_l(Z_l^\top K_l)}
+\]
+를 계산한다. 이 식은 A가 고정된 일반 비대칭 저장 행렬에도 유효하며, LU backend에서는
+실제 transpose solve를 사용한다. Explicit inverse는 만들지 않는다.
+Forward의 $K,P,Y=A^{-1}K$ 및 $I+K^\top Y$ factor를 캐시해 reverse에서 primal
+ridge를 다시 구성하지 않는다. A inverse-apply backend가 검증된 경우에는
+\[
+ Z_l=\operatorname{solve}\bigl(A_l^\top,\ G_l-K_l(P_l^\top G_l)\bigr)
+\]
+로 entry의 A factor를 재사용한다. A가 singular이거나 이 경로의 residual이 기준을
+통과하지 못하면 원 native $B_l$ factor의 transpose solve를 사용한다.
+후보마다 큰 $B_l$를 새로 factor하는 것은 이 최적화의 기본 경로가 아니다.
+새 transpose solve 자체와 upper K gradient는 남는다.
+Native FP32 nested mean과 FP64 cast의 adjoint 순서도 유지한다.
+
+Cache에는 entry W/H, row/context identity, layer, dtype/backend, K identity와
+candidate의 하층 update dependency를 결속한다. A factor는 entry 내에서만 재사용하고,
+첫 write층의 K/P만 인과 독립성 검증 후 candidate 간 공유할 수 있다.
+상층 K/P를 이전 candidate에서 가져오는 것은 허용하지 않는다.
+Primal residual 검사는 cache 생성 시 한 번 수행해 receipt와 결속하고,
+새 transpose solve의 residual도 검사한다. 속도를 위해 수치 검사를 삭제하지 않는다.
+Forward의 FP32 materialization을 저랭크 덧셈으로 바꾸지 않는다.
+
+\subsection{R3: 첫 편집층의 사용되지 않는 adjoint 제거}
+Adapter가 첫 eligible site의 key와 입력 boundary가 모든 최적화 변수와 독립임을
+입증한 경우, 그 층의 P/K/하위 boundary adjoint는 생략한다. 단순히 계산 후 버리는
+것이 아니라 custom backward의 input-gradient 필요 여부로 불필요한 GEMM과 CPU 이동을
+실제로 제거한다. 상층에서 내려오는 작용을 포함한 첫 층의 R gradient는 전부 유지한다.
+R=0인 층의 gradient도 유지한다. 인과 독립성이 불명확한 adapter는 기존 경로를 쓴다.
+생략한 P/K adjoint는 측정된0이 아니라 \texttt{NOT\_NEEDED}로 기록한다.
+
+\subsection{R4a: 실제 완료 요청으로 공통 정지 불가를 확인한다}
+수학적인 KL 비음수성이나 norm만으로 정지를 예측하지 않는다. Native FP32 KL에는
+작은 음수가 가능하고, 부분 context의 손실은 전체 요청의 손실이 아니다.
+반면 같은 candidate에서 어느 요청 r의 모든 native NLL/KL 항을 원래 정밀도와
+reduction으로 계산한 유한 $J_r\ge.05$는 공통 early stop이 거짓이라는 정확한 증거다.
+
+초기 권장 구현은 작은 no-grad probe다.
+\begin{enumerate}
+\item 마지막 cap candidate이면 기존 full no-grad 평가 한 번 후 backward 없이 채택한다.
+\item 그 외에는 현재 norm penalty 최대 요청 하나를 고른다. 동률은 입력순이며 평가
+paraphrase/locality를 선택에 사용하지 않는다.
+\item 그 요청의 모든 native row가 들어 있는 원래 rowgroup을 그대로 no-grad 계산한다.
+다른 모양으로 재포장하거나 retokenize하지 않는다.
+\item 완성된 $J_r\ge.05$이면 이번 candidate의 비종료가 확정된다. 이제 전체 native loss를
+한 번 forward/backward하며 모든 row의 v-adjoint를 합친다.
+\item 증거를 얻지 못하면 probe의 detached row 값을 재사용할 수 있는 범위에서 원래
+full no-grad 평가를 마치고, 원래 stop/replay 규칙으로 돌아간다.
+\item 전체 loss/adjoint의 유한성과 whole-B reverse가 완료된 뒤에만 optimizer를 갱신한다.
+나중 row가 비유한 경우 앞서 만든 adjoint도 폐기하며 commit/history를 하지 않는다.
+\end{enumerate}
+Probe는 추가 optimizer candidate나 fit이 아니라 실제 forward 작업으로 기록한다.
+B=1에서는 이득이 거의 없어도 같은 의미를 유지한다. Current B1의350groups 중 약4groups만
+probe한다는 균일시간 근사에서는 직접 절감 대상이 약222초지만, 구현 실측 가속률은 아니다.
+
+이 경로는 전체 loss를 두 번 계산하던 동일성 검사를 매번 수행하지 않는다.
+그 변경을 숨기지 않고, 동일 profile에서 grad-enabled/no-grad native loss parity를
+qualification으로 검증한다. 원래 no-grad probe가 정지 판정의 기준이다.
+Parity 미확인 profile이나 수치 불일치에는 기존 두-pass 경로를 사용한다.
+새 microbatch에서 stop 경계에 가까운 경우에는 backward 전에 원래 grouping의
+no-grad 평가로 판정을 재확인한다. Guard는 사전 고정한 loss 수치 오차의 전파량이며,
+과학적 종료 임계값 자체를 변경하지 않는다.
+Probe는 group 실행 순서를 바꾸므로 결정적이며 상태를 변경하지 않는 eval forward,
+또는 원 순서와 정확히 같은 group별 RNG/state replay가 필요하다.
+이를 검증하지 못한 adapter는 원래 순서의 두-pass 경로를 유지한다.
+
+\paragraph{R4b: 선택적 bounded-graph 확장.}
+추후에는 원 순서대로 graph를 제한된 메모리 안에 보관하다가 완성 요청의 stop 실패가
+확인되면 보관분부터 역전파할 수 있다. 메모리 상한에 닿기 전까지 증거가 없으면 graph를
+버리고 detached 손실만 남긴다. 비terminal로 판명되면 버린 prefix만 먼저 재계산하여
+원래 gradient 누적 순서를 유지한다. 모든 요청이 종료하면 backward는0이다.
+이 경로는 별도 replay ledger 검증 후에만 사용하며 최초 구현의 필수 조건이 아니다.
+
+\section{모델ㆍbenchmarkㆍbatch 독립적인 구현 경계}
+실제 $B_t$, eligible sites, layer width, native context 수와 가중치는 adapter/RunSpec에서
+받는다. Owner를 global-row modulo7처럼 복원하지 않고 명시적인 owner, role, rewrite
+reduction index/group, lookup, positions와 target metadata를 사용한다.
+불균등 context 수, noncontiguous write층, 0목표, 중복 key, 작은 마지막 batch를 보존한다.
+빈 batch는 fit/solve/commit 없는 no-op이다. 논리 B를 작은 독립 writer들로 나누지 않는다.
+현재 production의 검증된 adapter는 Llama profile이며 모든 모델 지원을 주장하지 않는다.
+새 adapter는 write와 주입의 가법 대응, key 인과 의존성, mask/position 및 native loss를 검증한다.
+
+수정 지점은 다음과 같다. 이름은 구현 예정 interface이며 구현 완료를 의미하지 않는다.
+\begin{center}\small
+\begin{tabular}{p{.27\linewidth}p{.64\linewidth}}
+\toprule
+함수/모듈 & 변경 계약\\\midrule
+prepare / inputs & RowSchedule, 명시적 owner/reduction metadata, 자원 cap\\
+geometry & candidate cache와 transpose-solve VJP; 같은 native A/backend\\
+builder.build & primal factor/P/cache receipt 저장, actual upper key 유지\\
+builder.reverse & whole-B cached VJP, 첫 site 불필요 adjoint 생략\\
+physical.backward & 필요한 R/P/input gradient의 실제 연산만 수행\\
+subject / optimize.fit & complete-owner no-grad probe, 공통 stop, bounded fallback\\
+telemetry / collector & logical work와 probe/replay/physical work 분리\\\bottomrule
+\end{tabular}\end{center}
+
+\section{검증ㆍ적용 순서와 계산량 보고}
+먼저 R1 microbatch, R2 cached VJP, R3 첫 층 pruning, R4a probe를 각각 검증한 뒤 결합한다.
+선택적인 R4b는 그 이후다. CPU reference는 FP64에서 dense solve/finite difference와
+cached VJP를 비교한다. SPD와 비대칭 A, 중복/zero 열, B가 feature width보다 큰 경우,
+하층 R에서 상층 K/P로 이어지는 gradient, 불균등 owner rows와 tail을 포함한다.
+잘못된 transpose/상층 detach를 negative control로 탐지해야 한다.
+
+Stop scheduler는 모든 요청 성공, 정확히 threshold와 같음, 마지막 cap, 여러 group에
+나뉜 owner, 작은 음수 KL, graph eviction/replay, 뒤늦은 nonfinite를 검사한다.
+CPU 참조의 통과는 GPU FP32 모델의 수치 정합이나 실제 가속 검증을 대신하지 않는다.
+현재 NumPy FP64 참조는15개 검사를 통과했다. Cached A transpose 식은 dense
+$B^\top$ solve와 최대 $3.33\times10^{-16}$ 차이였으며, causal 두 층의 전체
+gradient 유한차분 오차는 최대 $6.92\times10^{-10}$이었다.
+실제 factor 재사용 구현, GPU cast/kernel parity 및 가속률은 아직 검증 전이다.
+
+실제 모델 qualification은 기존 허용오차를 유지한다: 요청별 loss atol $10^{-5}$,
+rtol $10^{-4}$; R-gradient RMS 차이는 $10^{-6}+10^{-3}$ reference RMS 이하;
+native solve relative residual $10^{-8}$, FP32 budget violation $10^{-6}$ 이하.
+Actual local action과 accepted payload/history 검사도 유지한다.
+Zeroㆍinteriorㆍ예산 경계의 같은 후보, 여러 physical group 크기, 짧은 optimizer 전이에서
+u/R, projection, 공통 stop 및 commit을 비교한다. 허용오차는 결과를 보고 넓히지 않는다.
+일반 microbatch 변경의 bitwise 동일성을 주장하지 않으며 경계 판정에는 원 경로를 쓴다.
+
+Logical candidate/update 수와 physical graph/no-grad/probe/replay F/B, valid/padded token,
+solve/VJP, transfer byte, cache hit/miss, OOM retry, memory peak를 따로 기록한다.
+앞의2038.6초와 동일 workload의 실측을 비교해 새 ETA를 계산하며 아직 가속 배율은
+\texttt{NOT\_MEASURED}다. 원 B1 속도의2k 외삽은 fit만11.33GPUh,
+전체13--14시간/arm 정도의 계획값이다. 최적화 후에도 같다고 가정하지 않는다.
+추가 입력, 예산1.5, upper-key 고정, solve-gradient detach, 후보 감소는 이 실행
+교정의 절감으로 세지 않는다. 최신 실행 승인의 구체적 범위는 다음 절을 따른다.
+
+\section{사용자 승인 실행: Server3, 공유1.5, 총2000 edit}
+사용자는 공유 예산 확대 실험을 Server3에 맡기고2000 edit까지 진행하도록 지시했다.
+GH가 SH3에 구현ㆍ수치 검증ㆍ실행을 전달한다. 실행 정본은 companion의
+\texttt{experiment-budget15-2k-server3.json}이다.
+Native 입력, 손실 계수, writer/history 및 전체층 gradient는 유지하고
+각 요청에 대해
+\[
+ \sum_l\norm{u_{lr}}_2\le1.5,\qquad \norm{u_{lr}}_2\le.75\quad\forall l
+\]
+를 적용한다. Norm 계수를 예산이나 층 수로 다시 나누지 않는다.
+제안 step의 block norm을 $s_l=\norm{w_l}_2$라 하면 정확한 Euclidean projection은
+\[
+ t_l=\min\{.75,\max(s_l-\tau,0)\},\qquad
+ u_l=\begin{cases}(t_l/s_l)w_l&s_l>0,\\0&s_l=0\end{cases}
+\]
+이다. $\sum_l\min(.75,s_l)\le1.5$이면 $\tau=0$이고, 아니면
+$\sum_l t_l=1.5$가 되는 공통 $\tau\ge0$를 찾는다.
+FP64 projection 후 FP32 저장에서도 두 제약을 검증한다.
+단순한 전체 radial 축소와 개별 clipping을 이 projection의 대체물로 사용하지 않는다.
+
+같은 고정 CounterFact 순서의 앞2000개를 fresh W0/H0에서 BS100으로20회 편집한다.
+B1은 같은 연속 trajectory의 첫 batch이며 평가값에 따라 설정을 선택하거나 재시작하지 않는다.
+기술 검증 통과 후 B20까지 이어가고, B1/W5/W10/W15/W20은 중간 보고 지점이다.
+W/H는 다음 batch에 RAM으로 전달하고 기본 checkpoint 미저장 정책을 유지한다.
+공통25평가/최대24갱신 및 native early stop도 유지한다.
+
+먼저 capped projection과 R1--R4a를 단계별 검증하고, 같은 후보의 loss/full gradient,
+stop, accepted payload/history를 기존 .75 및 확대 예산 양쪽에서 대조한다.
+검증되지 않은 최적화 stage는 기존 동등한 계산 경로로 되돌릴 수 있지만 upper K/P
+gradient, 입력, 정밀도나 과학 설정을 바꾸지는 않는다.
+Server3에서1GPU 동시 상한과 현재 project 자원 한도를 확인해 제출한다.
+기존 다른 task를 취소하지 않는다.
+
+매 commit에서 누적 RS/PS/NS와 TF token/prompt/strict ACC, 새 답ㆍ원 답 NLL,
+birth cohort와 retention, 층별 요청ㆍ실현 배분, shared/per-layer 제약 활성률,
+$Q$, update norm, 구간별 시간과 peak memory를 기록한다.
+기존 V14 .75 B1 및 baseline은 동일 cohort/분모/환경 차이를 명시해 비교하고,
+별도 baseline 재실행이나 계수 sweep은 추가하지 않는다.
+이번2000개 실행은 사용자 승인 상태이며 job 제출ㆍ수신ㆍ완료는 별도 receipt로 확인한다.
+
+\clearpage
+\appendix
+\section*{역사 부록: V13 original method}
+아래는 이전 V13 설계를 보존한 기록이다. 현재 R2의 writer/목적 계약으로 적용하지 않는다.
+특히 exact/context writer는 현재 V14 native ridge와 다르다. 과거 실행 결과는 당시의
+pinned source/config가 기준이며, 이 편집 문서의 변경이 실행 기록을 소급 수정하지 않는다.
+
 
 \paragraph{상태와 범위.}
 새 writer와 다음 실험의 설계다. 현재 실험의 실행 코드나 job을 변경하지 않는다.

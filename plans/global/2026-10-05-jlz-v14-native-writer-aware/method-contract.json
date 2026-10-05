@@ -1,16 +1,17 @@
 {
-  "schema": "JLZ_V14_NATIVE_WRITER_AWARE_REQUESTED_BUDGET_DRAFT_V1",
+  "schema": "JLZ_V14_NATIVE_WRITER_AWARE_REQUESTED_BUDGET_R2",
   "date_kst": "2026-10-05",
-  "status": "PROSPECTIVE_DESIGN_ONLY_NOT_AUTHORIZED_FOR_GPU_EXECUTION",
+  "status": "BASE_V14_R2_WITH_USER_AUTHORIZED_BUDGET15_2K_EXPERIMENT",
   "motivation_ko": "원본에도 존재하는 ridge의 미실현을 exact writer로 제거하기보다, native writer 아래에서 실행될 요청 잔차를 모든 층에서 함께 계획한다. v12의 virtual delta 예산 밖으로 생기던 상속 보정 RHS를 제거한다.",
   "scope": {
     "baseline_planner": "v12 shared-budget / EfficiencyAdam",
     "baseline_writer": "MEMIT-H native mean-key ridge",
-    "v13_running_B1": "UNCHANGED; frozen V13 documents, execution command, source and jobs not modified",
+    "v13_running_B1": "V13 B1 and MD/CD 2k are completed historical runs; their pinned execution sources/configs/results remain unchanged.",
     "new_reference_replay_pulse": false,
     "new_allocation_coefficient": false,
     "all_configured_layers_eligible": true,
-    "automatic_gpu_dispatch": false
+    "automatic_gpu_dispatch": false,
+    "revision_ko": "R2 실행 최적화의 동등성 기준은 기존 .75이다. 최신 사용자 지시로 다음 과학 실행은 공유1.5/층별.75와 2k를 선택했다. base 변수/default는 기존 검증 기준이며 active_experiment가 실행 예산을 override한다."
   },
   "claim_ko": "native writer의 실제 응답을 고려한 공동 local 요청 생성과 요청 예산 배분. 최소 semantic damage/최소 writer energy/정확 실현을 보장한다는 주장은 하지 않는다.",
   "batch_entry": {
@@ -112,6 +113,34 @@
     "requested budget may constrain accuracy; no automatic coefficient/radius change",
     "compute exceeds writer-free v12 fit unless measured optimization offsets it"
   ],
-  "production_implementation": false,
-  "new_GPU_run": false
+  "production_implementation": {
+    "original_V14_B1": true,
+    "optimized_R2": false
+  },
+  "new_GPU_run": false,
+  "evidence": {
+    "v14_executed_source": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
+    "publication": "2fdd23f3",
+    "B1_PS": 90.5,
+    "B1_P_strict_ACC": 63.5,
+    "B1_NS": 88.2,
+    "fit_seconds": 2038.636,
+    "same_environment_v12_planner_fit_seconds": 385.5850778,
+    "scope_ko": "B1 효율과 결과의 관측이다. sequential 보존이나 큰 예산의 이득을 입증하지 않는다."
+  },
+  "prospective_budget_study": {
+    "default_changed": false,
+    "default_c": 0.75,
+    "candidate_c": 1.5,
+    "candidate_per_layer_cap": 0.75,
+    "status": "USER_SELECTED_FOR_SERVER3_2K_IMPLEMENTATION_AND_RUN",
+    "BLUE_equivalent": false,
+    "native_generation_prompts_added": false,
+    "note_ko": "반경 확대는 feasible set, norm 비용, 정지 가능성을 바꾼다. 기존 낮은 Q를 안전 여유로 간주하지 않는다.",
+    "experiment_override": "experiment-budget15-2k-server3.json",
+    "selection_ko": "공유1.5/층별.75 채택; 기존 .75 결과와 원본 source lock은 보존한다."
+  },
+  "runtime_revision": "execution-optimization-r2.json",
+  "document": "../2026-10-05-jlz-v13-realized-writer/method.tex (existing open editor; current V14 front matter, historical V13 appendix)",
+  "active_experiment": "experiment-budget15-2k-server3.json"
 }

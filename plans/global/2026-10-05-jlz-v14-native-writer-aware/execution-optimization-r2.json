@@ -1,0 +1,198 @@
+{
+  "schema": "JLZ_V14_EXECUTION_OPTIMIZATION_R2",
+  "date_kst": "2026-10-05",
+  "status": "DESIGN_AND_CPU_REFERENCE_ONLY_NO_GPU_RUN",
+  "baseline_source": "2ab04d0b",
+  "method_contract": "method-contract.json",
+  "invariants": [
+    "Same native token IDs, positions, masks, subject lookup, full-vocabulary NLL/KL, native owner/context reductions and current||entry KL.",
+    "Same requested R=a*u, beta=lambda_norm/a_star, c=.75, all eligible sites including zero blocks, EfficiencyAdam states and castback projection.",
+    "Whole logical batch participates in native mean keys and ridge; SUM objective gradient, mean reporting; no request-independent freeze.",
+    "Current candidate own lower all-token writes generate upper K; full K/P/actual-state adjoints; fixed entry W/H/teachers/anchors.",
+    "Common strict all(J_r<.05) stop, max25 evaluations/24 updates, no backward for accepted stopping or cap-terminal candidate.",
+    "Same FP32 materialized weight addition and linear op, FP64 native geometry, same-A backend; no symmetrization, jitter, rank truncation or low-rank forward substitution.",
+    "Exact accepted candidate payload commit; final rewrite mean H once per original occurrence; transaction rollback and observer nonmutation."
+  ],
+  "measured_baseline": {
+    "fit_seconds": 2038.636,
+    "builder_seconds": 107.037,
+    "native_initial_forward_seconds": 234.271,
+    "native_replay_FB_seconds": 962.572,
+    "builder_reverse_seconds": 722.109,
+    "optimizer_seconds": 6.942,
+    "other_seconds_approx": 5.705,
+    "fit_ratio_to_same_environment_v12": 5.287,
+    "note": "Components are measured B1; nested solve metadata can repeat cached times and must not be added."
+  },
+  "stages": [
+    {
+      "id": "R1",
+      "name": "resource_bounded_larger_microbatch",
+      "functions": [
+        "prepare.make_runspec",
+        "inputs.make_row_schedule",
+        "builder.build",
+        "builder.reverse",
+        "subject.evaluate"
+      ],
+      "contract": "Select contiguous row groups from row/token/activation-byte caps supplied by RunSpec. Physical schedule may change but logical B, owner/context identity and whole-B solve do not. Initial release keeps original global row order; no length sorting.",
+      "profile_examples": [
+        2,
+        4,
+        8
+      ],
+      "default_selection": "Use largest parity-qualified profile within GPU and pinned-CPU working-set caps; no quality metric used. Record selected schedule and measured resource peaks.",
+      "OOM": "If graph/group allocation cannot fit, discard current candidate temporary state and restore candidate RNG; reduce physical group cap deterministically and retry same logical candidate. No extra optimizer step, history append, data drop, or source/precision change. Actual physical retries are counted."
+    },
+    {
+      "id": "R2",
+      "name": "cached_whole_batch_ridge_VJP",
+      "functions": [
+        "geometry.prepare_candidate_cache",
+        "geometry.ridge_vjp_cached",
+        "builder.build",
+        "builder.reverse"
+      ],
+      "cache": [
+        "native K",
+        "P",
+        "Y=A^-1 K if backend uses it",
+        "factor of I+K^T A^-1K",
+        "same-A and transpose solve handles",
+        "forward numerical receipt",
+        "dependency identity"
+      ],
+      "formula": "Bmat=A+K K^T; Z=solve(Bmat^T,G_P); gradK=Z-Z(P^T K)-P(Z^T K). A is fixed; valid for nonsymmetric stored A with transpose solve.",
+      "whole_B": "Accumulate G_P from all native rows and downstream paths before exactly one VJP per layer/candidate. Native mean VJP retains FP32 nested reductions and FP64 cast.",
+      "forward": "Keep canonical materialization W_eff=W_entry+FP32(R64 P^T) and actual v=linear(k,W_eff)-linear(k,W_entry).",
+      "residuals": "Validate primal P once when cache is created; cached identity must match. Validate new transpose solve Z residual. Do not turn mandatory numerical checks off for speed.",
+      "cache_scope": "Entry A factors persist only with same W/H/profile. First-site K/P reuse requires adapter proof and identity. Upper-layer K/P caches belong to candidate lower-update state and are never reused stale.",
+      "transpose_backend": "If fixed-A inverse apply is qualified, Z=solve(A^T,G_P-K(P^T G_P)) reuses the entry A transpose factor and cached P; no new primal P solve or candidate B factorization. Validate Bmat^T Z-G_P. Singular A or failed residual uses the same native Bmat transpose-factor backend, never jitter/symmetrization."
+    },
+    {
+      "id": "R3",
+      "name": "first_site_no_unused_key_adjoint",
+      "functions": [
+        "physical.direct_linear_backward",
+        "builder.reverse"
+      ],
+      "contract": "If adapter proves first eligible site K and input boundary independent of all optimized R, compute its full R gradient including incoming downstream adjoints, but do not compute or transport discarded P/K/lower-boundary adjoints. Never skip an R=0 site gradient.",
+      "fallback": "If causal independence is not proved, retain full path.",
+      "telemetry": "Mark first-site P/K adjoints NOT_NEEDED, not measured zero; do not claim the old universal K-adjoint audit was run."
+    },
+    {
+      "id": "R4",
+      "name": "complete_request_stop_witness_with_bounded_fallback",
+      "functions": [
+        "subject.evaluate_streamed",
+        "subject.RequestLossAccumulator",
+        "optimize.fit"
+      ],
+      "stop_witness": "A request is complete only after all its native rewrite and KL components are available and reduced in the canonical order/dtype. A finite complete J_r>=threshold proves the all-request early-stop predicate false. Do not infer this from norm alone, assumed KL positivity or partial rows.",
+      "numerical_decisions": "Unchanged-group graph/no-grad loss parity is qualified explicitly. New microbatch schedules use declared loss tolerances. Near a stop boundary, before any backward/acceptance, run the original no-grad reference schedule to resolve all-request stop. The guard is based on propagated per-owner loss tolerances, fixed before testing; it is not a new scientific stopping threshold.",
+      "boundary_guard": "delta_J=abs_error_budget_NLL+lambda_K*abs_error_budget_KL+abs_error_budget_norm. A candidate requiring numerical fallback is reevaluated on reference schedule, with original native stop predicate. If no deterministic parity contract exists for an adapter, use original two-pass path.",
+      "memory": "Separate caps for live group, pending GPU graphs, pinned CPU graphs, builder boundary storage and factor caches. Activation checkpoint/offload may reduce memory but adds replay; record it and do not count it as eliminated FLOPs.",
+      "expected_B1_scope": "There is evidence early complete-request failure witnesses are likely (norm alone exceeded threshold in the measured saturated B1), but runtime uses observed full J and has an exact all-pass fallback.",
+      "speedup": "NOT_MEASURED. Current B1 24 duplicated initial forwards total~224.8s; ~4/350 original groups per probe would cost~2.6s under uniform-cost arithmetic. Estimated removable region~222s (~10.9% fit), not a measured speedup. Other optimizations must be measured separately.",
+      "preferred_initial_mode": "R4a: original-no-grad complete-owner probe; no large pending graph store.",
+      "probe_algorithm": [
+        "Cap terminal: original full native no-grad evaluation, zero backward.",
+        "Pick one deterministic owner from current requested norm penalty (max, input-order tie), independent of eval labels. Evaluate exactly the original physical rowgroups covering ALL native loss rows of that owner, without grad; do not repack/tokenize them.",
+        "A finite complete canonical J_owner>=threshold certifies common stop false. Evaluate whole candidate once with forward/backward, accumulate all v adjoints and only then whole-B reverse/update.",
+        "If no witness, finish original all-request no-grad evaluation using cached detached probe row values where bitwise reuse is valid, and apply original stop/replay rule. Never freeze an owner based on its own result.",
+        "Same candidate and original no-grad witness values are authoritative. Qualify grad-enabled/no-grad loss parity; on unqualified profiles or discrepancy use the original two-pass path. Candidate-wide duplicated replay equality is replaced only by explicit qualified-profile contract and probe-row checks, never claimed to have been measured for all rows.",
+        "Technical nonfinite loss/gradient anywhere discards candidate adjoints; no optimizer or history mutation before whole candidate validation."
+      ],
+      "bounded_graph_mode": "R4b: optional later mode defined by bounded_graph_algorithm; not required for initial implementation.",
+      "bounded_graph_algorithm": [
+        "Cap-terminal candidate is known in advance: evaluate once without graph/backward and accept only after all rows are finite.",
+        "Otherwise evaluate ordered groups with gradient recording, retaining bounded pending graphs and detached owner loss values; no backward until a complete-request stop-failure witness is established.",
+        "If a pending graph would exceed the configured graph-storage cap, evict the retained prefix graphs, keeping detached values and exact replay/RNG descriptors. At least one current group working set must fit.",
+        "When a witness is established, replay evicted prefix groups first, then backward retained groups, then stream remaining forward/backward groups in original gradient accumulation order. Each group contributes its native SUM-loss gradient exactly once.",
+        "If every request ultimately satisfies stop, discard pending graphs and perform zero backward. If no early witness fits the memory policy, behavior reduces to the existing evaluate-then-replay schedule.",
+        "Collect all native v adjoints and all finite losses before whole-B builder reverse and optimizer update. Late nonfinite rows invalidate the candidate; discard provisional adjoints and rollback without commit/history."
+      ],
+      "probe_state_qualification": "Probing executes selected original groups out of order. Require deterministic stateless eval forwards, or exact original per-group RNG/state replay with no persistent hook/buffer mutation. An adapter lacking this contract uses original ordered two-pass evaluation; OOM RNG restoration alone is insufficient."
+    }
+  ],
+  "cache_identity": [
+    "entry W/H version",
+    "model/tokenizer/profile and dtype/backend",
+    "logical row IDs/owner/native grouping/position IDs",
+    "layer and causal dependency key",
+    "candidate lower-update identity",
+    "actual K identity",
+    "candidate R identity for materialized weight/v"
+  ],
+  "portable_rows": {
+    "metadata": [
+      "owner",
+      "global_row",
+      "role",
+      "rewrite reduction index/group",
+      "subject lookup",
+      "valid tokens/positions",
+      "target-token locations",
+      "native reduction weights"
+    ],
+    "forbidden": "No owner lookup from global_row modulo a fixed context count; no assumed 100 requests, 7 rows, 5 sites, width4096/14336 or fixed benchmark target lengths.",
+    "empty_tail": "Empty logical batches are no-ops; unequal per-owner contexts and shorter tails use actual counts and native reduction metadata.",
+    "adapters": "Current production B1 supports a qualified Llama adapter. Other models/benchmarks require additive-write/key-dependency/native-loss qualifications; design portability is not a claim of current support.",
+    "sorting": "Length bucketing is deferred. Existing append-in-encounter-order anchors/boundaries make naive sorting incorrect; any future reorder needs explicit scatter to canonical row order and parity."
+  },
+  "already_present_not_new_savings": [
+    "entry prefix reuse",
+    "fixed-A factors",
+    "first-site K/P cache",
+    "per-microbatch right-padding trim",
+    "selected-position full-vocabulary head",
+    "candidate materialized weight sharing",
+    "direct R/P gradients avoiding dense dW",
+    "accepted payload commit reuse"
+  ],
+  "not_execution_optimizations": [
+    "budget1.5/per-layer new caps",
+    "generation_prompts/reference data",
+    "frozen upper K across candidates",
+    "detached solve gradient",
+    "independent microbatch writers",
+    "fewer candidates or changed stop",
+    "approximate vocabulary",
+    "lower precision",
+    "reference replay or extra loss"
+  ],
+  "telemetry": {
+    "logical": [
+      "candidate and optimizer update counts",
+      "terminal reason and accepted payload",
+      "actual B and row/token identities",
+      "requested budget/allocations",
+      "native loss components"
+    ],
+    "physical": [
+      "no-grad/graph/replay forward groups AND valid-token/row counts",
+      "backward groups",
+      "prefix replay/eviction count",
+      "whole-B primal solve/VJP count",
+      "cachehit/miss by scope",
+      "nonfinite/OOM retries",
+      "witness owner/group/final J",
+      "reference boundary fallback",
+      "FP32 model and FP64 geometry walltime",
+      "GPU/CPU/pinned-memory peaks"
+    ],
+    "cost_reporting": "Separate row/token work, kernel/group calls, numerical linear algebra and elapsed GPU time; Q is a preservation proxy, not compute cost. Use exclusive timers; nested metrics are not added."
+  },
+  "implementation_order": [
+    "R1 physical scheduling qualification",
+    "R2 cached transpose VJP",
+    "R3 first-site adjoint pruning",
+    "R4a complete-owner no-grad probe",
+    "combined same-candidate/short-optimizer qualification",
+    "authorized timing pilot only",
+    "optional R4b bounded-graph streaming after separate qualification"
+  ],
+  "speed_estimate": "NOT_MEASURED; original 2k fit-only projection11.33GPUh, full13-14h/arm is a planning reference, not revised ETA.",
+  "GPU_authorization": "User now authorizes Server3 implementation, qualification and budget1.5/per-layer.75 BS100x20 run through GH/SH3. This contract still defines same-method runtime parity, using .75 reference and both-budget checks.",
+  "selected_experiment": "experiment-budget15-2k-server3.json"
+}

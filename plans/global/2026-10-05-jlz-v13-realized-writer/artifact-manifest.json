@@ -17,13 +17,13 @@
     },
     {
       "file": "method.tex",
-      "bytes": 13843,
-      "sha256": "f0d9946abaa4074c540f6471856f64e2f446a663f0ea9252fb00ed844d705d52"
+      "bytes": 33866,
+      "sha256": "2df017fc568aeee37141eea8f8ee4c1e89feea130a91afe8aaf0adae37248152"
     },
     {
       "file": "provenance.json",
-      "bytes": 904,
-      "sha256": "a573c5af6524d53aff706256d97ab95c5e05eb02ab2c6e19cec72cf3c92c73a0"
+      "bytes": 1289,
+      "sha256": "116126b3c92b65f84a14c9d62668d9f7ad8df55dbccc5aa0857f45f413c82444"
     },
     {
       "file": "reference/audit.json",
@@ -52,9 +52,9 @@
     },
     {
       "file": "validation.json",
-      "bytes": 1338,
-      "sha256": "2f896572f0d10ac3ef57e5ea64f708a0a68d7e569f6d27b9c32867a4cd2d5919"
+      "bytes": 2242,
+      "sha256": "4115a5b239953d39c009427fd761120f64fd1ba5d9946ea17f47b84f1b855428"
     }
   ],
-  "status": "DESIGN_AND_CPU_REFERENCE_ONLY"
+  "status": "HISTORICAL_V13_DESIGN_WITH_CURRENT_V14_R2_EDITOR_FRONT"
 }
