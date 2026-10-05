@@ -1,0 +1,165 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "execution_source": "635798ba276957312ec1aceda686ad563c906957",
+  "description": "허용 ownscope source/compact docs/등록 receipt 현재 bytes의 소형 inventory; 자기 파일은 제외. Frozen execution archive/config/lock은 별도 submission receipt에 결속.",
+  "raw_tensor_prompt_model_fullstdout_in_git": false,
+  "source_files_unchanged_since_final_CPU": true,
+  "files": [
+    {
+      "path": "audits/servers/server4/jlz-v12r-realized-response-2k/publication-policy-exception.json",
+      "bytes": 1183,
+      "sha256": "12de74c9354d68ff3cf82ad86479fb97db0f409320c5a387029c62cc95e0fcbd"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v12r-realized-response-2k/engine-owner-audit.json",
+      "bytes": 7903,
+      "sha256": "7faa9162e9da76ab57cbe3959fe69723d4f373ca21627de416df8b68f5edc7e4"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v12r-realized-response-2k/independent-source-audit.json",
+      "bytes": 12241,
+      "sha256": "45972f68dc72404088d247f643cf14c9e1a64c1998559fe22a75872106a380e7"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v12r-realized-response-2k/preparation-result.json",
+      "bytes": 4121,
+      "sha256": "059e00b6c84bdc5fde25fda276b622d62d50ade3004edf2a906e6c91913d4cf8"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v12r-realized-response-2k/receiver-binding.json",
+      "bytes": 1497,
+      "sha256": "ab4ae2c937fbe4b886225b212ef2ead9cf086a6e4abfa36fac143c77aa57e9af"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/report-ko.md",
+      "bytes": 5383,
+      "sha256": "f7c530b545e7492079122dadc902cf00eeea24918f59669f47ba78d3455a357e"
+    },
+    {
+      "path": "messages/acks/server4/jlz-v12r-realized-response-2k.json",
+      "bytes": 1291,
+      "sha256": "12c7da3b3a46fb735a763b6f46819e4f702bc121eba3cbdf5c3310805fc48694"
+    },
+    {
+      "path": "messages/server-heads/server4/jlz-v12r-realized-response-2k.json",
+      "bytes": 1505,
+      "sha256": "1e1e56203348f38bca3065d948a511712f3e48882dd772eeaaf78225af0f3278"
+    },
+    {
+      "path": "plans/updates/server4/jlz-v12r-realized-response-2k/implementation-receipt.json",
+      "bytes": 2618,
+      "sha256": "68eee7bbd5a6aaab89db360c3eeb8a517fcf13c38b3d241f87cec8f7b5ec975c"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/__init__.py",
+      "bytes": 3228,
+      "sha256": "78dd42779693f96568704cf86d4432352864837d5d0c23a88e6764911c15ad56"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/collect.py",
+      "bytes": 24818,
+      "sha256": "e5d45d542174bcbb02827bab26e70f8d81959fd079fd3347b406d73fce6b5192"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/controller.py",
+      "bytes": 5220,
+      "sha256": "5d3ece6d669884b724883abc2bb83238618a741252ddb7598b1983adac00a2ef"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/engine.py",
+      "bytes": 3773,
+      "sha256": "5409a137cad1f940118d7ce6a7fa6fa2661fcbf1fda33d8d75b9850f84c73c98"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/entry.py",
+      "bytes": 4576,
+      "sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/fit.py",
+      "bytes": 5340,
+      "sha256": "f13ad89850b688d01962e8f5d40bb5f9cb9d0acedfb950a326e60bc25e67a85e"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/optimizer.py",
+      "bytes": 3978,
+      "sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/preflight.py",
+      "bytes": 1767,
+      "sha256": "27fb88658295f26bb9190e2fe6e426be8a36316b99b08a3479cddf74d22cda8a"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/prepare.py",
+      "bytes": 10586,
+      "sha256": "87d0ebf13e56e6b4768d3fc90c66ee6a71bbf8ff98d8aa965455c7a2e3ae5c61"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/profile.py",
+      "bytes": 1361,
+      "sha256": "9e567b12db877ee6cc1454e2424826a66ce56a4ac1cf18db37f0adec643965e9"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/projection.py",
+      "bytes": 4266,
+      "sha256": "daa79e4edfdd01288d47b1deb1ce53117bfa9336bcc1e80c8e2ad5eeccd39d44"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/qualification.py",
+      "bytes": 9309,
+      "sha256": "952dc23d312bd7bfd93985d14388c835769f04737df8fbf2ccc7a8658da63872"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/run.py",
+      "bytes": 22258,
+      "sha256": "69513b2e055ab01b17ff1c8892e50227a42b436973d390a04703cf2efb90c1aa"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/subject.py",
+      "bytes": 5161,
+      "sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/submit.py",
+      "bytes": 15504,
+      "sha256": "04a30b6e32316c4ac65fbde12e20f7f88f97ea96cce19b7f779383d6729afef6"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/telemetry.py",
+      "bytes": 6657,
+      "sha256": "3e4fa5a7611c86c1c1e057ecbce36caf6a42733a942b3105d6943e9cf77d4cae"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/test_collect.py",
+      "bytes": 6831,
+      "sha256": "f18b8f4ba2ef1ed9e4a5a5d44048f16d809f9bdb2ac4630f16578c9deb5cad3b"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/test_controller.py",
+      "bytes": 7962,
+      "sha256": "98e06b5ed3678cec67ca44acd9fb68bdf4356bbfd86ed219ac90db278e22b03e"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/test_engine.py",
+      "bytes": 7906,
+      "sha256": "aeea05f6796537bbb26b168dc661bc040b64da7241f47a5ccf98c311fc6cb357"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/test_math.py",
+      "bytes": 7234,
+      "sha256": "7591f4f3f2c3f607b15a8defb82bec88e992bbcbc611c1a96fcb5a6a14d1f756"
+    },
+    {
+      "path": "runs/jlz-v12r-realized-response-2k/submission.json",
+      "bytes": 4840,
+      "sha256": "ecc19f8e32f16cfe6da1737107338763126a159fce01e86c8a7935357fd37b08"
+    },
+    {
+      "path": "tasks/status/jlz-v12r-realized-response-2k/server4.json",
+      "bytes": 1685,
+      "sha256": "089150d692c5310d12712350c52eceb3c3d09ff2169cc9de7429a066f2485e88"
+    }
+  ]
+}

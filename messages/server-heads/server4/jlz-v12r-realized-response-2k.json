@@ -1,0 +1,20 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "담당": "SH4",
+  "상태": "실제 구현/CPU·입력 결속/전량 held 검사·release 완료. GPU qualification 및 main 완료는 미관측",
+  "execution_source": "635798ba276957312ec1aceda686ad563c906957",
+  "jobs": {"qualification": 59261, "MAIN": 59262, "BLIND": 59263, "L4-ONLY": 59264, "BASE-2X": 59265, "NO-EXPAND": 59266, "collector": 59267},
+  "last_bounded_snapshot_UTC": "2026-10-05T22:24:11Z",
+  "마지막_상태": "qualification RUNNING; MAIN와4controls 및 CPUcollector Dependency PENDING",
+  "CPU": "owner39 PASS; 별도 independent source audit PASS_WITH_LIMITATIONS/확정 blocker0, final operational20 PASS",
+  "원문_CPU_reference": "NOT_SUPPLIED/NOT_VERIFIED. Actual pretrained GPU PASS와 구분",
+  "job_receipt": "runs/jlz-v12r-realized-response-2k/submission.json",
+  "report": "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/report-ko.md",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "봉인_DAG": "qualification technical READY 이후 MAIN20 -> priority2 3coldarms -> NO-EXPAND20 -> CPU afterany; 성적 feedback 및 추가 사용자 callback 없음",
+  "old_tasks": "기존 CAUSAL USER_STOP 및 다른 task/source/raw/dirty root 유지; 다른 job 취소·변경0",
+  "완료_구분": "등록/release ≠ actual GPU qualification PASS ≠ MAINB1→B2 관측 ≠ W20완료; 상세 완료 검토는 USER recall"
+}

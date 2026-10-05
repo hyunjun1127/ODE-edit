@@ -3,7 +3,25 @@
 Instruction/nonce: `USER-GH-SH4-JLZ-V12R-20261006`.
 Task: `jlz-v12r-realized-response-2k`, 담당 SH4.
 
-현재 준비 보고다. 실제 job 등록/source lock 및 CPU receipt는 등록 인계에서 아래에 결속한다. 현재 pretrained GPU qualification과 MAIN B1/W20 측정은 `NOT_OBSERVED`이며 CPU fixture 통과를 GPU PASS로 표시하지 않는다.
+현재 등록 초기 인계 보고다. Owner CPU39 PASS, 별도 independent source 검토는 `PASS_WITH_LIMITATIONS`/미해결 확정 blocker0, final independent operational20 PASS다. 실제 pretrained GPU qualification과 MAIN B1/W20 측정은 `NOT_OBSERVED`이며 CPU fixture 통과를 GPU PASS로 표시하지 않는다.
+
+## 실제 등록·봉인
+
+실행 source `635798ba276957312ec1aceda686ad563c906957`, source tree `41d95dee323a6b4ad705ccedddc740e27c0a1dd2`. Config SHA `718a6b1428000e26d726e7094b170d715b1c3596e8821e4a30b6ba751a0b8d1a`, lock SHA `e7ca36fd76f0c0cfa3824c72694545e3fd36ecd8f5a4fe011dfde63a87e6360e`. Source archive는 170파일/1,638,400bytes이며 SHA `d64a2f9bed000c6be194108a9fef01668c0b6ffa2fce3d30be256a558f3cc26e`다.
+
+| 역할 | Job | dependency |
+|---|---:|---|
+| qualification | 59261 | 없음 |
+| MAIN | 59262 | afterany59261 |
+| BLIND | 59263 | afterany59262 |
+| L4-ONLY | 59264 | afterany59262 |
+| BASE-2X | 59265 | afterany59263 |
+| NO-EXPAND | 59266 | afterany59263/59264/59265 |
+| CPU collector | 59267 | afterany 정확6GPU parents |
+
+모든 job의 owner/fullargv/script bytes/source/node/CPU/GPU/explicit memory/wall/exportNONE/Requeue0/dependency를 held 상태에서 검산한 후 전량 release했다. 2026-10-05T22:24:11Z 한정 scheduler snapshot에서는 qualification RUNNING(server4), 나머지6개는 Dependency PENDING이었다. 이후 scheduler/log/결과 polling은 중단했다. MAIN이나 대조군의 성적은 dependency 조건이 아니다. Runner 안의 exact qualification READY 및 공통 source의 확인된 기술 오류 검사를 유지한다.
+
+등록 receipt: `runs/jlz-v12r-realized-response-2k/submission.json`. Local 원본 receipt/lock/source/launchers: `/data/janghj/ODE-edit/local/jlz-v12r-realized-response-2k/attempt/`. 봉인 CPU collector 결과 목적지는 같은 attempt의 `collector/`이며 아직 읽거나 완료를 주장하지 않았다. 실행 source와 뒤의 게시/분석 commit은 구분한다.
 
 ## 범위
 
