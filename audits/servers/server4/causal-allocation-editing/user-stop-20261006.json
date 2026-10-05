@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "task_id": "causal-allocation-editing",
+  "parent_instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "user_quote": "server4 실험 취소하자",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "repository": "hyunjun1127/ODE-edit",
+  "worktree": "/data/janghj/ODE-edit/local/causal-allocation-editing/worktree",
+  "status": "USER_STOPPED",
+  "cancelled_utc": "2026-10-05T20:29:46Z",
+  "cessation_verified_utc": "2026-10-05T20:30:22Z",
+  "scheduler_timestamp_timezone": "Asia/Seoul",
+  "execution_source": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+  "source_archive_sha256": "13bdc3af5079134b6fa1119a72f1f120de06c526f8a7dd29f512a3b445a63d14",
+  "config_sha256": "fd15741517cf6600f832384d9fd17ee6e26c4dac21fe16b07053bc256dea2f81",
+  "lock_sha256": "d17b71ee91a5183abad5e2e2818b15609e1a4f190aba7f7762db33979dab59cc",
+  "attempt": "/data/janghj/ODE-edit/local/causal-allocation-editing/attempt",
+  "identity_checks": {
+    "registration": "runs/causal-allocation-editing/submission.json",
+    "active_jobs": "Exact owner janghj/name causal-allocation-editing/node server4/Command/SubmitLine/WorkDir/dependency checked by scontrol before cancellation",
+    "source": "Fresh archive/config/lock/script SHA and absolute Python/module/argv matched preserved attempt",
+    "qualification": "Exact parent accounting and registration bind completed job; expired scontrol record was NOT_AVAILABLE, not an active job",
+    "script_sha256": {
+      "qualification.sh": "edd1011972ddd1f06c673448a9c83e4a706dc48908f8b77f150a7406e2f6f950",
+      "main.sh": "4a45b4f2c66c15af11ac46b20de8ab3b300d12c8381b1d6798825353e553d64e",
+      "collector.sh": "b72fd9321a573a309486a62708446e33af49cf9112e3885cccd1d4709365d56c"
+    }
+  },
+  "actions_in_order": [
+    {"argv": ["scancel", "59165"], "exit_code": 0},
+    {"argv": ["scancel", "59164"], "exit_code": 0}
+  ],
+  "jobs": {
+    "qualification": {"id": 59163, "before": "COMPLETED", "after": "COMPLETED", "cancel_called": false, "parent_elapsed_seconds": 85, "allocated_GPUs": 1, "exit_code": "0:0"},
+    "main": {"id": 59164, "before": "RUNNING", "after": "CANCELLED by 1025", "cancel_called": true, "parent_elapsed_seconds": 2346, "allocated_GPUs": 1, "parent_end_kst": "2026-10-06T05:29:46", "batch_exit_code": "0:15", "last_batch_end_kst": "2026-10-06T05:29:49"},
+    "collector": {"id": 59165, "before": "PENDING Dependency", "after": "CANCELLED by 1025", "cancel_called": true, "parent_elapsed_seconds": 0, "allocated_GPUs": 0, "parent_end_kst": "2026-10-06T05:29:46"}
+  },
+  "cessation": {
+    "exact_job_squeue_rows": 0,
+    "main_scontrol_state": "CANCELLED",
+    "batch_and_extern_terminal": true,
+    "active_task_GPU_allocation": 0,
+    "note_ko": "sacct/scontrol의 AllocTRES는 과거 할당 기록이다. 빈 exact-job squeue와 terminal step으로 현재 할당 해제를 확인했다."
+  },
+  "parent_allocated_GPU_seconds": 2431,
+  "cost_policy": "Parent elapsed times only; batch/extern durations are not added. This is allocated GPU time, not measured active kernel time.",
+  "scientific_review": "NOT_PERFORMED; qualification parent COMPLETED does not itself certify GPU parity, positive lambda, B1/B2 or W20 coverage",
+  "pre_push_review": {
+    "reviewer": "/root/causal_red",
+    "verdict": "PASS",
+    "scope": "Four cancellation-only receipt/status/message/report files; job identity, chronology, parent-only cost, historical/current distinctions, links and publication scope",
+    "level": "Independent document/read-only diff review; supplied owner JSON/link validation reused; no independent Slurm or model execution"
+  },
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "source_raw_config_logs": "KEEP unchanged",
+  "other_job_mutations": 0,
+  "new_submissions": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED: cancellation receipt only; preserved local raw/source/model are not transferred"
+}
