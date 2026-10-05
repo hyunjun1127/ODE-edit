@@ -85,7 +85,7 @@ def locked(attempt):
 def setup(c,out):
     require(shutil.disk_usage(out).free>=c['resources']['startup_free_bytes_min'],'RESOURCE_BLOCKED_STORAGE')
     require(torch.__version__==c['runtime']['torch'] and transformers.__version__==c['runtime']['transformers'],'RUNTIME')
-    torch.set_num_threads(8);random.seed(c['seed']);np.random.seed(c['seed']);torch.manual_seed(c['seed'])
+    torch.set_num_threads(c['resources'].get('cpu',8));random.seed(c['seed']);np.random.seed(c['seed']);torch.manual_seed(c['seed'])
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     model=AutoModelForCausalLM.from_pretrained(c['model'],local_files_only=True,dtype=torch.float32,
         attn_implementation='eager',low_cpu_mem_usage=True).to('cuda').eval()

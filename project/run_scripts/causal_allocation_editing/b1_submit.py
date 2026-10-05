@@ -15,12 +15,13 @@ from .submit import SOURCES, command, dependency_ids
 
 SESSION='01a0493a-074c-7f91-9a13-769116326fef'
 ROLES=('main','collector')
-B1_SOURCES=SOURCES+['messages/head/causal-allocation-editing-b1.json']
+B1_SOURCES=SOURCES+['messages/head/causal-allocation-editing-b1.json',
+    'audits/global/causal-allocation-editing-b1-dispatch/resource-correction.json']
 
 def launcher(source,commit,role,attempt,c):
     module='collect' if role=='collector' else 'run'
     env=dict(PYTHONPATH=str(source)+':'+c['dependency_overlay'],PYTHONDONTWRITEBYTECODE='1',
-        OMP_NUM_THREADS='8',MKL_NUM_THREADS='8',TOKENIZERS_PARALLELISM='false',HF_HUB_OFFLINE='1',
+        OMP_NUM_THREADS='6',MKL_NUM_THREADS='6',TOKENIZERS_PARALLELISM='false',HF_HUB_OFFLINE='1',
         TRANSFORMERS_OFFLINE='1',CAUSAL_ALLOCATION_EDITING_SOURCE_COMMIT=commit)
     if role=='collector':env['CUDA_VISIBLE_DEVICES']=''
     args=[c['runtime']['python'],'-u','-m','project.run_scripts.causal_allocation_editing.'+module,'--attempt',str(attempt)]
@@ -29,7 +30,7 @@ def launcher(source,commit,role,attempt,c):
 def arguments(role,dep,attempt,r):
     cpu=role=='collector'
     argv=['sbatch','--parsable','--hold','--partition=gpu','--qos=lab_gpu_s2','--nodelist=server2',
-        '--nodes=1','--ntasks=1','--cpus-per-task=8','--export=NONE','--no-requeue',
+        '--nodes=1','--ntasks=1','--cpus-per-task=6','--export=NONE','--no-requeue',
         '--job-name='+TASK,'--chdir='+str(attempt/'source'),
         '--mem='+str(r['collector_host_mib'] if cpu else r['host_mib'])+'M',
         '--time='+('04:00:00' if cpu else '08:00:00'),
@@ -41,10 +42,10 @@ def arguments(role,dep,attempt,r):
 def inspect(job,role,dep,argv,attempt,r):
     detail=command(['scontrol','show','job',job,'--oneliner'])
     for term in [f'JobId={job} ',f'JobName={TASK} ','UserId='+getpass.getuser()+'(',
-        'JobState=PENDING ','Reason=JobHeldUser ','Requeue=0 ','CPUs/Task=8 ',
-        'ReqTRES=cpu=8,','ReqNodeList=server2 ','Partition=gpu ','QOS=lab_gpu_s2 ']:
+        'JobState=PENDING ','Reason=JobHeldUser ','Requeue=0 ','CPUs/Task=6 ',
+        'ReqTRES=cpu=6,','ReqNodeList=server2 ','Partition=gpu ','QOS=lab_gpu_s2 ']:
         require(term in detail,'HELD:'+term)
-    require(re.search(r'\bNumCPUs=8(?:-[0-9]+)? ',detail),'HELD_CPU')
+    require(re.search(r'\bNumCPUs=6(?:-[0-9]+)? ',detail),'HELD_CPU')
     require('gres/gpu' not in detail if role=='collector' else 'TresPerNode=gres/gpu:1' in detail,'HELD_GPU')
     mem=r['collector_host_mib'] if role=='collector' else r['host_mib']
     require(f'mem={mem}M' in detail or (mem%1024==0 and f'mem={mem//1024}G' in detail),'HELD_MEMORY')
@@ -83,7 +84,7 @@ def frozen(attempt):
     return lock,c
 
 def freeze(config,attempt):
-    require(attempt==LOCAL/'attempt' and not attempt.exists(),'CREATE_ONCE_ATTEMPT')
+    require(attempt==LOCAL/'attempt-cpu6' and not attempt.exists(),'CREATE_ONCE_ATTEMPT')
     c=json.loads(config.read_text());check_horizon(c)
     require(c['attempt']==str(attempt),'ATTEMPT_BINDING')
     require(not command(['git','status','--porcelain','--',*B1_SOURCES],ROOT),'SOURCE_MUST_BE_COMMITTED')
@@ -109,7 +110,7 @@ def freeze(config,attempt):
     return frozen(attempt)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);args=p.parse_args();attempt=LOCAL/'attempt'
+    p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);args=p.parse_args();attempt=LOCAL/'attempt-cpu6'
     require(not list(LOCAL.glob('*/submitted-*.json')) and not list(LOCAL.glob('*/submission.json')),'NO_DUPLICATE_REGISTRATION')
     require(not command(['squeue','-h','-w','server2','-u',getpass.getuser(),'--name='+TASK,'-o','%i']),'TASK_ALREADY_QUEUED')
     before=inventory()
@@ -118,7 +119,7 @@ def main():
     cap=min(2,local,tracked);require(cap>=1,'CAP_UNKNOWN_OR_DISABLED')
     node=command(['scontrol','show','node','server2']);partition=command(['scontrol','show','partition','gpu'])
     lock,c=freeze(args.config.resolve(),attempt);r=c['resources']
-    require(r['host_mib']==59392 and r['hard_host_mib']==60416 and r['task_cap']==1 and r['collector_host_mib']==24576 and r['wall']=='08:00:00','RESOURCE_LOCK')
+    require(r['cpu']==6 and r['collector_cpu']==6 and r['host_mib']==59392 and r['hard_host_mib']==60416 and r['task_cap']==1 and r['collector_host_mib']==24576 and r['wall']=='08:00:00','RESOURCE_LOCK')
     external=[j['job'] for j in before];barrier=external if sum(j['gpus'] for j in before)+1>cap else []
     ids={};held=[]
     for role in ROLES:

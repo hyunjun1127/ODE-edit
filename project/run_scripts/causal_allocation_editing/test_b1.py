@@ -35,7 +35,7 @@ class B1Tests(unittest.TestCase):
         r=dict(host_mib=59392,collector_host_mib=24576)
         for role in submit.ROLES:
             a=submit.arguments(role,'afterany:123',Path('/attempt'),r)
-            for flag in ('--hold','--export=NONE','--no-requeue','--cpus-per-task=8','--nodelist=server2','--job-name='+B1_TASK):self.assertIn(flag,a)
+            for flag in ('--hold','--export=NONE','--no-requeue','--cpus-per-task=6','--nodelist=server2','--job-name='+B1_TASK):self.assertIn(flag,a)
             self.assertIn('--dependency=afterany:123',a)
             self.assertIn('--time='+('04:00:00' if role=='collector' else '08:00:00'),a)
             self.assertEqual('--gres=gpu:1' in a,role=='main')
