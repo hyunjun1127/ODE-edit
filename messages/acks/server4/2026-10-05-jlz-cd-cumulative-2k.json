@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "authority": "d805e07e2ab0c346db31aa33ff0af89dd30d20a8",
+  "state": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_check": "동일 nonce 기존 branch/local/task 등록 없음; 신규 전용 WT에서 구현 착수",
+  "full_read": "정본 method/implementation/experiment/전체 TeX/reference/validation/독립 설계 review/protocol 정독; receiver SHA/입력 결속은 별도 영수증",
+  "GPU_qualification": "NOT_RUN",
+  "submission": "NOT_SUBMITTED_AT_ACK",
+  "GH_followup_approval_wait": false,
+  "old_tasks_unchanged": true
+}
