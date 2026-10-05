@@ -4,7 +4,7 @@ Nonce: `ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1`.
 Task: `jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1`.
 정본: `plans/global/2026-10-05-jlz-cd-cumulative-allocation/`.
 
-현재 단계는 `REPAIR_R2_SUBMITTED_RESOURCE_PENDING`이다. 원 attempt-r1은 아래 실패 기록으로 보존했고, 사용자 `fail되었으니 repair올려`에 따라 새 cold attempt-r2의 두 arm 및 CPU collector를 held 검사 후 release했다. 새 GPU qualification/B1/W20은 아직 관측하지 않았다. 각 arm은 first2000 BS100×20, cold W0/H0, L4–L8, budget .75, max25평가/24update다. 기존 V13/V14 실험은 변경하지 않았다.
+현재 단계는 `REPAIR_R2_TWO_GPU_RUNNING`이다. 사용자 `gpu 2장 전부 쓰는걸로 하자`에 따라 아래 추가 영수증대로 CD_C의 자원 dependency만 해제했다. 한정 snapshot에서 CD_Q58913/CD_C58914가 각각 GPU1 RUNNING이고 CPU58915는 두 arm afterany 대기다. Q의 READY/B1 commit→B2 entry는 검산했지만 C의 GPU qualification/B1 및 두 arm W20은 미관측이다. 원 attempt-r1과 initial r2 serial 등록 기록은 아래 역사로 보존한다. 각 arm은 first2000 BS100×20, cold W0/H0, L4–L8, budget .75, max25평가/24update다. 기존 V13/V14 실험은 변경하지 않았다.
 
 ## 원 attempt-r1: 0-commit 기술검산 실패
 
@@ -51,3 +51,21 @@ Artifact broadcast: `NO_BROADCAST_NOT_REQUIRED`; 이 단계는 source/compact re
 W20은 새 attempt에서도 `NOT_OBSERVED`다. Sealed qualifier→cold20batch→CPUcollector가 새 actual raw의 20commit/19join/100H/arm, R2000/P4000/N20000을 집계하여 complete/partial/technical-blocked를 구분한다. 신규 baseline/추가 fullB fit/solver·계수·precision·허용오차 변경은 없다. NoCP/exact_resume NOT_AVAILABLE; raw/tensor/prompt/fullstdout는 local KEEP, compact source/receipts만 Git이다.
 
 이 등록/초기 resource-pending snapshot 뒤 `monitoring_active=false`, `automatic_resume=false`다. 추가 agent polling/heartbeat/Slurm retry 없이 sealed runner/collector가 진행한다. 상세 결과 리뷰는 사용자 recall 시 수행한다.
+
+## 최신 사용자 recall: 두 GPU 동시 사용
+
+사용자 `gpu 2장 전부 쓰는걸로 하자`에 대한 한정 자원/준비 검산 후 `scontrol update JobId=58914 Dependency=0`만 실행했다(exit0). 실제 dependency는 null로 검증했고 original SubmitLine의 `afterany:58913`은 초기 등록 역사로 남는다. 새 job 등록/취소/다른 job 변경은 0이다.
+
+| stage | job | 한정 실제 상태 | 현재 dependency |
+|---|---:|---|---|
+| CD_Q | 58913 | RUNNING, GPU1 | 없음 |
+| CD_C | 58914 | RUNNING, GPU1 | 없음 |
+| CPU collector | 58915 | PENDING Dependency, GPU0 | afterany:58913:58914 |
+
+Fresh projectcap3/taskcap2 및 memory59392≤60416MiB helper 검산은 통과했다. 변경 전 server4 물리 GPU7/8 할당, 본 프로젝트 S4 GPU1였으므로 C의 GPU1 추가 뒤 본 task/project S4 동시GPU2다. cap을 증액하거나 무관 job을 선점하지 않았다. GPU/CPU/memory/wall/export/Requeue와 execution source/config/lock/launchers는 그대로다.
+
+Q의 실제 qualification READY와 main B1 commit→B2 entry에 결속된 immutable calibration/B1 marker를 CPU read-only로 검산했다. lambda `0.007549795039639772`, receipt `e0b9f897cd9c2ad386bd017a60bef696a794cdd9893869df261d0749156d04e3`. C는 자기 cold W0/H0에서 동일 first-candidate receipt를 독립 재계산해 비교하고, 자기 W/H/RNG로 진행한다. scalar/source/config/pack/cold identity만 공유하며 Q의 W20/terminal 또는 성적 PASS는 요구하지 않는다. 원 main의 u/D/teacher/weights/history를 C에 전달하지 않는다.
+
+별도 read-only source reviewer `/root/cap2_release_check`가 frozen180 source/config/cold/calibration/B1 marker/commit/next-entry를 확인했고 dependency-level blocker는 없었다. 이 검토는 새 GPU 또는 C actual parity PASS가 아니다. Q READY 및 B1→B2는 기존 actual receipt를 읽어 검산한 것이며 C actual qualification/B1/W20은 `NOT_OBSERVED`다. 효능 metric은 이번 release의 판단에 사용하지 않았다.
+
+상세 변경/hash/자원/준비 영수증: `audits/servers/server4/jlz-cd-cumulative-2k/repair-r1/parallel-release.json`. Original source/raw/config/등록은 KEEP이다. 두 GPU RUNNING의 bounded 초기 인계 뒤 다시 `monitoring_active=false`, `automatic_resume=false`; 추가 scheduler/result/log polling·heartbeat·자동 retry 없이 sealed20batch/collector가 자연 진행한다.
