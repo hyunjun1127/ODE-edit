@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "owner": "SH4",
+  "user_quote": "구체화 진행한 이후 GH에게 전달하자. sh4에게 task 진행하라고 해. 2000edit 진행하자.",
+  "scope": "New CD_Q/CD_C independent cold BS100x20 qualification/main/collector only",
+  "other_task_STOP_unchanged": true,
+  "existing_job_cancel": false,
+  "save_checkpoints": false,
+  "recurring_monitor": false,
+  "envelope": "messages/head/2026-10-05-sh4-cd-cumulative-2k.json"
+}

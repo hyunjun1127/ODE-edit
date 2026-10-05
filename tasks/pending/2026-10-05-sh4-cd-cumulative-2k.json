@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "AUTHORIZED_AWAITING_DIRECT_ACCEPTANCE",
+  "envelope": "messages/head/2026-10-05-sh4-cd-cumulative-2k.json",
+  "canonical_execution": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/experiment-2k.json",
+  "arms": [
+    "CD_Q",
+    "CD_C"
+  ],
+  "edits_per_arm": 2000,
+  "B": 100,
+  "batches_per_arm": 20,
+  "task_GPU_cap": 2,
+  "save_checkpoints": false,
+  "jobs": [],
+  "report": "experiment-reports/servers/server4/jlz-cd-cumulative-allocation-2k/report-ko.md"
+}

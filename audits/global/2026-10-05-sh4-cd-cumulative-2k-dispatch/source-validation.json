@@ -1,0 +1,96 @@
+{
+  "source_commit": "99a62de2635f4483514d69579dd4a5bd2e2cee53",
+  "adopted_commit": "fd05920c696479356c861d9464fc861aed3bf156",
+  "exact_changed_members": 13,
+  "manifest_sha256": "a67ab3941e21e32627aa06e3d502005bc7239111b2c6906fbd614f991a8205f0",
+  "verified_members": [
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/experiment-2k.json",
+      "bytes": 9926,
+      "sha256": "af480b87bb2bd494c085f6d3eaab66ea1f1cf848f9f70a846b505f6bb8f4d749",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/implementation-contract.json",
+      "bytes": 24682,
+      "sha256": "14d69c8d930851c6549bb6b8566a1c240ea1fe098fa83a12955db55017d33752",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/method-contract.json",
+      "bytes": 9396,
+      "sha256": "d0027ea319d566ba289db9438b177351c3e143bf380f6442a0f5e84c02673f74",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/README-ko.md",
+      "bytes": 2760,
+      "sha256": "b7dd1becc14cbd1b89e0eca507ce2f6121635bf37bdb6f6ff45a5bfb889f1291",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/audit.json",
+      "bytes": 1870,
+      "sha256": "b07e994034d86fd058515ab4644a55f98871e6ebcf22fab761e628d1ac5ca178",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/geometry.py",
+      "bytes": 7096,
+      "sha256": "f9d4193477d432b89cc4a5689bf7a6cec0868c54532dd9ebe8cbb33a8a56f298",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/run_audit.py",
+      "bytes": 2161,
+      "sha256": "64cd0764418b83a70041d68016156863e42cb264c3d7d52f1b3287ce69ca7661",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/test_reference.py",
+      "bytes": 14960,
+      "sha256": "18da05ee516528ad99ad85d122d44fabb9397a5f2eec5ede763b7b1ae48a2cea",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/validation.json",
+      "bytes": 1649,
+      "sha256": "d693abfb85f6662a2c39c2543b959b2337a8aea8bc7a888f426432fe40fd5697",
+      "verified": true
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 44587,
+      "sha256": "cf0a65ec7d0f89ff589a29697b006e560921d4bea2a0937da744fcce5d0d524a",
+      "verified": true
+    }
+  ],
+  "review_sha256": "034c48ca27af2c0fb7e24439c186207cdc4a2d4a29ee70fd759d699aa1e11c42",
+  "reused_synthetic_tests": 11,
+  "new_GH_tests": 0,
+  "GPU_checks": 0,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "canonical_full_read": [
+    "method-contract.json",
+    "implementation-contract.json",
+    "experiment-2k.json",
+    "method.tex current CD and historical appendix",
+    "reference/README-ko.md",
+    "reference/audit.json",
+    "reference/geometry.py",
+    "validation.json",
+    "artifact-manifest.json",
+    "independent review.json"
+  ],
+  "review_reused": "PASS_WITH_WARNINGS, blocker0; no additional GH independent reviewer",
+  "new_GH_CPU_test_runs": 0,
+  "new_GH_GPU_or_scheduler_reads": 0,
+  "resource_correction": "Canonical experiment maximum121856MiB is not usable on server4. PROTOCOL and servers/slurm-memory-policy.tsv set hard60416MiB/GPU. Effective min(canonical ceiling,server policy) applies; no canonical science bytes changed or cap increase. Use exact offload/recomputation/streaming within limit; if infeasible report resource block without scientific simplification.",
+  "root_user_changes_preserved": true
+}

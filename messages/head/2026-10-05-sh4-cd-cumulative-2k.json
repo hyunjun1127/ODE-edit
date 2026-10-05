@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "user_quote": "구체화 진행한 이후 GH에게 전달하자. sh4에게 task 진행하라고 해. 2000edit 진행하자.",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "server": "server4",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": "Current USER scoped exception to global STOP for this new two-arm CD cumulative task only: implement, minimally qualify, submit/release both independent 2000-edit chains and CPU collector without stage-by-stage reapproval. No unrelated job or server changes. Prior V13/V14 source, jobs, logs and results remain intact.",
+  "source_adoption": {
+    "only_source_commit": "99a62de2635f4483514d69579dd4a5bd2e2cee53",
+    "GH_cherry_pick": "fd05920c696479356c861d9464fc861aed3bf156",
+    "changed_members": 13,
+    "all_changed_bytes_exact": true,
+    "other_private_commits_adopted": false,
+    "production_reference": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+    "production_status": "NOT_IMPLEMENTED_AT_DISPATCH"
+  },
+  "canonical": {
+    "method": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/method-contract.json",
+    "implementation": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/implementation-contract.json",
+    "experiment": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/experiment-2k.json",
+    "TeX": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+    "manifest": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/artifact-manifest.json",
+    "manifest_sha256": "a67ab3941e21e32627aa06e3d502005bc7239111b2c6906fbd614f991a8205f0",
+    "validation": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/validation.json",
+    "CPU_reference": "plans/global/2026-10-05-jlz-cd-cumulative-allocation/reference/",
+    "independent_review": "audits/global/2026-10-05-jlz-cd-cumulative-2k-handoff/review.json",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "precedence": "Current CD-Q/CD-C front matter and these three JSON contracts are operative. TeX V14/V13 remainder is historical; do not inherit V14 budget1.5/candidate causal builder. Creation-time DESIGN_ONLY/NOT_RUN does not revoke current execution authority. Resource correction below applies without changing canonical design bytes."
+  },
+  "scope": {
+    "arms": [
+      {
+        "id": "CD_Q",
+        "alpha": 0
+      },
+      {
+        "id": "CD_C",
+        "alpha": 1
+      }
+    ],
+    "cold_independent_W0_H0": true,
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "dataset": "counterfact-fixed-10k-v1 same ordered first2000",
+    "logical_batch": 100,
+    "commits_per_arm": 20,
+    "edits_per_arm": 2000,
+    "physical_request_applications": 4000,
+    "common_cohort": 2000,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "shared_radius": 0.75,
+    "native_norm_coefficient": 0.5,
+    "max_candidates_per_batch": 25,
+    "max_updates_per_batch": 24,
+    "no_B21": true,
+    "new_baseline_fits": 0,
+    "new_reference_replay_generation_prompts": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "method_preservation": {
+    "entry": "Once per own batch: frozen native entry rows/teacher/anchors/K, symmetric V13 C0/H metric and existing retained QR-SVD. FP32 native count division then FP64 metric; no jitter, rank changes or diagonal-only cost. All logical B cross terms retained. Actual cumulative Delta is committed W_entry.double()-W_initial.double(), not sum of ideal updates.",
+    "fit": "D=a*u. Native subject action is Y=D*S on exact global row/owner, with full cross-owner Jacobian. Direct-D fastpath only after whole operator S=E proof, not current-point equality. Frozen full BxB quadratic and alignment caches, no candidate actual writer/solve backward. SUM loss gradients; reporting mean. Each candidate uses all rows before synchronous updates, no permanent request freeze. Add analytic norm and allocation gradient once each. Common stop iff all native Jr<.05, not allocation-inflated or independently frozen. Terminal candidate has no backward/update.",
+    "cost": "CD_Q: sum Q; CD_C: sum [Q+2*lambda_C*abs(c_l)] with per-layer abs and sign(0)=0. Method F means cost matrix while implementation F means Bmap and implementation C means cost matrix; use explicit naming.",
+    "lambda": "Once at first nonzero projected-action B1 candidate, usually c1, FP64 norm(g_norm_u)/norm(g_Q_u) over all layers/owners with ratio1. Preserve .5 native norm. Shared exact immutable source/pack/W0/geometry/candidate/gradient/lambda receipt for both arms and all20batches. CD_C consumes lock and verifies own cold B1 equality; no second calibration fit, coefficient sweep/epsilon/clip/default. Allzero stays pending with unchangedDelta check. Dependency/atomic join must not deadlock a single-slot schedule.",
+    "commit": "Original CD direct target D per owner; all native rewrite+KL subject constraint rows, explicit counts/weights/lookup. Recompute upper actual K after lower all-token writes. Qualified first-site/same-A factor reuse only within valid transaction. FP64 ideal U -> native FP32 cast/add. Append final rewrite-only native mean-key CPUFP32 H exactly once/layer after all writes. Each arm own W/H/RNG chain, no shared candidates/weights/history.",
+    "gap": "Actual fit injection Y is the telemetry reference: virtual_pre=virtual_post-Y, inherited=actual_pre-virtual_pre, direct_fit_error=actual_local-Y. Requested error actual_local-D_owner is separate. Record predicted vs actual costs, rank/range, energy and real FP32 action.",
+    "precision": "FP32 model/activation/u/materialization and inherited native reductions; FP64 geometry/projection/calibration; bind actual eager/TF32/autocast/runtime flags to V13 source. No precision reduction, silent logical-B split, dropped rows/layers or changed objective."
+  },
+  "qualification": {
+    "minimal_validation": "Reuse exact synthetic CPU11 and independent PASS_WITH_WARNINGS/blocker0 evidence, plus compatible V13 asset/source evidence. Only narrowly required new implementation/contract regression and 2-4 request actual same-candidate checks. No broad audit rerun, extra full-B fit or performance sweep. Existing user preference: 별도 검증은 최소한으로 진행하고 빠르게 전달해.",
+    "CPU": "Coupled response/full cross-owner gradient, full cost/abs signs/calibration lock, common stop/terminal no-backward, zero reentry, heterogeneous row owner/tail, actual-Y gap, state rollback/history/observer. Reuse exact reference fixtures; tiny new tests for changed production paths only.",
+    "actual": "2-4 native requests: direct/compact cost-gradient and subject injection, physical microbatch whole-gradient, materialized action/fresh upper keys, lambda/stop/history-once/observer nonmutation, two tiny state links as required by implementation contract. Seal exact technical calls before submission; no separate B100 fitting or tuning.",
+    "numerical": "Original CD elementwise action atol2e-5 + rtol2e-4*abs(reference); new GPU gradient scale-aware atol1e-6 + rtol2e-4. Keep rank-range residual distinct from arithmetic error. Same-method repair and record evidence for confirmed numerical/identity/nonfinite faults; no hidden tolerance enlargement.",
+    "main_B1": "B1 is part of each uninterrupted cold main, alpha terms equal at Delta0. Verify matching source/input/lambda/candidate/plan/commit under declared technical precision. Continue to W20 after technical checks without quality promotion or user wait.",
+    "science_gate": false,
+    "warnings": "CPU11 and design independent review are not actual LM/GPU parity or quality proof. TeX compiler environment unavailable is recorded, not an experiment blocker."
+  },
+  "evaluation": {
+    "W0": "Paired first2000 observation; reuse only exact identity-qualified existing endpoint raw, not inferred equality or equal scores.",
+    "current": "Every batch current birth cohort pre/post R/P/N; no duplicate endpoint/row forward if compatible observations already exist.",
+    "milestones": [
+      "W5",
+      "W10",
+      "W15",
+      "W20"
+    ],
+    "cohorts": "At milestones allseen prefix plus fixed first500 and birth/atwrite retention; own-arm temporal and same-case cross-arm pairs.",
+    "W20_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "first500_denominators": {
+      "R": 500,
+      "P": 1000,
+      "N": 5000
+    },
+    "metrics": [
+      "RS/PS/NS preference numerator/denominator",
+      "TF token micro/prompt macro/strict ACC; N true-target",
+      "true/new NLL, margins, paired lost/gained/retained and W0-correct survival",
+      "predicted/actual Q,c,Pi; requested/realized norm/share/zero leakage; cap usage",
+      "actual-Y gap decomposition and W-Winitial alignment",
+      "exclusive stage time, physical/logical F-B/candidates/replay/geometry, valid/padded tokens, GPU/host/pinned memory"
+    ],
+    "gradient_sampling": "c1 and penultimate nonterminal for existing gradient/analytic norm/Q/c pieces; extra NLL/KL split backward only tiny qualification rows. No terminal extra backward or extra main candidates.",
+    "firewall": "Official P/N/ACC/heldout metrics cannot choose lambda, layers, stop, runtime route or arm continuation. Low quality, concentration, rank incompatibility or large Q/condition are record-only observations. Comparative method interpretation belongs to GH.",
+    "comparison": "Primary same-runtime CD_Q/CD_C. Historical V13MD/CD and native baselines only with cohort/metric/runtime identity table; no fresh baseline."
+  },
+  "resources": {
+    "task_GPU_cap": 2,
+    "current_tracked_server4_project_cap": 3,
+    "effective_project_cap": "Fresh local cap or stricter tracked/user cap; never increase. Count current project allocations and admitted pending before registering new concurrent lanes.",
+    "per_GPU_job": {
+      "GPUs": 1,
+      "CPUs": 8,
+      "default_host_memory_MiB": 59392,
+      "hard_host_memory_ceiling_MiB": 60416,
+      "node": "server4",
+      "partition": "gpu",
+      "export": "NONE",
+      "Requeue": 0,
+      "wall_max_hours": 48
+    },
+    "resource_correction": "Canonical experiment maximum121856MiB is not usable on server4. PROTOCOL and servers/slurm-memory-policy.tsv set hard60416MiB/GPU. Effective min(canonical ceiling,server policy) applies; no canonical science bytes changed or cap increase. Use exact offload/recomputation/streaming within limit; if infeasible report resource block without scientific simplification.",
+    "CPU_collector": {
+      "GPUs": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "Fresh SH4 session/repo/runtime/storage/inodes/RAMVRAM/resource check and scoped launcher audit. Walltime sealed from input/code estimates;48h is a request ceiling not measured ETA. No unrelated job cancellation, hold or preemption.",
+    "DAG": "Register qualified readiness-gated CD_Q and CD_C cold runners plus CPU afterany collector, at most2 concurrentGPU. Share only immutable assets and scalar calibration receipt; tie scalar-ready to exact source/pack/W0. If only1 slot, scheduler dependencies serialize. Release after exact held owner/fullargv/source/node/CPU/memory/GPU/wall/export/requeue/dependency inspection. Resource pending is normal and does not require another user call. No new recurring monitor or automatic Slurm retry."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/jlz_cd_cumulative/**",
+    "project/run_scripts/jlz_realized_writer/geometry.py",
+    "project/run_scripts/jlz_realized_writer/capture.py",
+    "project/run_scripts/jlz_realized_writer/writer.py",
+    "project/run_scripts/jlz_shared_budget/entry.py",
+    "project/run_scripts/jlz_shared_budget/optimize.py",
+    "project/run_scripts/jlz_shared_budget/telemetry.py",
+    "project/run_scripts/jlz_realization/profile.py",
+    "plans/updates/server4/jlz-cd-cumulative-2k/**",
+    "audits/servers/server4/jlz-cd-cumulative-2k/**",
+    "runs/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/**",
+    "experiment-reports/servers/server4/jlz-cd-cumulative-allocation-2k/**",
+    "messages/server-heads/server4/2026-10-05-jlz-cd-cumulative-2k.json",
+    "messages/acks/server4/2026-10-05-jlz-cd-cumulative-2k.json",
+    "tasks/status/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/server4.json",
+    "ignored local/jlz-cd-cumulative-allocation/20261005-r1/**",
+    "own dedicated worktree ignored servers/local/session-boundary.env"
+  ],
+  "write_rules": "Dedicated non-main SH4 worktree. Prefer new namespace; listed shared modules only task-isolated/backward-compatible extensions. Preserve original production archives and frozen V13/V14 locks, shared environment and canonical documents. Any extra source scope requires exact report to GH; no silent method change.",
+  "Slurm_permission": "ALLOWED for this scoped minimal qualification, two independent 20batch mains and CPU collector. No other task authority.",
+  "red_team_gate": {
+    "preflight": "Reuse hash-bound independent design review and CPU11. Minimal independent source/data/logic/metric/resource review of changed production paths; actual reviewer level recorded. Confirmed identity/nonfinite/gradient/commit/admission blocks require same-method repair; scientific warnings proceed. No broad separate campaign.",
+    "postrun": "CPU raw reducer vs stored aggregates, ordered identities/finite/denominators/20commits19statejoins100H per arm, sharedlambda, paired/cohort, actualY and predicted/actual costs, nonoverlapping time/accounting, source/config/manifest. Independent reviewer when performed identified, never fabricate independent PASS."
+  },
+  "publication": "This envelope preauthorizes SH4 own-scope implementation/source/tests/compact reports/manifests publication on own branch and nonforce main after scoped checks. Binding implementation and qualifying technical READY fulfills same-handoff execution approval; no second USER/GH confirmation wait. Preserve dirty root and concurrent main changes.",
+  "artifact_policy": "No persistent W/H/u/delta/optimizer checkpoint or reconstruction-equivalent bundle. RAM W0 selected weights and transaction/rollback permitted. Source/compact counts/tables/figures/manifests Git only; raw/tensors/prompts/fullstdout remain local. Existing ordinary artifact helper/no--delete; if unnecessary or impossible record exact exception and reason. No indiscriminate large broadcast/model/dataset/secret transfer.",
+  "report": "experiment-reports/servers/server4/jlz-cd-cumulative-allocation-2k/report-ko.md",
+  "audit": "audits/servers/server4/jlz-cd-cumulative-2k/",
+  "runs": "runs/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/",
+  "status": "tasks/status/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/server4.json",
+  "ACK": "messages/acks/server4/2026-10-05-jlz-cd-cumulative-2k.json",
+  "message": "messages/server-heads/server4/2026-10-05-jlz-cd-cumulative-2k.json",
+  "monitoring": "GH bounded direct owner ACK only, not GPU completion wait. SH4 implementation/admission/submission and bounded first-main B1->B2 or formal resource-pending handoff, then agent monitoring_active=false/automatic_resume=false. Sealed runners continue through W20 and collector naturally produces factual package. No recurring daemon/heartbeat/automaticretry. Completion detailed agent review on USER recall; no unrelated monitoring.",
+  "direct_ACK": "Immediately return exact nonce owner acceptance, duplicate check and actual current IMPLEMENTING_NOT_SUBMITTED or registered jobs. Delivery acceptance, implementation, GPU qualification, submission, main20batch completion are distinct. GH stream closure is not a task stop; implement through authorized submissions without another approval."
+}
