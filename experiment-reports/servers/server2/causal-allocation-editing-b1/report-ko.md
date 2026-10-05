@@ -1,8 +1,26 @@
-# Causal Allocation Editing B1 — 제출 준비
+# Causal Allocation Editing B1 — Slurm 제출 거부
 
 권한/nonce: `USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1`.
 정본은 `messages/head/causal-allocation-editing-b1.json`과
 `plans/global/causal-allocation-editing/server2-b1.json`이다.
+
+## SUBMISSION_HANDOFF — RESOURCE_POLICY_CONFLICT
+
+실행 source `4321f20d`를 전용 branch에 push하고 immutable `attempt/` source/archive/config/lock을 만든 뒤 정식 `sbatch --hold`를 호출했다. Scheduler가 다음 사유로 거부했다.
+
+```text
+sbatch: error: CPU/RAM policy: requested 8 CPUs exceeds 6 CPUs on server2 for 1 GPU(s)
+sbatch: error: Batch job submission failed: Unspecified error
+```
+
+GPU job ID 없음, CPU collector ID 없음, release 없음, 새 GPU allocation/qualification/main/commit/H append 모두 0이다.
+거부 직후 해당 exact job-name의 Server2 own queue가 비어 있음을 확인했다.
+CPU8은 이번 명시 resource 계약이므로 6으로 임의 변경하거나 2GPU로 우회하지 않았다.
+진행에는 **1GPU/6CPU로 변경하는 명시적 지시 또는 scheduler의 합법적 8CPU 허용**이 필요하다.
+이번 source/input/실패 증거는 보존하며 자동 재시도·monitoring·다른 task 변경은 없다.
+
+요청은 GPU1/CPU8/59392M/8h/exportNONE/no-requeue/server2/lab_gpu_s2였다.
+첫 job 등록이 실패해 의존 CPU collector는 등록하지 않았다. 제출 실패와 실험 기술·과학 결과를 혼동하지 않는다.
 
 - SH2/server2/session `01a0493a-074c-7f91-9a13-769116326fef`에서 전용 clean branch로 준비했다. 기존 root의 변경 1,390건은 보존했다.
 - 기존 production `a1332fd70f0d4898b74399a349e41a225f0baf04`의 engine/solver/calibration/geometry/qualification/native reference/entry는 byte-exact 재사용한다. 변경은 명시적 horizon profile, Server2 준비/제출, collector 분모에 한정한다. 기본 production2k의 20batch 계약은 유지한다.
@@ -31,4 +49,4 @@ python -B -m project.run_scripts.causal_allocation_editing.b1_submit --config <c
 
 Create-once 경로와 중복 제출 검사가 있으므로 동일 실행을 재제출하는 명령이 아니다.
 원 raw/teacher/model/tensor/stdout은 local-only. `NO_BROADCAST_NOT_REQUIRED`.
-현재 문서는 제출 준비이며 W1 완료/양수가격/GPU qualification 성공을 주장하지 않는다.
+현재 문서는 제출 거부 인계이며 W1 완료/양수가격/GPU qualification 성공을 주장하지 않는다.
