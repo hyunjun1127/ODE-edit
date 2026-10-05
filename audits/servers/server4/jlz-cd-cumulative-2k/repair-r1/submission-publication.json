@@ -1,0 +1,30 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "user_recall": "fail되었으니 repair올려",
+  "jobs": {"CD_Q": 58913, "CD_C": 58914, "collector": 58915},
+  "execution_source": "8a2c1cf0e13534676c492c36229d792122748642",
+  "archive_sha256": "5f3aa53b9b3d5ac6afd16b50caa6773336ae1cfbb49ff9ab2dcd5c4883f05865",
+  "config_sha256": "681cc0a6e6c1b114db34d048fb74221f7e29be9ed058cc32b42652c953645134",
+  "lock_sha256": "de67487829e931777e02491329565fd5fb6813809da08bef28aab4cd402a9101",
+  "submitted_held_inspected_released": true,
+  "fresh_exact_predecessor_terminal_confirmed": true,
+  "original_jobs_mutated": false,
+  "other_jobs_mutated": false,
+  "single_bounded_initial_snapshot": {"CD_Q": "PENDING_PRIORITY", "CD_C": "PENDING_DEPENDENCY", "collector": "PENDING_DEPENDENCY"},
+  "new_GPU_qualification": "NOT_OBSERVED",
+  "monitoring_active": false, "automatic_resume": false,
+  "repository_access_helper_source_commit": "PASS",
+  "repository_access_helper_publication": "NOT_PASS exit7, unsupported new runs prefix only",
+  "exact_authority_exception": {
+    "path": "runs/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/repair-r1.server4-server-head.json",
+    "parent_authority": "d805e07e2ab0c346db31aa33ff0af89dd30d20a8",
+    "envelope": "messages/head/2026-10-05-sh4-cd-cumulative-2k.json",
+    "envelope_sha256": "941f16ca95425086435e290288264a87666f8549eed560eb137949f310e64d40",
+    "permission": "Exact parent allowed_write_paths runs prefix and own-scope branch/main nonforce publication, continued by current explicit USER repair recall",
+    "helper_or_policy_modified": false,
+    "helper_PASS_claimed": false
+  },
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED; raw local KEEP, compact source/receipts only Git",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE"
+}
