@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task_id": "causal-allocation-editing-b1",
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "user_quote": "이거 batch 1개만 test 하는거 server2에서 빠르게 실험 올리도록 해보자.",
+  "owner": "SH2",
+  "scope": "Minimum port/qualification/B1only execution/collector; no B2/2k, noCP.",
+  "envelope": "messages/head/causal-allocation-editing-b1.json",
+  "other_STOP_unchanged": true,
+  "server4_jobs_unchanged": [
+    59163,
+    59164,
+    59165
+  ],
+  "new_recurring_monitor": false
+}

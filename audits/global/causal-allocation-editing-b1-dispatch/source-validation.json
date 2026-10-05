@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "pilot_commit": "2891a305506a3dd41431a682b9351bfca674c414",
+  "adoption_commit": "985766ea3eaeb5cfb1a206cc6bfb957b63eecb76",
+  "pilot_sha256": "4a8fd62df6c972dd1f7f9ee939266f3c242f5069afed0c2c02de2ccb4430a938",
+  "changed_files": 1,
+  "implementation_commit": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+  "full_read": [
+    "pilot contract",
+    "SH2 registry",
+    "GPU/memory policy",
+    "existing production run.py",
+    "SH4 preflight receipt"
+  ],
+  "reused_full_read": [
+    "current method/implementation/validation/experiment contracts"
+  ],
+  "review": "GH owner scoped port review, no new independent reviewer",
+  "CPU63": "Existing SH4 production source evidence only, not fresh execution or server2 actualGPU PASS",
+  "known_port_requirements": [
+    "run locked/setup/load_prefix/drive/ready horizon",
+    "prepare source/runtime/paths/input packs",
+    "submit host/session/QoS/admission",
+    "collector B1counts/status"
+  ],
+  "root_dirty_preserved": true,
+  "SH4_mutations": 0
+}

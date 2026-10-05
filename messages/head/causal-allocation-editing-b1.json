@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "nonce": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "task_id": "causal-allocation-editing-b1",
+  "experiment_name": "Causal Allocation Editing",
+  "user_quote": "이거 batch 1개만 test 하는거 server2에서 빠르게 실험 올리도록 해보자.",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "owner": {
+    "role": "SH2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "server": "server2",
+    "app_host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "authority": "Current explicit USER authorizes minimum port, qualification, B1-only Slurm submission/execution and factual collector/report. Scoped exception to prior STOP only for this task. No stage reapproval. Do not alter or monitor SH4 jobs59163/59164/59165 or unrelated tasks.",
+  "canonical": {
+    "pilot": "plans/global/causal-allocation-editing/server2-b1.json",
+    "pilot_sha256": "4a8fd62df6c972dd1f7f9ee939266f3c242f5069afed0c2c02de2ccb4430a938",
+    "source_commit": "2891a305506a3dd41431a682b9351bfca674c414",
+    "adoption_commit": "985766ea3eaeb5cfb1a206cc6bfb957b63eecb76",
+    "implementation_commit": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+    "method": "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json",
+    "implementation": "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json",
+    "validation": "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json",
+    "CPU_evidence": "audits/servers/server4/causal-allocation-editing/preflight.json",
+    "precedence": "New pilot overrides only owner/host/horizon/evaluation. Current method remains exact. Old main20/W20/B2 initial boundary must not be asserted for B1."
+  },
+  "scope": {
+    "arms": 1,
+    "requests": 100,
+    "batch_size": 100,
+    "batches": 1,
+    "commits": 1,
+    "history_appends": 5,
+    "cold_W0_H0": true,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "no_B2": true,
+    "new_baselines": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "implementation": "Reuse a1332fd7 engine/solver/calibration and CPU63 evidence. SH2 owns explicit B1 entrypoints/profile, host/source/input binding and B1 collector with narrow regression only. Backward-compatible horizon parameterization allowed; preserve default2k checks and S4 frozen archive/config. No runtime monkeypatch, no pretend20commits. Shared mathematical core is read-only unless a concrete technical defect is reported with exact minimal scope; no redesign.",
+  "method": "Unchanged actual all-token native loss/current||entry KL, full causal lowerR->upperK/P/U/Q gradient, FP32model/FP64geometry, layer-local native norm .5 and cap .75, requested R=a*u, native MEMIT-H mean-key ridge. No shared budget/subject-only/frozen-upper substitute. ProxBB1/nonmonotone Armijo cap24accepted/50logicalcandidate/25fullgradient including initial and accepted; last ACCEPTED payload only, terminal gradient reuse.",
+  "calibration": "Single original native endpoint reference for this B1, actual t,n,d and lambda=(t-n)/d. Require finite operands, d>0,t>n,lambda>0. Record reference and adjoint totalcost. Typed failure if undefined/nonpositive; no guessed price, sweep or extra fit. No reference commit/H.",
+  "qualification": "Reuse existing CPU63 + source-bound proofs. New minimum host/horizon/count/default2k regression and exact 2-request actual production qualification before B1. Lock budget/source/config/READY. No separate BS2 sequential scientific chain or extra B100 fit. Existing CPU PASS is not actual server2 GPU PASS.",
+  "evaluation": "Only first100 W0/W1 R100/P200/N1000. Reuse W0 subset only exact model/W0/H0/input/order/tokenizer/evaluator/dtype identity; otherwise evaluate100, never2000. Preference RS/PS/NS, TFmicro/promptmacro/strict, true/new NLL/margin, pairedlostgained, requested/realized norm/direction/cosine/share, Q_C0/Q_H, norm/caps/reentry/stationarity and lambda raw. No performance selection/gate.",
+  "resources": {
+    "task_GPU_cap": 1,
+    "per_GPU_job": {
+      "job_name": "causal-allocation-editing-b1",
+      "GPUs": 1,
+      "CPUs": 8,
+      "default_host_memory_MiB": 59392,
+      "hard_host_memory_ceiling_MiB": 60416,
+      "export": "NONE",
+      "Requeue": 0,
+      "wall_max_hours": 8,
+      "node": "server2"
+    },
+    "CPU_collector": {
+      "GPUs": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "project_cap": "Fresh server2 local/tracked cap or stricter, no increase. Tracked cap2; historical task-specific overrides not inherited.",
+    "admission": "Verify exact owner/runtime/assets/storage/VRAM/node/queue/QoS and other admitted project GPU allocations before submission. No GPU-type assumption. Select legitimate earliest permitted queue; if occupied register serialized dependency within cap and report actual IDs/reason immediately; do not wait for freeGPU.",
+    "DAG": "One qualification->READY->B1 GPU runner plus CPU afterany collector preferred; separate qualification/main with cap1 dependency allowed. No B2/2k. Held exactowner/source/fullargv/resources/dependency inspection then release."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/causal_allocation_editing/**",
+    "plans/updates/server2/causal-allocation-editing-b1/**",
+    "audits/servers/server2/causal-allocation-editing-b1/**",
+    "runs/causal-allocation-editing-b1/**",
+    "experiment-reports/servers/server2/causal-allocation-editing-b1/**",
+    "tasks/status/causal-allocation-editing-b1/server2.json",
+    "messages/acks/server2/causal-allocation-editing-b1.json",
+    "messages/server-heads/server2/causal-allocation-editing-b1.json",
+    "local/causal-allocation-editing-b1/**",
+    "own dedicated worktree ignored servers/local/session-boundary.env"
+  ],
+  "readonly": "Existing frozen production engines/assets/S4 archives/model/environment and other tasks. Preserve dirty roots/concurrent edits. Dedicated non-main branch codex/causal-allocation-editing-b1.",
+  "transfer": "Reuse server2 local model/data/C0/native/evaluator assets after identity binding. Task-scoped small missing source/config/context/provenance exact pulls from approved peers allowed, sourceKEEP/nooverwrite/no--delete. No model download/C0 recomputation/large raw broadcast. Git compact source/counts/manifests only; raw/tensors/prompts/stdout remain local. Record NO_BROADCAST_NOT_REQUIRED when appropriate.",
+  "review": "Reuse existing independent/source audit63; new owner scoped port review must be labeled honestly. Minimal actual technical qualification required; no new broad reviews/performance gates. Final CPU reducer checks real1commit/5H/0interbatchjoins and R100/P200/N1000; no invented completion.",
+  "publication": "SH2 own-scope source/tests/compactsubmission/report nonforce branch+main is authorized after scoped checks. No additional GH approval wait. Seal execution source distinct from later report.",
+  "report": "experiment-reports/servers/server2/causal-allocation-editing-b1/report-ko.md",
+  "status": "tasks/status/causal-allocation-editing-b1/server2.json",
+  "delivery": "Direct nonce owner ACK first, continue port/registration autonomously. GH current handoff must obtain actual Slurm job IDs and initial status or concrete submission blocker, not merely inbox/acceptance. Promptly send SUBMISSION_HANDOFF with IDs/locks/resources/reason after release.",
+  "monitoring": "No new recurring monitor/autoretry/heartbeat. B1 qualification and resultcollection handled by sealed runner/collector. Bounded submission/resource observation only; if resourcepending report immediately and pause agent. GH does not wait GPU terminal or query unrelated jobs."
+}

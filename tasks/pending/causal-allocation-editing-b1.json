@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "task_id": "causal-allocation-editing-b1",
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "owner": "SH2",
+  "owner_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "state": "AUTHORIZED_AWAITING_DIRECT_ACCEPTANCE",
+  "envelope": "messages/head/causal-allocation-editing-b1.json",
+  "report": "experiment-reports/servers/server2/causal-allocation-editing-b1/report-ko.md",
+  "job_ids": [],
+  "submission": "NOT_SUBMITTED",
+  "no_B2": true
+}
