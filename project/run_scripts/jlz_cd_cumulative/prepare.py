@@ -93,9 +93,31 @@ def bound_pack_rows(prior, alignment_path):
     return packs
 
 
-def prepare(cpu_preflight=None):
-    out = LOCAL / 'preparation-r1'
-    require(not (out / 'configuration.json').exists(), 'CREATE_ONCE_PREPARATION')
+def preparation_paths(out=None, attempt=None, repair_receipt=None):
+    from .preflight import output_directory
+    out = output_directory(out)
+    attempt = Path(attempt).resolve() if attempt is not None else LOCAL / 'attempt-r1'
+    require(attempt.parent == LOCAL and attempt.name.startswith('attempt-'), 'SAFE_PREPARATION_ATTEMPT')
+    receipt = None
+    if repair_receipt is not None:
+        from .submit import validate_repair_receipt
+        receipt = validate_repair_receipt(repair_receipt, attempt, out)
+    else:
+        require(attempt == LOCAL / 'attempt-r1', 'EXPLICIT_REPAIR_RECEIPT_REQUIRED')
+    require(not attempt.exists(), 'CREATE_ONCE_ATTEMPT')
+    require(not any((out / name).exists() for name in ('configuration.json', 'W0-reuse.json', 'input-runtime-reuse.json')),
+            'CREATE_ONCE_PREPARATION')
+    return out, attempt, receipt
+
+def cpu_preflight_path(out, cpu_preflight=None):
+    from .preflight import CPU_RECEIPT
+    cpu = Path(cpu_preflight).resolve() if cpu_preflight is not None else out / CPU_RECEIPT
+    require(cpu.parent == out and cpu.name == CPU_RECEIPT, 'CPU_PREFLIGHT_OUTPUT_BINDING')
+    return cpu
+
+def prepare(cpu_preflight=None, out=None, attempt=None, repair_receipt=None):
+    out, attempt, repair = preparation_paths(out, attempt, repair_receipt)
+    cpu = cpu_preflight_path(out, cpu_preflight)
     envelope = json.loads((ROOT / ENVELOPE).read_text())
     require(envelope['nonce'] == NONCE and envelope['task_id'] == TASK, 'CURRENT_AUTHORITY')
     require([r['id'] for r in envelope['scope']['arms']] == list(ARMS), 'CURRENT_ARMS')
@@ -125,7 +147,6 @@ def prepare(cpu_preflight=None):
         require([row[k] for k in fields] == list(map(str, expected)), 'ALL_SCHEDULE_VALUES:' + str(i))
         require(len(record['paraphrase_prompts']) == 2 and len(record['neighborhood_prompts']) == 10, 'EVALUATION_DENOMINATORS')
     require([p['ids'] for p in prior['packs']] == [[r['case_id'] for r in records[i:i + 100]] for i in range(0, 2000, 100)], 'ALL20_PACK_ORDER')
-    cpu = Path(cpu_preflight) if cpu_preflight is not None else out / 'cpu-tests.json'
     require(cpu.is_file(), 'NEW_PRODUCTION_CPU_PREFLIGHT_REQUIRED')
     cpudata = json.loads(cpu.read_text())
     require(cpudata.get('passed') is True or cpudata.get('status') == 'PASS', 'NEW_CPU_PREFLIGHT_FAILED')
@@ -137,7 +158,7 @@ def prepare(cpu_preflight=None):
     write(out / 'W0-reuse.json', reuse)
     reuse['identity_receipt'] = member(out / 'W0-reuse.json')
     c = {k: prior[k] for k in ('model', 'stream', 'contexts', 'stats', 'profile', 'native_root', 'stats_root')}
-    c.update(instruction_id=NONCE, task_id=TASK, seed=20261002, runtime=runtime, assets=assets,
+    c.update(instruction_id=NONCE, task_id=TASK, attempt=str(attempt), seed=20261002, runtime=runtime, assets=assets,
         native_reference=oldlock['native_reference'], native_hparams=prior['native_hparams'],
         authority_members=members, observer_identity=member(observer_path), native_input_alignment=member(alignment_path),
         packs=packs, ordered_ids_sha256=ORDERED_SHA, cpu_preflight=member(cpu),
@@ -151,7 +172,7 @@ def prepare(cpu_preflight=None):
             unchanged_scope='asset/runtime/native token/observer and unchanged CD writer evidence only',
             new_projected_fit_actual='NOT_RUN_REQUIRED_BEFORE_MAIN', design_CPU11='SYNTHETIC_NOT_GPU',
             receipts=[member(PRIOR / 'config.json'), member(PRIOR / 'execution.lock.json'), member(ROOT / DESIGN / 'validation.json')]),
-        calibration=dict(path=str(LOCAL / 'attempt-r1/calibration.json'), rule='FIRST_NONZERO_B1_ONCE_SHARED_IMMUTABLE'),
+        calibration=dict(path=str(attempt / 'calibration.json'), rule='FIRST_NONZERO_B1_ONCE_SHARED_IMMUTABLE'),
         resources=dict(task_cap=2, project_cap=3, cpu=8, gpu_per_arm=1, host_mib=59392,
             hard_host_mib=60416, collector_host_mib=24576, wall='2-00:00:00', collector_wall='04:00:00',
             reserve_bytes=reserve, startup_free_bytes_min=6 * 1024**3, free_bytes=free, free_inodes=inodes,
@@ -166,6 +187,8 @@ def prepare(cpu_preflight=None):
             memory_plan_status='ESTIMATE_NOT_ACTUAL_GPU_PASS', original_runtime_memory_reference_only=True,
             state_policy='RAM own W/H per arm; frozen geometry/cache per batch; no resume bundle',
             ETA='NOT_MEASURED_NEW_PROJECTED_FIT; finite48h ceiling not ETA'))
+    if repair is not None:
+        c['repair_receipt'] = member(repair_receipt)
     write(out / 'configuration.json', c)
     write(out / 'input-runtime-reuse.json', dict(nonce=NONCE, prior=member(PRIOR / 'config.json'),
         CSV_rows=2000, all_fields_checked=True, all20_native_packs=packs,
@@ -179,4 +202,6 @@ def prepare(cpu_preflight=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(); parser.add_argument('--cpu-preflight', type=Path)
-    args = parser.parse_args(); print(json.dumps(prepare(args.cpu_preflight)))
+    parser.add_argument('--out', type=Path); parser.add_argument('--attempt', type=Path)
+    parser.add_argument('--repair-receipt', type=Path)
+    args = parser.parse_args(); print(json.dumps(prepare(args.cpu_preflight, args.out, args.attempt, args.repair_receipt)))

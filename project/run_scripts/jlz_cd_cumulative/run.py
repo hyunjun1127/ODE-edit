@@ -45,6 +45,10 @@ def locked(attempt):
         require((s.st_size, s.st_ino, s.st_mtime_ns) == (row['bytes'], row['inode'], row['mtime_ns']), 'ASSET_CHANGED')
     require(c['settings']['B'] == 100 and c['settings']['batches'] == 20 and c['settings']['requests'] == 2000, 'HORIZON20')
     require(tuple(c['settings']['arms']) == ARMS and not c['settings']['save_checkpoints'], 'ARMS_NO_CP')
+    require(c['settings']['fit_requests_per_group'] == 1, 'ORIGINAL_OWNER_GRAPH_ROUTE_ONLY')
+    if 'repair_receipt' in c:
+        verify(c['repair_receipt'])
+        require(lock.get('repair_receipt') == c['repair_receipt'], 'FROZEN_REPAIR_RECEIPT')
     require(len(c['packs']) == 20, 'ALL20_INPUT_PACKS')
     return c, lock
 
@@ -92,6 +96,8 @@ def technical_ready(a, bench, records, H, W0, c, out):
     before = state(a, H); rng = rng_snapshot(); guard = a.guard(); hooks = a.hook_signature()
     pack = bench.prepare(records[:2])
     entry = prepare_entry(a, bench, pack, H, c['stats'], 1)
+    entry['source_identity'] = os.environ['ODEEDIT_SOURCE_COMMIT']
+    entry['qualification_repair_receipt'] = c.get('repair_receipt')
     initial = capture_native_sites(a, entry, a.sites)
     geometries = geometry_entry(a, entry, initial, H, W0, dict(scope='TWO_NATIVE_REQUEST_FIXED_CANDIDATE'))
     result = qualify(a, entry, geometries, initial, history=H, W0=W0, out=out,
@@ -151,6 +157,8 @@ def drive(a, bench, records, H, W0, c, arm, out, source, attempt):
                 pre = w0_subset(out / 'W0', current, seen, root / 'pre', previous, identities) if number == 1 else observer(
                     a, bench, seen, current, H, f'B{number}_PRE', root / 'pre', c, identities, pack['record_ids'])
                 entry = prepare_entry(a, bench, pack, H, c['stats'], 1)
+                require(all(len({row['request'] for row in group['rows']}) == 1
+                            for group in entry['groups']), 'UNQUALIFIED_PHYSICAL_REGROUPING_DISABLED')
                 initial = capture_native_sites(a, entry, a.sites)
                 geometries = geometry_entry(a, entry, initial, H, W0,
                     dict(arm=arm, batch=number, native_pack=pack['identity'], source=source), root / 'geometry')

@@ -1,0 +1,46 @@
+{
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "user_repair_authority": "fail되었으니 repair올려",
+  "original_source": "abead2333c30cb57ea10ca9756a21f765f8dbc29",
+  "predecessor_receipt_sha256": "118157f0ac1b675a18d304b7574dfe08104e07b454a36da304db3e97ef53848e",
+  "original_jobs": {"CD_Q": 58880, "CD_C": 58881, "collector": 58882},
+  "original_GPU_seconds": 325,
+  "original_commits": {"CD_Q": 0, "CD_C": 0},
+  "original_failure": "Both actual GPU narrow checks fail only all-row physical regrouping gradient parity at frozen tolerances; original shape cached/full and compact/dense checks passed",
+  "RCA_limit": "Batch-shape FP32 calculation order is consistent with errors, not proven CUDA kernel-level causality. No objective/scaling bug established.",
+  "repair_scope": "Reject unqualified physical forward regrouping; fresh original-shape joint logical-SUM backward reference; fixed owner grouping; explicit cold-zero repair admission and create-once preparation/attempt",
+  "unchanged_bytes": ["geometry.py", "calibration.py", "adapter.py", "optimize.py", "writer.py", "collect.py"],
+  "tolerances_unchanged": true,
+  "old_failed_check_upgraded_to_PASS": false,
+  "CPU": {
+    "tests": 48, "passed": true,
+    "geometry": 5, "fit": 9, "collector": 13, "controller": 15, "qualification": 6,
+    "receipt_sha256": "cc96c558e46c45bc8bf75032168565b379dbf66b522b1f95070b3d0d097cfc43",
+    "receiver_sha256": "7383b156a1f9ae1b3fd35c41e8124c98196535829b82c34c7fb00e8d072a13c5",
+    "unittest_seconds": 3.412, "preflight_process_seconds": 5.821803325787187,
+    "runtime": "/data/janghj/EasyEdit/.venv/bin/python",
+    "warning": "Unchanged old CD helper converts a requires-grad residual to a scalar for diagnostics; recorded UserWarning, no production helper hotpatch",
+    "target_Llama_GPU_PASS": false
+  },
+  "reviewers": [
+    {"identity": "/root", "level": "source owner audit and final CPU preflight/input binding"},
+    {"identity": "/root/repair_qual_diagnosis", "level": "qualifier implementation owner; six CPU synthetic tests"},
+    {"identity": "/root/repair_registration", "level": "registration implementation owner; fifteen CPU controller tests"},
+    {"identity": "/root/cd_publication_check", "level": "independent read-only changed-path source red review, no scheduler/model/GPU/test calls", "result": "NO_CONFIRMED_BLOCKERS"}
+  ],
+  "red_checklist": {
+    "all_rows_global_S_off_owner_gradients": "PASS source+CPU",
+    "same_native_forward_group_tokens_cache_order": "PASS source+CPU; fresh GPU check required",
+    "fixed_tolerance_missing_gradient_nonfinite_fail_closed": "PASS CPU",
+    "common_stop_terminal_no_backward_science_bytes": "UNCHANGED + CPU regression",
+    "zero_commit_exact_predecessor_owner_source_registration": "PASS bound CPU fixture/local receipt; fresh scheduler verification required by submit",
+    "unknown_registration_or_active_predecessor": "BLOCKED by fresh guards",
+    "source_archive_config_receipt_closure": "REQUIRED_BEFORE_RELEASE",
+    "resources": "59392MiB/hard60416 GPU1 CPU8 48h, collector24576MiB CPU8 4h; fresh cap/space/held checks required"
+  },
+  "actual_repair_GPU_qualification": "NOT_OBSERVED",
+  "repair_submission": "NOT_SUBMITTED_AT_SOURCE_REVIEW",
+  "original_artifacts": "LOCAL_KEEP_NO_MODIFICATION",
+  "artifact_policy": "NO_BROADCAST_NOT_REQUIRED; source/compact reports only Git, raw/tensors/model/prompts/stdout local",
+  "automatic_retry": false
+}

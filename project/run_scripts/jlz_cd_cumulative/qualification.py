@@ -8,7 +8,6 @@ import time
 import torch
 
 from project.run_scripts.jlz_realization.common import require, tensor_sha, digest, state, write
-from project.run_scripts.jlz_realization.inputs import make_rows, batches
 from project.run_scripts.jlz_realization.subject import row_logprobs
 from project.run_scripts.jlz_realization.writer import rng_snapshot, rng_equal
 from project.run_scripts.jlz_realized_writer.capture import cache_identity
@@ -19,6 +18,7 @@ from .optimize import validate_entry
 
 
 def _parity(candidate, reference, *, atol=1e-6, rtol=2e-4):
+    require(candidate.shape == reference.shape, 'QUALIFICATION_PARITY_SHAPE')
     c, r = candidate.detach().double(), reference.detach().double()
     error = (c - r).abs()
     limit = atol + rtol * r.abs()
@@ -40,9 +40,13 @@ def _snapshot_u(a, B):
     return result
 
 
-def _native_pass(a, entry, groups, geometries, fixture, *, direct=False, backward=True):
+def _native_pass(a, entry, groups, geometries, fixture, *, direct=False, backward=True,
+                 backward_schedule='groupwise'):
+    require(backward_schedule in ('groupwise', 'logical-sum'), 'QUALIFICATION_BACKWARD_SCHEDULE')
     u = {l: value.detach().clone().requires_grad_(backward) for l, value in fixture.items()}
     records, hidden, logprobs = {}, {}, {}
+    logical_losses = []
+    forward_calls = backward_calls = 0
     for group in groups:
         with torch.set_grad_enabled(backward):
             D = {l: entry['anchors'][l][None, :] * value for l, value in u.items()}
@@ -52,6 +56,7 @@ def _native_pass(a, entry, groups, geometries, fixture, *, direct=False, backwar
                 indices = [row['global_row'] for row in group['rows']]
                 Y = {l: projected_action(D[l], geometries[l], indices) for l in a.sites}
                 nh, fh, found = a.native_projected(group, Y, True, local_rows=True)
+            forward_calls += 1
             probs = row_logprobs(a, group['rows'], nh, fh)
             nll, kl = {}, {}
             for j, (row, lp) in enumerate(zip(group['rows'], probs)):
@@ -68,13 +73,42 @@ def _native_pass(a, entry, groups, geometries, fixture, *, direct=False, backwar
             for r, (nr, kr) in values.items():
                 records[r] = torch.stack((nr.detach(), kr.detach())).cpu()
             if backward:
-                torch.stack([nr + .0625 * kr for nr, kr in values.values()]).sum().backward()
+                losses = [nr + .0625 * kr for nr, kr in values.values()]
+                if backward_schedule == 'logical-sum':
+                    # Keep the original owner-shaped forward graphs, then
+                    # differentiate their complete logical SUM in one call.
+                    # No new tokens, cache, head batch shape or row order.
+                    logical_losses.extend(losses)
+                else:
+                    torch.stack(losses).sum().backward()
+                    backward_calls += 1
+    if backward and backward_schedule == 'logical-sum':
+        require(bool(logical_losses), 'QUALIFICATION_EMPTY_LOGICAL_SUM')
+        torch.stack(logical_losses).sum().backward()
+        backward_calls += 1
+    require(not backward or all(value.grad is not None for value in u.values()),
+            'QUALIFICATION_MISSING_NATIVE_GRADIENT')
     return dict(losses=torch.stack([records[r] for r in sorted(records)]), hidden=hidden, logprobs=logprobs,
                 gradients={l: value.grad.detach().clone() if value.grad is not None
-                           else torch.zeros_like(value) for l, value in u.items()})
+                           else torch.zeros_like(value) for l, value in u.items()},
+                native_forward_calls=forward_calls, native_backward_calls=backward_calls)
+
+
+def _validate_original_owner_groups(a, entry, geometries):
+    validate_entry(a, entry, geometries)
+    B = entry['pack']['n_requests']
+    require(len(entry['groups']) == B and all(
+        {row['request'] for row in group['rows']} == {owner}
+        for owner, group in enumerate(entry['groups'])),
+        'QUALIFICATION_FIXED_ORIGINAL_OWNER_GROUPS_ONLY')
 
 
 def _compare_native(candidate, reference, layers):
+    require(set(candidate['hidden']) == set(reference['hidden'])
+            and set(candidate['logprobs']) == set(reference['logprobs']),
+            'QUALIFICATION_NATIVE_ROW_COVERAGE')
+    require(set(candidate['gradients']) == set(reference['gradients']) == set(layers),
+            'QUALIFICATION_NATIVE_GRADIENT_COVERAGE')
     return dict(loss=_parity(candidate['losses'], reference['losses']),
                 gradient={str(l): _parity(candidate['gradients'][l], reference['gradients'][l]) for l in layers},
                 logprobs={str(row): _parity(candidate['logprobs'][row], reference['logprobs'][row])
@@ -100,13 +134,16 @@ def qualify(a, entry, geometries, initial, history, W0, out=None, *, pad_id=0):
     B100 fit entry. Its fixed entry capture is reused; no fresh capture pass
     is performed here. The original V13 equality solve is evaluated once
     per site to independently check compact response/cost/gradient/action.
+    Qualification is restricted to the unchanged one-owner physical groups;
+    a joint-backward SUM reference does not qualify the rejected all-row
+    forward regrouping, nor reuse the predecessor's GPU evidence.
     """
     started = time.monotonic()
     B, layers = entry['pack']['n_requests'], a.sites
     require(2 <= B <= 4, 'QUALIFICATION_2_TO_4_REQUESTS_ONLY')
     require(a.profile['kl_factor'] == .0625, 'QUALIFICATION_NATIVE_KL')
     require(set(geometries) == set(layers) and set(W0) == set(layers), 'QUALIFICATION_LAYER_COVERAGE')
-    validate_entry(a, entry, geometries)
+    _validate_original_owner_groups(a, entry, geometries)
     require(all(torch.equal(a.weights[l].detach().cpu(), W0[l].cpu()) for l in layers)
             and all(not bool(history[l].count_nonzero()) for l in layers), 'QUALIFICATION_OWN_COLD_ENTRY')
     require(all(g.receipt['delta_zero'] and not bool(g.J.count_nonzero()) for g in geometries.values()),
@@ -122,12 +159,13 @@ def qualify(a, entry, geometries, initial, history, W0, out=None, *, pad_id=0):
     G = len(entry['groups'])
     require(1 <= G <= B, 'QUALIFICATION_COMPLETE_OWNER_GROUPS')
     compatible = all(g.full_operator_compatible for g in geometries.values())
-    # Four native paths maximum, a single original no-grad witness, one
-    # alternate prefix construction, and one independent solve per site.
+    # Original-shape cached/full/SUM/direct paths and one no-grad witness.
+    # The SUM reference has G unchanged forwards and one joint backward.
+    # The rejected all-row forward regrouping is neither retried nor used.
     budget = dict(logical_candidates=1, fit_calls=0, optimizer_updates=0, physical_writes=0,
                   native_forward_max=3 * G + 1 + (G if compatible else 0),
                   native_backward_max=2 * G + 1 + (G if compatible else 0),
-                  prefix_calls_max=1, independent_qr_svd_max=len(layers),
+                  prefix_calls_max=0, independent_qr_svd_max=len(layers),
                   independent_cholesky_max=len(layers), observer_calls=0)
     counters = dict(native_forward=0, native_backward=0, prefix_calls=0,
                     independent_qr_svd=0, independent_cholesky=0)
@@ -135,35 +173,33 @@ def qualify(a, entry, geometries, initial, history, W0, out=None, *, pad_id=0):
     try:
         a.native_route = 'cached'
         cached = _native_pass(a, entry, entry['groups'], geometries, fixture)
-        counters['native_forward'] += G
-        counters['native_backward'] += G
+        counters['native_forward'] += cached['native_forward_calls']
+        counters['native_backward'] += cached['native_backward_calls']
         a.native_route = 'full'
         full = _native_pass(a, entry, entry['groups'], geometries, fixture)
-        counters['native_forward'] += G
-        counters['native_backward'] += G
+        counters['native_forward'] += full['native_forward_calls']
+        counters['native_backward'] += full['native_backward_calls']
         checks['cached_vs_full_native'] = _compare_native(cached, full, layers)
         a.native_route = 'cached'
-        # Change only physical grouping. The logical operator and owner/row
-        # mapping remain the same entire narrow batch, never per-group CD.
-        rows = make_rows(entry['pack'])
-        alt = []
-        for grouped, tokens in batches(rows, len(rows), pad_id, a.device):
-            alt.append(dict(rows=grouped, tokens={k: v.cpu() for k, v in tokens.items()}, cache=a.prefix(tokens)))
-            counters['prefix_calls'] += 1
-        regrouped = _native_pass(a, entry, alt, geometries, fixture)
-        counters['native_forward'] += 1
-        counters['native_backward'] += 1
-        checks['logical_SUM_microbatch'] = _compare_native(regrouped, cached, layers)
+        # Independently differentiate the full logical SUM using the exact
+        # original physical owner groups. This checks accumulation through
+        # the full off-owner S Jacobian, not batch-shape regrouping parity.
+        logical_sum = _native_pass(a, entry, entry['groups'], geometries, fixture,
+                                   backward_schedule='logical-sum')
+        counters['native_forward'] += logical_sum['native_forward_calls']
+        counters['native_backward'] += logical_sum['native_backward_calls']
+        checks['original_group_logical_SUM'] = _compare_native(cached, logical_sum, layers)
         if compatible:
             direct = _native_pass(a, entry, entry['groups'], geometries, fixture, direct=True)
-            counters['native_forward'] += G
-            counters['native_backward'] += G
+            counters['native_forward'] += direct['native_forward_calls']
+            counters['native_backward'] += direct['native_backward_calls']
             checks['compatible_direct_vs_projected'] = _compare_native(cached, direct, layers)
         else:
             checks['compatible_direct_vs_projected'] = dict(status='NOT_CLAIMED_RANK_INCOMPATIBLE_OPERATOR',
                                                             projected_S_path_required=True)
         probe = _native_pass(a, entry, entry['groups'][:1], geometries, fixture, backward=False)
-        counters['native_forward'] += 1
+        counters['native_forward'] += probe['native_forward_calls']
+        counters['native_backward'] += probe['native_backward_calls']
         firstowners = sorted({r['request'] for r in entry['groups'][0]['rows']})
         checks['original_no_grad_witness'] = _parity(probe['losses'], cached['losses'][firstowners])
         # Dense old-CD target solve supplies a differentiation reference at
@@ -206,22 +242,32 @@ def qualify(a, entry, geometries, initial, history, W0, out=None, *, pad_id=0):
         require(state(a, history) == before and cache_identity(entry) == cache
                 and a.guard() == guard and a.hook_signature() == hooks and rng_equal(rng),
                 'QUALIFICATION_STATE_CACHE_RNG_MUTATION')
-        require(counters['native_forward'] <= budget['native_forward_max']
-                and counters['native_backward'] <= budget['native_backward_max']
-                and counters['prefix_calls'] <= budget['prefix_calls_max']
-                and counters['independent_qr_svd'] <= budget['independent_qr_svd_max']
-                and counters['independent_cholesky'] <= budget['independent_cholesky_max'],
+        require(counters['native_forward'] == budget['native_forward_max']
+                and counters['native_backward'] == budget['native_backward_max']
+                and counters['prefix_calls'] == budget['prefix_calls_max']
+                and counters['independent_qr_svd'] == budget['independent_qr_svd_max']
+                and counters['independent_cholesky'] == budget['independent_cholesky_max'],
                 'QUALIFICATION_SEALED_CALL_BUDGET')
         passed = _all_pass(checks)
-        receipt = dict(schema='JLZ_CD_CUMULATIVE_SAME_CANDIDATE_QUALIFICATION_V1', pass_=passed,
+        original_rows = [[r['global_row'] for r in group['rows']] for group in entry['groups']]
+        receipt = dict(schema='JLZ_CD_CUMULATIVE_SAME_CANDIDATE_QUALIFICATION_V2', pass_=passed,
             runtime_device=str(a.device), actual_model=True, GPU_qualified=a.device.type == 'cuda' and passed,
             CPU_does_not_qualify_GPU=a.device.type != 'cuda', requests=B,
             native_pack_identity=entry['pack']['identity'], entry_cache_identity=cache,
             source_identity=entry.get('source_identity'), W0=before['W'], H0=before['H'],
+            qualification_repair_receipt=entry.get('qualification_repair_receipt'),
             fixture_identity=digest({str(l): tensor_sha(v) for l, v in fixture.items()}),
             geometry_identity={str(l): g.operator_hash for l, g in geometries.items()},
-            original_group_rows=[[r['global_row'] for r in group['rows']] for group in entry['groups']],
-            regrouped_group_rows=[[r['global_row'] for r in group['rows']] for group in alt],
+            qualification_scope='FIXED_ORIGINAL_OWNER_GROUPS_ONLY',
+            original_group_rows=original_rows, logical_SUM_reference_group_rows=original_rows,
+            regrouped_group_rows=[], requests_per_group=1,
+            original_group_tokens_cache_order_preserved=True,
+            physical_regrouping_qualified=False,
+            rejected_physical_regrouping=dict(status='NOT_QUALIFIED', usage='NOT_USED',
+                prior_failed_check='logical_SUM_microbatch', old_failure_relabelled_PASS=False,
+                immutable_prior_failure_link=entry.get('qualification_repair_receipt'),
+                reason='ALL_ROW_FORWARD_BATCH_SHAPE_GRADIENT_PARITY_FAILED_AT_UNCHANGED_TOLERANCE',
+                retried=False, qualified_by_original_group_SUM=False),
             checks=checks, sealed_budget=budget, actual_calls=counters,
             native_reductions_preserved=True, teacher_own_entry=True,
             common_candidate_no_fit=True, no_scientific_tuning=True, physical_state_unchanged=True,

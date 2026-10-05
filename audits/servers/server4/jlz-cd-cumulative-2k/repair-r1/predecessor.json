@@ -1,0 +1,57 @@
+{
+  "schema": "jlz-cd-cumulative-cold-repair-v1",
+  "instruction_id": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "user_quote": "fail되었으니 repair올려",
+  "repair_kind": "COLD_ZERO_COMMIT",
+  "original_KEEP": true,
+  "predecessor": {
+    "attempt": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1",
+    "source_commit": "abead2333c30cb57ea10ca9756a21f765f8dbc29",
+    "owner": "janghj",
+    "jobs": {"CD_Q": "58880", "CD_C": "58881", "collector": "58882"},
+    "submission": {
+      "path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/submission.json",
+      "bytes": 3174, "sha256": "a0a133adc78c825aa49431a9b4511e4e1e7e9fdd48a8a2545efb9c75f5401892"
+    },
+    "config": {
+      "path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/config.json",
+      "bytes": 1312930, "sha256": "d6b374a5dab0b9224b04a1398ff41f1e4776809237575e00dd958eb1804297ed"
+    },
+    "lock": {
+      "path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/execution.lock.json",
+      "bytes": 79612, "sha256": "24e1c53dd00e56c712d3d78f802b91d2acee8672db1e9a25138ef2b607de83c5"
+    },
+    "terminals": {
+      "CD_Q": {"path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/main-CD_Q/terminal.json", "bytes": 458, "sha256": "f38e854c69ce1f83c390e99ac9a23aaa6d15d0bf0f60c99fd7b750513f85395c"},
+      "CD_C": {"path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/main-CD_C/terminal.json", "bytes": 458, "sha256": "694af5157db125e220caaca0760148bedcf3c54590b4b97e80f1725e11978c2f"},
+      "collector": {"path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/cpu-report/terminal.json", "bytes": 951, "sha256": "af2f91392881af27e140eb9530443fc594d3ea94f7b130ece3275c70390d276f"}
+    }
+  },
+  "successor": {
+    "attempt": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r2",
+    "preparation": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/preparation-r2"
+  },
+  "zero_commits": {"CD_Q": 0, "CD_C": 0},
+  "failure_qualification": {
+    "CD_Q": {"path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/main-CD_Q/qualification/qualification.json", "bytes": 22746, "sha256": "2319f0a9a759c9969dd49c0dcbd77e799bd138ead6f84d81900c9e8c87abffb9"},
+    "CD_C": {"path": "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation/20261005-r1/attempt-r1/main-CD_C/qualification/qualification.json", "bytes": 22745, "sha256": "e41473178ec33c3ca8f55826db3e5d7f023712446e5d904cefd4a197d7769fd7"}
+  },
+  "scheduler_snapshot": [
+    {"job": "58880", "owner": "janghj", "name": "odeedit_jlz_cd_cumulative_s4_CD_Q", "state": "FAILED", "exit_code": "1:0", "elapsed_seconds": 166, "GPUs": 1},
+    {"job": "58881", "owner": "janghj", "name": "odeedit_jlz_cd_cumulative_s4_CD_C", "state": "FAILED", "exit_code": "1:0", "elapsed_seconds": 159, "GPUs": 1},
+    {"job": "58882", "owner": "janghj", "name": "odeedit_jlz_cd_cumulative_s4_collector", "state": "COMPLETED", "exit_code": "0:0", "elapsed_seconds": 0, "GPUs": 0}
+  ],
+  "allocated_GPU_seconds_original": 325,
+  "repair_policy": {
+    "production_physical_grouping": "ORIGINAL_COMPLETE_OWNER_GROUPS_1",
+    "rejected_physical_regrouping": "NOT_QUALIFIED_NOT_USED",
+    "new_reference": "unchanged original-shape native forwards, independent joint logical-SUM backward versus production accumulated backwards",
+    "gradient_tolerance": {"atol": 0.000001, "rtol": 0.0002, "reduction": "elementwise"},
+    "new_GPU_READY_required": true,
+    "tolerance_widening": false,
+    "method_coefficients_changed": false,
+    "extra_fullB_fit": 0,
+    "automatic_retry": false
+  }
+}
