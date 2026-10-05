@@ -60,7 +60,8 @@ def full_native_binding(prior,records,packs):
     tokenizer.pad_token=tokenizer.eos_token;tokenizer.padding_side='right'
     bench=CounterFactAdapter(tokenizer,json.loads(Path(prior['contexts']).read_text()))
     measured=[]
-    for index in range(20):
+    require(len(records)==100*len(packs) and len(packs)>0,'FULL_NATIVE_BINDING_HORIZON')
+    for index in range(len(packs)):
         pack=bench.prepare(records[index*100:(index+1)*100]);expected=packs[index]
         require(pack['identity']==expected['identity'] and pack['record_ids']==expected['ids'],
                 'FRESH_NATIVE_FULL_PACK_IDENTITY:'+str(index+1))
@@ -86,7 +87,7 @@ def full_native_binding(prior,records,packs):
         reverse_old_and_new_boundaries=2*boundary/GiB,reverse_head=4096*4*T/GiB)
     peak=27.034+sum(extra.values())
     require(peak<58,'RESOURCE_BLOCKED_HOST_STAGING_PLAN')
-    return dict(status='CPU_FULL_NATIVE_INPUT_BOUND',scope='All20 original native full-token packs; no model load/GPU qualification',
+    return dict(status='CPU_FULL_NATIVE_INPUT_BOUND',scope=f'All{len(packs)} original native full-token packs; no model load/GPU qualification',
         KL_future_tokens_retained=True,all20=measured,rows=sum(v['rows'] for v in measured),
         max_batch_owner_padded_tokens=T,execution_extra_GiB=extra,execution_peak_estimate_GiB=peak,
         bound_is_estimate_not_measured_peak=True,prior_receipt_scope='Original pack/token hashes only; old cropped entry route is NOT inherited')

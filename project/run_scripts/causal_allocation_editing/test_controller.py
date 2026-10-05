@@ -78,6 +78,8 @@ class ControllerTests(unittest.TestCase):
         self.assertNotIn('torch.save(',source)
         self.assertIn("w.copy_(value)",source)
         self.assertIn("H[l].add_(K@K.T)",source)
-        self.assertIn("number<=20",source)
+        self.assertIn("number<=profile['batches']",source)
+        from .profile import execution
+        self.assertEqual(execution({})['batches'],20)
 
 if __name__=='__main__':unittest.main()

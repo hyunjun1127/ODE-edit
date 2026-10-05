@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "status": "ACCEPTED_CPU_PORT_READY_NOT_SUBMITTED",
+  "host": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "authority_main": "47ff6e940fe2cc4acae86704dd1969e294e6f24f",
+  "source_reuse": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+  "message_ko": "동일 nonce 신규 중복 branch/현재 Server2 job 없음 확인 후 전용 clean worktree에서 최소 이식. 기존 root 보존. B1만 STOP 예외이며 다른 task/SH4 job 조회·변경0. 실제 등록 evidence는 후속 submission handoff에 기록.",
+  "cpu_tests": 68,
+  "actual_GPU_qualification": "NOT_RUN",
+  "monitoring_active": false,
+  "automatic_resume": false
+}
