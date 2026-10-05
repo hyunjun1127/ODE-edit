@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "scope": "compact CPU review only; raw/model/tensors/prompts/fullstdout remain ignored local",
+  "self_excluded": true,
+  "files": [
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/accounting-snapshot.json",
+      "bytes": 7805,
+      "sha256": "a220200b25a627b3d43d07da3a7f26ff642147b8dedf7e64336177b5143c7953"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/binding-verification.json",
+      "bytes": 114723,
+      "sha256": "f5fe518bd2148ad03e6c4c455b37726ccfcfb3139dd6d6d70f44eababc74a565"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/historical-baseline-binding.json",
+      "bytes": 1914,
+      "sha256": "c50df8a487f681b26e2a30ff702388e8664f5ca785ad1405bee8c9192bb68f2d"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/publication-adapter-checks.json",
+      "bytes": 356,
+      "sha256": "9d4c412b31c0bb82285272d9bbf93901c49820c38029b1ac6315ac324089a26d"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/publish_review.py",
+      "bytes": 14125,
+      "sha256": "5b033386dbc5c6b26f1e6d9195579015911ccffc90056eae048b600d4626915c"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/raw-read-manifest.json",
+      "bytes": 176492,
+      "sha256": "effe67b4c2486c5c49f6a935a4466a0fdca131a07065b9a7dad527641629ec72"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/reader-development-failure-r1.json",
+      "bytes": 1128,
+      "sha256": "11c5da53d7f3e13c10c4e6353e6aa16a5f6feb0bd9cfe06b75c8f71924a00964"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/review-provenance.json",
+      "bytes": 3026,
+      "sha256": "28e5c9d2cca6e6f586a42a3ba517adcbcb8c2d8097b0eea581f4ead0406a6495"
+    },
+    {
+      "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/verify_bindings.py",
+      "bytes": 6182,
+      "sha256": "2ad65e3129fe63e786327e5281d025ac86c5a2d32086df2115d4e0fe9ba3bf57"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/report-ko.md",
+      "bytes": 6975,
+      "sha256": "bbe3b12cea35b0a3466ac5cf8c21c50a174265475ced417e7933192e0b14abde"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/NLL-tails.csv",
+      "bytes": 19096,
+      "sha256": "7e843427247066da8ac543bca743076a1eec408eee4fbd344464b94897a1f2d6"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/Q-update-milestones.csv",
+      "bytes": 1030,
+      "sha256": "b906842eb76053c13bde8edaa006787ae6778747dc8c5c0b52660f60d2029f60"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/active-superseded.csv",
+      "bytes": 2431,
+      "sha256": "a7be12393c30e18e910ccbf8a130d89b00e65d4a25a2293ef6b90975ad64d818"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-W20.csv",
+      "bytes": 823,
+      "sha256": "fbdbbe0f633b0f7a4dc1ee5ce0076144d8f13ed4f58b2eb903c862036c32bac7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-differences.csv",
+      "bytes": 1796,
+      "sha256": "c3bed8780d7c4008937cb8de9207050aa20fdefe6bd9ac4cb1944a32be2dbe8f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/birthcohort.csv",
+      "bytes": 16618,
+      "sha256": "515fffdaa027d9e5dc6b8667ae15d764841e434a3fb00d751a03cae7dde82a5c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/comparison-W20.csv",
+      "bytes": 1297,
+      "sha256": "d1939fe2af0c6af474ea44693f7146bb31cd27e1d30d50c2ab5ce9fa1ebeae7c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/fixed-prefix.csv",
+      "bytes": 5437,
+      "sha256": "32c958bafd1d7284159262360da7c63fe0b8fddfdd1ab398ea7d766d2f8ee614"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/gap-decomposition.csv",
+      "bytes": 3269,
+      "sha256": "dde0c9af0abcc7d3fb0057980df6a34a2f71406144805e8cbb0436426c78528d"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/metrics-W20.json",
+      "bytes": 39415,
+      "sha256": "9aee6b7895cb871cb3acb1632fc6efc105ba09c648eb54ec4fc008e55937a9e2"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/metrics-all-endpoints.csv",
+      "bytes": 67148,
+      "sha256": "7ddf2a2de6a799743b890321e6cd1eca1407e188d717e6f10b083735293a729c"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/milestone-PS-NS.svg",
+      "bytes": 4250,
+      "sha256": "276803a4f79acbb8e21ece9baa37fb97cd03e9ece5e82cb5b255c7235e5078ec"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/paired-retention.csv",
+      "bytes": 9714,
+      "sha256": "d8753dc47909d805d9f6f96900d45c608a0973c5ae7947ae2c6ce58b106c66c3"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/realization-summary.csv",
+      "bytes": 3263,
+      "sha256": "e7e21d3d5991d7e30b2640d9f80319a4ea1aae9a73a9bd00520fe5741730cf9f"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/report-ko.md",
+      "bytes": 19936,
+      "sha256": "8965ea7ac0898e6eea3938411cb1f3c91affc53379a351a1d8bdaa56fa6e273e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/telemetry-batch.csv",
+      "bytes": 11448,
+      "sha256": "41ba530c5481f221c003669088c23b03f580c0a06f2c18a49d45594355aad0c9"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/telemetry-summary.json",
+      "bytes": 218358,
+      "sha256": "f74218833c52d195056105555215686c5ad401e2b533f8548ad28979dbc33552"
+    },
+    {
+      "path": "messages/acks/server4/2026-10-05-jlz-v13-mdcd-review.json",
+      "bytes": 1199,
+      "sha256": "7e5bd7fd031e704bd7dfdc8d6634535a1a13f604103c9c389ebba99cd1d13af5"
+    },
+    {
+      "path": "messages/server-heads/server4/2026-10-05-jlz-v13-mdcd-review.json",
+      "bytes": 2148,
+      "sha256": "b70f23c30cc8857c7d96e2e7193c57010d33cd93a82922d3bcdb27c64ef60cb6"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/review_completed.py",
+      "bytes": 27469,
+      "sha256": "9efd6c672fc228738dd240b3be1149b4eead4b7917ae7eb1263f18c197f1dbe2"
+    },
+    {
+      "path": "project/run_scripts/jlz_realized_writer_sequential/test_review_completed.py",
+      "bytes": 7863,
+      "sha256": "03bc9898a062c913e80c363354f5acbade974f9d608b0113a754011f39b716fc"
+    },
+    {
+      "path": "tasks/status/jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1/server4.json",
+      "bytes": 4460,
+      "sha256": "812740b1a2144ff8a0b8563f8ed4d94a9a6aa55cecdd774cf84192ba7f3fabea"
+    }
+  ],
+  "bytes": 801194,
+  "new_GPU": 0,
+  "Slurm_write": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

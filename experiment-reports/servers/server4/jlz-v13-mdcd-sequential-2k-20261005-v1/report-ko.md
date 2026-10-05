@@ -1,4 +1,24 @@
-# V13 MD/CD sequential 2k 구현·제출 인계 보고
+# V13 MD/CD sequential 2k 완료·CPU 리뷰
+
+2026-10-05 USER recall의 독립 raw CPU 검산 결과, MD/CD 각각 BS100×20 및 W20 R2000/P4000/N20000을 완료했다.
+실제 execution source `2ff0ecc6`, 등록 수리 `21024d4b`, 이번 CPU review source는 별도다.
+
+| W20 | RS% | PS% | NS% | 조화평균% |
+|---|---:|---:|---:|---:|
+| MD | 98.400 | 88.250 | 71.035 | 84.337 |
+| CD | 98.600 | 93.600 | 70.045 | 85.465 |
+
+CD는 MD보다 PS +5.35pp / NS −0.99pp다. local rewrite action은 CD가 거의 계획과 일치하나 locality 보존과는 별개다.
+V12-MEMIT 대비 CD PS +3.30pp / NS −6.015pp이며, MEMIT-H/AlphaEdit/BLUE/CAKE와의 비교는 실행 조건 차이를 명시한 역사 참고다.
+세 exact job은 2026-10-05T05:13:32Z 단발 snapshot에서 COMPLETED/exit0였고, 원 raw712파일을 별도 CPU reducer로 검산했다.
+GPU parent 합31654초(8.79278GPUh). 새로운 GPU/모델/평가/Slurm write/전송은 없었다.
+
+[상세 한국어 리뷰·baseline 비교·실현·retention·비용](review-20261005-r1/report-ko.md)
+및 [W20 비교 CSV](review-20261005-r1/baseline-W20.csv)를 참조한다.
+상태는 `COMPLETE_RAW_CPU_VERIFIED / REVIEW_COMPLETE_STOP`; monitoring_active=false/automatic_resume=false다.
+검산 범위의 기술 불일치는 없었으며 신규 GPU parity/tensor replay를 수행한 것은 아니다.
+
+## 원 제출 인계 기록 — 아래는 당시 snapshot, 현재 상태가 아님
 
 상태: `SUBMITTED_RELEASED_MD_RUNNING_CD_RESOURCE_PENDING`.
 두 독립 main과 CPU collector를 모두 held 검사 후 release했다. 아래 상태는

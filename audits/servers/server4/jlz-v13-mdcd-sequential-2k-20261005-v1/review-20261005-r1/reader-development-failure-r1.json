@@ -1,0 +1,20 @@
+{
+  "schema": "CPU_REVIEW_READER_DEVELOPMENT_FAILURE_V1",
+  "nonce": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "scope": "Independent stdlib CPU review reader, not production experiment",
+  "error_type": "KeyError",
+  "error": "row_count",
+  "stage": "MD batch-01 pre/summary.json",
+  "cause": "The reader initially required full observer-summary row_count/row_order/replay fields from the distinct frozen B1_PRE w0_subset reuse receipt. Production intentionally stores reused_from and new_forwards=0 instead.",
+  "repair": "Support the exact reused-W0 schema; require B1_PRE, zero new forwards, exact W0 origin, same cold chunk state, original sealed identity/order/token hashes, and identical W0 subset NLL/TF scalars after only endpoint/seen-prefix active metadata override.",
+  "regression": "test_reused_W0_subset_schema_and_exact_scalar_values",
+  "original_source_raw_unchanged": true,
+  "production_repair": false,
+  "new_GPU": 0,
+  "model_load": 0,
+  "evaluation": 0,
+  "scheduler_calls": 0,
+  "tolerance_change": false,
+  "initial_failed_reader_wrote_results": false,
+  "corrected_output": "independent-cpu-r1"
+}

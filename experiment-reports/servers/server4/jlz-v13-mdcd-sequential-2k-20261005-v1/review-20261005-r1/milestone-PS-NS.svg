@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="300" viewBox="0 0 820 300">
+<rect width="820" height="300" fill="white"/>
+<style>text{font:13px sans-serif;fill:#333}</style>
+<text x="20" y="22">Measured allseen endpoints: growing cohort, not a fixed-cohort forgetting curve</text>
+<text x="60" y="48">PS (%)</text>
+<line x1="60" y1="250.0" x2="370" y2="250.0" stroke="#ddd"/>
+<text x="30" y="254.0">65</text>
+<line x1="60" y1="198.57142857142858" x2="370" y2="198.57142857142858" stroke="#ddd"/>
+<text x="30" y="202.57142857142858">75</text>
+<line x1="60" y1="147.14285714285717" x2="370" y2="147.14285714285717" stroke="#ddd"/>
+<text x="30" y="151.14285714285717">85</text>
+<line x1="60" y1="95.71428571428572" x2="370" y2="95.71428571428572" stroke="#ddd"/>
+<text x="30" y="99.71428571428572">95</text>
+<line x1="60" y1="70.0" x2="370" y2="70.0" stroke="#ddd"/>
+<text x="30" y="74.0">100</text>
+<circle cx="60.000" cy="99.314" r="4" fill="#1469aa"><title>MD W5: 94.300000%</title></circle>
+<circle cx="163.333" cy="95.714" r="4" fill="#1469aa"><title>MD W10: 95.000000%</title></circle>
+<circle cx="266.667" cy="120.743" r="4" fill="#1469aa"><title>MD W15: 90.133333%</title></circle>
+<circle cx="370.000" cy="130.429" r="4" fill="#1469aa"><title>MD W20: 88.250000%</title></circle>
+<polyline points="60.000,99.314 163.333,95.714 266.667,120.743 370.000,130.429" fill="none" stroke="#1469aa" stroke-width="2"/>
+<circle cx="60.000" cy="92.629" r="4" fill="#c75421"><title>CD W5: 95.600000%</title></circle>
+<circle cx="163.333" cy="88.000" r="4" fill="#c75421"><title>CD W10: 96.500000%</title></circle>
+<circle cx="266.667" cy="89.714" r="4" fill="#c75421"><title>CD W15: 96.166667%</title></circle>
+<circle cx="370.000" cy="102.914" r="4" fill="#c75421"><title>CD W20: 93.600000%</title></circle>
+<polyline points="60.000,92.629 163.333,88.000 266.667,89.714 370.000,102.914" fill="none" stroke="#c75421" stroke-width="2"/>
+<text x="46.0" y="272">500</text>
+<text x="149.33333333333331" y="272">1000</text>
+<text x="252.66666666666663" y="272">1500</text>
+<text x="356.0" y="272">2000</text>
+<text x="150" y="294">edited requests</text>
+<text x="275" y="48" style="fill:#1469aa">MD</text>
+<text x="315" y="48" style="fill:#c75421">CD</text>
+<text x="450" y="48">NS (%)</text>
+<line x1="450" y1="250.0" x2="760" y2="250.0" stroke="#ddd"/>
+<text x="420" y="254.0">65</text>
+<line x1="450" y1="198.57142857142858" x2="760" y2="198.57142857142858" stroke="#ddd"/>
+<text x="420" y="202.57142857142858">75</text>
+<line x1="450" y1="147.14285714285717" x2="760" y2="147.14285714285717" stroke="#ddd"/>
+<text x="420" y="151.14285714285717">85</text>
+<line x1="450" y1="95.71428571428572" x2="760" y2="95.71428571428572" stroke="#ddd"/>
+<text x="420" y="99.71428571428572">95</text>
+<line x1="450" y1="70.0" x2="760" y2="70.0" stroke="#ddd"/>
+<text x="420" y="74.0">100</text>
+<circle cx="450.000" cy="143.851" r="4" fill="#1469aa"><title>MD W5: 85.640000%</title></circle>
+<circle cx="553.333" cy="170.080" r="4" fill="#1469aa"><title>MD W10: 80.540000%</title></circle>
+<circle cx="656.667" cy="196.446" r="4" fill="#1469aa"><title>MD W15: 75.413333%</title></circle>
+<circle cx="760.000" cy="218.963" r="4" fill="#1469aa"><title>MD W20: 71.035000%</title></circle>
+<polyline points="450.000,143.851 553.333,170.080 656.667,196.446 760.000,218.963" fill="none" stroke="#1469aa" stroke-width="2"/>
+<circle cx="450.000" cy="143.234" r="4" fill="#c75421"><title>CD W5: 85.760000%</title></circle>
+<circle cx="553.333" cy="169.051" r="4" fill="#c75421"><title>CD W10: 80.740000%</title></circle>
+<circle cx="656.667" cy="196.446" r="4" fill="#c75421"><title>CD W15: 75.413333%</title></circle>
+<circle cx="760.000" cy="224.054" r="4" fill="#c75421"><title>CD W20: 70.045000%</title></circle>
+<polyline points="450.000,143.234 553.333,169.051 656.667,196.446 760.000,224.054" fill="none" stroke="#c75421" stroke-width="2"/>
+<text x="436.0" y="272">500</text>
+<text x="539.3333333333334" y="272">1000</text>
+<text x="642.6666666666666" y="272">1500</text>
+<text x="746.0" y="272">2000</text>
+<text x="540" y="294">edited requests</text>
+<text x="665" y="48" style="fill:#1469aa">MD</text>
+<text x="705" y="48" style="fill:#c75421">CD</text>
+</svg>

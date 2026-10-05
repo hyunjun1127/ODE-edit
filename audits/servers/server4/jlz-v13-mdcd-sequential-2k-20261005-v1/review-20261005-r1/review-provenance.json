@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "scope": "CPU-only review of immutable completed outputs",
+  "reviewers": [
+    {"agent": "SH4/root", "scope": "authority/session/repo/source/runtime/assets accounting binding and postreview report/source/links/publication"},
+    {"agent": "/root/v13_seq_cpu_reducer", "scope": "separate stdlib CPU reducer implementation, raw identity/order/token/count/finite/state/metrics/paired tests"},
+    {"agent": "/root/v13_seq_source_review", "scope": "bounded independent agent source/state/reducer/table/source CSV SHA/endpoint review, not actual LM rerun"},
+    {"agent": "/root/v13_seq_telemetry_review", "scope": "independent agent CPU scalar/action/event/identity/rank/cost inspection and compact summaries"}
+  ],
+  "independence_limit": "separate agents, same preserved evidence/workspace; not blind experimental replication",
+  "CPU_synthetic_tests": {"passed": 11, "failures": 0, "errors": 0, "owner_reexecuted": true, "command": "python3 -m unittest project.run_scripts.jlz_realized_writer_sequential.test_review_completed -v"},
+  "red_checklist": {
+    "exact_owner_source_jobs_and_readonly_scope": "VERIFIED",
+    "production_148files_byteSHA": "VERIFIED",
+    "runtime_native_import_closure_and_largeasset_priorSHA_freshstat": "VERIFIED; no full model rehash",
+    "raw_identity_order_chunk_token_count_finite_denominators": "VERIFIED; tokenizer not reexecuted",
+    "own_state_20commits_19joins_100H_and_cache_invalidation": "receipt/source VERIFIED; RAM tensors not rebuilt",
+    "history_list_exact5_unique_append1": "owner separate binding VERIFIED across40 writers; closes reducer layer-set-only check",
+    "terminal_exact_job_source": "owner separate runtime/accounting binding VERIFIED",
+    "metric_reduction_strict_ties_TF_nll_margins_paired": "independent CPU VERIFIED; matches original collector",
+    "telemetry_actual_local_vs_inherited_vs_net_and_rankLS": "scalar/meta VERIFIED; no tensor replay",
+    "finite_rangeLS_and_quality_not_a_failure_gate": "PRESERVED",
+    "parent_cost_not_nested_steps": "VERIFIED",
+    "baseline_first2000_ownW20_originalCSV_SHA_size": "VERIFIED; HISTORICAL_REFERENCE, crossrun paired unavailable",
+    "no_newGPU_model_eval_Slurmwrite_transfer_hotpatch": "PRESERVED",
+    "noCP_and_immutable_raw": "PRESERVED",
+    "publication_table_links_manifest": "CHECKED_BEFORE_PUSH"
+  },
+  "review_development_errors": [
+    "reader B1_PRE reused-W0 summary schema KeyError(row_count), preserved failure receipt; exact reused schema checks added, no production changes",
+    "publication adapter empty superseded population NoneType, skip empty population rather than zero-impute; no experimental error"
+  ],
+  "historical_initial_GPU_reviewer": "original submission used owner audit, separate new CPU reviewers do not retroactively change original GPU provenance",
+  "new_GPU": 0,
+  "model_load_forward_or_new_evaluation": 0,
+  "Slurm_writes": 0,
+  "monitoring_active": false,
+  "automatic_resume": false
+}

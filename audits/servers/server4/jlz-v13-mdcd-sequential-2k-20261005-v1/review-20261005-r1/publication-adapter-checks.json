@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "input_status": "COMPLETE_RAW_CPU_VERIFIED",
+  "collector_aggregate_agreement": true,
+  "W20_exact_denominators": true,
+  "raw_copy": false,
+  "new_GPU": 0,
+  "model_load": 0,
+  "baseline_source_SHA_size_verified": 4,
+  "same_endpoint_MD_CD_paired": true,
+  "historical_cross_run_paired": false,
+  "times_nested_not_additive": true
+}

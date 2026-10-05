@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "nonce": "ODEEDIT-GH-SH4-V13-MDCD-REVIEW-20261005-R1",
+  "task_id": "jlz-v13-mdcd-sequential-bs100x20-s4-20261005-v1",
+  "owner": "SH4",
+  "status": "REVIEW_COMPLETE_STOP",
+  "authority": "28c0089a8936ab9942e831befa9c5f836f6165c2",
+  "execution_source": "2ff0ecc63dda2c830fbd68e6a2d76f3317a446f7",
+  "registration_only_source": "21024d4b1760e017c4f49af8acfd0709be9fac1d",
+  "exact_jobs": {"MD": 58442, "CD": 58443, "collector": 58444},
+  "accounting_observed_utc": "2026-10-05T05:13:32Z",
+  "accounting_snapshots": 1,
+  "all_exact_jobs": "COMPLETED exit0:0",
+  "raw_review": "COMPLETE_RAW_CPU_VERIFIED",
+  "coverage_each": {"commits": 20, "requests": 2000, "joins": 19, "history_appends": 100},
+  "W20": {
+    "denominators": [2000, 4000, 20000],
+    "MD_numerators": [1968, 3530, 14207],
+    "CD_numerators": [1972, 3744, 14009],
+    "MD_RS_PS_NS_percent": [98.4, 88.25, 71.035],
+    "CD_RS_PS_NS_percent": [98.6, 93.6, 70.045]
+  },
+  "factual_findings": [
+    "CD versus MD PS +5.35pp, NS -0.99pp; local realization and locality quality distinguished",
+    "CD rewrite target-energy-weighted local relative error 2.316e-6; inherited path gap remains",
+    "CD B14 L4/L5 finite verified range-LS, not numerical failure or rerun reason",
+    "V12-MEMIT, MEMIT-H, AlphaEdit, AlphaEdit-BLUE, CAKE compared at own first2000 W20 as historical aggregate references only"
+  ],
+  "total_parent_GPU_seconds": 31654,
+  "new_GPU": 0,
+  "model_load_forward_or_new_evaluation": 0,
+  "Slurm_write_or_transfer": 0,
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "report": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/report-ko.md",
+  "comparison": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-W20.csv",
+  "publication": "ownscope nonforce branch/main; exact published SHA reported in final handoff, not a self-referential source hash",
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED; raw/model/tensors/prompt/fullstdout local KEEP",
+  "scientific_promotion": false
+}

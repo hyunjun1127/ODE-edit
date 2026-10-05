@@ -1,0 +1,39 @@
+{
+  "status": "EXISTING_TRACKED_TABLE_SHA_SIZE_VERIFIED",
+  "new_model_calls": 0,
+  "cross_run_paired": "NOT_AVAILABLE",
+  "scope": "own first2000 W20, not finalW100; historical runtime/planner/layers/seed differences remain",
+  "source": {
+    "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/baseline-comparison.csv",
+    "bytes": 5226,
+    "sha256": "8eb2a08f8f0727358b1e20f20cf759ee02f83d951c0016bcd84497d529deb4e0"
+  },
+  "source_manifest": {
+    "path": "experiment-reports/servers/server3/jlz-v12-shared-budget-bs100x20-20261004-v1/review-20261005-v1/baseline-manifest.json",
+    "bytes": 1684,
+    "sha256": "34424db44008db8c2270c1132c83c108287cc18c6f082dc1e9f95cd1064acf9d"
+  },
+  "underlying_tables": [
+    {
+      "path": "experiment-reports/servers/server3/memit-history-fixed10k-20260928-v1/completion-review-r1/all-seen-metrics.csv",
+      "bytes": 21933,
+      "sha256": "06c4e988d40593d3c8e698721b06d684abf2620351a64d3ca0883295ff620983"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/MEMIT-cumulative-metrics.csv",
+      "bytes": 248330,
+      "sha256": "5f405e36e3bd0b4785fd3d2b9466fea4ea7af51db1370bdef608c206cf3dae0e"
+    },
+    {
+      "path": "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/AlphaEdit-cumulative-metrics.csv",
+      "bytes": 251033,
+      "sha256": "19ddace1472b89b23acb43ffed0450924c7342c12fd3fdedf277ebca5cd9ab07"
+    },
+    {
+      "path": "experiment-reports/servers/server4/cake-native-lifelong-b100x100-2026-09-15-v1/completed-review-v2/seen-prefix.csv",
+      "bytes": 67476,
+      "sha256": "584012115d6c4f5bc537765631cb3ac35e866f2ba985a99e02c8d2c747e1a051"
+    }
+  ],
+  "historical_prompt_macro": "NOT_INCLUDED_IN_REUSED_SUMMARY; underlying tables may record it; never substitute token_micro"
+}
