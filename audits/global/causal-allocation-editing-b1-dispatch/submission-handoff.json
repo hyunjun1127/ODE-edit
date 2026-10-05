@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-CAUSAL-ALLOCATION-EDITING-B1",
+  "task_id": "causal-allocation-editing-b1",
+  "owner": "SH2",
+  "accepted_turn": "01a10d95-1516-7142-a179-12e9c6615a04",
+  "evidence": "Direct same-turn SH2 SUBMISSION_HANDOFF after exact held inspection/release. No duplicate GH scheduler or raw audit.",
+  "state": "SUBMITTED_RELEASED_INITIAL_PENDING",
+  "job_ids": {
+    "GPU_runner": 59201,
+    "CPU_collector": 59202
+  },
+  "dependency": "afterany:59201",
+  "postrelease_snapshot": {
+    "GPU_runner": "PENDING",
+    "CPU_collector": "PENDING",
+    "reason": "None",
+    "interpretation": "Single submission snapshot, not proof of GPU shortage, actual qualification, execution or completion."
+  },
+  "source_reported_short": "f3fd58bb",
+  "lock_reported_abbreviated": "356398bf…bbd41",
+  "full_source_and_lock": "SH2-owned submission/source receipt is authoritative; abbreviations here are not complete hashes.",
+  "resources": {
+    "GPU_runner": {
+      "GPUs": 1,
+      "CPUs": 6,
+      "host_memory_MiB": 59392,
+      "wall_hours": 8
+    },
+    "CPU_collector": {
+      "GPUs": 0,
+      "CPUs": 6,
+      "host_memory_MiB": 24576,
+      "wall_hours": 4
+    }
+  },
+  "resource_correction": {
+    "previous_8CPU": "Slurm rejected before jobID; original receipt preserved.",
+    "authority_commit": "90b213b482c4206872c50e770c1f191b5e382c10",
+    "owner_ACK_received": true,
+    "science_changed": false
+  },
+  "scope": {
+    "B": 100,
+    "batches": 1,
+    "requests": 100,
+    "commits": 1,
+    "history": 5,
+    "no_B2": true,
+    "save_checkpoints": false,
+    "W0_W1_denominators": {
+      "R": 100,
+      "P": 200,
+      "N": 1000
+    }
+  },
+  "qualification": "NOT_OBSERVED",
+  "B1_terminal": "NOT_OBSERVED",
+  "SH4_jobs_preserved": [
+    59163,
+    59164,
+    59165
+  ],
+  "GH_GPU_operations": 0,
+  "GH_scheduler_queries": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "report": "experiment-reports/servers/server2/causal-allocation-editing-b1/report-ko.md",
+  "raw_transport": "ignored local/causal-allocation-editing-b1-dispatch/resource-correction-transport.jsonl"
+}
