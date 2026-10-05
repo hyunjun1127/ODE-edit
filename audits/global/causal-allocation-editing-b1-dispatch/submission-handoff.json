@@ -19,7 +19,12 @@
   },
   "source_reported_short": "f3fd58bb",
   "lock_reported_abbreviated": "356398bf…bbd41",
-  "full_source_and_lock": "SH2-owned submission/source receipt is authoritative; abbreviations here are not complete hashes.",
+  "full_source_and_lock": "Read from SH2 published submission-cpu6.json; no GPU/raw re-audit.",
+  "source": "f3fd58bb5a98d327ec40a6d23c08d0c424618c39",
+  "execution_lock_sha256": "356398bfc09ed9efcac1223b8759c8ce6ffbe3dac9cfb550838cfd5e5a2bbd41",
+  "SH2_publication": "bbe0fffa928f8a5dc91e0f88fd8b74173d412d78",
+  "SH2_submission_receipt": "audits/servers/server2/causal-allocation-editing-b1/submission-cpu6.json",
+  "SH2_turn_completed_after_submission_handoff": true,
   "resources": {
     "GPU_runner": {
       "GPUs": 1,
