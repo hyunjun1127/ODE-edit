@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "nonce": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "experiment_name": "Causal Allocation Editing",
+  "task_id": "causal-allocation-editing",
+  "experiment_id": "causal-allocation-editing",
+  "user_quote": "GH에게 실험 전달하자. 실험 이름은 이제 odeedit은 빼고 버전도 빼고 새로운 실험 이름 너가 적절히 지어서 전달하자. SH4에게 task 진행시키라고 해",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "app_host": "remote-ssh-codex-managed:lab163"
+  },
+  "authority": "Current USER authorizes SH4 implementation, minimum technical qualification, one fresh BS100x20 main and CPU collector/report. This new task alone is a scoped exception to prior global STOP. No stage reapproval, unrelated job cancellation or other task resume. GH does not implement as SH4 proxy.",
+  "naming": "Use causal-allocation-editing for task/Slurm/run/result/report identity; no odeedit prefix or version suffix. Internal contract schemas and inherited design/repo paths are provenance only. Dates/attempt metadata go in run_instance, not experiment name.",
+  "source_adoption": {
+    "only_design_commit": "82a33b98fd0c5d9623c9b95531f19e03519e96cf",
+    "GH_cherry_pick": "d95845933ed28c209d88a676f91c6253205d678a",
+    "exact_changed_files": 22,
+    "manifest_verified_files": 21,
+    "manifest_sha256": "f421d54e2a85883deae62246a16b268cf9ef152fd092fbc5d254dd0f376227a4",
+    "other_private_design_commits": false,
+    "root_dirty_preserved": true
+  },
+  "canonical": {
+    "dispatch": "plans/global/causal-allocation-editing/dispatch.json",
+    "method": "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json",
+    "implementation": "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json",
+    "validation": "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json",
+    "experiment": "plans/global/2026-10-06-jlz-causal-joint-writer/experiment-2k.json",
+    "manifest": "plans/global/2026-10-06-jlz-causal-joint-writer/artifact-manifest.json",
+    "review": "plans/global/2026-10-06-jlz-causal-joint-writer/latest-review-resolution.json",
+    "TeX": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+    "CPU": [
+      "plans/global/2026-10-06-jlz-causal-joint-writer/reference/audit.json",
+      "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/audit.json"
+    ],
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "precedence": "Current four JSON contracts and current Causal Allocation Editing TeX section govern. history/r1-contracts.json, historical CD/V14/V13 text and original reference README shared-budget/first-nonzero gradient-ratio passages are mathematical provenance, NOT current calibration/optimizer authority. Keep original bytes and record reused test scope. Latest instructions supersede earlier AlphaEdit two-arm proposal."
+  },
+  "scope": {
+    "arm": "CAUSAL_ALLOCATION_EDITING",
+    "writer": "native MEMIT-form mean-key ridge with existing H",
+    "main_arms": 1,
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "data": "counterfact-fixed-10k-v1 same ordered first2000",
+    "B": 100,
+    "batches": 20,
+    "edits": 2000,
+    "cold_W0_H0": true,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "lambda_C": 15000,
+    "lambda_KL": 0.0625,
+    "lambda_norm": 0.5,
+    "per_layer_cap": 0.75,
+    "shared_sum_cap": null,
+    "new_baselines": 0,
+    "new_arm_sweep_reference_replay": 0,
+    "no_B21": true,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "method": {
+    "loss": "Actual materialized candidate weights act on ALL tokens in the same causal native NLL/current||entry KL forward; no subject-only masked/v loss, routed gradient or frozen-upper substitution.",
+    "writer": "R_l=a_l*u_l; actual lower candidate write -> fresh upper rewrite-only native nested mean K -> raw A=15000*C0+H -> whole-B ridge P=solve(A+KK.T,K) -> U=R P.T and fresh Q. KL rows stay in actual loss but not writer K/H mean. No absolute-z tracking/divisor, inverse-realization, projected/exact/AlphaEdit/L2 writer or CD context-equality constraints.",
+    "gradient": "Complete lowerR -> upperK/P/U/Q and task gradient including all requests and zero blocks. Preserve native C0 FP32 count division/CPUFP32 H then FP64 geometry and raw nonsymmetric A semantics; no hidden symmetrization/jitter. Cost VJP includes A+A.T/G+G.T unless symmetric equivalence is established. Actual loss uses FP32 cast/add materialization, ideal Q and effective terminal Q separately.",
+    "objective": "SUM native task + lambda_Q*SUM Q is smooth F. G=SUM(.5/a_lr)*||u_lr||, handled ONLY by prox; no norm gradient double count or shared radius/EfficiencyAdam/a_star normalization. Per-block .75 native ball; all layers remain eligible/reenter.",
+    "solver": "Full-gradient proximal BB1/nonmonotone Armijo exactly canonical. Initial eta0=min c/max block||g0|| with allzero special branch eta0/tau NA. BB1 positive finite curvature else last accepted eta, safeguards1e-6..1e6 eta0. Accepted window5, sigma1e-4, shrink.5; rejected trial forward-only and never committed. At most50 logical candidate evaluations including initial/rejected,24 accepted updates,25 full gradients(initial1+accepted1). Last accepted gradient reused for terminal mapping, no extra26th gradient; terminal does not mean skip its already-required gradient. tau=eta0 fixed, normalized mapping threshold1e-3; no all-J<.05 main stop.",
+    "fixed_budget": "Finite feasible identity-consistent nonstationary accepted payload may commit with BUDGET_NOT_STATIONARY; LINE_SEARCH_BUDGET/NUMERICAL_STALL distinguished. Calibration/nonfinite/solve/identity errors are not fixed-budget permission.",
+    "commit": "Copy exactly final ACCEPTED FP32 payload used by actual loss; no recompute solve or duplicate add, no last rejected candidate. Native final rewrite mean H append once/layer after all writes, qualified final-key reuse only. W/H/RNG/context/cursor RAM transaction rollback, observer nonmutation, fresh teachers/anchors/factors each next batch; BB memory reset each batch, lambda fixed."
+  },
+  "calibration": {
+    "reference": "Once for main B1, original native L8 anchor compute_z independently for same100 requests, original Adam/lr/norm/clamp/earlyexit/max25. Store actual returned delta only at L8, other eligible R0. No boundary expansion, reference commit or H append, no new baseline chain.",
+    "actual": "Evaluate reference using SAME all-token causal MEMIT objective; t=-<grad_u F_task,u_ref>, n=G(u_ref), d=<grad_u Q,u_ref>; check d=2Q for this one nonzero layer. lambda_Q=(t-n)/d.",
+    "validity": "Finite t/n/d and difference, d>0, t>n, finite positive lambda after arithmetic. Preserve operands, precision/cancellation/cap contacts/task-Q adjoints/hashes. No abs/epsilon/clip/default/zero fallback, no heldout-based reference or price change.",
+    "failure": "CALIBRATION_NONFINITE / CALIBRATION_NO_VALID_ENERGY / CALIBRATION_NO_POSITIVE_PRICE as defined; preserve raw and report, do not start nonzero main with invalidprice. Genuine native all-noop only permits documented noop batch/Honce and pendingprice at first nontrivialbatch; failed fit returningzero is not genuine noop.",
+    "cost": "Reference fits, actual task/Q gradient channels/replay/solve and qualification are separately counted AND included total cost. No claim of zero calibration overhead. Once valid, immutable price all20batch; no strengthmatching/sweep."
+  },
+  "qualification": {
+    "reuse": "Hash-bound CPU fullcausal12 + calibration/prox12 receipts, design cross-document audit and compatible input/runtime evidence. No repeated broad audit or large diagnostic campaign.",
+    "minimum": "Narrow new production/source/BBcontroller tests and2-4 native requests actual dense-vs-streamed full-gradient/loss/Q checks, downstream-Q negativecontrol, raw-A/cast/payload parity, B/owner/tail/zero/reentry, trueSUM/costonce, calibration typedfailure and validlock, 50/25/24 counters, rejected/nonmutation and two tiny state/history links. Freeze exact tiny technical call budget before execution, no extra full-B scientific fit.",
+    "tolerances": "Canonical FP64gradient atol1e-7+rtol1e-5; FP32action/logit elementwise2e-5+2e-4|reference|; fullgradient1e-6+2e-4|reference|. Record actual error distributions; no RMS-only hidden element failure, no result-driven relaxation.",
+    "gate": "Confirmed source/input/finite/solve/gradient/payload/history/resource errors require same-method repair. Calibration validity mandatory. B1PS95/NSloss.4pp, concentration, lowerrealization, highQ/condition or nonstationarity are observations, not performance promotion gates.",
+    "limits": "24 synthetic passes do not qualify production BB controller or target model calibration/gradient/runtime. TeX compiler platform error is recorded, not a GPU execution blocker. No sweeping alternate method or optimization route for performance."
+  },
+  "evaluation": {
+    "schedule": "W0 pairedfirst2000; eachbatchcurrent pre/post;W5/W10/W15/W20 allseen plusfixedfirst500 andbirthcohort. Reuse sameendpoint raw only exactidentity;no imputation from endpoint names.",
+    "denominators_W20": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "metrics": [
+      "RS/PS/NS counts and harmonic summary if reported",
+      "TF token micro/prompt macro/strict ACC with neighborhood true target",
+      "true/new NLL and margin; W0correct retained/lost/gained",
+      "own-write/later-write and fixedfirst500 retention",
+      "requested/realized norm,direction,cosine,error and share; zero-owner leakage",
+      "Q_C0/Q_H/totalQ,ideal/effectiveQ and update norm",
+      "active layers/caps/reentry; terminal raw and normalized mapping/eta0/tau/status",
+      "actual forward/backward/replay/solve/VJP/transfer,exclusive time,GPU/host/pinned peaks"
+    ],
+    "firewall": "No officialP/N/ACC metrics or prompts in fitting, calibration, candidate/layer/stop/runtime choice. Newbaselinefit0. ExistingMEMITH/BLUE/CD comparisons only matchedcohort/denominator, label hardware/runtime/history differences. SH4 factualreport, GH science interpretation."
+  },
+  "resources": {
+    "task_GPU_cap": 1,
+    "tracked_server4_project_cap": 3,
+    "effective_cap": "Fresh actual registered cap or stricter, including current allocations and admitted pending. No increase or unrelated job mutation.",
+    "per_GPU_job": {
+      "job_name": "causal-allocation-editing",
+      "GPUs": 1,
+      "CPUs": 8,
+      "default_host_memory_MiB": 59392,
+      "hard_host_memory_ceiling_MiB": 60416,
+      "node": "server4",
+      "partition": "gpu",
+      "export": "NONE",
+      "Requeue": 0,
+      "wall_max_hours": 48
+    },
+    "CPU_collector": {
+      "job_name": "causal-allocation-editing",
+      "role": "collector",
+      "GPUs": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "SH4 fresh source/runtime/assets/storage/inodes/RAMVRAM/time and cap check, explicit memory helper. Wall48h upper request not ETA; derive/seal chosen request from code/input estimates. Qualified grouping/offload/recompute okay, no logicalBsplit/context/dtype/gradient change.",
+    "DAG": "Prefer frozen oneGPU runner minimumqualification->READY->fresh main native calibration->20commits/W20, plus CPU afterany collector. Separate qualification/main allowed cap1dependencies with exactsource/profileREADY; no duplicated B1 calibrationfit. Held owner/fullargv/source/resource/dependency inspection before release. Resourcepending normal; register dependencies within cap rather than wait forfreeGPU; no unrelatedcancel or silent autoretry."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/causal_allocation_editing/**",
+    "project/run_scripts/jlz_native_writer_aware/physical.py",
+    "project/run_scripts/jlz_native_writer_aware/routes.py",
+    "project/run_scripts/jlz_realized_subject/geometry.py",
+    "project/run_scripts/jlz_realized_subject/entry.py",
+    "project/run_scripts/jlz_realized_subject/subject.py",
+    "plans/updates/server4/causal-allocation-editing/**",
+    "audits/servers/server4/causal-allocation-editing/**",
+    "runs/causal-allocation-editing/**",
+    "experiment-reports/servers/server4/causal-allocation-editing/**",
+    "messages/server-heads/server4/causal-allocation-editing.json",
+    "messages/acks/server4/causal-allocation-editing.json",
+    "tasks/status/causal-allocation-editing/server4.json",
+    "local/causal-allocation-editing/**",
+    "own dedicated worktree ignored servers/local/session-boundary.env"
+  ],
+  "source_rules": "SH4 owns production implementation in new namespace/non-main worktree codex/causal-allocation-editing. Listed shared modules only backward-compatible/task-isolated changes; old archives/locks/raw unchanged. Additional scope exactreport toGH, no shared env/evaluator/model edits. Current design bytes readonly, historical docs not operative.",
+  "Slurm_permission": "ALLOWED for this singlemain/minimalqualification/collector only, no further stage approval.",
+  "red_team_gate": {
+    "preflight": "Reuse source-bound mathematical/cross-document evidence; narrow changed production code/data/resource/gradient/controller/state audit. Record actual independent or owner level; no fictitious independentPASS. Warnings may proceed unless confirmed mechanicalblock. No new performance gate or broad sweep.",
+    "postrun": "Independent CPU reducer versus aggregates for rawidentity/tokenorder/finite/denominators/20commits19joins100H,pairedcohort, pricefixedness/counterbudgets/acceptedpayload and nonoverlapping accounting/source/manifest. Report incompletecells/failures honestly."
+  },
+  "artifact_policy": "No persistent checkpoint/reconstruction-equivalent W/H/R/u/delta/optimizerresume bundles. RAM rollback allowed; raw/tensors/prompts/fullstdout local only, compact source/counts/plots/manifests Git. Use existing approved ordinary artifact helper with allowlist and no--delete; record unnecessary/impossible broadcast exceptions. No new broad model/data/raw transfer or secret publication.",
+  "publication": "Ownscope source/tests/compact facts/manifests nonforce branch+main publication after scoped checks is delegated in this envelope; bind actualsource/config and technicalREADY before main. No repeated GH/USER approval wait; preserve dirtyroot/concurrentmain.",
+  "report": "experiment-reports/servers/server4/causal-allocation-editing/report-ko.md",
+  "audit": "audits/servers/server4/causal-allocation-editing/",
+  "runs": "runs/causal-allocation-editing/",
+  "status": "tasks/status/causal-allocation-editing/server4.json",
+  "ACK": "messages/acks/server4/causal-allocation-editing.json",
+  "message": "messages/server-heads/server4/causal-allocation-editing.json",
+  "raw": "ignored local/causal-allocation-editing/",
+  "monitoring": "GH same-stream bounded direct acceptance ACK only. SH4 implement/register and bounded mainB1->B2 or formalresourcepending handoff, then agentmonitorpause under existingpolicy; sealedrunner/collector continuesW20. No recurringmonitor/heartbeat/automaticSlurmretry. Productionqualification and actualjobIDs reported separately when established; nolongGHcompletionwait.",
+  "direct_ACK": "Same nonce immediate owneracceptance with duplicatecheck and actual IMPLEMENTING_NOT_SUBMITTED/registeredjobstatus. Do not label delivery as productionqualification/submission/completion. GH connection ending is not task cancellation."
+}

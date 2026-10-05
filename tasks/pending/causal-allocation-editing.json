@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "task_id": "causal-allocation-editing",
+  "experiment_name": "Causal Allocation Editing",
+  "owner": "head-server4",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "AUTHORIZED_AWAITING_DIRECT_ACCEPTANCE",
+  "envelope": "messages/head/causal-allocation-editing.json",
+  "canonical_dispatch": "plans/global/causal-allocation-editing/dispatch.json",
+  "edits": 2000,
+  "B": 100,
+  "batches": 20,
+  "arms": 1,
+  "task_GPU_cap": 1,
+  "save_checkpoints": false,
+  "jobs": [],
+  "report": "experiment-reports/servers/server4/causal-allocation-editing/report-ko.md"
+}

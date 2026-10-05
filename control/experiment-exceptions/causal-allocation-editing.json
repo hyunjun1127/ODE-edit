@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "task_id": "causal-allocation-editing",
+  "owner": "SH4",
+  "scope": "New Causal Allocation Editing singleMEMITH-form BS100x20 with one calibration reference/minimumqualification/collector only",
+  "user_quote": "GH에게 실험 전달하자. 실험 이름은 이제 odeedit은 빼고 버전도 빼고 새로운 실험 이름 너가 적절히 지어서 전달하자. SH4에게 task 진행시키라고 해",
+  "other_task_STOP_unchanged": true,
+  "existing_job_cancel": false,
+  "save_checkpoints": false,
+  "recurring_monitor": false,
+  "envelope": "messages/head/causal-allocation-editing.json"
+}

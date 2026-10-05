@@ -1,0 +1,140 @@
+{
+  "source_commit": "82a33b98fd0c5d9623c9b95531f19e03519e96cf",
+  "cherry_pick": "d95845933ed28c209d88a676f91c6253205d678a",
+  "exact_changed_members": 22,
+  "manifest_members": 21,
+  "members": [
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/experiment-2k.json",
+      "bytes": 19475,
+      "sha256": "13634cf37c6785f96d307d63dab960cfe22e3c030971a715d17761a5b2fb9037"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/history/r1-contracts.json",
+      "bytes": 74808,
+      "sha256": "4183304206ef0880a552eedb181413d0227e0400237267efb562868ec66b4843"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json",
+      "bytes": 32155,
+      "sha256": "d70a232bdad7bda03c09dc4588f44b06c22643cf3aee34635511eda68d7bfaba"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/latest-review-resolution.json",
+      "bytes": 3896,
+      "sha256": "2c77e394b06133d02ceedd5356000c74e3448026c3c6bcd01c7889c3863a8535"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json",
+      "bytes": 24138,
+      "sha256": "c056d26ad2eb628d200baba15aee75e08789309c8a5c46e2cec175ef3d548de3"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/pipeline-vs-blue-review.json",
+      "bytes": 5454,
+      "sha256": "73437cefed10014615e759ccbe5bb2caedcee9577ccdaec41576ee1ff3afbfa1"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/README-ko.md",
+      "bytes": 3355,
+      "sha256": "1ba1009b404b5dc61c237e96711880c48b83de0864122e5310ce77b51789ab58"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/audit.json",
+      "bytes": 1930,
+      "sha256": "b17faa38c93f5d5118a2fde922b5c732faa72cb14462e0cf851d213d18110b9e"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/causal_memit.py",
+      "bytes": 10071,
+      "sha256": "fdb28a3624c4d7d0dd83187edd29ec554bfa4214072af5c051d8612c8629e09d"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/run_audit.py",
+      "bytes": 2215,
+      "sha256": "36dfc9687509a1c47240e44550bdb69701c07c56923c577a862f77671bb01dee"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference/test_causal_memit.py",
+      "bytes": 12643,
+      "sha256": "e23610d2947a9f366bd4d3a30f87201c983b524a56a97cd4be120b36bba1a842"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/README-ko.md",
+      "bytes": 3322,
+      "sha256": "18a3a9f6cbf12f5277471a83f23e87bb6b525bf07532b61e385b317b8bb89af6"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/audit.json",
+      "bytes": 2011,
+      "sha256": "b7965572dca0833f736fd628cb7b318a5ccc9974a069b4db860b659c13f9333a"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/math_contract.py",
+      "bytes": 5196,
+      "sha256": "f2b9bcaf770e48c653773890a187d39606300424f9ce5144a88fd6e28a0569d4"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/requirements.txt",
+      "bytes": 12,
+      "sha256": "a83a2a4ed7ab2e022b9b8a83cfa2b8cf52cc243006c597e8b96f90a8365590ac"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/run_audit.py",
+      "bytes": 2055,
+      "sha256": "bc080c1ca4687bc466713da6a705e5a15bbfa24dcae7d952a1eaad3eddb422ec"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/test_math_contract.py",
+      "bytes": 8353,
+      "sha256": "a6626903c3f66679d2483385521b574cd3eecee58f29f03dec9839daaa9c5b98"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json",
+      "bytes": 24013,
+      "sha256": "90b3bb3d32296b30653238a893d88047a9ecc46a8db4ac119347768ec9d8a3d1"
+    },
+    {
+      "path": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+      "bytes": 61850,
+      "sha256": "7b10555ff48e79a37753d1f730ba40a698a35e65b523b5a06db0d0f5bac36ff6"
+    },
+    {
+      "path": "plans/global/causal-allocation-editing/dispatch.json",
+      "bytes": 3944,
+      "sha256": "2efcbc58a77db976f4475ac78eda86731d70efd9fe676dcf94bd8126d5dceb1a"
+    }
+  ],
+  "manifest_sha256": "f421d54e2a85883deae62246a16b268cf9ef152fd092fbc5d254dd0f376227a4",
+  "duplicated_solver_calibration": "EXACT_MATCH",
+  "new_CPU_tests": 0,
+  "reused_CPU_tests": {
+    "full_causal": 12,
+    "calibration_prox": 12
+  },
+  "GPU_qualification": "NOT_RUN_BY_GH",
+  "production_implementation": "NOT_ESTABLISHED",
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "full_read": [
+    "dispatch.json",
+    "method-contract.json",
+    "implementation-contract.json",
+    "validation-and-comparison.json",
+    "experiment-2k.json",
+    "latest-review-resolution.json",
+    "current Causal Allocation Editing TeX section",
+    "reference and reference_calibration audit/README",
+    "artifact-manifest.json"
+  ],
+  "scope_note": "Historical TeX appendices/history JSON retained by SHA, not reread as current execution authority.",
+  "reference_readme_warning": "Original reference README retains shared budget, first nonzero ratio and earlier stop text; reuse fullcausal algebra only, latest method/calibration/solver JSON governs.",
+  "GH_new_scheduler_or_GPU_calls": 0,
+  "registry_target_confirmed": "SH4 01a04939-b5c7-7a03-ba2d-ef3343d62cfd /data/janghj/ODE-edit lab163/server4",
+  "independent_review": "Reused package cross-document audit claim; no new independent GH reviewer.",
+  "user_dirty_root_preserved": true
+}
