@@ -1,0 +1,22 @@
+{
+  "task_id": "causal-allocation-editing",
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "state": "SUBMITTED_INITIAL_RESOURCE_PENDING",
+  "source": "a1332fd70f0d4898b74399a349e41a225f0baf04",
+  "jobs": {"qualification": 59163, "main": 59164, "collector": 59165},
+  "CPU_tests": "63/63 PASS; source/CPU only",
+  "GPU_qualified": "NOT_OBSERVED",
+  "positive_lambda": "NOT_ESTABLISHED",
+  "main_B1_B2": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "initial_handoff": "All registered, held-inspected and released; qualification formally resource-pending, main/CPU dependency-pending. No waiting for free GPUs.",
+  "sealed_continuation": "Exact READY-before-model-load -> one cold native calibration -> twenty batches/W20 -> failure/completion CPU collector",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "report": "experiment-reports/servers/server4/causal-allocation-editing/report-ko.md"
+}

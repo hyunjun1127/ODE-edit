@@ -8,6 +8,7 @@
     "sha256": "52abe35a0684f15029a81120faae75616523b7681b96b863b985d691686b79da",
     "scope": "Production CPU fixtures only; original 12+12 mathematics reused by bound SHA, not actual LM proof",
     "earlier_fixture_failure_KEEP": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/production-cpu-sealed.json.txt",
+    "earlier_failed_fixture_source": {"path": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/failure-source/test_collect.py", "sha256": "0c19c5ecf3d5ccf320b0f992bd40349540c95356c3ff490a173407743751cb09"},
     "fixture_repair": "Bad identity fixture now changes its expected accepted ID; it no longer attempts to overwrite an immutable raw receipt. Science/tolerance unchanged."
   },
   "independent_changed_source_review": {
