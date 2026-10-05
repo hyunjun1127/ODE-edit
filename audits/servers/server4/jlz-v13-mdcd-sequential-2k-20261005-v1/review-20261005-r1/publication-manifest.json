@@ -26,8 +26,8 @@
     },
     {
       "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/publish_review.py",
-      "bytes": 14125,
-      "sha256": "5b033386dbc5c6b26f1e6d9195579015911ccffc90056eae048b600d4626915c"
+      "bytes": 15685,
+      "sha256": "fb3870442d0216946cc8c586453a76b181944764da6a5e82226cdd9f134a82d0"
     },
     {
       "path": "audits/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/raw-read-manifest.json",
@@ -56,48 +56,53 @@
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/NLL-tails.csv",
-      "bytes": 19096,
-      "sha256": "7e843427247066da8ac543bca743076a1eec408eee4fbd344464b94897a1f2d6"
+      "bytes": 18975,
+      "sha256": "7da4b0e85546498a3b18111057acda23c5821f1aeefddbe43f53864eb4f3e1d5"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/Q-update-milestones.csv",
-      "bytes": 1030,
-      "sha256": "b906842eb76053c13bde8edaa006787ae6778747dc8c5c0b52660f60d2029f60"
+      "bytes": 1019,
+      "sha256": "714d3e6152e7496bc58f6885995492535c6cd962b21395394913e05b3cc0dd65"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/active-superseded.csv",
-      "bytes": 2431,
-      "sha256": "a7be12393c30e18e910ccbf8a130d89b00e65d4a25a2293ef6b90975ad64d818"
+      "bytes": 2388,
+      "sha256": "5dbfc73bf90350dce372dd7dad55a7ed9b9e7893348a726713173551268a48d5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-TF-W20.csv",
+      "bytes": 1792,
+      "sha256": "dcf2aae849d11764072654822416020c098c0ca25a1a0906b7eacac7db52ac04"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-W20.csv",
-      "bytes": 823,
-      "sha256": "fbdbbe0f633b0f7a4dc1ee5ce0076144d8f13ed4f58b2eb903c862036c32bac7"
+      "bytes": 813,
+      "sha256": "5ac1a462a81aa35ff2f44a199f3d891db87e50505c5add032f2adfeed6e18144"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/baseline-differences.csv",
-      "bytes": 1796,
-      "sha256": "c3bed8780d7c4008937cb8de9207050aa20fdefe6bd9ac4cb1944a32be2dbe8f"
+      "bytes": 1781,
+      "sha256": "23573a8e3c6b8f3a03d8d33fc327eb4c4a124154b4cacbc2d481c4896a5f19d3"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/birthcohort.csv",
-      "bytes": 16618,
-      "sha256": "515fffdaa027d9e5dc6b8667ae15d764841e434a3fb00d751a03cae7dde82a5c"
+      "bytes": 16317,
+      "sha256": "7c520117d28ca42fe41264b1ad49ee644f1c8e8dcf542f8528ad9728acfa3633"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/comparison-W20.csv",
-      "bytes": 1297,
-      "sha256": "d1939fe2af0c6af474ea44693f7146bb31cd27e1d30d50c2ab5ce9fa1ebeae7c"
+      "bytes": 1290,
+      "sha256": "2a19bf4480f7bb9d232f4eb1dacb6f4cb256c744030f27b0cdfb2f3a07879595"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/fixed-prefix.csv",
-      "bytes": 5437,
-      "sha256": "32c958bafd1d7284159262360da7c63fe0b8fddfdd1ab398ea7d766d2f8ee614"
+      "bytes": 5358,
+      "sha256": "b66673164b053be4610b571dafc5d236d91f614b03249df9d58a04bbe78d9ef4"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/gap-decomposition.csv",
-      "bytes": 3269,
-      "sha256": "dde0c9af0abcc7d3fb0057980df6a34a2f71406144805e8cbb0436426c78528d"
+      "bytes": 3244,
+      "sha256": "a6e5528a2afa16eee1bcebc89af9909aa5c221a9a588731870668a486c96b47b"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/metrics-W20.json",
@@ -106,8 +111,8 @@
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/metrics-all-endpoints.csv",
-      "bytes": 67148,
-      "sha256": "7ddf2a2de6a799743b890321e6cd1eca1407e188d717e6f10b083735293a729c"
+      "bytes": 66781,
+      "sha256": "91592963f0e1e5459fe2e595355ad7bb0f0b355198936edc232b3e0802fc52a1"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/milestone-PS-NS.svg",
@@ -116,28 +121,28 @@
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/paired-retention.csv",
-      "bytes": 9714,
-      "sha256": "d8753dc47909d805d9f6f96900d45c608a0973c5ae7947ae2c6ce58b106c66c3"
+      "bytes": 81920,
+      "sha256": "1992a019106ebe060aaf4ce98cd0477c07a4797235ed9f8e56b75550dceb295f"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/realization-summary.csv",
-      "bytes": 3263,
-      "sha256": "e7e21d3d5991d7e30b2640d9f80319a4ea1aae9a73a9bd00520fe5741730cf9f"
+      "bytes": 3248,
+      "sha256": "ed6ebf5d53ce9affbac1a72ae3960fa9d95e32f5169621774a115ea8bf7c9a4c"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/report-ko.md",
-      "bytes": 19936,
-      "sha256": "8965ea7ac0898e6eea3938411cb1f3c91affc53379a351a1d8bdaa56fa6e273e"
+      "bytes": 20603,
+      "sha256": "db9de7282c0dd297c5813fb48579c74b56a8d704a4fb60e8f8a279bde5fec642"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/telemetry-batch.csv",
-      "bytes": 11448,
-      "sha256": "41ba530c5481f221c003669088c23b03f580c0a06f2c18a49d45594355aad0c9"
+      "bytes": 11447,
+      "sha256": "218c5a6c764a44ad4aaf025f6be2b851729a607e418c60ea194ea5db8c21ba58"
     },
     {
       "path": "experiment-reports/servers/server4/jlz-v13-mdcd-sequential-2k-20261005-v1/review-20261005-r1/telemetry-summary.json",
-      "bytes": 218358,
-      "sha256": "f74218833c52d195056105555215686c5ad401e2b533f8548ad28979dbc33552"
+      "bytes": 218357,
+      "sha256": "ca24aa222306113b88c53cf3e1e3175af2e9987ddfb6fa3300907745795ffcc5"
     },
     {
       "path": "messages/acks/server4/2026-10-05-jlz-v13-mdcd-review.json",
@@ -165,7 +170,7 @@
       "sha256": "812740b1a2144ff8a0b8563f8ed4d94a9a6aa55cecdd774cf84192ba7f3fabea"
     }
   ],
-  "bytes": 801194,
+  "bytes": 876423,
   "new_GPU": 0,
   "Slurm_write": 0,
   "monitoring_active": false,

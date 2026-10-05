@@ -198,6 +198,20 @@ CD의 aggregate 차이는 다음과 같다. baseline 원 raw와 cross-run paired
 AlphaEdit보다 PS/NS는 높고 RS는 낮다. BLUE에는 세 preference가 모두 낮다.
 여기서 동일조건 우월성/유의성/원인/후속 method 선정은 판정하지 않는다.
 
+| 방법 / 역사 조건 차이 유지 | R TF strict% | P TF strict% | N true TF strict% |
+|---|---:|---:|---:|
+| V13 MD | 94.900 | 57.500 | 15.895 |
+| V13 CD | 94.550 | 68.975 | 13.790 |
+| V12-MEMIT | 95.500 | 60.650 | 18.285 |
+| MEMIT-H | 98.450 | 65.575 | 20.415 |
+| AlphaEdit | 96.650 | 70.400 | 16.155 |
+| AlphaEdit-BLUE | 98.900 | 69.775 | 15.380 |
+| CAKE | 97.200 | 59.725 | 19.955 |
+
+TF strict에서는 CD의 P가 AlphaEdit/BLUE보다 낮다. preference의 PS 우위와 같은 결론으로
+바꾸지 않는다. N true TF strict도 비교표의 모든 역사 참고보다 낮다.
+[baseline-TF-W20.csv](baseline-TF-W20.csv)에 token-micro도 함께 남겼다.
+
 **조건 차이:** V12-MEMIT은 JLZ v12 planner＋ridge target-tracking writer이며 native MEMIT-H와
 별개 방법이다. S3 H200 NVL, V13은 S4 Blackwell이다. 두 run의 torch/transformers/FP32 eager/
 TF32-off는 같지만 writer/own trajectory/hardware는 다르다. 과거 MEMIT-H/Alpha/BLUE/CAKE는

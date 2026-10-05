@@ -10,7 +10,6 @@ import csv
 import hashlib
 import json
 from pathlib import Path
-import shutil
 
 TASK = "jlz-v13-mdcd-sequential-2k-20261005-v1"
 AUDIT = f"audits/servers/server4/{TASK}/review-20261005-r1"
@@ -34,7 +33,7 @@ def write_csv(path, rows):
     assert rows, path
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -61,7 +60,8 @@ def build(repo, local):
         (local / "binding-check-r2.json", audit / "binding-verification.json"),
         (local / "reader-development-failure-r1.json", audit / "reader-development-failure-r1.json"),
     ):
-        shutil.copyfile(src, dst)
+        # Publication text uses LF/one terminal newline; immutable input bytes stay intact.
+        dst.write_text(src.read_text().rstrip("\n") + "\n")
 
     comparison, tails, paired, cohorts, prefix, population, realization, gaps, q = [], [], [], [], [], [], [], [], []
     metrics_w20 = {"scope": r["scope"], "status": r["status"],
@@ -100,11 +100,18 @@ def build(repo, local):
                     s = c["summary"][kind]
                     cohorts.append({"arm": arm, "endpoint": endpoint, "birth_batch": int(birth),
                                     "kind": kind, **{k: s[k] for k in ("numerator", "denominator", "rate", "strict_numerator", "strict_rate", "token_micro", "prompt_macro")}})
+                    for measure, transition in c["paired"][kind].items():
+                        paired.append({"arm": arm, "endpoint": endpoint, "relation": f"birth{birth}_atwrite_to_endpoint",
+                                       "kind": kind, "measure": measure, **transition})
             for count, c in m["first_prefix"].items():
                 for kind in KINDS:
                     s = c["summary"][kind]
                     prefix.append({"arm": arm, "endpoint": endpoint, "first_requests": int(count), "kind": kind,
                                    **{k: s[k] for k in ("numerator", "denominator", "rate", "strict_numerator", "strict_rate", "token_micro", "prompt_macro")}})
+                    for relation in ("atwrite_to_endpoint", "W0_to_endpoint"):
+                        for measure, transition in c[relation][kind].items():
+                            paired.append({"arm": arm, "endpoint": endpoint, "relation": f"first{count}_{relation}",
+                                           "kind": kind, "measure": measure, **transition})
             for label in ("active", "superseded"):
                 if m[label] is None:  # Empty population: not a measured zero score.
                     continue
@@ -158,6 +165,19 @@ def build(repo, local):
         assert abs(s["score_harmonic_percent"] - 3/sum(1/s[k] for k in ("RS_percent", "PS_percent", "NS_percent"))) < 1e-9
         historical.append(s)
     write_csv(out / "baseline-W20.csv", matched + historical)
+    tf = []
+    for arm in ARMS:
+        for kind in KINDS:
+            s = r["arms"][arm]["endpoints"]["W20"][kind]
+            tf.append({"method": "V13 " + arm, "endpoint": "W20", "kind": kind, "comparison_scope": "MATCHED_MD_CD",
+                       "strict_percent": 100*s["strict_rate"], "token_micro_percent": 100*s["token_micro"]})
+    for row in hist_rows:
+        if int(row["batch"]) == 20:
+            for kind in KINDS:
+                tf.append({"method": row["method"], "endpoint": "W20", "kind": kind, "comparison_scope": "HISTORICAL_REFERENCE",
+                           "strict_percent": float(row[kind+"_strict_percent"]),
+                           "token_micro_percent": float(row[kind+"_token_micro_percent"])})
+    write_csv(out / "baseline-TF-W20.csv", tf)
     deltas = []
     for ours in matched:
         for other in historical:
