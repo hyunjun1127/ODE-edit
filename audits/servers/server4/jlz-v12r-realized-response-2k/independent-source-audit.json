@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "audit_utc": "2026-10-05T22:20:39Z",
+  "reviewer": "/root/causal_red",
+  "review_level": "INDEPENDENT_BOUNDED_CHANGED_SOURCE_AND_CPU_FIXTURE_REVIEW",
+  "reviewer_is_production_implementation_owner": false,
+  "worktree": "/data/janghj/ODE-edit/local/jlz-v12r-realized-response-2k/worktree",
+  "verdict": "PASS_WITH_LIMITATIONS",
+  "confirmed_unresolved_technical_blockers": 0,
+  "actual_pretrained_GPU": "NOT_RUN",
+  "original_CPU_reference": "NOT_SUPPLIED_USER_DOCUMENT_REPORTED_UNVERIFIED",
+  "canonical": {
+    "FULL_READ": "method/implementation/clarifications/validation/user-method-spec/experiment 정독; envelope와 exception 포함 manifest의 8 members SHA/size 검산",
+    "manifest": "plans/global/2026-10-06-jlz-v12r-realized-response/artifact-manifest.json",
+    "manifest_sha256": "1d947d08d7bd5e1680115ebfc5448ad606e3e42714b3ae7758c9321f8a1db10c",
+    "verified_members": 8,
+    "SHA_size_verification": "PASS",
+    "unprovided_reference_claim_used_as_PASS": false
+  },
+  "source_hash_scope": "최종 현재 WT의 아래 20 Python 파일 bytes. 실행 commit/archive/config/runtime/assets 전체 closure 및 실제 resource admission은 root의 별도 freeze/receiver/held receipt 대상이다.",
+  "source_members": [
+    {"path": "project/run_scripts/jlz_v12r/__init__.py", "sha256": "78dd42779693f96568704cf86d4432352864837d5d0c23a88e6764911c15ad56"},
+    {"path": "project/run_scripts/jlz_v12r/collect.py", "sha256": "e5d45d542174bcbb02827bab26e70f8d81959fd079fd3347b406d73fce6b5192"},
+    {"path": "project/run_scripts/jlz_v12r/controller.py", "sha256": "5d3ece6d669884b724883abc2bb83238618a741252ddb7598b1983adac00a2ef"},
+    {"path": "project/run_scripts/jlz_v12r/engine.py", "sha256": "5409a137cad1f940118d7ce6a7fa6fa2661fcbf1fda33d8d75b9850f84c73c98"},
+    {"path": "project/run_scripts/jlz_v12r/entry.py", "sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71"},
+    {"path": "project/run_scripts/jlz_v12r/fit.py", "sha256": "f13ad89850b688d01962e8f5d40bb5f9cb9d0acedfb950a326e60bc25e67a85e"},
+    {"path": "project/run_scripts/jlz_v12r/optimizer.py", "sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e"},
+    {"path": "project/run_scripts/jlz_v12r/preflight.py", "sha256": "27fb88658295f26bb9190e2fe6e426be8a36316b99b08a3479cddf74d22cda8a"},
+    {"path": "project/run_scripts/jlz_v12r/prepare.py", "sha256": "87d0ebf13e56e6b4768d3fc90c66ee6a71bbf8ff98d8aa965455c7a2e3ae5c61"},
+    {"path": "project/run_scripts/jlz_v12r/profile.py", "sha256": "9e567b12db877ee6cc1454e2424826a66ce56a4ac1cf18db37f0adec643965e9"},
+    {"path": "project/run_scripts/jlz_v12r/projection.py", "sha256": "daa79e4edfdd01288d47b1deb1ce53117bfa9336bcc1e80c8e2ad5eeccd39d44"},
+    {"path": "project/run_scripts/jlz_v12r/qualification.py", "sha256": "952dc23d312bd7bfd93985d14388c835769f04737df8fbf2ccc7a8658da63872"},
+    {"path": "project/run_scripts/jlz_v12r/run.py", "sha256": "69513b2e055ab01b17ff1c8892e50227a42b436973d390a04703cf2efb90c1aa"},
+    {"path": "project/run_scripts/jlz_v12r/subject.py", "sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870"},
+    {"path": "project/run_scripts/jlz_v12r/submit.py", "sha256": "04a30b6e32316c4ac65fbde12e20f7f88f97ea96cce19b7f779383d6729afef6"},
+    {"path": "project/run_scripts/jlz_v12r/telemetry.py", "sha256": "3e4fa5a7611c86c1c1e057ecbce36caf6a42733a942b3105d6943e9cf77d4cae"},
+    {"path": "project/run_scripts/jlz_v12r/test_collect.py", "sha256": "f18b8f4ba2ef1ed9e4a5a5d44048f16d809f9bdb2ac4630f16578c9deb5cad3b"},
+    {"path": "project/run_scripts/jlz_v12r/test_controller.py", "sha256": "98e06b5ed3678cec67ca44acd9fb68bdf4356bbfd86ed219ac90db278e22b03e"},
+    {"path": "project/run_scripts/jlz_v12r/test_engine.py", "sha256": "aeea05f6796537bbb26b168dc661bc040b64da7241f47a5ccf98c311fc6cb357"},
+    {"path": "project/run_scripts/jlz_v12r/test_math.py", "sha256": "7591f4f3f2c3f607b15a8defb82bec88e992bbcbc611c1a96fcb5a6a14d1f756"}
+  ],
+  "reviewed_invariants": [
+    "새 entry wrapper는 원 native rewrite/KL 전체 token을 유지하며 L4-ONLY에서도 L8 anchor를 capture한다. eligible writer/history 층은 별도이다.",
+    "BUILD는 후보별 no-grad actual lower write 뒤 upper fresh native keys/P를 만들며 all-owner whole-B columns를 유지한다. 생산 same-layer FP64 Lambda M.T pullback은 off-owner 성분을 보존하되 builder reverse/solve VJP는 사용하지 않는다.",
+    "inactive 요청도 forward/solve에 남고 loss adjoint/update만 제외된다. 활성은 irreversible이며 active 만족 요청은 계속 update한다. analytic norm은 absolute R 좌표에서 한번, origin0이다.",
+    "Absolute Adam lr.1/eps1e-8, request-local counter/bias correction, all-eligible RMS gamma 및 allzero gamma1. FP64 capped-L2 projection 뒤 FP32 local/global excess1e-6 검사, moments 유지.",
+    "13번째 update 이전 grace12 확장, n_exp0 division 없음, BASE-2X original max clip 및 actual energy ratio, 마지막 expansion radius exact maximum. terminal candidate24 추가 backward/update 없음.",
+    "동일 last-evaluated materialized payload exact-copy, 재solve/중복add 없음. 최종 native rewrite-only CPUFP32 H append는 eligible layer당 한번; own next-entry W/H/RNG 연결과 fresh cache/teacher/anchor/factor 경계.",
+    "BatchTransaction은 W/H/RNG뿐 아니라 깊은 tensor cache/context/cursor를 RAM 복원한다. finish는 observer/artifact 검사 뒤; atomic commit 실패는 현재 batch rollback하고 이전 prefix를 보존한다.",
+    "Observer state 비변이, current와 W5/10/15/20 all-seen exact row identities/order/denominators. Reducer는 strict NLL tiesfail, signed margin, postcast scalar budget, 실제 sealed prefix와 missing rows/parents를 독립 검사한다.",
+    "MAIN priority와 cap2 DAG 또는 stricter cap1 직렬 DAG. 정확 explicit memory/exportNONE/Requeue0/owner/source/CLI/dep held checks. 실제 admission/space/QoS는 별도 실행 책임이다.",
+    "Shared mechanical block는 READY/model-load 전뿐 아니라 진행 arm의 batch entry와 prepared commit 직전에도 검사한다. 과학적 negative는 이 marker를 생성하는 근거가 아니다.",
+    "noCP: durable W/H/R/delta/optimizer resume bundle 저장 호출 없음. scalar/identity/raw metric rows만; 기존 source/raw/native assets 변경 없음. raw nonsymmetric A 유지, SPD 이상적 bound는 raw symmetry/SPD 조건부로 구분한다."
+  ],
+  "resolved_findings": [
+    {"id": "FULL_NATIVE_ENTRY_AND_L8_ANCHOR", "status": "RESOLVED_NEW_NAMESPACE_WRAPPERS", "evidence": "entry.py native_rows/full_tokens 및 capture_sites eligible union L8; shared old cropped-KL/L4-only entry를 drop-in하지 않음"},
+    {"id": "QUALIFICATION_BOUNDARY_FIXTURE", "status": "RESOLVED", "evidence": "qualification.py third fixed candidate는 mixed zero/native energy-boundary capped projection; fixed3 budget과 fit/update0 유지"},
+    {"id": "MB2_TIME_AXIS", "status": "RESOLVED", "evidence": "qualification.py MB2 cache slicing ndim>=2 batch tensor만; 1D cache_position은 owner-count와 T가 같아도 유지; CPU regression PASS"},
+    {"id": "CPU_MODEL_PROVENANCE", "status": "RESOLVED", "evidence": "preflight.py target pretrained model load/forward0과 random CPU model fixture/forward를 명시적으로 구분"},
+    {"id": "MISSING_ACCOUNTING_NOT_ZERO", "status": "RESOLVED", "evidence": "collect.py expected/observed/missing parent IDs, observed cost와 complete cost 분리; missing parent complete total null"},
+    {"id": "INDEPENDENT_STORED_BUDGET_REDUCTION", "status": "RESOLVED", "evidence": "controller scalar anchor/star/cap/layer receipt와 collect의 .75a/base/max/radius/post_norm 검산; false saved excess flag로 PASS 불가"},
+    {"id": "SHARED_MECHANICAL_BLOCK_BOUNDARIES", "status": "RESOLVED", "evidence": "run.py shared_source_guard at READY, batch entry, precommit; running-arm precommit rollback fixture PASS"},
+    {"id": "LAST_EXPANSION_EXACT_MAX_STATE", "status": "RESOLVED", "evidence": "controller.py final stage exact prescribed maximum과 test_math terminal-state assertion; 과학 radius 변경 없이 one-ulp state drift 방지"}
+  ],
+  "independently_executed_CPU_checks": [
+    {
+      "scope": "FINAL_HASH_BOUND_OPERATIONAL_FIXTURES",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /data/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.jlz_v12r.test_controller project.run_scripts.jlz_v12r.test_collect -v",
+      "tests": 20,
+      "status": "PASS",
+      "failures": 0,
+      "errors": 0,
+      "unittest_seconds": 0.205,
+      "fixture_type": "CPU tensor/state/temporary-directory fixtures and mocked scheduler responses; pretrained model/GPU/real Slurm query0"
+    },
+    {
+      "scope": "EARLIER_ENGINE_SOURCE_REVISION",
+      "command": "/data/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.jlz_v12r.test_engine -v",
+      "tests": 8,
+      "status": "PASS",
+      "unittest_seconds": 1.509,
+      "fixture_type": "analytic matrix plus tiny random-initialized CPU Llama; pretrained target/GPU0",
+      "scope_limit": "최종 engine/fit/telemetry cost-counter 보강 전 독립 실행. 최종 bytes는 좁은 source review와 별도 owner final39로 구분; 독립 최신39 실행으로 주장하지 않음"
+    },
+    {
+      "scope": "EARLIER_MATH_REVISION_AND_INDEPENDENT_ROOT_REFERENCE",
+      "tests": 10,
+      "status": "PASS",
+      "unittest_seconds": 1.392,
+      "additional_independent_projection_cases": 30,
+      "projection_reference": "SciPy brentq monotonic-energy root, same seeded FP64 inputs; sorted-breakpoint output의 FP32 component error0",
+      "max_local_excess": 2.142440491681441e-8,
+      "max_radius_excess": 4.528431873929151e-8,
+      "scope_limit": "당시 SLSQP independent reference는 Positive directional derivative for linesearch로 실패. 생산 projection error의 증거는 아니며 owner가 reference route 수리/원 실패 보존; 최신 math11 독립 재실행으로 주장하지 않음"
+    },
+    {
+      "scope": "REVIEWER_ADDITIONAL_NEGATIVE_FIXTURES",
+      "tests": 3,
+      "status": "PASS",
+      "cases": ["post_norm tamper는 INDEPENDENT_POSTCAST_BUDGET_REDUCTION 차단", "mocked one-shot accounting missing parent는 complete total null", "READY plus shared block는 model setup 전 차단"],
+      "scheduler_query_calls": 0
+    }
+  ],
+  "owner_evidence_separate": {
+    "final_39_CPU_tests": "controller worker가 39 PASS/1.73s를 보고; 별도 owner receipt LOCAL/preparation/worker-production-cpu-final.json. 이 수치를 독립 reviewer 전체39 실행으로 표시하지 않음",
+    "engine_owner_audit": "audits/servers/server4/jlz-v12r-realized-response-2k/engine-owner-audit.json",
+    "old_V14_actual_receipt": "현재 shared builder/physical/subject SHA와 과거 receipt SHA가 동일하지 않아 exact-current-helper GPU PASS로 재사용하지 않음; static provenance만"
+  },
+  "pending_runtime_checks_not_a_source_PASS_claim": [
+    "root의 actual S4 source/config/archive/assets/runtime closure, all20 token packs/observer identities와 fresh resource/space/QoS/held inspection",
+    "MAIN 개발4요청의 fixed3 same-candidate actual pretrained GPU qualification 및 frozen loss/gradient/action tolerances; GPU READY 이전에는 actual model qualified 아님",
+    "실제 main B1->B2 own-state linkage, W20 scientific coverage/metrics/cost는 아직 관측하지 않음"
+  ],
+  "audit_actions": {
+    "new_GPU": 0,
+    "pretrained_model_load": 0,
+    "model_asset_or_shared_source_changes": 0,
+    "Slurm_read_or_write": 0,
+    "old_task_scientific_monitoring": 0,
+    "transfer": 0,
+    "Git_write": 0,
+    "edited_files": ["audits/servers/server4/jlz-v12r-realized-response-2k/independent-source-audit.json"]
+  },
+  "limitations": "한정 독립 source/CPU fixture 검토이다. 생산 code/math consistency와 확인된 기계적 결함 해결을 판정하며 pretrained GPU, 양질 결과, 성능, 실측 메모리/ETA 또는 전체 실행 완료 PASS를 뜻하지 않는다. canonical original CPU 증명 파일 미제공은 명시 유지한다."
+}

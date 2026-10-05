@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "authority_envelope": "messages/head/2026-10-06-jlz-v12r-sh4.json",
+  "authority_envelope_sha256": "d54d11387e3d7cd3457b17b52ad8e0d17beca6bb15721404b5b800658f341e85",
+  "generic_helper": "scripts/check-agent-access.sh --staged",
+  "generic_helper_exit": 7,
+  "generic_helper_verdict": "NOT_PASS",
+  "exact_blocked_path": "runs/jlz-v12r-realized-response-2k/submission.json",
+  "정확_승인": "현재 USER/GH envelope allowed_write_paths에 runs/jlz-v12r-realized-response-2k/**가 명시돼 있고 ownscope source/tests/compactreport/status/manifests nonforce branch+main publication이 사전위임됨",
+  "task_local_scope_check": "모든 staged/current member가 신규 namespace/본 task audit/report/update/status/ACK/message 및 위 정확 runs prefix 안에 있음을 검산",
+  "범위": "새 전용 branch에서 소형 source/hash/등록 receipt만. Raw/tensor/model/prompt/fullstdout Git0",
+  "global_helper_or_policy_changes": 0,
+  "role_or_shared_identity_changes": 0,
+  "다른_task_권한확장": false,
+  "NO_BROADCAST_NOT_REQUIRED": "동일 S4 readonly 자산 사용과 소형 Git 인계이며 원 raw/source KEEP"
+}
