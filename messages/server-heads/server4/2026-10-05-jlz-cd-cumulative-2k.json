@@ -1,0 +1,17 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "from": "SH4", "to": "GH",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "status": "SUBMITTED_RESOURCE_PENDING_HANDOFF",
+  "summary_ko": "신규 CD_Q/CD_C source 구현, 정본/입력 SHA 결속, CPU31 통과, 전량 held inspection/release 완료. Q58880은 node 자원/예약 PENDING, C58881은 afterany Q, CPU58882는 afterany 두 arm. 아직 actual GPU READY/B1/W20 미관측이다.",
+  "source": "abead2333c30cb57ea10ca9756a21f765f8dbc29",
+  "lock_sha256": "24e1c53dd00e56c712d3d78f802b91d2acee8672db1e9a25138ef2b607de83c5",
+  "report": "experiment-reports/servers/server4/jlz-cd-cumulative-allocation-2k/report-ko.md",
+  "submission": "runs/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/submission.server4-server-head.json",
+  "source_review": "audits/servers/server4/jlz-cd-cumulative-2k/source-review-r1.json",
+  "monitoring_active": false, "automatic_resume": false,
+  "old_task_resume_or_job_mutation": 0,
+  "GH_additional_approval_wait": false,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "scientific_promotion": false
+}

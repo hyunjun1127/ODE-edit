@@ -1,0 +1,20 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "task_id": "jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "SUBMITTED_RESOURCE_PENDING",
+  "jobs": {"CD_Q": 58880, "CD_C": 58881, "collector": 58882},
+  "source": "abead2333c30cb57ea10ca9756a21f765f8dbc29",
+  "FULL_READ_SHA": true,
+  "production_CPU_tests_passed": 31,
+  "GPU_qualification": "NOT_OBSERVED",
+  "main_initial": "FORMAL_REGISTERED_INSPECTED_RELEASED_RESOURCE_PENDING",
+  "representative_B1_commit_B2_entry": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "monitoring_active": false, "automatic_resume": false,
+  "heartbeat": false, "new_automatic_retry": false,
+  "checkpoint_saved": false, "exact_resume": "NOT_AVAILABLE",
+  "other_tasks_unchanged": true,
+  "report": "experiment-reports/servers/server4/jlz-cd-cumulative-allocation-2k/report-ko.md"
+}

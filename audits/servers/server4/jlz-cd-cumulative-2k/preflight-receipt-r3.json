@@ -1,0 +1,33 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH4-CD-CUMULATIVE-2K-20261005-R1",
+  "canonical_manifest_sha256": "a67ab3941e21e32627aa06e3d502005bc7239111b2c6906fbd614f991a8205f0",
+  "receiver_full_read_sha256": "bfb323e251b52656344d6c1686752f9067184a052fe1117f6585543006f0af96",
+  "CPU_receipt_sha256": "e9cb978cc25f7b45deb46192d87308174a9bad94a4ce67763775d8ee9acc794a",
+  "CPU_tests": 31, "CPU_seconds": 3.209,
+  "original_CPU11_rerun": false,
+  "actual_target_model_GPU": "NOT_OBSERVED",
+  "case_schedule_full_fields": 2000,
+  "native_packs": 20, "native_rows": 14000, "observer_rows": 26000,
+  "readonly_runtime_assets_reuse": true,
+  "old_W0_raw_reuse": "CPU identity bound; actual cold setup SHA check remains required",
+  "tested_source_matches_frozen_archive": true,
+  "source": "abead2333c30cb57ea10ca9756a21f765f8dbc29",
+  "source_members": 178,
+  "session_boundary": "PASS actual dedicated WT/CWD/origin/session",
+  "repository_access_helper_pre_source_commit": "PASS",
+  "repository_access_helper_publication": "NOT_PASS exit7: generic server-head helper does not allow this new runs prefix; all other staged paths are task scoped",
+  "publication_access_exception": {
+    "path": "runs/jlz-cd-cumulative-allocation-bs100x20-s4-20261005-r1/submission.server4-server-head.json",
+    "authority_commit": "d805e07e2ab0c346db31aa33ff0af89dd30d20a8",
+    "envelope": "messages/head/2026-10-05-sh4-cd-cumulative-2k.json",
+    "envelope_sha256": "941f16ca95425086435e290288264a87666f8549eed560eb137949f310e64d40",
+    "permission": "Exact allowed_write_paths runs prefix and own-scope nonforce branch/main publication explicitly authorized by current USER/GH envelope",
+    "shared_helper_modified": false,
+    "helper_PASS_claimed": false
+  },
+  "resource_override": "canonical121856MiB not allowed on S4; effective default59392/hard60416; canonical bytes unchanged",
+  "source_failures_before_freeze": "원 CPU receipt r1/r2 보존; receiver NameError와 소스 교차검토 확정 문제 제출 전 수리; method/계수/허용오차 변경 없음",
+  "registration_and_release": "모든 신규 exact job held owner/fullargv/script/source/GPU/CPU/mem/wall/export/requeue/dependency 검산 후 release",
+  "monitoring_after_initial": false,
+  "artifact_exception": "NO_BROADCAST_NOT_REQUIRED; raw/tensor/prompt/fullstdout local KEEP, source/compact counts만 Git"
+}
