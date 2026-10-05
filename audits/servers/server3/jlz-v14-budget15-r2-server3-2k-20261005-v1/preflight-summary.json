@@ -1,0 +1,212 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "CPU": 6,
+  "canonical_CPU15": "EXACT_REUSE",
+  "pretrained_GPU": "NOT_RUN",
+  "original_reference": "2ab04d0b4d339573ee54fd85c7240d090a01e2b1",
+  "original6productionfiles_same_bytes": true,
+  "owner_audit": true,
+  "independent_reviewer": false,
+  "boundary": "PASS",
+  "new_fits": 0,
+  "old_tasks_unchanged": true,
+  "build_repairs": [
+    "generated syntax corrected before tests",
+    "test fixture detached leaf before zeroing; production unchanged"
+  ],
+  "resources": {
+    "ETA": "NOT_MEASURED_S3; 48h requested maximum, old S4 timing not speedup or ETA",
+    "GPU_peak_plan_GiB": {
+      "activations_head": 20,
+      "entry_terminal_weights": 2.2,
+      "factors": 7.66,
+      "margin": 12,
+      "model": 30,
+      "transient": 8
+    },
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 8,
+    "estimated_fit_hours_reference_only": 11.325755555555556,
+    "free_bytes": 43467894784,
+    "gpu": 1,
+    "host_mib": 121856,
+    "host_peak_plan_GiB": {
+      "execution": 40.34638977050781,
+      "limit": 119,
+      "model_load": 34
+    },
+    "no_crossGPU_speedup_claim": true,
+    "output_plan_GiB": {
+      "atomic_scratch": 1,
+      "evalraw_allprefixes": 2,
+      "margin": 11,
+      "scalar_and_actions": 1,
+      "source_logs": 1
+    },
+    "physical_caps": {
+      "boundary_bytes": 4718592,
+      "padded_tokens": 64,
+      "rows": 2
+    },
+    "physical_schedule": [
+      {
+        "batch": 1,
+        "groups": 350,
+        "max_group_tokens": 64,
+        "padded_tokens": 11918,
+        "valid_tokens": 10451
+      },
+      {
+        "batch": 2,
+        "groups": 350,
+        "max_group_tokens": 46,
+        "padded_tokens": 12326,
+        "valid_tokens": 10790
+      },
+      {
+        "batch": 3,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 11996,
+        "valid_tokens": 10512
+      },
+      {
+        "batch": 4,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 12050,
+        "valid_tokens": 10591
+      },
+      {
+        "batch": 5,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 11960,
+        "valid_tokens": 10500
+      },
+      {
+        "batch": 6,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 12172,
+        "valid_tokens": 10715
+      },
+      {
+        "batch": 7,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 12224,
+        "valid_tokens": 10771
+      },
+      {
+        "batch": 8,
+        "groups": 350,
+        "max_group_tokens": 56,
+        "padded_tokens": 12210,
+        "valid_tokens": 10717
+      },
+      {
+        "batch": 9,
+        "groups": 350,
+        "max_group_tokens": 46,
+        "padded_tokens": 11850,
+        "valid_tokens": 10386
+      },
+      {
+        "batch": 10,
+        "groups": 350,
+        "max_group_tokens": 52,
+        "padded_tokens": 12086,
+        "valid_tokens": 10626
+      },
+      {
+        "batch": 11,
+        "groups": 350,
+        "max_group_tokens": 46,
+        "padded_tokens": 11946,
+        "valid_tokens": 10492
+      },
+      {
+        "batch": 12,
+        "groups": 350,
+        "max_group_tokens": 48,
+        "padded_tokens": 11932,
+        "valid_tokens": 10464
+      },
+      {
+        "batch": 13,
+        "groups": 350,
+        "max_group_tokens": 48,
+        "padded_tokens": 11920,
+        "valid_tokens": 10515
+      },
+      {
+        "batch": 14,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 12158,
+        "valid_tokens": 10674
+      },
+      {
+        "batch": 15,
+        "groups": 350,
+        "max_group_tokens": 48,
+        "padded_tokens": 11880,
+        "valid_tokens": 10473
+      },
+      {
+        "batch": 16,
+        "groups": 350,
+        "max_group_tokens": 46,
+        "padded_tokens": 11804,
+        "valid_tokens": 10362
+      },
+      {
+        "batch": 17,
+        "groups": 350,
+        "max_group_tokens": 50,
+        "padded_tokens": 11904,
+        "valid_tokens": 10462
+      },
+      {
+        "batch": 18,
+        "groups": 350,
+        "max_group_tokens": 48,
+        "padded_tokens": 11902,
+        "valid_tokens": 10457
+      },
+      {
+        "batch": 19,
+        "groups": 350,
+        "max_group_tokens": 54,
+        "padded_tokens": 12078,
+        "valid_tokens": 10631
+      },
+      {
+        "batch": 20,
+        "groups": 350,
+        "max_group_tokens": 60,
+        "padded_tokens": 11956,
+        "valid_tokens": 10486
+      }
+    ],
+    "project_cap": 1,
+    "reserve_bytes": 17179869184,
+    "route_selection": "Existing native-order MB2, no MB sweep; larger route NOT_QUALIFIED",
+    "task_cap": 1,
+    "wall": "2-00:00:00"
+  },
+  "W0": "EXACT_REUSE",
+  "native_input_reuse": {
+    "bytes": 287733,
+    "inode": 20007687,
+    "mtime_ns": 1791110556585457824,
+    "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/preparation-s3-r2/native-input-alignment.json",
+    "sha256": "f0e1fe15ee73a71e64e58ef8800e3b298fbb5eee5f5f3dca86baf7e2c29dac6f"
+  },
+  "no_checkpoint": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "outside_namespace_changes": [],
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-server inputs; compact Git only; no transfer/--delete"
+}

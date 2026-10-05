@@ -17,14 +17,23 @@ class Linear(torch.autograd.Function):
         # No persistent/dense dW. FP64 contraction order is separately qualified.
         xf=x.reshape(-1,x.shape[-1]).double()
         gf=g.reshape(-1,g.shape[-1]).double()
-        gr=(gf.T@(xf@P)).to(R.dtype)
-        gp=xf.T@(gf@R.double())
-        return g@W,gr,gp,None
+        gr=(gf.T@(xf@P)).to(R.dtype) if ctx.needs_input_grad[1] else None
+        gp=xf.T@(gf@R.double()) if ctx.needs_input_grad[2] else None
+        return g@W if ctx.needs_input_grad[0] else None,gr,gp,None
 
 def linear(x,R,P,W,route='direct'):
     return F.linear(x,W) if route=='dense' else Linear.apply(x,R,P,W)
 
 class Adapter(BaseAdapter):
+    def recompute(self,fn,*args):
+        counters=getattr(self,'physical_calls',None)
+        if counters is None:self.physical_calls={'checkpoint_wrappers':0,'function_invocations':0};counters=self.physical_calls
+        counters['checkpoint_wrappers']+=1
+        def counted(*values):
+            counters['function_invocations']+=1
+            return fn(*values)
+        return super().recompute(counted,*args)
+
     def stage(self,layer,next_layer,key,residual,R,P,W,kw,route='direct'):
         def step(k,r,d,p,w):
             x=r+linear(k,d,p,w,route)

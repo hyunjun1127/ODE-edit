@@ -1,0 +1,16 @@
+{
+  "nonce": "ODEEDIT-USER-GH-SH3-JLZ-V14-BUDGET15-R2-2K-20261005-V1",
+  "owner": "head-server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "host": "ubuntu",
+  "status": "IMPLEMENTED_NOT_SUBMITTED",
+  "duplicate_registration": false,
+  "CPU_pass": 6,
+  "actual_GPU": "NOT_RUN",
+  "authority": "85320c8534e6cc37d2b32d98687cac84ec3d741a",
+  "source_reference": "2ab04d0b",
+  "timestamp": "2026-10-05T08:49:40.943124+00:00",
+  "task_id": "jlz-v14-budget15-r2-server3-2k-20261005-v1",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

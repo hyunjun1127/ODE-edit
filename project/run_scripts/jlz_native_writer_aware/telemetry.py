@@ -39,7 +39,7 @@ def commit_measure(a,entry,H,plan,out):
             nh,fh=a.full({k:v.to(a.device) for k,v in group['tokens'].items()})
             probs=row_logprobs(a,group['rows'],nh,fh)
             for j,(r,lp) in enumerate(zip(group['rows'],probs)):
-                rows.append(r);req=r['request'];c=r['global_row']%(n+1)
+                rows.append(r);req=r['request'];c=r['reduction_index']
                 if r['kind']=='rewrite':
                     labels=r['target'][r['target']!=-100].to(a.device)
                     nll[req,c]=float(-lp.gather(1,labels[:,None]).mean())
