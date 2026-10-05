@@ -1,0 +1,53 @@
+{
+  "schema": "EXPERIMENT_DELEGATION",
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "method_id": "CAUSAL_ALLOCATION_EDITING",
+  "date_kst": "2026-10-06",
+  "status": "READY_FOR_DIRECT_DELIVERY",
+  "user_quote": "GH에게 실험 전달하자. 실험 이름은 이제 odeedit은 빼고 버전도 빼고 새로운 실험 이름 너가 적절히 지어서 전달하자. SH4에게 task 진행시키라고 해",
+  "delegation": {
+    "coordinator": "GH",
+    "coordinator_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "executor": "SH4",
+    "executor_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4"
+  },
+  "scope": {
+    "writer": "native MEMIT-form mean-key ridge with existing H",
+    "main_arms": 1,
+    "edits": 2000,
+    "logical_batch_size": 100,
+    "sequential_commits": 20,
+    "source_namespace": "project/run_scripts/causal_allocation_editing",
+    "slurm_job_name": "causal-allocation-editing",
+    "main_run_root": "runs/causal-allocation-editing",
+    "report_root": "experiment-reports/servers/server4/causal-allocation-editing"
+  },
+  "documents": {
+    "method-contract.json": "plans/global/2026-10-06-jlz-causal-joint-writer/method-contract.json",
+    "implementation-contract.json": "plans/global/2026-10-06-jlz-causal-joint-writer/implementation-contract.json",
+    "validation-and-comparison.json": "plans/global/2026-10-06-jlz-causal-joint-writer/validation-and-comparison.json",
+    "experiment-2k.json": "plans/global/2026-10-06-jlz-causal-joint-writer/experiment-2k.json",
+    "latest-review-resolution.json": "plans/global/2026-10-06-jlz-causal-joint-writer/latest-review-resolution.json",
+    "artifact-manifest.json": "plans/global/2026-10-06-jlz-causal-joint-writer/artifact-manifest.json"
+  },
+  "tex": "plans/global/2026-10-05-jlz-v13-realized-writer/method.tex",
+  "mathematics_receipts": [
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference/audit.json",
+    "plans/global/2026-10-06-jlz-causal-joint-writer/reference_calibration/audit.json"
+  ],
+  "contract_summary": [
+    "Actual all-token candidate forward, native NLL and current||entry KL, full causal lower-write→upper-K/P/U/Q gradients.",
+    "R=a*u for all eligible layers. Per-layer native requested norm and .75 cap; no shared .75 sum cap, exact writer, inverse compensation or absolute-z tracking.",
+    "Single native endpoint reference for positive finite actual radial lambda_Q, fixed over the chain. No held-out sweep; failure is typed and must not be replaced by an arbitrary coefficient.",
+    "Full-gradient proximal BB1/nonmonotone Armijo. At most24 accepted updates/50logical trial evaluations/25gradients, terminal gradient reused, last accepted payload only.",
+    "Finite feasible nonstationary fixed-budget returns may commit with explicit residual/status. Calibration/NaN/identity/solve failure is a different condition.",
+    "Minimum production qualification then same2000edit chain. B1 performance targets are observations, not method/lambda selection gates.",
+    "RS/PS/NS plus TF strict/token/prompt accuracy, cohort own/later damage, active layers/caps, Q_C0/Q_H, actual performance and exclusive cost reporting."
+  ],
+  "implementation_limits": "24 CPU mathematical checks passed (12 existing+12 new). Production controller/model calibration/FP32 parity/performance/runtime remain unverified.",
+  "naming": "Experiment/task/job/run/report labels use causal-allocation-editing, without odeedit or version suffix. Existing source repository and old design paths remain provenance only.",
+  "handoff": "GH must directly delegate to live SH4, collect ACK, then report qualification/source/runtime and Slurm job ID. Inbox creation alone is not delivery.",
+  "unrelated_work": "Do not cancel/modify unrelated running experiments, edit dirty root wholesale, add new arms/baselines/sweeps, or alter model/profile without this contract."
+}

@@ -1,0 +1,64 @@
+{
+  "dtype": "float64",
+  "errors": 0,
+  "failures": 0,
+  "limits": [
+    "Radial balance does not imply clamp equivalence, full KKT, or per-request balance.",
+    "Fixed-key d=2Q does not describe arbitrary all-layer causal radial paths.",
+    "A native subject-injection reference need not have a positive price under the actual candidate objective.",
+    "Negative, zero, and degenerate prices are reported rather than clipped or replaced.",
+    "Proximal tests do not qualify a production optimizer or backtracking implementation.",
+    "No PS, NS, ACC, benchmark, or production data enters calibration or tests."
+  ],
+  "measurements": {
+    "aggregate_balanced_request_radial_residuals": [
+      -1.0,
+      1.0
+    ],
+    "history_counterexample": {
+      "E_plus_Q": [
+        0.125,
+        0.5,
+        0.8
+      ],
+      "Q": [
+        0.109375,
+        0.25,
+        0.16
+      ],
+      "exact_energy": [
+        0.14285714285714285,
+        1.0,
+        4.0
+      ],
+      "kappa": [
+        7.0,
+        1.0,
+        0.25
+      ]
+    },
+    "native_vs_actual_reference_price_witness": {
+      "actual_price": -1.1666666666666667,
+      "virtual_price": 8.333333333333334
+    },
+    "radially_balanced_nonzero_tangent_gradient": 1.0,
+    "ridge_Q_derivative_max_error": 5.551115123125783e-11,
+    "routed_mixed_partials": [
+      0.0,
+      -0.9999999999732445
+    ],
+    "routed_stationarity_true_gradient_norm": 0.5
+  },
+  "numpy": "2.2.6",
+  "python": "3.12.0",
+  "schema": "JLZ_RADIAL_CALIBRATION_MATH_REFERENCE_V1",
+  "scope": "synthetic algebra only; no model, data, fitting, or experimental coefficient selection",
+  "seconds": 0.08627263829112053,
+  "source_sha256": {
+    "math_contract.py": "f2b9bcaf770e48c653773890a187d39606300424f9ce5144a88fd6e28a0569d4",
+    "run_audit.py": "bc080c1ca4687bc466713da6a705e5a15bbfa24dcae7d952a1eaad3eddb422ec",
+    "test_math_contract.py": "a6626903c3f66679d2483385521b574cd3eecee58f29f03dec9839daaa9c5b98"
+  },
+  "status": "PASS",
+  "tests_run": 12
+}

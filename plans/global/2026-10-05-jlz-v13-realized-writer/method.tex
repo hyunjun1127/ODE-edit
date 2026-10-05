@@ -3,13 +3,324 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\norm}[1]{\left\lVert #1\right\rVert}
-\title{JLZ CD: 누적 간섭 비용을 고려한 공동 목표와 층별 배분}
+\title{Causal Allocation Editing: 실제 MEMIT write의 공동 최적화와 층별 배분}
 \author{Method 설계 및 구현 계약}
-\date{2026년 10월 5일}
+\date{2026년 10월 6일}
 \begin{document}
 \maketitle
 
-\part*{현재 설계: CD-Q / CD-C와 SH4 2,000-edit 실행}
+\part*{현재 설계: Causal Allocation Editing}
+\paragraph{범위와 실행 상태.}
+Native MEMIT형 mean-key ridge writer와 기존 history를 유지하면서,
+모든 후보층의 local 요청량과 배분을 하나의 실제 후보 모델에서 최적화한다.
+사용자가 선택한 all-token actual forward와 full causal gradient를 유지한다.
+2026년 10월 6일 사용자는 실험명을 새로 정하여 GH에게 전달하고
+SH4가 실행하도록 지시했다. 실험명은 \textbf{Causal Allocation Editing},
+task/job/result 식별자는 \texttt{causal-allocation-editing}이며 프로젝트 접두사와
+버전 접미사를 넣지 않는다. 내부 문서 revision과 과거 경로는 재현 이력으로만 남긴다.
+Production 구현, 실제 모델 검증과 GPU 제출은 실행 담당자의 후속 작업이다.
+GH $\to$ SH4/server4의 단일 MEMIT arm, 2,000편집 범위는
+\texttt{../2026-10-06-jlz-causal-joint-writer/experiment-2k.json}에 보존한다.
+위 \texttt{2026-10-06-jlz-causal-joint-writer/} 디렉터리의
+method/implementation/validation JSON이 구현 계약이다.
+이전 R1 계약은 그 디렉터리 아래 \texttt{history/r1-contracts.json}에 보존했다.
+아래 CD-Q/CD-C, V14 및 V13은 역사 기록이며 현재 규칙에 섞지 않는다.
+
+\section{검증하려는 claim과 주 학습 경로}
+교정하는 문제는 두 가지다.
+첫째, local 목표의 효과를 평가하는 상태와 실제 순차 write 상태를 같게 한다.
+둘째, 하층 write가 상층 key와 writer 비용을 바꾸는 경로까지 미분하여
+층별 요청량을 공동으로 결정한다. 모든 설정된 편집층은 항상 후보이며,
+특정 층으로의 집중과 정확한 0 배분 모두 허용한다.
+
+Native rewrite/prefix/KL 문장, lookup, target, tokenization,
+NLL reduction과 readout, full-vocabulary KL(current$\Vert$entry),
+rewrite-only native key 평균 및 history 의미는 보존한다.
+별도 reference dataset, history replay, 추가 paraphrase/generation 문장,
+subject 누수 목적, exact writer, 역실현 증폭과 absolute-z tracking은 넣지 않는다.
+단, native compute-z의 subject delta hook 대신
+\textbf{배포될 후보 weight가 모든 token에 작용한 forward}에서 loss를 계산한다.
+데이터와 loss 식을 보존한다는 사실이 native 전체 학습 연산자와 같다는 뜻은 아니다.
+
+\paragraph{Routing과 frozen-upper의 위치.}
+주 경로는 수정하지 않은 목적의 full gradient다.
+DOW-KE의 NLL pre-subject direct-parameter gradient routing은
+input-key gradient와 KL을 유지하는 별도 backward 규칙이다.
+우리의 candidate-dependent $P(K)$에 옮기면 stop-gradient 위치에 따라
+서로 다른 gradient가 되므로 이번 main에는 넣지 않는다.
+이는 \href{https://arxiv.org/html/2608.16932v1}{DOW-KE 원문}의
+방법과 우리 full-gradient 계약을 구분한 결정이다.
+상층 key 고정도 현재의 두 교정을 근사로 바꾸므로 main에서 제외한다.
+과거 two-arm의 PS 약 67.9\%는 여러 설계가 함께 달랐던 결과이며
+all-token forward만의 실패를 입증하지 않는다.
+
+\section{변수, 층별 native norm과 상한}
+Batch entry의 $W^e,H^e,C_0$, teacher 및 canonical anchor를 고정한다.
+각 층 $l$, 요청 $r$에서 $a_{lr}>0$를 native subject hidden norm이라 두고
+\[
+ R_{lr}=a_{lr}u_{lr},\qquad
+ \norm{u_{lr}}_2\le c_{lr},\qquad c_{lr}=0.75
+\]
+로 정의한다. 일반 모델에서는 adapter의 native profile 값을 쓴다.
+$R$은 자기 write 층의 requested residual이며 실현을 보장하는 양이 아니다.
+모든 $u$는 0에서 시작한다.
+\[
+ G(u)=\sum_{l,r}\lambda_n\frac{\norm{R_{lr}}_2}{a_{lr}^2}
+     =\sum_{l,r}\beta_{lr}\norm{u_{lr}}_2,\qquad
+ \beta_{lr}=\frac{\lambda_n}{a_{lr}},\quad \lambda_n=0.5 .
+\]
+기존 공통 $a_\star$와 요청별 공유 $\sum_l\norm{u_{lr}}\le.75$는 제거한다.
+총 요청량의 허용 영역은 커진다. 위 제약은 층별 상한일 뿐,
+총 실현량이나 의미적 강도를 native와 같게 보장하지 않는다.
+Task, $G$, $Q$, 상한과 유한한 solver 경로가 함께 크기와 배분을 결정한다.
+같은 $0.5$라도 다층 prox의 작용이 단층 native Adam과 같다고 주장하지 않는다.
+
+\section{후보 하나의 causal MEMIT write}
+각 후보는 같은 $W^e/H^e$에서 시작한다.
+하층의 후보 weight가 적용된 실제 상태에서 층 $l$의 native subject key를 읽고,
+rewrite-only nested mean으로 논리 batch 전체의 $K_l(u_{<l})$를 만든다.
+KL 문장은 loss에 쓰되 writer key 평균에는 넣지 않는다.
+\[
+ A_l=\lambda_{C,l}C_{0,l}+H_l^e,\qquad
+ P_l=(A_l+K_lK_l^\top)^{-1}K_l,\qquad U_l=R_lP_l^\top ,
+\]
+\[
+ W_l^{\rm cand}=W_l^e+\operatorname{cast}_{32}(U_l).
+\]
+현재 profile은 $\lambda_C=15000$, FP32 모델, FP64 geometry다.
+역행렬은 명시적으로 만들지 않고 native-equivalent solve를 사용한다.
+Own key는 own write 이전 입력이므로 순환 정의가 없다.
+같은 weight로 모든 token을 처리한 뒤 상층 key를 다시 구한다.
+물리 microbatch마다 별도 writer를 풀지 않는다.
+
+Local 요청 목표는 개념적으로
+$z_{lr}^{\rm req}=h_{lr}^{\rm actual,pre}+R_{lr}$다.
+저장한 $R$을 그대로 RHS로 사용하며, 다른 가상 상태의 $z-h$를 빼어
+계획 밖 상속 보정량을 만들지 않는다.
+손실과 commit이 관측하는 effective action은
+\[
+ Y_{lrc}=U_l^{\rm eff}k_{lrc}^{\rm actual},\qquad
+ U_l^{\rm eff}=\operatorname{double}(W_l^{\rm cand})
+             -\operatorname{double}(W_l^e)
+\]
+다. $R=0$인 열도 solve에 남고, $R_l=0$인 층의 gradient도 남아 재진입할 수 있다.
+
+\section{단일 목적과 완전한 미분}
+\[
+ \min_{\norm{u_{lr}}\le c_{lr}} J(u)=F(u)+G(u),
+\]
+\[
+ F(u)=\sum_r\left[\mathrm{NLL}_r(W^{\rm cand}(u))
+ +\lambda_{\rm KL}\mathrm{KL}_r(\mathrm{current}(u)\Vert\mathrm{entry})\right]
+ +\lambda_Q\sum_lQ_l(u),\qquad \lambda_{\rm KL}=0.0625 ,
+\]
+\[
+ Q_l=\operatorname{tr}(U_lA_lU_l^\top)
+ =\operatorname{tr}\!\left[R_l(P_l^\top A_lP_l)R_l^\top\right].
+\]
+내부 계산은 요청 SUM, 보고는 $J/B$로 한다.
+Native owner별 reduction 뒤에 합산하며 microbatch 크기로 정규화를 바꾸지 않는다.
+비용은 현재 후보의 actual key에서 만든 ideal FP64 $U$의 에너지다.
+Terminal에서는 FP32 effective $U$의 비용과 차이를 따로 기록한다.
+$E=\norm{R-UK}_F^2$는 진단에만 쓰고 pulse나 추가 보존 목적을 넣지 않는다.
+
+Task와 $Q$ 모두
+$u\to R\to U_{\rm lower}\to K_{\rm upper}\to P_{\rm upper}
+\to U_{\rm upper}$를 미분한다.
+대칭 $A$에서 하층 $j$의 비용 gradient에는
+\[
+ \nabla_{R_j}\sum_l Q_l
+ =2R_j(P_j^\top A_jP_j)
+ +\sum_{l>j}\left(\frac{\partial K_l}{\partial R_j}\right)^*
+                 \frac{\partial Q_l}{\partial K_l}
+\]
+가 포함된다. Candidate $K/P$를 detach하지 않는다.
+$G$는 prox에서 한 번만 처리하고 smooth gradient에 중복해서 더하지 않는다.
+
+\section{한 번 정하는 $\lambda_Q$: native 기준점의 방사 방향 균형}
+리뷰의 clamp 기준 제안은 \textbf{한 기준점에서 actual 목적의 방사 방향을
+맞추는 가격}으로 한정해 채택한다. Native clamp와의 등가성은 주장하지 않는다.
+
+\begin{enumerate}
+ \item B1의 같은 entry와 native 문장으로 native anchor 한 층
+ (현재 L8)의 compute-z를 요청마다 독립 실행한다.
+ 원래 Adam, norm, clamp, early exit, 최대25평가를 쓴다.
+ 반환된 실제 endpoint를 $R^\star$로 두고 나머지 후보층은 0으로 둔다.
+ 내부 endpoint를 경계까지 확대하지 않는다. Reference는 commit하지 않고 $H$도 바꾸지 않는다.
+ \item 이 $R^\star$를 같은 actual MEMIT candidate로 평가한다.
+ Native subject-hook gradient를 대신 쓰지 않고
+ actual $F_{\rm task}$, $G$, $Q$의 방사 방향량을 측정한다.
+ \item $u^\star$ 방향에 대해
+ \[
+ t=-\langle\nabla F_{\rm task}(u^\star),u^\star\rangle,\quad
+ n=G(u^\star),\quad d=\langle\nabla Q(u^\star),u^\star\rangle
+ \]
+ 로 두고
+ \[
+ \boxed{\lambda_Q=(t-n)/d}
+ \]
+ 를 계산한다. 비영 층이 하나이므로 해당 층의 key는 이 확대 방향에
+ 의존하지 않으며 $d=2Q(u^\star)$도 검산한다.
+\end{enumerate}
+$t,n,d,\lambda_Q$가 모두 유한하고 $d>0$, $t>n$, $\lambda_Q>0$이어야 한다.
+실패하면 invalid energy, nonpositive price, nonfinite/overflow를 구분해 보고한다.
+Abs, epsilon 분모, clipping, 기본값으로 main fit을 시작하지 않는다.
+Native 계약상 모든 요청이 실제 no-op인 경우에만 무편집 batch와
+native history append를 허용하고, 첫 nontrivial batch에서 같은 규칙을 적용한다.
+미수렴이나 오류로 반환된 0을 no-op으로 처리하지 않는다.
+
+이 가격은 전체를 합친 방사 방향 미분만 0으로 만든다.
+접선, 다른 층, 요청별 KKT나 의미적 강도를 맞추지는 않는다.
+요청별 radial residual, 다른 층의 gradient와 상한 접촉률도 기록한다.
+한 번 정한 가격은 모든 batch에 고정하고 PS/NS/ACC로 선택하거나 다시 맞추지 않는다.
+\textbf{Native 기준점 fit은 추가 계산}이다. 3점 sweep은 아니지만 무료도 아니므로,
+기준점 생성과 actual gradient 계산 시간을 main과 구분해 총비용에 포함한다.
+
+\section{Solver: 상한을 둔 nonmonotone proximal BB1}
+기존 EfficiencyAdam을 대신하여 $g=\nabla F(u)$에 대해
+\[
+ v_{lr}=u_{lr}-\eta g_{lr},\qquad
+ u^+_{lr}=
+ \frac{\min\{c_{lr},(\norm{v_{lr}}-\eta\beta_{lr})_+\}}
+      {\norm{v_{lr}}}\,v_{lr}
+\]
+를 사용한다. $v=0$이면 0으로 정의한다.
+$u$ 좌표 step을 $\eta_u=\eta$라 두면 문턱값은 $\eta_u\lambda_n/a_{lr}$이다.
+같은 갱신을 $R$ 좌표로 옮길 때는 block별
+$\eta_{R,lr}=\eta_u a_{lr}^2$이므로 서로 다른 좌표에 같은 step을 대입하지 않는다.
+정확한 0이 영구 비활성화를 뜻하지 않는다.
+다음 full gradient에서 모든 block을 평가하여 재진입을 허용한다.
+
+초기 step은 $\eta_0=\min c_{lr}/\max_{lr}\norm{g_{lr}(0)}$로 정한다.
+초기 $u=0$에서 모든 $g=0$이면 합성 목적의 mapping도 0이므로
+$\eta_0,\tau$는 해당 없음으로 기록하고 정상성 종료한다.
+그 외에는 $s=u_k-u_{k-1}$, $y=g_k-g_{k-1}$에서
+유한한 $s^\top y>0$일 때 BB1 $\eta=s^\top s/(s^\top y)$를 사용한다.
+아니면 직전 accepted step을 재사용한다.
+Step 범위는 $[10^{-6}\eta_0,10^6\eta_0]$로 제한한다.
+$y$에는 norm subgradient를 넣지 않는다.
+
+초기 window를 $J(u_0)$ 하나로 시작한다.
+직전 accepted $J$ 최대5개의 최댓값을 $J_{\rm ref}$로 두고
+\[
+ J(u^+)\le J_{\rm ref}
+ -\frac{10^{-4}}{2\eta}\norm{u^+-u}_F^2
+\]
+이면 채택한다. 아니면 $\eta$를 절반으로 줄여 다시 평가한다.
+Rejected 후보도 fresh $K/P$와 actual forward가 필요하지만 backward는 하지 않는다.
+하한에서 계속 불충족하거나 같은 trial에 정체되면
+\texttt{NUMERICAL\_STALL}로 구분한다.
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Main solver의 상한 & 값\\
+\midrule
+Accepted updates & 24\\
+Logical candidate evaluations (초기와 rejected 포함) & 50\\
+Full gradient evaluations (초기와 terminal 포함) & 25\\
+\bottomrule
+\end{tabular}
+\end{center}
+초기 gradient 한 번과 accepted update당 한 번으로 최대25회다.
+Terminal은 마지막 accepted gradient를 재사용하며 별도 26번째 backward를 하지 않는다.
+Gradient를 계산하기 위한 replay forward는 물리 호출로 따로 센다.
+Calibration, qualification, observer도 별도 counter로 세되 총비용에는 포함한다.
+50개 후보는 물리 forward50회라는 뜻이 아니다.
+마지막 \textbf{accepted} 후보를 반환하고 마지막 rejected 후보를 commit하지 않는다.
+
+\paragraph{정상성과 미수렴.}
+고정 probe step $\tau=\eta_0$에서
+\[
+ {\cal G}_\tau(u)=
+ \frac{u-\operatorname{prox}_{\tau G+I_{\mathcal C}}
+                    (u-\tau\nabla F(u))}{\tau}
+\]
+를 accepted 후보와 terminal에서 기록한다.
+각 block의 $\norm{{\cal G}_{\tau,lr}}/
+\max(1,\norm{\nabla F_{lr}},\beta_{lr})$ 최댓값이 $10^{-3}$ 이하이면
+\texttt{STATIONARY\_TOL}, 상한에서 미달하면
+\texttt{BUDGET\_NOT\_STATIONARY}로 보고한다.
+Raw max/RMS/Frobenius, 분모와 $\tau$도 함께 기록한다.
+Native all-loss$<.05$를 이 공동 composite 목적의 종료 조건으로 쓰지 않는다.
+
+미수렴이어도 유한값, feasibility, 후보/commit 정합성을 통과한 고정예산 후보는
+기존 사용자 방침에 따라 반환할 수 있다. Calibration, NaN, solve, identity 오류는 별개다.
+FP32 cast/add의 backward는 smooth surrogate이므로 production 잔차를
+양자화된 함수의 엄밀한 KKT 증명이라고 부르지 않는다.
+작은 잔차도 전역 최적해나 편집 성공을 뜻하지 않는다.
+
+\section{실현률, history와 누적 손상에 관한 한계}
+대칭 SPD $A$에서 $S=K^\top A^{-1}K$이면
+\[
+ UK=R\,S(I+S)^{-1},\qquad
+ Q=\operatorname{tr}[R\,S(I+S)^{-2}R^\top]
+ \le \tfrac14\norm{R}_F^2 .
+\]
+Requested share와 realized share가 같아야 하는 것은 아니다.
+후보가 평가한 실제 작용과 commit의 작용이 같아야 한다.
+한 층의 부족분을 다른 층의 tracking으로 강제 보충하지 않는다.
+위 batch 행렬 성질을 요청별/context별 ratio 상한으로 읽지 않는다.
+
+\textbf{History가 늘면 $Q$가 반드시 줄어든다는 예측은 채택하지 않는다.}
+단일 key와 고정 $R$에서도
+$Q=\norm{R}^2\kappa/(1+\kappa)^2$이므로
+$\kappa:7\to1$이면 $Q/\norm{R}^2:.109375\to.25$로 증가한다.
+Batch마다 최적화한 $R/K$도 달라진다.
+따라서 $Q$ 비증가나 NS 손상의 선형화를 보장하지 않는다.
+$Q_{C_0}$, $Q_H$, 총 $Q$, $Q/B$, 실현량, ACC, cohort retention을 나눠 측정한다.
+낮은 $Q$만으로 의미적 보존을 주장하지 않는다.
+
+\section{Commit, 계산량과 모델ㆍbatch 일반성}
+마지막 accepted actual forward가 사용한 같은 FP32 weight payload를 copy해 commit한다.
+새 key로 다시 solve하거나 같은 update를 두 번 더하지 않는다.
+모든 층 write 후 native rewrite mean key로 history를 한 번만 append한다.
+마지막 후보의 causal key를 재사용할 경우 final model과의 parity를 먼저 검증한다.
+후보 평가 중 persistent $W/H$를 바꾸지 않고,
+durable checkpoint는 기존 방침대로 만들지 않는다.
+
+변하지 않는 prefix와 batch-entry $A$ factor를 재사용한다.
+Actual causal builder를 native loss readout까지 이어서 별도 subject-only forward를 없앤다.
+Whole-batch barrier를 보존하는 stage replay/offload, compact $Q$,
+필요한 위치만의 full-vocabulary head와
+dense $dW$를 만들지 않는 $R/P$ 직접 VJP를 사용한다.
+Rejected 후보는 forward-only다.
+이 절약은 loss, K/P gradient, token/문장, 논리 batch를 바꾸지 않는다.
+상층 key의 entry 고정이나 detach를 시간 절약에 섞지 않는다.
+
+Adapter는 층 순서, 차원, write 위치, native context/lookup/readout/reduction을 제공한다.
+L4--L8, hidden4096, BS100, 일정 context 수를 알고리즘에 고정하지 않는다.
+물리 microbatch는 실행 단위이며 writer의 논리 batch를 나누지 않는다.
+임의 batch shape를 지원한다는 사실이 batch를 바꿔도 같은 해가 나온다는 뜻은 아니다.
+속도 향상과 2k ETA는 미측정이며 V14의 후보 시간에서 바로 외삽하지 않는다.
+
+\section{B1과 2k의 검증 및 판정}
+기존 CPU full-causal reference 12개와 이번 calibration/prox 수학 검증12개는 통과했다.
+Production BB controller, 실제 모델에서 양의 가격 존재, FP32 정합,
+성능과 runtime은 아직 검증하지 않았다.
+구현 후 2--4개 요청에서 dense/streamed 값ㆍfull gradient,
+유한차분, raw native solve, zero/reentry, controller 상한,
+같은 payload의 commit, history-once를 먼저 검증한다.
+대칭 SPD는 에너지 정리의 가정이며 production의 raw native $A$를
+몰래 대칭화하거나 jitter를 넣지 않는다. 같은 $A$의 solve/VJP와 수치 오차를 검증한다.
+
+주 실험은 같은 ordered2,000요청, BS100$\times$20, fresh $W_0/H_0$의 단일 MEMIT arm이다.
+B1의 PS95\%, NS 손실0.4pp, CD보다 낮은 $Q$는 \textbf{비교 목표}다.
+서로 다른 방법의 최선 수치를 합친 엄격한 진급 조건으로 만들지 않는다.
+평가 성능으로 계수나 후보를 고르지 않고 B1을 재fit하지 않는다.
+작은 technical 검증과 계수 정의의 성립을 과학적 성능의 성공과 구분한다.
+
+W0, 각 cohort의 pre/post, W5/W10/W15/W20의 누적 및 고정 cohort를 평가한다.
+RS/PS/NS의 분자ㆍ분모, TF token/prompt/strict ACC,
+new/true NLL, W0-correct retention, own-write/later-write 손상을 보고한다.
+W10 이후 NS slope는 PS 및 strict ACC와 함께 읽는다.
+Active layer, 재진입, 상한 접촉, requested/realized share,
+$\lambda_Q$ receipt, 정상성 잔차와 미수렴률,
+물리 F/Bㆍsolveㆍreplayㆍ시간ㆍmemory도 저장한다.
+MEMIT-BLUE, MEMIT-H, CD와의 역사 비교에는 history, runtime, 평가 조건의 차이를 명시한다.
+
+\clearpage
+\part*{역사 기록: CD-Q / CD-C와 SH4 2,000-edit 실행}
 \paragraph{권한과 범위.}
 사용자의 ``구체화 진행한 이후 GH에게 전달하자. sh4에게 task 진행하라고 해.
 2000edit 진행하자''를 실행 근거로 한다. GH가 SH4에 두 arm을 각각 BS100 $\times$20으로

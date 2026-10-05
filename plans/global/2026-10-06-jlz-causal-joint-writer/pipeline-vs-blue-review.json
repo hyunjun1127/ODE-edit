@@ -1,0 +1,67 @@
+{
+  "schema": "JLZ_MEMIT_FIXED_PIPELINE_REVIEW_R1",
+  "date_kst": "2026-10-06",
+  "scope": "사용자 지시에 따라 MEMIT writer를 고정하고 목표 생성·배분·예산·목적 함수의 차이만 점검. 신규 GPU, writer 변경, GH 전송 없음.",
+  "status": "HISTORICAL_R1_PIPELINE_REVIEW_CURRENT_CONTRACT_IS_R2",
+  "confirmed": [
+    {
+      "item": "MEMIT_BLUE history와 성능",
+      "evidence": "source-config-compatibility.csv의 MEMIT_ORIGINAL은 blue=true, layers=[4,8], clamp=.75, norm=.5, history NONE. 기존 W20 집계 RS99.4/PS95.575/NS79.715.",
+      "limit": "역사적 runtime 비교이며 soft writer가 모든 설계에서 충분하다는 증명은 아니다."
+    },
+    {
+      "item": "같은 writer의 planner 대조",
+      "evidence": "기존 V14 B1 재검산에서 direct-request writer-blind RD PS73.5/Pstrict40.5/Q143.116857 대 writer-aware V14 PS90.5/Pstrict63.5/Q123.927131.",
+      "limit": "V14의 main loss는 별도 masked 경로였다. 새 actual-loss 방법의 성능 결과가 아니다."
+    },
+    {
+      "item": "공유 요청 예산",
+      "equation": "sum_l ||R_lr||/a_lr<=.75",
+      "finding": "같은 state/anchor에서 L4-only native 요청 반경은 포함한다. 두 층이 각각 .75 반경을 갖는 BLUE의 전체 가능영역은 포함하지 않는다.",
+      "limit": "BLUE upper anchor는 하층 write 후 상태이므로 단순히 총합1.5로 바꾸는 것만으로 BLUE 전체 pipeline이 특수해가 되지는 않는다."
+    },
+    {
+      "item": "norm 의미 차이",
+      "equation": "N_ours=.5 sum_l ||R_lr||/(a_star,r a_lr), N_native_local,l=.5 ||R_lr||/a_lr^2",
+      "finding": "L4-only에서도 비율은 a4/a_star. 기존 CD_Q B1 평균anchor는 a4=3.0617418, a8=6.0951860이라 평균anchor비 기준 약.502; 이는 요청별비 평균과 다르다. 과도한 norm 벌점이라고 단정할 수 없다. 공유예산 경계에서는 현재 norm이 배분에 대해 상수다."
+    },
+    {
+      "item": "추가 Q의 역할",
+      "equation": "고정 K의 단일층에서 Q(tR)=t^2 Q(R)",
+      "finding": "outer Q는 층 위치뿐 아니라 총 요청 크기·방향도 바꾼다. MEMIT 내부 보존 타협에 추가한 regularization이며 allocation-only 항이 아니다.",
+      "limit": "수학적 이중계산 버그라는 뜻은 아니며 PS/NS 손실의 원인 확정도 아니다."
+    },
+    {
+      "item": "causal correction의 한계",
+      "finding": "첫 edit L4의 key는 candidate내 고정이므로 1/2 교정이 자체 M4를 개선하지 않는다. 그러나 전체층 R_l=0이면 U_l=0이라 이전 virtual absolute-z tracking의 자동 상층 보정은 발생하지 않는다. 요청열만0인 경우 batch cross-talk는 남는다."
+    },
+    {
+      "item": "main loss intervention",
+      "finding": "실제 candidate weight loss는 subject-only local delta loss와 다른 학습 연산자다. Native 문장/NLL/KL 유지가 local-z의 generalization 특성이나 동일 최적해를 보장하지 않는다."
+    }
+  ],
+  "design_requirements_without_writer_change": [
+    "MEMIT response를 고정하고 실제 candidate trajectory/loss와 full causal cost derivative 정합성(1/2)을 유지한다.",
+    "요청량 R를 실제 배분량이라고 부르지 않는다. 후보의 실제 direct action과 commit action의 배분을 같은 정의로 비교한다. 이 정의 수정만으로 편집 강도 부족이 해결되지는 않는다.",
+    "단일층 native 요청과 성공한 BLUE residual trace를 공동 계획이 표현할 수 있는지 state/anchor/budget/norm 조건을 명시한다. Reference trace를 fit teacher로 추가하는 제안은 아니다.",
+    "총 편집 강도와 층간 배분을 구분한다. .75 공유 budget, a_star norm, outer Q 각각의 역할을 명시하고 native-equivalent라고 포장하지 않는다.",
+    "BLUE 실제 residual trace 재현은 동일 W/H, native support, solver/cast, causal order 조건부이다. history있는 ours가 history없는 BLUE와 동일 writer상태라는 주장을 하지 않는다.",
+    "R=Y M^-1, exact writer, 부족분 추적 덧쓰기, 새 reference/subject누수 목적을 추가하지 않는다."
+  ],
+  "unproven": [
+    "공유budget이 PS 약세의 유일한 원인",
+    "Q가 작으면 더 큰 편집이 안전하다는 주장",
+    "실제-loss 경로가 BLUE보다 반드시 좋은 paraphrase를 만든다는 주장",
+    "L4집중 또는 높은 실현률만으로 장기보존이 보장된다는 주장"
+  ],
+  "sources": [
+    "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/diagnostic-report-ko.md",
+    "experiment-reports/servers/server4/blue-native-lifelong-comprehensive-review-2026-09-11-v1/source-config-compatibility.csv",
+    "local/jlz-v13-2k-damage-review-20261005/baseline-W20.csv",
+    "local/jlz-v14-reassessment-20261005/assessment.json",
+    "audits/global/2026-10-06-cd-cumulative-interim-review/claim-scope-math.json",
+    "project/run_scripts/jlz_shared_budget/optimizer.py",
+    "method-contract.json"
+  ],
+  "revision_note": "이 문서의 공유 .75 예산, 공통 a_star norm 및 당시 현재라는 표현은 R1/이전 실험에 대한 진단이다. 활성 R2에서는 층별 native cap/norm과 prox/radial 가격으로 교정했다. 현재 결정은 method-contract.json과 latest-review-resolution.json을 따른다. 역사적 수치와 근거는 변경하지 않았다."
+}

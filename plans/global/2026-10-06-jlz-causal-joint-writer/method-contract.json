@@ -1,0 +1,197 @@
+{
+  "schema": "JLZ_CAUSAL_MEMIT_ACTUAL_LOSS_R2",
+  "date_kst": "2026-10-06",
+  "status": "USER_AUTHORIZED_GH_SH4_DISPATCH_READY",
+  "user_decision_ko": "후보 weight를 실제로 적용한 forward를 주 학습 경로로 사용한다. Native 문장·NLL·KL을 유지하고 상태 정합성 및 층 간 writer 비용 미분을 교정한다. MEMIT writer 단일 방법이며 exact/AlphaEdit 신규 arm은 이번 설계에서 제외한다.",
+  "document": "../2026-10-05-jlz-v13-realized-writer/method.tex",
+  "claim": {
+    "joint_local_targets": "모든 설정된 편집층의 local requested residual을 공동 최적화한다. 상층 목표 효과는 후보 하층 write가 이미 적용된 같은 실행 상태에서 평가한다.",
+    "dynamic_allocation": "각 층의 직접 writer 비용뿐 아니라 하층 배분이 상층 key와 writer 비용을 바꾸는 영향을 포함해 배분한다. 특정 층의 집중 또는 0 배분을 허용하되 모든 층을 후보로 유지한다.",
+    "alignment": "층 위치, 후보 실행 상태, 목표 효과와 비용의 계산 경로, 마지막 후보와 commit의 수치 상태를 일치시킨다.",
+    "not_claimed": [
+      "MEMIT 요청량을 정확히 100% 실현한다",
+      "직접 hidden norm share가 최종 출력 기여도의 분해다",
+      "기하 에너지 감소가 의미적 locality 또는 ACC 향상을 보장한다",
+      "24회 갱신이 전역 최적해 또는 stationary point에 도달한다",
+      "전체 baseline compute_z 학습 연산자가 동일하다"
+    ]
+  },
+  "scope": {
+    "writer": "native MEMIT-form mean-key ridge with existing history",
+    "new_methods": [
+      "CAUSAL_ALLOCATION_EDITING"
+    ],
+    "native_preserved": [
+      "모델·tokenizer·native rewrite/KL 문장 및 토큰/lookup/target 위치",
+      "native NLL 문장/토큰 reduction 및 해당 readout layer",
+      "full-vocabulary KL(current || own batch-entry) 및 native KL readout",
+      "native rewrite-only nested mean key aggregation",
+      "C0, lambda_C 및 post-all-writes final rewrite mean-key history append",
+      "FP32 모델·FP64 writer geometry의 현재 profile"
+    ],
+    "explicit_change": "subject-only delta hook의 별도 가상 loss 경로를 제거한다. 최적화 변수는 요청별·층별 residual뿐이지만 후보 writer weight는 실제 배포와 같이 모든 token에 작용한다. NLL/KL 수식과 데이터가 같아도 native compute_z의 intervention 연산자와는 다르다. R1의 공통 anchor norm, 공유 예산, EfficiencyAdam 및 첫 비영 후보의 gradient 비율 보정도 제거하고, 층별 native norm·cap, 실제 목적의 radial 가격 및 composite prox로 변경한다.",
+    "excluded": [
+      "exact/context-equality writer",
+      "AlphaEdit writer",
+      "subject leakage 목적",
+      "reference/replay",
+      "추가 generation/paraphrase 학습 문장",
+      "L8 completion",
+      "virtual absolute-z tracking",
+      "inverse-realization 증폭",
+      "새 cumulative alignment c 항",
+      "DOW-style routed surrogate gradient in main",
+      "frozen-upper K/P approximation in main"
+    ],
+    "running_experiments_changed": false,
+    "gpu_dispatch_authorized": true,
+    "execution_contract": "experiment-2k.json"
+  },
+  "profile": {
+    "generic": "모델·benchmark adapter가 layer 순서, 차원, native readout, row/owner/group/lookup, 통계 및 hparams를 제공한다. 논리적 batch와 물리 microbatch를 구분한다.",
+    "current_example": {
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "lambda_C": 15000.0,
+      "lambda_KL": 0.0625,
+      "lambda_norm": 0.5,
+      "per_layer_requested_radius": 0.75,
+      "shared_requested_radius": null,
+      "solver_limits": {
+        "maximum_accepted_updates": 24,
+        "maximum_logical_main_candidate_evaluations": 50,
+        "maximum_full_gradient_evaluations": 25,
+        "includes": "초기 u0와 rejected trial은 최대 50회의 논리적 후보 평가에 포함한다. Full gradient는 초기 1회+accepted update당 1회로 최대 25회이며, terminal mapping은 이미 계산한 마지막 accepted gradient를 재사용해 별도 gradient를 더하지 않는다. 고정 후보의 gradient replay에 필요한 model forward는 physical counter에 따로 집계한다. Native calibration/qualification/observer는 main과 분리해 집계하되 총 비용에는 포함한다."
+      }
+    },
+    "not_invariance": "batch size에 따른 입력 수와 행렬 shape를 지원한다는 뜻이다. 논리 batch 구성, benchmark 또는 모델이 바뀌어도 동일 해·계수·runtime이라는 뜻은 아니다."
+  },
+  "batch_entry": {
+    "frozen": [
+      "W_entry",
+      "H_entry",
+      "native C0/lambda_C",
+      "canonical per-layer anchors a_lr",
+      "native KL entry teacher",
+      "native tokens/positions/owner mapping"
+    ],
+    "weights_trained": false,
+    "variables": "u_lr for every eligible layer l and request r; R_lr=a_lr*u_lr. R is the requested MEMIT RHS, not the guaranteed realized action.",
+    "initialization": "각 batch에서 모든 u를 0으로 초기화한다. W/H는 직전 commit에서 이어받고, BB 이력은 해당 batch 안에서만 사용한다.",
+    "norm": "G=SUM_lr lambda_norm*||R_lr||/a_lr^2 = SUM_lr (lambda_norm/a_lr)*||u_lr||.",
+    "constraint": "각 layer/request에 ||u_lr||<=c_lr, 현재 c_lr=.75. Sum across layers bound는 없다. c는 native profile에서 읽는다.",
+    "norm_limit": "각 층의 requested hidden delta에 native norm 형식을 확장한다. 공동 최적화, prox 및 실제 weight forward를 사용하므로 native 단층 Adam과 효과가 같다고 주장하지 않는다. 층별 cap은 총실현량이나 의미적 편집 강도의 상한과 동일하지 않다."
+  },
+  "candidate_forward": {
+    "restart": "모든 후보는 같은 W_entry/H_entry에서 시작한다. 이전 후보의 임시 update를 누적하지 않는다.",
+    "causal_loop": [
+      "모든 native row를 이전 후보층의 actual all-token weight가 적용된 상태로 현재 layer의 rewrite-module input까지 진행한다.",
+      "각 context의 subject lookup key k_lrc를 읽고 native rewrite-only nested mean으로 K_l[:,r]를 만든다. KL 문장은 loss에 쓰되 writer key 평균에는 넣지 않는다.",
+      "A_l=lambda_C*C0_l+H_entry_l; P_l=solve(A_l+K_l*K_l^T,K_l); U_l=R_l*P_l^T.",
+      "현재 profile의 materialization으로 W_candidate,l=W_entry,l+cast_FP32(U_l)를 만들고 모든 native row/token에 동일한 weight를 적용한다.",
+      "이 실제 출력 상태로 다음 층을 진행한다. 같은 layer의 K는 own write 이전에 수집되므로 순환 정의가 없으며, upper K/P/U는 lower R에 의존한다.",
+      "native readout에서 selected-position full-vocabulary NLL/KL을 계산한다. 별도 subject-only 가상 forward를 주 loss로 사용하지 않는다."
+    ],
+    "whole_batch": "writer는 각 층에서 논리 batch 전체의 K/R를 사용해 한 번 정의된다. microbatch마다 독립 writer를 풀지 않는다.",
+    "local_z_definition": "z_req,lr = h_actual_pre,lr + R_lr는 local 요청 목표의 정의다. 저장한 R을 writer RHS로 직접 사용한다. 별도 virtual z에서 현재 h를 빼서 계획 밖 보정량을 만들지 않는다.",
+    "actual_action": "Y_lrc = U_effective,l * k_actual,lrc; U_effective=double(W_candidate_FP32)-double(W_entry_FP32). Native loss가 관측하는 것은 이 action이 전체 후보 모델에서 만든 결과다.",
+    "zero_requests": "R의 0 열과 0 layer를 버리지 않는다. batch coupling과 dU/dR의 경로를 유지하며 다음 update에서 재진입할 수 있다."
+  },
+  "objective": {
+    "formula": "J_sum=F+G; F=SUM_r[NLL_r(Wcand)+lambda_KL*KL_r(current||entry)]+lambda_Q*SUM_l Q_l; G=SUM_lr(lambda_norm/a_lr)*||u_lr||; ||u_lr||<=c_lr.",
+    "writer_cost": "Q_l=tr(U_ideal,l*A_l*U_ideal,l^T)=tr[R_l*(P_l^T*A_l*P_l)*R_l^T], with current candidate's actual causal K/P",
+    "cost_choice": "Q-only. E_l=||R_l-U_l*K_l||_F^2는 진단이다. 실제 실현 경로에서 loss를 계산하므로 미실현 R가 loss 이득을 얻지 않는다. E를 추가해 native writer의 축소를 별도로 벌하지 않는다.",
+    "floating_point": "수식과 gradient 의미는 실수 연산의 ideal writer 기준이다. 실제 task loss/commit은 동일 FP32 materialized weight를 사용한다. 비용은 compact ideal Q로 계산하고 terminal effective Q와 cast/action 차이를 기록한다. 이를 frozen-entry key 근사와 혼동하지 않는다.",
+    "matrix_semantics": "Production은 기존 native C0 FP32 count division, FP64 lambda/history assembly, solve 순서를 유지한다. SPD/symmetric A는 정리의 가정이다. raw A의 대칭 오차를 검증하며 임의 symmetrization/jitter/fallback으로 solver를 바꾸지 않는다.",
+    "requested_not_realized_regularization": "Norm과 층별 cap은 requested R에 적용하며 전 층 합계 cap은 두지 않는다. lambda_Q만으로 강도가 유일하게 정해지는 것은 아니다. Task/norm/Q/constraints 및 유한한 solver 경로가 어떻게 균형을 이루는지 기록한다.",
+    "reporting": "gradient는 요청 SUM, scalar 보고는 J_sum/B. 실제 B를 명시하며 microbatch/tail 크기로 objective 정규화를 바꾸지 않는다."
+  },
+  "gradient_contract": {
+    "full_path": "u -> R -> actual lower candidate weights -> upper token states/subject keys -> native K mean -> P solve -> U -> subsequent actual states -> task loss and every Q",
+    "missing_old_term": "하층 j에 대한 비용 gradient는 직접항 외에 sum_{l>j} (dQ_l/dK_l)*(dK_l/dR_j)를 포함한다. 이는 같은 층 BxB 요청 coupling으로 대체되지 않는다.",
+    "cost_dependence": "P_l^T*A_l*P_l은 candidate-dependent이며 detach하지 않는다. A/H/entry teacher/anchors만 batch 안에서 고정한다.",
+    "norm_once": "G는 prox에서만 처리하고 smooth gradient에 중복 가산하지 않는다. 현재 값이 0인 층도 후보에서 제외하지 않아 재진입을 허용한다.",
+    "precision": "FP64 continuous reference의 dense/compact 및 finite-difference gradient를 검증한다. FP32 cast/add의 autograd는 smooth surrogate이며 양자화된 함수를 엄밀히 미분했다고 주장하지 않는다.",
+    "prohibited": [
+      "frozen entry K/P/F 비용을 같은 method로 사용",
+      "key/P detach",
+      "request-local gradient만 전달",
+      "가상 loss adjoint로 actual loss backward를 대체",
+      "constant-R 현재 값이 같다는 이유로 Jacobian 경로 제거"
+    ]
+  },
+  "optimizer": {
+    "name": "FULL_GRADIENT_NONMONOTONE_PROXIMAL_BB1",
+    "coordinates": "R_lr=a_lr*u_lr; a_lr는 batch entry canonical anchor이며 양수 유한값이어야 한다. 모든 eligible block u=0에서 시작한다.",
+    "split": "F=SUM_r(NLL_r+lambda_KL*KL_r)+lambda_Q*SUM_l Q_l; G=SUM_lr beta_lr*||u_lr||; beta_lr=lambda_norm/a_lr. g=grad F에는 G gradient를 넣지 않는다.",
+    "constraint": "각 layer/request에 ||u_lr||<=c_lr, 현재 c_lr=.75. Sum across layers bound는 없다. c는 native profile에서 읽는다.",
+    "prox": "v_lr=u_lr-eta*g_lr; uplus_lr=(min(c_lr,max(||v_lr||-eta*beta_lr,0))/||v_lr||)*v_lr. ||v||=0이면 0이다. 이 식의 eta는 u-space step eta_u이며 threshold는 eta_u*lambda_norm/a_lr이다. R-space에서 등가인 block별 metric step은 eta_R,lr=eta_u*a_lr^2이다. 따라서 R-space threshold eta_R,lr*lambda_norm/a_lr^2와 u-space threshold를 동일한 eta를 사용하는 식으로 혼동하지 않는다.",
+    "initial_step": "u0=0이고 g0=grad F(u0)가 정확히 전부 0이면 나눗셈을 하지 않는다. G+balls가 잘 정의되고 0을 포함하는지 확인한 뒤 eta0와 tau는 NA, exact mapping은 0으로 기록하고 별도 stationary 분기로 STATIONARY_TOL 종료한다. 그 외에는 eta0=min_lr(c_lr)/max_lr ||g_lr(u0)||를 FP64로 계산한다. 초기 unprox block 이동의 최대 norm을 native radius 이하로 맞추는 수치 관례이며 학습률 동등성 주장이 아니다.",
+    "BB": "연속 accepted states에서 s=u_k-u_{k-1}, y=g_k-g_{k-1}; sTy>0 및 유한이면 BB1= sTs/sTy. 아니면 마지막 accepted eta. eta는 [1e-6*eta0,1e6*eta0]로 safeguard한다. Norm subgradient는 y에 넣지 않는다.",
+    "line_search": "window=5 accepted J; sigma=1e-4; shrink=.5. 초기 nonmonotone window는 J(u0) 하나로 시작한다. J_trial <= max(last5 accepted J) - sigma*||u_trial-u||^2/(2*eta)이면 accept한다. Window에는 accepted J만 추가하고 최근 최대 5개를 유지한다. J는 F+G이며 모든 primal trial에서 actual K/P/Q와 task forward를 재계산한다. Rejected trial에는 backward를 하지 않는다. Safeguard 하한에서 불충족/동일 trial이면 NUMERICAL_STALL로 마지막 accepted를 반환한다.",
+    "budgets": {
+      "maximum_accepted_updates": 24,
+      "maximum_logical_main_candidate_evaluations": 50,
+      "maximum_full_gradient_evaluations": 25,
+      "includes": "초기 u0와 rejected trial은 최대 50회의 논리적 후보 평가에 포함한다. Full gradient는 초기 1회+accepted update당 1회로 최대 25회이며, terminal mapping은 이미 계산한 마지막 accepted gradient를 재사용해 별도 gradient를 더하지 않는다. 고정 후보의 gradient replay에 필요한 model forward는 physical counter에 따로 집계한다. Native calibration/qualification/observer는 main과 분리해 집계하되 총 비용에는 포함한다."
+    },
+    "stationarity": "비영 g0의 일반 경로에서는 고정 probe tau=eta0로 mapping G_tau=(u-prox_{tau G+balls}(u-tau*grad F))/tau를 계산한다. tau를 BB step에 따라 바꾸지 않는다. max_lr ||G_tau,lr||/max(1,||grad F_lr||,beta_lr)<=1e-3이면 STATIONARY_TOL이다. u0=g0=0인 별도 분기에서는 잘 정의된 G+balls에 대해 exact mapping=0, eta0/tau=NA로 기록하며 0/0을 계산하지 않는다. Raw max/RMS/Frobenius, denominator, tau 및 분기 사유를 함께 기록한다. 이는 수치 정지 기준이며 global optimum/edit success가 아니다.",
+    "termination": "STATIONARY_TOL 또는 선언된 evaluation/update/gradient budget 소진으로 종료한다. Native all-J<.05는 이 coupled composite 목적의 종료 기준으로 쓰지 않고 native reference 생성에서만 원래 규칙대로 사용한다. Full gradient는 초기 후보 1회와 accepted update의 새 후보마다 1회 계산하므로 최대 1+24=25회다. Terminal에서는 이미 계산한 마지막 accepted gradient로 mapping을 기록하며 추가 reverse나 중복 집계를 하지 않는다. 이는 terminal 후보의 backward를 생략한다는 뜻이 아니다.",
+    "return": "마지막 finite/feasible accepted 후보를 반환한다. Rejected trial이나 held-out 성능 최고 후보를 선택하지 않는다. 상한 미수렴도 후보 정합성을 통과하면 사용자 기존 고정예산 정책에 따라 commit하고 BUDGET_NOT_STATIONARY로 보고한다. LINE_SEARCH_BUDGET/NUMERICAL_STALL은 구분한다. Calibration/NaN/identity/solve 오류를 이 허용과 혼동하지 않는다.",
+    "activity": "Prox의 exact zero는 영구 비활성화가 아니다. 다음 full gradient에서 모든 block을 평가하여 재진입을 허용한다. 요청별 freeze나 최소 활성층 수를 넣지 않는다.",
+    "precision_limit": "FP64 연속 reference에서 prox/gradient/Armijo 수학을 검증한다. 실제 FP32 cast/add backward는 smooth surrogate다. Production mapping은 그 declared surrogate의 numerical residual이며 quantized 함수의 엄밀한 KKT 증명이라고 부르지 않는다."
+  },
+  "commit": {
+    "weights": "마지막 채택 후보에서 loss를 계산한 FP32 weight payload를 그대로 복사한다. 새 key로 재계산하거나 현재 weight 위에 같은 U를 두 번 더하지 않는다.",
+    "no_second_world": "후보 terminal replay와 commit 모델의 native outputs/keys/weights를 검증한다. optimizer 내 hypothetical state와 별도 commit state를 두지 않는다.",
+    "history": "모든 layer write 후 최종 모델의 native rewrite mean keys로 각 layer/occurrence를 한 번 append한다. 후보 중 H mutation 금지, KL key/history 대체 금지.",
+    "checkpoint": "기존 기본값대로 durable model/optimizer/resume checkpoint를 만들지 않는다."
+  },
+  "guarantees_and_limits": {
+    "native_mean_response": "대칭 SPD A의 실수 연산에서 S=K^T A^-1 K, M=S(I+S)^-1, U*K=R*M. 개별 요청/context의 norm ratio는 cross-talk 때문에 1을 넘거나 방향이 달라질 수 있다.",
+    "energy": "같은 가정에서 Q=tr[R*S*(I+S)^-2*R^T] <= ||R||_F^2/4. Candidate-dependent K에도 해당 candidate에서 성립한다.",
+    "alignment": "동일한 actual candidate forward와 exact payload commit은 별도 virtual 경로로 인한 상태 차이를 제거한다. 수치 오차는 qualification 범위에서 검증한다.",
+    "not_promised": "soft attenuation 제거, PS/ACC 향상, 누적 NS 손실 제거, BLUE 우위, 최적 배분은 실험 결과로 검증해야 한다.",
+    "history_Q": "고정 R의 단일 key에서는 Q=||R||^2*kappa/(1+kappa)^2이다. H 증가로 kappa가 낮아져도 Q는 단조감소하지 않으며, 최적화된 R/K도 batch마다 달라진다. Q의 비증가, NS 손실의 선형화 또는 L4 중심의 active set을 보장하지 않는다."
+  },
+  "runtime_priorities": [
+    "첫 편집층 이전의 변경되지 않는 prefix를 batch-entry에서 재사용한다.",
+    "A_l factorization은 batch 안에서 재사용하고, B가 유리한 경우 Woodbury/native-equivalent dual solve를 actual K로 구성한다. B가 큰 경우 primal solve를 선택하며 parity를 검증한다.",
+    "NLL/KL 필요한 위치에서만 동일 full-vocabulary head를 계산한다.",
+    "층별 actual stage checkpoint와 whole-logical-batch adjoint replay로 token activations를 microbatch/offload한다. 물리 microbatch는 writer batch를 쪼개지 않는다.",
+    "비용은 low-rank compact Q로 계산하고 terminal에서 effective FP32 Q를 검증한다.",
+    "보정 이후 task와 lambda*Q adjoint를 같은 reverse에서 합산한다. 별도 subject-only forward/teacher bridge는 제거한다.",
+    "speedup은 미검증이며 호출 수·exclusive 시간·메모리·처리 토큰을 실측한다.",
+    "거절된 trial은 forward만 수행한다. 초기 후보와 각 채택 후보의 gradient 계산에 필요한 replay를 실제 호출로 집계하고, terminal mapping은 마지막 채택 후보의 gradient를 재사용한다. B1 native calibration fit의 추가 시간을 포함해 새 경로의 비용을 측정하며, V14의 82초/후보에서 ETA를 직접 외삽하지 않는다."
+  ],
+  "comparison_status": "최신 사용자가 이름을 새로 정하고 GH에게 SH4 실험 진행을 전달하도록 지시했다. 단일 MEMIT arm, server4, 2000편집. 실제 전달/수신/제출은 delivery receipt로 구분한다.",
+  "revision": "2026-10-06 review: local caps/native norm, radial price, proximal BB; R1 superseded in history/r1-contracts.json",
+  "lambda_Q_calibration": {
+    "name": "NATIVE_ENDPOINT_ACTUAL_RADIAL_BALANCE",
+    "reference": "B1의 동일 W_entry/H_entry와 native 요청으로 native compute_z를 요청별 독립 실행한다. 현재 profile은 native anchor L8 하나, 원래 Adam/lr/clamp/norm/KL/early-exit/max25 규칙이다. Adapter는 native delta와 해당 write 출력의 좌표 대응을 검증한다. 얻은 delta를 그 층의 R_ref로 놓고 나머지 모든 candidate layer의 R은 0으로 둔다. Reference는 commit/H append하지 않는다.",
+    "endpoint": "Native가 반환한 실제 endpoint를 쓴다. 경계로 사후 확대하지 않는다. cap contact/interior/early-stop을 기록한다. Interior reference도 같은 양수 조건을 통과하면 사용하되 clamp-equivalence라고 부르지 않는다.",
+    "actual_evaluation": "Reference R을 같은 actual all-token MEMIT candidate로 평가한다. Native subject-hook의 loss gradient를 계수 산식에 대용하지 않는다. F_task=NLL_SUM+weighted_KL_SUM; G는 per-layer native requested norm; Q는 actual causal writer cost다.",
+    "formula": "t=-<grad_u F_task(u_ref),u_ref>; n=G(u_ref)=<g_G,u_ref>; d=<grad_u Q(u_ref),u_ref>; lambda_Q=(t-n)/d. 비영 층이 하나인 reference에서는 own K가 이 radial scaling과 독립이므로 d=2Q도 검산한다.",
+    "validity": "t, n, d와 차이 t-n이 모두 유한하고 d>0 및 t>n이어야 한다. lambda_Q=(t-n)/d를 계산한 뒤에도 결과가 유한하고 lambda_Q>0인지 반드시 확인한다. 차감·나눗셈의 overflow/nonfinite 및 양수 underflow를 정상 가격으로 취급하지 않는다. abs, epsilon denominator, clipping, default 또는 0으로 대체하지 않으며 작은 d와 cancellation의 상대 오차도 기록한다.",
+    "failure": "t/n/d, t-n 또는 lambda_Q가 비유한값이거나 계산 중 overflow가 발생하면 CALIBRATION_NONFINITE로 보고한다. 유한한 d<=0은 CALIBRATION_NO_VALID_ENERGY, 유한한 t<=n 또는 계산된 lambda_Q<=0은 CALIBRATION_NO_POSITIVE_PRICE로 구분한다. 실패 단계와 피연산자를 기록하고 검사를 통과한 유한한 양수 가격만 고정한다. 실패는 해당 reference에 calibration 규칙을 적용할 수 없다는 뜻이며, 임의 계수로 main fit하거나 PS/NS를 보고 reference를 바꾸지 않는다.",
+    "all_zero_reference": "모든 native 반환 delta가 0이고 각 요청이 native no-op/early-exit 계약을 만족한 경우만 no-op batch 및 native H append-once를 허용한다. Lambda는 pending으로 두고 첫 nontrivial batch에서 동일 규칙을 적용하며 그 W/H를 기록한다. 미수렴/수치오류 때문에 모두 0이면 no-op으로 숨기지 않는다. Positive lambda 없이 nonzero main optimization은 시작하지 않는다.",
+    "lock": "한 번 계산한 lambda_Q는 모든 후속 batch에 고정한다. Batch별 재보정, strength matching, lambda sweep, PS/NS/ACC 선택은 없다.",
+    "meaning": "한 고정 reference에서 actual 목적의 aggregate radial derivative만 0으로 만드는 가격이다. Native clamp와의 등가, 접선/타층/요청별 KKT, 같은 semantic strength 또는 최적 hyperparameter를 보장하지 않는다. Boundary에서 radial equality는 그 방향의 multiplier를 0으로 놓는 조건일 뿐이다.",
+    "receipt": "Reference source/profile/seed/native step와stop, W/H/C0/input/template hashes, anchors/R/K/P, cap contacts, F_task/G/Q, t/n/d, d-2Q, lambda, 요청별 radial residual, 타층 gradient, gradient norm 및 reference fit/actual adjoint 시간과 호출을 보존한다.",
+    "cost": "B1 native reference fit이 추가된다. 3점 sweep은 아니지만 무료도 아니다. Reference 생성, actual task/Q gradient 두 채널, 모든 replay/F/B/solve를 main solver와 분리해 총 실행 비용에 포함한다."
+  },
+  "forward_decision": {
+    "main": "ACTUAL_ALL_TOKEN_FULL_CAUSAL_GRADIENT",
+    "routing": "NLL에만 DOW routing을 적용해도 수정 전 scalar objective의 full gradient는 아니게 된다. K/P 의존성을 포함하는 현재 방법에 이를 적용하는 것은 별도 설계이므로 main에 넣지 않는다.",
+    "frozen_upper": "상층 K/P를 고정하면 상태 정합성과 층 간 비용 미분에 대한 1·2번 교정이 다시 근사가 되므로 main에서 사용하지 않는다.",
+    "old67": "이전 two-arm의 PS 약 67.9%에는 frozen P, SPG, norm, reference/replay 등의 동시 변경이 포함됐다. 이를 all-token 방식만의 인과 효과로 단정하지 않는다."
+  },
+  "experiment_name": "Causal Allocation Editing",
+  "experiment_id": "causal-allocation-editing",
+  "naming_contract": "사용자 지시: 실험 표시명, task/job/run/report 식별자에 odeedit 또는 버전 접미사를 넣지 않는다. 기존 repository/source/design 경로와 내부 schema revision은 재현 이력이며 실험 이름이 아니다."
+}

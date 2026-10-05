@@ -1,0 +1,58 @@
+{
+  "schema": "JLZ_CAUSAL_MEMIT_LATEST_REVIEW_R2",
+  "date_kst": "2026-10-06",
+  "adopted": [
+    "Actual MEMIT causal write와 fresh K/P/Q를 통한 공동 최적화",
+    "층별 native requested norm/cap 및 모든 층의 후보 자격 유지",
+    "2차 Q 비용 및 native endpoint를 기준으로 한 일회성 가격 계산",
+    "BB1+nonmonotone Armijo+호출 상한+terminal mapping",
+    "Active set/실현률/Q/cap/cohort/ACC telemetry"
+  ],
+  "qualified_or_not_adopted": [
+    {
+      "claim": "All-token fit이 PS67%의 원인이다.",
+      "correction": "이전 two-arm A의 W11은 1493/2200=67.86%였다. Frozen P, SPG, group norm 및 reference/replay가 함께 달라졌으므로 all-token만의 인과 효과를 입증하지 않는다."
+    },
+    {
+      "claim": "DOW routing을 main에 추가한다.",
+      "correction": "원 논문은 NLL의 pre-subject direct parameter gradient만 차단하고 key gradient와 KL은 유지한다. 현재 방법의 candidate-dependent P를 어느 지점에서 차단하는지에 따라 다른 vector field가 된다. Full scalar gradient/KKT 계약을 유지하기 위해 main에는 추가하지 않는다.",
+      "source": "https://arxiv.org/html/2608.16932v1"
+    },
+    {
+      "claim": "Native clamp와 등가인 가격이다.",
+      "correction": "Actual 목적의 한 기준점에서 aggregate radial balance만 정한다. 양수 가격의 존재, 모든 방향의 최적성 및 clamp와의 등가성은 보장하지 않는다. t/n/d, t-n 및 lambda_Q가 모두 유한하고 lambda_Q>0인지 확인하며 비유한값·overflow는 CALIBRATION_NONFINITE로 구분한다."
+    },
+    {
+      "claim": "H가 증가하면 ridge Q가 감소한다.",
+      "correction": "Q=kappa/(1+kappa)^2는 비단조 함수다. kappa가 7→1로 감소하면 Q는 .109375→.25로 증가한다. Q의 비증가를 성공 조건으로 사용하지 않는다."
+    },
+    {
+      "claim": "Norm은 지금까지 한 번도 작동하지 않았으며 반드시 L4 중심의 active set이 생긴다.",
+      "correction": "과거 후보에서 영향이 약했다는 관측과 수학적으로 무효라는 주장을 구분한다. Prox가 정확한 0을 만들 수는 있으나 어떤 층이 active가 될지는 아직 알 수 없다."
+    },
+    {
+      "claim": "SPG 400회 미수렴은 400 iterations를 수행한 fit 실패다.",
+      "correction": "400 oracle calls에서 W0의 16/16이 NOT_CONVERGED였다. 호출 수에는 rejected search와 final replay가 포함된다. Stationarity와 편집 성공 여부는 별개다."
+    },
+    {
+      "claim": "Frozen-upper는 full joint와 동일하다.",
+      "correction": "HJ 비교 결과는 비슷하지만 완전히 같지는 않다. 다른 objective/key 구조에도 등가라는 증거는 아니므로 이번 main에는 채택하지 않는다."
+    },
+    {
+      "claim": "V14의 82초/후보를 바탕으로 20–35h를 추정한다.",
+      "correction": "새 all-token 경로, reference fit 및 accepted/rejected 비용은 아직 측정하지 않았다. B1 실측 전의 확정 ETA로 사용하지 않는다."
+    },
+    {
+      "claim": "B1 PS95/NS−.4pp를 gate로 사용한다.",
+      "correction": "서로 다른 과거 방법의 최선값을 동시에 만족해야 할 필수 조건으로 삼지 않는다. 과학적 비교 목표로 보고하되 held-out 결과를 fit이나 계수 선택에 사용하지 않는다."
+    }
+  ],
+  "local_evidence": [
+    "experiment-reports/servers/server4/jlz-twoarm-bs100x20-20261002-v1/user-stop-20261002-r1/report-ko.md",
+    "plans/global/2026-10-02-jlz-two-arm-v2/design-ko.md",
+    "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/calibration-summary.json",
+    "project/run_scripts/memit_hj/spg.py"
+  ],
+  "mathematical_tests": "reference_calibration/audit.json",
+  "status": "DESIGN_ONLY_NO_TARGET_MODEL_RESULT"
+}

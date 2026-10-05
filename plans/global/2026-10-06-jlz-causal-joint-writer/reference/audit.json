@@ -1,0 +1,39 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "limits": [
+    "No model/benchmark data, production code, or experiment changed.",
+    "Ideal symmetric SPD A and FP64 weights; production cast/add and asymmetric-input contracts need separate validation.",
+    "No production optimizer, memory/time qualification, stopping policy, semantic accuracy, or convergence certified.",
+    "Microbatch loss adjoints preserve full logical-batch geometry; logical-batch partition invariance is not claimed.",
+    "Calibration toy value is not a proposed experimental coefficient.",
+    "Exact mean interpolation appears only as a mathematical support witness, not an experimental arm."
+  ],
+  "measurements": {
+    "causal_Q_gradient_FD_max_error": 2.2726959203467345e-13,
+    "causal_dense_compact_gradient_max_error": 6.938893903907228e-18,
+    "causal_native_gradient_FD_max_error": 5.49076438829954e-10,
+    "frozen_upper_key_lower_Q_gradient_error_norm": 6.070264762590719e-05,
+    "frozen_upper_key_lower_native_gradient_error_norm": 0.0021676557491336467,
+    "functional_commit_FP64_logit_max_error": 0.0,
+    "microbatch_1_2_4_tail_gradient_errors": {
+      "1": 2.220446049250313e-16,
+      "2": 2.220446049250313e-16,
+      "4": 1.1102230246251565e-16
+    },
+    "synthetic_calibration_ratio_not_experiment_value": 77.97757700866791
+  },
+  "numpy": "2.2.6",
+  "python": "3.12.0",
+  "schema": "JLZ_CAUSAL_MEMIT_CPU_MATH_REFERENCE_V1",
+  "scope": "one MEMIT writer, actual candidate-weight forward, full causal key derivatives; synthetic FP64 only",
+  "seconds": 0.17376241274178028,
+  "seed": 20261006,
+  "source_sha256": {
+    "causal_memit.py": "fdb28a3624c4d7d0dd83187edd29ec554bfa4214072af5c051d8612c8629e09d",
+    "run_audit.py": "36dfc9687509a1c47240e44550bdb69701c07c56923c577a862f77671bb01dee",
+    "test_causal_memit.py": "e23610d2947a9f366bd4d3a30f87201c983b524a56a97cd4be120b36bba1a842"
+  },
+  "status": "PASS",
+  "tests_run": 12
+}
