@@ -1,0 +1,61 @@
+{
+  "task_id": "causal-allocation-editing",
+  "status": "SOURCE_CPU_CHECKED_NOT_GPU_QUALIFIED",
+  "CPU": {
+    "tests": 63,
+    "passed": 63,
+    "receipt": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/production-cpu-ready.json",
+    "sha256": "52abe35a0684f15029a81120faae75616523b7681b96b863b985d691686b79da",
+    "scope": "Production CPU fixtures only; original 12+12 mathematics reused by bound SHA, not actual LM proof",
+    "earlier_fixture_failure_KEEP": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/production-cpu-sealed.json.txt",
+    "earlier_failed_fixture_source": {"path": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/failure-source/test_collect.py", "sha256": "0c19c5ecf3d5ccf320b0f992bd40349540c95356c3ff490a173407743751cb09"},
+    "fixture_repair": "Bad identity fixture now changes its expected accepted ID; it no longer attempts to overwrite an immutable raw receipt. Science/tolerance unchanged."
+  },
+  "independent_changed_source_review": {
+    "reviewer": "/root/causal_red",
+    "scope": "Full causal task/Q reverse, raw-A transpose, native full-token entry, exact accepted payload, history once and qualification/READY boundaries",
+    "resolved": ["native KL crop mismatch", "physical restore snapshot variable shadow", "selected logits/effective action elementwise coverage", "NaN comparison false PASS"],
+    "confirmed_remaining_blockers": 0,
+    "CPU_engine_executed": 9,
+    "final_finite_guard_owner_regression": 10,
+    "actual_model_or_GPU_calls": 0
+  },
+  "separate_worker_source_review": {
+    "reviewer": "/root/causal_engine",
+    "scope": "Other worker's controller, native reference, solver/calibration and collector; own engine is owner-reviewed, not self-certified independent",
+    "confirmed_blockers": 0,
+    "actual_model_or_GPU_calls": 0
+  },
+  "resources": {
+    "GPU_task_cap": 1,
+    "project_cap": "Fresh minimum of tracked/local/current authority; no increase",
+    "GPU_job_host_MiB": 59392,
+    "hard_host_MiB": 60416,
+    "collector_host_MiB": 24576,
+    "CPU_per_job": 8,
+    "wall_hours_qualification": 4,
+    "wall_hours_main": 48,
+    "wall_hours_collector": 4,
+    "max_batch_owner_padded_tokens": 13230,
+    "host_execution_estimate_GiB": 38.036120971679686,
+    "model_load_phase_estimate_GiB": 40,
+    "actual_peak": "NOT_MEASURED",
+    "reserved_output_GiB": 12,
+    "preparation_free_GiB": 59.49598693847656,
+    "wall_is_ETA": false
+  },
+  "input_binding": {
+    "path": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/native-full-input-binding.json",
+    "sha256": "76d0ce59ecabca78fad0bd4c82fe8bbe2bb4aa7fbdd01af5e7e1b6c05f35c403"
+  },
+  "configuration": {
+    "path": "/data/janghj/ODE-edit/local/causal-allocation-editing/preparation/configuration.json",
+    "sha256": "fd15741517cf6600f832384d9fd17ee6e26c4dac21fe16b07053bc256dea2f81"
+  },
+  "actual_LM_parity": "NOT_RUN",
+  "actual_positive_lambda": "NOT_ESTABLISHED",
+  "W20": "NOT_OBSERVED",
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED; source/compact receipts Git, raw/tensors/model/fullstdout local KEEP",
+  "save_checkpoints": false,
+  "exact_resume": "NOT_AVAILABLE"
+}

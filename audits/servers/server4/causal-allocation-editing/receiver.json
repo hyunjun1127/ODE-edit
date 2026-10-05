@@ -1,0 +1,31 @@
+{
+  "instruction_id": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "task_id": "causal-allocation-editing",
+  "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "worktree": "/data/janghj/ODE-edit/local/causal-allocation-editing/worktree",
+  "authority": "c60d7fee40ae145ca7ce5be9f4b7d55aaf19eca4",
+  "envelope_sha256": "a54b8a8487913d1642e1060de44680d67b3256ca536bee301dd5d295385545fa",
+  "manifest_sha256": "f421d54e2a85883deae62246a16b268cf9ef152fd092fbc5d254dd0f376227a4",
+  "SHA_bind": "21 manifest members plus manifest/envelope verified; canonical bytes unchanged",
+  "FULL_READ": [
+    "dispatch.json; current method/implementation/validation/experiment JSON",
+    "manifest/latest-review-resolution/pipeline comparison",
+    "complete current and historical method.tex (991 lines); operative section distinguished",
+    "reference and reference_calibration README/audit/requirements, six Python reference/test/runner files"
+  ],
+  "historical_exclusions": "history/r1-contracts.json SHA-bound but not claimed FULL_READ; not operative. Old shared budget, first-nonzero gradient ratio and common native stop are not inherited.",
+  "schedule": {
+    "rows": 2000,
+    "all_fields_parsed_against_dataset": true,
+    "sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "ordered_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "fresh_CPU_tokenizer_packs": 20,
+    "full_native_rows": 14000,
+    "observer_identity_rows": 26000,
+    "full_KL_future_tokens_retained": true
+  },
+  "GPU_qualification": "NOT_RUN_AT_PREFLIGHT",
+  "positive_lambda": "NOT_ESTABLISHED_AT_PREFLIGHT",
+  "checkpoint_saved": false,
+  "other_task_mutations": 0
+}

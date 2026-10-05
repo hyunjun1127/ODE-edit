@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-SH4-CAUSAL-ALLOCATION-EDITING",
+  "task_id": "causal-allocation-editing",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "authority_commit": "c60d7fee40ae145ca7ce5be9f4b7d55aaf19eca4",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "summary_ko": "동일 task 기존 local디렉터리/branch/등록경로/정확 Slurm name 검색결과0. 전용 clean worktree에서 새 단일 native mean-key ridge 실제 causal학습/proxBB/20batchcontroller 구현 착수. 접수는 GPUqualification/제출/완료가 아니며 GH재승인 대기없음.",
+  "duplicate_found": false,
+  "worktree": "/data/janghj/ODE-edit/local/causal-allocation-editing/worktree",
+  "branch": "codex/causal-allocation-editing",
+  "GPU_qualification": "NOT_RUN",
+  "submission": "NOT_SUBMITTED",
+  "other_tasks_modified": false,
+  "GH_additional_approval_wait": false
+}
