@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "owner": "SH4",
+  "authority": "Current USER authorizes this new v12-R implementation, qualification and all5specified independent2k trajectories with priorities. Scoped exception to STOP only this task. Previous USER_STOPPED CausalAllocationEditing staysstopped; no unrelatedtaskresume/cancel.",
+  "user_quote": "이대로 설계할 것이니 method 구현 및 실험 설계 부분 GH에게 전달하고 SH4에게 task 전달시키자.",
+  "envelope": "messages/head/2026-10-06-jlz-v12r-sh4.json",
+  "scope": "MAIN/BLIND/L4ONLY/BASE2X/NOEXPAND eachBS100x20, minimalqualification, collector/report",
+  "new_recurring_monitor": false,
+  "otherstops_unchanged": true
+}

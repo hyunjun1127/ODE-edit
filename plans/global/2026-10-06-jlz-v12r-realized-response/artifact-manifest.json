@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "members": [
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/user-method-spec.md",
+      "bytes": 36359,
+      "sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/clarifications.json",
+      "bytes": 5558,
+      "sha256": "a28250d6812f7994c8af3fbe0ff92a22c76e5c7ce1feb3721af5494ab190d87c"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/method-contract.json",
+      "bytes": 5762,
+      "sha256": "56896be49cf1f4a773178e669acff4ecc7eeb1c8e2a92c0ccea1c9fd9d5571ed"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/validation-contract.json",
+      "bytes": 3643,
+      "sha256": "f6d6f0b67caadae0d7cdb1801abda5ae8149a4822096a69ed0335e0e49428791"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/implementation-contract.json",
+      "bytes": 3641,
+      "sha256": "09bddb6c0eeec45bc779161a68d041c2062e3fb31f14386a2c77286f4d86c8e3"
+    },
+    {
+      "path": "plans/global/2026-10-06-jlz-v12r-realized-response/experiment-contract.json",
+      "bytes": 6639,
+      "sha256": "7ca9030aaf6866f2e4b2fc4a11cdbfaa297f24d7d340913ab368e073737e328d"
+    },
+    {
+      "path": "messages/head/2026-10-06-jlz-v12r-sh4.json",
+      "bytes": 6792,
+      "sha256": "d54d11387e3d7cd3457b17b52ad8e0d17beca6bb15721404b5b800658f341e85"
+    },
+    {
+      "path": "control/experiment-exceptions/jlz-v12r-sh4-20261006.json",
+      "bytes": 785,
+      "sha256": "4cea76a882aa91c4b9577eaf593c963c5bbde6e9e175aeed7cc2c360957d4ef8"
+    }
+  ],
+  "checks": [
+    "originalSHA byte-identical",
+    "JSONparse8members",
+    "5arms BS100x20",
+    "max25eval24update",
+    "420history appends across5arms"
+  ],
+  "verification_level": "GH document/source consistency only; no CPUmath execution/production/GPU PASS"
+}

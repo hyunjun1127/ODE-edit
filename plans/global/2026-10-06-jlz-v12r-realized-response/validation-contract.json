@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "source": "plans/global/2026-10-06-jlz-v12r-realized-response/user-method-spec.md#13",
+  "existing_reference_status": "NOT_SUPPLIED/NOT_REPRODUCED",
+  "required_CPU": [
+    "actual reference source and reproducible receipt; no inherited table PASS",
+    "exact projection vs independent constrained reference; arbitraryB/dim/nonuniform caps/zero x/rho>=sumcap/FP32store violation",
+    "single-layer projection/gamma reductions with anchor semantics explicit",
+    "ridge response/idealSPDenergy bound vs rawnativeA applicability",
+    "same-layer response pullback finite-difference of fixedM same-mask continuous surrogate",
+    "mixedzero/active/offdiagonal coupling/reactivation/no permanent freeze of active satisfied",
+    "grace ownupdate12 boundary, terminal25 nobackward/update, n_exp0 division avoidance, BASE2X clipped max",
+    "Adam moments/bias gamma allzero, no anchor LR scaling",
+    "candidate payload exact commit/history once includingzero/transaction failure rollback"
+  ],
+  "GPU": {
+    "requests": 4,
+    "input": "Disjoint fixed stream[2000:2004] IDs541,6693,16935,17306; select fixed2 if memory requires, before seeing metrics.",
+    "candidate_budget": "At most3 fixed candidates (zero, deterministic finite feasible nonzero, mixedzero/capped). No Adam fit/update, no permanent commit, no independent BS2 trajectory. Every extra diagnostic call counted and bounded in source lock.",
+    "gates": [
+      {
+        "test": "BUILD explicit sequential reference and V14 MB2 keys/P/weights/v",
+        "atol": 0.00002,
+        "rtol": 0.0002
+      },
+      {
+        "test": "whole-owner group per-request loss vs reference, sameactive mask",
+        "atol": 0.00001,
+        "rtol": 0.0001
+      },
+      {
+        "test": "pullback vs V14 same-layer term",
+        "criterion": "RMS difference<=1e-6+1e-3*referenceRMS"
+      },
+      {
+        "test": "last eligible layer pullback vs full gradient of same-mask subject objective",
+        "criterion": "sameRMSthreshold; not all-token objective"
+      },
+      {
+        "test": "FP32 projection storage radius/localcap",
+        "absolute_excess_max": 0.000001
+      },
+      {
+        "test": "native raw solve relative residual",
+        "max": 1e-8
+      },
+      {
+        "test": "payload/terminalkeys/history/rollback",
+        "criterion": "fixed candidate functional parity; firstactualB1copySHAexact and finalHonce, rollback on failure"
+      }
+    ],
+    "record_only": [
+      "lowerlayerapproximation error/cosine",
+      "subject vs actual alltoken loss gap",
+      "quality/concentration/radius saturation/unsatisfied/stationarity"
+    ]
+  },
+  "common_gating": "Only confirmed input/source/finite/anchor/solve/projection/gradient/cache/transaction errors block. No threshold relaxation, jitter, budget/context/dtype truncation or performance promotion gate.",
+  "first_real_B1": "SameMAINtrajectory B1 commit+H5+currenteval->ownB2entry; no repeatedB1fit.",
+  "later_diagnostics": "B5/B10/B20 terminal samecandidate bounded2-owner same-mask gradient reference retainingwholeB; record effect/calls/cost, no refit/selection.",
+  "postrun": "Independent CPU reducer same immutable raw vs reports for source/input/token/order/denominators/20commits19joins/H100(alllayers) orH20(L4ONLY), fixedcohort active/superseded pairs, budgets/controller/radii/cost accounting. Label owner vs independentreview honestly.",
+  "budget_claims": "500s and4.7GPUh NOT_MEASURED; terminalactualobserver and gradientdiagnostics included in actualaccounting. No old performance claims treated as gate."
+}

@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "method": "JLZ v12-R realized response injection and requested energy budget",
+  "original": "plans/global/2026-10-06-jlz-v12r-realized-response/user-method-spec.md",
+  "original_sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92",
+  "clarifications": "plans/global/2026-10-06-jlz-v12r-realized-response/clarifications.json",
+  "profile": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "native_anchor_layer": 8,
+    "c": 0.75,
+    "lambda_K": 0.0625,
+    "lambda_N": 0.5,
+    "lambda_C": 15000,
+    "lr": 0.1,
+    "eps": 1e-8,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "K_eval": 25,
+    "max_updates": 24,
+    "K_grace": 12,
+    "n_exp": 4,
+    "tau_F": 0.05,
+    "model_activation_R_dtype": "FP32",
+    "geometry_pullback_projection_dtype": "FP64",
+    "TF32": false,
+    "autocast": false
+  },
+  "entry": "Freeze own Wentry/Hentry, raw A=15000*C0+H, positive finite canonical full-block subject anchors a_lr, native entry KLteacher. C0 native FP32 count division then FP64; H native CPUFP32 semantics. Recreate each next batch; no model reset inside trajectory.",
+  "builder": {
+    "mode": "no_grad every candidate",
+    "flow": "For ascending eligible l: actual candidate lower weights act ALL tokens -> current native row subject keys including KL -> rewrite-only nested mean Kbar -> P=solve(A+KbarKbar.T,Kbar) over wholeB -> U=R P.T -> Wcand=Wentry+castFP32(U) -> actual effective v=(Wcand-Wentry)k for each rewrite/KL row -> continue actual ALL-token candidate boundary.",
+    "first_layer_reuse": "Only first eligible-layer keys/P independent of R may be cached within batch.",
+    "response": "M=P.T Krow; v effectiveFP32, R M idealFP64 tracked separately.",
+    "native_order": true,
+    "no_tracking_divisor_inverse_exact": true,
+    "no_symmetrization_jitter": true,
+    "upper_P_frozen": false
+  },
+  "subject": {
+    "weights": "entry weights only",
+    "injection": "add each actual effective v_lj at native subject full-block output",
+    "native_rows": "All native rewrite/context rows and KL1; preserve NLL reductions and full-vocabulary current||entry KL",
+    "cross_layer_graph": "Keep lower subject injection->upper subject hidden->loss graph",
+    "forward_losses": "all F_r every candidate, no extra stop witness forward",
+    "norm": "beta_r=.5/(a_star_r²), sum_l beta_r||R_lr||, analytic gradient once; zero block gradient0"
+  },
+  "pullback": {
+    "production": "Lambda_l M_l.T in FP64, active-loss mask from clarification, then per-request norm gradient once.",
+    "included": "M off-diagonal request coupling and subject cross-layer dependency",
+    "excluded": "dK/dP, builder.reverse, full actual-lower->upper builder derivative, routes.cached_vjp/R4a, old v12 writer.apply",
+    "diagnostic_only": "V14 reverse/same-layer/full causal reference with same loss mask"
+  },
+  "optimizer": {
+    "type": "EfficiencyAdamAbs",
+    "state": "per-request m,v,per-layer mean-square EMA s,t; bias correction by that request actual update count",
+    "gamma": "sqrt(s_hat_l/mean_eligible(s_hat)); allzero s_hat => gamma=1",
+    "step": "Rtilde=R-.1*gamma*m_hat/(sqrt(v_hat)+1e-8)",
+    "forbidden": "No lr/a_star, eps*a_star, q-Adam, BB, warmup, price matching or per-layer masking.",
+    "projection": "Exact Euclidean capped L2 energy projection in FP64 via sorted breakpoints; retain moments afterward."
+  },
+  "constraint": {
+    "rho_base": "min(.75*a_first,.75*a_star)",
+    "rho_max": ".75*a_star",
+    "local_caps": ".75*a_lr",
+    "budget": "sum_l||R_lr||²<=rho_r² and ||R_lr||<=localcap_lr",
+    "projection": "y_l=min(cap_l,theta||x_l||)*x_l/||x_l||. x_l=0->0 without division. theta=1 if locally-clipped energy feasible; otherwise exact common theta <=1 from sorted breakpoints. No sequential ad-hoc radial/clamp substitute.",
+    "stored_feasibility": "On FP32 stored R compute FP64 local excess max(||R_l||-cap_l,0) and global radius excess max(sqrt(sum||R_l||²)-rho,0), each <=1e-6. Also report raw squared-energy excess with units; do not normalize/change criterion after results. No hidden shrink."
+  },
+  "controller": {
+    "zero": "initial F<.05 forward-only/R0/update0, reenter once F>=.05",
+    "normal": "Before each nonterminal update, if own t>=12 and currentF>=.05 and e<4 expand one step. Satisfied active requests keep updating at fixedradius; radius never decreases.",
+    "terminal": "k=24 or all requests remain inactive/satisfied. Last evaluated candidate only; no terminal backward/update/expansion.",
+    "states": [
+      "ZERO_STEP",
+      "SATISFIED_BASE",
+      "SATISFIED_EXPANDED",
+      "UNSATISFIED_MAX",
+      "UNSATISFIED"
+    ],
+    "finite_unsatisfied_commit": true
+  },
+  "commit": {
+    "payload": "exact terminalBUILD FP32 weights, no new solve/reconstruction/doubleadd",
+    "H": "After all eligible writes final rewrite-only native mean keys append once per eligible layer including zero and unsatisfied requests; KL excluded. Reuse terminal keys only qualified parity.",
+    "transaction": "RAM W/H/RNG/cache/context/cursor rollback on technical error; no partialcommit",
+    "next_batch": "own preceding committed model andH; recreate teacher/anchor/geometry/firstP and reset optimizer/radius"
+  },
+  "limits": {
+    "logical_BUILD_per_batch": 25,
+    "subject_forward_per_batch": 25,
+    "subject_backward_per_batch": 24,
+    "terminal_extra_planner_backward": 0,
+    "side_observer_diagnostic_cost": "separate explicitly metered not hidden in25fitbudget"
+  },
+  "status": "DERIVED_IMPLEMENTATION_CONTRACT_NOT_IMPLEMENTED_NOT_GPU_QUALIFIED"
+}

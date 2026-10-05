@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "method": "plans/global/2026-10-06-jlz-v12r-realized-response/method-contract.json",
+  "clarifications": "plans/global/2026-10-06-jlz-v12r-realized-response/clarifications.json",
+  "qualification": "plans/global/2026-10-06-jlz-v12r-realized-response/validation-contract.json",
+  "profile": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "dataset": "counterfact-fixed-10k-v1",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "prefix": 2000,
+    "BS": 100,
+    "batches": 20,
+    "seed": 20261002,
+    "model_precision": "FP32/eager/TF32off",
+    "geometry_precision": "FP64",
+    "shared_model_assets_readonly": true
+  },
+  "arms": [
+    {
+      "id": "MAIN",
+      "priority": 1,
+      "eligible_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "anchor_layer": 8,
+      "n_exp": 4,
+      "base_multiplier": 1,
+      "pullback": "same-layer fullM"
+    },
+    {
+      "id": "BLIND",
+      "priority": 2,
+      "eligible_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "anchor_layer": 8,
+      "n_exp": 4,
+      "base_multiplier": 1,
+      "pullback": "same-owner adjointsum; same actualv forward"
+    },
+    {
+      "id": "L4-ONLY",
+      "priority": 2,
+      "eligible_layers": [
+        4
+      ],
+      "anchor_layer": 8,
+      "n_exp": 0,
+      "base_multiplier": 1,
+      "pullback": "same-layer fullM"
+    },
+    {
+      "id": "BASE-2X",
+      "priority": 2,
+      "eligible_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "anchor_layer": 8,
+      "n_exp": 4,
+      "requested_base_multiplier": "sqrt2",
+      "effective_base": "min(sqrt2*base,originalrho_max)",
+      "pullback": "same-layer fullM"
+    },
+    {
+      "id": "NO-EXPAND",
+      "priority": 3,
+      "eligible_layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "anchor_layer": 8,
+      "n_exp": 0,
+      "base_multiplier": 1,
+      "pullback": "same-layer fullM"
+    }
+  ],
+  "initialization": "Each arm separate coldW0/H0/optimizer/radii. Same orderedfirst2000. No cross-arm updated weights/H/optimizer/teacher/keycache or priorfinishedcheckpoint reuse. Identity-matched W0observations may be shared with provenance; no editedstate sharing.",
+  "schedule": "CPU/source -> actual fixedcandidatequalification(no fitting) -> MAINcoldB1..B20 -> priority2 independentcoldarms -> priority3NOEXPAND -> CPU factualpackage. Register dependencies upfront within caps. MAIN outcome/PS/NS do not decide running controls. Resource-order afterany distinct from same-source technicalREADY/PASS. Per-arm technical failure does not invent other-arm PASS; common source failure blocks affectedsame-code execution.",
+  "budgets": {
+    "arms": 5,
+    "total_physical_edit_applications": 10000,
+    "distinct_fact_cohort": 2000,
+    "total_commits_max": 100,
+    "total_builds_max": 2500,
+    "total_logical_subject_forwards_max": 2500,
+    "total_logical_subject_backwards_max": 2400,
+    "total_request_Adam_updates_max": 240000,
+    "history_appends_complete": 420,
+    "additional_sequential_pilot_fit": 0,
+    "new_baseline_fit": 0,
+    "new_exact_arm": 0,
+    "performance_sweep": 0
+  },
+  "evaluation": {
+    "W0": "samefirst2000; same-runtime exactidentity cachedraw reuse permitted else freshonce, not a baselinefit",
+    "current": "Eachbatchpre/post ownR100/P200/N1000; reuse currentpre atsameexactstate ifalreadyobserved",
+    "allseen": [
+      5,
+      10,
+      15,
+      20
+    ],
+    "W20_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "cohorts": "fixedfirst500 W5->W10->W15->W20, birth cohorts, active/superseded versioned facts, W0correct retention/lostgained; exactsameendpoint duplicate observation reused",
+    "metrics": [
+      "RS/PS/NS preference counts",
+      "TF strict/tokenmicro/promptmacro ACC",
+      "true/new/desired NLL and margin",
+      "requested/realized direction/norm/cosine/error/shares andzeroowner leakage",
+      "radius/expansion/status/t/gamma/cap/theta/energy",
+      "ideal and effectiveQ, applicability of SPD bound, capacity distribution",
+      "terminal subject vs alltoken gap",
+      "exclusive cost/build/subjectF-B/pullback/optimizer/observer/diagnostic/RAMVRAM/logicalphysicalcounts"
+    ],
+    "historical": "Existing baselines matchedsample/endpoints only, expose runtime/evaluator/seed/layer differences. Originaldocument historicalstatements unverified context until artifacts checked. No newbaselinefit."
+  },
+  "termination": "Per arm after20commits,W20 andcompactreport, noB21. Finiteunsatisfied/nonconverged continue; no performancepromotiongate.",
+  "resource_schedule": {
+    "task_max_concurrent_GPUs": 2,
+    "project_cap": "min(currenttrackedserver4=3,localcap); count existingallocated/admittedpending. No increase.",
+    "MAIN_priority": "Schedule MAIN before newcontrolarms; controls independent not contingent on performance. Withinpriority2 choose safe2laneorserial;NOEXPANDafterpriority2.",
+    "per_GPU_job": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 59392,
+      "hard_host_memory_MiB": 60416,
+      "wall_hours_max": 48,
+      "partition": "gpu",
+      "node": "server4",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "qualification": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB": 59392,
+      "wall_hours_max": 4
+    },
+    "collector": {
+      "GPUs": 0,
+      "CPUs_default": 8,
+      "host_memory_MiB": 24576,
+      "wall_hours_max": 4
+    },
+    "CPU_policy": "Check live node/QoS CPU-perGPU policy before freeze; lower default CPU count to legal maximum (e.g6) and consistentthreads permitted as explicit resourcebinding, without sciencechange or repeatedUSERapproval. Record chosenvalue.",
+    "pending": "Register source/profile-gated dependencies normally; do not waitforfreeGPU. No unrelatedjobcancel/resourcethrottle mutation."
+  },
+  "checkpoint_policy": {
+    "save_checkpoints": false,
+    "equivalent_resume_bundles": false,
+    "RAM_transaction": true,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "authority": "All5listedarm implementation/qualification/execution withinpriority/caps approved by currentUSER. Not only MAIN or design-only. No extra stageapproval, L4-exactexcluded.",
+  "status": "AUTHORIZED_IMPLEMENTATION_PENDING"
+}

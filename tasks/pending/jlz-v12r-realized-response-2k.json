@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "owner": "SH4",
+  "state": "AUTHORIZED_AWAITING_DIRECT_ACCEPTANCE",
+  "envelope": "messages/head/2026-10-06-jlz-v12r-sh4.json",
+  "report": "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/report-ko.md",
+  "job_ids": [],
+  "production_implemented": false,
+  "GPU_qualified": false
+}

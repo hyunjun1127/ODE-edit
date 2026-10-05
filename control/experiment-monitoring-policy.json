@@ -33,6 +33,7 @@
     "control/experiment-exceptions/jlz-v14-budget15-r2-2k-sh3-20261005.json",
     "control/experiment-exceptions/jlz-cd-cumulative-2k-sh4-20261005.json",
     "control/experiment-exceptions/causal-allocation-editing.json",
-    "control/experiment-exceptions/causal-allocation-editing-b1.json"
+    "control/experiment-exceptions/causal-allocation-editing-b1.json",
+    "control/experiment-exceptions/jlz-v12r-sh4-20261006.json"
   ]
 }

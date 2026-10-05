@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "owner": "SH4",
+  "namespace": "project/run_scripts/jlz_v12r",
+  "branch": "codex/server4-jlz-v12r-realized-response-2k",
+  "requirements": [
+    {
+      "module": "profile/entry",
+      "action": "Adapter-derived arbitraryB/d_l/row counts/lookup/native nested mean; complete-owner native groups, canonical anchors includingL8 even L4ONLY; native C0/H/teacher/pack/evaluator/hash binding. Input/reference seed20261002 inherited v12 concrete profile; preserve supplied fixedcontext."
+    },
+    {
+      "module": "BUILD adapter",
+      "action": "Read-only reuse jlz_native_writer_aware.builder.build and compatible physical/entry functions; no-grad fresh actual upperkeys/P/rowkeys/effectivev each candidate. FirsteligibleP reusewithinbatch only. Always wholeB solve inclzeroowners, KL key included v rows but excluded writermean/history."
+    },
+    {
+      "module": "subject/pullback",
+      "action": "Full ownergroup immediate backward into temporary vleaves with sameactive mask; accumulate FP64 adjoint.T@(raw@P) with exactorientation. Upper subject graph preserved. No production builder.reverse/cached_vjp or dK/dP. No extra reduction of alreadyweighted rowadjoints. BLIND selfowner sum only."
+    },
+    {
+      "module": "EfficiencyAdamAbs",
+      "action": "New native absoluteR lr.1 eps1e-8; request-local bias correction/t, layerRMSgamma, analyticnormonce and momentsmaintainedafterprojection. Not v12 anchor-scaled optimizer."
+    },
+    {
+      "module": "project_capped_energy",
+      "action": "New sorted-breakpoint exact FP64 Euclidean L2 energy projection+localcaps; FP32store feasibilityandzeroedgecases. No L1 projection/radialdoubleclamp substitution."
+    },
+    {
+      "module": "controller",
+      "action": "New zero->active irreversible state, ownupdategrace12, expandbefore13thupdate atF>=.05 to4steps, no satisfiedfreeze, no terminalbackward, no n_exp0 division. Everycandidate forwardall requests."
+    },
+    {
+      "module": "transaction/commit",
+      "action": "Qualified existing Transaction/writer.commit/telemetry.commit_measure adapters; last evaluatedBUILD payloadcopy, Hfinalonce inclzero. No oldtracking writer.apply. B1exactcommit check is partofMAINnotextra fit."
+    },
+    {
+      "module": "runner/collector",
+      "action": "5explicitarmprofiles, owncoldtrajectory20commits; no B21; MAINfirst order not metricgate. READY source/profile-gated jobs and CPUafteranyfailurecollector. Structured source/config/input/job/qualification/initial/terminal distinction."
+    }
+  ],
+  "tests": "Own new namespace tests and source-bound reference; reuse compatible existing bytebound native/evaluator evidence, no broad method reimplementation. Original claimed CPU proof file missing; label faithfully until actually implemented/run.",
+  "shared_code_permissions": "Prefer wrappers/imports; do not edit shared V12/V14/causal source or frozen archives. If a demonstrated incompatibility needs sharedsource change, report exact path+minimal backward-compatible diff to GH before widening scope; this is not a request to pause already-in-scope implementation.",
+  "precision": "FP32model/activation/R and native materialization, FP64 rawgeometry/pullback/projection; no symmetrization/jitter/TF32/autocast. No hidden precision/context/B/step truncation.",
+  "logging": "Immutable local scalar/event/percase/telemetry, no persistent W/H/R/optimizerresume bundle. RAM rollback/payload reuse allowed. Sum onlyexclusive stages; shared/totaltimers tagged.",
+  "implementation_status": "NOT_IMPLEMENTED_BY_GH; SH4 owns production work"
+}

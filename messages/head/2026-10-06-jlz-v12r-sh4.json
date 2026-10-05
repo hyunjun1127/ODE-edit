@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "nonce": "USER-GH-SH4-JLZ-V12R-20261006",
+  "task_id": "jlz-v12r-realized-response-2k",
+  "user_quote": "이대로 설계할 것이니 method 구현 및 실험 설계 부분 GH에게 전달하고 SH4에게 task 전달시키자.",
+  "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "cwd": "/data/janghj/ODE-edit"
+  },
+  "authority": "Current USER authorizes this new v12-R implementation, qualification and all5specified independent2k trajectories with priorities. Scoped exception to STOP only this task. Previous USER_STOPPED CausalAllocationEditing staysstopped; no unrelatedtaskresume/cancel.",
+  "canonical": {
+    "original": "plans/global/2026-10-06-jlz-v12r-realized-response/user-method-spec.md",
+    "original_sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92",
+    "method": "plans/global/2026-10-06-jlz-v12r-realized-response/method-contract.json",
+    "implementation": "plans/global/2026-10-06-jlz-v12r-realized-response/implementation-contract.json",
+    "experiment": "plans/global/2026-10-06-jlz-v12r-realized-response/experiment-contract.json",
+    "qualification": "plans/global/2026-10-06-jlz-v12r-realized-response/validation-contract.json",
+    "clarifications": "plans/global/2026-10-06-jlz-v12r-realized-response/clarifications.json",
+    "manifest": "plans/global/2026-10-06-jlz-v12r-realized-response/artifact-manifest.json",
+    "precedence": "LatestUSERboundary + explicitclarifications implement preservedoriginal. Do not replace with frozenentryP/oldv12/v14/fullbuildergradient. Originaltext immutable, scientificchanges require separateexplicitrevision."
+  },
+  "execution": "SH4 implements in dedicated non-main branch codex/server4-jlz-v12r-realized-response-2k. MAINfirst then BLIND/L4ONLY/BASE2X thenNOEXPAND, eachcoldBS100x20. MinimalCPUreference+fixedcandidateGPUqualification(nofit); B1 is realMAINB1continuingB2..B20, no B1refitpilot. TechnicalREADY then no furtherapproval.",
+  "allowed_write_paths": [
+    "project/run_scripts/jlz_v12r/**",
+    "plans/updates/server4/jlz-v12r-realized-response-2k/**",
+    "audits/servers/server4/jlz-v12r-realized-response-2k/**",
+    "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/**",
+    "runs/jlz-v12r-realized-response-2k/**",
+    "tasks/status/jlz-v12r-realized-response-2k/server4.json",
+    "messages/acks/server4/jlz-v12r-realized-response-2k.json",
+    "messages/server-heads/server4/jlz-v12r-realized-response-2k.json",
+    "local/jlz-v12r-realized-response-2k/**",
+    "own dedicatedworktree ignoredservers/local/session-boundary.env"
+  ],
+  "source": "Prefer qualified reuse/wrappers for entry/builder/subject/telemetry/Transaction/writer without sharedsource edits. OwnerSH4 notGHproxy. Sharedmodules read-only unless exactminimalextension reported toGH. Preserve allfrozenarchives/jobs/dirtyroot/currentprofile. Model/effort settings remain USERmanaged, nooverride.",
+  "Slurm_permission": "AUTHORIZED newtaskqualification/5arms/collectoronly; fullresourcepreflight+exactheldowner/source/fullargv/resource/dependency checks before release. No unrelatedwrites.",
+  "resources": {
+    "task_max_concurrent_GPUs": 2,
+    "project_cap": "min(currenttrackedserver4=3,localcap); count existingallocated/admittedpending. No increase.",
+    "MAIN_priority": "Schedule MAIN before newcontrolarms; controls independent not contingent on performance. Withinpriority2 choose safe2laneorserial;NOEXPANDafterpriority2.",
+    "per_GPU_job": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 59392,
+      "hard_host_memory_MiB": 60416,
+      "wall_hours_max": 48,
+      "partition": "gpu",
+      "node": "server4",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "qualification": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB": 59392,
+      "wall_hours_max": 4
+    },
+    "collector": {
+      "GPUs": 0,
+      "CPUs_default": 8,
+      "host_memory_MiB": 24576,
+      "wall_hours_max": 4
+    },
+    "CPU_policy": "Check live node/QoS CPU-perGPU policy before freeze; lower default CPU count to legal maximum (e.g6) and consistentthreads permitted as explicit resourcebinding, without sciencechange or repeatedUSERapproval. Record chosenvalue.",
+    "pending": "Register source/profile-gated dependencies normally; do not waitforfreeGPU. No unrelatedjobcancel/resourcethrottle mutation."
+  },
+  "preflight": "ExactoriginalSHA/fullread/manifest; source/runtime/model/tokenizer/data/fixedschedule/nativecontexts/C0/evaluator/seed binding; sourcecontroller/energy/active-mask/terminalbudget tests; finiteandmemory/storage/plannedwall; actualtargetnativequalification aslockedcontract. Missingv12r_reference claim NOT_VERIFIED. Label actualowner/independentreview evidence, nofictionalPASS.",
+  "artifact_policy": "NoCP/delta/H/R/optimizer/RNGresume-equivalentpersistedbundle. Localreadonlysourceassets; raw/percase/tensor/prompt/fullstdout remainignoredlocal, compactsource/status/report/CSV/counts/manifests git. Existingordinaryartifactbroadcast exactallowlist/no--delete or explicitNO_BROADCAST_NOT_REQUIRED. No automaticlarge model/data/raw transfer, download/C0 recompute or sharedenvmutation. Taskscopedmissingsmallsource/context/provenance exactpull allowed sourceKEEP.",
+  "publication": "Ownscope source/tests/compactreport/status/manifests nonforce ownbranch+main afterscopedchecks delegated. Main/sourcecommit mustdistinguish executed bytes vs lateranalysis. Root/concurrentchangespreserved.",
+  "report": "experiment-reports/servers/server4/jlz-v12r-realized-response-2k/report-ko.md",
+  "ACK": "messages/acks/server4/jlz-v12r-realized-response-2k.json",
+  "status": "tasks/status/jlz-v12r-realized-response-2k/server4.json",
+  "monitoring": "GH handoff ends after exactowneracceptanceACK, notGPUcompletion. SH4 authorizedimplementation/registrationcontinues afterconnectioncloses. Boundedregisteredpending or realMAINB1commit/B2entry handoffthenagentpause; sealedDAGcontinuesallauthorizedarms. No new recurringmonitor/heartbeat/automaticretry. Technicalblockage explicitreport, no sciencechange or repeatedstageapproval.",
+  "delivery": "Check ownboundary/nonce duplicate and take ownership via direct nonceACK with IMPLEMENTING_NOT_SUBMITTED/sourcebranch or concreteblocker. Separate received/implemented/qualified/submitted/complete. RegistryfreshobservedSH4idle; checkagainbeforestart."
+}

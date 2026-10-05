@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-V12R-20261006",
+  "original_sha256": "23fedf548b88637f1c0daea7c5e2809600e8821d6e60ce5961b29f015f683e92",
+  "original_unchanged": true,
+  "interpretations": [
+    {
+      "id": "active_loss_mask",
+      "choice": "Preserve §7/§9 controller and skip-backward semantics, not silently full-sum gradient.",
+      "details": "Forward all requests every candidate. At k0 mark zero_r iff F_r<.05. A zero request remains inactive while F_r<.05; on crossing >=.05 permanently enter normal state at base radius with its own t=0. Same-layer adjoint uses sum of active-request losses only; inactive loss rows Lambda=0. Keep all B columns and all row M entries in BUILD/solve/pullback. Inactive R columns stay0 and receive no Adam update despite cross-owner pullback gradients. Never drop their writer columns or history keys. Active requests remain active even if satisfied. Analytic beta norm added once for updated columns. Log full-sum F separately from masked backward objective. Qualification/reference use identical fixed mask; controller-boundary derivatives are not asserted."
+    },
+    {
+      "id": "payload_not_path_exactness",
+      "details": "Value/effective-v and terminal payload equality do not imply subject hidden/loss equals actual all-token hidden/loss. Last-layer pullback parity refers only to continuous subject loss with same active mask and same cast/VJP convention; not exact whole planner/all-token trajectory gradient. Production omits lowerR->upperK/P derivative intentionally and measures it only in qualification/diagnostics."
+    },
+    {
+      "id": "energy_bound",
+      "details": "sum Qideal <= sum ||R||²/4 <= sum rho²/4 is candidate-local and requires SPD ideal A. Preserve raw native A, no hidden symmetrization/jitter. Record symmetry/SPD applicability; otherwise do not assert inequality. Radius expansion and each batch's fresh anchors change bound. EffectiveFP32 Q measured separately; historical Q/.236 is not a measured request-energy or equal-strength certificate."
+    },
+    {
+      "id": "zero_expansion",
+      "details": "n_exp=0 branches directly to rho=effective_base for every candidate. No power/division by n_exp, no expansion, e=0. BASE==MAX likewise constant; no NaN branch. Grace counted in successful request updates t; first possible expansion is before update13 when t=12, not before evaluation12. Terminal candidate cannot expand/update."
+    },
+    {
+      "id": "BASE_2X",
+      "requested_base": "sqrt(2)*MAIN_rho_base",
+      "effective_base": "min(sqrt(2)*MAIN_rho_base, MAIN_rho_max)",
+      "maximum": "Keep original rho_max=.75*a_L8. Do not silently raise maximum to accommodate requested base.",
+      "details": "When requested doubled-energy base exceeds original max, max cap takes precedence. Record clipped IDs/count and actual base-energy ratio; do not claim exact2x for clipped requests. Recompute expansion ratio from effective base to unchanged max; no contraction."
+    },
+    {
+      "id": "L4_ONLY",
+      "eligible_layers": [
+        4
+      ],
+      "native_anchor_layer": 8,
+      "details": "Still capture a_L8 from entry for beta=.5/a_L8² and original rho_max. First eligible layer=4; base=min(.75*a_L4,.75*a_L8); n_exp=0; local cap=.75*a_L4. Only L4 written/H appended once; H for noneligible layers unchanged. Do not substitute L4 anchor or claim native compute_z parity."
+    },
+    {
+      "id": "BLIND",
+      "details": "Same fresh BUILD/v forward/radius/energy/controller as MAIN. Only gradient pullback replaced by sum of same-owner row adjoints per layer; adjoints already contain native reductions, no second context averaging. No M weighting or off-owner gradient in this named ablation; MAIN must keep off-diagonal M."
+    },
+    {
+      "id": "missing_CPU_reference",
+      "details": "Original v12r_reference.py and execution artifacts were not supplied. CPU-completed tables remain USER_DOCUMENT_REPORTED_UNVERIFIED; create/recover actual minimal source-bound references and run them. No inherited 12/16/181 count or reported numerical result as actual PASS."
+    },
+    {
+      "id": "qualification_commit_boundary",
+      "details": "§13 fixed-candidate GPU qualification has no optimization fit/update or permanent model commit. Use functional/RAM temporary candidate comparisons and rollback; CPU transaction tests cover injected failures. Exact physical terminal-copy/history-once validation occurs in actual MAIN B1 transaction, with rollback on failure, not a second pilot fit. B1 is first batch of same2k trajectory."
+    },
+    {
+      "id": "diagnostic_cost",
+      "details": "No extra terminal planner F/B: use terminal evaluation/BUILD payload. Terminal actual-all-token observer is separate paid computation and must be counted. At B5/B10/B20 perform bounded same-terminal diagnostic on fixed2 request owners, no extra fit or candidate update; compare same-mask full vs same-layer reference using all-B coupling, log calls and costs, never feed diagnostics into controller or arm choice. Omit only with explicit technical-unavailability receipt, not as zero cost."
+    },
+    {
+      "id": "scope_of_claims",
+      "details": "Original historical quality/mechanism tables and 500s/4.7GPUh are unverified/extrapolated context, not fresh measurements, ETA or acceptance gates. Q/layer concentration/unsatisfied counts/ACC are record-only. L4-exact proposal excluded. All literal-source errors or required scope changes must be reported as revisions, not silently patched science."
+    }
+  ]
+}
