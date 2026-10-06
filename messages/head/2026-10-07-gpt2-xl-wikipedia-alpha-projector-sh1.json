@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-WIKIPEDIA-ALPHA-PREP-20261007-R1",
+  "task_id": "gpt2-xl-wikipedia-alpha-projector",
+  "date_kst": "2026-10-07",
+  "user_quote": "baseline들이 거의 qwen은 사용을 안하고 llama3,gpt-j, gpt2-xl을 기준으로 진행하는 것 같다. gpt2-xl은 파라미터가 작은 편이니 server1,2에서 진행하는 것이 맞아보이는데 method도 ours가 적용이 잘 될 수 있도록 우선 wikipedia stats와 alphaedit null space pt 연산을 server1에서 각각 병렬로 진행시키자.",
+  "scope_interpretation": "이번 실행은 GPT2-XL 재사용 자산 준비: server1에서 Wikipedia mom2/C0와 AlphaEdit null-space projector 계산 및 ours-compatible profile/manifest. 기존 Llama/GPT-J/Qwen 재계산 또는 baseline/ours sequential 실험 제출은 이 task 범위 아님. server2는 향후 사용 대상이며 지금 계산 담당은 SH1.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repo": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "app_host": "remote-ssh-codex-managed:lab120",
+    "branch": "codex/server1-gpt2-xl-stats-projector-20261007",
+    "model_effort": "사용자 현재 설정 유지"
+  },
+  "authority": "구현/최소 기술 검산/자원 확인/Slurm 등록 및 Wikipedia stats·projector 실계산/CPU 검산·보고를 추가 승인 없이 진행. 기존STOP의예외는본준비task뿐. 자원은cap내parallel/pending; 기존job취소/타실험재개0.",
+  "source_evidence": {
+    "alpha_hparams": {
+      "path": "/mnt/raid5/janghj/EasyEdit/hparams/AlphaEdit/gpt2-xl.yaml",
+      "sha256": "845d4150960ea8d3448c234ed503dcf63802e7b2389dd36040557a60adeb786c"
+    },
+    "memit_hparams": {
+      "path": "/mnt/raid5/janghj/EasyEdit/hparams/MEMIT/gpt2-xl.yaml",
+      "sha256": "ef0dcc09123b9b20b1e92f1ad83bc7b3ed4b2cad5141e1290b698c383d8d1ba8"
+    },
+    "projector_source": {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/AlphaEdit_main.py",
+      "sha256": "a3a459abc4e05f4b3ccaf424a8950245c491686e943fdcaa52b296343e7458b1",
+      "function": "get_project/get_cov"
+    },
+    "stats_source": {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/rome/layer_stats.py",
+      "sha256": "10c5f6204697a090671d3810f7fd60e781c44b7537e47a9625c07e542ff87cc4"
+    },
+    "reuse_evidence": "experiment-reports/servers/server1/price-storage-inventory-20261007/report-ko.md / audit inventory lists existing GPT2-XL model.safetensors/pytorch_model.bin; availability is historical metadata not model verification.",
+    "bindings": "SH1 fresh read/pin native closure (runningstats/tok_dataset/nethook), tokenizer/model exact revision/config/weight files, dataset revision/content/index subset/order/token rule/runtime and stats/P output identity. local native edits are explicit source provenance, not unverified upstream equivalence."
+  },
+  "model": {
+    "repo": "openai-community/gpt2-xl",
+    "existing_cache_candidate": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl",
+    "revision": "SH1 resolve existing checkout commit and actual payload hashes, seal exact revision before execution; do not silently choose latest",
+    "config_observed": {
+      "n_layer": 48,
+      "n_embd": 1600,
+      "n_head": 25,
+      "n_positions": 1024,
+      "vocab_size": 50257
+    },
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "rewrite_module": "transformer.h.{}.mlp.c_proj",
+    "block": "transformer.h.{}",
+    "native_loss_readout": 47,
+    "orientation": "GPT2 Conv1D weight[input,output]; derive actual input width (expected6400) from live module/config, never Llama down_proj transpose assumptions. model eval/frozen/no weight editing. Cache name must preserve gpt2-xl logical identity regardless snapshot-directory basename.",
+    "precision": "FP32 model and native FP32 moment arithmetic, TF32/autocast off; record actual backend/runtime and any difference from historical cache. no reduced-precision shortcut."
+  },
+  "statistics": {
+    "dataset": "wikipedia",
+    "configuration": "20200501.en",
+    "split": "train",
+    "sample_documents": 100000,
+    "sampler": "native tally FixedRandomSubsetSampler random_sample=1; preserve exact selected document IDs/order for all layers/lanes. Existing compatible sealed subset may reuse.",
+    "tokenization": "native GPT2 tokenizer, maxlen actual n_positions=1024, native attention mask flattening and length_collation. default batch_tokens=n_positions*3; token truncation/sample count cannot be reduced for speed.",
+    "measure": "SecondMoment on INPUT to each c_proj; store original sum/count .npz schema, moment=sum/count = uncentered second moment. count is actual masked token vectors, not blindly100000. No centered covariance/un-normalized raw sum as C0.",
+    "outputs": "5 native-compatible float32_mom2_100000.npz assets, each layer SHA/size/count/data/token/model/source binding. Alternative shared multilayer forward only if same W0/rows/input mask/FP32 reduction semantics are maintained and declared.",
+    "existing_assets": "matching C0/P verified identity may reuse; missing layers only recompute. Missing incompatible assets separate namespace, no overwrite. Avoid two writers/races on one native cache path.",
+    "source_caution": "Current layer_stats main CLI may omit hparams although runtime uses hparams.device. Use sealed task wrapper passing proper hparams/device; don't execute AlphaEdit apply_... (would perform edits) or mutate shared EasyEdit code."
+  },
+  "projector": {
+    "dependency": "each projector depends on its corresponding completed/verified C0. It is not an independent measurement and must not race incomplete stats.",
+    "formula": "native get_project: cov=stat.mom2.moment().float().cpu(); U,S,_=torch.linalg.svd(cov,full_matrices=False); V=U[:,S<0.02]; P=V@V.T",
+    "threshold": 0.02,
+    "strict_comparison": "<",
+    "output_dtype": "float32",
+    "physical_layer_order": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "expected_shape": "5 x d_in x d_in, d_in derived actual GPT2 c_proj",
+    "rules": "native CPU SVD default, deterministic exact input provenance; do not replace with pinv, arbitrary eigenspace threshold, layer subset, new normalization or .01 threshold. Individual layer partials may be new task assets; atomic final stacked .pt only after all5 verified.",
+    "validation": "finite/shape/dtype, native threshold rank/spectrum boundary, symmetry/idempotence and retained-subspace C0 residual with declared numerical tolerance; original C0 PSD/symmetry/count. Residual near nonzero eigenvalues below.02 is expected, do not require C0P==0. No quality/edit-performance gate.",
+    "name": "null_space_project_gpt2-xl.pt"
+  },
+  "parallelism": {
+    "project_GPU_cap": 2,
+    "task_max_GPUs": 2,
+    "count_scope": "all current server1 owner allocations plus preparation. Respect any stricter current cap. No other jobs cancel/preempt.",
+    "implementation": "Use up to2 disjoint layer stats lanes (e.g.13/14/15 and16/17) with exact same dataset subset/token policy; or per-layer array%2. Per-layer P CPU processing can overlap remaining GPU stats after exact atomic READY/source/C0 SHA. All P jobs cannot start on missing stats.",
+    "dependency": "Slurm afterok for required stats→projector/pack correctness; failure collector afterany for audit. CPU P jobs no GPU request, bounded aggregate CPU/RAM; already-ready cache can project immediately.",
+    "no_duplicate_forward": "Don't launch redundant stats collection just to use both slots. Existing exact stats bypass re-computation. No duplicate model preload or whole-Wikipedia duplicate downloads per lane."
+  },
+  "resources": {
+    "GPU_job": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 65536,
+      "wall_hours_max": 24,
+      "export": "NONE",
+      "Requeue": 0,
+      "node": "server1",
+      "partition_QoS": "fresh resolve canonical node and current policy"
+    },
+    "CPU_projector_job": {
+      "GPUs": 0,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 32768,
+      "wall_hours_max": 12,
+      "max_concurrent": 2
+    },
+    "admission": "SH1 actual own queue, Slurm partition/node/QoS, memory per GPU/CPU-only rules, disk/inodes/cache/outputs/reserve. Fit within actual policies using explicit memory. wall caps are requests not ETA. Pending is normal; held owner/fullargv/source/resource/dependency inspection then release.",
+    "slurm_permission": true,
+    "old_jobs_mutation": false,
+    "monitoring": "bounded startup/READY or formal resource-pending handoff only. No recurring monitor/heartbeat/autoretry/new long agent polling. Sealed workers/projector/collector finish naturally; return actual submit IDs/dependencies and initial status, not completion claim."
+  },
+  "assets": {
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/",
+    "output_root": "assets/stats/gpt2-xl/wikipedia_stats and assets/null_space_project_gpt2-xl.pt",
+    "keep": "existing model/bin/safetensors/dataset/C0/P/old outputs read-only. User explicitly authorizes new statistics/projector tensors for reusable preparation; no-model-checkpoint policy is not a ban on these requested assets.",
+    "downloads": "Reuse existing local pinned model and Wikipedia cache first. If necessary public canonical tokenizer/config/model or exact native Wikipedia snapshot/subset download is allowed only after SHA/revision/storage-bound plan; no arbitrary model/dataset substitutions, no secrets/private data upload. Missing protected/network prerequisite must be stated, not bypassed.",
+    "publish_alias": "Do not overwrite EasyEdit native cache/projector. New manifest supplies absolute paths + stats/P logical mapping for later GPT2 adapters. Existing original assets untouched.",
+    "server2": "Publish small readiness/profile/manifest for future server2 use. No server2 jobs or bulk tensor transfer this turn; source remains server1 authoritative.",
+    "no_checkpoints": "No edited/full-model/optimizer/H checkpoints. Only explicitly requested C0/P assets + small manifest/diagnostic/log.",
+    "no_cleanup": true
+  },
+  "ours_compatibility": {
+    "profile": "Persist model family/revision/tokenizer, layers13..17/anchor17/readout47, Conv1D shape/transposition/keyinput dims/context/lookup mapping, C0 normalization/Pphysical indices/native threshold. These are asset readiness, not ours method GPU parity or baseline performance certification.",
+    "non_goal": "Do not import GPT2 baseline lr.5 or mom2 weight20000 into PRICE/ours planner, don't change PRICE global coefficients. No ours new arm fitting/2k or baseline edit now."
+  },
+  "tracking": {
+    "required": true,
+    "policy": "control/wandb-policy.json",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "execution": "Each compute lane/preparation attempt gets explicit task/layer phase/run identity, approved scalar progress/count/time/memory/status only; no token texts/model/C0/P/raw tensors/code upload. CPU-only operations similarly capture phase metrics via approved helper without GPU duplication.",
+    "helper": "project/run_scripts/experiment_tracking/** SH1 existing helper; caller adapter preferred, preserve scientific env. User reported login; safe no-prompt auth/project check rather than assuming. If missing AUTH report explicitly; don't publish secret or claim online."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/gpt2_xl_asset_prep/**",
+    "plans/updates/server1/gpt2-xl-wikipedia-alpha-projector/**",
+    "audits/servers/server1/gpt2-xl-wikipedia-alpha-projector/**",
+    "experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/**",
+    "runs/gpt2-xl-wikipedia-alpha-projector/**",
+    "tasks/status/gpt2-xl-wikipedia-alpha-projector/server1.json",
+    "messages/acks/server1/gpt2-xl-wikipedia-alpha-projector.json",
+    "messages/server-heads/server1/gpt2-xl-wikipedia-alpha-projector.json",
+    "local/gpt2-xl-stats-projector/**",
+    "dedicated ignored servers/local/session-boundary.env/nonsecret task configuration"
+  ],
+  "reporting": {
+    "report": "experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/report-ko.md",
+    "required": "actual model/data/runtime/input source lock; stats sample/count/layer mapping, P rank/error/sha size; job IDs/dependency/compute/storage/time, noCP exception scope/W&B run URLs; missing/partial explicit",
+    "Git": "dedicated non-main branch, exact scope only, clean nonforce main publication authorized, dirty root/source/otherworktree preserved. Tensor assets stay local.",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED now (small manifest on Git); no bulk peer broadcast automatically."
+  },
+  "delivery": "SH1 direct owner ACK first, implementation and queue registration autonomous. GH handoff ends at owner acceptance/setup/submit receipt where available, not full stats completion. All previous unrelated tasks remain unchanged."
+}

@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "task_id": "gpt2-xl-wikipedia-alpha-projector",
+  "instruction_id": "USER-GH-SH1-GPT2XL-WIKIPEDIA-ALPHA-PREP-20261007-R1",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "owner": "server1",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "branch": "codex/server1-gpt2-xl-stats-projector-20261007",
+  "envelope": "messages/head/2026-10-07-gpt2-xl-wikipedia-alpha-projector-sh1.json",
+  "status": "AUTHORIZED_AWAITING_OWNER_ACK",
+  "job_ids": [],
+  "GPU_cap": 2,
+  "scope": "GPT2-XL layers13..17 Wikipedia100k stats + .02 native null-space P; asset prep, no edit experiments"
+}
