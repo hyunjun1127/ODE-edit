@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007",
+  "task_id": "wandb-job-id-recording",
+  "date_kst": "2026-10-07",
+  "user_quote": "앞으로 wandb에 올릴때 job 번호도 같이 올리라고 해",
+  "scope": "공통 W&B 정책 보강/SH1 helper 최소 구현/모든 SH의 향후 run 식별자 적용. science 실험이나 모니터링 재개권한 아님.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repo": "hyunjun1127/ODE-edit"
+  },
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "host": "remote-ssh-codex-managed:lab120",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "expected_related_turn": "01a1128e-5e13-79b3-93f1-947b8917143d",
+      "responsibility": "공통 experiment_tracking helper의 sole implementation owner + 현재 GPT2 준비의 새 source/runtime에 적용"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "host": "remote-ssh-codex-managed:lab121",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "expected_related_turn": null,
+      "responsibility": "정책수락/향후 own new launchers config/name/helper채택"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit",
+      "expected_related_turn": null,
+      "responsibility": "정책수락/향후 own new launchers config/name/helper채택"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit",
+      "expected_related_turn": "01a11284-5dde-7811-b5c1-9ad1a2813ca5",
+      "responsibility": "현재 새 GPT-J 제출 준비에 직접 관련된 tracking 요건 추가. 미봉인 future source부터적용, 이미frozen/released면보존. commonhelper는SH1소유."
+    }
+  ],
+  "policy": "control/wandb-policy.json",
+  "requirement": {
+    "instruction_id": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007",
+    "user_quote": "앞으로 wandb에 올릴때 job 번호도 같이 올리라고 해",
+    "effective": "앞으로 생성되는 Slurm-backed W&B run의 필수 식별자. 기존 frozen/released jobs/과거 run hotpatch·재시작·일괄 rename/backfill 없음.",
+    "config": {
+      "job_id": "실제 SLURM_JOB_ID string; 제출 전 미정 번호를 추측하지 않음",
+      "array_job_id": "SLURM_ARRAY_JOB_ID 있으면 string",
+      "array_task_id": "SLURM_ARRAY_TASK_ID 있으면 string (0도 유효)",
+      "step_id": "SLURM_STEP_ID 있으면 string",
+      "job_display_id": "array면 array_job_id_array_task_id, 아니면 job_id. raw job_id와 별도",
+      "execution_backend": "slurm 또는 local",
+      "identity_source": "SLURM_ENV 또는 명시적으로 검증한 실제 submission binding. dummy/test-only ID 금지"
+    },
+    "display": "W&B run.name에 job<job_display_id>를 항상 포함. server/arm/attempt 정보와 run.id uniqueness 유지. task group은 기존대로. Config에서도 실제 ID를 검색/필터할 수 있게 기록.",
+    "runtime": "job 실제 내부 init에서 parent process가 명시 whitelist Slurm env만 채집→sanitized config/receipt/SDK sidecar 전달. 전체 env/argv 읽기·업로드 금지. caller가 제공한 실제 ID와 env 불일치면 silentoverwrite아닌 명시 identity error. scientific objective/metrics/cadence/source 외값변경0.",
+    "non_slurm": "CPU local smoke/preflight는 backend=local/job identity NOT_APPLICABLE, job ID 없음. 가짜 번호/0/UNKNOWN을 실제 Slurm 번호로 업로드하지 않음.",
+    "checks": "CPU/fake-SDK tests로 normal/array index0/step/local/missing/mismatch/privacy 및 run.name/config 일치 검사. 별도 GPU나 Slurm smoke job 금지. 다음 실제 run startup의 기존 bounded readback에서 name/config exact ID 검산하여 실제증거와CPUfixture구분.",
+    "existing_identity": "run.id는 기존attempt UUID 유지, job number만으로 덮어재사용하지 않음. multi-arm one job이면각run이같은실제jobID+distinctarm/attempt/runID; retry새job/새run연결.",
+    "secrets": "job metadata만 허용; raw env,token/APIkey,사용자prompt,model/tensor/code/stdout 업로드 금지",
+    "scientific_retry": false
+  },
+  "implementation": {
+    "sole_owner": "server1",
+    "source": "project/run_scripts/experiment_tracking/**",
+    "observed_gap": "기존 schema.job_id는 optional, worker run.name은server-arm-attempt로job이없음. parentclient의sidecarenv는Slurm을제외하므로parent에서whitelist채집이필요.",
+    "action": "새 backwards-compatible API/caller+schema whitelist/name/config/receipt 연결. strictness는실제Slurm-backednewrun에적용,local smoke는정직한notapplicable. standaloneCPUtest는fakeSDK/metadataonly,실험환경pin보존.",
+    "integrate": "기존GPT2전용WT에서별도ownsourcecommit 또는새non-mainbranch 허용. 다른SH동시helper편집금지. sourcefreeze이미끝났으면기존archive불변,새submit부터adopt; exacthelpercommit/사용법변경을소형report와main에게시.",
+    "SH2_SH3_SH4": "현재/향후새로봉인하는ownlauncher가실제jobID를helper에보내고동일runname/config보장. helper미게시시caller기존job_id선결속+sourcefreeze때최신helper채택. 기존frozenjob hotpatch0. 정책게시와실제helper배포/실제online기록검증을구분."
+  },
+  "allowed_write_paths": {
+    "server1": [
+      "project/run_scripts/experiment_tracking/**",
+      "현재GPT2준비task의기존허용범위내tracking caller만"
+    ],
+    "all": [
+      "audits/servers/<ownserver>/wandb-job-id-recording/**",
+      "experiment-reports/servers/<ownserver>/wandb-job-id-recording/**",
+      "tasks/status/wandb-job-id-recording/<ownserver>.json",
+      "messages/acks/<ownserver>/wandb-job-id-recording.json",
+      "messages/server-heads/<ownserver>/wandb-job-id-recording.json",
+      "ignored local/wandb-job-id-recording/**",
+      "own existing authorized future-run namespace의tracking caller only"
+    ]
+  },
+  "publication": "각SH전용non-mainWT ownscope비강제main게시승인,rootdirty/frozenarchive보존,globalpolicy는GH소유.",
+  "resources": {
+    "GPU": 0,
+    "newSlurm": 0,
+    "existingJobMutation": false,
+    "capChange": false
+  },
+  "delivery": "exactsession/nonceACK회수. SH1진행중GPT2및SH4현재새job준비에는직접관련tracking요건으로exactexpectedTurnId steer; 다른unrelatedactive는idle후전달. 모델/effort변경0.",
+  "monitoring": "신규recurringmonitor/poll/heartbeat0,과거W&B run재조회/일괄수정0. 완료/설정ACK사실보고."
+}
