@@ -1,24 +1,27 @@
 {
-  "schema": 1,
   "task_id": "jlz-price-gptj-2k",
   "server": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "branch": "codex/server4-price-gptj-2k",
-  "user_requests": ["gpt-j까지 memit ver, alphaedit ver 6개 arm 올리자", "그리고 gpu cap 3개로 하자"],
-  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "status": "CPU_AND_SOURCE_CHECKED_NOT_SUBMITTED",
   "job_ids": [],
-  "writers": ["MEMIT", "ALPHAEDIT"],
-  "arms_per_writer": ["CAP075", "CAP100", "FREE100"],
+  "writers": [
+    "MEMIT",
+    "ALPHAEDIT"
+  ],
+  "arms_per_writer": [
+    "CAP075",
+    "CAP100",
+    "FREE100"
+  ],
   "requests_per_cell": 2000,
   "server4_combined_gpu_cap": 3,
-  "cap_scope": "기존 동일 사용자 server4 GPU 할당과 신규 GPT-J를 합산; 실제 더 엄격한 정책 적용",
-  "existing_jobs_modified": false,
-  "model_loads": 0,
+  "task_gpu_cap": 2,
   "actual_qualification": "NOT_OBSERVED",
-  "implementation": "기존 adapter는 Llama/Qwen 전용. GPT-J 모델 및 tokenizer/config 결속과 별도 architecture adapter가 필요하며 구현 완료 아님.",
-  "asset_acquisition": "사용자가 다운로드 승인. EleutherAI/gpt-j-6b@47e169305d2e8376be1d31e765533382721b2cc1 공식 PyTorch/model-tokenizer 8개 파일 다운로드 진행; 완료 SHA 미확인.",
-  "download_root": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj",
-  "remaining": ["다운로드 SHA 검증", "GPT-J architecture/native context/모델별 lock", "source 검토 및 freeze", "fresh resource/storage admission", "실제 6개 Slurm 등록/held 검산/release"],
+  "config_sha256": "b714973635ce4429734d7042933df3b4314691a8f623532e561336076c56d85e",
+  "model_download": "SHA_VERIFIED_COMPLETE",
+  "model_path": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj/cache/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+  "existing_jobs_modified": false,
   "monitoring_active": false,
   "automatic_resume": false
 }
