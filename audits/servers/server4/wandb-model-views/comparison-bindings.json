@@ -1,0 +1,143 @@
+{
+  "authority": "USER 2026-10-07 \uc2e4\uc2dc\uac04 \uc790\ub3d9 \ub3d9\uae30\ud654",
+  "targets": [
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "LLAMA_CAP075",
+      "model": "LLAMA",
+      "job": "60001",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "LLAMA_CAP100",
+      "model": "LLAMA",
+      "job": "60002",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "LLAMA_FREE100",
+      "model": "LLAMA",
+      "job": "60003",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "QWEN_CAP075",
+      "model": "QWEN",
+      "job": "60004",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "QWEN_CAP100",
+      "model": "QWEN",
+      "job": "60005",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007",
+      "task_id": "jlz-price-cap-base-repair-2k",
+      "writer": "memit",
+      "cell": "QWEN_FREE100",
+      "model": "QWEN",
+      "job": "60006",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "68137b5203505d24dc38abc8321e545dcf9ae1fedff92128438a4075a26451bc",
+      "lock_sha256": "e391ce12e73db0e0c22b1daf8e1e2af35a30094bcb7a17d9a1e2f9bfe12e82f8"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "LLAMA_AE_CAP075",
+      "model": "LLAMA",
+      "job": "60011",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "LLAMA_AE_CAP100",
+      "model": "LLAMA",
+      "job": "60012",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "LLAMA_AE_FREE100",
+      "model": "LLAMA",
+      "job": "60013",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "QWEN_AE_CAP075",
+      "model": "QWEN",
+      "job": "60014",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "QWEN_AE_CAP100",
+      "model": "QWEN",
+      "job": "60015",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    },
+    {
+      "attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+      "task_id": "jlz-price-alpha-writer-2k",
+      "writer": "alphaedit",
+      "cell": "QWEN_AE_FREE100",
+      "model": "QWEN",
+      "job": "60016",
+      "source": "2440e548be39e55a99747d7847d21a88df419b93",
+      "config_sha256": "727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8",
+      "lock_sha256": "b2615808f0111907f203b23b58835834abd3a560ed8ce01660f37608cf59c979"
+    }
+  ],
+  "GPU": 0,
+  "Slurm_mutation": false,
+  "original_run_writes": false,
+  "poll_seconds": 60,
+  "max_hours": 168,
+  "scope": "CPU sealed scalar comparison only; no progress/quality gate or scientific retry"
+}

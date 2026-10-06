@@ -1,0 +1,29 @@
+{
+  "status": "COMPARISON_OVERLAY_REMOTE_READBACK_VERIFIED",
+  "views": {
+    "nw-pricefirst2kllama-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kllama",
+      "sha256": "e6267186b8f3e92ed8617e4905de933db2b061aedaf72927e0031761d093c46a"
+    },
+    "nw-pricefirst2kqwen-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kqwen",
+      "sha256": "c63c1549b03df90ab3172010ffc118740b975cf8bf7ea6c3e18f846d87429f25"
+    },
+    "nw-pricefirst2kgptj-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kgptj",
+      "sha256": "99c824545907d2b9095ee0115ecee383a37e8addec4ff036e30484f8b8bebbcb"
+    },
+    "nw-y9vet5iwjzr-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=y9vet5iwjzr",
+      "sha256": "80bd47e25194b905b2e0ef23e542ef15b3362b05c242e9cd600279d3e5392554"
+    }
+  },
+  "metric_namespace": [
+    "current/pre",
+    "current/post",
+    "all_seen/post"
+  ],
+  "success_unit": "percent",
+  "original_training_runs_modified": false,
+  "no_new_model_evaluation": true
+}

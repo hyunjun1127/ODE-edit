@@ -1,5 +1,17 @@
 # W&B 모델별 First 2k Saved View
 
+## 2026-10-07 사용자 지적 후 비교 연결 교정
+
+직전 분리는 새 run을 baseline/PRICE-59768과 같은 패널에서 비교할 수 없게 만든 불완전한 처리였다. 사용자 `실시간 자동 동기화` 승인에 따라 별도 CPU 비교 브리지를 추가했다. 원본 GPU run의 frozen source와 logger는 그대로 유지한다.
+
+확정된 commit 및 관측 raw의 case/order/token/state/분모를 검사하고 독립 재집계한 뒤 `current/pre`, `current/post`, `all_seen/post`의 기존 metric 이름과 % 단위로 비교용 `[comparison]` run에 기록한다. 원본 run ID/job/source/config SHA를 연결한다. 원본 run 동시 쓰기, 추가 모델 평가, scheduler 변경은 없다. 기존 baseline·PRICE-59768 기록도 수정하지 않는다. 동일 그래프·지표 정의를 맞춘 것이며 역사 baseline과 실제 runtime/seed/history까지 동일하다는 주장은 아니다.
+
+최초 원격 readback 확인: MEMIT LLAMA_CAP075 job60001 B1–B4, QWEN_CAP075 job60004 B1. current 분모는 각각 R100/P200/N1000. 현재 새 누적 W5는 아직 관측되지 않아 all-seen에 점을 만들지 않았다. 도달 이후 실제 cumulative 관측만 동기화한다. `Live legacy logger — endpoint denominators differ` 섹션은 모델별 비교 view에서 제거했다. 학습 loss와 native logger는 원본 run에서 계속 볼 수 있다.
+
+CPU 브리지는 정확히 현재 등록된 MEMIT/Alpha 12개 job을 대상으로 60초마다 확정 파일만 확인한다. 자체 종료는 모든 대상 terminal/W20 확인 또는 최대168시간이다. 이는 사용자 승인된 로깅 동기화이며 GPU 실험 polling/quality gate/재제출 기능은 없다. 미제출 GPT-J나 향후 별도 task는 실제 submission lock을 새로 등록해야 한다. pending arm에 가상 점이나 성공 run을 만들지 않는다. CPU metadata/기록 raw 테스트4개 PASS 및 원격 scalar 전수 readback PASS. 브리지 초기 SDK `Summary.update` 호출 형식 오류는 수리했으며 이미 업로드된 point를 검산·재사용해 중복 생성하지 않았다.
+
+실행과 소스는 [bindings](../../../../audits/servers/server4/wandb-model-views/comparison-bindings.json), [view receipt](../../../../audits/servers/server4/wandb-model-views/comparison-overlay-receipt.json), ignored local `/data/janghj/ODE-edit/local/wandb-comparison-bridge/{launch.json,status.json}`에 분리 기록한다. 기존 아래 설명과 `receipt.json`은 최초 view 분리 시점의 역사 기록이다.
+
 사용자 요청에 따라 원격 Saved View 3개를 추가하고 기존 비교 view를 모델별 탐색 화면으로 변경했다. GraphQL 재조회로 저장된 spec 일치, 서버 run 필터로 모델 간 교집합 0을 확인했다. 브라우저 렌더링은 별도 확인하지 않았다.
 
 | 모델 | Saved View | 확인된 run 수 | imported baseline / W0 |
