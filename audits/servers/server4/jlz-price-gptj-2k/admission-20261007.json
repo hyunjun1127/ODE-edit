@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-gptj-2k",
+  "user_cap_override": {"previous_tracked": 2, "new_tracked": 3, "root_local_observed": 3, "memory_ceiling_mib_unchanged": 60416},
+  "observed_assets": {
+    "model_cache_checked": "/data/janghj/.cache/huggingface/hub",
+    "model_cache_entries": ["models--meta-llama--Meta-Llama-3-8B-Instruct", "models--Qwen--Qwen2.5-7B-Instruct"],
+    "gptj_model_found": false,
+    "not_present": ["/data/janghj/EasyEdit/hugging_cache", "/data/janghj/EasyEdit/examples/hugging_cache", "/data/janghj/BLUE/hugging_cache"],
+    "C0_directory": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats",
+    "C0_filename_layers": [3, 4, 5, 6, 7, 8],
+    "projector_path": "/data/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+    "projector_bytes": 6442452841,
+    "projector_mtime": "2026-05-19T19:54:34.092970278+09:00",
+    "projector_content_identity": "NOT_VERIFIED; stat only, no tensor load"
+  },
+  "coverage": "기존 inventory와 등록된 EasyEdit/BLUE hparams 경로 및 사용 중 HF cache만 점검. 전체 filesystem 부재를 주장하지 않음.",
+  "disk_available_bytes_snapshot": 51286048768,
+  "predecessor_receipt_reference": {
+    "MEMIT_jobs": [60001,60002,60003,60004,60005,60006],
+    "Alpha_jobs": [60011,60012,60013,60014,60015,60016],
+    "Alpha_tail_ids": [60013,60016],
+    "fresh_scheduler_validation": "NOT_PERFORMED; submission blocked on model path; historical registration only"
+  },
+  "source_reference": "2440e548be39e55a99747d7847d21a88df419b93",
+  "publication_reference": "c347c463a6b5cd9ef95a2de7a0fbac4f91a25f4d",
+  "scientific_changes": false,
+  "scheduler_writes": 0,
+  "large_transfer_authorization": "사용자: 다운로드 받는걸로 하자. 공식 EleutherAI/gpt-j-6b 한 모델 필요 파일만.",
+  "download_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+  "download_weight_bytes": 24207819307,
+  "download_weight_SHA256": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+  "download_root": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj",
+  "download_filesystem_available_bytes_before": 164567179264,
+  "access_helper_exception": "control/gpu-concurrency-policy.tsv는 일반 SH 경로 helper에서 NOT_PASS. 현재 사용자의 명시적 server4 cap3 지시만을 근거로 해당 행 변경; 다른 서버 행/메모리/job 변경0.",
+  "delete_authorized": false,
+  "review_provenance": "owner metadata/source inspection; independent review not performed"
+}
