@@ -1,0 +1,1 @@
+{"nonce":"USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1","helper_API":"init remains unchanged; parent captures four Slurm keys; remove placeholder job_id; caller/env mismatch fails","CPU_tests":24,"actual_online_job_ID":"NOT_VERIFIED","실제경계":"승인된 GPT2 CPU job의 step_id startup 실패. 값은 미기록. 빈/signed step 회귀 수리 후 실제 재검증 미수행.","새테스트job":0,"기존job변경":false}

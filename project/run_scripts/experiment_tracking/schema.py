@@ -49,11 +49,19 @@ def config(values):
     for key,value in values.items():
         if key in ('source_sha','config_sha'):
             require(type(value) is str and re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}',value), 'INVALID_SHA')
+        elif key == 'step_id':
+            step_identifier(value)
         else:
             identifier(value)
         result[key] = value
     require(result['server'] in ('server1','server2','server3','server4'), 'INVALID_SERVER')
     return result
+
+
+def step_identifier(value):
+    # Slurm step sentinels may be signed; they are metadata, not job IDs.
+    require(type(value) is str and re.fullmatch(r'(?:-?[0-9]+|[A-Za-z][A-Za-z0-9_.-]{0,63})',value), 'INVALID_SLURM_STEP_ID')
+    return value
 
 
 def job_identity(cfg):
@@ -69,7 +77,7 @@ def job_identity(cfg):
         require(bool(re.fullmatch(r'[1-9][0-9]*',result['array_job_id'])) and
                 bool(re.fullmatch(r'0|[1-9][0-9]*',result['array_task_id'])), 'INVALID_ARRAY_IDENTITY')
         display = result['array_job_id']+'_'+result['array_task_id']
-    if 'step_id' in result: identifier(result['step_id'])
+    if 'step_id' in result: step_identifier(result['step_id'])
     require(result.get('job_display_id')==display,'JOB_DISPLAY_MISMATCH')
     return result
 
@@ -78,6 +86,8 @@ def bind_job_identity(values, environ=None):
     """Capture only four allowlisted keys in the parent, before env isolation."""
     cfg=config(values); env=os.environ if environ is None else environ
     raw={k:env.get(v) for k,v in SLURM_ENV.items()}
+    # Empty optional step exports do not identify a step; never fabricate one.
+    if raw['step_id']=='':raw['step_id']=None
     if any(v is not None for v in raw.values()):
         identity={k:v for k,v in raw.items() if v is not None}
         identity.update(execution_backend='slurm',identity_source='SLURM_ENV')

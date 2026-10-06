@@ -1,7 +1,7 @@
 # GPT2-XL Wikipedia C0 / Alpha projector 준비
 
 권한: `USER-GH-SH1-GPT2XL-WIKIPEDIA-ALPHA-PREP-20261007-R1`.
-현재 단계: source 준비 및 CPU 검산 등록 전. 아직 새 수치 검산 완료를 주장하지 않는다.
+현재 단계: CPU 검산 DAG 등록/release 후 tracking startup 실패. 새 수치 검산 미완료.
 
 ## 재사용 결속
 
@@ -44,3 +44,29 @@ W&B auth 사전 CPU smoke는 online 3점 readback PASS, run `3d7a23bb6f084069`.
 새 model/edited/H/optimizer checkpoint 0. 요청한 C0/P는 기존 bytes read-only 재사용.
 원 root dirty/다른 job/source 보존. Git에는 source/소형 보고/identity만,
 큰 자산 방송은 `NO_BROADCAST_NOT_REQUIRED`.
+
+## 실제 제출과 초기 실패
+
+Execution source `fb8457f9c31ebe9376a6781caef9f8497b9eb583`.
+Lock SHA `82d6099dc9a032596ea3a998201534acd6567a83e19a11eabe31541252b67123`.
+로컬 제출 receipt: `local/gpt2-xl-stats-projector/20261007-v1/submission-r1/`.
+전체 held owner/args/source/CPU/memory/QOS/dependency 검산 후 release했다.
+
+| Job | 역할 | 의존성 | 실제 상태 | allocation wall초 |
+|---|---|---|---|---:|
+| 60071 | L13–15 CPU 검산 | 없음 | FAILED 1:0 | 4 |
+| 60072 | L16–17 CPU 검산 | 없음 | FAILED 1:0 | 3 |
+| 60073 | READY pack | afterok:60071:60072 | CANCELLED (invalid dependency) | 0 |
+| 60074 | CPU collector | afterany:60071:60072:60073 | FAILED 1:0 | 3 |
+
+GPU allocation 0. 부모 allocation CPU-core-second 합계 68이며 step 중복합산 없음.
+검증 및 collector 모두 W&B parent의 SLURM_STEP_ID identifier 검사에서
+`INVALID_IDENTIFIER`로 종료했다. SDK/model/stat/P 검산 시작 전의 오류다.
+실제 step 문자열은 기록되지 않아 UNKNOWN이며 새 W&B run online 검증도 미완료다.
+Collector도 같은 startup 경계에서 실패했으므로 자동 최종 report는 미작성이다.
+본 보고는 owner가 기존 오류·accounting만 한정 확인해 기록한 것이다.
+
+원 source/lock/log/FAILURE.json/자산 모두 보존. 원래 명시된 automatic retry 금지에
+따라 새 job 재제출 0. 공통 helper의 빈/signed step CPU 회귀와 수리는 별도 source에
+기록했으나 실제 Slurm 재검증 또는 full5 READY를 주장하지 않는다.
+재사용 자산은 존재하며 hash/provenance 결속은 완료, 신규 수치 readiness는 미완료다.
