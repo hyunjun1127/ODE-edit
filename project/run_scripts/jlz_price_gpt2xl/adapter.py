@@ -119,10 +119,13 @@ class Adapter(Parent):
             require(all(bool((v==0).all()) for v in increments.values()),'GPT2XL_FIRST_SUBJECT_C0_ZERO')
             errors=[]
             for j,row in enumerate(group['rows']):
-                pos=(torch.nonzero(row['target']!=-100).flatten().to(self.device) if row['kind']=='rewrite'
+                prediction_positions=(torch.nonzero(row['target']!=-100).flatten().to(self.device) if row['kind']=='rewrite'
                      else torch.tensor([row['lookup']],device=self.device))
                 reference=group['native_c0_selected'][j].to(self.device)
-                error=(x[j,pos].detach()-reference).abs();limit=2e-5+2e-4*reference.abs()
+                # pos is the immutable owner lookup vector captured by the
+                # activation-checkpoint closures above. Do not rebind it for
+                # this observational parity check before their backward.
+                error=(x[j,prediction_positions].detach()-reference).abs();limit=2e-5+2e-4*reference.abs()
                 require(bool((error<=limit).all()),'GPT2XL_C0_NATIVE_MASKED_HIDDEN_PARITY')
                 errors.append(float(error.max()))
             group['native_c0_pending']=False

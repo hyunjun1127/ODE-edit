@@ -13,5 +13,17 @@
   "save_checkpoints": false,
   "other_jobs_mutated": false,
   "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
-  "full_read": "six-member canonical package; source-evidence/native YAMLs and actual parser/source inspected"
+  "full_read": "six-member canonical package; source-evidence/native YAMLs and actual parser/source inspected",
+  "historical_initial_ACK_preserved": true,
+  "latest_user_repair": {
+    "authority": "USER_DIRECT_REPAIR_DEPENDENT_RUNS_20261007",
+    "status": "MONITORING_PAUSED_AWAITING_USER",
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-checkpoint-repair-r1",
+    "branch": "codex/server1-jlz-price-gpt2xl-checkpoint-repair-r1",
+    "source": "4b841d780588d20712966aa46373655e46cf8b35",
+    "new_jobs": [60124,60125,60126,60127,60128,60129,60130],
+    "observed_failure_point_pass_jobs": [60124,60127],
+    "W20": "NOT_OBSERVED",
+    "report": "experiment-reports/servers/server1/jlz-price-gpt2xl-2k/checkpoint-repair-r1/factual-report-ko.md"
+  }
 }

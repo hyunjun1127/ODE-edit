@@ -73,6 +73,42 @@ class ContractTests(unittest.TestCase):
         for parallel in (1,2):
             for r,parents in resource_order(parallel).items():
                 if r!='collector':self.assertTrue(all(CELLS.index(p)<CELLS.index(r) for p in parents))
+        ready=resource_order(2,inputs_ready=True)
+        self.assertEqual(ready['ALPHAEDIT_CAP075'],[])
+        self.assertEqual(ready['MEMIT_CAP075'],[])
+        self.assertEqual(ready['ALPHAEDIT_CAP100'],['ALPHAEDIT_CAP075'])
+
+    def test_W0_summary_fail_closed(self):
+        from .w0 import verify_summary
+        from .common import digest
+        rows=[dict(identity=str(i)) for i in range(26000)]
+        cold={'W':'cold','H':'zero'}
+        valid=dict(endpoint='W0',state=cold,requests=2000,row_count=26000,
+            no_mutation=True,optimizer_feedback=False,row_order=digest([r['identity'] for r in rows]))
+        verify_summary(valid,cold,rows)
+        for field,bad in (('endpoint','W1'),('requests',100),('no_mutation',False),
+                          ('optimizer_feedback',True),('row_order','wrong'),('state',{'W':'edited'})):
+            with self.assertRaisesRegex(RuntimeError,'W0_SUMMARY_STATE_SCOPE_NONMUTATION'):
+                verify_summary(dict(valid,**{field:bad}),cold,rows)
+
+    def test_bound_READY_hash_mismatch(self):
+        from .inputs import augment
+        with self.assertRaisesRegex(RuntimeError,'READY_CONTENT_BINDING'):
+            augment({'input_ready_sha256':'locked_hash'},{'packs':'modified'})
+
+    def test_repair_W0_runtime_mismatch_never_new_forward_fallback(self):
+        import json
+        from pathlib import Path
+        from .w0 import choose_reuse,RUNTIME_FIELDS
+        current={key:key for key in RUNTIME_FIELDS}
+        old=dict(current,device='different_GPU')
+        c=dict(cell='MEMIT_CAP075',repair=True,observation_identity='same',
+            W0_reuse=dict(status='QUALIFIED_EXACT_REUSE',runtime={'path':'fixture'},observation_identity='same'))
+        with patch.object(Path,'read_text',return_value=json.dumps(current)),patch(
+            'project.run_scripts.jlz_price_gpt2xl.w0.verify',return_value=types.SimpleNamespace(
+                read_text=lambda:json.dumps(old))):
+            with self.assertRaisesRegex(RuntimeError,'W0_REUSE_RUNTIME_CHANGED'):
+                choose_reuse(c,Path('/fixture'))
     def test_tracking_capability_and_axis(self):
         contract_ready()
         class E:

@@ -28,9 +28,9 @@ SOURCES=['project/run_scripts/jlz_price_gpt2xl','project/proposals/jlz-price-gpt
     'project/run_scripts/experiment_tracking','control/wandb-policy.json','control/wandb-method-metric-schema.json',
     'messages/head/2026-10-07-wandb-method-metrics-all-sh.json']
 ROLES=(*CELLS,'collector')
-def resource_order(parallel):
+def resource_order(parallel,inputs_ready=False):
     if parallel==1:return {r:([] if i==0 else [CELLS[i-1]]) for i,r in enumerate(CELLS)} | {'collector':list(CELLS)}
-    return {r:([CELLS[0]] if r=='ALPHAEDIT_CAP075' else [] if r=='MEMIT_CAP075' else [r.rsplit('_',1)[0]+('_CAP075' if r.endswith('CAP100') else '_CAP100')]) for r in CELLS} | {'collector':list(CELLS)}
+    return {r:([CELLS[0]] if r=='ALPHAEDIT_CAP075' and not inputs_ready else [] if r in ('MEMIT_CAP075','ALPHAEDIT_CAP075') else [r.rsplit('_',1)[0]+('_CAP075' if r.endswith('CAP100') else '_CAP100')]) for r in CELLS} | {'collector':list(CELLS)}
 SESSION='01a04939-f93a-7b50-bca0-65438eab2062'
 PYTHON='/mnt/raid5/janghj/EasyEdit/.venv/bin/python'
 def job_name(role):return TASK+'-'+role
@@ -94,6 +94,11 @@ def freeze(configpath, attempt, roles=ROLES):
         rel = Path(row['path']).relative_to(ROOT)
         require(sha(source / rel) == row['sha256'], 'TESTED_ARCHIVE_CLOSURE')
     write(attempt / 'config.json', c)
+    if c.get('input_reuse_ready'):
+        ready=json.loads(verify(c['input_reuse_ready']).read_text())
+        from .inputs import augment
+        for model in c['models'].values():augment(dict(model,ordered_ids_sha256=c['ordered_ids_sha256']),ready)
+        write(attempt/'inputs/ready.json',ready)  # metadata only; old native context bytes remain read-only
     require(tuple(roles)==ROLES,'AUTHORIZED_SIX_CELLS')
     for role in roles:
         script = attempt / (role + '.sh')
@@ -107,7 +112,10 @@ def freeze(configpath, attempt, roles=ROLES):
         owner=getpass.getuser(), host='server1', session=SESSION, resources=c['resources'],
         noCP=True, exact_resume='NOT_AVAILABLE', run_instance=c['run_instance'],
         profiles_sha256=__import__('project.run_scripts.jlz_interference_l1',fromlist=['digest']).digest({m:c['models'][m]['profiles'] for m in c['models']}),
-        flow='MEMIT_CAP075 native context/W0 preparation; remaining MEMIT and ALPHA lanes independent cold; task2/project2; CPU afterany6'))
+        repair=c.get('repair'),input_reuse_ready=c.get('input_reuse_ready'),
+        input_ready_member=member(attempt/'inputs/ready.json') if c.get('input_reuse_ready') else None,
+        flow='verified existing inputREADY: independent MEMIT/Alpha heads' if c.get('input_reuse_ready') else
+             'MEMIT_CAP075 native context/W0 preparation; remaining MEMIT and ALPHA lanes independent cold; task2/project2; CPU afterany6'))
     return verify_frozen(attempt)
 
 
@@ -124,6 +132,7 @@ def verify_frozen(attempt):
     for row in c['assets']:
         s = Path(row['path']).stat()
         require((s.st_size, s.st_ino, s.st_mtime_ns) == (row['bytes'], row['inode'], row['mtime_ns']), 'ASSET_STAT')
+    if lock.get('input_ready_member'):verify(lock['input_ready_member'])
     require(shutil.disk_usage(attempt).free >= c['resources']['reserve_bytes'], 'RESOURCE_BLOCKED_STORAGE')
     require(shutil.disk_usage(attempt).free >= c['resources']['combined_reserve_bytes'], 'RESOURCE_BLOCKED_COMBINED_STORAGE')
     return lock, c
@@ -205,7 +214,12 @@ def submit(config,attempt):
     require_execution_authority()
     # This function is invoked by the owning root only. Tests never call a
     # scheduler mutation; no automatic retry/cancel is implemented.
-    require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_REGISTRATION')
+    prepared=json.loads(Path(config).read_text())
+    if prepared.get('repair'):
+        from .repair import verify_registration
+        verify_registration(prepared)
+    else:
+        require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_REGISTRATION')
     queue=command(['squeue','-h','-u',getpass.getuser(),'--name='+','.join(job_name(r) for r in ROLES),'-o','%i|%j|%T'])
     require(not queue,'EXACT_TASK_ALREADY_REGISTERED')
     before=resource_inventory()
@@ -235,7 +249,7 @@ def submit(config,attempt):
     # a resource barrier only if its possible concurrency leaves <2 slots.
     barrier=external if prior_width+parallel>cap else []
     predecessor.update(maximum_concurrency=prior_width,barrier=barrier)
-    order=resource_order(parallel);ids={};mapping={};held=[]
+    order=resource_order(parallel,inputs_ready=bool(c.get('input_reuse_ready')));ids={};mapping={};held=[]
     scheduler_dry_checks=[]
     for role in ('MEMIT_CAP075','ALPHAEDIT_CAP075','collector'):
         checkargv=[x for x in arguments(role,None,attempt,r) if x not in ('--parsable','--hold')]

@@ -1,0 +1,14 @@
+{
+  "owner": "head-server1",
+  "user_authorized_scope": "Existing GPT2 PRICE own source/report/audit/status/messages/runs namespace; explicit user repair recall",
+  "generic_access_checker": "Denied runs/jlz-price-gpt2xl-2k/checkpoint-repair-r1/receipt.json",
+  "action": "Keep this newly generated small run receipt local/untracked; do not alter shared access policy. Publish equivalent initial-receipt.json under allowed task audit namespace.",
+  "excluded_path": "runs/jlz-price-gpt2xl-2k/checkpoint-repair-r1/receipt.json",
+  "all_old_source_raw_KEEP": true,
+  "remaining_staged_scope": "own GPT2 source and server1 task report/audit/status/acks/server-heads only",
+  "renderer": "NOT_RUN: markdown_it/mistune/markdown/pandoc unavailable in system and pinned Python; UTF8/JSON/CSV/table/relative link structure checked",
+  "checks": ["Python AST", "JSON parse", "UTF8 Korean", "four-column Markdown table", "six CSV rows", "1057 old allocated GPU-sec", "scoped CRLF-aware diff whitespace", "raw-free compact files"],
+  "line_endings_exception": "New csv.DictWriter job-lineage.csv uses standard CRLF. Ordinary git diff --check warns; command-scoped core.whitespace=cr-at-eol check passes. Sealed CSV bytes/SHA retained; no old bytes normalization.",
+  "raw_tensor_prompt_model_fullstdout_Git": false,
+  "new_GPU_or_Slurm_validation_for_publication": false
+}

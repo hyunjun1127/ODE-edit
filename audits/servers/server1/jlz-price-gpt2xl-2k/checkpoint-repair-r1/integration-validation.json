@@ -1,0 +1,18 @@
+{
+  "execution_source": "4b841d780588d20712966aa46373655e46cf8b35",
+  "own_report_branch_tip": "dbca6b16",
+  "clean_integration_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-checkpoint-repair-integration-r1",
+  "first_checked_merge": "71ac0b75ec74f756d3cde5c895565818480cd71e",
+  "latest_origin_main_preserved_before_publication": "1a654a642eaa9f6f87d8eab7b7776077b7a2eecd",
+  "CPU_command": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest project.run_scripts.jlz_price_gpt2xl.test_contract project.run_scripts.jlz_price_gpt2xl.test_checkpoint project.run_scripts.experiment_tracking.test_method project.run_scripts.experiment_tracking.test_job_identity project.run_scripts.experiment_tracking.test_tracking",
+  "CPU_tests": {"run":55,"passed":53,"skipped":2},
+  "source_AST_JSON_CSV_table_and_rooted_artifact_SHA_size": "PASS",
+  "access_checker": "PASS for staged own source/report/audit/messages/status. New runs receipt kept local under documented generic namespace denial; equivalent audit receipt published.",
+  "diff_check": "PASS with command-scoped core.whitespace=cr-at-eol; CSV native CRLF bytes preserved",
+  "renderer": "NOT_AVAILABLE_NOT_RUN",
+  "other_SH_changes": "Preserved through nonforce merges; no blanket ours/theirs/reset/stash/force",
+  "root_dirty_frozen_source_raw_all_KEEP": true,
+  "main_publication_method": "normal nonforce push after clean merge and checks; exact remote confirmation reported separately",
+  "science_progress_monitoring": false,
+  "W20": "NOT_OBSERVED"
+}
