@@ -2,7 +2,13 @@
 
 Instruction/nonce: `USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006`. Task: `jlz-interference-priced-l1-2k`.
 
-## 59721 실패 및 사용자 교정 요청
+## 2026-10-06 USER recall: 1,500-edit 중간 결과
+
+PRICE59768의 B1–B15를 CPU 검산하여 게시했다. 15 commits/14 own-state joins/75 history appends, 누적 R1500/P3000/N15000 관측 완료. W15 RS **99.867% (1498/1500)**, PS **91.467% (2744/3000)**, NS **85.667% (12850/15000)**.
+
+[W15 상세 보고서·CSV](w15/report-ko.md). 원본 row/token identity·분모와 저장 집계 일치, 가격/projection/controller 및 W/H/RNG/ledger 연결을 검산했다. 새로운 모델 평가 없음. 한정 1회 scheduler snapshot은 PRICE RUNNING/collector PENDING이다. B16 이후는 검토하지 않았으며 W20 완료를 주장하지 않는다. 기존 job/봉인 source/취소한 대조군은 변경하지 않았다.
+
+## 59721 실패 및 사용자 교정 요청 — 등록 당시 기록
 
 2026-10-06 사용자 recall: `59721 fail되었으니 교정해`. 후속 요청에 따라 동일 조건의 기존 W0 데이터가 검증되면 첫 2,000개 W0 평가를 새로 수행하지 않는다.
 
@@ -20,7 +26,7 @@ Repair 등록/release 완료: PRICE **59768**, CPU collector **59769**. 최종 �
 
 실행 source `0415aba3c160170d306be8196792f198dad4d122`, config SHA `26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f`. 실행 원본은 `/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/`. [새 제출 receipt](../../../../runs/jlz-interference-priced-l1-2k/repair-59721.json), [변경분 검토](../../../../audits/servers/server4/jlz-interference-priced-l1-2k/repair-59721-review.json). 위 source와 이후 보고서 게시 commit은 구분한다.
 
-새 GPU/B1 및 실제 W0 runtime assertion은 NOT_OBSERVED다. PRICE-only 기대치는 20commit/19join/100H이며 controls는 NOT_REQUESTED다. 정식 resource pending에서 능동 monitoring/automatic resume/retry를 중단하고 봉인된 PRICE/collector만 계속한다.
+등록 당시 새 GPU/B1 및 실제 W0 runtime assertion은 NOT_OBSERVED였다. 이번 USER recall의 W15 검산이 이 초기 관측 상태를 갱신한다. PRICE-only 전체 기대치는 20commit/19join/100H이며 controls는 NOT_REQUESTED다. 봉인된 PRICE/collector는 미변경이며 이번 중간 보고 후에도 능동 monitoring/automatic resume/retry는 중단한다.
 
 ## 최초 등록 기록 — 아래 상태는 당시 snapshot
 

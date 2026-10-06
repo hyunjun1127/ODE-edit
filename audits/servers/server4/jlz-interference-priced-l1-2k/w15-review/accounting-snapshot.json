@@ -1,0 +1,9 @@
+{
+  "queried_jobs": [
+    59768,
+    59769
+  ],
+  "result": "59768|janghj|jlz-interference-priced-l1-2k-PRICE|RUNNING|13764|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1|00:00:00|0:0\n59768.batch||batch|RUNNING|13764|cpu=8,gres/gpu=1,mem=58G,node=1|00:00:00|0:0\n59768.extern||extern|RUNNING|13764|billing=1,cpu=8,gres/gpu=1,mem=58G,node=1|00:00:00|0:0\n59769|janghj|jlz-interference-priced-l1-2k-collector|PENDING|0||00:00:00|0:0\n",
+  "description": "ONE_BOUNDED_STATUS_QUERY_NO_MONITORING; B16+ cost may be included, not W15-exclusive",
+  "timezone": "Asia/Seoul"
+}

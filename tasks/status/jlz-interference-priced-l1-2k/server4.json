@@ -3,7 +3,7 @@
   "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
   "task_id": "jlz-interference-priced-l1-2k",
   "owner": "SH4",
-  "phase": "PRICE_REPAIR_SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "phase": "W15_INTERMEDIATE_CPU_VERIFIED_RUNNING_AT_SNAPSHOT",
   "source": "0415aba3c160170d306be8196792f198dad4d122",
   "config_sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f",
   "jobs": {
@@ -47,8 +47,8 @@
       "reason": "Dependency"
     }
   },
-  "actual_repaired_B1": "NOT_OBSERVED",
-  "W20": "NOT_OBSERVED",
+  "actual_repaired_B1": "VERIFIED_WITH_B1_TO_B15_COMMITTED_PREFIX",
+  "W20": "NOT_REVIEWED_NOT_CLAIMED",
   "monitoring_active": false,
   "automatic_resume": false,
   "automatic_retry": false,
@@ -56,5 +56,44 @@
     "PRICE"
   ],
   "controls_resubmit": false,
-  "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/report-ko.md"
+  "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/report-ko.md",
+  "intermediate_review": {
+    "user_request": "1500edit까지 완료 되었는데 여기까지 결과를 기준으로 push하자",
+    "edits": 1500,
+    "commits": 15,
+    "joins": 14,
+    "history_appends": 75,
+    "source": "0415aba3c160170d306be8196792f198dad4d122",
+    "counts": {
+      "R": [
+        1498,
+        1500
+      ],
+      "P": [
+        2744,
+        3000
+      ],
+      "N": [
+        12850,
+        15000
+      ]
+    },
+    "read_only": true,
+    "new_model_forward": 0,
+    "scope": "SEALED_B1_TO_B15_ONLY",
+    "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/w15/report-ko.md",
+    "reviewer": "OWNER_WITH_INDEPENDENT_STDLIB_REDUCER_NO_SEPARATE_AGENT",
+    "snapshot": {
+      "PRICE": {
+        "job": 59768,
+        "state": "RUNNING",
+        "elapsed_seconds": 13764
+      },
+      "collector": {
+        "job": 59769,
+        "state": "PENDING"
+      }
+    },
+    "monitoring_active": false
+  }
 }
