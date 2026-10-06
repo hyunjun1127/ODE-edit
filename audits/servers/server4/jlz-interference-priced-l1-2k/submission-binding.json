@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "task_id": "jlz-interference-priced-l1-2k",
+  "execution_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+  "source_tree": "035646abb995b435849ca8f6227299469c92a0dc",
+  "archive": {
+    "bytes": 1822720,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source.tar",
+    "sha256": "7cdc128b5278ca571862d179afbc0c8e9f9ba060156680bcd9b722c54493cde6"
+  },
+  "config_sha256": "ad6ca0f4987ecfd400c4b637682ba2dc1a8a2626f22de8594b8d7cadb1b7511d",
+  "lock": {
+    "bytes": 85532,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/execution.lock.json",
+    "sha256": "c66173da14839e078660a51166fa2169d8d5220f403d72192f1289411bb49f7a"
+  },
+  "held": {
+    "bytes": 16354,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/held-inspection.json",
+    "sha256": "1df57948a26dfc90f7fc0ce919081d9dc7cb34e74612b610133e1d0aeffc6fe5"
+  },
+  "resource_policy": "ALLOW_MEMORY_POLICY server=server4 requested_mem_mib=59392 max_mem_mib=60416 requested_gpus=1 decision=submit_now",
+  "held_owner_argv_source_bytes_resources_dependencies_verified": true,
+  "all_held_before_release": true,
+  "effective_project_cap": 3,
+  "maximum_task_GPU_concurrency": 2,
+  "CPU_binding": 8,
+  "external_resource_afterany": [],
+  "source_review": "source-review.json",
+  "runtime_GPU_checks": "INTEGRATED_B1_NOT_OBSERVED",
+  "source_static_import": "PASS",
+  "scheduler_test_only": [
+    {
+      "allocation_created": false,
+      "argv": [
+        "sbatch",
+        "--test-only",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-PRICE",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=59392M",
+        "--time=2-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE.sh"
+      ],
+      "returncode": 0,
+      "role": "PRICE",
+      "stderr": "sbatch: Job 59719 to start at 2026-10-07T22:20:30 a using 8 processors on nodes server4 in partition gpu\n",
+      "stdout": ""
+    },
+    {
+      "allocation_created": false,
+      "argv": [
+        "sbatch",
+        "--test-only",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector-%j.err",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector.sh"
+      ],
+      "returncode": 0,
+      "role": "collector",
+      "stderr": "sbatch: Job 59720 to start at 2026-10-07T19:13:06 a using 8 processors on nodes server4 in partition gpu\n",
+      "stdout": ""
+    }
+  ],
+  "unrelated_job_mutations": 0,
+  "monitoring_active": false,
+  "compact_receipt": "SHA/size/path projection; exact currentstat nanoseconds/inodes retained in ignored original local receipts, not JSON-number transport"
+}

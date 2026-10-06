@@ -1,0 +1,138 @@
+{
+  "GPU_qualification": "INTEGRATED_ACTUAL_B1_NOT_OBSERVED",
+  "PRICE_B1_B2": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "bounded_initial_snapshot": "59724|jlz-interference-priced-l1-2k-collector|PENDING|N/A||None\n59723|jlz-interference-priced-l1-2k-REVERSE|PENDING|gres/gpu:1||None\n59722|jlz-interference-priced-l1-2k-FLAT|PENDING|gres/gpu:1||None\n59721|jlz-interference-priced-l1-2k-PRICE|PENDING|gres/gpu:1||None",
+  "held": {
+    "bytes": 16354,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/held-inspection.json",
+    "sha256": "1df57948a26dfc90f7fc0ce919081d9dc7cb34e74612b610133e1d0aeffc6fe5"
+  },
+  "jobs": {
+    "FLAT": "59722",
+    "PRICE": "59721",
+    "REVERSE": "59723",
+    "collector": "59724"
+  },
+  "lock": {
+    "bytes": 85532,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/execution.lock.json",
+    "sha256": "c66173da14839e078660a51166fa2169d8d5220f403d72192f1289411bb49f7a"
+  },
+  "mapping": {
+    "FLAT": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-FLAT",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=59392M",
+        "--time=2-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/FLAT-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/FLAT-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:59721",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/FLAT.sh"
+      ],
+      "dependency": "afterany:59721",
+      "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+      "job": "59722"
+    },
+    "PRICE": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-PRICE",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=59392M",
+        "--time=2-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE.sh"
+      ],
+      "dependency": null,
+      "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+      "job": "59721"
+    },
+    "REVERSE": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-REVERSE",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=59392M",
+        "--time=2-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/REVERSE-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/REVERSE-%j.err",
+        "--gres=gpu:1",
+        "--dependency=afterany:59721",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/REVERSE.sh"
+      ],
+      "dependency": "afterany:59721",
+      "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+      "job": "59723"
+    },
+    "collector": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector-%j.err",
+        "--dependency=afterany:59721:59722:59723",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/collector.sh"
+      ],
+      "dependency": "afterany:59721:59722:59723",
+      "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+      "job": "59724"
+    }
+  },
+  "monitoring_active": false,
+  "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+  "status": "RELEASED",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "compact_receipt": "SHA/size/path projection; exact currentstat nanoseconds/inodes retained in ignored original local receipts, not JSON-number transport"
+}

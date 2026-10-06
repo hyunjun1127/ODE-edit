@@ -15,120 +15,86 @@
   "source": [
     {
       "bytes": 3243,
-      "inode": 135791833,
-      "mtime_ns": 1791273651071507500,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/__init__.py",
       "sha256": "4abea73ffa6f246a3bd3b5e44bef38b3b8527c28d4b2cc25c847fc5a72f44602"
     },
     {
       "bytes": 40662,
-      "inode": 135791845,
-      "mtime_ns": 1791274656180275700,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/collect.py",
       "sha256": "f7394cba0dbceeb726946ebb6e1a3ae9a92a3246d724b980e98a64a7281fe0be"
     },
     {
       "bytes": 3786,
-      "inode": 135791848,
-      "mtime_ns": 1791273894807348500,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/controller.py",
       "sha256": "52d77d160786ba85192049e74251cbeb39b7d0d22b8073938607bf6ba4b4bd52"
     },
     {
       "bytes": 1187,
-      "inode": 135791838,
-      "mtime_ns": 1791274261613103600,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/engine.py",
       "sha256": "87b0e98b11c04039b7a1efc077181da42259c9fe0f1ef49817633f16756ff67b"
     },
     {
       "bytes": 6513,
-      "inode": 135791852,
-      "mtime_ns": 1791274361269850000,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/fit.py",
       "sha256": "0fce1b875a0b524648a19fdb398d7399e561c7b9637c41d30a9e042c2ca6f8a2"
     },
     {
       "bytes": 3581,
-      "inode": 135791850,
-      "mtime_ns": 1791274025683333000,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/observer_io.py",
       "sha256": "a58813c760c2fe9465a98d52ae7c9a90ff8b8bdc931f73882b1cb6ba2f99e289"
     },
     {
       "bytes": 2884,
-      "inode": 135791849,
-      "mtime_ns": 1791273894808348400,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/optimizer.py",
       "sha256": "ec6deb0325151a6563a4881dba217b57b6a284fcc648ccdd24a7d9df0c95f9d8"
     },
     {
       "bytes": 2457,
-      "inode": 135791836,
-      "mtime_ns": 1791274035708408300,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/preflight.py",
       "sha256": "e82b9bc5f6adcae48958d5b299a6239eb4e2f20fd17f884d3a51df0a4729bde1"
     },
     {
       "bytes": 11536,
-      "inode": 135791835,
-      "mtime_ns": 1791274240879948000,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/prepare.py",
       "sha256": "0f11993e12aa434482e2d9cd7307d578d48817b8851bae86c2d65bdd0243cad9"
     },
     {
       "bytes": 9769,
-      "inode": 135791843,
-      "mtime_ns": 1791274261616103700,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/price.py",
       "sha256": "ed76e29141807ac44fd4eebe49d4250203afe3ed66926046db9384dbb9108bf0"
     },
     {
       "bytes": 1127,
-      "inode": 135791834,
-      "mtime_ns": 1791273651073507300,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/profile.py",
       "sha256": "a5f1e1539b7cd221676183a070caf26939bdb3669ad8d36d752c4a7f14e59658"
     },
     {
       "bytes": 5967,
-      "inode": 135791847,
-      "mtime_ns": 1791274248916008400,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/projection.py",
       "sha256": "f3338814da14617648158988329fcf9e0084ef66ccd508dcf0122e41903af026"
     },
     {
       "bytes": 21457,
-      "inode": 135791844,
-      "mtime_ns": 1791274710560932900,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/run.py",
       "sha256": "17a3b8fbe4651e5dd408f6eb09c00fc921e7b801b0f99978a71f4893c1a6bf8e"
     },
     {
       "bytes": 14101,
-      "inode": 135791846,
-      "mtime_ns": 1791274735644500700,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/storage.py",
       "sha256": "d3a01b261f5159931bbf6373e51d5baa39ecbfccafbcf4083b5f51bf25c9ee04"
     },
     {
       "bytes": 16495,
-      "inode": 135791837,
-      "mtime_ns": 1791273973019937000,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/submit.py",
       "sha256": "1755b206a362f234f920c291d6763bcd869766c7f97ec3b9334b0120c9ed64e3"
     },
     {
       "bytes": 7550,
-      "inode": 135791851,
-      "mtime_ns": 1791274361268850200,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/telemetry.py",
       "sha256": "ab7b972d296eb0d161812a84c4ef463f8fdab7905d22446479684beb0b072384"
     },
     {
       "bytes": 6783,
-      "inode": 135743684,
-      "mtime_ns": 1791273742619200300,
       "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_native_writer_aware/builder.py",
       "sha256": "b9b67fea1291933c913f1ee23f18159a6fe3e3ad15ebf74a447b80a1aa79eee5"
     }
@@ -136,5 +102,6 @@
   "status": "PASS",
   "synthetic_tests": 0,
   "task_id": "jlz-interference-priced-l1-2k",
-  "toy_tests": 0
+  "toy_tests": 0,
+  "compact_receipt": "SHA/size/path projection; exact currentstat nanoseconds/inodes retained in ignored original local receipts, not JSON-number transport"
 }

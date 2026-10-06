@@ -1,0 +1,13 @@
+{
+  "task_id": "jlz-interference-priced-l1-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "generic_access_helper": "NOT_PASS",
+  "helper_exit_code": 7,
+  "exact_rejected_path": "runs/jlz-interference-priced-l1-2k/submission.json",
+  "authorization": "messages/head/2026-10-06-jlz-interference-l1-sh4.json allowed_write_paths explicitly includes runs/jlz-interference-priced-l1-2k/** and publication delegates nonforce ownbranch/main",
+  "authority_envelope_sha256": "46df476b8ce00f9645b09ab39fadf6489fd90f7fbb186078875555eee5659bfb",
+  "decision": "Use exact task-specific USER/GH path authorization; do not label generic helper PASS",
+  "shared_helper_or_policy_modified": false,
+  "scope_expansion": false,
+  "artifact_contents": "Compact job IDs, exact submission argv, source/config/lock/held SHA references; no model, tensor, prompt, full scientific stdout, or secret"
+}

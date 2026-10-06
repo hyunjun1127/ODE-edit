@@ -1,15 +1,59 @@
 {
-  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "schema": 1,
+  "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
   "task_id": "jlz-interference-priced-l1-2k",
   "owner": "SH4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "branch": "codex/server4-jlz-interference-priced-l1-2k",
-  "phase": "IMPLEMENTING_NOT_SUBMITTED",
-  "duplicate_check": "전용 branch/등록 자료/owned queue에서 동일 task 등록 없음",
-  "boundary": "전용 actual WT session/CWD/origin PASS; 공유 root ignored boundary는 다른 session으로 보존",
-  "canonical": "5files FULL_READ/SHA PASS",
-  "Slurm_submit": 0,
-  "GPU_qualified": false,
-  "scope": "PRICE/FLAT/REVERSE 각 cold BS100x20; 별도 toy/pilot/qualification job 없음",
-  "new_user_stage_approval_required": false
+  "phase": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "jobs": {
+    "FLAT": "59722",
+    "PRICE": "59721",
+    "REVERSE": "59723",
+    "collector": "59724"
+  },
+  "execution_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+  "config_sha256": "ad6ca0f4987ecfd400c4b637682ba2dc1a8a2626f22de8594b8d7cadb1b7511d",
+  "lock": {
+    "bytes": 85532,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/execution.lock.json",
+    "sha256": "c66173da14839e078660a51166fa2169d8d5220f403d72192f1289411bb49f7a"
+  },
+  "held": {
+    "bytes": 16354,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/held-inspection.json",
+    "sha256": "1df57948a26dfc90f7fc0ce919081d9dc7cb34e74612b610133e1d0aeffc6fe5"
+  },
+  "bounded_initial_snapshot": {
+    "PRICE": {
+      "job": 59721,
+      "state": "PENDING",
+      "reason": "ReqNodeNotAvail, May be reserved for other job"
+    },
+    "FLAT": {
+      "job": 59722,
+      "state": "PENDING",
+      "reason": "Dependency"
+    },
+    "REVERSE": {
+      "job": 59723,
+      "state": "PENDING",
+      "reason": "Dependency"
+    },
+    "collector": {
+      "job": 59724,
+      "state": "PENDING",
+      "reason": "Dependency"
+    }
+  },
+  "actual_B1": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "sealed_DAG_continues": true,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "accepted": true,
+  "duplicate_at_acceptance": false,
+  "receipt_type": "direct_owner_ACK_then_submission_update",
+  "compact_receipt": "SHA/size/path projection; exact currentstat nanoseconds/inodes retained in ignored original local receipts, not JSON-number transport"
 }
