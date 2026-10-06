@@ -1,0 +1,74 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER2",
+  "status": "TASK_COMPLETE_STOP",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "delete_authorized": false,
+  "deleted_bytes": 0,
+  "totals": {
+    "unique_files": 52611,
+    "logical_bytes": 424282644112,
+    "allocated_bytes": 424400830464
+  },
+  "tensor_totals": {
+    "unique_files": 1811,
+    "logical_bytes": 388710466439,
+    "allocated_bytes": 388713627648
+  },
+  "categories": {
+    "PRICE_REQUIRED": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "OTHER_TASK_REQUIRED": {
+      "unique_files": 542,
+      "logical_bytes": 20326460869,
+      "allocated_bytes": 20327804928
+    },
+    "REPRODUCTION_KEEP": {
+      "unique_files": 35774,
+      "logical_bytes": 256258728716,
+      "allocated_bytes": 256338673664
+    },
+    "UNREFERENCED_CANDIDATE": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "UNKNOWN": {
+      "unique_files": 16295,
+      "logical_bytes": 147697454527,
+      "allocated_bytes": 147734351872
+    }
+  },
+  "missing_migration": {
+    "count": 72,
+    "ENOENT": 72,
+    "historical_bytes": 46508999784,
+    "by_arm": {
+      "MEMIT_L5_ONLY": 12,
+      "AlphaEdit_L5_ONLY": 12,
+      "MEMIT_L6_ONLY": 12,
+      "AlphaEdit_L6_ONLY": 12,
+      "MEMIT_L7_ONLY": 12,
+      "AlphaEdit_L7_ONLY": 12
+    },
+    "current_cause": "NOT_IDENTIFIED",
+    "restore_or_transfer_attempted": false
+  },
+  "retained_183": {
+    "expected": 183,
+    "present": 111,
+    "size_matches": 111,
+    "historical_bytes": 240176147811,
+    "hash_recomputed": false
+  },
+  "GPU": 0,
+  "new_Slurm": 0,
+  "existing_jobs_changed": 0,
+  "monitoring_active": false,
+  "report": "experiment-reports/servers/server2/price-storage-inventory-20261007/report-ko.md",
+  "limitations": "No whole-use proof, no large hash, no tensor loads, no remote source access; UNKNOWN remains KEEP.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
