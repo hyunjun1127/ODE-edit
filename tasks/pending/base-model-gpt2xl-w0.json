@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1-SERVER1",
+  "task_id": "base-model-gpt2xl-w0",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-base-model-gpt2xl-w0",
+    "model": "openai-community/gpt2-xl",
+    "family": "gpt2",
+    "tag": "gpt2xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2"
+  },
+  "envelope": "messages/head/2026-10-07-base-model-w0-server1.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "job_ids": [],
+  "submission_state": "NOT_SUBMITTED",
+  "keep_all_existing_arms": true,
+  "server1_cap_exception": true
+}

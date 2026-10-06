@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "parent_instruction": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1",
+  "date_kst": "2026-10-07",
+  "user_quotes": [
+    "또한 위의 arm들은 유지하고, w0 실험도 해서 base model 성능도 넣어야 한다. server1에겐 gpt2-xl을, server2에겐 gpt-j의 base model 성능을 측정하는 것을 맡기자.",
+    "base model 실험은 server1은 gpu cap 2였는데 base model 실험에 한해선 cap 무시하고 올리자."
+  ],
+  "authority": "각 지정 서버의 모델 W0-only cold 평가 구현·최소 CPU/static 검산·Slurm GPU1 job 및 CPUcollector 등록/release·실시간 W&B·compact main 게시 승인. 기존 ours/native baseline arm과 모든 job은 유지한다. 단계별 사용자 재승인 없음.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "scope": {
+    "role": "scientific",
+    "arm": "W0_BASE_MODEL",
+    "fresh_cold_base_model": true,
+    "edit_calls": 0,
+    "target_fits": 0,
+    "solves": 0,
+    "history_append": 0,
+    "checkpoint_save": false,
+    "cohort": "counterfact-fixed-10k-v1 ordered first2000; 기존 PRICE/native baseline과 case/order/evaluation identity 대조",
+    "seed": 20261002,
+    "denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "measurement": "fresh W0 model actual 관측 1회. 기존 raw는 사전 identity/CPU 교차검산 참고로만 사용하고 신규 측정을 허위 재사용으로 표시하지 않는다. 기존 arm cold W0 raw와 일치하면 그 사실을 보고한다.",
+    "end": "W0 평가와 독립 CPU 집계/report 뒤 종료; 편집·B1 fit·새 baseline chain·sweep 없음."
+  },
+  "evaluation": {
+    "reuse": "기존 model별 canonical PRICE R/P/N evaluator의 tokenization/target/lookup/padding/grouping/normalization 재사용. 모델 native head/last norm/learned position 또는 RoPE를 실제 adapter에 결속. 새 semantic 평가 정의 금지.",
+    "precision": "FP32 model/eager/autocastoff/TF32off/eval/use_cachefalse; 실제 runtime과 model source를 봉인. 다른 모델 token/context/head를 혼용하지 않는다.",
+    "metrics": "RS/PS/NS preference, TF token micro/prompt macro/strict ACC, true/new NLL, margin_true_minus_new, success harmonic. N desired=true. 실제 분모·count·success_count 검산. TF와 자유생성 구별.",
+    "identity": "first2000 occurrence/case/order/target/prompt/token row full manifest, 모델 revision/local asset/runtime/evaluator/Scorer/hash. input/model nonfinite/shape/분모 오류는 기술적 실패. 낮은 W0 점수는 gate가 아니다.",
+    "observer": "모델 비변이/weight version 및 pointer guard. no grad/optimizer/write/history/C0/P 사용·로드·재계산 없음. microbatch는 기존 evaluator grouping/padding/parity를 유지하며 명시.",
+    "row_storage": "26000 prompt-pair/52000 candidate 평가행을 실제 scorer schema에 맞춰 보고. row/candidate/pair를 별도 분모로 혼용하지 않는다. raw local-only."
+  },
+  "tracking": {
+    "policy": "control/wandb-method-metric-schema.json 및 control/wandb-policy.json",
+    "route": "기존 검증된 PRICE mapping/upload 재사용. 중앙 helper 배포 완료를 제출 prerequisite로 하지 않는다.",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "keys": "W0_first2000/{R,P,N}/{count,success_count,success_pct,token_acc_pct,prompt_acc_pct,strict_acc_pct,true_nll,new_nll,margin_true_minus_new}; harmonic pct. W0 provenance/scope immutable. 평가하지 않은 current/post/all_seen milestone/fit 결과를 만들지 않는다.",
+    "axes": "edits=0/pre_state_edits=0/post_state_edits=0 및 평가 진행 별도 axis. fit 후보 없음. job_id/raw job/array/step와 run.name job번호, model/model_family/writer=none/role scientific/arm W0_BASE_MODEL/source/config 포함.",
+    "privacy": "online scalar-only; code/console/raw/token/tensor/개인정보/credential/model 업로드0. realtime log, immutable receipt, bounded finish/readback. SDK 접수와 remote readback 구분. network 실패로 GPU eval 재실행 금지."
+  },
+  "checks": "기존 evaluator/input 테스트 재사용 + 최소 CPU mapping/count/axis/job/runtime/model 경로 검산. 별도 toy/모델 forward pilot/fit 없음. 실제 W0 평가 안에서 finite/identity/no-mutation 기술 확인. 기존 science GPU/log/result는 자원 admission 외 재조회하지 않는다.",
+  "artifacts": "NoCP, raw local KEEP, 기존 소스·원자료·job 보존. compact source/config/manifest/CPU report main nonforce 허용. 모델/데이터/secret/raw/전체stdout Git0. 원raw복제/대형broadcast0, 필요한 소형 자료만 task별 승인 범위에서 공유/예외를 기록.",
+  "completion": "먼저 직접 owner nonce ACK. 구현·최소검산·정식 Slurm 등록/held검사/release까지 계속. 실제 job ID/dependency/source/config/W&B stage 또는 구체 blocker를 회신. 등록후 bounded snapshot만, 장기 agent polling/heartbeat/automatic retry0. GPU 평가 완료를 GH 인계 turn에서 기다리지 않는다.",
+  "instruction_id": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1-SERVER1",
+  "task_id": "base-model-gpt2xl-w0",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-base-model-gpt2xl-w0",
+    "model": "openai-community/gpt2-xl",
+    "family": "gpt2",
+    "tag": "gpt2xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2"
+  },
+  "readonly_reference": "GPT2 ours+native baseline evaluator/packing/assets 및 준비된 W0 raw. 원 model payloadSHA0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a. 새 편집 없음.",
+  "resources": {
+    "task_GPUs": 1,
+    "CPU_default": 8,
+    "host_memory_MiB_default": 65536,
+    "wall_hours_default": 4,
+    "slurm_allowed": true,
+    "server1_scoped_GPU_cap_exception": true,
+    "cap_rule": "최신 USER cap 예외: 이 W0-only job 1개는 server1 기존 method cap2에 합산 admission gate로 막지 않는다. 기존 ours/native baseline의 GPU 동시상한2는 그대로. W0 전용1GPU 추가 독립 등록(기존2+W0최대1). W0가 cap 예외를 가졌다는 receipt 남기고 중앙/global cap설정은 변경하지 않는다.",
+    "physical": "현재 scheduler/node/QoS/VRAM/CPU/memory/점유는 확인한다. 물리 자원 부족은 PENDING으로 등록, 자원 강탈/취소/oversubscription 금지. planning wall은 ETA가 아니다.",
+    "held": "GPU runner와 own CPU collector의 owner/fullargv/source/config/resources/dependency/W&B/noCP held 검사후 release. cap helper가 S1W0를 거부하면 USER_SCOPED_CAP_EXCEPTION으로 정확히 기록하고 승인 범위로만 처리, 허위 helper PASS 금지."
+  },
+  "write_scope": [
+    "project/run_scripts/base_model_eval/gpt2xl_server1.py",
+    "project/run_scripts/base_model_eval/gpt2xl_server1_*.py",
+    "해당 profile 내부 tests/launcher만",
+    "audits/servers/server1/base-model-gpt2xl-w0/**",
+    "experiment-reports/servers/server1/base-model-gpt2xl-w0/**",
+    "runs/base-model-gpt2xl-w0/**",
+    "tasks/status/base-model-gpt2xl-w0/server1.json",
+    "messages/acks/server1/base-model-gpt2xl-w0.json",
+    "messages/server-heads/server1/base-model-gpt2xl-w0.json",
+    "ignored local/base-model-gpt2xl-w0/**"
+  ],
+  "report": "experiment-reports/servers/server1/base-model-gpt2xl-w0/report-ko.md",
+  "boundary": "전용 clean non-main WT에서 담당 profile만 작성. 공통 shared helper 및 타SH profile/frozen source 수정0. thin tasklocal wrapper/read-only source 재사용. 현재 unrelated active turn 침범0, 관련 SH1 GPT2 baseline 작업과는 함께 진행. root dirty상태보존."
+}

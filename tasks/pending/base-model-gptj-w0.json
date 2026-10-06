@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1-SERVER2",
+  "task_id": "base-model-gptj-w0",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server2-base-model-gptj-w0",
+    "model": "EleutherAI/gpt-j-6B",
+    "family": "gptj",
+    "tag": "gptj",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1"
+  },
+  "envelope": "messages/head/2026-10-07-base-model-w0-server2.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "job_ids": [],
+  "submission_state": "NOT_SUBMITTED",
+  "keep_all_existing_arms": true,
+  "server1_cap_exception": false
+}
