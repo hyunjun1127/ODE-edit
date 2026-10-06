@@ -1,0 +1,71 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER3",
+  "FULL_READ": [
+    {
+      "path": "messages/head/2026-10-07-wandb-job-id-all-sh.json",
+      "bytes": 6755,
+      "sha256": "d9b3d7904420d621ba82d25fdfbc42677b679b52a4c358f1e117468c064fb3ca"
+    },
+    {
+      "path": "control/wandb-policy.json",
+      "bytes": 5998,
+      "sha256": "60c3e7c3e769cd163aa868b64ef6dd010f01cc3e8e2aefe48e6b445534c25e5f"
+    }
+  ],
+  "policy_envelope_requirement_equal": true,
+  "helper_observed_at_authority": [
+    {
+      "path": "project/run_scripts/experiment_tracking/README.md",
+      "bytes": 5701,
+      "sha256": "d464bb5fa32abf9b1471fabac171b928679d6312d4b95fff8e9976ac6e805282"
+    },
+    {
+      "path": "project/run_scripts/experiment_tracking/client.py",
+      "bytes": 6113,
+      "sha256": "3511e0eeb8b0515d2b504ea26bd7d25c69f98e04a0ff4de2d05dabd778ca2c8c"
+    },
+    {
+      "path": "project/run_scripts/experiment_tracking/schema.py",
+      "bytes": 4726,
+      "sha256": "04da97e99e235d5ffe6b491e021b02a494c031e100fed13ef42b6765668a32e9"
+    },
+    {
+      "path": "project/run_scripts/experiment_tracking/worker.py",
+      "bytes": 5377,
+      "sha256": "fcf1c7f19c75590f1c929221518ed3e7c268178aaaa8c909923abe1960c9fce3"
+    }
+  ],
+  "checks": {
+    "nonce_duplicate": false,
+    "exact_scope": "SH3 notes/status/ACK only",
+    "source_review": "bounded static read only; no implementation change",
+    "fake_SDK_tests": "SH1 responsibility; not executed by SH3",
+    "actual_Slurm_identity": "NOT_OBSERVED_NOT_NEEDED",
+    "online_readback": "NOT_PERFORMED",
+    "private_env_or_auth_read": false
+  },
+  "future_requirements": {
+    "whitelisted_env": [
+      "SLURM_JOB_ID",
+      "SLURM_ARRAY_JOB_ID",
+      "SLURM_ARRAY_TASK_ID",
+      "SLURM_STEP_ID"
+    ],
+    "config_fields": [
+      "job_id",
+      "array_job_id",
+      "array_task_id",
+      "step_id",
+      "job_display_id",
+      "execution_backend",
+      "identity_source"
+    ],
+    "name": "must contain job<job_display_id>",
+    "array_zero": "string 0 is valid, not missing",
+    "caller_env_mismatch": "explicit identity error, no silent replacement",
+    "run_id": "distinct attempt UUID; never keyed only by job ID",
+    "adoption_gate": "updated SH1 helper exact commit and own caller binding before next new source freeze",
+    "next_actual_check": "existing bounded startup readback validates exact name/config; no extra experiment"
+  },
+  "independent_reviewer": false
+}
