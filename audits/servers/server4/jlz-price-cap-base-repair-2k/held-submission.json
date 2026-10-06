@@ -1,0 +1,750 @@
+{
+  "submission": {
+    "GPU_qualification": "INTEGRATED_ACTUAL_B1_NOT_OBSERVED",
+    "W20": "NOT_OBSERVED",
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "bounded_initial_snapshot": "59937|jlz-price-cap-base-repair-2k-collector|PENDING|N/A||Dependency\n59936|jlz-price-cap-base-repair-2k-QWEN_FREE100|PENDING|gres/gpu:1||Dependency\n59935|jlz-price-cap-base-repair-2k-QWEN_CAP100|PENDING|gres/gpu:1||None\n59934|jlz-price-cap-base-repair-2k-QWEN_CAP075|PENDING|gres/gpu:1||None\n59933|jlz-price-cap-base-repair-2k-LLAMA_FREE100|PENDING|gres/gpu:1||None\n59932|jlz-price-cap-base-repair-2k-LLAMA_CAP100|PENDING|gres/gpu:1||None\n59931|jlz-price-cap-base-repair-2k-LLAMA_CAP075|PENDING|gres/gpu:1||None",
+    "held": {
+      "bytes": 26650,
+      "inode": 135931266,
+      "mtime_ns": 1791300308969769700,
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/held-inspection.json",
+      "sha256": "ab9a8278f70b392700abd76533328e52fa84a56366a3024bc74babb64e0c1fc0"
+    },
+    "jobs": {
+      "LLAMA_CAP075": "59931",
+      "LLAMA_CAP100": "59932",
+      "LLAMA_FREE100": "59933",
+      "QWEN_CAP075": "59934",
+      "QWEN_CAP100": "59935",
+      "QWEN_FREE100": "59936",
+      "collector": "59937"
+    },
+    "lock": {
+      "bytes": 92616,
+      "inode": 135931257,
+      "mtime_ns": 1791300308454769400,
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/execution.lock.json",
+      "sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9"
+    },
+    "mapping": {
+      "LLAMA_CAP075": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh"
+        ],
+        "dependency": null,
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59931"
+      },
+      "LLAMA_CAP100": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59931",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh"
+        ],
+        "dependency": "afterany:59931",
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59932"
+      },
+      "LLAMA_FREE100": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_FREE100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59932",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh"
+        ],
+        "dependency": "afterany:59932",
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59933"
+      },
+      "QWEN_CAP075": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh"
+        ],
+        "dependency": null,
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59934"
+      },
+      "QWEN_CAP100": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_CAP100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59934",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh"
+        ],
+        "dependency": "afterany:59934",
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59935"
+      },
+      "QWEN_FREE100": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_FREE100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59935",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh"
+        ],
+        "dependency": "afterany:59935",
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59936"
+      },
+      "collector": {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-collector",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=24576M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.err",
+          "--dependency=afterany:59931:59932:59933:59934:59935:59936",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh"
+        ],
+        "dependency": "afterany:59931:59932:59933:59934:59935:59936",
+        "dependency_role": "afterany resource ordering only; each arm own integrated B1 checks; no quality gate",
+        "job": "59937"
+      }
+    },
+    "monitoring_active": false,
+    "nonce": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+    "six_cell_B1_B2": "NOT_OBSERVED",
+    "source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+    "status": "RELEASED",
+    "task_id": "jlz-price-cap-base-repair-2k"
+  },
+  "held": {
+    "CPU_binding": 8,
+    "all_held_inspected_before_release": true,
+    "before": {
+      "jobs": [],
+      "scope": "현재 own GPU allocation/admitted pending의 보수적 자원 metadata만; 과학결과/로그/타job변경0"
+    },
+    "effective_project_cap": 2,
+    "external_resource_afterany": [],
+    "helper": {
+      "code": 0,
+      "output": "ALLOW_MEMORY_POLICY server=server4 requested_mem_mib=59392 max_mem_mib=60416 requested_gpus=1 decision=submit_now\nALLOW server=server4 node=server4 job_patterns=odeedit_*,bfode_*,motivation_*,session01_* active_project_gpus=0 requested_gpus=1 cap=2 decision=submit_now\nALLOW_RESOURCE server=server4 requested_mem=59392M requested_gpus=1 decision=submit_now\n"
+    },
+    "helper_prefix_exception": "jlz-price-cap-base-repair-2k outside generic prefix: explicitauthority + all owned GPU/admitted inventory; helperproject-count not PASS",
+    "jobs": [
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh"
+        ],
+        "job": "59931",
+        "launcher": {
+          "bytes": 643,
+          "inode": 135931250,
+          "mtime_ns": 1791300308432769300,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh",
+          "sha256": "3517dabc061c808ffa9d9d7b5721d8adabd8d12812d4825aad67aa5c1ec0c66d"
+        },
+        "resource_detail": "JobId=59931 JobName=jlz-price-cap-base-repair-2k-LLAMA_CAP075 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP075 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.err --gres=gpu:1 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-59931.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-59931.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "LLAMA_CAP075"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59931",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh"
+        ],
+        "job": "59932",
+        "launcher": {
+          "bytes": 643,
+          "inode": 135931251,
+          "mtime_ns": 1791300308432769300,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh",
+          "sha256": "2677bfd43ca883d290e5ed614f0da693ec189749e7015747fea95c8f607c7e07"
+        },
+        "resource_detail": "JobId=59932 JobName=jlz-price-cap-base-repair-2k-LLAMA_CAP100 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:59931(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP100 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-%j.err --gres=gpu:1 --dependency=afterany:59931 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-59932.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100-59932.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "LLAMA_CAP100"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_FREE100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59932",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh"
+        ],
+        "job": "59933",
+        "launcher": {
+          "bytes": 644,
+          "inode": 135931252,
+          "mtime_ns": 1791300308432769300,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh",
+          "sha256": "270bb7a16f71b60078cc78e700eb9b6590855d35d4bec2883535ca4d15061b67"
+        },
+        "resource_detail": "JobId=59933 JobName=jlz-price-cap-base-repair-2k-LLAMA_FREE100 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:59932(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-LLAMA_FREE100 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-%j.err --gres=gpu:1 --dependency=afterany:59932 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-59933.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100-59933.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "LLAMA_FREE100"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh"
+        ],
+        "job": "59934",
+        "launcher": {
+          "bytes": 642,
+          "inode": 135931253,
+          "mtime_ns": 1791300308433769200,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh",
+          "sha256": "daaf138dad6fa2213318e8ec96202d177e4dc02624314be2b607cd62b6f2206b"
+        },
+        "resource_detail": "JobId=59934 JobName=jlz-price-cap-base-repair-2k-QWEN_CAP075 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-QWEN_CAP075 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.err --gres=gpu:1 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-59934.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-59934.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "QWEN_CAP075"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_CAP100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59934",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh"
+        ],
+        "job": "59935",
+        "launcher": {
+          "bytes": 642,
+          "inode": 135931254,
+          "mtime_ns": 1791300308433769200,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh",
+          "sha256": "556b0f37a18ab0f1658e196673fd0401c598c580c35d77caa97eec1fe011a162"
+        },
+        "resource_detail": "JobId=59935 JobName=jlz-price-cap-base-repair-2k-QWEN_CAP100 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:59934(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-QWEN_CAP100 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-%j.err --gres=gpu:1 --dependency=afterany:59934 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-59935.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100-59935.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "QWEN_CAP100"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_FREE100",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.err",
+          "--gres=gpu:1",
+          "--dependency=afterany:59935",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh"
+        ],
+        "job": "59936",
+        "launcher": {
+          "bytes": 643,
+          "inode": 135931255,
+          "mtime_ns": 1791300308433769200,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh",
+          "sha256": "8dbfd3aaed95c35c072e09eb94b1e2d7eaa79ea51c65d1c320ead689041691c7"
+        },
+        "resource_detail": "JobId=59936 JobName=jlz-price-cap-base-repair-2k-QWEN_FREE100 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:59935(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-QWEN_FREE100 --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=59392M --time=2-00:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-%j.err --gres=gpu:1 --dependency=afterany:59935 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-59936.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100-59936.out TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "role": "QWEN_FREE100"
+      },
+      {
+        "argv": [
+          "sbatch",
+          "--parsable",
+          "--hold",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-collector",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=24576M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.err",
+          "--dependency=afterany:59931:59932:59933:59934:59935:59936",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh"
+        ],
+        "job": "59937",
+        "launcher": {
+          "bytes": 658,
+          "inode": 135931256,
+          "mtime_ns": 1791300308433769200,
+          "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh",
+          "sha256": "687e971f48050e0aca1b15306aa708989756c7d0aa64aa96678f02cac6f73f83"
+        },
+        "resource_detail": "JobId=59937 JobName=jlz-price-cap-base-repair-2k-collector UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=0 Nice=0 Account=lab QOS=lab_gpu_s4 JobState=PENDING Reason=JobHeldUser Dependency=afterany:59931(unfulfilled),afterany:59932(unfulfilled),afterany:59933(unfulfilled),afterany:59934(unfulfilled),afterany:59935(unfulfilled),afterany:59936(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=04:00:00 TimeMin=N/A SubmitTime=2026-10-07T00:25:08 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-07T00:25:08 Scheduler=Main Partition=gpu AllocNode:Sid=server4:1234063 ReqNodeList=server4 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=24G,node=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=24G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --nodes=1 --ntasks=1 --cpus-per-task=8 --export=NONE --no-requeue --job-name=jlz-price-cap-base-repair-2k-collector --chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source --mem=24576M --time=04:00:00 --output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.out --error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.err --dependency=afterany:59931:59932:59933:59934:59935:59936 /data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh WorkDir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source StdErr=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-59937.err StdIn=/dev/null StdOut=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-59937.out TresPerTask=cpu=8",
+        "role": "collector"
+      }
+    ],
+    "maximum_new_GPU_concurrency": 2,
+    "memory_policy": "ALLOW_MEMORY_POLICY server=server4 requested_mem_mib=59392 max_mem_mib=60416 requested_gpus=1 decision=submit_now",
+    "node": "NodeName=server4 Arch=x86_64 CoresPerSocket=32 \n   CPUAlloc=54 CPUEfctv=128 CPUTot=128 CPULoad=17.37\n   AvailableFeatures=(null)\n   ActiveFeatures=(null)\n   Gres=gpu:rtx_pro_6000:8(S:0-1)\n   NodeAddr=server4 NodeHostName=server4 Version=26.05.0\n   OS=Linux 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 13:00:45 UTC 2026 \n   RealMemory=512000 AllocMem=434176 FreeMem=17714 Sockets=2 Boards=1\n   State=MIXED ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A\n   Partitions=gpu \n   BootTime=2026-06-26T10:55:08 SlurmdStartTime=2026-09-30T14:45:24\n   LastBusyTime=2026-09-25T11:40:47 ResumeAfterTime=None SuspendTime=INFINITE\n   CfgTRES=cpu=128,mem=500G,billing=8,gres/gpu=8\n   AllocTRES=cpu=54,mem=424G,gres/gpu=8\n   CurrentWatts=0 AveWatts=0",
+    "partition": "PartitionName=gpu\n   AllowGroups=ALL AllowAccounts=ALL AllowQos=lab_gpu_s1,lab_gpu_s2,lab_gpu_s3,lab_gpu_s4\n   AllocNodes=ALL Default=YES QoS=N/A\n   DefaultTime=04:00:00 DisableRootJobs=NO Exclusive=NO GraceTime=0 Hidden=NO\n   MaxNodes=UNLIMITED MaxTime=30-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED\n   NodeSets=ALL\n   Nodes=devbox,server[2,4],ubuntu\n   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO\n   OverTimeLimit=NONE PreemptMode=OFF\n   State=UP TotalCPUs=416 TotalNodes=4 SelectTypeParameters=NONE\n   JobDefaults=(null)\n   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED\n   TRES=cpu=416,mem=3000G,node=4,billing=28,gres/gpu=28\n   TRESBillingWeights=CPU=0,Mem=0,GRES/gpu=1",
+    "prerelease": {
+      "jobs": [],
+      "scope": "현재 own GPU allocation/admitted pending의 보수적 자원 metadata만; 과학결과/로그/타job변경0"
+    },
+    "scheduler_dry_checks": [
+      {
+        "allocation_created": false,
+        "argv": [
+          "sbatch",
+          "--test-only",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-LLAMA_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh"
+        ],
+        "returncode": 0,
+        "role": "LLAMA_CAP075",
+        "stderr": "sbatch: Job 59928 to start at 2026-10-15T04:01:25 a using 8 processors on nodes server4 in partition gpu\n",
+        "stdout": ""
+      },
+      {
+        "allocation_created": false,
+        "argv": [
+          "sbatch",
+          "--test-only",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-QWEN_CAP075",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=59392M",
+          "--time=2-00:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075-%j.err",
+          "--gres=gpu:1",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh"
+        ],
+        "returncode": 0,
+        "role": "QWEN_CAP075",
+        "stderr": "sbatch: Job 59929 to start at 2026-10-15T04:01:25 a using 8 processors on nodes server4 in partition gpu\n",
+        "stdout": ""
+      },
+      {
+        "allocation_created": false,
+        "argv": [
+          "sbatch",
+          "--test-only",
+          "--partition=gpu",
+          "--qos=lab_gpu_s4",
+          "--nodelist=server4",
+          "--nodes=1",
+          "--ntasks=1",
+          "--cpus-per-task=8",
+          "--export=NONE",
+          "--no-requeue",
+          "--job-name=jlz-price-cap-base-repair-2k-collector",
+          "--chdir=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source",
+          "--mem=24576M",
+          "--time=04:00:00",
+          "--output=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.out",
+          "--error=/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector-%j.err",
+          "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh"
+        ],
+        "returncode": 0,
+        "role": "collector",
+        "stderr": "sbatch: Job 59930 to start at 2026-10-15T00:06:08 a using 8 processors on nodes server4 in partition gpu\n",
+        "stdout": ""
+      }
+    ],
+    "task_cap": 2,
+    "unrelated_job_mutations": 0
+  },
+  "lock": {
+    "source_commit": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+    "source_tree": "7e215ddf840087cdf6975d8206ad80d6e7634376",
+    "config_sha256": "3e43efa32409423a51ef83495b4f5393243522ff0513679a30c8d2e726096bf8",
+    "archive": {
+      "bytes": 2621440,
+      "inode": 135930992,
+      "mtime_ns": 1791300308392769300,
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/source.tar",
+      "sha256": "c0e2b7aad22c87ef069a50070e6d6f49159dd31a3396adaf9cd60b0e19a1b328"
+    },
+    "resources": {
+      "ETA": "NOT_MEASURED; requested finite upper bound",
+      "collector_cpu": 8,
+      "collector_host_mib": 24576,
+      "collector_wall": "04:00:00",
+      "cpu": 8,
+      "effective_user_cap_override": 2,
+      "free_bytes": 83961188352,
+      "free_inodes": 223137866,
+      "gpu": 1,
+      "hard_host_mib": 60416,
+      "host_mib": 59392,
+      "memory_plans": {
+        "LLAMA": {
+          "ETA": "NOT_MEASURED;48h requested ceiling",
+          "GPU_parts_GiB": {
+            "entry_and_candidate_weights": 2.1875,
+            "factor_transients": 3.0625,
+            "five_factors": 7.65625,
+            "model": 29.915054321289062,
+            "one_owner_checkpoint_head_workspace": 24
+          },
+          "GPU_peak_GiB": 66.82130432128906,
+          "W_B_sidecar_included": true,
+          "all_rows_whole_B": true,
+          "host_parts_GiB": {
+            "C0_read_transient": 1.53125,
+            "H_and_rollback": 7.65625,
+            "entry_and_BUILD_offload": 4.5421600341796875,
+            "raw_A": 7.65625,
+            "scalar_observer_runtime_reserve": 3,
+            "selected_RAM_weights": 1.09375,
+            "teacher_subject_transients": 4,
+            "wandb_sidecar_limit": 4
+          },
+          "host_peak_GiB": 37.91505432128906,
+          "load_phase_separate": true,
+          "measured": false,
+          "scientific_simplification": false
+        },
+        "QWEN": {
+          "ETA": "NOT_MEASURED;48h requested ceiling",
+          "GPU_parts_GiB": {
+            "entry_and_candidate_weights": 2.529296875,
+            "factor_transients": 5.34765625,
+            "five_factors": 13.369140625,
+            "model": 28.369901657104492,
+            "one_owner_checkpoint_head_workspace": 24
+          },
+          "GPU_peak_GiB": 73.61599540710449,
+          "W_B_sidecar_included": true,
+          "all_rows_whole_B": true,
+          "host_parts_GiB": {
+            "C0_read_transient": 2.673828125,
+            "H_and_rollback": 13.369140625,
+            "entry_and_BUILD_offload": 5.560340881347656,
+            "raw_A": 13.369140625,
+            "scalar_observer_runtime_reserve": 3,
+            "selected_RAM_weights": 1.2646484375,
+            "teacher_subject_transients": 4,
+            "wandb_sidecar_limit": 4
+          },
+          "host_peak_GiB": 47.237098693847656,
+          "load_phase_separate": true,
+          "measured": false,
+          "scientific_simplification": false
+        }
+      },
+      "project_cap": 2,
+      "reserve_bytes": 15946481664,
+      "task_cap": 2,
+      "wall": "2-00:00:00"
+    },
+    "profiles_sha256": "e202a97ddcab599b07825e4bf26236805e52884ad8860ddc2c7ccf2e15738d35",
+    "flow": "Two model lanes, each CAP075 -> afterany CAP100 -> afterany FREE100; CPU afterany exact6; task/user cap2",
+    "owner": "janghj",
+    "host": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "launchers": [
+      {
+        "bytes": 643,
+        "inode": 135931250,
+        "mtime_ns": 1791300308432769300,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP075.sh",
+        "sha256": "3517dabc061c808ffa9d9d7b5721d8adabd8d12812d4825aad67aa5c1ec0c66d"
+      },
+      {
+        "bytes": 643,
+        "inode": 135931251,
+        "mtime_ns": 1791300308432769300,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_CAP100.sh",
+        "sha256": "2677bfd43ca883d290e5ed614f0da693ec189749e7015747fea95c8f607c7e07"
+      },
+      {
+        "bytes": 644,
+        "inode": 135931252,
+        "mtime_ns": 1791300308432769300,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/LLAMA_FREE100.sh",
+        "sha256": "270bb7a16f71b60078cc78e700eb9b6590855d35d4bec2883535ca4d15061b67"
+      },
+      {
+        "bytes": 642,
+        "inode": 135931253,
+        "mtime_ns": 1791300308433769200,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP075.sh",
+        "sha256": "daaf138dad6fa2213318e8ec96202d177e4dc02624314be2b607cd62b6f2206b"
+      },
+      {
+        "bytes": 642,
+        "inode": 135931254,
+        "mtime_ns": 1791300308433769200,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_CAP100.sh",
+        "sha256": "556b0f37a18ab0f1658e196673fd0401c598c580c35d77caa97eec1fe011a162"
+      },
+      {
+        "bytes": 643,
+        "inode": 135931255,
+        "mtime_ns": 1791300308433769200,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/QWEN_FREE100.sh",
+        "sha256": "8dbfd3aaed95c35c072e09eb94b1e2d7eaa79ea51c65d1c320ead689041691c7"
+      },
+      {
+        "bytes": 658,
+        "inode": 135931256,
+        "mtime_ns": 1791300308433769200,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/collector.sh",
+        "sha256": "687e971f48050e0aca1b15306aa708989756c7d0aa64aa96678f02cac6f73f83"
+      }
+    ],
+    "tracking_env": {
+      "bytes": 194,
+      "inode": 135874141,
+      "mtime_ns": 1791299931966301400,
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/tracking.env",
+      "sha256": "f35f0bf920bd7e8c09df9fb75818445ccecc7783d83038e93ffcfd9727db63c7"
+    }
+  },
+  "receipts": {
+    "submission.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/submission.json",
+      "bytes": 7573,
+      "sha256": "895259141d954725826e938e4be3df27ba98cf33024383249727b7cc16150752",
+      "inode": 135931274,
+      "mtime_ns": 1791300309067769900
+    },
+    "held-inspection.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/held-inspection.json",
+      "bytes": 26650,
+      "sha256": "ab9a8278f70b392700abd76533328e52fa84a56366a3024bc74babb64e0c1fc0",
+      "inode": 135931266,
+      "mtime_ns": 1791300308969769700
+    },
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/execution.lock.json",
+      "bytes": 92616,
+      "sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9",
+      "inode": 135931257,
+      "mtime_ns": 1791300308454769400
+    },
+    "scheduler-resource-check.json": {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/scheduler-resource-check.json",
+      "bytes": 2560,
+      "sha256": "07856671c8e5f352c41017d9d6cd776230c182c6c9391dde8ed33e730f50b7bc",
+      "inode": 135931258,
+      "mtime_ns": 1791300308681769500
+    }
+  },
+  "monitoring": "One release snapshot only; no subsequent status/log polling",
+  "privacy": "No credential/raw/prompt/tensor publication"
+}

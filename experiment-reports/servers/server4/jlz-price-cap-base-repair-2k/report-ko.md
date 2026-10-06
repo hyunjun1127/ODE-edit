@@ -1,15 +1,19 @@
 # PRICE cap/base repair: Llama·Qwen 6-cell 2k
 
-현재 구현·정적/입력 결속 완료, **미제출**. 실제 B1/GPU 검산과 W20 결과는 NOT_OBSERVED다.
+현재 **6개 GPU job + CPU collector 전량 held 검사·release 완료**. 등록 직후 단일 snapshot은 전부 PENDING이다. 실제 B1/GPU 검산·W&B online startup·W20 결과는 NOT_OBSERVED다.
 
-| Model | Arm | Base | Local cap | 실제 상태 |
-|---|---|---:|---|---|
-| LLAMA | CAP075 | .75 | .75a | NOT_RUN |
-| LLAMA | CAP100 | 1 | .75a | NOT_RUN |
-| LLAMA | FREE100 | 1 | 없음(null) | NOT_RUN |
-| QWEN | CAP075 | .75 | .75a | NOT_RUN |
-| QWEN | CAP100 | 1 | .75a | NOT_RUN |
-| QWEN | FREE100 | 1 | 없음(null) | NOT_RUN |
+실행 source: `87a5a736c455d5082f5f666ae562f9edc4e5d3b2`; config SHA256: `3e43efa32409423a51ef83495b4f5393243522ff0513679a30c8d2e726096bf8`. 게시/분석 commit과 실행 source는 구분한다.
+
+| Model | Arm | Base | Local cap | Job | Afterany | 최초 상태 |
+|---|---|---:|---|---:|---|---|
+| LLAMA | CAP075 | .75 | .75a | 59931 | 없음 | PENDING |
+| LLAMA | CAP100 | 1 | .75a | 59932 | 59931 | PENDING |
+| LLAMA | FREE100 | 1 | 없음(null) | 59933 | 59932 | PENDING |
+| QWEN | CAP075 | .75 | .75a | 59934 | 없음 | PENDING |
+| QWEN | CAP100 | 1 | .75a | 59935 | 59934 | PENDING |
+| QWEN | FREE100 | 1 | 없음(null) | 59936 | 59935 | PENDING |
+
+CPU collector `59937`: afterany 정확6개 GPU 부모, GPU0/CPU8/24576MiB/4h. 두 model lane은 독립이며 predecessor 성능 PASS는 조건이 아니다. 모든 owner/source/fullargv/node/GPU/CPU/memory/wall/exportNONE/Requeue0/dependency 및 제출 script bytes를 held 상태에서 검사했다. Test-only resource check는 실제 job ID로 보고하지 않았다.
 
 각 cell은 cold W0/H0, BS100×20, 같은 순서의 2000요청이다. 총 12000 applications이며 서로 다른 12000요청이라는 뜻은 아니다. FREE075/FLAT/REVERSE/추가 baseline은 제외한다.
 
@@ -30,3 +34,9 @@
 - noCP, exact resume NOT_AVAILABLE. Source/compact report/manifest만 Git, raw는 local KEEP. NO_BROADCAST_NOT_REQUIRED.
 
 결과와 비용은 collector가 실제 row/state/부모 accounting을 재집계한 뒤 기록한다. 미측정 RS/PS/NS/Harmonic/W20 값을 0이나 이전 결과로 대체하지 않는다.
+
+## 인계 경계
+
+원본 attempt: `/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt`. [제출 영수증](../../../../runs/jlz-price-cap-base-repair-2k/submission.json), [held/admission 감사](../../../../audits/servers/server4/jlz-price-cap-base-repair-2k/held-submission.json).
+
+Release 뒤 단1회 scheduler snapshot만 취득했다. 반복 polling/heartbeat/자동 재시도는 없고 `monitoring_active=false`, `automatic_resume=false`다. 기존 job 변경·취소0. 봉인 runner는 B20 및 collector까지 진행하되 실제 기술 오류는 원 증거를 보존하고 차단한다. 상세 완료 리뷰는 사용자 recall 시 수행한다.

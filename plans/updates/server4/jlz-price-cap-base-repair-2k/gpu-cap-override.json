@@ -1,0 +1,20 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "server": "server4",
+  "superseded_tracked_value": 3,
+  "latest_user_total_cap": 2,
+  "effective_maximum": 2,
+  "count_scope": "Both model lanes and all existing same-user server4 GPU allocations/admitted pending",
+  "existing_jobs_cancelled": 0,
+  "global_config_mutation": false,
+  "application": "Explicit stricter user cap in admission + sealed DAG; this own-scope published correction does not claim shared TSV bytes were edited",
+  "observed_existing_own_jobs": [],
+  "proof": {
+    "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/held-inspection.json",
+    "bytes": 26650,
+    "sha256": "ab9a8278f70b392700abd76533328e52fa84a56366a3024bc74babb64e0c1fc0",
+    "inode": 135931266,
+    "mtime_ns": 1791300308969769700
+  }
+}
