@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "authority_commit": "a100868955f0d1091b9c0ff0db6029d9cc9cfcba",
+  "target_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "target_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "transport": "app-server direct thread/resume→idle turn/start",
+  "accepted_turn": "01a112bd-4374-70d1-a313-27d0d241458d",
+  "owner_ack": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1 수신했고 SH1 담당으로 수락합니다. 현재는 준비 단계이며 아직 제출하지 않았습니다. 동일 nonce의 기존 등록 여부와 정본·native hparams를 확인한 뒤, 전용 worktree에서 구현·검산하고 6개 cell을 held 검사 후 release하겠습니다. 기존 job과 자산은 보존합니다.",
+  "stage": "OWNER_ACCEPTED_PREPARING_NOT_SUBMITTED",
+  "job_ids": [],
+  "scheduler_pending": false,
+  "task_pending": "구현·source freeze·admission 후 등록할 승인 후속 task; 아직 Slurm PENDING 아님",
+  "helper_dependency": "source930e4653 게시됨; SH1 caller결속 필요",
+  "no_science_completion_claim": true,
+  "monitor": "GH는직접ACK회수후종료. SH1은승인된구현·6개제출을계속,새recurringmonitor없음."
+}
