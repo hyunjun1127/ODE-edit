@@ -14,5 +14,7 @@
   "scheduler_queries": 0,
   "source_payload_reads": 0,
   "large_tensor_hashes": 0,
-  "qualification": "CPU metadata arithmetic only; no tensor/model/scientific validation"
+  "qualification": "CPU metadata arithmetic only; no tensor/model/scientific validation",
+  "csv_format": "Python csv 기본 CRLF 보존. 기본 diff-check는 CR을 whitespace로 보고했으며 core.whitespace=cr-at-eol로 CSV 형식 예외만 적용하여 재검사. 원문/원자료 정규화 없음.",
+  "publication_checks": "owner access check PASS; AST parse, relative Markdown links/table columns, compact size/path/extension and credential-pattern scan PASS. 실제 renderer는 미사용."
 }
