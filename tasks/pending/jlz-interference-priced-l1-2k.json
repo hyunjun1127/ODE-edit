@@ -3,11 +3,15 @@
   "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
   "task_id": "jlz-interference-priced-l1-2k",
   "owner": "SH4",
-  "state": "AUTHORIZED_AWAITING_DIRECT_ACK",
+  "state": "OWNER_ACKNOWLEDGED_PREPARING_IMPLEMENTATION",
+  "accepted_turn": "01a11038-2140-7220-b5be-0ffde7c43db1",
+  "direct_delivery_receipt": "audits/global/2026-10-06-jlz-interference-l1-dispatch/direct-delivery.json",
   "owner_branch": "codex/server4-jlz-interference-priced-l1-2k",
   "envelope": "messages/head/2026-10-06-jlz-interference-l1-sh4.json",
   "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/report-ko.md",
   "job_ids": [],
   "production_complete": false,
-  "actual_B1_assertions": "NOT_RUN"
+  "actual_B1_assertions": "NOT_OBSERVED",
+  "submission_status": "NOT_OBSERVED_AT_OWNER_ACK",
+  "GH_handoff_complete": true
 }
