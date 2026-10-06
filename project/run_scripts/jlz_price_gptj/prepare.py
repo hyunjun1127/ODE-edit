@@ -115,7 +115,7 @@ def prepare(out,attempt,preflight):
     return dict(config=str(out),model_SHA_checked=True,context='FIRST_REAL_ARM_NATIVE_PREPARATION',
         memory=budget,actual_B1='NOT_OBSERVED',cells=list(CELLS))
 
-def finalize(config,preflight,out,attempt):
+def finalize(config,preflight,out,attempt,tracking_review=None):
     c=json.loads(Path(config).read_text());p=json.loads(Path(preflight).read_text())
     require(c['task_id']==p['task']==TASK and p['passed'] and p['numeric_tests']==0,'FINAL_STATIC_SOURCE')
     for row in p['source']:verify(row)
@@ -139,10 +139,18 @@ def finalize(config,preflight,out,attempt):
     for mc in c['models'].values():mc['evaluator_sources']=c['dependency_sources']
     require(attempt.parent==LOCAL and not attempt.exists(),'NEW_UNSUBMITTED_ATTEMPT')
     c['attempt']=str(attempt);c['run_instance']['attempt']=attempt.name
-    c['cpu_preflight']=member(preflight);write(out,c)
+    c['cpu_preflight']=member(preflight)
+    if tracking_review is not None:
+        review=json.loads(Path(tracking_review).read_text())
+        require(review.get('helper_ready') is True and review.get('integration')=='FAKE_SDK_PAYLOAD_AXES_IDENTITY_PASS',
+            'TRACKING_INTEGRATION_NOT_READY')
+        for row in review['helper_sources']:verify(row)
+        c['tracking']['cpu_review']=member(tracking_review)
+    write(out,c)
     return dict(config=str(out),sha256=sha(out),actual_B1='NOT_OBSERVED')
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--out',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
     p.add_argument('--preflight',type=Path,required=True);p.add_argument('--finalize',type=Path)
-    a=p.parse_args();print(json.dumps(finalize(a.finalize,a.preflight,a.out,a.attempt) if a.finalize else prepare(a.out,a.attempt,a.preflight)))
+    p.add_argument('--tracking-review',type=Path)
+    a=p.parse_args();print(json.dumps(finalize(a.finalize,a.preflight,a.out,a.attempt,a.tracking_review) if a.finalize else prepare(a.out,a.attempt,a.preflight)))
