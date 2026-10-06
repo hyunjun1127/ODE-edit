@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "parent": "USER-GH-ALL-SH-WANDB-REALTIME-20261006",
+  "authority_commit": "ff43b438",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "stage": "ALL_FOUR_OWNERS_ACCEPTED_SETUP_IN_PROGRESS",
+  "delivery_utc": "2026-10-06T12:06:00Z",
+  "transport": "official app-server direct thread/resume + turn/start or related turn/steer; same-stream nonce ACK",
+  "servers": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "turn": "01a1111a-3c88-7bd1-82d7-a09c5155b644",
+      "ack": "RECEIVED / PREPARING; 공통 helper/서버설정/CPU smoke 담당",
+      "online_verified": false
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a1110f-af3f-7c41-8b53-5f4e417f308c",
+      "ack": "FE 미봉인·미제출; 이번 W&B 운영정책 반영 수락",
+      "online_verified": false
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "turn": "01a1111a-0442-74f3-9e61-cdef3e808a83",
+      "ack": "SDK/config/auth 확인 후 인증시 CPU online3point/readback 수락",
+      "online_verified": false
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "turn": "01a1111a-bdb0-7f50-967b-1b504a8ad8e4",
+      "ack": "SDK/config/auth/online smoke 구분; 기존 job불변 수락",
+      "online_verified": false
+    }
+  ],
+  "claim_boundary": "직접 담당 수락이며 설치/로그인/실제 online 검증 완료 아님. 서버별 상태는 후속 own receipt로만 갱신.",
+  "raw_transport": "ignored local/wandb-dispatch/server{1..4}-transport.jsonl",
+  "experiment_gpu_actions": 0,
+  "existing_job_changes": 0,
+  "new_recurring_monitors": 0
+}

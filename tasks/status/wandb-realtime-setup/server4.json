@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER4",
+  "task_id": "wandb-realtime-setup",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "READY_ONLINE_VERIFIED",
+  "sdk": "0.30.0",
+  "python": "/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python",
+  "config": "/data/janghj/ODE-edit/servers/local/wandb.env",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "mode": "online",
+  "auth": "EXISTING_LOCAL_CREDENTIAL_VERIFIED_NO_COPY",
+  "online_smoke": {
+    "run_id": "server4-setup-20261006",
+    "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/server4-setup-20261006",
+    "points": 3,
+    "finish": "VERIFIED",
+    "readback": "VERIFIED"
+  },
+  "new_gpu": 0,
+  "model_load": 0,
+  "new_slurm": 0,
+  "existing_job_changes": 0,
+  "shared_helper": {
+    "owner": "SH1",
+    "implementation_by_SH4": false,
+    "available_at_origin_main_d62887b7": false,
+    "production_integration": "NOT_PERFORMED_NO_NEW_EXPERIMENT_IN_SCOPE"
+  },
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "report": "experiment-reports/servers/server4/wandb-realtime-setup/report-ko.md",
+  "note_ko": "서버 SDK/config/auth/online 준비 완료. 신규 실험은 SH1 공통 helper 및 명시 whitelist를 결속한 새 source/launcher에서 사용. 기존 봉인된 run과 과학환경은 미변경.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
