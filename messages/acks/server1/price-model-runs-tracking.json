@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "server": "server1",
+  "stage": "SIX_GPU_AND_COLLECTOR_HELD_INSPECTED_RELEASED",
+  "task": "jlz-price-gpt2xl-2k",
+  "user_method_only_limit": "SUPERSEDED_WITHIN_THIS_SCOPE",
+  "additional_approval_required": false,
+  "new_job_ids": [60094, 60095, 60096, 60097, 60098, 60099, 60100],
+  "execution_source": "537c42ad26753ba6498f9401904d94af1effdf91",
+  "lock_sha256": "c3e46222af01e0a9ba5d5881d5ad7ca072fa55917ca5f04931fde47cbf7bfcfe",
+  "monitoring_active": false,
+  "running_or_completed_old_jobs_mutated": false,
+  "scientific_completion": "NOT_OBSERVED"
+}

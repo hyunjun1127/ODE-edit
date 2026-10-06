@@ -2,7 +2,9 @@
   "schema": 1,
   "instruction_id": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
   "task_id": "price-model-runs-tracking",
-  "status": "AUTHORIZED_AWAITING_OWNER_ACK",
+  "status": "OWNERS_ACCEPTED_SUBMISSION_WORK_IN_PROGRESS",
+  "explicit_protected_job": "60001",
+  "delivery_receipt": "audits/global/price-model-runs-tracking/direct-delivery.json",
   "envelope": "messages/head/2026-10-07-price-model-runs-tracking.json",
   "models": [
     "gpt2xl",
@@ -14,13 +16,15 @@
     {
       "server": "server1",
       "session": "01a04939-f93a-7b50-bca0-65438eab2062",
-      "status": "NOT_YET_DISPATCHED",
+      "status": "OWNER_ACCEPTED",
+      "accepted_turn": "01a112ca-67d4-7c10-931d-014b79b5d7b4",
       "new_job_ids": []
     },
     {
       "server": "server4",
       "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-      "status": "NOT_YET_DISPATCHED",
+      "status": "OWNER_ACCEPTED",
+      "accepted_turn": "01a112ca-fab5-79a2-acce-c611983cbb06",
       "new_job_ids": []
     }
   ],

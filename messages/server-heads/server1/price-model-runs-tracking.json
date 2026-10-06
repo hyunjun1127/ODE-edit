@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+  "owner": "SH1",
+  "status": "SIX_GPU_AND_CPU_COLLECTOR_RELEASED",
+  "MEMIT_lane": [60094,60095,60096],
+  "Alpha_lane": [60097,60098,60099],
+  "Alpha_head_dependency": "afterany:60094 input READY",
+  "collector": 60100,
+  "source": "537c42ad26753ba6498f9401904d94af1effdf91",
+  "lock_sha256": "c3e46222af01e0a9ba5d5881d5ad7ca072fa55917ca5f04931fde47cbf7bfcfe",
+  "initial": "NOT_OBSERVED; bounded submission snapshot PENDING",
+  "report": "experiment-reports/servers/server1/price-model-runs-tracking/report-ko.md",
+  "old_job_mutations": 0,
+  "monitoring_active": false,
+  "NoCP": true
+}
