@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007",
+  "scope": "All future ours and baseline scientific method experiments; asset preparation (including SH1 GPT2-XL stats/projector initial setup), setup smoke and storage audits excluded from scientific metric requirements. Existing job identity/privacy policies still apply.",
+  "user_quote": "그리고 method 관련 실험에선 (sh1이 진행중인 gpt2-xl 초기 구성 실험 등은 제외) wandb에 들어갈 metric을 맞춰야 하니 첨부문을 확인하고 ours나 baseline 실험 돌릴때 해당 지표로 돌리는 것으로 하자.",
+  "attachment": {
+    "path": "project/proposals/wandb-method-metric-schema/user-handoff.txt",
+    "sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+    "evidence_status": "User-supplied historical observations; GH did not independently query historical W&B runs."
+  },
+  "compatibility": {
+    "initial_capability": "price-first2k-scalar-v1",
+    "existing_caller_commit": "8f5549814b3013bffbd530307294789e44ba8b39",
+    "contract": "SH1 schema.COMPARISON_SCHEMA capability and strict metric/config allowlists must satisfy SH4 tracking.contract_ready; preserve backward compatibility for old scalar callers. No science frozen until new caller and helper are both bound."
+  },
+  "prefixes": {
+    "current/pre": "Own incoming batch evaluated on pre-write state; edits=batch endpoint for comparison; actual state separately pre_state_edits.",
+    "current/post": "Own incoming batch post-write, including milestones; never substitute all-seen summary.",
+    "all_seen/post": "Only actually measured cumulative endpoints, omit other steps.",
+    "W0_first2000": "Cold W0 exact first2000 only; not historical10k/500/current100.",
+    "w0/current/N": "Same-model W0 neighborhood subset of current cohort.",
+    "w0/all_seen/N": "Same-model W0 neighborhood subset of measured all-seen cohort."
+  },
+  "portability": "Canonical scalar meanings apply across model/baseline/horizon. Do not force a 2k schedule or new evaluations on other approved experiments. Non-2k cold cohort needs explicit validated W0_first<N> registration/schema extension, never mislabel as first2000. Use cumulative actual request occurrences for edits, including partial/variable batches.",
+  "kinds": [
+    "R",
+    "P",
+    "N"
+  ],
+  "fields": {
+    "count": "integer evaluated prompt-pair count",
+    "success_count": "integer preference successes per existing evaluator (ties as defined by evaluator, no metric change)",
+    "success_pct": "0..100 NLL preference success, distinct from TF ACC",
+    "token_acc_pct": "0..100 desired-target token micro ACC; token denominator not prompt count",
+    "prompt_acc_pct": "0..100 mean prompt token ACC",
+    "strict_acc_pct": "0..100 all desired tokens correct per prompt",
+    "true_nll": "nats",
+    "new_nll": "nats",
+    "margin_true_minus_new": "true_nll-new_nll; nats"
+  },
+  "targets": "R/P desired=new; N desired=true. Preserve true/new labels, evaluator/token/row identity and denominator. Never use N new-target accuracy as desired locality.",
+  "harmonic": {
+    "key": "<prefix>/success_harmonic_pct",
+    "percent_inputs": "3/(1/p_R+1/p_P+1/p_N)",
+    "fraction_inputs": "300/(1/r_R+1/r_P+1/r_N)",
+    "zero": "Any measured component zero =>0",
+    "missing": "Any unavailable component =>omit, not0",
+    "not_strict_ACC": true
+  },
+  "axes": {
+    "performance": "Every evaluation payload includes edits; define_metric prefix wildcard step_metric='edits', step_sync=False.",
+    "fit": "Separate monotonic fit/global_candidate (or equivalently declared axis), batch/candidate preserved; no per-batch reset overlay.",
+    "state": "pre_state_edits/post_state_edits explicit. W0 cohort x=0; do not treat pre endpoint label as post-write state."
+  },
+  "missing": "Omit unmeasured fields or explicit typed availability in local report. Never invent zero/interpolate. No new model forward merely to satisfy logging. Already measured W0/pre/current/all-seen must be mapped from raw correctly.",
+  "config": {
+    "required": [
+      "model",
+      "model_family",
+      "writer",
+      "role",
+      "metric_schema"
+    ],
+    "retain": [
+      "server",
+      "task_id",
+      "arm",
+      "attempt",
+      "source_sha",
+      "config_sha",
+      "job_id",
+      "job_display_id",
+      "array_job_id",
+      "array_task_id",
+      "step_id",
+      "execution_backend",
+      "identity_source"
+    ],
+    "role": [
+      "scientific",
+      "derived_comparison_snapshot"
+    ],
+    "source_links": "Explicit sanitized source_run_id/parent_run_id/run URL and observation identity when applicable; strict typed whitelist only. model aliases llama3/gptj/qwen/gpt2xl or validated adapter alias; do not mislabel other writers/baselines as memit."
+  },
+  "delivery": {
+    "identity": "Create-once immutable run ID/URL/job/source/config/model/schema receipt separate from mutable transport status.",
+    "ack": "SDK_ASYNC_NOT_REMOTE_ACK / LOGGING_ACCEPTED is not remote delivery certification.",
+    "readback": "Use bounded existing startup/finish readback to check actual identity and logged rows/edits/key-values; incomplete/unavailable is explicit. No recurring monitoring.",
+    "completion": "Uploader/SDK finished does not establish scientific completion."
+  },
+  "checks": [
+    "CPU existing B4/B5 raw: both current R100/P200/N1000, only B5 all_seen R500/P1000/N5000",
+    "Distinct R/P/N fields, percent/nats/margin/harmonic, missing and zero semantics",
+    "W0 cohort identity and N desired=true; evaluated/token numerators and denominators preserved",
+    "Fake SDK define_metric axes, immutable identity, strict config/privacy rejection, job IDs including array index0 and signed step",
+    "Helper+producer integration including SH4 contract_ready and scalar payload against stored raw; no GPU test submission"
+  ],
+  "immutable": "No frozen/running/PENDING archive hotpatch, restart/cancel, historical rename/backfill or derived snapshot creation by this policy. No additional science submission, cap change or recurring monitor. New-source adoption only.",
+  "comparisons": "Filter model/writer/role/schema and verify cohort, endpoint, seed/runtime/evaluator identity. Historical mismatches descriptive only; no causal equivalence claim. Saved charts/views not mutated."
+}

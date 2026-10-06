@@ -1,0 +1,29 @@
+{
+  "task_id": "wandb-method-metric-schema",
+  "instruction_id": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "contract": "control/wandb-method-metric-schema.json",
+  "envelope": "messages/head/2026-10-07-wandb-method-metrics-all-sh.json",
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "status": "NOT_YET_DISPATCHED"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "status": "NOT_YET_DISPATCHED"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "status": "NOT_YET_DISPATCHED"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "status": "NOT_YET_DISPATCHED"
+    }
+  ]
+}

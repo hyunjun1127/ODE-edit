@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007",
+  "task_id": "wandb-method-metric-schema",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "contract": "control/wandb-method-metric-schema.json",
+  "attachment": {
+    "path": "project/proposals/wandb-method-metric-schema/user-handoff.txt",
+    "sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+    "evidence_status": "User-supplied historical observations; GH did not independently query historical W&B runs."
+  },
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "expected_related_turn": "01a112a3-4a42-7c51-81e4-c6533b2a7bbb",
+      "responsibility": "Sole owner project/run_scripts/experiment_tracking/**: implement strict schema/config expansion, eval and fit axis definitions, immutable identity receipt, CPU/fake SDK regressions and caller contract compatibility; publish helper commit and notify GH/SH4. Do not modify or interrupt frozen GPT2 asset jobs. No new GPU/Slurm/online smoke needed."
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "responsibility": "Accept future ours/baseline caller adoption. Bind SH1 helper commit at next new source freeze. Existing FE/frozen jobs untouched. Own status/compact report only if no active unfrozen caller."
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "cwd": "/data/janghj/ODE-edit",
+      "responsibility": "Accept future ours/baseline caller adoption with actual scope/denominators; no old job query/restart or duplicated helper edits. Bind SH1 implementation at next new source freeze."
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "expected_related_turn": "01a112a0-9886-7d70-98b2-136df446a800",
+      "responsibility": "Own scientific producer integration; reuse already published GPTJ mapping 8f554981 and B4/B5 CPU raw checks. Coordinate SH1 capability price-first2k-scalar-v1, then freeze caller+helper together for already authorized new science only. Existing submitted sources immutable; do not duplicate shared helper or create historical comparison uploads."
+    }
+  ],
+  "authority": "User explicitly authorizes standardizing future method ours/baseline W&B metrics. This task authorizes CPU-only implementation/source publication and direct owner adoption, not new scientific submissions, network backfill, GPU evaluation or existing job mutation.",
+  "write_scope": [
+    "SH1: project/run_scripts/experiment_tracking/**",
+    "Other SH: own unfrozen scientific caller namespaces within already authorized tasks, backward-compatible integration only",
+    "Own server report/audit/status and ignored local CPU receipts"
+  ],
+  "publication": "Dedicated non-main worktrees, preserve unrelated dirty/source; nonforce ownscope main publication. User model/effort unchanged.",
+  "resources": "No GPU/model/Slurm operations for this policy task; existing caps unchanged.",
+  "artifact_policy": "Compact scalar/source/CPU receipts only; no credentials/raw prompts/model/tensor/full logs in Git/W&B. Source raw CPU use read-only in existing scope; no new broadcast of large raw.",
+  "report": "experiment-reports/servers/<server>/wandb-method-metric-schema/report-ko.md",
+  "ack": "Echo server-specific nonce, accepted responsibility/current implementation status. Policy ACK != helper implementation != actual online validation.",
+  "handoff": "Direct accepted turn plus owner ACK; no long monitoring. SH1 continues implementation after GH disconnect."
+}

@@ -1,0 +1,146 @@
+W&B 모델별 비교 호환성 보완 / 후속 job 담당 agent 전달문
+작성일: 2026-10-07 KST
+범위: 60001 LLAMA_CAP075의 완료 prefix에 대한 CPU-only 단발 비교 export.
+원 job/source/raw/기존 W&B run, main thread worktree 및 scheduler 변경 없음.
+
+1. 실제 확인한 문제
+
+P0. 평가 모집단 혼합
+- cap_run.py는 milestone(5/10/15/20)에서 post['summary']=ALL_SEEN,
+  나머지는 post['summary']=CURRENT를 사용한다.
+- cap_tracking.log_endpoint가 이를 모두 eval/RS, eval/PS, eval/NS에 기록한다.
+- 원격 60001의 R denominator는 edits 100/200/300/400에서100,
+  edits500에서500, edits600에서100이다. 하나의 동일 모집단 곡선이 아니다.
+- 올바른 current/post는 항상 post['current']; all_seen/post는 milestone의
+  post['summary']만 기록한다. 미측정 milestone 외 all-seen은 key를 생략한다.
+
+P0. R/P/N 지표의 같은 키 사용
+- eval/TF_token_micro, eval/TF_prompt_macro, eval/TF_strict,
+  eval/true_nll, eval/new_nll에 R/P/N을 순서대로 기록하고 phase_id=3/4/5만 사용.
+- 기본 차트는 세 모집단을 한 선으로 연결하며 summary는 마지막 N 값이다.
+- R/P/N을 경로에 명시해야 한다. N desired target=true, R/P=new 유지.
+
+P1. 과거와 metric key 및 단위 불일치
+- 과거 PRICE-59768: current/post/R/success_pct, all_seen/post/R/success_pct 등,
+  0..100 백분율. 현재 60001: eval/RS 등 0..1 rate.
+- 단순 이름 alias 또는 곱하기100만으로 P0 모집단 혼합은 해결되지 않는다.
+- RS=R success, PS=P success, NS=N success. Strict/token/prompt ACC와 별개다.
+
+P1. x축 불일치
+- 과거 _step은 대체로 batch 단위, 새 _step은 candidate와 eval 호출 단위.
+- 모든 성능 곡선은 edits를 x축으로 지정하고 같은 log payload에 edits 포함.
+- 과거 호환 current/pre의 edits는 해당 birth batch의 post 위치이다.
+  실제 pre 평가 상태는 (batch-1)*100이므로 pre-state와 post-state를 혼동하지 말 것.
+- fit candidate는 batch마다 재시작하므로 fit용 축을 평가 edits와 구분할 것.
+
+P1. 비교에 필요한 관측이 raw에 있으나 online caller가 누락
+- 현재 caller는 post만 전송; W0 및 current/pre는 해당 online run에서 미전송.
+- milestone current100은 raw의 post['current']에 있지만 같은 caller가 누락.
+- raw가 존재하면 CPU 재집계만으로 보완. 새 GPU forward/evaluation/fit 불필요.
+
+P1. 모델/writer 명시 필드 부족
+- 공통 helper CONFIG_KEYS에는 model/writer/role이 없다.
+- 현재 run은 arm=LLAMA_CAP075, job_id=60001이지만 model 필드 없음.
+- 모델별 view 포함 여부와 metric 비교 호환성은 서로 다른 문제다.
+- SH1 소유 helper의 allowlist 확장 협의: model(llama3/gptj/qwen),
+  writer(memit/alphaedit), role(scientific/derived_comparison_snapshot),
+  metric_schema, source run link. raw config나 전체 env를 허용하지 말 것.
+
+P1. 온라인 상태/완료 의미
+- receipt.json의 LOGGING_ACCEPTED는 SDK_ASYNC_NOT_REMOTE_ACK이며 전송 완료 증명이 아님.
+- 최신 이벤트로 result가 교체되어 초기 url이 사라질 수 있다. 별도 불변 run identity
+  receipt(run_id/url/job/source/config)와 가변 transport receipt를 분리해야 한다.
+- 비교 snapshot run의 finished는 uploader 종료이지 실험 완료가 아니다.
+
+2. 이번 보완
+
+- 원 live run: c5b6f44631f44f22 (job60001).
+- snapshot 생성 시 완료 commit만 한 번 열거: B1..B7, 700 edits.
+- current/pre 및 current/post: 100..700 edits 각7점.
+- all_seen/post: W5=500 edits 1점만. W10/W15/W20는 미관측, 0 보간 금지.
+- W0_first2000: R2000/P4000/N20000. W0 current/seen N 비교값은
+  동일 raw에서 정확 case/token identity의 subset으로 CPU 집계.
+- source/config SHA, commit state join, 원 raw 순서/token/유한성/분모,
+  엄격한 NLL 부등호(tie fail), stored summary와 독립 산술 일치를 검사했다.
+- 별도 reviewer/모델 재검증/독립 GPU qualification을 수행한 것은 아니다.
+- 원 live run에 concurrent resume writer를 추가하지 않았다.
+- 신규 비교 run ID/URL 및 remote readback 결과는 publication.json에 기록.
+- 실제 ID: cmp60001-7015aaa3b53d
+- URL: https://wandb.ai/wkdguswns2256/layer%20allocation/runs/cmp60001-7015aaa3b53d
+- 최종 원격 전체 readback: 8 history rows / 543 scalar 값이 준비한 payload와 일치.
+  export state=finished; scientific_completion_claim=false.
+- 이 export는 단발 snapshot. 앞으로의 완료 배치를 자동 추적하지 않는다.
+
+3. 후속 구현 계약 (기존 봉인 job hotpatch/재시작 금지)
+
+새로 봉인하는 source에서는 생산 caller와 SH1 공통 helper schema를 함께 맞출 것.
+현재 pending job도 이미 archive/lock이 봉인됐다면 파일만 바꿔서는 반영되지 않으며
+무단 취소/재제출하지 않는다. owner에게 변경된 source 적용 경계를 확인할 것.
+
+표준 prefix:
+  current/pre/{R,P,N}/*
+  current/post/{R,P,N}/*
+  all_seen/post/{R,P,N}/*  (실측 milestone만)
+  W0_first2000/{R,P,N}/*  (cold first2000만, 과거10k와 합치지 않음)
+  w0/current/N/*, w0/all_seen/N/* (정확 동일 cohort의 W0 비교)
+
+각 prefix/kind의 scalar:
+  count, success_count, success_pct, token_acc_pct, prompt_acc_pct,
+  strict_acc_pct, true_nll, new_nll, margin_true_minus_new
+  필요하면 desired_nll(R/P=new, N=true), token numerator/denominator와
+  strict count를 명시적으로 확장. 존재하지 않는 값을 만들지 않는다.
+
+각 R/P/N 세트의 prefix/success_harmonic_pct:
+  성공 rate가 모두 양수일 때 300 / (1/RS + 1/PS + 1/NS),
+  하나라도0이면0. strict ACC의 조화평균이 아니다.
+
+모든 rate는 *_pct 키에서100배. NLL은 원 자연로그 단위 그대로.
+margin_true_minus_new=true_nll-new_nll, 반대 부호는 다른 이름으로 저장.
+count와 success_count는 정수; 결측은 생략 또는 별도 availability, 0 대입 금지.
+
+단일 batch commit 후 caller 예시:
+  log({edits:b*100, **map('current/pre', pre['summary']),
+       **map('current/post', post['current']),
+       **(map('all_seen/post', post['summary']) if b in [5,10,15,20] else {})})
+  define_metric('current/post/*', step_metric='edits', step_sync=False)
+  다른 eval prefix도 동일. 같은 endpoint를 새로 forward하지 않는다.
+
+현재 helper METRICS는 고정 whitelist라 위 경로를 추가하지 않으면 거부된다.
+caller만 새 key로 바꾸면 LOGGING_DEGRADED_CALLER/dropped point가 발생할 수 있다.
+SH1 helper 단독 소유를 존중하며, caller와 schema를 원자적으로 검증/봉인할 것.
+
+4. 최소 회귀 확인 (모델 계산 없음)
+
+- 기존 B4와 B5 raw를 사용해 current 분모R100/P200/N1000 유지 확인.
+- B5 all-seen 분모R500/P1000/N5000, B4 all-seen key 부재 확인.
+- R/P/N TF/NLL 서로 다른 key, 0..100 변환, harmonic, margin 부호 확인.
+- raw/stored aggregate와 payload 동일; W0 first2k와 historical10k 분리.
+- helper schema가 실제 새 key/config를 허용하고 알 수 없는 raw/secret은 거부.
+- paired 비교는 동일 model/cohort/endpoint/평가정의 확인 후만.
+- 다른 seed/runtime/price/writer 설정 차이는 표기; 곡선 중첩을 인과 동일성으로 주장0.
+- 예외/네트워크 단절은 로컬 원자료 보존, 과학 상태변이/자동 재실행 금지.
+- bounded remote readback으로 row/edits/metric 일치 확인. SDK accepted만 PASS 아님.
+
+5. W&B 화면에서 비교
+
+- 기존 PRICE-59768와 새 이름 끝 '-comparison-snapshot' run을 함께 선택.
+- 표준 scalar Line plot: x=edits,
+  y=current/post/R/success_pct 또는 all_seen/post/R/success_pct 등.
+- 과거 *_table 전용 custom chart는 해당 run의 Table만 그리는 별도 도표이므로
+  새 scalar run이 자동으로 그 Table 안에 추가되지 않는다. scalar panel로 비교.
+- 기존 saved view/layout/filter는 이번 작업에서 수정하지 않았다.
+- saved view가 run ID를 고정 선택한다면 위 snapshot을 추가 선택해야 한다.
+- 현재 snapshot은700 edits까지. 나머지 데이터가 안 보이는 것은 결측이며 실패/0점 아님.
+
+6. 실행/산출물 경계
+
+- one_shot.py: local CPU converter/exporter. prepare와 publish 분리, 자동 retry 없음.
+- prepared.json: scalar points + input SHA/size manifest (local only).
+- comparison.csv: compact current/all-seen 성공률 counts.
+- publication.json: 실제 remote readback receipt.
+- 기존 source/optimizer/launcher/job/raw/Git main 변경 없음; 다른 agent에게 전달용 문서.
+- 장기 monitor/heartbeat/export daemon 없음. snapshot 및 코드/문서만 사용자 요청으로 생성.
+- CPU exporter 최초 finish 직전 summary.update(kwargs)가 SDK TypeError를 일으켰다.
+  이미 업로드된8점 readback 후 종료된 snapshot만 summary.update(mapping)로 교정하여
+  명시적 finish 재연결했다. history 재업로드0, 원 live run 접속/변경0.
+  해당 exporter 실패와 수정은 exporter-initial-failure.json에 보존했다.

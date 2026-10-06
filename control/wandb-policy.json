@@ -52,6 +52,8 @@
     "status": "미제출/등록/실행/실패/완료와 online verified/미검증 분리"
   },
   "metrics": {
+    "method_experiment_contract": "control/wandb-method-metric-schema.json",
+    "method_scope": "Future ours/baseline scientific runs use common population/kind/unit/edits schema. Asset preparation is excluded; existing frozen jobs remain unchanged.",
     "cadence": "이미 있는 metric을 10–30초 단위 또는 candidate/batch/phase/eval 전환 때 비동기 기록. 새 forward/큰 tensor CPU copy/강제 GPU sync 금지",
     "allow": [
       "fit/loss·NLL·KL·norm·optimizer calls/stop",
