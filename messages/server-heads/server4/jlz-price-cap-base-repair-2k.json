@@ -38,5 +38,7 @@
   "all_released": true,
   "monitoring_active": false,
   "automatic_resume": false,
-  "automatic_retry": false
+  "automatic_retry": false,
+  "GH_handoff": "Six actual jobs released plus collector. No further approval wait. Source/raw preserved. Agent monitoring paused; sealed runners continue.",
+  "report": "experiment-reports/servers/server4/jlz-price-cap-base-repair-2k/report-ko.md"
 }
