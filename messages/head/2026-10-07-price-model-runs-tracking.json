@@ -99,6 +99,12 @@
     "canonical_metrics": "control/wandb-method-metric-schema.json의의미/분모/privacy유지; 이실행경로예외만적용."
   },
   "job_reconciliation": {
+    "explicit_protected_job": {
+      "job_id": "60001",
+      "model": "llama3",
+      "user_quote": "llama job에 지금 진행중인 job 60001은 취소시키지 말고 그대로 진행하도록 해",
+      "rule": "명시 KEEP. 취소/hold/교체/hotpatch/재시작/duplicate run 금지. 기존 source/config/W&B/정상 진행 보존. 새 pending run은 필요할 때 정확 afterany:60001 resource dependency만 사용; 60001 자체 변경0."
+    },
     "inventory": "대상model×writer×arm을source/owner/task/node/argv/config/실제state/accounting에결속. 전체same-owner project RUNNING+admittedPENDING의실제DAG로cap증명. submission옛snapshot을현재state로쓰지않음.",
     "keep": "RUNNING/COMPLETING 및이미실행된/완료cell은그대로유지;실험결과와W&B부족은명시하고재실행하지않음. 이전실패/중단cell은자동rerun으로채우지말고상태/사유보고.",
     "replace": "아직실행되지않은PENDING 대상만 (elapsed0/start없음/allocation없음 포함) 확인후수리source로교체. 소유collector/후속GPU DAG전체를먼저열거.",
