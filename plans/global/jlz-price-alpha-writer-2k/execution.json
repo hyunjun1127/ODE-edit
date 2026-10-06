@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-alpha-writer-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "contract": "project/proposals/jlz-alpha-writer-review/authorized-run-contract.json",
+  "envelope": "messages/head/2026-10-07-price-alpha-writer-2k-sh4.json",
+  "predecessor": {
+    "task_id": "jlz-price-cap-base-repair-2k",
+    "publication": "1535e857f801c6eda08399f97341adfce6f45d27",
+    "execution_source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+    "submission": "runs/jlz-price-cap-base-repair-2k/submission.json",
+    "submission_sha256": "5854663fbdba6c15bd5539d386a8c96101d5c5a0b76f8305e62fe7db3f6acb3e",
+    "lock_sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9",
+    "recorded_lanes": [
+      [
+        59931,
+        59932,
+        59933
+      ],
+      [
+        59934,
+        59935,
+        59936
+      ]
+    ],
+    "recorded_cpu_collector": 59937,
+    "current_scheduler_status": "GH_NOT_QUERIED; SH4 must bind fresh owner/dependency/accounting for admission",
+    "mutation": false
+  },
+  "queue": {
+    "status": "TASK_PENDING_IMPLEMENTATION_NOT_SLURM_PENDING",
+    "new_job_ids": [],
+    "common_start_frontier": [
+      59933,
+      59936
+    ],
+    "common_start_dependency": "afterany:59933:59936",
+    "requirement": "AlphaEdit GPU는 MEMIT 여섯 run 모두 종료 후 시작. 두 tail이 모든 선행 GPU를 cover하는 실제 afterany graph인지 확인; 아니면 실제 전체 frontier로 수정하고 receipt. terminal/aged-out는 정확 accounting+submission으로 결속하고 추측하지 않음.",
+    "lanes": [
+      [
+        "LLAMA_AE_CAP075",
+        "LLAMA_AE_CAP100",
+        "LLAMA_AE_FREE100"
+      ],
+      [
+        "QWEN_AE_CAP075",
+        "QWEN_AE_CAP100",
+        "QWEN_AE_FREE100"
+      ]
+    ],
+    "lane_edges": "첫 cell 양쪽 모두 common frontier; 같은 model 후속은 afterany 직전 Alpha cell. CPU collector는 own six afterany/GPU0.",
+    "performance_gate": false,
+    "memit_collector_dependency": false,
+    "known_common_technical_fault": "공통 기술 결함이 실제 확인되면 원인/영향범위를 기록해 해당 후속만 보류; 선행 과학 음성/실패 자체를 독립 cold arm의 성능 gate로 쓰지 않음.",
+    "no_duplicate_submit": true,
+    "no_other_job_change": true,
+    "registration": "구현/정적검사/source freeze 후 추가승인 없이 여섯 run 전량 held검사/release. free GPU 대기 대신 scheduler dependency. 미제출이면 task pending으로 보고하고 jobID 비움."
+  },
+  "scope": {
+    "writer": "alphaedit",
+    "models": [
+      "LLAMA",
+      "QWEN"
+    ],
+    "arms": [
+      {
+        "name": "AE_CAP075",
+        "beta_base": 0.75,
+        "local_cap_scale": 0.75
+      },
+      {
+        "name": "AE_CAP100",
+        "beta_base": 1,
+        "local_cap_scale": 0.75
+      },
+      {
+        "name": "AE_FREE100",
+        "beta_base": 1,
+        "local_cap_scale": null
+      }
+    ],
+    "cells": 6,
+    "cold_W0_H0_each": true,
+    "stream": "counterfact-fixed-10k-v1 same ordered first2000",
+    "seed": 20261002,
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_cell": 2000,
+    "distinct_cohort": 2000,
+    "total_edit_applications": 12000,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "anchor": 8,
+    "no_B21": true,
+    "extra_baseline_fit": false,
+    "excluded": [
+      "FREE075",
+      "FLAT",
+      "REVERSE"
+    ],
+    "crosscell_state_or_price_reuse": false
+  },
+  "owner": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server4-price-alpha-writer-2k",
+    "model_effort": "현재 사용자 설정 유지"
+  },
+  "implementation_source": "TO_BE_FROZEN_BY_SH4_FROM_87a5a736_NOT_OLD_REVIEW_BASE"
+}

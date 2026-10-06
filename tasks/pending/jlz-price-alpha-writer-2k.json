@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-alpha-writer-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "owner": "server4",
+  "owner_branch": "codex/server4-price-alpha-writer-2k",
+  "execution_envelope": "messages/head/2026-10-07-price-alpha-writer-2k-sh4.json",
+  "contract": "project/proposals/jlz-alpha-writer-review/authorized-run-contract.json",
+  "status": "TASK_PENDING_OWNER_ACCEPTANCE_AND_IMPLEMENTATION",
+  "new_job_ids": [],
+  "common_start_frontier": [
+    59933,
+    59936
+  ],
+  "dependency_intent": "afterany:59933:59936 for both Alpha first cells, then per-model afterany serial lanes",
+  "GPU_cap_combined": 2,
+  "noCP": true,
+  "independent_trajectories": 6,
+  "additional_approval_required": false
+}

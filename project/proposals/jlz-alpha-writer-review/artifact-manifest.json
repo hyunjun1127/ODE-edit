@@ -1,0 +1,122 @@
+{
+  "schema": "JLZ_ALPHA_WRITER_REVIEW_V1",
+  "date_kst": "2026-10-07",
+  "status": "REVIEW_COMPLETE_NOT_IMPLEMENTED_NOT_DISPATCHED_NOT_SUBMITTED",
+  "base_commit": "fe7c92f6cb85f0659b01f5e0c8468c144a4679d5",
+  "review": {
+    "path": "review-ko.md",
+    "bytes": 11854,
+    "sha256": "82e1224ca3891ba1ba71f053c3fa245a13c25c634a7db3d097999419139541f9"
+  },
+  "local_sources": [
+    {
+      "path": "project/run_scripts/jlz_realized_subject/geometry.py",
+      "sha256": "c80317b3ae8f60afcbe3f605b9d25c23db35b2aa6e5cbcb80d646c43a634fe9b"
+    },
+    {
+      "path": "project/run_scripts/jlz_native_writer_aware/builder.py",
+      "sha256": "b9b67fea1291933c913f1ee23f18159a6fe3e3ad15ebf74a447b80a1aa79eee5"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/entry.py",
+      "sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71"
+    },
+    {
+      "path": "project/run_scripts/jlz_v12r/subject.py",
+      "sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870"
+    },
+    {
+      "path": "project/run_scripts/jlz_interference_l1/price.py",
+      "sha256": "ed76e29141807ac44fd4eebe49d4250203afe3ed66926046db9384dbb9108bf0"
+    },
+    {
+      "path": "project/run_scripts/jlz_interference_l1/telemetry.py",
+      "sha256": "ab7b972d296eb0d161812a84c4ef463f8fdab7905d22446479684beb0b072384"
+    },
+    {
+      "path": "project/run_scripts/jlz_interference_l1/run.py",
+      "sha256": "c034c86a39d1399d8de4ddbf06939fed9cfa2a3ca60d7c4f5b6966af10694d3f"
+    },
+    {
+      "path": "project/run_scripts/ode_edit_motivation/alphaedit_factors.py",
+      "sha256": "d40c2894ea639847acd15df02486ff853708134b0082f59dd03a7114132a0874"
+    },
+    {
+      "path": "project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-llama3-8b.yaml",
+      "sha256": "63239e48ea8faf78dfcc40d7d4f5aff3ff0832eb4208384d11f4a812819765c3"
+    },
+    {
+      "path": "project/run_scripts/fixed_z_nonuniqueness/config/alphaedit-qwen2.5-7b.yaml",
+      "sha256": "e980d9b5e4ee68b2dc6497672f9a6803f7a9ec5350888b23eb05b9c90f05e815"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/w20/report-ko.md",
+      "sha256": "35ddc2733796f4f60789ca929bc7b2f171b25ea75f7abd1c52405d76a744f009"
+    },
+    {
+      "path": "audits/servers/server4/S4-M0-storage-execution-readiness.md",
+      "sha256": "a7eb24d2d01c56c24d92cce320b652e6b8b58a841814e25e74175cf02a7a9bc9"
+    }
+  ],
+  "primary_web_sources": [
+    "https://arxiv.org/html/2410.02355v2",
+    "https://github.com/jianghoucheng/AlphaEdit/blob/main/AlphaEdit/AlphaEdit_main.py"
+  ],
+  "proposed_run_matrix": [
+    {
+      "model": "Meta-Llama-3-8B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "CAP075",
+      "edits": 2000,
+      "batch_size": 100
+    },
+    {
+      "model": "Meta-Llama-3-8B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "CAP100",
+      "edits": 2000,
+      "batch_size": 100
+    },
+    {
+      "model": "Meta-Llama-3-8B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "FREE100",
+      "edits": 2000,
+      "batch_size": 100
+    },
+    {
+      "model": "Qwen2.5-7B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "CAP075",
+      "edits": 2000,
+      "batch_size": 100
+    },
+    {
+      "model": "Qwen2.5-7B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "CAP100",
+      "edits": 2000,
+      "batch_size": 100
+    },
+    {
+      "model": "Qwen2.5-7B-Instruct",
+      "writer": "AlphaEdit soft projected solve",
+      "arm": "FREE100",
+      "edits": 2000,
+      "batch_size": 100
+    }
+  ],
+  "validation": [
+    "Markdown local links exist",
+    "six distinct proposed model/arm cells",
+    "source identities captured",
+    "manual algebra review of Alpha normal equation, Woodbury factor and LOO identity"
+  ],
+  "scientific_tests_run": 0,
+  "model_calls": 0,
+  "toy_runs": 0,
+  "external_messages": 0,
+  "Slurm_actions": 0,
+  "production_edits": 0,
+  "scope_note": "Proposal review; earlier six MEMIT-family runs retain their separate authorization and execution ownership."
+}

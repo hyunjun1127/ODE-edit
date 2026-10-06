@@ -1,0 +1,295 @@
+{
+  "schema": "JLZ_PRICE_ALPHA_WRITER_AUTHORIZED_RUNS_V1",
+  "date_kst": "2026-10-07",
+  "task_id": "jlz-price-alpha-writer-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "status": "AUTHORIZED_AWAITING_GH_SH4_HANDOFF",
+  "user_instruction": "이것도 GH에게 전달해서 sh4에게 task 진행하도록 시키자. 이전 memit writer에 이어서 pending 걸어놓으면 됨.",
+  "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "target_GH": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "execution_owner_SH4": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "Slurm_submission_authorized": true,
+  "additional_user_approval_required": false,
+  "historical_review_status_is_not_execution_hold": true,
+  "models": [
+    {
+      "key": "LLAMA",
+      "model": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "readout_layer": 31,
+      "hidden_size": 4096,
+      "intermediate_size": 14336,
+      "vocab_size": 128256,
+      "projector_path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "projector_bytes": 4110419877
+    },
+    {
+      "key": "QWEN",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "readout_layer": 27,
+      "hidden_size": 3584,
+      "intermediate_size": 18944,
+      "vocab_size": 152064,
+      "projector_path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "projector_bytes": 7177504758
+    }
+  ],
+  "arms": [
+    {
+      "arm": "CAP075",
+      "beta_base": 0.75,
+      "cap_mode": "native",
+      "cap_scale": 0.75
+    },
+    {
+      "arm": "CAP100",
+      "beta_base": 1.0,
+      "cap_mode": "native",
+      "cap_scale": 0.75
+    },
+    {
+      "arm": "FREE100",
+      "beta_base": 1.0,
+      "cap_mode": "none",
+      "cap_scale": null
+    }
+  ],
+  "run_matrix": [
+    {
+      "cell": "LLAMA_AE_CAP075",
+      "model": "LLAMA",
+      "writer": "alphaedit",
+      "arm": "CAP075",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    },
+    {
+      "cell": "LLAMA_AE_CAP100",
+      "model": "LLAMA",
+      "writer": "alphaedit",
+      "arm": "CAP100",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    },
+    {
+      "cell": "LLAMA_AE_FREE100",
+      "model": "LLAMA",
+      "writer": "alphaedit",
+      "arm": "FREE100",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    },
+    {
+      "cell": "QWEN_AE_CAP075",
+      "model": "QWEN",
+      "writer": "alphaedit",
+      "arm": "CAP075",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    },
+    {
+      "cell": "QWEN_AE_CAP100",
+      "model": "QWEN",
+      "writer": "alphaedit",
+      "arm": "CAP100",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    },
+    {
+      "cell": "QWEN_AE_FREE100",
+      "model": "QWEN",
+      "writer": "alphaedit",
+      "arm": "FREE100",
+      "cold_W0_H0": true,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000
+    }
+  ],
+  "excluded_arms": [
+    "FREE075",
+    "FLAT",
+    "REVERSE"
+  ],
+  "seed": 20261002,
+  "cohort": "same ordered CounterFact first2000 as predecessor; exact ordered IDs/input binding required",
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "anchor_layer": 8,
+  "predecessor": {
+    "task_id": "jlz-price-cap-base-repair-2k",
+    "publication_commit": "1535e857f801c6eda08399f97341adfce6f45d27",
+    "execution_source_commit": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+    "receipt": "runs/jlz-price-cap-base-repair-2k/submission.json",
+    "receipt_sha256": "5854663fbdba6c15bd5539d386a8c96101d5c5a0b76f8305e62fe7db3f6acb3e",
+    "recorded_jobs": {
+      "LLAMA_CAP075": "59931",
+      "LLAMA_CAP100": "59932",
+      "LLAMA_FREE100": "59933",
+      "QWEN_CAP075": "59934",
+      "QWEN_CAP100": "59935",
+      "QWEN_FREE100": "59936",
+      "collector": "59937"
+    },
+    "verified_receipt_chain": "two afterany chains; current scheduler state not queried here",
+    "all_MEMIT_GPU_jobs_before_any_Alpha_GPU": true,
+    "common_start_frontier": [
+      "59933",
+      "59936"
+    ],
+    "dependency": "afterany:59933:59936",
+    "receipt_recheck_by_SH4": true,
+    "existing_jobs_mutations": false
+  },
+  "queue": {
+    "state": "TASK_TO_REGISTER_PENDING_THEN_SUBMIT_WHEN_IMPLEMENTED",
+    "combined_GPU_cap": 2,
+    "scope": "same-user server4 owner allocations/admitted, existing MEMIT plus new AlphaEdit; not two extra GPUs",
+    "GPU_per_cell": 1,
+    "lane_order": {
+      "LLAMA": [
+        "LLAMA_AE_CAP075",
+        "LLAMA_AE_CAP100",
+        "LLAMA_AE_FREE100"
+      ],
+      "QWEN": [
+        "QWEN_AE_CAP075",
+        "QWEN_AE_CAP100",
+        "QWEN_AE_FREE100"
+      ]
+    },
+    "intra_lane_dependency": "afterany",
+    "CPU_preparation_parallel_allowed": true,
+    "quality_gate": false,
+    "technical_failure_requires_explicit_record": true,
+    "collector_GPU": 0,
+    "collector_dependency": "afterany of all six own AlphaEdit jobs",
+    "held_inspection_then_release": true,
+    "job_ids": [],
+    "auto_retry": false,
+    "recurring_monitor": false
+  },
+  "planner": {
+    "lr": 0.1,
+    "kl": 0.0625,
+    "norm": 0.5,
+    "optimizer": "EfficiencyAdam absolute R",
+    "model_dtype": "float32",
+    "geometry_dtype": "float64",
+    "max_evaluations": 25,
+    "max_updates": 24,
+    "grace_own_updates": 12,
+    "n_exp": 4,
+    "F_threshold": 0.05,
+    "native_c": 0.75,
+    "beta_max_native_scale": 0.75,
+    "beta_max": "max(beta_base, 0.75 * max_layer pi)",
+    "stage_schedule": "unchanged predecessor exponential schedule",
+    "tiny_block_repair": "same predecessor tagged endpoint repair; no generic norm threshold/moment reset",
+    "cap_free": "uncapped projection branch; null cap; no hidden clipping"
+  },
+  "writer": {
+    "kind": "AlphaEdit soft projected solve",
+    "lambda_alpha": 1.0,
+    "projector_threshold": 0.02,
+    "projector_dtype": "float32 asset; PRICE float64 geometry",
+    "projector_lifetime": "fixed cold W0, same layer index and bytes per trajectory",
+    "asset_availability": "historical identity; SH4 must verify current files",
+    "normal_equation": "(lambda I + N (H + K K^T)) Q = N K",
+    "update": "DeltaW=R Q^T",
+    "response_matrix": "M=Q^T K",
+    "batch_factorization": "LU once per layer/batch for lambda I+N H; generally nonsymmetric",
+    "candidate_solve": "Y=solve(lambda I+N H,N K); Q=Y (I+K^T Y)^(-1)",
+    "pipeline": [
+      "fresh BUILD",
+      "actual effective FP32 response injection",
+      "own-entry AlphaEdit price",
+      "full off-owner raw-context same-layer pullback",
+      "terminal payload commit",
+      "final mean-key history once"
+    ],
+    "forbidden": [
+      "posthoc MEMIT update projection",
+      "15000 C0 in AlphaEdit normal equation",
+      "compute_z/residual divisor substitution",
+      "exact forcing",
+      "inverse-response compensation",
+      "dK/dQ or full reverse",
+      "per-candidate dense factorization or SVD",
+      "silent projector basis replacement"
+    ]
+  },
+  "price": {
+    "formula": "X[r,j]=(a_r/a_j)*M_alpha[r,j]/(1-M_alpha[j,j]), j!=r; kappa=RMS_j X; pi=existing floors/min_layer",
+    "freeze": "own-entry per batch",
+    "denominator_guard": "existing 1-Mjj guard; distribution retained",
+    "loo_check": "(lambda I+NH)q_minus+N K_minus(K_minus^T q_minus)-N k_r",
+    "weak_actuation_diagnostics": [
+      "norm(Nk)/norm(k)",
+      "M_rr",
+      "raw kappa",
+      "pi",
+      "floor counts",
+      "actual realization"
+    ]
+  },
+  "telemetry": {
+    "common": "inherit complete repaired MEMIT schema; price distributions/min layer/end status/expansion stage/endpoint zero/tiny/ratio valid denominators required",
+    "damage_covariance_separate_from_solve_matrix": true,
+    "damage_metrics": [
+      "tr(DeltaW C0 DeltaW^T)",
+      "tr(DeltaW H DeltaW^T)",
+      "update norm"
+    ],
+    "invalid_energy": "nonsymmetric A0 is not a damage covariance; total-minus-history cannot derive C0",
+    "C0_scale_must_be_reported": true,
+    "costs": [
+      "B1 fit/solve/telemetry wall",
+      "peak RAM",
+      "peak VRAM"
+    ]
+  },
+  "execution": {
+    "no_toy": true,
+    "no_separate_pilot": true,
+    "integrated_actual_B1_runtime_checks": true,
+    "no_extra_performance_promotion_gate": true,
+    "no_checkpoint": true,
+    "wandb": "same authorized predecessor policy; scalar only",
+    "raw": "local KEEP; compact metadata/report in Git",
+    "source_freeze": "use current repaired MEMIT production source as implementation base, new isolated AlphaEdit freeze; do not mutate existing source",
+    "report": "experiment-reports/servers/server4/jlz-price-alpha-writer-2k/report-ko.md"
+  },
+  "analysis": {
+    "primary": "same-model matched-arm MEMIT versus AlphaEdit; cold independent trajectories",
+    "metrics": [
+      "current/birth-cohort PS acquisition",
+      "W5/10/15/20 all-seen and fixed-cohort PS/NS",
+      "TF-strict/NLL",
+      "lost/gained",
+      "costs"
+    ],
+    "no_PN_optimizer_feedback": true,
+    "claim_limit": "writer-aware full policy comparison; no isolated causal PRICE superiority or guaranteed NS improvement"
+  },
+  "authoritative_design": "GH-HANDOFF.md",
+  "mathematical_detail": "review-ko.md"
+}

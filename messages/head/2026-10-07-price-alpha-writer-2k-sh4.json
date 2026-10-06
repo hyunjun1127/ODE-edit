@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "task_id": "jlz-price-alpha-writer-2k",
+  "date_kst": "2026-10-07",
+  "user_authority": {
+    "quotes": [
+      "이것도 GH에게 전달해서 sh4에게 task 진행하도록 시키자. 이전 memit writer에 이어서 pending 걸어놓으면 됨.",
+      "alphaedit writer로도 실험을 해볼 가치가 있어 보인다. 3개 arm 2개 모델 올리는 실험 검토해봐. 기대효과도 간단하게 생각해보자",
+      "gpu cap은 2이다."
+    ],
+    "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+    "scope": "새 AlphaEdit 6개 cold 2k의 구현/source freeze/Slurm held검사/release/실행/collector를 승인. 기존 STOP의 scoped exception은 이 task뿐. 단계별 재승인 없음."
+  },
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "server": "server1",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "host": "remote-ssh-codex-managed:lab163",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server4-price-alpha-writer-2k",
+    "model_effort": "현재 사용자 설정 유지"
+  },
+  "canonical": {
+    "authorized": "project/proposals/jlz-alpha-writer-review/authorized-run-contract.json",
+    "handoff": "project/proposals/jlz-alpha-writer-review/GH-HANDOFF.md",
+    "review": "project/proposals/jlz-alpha-writer-review/review-ko.md",
+    "original_review_manifest": "project/proposals/jlz-alpha-writer-review/artifact-manifest.json",
+    "package_manifest": "project/proposals/jlz-alpha-writer-review/dispatch-package-manifest.json",
+    "precedence": "최신 USER + authorized-run-contract + 본 resource/delivery envelope. 원문 exact bytes 보존. review NOT_DISPATCHED 및 fe7c/0415 기준은 역사적 검토이며 현재 구현 기준/실행금지가 아님."
+  },
+  "predecessor": {
+    "task_id": "jlz-price-cap-base-repair-2k",
+    "publication": "1535e857f801c6eda08399f97341adfce6f45d27",
+    "execution_source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+    "submission": "runs/jlz-price-cap-base-repair-2k/submission.json",
+    "submission_sha256": "5854663fbdba6c15bd5539d386a8c96101d5c5a0b76f8305e62fe7db3f6acb3e",
+    "lock_sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9",
+    "recorded_lanes": [
+      [
+        59931,
+        59932,
+        59933
+      ],
+      [
+        59934,
+        59935,
+        59936
+      ]
+    ],
+    "recorded_cpu_collector": 59937,
+    "current_scheduler_status": "GH_NOT_QUERIED; SH4 must bind fresh owner/dependency/accounting for admission",
+    "mutation": false
+  },
+  "queue_contract": {
+    "status": "TASK_PENDING_IMPLEMENTATION_NOT_SLURM_PENDING",
+    "new_job_ids": [],
+    "common_start_frontier": [
+      59933,
+      59936
+    ],
+    "common_start_dependency": "afterany:59933:59936",
+    "requirement": "AlphaEdit GPU는 MEMIT 여섯 run 모두 종료 후 시작. 두 tail이 모든 선행 GPU를 cover하는 실제 afterany graph인지 확인; 아니면 실제 전체 frontier로 수정하고 receipt. terminal/aged-out는 정확 accounting+submission으로 결속하고 추측하지 않음.",
+    "lanes": [
+      [
+        "LLAMA_AE_CAP075",
+        "LLAMA_AE_CAP100",
+        "LLAMA_AE_FREE100"
+      ],
+      [
+        "QWEN_AE_CAP075",
+        "QWEN_AE_CAP100",
+        "QWEN_AE_FREE100"
+      ]
+    ],
+    "lane_edges": "첫 cell 양쪽 모두 common frontier; 같은 model 후속은 afterany 직전 Alpha cell. CPU collector는 own six afterany/GPU0.",
+    "performance_gate": false,
+    "memit_collector_dependency": false,
+    "known_common_technical_fault": "공통 기술 결함이 실제 확인되면 원인/영향범위를 기록해 해당 후속만 보류; 선행 과학 음성/실패 자체를 독립 cold arm의 성능 gate로 쓰지 않음.",
+    "no_duplicate_submit": true,
+    "no_other_job_change": true,
+    "registration": "구현/정적검사/source freeze 후 추가승인 없이 여섯 run 전량 held검사/release. free GPU 대기 대신 scheduler dependency. 미제출이면 task pending으로 보고하고 jobID 비움."
+  },
+  "scope": {
+    "writer": "alphaedit",
+    "models": [
+      "LLAMA",
+      "QWEN"
+    ],
+    "arms": [
+      {
+        "name": "AE_CAP075",
+        "beta_base": 0.75,
+        "local_cap_scale": 0.75
+      },
+      {
+        "name": "AE_CAP100",
+        "beta_base": 1,
+        "local_cap_scale": 0.75
+      },
+      {
+        "name": "AE_FREE100",
+        "beta_base": 1,
+        "local_cap_scale": null
+      }
+    ],
+    "cells": 6,
+    "cold_W0_H0_each": true,
+    "stream": "counterfact-fixed-10k-v1 same ordered first2000",
+    "seed": 20261002,
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_cell": 2000,
+    "distinct_cohort": 2000,
+    "total_edit_applications": 12000,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "anchor": 8,
+    "no_B21": true,
+    "extra_baseline_fit": false,
+    "excluded": [
+      "FREE075",
+      "FLAT",
+      "REVERSE"
+    ],
+    "crosscell_state_or_price_reuse": false
+  },
+  "implementation": {
+    "base": "현재 repaired source87a5a736 + latest main의 해당 구현을 채택. fe7c/0415로 되돌리지 않음. 원 MEMIT frozen source/config/archive/job/raw 보존.",
+    "primary": "새 project/run_scripts/jlz_price_alpha_writer/** 또는 task-local adapter/entry/submit/collector. 아래 공유 모듈의 writer dispatch/LOO/diagnostic 연결만 backward-compatible, MEMIT defaults 불변.",
+    "planner": "LR.1/KL.0625/norm.5, EfficiencyAdam absolute R/기존 active mask, FP32 model·FP64geometry,25eval24update,grace12/4stage/F.05. nativec=.75/maxscale=.75; beta_max=max(beta_base,.75*pi_max). FREE100은 진짜 uncapped/null. common endpoint/tiny repair 보존.",
+    "writer": "lambda_alpha=1; A=lambda I+N(H+KK^T), Q=solve(A,NK), DeltaW=R Q^T, M=Q^T K. fixed .02 projector를 current asset SHA/shape/physical layer로 결속. A0=lambda I+NH는 비대칭: LU layer/batch당1회, Y=solve(A0,NK), Q=Y solve(I+K^T Y); candidate dense factor/SVD 반복0. actual operator residual로 방향/order 확인. FP64 geometry를 stock FP32 bitwise라고 주장하지 않음.",
+    "consistent_paths": "fresh actual lower write→upper keys, BUILD/own-entry 가격/raw-context same-layer full off-owner pullback/terminal exact FP32 payload가 동일 Alpha Q. final rewrite mean H once, zero/미달 요청 포함. no dK/dQ/full-builder reverse.",
+    "price": "X[r,j]=(a_r/a_j)M[r,j]/(1-M[j,j]), offdiag RMS/floor/minlayer. own-entry freeze each batch. Alpha LOO=(lambda I+NH)q_minus+N K_minus(K_minus^T q_minus)-N k_r. MEMIT 가격/LOO식 재사용금지. guard 원계약, clip/jitter/inverse compensation 없음.",
+    "diagnostics": "Q_C0=tr(DeltaW C0 DeltaW^T), Q_H=tr(DeltaW H DeltaW^T)를 직접 분리. nonsymmetric A0를 energy로 쓰거나 total-Q_H로 C0 추정0. C0 scale 명시. ||Nk||/||k||,Mrr,weak-actuation/leakage,requested/realized 및 denominator 기록.",
+    "forbidden": "15000 C0 hybrid/posthoc MEMIT update projection/stock compute_z residual/divisor/tracking/exact forcing/Qwen baseline lr.5 clamp4/orthogonal basis 교체 없음."
+  },
+  "models": {
+    "LLAMA": {
+      "model": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "readout": 31,
+      "hidden": 4096,
+      "intermediate": 14336,
+      "vocab": 128256,
+      "projector_path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "projector_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "projector_bytes": 4110419877
+    },
+    "QWEN": {
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "readout": 27,
+      "hidden": 3584,
+      "intermediate": 18944,
+      "vocab": 152064,
+      "projector_path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "projector_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "projector_bytes": 7177504758
+    },
+    "fresh_binding": "Both exact runtime/config/tokenizer/native context/C0/projector evaluator/source/rows/current assets. existing full-SHA receipts+currentstat may safely reuse as protocol permits; wrong identity blocks, new large transfer/rebuild requires exact need report."
+  },
+  "resources": {
+    "combined_server4_GPU_cap": 2,
+    "count_scope": "MEMIT+Alpha+기존 해당 사용자 모든 server4 GPU 및 GPU준비/검산 합산. stricter current policy 적용; cap증가/타job선점0.",
+    "per_GPU_job": {
+      "GPUs": 1,
+      "CPUs": 8,
+      "host_memory_MiB_default": 59392,
+      "host_memory_hard_ceiling_MiB": 60416,
+      "walltime_hours_max": 48,
+      "node": "server4",
+      "partition": "gpu",
+      "QoS": "fresh validate existing lab_gpu_s4 policy",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "collector": {
+      "GPUs": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_hours": 4
+    },
+    "admission": "새 projector+LU/thin geometry+runtime+SDK sidecar 전체 peak budget; current node/queue/host/VRAM/disk/inode/reserve 확인. N CPU/mmap/stream 허용. 3.83/6.68GiB는 N payload일뿐 전체추가VRAM 아님.",
+    "slurm_allowed": true,
+    "held_inspection": "exact owner/fullargv/job name/source/config/input/projector/W&B/noCP/resources/dependencies+cap proof 후 release. existing predecessor/jobs mutation0. authoritative actual submit IDs only."
+  },
+  "validation": {
+    "no_toy": true,
+    "no_separate_pilot": true,
+    "no_extra_full_fit": true,
+    "no_extra_GPU_qualification_campaign": true,
+    "preflight": "생산코드/AST/import/CLI/config/source/method 구현 검토 및 dependency/identity/cap 정합 최소점검. 과거 CPU/GPU evidence를 새 Alpha actual PASS로 승계하지 않음.",
+    "actual_B1": "이미 계산하는 tensor/proposal에 original Alpha operator residual/LOO/endpoint ZERO CAP ties/FP64 KKT/FP32 feasibility/counters/accepted payload/commit/H once 검산 통합. 같은 trajectory 계속, tolerance 사후완화0.",
+    "blockers": [
+      "nonfinite",
+      "asset identity mismatch",
+      "operator or payload/commit mismatch",
+      "cap violation",
+      "actual structural/numerical implementation defect"
+    ],
+    "not_gates": [
+      "low RS/PS/NS",
+      "low realization",
+      "weak actuation",
+      "concentration",
+      "finite budget nonconvergence"
+    ],
+    "automatic_retry": false
+  },
+  "evaluation": {
+    "schedule": "current pre/post; W0/W5/W10/W15/W20 allseen + fixedfirst500/birth/active; final R2000/P4000/N20000.",
+    "metrics": "RS/PS/NS, TFtoken/prompt/strict ACC, true/new NLL/margin, pairedlost/gained/acquisition/retention; price rawkappa/floor/ties/lowestlayer, exactzero/endpoint/tiny separated; stage/ownupdates/base-max-currentbeta/spend-slack/cap/support-reentry/defined ratio counts; Q_C0/Q_H/update norm/exclusive times/hostVRAM.",
+    "W0reuse": "only exact model/runtime/token/row identity matched, model内のみ",
+    "feedback_into_training": false,
+    "comparison": "対応MEMIT model×arm/同じcohort endpoint。runtime/identity differencesと missing/pending明示。期待PS改善を結果として述べない。SH factual, GH interpretation."
+  },
+  "tracking": {
+    "policy": "control/wandb-policy.json",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "mandatory_online": true,
+    "helper": "project/run_scripts/experiment_tracking/** SH1 owner read-only, current predecessor caller reuse",
+    "privacy": "scalar whitelist only, no credentials/rawtensor/prompts/code/git/console/watch/CP uploads. new model/writer/arm/job/source/URL exact identity; no key in args/Git/messages.",
+    "failure": "startup online check, midrun network localspool/degraded per policy; no extra scientific replay. host sidecar included in resource budget."
+  },
+  "artifacts": {
+    "save_checkpoints": false,
+    "exact_process_resume": "NOT_AVAILABLE",
+    "durable_tensors": "no new model/W/H/M/P/K/activation/optimizer/state dumps",
+    "storage": "六run logs/eval/SDKspool/temp/receipt reserves+batch boundary check。single authoritative candidate stream+summary/hash, no duplicate dump, no unrelated deletion.",
+    "git": "source/compact report/manifest only, original proposal bytes unchanged; no reset/stash/stage-all/force push",
+    "broadcast": "approved ordinary exact allowlist/no --delete only when needed; NO_BROADCAST_NOT_REQUIRED with reason. secrets/env/SDKspool excluded."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/jlz_price_alpha_writer/**",
+    "project/run_scripts/jlz_interference_l1/**",
+    "project/run_scripts/jlz_v12r/entry.py",
+    "project/run_scripts/jlz_v12r/engine.py",
+    "project/run_scripts/jlz_v12r/subject.py",
+    "project/run_scripts/jlz_native_writer_aware/builder.py",
+    "project/run_scripts/jlz_realized_subject/geometry.py",
+    "plans/updates/server4/jlz-price-alpha-writer-2k/**",
+    "audits/servers/server4/jlz-price-alpha-writer-2k/**",
+    "experiment-reports/servers/server4/jlz-price-alpha-writer-2k/**",
+    "runs/jlz-price-alpha-writer-2k/**",
+    "tasks/status/jlz-price-alpha-writer-2k/server4.json",
+    "messages/acks/server4/jlz-price-alpha-writer-2k.json",
+    "messages/server-heads/server4/jlz-price-alpha-writer-2k.json",
+    "local/jlz-price-alpha-writer-2k/**",
+    "dedicated WT ignored servers/local/session-boundary.env and nonsecret task-local config"
+  ],
+  "shared_change_limit": "listed shared files only Alpha writer factor/backend/price-LOO/diagnostics switch preserving current corrected MEMIT behavior and frozen bytes. Further indispensable shared path report exact need before expansion, no general refactor.",
+  "report": "experiment-reports/servers/server4/jlz-price-alpha-writer-2k/report-ko.md",
+  "delivery": "同nonce duplicate確認→明示 ownerACK+accepted turn+task pending登録(先行frontier/未登録IDs空)を先に返す。以降GH返信/追加USER承認待たず実装/六jobs登録継続。queue receipt可能時事実報告。",
+  "monitoring": "GH bounded ownerACK/possible queue receipt only. SH4 release後単1回resource snapshotでhandoff; no new recurring monitor/heartbeat/automaticretry/全main完了待機。sealed20batch+collectorは自然進行、別途recallまでagentpollingなし。"
+}

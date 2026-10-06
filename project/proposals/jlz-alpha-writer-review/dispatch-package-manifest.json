@@ -1,0 +1,31 @@
+{
+  "schema": "JLZ_ALPHA_WRITER_DISPATCH_PACKAGE_V1",
+  "nonce": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "task_id": "jlz-price-alpha-writer-2k",
+  "files": [
+    {
+      "path": "project/proposals/jlz-alpha-writer-review/review-ko.md",
+      "bytes": 11854,
+      "sha256": "82e1224ca3891ba1ba71f053c3fa245a13c25c634a7db3d097999419139541f9"
+    },
+    {
+      "path": "project/proposals/jlz-alpha-writer-review/artifact-manifest.json",
+      "bytes": 4139,
+      "sha256": "dff752c715b2561368fad0db2c474a7fa5f1423c8639aba0c9182fd57c611231"
+    },
+    {
+      "path": "project/proposals/jlz-alpha-writer-review/GH-HANDOFF.md",
+      "bytes": 10817,
+      "sha256": "2fbbf262123819c7ed38d763160e09f68114443cb59e95aeaf88cbeca7baa75b"
+    },
+    {
+      "path": "project/proposals/jlz-alpha-writer-review/authorized-run-contract.json",
+      "bytes": 9580,
+      "sha256": "299c97da06b87a961a9b46e77f4477ac5b43160bcecbba4bb363c9e632423239"
+    }
+  ],
+  "scientific_tests_run": 0,
+  "source_mutations": 0,
+  "new_model_calls": 0,
+  "Slurm_actions": 0
+}
