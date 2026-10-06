@@ -114,6 +114,12 @@ class Tests(unittest.TestCase):
         self.assertEqual(result['local_status'],'LOGGING_DEGRADED_FINISH_TIMEOUT');t._stop.assert_called_once()
         t=Tracker.__new__(Tracker);t.finish=Mock(return_value={})
         self.assertFalse(t.__exit__(RuntimeError,RuntimeError('science'),None))
+    def test_cleanup_error_cannot_mask_science(self):
+        t=Tracker.__new__(Tracker);t.closed=False;t.queue=queue.Queue(1);t.done=threading.Event();t.done.set()
+        t.result={};t.dropped=0;t._stop=Mock(side_effect=OSError('private path'));t._receipt=Mock()
+        self.assertEqual(t.finish()['local_status'],'LOGGING_DEGRADED_STOP')
+        t.finish=Mock(side_effect=OSError('private path'))
+        self.assertFalse(t.__exit__(RuntimeError,RuntimeError('original scientific exception'),None))
 
 
 if __name__=='__main__':unittest.main()

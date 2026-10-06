@@ -15,6 +15,7 @@ def main():
     result=dict(server=a.server,entity=settings['WANDB_ENTITY'],project=settings['WANDB_PROJECT'],
         base_url=settings['WANDB_BASE_URL'],sdk_python=settings['ODEEDIT_WANDB_PYTHON'],
         GPU=0,new_slurm=0,maximum_points=3,offline_pass=False,credentials_recorded=False)
+    tracker=None
     try:
         tracker=init(env_file=a.env_file,spool=a.out/'spool',smoke=True,
             config=dict(server=a.server,task_id='wandb-realtime-setup',arm='cpu-smoke',attempt=a.out.name,source_sha=a.source_sha))
@@ -30,6 +31,9 @@ def main():
             result['sdk_version']=json.loads((a.out/'spool/receipt.json').read_text()).get('result',{}).get('sdk_version')
     except Exception:
         result['status']='LOGGING_BLOCKED_SMOKE'
+    finally:
+        if tracker is not None and not tracker.closed:
+            tracker.finish(exit_code=1)
     with (a.out/'result.json').open('x') as f:json.dump(result,f,indent=2);f.write('\n')
     print(json.dumps(result))
     return 0 if result['status']=='READY_ONLINE_VERIFIED' else 2

@@ -107,12 +107,15 @@ class Tracker:
         except Exception:
             self.status='LOGGING_DEGRADED_FINISH'
         finally:
-            self._stop();self._receipt()
+            try:self._stop()
+            except Exception:self.status='LOGGING_DEGRADED_STOP'
+            self._receipt()
         return dict(self.result,local_status=self.status,dropped_points=self.dropped)
 
     def __enter__(self):return self
     def __exit__(self,kind,value,traceback):
-        self.finish(exit_code=1 if kind else 0)
+        try:self.finish(exit_code=1 if kind else 0)
+        except Exception:pass
         return False
 
 
