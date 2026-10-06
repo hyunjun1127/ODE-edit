@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "wandb-job-id-recording",
+  "instruction_id": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "targets": [
+    "server1",
+    "server2",
+    "server3",
+    "server4"
+  ],
+  "implementation_owner": "server1",
+  "envelope": "messages/head/2026-10-07-wandb-job-id-all-sh.json",
+  "status": "DISPATCHING",
+  "science_authority": false
+}
