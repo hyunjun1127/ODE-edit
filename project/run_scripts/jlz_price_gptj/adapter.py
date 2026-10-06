@@ -21,7 +21,7 @@ class Adapter(Parent):
         self.model, self.profile = model, profile
         self.blocks = model.transformer.h
         self.sites = tuple(profile['eligible_layers'])
-        require(self.sites == (4, 5, 6, 7, 8), 'GPTJ_LAYER_BINDING')
+        require(self.sites == (3, 4, 5, 6, 7, 8), 'GPTJ_LAYER_BINDING')
         self.first = min(self.sites)
         self.nll_layer = self.final_layer = 27
         require(profile['nll_layer'] == 27 and profile['anchor_layer'] == 8, 'GPTJ_READOUT')

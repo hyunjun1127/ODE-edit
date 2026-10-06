@@ -25,8 +25,8 @@ def check(out):
     for writer in ('memit','alphaedit'):
         for arm in ARMS:
             p=arm_profile({},arm,writer)
-            require(p['eligible_layers']==[4,5,6,7,8] and p['nll_layer']==27 and p['expected_intermediate']==16384,'GPTJ_CONFIG')
-            require(p['lr']==.1 and p['c']==.75 and p['beta_base']==(.75 if arm=='CAP075' else 1.)
+            require(p['eligible_layers']==[3,4,5,6,7,8] and p['nll_layer']==27 and p['expected_intermediate']==16384,'GPTJ_CONFIG')
+            require(p['lr']==.5 and p['lambda_alpha']==10. and p['c']==.75 and p['beta_base']==(.75 if arm=='CAP075' else 1.)
                 and p['cap_mode']==('none' if arm=='FREE100' else 'native'),'OURS_COEFFICIENTS')
     from project.run_scripts.experiment_tracking.schema import load_env
     load_env(LOCAL/'tracking.env')
@@ -37,7 +37,7 @@ def check(out):
     require(not torch.cuda.is_initialized(),'CPU_ONLY')
     result=dict(task=TASK,nonce=NONCE,passed=True,status='STATIC_IMPORT_CONFIG_CHECKED',source=[member(p) for p in paths],
         checks=['session/repo/own branch','GPT-J parallel attention+MLP native add order and fc_out bias',
-            'native LN/readout27/physical projector3..8 mapping to ours4..8','same repaired PRICE optimizer/projection',
+            'native LN/readout27/physical projector3..8 mapping to ours3..8; native lr.5/AlphaL2=10','same repaired PRICE optimizer/projection',
             'no-grad fresh upper builder and off-owner same-layer pullback','native context once, input lock, cold arms',
             'six-run DAG cap2 plus combined current cap3','single candidate stream/noCP/online scalar logger'],
         source_review_level='OWNER_SOURCE_AUDIT; 별도 reviewer 없음',numeric_tests=0,toy_runs=0,

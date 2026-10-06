@@ -1,6 +1,6 @@
 """Writer-specific unchanged fit diagnostics and price operators."""
 from project.run_scripts.jlz_interference_l1 import cap_price
-from project.run_scripts.jlz_price_alpha_writer import price as alpha_price
+from . import price as alpha_price
 from . import memit_telemetry as cap_telemetry,alpha_telemetry
 
 def initialize(a,*args,**kwargs):

@@ -11,7 +11,7 @@ import tarfile
 from pathlib import Path
 from .common import ROOT, LOCAL, TASK, NONCE, CELLS, require, write, member, sha, verify
 
-SOURCES=['messages/head/2026-10-07-price-model-runs-tracking.json','messages/acks/server4/price-model-runs-tracking.json','project/run_scripts/jlz_price_gptj','messages/acks/server4/jlz-price-gptj-2k.json','project/run_scripts/jlz_price_alpha_writer','plans/global/jlz-price-alpha-writer-2k','project/proposals/jlz-alpha-writer-review','messages/head/2026-10-07-price-alpha-writer-2k-sh4.json','project/run_scripts/jlz_interference_l1','project/run_scripts/jlz_v12r','project/run_scripts/jlz_native_writer_aware',
+SOURCES=['messages/acks/server4/jlz-price-gptj-easyedit-hparams.json','messages/head/2026-10-07-price-model-runs-tracking.json','messages/acks/server4/price-model-runs-tracking.json','project/run_scripts/jlz_price_gptj','messages/acks/server4/jlz-price-gptj-2k.json','project/run_scripts/jlz_price_alpha_writer','plans/global/jlz-price-alpha-writer-2k','project/proposals/jlz-alpha-writer-review','messages/head/2026-10-07-price-alpha-writer-2k-sh4.json','project/run_scripts/jlz_interference_l1','project/run_scripts/jlz_v12r','project/run_scripts/jlz_native_writer_aware',
     'project/run_scripts/jlz_realized_subject','project/run_scripts/jlz_shared_budget',
     'project/run_scripts/jlz_realization','project/run_scripts/jlz_writer_coupled',
     'project/run_scripts/jlz_realized_writer','project/run_scripts/jlz_realized_writer_sequential/review_completed.py',
@@ -199,10 +199,25 @@ def inspect(job, role, dep, argv, attempt, r):
     return dict(job=job, role=role, argv=argv, resource_detail=detail, launcher=member(script))
 
 
-def submit(config,attempt):
+def submit(config,attempt,replacement=None):
     # This function is invoked by the owning root only. Tests never call a
     # scheduler mutation; no automatic retry/cancel is implemented.
-    require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_REGISTRATION')
+    if replacement is None:
+        require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_REGISTRATION')
+    else:
+        from .replace_pending import AUDIT,OLD,NEW,SOURCE,ORDER
+        require(Path(replacement).resolve()==AUDIT/'cancellation.json' and attempt==NEW,'EXACT_USER_REPLACEMENT_ONLY')
+        receipt=json.loads(Path(replacement).read_text())
+        require(receipt['status']=='EXACT_GPTJ_PENDING_CANCELLED_TERMINAL_UNALLOCATED'
+            and receipt['old_source']==SOURCE and receipt['Llama_mutations']==receipt['protected60001_mutations']==0,'CANCELLATION_PROOF')
+        for field in ('old_submission','old_config','old_lock'):verify(receipt[field])
+        require({r['before']['job'] for r in receipt['jobs']}=={j for j,_ in ORDER},'EXACT_OLD_IDS')
+        for job,_ in ORDER:
+            row=command(['sacct','-X','-n','-P','-j',job,'--format=JobIDRaw,User,State,ElapsedRaw,Start,AllocTRES']).splitlines()
+            row=next(r.split('|') for r in row if r.split('|')[0]==job)
+            require(row[1]==getpass.getuser() and row[2].startswith('CANCELLED') and row[3]=='0'
+                and row[4] in ('Unknown','None','') and not row[5],'OLD_TERMINAL_NEVER_EXECUTED')
+        require(not attempt.exists(),'NO_DUPLICATE_REPLACEMENT')
     queue=command(['squeue','-h','-u',getpass.getuser(),'--name='+','.join(job_name(r) for r in ROLES),'-o','%i|%j|%T'])
     require(not queue,'EXACT_TASK_ALREADY_REGISTERED')
     before=resource_inventory()
@@ -273,4 +288,5 @@ def submit(config,attempt):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
     p.add_argument('--freeze-only',action='store_true')
-    a=p.parse_args();print(json.dumps(freeze(a.config.resolve(),a.attempt.resolve())[0] if a.freeze_only else submit(a.config,a.attempt.resolve())))
+    p.add_argument('--replacement',type=Path)
+    a=p.parse_args();print(json.dumps(freeze(a.config.resolve(),a.attempt.resolve())[0] if a.freeze_only else submit(a.config,a.attempt.resolve(),a.replacement)))
