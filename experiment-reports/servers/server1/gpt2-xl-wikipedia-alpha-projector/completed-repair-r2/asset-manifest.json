@@ -1,0 +1,300 @@
+{
+  "dataset_identity": {
+    "all_layers_shared": true,
+    "batch_tokens": 3072,
+    "configuration": "20200501.en",
+    "current_direct_arrow_fingerprint": "ff9ce6ab0e0b6e6b",
+    "document_group_size": 100,
+    "identity": {
+      "bytes": 18307873280,
+      "device": 2304,
+      "inode": 243146127,
+      "mtime_ns": 1772691506497236588,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/datasets/wikipedia/20200501.en/1.0.0/009f923d9b6dd00c00c8cdc7f408f2b47f45dd4f5fb7982a21f9448f4afbe475/wikipedia-train.arrow",
+      "sha256": "2185d0194c1cf91102164bf816d7a84b5e86822e5ae293ff11009c5bde9b80ca"
+    },
+    "indices": {
+      "bytes": 1081618,
+      "device": 2304,
+      "inode": 245013319,
+      "mtime_ns": 1791313164738882016,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/preparation-r1/sample-indices.json",
+      "sha256": "f9cc6e577d32139bbbcfc238b681c86cc0e11d6450b7f13ca11a54ad7cefa511"
+    },
+    "old_loader_fingerprint": "fc399460ff5ffcd9",
+    "random_sample": 1,
+    "rows": 6078422,
+    "sample_size": 100000,
+    "sampler": "native FixedRandomSubsetSampler",
+    "split": "train",
+    "token_maxlen": 1024
+  },
+  "historical_precision": {
+    "attention": "sdpa",
+    "explicit_TF32_runtime_flag": "NOT_RECORDED",
+    "model": "FP32",
+    "moment": "FP32",
+    "source_note": "native same stats/tally/tokenizer bytes; prior launcher did not set TF32. No claim of retrospective flag measurement; no GPU recompute solely to fill absent telemetry."
+  },
+  "model": {
+    "C0_normalization": "native FP32 sum/count; count=masked token vectors",
+    "P_comparison": "<",
+    "P_threshold": 0.02,
+    "anchor": 17,
+    "context": "no editing context generation; Wikipedia TokenizedDataset field=text",
+    "hidden": 1600,
+    "inherited_edit_hyperparameters": false,
+    "input_width": 6400,
+    "layer_to_stack": {
+      "13": 0,
+      "14": 1,
+      "15": 2,
+      "16": 3,
+      "17": 4
+    },
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "live_binding": "current meta-device module objects + historical loaded FP32 module receipt; no new model forward",
+    "lookup": "future native subject_last; no editing lookup applied here",
+    "max_positions": 1024,
+    "model_family": "gpt2",
+    "model_payload": {
+      "bytes": 6431829964,
+      "device": 2304,
+      "inode": 243338225,
+      "mtime_ns": 1788841967160949583,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/model.safetensors",
+      "sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a"
+    },
+    "model_revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "modules": {
+      "13": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "14": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "15": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "16": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "17": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      }
+    },
+    "orientation": "Conv1D stored weight[input,output]; key=input6400; native update orientation must match shape",
+    "ours_method_parity": "NOT_TESTED",
+    "padding_side": "right",
+    "readout": 47,
+    "rewrite_module_tmp": "transformer.h.{}.mlp.c_proj",
+    "tokenizer_class": "GPT2Tokenizer",
+    "vocab_size": 50257
+  },
+  "new_GPU": 0,
+  "new_model_checkpoints": 0,
+  "new_tensor_copies": 0,
+  "ours_method_GPU_parity": "NOT_TESTED",
+  "ours_profile": {
+    "C0_normalization": "native FP32 sum/count; count=masked token vectors",
+    "P_comparison": "<",
+    "P_threshold": 0.02,
+    "anchor": 17,
+    "context": "no editing context generation; Wikipedia TokenizedDataset field=text",
+    "hidden": 1600,
+    "inherited_edit_hyperparameters": false,
+    "input_width": 6400,
+    "layer_to_stack": {
+      "13": 0,
+      "14": 1,
+      "15": 2,
+      "16": 3,
+      "17": 4
+    },
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "live_binding": "current meta-device module objects + historical loaded FP32 module receipt; no new model forward",
+    "lookup": "future native subject_last; no editing lookup applied here",
+    "max_positions": 1024,
+    "model_family": "gpt2",
+    "model_payload": {
+      "bytes": 6431829964,
+      "device": 2304,
+      "inode": 243338225,
+      "mtime_ns": 1788841967160949583,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/model.safetensors",
+      "sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a"
+    },
+    "model_revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "modules": {
+      "13": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "14": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "15": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "16": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      },
+      "17": {
+        "module_class": "Conv1D",
+        "weight_shape": [
+          6400,
+          1600
+        ]
+      }
+    },
+    "orientation": "Conv1D stored weight[input,output]; key=input6400; native update orientation must match shape",
+    "ours_method_parity": "NOT_TESTED",
+    "padding_side": "right",
+    "readout": 47,
+    "rewrite_module_tmp": "transformer.h.{}.mlp.c_proj",
+    "tokenizer_class": "GPT2Tokenizer",
+    "vocab_size": 50257
+  },
+  "projector": {
+    "bytes": 819201838,
+    "device": 2304,
+    "inode": 245240412,
+    "mtime_ns": 1788862036742616010,
+    "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_gpt2-xl.pt",
+    "sha256": "187d83367339de1373b33ce39b101bb8c81445de9b3b9e5bf612f55b8a9608eb"
+  },
+  "readiness": {
+    "bytes": 20865,
+    "device": 2304,
+    "inode": 245014042,
+    "mtime_ns": 1791314250552840640,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/assets/READY.json",
+    "sha256": "755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657"
+  },
+  "source": "0460cd512205a31a1f0b8663b5d7692571fefb12",
+  "stats": [
+    {
+      "action": "REUSE",
+      "asset": {
+        "bytes": 163841230,
+        "device": 2304,
+        "inode": 245240383,
+        "mtime_ns": 1788846839417960393,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.13.mlp.c_proj_float32_mom2_100000.npz",
+        "sha256": "87e3fe6a98d5869232e94650d670070341f9862302be42da83ce537cec1c2425"
+      },
+      "documents": 100000,
+      "historical_completed_groups": 0,
+      "layer": 13,
+      "recorded_count": 44068071
+    },
+    {
+      "action": "REUSE",
+      "asset": {
+        "bytes": 163841230,
+        "device": 2304,
+        "inode": 245240399,
+        "mtime_ns": 1788851340643867121,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.14.mlp.c_proj_float32_mom2_100000.npz",
+        "sha256": "8c0d2f864561f179d1863a47f658629ec7fdd0daebb5406ac27302fd43ab39fe"
+      },
+      "documents": 100000,
+      "historical_completed_groups": 1000,
+      "layer": 14,
+      "recorded_count": 44068071
+    },
+    {
+      "action": "REUSE",
+      "asset": {
+        "bytes": 163841230,
+        "device": 2304,
+        "inode": 245240401,
+        "mtime_ns": 1788854675832907128,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.15.mlp.c_proj_float32_mom2_100000.npz",
+        "sha256": "8d61b6c3342fbf8bfc035bdbb16fcb1e6e3da9a62cb694e5f638e02cc0732c68"
+      },
+      "documents": 100000,
+      "historical_completed_groups": 1000,
+      "layer": 15,
+      "recorded_count": 44068071
+    },
+    {
+      "action": "REUSE",
+      "asset": {
+        "bytes": 163841230,
+        "device": 2304,
+        "inode": 245240403,
+        "mtime_ns": 1788858203103832679,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.16.mlp.c_proj_float32_mom2_100000.npz",
+        "sha256": "15fb48764fdb9a66b425e7d00830d7c71091a3ed0fc8f8562f04eca2e45aaf37"
+      },
+      "documents": 100000,
+      "historical_completed_groups": 1000,
+      "layer": 16,
+      "recorded_count": 44068071
+    },
+    {
+      "action": "REUSE",
+      "asset": {
+        "bytes": 163841230,
+        "device": 2304,
+        "inode": 245240405,
+        "mtime_ns": 1788861916566547754,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.17.mlp.c_proj_float32_mom2_100000.npz",
+        "sha256": "d03f9f9ad86e0b2608b7f82a53c21cc865e7159db7dc116785c09b10fa8e5f50"
+      },
+      "documents": 100000,
+      "historical_completed_groups": 1000,
+      "layer": 17,
+      "recorded_count": 44068071
+    }
+  ],
+  "status": "READY_ALL5_REUSED_CPU_VALIDATED"
+}

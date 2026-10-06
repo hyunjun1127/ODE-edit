@@ -1,5 +1,15 @@
 # W&B Slurm job ID 기록 구현
 
+최신 결과: 사용자 명시 repair 재개 후 GPT2 CPU jobs 60075/60076/60077/60078의
+실제 online startup name/config 검사가 모두 통과했다. 실제 step은 `-5`이며
+signed numeric 문자열을 그대로 기록했다. 4 run 모두 FINISHED_SDK_FLUSHED,
+drop/failure0. 별도 tracking-test Slurm job은 생성하지 않았다.
+현재 fake-SDK 검사25 PASS. startup readback을 후속 scalar receipt에서도 보존하는
+추가 개선은 새 source에만 적용했고 실행 archive는 변경하지 않았다.
+완료 run URL/receipt는
+[GPT2 완료 보고](../gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/report-ko.md)에 있다.
+이하 초기 실패 및 이전 검사 기록은 역사이며, 과거 job의 step 원문은 여전히 미기록이다.
+
 Nonce: `USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1`.
 
 SH1 공통 helper 구현 완료. 부모가 네 Slurm 환경 키만 수집하고 실제 raw job ID,

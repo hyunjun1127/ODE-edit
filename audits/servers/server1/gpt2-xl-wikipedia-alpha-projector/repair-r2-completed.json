@@ -1,0 +1,308 @@
+{
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "accounting_evidence": "owner one-shot sacct parent rows, step duplicates excluded",
+  "evidence": [
+    {
+      "bytes": 8719,
+      "device": 2304,
+      "inode": 245013689,
+      "mtime_ns": 1791314183400899815,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/submission-repair-r2/execution.lock.json",
+      "sha256": "a530eccadbba0e53a51c559e122ebabd5e585326d7ff88b0f7a9699898418443"
+    },
+    {
+      "bytes": 679,
+      "device": 2304,
+      "inode": 245014069,
+      "mtime_ns": 1791314280332815604,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/TERMINAL.json",
+      "sha256": "a5786640a4ad4beb35a2a7d6cbf95eb4928ea03579140e023c6f19a521d0fd7c"
+    },
+    {
+      "bytes": 20865,
+      "device": 2304,
+      "inode": 245014042,
+      "mtime_ns": 1791314250552840640,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/assets/READY.json",
+      "sha256": "755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657"
+    },
+    {
+      "bytes": 2410,
+      "device": 2304,
+      "inode": 245014002,
+      "mtime_ns": 1791314201464883507,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/layer-13-READY.json",
+      "sha256": "c8090e5d25f6f85450255ac1d7c3a1d3b024ab0ad37d3c71ace92112b11336e5"
+    },
+    {
+      "bytes": 2410,
+      "device": 2304,
+      "inode": 245013999,
+      "mtime_ns": 1791314208696877060,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/layer-14-READY.json",
+      "sha256": "5f96e4bb75a6112a2c7de5626689a938c3e4e097e3c436cfea4de99064b43e93"
+    },
+    {
+      "bytes": 2407,
+      "device": 2304,
+      "inode": 245014013,
+      "mtime_ns": 1791314215852870727,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/layer-15-READY.json",
+      "sha256": "cd5aac6f6e288f7dfb15d232ac50cbdac9188d83e5d08a95263a6aa3354547cf"
+    },
+    {
+      "bytes": 2410,
+      "device": 2304,
+      "inode": 245014003,
+      "mtime_ns": 1791314201452883517,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/layer-16-READY.json",
+      "sha256": "5f888ecb5497327bf92ec2c43970cab5481b181974bde54ca74188929c6d1feb"
+    },
+    {
+      "bytes": 2413,
+      "device": 2304,
+      "inode": 245014005,
+      "mtime_ns": 1791314208708877049,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/output/layer-17-READY.json",
+      "sha256": "216313f007867bae3beb548391025d96456ce711937633623adc8fd4d09dd872"
+    }
+  ],
+  "historical_actual_step": "NOT_RECORDED",
+  "independent_reviewer_used": false,
+  "jobs": [
+    {
+      "cpus": 8,
+      "elapsed_seconds": 36,
+      "exit_code": "0:0",
+      "job_id": 60075,
+      "state": "COMPLETED"
+    },
+    {
+      "cpus": 8,
+      "elapsed_seconds": 29,
+      "exit_code": "0:0",
+      "job_id": 60076,
+      "state": "COMPLETED"
+    },
+    {
+      "cpus": 8,
+      "elapsed_seconds": 9,
+      "exit_code": "0:0",
+      "job_id": 60077,
+      "state": "COMPLETED"
+    },
+    {
+      "cpus": 4,
+      "elapsed_seconds": 9,
+      "exit_code": "0:0",
+      "job_id": 60078,
+      "state": "COMPLETED"
+    }
+  ],
+  "layer_rows": [
+    {
+      "count_difference": 0,
+      "diagnostic_FP64_lt_002": 5081,
+      "diagnostic_min_eigenvalue": 0.00034875178767048906,
+      "documents": 100000,
+      "idempotence_relative": 3.321877337653729e-06,
+      "layer": 13,
+      "native_FP32_nullity": 5081,
+      "peak_RSS": 2326413312,
+      "retained_C0P_RMS": 0.010559177883464745,
+      "seconds": 11.419789483770728,
+      "symmetry_maxabs": 0.0,
+      "threshold_distance": 5.2448588816651764e-06,
+      "token_count": 44068071
+    },
+    {
+      "count_difference": 1,
+      "diagnostic_FP64_lt_002": 4922,
+      "diagnostic_min_eigenvalue": 0.00025783217558072416,
+      "documents": 100000,
+      "idempotence_relative": 3.2766524639122485e-06,
+      "layer": 14,
+      "native_FP32_nullity": 4921,
+      "peak_RSS": 2540482560,
+      "retained_C0P_RMS": 0.010910850169797964,
+      "seconds": 7.217425264418125,
+      "symmetry_maxabs": 0.0,
+      "threshold_distance": 5.958048303056351e-07,
+      "token_count": 44068071
+    },
+    {
+      "count_difference": 0,
+      "diagnostic_FP64_lt_002": 4776,
+      "diagnostic_min_eigenvalue": 0.0002115750529951045,
+      "documents": 100000,
+      "idempotence_relative": 3.242631289986746e-06,
+      "layer": 15,
+      "native_FP32_nullity": 4776,
+      "peak_RSS": 2706030592,
+      "retained_C0P_RMS": 0.01117584035730666,
+      "seconds": 7.142494464293122,
+      "symmetry_maxabs": 0.0,
+      "threshold_distance": 4.710546858206072e-06,
+      "token_count": 44068071
+    },
+    {
+      "count_difference": 1,
+      "diagnostic_FP64_lt_002": 4659,
+      "diagnostic_min_eigenvalue": 0.0003150949216370235,
+      "documents": 100000,
+      "idempotence_relative": 3.234387926068783e-06,
+      "layer": 16,
+      "native_FP32_nullity": 4658,
+      "peak_RSS": 2328850432,
+      "retained_C0P_RMS": 0.011464421188919698,
+      "seconds": 11.315612584352493,
+      "symmetry_maxabs": 0.0,
+      "threshold_distance": 7.690345514323182e-07,
+      "token_count": 44068071
+    },
+    {
+      "count_difference": 0,
+      "diagnostic_FP64_lt_002": 4476,
+      "diagnostic_min_eigenvalue": 0.00033951162985065625,
+      "documents": 100000,
+      "idempotence_relative": 3.2259808127982896e-06,
+      "layer": 17,
+      "native_FP32_nullity": 4476,
+      "peak_RSS": 2542751744,
+      "retained_C0P_RMS": 0.011833658774933094,
+      "seconds": 7.242077618837357,
+      "symmetry_maxabs": 0.0,
+      "threshold_distance": 5.7865077717003666e-06,
+      "token_count": 44068071
+    }
+  ],
+  "lock": {
+    "bytes": 8719,
+    "device": 2304,
+    "inode": 245013689,
+    "mtime_ns": 1791314183400899815,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/submission-repair-r2/execution.lock.json",
+    "sha256": "a530eccadbba0e53a51c559e122ebabd5e585326d7ff88b0f7a9699898418443"
+  },
+  "new_CPU_core_seconds": 628,
+  "new_GPU_seconds": 0,
+  "previous_failed_CPU_core_seconds": 68,
+  "previous_failed_GPU_seconds": 0,
+  "reduction_source": {
+    "bytes": 8568,
+    "device": 2304,
+    "inode": 250225614,
+    "mtime_ns": 1791314462100676237,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/project/run_scripts/gpt2_xl_asset_prep/finish_analysis.py",
+    "sha256": "8ef1d1178cb4d3e85a4841ea809dd16acbe8841944a2130769a16e6e3ba69e2c"
+  },
+  "repair_actual_step": "-5",
+  "source": "0460cd512205a31a1f0b8663b5d7692571fefb12",
+  "status": "COMPLETE",
+  "tracking": [
+    {
+      "final_metric_history_API_readback": "NOT_REPEATED",
+      "finish": "FINISHED_SDK_FLUSHED",
+      "identity": {
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60075",
+        "job_id": "60075",
+        "step_id": "-5"
+      },
+      "job_id": "60075",
+      "points": 4,
+      "receipt": {
+        "bytes": 696,
+        "device": 2304,
+        "inode": 245014014,
+        "mtime_ns": 1791314218256868610,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/tracking/verify-0/receipt.json",
+        "sha256": "f9a60975bd00428aceac455f0a4a6dd8837b0134de9bdbae39ed24f44790649e"
+      },
+      "role": "verify-0",
+      "run_id": "afedc3543b0a43b7",
+      "run_name": "server1-verify-0-repair-r2-job60075",
+      "startup_name_config_API_gate_passed": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/afedc3543b0a43b7"
+    },
+    {
+      "final_metric_history_API_readback": "NOT_REPEATED",
+      "finish": "FINISHED_SDK_FLUSHED",
+      "identity": {
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60076",
+        "job_id": "60076",
+        "step_id": "-5"
+      },
+      "job_id": "60076",
+      "points": 3,
+      "receipt": {
+        "bytes": 696,
+        "device": 2304,
+        "inode": 245014008,
+        "mtime_ns": 1791314211292874758,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/tracking/verify-1/receipt.json",
+        "sha256": "f7991da58d1de97ce648a2b00b44c581b48e36066334bb7eb16bd8b6e4cb33e5"
+      },
+      "role": "verify-1",
+      "run_id": "8ef2264e4e39457a",
+      "run_name": "server1-verify-1-repair-r2-job60076",
+      "startup_name_config_API_gate_passed": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/8ef2264e4e39457a"
+    },
+    {
+      "final_metric_history_API_readback": "NOT_REPEATED",
+      "finish": "FINISHED_SDK_FLUSHED",
+      "identity": {
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60077",
+        "job_id": "60077",
+        "step_id": "-5"
+      },
+      "job_id": "60077",
+      "points": 2,
+      "receipt": {
+        "bytes": 694,
+        "device": 2304,
+        "inode": 245014038,
+        "mtime_ns": 1791314252788838736,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/tracking/pack-0/receipt.json",
+        "sha256": "1677fa8987b658d51559472b91fce7a8e07259cc38e8e1e5dbe5a5bd1d84befa"
+      },
+      "role": "pack-0",
+      "run_id": "e92ef82ca1834f16",
+      "run_name": "server1-pack-0-repair-r2-job60077",
+      "startup_name_config_API_gate_passed": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/e92ef82ca1834f16"
+    },
+    {
+      "final_metric_history_API_readback": "NOT_REPEATED",
+      "finish": "FINISHED_SDK_FLUSHED",
+      "identity": {
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60078",
+        "job_id": "60078",
+        "step_id": "-5"
+      },
+      "job_id": "60078",
+      "points": 2,
+      "receipt": {
+        "bytes": 697,
+        "device": 2304,
+        "inode": 245014070,
+        "mtime_ns": 1791314282724813623,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/tracking/collect-0/receipt.json",
+        "sha256": "63c0d77c7000b0b27697bbdc77a85116c7e934afef7cd009c51adc73292f2307"
+      },
+      "role": "collect-0",
+      "run_id": "52964e4e9c784f00",
+      "run_name": "server1-collect-0-repair-r2-job60078",
+      "startup_name_config_API_gate_passed": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/52964e4e9c784f00"
+    }
+  ]
+}

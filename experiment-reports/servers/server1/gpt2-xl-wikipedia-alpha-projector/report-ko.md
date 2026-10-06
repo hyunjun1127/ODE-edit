@@ -1,5 +1,11 @@
 # GPT2-XL Wikipedia C0 / Alpha projector 준비
 
+최신 상태: **repair-r2 COMPLETE**. 사용자 명시 재개 후 jobs 60075–60078 모두
+COMPLETED 0:0, L13–17 실제 CPU 검산 및 READY/collector 완료.
+[완료 사실 보고](completed-repair-r2/report-ko.md)와
+[재사용 자산 manifest](completed-repair-r2/asset-manifest.json)를 참조한다.
+이하 최초 attempt 실패 기록은 역사로 보존한다.
+
 권한: `USER-GH-SH1-GPT2XL-WIKIPEDIA-ALPHA-PREP-20261007-R1`.
 현재 단계: CPU 검산 DAG 등록/release 후 tracking startup 실패. 새 수치 검산 미완료.
 
