@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
+  "authority_commit": "8082da50",
+  "preservation_commit": "eda7e8c9",
+  "owners": [
+    {
+      "server": "server1",
+      "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+      "accepted_turn": "01a112ca-67d4-7c10-931d-014b79b5d7b4",
+      "owner_ack": "`USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1` 수신했고 SH1 담당으로 수락합니다. 현재 GPT2 method 구현과 CPU 검사는 완료됐으며 신규 job은 미제출입니다. 최신 지시에 따라 실행 차단을 해제하고, 현재 등록 여부·자산·자원을 확인한 뒤 6cell을 held 검사 후 release하겠습니다.\n"
+    },
+    {
+      "server": "server4",
+      "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER4",
+      "accepted_turn": "01a112ca-fab5-79a2-acce-c611983cbb06",
+      "owner_ack": "ACK `USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER4`: SH4가 실제 제출 작업을 수락합니다. GPT-J는 미제출 상태이며, Llama 6개 cell의 현재 상태부터 확인하겠습니다. 실행된 cell은 유지하고, 미시작 PENDING만 교체한 뒤 GPT-J까지 등록·release하겠습니다.\n"
+    }
+  ],
+  "explicit_keep": {
+    "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-KEEP60001",
+    "job": "60001",
+    "accepted_turn": "01a112ca-fab5-79a2-acce-c611983cbb06",
+    "owner_ack": "60001을 그대로 보존하겠습니다. 방금 확인한 상태는 RUNNING이며, 교체 대상은 실행 이력이 없는 PENDING 5개 Llama cell과 해당 PENDING collector뿐입니다.",
+    "evidence": "SH4 직접수락및자체scheduler관측보고;GHscheduler중복조회0",
+    "no_cancel_hold_replace_hotpatch": true
+  },
+  "stage": "OWNERS_ACCEPTED_IMPLEMENTATION_RECONCILIATION_SUBMISSION_IN_PROGRESS",
+  "new_job_ids_at_ack": [],
+  "submission_claim": "신규 job 등록 영수증은 아직 미수신. task 수락을 Slurm등록으로 표시하지 않음.",
+  "monitoring": "GH ownerACK까지만한정확인;SH1/SH4계속승인실제제출진행;새장기monitor없음"
+}
