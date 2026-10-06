@@ -1,6 +1,16 @@
 {
   "task_id": "jlz-price-alpha-writer-2k",
-  "status": "REPLACEMENT_SUBMITTED_RELEASED_PENDING",
+  "status": "QWEN_USER_CANCELLED_LLAMA_PRESERVED",
+  "qwen_user_stop": {
+    "date_kst": "2026-10-07",
+    "quote": "qwen job들 전부 취소시켜봐; 실행중인것도 취소시켜",
+    "jobs": [60014, 60015, 60016],
+    "all_cancelled": true,
+    "all_were_pending": true,
+    "no_restart_authority": true,
+    "llama_and_shared_collector_unchanged": true,
+    "source_raw_and_metrics_keep": true
+  },
   "source": "2440e548be39e55a99747d7847d21a88df419b93",
   "jobs": {
     "LLAMA_AE_CAP075": "60011",

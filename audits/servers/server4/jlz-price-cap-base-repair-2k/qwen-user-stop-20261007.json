@@ -1,0 +1,24 @@
+{
+  "authority": "qwen job들 전부 취소시켜봐; 실행중인것도 취소시켜",
+  "date_kst": "2026-10-07",
+  "owner": "janghj",
+  "host": "server4",
+  "source": "2440e548be39e55a99747d7847d21a88df419b93",
+  "binding": "Fresh scontrol exact job owner/name/ReqNodeList/Command/WorkDir/SubmitLine matched each logging-repair-20261007 submission",
+  "cancel_order": [[60016,60015,60014],[60006,60005],[60004]],
+  "states_before": {"60004":"RUNNING","60005":"PENDING","60006":"PENDING","60014":"PENDING","60015":"PENDING","60016":"PENDING"},
+  "accounting_after": {"60004":"CANCELLED by 1025","60005":"CANCELLED by 1025","60006":"CANCELLED by 1025","60014":"CANCELLED by 1025","60015":"CANCELLED by 1025","60016":"CANCELLED by 1025"},
+  "running_parent_allocated_gpu_seconds": 2886,
+  "step_cost_double_counted": false,
+  "cessation": {
+    "60004_final_squeue": "EMPTY",
+    "60004_listpids": "There are no steps for job 60004 on node (null).",
+    "batch": "CANCELLED 0:15",
+    "extern": "COMPLETED 0:0",
+    "allocation_released": true
+  },
+  "preserved": ["all Llama jobs", "shared CPU collectors 60007/60017", "unrelated server2 FE", "all source/raw/results", "GPT-J unsubmitted implementation"],
+  "deleted_files": 0,
+  "automatic_resubmit": false,
+  "monitoring": "Bounded cancellation cessation verification only; no scientific progress polling"
+}
