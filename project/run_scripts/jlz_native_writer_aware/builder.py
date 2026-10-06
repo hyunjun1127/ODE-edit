@@ -14,13 +14,13 @@ def positions(group,device):
             torch.tensor([r['global_row'] for r in rows],device=device))
 
 @torch.no_grad()
-def build(a,entry,R,candidate):
+def build(a,entry,R,candidate,expose_mean_M=False):
     started=time.monotonic();groups=entry['groups']
     rows=[r for g in groups for r in g['rows']]
     require([r['global_row'] for r in rows]==list(range(len(rows))),'ROW_ORDER')
     rw=[i for i,r in enumerate(rows) if r['kind']=='rewrite'];rwrows=[rows[i] for i in rw]
     boundary={a.first:[dict(key=g['cache']['key'],residual=g['cache']['residual']) for g in groups]}
-    weights={};P={};K={};raw={};v={};prebase={};metadata={}
+    weights={};P={};K={};raw={};v={};prebase={};metadata={};mean_M={}
     for index,l in enumerate(a.sites):
         subjects=[];bases=[]
         for g,b in zip(groups,boundary[l]):
@@ -39,6 +39,7 @@ def build(a,entry,R,candidate):
         weights[l]=w;P[l]=p;K[l]=k;raw[l]=key.cpu()
         v[l]=(F.linear(key,w)-F.linear(key,entry['entry_weights'][l])).cpu()
         prebase[l]=torch.cat(bases).cpu();metadata[l]=geo['metadata']
+        if expose_mean_M:mean_M[l]=geo['M']
         if index+1<len(a.sites):
             nxt=a.sites[index+1];boundary[nxt]=[]
             for g,b in zip(groups,boundary[l]):
@@ -46,8 +47,10 @@ def build(a,entry,R,candidate):
                 nk,nr=a.stage(l,nxt,cache['key'],cache['residual'],R[l],p,w,kw)
                 boundary[nxt].append(dict(key=nk.cpu(),residual=nr.cpu()))
                 del cache,nk,nr,kw
-    return dict(boundary=boundary,weights=weights,P=P,K=K,raw=raw,v=v,prebase=prebase,
+    result=dict(boundary=boundary,weights=weights,P=P,K=K,raw=raw,v=v,prebase=prebase,
                 metadata=metadata,candidate=candidate,rows=rows,entry_id=id(entry),cache_versions={l:(id(entry['factors'][l]['A']),entry['factors'][l]['A']._version,K[l]._version,P[l]._version) for l in a.sites},seconds=time.monotonic()-started)
+    if expose_mean_M:result['mean_M']=mean_M
+    return result
 
 def reverse(a,entry,R,built,v_adjoint,route='direct',stop_solve=False,cached=True,prune_first=True):
     """Whole-B P cotangent barrier; full R gradient even on zero first-site R."""

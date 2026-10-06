@@ -1,0 +1,23 @@
+{
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree",
+  "branch": "codex/server4-jlz-interference-priced-l1-2k",
+  "origin": "hyunjun1127/ODE-edit",
+  "boundary": "PASS in dedicated ignored session-boundary; shared root boundary/dirty files preserved",
+  "duplicate_check": "No prior own task branch, nonce registration or same-task queue entry at acceptance; submission rechecks",
+  "canonical_full_read": ["method-spec.md", "implementation-contract.json", "experiment-plan.md", "experiment-contract.json", "artifact-manifest.json"],
+  "manifest_sha256": "b7c7e7644bd1878143ce6df43f58b384978b10e01a235617d29081f5052fb78b",
+  "member_size_sha_verified": 4,
+  "canonical_modified": false,
+  "parent_execution": "635798ba276957312ec1aceda686ad563c906957",
+  "parent_result_publication": "782c4c7a9b06f20b7e7ba5e938a83847c8660456",
+  "new_toy_or_synthetic_numerical_gate": false,
+  "old_toy_PASS_inherited": false,
+  "GPU_checks": "NOT_OBSERVED: integrated into actual B1 cached c0/first proposal, no extra fit/forward/solve",
+  "storage_prior_failure": "B16 ENOSPC write failure; consumer NOT_IDENTIFIED",
+  "scientific_promotion": false,
+  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED: local readonly reuse, compact source/report/receipts through Git only",
+  "unrelated_job_mutations": 0
+}

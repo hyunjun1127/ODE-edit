@@ -1,0 +1,21 @@
+{
+  "task_id": "jlz-interference-priced-l1-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "owner": "SH4",
+  "phase": "IMPLEMENTING_NOT_SUBMITTED",
+  "branch": "codex/server4-jlz-interference-priced-l1-2k",
+  "canonical_FULL_READ_SHA": true,
+  "production_GPU_qualified": false,
+  "submitted": false,
+  "arms": [
+    "PRICE",
+    "FLAT",
+    "REVERSE"
+  ],
+  "independent_cold": true,
+  "requests_per_arm": 2000,
+  "toy_or_standalone_pilot": false,
+  "existing_jobs_mutated": 0,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

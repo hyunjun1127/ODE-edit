@@ -1,0 +1,15 @@
+{
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "branch": "codex/server4-jlz-interference-priced-l1-2k",
+  "phase": "IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_check": "전용 branch/등록 자료/owned queue에서 동일 task 등록 없음",
+  "boundary": "전용 actual WT session/CWD/origin PASS; 공유 root ignored boundary는 다른 session으로 보존",
+  "canonical": "5files FULL_READ/SHA PASS",
+  "Slurm_submit": 0,
+  "GPU_qualified": false,
+  "scope": "PRICE/FLAT/REVERSE 각 cold BS100x20; 별도 toy/pilot/qualification job 없음",
+  "new_user_stage_approval_required": false
+}

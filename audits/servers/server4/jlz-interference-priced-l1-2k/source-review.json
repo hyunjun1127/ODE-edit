@@ -1,0 +1,201 @@
+{
+  "schema": "JLZ_INTERFERENCE_PRICED_L1_BOUNDED_SOURCE_REVIEW",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "date_kst": "2026-10-06",
+  "status": "PASS_WITH_WARNINGS",
+  "review_level": "Separate subagent bounded independent source review; not independent numerical or target-model qualification",
+  "reviewer": "/root/causal_red",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree",
+  "branch": "codex/server4-jlz-interference-priced-l1-2k",
+  "confirmed_unresolved_blockers": [],
+  "blocker_count": 0,
+  "authority_and_scope": {
+    "scope": "Canonical full read and SHA/size binding, changed production source/API/data/controller/price/projection/storage/collector/resource review only. Canonical no-toy policy and normal resource-pending admission retained.",
+    "owned_write": "audits/servers/server4/jlz-interference-priced-l1-2k/source-review.json",
+    "production_edits_by_reviewer": 0,
+    "git_mutations": 0,
+    "scheduler_queries": 0,
+    "scheduler_mutations": 0,
+    "transfers": 0,
+    "toy_or_synthetic_runs": 0,
+    "numerical_tests": 0,
+    "model_loads": 0,
+    "model_forwards": 0,
+    "GPU_calls": 0,
+    "existing_jobs_or_scientific_result_monitoring": 0,
+    "old_v12r_PASS_inherited": false,
+    "old_source_role": "Read-only API and provenance reference only; no previous qualification is a new execution or mathematical PASS."
+  },
+  "canonical_full_read_SHA": [
+    {
+      "path": "project/proposals/jlz-interference-budget-v1/method-spec.md",
+      "bytes": 17713,
+      "sha256": "a766f118ca122201458530ede28b7dbb909801dd013e5a43f8633c5838b6eb81"
+    },
+    {
+      "path": "project/proposals/jlz-interference-budget-v1/implementation-contract.json",
+      "bytes": 26238,
+      "sha256": "8ec39bd3af1d0142fb2b2f0d8111cccf0380d5518d572953b66e8219fd5b326d"
+    },
+    {
+      "path": "project/proposals/jlz-interference-budget-v1/experiment-plan.md",
+      "bytes": 15744,
+      "sha256": "f08727641ebff2732b6c99f55b6d0579fed50ab1cdf2583b2a17318c6f82a203"
+    },
+    {
+      "path": "project/proposals/jlz-interference-budget-v1/experiment-contract.json",
+      "bytes": 16878,
+      "sha256": "a0921ab6899622e015e2a6f0f3d714b970d06955b48b955dae932f4689b1336a"
+    },
+    {
+      "path": "project/proposals/jlz-interference-budget-v1/artifact-manifest.json",
+      "bytes": 1671,
+      "sha256": "b7c7e7644bd1878143ce6df43f58b384978b10e01a235617d29081f5052fb78b"
+    },
+    {
+      "path": "messages/head/2026-10-06-jlz-interference-l1-sh4.json",
+      "bytes": 11846,
+      "sha256": "46df476b8ce00f9645b09ab39fadf6489fd90f7fbb186078875555eee5659bfb"
+    }
+  ],
+  "inspected_source_SHA": {
+    "project/run_scripts/jlz_interference_l1/__init__.py": "4abea73ffa6f246a3bd3b5e44bef38b3b8527c28d4b2cc25c847fc5a72f44602",
+    "project/run_scripts/jlz_interference_l1/controller.py": "52d77d160786ba85192049e74251cbeb39b7d0d22b8073938607bf6ba4b4bd52",
+    "project/run_scripts/jlz_interference_l1/optimizer.py": "ec6deb0325151a6563a4881dba217b57b6a284fcc648ccdd24a7d9df0c95f9d8",
+    "project/run_scripts/jlz_interference_l1/projection.py": "f3338814da14617648158988329fcf9e0084ef66ccd508dcf0122e41903af026",
+    "project/run_scripts/jlz_interference_l1/price.py": "ed76e29141807ac44fd4eebe49d4250203afe3ed66926046db9384dbb9108bf0",
+    "project/run_scripts/jlz_interference_l1/engine.py": "87b0e98b11c04039b7a1efc077181da42259c9fe0f1ef49817633f16756ff67b",
+    "project/run_scripts/jlz_interference_l1/fit.py": "0fce1b875a0b524648a19fdb398d7399e561c7b9637c41d30a9e042c2ca6f8a2",
+    "project/run_scripts/jlz_interference_l1/telemetry.py": "ab7b972d296eb0d161812a84c4ef463f8fdab7905d22446479684beb0b072384",
+    "project/run_scripts/jlz_interference_l1/profile.py": "a5f1e1539b7cd221676183a070caf26939bdb3669ad8d36d752c4a7f14e59658",
+    "project/run_scripts/jlz_interference_l1/prepare.py": "0f11993e12aa434482e2d9cd7307d578d48817b8851bae86c2d65bdd0243cad9",
+    "project/run_scripts/jlz_interference_l1/preflight.py": "e82b9bc5f6adcae48958d5b299a6239eb4e2f20fd17f884d3a51df0a4729bde1",
+    "project/run_scripts/jlz_interference_l1/submit.py": "1755b206a362f234f920c291d6763bcd869766c7f97ec3b9334b0120c9ed64e3",
+    "project/run_scripts/jlz_interference_l1/run.py": "17a3b8fbe4651e5dd408f6eb09c00fc921e7b801b0f99978a71f4893c1a6bf8e",
+    "project/run_scripts/jlz_interference_l1/collect.py": "f7394cba0dbceeb726946ebb6e1a3ae9a92a3246d724b980e98a64a7281fe0be",
+    "project/run_scripts/jlz_interference_l1/storage.py": "d3a01b261f5159931bbf6373e51d5baa39ecbfccafbcf4083b5f51bf25c9ee04",
+    "project/run_scripts/jlz_interference_l1/observer_io.py": "a58813c760c2fe9465a98d52ae7c9a90ff8b8bdc931f73882b1cb6ba2f99e289",
+    "project/run_scripts/jlz_native_writer_aware/builder.py": "b9b67fea1291933c913f1ee23f18159a6fe3e3ad15ebf74a447b80a1aa79eee5",
+    "project/run_scripts/jlz_native_writer_aware/physical.py": "7218bd17a9393b224e464e206c09046e354a14fb92bcefdaf76e88eb92b5ac0c"
+  },
+  "source_findings": [
+    {
+      "area": "Native builder and declared derivative",
+      "result": "No confirmed source blocker",
+      "evidence": "New CandidateObjective requests existing mean P.T@K through optional expose_mean_M; builder still materializes native FP32 all-token lower writes, fresh upper rewrite-only whole-B K/P and effective row actions. Reused objective implements full same-layer owner pullback only; production reverse, dK/dP and solve VJP are not claimed."
+    },
+    {
+      "area": "c0 price and LOO",
+      "result": "Source conforms; actual assertions NOT_RUN",
+      "evidence": "price uses B-by-B mean_M rather than context-row M, own c0 only, denominator/floors/neutral cases and deterministic REVERSE assignment. Fixed canonical LOO matvec assertions use cached raw A/P/K/M and no extra solve/model call. Nonsymmetric identity has not been numerically certified by this review or silently reformulated."
+    },
+    {
+      "area": "Projection, optimizer and counters",
+      "result": "No confirmed source blocker; no numerical proof claim",
+      "evidence": "Sorted weighted capped group-L1 breakpoint route, FP64 KKT and stored FP32 cap/spend guards are present. Absolute Adam, analytic native norm once, irreversible activation, own completed 12-update grace, expand-before-13th-update, no inactive update, terminal no-backward and 25/24 budget are source-reviewed."
+    },
+    {
+      "area": "Own trajectories and same payload commit",
+      "result": "No confirmed source blocker",
+      "evidence": "Fresh entry teacher/anchors/factors and pack/state bindings per arm/batch; entry native full rewrite/KL retained through read-only helper. Successful transaction finish follows exact evaluated weight copy, final rewrite-only native CPUFP32 H once/layer, observer/artifact checks. Failure restores batch entry rather than silently continuing or retrying; no durable W/H/R/optimizer bundle."
+    },
+    {
+      "area": "Storage and reduction",
+      "result": "No confirmed source blocker; resource limitation remains",
+      "evidence": "Static entry-price stored once, authoritative candidate JSONL once and hash/count fit reference instead of duplicate arrays. Bounded scalar encoding/atomic writes, collector/transient/error/source/console reserves and prefit free/inode guard retained. Reducer validates exact raw/token/identity sets, price/counter/projection scalar relations, 3 cold trajectories, partial prefix, 60/57/300 expected counts and full W20 denominators only when present."
+    },
+    {
+      "area": "Launch resources and source closure",
+      "result": "No confirmed source blocker; scheduler acceptance NOT_OBSERVED",
+      "evidence": "PRICE priority then afterany resource-barrier controls with at most two task GPUs, cap-1 serialization and CPU afterany all parents; no quality success dependency. Separate memory-policy return-0+ALLOW gate precedes combined helper. Explicit 59392MiB/60416MiB ceiling/8CPU/GPU1/exportNONE/Requeue0, source/config/archive/runtime/native/input hashes and full held argv/script/dependency checks are present."
+    }
+  ],
+  "resolved_mechanical_findings": [
+    {
+      "id": "COMBINED_MEMORY_HELPER_CODE4",
+      "status": "RESOLVED_BY_OWNER",
+      "verified_in": "submit.py:201-210",
+      "detail": "A code-4 combined cap result cannot authorize DENY_MEMORY. Separate hard memory request must exit 0 and contain ALLOW_MEMORY_POLICY; DENY_MEMORY is explicitly excluded."
+    },
+    {
+      "id": "FP64_TELEMETRY_FINITE_CAST",
+      "status": "RESOLVED_BY_ENGINE_OWNER",
+      "verified_in": "telemetry.py:48-49,115",
+      "detail": "math.isfinite checks Python FP64-derived scalars without accidental default-FP32 conversion and overflow."
+    },
+    {
+      "id": "DRAFT_ADAPTER_IMPORT",
+      "status": "RESOLVED_BY_CONTROLLER_OWNER",
+      "verified_in": "run.py:77",
+      "detail": "Adapter is imported from the actual read-only physical helper, not assumed to exist in an incomplete draft wrapper."
+    },
+    {
+      "id": "NATIVE_INTEGER_TEACHER_KEYS",
+      "status": "RESOLVED_BY_CONTROLLER_OWNER",
+      "verified_in": "run.py entry-capture and storage.py _keys",
+      "detail": "Native integer owner keys are explicitly serialized as strings with collision rejection rather than rejected or silently omitted."
+    },
+    {
+      "id": "ENTRY_PRICE_SOURCE_STATE_BINDING",
+      "status": "RESOLVED_BY_ENGINE_OWNER",
+      "verified_in": "price.py:123-128; run.py:205-208; collect.py:276-278",
+      "detail": "Own entry-state/source/config/profile/pack/arm/batch binding and anchor_star are retained and independently checked by the reducer."
+    },
+    {
+      "id": "OLD_QUALIFIER_FIVE_ARM_DRAFT",
+      "status": "RESOLVED_BY_CONTROLLER_OWNER",
+      "verified_in": "run.py / collect.py",
+      "detail": "No copied old qualifier READY gate, five-arm horizon or wrong source environment remains in reviewed operational source."
+    },
+    {
+      "id": "OVERBROAD_SHARED_ARM_FAILURE",
+      "status": "RESOLVED_BY_CONTROLLER_OWNER",
+      "verified_in": "run.py:263-272",
+      "detail": "Only exact common source/authority/input/runtime identity faults create the shared block. Own PRICE numerical/storage failures do not scientifically gate cold FLAT/REVERSE."
+    },
+    {
+      "id": "UNBOUNDED_CONSOLE_AND_ERROR_OPERANDS",
+      "status": "RESOLVED_BY_CONTROLLER_OWNER",
+      "verified_in": "storage.py ConsoleBudget/error_operands/storage_plan; run.py first-error",
+      "detail": "Python console limits and additional finite error-print reserve are explicit; native-FD prefit file-size scope is not claimed as a hard reservation. Nonfinite failure operands retain explicit IEEE tags, not fabricated finite measurements."
+    }
+  ],
+  "performed_checks": {
+    "independent": [
+      "Full read of the five canonical files and dispatch envelope",
+      "SHA/size consistency checks and JSON parsing",
+      "Read-only changed-source/API/reduction/resource inspection",
+      "Direct final source hash capture",
+      "Final narrowed controller console/error/reserve diff inspection"
+    ],
+    "independent_tests_executed": [],
+    "owner_reported_not_independently_reexecuted": [
+      "Source syntax/import/config preflight PASS",
+      "Controller py_compile on four modules PASS"
+    ],
+    "actual_c0_LOO_assertions": "NOT_RUN",
+    "actual_target_model_or_GPU_checks": "NOT_RUN",
+    "actual_projection_or_price_numerical_tests": "NOT_RUN",
+    "scheduler_test_only_or_held_inspection": "NOT_OBSERVED_BY_REVIEWER"
+  },
+  "warnings": [
+    {
+      "id": "NO_ACTUAL_NATIVE_EVIDENCE",
+      "detail": "This static review does not certify actual B1 loss/action, c0 LOO, native mean-row identity, projection arithmetic, model parity, positive denominator, performance or quality. Required real-B1 assertions remain integrated execution gates, not observed PASS."
+    },
+    {
+      "id": "MEMORY_ESTIMATE_NOT_MEASURED",
+      "detail": "Actual model VRAM/RSS/throughput and native runtime behavior have not been measured by this reviewer; input-bound preparation/resource preflight and typed runtime blocks still apply."
+    },
+    {
+      "id": "SHARED_FILESYSTEM_NOT_RESERVED",
+      "detail": "Finite serializer reserve and fresh free/inode checks do not reserve shared filesystem capacity or establish quota headroom. Competing writers and direct native FD output can change available space; source explicitly distinguishes these limits."
+    },
+    {
+      "id": "STATIC_VERDICT_NOT_EXECUTION",
+      "detail": "PASS_WITH_WARNINGS means no confirmed remaining source blocker in the bounded reviewed scope. It is not a submission, GPU qualification, W20 completion, scientific superiority or authorization to loosen tolerances."
+    }
+  ],
+  "final_boundary": "Source review complete. Parent owns fresh asset/resource preflight, immutable source/config freeze, exact task registration/release and bounded resource-pending handoff under the envelope. Reviewer performs no monitoring or automatic retry."
+}
