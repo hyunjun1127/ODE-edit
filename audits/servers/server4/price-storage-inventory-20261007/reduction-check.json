@@ -1,0 +1,10 @@
+{
+  "paths": 337334,
+  "unique_files": 335836,
+  "class_count_sum": 335836,
+  "allocated_sum": 107164385280,
+  "directory_allocated_sum": 107164385280,
+  "cross_class_inode_conflicts": [],
+  "delete_authorized": false,
+  "level": "same-owner separate reduction, not independent reviewer"
+}

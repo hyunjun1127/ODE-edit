@@ -1,0 +1,22 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER4",
+  "task_id": "price-storage-inventory-20261007",
+  "status": "REVIEW_COMPLETE_STOP",
+  "owner": "SH4",
+  "delete_authorized": false,
+  "unique_files": 335836,
+  "allocated_bytes": 107164385280,
+  "unreferenced_candidates_confirmed": 0,
+  "unknown_allocated_bytes": 7859503104,
+  "confirmed_reclaimable_bytes": null,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "GPU": 0,
+  "Slurm_mutation": false,
+  "existing_jobs_preserved": true,
+  "report": "experiment-reports/servers/server4/price-storage-inventory-20261007/report-ko.md",
+  "publication": "OWN_BRANCH_AND_MAIN_NONFORCE_PACKAGE",
+  "publication_receipt": "이 소형 패키지를 포함한 main commit SHA는 최종 직접 인계로 보고한다.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "message_ko": "읽기전용 metadata 점검 완료. UNKNOWN 및 재현 자료 보존. 삭제후보 확정 아님."
+}
