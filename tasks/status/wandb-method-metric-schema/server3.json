@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER3",
+  "task_id": "wandb-method-metric-schema",
+  "server": "server3",
+  "actual_host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "authority_commit": "c5dc1cb4fc6853b6dfc3ceac5a490c14ab131ba4",
+  "status": "POLICY_ACCEPTED_FUTURE_CALLER_ADOPTION_REQUIRED",
+  "observed_at": "2026-10-06T19:28:06.093336+00:00",
+  "current_unfrozen_scientific_caller": null,
+  "shared_helper_owner": "server1",
+  "shared_helper_modified": false,
+  "caller_implementation": "NOT_APPLICABLE_NO_CURRENT_UNFROZEN_CALLER",
+  "online_validation": "NOT_PERFORMED",
+  "scientific_submission": false,
+  "existing_job_query_or_mutation": false,
+  "independent_reviewer": false,
+  "review_provenance": "OWNER_DOCUMENT_AND_SCOPE_AUDIT",
+  "next_freeze": "Bind SH1 helper commit, caller source, schema/config/axes/immutable identity together; validate only already measured rows and actual denominators.",
+  "report": "experiment-reports/servers/server3/wandb-method-metric-schema/report-ko.md",
+  "message": "SH3 담당 수락. 향후 ours/baseline 신규 source 봉인 시 공통 지표·축·실제 job ID·불변 identity를 SH1 helper와 함께 결속한다. 현재 미봉인 caller가 없어 정책 수락만 완료했으며 구현·실온라인 PASS를 주장하지 않는다."
+}
