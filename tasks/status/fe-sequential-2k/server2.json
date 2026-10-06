@@ -1,0 +1,30 @@
+{
+  "nonce": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "status": "IMPLEMENTATION_CPU_READY_LOGGING_BLOCKED_NOT_SUBMITTED",
+  "host": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "upstream": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "CPU_tests": 7,
+  "CPU_passed": true,
+  "actual_GPU": "NOT_RUN",
+  "job_ids": [],
+  "source_freeze": "NOT_DONE",
+  "record_count": 2000,
+  "observer_identity_rows": 26000,
+  "source_core": "Own FE adapter preserving pinned firstforward/FE writer; upstream readonly",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "blockers": [
+    "SETUP_READY_NEEDS_USER_LOGIN",
+    "SH1 shared experiment_tracking helper not yet bound"
+  ],
+  "policy": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER2 arrived before submission",
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "other_jobs_modified": 0,
+  "local": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/",
+  "CPU_receipt": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/cpu-ready/receipt.json",
+  "input_config": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/preparation/configuration.json",
+  "configuration_note": "Preserved pre-W&B CPU input preparation; requires new source/logger/preflight binding before freeze",
+  "independent_reviewer": 0
+}
