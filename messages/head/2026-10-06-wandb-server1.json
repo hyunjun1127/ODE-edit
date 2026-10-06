@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER1",
+  "parent": "USER-GH-ALL-SH-WANDB-REALTIME-20261006",
+  "task_id": "wandb-realtime-setup",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "note": "app 현재 root CWD 확인; registry29e4는 역사값, root dirty 보존. actual boundary 확인."
+  },
+  "user_authority": "모든 향후 실험 W&B online 실시간 기록 및 각 서버 설정. entity wkdguswns2256 / project layer allocation 사용자 지정.",
+  "policy": "control/wandb-policy.json",
+  "branch": "codex/server1-wandb-realtime-setup",
+  "scope": [
+    "현재 identity/nonce 중복 확인; 전용 non-main worktree",
+    "기존 wandb SDK/config와 credential 존재만 안전확인(값/키hash/전체env 출력 금지)",
+    "SDK 설치는 local isolated overlay/venv에서 허용. 과학env pin 변경0. 정확 Python/SDK/version 경로 기록",
+    "공통 entity/project/online/save_code=false/consoleoff, raw/tensor/artifact upload off",
+    "기존 로그인으로 CPU-only 3-point online smoke와 remote readback. 인증없으면 준비 후 NEEDS_USER_LOGIN",
+    "새 미제출 실험 launcher --export=NONE 내부 안전 credential 연결/통합. 기존등록/frozen job 불변",
+    "짧은 source/secret-filter/config/logging failure·finish 검산; online검증과 unit검사 분리",
+    "수신 ACK 먼저; 설정/검증 또는 정확 blocker를 source/compactreport와 비강제 ownbranch+main 게시. 기존 latestmain 보존 merge"
+  ],
+  "shared_ownership": "SH1은 공통 project/run_scripts/experiment_tracking/** helper/tests/template 단독 소유. runtime import helper init/log/finish와 safe config loader, credential값을 저장하지 않는 SDK/auth smoke CLI 구현. fake SDK CPU검사, 기존 실험 소스 일괄변경0. 다른SH에 바로 재사용 가능한 helper commit/API 전달.",
+  "specific": "기존 중단 task 재개0. 신규 실험이 없으면 공통 향후 launcher 사용지침/환경준비만. 기존 job scheduler/log/result 조회 불필요.",
+  "allowed_write_paths": [
+    "project/run_scripts/experiment_tracking/**",
+    "servers/local/wandb.env (ignored, 비민감)",
+    "local/wandb-setup/** (ignored SDK/로그; auth값은 보고 제외)",
+    "messages/acks/server1/wandb-realtime-setup.json",
+    "messages/server-heads/server1/wandb-realtime-setup.json",
+    "tasks/status/wandb-realtime-setup/server1.json",
+    "runs/wandb-realtime-setup/server1.json",
+    "audits/servers/server1/wandb-realtime-setup/**",
+    "experiment-reports/servers/server1/wandb-realtime-setup/**"
+  ],
+  "permissions": {
+    "slurm": "설정 자체는 신규 Slurm 제출 NOT_ALLOWED, GPU0. FE 등 별도기존권한은 그계약만.",
+    "local_cpu": "CPU2/memory4GiB 이내 SDK setup/smoke, bounded timeout. 모델load0.",
+    "gpu_cap": "변경0; current project/local/task stricter 그대로.",
+    "publication": "위 ownscope 소형 코드/설정예제/receipt 비강제 branch+main 허용; raw/key/fullenv0",
+    "secrets": "로그인 필요시 사용자에게 해당서버 terminal로그인 요청. 키를 직접 만들거나 다른host복제0",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED: 소형 tracked 설정/receipts만공유, W&B local spool/credential/SDKenv broadcast0"
+  },
+  "checks": {
+    "preflight": [
+      "boundary/origin/전용WT/기존source보존",
+      "credential출력차단",
+      "entity/project 정확 공백/online/no automatic code-console-artifacts",
+      "CPUonly/source scope"
+    ],
+    "post": [
+      "설치/인증/원격3point검증 각각구분",
+      "새helper noCP/평가비변이/failure-isolation",
+      "report누출검사 및 diffcheck"
+    ],
+    "owner_audit": "가능하며 독립red 미사용을 실제대로 명시. 별도 대형감사/모델재검증0."
+  },
+  "completion": "report-ko.md + status: READY_ONLINE_VERIFIED 또는 SETUP_READY_NEEDS_USER_LOGIN/정확실패. SDK/python/config path/run URL/온라인readback 기록. 사용자 키 값 요청금지. 새agentmonitor/heartbeat/과학재시도0."
+}

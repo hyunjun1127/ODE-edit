@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "authority_main": "ff43b43887f2aeabba35a04a2769ac045c5c8b86",
+  "envelope_sha256": "f93d922445a2d13d967f94a173eb41fc96e049ded929a434372a8d00f9d82df3",
+  "policy_sha256": "0de45392b04c808c956dc898534455a05c3eb1a6c3f026920ba3a560b9edb745",
+  "full_read": [
+    "control/wandb-policy.json",
+    "messages/head/2026-10-06-wandb-server4.json"
+  ],
+  "boundary": "실제 env thread/session/host 일치, 전용 WT checker PASS. 루트 과거 session config 미수정.",
+  "duplicate": "접수/상태/동일 branch 기존 없음 확인 후 생성",
+  "audit_level": "OWNER_AUDIT_ONLY",
+  "independent_reviewer": false,
+  "checks": {
+    "syntax": "PASS",
+    "forbidden_upload_calls": 0,
+    "model_imports": 0,
+    "online_readback": "PASS_3_POINTS",
+    "credential_literal_scan": "PASS",
+    "scanned_files": 12,
+    "files": {
+      "audits/servers/server4/wandb-realtime-setup/smoke.py": {
+        "sha256": "f9bf0daa4b047378c1cedd6301212f272adecf3ad0e7303bbc03f2951af066b5",
+        "bytes": 6136
+      },
+      "/data/janghj/ODE-edit/local/wandb-setup/smoke-receipt.json": {
+        "sha256": "05c45e8ba121aa414a27f185698a18e8c53c4741ef4bc4ad9dcf0a3ca8a9be2a",
+        "bytes": 1580
+      },
+      "/data/janghj/ODE-edit/servers/local/wandb.env": {
+        "sha256": "e584655b3b89a841b9bb6f03b15c33594585d1349e3932ae178d2490fca54464",
+        "bytes": 835
+      }
+    },
+    "smoke": {
+      "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER4",
+      "server": "server4",
+      "status": "READY_ONLINE_VERIFIED",
+      "gpu": 0,
+      "model_load": 0,
+      "slurm_writes": 0,
+      "max_points": 3,
+      "python": "/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python",
+      "entity": "wkdguswns2256",
+      "project": "layer allocation",
+      "api_endpoint": "https://api.wandb.ai",
+      "independent_reviewer": false,
+      "sdk_version": "0.30.0",
+      "sdk_path": "/data/janghj/ODE-edit/local/wandb-setup/sdk/lib/python3.12/site-packages/wandb/__init__.py",
+      "credential_present": true,
+      "privacy": {
+        "mode": "online",
+        "console": "off",
+        "save_code": false,
+        "disable_code": true,
+        "disable_git": true,
+        "x_disable_meta": true,
+        "x_disable_stats": true,
+        "x_disable_machine_info": true,
+        "x_save_requirements": false,
+        "capture_loggers": {},
+        "finish_timeout": 30
+      },
+      "watch_calls": 0,
+      "artifact_calls": 0,
+      "run_id": "server4-setup-20261006",
+      "run_url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/server4-setup-20261006",
+      "auth_project_verified": true,
+      "logged_points": 3,
+      "finish_verified": true,
+      "remote_points": [
+        {
+          "setup_ok": 1,
+          "step": 0,
+          "_step": 0
+        },
+        {
+          "setup_ok": 1,
+          "step": 1,
+          "_step": 1
+        },
+        {
+          "_step": 2,
+          "setup_ok": 1,
+          "step": 2
+        }
+      ],
+      "remote_files": [
+        "config.yaml",
+        "wandb-summary.json"
+      ],
+      "remote_state": "finished",
+      "wall_seconds": 6.269289324060082,
+      "peak_rss_kib": 69560,
+      "cpu_affinity": [
+        0,
+        1
+      ]
+    }
+  },
+  "limitations_ko": [
+    "공통 helper는 SH1 소유이며 미도착. failure-isolation/noCP/평가비변이 생산 구현 감사는 수행하지 않음.",
+    "본 smoke의 인증실패/finish timeout 경로는 정적 검토만 수행. 의도적 네트워크 장애 실험 없음.",
+    "RSS는 Python parent 프로세스의 ru_maxrss. SDK 자식 전체 합계 peak가 아님.",
+    "기본 python3 venv는 ensurepip 미설치로 실패; uv로 독립 sdk 환경을 생성. 과학 env 변경 없음."
+  ],
+  "refs": [
+    "https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py",
+    "https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py"
+  ]
+}

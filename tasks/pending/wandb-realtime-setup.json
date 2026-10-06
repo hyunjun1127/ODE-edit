@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "task_id": "wandb-realtime-setup",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "servers": [
+    "server1",
+    "server2",
+    "server3",
+    "server4"
+  ],
+  "policy": "control/wandb-policy.json",
+  "status": "ALL_FOUR_OWNERS_ACCEPTED_SETUP_IN_PROGRESS",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "gpu": 0,
+  "readiness": "SH별 actual receipt로만 판정",
+  "shared_helper_owner": "server1"
+}

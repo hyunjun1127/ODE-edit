@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006",
+  "effective": "새 source/새로 제출하는 실험. 이미 봉인/제출된 job은 변경·취소·재시작하지 않음.",
+  "user_request": "앞으로 모든 실험 돌릴때 wandb에 run 올려서 실시간 기록하는 것으로 하자. 각 서버에 wandb 세팅하는 것 진행시켜",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "project_url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation",
+  "api_endpoint": "SDK 공식 cloud 기본값 또는 해당 계정의 검증된 기존 설정. UI URL을 API base_url로 추측해 넣지 않음.",
+  "mode": "online",
+  "required_for_new_experiments": true,
+  "privacy": {
+    "upload": "허용 scalar metric/분모/소스·config SHA/논리 server/task/arm/job ID만",
+    "forbidden": [
+      "API key/credential",
+      "원문 prompt/dataset",
+      "모델/weight/H/RNG/activation/checkpoint",
+      "full stdout",
+      "자동 code/git diff 업로드"
+    ],
+    "console": "off",
+    "save_code": false,
+    "watch": false,
+    "automatic_artifacts": false,
+    "credentials": "기존 해당 사용자 인증 재사용. 없으면 NEEDS_USER_LOGIN; 채팅/Git/보고/명령인자/credential 복제 금지. private 로컬 secret만."
+  },
+  "run_identity": {
+    "one_per": "과학 arm/attempt별 run. group=task_id; 새 retry 별도 run_id와 parent link",
+    "persist_id": "ignored local task receipt",
+    "resume": "로그 transport 재접속만; noCP 모델 재개와 구분",
+    "status": "미제출/등록/실행/실패/완료와 online verified/미검증 분리"
+  },
+  "metrics": {
+    "cadence": "이미 있는 metric을 10–30초 단위 또는 candidate/batch/phase/eval 전환 때 비동기 기록. 새 forward/큰 tensor CPU copy/강제 GPU sync 금지",
+    "allow": [
+      "fit/loss·NLL·KL·norm·optimizer calls/stop",
+      "step/batch/edits/phase",
+      "RS/PS/NS/harmonic score와 분모",
+      "TF token/prompt/strict ACC, true/new NLL",
+      "retention/lost/gained/cohort summary",
+      "이미 계측된 시간/메모리/resource·status"
+    ],
+    "constraints": "없는 지표를 새로 평가하거나 다른 분모를 합치지 않음. config는 명시 whitelist."
+  },
+  "failure_policy": {
+    "startup": "cheap SDK/auth/project online 확인 실패시 새 GPU 실험 이전 NEEDS_USER_LOGIN/LOGGING_BLOCKED 명시. offline를 online PASS로 표시 금지.",
+    "during_run": "네트워크 단절은 scientific 실패/재실행 사유가 아님. 로컬 spool 보존, LOGGING_DEGRADED와 복구 상태 기록, SDK 정상 재연결 사용.",
+    "finish": "bounded flush/finish, 원 예외 보존; logger 오류로 결과 파일 저장을 막지 않음"
+  },
+  "environment": {
+    "scientific_env": "torch/transformers 원 pin 보존. wandb SDK는 기존호환환경 또는 tasklocal overlay/venv",
+    "export_none": "job 안에서 정확한 비민감 config 및 안전 credential source를 명시 연결. HF offline 유지.",
+    "legacy_disabled": "새 launcher의 WANDB_DISABLED만 제거/override. 과거 frozen source/hashes 재작성 금지."
+  },
+  "setup_smoke": {
+    "gpu": 0,
+    "max_points": 3,
+    "payload": "setup_ok·step 등 합성 scalar와 server label만",
+    "success": "online run ID/URL + flush/원격 readback3점 또는 동등 증거",
+    "missing_auth": "SDK/config 설치까지 진행하고 사용자 안전 로그인 필요 사실 보고"
+  },
+  "no_new_monitoring": true,
+  "no_gpu_cap_change": true,
+  "no_scientific_submission_authorized_by_setup": true,
+  "no_existing_job_mutation": true
+}
