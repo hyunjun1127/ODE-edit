@@ -2,6 +2,28 @@
 
 Instruction/nonce: `USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006`. Task: `jlz-interference-priced-l1-2k`.
 
+## 2026-10-06 USER recall: W20 / 2,000-edit 완료
+
+PRICE59768 및 collector59769 COMPLETED/exit0. CPU 재집계로 20 commits/19 own-state joins/100 history appends, 누적 R2000/P4000/N20000을 확인했다. **RS 99.900%, PS 91.275%, NS 85.115%, harmonic mean 91.702%**.
+
+단위 %. W0는 편집0개/평가first2000의 동일 runtime 초기 관측이다. Ours/W0 이외는 각자 W20/first2000의 기존 집계이며 hardware/runtime/seed/층·writer 조건이 다른 **HISTORICAL_REFERENCE**다. 동일조건 우위나 paired 검증으로 해석하지 않는다. 조화평균은 반올림 전 정수 분자/분모의 세 rate에 동일 가중을 적용했다.
+
+| 방법 | RS | PS | NS | Harmonic mean | 비교 범위 |
+|---|---:|---:|---:|---:|---|
+| W0 (ours; 편집0/평가2000) | 8.200 | 10.950 | 88.555 | 13.359 | 동일 runtime W0 재사용·raw 검산 |
+| PRICE (ours) | 99.900 | 91.275 | 85.115 | 91.702 | 본 run raw 검산 |
+| MEMIT-H | 99.400 | 91.000 | 79.045 | 89.020 | HISTORICAL_REFERENCE |
+| AlphaEdit | 99.300 | 93.225 | 68.590 | 84.802 | HISTORICAL_REFERENCE |
+| AlphaEdit-BLUE | 99.600 | 97.150 | 76.585 | 89.845 | HISTORICAL_REFERENCE |
+| CAKE | 99.150 | 87.750 | 76.405 | 86.781 | HISTORICAL_REFERENCE |
+| MEMIT | 64.750 | 61.700 | 51.825 | 58.885 | HISTORICAL_REFERENCE |
+| MEMIT-BLUE | 99.400 | 95.575 | 79.715 | 90.722 | HISTORICAL_REFERENCE |
+| v12-MEMIT | 98.500 | 90.300 | 76.060 | 87.275 | HISTORICAL_REFERENCE |
+| V13 MD | 98.400 | 88.250 | 71.035 | 84.337 | HISTORICAL_REFERENCE |
+| V13 CD | 98.600 | 93.600 | 70.045 | 85.465 | HISTORICAL_REFERENCE |
+
+[W20 상세 보고서](w20/report-ko.md) · [baseline counts/source 표](w20/comparison-W20.csv) · [전체 endpoint](w20/metrics.csv). W15 중간 결과 및 아래 등록 이력은 보존한다. baseline 신규 fit/평가, 기존 job 변경, 반복 monitoring은 없다.
+
 ## 2026-10-06 USER recall: 1,500-edit 중간 결과
 
 PRICE59768의 B1–B15를 CPU 검산하여 게시했다. 15 commits/14 own-state joins/75 history appends, 누적 R1500/P3000/N15000 관측 완료. W15 RS **99.867% (1498/1500)**, PS **91.467% (2744/3000)**, NS **85.667% (12850/15000)**.

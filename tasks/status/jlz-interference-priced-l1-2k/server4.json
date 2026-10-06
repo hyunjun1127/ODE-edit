@@ -3,7 +3,7 @@
   "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
   "task_id": "jlz-interference-priced-l1-2k",
   "owner": "SH4",
-  "phase": "W15_INTERMEDIATE_CPU_VERIFIED_RUNNING_AT_SNAPSHOT",
+  "phase": "PRICE_W20_COMPLETE_CPU_REVIEW_PUBLISHED",
   "source": "0415aba3c160170d306be8196792f198dad4d122",
   "config_sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f",
   "jobs": {
@@ -47,8 +47,8 @@
       "reason": "Dependency"
     }
   },
-  "actual_repaired_B1": "VERIFIED_WITH_B1_TO_B15_COMMITTED_PREFIX",
-  "W20": "NOT_REVIEWED_NOT_CLAIMED",
+  "actual_repaired_B1": "VERIFIED_WITH_B1_TO_B20_COMMITTED_PREFIX",
+  "W20": "CPU_RAW_VERIFIED_COMPLETE",
   "monitoring_active": false,
   "automatic_resume": false,
   "automatic_retry": false,
@@ -95,5 +95,64 @@
       }
     },
     "monitoring_active": false
+  },
+  "completed_review": {
+    "scope": "PRICE_ALL_20_BATCHES",
+    "source": "0415aba3c160170d306be8196792f198dad4d122",
+    "edits": 2000,
+    "commits": 20,
+    "joins": 19,
+    "history_appends": 100,
+    "counts": {
+      "R": [
+        1998,
+        2000
+      ],
+      "P": [
+        3651,
+        4000
+      ],
+      "N": [
+        17023,
+        20000
+      ]
+    },
+    "harmonic_mean_percent": 91.70183118842141,
+    "baselines": "OWN_W20_HISTORICAL_REFERENCE_NO_NEW_FIT_NO_CROSS_RUN_PAIRED",
+    "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/w20/report-ko.md",
+    "comparison_csv": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/w20/comparison-W20.csv",
+    "accounting": {
+      "status": "ONE_BOUNDED_EXACT_PARENT_QUERY",
+      "parents": [
+        {
+          "job": 59768,
+          "owner": "janghj",
+          "role": "PRICE",
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "elapsed_seconds": 18471,
+          "GPUs": 1,
+          "allocated_GPU_seconds": 18471,
+          "TotalCPU": "10:47:44"
+        },
+        {
+          "job": 59769,
+          "owner": "janghj",
+          "role": "collector",
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "elapsed_seconds": 17,
+          "GPUs": 0,
+          "allocated_GPU_seconds": 0,
+          "TotalCPU": "00:17.231"
+        }
+      ],
+      "steps_excluded": true,
+      "pending_not_counted": true,
+      "monitoring_active": false
+    },
+    "new_model_forward": 0,
+    "exact_resume": "NOT_AVAILABLE",
+    "checkpoint_saved": false
   }
 }
