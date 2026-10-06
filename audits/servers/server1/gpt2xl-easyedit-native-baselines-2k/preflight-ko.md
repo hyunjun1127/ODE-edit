@@ -2,7 +2,7 @@
 
 권한 nonce는 `USER-GH-SH1-GPT2XL-EASYEDIT-BASELINES-2K-20261007-R1`입니다. 실제 server1/devbox/SH1 session 및 dedicated non-main WT를 `check-session-boundary.sh`로 확인했습니다. root dirty와 과거 registry29e4는 유지하며 공유 identity/config를 변경하지 않았습니다.
 
-최종 CPU gate: **65 tests PASS**, CUDA 미초기화, model load0, 실제 native apply0, 신규 online smoke0입니다. local 봉인 receipt는 `/mnt/raid5/janghj/ODE-edit/local/gpt2xl-native-baselines/20261007-v1/preflight-final-v1/cpu-preflight.json`이며 source/실제 helper 파일 SHA를 포함합니다. 초기 test fixture의 일부 H층 누락과 준비 전 존재하지 않는 disk parent 경로는 CPU 단계에서 확인·수정했고 GPU 계산은 수행하지 않았습니다.
+최종 CPU gate: 65개 실행/실패0/오류0/skip2, 즉 63개 실제 통과입니다. CUDA 미초기화, model load0, 실제 native apply0, 신규 online smoke0입니다. local 봉인 receipt는 `/mnt/raid5/janghj/ODE-edit/local/gpt2xl-native-baselines/20261007-v1/preflight-final-v1/cpu-preflight.json`이며 source/실제 helper 파일 SHA를 포함합니다. 초기 test fixture의 일부 H층 누락과 준비 전 존재하지 않는 disk parent 경로는 CPU 단계에서 확인·수정했고 GPU 계산은 수행하지 않았습니다.
 
 독립 작업자 `gpt2_runtime_preflight`는 native17 source 직접 import/실제 YAML parser·요청 문자열·원 apply 위임·Alpha 첫 reset/5층 history·관측 counter/콜백 격리를 구현·검산했습니다. `gpt2_submission_preflight`는 독립 저장-row reducer와 16개 관측/계수/accounting fixture를 구현했습니다. 후자는 owner 작성 prepare/run/submit을 읽기전용 검토하여 추가 source blocker를 발견하지 않았습니다. 실제 PRE→native apply→POST, MEMIT 무H/Alpha native history, RAM rollback/noCP, release 직전 fresh DAG cap 재검사와 봉인 bytes 재검증을 확인했습니다.
 
