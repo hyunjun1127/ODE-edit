@@ -3,54 +3,58 @@
   "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
   "task_id": "jlz-interference-priced-l1-2k",
   "owner": "SH4",
-  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "phase": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "phase": "PRICE_REPAIR_SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "source": "0415aba3c160170d306be8196792f198dad4d122",
+  "config_sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f",
   "jobs": {
-    "FLAT": "59722",
-    "PRICE": "59721",
-    "REVERSE": "59723",
-    "collector": "59724"
+    "PRICE": "59768",
+    "collector": "59769"
   },
-  "execution_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
-  "config_sha256": "ad6ca0f4987ecfd400c4b637682ba2dc1a8a2626f22de8594b8d7cadb1b7511d",
-  "lock": {
-    "bytes": 85532,
-    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/execution.lock.json",
-    "sha256": "c66173da14839e078660a51166fa2169d8d5220f403d72192f1289411bb49f7a"
-  },
-  "held": {
-    "bytes": 16354,
-    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/held-inspection.json",
-    "sha256": "1df57948a26dfc90f7fc0ce919081d9dc7cb34e74612b610133e1d0aeffc6fe5"
-  },
-  "bounded_initial_snapshot": {
-    "PRICE": {
-      "job": 59721,
-      "state": "PENDING",
-      "reason": "ReqNodeNotAvail, May be reserved for other job"
-    },
+  "original_controls": {
     "FLAT": {
       "job": 59722,
-      "state": "PENDING",
-      "reason": "Dependency"
+      "state": "USER_CANCELLED"
     },
     "REVERSE": {
       "job": 59723,
+      "state": "USER_CANCELLED"
+    }
+  },
+  "original_collector_59724": "PRESERVED_NO_MUTATION",
+  "W0_reuse": {
+    "status": "QUALIFIED_EXACT_REUSE",
+    "prior_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+    "prior_job": 59721,
+    "source_folder": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/W0",
+    "observation_fingerprint": "27a72593c960ae706fdad6591b28120c157cb243ff169ef856bbe01bfbc4ec0c",
+    "chunk_count": 40,
+    "row_count": 26000,
+    "original_evaluation_seconds": 930.8451385572553,
+    "new_evaluation_seconds": 0,
+    "new_forwards": 0,
+    "raw_reference_only": true,
+    "raw_copy": false
+  },
+  "bounded_initial_snapshot": {
+    "PRICE": {
+      "job": 59768,
       "state": "PENDING",
-      "reason": "Dependency"
+      "reason": "Resources"
     },
     "collector": {
-      "job": 59724,
+      "job": 59769,
       "state": "PENDING",
       "reason": "Dependency"
     }
   },
-  "actual_B1": "NOT_OBSERVED",
+  "actual_repaired_B1": "NOT_OBSERVED",
   "W20": "NOT_OBSERVED",
   "monitoring_active": false,
   "automatic_resume": false,
   "automatic_retry": false,
-  "sealed_DAG_continues": true,
-  "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED",
-  "compact_receipt": "SHA/size/path projection; exact currentstat nanoseconds/inodes retained in ignored original local receipts, not JSON-number transport"
+  "execution_arms": [
+    "PRICE"
+  ],
+  "controls_resubmit": false,
+  "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/report-ko.md"
 }

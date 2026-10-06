@@ -1,0 +1,16 @@
+{
+  "task_id": "jlz-interference-priced-l1-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "generic_access_helper": "NOT_PASS",
+  "helper_exit_code": 7,
+  "exact_rejected_path": "runs/jlz-interference-priced-l1-2k/repair-59721.json",
+  "authorization": "Parent envelope allowed_write_paths explicitly permits runs/jlz-interference-priced-l1-2k/** and nonforce ownbranch/main publication. Current USER requests repair of 59721, reuse of existing W0, cancellation of FLAT/REVERSE and PRICE priority.",
+  "authority_envelope_sha256": "46df476b8ce00f9645b09ab39fadf6489fd90f7fbb186078875555eee5659bfb",
+  "decision": "Use exact task-specific authorization; generic helper result remains NOT_PASS",
+  "shared_helper_or_policy_modified": false,
+  "scope_expansion": false,
+  "artifact_contents": "Compact repair job IDs, argv, source/config/lock/held hashes and W0 reuse provenance; no raw metric rows, tensors, model, prompts, full stdout or secrets",
+  "execution_source": "0415aba3c160170d306be8196792f198dad4d122",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

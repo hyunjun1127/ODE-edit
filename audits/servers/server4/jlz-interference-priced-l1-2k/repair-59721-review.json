@@ -12,9 +12,10 @@
       "Preserved PRICE59721 first-error scalar operands",
       "Original frozen projector versus minimal repaired projector diff",
       "Actual failure regression script and its executed receipt",
-      "PRICE-only repair registration/source-freeze/resource boundary"
+      "PRICE-only repair registration/source-freeze/resource boundary",
+      "Reference-only complete W0 reuse, exact raw/source/native/runtime/cold-state gates and PRICE-only collector diff"
     ],
-    "W0_reuse": "Not yet reviewed in this component receipt. New W0 reference implementation/source identity and raw reducer gate require the separate narrow follow-up review before use.",
+    "W0_reuse": "Narrow source/fresh configuration/owner-executed immutable-row reducer receipt reviewed. Reference-only reuse is qualified at CPU metadata/raw level; actual new model/runtime/cold-state equivalence is additionally required inside the runner before use.",
     "production_edits_by_reviewer": 0,
     "new_scalar_or_numerical_runs_by_reviewer": 0,
     "new_toy_tests": 0,
@@ -52,11 +53,11 @@
     },
     "repair_launcher": {
       "path": "project/run_scripts/jlz_interference_l1/repair_submit.py",
-      "sha256": "8c4f64875fbafd43e5ab4d2838ef7ef8e8a78ffcd48871b2321c296fb21149d4"
+      "sha256": "549df935d660d81777600602a0c3e253662dfaba4e3cf3563d214aaa78a084a8"
     },
     "optional_role_source_freezer": {
       "path": "project/run_scripts/jlz_interference_l1/submit.py",
-      "sha256": "1018b123a5101c5b13c1542e98a071f06ea13d2a7ef88fdcd0db3d58c5b1e8d5"
+      "sha256": "490da304d15f164c6b325ab59aba6e4818fc80e5cfa903314b89a79e5427327d"
     }
   },
   "cause": {
@@ -116,25 +117,72 @@
   "launcher_review": {
     "reviewed_source_result": "No confirmed blocker in the pinned PRICE-only repair source",
     "original_identity": "evidence() requires exact failed attempt/source/config/jobs, parent FAILED accounting, no successful PRICE commit and verified zero-prefix rollback before registering the repair.",
-    "original_jobs_preserved": {
+    "original_job_ids_provenance": {
       "PRICE": 59721,
       "FLAT": 59722,
       "REVERSE": 59723,
       "collector": 59724
     },
-    "registration": "Only one fresh cold PRICE GPU job and its CPU afterany collector are registered. No original controls/collector cancellation, hold, release, rerun or mutation is present.",
+    "registration": "Source registers only one fresh cold PRICE GPU job and its CPU afterany collector. This repair launcher contains no original controls/collector cancellation, hold, release, rerun or mutation. Latest explicit USER cancellation of FLAT/REVERSE was separately performed by the owner; source/raw remain KEEP and original collector is preserved.",
     "freeze_roles": "Optional roles=('PRICE','collector') has a closed allowlist; default original ROLES and original flow remain unchanged.",
     "admission": "Fresh owned admitted resource inventory and original-control exact ID/Command checks feed afterany resource barriers; cap uses min(tracked,local,3) and original task ceiling2. At most one new GPU is added and a prerelease race keeps jobs held.",
     "fixed_resources": "GPU1, default59392MiB, hard60416MiB, CPU1..8, collectorCPU1..8/24576MiB, main48h and collector4h, server4/gpu, inherited exportNONE/Requeue0/fullargv held inspector.",
     "minimal_guard_suggestion": "collector CPU and both fixed wall fields were missing from the initial repair resource predicate; owner added them, and the current pinned source was directly checked.",
     "scheduler_test_only_and_held_inspection": "Source present; NOT_EXECUTED_OR_OBSERVED_BY_REVIEWER",
-    "no_recurring_monitor_or_automatic_retry": true
+    "no_recurring_monitor_or_automatic_retry": true,
+    "latest_user_control_cancellation": {
+      "scope": "Separate latest USER instruction, not an automatic consequence of projection repair",
+      "jobs": [59722, 59723],
+      "status": "CANCELLED_AND_ALLOCATION_RELEASED_OWNER_REPORTED",
+      "reviewer_scheduler_queries": 0,
+      "receipt": "audits/servers/server4/jlz-interference-priced-l1-2k/user-cancel-controls.json",
+      "receipt_sha256": "cd5926a4adec8bb390f5c541b113237d86466ef03fdbac2725974c843f3e22dd",
+      "original_collector": "KEEP 59724",
+      "original_source_raw_config": "KEEP"
+    }
+  },
+  "W0_reference_only_review": {
+    "result": "No confirmed remaining source blocker in the bounded reviewed reuse route",
+    "files_sha256": {
+      "project/run_scripts/jlz_interference_l1/w0_reuse.py": "8beb01d9acbc1499f182d6ca8c830e4e4043d55e77cc2e1923c2cee197ecd2df",
+      "project/run_scripts/jlz_interference_l1/__init__.py": "3630c181b8a37e810da8cd8802cdbf5687d9c8e1930d20bf1363ab6c62637798",
+      "project/run_scripts/jlz_interference_l1/run.py": "c034c86a39d1399d8de4ddbf06939fed9cfa2a3ca60d7c4f5b6966af10694d3f",
+      "project/run_scripts/jlz_interference_l1/collect.py": "ef0cab5b1407a855304cd9ee0afa100d9f5d19fcfc729e30764347bbc1fdb7a9"
+    },
+    "prepared_config": {
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-preparation/configuration.json",
+      "sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f",
+      "execution_arms": ["PRICE"],
+      "resources": "GPU1/CPU8/59392MiB hard60416MiB/main48h; collector GPU0/CPU8/24576MiB/4h",
+      "config_W0_reuse_equals_fresh_manifest": true
+    },
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-preparation/w0-reuse.json",
+      "sha256": "ad41a7ac493df97cb0f66430a765e0710290af9cb6a6edbb39c27da465386ebf",
+      "status": "QUALIFIED_EXACT_REUSE",
+      "prior_job": 59721,
+      "prior_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+      "chunks": 40,
+      "rows": 26000,
+      "denominators": {"R": 2000, "P": 4000, "N": 20000},
+      "closure_members": 155,
+      "raw_and_closure_members": 239,
+      "new_forwards": 0,
+      "raw_reference_only": true
+    },
+    "source_equivalence": "Complete HEAD equality is deliberately not claimed. Inherited executable/native/scoring/runtime bytes, exact input/model/context/profile identities and unchanged setup/observer/rng AST are bound. Projection repair and retry-only orchestration are outside pre-edit W0 calculation scope; all changed source paths were read, not treated as an inherited GPU PASS.",
+    "raw_evidence": "Owner-executed seal re-reduces original immutable raw rows and verifies exact 40-chunk allowlist/member SHA, first2000 order/case/prompt/target/token identities, finite strict reducer, both margin conventions, active versions, cold-state/summary and R2000/P4000/N20000. Reviewer read the resulting manifest/source/config and did not duplicate the full raw reduction.",
+    "runner_gate": "Before installing only local reuse metadata/summary, require fresh actual cold W/H hashes and same device/torch/transformers/model/FP32/FP64/eager/TF32/autocast/CPU8 runtime; verify W/H/RNG/hooks/context nonmutation. No old fit/optimizer/history state is reused.",
+    "storage": "Original chunks stay at original paths, checked by SHA and exact allowlist; no raw copy/hardlink/symlink/checkpoint or new model forward. Fresh huge assets use prior full SHA plus current size/inode/mtime as explicitly recorded.",
+    "collector": "Reused W0 is the only permitted reference endpoint. Rows are still re-reduced and bound to same cold state/token sets. New evaluation seconds/forwards are zero and original observation time is provenance. PRICE-only expected commits20/joins19/H100, excluded controls NOT_REQUESTED, no cross-arm paired claims and no missing-as-zero.",
+    "actual_new_runtime_gate_observed": false,
+    "new_GPU_or_model_checks_by_reviewer": 0
   },
   "warnings": [
     "The source verdict and one real scalar regression are not actual native model/GPU parity, price/LOO quality evidence or completed repaired B1/W20.",
     "Original FP32 direction vectors and optimizer history cannot be reconstructed from scalar error evidence under noCP.",
-    "W0 reuse is a new USER-authorized reference-only optimization, not implied by the projection repair. Source/operator/cold-state/raw identity must be separately qualified; complete HEAD equality cannot be assumed after the repair.",
+    "W0 reuse is a separately USER-authorized observation reuse, not production GPU qualification. Source/raw/config qualification is reviewed, but actual new runtime/device/cold-state gates remain unobserved until the runner executes them. Complete HEAD equality is not claimed; raw verification CPU overhead is not a new model evaluation.",
     "Fresh scheduler acceptance, actual allocated resources and shared-filesystem/quota headroom remain owner preflight responsibilities; this reviewer did not query or mutate them."
   ],
-  "next_boundary": "Parent owns immutable new source/config, W0 reuse qualification, exact PRICE-only registration and bounded resource-pending handoff. Original archived source/raw/config/controls remain KEEP. No new monitoring or automatic retries are authorized by this audit."
+  "next_boundary": "Parent owns immutable new source/config and exact PRICE-only registration/bounded resource-pending handoff. W0 reuse retains runtime hard gates. Original archives/source/raw/config remain KEEP; FLAT/REVERSE were separately USER-cancelled and original collector stays KEEP. No new monitoring or automatic retries are authorized by this audit."
 }

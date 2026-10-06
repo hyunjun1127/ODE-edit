@@ -1,0 +1,173 @@
+{
+  "W20": "NOT_OBSERVED",
+  "actual_repaired_B1": "NOT_OBSERVED",
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "bounded_initial_snapshot": {
+    "PRICE": {
+      "job": 59768,
+      "state": "PENDING",
+      "reason": "Resources"
+    },
+    "collector": {
+      "job": 59769,
+      "state": "PENDING",
+      "reason": "Dependency"
+    }
+  },
+  "execution_arms": [
+    "PRICE"
+  ],
+  "failure_provenance": {
+    "checkpoint_resume": false,
+    "failure": {
+      "bytes": 3137,
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/first-error.json",
+      "sha256": "78c8d388155e86febb7d1602aecbe652a99ec0f4a73747ea06049edf6dc005b5"
+    },
+    "original_archive_KEEP": true,
+    "original_jobs": {
+      "FLAT": "59722",
+      "PRICE": "59721",
+      "REVERSE": "59723",
+      "collector": "59724"
+    },
+    "original_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+    "parent_accounting": [
+      "59721",
+      "janghj",
+      "jlz-interference-priced-l1-2k-PRICE",
+      "FAILED",
+      "1:0",
+      "1250",
+      "billing=1,cpu=8,gres/gpu=1,mem=58G,node=1"
+    ],
+    "rollback": {
+      "bytes": 116,
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/batch-01/rollback.json",
+      "sha256": "5671a7bf93f067cd01b9e385e070facb86fde3bfbe4ec161c02667465b216f58"
+    },
+    "terminal": {
+      "bytes": 314,
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/terminal.json",
+      "sha256": "869a3c15800014d111d98de43723c0a3375b10b2340b4b141f9c02bbe6db8eb1"
+    }
+  },
+  "held": {
+    "bytes": 11094,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/held-inspection.json",
+    "sha256": "5a231b35343abe2190ec5e3311279f379813aae4ee99d0de4f76d71621867e05"
+  },
+  "jobs": {
+    "PRICE": "59768",
+    "collector": "59769"
+  },
+  "lock": {
+    "bytes": 87213,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/execution.lock.json",
+    "sha256": "78f4095399905ceb73864507ebee4a00a34b0457507ee67b5dc896013a20e385"
+  },
+  "mapping": {
+    "PRICE": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-PRICE",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/source",
+        "--mem=59392M",
+        "--time=2-00:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/PRICE-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/PRICE-%j.err",
+        "--gres=gpu:1",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/PRICE.sh"
+      ],
+      "dependency": null,
+      "job": "59768"
+    },
+    "collector": {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s4",
+        "--nodelist=server4",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=8",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=jlz-interference-priced-l1-2k-collector",
+        "--chdir=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/source",
+        "--mem=24576M",
+        "--time=04:00:00",
+        "--output=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/collector-%j.out",
+        "--error=/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/collector-%j.err",
+        "--dependency=afterany:59768",
+        "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/collector.sh"
+      ],
+      "dependency": "afterany:59768",
+      "job": "59769"
+    }
+  },
+  "monitoring_active": false,
+  "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "original_job_mutations_by_this_launcher": 0,
+  "original_job_provenance": {
+    "FLAT": "59722",
+    "PRICE": "59721",
+    "REVERSE": "59723",
+    "collector": "59724"
+  },
+  "repair_of": 59721,
+  "source": "0415aba3c160170d306be8196792f198dad4d122",
+  "status": "RELEASED",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "user_control_cancellation": {
+    "bytes": 1209,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/audits/servers/server4/jlz-interference-priced-l1-2k/user-cancel-controls.json",
+    "sha256": "cd5926a4adec8bb390f5c541b113237d86466ef03fdbac2725974c843f3e22dd"
+  },
+  "W0_reuse": {
+    "status": "QUALIFIED_EXACT_REUSE",
+    "prior_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+    "prior_job": 59721,
+    "source_folder": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/W0",
+    "observation_fingerprint": "27a72593c960ae706fdad6591b28120c157cb243ff169ef856bbe01bfbc4ec0c",
+    "chunk_count": 40,
+    "row_count": 26000,
+    "original_evaluation_seconds": 930.8451385572553,
+    "new_evaluation_seconds": 0,
+    "new_forwards": 0,
+    "raw_reference_only": true,
+    "raw_copy": false
+  },
+  "configuration_sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f",
+  "all_held_inspected_before_release": true,
+  "project_cap": 3,
+  "resource_barriers": [],
+  "original_controls": {
+    "FLAT": {
+      "job": 59722,
+      "state": "USER_CANCELLED"
+    },
+    "REVERSE": {
+      "job": 59723,
+      "state": "USER_CANCELLED"
+    }
+  },
+  "compact_original_submission": {
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721/submission.json",
+    "sha256": "ab2d87380fd3a0c23b6ddc31056c81e3084ffdfad17082ec2fd34d773bf0c166",
+    "bytes": 173041
+  }
+}
