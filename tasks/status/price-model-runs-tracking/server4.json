@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "task_id": "price-model-runs-tracking",
+  "stage": "OWNER_ACCEPTED_IMPLEMENTING",
+  "protected_jobs": ["60001"],
+  "historical_candidate_pending_jobs": ["60002", "60003", "60011", "60012", "60013", "60007", "60017"],
+  "new_job_ids": [],
+  "scope": "Llama six cells including retained60001; GPTJ six not yet submitted; Qwen stays stopped",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}

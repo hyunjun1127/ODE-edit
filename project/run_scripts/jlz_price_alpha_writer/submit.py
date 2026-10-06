@@ -23,7 +23,8 @@ SOURCES=['project/run_scripts/jlz_price_alpha_writer','plans/global/jlz-price-al
     'plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv',
     'messages/head/2026-10-06-jlz-interference-l1-sh4.json',
     'messages/head/2026-10-06-price-cap-base-repair-2k-sh4.json','project/proposals/jlz-price-cap-budget-review',
-    'project/run_scripts/experiment_tracking','control/wandb-policy.json']
+    'project/run_scripts/experiment_tracking','control/wandb-policy.json',
+    'control/wandb-method-metric-schema.json','messages/head/2026-10-07-price-model-runs-tracking.json']
 ROLES=(*CELLS,'collector')
 def resource_order(parallel):
     if parallel==1:return {r:([] if i==0 else [CELLS[i-1]]) for i,r in enumerate(CELLS)} | {'collector':list(CELLS)}
@@ -83,7 +84,12 @@ def freeze(configpath, attempt, roles=ROLES):
         rel = Path(row['path']).relative_to(ROOT)
         require(sha(source / rel) == row['sha256'], 'TESTED_ARCHIVE_CLOSURE')
     write(attempt / 'config.json', c)
-    require(tuple(roles)==ROLES,'AUTHORIZED_SIX_CELLS')
+    selected=tuple(c.get('selected_cells',CELLS))
+    require(selected and len(set(selected))==len(selected) and set(selected)<=set(CELLS),'AUTHORIZED_CELLS')
+    require(tuple(roles)==(*selected,'collector'),'AUTHORIZED_SELECTED_ROLES')
+    if selected!=CELLS:
+        require(c.get('execution_authority')=='USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007'
+            and all(x.startswith('LLAMA_') for x in selected),'AUTHORIZED_PENDING_REPLACEMENT')
     for role in roles:
         script = attempt / (role + '.sh')
         script.write_text(launcher(source, commit, role, attempt,c['resources']['collector_cpu'] if role=='collector' else c['resources']['cpu'])); script.chmod(0o755)
@@ -96,7 +102,8 @@ def freeze(configpath, attempt, roles=ROLES):
         owner=getpass.getuser(), host='server4', session=SESSION, resources=c['resources'],
         noCP=True, exact_resume='NOT_AVAILABLE', run_instance=c['run_instance'],
         profiles_sha256=__import__('project.run_scripts.jlz_interference_l1',fromlist=['digest']).digest({m:c['models'][m]['profiles'] for m in c['models']}),
-        flow='Two model lanes, each CAP075 -> afterany CAP100 -> afterany FREE100; CPU afterany exact6; task/user cap2'))
+        selected_cells=list(selected),execution_authority=c.get('execution_authority',NONCE),
+        flow=c.get('resource_flow','Two model lanes, each CAP075 -> afterany CAP100 -> afterany FREE100; CPU afterany exact6; task/user cap2')))
     return verify_frozen(attempt)
 
 

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "task": "price-model-runs-tracking",
+  "authority": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
+  "protected_job": "60001",
+  "protected_job_mutations": 0,
+  "phase": "CPU_SOURCE_CHECKED_NOT_SUBMITTED",
+  "local_receipts": {
+    "logger": "/data/janghj/ODE-edit/local/price-model-runs-tracking/20261007/logger-cpu.json",
+    "source": "/data/janghj/ODE-edit/local/price-model-runs-tracking/20261007/source-cpu.json",
+    "GPTJ_static": "/data/janghj/ODE-edit/local/price-model-runs-tracking/20261007/gptj-final-static.json",
+    "pending_bound_hold": "/data/janghj/ODE-edit/local/price-model-runs-tracking/20261007/hold-complete.json"
+  },
+  "CPU_logger": "stored B4/B5/W0 raw re-reduction and fake-SDK helper axes/identity/privacy PASS; no network upload",
+  "current_RPN": [100, 200, 1000],
+  "B5_all_seen_RPN": [500, 1000, 5000],
+  "W0_first2000_RPN": [2000, 4000, 20000],
+  "review_provenance": {
+    "owner": "SH4 source/static/config review",
+    "llama_logging": "delegated worker logger assembly and stored-raw CPU checks",
+    "subset_collectors": "delegated worker selected/retained source binding and CPU reducer checks",
+    "submit_paths": "separate read-only explorer narrow cancellation/DAG/closure review; no general independent science audit claimed",
+    "review_findings": "Common logger receipt is not a static passed receipt and contains out-of-archive GPTJ paths; resolved with separate source-cpu receipt whose source members are included in both archives"
+  },
+  "resource_plan": "Llama one serial resource lane plus GPTJ at most two lanes, combined min(user3, local3, tracked3); fresh admission required at release",
+  "pending_hold_order": [60017, 60007, 60013, 60012, 60011, 60003, 60002],
+  "science_changes": false,
+  "new_model_load": 0,
+  "new_forward_or_fit_for_logging": 0,
+  "new_science_GPU_qualification": "NOT_OBSERVED",
+  "Qwen": "STOP unchanged; no new Qwen jobs",
+  "noCP": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: compact source/receipts Git only, original raw and credential/spool local KEEP",
+  "root_dirty_preserved": true
+}

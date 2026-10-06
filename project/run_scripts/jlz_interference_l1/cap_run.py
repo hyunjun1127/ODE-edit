@@ -191,6 +191,9 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
             and digest(bench.contexts)==context,'W0_REUSE_NONMUTATION')
     else:
         observer(a,bench,records,records,H,'W0',out/'W0',c,identities,[r['case_id'] for r in records])
+    from .cap_tracking import w0_rows,log_w0,log_batch
+    w0_raw,w0_summary=w0_rows(out,identities,[r['case_id'] for r in records],previous,row_reader=rows_from)
+    log_w0(a.tracker,w0_summary)
     for number,current,seen in batches(records):
         shared_source_guard(attempt)
         require(number<=20,'NO_B21');folder=out/f'batch-{number:02d}';folder.mkdir(exist_ok=False)
@@ -246,8 +249,7 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
                 try:write(folder/'commit.json',receipt)
                 except BaseException:tx.done=False;raise
             commits.append(receipt);previous=after;previous_rng=after_rng
-            from .cap_tracking import log_endpoint
-            log_endpoint(a.tracker,post['summary'],number,len(seen))
+            log_batch(a.tracker,receipt,w0_raw,pack['record_ids'],[r['case_id'] for r in seen])
             print(json.dumps(dict(event='BATCH_COMMIT',arm=arm,batch=number,requests=len(seen))),flush=True)
         except BaseException as error:
             try:

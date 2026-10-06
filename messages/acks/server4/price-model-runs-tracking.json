@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER4",
+  "protected_job_nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-KEEP60001",
+  "task_id": "price-model-runs-tracking",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "cwd": "/data/janghj/ODE-edit",
+  "worktree": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree",
+  "branch": "codex/server4-price-gptj-2k",
+  "stage": "OWNER_ACCEPTED_IMPLEMENTING",
+  "accepted_turn": "current authorized submission turn; direct commentary ACK delivered",
+  "duplicate_check": "GPTJ not registered; existing Llama jobs explicitly reconciled, not duplicated",
+  "protected_job": "60001 KEEP: no cancel/hold/requeue/hotpatch/restart/duplicate",
+  "new_job_ids": [],
+  "GPU_qualification": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_retry": false
+}

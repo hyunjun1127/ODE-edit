@@ -424,17 +424,56 @@ def mechanism_summary(events,price,realization,profile):
         current_beta=stats(last['controller']['beta']),stage_counts={str(s):last['controller']['expansion'].count(s) for s in range(5)},
         own_updates=stats(last['controller']['update_counts']),weighted_spend=stats(last['telemetry']['weighted_spend']),
         spend_slack=stats(last['telemetry']['spend_slack']),exact_support=stats(last['telemetry']['exact_support']),
-        native_F=stats(last['F']),rewrite_NLL=stats(last['nll']),weighted_KL=stats([.0625*x for x in last['KL']]),
+        native_F=stats(last['F']),rewrite_NLL=stats([sum(row)/len(row) for row in last['nll']]),weighted_KL=stats([.0625*x for x in last['KL']]),
         tiny_report_only=True,normalization_never_prunes=True,layers=layers)
+
+def requested_cells(c):
+    """Subset registration is explicit; absent cells are not failed runs."""
+    selected=c.get('selected_cells',CELLS);retained=c.get('retained_cells',{})
+    require(isinstance(selected,(list,tuple)) and len(selected)==len(set(selected))
+        and all(cell in CELLS for cell in selected),'SELECTED_CELL_SCOPE')
+    require(isinstance(retained,dict) and all(cell in CELLS for cell in retained)
+        and not set(selected).intersection(retained),'RETAINED_CELL_SCOPE')
+    coverage=list(selected)+list(retained)
+    require(bool(coverage),'EMPTY_CELL_COVERAGE')
+    return list(selected),retained,coverage
+
+def retained_binding(reader,cell,record,records,c):
+    """Read a kept run under its original config/lock, never the new config."""
+    require(isinstance(record,dict),'RETAINED_BINDING_METADATA')
+    attempt=Path(record['attempt']);config_path=Path(record['config_path'])
+    lock_path=Path(record.get('lock_path',attempt/'execution.lock.json'))
+    require(attempt.is_absolute() and config_path==attempt/'config.json'
+        and lock_path==attempt/'execution.lock.json','RETAINED_EXACT_ATTEMPT_PATHS')
+    original=reader.json(config_path);lock=reader.json(lock_path)
+    config_sha=reader.files[str(config_path)]['sha256'];lock_sha=reader.files[str(lock_path)]['sha256']
+    require(original['task_id']==lock['task_id']==TASK and original['instruction_id']==lock['instruction_id']==NONCE
+        and config_sha==lock['config_sha256'],'RETAINED_ORIGINAL_SOURCE_CONFIG')
+    require(config_sha==record['config_sha256'] and lock_sha==record['lock_sha256']
+        and lock['source_commit']==record['execution_source'],'RETAINED_IMMUTABLE_BINDING')
+    job=str(record['job_id']);require(job.isdigit() and int(job)>0,'RETAINED_EXACT_JOB_ID')
+    require(original['stream']==c['stream'] and digest([r['case_id'] for r in records])==ORDERED_SHA,
+        'RETAINED_SAME_ORDERED_COHORT')
+    cc=cell_config(original,cell);identities=reader.json(verify(cc['observer_identity']))['rows']
+    require(cc['packs']==c['models'][cell.split('_',1)[0]]['packs'],'RETAINED_SAME_NATIVE_PACKS')
+    binding=dict(origin='RETAINED_UNCHANGED_EXECUTION',attempt=str(attempt),config_path=str(config_path),
+        config_sha256=config_sha,lock_path=str(lock_path),lock_sha256=lock_sha,
+        execution_source=lock['source_commit'],job_id=job,no_job_mutation=True,no_duplicate_run=True)
+    return attempt,cc,lock,identities,binding
 
 def accounting_snapshot(attempt):
     receipt=attempt/'submission.json'
     if not receipt.exists():return dict(status='NOT_AVAILABLE',reason='NO_EXACT_LOCAL_SUBMISSION')
-    data=json.loads(receipt.read_text());ids=[str(v) for v in data['jobs'].values()]
+    data=json.loads(receipt.read_text());jobs=dict(data['jobs']);retained=data.get('retained_jobs',{})
+    require(isinstance(retained,dict) and not set(jobs).intersection(retained),'ACCOUNTING_RETAINED_ROLES')
+    for role,item in retained.items():
+        jobs[role]=item['job_id'] if isinstance(item,dict) else item
+    ids=[str(v) for v in jobs.values()]
+    require(len(ids)==len(set(ids)),'ACCOUNTING_NO_DUPLICATE_PARENT')
     require(all(x.isdigit() for x in ids),'EXACT_JOB_IDS')
     response=subprocess.run(['sacct','-n','-P','-j',','.join(ids),
         '--format=JobIDRaw,User,JobName%120,State,ElapsedRaw,AllocTRES,TotalCPU,ExitCode'],check=True,capture_output=True,text=True,timeout=30)
-    roles={str(job):role for role,job in data['jobs'].items()}
+    roles={str(job):role for role,job in jobs.items()}
     parents=[]
     for line in response.stdout.splitlines():
         v=line.split('|')
@@ -442,7 +481,8 @@ def accounting_snapshot(attempt):
         require(v[1]==pwd.getpwuid(os.getuid()).pw_name and v[2]==TASK+'-'+roles[v[0]],'EXACT_PARENT_OWNER_NAME')
         tres=dict(x.split('=',1) for x in v[5].split(',') if '=' in x);gpu=int(tres.get('gres/gpu',0));elapsed=int(v[4] or 0)
         require(gpu==0 if roles[v[0]]=='collector' else gpu in (0,1),'EXACT_PARENT_ALLOCATED_GPU')
-        parents.append(dict(job=int(v[0]),role=roles[v[0]],state=v[3],elapsed_seconds=elapsed,GPUs=gpu,allocated_GPU_seconds=gpu*elapsed,TotalCPU=v[6],exit=v[7]))
+        parents.append(dict(job=int(v[0]),role=roles[v[0]],origin='RETAINED_UNCHANGED_EXECUTION' if roles[v[0]] in retained else 'NEW_REGISTRATION',
+            state=v[3],elapsed_seconds=elapsed,GPUs=gpu,allocated_GPU_seconds=gpu*elapsed,TotalCPU=v[6],exit=v[7]))
     observed={str(v['job']) for v in parents};missing=sorted(set(ids)-observed)
     return dict(status='ONE_BOUNDED_EXACT_PARENT_QUERY' if not missing else 'PARTIAL_ACCOUNTING_NOT_AVAILABLE',parents=parents,
         expected_job_ids=ids,observed_job_ids=sorted(observed),missing_job_ids=missing,cost_complete=not missing,
@@ -457,16 +497,21 @@ def _collect(attempt,out,accounting):
         and sha(attempt/'config.json')==lock['config_sha256'],'COLLECTOR_SOURCE_CONFIG_AUTHORITY')
     require(c['storage']==storage_plan(),'COLLECTOR_SEALED_STORAGE_BOUND')
     records=load_prefix(Path(c['stream']).parent,2000);require(digest([r['case_id'] for r in records])==ORDERED_SHA,'ORDERED_FIXED_COHORT')
-    arms={};prefix={};selected=CELLS
+    arms={};prefix={};selected,retained,coverage=requested_cells(c);source_by_arm={}
     for cell in selected:
         cc=cell_config(c,cell);identities=reader.json(verify(cc['observer_identity']))['rows']
         arms[cell],prefix[cell]=arm_review(reader,attempt,cc,lock,cell,records,identities)
+        source_by_arm[cell]=dict(origin='NEW_REGISTRATION',attempt=str(attempt),execution_source=lock['source_commit'],config_sha256=lock['config_sha256'])
+    for cell,record in retained.items():
+        original_attempt,cc,original_lock,identities,binding=retained_binding(reader,cell,record,records,c)
+        arms[cell],prefix[cell]=arm_review(reader,original_attempt,cc,original_lock,cell,records,identities)
+        source_by_arm[cell]=binding
     cross=[]
     for model in MODELS:
         ref=model+'_CAP075'
         for cell in (model+'_CAP100',model+'_FREE100'):
             for k in MILESTONES:
-                if k in prefix[ref] and k in prefix[cell]:
+                if k in prefix.get(ref,{}) and k in prefix.get(cell,{}):
                     cross.append(dict(reference=ref,arm=cell,endpoint=f'W{k}',cohort='ALL_SEEN',
                         paired=paired(prefix[ref][k],prefix[cell][k])))
                     fixed=set(r['case_id'] for r in records[:500])
@@ -474,12 +519,13 @@ def _collect(attempt,out,accounting):
                         paired=paired([r for r in prefix[ref][k] if r['case_id'] in fixed],
                                       [r for r in prefix[cell][k] if r['case_id'] in fixed])))
     complete=all(v['status']=='W20_COMPLETE' for v in arms.values());parents=accounting_snapshot(attempt) if accounting else dict(status='NOT_REQUESTED')
-    completion_status='SIX_CELLS_W20_COMPLETE'
+    completion_status='SIX_CELLS_W20_COMPLETE' if tuple(coverage)==CELLS else 'REQUESTED_CELLS_W20_COMPLETE'
     result=dict(task=TASK,status=completion_status if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',source=lock['source_commit'],config_sha256=lock['config_sha256'],
-        execution_arms=list(selected),excluded_arms=['FREE075','FLAT','REVERSE'],
+        execution_arms=coverage,new_execution_arms=selected,retained_execution_arms=list(retained),source_by_arm=source_by_arm,
+        not_requested_cells=[cell for cell in CELLS if cell not in coverage],excluded_arms=['FREE075','FLAT','REVERSE'],
         arms=arms,standalone_qualification=False,toy_runs=0,cross_arm_paired=cross,actual=dict(commits=sum(v['commits'] for v in arms.values()),
         history_appends=sum(v['actual']['history_appends'] for v in arms.values()),joins=sum(v['actual']['joins'] for v in arms.values())),
-        expected=dict(commits=20*len(selected),joins=19*len(selected),history_appends=100*len(selected)),accounting=parents,
+        expected=dict(commits=20*len(coverage),joins=19*len(coverage),history_appends=100*len(coverage)),accounting=parents,
         CPU_review='Independent immutable-row arithmetic/token identity/state linkage, no target-model replay',
         source_review='Static/import only; no toy or numerical qualification; actual B1 c0 and normal proposal assertions are in the trajectory',
         static_price_verification='Scalar raw-score/floor/normalization/permutation/beta/projector arithmetic; M hashes are identity evidence, not tensor replay',
@@ -498,9 +544,9 @@ def _collect(attempt,out,accounting):
     names=list(rows[0]) if rows else ['arm','endpoint','kind','numerator','denominator']
     w=csv.DictWriter(buffer,fieldnames=names);w.writeheader();w.writerows(rows)
     text_file(out/'comparison.csv',buffer.getvalue())
-    lines=['# PRICE cap/base repair — Llama/Qwen 6-cell 2k 사실 보고','',f'- 상태: {result["status"]}',f'- 실행 source: `{lock["source_commit"]}`',
+    lines=['# PRICE cap/base repair — 요청 cell 2k 사실 보고','',f'- 상태: {result["status"]}',f'- 신규 실행 source: `{lock["source_commit"]}`',
         f'- Commit {result["actual"]["commits"]}/{result["expected"]["commits"]}, own join {result["actual"]["joins"]}/{result["expected"]["joins"]}, H append {result["actual"]["history_appends"]}/{result["expected"]["history_appends"]}.',
-        '- 실제 요청 arm: '+', '.join(selected)+'. 각 요청 arm은 cold W0/H0에서 자기 2000 occurrence의 W/H trajectory를 따른다. 제외 arm은 NOT_REQUESTED이며 missing/실패로 집계하지 않는다.',
+        '- 실제 coverage arm: '+', '.join(coverage)+'. 신규 등록: '+', '.join(selected)+'; 원 실행 보존: '+(', '.join(retained) or '없음')+'. 보존 arm은 원 config/lock/source로 독립 검산하며 신규 source 실행으로 간주하지 않는다. 제외 cell은 NOT_REQUESTED다.',
         '- 별도 qualification/toy/small fit/full-builder-gradient 진단 0. 실제 B1 c0의 cached LOO 및 정상 proposal KKT/assertion을 trajectory 안에서 검산한다.',
         '- 계산가격·적용가격·정규화 anchor/local cap은 entry-price.json에 batch당1회, 후보는 authoritative events.jsonl에1회 저장한다. fit.json은 SHA/line count 참조만 저장한다.',
         '', '| Model/arm/endpoint | RS | PS | NS | Harmonic |', '|---|---:|---:|---:|---:|']
@@ -521,7 +567,7 @@ def _collect(attempt,out,accounting):
         '- Price proxy 또는 같은 budget/norm은 같은 semantic strength가 아니다. NS 개선과 R/P 획득 감소가 함께 있으면 tradeoff이며 단일 seed에서 보편적 우위를 주장하지 않는다.',
         f'- 부모 allocated GPU seconds(단일계상): {parents.get("allocated_GPU_seconds","NOT_AVAILABLE")}. Pending·jobsteps 중복 가산 없음.',
         '- Fit exclusive price/LOO/BUILD/subject/pullback/Adam/projection/scalar time과 inclusive fit/writer/batch time을 구분했다. Candidate I/O·실제 alltoken gap·observer/history 비용을 별도 보존한다.',
-        '- Serializer의 전체6cell 상한과 atomic/error reserve를 source/config에 봉인했다. 매 batch fit 전에 fresh free/inode guard를 실시한다. 공유 filesystem 예약·향후 quota 여유를 보장한 것은 아니다.',
+        '- Serializer의 source/config 상한과 atomic/error reserve를 봉인했다. 신규 batch fit 전에 fresh free/inode guard를 실시한다. 보존 arm의 기존 실행 bytes는 바꾸지 않았다. 공유 filesystem 예약·향후 quota 여유를 보장한 것은 아니다.',
         '- prior ENOSPC 소비 주체는 NOT_IDENTIFIED다. 유효 commit prefix만 인정하며 empty/torn rollback/terminal은 NOT_VERIFIED다. 원자료 삭제·로그 누락·평가 축소·자동 retry는 없다.',
         '- 새 baseline fit 0; 조건 검산 없는 기존 baseline은 HISTORICAL_REFERENCE/NOT_AVAILABLE. noCP, exact resume NOT_AVAILABLE.',
         '- 원 source/raw/log KEEP. Source·compact report/countCSV/manifest만 Git; NO_BROADCAST_NOT_REQUIRED.'])

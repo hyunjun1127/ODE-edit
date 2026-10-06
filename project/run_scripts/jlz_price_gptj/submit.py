@@ -11,7 +11,7 @@ import tarfile
 from pathlib import Path
 from .common import ROOT, LOCAL, TASK, NONCE, CELLS, require, write, member, sha, verify
 
-SOURCES=['project/run_scripts/jlz_price_gptj','messages/acks/server4/jlz-price-gptj-2k.json','project/run_scripts/jlz_price_alpha_writer','plans/global/jlz-price-alpha-writer-2k','project/proposals/jlz-alpha-writer-review','messages/head/2026-10-07-price-alpha-writer-2k-sh4.json','project/run_scripts/jlz_interference_l1','project/run_scripts/jlz_v12r','project/run_scripts/jlz_native_writer_aware',
+SOURCES=['messages/head/2026-10-07-price-model-runs-tracking.json','messages/acks/server4/price-model-runs-tracking.json','project/run_scripts/jlz_price_gptj','messages/acks/server4/jlz-price-gptj-2k.json','project/run_scripts/jlz_price_alpha_writer','plans/global/jlz-price-alpha-writer-2k','project/proposals/jlz-alpha-writer-review','messages/head/2026-10-07-price-alpha-writer-2k-sh4.json','project/run_scripts/jlz_interference_l1','project/run_scripts/jlz_v12r','project/run_scripts/jlz_native_writer_aware',
     'project/run_scripts/jlz_realized_subject','project/run_scripts/jlz_shared_budget',
     'project/run_scripts/jlz_realization','project/run_scripts/jlz_writer_coupled',
     'project/run_scripts/jlz_realized_writer','project/run_scripts/jlz_realized_writer_sequential/review_completed.py',
