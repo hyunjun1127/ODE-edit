@@ -4,10 +4,22 @@ import math
 from project.run_scripts.experiment_tracking import init
 from .cap_common import require
 
+def model_scoped_arm(c,cell):
+    """Stable saved-view routing using the existing helper's allowed arm field.
+
+    Existing Llama/Qwen cell names are unchanged. This is logging metadata only;
+    the scientific cell, output directory and frozen submissions are untouched.
+    """
+    model=c.get('model_profile')
+    if model not in ('LLAMA','QWEN','GPTJ'):return cell
+    known=next((m for m in ('LLAMA','QWEN','GPTJ') if cell.startswith(m+'_')),None)
+    require(known is None or known==model,'TRACKING_MODEL_ARM_MISMATCH')
+    return cell if known else model+'_'+cell
+
 def start(c,lock,out,cell):
     import os
     config={
-        'server':'server4','task_id':c['task_id'],'arm':cell,'attempt':c['run_instance']['attempt'],
+        'server':'server4','task_id':c['task_id'],'arm':model_scoped_arm(c,cell),'attempt':c['run_instance']['attempt'],
         'source_sha':lock['source_commit'],'config_sha':lock['config_sha256'],
         'job_id':os.environ['SLURM_JOB_ID']}
     parent=c['tracking'].get('parent_runs',{}).get(cell)

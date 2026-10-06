@@ -1,0 +1,95 @@
+{
+  "status": "REMOTE_SAVED_VIEWS_READBACK_VERIFIED",
+  "views": [
+    {
+      "model": "LLAMA",
+      "name": "nw-pricefirst2kllama-v",
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kllama",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA2NjQyMA==",
+            "name": "nw-pricefirst2kllama-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "48a4b59ab7fc0db49f9b8902cd6878b16262a4dd51f875125e7a5f89ee1a4880"
+    },
+    {
+      "model": "QWEN",
+      "name": "nw-pricefirst2kqwen-v",
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kqwen",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA2NjQyMQ==",
+            "name": "nw-pricefirst2kqwen-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "1cd55dd703a55de98525400a681df77d97ef3c0890a240237ec4cdf297e6d6fb"
+    },
+    {
+      "model": "GPTJ",
+      "name": "nw-pricefirst2kgptj-v",
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=pricefirst2kgptj",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA2NjQyMg==",
+            "name": "nw-pricefirst2kgptj-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "ecefda700252d7c85ed8149a7a07c696f828804384cb46b6f3707bb09537a72a"
+    }
+  ],
+  "index_url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=y9vet5iwjzr",
+  "untouched_views": [
+    "nw-nwuserwkdguswns2256-w",
+    "nw-bt05p9dzs5a-v",
+    "nw-wg1noq4fcp0-v"
+  ],
+  "run_history_writes": 0,
+  "job_writes": 0,
+  "new_science_runs": 0,
+  "existing_run_configs_changed": 0,
+  "model_assignment": "historical source identities + exact arm fields; unknown excluded",
+  "new_metrics_schema": "Existing common helper lacks split endpoint namespace; legacy live metrics kept separate, never wrong baseline overlay",
+  "helper_owner_request": "SH1 direct app message unavailable; shared helper not modified",
+  "remote_membership": {
+    "LLAMA": [
+      "1cdedab4a3874cbd",
+      "c5b6f44631f44f22",
+      "historical-alphaedit-first2k",
+      "historical-alphaeditblue-first2k",
+      "historical-cake-first2k",
+      "historical-memit-first2k",
+      "historical-memitblue-first2k",
+      "historical-memith-first2k",
+      "historical-v12memit-first2k",
+      "historical-v13cd-first2k",
+      "historical-v13md-first2k",
+      "historical-w0-42673-cohort-matched",
+      "price-59768-metrics"
+    ],
+    "QWEN": [
+      "ab6e4d2618154482",
+      "dfca55cbcc4d404c"
+    ],
+    "GPTJ": []
+  },
+  "metadata_tests_passed": 4,
+  "verification_scope": "GraphQL saved-spec readback and server run-filter membership; browser rendering not inspected",
+  "historical_baselines": {
+    "LLAMA": "9 imported baselines + W0 with source identity receipts",
+    "QWEN": "NOT_AVAILABLE",
+    "GPTJ": "NOT_AVAILABLE"
+  },
+  "future_run_routing": "cap_tracking.model_scoped_arm; existing helper whitelist arm only",
+  "source_audit": "owner review; no independent reviewer",
+  "existing_production_archives_modified": false
+}
