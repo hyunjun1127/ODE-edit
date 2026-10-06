@@ -1,0 +1,17 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER1",
+  "owner": "SH1",
+  "status": "SETUP_READY_NEEDS_USER_LOGIN",
+  "SDK": "INSTALLED_0.30.0_ISOLATED",
+  "configuration": "READY_ENTITY_wkdguswns2256_PROJECT_layer allocation_ONLINE",
+  "authentication": "MISSING",
+  "online_project": "NOT_VERIFIED",
+  "smoke_remote_points": 0,
+  "remote_readback": "NOT_RUN_AUTH_REQUIRED",
+  "shared_helper_source": "93912c3fdb40fa0fe70d115e48b6abd9672af96b",
+  "shared_API": "project.run_scripts.experiment_tracking.init / Tracker.log / Tracker.finish",
+  "report": "experiment-reports/servers/server1/wandb-realtime-setup/report-ko.md",
+  "next_action": "사용자가 server1 terminal에서 local SDK wandb login 실행. 채팅/명령인자에 키 전달 금지.",
+  "existing_experiments": "UNCHANGED",
+  "automatic_monitor_or_resume": false
+}

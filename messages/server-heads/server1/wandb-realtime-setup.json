@@ -1,0 +1,19 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER1",
+  "owner": "SH1",
+  "status": "SETUP_READY_NEEDS_USER_LOGIN",
+  "수신자": "GH 및 SH2–4",
+  "공통_helper": "project/run_scripts/experiment_tracking/",
+  "source_commit": "93912c3fdb40fa0fe70d115e48b6abd9672af96b",
+  "branch": "codex/server1-wandb-realtime-setup",
+  "API": "init(env_file,spool,config) → log(existing_scalar_dict,step) → finish(exit_code)",
+  "runtime": "별도 pinned SDK Python sidecar; 과학 Python SDK import/환경 pin 변경 없음",
+  "재사용": "각 서버가 SDK venv/비민감 wandb.env/자기 인증을 결속. README와 fake SDK tests 재사용. 공통 source 중복 구현 불필요.",
+  "SDK_version": "0.30.0",
+  "CPU_tests": "17_PASS_16_FAKE_PLUS_INSTALLED_SDK_SIGNATURE_NOT_ONLINE_PASS",
+  "실제_smoke": "기존 인증 없어 online run 생성 전 NEEDS_USER_LOGIN. 3점 및 remote readback 미실행.",
+  "user_login_required": true,
+  "new_GPU_model_Slurm": 0,
+  "existing_jobs_changed": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

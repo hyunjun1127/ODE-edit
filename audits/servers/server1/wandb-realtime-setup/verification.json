@@ -1,0 +1,73 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER1",
+  "owner": "SH1",
+  "status": "SETUP_READY_NEEDS_USER_LOGIN",
+  "설명": "SDK/비민감 설정/공통 helper 준비 완료. 실제 SDK는 인증 부재로 online run 생성 전에 종료했다.",
+  "policy_sha256": "0de45392b04c808c956dc898534455a05c3eb1a6c3f026920ba3a560b9edb745",
+  "envelope_sha256": "4873155a9156939364be6757e14aa0bb6400d73dab2eed2fb3494814d542af43",
+  "shared_helper_source": "93912c3fdb40fa0fe70d115e48b6abd9672af96b",
+  "shared_helper_tree": "15dbeae47928ec47ece19a623f5259d3c237b8ae",
+  "SDK": {
+    "status": "INSTALLED_ISOLATED",
+    "version": "0.30.0",
+    "python_version": "3.10.12",
+    "python": "/mnt/raid5/janghj/ODE-edit/local/wandb-setup/20261006/venv/bin/python",
+    "scientific_environment_modified": false,
+    "real_Settings_validation": "PASS_ONLINE_CONSOLE_OFF_PRIVACY_FLAGS_SUPPORTED"
+  },
+  "configuration": {
+    "file": "/mnt/raid5/janghj/ODE-edit/servers/local/wandb.env",
+    "sha256_nonsecret_config_only": "47b11d1ed80454b6c076778b794cba6ffa505dc7d91cd61f17e4d42b8aefed88",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "base_url": "https://api.wandb.ai",
+    "base_url_basis": "SDK_CLOUD_DEFAULT_NO_EXISTING_ENDPOINT_FOUND_NOT_INFERRED_FROM_UI",
+    "mode": "online",
+    "console": "off",
+    "save_code": false,
+    "watch": false,
+    "automatic_artifacts": false,
+    "automatic_git_code_requirements_system_metadata": false
+  },
+  "credentials": {
+    "environment_key_present_at_preflight": false,
+    "standard_netrc_present_at_preflight": false,
+    "standard_settings_present_at_preflight": false,
+    "SDK_noninteractive_login": "NO_CREDENTIALS",
+    "credential_value_or_hash_recorded": false,
+    "credential_transfer": false
+  },
+  "smoke": {
+    "source": "fe9bbb84f312f69bdd1484265bb7db8a3eac3cd9",
+    "result": "/mnt/raid5/janghj/ODE-edit/local/wandb-setup/20261006/smoke-r1/result.json",
+    "result_sha256": "45eb5fcb43d650b2477936e919072a12bbea1c3cb2a7067d0cf2b69d335a2233",
+    "attempts": 1,
+    "exit_code": 2,
+    "actual_online_runs": 0,
+    "actual_remote_points": 0,
+    "maximum_authorized_points": 3,
+    "remote_project_access": "NOT_VERIFIED_AUTH_REQUIRED",
+    "remote_readback": "NOT_RUN_AUTH_REQUIRED",
+    "run_url": null,
+    "offline_pass": false
+  },
+  "CPU_checks": {
+    "source": "93912c3fdb40fa0fe70d115e48b6abd9672af96b",
+    "fake_SDK_tests": 16,
+    "installed_SDK_signature_test": 1,
+    "passed": 17,
+    "failed": 0,
+    "online_claim": false,
+    "coverage": "production init/log/finish assembly; exact project; secret/config/scalar rejection; no tensor conversion; privacy flags; missing auth/readback; offline rejection; degraded log/finish; original exception preservation; bounded finish",
+    "independent_reviewer_agent": false
+  },
+  "source_followup": "실제 smoke 이후 cleanup 예외 보존 fixture와 실제 SDK signature 검사를 추가했다. SDK0.30 Run.finish에 없는 quiet 인자를 제거했다. 인증 경로/정책 변경 없음. online 재시도 없음.",
+  "runtime_limits": {"telemetry_worker_CPU_affinity": 2, "address_space_GiB": 4, "GPU_visible": false},
+  "remaining": ["사용자의 server1 terminal 안전 로그인", "로그인 후 단일 3점 online smoke와 remote readback"],
+  "new_GPU": 0,
+  "new_model_load": 0,
+  "new_slurm": 0,
+  "existing_job_query_or_change": 0,
+  "scientific_promotion": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
