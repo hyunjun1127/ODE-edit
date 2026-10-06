@@ -30,6 +30,10 @@ class Tests(unittest.TestCase):
             self.assertEqual(cfg['step_id'],step)
             from .schema import config
             self.assertEqual(config(cfg)['step_id'],step)
+            sdk=SDK();out=[]
+            request=dict(config=cfg,run_id='signedStepFixture',spool='/tmp/fake-only',smoke=False,base_url='https://api.wandb.ai')
+            session(sdk,request,[dict(op='finish',exit_code=0)],out.append)
+            self.assertEqual(out[0]['job_identity']['step_id'],step)
         with self.assertRaisesRegex(ValueError,'INVALID_SLURM_STEP_ID'):
             bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID='not a step'))
 
