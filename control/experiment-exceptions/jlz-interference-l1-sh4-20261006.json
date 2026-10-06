@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "user_quotes": [
+    "method 설계 이어서 진행하라. toy 실험은 건너뛰고 바로 method 실험으로 넘어갈 수 있도록 설계하라.",
+    "설계 이후엔 server4에 task 전달하자"
+  ],
+  "owner": "SH4",
+  "envelope": "messages/head/2026-10-06-jlz-interference-l1-sh4.json",
+  "scope": "NewPRICE/FLAT/REVERSE eachcoldBS100x20; no-toy/B1-integrated assertions",
+  "other_tasks_unchanged": true,
+  "new_recurring_monitor": false
+}

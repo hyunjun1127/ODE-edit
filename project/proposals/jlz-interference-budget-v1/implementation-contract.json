@@ -1,0 +1,165 @@
+{
+  "schema": "JLZ_INTERFERENCE_BUDGET_IMPLEMENTATION_CONTRACT_V1",
+  "status": "DESIGNED_NOT_IMPLEMENTED_NOT_GPU_QUALIFIED",
+  "date_kst": "2026-10-06",
+  "scope_ko": "V12-R의 native soft writer와 realized-response 학습 경로를 유지하면서 batch-entry 간섭 가격과 priced shared budget을 결속하는 production 구현 설계다. 이 문서는 구현 완료, GPU 검증, 제출 또는 성능 개선을 의미하지 않는다.",
+  "source": {
+    "executed_commit": "635798ba276957312ec1aceda686ad563c906957",
+    "execution_tree": "41d95dee323a6b4ad705ccedddc740e27c0a1dd2",
+    "inspected_ref": "origin/codex/server4-jlz-v12r-realized-response-2k",
+    "inspected_ref_commit": "3bbfab85",
+    "identity_scope_ko": "위 실행 commit과 inspected ref의 jlz_v12r 및 native_writer_aware/builder.py 코드는 git diff상 동일하다. 게시 commit과 실제 실행 commit은 구분한다.",
+    "entry": "project/run_scripts/jlz_v12r/entry.py:23-72",
+    "candidate_builder": "project/run_scripts/jlz_native_writer_aware/builder.py:16-50",
+    "native_ridge": "project/run_scripts/jlz_realized_subject/geometry.py:53-75",
+    "engine": "project/run_scripts/jlz_v12r/engine.py:21-51",
+    "fit": "project/run_scripts/jlz_v12r/fit.py:17-75",
+    "subject_pullback": "project/run_scripts/jlz_v12r/subject.py:9-74",
+    "optimizer": "project/run_scripts/jlz_v12r/optimizer.py:6-76",
+    "old_projection": "project/run_scripts/jlz_v12r/projection.py:10-82",
+    "controller": "project/run_scripts/jlz_v12r/controller.py:6-93",
+    "telemetry": "project/run_scripts/jlz_v12r/telemetry.py:10-93",
+    "commit_and_history": "project/run_scripts/jlz_v12r/run.py:164-215",
+    "collector": "project/run_scripts/jlz_v12r/collect.py:17-81"
+  },
+  "science_invariants": {
+    "variables": "R_l[:,r]는 FP32 absolute requested residual이며 u=R/a로 optimizer 좌표를 바꾸지 않는다.",
+    "native_objective": "기존 native rewrite NLL + .0625 KL(current||entry)를 유지한다. Norm은 .5/(a_star_r^2) * sum_l ||R_lr||이며 해석적 gradient를 한 번만 더한다. 가격을 norm loss 또는 task gradient에 중복 곱하지 않는다.",
+    "builder": "각 candidate에서 entry W/H를 기준으로 ascending layer의 actual all-token lower write를 구성하고 actual upper K/P를 갱신한다. U_l=R_l P_l^T인 native ridge, native FP32 cast/add, effective context response를 유지한다.",
+    "subject": "Entry weight 모델의 native subject full-block output에 candidate BUILD의 effective context response를 주입한다. Native 문장, owner/context reduction, KL teacher, lower subject injection에서 upper subject loss로 가는 graph를 유지한다.",
+    "gradient": "기존 FP64 same-layer Lambda M_rows^T pullback의 모든 owner 열과 off-diagonal coupling을 유지한다. 여기서 M_rows=P^T K_rows는 모든 rewrite/KL 행의 response이며 가격에 쓰는 B by B mean M과 다르다.",
+    "gradient_limit": "production에서 dK/dP, solve VJP 또는 actual builder의 하층에서 상층으로 가는 reverse를 추가하지 않는다. 기존 근사 gradient를 전체 actual causal gradient라고 부르지 않는다.",
+    "optimizer": "EfficiencyAdamAbs lr=.1, eps=1e-8, betas=(.9,.999), 요청별 moment/counter와 전체 eligible layer의 gamma 평균을 유지한다. 가격에 따른 별도 gradient masking 또는 learning-rate 조정은 없다.",
+    "commit": "마지막으로 평가한 candidate BUILD의 FP32 weight payload를 그대로 commit한다. 새 solve, tracking z-h, residual divisor, inverse-response compensation, equality/exact writer 또는 이중 add를 넣지 않는다.",
+    "history": "모든 eligible write 후 최종 rewrite-only native mean keys로 H를 요청 occurrence별 한 번 append한다. KL은 H에서 제외하고 zero/unsatisfied 요청을 제거하지 않는다.",
+    "state": "각 arm은 독립 cold W0/H0에서 시작하고 batch 사이 자기 committed W/H를 이어간다. 새 batch마다 teacher, anchors, price와 geometry를 새로 만든다. 다른 arm 또는 이전 batch의 가격을 재사용하지 않는다."
+  },
+  "entry_price_initialization": {
+    "integration": "fit.py의 controller 초기화를 c0 BUILD 이후로 이동하거나 동일 의미의 lazy price binding을 사용한다. c0은 R=0에서 한 번만 BUILD하고 그 built 객체를 engine.evaluate(..., built=built0)에 넘긴다. evaluate가 c0를 다시 BUILD하지 않도록 한다.",
+    "reuse": "native ridge()는 이미 geo['M']=P.T@Kbar를 계산한다. c0 BUILD가 layer별 이 mean M을 transient하게 노출하여 재사용한다. P/Kbar 재곱셈도 불필요하며 추가 model forward, ridge solve 또는 fit은 없다.",
+    "entry_identity": "c0의 모든 candidate selected weight가 entry FP32 weight와 동일함을 확인하고 source, own W/H, ordered request IDs, anchors, mean M과 price identity를 결속한다.",
+    "fixed_scope": "M_entry, kappa, pi, per-layer caps 및 beta endpoints는 자기 batch 동안 detach 고정한다. 매 candidate 실제 upper K/P는 계속 갱신되지만 가격을 다시 계산하지 않는다.",
+    "matrix_definition": "Kbar_l는 native rewrite-only nested mean key의 d_in by B 행렬, P_l=solve(A_l+Kbar_l Kbar_l^T,Kbar_l), M_l=P_l^T Kbar_l이다. A_l은 기존 unsymmetrized same-A native geometry를 그대로 사용한다.",
+    "source_target_orientation": "M_l[r,j]는 source residual R_lr가 recipient j의 mean-key action에 기여하는 계수다. 행과 열을 바꾸거나 native context 행렬을 대입하지 않는다.",
+    "cost": "추가 비용은 이미 계산된 L개의 B by B M에서 anchor ratio, denominator, off-diagonal RMS와 L by B 정규화를 계산하는 비용이다. 추가 LM forward/backward, factorization, solve는 0이다. M은 가격 계산 후 해제 가능하고 durable tensor로 저장하지 않는다."
+  },
+  "price_formula": {
+    "batch_cardinality": "실제 logical B를 사용한다. 요청 중복 제거, 같은 subject 묶기, 성공 filtering 또는 microbatch별 분할 가격을 사용하지 않는다.",
+    "anchors": "모든 a_lr는 batch-entry canonical full-block subject norm이며 native FP32 capture 값을 FP64로 변환한다. 양수이며 finite인지 검증한다.",
+    "recipient_denominator": "d_lj=1-M_l[j,j]. B>1에서 모든 layer/recipient의 raw d가 finite이고 양수이며 min(d)>1e-8이어야 한다. 실패는 price numerical guard failure다. denominator에 jitter, epsilon clamp 또는 clipping을 적용하지 않는다.",
+    "native_asymmetry": "기존 same-A의 작은 비대칭 및 LU fallback은 허용한다. Leave-one-out 계수 식은 필요한 역행렬과 양수 denominator가 존재하는 same-A 대수로 검산한다. 이 이유만으로 SPD spectrum, 0<=M<=I 또는 semantic preservation을 주장하지 않는다.",
+    "raw_score": "B>1에서 kappa_lr=sqrt(sum_{j!=r} [(a_lr/a_lj) * M_l[r,j]/(1-M_l[j,j])]^2 /(B-1)). 자기 j=r은 제외하고 나머지 모든 요청 occurrence를 포함한다. Signed coefficient를 제곱하므로 부호 상쇄를 허용하지 않는다.",
+    "finite_policy": "FP64 coefficient, squared reduction, raw kappa 및 normalization이 모두 finite인지 확인한다. 비유한 값은 기술 실패이며 무한 가격, 임의 default 또는 layer 제거로 숨기지 않는다.",
+    "single_request": "B=1은 off-diagonal recipient가 없으므로 모든 eligible layer의 pi=1로 정의한다. kappa=0, status=SINGLE_REQUEST_NEUTRAL_PRICE를 기록하고 off-diagonal LOO 진단은 NOT_APPLICABLE로 기록한다.",
+    "all_zero_request": "B>1에서 특정 source request r의 max_l kappa_lr가 정확히 0이면 그 요청의 모든 pi_lr=1이다. status=ALL_ZERO_INTERFERENCE_NEUTRAL_PRICE와 raw zeros를 명시한다.",
+    "floor": "그 외 요청은 kappa_tilde_lr=max(kappa_lr, 1e-6*max_q kappa_qr, 1e-12), pi_lr=kappa_tilde_lr/min_q kappa_tilde_qr로 계산한다. Floor는 near-zero/zero score의 명시적 method 정의이며 numerical error 은폐용 보정이 아니다.",
+    "price_range": "정의상 각 요청 min_l pi_lr=1이고 1<=pi_lr<=1e6이다. 이 상한은 별도 post-hoc price clip이 아니라 명시한 floor에서 나온다. FP64 반올림 잔차를 기록하고 사전 tolerance 외 임의 clipping을 하지 않는다.",
+    "floor_receipt": "raw score, max/min, 두 floor threshold, floor 적용 mask/count, 원래 zero mask, all-zero/singleton status, 최종 pi와 pi_max를 batch-entry receipt에 기록한다.",
+    "interpretation": "가격은 현재 batch entry의 mean-key leave-one-out spillover와 source/recipient anchor 상대 크기로 정한 allocation proxy다. 과거 모든 문장 또는 의미적 손상 비용의 exact 값이 아니며 min-layer normalization은 절대 위험 수준을 보존하지 않는다."
+  },
+  "arms": {
+    "identifiers": ["PRICE", "FLAT", "REVERSE"],
+    "shared_computation": "세 arm 모두 자기 batch-entry native price를 계산하고 같은 검산 비용을 부담한다. FLAT에서도 계산을 생략하지 않는다. 새 ENERGY arm은 이 계약에 없다.",
+    "PRICE": "계산한 pi_lr를 그대로 constraint에 사용한다.",
+    "FLAT": "constraint의 모든 pi_lr=1로 치환한다. beta0=betamax=.75이므로 budget expansion은 발생하지 않는다. Native computed pi는 record-only다.",
+    "REVERSE": "각 요청에서 native computed pi를 오름차순으로 정렬하되 tie는 eligible layer의 고정 index로 안정 정렬한다. 정렬된 source layer 순서에 같은 값 multiset의 역순을 배치한다. 요청별 min/max/multiset을 바꾸거나 pi를 역수로 바꾸지 않는다.",
+    "comparison_limit": "PRICE 대 FLAT은 가격 정렬뿐 아니라 feasible-set 모양과 beta ceiling 차이를 포함한다. REVERSE는 자기 entry에서 price multiset과 endpoints를 보존하는 ordering control이다. 독립 trajectory가 갈라진 이후 arm 간 own-entry price multiset 또는 실제 F-driven expansion 시점이 같다고 주장하지 않는다."
+  },
+  "priced_constraint": {
+    "c": 0.75,
+    "local_cap": "cap_lr=c*a_lr이며 ||R_lr||<=cap_lr를 유지한다.",
+    "shared_budget": "sum_l pi_lr*||R_lr||/a_lr<=beta_r",
+    "absolute_coordinate_weight": "w_lr=pi_lr/a_lr를 FP64로 계산한다. Euclidean distance는 absolute R 좌표에서 측정한다. 먼저 u=R/a로 변환하여 unweighted Euclidean projection을 하는 다른 method로 바꾸지 않는다.",
+    "base": "beta0_r=c",
+    "maximum": "betamax_r=c*max_l pi_lr. FLAT과 all-neutral request는 betamax=beta0다.",
+    "endpoint_interpretation": "최대 budget은 어떤 한 layer에 그 layer의 local cap까지 배분하는 선택을 허용한다. 모든 layer를 동시에 local cap으로 채우는 budget이라는 뜻은 아니다."
+  },
+  "projection": {
+    "replace": "project_capped_energy 대신 absolute-R capped weighted group-L1 Euclidean projection을 사용한다. 기존 shared L2 radius 식이나 common theta를 재사용하지 않는다.",
+    "input": "기존 EfficiencyAdamAbs가 만든 proposal X_lr, fixed positive finite w_lr, fixed nonnegative cap_lr, 현재 finite nonnegative beta_r",
+    "problem": "argmin_Y 0.5*sum_l||Y_lr-X_lr||^2 subject to ||Y_lr||<=cap_lr and sum_l w_lr||Y_lr||<=beta_r. 목적이 strictly convex이므로 projected vectors는 유일하다.",
+    "length_solution": "n_lr=||X_lr||를 FP64로 계산하고 t_lr=min(cap_lr,max(n_lr-tau_r*w_lr,0))로 둔다. n_lr>0이면 Y_lr=(t_lr/n_lr)X_lr, n_lr=0이면 Y_lr=0이다. Zero norm을 epsilon 분모로 치환하지 않는다.",
+    "inactive_shared_constraint": "sum_l w_lr*min(n_lr,cap_lr)<=beta_r이면 tau_r=0이다. 이때 local caps만 적용한다.",
+    "active_shared_constraint": "그 외에는 sum_l w_lr*min(cap_lr,max(n_lr-tau_r*w_lr,0))=beta_r의 nonnegative root를 FP64 sorted-breakpoint active set으로 구한다. Breakpoint (n-cap)/w와 n/w 및 tau>=0을 사용하며 tie와 빈 free set을 명시 처리한다.",
+    "interval_root": "구간의 free/capped 집합에서 tau=(sum_free w*n + sum_capped w*cap - beta)/sum_free w^2이다. 해당 구간 포함 여부와 capped/zero/free KKT 관계를 확인한다. Flat interval에서 dual tau가 여러 개여도 동일 projected vectors를 선택하고 deterministic convention을 기록한다.",
+    "fp64_kkt_tolerances": "각 block에서 |t-min(cap,max(n-tau*w,0))|<=1e-10*max(1,n,cap), 요청별 shared primal excess max(spend-beta,0)<=1e-10*max(1,beta), complementarity |tau*(spend-beta)|<=1e-10*max(1,tau*beta), tau>=0을 확인한다. 여기서 spend=sum_l w_l*t_l이다. 이는 FP64 projection 검산 기준이며 아래 FP32 stored feasibility 기준과 별도로 적용한다.",
+    "forbidden": "단순 순차 radial rescale 후 local clip, 층별 독립 shrink 또는 normalized-u 거리의 projection으로 대체하지 않는다. 성능을 보고 root tolerance를 변경하지 않는다.",
+    "storage": "FP64 projected vectors를 FP32 R로 저장한 뒤 그 실제 저장값의 norm을 FP64로 다시 측정한다.",
+    "stored_local_feasibility": "max_lr max(||Rstored_lr||-cap_lr,0)<=1e-6을 유지한다. 이는 기존 v12-R absolute local-cap tolerance의 호환 계약이며 모든 모델 scale에서 상대오차가 같다는 주장이 아니다. 실패 시 기록하고 기술적으로 수리하며 threshold를 사후 완화하지 않는다.",
+    "stored_shared_feasibility": "각 요청에서 max(sum_l pi_lr*||Rstored_lr||/a_lr-beta_r,0)<=1e-6*max(1,beta_r). 이는 dimensionless budget의 새 사전 기준이다. Raw excess와 기준을 함께 기록한다.",
+    "no_hidden_repair": "Postcast shrink 또는 임의 budget 증가로 feasibility failure를 숨기지 않는다. Moment를 reset하지 않는다.",
+    "receipt": "요청별 tau, pre/post norm, weighted spend, beta, active shared-constraint 여부, zero/capped/free block mask, local/shared FP32 excess와 KKT residual 요약을 기록한다. Old theta/radius/squared-energy를 새 constraint의 동치 검산으로 사용하지 않는다."
+  },
+  "controller": {
+    "n_exp": 4,
+    "grace_completed_updates": 12,
+    "task_threshold": 0.05,
+    "candidate_indices": "k=0..24의 최대25회 evaluation이며 최대24회 update다. Candidate k는 현재 R와 현재 beta에서 평가한다.",
+    "activation": "모든 요청의 F를 매 candidate에서 관측하고 active_r <- active_r OR (F_r>=.05)를 적용한다. Subject backward의 mask와 controller mask가 정확히 같아야 한다.",
+    "irreversible_active": "초기 F<.05 요청은 R=0/update0을 유지하지만 다른 요청의 off-owner action으로 F가 악화되면 activate한다. 일단 active인 요청은 F<.05로 내려가도 update를 계속한다. 성공을 이유로 영구 freeze하지 않는다.",
+    "expand_condition": "Nonterminal evaluation 이후 update 직전에 active && own_completed_t>=12 && current_F>=.05 && e<n_exp && beta0<betamax이면 e를 정확히1 증가시킨다. Candidate index를 own completed update count로 대신하지 않는다.",
+    "budget_schedule": "n_exp>0이면 beta_e=c*exp((e/n_exp)*log(max_l pi_lr)). e=n_exp에서는 저장한 betamax를 직접 사용하여 endpoint rounding drift를 없앤다. n_exp=0이면 beta=beta0이며 나눗셈을 수행하지 않는다.",
+    "schedule_example": "c0부터 계속 active/unsatisfied이면 c0..c11 이후 update1..12는 e0, c12 이후 update13은 e1, update14..16은 e2..e4다. Candidate16이 최대 budget에서 최초 평가된다. 늦게 활성화된 요청은 자기 update 수로 이 시점이 이동한다.",
+    "satisfied_active": "Active 요청이 현재 F<.05이면 그 step에서는 확장하지 않되 현재 budget에서 Adam update를 계속한다. Budget은 감소하지 않는다.",
+    "terminal": "k=24 또는 어떤 요청도 아직 active가 아닌 경우 terminal이다. 이미 active였던 요청이 모두 만족했다는 이유만으로 기존 policy에 없던 global early stop을 추가하지 않는다. Terminal에서는 backward/update/expansion이 없고 마지막 evaluated payload를 채택한다.",
+    "counter_join": "Adam request counter와 controller completed-update counter를 매 update 후 대조한다. Terminal 상태 ZERO_STEP/SATISFIED_BASE/SATISFIED_EXPANDED/UNSATISFIED_MAX/UNSATISFIED를 dimensionless beta 기준으로 갱신한다."
+  },
+  "zero_blocks_and_coupling": {
+    "layer_reentry": "Projection에서 zero가 된 layer도 모든 eligible layer의 moment, gamma 평균, 가격과 다음 task gradient에 남는다. Plan support를 이용한 writer/gradient skip 또는 permanent layer pruning을 금지한다.",
+    "norm_at_zero": "||R_lr||=0에서 기존 norm subgradient만0으로 선택한다. Same-layer task pullback을0으로 덮어쓰지 않는다.",
+    "inactive_owner": "아직 inactive인 owner의 R/m/v/s/t는 그대로 유지한다. 다른 active loss에서 off-owner pullback이 생겨도 그 owner가 activate하기 전에는 Adam에 적용하지 않는다. 해당 요청의 forward F는 계속 관측한다.",
+    "writer_columns": "Zero, initially satisfied, duplicate 및 unsatisfied 요청도 native whole-B ridge의 열에 유지한다. 가격 계산과 writer 사이의 owner ordering을 hash로 결속한다.",
+    "off_diagonal": "Production pullback의 off-owner coupling은 유지한다. 가격 RMS에서 자기 recipient를 제외하는 것과 gradient에서 off-diagonal을 제거하는 것을 혼동하지 않는다."
+  },
+  "actual_model_validation": {
+    "policy": "별도 synthetic/toy suite 또는 toy 통과 gate를 새로 요구하지 않는다. 실제 main B1의 cached entry/BUILD tensor를 사용한 선형대수 assertion과 동일 B1의 기존 runtime identity/commit/history 검사를 production source에 결속한다. 별도 과거 full-reverse qualification gate, 추가 fit 또는 성능 pilot은 만들지 않는다.",
+    "c0_checks": "동일 c0 BUILD의 own entry identity, native mean M=P.T@Kbar 재현, finite anchors/denominators/prices, floor/allzero/singleton policy, fixed batch price hash를 확인한다. 이러한 assertion을 위해 LM forward를 반복하지 않는다.",
+    "leave_one_out": "B>1인 실제 B1에서 모든 eligible layer의 고정 source/recipient pair (r,j)=(0,1),(1,0)을 사용한다. 기존 c0 P/Kbar/A로 q=p_r+p_j*M[r,j]/(1-M[j,j])를 만들고, j를 제외한 Kminus에 대해 A*q+Kminus*(Kminus.T*q)-k_r의 선형계 잔차 및 q.T*k_j와 M[r,j]/(1-M[j,j])의 일치를 확인한다. 새 leave-one-out solve는 수행하지 않는다.",
+    "loo_nonsymmetric_orientation": "q는 (A+Kminus*Kminus.T)^(-1)*k_r의 Sherman-Morrison 표현이다. 검산 coefficient는 q.T*k_j다. Same-A가 비대칭일 수 있으므로 이를 k_r.T*(A+Kminus*Kminus.T)^(-1)*k_j와 같다고 주장하지 않는다.",
+    "loo_tolerance": "||k_r||>0이면 선형계 residual norm/||k_r||<=1e-6을 확인한다. ||k_r||=0이면 absolute residual norm<=1e-8을 요구하고 relative ratio를 만들지 않는다. Scalar coefficient 비교는 absolute error<=1e-8+1e-6*abs(M[r,j]/(1-M[j,j])). Raw norms, absolute/relative error를 함께 기록하며 실패 시 임의 tolerance 완화 없이 geometry/ordering/대수 원인을 조사한다.",
+    "loo_cost": "최대2 pairs times eligible layers의 기존 A/K/P 기반 matvec 및 reduction만 추가한다. 신규 solve/factorization과 LM forward/backward/fit은 모두0이다. 실제 B1 assertion matvec 시간과 CPU/GPU 전송을 별도 charge하고 가격 계산의 무료 비용으로 숨기지 않는다.",
+    "projection_checks": "실제 optimizer proposal의 FP64 active-set/KKT 잔차와 FP32 stored feasibility를 검산한다. 실제 사용되지 않은 synthetic proposal 실험을 새 gate로 만들지 않는다.",
+    "terminal_checks": "최종 payload exact copy, selected weight identity, no-resolve/no-double-add, final rewrite-only H append와 own next-entry state join을 기존처럼 확인한다. Subject-only loss와 actual all-token loss가 같다는 보장은 추가하지 않는다.",
+    "evidence_status": "문서 작성 시점에는 위 production assertion, 실제 B1 실행 및 GPU 성능 검증을 수행하지 않았다."
+  },
+  "compact_logging_and_collection": {
+    "observed_storage_failure": "기존 MAIN은 B16 candidate events.jsonl 쓰기에서 ENOSPC로 중단됐고 오류 receipt 쓰기도 실패했다. 확인된 것은 쓰기 실패 위치이며 공간 소모 주체는 NOT_IDENTIFIED다. Matrix logging이 원인이라고 단정하지 않는다.",
+    "entry_once": "Static anchors/caps, raw/floored score, native and applied pi, reverse permutation, beta endpoints, denominator 요약, source/geometry/request hash는 batch-entry price receipt 한 곳에 저장한다. 이후 candidate는 그 receipt hash만 참조한다.",
+    "no_durable_matrices": "M/P/K/A/weights/activation 또는 full per-token tensor를 새로운 로그로 저장하지 않는다. 실제 raw benchmark 평가행과 기존 보존 source는 삭제하거나 덮어쓰지 않는다.",
+    "candidate_stream": "Candidate event를 한 authoritative JSONL stream에 한 번 저장하고 fit.json은 summary, stream member/hash, line count와 terminal references를 저장한다. 현재 fit.py의 events.jsonl와 receipt['events'] 전체 중복 저장을 제거할 때 collector도 함께 갱신한다.",
+    "required_candidate_values": "F/nll/KL와 active mask, own update/expansion counter, beta, weighted spend, postcast layer norms 또는 동일 검산이 가능한 compact 값, projection tau/feasibility, requested/realized share 요약, Q 및 exclusive timing을 기록한다. Static L by B 배열을 controller pre/post receipt마다 반복하지 않는다.",
+    "collector_changes": "collect.validate_fit은 fit['events'] 내장 배열 대신 결속한 event stream을 읽는다. Old rho=anchor scale, common theta와 squared-L2 radius 검산을 제거하고 fixed applied pi, beta schedule, sum(pi*norm/a), caps, active/counter identity를 독립 검산한다. Missing/partial event를 성공0 또는 완료로 바꾸지 않는다.",
+    "share_semantics": "기존 requested squared-energy share는 관측값으로 남길 수 있지만 새 constraint의 allocation share는 pi_lr*||R_lr||/a_lr를 요청별 spend로 나눈 값이다. Raw normalized request share, priced spend share, effective realized share와 실제 layer Q를 별도 이름으로 기록한다. Zero total은 null/status로 표시한다.",
+    "cost": "Price computation, projection, compact IO, actual-B1 LOO assertion matvec를 exclusive timer로 계측한다. 기존 telemetry의 A@P 및 full effective-Q 계산도 가격 계산과 별도로 charge한다. 전체 fit/batch inclusive timer에 nested 시간을 다시 더하지 않는다.",
+    "resource_readiness": "실행 전 저장소 quota/free-space와 예상 compact artifact 상한 및 실패 receipt 여유를 확인하고 run manifest에 기록한다. ENOSPC가 발생하면 유효한 성공 commit만 prefix로 인정하며 빈 tmp를 rollback 또는 완료 증거로 사용하지 않는다. 무관한 파일 삭제나 자동 재실행은 이 계약에 없다."
+  },
+  "implementation_changes_required": [
+    {
+      "component": "PRICE_ENTRY",
+      "paths": ["project/run_scripts/jlz_v12r/fit.py", "project/run_scripts/jlz_v12r/engine.py", "project/run_scripts/jlz_native_writer_aware/builder.py"],
+      "change_ko": "c0 mean M 재사용과 price initializer/receipt를 추가하고 c0 BUILD 중복 없이 controller에 fixed applied pi를 전달한다. 과거 frozen 실행 source를 hotpatch하지 않고 별도 namespace 또는 새 source lock으로 구현한다."
+    },
+    {
+      "component": "PRICED_PROJECTION_CONTROLLER",
+      "paths": ["project/run_scripts/jlz_v12r/projection.py", "project/run_scripts/jlz_v12r/optimizer.py", "project/run_scripts/jlz_v12r/controller.py"],
+      "change_ko": "Absolute-R exact weighted capped group-L1 projection, dimensionless beta schedule와 새 receipt를 연결한다. Adam 산식/moment/counter 및 active policy는 보존한다."
+    },
+    {
+      "component": "PROFILE_RUNNER_LOCK",
+      "paths": ["project/run_scripts/jlz_v12r/profile.py", "project/run_scripts/jlz_v12r/prepare.py", "project/run_scripts/jlz_v12r/run.py", "project/run_scripts/jlz_v12r/preflight.py"],
+      "change_ko": "PRICE/FLAT/REVERSE와 floor/denominator/projection 상수, own-entry price identity, shared 계산 비용, 실제 B1 assertion 범위를 config/source/runner lock에 포함한다. 기존5-arm coverage 및 old radius expected values를 새3-arm 명세에 맞게 갱신한다. 이 문서는 제출을 수행하지 않는다."
+    },
+    {
+      "component": "TELEMETRY_COLLECTOR",
+      "paths": ["project/run_scripts/jlz_v12r/telemetry.py", "project/run_scripts/jlz_v12r/fit.py", "project/run_scripts/jlz_v12r/collect.py"],
+      "change_ko": "Static entry receipt와 단일 candidate stream으로 중복을 줄이고 weighted feasibility/expansion/multiset 검산, price floor 및 timing을 결속한다. Old ENERGY bound는 관측 가능한 별도 사실로만 남기며 priced constraint와 동일시하지 않는다."
+    }
+  ],
+  "claim_and_readiness": {
+    "scientific_change_count": "과학적 핵심은 fixed entry interference price와 priced shared-budget feasible set 두 축이다. Production source 변경이 두 줄/두 파일뿐이라는 뜻은 아니며 초기화, projector, controller, runner lock, telemetry/collector를 함께 결속해야 한다.",
+    "claim": "Native soft writer의 실제 candidate response를 이용한 joint local requested-residual 학습과 entry interference price에 따른 layer allocation을 시험한다. Exact local write, exact full causal gradient, 의미적 무손상, 장기 성능 개선 또는 최적 배분을 보장하지 않는다.",
+    "ready_for": "설계 검토와 production 구현",
+    "not_yet": ["PRODUCTION_IMPLEMENTED", "ACTUAL_B1_QUALIFIED", "GPU_EXPERIMENT_SUBMITTED", "LIFELONG_IMPROVEMENT_VERIFIED"],
+    "work_performed": "이 산출물은 구현 계약 문서만 추가한다. Production code 변경, commit, dispatch, model/GPU 실행 또는 toy test를 수행하지 않는다."
+  }
+}

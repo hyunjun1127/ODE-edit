@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "nonce": "USER-GH-SH4-JLZ-INTERFERENCE-L1-20261006",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "experiment_name": "Interference-priced group-L1 editing",
+  "design_id": "jlz-interference-budget-v1",
+  "user_quotes": [
+    "method 설계 이어서 진행하라. toy 실험은 건너뛰고 바로 method 실험으로 넘어갈 수 있도록 설계하라.",
+    "설계 이후엔 server4에 task 전달하자"
+  ],
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "owner": {
+    "role": "SH4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "app_host": "remote-ssh-codex-managed:lab163",
+    "cwd": "/data/janghj/ODE-edit",
+    "branch": "codex/server4-jlz-interference-priced-l1-2k"
+  },
+  "authority": "Current explicit USER authorizes newmethod implementation, integrated realB1 assertions and3independent2k experiments. Scoped exception toSTOP only this task. Not oldv12R rerun/5arm scope. No stage reapproval or unrelatedjobcancel/change/resume.",
+  "canonical": {
+    "original_root": "project/proposals/jlz-interference-budget-v1",
+    "method": "project/proposals/jlz-interference-budget-v1/method-spec.md",
+    "implementation": "project/proposals/jlz-interference-budget-v1/implementation-contract.json",
+    "experiment_plan": "project/proposals/jlz-interference-budget-v1/experiment-plan.md",
+    "experiment": "project/proposals/jlz-interference-budget-v1/experiment-contract.json",
+    "manifest": "project/proposals/jlz-interference-budget-v1/artifact-manifest.json",
+    "manifest_sha256": "b7c7e7644bd1878143ce6df43f58b384978b10e01a235617d29081f5052fb78b",
+    "source_base": "782c4c7a9b06f20b7e7ba5e938a83847c8660456",
+    "parent_execution": "635798ba276957312ec1aceda686ad563c906957",
+    "parent_tree": "41d95dee323a6b4ad705ccedddc740e27c0a1dd2",
+    "exact_files_preserved": 5,
+    "precedence": "LatestUSER and this execution delegation activate preserved design; NOT_IMPLEMENTED describes state, not permission refusal. Oldv12R qualification/fivearms/energyprojection must not be inherited. No silent scientificchange."
+  },
+  "scope": {
+    "arms": [
+      "PRICE",
+      "FLAT",
+      "REVERSE"
+    ],
+    "priority": {
+      "PRICE": 1,
+      "FLAT": 2,
+      "REVERSE": 2
+    },
+    "requests_per_arm": 2000,
+    "B": 100,
+    "batches": 20,
+    "cold_W0_H0_each": true,
+    "eligible_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "anchor": 8,
+    "seed": 20261002,
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "input": "samecounterfact-fixed-10k-v1 orderedfirst2000",
+    "new_baseline_fits": 0,
+    "new_ENERGY_L4only_exact_sweep": 0,
+    "noB21": true,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "science": "Reuse fresh actual upperK/P no-gradBUILD/effectiveFP32v subjectinjection/full off-owner same-layer pullback/EfficiencyAdamAbs/native soft meanridge/exactterminalpayload/finalrewriteHonce. ProductiondK/dP/reverse0,upperPnotfrozen. AbsoluteR andnative.5/aStar²norm/.0625KL/current||entry/C15000/.75localcap/lr.1/eps1e-8/.9,.999/25eval24update unchanged.",
+  "price": "Ownc0 only reuse already computed meanM=P.T Kbar (B x B, distinct from B x context-row pullbackM); c0 notduplicated. X_lrj=(a_lr/a_lj)*M[r,j]/(1-M[j,j]) overj!=r,occurrencesnotdedup, kappa=RMS_j. Floor max(raw,1e-6max_layer,1e-12), divide by min_layer. B1singleton/all-layerraw0 ->pi1 percontract. d finite>1e-8, no denominatorclip/jitter/uniformfallback forfailure. Ownbatch pricefixed/nextownW-Hrefresh. PriceextraLM/solve0.",
+  "constraint": "sum_l effectivepi_lr*||R_lr||/a_lr<=beta_r; each||R_lr||<=.75a_lr. beta0=.75;max=.75maxpi; ownupdategrace12/4stages/F>=.05. AbsoluteR Euclidean weighted cappedgroupL1 projection with sortedbreakpoints, no normalizedu metric/radialrescale. Allzero-layer gradients/moments/gamma/reentry maintained.",
+  "arm_rules": "PRICE computedpi; FLAT measuresnativeprice thenuses1 withnoexpansion; REVERSE stable(pi,index) ascending layerorder receives reversed sameprice multiset, noinverse/norandom/reselection. Owntrajectories/priceinputsdiverge, notcrossarmstateorpricecache sharing.",
+  "no_toy_no_pilot": {
+    "synthetic_or_toy_experiments": false,
+    "standalone_W0_key_study": false,
+    "smallB_fit": false,
+    "standalone_B1_fit": false,
+    "new_old_fullbuilder_gradient_qualification": false,
+    "performance_promotion_gate": false,
+    "extra_price_LM_forward_or_solve": false,
+    "CPU_toy_PASS_inherited": false
+  },
+  "production_confirmation": "SH4 owner code/static/import/config checks are required; do not invent a synthetic/toy numerical gate. Actual sameB1c0 checks use cachedP/K/A/M, identity/finite/price andfixedLOOpairs(0,1),(1,0) all5layers, matvec/reductiononly. FirstrealproposalprojectionKKT and FP32feasibility; normal subsequent runtimeassertions. No newfit/update/commit/forward/solve forqualification. ActualB1payload/H/join isfirstsame2ktrajectory, notpilot/refit.",
+  "tolerances": {
+    "denominator_min_exclusive": 1e-8,
+    "LOO_nonzero_key_relative_residual": 0.000001,
+    "LOO_zero_key_absolute_residual": 1e-8,
+    "LOO_coefficient": "abs<=1e-8+1e-6abs(expected)",
+    "projection_FP64": "length/primal/complementarity1e-10 scaled ascanonical",
+    "storedlocal_absolute": 0.000001,
+    "storedshared": "excess<=1e-6max(1,beta)"
+  },
+  "technical_failure": "Same-method ordinary implementation/numerical bugfix/rebinding allowed withinthisscope withnewsource/receipt; preserve originals. Wrongidentity/nonfinite/denominator/LOO/projection/payloaderrors typedfailure,nofalsePASS/silentclip/tolerancechange/methodfallback. Finitebudgetstop/lowquality/ties/concentration continue. Scientificchanges requireexplicitdocumentrevision/report, nothiddenfallback.",
+  "allowed_write_paths": [
+    "project/run_scripts/jlz_interference_l1/**",
+    "project/run_scripts/jlz_native_writer_aware/builder.py",
+    "plans/updates/server4/jlz-interference-priced-l1-2k/**",
+    "audits/servers/server4/jlz-interference-priced-l1-2k/**",
+    "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/**",
+    "runs/jlz-interference-priced-l1-2k/**",
+    "tasks/status/jlz-interference-priced-l1-2k/server4.json",
+    "messages/acks/server4/jlz-interference-priced-l1-2k.json",
+    "messages/server-heads/server4/jlz-interference-priced-l1-2k.json",
+    "local/jlz-interference-priced-l1-2k/**",
+    "own dedicated worktree ignored servers/local/session-boundary.env"
+  ],
+  "implementation_ownership": "New non-main namespace is preferred for price/c0 engine hook/projector/controller/profile/fit/runner/collector. Existing jlz_v12r core imported/copied with provenance and unchanged objective/optimizer; source635798ba remains immutable. Only listedsharedbuilder minimal backward-compatible optional exposure of alreadycomputed meanM/P/K to newcaller allowed, no default behavior/sciencechange. Other sharedfiles exactscope report toGH before expanding; no hotpatch running archives/sharedruntime/model/C0/evaluator.",
+  "resources": {
+    "task_concurrent_GPU_max": 2,
+    "tracked_server4_project_cap": 3,
+    "effective": "Fresh min(localproject,tracked3,task2), countallallocated/admittedpendinginclpreviousjobs. No capincrease or displacement.",
+    "per_GPU_job": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 59392,
+      "host_memory_MiB_hard": 60416,
+      "wall_hours_max": 48,
+      "node": "server4",
+      "partition": "gpu",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "CPU_collector": {
+      "GPUs": 0,
+      "CPUs_default": 8,
+      "host_memory_MiB": 24576,
+      "wall_hours_max": 4
+    },
+    "binding": "SH4 freshCPU-perGPU/node/QoS/queue/VRAM/hostRAM check. LowerCPUdefault iflegalpolicyrequires, consistentthreads/resource-onlyreceipt; actualchosenwall/time/peakestimate sealed before submit, no 500s/4.7h ETAreuse.",
+    "schedule": "PRICEfirst. FLAT/REVERSE afterPRICE resourceorder afterany, owncoldindependent, withinavailable2orserial. Register3GPUjobs plusCPUafteranycollector upfront whenadmissible. Noqualifier/smallpilotjob. Noqualitydependency. Eachentry/runtime/storagechecks independent; commonwrongsourcefailureblocksaffectedcode, notlowmetrics.",
+    "pending": "Ifoccupied releaseddependency/PENDING allowed afterheldinspection; no waitingforfreeGPU/otherjobmutation."
+  },
+  "storage": {
+    "cause": "Prior B16 ENOSPC confirmedwritefailure; storageconsumerNOT_IDENTIFIED.",
+    "required": "One staticentryprice receipt perbatch(LxB anchors/caps/raw/floored/computed/appliedprice/permutation/endpoints); one authoritativecandidateJSONL stream, fit summaryhash/linecountreferences only. Collector streamparserandindependentspend/controller/KKTsummarychecksupdatedtogether.",
+    "forbidden": "No newdurableM/P/K/A/H/weights/activation/fulltoken/vocabdump; no checkpointorresume-equivalentR/optimizerbundle. No duplicated events array in fit.json/static arrayscandidate repetition.",
+    "admission": "Compute entire3arm maximumserializerrecords/arraylength/bytes plus model/sourceexistingfootprint, atomictemp/collector/report/errorreserve; bindfreshquota/free/inodes. Perbatchbeforefit require nextbatchmaxwrite+error/terminalreserve, elseRESOURCE_BLOCKED_STORAGE. No deletion/movingunrelateddata/logomission/evalshrink/largecloning workaround.",
+    "failure": "Partialprefixonlyverifiedcommits; missing/emptyreceipt meansrestore/terminalNOT_VERIFIED, not success. Preserve source/raw/errorreceipts. No automaticretry."
+  },
+  "evaluation": "NormalW0first2000 exactidentity reuse orfreshonce; eachcurrentpre/post;W5/10/15/20allseen andfirst500/birthcohorts. Sameendpointduplicateforward0, milestonecurrentderivedfromallseen. R/Pnew<Ntrue,Ntrue<new,tiefail;TFstrict/tokenmicro/promptmacro,Ntrueaccuracy, NLL/margins/lostgained. Requested/realized/price/spend/zero/cap/expansion/Q/active/reentry/subjectactualgap andexclusivecomputeallcounted. W20R2000P4000N20000 perarm.",
+  "claims": "PrimaryPRICEvsREVERSE;FLATwholepolicycomparison. Noequalsemanticstrengthfromequalnorm/beta, noindependentL2toL1causalclaim, nosemanticdamagebound. Oldv12R W15only/W20absent; sourcepublicationnotexecution, ENOSPCnotqualityfailure. Allheldoutmetricsobservationonly.",
+  "artifact_policy": "Compactsource/report/CSV/manifest Git; raw/pertensor/prompts/fullstdout ignoredlocalonly. Existingartifacthelper exactallowlist/no--delete orNO_BROADCAST_NOT_REQUIREDexception. Reuselocalassetsreadonly; taskscopedsmallsource/context/provenancepullsallowedsourceKEEP. No newlarge model/data/CPtransfer or sharedenvchange.",
+  "publication": "SH4 ownscope source/compactreport/nonforcebranch+main authorized afterscopedchecks, executionlockdistinctfromanalysis/publication. GHcanonicaloriginalimmutable. Model/reasoning effortUSERmanagedunchanged.",
+  "report": "experiment-reports/servers/server4/jlz-interference-priced-l1-2k/report-ko.md",
+  "ACK": "messages/acks/server4/jlz-interference-priced-l1-2k.json",
+  "status": "tasks/status/jlz-interference-priced-l1-2k/server4.json",
+  "monitoring": "GHendafterdirectownerACK, notGPUcompletion. SH4 implements/registers autonomously. BoundedinitialPRICEB1commit->B2entry orformalresourcepending handoff thenagentpause; sealed3armDAG/collectorcontinue. No newrecurringmonitor/heartbeat/automaticretry.",
+  "delivery": "ExactregisteredSH4nonceack+acceptedturn/currentphase first. Checknonce duplicate beforestart; do notsteerunrelatedactive. Currentdirectread idle/noduplicatenonce. ACK is notimplementation/GPUqualification/submission/complete."
+}

@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "design": "jlz-interference-budget-v1",
+  "status": "DESIGN_READY_REVIEWED_NOT_IMPLEMENTED",
+  "source_base_commit": "782c4c7a9b06f20b7e7ba5e938a83847c8660456",
+  "source_thread": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "latest_user_instruction": "설계 이후엔 server4에 task 전달하자",
+  "scope": "간섭가격 shared group-L1 구현과 PRICE/FLAT/REVERSE 실제 BS100x20; toy/별도W0key연구/B1성능gate 없음",
+  "files": [
+    {
+      "path": "method-spec.md",
+      "bytes": 17713,
+      "sha256": "a766f118ca122201458530ede28b7dbb909801dd013e5a43f8633c5838b6eb81"
+    },
+    {
+      "path": "implementation-contract.json",
+      "bytes": 26238,
+      "sha256": "8ec39bd3af1d0142fb2b2f0d8111cccf0380d5518d572953b66e8219fd5b326d"
+    },
+    {
+      "path": "experiment-plan.md",
+      "bytes": 15744,
+      "sha256": "f08727641ebff2732b6c99f55b6d0579fed50ab1cdf2583b2a17318c6f82a203"
+    },
+    {
+      "path": "experiment-contract.json",
+      "bytes": 16878,
+      "sha256": "a0921ab6899622e015e2a6f0f3d714b970d06955b48b955dae932f4689b1336a"
+    }
+  ],
+  "review": {
+    "math": "비대칭 LOO orientation, 절대R 사영, PRICE 한정 proxy, active/reentry와 c0 재사용 검토 완료",
+    "source": "실제 v12R entry/builder/fit/controller/optimizer/collector 통합 위치 검토 완료",
+    "static": "JSON parse, 상대파일링크 및 arm/trajectory/no-solve/no-toy 설정 정합 확인",
+    "not_performed": [
+      "toy 실험",
+      "수치 benchmark",
+      "실제 모델 실험",
+      "GPU 제출",
+      "신규 method production 구현"
+    ]
+  },
+  "dispatch": "별도 GH 및 SH4 수신 receipt로 기록"
+}
