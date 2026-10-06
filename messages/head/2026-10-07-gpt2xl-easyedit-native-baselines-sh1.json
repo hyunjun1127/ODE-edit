@@ -15,7 +15,7 @@
     "cwd": "/mnt/raid5/janghj/ODE-edit",
     "branch": "codex/server1-gpt2xl-easyedit-native-baselines-2k"
   },
-  "authority": "이신규stockbaseline2개 구현/최소CPU검산/native자산binding/Slurmheld등록·검사·release/2ksealed실행/CPUcollector/소형main게시 전부승인. 단계별사용자재확인없음. 현재ours구현·기술수리와승인실행계속,타job취소0.",
+  "authority": "stock MEMIT·AlphaEdit GPT2-XL 두 baseline의 구현·최소 CPU 검산·자산 결속·Slurm held 등록/검사/release·2k 실행·CPU collector·소형 main 게시 승인. 단계별 재승인 없음. 현재 ours 6개는 그대로 진행.",
   "scope": {
     "arms": [
       "BASE_MEMIT",
@@ -23,13 +23,16 @@
     ],
     "model": "openai-community/gpt2-xl",
     "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
-    "source": "현재설치EasyEdit정확apply/execute/compute_z/compute_ks/hparams sourceSHA",
     "cold_independent": true,
-    "cohort": "기존ours와동일counterfact-fixed-10k-v1 first2000 ordered occurrences,seed20261002",
+    "cohort": "기존 ours와 동일 counterfact-fixed-10k-v1의 첫2000 순서·occurrence, seed20261002",
     "batch_size": 100,
     "batches": 20,
     "edits_per_arm": 2000,
-    "end": "W20 R2000/P4000/N20000관측·collector후종료",
+    "terminal_denominators": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
     "additional_arms_or_sweeps": 0
   },
   "native": {
@@ -59,42 +62,46 @@
       "Alpha_L2": 10,
       "Alpha_nullspace_threshold": 0.02
     },
-    "fidelity": "nativeHyperParams实际parser + host/device/batch100/path仅适配。nativecompute_z逐请求targetfit/原stop/原Adam/clamp/nativeKL/remaining-layerdivisor/shape-cast-add保留。oursplanner/price/projection/EfficiencyAdam/controller/directR替代0。native数值dtype/运算顺序不为oursFP64geometry强改。",
+    "fidelity": "두 native HyperParams parser의 실제 해석을 봉인. BS100/device/asset 경로만 적응하고 native compute_z·원 Adam/stop/clamp/KL·remaining-layer divisor·solve dtype/운산순서·cast/add 유지. ours planner/PRICE/EfficiencyAdam/controller/MEMIT-H/BLUE로 대체하지 않음.",
     "entrypoints": [
       "easyeditor.models.memit.memit_main.apply_memit_to_model",
       "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model"
     ],
-    "sequence": "copy=False,每次100顺序native请求，沿用返回model进入下一batch，直到20commit；不要每batch恢复W0。BaseEditor.batch_edit(sequential_edit=True)语义参照，生产用directapply薄wrapper可精确插入观察且避免内置重复/错误pre。",
-    "MEMIT": "stockMEMIT无跨batch H项，不把ours MEMIT-H或BLUE当stockbaseline。COV/context缓存只读状态按native保留。",
-    "AlphaEdit": "冷进程cache_c初始零，firstcall可reset_cache=True，仅首批初始化。后19batch不reset。nativefinal keys→cache_c累积1次，保留native投影FP32solve/L2=10/原remaining-layer residual，额外oursHappend0。",
-    "caches": "cache_template=None避免保存z/editedpayload。模型/tokenizer/nativecontexts/mom2/P资产只读。复用exactcoldGPT2context及W0raw须nativegenerator/runtime/token/cohortidentity一致；否则原native首次contexts在实际首batchcold准备中一次生成，不添加pilot。两个baseline独立进程global caches/state不可交叉。",
-    "BaseEditor_pre_caveat": "当前BaseEditor.batch_edit在sequential_edit=True后以更新模型计算pre，不能将该字段当真实pre/locality保留率。wrapper必须在apply之前采集真正pre、之后post，使用统一RPN评估器；nativeeditor诊断单独标注不替代canonical。",
-    "GPT2": "Conv1Dnative[6400,1600]bias/serialattn→MLP/tiedwte-head/learnedposition/contextlimit1024/nativeleading-spacetarget/subject_last；输入超限不静默截断。finalLN一次。"
+    "sequence": "독립 cold 프로세스에서 copy=False,return_orig_weights=False,cache_template=None의 direct native apply를 100개씩20회 호출하고 반환된 동일 누적 model을 다음 배치에 전달. BaseEditor.batch_edit(sequential_edit=True)와 같은 편집 지속성.",
+    "request_schema": "CounterFact target_new dict의 str를 native 문자열 요청으로 변환. prompt/subject/target_new 문자열 및 case_id를 source/input lock으로 결속.",
+    "MEMIT": "stock native MEMIT에는 edit history H 항 없음. 현재 편집 모델에서 매 배치 100 native z를 다시 fit. 20000C0 covariance와 native context cache만 보존.",
+    "AlphaEdit": "native module-global cache_c를 첫 call에만 reset_cache=True로 zero 초기화하고 이후 reset=False. 최종 전층 write 모델의 rewrite mean key로 native history 1회/층 append. execute는 W를 복원해도 cache_c는 진행하므로 dry-run 추가 호출 금지. native apply의 두번째 반환값은 weights_copy이며 H가 아님. cache_c/P kwargs는 BLUE와 달리 무시되므로 검증한 native P_loc와 module-global 상태를 사용.",
+    "context": "동일 cold GPT2/runtime/native get_context_templates provenance가 확인된 기존 native cache만 재사용. 단지 ours에 존재한다는 이유로 context를 대입하지 않음. 없으면 각 native 첫 실제 baseline 안에서 생성·봉인, 이후20배치 cache 유지. z cache는 끄고 disk z 저장0.",
+    "evaluation_caveat": "현재 BaseEditor.batch_edit는 sequential commit 후 pre를 평가하므로 진짜 pre/locality 기준으로 쓰지 않음. direct apply wrapper의 편집 전·후를 공통 평가기로 관측. native compute_edit_quality 통계는 canonical RS/PS/NS와 별도 표기.",
+    "GPT2": "Conv1D 저장[6400,1600], 고정bias/native addmm/직렬 attention→MLP/tiedwte-head/learnedposition/1024길이/subject_last·leading-space·ln_f1회를 결속.",
+    "provenance": "local EasyEdit HEAD3488a66ee988d83ee7891a8abbbe6bcb24a77daf와 dirty 호환수정 존재. 실제 imported closure SHA·diff를 읽기전용 봉인하고 pristine upstream이라고 주장하지 않음. 원 source 수정0."
   },
   "assets": {
+    "reuse": "현 GPT2 model/C0/P/준비READY/기존 native context/read-only reuse; stats/P 재계산·모델 다운로드0. native cachemiss로 Wikipedia collection을 실행하지 않도록 절대경로 및 model basename/path를 사전 확인.",
     "model": "现SH1同revisionGPT2payloadSHA0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
     "ready": "GPT2准备READY755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657及completed-repair-r2 manifest",
     "P": "现null_space_project_gpt2-xl.pt SHA187d83367339de1373b33ce39b101bb8c81445de9b3b9e5bf612f55b8a9608eb [5,6400,6400] physicalL13-17",
-    "C0": "现5NPZ masked count44068071 FP32sum/count；文档100000非分母。native路径实际命中检查，不许cachemiss触发重算。",
-    "no_download_or_recompute": true,
-    "identity": "SH1fresh nativeclosure/runtime/YAML/model/C0/P/contexts/orderedrequests/evaluator/packSHA 봉인。准备CPU PASS≠GPUmethodPASS。"
+    "C0": "5층 NPZ FP32sum/count, masked count44068071; 문서수100000을 분모로 쓰지 않음.",
+    "identity": "nativeclosure/runtime/YAML/model/tokenizer/C0/P/context/orderedfirst2k/평가pack SHA를 fresh 결속. 준비 CPU PASS를 GPU method PASS로 승계하지 않음."
   },
   "evaluation": {
-    "reuse": "复用原GPT2ours的规范评估函数/tokenrow/input schedule/read-onlycontext和同identityW0，不能复用editedresults/nativepre。",
-    "pre_post": "每batch真实pre/post当前100 R100/P200/N1000。W5/10/15/20all_seen，fixedfirst500/cohortretention/atwrite→laterpaired raw。",
-    "metrics": "RS/PS/NS preference与TFtokenmicro/promptmacro/strict、true/newNLL/margin、harmonicpct；Ndesired=true。performance不作stop/retrygate。",
-    "W0": "同model/runtime/input/eval冷W0exactraw可复用，无则原计划2kW0观测1次。"
+    "reuse": "기존 GPT2 공통 evaluator와 token/row identity를 재사용. W0는 같은 모델/runtime/input/evaluator의 검증된 exact first2k raw일 때만 공유.",
+    "pre_post": "매 배치 실제 pre/post 현재100 R100/P200/N1000. W5/10/15/20 all-seen, first500/birthcohort/atwrite→later paired retention.",
+    "metrics": "RS/PS/NS preference, TFtokenmicro/promptmacro/strict, true/newNLL·margin·harmonic. N desired=true, missing 생략. 낮은 성능은 tuning/재실행 gate 아님."
   },
   "tracking": {
-    "path": "已有PRICE正确mapping/upload复用，中央helper/capability迁移不是submissiongate。source930e4653可用且调用实际兼容。",
-    "contract": "control/wandb-method-metric-schema.json及control/wandb-policy.json scalar/privacy/分母/edits规则",
-    "model": "gpt2xl",
-    "model_family": "gpt2",
-    "role": "scientific",
-    "writer": "actual memit or alphaedit",
-    "arm": "BASE_MEMIT/BASE_ALPHAEDIT",
-    "identity": "实际job/name/array/signedstep/source/config/immutableIDURL。当前/累积分开、missingomit、pct0..100/nats/harmonic、fit单调轴。nativefit只观察已有calls/time/state，logger不另做fit或GPUprobe。",
-    "delivery": "实时/局部spool/有界finish与remote读回，SDKaccepted≠readbackverified；网络故障不重跑科学。"
+    "policy": "control/wandb-policy.json 및 control/wandb-method-metric-schema.json의 의미·분모·축·privacy",
+    "reuse": "검증된 PRICE mapping/upload를 native baseline wrapper에서 재사용. 중앙helper 이관 자체가 등록 선행조건 아님.",
+    "config": {
+      "model": "gpt2xl",
+      "model_family": "gpt2",
+      "role": "scientific",
+      "writer": "실제 memit/alphaedit",
+      "arm": "BASE_MEMIT/BASE_ALPHAEDIT"
+    },
+    "identity": "실제 job/name/array index0/signedstep/source/config/immutable runIDURL",
+    "axes": "current/pre/current/post/all_seen/post/W0_first2000/w0 current·allseen N subset을 edits축에 기록; native fit은 이미 측정한 call/시간/단조 fit축만. logging검산을 위한 추가fit/forward/GPUprobe0.",
+    "finish": "실시간scalar·로컬spool·boundedfinish/readback,SDKaccepted와remote검증구분."
   },
   "resources": {
     "combined_server1_GPU_cap": 2,
@@ -103,13 +110,13 @@
     "host_memory_MiB_default": 65536,
     "hard_max_MiB_per_GPU": 183296,
     "wall_hours_planning": 48,
-    "guard": "更严格当前政策优先，确认devbox/node/QoS/partition实际点位/所有RUNNING与admittedPENDING DAG；上述只是计划值非ETA。nojob取消/抢占/cap增加。",
-    "queue": "现ours6run不变。两个baseline按实际owner/source/task结束frontier登记afterany，优先各writer自己的ourslane末端；必须证明ours+baseline总并行<=2。当前报告oursMEMIT60124→60125→60126、Alpha60127→60128→60129只是参考，提交时fresh验证准确IDs；若DAG不符使用全有效frontier。不要先等freeGPU再登记。",
-    "collector": "own2afterany GPU0。heldowner/source/fullargv/resources/dependency/noCP/W&B检查后release。nativeinputREADY也验证，无GPU文件poll。"
+    "guard": "더 엄격한 현행 정책을 우선하며 node/QoS/partition 및 모든 RUNNING·admitted PENDING DAG를 실제 확인한다. 자원값은 계획치이며 ETA가 아니다. 기존 job 취소·선점·cap 증액 금지.",
+    "queue": "기존 ours 6개는 유지한다. 두 baseline은 실제 owner/source/task 종료 frontier를 확인하여 각 writer ours lane 말단 afterany 뒤에 등록한다. ours와 baseline 합산 동시 GPU<=2를 증명한다. 최신 참고 ID: MEMIT60124→60125→60126, Alpha60127→60128→60129. 실제 DAG가 다르면 유효 전체 frontier를 사용한다. free GPU를 기다리지 않고 정식 dependency/PENDING 등록.",
+    "collector": "자기 두 GPU job afterany CPU collector/GPU0. held에서 owner/source/fullargv/resources/dependency/noCP/W&B 확인 후 release. native input READY도 검증하며 GPU 점유 파일 polling 없음."
   },
   "write_scope": [
     "project/run_scripts/gpt2xl_native_baselines/**",
-    "testsunder新namespace",
+    "새 namespace 내부 tests",
     "audits/servers/server1/gpt2xl-easyedit-native-baselines-2k/**",
     "experiment-reports/servers/server1/gpt2xl-easyedit-native-baselines-2k/**",
     "runs/gpt2xl-easyedit-native-baselines-2k/**",
@@ -118,17 +125,10 @@
     "messages/server-heads/server1/gpt2xl-easyedit-native-baselines-2k.json",
     "ignored local/gpt2xl-native-baselines/**"
   ],
-  "write_boundary": "EasyEdit/sharednative源码原bytes保留。观察只读hooks或薄wrapper，任何必要native兼容bug需exact原diff/修复原因/不改数学并隔离tasklocal source。oursfrozen源码/archive/jobs保持。非主branch隔离、用户dirtyroot保持。用户model/effort保持。",
-  "checks": "CPU最小验证 nativeparser/顺序20chunks/缓存与state持续/Conv1D方向/nativeobserver对pre真实state/分母/共享W&B轴ID/capDAG/fullargvsource。已有producer测试和证据复用，额外toy/smallpilot/λsweep/另B1fit0。实际batch内finite/selectedweight/nonselectedguard/historynativeonce/entry→nextentry、技术异常typedfailure；低分记录不调参。",
-  "artifacts": "NoCP/noeditedweightHdump/rawlocalKEEP/原实验资料保留/compactsource报告manifestmain非强制push批准。原raw不复制，NO_BROADCAST_NOT_REQUIRED例外记录。secret/model/dataset/raw/fullstdout Git/W&B0。",
+  "boundary": "EasyEdit/native 원 source 및 기존 ours frozen/source/job 보존. 필요한 연결은 새 project/run_scripts/gpt2xl_native_baselines/** 얇은 wrapper·관측 hook로 제한. 전용 non-main branch, dirty root reset/stash/stage-all0. 사용자 model/effort 유지.",
+  "checks": "최소 CPU/source 검산: nativeparser·20chunks/100입력·문자열schema·누적 W·Alpha cache 최초1회초기화/100층historyappend·MEMIT H없음·nativeobserver 실제pre·Conv1D/분모·W&B axes/ID·sourceclosure/capDAG. 추가toy/smallpilot/별도B1fit0. 실제 batch 내 finite/selected/nonselectedguard/commit/다음entry 기술검산, 오류는 typed failure.",
+  "expected_counts": "z cache가 없으면 방법당2000native compute_z/100solve; MEMIT key100회, Alpha pre층key100+finalhistorykey100 및100층append. native earlystop 때문에 backward횟수를40000으로 단정하지 않음.",
+  "artifacts": "NoCP/editedweightH durable dump0/rawlocal KEEP/compact source·집계·manifest·보고 main 비강제게시 승인. 원raw복제0,NO_BROADCAST_NOT_REQUIRED 기록. credential/model/data/raw/fullstdout Git/W&B0.",
   "report": "experiment-reports/servers/server1/gpt2xl-easyedit-native-baselines-2k/report-ko.md",
-  "completion": "先nonceownerACK，继续实现/最低检查/实际2GPUjob+CPUcollector登记release。回传真实jobIDs/dependencies/sourceconfig/nativeclosure/W&Bidentitystage或确切技术block。提交后boundedinitialsnapshot停止agent监控，sealednative20batch继续。此次GH等实际提交receipt，不等W20。",
-  "source_review": {
-    "native_paths_checked": [
-      "editor.py batch_edit",
-      "memit_main.py apply_memit_to_model",
-      "AlphaEdit_main.py apply_AlphaEdit_to_model/execute_AlphaEdit"
-    ],
-    "finding": "BaseEditorpre_afterwrite及Alpha缓存首次初始化已source-backed确认。探索agent只读复核native语义；此review不是实际GPU PASS."
-  }
+  "completion": "먼저 nonce 담당수락ACK후 구현·최소검산·2GPUjob+CPUcollector 실제held검사/release까지 계속. 실제jobID/dependency/sourceconfig/W&Bstage 또는 정확한 기술block 회신. 등록후boundedinitialsnapshot 인계,장기agentpolling0,sealed20배치자연진행."
 }
