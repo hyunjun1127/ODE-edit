@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
+  "task_id": "price-model-runs-tracking",
+  "date_kst": "2026-10-07",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "expected_related_turn": "01a112bd-4374-70d1-a313-27d0d241458d",
+      "models": [
+        "gpt2xl"
+      ],
+      "task_ids": [
+        "jlz-price-gpt2xl-2k"
+      ],
+      "responsibility": "최신명령으로 직전 method구현-only 제한을 이scope에서 대체. 진행중 GPT2구현을 보존하여최소CPU검산후실제6cell등록/release까지진행. 검증된 PRICE tracking재사용가능,중앙helper채택완료 자체를gate로두지않음. nativeGPT2hparams .5/20/19/20000/Alpha10 유지."
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "models": [
+        "llama3",
+        "gptj"
+      ],
+      "task_ids": [
+        "jlz-price-cap-base-repair-2k",
+        "jlz-price-alpha-writer-2k",
+        "jlz-price-gptj-2k"
+      ],
+      "responsibility": "Llama/GPTJ 각6cell ledger작성. RUNNING/완료유지·중복0; 아직시작하지않은대상PENDING만정확검증후logger수리source로취소교체. collector/downstream먼저처리하고newDAG재작성. GPTJ미제출은최소구현검산후등록. 중앙helper/capability대기조건해제. Qwen재개0."
+    }
+  ],
+  "authority": "현재USER직접실행명령. 이18cell 목표범위 구현/최소CPU검산/정확PENDING취소교체/미제출등록/held검사/release/collector/ownscope main게시 승인. 추가단계별승인없음. 기존RUNNING/완료유지,중복18개신규제출뜻아님.",
+  "precedence": {
+    "helper": "이범위에서 기존 SH1중앙helper/COMPARISON_SCHEMA기능표식 결속필수조건을 대체. 실제 mapping/분모/축/전송정합 검증된PRICE경로면사용가능. 같은helper이미정합하면사용가능하나중앙이관자체가gate아님.",
+    "SH1": "현재직접관측된 직전구현-only 사용자제한을 이새명령의GPT2 여섯실제제출권한으로대체. 새로운별도중단지시가이후도착하면그최신지시우선.",
+    "immutable": "일반정책의frozenPENDING불변원칙 중 이scope의미시작PENDING만취소+새source교체허용. 기존archive덮어쓰기/RUNNINGhotpatch0. 나머지정책불변."
+  },
+  "scope": {
+    "models": [
+      "gpt2xl",
+      "llama3",
+      "gptj"
+    ],
+    "writers": [
+      "memit",
+      "alphaedit"
+    ],
+    "arms": [
+      "CAP075",
+      "CAP100",
+      "FREE100"
+    ],
+    "goal_cells": 18,
+    "independent_cold_W0_H0": true,
+    "first_requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "exclusions": [
+      "Qwen재개",
+      "FREE075",
+      "새baseline/sweep/pilot",
+      "별도B1fit"
+    ],
+    "science": "모델별기존승인PRICE method/계수/입력순서/native adapter/evaluator유지. GPT2 EasyEdit최신값 유지; Llama/GPTJ에GPT2계수전파0."
+  },
+  "tracking": {
+    "reuse": "기존PRICE 실제정상mapping/upload경로+기존B4/B5/W0 CPU검산재사용. 누락항목만tasklocal최소보완. oldRUNNINGW&B동시writer/backfill/snapshot생성0.",
+    "prefixes": [
+      "current/pre/{R,P,N}/*",
+      "current/post/{R,P,N}/*",
+      "all_seen/post/{R,P,N}/*",
+      "W0_first2000/{R,P,N}/*",
+      "w0/current/N/*",
+      "w0/all_seen/N/*"
+    ],
+    "fields": [
+      "count",
+      "success_count",
+      "success_pct",
+      "token_acc_pct",
+      "prompt_acc_pct",
+      "strict_acc_pct",
+      "true_nll",
+      "new_nll",
+      "margin_true_minus_new"
+    ],
+    "semantics": "all_seen은W5/10/15/20실측만. milestone current는현재100 유지. pct0..100/NLLnats/Ndesired=true/margintrue-new. missing생략;harmonicpct입력3/sum(1/p),zero0/missingomit. first2kW0는동일모델정확cohort만.",
+    "axes": "eval payload에edits; pre_state_edits/post_state_edits별도. fit단조별도candidate축,모델별20또는25예산/earlystop존중.",
+    "identity": "model/model_family/writer/role/metric_schema/source/config및실제job_id/arrayindex0/signedstep;run.name job번호;immutable runID/URLreceipt;scalar-onlyprivacy. SDK접수≠remote검증. realtime+boundedfinish/readback,logger장애원raw보존/science재실행0.",
+    "canonical_metrics": "control/wandb-method-metric-schema.json의의미/분모/privacy유지; 이실행경로예외만적용."
+  },
+  "job_reconciliation": {
+    "inventory": "대상model×writer×arm을source/owner/task/node/argv/config/실제state/accounting에결속. 전체same-owner project RUNNING+admittedPENDING의실제DAG로cap증명. submission옛snapshot을현재state로쓰지않음.",
+    "keep": "RUNNING/COMPLETING 및이미실행된/완료cell은그대로유지;실험결과와W&B부족은명시하고재실행하지않음. 이전실패/중단cell은자동rerun으로채우지말고상태/사유보고.",
+    "replace": "아직실행되지않은PENDING 대상만 (elapsed0/start없음/allocation없음 포함) 확인후수리source로교체. 소유collector/후속GPU DAG전체를먼저열거.",
+    "safe_order": "취소로afterany가즉시충족됨: 정확PENDING collector/후속부터검증+필요한일시hold로경합방지→collector→reverse-topological후속→상류취소. hold/취소직전state재확인;RUNNING전환시그job보존하고DAG재산출. exactIDs만, broadscancel0. 실패한작업을성공으로표시0.",
+    "new_dependencies": "새replacement GPU/CPUcollector는새실제IDs로DAG재구성. 취소oldID를resourcegate로남기지않음;유지RUNNING의정확ID와필요inputREADY를연결. 현running에취소후재등록dependency변경0. Qwen취소ID를새resourcefrontier로재사용0.",
+    "collector": "해당targets에연결된CPUcollector도정확상태확인후미시작PENDING만교체. 이미실행/완료collector는보존하고필요새collector별도기록;retained+new대상coverage를명시. 다른taskcollector변경0.",
+    "submission": "수리/최소검산/sourceconfigfreeze후전량held등록→owner/fullargv/source/script/resource/dependency/W&B/noCP검사→release. unmatched면실제기술사유보고. 새retryloop0."
+  },
+  "resources": {
+    "server1": {
+      "combined_GPU_cap": 2,
+      "policy": "현재승인cap2 또는더엄격현행정책",
+      "max_host_memory_MiB_per_GPU": 183296
+    },
+    "server4": {
+      "user_stated_combined_GPU_cap": 3,
+      "effective": "min(3,더엄격한현재정책);사용자진술을근거로localcap증액하지않음",
+      "max_host_memory_MiB_per_GPU": 60416
+    },
+    "per_job_GPU": 1,
+    "CPU_memory_QoS": "서버별기존승인profile+fresh점유/QoS/mem/diskinode확인. SH1계획8CPU/64GiB/48h,SH4기존8CPU/58GiB/48h 참조값이지기본복사강제/ETA아님. 정확유효값봉인.",
+    "queue": "cap내RUNNING+admittedDAG를계산;자리없으면dependency/PENDING등록. 타job선점/cap증액0."
+  },
+  "assets_checks": "기존model/C0/P/context/hparams를exactbinding. GPT2자산READY≠methodGPU PASS. 동일모델/runtime/input/evaluator/tokenrowW0raw면재사용,없으면원계획필요관측만. logging검증위한모델forward/fit/GPUpilot0. 바뀐mapping/adapter키/분모/축/ID만최소CPU. 원래과학기술검사를면제하는뜻아님.",
+  "write_scope": {
+    "server1": [
+      "project/run_scripts/jlz_price_gpt2xl/**"
+    ],
+    "server4": [
+      "project/run_scripts/jlz_interference_l1/cap_tracking.py",
+      "project/run_scripts/jlz_interference_l1/comparison_bridge.py",
+      "project/run_scripts/jlz_interference_l1/cap_run.py",
+      "project/run_scripts/jlz_interference_l1/cap_prepare.py",
+      "project/run_scripts/jlz_interference_l1/cap_submit.py",
+      "project/run_scripts/jlz_interference_l1/cap_collect.py",
+      "project/run_scripts/jlz_price_alpha_writer/**",
+      "project/run_scripts/jlz_price_gptj/**"
+    ],
+    "notes": "기존science수식변경0. 원 source를수정하지않는tasklocal override/logger/tests 가능. 공통experiment_tracking은SH1만필요시수정,이관필수아님. 같은sharedfile의타SH변경보존. 셋업/EasyEdit원소스읽기전용.",
+    "own_artifacts": [
+      "audits/servers/<server>/price-model-runs-tracking/**",
+      "experiment-reports/servers/<server>/price-model-runs-tracking/**",
+      "messages/acks/<server>/price-model-runs-tracking.json",
+      "messages/server-heads/<server>/price-model-runs-tracking.json",
+      "tasks/status/price-model-runs-tracking/<server>.json",
+      "runs/price-model-runs-tracking/<server>/**",
+      "기존승인own task source/status/run/report의tasklocal수정",
+      "ignored local/price-model-runs-tracking/**"
+    ]
+  },
+  "artifacts": "NoCP/raw/source/cancel이력 KEEP. 원raw복제추가0,compactsource/manifest/report만Git nonforce게시. NO_BROADCAST_NOT_REQUIRED원raw보존예외기록. credential/prompt/dataset/model/tensor/fullstdout Git/W&B0.",
+  "reporting": {
+    "columns": [
+      "model",
+      "writer",
+      "arm",
+      "kept_running_or_completed_job",
+      "cancelled_pending_job",
+      "new_job_id",
+      "dependency",
+      "execution_source_config_commit_SHA",
+      "W&B_run_identity",
+      "W&B_validation_stage",
+      "not_submitted_reason"
+    ],
+    "distinguish": "18cell목표와유지/new/replaced/미제출을분리,SDK접수와remoteidentity/sciencecomplete분리. 신규jobID는실제등록후만.",
+    "stage": "directownerACK 먼저, 구현·검산·실제제출까지추가승인없이계속. 제출후bounded snapshot 인계;GHACK연결종료는SH작업중단아님. 장기polling/heartbeat없음."
+  },
+  "known_reference_only": {
+    "llama_old_memit": [
+      "60001",
+      "60002",
+      "60003"
+    ],
+    "llama_old_alpha": [
+      "60011",
+      "60012",
+      "60013"
+    ],
+    "old_collectors": [
+      "60007",
+      "60017"
+    ],
+    "source": "2440e548be39e55a99747d7847d21a88df419b93",
+    "warning": "과거tracked receipt IDs이며현재queue확인전취소금지. 이후replacement가있으면exactlatest로대조."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
+  "task_id": "price-model-runs-tracking",
+  "status": "AUTHORIZED_AWAITING_OWNER_ACK",
+  "envelope": "messages/head/2026-10-07-price-model-runs-tracking.json",
+  "models": [
+    "gpt2xl",
+    "llama3",
+    "gptj"
+  ],
+  "goal_cells": 18,
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "status": "NOT_YET_DISPATCHED",
+      "new_job_ids": []
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "status": "NOT_YET_DISPATCHED",
+      "new_job_ids": []
+    }
+  ],
+  "monitoring_active": false
+}
