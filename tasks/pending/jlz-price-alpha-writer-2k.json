@@ -8,7 +8,9 @@
   "owner_branch": "codex/server4-price-alpha-writer-2k",
   "execution_envelope": "messages/head/2026-10-07-price-alpha-writer-2k-sh4.json",
   "contract": "project/proposals/jlz-alpha-writer-review/authorized-run-contract.json",
-  "status": "TASK_PENDING_OWNER_ACCEPTANCE_AND_IMPLEMENTATION",
+  "status": "OWNER_ACCEPTED_TASK_PENDING_IMPLEMENTATION",
+  "accepted_turn": "01a111e6-909a-7083-8059-23edee285f9d",
+  "owner_ack_receipt": "audits/global/jlz-price-alpha-writer-2k/direct-acceptance.json",
   "new_job_ids": [],
   "common_start_frontier": [
     59933,

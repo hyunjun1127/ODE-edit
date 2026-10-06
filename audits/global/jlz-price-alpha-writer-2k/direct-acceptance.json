@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1",
+  "task_id": "jlz-price-alpha-writer-2k",
+  "authority_commit": "201f033fda57f803f272e849ea4814da741999cd",
+  "authority_envelope": "messages/head/2026-10-07-price-alpha-writer-2k-sh4.json",
+  "authority_envelope_sha256": "95ada04d7cf1e6cc19a3fc9be10fd10fa2381705c83c7a681e52e0b7cf2ead80",
+  "archive_member_Git_blob_verification": "5/5 exact SHA",
+  "delivery": {
+    "transport": "official app-server direct via verified SSH unix socket",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "host": "remote-ssh-codex-managed:lab163",
+    "cwd": "/data/janghj/ODE-edit",
+    "active_turn_before": [],
+    "operation": "turn/start",
+    "accepted_turn": "01a111e6-909a-7083-8059-23edee285f9d",
+    "model_effort_override": false,
+    "owner_ACK_confirmed": true,
+    "owner_ACK_verbatim": "ACK `USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1`: SH4가 `jlz-price-alpha-writer-2k` 담당을 수락했습니다. session/CWD/origin 및 중복 없음 확인, accepted turn은 현재 turn입니다.\n\n전용 branch는 `codex/server4-price-alpha-writer-2k`, 현재 `TASK_PENDING_IMPLEMENTATION`, `job_ids=[]`입니다. 첫 두 Alpha job의 예정 dependency는 `afterany:59933:59936`이며, 실제 선행 graph를 검증한 뒤 봉인합니다. 추가 승인 대기 없이 구현·6개 제출까지 진행합니다.\n",
+    "owner_branch": "codex/server4-price-alpha-writer-2k"
+  },
+  "status": "OWNER_ACCEPTED_TASK_PENDING_IMPLEMENTATION",
+  "queue": {
+    "new_job_ids": [],
+    "actual_Slurm_submission": "NOT_YET_REPORTED",
+    "Slurm_PENDING_claim": false,
+    "task_pending_registered": "tasks/pending/jlz-price-alpha-writer-2k.json",
+    "predecessor_recorded_jobs": [
+      59931,
+      59932,
+      59933,
+      59934,
+      59935,
+      59936
+    ],
+    "common_start_frontier": [
+      59933,
+      59936
+    ],
+    "first_cell_each_lane_dependency_intent": "afterany:59933:59936",
+    "model_lane_order": "CAP075 -> afterany CAP100 -> afterany FREE100",
+    "fresh_predecessor_scheduler_verification": "SH4 admission responsibility; owner ACK says not yet sealed",
+    "aggregate_gpu_cap": 2,
+    "collector": "own six afterany, GPU0",
+    "predecessor_mutation": false
+  },
+  "continuation": "SH4 explicitly accepts autonomous implementation/freeze/held-inspection/release of six cells without additional approval. GH handoff end is not SH4 stop.",
+  "actual_model_validation": "NOT_OBSERVED",
+  "experiment_completion": "NOT_OBSERVED",
+  "new_recurring_monitor": false,
+  "GH_science_or_Slurm_actions": 0
+}
