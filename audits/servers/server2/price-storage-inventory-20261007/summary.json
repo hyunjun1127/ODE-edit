@@ -1,0 +1,1125 @@
+{
+  "status": "READONLY_INVENTORY_COMPLETE",
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER2",
+  "host": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "publication_base": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "categories": {
+    "PRICE_REQUIRED": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "OTHER_TASK_REQUIRED": {
+      "unique_files": 542,
+      "logical_bytes": 20326460869,
+      "allocated_bytes": 20327804928
+    },
+    "REPRODUCTION_KEEP": {
+      "unique_files": 35774,
+      "logical_bytes": 256258728716,
+      "allocated_bytes": 256338673664
+    },
+    "UNREFERENCED_CANDIDATE": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "UNKNOWN": {
+      "unique_files": 16295,
+      "logical_bytes": 147697454527,
+      "allocated_bytes": 147734351872
+    }
+  },
+  "tensor_categories": {
+    "PRICE_REQUIRED": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "OTHER_TASK_REQUIRED": {
+      "unique_files": 5,
+      "logical_bytes": 4110424070,
+      "allocated_bytes": 4110458880
+    },
+    "REPRODUCTION_KEEP": {
+      "unique_files": 1719,
+      "logical_bytes": 237271902060,
+      "allocated_bytes": 237274406912
+    },
+    "UNREFERENCED_CANDIDATE": {
+      "unique_files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "UNKNOWN": {
+      "unique_files": 87,
+      "logical_bytes": 147328140309,
+      "allocated_bytes": 147328761856
+    }
+  },
+  "totals": {
+    "unique_files": 52611,
+    "logical_bytes": 424282644112,
+    "allocated_bytes": 424400830464
+  },
+  "tensor_totals": {
+    "unique_files": 1811,
+    "logical_bytes": 388710466439,
+    "allocated_bytes": 388713627648
+  },
+  "deduplicated_path_aliases": 0,
+  "top20": [
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-05000.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724792",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T19:29:58.929281+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-03000.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724791",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T17:22:37.775317+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-10000.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535445504,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724794",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-02T01:27:45.283567+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01500.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724789",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T15:40:38.568400+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-07500.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724793",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T22:22:18.564285+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-02000.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724790",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T16:19:52.317360+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/results/official-layer-realization-debt-lifelong-b100-v1/campaign-20260901-v1/qwen2.5-7b-inst-alphaedit-lifelong-b100x100/checkpoints/state-01000.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535425249,
+      "allocated_bytes": 8535441408,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:120724788",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-01T15:02:43.469138+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "No complete path-use evidence in bounded metadata index; KEEP",
+      "classification": "UNKNOWN",
+      "classification_evidence": "No complete path-use evidence in bounded metadata index; KEEP",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/jvp1k-v1/payload/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W1-M1.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535417673,
+      "allocated_bytes": 8535429120,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115001",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-06T23:04:54.066665+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "e7cbbc831fce32c1bdf18cb9c1ac19a34d8ffa59bb8575523711334d8d96a4ee",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/jvp1k-v1/payload/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W5-M5.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535417673,
+      "allocated_bytes": 8535425024,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115024",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-06T23:54:31.899889+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "74ea59c475040f0e55ad7a08ddee73990c70c168cd47fa2296c4fda56f183309",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/jvp1k-v1/payload/local/state/alpha-jv-migration-server4-20260907/tech-r1/chain-5-qwen2.5-7b-inst-L8_ONLY_NATIVE/checkpoints/W10-M10.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 8535417673,
+      "allocated_bytes": 8535429120,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115012",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-07T00:59:28.653847+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "520f00d8e1b6cb6413477e83626f25b8d42b6c2162c6849f8d435efb386714a4",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 7177504758,
+      "allocated_bytes": 7177510912,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:119355554",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-05-16T03:03:36.022304+00:00",
+      "root": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "referenced_task_or_lock": "USER protected projector; project/run_scripts/jlz_price_alpha_writer/prepare.py (S4 input, S2 analogue only)",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "USER protected projector; project/run_scripts/jlz_price_alpha_writer/prepare.py (S4 input, S2 analogue only)",
+      "historical_sha256": "",
+      "historical_size_matches": "",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B100/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284876149,
+      "allocated_bytes": 5284880384,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115189",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T18:26:18.284465+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "f24c0784342ee8e6c12f1661d3810780955edabea2f19c92795f7a37155df549",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B090/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284873141,
+      "allocated_bytes": 5284880384,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115188",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T17:09:19.566257+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/preflight/configuration.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/preflight/configuration.json",
+      "historical_sha256": "614a73fc3568f96aef9e050b0c1ee6c2e83837d09c1b341bbddae41b53ac4fa4",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B080/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284870197,
+      "allocated_bytes": 5284876288,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115181",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T15:56:39.708486+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "fcabe44da95e63320c7177498f77325181a1cbc6318d780c2b273f8f03da2474",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B070/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284867189,
+      "allocated_bytes": 5284872192,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115180",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T14:50:38.928641+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "3df77988b664964ed6d9d58314846397704f4b54bfa27df5c952ac63ad1ec665",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B060/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284864181,
+      "allocated_bytes": 5284872192,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115174",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T13:48:53.511233+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "23a475df19997c1c46b07750d86ac119e3bc2beabc544625c19300a7ee797186",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B050/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284861173,
+      "allocated_bytes": 5284868096,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115143",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T12:51:42.884278+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/preflight/configuration.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1/20260929-v1/preflight/configuration.json",
+      "historical_sha256": "afee506d0070cfa277281d41f8bac8fd0c614c477dd4e13406844c3c8263647c",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B040/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284858229,
+      "allocated_bytes": 5284864000,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115142",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T11:57:35.310423+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "8baf0839b3ca31f9a2763d588b7d0289521c0e89231a98d25beb35bd598ead3f",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B030/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284855221,
+      "allocated_bytes": 5284859904,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115141",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T11:05:30.518739+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "7d7b048f0bfbdbe7c579acb2fdca2b3e8653e1eafa00f1b7f5b30f323d2a327c",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    },
+    {
+      "server": "server2",
+      "absolute_path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B020/W-method-state.pt",
+      "artifact_kind": "tensor_extension",
+      "logical_bytes": 5284852213,
+      "allocated_bytes": 5284859904,
+      "count": 1,
+      "device_inode_or_hardlink_group": "2304:121115186",
+      "nlink": 1,
+      "observed_alias_count": 1,
+      "mtime": "2026-09-10T10:11:33.011078+00:00",
+      "root": "/mnt/raid5/janghj/ODE-edit/local",
+      "referenced_task_or_lock": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/transfers/verifications/2026-09-11-checkpoint-migration-server2-destination/migration-map.csv",
+      "historical_sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b",
+      "historical_size_matches": "True",
+      "uniqueness_or_reproducibility": "dev/inode deduplicated; byte equivalence of distinct inodes NOT_VERIFIED",
+      "uncertainty": "metadata-only; no fd/no-use proof; historical SHA not rehashed; concurrent file growth possible",
+      "delete_authorized": false
+    }
+  ],
+  "directory_aggregates": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives",
+      "unique_files": 6310,
+      "logical_bytes": 131790576013,
+      "allocated_bytes": 131807461376
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/results",
+      "unique_files": 474,
+      "logical_bytes": 122376884123,
+      "allocated_bytes": 122377936896
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream",
+      "unique_files": 1729,
+      "logical_bytes": 62080151783,
+      "allocated_bytes": 62083739648
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/multilayer-joint-compensation",
+      "unique_files": 353,
+      "logical_bytes": 18457996666,
+      "allocated_bytes": 18458976256
+    },
+    {
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct",
+      "unique_files": 26,
+      "logical_bytes": 16069718571,
+      "allocated_bytes": 16069779456
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/blue-l4-progress-barrier",
+      "unique_files": 88,
+      "logical_bytes": 13461780057,
+      "allocated_bytes": 13462016000
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/single-layer-zflow",
+      "unique_files": 260,
+      "logical_bytes": 11830129983,
+      "allocated_bytes": 11830771712
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "unique_files": 1,
+      "logical_bytes": 7177504758,
+      "allocated_bytes": 7177510912
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/joint-multilayer-bs1",
+      "unique_files": 5938,
+      "logical_bytes": 4735270860,
+      "allocated_bytes": 4746477568
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "unique_files": 1,
+      "logical_bytes": 4110419877,
+      "allocated_bytes": 4110426112
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-mechanism-audit",
+      "unique_files": 1488,
+      "logical_bytes": 2689931904,
+      "allocated_bytes": 2693230592
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "unique_files": 1,
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "unique_files": 1,
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "unique_files": 1,
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "unique_files": 1,
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "unique_files": 1,
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/source-handoff",
+      "unique_files": 1756,
+      "logical_bytes": 334909761,
+      "allocated_bytes": 339357696
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-eval",
+      "unique_files": 3178,
+      "logical_bytes": 284465933,
+      "allocated_bytes": 291819520
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-causal-allocation-editing-b1/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256638976
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-price-storage-inventory-20261007/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256638976
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fe-live-metrics-side-20261006/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256634880
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fe-online-10k-publication/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256634880
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fe-sequential-2k/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256634880
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-wandb-realtime-setup/local",
+      "unique_files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256634880
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/worktrees",
+      "unique_files": 15708,
+      "logical_bytes": 197607404,
+      "allocated_bytes": 231550976
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k",
+      "unique_files": 551,
+      "logical_bytes": 138582789,
+      "allocated_bytes": 139890688
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/alpha-native-response-v31-sequential-routing",
+      "unique_files": 192,
+      "logical_bytes": 139420877,
+      "allocated_bytes": 139792384
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/vendor",
+      "unique_files": 1045,
+      "logical_bytes": 88315639,
+      "allocated_bytes": 91238400
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/execution-checkouts",
+      "unique_files": 5437,
+      "logical_bytes": 70272166,
+      "allocated_bytes": 82096128
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fixed10k-preedit-blue-report",
+      "unique_files": 17,
+      "logical_bytes": 60425962,
+      "allocated_bytes": 60465152
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/p1r25-handoff-verify.fSwf1o",
+      "unique_files": 1640,
+      "logical_bytes": 24160976,
+      "allocated_bytes": 27729920
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/datasets",
+      "unique_files": 3,
+      "logical_bytes": 25463898,
+      "allocated_bytes": 25473024
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/causal-allocation-editing-b1",
+      "unique_files": 539,
+      "logical_bytes": 21561914,
+      "allocated_bytes": 22704128
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4",
+      "unique_files": 60,
+      "logical_bytes": 21466006,
+      "allocated_bytes": 21622784
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/native-weak-b010",
+      "unique_files": 682,
+      "logical_bytes": 16057433,
+      "allocated_bytes": 18087936
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/p1r29-p1r24-verify.KfY9eu",
+      "unique_files": 836,
+      "logical_bytes": 13806113,
+      "allocated_bytes": 15642624
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/storage-cleanup",
+      "unique_files": 11,
+      "logical_bytes": 4640025,
+      "allocated_bytes": 4673536
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2/ODE-edit/local",
+      "unique_files": 5,
+      "logical_bytes": 2733154,
+      "allocated_bytes": 2744320
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/analysis",
+      "unique_files": 4,
+      "logical_bytes": 447142,
+      "allocated_bytes": 454656
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/state",
+      "unique_files": 34,
+      "logical_bytes": 342757,
+      "allocated_bytes": 425984
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-native-z-b100-v1/local",
+      "unique_files": 17,
+      "logical_bytes": 195314,
+      "allocated_bytes": 249856
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/logs",
+      "unique_files": 28,
+      "logical_bytes": 25824,
+      "allocated_bytes": 49152
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/wandb-setup",
+      "unique_files": 14,
+      "logical_bytes": 9977,
+      "allocated_bytes": 49152
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/package-builders",
+      "unique_files": 2,
+      "logical_bytes": 17421,
+      "allocated_bytes": 20480
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/reports",
+      "unique_files": 1,
+      "logical_bytes": 19651,
+      "allocated_bytes": 20480
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/run-p1r14-a3-sh2-qwen-r1.sh",
+      "unique_files": 1,
+      "logical_bytes": 11181,
+      "allocated_bytes": 12288
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/receipts",
+      "unique_files": 1,
+      "logical_bytes": 1302,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/README.md",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/run-p1r14-a3-sh2-qwen-tech-r1.sh",
+      "unique_files": 1,
+      "logical_bytes": 3244,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-checkpoint-downstream-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-downstream-report-review-20260912-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-l4-progress-barrier-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-blue-l4-progress-barrier-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-mechanism-audit-20260920-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-mechanism-main-integration-20260920-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-mechanism-no-gates-20260920-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-mechanism-no-gates-main-20260920-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-main-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-checkpoint-migration-server4-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed-counterfact10k-policy-20260909-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-blue-report-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fixed10k-preedit-eval-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-final-eval-20260930-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-b010-review-20260930-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-bs1-integration-20260929-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-joint-multilayer-bs1-migration-20260929-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-multilayer-damage-compensation-b-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-native-weak-b010-nll1-20260930-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-owned-branches-main-integration-20260914-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-all-experiments-main-audit-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-independent-b100-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-c1-c2-main-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-full-fp32-b100-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-full-fp32-main-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-joint-pc-uniform-weight-off-pilot-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-llama-j0-il5-sequential-10xb100-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il1-il3full-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p1r52-target-depth-il8-il10-il15-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-main-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r2-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-tech-r3-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s05-p3r1-two-timescale-fastz-fh-c013-fp32-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-analysis-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-main-v2/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-alpha-jv-sequential-routing-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-s06-fzcb-hard-alpha-densec-ha0-b10-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-analysis-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-main-integration-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-seq1000-v1/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-single-layer-zflow-tech-r2/local",
+      "unique_files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    },
+    {
+      "path": "EXACT_REGISTERED_CLOSURE_SUPPLEMENT",
+      "unique_files": 11,
+      "logical_bytes": 22415813066,
+      "allocated_bytes": 22415876096
+    }
+  ],
+  "PRICE_reference": [
+    {
+      "task": "jlz-price-cap-base-repair-2k",
+      "source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+      "published_lock": {
+        "bytes": 92616,
+        "inode": 135931257,
+        "mtime_ns": 1791300308454769400,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/execution.lock.json",
+        "sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9"
+      },
+      "server": "server4",
+      "local_input_claim": false,
+      "remote_read": false,
+      "scheduler_query": false
+    },
+    {
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "019922b1524efac596bdb8bf7581d44f1721ed59",
+      "published_lock": {
+        "bytes": 99678,
+        "inode": 135999157,
+        "mtime_ns": 1791302794530328567,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/attempt/execution.lock.json",
+        "sha256": "cae341a900fc53335f9711fbdfa69c0baa9d80851c9a85c2bf5b3411a1ad2d35"
+      },
+      "server": "server4",
+      "local_input_claim": false,
+      "remote_read": false,
+      "scheduler_query": false
+    }
+  ],
+  "local_PRICE_paths": [],
+  "retained_183": {
+    "expected": 183,
+    "present": 111,
+    "size_matches": 111,
+    "historical_bytes": 240176147811,
+    "hash_recomputed": false
+  },
+  "confirmed_reclaimable_bytes": null,
+  "deleted_bytes": 0,
+  "delete_authorized": false,
+  "filesystem": {
+    "block_size": 4096,
+    "available_bytes": 512800018432,
+    "free_inodes": 443696722
+  },
+  "duration_seconds": 6.9925347324460745,
+  "GPU": 0,
+  "model_load": 0,
+  "tensor_load": 0,
+  "large_SHA_reads": 0,
+  "Slurm": 0,
+  "WandB_new_run": 0,
+  "new_source_or_raw_mutation": 0,
+  "raw_inventory": "/mnt/raid5/janghj/ODE-edit/local/price-storage-inventory-20261007/full-inventory-final.csv",
+  "supplement": {
+    "source": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-migration-server4/20260911-v1/jvp1k-v1-reference-closure.json",
+    "added_files": 11,
+    "added": {
+      "unique_files": 11,
+      "logical_bytes": 22415813066,
+      "allocated_bytes": 22415876096
+    },
+    "stat_errors": []
+  },
+  "missing_migration": {
+    "count": 72,
+    "ENOENT": 72,
+    "historical_bytes": 46508999784,
+    "by_arm": {
+      "MEMIT_L5_ONLY": 12,
+      "AlphaEdit_L5_ONLY": 12,
+      "MEMIT_L6_ONLY": 12,
+      "AlphaEdit_L6_ONLY": 12,
+      "MEMIT_L7_ONLY": 12,
+      "AlphaEdit_L7_ONLY": 12
+    },
+    "current_cause": "NOT_IDENTIFIED",
+    "restore_or_transfer_attempted": false
+  }
+}

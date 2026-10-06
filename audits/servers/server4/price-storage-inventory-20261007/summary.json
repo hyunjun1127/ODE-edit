@@ -1,0 +1,950 @@
+{
+  "task_id": "price-storage-inventory-20261007",
+  "snapshot_started_utc": "2026-10-06T16:49:40.818530+00:00",
+  "elapsed_seconds": 18.53813910484314,
+  "delete_authorized": false,
+  "classification_totals": {
+    "PRICE_REQUIRED": {
+      "path_count": 3458,
+      "unique_files": 3458,
+      "logical_bytes": 54971290326,
+      "allocated_bytes": 54978818048
+    },
+    "OTHER_TASK_REQUIRED": {
+      "path_count": 5605,
+      "unique_files": 4112,
+      "logical_bytes": 375056105,
+      "allocated_bytes": 384692224,
+      "duplicate_hardlink_paths": 1493
+    },
+    "REPRODUCTION_KEEP": {
+      "path_count": 300292,
+      "unique_files": 300288,
+      "logical_bytes": 43434228946,
+      "allocated_bytes": 43941371904,
+      "duplicate_hardlink_paths": 4
+    },
+    "UNREFERENCED_CANDIDATE": {},
+    "UNKNOWN": {
+      "path_count": 27979,
+      "unique_files": 27978,
+      "logical_bytes": 7796255354,
+      "allocated_bytes": 7859503104,
+      "duplicate_hardlink_paths": 1
+    }
+  },
+  "kind_totals": {
+    "protected_HF_blob": {
+      "files": 21,
+      "logical_bytes": 31312506083,
+      "allocated_bytes": 31312584704
+    },
+    "tensor_or_checkpoint_by_extension": {
+      "files": 561,
+      "logical_bytes": 40913802566,
+      "allocated_bytes": 40914702336
+    },
+    "ordinary_file": {
+      "files": 335254,
+      "logical_bytes": 34350522082,
+      "allocated_bytes": 34937098240
+    }
+  },
+  "top20": [
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 7177504758,
+      "allocated_bytes": 7177510912,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131214030",
+      "nlink": 1,
+      "mtime": "2026-05-16T03:03:36.022304+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 4999802720,
+      "allocated_bytes": 4999806976,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596437",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:39:23.554198+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 4976698672,
+      "allocated_bytes": 4976705536,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596438",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:42:10.889930+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 4915916176,
+      "allocated_bytes": 4915920896,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596444",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:39:27.593136+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 4110419877,
+      "allocated_bytes": 4110426112,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216582",
+      "nlink": 1,
+      "mtime": "2026-05-10T15:30:27.497442+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/blobs/a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 3945441440,
+      "allocated_bytes": 3945447424,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596312",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:23:27.531642+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/blobs/8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 3864726424,
+      "allocated_bytes": 3864731648,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596333",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:23:05.259658+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/blobs/f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 3864726352,
+      "allocated_bytes": 3864731648,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596323",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:22:56.171664+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/blobs/1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+      "artifact_kind": "protected_HF_blob",
+      "logical_bytes": 3556377672,
+      "allocated_bytes": 3556384768,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131596335",
+      "nlink": 1,
+      "mtime": "2026-06-22T05:23:08.155656+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction/20260918-v1/T/attempt-v1/output/P-star-basis.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1643151593,
+      "allocated_bytes": 1643159552,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:133376776",
+      "nlink": 1,
+      "mtime": "2026-09-18T02:59:44.597330+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/bpcw512-20260918-v2/en-cleanup/checkpoint-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 tracked receipt exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216635",
+      "nlink": 1,
+      "mtime": "2026-05-06T11:55:47.320713+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216634",
+      "nlink": 1,
+      "mtime": "2026-05-06T09:52:42.779623+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216633",
+      "nlink": 1,
+      "mtime": "2026-05-06T08:01:51.452141+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216632",
+      "nlink": 1,
+      "mtime": "2026-05-06T06:23:21.212485+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:131216631",
+      "nlink": 1,
+      "mtime": "2026-05-06T04:53:56.919689+00:00",
+      "referenced_task_or_lock": "jlz-price-alpha-writer-2k/config.json;jlz-price-cap-base-repair-2k/config.json",
+      "classification": "PRICE_REQUIRED",
+      "classification_evidence": "현재 봉인 입력/lock의 exact path",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B100/W-method-state.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1174459669,
+      "allocated_bytes": 1174466560,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:134221691",
+      "nlink": 1,
+      "mtime": "2026-09-23T17:29:46.713205+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B090/W-method-state.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1174456661,
+      "allocated_bytes": 1174462464,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:134221689",
+      "nlink": 1,
+      "mtime": "2026-09-23T17:29:33.887178+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B080/W-method-state.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1174453717,
+      "allocated_bytes": 1174458368,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:134221687",
+      "nlink": 1,
+      "mtime": "2026-09-23T17:29:20.588150+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B070/W-method-state.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1174450709,
+      "allocated_bytes": 1174458368,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:134221685",
+      "nlink": 1,
+      "mtime": "2026-09-23T17:29:07.896122+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/native-delayed-write-e3/20260924-v1/inputs/checkpoints/BASE_MEMIT/B060/W-method-state.pt",
+      "artifact_kind": "tensor_or_checkpoint_by_extension",
+      "logical_bytes": 1174447701,
+      "allocated_bytes": 1174454272,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:134221683",
+      "nlink": 1,
+      "mtime": "2026-09-23T17:28:55.393094+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-10-02-user-stop-all/existing-output-publication-inventory.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    }
+  ],
+  "directories": {
+    "EXTERNAL_EXACT_REFERENCES": {
+      "files": 33,
+      "logical_bytes": 53888363658,
+      "allocated_bytes": 53888524288
+    },
+    "/data/janghj/ODE-edit/local/native-delayed-write-e3": {
+      "files": 45711,
+      "logical_bytes": 14951861446,
+      "allocated_bytes": 15065677824
+    },
+    "/data/janghj/ODE-edit/local/jlz-realization-v9": {
+      "files": 4432,
+      "logical_bytes": 3822640197,
+      "allocated_bytes": 3831345152
+    },
+    "/data/janghj/ODE-edit/local/single-layer-mechanism-first": {
+      "files": 468,
+      "logical_bytes": 3368822242,
+      "allocated_bytes": 3370262528
+    },
+    "/data/janghj/ODE-edit/local/historical-update-timeaxis": {
+      "files": 198544,
+      "logical_bytes": 2805301121,
+      "allocated_bytes": 3069435904
+    },
+    "/data/janghj/ODE-edit/local/blue-lifelong-b100x100": {
+      "files": 3218,
+      "logical_bytes": 2793162536,
+      "allocated_bytes": 2800541696
+    },
+    "/data/janghj/ODE-edit/local/blue-lifelong-b100x100-l567": {
+      "files": 3134,
+      "logical_bytes": 2751877844,
+      "allocated_bytes": 2759213056
+    },
+    "/data/janghj/ODE-edit/local/single-layer-edit-preserving-correction": {
+      "files": 2127,
+      "logical_bytes": 2084973444,
+      "allocated_bytes": 2090057728
+    },
+    "/data/janghj/ODE-edit/local/jlz-cd-cumulative-allocation": {
+      "files": 3135,
+      "logical_bytes": 1859912544,
+      "allocated_bytes": 1866625024
+    },
+    "/data/janghj/ODE-edit/local/jlz-v13-mdcd-sequential-2k": {
+      "files": 2927,
+      "logical_bytes": 1844814703,
+      "allocated_bytes": 1851375616
+    },
+    "/data/janghj/ODE-edit/local/fixed10k-native-baselines": {
+      "files": 1274,
+      "logical_bytes": 1434068525,
+      "allocated_bytes": 1437016064
+    },
+    "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k": {
+      "files": 3026,
+      "logical_bytes": 972769555,
+      "allocated_bytes": 979230720
+    },
+    "/data/janghj/ODE-edit/local/jlz-v12r-realized-response-2k": {
+      "files": 2631,
+      "logical_bytes": 973483681,
+      "allocated_bytes": 978993152
+    },
+    "/data/janghj/ODE-edit/local/refit4-write-refresh-seq1000": {
+      "files": 573,
+      "logical_bytes": 828328739,
+      "allocated_bytes": 829616128
+    },
+    "/data/janghj/ODE-edit/local/jlz-causal-writer-v7": {
+      "files": 2703,
+      "logical_bytes": 784470974,
+      "allocated_bytes": 790777856
+    },
+    "/data/janghj/ODE-edit/local/low-cost-write-donor-seq10": {
+      "files": 441,
+      "logical_bytes": 785518953,
+      "allocated_bytes": 786468864
+    },
+    "/data/janghj/ODE-edit/local/jlz-writer-coupled-v5": {
+      "files": 2563,
+      "logical_bytes": 777509834,
+      "allocated_bytes": 783355904
+    },
+    "/data/janghj/ODE-edit/local/cake-native-lifelong": {
+      "files": 923,
+      "logical_bytes": 735782646,
+      "allocated_bytes": 738144256
+    },
+    "/data/janghj/ODE-edit/[non-local]": {
+      "files": 7188,
+      "logical_bytes": 631221650,
+      "allocated_bytes": 647200768
+    },
+    "/data/janghj/ODE-edit/local/state": {
+      "files": 1373,
+      "logical_bytes": 594826479,
+      "allocated_bytes": 597921792
+    },
+    "/data/janghj/ODE-edit/local/jlz-v13-realized-writer-b1": {
+      "files": 1663,
+      "logical_bytes": 583375023,
+      "allocated_bytes": 587034624
+    },
+    "/data/janghj/ODE-edit/local/sequential-local-z-allocation": {
+      "files": 9942,
+      "logical_bytes": 512194159,
+      "allocated_bytes": 542531584
+    },
+    "/data/janghj/ODE-edit/local/causal-allocation-editing": {
+      "files": 1646,
+      "logical_bytes": 533715638,
+      "allocated_bytes": 537239552
+    },
+    "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k": {
+      "files": 1657,
+      "logical_bytes": 532763221,
+      "allocated_bytes": 536301568
+    },
+    "/data/janghj/ODE-edit/local/jlz-v14-native-writer-aware-b1": {
+      "files": 1630,
+      "logical_bytes": 522161356,
+      "allocated_bytes": 525664256
+    },
+    "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k": {
+      "files": 1669,
+      "logical_bytes": 516708218,
+      "allocated_bytes": 520278016
+    },
+    "/data/janghj/ODE-edit/local/ep-tw1-alpha-cap-sweep": {
+      "files": 510,
+      "logical_bytes": 516480841,
+      "allocated_bytes": 517509120
+    },
+    "/data/janghj/ODE-edit/local/jlz-twoarm": {
+      "files": 1277,
+      "logical_bytes": 505811755,
+      "allocated_bytes": 508571648
+    },
+    "/data/janghj/ODE-edit/local/bg1-c4-ours-first": {
+      "files": 73,
+      "logical_bytes": 369017223,
+      "allocated_bytes": 369184768
+    },
+    "/data/janghj/ODE-edit/local/wandb-setup": {
+      "files": 2893,
+      "logical_bytes": 360404096,
+      "allocated_bytes": 366940160
+    },
+    "/data/janghj/ODE-edit/local/jlz-native-increment-v11": {
+      "files": 1885,
+      "logical_bytes": 356802764,
+      "allocated_bytes": 360210432
+    },
+    "/data/janghj/ODE-edit/local/jlz-native-joint-v4": {
+      "files": 2100,
+      "logical_bytes": 309423963,
+      "allocated_bytes": 314789888
+    },
+    "/data/janghj/ODE-edit/local/jlz-v12-shared-budget": {
+      "files": 945,
+      "logical_bytes": 269533076,
+      "allocated_bytes": 271589376
+    },
+    "/data/janghj/ODE-edit/local/jlz-subject-adam-v6": {
+      "files": 726,
+      "logical_bytes": 260398228,
+      "allocated_bytes": 261939200
+    },
+    "/data/janghj/ODE-edit/local/storage-cleanup": {
+      "files": 59,
+      "logical_bytes": 258205176,
+      "allocated_bytes": 258379776
+    },
+    "/data/janghj/ODE-edit/local/result-publication": {
+      "files": 687,
+      "logical_bytes": 255176204,
+      "allocated_bytes": 256634880
+    },
+    "/data/janghj/ODE-edit/local/en-execution-reuse": {
+      "files": 7396,
+      "logical_bytes": 178954572,
+      "allocated_bytes": 195223552
+    },
+    "/data/janghj/ODE-edit/local/ep-tw1-c4": {
+      "files": 762,
+      "logical_bytes": 185895201,
+      "allocated_bytes": 187478016
+    },
+    "/data/janghj/ODE-edit/local/bpcw512": {
+      "files": 5587,
+      "logical_bytes": 141155308,
+      "allocated_bytes": 151400448
+    },
+    "/data/janghj/ODE-edit/local/results": {
+      "files": 330,
+      "logical_bytes": 139549151,
+      "allocated_bytes": 140320768
+    },
+    "/data/janghj/ODE-edit/local/analysis": {
+      "files": 1,
+      "logical_bytes": 128206850,
+      "allocated_bytes": 128212992
+    },
+    "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison": {
+      "files": 2517,
+      "logical_bytes": 99619600,
+      "allocated_bytes": 105029632
+    },
+    "/data/janghj/ODE-edit/local/alpha-jv-l8-only-results-review": {
+      "files": 95,
+      "logical_bytes": 75567126,
+      "allocated_bytes": 75763712
+    },
+    "/data/janghj/ODE-edit/local/local-z-adaptive-allocation": {
+      "files": 309,
+      "logical_bytes": 36444592,
+      "allocated_bytes": 37146624
+    },
+    "/data/janghj/ODE-edit/local/en-adaptive-nullspace": {
+      "files": 114,
+      "logical_bytes": 36530632,
+      "allocated_bytes": 36896768
+    },
+    "/data/janghj/ODE-edit/local/blue-alphaedit-l8-oneshot-sequential": {
+      "files": 102,
+      "logical_bytes": 31978121,
+      "allocated_bytes": 32215040
+    },
+    "/data/janghj/ODE-edit/local/blue-alphaedit-l4-oneshot-sequential": {
+      "files": 92,
+      "logical_bytes": 31943110,
+      "allocated_bytes": 32149504
+    },
+    "/data/janghj/ODE-edit/local/datasets": {
+      "files": 3,
+      "logical_bytes": 25463898,
+      "allocated_bytes": 25473024
+    },
+    "/data/janghj/ODE-edit/local/server4-completed-jobs-review": {
+      "files": 6,
+      "logical_bytes": 19001395,
+      "allocated_bytes": 19017728
+    },
+    "/data/janghj/ODE-edit/local/wandb-tracking": {
+      "files": 1219,
+      "logical_bytes": 14652009,
+      "allocated_bytes": 17752064
+    },
+    "/data/janghj/ODE-edit/local/blue-lifelong-label-baseline-revision": {
+      "files": 97,
+      "logical_bytes": 17218240,
+      "allocated_bytes": 17428480
+    },
+    "/data/janghj/ODE-edit/local/checkpoint-migration-server2": {
+      "files": 89,
+      "logical_bytes": 13914755,
+      "allocated_bytes": 14163968
+    },
+    "/data/janghj/ODE-edit/local/joint-multilayer-bs10": {
+      "files": 135,
+      "logical_bytes": 10112392,
+      "allocated_bytes": 10420224
+    },
+    "/data/janghj/ODE-edit/local/logs": {
+      "files": 340,
+      "logical_bytes": 6249469,
+      "allocated_bytes": 7270400
+    },
+    "/data/janghj/ODE-edit/local/l4-preserving-repair": {
+      "files": 259,
+      "logical_bytes": 5543791,
+      "allocated_bytes": 6107136
+    },
+    "/data/janghj/ODE-edit/local/server4-completed-review": {
+      "files": 154,
+      "logical_bytes": 5304842,
+      "allocated_bytes": 5656576
+    },
+    "/data/janghj/ODE-edit/local/report-separation": {
+      "files": 87,
+      "logical_bytes": 4646791,
+      "allocated_bytes": 4845568
+    },
+    "/data/janghj/ODE-edit/local/blue-l4-l8-lifelong-review": {
+      "files": 46,
+      "logical_bytes": 4431991,
+      "allocated_bytes": 4562944
+    },
+    "/data/janghj/ODE-edit/local/blue-checkpoint-downstream-transfer": {
+      "files": 155,
+      "logical_bytes": 2500634,
+      "allocated_bytes": 2801664
+    },
+    "/data/janghj/ODE-edit/local/orbode-artifact-cleanup": {
+      "files": 5,
+      "logical_bytes": 2652486,
+      "allocated_bytes": 2666496
+    },
+    "/data/janghj/ODE-edit/local/temporal-routing-diagnostic": {
+      "files": 10,
+      "logical_bytes": 2517667,
+      "allocated_bytes": 2539520
+    },
+    "/data/janghj/ODE-edit/local/reports": {
+      "files": 44,
+      "logical_bytes": 1847814,
+      "allocated_bytes": 1949696
+    },
+    "/data/janghj/ODE-edit/local/server4-experiments-review": {
+      "files": 29,
+      "logical_bytes": 1699075,
+      "allocated_bytes": 1781760
+    },
+    "/data/janghj/ODE-edit/local/blue-fivearm-review": {
+      "files": 16,
+      "logical_bytes": 677041,
+      "allocated_bytes": 720896
+    },
+    "/data/janghj/ODE-edit/local/transfers": {
+      "files": 14,
+      "logical_bytes": 455363,
+      "allocated_bytes": 503808
+    },
+    "/data/janghj/ODE-edit/local/obsolete-reports": {
+      "files": 10,
+      "logical_bytes": 77465,
+      "allocated_bytes": 94208
+    },
+    "/data/janghj/ODE-edit/local/cache": {
+      "files": 7,
+      "logical_bytes": 54472,
+      "allocated_bytes": 69632
+    },
+    "/data/janghj/ODE-edit/local/tmp-easyedit-compute-audit-20260922": {
+      "files": 7,
+      "logical_bytes": 49917,
+      "allocated_bytes": 65536
+    },
+    "/data/janghj/ODE-edit/local/blue-final-prompt-identity": {
+      "files": 5,
+      "logical_bytes": 29193,
+      "allocated_bytes": 40960
+    },
+    "/data/janghj/ODE-edit/local/worktrees": {
+      "files": 7,
+      "logical_bytes": 3549,
+      "allocated_bytes": 28672
+    },
+    "/data/janghj/ODE-edit/local/README.md": {
+      "files": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    }
+  },
+  "observed_hardlinks": [
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/acquisition/public_suffix_list.dat",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 334129,
+      "allocated_bytes": 335872,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132923226",
+      "nlink": 2,
+      "mtime": "2026-09-14T18:21:18.766530+00:00",
+      "referenced_task_or_lock": "runs/odeedit_l4_preserving_repair_s4_20260917_v1/submission-receipt.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/acquisition/c4-validation.00000-of-00008.json.gz",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 40471190,
+      "allocated_bytes": 40476672,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132923221",
+      "nlink": 2,
+      "mtime": "2026-09-14T18:21:18.349530+00:00",
+      "referenced_task_or_lock": "runs/odeedit_l4_preserving_repair_s4_20260917_v1/submission-receipt.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/acquisition/README.md",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 41136,
+      "allocated_bytes": 45056,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132923224",
+      "nlink": 2,
+      "mtime": "2026-09-14T18:21:18.640530+00:00",
+      "referenced_task_or_lock": "runs/odeedit_l4_preserving_repair_s4_20260917_v1/submission-receipt.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/bg1-c4-ours-first/20260915-v1/attempt-v1/acquisition/c4-train.00000-of-01024.json.gz.partial",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 319308785,
+      "allocated_bytes": 319315968,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132923222",
+      "nlink": 2,
+      "mtime": "2026-09-14T18:21:24.169533+00:00",
+      "referenced_task_or_lock": "runs/odeedit_l4_preserving_repair_s4_20260917_v1/submission-receipt.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/__init__.py",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 2615,
+      "allocated_bytes": 4096,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132400948",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.101336+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/__init__.pyi",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 38536,
+      "allocated_bytes": 40960,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132400949",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.102336+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/tokenizers.cpython-312-x86_64-linux-gnu.so",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 11835024,
+      "allocated_bytes": 11837440,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132400962",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.219335+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/normalizers/__init__.py",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 808,
+      "allocated_bytes": 4096,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132452464",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.109336+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/normalizers/__init__.pyi",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 19597,
+      "allocated_bytes": 20480,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132452465",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.110336+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    },
+    {
+      "server": "server4",
+      "absolute_path": "/data/janghj/ODE-edit/local/blue-alphaedit-sequential-comparison/attempt-v1/deps-transformers-4.44.2/tokenizers/processors/__init__.py",
+      "artifact_kind": "ordinary_file",
+      "logical_bytes": 307,
+      "allocated_bytes": 4096,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66305:132452470",
+      "nlink": 2,
+      "mtime": "2026-09-07T11:12:04.111336+00:00",
+      "referenced_task_or_lock": "audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "기존 receipt가 참조하는 task family; 보수적 재현 보존, 파일별 live use 증명 아님",
+      "uniqueness_or_reproducibility": "byte equality not checked; inode identity only",
+      "uncertainty": "동시 실행 snapshot; active use/byte duplicate 미확정",
+      "delete_authorized": false
+    }
+  ],
+  "total_unique_files": 335836,
+  "total_paths": 337334,
+  "full_inventory_path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/metadata/inventory-full.csv",
+  "filesystem": {
+    "total_bytes": 7619770974208,
+    "available_bytes": 64913838080,
+    "free_bytes_including_reserved": 449005547520,
+    "free_inodes": 223092717
+  },
+  "confirmed_reclaimable_bytes": null,
+  "candidate_reclaimable_bytes": null,
+  "reason": "삭제 승인 없음; 참조 없는 파일/동일 byte 중복을 확정하지 않음",
+  "scheduler_queries": 0,
+  "tensor_content_reads": 0,
+  "model_loads": 0,
+  "large_SHA_recomputations": 0,
+  "reviewer": "owner metadata audit; independent reviewer not used",
+  "classification_pass": "metadata snapshot reused; tracked receipt enrichment; no second stat/scan",
+  "raw_inventory_note": "full CSV의 초기 UNKNOWN은 classification-reference-map과 classify_snapshot.py로 재분류; own inventory WT rows 제외. 원 metadata CSV는 변경하지 않음.",
+  "hardlink_samples_only": true,
+  "owner_checks": {
+    "AST_JSON_links_counts": "PASS",
+    "separate_reviewer": false,
+    "scientific_status_review": false,
+    "read_only_metadata_scope": true
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "task_id": "price-storage-inventory-20261007",
+  "delete_authorized": false,
+  "raw_in_git": false,
+  "files": [
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/classify_snapshot.py",
+      "bytes": 7325,
+      "sha256": "e8ff9647ee10a35a9ea123b5d953b8de7f60337601c4b38d8c9f0698debba748"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/coverage.json",
+      "bytes": 114754,
+      "sha256": "274e50ace9aa43503b6af2ae7c3db46135e6c247b67e88ee16d70505563a5ee9"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/finalize_compact.py",
+      "bytes": 1719,
+      "sha256": "f954ba342b5394e1b73d599e1f41f728a49700a7ac7cb06c1432a5d6ced9d096"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/inventory.csv",
+      "bytes": 56950,
+      "sha256": "1acc95c81c3412baaca3540c19b7b838cbfcb47b5c25db5d177296ee4472df86"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/inventory_readonly.py",
+      "bytes": 13762,
+      "sha256": "45d9c0fa60cd7d8a0a495da1a2938a263f7dec8504e1864954649badaa08cba6"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/reduction-check.json",
+      "bytes": 290,
+      "sha256": "6f4c16f0a6912e6075b02e65b4f006a1c2082a51497e4c856e107a200245d7d3"
+    },
+    {
+      "path": "audits/servers/server4/price-storage-inventory-20261007/summary.json",
+      "bytes": 41413,
+      "sha256": "27c596179fc46ed065c63bd6f457f6f508a1f00e0c747837b3ff5b665f0c53d7"
+    },
+    {
+      "path": "experiment-reports/servers/server4/price-storage-inventory-20261007/report-ko.md",
+      "bytes": 10104,
+      "sha256": "e17bb597831ac88026c53158e20c83f9351646f2c968c91d2dbe493902a4f91d"
+    },
+    {
+      "path": "messages/acks/server4/price-storage-inventory-20261007.json",
+      "bytes": 595,
+      "sha256": "b34ca5b07624b632ba29da629ae5f3a41744cf6923731e34fe7e43b44685e6d7"
+    },
+    {
+      "path": "messages/server-heads/server4/price-storage-inventory-20261007.json",
+      "bytes": 956,
+      "sha256": "cf21d10c71ca16bedd1defd641f699b0f2f0b26a5d7ab386a50b9364c0d55f16"
+    },
+    {
+      "path": "tasks/status/price-storage-inventory-20261007/server4.json",
+      "bytes": 956,
+      "sha256": "cf21d10c71ca16bedd1defd641f699b0f2f0b26a5d7ab386a50b9364c0d55f16"
+    }
+  ]
+}
