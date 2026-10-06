@@ -98,3 +98,18 @@ python -m unittest project.run_scripts.experiment_tracking.test_tracking -v
 [login](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py).
 실제 채택은 local SDK0.30.0 source/settings 필드와 결속한다. API 변경시 silent
 fallback하지 않고 version 검토부터 수행한다.
+# Slurm job identity (2026-10-07)
+
+For new runs, `init(...)` captures only `SLURM_JOB_ID`, `SLURM_ARRAY_JOB_ID`,
+`SLURM_ARRAY_TASK_ID`, and `SLURM_STEP_ID` in the parent process. Do not pass a
+placeholder `job_id`. An optional caller ID must exactly match the actual environment.
+Config records raw IDs, `job_display_id`, `execution_backend`, and `identity_source`;
+the run name includes `job<display>`, including array index zero. UUID run IDs and
+task groups are unchanged. The isolated SDK receives these fields through sanitized
+config, not the full environment. Existing bounded startup readback checks both
+remote name and identity config. A mismatch blocks logging startup explicitly.
+
+Local CPU runs have `execution_backend=local`, `identity_source=NOT_APPLICABLE`,
+and no job ID. Tests use a fake SDK only; no dummy Slurm identity is uploaded.
+Adopt the new helper in future source freezes; never patch sealed running jobs or
+rename/backfill historical runs for this policy.

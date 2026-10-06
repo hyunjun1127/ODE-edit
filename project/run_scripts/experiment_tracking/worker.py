@@ -5,7 +5,7 @@ from pathlib import Path
 import resource
 import sys
 from urllib.parse import urlsplit
-from .schema import ENTITY, PROJECT, SDK_VERSION, config, metrics, identifier, endpoint, require
+from .schema import ENTITY, PROJECT, SDK_VERSION, config, metrics, identifier, endpoint, require, job_identity, run_name
 
 
 def settings(sdk, base_url):
@@ -20,6 +20,7 @@ def session(sdk, request, commands, emit):
     """Same production assembly is exercised with a fake SDK in CPU tests."""
     require(sdk.__version__==SDK_VERSION, 'SDK_VERSION_REVIEW_REQUIRED')
     cfg = config(request['config']); identifier(request['run_id'])
+    identity=job_identity(cfg); name=run_name(cfg)
     require(type(request['smoke']) is bool, 'SMOKE_FLAG')
     options = settings(sdk, request['base_url'])
     sdk.setup(settings=options)
@@ -27,18 +28,20 @@ def session(sdk, request, commands, emit):
         emit(dict(status='SETUP_READY_NEEDS_USER_LOGIN',sdk_version=sdk.__version__))
         return
     run = sdk.init(entity=ENTITY, project=PROJECT, group=cfg['task_id'], id=request['run_id'],
-        name=cfg['server']+'-'+cfg['arm']+'-'+cfg['attempt'], config=cfg, mode='online',
+        name=name, config=cfg, mode='online',
         resume='never', dir=request['spool'], save_code=False, settings=options)
     require(run is not None and not run.offline and run.id==request['run_id'], 'NOT_ONLINE')
     # Remote access verification before declaring startup ready / loading a GPU model.
     api = sdk.Api(overrides={'base_url':request['base_url']}, timeout=15)
     remote = api.run(ENTITY+'/'+PROJECT+'/'+run.id)
     require(remote.id == run.id, 'REMOTE_RUN_IDENTITY')
+    require(remote.name == name, 'REMOTE_JOB_NAME_MISMATCH')
+    require(all(remote.config.get(k)==v for k,v in identity.items()), 'REMOTE_JOB_CONFIG_MISMATCH')
     url = run.url
     parsed = urlsplit(url)
     require(parsed.scheme=='https' and parsed.hostname and not parsed.username
             and not parsed.password and not parsed.query and not parsed.fragment, 'RUN_URL')
-    emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__))
+    emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__,run_name=name,job_identity=identity))
     failures = 0; count = 0
     for message in commands:
         if message['op']=='log':
@@ -72,7 +75,7 @@ def session(sdk, request, commands, emit):
                 require(not any(forbidden(n) for n in names),'REMOTE_UPLOAD_BOUNDARY')
                 status='READY_ONLINE_VERIFIED'
             emit(dict(status=status,run_id=run.id,url=url,points=count,failures=failures,
-                      remote_points=3 if request['smoke'] else None));return
+                      remote_points=3 if request['smoke'] else None,run_name=name,job_identity=identity));return
         else:
             raise ValueError('UNKNOWN_OPERATION')
     emit(dict(status='LOGGING_DEGRADED_PARENT_CLOSED',points=count))
