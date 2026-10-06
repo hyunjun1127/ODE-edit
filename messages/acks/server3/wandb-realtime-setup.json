@@ -1,0 +1,23 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER3",
+  "owner": "head-server3",
+  "received": true,
+  "status": "SETUP_READY_NEEDS_USER_LOGIN",
+  "authority_commit": "ff43b43887f2aeabba35a04a2769ac045c5c8b86",
+  "full_read": [
+    {
+      "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/messages/head/2026-10-06-wandb-server3.json",
+      "bytes": 3977,
+      "sha256": "9d771823e31f1337061b43f973fc0b47e32d78d8a7d560661be8ea440990a174"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/control/wandb-policy.json",
+      "bytes": 3647,
+      "sha256": "0de45392b04c808c956dc898534455a05c3eb1a6c3f026920ba3a560b9edb745"
+    }
+  ],
+  "duplicate_existing_setup_at_entry": false,
+  "worktree": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree",
+  "boundary_helper": "PASS",
+  "first_ack": "Delivered in same user stream before setup; GH acknowledgment not a prerequisite"
+}
