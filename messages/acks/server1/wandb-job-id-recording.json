@@ -1,1 +1,1 @@
-{"nonce":"USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1","owner":"server1","session":"01a04939-f93a-7b50-bca0-65438eab2062","status":"IMPLEMENTED_CPU_VERIFIED","cpu_tests_passed":23,"actual_slurm_online_identity":"NOT_YET_VERIFIED","existing_jobs_changed":false}
+{"nonce":"USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1","owner":"server1","session":"01a04939-f93a-7b50-bca0-65438eab2062","status":"IMPLEMENTED_CPU_VERIFIED_RUNTIME_NOT_VERIFIED","cpu_tests_passed":24,"actual_slurm_online_identity":"NOT_VERIFIED_STARTUP_STEP_ID_REJECTED","existing_jobs_changed":false}

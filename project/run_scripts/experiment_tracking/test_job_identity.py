@@ -22,6 +22,17 @@ class Tests(unittest.TestCase):
         self.assertNotIn('job_id',cfg);self.assertEqual(cfg['identity_source'],'NOT_APPLICABLE')
         with self.assertRaises(ValueError):bind_job_identity(dict(CFG,job_id='59931'),{})
 
+    def test_optional_empty_and_signed_step(self):
+        cfg=bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID=''))
+        self.assertNotIn('step_id',cfg)
+        for step in ('-1','-2','0','batch','extern'):
+            cfg=bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID=step))
+            self.assertEqual(cfg['step_id'],step)
+            from .schema import config
+            self.assertEqual(config(cfg)['step_id'],step)
+        with self.assertRaisesRegex(ValueError,'INVALID_SLURM_STEP_ID'):
+            bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID='not a step'))
+
     def test_missing_invalid_mismatch(self):
         for env in ({'SLURM_STEP_ID':'0'},{'SLURM_JOB_ID':''},{'SLURM_JOB_ID':'0'},
                     {'SLURM_JOB_ID':'59931','SLURM_ARRAY_TASK_ID':'0'}):
