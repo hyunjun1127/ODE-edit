@@ -1,0 +1,23 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER1",
+  "status": "TASK_COMPLETE_STOP",
+  "delete_authorized": false,
+  "actual_host": "devbox",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "cwd": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007",
+  "root": "/mnt/raid5/janghj/ODE-edit",
+  "legacy_cwd": "historical29e4_not_used",
+  "nonce_duplicate_before": "NO_PRIOR_SH1_RECEIPT_OR_BRANCH",
+  "report": "experiment-reports/servers/server1/price-storage-inventory-20261007/report-ko.md",
+  "report_sha256": "c6caf2ba23746f3ed963d1a33f21f6ae3f6922b5b561d0c9015240d9a1b2cb2e",
+  "total_allocated_bytes": 106951634944,
+  "tensor_allocated_bytes": 80081661952,
+  "confirmed_reclaimable_bytes": null,
+  "scheduler_queries": 0,
+  "model_loads": 0,
+  "GPU": 0,
+  "existing_jobs_changed": 0,
+  "next_action": "STOP; no deletion authorized",
+  "analysis_base": "99a3882db597425e9c199acd1e4cbb9a3c8175f8",
+  "publication_commit": "Git containing this receipt; final HEAD separately reported"
+}

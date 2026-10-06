@@ -1,0 +1,33 @@
+{
+  "bindings": [
+    {
+      "task": "jlz-price-cap-base-repair-2k",
+      "source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+      "lock": {
+        "bytes": 92616,
+        "inode": 135931257,
+        "mtime_ns": 1791300308454769400,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/attempt/execution.lock.json",
+        "sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9"
+      },
+      "evidence": "runs/jlz-price-cap-base-repair-2k/submission.json",
+      "live_read": false
+    },
+    {
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "019922b1524efac596bdb8bf7581d44f1721ed59",
+      "lock": {
+        "bytes": 99678,
+        "inode": 135999157,
+        "mtime_ns": 1791302794530328567,
+        "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/attempt/execution.lock.json",
+        "sha256": "cae341a900fc53335f9711fbdfa69c0baa9d80851c9a85c2bf5b3411a1ad2d35"
+      },
+      "evidence": "runs/jlz-price-alpha-writer-2k/submission.json",
+      "live_read": false
+    }
+  ],
+  "local_path_rewrite": false,
+  "remote_access": false,
+  "asset_notes": "서버4 모델/C0/P와 서버1 같은 이름/size 사본의 현재 byte equality는 미검증. 로컬 공통자산은 보호하되 server4 실사용으로 승격하지 않음."
+}

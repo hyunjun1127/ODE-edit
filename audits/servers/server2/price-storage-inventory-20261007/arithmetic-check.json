@@ -1,0 +1,9 @@
+{
+  "unique_inodes": true,
+  "class_count": true,
+  "class_logical_sum": true,
+  "class_allocated_sum": true,
+  "retained_plus_absent": true,
+  "delete_authorized": false,
+  "model_or_GPU": 0
+}

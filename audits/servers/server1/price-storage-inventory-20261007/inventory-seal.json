@@ -1,0 +1,37 @@
+{
+  "hardlinks.json": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/hardlinks.json",
+    "bytes": 12215,
+    "sha256": "31df40927c4d9f34a38d9c6f45b0aefdfa7c13c101ae099328ba6ba7a204ad66"
+  },
+  "missing-external.json": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/missing-external.json",
+    "bytes": 3,
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "inventory-full.csv": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/inventory-full.csv",
+    "bytes": 38180821,
+    "sha256": "78c6e49bcf94c8374f01a10b4513c96a093408694d74dddaa23f8ae54ce307ee"
+  },
+  "directory-aggregates.csv": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/directory-aggregates.csv",
+    "bytes": 69721,
+    "sha256": "e425e2db32cf66c893d93efb687a90266d68c2734d50518caaa8ecac14656432"
+  },
+  "reference-evidence.json": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/reference-evidence.json",
+    "bytes": 136381,
+    "sha256": "2b7a1abf81e33057efc423ef18a438e3ea3cd4f598bef969bb5cc60a06fa8896"
+  },
+  "directory-metadata.json": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/directory-metadata.json",
+    "bytes": 7530565,
+    "sha256": "e4b8609e3071853143502ce61e4bfc8e39aa9149607de266a01ca3fbb51cd911"
+  },
+  "symlinks.json": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/scan-r1/symlinks.json",
+    "bytes": 5553,
+    "sha256": "c2ce97ba01e274ad53fa8906eda0ae441c40ac19609c16bc53835946ca44933a"
+  }
+}
