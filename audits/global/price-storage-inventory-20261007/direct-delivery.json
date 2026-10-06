@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007",
+  "task_id": "price-storage-inventory-20261007",
+  "authority_commit": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "envelope": "messages/head/2026-10-07-price-storage-inventory-all-sh.json",
+  "envelope_sha256": "b2c34d7e3fa179012c62d5e81bfa1888cdacf1a1e372cb9f89223228eac35408",
+  "transport": "official app-server direct, initialize/thread-resume/idle turn-start; SH1 local socket, SH2/3/4 registered SSH local socket",
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "host": "remote-ssh-codex-managed:lab120",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER1",
+      "accepted_turn": "01a11219-519d-7161-8d7e-e1c60f171fe3",
+      "transport_accepted": true,
+      "recipient_response": "`USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER1` 수신했습니다. SH1이 담당하며, nonce 중복과 실제 작업 경계를 확인한 뒤 PRICE 및 다른 task의 보존 의존성을 기준으로 읽기전용 점검하겠습니다. 삭제·이동·전송·기존 job 변경은 하지 않습니다.",
+      "nonce_echo_observed": true,
+      "stage": "OWNER_ACK_AUDIT_STARTING",
+      "report": "experiment-reports/servers/server1/price-storage-inventory-20261007/report-ko.md"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "host": "remote-ssh-codex-managed:lab121",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER2",
+      "accepted_turn": "01a11219-3611-7af0-b762-9f3ae907576a",
+      "transport_accepted": true,
+      "recipient_response": "ACK `USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER2`. SH2가 읽기전용 저장공간 점검을 맡겠습니다. PRICE와 FE·기존 보존 자료의 참조를 구분해 용량·불확실성을 보고하고, 파일 삭제·이동이나 기존 job 변경 없이 소형 보고만 게시하겠습니다.",
+      "nonce_echo_observed": true,
+      "stage": "OWNER_ACK_AUDIT_STARTING",
+      "report": "experiment-reports/servers/server2/price-storage-inventory-20261007/report-ko.md"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER3",
+      "accepted_turn": "01a11219-1801-7c63-8cc4-7e06094b06ca",
+      "transport_accepted": true,
+      "recipient_response": "ACK `USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER3`. SH3 저장공간 점검을 담당하겠습니다. PRICE 및 다른 작업의 보존 의존성을 확인해 메타데이터·용량 보고서를 작성하겠습니다. 파일 삭제·이동과 기존 job 변경은 하지 않습니다.",
+      "nonce_echo_observed": true,
+      "stage": "OWNER_ACK_AUDIT_STARTING",
+      "report": "experiment-reports/servers/server3/price-storage-inventory-20261007/report-ko.md"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER4",
+      "accepted_turn": "01a11219-eac6-71f2-a7d7-64beb2c656fe",
+      "transport_accepted": true,
+      "recipient_response": "저장공간 점검 지시를 수신했습니다. SH4 경계와 동일 nonce 중복 여부를 먼저 확인하겠습니다. 파일과 기존 job은 그대로 두고, PRICE 의존 자료와 보존이 필요한 자료를 읽기전용으로 분류하겠습니다.",
+      "nonce_echo_observed": false,
+      "stage": "RECEIVED_BOUNDARY_CHECKING",
+      "report": "experiment-reports/servers/server4/price-storage-inventory-20261007/report-ko.md"
+    }
+  ],
+  "asset_mutations_authorized": false,
+  "deleted_files": 0,
+  "Slurm_writes": 0,
+  "model_or_GPU_actions": 0,
+  "existing_jobs_preserved": true,
+  "inventory_results": "PENDING_NOT_COMPLETED",
+  "new_recurring_monitor": false
+}

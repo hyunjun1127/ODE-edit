@@ -11,7 +11,8 @@
     "server4"
   ],
   "envelope": "messages/head/2026-10-07-price-storage-inventory-all-sh.json",
-  "status": "DISPATCHING",
+  "status": "DELIVERED_ALL_FOUR_AUDITS_STARTING",
+  "delivery_receipt": "audits/global/price-storage-inventory-20261007/direct-delivery.json",
   "read_only_assets": true,
   "deletion_authorized": false,
   "scientific_submission_authorized": false
