@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007",
+  "authority_commit": "c5dc1cb4fc6853b6dfc3ceac5a490c14ab131ba4",
+  "attachment_sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+  "transport": "Official app-server Unix WebSocket direct thread/resume then idle turn/start; all four exact session/CWD bindings confirmed.",
+  "targets": [
+    {
+      "server": "server1",
+      "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER1",
+      "accepted_turn": "01a112ac-1aae-7260-801e-f0d7d72844b0",
+      "owner_ack": "`USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER1` 수신했습니다. SH1이 공통 helper의 schema·축·불변 identity receipt 구현을 담당합니다. 현재는 접수 단계이며, 정본과 SH4 caller 계약을 확인한 뒤 CPU 검증·main 게시까지 진행하겠습니다. GPT2 자산 준비와 기존 job은 변경하지 않습니다.\n",
+      "status": "OWNER_ACCEPTED_IMPLEMENTATION_OR_ADOPTION_PENDING"
+    },
+    {
+      "server": "server2",
+      "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER2",
+      "accepted_turn": "01a112ab-fa29-71c3-9bdb-42dc2adf8e43",
+      "owner_ack": "ACK `USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER2`. SH2는 향후 ours/baseline의 새 source 봉인 시 SH1 공통 helper와 지표 계약을 함께 채택하겠습니다. 현재 단계는 정책 수락이며, 기존 FE·봉인 job은 변경하지 않고 정본 확인 후 own-scope 기록만 게시하겠습니다.\n",
+      "status": "OWNER_ACCEPTED_IMPLEMENTATION_OR_ADOPTION_PENDING"
+    },
+    {
+      "server": "server3",
+      "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER3",
+      "accepted_turn": "01a112ab-da9d-7f33-b938-d7de280efd00",
+      "owner_ack": "ACK `USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER3`. SH3의 향후 ours/baseline 실험에 적용할 지표 계약을 수락합니다. 현재 미봉인 과학 caller는 없으므로 정본·첨부를 확인하고 적용 지침과 수락 상태를 게시하겠습니다. 공통 helper 수정은 SH1에 맡기고 기존 실험과 W&B run은 변경하지 않습니다.",
+      "status": "OWNER_ACCEPTED_IMPLEMENTATION_OR_ADOPTION_PENDING"
+    },
+    {
+      "server": "server4",
+      "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER4",
+      "accepted_turn": "01a112ac-a9fb-79f0-94ff-4496bd8ff450",
+      "owner_ack": "ACK `USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER4`: SH4 담당 수락합니다. GPT-J caller와 B4/B5/W0 CPU 검산은 준비됐고, 현재는 SH1 공통 helper 결속 전 단계입니다. 이번 정책 작업은 CPU·소스 통합만 진행하며 기존 job과 W&B run은 변경하지 않겠습니다.\n",
+      "status": "OWNER_ACCEPTED_IMPLEMENTATION_OR_ADOPTION_PENDING"
+    }
+  ],
+  "implementation": "SH1 helper implementation accepted and in progress; SH4 producer prepared, shared-helper adoption pending; SH2/SH3 future-caller policy accepted. No online scientific metric PASS claimed.",
+  "checks": [
+    "4 JSON parse",
+    "Exact adopted attachment byte SHA",
+    "Percent/fraction harmonic arithmetic equivalence",
+    "Git staged access check",
+    "All four explicit owner ACKs"
+  ],
+  "mutations": "No GPU/Slurm/run/backfill/old-source mutations; policy/source delegation only.",
+  "recurring_monitor": false
+}
