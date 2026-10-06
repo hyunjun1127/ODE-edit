@@ -1,0 +1,14 @@
+{
+  "nonce": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1-SERVER2",
+  "status": "RESOURCE_ONLY_REPAIR",
+  "original_source": "1917fe45",
+  "original_attempt": "local/base-model-gptj-w0/attempt-r1",
+  "original_jobs": [],
+  "original_allocation_GPU_seconds": 0,
+  "reason": "sbatch: CPU/RAM policy: use --mem up to 58G on server2 for 1 GPU(s)",
+  "old_memory_MiB": 60416,
+  "new_memory_MiB": 59392,
+  "science_changed": false,
+  "source_input_raw_preserved": true,
+  "collector_memory_MiB": 24576
+}

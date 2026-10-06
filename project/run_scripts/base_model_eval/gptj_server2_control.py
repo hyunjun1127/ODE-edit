@@ -67,10 +67,10 @@ def prepare():
         record_root=digest([digest(r) for r in records]),observer_manifest=member(out/'observer-identity.json'),
         assets=assets,runtime=runtime,seed=20261002,microbatch=2,tracking_env=env,
         tracking_env_identity=member(env),reserve_bytes=2*1024**3,
-        resources=dict(cpu=6,gpu=1,host_mib=60416,wall='04:00:00',collector_cpu=6,
+        resources=dict(cpu=6,gpu=1,host_mib=59392,wall='04:00:00',collector_cpu=6,
             collector_host_mib=24576,collector_wall='04:00:00',project_cap=2,task_cap=1,
             default_cpu8_adjustment='server2 job_submit maximum6 CPUs per1GPU; preserved scientific scope',
-            host_plan='FP32 model ~22.55GiB; low_cpu_mem_usage loader, host ceiling59GiB; no C0/P/H; row/token metadata <1GiB',
+            host_plan='FP32 model ~22.55GiB; low_cpu_mem_usage loader, host request58GiB; no C0/P/H; row/token metadata <1GiB',
             gpu_plan='FP32 model ~22.55GiB; physicalMB2 full sequence hidden + selected full-vocab head; actual peak recorded',
             wall_is_eta=False),save_checkpoints=False,exact_resume='NOT_AVAILABLE',
         native_contexts='NOT_USED_BY_RPN_EVALUATOR; no generated training contexts',
@@ -100,11 +100,13 @@ def launcher(a,role,c):
         'project.run_scripts.base_model_eval.gptj_server2','collect' if role=='collector' else 'run','--attempt',str(a)])+'\n'
 
 
-def submit():
-    a=LOCAL/'attempt-r1';c=read(LOCAL/'preparation-r1/config.json')
+def submit(config_path, attempt_name, cpu_receipt):
+    require(re.fullmatch(r'attempt-[A-Za-z0-9-]+',attempt_name),'ATTEMPT_NAME')
+    a=LOCAL/attempt_name;c=read(config_path)
+    require(c['resources']['cpu']==6 and 0<c['resources']['host_mib']<=59392,'CURRENT_CPU_RAM_POLICY')
     require(not a.exists(),'CREATE_ONCE_ATTEMPT')
     require(not command(['git','status','--porcelain','--',*SOURCES]),'UNCOMMITTED_SOURCE')
-    tests=read(LOCAL/'cpu-tests.json');require(tests['passed'],'CPU_CHECK')
+    tests=read(cpu_receipt);require(tests['passed'],'CPU_CHECK')
     for p,h in tests['source_sha256'].items():require(sha(ROOT/p)==h,'CPU_TEST_SOURCE_CHANGED')
     require(not command(['squeue','-h','-u',getpass.getuser(),'--name='+TASK,'-o','%i']), 'DUPLICATE_TASK')
     before=inventory()
@@ -132,7 +134,7 @@ def submit():
     write(a/'execution.lock.json',lock);ids={};inspections=[]
     for role in ('main','collector'):
         dep='afterany:'+ids['main'] if role=='collector' else ('afterany:'+':'.join(barrier) if barrier else None)
-        mem=24576 if role=='collector' else 60416
+        mem=c['resources']['collector_host_mib'] if role=='collector' else c['resources']['host_mib']
         argv=['sbatch','--parsable','--hold','--partition=gpu','--qos=lab_gpu_s2','--nodelist=server2','--nodes=1','--ntasks=1',
             '--cpus-per-task=6','--mem='+str(mem)+'M','--time=04:00:00','--export=NONE','--no-requeue',
             '--job-name='+TASK,'--chdir='+str(a/'source'),'--output='+str(a/(role+'-%j.out')),'--error='+str(a/(role+'-%j.err'))]
@@ -171,6 +173,10 @@ def submit():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('mode',choices=('prepare','submit'));args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('mode',choices=('prepare','submit'))
+    p.add_argument('--config',type=Path,default=LOCAL/'preparation-r1/config.json')
+    p.add_argument('--attempt-name',default='attempt-r1');p.add_argument('--cpu-receipt',type=Path,default=LOCAL/'cpu-tests.json')
+    args=p.parse_args()
     LOCAL.mkdir(parents=True,exist_ok=True)
-    (prepare if args.mode=='prepare' else submit)()
+    if args.mode=='prepare':prepare()
+    else:submit(args.config,args.attempt_name,args.cpu_receipt)
