@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER3",
+  "members": [
+    {
+      "path": "audits/servers/server3/wandb-realtime-setup/checks.json",
+      "bytes": 2748,
+      "sha256": "958bcc01ec9168d4c0a853250646ab95fd135dd273d4ef577c6992c0f6b74aaf"
+    },
+    {
+      "path": "audits/servers/server3/wandb-realtime-setup/sdk-lock.txt",
+      "bytes": 651,
+      "sha256": "7e777e0fab9ad0469fa5e3556a4bb7aece42deb4520c5d56ef1b950679b973c1"
+    },
+    {
+      "path": "audits/servers/server3/wandb-realtime-setup/smoke.py",
+      "bytes": 5605,
+      "sha256": "84df277c5c36aabc7c737d647a42eff30a52ddfb5dfbaef21439779f7161562e"
+    },
+    {
+      "path": "audits/servers/server3/wandb-realtime-setup/test_smoke.py",
+      "bytes": 2338,
+      "sha256": "d627f3c9d8f4bce6d68530c3104ac008102b48e3e5ff1b3977291b4dc1a50de8"
+    },
+    {
+      "path": "audits/servers/server3/wandb-realtime-setup/wandb.env.example",
+      "bytes": 603,
+      "sha256": "8f3db7016651f45896abb10980d4b64438fcd8ec77f69fa308784c7693376cfe"
+    },
+    {
+      "path": "experiment-reports/servers/server3/wandb-realtime-setup/report-ko.md",
+      "bytes": 6629,
+      "sha256": "30c0b68cc75f5907214cb6ab15e9fd69304d259114786fe25641e2e52336c3e9"
+    },
+    {
+      "path": "messages/acks/server3/wandb-realtime-setup.json",
+      "bytes": 954,
+      "sha256": "94c3aece5329e38c5d91226c889eb30af9228797252f52a49c84b1fceb9352f5"
+    },
+    {
+      "path": "messages/server-heads/server3/wandb-realtime-setup.json",
+      "bytes": 2170,
+      "sha256": "ad9078cadfd5180d21e13693722f8f02318b3cbeaef7bb6fd19c6f1797398c8f"
+    },
+    {
+      "path": "runs/wandb-realtime-setup/server3.json",
+      "bytes": 2170,
+      "sha256": "ad9078cadfd5180d21e13693722f8f02318b3cbeaef7bb6fd19c6f1797398c8f"
+    },
+    {
+      "path": "tasks/status/wandb-realtime-setup/server3.json",
+      "bytes": 2170,
+      "sha256": "ad9078cadfd5180d21e13693722f8f02318b3cbeaef7bb6fd19c6f1797398c8f"
+    }
+  ],
+  "local_nonsecret_config": {
+    "path": "/data/janghj/ODE-edit/servers/local/wandb.env",
+    "bytes": 603,
+    "sha256": "8f3db7016651f45896abb10980d4b64438fcd8ec77f69fa308784c7693376cfe"
+  },
+  "sdk_python": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv/bin/python",
+  "SDK_source": [
+    {
+      "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv/lib/python3.12/site-packages/wandb/sdk/wandb_settings.py",
+      "bytes": 76871,
+      "sha256": "5dd748763fe4ef2edd771a7432f8d815f8394502ce7850dc67ceb8da02c0c09a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv/lib/python3.12/site-packages/wandb/sdk/wandb_login.py",
+      "bytes": 11952,
+      "sha256": "d8611b98f98fc590bf4984f8c374c0c6689062bf00b0251ca043a347e9595e06"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv/lib/python3.12/site-packages/wandb/sdk/lib/wbauth/authenticate.py",
+      "bytes": 8957,
+      "sha256": "5949183f886c46114358924716d02f0400e812341f66b7f016b8a7c9af451813"
+    }
+  ],
+  "excludes": [
+    "manifest self hash",
+    "credential files/contents/hashes",
+    "local SDKenv/spool/logs",
+    "raw science"
+  ],
+  "secret_scan": "PASS_SCOPED_PATTERN_AND_OWNER_REVIEW"
+}

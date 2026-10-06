@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "sdk_import": "PASS",
+  "uv_pip_check": "PASS_26_PACKAGES",
+  "nonsecret_env_parse": "PASS_SPACE_PRESERVED",
+  "sdk_settings_privacy": "PASS",
+  "scientific_metadata_unchanged": {
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2"
+  },
+  "unit_checks": [
+    "missing auth creates no run/attempt",
+    "failure strings excluded; original error preserved across finish failure; fixed task marker prevents second output duplicate",
+    "exact3 synthetic scalar readback validation"
+  ],
+  "unit_tests_passed": 3,
+  "cpu_auth_preflight": {
+    "time_utc": "2026-10-06T12:14:32.906122+00:00",
+    "sdk": "0.30.0",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "server": "server3",
+    "settings": {
+      "entity": "wkdguswns2256",
+      "project": "layer allocation",
+      "mode": "online",
+      "console": "off",
+      "save_code": false,
+      "disable_code": true,
+      "disable_git": true,
+      "disable_job_creation": true,
+      "x_disable_meta": true,
+      "x_disable_stats": true,
+      "x_disable_machine_info": true,
+      "init_timeout": 30,
+      "login_timeout": 1,
+      "finish_timeout": 30,
+      "finish_timeout_raises": true
+    },
+    "gpu": 0,
+    "credential_available": false,
+    "auth_remote_verified": false,
+    "online_attempted": false,
+    "readback_points": 0,
+    "status": "SETUP_READY_NEEDS_USER_LOGIN"
+  },
+  "external_timeout_seconds": 120,
+  "cpu_affinity": 2,
+  "per_process_address_space_limit_GiB": 4,
+  "actual_online_memory_peak": "NOT_MEASURED_NO_ONLINE_RUN",
+  "online_tests": "NOT_RUN_MISSING_AUTH",
+  "new_scientific_launcher_integration": "NOT_APPLICABLE_NO_NEW_EXPERIMENT",
+  "shared_experiment_logger_runtime_failure_isolation": "NOT_TESTED_SH1_OWNED; own smoke error-path fixture only",
+  "independent_reviewer": {
+    "agent": "wandb_server3_audit",
+    "scope": "bounded read-only policy + own smoke source/tests/config; no credentials/network/GPU",
+    "finding": "per-output marker could create duplicate run",
+    "repair": "fixed task ROOT marker with cross-output regression; fd-level suppression added for subprocess SDK output",
+    "post_repair_validation": "owner3 CPUtests PASS; reviewer did not run tests"
+  },
+  "helper_access_expected_exception": "generic runs prefix unavailable; exact envelope authorizes runs/wandb-realtime-setup/server3.json; no sharedhelper edits",
+  "no_online_claim": true,
+  "access_check": {
+    "exit_code": 7,
+    "status": "NOT_PASS_GENERIC_PREFIX_UNSUPPORTED",
+    "blocked_path": "runs/wandb-realtime-setup/server3.json",
+    "authorization": "exact allowed_write_paths in messages/head/2026-10-06-wandb-server3.json",
+    "decision": "Proceed exact own-scope exception; common helper unchanged"
+  }
+}

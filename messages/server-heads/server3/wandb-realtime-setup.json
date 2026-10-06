@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER3",
+  "task_id": "wandb-realtime-setup",
+  "server": "server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "actual_host": "ubuntu",
+  "actual_user": "janghj",
+  "time_utc": "2026-10-06T12:16:05.575300+00:00",
+  "status": "SETUP_READY_NEEDS_USER_LOGIN",
+  "sdk": "INSTALLED_IMPORT_AND_DEPENDENCY_CHECK_PASS",
+  "python": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv/bin/python",
+  "python_version": "3.12.3",
+  "wandb_version": "0.30.0",
+  "config": "/data/janghj/ODE-edit/servers/local/wandb.env",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "mode": "online",
+  "api_endpoint": "https://api.wandb.ai",
+  "api_endpoint_basis": "installed SDK0.30.0 default; no verified prior account endpoint found; not inferred from Forge UI",
+  "credentials": "ABSENT_IN_SDK_SAFE_NO_PROMPT_PROBE",
+  "authentication": "NOT_VERIFIED",
+  "project_access": "NOT_VERIFIED",
+  "online": "NOT_ATTEMPTED_NEEDS_USER_LOGIN",
+  "online_run_id": null,
+  "online_run_url": null,
+  "remote_points_verified": 0,
+  "smoke_receipt": {
+    "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/smoke/receipt-6bbeb703e798431e970c4eaed60bf728.json",
+    "bytes": 773,
+    "sha256": "f35d4ad86137b09ba2105cefedf2af6a1d42d29d4948b21795029af5c6b5c6f3"
+  },
+  "shared_helper": {
+    "owner": "SH1",
+    "implementation_by_SH3": false,
+    "integration": "NOT_APPLICABLE_NO_NEW_EXPERIMENT",
+    "reviewed_shared_helper_commit": null
+  },
+  "unit_tests": {
+    "passed": 3,
+    "network": false,
+    "online_PASS": false
+  },
+  "scope": {
+    "GPU": 0,
+    "models_loaded": 0,
+    "Slurm_queries": 0,
+    "Slurm_writes": 0,
+    "old_jobs_or_sources_changed": false,
+    "credentials_copied_or_printed": false,
+    "science_environment_changed": false,
+    "monitoring_active": false
+  },
+  "blocker": "Server3 사용자 terminal 로그인 필요. 키 값은 채팅/명령 인자/보고/Git에 전달하지 않음. 로그인 후 동일 setup smoke로 원격3점을 검증해야 online READY 가능.",
+  "report": "experiment-reports/servers/server3/wandb-realtime-setup/report-ko.md"
+}

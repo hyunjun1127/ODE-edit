@@ -10,7 +10,7 @@
     "server4"
   ],
   "policy": "control/wandb-policy.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_DELIVERY",
+  "status": "ALL_FOUR_OWNERS_ACCEPTED_SETUP_IN_PROGRESS",
   "entity": "wkdguswns2256",
   "project": "layer allocation",
   "gpu": 0,
