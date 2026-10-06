@@ -1,6 +1,14 @@
 {
   "task_id": "jlz-price-alpha-writer-2k",
-  "status": "QWEN_USER_CANCELLED_LLAMA_PRESERVED",
+  "status": "LLAMA_PENDING_REPLACEMENTS_RELEASED_QWEN_STOPPED",
+  "latest_reconciliation": {
+    "cancelled_never_started_pending": [60011,60012,60013,60017],
+    "new_jobs": {"LLAMA_AE_CAP075":60105,"LLAMA_AE_CAP100":60106,"LLAMA_AE_FREE100":60107,"collector":60108},
+    "new_execution_source":"5226337121fd2c90c595f26297c9927400f8f0af",
+    "new_attempt":"/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007",
+    "report":"experiment-reports/servers/server4/price-model-runs-tracking/report-ko.md",
+    "old_jobs_below":"historical preserved mapping, not current active IDs"
+  },
   "qwen_user_stop": {
     "date_kst": "2026-10-07",
     "quote": "qwen job들 전부 취소시켜봐; 실행중인것도 취소시켜",
@@ -30,5 +38,5 @@
   "W20": "NOT_OBSERVED",
   "old_evidence_keep": true,
   "user_authority": "현재 사용자 repair/전부 재제출 및 Alpha6 교체 승인",
-  "combined_server4_GPU_cap": 2
+  "combined_server4_GPU_cap": 3
 }

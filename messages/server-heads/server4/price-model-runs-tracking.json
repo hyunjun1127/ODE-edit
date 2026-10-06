@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER4",
+  "protected_job_nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-KEEP60001",
+  "stage": "RELEASED_BOUNDED_HANDOFF",
+  "60001": "KEEP_UNCHANGED; bounded initial RUNNING; no cancel/hold/requeue/hotpatch/restart/duplicate",
+  "Llama_MEMIT": {"CAP075": "60001 KEEP", "CAP100": "60102", "FREE100": "60103", "collector": "60104"},
+  "Llama_AlphaEdit": {"CAP075": "60105", "CAP100": "60106", "FREE100": "60107", "collector": "60108"},
+  "GPTJ_MEMIT": {"CAP075": "60112", "CAP100": "60113", "FREE100": "60114"},
+  "GPTJ_AlphaEdit": {"CAP075": "60115", "CAP100": "60116", "FREE100": "60117", "shared_collector": "60118"},
+  "cancelled_exact_never_started_pending": [60017,60007,60013,60012,60011,60003,60002],
+  "execution_source": "5226337121fd2c90c595f26297c9927400f8f0af",
+  "report": "experiment-reports/servers/server4/price-model-runs-tracking/report-ko.md",
+  "receipt": "audits/servers/server4/price-model-runs-tracking/submission-receipt.json",
+  "combined_cap": 3,
+  "new_GPU_qualification_WandB_remote_W20": "NOT_OBSERVED; released submission is not science completion",
+  "Qwen": "STOP_UNCHANGED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}
