@@ -108,14 +108,22 @@ def cancel():
     receipt=dict(authority=AUTHORITY,protected_job='60001',protected_job_mutations=0,cancelled=[],status='IN_PROGRESS')
     write(LOCAL/'cancel-before.json',receipt)
     for job,attempt,role in TARGETS:
-        prior=bind(job,attempt,role)
-        require('Reason=JobHeldUser ' in prior['detail'],'MUST_STILL_BE_HELD_PENDING')
-        command(['scancel',job])
+        observed=bind(job,attempt,role,pending=False)
+        if 'JobState=CANCELLED ' in observed['detail']:
+            # Explicit resume after a metadata parser repair. Do not issue a
+            # second cancellation or treat a terminal job as pending.
+            prior=next(x['before'] for x in held['held'] if x['before']['job']==job)
+            action='ALREADY_CANCELLED_TERMINAL_OBSERVED_NO_SECOND_WRITE'
+        else:
+            prior=bind(job,attempt,role)
+            require('Reason=JobHeldUser ' in prior['detail'],'MUST_STILL_BE_HELD_PENDING')
+            command(['scancel',job]);action='EXACT_HELD_PENDING_CANCELLED'
         after=command(['sacct','-X','-n','-P','-j',job,'--format=JobIDRaw,User,State,ElapsedRaw,Start,AllocTRES'])
         row=next(line.split('|') for line in after.splitlines() if line.split('|')[0]==job)
         require(row[1]==getpass.getuser() and row[2].startswith('CANCELLED')
-            and row[3]=='0' and row[4] in ('Unknown','') and not row[5],'CANCELLATION_TERMINAL_UNALLOCATED')
-        step=dict(before=prior,after_accounting=after)
+            and row[3]=='0' and row[4] in ('Unknown','None','') and not row[5],'CANCELLATION_TERMINAL_UNALLOCATED')
+        step=dict(before=prior,after_accounting=after,action=action,
+            accounting_start_semantics='None is terminal unstarted; scontrol cancellation timestamp is not an allocation/start of execution')
         receipt['cancelled'].append(step);write(LOCAL/('cancelled-'+job+'.json'),step)
     receipt['status']='EXACT_NEVER_STARTED_PENDING_CANCELLED';write(path,receipt)
     return dict(status=receipt['status'],jobs=[j for j,_,_ in TARGETS],protected_job='60001')
@@ -123,7 +131,7 @@ def cancel():
 def prepare(preflight):
     boundary();review=json.loads(verify(member(preflight)).read_text())
     require(review['passed'] is True,'CPU_SOURCE_REVIEW')
-    configs={}
+    configs={};suffix='' if preflight.name=='source-cpu.json' else '-'+preflight.stem
     for old,new,selected in ((MEMIT,MEMIT_NEW,['LLAMA_CAP100','LLAMA_FREE100']),
             (ALPHA,ALPHA_NEW,['LLAMA_AE_CAP075','LLAMA_AE_CAP100','LLAMA_AE_FREE100'])):
         require(not new.exists(),'NEW_ATTEMPT_CREATE_ONCE')
@@ -147,12 +155,12 @@ def prepare(preflight):
             c['retained_cells']={'LLAMA_CAP075':dict(attempt=str(old),config_path=str(old/'config.json'),
                 lock_path=str(old/'execution.lock.json'),job_id='60001',execution_source=OLD_SOURCE,
                 config_sha256=sha(old/'config.json'),lock_sha256=sha(old/'execution.lock.json'))}
-        path=LOCAL/('memit-config.json' if old==MEMIT else 'alpha-config.json')
+        path=LOCAL/(('memit-config' if old==MEMIT else 'alpha-config')+suffix+'.json')
         write(path,c);configs[old.name+('-memit' if old==MEMIT else '-alpha')]=member(path)
-    write(LOCAL/'prepared.json',dict(configs=configs,protected_job='60001',new_job_ids=[]))
+    write(LOCAL/('prepared'+suffix+'.json'),dict(configs=configs,protected_job='60001',new_job_ids=[]))
     return dict(status='SOURCE_INPUT_REBOUND_NOT_SUBMITTED',configs=configs)
 
-def register():
+def register(memit_config=None,alpha_config=None):
     boundary()
     require(json.loads((LOCAL/'cancellation.json').read_text())['status']=='EXACT_NEVER_STARTED_PENDING_CANCELLED','CANCEL_BEFORE_REPLACEMENT')
     from project.run_scripts.jlz_interference_l1 import cap_submit as memit
@@ -175,7 +183,8 @@ def register():
         parents=list(dict.fromkeys(parents+existing))
     ids={};mapping={};held=[];frozen={}
     for name,module,attempt in (('memit',memit,MEMIT_NEW),('alpha',alpha,ALPHA_NEW)):
-        config=LOCAL/(name+'-config.json');c=json.loads(config.read_text());roles=(*c['selected_cells'],'collector')
+        config=(memit_config if name=='memit' else alpha_config) or LOCAL/(name+'-config.json')
+        c=json.loads(config.read_text());roles=(*c['selected_cells'],'collector')
         lock,c=module.freeze(config,attempt,roles=roles);frozen[name]=(lock,c)
         r=c['resources']
         require(r['cpu']==8 and r['host_mib']==59392 and r['hard_host_mib']==60416
@@ -227,6 +236,6 @@ def register():
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('action',choices=['hold','cancel','prepare','register'])
-    p.add_argument('--preflight',type=Path);a=p.parse_args()
-    result=prepare(a.preflight) if a.action=='prepare' else globals()[a.action]()
+    p.add_argument('--preflight',type=Path);p.add_argument('--memit-config',type=Path);p.add_argument('--alpha-config',type=Path);a=p.parse_args()
+    result=prepare(a.preflight) if a.action=='prepare' else register(a.memit_config,a.alpha_config) if a.action=='register' else globals()[a.action]()
     print(json.dumps(result))
