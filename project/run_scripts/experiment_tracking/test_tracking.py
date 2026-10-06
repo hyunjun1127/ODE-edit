@@ -1,4 +1,5 @@
 import json
+import inspect
 from pathlib import Path
 import queue
 import tempfile
@@ -47,6 +48,17 @@ def exercise(sdk,smoke=True):
 
 
 class Tests(unittest.TestCase):
+    def test_installed_sdk_surface(self):
+        try:import wandb
+        except ImportError:self.skipTest('isolated SDK venv required for actual signature check')
+        self.assertEqual(wandb.__version__,SDK_VERSION)
+        settings(wandb,'https://api.wandb.ai')
+        class SignatureSDK(SDK):
+            def finish(self,**kw):
+                inspect.signature(wandb.Run.finish).bind(None,**kw)
+                return super().finish(**kw)
+        result=exercise(SignatureSDK())
+        self.assertEqual(result[-1]['status'],'READY_ONLINE_VERIFIED')
     def test_no_auth_no_run(self):
         sdk=SDK(login=False);out=exercise(sdk)
         self.assertEqual(out[-1]['status'],'SETUP_READY_NEEDS_USER_LOGIN');self.assertFalse(sdk.calls)

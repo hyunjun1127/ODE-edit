@@ -56,7 +56,7 @@ def session(sdk, request, commands, emit):
         elif message['op']=='finish':
             code=message['exit_code'];require(type(code) is int and code in (0,1),'EXIT_CODE')
             try:
-                run.finish(exit_code=code, quiet=True)
+                run.finish(exit_code=code)
             except Exception:
                 emit(dict(status='LOGGING_DEGRADED_FINISH',points=count,failures=failures+1));return
             status='FINISHED_UNVERIFIED' if failures else 'FINISHED_SDK_FLUSHED'
