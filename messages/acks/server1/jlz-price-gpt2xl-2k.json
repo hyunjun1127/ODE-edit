@@ -1,0 +1,17 @@
+{
+  "nonce": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "host": "devbox",
+  "live_root": "/mnt/raid5/janghj/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k",
+  "legacy_registry_29e4": "HISTORICAL_NOT_CURRENT_BOUNDARY",
+  "branch": "codex/server1-jlz-price-gpt2xl-2k",
+  "authority_main": "a100868955f0d1091b9c0ff0db6029d9cc9cfcba",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_prior_receipt": "NOT_FOUND_IN_LATEST_MAIN_AND_TASK_LOCAL_SCOPE",
+  "save_checkpoints": false,
+  "other_jobs_mutated": false,
+  "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "full_read": "six-member canonical package; source-evidence/native YAMLs and actual parser/source inspected"
+}

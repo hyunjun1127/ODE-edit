@@ -1,0 +1,20 @@
+{
+  "task_id": "jlz-price-gpt2xl-2k",
+  "nonce": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "latest_user": "method 구현까지만 진행해봐",
+  "status": "METHOD_IMPLEMENTED_CPU_CHECKED_EXECUTION_STOPPED_USER",
+  "tests": {"run": 47, "passed": 45, "skipped": 2, "failed": 0},
+  "GPU_validation": "NOT_RUN",
+  "new_job_ids": [],
+  "slurm_submit_calls": 0,
+  "source_frozen_for_execution": false,
+  "new_model_loads": 0,
+  "new_model_forwards": 0,
+  "new_context_generation": 0,
+  "checkpoint_saved": false,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "execution_authorized": false,
+  "root_dirty_preserved": true,
+  "NO_BROADCAST_NOT_REQUIRED": true
+}
