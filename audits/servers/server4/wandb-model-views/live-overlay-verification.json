@@ -1,0 +1,150 @@
+{
+  "status": "LIVE_BRIDGE_AND_REMOTE_OVERLAY_VERIFIED",
+  "coverage": {
+    "price-59768-metrics": {
+      "current_edits": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+      ],
+      "all_seen_edits": [
+        500,
+        1000,
+        1500,
+        2000
+      ]
+    },
+    "historical-memit-first2k": {
+      "current_edits": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+      ],
+      "all_seen_edits": [
+        500,
+        1000,
+        2000
+      ]
+    },
+    "historical-memith-first2k": {
+      "current_edits": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+      ],
+      "all_seen_edits": [
+        500,
+        1000,
+        2000
+      ]
+    },
+    "historical-alphaedit-first2k": {
+      "current_edits": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+      ],
+      "all_seen_edits": [
+        500,
+        1000,
+        2000
+      ]
+    },
+    "comparison-c5b6f44631f44f22": {
+      "current_edits": [
+        100,
+        200,
+        300,
+        400
+      ],
+      "all_seen_edits": []
+    },
+    "comparison-ab6e4d2618154482": {
+      "current_edits": [
+        100
+      ],
+      "all_seen_edits": []
+    }
+  },
+  "llama_common_current_edits": [
+    100,
+    200,
+    300,
+    400
+  ],
+  "bridge_PID": 1572718,
+  "bridge_source": "09e3265bd5105618d445e50aeeb08d5baaeb808c",
+  "interval_seconds": 60,
+  "GPU": 0,
+  "original_jobs_modified": false,
+  "extra_model_evaluations": 0,
+  "runtime_identity_claim": "Historical reference; metric scope/unit aligned, not identical runtime"
+}

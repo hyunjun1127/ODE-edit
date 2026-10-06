@@ -1,5 +1,19 @@
 # W&B 모델별 First 2k Saved View
 
+## Qwen 과거 결과 가용성 추가 확인 — 아직 reference 업로드 전
+
+사용자 Qwen baseline/W0 확인 요청으로 기존 저장소 자료를 추가 조사했다. 최초 W&B inventory의 NOT_AVAILABLE은 당시 **원격 imported run 부재**였으며 로컬 결과 부재를 의미하지 않는다.
+
+| 자료 | 실제 측정 범위 | 확인된 source |
+|---|---|---|
+| Qwen Official MEMIT | 누적 1k/1.5k/2k/3k/5k/7.5k/10k | server4 `official-layer-realization-debt-lifelong-b100x100-2026-09-03-v6/counterfact-primary-checkpoints.csv` |
+| Qwen Official AlphaEdit | 위와 같은 7 endpoint | 동일 source, QA arm |
+| Qwen Alpha O_NATIVE / JV_NATIVE | current B1–B10, 누적 W1/W5/W10; 최대1k | server2 `alpha-native-response-v31-sequential-routing-2026-09-06-v1/main-four-terminal-v1` |
+| 과거 Qwen W0 | 동일1k cohort 1 endpoint | 위 server2 `final_metrics.csv`, PRE_EDIT_ORIGINAL_W0 |
+| 현재 PRICE Qwen W0 | first2k raw26,000 rows, current100/prefix 재집계 가능 | job60004 W0; 동일 token/order/state CPU 검산 |
+
+Qwen MEMIT-H/BLUE/CAKE의 10k 결과는 이 조사에서 확인되지 않았다. 원래 native lr/clamp/runtime 및 stream/order identity와 현재 PRICE의 차이를 historical reference로 명시해야 한다. 특히 server2 strict PS/NS request-cluster 수치를 prompt strict accuracy로 치환하면 안 된다. 사용자 최신 확인 요청 시점에는 위 Qwen reference를 **원격 업로드하지 않았으며** CPU preparation만 수행했다. 1k 결과를 2k/10k로 확장하지 않는다.
+
 ## 2026-10-07 사용자 지적 후 비교 연결 교정
 
 직전 분리는 새 run을 baseline/PRICE-59768과 같은 패널에서 비교할 수 없게 만든 불완전한 처리였다. 사용자 `실시간 자동 동기화` 승인에 따라 별도 CPU 비교 브리지를 추가했다. 원본 GPU run의 frozen source와 logger는 그대로 유지한다.
