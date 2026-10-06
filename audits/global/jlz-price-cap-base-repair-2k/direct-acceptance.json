@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "authority_commit": "4778599075516d48bbafc27f907e83ba83ac382c",
+  "target_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted_turn": "01a111bb-ab7d-7231-85a8-4f5d212ca47a",
+  "transport": "official app-server direct thread/resume → idle turn/start; same-stream nonce receipt; exact accepted turn read_thread로 이어진 명시 owner acceptance 확인",
+  "owner_ack": "ACK USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1: SH4가 jlz-price-cap-base-repair-2k를 수락합니다. session/server4/CWD/origin 일치와 동일 nonce 접수·제출 없음, server4 소유 active queue 공백을 확인했습니다. 전용 branch codex/server4-price-cap-base-repair-2k에서 IMPLEMENTING_NOT_SUBMITTED 상태로 진행합니다. Llama/Qwen 6개 run을 합산 cap 2 내에서 등록하겠습니다.",
+  "owner_branch": "codex/server4-price-cap-base-repair-2k",
+  "owner_worktree": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/worktree",
+  "stage": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "production_source_freeze": "NOT_YET_REPORTED",
+  "GPU_qualification": "NOT_OBSERVED",
+  "scientific_completion": "NOT_RUN_NOT_CLAIMED",
+  "combined_gpu_cap": 2,
+  "raw_transport": "local/price-dispatch/transport.jsonl (ignored)",
+  "note": "초기 local sender f-string 이름오류는원격전송전에발생,중복turn/job생성0;본문escape최소수정뒤1회정식전달.",
+  "GH_actions": {
+    "production_edits": 0,
+    "Slurm_writes": 0,
+    "model_or_toy": 0,
+    "existing_job_mutations": 0,
+    "long_monitor": false
+  },
+  "handoff": "SH4가추가승인없이repair/여섯등록/자연진행을계속. GH전달turn종료는SH4중단아님."
+}
