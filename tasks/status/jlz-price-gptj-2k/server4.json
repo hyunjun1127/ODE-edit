@@ -3,19 +3,41 @@
   "server": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
   "branch": "codex/server4-price-gptj-2k",
-  "status": "RELEASED_BOUNDED_HANDOFF",
-  "submission_authorized_now": true,
-  "resume_reason": "사용자: 첨부까지 확인해서 run 올려라; GH에게 helper 요건 전달 예정",
-  "submission_gate": "FULFILLED: source/config freeze + CPU mapping/axes + actual held checks/release; no central marker wait",
-  "future_source_state": "FROZEN_5226337121fd2c90c595f26297c9927400f8f0af",
-  "latest_candidate_config_sha256": "7331db77a872095f49472345de69f94ed8ff9d790796823b9d255ea3d563c6dc",
-  "latest_candidate_config_status": "ACTUAL_SUBMITTED_CONFIG",
-  "initial_freeze_failure": "STALE_DEPENDENCY_SOURCE_SHA_BEFORE_ANY_SLURM_SUBMISSION; original attempt kept",
-  "job_ids": [60112,60113,60114,60115,60116,60117,60118],
-  "submission": "runs/price-model-runs-tracking/server4/submission.json",
-  "initial_snapshot": "allnewjobs PENDING; no recurring polling",
-  "actual_WandB_online_identity": "NOT_OBSERVED",
-  "W20": "NOT_OBSERVED",
+  "status": "RELEASED_EASYEDIT_HPARAMS_BOUNDED_HANDOFF",
+  "instruction_id": "USER-SH4-GPTJ-EASYEDIT-HPARAMS-20261007",
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "config_sha256": "c93fdcab97b0686fce3ae5d2b98caacc6ed0a9306807516f4325f21061c4e00c",
+  "lock_sha256": "acb37a03142d197adb4c7fba315596d9494a0a05e1f8bbace0cc4e8c96e2bfbc",
+  "job_ids": [
+    60134,
+    60135,
+    60136,
+    60137,
+    60138,
+    60139,
+    60140
+  ],
+  "cancelled_never_started_job_ids": [
+    60112,
+    60113,
+    60114,
+    60115,
+    60116,
+    60117,
+    60118
+  ],
+  "hparams": {
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "lr": 0.5,
+    "AlphaEdit_L2": 10
+  },
   "writers": [
     "MEMIT",
     "ALPHAEDIT"
@@ -26,13 +48,18 @@
     "FREE100"
   ],
   "requests_per_cell": 2000,
+  "expected_H_each": 120,
   "server4_combined_gpu_cap": 3,
   "task_gpu_cap": 2,
   "actual_qualification": "NOT_OBSERVED",
-  "historical_pre_tracking_config_sha256": "b714973635ce4429734d7042933df3b4314691a8f623532e561336076c56d85e",
-  "model_download": "SHA_VERIFIED_COMPLETE",
-  "model_path": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj/cache/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
-  "existing_jobs_modified": false,
+  "actual_WandB_online_identity": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "submission": "runs/jlz-price-gptj-2k/easyedit-hparams-20261007/submission.json",
+  "local_attempt": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/easyedit-hparams-20261007",
+  "old_source_raw_config_KEEP": true,
+  "protected60001_modified": false,
+  "Llama_modified": false,
   "monitoring_active": false,
-  "automatic_resume": false
+  "automatic_resume": false,
+  "automatic_retry": false
 }

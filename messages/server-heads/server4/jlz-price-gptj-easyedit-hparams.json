@@ -1,0 +1,44 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-EASYEDIT-HPARAMS-20261007",
+  "task_id": "jlz-price-gptj-2k",
+  "status": "REPLACEMENT_RELEASED_BOUNDED_HANDOFF",
+  "cancelled_never_started_job_ids": [
+    60112,
+    60113,
+    60114,
+    60115,
+    60116,
+    60117,
+    60118
+  ],
+  "new_job_ids": [
+    60134,
+    60135,
+    60136,
+    60137,
+    60138,
+    60139,
+    60140
+  ],
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "config_sha256": "c93fdcab97b0686fce3ae5d2b98caacc6ed0a9306807516f4325f21061c4e00c",
+  "hparams": {
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "lr": 0.5,
+    "AlphaEdit_L2": 10
+  },
+  "protected_60001_and_Llama_mutations": 0,
+  "actual_B1": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "WandB_remote_identity": "NOT_OBSERVED",
+  "report": "experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
+  "monitoring_active": false,
+  "automatic_retry": false
+}

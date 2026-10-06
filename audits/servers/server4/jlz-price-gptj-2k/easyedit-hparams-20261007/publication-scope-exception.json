@@ -1,0 +1,11 @@
+{
+  "generic_access_helper": "NOT_PASS_PREFIX_UNSUPPORTED",
+  "observed_helper_exit_code": 7,
+  "exact_path": "runs/jlz-price-gptj-2k/easyedit-hparams-20261007/submission.json",
+  "authority": "Current USER explicitly requests replacing the pending GPT-J six cells and submitting again; prior own-task source/compact run/report publication delegated",
+  "contents": "Only actual job IDs/dependencies, source/config/lock SHA, bounded initial snapshot and local receipt references",
+  "shared_helper_modified": false,
+  "raw_model_tensor_prompt_secret": false,
+  "root_dirty_and_old_archives_preserved": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

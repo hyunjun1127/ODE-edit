@@ -1,0 +1,71 @@
+{
+  "task_id": "jlz-price-gptj-2k",
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "jobs": {
+    "ALPHA_CAP075": "60137",
+    "ALPHA_CAP100": "60138",
+    "ALPHA_FREE100": "60139",
+    "MEMIT_CAP075": "60134",
+    "MEMIT_CAP100": "60135",
+    "MEMIT_FREE100": "60136",
+    "collector": "60140"
+  },
+  "mapping": {
+    "ALPHA_CAP075": {
+      "job": "60137",
+      "dependency": "afterany:60134"
+    },
+    "ALPHA_CAP100": {
+      "job": "60138",
+      "dependency": "afterany:60137"
+    },
+    "ALPHA_FREE100": {
+      "job": "60139",
+      "dependency": "afterany:60138"
+    },
+    "MEMIT_CAP075": {
+      "job": "60134",
+      "dependency": null
+    },
+    "MEMIT_CAP100": {
+      "job": "60135",
+      "dependency": "afterany:60134"
+    },
+    "MEMIT_FREE100": {
+      "job": "60136",
+      "dependency": "afterany:60135"
+    },
+    "collector": {
+      "job": "60140",
+      "dependency": "afterany:60134:60135:60136:60137:60138:60139"
+    }
+  },
+  "config_sha256": "c93fdcab97b0686fce3ae5d2b98caacc6ed0a9306807516f4325f21061c4e00c",
+  "lock": {
+    "bytes": 100537,
+    "inode": 136137591,
+    "mtime_ns": 1791319172901323300,
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/easyedit-hparams-20261007/execution.lock.json",
+    "sha256": "acb37a03142d197adb4c7fba315596d9494a0a05e1f8bbace0cc4e8c96e2bfbc"
+  },
+  "held": {
+    "bytes": 56939,
+    "inode": 136137600,
+    "mtime_ns": 1791319173492323600,
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/easyedit-hparams-20261007/held-inspection.json",
+    "sha256": "91d754813954545a12d9f6e56b1e5a17441d8c919117244bb889dba05dc9b584"
+  },
+  "local_submission": {
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/easyedit-hparams-20261007/submission.json",
+    "bytes": 7656,
+    "sha256": "69512695d47cc9df6b6e424d092f171f7e8e4e26481e2ec0c8e023430bb10662",
+    "inode": 136137608,
+    "mtime_ns": 1791319173560323600
+  },
+  "initial_snapshot": "60140|jlz-price-gptj-2k-collector|PENDING|N/A||None\n60139|jlz-price-gptj-2k-ALPHA_FREE100|PENDING|gres/gpu:1||None\n60138|jlz-price-gptj-2k-ALPHA_CAP100|PENDING|gres/gpu:1||None\n60137|jlz-price-gptj-2k-ALPHA_CAP075|PENDING|gres/gpu:1||None\n60136|jlz-price-gptj-2k-MEMIT_FREE100|PENDING|gres/gpu:1||None\n60135|jlz-price-gptj-2k-MEMIT_CAP100|PENDING|gres/gpu:1||None\n60134|jlz-price-gptj-2k-MEMIT_CAP075|PENDING|gres/gpu:1||None",
+  "status": "RELEASED",
+  "actual_B1": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false
+}
