@@ -25,6 +25,17 @@ still owns the experiment lifecycle and evidence review.
 이미 실행 중인 작업과 봉인된 과거 결과는 이 정책을 소급 적용해 수정하지 않는다.
 원본 전체 데이터셋은 보존하며, raw 데이터는 Git에 넣지 않는다.
 
+## W&B 실시간 기록 정책 (2026-10-06 사용자 지시)
+
+새로 제출하는 모든 실험은 `control/wandb-policy.json`에 따라 W&B online run에
+실시간 scalar 지표를 기록한다. 공통 entity는 `wkdguswns2256`, project는
+공백을 유지한 `layer allocation`이다. 인증키와 원문 데이터·tensor·checkpoint는
+업로드/Git 저장하지 않는다. 기존 봉인·제출 job을 hotpatch/재시작하지 않으며
+새 실행 source에 반영한다. 각 서버 설정과 실제 online 검증은 구분하고,
+인증 미설정은 사용자 안전 로그인이 필요한 상태로 보고한다.
+실험 도중 일시적 통신 실패는 로컬 기록 보존 및 logging degraded로 처리하며,
+수치 실험을 자동 재실행하거나 agent 반복 모니터를 만들지 않는다.
+
 ## Language Policy
 
 모든 agent 간 통신은 사용자가 바로 읽을 수 있도록 한글로 작성한다.
