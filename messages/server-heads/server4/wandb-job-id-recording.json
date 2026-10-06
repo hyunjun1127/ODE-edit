@@ -1,0 +1,30 @@
+{
+  "from": "SH4",
+  "to": ["GH", "SH1"],
+  "task_id": "jlz-price-gptj-2k",
+  "request": "SH1 shared comparison metric schema required before six GPT-J submissions",
+  "user_attachment_sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+  "user_submission_resume": true,
+  "helper_job_identity_adopted": "bc63425e",
+  "helper_owner_unchanged": "SH1",
+  "caller": "project/run_scripts/jlz_price_gptj/tracking.py",
+  "required_schema_marker": "COMPARISON_SCHEMA = price-first2k-scalar-v1 (or agreed equivalent capability)",
+  "required_config": ["model", "model_family", "writer", "role", "metric_schema"],
+  "config_values": {"model": "gptj", "model_family": "GPTJ", "writer": "memit or alphaedit", "role": "scientific", "metric_schema": "price-first2k-scalar-v1"},
+  "metrics": {
+    "prefixes": ["current/pre", "current/post", "all_seen/post", "W0_first2000"],
+    "families": ["R", "P", "N"],
+    "fields": ["count", "success_count", "success_pct", "token_acc_pct", "prompt_acc_pct", "strict_acc_pct", "true_nll", "new_nll", "margin_true_minus_new"],
+    "per_prefix": ["success_harmonic_pct"],
+    "W0_subset_prefixes": ["w0/current/N", "w0/all_seen/N"],
+    "additional_scalar_axes": ["pre_state_edits", "post_state_edits", "fit/global_candidate"],
+    "units": "percent for *_pct; counts integers; NLL natural log; true-new margin",
+    "definition": "Explicit finite allowlist only. Eval prefixes use edits with step_sync=false; fit uses fit/global_candidate. Missing all_seen keys omitted, never imputed. W0 first2000 distinct from 10k."
+  },
+  "caller_checks": "Existing immutable 60001 B4/B5/W0 raw independently reduced; current R100/P200/N1000, B5 cumulative R500/P1000/N5000, W0 R2000/P4000/N20000 PASS. No model computation.",
+  "identity_receipt": "Task-local immutable tracking-identity.json preserves initial run_id/url/job/source/config. Shared mutable transport receipt remains unchanged.",
+  "readback": "Task-local bounded read-only SDK subprocess after finish checks original scientific run name/config/history against accepted scalar stream; no resume writer/new run.",
+  "jobs": [],
+  "current_gate": "SHARED_COMPARISON_SCHEMA_NOT_READY; no Slurm submission",
+  "delivery": "App dynamic send unavailable; peer SSH authentication unavailable. USER says they will deliver this requirement to GH. This tracked message is not claimed direct delivery ACK."
+}

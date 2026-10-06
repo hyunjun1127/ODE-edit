@@ -1,0 +1,23 @@
+{
+  "status": "CALLER_RAW_REDUCTION_CHECKED_HELPER_SCHEMA_PENDING",
+  "task_id": "jlz-price-gptj-2k",
+  "attachment_sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+  "raw_review": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/metrics-raw-review.json",
+  "static_review": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/static-preflight-metric-readback.json",
+  "B4_current_RPN": [100, 200, 1000],
+  "B4_all_seen": "NOT_MEASURED_KEYS_ABSENT",
+  "B5_current_RPN": [100, 200, 1000],
+  "B5_all_seen_RPN": [500, 1000, 5000],
+  "W0_first2000_RPN": [2000, 4000, 20000],
+  "raw_stored_payload_equal": true,
+  "unknown_private_schema_fields_rejected": true,
+  "job_identity_helper": "SH1 bc63425e and subsequent step-id correction",
+  "tasklocal_metadata_tests": "3 PASS; fake SDK, no online uploads",
+  "scientific_runtime_changed": "logging callers only; no coefficients/input/fit/writer/evaluation changes",
+  "extra_model_calls": 0,
+  "original_jobs_or_runs_modified": false,
+  "actual_new_job_ids": [],
+  "reviewer": "owner only; no independent reviewer",
+  "remaining": ["SH1 comparison schema/config/axis capability", "source/config rebind", "fresh admission and held/release"],
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED; compact Git receipt only"
+}

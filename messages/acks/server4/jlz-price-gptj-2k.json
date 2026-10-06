@@ -1,0 +1,18 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-MEMIT-ALPHA-2K-20261007",
+  "task_id": "jlz-price-gptj-2k",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "branch": "codex/server4-price-gptj-2k",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "job_ids": [],
+  "user_requests": ["gpt-j 부터 6arm 올려", "gpu cap 3개", "EasyEdit stats/writer/hparam에 ours hook 연결"],
+  "scope": "GPT-J MEMIT/AlphaEdit 각각 CAP075/CAP100/FREE100 cold BS100x20. 기존 Llama 유지, Qwen STOP 유지, GPT2-XL 이번 제출 제외.",
+  "native_binding": "EasyEdit GPT-J 모듈/27 readout/기존 stats/.02 projector/native 5context 절차를 사용. 동일 ours L4..8/lr.1/Alpha lambda1/price와 budget 유지; native hparams의 L3/lr.5/Alpha L2=10은 ours에 도입하지 않음.",
+  "duplicate_check": "기존 상태 IMPLEMENTING_NOT_SUBMITTED/job_ids=[]; GPT-J 실제 등록 없음. 제출 직전 exact queue/receipt 재검산.",
+  "combined_server4_gpu_cap": 3,
+  "new_task_gpu_cap": 2,
+  "existing_jobs_mutation": false,
+  "automatic_retry": false,
+  "noCP": true
+}

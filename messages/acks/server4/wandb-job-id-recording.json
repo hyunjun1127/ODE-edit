@@ -1,0 +1,14 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER4",
+  "task_id": "wandb-job-id-recording",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_worktree": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree",
+  "branch": "codex/server4-price-gptj-2k",
+  "duplicate_receipt_found": false,
+  "status": "OWNER_ACCEPTED_FUTURE_CALLER_PREPARED",
+  "helper_owner": "SH1; unmodified by SH4",
+  "actual_online_job_identity": "NOT_OBSERVED",
+  "GPTJ_job_ids": [],
+  "latest_user_boundary": "USER_PAUSED_PRE_SUBMISSION; await W&B metric instructions and submission resume"
+}

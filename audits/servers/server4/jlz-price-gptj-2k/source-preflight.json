@@ -1,0 +1,173 @@
+{
+  "task_id": "jlz-price-gptj-2k",
+  "status": "OWNER_STATIC_SOURCE_CONFIG_CHECKED",
+  "actual_B1": "NOT_OBSERVED",
+  "independent_reviewer": false,
+  "source_base": "3efa206db7a3cc0d476d6b90b8040a70bef2664e",
+  "production_base": "2440e548be39e55a99747d7847d21a88df419b93",
+  "config_sha256": "b714973635ce4429734d7042933df3b4314691a8f623532e561336076c56d85e",
+  "preflight": {
+    "bytes": 7504,
+    "inode": 136135479,
+    "mtime_ns": 1791313042286319600,
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/static-preflight-release.json",
+    "sha256": "002bf143f1e188fe694a0917122eb34cb0529ad6d0475e1f4996767562d376d0"
+  },
+  "model": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj/cache/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+  "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+  "model_weights": {
+    "bytes": 24207819307,
+    "inode": 81551167,
+    "mtime_ns": 1791309378808067800,
+    "path": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj/cache/models--EleutherAI--gpt-j-6b/blobs/0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+    "requested_path": "/var/tmp/janghj-price-gptj-model-Wv5YCJTj/cache/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1/pytorch_model.bin",
+    "sha256": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93"
+  },
+  "projector": {
+    "bytes": 6442452841,
+    "cutoff": 0.02,
+    "dtype": "torch.float32",
+    "inode": 131216583,
+    "mtime_ns": 1779188074092970200,
+    "path": "/data/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+    "physical_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sha256": "3f4854840e4138cccd01f33df946c9c4dae41244a8be1fa21d9292ce530456a0",
+    "shape": [
+      6,
+      16384,
+      16384
+    ]
+  },
+  "native_sources": [
+    {
+      "bytes": 7296,
+      "inode": 131216550,
+      "mtime_ns": 1775552626429969400,
+      "path": "/data/janghj/EasyEdit/easyeditor/util/generate.py",
+      "sha256": "13d28184bd215ea7d51bef091fcd3624271d93f4c3df32fdbf2e97cc15581b45"
+    },
+    {
+      "bytes": 10600,
+      "inode": 131216445,
+      "mtime_ns": 1775552626425969400,
+      "path": "/data/janghj/EasyEdit/easyeditor/models/memit/memit_main.py",
+      "sha256": "32f27516d30d196ceb2f99bc02359b66a0e886246953bdedc232f64fe7ee6d0a"
+    },
+    {
+      "bytes": 1540,
+      "inode": 131216442,
+      "mtime_ns": 1775552626425969400,
+      "path": "/data/janghj/EasyEdit/easyeditor/models/memit/compute_ks.py",
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+    },
+    {
+      "bytes": 14586,
+      "inode": 131216258,
+      "mtime_ns": 1779160949820534500,
+      "path": "/data/janghj/EasyEdit/easyeditor/models/alphaedit/AlphaEdit_main.py",
+      "sha256": "a3a459abc4e05f4b3ccaf424a8950245c491686e943fdcaa52b296343e7458b1"
+    },
+    {
+      "bytes": 636,
+      "inode": 131216782,
+      "mtime_ns": 1779249735754292500,
+      "path": "/data/janghj/EasyEdit/hparams/MEMIT/gpt-j-6B.yaml",
+      "sha256": "ba3baf63b1d3744054112fd4f69a56bc8b98687fd37c89cc70fb2f6fb345c812"
+    },
+    {
+      "bytes": 1111,
+      "inode": 131216683,
+      "mtime_ns": 1778395755918574800,
+      "path": "/data/janghj/EasyEdit/hparams/AlphaEdit/gpt-j-6B.yaml",
+      "sha256": "70242e6aa2088dc67da8b41b472c89fbf962c6b5669d00fc4dbb066bdda7e123"
+    }
+  ],
+  "resource_budget": {
+    "ETA": "NOT_MEASURED",
+    "collector_cpu": 8,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "combined_reserve_bytes": 36590583808,
+    "cpu": 8,
+    "free_bytes": 46739021824,
+    "free_inodes": 223048881,
+    "gpu": 1,
+    "hard_host_mib": 60416,
+    "host_mib": 59392,
+    "memory_plans": {
+      "ALPHA": {
+        "GPU_parts_GiB": {
+          "entry_candidate_weights": 2.5,
+          "factor_transient": 8,
+          "factors": 10,
+          "model": 22.978795036673546,
+          "owner_checkpoint_head_workspace": 20
+        },
+        "GPU_peak_GiB": 63.478795036673546,
+        "SDK_included": true,
+        "host_parts_GiB": {
+          "C0_read_transient": 2,
+          "entry_and_boundaries": 13.217926025390625,
+          "history_and_rollback": 10,
+          "raw_A": 10,
+          "selected_weight_rollback": 1.25,
+          "teacher_and_misc": 7,
+          "unused_projector_slice_conservative": 1,
+          "wandb_sidecar": 4
+        },
+        "host_peak_GiB": 48.467926025390625,
+        "max_owner_padded_tokens": 28875,
+        "max_owner_width": 56,
+        "measured": false,
+        "method_reduction": false
+      },
+      "MEMIT": {
+        "GPU_parts_GiB": {
+          "entry_candidate_weights": 2.5,
+          "factor_transient": 8,
+          "factors": 10,
+          "model": 22.978795036673546,
+          "owner_checkpoint_head_workspace": 20
+        },
+        "GPU_peak_GiB": 63.478795036673546,
+        "SDK_included": true,
+        "host_parts_GiB": {
+          "C0_read_transient": 2,
+          "entry_and_boundaries": 13.217926025390625,
+          "history_and_rollback": 10,
+          "raw_A": 10,
+          "selected_weight_rollback": 1.25,
+          "teacher_and_misc": 7,
+          "unused_projector_slice_conservative": 1,
+          "wandb_sidecar": 4
+        },
+        "host_peak_GiB": 48.467926025390625,
+        "max_owner_padded_tokens": 28875,
+        "max_owner_width": 56,
+        "measured": false,
+        "method_reduction": false
+      }
+    },
+    "project_cap": 3,
+    "remaining_existing_Llama_reserve_bytes": 20644102144,
+    "reserve_bytes": 15946481664,
+    "task_cap": 2,
+    "wall": "2-00:00:00"
+  },
+  "scope": "두 writer × 세 arm 각 cold 2000 요청. Qwen STOP/기존 Llama job 보존",
+  "architecture": "EasyEdit GPT-J fc_out + bias; parallel attention/MLP native FP32 add order; ln_f/readout27. ours L4..8/lr.1/lambda_alpha1 유지.",
+  "qualification": "AST/import/CLI/config만 검사; toy0/별도 fit0. 실제 B1 c0 native hidden/key, cached LOO, 정상 proposal KKT/endpoint/counter, terminal exact payload/H once 검산.",
+  "context": "첫 MEMIT_CAP075 시작 때 EasyEdit native get_context_templates 1회. scalar input READY를 생성하고 다른 독립 cold arm은 exact member SHA 결속.",
+  "W0": "현재 identity-matched GPT-J W0 없음. 첫 arm에서 first2k 평가 후 이후 arm exact reuse, 새 baseline fit0.",
+  "tracking": "기존 SH1 helper 그대로 사용. GPTJ model arm routing, 사용자 승인 sealed CPU comparison mirror. 허용 scalar only.",
+  "noCP": true,
+  "shared_source_changes": [],
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: source/compact receipt Git, raw와 모델·SDKspool local KEEP."
+}
