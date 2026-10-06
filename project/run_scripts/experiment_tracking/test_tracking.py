@@ -6,7 +6,7 @@ import tempfile
 import threading
 import unittest
 from unittest.mock import Mock
-from .schema import config,metrics,load_env,endpoint,SDK_VERSION
+from .schema import config,metrics,load_env,endpoint,SDK_VERSION,bind_job_identity
 from .worker import session,settings
 from .client import Tracker
 
@@ -25,6 +25,7 @@ class SDK:
         return self.auth
     def init(self,**kw):
         self.calls.append(kw);self.id=kw['id'];self.offline=False
+        self.name=kw['name'];self.config=kw['config']
         self.url='https://wandb.ai/wkdguswns2256/layer%20allocation/runs/'+self.id
         return self
     def Api(self,**kw):return self
@@ -40,7 +41,7 @@ class SDK:
 
 
 def exercise(sdk,smoke=True):
-    request=dict(config=CFG,run_id='fixture123',spool='/tmp/no-write-fake',smoke=smoke,base_url='https://api.wandb.ai')
+    request=dict(config=bind_job_identity(CFG,{}),run_id='fixture123',spool='/tmp/no-write-fake',smoke=smoke,base_url='https://api.wandb.ai')
     commands=[dict(op='log',values=dict(setup_ok=1,step=i),step=i) for i in range(3)]
     commands.append(dict(op='finish',exit_code=0));out=[]
     session(sdk,request,commands,out.append)

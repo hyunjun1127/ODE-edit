@@ -10,7 +10,10 @@ from urllib.parse import urlsplit
 ENTITY = 'wkdguswns2256'
 PROJECT = 'layer allocation'
 SDK_VERSION = '0.30.0'
-CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'job_id', 'parent_run_id'}
+JOB_FIELDS = {'job_id','array_job_id','array_task_id','step_id','job_display_id','execution_backend','identity_source'}
+SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
+             'array_task_id':'SLURM_ARRAY_TASK_ID','step_id':'SLURM_STEP_ID'}
+CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id'} | JOB_FIELDS
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -51,6 +54,49 @@ def config(values):
         result[key] = value
     require(result['server'] in ('server1','server2','server3','server4'), 'INVALID_SERVER')
     return result
+
+
+def job_identity(cfg):
+    result = {k:cfg[k] for k in JOB_FIELDS if k in cfg}
+    if result.get('execution_backend') == 'local':
+        require(result == dict(execution_backend='local',identity_source='NOT_APPLICABLE'), 'LOCAL_JOB_ID_FORBIDDEN')
+        return result
+    require(result.get('execution_backend')=='slurm' and result.get('identity_source')=='SLURM_ENV', 'JOB_IDENTITY_MISSING')
+    require(bool(re.fullmatch(r'[1-9][0-9]*',result.get('job_id',''))), 'SLURM_JOB_ID_REQUIRED')
+    require(('array_job_id' in result)==('array_task_id' in result), 'INCOMPLETE_ARRAY_IDENTITY')
+    display = result['job_id']
+    if 'array_job_id' in result:
+        require(bool(re.fullmatch(r'[1-9][0-9]*',result['array_job_id'])) and
+                bool(re.fullmatch(r'0|[1-9][0-9]*',result['array_task_id'])), 'INVALID_ARRAY_IDENTITY')
+        display = result['array_job_id']+'_'+result['array_task_id']
+    if 'step_id' in result: identifier(result['step_id'])
+    require(result.get('job_display_id')==display,'JOB_DISPLAY_MISMATCH')
+    return result
+
+
+def bind_job_identity(values, environ=None):
+    """Capture only four allowlisted keys in the parent, before env isolation."""
+    cfg=config(values); env=os.environ if environ is None else environ
+    raw={k:env.get(v) for k,v in SLURM_ENV.items()}
+    if any(v is not None for v in raw.values()):
+        identity={k:v for k,v in raw.items() if v is not None}
+        identity.update(execution_backend='slurm',identity_source='SLURM_ENV')
+        identity['job_display_id']=(str(raw['array_job_id'])+'_'+str(raw['array_task_id'])
+            if raw['array_job_id'] is not None else raw['job_id'])
+        job_identity(identity)
+    else:
+        identity=dict(execution_backend='local',identity_source='NOT_APPLICABLE')
+    for key in JOB_FIELDS & cfg.keys():
+        require(cfg[key]==identity.get(key),'JOB_IDENTITY_CALLER_ENV_MISMATCH:'+key)
+    cfg.update(identity)
+    job_identity(cfg)
+    return cfg
+
+
+def run_name(cfg):
+    identity=job_identity(cfg)
+    suffix='job'+identity['job_display_id'] if identity['execution_backend']=='slurm' else 'local'
+    return cfg['server']+'-'+cfg['arm']+'-'+cfg['attempt']+'-'+suffix
 
 
 def metrics(values):

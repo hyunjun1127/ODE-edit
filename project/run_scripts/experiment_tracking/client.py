@@ -7,7 +7,7 @@ import signal
 import subprocess
 import threading
 import uuid
-from .schema import config, metrics, load_env
+from .schema import bind_job_identity, job_identity, metrics, load_env
 
 
 class LoggingBlocked(RuntimeError):
@@ -16,7 +16,8 @@ class LoggingBlocked(RuntimeError):
 
 class Tracker:
     def __init__(self, *, env_file, spool, config_values, smoke=False, startup_timeout=50):
-        cfg=config(config_values); settings=load_env(env_file)
+        cfg=bind_job_identity(config_values); settings=load_env(env_file)
+        self.job_identity=job_identity(cfg)
         self.spool=Path(spool).resolve();self.spool.mkdir(parents=True,exist_ok=False,mode=0o700)
         self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={}
         self.ready=threading.Event();self.done=threading.Event();self.queue=queue.Queue(maxsize=1024)
@@ -47,7 +48,7 @@ class Tracker:
     def _receipt(self):
         try:
             data=dict(run_id=self.run_id,status=self.status,dropped_points=self.dropped,result=self.result,
-                      exact_model_resume='NOT_IMPLIED',credential_saved=False)
+                      exact_model_resume='NOT_IMPLIED',credential_saved=False,job_identity=self.job_identity)
             tmp=self.spool/'receipt.tmp'
             tmp.write_text(json.dumps(data,allow_nan=False)+'\n');os.replace(tmp,self.spool/'receipt.json')
         except Exception:
