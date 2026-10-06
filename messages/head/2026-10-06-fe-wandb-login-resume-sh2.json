@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-WANDB-LOGIN-RESUME-20261006",
+  "parent": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "task_id": "fe-sequential-2k",
+  "user_quote": "로그인 했어. 진행하라고 해",
+  "login_state": "USER_REPORTED_COMPLETE; SH2 actual online smoke로 새확인, key값조회/보고0",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "inherits": [
+    "messages/head/2026-10-06-fe-sequential-2k-sh2.json",
+    "plans/global/fe-sequential-2k/contract.json",
+    "control/wandb-policy.json",
+    "messages/head/2026-10-06-wandb-server2.json"
+  ],
+  "authority": "기존 FE 구현/최소검산/online logger통합/sourcefreeze/Slurm등록·held검사·release/동일2k/collector 승인 재개. 중복task/newarm/sweep0. 추가사용자승인대기0.",
+  "logger": {
+    "source": "93912c3f",
+    "publication": "484ff3a0",
+    "namespace": "project/run_scripts/experiment_tracking/** (SH1 sole source owner, SH2 read-only reuse)",
+    "api": "init -> log -> finish",
+    "env_file": "/mnt/raid5/janghj/ODE-edit/servers/local/wandb.env",
+    "sdk_python": "/mnt/raid5/janghj/ODE-edit/local/wandb-setup/sdk-env/bin/python",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "flow": "새 out의 CPU 3point online+readback 1회. FE 시작전 init, 이미계산한loss/진행/eval/scalar만 mapping; source/config/jobs/분모결속; boundedfinish. 과학venv pin불변."
+  },
+  "resources": {
+    "task_gpu_cap": 1,
+    "project_cap": "current server2 cap2 또는 stricter",
+    "GPU_job": "1GPU/6CPU/59392MiB/hard60416/48h/exportNONE/Requeue0",
+    "CPU_collector": "0GPU/6CPU/24576MiB/4h/afterany",
+    "admission": "freshcap/resources+같은task기존ID확인. 다른job변경0. 자원없으면정식dependency/PENDING. GPU가 빌 때까지 agent 대기하지 않음."
+  },
+  "write_scope": [
+    "project/run_scripts/fe_baseline/**",
+    "audits/servers/server2/fe-sequential-2k/**",
+    "audits/servers/server2/wandb-realtime-setup/**",
+    "experiment-reports/servers/server2/fe-sequential-2k/**",
+    "experiment-reports/servers/server2/wandb-realtime-setup/**",
+    "tasks/status/fe-sequential-2k/server2.json",
+    "tasks/status/wandb-realtime-setup/server2.json",
+    "messages/acks/server2/fe-sequential-2k.json",
+    "messages/server-heads/server2/fe-sequential-2k.json",
+    "messages/server-heads/server2/wandb-realtime-setup.json",
+    "runs/fe-sequential-2k/**",
+    "runs/wandb-realtime-setup/server2.json",
+    "local/fe-sequential-2k/**",
+    "local/wandb-setup/**",
+    "servers/local/wandb.env (ignored nonsecret)"
+  ],
+  "preserve": "원 CPU7/input/피팅policy/FEmath와실패receipt보존, read-onlyupstream. 모델/raw/기존job수정0. noCP.",
+  "qualification": "기존CPU7 재사용; 변경 telemetry/config/resource 좁은검사. 새 wholemodel/대규모중복검증0. sharedhelper오류는 정확한 기술재현과 GH/SH1통보; 임의키생성/인증우회/오프라인PASS0.",
+  "git": "위 ownscope nonforceownbranch+main 허용. latestmain보존,rootdirty변경0. secret/rawGit0.",
+  "broadcast": "compactsource/manifest/receipt만Git; NO_BROADCAST_NOT_REQUIRED 원본raw보존. credential복제0.",
+  "handoff": "정확nonce 직접담당ACK 먼저. online완료/runURL, sourcefreeze/lock, actualSlurmIDs/등록상태를 구분해 즉시인계. GH는긴2k완료대기0. SH2는release후단1회 snapshot까지, 새heartbeat/recurringmonitor/autoretry0. sealedrunner자연진행."
+}
