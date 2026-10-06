@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007",
+  "task_id": "price-storage-inventory-20261007",
+  "date_kst": "2026-10-07",
+  "user_quote": "각 서버에서 price 기준으로 관련 없는 checkpoint들이나 tensor들 있는지 점검하라고 해",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "host": "remote-ssh-codex-managed:lab120",
+      "cwd": "/mnt/raid5/janghj/ODE-edit"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "host": "remote-ssh-codex-managed:lab121",
+      "cwd": "/mnt/raid5/janghj/ODE-edit"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit"
+    }
+  ],
+  "authority": "각 SH가 본인 서버의 ODE-edit 관련 checkpoint/tensor 저장공간을 PRICE 기준으로 읽기전용 점검하고 사실·경로·용량·참조근거를 보고. 점검용 script/소형 audit/report/status 작성 및 ownbranch→main 비강제 게시만 허용. 실제 파일 삭제/이동/정리/전송/압축/권한변경은 승인되지 않음.",
+  "scope": {
+    "baseline": "현재 PRICE MEMIT jlz-price-cap-base-repair-2k와 Alpha jlz-price-alpha-writer-2k source/config/input/collector locks를 기준으로 직접 필요·간접 필요·무관 후보 구분. 과거 PRICE/interference/v12R 원결과는 재현/비교 용도를 따로 확인.",
+    "owned_roots": "본인 소유 ODE-edit root/local, git worktree list로 발견한 이 저장소의 local outputs, 기존 receipt/config에 이미 등록된 ODE-edit checkpoint/tensor/cache 경로. EasyEdit 모델/C0/projector 경로는 보호자산 식별 및 metadata inventory만. 다른 사용자/home 전체/다른repo/.ssh/credential/private connection 파일은 scan 금지.",
+    "file_types": "*.pt/*.pth/*.ckpt/*.bin/*.safetensors/*.npy/*.npz 및 확장자 없는 tensor/memmap/weight/H/M/P/K/activation/teacher/history/scratch. 확장자만으로 삭제 후보 확정하지 않음. 디렉터리 aggregate와 큰 파일 분포 포함.",
+    "cheap_first": "기존 inventory/manifest/lock→rg files 또는 bounded find/stat/du/df. symlink follow 금지, dev/inode 및 nlink로 hardlink 중복계상 방지. apparent bytes와 allocated disk bytes 구분. 후보 stage별 coverage/누락/permission 기록.",
+    "avoid_expensive": "모델 load/GPU/torch.load/pickle/새평가/새tensor생성/CP복제0. 대형 fullSHA 전수재계산0; 기존 SHA+stat 활용. 의심 중복도 hash 미확인이면 UNVERIFIED, 이름/크기 일치만으로 동일이라고 하지 않음. 낮은 CPU/IO 우선순위, 동시 기존 실행 방해하지 않음.",
+    "current_use": "최신 registered/frozen config 및 approved pending job 입력/간접 input 경로, 비교·분석 참조·보존 계약과 결속. 꼭 필요한 own-job one-shot metadata(openfile/status)만 허용; 진행률/성능 결과 monitoring 재개0. 경로의 미참조 추정은 완전한 no-use 증명이 아님."
+  },
+  "classes": {
+    "PRICE_REQUIRED": "현재 PRICE MEMIT/Alpha 및 제출대기 실행이 실제 참조하거나 input으로 요구함",
+    "OTHER_TASK_REQUIRED": "FE 포함 다른 활성/대기/명시보존 task가 요구함; PRICE 무관이어도 보호",
+    "REPRODUCTION_KEEP": "과거 baseline/비교/재현/유일한 checkpoint·raw·teacher/실패분석 증거, 보존계약이 있음",
+    "UNREFERENCED_CANDIDATE": "점검범위 내 참조를 못 찾은 old scratch/orphan/duplicate 가능 자료. 삭제 승인이 아니라 후속 판단용 목록",
+    "UNKNOWN": "사용처/소유권/참조/중복 여부 미확인; 보존"
+  },
+  "protected": "Llama/Qwen base HF shards/tokenizer, datasets/fixed schedules, C0 covariance, Alpha projector (.02), native context cache, PRICE input/원source/실행raw·pendingjob입력, 다른FE/실험자산, W&B미동기화spool/log, Git/worktree·원 dirty/사용자 파일은 삭제대상으로 자동판정0. 새 noCP 정책을 과거 명시 저장 checkpoint의 삭제권한으로 해석0.",
+  "deliverables": {
+    "report": "experiment-reports/servers/<server>/price-storage-inventory-20261007/report-ko.md",
+    "audit": "audits/servers/<server>/price-storage-inventory-20261007/{summary.json,inventory.csv,coverage.json}",
+    "local_full_inventory": "local/price-storage-inventory-20261007/**",
+    "fields": [
+      "server",
+      "absolute_path",
+      "artifact_kind",
+      "logical_bytes",
+      "allocated_bytes",
+      "count",
+      "device_inode_or_hardlink_group",
+      "mtime",
+      "referenced_task_or_lock",
+      "classification",
+      "classification_evidence",
+      "uniqueness_or_reproducibility",
+      "uncertainty",
+      "delete_authorized=false"
+    ],
+    "summary": "범주별 file count/중복제외 점유량·상위20경로·현재 PRICE 사용 여부·무관 후보 subtotal. 정리 후보 추정 reclaimable bytes와 실제확정공간을 혼동하지 않음. 불명확 항목과 scan coverage 반드시 기록.",
+    "git": "compact metadata/요약만 Git, 대규모 fullinventory/raw/tensor/secret 제외. 타서버 metadata/raw 복제0. source/reset/stash/stageall/no-force 변경0.",
+    "conclusion": "후속 사용자 삭제 지시를 받기 전 무엇도 제거하지 않는다. 결과는 사실/수치와 명시적 분류 근거."
+  },
+  "allowed_write_paths": [
+    "audits/servers/<ownserver>/price-storage-inventory-20261007/**",
+    "experiment-reports/servers/<ownserver>/price-storage-inventory-20261007/**",
+    "tasks/status/price-storage-inventory-20261007/<ownserver>.json",
+    "messages/acks/<ownserver>/price-storage-inventory-20261007.json",
+    "messages/server-heads/<ownserver>/price-storage-inventory-20261007.json",
+    "local/price-storage-inventory-20261007/**",
+    "dedicated worktree ignored servers/local/session-boundary.env"
+  ],
+  "owner_branch": "codex/<server>-price-storage-inventory-20261007",
+  "resources": {
+    "GPU": 0,
+    "new_Slurm_jobs": 0,
+    "Slurm_mutation": false,
+    "existing_jobs_preserve": true,
+    "no_gpu_cap_change": true,
+    "CPU_IO": "low priority bounded metadata scan; no blanket tensor content read"
+  },
+  "tracking": "이는 read-only 저장공간 점검이지 신규 과학 실험이 아니므로 새 W&B science run/로그인smoke/SDK변경 없음. 기존 W&B 및 과학job 그대로.",
+  "delivery": "정확 session/CWD/repo/nonce duplicate 확인, 명시 수신·담당 ACK 먼저 회신한 후 점검과 보고까지 진행. GH는 4개 전달/ACK를 bounded 확인. 기존 active unrelated turn에는 침범하지 않고 idle 배정. 본 요청은 타실험 재개 또는 결과리뷰 요청 아님.",
+  "monitoring": "반복monitor/heartbeat/주기조회/자동청소 없음. 한정 inventory 완료/제약 보고 뒤 STOP. GH 장시간 실험 완료 대기0."
+}

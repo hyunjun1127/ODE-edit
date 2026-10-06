@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "task_id": "price-storage-inventory-20261007",
+  "instruction_id": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "targets": [
+    "server1",
+    "server2",
+    "server3",
+    "server4"
+  ],
+  "envelope": "messages/head/2026-10-07-price-storage-inventory-all-sh.json",
+  "status": "DISPATCHING",
+  "read_only_assets": true,
+  "deletion_authorized": false,
+  "scientific_submission_authorized": false
+}
