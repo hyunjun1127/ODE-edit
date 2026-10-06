@@ -8,8 +8,16 @@
     "cwd": "/mnt/raid5/janghj/ODE-edit",
     "branch": "codex/server1-gpt2xl-easyedit-native-baselines-2k"
   },
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING",
   "envelope": "messages/head/2026-10-07-gpt2xl-easyedit-native-baselines-sh1.json",
+  "delivery": {
+    "transport": "official app-server direct turn/steer",
+    "accepted_turn": "01a112e0-fa6a-7b12-b476-f9fb04b55488",
+    "owner_ack": "수신, SH1 담당 수락했습니다. 기존 등록 여부와 native source 확인 후 구현·검산·제출까지 진행.",
+    "accepted_is_not_submitted": true
+  },
   "job_ids": [],
-  "submission_state": "NOT_SUBMITTED"
+  "submission_state": "NOT_SUBMITTED",
+  "preserve_ours": true,
+  "completion_boundary": "baseline 두 GPU job과 CPUcollector 실제 등록/release receipt 또는 구체 기술 blocker. W20 완료 대기 없음."
 }

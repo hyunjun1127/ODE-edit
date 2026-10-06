@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-EASYEDIT-BASELINES-2K-20261007-R1",
+  "authority_commit": "1a654a64",
+  "envelope_sha256": "0c43658d8ea2d7bbc7b29d665fbd243722c19342672fe1d4e2e45b9298f39aff",
+  "transport_log_sha256": "b11363809b7aa7588cf92dcc6affd34adcb6098e0c36ebd9e4fb640b5f17c55a",
+  "thread": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "accepted_turn": "01a112e0-fa6a-7b12-b476-f9fb04b55488",
+  "owner_ack_verified": true,
+  "submission_verified": false,
+  "experimental_completion_verified": false,
+  "native_review": "읽기전용 explorer의 native source 대조에서 실행을 변경할 계약 오류 없음. 실제 GPU PASS 주장은 아님.",
+  "recurring_monitor_created": false
+}
