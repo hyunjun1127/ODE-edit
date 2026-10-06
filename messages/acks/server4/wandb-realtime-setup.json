@@ -1,0 +1,12 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER4",
+  "task_id": "wandb-realtime-setup",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "branch": "codex/server4-wandb-realtime-setup",
+  "status": "OWNER_ACCEPTED_SETUP_IN_PROGRESS",
+  "duplicate_receipt_found": false,
+  "note_ko": "실제 환경 thread/session 및 호스트 일치. 루트의 과거 session-boundary 파일은 보존하고 전용 WT에 실제 경계 결속. SDK/auth/online은 아직 검증 전이며 기존 job 변경 없음.",
+  "authority_main": "ff43b43887f2aeabba35a04a2769ac045c5c8b86",
+  "envelope_sha256": "f93d922445a2d13d967f94a173eb41fc96e049ded929a434372a8d00f9d82df3"
+}

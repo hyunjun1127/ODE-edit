@@ -1,0 +1,65 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER4",
+  "server": "server4",
+  "status": "READY_ONLINE_VERIFIED",
+  "gpu": 0,
+  "model_load": 0,
+  "slurm_writes": 0,
+  "max_points": 3,
+  "python": "/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python",
+  "entity": "wkdguswns2256",
+  "project": "layer allocation",
+  "api_endpoint": "https://api.wandb.ai",
+  "independent_reviewer": false,
+  "sdk_version": "0.30.0",
+  "sdk_path": "/data/janghj/ODE-edit/local/wandb-setup/sdk/lib/python3.12/site-packages/wandb/__init__.py",
+  "credential_present": true,
+  "privacy": {
+    "mode": "online",
+    "console": "off",
+    "save_code": false,
+    "disable_code": true,
+    "disable_git": true,
+    "x_disable_meta": true,
+    "x_disable_stats": true,
+    "x_disable_machine_info": true,
+    "x_save_requirements": false,
+    "capture_loggers": {},
+    "finish_timeout": 30
+  },
+  "watch_calls": 0,
+  "artifact_calls": 0,
+  "run_id": "server4-setup-20261006",
+  "run_url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/server4-setup-20261006",
+  "auth_project_verified": true,
+  "logged_points": 3,
+  "finish_verified": true,
+  "remote_points": [
+    {
+      "setup_ok": 1,
+      "step": 0,
+      "_step": 0
+    },
+    {
+      "setup_ok": 1,
+      "step": 1,
+      "_step": 1
+    },
+    {
+      "_step": 2,
+      "setup_ok": 1,
+      "step": 2
+    }
+  ],
+  "remote_files": [
+    "config.yaml",
+    "wandb-summary.json"
+  ],
+  "remote_state": "finished",
+  "wall_seconds": 6.269289324060082,
+  "peak_rss_kib": 69560,
+  "cpu_affinity": [
+    0,
+    1
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER4",
+  "generic_access_check": "NOT_PASS",
+  "exit_code": 7,
+  "path": "runs/wandb-realtime-setup/server4.json",
+  "authorization": "messages/head/2026-10-06-wandb-server4.json의 allowed_write_paths가 이 경로를 명시하고 ownscope nonforce 게시를 승인함",
+  "envelope_sha256": "f93d922445a2d13d967f94a173eb41fc96e049ded929a434372a8d00f9d82df3",
+  "decision": "명시된 task 경로 예외로 게시. generic helper PASS로 표기하지 않음",
+  "helper_or_policy_modified": false,
+  "contents": "합성 3-point smoke 및 작은 SDK/config/online 검증 receipt만 포함. credential/raw/model/prompt 없음"
+}
