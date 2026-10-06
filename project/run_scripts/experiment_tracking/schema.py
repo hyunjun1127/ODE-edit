@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import shlex
 from urllib.parse import urlsplit
+from .method import COMPARISON_SCHEMA, METHOD_CONFIG, METHOD_METRICS, validate as validate_method
 
 ENTITY = 'wkdguswns2256'
 PROJECT = 'layer allocation'
@@ -13,7 +14,8 @@ SDK_VERSION = '0.30.0'
 JOB_FIELDS = {'job_id','array_job_id','array_task_id','step_id','job_display_id','execution_backend','identity_source'}
 SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
              'array_task_id':'SLURM_ARRAY_TASK_ID','step_id':'SLURM_STEP_ID'}
-CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id'} | JOB_FIELDS
+CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id',
+               'source_run_id','source_run_url','observation_identity'} | JOB_FIELDS | METHOD_CONFIG
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -30,6 +32,7 @@ METRICS = {
 }
 ENV_KEYS = {'WANDB_ENTITY','WANDB_PROJECT','WANDB_MODE','WANDB_CONSOLE','WANDB_SAVE_CODE',
             'WANDB_BASE_URL','ODEEDIT_WANDB_PYTHON'}
+METRICS |= METHOD_METRICS
 
 
 def require(ok, code):
@@ -47,14 +50,24 @@ def config(values):
     require({'server','task_id','arm','attempt','source_sha'} <= set(values), 'MISSING_CONFIG')
     result = {}
     for key,value in values.items():
-        if key in ('source_sha','config_sha'):
+        if key in ('source_sha','config_sha','observation_identity'):
             require(type(value) is str and re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}',value), 'INVALID_SHA')
         elif key == 'step_id':
             step_identifier(value)
+        elif key == 'source_run_url':
+            parsed=urlsplit(value)
+            require(parsed.scheme=='https' and parsed.hostname in ('wandb.ai','forge.coreweave.com')
+                    and not parsed.username and not parsed.password and not parsed.query and not parsed.fragment
+                    and '/runs/' in parsed.path, 'INVALID_SOURCE_RUN_URL')
         else:
             identifier(value)
         result[key] = value
     require(result['server'] in ('server1','server2','server3','server4'), 'INVALID_SERVER')
+    if METHOD_CONFIG & result.keys():
+        require(METHOD_CONFIG|{'config_sha'} <= result.keys(),'METHOD_CONFIG_REQUIRED')
+        require(result['metric_schema']==COMPARISON_SCHEMA,'METHOD_SCHEMA_UNREGISTERED')
+        require(result['model'] in ('llama3','gptj','qwen','gpt2xl'),'MODEL_ALIAS_UNREGISTERED')
+        require(result['role'] in ('scientific','derived_comparison_snapshot'),'METHOD_ROLE')
     return result
 
 
@@ -109,12 +122,12 @@ def run_name(cfg):
     return cfg['server']+'-'+cfg['arm']+'-'+cfg['attempt']+'-'+suffix
 
 
-def metrics(values):
+def metrics(values,*,scientific=False):
     require(type(values) is dict and 0 < len(values) <= len(METRICS), 'METRIC_MAPPING')
     require(set(values) <= METRICS, 'METRIC_NOT_ALLOWLISTED')
     # No float(tensor), .item(), .cpu(), arbitrary __float__, or GPU sync.
     require(all(type(x) in (int,float,bool) and math.isfinite(x) for x in values.values()), 'BUILTIN_FINITE_SCALARS_ONLY')
-    return dict(values)
+    return validate_method(dict(values),scientific=scientific)
 
 
 def endpoint(value):

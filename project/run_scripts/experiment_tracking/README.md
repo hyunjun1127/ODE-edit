@@ -113,3 +113,64 @@ Local CPU runs have `execution_backend=local`, `identity_source=NOT_APPLICABLE`,
 and no job ID. Tests use a fake SDK only; no dummy Slurm identity is uploaded.
 Adopt the new helper in future source freezes; never patch sealed running jobs or
 rename/backfill historical runs for this policy.
+
+## Scientific method metrics (new sources only)
+
+Capability: `schema.COMPARISON_SCHEMA == 'price-first2k-scalar-v1'`.
+Keep the existing `init(env_file=..., spool=..., config=...)` API. Scientific
+config additionally requires `model`, `model_family`, `writer`, `role`,
+`metric_schema`, and `config_sha`. Registered model aliases are `llama3`, `gptj`,
+`qwen`, `gpt2xl`; register other aliases explicitly in source, never relabel them.
+`role` is `scientific` or `derived_comparison_snapshot` (the capability is not
+authorization to create a comparison run). Optional source links are
+`parent_run_id`, `source_run_id`, sanitized `source_run_url`, and SHA
+`observation_identity`. Unknown config/text/raw fields fail closed.
+
+Callers map already evaluated scalar rows, never perform new evaluations for
+logging. R/P desired target is new; N desired target is true. Nine fields for
+each canonical group are `count`, `success_count`, `success_pct`,
+`token_acc_pct`, `prompt_acc_pct`, `strict_acc_pct`, `true_nll`, `new_nll`, and
+`margin_true_minus_new`. Percent fields use 0..100; NLL/margin use nats. Counts
+are integer prompt pairs, not token denominators. Existing raw token numerators
+remain local; the producer derives micro accuracy using its real token counts.
+
+Every evaluation payload includes `edits`; current/pre includes
+`pre_state_edits` and `post_state_edits`, with edits equal to the post endpoint
+label. Current/post and all_seen/post include `post_state_edits=edits`.
+Current always means incoming batch (even at W5); all_seen is included only when
+measured. The helper cannot infer sample identity from scalar counts: the
+producer must bind row/cohort/source identity. `W0_first2000` is x=0 with counts
+2000/4000/20000; other W0 horizons require explicit schema registration.
+Variable batch sizes are allowed; no helper multiplication by batch*100.
+
+The sidecar defines eval prefix wildcards on `edits`, `step_sync=False`.
+Fit and optimizer metrics use a separate monotonic `fit/global_candidate`;
+each fit payload includes batch/candidate/global_candidate. A new scientific
+caller cannot use ambiguous legacy `eval/*` fields. Legacy callers without
+scientific config remain compatible (asset preparation is excluded from the
+method contract). They must still follow the job-ID/privacy policy.
+
+`method.harmonic([pR,pP,pN])` accepts percent inputs; `unit='fraction'` uses
+fraction inputs. Missing returns None (omit the key), measured zero returns0.
+The helper validates provided arithmetic and never invents unmeasured values.
+
+After verified startup, `<spool>/identity.json` is atomic/create-once and holds
+run ID/URL/name/job/source/config/model/schema. `<spool>/receipt.json` is mutable
+transport status. `tracker.identity` exposes the same identity; do not depend on
+the transient latest event for a permanent URL. Identity write failure blocks
+startup, never overwrites an older identity. No full environment/argv is stored.
+
+On finish, method runs make one bounded readback for the last measured evaluation
+and last fit row (at most two rows, not all history). It checks identity, edits,
+keys and values. `method_readback.status=REMOTE_BOUNDED_ROWS_VERIFIED` only covers
+those rows; missing/unavailable is explicit. `LOGGING_ACCEPTED` means
+`SDK_ASYNC_NOT_REMOTE_ACK`, and `FINISHED_SDK_FLUSHED` never means scientific
+completion. Network/readback errors do not retry science or override its result.
+
+CPU tests (no network/GPU/Slurm):
+`python -m unittest project.run_scripts.experiment_tracking.test_tracking
+project.run_scripts.experiment_tracking.test_job_identity
+project.run_scripts.experiment_tracking.test_method -v`.
+The SH4 producer integration uses synthetic scalar rows through its real reducer
+and caller functions; reuse of SH4's historical B4/B5 raw audit is separately
+recorded in the SH1 report, not represented as a new local raw audit.

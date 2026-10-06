@@ -6,6 +6,8 @@ import resource
 import sys
 from urllib.parse import urlsplit
 from .schema import ENTITY, PROJECT, SDK_VERSION, config, metrics, identifier, endpoint, require, job_identity, run_name
+from .method import define_axes, AxisState
+from .readback import verify_last_rows
 
 
 def settings(sdk, base_url):
@@ -21,6 +23,7 @@ def session(sdk, request, commands, emit):
     require(sdk.__version__==SDK_VERSION, 'SDK_VERSION_REVIEW_REQUIRED')
     cfg = config(request['config']); identifier(request['run_id'])
     identity=job_identity(cfg); name=run_name(cfg)
+    scientific='metric_schema' in cfg;axis=AxisState()
     require(type(request['smoke']) is bool, 'SMOKE_FLAG')
     options = settings(sdk, request['base_url'])
     sdk.setup(settings=options)
@@ -31,27 +34,37 @@ def session(sdk, request, commands, emit):
         name=name, config=cfg, mode='online',
         resume='never', dir=request['spool'], save_code=False, settings=options)
     require(run is not None and not run.offline and run.id==request['run_id'], 'NOT_ONLINE')
+    if scientific:define_axes(run)
     # Remote access verification before declaring startup ready / loading a GPU model.
     api = sdk.Api(overrides={'base_url':request['base_url']}, timeout=15)
     remote = api.run(ENTITY+'/'+PROJECT+'/'+run.id)
     require(remote.id == run.id, 'REMOTE_RUN_IDENTITY')
     require(remote.name == name, 'REMOTE_JOB_NAME_MISMATCH')
     require(all(remote.config.get(k)==v for k,v in identity.items()), 'REMOTE_JOB_CONFIG_MISMATCH')
+    require(all(remote.config.get(k)==v for k,v in cfg.items()),'REMOTE_CONFIG_MISMATCH')
     url = run.url
     parsed = urlsplit(url)
     require(parsed.scheme=='https' and parsed.hostname and not parsed.username
             and not parsed.password and not parsed.query and not parsed.fragment, 'RUN_URL')
-    emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__,run_name=name,job_identity=identity))
-    failures = 0; count = 0
+    emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__,run_name=name,job_identity=identity,config=cfg))
+    failures = 0; count = 0;next_step=0;last_rows={}
     for message in commands:
         if message['op']=='log':
-            payload=metrics(message['values']);step=message['step']
+            payload=metrics(message['values'],scientific=scientific);step=message['step']
             require(step is None or type(step) is int and step>=0, 'INVALID_STEP')
+            if scientific:
+                axis.accept(payload)
+                require(step is None or step>=next_step,'TRANSPORT_STEP_DECREASE')
             if request['smoke']:
                 require(count<3 and set(payload)=={'setup_ok','step'}, 'SMOKE_THREE_SCALARS_ONLY')
             count+=1
             try:
                 run.log(payload, step=step)
+                actual_step=next_step if step is None else step
+                next_step=actual_step+1
+                if scientific:
+                    kind='evaluation' if 'edits' in payload else 'fit' if 'fit/global_candidate' in payload else None
+                    if kind:last_rows[kind]=dict(step=actual_step,values=payload)
                 emit(dict(status='LOGGING_ACCEPTED',points=count,delivery='SDK_ASYNC_NOT_REMOTE_ACK'))
             except Exception:
                 failures+=1
@@ -63,6 +76,7 @@ def session(sdk, request, commands, emit):
             except Exception:
                 emit(dict(status='LOGGING_DEGRADED_FINISH',points=count,failures=failures+1));return
             status='FINISHED_UNVERIFIED' if failures else 'FINISHED_SDK_FLUSHED'
+            readback=verify_last_rows(sdk,request['base_url'],run.id,cfg,name,last_rows) if scientific else None
             if request['smoke']:
                 require(count==3 and failures==0,'SMOKE_COUNT')
                 api = sdk.Api(overrides={'base_url':request['base_url']}, timeout=15)
@@ -75,7 +89,8 @@ def session(sdk, request, commands, emit):
                 require(not any(forbidden(n) for n in names),'REMOTE_UPLOAD_BOUNDARY')
                 status='READY_ONLINE_VERIFIED'
             emit(dict(status=status,run_id=run.id,url=url,points=count,failures=failures,
-                      remote_points=3 if request['smoke'] else None,run_name=name,job_identity=identity));return
+                      remote_points=3 if request['smoke'] else None,run_name=name,job_identity=identity,
+                      method_readback=readback,scientific_completion_claim=False));return
         else:
             raise ValueError('UNKNOWN_OPERATION')
     emit(dict(status='LOGGING_DEGRADED_PARENT_CLOSED',points=count))

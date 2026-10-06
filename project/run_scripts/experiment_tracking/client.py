@@ -8,6 +8,8 @@ import subprocess
 import threading
 import uuid
 from .schema import bind_job_identity, job_identity, metrics, load_env
+from .identity import create as create_identity
+from .method import AxisState
 
 
 class LoggingBlocked(RuntimeError):
@@ -17,6 +19,7 @@ class LoggingBlocked(RuntimeError):
 class Tracker:
     def __init__(self, *, env_file, spool, config_values, smoke=False, startup_timeout=50):
         cfg=bind_job_identity(config_values); settings=load_env(env_file)
+        self.config_values=cfg;self.scientific='metric_schema' in cfg;self.axis=AxisState();self.log_lock=threading.Lock()
         self.job_identity=job_identity(cfg)
         self.spool=Path(spool).resolve();self.spool.mkdir(parents=True,exist_ok=False,mode=0o700)
         self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={};self.startup={}
@@ -62,6 +65,7 @@ class Tracker:
                     result=json.loads(line);self.result=result
                     self.status=result['status']
                     if self.status=='READY_ONLINE':
+                        self.identity=create_identity(self.spool,self.config_values,result,self.run_id)
                         self.startup=dict(result);self.ready.set()
                     elif self.status not in ('LOGGING_ACCEPTED','LOGGING_DEGRADED'):
                         self.ready.set();self.done.set()
@@ -85,9 +89,15 @@ class Tracker:
     def log(self,values,*,step=None):
         try:
             if self.closed or self.done.is_set():raise ValueError('LOGGER_CLOSED')
-            values=metrics(values)
+            values=metrics(values,scientific=getattr(self,'scientific',False))
             if step is not None and (type(step) is not int or step<0):raise ValueError('INVALID_STEP')
-            self.queue.put_nowait(dict(op='log',values=values,step=step));return True
+            if getattr(self,'scientific',False):
+                with self.log_lock:
+                    self.axis.check(values)
+                    self.queue.put_nowait(dict(op='log',values=values,step=step))
+                    self.axis.accept(values)
+            else:self.queue.put_nowait(dict(op='log',values=values,step=step))
+            return True
         except Exception:
             self.dropped+=1;self.status='LOGGING_DEGRADED_REJECTED_POINT';return False
 
