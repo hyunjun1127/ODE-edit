@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "owner": "server4-server-head",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "branch": "codex/server4-price-cap-base-repair-2k",
+  "status": "IMPLEMENTING_NOT_SUBMITTED",
+  "duplicate_found": false,
+  "boundary_verified": true,
+  "server4_total_gpu_cap": 2,
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "note_ko": "담당 수락. 정본 최신 6cell 및 합산 cap2 적용. 기존 job/source/raw 보존, 재승인 대기 없이 구현 및 admission 진행."
+}

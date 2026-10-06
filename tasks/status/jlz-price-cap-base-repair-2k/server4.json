@@ -1,0 +1,12 @@
+{
+  "nonce": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "status": "IMPLEMENTED_SOURCE_STATIC_CHECKED_NOT_SUBMITTED",
+  "GPU_qualification": "NOT_OBSERVED",
+  "jobs": {},
+  "task_gpu_cap": 2,
+  "server4_user_total_gpu_cap": 2,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "source_audit": "audits/servers/server4/jlz-price-cap-base-repair-2k/source-input-preflight.json"
+}
