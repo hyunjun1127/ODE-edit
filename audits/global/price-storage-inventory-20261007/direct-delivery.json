@@ -54,9 +54,9 @@
       "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER4",
       "accepted_turn": "01a11219-eac6-71f2-a7d7-64beb2c656fe",
       "transport_accepted": true,
-      "recipient_response": "저장공간 점검 지시를 수신했습니다. SH4 경계와 동일 nonce 중복 여부를 먼저 확인하겠습니다. 파일과 기존 job은 그대로 두고, PRICE 의존 자료와 보존이 필요한 자료를 읽기전용으로 분류하겠습니다.",
-      "nonce_echo_observed": false,
-      "stage": "RECEIVED_BOUNDARY_CHECKING",
+      "recipient_response": "ACK `USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER4`: SH4가 `price-storage-inventory-20261007` 읽기전용 점검을 수락했습니다. 실제 session/CWD/origin이 일치하며 동일 nonce의 기존 접수는 없습니다. 전용 branch는 `codex/server4-price-storage-inventory-20261007`입니다. 삭제 권한은 없으며, 현재 PRICE 입력뿐 아니라 과거 재현자료·다른 task 자료·W&B spool도 보존 대상으로 확인하겠습니다.",
+      "nonce_echo_observed": true,
+      "stage": "OWNER_ACK_AUDIT_STARTING",
       "report": "experiment-reports/servers/server4/price-storage-inventory-20261007/report-ko.md"
     }
   ],
