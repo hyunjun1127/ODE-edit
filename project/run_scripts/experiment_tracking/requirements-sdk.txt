@@ -1,0 +1,2 @@
+# Install only in a task-local SDK venv; never upgrade the scientific environment.
+wandb==0.30.0

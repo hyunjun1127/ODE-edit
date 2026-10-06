@@ -1,0 +1,21 @@
+{
+  "nonce": "USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "host": "devbox",
+  "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "legacy_registry_cwd": "HISTORICAL_29e4_NOT_CURRENT_BOUNDARY",
+  "repository": "hyunjun1127/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-wandb-realtime-setup-20261006-v1",
+  "branch": "codex/server1-wandb-realtime-setup",
+  "authority_main": "ff43b43887f2aeabba35a04a2769ac045c5c8b86",
+  "envelope_sha256": "4873155a9156939364be6757e14aa0bb6400d73dab2eed2fb3494814d542af43",
+  "full_read": ["control/wandb-policy.json", "messages/head/2026-10-06-wandb-server1.json"],
+  "duplicate_nonce_receipt_found": false,
+  "status_at_ack": "RECEIVED_PREPARING",
+  "공통_helper_소유": "SH1 단독 구현, SH2–4 재사용 API 제공",
+  "existing_jobs": "조회/변경/재개 없음",
+  "GPU": 0,
+  "new_slurm": 0,
+  "credentials": "값/해시/전체환경 기록 없음"
+}
