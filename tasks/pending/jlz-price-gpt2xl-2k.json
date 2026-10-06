@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "task_id": "jlz-price-gpt2xl-2k",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "owner": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "server": "server1",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server1-jlz-price-gpt2xl-2k",
+    "boundary": "최근 app live CWD /mnt/raid5/janghj/ODE-edit 확인; registry 과거29e4는 historical. SH1 실제 boundary 재검산 후 전용 non-main WT. 모델/effort 사용자 설정 유지."
+  },
+  "contract": "project/proposals/jlz-price-gpt2xl-2k/authorized-run-contract.json",
+  "envelope": "messages/head/2026-10-07-price-gpt2xl-sixarm-sh1.json",
+  "job_ids": [],
+  "submission_state": "NOT_SUBMITTED",
+  "helper_dependency": "930e4653 published; callerbinding remains required"
+}

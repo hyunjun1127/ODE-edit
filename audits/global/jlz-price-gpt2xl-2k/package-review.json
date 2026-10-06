@@ -1,0 +1,20 @@
+{
+  "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "archive": "bd2f8cb30f013084af301882093c007272b51b12194ca8cc004daf9edbfe77a9",
+  "manifest": "4f547b83fad352ddec6ccca782cccc525fd01dc1fc8016a5038ba1d8da0ede08",
+  "members": 6,
+  "bytes": 48069,
+  "all_regular_safe_unique": true,
+  "all_member_SHA_size_and_original_bytes": true,
+  "read": [
+    "method-and-handoff-ko.md",
+    "authorized-run-contract.json",
+    "source-evidence.json",
+    "dispatch-package-manifest.json",
+    "native-hparams/memit-gpt2-xl.yaml",
+    "native-hparams/alphaedit-gpt2-xl.yaml"
+  ],
+  "review": "GH원문전량정독/byte검산. 최신native값및scope/queue/noCP/W&B검토. independentagent없음; nativeparser/실자산/GPU검증은SH1구현scope.",
+  "scope": "ours6cell/2writers/3budgetarms/각cold2k/cap2; 추가baseline0",
+  "helper_observation": "직접SH1최근완료turn에서source930e4653/main56bb1855및CPU37PASS보고수신. 온라인미검증."
+}

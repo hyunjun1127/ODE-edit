@@ -1,0 +1,245 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "task_id": "jlz-price-gpt2xl-2k",
+  "date_kst": "2026-10-07",
+  "authority": {
+    "user_quotes": [
+      "server1에도 gpt2-xl 6arm 진행시키자. ours와 memit,alphaedit writer가 호환이 되도록 llama코드를 참조하여 설계하여 server1에 task 진행시키자. server1의 gpu cap은 2이다.",
+      "이전 easyedit 코드에서 alphaedit과 memit이 gpt2-xl에 run 올리는 방식을 참고해서 진행해",
+      "easyedit의 hparam도 사용해라."
+    ],
+    "scope": "이 신규 GPT2-XL ours 여섯 cell의 구현·최소 기술검산·Slurm 등록/release·2k 실행·collector·결과 게시를 지금 승인. 단계별 재승인 불필요. 다른 task STOP/기존 job/타서버 cap 변경 없음.",
+    "dispatcher": "01a04939-8873-7673-8dca-4c7fc5e31af0"
+  },
+  "owner": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "server": "server1",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server1-jlz-price-gpt2xl-2k",
+    "boundary": "최근 app live CWD /mnt/raid5/janghj/ODE-edit 확인; registry 과거29e4는 historical. SH1 실제 boundary 재검산 후 전용 non-main WT. 모델/effort 사용자 설정 유지."
+  },
+  "canonical": {
+    "contract": "project/proposals/jlz-price-gpt2xl-2k/authorized-run-contract.json",
+    "method": "project/proposals/jlz-price-gpt2xl-2k/method-and-handoff-ko.md",
+    "manifest": "project/proposals/jlz-price-gpt2xl-2k/dispatch-package-manifest.json",
+    "manifest_sha256": "4f547b83fad352ddec6ccca782cccc525fd01dc1fc8016a5038ba1d8da0ede08",
+    "archive_sha256": "bd2f8cb30f013084af301882093c007272b51b12194ca8cc004daf9edbfe77a9",
+    "precedence": "최신 사용자 EasyEdit hparams > 과거 Llama 계수. 원문 바이트 보존; NOT_DISPATCHED 등은 작성 당시 상태."
+  },
+  "scope": {
+    "cells": [
+      {
+        "cell": "MEMIT_CAP075",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "memit",
+        "arm": "CAP075",
+        "beta_base": 0.75,
+        "cap_mode": "native",
+        "cap_scale": 0.75,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      },
+      {
+        "cell": "MEMIT_CAP100",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "memit",
+        "arm": "CAP100",
+        "beta_base": 1,
+        "cap_mode": "native",
+        "cap_scale": 0.75,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      },
+      {
+        "cell": "MEMIT_FREE100",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "memit",
+        "arm": "FREE100",
+        "beta_base": 1,
+        "cap_mode": "none",
+        "cap_scale": null,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      },
+      {
+        "cell": "ALPHAEDIT_CAP075",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "alphaedit",
+        "arm": "CAP075",
+        "beta_base": 0.75,
+        "cap_mode": "native",
+        "cap_scale": 0.75,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      },
+      {
+        "cell": "ALPHAEDIT_CAP100",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "alphaedit",
+        "arm": "CAP100",
+        "beta_base": 1,
+        "cap_mode": "native",
+        "cap_scale": 0.75,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      },
+      {
+        "cell": "ALPHAEDIT_FREE100",
+        "model": "gpt2xl",
+        "method": "ours-price",
+        "writer": "alphaedit",
+        "arm": "FREE100",
+        "beta_base": 1,
+        "cap_mode": "none",
+        "cap_scale": null,
+        "batch_size": 100,
+        "batches": 20,
+        "edits": 2000,
+        "cold_W0_H0": true
+      }
+    ],
+    "stock_baselines": 0,
+    "fit_budget": "각 배치 최대20평가/19갱신, terminal 추가 backward0. 현장 input/asset/shape/commit 기술 gate만, 품질 gate0.",
+    "hparams": {
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "anchor_layer": 17,
+      "nll_layer": 47,
+      "fact_token": "subject_last",
+      "lr": 0.5,
+      "K_eval": 20,
+      "max_updates": 19,
+      "terminal_candidate": 19,
+      "native_c": 0.75,
+      "beta_max_native_scale": 0.75,
+      "lambda_KL": 0.0625,
+      "lambda_N": 0.5,
+      "lambda_C": 20000,
+      "lambda_alpha": 10,
+      "nullspace_threshold": 0.02,
+      "mom2_dataset": "wikipedia",
+      "mom2_n_samples": 100000,
+      "mom2_dtype": "float32",
+      "memit_lm_head_module": "transformer.wte",
+      "alpha_lm_head_module": "lm_head",
+      "ln_f_module": "transformer.ln_f"
+    },
+    "guard": "Alpha YAML mom2_update_weight20000은 native 미사용, Alpha C0 hybrid0. .1/25/24/15000/Alpha1 hardcode가 GPT2 실행producer/collector/residual/LOO/fit-axis에 남지 않도록 field 소비표와 실제constructor 검산."
+  },
+  "write_scope": {
+    "primary": [
+      "project/run_scripts/jlz_price_gpt2xl/**",
+      "plans/updates/server1/jlz-price-gpt2xl-2k/**",
+      "audits/servers/server1/jlz-price-gpt2xl-2k/**",
+      "experiment-reports/servers/server1/jlz-price-gpt2xl-2k/**",
+      "runs/jlz-price-gpt2xl-2k/**",
+      "tasks/status/jlz-price-gpt2xl-2k/server1.json",
+      "messages/acks/server1/jlz-price-gpt2xl-2k.json",
+      "messages/server-heads/server1/jlz-price-gpt2xl-2k.json",
+      "local/jlz-price-gpt2xl-2k/**"
+    ],
+    "shared_minimal": [
+      "project/run_scripts/experiment_tracking/**"
+    ],
+    "shared_reference": "jlz_interference_l1/cap_optimizer.py,cap_controller.py,cap_fit.py 및 jlz_price_alpha_writer geometry/price는 우선 읽기참고하고 GPT2 namespace wrapper/subclass/tasklocal 구현. 다른 SH 활성 source 동시수정0. 추가 공통변경 필요시 exact 최소 backward-compatible 경로를 GH에 보고; 기존 frozen default 변경0.",
+    "readonly": [
+      "EasyEdit native source/hparams",
+      "준비된 GPT2 model/tokenizer/C0/P/READY",
+      "기존 Llama/GPTJ source 및 역사 결과",
+      "원 proposal 및 다른 task archive"
+    ]
+  },
+  "permissions": {
+    "git": "ownscope reviewed source/compact report nonforce branch+main 게시 승인; dirty root reset/stash/stage-all0",
+    "slurm": "allowed: 여섯1GPU cold trajectory+CPU collector, held 검사 후 전량release. 새 pilot/reference fit/별도 GPU qualification campaign0.",
+    "assets": "기존 READY 및 실제자산SHA 재검산·읽기재사용; stats/P 재연산·모델재다운로드0. GPT2 context없으면 최초 실제 MEMIT_CAP075 cold준비 안에서만 native생성+RNGrestore+atomicREADY.",
+    "submission_retry": "동일nonce 중복검사, 자동 재제출/기존 job 취소·hotpatch0"
+  },
+  "resources": {
+    "server1_combined_GPU_cap": 2,
+    "per_cell_GPU": 1,
+    "default_CPU": 8,
+    "host_memory_MiB_planning_default": 65536,
+    "host_memory_MiB_hard_max_per_GPU": 183296,
+    "walltime_planning_hours": 48,
+    "note": "기본값은 ETA/실측 아님. SH1은 실제node/QoS/partition/메모리/소유allocation 및 admitted DAG를 확인해 명시적 요청을 봉인; 필요시 현재 더엄격한 정책 내 CPU/memory/wall 조정 가능. GPUcap 증액0. 새이름이기존job_patterns에안잡혀도같은repo소유job누락0. disk/inode 및 전체6cell출력/reserve 확인, 무관삭제0.",
+    "queue": {
+      "server1_combined_GPU_cap": 2,
+      "GPU_per_cell": 1,
+      "writer_lanes": {
+        "memit": [
+          "MEMIT_CAP075",
+          "MEMIT_CAP100",
+          "MEMIT_FREE100"
+        ],
+        "alphaedit": [
+          "ALPHAEDIT_CAP075",
+          "ALPHAEDIT_CAP100",
+          "ALPHAEDIT_FREE100"
+        ]
+      },
+      "intra_lane": "afterany",
+      "cross_lane": "if native input READY absent, ALPHAEDIT_CAP075 afterany MEMIT_CAP075; validate READY before use, no GPU file-polling; otherwise two lanes may start together",
+      "external": "SH1 binds actual owner allocations/admitted dependency graph; no cap increase or old-job mutations",
+      "server4_dependencies": false,
+      "collector_GPU": 0,
+      "collector": "afterany all six",
+      "held_inspect_release": true,
+      "job_ids": [],
+      "new_recurring_monitor": false,
+      "automatic_retry": false
+    }
+  },
+  "tracking": {
+    "policy": "control/wandb-policy.json",
+    "metrics": "control/wandb-method-metric-schema.json",
+    "helper": "SH1 source930e4653 / publication56bb1855에서 구현완료보고. SH1 actualexactcommit 및 CPUcaller계약을 새source에 결속. 실제온라인검증은새startup에서, CPU37PASS를onlinePASS로확대0.",
+    "model": "gpt2xl",
+    "model_family": "gpt2",
+    "job_identity": "실제job/array/index0/signedstep, immutable run ID/URL/configreceipt",
+    "fit_axis": "20평가/19update와 가변earlystop에맞는단조global_candidate; 25 hardcode금지"
+  },
+  "technical_audit": {
+    "preflight": "봉인된6memberSHA/원YAMLparser·effective필드/Conv1Dnative[6400,1600]·bias·tiedhead·serialMLP·1024pack·finalLN1회·cold자산/경로/누출/자원cap/토큰분모/sourceclosure를 최소 CPU/source 감사. 별도 toy/smallfit0.",
+    "B1": "이미수행하는entry/candidate/commit tensor에서 계약atol2e-5 rtol2e-4 native-staged 및normal equation/LOO≤1e-8,endpointKKT/feasible/zero-tiny/terminalcopy/Honce/B2연결검사. 전체builder backward새gate0.",
+    "postrun": "6cell별20commit/2k/층별Honce/분모W20R2000P4000N20000·paired/source/W&Bschema·비용 독립CPUreducer 검산. 완료/기술실패/미관측 구분. SH사실·수치만보고.",
+    "red_status": "GH문서/패키지 검산은구현/GPU PASS아님. SH1 최소 preflight/postrun기계감사및실제수행주체기록. red block은수정/보고하고허위PASS0."
+  },
+  "artifacts": {
+    "NoCP": true,
+    "raw": "local KEEP, durable model/M/P/K/H/activation 추가dump0; candidate authoritative stream+compact요약으로중복로그절제",
+    "broadcast": "이번user원본raw복제금지에따라 raw broadcast NO_BROADCAST_NOT_REQUIRED 예외기록. compact source/manifest/집계는Git공유. secret/모델/data/fullstdout Git/W&B0. 추가대형전송/삭제0."
+  },
+  "paths": {
+    "report": "experiment-reports/servers/server1/jlz-price-gpt2xl-2k/report-ko.md",
+    "audit": "audits/servers/server1/jlz-price-gpt2xl-2k/",
+    "run": "runs/jlz-price-gpt2xl-2k/",
+    "status": "tasks/status/jlz-price-gpt2xl-2k/server1.json",
+    "ack": "messages/acks/server1/jlz-price-gpt2xl-2k.json",
+    "message": "messages/server-heads/server1/jlz-price-gpt2xl-2k.json"
+  },
+  "handoff": "SH1직접nonce수락ACK+acceptedturn까지 GH한정확인. 현재helper완료/idle관측이므로새turn; 변경시relatedhelper만exactsteer. task pending/Slurm pending/실제jobID분리. SH1은구현후6개등록까지승인범위계속,GH연결종료는중단아님. 대표초기B1→B2 또는정식resourcepending까지만bounded관측, sealedrunner20batch수행. 새recurringmonitor/heartbeat0."
+}

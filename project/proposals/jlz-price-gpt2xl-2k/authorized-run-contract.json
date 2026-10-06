@@ -1,0 +1,517 @@
+{
+  "schema": "JLZ_PRICE_GPT2XL_SIXARM_AUTHORIZED_V1",
+  "task_id": "jlz-price-gpt2xl-2k",
+  "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "status": "AUTHORIZED_DESIGN_READY_NOT_DISPATCHED_NOT_IMPLEMENTED_NOT_SUBMITTED",
+  "date_kst": "2026-10-07",
+  "base_commit": "93719a64d4416da0971b2acb024cbebc99167a73",
+  "user_instructions": [
+    "server1에도 gpt2-xl 6arm 진행시키자. ours와 memit,alphaedit writer가 호환이 되도록 llama코드를 참조하여 설계하여 server1에 task 진행시키자. server1의 gpu cap은 2이다.",
+    "이전 easyedit 코드에서 alphaedit과 memit이 gpt2-xl에 run 올리는 방식을 참고해서 진행해",
+    "easyedit의 hparam도 사용해라."
+  ],
+  "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "GH_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "owner_server": "server1",
+  "owner_live_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "Slurm_authorized": true,
+  "additional_approval_required": false,
+  "run_matrix": [
+    {
+      "cell": "MEMIT_CAP075",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "memit",
+      "arm": "CAP075",
+      "beta_base": 0.75,
+      "cap_mode": "native",
+      "cap_scale": 0.75,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    },
+    {
+      "cell": "MEMIT_CAP100",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "memit",
+      "arm": "CAP100",
+      "beta_base": 1.0,
+      "cap_mode": "native",
+      "cap_scale": 0.75,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    },
+    {
+      "cell": "MEMIT_FREE100",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "memit",
+      "arm": "FREE100",
+      "beta_base": 1.0,
+      "cap_mode": "none",
+      "cap_scale": null,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    },
+    {
+      "cell": "ALPHAEDIT_CAP075",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "alphaedit",
+      "arm": "CAP075",
+      "beta_base": 0.75,
+      "cap_mode": "native",
+      "cap_scale": 0.75,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    },
+    {
+      "cell": "ALPHAEDIT_CAP100",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "alphaedit",
+      "arm": "CAP100",
+      "beta_base": 1.0,
+      "cap_mode": "native",
+      "cap_scale": 0.75,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    },
+    {
+      "cell": "ALPHAEDIT_FREE100",
+      "model": "gpt2xl",
+      "method": "ours-price",
+      "writer": "alphaedit",
+      "arm": "FREE100",
+      "beta_base": 1.0,
+      "cap_mode": "none",
+      "cap_scale": null,
+      "batch_size": 100,
+      "batches": 20,
+      "edits": 2000,
+      "cold_W0_H0": true
+    }
+  ],
+  "excluded": [
+    "FREE075",
+    "FLAT",
+    "REVERSE",
+    "extra stock baseline runs"
+  ],
+  "seed": 20261002,
+  "cohort": "canonical same ordered CounterFact first2000 BS100x20; owner binds data and ordered-ID SHA",
+  "native_hparams": {
+    "memit": {
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "layer_selection": "all",
+      "fact_token": "subject_last",
+      "v_num_grad_steps": 20,
+      "v_lr": 0.5,
+      "v_loss_layer": 47,
+      "v_weight_decay": 0.5,
+      "clamp_norm_factor": 0.75,
+      "kl_factor": 0.0625,
+      "mom2_adjustment": true,
+      "mom2_update_weight": 20000,
+      "rewrite_module_tmp": "transformer.h.{}.mlp.c_proj",
+      "layer_module_tmp": "transformer.h.{}",
+      "mlp_module_tmp": "transformer.h.{}.mlp",
+      "attn_module_tmp": "transformer.h.{}.attn",
+      "ln_f_module": "transformer.ln_f",
+      "lm_head_module": "transformer.wte",
+      "mom2_dataset": "wikipedia",
+      "mom2_n_samples": 100000,
+      "mom2_dtype": "float32",
+      "alg_name": "MEMIT",
+      "device": 0,
+      "model_name": "./hugging_cache/gpt2-xl",
+      "stats_dir": "./data/stats",
+      "max_length": 40,
+      "batch_size": 1,
+      "model_parallel": false
+    },
+    "alphaedit": {
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "layer_selection": "all",
+      "fact_token": "subject_last",
+      "v_num_grad_steps": 20,
+      "v_lr": 0.5,
+      "v_loss_layer": 47,
+      "v_weight_decay": 0.5,
+      "clamp_norm_factor": 0.75,
+      "kl_factor": 0.0625,
+      "mom2_adjustment": true,
+      "mom2_update_weight": 20000,
+      "rewrite_module_tmp": "transformer.h.{}.mlp.c_proj",
+      "layer_module_tmp": "transformer.h.{}",
+      "mlp_module_tmp": "transformer.h.{}.mlp",
+      "attn_module_tmp": "transformer.h.{}.attn",
+      "ln_f_module": "transformer.ln_f",
+      "lm_head_module": "lm_head",
+      "mom2_dataset": "wikipedia",
+      "mom2_n_samples": 100000,
+      "mom2_dtype": "float32",
+      "nullspace_threshold": 0.02,
+      "L2": 10,
+      "alg_name": "AlphaEdit",
+      "device": 0,
+      "model_name": "./hugging_cache/gpt2-xl",
+      "stats_dir": "./data/stats",
+      "P_loc": "./null_space_project_{model}.pt",
+      "max_length": 40,
+      "batch_size": 1,
+      "model_parallel": false
+    }
+  },
+  "native_yaml": [
+    {
+      "writer": "memit",
+      "source": {
+        "path": "/mnt/raid5/janghj/EasyEdit/hparams/MEMIT/gpt2-xl.yaml",
+        "bytes": 655,
+        "sha256": "ef0dcc09123b9b20b1e92f1ad83bc7b3ed4b2cad5141e1290b698c383d8d1ba8"
+      },
+      "copy": {
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/proposals/jlz-price-gpt2xl-2k/native-hparams/memit-gpt2-xl.yaml",
+        "bytes": 655,
+        "sha256": "ef0dcc09123b9b20b1e92f1ad83bc7b3ed4b2cad5141e1290b698c383d8d1ba8"
+      }
+    },
+    {
+      "writer": "alphaedit",
+      "source": {
+        "path": "/mnt/raid5/janghj/EasyEdit/hparams/AlphaEdit/gpt2-xl.yaml",
+        "bytes": 1117,
+        "sha256": "845d4150960ea8d3448c234ed503dcf63802e7b2389dd36040557a60adeb786c"
+      },
+      "copy": {
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/proposals/jlz-price-gpt2xl-2k/native-hparams/alphaedit-gpt2-xl.yaml",
+        "bytes": 1117,
+        "sha256": "845d4150960ea8d3448c234ed503dcf63802e7b2389dd36040557a60adeb786c"
+      }
+    }
+  ],
+  "native_parser_check": "Executed exact native HyperParams/from_hparams class source after binding only relative HyperParams import, no EasyEdit editor/model import; pure CPU metadata",
+  "effective_hparams": {
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "anchor_layer": 17,
+    "nll_layer": 47,
+    "fact_token": "subject_last",
+    "lr": 0.5,
+    "K_eval": 20,
+    "max_updates": 19,
+    "terminal_candidate": 19,
+    "native_c": 0.75,
+    "beta_max_native_scale": 0.75,
+    "lambda_KL": 0.0625,
+    "lambda_N": 0.5,
+    "lambda_C": 20000,
+    "lambda_alpha": 10,
+    "nullspace_threshold": 0.02,
+    "mom2_dataset": "wikipedia",
+    "mom2_n_samples": 100000,
+    "mom2_dtype": "float32",
+    "memit_lm_head_module": "transformer.wte",
+    "alpha_lm_head_module": "lm_head",
+    "ln_f_module": "transformer.ln_f"
+  },
+  "hparam_mapping": {
+    "priority": "latest explicit EasyEdit hparam request supersedes Llama .1/25/15000/Alpha1 coefficient defaults",
+    "field_receipt_required": true,
+    "batch_size": "native default1 overridden by authorized BS100",
+    "max_length": "native dataclass default40 retained and reported; not a license to truncate fitting/evaluation packs; classify native unused call paths",
+    "paths_device": "resolve model/stats/P to sealed existing absolute assets; Slurm logical cuda:0; model_parallel false",
+    "alpha_mom2_update_weight": "native YAML20000 parsed but unused in native Alpha normal equation; no 20000C0 hybrid",
+    "native_loop": "20 evaluations includes zero/terminal, at most19 updates; terminal no backward",
+    "stock_vs_ours": "ours optimizer/controller/allocation and lifelong memory remain method; no second stock compute_z fitting or remaining-layer divisor"
+  },
+  "ours_policy": {
+    "optimizer": "EfficiencyAdamAbs, lr from native hparams",
+    "grace_own_updates": 12,
+    "n_exp": 4,
+    "F_threshold": 0.05,
+    "beta_max": "max(beta_base, native_c*max_layer_pi)",
+    "norm": "native v_weight_decay * sum_layer norm(R_lr) / anchor_star_r^2",
+    "full_off_owner_same_layer_pullback": true,
+    "writer_aware_own_entry_price": true,
+    "exact_writer": false,
+    "full_builder_reverse": false,
+    "tiny_block": "same repaired ZERO/CAP endpoint handling, no generic norm cutoff or moment reset"
+  },
+  "model": {
+    "repo": "openai-community/gpt2-xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "payload": {
+      "bytes": 6431829964,
+      "device": 2304,
+      "inode": 243338225,
+      "mtime_ns": 1788841967160949583,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/model.safetensors",
+      "sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a"
+    },
+    "model_family": "gpt2",
+    "blocks": 48,
+    "hidden": 1600,
+    "key_dim": 6400,
+    "vocab": 50257,
+    "max_positions": 1024,
+    "tokenizer": "GPT2Tokenizer",
+    "padding_side": "right",
+    "pad": "eos",
+    "stored_weight_shape": [
+      6400,
+      1600
+    ],
+    "logical_update_shape": [
+      1600,
+      6400
+    ],
+    "rewrite_module": "transformer.h.{}.mlp.c_proj",
+    "serial_attention_mlp": true,
+    "projection_bias": "frozen and included in native addmm",
+    "native_tied_head": "verify transformer.wte.weight and lm_head.weight alias and hparam readout",
+    "dtype": "FP32",
+    "geometry": "FP64",
+    "autocast": false,
+    "TF32": false,
+    "use_cache": false,
+    "training": false
+  },
+  "asset_readiness": {
+    "status": "READY_ALL5_REUSED_CPU_VALIDATED",
+    "source": "0460cd512205a31a1f0b8663b5d7692571fefb12",
+    "READY": {
+      "bytes": 20865,
+      "device": 2304,
+      "inode": 245014042,
+      "mtime_ns": 1791314250552840640,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/attempt-repair-r2/assets/READY.json",
+      "sha256": "755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657"
+    },
+    "projector": {
+      "bytes": 819201838,
+      "device": 2304,
+      "inode": 245240412,
+      "mtime_ns": 1788862036742616010,
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_gpt2-xl.pt",
+      "sha256": "187d83367339de1373b33ce39b101bb8c81445de9b3b9e5bf612f55b8a9608eb"
+    },
+    "projector_layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "stats": [
+      {
+        "action": "REUSE",
+        "asset": {
+          "bytes": 163841230,
+          "device": 2304,
+          "inode": 245240383,
+          "mtime_ns": 1788846839417960393,
+          "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.13.mlp.c_proj_float32_mom2_100000.npz",
+          "sha256": "87e3fe6a98d5869232e94650d670070341f9862302be42da83ce537cec1c2425"
+        },
+        "documents": 100000,
+        "historical_completed_groups": 0,
+        "layer": 13,
+        "recorded_count": 44068071
+      },
+      {
+        "action": "REUSE",
+        "asset": {
+          "bytes": 163841230,
+          "device": 2304,
+          "inode": 245240399,
+          "mtime_ns": 1788851340643867121,
+          "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.14.mlp.c_proj_float32_mom2_100000.npz",
+          "sha256": "8c0d2f864561f179d1863a47f658629ec7fdd0daebb5406ac27302fd43ab39fe"
+        },
+        "documents": 100000,
+        "historical_completed_groups": 1000,
+        "layer": 14,
+        "recorded_count": 44068071
+      },
+      {
+        "action": "REUSE",
+        "asset": {
+          "bytes": 163841230,
+          "device": 2304,
+          "inode": 245240401,
+          "mtime_ns": 1788854675832907128,
+          "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.15.mlp.c_proj_float32_mom2_100000.npz",
+          "sha256": "8d61b6c3342fbf8bfc035bdbb16fcb1e6e3da9a62cb694e5f638e02cc0732c68"
+        },
+        "documents": 100000,
+        "historical_completed_groups": 1000,
+        "layer": 15,
+        "recorded_count": 44068071
+      },
+      {
+        "action": "REUSE",
+        "asset": {
+          "bytes": 163841230,
+          "device": 2304,
+          "inode": 245240403,
+          "mtime_ns": 1788858203103832679,
+          "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.16.mlp.c_proj_float32_mom2_100000.npz",
+          "sha256": "15fb48764fdb9a66b425e7d00830d7c71091a3ed0fc8f8562f04eca2e45aaf37"
+        },
+        "documents": 100000,
+        "historical_completed_groups": 1000,
+        "layer": 16,
+        "recorded_count": 44068071
+      },
+      {
+        "action": "REUSE",
+        "asset": {
+          "bytes": 163841230,
+          "device": 2304,
+          "inode": 245240405,
+          "mtime_ns": 1788861916566547754,
+          "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats/transformer.h.17.mlp.c_proj_float32_mom2_100000.npz",
+          "sha256": "d03f9f9ad86e0b2608b7f82a53c21cc865e7159db7dc116785c09b10fa8e5f50"
+        },
+        "documents": 100000,
+        "historical_completed_groups": 1000,
+        "layer": 17,
+        "recorded_count": 44068071
+      }
+    ],
+    "new_stats_or_projector": false,
+    "method_GPU_parity": "NOT_TESTED"
+  },
+  "writer_equations": {
+    "memit": "(20000 C0 + H + K K^T) Q = K",
+    "alphaedit": "(10 I + N(H + K K^T)) Q = N K",
+    "update": "DeltaW_logical=R Q^T; native payload=entry_native+match_shape(DeltaW_logical, native_shape).to(FP32)",
+    "price": "M=Q^T K; X[r,j]=(a_r/a_j)M[r,j]/(1-M[j,j]), j!=r; existing RMS/floors/min-layer",
+    "alpha_operator_residual": "10 Q+N(HQ+K(K^T Q))-NK",
+    "alpha_LOO_residual": "(10I+NH)q_minus+NKminus(Kminus^T q_minus)-Nk_r",
+    "history": "each cell CPU FP32 H[6400,6400], final native rewrite mean K K^T once per batch, zero/unsatisfied included"
+  },
+  "port_contract": {
+    "native_storage": true,
+    "explicit_input_output_dims": true,
+    "Conv1D_native_addmm": true,
+    "commit_payload_exact": true,
+    "forward": "native GPT2 serial residual/ln1/ln2/c_fc/activation/c_proj; preserve captured masks/positions/wte+wpe; no GPTJ parallel block copy",
+    "head": "hparam-selected tied vocabulary weight and ln_f once",
+    "hardcode_audit": [
+      "optimizer lr .1 default",
+      "range25/terminal24/controller24",
+      "collector lr.1/25/24/Alpha1 checks",
+      "event/storage/fit-axis25 bounds",
+      "Alpha diag add1/operator q/LOO q",
+      "Llama shape[0]/shape[1] for R/H",
+      "fixed layers4-8/readout31/GPTJ27",
+      "F.linear without Conv1D bias/orientation"
+    ]
+  },
+  "inputs": {
+    "native_request_normalization": true,
+    "native_compute_z_pack_without_fitting": true,
+    "native_compute_ks_nested_mean": true,
+    "context": "verify existing exact cold GPT2 context cache else prepare once inside first real MEMIT_CAP075, 5xmax_out_len10, restore RNG, seal READY",
+    "max_positions": "CPU check full rewrite/KL/true/new evaluator packs <=1024, no silent truncation/row drop",
+    "W0": "same exact cold model/runtime/token/cohort/evaluator identity only; never edited W/H reuse"
+  },
+  "queue": {
+    "server1_combined_GPU_cap": 2,
+    "GPU_per_cell": 1,
+    "writer_lanes": {
+      "memit": [
+        "MEMIT_CAP075",
+        "MEMIT_CAP100",
+        "MEMIT_FREE100"
+      ],
+      "alphaedit": [
+        "ALPHAEDIT_CAP075",
+        "ALPHAEDIT_CAP100",
+        "ALPHAEDIT_FREE100"
+      ]
+    },
+    "intra_lane": "afterany",
+    "cross_lane": "if native input READY absent, ALPHAEDIT_CAP075 afterany MEMIT_CAP075; validate READY before use, no GPU file-polling; otherwise two lanes may start together",
+    "external": "SH1 binds actual owner allocations/admitted dependency graph; no cap increase or old-job mutations",
+    "server4_dependencies": false,
+    "collector_GPU": 0,
+    "collector": "afterany all six",
+    "held_inspect_release": true,
+    "job_ids": [],
+    "new_recurring_monitor": false,
+    "automatic_retry": false
+  },
+  "validation": {
+    "no_toy": true,
+    "no_separate_pilot": true,
+    "actual_B1_integrated": true,
+    "source_hparams_parser_static": true,
+    "real_entry_C0_native_vs_staged": "reuse entry/native and candidate data; fixed atol2e-5 rtol2e-4",
+    "operator_residual_limit": 1e-08,
+    "orientation_bias_R_H_shapes": true,
+    "pullback_Q_identity": true,
+    "terminal_native_payload_history_once": true,
+    "B2_own_state": true,
+    "technical_failures_explicit": true,
+    "performance_gate": false
+  },
+  "tracking": {
+    "policy": "control/wandb-method-metric-schema.json",
+    "runtime_policy": "control/wandb-policy.json",
+    "helper_owner": "SH1 existing common helper task; bind published caller+helper before source freeze",
+    "capability": "price-first2k-scalar-v1",
+    "performance_axis": "edits",
+    "fit_axis": "fit/global_candidate",
+    "model": "gpt2xl",
+    "model_family": "gpt2",
+    "writer": "actual cell writer",
+    "role": "scientific",
+    "real_job_identity": true,
+    "immutable_run_receipt": true,
+    "current_all_seen_separate": true,
+    "SDK_ack_not_remote_verification": true
+  },
+  "outputs": {
+    "source_namespace": "project/run_scripts/jlz_price_gpt2xl",
+    "local": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k",
+    "report": "experiment-reports/servers/server1/jlz-price-gpt2xl-2k/report-ko.md",
+    "NoCP": true,
+    "raw": "local KEEP",
+    "git": "source/compact plan/metadata/scalar reports",
+    "other_frozen_jobs": "unchanged"
+  },
+  "continuation": "GH publish and direct SH1 owner ACK; existing SH1 common-helper task is direct dependency and may accept related pending handoff; no added approval; actual task pending vs Slurm pending distinct",
+  "method_design": "method-and-handoff-ko.md"
+}

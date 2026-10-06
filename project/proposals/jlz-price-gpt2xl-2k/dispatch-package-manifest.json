@@ -1,0 +1,33 @@
+{
+  "schema": "JLZ_PRICE_GPT2XL_DISPATCH_PACKAGE_V1",
+  "task_id": "jlz-price-gpt2xl-2k",
+  "nonce": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "files": [
+    {
+      "path": "project/proposals/jlz-price-gpt2xl-2k/authorized-run-contract.json",
+      "bytes": 18194,
+      "sha256": "87a1934391ea369142458e13a1230f241fc4fcb95da41b4da7ed9ac987537e0c"
+    },
+    {
+      "path": "project/proposals/jlz-price-gpt2xl-2k/method-and-handoff-ko.md",
+      "bytes": 18282,
+      "sha256": "50cf0efa9cf22e92a4ab4ce512b7719910ab3ffbd75c5e09d4b51b330438a083"
+    },
+    {
+      "path": "project/proposals/jlz-price-gpt2xl-2k/native-hparams/alphaedit-gpt2-xl.yaml",
+      "bytes": 1117,
+      "sha256": "845d4150960ea8d3448c234ed503dcf63802e7b2389dd36040557a60adeb786c"
+    },
+    {
+      "path": "project/proposals/jlz-price-gpt2xl-2k/native-hparams/memit-gpt2-xl.yaml",
+      "bytes": 655,
+      "sha256": "ef0dcc09123b9b20b1e92f1ad83bc7b3ed4b2cad5141e1290b698c383d8d1ba8"
+    },
+    {
+      "path": "project/proposals/jlz-price-gpt2xl-2k/source-evidence.json",
+      "bytes": 8542,
+      "sha256": "319cdf75de55c37d61e547ac4e3f6f5d1a8f44b7c8d233c27e08a980b14f0bca"
+    }
+  ],
+  "validation": "native YAML parser/scalars, six-cell contract, source hashes; no model/toy/GPU"
+}

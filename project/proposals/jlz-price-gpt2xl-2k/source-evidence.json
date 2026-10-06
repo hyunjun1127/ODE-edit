@@ -1,0 +1,178 @@
+{
+  "schema": "GPT2XL_DESIGN_SOURCE_EVIDENCE_V1",
+  "base_commit": "93719a64d4416da0971b2acb024cbebc99167a73",
+  "repo_sources": [
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_interference_l1/cap_profile.py",
+      "bytes": 1188,
+      "sha256": "8d3d40f77ac3bc51eff29fcac7a5b4f9e726cd28d35852965470a5381332e0a8",
+      "repo_path": "project/run_scripts/jlz_interference_l1/cap_profile.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_interference_l1/cap_optimizer.py",
+      "bytes": 2888,
+      "sha256": "c1edad0d5d216c3fb5f74c94a3d139a7310e7534be90aef3c236c9ae296edc5d",
+      "repo_path": "project/run_scripts/jlz_interference_l1/cap_optimizer.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_interference_l1/cap_controller.py",
+      "bytes": 4118,
+      "sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+      "repo_path": "project/run_scripts/jlz_interference_l1/cap_controller.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_interference_l1/cap_fit.py",
+      "bytes": 7118,
+      "sha256": "80670d669c122c10b2b8f96def970744ad3ab17783ae6d99384ecc5b54b15771",
+      "repo_path": "project/run_scripts/jlz_interference_l1/cap_fit.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_alpha_writer/geometry.py",
+      "bytes": 4310,
+      "sha256": "ec9db20a7b5f274cb1168373f69dbec88dba116c23b66c4968f531959da300df",
+      "repo_path": "project/run_scripts/jlz_price_alpha_writer/geometry.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_alpha_writer/price.py",
+      "bytes": 10474,
+      "sha256": "2fe01e6537487b06c30d7342534c618cb9610ae6930237d612f7018fe087ef14",
+      "repo_path": "project/run_scripts/jlz_price_alpha_writer/price.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/adapter.py",
+      "bytes": 6138,
+      "sha256": "9afab011a9141e64c418e92d46417fd650387d30e5a688ae7929e88a8e500945",
+      "repo_path": "project/run_scripts/jlz_price_gptj/adapter.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/entry.py",
+      "bytes": 4940,
+      "sha256": "b2a996e2f9a60b6b6f16388dcbbac94af523f10a98313028e2ed809d78a2b16a",
+      "repo_path": "project/run_scripts/jlz_price_gptj/entry.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/builder.py",
+      "bytes": 3437,
+      "sha256": "7e37cb4652817d20c59683c587d1134e8ea5caf257db8b4ed044fd7dcabb9a2d",
+      "repo_path": "project/run_scripts/jlz_price_gptj/builder.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/engine.py",
+      "bytes": 1144,
+      "sha256": "0ce8af61d1e5859682e6c2a8cf15c115b8f2b471ad4b9b51b02e95d1aeb7d266",
+      "repo_path": "project/run_scripts/jlz_price_gptj/engine.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/collect.py",
+      "bytes": 47744,
+      "sha256": "1fab8c127b84a1022ac9d9cb740c1bef728a4f245f6fe1ded43e07a5ae9abf92",
+      "repo_path": "project/run_scripts/jlz_price_gptj/collect.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/inputs.py",
+      "bytes": 4243,
+      "sha256": "e2d82a73844390887ea34c1d62e2e2fb3790a4444e10b3433e0c21d212b25604",
+      "repo_path": "project/run_scripts/jlz_price_gptj/inputs.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/project/run_scripts/jlz_price_gptj/tracking.py",
+      "bytes": 4804,
+      "sha256": "e61101b5749e1ae76dd40ce7c9c12bb8d8f9ae864773671f2b4c323578e16a55",
+      "repo_path": "project/run_scripts/jlz_price_gptj/tracking.py"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/control/wandb-method-metric-schema.json",
+      "bytes": 6372,
+      "sha256": "4c660e01204854c182b324bf6d264d851276913d46bdd02bf17edf4a0d45383e",
+      "repo_path": "control/wandb-method-metric-schema.json"
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-gpt2xl-sixarm-design-20261007/experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/asset-manifest.json",
+      "bytes": 9327,
+      "sha256": "59916bd9eeb722c8c5df2b68be1378fd821a65b2bfdf14015a8cb90529e38493",
+      "repo_path": "experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/asset-manifest.json"
+    }
+  ],
+  "EasyEdit_sources": [
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/editors/editor.py",
+      "bytes": 33210,
+      "sha256": "5094f081148b85ecdef91c0a3c24393944ea8c094cb9237c96988a10251923d7"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/examples/run_AlphaEdit_editing.py",
+      "bytes": 12298,
+      "sha256": "765c39c7b12a83d5e47d266b9f09457486ed020b9db043e6f6ec715f15c29704"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/util/hparams.py",
+      "bytes": 1319,
+      "sha256": "9ee7a423fd70a9eaacb4c2ef1aaf2268ba87e28656fd7e3c562a7c9505d25b72"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/util/generate.py",
+      "bytes": 7296,
+      "sha256": "13d28184bd215ea7d51bef091fcd3624271d93f4c3df32fdbf2e97cc15581b45"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/memit/memit_hparams.py",
+      "bytes": 1578,
+      "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/memit/memit_main.py",
+      "bytes": 10600,
+      "sha256": "32f27516d30d196ceb2f99bc02359b66a0e886246953bdedc232f64fe7ee6d0a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/memit/compute_z.py",
+      "bytes": 12192,
+      "sha256": "6e43c1f03bc03c87dcff70111dff1a93f4e00ea31b4bfeb5e8eab4a516ea7ae4"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/memit/compute_ks.py",
+      "bytes": 1540,
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/AlphaEdit_hparams.py",
+      "bytes": 1674,
+      "sha256": "703776fdfd095d0834483705311b7e103b898c9cf18c66388d5b4b06e8aeeac2"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/AlphaEdit_main.py",
+      "bytes": 14586,
+      "sha256": "a3a459abc4e05f4b3ccaf424a8950245c491686e943fdcaa52b296343e7458b1"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/compute_z.py",
+      "bytes": 10210,
+      "sha256": "e12140c66b467759f3fb0061ec844f79147221e0649f0d0a5f9657225ff12c95"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/easyeditor/models/alphaedit/compute_ks.py",
+      "bytes": 1552,
+      "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba"
+    }
+  ],
+  "installed_runtime_sources": [
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/gpt2/modeling_gpt2.py",
+      "bytes": 74275,
+      "sha256": "b591253d7acadd39635bbf6f9f6fd0a97d6be5d7cf901074e2d959ff3e478e80"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/pytorch_utils.py",
+      "bytes": 14852,
+      "sha256": "e17301af0b11aa8982283208fb7b4af513853d643711b193283d1a429d6b2b86"
+    }
+  ],
+  "native_parser_check": "Both exact source class from_hparams parsed and scalar assertions passed; original constructor defaults captured",
+  "production_edits": 0,
+  "model_loads": 0,
+  "model_forwards": 0,
+  "toy_runs": 0,
+  "Slurm_actions": 0,
+  "asset_rehash": "proposal references existing READY/manifest; large assets not rehashed by research sender",
+  "secret_material_in_package": false
+}
