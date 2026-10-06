@@ -1,0 +1,15 @@
+{
+  "instruction_id": "USER-GH-SH1-GPT2XL-EASYEDIT-BASELINES-2K-20261007-R1",
+  "task_id": "gpt2xl-easyedit-native-baselines-2k",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-gpt2xl-easyedit-native-baselines-2k"
+  },
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "envelope": "messages/head/2026-10-07-gpt2xl-easyedit-native-baselines-sh1.json",
+  "job_ids": [],
+  "submission_state": "NOT_SUBMITTED"
+}

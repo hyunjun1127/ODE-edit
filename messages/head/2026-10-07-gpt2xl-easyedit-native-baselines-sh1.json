@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-EASYEDIT-BASELINES-2K-20261007-R1",
+  "task_id": "gpt2xl-easyedit-native-baselines-2k",
+  "date_kst": "2026-10-07",
+  "user_quote": "gpt2-xl의 baseline 실험들도 올려야 한다. 우선 memit과 alphaedit easyedit 사용해서 2k run 올리자.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-gpt2xl-easyedit-native-baselines-2k"
+  },
+  "authority": "이신규stockbaseline2개 구현/최소CPU검산/native자산binding/Slurmheld등록·검사·release/2ksealed실행/CPUcollector/소형main게시 전부승인. 단계별사용자재확인없음. 현재ours구현·기술수리와승인실행계속,타job취소0.",
+  "scope": {
+    "arms": [
+      "BASE_MEMIT",
+      "BASE_ALPHAEDIT"
+    ],
+    "model": "openai-community/gpt2-xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "source": "현재설치EasyEdit정확apply/execute/compute_z/compute_ks/hparams sourceSHA",
+    "cold_independent": true,
+    "cohort": "기존ours와동일counterfact-fixed-10k-v1 first2000 ordered occurrences,seed20261002",
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_arm": 2000,
+    "end": "W20 R2000/P4000/N20000관측·collector후종료",
+    "additional_arms_or_sweeps": 0
+  },
+  "native": {
+    "yaml": [
+      "/mnt/raid5/janghj/EasyEdit/hparams/MEMIT/gpt2-xl.yaml",
+      "/mnt/raid5/janghj/EasyEdit/hparams/AlphaEdit/gpt2-xl.yaml"
+    ],
+    "yaml_sha": [
+      "ef0dcc09123b9b20b1e92f1ad83bc7b3ed4b2cad5141e1290b698c383d8d1ba8",
+      "845d4150960ea8d3448c234ed503dcf63802e7b2389dd36040557a60adeb786c"
+    ],
+    "params": {
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "v_loss_layer": 47,
+      "v_lr": 0.5,
+      "v_num_grad_steps": 20,
+      "v_weight_decay": 0.5,
+      "clamp_norm_factor": 0.75,
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 20000,
+      "Alpha_L2": 10,
+      "Alpha_nullspace_threshold": 0.02
+    },
+    "fidelity": "nativeHyperParams实际parser + host/device/batch100/path仅适配。nativecompute_z逐请求targetfit/原stop/原Adam/clamp/nativeKL/remaining-layerdivisor/shape-cast-add保留。oursplanner/price/projection/EfficiencyAdam/controller/directR替代0。native数值dtype/运算顺序不为oursFP64geometry强改。",
+    "entrypoints": [
+      "easyeditor.models.memit.memit_main.apply_memit_to_model",
+      "easyeditor.models.alphaedit.AlphaEdit_main.apply_AlphaEdit_to_model"
+    ],
+    "sequence": "copy=False,每次100顺序native请求，沿用返回model进入下一batch，直到20commit；不要每batch恢复W0。BaseEditor.batch_edit(sequential_edit=True)语义参照，生产用directapply薄wrapper可精确插入观察且避免内置重复/错误pre。",
+    "MEMIT": "stockMEMIT无跨batch H项，不把ours MEMIT-H或BLUE当stockbaseline。COV/context缓存只读状态按native保留。",
+    "AlphaEdit": "冷进程cache_c初始零，firstcall可reset_cache=True，仅首批初始化。后19batch不reset。nativefinal keys→cache_c累积1次，保留native投影FP32solve/L2=10/原remaining-layer residual，额外oursHappend0。",
+    "caches": "cache_template=None避免保存z/editedpayload。模型/tokenizer/nativecontexts/mom2/P资产只读。复用exactcoldGPT2context及W0raw须nativegenerator/runtime/token/cohortidentity一致；否则原native首次contexts在实际首batchcold准备中一次生成，不添加pilot。两个baseline独立进程global caches/state不可交叉。",
+    "BaseEditor_pre_caveat": "当前BaseEditor.batch_edit在sequential_edit=True后以更新模型计算pre，不能将该字段当真实pre/locality保留率。wrapper必须在apply之前采集真正pre、之后post，使用统一RPN评估器；nativeeditor诊断单独标注不替代canonical。",
+    "GPT2": "Conv1Dnative[6400,1600]bias/serialattn→MLP/tiedwte-head/learnedposition/contextlimit1024/nativeleading-spacetarget/subject_last；输入超限不静默截断。finalLN一次。"
+  },
+  "assets": {
+    "model": "现SH1同revisionGPT2payloadSHA0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+    "ready": "GPT2准备READY755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657及completed-repair-r2 manifest",
+    "P": "现null_space_project_gpt2-xl.pt SHA187d83367339de1373b33ce39b101bb8c81445de9b3b9e5bf612f55b8a9608eb [5,6400,6400] physicalL13-17",
+    "C0": "现5NPZ masked count44068071 FP32sum/count；文档100000非分母。native路径实际命中检查，不许cachemiss触发重算。",
+    "no_download_or_recompute": true,
+    "identity": "SH1fresh nativeclosure/runtime/YAML/model/C0/P/contexts/orderedrequests/evaluator/packSHA 봉인。准备CPU PASS≠GPUmethodPASS。"
+  },
+  "evaluation": {
+    "reuse": "复用原GPT2ours的规范评估函数/tokenrow/input schedule/read-onlycontext和同identityW0，不能复用editedresults/nativepre。",
+    "pre_post": "每batch真实pre/post当前100 R100/P200/N1000。W5/10/15/20all_seen，fixedfirst500/cohortretention/atwrite→laterpaired raw。",
+    "metrics": "RS/PS/NS preference与TFtokenmicro/promptmacro/strict、true/newNLL/margin、harmonicpct；Ndesired=true。performance不作stop/retrygate。",
+    "W0": "同model/runtime/input/eval冷W0exactraw可复用，无则原计划2kW0观测1次。"
+  },
+  "tracking": {
+    "path": "已有PRICE正确mapping/upload复用，中央helper/capability迁移不是submissiongate。source930e4653可用且调用实际兼容。",
+    "contract": "control/wandb-method-metric-schema.json及control/wandb-policy.json scalar/privacy/分母/edits规则",
+    "model": "gpt2xl",
+    "model_family": "gpt2",
+    "role": "scientific",
+    "writer": "actual memit or alphaedit",
+    "arm": "BASE_MEMIT/BASE_ALPHAEDIT",
+    "identity": "实际job/name/array/signedstep/source/config/immutableIDURL。当前/累积分开、missingomit、pct0..100/nats/harmonic、fit单调轴。nativefit只观察已有calls/time/state，logger不另做fit或GPUprobe。",
+    "delivery": "实时/局部spool/有界finish与remote读回，SDKaccepted≠readbackverified；网络故障不重跑科学。"
+  },
+  "resources": {
+    "combined_server1_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 8,
+    "host_memory_MiB_default": 65536,
+    "hard_max_MiB_per_GPU": 183296,
+    "wall_hours_planning": 48,
+    "guard": "更严格当前政策优先，确认devbox/node/QoS/partition实际点位/所有RUNNING与admittedPENDING DAG；上述只是计划值非ETA。nojob取消/抢占/cap增加。",
+    "queue": "现ours6run不变。两个baseline按实际owner/source/task结束frontier登记afterany，优先各writer自己的ourslane末端；必须证明ours+baseline总并行<=2。当前报告oursMEMIT60124→60125→60126、Alpha60127→60128→60129只是参考，提交时fresh验证准确IDs；若DAG不符使用全有效frontier。不要先等freeGPU再登记。",
+    "collector": "own2afterany GPU0。heldowner/source/fullargv/resources/dependency/noCP/W&B检查后release。nativeinputREADY也验证，无GPU文件poll。"
+  },
+  "write_scope": [
+    "project/run_scripts/gpt2xl_native_baselines/**",
+    "testsunder新namespace",
+    "audits/servers/server1/gpt2xl-easyedit-native-baselines-2k/**",
+    "experiment-reports/servers/server1/gpt2xl-easyedit-native-baselines-2k/**",
+    "runs/gpt2xl-easyedit-native-baselines-2k/**",
+    "tasks/status/gpt2xl-easyedit-native-baselines-2k/server1.json",
+    "messages/acks/server1/gpt2xl-easyedit-native-baselines-2k.json",
+    "messages/server-heads/server1/gpt2xl-easyedit-native-baselines-2k.json",
+    "ignored local/gpt2xl-native-baselines/**"
+  ],
+  "write_boundary": "EasyEdit/sharednative源码原bytes保留。观察只读hooks或薄wrapper，任何必要native兼容bug需exact原diff/修复原因/不改数学并隔离tasklocal source。oursfrozen源码/archive/jobs保持。非主branch隔离、用户dirtyroot保持。用户model/effort保持。",
+  "checks": "CPU最小验证 nativeparser/顺序20chunks/缓存与state持续/Conv1D方向/nativeobserver对pre真实state/分母/共享W&B轴ID/capDAG/fullargvsource。已有producer测试和证据复用，额外toy/smallpilot/λsweep/另B1fit0。实际batch内finite/selectedweight/nonselectedguard/historynativeonce/entry→nextentry、技术异常typedfailure；低分记录不调参。",
+  "artifacts": "NoCP/noeditedweightHdump/rawlocalKEEP/原实验资料保留/compactsource报告manifestmain非强制push批准。原raw不复制，NO_BROADCAST_NOT_REQUIRED例外记录。secret/model/dataset/raw/fullstdout Git/W&B0。",
+  "report": "experiment-reports/servers/server1/gpt2xl-easyedit-native-baselines-2k/report-ko.md",
+  "completion": "先nonceownerACK，继续实现/最低检查/实际2GPUjob+CPUcollector登记release。回传真实jobIDs/dependencies/sourceconfig/nativeclosure/W&Bidentitystage或确切技术block。提交后boundedinitialsnapshot停止agent监控，sealednative20batch继续。此次GH等实际提交receipt，不等W20。",
+  "source_review": {
+    "native_paths_checked": [
+      "editor.py batch_edit",
+      "memit_main.py apply_memit_to_model",
+      "AlphaEdit_main.py apply_AlphaEdit_to_model/execute_AlphaEdit"
+    ],
+    "finding": "BaseEditorpre_afterwrite及Alpha缓存首次初始化已source-backed确认。探索agent只读复核native语义；此review不是实际GPU PASS."
+  }
+}
