@@ -1,0 +1,32 @@
+{
+  "reviewer": "/root/gpt2_runtime_preflight",
+  "scope": "Only first complete B1 candidate0 event prefix and matching entry/runtime/config/cold/W0 reference metadata; no later events/logs/scheduler/GPU",
+  "jobs": [60124,60127],
+  "source": "4b841d780588d20712966aa46373655e46cf8b35",
+  "config_sha256": "0eb269f363630c6c2b712c5ab52de7a1e5319a6ca9239156fd3c75c3f8ee214d",
+  "candidate": 0,
+  "ordinal": 1,
+  "backward": true,
+  "terminal": false,
+  "finite_requests_each": 100,
+  "finite_rewrite_NLL_each": 600,
+  "finite_KL_each": 100,
+  "active_each": 100,
+  "first_request_updates_each": 100,
+  "before_update_count_each_request": 0,
+  "after_update_count_each_request": 1,
+  "lr": 0.5,
+  "moment_reset": false,
+  "source_config_fixed_order_cold_W_H_W0_manifest_identity": "MATCH",
+  "first_prefix_sha256": {
+    "MEMIT_CAP075": "fd25b9a4fcd79938de9ecb441f341d6c99c257496e5d7359a9b44d001216ff23",
+    "ALPHAEDIT_CAP075": "2d6d374f5831b2d3cb62b56da2c1f052ad955a8be2984dbdc124892617a0a54c"
+  },
+  "saved_task_sum_and_masked_sum_and_independent_sumF_each": 963.2489743232727,
+  "FP64_reduction_minus_saved_FP32_F_maxabs": 0.0000014290254206628106,
+  "FP32_CPU_reconstruction_error": "at most 2 ULP; recorded only, no new threshold or gate",
+  "conclusion": "Actual old first-backward error boundary crossed and first optimizer/projection update persisted",
+  "not_established": ["terminal commit","history append","B2","W20","six-cell completion","actual-model gradient equivalence","full-W0 raw validation by this reviewer"],
+  "monitoring_active": false,
+  "STOP": true
+}

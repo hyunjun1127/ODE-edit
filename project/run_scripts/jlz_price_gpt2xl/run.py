@@ -64,6 +64,7 @@ def locked(attempt,cell):
     for row in c['authority_members']+[c['cpu_preflight']]:verify(row)
     verify(lock['archive']);verify(lock['native_hparams'])
     verify(lock['tracking_env'])
+    if lock.get('input_ready_member'):verify(lock['input_ready_member'])
     for row in c['assets']:
         st=Path(row['path']).stat();require((st.st_size,st.st_ino,st.st_mtime_ns)==(row['bytes'],row['inode'],row['mtime_ns']),'ASSET_CHANGED')
     s=c['settings'];require((s['B'],s['batches'],s['requests'])==(100,20,2000) and tuple(s['arms'])==ARMS

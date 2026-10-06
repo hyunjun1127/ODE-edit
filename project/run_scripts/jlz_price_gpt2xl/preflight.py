@@ -5,8 +5,9 @@ from .common import *
 def check(out):
     require(socket.gethostname()=='devbox','HOST_BOUNDARY')
     require(os.environ.get('CODEX_THREAD_ID')=='01a04939-f93a-7b50-bca0-65438eab2062','SESSION_BOUNDARY')
-    require(subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip()==
-        'codex/server1-jlz-price-gpt2xl-2k','OWN_BRANCH')
+    require(subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip() in (
+        'codex/server1-jlz-price-gpt2xl-2k',
+        'codex/server1-jlz-price-gpt2xl-checkpoint-repair-r1'),'OWN_BRANCH')
     require('hyunjun1127/ODE-edit' in subprocess.check_output(['git','remote','get-url','origin'],cwd=ROOT,text=True),'ORIGIN')
     paths=sorted((ROOT/'project/run_scripts/jlz_price_gpt2xl').glob('*.py'))
     for p in paths:
@@ -14,6 +15,7 @@ def check(out):
     from .prepare import authority
     authority()
     modules=['project.run_scripts.jlz_price_gpt2xl.test_contract',
+        'project.run_scripts.jlz_price_gpt2xl.test_checkpoint',
         'project.run_scripts.experiment_tracking.test_method',
         'project.run_scripts.experiment_tracking.test_job_identity',
         'project.run_scripts.experiment_tracking.test_tracking']
