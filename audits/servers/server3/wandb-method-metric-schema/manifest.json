@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "audits/servers/server3/wandb-method-metric-schema/acceptance.json",
+      "bytes": 2317,
+      "sha256": "5405db723b323aaa92cab8a531bc4f21edd60bccb8b8bb2e2515f618b2754f7d"
+    },
+    {
+      "path": "experiment-reports/servers/server3/wandb-method-metric-schema/report-ko.md",
+      "bytes": 4334,
+      "sha256": "3dd709a1a62285db73e06aed3e78ecd2ca75ed08ea1c18658b0073ac47011949"
+    },
+    {
+      "path": "tasks/status/wandb-method-metric-schema/server3.json",
+      "bytes": 1357,
+      "sha256": "30d206d3507ca4632d06b309167459bab96fc05751081455b4ad4afad301b150"
+    },
+    {
+      "path": "messages/acks/server3/wandb-method-metric-schema.json",
+      "bytes": 1357,
+      "sha256": "30d206d3507ca4632d06b309167459bab96fc05751081455b4ad4afad301b150"
+    },
+    {
+      "path": "messages/server-heads/server3/wandb-method-metric-schema.json",
+      "bytes": 1357,
+      "sha256": "30d206d3507ca4632d06b309167459bab96fc05751081455b4ad4afad301b150"
+    }
+  ]
+}

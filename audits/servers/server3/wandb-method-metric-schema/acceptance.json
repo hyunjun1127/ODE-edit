@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER3",
+  "task_id": "wandb-method-metric-schema",
+  "server": "server3",
+  "actual_host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "authority_commit": "c5dc1cb4fc6853b6dfc3ceac5a490c14ab131ba4",
+  "status": "POLICY_ACCEPTED_FUTURE_CALLER_ADOPTION_REQUIRED",
+  "observed_at": "2026-10-06T19:28:06.093336+00:00",
+  "current_unfrozen_scientific_caller": null,
+  "shared_helper_owner": "server1",
+  "shared_helper_modified": false,
+  "caller_implementation": "NOT_APPLICABLE_NO_CURRENT_UNFROZEN_CALLER",
+  "online_validation": "NOT_PERFORMED",
+  "scientific_submission": false,
+  "existing_job_query_or_mutation": false,
+  "independent_reviewer": false,
+  "review_provenance": "OWNER_DOCUMENT_AND_SCOPE_AUDIT",
+  "next_freeze": "Bind SH1 helper commit, caller source, schema/config/axes/immutable identity together; validate only already measured rows and actual denominators.",
+  "report": "experiment-reports/servers/server3/wandb-method-metric-schema/report-ko.md",
+  "authorities": [
+    {
+      "path": "messages/head/2026-10-07-wandb-method-metrics-all-sh.json",
+      "bytes": 3862,
+      "sha256": "d2aa28cf3e721ff7fa73c892d06da650db8676ac4a394baf1962cb24e2d6bc89",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/wandb-method-metric-schema.json",
+      "bytes": 6372,
+      "sha256": "4c660e01204854c182b324bf6d264d851276913d46bdd02bf17edf4a0d45383e",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/wandb-policy.json",
+      "bytes": 6251,
+      "sha256": "02a15a637991320461c5ce8fd560f7001f2219a4c716ba2f8466c7e2f01fbf7d",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "project/proposals/wandb-method-metric-schema/user-handoff.txt",
+      "bytes": 9068,
+      "sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+      "read_status": "FULL_READ"
+    }
+  ],
+  "boundary": "PASS",
+  "duplicate_nonce_prior_receipt": false,
+  "source_observation": {
+    "at_commit": "c5dc1cb4fc6853b6dfc3ceac5a490c14ab131ba4",
+    "job_identity_helpers_present": true,
+    "method_COMPARISON_SCHEMA_present": false,
+    "scope": "Static named-symbol check only, no runtime or remote certification."
+  },
+  "prohibited_operations_performed": []
+}

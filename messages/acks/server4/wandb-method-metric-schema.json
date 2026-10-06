@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007-SERVER4",
+  "task_id": "wandb-method-metric-schema",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "actual_cwd": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree",
+  "branch": "codex/server4-price-gptj-2k",
+  "duplicate_receipt_found": false,
+  "status": "OWNER_ACCEPTED_CALLER_PREPARED_HELPER_PENDING",
+  "authority_commit": "c5dc1cb4fc6853b6dfc3ceac5a490c14ab131ba4",
+  "envelope_sha256": "d2aa28cf3e721ff7fa73c892d06da650db8676ac4a394baf1962cb24e2d6bc89",
+  "contract_sha256": "4c660e01204854c182b324bf6d264d851276913d46bdd02bf17edf4a0d45383e",
+  "attachment_sha256": "4d28995923ce3ee8550d2ed6ed7b466f626353411455a1a3d89c7da2b553fa73",
+  "helper_owner": "SH1; no shared helper edits by SH4",
+  "caller": "project/run_scripts/jlz_price_gptj/tracking.py",
+  "CPU_raw_mapping": "B4/B5 current R100/P200/N1000; only B5 cumulative R500/P1000/N5000; W0 exact R2000/P4000/N20000",
+  "CPU_metadata_tests": 11,
+  "actual_online_validation": "NOT_OBSERVED",
+  "new_Slurm_operations": 0,
+  "new_GPU_or_model_calls": 0,
+  "historical_run_uploads": 0,
+  "existing_job_mutation": false,
+  "monitoring_active": false,
+  "automatic_resume": false
+}
+

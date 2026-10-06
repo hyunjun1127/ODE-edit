@@ -23,7 +23,9 @@ SOURCES=['project/run_scripts/jlz_price_gptj','messages/acks/server4/jlz-price-g
     'plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv',
     'messages/head/2026-10-06-jlz-interference-l1-sh4.json',
     'messages/head/2026-10-06-price-cap-base-repair-2k-sh4.json','project/proposals/jlz-price-cap-budget-review',
-    'project/run_scripts/experiment_tracking','control/wandb-policy.json']
+    'project/run_scripts/experiment_tracking','control/wandb-policy.json',
+    'control/wandb-method-metric-schema.json','messages/head/2026-10-07-wandb-method-metrics-all-sh.json',
+    'project/proposals/wandb-method-metric-schema/user-handoff.txt']
 ROLES=(*CELLS,'collector')
 def resource_order(parallel):
     if parallel==1:return {r:([] if i==0 else [CELLS[i-1]]) for i,r in enumerate(CELLS)} | {'collector':list(CELLS)}
@@ -67,6 +69,12 @@ def freeze(configpath, attempt, roles=ROLES):
     require(not command(['git', 'status', '--porcelain', '--', *SOURCES], ROOT), 'COMMIT_BEFORE_FREEZE')
     tested = json.loads(verify(c['cpu_preflight']).read_text())
     require(tested.get('passed') is True or tested.get('status') == 'PASS', 'CPU_PREFLIGHT_REQUIRED')
+    require(tested.get('tracking_ready') is True,'TRACKING_PREFLIGHT_REQUIRED')
+    for row in tested['helper_sources']+tested['tracking_contracts']:verify(row)
+    integration=json.loads(verify(c['tracking']['cpu_review']).read_text())
+    require(integration.get('helper_ready') is True and
+        integration.get('integration')=='FAKE_SDK_PAYLOAD_AXES_IDENTITY_PASS','TRACKING_CALLER_HELPER_INTEGRATION_REQUIRED')
+    for row in integration['helper_sources']:verify(row)
     for row in tested.get('source', []):
         verify(row)
     commit = command(['git', 'rev-parse', 'HEAD'], ROOT)
@@ -81,7 +89,7 @@ def freeze(configpath, attempt, roles=ROLES):
         require(all((r.isfile() or r.isdir()) and not Path(r.name).is_absolute()
                     and '..' not in Path(r.name).parts for r in rows), 'ARCHIVE_SAFE_REGULAR')
         tf.extractall(source, filter='data')
-    for row in tested.get('source', []):
+    for row in tested.get('source', [])+tested['helper_sources']+tested['tracking_contracts']:
         rel = Path(row['path']).relative_to(ROOT)
         require(sha(source / rel) == row['sha256'], 'TESTED_ARCHIVE_CLOSURE')
     write(attempt / 'config.json', c)
