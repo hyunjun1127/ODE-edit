@@ -14,9 +14,12 @@
     "revision": "47e169305d2e8376be1d31e765533382721b2cc1"
   },
   "envelope": "messages/head/2026-10-07-base-model-w0-server2.json",
-  "status": "OWNER_ACCEPTED_IMPLEMENTING",
-  "job_ids": [],
-  "submission_state": "NOT_SUBMITTED",
+  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
+  "job_ids": [
+    "60147",
+    "60148"
+  ],
+  "submission_state": "ACTUALLY_REGISTERED_HELD_INSPECTED_RELEASED",
   "keep_all_existing_arms": true,
   "server1_cap_exception": false,
   "delivery": {
@@ -24,5 +27,19 @@
     "transport": "official app-server direct",
     "owner_ack_verified": true,
     "accepted_is_not_submitted": true
-  }
+  },
+  "jobs": {
+    "GPU": "60147",
+    "collector": "60148"
+  },
+  "dependencies": {
+    "GPU": null,
+    "collector": "afterany:60147"
+  },
+  "execution_source": "771b2c048abf148438c11d843b48144cd99fe944",
+  "execution_lock_sha256": "a8676900ea962572f3c47f53815fd21a722d8a47be520c0e8ba1ac71907a5185",
+  "initial_snapshot": "등록직후 단발 PENDING. 현재 상태·GPU 실행·평가 성공을 뜻하지 않음.",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "WandB": "STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED"
 }

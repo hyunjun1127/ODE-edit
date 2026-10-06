@@ -8,7 +8,7 @@
     "cwd": "/mnt/raid5/janghj/ODE-edit",
     "branch": "codex/server1-gpt2xl-easyedit-native-baselines-2k"
   },
-  "status": "OWNER_ACCEPTED_IMPLEMENTING",
+  "status": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
   "envelope": "messages/head/2026-10-07-gpt2xl-easyedit-native-baselines-sh1.json",
   "delivery": {
     "transport": "official app-server direct turn/steer",
@@ -16,8 +16,28 @@
     "owner_ack": "수신, SH1 담당 수락했습니다. 기존 등록 여부와 native source 확인 후 구현·검산·제출까지 진행.",
     "accepted_is_not_submitted": true
   },
-  "job_ids": [],
-  "submission_state": "NOT_SUBMITTED",
+  "job_ids": [
+    "60150",
+    "60151",
+    "60152"
+  ],
+  "submission_state": "ACTUALLY_REGISTERED_HELD_INSPECTED_RELEASED",
   "preserve_ours": true,
-  "completion_boundary": "baseline 두 GPU job과 CPUcollector 실제 등록/release receipt 또는 구체 기술 blocker. W20 완료 대기 없음."
+  "completion_boundary": "baseline 두 GPU job과 CPUcollector 실제 등록/release receipt 또는 구체 기술 blocker. W20 완료 대기 없음.",
+  "jobs": {
+    "BASE_MEMIT": "60150",
+    "BASE_ALPHAEDIT": "60151",
+    "collector": "60152"
+  },
+  "dependencies": {
+    "BASE_MEMIT": "afterany:60126",
+    "BASE_ALPHAEDIT": "afterany:60129",
+    "collector": "afterany:60150:60151"
+  },
+  "execution_source": "1ca0243dd807e416c6c78a16a29290c87eec025f",
+  "execution_lock_sha256": "4ac495a52b2ccc3900b29d28cc453bcd3d11508deacf956c000094507d75c352",
+  "initial_snapshot": "등록직후 단발 PENDING. 현재 상태·GPU 실행·평가 성공을 뜻하지 않음.",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "WandB": "STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED"
 }

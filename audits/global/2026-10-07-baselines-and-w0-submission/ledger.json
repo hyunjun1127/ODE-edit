@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "date_kst": "2026-10-07",
+  "scope": "사용자 승인 GPT2-XL native MEMIT/AlphaEdit 2k 유지 및 GPT2-XL/GPT-J fresh W0 평가",
+  "user_cap_exception": "server1 W0-only GPU1만 기존 method cap2 합산 gate 예외. 기존 method cap2와 server2cap 유지; globalcap 설정변경0.",
+  "owner_ack_verified": {
+    "server1": true,
+    "server2": true
+  },
+  "receipts": [
+    {
+      "task_id": "gpt2xl-easyedit-native-baselines-2k",
+      "jobs": {
+        "BASE_MEMIT": "60150",
+        "BASE_ALPHAEDIT": "60151",
+        "collector": "60152"
+      },
+      "dependencies": {
+        "BASE_MEMIT": "afterany:60126",
+        "BASE_ALPHAEDIT": "afterany:60129",
+        "collector": "afterany:60150:60151"
+      },
+      "source_commit": "1ca0243dd807e416c6c78a16a29290c87eec025f",
+      "lock_sha256": "4ac495a52b2ccc3900b29d28cc453bcd3d11508deacf956c000094507d75c352",
+      "post_release_snapshot": "PENDING",
+      "actual_startup": "NOT_OBSERVED",
+      "scientific_completion": "NOT_OBSERVED",
+      "user_scoped_cap_exception": false
+    },
+    {
+      "task_id": "base-model-gpt2xl-w0",
+      "jobs": {
+        "GPU": "60156",
+        "collector": "60157"
+      },
+      "dependencies": {
+        "GPU": null,
+        "collector": "afterany:60156"
+      },
+      "source_commit": "de31540487643b3c4187ffad5c09554d18c69e94",
+      "lock_sha256": "e943a596075a3e7823f98cc73f313d33f506cfc9cd0673b3a17b68477b915e45",
+      "post_release_snapshot": "PENDING",
+      "actual_startup": "NOT_OBSERVED",
+      "scientific_completion": "NOT_OBSERVED",
+      "user_scoped_cap_exception": true
+    },
+    {
+      "task_id": "base-model-gptj-w0",
+      "jobs": {
+        "GPU": "60147",
+        "collector": "60148"
+      },
+      "dependencies": {
+        "GPU": null,
+        "collector": "afterany:60147"
+      },
+      "source_commit": "771b2c048abf148438c11d843b48144cd99fe944",
+      "lock_sha256": "a8676900ea962572f3c47f53815fd21a722d8a47be520c0e8ba1ac71907a5185",
+      "post_release_snapshot": "PENDING",
+      "actual_startup": "NOT_OBSERVED",
+      "scientific_completion": "NOT_OBSERVED",
+      "user_scoped_cap_exception": false
+    }
+  ],
+  "release_verified": true,
+  "new_recurring_monitor": false,
+  "actual_GPU_startup_or_metrics": "NOT_OBSERVED",
+  "WandB_startup_readback": "NOT_OBSERVED",
+  "existing_jobs_mutated": 0,
+  "receipt_bindings": {
+    "native_submission_sha256": "a1e3ee5b50cdefc0b304ec7b9aec47a0dd88d3331aeb70c8aaa2ab82a14620bf",
+    "GPT2_W0_submission_sha256": "4ba93ec71f81c787763f3e64037c42f06e4dad32876ec99e7f109b5181909c35",
+    "GPTJ_W0_tracked_submission_sha256": "140e8c490ef6b221f5ef02b107b811b4c55aed81c43128df3f0959043bf01d1c"
+  }
+}
