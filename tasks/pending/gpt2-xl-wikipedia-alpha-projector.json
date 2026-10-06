@@ -8,7 +8,9 @@
   "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
   "branch": "codex/server1-gpt2-xl-stats-projector-20261007",
   "envelope": "messages/head/2026-10-07-gpt2-xl-wikipedia-alpha-projector-sh1.json",
-  "status": "AUTHORIZED_AWAITING_OWNER_ACK",
+  "status": "OWNER_ACCEPTED_PREPARING_NOT_SUBMITTED",
+  "accepted_turn": "01a1128e-5e13-79b3-93f1-947b8917143d",
+  "delivery_receipt": "audits/global/gpt2-xl-wikipedia-alpha-projector/direct-delivery.json",
   "job_ids": [],
   "GPU_cap": 2,
   "scope": "GPT2-XL layers13..17 Wikipedia100k stats + .02 native null-space P; asset prep, no edit experiments"
