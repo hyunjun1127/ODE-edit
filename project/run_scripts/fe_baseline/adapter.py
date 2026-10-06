@@ -9,6 +9,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 from . import *
+from .telemetry import fit as log_fit
 
 def lookup_function(upstream):
     path=Path(upstream)/'locate_edit_utils/repr_tools.py'
@@ -105,6 +106,7 @@ class Adapter:
             total=nll+kl+norm;self.calls['fit_logical']+=1
             vals=dict(iteration=iteration,nll=float(nll.detach()),kl=float(kl.detach()),norm=float(norm.detach()),total=float(total.detach()),delta_norm=float(delta.detach().norm()))
             reason=stop_reason(vals['total'],iteration);vals['stop']=reason
+            log_fit(getattr(self,'tracking',None),index,vals)
             require(all(torch.isfinite(x).all().item() for x in (delta,nll,kl,norm)),'NONFINITE_FIT')
             if reason:
                 trace.append(vals);break

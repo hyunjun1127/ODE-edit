@@ -73,7 +73,7 @@ class Tests(unittest.TestCase):
         calls=[n for n in ast.walk(tree) if isinstance(n,ast.Call)]
         self.assertFalse(any(isinstance(n.func,ast.Attribute) and n.func.attr in ('save','save_pretrained') for n in calls))
         self.assertEqual(sum(isinstance(n.func,ast.Attribute) and n.func.attr=='fit' for n in calls),1)
-        self.assertIn('range(1,21)',path.read_text());self.assertIn('table[j,:,(batch-1)*100:batch*100]',path.read_text())
+        self.assertIn("range(1,horizon['batches']+1)",path.read_text());self.assertIn('table[j,:,(batch-1)*100:batch*100]',path.read_text())
     def test_tracking_required_before_submit(self):
         source=(ROOT/'project/run_scripts/fe_baseline/submit.py').read_text()
         self.assertLess(source.index('LOGGING_BLOCKED_SHARED_HELPER_NOT_BOUND'),source.index('before=inventory()'))
