@@ -9,6 +9,12 @@
     "evidence_status": "User-supplied historical observations; GH did not independently query historical W&B runs."
   },
   "compatibility": {
+    "scoped_execution_override": {
+      "instruction_id": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007",
+      "models_servers": "server1 GPT2-XL; server4 Llama3/GPT-J; 各 MEMIT/AlphaEdit writer CAP075/CAP100/FREE100 2k",
+      "precedence": "이 범위에서는 중앙 helper 이관/capability 배포 완료 자체가 제출 선행조건이 아니다. 검증된 PRICE mapping/upload 경로와 모델별 adapter/identity를 재사용한다. 지표 의미·분모·축·privacy는 불변.",
+      "pending_exception": "정확 owner/task/source/미시작 PENDING만 collector/downstream부터 취소하고 새 source/dependency로 교체 가능. RUNNING/완료/원 archive는 보존. 세부 실행 권한은 messages/head/2026-10-07-price-model-runs-tracking.json."
+    },
     "initial_capability": "price-first2k-scalar-v1",
     "existing_caller_commit": "8f5549814b3013bffbd530307294789e44ba8b39",
     "contract": "SH1 schema.COMPARISON_SCHEMA capability and strict metric/config allowlists must satisfy SH4 tracking.contract_ready; preserve backward compatibility for old scalar callers. No science frozen until new caller and helper are both bound."

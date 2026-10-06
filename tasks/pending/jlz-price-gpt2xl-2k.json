@@ -2,7 +2,9 @@
   "schema": 1,
   "instruction_id": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
   "task_id": "jlz-price-gpt2xl-2k",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "OWNER_ACCEPTED_PREPARING_NOT_SUBMITTED",
+  "accepted_turn": "01a112bd-4374-70d1-a313-27d0d241458d",
+  "delivery_receipt": "audits/global/jlz-price-gpt2xl-2k/direct-delivery.json",
   "owner": {
     "session": "01a04939-f93a-7b50-bca0-65438eab2062",
     "server": "server1",
