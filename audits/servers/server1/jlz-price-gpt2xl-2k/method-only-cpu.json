@@ -1,0 +1,319 @@
+{
+  "task": "jlz-price-gpt2xl-2k",
+  "nonce": "USER-GH-SH1-JLZ-PRICE-GPT2XL-SIXARM-2K-20261007-R1",
+  "scope": "METHOD_IMPLEMENTATION_ONLY_USER_OVERRIDE",
+  "tests_run": 47,
+  "passed": 45,
+  "skipped": 2,
+  "failed": 0,
+  "checks": [
+    "exact native hparams parser",
+    "Conv1D payload/addmm/bias",
+    "GPT2 serial residual ordering",
+    "MEMIT explicit 20000",
+    "Alpha 10I operator and LOO",
+    "controller terminal19 / optimizer19 update limit",
+    "tracking 20-slot monotonic fit axis",
+    "shared helper fake SDK/config/privacy/job/immutable identity",
+    "runtime and submit entrypoints fail closed"
+  ],
+  "cpu_receipt": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/preparation-r1/cpu-method-only-v1.json",
+  "source_members": [
+    {
+      "bytes": 81,
+      "inode": 250418778,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/__init__.py",
+      "sha256": "88503617dd169ac7726ad8626a1aa4a9bd04efeaccbbcf0d38c57711d4d497b5"
+    },
+    {
+      "bytes": 6312,
+      "inode": 250418753,
+      "mtime_ns": 1791316057954738700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/adapter.py",
+      "sha256": "d4052ecfac877fc4caa474051a8a90c9a41e8635293dd258cd39e8e7d9650f01"
+    },
+    {
+      "bytes": 1281,
+      "inode": 250418772,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/admission.py",
+      "sha256": "f3960c38efb86c54898d7c0866bab6ec29f14dd509ed076f95291c8b46eb04f6"
+    },
+    {
+      "bytes": 4354,
+      "inode": 250418759,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/alpha_geometry.py",
+      "sha256": "8d01f4acf3470e0d6c18636e7c7d46283ce456e50cdce1dd5979bcad1a909418"
+    },
+    {
+      "bytes": 10491,
+      "inode": 250418777,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/alpha_price.py",
+      "sha256": "10f646f40f2804d28513d984fed7abaebcdb7740878b765d82a8c243da3cb42f"
+    },
+    {
+      "bytes": 9130,
+      "inode": 250418762,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/alpha_telemetry.py",
+      "sha256": "5cbeed9f8a98a6e0ff42066319f3ace789359a72f86389465ed1b2b9320ddf17"
+    },
+    {
+      "bytes": 3455,
+      "inode": 250418755,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/builder.py",
+      "sha256": "3048c585761f718b7cea727273c4d527a066836fa88656be9556ca4b6e417289"
+    },
+    {
+      "bytes": 48014,
+      "inode": 250418770,
+      "mtime_ns": 1791316319431089400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/collect.py",
+      "sha256": "e27405f6359657a914a861caf15f19e972571f8f7ae502af63b9e72b1db72a98"
+    },
+    {
+      "bytes": 1707,
+      "inode": 250418771,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/common.py",
+      "sha256": "316e0de72e578b0748709019d6e15873ec78a86761e018b1ee1dd97ea5bde466"
+    },
+    {
+      "bytes": 4118,
+      "inode": 250418774,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/controller.py",
+      "sha256": "0f1cdb8751bd6c1575e26b0b88d58da794ec9f390e5d3a0c7d7135f64bd898cd"
+    },
+    {
+      "bytes": 627,
+      "inode": 250418760,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/dispatch.py",
+      "sha256": "f8dc5c5814061c0e761ec9ed394c03a6a8b796f9120bc1668c34763db9cb7c2d"
+    },
+    {
+      "bytes": 1144,
+      "inode": 250418756,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/engine.py",
+      "sha256": "0ce8af61d1e5859682e6c2a8cf15c115b8f2b471ad4b9b51b02e95d1aeb7d266"
+    },
+    {
+      "bytes": 4937,
+      "inode": 250418754,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/entry.py",
+      "sha256": "67e45e1c7318f15b126e5ff9f39dcf56c8c113d85fc9b940d715dc3b1affa9de"
+    },
+    {
+      "bytes": 7435,
+      "inode": 250418757,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/fit.py",
+      "sha256": "3442c0327a1f1593c33130f1d13c9043a0f0a5cb219d841d0ddb942e99faf44a"
+    },
+    {
+      "bytes": 506,
+      "inode": 250418758,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/geometry.py",
+      "sha256": "fe075d3a1398992afc2ece32e93d89d836440bd4645e57a2ee1ea447886fb0aa"
+    },
+    {
+      "bytes": 4335,
+      "inode": 250418764,
+      "mtime_ns": 1791316097446796000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/inputs.py",
+      "sha256": "08b23664d4ec9efe0c5065d7682b2724017f4d94f8af0b35b7969ef8f5119559"
+    },
+    {
+      "bytes": 10082,
+      "inode": 250418776,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/memit_price.py",
+      "sha256": "48e5ac687de9f24edb353c801d8caa4f978d36be3e50f6ff11076320c904c0b9"
+    },
+    {
+      "bytes": 9096,
+      "inode": 250418761,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/memit_telemetry.py",
+      "sha256": "a30cc62d857beb894b1d2e32b1e1f69bccb4e8942ca0bb5efe62898082cca9b5"
+    },
+    {
+      "bytes": 3607,
+      "inode": 250418765,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/observer.py",
+      "sha256": "64dc0ce852491edce1c247c8d610289f6d6e1c1e72105ecd94adf257bb413b15"
+    },
+    {
+      "bytes": 2927,
+      "inode": 250418775,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/optimizer.py",
+      "sha256": "eb233f1c1f9a6eeca2d1be9ba87789ac28fe3f841ae546071d472d0ca2c2b372"
+    },
+    {
+      "bytes": 2867,
+      "inode": 250418784,
+      "mtime_ns": 1791316252963006200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/preflight.py",
+      "sha256": "3bc2b8964790349a293a54d389ece9449fe77c69bd8c9ec0dd7f23fd7947160c"
+    },
+    {
+      "bytes": 10381,
+      "inode": 250418782,
+      "mtime_ns": 1791316181746912800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/prepare.py",
+      "sha256": "0fd857d284ac81731c5e4d9bb55e6f0429841e221d3e76837c47a172a9ab66ba"
+    },
+    {
+      "bytes": 1176,
+      "inode": 250418779,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/profile.py",
+      "sha256": "b042d46739fed7f421e2306ad67864fd7286608c281d4104a7165ee7b1c7d5f7"
+    },
+    {
+      "bytes": 23230,
+      "inode": 250418763,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/run.py",
+      "sha256": "904f3bbdcba29922888f93017492bf3a08f3649efc67102c37353c222a89268d"
+    },
+    {
+      "bytes": 2286,
+      "inode": 250418766,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/scores.py",
+      "sha256": "7cffa1e36a8161afcc4cc4e7dd474c55b4738ab73d7aaa803bc7025af27e3e68"
+    },
+    {
+      "bytes": 14153,
+      "inode": 250418769,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/storage.py",
+      "sha256": "7eea444ceb8f4f9ad85e2899b22ccfa62c316ddc67caa558a0becb86beff47c4"
+    },
+    {
+      "bytes": 18699,
+      "inode": 250418773,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/submit.py",
+      "sha256": "8888a05574734271721788392ca5092479770fcfd2f2659aafa369e878a01a8d"
+    },
+    {
+      "bytes": 5843,
+      "inode": 250418783,
+      "mtime_ns": 1791316423583213300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/test_contract.py",
+      "sha256": "b928a76e77d6c7f70994fb5df36425c795cefdcb7da2cd9a749ce2f0f7f5e88e"
+    },
+    {
+      "bytes": 4808,
+      "inode": 250418767,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/tracking.py",
+      "sha256": "f4e234fc175e41ecc3cd992b90eb1618a5d918a7231034cc910cb658b8bd33d0"
+    },
+    {
+      "bytes": 3333,
+      "inode": 250418768,
+      "mtime_ns": 1791316027926693600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/jlz_price_gpt2xl/w0.py",
+      "sha256": "22197dd86b0ec56b28f54927b51f358205ea9bb6cb481be88c005cec5e266777"
+    }
+  ],
+  "helper_sources": [
+    {
+      "bytes": 180,
+      "inode": 250415562,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/__init__.py",
+      "sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b"
+    },
+    {
+      "bytes": 6966,
+      "inode": 250415563,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/client.py",
+      "sha256": "5a60aa2346944e8ac72d37e8db38829c262a0c8e707443b8aafb53d7f1db3552"
+    },
+    {
+      "bytes": 1049,
+      "inode": 250415564,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/identity.py",
+      "sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b"
+    },
+    {
+      "bytes": 5068,
+      "inode": 250415565,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/method.py",
+      "sha256": "482c9b8ea2e945cf9b1dfa15dbf5e30188df453454b5b5114e82106330c19c89"
+    },
+    {
+      "bytes": 1682,
+      "inode": 250415566,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/readback.py",
+      "sha256": "0132192b531ec1b8defb2636f755d08959b642e2ea91f401f65d3135402ce842"
+    },
+    {
+      "bytes": 8694,
+      "inode": 250415568,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/schema.py",
+      "sha256": "8cf83f309a00d5495f1e2010f55bcb8d8de9f21ce19f3d5581d30431271be327"
+    },
+    {
+      "bytes": 2158,
+      "inode": 250415569,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/smoke.py",
+      "sha256": "71cfbfa3f23bb7687177bb2a9357eff82704e4c1c028cdd6945411900809b100"
+    },
+    {
+      "bytes": 4542,
+      "inode": 250415570,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/test_job_identity.py",
+      "sha256": "8b4fefb4db21716d78d29c6d2a7b2375658690643d2cc2ed56b1d33734b9a88c"
+    },
+    {
+      "bytes": 10551,
+      "inode": 250415571,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/test_method.py",
+      "sha256": "32eeda15a03e8a198463753521f4d6abf1f75d2d59556c9ab63b7325137364ec"
+    },
+    {
+      "bytes": 7672,
+      "inode": 250415572,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/test_tracking.py",
+      "sha256": "2c05753b4f1a8c246e1776ad82ed8b933f3e6f714adba9682f506c855726b85e"
+    },
+    {
+      "bytes": 6639,
+      "inode": 250415574,
+      "mtime_ns": 1791315773842259000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-jlz-price-gpt2xl-2k/project/run_scripts/experiment_tracking/worker.py",
+      "sha256": "784f2406b11d6e6f5029b5a284c5e050b6d27e6bc66556fd7d0b68e21eb10668"
+    }
+  ],
+  "authority": "a100868955f0d1091b9c0ff0db6029d9cc9cfcba plus latest direct user 'method 구현까지만 진행해봐'",
+  "actual_model_loaded": false,
+  "GPU_validation": "NOT_RUN",
+  "slurm_submitted": 0,
+  "checkpoints_saved": 0,
+  "independent_reviewer_agent": false,
+  "prior_test_issue": "Initial fake tracking fixture omitted required F field; fixture corrected, production metric policy unchanged."
+}
