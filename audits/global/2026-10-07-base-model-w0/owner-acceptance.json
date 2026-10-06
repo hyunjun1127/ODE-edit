@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "parent_instruction": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1",
+  "authority_commit": "ac704264",
+  "server1": {
+    "thread": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "accepted_turn": "01a112e0-fa6a-7b12-b476-f9fb04b55488",
+    "owner_ack_verified": true,
+    "cap_exception": "W0-only 1GPU 추가. 기존 science cap2 유지, globalcap 변경0.",
+    "submission_verified": false
+  },
+  "server2": {
+    "thread": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted_turn": "01a112fc-d703-72c1-bd79-67673754c5ef",
+    "owner_ack_verified": true,
+    "cap_exception": false,
+    "submission_verified": false
+  },
+  "existing_baseline_arms_preserved": true,
+  "transport": "server2 첫 일반 alias 인증 거부로 전달0, 기존 정식 rke-server2 경로로 resume/start·explicitACK 성공; 원실패 기록 보존.",
+  "completion_not_claimed": true,
+  "recurring_monitor_created": false
+}

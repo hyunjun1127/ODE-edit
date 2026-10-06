@@ -14,9 +14,15 @@
     "revision": "15ea56dee5df4983c59b2538573817e1667135e2"
   },
   "envelope": "messages/head/2026-10-07-base-model-w0-server1.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "OWNER_ACCEPTED_IMPLEMENTING",
   "job_ids": [],
   "submission_state": "NOT_SUBMITTED",
   "keep_all_existing_arms": true,
-  "server1_cap_exception": true
+  "server1_cap_exception": true,
+  "delivery": {
+    "accepted_turn": "01a112e0-fa6a-7b12-b476-f9fb04b55488",
+    "transport": "official app-server direct",
+    "owner_ack_verified": true,
+    "accepted_is_not_submitted": true
+  }
 }
