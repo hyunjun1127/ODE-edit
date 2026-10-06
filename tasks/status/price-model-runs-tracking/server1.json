@@ -1,0 +1,15 @@
+{
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+  "status": "SIX_CELLS_RELEASED_MONITORING_PAUSED",
+  "science_task": "jlz-price-gpt2xl-2k",
+  "GPU_jobs": [60094,60095,60096,60097,60098,60099],
+  "CPU_collector": 60100,
+  "source": "537c42ad26753ba6498f9401904d94af1effdf91",
+  "lock_sha256": "c3e46222af01e0a9ba5d5881d5ad7ca072fa55917ca5f04931fde47cbf7bfcfe",
+  "report": "experiment-reports/servers/server1/price-model-runs-tracking/report-ko.md",
+  "science_complete": "NOT_OBSERVED",
+  "W&B_online": "NOT_OBSERVED",
+  "old_jobs_changed": 0,
+  "monitoring_active": false,
+  "automatic_retry": false
+}
