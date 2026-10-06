@@ -1,1 +1,24 @@
-{"nonce":"USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1","task_id":"jlz-price-alpha-writer-2k","status":"SUBMITTED_RELEASED_PENDING","accepted_turn":"01a111e6-909a-7083-8059-23edee285f9d","jobs":{"LLAMA_AE_CAP075":"59949","LLAMA_AE_CAP100":"59950","LLAMA_AE_FREE100":"59951","QWEN_AE_CAP075":"59952","QWEN_AE_CAP100":"59953","QWEN_AE_FREE100":"59954","collector":"59955"},"job_ids":[59949,59950,59951,59952,59953,59954,59955],"source":"019922b1524efac596bdb8bf7581d44f1721ed59","common_frontier":[59933,59936],"first_lanes_dependency":"afterany:59933:59936","combined_server4_user_GPU_cap":2,"all_held_inspected":true,"initial_snapshot":"59955|jlz-price-alpha-writer-2k-collector|PENDING|N/A||None\n59954|jlz-price-alpha-writer-2k-QWEN_AE_FREE100|PENDING|gres/gpu:1||None\n59953|jlz-price-alpha-writer-2k-QWEN_AE_CAP100|PENDING|gres/gpu:1||None\n59952|jlz-price-alpha-writer-2k-QWEN_AE_CAP075|PENDING|gres/gpu:1||None\n59951|jlz-price-alpha-writer-2k-LLAMA_AE_FREE100|PENDING|gres/gpu:1||None\n59950|jlz-price-alpha-writer-2k-LLAMA_AE_CAP100|PENDING|gres/gpu:1||None\n59949|jlz-price-alpha-writer-2k-LLAMA_AE_CAP075|PENDING|gres/gpu:1||None","actual_GPU":"NOT_OBSERVED","W20":"NOT_OBSERVED","WandB_online":"PER_JOB_STARTUP_NOT_OBSERVED","monitoring_active":false,"automatic_resume":false,"automatic_retry":false,"report":"experiment-reports/servers/server4/jlz-price-alpha-writer-2k/report-ko.md"}
+{
+  "task_id": "jlz-price-alpha-writer-2k",
+  "status": "REPLACEMENT_SUBMITTED_RELEASED_PENDING",
+  "source": "2440e548be39e55a99747d7847d21a88df419b93",
+  "jobs": {
+    "LLAMA_AE_CAP075": "60011",
+    "LLAMA_AE_CAP100": "60012",
+    "LLAMA_AE_FREE100": "60013",
+    "QWEN_AE_CAP075": "60014",
+    "QWEN_AE_CAP100": "60015",
+    "QWEN_AE_FREE100": "60016",
+    "collector": "60017"
+  },
+  "current_attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007",
+  "previous_attempt": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/attempt",
+  "submission": "runs/jlz-price-alpha-writer-2k/logging-repair-20261007/submission.json",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "actual_repaired_B1": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "old_evidence_keep": true,
+  "user_authority": "현재 사용자 repair/전부 재제출 및 Alpha6 교체 승인",
+  "combined_server4_GPU_cap": 2
+}

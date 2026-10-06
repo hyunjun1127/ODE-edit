@@ -1,0 +1,13 @@
+{
+  "helper_result": "NOT_PASS",
+  "helper_exit_code": 7,
+  "blocked_exact_paths": [
+    "runs/jlz-price-cap-base-repair-2k/logging-repair-20261007/submission.json",
+    "runs/jlz-price-alpha-writer-2k/logging-repair-20261007/submission.json"
+  ],
+  "authority": "현재 사용자 MEMIT 실패 수리/영향 arm 재제출 + Alpha6 교체 명시 승인. 두 원 GH envelope의 exact runs task namespace 및 ownscope nonforce publication 승인 유지.",
+  "reason_ko": "일반 helper의 prefix 미등록으로 제한된 두 소형 제출 receipt만 차단. 이 exact 사용자 승인 예외를 기록하며 helper PASS로 위장하지 않음.",
+  "shared_helper_modified": false,
+  "raw_or_secret_in_git": false,
+  "scope_expansion": false
+}

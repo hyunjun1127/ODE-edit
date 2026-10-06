@@ -1,5 +1,27 @@
 # PRICE AlphaEdit writer 6-cell 2k — 제출 및 pending 인계
 
+## 최신: 2026-10-07 공통 W&B caller 결함 수리·사용자 승인 교체
+
+MEMIT59931에서 드러난 nested native NLL `[B][context]` 로깅 TypeError가 Alpha frozen caller에도 존재한다. 사용자가 **“Alpha 6개도 교체 제출”** 승인하여 기존 Alpha59949–59954와 collector59955를 pending 상태에서 취소했다. Alpha에서 실제 GPU 오류를 관측했다는 뜻은 아니다. 원 자료는 보존했다.
+
+공통 수리 source **2440e548be39e55a99747d7847d21a88df419b93**; Alpha config SHA **727cd99f7700730d964c5eb56af99728750b8cd1f5d29b9a8d8b3320385d4ca8**. Logger의 context→owner 평균/예외 격리만 바뀌며 Alpha 수식/LU/projector/가격/planner/예산/평가에는 변경이 없다. 기존 실제 MEMIT candidate·endpoint를 이용한 caller CPU replay 5개가 통과했다. Alpha actual GPU qualification이나 과학 성능 PASS가 아니다.
+
+| Model/arm | 새 job | afterany |
+|---|---:|---|
+| LLAMA_AE_CAP075 | 60011 | 60003:60006 |
+| LLAMA_AE_CAP100 | 60012 | 60011 |
+| LLAMA_AE_FREE100 | 60013 | 60012 |
+| QWEN_AE_CAP075 | 60014 | 60003:60006 |
+| QWEN_AE_CAP100 | 60015 | 60014 |
+| QWEN_AE_FREE100 | 60016 | 60015 |
+| CPU collector | 60017 | 60011:60012:60013:60014:60015:60016 |
+
+두 Alpha 첫 job은 교체 MEMIT 전체6을 cover하는 두 tail을 기다린다. MEMIT collector/성과 PASS 의존은 없다. MEMIT+Alpha 총 cap2이며 GPU job1GPU/CPU8/59392MiB/exportNONE/Requeue0/48h, collector0GPU/CPU8/24576MiB/4h를 유지한다. 양 task14개 전량 held 검사를 마친 뒤 release했으며 단1회 최초 snapshot은 모두 PENDING이었다. 실제 repaired B1/online startup/W20는 NOT_OBSERVED다. noCP/독립 cold20batch와 매 job 신규 W&B online startup, scalar privacy 정책 유지.
+
+새 attempt `/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007`; [교체 제출 receipt](../../../../runs/jlz-price-alpha-writer-2k/logging-repair-20261007/submission.json). 원 source/raw KEEP, 소형 source/report만 Git, NO_BROADCAST_NOT_REQUIRED. 반복 polling/heartbeat/autoretry0. 아래는 교체 전 최초 등록 원문으로 보존한다.
+
+## 교체 전 최초 등록 기록 — 현재 job 상태가 아님
+
 - task: `jlz-price-alpha-writer-2k`.
 - nonce: `USER-GH-SH4-JLZ-PRICE-ALPHA-WRITER-2K-20261007-R1`.
 - 상태: `SUBMITTED_RELEASED_PENDING`. 실제 GPU 6개/CPU collector 1개를 held 검사 후 release했다. 등록 직후 단1회 snapshot은 전부 PENDING이며 Reason은 아직 `None`이었다. held receipt의 afterany dependency는 검증했다. CPU source/import/config 검사와 actual GPU/완료는 구분한다.
