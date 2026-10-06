@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-WANDB-LOGIN-RESUME-20261006",
+  "parent": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "authority_commit": "a2d94dc59f4be1a7988d8cf537e83fb4950fd99e",
+  "target_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "accepted_turn": "01a1112e-c1f2-79b0-858e-d949f44736b5",
+  "transport": "official app-server direct; idle turn/start; same-stream nonce owner ACK",
+  "owner_ack": "기존 FE 구현·CPU7·입력 준비를 유지하고 실제 online smoke와 SH1 logger API 확인 후 source freeze·Slurm등록·held검사·release 진행 수락",
+  "status": "OWNER_ACCEPTED_RESUMED_PREPARATION",
+  "login": "USER_REPORTED_COMPLETE",
+  "online_smoke": "NOT_YET_OBSERVED",
+  "submission": "NOT_YET_OBSERVED",
+  "job_ids": [],
+  "science_or_other_job_mutations_by_GH": 0,
+  "recurring_monitor": false,
+  "raw_transport": "local/dispatch/transport.jsonl (ignored)"
+}
