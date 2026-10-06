@@ -12,6 +12,7 @@
   ],
   "implementation_owner": "server1",
   "envelope": "messages/head/2026-10-07-wandb-job-id-all-sh.json",
-  "status": "DISPATCHING",
+  "status": "DELIVERED_ALL_SH_SH1_IMPLEMENTING",
+  "delivery_receipt": "audits/global/wandb-job-id-recording/direct-delivery.json",
   "science_authority": false
 }

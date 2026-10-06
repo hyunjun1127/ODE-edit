@@ -1,0 +1,34 @@
+{
+  "members": [
+    {
+      "path": "audits/servers/server3/wandb-job-id-recording/acceptance.json",
+      "bytes": 2463,
+      "sha256": "ded1dec80571cb524dcce58ddae4249cfb511783ee35dbbed102d304d83d22ea"
+    },
+    {
+      "path": "experiment-reports/servers/server3/wandb-job-id-recording/report-ko.md",
+      "bytes": 4049,
+      "sha256": "224955783b8b209d02089784f9eb3493351a659d83f4bccfb36a7bf2ccb2a81e"
+    },
+    {
+      "path": "tasks/status/wandb-job-id-recording/server3.json",
+      "bytes": 1512,
+      "sha256": "266340cfc6ab649a5125e34ce8c2089de36212416596bd4d2bae484800122292"
+    },
+    {
+      "path": "messages/acks/server3/wandb-job-id-recording.json",
+      "bytes": 1512,
+      "sha256": "266340cfc6ab649a5125e34ce8c2089de36212416596bd4d2bae484800122292"
+    },
+    {
+      "path": "messages/server-heads/server3/wandb-job-id-recording.json",
+      "bytes": 1512,
+      "sha256": "266340cfc6ab649a5125e34ce8c2089de36212416596bd4d2bae484800122292"
+    }
+  ],
+  "checks": "policy/envelope exact equality; scope/SHA/JSON/links/secret-pattern PASS",
+  "implementation_changed": false,
+  "CPU_fake_SDK_tests": "NOT_RUN_SH1_OWNED",
+  "online_validation": "NOT_RUN",
+  "self_hash_excluded": true
+}

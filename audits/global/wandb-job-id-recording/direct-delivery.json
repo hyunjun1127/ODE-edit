@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007",
+  "task_id": "wandb-job-id-recording",
+  "policy_commit": "50eb29c5",
+  "envelope": "messages/head/2026-10-07-wandb-job-id-all-sh.json",
+  "envelope_sha256": "d9b3d7904420d621ba82d25fdfbc42677b679b52a4c358f1e117468c064fb3ca",
+  "transport": "official app-server direct",
+  "receipts": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1",
+      "accepted_turn": "01a1128e-5e13-79b3-93f1-947b8917143d",
+      "operation": "turn/steer exact related turn",
+      "transport_accepted": true,
+      "owner_ACK": "`USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER1` 수신했습니다. SH1이 공통 helper 수정을 맡겠습니다. GPT2 준비 job은 아직 미제출·source 미봉인 상태이므로 이번 변경을 함께 반영합니다. 실제 Slurm ID를 run 이름과 Config에 결속하고, array index `0`·step·local 실행·ID 충돌을 CPU fake-SDK 검사로 확인하겠습니다.\n",
+      "status": "OWNER_ACK_ACCEPTED"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER2",
+      "accepted_turn": "01a11296-3358-7e81-bdfa-c067652fc32a",
+      "operation": "turn/start idle",
+      "transport_accepted": true,
+      "owner_ACK": "ACK `USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER2`. 향후 새 Slurm-backed W&B run은 실제 job 번호를 run.name과 Config에 기록하도록 적용하겠습니다. SH1 공통 helper는 수정하지 않고, 기존 FE job·봉인 source·과거 W&B run도 그대로 보존합니다. 정책 수락과 향후 적용 요건만 기록·게시하겠습니다.\n",
+      "status": "OWNER_ACK_ACCEPTED"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER3",
+      "accepted_turn": "01a11296-0f61-7400-8b2e-1723ad3ee635",
+      "operation": "turn/start idle",
+      "transport_accepted": true,
+      "owner_ACK": "ACK `USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER3`. SH3의 향후 Slurm 기반 W&B run에 실제 job 번호를 이름과 Config에 기록하도록 적용하겠습니다. 정본과 중복 접수를 확인하고, 정책 수락·향후 적용 지침을 게시하겠습니다. 기존 run·봉인된 source는 변경하지 않습니다.",
+      "status": "OWNER_ACK_ACCEPTED"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "nonce": "USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER4",
+      "accepted_turn": "01a11284-5dde-7811-b5c1-9ad1a2813ca5",
+      "operation": "turn/steer exact related turn",
+      "transport_accepted": true,
+      "owner_ACK": "ACK `USER-GH-ALL-SH-WANDB-JOB-ID-20261007-SERVER4`: SH4 담당 수락합니다. GPT-J는 아직 Slurm 미제출이며, 새로 봉인할 소스에 실제 job 번호의 run.name·Config 기록 요건을 반영하겠습니다. SH1 공통 helper는 수정하지 않고 채택하며, 기존 실험은 그대로 유지합니다.\n",
+      "status": "OWNER_ACK_ACCEPTED"
+    }
+  ],
+  "implementation": {
+    "owner": "server1",
+    "status": "ACCEPTED_IN_PROGRESS",
+    "namespace": "project/run_scripts/experiment_tracking/**",
+    "GPU": 0,
+    "live_online_production_job_metadata_verification": "NOT_OBSERVED",
+    "CPU_validation": "SH1_TO_REPORT"
+  },
+  "scope": "future run name+Config actual Slurm job and array/step fields; original runs/source/jobs preserved",
+  "no_scientific_submission_or_cap_change": true,
+  "no_ongoing_monitor": true
+}
