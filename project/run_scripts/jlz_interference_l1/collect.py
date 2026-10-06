@@ -228,7 +228,13 @@ def endpoint(reader,folder,identities,ids,name,state_value,seen):
     folder=Path(folder)
     if not (folder/'summary.json').exists():return None
     rows=[]
-    for path in sorted(folder.glob('chunk-*.json')):
+    reuse=(folder/'reuse.json').exists()
+    if reuse:
+        from .w0_reuse import source_chunks
+        require(name=='W0','W0_REUSE_ENDPOINT_ONLY');paths=source_chunks(folder,state_value)
+        reader.json(folder/'reuse.json')
+    else:paths=sorted(folder.glob('chunk-*.json'))
+    for path in paths:
         require(path.stat().st_size<=CHUNK_BYTES,'BOUNDED_METRIC_CHUNK_BYTES')
         chunk=reader.json(path);require(chunk['state']==state_value and chunk['optimizer_feedback'] is False,'RAW_ENDPOINT_STATE')
         require(len(chunk['rows'])<=CHUNK_ROWS,'BOUNDED_METRIC_CHUNK_ROWS')
@@ -243,7 +249,10 @@ def endpoint(reader,folder,identities,ids,name,state_value,seen):
     require({k:v['denominator'] for k,v in result.items()}==dict(R=len(ids),P=2*len(ids),N=10*len(ids)),'EXACT_ENDPOINT_DENOMINATORS')
     compare_summary(result,saved['summary']);flags=active_flags(seen)
     require(all(r['active_at_endpoint']==flags[r['case_id']] for r in rows),'SEEN_PREFIX_METADATA')
-    return dict(rows=rows,metrics=result,seconds=saved['seconds'])
+    if reuse:require(saved['seconds']==0 and saved['new_forwards']==0 and saved['reference_only'],'W0_REUSE_NEW_COST_ZERO')
+    return dict(rows=rows,metrics=result,seconds=saved['seconds'],
+        original_evaluation_seconds=saved.get('original_evaluation_seconds') if reuse else None,
+        reference_only=reuse)
 
 def _arm_review(reader,attempt,c,lock,arm,records,identities,progress):
     out=attempt/arm;ids=[r['case_id'] for r in records];profile=c['arm_profiles'][arm];layers=list(map(str,profile['eligible_layers']))
@@ -252,6 +261,9 @@ def _arm_review(reader,attempt,c,lock,arm,records,identities,progress):
     counts=dict(builds=0,subject_forwards=0,subject_backwards=0,request_updates=0)
     w0=endpoint(reader,out/'W0',identities,ids,'W0',cold,records)
     if w0:metrics.append(dict(endpoint='W0',requests=2000,metrics=w0['metrics']))
+    W0_cost=None if w0 is None else dict(new_evaluation_seconds=w0['seconds'],reference_only=w0['reference_only'],
+        original_evaluation_seconds=w0['original_evaluation_seconds'],
+        old_observation_not_charged_to_repair=True if w0['reference_only'] else False)
     for number in range(1,21):
         folder=out/f'batch-{number:02d}'
         if not (folder/'commit.json').exists():break
@@ -347,7 +359,7 @@ def _arm_review(reader,attempt,c,lock,arm,records,identities,progress):
     result=dict(arm=arm,status='W20_COMPLETE' if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',commits=len(commits),requests=len(commits)*100,
         expected=dict(commits=20,requests=2000,joins=19,history_appends=history_expected(arm)),
         actual=dict(joins=max(0,len(commits)-1),history_appends=sum(r['history_appends'] for r in commits)),
-        counters=counts,metrics=metrics,paired=pairs,realization=realizations,cost=cost,terminal=terminal,first_error=firsterror,
+        counters=counts,metrics=metrics,paired=pairs,realization=realizations,cost=cost,W0_observation_cost=W0_cost,terminal=terminal,first_error=firsterror,
         uncommitted_attempts=abandoned,
         checkpoint_saved=False,exact_resume='NOT_AVAILABLE',no_missing_as_zero=True)
     return result,prefix
@@ -400,11 +412,20 @@ def _collect(attempt,out,accounting):
     require(c['task_id']==lock['task_id']==TASK and c['instruction_id']==lock['instruction_id']==NONCE
         and sha(attempt/'config.json')==lock['config_sha256'],'COLLECTOR_SOURCE_CONFIG_AUTHORITY')
     require(c['storage']==storage_plan(),'COLLECTOR_SEALED_STORAGE_BOUND')
+    if c.get('W0_reuse',{}).get('status')=='QUALIFIED_EXACT_REUSE':
+        from .w0_reuse import verify_manifest
+        verify_manifest(c['W0_reuse'],c)
     records=load_prefix(Path(c['stream']).parent,2000);require(digest([r['case_id'] for r in records])==ORDERED_SHA,'ORDERED_FIXED_COHORT')
     identities=reader.json(verify(c['observer_identity']))['rows'];arms={};prefix={}
-    for arm in ARMS:arms[arm],prefix[arm]=arm_review(reader,attempt,c,lock,arm,records,identities)
+    selected=tuple(c.get('execution_arms',ARMS))
+    require(selected in (ARMS,('PRICE',)),'COLLECTOR_APPROVED_EXECUTION_ARMS')
+    for arm in selected:arms[arm],prefix[arm]=arm_review(reader,attempt,c,lock,arm,records,identities)
+    if c.get('W0_reuse',{}).get('status')=='QUALIFIED_EXACT_REUSE':
+        for arm in selected:
+            receipt=attempt/arm/'W0/reuse.json'
+            if receipt.exists():require(reader.json(receipt)['manifest']==c['W0_reuse'],'COLLECTOR_CONFIG_W0_REUSE_BINDING')
     cross=[]
-    for arm in ARMS[1:]:
+    for arm in selected[1:]:
         for k in MILESTONES:
             if k in prefix['PRICE'] and k in prefix[arm]:
                 cross.append(dict(reference='PRICE',arm=arm,endpoint=f'W{k}',cohort='ALL_SEEN',
@@ -414,10 +435,12 @@ def _collect(attempt,out,accounting):
                     paired=paired([r for r in prefix['PRICE'][k] if r['case_id'] in fixed],
                                   [r for r in prefix[arm][k] if r['case_id'] in fixed])))
     complete=all(v['status']=='W20_COMPLETE' for v in arms.values());parents=accounting_snapshot(attempt) if accounting else dict(status='NOT_REQUESTED')
-    result=dict(task=TASK,status='THREE_ARMS_W20_COMPLETE' if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',source=lock['source_commit'],config_sha256=lock['config_sha256'],
+    completion_status='PRICE_REPAIR_W20_COMPLETE' if selected==('PRICE',) else 'THREE_ARMS_W20_COMPLETE'
+    result=dict(task=TASK,status=completion_status if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',source=lock['source_commit'],config_sha256=lock['config_sha256'],
+        execution_arms=list(selected),excluded_arms={a:'NOT_REQUESTED_BY_USER_REPAIR' for a in ARMS if a not in selected},
         arms=arms,standalone_qualification=False,toy_runs=0,cross_arm_paired=cross,actual=dict(commits=sum(v['commits'] for v in arms.values()),
         history_appends=sum(v['actual']['history_appends'] for v in arms.values()),joins=sum(v['actual']['joins'] for v in arms.values())),
-        expected=dict(commits=60,joins=57,history_appends=300),accounting=parents,
+        expected=dict(commits=20*len(selected),joins=19*len(selected),history_appends=100*len(selected)),accounting=parents,
         CPU_review='Independent immutable-row arithmetic/token identity/state linkage, no target-model replay',
         source_review='Static/import only; no toy or numerical qualification; actual B1 c0 and normal proposal assertions are in the trajectory',
         static_price_verification='Scalar raw-score/floor/normalization/permutation/beta/projector arithmetic; M hashes are identity evidence, not tensor replay',
@@ -437,8 +460,8 @@ def _collect(attempt,out,accounting):
     w=csv.DictWriter(buffer,fieldnames=names);w.writeheader();w.writerows(rows)
     text_file(out/'comparison.csv',buffer.getvalue())
     lines=['# 간섭가격 group-L1 2k 사실 보고','',f'- 상태: {result["status"]}',f'- 실행 source: `{lock["source_commit"]}`',
-        f'- Commit {result["actual"]["commits"]}/60, own join {result["actual"]["joins"]}/57, H append {result["actual"]["history_appends"]}/300.',
-        '- PRICE/FLAT/REVERSE는 각각 cold W0/H0에서 자기 2000 occurrence의 W/H trajectory를 따른다. 공유되는 것은 readonly 입력·모델 자산뿐이다.',
+        f'- Commit {result["actual"]["commits"]}/{result["expected"]["commits"]}, own join {result["actual"]["joins"]}/{result["expected"]["joins"]}, H append {result["actual"]["history_appends"]}/{result["expected"]["history_appends"]}.',
+        '- 실제 요청 arm: '+', '.join(selected)+'. 각 요청 arm은 cold W0/H0에서 자기 2000 occurrence의 W/H trajectory를 따른다. 제외 arm은 NOT_REQUESTED이며 missing/실패로 집계하지 않는다.',
         '- 별도 qualification/toy/small fit/full-builder-gradient 진단 0. 실제 B1 c0의 cached LOO 및 정상 proposal KKT/assertion을 trajectory 안에서 검산한다.',
         '- 계산가격·적용가격·정규화 anchor/local cap은 entry-price.json에 batch당1회, 후보는 authoritative events.jsonl에1회 저장한다. fit.json은 SHA/line count 참조만 저장한다.',
         '', '| Arm/endpoint | RS | PS | NS |', '|---|---:|---:|---:|']
@@ -453,7 +476,8 @@ def _collect(attempt,out,accounting):
         if v['first_error']:lines.append(f'  최초 기술 오류/증거: {v["first_error"].get("type",v["first_error"].get("status"))}: {v["first_error"].get("error",v["first_error"].get("reason"))}')
     lines.extend(['','- Terminal requested/realized norm·direction·cosine·error/share, zero-owner leakage, ideal/effective Q·capacity·rawSPD applicability는 reduction.json arm realization에 있다.',
         '- Subject loss와 실제 all-token loss gap은 별도로 관측했으며 동일payload가 두 경로의 hidden/loss/전체gradient 동일성을 뜻하지 않는다.',
-        '- PRICE–REVERSE가 primary, PRICE–FLAT은 secondary다. Paired는 같은 실제 endpoint/case/token 분모에서만 계산했다. 미측정 endpoint는 0점/완료로 대체하지 않았다.',
+        '- PRICE–REVERSE/PRICE–FLAT paired는 해당 arm이 실제 요청되고 같은 endpoint/case/token 분모가 있을 때만 계산한다. PRICE-only repair는 cross-arm paired NOT_REQUESTED다. 미측정 endpoint는 0점/완료로 대체하지 않았다.',
+        '- W0 exact reuse는 원 chunk/summary/runtime/config/lock/SHA와 cold 상태를 결속한 원자료 참조다. 재사용 시간/forward는 0이며 원 관측 시간은 provenance로 분리한다.',
         '- Raw/floored/computed/applied 가격, exact ties/reverse multiset, beta stage·own update·weighted spend·FP64 KKT/FP32 cap은 원 scalar stream으로 독립 재검산했다. M/P/K tensor replay는 수행하지 않았다.',
         '- Price proxy 또는 같은 budget/norm은 같은 semantic strength가 아니다. NS 개선과 R/P 획득 감소가 함께 있으면 tradeoff이며 단일 seed에서 보편적 우위를 주장하지 않는다.',
         f'- 부모 allocated GPU seconds(단일계상): {parents.get("allocated_GPU_seconds","NOT_AVAILABLE")}. Pending·jobsteps 중복 가산 없음.',

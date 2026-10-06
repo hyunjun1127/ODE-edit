@@ -1,0 +1,21 @@
+{
+  "task_id": "jlz-interference-priced-l1-2k",
+  "date_kst": "2026-10-06",
+  "user_quote": "flat이랑 reverse는 취소시키자 ours가 중요하니 ours 먼저 돌려",
+  "source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+  "original_lock_sha256": "c66173da14839e078660a51166fa2169d8d5220f403d72192f1289411bb49f7a",
+  "verification": "Exact original job mapping, owner janghj, node server4, source path, stored launcher SHA, scheduler script bytes and full SubmitLine argv matched before cancellation",
+  "command": ["scancel", "59723", "59722"],
+  "command_exit": 0,
+  "jobs": {
+    "FLAT": {"job": 59722, "before": "RUNNING", "terminal": "CANCELLED by 1025", "parent_allocated_GPU_seconds": 565},
+    "REVERSE": {"job": 59723, "before": "PENDING", "terminal": "CANCELLED by 1025", "parent_allocated_GPU_seconds": 0}
+  },
+  "bounded_final_squeue_exact_ids": "EMPTY: no active allocation/cleanup entries remain",
+  "collector_59724_mutated": false,
+  "other_jobs_mutated": false,
+  "source_raw_logs_deleted": false,
+  "checkpoint_resume": "NOT_AVAILABLE",
+  "controls_resubmit": false,
+  "next_scope": "PRICE-only repaired cold run; qualified original W0 rows reused without new W0 model evaluation"
+}

@@ -1,0 +1,42 @@
+{
+  "scope": "PRICE-only explicit USER repair and W0 reuse; controls cancelled separately by USER",
+  "configuration": {
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-preparation/configuration.json",
+    "bytes": 254561,
+    "sha256": "26096236ba0fe1a683c98d954904dbf0a048d4611f03cd62b1aef77f7c00091f"
+  },
+  "preflight": {
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-preflight.json",
+    "bytes": 6436,
+    "sha256": "e0f17cd81a4210ee60a200c21f6b65c80b8998d260988dc2ad8f2444396f0501"
+  },
+  "W0_manifest": {
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-preparation/w0-reuse.json",
+    "bytes": 168816,
+    "sha256": "ad41a7ac493df97cb0f66430a765e0710290af9cb6a6edbb39c27da465386ebf"
+  },
+  "status": "QUALIFIED_EXACT_REUSE",
+  "prior_source": "a9905b9fccbdb48b9b17e768368afa9e663f0bf5",
+  "prior_job": 59721,
+  "raw_reference_only": true,
+  "raw_copy": false,
+  "observation_fingerprint": "27a72593c960ae706fdad6591b28120c157cb243ff169ef856bbe01bfbc4ec0c",
+  "chunks": 40,
+  "rows": 26000,
+  "denominators": {
+    "N": 20000,
+    "P": 4000,
+    "R": 2000
+  },
+  "original_evaluation_seconds": 930.8451385572553,
+  "new_W0_forward": 0,
+  "new_W0_evaluation_seconds": 0,
+  "live_new_model_identity": "NOT_OBSERVED_CPU_ONLY; runtime exact cold/state/device/threads assertion precedes reuse",
+  "execution_arms": [
+    "PRICE"
+  ],
+  "free_bytes": 116154941440,
+  "storage_reserve_bytes": 8738832384,
+  "model_load": 0,
+  "toy_tests": 0
+}

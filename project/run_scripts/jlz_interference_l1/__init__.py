@@ -22,7 +22,13 @@ def batches(records, size=100):
 
 def rows_from(folder, expected_state=None):
     rows = []
-    for path in sorted(Path(folder).glob('chunk-*.json')):
+    folder = Path(folder)
+    if (folder / 'reuse.json').exists():
+        from .w0_reuse import source_chunks
+        paths = source_chunks(folder, expected_state)
+    else:
+        paths = sorted(folder.glob('chunk-*.json'))
+    for path in paths:
         require(path.is_file() and not path.is_symlink(), 'UNSAFE_OBSERVER_CHUNK')
         obj = json.loads(path.read_text())
         require(obj['optimizer_feedback'] is False, 'OBSERVATION_FEEDBACK')

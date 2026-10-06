@@ -1,0 +1,77 @@
+{
+  "GPU_calls": 0,
+  "actual_full_FP32_payload_check": "NOT_REPLAYED_NO_CHECKPOINT; runtime same gates retained",
+  "complementarity": 1.2398127507371418e-15,
+  "convention": "BREAKPOINT_FP64_KKT_MINIMUM_TAU",
+  "failure": {
+    "bytes": 3137,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/first-error.json",
+    "sha256": "78c8d388155e86febb7d1602aecbe652a99ec0f4a73747ea06049edf6dc005b5"
+  },
+  "fixed_limits": {
+    "complementarity": 8.375430363343472e-10,
+    "primal": 1e-10
+  },
+  "method_changed": false,
+  "model_load": 0,
+  "new_toy_fixtures": 0,
+  "original_failure_reproduced": "PROJECTION_SORTED_BREAKPOINT_ROOT_UNAVAILABLE",
+  "original_operands": {
+    "beta": 0.75,
+    "breakpoints": [
+      0,
+      0.7445805935099779,
+      6.193105287423267,
+      7.922863380276672,
+      8.551881845601253,
+      11.167240484457963,
+      11.656568549847785,
+      18.221854713768757
+    ],
+    "caps": [
+      2.219000816345215,
+      3.0558643341064453,
+      3.8700045347213745,
+      4.4037230014801025,
+      4.517135739326477
+    ],
+    "proposal_norm": [
+      6.158803969182704,
+      3.274171110244374,
+      2.5373474904259714,
+      2.0956651355102873,
+      1.8116033918179215
+    ],
+    "status": "PROJECTION_SORTED_BREAKPOINT_ROOT_UNAVAILABLE",
+    "weights": [
+      0.3379899612814387,
+      0.29319428687876925,
+      0.2967004849033411,
+      0.2645085539058109,
+      0.2925193917656882
+    ]
+  },
+  "original_source": {
+    "bytes": 5967,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source/project/run_scripts/jlz_interference_l1/projection.py",
+    "sha256": "f3338814da14617648158988329fcf9e0084ef66ccd508dcf0122e41903af026"
+  },
+  "projected_norm": [
+    2.219000816345215,
+    0,
+    0,
+    0,
+    0
+  ],
+  "repaired_source": {
+    "bytes": 6525,
+    "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/worktree/project/run_scripts/jlz_interference_l1/projection.py",
+    "sha256": "30e7a3c4e9711ab744bc0641af38887398c873613ea850e9b7af83c8860930f4"
+  },
+  "spend": 0.7500000000000001,
+  "spend_minus_beta": 1.1102230246251565e-16,
+  "status": "PASS_REAL_FAILURE_SCALAR_REGRESSION",
+  "tau": 11.167240484457963,
+  "tolerances_changed": false,
+  "review_scope": "Exact preserved actual failing scalar operand regression only; no synthetic suite or model evaluation"
+}

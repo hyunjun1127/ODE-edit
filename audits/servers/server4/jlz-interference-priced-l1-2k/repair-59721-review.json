@@ -1,0 +1,140 @@
+{
+  "schema": "JLZ_INTERFERENCE_L1_ACTUAL_FAILURE_REPAIR_SOURCE_REVIEW",
+  "task_id": "jlz-interference-priced-l1-2k",
+  "review_target": "Explicit USER recall for PRICE 59721 only",
+  "date_kst": "2026-10-06",
+  "reviewer": "/root/causal_red",
+  "review_level": "Separate bounded source review and reading of owner-executed actual-failure scalar regression; not independent replay or GPU qualification",
+  "status": "PASS_WITH_WARNINGS",
+  "confirmed_unresolved_blockers": [],
+  "scope": {
+    "reviewed": [
+      "Preserved PRICE59721 first-error scalar operands",
+      "Original frozen projector versus minimal repaired projector diff",
+      "Actual failure regression script and its executed receipt",
+      "PRICE-only repair registration/source-freeze/resource boundary"
+    ],
+    "W0_reuse": "Not yet reviewed in this component receipt. New W0 reference implementation/source identity and raw reducer gate require the separate narrow follow-up review before use.",
+    "production_edits_by_reviewer": 0,
+    "new_scalar_or_numerical_runs_by_reviewer": 0,
+    "new_toy_tests": 0,
+    "model_loads": 0,
+    "model_forwards": 0,
+    "GPU_calls": 0,
+    "scheduler_queries_by_reviewer": 0,
+    "scheduler_mutations_by_reviewer": 0,
+    "git_mutations": 0,
+    "transfers": 0,
+    "owned_write": "audits/servers/server4/jlz-interference-priced-l1-2k/repair-59721-review.json"
+  },
+  "evidence": {
+    "first_error": {
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/PRICE/first-error.json",
+      "bytes": 3137,
+      "sha256": "78c8d388155e86febb7d1602aecbe652a99ec0f4a73747ea06049edf6dc005b5",
+      "code": "PROJECTION_SORTED_BREAKPOINT_ROOT_UNAVAILABLE"
+    },
+    "original_frozen_projector": {
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/attempt/source/project/run_scripts/jlz_interference_l1/projection.py",
+      "sha256": "f3338814da14617648158988329fcf9e0084ef66ccd508dcf0122e41903af026"
+    },
+    "repaired_projector": {
+      "path": "project/run_scripts/jlz_interference_l1/projection.py",
+      "sha256": "30e7a3c4e9711ab744bc0641af38887398c873613ea850e9b7af83c8860930f4"
+    },
+    "regression_source": {
+      "path": "project/run_scripts/jlz_interference_l1/review_projection_failure.py",
+      "sha256": "8a98a30b11748c0e35c9168c2aeeadeb8c0649782403d10e200f823615c71262"
+    },
+    "regression_receipt": {
+      "path": "/data/janghj/ODE-edit/local/jlz-interference-priced-l1-2k/repair-59721-regression.json",
+      "sha256": "ed31f6fb8690a860ff88816a3b1fd15b41d1209b9b323d41c3a7cf15a7d95bf1"
+    },
+    "repair_launcher": {
+      "path": "project/run_scripts/jlz_interference_l1/repair_submit.py",
+      "sha256": "8c4f64875fbafd43e5ab4d2838ef7ef8e8a78ffcd48871b2321c296fb21149d4"
+    },
+    "optional_role_source_freezer": {
+      "path": "project/run_scripts/jlz_interference_l1/submit.py",
+      "sha256": "1018b123a5101c5b13c1542e98a071f06ea13d2a7ef88fdcd0db3d58c5b1e8d5"
+    }
+  },
+  "cause": {
+    "confirmed_from_source_and_receipt": "The operands are finite. Strict analytic-root interval inclusion and exact spend equality can reject a valid FP64 knot/plateau before the already sealed KKT checks run.",
+    "source_location": "projection.py:_lengths",
+    "owner_reported_root_roundoff": "Adjacent algebraic roots lie a few ULP outside the interval endpoints. This review did not independently recompute those interval roots.",
+    "not_a_scientific_gate_failure": true
+  },
+  "semantics": {
+    "changed_only": "At the first sorted knot, evaluate the unchanged clipped lengths min(cap,max(norm-tau*weight,0)). Accept that knot only if both original scaled 1e-10 absolute spend and complementarity bounds hold.",
+    "preserved": [
+      "Sorted breakpoint route",
+      "Exact internal analytic root formula and interval test",
+      "Euclidean weighted capped group-L1 objective",
+      "Original local caps and shared beta",
+      "FP64 length KKT/feasibility/complementarity gates",
+      "FP32 cast and fixed 1e-6 local/shared feasibility gates",
+      "Adam moments and native planner/writer semantics"
+    ],
+    "absent": [
+      "Bisection",
+      "Radial post-rescaling",
+      "Tolerance enlargement",
+      "Price or objective changes",
+      "Alternate reference selection",
+      "New synthetic suite",
+      "FullB scientific fitting for validation"
+    ],
+    "conclusion": "No confirmed remaining projector source blocker. Acceptance is within existing sealed KKT tolerances, not a relaxation of them."
+  },
+  "owner_executed_actual_failure_regression": {
+    "status": "PASS_REAL_FAILURE_SCALAR_REGRESSION",
+    "independently_rerun_by_reviewer": false,
+    "original_error_reproduced": "PROJECTION_SORTED_BREAKPOINT_ROOT_UNAVAILABLE",
+    "beta": 0.75,
+    "tau": 11.167240484457963,
+    "projected_norm": [
+      2.219000816345215,
+      0,
+      0,
+      0,
+      0
+    ],
+    "spend": 0.7500000000000001,
+    "spend_minus_beta": 1.1102230246251565e-16,
+    "complementarity": 1.2398127507371418e-15,
+    "primal_limit": 1e-10,
+    "complementarity_limit": 8.375430363343472e-10,
+    "convention": "BREAKPOINT_FP64_KKT_MINIMUM_TAU",
+    "length_formula_exact_comparison_in_regression": true,
+    "no_new_toy_fixtures": true,
+    "method_changed": false,
+    "tolerances_changed": false,
+    "full_original_FP32_vector_or_model_payload_replayed": false,
+    "payload_limit": "No checkpoint or persistent optimizer/R bundle exists; regression validates the preserved scalar failure only. Runtime full-vector/postcast guards remain mandatory."
+  },
+  "launcher_review": {
+    "reviewed_source_result": "No confirmed blocker in the pinned PRICE-only repair source",
+    "original_identity": "evidence() requires exact failed attempt/source/config/jobs, parent FAILED accounting, no successful PRICE commit and verified zero-prefix rollback before registering the repair.",
+    "original_jobs_preserved": {
+      "PRICE": 59721,
+      "FLAT": 59722,
+      "REVERSE": 59723,
+      "collector": 59724
+    },
+    "registration": "Only one fresh cold PRICE GPU job and its CPU afterany collector are registered. No original controls/collector cancellation, hold, release, rerun or mutation is present.",
+    "freeze_roles": "Optional roles=('PRICE','collector') has a closed allowlist; default original ROLES and original flow remain unchanged.",
+    "admission": "Fresh owned admitted resource inventory and original-control exact ID/Command checks feed afterany resource barriers; cap uses min(tracked,local,3) and original task ceiling2. At most one new GPU is added and a prerelease race keeps jobs held.",
+    "fixed_resources": "GPU1, default59392MiB, hard60416MiB, CPU1..8, collectorCPU1..8/24576MiB, main48h and collector4h, server4/gpu, inherited exportNONE/Requeue0/fullargv held inspector.",
+    "minimal_guard_suggestion": "collector CPU and both fixed wall fields were missing from the initial repair resource predicate; owner added them, and the current pinned source was directly checked.",
+    "scheduler_test_only_and_held_inspection": "Source present; NOT_EXECUTED_OR_OBSERVED_BY_REVIEWER",
+    "no_recurring_monitor_or_automatic_retry": true
+  },
+  "warnings": [
+    "The source verdict and one real scalar regression are not actual native model/GPU parity, price/LOO quality evidence or completed repaired B1/W20.",
+    "Original FP32 direction vectors and optimizer history cannot be reconstructed from scalar error evidence under noCP.",
+    "W0 reuse is a new USER-authorized reference-only optimization, not implied by the projection repair. Source/operator/cold-state/raw identity must be separately qualified; complete HEAD equality cannot be assumed after the repair.",
+    "Fresh scheduler acceptance, actual allocated resources and shared-filesystem/quota headroom remain owner preflight responsibilities; this reviewer did not query or mutate them."
+  ],
+  "next_boundary": "Parent owns immutable new source/config, W0 reuse qualification, exact PRICE-only registration and bounded resource-pending handoff. Original archived source/raw/config/controls remain KEEP. No new monitoring or automatic retries are authorized by this audit."
+}

@@ -179,7 +179,14 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
     identities=json.loads(verify(c['observer_identity']).read_text())['rows'];cursor=[];commits=[]
     previous=state(a,H);previous_rng=rng_identity()
     guard(out,c['storage']['first_W0_write_bytes']+c['storage']['error_reserve_bytes'])
-    observer(a,bench,records,records,H,'W0',out/'W0',c,identities,[r['case_id'] for r in records])
+    if c.get('W0_reuse',{}).get('status')=='QUALIFIED_EXACT_REUSE':
+        from .w0_reuse import install
+        rng=rng_snapshot();before=state(a,H);hooks=a.hook_signature();context=digest(bench.contexts)
+        install(out/'W0',c,before)
+        require(state(a,H)==before and rng_equal(rng) and a.hook_signature()==hooks
+            and digest(bench.contexts)==context,'W0_REUSE_NONMUTATION')
+    else:
+        observer(a,bench,records,records,H,'W0',out/'W0',c,identities,[r['case_id'] for r in records])
     for number,current,seen in batches(records):
         shared_source_guard(attempt)
         require(number<=20,'NO_B21');folder=out/f'batch-{number:02d}';folder.mkdir(exist_ok=False)

@@ -53,7 +53,7 @@ def launcher(source, commit, role, attempt,cpu=8):
     return script
 
 
-def freeze(configpath, attempt):
+def freeze(configpath, attempt, roles=ROLES):
     require(attempt.parent == LOCAL and not attempt.exists(), 'CREATE_ONCE_ATTEMPT')
     c = json.loads(configpath.read_text())
     require(c['instruction_id'] == NONCE and c['task_id'] == TASK, 'AUTHORITY')
@@ -79,7 +79,8 @@ def freeze(configpath, attempt):
         rel = Path(row['path']).relative_to(ROOT)
         require(sha(source / rel) == row['sha256'], 'TESTED_ARCHIVE_CLOSURE')
     write(attempt / 'config.json', c)
-    for role in ROLES:
+    require(tuple(roles) in (ROLES,('PRICE','collector')),'AUTHORIZED_FREEZE_ROLES')
+    for role in roles:
         script = attempt / (role + '.sh')
         script.write_text(launcher(source, commit, role, attempt,c['resources']['collector_cpu'] if role=='collector' else c['resources']['cpu'])); script.chmod(0o755)
     write(attempt / 'execution.lock.json', dict(
@@ -87,11 +88,12 @@ def freeze(configpath, attempt):
         archive=member(archive), source_members=[member(p) for p in sorted(source.rglob('*')) if p.is_file()],
         config_sha256=sha(attempt / 'config.json'), runtime_sources=c['runtime']['source_members'],
         dependency_sources=c.get('dependency_sources', []), native_reference=c['native_reference'],
-        native_hparams=member(c['native_hparams']), launchers=[member(attempt / (r + '.sh')) for r in ROLES],
+        native_hparams=member(c['native_hparams']), launchers=[member(attempt / (r + '.sh')) for r in roles],
         owner=getpass.getuser(), host='server4', session=SESSION, resources=c['resources'],
         noCP=True, exact_resume='NOT_AVAILABLE', run_instance=c['run_instance'],
         profiles_sha256=__import__('project.run_scripts.jlz_interference_l1',fromlist=['digest']).digest(c['arm_profiles']),
-        flow='PRICE integrated B1 assertions and20 -> afterany FLAT/REVERSE cold20 up to2GPU -> CPU afterany all exact parents'))
+        flow=('PRICE integrated B1 assertions and20 -> afterany FLAT/REVERSE cold20 up to2GPU -> CPU afterany all exact parents'
+              if tuple(roles)==ROLES else 'USER repair59721 PRICE-only cold20 -> CPU afterany; controls not resubmitted; original job disposition in separate USER cancellation receipt')))
     return verify_frozen(attempt)
 
 

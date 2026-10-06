@@ -19,6 +19,14 @@ def _lengths(norms,weights,caps,beta):
         at_lo=[min(d,max(n-lo*w,0.)) for n,w,d in zip(norms,weights,caps)]
         spend_lo=sum(w*t for w,t in zip(weights,at_lo))
         if spend_lo==beta:return at_lo,lo,True,'EXACT_BREAKPOINT_MINIMUM_TAU'
+        # The real PRICE B1 failure has a flat spend interval at beta. FP64
+        # products can put both adjacent algebraic roots a few ULP outside
+        # their intervals. Accept the first knot only under the already sealed
+        # primal/complementarity checks; do not enlarge a tolerance, change
+        # the root formula, or rescale the returned block lengths.
+        if (abs(spend_lo-beta)<=1e-10*max(1,beta)
+                and abs(lo*(spend_lo-beta))<=1e-10*max(1,lo*beta)):
+            return at_lo,lo,True,'BREAKPOINT_FP64_KKT_MINIMUM_TAU'
         if ix+1==len(knots):
             if beta==0:return at_lo,lo,True,'ZERO_BUDGET_FINAL_BREAKPOINT'
             continue
