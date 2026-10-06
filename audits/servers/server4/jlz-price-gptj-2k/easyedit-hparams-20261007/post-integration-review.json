@@ -1,0 +1,15 @@
+{
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "integration_base_preserved": "b8c542ceabdfe20f7da6e2b4495f645859620d67",
+  "own_source_vs_execution_commit_diff": "EMPTY",
+  "integration_worktree": "DEDICATED_NON_MAIN_CLEAN",
+  "diff_check": "NOT_PASS_STYLE_WARNING_ONLY",
+  "exact_warning": "project/run_scripts/jlz_price_gptj/price.py:146: new blank line at EOF",
+  "resolution": "Preserve already frozen/submitted bytes. One final blank line is inert Python formatting, not a numeric/method defect. No hotpatch/restart/retry to remove it.",
+  "generic_access_check": "NOT_PASS_EXIT7_EXACT_RUN_PREFIX; documented explicit own-task authority exception",
+  "scientific_GPU_completion": "NOT_OBSERVED",
+  "protected60001_and_Llama_mutations": 0,
+  "source_raw_config_KEEP": true,
+  "agent_monitoring_active": false,
+  "automatic_retry": false
+}
