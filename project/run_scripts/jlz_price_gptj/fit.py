@@ -31,7 +31,8 @@ def fit(a,entry,arm_profile,events=None,built0=None,price=None,event_sink=None):
     controller=RequestController(torch.stack([entry['anchors'][l] for l in sites]),anchor_star,sites,
         price['effective_pi'],n_exp=arm_profile.get('n_exp',4),grace=arm_profile.get('K_grace',12),threshold=arm_profile.get('tau_F',.05),c=arm_profile['c'],
         beta_base=arm_profile['beta_base'],cap_mode=arm_profile['cap_mode'],beta_max_native_scale=arm_profile['beta_max_native_scale'])
-    optimizer=EfficiencyAdamAbs(R);logical_backwards=updates=candidates=0;digest=hashlib.sha256()
+    optimizer=EfficiencyAdamAbs(R,lr=arm_profile['lr'],eps=arm_profile['eps'],betas=arm_profile['betas'])
+    logical_backwards=updates=candidates=0;digest=hashlib.sha256()
     optimizer_seconds=projection_seconds=pullback_seconds=build_seconds=subject_seconds=telemetry_seconds=io_seconds=0.
     for k in range(25):
         result=engine.evaluate(R,k,active_previous=controller.active,terminal=k==24,capture=True,

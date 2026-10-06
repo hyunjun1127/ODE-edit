@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "config_sha256": "c93fdcab97b0686fce3ae5d2b98caacc6ed0a9306807516f4325f21061c4e00c",
+  "purpose": "new hparam source + compact cancellation/submission/report, not scientific completion",
+  "members": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
+      "bytes": 7417,
+      "sha256": "9c0439d674e4634576e621e99d0a0558e9ab19741090876a24f1e4d33aaeaf0f",
+      "inode": 136135924,
+      "mtime_ns": 1791319349818387500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/experiment-reports/servers/server4/jlz-price-gptj-2k/current-cell-ledger.csv",
+      "bytes": 4248,
+      "sha256": "ba776b686dbc3c26c2d7e552c9086d453ecf0b5949760a197c95d739a789269b",
+      "inode": 136137617,
+      "mtime_ns": 1791319349972387600
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/tasks/status/jlz-price-gptj-2k/server4.json",
+      "bytes": 1575,
+      "sha256": "94ccf673b12df2620daf21ff3e0860489cb6ea87203b290b42f30e12870444d2",
+      "inode": 136135225,
+      "mtime_ns": 1791319291077364700
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/messages/acks/server4/jlz-price-gptj-easyedit-hparams.json",
+      "bytes": 895,
+      "sha256": "ba3c0fe7c37fdb75b5d609103541f19a99ff0306c2164d4de9eff2e45282ec20",
+      "inode": 136137233,
+      "mtime_ns": 1791319048840287500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/messages/server-heads/server4/jlz-price-gptj-easyedit-hparams.json",
+      "bytes": 941,
+      "sha256": "9638406d9fff97762abbb512622cc0b2d656a8ec7bcc8027cb91bdd6c40785ad",
+      "inode": 136137618,
+      "mtime_ns": 1791319350009387500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/runs/jlz-price-gptj-2k/easyedit-hparams-20261007/submission.json",
+      "bytes": 2523,
+      "sha256": "71203657b4bda08b1cd147491dfa86a1c836e40dfaf600b6263aebea02a12368",
+      "inode": 136137615,
+      "mtime_ns": 1791319291074364700
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/audits/servers/server4/jlz-price-gptj-2k/easyedit-hparams-20261007/submission-receipt.json",
+      "bytes": 8231,
+      "sha256": "47f1d9b3615a455bb0c0990ab1d30a0b3df7ef3529afe5944248e118f2bc556e",
+      "inode": 136137612,
+      "mtime_ns": 1791319291071364600
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/audits/servers/server4/jlz-price-gptj-2k/easyedit-hparams-20261007/publication-scope-exception.json",
+      "bytes": 653,
+      "sha256": "852f2882f09eefb1d1d137aa295a4250823d07ff69d54a79d2048162273f258c",
+      "inode": 136137238,
+      "mtime_ns": 1791319436126423000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/__init__.py",
+      "bytes": 82,
+      "sha256": "b2f8a843c92d7b6945a0fb9cf6cbeb80b1ce58060c9caedc95c19f790774d827",
+      "inode": 136135491,
+      "mtime_ns": 1791312598135272700
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/adapter.py",
+      "bytes": 6141,
+      "sha256": "6115669f3688d9c2f883d7927e2adde05625f73f1ad3682f1b9ad508bfea9b84",
+      "inode": 136135269,
+      "mtime_ns": 1791318993339274500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/admission.py",
+      "bytes": 1281,
+      "sha256": "f3960c38efb86c54898d7c0866bab6ec29f14dd509ed076f95291c8b46eb04f6",
+      "inode": 136135487,
+      "mtime_ns": 1791312556701372400
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/alpha_geometry.py",
+      "bytes": 4490,
+      "sha256": "f1a060ad42eebd03a4b93f4328aaebd6682ddedb16fb160dfa2e5a47837599a6",
+      "inode": 136135300,
+      "mtime_ns": 1791318945780265000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/alpha_telemetry.py",
+      "bytes": 9122,
+      "sha256": "ddf56b2c2ca7491febe89a454f84ebafcb0f86c41499957601cc3bb73c2bb085",
+      "inode": 136135483,
+      "mtime_ns": 1791312410127746800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/builder.py",
+      "bytes": 3437,
+      "sha256": "7e37cb4652817d20c59683c587d1134e8ea5caf257db8b4ed044fd7dcabb9a2d",
+      "inode": 136135287,
+      "mtime_ns": 1791312664886117000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/collect.py",
+      "bytes": 48216,
+      "sha256": "e5b1103154cf4286fb02894267ccdf18f308ed8bdd5e95e7d4ab325b73233018",
+      "inode": 136135480,
+      "mtime_ns": 1791319048834287400
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/common.py",
+      "bytes": 1392,
+      "sha256": "03f009a039e5cdc67f0528452290b061d057217dfecc67eb05380b4b93db619d",
+      "inode": 136135290,
+      "mtime_ns": 1791318945778265000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/comparison.py",
+      "bytes": 3136,
+      "sha256": "e64fa28835efa7ee38d7e928c2e3eae1bf7c2cc9713c04df4fb6db9b02d2373d",
+      "inode": 136135509,
+      "mtime_ns": 1791313418447609900
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/comparison_publish.py",
+      "bytes": 5124,
+      "sha256": "936f2b85366848b3f818aa9dde2c09d3628334f0ae410bca24133a5c35ea880e",
+      "inode": 136135865,
+      "mtime_ns": 1791313418446610000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/dispatch.py",
+      "bytes": 659,
+      "sha256": "db26d88ffd8707b0dd0de74d86a4766dfe6a5d65c941a157f7c8e661aa6bcb9a",
+      "inode": 136135297,
+      "mtime_ns": 1791318971132269800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/download.py",
+      "bytes": 2184,
+      "sha256": "d6123274022bac17eb2ac20ed8ba15855612102e295bd3b3f4f3b64e42da31e8",
+      "inode": 136135250,
+      "mtime_ns": 1791309044435147000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/engine.py",
+      "bytes": 1144,
+      "sha256": "0ce8af61d1e5859682e6c2a8cf15c115b8f2b471ad4b9b51b02e95d1aeb7d266",
+      "inode": 136135288,
+      "mtime_ns": 1791313032958338000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/entry.py",
+      "bytes": 4940,
+      "sha256": "b2a996e2f9a60b6b6f16388dcbbac94af523f10a98313028e2ed809d78a2b16a",
+      "inode": 136135286,
+      "mtime_ns": 1791312664884117000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/fit.py",
+      "bytes": 7573,
+      "sha256": "d86caac0fbe8268182fe3353f75b9cd727360341149bb60818b5b5ce8ffbe9e3",
+      "inode": 136135289,
+      "mtime_ns": 1791318993342274300
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/geometry.py",
+      "bytes": 532,
+      "sha256": "53507eee749396b5fc7084f6e57cc33b4edbd8c80e8be33268af4a1ad6a9931f",
+      "inode": 136135298,
+      "mtime_ns": 1791318971129269800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/inputs.py",
+      "bytes": 4243,
+      "sha256": "e2d82a73844390887ea34c1d62e2e2fb3790a4444e10b3433e0c21d212b25604",
+      "inode": 136135481,
+      "mtime_ns": 1791312664882117000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/memit_telemetry.py",
+      "bytes": 9088,
+      "sha256": "11e41d9262ba3a14b04bce7bee37d2e4bca4757f7640421113e5d33c088d5660",
+      "inode": 136135439,
+      "mtime_ns": 1791312410025747200
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/observer.py",
+      "bytes": 3607,
+      "sha256": "64dc0ce852491edce1c247c8d610289f6d6e1c1e72105ecd94adf257bb413b15",
+      "inode": 136135292,
+      "mtime_ns": 1791313033062338000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/preflight.py",
+      "bytes": 3688,
+      "sha256": "8dfa742e4af4e06030b603ebe2232921f8822fc7b5e0b095e9ccab76a6daf4db",
+      "inode": 136135492,
+      "mtime_ns": 1791318945781265000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/prepare.py",
+      "bytes": 11240,
+      "sha256": "554f607e64d0a8160518c09659e9d8935be66584381405f4dcb72381b71777e7",
+      "inode": 136135482,
+      "mtime_ns": 1791318993345274400
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/price.py",
+      "bytes": 10650,
+      "sha256": "82f1922592feed586a97ba4a72bce7964cce3337aa5b07e51ac8a4401a963cd5",
+      "inode": 136137216,
+      "mtime_ns": 1791318971265269800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/profile.py",
+      "bytes": 495,
+      "sha256": "cb5688f0a9f3d78857eb78cf4a326fd0a09b679319c0059642fc4981851aa109",
+      "inode": 136135299,
+      "mtime_ns": 1791319048836287500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/replace_pending.py",
+      "bytes": 12228,
+      "sha256": "974721afc0df21e67a41ebd9ff5f274d1d25544d7653fd2f5e96241c9a61e82c",
+      "inode": 136137207,
+      "mtime_ns": 1791319096232300000
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/review_tracking.py",
+      "bytes": 6484,
+      "sha256": "00b25702a251645ae125a6c20b1cb8ea064080913917fe9ee9e608eeb3bbc0a3",
+      "inode": 136135913,
+      "mtime_ns": 1791314765411238400
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/run.py",
+      "bytes": 23869,
+      "sha256": "76a3a3509be7bd20fbb0039f2e328b3a40b1bd84f3ea9dd0a85bd9ec3ad1f6f3",
+      "inode": 136135445,
+      "mtime_ns": 1791318971136269800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/scores.py",
+      "bytes": 2286,
+      "sha256": "7cffa1e36a8161afcc4cc4e7dd474c55b4738ab73d7aaa803bc7025af27e3e68",
+      "inode": 136135293,
+      "mtime_ns": 1791313033170337800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/storage.py",
+      "bytes": 14153,
+      "sha256": "f815201c971d0f985b217ba355703f97ba04bd37cd2152ba9fc4ee8dcfe5f4ff",
+      "inode": 136135291,
+      "mtime_ns": 1791313033279337500
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/submit.py",
+      "bytes": 20299,
+      "sha256": "251f4604c3ce27f64f332fc7fb08138cf9986dcc1d214d4ca442a845084f633e",
+      "inode": 136135486,
+      "mtime_ns": 1791319048839287300
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/test_tracking_identity.py",
+      "bytes": 4561,
+      "sha256": "461a44382882727e769b9ebcc41f43052c7cb5d99deaeef1751f069448d49257",
+      "inode": 136135868,
+      "mtime_ns": 1791314348579251200
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/tracking.py",
+      "bytes": 4804,
+      "sha256": "e61101b5749e1ae76dd40ce7c9c12bb8d8f9ae864773671f2b4c323578e16a55",
+      "inode": 136135861,
+      "mtime_ns": 1791314187898156800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/tracking_readback.py",
+      "bytes": 2010,
+      "sha256": "1ebd14d3ada23bc29bf0bb8693aa802cc78a6f0603e0a31e2e34d3334862ba49",
+      "inode": 136135916,
+      "mtime_ns": 1791314187898156800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/project/run_scripts/jlz_price_gptj/w0.py",
+      "bytes": 3333,
+      "sha256": "22197dd86b0ec56b28f54927b51f358205ea9bb6cb481be88c005cec5e266777",
+      "inode": 136135294,
+      "mtime_ns": 1791312271483140000
+    }
+  ],
+  "raw_or_model_or_checkpoint_or_secret": false
+}

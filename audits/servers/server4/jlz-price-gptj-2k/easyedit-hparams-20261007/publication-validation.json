@@ -1,0 +1,32 @@
+{
+  "status": "CPU_PUBLICATION_BINDING_AND_LINKS_CHECKED",
+  "execution_source": "ae507064421876af6fbf04231cf43abcb2cb0a81",
+  "config_sha256": "c93fdcab97b0686fce3ae5d2b98caacc6ed0a9306807516f4325f21061c4e00c",
+  "source_files": 33,
+  "cell_ledger_rows": 12,
+  "GPTJ_rows": 6,
+  "expected_H_per_arm": 120,
+  "expected_H_total": 720,
+  "local_links": [
+    "../../../../audits/servers/server4/jlz-price-gptj-2k/easyedit-hparams-20261007/submission-receipt.json",
+    "../../../../runs/jlz-price-gptj-2k/easyedit-hparams-20261007/submission.json",
+    "../../../../tasks/status/jlz-price-gptj-2k/server4.json",
+    "current-cell-ledger.csv",
+    "../price-model-runs-tracking/report-ko.md"
+  ],
+  "source_lock_launcher_SHA": true,
+  "fresh_existing_asset_stat": true,
+  "config_source_profile_and_reducer_identity": true,
+  "source_reviewers": [
+    "gptj_hparam_paths",
+    "gptj_pending_replace"
+  ],
+  "actual_GPU": "NOT_OBSERVED",
+  "new_forward": 0,
+  "new_fit": 0,
+  "new_scheduler_query": 0,
+  "noCP": true,
+  "old_archives_KEEP": true,
+  "unrelated_untracked_excluded": "audits/servers/server4/wandb-model-views/publish_qwen_references.py",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

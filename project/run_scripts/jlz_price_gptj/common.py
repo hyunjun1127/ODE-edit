@@ -9,7 +9,7 @@ ARMS=('CAP075','CAP100','FREE100')
 MODELS=('MEMIT','ALPHA')
 CELLS=tuple(m+'_'+a for m in MODELS for a in ARMS)
 def history_expected(arm):
-    require(arm in ARMS,'ARM');return 100
+    require(arm in ARMS,'ARM');return 20*6
 
 def cell_config(config,cell):
     import copy

@@ -23,7 +23,7 @@ def product(matrix,thin):
     return out[:,0] if vector else out
 
 @torch.no_grad()
-def prior(path,history,device,binding,layer):
+def prior(path,history,device,binding,layer,lambda_alpha):
     started=time.monotonic();N=projector(binding['path'])[binding['physical_layers'].index(layer)]
     require(tuple(N.shape)==tuple(history.shape) and history.dtype==torch.float32
         and history.device.type=='cpu','ALPHA_HISTORY_PROJECTOR_DIMENSION')
@@ -34,7 +34,8 @@ def prior(path,history,device,binding,layer):
     C0=torch.from_numpy(raw);C0.div_(int(count))
     require(bool(torch.isfinite(C0).all()),'ALPHA_C0_NONFINITE')
     Ng=N.to(device=device,dtype=torch.float64);Hg=history.to(device=device,dtype=torch.float64)
-    A0=Ng@Hg;A0.diagonal().add_(1.)
+    require(math.isfinite(lambda_alpha) and lambda_alpha==10.,'GPTJ_NATIVE_ALPHA_L2')
+    A0=Ng@Hg;A0.diagonal().add_(lambda_alpha)
     require(bool(torch.isfinite(A0).all()),'ALPHA_A0_NONFINITE')
     asym=0.
     for i in range(0,A0.shape[0],128):
@@ -43,13 +44,13 @@ def prior(path,history,device,binding,layer):
     LU,pivots,info=torch.linalg.lu_factor_ex(A0)
     require(int(info)==0 and bool(torch.isfinite(LU).all()),'ALPHA_A0_LU_FAILURE')
     del A0
-    metadata=dict(writer='alphaedit',lambda_alpha=1.,projector_sha256=binding['sha256'],
+    metadata=dict(writer='alphaedit',lambda_alpha=lambda_alpha,projector_sha256=binding['sha256'],
         physical_layer=layer,projector_index=binding['physical_layers'].index(layer),
         projector_cutoff=.02,backend='nonsymmetric_A0_LU_once_per_layer_batch',
         asymmetry_max=asym,symmetrized=False,jitter=0,C0_diagnostic_scale=1.,
         C0_normalization='native_FP32_mom2/count_then_FP64',C0_count=int(count),
         seconds=time.monotonic()-started,history='CPU_FP32_rewrite_only')
-    return dict(N=N,H=history,C0=C0,LU=LU,pivots=pivots,device=device,
+    return dict(N=N,H=history,C0=C0,LU=LU,pivots=pivots,device=device,lambda_alpha=lambda_alpha,
         asymmetry_max=asym,metadata=metadata),metadata
 
 @torch.no_grad()
@@ -63,7 +64,7 @@ def ridge(K,prior):
     # Actual original operator, not a symmetric surrogate or energy metric.
     qcpu=Q.cpu();kcpu=K.cpu();nkcpu=NK.cpu()
     hq=product(prior['H'],qcpu)
-    aq=qcpu+product(prior['N'],hq+kcpu@(kcpu.T@qcpu))
+    aq=prior['lambda_alpha']*qcpu+product(prior['N'],hq+kcpu@(kcpu.T@qcpu))
     absolute=float((aq-nkcpu).norm());rhs=float(nkcpu.norm())
     relative=None if rhs==0 else absolute/rhs
     require(bool(torch.isfinite(Q).all()) and (absolute<=1e-8 if rhs==0 else relative<=1e-8),
@@ -71,7 +72,7 @@ def ridge(K,prior):
     knorm=kcpu.norm(dim=0);nknorm=nkcpu.norm(dim=0)
     M=Q.T@K
     metadata=dict(prior['metadata'],actual_B=B,relative_residual=relative,residual_absolute=absolute,
-        residual_rhs_NK_norm=rhs,residual_limit=1e-8,operator='Q+N(HQ+K(K.TQ))=NK',
+        residual_rhs_NK_norm=rhs,residual_limit=1e-8,operator='lambda_alpha*Q+N(HQ+K(K.TQ))=NK',
         factor_reused=True,thin_solve_shape=[B,B],M_diagonal=M.diagonal().cpu().tolist(),
         projected_key_norm=nknorm.tolist(),key_norm=knorm.tolist(),
         projected_key_normratio=[float(nknorm[i]/knorm[i]) if knorm[i]>0 else None for i in range(B)],

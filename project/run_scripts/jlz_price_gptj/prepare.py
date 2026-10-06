@@ -36,20 +36,20 @@ def prepare(out,attempt,preflight):
     N=projector(project['path']);require(tuple(N.shape)==(6,16384,16384),'PROJECTOR_PHYSICAL_LAYER_SCHEMA')
     project.update(shape=list(N.shape),dtype=str(N.dtype),physical_layers=list(range(3,9)),cutoff=.02)
     del N;projector.cache_clear();assets.append(project)
-    stats={str(l):str(EASY/f'examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.{l}.mlp.fc_out_float32_mom2_100000.npz') for l in range(4,9)}
+    stats={str(l):str(EASY/f'examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.{l}.mlp.fc_out_float32_mom2_100000.npz') for l in range(3,9)}
     assets.extend(member(p) for p in stats.values());assets.append(member(old['stream']))
     # mmap base checkpoint only; no model object/forward. Hash selected cold
     # weights; no saved copy or new tensor checkpoint is created.
     sd=torch.load(model/'pytorch_model.bin',map_location='cpu',weights_only=True,mmap=True)
     W={};params=0
     for t in sd.values():params+=t.numel()
-    for l in range(4,9):
+    for l in range(3,9):
         t=sd[f'transformer.h.{l}.mlp.fc_out.weight'];require(tuple(t.shape)==(4096,16384),'NATIVE_WEIGHT_SHAPE')
         W[str(l)]=tensor_sha(t.float())
     del sd;gc.collect()
     h=hashlib.sha256(str(((16384,16384),'torch.float32')).encode());z=bytes(8*1024**2)
     for _ in range(128):h.update(z)
-    cold=dict(W=W,H={str(l):h.hexdigest() for l in range(4,9)})
+    cold=dict(W=W,H={str(l):h.hexdigest() for l in range(3,9)})
     runtime=runtime_binding();runtime['source_members'].append(dict(module='transformers.models.gptj.modeling_gptj',
         **member(importlib.import_module('transformers.models.gptj.modeling_gptj').__file__)))
     runtime['source_root_sha256']=digest(runtime['source_members'])
@@ -64,11 +64,11 @@ def prepare(out,attempt,preflight):
         rw=r['requested_rewrite'];text=rw['prompt'].format(rw['subject'])+' '+rw['target_new']['str']
         widths.append(len(tok.encode(text))+32)
     T=max(sum(widths[i:i+100])*7 for i in range(0,2000,100));G=1024**3;d=16384;hsize=4096
-    host=dict(history_and_rollback=2*5*d*d*4/G,raw_A=5*d*d*8/G,
-        selected_weight_rollback=5*hsize*d*4/G,entry_and_boundaries=5*(d+2*hsize)*4*T/G,
+    host=dict(history_and_rollback=2*6*d*d*4/G,raw_A=6*d*d*8/G,
+        selected_weight_rollback=6*hsize*d*4/G,entry_and_boundaries=6*(d+2*hsize)*4*T/G,
         C0_read_transient=2*d*d*4/G,teacher_and_misc=7.,wandb_sidecar=4.)
-    gpu=dict(model=params*4/G,factors=5*d*d*8/G,factor_transient=4*d*d*8/G,
-        entry_candidate_weights=2*5*hsize*d*4/G,owner_checkpoint_head_workspace=20.)
+    gpu=dict(model=params*4/G,factors=6*d*d*8/G,factor_transient=4*d*d*8/G,
+        entry_candidate_weights=2*6*hsize*d*4/G,owner_checkpoint_head_workspace=20.)
     # Alpha replaces CPU rawA with FP32 C0 and mmap projector; <= MEMIT rawA.
     peak=max(sum(host.values()),params*4/G+8)
     require(peak<58 and sum(gpu.values())<95,'RESOURCE_BLOCKED_GPTJ_MEMORY_ESTIMATE')
@@ -86,8 +86,8 @@ def prepare(out,attempt,preflight):
         profiles={a:arm_profile(old['models']['LLAMA']['profiles']['CAP075'],a,
             'memit' if writer=='MEMIT' else 'alphaedit') for a in ARMS}
         if writer=='ALPHA':
-            for p in profiles.values():p.update(lambda_alpha=1.,projector_sha256=project['sha256'],projector_cutoff=.02,
-                lambda_C=0.,diagnostic_C0_scale=1.,factor_backend='A0_I_plus_NH_LU')
+            for p in profiles.values():p.update(lambda_alpha=10.,projector_sha256=project['sha256'],projector_cutoff=.02,
+                lambda_C=0.,diagnostic_C0_scale=1.,factor_backend='A0_lambdaI_plus_NH_LU')
         models[writer]=dict(model=str(model),model_asset_identity=digest(assets),assets=assets,
             stats=stats,projector=project,cold_W0_H0=cold,profiles=profiles,resource_binding=budget,
             packs=[],contexts=None,W0_reuse=dict(status='NOT_AVAILABLE_BEFORE_FIRST_ARM'),
@@ -109,8 +109,8 @@ def prepare(out,attempt,preflight):
             reserve_bytes=storage['reserve_bytes'],remaining_existing_Llama_reserve_bytes=existing,
             combined_reserve_bytes=storage['reserve_bytes']+existing,free_bytes=free,
             free_inodes=os.statvfs(LOCAL).f_favail,memory_plans={w:budget for w in MODELS},ETA='NOT_MEASURED'),
-        hparams_policy=dict(native=hp,ours_overrides=dict(layers=[4,5,6,7,8],lr=.1,Alpha_lambda=1.),
-            reason='동일 ours 방법 유지; native architecture/context/stat/lookup 경로만 결속'))
+        hparams_policy=dict(native=hp,effective=dict(layers=[3,4,5,6,7,8],lr=.5,Alpha_lambda=10.),
+            reason='USER GPT-J EasyEdit hparams 채택; PRICE method/cap/base 유지'))
     write(out,c)
     return dict(config=str(out),model_SHA_checked=True,context='FIRST_REAL_ARM_NATIVE_PREPARATION',
         memory=budget,actual_B1='NOT_OBSERVED',cells=list(CELLS))
@@ -130,7 +130,7 @@ def finalize(config,preflight,out,attempt,tracking_review=None):
     c['resources'].update(remaining_existing_Llama_reserve_bytes=existing,
         combined_reserve_bytes=existing+c['storage']['reserve_bytes'],free_bytes=free)
     for mc in c['models'].values():
-        budget=mc['resource_binding'];budget['host_parts_GiB']['unused_projector_slice_conservative']=1.
+        budget=mc['resource_binding'];budget['host_parts_GiB']['unused_projector_slice_conservative']=0.
         budget['host_peak_GiB']=sum(budget['host_parts_GiB'].values())
         require(budget['host_peak_GiB']<58,'RESOURCE_BLOCKED_HOST_ESTIMATE')
     c['resources']['memory_plans']={w:c['models'][w]['resource_binding'] for w in MODELS}

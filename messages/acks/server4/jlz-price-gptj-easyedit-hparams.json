@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-EASYEDIT-HPARAMS-20261007",
+  "task_id": "jlz-price-gptj-2k",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "server": "server4",
+  "cwd": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree",
+  "branch": "codex/server4-price-gptj-2k",
+  "user_quote": "gpt-j run들 hparam을 easyedit에서 참고하지 않은 것 같은데 참고해서 pending 중인 job들 모두 취소하고 run 다시 올려라.",
+  "accepted": true,
+  "stage_at_acceptance": "REPAIRING_NOT_RESUBMITTED",
+  "explicit_hparam_override": {"layers": [3, 4, 5, 6, 7, 8], "lr": 0.5, "AlphaEdit_L2": 10},
+  "replacement_scope": "Only verified never-started GPT-J pending six cells and their collector; new cold attempt. Old source/raw/config retained.",
+  "protected": [60001, 60102, 60103, 60104, 60105, 60106, 60107, 60108],
+  "Qwen_resume": false,
+  "automatic_retry": false
+}

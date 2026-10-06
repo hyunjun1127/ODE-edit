@@ -53,8 +53,8 @@ def matrix(value,L,B,name):
 
 def validate_price(record,profile,B,batch):
     if profile['writer']=='alphaedit':
-        from project.run_scripts.jlz_price_alpha_writer.collect import validate_price as alpha_validate
-        return alpha_validate(record,profile,B,batch)
+        require(record['writer']=='alphaedit' and record['lambda_alpha']==profile['lambda_alpha']
+            and record['projector_sha256']==profile['projector_sha256'],'ALPHA_PRICE_PROJECTOR_IDENTITY')
     finite(record);L=len(profile['eligible_layers'])
     require(record['B']==B and record['layers']==profile['eligible_layers'] and record['arm']==profile['arm']
         and record['batch']==batch and record['price_extra_model_calls']==record['price_extra_solves']==0
@@ -108,6 +108,10 @@ def validate_price(record,profile,B,batch):
                 [(layer,r,j) for layer in profile['eligible_layers'] for r,j in ((0,1),(1,0))],'ACTUAL_B1_ALL_LAYER_FIXED_LOO_PAIRS')
         for row in loo['pairs']:
             require(row['raw_A_unsymmetrized'] and row['orientation']=='q.T@k_recipient','RAW_A_LOO_ORIENTATION')
+            if profile['writer']=='alphaedit':
+                require(row['writer']=='alphaedit' and row['lambda_alpha']==profile['lambda_alpha']
+                    and row['operator']=='(lambda_alpha*I+NH)q+NKminus(Kminus.Tq)=Nkr'
+                    and row['normalization']=='original_unprojected_key_norm','ALPHA_NOT_MEMIT_LOO')
             if row['key_norm']==0:require(row['residual_absolute']<=1e-8,'LOO_ZERO_KEY_RESIDUAL')
             else:
                 close(row['residual_relative'],row['residual_absolute']/row['key_norm'],'LOO_RELATIVE_DEFINITION')
@@ -120,11 +124,11 @@ def validate_price(record,profile,B,batch):
     return anchors,caps,effective
 
 
-def validate_projection(p,caps,weights,beta,B):
+def validate_projection(p,caps,weights,beta,B,profile):
     L=len(weights);pre=matrix(p['pre_norm'],L,B,'PRE_NORMS')
     target=matrix(p['fp64_projected_norm'],L,B,'FP64_NORMS');stored=matrix(p['post_norm'],L,B,'STORED_NORMS')
     require(p['coordinate']=='absolute_R_Euclidean' and not p['postcast_repair'] and not p['moment_reset']
-        and p['lr']==.1 and p['eps']==1e-8,'NATIVE_ADAM_NO_RESCUE')
+        and p['lr']==profile['lr'] and p['eps']==profile['eps'],'NATIVE_ADAM_NO_RESCUE')
     require((p['capped_mask'] is None)==(caps is None) and (p['local_excess'] is None)==(caps is None),'UNCAPPED_NULL_FIELDS')
     for r in range(B):
         tau=p['tau'][r];require(tau>=0,'DUAL_NONNEGATIVE');close(p['beta'][r],beta[r],'SAME_BETA')
@@ -222,7 +226,7 @@ def validate_fit(fit,profile,events,price,B=100):
             and projection['adam_updates']==expected_t,'OWN_GRACE12_BEFORE13_EXPANSION')
         expectedbeta=[price['beta_max'][r] if expected_e[r]==4 else price['beta_base'][r]*math.exp(expected_e[r]/4*math.log(price['beta_max'][r]/price['beta_base'][r])) for r in range(B)]
         for r in range(B):close(after['beta'][r],expectedbeta[r],'POST_UPDATE_BETA')
-        validate_projection(projection,caps,weights,after['beta'],B)
+        validate_projection(projection,caps,weights,after['beta'],B,profile)
         for r in range(B):
             if not mask[r]:require(all(projection['post_norm'][l][r]==current_norm[l][r] for l in range(len(anchors))),'INACTIVE_OWNER_STATE_UNCHANGED')
         oldactive,oldt,olde,oldbeta=mask,expected_t,expected_e,after['beta']
@@ -319,7 +323,7 @@ def _arm_review(reader,attempt,c,lock,arm,records,identities,progress):
             and writer['no_double_add'] and writer['candidate']==fit['terminal_candidate']==commit['accepted_candidate'],'LAST_EVALUATED_EXACT_COMMIT')
         require(writer['writer']==profile['writer'],'COMMIT_WRITER_IDENTITY')
         if profile['writer']=='alphaedit':
-            require(writer['lambda_alpha']==1. and writer['projector_sha256']==c['projector']['sha256'],'ALPHA_COMMIT_PROJECTOR')
+            require(writer['lambda_alpha']==profile['lambda_alpha'] and writer['projector_sha256']==c['projector']['sha256'],'ALPHA_COMMIT_PROJECTOR')
         require(writer['weight_hashes']==commit['after']['W'] and writer['history']==commit['history'],'PAYLOAD_AND_H_IDENTITIES')
         capture=reader.json(folder/'entry-capture.json');require(capture['fresh_capture'] and capture['H_entry']==entry['state']['H']
             and capture['anchor_layer']==8 and capture['eligible_layers']==profile['eligible_layers'],'FRESH_TEACHER_ANCHOR_FACTOR')
@@ -391,7 +395,7 @@ def arm_review(reader,attempt,c,lock,arm,records,identities):
     except Exception as error:
         commits=progress.get('commits',[])
         result=dict(arm=arm,status='CPU_REVIEW_TECHNICAL_BLOCKED_PREFIX_ONLY',commits=len(commits),requests=100*len(commits),
-            expected=dict(commits=20,requests=2000,joins=19,history_appends=100),
+            expected=dict(commits=20,requests=2000,joins=19,history_appends=history_expected(arm.split('_')[-1])),
             actual=dict(joins=max(0,len(commits)-1),history_appends=sum(v['history_appends'] for v in commits)),
             counters=progress.get('counters',dict(builds=0,subject_forwards=0,subject_backwards=0,request_updates=0)),
             metrics=progress.get('metrics',[]),paired=progress.get('paired',[]),realization=progress.get('realization',[]),
@@ -498,7 +502,7 @@ def _collect(attempt,out,accounting):
         execution_arms=list(selected),excluded_arms=['FREE075','FLAT','REVERSE'],
         arms=arms,standalone_qualification=False,toy_runs=0,cross_arm_paired=cross,actual=dict(commits=sum(v['commits'] for v in arms.values()),
         history_appends=sum(v['actual']['history_appends'] for v in arms.values()),joins=sum(v['actual']['joins'] for v in arms.values())),
-        expected=dict(commits=20*len(selected),joins=19*len(selected),history_appends=100*len(selected)),accounting=parents,
+        expected=dict(commits=20*len(selected),joins=19*len(selected),history_appends=120*len(selected)),accounting=parents,
         CPU_review='Independent immutable-row arithmetic/token identity/state linkage, no target-model replay',
         source_review='Static/import only; no toy or numerical qualification; actual B1 c0 and normal proposal assertions are in the trajectory',
         static_price_verification='Scalar raw-score/floor/normalization/permutation/beta/projector arithmetic; M hashes are identity evidence, not tensor replay',

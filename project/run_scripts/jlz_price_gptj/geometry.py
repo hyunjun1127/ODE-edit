@@ -4,7 +4,7 @@ from . import alpha_geometry
 
 def prior(a,path,history,layer):
     if a.profile['writer']=='alphaedit':
-        return alpha_geometry.prior(path,history,a.device,a.alpha_projector,layer)
+        return alpha_geometry.prior(path,history,a.device,a.alpha_projector,layer,a.profile['lambda_alpha'])
     return memit.prior(path,history,a.device,a.profile['lambda_C'])
 
 def ridge(a,K,factor):

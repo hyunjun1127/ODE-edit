@@ -176,7 +176,7 @@ def commit_measure(a,entry,H,plan,out):
         record_only=True,not_a_payload_or_gradient_exactness_claim=True,extra_actual_native_forward_groups=len(entry['groups']))
     write(out/'subject-alltoken-gap.json',gap)
     receipt=dict(candidate=built['candidate'],accepted_weight_copy_exact=True,terminal_last_evaluated_not_best=True,
-        writer=a.profile['writer'],projector_sha256=a.alpha_projector['sha256'] if a.profile['writer']=='alphaedit' else None,lambda_alpha=1. if a.profile['writer']=='alphaedit' else None,
+        writer=a.profile['writer'],projector_sha256=a.alpha_projector['sha256'] if a.profile['writer']=='alphaedit' else None,lambda_alpha=a.profile['lambda_alpha'] if a.profile['writer']=='alphaedit' else None,
         weight_hashes=weight_hashes,before=before,after=state(a,H),history_appends=len(a.sites),history=history,
         keychecks=keychecks,realization=member(out/'realization.json'),actual_gap=member(out/'subject-alltoken-gap.json'),
         no_resolve=True,no_double_add=True,seconds=time.monotonic()-started,
