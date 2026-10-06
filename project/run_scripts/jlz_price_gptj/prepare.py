@@ -115,7 +115,7 @@ def prepare(out,attempt,preflight):
     return dict(config=str(out),model_SHA_checked=True,context='FIRST_REAL_ARM_NATIVE_PREPARATION',
         memory=budget,actual_B1='NOT_OBSERVED',cells=list(CELLS))
 
-def finalize(config,preflight,out):
+def finalize(config,preflight,out,attempt):
     c=json.loads(Path(config).read_text());p=json.loads(Path(preflight).read_text())
     require(c['task_id']==p['task']==TASK and p['passed'] and p['numeric_tests']==0,'FINAL_STATIC_SOURCE')
     for row in p['source']:verify(row)
@@ -134,10 +134,15 @@ def finalize(config,preflight,out):
         budget['host_peak_GiB']=sum(budget['host_parts_GiB'].values())
         require(budget['host_peak_GiB']<58,'RESOURCE_BLOCKED_HOST_ESTIMATE')
     c['resources']['memory_plans']={w:c['models'][w]['resource_binding'] for w in MODELS}
+    # Bind reviewed final evaluator bytes, including formatting-only changes.
+    c['dependency_sources']=[member(r['path']) for r in c['dependency_sources']]
+    for mc in c['models'].values():mc['evaluator_sources']=c['dependency_sources']
+    require(attempt.parent==LOCAL and not attempt.exists(),'NEW_UNSUBMITTED_ATTEMPT')
+    c['attempt']=str(attempt);c['run_instance']['attempt']=attempt.name
     c['cpu_preflight']=member(preflight);write(out,c)
     return dict(config=str(out),sha256=sha(out),actual_B1='NOT_OBSERVED')
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--out',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
     p.add_argument('--preflight',type=Path,required=True);p.add_argument('--finalize',type=Path)
-    a=p.parse_args();print(json.dumps(finalize(a.finalize,a.preflight,a.out) if a.finalize else prepare(a.out,a.attempt,a.preflight)))
+    a=p.parse_args();print(json.dumps(finalize(a.finalize,a.preflight,a.out,a.attempt) if a.finalize else prepare(a.out,a.attempt,a.preflight)))

@@ -8,6 +8,8 @@ from pathlib import Path
 from project.run_scripts.jlz_interference_l1.comparison_bridge import Target,read,sha,check,atomic
 
 class GPTJTarget(Target):
+    from .comparison_publish import publish
+
     def __init__(self,binding):
         self.b=binding;self.root=Path(binding['attempt']);self.cell=binding['cell'];self.out=self.root/self.cell
         check(sha(self.root/'config.json')==binding['config_sha256'],'CONFIG_BINDING')
@@ -32,8 +34,9 @@ def main():
     process_lock=(out/'process.lock').open('a')
     fcntl.flock(process_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     jobs=read(attempt/'submission.json')['jobs'] if (attempt/'submission.json').exists() else {}
+    check(cell in jobs,'EXACT_SUBMISSION_JOB_REQUIRED')
     binding=dict(attempt=str(attempt),cell=cell,model='GPTJ',writer='memit' if cell.startswith('MEMIT_') else 'alphaedit',
-        source=lock['source_commit'],config_sha256=lock['config_sha256'],lock_sha256=sha(attempt/'execution.lock.json'),job=jobs.get(cell,os.environ['SLURM_JOB_ID']))
+        source=lock['source_commit'],config_sha256=lock['config_sha256'],lock_sha256=sha(attempt/'execution.lock.json'),job=jobs[cell])
     target=GPTJTarget(binding);deadline=time.monotonic()+49*3600;last=0
     while time.monotonic()<deadline:
         try:

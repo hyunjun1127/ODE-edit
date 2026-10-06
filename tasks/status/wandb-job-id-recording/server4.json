@@ -1,0 +1,13 @@
+{
+  "task_id": "wandb-job-id-recording",
+  "server": "server4",
+  "status": "POLICY_ACCEPTED_CALLER_PREPARED_NOT_FROZEN",
+  "common_helper_adoption": "PENDING_SH1_PUBLICATION",
+  "comparison_caller_cpu_fake_sdk_tests": "2 tests PASS; no network or model computation",
+  "new_online_run": false,
+  "actual_online_identity": "NOT_OBSERVED",
+  "existing_jobs_or_runs_changed": false,
+  "submission": "USER_PAUSED_PRE_SUBMISSION",
+  "monitoring_active": false,
+  "automatic_resume": false
+}

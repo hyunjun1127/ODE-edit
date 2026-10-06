@@ -88,19 +88,8 @@ def setup(c,out,arm):
     records=load_prefix(Path(c['stream']).parent,2000)
     from .inputs import bind
     bind(c,Path(c['attempt']),model,tok,records)
-    # Separate scalar-only CPU transport. It cannot mutate model/optimizer,
-    # create extra forwards, or turn a logging failure into a science retry.
-    import subprocess,sys
-    comparison_env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
-    comparison_python='/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python'
-    try:
-        with (out/'comparison-transport.log').open('x') as log:
-            proc=subprocess.Popen([comparison_python,'-m','project.run_scripts.jlz_price_gptj.comparison',
-                '--attempt',c['attempt'],'--cell',arm],env=comparison_env,stdout=log,stderr=log)
-        write(out/'comparison-process.json',dict(pid=proc.pid,CPU_only=True,existing_metrics_only=True,
-            user_authority='실시간 자동 동기화',new_model_calls=0))
-    except Exception as error:
-        write(out/'comparison-start-error.json',dict(status='LOGGING_DEGRADED',type=type(error).__name__))
+    # New sources log the comparison schema directly into their unique science
+    # run. No duplicate comparison writer/daemon is needed for these future jobs.
     bench=CounterFactAdapter(tok,json.loads(Path(c['contexts']).read_text()))
     H={l:torch.zeros(d[1],d[1],dtype=torch.float32) for l,d in a.dims.items()}
     expected={key:{str(l):c['cold_W0_H0'][key][str(l)] for l in a.sites} for key in ('W','H')}
@@ -209,6 +198,9 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
             and digest(bench.contexts)==context,'W0_REUSE_NONMUTATION')
     else:
         observer(a,bench,records,records,H,'W0',out/'W0',c,identities,[r['case_id'] for r in records])
+    from .tracking import w0_rows,log_w0,log_batch
+    w0_raw,w0_summary=w0_rows(out,identities,[r['case_id'] for r in records],previous)
+    log_w0(a.tracker,w0_summary)
     for number,current,seen in batches(records):
         shared_source_guard(attempt)
         require(number<=20,'NO_B21');folder=out/f'batch-{number:02d}';folder.mkdir(exist_ok=False)
@@ -232,7 +224,7 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
                 pre=pre_from_w0(out,current,seen,folder/'pre',previous,identities) if number==1 else observer(
                     a,bench,seen,current,H,f'B{number}_PRE',folder/'pre',c,identities,pack['record_ids'])
                 entry=entry_for(a,bench,pack,H,c);events=Events(folder/'events.jsonl',arm,number)
-                from project.run_scripts.jlz_interference_l1.cap_tracking import TrackedEvents
+                from .tracking import TrackedEvents
                 events=TrackedEvents(events,a.tracker)
                 entry['batch']=number;entry['entry_state']=previous;entry['entry_state_sha256']=digest(previous)
                 entry['source_binding']=dict(source=lock['source_commit'],config_sha256=lock['config_sha256'],
@@ -264,8 +256,7 @@ def drive(a,bench,records,H,c,out,lock,attempt,arm):
                 try:write(folder/'commit.json',receipt)
                 except BaseException:tx.done=False;raise
             commits.append(receipt);previous=after;previous_rng=after_rng
-            from project.run_scripts.jlz_interference_l1.cap_tracking import log_endpoint
-            log_endpoint(a.tracker,post['summary'],number,len(seen))
+            log_batch(a.tracker,receipt,w0_raw,pack['record_ids'],[r['case_id'] for r in seen])
             print(json.dumps(dict(event='BATCH_COMMIT',arm=arm,batch=number,requests=len(seen))),flush=True)
         except BaseException as error:
             try:
@@ -288,7 +279,7 @@ def main():
     try:
         c,lock=locked(attempt,arm)
         shared_source_guard(attempt)
-        from project.run_scripts.jlz_interference_l1.cap_tracking import start
+        from .tracking import start
         tracker=start(c,lock,out,arm)
         a,bench,records,H=setup(c,out,arm)
         a.tracker=tracker
@@ -323,6 +314,16 @@ def main():
             try:tracker.finish(exit_code=0 if status=='W20_COMPLETE' else 1)
             except Exception as logging_error:
                 print(json.dumps(dict(event='LOGGING_DEGRADED_FINISH',error_type=type(logging_error).__name__)),flush=True)
+            try:
+                import subprocess
+                subprocess.run(['/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python','-m',
+                    'project.run_scripts.jlz_price_gptj.tracking_readback','--out',str(out)],
+                    env=dict(os.environ,CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1'),
+                    stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=90,check=True)
+            except Exception as readback_error:
+                try:write(out/'tracking-readback-error.json',dict(status='LOGGING_READBACK_NOT_VERIFIED',
+                    error_type=type(readback_error).__name__,scientific_state_unchanged=True))
+                except Exception:pass
         try:
             write(out/'terminal.json',dict(task=TASK,arm=arm,status=status,source=os.environ.get(SOURCE_ENV),
                 commits=len(list(out.glob('batch-*/commit.json'))),seconds=time.monotonic()-started,

@@ -58,6 +58,8 @@ def launcher(source, commit, role, attempt,cpu=8):
 
 
 def freeze(configpath, attempt, roles=ROLES):
+    from .tracking import contract_ready
+    contract_ready()  # fail before creating an archive or registering any job
     require(attempt.parent == LOCAL and not attempt.exists(), 'CREATE_ONCE_ATTEMPT')
     c = json.loads(configpath.read_text())
     require(c['instruction_id'] == NONCE and c['task_id'] == TASK, 'AUTHORITY')

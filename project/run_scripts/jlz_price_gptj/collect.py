@@ -569,15 +569,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--attempt',type=Path,required=True);p.add_argument('--out',type=Path)
     a=p.parse_args();ConsoleBudget(Path(a.attempt)/'collector-console-bound-failure.json').install()
     r=collect(a.attempt,a.out);print(json.dumps(dict(status=r['status'],actual=r.get('actual'))))
-    # Bounded final scalar transport, including terminal rows not yet mirrored
-    # when Slurm reaped the GPU parent. Logging cannot erase the CPU report.
-    transport=[]
-    for cell in CELLS:
-        try:
-            cp=subprocess.run(['/data/janghj/ODE-edit/local/wandb-setup/sdk/bin/python','-m',
-                'project.run_scripts.jlz_price_gptj.comparison','--attempt',str(a.attempt),'--cell',cell,'--once'],
-                capture_output=True,text=True,timeout=120)
-            transport.append(dict(cell=cell,returncode=cp.returncode))
-        except Exception as error:transport.append(dict(cell=cell,status='LOGGING_DEGRADED',type=type(error).__name__))
-    bounded_write(Path(a.attempt)/'comparison-final.json',dict(cells=transport,science_unchanged=True))
+    # No second writer/resume of a science run. Its own SDK finish is bounded;
+    # the immutable raw remains authoritative if logging degrades.
     if r['status']=='CPU_REVIEW_TECHNICAL_BLOCKED':raise SystemExit(1)
