@@ -1,0 +1,12 @@
+{
+  "inventory-full.csv": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/final-r1/inventory-full.csv",
+    "bytes": 38169909,
+    "sha256": "cfcd404af0b53ef2c2dc827b4bd93d3200ab461e9967469730d5508763bbd759"
+  },
+  "directory-aggregates.csv": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-price-storage-inventory-20261007/local/price-storage-inventory-20261007/final-r1/directory-aggregates.csv",
+    "bytes": 69594,
+    "sha256": "89c77324a17938d8c37259e3423960e81f2296d390d471475141c2794f48d933"
+  }
+}
