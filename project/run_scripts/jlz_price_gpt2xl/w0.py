@@ -6,10 +6,22 @@ from .storage import write
 
 RUNTIME_FIELDS=('device','torch','transformers','model','FP32','geometry_FP64','eager','TF32','autocast','CPU_threads','cold_W0_H0')
 
+def verify_summary(old,cold,rows):
+    require(old['endpoint']=='W0' and old['state']==cold and old['requests']==2000
+        and old['row_count']==len(rows)==26000 and old['no_mutation'] is True
+        and old['optimizer_feedback'] is False and old['row_order']==digest([r['identity'] for r in rows]),
+        'W0_SUMMARY_STATE_SCOPE_NONMUTATION')
+
 def choose_reuse(c,attempt):
     current=json.loads((attempt/c['cell']/'runtime.json').read_text())
     candidates=[]
-    if c.get('W0_reuse',{}).get('status')=='QUALIFIED_EXACT_REUSE':candidates.append(c['W0_reuse'])
+    if c.get('W0_reuse',{}).get('status')=='QUALIFIED_EXACT_REUSE':
+        value=c['W0_reuse']
+        if c.get('repair'):
+            old=json.loads(verify(value['runtime']).read_text())
+            require(value['observation_identity']==c['observation_identity']
+                and all(old[k]==current[k] for k in RUNTIME_FIELDS),'W0_REUSE_RUNTIME_CHANGED')
+        candidates.append(value)
     from .common import CELLS
     for cell in CELLS:
         if cell==c['cell']:break
@@ -48,6 +60,7 @@ def install(folder,c,actual_cold_state,value):
     identities=json.loads(verify(c['observer_identity']).read_text())['rows']
     ids=[i for p in c['packs'] for i in p['ids']]
     reduced=validate_rows(rows,identities,ids,'W0');old=json.loads(verify(value['summary']).read_text())
+    verify_summary(old,actual_cold_state,rows)
     require(old['summary']==reduced and len(rows)==26000,'W0_INDEPENDENT_COUNTS')
     write(folder/'cap-reuse.json',dict(manifest=value,manifest_sha256=digest(value),actual_cold_state=actual_cold_state,
         no_forward=True,no_raw_copy=True,no_checkpoint=True))

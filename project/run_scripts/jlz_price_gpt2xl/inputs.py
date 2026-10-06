@@ -22,8 +22,13 @@ def function(path,name,namespace):
     return namespace[name]
 
 def augment(c,ready):
+    if c.get('input_ready_sha256'):
+        require(digest(ready)==c['input_ready_sha256'],'READY_CONTENT_BINDING')
     for field in ('native_input_alignment','native_full_input_binding','observer_identity','contexts_member'):
         verify(ready[field])
+    require(ready['contexts']==ready['contexts_member']['path'],'READY_CONTEXT_PATH')
+    require(ready['packs']==json.loads(verify(ready['native_input_alignment']).read_text())['packs'],
+        'READY_PACK_ORDER_BINDING')
     require(ready['model_asset_identity']==c['model_asset_identity'],'READY_MODEL_IDENTITY')
     require(ready['ordered_ids_sha256']==c['ordered_ids_sha256'],'READY_ORDER')
     c.update({k:ready[k] for k in ('packs','contexts','native_input_alignment',
