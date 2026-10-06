@@ -21,7 +21,7 @@ W&B는 current/pre와 current/post를 항상 R100/P200/N1000으로 유지하고,
 
 Collector는 새 MEMIT 두 cell과 보존한 60001을 **각자의 실행 source/config/lock**으로 검산한다. Alpha는 새 Llama 세 cell만 집계한다. 제외 Qwen을 실패로 세지 않는다. 기존 nested native NLL의 context→owner 집계 결함을 CPU reducer에서 수정했다. 대응하는 새 MEMIT/Alpha 결과 비교는 정확 endpoint 검산 전 PENDING_COMPARISON이다.
 
-소스 검토는 owner와 별도 위임 worker/explorer의 한정 검토이며 독립적인 전체 과학 감사나 새 실제 모델 검증을 주장하지 않는다. 모든 원 archive/raw 및 실패·취소 이력은 KEEP이다. Git에는 소형 source/report/manifest만 게시한다. `NO_BROADCAST_NOT_REQUIRED`: 대형 raw와 W&B credential/spool을 옮길 필요가 없다.
+소스 검토는 owner와 별도 위임 worker/explorer의 한정 검토이며 독립적인 전체 과학 감사나 새 실제 모델 검증을 주장하지 않는다. 모든 원 archive/raw 및 실패·취소 이력은 KEEP이다. Git에는 소형 source/report/manifest만 게시한다. `NO_BROADCAST_NOT_REQUIRED`: 대형 raw와 W&B credential/spool을 옮길 필요가 없다. 일반 Git access helper는 새 `runs/price-model-runs-tracking/server4/submission.json` prefix를 지원하지 않아 **NOT_PASS(exit7)**였다. 현재 USER envelope가 그 정확 prefix를 명시 승인하므로 [범위 예외](../../../../audits/servers/server4/price-model-runs-tracking/publication-scope-exception.json)를 기록하고 소형 receipt만 게시한다. shared helper를 편집하거나 PASS로 위장하지 않았다.
 
 실행 source는 `5226337121fd2c90c595f26297c9927400f8f0af`; 60001은 원 `2440e548be39e55a99747d7847d21a88df419b93`다. 이 보고서·소형 게시 도구는 이후 분석 source이며 frozen 실행 bytes를 수정하지 않았다. [제출 및 SHA receipt](../../../../audits/servers/server4/price-model-runs-tracking/submission-receipt.json)와 [artifact manifest](../../../../audits/servers/server4/price-model-runs-tracking/artifact-manifest.json)에 config/lock/archive/source와 held 검사 경로를 기록했다.
 

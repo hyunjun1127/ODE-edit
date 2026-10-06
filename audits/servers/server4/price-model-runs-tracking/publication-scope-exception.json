@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "generic_access_helper": "NOT_PASS",
+  "helper_exit_code": 7,
+  "exact_path": "runs/price-model-runs-tracking/server4/submission.json",
+  "explicit_authority": "messages/head/2026-10-07-price-model-runs-tracking.json write_scope.own_artifacts: runs/price-model-runs-tracking/<server>/**",
+  "resolution": "Exact server4 compact submission receipt explicitly delegated by current USER; documented scope exception, not helper PASS. Shared helper/policy not edited.",
+  "contents": "small source/config/lock/archive hashes, job IDs/dependencies, resource snapshot and staged observations only",
+  "raw_tensor_model_prompt_secret": false,
+  "unrelated_paths_staged": false,
+  "root_dirty_preserved": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
