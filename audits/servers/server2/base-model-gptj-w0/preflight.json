@@ -1,0 +1,42 @@
+{
+  "nonce": "USER-GH-SH1-SH2-BASEMODEL-W0-20261007-R1-SERVER2",
+  "status": "PREPARED_NOT_SUBMITTED",
+  "authority": "ac7042649eb97595408ecbff7c2e16efde242eba",
+  "source_of_helper": "930e46531f38d5fa97a6d860275db73978c7daf4",
+  "owner_review": true,
+  "independent_reviewer": 0,
+  "boundary": "check-session-boundary PASS server2/01a0493a-074c-7f91-9a13-769116326fef; root dirty1391 preserved",
+  "model": "EleutherAI/gpt-j-6B",
+  "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+  "model_sha256": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+  "model_bytes": 24207819307,
+  "observer_manifest_sha256": "daddfe1a9c7af63425db251649861be8f0752b0bb79af8682583daed47a50331",
+  "order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "asset_download": 0,
+  "C0_P_H_load": 0,
+  "model_load_cpu": 0,
+  "fit_calls": 0,
+  "CP": false,
+  "resource": "1GPU6CPU60416MiB4h + afterany0GPU6CPU24576MiB4h; projectcap2; sixCPU follows recorded server2 submission constraint",
+  "helper_checks": {
+    "session": "PASS",
+    "memory_request": "PASS60416",
+    "project_gpu_cap": "PASS scoped patterns active1+new1<=2; fresh submission checks all own active+pending GPU jobs",
+    "initial_wildcard_check": "DENY '*' counted all5 server GPUs incl unrelated owners, not project identity; retained diagnostic, not bypassed projectcap",
+    "generic_memory_audit": "Historical full-repo audit6 S4 sbatch over-limit failures; no edits. Direct Python controller audit unsupported (#SBATCH parser); request memory checker plus exact argv/held inspection used, not generic audit PASS."
+  },
+  "tracking": "common helper adopted; CPU config/mapping checks only, actual online start/readback in scheduled runner before model load; NOT_YET_OBSERVED",
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "cpu": {
+    "passed": true,
+    "tests": 6,
+    "command": "PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.base_model_eval.gptj_server2_tests -v",
+    "actual_GPU": false,
+    "independent_reviewer": 0,
+    "source_sha256": {
+      "project/run_scripts/base_model_eval/gptj_server2.py": "286918e9ec5a0e4af1a47c3b6b270b15ba7638ca7840db38afffd596ffe5939d",
+      "project/run_scripts/base_model_eval/gptj_server2_control.py": "4729c9227917456784c76d7a3c0794d927b29bd19dac17a2be4c51727f8061c5",
+      "project/run_scripts/base_model_eval/gptj_server2_tests.py": "2a090f98d42a11c24d3c622d70eb1adfcba34f38362778a9567014dadb78b0e2"
+    }
+  }
+}
