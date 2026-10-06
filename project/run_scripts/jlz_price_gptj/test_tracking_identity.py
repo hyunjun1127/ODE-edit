@@ -3,8 +3,9 @@ import os
 import types
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import patch,mock_open
 from . import comparison_publish as bridge
+from . import tracking_readback
 
 
 class TrackingIdentity(unittest.TestCase):
@@ -55,6 +56,22 @@ class TrackingIdentity(unittest.TestCase):
             with patch.dict('sys.modules',wandb=sdk),patch.object(bridge,'read',read):
                 with self.assertRaises(ValueError):bridge.publish(target,Path('/fake/spool'))
             self.assertNotIn('kwargs',state)
+
+    def test_bounded_readback_is_read_only_and_missing_rows_not_verified(self):
+        identity=dict(run_id='fake',url='https://example.invalid/fake',source_sha='source',
+            config=dict(model='gptj'),job_identity=dict(job_id='123',job_display_id='123'))
+        for remote_rows,expected_status in [([{'edits':100,'current/post/R/count':100}],
+                'REMOTE_PAYLOAD_VERIFIED'),([], 'LOGGING_INCOMPLETE_OR_MISMATCH')]:
+            remote=types.SimpleNamespace(config=dict(model='gptj',job_id='123',job_display_id='123'),
+                name='fake-job123',scan_history=lambda **kw:remote_rows)
+            sdk=types.SimpleNamespace(Api=lambda **kw:types.SimpleNamespace(run=lambda path:remote))
+            data='{"op":"log","values":{"edits":100,"current/post/R/count":100}}\n'
+            with patch.dict('sys.modules',wandb=sdk),patch.object(tracking_readback,'read',return_value=identity), \
+                 patch.object(Path,'open',mock_open(read_data=data)),patch.object(tracking_readback,'atomic'):
+                receipt=tracking_readback.verify(Path('/fake'))
+            self.assertEqual(receipt['status'],expected_status)
+            self.assertFalse(receipt['scientific_completion_claim'])
+            self.assertTrue(receipt['remote_run_not_modified'])
 
 
 if __name__=='__main__':unittest.main()
