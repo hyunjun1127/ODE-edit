@@ -1,0 +1,139 @@
+{
+  "schema": "JLZ_PRICE_CAP_BUDGET_AUTHORIZED_RUN_CONTRACT_V1",
+  "date_kst": "2026-10-06",
+  "status": "AUTHORIZED_FOR_IMPLEMENTATION_AND_EXECUTION_NOT_YET_DISPATCHED",
+  "user_authorization": {
+    "quote": "GH에게 전달해서 해당 부분 repair와 FREE075  를 제외한 run들 2k 실험 돌리는 것으로 하자. server4에 전달하라고 해. gpu cap은 2이다.",
+    "additional_quote": "qwen도 제출하자. 동일한 3개 arm으로",
+    "scope": "GH coordinates repair and delegates implementation and six corrected-source 2k runs to SH4 on server4: the three selected arms for Llama and the same three for Qwen. Both models share the total GPU cap below.",
+    "precedence": "The first authorization selects three arms from the earlier four-arm proposal; the subsequent authorization adds Qwen with those same arms. Both supersede the design-only execution boundary. They do not rewrite historical review artifacts or authorize FREE075, FLAT or REVERSE."
+  },
+  "inputs": {
+    "followup_design": "project/proposals/jlz-price-cap-budget-review/followup-design.json",
+    "numerical_repair": "project/proposals/jlz-price-cap-budget-review/numerical-repair-contract.json",
+    "historical_source": "0415aba3c160170d306be8196792f198dad4d122",
+    "preservation": "Keep earlier designs, run receipts and published results as source-specific historical records. This new contract supplies the authorized arm and execution scope."
+  },
+  "responsibilities": {
+    "GH": "Coordinate the handoff, bind source/config/input identities, publish the implementation and task contracts, assign SH4, and report acknowledgement, source readiness, scheduler submission and actual execution as separate states.",
+    "SH4_server4": "Implement the common repair and model/arm integration, verify the actual runtime assertions, account for existing GPU work, and execute and collect the six server4 trajectories across both models.",
+    "root": "Own the user-facing coordination and authorization handoff, not production-code implementation.",
+    "artifact_scope": "Creating this contract performs no source modification, remote action, dispatch or job submission. Do not describe an authorized or queued arm as running."
+  },
+  "authorized_arms": [
+    {"id": "CAP075", "price": "PRICE", "beta_base": 0.75, "cap_mode": "native", "local_cap": "0.75*a_lr", "purpose": "New corrected-source cold reference"},
+    {"id": "CAP100", "price": "PRICE", "beta_base": 1.0, "cap_mode": "native", "local_cap": "0.75*a_lr", "purpose": "Higher base budget with unchanged native layer caps"},
+    {"id": "FREE100", "price": "PRICE", "beta_base": 1.0, "cap_mode": "none", "local_cap": null, "purpose": "Cap removal at base budget 1.0"}
+  ],
+  "authorized_models": {
+    "LLAMA": {
+      "binding": "Use the existing canonical Llama profile from the reviewed PRICE execution; bind its exact model/tokenizer revisions, eligible layers, native anchor, loss hparams, covariance provenance and adapter to the repaired source.",
+      "arms": ["CAP075", "CAP100", "FREE100"]
+    },
+    "QWEN": {
+      "binding_status": "CANONICAL_REFERENCE_IDENTIFIED_RUNTIME_BINDING_REQUIRED",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "alias": "qwen2.5-7b-inst",
+      "eligible_layers": [4, 5, 6, 7, 8],
+      "native_anchor_layer": 8,
+      "final_readout_layer": 27,
+      "intermediate_dimension": 18944,
+      "canonical_evidence": [
+        "audits/servers/server4/S4-M0-storage-execution-readiness.md:55",
+        "audits/servers/server4/S4-M0-storage-execution-readiness.md:72",
+        "audits/servers/server4/S4-M0-storage-execution-readiness.md:101",
+        "audits/servers/server4/P4-hf-consumed-closure-readiness.md:61"
+      ],
+      "binding": "GH/SH4 must reverify this existing canonical model/revision and bind its tokenizer packs, observer/readout, covariance statistics, adapter and resource paths before submission. Layer/anchor values above are supported by Qwen canonical evidence, not inferred by copying Llama.",
+      "architecture_boundary": "Use Qwen final readout 27 and intermediate dimension 18944. Correct Llama-specific readout 31 or intermediate dimension 14336 assumptions in the shared adapter path. Changing only the model string is insufficient.",
+      "hparam_boundary": "Use the shared method profile in this contract. Do not import the historical Qwen baseline clamp=4 or lr=0.5 into this new PRICE cap/base method.",
+      "arms": ["CAP075", "CAP100", "FREE100"]
+    },
+    "shared_policy": "Both models use the same three arm definitions, native_c=0.75, beta_max_native_scale=0.75, base budgets 0.75/1.0 and native/none cap modes. Model-specific bindings remain explicit and identical across the three arms within each model."
+  },
+  "authorized_run_matrix": [
+    {"model_profile": "LLAMA", "arm": "CAP075", "edits": 2000},
+    {"model_profile": "LLAMA", "arm": "CAP100", "edits": 2000},
+    {"model_profile": "LLAMA", "arm": "FREE100", "edits": 2000},
+    {"model_profile": "QWEN", "arm": "CAP075", "edits": 2000},
+    {"model_profile": "QWEN", "arm": "CAP100", "edits": 2000},
+    {"model_profile": "QWEN", "arm": "FREE100", "edits": 2000}
+  ],
+  "excluded_arms": ["FREE075", "FLAT", "REVERSE"],
+  "trajectory": {
+    "per_arm": "Each model/arm pair starts from independent cold W0/H0 and performs BS100 x 20 commits, 2000 edits. Bind the inherited first-2000 case order and evaluation definitions alongside that model's own canonical tokenizer, native context/lookup and adapter profile.",
+    "total": "Six independent 2000-edit trajectories, three for Llama and three for Qwen: 12000 edit applications, not 12000 distinct benchmark requests.",
+    "state": "Within a model/arm pair, every next batch uses only its own preceding committed W/H. Never resume from historical source 0415, share edited state across arms or models, or reset within a successful trajectory.",
+    "B1": "B1 is the first batch of the actual 2k trajectory and continues to its own B2. Do not create a separate pilot or rerun B1 merely as a qualification phase.",
+    "evaluation": "Retain existing W0, batch current/cohort and cumulative evaluation schedules and denominators. P/N evaluation is observation only and never enters training, prices, controller decisions or quality gates."
+  },
+  "shared_source_and_method": {
+    "source_lock": "All six model/arm runs must use the common repaired method implementation and telemetry/reducer schema with explicit model adapters and canonical model-specific profiles. Bind full executed commit/tree, model profile, configuration, input, price and reducer identities before submission. Historical source 0415 cannot replace the corrected cold CAP075 control for either model.",
+    "native_c": 0.75,
+    "beta_max_native_scale": 0.75,
+    "shared_method_profile": {
+      "lambda_K": 0.0625,
+      "lambda_N": 0.5,
+      "lambda_C": 15000,
+      "adam_lr": 0.1,
+      "adam_eps": 1e-8,
+      "adam_betas": [0.9, 0.999],
+      "model_activation_R_dtype": "FP32",
+      "geometry_pullback_projection_dtype": "FP64",
+      "scope": "These are the selected method settings for both models. Model-specific tokenizer, native row/lookup/reduction, architecture, covariance and runtime bindings remain separate; old baseline hparams do not override this profile."
+    },
+    "independent_knobs": "cap_mode and beta_base are independent of native_c and beta_max_native_scale. CAP100 must not silently raise its local caps, change the native norm loss or substitute a different anchor.",
+    "price": "Retain the existing PRICE formula, floors, denominator policy and source/recipient ordering. Calculate from each arm's own c0, freeze prices and anchors within the batch, and refresh at the next batch. Reuse c0 BUILD without an additional model pass or solve.",
+    "writer": "Retain native soft ridge, fresh candidate upper K/P, actual effective response injection into the subject path, same-layer response pullback, established active-loss mask, absolute-coordinate EfficiencyAdam, exact terminal payload copy and final native rewrite-key history.",
+    "loss": "Retain each model's native rewrite NLL, current||entry KL and native reductions using the selected shared method coefficients lambda_K=0.0625 and lambda_N=0.5. Keep norm loss sum_r (0.5/a_star,r^2) sum_l||R_lr||. The reviewed Llama profile and identified Qwen canonical profile both use anchor L8; verify each model's own capture and tokenizer/lookup bindings. Add no P supervision or price multiplier to the loss or gradient.",
+    "forbidden_changes": "No exact writer, tracking residual, residual divisor, inverse-response compensation, added dK/dP or builder reverse, hidden local cap in FREE100, or unrecorded per-arm numerical policy."
+  },
+  "budget_and_controller": {
+    "shared_constraint": "sum_l pi_lr*||R_lr||/a_lr <= beta_r",
+    "local_constraint": "Apply ||R_lr||<=0.75*a_lr only to CAP075 and CAP100. FREE100 retains only the finite shared constraint.",
+    "maximum": "beta_max,r=max(beta_base,0.75*max_l pi_lr)",
+    "schedule": "beta_r(e)=beta_base*exp((e/4)*log(beta_max,r/beta_base)), e=0..4. Use stored beta_max at e=4. If base=max, keep the base with no expansion; preserve the supported n_exp=0 constant-base branch without division.",
+    "n_exp": 4,
+    "grace_completed_updates": 12,
+    "task_threshold": 0.05,
+    "activation": "Observe all F_r; active |= (F_r>=0.05). Inactive own R and optimizer state remain zero until activation; once active, keep updating after satisfaction. Backward uses the established identical active-loss mask.",
+    "expansion": "Before a nonterminal update, increase one stage only when active, own completed updates>=12, current F_r>=0.05, e<4 and base<max. Preserve own-update counters and irreversible activation.",
+    "terminal": "At most 25 candidate evaluations and 24 updates. Terminal has no backward, update or expansion. Preserve all-inactive early exit and finite-unsatisfied commit; quality is not a promotion gate.",
+    "reporting": "For base 1.0, identify requests with pi_max<4/3 whose maximum is necessarily raised to 1.0. Report actual spend/slack and stage; controller maximum does not imply exhausted feasible capacity."
+  },
+  "required_common_repairs": {
+    "projector": "Apply numerical-repair-contract.json tagged endpoint ownership and exact-zero/cap canonicalization, including tied owners, to the absolute-coordinate weighted group-L1 projector. Preserve the exact interior root and minimum-tau convention.",
+    "cap_modes": "For native caps use t_l=min(0.75*a_l,max(||Z_l||-tau*pi_l/a_l,0)); for FREE100 use t_l=max(||Z_l||-tau*pi_l/a_l,0). Solve the shared multiplier only when necessary. Serialize free local caps as null with an explicit mode, not infinity.",
+    "precision_and_checks": "Retain the predeclared FP64 KKT/complementarity/primal checks and FP32 stored shared feasibility checks from the numerical repair contract. Local feasibility checks apply only to cap-on arms. Do not widen tolerances after observing failures.",
+    "zero_semantics": "Construct exact stored zero for mathematically zero-classified blocks. Do not prune positive interior blocks by a norm threshold, reset moments, suppress task-gradient reentry or use postcast rescue shrink. Any extra near-endpoint rule must be predeclared with its FP64 ULP operands and recorded corrections.",
+    "trajectory_effect": "A tiny nonzero R can have a finite R/||R|| norm gradient; endpoint canonicalization may therefore change optimizer trajectories. This is why a new corrected CAP075 is required.",
+    "telemetry_and_publication": "Implement the common revised schema for exact-zero/tiny/positive classes, raw and conditional ratios with valid counts, leakage on zero targets, actual response sufficient statistics, price/controller/allocation/cap summaries, and source-bound reducers. Reporting thresholds remain reporting-only.",
+    "historical_limit": "Preserve historical measured performance. Do not call telemetry reaggregation a corrected-optimizer performance result, or invent missing context squared-norm statistics from owner-mean norms.",
+    "integration": "Update profile, controller, projection, price receipts, fit, collection and timing together under the common source lock. Keep optimizer-affecting zero canonicalization distinguishable from telemetry-only corrections."
+  },
+  "runtime_checks_only": {
+    "inputs": "Actual B1 cached entry geometry, actual optimizer proposals and already evaluated response tensors.",
+    "checks": "Cheap endpoint exact-zero storage, KKT/stored feasibility, controller and schema/source joins, terminal payload/history identity, and price identity. An algebraic cap-on/free projector comparison on an existing beta=.75 proposal is permitted as a redundancy assertion; it is not a FREE075 trajectory or fit.",
+    "no_extra_work": "No toy, synthetic suite, separate pilot, new test campaign, full-builder gradient audit, extra LM forward/backward/solve, or performance-based acceptance threshold. Account for reduction/check overhead."
+  },
+  "gpu_execution_cap": {
+    "server": "server4",
+    "total_gpu_cap": 2,
+    "scope": "At every launch, count total GPU resources allocated to the user's concurrently running GPU work on server4, including all Llama runs, all Qwen runs and pre-existing jobs outside these six runs. The two models share a single total cap of 2; neither model receives its own cap of 2.",
+    "gpus_per_arm": 1,
+    "maximum_new_active_lanes": 2,
+    "admission": "Launch an arm only when existing allocation plus its one GPU is <=2. Bind scheduler allocation and visible-device mapping; do not oversubscribe a GPU or create multi-GPU arms to bypass the cap.",
+    "queue": "Place all six model/arm pairs in one resource/dependency plan with at most two one-GPU lanes total. Queue every pair beyond available capacity. GH/SH4 must record the launch/dependency order and model-profile readiness before submission; adding Qwen must not create two additional lanes. Existing occupancy may require all or part of this plan to wait.",
+    "existing_jobs": "Inspect and account for existing jobs. Do not cancel unrelated or historical running work by default. If occupancy is already at or above the cap, publish RESOURCE_PENDING with the observed allocation and wait for capacity rather than submitting an oversubscribed run.",
+    "dependency_semantics": "An independent arm needs resource availability and common technical readiness, not a favorable quality result from an earlier arm. Record scheduler dependencies and distinguish submitted, queued, allocated and running states."
+  },
+  "comparisons_and_receipts": {
+    "primary": "Within each model, CAP075 vs CAP100 measures the base-budget policy change with native caps; CAP100 vs FREE100 measures cap removal at base 1.0; CAP075 vs FREE100 is a combined-policy comparison. Report model-specific results and profile differences before making cross-model interpretations.",
+    "missing_cell": "FREE075 is excluded for both models. Do not claim a complete 2x2 interaction estimate or a cap-removal estimate at base .75 from either three-arm comparison.",
+    "limits": "Adaptive expansion may yield different realized budgets across arms. Larger base or cap removal does not guarantee paraphrase improvement, equal edit strength or retention. Price geometry is a proxy, not a semantic damage bound.",
+    "required_outputs": "Current acquisition and same-cohort PS/NS/strict/NLL/lost-gained results; stage, beta, spend/slack, cap contact, zero/reentry and maximum relative layer norm; actual timing, peak memory, GPU allocation and completed-prefix integrity.",
+    "handoff": "Publish GH task/source/config and model-profile bindings, SH4 acknowledgement, implementation receipt, common corrected-source identity, shared GPU occupancy/admission evidence, six model/arm submission or queue receipts, B1-to-B2 continuation evidence and completed-prefix/final reports as they actually occur. Do not substitute a family-name placeholder for the Qwen model binding at submission.",
+    "state_now": "User authorization and this contract exist. Implementation, dispatch, scheduler submission, GPU execution and results are not asserted by this document."
+  }
+}

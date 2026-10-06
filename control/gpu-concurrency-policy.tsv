@@ -11,4 +11,5 @@ server2	2
 # User override 2026-09-28: MEMIT history baseline; server3 project cap1.
 server3	1
 # User override 2026-10-04: server4 project cap3; existing jobs unchanged, task-specific caps still apply.
-server4	3
+# User override 2026-10-06: server4 combined cap2 for PRICE repair Llama+Qwen; count existing allocations, do not cancel old jobs.
+server4	2

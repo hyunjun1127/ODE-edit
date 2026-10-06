@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "user_authority": {
+    "quotes": [
+      "GH에게 전달해서 해당 부분 repair와 FREE075 를 제외한 run들 2k 실험 돌리는 것으로 하자. server4에 전달하라고 해. gpu cap은 2이다.",
+      "qwen도 제출하자. 동일한 3개 arm으로"
+    ],
+    "source_session": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+    "scope": "repair+model adapter+실제6개cold2k 전량등록/실행/collector. 기존 STOP의 예외는 이 신규task뿐. 단계별재승인0."
+  },
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "server": "server1",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "server": "server4",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server4-price-cap-base-repair-2k",
+    "model_effort": "사용자설정유지"
+  },
+  "canonical": {
+    "authorized": "project/proposals/jlz-price-cap-budget-review/authorized-run-contract.json",
+    "repair": "project/proposals/jlz-price-cap-budget-review/numerical-repair-contract.json",
+    "algorithm_reference": "project/proposals/jlz-price-cap-budget-review/followup-design.json",
+    "review": "project/proposals/jlz-price-cap-budget-review/review.md",
+    "package_manifest": "project/proposals/jlz-price-cap-budget-review/dispatch-package-manifest.json",
+    "precedence": "최신USER+authorized 6cell > commonrepair > followup 수식. 과거4arm/FREE075/design-only/no-dispatch는현재실행범위아님. 문서bytes는변경하지않음."
+  },
+  "scope": {
+    "models": [
+      "LLAMA",
+      "QWEN"
+    ],
+    "arms": [
+      "CAP075",
+      "CAP100",
+      "FREE100"
+    ],
+    "independent_trajectories": 6,
+    "logical_batch": 100,
+    "batches": 20,
+    "edits_each": 2000,
+    "total_edit_applications": 12000,
+    "distinct_cohort_size": 2000,
+    "cold_each": true,
+    "B21": false,
+    "excluded": [
+      "FREE075",
+      "FLAT",
+      "REVERSE"
+    ],
+    "extra_baseline_or_sweep": false,
+    "save_checkpoints": false
+  },
+  "science": "PRICE ownentry가격/floor/LOO정의·offowner동일층pullback·freshnogradupperBUILD·effective-v subject loss·EfficiencyAdamAbs·동일active mask·terminalpayload·finalrewriteHonce 유지. exact/tracking/divisor/inverse/dK/dP/builderreverse 추가0. nativec=.75/KL=.0625/norm=.5/C=15000/lr=.1/eps1e-8/betas.9,.999/25eval24update/grace12/4stages/F.05 고정. beta_base=.75/1.0와capmode는독립. max(base,.75pimax),FREE100진짜uncapped/null, .75일괄1치환금지.",
+  "repair": "owner/kind tagged ZERO/CAP knots와tie, minimumtau/interiorroot보존, selectedendpoint만exact0/cap. positiveinterior normcutoff삭제0/momentreset0/postcastrescueshrink0. tolerance원계약불변. exactzero/교정/tinydiag(1e-12 reportingonly) 분리; zerotarget action/leakage보존, ratio defined/reason/validcount/unit/sufficientstats구분. producer/collector/controllertelemetry를같이봉인.",
+  "model_binding": {
+    "LLAMA": "기존PRICE canonical모델/tokenizerrevision/seed/context/layers4..8/anchor8/평가정의 exact재사용. old0415editedstate또는결과로newCAP075대체0.",
+    "QWEN": {
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "alias": "qwen2.5-7b-inst",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "anchor": 8,
+      "readout": 27,
+      "hidden": 3584,
+      "intermediate": 18944,
+      "vocab": 152064,
+      "evidence": [
+        "audits/servers/server4/S4-M0-storage-execution-readiness.md",
+        "audits/servers/server4/P4-hf-consumed-closure-readiness.md"
+      ],
+      "fresh_required": "실제config/revision/tokenizer/rowpack/lookup/reduction/modules/C0mom2/cache/evaluator/runtime/FP32-FP64/memory 새결속. Llama31/14336하드코드분리. historicclamp4/lr.5/AlphaEditP수입금지."
+    }
+  },
+  "implementation": {
+    "owner": "SH4 soleproduction, 새전용 non-mainworktree. 기존 production source/실행archive 불변.",
+    "primary": "project/run_scripts/jlz_interference_l1/** 를 새commit/configtasknamespace로repair. 과거CLI/default lock와historyreceipt보존;새taskid와model-arm출력root격리.",
+    "model_adaptation": "가능하면 primarynamespace의modeladapter/packing/observerwrapper로구현. 아래명시shared파일의필수backward-compatible parameterization만허용; 원defaultLlama불변, 대상파일별diff/왜필요한지audit. 타taskhotpatch0.",
+    "common_source": "6개arm같은repairedsourcecommit/tree/archive/reducer, modelconfig만분리. 실행 전 SHA봉인, profiling/소형기록용변경을 runtime과혼동0."
+  },
+  "resources": {
+    "server4_total_gpu_cap": 2,
+    "count_scope": "두모델/여섯run/준비GPU+기존동일사용자의server4 GPU할당전체. 이전tracked3보다이번USER2우선. 기존초과할당은취소하지않고신규waiting.",
+    "per_run": {
+      "GPUs": 1,
+      "CPUs_default": 8,
+      "host_memory_MiB_default": 59392,
+      "host_memory_hard_ceiling_MiB": 60416,
+      "walltime_hours_max": 48,
+      "node": "server4",
+      "partition_QoS": "최신실제정책fresh검증",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "cpu_collector": {
+      "GPUs": 0,
+      "CPUs": 8,
+      "host_memory_MiB": 24576,
+      "wall_hours": 4,
+      "dependency": "afterany:정확6개GPUjobID"
+    },
+    "admission": "runtime+W&Bsidecarhostmemory포함 모델별peak/storage reserve 산정, SlurmCPUperGPU/node/QoS/capfresh확인. currentstricter적용. 목표두lane각1GPU. 기존allocation+admittedpendingcap보장.",
+    "DAG": "우선 lane1 LLAMA_CAP075→afterany LLAMA_CAP100→afterany LLAMA_FREE100, lane2 QWEN_CAP075→afterany QWEN_CAP100→afterany QWEN_FREE100 제안. 두modelcap각2아님. 기존점유때첫lanejob에명시resource-dependency/throttle를걸어정상pending전량등록. predecessor품질을독립arm조건으로삼지않음. 실제의존표와중복검사기록. 구조적으로cap2못보장하면resourcepending사유/미등록cell을정직보고.",
+    "slurm_allowed": true,
+    "other_job_mutation": false,
+    "existing_jobs_cancel": false,
+    "source_freeze_before_submit": true,
+    "held_inspection": "각GPU/collector owner/name/fullargv/source/resources/dependency 확인후release. 새ID만보고, test-only ID는job아님."
+  },
+  "validation": {
+    "no_toy": true,
+    "no_synthetic_suite": true,
+    "no_small_B_fit": true,
+    "no_separate_pilot": true,
+    "no_duplicate_B1_fit": true,
+    "no_extra_model_forward_backward_solve": true,
+    "preflight": "문서/source/AST/import/config/CLI/input/서버경계·resource/noCP/privacy 정적점검. owneraudit정직기록, 과거CPU/GPU PASS승계0. 별도대형red검증campaign0.",
+    "runtime": "각실제B1에이미계산한geometry/proposal/response로endpoint/KKT/FP32storedfeasibility/counter/source/schema/terminalpayload/H연결 검사. .75 native/free 동일proposal대수 비교가능(추가fit아님). 기존원error/tolerance보존. nonfinite/identity/구현오류는typedtechnicalfail·정확위치raw보존; 낮은성능/미수렴은계속기록.",
+    "qualification_result": "actualB1미관측이면NOT_OBSERVED. model-specificunsupported는원인명시; LlamaPASS로QwenPASS대체0."
+  },
+  "evaluation": "currentpre/post+W0/W5/W10/W15/W20allseen+fixedfirst500/birth/activecohort. 최종각R2000/P4000/N20000. RSPSNS/harmonic/TFtoken-prompt-strictACC/true-newNLL/margin/pairedlostgained/retention. 기존schedule·denominator불변,동일endpoint재사용, P/N은observeronly. 가격/최저가tie-floor/상태stageownupdates/base-max-currentbeta/spend-slack/capcontact/supportreentry/F와rewriteNLLweightedKL/요청-realized배분/정의표본과단위/실측exclusivecost 보존.",
+  "tracking": {
+    "policy": "control/wandb-policy.json",
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "helper_source": "93912c3f 또는동일정책후속검증source; project/run_scripts/experiment_tracking/** read-only",
+    "server4_ready_evidence": "experiment-reports/servers/server4/wandb-realtime-setup/report-ko.md READY_ONLINE_VERIFIED는과거CPU evidence. 각새jobstartup online init필수, 새미검증login추정0.",
+    "runtime": "격리SDKCPUsidecar/과학venvpin변경0,허용scalar이미있는값만. arm/model/task/job/source/runURL결속. no raw/key/code/watch/checkpointupload. 네트워크중간단절때 localspool/degraded, 과학rerun0.",
+    "shared_helper": "SH1소유helper수정0. caller에서기존metric명에mapping하고상세비허용telemetry는local보존;필요한공통schema확장은SH1와GH에exactkeys보고."
+  },
+  "allowed_write_paths": [
+    "project/run_scripts/jlz_interference_l1/**",
+    "project/run_scripts/jlz_v12r/entry.py",
+    "project/run_scripts/jlz_v12r/engine.py",
+    "project/run_scripts/jlz_v12r/subject.py",
+    "project/run_scripts/jlz_native_writer_aware/physical.py",
+    "project/run_scripts/jlz_native_writer_aware/builder.py",
+    "project/run_scripts/jlz_realized_subject/profile.py",
+    "project/run_scripts/jlz_realization/inputs.py",
+    "project/run_scripts/jlz_realization/observe.py",
+    "project/run_scripts/jlz_realization/common.py",
+    "plans/updates/server4/jlz-price-cap-base-repair-2k/**",
+    "audits/servers/server4/jlz-price-cap-base-repair-2k/**",
+    "experiment-reports/servers/server4/jlz-price-cap-base-repair-2k/**",
+    "runs/jlz-price-cap-base-repair-2k/**",
+    "tasks/status/jlz-price-cap-base-repair-2k/server4.json",
+    "messages/acks/server4/jlz-price-cap-base-repair-2k.json",
+    "messages/server-heads/server4/jlz-price-cap-base-repair-2k.json",
+    "local/jlz-price-cap-base-repair-2k/**",
+    "전용WT ignored servers/local/session-boundary.env 및비민감tasklocalruntime/config"
+  ],
+  "git": "새ownbranch+cleanintegration latestmain보존 비강제게시승인. exact원proposalbytes불변. rootdirty/reset/stash/전부stage0. 옛frozenarchive/결과RNGtensor/source 불변; 공유모듈수정은상기parameterization최소범위만.",
+  "assets": "기존SH4 Llama/Qwen/C0/context/fixed10k 우선currentSHA/size/receipt결속재사용. 모델재다운로드/stat재계산권한0. 문서13개Git전달. 필요 smallconfig/source/context만taskallowlistpeerpull원본KEEP;대형asset부재시 exactneed 보고.",
+  "storage": "6run최대log/eval/spool/temp/errorreceipt 여유bytes/inodes 모델별산정. denseM/P/K/H/activation/model/weight/RNG/optimizer durable0/noCP. 단일authoritativecandidate stream+compactsummary,중복dump0. batchboundarydiskreserve, 무관파일삭제0. exacteditorresume불가명시.",
+  "broadcast": "소형source/manifest/reportGit. localraw보존, approvedordinaryhelper exactallowlist/no--delete필요할때만. NO_BROADCAST_NOT_REQUIRED근거가능,credential와W&Bspool/SDKenv전송0.",
+  "report": "experiment-reports/servers/server4/jlz-price-cap-base-repair-2k/report-ko.md; 공통6cell coverage/각prefix·비용·결측 NOT_RUN. SH사실수치만,GH해석. 원reviewB1–B15 및새main W20구분.",
+  "delivery": "same nonce중복정본/job먼저확인. SH4수락ACK먼저, 구현/등록/source/jobID와actual상태구분. GH는정본게시+directownerACK에서handoff종료, 수락연결종료는SH4구현중단아님.",
+  "monitoring": "새agentrecurringmonitor/heartbeat/autoretry0. release뒤단1회resource snapshot,즉시보이는initialreceipt만. pending이면정상인계; GPU가용성/6개B1/B20완료장기대기0. sealedrunner는20batch/collector자연진행, 완결리뷰는사용자recall."
+}

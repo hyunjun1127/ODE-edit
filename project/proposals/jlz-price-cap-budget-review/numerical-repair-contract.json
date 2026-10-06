@@ -1,0 +1,56 @@
+{
+  "schema": "JLZ_PRICE_NUMERICAL_AND_PUBLICATION_REPAIR_CONTRACT_V1",
+  "date_kst": "2026-10-06",
+  "status": "DESIGNED_NOT_IMPLEMENTED",
+  "historical_source": "0415aba3c160170d306be8196792f198dad4d122",
+  "scope": "Common numerical and reporting contract for four PRICE cap/base arms. Preserve historical run receipts and evaluation outcomes.",
+  "projector": {
+    "breakpoints": "Retain numeric value, owning block and endpoint kind ZERO=n/w or CAP=(n-cap)/w. A set of scalar values alone loses the necessary identity.",
+    "selected_endpoint": "Materialize exact zero/cap for blocks whose endpoint is selected, including all tied endpoint owners. Preserve the minimum-tau convention and exact interior affine root.",
+    "interior": "Do not delete mathematically positive interior blocks based on a new norm threshold. Check root-endpoint equality against tagged knots before reconstructing vectors.",
+    "near_endpoint": "If an implementation needs a near-endpoint rule beyond exact tagged equality, predeclare a small FP64 ULP bound and its reference operands. Record each applied correction and reject it if existing KKT or feasibility checks fail. A broad norm cutoff or enlarged KKT tolerance is not this repair.",
+    "storage": "Construct exact-zero vectors explicitly in FP32 for zero-classified lengths. Report fp64 endpoint class, stored norm, correction mask and correction magnitude. Keep moment state and task-gradient reentry.",
+    "checks": {
+      "length_kkt_native": "abs(t-expression) <= 1e-10*max(1,n,cap)",
+      "length_kkt_free": "abs(t-expression) <= 1e-10*max(1,n)",
+      "shared_primal_fp64": "max(spend-beta,0) <= 1e-10*max(1,beta)",
+      "complementarity_fp64": "abs(tau*(spend-beta)) <= 1e-10*max(1,tau*beta)",
+      "stored_shared_fp32": "max(spend-beta,0) <= 1e-6*max(1,beta)",
+      "stored_local_fp32_native_only": "max(norm-cap,0) <= 1e-6",
+      "free_mode": "No local cap, local excess or capped mask assertion. Serialize null local caps with an explicit mode; do not send infinity into finite-domain checks. Retain all finite-input, nonnegative-length and dual checks."
+    },
+    "not_allowed": ["blanket R-norm threshold pruning", "moment reset for zero blocks", "postcast feasibility rescue shrink", "silent numerical tolerance widening", "hidden local clip in free arms"]
+  },
+  "optimizer_implication": {
+    "norm_gradient": "(0.5/a_star^2)*R/||R|| for any nonzero block; selected zero subgradient only for exact zero",
+    "trajectory": "An endpoint repair can change gradients, moments, gamma and later R even when its immediate write is tiny. All comparison arms require the same corrected implementation and a corrected cold CAP075 reference.",
+    "historical_evaluation": "Existing measured RS/PS/NS remain evidence for the source that produced them. Telemetry-only reaggregation cannot claim the performance of the corrected optimizer."
+  },
+  "telemetry": {
+    "version": "New explicit schema revision shared by producer, collector and publication reducer",
+    "magnitude_fields": ["target_norm", "actual_norm", "anchor", "target_norm_over_anchor", "actual_norm_over_anchor"],
+    "classes": ["exact_zero", "positive_tiny_diagnostic", "positive_above_diagnostic_threshold"],
+    "diagnostic_threshold": {"relative_norm": 1e-12, "usage": "Posthoc/reporting partition only; not a projection or gradient threshold"},
+    "ratios": "Retain raw mathematically defined ratios and label their domain. Report above-diagnostic-threshold conditional summaries separately with ratio_defined/reason, threshold, selected count and total count. Exceeding the threshold does not guarantee a reliable ratio. Do not silently replace raw ratios or describe conditional means as all-owner realization.",
+    "support": "Report mathematical FP64 zero classification, exact stored zero count, positive tiny diagnostic count and above-threshold count separately. Add zero-to-positive reentry; never equate an owner's zero R with zero actual action.",
+    "leakage": "Preserve observed cross-owner action on zero/tiny target blocks as actual_norm/anchor with its target class. Never zero the numerator to clean a ratio.",
+    "units": "Distinguish layer-owner, canonical-row, mean-key and owner-mean-context reductions. Existing rewrite/KL summaries are owner means. Report metric-specific valid counts; cosine additionally needs nonzero action.",
+    "summary": ["raw mean", "median", "p90", "p95", "max", "defined count", "zero count", "tiny count", "denominator unit"],
+    "sufficient_statistics_future": "For each owner and role save row count and sums of action squared norm, target squared norm, dot(action,target) and squared residual. Use float64 reductions from existing evaluated tensors; no additional model pass.",
+    "energy_ratio": "sqrt(sum action_squared_norm / sum target_squared_norm) only when the complete selected-population denominator is positive; name the population and retain leakage diagnostics.",
+    "historical_limit": "Do not square an owner-mean context norm and call it a context squared-norm sum. Mark missing sufficient statistics NOT_RECORDED. Canonical/mean-key scalar norms support their own energy aggregation, not arbitrary context aggregation."
+  },
+  "publication": {
+    "price": ["raw_kappa and effective_pi distributions by batch/layer", "minimum-price counts and ties", "floor counts", "source and entry-price SHA"],
+    "controller": ["terminal state counts", "stage counts", "own update counts", "base/max/terminal beta", "actual spend and slack", "F and rewrite NLL and weighted KL", "expanded requests with cap contact"],
+    "allocation": ["requested norm and energy shares", "priced-spend shares", "effective response energy shares", "support and reentry", "minimum-price vs largest-allocation layer cross-tab"],
+    "cap": "Separate base-stage cap contacts from expanded-stage contacts. Base=.75 and pi>=1 makes local .75 caps redundant; contact is not an independent causal bottleneck.",
+    "aggregation": "Bind every table to source/config, completed batch prefix, input manifest and reducer SHA. Document per-request share means versus pooled energy shares. Preserve old published tables as historical source-specific records."
+  },
+  "validation": {
+    "inputs": "Actual method B1 cached geometry, actual optimizer proposals and already evaluated response tensors",
+    "checks": ["tagged endpoint exact-zero storage", "preserved KKT and stored feasibility", "base=.75 native/free projection identity for a common proposal", "controller counter and stage joins", "terminal payload/commit/history identity", "aggregate counts and schema/source joins"],
+    "budget": "No toy, standalone pilot, synthetic suite, extra LM forward/backward/solve, or full-builder gradient audit. Account for CPU/reduction overhead.",
+    "performed_now": "Read-only source audit and SHA-verified historical scalar aggregation; no production implementation or experiment submission."
+  }
+}

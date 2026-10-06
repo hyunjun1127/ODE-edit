@@ -1,0 +1,72 @@
+{
+  "schema": "JLZ_PRICE_CAP_BASE_AUTHORIZED_PACKAGE_V1",
+  "nonce": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "date_kst": "2026-10-06",
+  "scope": "Llama and Qwen, CAP075/CAP100/FREE100, 2000 edits each, six cold trajectories, GPU cap2 total",
+  "source_role": "user research chat, not GH",
+  "source_thread": "01a10dc1-4cd1-74b0-a951-3e043882782b",
+  "target_GH": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_SH4": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "files": [
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/GH-HANDOFF.md",
+      "bytes": 9909,
+      "sha256": "176cc6099213c3c3206ddaf03151316ec075628cf1c4c33dfb315d7746a394de"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/authorized-run-contract.json",
+      "bytes": 16323,
+      "sha256": "3ae5abf4e615d78af8aa1e0ffbeb2014cde615237770070147a0ebbc275ad68d"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/cap-activity.csv",
+      "bytes": 21983,
+      "sha256": "88dd406fa0330151c98b43401d904b7123637c1d7d6dfb9e1b6cbf144af1d41b"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/controller-summary.csv",
+      "bytes": 6090,
+      "sha256": "bd9f3756aebf2ca74de51ad60db6113a8a3fd215a2ca025889e4a68c5d2f844b"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/evidence-summary.json",
+      "bytes": 309194,
+      "sha256": "d5848da66beacbe78e7ebfec80c9d88975dfec758263465df41ba42d8b6006a1"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/followup-design.json",
+      "bytes": 12488,
+      "sha256": "c419d3d616509b013867735bba426f90f2b4f3a56a25763c9d112a83ec474a48"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/numerical-repair-contract.json",
+      "bytes": 6971,
+      "sha256": "35544fe6491def4c9559719667ad783818b399d0c10d4f6a8134c79cbd2ea263"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/price-distribution.csv",
+      "bytes": 19844,
+      "sha256": "12801defe4d7325bfbc0bab37dea08dac5f0b8af416ea500859f9a449eccbe34"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/recover_diagnostics.py",
+      "bytes": 16448,
+      "sha256": "162c93038a05a87ff4bcd8bc45718d41890a2b5cce5a54518c6dddce09fe2b5f"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/review.md",
+      "bytes": 17182,
+      "sha256": "b4d83b52b169e84b0bb547544e6f8bef27a3202c54a98755d70a9bc233e17e49"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/tiny-block-audit.csv",
+      "bytes": 49959,
+      "sha256": "0400f37ac3fd4eaf565de691033900341e2266ac0c38f224adfd7a18a34a0bbe"
+    },
+    {
+      "path": "project/proposals/jlz-price-cap-budget-review/verification.json",
+      "bytes": 4813,
+      "sha256": "3faa94ee55eba976f5d0cf84607ffc68517fd638b6141c312a52211399f1903d"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "GH_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "base_main": "ed752ba5",
+  "source_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeedit-jlz-price-cap-budget-audit-20261006",
+  "archive": {
+    "sha256": "adc5167460a05097ce5784cf190068ab197ee7e4dbf1d299b4b2543c3df614af",
+    "manifest_sha256": "b67816867429492ac45301047a0d9cdcfe798446d90c2a74d1fa583af54409d2",
+    "regular_members": 13,
+    "uncompressed_bytes": 494121,
+    "member_sha_size_pass": 13,
+    "source_bytes_match": true,
+    "extraction": "exact allowlist, regular only, no duplicate/path traversal/link/device, new paths keep-old-files; no overwrite"
+  },
+  "full_read": [
+    "GH-HANDOFF.md",
+    "authorized-run-contract.json",
+    "numerical-repair-contract.json",
+    "followup-design.json",
+    "review.md",
+    "verification.json"
+  ],
+  "structured_read": "evidence-summary.json 전체parse, CSV4 전체행필드parse, historical reducer AST syntax only/미실행. 기존raw90개재전송/재감사0.",
+  "csv_rows": {
+    "cap-activity.csv": 576,
+    "controller-summary.csv": 16,
+    "price-distribution.csv": 80,
+    "tiny-block-audit.csv": 150
+  },
+  "format_exception": "사용자가봉인한 CSV4의CRLF는원bytes/SHA보존. Git diffcheck의CRLF EOL 표시는 --ws-error-highlight변형아닌 core.whitespace cr-at-eol 한정구분하여검사; scientificbytesnormalize0.",
+  "scope_review": {
+    "models": 2,
+    "arms_per_model": 3,
+    "total_cold_chains": 6,
+    "first2000_each": true,
+    "no_FREE075": true,
+    "shared_repair": true,
+    "old_FLAT_REVERSE_cancel_preserved": true,
+    "no_toy_or_extra_fit": true,
+    "resource_cap_combined": 2,
+    "memory_hard_MiB": 60416,
+    "noCP": true,
+    "wandb": "사용자 online정책 상속,SH4 setup READY_ONLINE_VERIFIED과새run startup은별개",
+    "historical_vs_new": "W15리뷰는source0415 한정. 새correctedCAP075/GPU검증/W20결과아님."
+  },
+  "duplicate_scan": "origin/main messages/tasks/plans/audits 동일nonce없음; SH4 app idle/정확sessionCWD확인. receiver 재확인필요.",
+  "audit_level": "GH owner정독/기계검산. 별도independentreviewer0, 실제production/GPU실행0,통합toy0.",
+  "production_source_modified": false,
+  "existing_jobs_changed": false,
+  "dispatch_state": "PENDING_PUBLICATION_AND_DIRECT_SEND"
+}

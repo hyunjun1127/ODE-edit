@@ -1,0 +1,91 @@
+{
+  "schema": "JLZ_PRICE_CAP_BASE_BUDGET_FOLLOWUP_DESIGN_V1",
+  "date_kst": "2026-10-06",
+  "status": "NOT_DISPATCHED_NOT_IMPLEMENTED",
+  "authorization": {
+    "current_scope": "Completed work comprises detailed review and concrete follow-up design. No experiment submission was performed in this audit.",
+    "excluded": "Do not resume user-cancelled FLAT or REVERSE controls. No toy experiments, synthetic suites, separate pilot fits, new tests, or paraphrase supervision."
+  },
+  "question": "Separate the effects of removing the per-layer cap and raising the base shared budget from 0.75 to 1.0 while retaining the PRICE method.",
+  "source_policy": {
+    "historical_reference": "The currently running CAP075 implementation identified by source prefix 0415 is historical evidence only; bind its full source identity when reporting its observed prefix.",
+    "clean_reference": "All four proposed arms require the same corrected and source-locked implementation. A new cold corrected CAP075 trajectory is necessary for clean attribution.",
+    "reason": "Projection zero canonicalization can change tiny residual blocks and their R/||R|| norm gradients, so the numerical repair may change the trajectory. A telemetry-only repair must be distinguished from this optimizer-affecting correction.",
+    "no_intervention": "Do not hotpatch, stop, resume, or submit an existing or new job as part of this design-only task."
+  },
+  "independent_knobs": {
+    "native_c": 0.75,
+    "beta_max_native_scale": 0.75,
+    "cap_mode": ["native", "none"],
+    "beta_base": [0.75, 1.0],
+    "separation": "Changing beta_base must not change native_c, local caps in cap-on arms, the native norm loss, anchor definitions, or other inherited profile values."
+  },
+  "arms": [
+    {"id": "CAP075", "price": "PRICE", "cap_mode": "native", "beta_base": 0.75, "role": "Corrected-source cold reference"},
+    {"id": "FREE075", "price": "PRICE", "cap_mode": "none", "beta_base": 0.75, "role": "Cap removal at the original base budget"},
+    {"id": "CAP100", "price": "PRICE", "cap_mode": "native", "beta_base": 1.0, "role": "Higher base budget with original layer caps"},
+    {"id": "FREE100", "price": "PRICE", "cap_mode": "none", "beta_base": 1.0, "role": "Higher base budget and cap removal"}
+  ],
+  "common_method": {
+    "price": "Use the existing PRICE formula, denominator policy, floors and donor/receiver orientation. Every arm computes prices from its own batch-entry c0, freezes prices and anchors within that batch, and refreshes them at the next batch. Reuse c0 BUILD; no extra price forward or solve.",
+    "loss": "Retain native rewrite NLL, current||entry KL and reductions. Retain the existing norm loss sum_r (0.5/a_star,r^2) sum_l ||R_lr|| with a_star from native anchor layer L8. No new price multiplier in the loss or gradient.",
+    "execution": "Retain fresh candidate BUILD, actual effective response injection in the subject path, same-layer response pullback with the established active-loss mask, absolute-coordinate EfficiencyAdam, exact terminal payload commit and final native history update. Do not add dK/dP or builder reverse.",
+    "state": "Each arm starts independently from the same locked cold W0/H0 and edit order. Each subsequent batch uses only that arm's own committed state. Retain all eligible layers and off-owner coupling, including zero blocks and requests."
+  },
+  "constraint_and_controller": {
+    "shared": "sum_l pi_lr*||R_lr||/a_lr <= beta_r",
+    "local_native": "If cap_mode=native, ||R_lr|| <= native_c*a_lr. If cap_mode=none, impose no local cap or implicit post-update clip.",
+    "maximum": "beta_max,r = max(beta_base, beta_max_native_scale*max_l pi_lr)",
+    "schedule": "beta_r(e) = beta_base*exp((e/n_exp)*log(beta_max,r/beta_base)); e=0..n_exp. At e=n_exp use stored beta_max directly. If base=max or n_exp=0, use the constant base and do not divide by n_exp.",
+    "n_exp": 4,
+    "grace_completed_updates": 12,
+    "task_threshold": 0.05,
+    "activation": "Observe all F_r every candidate; active |= (F_r>=0.05). Once active, continue updates even after satisfaction. Initially inactive requests retain zero own R and optimizer state until activation.",
+    "expansion": "Before a nonterminal update, expand one stage only if active, own completed updates>=12, current F_r>=0.05, stage<4 and base<max. Retain the existing own-update counter semantics.",
+    "termination": "At most 25 candidate evaluations and 24 updates. Terminal has no backward, update or expansion. Preserve existing all-inactive early exit and finite-unsatisfied commit policy.",
+    "ceiling_change_receipt": "For beta_base=1.0, record requests with measured pi_max<4/3, since their maximum also rises to 1.0. Do not describe those requests as changing only the base at a fixed ceiling. Do not raise the CAP075/FREE075 ceiling to 1.0 to force cross-arm equality."
+  },
+  "projection_and_repair": {
+    "metric": "Project in absolute R Euclidean distance. Set s_l=||Z_l|| and w_l=pi_l/a_l.",
+    "native_cap": "t_l=min(native_c*a_l,max(s_l-tau*w_l,0)). Use tau=0 if cap-only output is globally feasible; otherwise solve sum_l w_l*t_l=beta by the existing exact piecewise-linear active-set rule.",
+    "no_cap": "t_l=max(s_l-tau*w_l,0). Use tau=0 if the proposal is globally feasible; otherwise solve sum_l w_l*t_l=beta. Avoid arithmetic with infinite cap breakpoints.",
+    "vector": "R_l=(t_l/s_l)*Z_l for s_l>0; otherwise R_l=0. Keep FP64 geometry/projection and FP32 storage with predeclared global feasibility checks; local-cap checks apply only to cap_mode=native.",
+    "zero_canonicalization": "When the selected exact projector classifies a block as zero, materialize an exact zero vector and preserve that classification in receipts. Do not add a new magnitude cutoff that deletes mathematically positive blocks. Any endpoint handling correction is common to all four arms and recorded as an optimizer-affecting numerical repair.",
+    "norm_gradient": "Use zero subgradient only for actual zero blocks. A nonzero tiny block has a finite norm-gradient magnitude despite its small norm; do not dismiss its possible trajectory effect as telemetry noise. Preserve task-gradient reentry and moments.",
+    "telemetry_only": "Corrections limited to displayed cap-hit/zero/spend labels or counters must not alter R, gradients, moments or controller state. Record these separately from zero canonicalization.",
+    "common_source": "Projection repairs, telemetry semantics and tolerances are identical across arms. No hidden cap in free arms, postcast rescue shrink, or arm-specific numerical fallback."
+  },
+  "feasible_set_facts": {
+    "base075_redundancy": "Since min_l pi_lr=1 and pi_lr>=1, beta=0.75 implies ||R_lr||<=0.75*a_lr/pi_lr<=0.75*a_lr. Thus native caps are exactly redundant at the original base budget, and cap-on/off exact projectors agree for the same proposal and geometry.",
+    "trajectory_prediction": "Under identical deterministic state and numerical implementation, CAP075/FREE075 cannot differ through the first effective expansion. Expansion makes a difference possible, not mandatory. If all prices remain one, their base and maximum stay 0.75 and cap removal remains redundant.",
+    "onset": "For a particular layer, cap removal enlarges its allowed single-layer amplitude exactly when beta_r>native_c*pi_lr. At beta=1.0 this is pi_lr<4/3. Structural permission to exceed a cap is distinct from an actual proposal or optimizer result hitting that cap.",
+    "base100": "CAP100 retains each native layer cap and permits additional shared spending across layers. FREE100 also permits relative norm up to 1.0 at a minimum-price layer. These are permissions, not requirements to spend the whole budget.",
+    "single_layer_reduction": "With a single layer pi=1: CAP075/FREE075/CAP100 have the same 0.75 relative-norm feasible set; FREE100 allows 1.0 and loses that reduction. CAP100 can leave shared budget unused. This is a feasible-set/projector identity, not native-baseline objective, optimizer or performance equivalence. Do not claim native-clamp reduction for all arms.",
+    "maximum_state_semantics": "UNSATISFIED_MAX denotes the controller maximum beta stage. It does not itself imply zero shared slack, especially with local caps. Always report actual spend alongside beta.",
+    "free_finite_bound": "Without layer caps, ||R_lr||<=beta_r*a_lr/pi_lr and max_R sum_l||R_lr||^2=beta_r^2*max_l(a_lr/pi_lr)^2 for a fixed request and geometry. The global feasible set remains finite.",
+    "maximum_limit": "At beta_max=0.75*pi_max, a minimum-price layer may request relative norm 0.75*pi_max. Large price ratios can therefore allow much more than a native single-layer cap. Finiteness does not imply semantic preservation or small writes."
+  },
+  "proposed_execution": {
+    "trajectory": "Four independent cold BS100x20 trajectories on the inherited locked first-2000 request stream, with existing W0/current/cohort evaluation definitions. B1 is the first batch of each 2k trajectory, not a pilot to rerun.",
+    "runtime_checks": "Use only actual cached B1 geometry and actual optimizer proposals for cheap price identity, exact-zero, projection feasibility/KKT, own-update counter and payload/history checks. At beta=0.75, a paired cap-on/off projection comparison on an already available proposal can check cap redundancy without another LM forward or fit.",
+    "no_extra_study": "No new synthetic/toy experiments, standalone parameter sweeps, full-builder gradient audit, paraphrase training or quality promotion gate. Low quality is an outcome, not a reason to silently alter the arm or rerun B1.",
+    "cost": "Charge real price, projection/check, corrected telemetry, fit and evaluation costs. Retain compact receipts and existing no-durable-model-checkpoint policy."
+  },
+  "interpretation_and_reporting": {
+    "comparisons": "CAP075 vs FREE075 and CAP100 vs FREE100 estimate cap policy effects at each base setting. CAP075 vs CAP100 and FREE075 vs FREE100 estimate base-budget policy effects with fixed cap mode. Report their interaction rather than attributing all changes to one mechanism.",
+    "adaptive_budget_limit": "Different losses can produce different expansion stages. A higher base can satisfy a request earlier and later spend less than the lower-base arm. These are adaptive-policy comparisons, not matched-energy or matched-stage comparisons.",
+    "paraphrase": "Beta_base=1.0 tests whether additional request capacity improves held-out paraphrase acquisition. No P prompts, P labels or P scores enter fitting, prices, controller decisions or arm selection. Paraphrase improvement and retention are not promised by a larger budget or by cap removal.",
+    "required": "Report current edit acquisition, same-cohort PS/NS and strict accuracy, new/true NLL, lost/gained counts, own update/stage, beta and actual weighted spend, maximum relative layer norm, exact-zero/reentry, structural cap-removal eligibility and actual cap contact separately.",
+    "historical_comparison": "Old source 0415 outcomes may contextualize the corrected runs but cannot replace corrected CAP075 in causal attribution. Never label equal nominal budgets as equal edit strength."
+  },
+  "implementation_scope_design_only": {
+    "profile": "Expose cap_mode and beta_base separately from unchanged native_c and beta_max_native_scale; lock the four arm identifiers.",
+    "controller": "Use max(base,0.75*pi_max) and the explicit base-to-maximum schedule, retaining active mask and own-update semantics.",
+    "projection": "Implement the common numerical correction, native-cap and truly cap-free projector branches, and separate zero canonicalization from reporting repairs.",
+    "price_receipts": "Reuse own-entry PRICE and record applied cap mode, base/maximum, unchanged native knobs and ceiling-override counts without duplicate c0 BUILD.",
+    "fit": "Retain the existing candidate/loss/pullback/optimizer ordering and terminal payload; do not add P supervision or hidden per-arm interventions.",
+    "collect": "Read corrected receipts, verify cap-mode-specific feasibility and schedule, and separate repaired-source comparisons from historical outputs.",
+    "timing": "Measure common repair/check and per-arm actual costs without double-counting nested timers.",
+    "performed_now": "This artifact records a follow-up design only; no production implementation, new test, toy, GPU run or dispatch was performed."
+  }
+}

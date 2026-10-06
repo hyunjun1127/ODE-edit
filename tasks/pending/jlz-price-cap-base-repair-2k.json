@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-cap-base-repair-2k",
+  "instruction_id": "USER-GH-SH4-JLZ-PRICE-CAP-BASE-REPAIR-2K-20261006-R1",
+  "contract": "project/proposals/jlz-price-cap-budget-review/authorized-run-contract.json",
+  "repair": "project/proposals/jlz-price-cap-budget-review/numerical-repair-contract.json",
+  "execution_envelope": "messages/head/2026-10-06-price-cap-base-repair-2k-sh4.json",
+  "status": "AUTHORIZED_AWAITING_SH4_DIRECT_ACCEPTANCE",
+  "models": [
+    "LLAMA",
+    "QWEN"
+  ],
+  "arms": [
+    "CAP075",
+    "CAP100",
+    "FREE100"
+  ],
+  "new_independent_trajectories": 6,
+  "cohort": "counterfact-fixed-10k-v1 ordered first2000",
+  "GPU_cap_combined": 2,
+  "noCP": true,
+  "no_toy": true,
+  "no_extra_pilot": true,
+  "shared_repair_required": true,
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "owner": "server4",
+  "owner_branch": "codex/server4-price-cap-base-repair-2k"
+}
