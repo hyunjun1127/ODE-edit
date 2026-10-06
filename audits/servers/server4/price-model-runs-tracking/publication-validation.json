@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "status": "SCOPED_METADATA_CPU_REVIEW_PASS",
+  "publication_parent_main": "ad6f92cc1474d4807746ee8b6037ff2254228e1b",
+  "execution_source": "5226337121fd2c90c595f26297c9927400f8f0af",
+  "retained_execution_source": "2440e548be39e55a99747d7847d21a88df419b93",
+  "reviewer": "/root/subset_collectors delegated separate read-only metadata/source-byte review; not target-model qualification",
+  "checks": [
+    "12 cells = new11 + KEEP60001; CPU collectors3",
+    "exact7 cancellations were unstartedPENDING then terminal/unallocated",
+    "new dependencies exclude oldcancelled andQwen IDs",
+    "DAG maximumwidth3=Llama1+GPTJ2",
+    "three config/lock/archive/held hashes;838 small frozen source members bound to52263371",
+    "reportlinks/manifest/history status consistent; no online/GPU/W20 falsePASS"
+  ],
+  "new_scheduler_queries": 0,
+  "new_SDK_calls": 0,
+  "new_model_load_or_forward": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "files": [
+    {
+      "path": "experiment-reports/servers/server4/price-model-runs-tracking/report-ko.md",
+      "bytes": 5533,
+      "sha256": "2af57271507a6940f051dda28822efc5dabfef9aab356d0a11fac0e8ce250c12"
+    },
+    {
+      "path": "experiment-reports/servers/server4/price-model-runs-tracking/cell-ledger.csv",
+      "bytes": 3769,
+      "sha256": "b681a861d42f27406dd3d79193f930d57f914d0c12a09af178980fe19d9d37d3"
+    },
+    {
+      "path": "audits/servers/server4/price-model-runs-tracking/submission-receipt.json",
+      "bytes": 10649,
+      "sha256": "623ba4017a8b317af3431522c0490a666c6e1679ae3cedae0e23bb0e54716340"
+    },
+    {
+      "path": "audits/servers/server4/price-model-runs-tracking/artifact-manifest.json",
+      "bytes": 2992,
+      "sha256": "d48c78648a4e73503a51bd0cf98c08a084834ea9a69efccbfd34a3916405a8de"
+    },
+    {
+      "path": "audits/servers/server4/price-model-runs-tracking/publication-scope-exception.json",
+      "bytes": 766,
+      "sha256": "f5023c9af6b6142475be1dc48cb5a68a2321c3e22cd6fb0fdb2be25dc23be7e8"
+    },
+    {
+      "path": "messages/server-heads/server4/price-model-runs-tracking.json",
+      "bytes": 1275,
+      "sha256": "8a59629b9e4ac8623dc774bae4fd9bfb4d2970c2adbae9d795ba9d25e89c3d5b"
+    },
+    {
+      "path": "tasks/status/price-model-runs-tracking/server4.json",
+      "bytes": 1018,
+      "sha256": "4c83a9b2b4f7a5708199738e1fd1a9a3e5151d33f50ebf0ee0d256f088425566"
+    }
+  ]
+}
