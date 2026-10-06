@@ -1,0 +1,17 @@
+{
+  "owner_review": true,
+  "independent_reviewer": 0,
+  "raw_free": true,
+  "tensor_content_read": false,
+  "large_SHA_recomputed": false,
+  "serialization_note": "Python csv 기본 CRLF 두 파일에 일반 diff-check가 whitespace 경고를 냈다. CSV 원 bytes를 보존하고 cr-at-eol 조건의 own-scope diff-check PASS를 별도 확인했다. 실험 원자료 수정은 없다.",
+  "csv_files": ["inventory.csv", "missing-migration-paths.csv"],
+  "scope_access_check": "PASS",
+  "arithmetic_check": "arithmetic-check.json",
+  "first_publication_main": "477b37566a09b5c3ba8b955525cf91a9e5a00dec",
+  "first_publication_tree": "3e53d8865ba476c8148b8f4980592d67907dcaf8",
+  "report_sha256": "3dd454d788d9f9d0d44c670f8aa3190279a37927997e6a5d1afa1fa6d819fb2f",
+  "delete_authorized": false,
+  "deleted_bytes": 0,
+  "existing_jobs_changed": 0
+}

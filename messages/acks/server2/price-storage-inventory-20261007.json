@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER2",
+  "owner": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_host": "server2",
+  "actual_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "authority": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "envelope_sha256": "b2c34d7e3fa179012c62d5e81bfa1888cdacf1a1e372cb9f89223228eac35408",
+  "FULL_READ": true,
+  "accepted": true,
+  "status": "READONLY_REPORT_COMPLETE",
+  "delete_authorized": false,
+  "existing_jobs_changed": 0
+}
