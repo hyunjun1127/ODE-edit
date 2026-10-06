@@ -1,0 +1,19 @@
+{
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+  "clean_integration_branch": "codex/server1-price-model-tracking-main-integration-20261007",
+  "upstream_preserved": "bfa01ba502971c0bf2e977379004700662d7cdae",
+  "owner_branch_tip": "4d8a8dc7",
+  "execution_source": "537c42ad26753ba6498f9401904d94af1effdf91",
+  "report_path": "experiment-reports/servers/server1/price-model-runs-tracking/report-ko.md",
+  "report_sha256": "e81f336aacd89944b755b4832d57fb8584b75b0b31a8d4119cdd26480f68b3c8",
+  "checks": {"JSON_valid":6,"CSV_cells":6,"distinct_GPU_job_ids":6,"relative_links_valid":3,"GFM_table_columns":5,"diff_check":"PASS","agent_access":"PASS","integration_CPU_tests_run":50,"integration_CPU_tests_passed":48,"integration_CPU_skips":2,"integration_CPU_failures":0},
+  "renderer": "NOT_AVAILABLE: no markdown_it/markdown/mistune in pinned Python; actual rendering NOT_RUN, structural GFM/link checks only",
+  "scope": "41 own source/report/audit/status files before this compact validation; no unrelated changes and no raw/tensor/prompt/fullstdout/credential additions",
+  "runtime_archive_modified": false,
+  "source_and_raw_local_KEEP": true,
+  "post_submission_scheduler_or_result_queries": 0,
+  "scientific_completion": "NOT_OBSERVED",
+  "W&B_remote_validation": "NOT_OBSERVED",
+  "publication": "nonforce own branch published; clean main push authorized, exact remote HEAD/tree confirmed in final handoff",
+  "monitoring_active": false
+}
