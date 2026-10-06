@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "task_id": "fe-sequential-2k",
+  "owner": {
+    "role": "SH2",
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "app_host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "authority": "사용자가 FE repo 상세 파악과 2k sequential 실험을 요청하고 Server2/cap 내1GPU를 직접 선택. 이 신규 baseline만 STOP 예외; 구현·최소정합확인·Slurm제출·fresh2k·CPUcollector/보고/main게시를 허용. 다른 task/job 변경·취소·재개 없음. 동일 범위 추가 승인 대기 없음.",
+  "allowed": "이 새 FE baseline 구현/qualification/1GPU단일2k chain/CPUcollector/ownscopepublication. 기존STOP은나머지task에유지.",
+  "save_checkpoints": false,
+  "agent_terminal_monitoring": false,
+  "automatic_retry": false,
+  "envelope": "messages/head/2026-10-06-fe-sequential-2k-sh2.json"
+}

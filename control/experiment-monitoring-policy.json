@@ -35,6 +35,7 @@
     "control/experiment-exceptions/causal-allocation-editing.json",
     "control/experiment-exceptions/causal-allocation-editing-b1.json",
     "control/experiment-exceptions/jlz-v12r-sh4-20261006.json",
-    "control/experiment-exceptions/jlz-interference-l1-sh4-20261006.json"
+    "control/experiment-exceptions/jlz-interference-l1-sh4-20261006.json",
+    "control/experiment-exceptions/fe-sequential-2k-sh2-20261006.json"
   ]
 }

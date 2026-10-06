@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "task_id": "fe-sequential-2k",
+  "experiment_name": "FE-MEMIT sequential baseline",
+  "authority": {
+    "user_quote": "baseline run 실험이 필요하다. https://github.com/jugechengzi/FE 이 repo를 자세히 파악해보고 2k sequential edit 진행해보자.",
+    "server_selection": "Server2, cap 내 1GPU",
+    "meaning": "새 FE baseline 하나의 구현·최소 기술 확인·정식 Slurm 등록·2k 실행·평가·CPU collector를 승인. 다른 task 중단/재개/취소 없음. 단계별 재승인 불필요."
+  },
+  "upstream": {
+    "url": "https://github.com/jugechengzi/FE",
+    "commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+    "tree": "698c1e6259f2cc2bace647f58a0be81e3b380ee2",
+    "writer": "algs/memit/FE-memit_main.py",
+    "target_builder": "precompute_z.py::compute_z_batch_first_forward",
+    "target_fit": "z_methods/compute_z.py::compute_z",
+    "reference_sha_file": "plans/global/fe-sequential-2k/upstream-source-manifest.json",
+    "not_default_memit": true,
+    "not_other_FE_variants": true,
+    "paper_scope": "논문 §6.1은 2000개 단일 massive batch. 이번은 동일 공개 알고리즘의 fixed-prefix B100x20 순차 평가이며 논문 표 직접 재현으로 주장하지 않음."
+  },
+  "scope": {
+    "arm": "FE_MEMIT",
+    "model": "Meta-Llama-3-8B-Instruct",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "target_anchor": 4,
+    "loss_layer": 31,
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "cold_W0_H0": true,
+    "no_B21": true,
+    "new_other_baselines": 0,
+    "save_checkpoints": false,
+    "exact_resume": "NOT_AVAILABLE"
+  },
+  "inputs": {
+    "dataset_id": "counterfact-fixed-10k-v1",
+    "ordered_root": "5b01356928ad2e2e46effad5a2c5621c87746b610992b7b92bf3ace16b6f5729",
+    "counterfact_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "policy": "scripts/fixed_counterfact.py load_prefix/verify를 모델 load 전에 사용. records[:2000] 그대로, occurrence index0..1999와 case ID/record hash 결속. 공개 repo의 다른 20877 표본/순서 사용 금지, sample_idx를 batch마다0으로 재설정하거나 caseID를 열 index로 사용 금지.",
+    "normalization": "원 requested_rewrite의 prompt/subject/new.str/true.str를 upstream flat request view로만 변환. 평가 prompt와 원본 record는 보존. target_new의 upstream 단일 leading-space 추가 위치 및 BOS 제거를 결속, 중복 prepend 금지.",
+    "context": "SH2 기존 canonical native context capsule 정확 SHA를 사용하여 precompute와 writer에 동일 2그룹 [['{}'],[5개]]를 주입. 원 generate_fast를 다시 돌리지 않음. 이는 공개 seed0 context 생성 대신 공통실험 capsule을 사용한 명시 adaptation. 학습 rewrite6+KL1/lookup/문장 의미 보존.",
+    "seed": 0,
+    "seed_scope": "공개 FE seed0를 사용; fixed stream은 seed로 재추출하지 않음. 목표 생성 후 writer 진입의 upstream seed reset0를 기록. evaluator는 RNG 비변이.",
+    "C0": "기존 SH2 L4..8 Wikipedia100000 float32 mom2/count 현물을 확인하고 읽기 재사용. count로 나눈 moment를 FP32에서 만든 뒤 writer FP64로 변환. 단순 mom2 sum/다른모델/층순서/P 대체 금지. 재계산/모델 다운로드 없음."
+  },
+  "precision": {
+    "model_activation_target": "FP32",
+    "geometry": "FP64",
+    "eager": true,
+    "autocast": false,
+    "TF32_matmul": false,
+    "TF32_cudnn": false,
+    "upstream_default": "config.yaml 기본 BF16, requirements TF4.51.3. 이번은 비교환경 FP32+eager+TF32off. SH2 실제 pinned runtime(최근 torch2.9.1+cu128 / TF4.57.1 또는 적합한 기존정본)을 정확 기록하며 bitwise cross-runtime 재현 주장 금지.",
+    "runtime_rule": "현재 모델 API에 맞는 tuple/Tensor 반환 처리는 최소 adapter로 수정하고 same-input hook semantic 확인. 임의 dtype/커널/수식 변경으로 속도/성능 조절 금지."
+  },
+  "targets": {
+    "policy": "공개 FE와 동일 frozen W0 target table. W0에서 2000개 각각 L4 delta fit 1회, z4=canonical-entry h4+delta. 모든 target fit 동안 model W0 불변. L4 absolute z4를 canonical rewrite prompt의 마지막 subject token에 overwrite한 W0 forward로 z5..8 수집. rewrite6 평균 replay 또는 delta-add replay로 바꾸지 않음. cache는 후속 W1..W20에도 고정, batch-entry 재fit/refresh 없음.",
+    "fit": {
+      "v_num_grad_steps": 35,
+      "max_evaluations_per_request": 35,
+      "max_Adam_updates_per_request": 34,
+      "lr": 0.1,
+      "KL": 0.0625,
+      "norm": 0.5,
+      "clamp": 0.75,
+      "early_stop": "total loss=NLL+KL+norm < .05; NLL 단독 아님. stop은 backward 전, 마지막평가 뒤 추가update 없음.",
+      "KL_direction": "current || W0-entry",
+      "norm_formula": ".5 * ||delta|| / ||target_init||^2",
+      "NLL": "6 native rewrite context의 target-token 평균 NLL을 균등평균",
+      "lookup": "upstream subject_last"
+    },
+    "storage": "5x4096x2000 FP32 target table 약163840000B를 CPU RAM에 보관하는 단일 persistent runner 우선. target별 요청/토큰/stop/calls/time/hash만 durable compact 기록. 신규 z cache/weights/H/RNG/optimizer durable tensor 기본 저장0. source/데이터 현물만 read-only.",
+    "error_policy": "공개 precompute의 except/continue 후 열 당기기를 상속하지 않음. 한 요청이라도 오류/빈target/nonfinite면 exact occurrence를 typed failure로 기록하고 중단. 2000x5 대응을 성공 subset으로 줄이지 않음."
+  },
+  "writer": {
+    "formula": "X_l=solve(K_l K_l^T + H_l + 15000*C0_l + 0*I, K_l (z_l-h_l)^T); deltaW=X_l^T for Llama.",
+    "fresh_keys": "각 batch/층에서 own 현재모델(앞선 층 실제write 포함)의 native K와 canonical full-block h_l를 새로 측정. K는 context group 평균 후 group 평균(.5/.1). z_l는 W0 frozen target.",
+    "divisor": false,
+    "L2": 0,
+    "add_old_keys": true,
+    "history": "공개 FE 순서 보존: 해당 layer write 직전 얻은 K(double) Gram을 CPU FP32 H에 += (cast) 한 번 하고 weight write. 전층 완료 후 final keys 재수집/history append를 추가하지 않음. 20batchx5=100 history update, H/W 지속 RAMchain.",
+    "rounding": "공개식 W[...] = W + upd_matrix 유지. W_FP32와 deltaW_FP64를 FP64에서 더한 뒤 destination FP32로 저장. cast(deltaW,FP32) 후 FP32 add로 조용히 바꾸지 않음.",
+    "selected_parameters": "L4..8 down_proj.weight만 변경; 다른 파라미터/모델원본 read-only. wrapper가 batch마다 apply_memit_to_model을 새로 불러 H를 리셋하지 않도록 init_once + batch_edit lifecycle."
+  },
+  "implementation": {
+    "namespace": "project/run_scripts/fe_baseline/**",
+    "strategy": "공개 source를 ignored local upstream exact commit으로 읽기 pin하고 새 adapter/runner를 작성. 학습/firstforward/writer의 원 연산순서 최소 재사용/추출. 기존 EasyEdit/BLUE/공유 method/frozenarchive 수정 없음.",
+    "known_repairs": [
+      "z_methods/__init__.py가 없는 compute_z_mlp.py를 unconditional import. firstforward 선택만 필요하므로 미사용 MLP import를 lazy 또는 exact module loader로 분리; 다른 method로 대체하지 않음.",
+      "precompute cache filename은 vlr/steps를 포함하나 FE writer는 생략. explicit keyed in-memory target mapping 사용; glob 첫파일/과거 mismatched cache 자동선택 금지.",
+      "first_forward injection cur_out[0] tuple 가정. 현재 HF tensor/tuple 여부를 확인하고 정확 batch/sequence/hidden shape로 처리; canonical z overwrite semantics 동일.",
+      "precompute error continue로 column gap 발생 가능. fail-fast exact occurrence mapping.",
+      "공개 repr_tools physical n=128 full logits는 48GiB에서 위험. fixed contiguous MB1/2 시작, 동일 logical batch/원 token padding/좌표 의미와 group reductions 보존. 미사용 lm_head 출력 생략 또는 trace stop은 소비되지 않는 downstream만, bounded parity 뒤 명시.",
+      "main.py 수많은 무관 alg imports/하드코딩 paths/save_model default. 새 선택 경로 runner로 우회, noCP. upstream 디렉터리 rename/hotpatch 금지.",
+      "global covs.append/cache_c init은 한 번. profile별 새프로세스에서 globals 결속; 중복 init 금지."
+    ],
+    "optimization": "목적/step/target/precision 그대로인 prefix caching 또는 selected full-vocab head 등은 필요시 source/static 및 동일후보 loss/gradient/lookup 확인 후에만. 새로운 연구 효율화 sweep 없음. 우선 단순 faithful 경로."
+  },
+  "qualification": {
+    "before_submit": "CPU import/AST source diff, request mapping/cache identity, terminal-fit budget, FP32 H/FP64 add 순서, noCP/20batch invariant, token catalog·padding/lookup, 자원·disk review.",
+    "actual": "최초 본실험 target 요청에서 tuple/Tensor hook mapping, W0 non-mutation, finite/loss/gradient, 마지막평가 target 결속을 확인하고 그 fit을 그대로 table에 재사용. 첫 replay의 z4 overwrite 및 z5..8 lookup/shape 확인. 첫 main B1 K/R/C0/H solve residual/weight realization/history once/observer-nonmutation 및 B2 W/H/RNG/context 연결 확인. 별도 BS2 scientific pilot/추가 B100 fit 필요 없음.",
+    "mechanical_gates": "input/source/model/finite/shape/state/commit 오류만 차단. 작은 기존 수치 최대오차를 새로운 과학차단gate로 추가하지 않음. residual/precision deviations와 score flips는 원숫자/허용기준/위치 record-only, 의미상 구현불일치/비정상수치는 기술오류로 보고. 품질/strength/locality/35budgetstop은 실패gate 아님. 기준 사후완화/실패PASS 치환 금지."
+  },
+  "evaluation": {
+    "evaluator": "SH2 canonical paired R/P/N raw evaluator 사용, exact source/token target normalization/padding/FP32 identity를 봉인. upstream eval은 TF strict와 선호를 계산하지만 논문 Accuracy는 freegeneration이라고 설명; 혼동 금지. 새 자유생성/DKL-topk 대규모부가실험은 자동범위 밖.",
+    "schedule": "W0 first2000(정확 local raw 재사용 가능, 불일치면1회fresh), batch별 current pre/post R100/P200/N1000, W5/10/15/20 allseen. 해당 endpoint current는 allseen에서 재사용하여 중복forward0. 같은 first100/500 및 birth/active/supersededcohort 유지.",
+    "W20": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "metrics": [
+      "RS/PS/NS new-vs-true mean NLL strict preference(tie fail)",
+      "harmonic score 3/(1/RS+1/PS+1/NS), anyzero=>0; use unrounded fractions",
+      "TF desired strict / token micro / prompt macro ACC, N은true target",
+      "new/true/desired NLL, margins/tails",
+      "atwrite->later/final 및 W0-correct retention/lost/gained, cohort 분모"
+    ],
+    "mechanism": "층별 residual/actual displacement/update norm, Hnorm, 35fit stop/call count, target age W0 fixed, exclusive target-fit/replay/keys/solve/write/history/eval/IO 시간·peakGPU/RSS. precompute 비용 포함.",
+    "comparison": "같은 sample/endpoint 확인한 MEMIT/MEMIT-H/AlphaEdit/BLUE 및 ours 역사표는 재사용하되 runtime/seed/context/35vs25/history시점/FP32addition/단일batchvssequential 차이를 열로 표시. pairedraw 없으면 NA. 새 baseline 추가fit0/동일강도 또는 인과우월 주장0."
+  },
+  "no_checkpoint": true,
+  "storage": "target table 및 W/H는 RAM, compact per-case NLL/token counts/hash만 local. full logits/dense K/C0/H/activation/weights dump0. all2000 teacher/raw text Git0. source archive/input lock/report error reserve와 expected eval row upper bound를 제출 전 계산, batch경계 free/inode check. 무관파일 삭제0.",
+  "status_at_authorization": "UPSTREAM_REVIEWED_IMPLEMENTATION_NOT_STARTED_GPU_NOT_SUBMITTED"
+}

@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "upstream": "https://github.com/jugechengzi/FE",
+  "commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "tree": "698c1e6259f2cc2bace647f58a0be81e3b380ee2",
+  "review_scope": "선택 production 경로와 관련 eval/config/import source 정적 검토. 논문 introduction 및 §5/6.1/A.3 발췌 검토, 전체논문 FULL_READ 주장 없음. 기타 알고리즘 미검토.",
+  "source_checkout": "/mnt/raid5/janghj/ODE-edit/local/fe-baseline-review-20261006/upstream",
+  "members": [
+    {
+      "path": "README.md",
+      "bytes": 3088,
+      "sha256": "f4704cfe051481dd1acef9d4d3fc4101aaf5f116c2592150908d8732b192eab1"
+    },
+    {
+      "path": "2026ICML_edit_multilayer.pdf",
+      "bytes": 510536,
+      "sha256": "04638918e27a2215866647072f4c92562295c5bf4bd49ac2ccb48d26e5bac0c1"
+    },
+    {
+      "path": "main.py",
+      "bytes": 16026,
+      "sha256": "ea83923f8cadf39895940cad332076647c87ca8cf0e1e8ffe4ef0e515e10ae16"
+    },
+    {
+      "path": "load.py",
+      "bytes": 4573,
+      "sha256": "5bd6ae28cef65f04091b54da8d9d7226f17a9595e2668bef72392d26da77062b"
+    },
+    {
+      "path": "precompute_z.py",
+      "bytes": 21476,
+      "sha256": "b5b68a2587e97f371d5ab386a282b62a6af5310aa0ac2e5753a2322cc4b33d95"
+    },
+    {
+      "path": "z_methods/__init__.py",
+      "bytes": 2361,
+      "sha256": "cc536da6ca44a234f6e7091eb5543bd95120383b6bde8bb24ebd784212d6ee66"
+    },
+    {
+      "path": "z_methods/compute_z.py",
+      "bytes": 15408,
+      "sha256": "642e0703e065ecea0efb4aae434bf0e3865ea33561225d4d609418f5b60cdbf9"
+    },
+    {
+      "path": "z_methods/context.py",
+      "bytes": 4315,
+      "sha256": "ea27ae80335d03cac43cccd9df344e6f2c9fcee38368ac3503a3f3aad927712c"
+    },
+    {
+      "path": "algs/memit/__init__.py",
+      "bytes": 44,
+      "sha256": "d967806563b4dc2491a9fb015c2435f15c6e2c4f18554cf5a32e5719d7cb1b81"
+    },
+    {
+      "path": "algs/memit/FE-memit_main.py",
+      "bytes": 15060,
+      "sha256": "6934f007ef6066690933a38a5a8d5bfde1e17d5ebbb5879210e4f6d037d26f9d"
+    },
+    {
+      "path": "algs/memit/compute_z.py",
+      "bytes": 15217,
+      "sha256": "2ecb196ca908a88aa5d4690b24e64a2ad3645c2420e031d1650c1bd738cef685"
+    },
+    {
+      "path": "algs/memit/compute_ks.py",
+      "bytes": 2317,
+      "sha256": "257abf6c1444c67384fc97f0bde935f368827eeb96b803bae879d0892d535879"
+    },
+    {
+      "path": "locate_edit_utils/repr_tools.py",
+      "bytes": 8374,
+      "sha256": "cb8ae7c5a62c6dfdcb30c5e1281d4a61db77f552f04e58ef7fb946944de3927e"
+    },
+    {
+      "path": "locate_edit_utils/layer_stats.py",
+      "bytes": 12808,
+      "sha256": "21b2b3b7084e2179277828d3d434fdb522e737964ac2352c775c3fd9c03f330e"
+    },
+    {
+      "path": "util/nethook.py",
+      "bytes": 15493,
+      "sha256": "5f122abb29249b73ee728c3d03927b404e20690bfb4564c72d04f934d4e779e0"
+    },
+    {
+      "path": "util/runningstats.py",
+      "bytes": 65377,
+      "sha256": "bd3e3254c7328ba1ceeed56d08bf6412ebffafad79f907e4cd3ac5eeffa7e0bd"
+    },
+    {
+      "path": "util/z_cache_manager.py",
+      "bytes": 8809,
+      "sha256": "739f1a7e9663c2e140503758096c3c30630b614a1a8400d29b2bc382b00701e8"
+    },
+    {
+      "path": "util/generate.py",
+      "bytes": 7965,
+      "sha256": "e917cf2bf0e54d8ee578be7b29dda51fc0598a8cf01499342182cfa9a1ba3890"
+    },
+    {
+      "path": "configs/config.yaml",
+      "bytes": 2624,
+      "sha256": "8a19013ddfeda4a79f0989cc57da5a93e3d03b1c83dfa894208129d2f87b361a"
+    },
+    {
+      "path": "configs/llms/llama3-8b.yaml",
+      "bytes": 2658,
+      "sha256": "8d5ed150796f305701e6fadc7c639845c5b428d0efead139c565e83c96385309"
+    },
+    {
+      "path": "configs/algs/memit.yaml",
+      "bytes": 38,
+      "sha256": "4799ac1df4e726e3dd2abcc54201e9f87f1c76cb35680059c0684806df8809d3"
+    },
+    {
+      "path": "evals/counterfact.py",
+      "bytes": 8861,
+      "sha256": "1dbbf5f3196e247ddcaa3ff716b6212dbb2987c98e8baa46106c5077f93cb43c"
+    },
+    {
+      "path": "evals/evaluation.py",
+      "bytes": 708,
+      "sha256": "7e487cc73b7764400878bf92fbd31338b8ea7bcb513aa9f32f644bfae9f711e9"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 3658,
+      "sha256": "0d95665fac4d4f9b9067a53c3b99f265ea708b3f80ab495ad7029ba1b56d3f17"
+    }
+  ],
+  "static_observations": {
+    "compute_z_mlp_exists": false,
+    "license_found": [],
+    "new_GPU_runs": 0,
+    "upstream_source_modified": false,
+    "production_adapter_implemented": false
+  }
+}

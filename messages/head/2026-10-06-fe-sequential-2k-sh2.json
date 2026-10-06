@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "nonce": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "task_id": "fe-sequential-2k",
+  "from": {
+    "role": "GH",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "owner": {
+    "role": "SH2",
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "app_host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit"
+  },
+  "authority": "사용자가 FE repo 상세 파악과 2k sequential 실험을 요청하고 Server2/cap 내1GPU를 직접 선택. 이 신규 baseline만 STOP 예외; 구현·최소정합확인·Slurm제출·fresh2k·CPUcollector/보고/main게시를 허용. 다른 task/job 변경·취소·재개 없음. 동일 범위 추가 승인 대기 없음.",
+  "canonical": {
+    "contract": "plans/global/fe-sequential-2k/contract.json",
+    "review": "plans/global/fe-sequential-2k/repository-review-ko.md",
+    "upstream_manifest": "plans/global/fe-sequential-2k/upstream-source-manifest.json",
+    "upstream_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f"
+  },
+  "scientific_summary": "한 FE-MEMIT arm, fixedfirst2000 BS100x20/Llama3-L4..8/coldW0H0. W0에서 L4 native35평가34update targetfit 각1회→canonical subject absolutez4 forward replay 상층 z5..8; 모든 frozenW0 target을 RAM에 유지. 매층 freshupperK/h, no divisor, solve KK+H+15000C0, write직전 K의 FP64Gram→CPUFP32H once, FP64 W+delta 후 FP32destination. postall-layer finalkey H로 교체 금지. 원paper bulk2000과 별개 sequential profile.",
+  "shared_profile": "현재 existing context capsule/modelrevision/evaluator/tokenizer/data를 exact결속, FP32/eager/TF32off/seed0. 공개BF16/TF4.51.3/generatedcontexts에서 바뀐 비교profile을명시. FE35budget/history타이밍/targetW0policy를 기존MEMIT25에 맞춰변경하지 않음.",
+  "implementation_owner": "SH2 sole production owner, dedicated non-main branch codex/server2-fe-sequential-2k. 기존 method runner/noCP/evaluator 구조는 read-only 참고. 새 project/run_scripts/fe_baseline/**에서 external pinned source selective loader/adapter 사용. 무관 sharedcode 수정금지.",
+  "scope": {
+    "new_runs": 1,
+    "edits": 2000,
+    "batches": 20,
+    "logical_batch": 100,
+    "target_fits": 2000,
+    "max_target_evaluations": 70000,
+    "max_target_Adam_updates": 68000,
+    "layer_solves": 100,
+    "prewrite_history_appends": 100,
+    "interbatch_W_H_links": 19,
+    "checkpoints": 0,
+    "B21": false,
+    "baseline_sweeps": 0
+  },
+  "engineering": "missing compute_z_mlp import, cache filename mismatch, tuple/Tensor hook layout, silent skipped target의 column misalignment, hardcodedpaths/save_model/covs/H lifecycle을 최소adapter로 해결. 공식라이브source를 rename/hotpatch하지 않음. Efficient physicalMB1/2,학습 whole7prompts/replaycanonical/write logicalB100 의미불변. 새hyperparameter/branchselection/sweep0.",
+  "qualification": "GH review는 정적이며 actualPASS아님. Owner CPU/source/config/token/history/noCP audit 및 최초 본target/replay/B1의 bounded technical checks. 첫fit을 버리고 refit하지 않음. Same-input reference check는 필요한 최소 fixedcandidate/row에서만 budget과비용 기록. 비유한/identity/실제연산·state오류차단; 낮은quality/finitebudgetstop/경미한수치근접성은기록. raw선저장/오류위치보존. 기준사후완화/실패지움0.",
+  "resources": {
+    "task_GPU_cap": 1,
+    "project_cap": "현재 server2 tracked2 또는 stricter local/task. 예전cap3상속0; allocation+admittedpending전체를자원확인용으로만확인.",
+    "GPU_job": {
+      "name": "fe-sequential-2k",
+      "GPUs": 1,
+      "CPUs_default": 6,
+      "host_memory_MiB": 59392,
+      "hard_host_memory_MiB": 60416,
+      "wall_max_hours": 48,
+      "node": "server2",
+      "queue_QoS": "최신 실제 허용 partition/QoS owner검증. 과거 lab_gpu_s2는참고.",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "CPU_collector": {
+      "GPUs": 0,
+      "CPUs": 6,
+      "host_memory_MiB": 24576,
+      "wall_max_hours": 4
+    },
+    "admission": "현재 node/CPUperGPU/VRAM/disk/quota/cap를새결속. 6CPU보다더엄격하면resource-only낮춤명시,과학조건불변. 다른job취소/선점/증액0. 합산cap넘으면정확허용dependency로serialPENDING등록;freeGPU기다리며과학등록무기한보류0.",
+    "DAG": "단일persistent GPU runner: minimal actualcheck→W0targetpool→coldunchangedW0H0 B1..B20→W20eval; CPU afterany collector. targetprecompute와chain별도 모델저장job으로나누지않음. Held exactowner/fullargv/source/resources/dependencies검사후release.",
+    "estimates": "48h는요청상한/ETA아님. 최대70000targetforward와100solve/evalrow로계획, 실제firsttarget속도/peak로총ETA범위와precompute비용포함. 할당시간만GPUh계상."
+  },
+  "data_environment": "기존 SH2 model/C0/nativecontext/fixed10k/evaluator 현물 우선 exactreuse. 최근 Causal B1 runtime torch2.9.1+cu128/TF4.57.1 및 FP32H200와 다른GPU조건을 새확인. 기존 sharedvenv/EasyEdit/source 수정금지. 필요 Python dependency는 task-local isolated overlay에 최소버전봉인설치허용; root/user-global 설치0. HF offline/modeldownload/statrecompute0.",
+  "transfer": "외부 공개 FE exactcommit code만 local pin/clone 허용. 모델/dataset/checkpoint복제없게 가능하면 sparse source checkout. GH /mnt/raid5/janghj/ODE-edit/local/fe-baseline-review-20261006/upstream 의 exactsource small allowlist pull도 허용(원본KEEP/nooverwrite/no--delete). 기존 server2 asset 부족시 small source/config/context만 peers allowlist pull; 새 대형모델/stat 이동필요면구체보고. repoFE bundleddata는 이번실험입력아님.",
+  "storage": "noCP,모델/W/H/RNG/delta/optimizer resume payload durable저장0. targettable5x4096x2000 FP32 약164MB RAM. 신규denseactivation/logits/M/P/C0dump0. stdout/metrics1 authoritative+summaryhash, per-target/batch/phase원자료 local. 계산된fullrow상한+temporary+errorreceipt reserve/diskinode제출전및batchboundary검사. 무관파일삭제0.",
+  "evaluation": "정본 contract: W0/currentprepost/W5/10/15/20allseen, R2000/P4000/N20000최종, first500/birthcohort. RSPSNS/Harmonic/TFmicro-promptmacro-strict/NLLtrue-new/margins/paired/retention/실제fit·replay·solve·evalexclusivecost. 논문freegenerationAccuracy와TFstrict혼동0. 같은endpoint재사용, historicalmatched분모/runtime차이명시. 새로운baseline학습0.",
+  "allowed_write_paths": [
+    "project/run_scripts/fe_baseline/**",
+    "plans/updates/server2/fe-sequential-2k/**",
+    "audits/servers/server2/fe-sequential-2k/**",
+    "runs/fe-sequential-2k/**",
+    "experiment-reports/servers/server2/fe-sequential-2k/**",
+    "tasks/status/fe-sequential-2k/server2.json",
+    "messages/acks/server2/fe-sequential-2k.json",
+    "messages/server-heads/server2/fe-sequential-2k.json",
+    "local/fe-sequential-2k/**",
+    "전용 worktree ignored servers/local/session-boundary.env"
+  ],
+  "git": "Ownscope source/tests/compactreport/lock/manifest nonforce ownbranch+main 게시허용. latestmain변경보존, oldfrozen불변,원root dirty reset/stash/allstage금지. 외부FE전체코드/데이터/PDF/vendor대량복사Git0. Genericguard exactrunspath부족이면현재USER승인예외receipt,helper정책우회수정0.",
+  "audit": "Owner preflight/source개별함수·데이터·history·rounding·noCP/admission 확인, 별도독립리뷰있으면그사실만; 없으면independentreviewer0. Postrun CPUindependentreducer/20commit19link100H/분모/원raw SHA/비용검증. 품질해석은GH.",
+  "artifact_broadcast": "compactsource/manifest/report는Git. ordinarylocal필요공유시기존approvedhelper exactallowlist/no--delete. 대형raw반복복제불필요하면NO_BROADCAST_NOT_REQUIRED및원본위치/SHA기록.",
+  "report": "experiment-reports/servers/server2/fe-sequential-2k/report-ko.md",
+  "status": "tasks/status/fe-sequential-2k/server2.json",
+  "delivery": "정식경계/nonce중복확인뒤담당수락ACK 먼저. 구현·등록자율계속, 제출되면 actualjobID/lock/source/status전달. GH인계연결종료는중지아님. 실험완료와ACK구분.",
+  "monitoring": "GH는직접ACK/초기착수확인만하며GPU완료장기대기안함. SH2는등록·heldrelease·단1회자원snapshot까지bounded관찰, 첫target가즉시실행되면그initialfact만. 선행2000targetfit끝이나B1까지수시간polling없음. sealedrunner/collector W20까지자연진행. 사용자recall전새recurringmonitor/heartbeat/autoretry/추가job0."
+}

@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
+  "review": "GH owner 정적 source/계약 검토, 독립 reviewer0, 실제CPU수학/GPU/production검증아님",
+  "checks": {
+    "six_machine_JSON_or_review_files": 6,
+    "first2000_B100x20": true,
+    "FE_firstforward_exact_pin": true,
+    "prewrite_history_vs_final_history_distinct": true,
+    "double_add_rounding_bound": true,
+    "noCP": true,
+    "task_GPU1_server2": true,
+    "CPU6_hardmem60416": true,
+    "no_other_task_changes": true
+  },
+  "status": "PASS_OWNER_DISPATCH_REVIEW_NOT_GPU",
+  "members": [
+    {
+      "path": "plans/global/fe-sequential-2k/contract.json",
+      "bytes": 11977,
+      "sha256": "0d727e5df5ede6408a76a83e8b7b8ad6ac186c3f39b7f8b97dd5d26fd16adf74"
+    },
+    {
+      "path": "plans/global/fe-sequential-2k/repository-review-ko.md",
+      "bytes": 6162,
+      "sha256": "46d7fcaa9d54b38affe52eb22b2f3e953fe41688ad88b0991a5b6ccde777b909"
+    },
+    {
+      "path": "plans/global/fe-sequential-2k/upstream-source-manifest.json",
+      "bytes": 4438,
+      "sha256": "05e10daaeb3b5c67306fa4f766f1b384e4166f437c536061bc941c71f79c3e29"
+    },
+    {
+      "path": "messages/head/2026-10-06-fe-sequential-2k-sh2.json",
+      "bytes": 8770,
+      "sha256": "e9934c992ae6751c9a275cc1c78a3bd2f197e5b4991eb25688ed8d5a9e78e9bd"
+    },
+    {
+      "path": "tasks/pending/fe-sequential-2k.json",
+      "bytes": 539,
+      "sha256": "e74a332cc3863eeb67cce70d5f47f77830fad0d9152f72c9f8c26004c29d27e1"
+    },
+    {
+      "path": "control/experiment-exceptions/fe-sequential-2k-sh2-20261006.json",
+      "bytes": 979,
+      "sha256": "69d1665395df92da81bcedd41ca31954be0ac30a04ef49916a931e5b10e087ec"
+    }
+  ]
+}
