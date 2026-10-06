@@ -9,7 +9,7 @@
 - 기존 60001의 봉인 B4/B5/W0 raw CPU 검산에서 current 분모 R100/P200/N1000, B5 누적 R500/P1000/N5000, W0 R2000/P4000/N20000을 확인했다. 원 raw/stored aggregate/payload 일치. B4에는 all-seen key 없음. 기존 job이나 run 변경 없음.
 - 새 caller는 scientific run에 current/pre·current/post·실측 all_seen/post·W0_first2000 및 W0 같은-cohort N 비교를 직접 기록한다. R/P/N 경로 분리, 백분율, harmonic, true-new margin, edits 축과 pre-state 위치를 구분한다. 중복 companion daemon을 자동 실행하지 않는다.
 - SH1 job-identity helper `bc63425e` 채택. 실제 job 이름/Config 검증을 유지한다. immutable startup identity와 transport 상태를 분리하고 finish 후 bounded readback을 준비했다. 실온라인 검증은 NOT_OBSERVED.
-- CPU fake-SDK/metadata 검사 25개 중 24 PASS, 1 SDK환경 검사 SKIP. 소스 31개 AST/import/config 검사 통과. 이는 과학 toy/GPU/model PASS가 아니다. owner audit이며 별도 reviewer 없음.
+- CPU fake-SDK/metadata 검사 25개 중 24 PASS, 1 SDK환경 검사 SKIP 후 task-local readback 검사 1개 추가 PASS. 소스 31개 AST/import/config 검사 통과. 이는 과학 toy/GPU/model PASS가 아니다. owner audit이며 별도 reviewer 없음.
 
 ## 남은 제출 조건
 

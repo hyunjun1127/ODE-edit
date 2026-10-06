@@ -1,0 +1,54 @@
+{
+  "analysis_source": {
+    "bytes": 8568,
+    "device": 2304,
+    "inode": 250225614,
+    "mtime_ns": 1791314462100676237,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/project/run_scripts/gpt2_xl_asset_prep/finish_analysis.py",
+    "sha256": "8ef1d1178cb4d3e85a4841ea809dd16acbe8841944a2130769a16e6e3ba69e2c"
+  },
+  "audit": {
+    "bytes": 10788,
+    "device": 2304,
+    "inode": 250226146,
+    "mtime_ns": 1791314462168676189,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/audits/servers/server1/gpt2-xl-wikipedia-alpha-projector/repair-r2-completed.json",
+    "sha256": "1b880feadea459867ca23b20562cf3bc08ea79e2d2f67c96ef36c0f0f2956854"
+  },
+  "input_lock": {
+    "bytes": 15820,
+    "device": 2304,
+    "inode": 245013320,
+    "mtime_ns": 1791313170354860115,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2-xl-stats-projector/20261007-v1/preparation-r1/input-lock.json",
+    "sha256": "9b6c25b687b316c652d9cd66bb4f6bbfb40107a7c76093791066cd3ab8edbd99"
+  },
+  "outputs": [
+    {
+      "bytes": 9327,
+      "device": 2304,
+      "inode": 250282766,
+      "mtime_ns": 1791314462168676189,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/asset-manifest.json",
+      "sha256": "59916bd9eeb722c8c5df2b68be1378fd821a65b2bfdf14015a8cb90529e38493"
+    },
+    {
+      "bytes": 967,
+      "device": 2304,
+      "inode": 250282765,
+      "mtime_ns": 1791314462164676191,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/layer-validation.csv",
+      "sha256": "f03de67d022721fe31ebb4fab8e56090773f55b25df05bcfe1af7541d7d5c54e"
+    },
+    {
+      "bytes": 3991,
+      "device": 2304,
+      "inode": 250282767,
+      "mtime_ns": 1791314462168676189,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2-xl-stats-projector-20261007/experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/report-ko.md",
+      "sha256": "c83d302259c9948b81f750cf8bc9b3223783c694235d636dc3af799d67caacfe"
+    }
+  ],
+  "source": "0460cd512205a31a1f0b8663b5d7692571fefb12",
+  "status": "COMPLETE"
+}

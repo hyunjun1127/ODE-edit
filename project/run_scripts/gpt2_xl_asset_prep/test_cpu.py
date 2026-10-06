@@ -1,12 +1,22 @@
 import unittest
 from pathlib import Path
 import tempfile
+from unittest.mock import patch
 import numpy as np
 import torch
 from .common import EASY,module
 from .numerics import load_c0,native_project,validate
 
 class TestPrep(unittest.TestCase):
+    def test_repair_attempt_path_isolated(self):
+        from .worker import attempt_path
+        with tempfile.TemporaryDirectory() as d:
+            local=Path(d);fresh=local/'attempt-fixture';fresh.mkdir()
+            with patch('project.run_scripts.gpt2_xl_asset_prep.worker.LOCAL',local):
+                self.assertEqual(attempt_path({'attempt_root':str(fresh)}),fresh)
+                for bad in (local,local/'output-r1',local/'attempt-missing'):
+                    with self.assertRaises(RuntimeError):attempt_path({'attempt_root':str(bad)})
+
     def test_native_strict_threshold(self):
         c=torch.diag(torch.tensor([.001,.019,.02,.021,1.],dtype=torch.float32))
         p,s=native_project(c,(EASY/'easyeditor/models/alphaedit/AlphaEdit_main.py').read_text())

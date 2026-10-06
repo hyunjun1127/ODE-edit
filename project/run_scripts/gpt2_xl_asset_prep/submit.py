@@ -18,7 +18,8 @@ def main():
     require(command(['hostname'])=='devbox','HOST')
     require(command(['git','branch','--show-current'])=='codex/server1-gpt2-xl-stats-projector-20261007','BRANCH')
     require(not command(['git','status','--porcelain','--','project/run_scripts/gpt2_xl_asset_prep','project/run_scripts/experiment_tracking']),'SOURCE_DIRTY')
-    root=LOCAL/'submission-r1';root.mkdir(exist_ok=False)
+    root=LOCAL/'submission-repair-r2';root.mkdir(exist_ok=False)
+    attempt_root=LOCAL/'attempt-repair-r2';attempt_root.mkdir(exist_ok=False)
     source=command(['git','rev-parse','HEAD']);tree=command(['git','rev-parse','HEAD^{tree}'])
     archive=root/'source.tar'
     subprocess.run(['git','archive','--format=tar','--output='+str(archive),source,
@@ -45,6 +46,9 @@ def main():
         source_members=[member(p) for p in sorted(frozen.rglob('*')) if p.is_file()],input_lock=inputs,
         tracking_job_identity_policy='USER-GH-ALL-SH-WANDB-JOB-ID-20261007',
         mode='REUSE_ALL_STATS_AND_P_CPU_REVALIDATION',GPU=0,save_checkpoints=False,
+        attempt='repair-r2',attempt_root=str(attempt_root),
+        authority='2026-10-07 user: repair하고 task 이어서 진행해',
+        previous_attempt=member(LOCAL/'submission-r1/execution.lock.json'),
         exact_resume='NOT_NEEDED_READONLY_ASSET_VALIDATION',broadcast='NO_BROADCAST_NOT_REQUIRED'))
     jobs=[]
     for role,lane in [('verify',0),('verify',1),('pack',0),('collect',0)]:
@@ -62,7 +66,7 @@ def main():
             f'export OMP_NUM_THREADS={cpus} OPENBLAS_NUM_THREADS={cpus} MKL_NUM_THREADS={cpus}',
             'cd '+shlex.quote(str(frozen)), 'exec '+shlex.join(argv),''])
         with launcher.open('x') as f:f.write(body)
-        name='odeedit_gpt2xl_reuse_'+label.replace('-','_')+'_s1'
+        name='odeedit_gpt2xl_reuse_'+label.replace('-','_')+'_r2_s1'
         args=['sbatch','--parsable','--hold','--account=lab','--partition=gpu','--qos=lab_gpu_s1',
             '--nodelist=devbox','--nodes=1','--ntasks=1',f'--cpus-per-task={cpus}',f'--mem={mem}M',
             '--time='+wall,'--export=NONE','--no-requeue','--job-name='+name,

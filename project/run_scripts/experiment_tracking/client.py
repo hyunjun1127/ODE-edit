@@ -19,7 +19,7 @@ class Tracker:
         cfg=bind_job_identity(config_values); settings=load_env(env_file)
         self.job_identity=job_identity(cfg)
         self.spool=Path(spool).resolve();self.spool.mkdir(parents=True,exist_ok=False,mode=0o700)
-        self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={}
+        self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={};self.startup={}
         self.ready=threading.Event();self.done=threading.Event();self.queue=queue.Queue(maxsize=1024)
         self.dropped=0;self.closed=False
         # Do not forward the full experiment environment or secret-rich argv to SDK.
@@ -48,7 +48,8 @@ class Tracker:
     def _receipt(self):
         try:
             data=dict(run_id=self.run_id,status=self.status,dropped_points=self.dropped,result=self.result,
-                      exact_model_resume='NOT_IMPLIED',credential_saved=False,job_identity=self.job_identity)
+                      exact_model_resume='NOT_IMPLIED',credential_saved=False,job_identity=self.job_identity,
+                      startup_readback=self.startup)
             tmp=self.spool/'receipt.tmp'
             tmp.write_text(json.dumps(data,allow_nan=False)+'\n');os.replace(tmp,self.spool/'receipt.json')
         except Exception:
@@ -60,7 +61,8 @@ class Tracker:
                 for line in stream:
                     result=json.loads(line);self.result=result
                     self.status=result['status']
-                    if self.status=='READY_ONLINE':self.ready.set()
+                    if self.status=='READY_ONLINE':
+                        self.startup=dict(result);self.ready.set()
                     elif self.status not in ('LOGGING_ACCEPTED','LOGGING_DEGRADED'):
                         self.ready.set();self.done.set()
                     self._receipt()

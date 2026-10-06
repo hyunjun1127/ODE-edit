@@ -2,12 +2,12 @@
   "task_id": "wandb-job-id-recording",
   "server": "server4",
   "status": "POLICY_ACCEPTED_CALLER_PREPARED_NOT_FROZEN",
-  "common_helper_adoption": "PENDING_SH1_PUBLICATION",
-  "comparison_caller_cpu_fake_sdk_tests": "2 tests PASS; no network or model computation",
+  "common_helper_adoption": "bc63425e job identity and subsequent SH1 step-id fix adopted; comparison schema expansion pending",
+  "comparison_caller_cpu_fake_sdk_tests": "3 tests PASS; no network or model computation",
   "new_online_run": false,
   "actual_online_identity": "NOT_OBSERVED",
   "existing_jobs_or_runs_changed": false,
-  "submission": "USER_PAUSED_PRE_SUBMISSION",
+  "submission": "USER_RESUMED; SHARED_COMPARISON_SCHEMA_NOT_READY",
   "monitoring_active": false,
   "automatic_resume": false
 }

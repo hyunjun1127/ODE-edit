@@ -25,11 +25,15 @@ class Tests(unittest.TestCase):
     def test_optional_empty_and_signed_step(self):
         cfg=bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID=''))
         self.assertNotIn('step_id',cfg)
-        for step in ('-1','-2','0','batch','extern'):
+        for step in ('-1','-2','-5','0','batch','extern'):
             cfg=bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID=step))
             self.assertEqual(cfg['step_id'],step)
             from .schema import config
             self.assertEqual(config(cfg)['step_id'],step)
+            sdk=SDK();out=[]
+            request=dict(config=cfg,run_id='signedStepFixture',spool='/tmp/fake-only',smoke=False,base_url='https://api.wandb.ai')
+            session(sdk,request,[dict(op='finish',exit_code=0)],out.append)
+            self.assertEqual(out[0]['job_identity']['step_id'],step)
         with self.assertRaisesRegex(ValueError,'INVALID_SLURM_STEP_ID'):
             bind_job_identity(CFG,dict(SLURM_JOB_ID='59931',SLURM_STEP_ID='not a step'))
 
@@ -47,6 +51,19 @@ class Tests(unittest.TestCase):
                 return '59931' if key=='SLURM_JOB_ID' else None
             def __iter__(self):raise AssertionError('full env read forbidden')
         self.assertEqual(bind_job_identity(CFG,Env())['job_id'],'59931')
+
+    def test_startup_readback_survives_later_receipt(self):
+        import json,tempfile
+        from pathlib import Path
+        from .client import Tracker
+        with tempfile.TemporaryDirectory() as d:
+            t=Tracker.__new__(Tracker);t.spool=Path(d);t.run_id='fixture'
+            t.status='LOGGING_ACCEPTED';t.dropped=0;t.result={'status':'LOGGING_ACCEPTED'}
+            t.job_identity={'job_id':'59931'}
+            t.startup={'status':'READY_ONLINE','run_name':'server1-test-r1-job59931','job_identity':t.job_identity}
+            t._receipt()
+            receipt=json.loads((t.spool/'receipt.json').read_text())
+            self.assertEqual(receipt['startup_readback'],t.startup)
 
     def test_production_assembly_readback(self):
         cfg=bind_job_identity(CFG,{'SLURM_JOB_ID':'59931'})
