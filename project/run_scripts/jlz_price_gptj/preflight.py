@@ -30,6 +30,9 @@ def check(out):
                 and p['cap_mode']==('none' if arm=='FREE100' else 'native'),'OURS_COEFFICIENTS')
     from project.run_scripts.experiment_tracking.schema import load_env
     load_env(LOCAL/'tracking.env')
+    from .tracking import contract_ready
+    try:contract_ready();tracking_ready=True;tracking_block=None
+    except RuntimeError as error:tracking_ready=False;tracking_block=str(error)
     import torch
     require(not torch.cuda.is_initialized(),'CPU_ONLY')
     result=dict(task=TASK,nonce=NONCE,passed=True,status='STATIC_IMPORT_CONFIG_CHECKED',source=[member(p) for p in paths],
@@ -38,7 +41,10 @@ def check(out):
             'no-grad fresh upper builder and off-owner same-layer pullback','native context once, input lock, cold arms',
             'six-run DAG cap2 plus combined current cap3','single candidate stream/noCP/online scalar logger'],
         source_review_level='OWNER_SOURCE_AUDIT; 별도 reviewer 없음',numeric_tests=0,toy_runs=0,
-        model_load=False,actual_B1='NOT_OBSERVED')
+        model_load=False,actual_B1='NOT_OBSERVED',tracking_ready=tracking_ready,tracking_block=tracking_block,
+        helper_sources=[member(p) for p in sorted((ROOT/'project/run_scripts/experiment_tracking').glob('*.py'))],
+        tracking_contracts=[member(ROOT/p) for p in ('control/wandb-policy.json',
+            'control/wandb-method-metric-schema.json','messages/head/2026-10-07-wandb-method-metrics-all-sh.json')])
     write(out,result);return dict(status=result['status'],files=len(paths),actual_B1='NOT_OBSERVED')
 
 if __name__=='__main__':
