@@ -1,5 +1,9 @@
 # v12-R realized-response 2k 실행 인계
 
+2026-10-06 USER recall에 따른 최신 MAIN 중간 결과는 [W15 / 1,500-edit 보고서](intermediate-main-W15/report-ko.md)에 게시했다. 원 NLL/TF 행 CPU 재집계와 저장 집계가 일치했고, 15 commit·14 상태 연결·75 history append를 검산했다. W15 RS/PS/NS는 99.333% / 90.033% / 69.607%다. B16에서 `No space left on device`로 실패했으며 W20 결과는 없다. [소형 집계 manifest](intermediate-main-W15/manifest.json)에 성능·retention·실현·비용 파일을 결속했다.
+
+아래는 최초 등록 당시의 역사적 인계 기록이다. 이후 완료/실패 및 중간 관측의 현재 증거는 위 보고서를 따른다.
+
 Instruction/nonce: `USER-GH-SH4-JLZ-V12R-20261006`.
 Task: `jlz-v12r-realized-response-2k`, 담당 SH4.
 
