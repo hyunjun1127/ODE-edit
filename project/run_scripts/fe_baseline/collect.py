@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 import numpy as np
 from . import *
+from .profile import profile
 
 def rows(folder):return [r for p in sorted(Path(folder).glob('chunk-*.json')) for r in json.loads(p.read_text())['rows']]
 def success(r):return r['true_nll']<r['new_nll'] if r['kind']=='N' else r['new_nll']<r['true_nll']
@@ -47,8 +48,10 @@ def csv_write(path,values):
 def collect(attempt,accounting=True):
     out=attempt/'collector';out.mkdir(exist_ok=False);main=attempt/'main';errors=[];table=[];transitions=[];birth=[];members=[]
     cfg=json.loads((attempt/'config.json').read_text());identities=json.loads(verify(cfg['observer_identity']).read_text());ref={r['identity']:r for r in identities}
+    horizon=profile(cfg['settings']['requests']);batches=horizon['batches'];count=horizon['requests']
+    batch_folders=sorted(main.glob('batch-*'),key=lambda p:int(p.name.split('-')[1]))
     commits=[];previous=cfg['cold_W0_H0'];W0=rows(main/'W0')
-    for folder in [main/'W0',*sorted(main.glob('batch-*/pre')),*sorted(main.glob('batch-*/post'))]:
+    for folder in [main/'W0',*(p/'pre' for p in batch_folders),*(p/'post' for p in batch_folders)]:
         raw=rows(folder)
         if not raw:continue
         try:
@@ -59,10 +62,10 @@ def collect(attempt,accounting=True):
                 require(all(stat[k]['numerator']==expected[k]['numerator'] and stat[k]['denominator']==expected[k]['denominator'] for k in ('R','P','N')),'INDEPENDENT_REDUCER')
             for k in ('R','P','N'):table.append(dict(endpoint=str(folder.relative_to(main)),cohort='all_measured',kind=k,**stat[k],harmonic=stat['harmonic']))
             if folder.name=='post':
-                batch=int(folder.parent.name[-2:]);current_ids={x['case_id'] for x in json.loads(verify(cfg['specs']).read_text())[(batch-1)*100:batch*100]}
+                batch=int(folder.parent.name.split('-')[1]);current_ids={x['case_id'] for x in json.loads(verify(cfg['specs']).read_text())[(batch-1)*100:batch*100]}
                 current=[r for r in raw if r['case_id'] in current_ids];require(len(current)==1300,'CURRENT_DENOMINATOR');birth+=current
                 transitions+=paired(W0,raw,f'W0_to_W{batch}')
-                if batch in (5,10,15,20):
+                if batch in horizon['milestones']:
                     require(len(raw)==batch*100*13,'ALL_SEEN_DENOMINATOR')
                     transitions+=paired(birth,raw,f'atwrite_to_W{batch}')
                     specs=json.loads(verify(cfg['specs']).read_text())
@@ -77,19 +80,19 @@ def collect(attempt,accounting=True):
                             sm=metrics(sub)
                             for k in ('R','P','N'):table.append(dict(endpoint=f'W{batch}',cohort='active' if active else 'superseded',kind=k,**sm[k],harmonic=sm['harmonic']))
         except Exception as e:errors.append(dict(path=str(folder),error=str(e)))
-    for p in sorted(main.glob('batch-*/commit.json')):
+    for p in (f/'commit.json' for f in batch_folders if (f/'commit.json').exists()):
         c=json.loads(p.read_text());require(c['before']==previous and c['batch']==len(commits)+1,'COMMIT_CHAIN_LINK');previous=c['after'];commits.append(c)
     fits=[json.loads(p.read_text()) for p in sorted((main/'targets').glob('*-fit.json'))]
     replays=list((main/'targets').glob('*-replay.json'));layers=list(main.glob('batch-*/layer-*.json'))
     if fits:require([r['index'] for r in fits]==list(range(len(fits))) and all(1<=r['evaluations']<=35 and r['Adam_updates']==r['evaluations']-1 for r in fits),'FIT_BUDGET_OCCURRENCE')
     terminal=json.loads((main/'terminal.json').read_text()) if (main/'terminal.json').exists() else {'status':'MISSING_TERMINAL'}
-    complete=terminal['status']=='W20_COMPLETE' and len(commits)==20 and len(layers)==100 and len(fits)==len(replays)==2000 and not errors
-    if complete:require(len(W0)==len(rows(main/'batch-20/post'))==26000,'W0_W20_FULL_DENOMINATORS')
+    complete=terminal['status']==f'W{batches}_COMPLETE' and len(commits)==batches and len(layers)==5*batches and len(fits)==len(replays)==count and not errors
+    if complete:require(len(W0)==len(rows(main/f'batch-{batches:02d}/post'))==13*count,'W0_FINAL_FULL_DENOMINATORS')
     for p in sorted(main.rglob('*.json')):members.append(member(p))
     account='NOT_QUERIED'
     if accounting and terminal.get('job'):
         run=subprocess.run(['sacct','-n','-P','-j',terminal['job'],'--format=JobIDRaw,State,ExitCode,ElapsedRaw,AllocTRES'],text=True,capture_output=True);account=run.stdout if run.returncode==0 else run.stderr
-    result=dict(status='W20_COMPLETE_CPU_VERIFIED' if complete else 'PARTIAL_OR_TECHNICAL_FAILED',commits=len(commits),history_appends=len(layers),
+    result=dict(status=f'W{batches}_COMPLETE_CPU_VERIFIED' if complete else 'PARTIAL_OR_TECHNICAL_FAILED',profile=horizon,commits=len(commits),history_appends=len(layers),
         own_joins=max(len(commits)-1,0),target_fits=len(fits),replays=len(replays),fit_evaluations=sum(r['evaluations'] for r in fits),
         Adam_updates=sum(r['Adam_updates'] for r in fits),fit_physical_forwards=sum(r['physical_forwards'] for r in fits),
         fit_recompute_forwards=sum(r['checkpoint_recompute'] for r in fits),target_fit_seconds=sum(r['seconds'] for r in fits),
@@ -101,13 +104,13 @@ def collect(attempt,accounting=True):
     result['observer_seconds']=sum(json.loads(p.read_text()).get('seconds',0) for p in main.glob('**/summary.json'))
     csv_write(out/'metrics.csv',table);csv_write(out/'paired.csv',transitions)
     write(out/'verification.json',result);write(out/'raw-manifest.json',members)
-    (out/'report-ko.md').write_text('# FE-MEMIT sequential2k — CPU 사실 보고\n\n'+
-        f"상태: {result['status']}; commit {len(commits)}/20, history {len(layers)}/100, target {len(fits)}/2000.\n\n"+
-        '공개 FE firstforward를 W0 target 고정/BS100×20에 적용했다. 논문 bulk2000 직접 재현이 아니다. TF strict는 자유생성 Accuracy가 아니다.\n\n'+
+    (out/'report-ko.md').write_text(f'# FE-MEMIT sequential{count} — CPU 사실 보고\n\n'+
+        f"상태: {result['status']}; commit {len(commits)}/{batches}, history {len(layers)}/{5*batches}, target {len(fits)}/{count}.\n\n"+
+        f'공개 FE firstforward를 W0 target 고정/BS100×{batches}에 적용했다. 논문 bulk2000 직접 재현이 아니다. TF strict는 자유생성 Accuracy가 아니다.\n\n'+
         'metrics.csv는 원 NLL에서 독립 재계산한 선호·TF·꼬리·cohort이고 paired.csv는 exact identity 기반 lost/gained다. target fit/recompute/replay 비용은 포함하며 새 checkpoint/exact resume는 없다.\n\n'+
         '원본 raw/실패/비용은 local 보존. 품질 해석은 GH. 모니터링/자동 재시도 없음.\n\n'+
-        '## 최종 W20 (존재하는 측정만)\n\n'+
-        '\n'.join(f"- {r['kind']}: {r['numerator']}/{r['denominator']}, TF strict={r['strict']}/{r['denominator']}, new/true NLL={r['new_nll']:.8g}/{r['true_nll']:.8g}" for r in table if r['endpoint']=='batch-20/post' and r['cohort']=='all_measured')+'\n\n'+
+        f'## 최종 W{batches} (존재하는 측정만)\n\n'+
+        '\n'.join(f"- {r['kind']}: {r['numerator']}/{r['denominator']}, TF strict={r['strict']}/{r['denominator']}, new/true NLL={r['new_nll']:.8g}/{r['true_nll']:.8g}" for r in table if r['endpoint']==f'batch-{batches:02d}/post' and r['cohort']=='all_measured')+'\n\n'+
         '## 비용·한계\n\n'+f"Target fit {result['target_fit_seconds']:.3f}s, logical evaluations {result['fit_evaluations']}, Adam {result['Adam_updates']}; activation recompute forwards {result['fit_recompute_forwards']}. 상세 exclusive timers는 verification.json.\n\n"+
         '공개 BF16/TF4.51.3/generated-context 대신 FP32/eager/TF32off/고정 context/실제 pinned runtime를 쓴 순차 이식이다. 과거25step MEMIT와35step FE는 budget/history 타이밍/rounding/target age가 달라 동등 강도를 주장하지 않는다. 기존 baseline pairedraw 비교는 이 collector에서 NOT_MEASURED이며 새로운 baseline fit은0.\n')
     write(out/'terminal.json',dict(status='COLLECTED',verification=member(out/'verification.json'),report=member(out/'report-ko.md'),scientific_complete=complete))

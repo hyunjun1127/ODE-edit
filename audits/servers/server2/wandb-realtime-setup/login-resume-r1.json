@@ -16,9 +16,5 @@
   "failures": 0,
   "remote_points": 3,
   "local_status": "READY_ONLINE_VERIFIED",
-  "dropped_points": 0,
-  "nonce": "USER-GH-SH2-FE-WANDB-LOGIN-RESUME-20261006",
-  "common_helper_source": "93912c3f",
-  "credential_values_recorded": false,
-  "science_environment_changed": false
+  "dropped_points": 0
 }

@@ -1,60 +1,45 @@
-# FE-MEMIT sequential2k — 구현·CPU 준비, W&B 로그인 대기
+# FE-MEMIT sequential10k — 제출 인계
 
-Nonce: `USER-GH-SH2-FE-SEQUENTIAL-2K-20261006`.
-상태: **IMPLEMENTATION_CPU_READY_LOGGING_BLOCKED_NOT_SUBMITTED**.
-실제 GPU job ID 없음, source 실행 archive/lock 미봉인, model/GPU PASS 미확인이다.
+사용자 최신 지시 “10k까지 진행하는 걸로 하자.”를 제출 전에 반영했다. 기존 `fe-sequential-2k` 승인 branch/local/report namespace는 유지하며 실제 profile/job명은 **fe-sequential-10k**다. 원 2k contract/CPU7/입력 준비는 보존했다.
 
-## 입력과 구현
+## 실제 등록 상태
 
-공개 FE `478134dfb24b43f4e18b47e8500893ce3f9cc50f`의 README가 선택한 firstforward/FE-memit_main을 읽기전용 pin했다.
-정본 review/contract/upstream manifest 전체 및 실제 compute_z/precompute/FE writer/key/lookup/config를 읽었다.
-PDF는 GH 정적 검토 근거이며 이번 SH2가 전체 논문을 새로 읽었다고 주장하지 않는다.
-[공개 FE](https://github.com/jugechengzi/FE/tree/478134dfb24b43f4e18b47e8500893ce3f9cc50f).
+| 구분 | Job ID | 자원 | release 직후 단일 관측 |
+|---|---:|---|---|
+| persistent GPU runner | 59878 | 1GPU/6CPU/59392M/48h | PENDING, reason None |
+| afterany CPU collector | 59879 | 0GPU/6CPU/24576M/4h | PENDING, reason None |
 
-- 고정 first2000의 occurrence index/record hash와 학습토큰2000개, observer26,000행 identity를 CPU 검산했다. 최대 학습 width32, 원자료·순서 변경0.
-- 기존 model/context/C0 현물은 직전 fullSHA receipt와 현재 size/inode/mtime 일치로 재사용했다. 새 모델 다운로드/C0 재계산0.
-- W0에서 L4 fit 각1회(35 loss평가/최대34 Adam, total<.05), 모든2000 fit 뒤 canonical absolute z4 replay로L5–8 target을 만든다. 전 target은 CPU RAM에 고정하고 online refit0.
-- key는 clean.5/generated각.1 nested mean, residual은 z_l−h_l/divisor없음. 각층 fresh K/h, FP64 solve(KK+H+15000C0,KRᵀ), write 전 FP64Gram→CPUFP32 H, FP64 W+delta→FP32 destination을 구현했다.
-- 7문맥을 MB1로 나누되 loss 전체를 모은 뒤 stop을 backward 전에 확인한다. Activation recompute는 실제 forward수/별도 비용으로 계수하며 새 target fit으로 가장하지 않는다. Prefix cache/상층 frozen 대체0.
-- Current pre/post, W0 및 W5/10/15/20 allseen, first100/500·birth/active/superseded cohorts 및 paired lost/gained를 동일 raw에서 집계한다. W1 pre는W0, milestone current는allseen을 재사용한다.
-- NoCP/W·H·RNG·optimizer·target table durable tensor0. RAM rollback만 가능하며 exact_resume=NOT_AVAILABLE.
+collector dependency는 `afterany:59878`. 두 job의 owner/argv/source/script/메모리/시간/dependency를 held 상태에서 확인하고 collector→runner 순서로 release했다. Admission시 현재 owner의 기존 Server2 GPU jobs는0, project cap2/taskcap1이었다. 다른 job변경0. release 이후 추가 scheduler/result polling을 하지 않았다. **실제 Llama startup·기술 PASS·완료/최종 metric은 NOT_OBSERVED**다.
 
-## 최소 CPU 확인과 한계
+## 범위와 결속
 
-최초6검사 중 activation-checkpoint의 관측용 head 비교가 forward-only autograd 분기를 만들던 오류가 발생했다.
-관측 비교만 no_grad로 분리했고 원 실패 receipt를 `local/fe-sequential-2k/cpu/`에 보존했다.
-수정 후6개, 최신 W&B submit 선행조건 검사 추가 후 **7개 PASS**다.
-작은32block 모델에서 MB1/recompute gradient·첫 Adam update가 whole7 reference와 일치하는지 확인했다.
-Stop 경계, tuple/Tensor, FP64-add/FP32-history, noCP 및 제출 resource를 검사했다.
-이는 owner CPU review이며 independent reviewer=0, 실제 Llama 성능/qualification PASS가 아니다.
+- cold W0/H0, fixed10k 전부, BS100×100, L4–L8. W0 target10,000fit + absolute-z4 canonical replay10,000회 후 own W/H chain.
+- 35loss/34Adam 상한·원 FE objective/15000C0·no divisor·prewrite FP64Gram→CPUFP32H·FP64 W+delta→FP32 destination 그대로. CPU adapter는 이전 source와 scalar callback 두 줄 외 byte-exact.
+- 100commit/500solves/500history/99joins. B101/추가 baseline/sweep 없음. max350000loss/340000Adam은 계획이다.
+- W0 전10k, current pre/post, W5/W10/…/W100 all-seen. W100 R10000/P20000/N100000. first100/500, birth/active/superseded cohort는 같은 원 row에서 CPU 계산한다.
+- 계획 저장1,729,000rows/신규관측1,727,700rows(B1 pre1300 W0재사용), unique requests10000. 반복관측을 독립 samples로 세지 않는다.
+- 새 edited weight/H/target/RNG/resume tensor 영속저장0. Target table819200000B CPU RAM. exact_resume=NOT_AVAILABLE.
 
-## 자원·비용 계획
+## W&B와 검사
 
-Server2 task1GPU/projectcap2또는stricter,6CPU/59392MiB(ceiling60416)/48h/exportNONE/Requeue0.
-CPU collector는0GPU/6CPU/24576MiB/4h afterany. 현 gpu partition/lab_gpu_s2 허용사항을 확인했다.
-직접 VRAM 관측값은 preparation config에 보존했으며 GPU 종류를 추정해 PASS하지 않는다.
-Target RAM163,840,000B, H/C0 각각 약3.83GiB; source/metric/error reserve12GiB.
-CPU input/resource config는 `local/fe-sequential-2k/preparation/configuration.json`.
-최대70,000 logical target evaluations/68,000 Adam/100 solves이고 activation recompute는 별도 추가 physical forward다.
-W0+pre/post/milestone 저장상한137,800행, 이 중 B1 pre1,300행은 재사용으로 실제 새 평가136,500행 계획이다.
-48h는 ETA가 아닌 요청 상한이며 실제 최초 fit 시간/peak는 아직 미측정이다.
+[CPU online smoke](https://wandb.ai/wkdguswns2256/layer%20allocation/runs/d2b83c62f25547fd): **READY_ONLINE_VERIFIED**, remote3points/dropped0. 과학 run이 아닌 setup run이다. FE scientific run ID/URL은 실행시 task-local tracking receipt에 기록하며 지금은 미관측.
 
-## 최신 W&B 정책에 따른 정확한 blocker
+SH1 공통 logger init/log/finish를 재사용하고 FE는 기존 scalar만 whitelist 매핑한다. 키/raw/code/console/artifact 업로드0, scienceenv pin변경0. CPU7 재사용 + 좁은 horizon/100batch 순서/telemetry/resource/noCP 검사4/4 PASS. 독립 reviewer0, owner audit; 실제 GPU PASS와 구분한다.
 
-구현 도중 `USER-GH-ALL-SH-WANDB-REALTIME-20261006-SERVER2`가 도착했고 FE는 미봉인/미제출이었다.
-별도 SDK0.30.0 설치·privacy설정은 완료했으나 Server2 인증정보가 없어서 online3point/readback은 미실행이다.
-SH1 공통 helper도 아직 결속하지 않았다. 전용 logger를 중복 구현하거나 offline를 online PASS로 쓰지 않았다.
-따라서 **Slurm 등록하지 않았다**. 사용자 Server2 안전 로그인→CPU online smoke→SH1 helper source/API결속→새 CPU/source/config freeze 후 기존 승인 범위의 held등록·release를 진행할 수 있다.
-기존 B1/다른 job은 조회·변경·취소하지 않았으며 자원 admission 외 새 monitoring은 없다.
+## 실행 재현·provenance
 
-## 보존·재현
+- 실행 source `3645b40832b3da08d9c3ee3264b3d500fbbd6434` (이후 보고 publication과 구분).
+- upstream FE `478134dfb24b43f4e18b47e8500893ce3f9cc50f`; read-only local source. 원 논문 bulk2000의 직접 재현이 아니라 동일 FE의 sequential10k profile이다.
+- lock `/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/execution.lock.json`, SHA256 `91d6113fca6ae76c92bc4b03abb8465937ff0bb58b0c164661e4d37ce3a3e937`.
+- config/input `local/fe-sequential-2k/preparation-online-10k-r1/`; token10000/observer identity130000, 전체순서 loader 검산. 기존 17asset fullSHA receipt+현재stat 재사용.
+- 결과/root `/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/`; `main/`, `collector/`, `tracking/`는 등록된 프로그램이 기록한다.
+- 등록 명령: `python -m project.run_scripts.fe_baseline.submit --config /mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/preparation-online-10k-r1/configuration.json --attempt-name attempt-online-10k-r1` (create-once; 재등록 지시가 아님).
+- tracked audit `audits/servers/server2/fe-sequential-2k/submission-online-10k-r1.json`; 원 자세한 held/source/input 기록은 local 보존.
 
-- 구현: `project/run_scripts/fe_baseline/`.
-- CPU: `/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/cpu-ready/receipt.json`.
-- readonly upstream: `/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/upstream/`.
-- token/source preparation: `/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/preparation/`.
-- W&B 설정 보고: `experiment-reports/servers/server2/wandb-realtime-setup/report-ko.md`.
+## 자원·한계
 
-원 root dirty1391건은 보존했다. 외부 전체FE/data/PDF/모델/raw는 Git에 넣지 않는다.
-`NO_BROADCAST_NOT_REQUIRED`. 실행/최종 품질/과거 baseline 비교는 아직 NOT_MEASURED.
-논문 bulk2000/BF16·TF4.51.3/generated-context와 이번 sequentialFP32·TF4.57.1/고정context는 구분한다.
+준비시 실제 node8×RTX A6000/49140MiB를 조회했다. 1GPU 48h는 요청 상한이며 **10k 완료 ETA가 아니다**. 원 2k 산정에서 이어진 config `host_plan_GiB.steady_C0_H_target=7.813` 요약은 이전 추정값이며, 정확 bytes 기준 H+C0+새 target의 합은 약8.42GiB다. 정확 target819200000B와 59392M request는 별도 결속되어 있다. 실행 lock은 소급 수정하지 않는다. 모델/행렬 peak와 첫 fit속도/전체시간은 runner 실측 전이다. timeout/실패 시 원 자료와 비용을 보존하나 noCP exact-resume/자동재시도는 없다.
+
+공개 BF16/TF4.51.3/generated-context와 달리 이 profile은 FP32/eager/TF32off/기존 canonical context/실제 pinned runtime를 쓴다. TF strict와 논문 자유생성 Accuracy를 혼동하지 않는다. 실제 성능·보존·비용/완료 주장은 아직 없다.
+
+Source/compact report만 Git 공유. raw/model/teacher/전체stdout/credential Git0, NO_BROADCAST_NOT_REQUIRED. sealed runner/collector는 자연진행하며 agent 장기모니터링 없이 사용자 recall을 기다린다.
