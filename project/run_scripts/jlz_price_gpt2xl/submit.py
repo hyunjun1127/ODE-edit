@@ -12,6 +12,7 @@ from pathlib import Path
 from .common import ROOT, LOCAL, TASK, NONCE, CELLS, require, write, member, sha, verify
 
 SOURCES=['project/run_scripts/jlz_price_gpt2xl','project/proposals/jlz-price-gpt2xl-2k',
+    'messages/head/2026-10-07-price-model-runs-tracking.json',
     'messages/head/2026-10-07-price-gpt2xl-sixarm-sh1.json',
     'project/run_scripts/jlz_price_alpha_writer','project/run_scripts/jlz_interference_l1',
     'project/run_scripts/jlz_v12r','project/run_scripts/jlz_native_writer_aware',
@@ -98,7 +99,7 @@ def freeze(configpath, attempt, roles=ROLES):
         script = attempt / (role + '.sh')
         script.write_text(launcher(source, commit, role, attempt,c['resources']['collector_cpu'] if role=='collector' else c['resources']['cpu'])); script.chmod(0o755)
     write(attempt / 'execution.lock.json', dict(
-        instruction_id=NONCE, task_id=TASK, source_commit=commit, source_tree=tree,
+        instruction_id=NONCE, execution_recall=c['execution_recall'], task_id=TASK, source_commit=commit, source_tree=tree,
         archive=member(archive), source_members=[member(p) for p in sorted(source.rglob('*')) if p.is_file()],
         config_sha256=sha(attempt / 'config.json'), runtime_sources=c['runtime']['source_members'],tracking_env=member(c['tracking']['env_file']),
         dependency_sources=c.get('dependency_sources', []), native_reference=c['native_reference'],

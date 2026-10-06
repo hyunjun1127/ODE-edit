@@ -1,9 +1,10 @@
-# GPT2-XL ours PRICE — method 구현 전용
+# GPT2-XL ours PRICE — six-cell 실행 구현
 
-최신 사용자 지시: “method 구현까지만 진행해봐”.
-GPU 실험/Slurm 제출은 하지 않았다. `common.EXECUTION_AUTHORIZED=False`이며
-`run.main`과 `submit.submit`은 명시적으로 차단된다.
-향후 실행은 새 승인 및 별도 immutable source/config/input/resource lock이 필요하다.
+역사적 method-only source는 85a09238로 보존한다. 신규 실행 지시
+`USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1`가 이 범위의
+구현-only 제한을 대체했다. 정본의 exact authority bytes를 검사하고
+별도 immutable source/config/input/resource lock에서 six-cell을 제출한다.
+실제 job/관측 상태는 제출 receipt와 보고서에서 구분한다.
 
 ## 구현
 
@@ -37,7 +38,8 @@ PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
 
 47 tests: 45 통과, 2 skip, 0 실패. CPU operator fixture/fake SDK 검사이며
 target-model forward/backward, B1/B2, 실제 online scientific logging은 NOT_RUN이다.
-별도 reviewer agent는 사용하지 않았다.
+이 결과는 역사적 owner 검사다. 실행 recall의 독립 source 검토와 재검사는
+별도 receipt에 기록하며 target-model PASS로 승격하지 않는다.
 
 ## 남은 실행 검증
 

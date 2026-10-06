@@ -462,6 +462,13 @@ def accounting_snapshot(attempt):
         allocated_GPU_seconds=sum(v['allocated_GPU_seconds'] for v in parents) if not missing else None,
         pending_not_allocated=True,steps_not_double_counted=True,collector_GPU0=True)
 
+def unavailable_inputs(cell,first_error):
+    """Complete report schema without inventing unrecorded work counters."""
+    return dict(arm=cell,status='NOT_READY_INPUTS',commits=0,requests=0,
+        actual=dict(joins=0,history_appends=0),metrics=[],cost=[],
+        counters={k:None for k in ('builds','subject_forwards','subject_backwards','request_updates')},
+        counter_availability='NOT_RECORDED',first_error=first_error)
+
 def _collect(attempt,out,accounting):
     guard(attempt,2*COLLECTOR_BYTES+ERROR_RESERVE_BYTES,inodes=16)
     out.mkdir(parents=True,exist_ok=False);reader=Reader();c=reader.json(attempt/'config.json');lock=reader.json(attempt/'execution.lock.json')
@@ -474,9 +481,7 @@ def _collect(attempt,out,accounting):
         cc=cell_config(c,cell)
         ready=attempt/'inputs/ready.json'
         if not ready.exists():
-            arms[cell]=dict(arm=cell,status='NOT_READY_INPUTS',commits=0,requests=0,
-                actual=dict(joins=0,history_appends=0),metrics=[],cost=[],
-                first_error=optional_receipt(reader,attempt/cell/'first-error.json'))
+            arms[cell]=unavailable_inputs(cell,optional_receipt(reader,attempt/cell/'first-error.json'))
             prefix[cell]={}
             continue
         from .inputs import augment
@@ -533,7 +538,8 @@ def _collect(attempt,out,accounting):
     lines.extend(['','## Coverage·기제·비용',''])
     for arm,v in arms.items():
         lines.append(f'- {arm}: {v["status"]}; commit {v["commits"]}/20, join {v["actual"]["joins"]}/19, H {v["actual"]["history_appends"]}/{history_expected(arm.split('_')[-1])}; '+
-            '/'.join(str(v['counters'][k]) for k in ('builds','subject_forwards','subject_backwards','request_updates'))+' BUILD/subjectF/subjectB/request-update.')
+            '/'.join('NOT_RECORDED' if v['counters'][k] is None else str(v['counters'][k])
+                for k in ('builds','subject_forwards','subject_backwards','request_updates'))+' BUILD/subjectF/subjectB/request-update.')
         if v['first_error']:lines.append(f'  최초 기술 오류/증거: {v["first_error"].get("type",v["first_error"].get("status"))}: {v["first_error"].get("error",v["first_error"].get("reason"))}')
     lines.extend(['','- Terminal requested/realized norm·direction·cosine·error/share, zero-owner leakage, ideal/effective Q·capacity·rawSPD applicability는 reduction.json arm realization에 있다.',
         '- Subject loss와 실제 all-token loss gap은 별도로 관측했으며 동일payload가 두 경로의 hidden/loss/전체gradient 동일성을 뜻하지 않는다.',

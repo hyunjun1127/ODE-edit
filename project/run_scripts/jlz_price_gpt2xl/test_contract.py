@@ -19,6 +19,27 @@ class ContractTests(unittest.TestCase):
                 self.assertEqual((p['lr'],p['K_eval'],p['max_updates'],p['terminal_candidate']),(.5,20,19,19))
                 self.assertEqual(p['lambda_C'],20000 if w=='memit' else 0)
                 if w=='alphaedit':self.assertEqual(p['lambda_alpha'],10)
+
+    def test_native_payload_base_and_wrapper_keys(self):
+        from .prepare import native_payload_keys
+        base={f'h.{l}.mlp.c_proj.weight' for l in range(13,18)}
+        self.assertEqual(native_payload_keys(base)[13],'h.13.mlp.c_proj.weight')
+        wrapped={'transformer.'+k for k in base}
+        self.assertEqual(native_payload_keys(wrapped)[13],'transformer.h.13.mlp.c_proj.weight')
+        with self.assertRaisesRegex(RuntimeError,'NATIVE_PAYLOAD_KEY_IDENTITY'):
+            native_payload_keys(base|wrapped)
+
+    def test_native_positional_attention_mask_binding(self):
+        from .entry import native_block_kwargs
+        def forward(hidden_states,past_key_values=None,cache_position=None,attention_mask=None,
+                    head_mask=None,encoder_hidden_states=None,**kwargs):pass
+        m=types.SimpleNamespace(forward=forward)
+        x=torch.ones(1,2,3);positions=torch.arange(2);mask=torch.tensor([[[[0.,-1.],[0.,0.]]]])
+        got=native_block_kwargs(m,(x,None,positions,mask,None,None),{'use_cache':False})
+        self.assertTrue(torch.equal(got['attention_mask'],mask))
+        self.assertTrue(torch.equal(got['cache_position'],positions))
+        self.assertIs(got['use_cache'],False)
+        self.assertNotIn('hidden_states',got);self.assertNotIn('past_key_values',got)
     def test_conv1d_payload_and_bias(self):
         # Pure operator fixture, not a tiny-model fit or target-model parity.
         W=torch.arange(12,dtype=torch.float32).reshape(4,3)/100
@@ -102,13 +123,21 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(prior(a,'readonly.npz','H',13),'bound')
             fn.assert_called_once_with('readonly.npz','H','cpu',20000)
 
-    def test_method_only_execution_block(self):
-        from .submit import submit
-        from .run import main
-        with patch('subprocess.run',side_effect=AssertionError('NO_COMMAND_ALLOWED')):
-            with self.assertRaisesRegex(RuntimeError,'METHOD_ONLY_USER_DIRECTED'):
-                submit(None,None)
-            with self.assertRaisesRegex(RuntimeError,'METHOD_ONLY_USER_DIRECTED'):
-                main()
+    def test_execution_recall_is_exact_and_fail_closed(self):
+        from .common import require_execution_authority
+        require_execution_authority()
+        with patch('project.run_scripts.jlz_price_gpt2xl.common.sha',return_value='changed'):
+            with self.assertRaisesRegex(RuntimeError,'EXECUTION_AUTHORITY_BYTES'):
+                require_execution_authority()
+
+    def test_collector_no_input_ready_keeps_missing_counters(self):
+        import json
+        from .collect import unavailable_inputs
+        row=unavailable_inputs('MEMIT_CAP075',{'error':'INPUT_PREPARATION_FAILED'})
+        self.assertEqual(row['status'],'NOT_READY_INPUTS')
+        self.assertEqual(row['actual'],dict(joins=0,history_appends=0))
+        self.assertTrue(all(row['counters'][k] is None for k in
+            ('builds','subject_forwards','subject_backwards','request_updates')))
+        self.assertEqual(json.loads(json.dumps(row))['counter_availability'],'NOT_RECORDED')
 
 if __name__=='__main__':unittest.main()

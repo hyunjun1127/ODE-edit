@@ -1,5 +1,5 @@
 """Fresh GPT2 complete-owner entry; native anchors at physical L13..17."""
-import time
+import time,inspect
 import torch
 from project.run_scripts.jlz_realization.inputs import batches
 from project.run_scripts.jlz_writer_coupled.entry import cpu
@@ -19,6 +19,18 @@ def native_rows(pack):
             request=pack['row_request'][i],global_row=i))
     return rows
 
+def native_block_kwargs(module,args,kwargs):
+    """Capture the installed GPT2 positional mask/cache arguments exactly."""
+    signature=inspect.signature(module.forward)
+    bound=dict(signature.bind(*args,**kwargs).arguments)
+    extras={}
+    for name,param in signature.parameters.items():
+        if param.kind==inspect.Parameter.VAR_KEYWORD:extras.update(bound.pop(name,{}))
+    bound.update(extras)
+    bound.pop('hidden_states',None)
+    require(bound.pop('past_key_values',None) is None,'NATIVE_NO_KV_CACHE')
+    return cpu(bound)
+
 
 @torch.no_grad()
 def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
@@ -31,7 +43,7 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
         require(len({r['request'] for r in rowgroup})==1,'COMPLETE_OWNER_GROUP')
         first={};found={};keys={};handles=[]
         def before(m,args,kw):
-            first['x']=args[0].detach();first['kwargs']=cpu({k:v for k,v in kw.items() if k!='past_key_values'})
+            first['x']=args[0].detach();first['kwargs']=native_block_kwargs(m,args,kw)
         handles.append(a.blocks[a.first].register_forward_pre_hook(before,with_kwargs=True))
         handles.append(a.attention(a.first).register_forward_hook(lambda m,args,out:first.update(attn=out[0].detach())))
         for l in a.sites:

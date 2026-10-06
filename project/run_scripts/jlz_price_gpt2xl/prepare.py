@@ -32,14 +32,24 @@ def native_hparams(writer):
     return hp,[member(base),member(source),member(yaml)]
 
 def authority():
+    require_execution_authority()
     manifest=ROOT/DESIGN/'dispatch-package-manifest.json'
     require(sha(manifest)=='4f547b83fad352ddec6ccca782cccc525fd01dc1fc8016a5038ba1d8da0ede08','CANONICAL_MANIFEST')
     require(sha(ROOT/ENVELOPE)=='94c9a0de71ce88821ae2225342bdfb8757c261b8f5f81f3b5f2baa9ff72e263e','CANONICAL_ENVELOPE')
-    rows=[member(manifest),member(ROOT/ENVELOPE)]
+    rows=[member(manifest),member(ROOT/ENVELOPE),member(ROOT/EXECUTION_ENVELOPE)]
     for r in json.loads(manifest.read_text())['files']:
         actual=member(ROOT/r['path']);require((actual['bytes'],actual['sha256'])==(r['bytes'],r['sha256']),'CANONICAL_MEMBER')
         rows.append(actual)
     return rows
+
+def native_payload_keys(keys):
+    """HF payload may store GPT2Model names without its LM wrapper prefix."""
+    keys=set(keys);result={}
+    for l in range(13,18):
+        candidates=[k for k in (f'h.{l}.mlp.c_proj.weight',f'transformer.h.{l}.mlp.c_proj.weight') if k in keys]
+        require(len(candidates)==1,'NATIVE_PAYLOAD_KEY_IDENTITY')
+        result[l]=candidates[0]
+    return result
 
 def prepare(out,attempt,preflight):
     import torch
@@ -63,8 +73,9 @@ def prepare(out,attempt,preflight):
     require((mc['n_embd'],mc['n_layer'],mc['n_positions'],mc['vocab_size'])==(1600,48,1024,50257),'GPT2_CONFIG')
     W={}
     with safe_open(str(model/'model.safetensors'),framework='pt',device='cpu') as f:
+        payload_keys=native_payload_keys(f.keys())
         for l in range(13,18):
-            t=f.get_tensor(f'transformer.h.{l}.mlp.c_proj.weight')
+            t=f.get_tensor(payload_keys[l])
             require(t.dtype==torch.float32 and tuple(t.shape)==(6400,1600),'NATIVE_STORAGE')
             W[str(l)]=tensor_sha(t);del t
     h=hashlib.sha256(str(((6400,6400),'torch.float32')).encode());zero=bytes(8*1024**2);remaining=6400*6400*4
@@ -113,11 +124,13 @@ def prepare(out,attempt,preflight):
             Alpha_mom2_update_weight_usage='UNUSED_NATIVE_FIELD_NO_C0_HYBRID' if writer=='alphaedit' else 'lambda_C',
             constructor='actual native from_hparams; only relative HyperParams import replaced by exact source class')
         models[name]=dict(model=str(model),model_asset_identity=digest(assets),assets=assets,stats=stats,
+            native_payload_keys={str(l):k for l,k in payload_keys.items()},
             projector=project,cold_W0_H0=cold,profiles=profiles,resource_binding=budget,packs=[],contexts=None,
             W0_reuse=dict(status='NOT_AVAILABLE_BEFORE_FIRST_CELL'),context_sources=context_sources,evaluator_sources=evaluator)
     native=list({r['path']:r for r in native}.values())
     storage=storage_plan();capacity=guard(LOCAL,storage['reserve_bytes'],10000)
-    c=dict(task_id=TASK,instruction_id=NONCE,attempt=str(attempt),run_instance=dict(date='2026-10-07',attempt=attempt.name),
+    c=dict(task_id=TASK,instruction_id=NONCE,execution_recall=EXECUTION_NONCE,
+        attempt=str(attempt),run_instance=dict(date='2026-10-07',attempt=attempt.name),
         stream=str(STREAM),seed=20261002,runtime=runtime,models=models,assets=assets,
         native_root=str(EASY),stats_root=str(EASY/'examples/data/stats'),native_hparams=str(EASY/'hparams/MEMIT/gpt2-xl.yaml'),
         ordered_ids_sha256=ORDERED_SHA,native_reference=native,dependency_sources=evaluator,authority_members=members,

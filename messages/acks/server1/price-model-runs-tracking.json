@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-PRICE-MODEL-RUNS-TRACKING-20261007-SERVER1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "server": "server1",
+  "stage": "CPU_CHECKED_ASSETS_BOUND_NOT_SUBMITTED",
+  "task": "jlz-price-gpt2xl-2k",
+  "user_method_only_limit": "SUPERSEDED_WITHIN_THIS_SCOPE",
+  "additional_approval_required": false,
+  "new_job_ids": [],
+  "running_or_completed_old_jobs_mutated": false,
+  "scientific_completion": "NOT_OBSERVED"
+}

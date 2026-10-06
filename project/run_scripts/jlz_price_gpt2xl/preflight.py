@@ -29,7 +29,7 @@ def check(out):
     helper=[member(p) for p in sorted((ROOT/'project/run_scripts/experiment_tracking').glob('*.py'))]
     value=dict(task=TASK,nonce=NONCE,passed=True,status='CPU_SOURCE_CONTRACT_CHECKED',source=[member(p) for p in paths],
         tests_run=result.testsRun,failures=len(result.failures),errors=len(result.errors),
-        source_review_level='OWNER_SOURCE_AUDIT_AND_INDEPENDENT_COLLECTOR_CODE; no separate reviewer agent',
+        source_review_level='OWNER_CPU_AUDIT; independent bounded static reviewers recorded separately, not target-model PASS',
         numeric_tests='CPU pure operator fixtures only; zero target-model qualification',toy_runs=0,
         model_load=False,actual_B1='NOT_OBSERVED',tracking_ready=True,helper_ready=True,
         integration='FAKE_SDK_PAYLOAD_AXES_IDENTITY_PASS',helper_sources=helper,
