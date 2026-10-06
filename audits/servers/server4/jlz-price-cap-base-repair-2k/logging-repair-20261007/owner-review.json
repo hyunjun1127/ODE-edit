@@ -1,0 +1,29 @@
+{
+  "task": "jlz-price-cap-base-repair-2k",
+  "related_task": "jlz-price-alpha-writer-2k",
+  "user_authorized_repair_and_resubmit": true,
+  "user_alpha_confirmation": "Alpha 6개도 교체 제출",
+  "cause": "cap_tracking.TracedEvents가 아니라 TrackedEvents.emit의 sum(payload['nll'])/B: native nll은 [100][6] 중첩 CPU scalar list",
+  "failure_job": 59931,
+  "failed_source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+  "commits": 0,
+  "rollback_verified": true,
+  "other_fault_scope": "모든 MEMIT/Alpha frozen caller byte가 동일. 다른 arm 실제 TypeError 발생을 주장하지 않음; QWEN 59934는 사용자 승인 취소.",
+  "repair": "문맥 평균→요청 평균 scalar mapping; post-start logger 변환/전송 예외 격리, startup auth gate/authoritative raw IO gate 유지.",
+  "science_changes": [],
+  "shared_SH1_helper_changes": [],
+  "tests": {
+    "source": "project/run_scripts/jlz_interference_l1/test_cap_tracking_repair.py",
+    "passed": 5,
+    "evidence": "기존 실제 candidate/endpoint CPU replay, caller fault injection",
+    "new_model_forward": 0,
+    "new_gpu_qualification": 0
+  },
+  "registration": "정확 이전14job terminal/할당 해제, 새 immutable attempt, 14개 전체 held 검사 후 release. MEMIT 두 lane 뒤 Alpha 두 lane, combined cap2.",
+  "noCP": true,
+  "reviewer": "SH4 owner source/replay audit; 별도 독립 reviewer 미사용",
+  "old_evidence_keep": true,
+  "automatic_retry": false,
+  "raw": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-evidence",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
