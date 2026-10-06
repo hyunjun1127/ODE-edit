@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "delete_authorized": false,
+  "authority_commit": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "authority_sha256": "b2c34d7e3fa179012c62d5e81bfa1888cdacf1a1e372cb9f89223228eac35408",
+  "members": [
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/coverage.json",
+      "bytes": 39065,
+      "sha256": "949dba97f272e0dbc47e32fce5c02be69604b53bc6e3f626898503b124952558"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/inventory.csv",
+      "bytes": 20646,
+      "sha256": "f016e27dcd71640f3c115bbcf5bbc02bf97a53ca2dac73d58342419cf8037849"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/metadata_scan.py",
+      "bytes": 4890,
+      "sha256": "c9178cd2687fe77595019e3d6981334508346647b28a8ceac21a5a6814ed7b84"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/price-bindings.json",
+      "bytes": 4488,
+      "sha256": "8102dcf5b4b5f0b5d995f837e7ce38a2ea509a5b9fc6cd821a0fb10101d63bbb"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/reduce_inventory.py",
+      "bytes": 13706,
+      "sha256": "4cb41bf6379dd23e4c4684fbd54de3a7b1badac145512ffc41466ab7370b5bb0"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/summary.json",
+      "bytes": 35705,
+      "sha256": "01e2a72ac0dd1ccf9a8ce8ae49cd18cd64d6b2abe28bf3b897b84ae7c51b76cb"
+    },
+    {
+      "path": "audits/servers/server3/price-storage-inventory-20261007/verification.json",
+      "bytes": 396,
+      "sha256": "93dcd9c781e5b03944b6d5f42e0801ade4916e8b4c4f50bcde5531a117ceb358"
+    },
+    {
+      "path": "experiment-reports/servers/server3/price-storage-inventory-20261007/report-ko.md",
+      "bytes": 13938,
+      "sha256": "d2194646d8c1cda83111909c5f011c9d69749d0a428bfaee83572b7b773072e7"
+    },
+    {
+      "path": "messages/acks/server3/price-storage-inventory-20261007.json",
+      "bytes": 659,
+      "sha256": "0ee103634fb7e01af54413cf21d869bebb776d07a3bb0e8180b608692af25e6e"
+    },
+    {
+      "path": "messages/server-heads/server3/price-storage-inventory-20261007.json",
+      "bytes": 769,
+      "sha256": "40a5f1219576f45c9270944295b277186aa36b99d349be8e531a342b07ff528f"
+    },
+    {
+      "path": "tasks/status/price-storage-inventory-20261007/server3.json",
+      "bytes": 769,
+      "sha256": "40a5f1219576f45c9270944295b277186aa36b99d349be8e531a342b07ff528f"
+    }
+  ],
+  "local_snapshot": [
+    {
+      "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/full-stat.jsonl",
+      "bytes": 79146268,
+      "sha256": "6127a44e29221f30bbe4b8b13a96eb6028984f2a5799537a5b1372d432a9d87b",
+      "kind": "new metadata only, not payload"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/supplement-stat.jsonl",
+      "bytes": 12676,
+      "sha256": "b015d55fc31d9362b059748ec0f012e80f45c424544f94f50932b6d7e613b992",
+      "kind": "new metadata only, not payload"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/scan-coverage.json",
+      "bytes": 34802,
+      "sha256": "8f3ff18dfba9f2a6d6a8e53d24c44842dfb80a7c6c8afb8c9c17fe477738167a",
+      "kind": "new metadata only, not payload"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/supplement-coverage.json",
+      "bytes": 1438,
+      "sha256": "6d242f4cabd7f0289f3c20732a932f12375b5e64f33691354d1c033e5f7c766a",
+      "kind": "new metadata only, not payload"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/reference-metadata-members.json",
+      "bytes": 9728,
+      "sha256": "20c5b709aaa351b2e2da038828f38ae60878e944dceff69b4cf12bf48915c640",
+      "kind": "new metadata only, not payload"
+    }
+  ],
+  "full_classified_inventory": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/classified-full.jsonl",
+  "self_hash_excluded": true,
+  "raw_tensor_model_CP_upload": false
+}

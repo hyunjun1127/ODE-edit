@@ -1,0 +1,22 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER3",
+  "parent": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007",
+  "task": "price-storage-inventory-20261007",
+  "server": "server3",
+  "status": "INVENTORY_COMPLETE_NO_DELETE",
+  "delete_authorized": false,
+  "actual_host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "report": "experiment-reports/servers/server3/price-storage-inventory-20261007/report-ko.md",
+  "unique_allocated_bytes": 120965607424,
+  "confirmed_reclaimable_bytes": 0,
+  "candidates": 0,
+  "price_local_execution_locks_found": 0,
+  "checkpoint_1k_bytes": 5313662767,
+  "source_or_raw_mutated": false,
+  "Slurm_queries": 0,
+  "Slurm_writes": 0,
+  "GPU": 0,
+  "wandb_runs": 0,
+  "monitoring_active": false
+}

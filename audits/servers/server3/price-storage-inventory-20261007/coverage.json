@@ -1,0 +1,777 @@
+{
+  "schema": 1,
+  "scan": {
+    "started_utc": "2026-10-06T16:46:17.071399+00:00",
+    "roots": [
+      {
+        "path": "/data/janghj/ODE-edit",
+        "reason": "repository_root"
+      },
+      {
+        "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct",
+        "reason": "registered_HF_model_cache"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+        "reason": "registered_projector"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/hparams/AlphaEdit/llama3-8b.yaml",
+        "reason": "registered_hparams"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct",
+        "reason": "registered_HF_model_cache"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+        "reason": "registered_projector"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/hparams/AlphaEdit/qwen2.5-7b.yaml",
+        "reason": "registered_hparams"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "reason": "registered_covariance"
+      }
+    ],
+    "worktrees": [
+      "/data/janghj/ODE-edit",
+      "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree",
+      "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/worktree",
+      "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree",
+      "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree",
+      "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/worktree",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree",
+      "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree",
+      "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree",
+      "/data/janghj/ODE-edit/local/state/sh3-bootstrap-20260919-v1/worktree",
+      "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/worktree",
+      "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/worktree",
+      "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree"
+    ],
+    "no_symlink_follow": true,
+    "limits": {
+      "entries": 400000,
+      "seconds": 120
+    },
+    "excluded_names": [
+      ".codex",
+      ".config",
+      ".env",
+      ".git",
+      ".netrc",
+      ".ssh",
+      ".venv",
+      "__pycache__",
+      "_netrc",
+      "credentials",
+      "credentials.json",
+      "node_modules",
+      "sdk-env",
+      "secrets",
+      "settings",
+      "site-packages",
+      "token",
+      "tokens",
+      "uv-cache",
+      "venv"
+    ],
+    "excluded": [
+      {
+        "path": "/data/janghj/ODE-edit/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/audits/global/2026-09-20-en-adaptive-nullspace-design-v1/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/scripts/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/bg_tw_reference/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/bg_tw_reference/ep_tw/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/low_cost_write_donor_pilot/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/single_layer_zflow/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/en_execution_reuse/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/en_adaptive_nullspace/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/project/run_scripts/baseline_mechanism_first/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/inputs/uv-cache",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/project/run_scripts/jlz_shared_budget/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/review-20261005-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/project/run_scripts/jlz_realized_subject/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/scripts/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/project/run_scripts/jlz_realized_subject/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/project/run_scripts/jlz_writer_coupled/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/project/run_scripts/jlz_pilot/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v1/source/project/run_scripts/jlz_realized_subject/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v1/source/project/run_scripts/jlz_writer_coupled/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v1/source/project/run_scripts/jlz_pilot/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-h-failure-audit/20260928-root-causes-v1/run54007/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-h-failure-audit/20260928-v1/key_history/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-h-failure-audit/20260928-v1/target_function/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/user-stop-all-20261002-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-experiment-ready-20260919-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-bootstrap-20260919-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-bootstrap-20260919-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/state/sh3-bootstrap-20260919-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/audits/servers/server3/wandb-realtime-setup/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/uv-cache",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/venv",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/project/run_scripts/memit_hj/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/project/run_scripts/memit_history_lifelong/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/project/run_scripts/single_layer_mechanism_first/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/project/run_scripts/low_cost_write_donor_pilot/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/project/run_scripts/memit_hj/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/project/run_scripts/blue_alphaedit_sequential_comparison/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/util/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/memit/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/rome/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/blue-upstream/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/contexts/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/uv-cache",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/asyncio/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/email/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/xml/parsers/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/xml/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/xml/etree/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/urllib/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/logging/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/re/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/json/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/sqlite3/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/concurrent/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/concurrent/futures/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/zoneinfo/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/html/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/multiprocessing/dummy/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/multiprocessing/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/venv",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/ctypes/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/zipfile/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/zipfile/_path/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/unittest/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/http/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/encodings/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/collections/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/site-packages",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/importlib/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/importlib/metadata/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/importlib/resources/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/alphaedit_strength_neutral_barrier/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/ordered_response_barrier_ode/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/evaluator_source/project/run_scripts/blue_alphaedit_sequential_comparison/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/.codex",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/audits/global/2026-09-20-en-adapt-gss-history-design-v1/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/scripts/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/bg_tw_reference/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/bg_tw_reference/ep_tw/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/single_layer_mechanism_first/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/low_cost_write_donor_pilot/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/single_layer_zflow/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/single_layer_edit_preserving_correction/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/en_adapt_gss_history/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/en_adapt_gss_history/tests/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/en_execution_reuse/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/en_adaptive_nullspace/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/project/run_scripts/baseline_mechanism_first/__pycache__",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/worktree/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/servers/local",
+        "reason": "task-output/self or private/config/package infrastructure"
+      },
+      {
+        "path": "/data/janghj/ODE-edit/.git",
+        "reason": "task-output/self or private/config/package infrastructure"
+      }
+    ],
+    "errors": [
+      {
+        "path": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct",
+        "error": "FileNotFoundError"
+      }
+    ],
+    "truncated": false,
+    "directories": 18934,
+    "regular_paths": 170065,
+    "symlink_paths": 1081,
+    "other_paths": 0,
+    "finished_utc": "2026-10-06T16:46:19.525725+00:00",
+    "duration_seconds": 2.4543503299355507,
+    "entries": 190218,
+    "df": {
+      "block_size": 4096,
+      "total_bytes": 7619770974208,
+      "free_including_reserved_bytes": 503563247616,
+      "available_bytes": 119471538176,
+      "inodes": 234422272,
+      "available_inodes": 224054892
+    },
+    "content_reads": "none: lstat/scandir/statvfs only; tiny existing readiness manifest read to establish roots",
+    "directory_block_bytes_included": false
+  },
+  "supplement": {
+    "started_utc": "2026-10-06T16:48:29.235794+00:00",
+    "roots": [
+      {
+        "path": "/data/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b",
+        "reason": "bootstrap_registered_model_cache"
+      },
+      {
+        "path": "/data/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+        "reason": "bootstrap_registered_projector"
+      }
+    ],
+    "worktrees": [],
+    "no_symlink_follow": true,
+    "limits": {
+      "entries": 400000,
+      "seconds": 120
+    },
+    "excluded_names": [
+      ".codex",
+      ".config",
+      ".env",
+      ".git",
+      ".netrc",
+      ".ssh",
+      ".venv",
+      "__pycache__",
+      "_netrc",
+      "credentials",
+      "credentials.json",
+      "node_modules",
+      "sdk-env",
+      "secrets",
+      "settings",
+      "site-packages",
+      "token",
+      "tokens",
+      "uv-cache",
+      "venv"
+    ],
+    "excluded": [],
+    "errors": [],
+    "truncated": false,
+    "directories": 11,
+    "regular_paths": 17,
+    "symlink_paths": 9,
+    "other_paths": 0,
+    "finished_utc": "2026-10-06T16:48:29.240131+00:00",
+    "duration_seconds": 0.004364760592579842,
+    "entries": 37,
+    "df": {
+      "block_size": 4096,
+      "total_bytes": 7619770974208,
+      "free_including_reserved_bytes": 498282901504,
+      "available_bytes": 114191192064,
+      "inodes": 234422272,
+      "available_inodes": 224054869
+    },
+    "content_reads": "none: lstat/scandir/statvfs only; tiny existing readiness manifest read to establish roots",
+    "directory_block_bytes_included": false
+  },
+  "metadata_reference_files_read": 40,
+  "metadata_reference_bytes_read": 9839819,
+  "reference_read_limits": {
+    "file_bytes": 3145728,
+    "total_bytes": 67108864
+  },
+  "reference_files_skipped": [],
+  "coverage_notes": [
+    "Selected project files and exact registered HF/model/projector/C0 roots only, not whole filesystem usage.",
+    "No symlink targets followed. Package env/cache/private dirs and own new inventory/worktree excluded.",
+    "Snapshot is lstat metadata, not frozen filesystem; concurrent file changes possible. No science progress or result monitoring.",
+    "Group sums dedup across scanned dev/inode. nlink may include links outside scope; removing a name is not guaranteed reclaim.",
+    "Directory inode blocks, excluded environments, Git objects, other projects/users, unregistered cache locations not counted.",
+    "Qwen registered model directory missing; no alternative path search/home sweep.",
+    "Existing SHA/stat receipts retained, not fresh tensor/model hashes or byte-equivalence proof.",
+    "W&B sync status not queried; its local spool/logs remain protected.",
+    "No Slurm/open-file snapshot required: entire identified historical/current-source data protected; no idle/no-use assertion."
+  ],
+  "delete_authorized": false
+}

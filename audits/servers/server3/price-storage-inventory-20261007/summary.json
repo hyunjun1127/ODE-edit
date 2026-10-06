@@ -1,0 +1,838 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER3",
+  "status": "INVENTORY_COMPLETE_NO_DELETE",
+  "delete_authorized": false,
+  "actual_host": "ubuntu",
+  "actual_user": "janghj",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "repository_root": "/data/janghj/ODE-edit",
+  "registry_cwd_matches": true,
+  "authority_commit": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "snapshot_utc": "2026-10-06T16:46:17.071399+00:00",
+  "supplement_utc": "2026-10-06T16:48:29.235794+00:00",
+  "scope_totals": {
+    "file_count": 169938,
+    "logical_bytes": 120591621186,
+    "allocated_bytes": 120965607424
+  },
+  "regular_path_count": 170082,
+  "hardlink_duplicate_paths_removed": 144,
+  "hardlink_multi_path_groups": 144,
+  "nlink_gt1_unique": 2479,
+  "categories": {
+    "PRICE_REQUIRED": {
+      "file_count": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "OTHER_TASK_REQUIRED": {
+      "file_count": 136940,
+      "logical_bytes": 53492504866,
+      "allocated_bytes": 53799190528
+    },
+    "REPRODUCTION_KEEP": {
+      "file_count": 32997,
+      "logical_bytes": 67099115813,
+      "allocated_bytes": 67166412800
+    },
+    "UNREFERENCED_CANDIDATE": {
+      "file_count": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "UNKNOWN": {
+      "file_count": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096
+    }
+  },
+  "tensor_categories": {
+    "PRICE_REQUIRED": {
+      "file_count": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "OTHER_TASK_REQUIRED": {
+      "file_count": 28,
+      "logical_bytes": 38645575530,
+      "allocated_bytes": 38645702656
+    },
+    "REPRODUCTION_KEEP": {
+      "file_count": 2419,
+      "logical_bytes": 63728984693,
+      "allocated_bytes": 63732924416
+    },
+    "UNREFERENCED_CANDIDATE": {
+      "file_count": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    },
+    "UNKNOWN": {
+      "file_count": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0
+    }
+  },
+  "directory_groups": [
+    {
+      "group": "GPT-J registered cache",
+      "file_count": 17,
+      "logical_bytes": 54860666458,
+      "allocated_bytes": 54860709888,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "registered_HF_model_cache",
+      "file_count": 16,
+      "logical_bytes": 16069717955,
+      "allocated_bytes": 16069763072,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "repository and worktrees",
+      "file_count": 131041,
+      "logical_bytes": 14515436677,
+      "allocated_bytes": 14807392256,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "registered_covariance",
+      "file_count": 10,
+      "logical_bytes": 11287932940,
+      "allocated_bytes": 11288002560,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "registered_projector",
+      "file_count": 2,
+      "logical_bytes": 11287924635,
+      "allocated_bytes": 11287937024,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "memit-hj",
+      "file_count": 16694,
+      "logical_bytes": 6422733707,
+      "allocated_bytes": 6455320576,
+      "classes": [
+        "OTHER_TASK_REQUIRED",
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "en-adapt-gss-history",
+      "file_count": 7560,
+      "logical_bytes": 2171510009,
+      "allocated_bytes": 2187808768,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "en-adaptive-nullspace",
+      "file_count": 5204,
+      "logical_bytes": 1997468476,
+      "allocated_bytes": 2008203264,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "jlz-v12-shared-budget",
+      "file_count": 2962,
+      "logical_bytes": 643120416,
+      "allocated_bytes": 649736192,
+      "classes": [
+        "OTHER_TASK_REQUIRED",
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "memit-history-fixed10k",
+      "file_count": 794,
+      "logical_bytes": 482526208,
+      "allocated_bytes": 484196352,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "jlz-v12-alphaedit-writer",
+      "file_count": 438,
+      "logical_bytes": 252192426,
+      "allocated_bytes": 253353984,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "runtime",
+      "file_count": 3507,
+      "logical_bytes": 242174512,
+      "allocated_bytes": 251609088,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "jlz-v14-budget15-r2",
+      "file_count": 731,
+      "logical_bytes": 130903168,
+      "allocated_bytes": 132198400,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "jlz-realized-subject-v10",
+      "file_count": 710,
+      "logical_bytes": 111539996,
+      "allocated_bytes": 112971776,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "memit-h-failure-audit",
+      "file_count": 172,
+      "logical_bytes": 89187304,
+      "allocated_bytes": 89583616,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "datasets",
+      "file_count": 3,
+      "logical_bytes": 25463898,
+      "allocated_bytes": 25473024,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "storage-cleanup",
+      "file_count": 11,
+      "logical_bytes": 624666,
+      "allocated_bytes": 659456,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "state",
+      "file_count": 57,
+      "logical_bytes": 490388,
+      "allocated_bytes": 651264,
+      "classes": [
+        "REPRODUCTION_KEEP"
+      ]
+    },
+    {
+      "group": "wandb-setup",
+      "file_count": 6,
+      "logical_bytes": 5011,
+      "allocated_bytes": 24576,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "registered_hparams",
+      "file_count": 2,
+      "logical_bytes": 1829,
+      "allocated_bytes": 8192,
+      "classes": [
+        "OTHER_TASK_REQUIRED"
+      ]
+    },
+    {
+      "group": "README.md",
+      "file_count": 1,
+      "logical_bytes": 507,
+      "allocated_bytes": 4096,
+      "classes": [
+        "UNKNOWN"
+      ]
+    }
+  ],
+  "top20": [
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/blobs/0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+      "artifact_kind": "historical_base_model_or_projector",
+      "logical_bytes": 24207819307,
+      "allocated_bytes": 24207826944,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798325",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T11:17:44.113856+00:00",
+      "referenced_task_or_lock": "audits/servers/server3/2026-09-19-bootstrap/environment-observations.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "Historic registered GPT-J original model/projector; current PRICE usage not established; original protected asset",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "GPT-J registered cache",
+      "tensor_scope": true,
+      "historical_sha256": null,
+      "historical_stat_match": null
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/blobs/39719bd3194cf2f63e722241a1c1b60afc1ef07de41fe86bf71c934f1bf8836e",
+      "artifact_kind": "historical_base_model_or_projector",
+      "logical_bytes": 24207760308,
+      "allocated_bytes": 24207765504,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798331",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T11:23:14.562866+00:00",
+      "referenced_task_or_lock": "audits/servers/server3/2026-09-19-bootstrap/environment-observations.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "Historic registered GPT-J original model/projector; current PRICE usage not established; original protected asset",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "GPT-J registered cache",
+      "tensor_scope": true,
+      "historical_sha256": null,
+      "historical_stat_match": null
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "artifact_kind": "registered_projector",
+      "logical_bytes": 7177504758,
+      "allocated_bytes": 7177510912,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170193",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-16T03:03:36.022304+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_projector",
+      "tensor_scope": true,
+      "historical_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+      "artifact_kind": "historical_base_model_or_projector",
+      "logical_bytes": 6442452841,
+      "allocated_bytes": 6442459136,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170195",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-19T10:54:34.092970+00:00",
+      "referenced_task_or_lock": "audits/servers/server3/2026-09-19-bootstrap/environment-observations.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "Historic registered GPT-J original model/projector; current PRICE usage not established; original protected asset",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "GPT-J registered cache",
+      "tensor_scope": true,
+      "historical_sha256": null,
+      "historical_stat_match": null
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt",
+      "artifact_kind": "edited_checkpoint",
+      "logical_bytes": 5313662767,
+      "allocated_bytes": 5313667072,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:19351677",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-10-01T01:18:42.726537+00:00",
+      "referenced_task_or_lock": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.manifest.json;/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/temporary-checkpoints/000-01000-0000.manifest.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "Original task/raw/failure/reproduction retained; stopped/noCP does not authorize removal",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "memit-hj",
+      "tensor_scope": true,
+      "historical_sha256": null,
+      "historical_stat_match": null
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "artifact_kind": "registered_HF_model_cache",
+      "logical_bytes": 4999802720,
+      "allocated_bytes": 4999806976,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798384",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T09:10:26.979909+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_HF_model_cache",
+      "tensor_scope": true,
+      "historical_sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "artifact_kind": "registered_HF_model_cache",
+      "logical_bytes": 4976698672,
+      "allocated_bytes": 4976705536,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798387",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T09:10:59.367940+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_HF_model_cache",
+      "tensor_scope": true,
+      "historical_sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "artifact_kind": "registered_HF_model_cache",
+      "logical_bytes": 4915916176,
+      "allocated_bytes": 4915920896,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798380",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T09:10:34.215916+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_HF_model_cache",
+      "tensor_scope": true,
+      "historical_sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "artifact_kind": "registered_projector",
+      "logical_bytes": 4110419877,
+      "allocated_bytes": 4110426112,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170192",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-10T15:30:27.497442+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_projector",
+      "tensor_scope": true,
+      "historical_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/inputs/pstar-derived-v1/basis.npy",
+      "artifact_kind": "derived_projection_basis",
+      "logical_bytes": 1643020416,
+      "allocated_bytes": 1643028480,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18289487",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-09-20T09:08:58.275702+00:00",
+      "referenced_task_or_lock": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/inputs/pstar-derived-v1/receipt.json",
+      "classification": "REPRODUCTION_KEEP",
+      "classification_evidence": "Original task/raw/failure/reproduction retained; stopped/noCP does not authorize removal",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "en-adaptive-nullspace",
+      "tensor_scope": true,
+      "historical_sha256": null,
+      "historical_stat_match": null
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170242",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-06T04:53:56.919689+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170243",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-06T06:23:21.212485+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170244",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-06T08:01:51.452141+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170245",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-06T09:52:42.779623+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 1435501774,
+      "allocated_bytes": 1435508736,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170246",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-06T11:55:47.320713+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "artifact_kind": "registered_HF_model_cache",
+      "logical_bytes": 1168138808,
+      "allocated_bytes": 1168146432,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:15798382",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-03-03T09:08:44.359832+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_HF_model_cache",
+      "tensor_scope": true,
+      "historical_sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170237",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-10T08:06:16.501532+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170238",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-10T09:36:23.263174+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170239",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-10T11:20:13.640496+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+      "historical_stat_match": true
+    },
+    {
+      "server": "server3",
+      "absolute_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "artifact_kind": "registered_covariance",
+      "logical_bytes": 822084814,
+      "allocated_bytes": 822091776,
+      "count": 1,
+      "device_inode_or_hardlink_group": "66308:18170240",
+      "nlink": 1,
+      "owner_uid": 1025,
+      "mtime": "2026-05-10T13:17:51.493294+00:00",
+      "referenced_task_or_lock": "agents/server3/experiment-ready-paths-20260919-v1.json",
+      "classification": "OTHER_TASK_REQUIRED",
+      "classification_evidence": "Explicit protected base model/C0/five-layer projector/hparams; same logical assets used by PRICE on S4, S3 live dependency not established",
+      "uniqueness_or_reproducibility": "dev/inode dedup only; no content comparison or resume verification",
+      "uncertainty": "No process/open-file check; no current use absence proof; old SHA not recomputed",
+      "delete_authorized": false,
+      "group": "registered_covariance",
+      "tensor_scope": true,
+      "historical_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+      "historical_stat_match": true
+    }
+  ],
+  "special_groups": [
+    {
+      "label": "MEMIT-HJ edited CP",
+      "file_count": 1,
+      "logical_bytes": 5313662767,
+      "allocated_bytes": 5313667072,
+      "classification": "REPRODUCTION_KEEP",
+      "sample_paths": [
+        "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt"
+      ],
+      "delete_authorized": false
+    },
+    {
+      "label": "EN derived basis",
+      "file_count": 1,
+      "logical_bytes": 1643020416,
+      "allocated_bytes": 1643028480,
+      "classification": "REPRODUCTION_KEEP",
+      "sample_paths": [
+        "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/inputs/pstar-derived-v1/basis.npy"
+      ],
+      "delete_authorized": false
+    },
+    {
+      "label": "GSS cold history/maps",
+      "file_count": 2400,
+      "logical_bytes": 1911635052,
+      "allocated_bytes": 1915518976,
+      "classification": "REPRODUCTION_KEEP",
+      "sample_paths": [
+        "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/gss_rec/attempt-v1/cold-history/fixed-maps.npz",
+        "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/gss_rec/attempt-v1/cold-history/versions/b5b2dc77cbcdfefa50d8ceeadf471ad6f1e916b8622f7bcdd46fd3b2ff648580/payload.npz"
+      ],
+      "delete_authorized": false
+    },
+    {
+      "label": "W&B local files excluding SDK/worktree",
+      "file_count": 6,
+      "logical_bytes": 5011,
+      "allocated_bytes": 24576,
+      "classification": "OTHER_TASK_REQUIRED",
+      "sample_paths": [
+        "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/gh-delivery.jsonl",
+        "/data/janghj/ODE-edit/local/wandb-setup/20261006-v1/smoke/receipt-6bbeb703e798431e970c4eaed60bf728.json"
+      ],
+      "delete_authorized": false
+    }
+  ],
+  "price_reference": [
+    {
+      "task": "jlz-price-cap-base-repair-2k",
+      "source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+      "lock_sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9",
+      "registered_owner": "server4",
+      "nodes": [
+        "server4"
+      ],
+      "local_lock_path_exists": false,
+      "submission_receipt": {
+        "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree/runs/jlz-price-cap-base-repair-2k/submission.json",
+        "bytes": 9079,
+        "sha256": "5854663fbdba6c15bd5539d386a8c96101d5c5a0b76f8305e62fe7db3f6acb3e"
+      },
+      "current_scheduler_state": "NOT_QUERIED"
+    },
+    {
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "019922b1524efac596bdb8bf7581d44f1721ed59",
+      "lock_sha256": "cae341a900fc53335f9711fbdfa69c0baa9d80851c9a85c2bf5b3411a1ad2d35",
+      "registered_owner": "server4",
+      "nodes": [
+        "server4"
+      ],
+      "local_lock_path_exists": false,
+      "submission_receipt": {
+        "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree/runs/jlz-price-alpha-writer-2k/submission.json",
+        "bytes": 7659,
+        "sha256": "616d147e81b7433f4e788838431f9b99367de5ee81276487dfc9f711f1e64e8d"
+      },
+      "current_scheduler_state": "NOT_QUERIED"
+    }
+  ],
+  "price_local_data": "NO_PRICE_EXECUTION_LOCK_OR_LOCAL_TASK_ROOT_FOUND_IN_SCOPE; tracked Git references exist",
+  "checkpoint": {
+    "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt",
+    "bytes": 5313662767,
+    "sha256": "6cd74e4607705d11dca6b9fe8e007113e8cbbd222a4003fe8bf1157ed90a5668",
+    "cursor": 1000,
+    "refcount": 0,
+    "reload_state_output": true,
+    "manifest": {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.manifest.json",
+      "bytes": 343,
+      "sha256": "937569e1e5541d7d187a9ef3e1c356bbb01666664e1fc20bceec849a35bb7814"
+    },
+    "current_metadata_match_size": true,
+    "current_content_hash": "NOT_RECOMPUTED",
+    "deletion_permission": false
+  },
+  "confirmed_reclaimable_bytes": 0,
+  "candidate_bytes": 0,
+  "candidate_is_deletion_permission": false,
+  "df_first": {
+    "block_size": 4096,
+    "total_bytes": 7619770974208,
+    "free_including_reserved_bytes": 503563247616,
+    "available_bytes": 119471538176,
+    "inodes": 234422272,
+    "available_inodes": 224054892
+  },
+  "df_supplement": {
+    "block_size": 4096,
+    "total_bytes": 7619770974208,
+    "free_including_reserved_bytes": 498282901504,
+    "available_bytes": 114191192064,
+    "inodes": 234422272,
+    "available_inodes": 224054869
+  },
+  "content_hashes_recomputed_on_models_or_tensors": 0,
+  "symlink_follow": false,
+  "models_loaded": 0,
+  "Slurm_queries": 0,
+  "Slurm_writes": 0,
+  "wandb_runs": 0,
+  "owner_audit": true,
+  "independent_agent_review": false
+}

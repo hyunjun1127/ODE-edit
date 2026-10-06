@@ -1,0 +1,94 @@
+{
+  "source_checks": [
+    {
+      "execution_source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+      "path": "project/run_scripts/jlz_interference_l1/cap_prepare.py",
+      "execution_git_object_available": false,
+      "source_sha256": null,
+      "reviewed_main_sha256": "8ec394ffacf991d76134d42e7d42ede652c4b068603b3078de9eefdb887b26dc",
+      "reviewed_main_bytes_equal": null
+    },
+    {
+      "execution_source": "019922b1524efac596bdb8bf7581d44f1721ed59",
+      "path": "project/run_scripts/jlz_price_alpha_writer/prepare.py",
+      "execution_git_object_available": true,
+      "source_sha256": "30cf4da33df8b61ee2142fa6538a3f1f9a5c3088df43f296e3d07d58091aa6e1",
+      "reviewed_main_sha256": "30cf4da33df8b61ee2142fa6538a3f1f9a5c3088df43f296e3d07d58091aa6e1",
+      "reviewed_main_bytes_equal": true
+    }
+  ],
+  "projectors": [
+    {
+      "model": "LLAMA",
+      "role": "Alpha projector",
+      "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+      "PRICE_source_expected_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "PRICE_source_expected_bytes": 4110419877,
+      "SH3_existing_receipt_sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+      "SH3_expected_size_match": true,
+      "SH3_prior_stat_identity_match": true,
+      "source_hash_equal_to_historical_receipt": true,
+      "current_fullhash": "NOT_RECOMPUTED",
+      "threshold_provenance": "PRICE source fixed .02; no tensor load",
+      "physical_mapping": "readiness L4..L8 -> slots0..4",
+      "classification": "OTHER_TASK_REQUIRED",
+      "direct_S3_PRICE_execution_dependency": false,
+      "delete_authorized": false
+    },
+    {
+      "model": "QWEN",
+      "role": "Alpha projector",
+      "path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+      "PRICE_source_expected_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "PRICE_source_expected_bytes": 7177504758,
+      "SH3_existing_receipt_sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+      "SH3_expected_size_match": true,
+      "SH3_prior_stat_identity_match": true,
+      "source_hash_equal_to_historical_receipt": true,
+      "current_fullhash": "NOT_RECOMPUTED",
+      "threshold_provenance": "PRICE source fixed .02; no tensor load",
+      "physical_mapping": "readiness L4..L8 -> slots0..4",
+      "classification": "OTHER_TASK_REQUIRED",
+      "direct_S3_PRICE_execution_dependency": false,
+      "delete_authorized": false
+    }
+  ],
+  "PRICE_executions": [
+    {
+      "task": "jlz-price-cap-base-repair-2k",
+      "source": "87a5a736c455d5082f5f666ae562f9edc4e5d3b2",
+      "lock_sha256": "ea45afde90a88f315edb61c35807a9b3419c2c4dd29710870fe269afd4db42b9",
+      "registered_owner": "server4",
+      "nodes": [
+        "server4"
+      ],
+      "local_lock_path_exists": false,
+      "submission_receipt": {
+        "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree/runs/jlz-price-cap-base-repair-2k/submission.json",
+        "bytes": 9079,
+        "sha256": "5854663fbdba6c15bd5539d386a8c96101d5c5a0b76f8305e62fe7db3f6acb3e"
+      },
+      "current_scheduler_state": "NOT_QUERIED"
+    },
+    {
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "019922b1524efac596bdb8bf7581d44f1721ed59",
+      "lock_sha256": "cae341a900fc53335f9711fbdfa69c0baa9d80851c9a85c2bf5b3411a1ad2d35",
+      "registered_owner": "server4",
+      "nodes": [
+        "server4"
+      ],
+      "local_lock_path_exists": false,
+      "submission_receipt": {
+        "path": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree/runs/jlz-price-alpha-writer-2k/submission.json",
+        "bytes": 7659,
+        "sha256": "616d147e81b7433f4e788838431f9b99367de5ee81276487dfc9f711f1e64e8d"
+      },
+      "current_scheduler_state": "NOT_QUERIED"
+    }
+  ],
+  "note": "PRICE locks belong to server4. Identical absolute paths do not establish shared storage. S3 readiness gives protected logical compatibility only; no model/header/solver validation. MEMIT execution original Git object unavailable locally; tracked submission/source-input-preflight used, no remote lock/raw transfer.",
+  "FE": "Tracked FE task belongs to server2; no local FE task root in SH3 scan. No scheduler or other-host data query.",
+  "scope": "source/config/lock references only, not scientific result review",
+  "delete_authorized": false
+}

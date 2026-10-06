@@ -1,0 +1,13 @@
+{
+  "independent_CPU_algorithm": "fresh raw-stat inode/set sums vs reducer summary; no production import",
+  "status": "PASS",
+  "unique_files": 169938,
+  "allocated_bytes": 120965607424,
+  "logical_bytes": 120591621186,
+  "CSV_rows": 41,
+  "classification_alias_conflicts": {},
+  "owner_review": true,
+  "independent_agent": false,
+  "payload_loads_or_hashes": 0,
+  "delete_authorized": false
+}

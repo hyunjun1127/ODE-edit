@@ -1,0 +1,15 @@
+{
+  "nonce": "USER-GH-ALL-SH-PRICE-STORAGE-INVENTORY-20261007-SERVER3",
+  "accepted": true,
+  "actual_host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "cwd": "/data/janghj/ODE-edit",
+  "dedicated_worktree": "/data/janghj/ODE-edit/local/price-storage-inventory-20261007/worktree",
+  "branch": "codex/server3-price-storage-inventory-20261007",
+  "authority_commit": "4ea217b5258ff786e83a5dcf617d311265a4ff94",
+  "envelope_SHA256": "b2c34d7e3fa179012c62d5e81bfa1888cdacf1a1e372cb9f89223228eac35408",
+  "FULL_READ": true,
+  "duplicate_nonce_at_entry": false,
+  "initial_ack": "same user stream before scans",
+  "delete_authorized": false
+}
