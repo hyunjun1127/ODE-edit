@@ -349,6 +349,71 @@ class _TorchCalls:
         return getattr(self.original, name)
 
 
+class NativeFCOutBiasGuard:
+    """Read-only native bias binding; observe only existing first-batch forwards."""
+    def __init__(self, modules):
+        self.modules, self.outputs = dict(modules), {}
+        self.states = {layer: self._state(module) for layer, module in self.modules.items()}
+        source = inspect.getsource(torch.nn.Linear.forward)
+        require('return F.linear(input, self.weight, self.bias)' in source,
+                'NATIVE_GPTJ_STOCK_LINEAR_BIAS_FORWARD')
+        self.forward_source = dict(**member(inspect.getsourcefile(torch.nn.Linear.forward)),
+                function_sha256=hashlib.sha256(source.encode()).hexdigest(),
+                expression='F.linear(input, self.weight, self.bias)')
+
+    @staticmethod
+    def _state(module):
+        require(isinstance(module, torch.nn.Linear)
+                and getattr(module.forward, '__func__', None) is torch.nn.Linear.forward
+                and tuple(module.weight.shape) == (HIDDEN, INTERMEDIATE)
+                and module.weight.dtype == torch.float32, 'NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT')
+        bias = module.bias
+        require(isinstance(bias, torch.nn.Parameter) and tuple(bias.shape) == (HIDDEN,)
+                and bias.dtype == torch.float32 and torch.isfinite(bias).all().item(),
+                'NATIVE_GPTJ_FC_OUT_BIAS_SHAPE_DTYPE_NONFINITE')
+        return bias, bias.data_ptr(), bias._version
+
+    def check(self):
+        for layer, module in self.modules.items():
+            bias, pointer, version = self._state(module)
+            original, original_pointer, original_version = self.states[layer]
+            require(bias is original and (pointer, version) == (original_pointer, original_version),
+                    'NATIVE_GPTJ_FC_OUT_BIAS_MODIFIED')
+
+    def observe(self):
+        handles = []
+        try:
+            for layer, module in self.modules.items():
+                def observed(module, inputs, output, layer=layer):
+                    if layer in self.outputs:
+                        return
+                    require(len(inputs) == 1 and isinstance(inputs[0], torch.Tensor)
+                            and inputs[0].ndim >= 1 and inputs[0].shape[-1] == INTERMEDIATE
+                            and inputs[0].dtype == torch.float32
+                            and isinstance(output, torch.Tensor) and output.dtype == torch.float32
+                            and tuple(output.shape) == (*inputs[0].shape[:-1], HIDDEN)
+                            and torch.isfinite(output).all().item(),
+                            'NATIVE_GPTJ_FC_OUT_OUTPUT_SHAPE_DTYPE_NONFINITE')
+                    self.check()
+                    self.outputs[layer] = dict(layer=layer, input_shape=list(inputs[0].shape),
+                            output_shape=list(output.shape), finite=True, native_bias_bound=True)
+                handles.append(module.register_forward_hook(observed))
+        except Exception:
+            for handle in handles:
+                handle.remove()
+            raise
+        return handles
+
+    def receipt(self):
+        require(set(self.outputs) == set(self.modules), 'NATIVE_GPTJ_B1_FC_OUT_OUTPUT_NOT_OBSERVED')
+        return dict(status='NATIVE_OUTPUT_STRUCTURE_FINITE_AND_BIAS_PRESERVED',
+                bias_shape=[HIDDEN], bias_dtype='torch.float32', pointer_version_unchanged=True,
+                stock_linear_forward=self.forward_source,
+                B1_outputs=[self.outputs[layer] for layer in self.modules],
+                affine_numerical_parity='NOT_MEASURED', extra_model_forwards=0,
+                extra_linear_computations=0)
+
+
 class NativeEngine:
     """Exactly one native public apply per batch; same model and independent H."""
     def __init__(self, bundle, hp, model, tokenizer, projector, history, config=None):
@@ -357,6 +422,7 @@ class NativeEngine:
         self.writer = 'cake' if self.arm == 'CAKE' else 'alphaedit_blue'
         self.layers = NATIVE_SPECS[self.arm]['layers']
         self.P, self.H, self.config = projector, history, config or {}
+        self.fc_out_bias_guard = None
         require(self.H is not None and self.P is not None, 'NATIVE_HISTORY_PROJECTOR_ARM')
         self.next_batch, self.current, self.on_progress = 1, None, None
         self.cumulative = {key: 0 for key in COUNTERS}
@@ -633,6 +699,10 @@ class NativeEngine:
         started = time.monotonic()
         before = (self.H.data_ptr(), self.H._version)
         context_before = digest(self.module.CONTEXT_TEMPLATES_CACHE)
+        guard = self.fc_out_bias_guard
+        if guard is not None:
+            guard.check()
+        handles = guard.observe() if guard is not None and batch == 1 else []
         try:
             result = self._call('public_applies', self.native_apply, self.model, self.tokenizer,
                                 requests, self.hp, cache_template=None, cache_c=self.H, P=self.P)
@@ -641,6 +711,10 @@ class NativeEngine:
                     'NATIVE_MODEL_RETURNED_HISTORY_IDENTITY')
             self.model, self.H = result
         finally:
+            for handle in handles:
+                handle.remove()
+            if guard is not None:
+                guard.check()
             require(self.H.data_ptr() == before[0], 'NATIVE_HISTORY_REPLACED')
             change = self.H._version - before[1]
             require(change >= 0 and change % 2 == 0, 'NATIVE_INDEXED_HISTORY_VERSION')
@@ -655,6 +729,7 @@ class NativeEngine:
                 'NATIVE_CONTEXT_CONTINUITY')
         for plane in self.H:
             require(torch.isfinite(plane).all().item(), 'NATIVE_HISTORY_NONFINITE')
+        bias_receipt = guard.receipt() if guard is not None else None
         self.context_receipt.update(status='NATIVE_CONTEXT_CREATED_OR_CARRIED', cold_creation_batch=1)
         self.next_batch += 1
         receipt = dict(status='NATIVE_APPLY_RETURNED', arm=self.arm, writer=self.writer,
@@ -670,6 +745,8 @@ class NativeEngine:
             seconds=time.monotonic() - started,
             timing_policy='CPU dispatch inclusive and nested-exclusive; no added timing synchronization; safety/scalar guards synchronize',
             checkpoint_saved=False, exact_resume='NOT_AVAILABLE')
+        if guard is not None:
+            receipt['fc_out_native_bias'] = bias_receipt
         return self.model, receipt
 
 
@@ -699,11 +776,8 @@ def prepare_native(config, model, tokenizer, arm, attempt=None, progress=None):
     require(model.get_input_embeddings().weight is not model.get_output_embeddings().weight,
             'NATIVE_GPTJ_UNTIED_HEAD')
     require(tuple(model.get_output_embeddings().bias.shape) == (50400,), 'NATIVE_GPTJ_HEAD_BIAS')
-    for layer in hp.layers:
-        module = bundle.module.nethook.get_module(model, hp.rewrite_module_tmp.format(layer))
-        require(isinstance(module, torch.nn.Linear) and module.bias is None
-                and tuple(module.weight.shape) == (HIDDEN, INTERMEDIATE)
-                and module.weight.dtype == torch.float32, 'NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT')
+    bias_guard = NativeFCOutBiasGuard({layer: bundle.module.nethook.get_module(
+            model, hp.rewrite_module_tmp.format(layer)) for layer in hp.layers})
     require(all(param.dtype == torch.float32 for param in model.parameters()), 'NATIVE_GPTJ_FP32_MODEL')
     full_projector = torch.load(_sealed_asset(binding['projector']), map_location='cpu',
                                 weights_only=True, mmap=True)
@@ -716,6 +790,7 @@ def prepare_native(config, model, tokenizer, arm, attempt=None, progress=None):
     history = torch.zeros((len(hp.layers), INTERMEDIATE, INTERMEDIATE),
                           dtype=torch.float32, device='cpu')
     engine = NativeEngine(bundle, hp, model, tokenizer, projector, history, config)
+    engine.fc_out_bias_guard = bias_guard
     engine.progress = progress
     # Existing C0 is bound for native namespace provenance; these two native
     # writers never call get_cov. A cache miss must never start collection.

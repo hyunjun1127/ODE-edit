@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-fluency-consistency-2k",
+  "status": "CPU_PREPARATION_INPUT_PENDING_NOT_SUBMITTED",
+  "tests": 44,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 2.5736279245465994,
+  "peak_RSS_bytes": 824004608,
+  "CPU_threads": 1,
+  "CUDA_initialized": false,
+  "actual_GPU_or_generation": false,
+  "actual_online_validation": false,
+  "new_Slurm_jobs": 0,
+  "receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cpu-checks-preparation-r2.json",
+    "sha256": "340f6b22ece83c3458ccd166851bb5c60b0ec5bd0f449dbced8989adae547016"
+  },
+  "source_members": [
+    {
+      "bytes": 40472,
+      "inode": 122235348,
+      "mtime_ns": 1791374034096626400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py",
+      "sha256": "fc3a8228a1b5a6c2be674720652ae14e74889e988ab7a19a06645e37e902f796"
+    },
+    {
+      "bytes": 5845,
+      "inode": 122238517,
+      "mtime_ns": 1791373964312736000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_cake_blue_prune_rect/test_bias_guard.py",
+      "sha256": "a9185738bd25ea86fb9f2e9c1a4b450c09b39f20c940f32f0792fa0c44d5115b"
+    },
+    {
+      "bytes": 3334,
+      "inode": 122238513,
+      "mtime_ns": 1791374200680376000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_common.py",
+      "sha256": "7c0b007ceb5144c0c331511c19a78d6776d7c86ed4c069a44fcf137849e5bd13"
+    },
+    {
+      "bytes": 2492,
+      "inode": 122244595,
+      "mtime_ns": 1791375165709548300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_cpu_checks.py",
+      "sha256": "680b9d71f01686bbcea7709087b1a85e135c4ddc457bddf93efc9c64b0efb183"
+    },
+    {
+      "bytes": 2920,
+      "inode": 122244590,
+      "mtime_ns": 1791375110737401300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_plan.py",
+      "sha256": "32552441f0184901086c857241b7fb1b6cce828c38c9b2e307775c9ce6e92fcf"
+    },
+    {
+      "bytes": 5937,
+      "inode": 122238521,
+      "mtime_ns": 1791374186184397300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_prepare.py",
+      "sha256": "33e43c62059b601d6780a360b14dd04f305195007139353b2d6902f06b733abb"
+    },
+    {
+      "bytes": 23669,
+      "inode": 122238532,
+      "mtime_ns": 1791375025713140000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_run.py",
+      "sha256": "e31e611e15e764ea7d22686527a70450bde4f3c0d5b7503b35f37cb4001cf9a6"
+    },
+    {
+      "bytes": 2279,
+      "inode": 122238529,
+      "mtime_ns": 1791374385656111900,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_tracking.py",
+      "sha256": "a02f83916800fb95014b59e643f87215aad71418d6690cbf16e9e3453d39f2e1"
+    },
+    {
+      "bytes": 7086,
+      "inode": 122238530,
+      "mtime_ns": 1791374385656111900,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_tracking_client.py",
+      "sha256": "acb41e537678e0b11ad38f9c29a0133119bb0874e2e77b65cf88812f7f578c94"
+    },
+    {
+      "bytes": 4818,
+      "inode": 122238528,
+      "mtime_ns": 1791374705471677400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_tracking_schema.py",
+      "sha256": "1ef34048a45345be4fd16a134e2ad16b19c78ce03f88be424d6b04d0d9306fd9"
+    },
+    {
+      "bytes": 6854,
+      "inode": 122238531,
+      "mtime_ns": 1791374385660112000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/generation_tracking_worker.py",
+      "sha256": "4e58c9b0b574ca1731cdadade5efc16116d0c4f01a566a73a415a85732aa1b28"
+    },
+    {
+      "bytes": 3020,
+      "inode": 122244591,
+      "mtime_ns": 1791374820944295200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/test_generation_plan.py",
+      "sha256": "6f469e1234329a6174b66265bad38960fe3140e71d0e2bf5dfd7d1f3f891f95c"
+    },
+    {
+      "bytes": 15863,
+      "inode": 122238533,
+      "mtime_ns": 1791374635607770400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/test_generation_run.py",
+      "sha256": "36e6ef04be810de885a596e3eca68cf1578799ea8b70e57d23764066492dd49f"
+    },
+    {
+      "bytes": 26243,
+      "inode": 122244594,
+      "mtime_ns": 1791375001813058000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-fluency-consistency-2k/project/run_scripts/gptj_native_baselines/test_generation_tracking.py",
+      "sha256": "648b1ad402682f88df007579bd3ab6ad32ac527896972b73d23e047f51239654"
+    }
+  ],
+  "review": {
+    "native_bias": "Worker-owned narrow compatibility fix; CPU6 + prior native18 fixtures. No extra model forward.",
+    "tracking": "Separate focused fake-SDK reviewer26 fixtures; bool mean rejection defect corrected by owner.",
+    "runner": "Separate read-only source review; runtime NOT_READY check added before model/online startup.",
+    "not_certified": "SH1 generation API/RNG restoration/case identity/raw reducer/actual GPU B1 remain unbound and unverified"
+  },
+  "remaining": [
+    "SH1 shared publication/source commit and actual API",
+    "Reference READY allowlist exact path/size/SHA and selective receive",
+    "SH2 bridge/source binding + actual case/status/count/RNG contract",
+    "Final immutable config/source/resource lock, own held seven-job registration/release",
+    "Independent generation raw reducer against actual SH1 artifact schema"
+  ],
+  "checkpoint_saved": false,
+  "original_source_raw_unchanged": true,
+  "scientific_complete": false
+}
