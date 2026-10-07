@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "task_id": "server3-cap1-server4-cap3",
+  "current_instruction_id": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER4",
+  "authority_main": "f0cd42a2821228b470a735386e08ae0340b0e0a1",
+  "current_policy_SHA256": "d7e10c0a743df6dda934fee16883c769364e6b5b0394c113cd422e79c66c71b3",
+  "server4_current_cap": 3,
+  "scope": "own compact latestcap3 receipt plus supersededcap2 historical records; no tracked science/runtime/source changes",
+  "members": [
+    {
+      "path": "audits/servers/server4/gpu-cap-update-20261007/concurrency-proof.json",
+      "bytes": 3035,
+      "sha256": "fd13d9cb75abafabe756cc56b2452e1cc17fe52da73cb99811d308e9e11164ac"
+    },
+    {
+      "path": "audits/servers/server4/gpu-cap-update-20261007/publication-checks.json",
+      "bytes": 1597,
+      "sha256": "e109ac7b130362167c4245f758a3d64f2fbb134fc63f3969d96bb2addc3dd989"
+    },
+    {
+      "path": "audits/servers/server4/gpu-cap-update-20261007/scheduling-receipt.json",
+      "bytes": 16930,
+      "sha256": "9e7f9d4cb70316136c78cccf869a441dda8ca189958ef89d74dfb1c4a50f5743"
+    },
+    {
+      "path": "audits/servers/server4/gpu-cap2-20261007/concurrency-proof.json",
+      "bytes": 2148,
+      "sha256": "23bf394f6cdbf176c84d2ac8f6aef81dc423f77a9a3918d4d57fe30ef84b3277"
+    },
+    {
+      "path": "audits/servers/server4/gpu-cap2-20261007/scheduling-receipt.json",
+      "bytes": 15490,
+      "sha256": "01c626df0346917387dd0a2603d04bf2c84be945cfc5ab5b5a4e38b5435280ae"
+    },
+    {
+      "path": "experiment-reports/servers/server4/gpu-cap-update-20261007/report-ko.md",
+      "bytes": 4403,
+      "sha256": "e6f63a2455057d2893d5e0ba962f26a4b7e4f21f24f9d1771f7e2c59af9078ae"
+    },
+    {
+      "path": "experiment-reports/servers/server4/gpu-cap2-20261007/report-ko.md",
+      "bytes": 2283,
+      "sha256": "ee7fb23b43d9e6661d5c2594115151383ee99a8c0a80beb56c507ac09b472cf7"
+    },
+    {
+      "path": "messages/acks/server4/gpu-cap-update-20261007.json",
+      "bytes": 945,
+      "sha256": "5edd1b15485528d8223543b80844cca06ab17c50eb829587c6fe212fbbab2c1c"
+    },
+    {
+      "path": "messages/acks/server4/gpu-cap2-20261007.json",
+      "bytes": 916,
+      "sha256": "2faf2acd027639db898a45fa8e359283ad2003fcc51f4eafa3b0afc03298860a"
+    },
+    {
+      "path": "messages/server-heads/server4/gpu-cap-update-20261007.json",
+      "bytes": 1226,
+      "sha256": "9fdab8f9259979e9ec4d3afa3a5a55beef7ed1edc386156ee581f680487b9bd9"
+    },
+    {
+      "path": "messages/server-heads/server4/gpu-cap2-20261007.json",
+      "bytes": 694,
+      "sha256": "2618e1eb3f89ed19d76860fa0d79ccd27a8ef7313ffd98d0626144d665e01cc4"
+    },
+    {
+      "path": "tasks/status/all-servers-gpu-cap2/server4.json",
+      "bytes": 694,
+      "sha256": "2618e1eb3f89ed19d76860fa0d79ccd27a8ef7313ffd98d0626144d665e01cc4"
+    },
+    {
+      "path": "tasks/status/server3-cap1-server4-cap3/server4.json",
+      "bytes": 1226,
+      "sha256": "9fdab8f9259979e9ec4d3afa3a5a55beef7ed1edc386156ee581f680487b9bd9"
+    }
+  ],
+  "self_excluded": true,
+  "raw_tensor_model_prompt_secret_upload": false
+}

@@ -1,0 +1,95 @@
+{
+  "status": "LATEST_SERVER4_PROJECT_CAP3_APPLIED",
+  "canonical_caps": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 1,
+    "server4": 3
+  },
+  "refs": [
+    {
+      "path": "control/gpu-concurrency-policy.tsv",
+      "bytes": 1739,
+      "sha256": "d7e10c0a743df6dda934fee16883c769364e6b5b0394c113cd422e79c66c71b3"
+    },
+    {
+      "path": "messages/head/2026-10-07-server3-cap1-server4-cap3.json",
+      "bytes": 4951,
+      "sha256": "84253cae5486034f3a3c412cfe373d691ce74f48ba24a8c76b3514205c791728"
+    },
+    {
+      "path": "scripts/tests/test_gpu_concurrency_policy.sh",
+      "bytes": 2170,
+      "sha256": "9f3c01bd16fb259ed9ba3da3e99eed53416177bf603f1db1e7765e01fcc9d132"
+    },
+    {
+      "path": "scripts/check-slurm-gpu-cap.sh",
+      "bytes": 6044,
+      "sha256": "75641e5d7f9c9ef8bc2a7488073fd2d9dfa625e45d963587c3228aacabaeb479"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/admission.py",
+      "bytes": 1281,
+      "sha256": "f3960c38efb86c54898d7c0866bab6ec29f14dd509ed076f95291c8b46eb04f6"
+    }
+  ],
+  "local_caps": [
+    {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "sha256": "11e0d14d49e220a2af0add5083ce2fb8ce1fd4a5755714bd7598053955c92041",
+      "GPU_cap": 3,
+      "node": "server4",
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "24256f1d28426c4dbd1e74ec236d2cb65d7bdac82b7e9f421e52d21a2776b44e",
+      "GPU_cap": 3,
+      "node": "server4",
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*,jlz-*,causal-allocation-editing"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "11e0d14d49e220a2af0add5083ce2fb8ce1fd4a5755714bd7598053955c92041",
+      "GPU_cap": 3,
+      "node": "server4",
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*"
+    }
+  ],
+  "allocated_GPU_count_at_snapshot": 2,
+  "allocated_jobs": [
+    60105,
+    60616
+  ],
+  "legacy_overcap": false,
+  "DAG_width_before_latest": 2,
+  "DAG_width_after_latest": 3,
+  "GPTJ_task_width": 2,
+  "Llama_Alpha_task_width": 1,
+  "pending_GPU_parent_count": 7,
+  "RUNNING_GPU_parent_count": 2,
+  "GPU0_collectors": [
+    60108,
+    60622
+  ],
+  "pure_CPU_mock_checks": {
+    "script": "scripts/tests/test_gpu_concurrency_policy.sh",
+    "checks": 19,
+    "status": "PASS",
+    "real_Slurm_calls": 0,
+    "model_GPU": 0
+  },
+  "source_and_19_immutable_refs_unchanged": true,
+  "old_cap2_receipts": "HISTORICAL_SUPERSEDED_NOT_CURRENT",
+  "helper_name_match_ALLOWS_not_used_as_proof": true,
+  "squeue_node_filter_omits_pending_used_all_owner_queue_plus_exact_ReqNodeList": true,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "RUNNING_changes": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}

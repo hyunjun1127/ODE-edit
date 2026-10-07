@@ -1,0 +1,66 @@
+{
+  "status": "CAP2_POLICY_LOCAL_AND_PENDING_DAG_APPLIED",
+  "canonical_SHA256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+  "canonical_four_caps": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 2,
+    "server4": 2
+  },
+  "local_caps": [
+    {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server": "server4",
+      "node": "server4",
+      "GPU_cap": 2,
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "497413beb11128498649136553ecc44f39db03d66f0879f86651188fe54daed6",
+      "server": "server4",
+      "node": "server4",
+      "GPU_cap": 2,
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*,jlz-*,causal-allocation-editing"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server": "server4",
+      "node": "server4",
+      "GPU_cap": 2,
+      "memory_MiB_per_GPU": 60416,
+      "job_patterns": "odeedit_*,bfode_*,motivation_*,session01_*"
+    }
+  ],
+  "allocated_GPU_count": 2,
+  "allocated_jobs": [
+    60105,
+    60616
+  ],
+  "legacy_overcap": false,
+  "pre_change_pending_and_running_DAG_width": 3,
+  "post_change_pending_and_running_DAG_width": 2,
+  "GPU_jobs": 9,
+  "CPU_GPU0_collectors": [
+    60108,
+    60622
+  ],
+  "local_memory_node_patterns_unchanged": true,
+  "DAG_algorithm": "existing GPT-J admission.width maximum antichain; GPU1 parent jobs only, afterany edges, no step/array duplicate",
+  "helper_name_pattern_count_is_not_authoritative": true,
+  "excluded_server2_jobs": [
+    60656,
+    60657,
+    60658
+  ],
+  "new_GPU_model_forward_fit_Slurm_jobs": 0,
+  "cancelled_jobs": 0,
+  "running_modifications": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}
