@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "task_id": "base-model-gptj-w0-cohort-curves",
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER2",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server2-base-model-gptj-w0-cohort-curves",
+    "model": "EleutherAI/gpt-j-6B",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "family": "gptj",
+    "tag": "gptj"
+  },
+  "contract": "plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
+  "envelope": "messages/head/2026-10-07-w0-cohort-curves-server2.json",
+  "state": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "new_job_ids": [],
+  "source_commit": null,
+  "allowed_slurm": true,
+  "report": "experiment-reports/servers/server2/base-model-gptj-w0-cohort-curves/report-ko.md"
+}

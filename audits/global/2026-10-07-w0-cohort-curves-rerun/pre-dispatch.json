@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1",
+  "status": "PASS_WITH_TRACKING_SCHEMA_WARNING_RESOLVED_IN_CONTRACT",
+  "reviewer": "GH owner + read-only gpt2_native_baseline_contract explorer",
+  "review": "기존 source reducer/mapping과 공유 validator 검사. POST_STATE_AXIS/W0_STATE_ZERO/AXIS_DECREASE 충돌을 명시 W0-reference adapter 및 x0 선행순서로 해결하도록 계약. CPU/GPU/runtime/online 실행검증 주장은 없음. 기존 scoring정의 변경0, no-edit truthful state0, source/raw/job 유지, S1cap scopedexception 확인.",
+  "independent_GPU_audit": false,
+  "new_model_forward": 0,
+  "new_slurm_submit": 0
+}

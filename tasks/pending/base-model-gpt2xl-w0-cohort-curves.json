@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "task_id": "base-model-gpt2xl-w0-cohort-curves",
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-base-model-gpt2xl-w0-cohort-curves",
+    "model": "openai-community/gpt2-xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "family": "gpt2",
+    "tag": "gpt2xl"
+  },
+  "contract": "plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
+  "envelope": "messages/head/2026-10-07-w0-cohort-curves-server1.json",
+  "state": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "new_job_ids": [],
+  "source_commit": null,
+  "allowed_slurm": true,
+  "report": "experiment-reports/servers/server1/base-model-gpt2xl-w0-cohort-curves/report-ko.md"
+}

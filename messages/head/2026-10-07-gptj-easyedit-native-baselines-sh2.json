@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-GPTJ-EASYEDIT-NATIVE-BASELINES-2K-20261007-R1",
+  "user_exact_quote": "server2엔 gptj memit, alphaedit run도 올리자. server2의 gpu cap은 2이다",
+  "authority": "SH2가 신규 stock EasyEdit GPT-J MEMIT/AlphaEdit 두 native baseline을 구현·최소검산·실제 SlurmGPU1/job+CPUcollector held검사/release·W&B/compactmain게시까지 진행. 기존 ours가 아니라 native baseline 각2000 cold trajectory. 단계별 재승인 없음.",
+  "task_id": "gptj-easyedit-native-baselines-2k",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server2-gptj-easyedit-native-baselines-2k"
+  },
+  "models": {
+    "model": "EleutherAI/gpt-j-6B",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "family": "gptj",
+    "native_structure": "28blocks,hidden4096,intermediate16384,vocab50400,RoPE,parallel attention/MLP,fc_out weight[4096,16384],readout27. GPT2 Conv1D/tiedhead/learnedposition 경로 복사 금지."
+  },
+  "scope": {
+    "arms": [
+      "BASE_MEMIT",
+      "BASE_ALPHAEDIT"
+    ],
+    "independent_cold_W0": true,
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "seed": 20261002,
+    "cohort": "동일 counterfact-fixed-10k-v1 ordered first2000",
+    "noCP": true,
+    "extra_ours_arms": 0,
+    "additional_baseline": 0,
+    "sweep": 0,
+    "stages": "model/source/native hparam/static 최소검산 → native first actual write/observer/다음entry 기술확인 → sealed20batch/W20/eval/CPUcollector; 성능 승격 gate나 별도fit/pilot 없음."
+  },
+  "native_contract": {
+    "reference": "project/run_scripts/gpt2xl_native_baselines/**는 stock native input/execute/observer/submit의 scaffold 참고. 실제 GPT-J native EasyEdit source/hparams/모델cache를 SH2가 새hash binding. Llama/ours/BLUE writer가 아니다.",
+    "yaml": "EasyEdit hparams/MEMIT/gpt-j-6B.yaml 및 AlphaEdit/gpt-j-6B.yaml exact bytes + 실제 HyperParams parser 대조. 상대model/cache/stat/device 경로만 S2/Slurmcuda0로 매핑. native 값 변경0.",
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "anchor": 8,
+    "readout": 27,
+    "lr": 0.5,
+    "max_evaluations": 25,
+    "max_updates": 24,
+    "clamp": 0.75,
+    "norm": 0.5,
+    "KL": 0.0625,
+    "MEMIT_mom2_weight": 15000,
+    "Alpha_L2": 10,
+    "Alpha_nullspace_threshold": 0.02,
+    "writers": "MEMIT native z fit/current key/remaining-layer residual/write 그대로, ours lifetime H/PRICE/planner/budget/controller 삽입0. Alpha native projector/history/residual/FP32operator 그대로, blue=false, native L2=10, 15000C0 hybrid0. native H/globalcache는 해당coldarm 독립. YAML Alpha mom2_update_weight는 native solve 미사용이면 별도 상태기록.",
+    "source_gap": "Git HEAD AlphaEdit cache_c init에 GPT-J 분기가 없는 역사버전이 있다. SH2 실제소스 확인·동결. 필요하면 private native copy의 GPT-J cache shape6x16384x16384 초기화/모델선택만 최소 기술호환 수정하고 exactdiff/AST 및 zero/coldstate검산; 원sharedEasyEdit/기존source수정0. BLUE historykwargs로 대체금지.",
+    "assets": "L3..8 C0/P의 physicalslot six mapping exact확인. ours L4..8 five-slot P를 그대로 쓸 수 없다. 모델/원stats/P 재사용 우선, count FP32mom2sum/count 검증. cache/revision/hash/stat현재검산. 필요한L3/P없으면 정확 필요scope/resource를 먼저 보고하고 자료부족을 기술미제출로 기록; silentlayer제거/새threshold/무관자산복제0.",
+    "precision": "기존 native FP32 model/actualruntime/eager/eval/TF32off/autocastoff. writer의 native solve/multiplication/cast/add order 유지; 우리FP64geometry를 stockAlphaFP32 solve에 조용히대체0. stockMEMIT의실제dtype/source결속. sameinput AST/oracle CPU 및 firstactualguard 분리.",
+    "cost_counts": "기술상한20batchx100nativez=2000/arm,6layerx20write=120. 실제earlystop/call별수별도. GPTJ P/H 각각FP32약6GiB: CPU/hostmmap/read-per-layer 및실제headroomfresh 확인; 새로운 tensor dump0."
+  },
+  "evaluation": {
+    "native_model_scorer": "S2의 gptj PRICE native Scorer/W0 pack와 exact canonical R/P/N target/token/group/pad를 재사용. 현재 batch100 pre/post 및 W5/10/15/20allseen,최종 R2000/P4000/N20000. W0 cohort-curve rerun과 actualmodel/runtime/evaluator/input이 맞으면 그sameW0raw를 CPU identity검산해참고/재사용; GPU를 점유한 채 W0파일 polling0.",
+    "metrics": "control/wandb-method-metric-schema.json 9fields/counts/pct/nats/harmonic, Ndesiredtrue, TF micro/promptmacro/strict와NLL/margin/paired/cohort. current/post는 milestones에서도current100, allseen은prefix. 공식 P/N 학습튜닝0.",
+    "axes": "실제 native edits100..2000 및 pre/post state별도,fit단조candidateaxis별도. W0-only curve의 reference axis예외는 이 actual editedbaseline validator에 적용0.",
+    "tracking": "entity wkdguswns2256/project layer allocation/online/scalarprivacy, model=gptj/familygptj/writerMEMITorAlphaEdit/role scientific/schema/actualjobID+namejob. 검증된 PRICE route 최소재사용, centralhelper완료submissiongate0. 새immutableID, boundedfinish/readback,SDKaccepted≠remotePASS. 기존run백필0."
+  },
+  "resources": {
+    "server_GPU_cap": 2,
+    "per_job_GPU": 1,
+    "task_concurrent_max": 2,
+    "CPU_default": 6,
+    "host_memory_MiB_default": 59392,
+    "walltime": "현재partition/QoS에 맞춰 명시적 제한. native 2k의실측미확인; requestedwall은ETA아님. CPU/GPU/RAM최신admission내필요값을정확기록.",
+    "rule": "서버2의FE/oldW0/newW0및모든same-ownerRUNNING/admittedPENDING 합산 cap2 또는더엄격현행제한. 선점/기존jobcancel/cap파일변경0. W0curveGPU와nativeGPU가동시에cap내실행가능하면허용,나머지는exactafteranyfrontier로직렬화. 과학성능依存 afterok0,sharedassetREADY는기술identitygate. dependency은실jobID로결속,자원없으면정식PENDING등록.",
+    "held": "GPU2jobs와GPU0collector를held등록,sourceconfig/owner/argv/resources/dependencies/W&B/noCP검사→release. 기존job단발admission읽기외resultmonitor0.",
+    "collector": "자기native2jobs afterany, 별도W0collector/source/raw/resultKEEP. CPUcollector가cap2GPU를점유하지않음."
+  },
+  "write_scope": [
+    "project/run_scripts/gptj_native_baselines/**",
+    "private task-owned pinned native GPTJ closure/minimal compatibility adapter",
+    "audits/servers/server2/gptj-easyedit-native-baselines-2k/**",
+    "experiment-reports/servers/server2/gptj-easyedit-native-baselines-2k/**",
+    "runs/gptj-easyedit-native-baselines-2k/**",
+    "messages/acks/server2/gptj-easyedit-native-baselines-2k.json",
+    "messages/server-heads/server2/gptj-easyedit-native-baselines-2k.json",
+    "tasks/status/gptj-easyedit-native-baselines-2k/server2.json",
+    "ignored local/gptj-easyedit-native-baselines-2k/**"
+  ],
+  "artifacts": "clean non-mainworktree/rootdirty/oldsourcejobsrawKEEP. 소형source/hparam/mapping/config/manifest/report mainnonforce. NoCP/secret/raw/모델/Git0. 신규durableP/H/activation dump0,필요ordinarycompactbroadcast/예외 receipt.",
+  "report": "experiment-reports/servers/server2/gptj-easyedit-native-baselines-2k/report-ko.md",
+  "completion": "먼저nonceownerACK/acceptedturn,구현→실제MEMIT+AlphaGPU와CPUcollector submit/release까지별도승인없이계속. 모델×methodjobID/sourceconfig/deps/W&B현재stage 회신. GH는실제queue등록회수하되GPUterminalwait0. 제출후bounded snapshot→STOP/no heartbeat/polling/auto retry.",
+  "status_at_issue": "AUTHORIZED_AWAITING_DIRECT_DELIVERY"
+}

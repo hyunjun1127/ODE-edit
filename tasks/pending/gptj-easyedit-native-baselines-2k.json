@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "gptj-easyedit-native-baselines-2k",
+  "instruction_id": "USER-GH-SH2-GPTJ-EASYEDIT-NATIVE-BASELINES-2K-20261007-R1",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server2-gptj-easyedit-native-baselines-2k"
+  },
+  "envelope": "messages/head/2026-10-07-gptj-easyedit-native-baselines-sh2.json",
+  "state": "AUTHORIZED_AWAITING_DIRECT_DELIVERY",
+  "new_job_ids": [],
+  "report": "experiment-reports/servers/server2/gptj-easyedit-native-baselines-2k/report-ko.md"
+}

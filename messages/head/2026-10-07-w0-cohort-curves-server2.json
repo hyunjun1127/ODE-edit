@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER2",
+  "parent_instruction": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1",
+  "contract": "plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
+  "contract_sha_required": true,
+  "authority": "신규 cold W0-only rerun 구현·최소 CPU mapping/reducer/axis 검산·실제 GPU1+CPUcollector held검사/release·W&B online·소형 source/report main nonforce 게시 승인. 단순 owner ACK에서 멈추지 말고 실제 제출까지 계속. 같은 범위 추가 승인 없음.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server2-base-model-gptj-w0-cohort-curves",
+    "model": "EleutherAI/gpt-j-6B",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "family": "gptj",
+    "tag": "gptj"
+  },
+  "task_id": "base-model-gptj-w0-cohort-curves",
+  "scope": {
+    "cold_model": true,
+    "actual_model_edits": 0,
+    "target_fit": 0,
+    "solve": 0,
+    "optimizer": 0,
+    "history_append": 0,
+    "checkpoint": false,
+    "cohort": "동일 counterfact-fixed-10k-v1 ordered first2000, seed20261002, 각 model 자체 native context/token/target/evaluator/runtime binding",
+    "measurement": "이번 새 run에서 실제 first2000 W0 score를 단1회 측정. 이미 측정한 own fresh per-case raw로 cohort/prefix를 CPU 집계. old raw는 참고 검산일 뿐 이번 rerun 측정을 대체하지 않는다.",
+    "physical_rows": {
+      "prompt_pairs": 26000,
+      "candidates": 52000
+    },
+    "no_extra_forward": "cohort curve마다 별도 forward0, 새 pilot/fit/strength sweep0, prefix/full2k 반복 평가0"
+  },
+  "curve_schedule": {
+    "W0_first2000": {
+      "comparison_x": 0,
+      "requests": 2000,
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "current_post": "b=1..20: ordered occurrences [(b-1)*100:b*100], x=100*b, R100/P200/N1000. 전체2k summary를 매 current point로 반복하지 말 것.",
+    "all_seen_post": "b=5,10,15,20: ordered occurrences [:100*b], x=500/1000/1500/2000, R=100*b/P=200*b/N=1000*b",
+    "optional_current_pre": "같은 W0 current rows를 별도 forward 없이 alias 가능. pre/post actual state는 모두0.",
+    "w0_N_reference": "w0/current/N와 w0/all_seen/N은 동일 실제 W0 current/prefix subset으로만 기록.",
+    "identity": "ordered occurrence ordinal/case/order/prompt/target/token ID를 결속. numeric case_id threshold나 dedup로 cohort 선택 금지."
+  },
+  "tracking": {
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "policy": "control/wandb-policy.json + control/wandb-method-metric-schema.json",
+    "route": "기존 실제 PRICE upload 또는 기존 sidecar 재사용. 중앙 helper 완료/새 helper 전환을 제출 prerequisite로 추가하지 않는다.",
+    "prefixes": [
+      "W0_first2000/{R,P,N}/*",
+      "current/post/{R,P,N}/*",
+      "all_seen/post/{R,P,N}/*"
+    ],
+    "fields": [
+      "count",
+      "success_count",
+      "success_pct",
+      "token_acc_pct",
+      "prompt_acc_pct",
+      "strict_acc_pct",
+      "true_nll",
+      "new_nll",
+      "margin_true_minus_new"
+    ],
+    "units": "pct0..100, NLL nats, N desired=true, R/P desired=new. success ties fail. token micro는 token numerator/denominator 재집계, chunk% 평균 금지. harmonic success_pct 및 실측 분모. 결측0채움 금지.",
+    "axis": "W0_first2000 x0을 먼저 log하고 current x100..2000 단조증가. edits=reference_cohort_edits는 비교 cohort progress이며 actual_model_edits=actual_applied_edits=0, pre_state_edits=post_state_edits=0. immutable reference_only=true, evaluation_model_state=W0, edits_axis_semantics=reference_cohort_progress. 실제 편집된 W1..W20으로 표기 금지.",
+    "narrow_schema_exception": "기존 experiment_tracking/method.py POST_STATE_AXIS는 post_state_edits==edits를 요구해 truthful W0 비교 payload를 거절한다. 이번 task에 한해 명시적인 W0 reference-only adapter/schema 분기를 허용한다. 실제 state0/role/immutable reference-only/정확 cohort 축을 검증한 경우에만 post_state==comparison_x 등식을 대체. 일반 method run validator는 변경하지 않는다. SH1·SH2는 자기 profile 전용 sidecar/validator로 최소 구현, shared helper 소유권 충돌0. validator를 무시하거나 state_edits를100..2000으로 거짓 기록 금지.",
+    "identity": "새 immutable run UUID/receipt, model/model_family/writer=none/role scientific/metric_schema=price-first2k-scalar-v1 + W0-reference schema revision. 실제 job_id/array/step signed string, run.name job번호. old run 재사용/backfill/rename0.",
+    "transport": "실시간 scalar-only online, code/console/token/raw/tensor/secret/model 업로드0. tracker.log 실패를 silent drop로 무시하지 말고 새 W0 adapter 승인/접수 여부 검사. bounded finish/readback에서 세 prefix와20current+4allseen coverage 검산. SDK accepted≠remote readback PASS. network 오류가 eval 재실행 승인 아님."
+  },
+  "resources": {
+    "slurm_allowed": true,
+    "task_GPUs": 1,
+    "CPU_default": 6,
+    "host_memory_MiB_default": 59392,
+    "wall_hours_default": 4,
+    "rule": "current projectcap2 또는더엄격한 현행cap, taskGPU1. native hostceiling 기본6CPU/59392MiB/4h. FE/무관job취소0.",
+    "held": "free GPU를 기다리며 agent polling하지 말고 정식 scheduler dependency/PENDING으로 등록. source/argv/config/resources/deps/noCP/W&B held검사후release."
+  },
+  "write_scope": [
+    "project/run_scripts/base_model_eval/gptj_server2.py",
+    "project/run_scripts/base_model_eval/gptj_server2_*.py",
+    "project/run_scripts/base_model_eval/gptj_server2_cohort*/**",
+    "自己profile専用tests/launcher/sidecar validator (no other SH profile or shared experiment_tracking writes)",
+    "audits/servers/server2/base-model-gptj-w0-cohort-curves/**",
+    "experiment-reports/servers/server2/base-model-gptj-w0-cohort-curves/**",
+    "runs/base-model-gptj-w0-cohort-curves/**",
+    "tasks/status/base-model-gptj-w0-cohort-curves/server2.json",
+    "messages/acks/server2/base-model-gptj-w0-cohort-curves.json",
+    "messages/server-heads/server2/base-model-gptj-w0-cohort-curves.json",
+    "ignored local/base-model-gptj-w0-cohort-curves/**"
+  ],
+  "readonly_reference": [
+    "existing base_model_eval gptj profile and canonical model-native PRICE scorer/packing",
+    "control/wandb-policy.json",
+    "control/wandb-method-metric-schema.json",
+    "project/run_scripts/experiment_tracking/**"
+  ],
+  "prior_jobs": [
+    60147,
+    60148
+  ],
+  "preserve_rule": "기존 W0 job도 유지. 정확 owner/task/source/state 단발 확인은 동시 W0 중복 lane 방지와 자원 admission 목적. old W0 active면 새 W0를 afterany로 직렬화하고 cancel0. terminal이면 재실행 요청대로 독립 새 run 등록. 기타 ours/native baseline/FE/SH4 jobs 조회·변경·취소0, admission 필요 inventory 제외.",
+  "checks": "기존 모델별 scorer/packing/native loader/row reducer 재사용. 변경된 mapping/ordered-cohort/counts/token-micro/axis/state0/jobidentity/validator만 최소 CPU regression. actual W0 measurement 안에서 finite/input/model 비변이/weight version guard. logging 때문에 추가 model forward/GPU pilot0. 낮은 W0 결과 gate0.",
+  "artifacts": "전용 clean non-main WT/branch, root dirty KEEP. source/compact JSON/manifest/CPU report만 Git/main nonforce. raw local-only, old source/raw/results KEEP, CP/model/C0/P 생성·다운로드·복제0. ordinary small broadcast 또는 정확 예외 receipt, 대형 raw 신규복제/--delete0.",
+  "report": "experiment-reports/servers/server2/base-model-gptj-w0-cohort-curves/report-ko.md",
+  "completion": "SH1·SH2 direct owner nonce ACK와 accepted turn 회수. owner는 구현→검산→실제 GPU+CPUcollector submit/release까지 자율 계속. GH는 actual job IDs/dep/source/config/새W&Bidentity 단계 회수하되 GPU 결과완료 기다리지 않는다. 제출 후 bounded snapshot→monitoringpaused, periodic polling/heartbeat/auto retry0.",
+  "status_at_issue": "AUTHORIZED_AWAITING_DIRECT_DELIVERY"
+}
