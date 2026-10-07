@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-gptj-2k",
+  "nonce": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "executed_source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+  "executed_config_sha256": "bab92540da015aa7e286f3887af3848a95427c15e5a0731373cbf0c73904ae46",
+  "executed_lock_sha256": "cff0b4b48c5015d89874e27e9c6ba4a99ed89e5a8727c944f53a68b69283f914",
+  "executed_archive_sha256": "31220b891fdf9c387ef6491a341420b1222451cd955427f9cd11fdf51bc6227e",
+  "publication_pre_manifest_commit": "ab167c36",
+  "members": [
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/publication-checks.json",
+      "bytes": 1674,
+      "sha256": "e6409fce5518e58b8f230ca382ee76e0d7949029a8b36312b26995e2eea0ace4",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/resource-priority-proof.json",
+      "bytes": 6301,
+      "sha256": "7fe92a1f6d67e5d3a49d538f2ec34da63f92832a5ecaf639f9febbe082270f1e",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/source-review.json",
+      "bytes": 2387,
+      "sha256": "65952aae35c6cdf785e03193ee76849b565e540b75a7e1750f180da7f7375447",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/report-ko.md",
+      "bytes": 7455,
+      "sha256": "783ce7835bf104ee887acdcfd8f5d1dc50cfaabbbdbbc626024c6925e26f9628",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
+      "bytes": 14147,
+      "sha256": "c871f336fb285580f7cd6061cde0d27d53d4c9956b81b78bbad08172249a75a1",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "messages/acks/server4/jlz-price-gptj-cast-repair-20261008.json",
+      "bytes": 729,
+      "sha256": "d436231f47854690a62e2e18ae1771dbbb626a71f3029fb596b57b86e0dfc4fc",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "messages/server-heads/server4/jlz-price-gptj-cast-repair-20261008.json",
+      "bytes": 1114,
+      "sha256": "2c6a674def712bf00c81c3f41d22c210fde4148dcc46c23f6e3fb24303a37f0b",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "plans/updates/server4/jlz-price-gptj-2k/cap075-cast-repair-20261008.json",
+      "bytes": 2040,
+      "sha256": "188866df48950603af746cc9b52f50d77081dc1d337a139e2d898e9d25f66189",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_interference_l1/cap_optimizer.py",
+      "bytes": 3011,
+      "sha256": "70826aea7ab2b16794dc7205e7ead53bb7c092129661a98487529368e64b91fa",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_interference_l1/cap_projection.py",
+      "bytes": 8895,
+      "sha256": "ab16e5f91f006f103cedaee4879d44ef51be74770cc6e1683a3875f2455925c6",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/collect.py",
+      "bytes": 50916,
+      "sha256": "b8c7e6921051cd015ad75b45be1125d8c892f69073f9c5c5a291c74ea87d3130",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/fit.py",
+      "bytes": 7649,
+      "sha256": "48569c71b857a5d19887cfc152939d4c85dc76bd9f96152ad14d307bf2f739d8",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/review_cast_failure.py",
+      "bytes": 3420,
+      "sha256": "ac04fb9695b7af171638211306c8841a12432728a854e8e8a98a9a3d62997c26",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/run.py",
+      "bytes": 24124,
+      "sha256": "95e579ae119429e8c48b9b857c3328f3645c0e072c9c834451f7566bff0d3259",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/single_retry.py",
+      "bytes": 12683,
+      "sha256": "b9cc563f29132b1e3e3abce36bf05839d60f1aea54351a7d2c3aaa288ebae486",
+      "relation_to_execution": "later control-only receipt correction; not executed archive bytes"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/submit.py",
+      "bytes": 22863,
+      "sha256": "aa695bf1ad690820050a4e85d8baa0f3354ec089a90b19a20f84fe82bf2e6499",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/test_single_retry.py",
+      "bytes": 3087,
+      "sha256": "ffbbd873e9c92855fa98776593d141e5919734c3eec4b3311434d775fa810705",
+      "relation_to_execution": "later control-only receipt correction; not executed archive bytes"
+    },
+    {
+      "path": "runs/jlz-price-gptj-2k/cast-repair-20261008/submission.json",
+      "bytes": 2831,
+      "sha256": "7553c84a52893963520c0503d12728ca9a5b529a05856890b7664ef5390fe688",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    },
+    {
+      "path": "tasks/status/jlz-price-gptj-2k/server4.json",
+      "bytes": 2603,
+      "sha256": "55cca5d4097be12250b2dea3938a91027d90bd8e738d60e7902feb6544db33cc",
+      "relation_to_execution": "runtime source or compact owner fact/provenance publication"
+    }
+  ],
+  "member_count": 19,
+  "total_bytes": 177929,
+  "excluded": "manifest itself, raw/source.tar/model/tensor/prompt/stdout/secrets/local W&Bspool",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
