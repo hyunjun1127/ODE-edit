@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1-SERVER1",
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "accepted": true,
+  "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
+  "app_CWD": "/mnt/raid5/janghj/ODE-edit",
+  "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k",
+  "legacy_registry_29e4": "HISTORICAL_NOT_BOUNDARY",
+  "duplicate_submission_found": false,
+  "accepted_at": "2026-10-07 11:51:35 UTC",
+  "stage": "BASELINE_STOP_RECONCILED_IMPLEMENTING_NOT_SUBMITTED",
+  "new_job_ids": [],
+  "cancelled_exact_jobs": [
+    "60759",
+    "60741",
+    "60758",
+    "60757",
+    "60740"
+  ],
+  "preserved_completed": [
+    "60150",
+    "60151",
+    "60152",
+    "60739"
+  ],
+  "protected_ours_W0_assets_other_jobs_mutated": false
+}
