@@ -25,7 +25,16 @@
   "combined_GPU_cap": 2,
   "projected_GPU_width": 2,
   "initial": "60928 RUNNING;60929..60934 Dependency PENDING",
-  "W_B": "60928 REMOTE_STARTUP_IDENTITY_CONFIG_VERIFIED; metric finish/science completion NOT_OBSERVED",
+  "W_B": "60928 REMOTE_REALTIME_VERIFIED: same run running/W0 scalar30/progress row11; full generation/finish NOT_OBSERVED",
+  "live_tracking": {
+    "user_exact": "실시간 기록 진행해",
+    "checked_at_kst": "2026-10-08T00:02:27.936090+09:00",
+    "source_commit": "12c4633697cb75922985a793dfd2174adab9b9f1",
+    "scientific_source_job_config_run_identity_unchanged": true,
+    "new_GPU_fit_forward_submit_restart": 0,
+    "same_SDK_writer_remote_readback": "running; W0 R2000/P4000/N20000; progress212..224 and latest summary225",
+    "audit": "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/live-tracking-r1.json"
+  },
   "W_B_run": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/83b85657a45c4673",
   "source_and_old_failure_preserved": true,
   "old_jobs_mutated": false,

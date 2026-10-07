@@ -1,6 +1,16 @@
 # GPT2-XL native baseline generation rerun 사실보고
 
-현재 상태: **USER recall 후 실제 여섯 baseline + CPU collector 등록·held 검산·release 완료**. Bounded snapshot에서 MEMIT60928 RUNNING, 나머지 정상 Dependency PENDING이다. 실험 완료·B1 commit/다음 entry·metric 전체 전송은 아직 미관측이며 기다리지 않았다.
+## 최신 USER 실시간 기록 수리 — 2026-10-08 00:02 KST
+
+사용자 `실시간 기록 진행해`에 따라 기존 MEMIT60928/run `83b85657a45c4673`의 기록만 복구했다. 원격 API에서 상태 `running`, job/name/source/config identity 동일, W0 scalar30개 및 generation 진행 row11개(212→224), 최신 summary 진행225를 검증했다. W0 분모 R2000/P4000/N20000과 값이 일치하며 prompt macro2개는 원격 JSON roundtrip에서 각각1ULP 차이였고 실제 차이를 audit에 보존했다. Count/axis는 exact, 수치 gate 변경0. SDK 접수만으로 원격 PASS라고 쓴 것이 아니다.
+
+원인은 이미 존재하는 identity-qualified W0 RPN summary도 초기 generation2000개 종료 전까지 첫 log를 보내지 않는 runner 순서였다. 수리 전 원격 `crashed`/metric0 관측은 보존하며, crashed의 heartbeat 원인까지 이 순서 탓이라고 확정하지 않는다. 추가 모델평가/fit/Slurm/SDK init/run 생성·재시작·취소0, 과학 source `6bc51602`/config/lock/archive/실행 bytes 불변이다.
+
+Telemetry-only source `12c4633697cb75922985a793dfd2174adab9b9f1`의 CPU1/GPU0 보조 기록기는 기존 sole SDK worker에 작은 atomic scalar frame만 전달한다. 초기 generation의 immutable case-file 완료 이벤트가 있을 때 최대30초 cadence로 `step` 완료 건수/phase/기존 elapsed/RSS를 기록한다. 이는 fit/edits/품질점수/endpoint 완료가 아니다. 원 runner의 첫 scalar journal 작성 시 즉시 인계·종료하며 task 종료/원48h wall에도 종료, retry0/agent recurring monitor0이다. 원격 run state를 API로 강제 변경하지 않았다.
+
+외부 stdin bridge는 공식 reconnect API나 공유-lock 프로토콜이 아니다. Exact own PID/start/parent/cwd/pipe inode, 초기 parent frame의 PIPE_BUF bound와 journal handoff를 검산했으나 외부 writer 경합의 잔여 위험은 명시한다. Owner CPU4/독립 reviewer CPU4 PASS, frozen run/client/worker/config SHA 및 scalar privacy 검산 완료. Full generation score/B1/scientific completion은 미관측이다. 상세 receipt: `audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/live-tracking-r1.json`. 나머지 등록/원자료는 그대로 보존한다.
+
+등록 인계 당시 상태: **USER recall 후 실제 여섯 baseline + CPU collector 등록·held 검산·release 완료**. 당시 bounded snapshot에서 MEMIT60928 RUNNING, 나머지 정상 Dependency PENDING이었다. 실험 완료·B1 commit/다음 entry·metric 전체 전송은 미관측이며 기다리지 않았다. 최신 telemetry 상태는 위 절에서 별도로 보고한다.
 
 ## 등록 재개 실제 근거
 

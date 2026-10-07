@@ -27,7 +27,18 @@
     "failed": 0
   },
   "GPU_method_generation": "60928 RUNNING; B1/generation/science completion NOT_OBSERVED",
-  "W_B": "60928 REMOTE_STARTUP_IDENTITY_CONFIG_VERIFIED; remaining runs/metric finish NOT_OBSERVED",
+  "W_B": "60928 REMOTE_REALTIME_VERIFIED: same run running/W0 scalar30/progress row11; full generation/finish and pending arms NOT_OBSERVED",
+  "live_tracking": {
+    "user_exact": "실시간 기록 진행해",
+    "checked_at_kst": "2026-10-08T00:02:27.936090+09:00",
+    "source_commit": "12c4633697cb75922985a793dfd2174adab9b9f1",
+    "run_id": "83b85657a45c4673",
+    "remote_state": "running",
+    "runtime_CPU_helper_PID": 248626,
+    "handoff": "initial W0 events only; exit when original producer starts logging",
+    "scientific_job_mutations": 0,
+    "audit": "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/live-tracking-r1.json"
+  },
   "cancelled_jobs": [
     "60759",
     "60741",

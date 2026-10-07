@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "user_exact": "실시간 기록 진행해",
+  "scope": "USER-directed telemetry-only repair; preserve frozen scientific source/job/run identity",
+  "checked_at_utc": "2026-10-07T15:02:27.936090+00:00",
+  "checked_at_kst": "2026-10-08T00:02:27.936090+09:00",
+  "status": "REMOTE_REALTIME_VERIFIED",
+  "job_id": "60928",
+  "before": {
+    "remote_state": "crashed",
+    "metric_keys_observed": 0,
+    "scientific_job": "RUNNING",
+    "established_cause": "Original runner waited for all2000 initial W0 generation cases before first metric log, despite existing qualified W0 RPN summary.",
+    "remote_crashed_cause": "NOT_ESTABLISHED_SEPARATELY; no claim that metric delay explains server heartbeat state"
+  },
+  "science": {
+    "source_commit": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+    "config_sha256": "9738bb2a05f28cff347f260789d32db667d6bcb542142a5e9c4528f8e13cb4f2",
+    "execution_lock_sha256": "ec7fa67067edaff39586dab674f72bf393ccb77e9dce54e9f11ea86c81fbe62f",
+    "archive_sha256": "e502cb6a9e2e259aa074944dc834047a49a730750b7f404e90553ad5190f3fa9",
+    "frozen_run_client_worker_config_identity": "Independently matched existing lock",
+    "job_mutations": 0,
+    "new_Slurm_jobs": 0,
+    "new_fits": 0,
+    "new_model_forwards": 0,
+    "new_SDK_init_or_sync": 0,
+    "new_remote_runs": 0,
+    "checkpoint_saved": false
+  },
+  "control": {
+    "source_commit": "12c4633697cb75922985a793dfd2174adab9b9f1",
+    "module": "project/run_scripts/gpt2xl_generation_baselines/live_progress.py",
+    "source_sha256": "42f88a3977260a13537a2c69ed229f9bfc5be62a69409e03d4148f7414dc38f1",
+    "source_bytes": 13811,
+    "PID": 248626,
+    "scientific_PID": 29953,
+    "existing_SDK_PID": 30136,
+    "CPU_max": 1,
+    "memory_ceiling_bytes": 4294967296,
+    "GPU": 0,
+    "local_receipts": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/live-progress-r1/",
+    "immutable_attachment": "attachment.json",
+    "mutable_request_journal": "scalar-requests.jsonl",
+    "delivery_before_readback": "REQUEST_NOT_REMOTE_ACK / SDK_ASYNC_NOT_REMOTE_ACK",
+    "cadence": "Completed immutable case-file events; at most one changed-progress scalar point per30s, no heartbeat",
+    "lifecycle": "Only initial W0 phase of exact60928; exits when original producer first writes accepted-scalars journal, task/SDK terminal, or original48h jobwall bound; no retry",
+    "transport": "Existing sole SDK writer stdin, nonblocking atomic log frame<=4096bytes; job/source/config/run ID unchanged",
+    "residual_risk": "External stdin bridge is not a supported reconnect API or shared-lock protocol. Exact UID/PID start/argv/parent/cwd/pipe inode and atomic initial-parent frame bounds plus journal handoff limit the residual writer race.",
+    "incomplete_generation_semantics": "step=completed atomic case files; phase_id2=INITIAL_W0_GENERATION; status_code1=LIVE_NONTERMINAL. This is not edits, fit, validated endpoint, fluency/consistency score or RNG/state PASS.",
+    "W0_reuse": "Existing identity-qualified RPN summary only; original production log_w0 CPU mapper, R2000/P4000/N20000. Original runner may naturally log same observation again; no new forward."
+  },
+  "tests": {
+    "owner_CPU": 4,
+    "independent_CPU": 4,
+    "failed": 0,
+    "independent_reviewer": "/root/existing_logger_transport; readonly source/local process identity/request keys/frozen lock/CPU tests; no remote or model/GPU work",
+    "checks": [
+      "actual production W0 scalar mapper and denominator",
+      "atomic JSON pipe roundtrip/privacy",
+      "step distinct from edits/fit and fake SDK single-init monotonic parent handoff",
+      "first parent frames atomic bound",
+      "opened pipe inode equals inspected inode",
+      "inotify overflow stops without retry"
+    ],
+    "private_payloads": "No prompt/token/percase IDs/tensor/model/credential/full environment uploaded"
+  },
+  "remote_readback": {
+    "schema": 1,
+    "checked_at_utc": "2026-10-07T15:02:27.936090+00:00",
+    "status": "REMOTE_REALTIME_VERIFIED",
+    "run_id": "83b85657a45c4673",
+    "run_name": "server1-BASE_MEMIT-attempt-register-r1-job60928",
+    "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/83b85657a45c4673",
+    "remote_state": "running",
+    "immutable_config_checked": {
+      "model": "gpt2xl",
+      "model_family": "gpt2",
+      "writer": "memit",
+      "role": "scientific",
+      "job_id": "60928",
+      "source_sha": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+      "config_sha": "9738bb2a05f28cff347f260789d32db667d6bcb542142a5e9c4528f8e13cb4f2"
+    },
+    "identity_errors": [],
+    "W0_scalar_keys_compared": 30,
+    "W0_missing_keys": [],
+    "W0_value_errors": [],
+    "float_serialization_rule": "counts/axes exact; finite floats max2 ULP roundtrip only, no scientific tolerance change",
+    "float_serialization_differences": [
+      {
+        "key": "W0_first2000/R/prompt_acc_pct",
+        "requested": 0.44999999999999996,
+        "remote": 0.45,
+        "absolute_difference": 5.551115123125783e-17,
+        "ULPs": 1
+      },
+      {
+        "key": "W0_first2000/N/prompt_acc_pct",
+        "requested": 10.495000000000001,
+        "remote": 10.495,
+        "absolute_difference": 1.7763568394002505e-15,
+        "ULPs": 1
+      }
+    ],
+    "W0_counts": {
+      "R": 2000,
+      "P": 4000,
+      "N": 20000
+    },
+    "progress_rows_verified": 11,
+    "progress_history": [
+      {
+        "_step": 1,
+        "step": 212,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 2,
+        "step": 213,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 3,
+        "step": 215,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 4,
+        "step": 216,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 5,
+        "step": 217,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 6,
+        "step": 218,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 7,
+        "step": 219,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 8,
+        "step": 221,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 9,
+        "step": 222,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 10,
+        "step": 223,
+        "phase_id": 2,
+        "status_code": 1
+      },
+      {
+        "_step": 11,
+        "step": 224,
+        "phase_id": 2,
+        "status_code": 1
+      }
+    ],
+    "latest_summary_progress": {
+      "step": 225,
+      "phase_id": 2,
+      "status_code": 1
+    },
+    "summary_progress_matches_request": true,
+    "delivery": "REMOTE_API_METRIC_VALUE_READBACK_NOT_ONLY_SDK_ACK",
+    "generation_full_endpoint": "NOT_ESTABLISHED",
+    "science_completion": "NOT_OBSERVED"
+  },
+  "publication_review": {
+    "status": "PASS_LOCAL_COMPACT_CLAIMS_PRIVACY_DIFF",
+    "reviewer": "/root/existing_logger_transport",
+    "performed": "Readonly JSON/source SHA/diff/11-row arithmetic/2 exact1ULP differences/privacy/claim boundary review",
+    "independent_remote_query": false,
+    "model_scheduler_mutation": false
+  },
+  "remaining_jobs": "Existing dependency registration retained60929..60934; no mutation or new monitoring. Remote run creation for pending arms not established.",
+  "full_generation_scores": "NOT_ESTABLISHED; original runner handles guarded complete endpoint",
+  "scientific_completion": "NOT_OBSERVED",
+  "agent_recurring_monitor": false,
+  "automatic_retry": false,
+  "publication": "Compact source/audit only; raw scalar request journal stays local. NO_BROADCAST_NOT_REQUIRED."
+}
