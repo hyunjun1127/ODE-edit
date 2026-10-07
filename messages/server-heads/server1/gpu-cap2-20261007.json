@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "actual_CWD": "/mnt/raid5/janghj/ODE-edit",
+  "legacy_registry": "29e4 HISTORICAL",
+  "status": "APPLIED_EFFECTIVE_COMBINED2",
+  "local_effective_cap": 2,
+  "currently_allocated_GPUs": 1,
+  "maximum_admitted_GPU_DAG_width": 2,
+  "observation_time": "2026-10-07 10:00:12 UTC",
+  "snapshot_source": "audits/servers/server1/gpu-cap2-20261007/post-registration.json",
+  "W0_extra_GPU_exception": false,
+  "pending_existing_job_adjustments": [],
+  "existing_job_cancel_restart_requeue_hotpatch": false,
+  "root_dirty_preserved": true,
+  "new_recurring_monitor": false,
+  "policy_task_complete": true
+}
