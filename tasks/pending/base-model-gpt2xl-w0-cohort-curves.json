@@ -15,8 +15,9 @@
   },
   "contract": "plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
   "envelope": "messages/head/2026-10-07-w0-cohort-curves-server1.json",
-  "state": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
-  "new_job_ids": [],
+  "state": "SUBMITTED_RELEASED_INITIAL_NOT_OBSERVED",
+  "accepted_turn": "01a11538-015f-72d3-9dc5-93d0aea78b67",
+  "new_job_ids": [60654, 60655],
   "source_commit": null,
   "allowed_slurm": true,
   "report": "experiment-reports/servers/server1/base-model-gpt2xl-w0-cohort-curves/report-ko.md"

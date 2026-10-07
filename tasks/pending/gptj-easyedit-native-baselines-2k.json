@@ -11,7 +11,8 @@
     "branch": "codex/server2-gptj-easyedit-native-baselines-2k"
   },
   "envelope": "messages/head/2026-10-07-gptj-easyedit-native-baselines-sh2.json",
-  "state": "AUTHORIZED_AWAITING_DIRECT_DELIVERY",
+  "state": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "accepted_turn": "01a11537-dd88-7870-8b63-4b0f2deb171b",
   "new_job_ids": [],
   "report": "experiment-reports/servers/server2/gptj-easyedit-native-baselines-2k/report-ko.md"
 }
