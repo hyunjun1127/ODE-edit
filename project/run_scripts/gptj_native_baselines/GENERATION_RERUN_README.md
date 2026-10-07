@@ -1,14 +1,16 @@
-# GPT-J six-native generation rerun: provisional CPU preparation
+# GPT-J six-native generation rerun: SH1 source/reference bound
 
 Task: `gptj-baselines-fluency-consistency-2k`.
 Nonce: `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`.
 
-This is **not an executable source freeze or a Slurm submission**. The new
-caller is CPU-fixture tested, but SH1's shared generation source/API and exact
-reference READY bundle have not been bound. The `generation_bridge` adapter,
-actual reference receive/final config, submission and independent generation
-reducer integration remain pending that authoritative interface. Do not infer
-GPU/generation qualification from fixtures or fabricate a READY config.
+SH1 shared source83535c6a / tree6b9ed049 and reference identity75e595c7 are
+bound through actual load_assets/observe/subset/read_observed/generation_payload.
+Exact received manifest/member hashes and native environment versions match.
+This readiness is not GPU or submission PASS. Production config is immutable
+preparation-r2/config.json; historical provisional preparation-r1 remains.
+generation_bridge preserves raw receipts/work/identity and atomic cold-W0
+READY. generation_submit registers seven held jobs before release; collector
+independently reduces stored rows, without loading a model or creating a run.
 
 `generation_prepare` reuses the exact existing stock/four-arm model, native
 closures, hparams, C0/P, schedule, runtime and R/P/N scorer using small-source
@@ -24,11 +26,11 @@ typed missing reasons and state/profile identity; restore all RNG in `finally`;
 and reuse cold W0 observations, including B1 pre, without duplicate generation.
 `locked()` rejects unbound source/reference before online/model startup.
 
-The task-private telemetry transport differs from the immutable common
-client/worker only in import routing, sidecar module and declared generation
-metric axes. Original SDK/auth/privacy/job identity/run UUID/readback remain.
-Shared `experiment_tracking` files are not edited. Scalar means retain bits
-and cosine units; unavailable means are omitted, not zero-filled.
+Production telemetry now reuses SH1 shared logger/schema and generation_payload
+from raw summary. Private copies and CPU26 are preserved historical fixtures,
+not production transport. Their old assertion that shared generation keys are
+absent predates SH1 adoption and is not current integration evidence.
+Shared files are read-only; means keep bits/cosine, missing means are omitted.
 
 `generation_plan` is a pure future DAG/count plan. Within effective cap2,
 BASE_MEMIT is the sole cold W0 generation publisher. After it terminates,
@@ -45,6 +47,9 @@ OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=
 ```
 
 Source/status/report publication is separate from scientific completion.
+Focused integration receipt is cpu-integration-r1.json; historical CPU44 is
+not repeated as actual GPU qualification. generation_bind and generation_submit
+are create-once, not commands to repeat existing preparation or job registration.
 Receipts are immutable; choose a new `rN` receipt name for a deliberate later
 CPU reproduction, rather than overwriting an earlier receipt.
 NoCP, no automatic retry/monitor; old outputs and protected ours/W0/FE jobs

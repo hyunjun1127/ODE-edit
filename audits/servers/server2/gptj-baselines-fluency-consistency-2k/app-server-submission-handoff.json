@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "nonce": "SH2-GH-GENERATION-SUBMISSION-HANDOFF-20261007-R1",
+  "source_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+  "status": "COMMUNICATION_HOLD",
+  "stage": "THREAD_RESUME",
+  "target_status": "active",
+  "reason": "UNRELATED_OR_UNRESOLVED_ACTIVE_TURN_NO_STEER",
+  "accepted_turn": null,
+  "message_sent": false,
+  "no_automatic_retransmit": true,
+  "model_effort_override": false,
+  "scientific_submission_independent": true,
+  "readiness_request_previously_ACK_verified": true,
+  "git_note": "Durable current report only, not direct GH message receipt"
+}

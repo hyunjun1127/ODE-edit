@@ -112,6 +112,11 @@ class MockGeneration:
             raise AssertionError('Subset without measured overlap')
         return {'planned_count': len(selected)}
 
+    def subset_receipt(self, observed, selected, *, endpoint, cohort_label, out):
+        return dict(summary=self.subset(observed['cases'],selected),
+                    cases=[{'case_id':r['case_id']} for r in selected],
+                    identity={'mock_endpoint':endpoint})
+
 
 class MockTransaction:
     def __init__(self, view, engine, bench):
@@ -228,7 +233,10 @@ class SixArmDispatchTests(unittest.TestCase):
                 self.assertEqual(commit['post_current']['mock_RPN_requests'], 100)
                 self.assertEqual(commit['gen_current']['summary']['planned_count'], 100)
                 self.assertEqual(commit['gen_prefix']['summary']['planned_count'], 2000)
-                self.assertEqual(commit['gen_current']['identity'], commit['gen_prefix']['identity'])
+                self.assertNotEqual(commit['gen_current']['identity'], commit['gen_prefix']['identity'])
+                self.assertEqual(commit['gen_current']['model_state'],commit['gen_prefix']['model_state'])
+                self.assertEqual(commit['gen_current']['raw_directory'],commit['gen_prefix']['raw_directory'])
+                self.assertTrue(commit['gen_current']['derived_subset'])
                 self.assertTrue(commit['gen_current']['derived_subset'])
                 self.assertFalse(commit['checkpoint_saved'])
 

@@ -1,0 +1,41 @@
+{
+  "nonce": "GH-SH2-GENERATION-READY-RELAY-20261007-R1",
+  "parent": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "source_host": "rke-server1",
+  "source_root": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007",
+  "destination_root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/inputs/reference-r1",
+  "sole_receiver": "SH2",
+  "authorization": "Canonical rerun artifacts exact evaluation-reference bundle single pull allowed; READY relay supplies exact identity, no new scope",
+  "source_disposition": "KEEP",
+  "overwrite": false,
+  "delete": false,
+  "recursive_directory_transfer": false,
+  "files": [
+    {
+      "relative": "reference-ready-r1/manifest.json",
+      "bytes": 6769,
+      "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+    },
+    {
+      "relative": "reference-ready-r1/READY.json",
+      "bytes": 999,
+      "sha256": "634ca5c70f54f7af5346849b3594ed92280cfbc3853d0def16a7eef86ae64203"
+    },
+    {
+      "relative": "download-r1/attribute_snippets.json",
+      "bytes": 926285719,
+      "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    {
+      "relative": "download-r1/idf.npy",
+      "bytes": 11042168,
+      "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    {
+      "relative": "download-r1/tfidf_vocab.json",
+      "bytes": 31639072,
+      "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+  ],
+  "payload_bytes": 968974727
+}

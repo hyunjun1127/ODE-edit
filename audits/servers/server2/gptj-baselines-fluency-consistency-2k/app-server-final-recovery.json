@@ -1,0 +1,20 @@
+{
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "accepted_turn": "01a1165b-2002-7783-8df5-b48abda9086c",
+  "nonce": "SH2-GH-GENERATION-READY-REQUEST-20261007-R1",
+  "read_only_recovery": true,
+  "new_turns": 0,
+  "new_steers": 0,
+  "thread_status": {
+    "type": "idle"
+  },
+  "turn_status": "completed",
+  "final_response": "ACK `SH2-GH-GENERATION-READY-REQUEST-20261007-R1`. 공통 source/reference는 **READY**이며 실제 파일 SHA도 확인했습니다.\n\n- Shared source: `83535c6a47c552cc4e5c6385f3a587d752820150`\n- Main publication: `2828ab0938184ae863831c6e5e93fcf7a021eca4`\n- [API README](/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k/project/run_scripts/experiment_generation_eval/README.md): `load_assets → GenerationObserver.observe/subset/read_observed → generation_payload`\n\n[Reference manifest](/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json): **6769B**, SHA256 `6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8`. 3종 파일의 exact path/size/SHA와 NLTK **3.6.5 / English punkt** provenance가 모두 포함되어 있습니다. Reference identity: `75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6`.\n\nSH2 bridge는 `cases/endpoint` 기대 구조를 공통 API의 `rows/observe`에 맞춰 연결해야 합니다. 입력 READY이지 SH2 GPU·제출 PASS는 아닙니다. SH1의 Slurm 저장공간 등록 오류도 별도 보고되어 있습니다.",
+  "nonce_echo": true,
+  "status": "DIRECT_ACK_RECOVERED_VERIFIED",
+  "stage": "EXACT_ACCEPTED_TURN",
+  "acknowledgement_commentary": [
+    "`SH2-GH-GENERATION-READY-REQUEST-20261007-R1` 수신했습니다. SH1의 공통 평가 코드·API와 reference READY를 확인해, 준비된 정확한 identity만 SH2에 중계하겠습니다. 실험이나 전송을 새로 실행하지는 않겠습니다.\n",
+    "ACK `SH2-GH-GENERATION-READY-REQUEST-20261007-R1`. 공통 source/reference는 **READY**이며 실제 파일 SHA도 확인했습니다.\n\n- Shared source: `83535c6a47c552cc4e5c6385f3a587d752820150`\n- Main publication: `2828ab0938184ae863831c6e5e93fcf7a021eca4`\n- [API README](/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k/project/run_scripts/experiment_generation_eval/README.md): `load_assets → GenerationObserver.observe/subset/read_observed → generation_payload`\n\n[Reference manifest](/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json): **6769B**, SHA256 `6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8`. 3종 파일의 exact path/size/SHA와 NLTK **3.6.5 / English punkt** provenance가 모두 포함되어 있습니다. Reference identity: `75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6`.\n\nSH2 bridge는 `cases/endpoint` 기대 구조를 공통 API의 `rows/observe`에 맞춰 연결해야 합니다. 입력 READY이지 SH2 GPU·제출 PASS는 아닙니다. SH1의 Slurm 저장공간 등록 오류도 별도 보고되어 있습니다."
+  ]
+}
