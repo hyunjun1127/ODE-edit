@@ -60,6 +60,7 @@ def locked(attempt,cell):
     require(os.environ.get(SOURCE_ENV)==lock['source_commit'] and sha(attempt/'config.json')==lock['config_sha256'],'SOURCE_CONFIG')
     for key in ('source_members','runtime_sources','native_reference','dependency_sources','launchers'):
         for row in lock[key]:verify(row)
+    for row in lock.get('native_input_metadata',[]):verify(row)
     c=cell_config(c,cell)
     for row in c['authority_members']+[c['cpu_preflight']]:verify(row)
     verify(lock['archive']);verify(lock['native_hparams'])

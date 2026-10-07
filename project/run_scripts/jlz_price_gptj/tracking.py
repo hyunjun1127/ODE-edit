@@ -34,6 +34,7 @@ def start(c,lock,out,cell):
         attempt=c['run_instance']['attempt'],source_sha=lock['source_commit'],
         config_sha=lock['config_sha256'],job_id=os.environ['SLURM_JOB_ID'],model='gptj',
         model_family='GPTJ',writer=c['writer'],role='scientific',metric_schema=SCHEMA)
+    if c.get('parent_WandB_runs',{}).get(cell):cfg['parent_run_id']=c['parent_WandB_runs'][cell]
     tracker=init(env_file=c['tracking']['env_file'],spool=out/'tracking',config=cfg)
     # Retain startup evidence separately; transport.result changes on each ACK.
     identity=dict(run_id=tracker.run_id,url=tracker.result['url'],job_identity=tracker.job_identity,

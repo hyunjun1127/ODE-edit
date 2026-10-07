@@ -26,6 +26,7 @@ SOURCES=['messages/acks/server4/jlz-price-gptj-easyedit-hparams.json','messages/
     'project/run_scripts/experiment_tracking','control/wandb-policy.json',
     'control/wandb-method-metric-schema.json','messages/head/2026-10-07-wandb-method-metrics-all-sh.json',
     'project/proposals/wandb-method-metric-schema/user-handoff.txt']
+SOURCES += ['messages/acks/server4/jlz-price-gptj-checkpoint-repair.json']
 ROLES=(*CELLS,'collector')
 def resource_order(parallel):
     if parallel==1:return {r:([] if i==0 else [CELLS[i-1]]) for i,r in enumerate(CELLS)} | {'collector':list(CELLS)}
@@ -80,6 +81,13 @@ def freeze(configpath, attempt, roles=ROLES):
     commit = command(['git', 'rev-parse', 'HEAD'], ROOT)
     tree = command(['git', 'rev-parse', 'HEAD^{tree}'], ROOT)
     attempt.mkdir()
+    input_refs=[]
+    if c.get('native_input_reuse'):
+        ready=verify(c['native_input_reuse'])
+        folder=attempt/'inputs';folder.mkdir()
+        shutil.copyfile(ready,folder/'ready.json')
+        require(sha(folder/'ready.json')==c['native_input_reuse']['sha256'],'EXACT_NATIVE_READY_METADATA_COPY')
+        input_refs=[c['native_input_reuse'],member(folder/'ready.json')]
     source = attempt / 'source'; source.mkdir()
     archive = attempt / 'source.tar'
     command(['git', 'archive', '--format=tar', '--output=' + str(archive), commit, *SOURCES], ROOT)
@@ -101,7 +109,7 @@ def freeze(configpath, attempt, roles=ROLES):
         instruction_id=NONCE, task_id=TASK, source_commit=commit, source_tree=tree,
         archive=member(archive), source_members=[member(p) for p in sorted(source.rglob('*')) if p.is_file()],
         config_sha256=sha(attempt / 'config.json'), runtime_sources=c['runtime']['source_members'],tracking_env=member(c['tracking']['env_file']),
-        dependency_sources=c.get('dependency_sources', []), native_reference=c['native_reference'],
+        dependency_sources=c.get('dependency_sources', []), native_reference=c['native_reference'],native_input_metadata=input_refs,
         native_hparams=member(c['native_hparams']), launchers=[member(attempt / (r + '.sh')) for r in roles],
         owner=getpass.getuser(), host='server4', session=SESSION, resources=c['resources'],
         noCP=True, exact_resume='NOT_AVAILABLE', run_instance=c['run_instance'],
@@ -118,7 +126,7 @@ def verify_frozen(attempt):
     require(sha(attempt / 'config.json') == lock['config_sha256'], 'CONFIG_SHA')
     for row in (lock['source_members'] + lock['runtime_sources'] + lock['native_reference']
                 + lock['dependency_sources'] + lock['launchers'] + [lock['archive'], lock['native_hparams']]
-                + c['authority_members'] + [lock['tracking_env']]):
+                + c['authority_members'] + lock.get('native_input_metadata',[]) + [lock['tracking_env']]):
         verify(row)
     for row in c['assets']:
         s = Path(row['path']).stat()
@@ -199,10 +207,18 @@ def inspect(job, role, dep, argv, attempt, r):
     return dict(job=job, role=role, argv=argv, resource_detail=detail, launcher=member(script))
 
 
-def submit(config,attempt,replacement=None):
+def submit(config,attempt,replacement=None,retry=None):
     # This function is invoked by the owning root only. Tests never call a
     # scheduler mutation; no automatic retry/cancel is implemented.
-    if replacement is None:
+    require(not (replacement and retry),'ONE_EXPLICIT_ATTEMPT_AUTHORITY')
+    if retry is not None:
+        from .repair import AUDIT,NEW,check_failure
+        require(Path(retry).resolve()==AUDIT/'failure.json' and attempt==NEW,'EXACT_USER_CHECKPOINT_RETRY')
+        proof=json.loads(verify(__import__('project.run_scripts.jlz_price_gptj.common',fromlist=['member']).member(retry)).read_text())
+        require(proof['status']=='SIX_ARMS_FAILED_CHECKPOINT_ZERO_COMMITS','FAILURE_PROOF')
+        check_failure()  # exact terminal state, not scientific quality gating
+        require(not attempt.exists(),'NO_DUPLICATE_RETRY')
+    elif replacement is None:
         require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_REGISTRATION')
     else:
         from .replace_pending import AUDIT,OLD,NEW,SOURCE,ORDER
@@ -289,4 +305,5 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
     p.add_argument('--freeze-only',action='store_true')
     p.add_argument('--replacement',type=Path)
-    a=p.parse_args();print(json.dumps(freeze(a.config.resolve(),a.attempt.resolve())[0] if a.freeze_only else submit(a.config,a.attempt.resolve(),a.replacement)))
+    p.add_argument('--retry',type=Path)
+    a=p.parse_args();print(json.dumps(freeze(a.config.resolve(),a.attempt.resolve())[0] if a.freeze_only else submit(a.config,a.attempt.resolve(),a.replacement,a.retry)))

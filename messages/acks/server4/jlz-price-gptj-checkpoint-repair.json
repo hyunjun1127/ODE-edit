@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-CHECKPOINT-REPAIR-20261007",
+  "task_id": "jlz-price-gptj-2k",
+  "user_quote": "gpt-j 모두 실패했는데 repair해서 다시 올려라",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "server": "server4",
+  "branch": "codex/server4-price-gptj-2k",
+  "accepted": true,
+  "stage": "SIX_FAILED_ZERO_COMMITS_REPAIRING_NOT_RESUBMITTED",
+  "scope": "same-method checkpoint closure repair, minimal mechanical CPU regression, new six cold 2k runners and CPU collector",
+  "hparams_preserved": {"layers": [3,4,5,6,7,8], "lr": 0.5, "AlphaEdit_L2": 10},
+  "protected60001_and_Llama_mutation": false,
+  "Qwen_resume": false,
+  "old_source_raw_W0_input_KEEP": true,
+  "automatic_retry": false
+}
