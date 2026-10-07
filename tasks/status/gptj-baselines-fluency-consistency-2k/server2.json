@@ -109,7 +109,9 @@
     "handoff_direct_nonce": "SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1",
     "GH_handoff_direct": "DIRECT_ACK_VERIFIED_COMPLETED_NONCE_FINAL_ECHO",
     "GH_handoff_accepted_turn": "01a11840-23c5-7351-8ae7-d411b37c9061",
-    "compact_main_publication": "PENDING_NONFORCE_PUBLICATION"
+    "compact_main_publication": "NONFORCE_MAIN_VERIFIED",
+    "first_verified_publication_commit": "de80205f70f1a500cdd99622e36d649597cfa848",
+    "future_observation": "USER_RECALL_ONLY_NO_NEW_AGENT_MONITOR"
   },
   "newly_cancelled": [],
   "previous_terminal": {

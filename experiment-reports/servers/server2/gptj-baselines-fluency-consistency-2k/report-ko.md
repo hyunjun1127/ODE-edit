@@ -286,3 +286,13 @@ final nonce echo를 실제 회수했다(`cache-repair/app-server-handoff.json`).
 GH는 실제 IDs/MB8 미검증/qualification 미관측 구분을 ACK했고 job polling은 하지 않았다.
 이 통신 성공도 science/GPU/remote metric PASS와는 별개다.
 Compact 감사 `cache-repair/submission.json`; 전체 held scheduler receipt/원 stdout/raw는 local KEEP.
+
+Source+compact report는 own branch와 main의
+`de80205f70f1a500cdd99622e36d649597cfa848`에 비강제 게시됐고 두 remote ref exact SHA를 확인했다.
+첫 main push의 remote temporary pack/index-pack 오류는 보존했다. 같은 commit의 branch 게시를
+실제 확인한 뒤 nonforce ref 업데이트로 main을 통합했으며 force/원격 관리/반복 retry는 없었다.
+Latest main의 SH1 shared member 검산 수정도 보존했지만 이미 제출된 execution archive/config/lock는
+hotpatch하지 않았다. 원 CPU93/source2e6f6f55 evidence와 이후 publication source를 구분한다.
+당시 실제 장비는 RTX A6000 8개/각49140MiB, own project allocation0,
+disk425102852096B·free inode443311699였다. 이는 실제 generation peak/ETA가 아니다.
+Bounded submission 인계 뒤 추가 job 조회/agent monitoring 없이 USER recall을 기다린다.

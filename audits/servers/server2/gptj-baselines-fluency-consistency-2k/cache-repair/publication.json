@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "execution_source": "2e6f6f553ac16cf82a171bcdaa7fb2ace87b4e1b",
+  "report_receipt_commit": "f5903aa1",
+  "first_verified_main_and_ownbranch_publication": "de80205f70f1a500cdd99622e36d649597cfa848",
+  "remote_refs_verified_equal": true,
+  "nonforce": true,
+  "latest_main_changes_preserved": true,
+  "first_main_push_failure": {
+    "type": "REMOTE_UNPACK_FAILED_INDEX_PACK_TEMPORARY_PACK_FILE",
+    "main_unchanged": "c6d37c726ff17a5e7751f4c174068ad89b899078",
+    "ownbranch_already_verified": "de80205f70f1a500cdd99622e36d649597cfa848"
+  },
+  "resolution": "One deliberate nonforce ref update after exact remote ownbranch commit presence; no force, no remote administration, no recurring retry",
+  "frozen_execution_unchanged": true,
+  "published_SH1_compatibility_update_preserved": "c6d37c726ff17a5e7751f4c174068ad89b899078 (new canonical source not hotpatched into submitted archive)",
+  "job_mutations_after_release": 0,
+  "additional_job_polling": 0,
+  "root_dirty_preserved": true,
+  "shared_source_edits_by_SH2": 0,
+  "raw_tensor_secret_Git": false,
+  "NO_BROADCAST_NOT_REQUIRED": true,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

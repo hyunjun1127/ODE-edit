@@ -67,5 +67,6 @@
   "checkpoint_saved": false,
   "monitoring_active": false,
   "automatic_retry": false,
-  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "evidence_stage": "HISTORICAL_PRE_SUBMISSION_STAGES_PRESERVED; see final submission/publication/CPU integration receipts"
 }

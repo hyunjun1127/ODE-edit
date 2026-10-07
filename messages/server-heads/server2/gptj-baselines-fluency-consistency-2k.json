@@ -103,7 +103,9 @@
     "handoff_direct_nonce": "SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1",
     "GH_handoff_direct": "DIRECT_ACK_VERIFIED_COMPLETED_NONCE_FINAL_ECHO",
     "GH_handoff_accepted_turn": "01a11840-23c5-7351-8ae7-d411b37c9061",
-    "compact_main_publication": "PENDING_NONFORCE_PUBLICATION"
+    "compact_main_publication": "NONFORCE_MAIN_VERIFIED",
+    "first_verified_publication_commit": "de80205f70f1a500cdd99622e36d649597cfa848",
+    "future_observation": "USER_RECALL_ONLY_NO_NEW_AGENT_MONITOR"
   },
   "message_ko": "새 GPU61160..61165+CPU61166 전량held검사/release. source2e6f6f55/lockef6ae0ae,cap2/sourcefrontier0. 61160 actualqualification/W0 READY후 두lane afterany. 단일release snapshot모두PENDING/None. CPU93PASS는GPUPASS아님; actualqualification/W&Bstartup/W20미관측. GH정식app-server idleturn에 actualIDs전달접수, completed+nonce finalACK실제회수. 옛7개취소/원396raw와costKEEP,OURS/W0-only/FE/타서버불변.",
   "jobs": {
