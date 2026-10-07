@@ -1,0 +1,18 @@
+{
+  "cells": 54,
+  "metric_rows": 2439,
+  "milestone_rows": 216,
+  "measured_milestones": 70,
+  "ours_measured_milestones": 48,
+  "baseline_measured_milestones": 22,
+  "price_layer_rows": 1274,
+  "fit_rows": 245,
+  "batch_receipts": 356,
+  "source_receipts": 1666,
+  "generation_endpoint_rows": 0,
+  "snapshot_finished_kst": "2026-10-08T00:35:58.776646+09:00",
+  "raw_rows_independently_reduced": false,
+  "new_model_forwards": 0,
+  "new_jobs": 0,
+  "large_raw_exported": false
+}

@@ -1,0 +1,488 @@
+[
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "MEMIT_CAP075",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/MEMIT_CAP075"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "MEMIT_CAP100",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/MEMIT_CAP100"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "MEMIT_FREE100",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/MEMIT_FREE100"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "ALPHAEDIT_CAP075",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/ALPHAEDIT_CAP075"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "ALPHAEDIT_CAP100",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/ALPHAEDIT_CAP100"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gpt2xl-2k",
+    "arm": "ALPHAEDIT_FREE100",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-checkpoint-repair-r1/ALPHAEDIT_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "LLAMA_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007/LLAMA_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "LLAMA_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/method-metrics-20261007/LLAMA_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "LLAMA_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/method-metrics-20261007/LLAMA_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "LLAMA_AE_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "LLAMA_AE_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "LLAMA_AE_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "MEMIT_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "MEMIT_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "MEMIT_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "ALPHA_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "ALPHA_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "GPT-J",
+    "role": "ours",
+    "series": "price",
+    "task": "jlz-price-gptj-2k",
+    "arm": "ALPHA_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "QWEN_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007/QWEN_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "QWEN_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007/QWEN_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-cap-base-repair-2k",
+    "arm": "QWEN_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007/QWEN_FREE100"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "QWEN_AE_CAP075",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007/QWEN_AE_CAP075"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "QWEN_AE_CAP100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007/QWEN_AE_CAP100"
+  },
+  {
+    "server": "server4",
+    "model": "Qwen",
+    "role": "ours",
+    "series": "cancelled_preserved",
+    "task": "jlz-price-alpha-writer-2k",
+    "arm": "QWEN_AE_FREE100",
+    "root": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/logging-repair-20261007/QWEN_AE_FREE100"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-native-baselines",
+    "arm": "BASE_MEMIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-native-baselines/20261007-v1/attempt-v1/BASE_MEMIT"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-native-baselines",
+    "arm": "BASE_ALPHAEDIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-native-baselines/20261007-v1/attempt-v1/BASE_ALPHAEDIT"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-cake-blue-2k",
+    "arm": "CAKE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/CAKE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-cake-blue-2k",
+    "arm": "ALPHAEDIT_BLUE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/ALPHAEDIT_BLUE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-prune-rect-2k",
+    "arm": "PRUNE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/PRUNE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gpt2xl-prune-rect-2k",
+    "arm": "RECT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/RECT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-easyedit-native-baselines-2k",
+    "arm": "BASE_MEMIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/BASE_MEMIT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-easyedit-native-baselines-2k",
+    "arm": "BASE_ALPHAEDIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/BASE_ALPHAEDIT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-cake-blue-prune-rect-2k",
+    "arm": "CAKE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-cake-blue-prune-rect-2k",
+    "arm": "ALPHAEDIT_BLUE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-cake-blue-prune-rect-2k",
+    "arm": "PRUNE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/PRUNE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "prior_no_generation",
+    "task": "gptj-cake-blue-prune-rect-2k",
+    "arm": "RECT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/RECT"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "BASE_MEMIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/BASE_MEMIT"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "BASE_ALPHAEDIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/BASE_ALPHAEDIT"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "CAKE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/CAKE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "ALPHAEDIT_BLUE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/ALPHAEDIT_BLUE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "PRUNE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/PRUNE"
+  },
+  {
+    "server": "server1",
+    "model": "GPT2-XL",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gpt2xl-baselines-fluency-consistency-2k",
+    "arm": "RECT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1/RECT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "BASE_MEMIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/BASE_MEMIT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "BASE_ALPHAEDIT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/BASE_ALPHAEDIT"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "CAKE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/CAKE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "ALPHAEDIT_BLUE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/ALPHAEDIT_BLUE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "PRUNE",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/PRUNE"
+  },
+  {
+    "server": "server2",
+    "model": "GPT-J",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "gptj-baselines-fluency-consistency-2k",
+    "arm": "RECT",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/RECT"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "MEMIT",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/MEMIT"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "PRUNE",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/PRUNE"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "RECT",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/RECT"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "ALPHAEDIT",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/ALPHAEDIT"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "ALPHAEDIT_BLUE",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/ALPHAEDIT_BLUE"
+  },
+  {
+    "server": "server4",
+    "model": "Llama3",
+    "role": "baseline",
+    "series": "generation_rerun",
+    "task": "llama3-baselines-fluency-consistency-2k",
+    "arm": "CAKE",
+    "root": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/CAKE"
+  }
+]

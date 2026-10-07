@@ -1,0 +1,82 @@
+[
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/batch-cost-provenance.csv",
+    "bytes": 93065,
+    "sha256": "06665654d1fb99bda612a3b934ac4fe61a82ae341049b21af68d8594a0756cb9"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/fit-terminal-expansion.csv",
+    "bytes": 61891,
+    "sha256": "f44807018ea43d893665ff120fda3384037083a573918cb5dd66c5a74eb7cb8e"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/inventory.csv",
+    "bytes": 11066,
+    "sha256": "8d8da3edf74d3e219eca53e2c21145b3542beddd427255b437317e95c26d959f"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/metrics.csv",
+    "bytes": 900608,
+    "sha256": "c54b6bae1a61c51fe9d5e7b18576efce884ff8427adf98e9f4f9838c21f7c445"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/milestones.csv",
+    "bytes": 38916,
+    "sha256": "128ff56327b7353c097f4d64d1521e582d8d3c69e217db193b5d18399b91c075"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/price-distributions.csv",
+    "bytes": 203926,
+    "sha256": "716b609313b590d77c91d1b77b41ffd4447c1a7acf0ed7accfba5f60f104f592"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/report-ko.md",
+    "bytes": 6792,
+    "sha256": "c3cc2da9e49182aff32e9370684501d0c457908e7486eddefd2bb9ec51623c4d"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/server1-snapshot.json",
+    "bytes": 1487608,
+    "sha256": "6a141f0d5894f2541da72d6fe82139eb114b4255b9784bc62aa218e154efe4da"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/server2-snapshot.json",
+    "bytes": 256858,
+    "sha256": "0505edf14aba95697dd37320aaeec8e1806ab4cbe2ac80ff00eaec0d383a6c39"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/server4-snapshot.json",
+    "bytes": 1118163,
+    "sha256": "3a68e1ace96aadffacf6fb465295a212bcfd981e587aec518f4af7734de6c16f"
+  },
+  {
+    "path": "experiment-reports/global/2026-10-08-ours-baseline-results/source-manifest.csv",
+    "bytes": 315378,
+    "sha256": "6fc2f82493cc6e07f49bdc892b588adb9f877d8eb611394d95ffff1998a9d571"
+  },
+  {
+    "path": "audits/global/2026-10-08-ours-baseline-results/build_report.py",
+    "bytes": 10079,
+    "sha256": "4dac3d657a67f06d29a38b7ba9d2b81ba769b644c41ee4bd039b1f7819cf5760"
+  },
+  {
+    "path": "audits/global/2026-10-08-ours-baseline-results/capture.py",
+    "bytes": 1675,
+    "sha256": "fb26ed7243f81ccdf342a6ecc1094f5d118e299100cbc03b26b5f1f0fc482cdd"
+  },
+  {
+    "path": "audits/global/2026-10-08-ours-baseline-results/collect_host.py",
+    "bytes": 7264,
+    "sha256": "fc69308ad74b0526f8f10dcb55eed43295e4a6d14b17b04492eeb245f8cd88c4"
+  },
+  {
+    "path": "audits/global/2026-10-08-ours-baseline-results/registry.json",
+    "bytes": 15495,
+    "sha256": "463699e95fec1f412f8a11637ffe52b2d0ad66802d67b3ab14ad27800004be81"
+  },
+  {
+    "path": "audits/global/2026-10-08-ours-baseline-results/validation.json",
+    "bytes": 480,
+    "sha256": "e769f74ca863d1962a0c3d07b6b48d5375939073c6d4aca76a8d320a5d7c30da"
+  }
+]
