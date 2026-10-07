@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "SOURCE_REVIEW_NO_GPU",
+  "task": "gpt2xl-prune-rect-2k",
+  "inspection": "두delegate read-only sourcequestions및GH 원BLUE JSON/RECTmask/PRUNEterminalFULL_READ",
+  "EasyEdit": {
+    "HEAD": "3488a66ee988d83ee7891a8abbbe6bcb24a77daf",
+    "preserved_dirty": true,
+    "implementation_found": false,
+    "checks": "native model/example/hparam no-ignore rg 및 10 existingrefs exactnames 검색, registryMEMIT만; kwargs가PRUNE/RECT실행으로변경하지않음."
+  },
+  "user_source_choice": "사용자는 EasyEdit에 구현이 없고 CAKE/BLUE에 있다는 source 확인 후 'CAKE/BLUE 구현 사용'을 명시 선택했다. 모델·stats·평가기는 기존 EasyEdit 자산을 재사용.",
+  "source": {
+    "root": "/mnt/raid5/janghj/BLUE",
+    "upstream": "https://github.com/xpq-tech/BLUE",
+    "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "clean_at_inspection": true,
+    "hparams": "hparams/MEMIT/gpt2-xl.json",
+    "hparams_sha256": "88f0a396b9b5573a818b91d6836ae4b50791fcb5fb1b61c8e0304e1323556861",
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "v_loss_layer": 47,
+    "v_lr": 0.5,
+    "v_num_grad_steps": 20,
+    "clamp_norm_factor": 0.75,
+    "v_weight_decay": 0.5,
+    "kl_factor": 0.0625,
+    "mom2_update_weight": 20000,
+    "blue": false,
+    "state": "동일 누적 W를20call유지, noH/noP. native current-model z/context/remaining-layer residual/divisor 및 native FP64solve->FP32write 보존. copy=False,cache_template=None,reset/dryfit0. 원model/context/covcache는 arm별독립.",
+    "request_schema": "원 CounterFact requested_rewrite target_new={'str':...} dict, case_id/prompt/subject 문자열 및leading-space;EasyEditplainstring변환0."
+  },
+  "findings": [
+    "BLUE/CAKEaliases는PRUNEterminalcompression/RECTrelative40mask",
+    "PRUNE무압축시원코드W0+2D doubleadd;명시basefix정의",
+    "두variantH/P사용0;statsReadyreuse",
+    "upstreambitwiseclaim0,부분PRUNEbeforeterminalstate명시"
+  ],
+  "not_performed": [
+    "model/tensor load",
+    "actualnativeimports/productionCPUtests",
+    "GPU/Slurmwrites",
+    "원repo변경"
+  ]
+}

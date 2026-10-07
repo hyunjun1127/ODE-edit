@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gpt2xl-prune-rect-2k",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-gpt2xl-prune-rect-2k"
+  },
+  "contract": "plans/global/2026-10-07-gpt2xl-prune-rect-2k/contract.json",
+  "authority": "SH1의 두 native baseline 구현·최소 검산·source/asset/runtime 봉인·실제 Slurm held 등록/검사/release·2k 순차 실행·CPU collector·W&B online·소형 main 비강제 게시 승인. 추가 단계별 승인 없음.",
+  "read_scope": [
+    "/mnt/raid5/janghj/BLUE/**",
+    "/mnt/raid5/janghj/CAKE/** (동등variant source근거)",
+    "/mnt/raid5/janghj/EasyEdit/** read-onlyassets/runtime",
+    "existing GPT2 nativebaseline/CAKE-BLUE/evaluator/tracking contracts/source/status"
+  ],
+  "write_scope": [
+    "project/run_scripts/gpt2xl_prune_rect/**",
+    "tests inside this namespace",
+    "plans/servers/server1/gpt2xl-prune-rect-2k/**",
+    "audits/servers/server1/gpt2xl-prune-rect-2k/**",
+    "experiment-reports/servers/server1/gpt2xl-prune-rect-2k/**",
+    "runs/gpt2xl-prune-rect-2k/**",
+    "tasks/status/gpt2xl-prune-rect-2k/server1.json",
+    "messages/acks/server1/gpt2xl-prune-rect-2k.json",
+    "messages/server-heads/server1/gpt2xl-prune-rect-2k.json",
+    "ignored local/gpt2xl-prune-rect-2k/**"
+  ],
+  "Git": "전용clean non-mainWT/소형source/report mainnonforce승인. rootdirty/reset/stash/stageall0,원CAKE/BLUE/EasyEdit및기존sourcefrozenarchive불변.",
+  "Slurm_allowed": true,
+  "resources": {
+    "combined_server1_scientific_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 8,
+    "host_memory_MiB_default": 65536,
+    "hard_max_MiB_per_GPU": 183296,
+    "wall_hours_request_default": 48,
+    "fresh": "실제 devbox/node/QoS/VRAM/CPU/RAM/disk/inode와 stricter현재policy, 모든sameowner RUNNING+admittedPENDINGfrontier 단발검사. 자원값 계획치/ETA아님.",
+    "schedule": "현재CAKE/MEMIT-BLUE준비·제출을방해하지않고본추가task후속등록. 기존scienceRUNNING/admittedPENDING와이번앞선CAKE/BLUEactualjobs까지source/task/statefrontierfresh검산. 두과학lane총2 보장하는afterany신규PRUNE/RECT와CPUcollector등록. jobIDs아직없으면TASK_PENDING_FOLLOWUP정확표기후동일owner준비끝나면추가승인없이actualheldsubmit/release. GPU점유filepolling/oldcancel0.",
+    "W0_exception": "기존 W0-onlycap예외는 이 sciencecap 증액에 적용0. cap파일/타job변경0.",
+    "collector": "자기두GPUafterany CPUcollectorGPU0/8CPU/24576MiB/default4h. partial/failure 구분.",
+    "submit": "held전체등록->exact owner/source/fullargv/input/config/resources/deps/noCP/W&Binspection->release,manualhold대기0. taskpending≠actualSlurmPENDING."
+  },
+  "technical_gate": "최소nativeparser/5층hparams·bluefalse·shape/Conv1D/biasalias·C0path/count·orderedinput/token/denom·W&Baxes/jobIDs·capDAG checks. PRUNE명시basefixCPUidentitycontrols/SVDshape/finite/terminal한번,RECTthresholdmask/runtime모델restore·nextentry. 원20nativefits외추가B1fit/smallpilot/toysweep0. 실제batchidentity/finite/commit/observer비변이기술검산. 성능gate/자동재실행0.",
+  "artifact_policy": "NoCP/editedW·H·optimizer·복원동등payload durable dump0. native cache_template=None로 zNPZ0. rawlocalKEEP/source·smallmanifest·집계·보고 mainnonforce허용. 원asset/raw복제·삭제0. samehostassets/raw에NO_BROADCAST_NOT_REQUIRED정확receipt,compactGitpublication으로공유. PRUNE의원selectedW0및SVDworkspace는RAM만; editedW/원W0외snapshot/checkpointdisk0. candidate/entry/terminal raw scalar/hash만.",
+  "report": "experiment-reports/servers/server1/gpt2xl-prune-rect-2k/report-ko.md",
+  "scope_exception": "원EasyEdit에는구현이없어source변경을질문했고USER가CAKE/BLUE사용명시승인.이task만기존globalSTOP예외.새Alpha/BLUEaugmentation/H/sweep/다른jobcancel0.",
+  "delivery": "SH1현재CAKE/BLUE구현turn은related;정확expectedTurnId로추가후속task수락steer,기존task작업중단0. idle이면turn/start. nonce명시ownerACK/실제현재stage,추가승인없이같은owner구현/검산/실제등록계속.",
+  "monitoring": "신규recurringmonitor/heartbeat/장기완료wait/automaticretry0. sealed20batches자연진행,postreleasebounded인계만.",
+  "source_freeze": "nativeBLUEclosure/JSON/parser/diff·PRUNEbasefixflag·model/stats/context/runtime/order/token/evaluator/upload/resource/CLI+Slurmscriptsha/actualjobIDs별도봉인. actualGPU미관측를PASS로쓰지않음."
+}

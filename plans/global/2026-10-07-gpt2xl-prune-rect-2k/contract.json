@@ -1,0 +1,207 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gpt2xl-prune-rect-2k",
+  "date_kst": "2026-10-07",
+  "user_quote": "GPT2-xl에 prune 과 rect도 돌려놓자. server1에게 task 진행시켜. 이건 easyedit repo에 구현물 있으니 그걸 사용하는 것으로 하자",
+  "authority": "SH1의 두 native baseline 구현·최소 검산·source/asset/runtime 봉인·실제 Slurm held 등록/검사/release·2k 순차 실행·CPU collector·W&B online·소형 main 비강제 게시 승인. 추가 단계별 승인 없음.",
+  "interpretation": "새 GPT2 PRUNE 및 RECT 두 baseline 각 coldW0에서 동일first2000 BS100x20. CAKE/BLUE 원변형 구현 중 BLUE311b076의 MEMIT_prune/MEMIT_rect source를 채택. EasyEdit native라고 거짓label하지 않음. BLUE augmentation은 끄고 원ordinary MEMIT GPT2 hparams 사용. 이전 CAKE/MEMIT-BLUE task/jobs KEEP.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-gpt2xl-prune-rect-2k"
+  },
+  "scope": {
+    "arms": [
+      "PRUNE",
+      "RECT"
+    ],
+    "model": "openai-community/gpt2-xl",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "cold_independent": true,
+    "stream": "counterfact-fixed-10k-v1 동일 ordered first2000 occurrences, seed20261002",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "dataset": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_arm": 2000,
+    "no_batch21": true,
+    "other_arms_sweeps": 0,
+    "native_history": false
+  },
+  "native": [
+    {
+      "root": "/mnt/raid5/janghj/BLUE",
+      "upstream": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "clean_at_inspection": true,
+      "hparams": "hparams/MEMIT/gpt2-xl.json",
+      "hparams_sha256": "88f0a396b9b5573a818b91d6836ae4b50791fcb5fb1b61c8e0304e1323556861",
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "v_loss_layer": 47,
+      "v_lr": 0.5,
+      "v_num_grad_steps": 20,
+      "clamp_norm_factor": 0.75,
+      "v_weight_decay": 0.5,
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 20000,
+      "blue": false,
+      "state": "동일 누적 W를20call유지, noH/noP. native current-model z/context/remaining-layer residual/divisor 및 native FP64solve->FP32write 보존. copy=False,cache_template=None,reset/dryfit0. 원model/context/covcache는 arm별독립.",
+      "request_schema": "원 CounterFact requested_rewrite target_new={'str':...} dict, case_id/prompt/subject 문자열 및leading-space;EasyEditplainstring변환0.",
+      "arm": "PRUNE",
+      "entrypoint": "memit.memit_main.apply_memit_to_model + experiments/evaluate.py MEMIT_prune terminal spectral postprocess",
+      "main_sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be",
+      "postprocess_source": "experiments/evaluate.py:289-342",
+      "postprocess_sha256": "7a4ece770894a55cbf029cef38f306dfc5b8b06f623239cb5afce5b3cdfc0b80",
+      "sequence": "B1 nativeapply return_orig_weights=True의 selected coldW0 copies를RAM만보관, B2..B20return_orig_weights=False.20nativefit완료후누적D=W20_dense-W0를1회 spectralcompression. Batch마다pruning하거나request삭제0.",
+      "spectral": "Native torch.svd의storedConv1D방향으로원 W0 최대특이값 smax와누적D의U,S,V. s>smax만 log(s)-log(smax)+smax로바꾸고others원S. 원dtype/operator순서유지. 이것은 rank삭제아님.",
+      "explicit_repair": {
+        "name": "PRUNE_TERMINAL_BASE_FIX",
+        "status": "GH_EXPLICIT_CAUSAL_IMPLEMENTATION_REPAIR_NOT_UPSTREAM_BITWISE",
+        "bug": "원 terminal code currentW+compressed(currentW-W0)는압축없는경우 W0+2D가되어이미20번삽입한D를중복가산.",
+        "required": "Task-ownedwrapper에서 terminal finalW = saved_coldW0 + compressedD로확정. native스펙트럼함수/fit/hparams/budget은변경0. 원source보존,oldline/newline exactdiff·terminalbefore/afterupdatehashnorm·repairflag/source/config/W&B를명시. upstream그대로bitwise라고표현금지.",
+        "checks": "최소 CPU algebra regression: 압축조건없는작은D면finalW==W20dense/zeroD면W0. 신규GPUfit/별도pilot0. 실제W20 nativeSVDpayloadshape/finite/비편집guard검산.",
+        "scope_limit": "다른 spectral cutoff/rank/jitter/formula 변경은 승인0. 추측한추가수리불가시exactblocker."
+      },
+      "milestones": "W5/10/15는아직denseMEMIT경로(prune_applied=false),W20은terminalPRUNE수리후postprocess완료모델(prune_applied=true). Final current100 및allseen2k를이같은postprocess후state에서평가;중복densefinal 전체평가0.20fits+terminaltransform1회를계상."
+    },
+    {
+      "root": "/mnt/raid5/janghj/BLUE",
+      "upstream": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "clean_at_inspection": true,
+      "hparams": "hparams/MEMIT/gpt2-xl.json",
+      "hparams_sha256": "88f0a396b9b5573a818b91d6836ae4b50791fcb5fb1b61c8e0304e1323556861",
+      "layers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "v_loss_layer": 47,
+      "v_lr": 0.5,
+      "v_num_grad_steps": 20,
+      "clamp_norm_factor": 0.75,
+      "v_weight_decay": 0.5,
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 20000,
+      "blue": false,
+      "state": "동일 누적 W를20call유지, noH/noP. native current-model z/context/remaining-layer residual/divisor 및 native FP64solve->FP32write 보존. copy=False,cache_template=None,reset/dryfit0. 원model/context/covcache는 arm별독립.",
+      "request_schema": "원 CounterFact requested_rewrite target_new={'str':...} dict, case_id/prompt/subject 문자열 및leading-space;EasyEditplainstring변환0.",
+      "arm": "RECT",
+      "entrypoint": "memit.memit_rect_main.apply_memit_rect_to_model",
+      "main_sha256": "8e199fd49e744f6c08f0edd7933ab683df1970a5dcc9da41570e4368073ec597",
+      "mask": "매nativeproposal의Conv1Dshape-match된delta에abs(delta/(currentW+1e-8)),k_percent40, kthvalue(floor(.6*numel)) threshold, score>=thresholdmask의원가중치만FP32add. ties때실제지원>40%가능하므로실측maskcount/denom/ties 기록. threshold/topfraction/epsilon튜닝0.",
+      "planning": "원nativeupperkeys는provisional dense lowerupdates를반영해계산하고원weightsrestore후maskedpublicapply. 이를uppermaskedplanning/oursbuilder/절대ztracking/H로바꾸지않음.",
+      "checks": "selectednativeweight방향/bias비변이/provisionalrestore/실제maskedapply와다음batchownstate검산. 나눗셈비유한/목적 및commitidentity typedfailure,임의epsilon/clip/mask저장0."
+    }
+  ],
+  "port": {
+    "scaffold": "이전 SH1 CAKE/BLUE direct wrapper 및 gpt2xl_native_baselines의 input/evaluator/tracking/prepare/submit/collector를read-only참고. 새 project/run_scripts/gpt2xl_prune_rect/**에nativeRECT loader/PRUNEterminalwrapper 구현. 기존frozen/runtime변경0.",
+    "source": "실제 imported closure+JSON/helper/source diff를 fullSHA/size/commit으로 봉인. 각각 독립 process/private namespace로 동명 util/memit/cache 혼합0.",
+    "allowed_repairs": "원 CAKE/BLUE/EasyEdit read-only. transformers import/API/절대경로/모델이름/shape·누락 초기화 같은 인과적 호환 오류는 task-owned private copy/adapter의 최소 exact diff로 수리·검산 가능. native 수식·층·hparam·context·solver를 조용히 변경하지 않음. 기술적으로 불가능하면 typed blocker/원인 보고. PRUNE_TERMINAL_BASE_FIX는이번GH계약에명시한좁은중복가산수리이며exactdiff/repairlabel필수;RECTnative정책은그대로.",
+    "GPT2": "Conv1D stored[6400,1600], native shape matcher/transpose, bias immutable, serial attention->MLP, 정상 tiedwte/head, learnedposition1024, subject_last/leading-space/token/ln_f1회 보존. silent truncate/drop0.",
+    "precision": "FP32 model/eager/TF32off/autocastoff. native writer solve/target dtype와 operation order를 source로 확정·보존; ours FP64로 무조건 교체0. 실제 runtime 차이 공개.",
+    "contexts": "BLUE원nativegenerator/cache및source별contextidentity검산.이전MEMIT-BLUEcontext라도generator/runtime/coldmodel/source정합을확인해야재사용.없으면첫실제coldapply내nativecontext입력준비생성1회. EasyEditgenerator와자동혼합0. z diskcacheoff."
+  },
+  "assets": {
+    "manifest": "experiment-reports/servers/server1/gpt2-xl-wikipedia-alpha-projector/completed-repair-r2/asset-manifest.json",
+    "ready_sha256": "755cb20cbc631058d22f4d81b9538f4b4893b62fa4652d05d30c5d362b21e657",
+    "model_path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/model.safetensors",
+    "model_sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+    "P_path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_gpt2-xl.pt",
+    "P_sha256": "187d83367339de1373b33ce39b101bb8c81445de9b3b9e5bf612f55b8a9608eb",
+    "P_shape": [
+      5,
+      6400,
+      6400
+    ],
+    "P_physical_slots": {
+      "13": 0,
+      "14": 1,
+      "15": 2,
+      "16": 3,
+      "17": 4
+    },
+    "stats_root": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt2-xl/wikipedia_stats",
+    "stats": "기존EasyEdit L13-17 stats원NPZ, FP32 sum/count(count44068071), coefficient20000 nativeMEMIT방정식으로연결.실제BLUEbasename/STATS_DIR를매핑;cachemiss재수집차단.",
+    "reuse": "model/stats source+현stat/fullSHAread-onlyreuse;P는이두nativevariant에불필요하므로load/rebuild0. modeldownload/stats재생성0.",
+    "runtime": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python; 실제 torch/transformers/dependency/source SHA binding, old CPU readiness를 methodGPU PASS로 승계하지 않음.",
+    "P_required": false
+  },
+  "evaluation": {
+    "current": "매 batch actual current pre/post R100/P200/N1000, milestone에서도 current100 유지.",
+    "all_seen": "W5/W10/W15/W20 ordered seen prefix; 최종 R2000/P4000/N20000. first500/birthcohort/atwrite->later paired retention.",
+    "W0": "model/runtime/context/input/token/evaluator identity가 같은 검증된 exact first2k raw만 공유/subset; 없으면 필요한 W0first2k一次 측정. entire2k값을 current로 반복0.",
+    "metrics": "RS/PS/NS strict NLL preference(tie fail), TF tokenmicro/promptmacro/strict, true/newNLL nats/margin/harmonic pct. Ndesiredtrue, R/Pdesirednew. officialheldout P/N은 학습/모델선택에 넣지 않음.",
+    "claims": "기존 GPT2 ours/native같은 endpoint·분모로 비교, native 층·context·source/runtime/dtype차이 명시. 성능 단독 인과효과 주장0.",
+    "terminal_state": "PRUNEW20는PRUNE_TERMINAL_BASE_FIX적용후,RECTW20는20번째maskedcommit후.두armhistW5/10/15/20분모/sourcestate명시,basefix옛native실행과혼합0."
+  },
+  "tracking": {
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "metric_schema": "price-first2k-scalar-v1",
+    "policies": [
+      "control/wandb-policy.json",
+      "control/wandb-method-metric-schema.json"
+    ],
+    "route": "검증된 existing PRICE/native-baseline upload 재사용; 중앙helper이관 제출gate0.",
+    "identity": "immutable runUUID/source/config/model/runtime/input receipt; model=gpt2xl/model_family=gpt2/role=scientific/nativealgorithm+writer/arm, actual SLURM job_id/array/index0/step;run.name job번호.",
+    "prefixes": [
+      "current/pre/{R,P,N}/*",
+      "current/post/{R,P,N}/*",
+      "all_seen/post/{R,P,N}/*",
+      "W0_first2000/{R,P,N}/*",
+      "w0/current/N/*",
+      "w0/all_seen/N/*"
+    ],
+    "fields": [
+      "count",
+      "success_count",
+      "success_pct",
+      "token_acc_pct",
+      "prompt_acc_pct",
+      "strict_acc_pct",
+      "true_nll",
+      "new_nll",
+      "margin_true_minus_new"
+    ],
+    "axes": "evaluation edits 실제progress, pre_state_edits/post_state_edits 별도. fit monotonic candidate 별도축. pct0..100/NLLnats/실측분모, missing생략 not0.",
+    "privacy": "실시간 scalar-only; rawtext/token/caseID/tensor/model/code/console/key Git/W&B0. user 기존login 재사용 secretsprint0.",
+    "finish": "bounded finish/readback,SDKaccepted vs remoteverified 분리. logging추가GPUforward/fit/pilot0, historicalbackfill0."
+  },
+  "resources": {
+    "combined_server1_scientific_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 8,
+    "host_memory_MiB_default": 65536,
+    "hard_max_MiB_per_GPU": 183296,
+    "wall_hours_request_default": 48,
+    "fresh": "실제 devbox/node/QoS/VRAM/CPU/RAM/disk/inode와 stricter현재policy, 모든sameowner RUNNING+admittedPENDINGfrontier 단발검사. 자원값 계획치/ETA아님.",
+    "schedule": "현재CAKE/MEMIT-BLUE준비·제출을방해하지않고본추가task후속등록. 기존scienceRUNNING/admittedPENDING와이번앞선CAKE/BLUEactualjobs까지source/task/statefrontierfresh검산. 두과학lane총2 보장하는afterany신규PRUNE/RECT와CPUcollector등록. jobIDs아직없으면TASK_PENDING_FOLLOWUP정확표기후동일owner준비끝나면추가승인없이actualheldsubmit/release. GPU점유filepolling/oldcancel0.",
+    "W0_exception": "기존 W0-onlycap예외는 이 sciencecap 증액에 적용0. cap파일/타job변경0.",
+    "collector": "자기두GPUafterany CPUcollectorGPU0/8CPU/24576MiB/default4h. partial/failure 구분.",
+    "submit": "held전체등록->exact owner/source/fullargv/input/config/resources/deps/noCP/W&Binspection->release,manualhold대기0. taskpending≠actualSlurmPENDING."
+  },
+  "checks": "최소nativeparser/5층hparams·bluefalse·shape/Conv1D/biasalias·C0path/count·orderedinput/token/denom·W&Baxes/jobIDs·capDAG checks. PRUNE명시basefixCPUidentitycontrols/SVDshape/finite/terminal한번,RECTthresholdmask/runtime모델restore·nextentry. 원20nativefits외추가B1fit/smallpilot/toysweep0. 실제batchidentity/finite/commit/observer비변이기술검산. 성능gate/자동재실행0.",
+  "artifacts": "NoCP/editedW·H·optimizer·복원동등payload durable dump0. native cache_template=None로 zNPZ0. rawlocalKEEP/source·smallmanifest·집계·보고 mainnonforce허용. 원asset/raw복제·삭제0. samehostassets/raw에NO_BROADCAST_NOT_REQUIRED정확receipt,compactGitpublication으로공유. PRUNE의원selectedW0및SVDworkspace는RAM만; editedW/원W0외snapshot/checkpointdisk0. candidate/entry/terminal raw scalar/hash만.",
+  "report": "experiment-reports/servers/server1/gpt2xl-prune-rect-2k/report-ko.md",
+  "completion": "GH directACK/acceptedturn까지handoff, W20대기0. SH1 ACK후구현->최소검산->twoGPU+CPUcollector actualheld검사/release까지계속. source/config/jobs/deps/W&Bstage 또는 exactblocker. boundedpostrelease/대표firstcommit->nextentry 뒤monitorpause,sealed20batchrunner진행,recurringmonitor/heartbeat/automaticretry0.",
+  "user_clarification": "사용자는 EasyEdit에 구현이 없고 CAKE/BLUE에 있다는 source 확인 후 'CAKE/BLUE 구현 사용'을 명시 선택했다. 모델·stats·평가기는 기존 EasyEdit 자산을 재사용."
+}
