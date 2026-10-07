@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "GH_READONLY_SOURCE_REVIEW_NOT_GPU_CERTIFIED",
+  "date_kst": "2026-10-07",
+  "source_base": "688f6770fb7596daddda57aebf0fb81a9101a348",
+  "repos": [
+    {
+      "root": "/mnt/raid5/janghj/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "hparams": "hparams/Cake/gpt2-xl.json",
+      "sha256": "44cc8de6e4f5978e1d3079fc98e93d75291ec57e86935aab418fe3bf676e1179"
+    },
+    {
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "hparams": "hparams/MEMIT/gpt2-xl-blue.json",
+      "sha256": "42334b4f40d0d30b07999d21fe3593f957c079432ee599b978fd62ecec2ef744"
+    }
+  ],
+  "checks": [
+    "CAKE/BLUE README+GPT2 native JSON FULL_READ; exact full commit+hparams SHA",
+    "two independent delegated source reviews: CAKE entry/state and BLUE default variant semantics",
+    "prepared GPT2 asset-manifest/source references verified read-only; no large tensor reload",
+    "SH1 app live identity/session/CWD idle confirmed; historic registry worktree stale"
+  ],
+  "critical_points": [
+    "CAKE L2=40 and physical P L13-17; native final history carry",
+    "BLUE README MEMIT-BLUE exactlyL13+17 noH; notseq/Alpha",
+    "CAKE missing unused notebooks.util import requires private compatibility diff",
+    "CAKE native context generator not identical EasyEdit; no automatic context reuse"
+  ],
+  "not_performed": [
+    "GPU/model/tensor load",
+    "Slurm writes or new scientific run",
+    "native actual CPU import/test certification",
+    "upstream clone modification"
+  ]
+}

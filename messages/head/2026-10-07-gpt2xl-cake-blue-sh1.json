@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "task_id": "gpt2xl-cake-blue-2k",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "host": "remote-ssh-codex-managed:lab120",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "branch": "codex/server1-gpt2xl-cake-blue-2k"
+  },
+  "contract": "plans/global/2026-10-07-gpt2xl-cake-blue-2k/contract.json",
+  "authority": "SH1의 두 native baseline 구현·최소 검산·source/asset/runtime 봉인·실제 Slurm held 등록/검사/release·2k 순차 실행·CPU collector·W&B online·소형 main 비강제 게시 승인. 추가 단계별 승인 없음.",
+  "read_scope": [
+    "/mnt/raid5/janghj/CAKE/**",
+    "/mnt/raid5/janghj/BLUE/**",
+    "/mnt/raid5/janghj/EasyEdit/**",
+    "existing GPT2 model/stats/P/context/input/evaluation readonly",
+    "canonical policies/prepared manifests/native baseline scaffold"
+  ],
+  "write_scope": [
+    "project/run_scripts/gpt2xl_cake_blue/**",
+    "tests inside this new namespace",
+    "plans/servers/server1/gpt2xl-cake-blue-2k/**",
+    "audits/servers/server1/gpt2xl-cake-blue-2k/**",
+    "experiment-reports/servers/server1/gpt2xl-cake-blue-2k/**",
+    "runs/gpt2xl-cake-blue-2k/**",
+    "tasks/status/gpt2xl-cake-blue-2k/server1.json",
+    "messages/acks/server1/gpt2xl-cake-blue-2k.json",
+    "messages/server-heads/server1/gpt2xl-cake-blue-2k.json",
+    "ignored local/gpt2xl-cake-blue-2k/**"
+  ],
+  "private_native_copy": "필요한 작은 실행closure를ignoredlocal 또는 새tasknamespace에 읽기전용채택 가능. original CAKE/BLUE/EasyEdit 불변, 최저import/path호환diff만개별봉인.",
+  "Git": "전용clean nonmainWT/branch/source+smallreport nonforce main게시승인. dirtyroot reset/stash/revert/stageall0,무관SHsource변경0.",
+  "Slurm_allowed": true,
+  "resources": {
+    "combined_server1_scientific_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 8,
+    "host_memory_MiB_default": 65536,
+    "hard_max_MiB_per_GPU": 183296,
+    "wall_hours_request_default": 48,
+    "fresh": "실제 devbox/node/QoS/VRAM/CPU/RAM/disk/inode와 stricter현재policy, 모든sameowner RUNNING+admittedPENDINGfrontier 단발검사. 자원값 계획치/ETA아님.",
+    "schedule": "기존 ours/stockbaseline/W0/다른job 모두KEEP/cancel0. 이 두run을 유효 기존sciencefrontier afterany뒤등록하여 합산cap2 보장. 자원없으면 정상dependency/PENDING등록,freeGPU agentwait0.",
+    "W0_exception": "기존 W0-onlycap예외는 이 sciencecap 증액에 적용0. cap파일/타job변경0.",
+    "collector": "자기두GPUafterany CPUcollectorGPU0/8CPU/24576MiB/default4h. partial/failure 구분.",
+    "submit": "held전체등록->exact owner/source/fullargv/input/config/resources/deps/noCP/W&Binspection->release,manualhold대기0. taskpending≠actualSlurmPENDING."
+  },
+  "technical_gate": "최소 source/CPU: native parser/특히CAKEL2=40·BLUE L13/17및H없음·20inputchunks·Conv1D/bias/alias·source closure·C0/Pmodelpath 및 통계·평가token/denom·metricaxes/jobidentity·capDAG. 첫실제B1 native finite/identity/selected/nonselectedguard/observernonmutation/commit/nextentry linkage검증. 별도toy/smallpilot/B1refit0. 낮은성능recordonly, typedtechnicalerror는중단보고; threshold사후완화/repeattoPASS0.",
+  "artifact_policy": "NoCP/editedW·H·optimizer·복원동등payload durable dump0. native cache_template=None로 zNPZ0. rawlocalKEEP/source·smallmanifest·집계·보고 mainnonforce허용. 원asset/raw복제·삭제0. samehostassets/raw에NO_BROADCAST_NOT_REQUIRED정확receipt,compactGitpublication으로공유.",
+  "report": "experiment-reports/servers/server1/gpt2xl-cake-blue-2k/report-ko.md",
+  "source_freeze": "actualnativeclosure/hparams/context/runtime/model/C0/P/input/evaluator/tracking/reducer/CLI+Slurmscript confighash 새봉인. GH static review는 productionCPU/modelGPU검산아님.",
+  "stop": "원repo수정·추가method/sweep/pilot·기존jobcancel·capincrease·durableCP0. lowqualityrecordonly,identity/nonfinite/commit/operator mismatch typedtechnicalstop. 해당신규task만기존globalSTOP scoped exception.",
+  "monitoring": "초기bounded인계만;주기poll/heartbeat/자동retry0. GH연결종료는taskstop/추가승인대기아님.",
+  "delivery": "nonce 직접 ownerACK+acceptedturn 수신, ACK후같은turn에서구현/검산/actualsubmit까지계속. JobIDs는actualsubmit후만기록;미제출시정확단계/이유보고."
+}
