@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "task_id": "server2-baselines-stop-failure-review",
+  "user_quotes": [
+    "gptj-cake-blue-prune-rect-2k-ALPHAEDIT_BLUE 와 gptj-cake-blue-prune-rect-2k-CAKE fail 되었다. 확인해보고 후속 run들 일단 취소시켜봐.",
+    "server2의 baseline run들만 취소시키라는 것이다."
+  ],
+  "authority": "Immediate server2 baseline-only cancellation and read-only failure diagnosis. No repair/rerun/new experiment authorized.",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "scope": "Only exact registered server2 baseline-editing jobs and their dedicated downstream collectors. Keep ours, W0/base-model evaluation and other-server/other-owner jobs. Latest user clarification restricts actions to server2 baseline category.",
+  "known_registered_baselines": [
+    {
+      "task": "gptj-cake-blue-prune-rect-2k",
+      "GPU": {
+        "CAKE": "60769",
+        "ALPHAEDIT_BLUE": "60770",
+        "PRUNE": "60771",
+        "RECT": "60772"
+      },
+      "collector": "60773",
+      "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+      "lock_sha256": "e08af8a5febe136b727eb8e8c0e01a0dfb6afecad9c23aaccaaf00a959e0d87d",
+      "priority": "Cancel collector60773 then downstream60771/60772 immediately after exact ownership/state checks; afterany can already have started these when60769/60770 failed."
+    },
+    {
+      "task": "gptj-easyedit-native-baselines-2k",
+      "GPU": {
+        "BASE_MEMIT": "60656",
+        "BASE_ALPHAEDIT": "60657"
+      },
+      "collector": "60658",
+      "source": "56d3a445553b60bf1a5e33f0e820e0699364ba0b"
+    },
+    {
+      "task": "fe-sequential-2k",
+      "profile": "fe-sequential-10k",
+      "GPU": {
+        "FE": "59878"
+      },
+      "collector": "59879",
+      "source": "3645b40832b3da08d9c3ee3264b3d500fbbd6434"
+    }
+  ],
+  "targets_rule": "Known IDs are candidates, not claims of active state. Fresh manifest/owner/node/Command/source/task role/state must match before exact scancel. Cancel only active/PENDING/HELD baseline jobs and dedicated collectors, terminal rows record fact without invented cancellation. No scancel -u/all-node/wildcard, no source guessing. Unclassified jobs protected; report exact ambiguity, do not broaden.",
+  "protected": {
+    "W0": [
+      "60652",
+      "60653",
+      "60147",
+      "60148"
+    ],
+    "ours": "All ours PRICE/method jobs, even when same username; exact task/source identification rather than name-only.",
+    "other_servers": "All server1/server3/server4 jobs and caps unchanged.",
+    "data": "Original source/config/archive/raw/log/checkpoints retained, no destructive cleanup."
+  },
+  "cancellation_order": "Dedicated CPU collectors / farthest downstream first, then baseline successors, then active baseline parents. Verify post action exact no-active target IDs and sacct terminal/accounting. Prior completed/failed parents left unchanged.",
+  "diagnosis": {
+    "jobs": [
+      "60769",
+      "60770"
+    ],
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1",
+    "read": "Exact failure.json/terminal/runtime/tracking receipts when present, .err/.out exception with actual source traceback. Identify first causal failure/stage, completed prefix, rollback, GPU accounting and whether later tasks ran due afterany.",
+    "bounded": "Do not await GPU completion; cancellation/post-check plus CPU/source RCA only. No model forward/load, new GPU/pilot, code fixes, new submission, OOM retry, tolerance change or old job hotpatch."
+  },
+  "write_scope": [
+    "audits/servers/server2/server2-baselines-stop-failure-review/**",
+    "experiment-reports/servers/server2/server2-baselines-stop-failure-review/**",
+    "tasks/status/server2-baselines-stop-failure-review/server2.json",
+    "messages/acks/server2/server2-baselines-stop-failure-review.json",
+    "messages/server-heads/server2/server2-baselines-stop-failure-review.json",
+    "own baseline task/status factual USER_STOPPED overrides, preserving historical receipts",
+    "ignored local/server2-baselines-stop-failure-review/**"
+  ],
+  "Git": "Dedicated clean non-main worktree, compact receipts/RCA nonforce main publication; root dirty preserved. Generic helper path refusal record explicit task exception, not falsePASS.",
+  "delivery": "Official direct to exact SH2; priority stop before detailed diagnosis; explicit owner ACK, actual cancellation IDs/states/receipt and compact failure evidence returned. No ongoing monitor/automatic retry; user stopped baselines not silently resumed.",
+  "monitoring_active": false,
+  "Slurm_allowed": "Read own exact baseline inventory and exact scancel as specified; no additional writes."
+}
