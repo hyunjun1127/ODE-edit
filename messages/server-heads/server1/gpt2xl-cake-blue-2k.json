@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
-  "status": "SUBMITTED_RELEASED_INITIAL_PARTIAL_OBSERVED",
+  "status": "MONITORING_PAUSED_INITIAL_PARTIAL_AND_RESOURCE_PENDING",
   "jobs": {
     "ALPHAEDIT_BLUE": "60740",
     "CAKE": "60739",
@@ -13,7 +13,7 @@
   "noCP": true,
   "exact_resume": "NOT_AVAILABLE",
   "scientific_complete": false,
-  "monitoring": "BOUNDED_INITIAL_ONLY; NO_RECURRING_MONITOR",
+  "monitoring": "PAUSED; NO_RECURRING_MONITOR; FIRST_COMMIT_NEXT_ENTRY_NOT_OBSERVED",
   "effective_arms": [
     "CAKE",
     "ALPHAEDIT_BLUE"

@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "observed_at": "2026-10-07 10:00:12 UTC",
+  "task": "gpt2xl-cake-blue-2k",
+  "bounded": true,
+  "source": "d88e51c0138f3504214faea7a566b7493b763cce",
+  "jobs": {
+    "CAKE": {
+      "id": "60739",
+      "state": "RUNNING",
+      "W0": {
+        "requests": 2000,
+        "prompt_pairs": 26000,
+        "denominators": {
+          "R": 2000,
+          "P": 4000,
+          "N": 20000
+        },
+        "no_mutation": true,
+        "optimizer_feedback": false,
+        "seconds": 771.1935422644019
+      },
+      "B1_PRE": {
+        "requests": 100,
+        "prompt_pairs": 1300,
+        "denominators": {
+          "R": 100,
+          "P": 200,
+          "N": 1000
+        },
+        "no_mutation": true,
+        "optimizer_feedback": false,
+        "seconds": 40.19419822469354
+      },
+      "first_commit": "NOT_OBSERVED",
+      "next_entry": "NOT_OBSERVED",
+      "W_B": {
+        "startup": "REMOTE_ID_NAME_CONFIG_VERIFIED",
+        "id": "5bdcffd677dc40e2",
+        "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/5bdcffd677dc40e2",
+        "metrics_history": "NOT_VERIFIED",
+        "scientific_complete": false
+      }
+    },
+    "ALPHAEDIT_BLUE": {
+      "id": "60740",
+      "state": "PENDING Resources",
+      "startup": "NOT_OBSERVED"
+    },
+    "collector": {
+      "id": "60741",
+      "state": "PENDING Dependency"
+    }
+  },
+  "monitoring": "PAUSED_AFTER_BOUNDED_INITIAL_PARTIAL_AND_NORMAL_RESOURCE_PENDING",
+  "new_recurring_monitor": false,
+  "old_jobs_mutated": false,
+  "scientific_complete": false
+}
