@@ -54,6 +54,8 @@ def first_parent_frames_atomic(values):
     fits PIPE_BUF. No bridge writes are allowed after the parent journal starts.
     """
     frame(values)
+    require(len((json.dumps(dict(op='log',values=values,step=None),allow_nan=False)+'\n').encode())<=4096,
+            'DEFAULT_PARENT_W0_FRAME_BOUND')
     prefix='W0_first2000'
     generation={prefix+'/generation/'+k:2000 for k in (
         'planned_count','fluency_count','consistency_count','generation_prompt_count','generated_token_count',
@@ -61,7 +63,11 @@ def first_parent_frames_atomic(values):
         'missing_zero_reference_vector_count','missing_nonfinite_score_count','missing_length_cap_no_continuation_count')}
     generation.update({prefix+'/fluency/ngram_entropy':10.,prefix+'/consistency/reference_score':.5,
         'edits':0,'pre_state_edits':0,'post_state_edits':0})
+    generation[prefix+'/generation/generated_token_count']=9999999999999999999
+    generation[prefix+'/fluency/ngram_entropy']=1.7976931348623157e308
     frame(generation)
+    require(len((json.dumps(dict(op='log',values=generation,step=None),allow_nan=False)+'\n').encode())<=4096,
+            'DEFAULT_PARENT_GENERATION_FRAME_BOUND')
 
 
 def proc(pid):
@@ -79,7 +85,9 @@ def locate(job,out,c):
         and len(x.split())>1 and x.split()[1]==job}
     sdk=load_env(c['tracking']['env_file'])['ODEEDIT_WANDB_PYTHON'];found=[]
     for pid in ids:
-        try:p=proc(pid)
+        try:
+            if (Path('/proc')/str(pid)).stat().st_uid!=os.getuid():continue
+            p=proc(pid)
         except (OSError,ValueError):continue
         if p['cwd']!=out/'tracking':continue
         if len(p['argv'])!=5 or p['argv'][:4]!=[sdk,'-u','-m','project.run_scripts.experiment_tracking.worker']:continue
@@ -139,7 +147,8 @@ def bridge(job):
     singleton=(CONTROL/'bridge.lock').open('a');fcntl.flock(singleton,fcntl.LOCK_EX|fcntl.LOCK_NB)
     require(not (CONTROL/'attachment.json').exists(),'ONE_USER_AUTHORIZED_ATTACH_NO_RETRY')
     fd=os.open(Path('/proc')/str(worker['pid'])/'fd/0',os.O_WRONLY|os.O_NONBLOCK)
-    require(stat.S_ISFIFO(os.fstat(fd).st_mode) and os.readlink(Path('/proc')/str(worker['pid'])/'fd/0')==pipe,
+    require(stat.S_ISFIFO(os.fstat(fd).st_mode) and os.fstat(fd).st_ino==int(pipe[len('pipe:['):-1])
+        and os.readlink(Path('/proc')/str(worker['pid'])/'fd/0')==pipe,
             'EXACT_EXISTING_PIPE_OPENED')
     limit=os.fpathconf(fd,'PC_PIPE_BUF');require(limit>=4096,'ATOMIC_PIPE_LIMIT')
     proof=dict(user_exact='실시간 기록 진행해',task_id=TASK,job_id=job,run_id=identity['run_id'],
@@ -148,6 +157,7 @@ def bridge(job):
         original_SDK_and_run_reused=True,new_SDK_init_or_sync=0,new_fit_or_forward=0,science_job_source_mutations=0,
         telemetry_semantics=dict(phase_id_2='INITIAL_W0_GENERATION',status_code_1='LIVE_NONTERMINAL',
             step='completed atomic generation observation case files; not edits/fit/full-endpoint score'),
+        operational_boundary='USER-authorized external stdin telemetry bridge, not supported reconnect API; first parent frames atomic<=PIPE_BUF and parent journal handoff bound residual multiwriter race',
         cadence='new immutable case-file events, coalesced max one progress point per30s; no heartbeat or agent polling',
         end='original producer first scalar journal write / existing worker or science terminal / original48h wall bound')
     write(CONTROL/'attachment.json',proof)
@@ -183,6 +193,7 @@ def bridge(job):
                 data=os.read(watch,65536);offset=0;handoff=False
                 while offset<len(data):
                     which,mask,cookie,length=struct.unpack_from('iIII',data,offset);offset+=16
+                    require(not mask&0x00004000,'INOTIFY_QUEUE_OVERFLOW_STOP_NO_RETRY')
                     name=data[offset:offset+length].split(b'\0',1)[0].decode();offset+=length
                     if which==journal_wd:handoff=True
                     if which==wd and re.fullmatch(r'[0-9a-f]{64}\.json',name):
