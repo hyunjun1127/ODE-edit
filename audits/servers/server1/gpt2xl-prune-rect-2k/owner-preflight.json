@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-prune-rect-2k",
+  "legacy_registry_29e4": "HISTORICAL_NOT_BOUNDARY",
+  "root_dirty_preserved": true,
+  "preflight": {
+    "tests_run": 71,
+    "passed": 69,
+    "skipped": 2,
+    "failed": 0,
+    "errors": 0,
+    "receipt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/cpu-freeze-r1/cpu-preflight.json",
+    "actual_GPU_model": "NOT_RUN",
+    "online": "NOT_RUN",
+    "native_apply_actual": 0
+  },
+  "native": {
+    "repository": "/mnt/raid5/janghj/BLUE",
+    "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "ordinary_hparams_sha256": "88f0a396b9b5573a818b91d6836ae4b50791fcb5fb1b61c8e0304e1323556861",
+    "layers": [
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "blue": false,
+    "lr": 0.5,
+    "evaluations_max": 20,
+    "updates_max": 19,
+    "C0_coefficient": 20000,
+    "H": false,
+    "P": false,
+    "target_new": "native dict[str]",
+    "private_source": "create-once original/effective SHA+difference receipt; original repositories unchanged"
+  },
+  "repair": {
+    "name": "PRUNE_TERMINAL_BASE_FIX",
+    "original_line": "adjusted_weight = original_weight + upd_matrix[k]",
+    "repaired_line": "adjusted_weight = saved_cold_weight + upd_matrix[k]",
+    "terminal_batch": 20,
+    "transforms": 1,
+    "native_upstream_bitwise": false,
+    "spectrum_formula_changed": false,
+    "selected_cold_weights": "CPU_RAM_ONLY",
+    "no_disk_checkpoint": true
+  },
+  "pre_submit_narrow_repairs": [
+    {
+      "failure": "CLI json NameError after successful CPU test execution",
+      "repair": "explicit json imports in preflight/submit",
+      "evidence": "cpu-integration-r1 preserved; production serializer regression and final-r2 PASS"
+    },
+    {
+      "failure": "independent collector accepted arbitrary terminal physical names/hash strings",
+      "repair": "exact L13–17 names and cold/native-dense/final-state hash equality",
+      "evidence": "negative fixtures preserved; final independent rereview requested"
+    },
+    {
+      "failure": "terminal payload-only hash convention differed from existing state hash",
+      "repair": "same shape/dtype header plus contiguous bytes",
+      "evidence": "CPU cross-convention fixture PASS"
+    }
+  ],
+  "resource": {
+    "combined_server1_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "W0_extra_GPU_exception_used": false,
+    "admission": "fresh all-own GPU resource metadata, source/owner/node bound, admitted DAG width and exact leaf dependencies; no name-pattern exclusion",
+    "existing_jobs_mutated": false,
+    "new_automatic_retry": false
+  },
+  "persistence": {
+    "checkpoint_saved": false,
+    "z_disk_cache": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "raw": "local KEEP",
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+    "original_source_assets_preserved": true
+  }
+}
