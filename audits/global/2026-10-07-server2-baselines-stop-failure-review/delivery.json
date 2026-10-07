@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "authority_commit": "877e93201d424b8a3b503b905e2ab4b4e3057465",
+  "envelope": "messages/head/2026-10-07-server2-baselines-stop-failure-review.json",
+  "envelope_sha256": "2540fe5e47e250afb84042b2ba03efb1adf31518d24dbe72e5184597ae36a669",
+  "transport": "OFFICIAL_APP_SERVER_DIRECT",
+  "owner": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "accepted_turn": "01a11615-5883-7170-b27d-9cae6b91b355",
+  "explicit_owner_ACK": true,
+  "ACK_text": "ACK `USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007`. SH2가 담당 수락했습니다. exact owner/node/source를 대조한 뒤 baseline collector·후속 job부터 즉시 취소하고, CAKE/BLUE 실패 원인을 읽기 전용으로 확인하겠습니다. ours·W0·타 서버 job은 유지하며 repair·재제출은 하지 않습니다.",
+  "cancellation_owner_message": "최우선 후속을 중단했습니다: collector `60773`과 실행 중이던 PRUNE `60771`·RECT `60772`가 CANCELLED입니다. CAKE/BLUE는 이미 FAILED였고 재취소하지 않았습니다. stock MEMIT·AlphaEdit와 collector는 COMPLETED, FE와 collector는 기존 CANCELLED로 확인됐습니다. 이제 취소 후 queue와 실패 traceback을 검산합니다.",
+  "actual_new_cancellations": [
+    "60773",
+    "60771",
+    "60772"
+  ],
+  "already_terminal_untouched": {
+    "CAKE_60769": "FAILED",
+    "ALPHAEDIT_BLUE_60770": "FAILED",
+    "MEMIT_60656": "COMPLETED",
+    "ALPHAEDIT_60657": "COMPLETED",
+    "native_collector_60658": "COMPLETED",
+    "FE_59878": "PREVIOUSLY_CANCELLED",
+    "FE_collector_59879": "PREVIOUSLY_CANCELLED"
+  },
+  "protected": "ours/W0/base-model evaluation/other servers and all source/raw/log preserved.",
+  "status": "OWNER_CONFIRMED_BASELINE_DOWNSTREAM_CANCELLED_RCA_FINAL_REVIEW_IN_PROGRESS",
+  "verification_boundary": "Live direct owner action confirmation; owner exact postqueue/accounting and RCA report to follow. GH has not certified remote scheduler independently.",
+  "independent_read_only_findings": {
+    "evidence": "Exact CAKE/ALPHAEDIT_BLUE failure.json/.err and frozen source, read-only delegated investigation",
+    "first_error": "RuntimeError NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+    "stage": "LOAD_W0",
+    "scientific_commits": 0,
+    "native_ops": 0,
+    "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+    "file": "project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py",
+    "line": 704,
+    "guard": "isinstance(fc_out,torch.nn.Linear) and module.bias is None and shape==(4096,16384) and FP32",
+    "interpretation": "Incorrect bias-none precondition is concrete source defect to compare with actual GPTJ runtime. Compound guard error alone does not certify every other layout component."
+  },
+  "actions": {
+    "GH_Slurm_writes": 0,
+    "new_GPU": 0,
+    "model_loads": 0,
+    "code_repair": 0,
+    "new_submit": 0,
+    "automatic_retry": false,
+    "recurring_monitor": false
+  },
+  "continuation": "SH2 finalizes exact stop/accounting/failure RCA compact main report; no experiment repair/restart authorized."
+}
