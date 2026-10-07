@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "task_id": "jlz-price-gptj-2k",
+  "execution_source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+  "scope": "current checkpoint repair source + compact report snapshot; previous manifests remain historical snapshots",
+  "members": [
+    {
+      "path": "project/run_scripts/jlz_price_gptj/adapter.py",
+      "bytes": 6313,
+      "sha256": "45497855c1ce58bfbea98b87568645d925642edae87ce6c0039665025a9008b2"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/test_checkpoint.py",
+      "bytes": 6203,
+      "sha256": "691fd6bc3d179ecae615eee317a1718c2d531bebbf5f9e97bad9a0fa1d004de4"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/repair.py",
+      "bytes": 8950,
+      "sha256": "2fc9d1639d0992bb4a944c8cf4e8e25ab929402e9676845d85de0c9eb57afc29"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/run.py",
+      "bytes": 23933,
+      "sha256": "64bcd9fe6cf83de4ddcf485b1716a64328694c692d17626498c17601f3c76490"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/submit.py",
+      "bytes": 21516,
+      "sha256": "64e02327e4cbb8df8b78984ca517349b9f1bf733204784f9ec720c04c1aaa6a5"
+    },
+    {
+      "path": "project/run_scripts/jlz_price_gptj/tracking.py",
+      "bytes": 4901,
+      "sha256": "ebb03443faada770b00dc8fe396131523bc027e68cb2630a6ff7ec0bd4941f2a"
+    },
+    {
+      "path": "messages/acks/server4/jlz-price-gptj-checkpoint-repair.json",
+      "bytes": 731,
+      "sha256": "8bc9138f81917299b19b3cbf20f6e4221cc7d31da452979ca3160bb8196947ab"
+    },
+    {
+      "path": "messages/server-heads/server4/jlz-price-gptj-checkpoint-repair.json",
+      "bytes": 1578,
+      "sha256": "78a57398cf1ea1b4a003e17d6ebd3337aebc6a4e3e63fd67ba68e5968346c8b9"
+    },
+    {
+      "path": "runs/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json",
+      "bytes": 2492,
+      "sha256": "8d9d5143d0b85835387a94dabe199b4d1c1fa012c8a542a5d6bb9ea4801aaf58"
+    },
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/checkpoint-repair-20261007/submission-receipt.json",
+      "bytes": 7605,
+      "sha256": "5644aa41048aa795289e3505c46a544e5b70835b53269bd0af0244b7b797a606"
+    },
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/checkpoint-repair-20261007/publication-checks.json",
+      "bytes": 1894,
+      "sha256": "c743b95d538b729111583da83d8782ea939db8870bc6cd40946e0d9047c13bb5"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
+      "bytes": 13445,
+      "sha256": "b96578abaf65e427dd48ee674dff5913a3cc684d8bf47aab9dd082ed189bea90"
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/current-cell-ledger.csv",
+      "bytes": 4536,
+      "sha256": "a0936d379d674d5c732d47b08a27e3eca7d9df07541de858b973fc97ea7a6fde"
+    },
+    {
+      "path": "tasks/status/jlz-price-gptj-2k/server4.json",
+      "bytes": 1578,
+      "sha256": "78a57398cf1ea1b4a003e17d6ebd3337aebc6a4e3e63fd67ba68e5968346c8b9"
+    }
+  ],
+  "manifest_self_excluded": true,
+  "privacy_size_extension_configured_secret_scan": "PASS",
+  "report_links": 10,
+  "no_raw_tensors_prompts_models_checkpoints": true
+}

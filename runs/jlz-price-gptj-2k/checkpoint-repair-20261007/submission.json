@@ -1,0 +1,75 @@
+{
+  "task_id": "jlz-price-gptj-2k",
+  "execution_source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+  "jobs": {
+    "ALPHA_CAP075": "60619",
+    "ALPHA_CAP100": "60620",
+    "ALPHA_FREE100": "60621",
+    "MEMIT_CAP075": "60616",
+    "MEMIT_CAP100": "60617",
+    "MEMIT_FREE100": "60618",
+    "collector": "60622"
+  },
+  "mapping": {
+    "ALPHA_CAP075": {
+      "job": "60619",
+      "dependency": "afterany:60616"
+    },
+    "ALPHA_CAP100": {
+      "job": "60620",
+      "dependency": "afterany:60619"
+    },
+    "ALPHA_FREE100": {
+      "job": "60621",
+      "dependency": "afterany:60620"
+    },
+    "MEMIT_CAP075": {
+      "job": "60616",
+      "dependency": null
+    },
+    "MEMIT_CAP100": {
+      "job": "60617",
+      "dependency": "afterany:60616"
+    },
+    "MEMIT_FREE100": {
+      "job": "60618",
+      "dependency": "afterany:60617"
+    },
+    "collector": {
+      "job": "60622",
+      "dependency": "afterany:60616:60617:60618:60619:60620:60621"
+    }
+  },
+  "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+  "lock": {
+    "bytes": 102258,
+    "inode": 136196455,
+    "mtime_ns": 1791353452399081700,
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/execution.lock.json",
+    "sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37"
+  },
+  "held": {
+    "bytes": 47272,
+    "inode": 136196464,
+    "mtime_ns": 1791353452931081000,
+    "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/held-inspection.json",
+    "sha256": "8bdaeeb5a6776f1073f1d8e2913c518a3deca3d159294c37fc292fd20933e3c9"
+  },
+  "original_jobs": [
+    60134,
+    60135,
+    60136,
+    60137,
+    60138,
+    60139,
+    60140
+  ],
+  "original_GPU_jobs_state": "FAILED_0_COMMITS",
+  "original_collector_state": "COMPLETED_PARTIAL_REPORT",
+  "initial_snapshot": "60622|jlz-price-gptj-2k-collector|PENDING|N/A||Dependency\n60621|jlz-price-gptj-2k-ALPHA_FREE100|PENDING|gres/gpu:1||Dependency\n60620|jlz-price-gptj-2k-ALPHA_CAP100|PENDING|gres/gpu:1||Dependency\n60619|jlz-price-gptj-2k-ALPHA_CAP075|PENDING|gres/gpu:1||Dependency\n60618|jlz-price-gptj-2k-MEMIT_FREE100|PENDING|gres/gpu:1||Dependency\n60617|jlz-price-gptj-2k-MEMIT_CAP100|PENDING|gres/gpu:1||Dependency\n60616|jlz-price-gptj-2k-MEMIT_CAP075|PENDING|gres/gpu:1||None",
+  "status": "RELEASED",
+  "new_target_model_backward": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_retry": false
+}

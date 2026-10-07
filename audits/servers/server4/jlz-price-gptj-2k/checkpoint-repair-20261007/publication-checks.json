@@ -1,0 +1,55 @@
+{
+  "task_id": "jlz-price-gptj-2k",
+  "instruction_id": "USER-SH4-GPTJ-CHECKPOINT-REPAIR-20261007",
+  "frozen_execution_source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+  "cpu_compact_checks": {
+    "status": "PASS",
+    "scope": "identity/source/ledger/cost/links only",
+    "jobs": [
+      60616,
+      60617,
+      60618,
+      60619,
+      60620,
+      60621,
+      60622
+    ],
+    "immutable_local_refs_checked": 8,
+    "ledger_rows": 12,
+    "report_relative_links_checked": 10,
+    "failed_GPU_seconds": 2654
+  },
+  "independent_review": {
+    "agent": "gptj_retry_inputs",
+    "level": "separate-agent read-only compact artifact/source identity, ledger, links, cost arithmetic",
+    "blockers": 0,
+    "no_scheduler_remote_model_newtests_writes": true,
+    "actual_GPU_scientific_certification": false
+  },
+  "owner_review": {
+    "level": "owner source/immutable binding/compact publication audit",
+    "diff_check": "PASS"
+  },
+  "generic_agent_access": {
+    "status": "NOT_PASS",
+    "exit_code": 7,
+    "blocked_path": "runs/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json",
+    "exception": "Exact own task compact run receipt authorized by current USER retry and inherited own-scope task publication; generic helper has no task prefix allowance; shared helper unchanged",
+    "exception_scope": [
+      "runs/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json"
+    ]
+  },
+  "artifact_policy": {
+    "noCP": true,
+    "raw_source_KEEP": true,
+    "large_raw_model_tensor_prompt_secret_Git": false,
+    "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+    "reason": "existing exact local assets/raw reuse; compact tracked source/report/receipts only"
+  },
+  "protected60001_and_Llama_modified": false,
+  "actual_new_GPU_backward": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}

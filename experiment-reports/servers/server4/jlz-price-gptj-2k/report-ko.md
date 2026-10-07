@@ -1,4 +1,39 @@
-# GPT-J PRICE 6-arm — EasyEdit hparam 교정·재제출
+# GPT-J PRICE 6-arm — checkpoint 오류 교정·재제출
+
+최신 사용자 지시 “gpt-j 모두 실패했는데 repair해서 다시 올려라”에 따라 공통 checkpoint 결함을 최소 수정하고 여섯 arm을 새 immutable source로 제출·held 검사·release했다. **새 초기 snapshot은 모두 PENDING**이다. 새 실제 GPU backward/B1/W20 및 W&B 원격 identity는 NOT_OBSERVED이며 CPU 회귀 통과를 모델 검증으로 주장하지 않는다.
+
+| writer | CAP075 | CAP100 | FREE100 |
+|---|---:|---:|---:|
+| MEMIT | 60616 | 60617 | 60618 |
+| AlphaEdit | 60619 | 60620 | 60621 |
+
+GPU0 collector는 **60622**다. MEMIT 60616→60617→60618, Alpha 60616→60619→60620→60621의 afterany DAG이며 collector는 여섯 GPU job 모두 afterany다. 각 arm은 독립 cold W0/H0다. old failed ID를 dependency로 재사용하지 않았다. **Llama/명시 KEEP 60001 변경 0, Qwen 재개 0**, 기존 실패 source/config/raw/log/teacher와 취소 이력은 KEEP다.
+
+## 확정 실패 원인과 최소 수리
+
+60134–60139는 모두 첫 actual loss backward에서 `torch.utils.checkpoint.CheckpointError`로 FAILED(1:0)했고, 완료 collector 60140의 검산에서도 모든 arm commit 수는 0이었다. checkpoint가 저장한 subject 인덱스는 7개였으나 재계산에서는 1개였다. GPT-J `Adapter.masked`의 checkpoint closure가 캡처하는 `pos`를 c0 native parity 검사 loop가 desired-token 위치로 다시 대입하면서 마지막 KL row의 길이1 값이 남았다.
+
+수리는 parity loop 변수만 `parity_pos`로 분리하는 것이다. checkpoint/determinism 검사, precision/tolerance, writer/optimizer/목적/입력/분모는 바꾸지 않았다. production `Adapter.masked`의 실제 non-reentrant checkpoint를 작은 CPU module fixture에 연결한 최초 c0/후속 candidate × capture on/off **4개 회귀가 PASS**했다. 출력·capture·여섯 층 gradient가 checkpoint-disabled test reference와 일치했으며 CUDA/model load/fit/pilot은 0이다. 실제 GPT-J GPU backward 성공 여부는 새 main에서 확인해야 한다.
+
+실패 parent 할당 GPU 비용은 각 1046/325/300/340/362/281초, 합계 **2654 GPU-sec (0.7372 GPUh)**다. collector는 GPU0/8CPU/7초(할당 CPU56초)였다. 이 비용은 이전 실패 attempt 비용이며 새 실행 시간/20batch ETA로 사용하지 않는다. 기존 batch-entry rollback receipt의 verified=true/commit=false를 보존했다.
+
+## 실행 source·재사용·자원 결속
+
+실행 source **`298be5da189c3a5f4ffb212e4954ac73583e2be7`**, config SHA `d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688`, lock SHA `568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37`다. 이후 보고/main publication SHA와 실행 source를 구분한다. **EasyEdit GPT-J L3–L8/lr .5/Alpha L2 10**을 유지하며 PRICE cap/base·KL .0625/norm .5·25eval24update도 그대로다. expected/arm은 20 commits/19 own-state joins/**120 H appends**이나 새 실행에서는 아직 관측하지 않았다. noCP/exact resume NOT_AVAILABLE다.
+
+기존 native ready metadata 16,864B만 exact SHA `26016a4c58e446cba7a5bd9e48c3b1d9b2a0221ce4cbbe7f95d9b42b74269145`로 새 input receipt에 연결했다. 원 context/pack/token/asset 경로는 그대로 참조하며 모델/원 raw 복사·재생성은 없다. 이전 MEMIT_CAP075 W0의 40chunks/**R2000/P4000/N20000 (26,000 rows)**를 CPU에서 row/token/order/finite 및 저장 summary까지 검산했다. summary SHA `2499b44cdf473af6d6fff1ec48cacd7d2bc15bffd54aa80fd0de94459edcef36`다. 새 runtime/device/thread/cold-state identity가 일치할 때만 이 W0 raw를 참조하는 guard를 유지한다. CPU 재집계는 새로운 model evaluation이 아니다.
+
+fresh admission에서 기존 Llama DAG 폭1+새 GPT-J 폭2≤combined cap3, task cap2를 확인했다. 각 GPU1/CPU8/59392MiB/hard60416MiB/48h 요청상한/exportNONE/Requeue0, collector GPU0/CPU8/24576MiB/4h다. free59,848,921,088B에 combined reserve36,590,583,808B를 결속했다. 기존 추정 host54.3615GiB/GPU65.9788GiB와 이전 실패의 RSS 약45.24GiB/GPU 약39.58–41.39GiB는 W20 peak 검증이 아니다. batch storage guard 유지, 무관 삭제/평가 축소/자동 retry는 없다.
+
+기존 W&B schema/actual jobID/name/edits 및 fit 축을 유지하며 새 run ID는 새 attempt별로 생성하고 old run ID를 parent link로만 남긴다. 새 startup/remote readback은 NOT_OBSERVED다. source owner audit·component worker 회귀와 `gptj_retry_inputs`의 좁은 독립 source/reuse/DAG 리뷰를 수행했으며 blocker0이다. 이는 독립 전체 GPU/과학 PASS가 아니다.
+
+[현재 제출·실패 근거](../../../../audits/servers/server4/jlz-price-gptj-2k/checkpoint-repair-20261007/submission-receipt.json), [새 job/dependency 기록](../../../../runs/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json), [현재 상태](../../../../tasks/status/jlz-price-gptj-2k/server4.json), [현재 등록 ledger](current-cell-ledger.csv). source/compact report/manifest만 Git, raw/tensors/prompts/fullstdout는 local KEEP다. NO_BROADCAST_NOT_REQUIRED: 기존 현물 재사용으로 대형 전송이 필요 없다. 제출 뒤 단일 bounded 초기 snapshot에서 인계하며 recurring monitor/heartbeat/autoretry=0이다.
+
+Generic access helper는 task별 `runs/jlz-price-gptj-2k/**` prefix 미지원으로 NOT_PASS(exit7)였다. 사용자 승인 task의 소형 run receipt에만 exact-path publication 예외를 기록했고 shared helper를 수정하거나 PASS로 표시하지 않았다. [게시 검산·예외](../../../../audits/servers/server4/jlz-price-gptj-2k/checkpoint-repair-20261007/publication-checks.json).
+
+## 이전 EasyEdit hparam 교정 60134–60140 제출 기록 (역사)
+
+아래 PENDING 및 미관측 설명은 당시 등록 snapshot이다. 해당 여섯 GPU job은 위에 기록한 checkpoint 오류로 이후 모두 실패했고 새 job으로 교체 제출했다. 이전 source/receipt의 byte와 Git 이력을 보존하며 당시 manifest를 현재 보고 checksum으로 해석하지 않는다.
 
 최신 사용자 지시에 따라 EasyEdit GPT-J 현물 hparam을 채택해 6개 cold first2000 BS100×20을 새 source로 등록·held 검사·release했다. 초기 snapshot은 모두 PENDING이다. 실제 B1/W20 및 새 W&B 원격 identity는 NOT_OBSERVED다.
 
