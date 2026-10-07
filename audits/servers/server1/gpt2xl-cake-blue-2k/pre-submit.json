@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "effective_arms": ["CAKE", "ALPHAEDIT_BLUE"],
+  "direct_user_selection_override": "blue는 alphaedit blue를 사용하자",
+  "CPU": {"tests_run":66,"passed":64,"skipped":2,"failures":0,"errors":0,"status":"PASS_WITH_EXPLICIT_SDK_SKIPS","receipt":"/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/cpu-final-r1/cpu-preflight.json"},
+  "native_actual_parsers": {"CAKE":{"layers":[13,14,15,16,17],"L2":40,"H_layers":5},"ALPHAEDIT_BLUE":{"layers":[13,17],"L2":80,"H_layers":2,"P_physical_slots":[0,4]}},
+  "budget":"20 native applies x 100 requests; no batch21/pilot/refit",
+  "independent_source_review":"Separate bounded readonly reviewer: original native imports/parser, new source/contract/CPU assembly reviewed; findings repaired before freeze; no model/GPU validation",
+  "generic_access_helper":"BLOCKED plans/servers/server1/gpt2xl-cake-blue-2k/blue-user-override.json; exact owner envelope explicitly permits this path. Manual exact own-scope checked; shared policy unchanged; helper PASS not claimed",
+  "GPU_validation":"NOT_RUN",
+  "online_validation":"NOT_RUN",
+  "preserved":"Original CAKE/BLUE clean commit/source, EasyEdit assets/runtime, root dirty, all existing jobs/raw",
+  "noCP":true,
+  "exact_resume":"NOT_AVAILABLE",
+  "broadcast":"NO_BROADCAST_NOT_REQUIRED"
+}

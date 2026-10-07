@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER2",
+  "note": "소형 own-scope 적용 기록 checksum. 실제 scheduler 수치의 과학 결과 검증이 아니다.",
+  "checks": {
+    "CPU_mock": "PASS 19; 실제 scheduler 함수는 mock으로 대체",
+    "canonical_local_JSON_counts": "PASS",
+    "root_cap_bytes": "기존 SHA 동일, 원 root 파일 변경 없음",
+    "scheduler_mutation": "없음"
+  },
+  "files": {
+    "audits/servers/server2/gpu-cap2-20261007/application.json": "a7079b763c9ebba160fa445e5a951a2452312f6aa358ae0f6ebeca84daf09527",
+    "experiment-reports/servers/server2/gpu-cap2-20261007/report-ko.md": "dea79a3cc7fd12aeb4beb271d58d9e3d53fe501650e79ea624561f39cf748c61",
+    "tasks/status/all-servers-gpu-cap2/server2.json": "88112396699d29e8c50d2f83a84abb9ee64c34536bc19e91d46099f135403b1a",
+    "messages/acks/server2/gpu-cap2-20261007.json": "f045b9b0407ba445a106feffd4bdaa545e023bd26c3efc7b8ae1f1c044dcf58a",
+    "messages/server-heads/server2/gpu-cap2-20261007.json": "951220f1985d1b7f75757feba4268a437b07ac039b511cd25f6cab7bb7ed1d40"
+  }
+}

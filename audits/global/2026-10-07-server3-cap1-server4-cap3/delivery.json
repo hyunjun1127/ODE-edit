@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1",
+  "authority_commit": "f0cd42a2821228b470a735386e08ae0340b0e0a1",
+  "policy": "control/gpu-concurrency-policy.tsv",
+  "policy_sha256": "d7e10c0a743df6dda934fee16883c769364e6b5b0394c113cd422e79c66c71b3",
+  "envelope": "messages/head/2026-10-07-server3-cap1-server4-cap3.json",
+  "envelope_sha256": "84253cae5486034f3a3c412cfe373d691ce74f48ba24a8c76b3514205c791728",
+  "canonical_caps": {"server1": 2, "server2": 2, "server3": 1, "server4": 3},
+  "supersedes": "Previous all-cap2 instruction only for server3 and server4; server1/server2 remain2.",
+  "delivery": [
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER3",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "IDLE_TURN_START",
+      "accepted_turn": "01a115bd-33aa-7390-9641-344bd432bc24",
+      "explicit_owner_ACK": true,
+      "ACK_text": "ACK `USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER3`. SH3 합산 project GPU cap을 최신 지시인 **1**로 정정하겠습니다. 현재 로컬 설정은 직전 적용값 2이며, 정본 확인 후 1로 변경하고 할당·대기열을 한 번 확인하겠습니다. 기존 cap2 보고는 이력으로 보존합니다.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER4",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "EXACT_FRESH_RELATED_TURN_STEER",
+      "accepted_turn": "01a115b9-5b8c-7ba0-b71d-89cfcc4518fe",
+      "explicit_owner_ACK": true,
+      "ACK_text": "ACK `USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER4`: 최신 지시로 server4 합산 cap을 **3**으로 변경하겠습니다. 방금 cap2 때문에 추가한 60619의 대기 dependency는 상태·소유권·task cap을 재확인한 뒤 해제하겠습니다. RUNNING job은 계속 보존합니다.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH",
+      "preceding_cap2_message": "Historical interim application, not latest cap3 ACK or final application receipt."
+    }
+  ],
+  "status": "CANONICAL_POLICY_PUBLISHED_BOTH_CHANGED_OWNERS_ACKNOWLEDGED",
+  "verification_boundary": "Canonical2/2/1/3 and direct owner acceptance verified. ACK is not final local/admission or physical-allocation certification.",
+  "old_jobs": "RUNNING/source/raw preserved; narrower task caps unchanged; exact unallocated PENDING resource-only reconciliation remains owner responsibility.",
+  "Slurm_writes_by_GH": 0,
+  "new_jobs_by_GH": 0,
+  "GPU_by_GH": 0,
+  "monitoring_active": false,
+  "recurring_monitor_created": false
+}

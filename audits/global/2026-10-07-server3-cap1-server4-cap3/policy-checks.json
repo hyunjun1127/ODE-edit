@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task_id": "server3-cap1-server4-cap3",
+  "before": {"server1": 2, "server2": 2, "server3": 2, "server4": 2},
+  "after": {"server1": 2, "server2": 2, "server3": 1, "server4": 3},
+  "test": {
+    "script": "scripts/tests/test_gpu_concurrency_policy.sh",
+    "status": "PASS",
+    "checks": 19,
+    "real_Slurm_calls": 0,
+    "model_GPU": 0,
+    "change": "Per-server admission boundary read from canonical policy rather than hardcoded uniform2."
+  },
+  "unchanged": ["server1/server2 cap2", "scientific source/params/assets/raw", "memory/node/QoS", "existing RUNNING jobs", "narrower task caps", "unrelated STOP authority"],
+  "source_edit_paths": ["control/gpu-concurrency-policy.tsv", "scripts/tests/test_gpu_concurrency_policy.sh", "messages/head/2026-10-07-server3-cap1-server4-cap3.json"],
+  "no_new_GPU": true
+}
