@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1",
+  "authority_commit": "75dfe775d955626f4641fe0d5e487584205a8e81",
+  "transport": "official app-server-control exact thread/resume + idle turn/start; Git inbox not used",
+  "GH_boundary": "PASS",
+  "owners": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "accepted_turn": "01a11538-015f-72d3-9dc5-93d0aea78b67",
+      "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+      "owner_ack": "SH1 담당 수락. RECEIVED/PREPARING/NOT_SUBMITTED. fresh W0 raw20current4allseen구현검산후등록",
+      "envelope_sha": "78e0fab99858aa214c34a50c9bca97398cfd2afb80fb44aff30a6cb1a106f8e8",
+      "new_job_ids": [],
+      "stage": "IMPLEMENTING_NOT_SUBMITTED"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "accepted_turn": "01a11537-dd88-7870-8b63-4b0f2deb171b",
+      "instruction_ids": [
+        "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER2",
+        "USER-GH-SH2-GPTJ-EASYEDIT-NATIVE-BASELINES-2K-20261007-R1"
+      ],
+      "owner_ack": "SH2 두 작업 수락, 정본입력 확인/별도nativeMEMITAlpha준비. 기존W0FE유지 cap2 dependency등록",
+      "envelope_sha": "341763e8ec6b9d21e355458b2393f0634e87f1b7aca0111d017b2776ae51e8e7",
+      "new_job_ids": [],
+      "stage": "IMPLEMENTING_NOT_SUBMITTED"
+    }
+  ],
+  "audit": {
+    "static_CPU_checks": "PASS",
+    "independent_readonly_review": "PASS_WITH_IMPLEMENTATION_CAVEAT",
+    "caveat": "native GPT2 scalarW0loader statefield를S2newW0chunks에그대로가정하지말것. adapter수정필요,hold아님.",
+    "GPU_qualification": "NOT_OBSERVED",
+    "WandB_readback": "NOT_OBSERVED",
+    "experiment_completion": "NOT_OBSERVED"
+  },
+  "continuation": "각 owner는 이미 구현부터실제Slurm등록까지명시위임받음. GH회신이나별도승인대기없음. 아직등록주장없음. 이번ledger는수락증거이며제출완료아님."
+}
