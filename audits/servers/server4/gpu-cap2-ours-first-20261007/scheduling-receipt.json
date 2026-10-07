@@ -1,0 +1,280 @@
+{
+  "task_id": "gpu-cap2-ours-first-20261007",
+  "user_quote": "gpu cap 2로 줄이자. 지금 돌아가는건 놔두고 dependency 걸어놓은것들 ours 먼저 돌리고 그다음 baseline들 올려",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "started_UTC": "2026-10-07T13:47:28.382336+00:00",
+  "completed_UTC": "2026-10-07T13:47:33.836190+00:00",
+  "status": "APPLIED_RELEASED_RESOURCE_ONLY",
+  "allocated_GPU_before": 3,
+  "legacy_over_cap_preserved": true,
+  "proof": {
+    "future_GPU_DAG_width": 2,
+    "cycle": false,
+    "all_baselines_follow_all_OURS": true,
+    "OURS_wait_for_baselines": false,
+    "legacy_barrier": [
+      60105,
+      60617,
+      60619
+    ]
+  },
+  "actions": [
+    {
+      "action": "temporary_pending_hold",
+      "job": 60920
+    },
+    {
+      "action": "temporary_pending_hold",
+      "job": 60106
+    },
+    {
+      "action": "temporary_pending_hold",
+      "job": 60620
+    },
+    {
+      "action": "temporary_pending_hold",
+      "job": 60618
+    },
+    {
+      "action": "resource_dependency_update",
+      "job": 60920,
+      "dependency": "afterany:60917:60921"
+    },
+    {
+      "action": "resource_dependency_update",
+      "job": 60106,
+      "dependency": "afterany:60105:60618"
+    },
+    {
+      "action": "resource_dependency_update",
+      "job": 60620,
+      "dependency": "afterany:60105:60617:60619"
+    },
+    {
+      "action": "resource_dependency_update",
+      "job": 60618,
+      "dependency": "afterany:60105:60617:60619"
+    },
+    {
+      "action": "release_same_job",
+      "job": 60618
+    },
+    {
+      "action": "release_same_job",
+      "job": 60620
+    },
+    {
+      "action": "release_same_job",
+      "job": 60106
+    },
+    {
+      "action": "release_same_job",
+      "job": 60920
+    }
+  ],
+  "source_config_archive_launcher_submission_bytes_unchanged": true,
+  "RUNNING_mutations": 0,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "collectors_mutated": 0,
+  "permanent_holds": 0,
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "effective_project_GPU_cap": 2,
+  "scope": "server4 only; scheduling override, no scientific task expansion",
+  "prospective_width_excludes_legacy_running3": true,
+  "latest_USER_overrides_historical_cap3": true,
+  "global_policy_file_owner": "GH; not edited by SH4",
+  "root_dirty_preserved": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host cap files and compact Git receipts only",
+  "full_local_receipt": {
+    "path": "/data/janghj/ODE-edit/local/gpu-cap2-ours-first-20261007/scheduling-receipt.json",
+    "sha256": "f0b8ad310c92a4a78f939cf49eaa7ac1b5bee6476de9a21f1065dd28f8f1188b"
+  },
+  "executor": {
+    "path": "/data/janghj/ODE-edit/local/gpu-cap2-ours-first-20261007/reconcile.py",
+    "sha256": "492a41d6e0d007af8424dd8e5080c0e0dc32bfb6609e48efc95b6a5f0ede465f"
+  },
+  "immutable_files_checked": 29,
+  "review": {
+    "owner": "SH4 actual scheduler/source/byte checks",
+    "separate_reviewer": "resume_registration_review: CPU resource DAG/source-path review, no scheduler calls or tensor replay"
+  },
+  "job_snapshot": {
+    "60105": {
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_CAP075",
+      "state": "RUNNING",
+      "dependency_before": "(null)",
+      "dependency_after": "(null)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60617": {
+      "name": "jlz-price-gptj-2k-MEMIT_CAP100",
+      "state": "RUNNING",
+      "dependency_before": "(null)",
+      "dependency_after": "(null)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60619": {
+      "name": "jlz-price-gptj-2k-ALPHA_CAP075",
+      "state": "RUNNING",
+      "dependency_before": "(null)",
+      "dependency_after": "(null)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60618": {
+      "name": "jlz-price-gptj-2k-MEMIT_FREE100",
+      "state": "PENDING",
+      "dependency_before": "afterany:60617(unfulfilled)",
+      "dependency_after": "afterany:60105(unfulfilled),afterany:60617(unfulfilled),afterany:60619(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60620": {
+      "name": "jlz-price-gptj-2k-ALPHA_CAP100",
+      "state": "PENDING",
+      "dependency_before": "afterany:60619(unfulfilled)",
+      "dependency_after": "afterany:60105(unfulfilled),afterany:60617(unfulfilled),afterany:60619(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60621": {
+      "name": "jlz-price-gptj-2k-ALPHA_FREE100",
+      "state": "PENDING",
+      "dependency_before": "afterany:60620(unfulfilled)",
+      "dependency_after": "afterany:60620(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60106": {
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_CAP100",
+      "state": "PENDING",
+      "dependency_before": "afterany:60105(unfulfilled)",
+      "dependency_after": "afterany:60105(unfulfilled),afterany:60618(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60107": {
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_FREE100",
+      "state": "PENDING",
+      "dependency_before": "afterany:60106(unfulfilled)",
+      "dependency_after": "afterany:60106(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60917": {
+      "name": "llama3-baselines-fluency-consistency-2k-MEMIT",
+      "state": "PENDING",
+      "dependency_before": "afterany:60621(unfulfilled),afterany:60620(unfulfilled),afterany:60618(unfulfilled),afterany:60107(unfulfilled),afterany:60106(unfulfilled),afterany:60619(unfulfilled),afterany:60617(unfulfilled),afterany:60105(unfulfilled)",
+      "dependency_after": "afterany:60621(unfulfilled),afterany:60620(unfulfilled),afterany:60618(unfulfilled),afterany:60107(unfulfilled),afterany:60106(unfulfilled),afterany:60619(unfulfilled),afterany:60617(unfulfilled),afterany:60105(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60918": {
+      "name": "llama3-baselines-fluency-consistency-2k-PRUNE",
+      "state": "PENDING",
+      "dependency_before": "afterany:60917(unfulfilled)",
+      "dependency_after": "afterany:60917(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60919": {
+      "name": "llama3-baselines-fluency-consistency-2k-RECT",
+      "state": "PENDING",
+      "dependency_before": "afterany:60917(unfulfilled)",
+      "dependency_after": "afterany:60917(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60920": {
+      "name": "llama3-baselines-fluency-consistency-2k-ALPHAEDIT",
+      "state": "PENDING",
+      "dependency_before": "afterany:60917(unfulfilled)",
+      "dependency_after": "afterany:60917(unfulfilled),afterany:60921(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60921": {
+      "name": "llama3-baselines-fluency-consistency-2k-ALPHAEDIT_BLUE",
+      "state": "PENDING",
+      "dependency_before": "afterany:60918(unfulfilled)",
+      "dependency_after": "afterany:60918(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60922": {
+      "name": "llama3-baselines-fluency-consistency-2k-CAKE",
+      "state": "PENDING",
+      "dependency_before": "afterany:60919(unfulfilled)",
+      "dependency_after": "afterany:60919(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60108": {
+      "name": "jlz-price-alpha-writer-2k-collector",
+      "state": "PENDING",
+      "dependency_before": "afterany:60105(unfulfilled),afterany:60106(unfulfilled),afterany:60107(unfulfilled)",
+      "dependency_after": "afterany:60105(unfulfilled),afterany:60106(unfulfilled),afterany:60107(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60622": {
+      "name": "jlz-price-gptj-2k-collector",
+      "state": "PENDING",
+      "dependency_before": "afterany:60617(unfulfilled),afterany:60618(unfulfilled),afterany:60619(unfulfilled),afterany:60620(unfulfilled),afterany:60621(unfulfilled)",
+      "dependency_after": "afterany:60617(unfulfilled),afterany:60618(unfulfilled),afterany:60619(unfulfilled),afterany:60620(unfulfilled),afterany:60621(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    },
+    "60923": {
+      "name": "llama3-baselines-fluency-consistency-2k-collector",
+      "state": "PENDING",
+      "dependency_before": "afterany:60917(unfulfilled),afterany:60918(unfulfilled),afterany:60919(unfulfilled),afterany:60920(unfulfilled),afterany:60921(unfulfilled),afterany:60922(unfulfilled)",
+      "dependency_after": "afterany:60917(unfulfilled),afterany:60918(unfulfilled),afterany:60919(unfulfilled),afterany:60920(unfulfilled),afterany:60921(unfulfilled),afterany:60922(unfulfilled)",
+      "unchanged_job_identity_and_resources": true
+    }
+  },
+  "source_bindings": {
+    "gptj": {
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "archive_sha256": "119b793701bdad47f32a8b4036cbebd02ea19b9bdfc95c0f5cc39fda9156d758",
+      "KEEP": true
+    },
+    "llama_alpha": {
+      "source": "5226337121fd2c90c595f26297c9927400f8f0af",
+      "config_sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53",
+      "lock_sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a",
+      "archive_sha256": "3f5625829320990ef2588bc1decd6be7ccb20b558fe15906b17e6401fa245779",
+      "KEEP": true
+    },
+    "llama_baseline": {
+      "source": "e3019677e5b17edf98401e381972c272a711ecc7",
+      "config_sha256": "f088d192913c5568bc7e6ed0d7a939cbe9d035f70ca3db289e67427162b4e672",
+      "lock_sha256": "ae3ba441e710b6035145d144b85302eebf249e5ad26f373859cf50234c533f50",
+      "archive_sha256": "f0339e37f0dfa5672347fd1cd286fe69787d25aa7add1fd7c0920ec7ddaa8034",
+      "KEEP": true
+    }
+  },
+  "local_caps": [
+    {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server4_GPU_cap": 2,
+      "memory_MiB": 60416
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "497413beb11128498649136553ecc44f39db03d66f0879f86651188fe54daed6",
+      "server4_GPU_cap": 2,
+      "memory_MiB": 60416
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server4_GPU_cap": 2,
+      "memory_MiB": 60416
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server4_GPU_cap": 2,
+      "memory_MiB": 60416
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-ours-first-20261007/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "bf67e7609e26c67d861c9913313aecf9437fadaf379ffaf23e3fb3f98e2e0e00",
+      "server4_GPU_cap": 2,
+      "memory_MiB": 60416
+    }
+  ]
+}

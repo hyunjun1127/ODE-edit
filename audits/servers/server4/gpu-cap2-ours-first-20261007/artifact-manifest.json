@@ -1,0 +1,27 @@
+{
+  "task_id": "gpu-cap2-ours-first-20261007",
+  "members": [
+    {
+      "path": "audits/servers/server4/gpu-cap2-ours-first-20261007/scheduling-receipt.json",
+      "bytes": 11196,
+      "sha256": "393a3d4eaaa7875c04e7e8ad7172eebd6892018a35c8af97fe218a71f15f6096"
+    },
+    {
+      "path": "experiment-reports/servers/server4/gpu-cap2-ours-first-20261007/report-ko.md",
+      "bytes": 3382,
+      "sha256": "91946efed041532d5237ae3b3862a86ff0b79981be49e1d92e048bcea4840ef0"
+    },
+    {
+      "path": "tasks/status/gpu-cap2-ours-first-20261007/server4.json",
+      "bytes": 528,
+      "sha256": "262d937b5ef412ba5cf0c76a157a00bdef438ea26eb474c1b1af42e72d529305"
+    },
+    {
+      "path": "messages/server-heads/server4/gpu-cap2-ours-first-20261007.json",
+      "bytes": 991,
+      "sha256": "28f7d4f6f7006628e1394cb70e0579f5d3bffc1bba4f72e5f00d2140d722172d"
+    }
+  ],
+  "scientific_source_changed": false,
+  "raw_in_Git": false
+}

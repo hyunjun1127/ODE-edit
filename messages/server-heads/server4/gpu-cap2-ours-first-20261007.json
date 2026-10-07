@@ -1,0 +1,30 @@
+{
+  "task_id": "gpu-cap2-ours-first-20261007",
+  "server": "server4",
+  "status": "APPLIED_RELEASED_RESOURCE_ONLY_STOP",
+  "effective_project_GPU_cap": 2,
+  "legacy_current_GPU_allocation": 3,
+  "running_keep": [
+    60105,
+    60617,
+    60619
+  ],
+  "pending_OURS_first": true,
+  "prospective_GPU_width": 2,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "recurring_monitor": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "audit": "audits/servers/server4/gpu-cap2-ours-first-20261007/scheduling-receipt.json",
+  "user_quote": "gpu cap 2로 줄이자. 지금 돌아가는건 놔두고 dependency 걸어놓은것들 ours 먼저 돌리고 그다음 baseline들 올려",
+  "running_mutations": 0,
+  "changed_pending": [
+    60618,
+    60620,
+    60106,
+    60920
+  ],
+  "GH_action_requested": "Publish newest USER server4 cap2 canonical override; retain server1/2/3 policy unchanged",
+  "report": "experiment-reports/servers/server4/gpu-cap2-ours-first-20261007/report-ko.md"
+}

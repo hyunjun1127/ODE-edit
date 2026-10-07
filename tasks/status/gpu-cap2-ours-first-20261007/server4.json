@@ -1,0 +1,20 @@
+{
+  "task_id": "gpu-cap2-ours-first-20261007",
+  "server": "server4",
+  "status": "APPLIED_RELEASED_RESOURCE_ONLY_STOP",
+  "effective_project_GPU_cap": 2,
+  "legacy_current_GPU_allocation": 3,
+  "running_keep": [
+    60105,
+    60617,
+    60619
+  ],
+  "pending_OURS_first": true,
+  "prospective_GPU_width": 2,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "recurring_monitor": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "audit": "audits/servers/server4/gpu-cap2-ours-first-20261007/scheduling-receipt.json"
+}
