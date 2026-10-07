@@ -1,0 +1,91 @@
+{
+  "W_B": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+  "actual_initial_write": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "cap": 2,
+  "config_sha256": "51d822e131bcc096e43438dd699e87205fa4ecbcccd44388e673f16eae9af4c7",
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "60910"
+    ],
+    "BASE_ALPHAEDIT": [
+      "60909"
+    ],
+    "BASE_MEMIT": [],
+    "CAKE": [
+      "60909"
+    ],
+    "PRUNE": [
+      "60911"
+    ],
+    "RECT": [
+      "60912"
+    ],
+    "collector": [
+      "60909",
+      "60910",
+      "60911",
+      "60912",
+      "60913",
+      "60914"
+    ]
+  },
+  "frontier": [],
+  "initial_snapshot": "60915|gptj-baselines-fluency-consistency-2k-collector|PENDING|N/A||None\n60914|gptj-baselines-fluency-consistency-2k-RECT|PENDING|gres/gpu:1||None\n60913|gptj-baselines-fluency-consistency-2k-PRUNE|PENDING|gres/gpu:1||None\n60912|gptj-baselines-fluency-consistency-2k-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n60911|gptj-baselines-fluency-consistency-2k-CAKE|PENDING|gres/gpu:1||None\n60910|gptj-baselines-fluency-consistency-2k-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n60909|gptj-baselines-fluency-consistency-2k-BASE_MEMIT|PENDING|gres/gpu:1||None",
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60912",
+    "BASE_ALPHAEDIT": "60910",
+    "BASE_MEMIT": "60909",
+    "CAKE": "60911",
+    "PRUNE": "60913",
+    "RECT": "60914",
+    "collector": "60915"
+  },
+  "lock": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/execution.lock.json",
+    "bytes": 88993,
+    "sha256": "7e38d6a189521d27b3bc06084c71d28d277628b0a9812856c1ad87c70a334cb1"
+  },
+  "monitoring_active": false,
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "fresh_admission_required": true,
+    "generation_peak_not_yet_measured": true,
+    "gpu": 1,
+    "host_mib": 59392,
+    "project_cap": 2,
+    "reserve_bytes": 17179869184,
+    "simultaneous_host_requested_mib": 118784,
+    "source_old_defaults_reused": true,
+    "task_cap": 2,
+    "wall": "2-00:00:00",
+    "wall_is_eta": false
+  },
+  "scientific_complete": false,
+  "shared_generation_source": "83535c6a47c552cc4e5c6385f3a587d752820150",
+  "source_commit": "503081fa9bc6efc4dbdd461324fba522b8f36e8b",
+  "source_tree": "5610249a31866d1568d1e473288dc5fc68a53d9d",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "gptj-baselines-fluency-consistency-2k",
+  "receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/submission.json",
+    "sha256": "a8af55eb55aedae22d0de83ae5f83131258358b3173f16a97914a8f02c51e17b"
+  },
+  "held_inspection": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/held-inspection.json",
+    "sha256": "c0ab7a263d8d73aa5d39de4914f40e9281c6b73bc60cd62ab97f5b4c18802bf3",
+    "owner": "janghj",
+    "node": "server2",
+    "all_seven_held_inspected_then_released": true
+  },
+  "initial_snapshot_stage": "single immediate post-release snapshot; no model/metric observation",
+  "latest_recall_receipt": "registration-resume-reconcile.json; 60909 RUNNING and six Dependency PENDING",
+  "duplicate_submissions": 0,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE"
+}
