@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007",
+  "authority_commit": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "policy": "control/gpu-concurrency-policy.tsv",
+  "policy_sha256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+  "envelope": "messages/head/2026-10-07-all-servers-gpu-cap2.json",
+  "envelope_sha256": "fff5b0a8ca742b3e70c1269a1738354c4fd460650f2c80919198ffa7abb34068",
+  "canonical_caps": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 2,
+    "server4": 2
+  },
+  "CPU": {
+    "script": "scripts/tests/test_gpu_concurrency_policy.sh",
+    "status": "PASS",
+    "checks": 19,
+    "real_Slurm_calls": 0,
+    "model_GPU": 0
+  },
+  "delivery": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "host": "remote-ssh-codex-managed:lab120",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER1",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "EXACT_FRESH_RELATED_TURN_STEER",
+      "accepted_turn": "01a115a9-a38b-7643-bc28-e83647babece",
+      "explicit_owner_ACK": true,
+      "ACK_summary": "SH1 수락. 신규 admission에서는 W0 예외 제거, 과학·자산준비·평가 합산cap2. local설정/현재할당·대기DAG 단발확인적용, 기존RUNNING불변, baseline구현계속.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "host": "remote-ssh-codex-managed:lab121",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER2",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "IDLE_TURN_START",
+      "accepted_turn": "01a115b8-a3b3-7173-a435-e8aafcd18cca",
+      "explicit_owner_ACK": true,
+      "ACK_summary": "SH2 공통합산cap2수락. 직전제출cap2적용, 현재local설정·실제할당·대기DAG 한정확인후필요resource조정.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER3",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "IDLE_TURN_START",
+      "accepted_turn": "01a115b8-8373-7860-adeb-c9c10f9a4d47",
+      "explicit_owner_ACK": true,
+      "ACK_summary": "SH3 project합산cap2수락. local/queue아직확인전, 정본검증뒤적용,taskcap1/STOP유지.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER4",
+      "transport": "OFFICIAL_APP_SERVER_DIRECT",
+      "mode": "IDLE_TURN_START",
+      "accepted_turn": "01a115b9-5b8c-7ba0-b71d-89cfcc4518fe",
+      "explicit_owner_ACK": true,
+      "ACK_summary": "SH4 합산cap2수락. local/queue확인전, running및60001보존, 정확미할당PENDINGresource dependency만필요조정.",
+      "status": "OWNER_ACCEPTED_LOCAL_ADMISSION_APPLICATION_IN_PROGRESS",
+      "actual_allocation_at_ACK": "NOT_OBSERVED_BY_GH",
+      "local_file_application_at_ACK": "NOT_CERTIFIED_BY_GH"
+    }
+  ],
+  "status": "CANONICAL_POLICY_PUBLISHED_ALL_FOUR_OWNERS_ACKNOWLEDGED",
+  "verification_boundary": "정본fourrows2/19mockchecks/공식directrecipient+ownerACK확인. 각서버local/admission/queue 최종적용은owner후속receipt대상이며ACK를allphysicalallocations<=2 certification으로표기하지않음.",
+  "old_jobs": "원RUNNING/source/rawKEEP;2초과legacyallocations있어도GHcancel0. ExactPENDINGresource-only조정허용범위는canonicalenvelope.",
+  "Slurm_writes_by_GH": 0,
+  "new_jobs_by_GH": 0,
+  "GPU_by_GH": 0,
+  "monitoring_active": false,
+  "recurring_monitor_created": false,
+  "scientific_workflow_interrupted": false
+}
