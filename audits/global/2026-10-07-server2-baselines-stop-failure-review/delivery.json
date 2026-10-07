@@ -26,7 +26,7 @@
     "FE_collector_59879": "PREVIOUSLY_CANCELLED"
   },
   "protected": "ours/W0/base-model evaluation/other servers and all source/raw/log preserved.",
-  "status": "OWNER_CONFIRMED_BASELINE_DOWNSTREAM_CANCELLED_RCA_FINAL_REVIEW_IN_PROGRESS",
+  "status": "OWNER_CONFIRMED_BASELINE_DOWNSTREAM_CANCELLED_FIRST_FAILURE_IDENTIFIED",
   "verification_boundary": "Live direct owner action confirmation; owner exact postqueue/accounting and RCA report to follow. GH has not certified remote scheduler independently.",
   "independent_read_only_findings": {
     "evidence": "Exact CAKE/ALPHAEDIT_BLUE failure.json/.err and frozen source, read-only delegated investigation",
@@ -38,7 +38,9 @@
     "file": "project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py",
     "line": 704,
     "guard": "isinstance(fc_out,torch.nn.Linear) and module.bias is None and shape==(4096,16384) and FP32",
-    "interpretation": "Incorrect bias-none precondition is concrete source defect to compare with actual GPTJ runtime. Compound guard error alone does not certify every other layout component."
+    "interpretation": "Confirmed native runtime source GPTJMLP constructs fc_out=nn.Linear(intermediate_size,embed_dim), whose default bias=True. Therefore bias-none precondition is incompatible with native GPTJ. Compound guard error alone does not certify every other layout component; no separate bias tensor manifest was inspected.",
+    "runtime_evidence": ["/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/gptj/modeling_gptj.py:415", "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/nn/modules/linear.py:100"],
+    "failure_boundary": "Both failures before projector loading, native context generation or editing; scientific batches/commits/native z/write/solve/H counts all0."
   },
   "actions": {
     "GH_Slurm_writes": 0,
