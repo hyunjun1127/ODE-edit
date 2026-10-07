@@ -1,0 +1,22 @@
+{
+  "instruction_id": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER4",
+  "parent_instruction_id": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1",
+  "task_id": "server3-cap1-server4-cap3",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "app_cwd": "/data/janghj/ODE-edit",
+  "actual_worktree": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree",
+  "repository": "hyunjun1127/ODE-edit",
+  "duplicate_nonce": false,
+  "status": "OWNER_ACCEPTED_LATEST_LOCAL_CAP3_PENDING_RESOURCE_RECONCILIATION",
+  "supersedes_server4_instruction": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER4",
+  "old_cap2_receipts": "HISTORICAL_KEEP_NOT_CURRENT_POLICY",
+  "effective_combined_project_cap": 3,
+  "task_specific_caps_unchanged": true,
+  "node_memory_patterns_other_servers_unchanged": true,
+  "running_jobs_preserved": true,
+  "protected60001_preserved": true,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "monitoring_active": false
+}

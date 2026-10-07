@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER4",
+  "task_id": "all-servers-gpu-cap2",
+  "server": "server4",
+  "status": "HISTORICAL_APPLIED_THEN_SUPERSEDED_BY_LATEST_CAP3",
+  "historical_local_cap2_applied": true,
+  "historical_added_pending_dependency": "60619 afterany:60616:60107",
+  "current_server4_cap": 3,
+  "current_60619_dependency": "afterany:60616",
+  "superseded_by": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER4",
+  "current_status": "tasks/status/server3-cap1-server4-cap3/server4.json",
+  "report": "experiment-reports/servers/server4/gpu-cap2-20261007/report-ko.md",
+  "no_science_change": true,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

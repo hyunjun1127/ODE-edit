@@ -1,0 +1,360 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER4",
+  "parent": "USER-GH-ALL-SH-GPU-CAP2-20261007",
+  "task_id": "all-servers-gpu-cap2",
+  "server": "server4",
+  "authority_main": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "envelope_SHA256": "fff5b0a8ca742b3e70c1269a1738354c4fd460650f2c80919198ffa7abb34068",
+  "canonical_SHA256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+  "status": "CAP2_POLICY_LOCAL_AND_PENDING_DAG_APPLIED",
+  "current_allocated_GPU_count": 2,
+  "before_jobs": [
+    {
+      "job_id": 60105,
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_CAP075",
+      "owner": "janghj(1025)",
+      "state": "RUNNING",
+      "dependency": "(null)",
+      "allocated_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60106,
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_CAP100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60105(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60107,
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_FREE100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60106(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60108,
+      "name": "jlz-price-alpha-writer-2k-collector",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60105(unfulfilled),afterany:60106(unfulfilled),afterany:60107(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=24G,node=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60616,
+      "name": "jlz-price-gptj-2k-MEMIT_CAP075",
+      "owner": "janghj(1025)",
+      "state": "RUNNING",
+      "dependency": "(null)",
+      "allocated_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60617,
+      "name": "jlz-price-gptj-2k-MEMIT_CAP100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60616(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60618,
+      "name": "jlz-price-gptj-2k-MEMIT_FREE100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60617(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60619,
+      "name": "jlz-price-gptj-2k-ALPHA_CAP075",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60616(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60620,
+      "name": "jlz-price-gptj-2k-ALPHA_CAP100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60619(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60621,
+      "name": "jlz-price-gptj-2k-ALPHA_FREE100",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60620(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+      "required_node": "server4"
+    },
+    {
+      "job_id": 60622,
+      "name": "jlz-price-gptj-2k-collector",
+      "owner": "janghj(1025)",
+      "state": "PENDING",
+      "dependency": "afterany:60616(unfulfilled),afterany:60617(unfulfilled),afterany:60618(unfulfilled),afterany:60619(unfulfilled),afterany:60620(unfulfilled),afterany:60621(unfulfilled)",
+      "allocated_TRES": "(null)",
+      "requested_TRES": "cpu=8,mem=24G,node=1",
+      "required_node": "server4"
+    }
+  ],
+  "modification": {
+    "job_id": 60619,
+    "state_before": "PENDING",
+    "state_after": "PENDING",
+    "elapsed_before": "00:00:00",
+    "start_before": "Unknown",
+    "allocation_before": "(null)",
+    "allocation_after": "(null)",
+    "dependency_before": "afterany:60616(unfulfilled)",
+    "dependency_after": "afterany:60616(unfulfilled),afterany:60107(unfulfilled)",
+    "command": [
+      "scontrol",
+      "update",
+      "JobId=60619",
+      "Dependency=afterany:60616:60107"
+    ],
+    "exit_code": 0,
+    "reason": "resource-only combined cap2; wait both GPT-J entry/native-input predecessor and Llama lane tail; no science/performance gate",
+    "fullargv_source_resource_identity_verified": true,
+    "science_source_config_launcher_unchanged": true
+  },
+  "source_bindings": [
+    {
+      "job": 60105,
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "5226337121fd2c90c595f26297c9927400f8f0af",
+      "config_sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53",
+      "lock_sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a",
+      "launcher_sha256": "2ac35c1e3c03dc818ec4712f0c57fd9bacacc62c489ca93f77c7e7159d14cd20",
+      "GPU": 1
+    },
+    {
+      "job": 60106,
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "5226337121fd2c90c595f26297c9927400f8f0af",
+      "config_sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53",
+      "lock_sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a",
+      "launcher_sha256": "3baad05526aeaaaca580254e8c35e623ee8f1caf7cf5df0b3050557d4a21ca70",
+      "GPU": 1
+    },
+    {
+      "job": 60107,
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "5226337121fd2c90c595f26297c9927400f8f0af",
+      "config_sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53",
+      "lock_sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a",
+      "launcher_sha256": "11e3204f42354be25301415e0cd4668c7e5e7bf795cba1cd6cdbbd1a7e2807d7",
+      "GPU": 1
+    },
+    {
+      "job": 60108,
+      "task": "jlz-price-alpha-writer-2k",
+      "source": "5226337121fd2c90c595f26297c9927400f8f0af",
+      "config_sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53",
+      "lock_sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a",
+      "launcher_sha256": "47b81875cdbd23a6ae6386cd318f3ac6d90be3c80a7ee65a3a5a17ca30bb015b",
+      "GPU": 0
+    },
+    {
+      "job": 60619,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "76894854e7db3cf8d9c6c74e6a73942808e5dd37e188fb45ede943e268adca78",
+      "GPU": 1
+    },
+    {
+      "job": 60620,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "4e73121013c70648e02def7122fa2ad05960dd1ed15efebe26d76fbb9dc3ce84",
+      "GPU": 1
+    },
+    {
+      "job": 60621,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "b732bc9c6ef906e569c35ca1be61bcbf5f46ef10a895b2a04f40e2312ec4ec95",
+      "GPU": 1
+    },
+    {
+      "job": 60616,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "7579d5f43da4a65cf1108f407801e985803b6bbfdd284b1cde6e0f014495477d",
+      "GPU": 1
+    },
+    {
+      "job": 60617,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "3f02c0201034304935ccc796cb66cb617b6999659cf04670348dd22767105938",
+      "GPU": 1
+    },
+    {
+      "job": 60618,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "ceba065b3086323cf1f73f3d45650a4dce80f4563f82f51c3ad88a44bad15a58",
+      "GPU": 1
+    },
+    {
+      "job": 60622,
+      "task": "jlz-price-gptj-2k",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+      "launcher_sha256": "8d5fc6b71761bdb4ddbb9e2d5700067b06d3d2f68252c55a6a54e06e7df0b6b8",
+      "GPU": 0
+    }
+  ],
+  "unchanged_immutable_refs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_CAP075.sh",
+      "bytes": 681,
+      "sha256": "2ac35c1e3c03dc818ec4712f0c57fd9bacacc62c489ca93f77c7e7159d14cd20"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_CAP100.sh",
+      "bytes": 681,
+      "sha256": "3baad05526aeaaaca580254e8c35e623ee8f1caf7cf5df0b3050557d4a21ca70"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_FREE100.sh",
+      "bytes": 682,
+      "sha256": "11e3204f42354be25301415e0cd4668c7e5e7bf795cba1cd6cdbbd1a7e2807d7"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/collector.sh",
+      "bytes": 693,
+      "sha256": "47b81875cdbd23a6ae6386cd318f3ac6d90be3c80a7ee65a3a5a17ca30bb015b"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/submission.json",
+      "bytes": 5115,
+      "sha256": "be75b5ac62f0e15251ac06e15a536cb27487171a389a032490f3205da449b612"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/execution.lock.json",
+      "bytes": 108163,
+      "sha256": "11658cb581c236beb74a94a504b7689df79ac3ac719747e5e53c294debd0211a"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/config.json",
+      "bytes": 151120,
+      "sha256": "a1f775abb74fde47f821319ca7f5440da480705d433a08967b2aa2bcf7f54c53"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/source.tar",
+      "bytes": 3000320,
+      "sha256": "3f5625829320990ef2588bc1decd6be7ccb20b558fe15906b17e6401fa245779"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_CAP075.sh",
+      "bytes": 647,
+      "sha256": "76894854e7db3cf8d9c6c74e6a73942808e5dd37e188fb45ede943e268adca78"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_CAP100.sh",
+      "bytes": 647,
+      "sha256": "4e73121013c70648e02def7122fa2ad05960dd1ed15efebe26d76fbb9dc3ce84"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_FREE100.sh",
+      "bytes": 648,
+      "sha256": "b732bc9c6ef906e569c35ca1be61bcbf5f46ef10a895b2a04f40e2312ec4ec95"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075.sh",
+      "bytes": 647,
+      "sha256": "7579d5f43da4a65cf1108f407801e985803b6bbfdd284b1cde6e0f014495477d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP100.sh",
+      "bytes": 647,
+      "sha256": "3f02c0201034304935ccc796cb66cb617b6999659cf04670348dd22767105938"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_FREE100.sh",
+      "bytes": 648,
+      "sha256": "ceba065b3086323cf1f73f3d45650a4dce80f4563f82f51c3ad88a44bad15a58"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/collector.sh",
+      "bytes": 662,
+      "sha256": "8d5fc6b71761bdb4ddbb9e2d5700067b06d3d2f68252c55a6a54e06e7df0b6b8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json",
+      "bytes": 7722,
+      "sha256": "6370b00f429ca28bec9909876cdc26fc097cc3d420c2e048888f34eea7806104"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/execution.lock.json",
+      "bytes": 102258,
+      "sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/config.json",
+      "bytes": 72792,
+      "sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/source.tar",
+      "bytes": 3317760,
+      "sha256": "119b793701bdad47f32a8b4036cbebd02ea19b9bdfc95c0f5cc39fda9156d758"
+    }
+  ],
+  "original_source_config_archive_raw_WandB_KEEP": true,
+  "protected60001_modified": false,
+  "running_modified": false,
+  "new_jobs": 0,
+  "cancelled_jobs": 0,
+  "canonical_and_local_future_admission_cap": 2,
+  "taskcap_min_unchanged": true,
+  "local_row_only": true,
+  "root_canonical_dirty_disk_not_overwritten": true,
+  "fresh_prospective_science_worktree_policy": "active GPT-J WT fast-forwarded to official origin/main6c8d36de; frozen298be5da archive unchanged",
+  "generic_helper_limit": "root name patterns preserved but omit jlz names; its RUNNING-only name-match count is incomplete. Explicit owner/task/source/submission GPU inventory + full released PENDING DAG proof is authoritative.",
+  "CPU_mock19_evidence": "GH supplied CPU mock19 PASS statement; no local receipt included in authority commit, not claimed as freshly executed/independently verified here",
+  "review_level": "owner boundary/source/immutability/resource audit plus separate read-only admission source explorer; no actual model test",
+  "reporting_transport_note": "original verified mutation process exited0; tool JSON output truncated, one bounded target read recovered receipt, no second Slurm write",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host local policy override and small tracked receipts; raw/credential/tensor transfer0"
+}
