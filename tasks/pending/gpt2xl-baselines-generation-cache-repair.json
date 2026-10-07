@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "task_id": "gpt2xl-baselines-generation-cache-repair",
+  "parent_task": "gpt2xl-baselines-fluency-consistency-2k",
+  "type": "global-head-command",
+  "owner_server": "server1",
+  "worker_claimable": false,
+  "authority_envelope": "messages/head/2026-10-08-baseline-generation-kv-batch-repair.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "scope": "공통 cached/batched generator·호환성/progress 및 GPT2 caller/collector 최소 repair, 정확 old baseline DAG 처리 후 승인 six2k 재등록",
+  "job_ids": [],
+  "completion": "actual cancellation/source/qualification/new DAG 및 bounded handoff. GH owner ACK 회수는 GPU/W20 완료가 아니다."
+}

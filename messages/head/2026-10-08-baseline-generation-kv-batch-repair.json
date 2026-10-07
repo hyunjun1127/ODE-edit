@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "date_kst": "2026-10-08",
+  "user_quote": "현재 server1과 2에서 진행하는 baseline run들(gpt2, gptj) 두 서버 모두 W0의 fluency·consistency 평가가 너무 비효율적이다. 아래 첨부문을 확인하고, run 다시 올려야할 것 같다. 후속 dependency run들도 처리해야한다.",
+  "authority": "현재 USER 요청은 두 서버의 기존 여섯 baseline 생성 평가 효율화·최소 기술 검증·정확한 기존 baseline DAG 취소/교체·cold2k 재등록을 승인한다. 단계별 추가 승인은 필요하지 않다. 다른 서버/OURS/W0-only/FE는 변경하지 않는다.",
+  "repository": "hyunjun1127/ODE-edit",
+  "owners": {
+    "server1": {
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "model": "gpt2xl",
+      "task_id": "gpt2xl-baselines-generation-cache-repair",
+      "parent_task": "gpt2xl-baselines-fluency-consistency-2k",
+      "parent_envelope": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server1.json",
+      "known_source": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+      "known_registration_source": "4f068a938a5cce16ac999bb6daa4b583fb5a71ab",
+      "known_jobs_not_current_state": {"MEMIT": 60928, "AlphaEdit": 60929, "CAKE": 60930, "AlphaEdit-BLUE": 60931, "PRUNE": 60932, "RECT": 60933, "collector": 60934},
+      "ownership": "SH1이 공통 generation source/API/호환성 계약과 GPT2 caller/collector를 소유한다. SH2 파일은 수정하지 않는다."
+    },
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "model": "gptj",
+      "task_id": "gptj-baselines-generation-cache-repair",
+      "parent_task": "gptj-baselines-fluency-consistency-2k",
+      "parent_envelope": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server2.json",
+      "known_source": "503081fa9bc6efc4dbdd461324fba522b8f36e8b",
+      "known_jobs_not_current_state": {"MEMIT": 60909, "AlphaEdit": 60910, "CAKE": 60911, "AlphaEdit-BLUE": 60912, "PRUNE": 60913, "RECT": 60914, "collector": 60915},
+      "ownership": "SH2는 GPT-J native KV/position qualification과 자기 bridge/bind/run/collect/submit/tracking을 소유한다. SH1 공통 source는 exact commit/API로 재사용하고 중복 수정하지 않는다."
+    }
+  },
+  "common_inputs": {
+    "old_generation_source": "83535c6a47c552cc4e5c6385f3a587d752820150",
+    "package": "project/run_scripts/experiment_generation_eval/",
+    "semantic_profile_unchanged": "cf-cake-prompt-inclusive-total100-eos-corrected-v1",
+    "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "policies": ["control/generation-metric-policy.json", "control/wandb-policy.json", "control/wandb-method-metric-schema.json", "control/gpu-concurrency-policy.tsv"],
+    "reuse": "기존 model/tokenizer/stats/P/context/hparams/reference/NLTK 현물을 SHA 결속해 재사용한다. 재다운로드·재계산하지 않는다."
+  },
+  "transition": {
+    "ACK": "먼저 명시 owner nonce ACK 후 같은 turn에서 상태 확인·구현·교체 등록까지 계속한다. GH 연결 종료는 STOP/재승인 대기가 아니다.",
+    "check": "기존 IDs는 후보 목록이다. 최신 scheduler owner/node/Command/WorkDir/source/config/receipt 및 실제 phase/W0 완료 행/commit/history/ledger 건수를 확인한다. 편집 전이라는 과거 관측을 현재 사실로 추정하지 않는다.",
+    "cancel_order": "정확히 이 parent baseline에 결속한 미종료 여섯 GPU+own collector만 취소 가능. collector→먼 후속→가까운 후속→RUNNING W0/head 순서로 해제 전 확인한다. afterany가 취소에도 풀리므로 후속을 먼저 처리한다. terminal이면 취소를 꾸미지 않는다.",
+    "priority": "낭비 중인 W0를 멈추는 scope 한정 조치를 source/현재 상태 검산 직후 먼저 한다. 생성기 구현 완료까지 기존 W0 정지를 미루지 않는다.",
+    "partial_edit": "이미 commit이 있으면 원 비용/부분 trajectory/건수/관측을 보존해 명시한다. noCP의 옛 RAM trajectory resume를 주장하지 않고 이번 repair 실행 권한 내 새 coldW0/H0 2k로 재시작한다.",
+    "rebuild": "취소된 옛 IDs를 새 afterany에 남기지 않는다. 새 immutable attempt/source/config/lock과 새 여섯 IDs/collector를 봉인한다. 무관한 기존 OURS 등 실제 현재 resource frontier는 필요한 정확한 dependency로 보존한다. old archive hotpatch0.",
+    "scope": "MEMIT/PRUNE/RECT/AlphaEdit/AlphaEdit-BLUE/CAKE 각 fixedfirst2000 BS100x20. 과학 방법·계수·native 입력·FP32/FP64·편집 예산·RPN/TF/NLL 정의 변경0. 추가 fit/작은B 편집 pilot/성능 tuning0."
+  },
+  "implementation_order": ["cached unpadded singleton qualification", "equal-token-length KV batch qualification", "기존 W0 호환 reader·progress·caller·collector 연결", "새 모델별 qualification/source/config/input/reducer 봉인", "six GPU+CPU collector 전량 held 검사/release"],
+  "generation": {
+    "cache": "full prompt prefill 한 번, 이후 새 token 한 개/query. 누적 cache+query attention mask와 native position_ids/cache_position을 모델별로 맞춘다. KV는 call 안 임시 RAM 상태이며 model config/hook/buffer를 영구 수정하지 않는다.",
+    "batch": "같은 unpadded input token 길이만 bucket. 기본 maxMB8, memory admission 부족이면 사전 qualification한 고정 MB4. tail은 작은 MB 허용. production 중 OOM 자동 retry/score 기반 route 선택 없음.",
+    "row_mapping": "EOS/total100을 row별 독립 처리하고 active row 제거 시 KV/position/row index를 정확히 gather한다. 완료 row를 mask로 유지해도 RNG/출력 영향0을 검증해야 한다. 저장은 원 occurrence/prompt 순서 복원, dedup/정렬로 의미 변경0.",
+    "sampling": "기존 full-vocab FP32 softmax→topk5→topk 확률 재정규화→row별 torch.multinomial([1,5],1) 유지. temperature1/top_p1/한 sample/입력 포함 total100/native EOS/skip_special_tokens/NFKD 그대로.",
+    "RNG": "기존(model identity, ordered occurrence, prompt index, eval seed20261007) seed 그대로. route/source/job/arm/MB를 seed에 추가0. prompt별 device-local torch.Generator를 계속 진행하고, 공통 batch RNG/매 token 재seed 금지. 편집용 Python/NumPy/CPU/CUDA RNG는 finally 원복한다.",
+    "model_scope": "현재 GPT2-XL/GPT-J torch/transformers native cache와 위치 경로를 기준으로 구현. Llama/Qwen/모든 model 검증을 주장하지 않는다. logical 편집 batch 분할·입력 축소·dtype 변경0.",
+    "metrics": "CAKE entropy/TF-IDF/참조 선택/분모/결측 이유 및 cohort를 유지. bitwise 동일성·가속률·ETA를 검증 전에 주장하지 않는다."
+  },
+  "qualification": {
+    "lock_before_test": "아래 cohort와 허용값을 실제 측정 전에 config/hash로 고정한다. 결과를 보고 허용값을 완화하지 않는다.",
+    "cohort": "model별 최대8 고정 prompt. fixedfirst2000 generation_prompts의 token 길이만으로 같은 길이 group/짧은·긴 입력/100 경계를 결정적으로 선택한다. 선택 ID는 local만. actual coverage가 부족하면 CPU fixture 검사와 미검증 범위를 구별하고 그 route를 미검증으로 생산 사용하지 않는다.",
+    "work": "동일 최대8 prompt에서 reference/cached singleton/chosen batch 경로 각1회 측정. fit/편집 commit0. trace로 동일 forced prefix full-vocab logits/topk 확률/mask/position을 비교한다. 별도 대규모 benchmark·pilot 없음.",
+    "logits_tolerance": {"atol": 0.0002, "rtol": 0.0002},
+    "topk_probability_tolerance": {"atol": 0.00002, "rtol": 0.0002},
+    "token_gate": "고정 seed의 입력/생성 token 순서·topk IDs·EOS·길이·row mapping/seed stream 일치를 확인한다. 숫자 close를 token 일치로 표현하지 않는다. 불일치는 route qualification 실패로 기록한다.",
+    "metric_tolerance": {"atol": 0.000001, "rtol": 0, "validity_counts_and_missing_reasons": "exact"},
+    "state_gate": "W/H/nonselected weights/context/hooks/training/cache와 편집 RNG 전후 동일. progress·reuse reader까지 비변이 확인.",
+    "fallback": "batch gate 실패면 검증된 singleton KV, cache 자체 미검증이면 동일 profile no-cache reference로 이유를 기록한 fallback. MB4는 사전 memory alternative로 같은 gate를 검증한다. score로 route 선택/사후 허용값 완화0.",
+    "timing": "phase별 elapsed/동기 GPU 시간/peak allocated·reserved/RSS, logical row token 결정과 physical forward/prefill-query/decode-query tokens를 별도 기록. mixed route 평균을 production ETA로 쓰지 않는다."
+  },
+  "W0_compatibility": {
+    "problem": "old runtime_sha/cache key/read/subset/collector는 source와 UNPADDED_FULL_PREFIX_NO_CACHE에 묶여 있다. use_cache만 바꾸거나 old 행을 new source로 relabel하면 재사용할 수 없다.",
+    "allowed": "qualification 뒤 명시 compatibility manifest/reader를 구현한다. old physicalW0/state/model/tokenizer/native 입력/ordered occurrence/prompt index/seed/profile/reference/scoring runtime 모두 exact 결속하고 원 raw size/SHA/schema를 검산한 완료 행만 재사용한다.",
+    "provenance": "각 원 행의 source/runtime/route/hash/path를 그대로 보존. 새 endpoint는 new/reused 행의 원 provenance 및 compatibility 증거 SHA를 포함하는 mixed-provenance identity로 검산한다. old exact runtime 검사를 조용히 끄거나 새 SHA로 위장하지 않는다.",
+    "partial": "중단 전 완료 case 행도 위 검산을 통과하면 재사용 가능. 미완성 prompt/case는 complete로 취급0. 계획2000 전량 확인 후만 atomic READY/W0_first2000 완성 지표 발행. 불일치/unknown 행은 새 route로 필요한 분량만 평가하고 이유 기록.",
+    "sharing": "같은 model의 여섯 baseline이 same coldW0 완성 관측을 공유한다. model별 독립 READY, GPT2/GPTJ 관측 혼용0. 후속은 새 compatible READY/source 계약을 verify하여 중복 생성0."
+  },
+  "progress": {
+    "phase": "phase=W0_generation 고정 public enum 허용. 다른 current/milestone 평가 phase는 구별한다.",
+    "scalars": ["generation_progress/completed_cases", "generation_progress/total_cases", "generation_progress/completed_prompts", "generation_progress/total_prompts", "generation_progress/generated_tokens", "generation_progress/new_cases", "generation_progress/reused_cases", "generation_progress/elapsed_sec", "generation_progress/cases_per_sec", "generation_progress/prompts_per_sec", "generation_progress/tokens_per_sec", "generation_progress/physical_forward_calls", "generation_progress/prefill_query_tokens", "generation_progress/decode_query_tokens", "generation_progress/step"],
+    "axis": "단조 generation_progress/step을 진행률 축으로 사용. edits/pre_state_edits/post_state_edits 및 fit candidate 축과 혼동0. W0 edits0이며 부분 progress를 완성 W0 점수로 올리지 않는다.",
+    "cadence": "기존 완료 case/batch 경계에서 start/final/error와 대략15초 또는64prompt 단위 throttle callback. 새 forward/대기 timer/polling/agent heartbeat0. callback은 RNG/state 중립.",
+    "complete": "W0_first2000 mean/valid 분모는 완성 READY 이후만 발행. 중단 progress/원 run 보존, 과거 run backfill/rename0.",
+    "privacy": "scalar+고정 public phase/route/model/job metadata만. prompt/text/token/caseID/secret/raw log upload0. 검증된 PRICE/native 경로 사용, 중앙 helper 이관 대기0. new run identity/job/source/qualification/compatibility를 불변 봉인. bounded readback 상태와 SDK accept를 구별."
+  },
+  "allowed_write_paths": {
+    "server1": ["project/run_scripts/experiment_generation_eval/** 및 tests/README", "project/run_scripts/gpt2xl_generation_baselines/** 및 tests", "자기 W&B 최소 backward-compatible scalar/public phase allowlist", "부모 envelope의 SH1 plans/status/ACK/report/audit/run 내 cache-repair 및 새attempt", "ignored local/gpt2xl-baselines-fluency-consistency-2k/**"],
+    "server2": ["project/run_scripts/gptj_native_baselines/generation_*.py 및 관련 tests/README", "자기 W&B 최소 backward-compatible scalar/public phase allowlist", "부모 envelope의 SH2 plans/status/ACK/report/audit/run 내 cache-repair 및 새attempt", "ignored local/gptj-baselines-fluency-consistency-2k/**"],
+    "boundary": "전용 clean non-main WT/branch. dirty root·원 source/raw/assets 유지. SH1 shared publication/API/SHA를 SH2에 compact relay하고 SH2는 GPTJ qualification 수행."
+  },
+  "resources": {
+    "project_task_cap_server1": 2,
+    "project_task_cap_server2": 2,
+    "per_job_GPU": 1,
+    "CPU_RAM_wall": "승인 default S1 CPU8/65536MiB, S2 CPU6/59392MiB, GPUjob48h ceiling-notETA, CPUcollector24576MiB/4h. 더 엄격한 현행 QoS/node/local/task 기준 우선. 명시mem/resources fresh admission.",
+    "admission": "RUNNING/admitted PENDING/OURS를 합산해 현재 미변경 frontier를 새 dependency로 결속. 최대2lane scheduler 강제, freeGPU polling0. actual qualification은 cap 내 첫 replacement job 또는 기술 qualification dependency에서 수행, 추가 fitting0.",
+    "DAG": "첫 cold baseline의 qualification/공유 W0 READY를 다른 lane이 exact verify. 과학 성능 afterok gate0, source/config/기술 READY failclosed. collector는 새 own 여섯IDs afterany/GPU0. 전량 held owner/argv/source/config/route/input/ref/RNG/W&B/noCP/resource/dependency 검사 후 release.",
+    "Slurm_allowed": "정확한 parent baseline old6+collector cancel/reconcile 및 new6+collector held 등록/검사/release. 무관 job/OURS/W0-only/FE 변경0.",
+    "noCP": "W/H/model/optimizer/resume equivalent durable tensor0. 기존 local generation text/token 완료행은 관측 cache로 보존, KV는 RAM만.",
+    "retry": "이번 USER repair 등록 흐름이며 주기 submit/OOM 자동retry/과학 재fit loop가 아니다. 실패는 typed receipt로 보존해 보고."
+  },
+  "audit_artifacts": {
+    "pre": "사전고정 tolerance/cohort, cache/position/row RNG/비변이, 점수/분모/old provenance, route별 logical/physical work, 취소순·새ID·cap를 최소CPU/actual 검사. 별도 reviewer 사용 여부를 정확히 표시.",
+    "post": "source/config/qualification/compatibility/job/W&B identity, six coverage/W20 actual 분모/비용을 기존 reducer로 검산. 미관측은0/PASS로 채우지 않는다.",
+    "Git": "source/compact manifest/counts/한글 report만. raw/IDs/text/tokens/tensors/reference 대용량/secret은 local. 옛 cancelled/failed source/log/raw 삭제0.",
+    "broadcast": "ordinary helper 또는 NO_BROADCAST_NOT_REQUIRED 명시. shared source/API/compatibility는 Git compact 공유, reference 중복 대형전송/no--delete0."
+  },
+  "reports": {
+    "server1": "experiment-reports/servers/server1/gpt2xl-baselines-fluency-consistency-2k/report-ko.md 및 같은 parent 범위 cache-repair audit/run/status/ACK",
+    "server2": "experiment-reports/servers/server2/gptj-baselines-fluency-consistency-2k/report-ko.md 및 같은 parent 범위 cache-repair audit/run/status/ACK",
+    "GH": "audits/global/2026-10-08-baseline-generation-kv-batch-repair/delivery.json"
+  },
+  "delivery": "SH1/SH2 정확 official app-server direct, nonce owner ACK/acceptedturn 회수. 접수/취소/구현/submit/actualqualification/W20 상태 구별. owner는 ACK 후 자율 구현/재등록 지속. 필요 시 SH1 shared publication/API/compatibility를 SH2에 compact direct 중계.",
+  "monitoring": "bounded cancel/postcheck/qualification 또는 공식 RESOURCE_PENDING 초기 인계만. sealed runner W20 자연 진행. GH 완료대기/새 recurring monitor/heartbeat/autoretry0.",
+  "server3_server4": "조회/수정/취소/새실험0"
+}

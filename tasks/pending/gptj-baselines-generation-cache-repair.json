@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "parent_task": "gptj-baselines-fluency-consistency-2k",
+  "type": "global-head-command",
+  "owner_server": "server2",
+  "worker_claimable": false,
+  "authority_envelope": "messages/head/2026-10-08-baseline-generation-kv-batch-repair.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "scope": "SH1 공통 repair source/API 재사용, GPTJ native cached/batch qualification·호환성/progress/caller/collector 연결 후 정확 six2k DAG 교체",
+  "job_ids": [],
+  "completion": "actual cancellation/source/qualification/new DAG 및 bounded handoff. GH owner ACK 회수는 GPU/W20 완료가 아니다."
+}
