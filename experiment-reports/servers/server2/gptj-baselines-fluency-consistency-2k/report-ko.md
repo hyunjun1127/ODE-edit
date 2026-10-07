@@ -1,6 +1,6 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `CACHE_REPAIR_CPU93_PASS; PLAN_FROZEN; NEW_JOBS_0`.
+최신 상태(2026-10-08): `CACHE_REPAIR_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_RELEASED`.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
@@ -217,10 +217,10 @@ OOM production retry/사후 tolerance 완화/추가 fit 또는 B1 pilot0.
 원 main89734ff5에서 shared source/API 입력 대기였던 사실과 통신 receipt는 보존한다.
 이후 main380d07ef에서 공유 source `199cfe5664355f6f1c9069c72396ec759bb25cec` /
 package tree `a10d88b555a96962567846dcb34a456c9e0d7c1c` 게시를 확인하고 전체 API를 읽었다.
-Owner bridge/mixed endpoint reader/production PLAN 결속을 완료했고 새 Slurm IDs는 **0**이다.
+Owner bridge/mixed endpoint reader/production PLAN 결속 후 새7개 job을 정식 등록/release했다.
 원 config aliases와 full-cold state 표현을 조용히 바꾸지 않고 명시 task-local compatibility를 구성한다.
 추가 GH/사용자 승인이나 nonexistent actual qualification을 기다리는 gate는 없다.
-자원 부족/Slurm rejection이라고 주장하지 않으며, 실제 admission/held 등록은 입력 결속 후 수행한다.
+입력 결속 후 fresh admission/held 등록을 수행했으며 새 source/IDs는 아래와 같다.
 계획 자원은 GPU1/CPU6/59392MiB/48h, collector0GPU/CPU6/24576MiB/4h,
 합산cap2 또는 stricter. 원 canceled IDs를 새 dependency로 재사용하지 않는다.
 
@@ -246,3 +246,43 @@ guard를 완화하지 않고 fixture 기대만 수정한 r2로 검산했다. 두
 CPU fixture와 좁은 read-only control review만 수행했으며 결과·한계는 cache-repair audit에 분리한다.
 NoCP/old source·raw KEEP/NO_BROADCAST_NOT_REQUIRED,
 추가 다운로드·stats/P 생성·heavy transfer·신규 monitoring/heartbeat/자동 submit retry0.
+
+### 캐시 수리 실제 등록 handoff
+
+Execution source `2e6f6f553ac16cf82a171bcdaa7fb2ace87b4e1b`,
+tree `8d1d197b3fea2bf5baaa043852d0f98f0e6a3dc6`.
+Lock102251B SHA `ef6ae0ae74018ac0d66233e164cd13eac02c4f7f44ea5a9065a42357e4301684`.
+이후 보고/main publication은 execution source와 분리한다.
+
+| Arm/역할 | 실제 job | afterany |
+| --- | --- | --- |
+|BASE_MEMIT|61160|없음|
+|BASE_ALPHAEDIT|61161|61160|
+|CAKE|61162|61160|
+|ALPHAEDIT_BLUE|61163|61161|
+|PRUNE|61164|61162|
+|RECT|61165|61163|
+|GPU0 collector|61166|61160–61165 전체|
+
+전량 held owner/Command/fullargv/script/source/config/PLAN/input/reference/W&B/noCP/
+CPU/RAM/GPU/wall/dependency 검사 후 후속부터 모두 release했다.
+등록 전 own Server2 project GPU allocation/frontier0, effective cap2를 실제 source/node로
+확인했으며 과거 canceled609xx를 dependency에 재사용하지 않았다.
+61160은 actual qualification 및 공유 W0 READY 생산 후 첫 cold native chain을 진행한다.
+그 종료 뒤 두 lane이 READY/actual receipt/compatibility를 검산한다. source/READY 기술의존성은
+failclosed이고 성능 afterok gate·GPU file polling은 없다.
+
+단일 release 직후 snapshot은 **7개 모두 PENDING/Reason=None**이다.
+이는 terminal science가 아니며 scheduler 후속 상태를 반복 조회하지 않았다.
+첫 GPU qualification/selected route·고정MB/W0 READY/W&B startup/첫write/W20는
+`NOT_OBSERVED`로 인계한다. 원 7.211944GPUh와 새 allocation 비용을 중복 합산하지 않는다.
+최소 source/API/fixture seam은 분리 worker와 root가 검토했으나 actual GPU independent PASS는 없다.
+현재 새 agent monitoring/heartbeat/자동 retry0, sealed runner/collector는 승인 범위로 자연 진행한다.
+
+실제 IDs는 repo app-server 정책으로 GH idle turn
+`01a11840-23c5-7351-8ae7-d411b37c9061`에 전달 접수됐다.
+Nonce `SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1`; bounded completed 및
+final nonce echo를 실제 회수했다(`cache-repair/app-server-handoff.json`).
+GH는 실제 IDs/MB8 미검증/qualification 미관측 구분을 ACK했고 job polling은 하지 않았다.
+이 통신 성공도 science/GPU/remote metric PASS와는 별개다.
+Compact 감사 `cache-repair/submission.json`; 전체 held scheduler receipt/원 stdout/raw는 local KEEP.

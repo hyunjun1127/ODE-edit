@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "W_B": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+  "actual_qualification": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "cap": 2,
+  "config_sha256": "706636712290a8c52c7f9e233f83c2a8c54d778a583bdc191cb7f9457756b362",
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "61161"
+    ],
+    "BASE_ALPHAEDIT": [
+      "61160"
+    ],
+    "BASE_MEMIT": [],
+    "CAKE": [
+      "61160"
+    ],
+    "PRUNE": [
+      "61162"
+    ],
+    "RECT": [
+      "61163"
+    ],
+    "collector": [
+      "61160",
+      "61161",
+      "61162",
+      "61163",
+      "61164",
+      "61165"
+    ]
+  },
+  "frontier": [],
+  "initial_snapshot": "61166|gptj-baselines-generation-cache-repair-collector|PENDING|N/A||None\n61165|gptj-baselines-generation-cache-repair-RECT|PENDING|gres/gpu:1||None\n61164|gptj-baselines-generation-cache-repair-PRUNE|PENDING|gres/gpu:1||None\n61163|gptj-baselines-generation-cache-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61162|gptj-baselines-generation-cache-repair-CAKE|PENDING|gres/gpu:1||None\n61161|gptj-baselines-generation-cache-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61160|gptj-baselines-generation-cache-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "61163",
+    "BASE_ALPHAEDIT": "61161",
+    "BASE_MEMIT": "61160",
+    "CAKE": "61162",
+    "PRUNE": "61164",
+    "RECT": "61165",
+    "collector": "61166"
+  },
+  "lock": {
+    "bytes": 102251,
+    "inode": 122309044,
+    "mtime_ns": 1791408178738891500,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/attempt-r1/execution.lock.json",
+    "sha256": "ef6ae0ae74018ac0d66233e164cd13eac02c4f7f44ea5a9065a42357e4301684"
+  },
+  "monitoring_active": false,
+  "qualification_status": "PLAN_BOUND_NOT_ACTUAL_PASS",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "fresh_admission_required": true,
+    "generation_peak_not_yet_measured": true,
+    "gpu": 1,
+    "host_mib": 59392,
+    "project_cap": 2,
+    "reserve_bytes": 17179869184,
+    "simultaneous_host_requested_mib": 118784,
+    "source_old_defaults_reused": true,
+    "task_cap": 2,
+    "wall": "2-00:00:00",
+    "wall_is_eta": false
+  },
+  "scientific_complete": false,
+  "shared_generation_source": "199cfe5664355f6f1c9069c72396ec759bb25cec",
+  "source_commit": "2e6f6f553ac16cf82a171bcdaa7fb2ace87b4e1b",
+  "source_tree": "8d1d197b3fea2bf5baaa043852d0f98f0e6a3dc6",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "held_inspection": {
+    "status": "ALL_SEVEN_OWNER_ARGV_SCRIPT_RESOURCE_DEPENDENCY_VERIFIED",
+    "roles": [
+      {
+        "role": "BASE_MEMIT",
+        "job": "61160",
+        "dependencies": []
+      },
+      {
+        "role": "BASE_ALPHAEDIT",
+        "job": "61161",
+        "dependencies": [
+          "61160"
+        ]
+      },
+      {
+        "role": "CAKE",
+        "job": "61162",
+        "dependencies": [
+          "61160"
+        ]
+      },
+      {
+        "role": "ALPHAEDIT_BLUE",
+        "job": "61163",
+        "dependencies": [
+          "61161"
+        ]
+      },
+      {
+        "role": "PRUNE",
+        "job": "61164",
+        "dependencies": [
+          "61162"
+        ]
+      },
+      {
+        "role": "RECT",
+        "job": "61165",
+        "dependencies": [
+          "61163"
+        ]
+      },
+      {
+        "role": "collector",
+        "job": "61166",
+        "dependencies": [
+          "61160",
+          "61161",
+          "61162",
+          "61163",
+          "61164",
+          "61165"
+        ]
+      }
+    ],
+    "exact_source_config_runtime_verified": true,
+    "actual_GPU_qualification": false,
+    "qualification_plan_bound": {
+      "bytes": 2831,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/qualification-plan-r1/plan.json",
+      "sha256": "4775db874832a6197f6716519ad1b02d34aadeacab4e91194e3dfa04b99c8a14"
+    },
+    "concurrency_bound": 2
+  },
+  "fresh_admission": {
+    "allocated_project_GPUs": 0,
+    "effective_cap": 2,
+    "frontier": [],
+    "hardware": "NVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB",
+    "storage": {
+      "free_bytes": 425102852096,
+      "inode_free": 443311699,
+      "total_bytes": 15240493973504
+    },
+    "qos": "lab_gpu_s2||gres/gpu=4|",
+    "memory_policy": {
+      "maximum_mib": 60416,
+      "requested_mib": 59392
+    },
+    "other_server_detailed_queries": 0,
+    "source_scope": "server2 node plus lab_gpu_s2 queue; exact local details only"
+  },
+  "publication_commit": "PENDING_COMPACT_REPORT_PUBLICATION_NOT_EXECUTION_SOURCE",
+  "old_cost": {
+    "allocated_GPU_seconds": 25963,
+    "prior_GPUh": 7.211944444444445,
+    "new_cost_at_registration": "NOT_YET_ALLOCATED_OR_MEASURED"
+  },
+  "new_observation_reuse": {
+    "old_cases_verified": 396,
+    "missing_cases": 1604,
+    "original_provenance_unchanged": true,
+    "actual_compatibility": "RUNTIME_NOT_OBSERVED"
+  },
+  "privacy": "scalar/source metadata only; raw/text/token/case IDs/tensor/secret not Git or W&B",
+  "noCP": true,
+  "NO_BROADCAST_NOT_REQUIRED": true
+}

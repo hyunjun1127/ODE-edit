@@ -1,0 +1,22 @@
+{
+  "nonce": "SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1",
+  "source_session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+  "accepted_turn": "01a11840-23c5-7351-8ae7-d411b37c9061",
+  "method": "turn/start",
+  "terminal_status": "completed",
+  "model_effort_override": false,
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "target_status": {
+    "type": "idle"
+  },
+  "final_response": "ACK `SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1`.\n\nGPT-J replacement `61160–61165`와 collector `61166` 등록·release 완료 인계를 받았습니다. cap2 DAG이며, 실제 qualification·W&B startup·W20는 아직 미관측입니다.\n\nMB8 미검증 상태와 기존 관측 provenance 보존을 구분해 받았습니다. 추가 job polling은 하지 않습니다.",
+  "nonce_echo": true,
+  "status": "DIRECT_ACK_VERIFIED",
+  "stage": "TERMINAL",
+  "science_completion_claim": false,
+  "recurring_monitor": false,
+  "automatic_retransmission": false,
+  "actual_job_polling_in_GH": false
+}

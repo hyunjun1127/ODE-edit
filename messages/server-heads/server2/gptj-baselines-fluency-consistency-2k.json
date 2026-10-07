@@ -7,7 +7,7 @@
   "from_session": "01a0493a-074c-7f91-9a13-769116326fef",
   "to_role": "GH",
   "to_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
-  "status": "CACHE_REPAIR_CPU93_PASS_READY_FOR_SOURCE_FREEZE",
+  "status": "CACHE_REPAIR_SUBMISSION_HANDOFF_SIX_GPU_AND_COLLECTOR_RELEASED",
   "historical_status": "SUBMISSION_HANDOFF",
   "cache_repair": {
     "nonce": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
@@ -17,18 +17,32 @@
     "old_jobs": "60909..60915_ALL_CANCELLED; exact target queue empty",
     "old_allocated_GPU_seconds": 25963,
     "old_complete_cases": 396,
-    "new_jobs": [],
-    "new_execution_lock": "NOT_FROZEN",
+    "new_jobs": {
+      "ALPHAEDIT_BLUE": "61163",
+      "BASE_ALPHAEDIT": "61161",
+      "BASE_MEMIT": "61160",
+      "CAKE": "61162",
+      "PRUNE": "61164",
+      "RECT": "61165",
+      "collector": "61166"
+    },
+    "new_execution_lock": {
+      "bytes": 102251,
+      "inode": 122309044,
+      "mtime_ns": 1791408178738891500,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/attempt-r1/execution.lock.json",
+      "sha256": "ef6ae0ae74018ac0d66233e164cd13eac02c4f7f44ea5a9065a42357e4301684"
+    },
     "production_PLAN": "FROZEN_BEFORE_ACTUAL_GPU",
     "received_shared_source": "199cfe5664355f6f1c9069c72396ec759bb25cec",
-    "actual_GPU_qualification": "NOT_RUN",
+    "actual_GPU_qualification": "NOT_OBSERVED_AT_POSTRELEASE_HANDOFF",
     "GH_direct_input_status": "COMPLETED_NONCE_FINAL_ACK_VERIFIED",
     "SH1_request": "Related steer accepted; bounded final ACK timeout; no retransmit",
     "protected": "OURS/W0-only/FE/other-server jobs unchanged; old source/raw KEEP",
     "scientific_complete": false,
     "monitoring_active": false,
     "automatic_retry": false,
-    "stage": "PRODUCTION_PLAN_BOUND_CPU93_PASS_UNSUBMITTED",
+    "stage": "SUBMISSION_HANDOFF",
     "production_PLAN_freeze": "FROZEN_BEFORE_ACTUAL_GPU",
     "production_config_sha256": "706636712290a8c52c7f9e233f83c2a8c54d778a583bdc191cb7f9457756b362",
     "qualification_plan_sha256": "0cafe3c40cb4772aaa409aac03cf6cdbda10ea935c4c49ead8447d52cab68c83",
@@ -44,9 +58,54 @@
     "CPU_tests": 93,
     "CPU_status": "PASS_CPU_INTEGRATION_NOT_GPU",
     "previous_CPU_failure_preserved": true,
-    "shared_tree": "a10d88b555a96962567846dcb34a456c9e0d7c1c"
+    "shared_tree": "a10d88b555a96962567846dcb34a456c9e0d7c1c",
+    "new_job_ids": [
+      "61163",
+      "61161",
+      "61160",
+      "61162",
+      "61164",
+      "61165",
+      "61166"
+    ],
+    "new_source_freeze": "2e6f6f553ac16cf82a171bcdaa7fb2ace87b4e1b",
+    "new_source_tree": "8d1d197b3fea2bf5baaa043852d0f98f0e6a3dc6",
+    "new_dependencies": {
+      "ALPHAEDIT_BLUE": [
+        "61161"
+      ],
+      "BASE_ALPHAEDIT": [
+        "61160"
+      ],
+      "BASE_MEMIT": [],
+      "CAKE": [
+        "61160"
+      ],
+      "PRUNE": [
+        "61162"
+      ],
+      "RECT": [
+        "61163"
+      ],
+      "collector": [
+        "61160",
+        "61161",
+        "61162",
+        "61163",
+        "61164",
+        "61165"
+      ]
+    },
+    "new_source_frozen": true,
+    "actual_W_B_startup": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+    "initial_snapshot": "61166|gptj-baselines-generation-cache-repair-collector|PENDING|N/A||None\n61165|gptj-baselines-generation-cache-repair-RECT|PENDING|gres/gpu:1||None\n61164|gptj-baselines-generation-cache-repair-PRUNE|PENDING|gres/gpu:1||None\n61163|gptj-baselines-generation-cache-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61162|gptj-baselines-generation-cache-repair-CAKE|PENDING|gres/gpu:1||None\n61161|gptj-baselines-generation-cache-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61160|gptj-baselines-generation-cache-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+    "source_frontier": [],
+    "handoff_direct_nonce": "SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1",
+    "GH_handoff_direct": "DIRECT_ACK_VERIFIED_COMPLETED_NONCE_FINAL_ECHO",
+    "GH_handoff_accepted_turn": "01a11840-23c5-7351-8ae7-d411b37c9061",
+    "compact_main_publication": "PENDING_NONFORCE_PUBLICATION"
   },
-  "message_ko": "캐시 수리 입력/PLAN 결속 및 CPU93 통합 fixture PASS. 새 source freeze/실제 등록 전이므로 신규 job0, 실제 GPU qualification NOT_RUN. 기존7개 취소/396개 raw 보존, OURS/W0/FE/타서버 불변.",
+  "message_ko": "새 GPU61160..61165+CPU61166 전량held검사/release. source2e6f6f55/lockef6ae0ae,cap2/sourcefrontier0. 61160 actualqualification/W0 READY후 두lane afterany. 단일release snapshot모두PENDING/None. CPU93PASS는GPUPASS아님; actualqualification/W&Bstartup/W20미관측. GH정식app-server idleturn에 actualIDs전달접수, completed+nonce finalACK실제회수. 옛7개취소/원396raw와costKEEP,OURS/W0-only/FE/타서버불변.",
   "jobs": {
     "ALPHAEDIT_BLUE": "60912",
     "BASE_ALPHAEDIT": "60910",
