@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-fluency-consistency-2k",
+  "nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "user_request": "GH에게 이걸 전달해",
+  "recipient_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "request_path": "messages/server-heads/server2/gptj-baselines-fluency-consistency-2k.json",
+  "direct_tool": "codex_app__send_message_to_thread",
+  "direct_result": "This app tool is no longer available through dynamic tools. Use the codex_app MCP server. If that server is unavailable on this host, task delegation is unavailable.",
+  "direct_delivery_confirmed": false,
+  "fallback": "Authorized own compact Git server-head publication",
+  "GH_read_or_ACK_confirmed": false,
+  "new_job_ids": [],
+  "no_secret_or_raw_content": true
+}
