@@ -17,8 +17,9 @@ MODULES=(
  'project.run_scripts.gptj_native_baselines.test_generation_submit',
  'project.run_scripts.gptj_native_baselines.test_generation_collect',
 )
-def main():
-    target=LOCAL/'cpu-integration-r1.json'
+def main(receipt_name='cpu-integration-r2.json'):
+    require(receipt_name in ('cpu-integration-r1.json','cpu-integration-r2.json'),'EXACT_INTEGRATION_RECEIPT')
+    target=LOCAL/receipt_name
     require(not target.exists(),'PRESERVE_INTEGRATION_RECEIPT')
     c=read(LOCAL/'preparation-r2/config.json');ready(c)
     previous=read(LOCAL/'cpu-checks-preparation-r2.json')
@@ -50,4 +51,3 @@ def main():
     print(json.dumps({k:v for k,v in receipt.items() if k not in ('source','reused_source')}))
     require(result.wasSuccessful() and not torch.cuda.is_initialized(),'CPU_INTEGRATION_FAILED')
 if __name__=='__main__':main()
-
