@@ -6,7 +6,25 @@
   "actual_host": "server2",
   "cwd": "/mnt/raid5/janghj/ODE-edit",
   "origin": "hyunjun1127/ODE-edit",
-  "status": "SUBMISSION_HANDOFF_MONITORING_PAUSED",
+  "status": "STOPPED_USER",
+  "stop_override": {
+    "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+    "effective_execution_authority": "STOPPED_USER",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "historical_status": "SUBMISSION_HANDOFF_MONITORING_PAUSED",
+    "scheduler_states": {
+      "60656": "COMPLETED",
+      "60657": "COMPLETED",
+      "60658": "COMPLETED"
+    },
+    "newly_cancelled_job_ids": [],
+    "active_target_count": 0,
+    "scientific_result_review": "NOT_REVIEWED",
+    "original_source_config_raw_preserved": true,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "report": "experiment-reports/servers/server2/server2-baselines-stop-failure-review/report-ko.md"
+  },
   "jobs": {
     "MEMIT": "60656",
     "AlphaEdit": "60657",

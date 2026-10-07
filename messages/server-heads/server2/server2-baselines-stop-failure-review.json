@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "nonce": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "task_id": "server2-baselines-stop-failure-review",
+  "owner": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_host": "server2",
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "origin": "hyunjun1127/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-baselines-stop-failure-review-20261007",
+  "branch": "codex/server2-baselines-stop-failure-review-20261007",
+  "status": "STOPPED_USER",
+  "stage": "EXACT_BASELINE_CANCEL_AND_READONLY_RCA_COMPLETE",
+  "authority_commit": "877e93201d424b8a3b503b905e2ab4b4e3057465",
+  "scope": "server2 exact baseline editing jobs and dedicated collectors only",
+  "newly_cancelled_job_ids": [
+    "60773",
+    "60771",
+    "60772"
+  ],
+  "active_baseline_target_count": 0,
+  "server2_or_unclassified_owner_queue_count": 0,
+  "prior_terminal_ids": [
+    "59878",
+    "59879",
+    "60656",
+    "60657",
+    "60658",
+    "60769",
+    "60770"
+  ],
+  "protected_W0_ids": [
+    "60652",
+    "60653",
+    "60147",
+    "60148"
+  ],
+  "protected_ours": true,
+  "other_servers_unchanged": true,
+  "raw_disposition": "LOCAL_KEEP",
+  "repair": false,
+  "new_submission": false,
+  "new_GPU": false,
+  "model_tensor_loads": false,
+  "checkpoint_saved": false,
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "automatic_resume": false,
+  "new_baseline_authorization_required": true,
+  "report": "experiment-reports/servers/server2/server2-baselines-stop-failure-review/report-ko.md",
+  "local_receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/server2-baselines-stop-failure-review/receipt.json",
+    "sha256": "5a6f84a26824fea35040c42c1a74e9230c4fd395b2e6a11b09739cc2b8b5c240",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "full_raw_in_Git": false
+  },
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "handoff": "STOPPED_USER_CANCELLATION_AND_RCA_COMPLETE_NO_RESTART"
+}
